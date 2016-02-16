@@ -1,0 +1,21 @@
+language: objective-c
+sudo: false
+env:
+  matrix:
+    - DESTINATION="OS=9.2,name=iPhone 6s" SDK=iphonesimulator9.2
+    - DESTINATION="OS=9.1,name=iPhone 6s Plus" SDK=iphonesimulator9.2
+    - DESTINATION="OS=9.0,name=iPad Pro" SDK=iphonesimulator9.2
+    - DESTINATION="OS=8.4,name=iPad 2" SDK=iphonesimulator9.2
+    - DESTINATION="OS=8.3,name=iPad Retina" SDK=iphonesimulator9.2
+    - DESTINATION="OS=8.2,name=iPad Air" SDK=iphonesimulator9.2
+    - DESTINATION="OS=8.1,name=iPhone 5" SDK=iphonesimulator9.2
+    - DESTINATION="OS=8.0,name=iPhone 4S" SDK=iphonesimulator9.2
+
+before_script:
+  - Scripts/setup-earlgrey.sh
+install:
+  - set -o pipefail
+  - xcodebuild -version
+  - xcodebuild -showsdks
+  - xcodebuild -project Tests/UnitTests/UnitTests.xcodeproj -scheme EarlGreyUnitTests -sdk "$SDK" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO test
+  - xcodebuild -project Tests/FunctionalTests/FunctionalTests.xcodeproj -scheme EarlGreyFunctionalTests -sdk "$SDK" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO test

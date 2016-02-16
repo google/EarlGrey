@@ -1,0 +1,48 @@
+#
+#  Copyright 2016 Google Inc.
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+
+# EarlGreyExample
+platform :ios, '8.0'
+
+source 'https://github.com/CocoaPods/Specs.git'
+
+PROJECT_NAME = 'EarlGreyExample'
+TEST_TARGET = 'EarlGreyExampleTests'
+SCHEME_FILE = 'EarlGreyExampleTests.xcscheme'
+TEST_TARGET_SWIFT = 'EarlGreyExampleSwiftTests'
+SCHEME_FILE_SWIFT = 'EarlGreyExampleSwiftTests.xcscheme'
+
+target TEST_TARGET do
+  project PROJECT_NAME
+
+  inherit! :search_paths
+  pod 'EarlGrey'
+end
+
+target TEST_TARGET_SWIFT do
+  project PROJECT_NAME
+
+  inherit! :search_paths
+  pod 'EarlGrey'
+end
+
+post_install do |installer|
+  load('configure_earlgrey_pods.rb')
+  # For each test target, you need to call the EarlGrey script's edit method once.
+  # For the 'EarlGreyExampleTests' target.
+  configure_for_earlgrey(installer, PROJECT_NAME, TEST_TARGET, SCHEME_FILE)
+  # For the 'EarlGreyExampleSwiftTests' target.
+  configure_for_earlgrey(installer, PROJECT_NAME, TEST_TARGET_SWIFT, SCHEME_FILE_SWIFT)
+end
