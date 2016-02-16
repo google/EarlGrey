@@ -61,7 +61,7 @@ Please make sure you’ve followed the guidelines in
   1. Clone the EarlGrey repository from Github:
 
       ```
-      git clone https://github.com/google/earlgrey/earlgrey.git
+      git clone https://github.com/google/EarlGrey.git
       ```
 
   2. Once you have the EarlGrey repository, download all the dependencies using the
