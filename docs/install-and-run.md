@@ -35,7 +35,7 @@ For EarlGrey, we highly recommend [CocoaPods](https://cocoapods.org/) as the bes
   the plus **(+)** sign, and then select the target from the dropdown menu. Select the **Shared** option and
   have the **Container** set to the app under test.
 
-      <img src="images/image01.png" width="500">
+    <img src="images/image01.png" width="500">
 
      Note: If you recently created the Schemes, you need to run them once for them to be picked up by the
      `pod install` command. If your **Test Target(s)** do not contain these changes to the
@@ -141,7 +141,7 @@ Project > Test Target > Build Phases > Target Dependencies > + (Add Sign) > Earl
 ```
    The Test Target’s Build Phases should now look similar to this:
 
-     <img src="images/image06.png" width="450">
+   <img src="images/image06.png" width="450">
 
   4. Add the path of **EarlGrey.xcodeproj** in your **Header Search Paths**:
 ```
@@ -159,9 +159,9 @@ Project > Test Target > Build Settings > Header Search Paths > + (Add Sign) > Di
            Key: `DYLD_INSERT_LIBRARIES`
            Value:`@executable_path/EarlGrey.framework/EarlGrey`
 
-      Make sure the `Expand Variables Based On` value points to the app under test. The Scheme should now look like this:
+   Make sure the `Expand Variables Based On` value points to the app under test. The Scheme should now look like this:
 
-      <img src="images/image07.png" width="450"><a name="Scheme-changes"></a>
+    <img src="images/image07.png" width="500"><a name="Scheme-changes"></a>
 
 #### Step 3: Attempt to build the app under test
 
@@ -190,9 +190,9 @@ add the following details in the **Copy Files** phase:
            Copy files only when installing: Deselect
            Name: `Path to EarlGrey.Framework` with `Code Sign on Copy` selected.
 
-     The Build Phases should now include:
+   The Build Phases should now include:
 
-      <img src="images/image08.png" width="450"><a name="build-phase-changes"></a>
+    <img src="images/image08.png" width="450"><a name="build-phase-changes"></a>
 
 After the app under test is set up, you can use the Xcode **Test Navigator** to add new test classes and run them selectively, or together.
 
