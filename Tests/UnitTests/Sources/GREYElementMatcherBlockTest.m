@@ -15,7 +15,6 @@
 //
 
 #import <EarlGrey/GREYElementMatcherBlock.h>
-#import <OCHamcrest/HCStringDescription.h>
 
 #import "GREYBaseTest.h"
 

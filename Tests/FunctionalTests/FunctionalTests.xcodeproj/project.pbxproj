@@ -906,8 +906,6 @@
 					"$(inherited)",
 					"-ObjC",
 					"-framework",
-					OCHamcrest,
-					"-framework",
 					IOKit,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -943,8 +941,6 @@
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
-					"-framework",
-					OCHamcrest,
 					"-framework",
 					IOKit,
 				);
