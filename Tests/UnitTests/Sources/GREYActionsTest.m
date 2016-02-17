@@ -154,7 +154,7 @@
   UIControl *view = [[UIControl alloc] init];
 
   // Mock out [GREYMatchers matcherForSufficientlyVisible] for a matcher that matches anything.
-  id mockMatcher = [OCMockObject mockForProtocol:@protocol(HCMatcher)];
+  id mockMatcher = [OCMockObject mockForProtocol:@protocol(GREYMatcher)];
   OCMStub([mockMatcher matches:OCMOCK_ANY]).andReturn(@YES);
   id mockGREYMatchers = OCMClassMock([GREYMatchers class]);
   OCMStub([mockGREYMatchers matcherForSufficientlyVisible]).andReturn(mockMatcher);

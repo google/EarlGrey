@@ -358,7 +358,6 @@
 		FD6D0B9F1C6D494F0001EA75 /* GREYNot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYNot.m; sourceTree = "<group>"; };
 		FD6D0BA01C6D494F0001EA75 /* GREYStringDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYStringDescription.h; sourceTree = "<group>"; };
 		FD6D0BA11C6D494F0001EA75 /* GREYStringDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYStringDescription.m; sourceTree = "<group>"; };
-		FDA41E101C602D43008DEE88 /* build_universal_static_framework.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = build_universal_static_framework.sh; path = Scripts/build_universal_static_framework.sh; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -690,14 +689,6 @@
 			name = fishhook;
 			sourceTree = "<group>";
 		};
-		FDA41E0F1C602D2D008DEE88 /* Scripts */ = {
-			isa = PBXGroup;
-			children = (
-				FDA41E101C602D43008DEE88 /* build_universal_static_framework.sh */,
-			);
-			name = Scripts;
-			sourceTree = "<group>";
-		};
 		FDE401021BE83859001C172E /* Dependencies */ = {
 			isa = PBXGroup;
 			children = (
@@ -712,7 +703,6 @@
 				FD1000EA1C5B466F00B2DB0A /* EarlGrey */,
 				FD06C6751BECAE6A009032A5 /* Frameworks */,
 				FDE401021BE83859001C172E /* Dependencies */,
-				FDA41E0F1C602D2D008DEE88 /* Scripts */,
 				FDE4FFAA1BE831AA001C172E /* Products */,
 			);
 			sourceTree = "<group>";
