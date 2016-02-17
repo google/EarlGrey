@@ -18,15 +18,16 @@ line (using xcodebuild).
 
 ## Getting Started
 
-The EarlGrey documentation for users is located in the `EarlGrey/docs` folder.
+The EarlGrey documentation for users is located in the
+[EarlGrey/docs](https://github.com/google/EarlGrey/tree/master/docs) folder.
 To get started, review the EarlGrey features, check for backward compatibility,
 and then install/run EarlGrey with your test target. Once everything is
 configured, take a look at the EarlGrey API and start writing your own tests.
 
-  * [Features](./docs/features.md)
-  * [Backward Compatibility](./docs/backward-compatibility.md)
-  * [Install and Run](./docs/install-and-run.md)
-  * [API](./docs/api.md)
+  * [Features](https://github.com/google/EarlGrey/tree/master/docs/features.md)
+  * [Backward Compatibility](https://github.com/google/EarlGrey/tree/master/docs/backward-compatibility.md)
+  * [Install and Run](https://github.com/google/EarlGrey/tree/master/docs/install-and-run.md)
+  * [API](https://github.com/google/EarlGrey/tree/master/docs/api.md)
 
 ## Getting Help
 
@@ -34,8 +35,8 @@ If you need help, several resources are available. First check the FAQ. If the
 answers you need are not there, read through the Known Issues. If you still have
 questions, contact us using our [Google group](https://groups.google.com/forum/#!forum/earlgrey-discuss).
 
-  * [FAQ](./docs/faq.md)
-  * [Known Issues](./docs/known-issues.md)
+  * [FAQ](https://github.com/google/EarlGrey/tree/master/docs/faq.md)
+  * [Known Issues](https://github.com/google/EarlGrey/tree/master/docs/known-issues.md)
 
 ## Analytics
 
@@ -53,7 +54,7 @@ setUp method:
 
 ## For Contributors
 
-Please make sure you’ve followed the guidelines in 
+Please make sure you’ve followed the guidelines in
 [CONTRIBUTING.md](./CONTRIBUTING.md) before making any contributions.
 
 ### Setup EarlGrey Project

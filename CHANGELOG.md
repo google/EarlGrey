@@ -3,8 +3,8 @@
 First cup of EarlGrey.
 
 ```
-Baseline: [71b8374]
-   + [71b8374]: First version of EarlGrey.
+Baseline: [ac60060]
+   + [ac60060]: First version of EarlGrey.
 ```
 
 Initial release.
