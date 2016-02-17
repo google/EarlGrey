@@ -11,7 +11,7 @@ To support cases where you want to wait for some event to occur before the next 
 EarlGrey provides Synchronization APIs that allow you to control EarlGrey's synchronization behavior. You can
 use these APIs to increase the stability of your tests.
 
-## Visibility Checks<a name="visibility-checks"></a>
+## Visibility Checks<a name="Visibility-Checks"></a>
 
 EarlGrey uses screenshot differential comparison (also known as 'screenshot diffs') to determine the
 visibility of UI elements before interacting with them. As a result, you can be certain that a user can see
@@ -24,7 +24,7 @@ interfere with this process.
 
 Taps and swipes are performed using app-level touch events, instead of using element-level event handlers.
 Before every UI interaction, EarlGrey asserts that the elements being interacted with are actually visible
-(see [Visibility Checks](#visibility-checks)) and not just present in the view hierarchy. EarlGrey's UI
+(see [Visibility Checks](#Visibility-Checks)) and not just present in the view hierarchy. EarlGrey's UI
 interactions simulate how a real user would interact with your app's UI, and help you to find and fix the
 same bugs that users would encounter in your app.
 
