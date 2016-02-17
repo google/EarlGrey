@@ -106,10 +106,9 @@ In cases where CocoaPods is not compatible with your project, you can add EarlGr
 #### Step 1: Generate EarlGrey.framework
 
   1. Download the source for EarlGrey and its dependencies.
-     * Download EarlGrey:
-     **git clone [https://github.com/google/EarlGrey.git](https://github.com/google/EarlGrey.git)**
+     * Download EarlGrey's source code from the [Latest Release](https://github.com/google/EarlGrey/archive/1.0.0.zip)
 
-     * Go to the `EarlGrey/` directory that contains **EarlGrey.xcodeproj**, and run the
+     * Unzip and go to the `EarlGrey-1.0.0/EarlGrey` directory that contains **EarlGrey.xcodeproj**, and run the
      **setup-earlgrey.sh** script in the `Scripts/` directory.
 
      * On completion of the script, open the **EarlGrey.xcodeproj** file.
