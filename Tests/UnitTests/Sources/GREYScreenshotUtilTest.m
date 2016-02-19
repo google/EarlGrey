@@ -24,7 +24,7 @@
 @implementation GREYScreenshotUtilTest
 
 - (void)testExceptionOnNilImage {
-  NSString *filename = @"dummyFileName";;
+  NSString *filename = @"dummyFileName";
   NSString *screenshotDir = GREY_CONFIG_STRING(kGREYConfigKeyScreenshotDirLocation);
 
   // The original saveImageAsPNG was swizzled by GREYBaseTest, so check the original version.

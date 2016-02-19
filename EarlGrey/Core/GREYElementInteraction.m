@@ -198,7 +198,7 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
                                                            error:&actionError];
 
       if (elements.count > 1) {
-        actionError = [self grey_errorForMultipleMatchingElements:elements];
+        actionError = [strongSelf grey_errorForMultipleMatchingElements:elements];
       } else {
         id element = [elements firstObject];
         // Notification that the action is to be performed on the found element.
