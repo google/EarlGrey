@@ -38,44 +38,33 @@
 
 - (void)testQueueName {
   NSString *queueName = @"queueName";
-  GREYOperationQueueIdlingResource *idlingRes = [GREYOperationQueueIdlingResource
-                                                  resourceWithNSOperationQueue:_backgroundOperationQ
-                                                                          name:queueName];
+  GREYOperationQueueIdlingResource *idlingRes =
+      [GREYOperationQueueIdlingResource resourceWithNSOperationQueue:_backgroundOperationQ
+                                                                name:queueName];
   XCTAssertEqual(queueName, [idlingRes idlingResourceName], @"Name differs");
 }
 
 - (void)testIsInitiallyIdle {
-  GREYOperationQueueIdlingResource *idlingRes = [GREYOperationQueueIdlingResource
-                                                  resourceWithNSOperationQueue:_backgroundOperationQ
-                                                                          name:@"test"];
+  GREYOperationQueueIdlingResource *idlingRes =
+      [GREYOperationQueueIdlingResource resourceWithNSOperationQueue:_backgroundOperationQ
+                                                                name:@"test"];
   XCTAssertTrue([idlingRes isIdleNow], @"Empty queue should be in idle state.");
 }
 
-- (void)testOccupiedQueueNotIdle {
-  GREYOperationQueueIdlingResource *idlingRes = [GREYOperationQueueIdlingResource
-                                                  resourceWithNSOperationQueue:_backgroundOperationQ
-                                                                          name:@"test"];
-  [_backgroundOperationQ addOperationWithBlock:^(void) {
-    NSLog(@"Should not execute until runloop is fast forwarded.");
-  }];
-  XCTAssertFalse([idlingRes isIdleNow], @"Non-empty queue should not be in idle state.");
-}
-
 - (void)testOccupiedQueueIdleAfterTaskCompletion {
-  GREYOperationQueueIdlingResource *idlingRes = [GREYOperationQueueIdlingResource
-                                                  resourceWithNSOperationQueue:_backgroundOperationQ
-                                                                          name:@"test"];
-  __block BOOL executed = NO;
+  GREYOperationQueueIdlingResource *idlingRes =
+      [GREYOperationQueueIdlingResource resourceWithNSOperationQueue:_backgroundOperationQ
+                                                                name:@"test"];
+  NSLock *lock = [[NSLock alloc] init];
+  [lock lock];
   [_backgroundOperationQ addOperationWithBlock:^(void) {
-    executed = YES;
+    [lock lock];
+    [lock unlock];
   }];
 
   XCTAssertFalse([idlingRes isIdleNow], @"Non-empty queue should not be in idle state.");
-
-  do {
-    CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.1, true);
-  } while (!executed);
-
+  [lock unlock];
+  [_backgroundOperationQ waitUntilAllOperationsAreFinished];
   XCTAssertTrue([idlingRes isIdleNow], @"Queue should be idle after executing the only task.");
 }
 
