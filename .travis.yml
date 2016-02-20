@@ -14,7 +14,7 @@ env:
 
 before_script:
   - Scripts/setup-earlgrey.sh
-install:
+script:
   - set -o pipefail
   - xcodebuild -version
   - xcodebuild -showsdks
