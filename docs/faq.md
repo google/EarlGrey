@@ -6,8 +6,7 @@ EarlGrey is more of a [grey-box testing](https://en.wikipedia.org/wiki/Gray_box_
 whereas Xcode’s UI Testing is completely [black-box](https://en.wikipedia.org/wiki/Black-box_testing).
 EarlGrey runs in the same process as the app under test, so it has access to the same memory as the
 app. This allows for better synchronization, such as ability to wait for network requests, and
-allows for custom synchronization mechanisms (using idling resources and conditions) that aren’t
-possible when using Xcode’s UI Testing feature.
+allows for custom synchronization mechanisms that aren’t possible when using Xcode’s UI Testing feature.
 
 However, EarlGrey is unable to launch or terminate the app under test from within the test case,
 something that Xcode UI Testing is capable of. While EarlGrey supports many interactions, it makes
@@ -22,14 +21,16 @@ containers, regardless of the amount of scrolling required.
 **I get a crash with “Could not swizzle …”**
 
 This usually means that EarlGrey is trying to swizzle the method that it has swizzled before. This
-can happen if EarlGrey is being linked to more than once. Ensure that only the app under test is
-linking to EarlGrey and that the app has no dependencies on EarlGrey.
+can happen if EarlGrey is being linked to more than once. Ensure that only the test target
+depends on EarlGrey.framework and EarlGrey.framework is embedded in the app under test ($TEST_HOST) from the
+test target's build phase.
 
 **I see lots of “XXX is implemented in both YYY and ZZZ. One of the two will be used. Which one is
 undefined.” in the logs**
 
-This usually means that EarlGrey is being linked to more than once. Ensure that the app under test
-is linking to EarlGrey and that the app has no dependencies on EarlGrey.
+This usually means that EarlGrey is being linked to more than once. Ensure that only the test target
+depends on EarlGrey.framework and EarlGrey.framework is embedded in the app under test ($TEST_HOST) from the
+test target's build phase.
 
 **Is there a way to return a specific element?**
 
