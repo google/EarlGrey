@@ -11,12 +11,13 @@ env:
     - DESTINATION="OS=8.2,name=iPad Air" SDK=iphonesimulator9.2
     - DESTINATION="OS=8.1,name=iPhone 5" SDK=iphonesimulator9.2
     - DESTINATION="OS=8.1,name=iPhone 4S" SDK=iphonesimulator9.2
-
+before_install:
+  - gem install xcpretty --no-rdoc --no-ri --no-document --quiet
 before_script:
   - Scripts/setup-earlgrey.sh
 script:
   - set -o pipefail
   - xcodebuild -version
   - xcodebuild -showsdks
-  - xcodebuild -project Tests/UnitTests/UnitTests.xcodeproj -scheme EarlGreyUnitTests -sdk "$SDK" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO test
-  - xcodebuild -project Tests/FunctionalTests/FunctionalTests.xcodeproj -scheme EarlGreyFunctionalTests -sdk "$SDK" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO test
+  - xcodebuild -project Tests/UnitTests/UnitTests.xcodeproj -scheme EarlGreyUnitTests -sdk "$SDK" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO test | xcpretty -c;
+  - xcodebuild -project Tests/FunctionalTests/FunctionalTests.xcodeproj -scheme EarlGreyFunctionalTests -sdk "$SDK" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO test | xcpretty -c;
