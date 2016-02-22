@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.org/google/EarlGrey.svg?branch=master)](https://travis-ci.org/google/EarlGrey)
-
 # EarlGrey
 
 EarlGrey is a native iOS UI automation test framework that enables you to write
