@@ -65,6 +65,22 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
   return [[GREYHCMatcher alloc] initWithHCMatcher:HC_closeTo(value, delta)];
 }
 
++ (id<GREYMatcher>)matcherForAnything {
+  return [[GREYHCMatcher alloc] initWithHCMatcher:HC_anything()];
+}
+
++ (id<GREYMatcher>)matcherForEqualTo:(id)value {
+  return [[GREYHCMatcher alloc] initWithHCMatcher:HC_equalTo(value)];
+}
+
++ (id<GREYMatcher>)matcherForLessThan:(id)value {
+  return [[GREYHCMatcher alloc] initWithHCMatcher:HC_lessThan(value)];
+}
+
++ (id<GREYMatcher>)matcherForGreaterThan:(id)value {
+  return [[GREYHCMatcher alloc] initWithHCMatcher:HC_greaterThan(value)];
+}
+
 + (id<GREYMatcher>)matcherForAccessibilityLabel:(NSString *)label {
   MatchesBlock matches = ^BOOL(NSObject *element) {
     return [self grey_accessibilityString:element.accessibilityLabel
@@ -235,7 +251,7 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
 
 + (id<GREYMatcher>)matcherForKindOfClass:(Class)klass {
   MatchesBlock matches = ^BOOL(id element) {
-    return [HC_instanceOf(klass) matches:element];
+    return [element isKindOfClass:klass];
   };
   DescribeToBlock describe = ^void(id<GREYDescription> description) {
     [description appendText:[NSString stringWithFormat:@"kindOfClass(\"%@\")",
@@ -674,6 +690,22 @@ id<GREYMatcher> grey_switchWithOnState(BOOL on) {
 
 id<GREYMatcher> grey_closeTo(double value, double delta) {
   return [GREYMatchers matcherForCloseTo:value delta:delta];
+}
+
+id<GREYMatcher> grey_anything() {
+  return [GREYMatchers matcherForAnything];
+}
+
+id<GREYMatcher> grey_equalTo(id value) {
+  return [GREYMatchers matcherForEqualTo:value];
+}
+
+id<GREYMatcher> grey_lessThan(id value) {
+  return [GREYMatchers matcherForLessThan:value];
+}
+
+id<GREYMatcher> grey_greaterThan(id value) {
+  return [GREYMatchers matcherForGreaterThan:value];
 }
 
 #endif // GREY_DISABLE_SHORTHAND

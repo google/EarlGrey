@@ -23,7 +23,6 @@
 #ifdef __OBJC__
 
 #import <Foundation/Foundation.h>
-#import <OCHamcrest/OCHamcrest.h>
 #import <UIKit/UIKit.h>
 
 // Expose private function for taking screenshots.

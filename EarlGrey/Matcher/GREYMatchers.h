@@ -164,7 +164,7 @@
  *  Matcher for matching UIProgressView's values. Use greaterThan, greaterThanOrEqualTo,
  *  lessThan etc to create @c comparisonMatcher. For example, to match the UIProgressView
  *  elements that have progress value greater than 50.2, use
- *  @code [GREYMatchers matcherForProgress:HC_greaterThan(@(50.2))] @endcode. In case if an
+ *  @code [GREYMatchers matcherForProgress:grey_greaterThan(@(50.2))] @endcode. In case if an
  *  unimplemented matcher is required, please implement it similar to @c grey_closeTo.
  *
  *  @param comparisonMatcher The matcher with the value to check the progress against.
@@ -327,6 +327,47 @@
  */
 + (id<GREYMatcher>)matcherForCloseTo:(double)value delta:(double)delta;
 
+/**
+ *  A Matcher that matches against any object, including @c nils.
+ *
+ *  @return A matcher that matches any object.
+ */
++ (id<GREYMatcher>)matcherForAnything;
+
+/**
+ *  A Matcher that checks if a provided object is equal to the specified @c value. The equality is
+ *  determined by calling the @c isEqual: method of the object being examined. In case the @c
+ *  value is nil, then the object itself is checked to be nil.
+ *
+ *  @param object The object to be checked for equality. Please ensure that scalar values are
+ *                passed in as boxed (object) values.
+ *
+ *  @return A matcher that checks if an object is equal to the provided one.
+ */
++ (id<GREYMatcher>)matcherForEqualTo:(id)value;
+
+/**
+ *  A Matcher that checks if a provided object is less than a specified @c value. The comparison
+ *  is made by calling the @c compare: method of the object being examined.
+ *
+ *  @param value The value to be compared, which should return @c NSOrderedDescending. Please
+ *               ensure that scalar values are passed in as boxed (object) values.
+ *
+ *  @return A matcher that checks an object is lesser than another provided @c value.
+ */
++ (id<GREYMatcher>)matcherForLessThan:(id)value;
+
+/**
+ *  A Matcher that checks if a provided object is greater than a specified @c value. The comparison
+ *  is made by calling the @c compare: method of the object being examined.
+ *
+ *  @param value The value to be compared, which should return @c NSOrderedAscending. Please
+ *               ensure that scalar values are passed in as boxed (object) values.
+ *
+ *  @return A matcher that checks an object is greater than another provided @c value.
+ */
++ (id<GREYMatcher>)matcherForGreaterThan:(id)value;
+
 #if !(GREY_DISABLE_SHORTHAND)
 
 /** Shorthand for GREYMatchers::matcherForKeyWindow. */
@@ -422,6 +463,18 @@ GREY_EXPORT id<GREYMatcher> grey_switchWithOnState(BOOL on);
 
 /** Shorthand for GREYMatchers::matcherForCloseTo:delta. */
 GREY_EXPORT id<GREYMatcher> grey_closeTo(double value, double delta);
+
+/** Shorthand for GREYMatchers::matcherForAnything. */
+GREY_EXPORT id<GREYMatcher> grey_anything();
+
+/** Shorthand for GREYMatchers::matcherForEqualTo:object. */
+GREY_EXPORT id<GREYMatcher> grey_equalTo(id value);
+
+/** Shorthand for GREYMatchers::matcherForLessThan:value. */
+GREY_EXPORT id<GREYMatcher> grey_lessThan(id value);
+
+/** Shorthand for GREYMatchers::matcherForGreaterThan:value. */
+GREY_EXPORT id<GREYMatcher> grey_greaterThan(id value);
 
 #endif // GREY_DISABLE_SHORTHAND
 
