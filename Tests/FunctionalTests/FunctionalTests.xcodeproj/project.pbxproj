@@ -60,7 +60,6 @@
 		FD193FE41BBDDB3000153959 /* ic_local_cafe_48pt.png in Resources */ = {isa = PBXBuildFile; fileRef = FD193FDA1BBDDB3000153959 /* ic_local_cafe_48pt.png */; };
 		FD193FE51BBDDB3000153959 /* ic_local_cafe_48pt@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FD193FDB1BBDDB3000153959 /* ic_local_cafe_48pt@2x.png */; };
 		FD193FE61BBDDB3000153959 /* ic_local_cafe_48pt@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = FD193FDC1BBDDB3000153959 /* ic_local_cafe_48pt@3x.png */; };
-		FD193FF01BBDDBE200153959 /* libobjc.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FD193FEF1BBDDBE200153959 /* libobjc.dylib */; };
 		FD193FF21BBDDBE800153959 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD193FF11BBDDBE800153959 /* CoreFoundation.framework */; };
 		FD193FF41BBDDBED00153959 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD193FF31BBDDBED00153959 /* Foundation.framework */; };
 		FD193FF61BBDDBF500153959 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD193FF51BBDDBF500153959 /* CoreGraphics.framework */; };
@@ -72,7 +71,6 @@
 		FD5471381BBDF9A1000661FD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD193FF71BBDDBFB00153959 /* UIKit.framework */; };
 		FD5471391BBDF9AC000661FD /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD193FF91BBDDC0000153959 /* QuartzCore.framework */; };
 		FD54713A1BBDF9C0000661FD /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD5470D61BBDE0A9000661FD /* IOKit.framework */; };
-		FD54713B1BBDF9CC000661FD /* libobjc.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FD193FEF1BBDDBE200153959 /* libobjc.dylib */; };
 		FD54719C1BBE013C000661FD /* FTRAccessibilityTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD54717F1BBE013C000661FD /* FTRAccessibilityTest.m */; };
 		FD54719D1BBE013C000661FD /* FTRActionSheetTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5471801BBE013C000661FD /* FTRActionSheetTest.m */; };
 		FD54719E1BBE013C000661FD /* FTRActivityIndicatorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5471811BBE013C000661FD /* FTRActivityIndicatorTest.m */; };
@@ -222,24 +220,14 @@
 		FD193FDB1BBDDB3000153959 /* ic_local_cafe_48pt@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ic_local_cafe_48pt@2x.png"; path = "TestRig/Resources/ic_local_cafe_48pt@2x.png"; sourceTree = SOURCE_ROOT; };
 		FD193FDC1BBDDB3000153959 /* ic_local_cafe_48pt@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ic_local_cafe_48pt@3x.png"; path = "TestRig/Resources/ic_local_cafe_48pt@3x.png"; sourceTree = SOURCE_ROOT; };
 		FD193FDD1BBDDB3000153959 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; name = www; path = TestRig/Resources/www; sourceTree = SOURCE_ROOT; };
-		FD193FEF1BBDDBE200153959 /* libobjc.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libobjc.dylib; path = usr/lib/libobjc.dylib; sourceTree = SDKROOT; };
 		FD193FF11BBDDBE800153959 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		FD193FF31BBDDBED00153959 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		FD193FF51BBDDBF500153959 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		FD193FF71BBDDBFB00153959 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		FD193FF91BBDDC0000153959 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		FD193FFB1BBDDC2A00153959 /* FunctionalTestRig.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FunctionalTestRig.pch; path = TestRig/FunctionalTestRig.pch; sourceTree = SOURCE_ROOT; };
-		FD5470CB1BBDE066000661FD /* libEarlGrey.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libEarlGrey.a; path = "Pods/../build/Debug-iphoneos/libEarlGrey.a"; sourceTree = "<group>"; };
-		FD5470CC1BBDE066000661FD /* libfishhook.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfishhook.a; path = "Pods/../build/Debug-iphoneos/libfishhook.a"; sourceTree = "<group>"; };
-		FD5470CD1BBDE066000661FD /* libOCHamcrest.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOCHamcrest.a; path = "Pods/../build/Debug-iphoneos/libOCHamcrest.a"; sourceTree = "<group>"; };
 		FD5470D61BBDE0A9000661FD /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = ../../../../../../../../../System/Library/Frameworks/IOKit.framework; sourceTree = "<group>"; };
-		FD5470D81BBDE0D0000661FD /* libEarlGrey.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libEarlGrey.a; path = "Pods/../build/Debug-iphoneos/libEarlGrey.a"; sourceTree = "<group>"; };
-		FD5470D91BBDE0D0000661FD /* libfishhook.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfishhook.a; path = "Pods/../build/Debug-iphoneos/libfishhook.a"; sourceTree = "<group>"; };
-		FD5470DA1BBDE0D0000661FD /* libOCHamcrest.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOCHamcrest.a; path = "Pods/../build/Debug-iphoneos/libOCHamcrest.a"; sourceTree = "<group>"; };
 		FD5470F11BBDECBB000661FD /* EarlGreyFunctionalTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EarlGreyFunctionalTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		FD54713C1BBDF9D2000661FD /* libEarlGrey.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libEarlGrey.a; path = "Pods/../build/Debug-iphoneos/libEarlGrey.a"; sourceTree = "<group>"; };
-		FD54713D1BBDF9D2000661FD /* libfishhook.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfishhook.a; path = "Pods/../build/Debug-iphoneos/libfishhook.a"; sourceTree = "<group>"; };
-		FD54713E1BBDF9D2000661FD /* libOCHamcrest.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOCHamcrest.a; path = "Pods/../build/Debug-iphoneos/libOCHamcrest.a"; sourceTree = "<group>"; };
 		FD54717F1BBE013C000661FD /* FTRAccessibilityTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FTRAccessibilityTest.m; path = Sources/FTRAccessibilityTest.m; sourceTree = SOURCE_ROOT; };
 		FD5471801BBE013C000661FD /* FTRActionSheetTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FTRActionSheetTest.m; path = Sources/FTRActionSheetTest.m; sourceTree = SOURCE_ROOT; };
 		FD5471811BBE013C000661FD /* FTRActivityIndicatorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FTRActivityIndicatorTest.m; path = Sources/FTRActivityIndicatorTest.m; sourceTree = SOURCE_ROOT; };
@@ -286,7 +274,6 @@
 				FD193FF61BBDDBF500153959 /* CoreGraphics.framework in Frameworks */,
 				FD193FF41BBDDBED00153959 /* Foundation.framework in Frameworks */,
 				FD193FF21BBDDBE800153959 /* CoreFoundation.framework in Frameworks */,
-				FD193FF01BBDDBE200153959 /* libobjc.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -295,7 +282,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				596D89BF1C05AB1600025714 /* EarlGrey.framework in Frameworks */,
-				FD54713B1BBDF9CC000661FD /* libobjc.dylib in Frameworks */,
 				FD54713A1BBDF9C0000661FD /* IOKit.framework in Frameworks */,
 				FD5471391BBDF9AC000661FD /* QuartzCore.framework in Frameworks */,
 				FD5471381BBDF9A1000661FD /* UIKit.framework in Frameworks */,
@@ -311,16 +297,7 @@
 		4C0731EECC191DBA6FF23E1E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				FD54713C1BBDF9D2000661FD /* libEarlGrey.a */,
-				FD54713D1BBDF9D2000661FD /* libfishhook.a */,
-				FD54713E1BBDF9D2000661FD /* libOCHamcrest.a */,
-				FD5470D81BBDE0D0000661FD /* libEarlGrey.a */,
-				FD5470D91BBDE0D0000661FD /* libfishhook.a */,
-				FD5470DA1BBDE0D0000661FD /* libOCHamcrest.a */,
 				FD5470D61BBDE0A9000661FD /* IOKit.framework */,
-				FD5470CB1BBDE066000661FD /* libEarlGrey.a */,
-				FD5470CC1BBDE066000661FD /* libfishhook.a */,
-				FD5470CD1BBDE066000661FD /* libOCHamcrest.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -342,7 +319,6 @@
 				FD193FF51BBDDBF500153959 /* CoreGraphics.framework */,
 				FD193FF31BBDDBED00153959 /* Foundation.framework */,
 				FD193FF11BBDDBE800153959 /* CoreFoundation.framework */,
-				FD193FEF1BBDDBE200153959 /* libobjc.dylib */,
 				FD193F2E1BBDDA4F00153959 /* FunctionalTests */,
 				FD5470F21BBDECBB000661FD /* EarlGreyFunctionalTests */,
 				FD193F2D1BBDDA4F00153959 /* Products */,
