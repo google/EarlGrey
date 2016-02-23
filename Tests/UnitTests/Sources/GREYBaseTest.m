@@ -115,7 +115,8 @@ static id gRealSharedApplication;
 
   // Setup Mocking for UIApplication.
   _mockSharedApplication = OCMClassMock([UIApplication class]);
-  OCMStub([_mockSharedApplication sharedApplication]).andReturn(_mockSharedApplication);
+  id classMockApplication = OCMClassMock([UIApplication class]);
+  [OCMStub([classMockApplication sharedApplication]) andReturn:_mockSharedApplication];
 
   // Runloop mode is required by thread executor so we always call real implementation here.
   OCMStub([_mockSharedApplication grey_activeRunLoopMode])
@@ -145,8 +146,10 @@ static id gRealSharedApplication;
   // that reset configuration.
   [[GREYConfiguration sharedInstance] setValue:@NO forConfigKey:kGREYConfigKeyAnalyticsEnabled];
 
-  // This drains all the pending operation in the main queue.
+  // This drains all the pending operations in the main queue.
   [[GREYUIThreadExecutor sharedInstance] drainUntilIdle];
+
+  _mockSharedApplication = nil;
   [super tearDown];
 }
 
