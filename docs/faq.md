@@ -2,7 +2,7 @@
 
 **How does EarlGrey compare to Xcode 7’s UI Testing?**
 
-EarlGrey is more of a [grey-box testing](https://en.wikipedia.org/wiki/Gray_box_testing) solution
+EarlGrey is more of a [gray-box testing](https://en.wikipedia.org/wiki/Gray_box_testing) solution
 whereas Xcode’s UI Testing is completely [black-box](https://en.wikipedia.org/wiki/Black-box_testing).
 EarlGrey runs in the same process as the app under test, so it has access to the same memory as the
 app. This allows for better synchronization, such as ability to wait for network requests, and

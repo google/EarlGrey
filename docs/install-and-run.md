@@ -39,7 +39,7 @@ For EarlGrey, we highly recommend [CocoaPods](https://cocoapods.org/) as the bes
 
      Note: If you recently created the Schemes, you need to run them once for them to be picked up by the
      `pod install` command. If your **Test Target(s)** do not contain these changes to the
-     [Scheme](#Scheme-changes) and [Build Phases](#build-phase-changes) after running
+     [Scheme](#scheme-changes) and [Build Phases](#build-phase-changes) after running
      `pod install`, please re-run `pod install` again.
 
 #### Step 2: Add EarlGrey as a framework dependency
@@ -98,8 +98,8 @@ For EarlGrey, we highly recommend [CocoaPods](https://cocoapods.org/) as the bes
 After you successfully run the `pod install` command, open the generated workspace and find EarlGrey installed in the `Pods/` directory. The generated `Pods/` project should look similar to:
 
   <img src="images/image02.png" width="250">
-
-### Github Installation <a name="github-installation"></a>
+<a name="github-installation"></a>
+### Github Installation
 
 In cases where CocoaPods is not compatible with your project, you can add EarlGrey manually to your Xcode project.
 
@@ -160,9 +160,9 @@ In cases where CocoaPods is not compatible with your project, you can add EarlGr
            Key: `DYLD_INSERT_LIBRARIES`
            Value:`@executable_path/EarlGrey.framework/EarlGrey`
 
-     Make sure the `Expand Variables Based On` value points to the app under test. The Scheme should now look like this:
+     Make sure the `Expand Variables Based On` value points to the app under test. The Scheme should now look like this:<a name="scheme-changes"></a>
 
-    <img src="images/image07.png" width="500"><a name="Scheme-changes"></a>
+    <img src="images/image07.png" width="500">
 
 #### Step 3: Attempt to build the app under test
 
@@ -191,9 +191,9 @@ add the following details in the **Copy Files** phase:
            Copy files only when installing: Deselect
            Name: `Path to EarlGrey.Framework` with `Code Sign on Copy` selected.
 
-   The Build Phases should now include:
+   The Build Phases should now include:<a name="build-phase-changes"></a>
 
-    <img src="images/image08.png" width="450"><a name="build-phase-changes"></a>
+    <img src="images/image08.png" width="450">
 
 After the app under test is set up, you can use the Xcode **Test Navigator** to add new test classes and run them selectively, or together.
 
@@ -266,7 +266,7 @@ steps in your setup:
     #import <EarlGrey/EarlGrey.h>
    ```
 
-2. Download [`EarlGrey.swift`](../Demo/EarlGreyExample/EarlGreyExampleSwiftTests/EarlGrey.swift) and add it to your test bundle. The file contains
+2. Download [`EarlGrey.swift`](https://github.com/google/EarlGrey/blob/master/docs/downloads/EarlGrey.swift) and add it to your test bundle. The file contains
 functions that implement C preprocessor macros that aren't available in Swift.
 
    Here is an example of a very basic EarlGrey test written in Swift:
