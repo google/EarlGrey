@@ -69,7 +69,7 @@ static NSMutableArray *gAppWindows;
 
 - (void)testNoMatchingViews {
   [gAppWindows addObject:rootWindow];
-  id<GREYMatcher> switchMatcher = instanceOf([UISwitch class]);
+  id<GREYMatcher> switchMatcher = grey_kindOfClass([UISwitch class]);
   elementFinder = [[GREYElementFinder alloc] initWithMatcher:switchMatcher];
   XCTAssertEqual(0u,
                  [elementFinder elementsMatchedInProvider:viewProvider].count,
@@ -84,7 +84,7 @@ static NSMutableArray *gAppWindows;
   [gAppWindows addObjectsFromArray:@[ rootWindow, secondRoot ]];
   UILabel *label2 = [[UILabel alloc] init];
   [rootWindow addSubview:label2];
-  id<GREYMatcher> labelMatcher = instanceOf([UILabel class]);
+  id<GREYMatcher> labelMatcher = grey_kindOfClass([UILabel class]);
   elementFinder = [[GREYElementFinder alloc] initWithMatcher:labelMatcher];
 
   // second root should be matched first since it is top-most window.
@@ -97,7 +97,7 @@ static NSMutableArray *gAppWindows;
   [gAppWindows addObject:rootWindow];
   UILabel *label = [[UILabel alloc] init];
   [rootWindow addSubview:label];
-  id<GREYMatcher> labelMatcher = instanceOf([UILabel class]);
+  id<GREYMatcher> labelMatcher = grey_kindOfClass([UILabel class]);
   elementFinder = [[GREYElementFinder alloc] initWithMatcher:labelMatcher];
   NSArray *expectedViews = @[ label, leafA1 ];
   NSArray *actualViews = [elementFinder elementsMatchedInProvider:viewProvider];

@@ -376,7 +376,7 @@ NSMutableArray *appWindows;
   [window addSubview:view2];
   [appWindows addObject:window];
 
-  XCTAssertThrowsSpecificNamed([elementInteraction assertWithMatcher:anything()],
+  XCTAssertThrowsSpecificNamed([elementInteraction assertWithMatcher:grey_anything()],
                                GREYFrameworkException,
                                kGREYMultipleElementsFoundException);
 }
@@ -390,7 +390,7 @@ NSMutableArray *appWindows;
   [appWindows addObject:window];
 
   NSError *error;
-  [elementInteraction assertWithMatcher:anything() error:&error];
+  [elementInteraction assertWithMatcher:grey_anything() error:&error];
   XCTAssertEqual(error.code, kGREYInteractionMultipleElementsMatchedErrorCode);
   XCTAssertEqualObjects(error.domain, kGREYInteractionErrorDomain);
 }
