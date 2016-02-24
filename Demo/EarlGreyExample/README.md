@@ -15,5 +15,3 @@ Execute `pod install` from the directory where you have downloaded the source of
 `open EarlGreyExample.xcworkspace` to open the example in xcode.
 
 Run the tests that you want to see in action.
-
-Please note that some tests are meant to fail, as indicated in the comments in the source.

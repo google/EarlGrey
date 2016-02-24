@@ -24,14 +24,14 @@ public func GREYAssert(@autoclosure expression: () -> BooleanType, reason: Strin
 
 public func GREYAssertTrue(@autoclosure expression: () -> BooleanType, reason: String) {
   GREYAssert(expression().boolValue,
-             reason,
-             details: "Expected the boolean expression to be true")
+    reason,
+    details: "Expected the boolean expression to be true")
 }
 
 public func GREYAssertFalse(@autoclosure expression: () -> BooleanType, reason: String) {
   GREYAssert(!expression().boolValue,
-             reason,
-             details: "Expected the boolean expression to be true")
+    reason,
+    details: "Expected the boolean expression to be true")
 }
 
 public func GREYAssertNotNil(@autoclosure expression: () -> Any?, reason: String) {
@@ -49,12 +49,14 @@ public func GREYAssertEqual<T : Equatable>(@autoclosure left: () -> T?,
 
 public func GREYFail(reason: String) {
   greyFailureHandler.handleException(GREYFrameworkException(name: kGREYAssertionFailedException,
-    reason: reason), details: "")
+    reason: reason),
+    details: "")
 }
 
 public func GREYFail(reason: String, details: String) {
   greyFailureHandler.handleException(GREYFrameworkException(name: kGREYAssertionFailedException,
-    reason: reason), details: details)
+    reason: reason),
+    details: details)
 }
 
 private func GREYAssert(@autoclosure expression: () -> BooleanType,
@@ -62,7 +64,8 @@ private func GREYAssert(@autoclosure expression: () -> BooleanType,
   GREYSetCurrentAsFailable()
   if !expression().boolValue {
     greyFailureHandler.handleException(GREYFrameworkException(name: kGREYAssertionFailedException,
-      reason: reason), details: details)
+      reason: reason),
+      details: details)
   }
 }
 
