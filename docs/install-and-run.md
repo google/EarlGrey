@@ -263,7 +263,7 @@ steps in your setup:
 1. Import EarlGrey in your test bundle's bridging header:
 
    ```
-    @import EarlGrey
+    #import <EarlGrey/EarlGrey.h>
    ```
 
 2. Download [`EarlGrey.swift`](../Demo/EarlGreyExample/EarlGreyExampleSwiftTests/EarlGrey.swift) and add it to your test bundle. The file contains
