@@ -14,9 +14,9 @@ And finally, ensure that assertions are enabled for the test target (i.e. `NS_BL
 
 ## Install EarlGrey
 
-You can add EarlGrey to XCode projects in two ways: using CocoaPods, or as a framework. If you wish to contribute to the EarlGrey project, the **EarlGrey.xcodeproj** generated from the [Github Installation](#github-installation) section is integrated with the Unit and Functional Test projects for you to work with the source.
+You can add EarlGrey to Xcode projects in two ways: using CocoaPods, or as a framework. If you wish to contribute to the EarlGrey project, the **EarlGrey.xcodeproj** generated from the [GitHub Installation](#github-installation) section is integrated with the Unit and Functional Test projects for you to work with the source.
 
-### Cocoapods installation
+### CocoaPods installation
 
 For EarlGrey, we highly recommend [CocoaPods](https://cocoapods.org/) as the best way to get started.
 
@@ -24,7 +24,7 @@ For EarlGrey, we highly recommend [CocoaPods](https://cocoapods.org/) as the bes
 
   1. EarlGrey requires a **Test Target**. Because EarlGrey adds changes to the test target's Scheme and Build
   Phases, we recommend that you create a separate test target for adding EarlGrey tests. If you do not have
-  one set up already, you can do so by selecting your project in the XCode Project Navigator, and then and
+  one set up already, you can do so by selecting your project in the Xcode Project Navigator, and then and
   clicking **Editor > Add Target...** from the menu.
   2. In the **Add Target** window, select **iOS** -> **Test** -> **iOS Unit Testing Bundle**:
 
@@ -51,44 +51,44 @@ For EarlGrey, we highly recommend [CocoaPods](https://cocoapods.org/) as the bes
   file to your project directory where you will run the `pod install` command. You need to call this script
   in a `post_install` hook using the project's name, the test target's name, and the name of the xcscheme file.
 
-    For the last stable CocoaPods release - 0.39.0, the Podfile including EarlGrey should look like this :
+    For the last stable CocoaPods release - 0.39.0, the Podfile including EarlGrey should look like this:
 
-    ```
-    PROJECT_NAME = 'SampleApp'
-    TEST_TARGET = 'SampleAppTests'
-    SCHEME_FILE = 'SampleAppTests.xcscheme'
+  ```ruby
+  PROJECT_NAME = 'SampleApp'
+  TEST_TARGET = 'SampleAppTests'
+  SCHEME_FILE = 'SampleAppTests.xcscheme'
 
-    xcodeproj 'AppFunctionalTests'
-    target 'AppFunctionalTests', :exclusive => true do
-      pod 'EarlGrey'
-    end
+  xcodeproj 'AppFunctionalTests'
+  target 'AppFunctionalTests', :exclusive => true do
+    pod 'EarlGrey'
+  end
 
-    post_install do |installer|
-      load('configure_earlgrey_pods.rb')
-      configure_for_earlgrey(installer, PROJECT_NAME, TEST_TARGET, SCHEME_FILE)
-    end
-    ```
+  post_install do |installer|
+    load('configure_earlgrey_pods.rb')
+    configure_for_earlgrey(installer, PROJECT_NAME, TEST_TARGET, SCHEME_FILE)
+  end
+  ```
 
-    For the CocoaPods 1.0.0 beta releases, the Podfile should look like -
+    For the CocoaPods 1.0.0 beta releases, the Podfile should look like:
 
-    ```
-    PROJECT_NAME = 'SampleApp'
-    TEST_TARGET = 'SampleAppTests'
-    SCHEME_FILE = 'SampleAppTests.xcscheme'
+  ```ruby
+  PROJECT_NAME = 'SampleApp'
+  TEST_TARGET = 'SampleAppTests'
+  SCHEME_FILE = 'SampleAppTests.xcscheme'
 
-    target TEST_TARGET do
-      project PROJECT_NAME
-      inherit! :search_paths
-      pod 'EarlGrey'
-    end
+  target TEST_TARGET do
+    project PROJECT_NAME
+    inherit! :search_paths
+    pod 'EarlGrey'
+  end
 
-    post_install do |installer|
-      load('configure_earlgrey_pods.rb')
-      configure_for_earlgrey(installer, PROJECT_NAME, TEST_TARGET, SCHEME_FILE)
-    end
-    ```
+  post_install do |installer|
+    load('configure_earlgrey_pods.rb')
+    configure_for_earlgrey(installer, PROJECT_NAME, TEST_TARGET, SCHEME_FILE)
+  end
+  ```
 
-   * For multiple targets and Schemes, call the **configure_for_earlgrey** method for each target / Scheme.
+   * For multiple targets and Schemes, call the `configure_for_earlgrey` method for each target / Scheme.
    * The `:exclusive => true` and `inherit! :search_paths` flag prevents double-linking for libraries in the test target with any conflicting libraries in the main application.
    * For more information, visit the [CocoaPods Podfile Guide](http://guides.cocoapods.org/using/the-podfile.html).
 
@@ -98,8 +98,8 @@ For EarlGrey, we highly recommend [CocoaPods](https://cocoapods.org/) as the bes
 After you successfully run the `pod install` command, open the generated workspace and find EarlGrey installed in the `Pods/` directory. The generated `Pods/` project should look similar to:
 
   <img src="images/image02.png" width="250">
-<a name="github-installation"></a>
-### Github Installation
+
+### GitHub Installation
 
 In cases where CocoaPods is not compatible with your project, you can add EarlGrey manually to your Xcode project.
 
@@ -138,7 +138,7 @@ In cases where CocoaPods is not compatible with your project, you can add EarlGr
   3. Add EarlGrey as a Target Dependency to the Test Target:
 
     ```
-    Project > Test Target > Build Phases > Target Dependencies > + (Add Sign) > EarlGrey`
+    Project > Test Target > Build Phases > Target Dependencies > + (Add Sign) > EarlGrey
     ```
 
      The Test Target’s Build Phases should now look similar to this:
@@ -222,32 +222,31 @@ case, our target is *SimpleAppTests*:
 4. Xcode will create a new test case for us but we won’t need much of it. Let’s change the code to
 leave just a single test method and include the EarlGrey framework, like this:
 
-   ```
-   @import EarlGrey
+   ```objc
+   @import EarlGrey;
    #import <XCTest/XCTest.h>
+   
    @interface MyFirstEarlGreyTest : XCTestCase
    @end
+   
    @implementation MyFirstEarlGreyTest
+   
    - (void)testExample {
-    // Your test actions and assertions will go here.
+     // Your test actions and assertions will go here.
    }
+   
    @end
    ```
 
 5. Now let’s add a simple EarlGrey assertion that checks for the presence of a key window and
 asserts that it is displayed. Here’s what the resulting test would look like:
 
-   ```
-   @import EarlGrey
-   #import <XCTest/XCTest.h>
-   @interface MyFirstEarlGreyTest : XCTestCase
-   @end
-   @implementation MyFirstEarlGreyTest
+   ```objc
    - (void)testPresenceOfKeyWindow {
      [[EarlGrey selectElementWithMatcher:grey_keyWindow()]
          assertWithMatcher:grey_sufficientlyVisible()];
    }
-   @end
+   
    ```
 
 6. And that’s it! As with any other unit test, this test will show up in the test navigator, so you
@@ -262,7 +261,7 @@ steps in your setup:
 
 1. Import EarlGrey in your test bundle's bridging header:
 
-   ```
+   ```objc
     #import <EarlGrey/EarlGrey.h>
    ```
 
@@ -271,7 +270,7 @@ functions that implement C preprocessor macros that aren't available in Swift.
 
    Here is an example of a very basic EarlGrey test written in Swift:
 
-   ```
+   ```swift
    // Select the button with Accessibility ID "clickMe" and assert it's visible.
    EarlGrey().selectElementWithMatcher(grey_accessibilityID("ClickMe"))
        .assertWithMatcher(grey_sufficientlyVisible())

@@ -20,16 +20,16 @@ containers, regardless of the amount of scrolling required.
 
 **I get a crash with “Could not swizzle …”**
 
-This usually means that EarlGrey is trying to swizzle the method that it has swizzled before. This
+This usually means that EarlGrey is trying to swizzle a method that it has swizzled before. This
 can happen if EarlGrey is being linked to more than once. Ensure that only the test target
-depends on EarlGrey.framework and EarlGrey.framework is embedded in the app under test ($TEST_HOST) from the
+depends on EarlGrey.framework and EarlGrey.framework is embedded in the app under test (`$TEST_HOST`) from the
 test target's build phase.
 
 **I see lots of “XXX is implemented in both YYY and ZZZ. One of the two will be used. Which one is
 undefined.” in the logs**
 
 This usually means that EarlGrey is being linked to more than once. Ensure that only the test target
-depends on EarlGrey.framework and EarlGrey.framework is embedded in the app under test ($TEST_HOST) from the
+depends on EarlGrey.framework and EarlGrey.framework is embedded in the app under test (`$TEST_HOST`) from the
 test target's build phase.
 
 **Is there a way to return a specific element?**
@@ -40,7 +40,7 @@ example, if you want to invoke a selector on an element, you can use syntax simi
 following:
 
 
-```
+```objc
 - (void)testInvokeCustomSelectorOnElement {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"id_of_element")]
       performAction:[GREYActionBlock actionWithName:@"Invoke clearStateForTest selector"
@@ -57,10 +57,12 @@ following:
 If you are unsure whether the element exists in the UI hierarchy, pass an `NSError` to the
 interaction and check if the error domain and code indicate that the element wasn’t found:
 
-```
+```objc
 NSError *error;
-[[EarlGrey selectElementWithMatcher:grey_accessibilityID(‘Foo")]
-    performAction:grey_tap() error:&error];
+[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"Foo")]
+    performAction:grey_tap() 
+            error:&error];
+            
 if ([error.domain isEqual:kGREYInteractionErrorDomain] &&
     error.code == kGREYInteractionElementNotFoundErrorCode) {
   // Element doesn’t exist.
@@ -73,12 +75,13 @@ Use [GREYCondition](../EarlGrey/Synchronization/GREYCondition.h) in your test's 
 wait for the main screen’s view controller. Here’s an example:
 
 
-```
- (void)setUp {
+```objc
+- (void)setUp {
   [super setUp];
 
   // Wait for the main view controller to become the root view controller.
-  BOOL success = [[GREYCondition conditionWithName:@"Wait for main root view controller" block:^{
+  BOOL success = [[GREYCondition conditionWithName:@"Wait for main root view controller" 
+                                             block:^{
     id<UIApplicationDelegate> appDelegate = [UIApplication sharedApplication].delegate;
     UIViewController *rootViewController = appDelegate.window.rootViewController;
     return [rootViewController isKindOfClass:[MainViewController class]];

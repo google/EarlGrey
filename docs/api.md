@@ -6,7 +6,7 @@ EarlGrey includes three main groups of APIs:
   * [Other Top Level APIs](#other-top-level-apis)
 
 
-## Interaction APIs <a name="interation-apis"></a>
+## Interaction APIs
 
 EarlGrey test cases are made up of interactions with UI elements. Each interaction consists of:
 
@@ -20,11 +20,11 @@ To reflect this, the Interaction APIs are organized into the following:
   * [Action API](#action-api)
   * [Assertion API](#assertion-api)
 
-Each of these APIs are designed with extensibility in mind, giving the user flexibility for customization,
+Each of these APIs is designed with extensibility in mind, giving the user flexibility for customization,
 while preserving the prose-like structure of tests. Consider the following snippet:
 
 
-```
+```objc
 [EarlGrey selectElementWithMatcher:grey_accessibilityID(@"ClickMe")];
 ```
 
@@ -37,7 +37,7 @@ You can chain a selection and an action in one statement. For example, you can t
 that has `ClickMe` as its Accessibility Identifier as follows:
 
 
-```
+```objc
 [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"ClickMe")]
     performAction:grey_tap()];
 ```
@@ -49,7 +49,7 @@ You can also chain a selection and an assertion. The following snippet shows how
 element that has `ClickMe` as its accessibility identifier and asserts that it is displayed:
 
 
-```
+```objc
 [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"ClickMe")]
     assertWithMatcher:grey_sufficientlyVisible()];
 ```
@@ -58,7 +58,7 @@ Finally, you can perform actions and assertions in sequence. The following state
 the accessibility identifier `ClickMe`, taps on it, and asserts that it is not displayed.
 
 
-```
+```objc
 [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"ClickMe")]
     performAction:grey_tap()]
     assertWithMatcher:grey_notVisible()];
@@ -68,7 +68,7 @@ the accessibility identifier `ClickMe`, taps on it, and asserts that it is not d
 The following is an example of a simple interaction:
 
 
-```
+```objc
 [[[EarlGrey selectElementWithMatcher:<element_matcher>]
     performAction:<action>]
     assertWithMatcher:<assertion_matcher>];
@@ -80,7 +80,7 @@ C-function, instead of using `[GREYMatchers matcherForSufficientlyVisible]` you 
 `grey_sufficientlyVisible()`. Shorthand notation is enabled by default. To disable it, add
 `#define GREY_DISABLE_SHORTHAND 1` to the project's prefix header.
 
-### Selection API <a name="selection-api"></a>
+### Selection API
 
 Use the Selection API to locate a UI element on the screen. This API accepts a matcher and tests it against all
 the elements in the UI hierarchy to locate an element to interact with. In
@@ -110,9 +110,10 @@ First, with collection matchers, the following snippet finds a UI element that h
 label `Send` **and** is displayed on the screen.
 
 
-```
+```objc
 id<GREYMatcher> visibleSendButtonMatcher =
     grey_allOf(grey_accessibilityLabel(@"Send"), grey_sufficientlyVisible(), nil);
+    
 [[EarlGrey selectElementWithMatcher:visibleSendButtonMatcher]
     performAction:grey_tap()];
 ```
@@ -120,9 +121,10 @@ id<GREYMatcher> visibleSendButtonMatcher =
 Next, with `inRoot`, the following statement finds an element that has the accessibility label set
 to `Send` and is contained in a UI element that is an instance of the `SendMessageView` class.
 
-```
+```objc
 [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Send")]
-    inRoot:grey_kindOfClass([SendMessageView class])] performAction:grey_tap()];
+           inRoot:grey_kindOfClass([SendMessageView class])] 
+    performAction:grey_tap()];
 ```
 
 #### Custom Matchers
@@ -131,7 +133,7 @@ To create custom matchers, use the block-based [GREYElementMatcherBlock](../Earl
 class. For example, the following code matches views that don't have any subviews:
 
 
-```
+```objc
 + (id<GREYMatcher>)matcherForViewsWithoutSubviews {
   MatchesBlock matches = ^BOOL(UIView *view) {
     return view.subviews.count == 0;
@@ -150,7 +152,7 @@ matcher must also work with accessibility elements. The following matcher exampl
 universally for all UI element types:
 
 
-```
+```objc
 + (id<GREYMatcher>)matcherForElementWithoutChildren {
   MatchesBlock matches = ^BOOL(id element) {
     if ([element isKindOfClass:[UIView class]]) {
@@ -171,7 +173,7 @@ This matcher can be used in a test to select a UI element that doesn’t have an
 subviews) and double-tap on it (assuming that the method was declared in a class `CustomMatchers`):
 
 
-```
+```objc
 [[EarlGrey selectElementWithMatcher:[CustomMatchers matcherForElementWithoutChildren]]
     performAction:grey_doubleTap()];
 ```
@@ -192,7 +194,7 @@ repeatedly scrolling down (by 50 points at a time) on the element matching `aScr
 taps the button when it finally finds it.
 
 
-```
+```objc
 [[[EarlGrey selectElementWithMatcher:aButtonMatcher]
     usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 50)
  onElementWithMatcher:aScrollViewMatcher]
@@ -202,14 +204,14 @@ taps the button when it finally finds it.
 And in this example, this statement attempts to find a table view cell matching `aCellMatcher` by
 repeatedly scrolling up (by 50 points at a time) on a table matching `aTableViewMatcher`.
 
-```
+```objc
 [[[EarlGrey selectElementWithMatcher:aCellMatcher]
     usingSearchAction:grey_scrollInDirection(kGREYDirectionUp, 50)
-    onElementWithMatcher:aTableViewMatcher]
+ onElementWithMatcher:aTableViewMatcher]
     performAction:grey_tap()];
 ```
 
-### Action API <a name="action-api"></a>
+### Action API
 
 Use the Action API to specify the test actions to perform on a selected UI element.
 
@@ -219,7 +221,7 @@ All EarlGrey actions are available in the [GREYActions](../EarlGrey/Action/GREYA
 class. The most common action is tapping (or clicking) on a given element using the `grey_tap()`
 method:
 
-```
+```objc
 [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TapMe")]
     performAction:grey_tap()];
 ```
@@ -237,10 +239,11 @@ exception being thrown and the test marked as failed. To avoid test failure, you
 object containing failure details.
 
 
-```
+```objc
 NSError *error;
 [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TapMe")]
-    performAction:grey_tap() error:&error];
+    performAction:grey_tap()
+            error:&error];
 ```
 
 #### Custom Actions
@@ -252,7 +255,7 @@ of a block. The following code creates an action using a block that invokes a cu
 (`animateWindow`) to animate the selected element’s window:
 
 
-```
+```objc
 - (id<GREYAction>)animateWindowAction {
   return [GREYActionBlock actionWithName:@"Animate Window"
                               constraint:nil
@@ -272,7 +275,7 @@ of a block. The following code creates an action using a block that invokes a cu
 }
 ```
 
-### Assertion API <a name="assertion-api"></a>
+### Assertion API
 
 Use the Assertion API to verify the state and behavior of a UI element.
 
@@ -283,7 +286,7 @@ matchers. The selected element is run through the matcher for verification. For 
 the following snippet asserts that the element with the accessibility ID `ClickMe` is visible,
 and the test fails if the element is not visible on the screen.
 
-```
+```objc
 [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"ClickMe")]
     assertWithMatcher:grey_sufficientlyVisible()];
 ```
@@ -292,10 +295,11 @@ To prevent test failure, you can provide an `NSError` object to the `assertWithM
 method, as in the statement shown below. Instead of failing, the EarlGrey assertion will provide
 you with an `NSError` object that contains details about the failure.
 
-```
+```objc
 NSError *error;
 [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"ClickMe")]
-    assertWithMatcher:grey_sufficientlyVisible() error:&error];
+    assertWithMatcher:grey_sufficientlyVisible() 
+                error:&error];
 ```
 
 You can also perform an assertion by using the `assert` method and passing an instance of
@@ -313,10 +317,10 @@ accepts the assertion logic in a block. The following example uses `GREYAssertio
 assertion that checks that the view's alpha is equal to the provided value:
 
 
-```
+```objc
 + (id<GREYAssertion>)hasAlpha:(CGFloat)alpha {
   return [GREYAssertionBlock assertionWithName:@"Has Alpha"
-                                assertionBlock:^(UIView *view,mNSError *__strong *errorOrNil) {
+                                assertionBlock:^(UIView *view, NSError *__strong *errorOrNil) {
     if (view.alpha != alpha) {
       NSString *reason =
         [NSString stringWithFormat:@"Alpha value doesn't match for %@", view];
@@ -338,7 +342,7 @@ your own check to make sure the UI element is in a valid state before validating
 instance, the following snippet checks that the element exists (that it isn’t `nil`) before
 asserting the rest of the state:
 
-```
+```objc
 + (id<GREYAssertion>)hasAlpha:(CGFloat)alpha {
   return [GREYAssertionBlock assertionWithName:@"Has Alpha"
                                 assertionBlock:^(UIView *view, NSError *__strong *errorOrNil) {
@@ -373,8 +377,8 @@ framework handler. To create a custom failure handler, write a class that confor
 [GREYFailureHandler](../EarlGrey/Exception/GREYFailureHandler.h) protocol:
 
 
-```
-@interface MyFailureHandler : NSObject<GREYFailureHandler>
+```objc
+@interface MyFailureHandler : NSObject <GREYFailureHandler>
 @end
 
 @implementation MyFailureHandler
@@ -399,19 +403,19 @@ EarlGrey provides its own macros that can be used within a testcase for
 assertion and verification. These macros are similar to the macros provided by
 XCTest and invoke the global failure handler upon assertion failure.
 
-  * GREYAssert(expression, reason, ...) - Fails if the expression evaluates to false
-  * GREYAssertTrue(expression, reason, ...) - Fails if the expression evaluates to
+  * `GREYAssert(expression, reason, ...)` — Fails if the expression evaluates to false
+  * `GREYAssertTrue(expression, reason, ...)` — Fails if the expression evaluates to
 false. Use for BOOL expressions
-  * GREYAssertFalse(expression, reason, ...) - Fails if the expression evaluates to
+  * `GREYAssertFalse(expression, reason, ...)` — Fails if the expression evaluates to
 true. Use for BOOL expressions
-  * GREYAssertNotNil(expression, reason, ...) - Fails if the expression evaluates to
+  * `GREYAssertNotNil(expression, reason, ...)` — Fails if the expression evaluates to
 nil
-  * GREYAssertNil(expression, reason, ...) - Fails if the expression evaluates to a
+  * `GREYAssertNil(expression, reason, ...)` — Fails if the expression evaluates to a
 non-nil value
-  * GREYAssertEqual(left, right, reason, ...) - Fails if left != right for scalar
+  * `GREYAssertEqual(left, right, reason, ...)` — Fails if left != right for scalar
 types
-  * GREYFail(reason, ...) - Fails immediately with the provided reason
-  * GREYFailWithDetails(reason, details, ...) - Fails immediately with the provided reason and
+  * `GREYFail(reason, ...)` — Fails immediately with the provided reason
+  * `GREYFailWithDetails(reason, details, ...)` — Fails immediately with the provided reason and
   details
 
 #### Layout Testing
@@ -427,7 +431,7 @@ For example, the following constraint specifies that the selected element is to 
 other arbitrary element used as a reference.
 
 
-```
+```objc
 GREYLayoutConstraint *rightConstraint =
     [GREYLayoutConstraint layoutConstraintWithAttribute:kGREYLayoutAttributeLeft
                                               relatedBy:kGREYLayoutRelationGreaterThanOrEqual
@@ -440,9 +444,9 @@ You can now select the element with the `RelativeRight` accessibility ID and use
 `grey_layout(@[rightConstraint])` to assert if it's on the right of the reference element, which in
 our example is the element with `TheReference` accessibility ID.
 
-```
+```objc
 [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@”RelativeRight”)]
-    assertWithMatcher:grey_layout(@[rightConstraint], grey_accessibilityID(@”TheReference”))]
+    assertWithMatcher:grey_layout(@[rightConstraint], grey_accessibilityID(@”TheReference”))];
 ```
 
 You can also create simple directional constraints using `layoutConstraintForDirection:`. The
@@ -454,7 +458,7 @@ GREYLayoutConstraint *rightConstraint =
                                   andMinimumSeparation:0.0];
 ```
 
-## Synchronization APIs <a name="synchronization-apis"></a>
+## Synchronization APIs
 
 These APIs let you control how EarlGrey synchronizes with the app under test.
 
@@ -466,8 +470,9 @@ the condition has been met. The framework polls this block until the condition i
 proceeding with rest of the test case. The following snippet illustrates how to create and use a
 `GREYCondition`:
 
-```
-GREYCondition *myCondition = [GREYCondition conditionWithName:@"my condition" block:^BOOL {
+```objc
+GREYCondition *myCondition = [GREYCondition conditionWithName:@"my condition"
+                                                        block:^BOOL {
   ... do your condition check here ...
   return yesIfMyConditionWasSatisfied;
 }];
@@ -487,7 +492,7 @@ of app being busy. For example in a messaging app, a photo might be uploading an
 running but the test might still want to type and send a text message. To address such situations, you can
 disable EarlGrey's synchronization using `kGREYConfigKeySynchronizationEnabled`, as shown in the following snippet:
 
-```
+```objc
 [[GREYConfiguration sharedInstance] setValue:@(NO)
                                 forConfigKey:kGREYConfigKeySynchronizationEnabled];
 ```
@@ -512,13 +517,12 @@ See below for some specific use cases in detail.
 By default, EarlGrey synchronizes with all network calls, but you can customize this behavior by
 providing a regular expression to skip over certain URLs. Note that even though only one blacklist
 regular expression can be specified, it can be used to skip multiple URLs. To construct a regular
-expression that matches two distinct URLs, you can use an `OR` (|) operator in the the regular
-expression. For example ([http://www\.google\.com](http://www\.google\.com) |
-[http://www\.youtube\.com](http://www\.youtube\.com)) matches all URLs matching either
-[http://www\.google\.com](http://www\.google\.com) or
-[http://www\.youtube\.com](http://www\.youtube\.com).
+expression that matches two distinct URLs, you can use an `OR` (|) operator in the regular
+expression. For example, `(http://www.google.com|http://www.youtube.com)` (unescaped for clarity) matches all URLs matching either
+[http://www.google.com](http://www.google.com) or
+[http://www.youtube.com](http://www.youtube.com).
 
-```
+```objc
 [[GREYConfiguration sharedInstance] setValue:@".*\\.foo\\.com/.*"
                                 forConfigKey:kGREYConfigKeyURLBlacklistRegex];
 ```
@@ -530,7 +534,7 @@ test fails to idle, a timeout exception is thrown and the test is marked as fail
 [GREYConfiguration](../EarlGrey/Common/GREYConfiguration.h) to change this timeout value. For
 example, to increase the timeout to 60 seconds (one minute):
 
-```
+```objc
 [[GREYConfiguration sharedInstance] setValue:@(60.0)
                                 forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
 ```
@@ -544,7 +548,7 @@ cases, EarlGrey limits the animation duration to five seconds and disables repea
 the maximum allowable animation duration value. Make sure this doesn’t affect your test timeouts.
 The following snippet increases the maximum animation duration to 30 seconds.
 
-```
+```objc
 [[GREYConfiguration sharedInstance] setValue:@(30.0)
                                 forConfigKey:kGREYConfigKeyCALayerMaxAnimationDuration];
 ```
@@ -555,11 +559,11 @@ Due to limitation of dispatch queues and the way EarlGrey synchronizes with them
 statements from a `dispatch_queue` leads to a livelock. To mitigate this, we've introduced new block-based
 APIs that wrap EarlGrey statements, and that can be safely called from non-main threads:
 
-  * `grey_execute_sync(void (^block)())` // Synchronous. Blocks until execution is
+  * `grey_execute_sync(void (^block)())` — Synchronous. Blocks until execution is
 complete.
-  * `grey_execute_async(void (^block)())` // Asynchronous.
+  * `grey_execute_async(void (^block)())` — Asynchronous.
 
-## Other Top Level APIs <a name="other-top-level-apis"></a>
+## Other Top Level APIs
 
 Outside of UI interaction, you can use EarlGrey to control the device and system in various ways.
 
@@ -571,7 +575,7 @@ As soon as a configuration is changed, it is applied globally. For instance, the
 enables verbose logging:
 
 
-```
+```objc
 [[GREYConfiguration sharedInstance] setValue:@(YES)
                                 forConfigKey:kGREYConfigKeyVerboseLogging];
 ```
@@ -584,16 +588,16 @@ the device is in **Landscape** mode with the device held upright and the **Home*
 right side:
 
 
-```
+```objc
 [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeLeft errorOrNil:nil];
 ```
 
 You can choose from the following orientation modes (for more information, see [UIDeviceOrientation](https://developer.apple.com/library/ios/documentation/uikit/reference/UIDevice_Class/Reference/UIDevice.html#//apple_ref/doc/c_ref/UIDeviceOrientation)):
 
-  * UIDeviceOrientationUnknown
-  * UIDeviceOrientationPortrait
-  * UIDeviceOrientationPortraitUpsideDown
-  * UIDeviceOrientationLandscapeLeft
-  * UIDeviceOrientationLandscapeRight
-  * UIDeviceOrientationFaceUp
-  * UIDeviceOrientationFaceDown
+  * `UIDeviceOrientationUnknown`
+  * `UIDeviceOrientationPortrait`
+  * `UIDeviceOrientationPortraitUpsideDown`
+  * `UIDeviceOrientationLandscapeLeft`
+  * `UIDeviceOrientationLandscapeRight`
+  * `UIDeviceOrientationFaceUp`
+  * `UIDeviceOrientationFaceDown`
