@@ -111,14 +111,14 @@
   } else {
     failureDescription = [NSString stringWithFormat:@"%@ has occurred.", [exception class]];
   }
+  NSLog(@"%@", exceptionLog);
+
+  [XCTestCase grey_currentTestCase].continueAfterFailure = NO;
   [[XCTestCase grey_currentTestCase] recordFailureWithDescription:failureDescription
                                                            inFile:_fileName
                                                            atLine:_lineNumber
                                                          expected:NO];
-  NSLog(@"%@", exceptionLog);
-
-  // This will cause the current test case to stop executing further.
-  [GREYFrameworkException raise:exception.name format:@"%@", exception.reason];
+  [[XCTestCase grey_currentTestCase] grey_interruptExecution];
 }
 
 #pragma mark - Private
@@ -154,3 +154,4 @@
 }
 
 @end
+
