@@ -89,9 +89,16 @@ UIKIT_EXTERN NSString *const kGREYXCTestCaseNotificationKey;
 - (NSString *)grey_testClassName;
 
 /**
+ *  Interrupts the current test case execution immediately, tears down the test and marks it as
+ *  failed.
+ */
+- (void)grey_interruptExecution;
+
+/**
  *  @return A unique test outputs directory for the current test. All test related outputs should be
  *          under this directory (and subdirectories).
  */
 - (NSString *)grey_localizedTestOutputsDirectory;
 
 @end
+

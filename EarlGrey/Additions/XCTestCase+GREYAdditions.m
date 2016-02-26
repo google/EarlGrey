@@ -20,6 +20,7 @@
 
 #import "Common/GREYPrivate.h"
 #import "Common/GREYSwizzler.h"
+#import "Exception/GREYFrameworkException.h"
 #import "Synchronization/GREYAppStateTracker.h"
 #import "Synchronization/GREYUIThreadExecutor.h"
 
@@ -48,6 +49,11 @@ static const void *const kLocalizedTestOutputsDirKey = &kLocalizedTestOutputsDir
  *  Object-association key for the status of a test case.
  */
 static const void *const kTestCaseStatus = &kTestCaseStatus;
+
+/**
+ *  Name of the exception that's thrown to interrupt current test execution.
+ */
+static NSString *const kInternalTestInterruptException = @"EarlGreyInternalTestInterruptException";
 
 /**
  *  Enumeration with the possible statuses of a XCTestCase.
@@ -160,6 +166,11 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
   return localizedTestOutputsDir;
 }
 
+- (void)grey_interruptExecution {
+  [[GREYFrameworkException exceptionWithName:kInternalTestInterruptException
+                                      reason:@"Immediately halt execution of testcase"] raise];
+}
+
 #pragma mark - Private
 
 - (BOOL)grey_isSwizzled {
@@ -222,7 +233,6 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
                                             error:&error];
 
       NSAssert(success, @"Failed to create localized outputs directory. Cause: %@", error);
-
       INVOKE_ORIGINAL_IMP(void, @selector(grey_invokeTest));
 
       // The test may have been marked as failed if a failure was recorded with the
@@ -233,7 +243,9 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
       }
     } @catch(NSException *exception) {
       [self grey_setStatus:kGREYXCTestCaseStatusFailed];
-      @throw;
+      if (![exception.name isEqualToString:kInternalTestInterruptException]) {
+        [exception raise];
+      }
     } @finally {
       switch ([self grey_status]) {
         case kGREYXCTestCaseStatusFailed:
@@ -304,10 +316,12 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
                                    atLine:(NSUInteger)lineNumber
                                  expected:(BOOL)expected {
   [self grey_setStatus:kGREYXCTestCaseStatusFailed];
-  [self grey_recordFailureWithDescription:description
-                                   inFile:filePath
-                                   atLine:lineNumber
-                                 expected:expected];
+  INVOKE_ORIGINAL_IMP4(void,
+                       @selector(grey_recordFailureWithDescription:inFile:atLine:expected:),
+                       description,
+                       filePath,
+                       lineNumber,
+                       expected);
 }
 
 /**
@@ -365,3 +379,4 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
 }
 
 @end
+
