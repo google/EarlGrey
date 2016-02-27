@@ -51,9 +51,10 @@ information allows us to measure the volume of usage. If they wish, users can
 choose to opt out by disabling the Analytics config setting in their test’s
 setUp method:
 
-```
+```objc
 // Disable analytics.
-[[GREYConfiguration sharedInstance] setValue:@(NO) forConfigKey:kGREYConfigKeyAnalyticsEnabled];
+[[GREYConfiguration sharedInstance] setValue:@(NO)
+                                forConfigKey:kGREYConfigKeyAnalyticsEnabled];
 ```
 
 ## For Contributors
@@ -63,11 +64,11 @@ Please make sure you’ve followed the guidelines in
 
 ### Setup an EarlGrey Project
 
-  1. Clone the EarlGrey repository from Github:
+  1. Clone the EarlGrey repository from GitHub:
 
-      ```
-      git clone https://github.com/google/EarlGrey.git
-      ```
+    ```
+    git clone https://github.com/google/EarlGrey.git
+    ```
 
   2. After you have cloned the EarlGrey repository, download all the dependencies using the
   `setup-earlgrey.sh` script (run the script from the cloned repo).
