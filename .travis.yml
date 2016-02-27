@@ -19,5 +19,7 @@ script:
   - set -o pipefail
   - xcodebuild -version
   - xcodebuild -showsdks
-  - xcodebuild -project Tests/UnitTests/UnitTests.xcodeproj -scheme EarlGreyUnitTests -sdk "$SDK" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO test | xcpretty -c;
+  - if [[ ${DESTINATION} == *"OS=9.2"* || ${DESTINATION} == *"OS=8.4"* ]]; then
+      xcodebuild -project Tests/UnitTests/UnitTests.xcodeproj -scheme EarlGreyUnitTests -sdk "$SDK" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO test | xcpretty -c;
+    fi
   - xcodebuild -project Tests/FunctionalTests/FunctionalTests.xcodeproj -scheme EarlGreyFunctionalTests -sdk "$SDK" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO test | xcpretty -c;
