@@ -116,6 +116,14 @@ typedef NS_OPTIONS(NSUInteger, GREYAppState){
 - (GREYAppState)currentState;
 
 /**
+ * Method for checking if GREYAppStateTracker::currentState is idle. More efficient than
+ * currentState.
+ *
+ * @return @c YES if the state of the App is currently kGREYIdle, @c NO otherwise.
+ */
+- (BOOL)isIdle;
+
+/**
  *  Updates the state of the element, including the provided @c state and updating the overall state
  *  of the application. If @c element is already being tracked with for a different state, the
  *  element's state will be updated to a XOR of the current state and @c state.

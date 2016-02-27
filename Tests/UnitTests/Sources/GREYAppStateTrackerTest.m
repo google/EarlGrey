@@ -137,4 +137,19 @@
   XCTAssertEqual(kGREYIdle, [[GREYAppStateTracker sharedInstance] currentState]);
 }
 
+- (void)testAppStateEfficiency {
+  CFTimeInterval testStartTime = CACurrentMediaTime();
+
+  // Make a really big UIView hierarchy.
+  UIView *view = [[UIView alloc] init];
+  for (int i = 0; i < 15000; i++) {
+    [view addSubview:[[UIView alloc] init]];
+  }
+
+  // With efficient state tracking, this test should complete in under .5 seconds. To avoid test
+  // flakiness, just make sure that it is under 10 seconds.
+  XCTAssertLessThan(CACurrentMediaTime() - testStartTime, 10,
+                    @"This test should complete in less than than 10 seconds.");
+}
+
 @end
