@@ -122,7 +122,7 @@ Next, with `inRoot`, the following statement finds an element that has the acces
 to `Send` and is contained in a UI element that is an instance of the `SendMessageView` class.
 
 ```objc
-[[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Send")]
+[[[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Send")]
            inRoot:grey_kindOfClass([SendMessageView class])] 
     performAction:grey_tap()];
 ```
