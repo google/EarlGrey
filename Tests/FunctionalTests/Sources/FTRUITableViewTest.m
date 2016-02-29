@@ -167,17 +167,13 @@
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
-- (void)testHiddenElementNotProvided {
-  // Scroll down to ensure that the first element is hidden.
-  [[self scrollToCellAtIndex:40 byScrollingInAmounts:40 InDirection:kGREYDirectionDown]
-      assertWithMatcher:grey_notNil()];
-
+- (void)testHiddenTableViewRow {
   [FTRTableViewController throwErrorIfElementProviderDequeuesCellAtIndex:1];
 
   // Try to access the first element and ensure that the element provider does not provide it,
   // since it is hidden.
   NSError *err;
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Row 1")]
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Row 40")]
       assertWithMatcher:grey_interactable() error:&err];
   GREYAssertNotNil(err, @"Looking for hidden tableview cell failed to produce an error.");
   GREYAssertEqual(err.code, kGREYInteractionElementNotFoundErrorCode,
