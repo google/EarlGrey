@@ -175,7 +175,7 @@ typedef NS_ENUM(NSInteger, EGExecutionState) {
               break;
             }
           }
-          isAppIdle = ([[GREYAppStateTracker sharedInstance] currentState] == kGREYIdle);
+          isAppIdle = [[GREYAppStateTracker sharedInstance] isIdle];
           shouldExecuteBlock = (areAllResourcesIdle && isAppIdle);
         }
 

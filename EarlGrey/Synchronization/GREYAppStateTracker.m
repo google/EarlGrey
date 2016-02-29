@@ -29,11 +29,21 @@ static pthread_mutex_t gStateLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
 
 @implementation GREYAppStateTracker {
   /**
-   *  Mapping of each UI element to the state(s) it is in.
-   *  Access should be guarded by @c stateLock lock.
+   *  Mapping of each UI element ID to the state(s) it is in.
+   *  Access should be guarded by @c gStateLock lock.
    */
-  NSMapTable *_elementToState;
-  NSMapTable *_elementToCallStack;
+  NSMapTable *_elementIDToState;
+  /**
+   *  Mapping of each UI element ID to the callstack of the most recently set busy state.
+   *  Access should be guarded by @c gStateLock lock.
+   */
+  NSMapTable *_elementIDToCallStack;
+  /**
+   * Set of all tracked element IDs. Used for efficient membership checking and to work around
+   * NSMapTable's lack of a guarantee to immediately purge weak keys.
+   * Access should be guarded by @c gStateLock lock.
+   */
+  NSHashTable *_elementIDs;
 }
 
 + (instancetype)sharedInstance {
@@ -54,8 +64,9 @@ static pthread_mutex_t gStateLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
 - (instancetype)initOnce {
   self = [super init];
   if (self) {
-    _elementToState = [NSMapTable weakToStrongObjectsMapTable];
-    _elementToCallStack = [NSMapTable weakToStrongObjectsMapTable];
+    _elementIDToState = [NSMapTable weakToStrongObjectsMapTable];
+    _elementIDToCallStack = [NSMapTable weakToStrongObjectsMapTable];
+    _elementIDs = [NSHashTable weakObjectsHashTable];
   }
   return self;
 }
@@ -72,12 +83,28 @@ static pthread_mutex_t gStateLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
   return [[self grey_performBlockInCriticalSection:^id {
     // Recalc current UI state.
     GREYAppState curState = kGREYIdle;
-    // Use keyEnumeration because it purges weak keys.
-    for (NSNumber *state in [_elementToState objectEnumerator]) {
-      curState |= [state unsignedIntegerValue];
+    // Make sure that we immediately release any autoreleased internal keys.
+    @autoreleasepool {
+      // Iterate over the _elementID hashtable's objects because the hashtable guarantees to
+      // purge weak objects, and each object in _elementIDs is a valid key in _elementIDToState.
+      for (NSString *internalElementID in _elementIDs) {
+        curState |= [[_elementIDToState objectForKey:internalElementID] unsignedIntegerValue];
+      }
     }
     return @(curState);
   }] unsignedIntegerValue];
+}
+
+- (BOOL)isIdle {
+  return [[self grey_performBlockInCriticalSection:^id{
+    BOOL idle;
+    // Make sure that we immediately release any autoreleased internal keys.
+    @autoreleasepool {
+      // If we are tracking any elements, then the app is not idle.
+      idle = ([_elementIDs anyObject] == nil);
+    }
+    return @(idle);
+  }] boolValue];
 }
 
 /**
@@ -93,12 +120,12 @@ static pthread_mutex_t gStateLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
     if (state != kGREYIdle) {
       [description appendString:@"\n\n"];
       [description appendString:@"Full state transition call stack for all elements:\n"];
-      for (NSString *internalElementID in [_elementToCallStack keyEnumerator]) {
-        NSNumber *stateNumber = (NSNumber *)[_elementToState objectForKey:internalElementID];
+      for (NSString *internalElementID in _elementIDs) {
+        NSNumber *stateNumber = (NSNumber *)[_elementIDToState objectForKey:internalElementID];
         [description appendFormat:@"<%@> => %@\n",
             internalElementID,
             [self stringFromState:[stateNumber unsignedIntegerValue]]];
-        [description appendFormat:@"%@\n", [_elementToCallStack objectForKey:internalElementID]];
+        [description appendFormat:@"%@\n", [_elementIDToCallStack objectForKey:internalElementID]];
       }
     }
     return nil;
@@ -202,30 +229,34 @@ static pthread_mutex_t gStateLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
     // drainUntilIdle never returns because it is expecting the first drainUntilIdle's autorelease
     // pool to release the object so state tracker can return to idle state)
     @autoreleasepool {
-      // Instead of tracking element as keys in NSMapTable, we track element ID, which is just a
-      // string representation of the underlying element.
-      // This element ID is then added to the element as an object association.
-      // We leverage the fact that dealloc clears this object association, thereby releasing the
-      // element ID and clearing NSMapTable's weak reference to it.
-      // But there is a GOTCHA - We cannot return the same element ID we store in NSMapTable.
-      // The returned element ID is an exact replica of the element ID added as object association.
-      // Why? Because there are eactly two entities - us and the element's object association
-      // that manages the lifetime of this internal element ID and don't expose it to
-      // the outside world which can potentially alter the reference count by adding an extra
-      // retain/autorelease and cause NSMapTable's reference to never clear out.
+      // We do not use the element we want to track as a key to its state. Instead, we key our map
+      // with its element ID, a string representations of the element. We strongly associate the
+      // element ID with the element and only hold weak references ourself. Since the element ID is
+      // only strongly referenced by the element we are tracking, it will be deallocated when the
+      // element we are tracking is deallocated. We leverage this and NSHashTable’s and
+      // NSMapTable’s behavior to purge deallocated keys so that we do not track deallocated
+      // elements.
+      //
+      // We use element IDs as weak keys instead of the elements themselves for two reasons:
+      // 1) Some objects, ie objects that are being deallocated, cannot be weakly referenced.
+      //    Elements may try to track and untrack themselves during dealloc.
+      // 2) We can untrack objects with an element ID instead of a reference to the object. This is
+      //    useful for objects that dispatch asynchronous untrack calls during their dealloc. These
+      //    objects cannot safely weakify/strongify themselves during their own dealloc.
+      //
+      // To ensure that our weakly held element ID keys are only ever strongly referenced by the
+      // elements we are tracking, the element ID that we return for untracking is a copy of our
+      // internal element ID. The external element ID has the same value and can be used by us to
+      // retrieve our internal key, but since the external key is different object, additional
+      // references to it are harmless.
+
       NSString *potentialInternalElementID = externalElementID;
       if (!potentialInternalElementID) {
         potentialInternalElementID = [self grey_elementIDForElement:element];
       }
 
-      NSString *internalElementID;
       // Get the internal element ID we store.
-      for (NSString *key in [_elementToState keyEnumerator]) {
-        if ([key isEqualToString:potentialInternalElementID]) {
-          internalElementID = key;
-          break;
-        }
-      }
+      NSString *internalElementID = [_elementIDs member:potentialInternalElementID];
 
       if (!internalElementID) {
         if (element) {
@@ -247,24 +278,27 @@ static pthread_mutex_t gStateLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
 
       // Always return a copy of internalElementID.
       elementIDToReturn = [NSString stringWithFormat:@"%@", internalElementID];
-      NSNumber *originalStateNumber = [_elementToState objectForKey:internalElementID];
+      NSNumber *originalStateNumber = [_elementIDToState objectForKey:internalElementID];
       GREYAppState originalState =
           originalStateNumber ? [originalStateNumber unsignedIntegerValue] : kGREYIdle;
       GREYAppState newState = busy ? (originalState | state) : (originalState & ~state);
 
       if (newState == kGREYIdle) {
-        [_elementToState removeObjectForKey:internalElementID];
-        [_elementToCallStack removeObjectForKey:internalElementID];
+        [_elementIDs removeObject:internalElementID];
+        [_elementIDToState removeObjectForKey:internalElementID];
+        [_elementIDToCallStack removeObjectForKey:internalElementID];
         if (element) {
           objc_setAssociatedObject(element, stateAssociationKey, nil, OBJC_ASSOCIATION_ASSIGN);
         }
       } else {
-        // Add internalElementID to underlying element. When the underlying element deallocates,
-        // we expect internalElementID to deallocate as well, causing it to be removed from
-        // _elementToState and _elementToCallStack because it is a weakly held key.
-        [_elementToState setObject:@(newState) forKey:internalElementID];
+        // Track the element with internalElementID. When internalElementID's underlying element
+        // deallocates, we expect internalElementID to deallocate as well, causing it to be removed
+        // from _elementIDs, _elementIDToState, and _elementIDToCallStack because it is a weakly
+        // held key.
+        [_elementIDs addObject:internalElementID];
+        [_elementIDToState setObject:@(newState) forKey:internalElementID];
         // TODO: Consider tracking callStackSymbols for all states, not just the last one.
-        [_elementToCallStack setObject:[NSThread callStackSymbols] forKey:internalElementID];
+        [_elementIDToCallStack setObject:[NSThread callStackSymbols] forKey:internalElementID];
       }
     }
     return elementIDToReturn;
@@ -273,12 +307,9 @@ static pthread_mutex_t gStateLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
 
 - (void)grey_clearState {
   [self grey_performBlockInCriticalSection:^id {
-    while ([_elementToState count] > 0) {
-      [_elementToState removeAllObjects];
-      // _elementToCallStack can also hold references that when removed can enqueue more items to
-      // _elementToState, so we remove both.
-      [_elementToCallStack removeAllObjects];
-    }
+    [_elementIDs removeAllObjects];
+    [_elementIDToState removeAllObjects];
+    [_elementIDToCallStack removeAllObjects];
     return nil;
   }];
 }
@@ -288,7 +319,7 @@ static pthread_mutex_t gStateLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
 - (GREYAppState)grey_lastKnownStateForElement:(id)element {
   return [[self grey_performBlockInCriticalSection:^id {
     NSString *internalElementID = [self grey_elementIDForElement:element];
-    NSNumber *stateNumber = [_elementToState objectForKey:internalElementID];
+    NSNumber *stateNumber = [_elementIDToState objectForKey:internalElementID];
     GREYAppState state = stateNumber ? [stateNumber unsignedIntegerValue] : kGREYIdle;
 
     return @(state);

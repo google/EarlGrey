@@ -23,7 +23,7 @@
 
 #import "GREYBaseTest.h"
 
-static GREYAppState gCurrentUIState;
+static BOOL gAppStateTrackerIdle;
 
 #pragma mark - Test Helpers
 
@@ -59,20 +59,20 @@ static GREYAppState gCurrentUIState;
   NSOperationQueue *_backgroundQueue;
 }
 
-- (GREYAppState)grey_currentState {
-  return gCurrentUIState;
+- (BOOL)grey_isIdle {
+  return gAppStateTrackerIdle;
 }
 
 - (void)setUp {
   [super setUp];
 
-  gCurrentUIState = kGREYIdle;
+  gAppStateTrackerIdle = YES;
 
-  // Swizzle currentState so we can set the UI state to to whatever we like. This is useful for
+  // Swizzle isIdle so we can set the UI state to to whatever we like. This is useful for
   // testing various workflows where UI is in idle and non-idle state.
   method_exchangeImplementations(
-      class_getInstanceMethod([GREYAppStateTracker class], @selector(currentState)),
-      class_getInstanceMethod([self class], @selector(grey_currentState)));
+      class_getInstanceMethod([GREYAppStateTracker class], @selector(isIdle)),
+      class_getInstanceMethod([self class], @selector(grey_isIdle)));
 
   _threadExecutor = [GREYUIThreadExecutor sharedInstance];
 
@@ -87,8 +87,8 @@ static GREYAppState gCurrentUIState;
 - (void)tearDown {
   // Undo swizzling.
   method_exchangeImplementations(
-      class_getInstanceMethod([GREYAppStateTracker class], @selector(currentState)),
-      class_getInstanceMethod([self class], @selector(grey_currentState)));
+      class_getInstanceMethod([GREYAppStateTracker class], @selector(isIdle)),
+      class_getInstanceMethod([self class], @selector(grey_isIdle)));
 
   [[NSOperationQueue mainQueue] cancelAllOperations];
   [_backgroundQueue cancelAllOperations];
@@ -171,7 +171,7 @@ static GREYAppState gCurrentUIState;
 
 - (void)testTimeoutWithUIThreadBusy {
   // We want to force throwing an exception here due to busy UI thread.
-  gCurrentUIState = kGREYPendingDrawCycle;
+  gAppStateTrackerIdle = NO;
 
   NSError *error;
   // We should get exception because UI drain failed.
@@ -237,7 +237,7 @@ static GREYAppState gCurrentUIState;
                                         name:NSStringFromSelector(_cmd)];
   [_threadExecutor drainUntilIdle];
 
-  XCTAssertEqual(kGREYIdle, [GREYAppStateTracker sharedInstance].currentState);
+  XCTAssertTrue([[GREYAppStateTracker sharedInstance] isIdle]);
 }
 
 - (void)testTimeoutWithDrainUntilIdleWithTimeout {
