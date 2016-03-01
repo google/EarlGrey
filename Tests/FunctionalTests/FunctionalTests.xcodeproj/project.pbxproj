@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		596D89BF1C05AB1600025714 /* EarlGrey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 596D89BE1C05AB0600025714 /* EarlGrey.framework */; };
+		615670D41C8658B300A5A7C1 /* testpage.html in Resources */ = {isa = PBXBuildFile; fileRef = 615670D31C8658B300A5A7C1 /* testpage.html */; };
 		FD193FA71BBDDAF900153959 /* FTRAccessibilityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD193F671BBDDAF900153959 /* FTRAccessibilityViewController.m */; };
 		FD193FA81BBDDAF900153959 /* FTRAccessibilityViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FD193F681BBDDAF900153959 /* FTRAccessibilityViewController.xib */; };
 		FD193FA91BBDDAF900153959 /* FTRAccessibleView.m in Sources */ = {isa = PBXBuildFile; fileRef = FD193F6A1BBDDAF900153959 /* FTRAccessibleView.m */; };
@@ -143,6 +144,7 @@
 
 /* Begin PBXFileReference section */
 		596D89B91C05AB0600025714 /* EarlGrey.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = EarlGrey.xcodeproj; path = ../../EarlGrey.xcodeproj; sourceTree = "<group>"; };
+		615670D31C8658B300A5A7C1 /* testpage.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = testpage.html; path = TestRig/Resources/www/testpage.html; sourceTree = SOURCE_ROOT; };
 		FD193F2C1BBDDA4F00153959 /* FunctionalTests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FunctionalTests.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD193F661BBDDAF900153959 /* FTRAccessibilityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FTRAccessibilityViewController.h; path = TestRig/Sources/FTRAccessibilityViewController.h; sourceTree = SOURCE_ROOT; };
 		FD193F671BBDDAF900153959 /* FTRAccessibilityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FTRAccessibilityViewController.m; path = TestRig/Sources/FTRAccessibilityViewController.m; sourceTree = SOURCE_ROOT; };
@@ -219,7 +221,6 @@
 		FD193FDA1BBDDB3000153959 /* ic_local_cafe_48pt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ic_local_cafe_48pt.png; path = TestRig/Resources/ic_local_cafe_48pt.png; sourceTree = SOURCE_ROOT; };
 		FD193FDB1BBDDB3000153959 /* ic_local_cafe_48pt@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ic_local_cafe_48pt@2x.png"; path = "TestRig/Resources/ic_local_cafe_48pt@2x.png"; sourceTree = SOURCE_ROOT; };
 		FD193FDC1BBDDB3000153959 /* ic_local_cafe_48pt@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ic_local_cafe_48pt@3x.png"; path = "TestRig/Resources/ic_local_cafe_48pt@3x.png"; sourceTree = SOURCE_ROOT; };
-		FD193FDD1BBDDB3000153959 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; name = www; path = TestRig/Resources/www; sourceTree = SOURCE_ROOT; };
 		FD193FF11BBDDBE800153959 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		FD193FF31BBDDBED00153959 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		FD193FF51BBDDBF500153959 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -308,6 +309,14 @@
 				596D89BE1C05AB0600025714 /* EarlGrey.framework */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		615670D11C86583A00A5A7C1 /* www */ = {
+			isa = PBXGroup;
+			children = (
+				615670D31C8658B300A5A7C1 /* testpage.html */,
+			);
+			name = www;
 			sourceTree = "<group>";
 		};
 		FD193F231BBDDA4F00153959 = {
@@ -443,7 +452,7 @@
 				FD193FDA1BBDDB3000153959 /* ic_local_cafe_48pt.png */,
 				FD193FDB1BBDDB3000153959 /* ic_local_cafe_48pt@2x.png */,
 				FD193FDC1BBDDB3000153959 /* ic_local_cafe_48pt@3x.png */,
-				FD193FDD1BBDDB3000153959 /* www */,
+				615670D11C86583A00A5A7C1 /* www */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -613,6 +622,7 @@
 				FD193FDF1BBDDB3000153959 /* Default-667@2x.png in Resources */,
 				FD193FB61BBDDAF900153959 /* FTRCollectionViewController.xib in Resources */,
 				FD193FA81BBDDAF900153959 /* FTRAccessibilityViewController.xib in Resources */,
+				615670D41C8658B300A5A7C1 /* testpage.html in Resources */,
 				FD193FBB1BBDDAF900153959 /* FTRMainViewController.xib in Resources */,
 				FD193FE41BBDDB3000153959 /* ic_local_cafe_48pt.png in Resources */,
 				FD60CB5F1C5B5A6F00F8E318 /* FTRActionSheetViewController.xib in Resources */,
