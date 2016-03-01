@@ -98,8 +98,8 @@
   return [[GREYTapAction alloc] initLongPressWithDuration:duration location:point];
 }
 
-+ (id<GREYAction>)actionForDoubleTap {
-  return [[GREYTapAction alloc] initWithType:kGREYTapTypeMultiple numberOfTaps:2];
++ (id<GREYAction>)actionForMultipleTapsWithCount:(NSUInteger)count {
+  return [[GREYTapAction alloc] initWithType:kGREYTapTypeMultiple numberOfTaps:count];
 }
 
 // The |amount| is in points
@@ -334,7 +334,11 @@
 #if !(GREY_DISABLE_SHORTHAND)
 
 id<GREYAction> grey_doubleTap(void) {
-  return [GREYActions actionForDoubleTap];
+  return [GREYActions actionForMultipleTapsWithCount:2];
+}
+
+id<GREYAction> grey_multipleTapsWithCount(NSUInteger count) {
+  return [GREYActions actionForMultipleTapsWithCount:count];
 }
 
 id<GREYAction> grey_longPress(void) {

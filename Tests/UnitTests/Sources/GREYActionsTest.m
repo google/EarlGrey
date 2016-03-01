@@ -65,10 +65,10 @@
 
 - (void)testMultiTapActionConstraintsFailed {
   UIView *view = [[UIView alloc] init];
-  id<GREYAction> doubleTap = [GREYActions actionForDoubleTap];
+  id<GREYAction> doubleTap = [GREYActions actionForMultipleTapsWithCount:2];
   @try {
     [doubleTap perform:view error:nil];
-    XCTFail(@"Should have thrown an assertion");
+    XCTFail(@"Should have thrown an exception");
   } @catch (NSException *exception) {
     NSString *reason =
         [NSString stringWithFormat:@"Action could not be performed on element '%@' because it "
@@ -81,6 +81,14 @@
                           [exception reason],
                           @"Did we change the exception reason?");
   }
+}
+
+- (void)testMultiTapActionWithZeroTapCount {
+  XCTAssertThrowsSpecificNamed([GREYActions actionForMultipleTapsWithCount:0],
+                               NSException,
+                               NSInternalInconsistencyException,
+                               @"Should throw an exception for initializing a tap action with "
+                               @" zero tap count.");
 }
 
 - (void)testTurnSwitchActionConstraintsFailed {
