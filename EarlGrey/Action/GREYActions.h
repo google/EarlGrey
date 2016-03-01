@@ -26,9 +26,9 @@
 @interface GREYActions : NSObject
 
 /**
- *  @return A GREYAction that performs double tap on an element.
+ *  @return A GREYAction that performs multiple taps of a specified @c count.
  */
-+ (id<GREYAction>)actionForDoubleTap;
++ (id<GREYAction>)actionForMultipleTapsWithCount:(NSUInteger)count;
 
 /**
  *  Returns an action that holds down finger for 1.0 second (@c kGREYLongPressDefaultDuration) to
@@ -236,34 +236,37 @@
 + (id<GREYAction>)actionForSnapshot:(out __strong UIImage **)outImage;
 
 #if !(GREY_DISABLE_SHORTHAND)
-/** Shorthand macro for GREYActions::doubleTap. */
+/** Shorthand macro for GREYActions::actionForMultipleTapsWithCount: with count @c 2. */
 GREY_EXPORT id<GREYAction> grey_doubleTap(void);
 
-/** Shorthand macro for GREYActions::longPress. */
+/** Shorthand macro for GREYActions::actionForMultipleTapsWithCount:. */
+GREY_EXPORT id<GREYAction> grey_multipleTapsWithCount(NSUInteger count);
+
+/** Shorthand macro for GREYActions::actionForLongPress. */
 GREY_EXPORT id<GREYAction> grey_longPress(void);
 
-/** Shorthand macro for GREYActions::longPressWithDuration:. */
+/** Shorthand macro for GREYActions::actionForLongPressWithDuration:. */
 GREY_EXPORT id<GREYAction> grey_longPressWithDuration(CFTimeInterval duration);
 
-/** Shorthand macro for GREYActions::longPressAtPoint:duration:. */
+/** Shorthand macro for GREYActions::actionForLongPressAtPoint:duration:. */
 GREY_EXPORT id<GREYAction> grey_longPressAtPointWithDuration(CGPoint point,
                                                              CFTimeInterval duration);
 
-/** Shorthand macro for GREYActions::scrollInDirection:amount:. */
+/** Shorthand macro for GREYActions::actionForScrollInDirection:amount:. */
 GREY_EXPORT id<GREYAction> grey_scrollInDirection(GREYDirection direction, CGFloat amount);
 
-/** Shorthand macro for GREYActions::scrollToContentEdge:. */
+/** Shorthand macro for GREYActions::actionForScrollToContentEdge:. */
 GREY_EXPORT id<GREYAction> grey_scrollToContentEdge(GREYContentEdge edge);
 
-/** Shorthand macro for GREYActions::swipeFastInDirection:. */
+/** Shorthand macro for GREYActions::actionForSwipeFastInDirection:. */
 GREY_EXPORT id<GREYAction> grey_swipeFastInDirection(GREYDirection direction);
 
-/** Shorthand macro for GREYActions::swipeSlowInDirection:. */
+/** Shorthand macro for GREYActions::actionForSwipeSlowInDirection:. */
 GREY_EXPORT id<GREYAction> grey_swipeSlowInDirection(GREYDirection direction);
 
 /**
  *  Shorthand macro for
- *  GREYActions::swipeFastInDirection:xOriginStartPercentage:yOriginStartPercentage:.
+ *  GREYActions::actionForSwipeFastInDirection:xOriginStartPercentage:yOriginStartPercentage:.
  */
 GREY_EXPORT id<GREYAction> grey_swipeFastInDirectionWithStartPoint(GREYDirection direction,
                                                                    CGFloat xStartPoint,
@@ -271,43 +274,43 @@ GREY_EXPORT id<GREYAction> grey_swipeFastInDirectionWithStartPoint(GREYDirection
 
 /**
  *  Shorthand macro for
- *  GREYActions::swipeSlowInDirection:xOriginStartPercentage:yOriginStartPercentage:.
+ *  GREYActions::actionForSwipeSlowInDirection:xOriginStartPercentage:yOriginStartPercentage:.
  */
 GREY_EXPORT id<GREYAction> grey_swipeSlowInDirectionWithStartPoint(GREYDirection direction,
                                                                    CGFloat xStartPoint,
                                                                    CGFloat yStartPoint);
 
-/** Shorthand macro for GREYActions::moveSliderToValue:. */
+/** Shorthand macro for GREYActions::actionForMoveSliderToValue:. */
 GREY_EXPORT id<GREYAction> grey_moveSliderToValue(float value);
 
-/** Shorthand macro for GREYActions::setStepperValue:. */
+/** Shorthand macro for GREYActions::actionForSetStepperValue:. */
 GREY_EXPORT id<GREYAction> grey_setStepperValue(double value);
 
-/** Shorthand macro for GREYActions::tap. */
+/** Shorthand macro for GREYActions::actionForTap. */
 GREY_EXPORT id<GREYAction> grey_tap(void);
 
-/** Shorthand macro for GREYActions::tapAtPoint:. */
+/** Shorthand macro for GREYActions::actionForTapAtPoint:. */
 GREY_EXPORT id<GREYAction> grey_tapAtPoint(CGPoint point);
 
-/** Shorthand macro for GREYActions::type:. */
+/** Shorthand macro for GREYActions::actionForType:. */
 GREY_EXPORT id<GREYAction> grey_typeText(NSString *text);
 
-/** Shorthand macro for GREYActions::clearText. */
+/** Shorthand macro for GREYActions::actionForClearText. */
 GREY_EXPORT id<GREYAction> grey_clearText(void);
 
-/** Shorthand macro for GREYActions::turnSwitchOn:. */
+/** Shorthand macro for GREYActions::actionForTurnSwitchOn:. */
 GREY_EXPORT id<GREYAction> grey_turnSwitchOn(BOOL on);
 
-/** Shorthand macro for GREYActions::setDate:. */
+/** Shorthand macro for GREYActions::actionForSetDate:. */
 GREY_EXPORT id<GREYAction> grey_setDate(NSDate *date);
 
-/** Shorthand macro for GREYActions::setPickerColumn:toValue:. */
+/** Shorthand macro for GREYActions::actionForSetPickerColumn:toValue:. */
 GREY_EXPORT id<GREYAction> grey_setPickerColumnToValue(NSInteger column, NSString *value);
 
-/** Shorthand macro for GREYActions::javaScriptExecution:output:. */
+/** Shorthand macro for GREYActions::actionForJavaScriptExecution:output:. */
 GREY_EXPORT id<GREYAction> grey_javaScriptExecution(NSString *js, __strong NSString **outResult);
 
-/** Shorthand macro for GREYActions::snapshot:. */
+/** Shorthand macro for GREYActions::actionForSnapshot:. */
 GREY_EXPORT id<GREYAction> grey_snapshot(__strong UIImage **outImage);
 
 #endif // GREY_DISABLE_SHORTHAND

@@ -176,15 +176,7 @@
   } else if (amount == 2) {
     return grey_doubleTap();
   } else {
-    return [GREYActionBlock actionWithName:@"Tap Amount"
-                              performBlock:^BOOL(id element, NSError *__strong *errorOrNil) {
-      for (int i = 0; i < amount; i++) {
-        if (![[GREYActions actionForTap] perform:element error:errorOrNil]) {
-          return NO;
-        }
-      }
-      return YES;
-    }];
+    return grey_multipleTapsWithCount((NSUInteger)amount);
   }
 }
 

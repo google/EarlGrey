@@ -82,6 +82,7 @@
                 numberOfTaps:(NSUInteger)numberOfTaps
                     duration:(CFTimeInterval)duration
                     location:(CGPoint)tapLocation {
+  NSAssert((numberOfTaps > 0), @"You cannot initialize a tap action with zero taps.");
   NSString *name = [GREYTapAction grey_actionNameWithTapType:tapType
                                                     duration:duration
                                                 numberOfTaps:numberOfTaps];
