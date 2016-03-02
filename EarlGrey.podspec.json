@@ -50,7 +50,7 @@
     "vendored_frameworks": "EarlGrey-1.0.0/EarlGrey.framework"
   },
   "pod_target_xcconfig": {
-    "FRAMEWORK_SEARCH_PATHS": "$(inherited) $(PLATFORM_DIR)/Developer/Library/Frameworks $(PLATFORM_DIR)/System/Library/Frameworks",
+    "FRAMEWORK_SEARCH_PATHS": "$(inherited) $(PLATFORM_DIR)/Developer/Library/Frameworks",
     "ENABLE_BITCODE": "NO",
     "OTHER_CFLAGS": "-fobjc-arc-exceptions"
   }
