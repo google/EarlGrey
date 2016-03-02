@@ -959,7 +959,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-					"$(PLATFORM_DIR)/System/Library/Frameworks",
 					"$(PROJECT_DIR)",
 				);
 				HEADER_SEARCH_PATHS = (
@@ -1019,7 +1018,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-					"$(PLATFORM_DIR)/System/Library/Frameworks",
 					"$(PROJECT_DIR)",
 				);
 				HEADER_SEARCH_PATHS = (
