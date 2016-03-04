@@ -38,7 +38,7 @@
   for (int i = 0; i < 5; i++) {
     NSString *labelForRowToDelete = [NSString stringWithFormat:@"Row %d", i];
     [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(labelForRowToDelete)]
-        performAction:grey_swipeFastInDirection(kGREYDirectionLeft)];
+        performAction:grey_swipeSlowInDirection(kGREYDirectionLeft)];
     [[EarlGrey selectElementWithMatcher:deleteRowMatcher] performAction:grey_tap()];
     [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(labelForRowToDelete)]
         assertWithMatcher:grey_notVisible()];
@@ -161,7 +161,7 @@
                                                       descriptionBlock:describe],
                  nil);
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"main_table_view")]
-      performAction:grey_swipeFastInDirection(kGREYDirectionDown)]
+      performAction:grey_swipeSlowInDirection(kGREYDirectionDown)]
       assertWithMatcher:matchers];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Row 1")]
       assertWithMatcher:grey_sufficientlyVisible()];
