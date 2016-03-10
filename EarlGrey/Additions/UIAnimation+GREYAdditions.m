@@ -16,7 +16,7 @@
 
 #import "Additions/UIAnimation+GREYAdditions.h"
 
-#import <objc/runtime.h>
+#include <objc/runtime.h>
 
 #import "Common/GREYSwizzler.h"
 #import "Synchronization/GREYAppStateTracker.h"

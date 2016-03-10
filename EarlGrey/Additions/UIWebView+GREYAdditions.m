@@ -17,7 +17,7 @@
 #import "Additions/UIWebView+GREYAdditions.h"
 
 #import <UIKit/UIKit.h>
-#import <objc/runtime.h>
+#include <objc/runtime.h>
 
 #import "Common/GREYSwizzler.h"
 #import "Delegate/GREYUIWebViewDelegate.h"

@@ -16,7 +16,7 @@
 
 #import "Additions/UIView+GREYAdditions.h"
 
-#import <objc/runtime.h>
+#include <objc/runtime.h>
 
 #import "Additions/NSObject+GREYAdditions.h"
 #import "Common/GREYConstants.h"

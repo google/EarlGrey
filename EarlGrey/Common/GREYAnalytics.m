@@ -16,7 +16,7 @@
 
 #import "Common/GREYAnalytics.h"
 
-#import <XCTest/XCTestSuite.h>
+#import <XCTest/XCTest.h>
 
 #import "Additions/NSString+GREYAdditions.h"
 #import "Additions/XCTestCase+GREYAdditions.h"

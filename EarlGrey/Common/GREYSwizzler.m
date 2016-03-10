@@ -16,8 +16,8 @@
 
 #import "Common/GREYSwizzler.h"
 
-#import <dlfcn.h>
-#import <objc/runtime.h>
+#include <dlfcn.h>
+#include <objc/runtime.h>
 
 #import "Common/GREYDefines.h"
 

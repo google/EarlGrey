@@ -75,7 +75,9 @@
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait errorOrNil:nil];
 
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeLeft errorOrNil:nil];
-  [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait];
+  BOOL isStatusBarOrientationPortrait =
+      UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation);
+  XCTAssert(isStatusBarOrientationPortrait, @"Status Bar orientation should be Portrait.");
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait errorOrNil:nil];
   XCTAssertTrue([UIDevice currentDevice].orientation == UIDeviceOrientationPortrait,
                 @"Device orientation should now be portrait");

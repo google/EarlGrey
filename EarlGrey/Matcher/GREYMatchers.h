@@ -465,7 +465,7 @@ GREY_EXPORT id<GREYMatcher> grey_switchWithOnState(BOOL on);
 GREY_EXPORT id<GREYMatcher> grey_closeTo(double value, double delta);
 
 /** Shorthand for GREYMatchers::matcherForAnything. */
-GREY_EXPORT id<GREYMatcher> grey_anything();
+GREY_EXPORT id<GREYMatcher> grey_anything(void);
 
 /** Shorthand for GREYMatchers::matcherForEqualTo:object. */
 GREY_EXPORT id<GREYMatcher> grey_equalTo(id value);

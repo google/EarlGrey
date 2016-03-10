@@ -16,7 +16,7 @@
 
 #import "Additions/_UIGestureRecognizerFailureMap_GREYAdditions.h"
 
-#import <objc/runtime.h>
+#include <objc/runtime.h>
 
 #import "Common/GREYSwizzler.h"
 #import "Synchronization/GREYAppStateTracker.h"

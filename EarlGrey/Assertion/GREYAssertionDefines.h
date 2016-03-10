@@ -41,8 +41,8 @@ GREY_EXTERN id<GREYFailureHandler> greyFailureHandler;
  *  @param ...      Args used to generate the failure description from the reason string format.
  */
 #define GREYAssert(__a1, __reason, ...) \
-  __GREYSetCurrentAsFailable(); \
-  __GREYAssert(__a1, __reason, ##__VA_ARGS__)
+  I_GREYSetCurrentAsFailable(); \
+  I_GREYAssert(__a1, __reason, ##__VA_ARGS__)
 
 /**
  *  Generates a failure with the provided @c __reason if the expression @c __a1 evaluates to @c NO.
@@ -53,8 +53,8 @@ GREY_EXTERN id<GREYFailureHandler> greyFailureHandler;
  *  @param ...      Args used to generate the failure description from the reason string format.
  */
 #define GREYAssertTrue(__a1, __reason, ...) \
-  __GREYSetCurrentAsFailable(); \
-  __GREYAssertTrue(__a1, __reason, ##__VA_ARGS__)
+  I_GREYSetCurrentAsFailable(); \
+  I_GREYAssertTrue(__a1, __reason, ##__VA_ARGS__)
 
 /**
  *  Generates a failure with the provided @c __reason if the expression @c __a1 evaluates to @c YES.
@@ -65,8 +65,8 @@ GREY_EXTERN id<GREYFailureHandler> greyFailureHandler;
  *  @param ...      Args used to generate the failure description from the reason string format.
  */
 #define GREYAssertFalse(__a1, __reason, ...) \
-  __GREYSetCurrentAsFailable(); \
-  __GREYAssertFail(__a1, __reason, ##__VA_ARGS__)
+  I_GREYSetCurrentAsFailable(); \
+  I_GREYAssertFail(__a1, __reason, ##__VA_ARGS__)
 
 /**
  *  Generates a failure with the provided @c __reason if the expression @c __a1 is @c nil.
@@ -77,8 +77,8 @@ GREY_EXTERN id<GREYFailureHandler> greyFailureHandler;
  *  @param ...      Args used to generate the failure description from the reason string format.
  */
 #define GREYAssertNotNil(__a1, __reason, ...) \
-  __GREYSetCurrentAsFailable(); \
-  __GREYAssertNotNil(__a1, __reason, ##__VA_ARGS__)
+  I_GREYSetCurrentAsFailable(); \
+  I_GREYAssertNotNil(__a1, __reason, ##__VA_ARGS__)
 
 /**
  *  Generates a failure with the provided @c __reason if the expression @c __a1 is not @c nil.
@@ -89,8 +89,8 @@ GREY_EXTERN id<GREYFailureHandler> greyFailureHandler;
  *  @param ...      Args used to generate the failure description from the reason string format.
  */
 #define GREYAssertNil(__a1, __reason, ...) \
-  __GREYSetCurrentAsFailable(); \
-  __GREYAssertNil(__a1, __reason, ##__VA_ARGS__)
+  I_GREYSetCurrentAsFailable(); \
+  I_GREYAssertNil(__a1, __reason, ##__VA_ARGS__)
 
 /**
  *  Generates a failure with the provided @c __reason if the @c __a1 and @c __a2 are not equal.
@@ -103,8 +103,8 @@ GREY_EXTERN id<GREYFailureHandler> greyFailureHandler;
  *  @param ...      Args used to generate the failure description from the reason string format.
  */
 #define GREYAssertEqual(__a1, __a2, __reason, ...) \
-  __GREYSetCurrentAsFailable(); \
-  __GREYAssertEqual(__a1, __a2, __reason, ##__VA_ARGS__)
+  I_GREYSetCurrentAsFailable(); \
+  I_GREYAssertEqual(__a1, __a2, __reason, ##__VA_ARGS__)
 
 /**
  *  Generates a failure unconditionally, with the provided @c __reason.
@@ -114,8 +114,8 @@ GREY_EXTERN id<GREYFailureHandler> greyFailureHandler;
  *  @param ...       Parameters used to generate the failure description from the reason string.
  */
 #define GREYFail(__reason, ...) \
-  __GREYSetCurrentAsFailable(); \
-  __GREYFail(__reason, ##__VA_ARGS__)
+  I_GREYSetCurrentAsFailable(); \
+  I_GREYFail(__reason, ##__VA_ARGS__)
 
 /**
  *  Generates a failure unconditionally, with the provided @c __reason and @c __details.
@@ -126,8 +126,8 @@ GREY_EXTERN id<GREYFailureHandler> greyFailureHandler;
  *  @param ...       Parameters used to generate the failure description from the reason string.
  */
 #define GREYFailWithDetails(__reason, __details, ...)  \
-  __GREYSetCurrentAsFailable(); \
-  __GREYFailWithDetails(__reason, __details, ##__VA_ARGS__)
+  I_GREYSetCurrentAsFailable(); \
+  I_GREYFailWithDetails(__reason, __details, ##__VA_ARGS__)
 
 #pragma mark - Private Use By Framework Only
 
@@ -136,7 +136,7 @@ GREY_EXTERN id<GREYFailureHandler> greyFailureHandler;
 
 /// @cond INTERNAL
 
-#define __GREYFormattedString(__var, __format, ...) \
+#define I_GREYFormattedString(__var, __format, ...) \
   do { \
     /* clang warns us about a leak in formatting but we don't care as we are about to fail. */ \
     _Pragma("clang diagnostic push") \
@@ -146,17 +146,17 @@ GREY_EXTERN id<GREYFailureHandler> greyFailureHandler;
     _Pragma("clang diagnostic pop") \
   } while (NO)
 
-#define __GREYRegisterFailure(__exceptionName, __reason, __details, ...) \
+#define I_GREYRegisterFailure(__exceptionName, __reason, __details, ...) \
   do { \
     NSString *details__; \
-    __GREYFormattedString(details__, __details, ##__VA_ARGS__); \
+    I_GREYFormattedString(details__, __details, ##__VA_ARGS__); \
     [greyFailureHandler handleException:[GREYFrameworkException exceptionWithName:__exceptionName \
                                                                            reason:__reason] \
                               details:details__]; \
   } while (NO)
 
 // No private macro should call this.
-#define __GREYSetCurrentAsFailable() \
+#define I_GREYSetCurrentAsFailable() \
   do { \
     if ([greyFailureHandler respondsToSelector:@selector(setInvocationFile:andInvocationLine:)]) { \
       [greyFailureHandler setInvocationFile:[NSString stringWithUTF8String:__FILE__] \
@@ -164,89 +164,89 @@ GREY_EXTERN id<GREYFailureHandler> greyFailureHandler;
     } \
   } while (NO)
 
-#define __GREYAssert(__a1, __reason, ...) \
+#define I_GREYAssert(__a1, __reason, ...) \
   do { \
     if (!(__a1)) { \
       NSString *formattedReason__; \
-      __GREYFormattedString(formattedReason__, __reason, ##__VA_ARGS__); \
-      __GREYRegisterFailure(kGREYAssertionFailedException, formattedReason__, @""); \
+      I_GREYFormattedString(formattedReason__, __reason, ##__VA_ARGS__); \
+      I_GREYRegisterFailure(kGREYAssertionFailedException, formattedReason__, @""); \
     } \
   } while(NO)
 
-#define __GREYAssertTrue(__a1, __reason, ...) \
+#define I_GREYAssertTrue(__a1, __reason, ...) \
   do { \
     if ((__a1) == NO) { \
       NSString *formattedReason__; \
-      __GREYFormattedString(formattedReason__, __reason, ##__VA_ARGS__); \
-      __GREYRegisterFailure(kGREYAssertionFailedException, \
+      I_GREYFormattedString(formattedReason__, __reason, ##__VA_ARGS__); \
+      I_GREYRegisterFailure(kGREYAssertionFailedException, \
           formattedReason__, \
           @"Expected expression to be True but it was False."); \
     } \
   } while(NO)
 
-#define __GREYAssertFalse(__a1, __reason, ...) \
+#define I_GREYAssertFalse(__a1, __reason, ...) \
   do { \
     if ((__a1) != NO) { \
       NSString *formattedReason__; \
-      __GREYFormattedString(formattedReason__, __reason, ##__VA_ARGS__); \
-      __GREYRegisterFailure(kGREYAssertionFailedException, \
+      I_GREYFormattedString(formattedReason__, __reason, ##__VA_ARGS__); \
+      I_GREYRegisterFailure(kGREYAssertionFailedException, \
           formattedReason__, \
           @"Expected expression to be False but it was True."); \
     } \
   } while(NO)
 
-#define __GREYAssertNotNil(__a1, __reason, ...) \
+#define I_GREYAssertNotNil(__a1, __reason, ...) \
   do { \
     if ((__a1) == nil) { \
       NSString *formattedReason__; \
-      __GREYFormattedString(formattedReason__, __reason, ##__VA_ARGS__); \
-      __GREYRegisterFailure(kGREYNotNilException, formattedReason__, @""); \
+      I_GREYFormattedString(formattedReason__, __reason, ##__VA_ARGS__); \
+      I_GREYRegisterFailure(kGREYNotNilException, formattedReason__, @""); \
     } \
   } while(NO)
 
-#define __GREYAssertNil(__a1, __reason, ...) \
+#define I_GREYAssertNil(__a1, __reason, ...) \
   do { \
     if ((__a1) != nil) { \
       NSString *formattedReason__; \
-      __GREYFormattedString(formattedReason__, __reason, ##__VA_ARGS__); \
-      __GREYRegisterFailure(kGREYNilException, formattedReason__, @""); \
+      I_GREYFormattedString(formattedReason__, __reason, ##__VA_ARGS__); \
+      I_GREYRegisterFailure(kGREYNilException, formattedReason__, @""); \
     } \
   } while(NO)
 
-#define __GREYAssertEqual(__a1, __a2, __reason, ...) \
+#define I_GREYAssertEqual(__a1, __a2, __reason, ...) \
   do { \
     if ((__a1) != (__a2)) { \
       NSString *formattedReason__; \
-      __GREYFormattedString(formattedReason__, __reason, ##__VA_ARGS__); \
-      __GREYRegisterFailure(kGREYAssertionFailedException, formattedReason__, @""); \
+      I_GREYFormattedString(formattedReason__, __reason, ##__VA_ARGS__); \
+      I_GREYRegisterFailure(kGREYAssertionFailedException, formattedReason__, @""); \
     } \
   } while(NO)
 
-#define __GREYFail(__reason, ...) \
+#define I_GREYFail(__reason, ...) \
   NSString *formattedReason__; \
-  __GREYFormattedString(formattedReason__, __reason, ##__VA_ARGS__); \
-  __GREYRegisterFailure(kGREYGenericFailureException, formattedReason__, @"")
+  I_GREYFormattedString(formattedReason__, __reason, ##__VA_ARGS__); \
+  I_GREYRegisterFailure(kGREYGenericFailureException, formattedReason__, @"")
 
-#define __GREYFailWithDetails(__reason, __details, ...)  \
-  __GREYRegisterFailure(kGREYGenericFailureException, __reason, __details, ##__VA_ARGS__)
+#define I_GREYFailWithDetails(__reason, __details, ...)  \
+  I_GREYRegisterFailure(kGREYGenericFailureException, __reason, __details, ##__VA_ARGS__)
 
-#define __GREYTimeout(__reason, __details, ...) \
-  __GREYRegisterFailure(kGREYTimeoutException, __reason, __details, ##__VA_ARGS__)
+#define I_GREYTimeout(__reason, __details, ...) \
+  I_GREYRegisterFailure(kGREYTimeoutException, __reason, __details, ##__VA_ARGS__)
 
-#define __GREYActionFail(__reason, __details, ...) \
-  __GREYRegisterFailure(kGREYActionFailedException, __reason, __details, ##__VA_ARGS__)
+#define I_GREYActionFail(__reason, __details, ...) \
+  I_GREYRegisterFailure(kGREYActionFailedException, __reason, __details, ##__VA_ARGS__)
 
-#define __GREYAssertionFail(__reason, __details, ...) \
-  __GREYRegisterFailure(kGREYAssertionFailedException, __reason, __details, ##__VA_ARGS__)
+#define I_GREYAssertionFail(__reason, __details, ...) \
+  I_GREYRegisterFailure(kGREYAssertionFailedException, __reason, __details, ##__VA_ARGS__)
 
-#define __GREYElementNotFound(__reason, __details, ...) \
-  __GREYRegisterFailure(kGREYNoMatchingElementException, __reason, __details, ##__VA_ARGS__)
+#define I_GREYElementNotFound(__reason, __details, ...) \
+  I_GREYRegisterFailure(kGREYNoMatchingElementException, __reason, __details, ##__VA_ARGS__)
 
-#define __GREYMultipleElementsFound(__reason, __details, ...) \
-  __GREYRegisterFailure(kGREYMultipleElementsFoundException, __reason, __details, ##__VA_ARGS__)
+#define I_GREYMultipleElementsFound(__reason, __details, ...) \
+  I_GREYRegisterFailure(kGREYMultipleElementsFoundException, __reason, __details, ##__VA_ARGS__)
 
-#define __CHECK_MAIN_THREAD() \
-  __GREYAssert([NSThread isMainThread], @"Must be on the main thread.")
+#define I_CHECK_MAIN_THREAD() \
+  I_GREYAssert([NSThread isMainThread], @"Must be on the main thread.")
 
 /// @endcond
 

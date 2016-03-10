@@ -16,8 +16,8 @@
 
 #import "Synchronization/GREYAppStateTracker.h"
 
-#import <objc/runtime.h>
-#import <pthread.h>
+#include <objc/runtime.h>
+#include <pthread.h>
 
 #import "Additions/NSObject+GREYAdditions.h"
 #import "Common/GREYDefines.h"

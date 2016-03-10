@@ -71,7 +71,7 @@
 #pragma mark - GREYProvider
 
 - (NSEnumerator *)dataEnumerator {
-  __CHECK_MAIN_THREAD();
+  I_CHECK_MAIN_THREAD();
 
   NSEnumerator *enumerator;
   if (_rootElements) {

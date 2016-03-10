@@ -16,7 +16,7 @@
 
 #import "Action/GREYPathGestureUtils.h"
 
-#import <objc/message.h>
+#include <objc/message.h>
 
 #import "Additions/CGGeometry+GREYAdditions.h"
 #import "Additions/UIScrollView+GREYAdditions.h"

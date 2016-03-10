@@ -16,8 +16,8 @@
 
 #import "Additions/UIScrollView+GREYAdditions.h"
 
-#import <objc/message.h>
-#import <objc/runtime.h>
+#include <objc/message.h>
+#include <objc/runtime.h>
 
 #import "Common/GREYExposed.h"
 #import "Common/GREYSwizzler.h"

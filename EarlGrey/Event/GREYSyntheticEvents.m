@@ -39,7 +39,7 @@ NSString *const kGREYSyntheticEventInjectionErrorDomain =
 
 + (BOOL)rotateDeviceToOrientation:(UIDeviceOrientation)deviceOrientation
                        errorOrNil:(__strong NSError **)errorOrNil {
-  __CHECK_MAIN_THREAD();
+  I_CHECK_MAIN_THREAD();
 
   NSError *error;
   UIDeviceOrientation initialDeviceOrientation = [[UIDevice currentDevice] orientation];
@@ -51,7 +51,7 @@ NSString *const kGREYSyntheticEventInjectionErrorDomain =
     if (errorOrNil) {
       *errorOrNil = error;
     } else {
-      __GREYFail(@"Failed to change device orientation due to error: %@", error);
+      I_GREYFail(@"Failed to change device orientation due to error: %@", error);
     }
   } else if (deviceOrientation != [[UIDevice currentDevice] orientation]) {
     NSString *errorDescription =
@@ -66,7 +66,7 @@ NSString *const kGREYSyntheticEventInjectionErrorDomain =
                                     userInfo:userInfo];
       return NO;
     } else {
-      __GREYFail(@"Device orientation could not be set to %@ from %@.",
+      I_GREYFail(@"Device orientation could not be set to %@ from %@.",
                  NSStringFromUIDeviceOrientation(deviceOrientation),
                  NSStringFromUIDeviceOrientation(initialDeviceOrientation));
     }

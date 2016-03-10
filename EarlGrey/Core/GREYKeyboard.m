@@ -16,7 +16,7 @@
 
 #import "Core/GREYKeyboard.h"
 
-#import <objc/runtime.h>
+#include <objc/runtime.h>
 
 #import "Action/GREYTapAction.h"
 #import "Additions/NSError+GREYAdditions.h"

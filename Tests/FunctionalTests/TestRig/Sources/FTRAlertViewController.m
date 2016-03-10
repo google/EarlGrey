@@ -16,6 +16,15 @@
 
 #import "FTRAlertViewController.h"
 
+@interface FTRAlertViewController()
+
+#if !defined(__IPHONE_9_0) || (__IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_9_0)
+@property (strong, nonatomic) UIAlertView *alertView;
+#else
+@property (strong, nonatomic) UIAlertController *alertController;
+#endif
+@end
+
 @implementation FTRAlertViewController
 
 - (instancetype)init {
@@ -23,38 +32,52 @@
   return nil;
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+  [super viewWillDisappear:animated];
+
+#if !defined(__IPHONE_9_0) || (__IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_9_0)
+  if (!CGRectEqualToRect(self.alertView.frame, CGRectZero)) {
+    [self.alertView dismissWithClickedButtonIndex:[self.alertView cancelButtonIndex] animated:NO];
+  }
+#else
+  if (!CGRectEqualToRect(self.alertController.view.frame, CGRectZero)) {
+    [self.alertController dismissViewControllerAnimated:NO completion:nil];
+  }
+#endif
+}
+
 - (IBAction)showSimpleAlert:(id)sender {
 #if !defined(__IPHONE_9_0) || (__IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_9_0)
-  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Alert!"
-                                                  message:@"Danger Will Robinson!"
-                                                 delegate:nil
-                                        cancelButtonTitle:@"Flee"
-                                        otherButtonTitles:nil];
-  [alert show];
+  self.alertView = [[UIAlertView alloc] initWithTitle:@"Alert!"
+                                              message:@"Danger Will Robinson!"
+                                             delegate:nil
+                                    cancelButtonTitle:@"Flee"
+                                    otherButtonTitles:nil];
+  [self.alertView show];
 #else
-  UIAlertController *alertController =
+  self.alertController =
       [UIAlertController alertControllerWithTitle:@"Alert!"
                                           message:@"Danger Will Robinson!"
                                    preferredStyle:UIAlertControllerStyleAlert];
   UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Flee"
                                                          style:UIAlertActionStyleCancel
                                                        handler:nil];
-  [alertController addAction:cancelAction];
-  [self presentViewController:alertController animated:YES completion:nil];
+  [self.alertController addAction:cancelAction];
+  [self presentViewController:self.alertController animated:YES completion:nil];
 #endif
 }
 
 - (IBAction)showMultiOptionAlert:(id)sender {
 #if !defined(__IPHONE_9_0) || (__IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_9_0)
-  UIAlertView *alert =
+  self.alertView =
       [[UIAlertView alloc] initWithTitle:@"Alert!"
                                  message:@"Danger Will Robinson!"
                                 delegate:self
                        cancelButtonTitle:@"Flee"
                        otherButtonTitles:@"Use Phaser", @"Use Slingshot", nil];
-  [alert show];
+  [self.alertView show];
 #else
-  UIAlertController *alertController =
+  self.alertController =
       [UIAlertController alertControllerWithTitle:@"Alert!"
                                           message:@"Danger Will Robinson!"
                                    preferredStyle:UIAlertControllerStyleAlert];
@@ -72,32 +95,32 @@
   UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Flee"
                                                          style:UIAlertActionStyleCancel
                                                        handler:nil];
-  [alertController addAction:usePhaserAction];
-  [alertController addAction:useSlingshotAction];
-  [alertController addAction:cancelAction];
+  [self.alertController addAction:usePhaserAction];
+  [self.alertController addAction:useSlingshotAction];
+  [self.alertController addAction:cancelAction];
 
-  [self presentViewController:alertController animated:YES completion:nil];
+  [self presentViewController:self.alertController animated:YES completion:nil];
 #endif
 }
 
 - (IBAction)showStyledAlert:(id)sender {
 #if !defined(__IPHONE_9_0) || (__IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_9_0)
-  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Styled alert!"
-                                                  message:@"Who are you?"
-                                                 delegate:self
-                                        cancelButtonTitle:@"Cancel"
-                                        otherButtonTitles:@"Leave", nil];
-  alert.alertViewStyle = UIAlertViewStyleLoginAndPasswordInput;
-  [alert show];
+  self.alertView = [[UIAlertView alloc] initWithTitle:@"Styled alert!"
+                                              message:@"Who are you?"
+                                             delegate:self
+                                    cancelButtonTitle:@"Cancel"
+                                    otherButtonTitles:@"Leave", nil];
+  self.alertView.alertViewStyle = UIAlertViewStyleLoginAndPasswordInput;
+  [self.alertView show];
 #else
-  UIAlertController *alertController =
+  self.alertController =
       [UIAlertController alertControllerWithTitle:@"Styled alert!"
                                           message:@"Who are you?"
                                    preferredStyle:UIAlertControllerStyleAlert];
-  [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+  [self.alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
     textField.placeholder = @"Login";
   }];
-  [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+  [self.alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
     textField.placeholder = @"Password";
     textField.secureTextEntry = YES;
   }];
@@ -112,10 +135,10 @@
   UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel"
                                                          style:UIAlertActionStyleCancel
                                                        handler:nil];
-  [alertController addAction:leaveAction];
-  [alertController addAction:cancelAction];
+  [self.alertController addAction:leaveAction];
+  [self.alertController addAction:cancelAction];
 
-  [self presentViewController:alertController animated:YES completion:nil];
+  [self presentViewController:self.alertController animated:YES completion:nil];
 #endif
 }
 

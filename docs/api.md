@@ -113,7 +113,7 @@ label `Send` **and** is displayed on the screen.
 ```objc
 id<GREYMatcher> visibleSendButtonMatcher =
     grey_allOf(grey_accessibilityLabel(@"Send"), grey_sufficientlyVisible(), nil);
-    
+
 [[EarlGrey selectElementWithMatcher:visibleSendButtonMatcher]
     performAction:grey_tap()];
 ```
@@ -123,7 +123,7 @@ to `Send` and is contained in a UI element that is an instance of the `SendMessa
 
 ```objc
 [[[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Send")]
-           inRoot:grey_kindOfClass([SendMessageView class])] 
+    inRoot:grey_kindOfClass([SendMessageView class])]
     performAction:grey_tap()];
 ```
 
@@ -298,7 +298,7 @@ you with an `NSError` object that contains details about the failure.
 ```objc
 NSError *error;
 [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"ClickMe")]
-    assertWithMatcher:grey_sufficientlyVisible() 
+    assertWithMatcher:grey_sufficientlyVisible()
                 error:&error];
 ```
 

@@ -15,7 +15,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <XCTest/XCTestCase.h>
+#import <XCTest/XCTest.h>
 
 /**
  *  Posted immediately prior to XCTestCase::setUp. The @c userInfo dictionary contains

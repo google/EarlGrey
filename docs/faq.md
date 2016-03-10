@@ -60,9 +60,9 @@ interaction and check if the error domain and code indicate that the element was
 ```objc
 NSError *error;
 [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"Foo")]
-    performAction:grey_tap() 
+    performAction:grey_tap()
             error:&error];
-            
+
 if ([error.domain isEqual:kGREYInteractionErrorDomain] &&
     error.code == kGREYInteractionElementNotFoundErrorCode) {
   // Element doesn’t exist.
@@ -80,7 +80,7 @@ wait for the main screen’s view controller. Here’s an example:
   [super setUp];
 
   // Wait for the main view controller to become the root view controller.
-  BOOL success = [[GREYCondition conditionWithName:@"Wait for main root view controller" 
+  BOOL success = [[GREYCondition conditionWithName:@"Wait for main root view controller"
                                              block:^{
     id<UIApplicationDelegate> appDelegate = [UIApplication sharedApplication].delegate;
     UIViewController *rootViewController = appDelegate.window.rootViewController;

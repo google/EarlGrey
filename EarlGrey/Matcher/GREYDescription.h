@@ -17,7 +17,7 @@
 #import <Foundation/Foundation.h>
 
 /**
- *  A protocol that defines the layout of an object that conforms to @GREYMatcher.
+ *  A protocol that defines the layout of an object that conforms to GREYMatcher.
  */
 @protocol GREYDescription<NSObject>
 

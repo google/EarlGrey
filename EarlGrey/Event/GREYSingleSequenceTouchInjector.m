@@ -17,7 +17,7 @@
 #import "Event/GREYSingleSequenceTouchInjector.h"
 
 #import <QuartzCore/QuartzCore.h>
-#import <mach/mach_time.h>
+#include <mach/mach_time.h>
 
 #import "Additions/NSObject+GREYAdditions.h"
 #import "Additions/UITouch+GREYAdditions.h"
@@ -74,7 +74,7 @@ static const NSTimeInterval kGREYMaxIntervalForUIWebViewResponse = 2.0;
 }
 
 - (void)enqueueTouchInfoForDelivery:(GREYTouchInfo *)touchInfo {
-  __CHECK_MAIN_THREAD();
+  I_CHECK_MAIN_THREAD();
   [_touchInfoList addObject:touchInfo];
 }
 
@@ -98,7 +98,7 @@ static const NSTimeInterval kGREYMaxIntervalForUIWebViewResponse = 2.0;
 #pragma mark - CADisplayLink
 
 - (void)dispatchTouch:(CADisplayLink *)sender {
-  __CHECK_MAIN_THREAD();
+  I_CHECK_MAIN_THREAD();
 
   GREYTouchInfo *touchInfo =
       [self grey_dequeueTouchInfoForDeliveryWithCurrentTime:CACurrentMediaTime()];

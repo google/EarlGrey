@@ -16,7 +16,7 @@
 
 #import "Additions/__NSCFLocalDataTask_GREYAdditions.h"
 
-#import <objc/runtime.h>
+#include <objc/runtime.h>
 
 #import "Additions/NSURL+GREYAdditions.h"
 #import "Common/GREYSwizzler.h"

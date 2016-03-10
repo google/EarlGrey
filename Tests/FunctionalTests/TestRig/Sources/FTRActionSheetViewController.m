@@ -114,7 +114,7 @@ NSString *const kActionSheetCancelButtonText = @"Cancel";
                                              self.view.frame.size.height / 2,
                                              self.view.frame.size.width,
                                              self.view.frame.size.height);
-  alertController.popoverPresentationController.sourceRect = displayRect;
+  alertController.popoverPresentationController.sourceRect = rectInCenterOfMainView;
   alertController.popoverPresentationController.sourceView = self.view;
 
   [self presentViewController:alertController animated:YES completion:nil];

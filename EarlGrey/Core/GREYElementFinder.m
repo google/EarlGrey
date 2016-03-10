@@ -35,7 +35,7 @@
 
 - (NSArray *)elementsMatchedInProvider:(id<GREYProvider>)elementProvider {
   NSParameterAssert(elementProvider);
-  __CHECK_MAIN_THREAD();
+  I_CHECK_MAIN_THREAD();
 
   NSMutableArray *matchingElements = [[NSMutableArray alloc] init];
   @autoreleasepool {

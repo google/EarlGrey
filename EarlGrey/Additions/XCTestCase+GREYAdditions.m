@@ -16,7 +16,7 @@
 
 #import "Additions/XCTestCase+GREYAdditions.h"
 
-#import <objc/runtime.h>
+#include <objc/runtime.h>
 
 #import "Common/GREYPrivate.h"
 #import "Common/GREYSwizzler.h"
