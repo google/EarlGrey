@@ -16,7 +16,7 @@
 
 #import "Additions/CALayer+GREYAdditions.h"
 
-#import <objc/message.h>
+#include <objc/message.h>
 
 #import "Additions/CAAnimation+GREYAdditions.h"
 #import "Additions/NSObject+GREYAdditions.h"

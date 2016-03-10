@@ -16,7 +16,7 @@
 
 #import "Common/GREYVisibilityChecker.h"
 
-#import <CoreGraphics/CGColor.h>
+#include <CoreGraphics/CoreGraphics.h>
 
 #import "Additions/CGGeometry+GREYAdditions.h"
 #import "Additions/NSObject+GREYAdditions.h"

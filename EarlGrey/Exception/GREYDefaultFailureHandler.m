@@ -16,7 +16,7 @@
 
 #import "Exception/GREYDefaultFailureHandler.h"
 
-#import <XCTest/XCTestAssertionsImpl.h>
+#import <XCTest/XCTest.h>
 
 #import "Additions/XCTestCase+GREYAdditions.h"
 #import "Common/GREYConfiguration.h"

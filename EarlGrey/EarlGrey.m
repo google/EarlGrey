@@ -16,10 +16,10 @@
 
 #import "EarlGrey.h"
 
-#import <dlfcn.h>
-#import <execinfo.h>
-#import <pthread.h>
-#import <signal.h>
+#include <dlfcn.h>
+#include <execinfo.h>
+#include <pthread.h>
+#include <signal.h>
 
 #import "Additions/CALayer+GREYAdditions.h"
 #import "Additions/XCTestCase+GREYAdditions.h"

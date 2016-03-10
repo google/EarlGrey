@@ -16,7 +16,7 @@
 
 #import "Additions/NSURLConnection+GREYAdditions.h"
 
-#import <objc/runtime.h>
+#include <objc/runtime.h>
 
 #import "Additions/NSObject+GREYAdditions.h"
 #import "Additions/NSURL+GREYAdditions.h"

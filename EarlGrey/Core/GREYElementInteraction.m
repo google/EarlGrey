@@ -176,7 +176,7 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
 
 - (instancetype)performAction:(id<GREYAction>)action error:(__strong NSError **)errorOrNil {
   NSParameterAssert(action);
-  __CHECK_MAIN_THREAD();
+  I_CHECK_MAIN_THREAD();
 
   @autoreleasepool {
     NSError *executorError;
@@ -269,7 +269,7 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
 
 - (instancetype)assert:(id<GREYAssertion>)assertion error:(__strong NSError **)errorOrNil {
   NSParameterAssert(assertion);
-  __CHECK_MAIN_THREAD();
+  I_CHECK_MAIN_THREAD();
 
   @autoreleasepool {
     NSError *executorError;
@@ -406,7 +406,7 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
           NSString *reason =
               [NSString stringWithFormat:@"Action '%@' was not performed because no UI element "
                                          @"matching %@  was found.", action.name, _elementMatcher];
-          __GREYElementNotFound(reason, @"%@Complete Error: %@", searchAPIInfo, actionError);
+          I_GREYElementNotFound(reason, @"%@Complete Error: %@", searchAPIInfo, actionError);
           return NO;
         }
         case kGREYInteractionMultipleElementsMatchedErrorCode: {
@@ -415,7 +415,7 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
                                         @"elements matching %@ were found. Use grey_allOf(...) to "
                                         @"create a more specific matcher.",
                                         action.name, _elementMatcher];
-          __GREYMultipleElementsFound(reason, @"%@Complete Error: %@", searchAPIInfo, actionError);
+          I_GREYMultipleElementsFound(reason, @"%@Complete Error: %@", searchAPIInfo, actionError);
           return NO;
         }
       }
@@ -423,8 +423,8 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
 
     // TODO: Add unique failure messages for timeout and other well-known reasons.
     NSString *reason = [NSString stringWithFormat:@"Action '%@' failed.", action.name];
-    __GREYActionFail(reason,
-                   @"Element matcher: %@\nComplete Error: %@", _elementMatcher, actionError);
+    I_GREYActionFail(reason,
+                     @"Element matcher: %@\nComplete Error: %@", _elementMatcher, actionError);
   } else {
     *userProvidedError = actionError;
   }
@@ -473,7 +473,7 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
               [NSString stringWithFormat:@"Assertion '%@' was not performed because no UI element "
                                          @"matching %@ was found.",
                                          [assertion name], _elementMatcher];
-          __GREYElementNotFound(reason, @"%@Complete Error: %@", searchAPIInfo, assertionError);
+          I_GREYElementNotFound(reason, @"%@Complete Error: %@", searchAPIInfo, assertionError);
           return NO;
         }
         case kGREYInteractionMultipleElementsMatchedErrorCode: {
@@ -482,7 +482,7 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
                                          @"elements matching %@ were found. Use grey_allOf(...) to "
                                          @"create a more specific matcher.",
                                          [assertion name], _elementMatcher];
-          __GREYMultipleElementsFound(reason, @"%@Complete Error: %@",
+          I_GREYMultipleElementsFound(reason, @"%@Complete Error: %@",
                                       searchAPIInfo,
                                       assertionError);
           return NO;
@@ -492,8 +492,8 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
 
     // TODO: Add unique failure messages for timeout and other well-known reason for failure.
     NSString *reason = [NSString stringWithFormat:@"Assertion '%@' failed.", assertion.name];
-    __GREYAssertionFail(reason, @"Element matcher: %@\nComplete Error: %@",
-                      _elementMatcher, assertionError);
+    I_GREYAssertionFail(reason, @"Element matcher: %@\nComplete Error: %@",
+                        _elementMatcher, assertionError);
   } else {
     *userProvidedError = assertionError;
   }

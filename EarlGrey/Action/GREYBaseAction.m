@@ -59,7 +59,7 @@
                                              code:kGREYInteractionActionFailedErrorCode
                                          userInfo:userInfo];
       } else {
-        __GREYActionFail(reason, details);
+        I_GREYActionFail(reason, details);
       }
       return NO;
     }

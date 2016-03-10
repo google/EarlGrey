@@ -16,7 +16,7 @@
 
 #import "Additions/NSObject+GREYAdditions.h"
 
-#import <objc/runtime.h>
+#include <objc/runtime.h>
 
 #import "Additions/CGGeometry+GREYAdditions.h"
 #import "Additions/NSString+GREYAdditions.h"

@@ -16,7 +16,7 @@
 
 #import "Additions/UIWindow+GREYAdditions.h"
 
-#import <objc/runtime.h>
+#include <objc/runtime.h>
 
 #import "Additions/UIViewController+GREYAdditions.h"
 #import "Common/GREYSwizzler.h"

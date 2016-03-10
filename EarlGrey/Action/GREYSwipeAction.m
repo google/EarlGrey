@@ -97,7 +97,7 @@
     if ([element isKindOfClass:[UIWindow class]]) {
       window = (UIWindow *)element;
     } else {
-      __GREYFail(@"Cannot swipe on view %@, as it has no window and it isn't a window itself.",
+      I_GREYFail(@"Cannot swipe on view %@, as it has no window and it isn't a window itself.",
                  element);
     }
   }

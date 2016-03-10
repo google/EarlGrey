@@ -46,7 +46,7 @@
 }
 
 - (NSEnumerator *)dataEnumerator {
-  __CHECK_MAIN_THREAD();
+  I_CHECK_MAIN_THREAD();
 
   if (_windows) {
     return [_windows objectEnumerator];

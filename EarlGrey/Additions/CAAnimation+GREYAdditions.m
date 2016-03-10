@@ -16,7 +16,7 @@
 
 #import "Additions/CAAnimation+GREYAdditions.h"
 
-#import <objc/runtime.h>
+#include <objc/runtime.h>
 
 #import "Common/GREYDefines.h"
 #import "Common/GREYPrivate.h"

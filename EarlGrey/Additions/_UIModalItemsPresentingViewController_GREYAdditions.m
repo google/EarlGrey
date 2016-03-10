@@ -16,7 +16,7 @@
 
 #import "Additions/_UIModalItemsPresentingViewController_GREYAdditions.h"
 
-#import <objc/message.h>
+#include <objc/message.h>
 
 #import "Common/GREYDefines.h"
 #import "Common/GREYSwizzler.h"

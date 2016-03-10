@@ -16,7 +16,7 @@
 
 #import "Action/GREYSlideAction.h"
 
-#import <tgmath.h>
+#include <tgmath.h>
 
 #import "Additions/CGGeometry+GREYAdditions.h"
 #import "Additions/NSError+GREYAdditions.h"

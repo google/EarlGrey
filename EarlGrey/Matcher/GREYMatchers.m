@@ -17,7 +17,7 @@
 #import "Matcher/GREYMatchers.h"
 
 #import <OCHamcrest/OCHamcrest.h>
-#import <tgmath.h>
+#include <tgmath.h>
 
 #import "Additions/NSString+GREYAdditions.h"
 #import "Additions/UISwitch+GREYAdditions.h"
@@ -465,15 +465,15 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
     NSError *matcherError;
     NSArray *referenceElements = [interaction matchedElementsWithTimeout:0 error:&matcherError];
     if (matcherError) {
-      __GREYAssert(NO, @"Error finding element:%@", matcherError);
+      I_GREYAssert(NO, @"Error finding element:%@", matcherError);
     } else if (referenceElements.count > 1) {
-      __GREYAssert(NO, @"More than one element matches the reference matcher: %@",
+      I_GREYAssert(NO, @"More than one element matches the reference matcher: %@",
                    referenceElements);
     }
 
     id referenceElement = [referenceElements firstObject];
     if (!referenceElement) {
-      __GREYAssert(NO, @"Could not find reference element.");
+      I_GREYAssert(NO, @"Could not find reference element.");
     }
 
     for (GREYLayoutConstraint *constraint in constraints) {
@@ -692,7 +692,7 @@ id<GREYMatcher> grey_closeTo(double value, double delta) {
   return [GREYMatchers matcherForCloseTo:value delta:delta];
 }
 
-id<GREYMatcher> grey_anything() {
+id<GREYMatcher> grey_anything(void) {
   return [GREYMatchers matcherForAnything];
 }
 

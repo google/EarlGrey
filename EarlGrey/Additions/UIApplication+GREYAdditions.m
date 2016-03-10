@@ -16,7 +16,7 @@
 
 #import "Additions/UIApplication+GREYAdditions.h"
 
-#import <objc/runtime.h>
+#include <objc/runtime.h>
 
 #import "Common/GREYExposed.h"
 #import "Common/GREYSwizzler.h"

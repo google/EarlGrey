@@ -225,16 +225,16 @@ leave just a single test method and include the EarlGrey framework, like this:
    ```objc
    @import EarlGrey;
    #import <XCTest/XCTest.h>
-   
+
    @interface MyFirstEarlGreyTest : XCTestCase
    @end
-   
+
    @implementation MyFirstEarlGreyTest
-   
+
    - (void)testExample {
      // Your test actions and assertions will go here.
    }
-   
+
    @end
    ```
 
@@ -246,7 +246,7 @@ asserts that it is displayed. Here’s what the resulting test would look like:
      [[EarlGrey selectElementWithMatcher:grey_keyWindow()]
          assertWithMatcher:grey_sufficientlyVisible()];
    }
-   
+
    ```
 
 6. And that’s it! As with any other unit test, this test will show up in the test navigator, so you

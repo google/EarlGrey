@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import <CoreGraphics/CoreGraphics.h>
+#include <CoreGraphics/CoreGraphics.h>
 #import <UIKit/UIKit.h>
 
 #pragma mark - Constants
