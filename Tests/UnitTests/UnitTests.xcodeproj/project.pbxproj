@@ -7,55 +7,56 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		59467F111C9379FC0089498B /* CAAnimation+GREYAdditionsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467EAB1C9379DE0089498B /* CAAnimation+GREYAdditionsTest.m */; };
+		59467F121C9379FC0089498B /* CALayer+GREYAdditionsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467EAC1C9379DE0089498B /* CALayer+GREYAdditionsTest.m */; };
+		59467F131C9379FC0089498B /* CGGeometry+GREYAdditionsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467EAD1C9379DE0089498B /* CGGeometry+GREYAdditionsTest.m */; };
+		59467F141C9379FC0089498B /* GREYActionsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467EAE1C9379DE0089498B /* GREYActionsTest.m */; };
+		59467F151C9379FC0089498B /* GREYAppStateTrackerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467EAF1C9379DE0089498B /* GREYAppStateTrackerTest.m */; };
+		59467F161C9379FC0089498B /* GREYAssertionsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467EB01C9379DE0089498B /* GREYAssertionsTest.m */; };
+		59467F181C9379FC0089498B /* GREYBaseTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467EB21C9379DE0089498B /* GREYBaseTest.m */; };
+		59467F191C9379FC0089498B /* GREYConditionTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467EB31C9379DE0089498B /* GREYConditionTest.m */; };
+		59467F1A1C9379FC0089498B /* GREYConfigurationTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467EB41C9379DE0089498B /* GREYConfigurationTest.m */; };
+		59467F1B1C9379FC0089498B /* GREYDataEnumeratorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467EB51C9379DE0089498B /* GREYDataEnumeratorTest.m */; };
+		59467F1C1C9379FC0089498B /* GREYDispatchQueueIdlingResourceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467EB61C9379DE0089498B /* GREYDispatchQueueIdlingResourceTest.m */; };
+		59467F1D1C9379FC0089498B /* GREYElementFinderTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467EB71C9379DE0089498B /* GREYElementFinderTest.m */; };
+		59467F1E1C9379FC0089498B /* GREYElementHierarchyTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467EB81C9379DE0089498B /* GREYElementHierarchyTest.m */; };
+		59467F1F1C9379FC0089498B /* GREYElementInteractionTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467EB91C9379DE0089498B /* GREYElementInteractionTest.m */; };
+		59467F201C9379FC0089498B /* GREYElementMatcherBlockTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467EBA1C9379DE0089498B /* GREYElementMatcherBlockTest.m */; };
+		59467F211C9379FC0089498B /* GREYElementProviderTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467EBB1C9379DE0089498B /* GREYElementProviderTest.m */; };
+		59467F231C9379FC0089498B /* GREYLayoutConstraintTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467EBD1C9379DE0089498B /* GREYLayoutConstraintTest.m */; };
+		59467F241C9379FC0089498B /* GREYMatchersTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467EBE1C9379DE0089498B /* GREYMatchersTest.m */; };
+		59467F251C9379FC0089498B /* GREYNSTimerIdlingResourceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467EBF1C9379DE0089498B /* GREYNSTimerIdlingResourceTest.m */; };
+		59467F261C9379FC0089498B /* GREYOperationQueueIdlingResourceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467EC01C9379DE0089498B /* GREYOperationQueueIdlingResourceTest.m */; };
+		59467F271C9379FC0089498B /* GREYPathGestureUtilsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467EC11C9379DE0089498B /* GREYPathGestureUtilsTest.m */; };
+		59467F281C9379FC0089498B /* GREYScreenshotUtilTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467EC21C9379DE0089498B /* GREYScreenshotUtilTest.m */; };
+		59467F291C9379FC0089498B /* GREYScrollActionTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467EC31C9379DE0089498B /* GREYScrollActionTest.m */; };
+		59467F2A1C9379FC0089498B /* GREYSingleSequenceTouchInjectorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467EC41C9379DE0089498B /* GREYSingleSequenceTouchInjectorTest.m */; };
+		59467F2B1C9379FC0089498B /* GREYSwipeActionTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467EC51C9379DE0089498B /* GREYSwipeActionTest.m */; };
+		59467F2C1C9379FC0089498B /* GREYSwizzlerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467EC61C9379DE0089498B /* GREYSwizzlerTest.m */; };
+		59467F2D1C9379FC0089498B /* GREYSyncAPITest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467EC71C9379DE0089498B /* GREYSyncAPITest.m */; };
+		59467F2E1C9379FC0089498B /* GREYTimedIdlingResourceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467EC81C9379DE0089498B /* GREYTimedIdlingResourceTest.m */; };
+		59467F2F1C9379FC0089498B /* GREYUIScrollViewTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467EC91C9379DE0089498B /* GREYUIScrollViewTest.m */; };
+		59467F301C9379FC0089498B /* GREYUIThreadExecutorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467ECA1C9379DE0089498B /* GREYUIThreadExecutorTest.m */; };
+		59467F311C9379FC0089498B /* GREYUIWindowProviderTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467ECB1C9379DE0089498B /* GREYUIWindowProviderTest.m */; };
+		59467F321C9379FC0089498B /* GREYVisibilityCheckerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467ECC1C9379DE0089498B /* GREYVisibilityCheckerTest.m */; };
+		59467F331C9379FC0089498B /* NSObject+GREYAdditionsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467ECD1C9379DE0089498B /* NSObject+GREYAdditionsTest.m */; };
+		59467F341C9379FC0089498B /* NSString+GREYAdditionsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467ECE1C9379DE0089498B /* NSString+GREYAdditionsTest.m */; };
+		59467F351C9379FC0089498B /* NSURLConnection+GREYAdditionsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467ECF1C9379DE0089498B /* NSURLConnection+GREYAdditionsTest.m */; };
+		59467F361C9379FC0089498B /* NSURLSessionTask+GREYAdditionsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467ED01C9379DE0089498B /* NSURLSessionTask+GREYAdditionsTest.m */; };
+		59467F371C9379FC0089498B /* UIView+GREYAdditionsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467ED11C9379DE0089498B /* UIView+GREYAdditionsTest.m */; };
+		59467F381C9379FC0089498B /* UIViewController+GREYAdditionsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467ED21C9379DE0089498B /* UIViewController+GREYAdditionsTest.m */; };
+		59467F391C9379FC0089498B /* UIWindow+GREYAdditionsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467ED31C9379DE0089498B /* UIWindow+GREYAdditionsTest.m */; };
+		59467F3A1C937A0B0089498B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467EDE1C9379DE0089498B /* main.m */; };
+		59467F3B1C937A110089498B /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 59467ED61C9379DE0089498B /* Default-568h@2x.png */; };
+		59467F3C1C937A110089498B /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 59467ED71C9379DE0089498B /* Default.png */; };
+		59467F3D1C937A110089498B /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 59467ED81C9379DE0089498B /* Default@2x.png */; };
+		59467F3E1C937A110089498B /* Default@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 59467ED91C9379DE0089498B /* Default@3x.png */; };
+		59467F3F1C937A120089498B /* ic_local_drink_48pt.png in Resources */ = {isa = PBXBuildFile; fileRef = 59467EDA1C9379DE0089498B /* ic_local_drink_48pt.png */; };
+		59467F401C937A120089498B /* ic_local_drink_48pt@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 59467EDB1C9379DE0089498B /* ic_local_drink_48pt@2x.png */; };
+		59467F411C937A120089498B /* ic_local_drink_48pt@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 59467EDC1C9379DE0089498B /* ic_local_drink_48pt@3x.png */; };
+		59467F421C937A140089498B /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 59467EA81C9379DE0089498B /* LICENSE */; };
 		596D89CA1C05ACD400025714 /* EarlGrey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 596D89C71C05ACB000025714 /* EarlGrey.framework */; };
 		59AB5FC91C128CCF0017F331 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FDB855641C12392C00B407EB /* libOCMock.a */; };
-		FD5AD43A1C1275570013312A /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FD5AD4331C1275570013312A /* Default-568h@2x.png */; };
-		FD5AD43B1C1275570013312A /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = FD5AD4341C1275570013312A /* Default.png */; };
-		FD5AD43C1C1275570013312A /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FD5AD4351C1275570013312A /* Default@2x.png */; };
-		FD5AD43D1C1275570013312A /* Default@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = FD5AD4361C1275570013312A /* Default@3x.png */; };
-		FD5AD43E1C1275570013312A /* ic_local_drink_48pt.png in Resources */ = {isa = PBXBuildFile; fileRef = FD5AD4371C1275570013312A /* ic_local_drink_48pt.png */; };
-		FD5AD43F1C1275570013312A /* ic_local_drink_48pt@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FD5AD4381C1275570013312A /* ic_local_drink_48pt@2x.png */; };
-		FD5AD4401C1275570013312A /* ic_local_drink_48pt@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = FD5AD4391C1275570013312A /* ic_local_drink_48pt@3x.png */; };
-		FD5AD4421C12756A0013312A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5AD4411C12756A0013312A /* main.m */; };
-		FD5AD46D1C12758C0013312A /* CAAnimation+GREYAdditionsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5AD4431C12758C0013312A /* CAAnimation+GREYAdditionsTest.m */; };
-		FD5AD46E1C12758C0013312A /* CALayer+GREYAdditionsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5AD4441C12758C0013312A /* CALayer+GREYAdditionsTest.m */; };
-		FD5AD46F1C12758C0013312A /* CGGeometry+GREYAdditionsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5AD4451C12758C0013312A /* CGGeometry+GREYAdditionsTest.m */; };
-		FD5AD4701C12758C0013312A /* GREYActionsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5AD4461C12758C0013312A /* GREYActionsTest.m */; };
-		FD5AD4711C12758C0013312A /* GREYAppStateTrackerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5AD4471C12758C0013312A /* GREYAppStateTrackerTest.m */; };
-		FD5AD4721C12758C0013312A /* GREYAssertionsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5AD4481C12758C0013312A /* GREYAssertionsTest.m */; };
-		FD5AD4731C12758C0013312A /* GREYBaseTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5AD44A1C12758C0013312A /* GREYBaseTest.m */; };
-		FD5AD4741C12758C0013312A /* GREYConditionTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5AD44B1C12758C0013312A /* GREYConditionTest.m */; };
-		FD5AD4751C12758C0013312A /* GREYConfigurationTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5AD44C1C12758C0013312A /* GREYConfigurationTest.m */; };
-		FD5AD4761C12758C0013312A /* GREYDataEnumeratorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5AD44D1C12758C0013312A /* GREYDataEnumeratorTest.m */; };
-		FD5AD4771C12758C0013312A /* GREYDispatchQueueIdlingResourceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5AD44E1C12758C0013312A /* GREYDispatchQueueIdlingResourceTest.m */; };
-		FD5AD4781C12758C0013312A /* GREYElementFinderTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5AD44F1C12758C0013312A /* GREYElementFinderTest.m */; };
-		FD5AD4791C12758C0013312A /* GREYElementHierarchyTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5AD4501C12758C0013312A /* GREYElementHierarchyTest.m */; };
-		FD5AD47A1C12758C0013312A /* GREYElementInteractionTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5AD4511C12758C0013312A /* GREYElementInteractionTest.m */; };
-		FD5AD47B1C12758C0013312A /* GREYElementMatcherBlockTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5AD4521C12758C0013312A /* GREYElementMatcherBlockTest.m */; };
-		FD5AD47C1C12758C0013312A /* GREYElementProviderTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5AD4531C12758C0013312A /* GREYElementProviderTest.m */; };
-		FD5AD47D1C12758C0013312A /* GREYLayoutConstraintTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5AD4551C12758C0013312A /* GREYLayoutConstraintTest.m */; };
-		FD5AD47E1C12758C0013312A /* GREYMatchersTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5AD4561C12758C0013312A /* GREYMatchersTest.m */; };
-		FD5AD47F1C12758C0013312A /* GREYNSTimerIdlingResourceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5AD4571C12758C0013312A /* GREYNSTimerIdlingResourceTest.m */; };
-		FD5AD4801C12758C0013312A /* GREYOperationQueueIdlingResourceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5AD4581C12758C0013312A /* GREYOperationQueueIdlingResourceTest.m */; };
-		FD5AD4811C12758C0013312A /* GREYPathGestureUtilsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5AD4591C12758C0013312A /* GREYPathGestureUtilsTest.m */; };
-		FD5AD4821C12758C0013312A /* GREYScreenshotUtilTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5AD45A1C12758C0013312A /* GREYScreenshotUtilTest.m */; };
-		FD5AD4831C12758C0013312A /* GREYScrollActionTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5AD45B1C12758C0013312A /* GREYScrollActionTest.m */; };
-		FD5AD4851C12758C0013312A /* GREYSingleSequenceTouchInjectorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5AD45D1C12758C0013312A /* GREYSingleSequenceTouchInjectorTest.m */; };
-		FD5AD4861C12758C0013312A /* GREYSwipeActionTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5AD45E1C12758C0013312A /* GREYSwipeActionTest.m */; };
-		FD5AD4871C12758C0013312A /* GREYSwizzlerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5AD45F1C12758C0013312A /* GREYSwizzlerTest.m */; };
-		FD5AD4881C12758C0013312A /* GREYSyncAPITest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5AD4601C12758C0013312A /* GREYSyncAPITest.m */; };
-		FD5AD4891C12758C0013312A /* GREYTimedIdlingResourceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5AD4611C12758C0013312A /* GREYTimedIdlingResourceTest.m */; };
-		FD5AD48A1C12758C0013312A /* GREYUIScrollViewTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5AD4621C12758C0013312A /* GREYUIScrollViewTest.m */; };
-		FD5AD48B1C12758C0013312A /* GREYUIThreadExecutorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5AD4631C12758C0013312A /* GREYUIThreadExecutorTest.m */; };
-		FD5AD48C1C12758C0013312A /* GREYUIWindowProviderTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5AD4641C12758C0013312A /* GREYUIWindowProviderTest.m */; };
-		FD5AD48D1C12758C0013312A /* GREYVisibilityCheckerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5AD4651C12758C0013312A /* GREYVisibilityCheckerTest.m */; };
-		FD5AD48E1C12758C0013312A /* NSObject+GREYAdditionsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5AD4661C12758C0013312A /* NSObject+GREYAdditionsTest.m */; };
-		FD5AD48F1C12758C0013312A /* NSString+GREYAdditionsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5AD4671C12758C0013312A /* NSString+GREYAdditionsTest.m */; };
-		FD5AD4901C12758C0013312A /* NSURLConnection+GREYAdditionsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5AD4681C12758C0013312A /* NSURLConnection+GREYAdditionsTest.m */; };
-		FD5AD4911C12758C0013312A /* NSURLSessionTask+GREYAdditionsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5AD4691C12758C0013312A /* NSURLSessionTask+GREYAdditionsTest.m */; };
-		FD5AD4921C12758C0013312A /* UIView+GREYAdditionsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5AD46A1C12758C0013312A /* UIView+GREYAdditionsTest.m */; };
-		FD5AD4931C12758C0013312A /* UIViewController+GREYAdditionsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5AD46B1C12758C0013312A /* UIViewController+GREYAdditionsTest.m */; };
-		FD5AD4941C12758C0013312A /* UIWindow+GREYAdditionsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5AD46C1C12758C0013312A /* UIWindow+GREYAdditionsTest.m */; };
 		FD768E941C64415500D57E1B /* EarlGrey.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 596D89C71C05ACB000025714 /* EarlGrey.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		FD8FB3091BB60AA300E90D7D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD8FB3081BB60AA300E90D7D /* Foundation.framework */; };
 		FD8FB30B1BB60AA900E90D7D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD8FB30A1BB60AA900E90D7D /* QuartzCore.framework */; };
@@ -73,6 +74,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		59467EA61C9378F10089498B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FDB855571C12392C00B407EB /* OCMock.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 817EB1621BD765130047E85A;
+			remoteInfo = "OCMock tvOS";
+		};
 		596D89C61C05ACB000025714 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 596D89C21C05ACAF00025714 /* EarlGrey.xcodeproj */;
@@ -145,58 +153,60 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		59467EA81C9379DE0089498B /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = SOURCE_ROOT; };
+		59467EA91C9379DE0089498B /* UnitTests.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnitTests.pch; sourceTree = SOURCE_ROOT; };
+		59467EAB1C9379DE0089498B /* CAAnimation+GREYAdditionsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CAAnimation+GREYAdditionsTest.m"; sourceTree = "<group>"; };
+		59467EAC1C9379DE0089498B /* CALayer+GREYAdditionsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CALayer+GREYAdditionsTest.m"; sourceTree = "<group>"; };
+		59467EAD1C9379DE0089498B /* CGGeometry+GREYAdditionsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CGGeometry+GREYAdditionsTest.m"; sourceTree = "<group>"; };
+		59467EAE1C9379DE0089498B /* GREYActionsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYActionsTest.m; sourceTree = "<group>"; };
+		59467EAF1C9379DE0089498B /* GREYAppStateTrackerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYAppStateTrackerTest.m; sourceTree = "<group>"; };
+		59467EB01C9379DE0089498B /* GREYAssertionsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYAssertionsTest.m; sourceTree = "<group>"; };
+		59467EB11C9379DE0089498B /* GREYBaseTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYBaseTest.h; sourceTree = "<group>"; };
+		59467EB21C9379DE0089498B /* GREYBaseTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYBaseTest.m; sourceTree = "<group>"; };
+		59467EB31C9379DE0089498B /* GREYConditionTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYConditionTest.m; sourceTree = "<group>"; };
+		59467EB41C9379DE0089498B /* GREYConfigurationTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYConfigurationTest.m; sourceTree = "<group>"; };
+		59467EB51C9379DE0089498B /* GREYDataEnumeratorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYDataEnumeratorTest.m; sourceTree = "<group>"; };
+		59467EB61C9379DE0089498B /* GREYDispatchQueueIdlingResourceTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYDispatchQueueIdlingResourceTest.m; sourceTree = "<group>"; };
+		59467EB71C9379DE0089498B /* GREYElementFinderTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYElementFinderTest.m; sourceTree = "<group>"; };
+		59467EB81C9379DE0089498B /* GREYElementHierarchyTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYElementHierarchyTest.m; sourceTree = "<group>"; };
+		59467EB91C9379DE0089498B /* GREYElementInteractionTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYElementInteractionTest.m; sourceTree = "<group>"; };
+		59467EBA1C9379DE0089498B /* GREYElementMatcherBlockTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYElementMatcherBlockTest.m; sourceTree = "<group>"; };
+		59467EBB1C9379DE0089498B /* GREYElementProviderTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYElementProviderTest.m; sourceTree = "<group>"; };
+		59467EBC1C9379DE0089498B /* GREYExposedForTesting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYExposedForTesting.h; sourceTree = "<group>"; };
+		59467EBD1C9379DE0089498B /* GREYLayoutConstraintTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYLayoutConstraintTest.m; sourceTree = "<group>"; };
+		59467EBE1C9379DE0089498B /* GREYMatchersTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYMatchersTest.m; sourceTree = "<group>"; };
+		59467EBF1C9379DE0089498B /* GREYNSTimerIdlingResourceTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYNSTimerIdlingResourceTest.m; sourceTree = "<group>"; };
+		59467EC01C9379DE0089498B /* GREYOperationQueueIdlingResourceTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYOperationQueueIdlingResourceTest.m; sourceTree = "<group>"; };
+		59467EC11C9379DE0089498B /* GREYPathGestureUtilsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYPathGestureUtilsTest.m; sourceTree = "<group>"; };
+		59467EC21C9379DE0089498B /* GREYScreenshotUtilTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYScreenshotUtilTest.m; sourceTree = "<group>"; };
+		59467EC31C9379DE0089498B /* GREYScrollActionTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYScrollActionTest.m; sourceTree = "<group>"; };
+		59467EC41C9379DE0089498B /* GREYSingleSequenceTouchInjectorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYSingleSequenceTouchInjectorTest.m; sourceTree = "<group>"; };
+		59467EC51C9379DE0089498B /* GREYSwipeActionTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYSwipeActionTest.m; sourceTree = "<group>"; };
+		59467EC61C9379DE0089498B /* GREYSwizzlerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYSwizzlerTest.m; sourceTree = "<group>"; };
+		59467EC71C9379DE0089498B /* GREYSyncAPITest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYSyncAPITest.m; sourceTree = "<group>"; };
+		59467EC81C9379DE0089498B /* GREYTimedIdlingResourceTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYTimedIdlingResourceTest.m; sourceTree = "<group>"; };
+		59467EC91C9379DE0089498B /* GREYUIScrollViewTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYUIScrollViewTest.m; sourceTree = "<group>"; };
+		59467ECA1C9379DE0089498B /* GREYUIThreadExecutorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYUIThreadExecutorTest.m; sourceTree = "<group>"; };
+		59467ECB1C9379DE0089498B /* GREYUIWindowProviderTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYUIWindowProviderTest.m; sourceTree = "<group>"; };
+		59467ECC1C9379DE0089498B /* GREYVisibilityCheckerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYVisibilityCheckerTest.m; sourceTree = "<group>"; };
+		59467ECD1C9379DE0089498B /* NSObject+GREYAdditionsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+GREYAdditionsTest.m"; sourceTree = "<group>"; };
+		59467ECE1C9379DE0089498B /* NSString+GREYAdditionsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+GREYAdditionsTest.m"; sourceTree = "<group>"; };
+		59467ECF1C9379DE0089498B /* NSURLConnection+GREYAdditionsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURLConnection+GREYAdditionsTest.m"; sourceTree = "<group>"; };
+		59467ED01C9379DE0089498B /* NSURLSessionTask+GREYAdditionsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURLSessionTask+GREYAdditionsTest.m"; sourceTree = "<group>"; };
+		59467ED11C9379DE0089498B /* UIView+GREYAdditionsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+GREYAdditionsTest.m"; sourceTree = "<group>"; };
+		59467ED21C9379DE0089498B /* UIViewController+GREYAdditionsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+GREYAdditionsTest.m"; sourceTree = "<group>"; };
+		59467ED31C9379DE0089498B /* UIWindow+GREYAdditionsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWindow+GREYAdditionsTest.m"; sourceTree = "<group>"; };
+		59467ED61C9379DE0089498B /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		59467ED71C9379DE0089498B /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		59467ED81C9379DE0089498B /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		59467ED91C9379DE0089498B /* Default@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@3x.png"; sourceTree = "<group>"; };
+		59467EDA1C9379DE0089498B /* ic_local_drink_48pt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_local_drink_48pt.png; sourceTree = "<group>"; };
+		59467EDB1C9379DE0089498B /* ic_local_drink_48pt@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_local_drink_48pt@2x.png"; sourceTree = "<group>"; };
+		59467EDC1C9379DE0089498B /* ic_local_drink_48pt@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_local_drink_48pt@3x.png"; sourceTree = "<group>"; };
+		59467EDE1C9379DE0089498B /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		59467EDF1C9379DE0089498B /* UnitTestRig-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "UnitTestRig-Info.plist"; sourceTree = "<group>"; };
 		596D89C21C05ACAF00025714 /* EarlGrey.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = EarlGrey.xcodeproj; path = ../../EarlGrey.xcodeproj; sourceTree = "<group>"; };
-		FD5AD4331C1275570013312A /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "TestRig/Resources/Default-568h@2x.png"; sourceTree = SOURCE_ROOT; };
-		FD5AD4341C1275570013312A /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = TestRig/Resources/Default.png; sourceTree = SOURCE_ROOT; };
-		FD5AD4351C1275570013312A /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "TestRig/Resources/Default@2x.png"; sourceTree = SOURCE_ROOT; };
-		FD5AD4361C1275570013312A /* Default@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@3x.png"; path = "TestRig/Resources/Default@3x.png"; sourceTree = SOURCE_ROOT; };
-		FD5AD4371C1275570013312A /* ic_local_drink_48pt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ic_local_drink_48pt.png; path = TestRig/Resources/ic_local_drink_48pt.png; sourceTree = SOURCE_ROOT; };
-		FD5AD4381C1275570013312A /* ic_local_drink_48pt@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ic_local_drink_48pt@2x.png"; path = "TestRig/Resources/ic_local_drink_48pt@2x.png"; sourceTree = SOURCE_ROOT; };
-		FD5AD4391C1275570013312A /* ic_local_drink_48pt@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ic_local_drink_48pt@3x.png"; path = "TestRig/Resources/ic_local_drink_48pt@3x.png"; sourceTree = SOURCE_ROOT; };
-		FD5AD4411C12756A0013312A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = TestRig/Sources/main.m; sourceTree = SOURCE_ROOT; };
-		FD5AD4431C12758C0013312A /* CAAnimation+GREYAdditionsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CAAnimation+GREYAdditionsTest.m"; path = "Sources/CAAnimation+GREYAdditionsTest.m"; sourceTree = SOURCE_ROOT; };
-		FD5AD4441C12758C0013312A /* CALayer+GREYAdditionsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CALayer+GREYAdditionsTest.m"; path = "Sources/CALayer+GREYAdditionsTest.m"; sourceTree = SOURCE_ROOT; };
-		FD5AD4451C12758C0013312A /* CGGeometry+GREYAdditionsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CGGeometry+GREYAdditionsTest.m"; path = "Sources/CGGeometry+GREYAdditionsTest.m"; sourceTree = SOURCE_ROOT; };
-		FD5AD4461C12758C0013312A /* GREYActionsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYActionsTest.m; path = Sources/GREYActionsTest.m; sourceTree = SOURCE_ROOT; };
-		FD5AD4471C12758C0013312A /* GREYAppStateTrackerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYAppStateTrackerTest.m; path = Sources/GREYAppStateTrackerTest.m; sourceTree = SOURCE_ROOT; };
-		FD5AD4481C12758C0013312A /* GREYAssertionsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYAssertionsTest.m; path = Sources/GREYAssertionsTest.m; sourceTree = SOURCE_ROOT; };
-		FD5AD4491C12758C0013312A /* GREYBaseTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYBaseTest.h; path = Sources/GREYBaseTest.h; sourceTree = SOURCE_ROOT; };
-		FD5AD44A1C12758C0013312A /* GREYBaseTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYBaseTest.m; path = Sources/GREYBaseTest.m; sourceTree = SOURCE_ROOT; };
-		FD5AD44B1C12758C0013312A /* GREYConditionTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYConditionTest.m; path = Sources/GREYConditionTest.m; sourceTree = SOURCE_ROOT; };
-		FD5AD44C1C12758C0013312A /* GREYConfigurationTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYConfigurationTest.m; path = Sources/GREYConfigurationTest.m; sourceTree = SOURCE_ROOT; };
-		FD5AD44D1C12758C0013312A /* GREYDataEnumeratorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYDataEnumeratorTest.m; path = Sources/GREYDataEnumeratorTest.m; sourceTree = SOURCE_ROOT; };
-		FD5AD44E1C12758C0013312A /* GREYDispatchQueueIdlingResourceTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYDispatchQueueIdlingResourceTest.m; path = Sources/GREYDispatchQueueIdlingResourceTest.m; sourceTree = SOURCE_ROOT; };
-		FD5AD44F1C12758C0013312A /* GREYElementFinderTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYElementFinderTest.m; path = Sources/GREYElementFinderTest.m; sourceTree = SOURCE_ROOT; };
-		FD5AD4501C12758C0013312A /* GREYElementHierarchyTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYElementHierarchyTest.m; path = Sources/GREYElementHierarchyTest.m; sourceTree = SOURCE_ROOT; };
-		FD5AD4511C12758C0013312A /* GREYElementInteractionTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYElementInteractionTest.m; path = Sources/GREYElementInteractionTest.m; sourceTree = SOURCE_ROOT; };
-		FD5AD4521C12758C0013312A /* GREYElementMatcherBlockTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYElementMatcherBlockTest.m; path = Sources/GREYElementMatcherBlockTest.m; sourceTree = SOURCE_ROOT; };
-		FD5AD4531C12758C0013312A /* GREYElementProviderTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYElementProviderTest.m; path = Sources/GREYElementProviderTest.m; sourceTree = SOURCE_ROOT; };
-		FD5AD4541C12758C0013312A /* GREYExposedForTesting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYExposedForTesting.h; path = Sources/GREYExposedForTesting.h; sourceTree = SOURCE_ROOT; };
-		FD5AD4551C12758C0013312A /* GREYLayoutConstraintTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYLayoutConstraintTest.m; path = Sources/GREYLayoutConstraintTest.m; sourceTree = SOURCE_ROOT; };
-		FD5AD4561C12758C0013312A /* GREYMatchersTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYMatchersTest.m; path = Sources/GREYMatchersTest.m; sourceTree = SOURCE_ROOT; };
-		FD5AD4571C12758C0013312A /* GREYNSTimerIdlingResourceTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYNSTimerIdlingResourceTest.m; path = Sources/GREYNSTimerIdlingResourceTest.m; sourceTree = SOURCE_ROOT; };
-		FD5AD4581C12758C0013312A /* GREYOperationQueueIdlingResourceTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYOperationQueueIdlingResourceTest.m; path = Sources/GREYOperationQueueIdlingResourceTest.m; sourceTree = SOURCE_ROOT; };
-		FD5AD4591C12758C0013312A /* GREYPathGestureUtilsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYPathGestureUtilsTest.m; path = Sources/GREYPathGestureUtilsTest.m; sourceTree = SOURCE_ROOT; };
-		FD5AD45A1C12758C0013312A /* GREYScreenshotUtilTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYScreenshotUtilTest.m; path = Sources/GREYScreenshotUtilTest.m; sourceTree = SOURCE_ROOT; };
-		FD5AD45B1C12758C0013312A /* GREYScrollActionTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYScrollActionTest.m; path = Sources/GREYScrollActionTest.m; sourceTree = SOURCE_ROOT; };
-		FD5AD45D1C12758C0013312A /* GREYSingleSequenceTouchInjectorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYSingleSequenceTouchInjectorTest.m; path = Sources/GREYSingleSequenceTouchInjectorTest.m; sourceTree = SOURCE_ROOT; };
-		FD5AD45E1C12758C0013312A /* GREYSwipeActionTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYSwipeActionTest.m; path = Sources/GREYSwipeActionTest.m; sourceTree = SOURCE_ROOT; };
-		FD5AD45F1C12758C0013312A /* GREYSwizzlerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYSwizzlerTest.m; path = Sources/GREYSwizzlerTest.m; sourceTree = SOURCE_ROOT; };
-		FD5AD4601C12758C0013312A /* GREYSyncAPITest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYSyncAPITest.m; path = Sources/GREYSyncAPITest.m; sourceTree = SOURCE_ROOT; };
-		FD5AD4611C12758C0013312A /* GREYTimedIdlingResourceTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYTimedIdlingResourceTest.m; path = Sources/GREYTimedIdlingResourceTest.m; sourceTree = SOURCE_ROOT; };
-		FD5AD4621C12758C0013312A /* GREYUIScrollViewTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYUIScrollViewTest.m; path = Sources/GREYUIScrollViewTest.m; sourceTree = SOURCE_ROOT; };
-		FD5AD4631C12758C0013312A /* GREYUIThreadExecutorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYUIThreadExecutorTest.m; path = Sources/GREYUIThreadExecutorTest.m; sourceTree = SOURCE_ROOT; };
-		FD5AD4641C12758C0013312A /* GREYUIWindowProviderTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYUIWindowProviderTest.m; path = Sources/GREYUIWindowProviderTest.m; sourceTree = SOURCE_ROOT; };
-		FD5AD4651C12758C0013312A /* GREYVisibilityCheckerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYVisibilityCheckerTest.m; path = Sources/GREYVisibilityCheckerTest.m; sourceTree = SOURCE_ROOT; };
-		FD5AD4661C12758C0013312A /* NSObject+GREYAdditionsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+GREYAdditionsTest.m"; path = "Sources/NSObject+GREYAdditionsTest.m"; sourceTree = SOURCE_ROOT; };
-		FD5AD4671C12758C0013312A /* NSString+GREYAdditionsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+GREYAdditionsTest.m"; path = "Sources/NSString+GREYAdditionsTest.m"; sourceTree = SOURCE_ROOT; };
-		FD5AD4681C12758C0013312A /* NSURLConnection+GREYAdditionsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSURLConnection+GREYAdditionsTest.m"; path = "Sources/NSURLConnection+GREYAdditionsTest.m"; sourceTree = SOURCE_ROOT; };
-		FD5AD4691C12758C0013312A /* NSURLSessionTask+GREYAdditionsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSURLSessionTask+GREYAdditionsTest.m"; path = "Sources/NSURLSessionTask+GREYAdditionsTest.m"; sourceTree = SOURCE_ROOT; };
-		FD5AD46A1C12758C0013312A /* UIView+GREYAdditionsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+GREYAdditionsTest.m"; path = "Sources/UIView+GREYAdditionsTest.m"; sourceTree = SOURCE_ROOT; };
-		FD5AD46B1C12758C0013312A /* UIViewController+GREYAdditionsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIViewController+GREYAdditionsTest.m"; path = "Sources/UIViewController+GREYAdditionsTest.m"; sourceTree = SOURCE_ROOT; };
-		FD5AD46C1C12758C0013312A /* UIWindow+GREYAdditionsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIWindow+GREYAdditionsTest.m"; path = "Sources/UIWindow+GREYAdditionsTest.m"; sourceTree = SOURCE_ROOT; };
-		FD5AD4951C1275970013312A /* UnitTests.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnitTests.pch; sourceTree = SOURCE_ROOT; };
-		FD8FB2CE1BB609C600E90D7D /* UnitTests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UnitTests.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FD8FB2CE1BB609C600E90D7D /* UnitTestRig.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UnitTestRig.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD8FB3081BB60AA300E90D7D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		FD8FB30A1BB60AA900E90D7D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		FD8FB30C1BB60AAD00E90D7D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -241,68 +251,92 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		59467EAA1C9379DE0089498B /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				59467EAB1C9379DE0089498B /* CAAnimation+GREYAdditionsTest.m */,
+				59467EAC1C9379DE0089498B /* CALayer+GREYAdditionsTest.m */,
+				59467EAD1C9379DE0089498B /* CGGeometry+GREYAdditionsTest.m */,
+				59467EAE1C9379DE0089498B /* GREYActionsTest.m */,
+				59467EAF1C9379DE0089498B /* GREYAppStateTrackerTest.m */,
+				59467EB01C9379DE0089498B /* GREYAssertionsTest.m */,
+				59467EB11C9379DE0089498B /* GREYBaseTest.h */,
+				59467EB21C9379DE0089498B /* GREYBaseTest.m */,
+				59467EB31C9379DE0089498B /* GREYConditionTest.m */,
+				59467EB41C9379DE0089498B /* GREYConfigurationTest.m */,
+				59467EB51C9379DE0089498B /* GREYDataEnumeratorTest.m */,
+				59467EB61C9379DE0089498B /* GREYDispatchQueueIdlingResourceTest.m */,
+				59467EB71C9379DE0089498B /* GREYElementFinderTest.m */,
+				59467EB81C9379DE0089498B /* GREYElementHierarchyTest.m */,
+				59467EB91C9379DE0089498B /* GREYElementInteractionTest.m */,
+				59467EBA1C9379DE0089498B /* GREYElementMatcherBlockTest.m */,
+				59467EBB1C9379DE0089498B /* GREYElementProviderTest.m */,
+				59467EBC1C9379DE0089498B /* GREYExposedForTesting.h */,
+				59467EBD1C9379DE0089498B /* GREYLayoutConstraintTest.m */,
+				59467EBE1C9379DE0089498B /* GREYMatchersTest.m */,
+				59467EBF1C9379DE0089498B /* GREYNSTimerIdlingResourceTest.m */,
+				59467EC01C9379DE0089498B /* GREYOperationQueueIdlingResourceTest.m */,
+				59467EC11C9379DE0089498B /* GREYPathGestureUtilsTest.m */,
+				59467EC21C9379DE0089498B /* GREYScreenshotUtilTest.m */,
+				59467EC31C9379DE0089498B /* GREYScrollActionTest.m */,
+				59467EC41C9379DE0089498B /* GREYSingleSequenceTouchInjectorTest.m */,
+				59467EC51C9379DE0089498B /* GREYSwipeActionTest.m */,
+				59467EC61C9379DE0089498B /* GREYSwizzlerTest.m */,
+				59467EC71C9379DE0089498B /* GREYSyncAPITest.m */,
+				59467EC81C9379DE0089498B /* GREYTimedIdlingResourceTest.m */,
+				59467EC91C9379DE0089498B /* GREYUIScrollViewTest.m */,
+				59467ECA1C9379DE0089498B /* GREYUIThreadExecutorTest.m */,
+				59467ECB1C9379DE0089498B /* GREYUIWindowProviderTest.m */,
+				59467ECC1C9379DE0089498B /* GREYVisibilityCheckerTest.m */,
+				59467ECD1C9379DE0089498B /* NSObject+GREYAdditionsTest.m */,
+				59467ECE1C9379DE0089498B /* NSString+GREYAdditionsTest.m */,
+				59467ECF1C9379DE0089498B /* NSURLConnection+GREYAdditionsTest.m */,
+				59467ED01C9379DE0089498B /* NSURLSessionTask+GREYAdditionsTest.m */,
+				59467ED11C9379DE0089498B /* UIView+GREYAdditionsTest.m */,
+				59467ED21C9379DE0089498B /* UIViewController+GREYAdditionsTest.m */,
+				59467ED31C9379DE0089498B /* UIWindow+GREYAdditionsTest.m */,
+			);
+			path = Sources;
+			sourceTree = SOURCE_ROOT;
+		};
+		59467ED41C9379DE0089498B /* TestRig */ = {
+			isa = PBXGroup;
+			children = (
+				59467ED51C9379DE0089498B /* Resources */,
+				59467EDD1C9379DE0089498B /* Sources */,
+				59467EDF1C9379DE0089498B /* UnitTestRig-Info.plist */,
+			);
+			path = TestRig;
+			sourceTree = SOURCE_ROOT;
+		};
+		59467ED51C9379DE0089498B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				59467ED61C9379DE0089498B /* Default-568h@2x.png */,
+				59467ED71C9379DE0089498B /* Default.png */,
+				59467ED81C9379DE0089498B /* Default@2x.png */,
+				59467ED91C9379DE0089498B /* Default@3x.png */,
+				59467EDA1C9379DE0089498B /* ic_local_drink_48pt.png */,
+				59467EDB1C9379DE0089498B /* ic_local_drink_48pt@2x.png */,
+				59467EDC1C9379DE0089498B /* ic_local_drink_48pt@3x.png */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		59467EDD1C9379DE0089498B /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				59467EDE1C9379DE0089498B /* main.m */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
 		596D89C31C05ACAF00025714 /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				596D89C71C05ACB000025714 /* EarlGrey.framework */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		FD193F211BBDD8E400153959 /* SupportingFiles */ = {
-			isa = PBXGroup;
-			children = (
-				FD5AD4951C1275970013312A /* UnitTests.pch */,
-			);
-			name = SupportingFiles;
-			sourceTree = "<group>";
-		};
-		FD193F221BBDD8EF00153959 /* Sources */ = {
-			isa = PBXGroup;
-			children = (
-				FD5AD4431C12758C0013312A /* CAAnimation+GREYAdditionsTest.m */,
-				FD5AD4441C12758C0013312A /* CALayer+GREYAdditionsTest.m */,
-				FD5AD4451C12758C0013312A /* CGGeometry+GREYAdditionsTest.m */,
-				FD5AD4461C12758C0013312A /* GREYActionsTest.m */,
-				FD5AD4471C12758C0013312A /* GREYAppStateTrackerTest.m */,
-				FD5AD4481C12758C0013312A /* GREYAssertionsTest.m */,
-				FD5AD4491C12758C0013312A /* GREYBaseTest.h */,
-				FD5AD44A1C12758C0013312A /* GREYBaseTest.m */,
-				FD5AD44B1C12758C0013312A /* GREYConditionTest.m */,
-				FD5AD44C1C12758C0013312A /* GREYConfigurationTest.m */,
-				FD5AD44D1C12758C0013312A /* GREYDataEnumeratorTest.m */,
-				FD5AD44E1C12758C0013312A /* GREYDispatchQueueIdlingResourceTest.m */,
-				FD5AD44F1C12758C0013312A /* GREYElementFinderTest.m */,
-				FD5AD4501C12758C0013312A /* GREYElementHierarchyTest.m */,
-				FD5AD4511C12758C0013312A /* GREYElementInteractionTest.m */,
-				FD5AD4521C12758C0013312A /* GREYElementMatcherBlockTest.m */,
-				FD5AD4531C12758C0013312A /* GREYElementProviderTest.m */,
-				FD5AD4541C12758C0013312A /* GREYExposedForTesting.h */,
-				FD5AD4551C12758C0013312A /* GREYLayoutConstraintTest.m */,
-				FD5AD4561C12758C0013312A /* GREYMatchersTest.m */,
-				FD5AD4571C12758C0013312A /* GREYNSTimerIdlingResourceTest.m */,
-				FD5AD4581C12758C0013312A /* GREYOperationQueueIdlingResourceTest.m */,
-				FD5AD4591C12758C0013312A /* GREYPathGestureUtilsTest.m */,
-				FD5AD45A1C12758C0013312A /* GREYScreenshotUtilTest.m */,
-				FD5AD45B1C12758C0013312A /* GREYScrollActionTest.m */,
-				FD5AD45D1C12758C0013312A /* GREYSingleSequenceTouchInjectorTest.m */,
-				FD5AD45E1C12758C0013312A /* GREYSwipeActionTest.m */,
-				FD5AD45F1C12758C0013312A /* GREYSwizzlerTest.m */,
-				FD5AD4601C12758C0013312A /* GREYSyncAPITest.m */,
-				FD5AD4611C12758C0013312A /* GREYTimedIdlingResourceTest.m */,
-				FD5AD4621C12758C0013312A /* GREYUIScrollViewTest.m */,
-				FD5AD4631C12758C0013312A /* GREYUIThreadExecutorTest.m */,
-				FD5AD4641C12758C0013312A /* GREYUIWindowProviderTest.m */,
-				FD5AD4651C12758C0013312A /* GREYVisibilityCheckerTest.m */,
-				FD5AD4661C12758C0013312A /* NSObject+GREYAdditionsTest.m */,
-				FD5AD4671C12758C0013312A /* NSString+GREYAdditionsTest.m */,
-				FD5AD4681C12758C0013312A /* NSURLConnection+GREYAdditionsTest.m */,
-				FD5AD4691C12758C0013312A /* NSURLSessionTask+GREYAdditionsTest.m */,
-				FD5AD46A1C12758C0013312A /* UIView+GREYAdditionsTest.m */,
-				FD5AD46B1C12758C0013312A /* UIViewController+GREYAdditionsTest.m */,
-				FD5AD46C1C12758C0013312A /* UIWindow+GREYAdditionsTest.m */,
-			);
-			name = Sources;
 			sourceTree = "<group>";
 		};
 		FD8FB2C51BB609C600E90D7D = {
@@ -318,7 +352,6 @@
 				FD8FB30A1BB60AA900E90D7D /* QuartzCore.framework */,
 				FD8FB3081BB60AA300E90D7D /* Foundation.framework */,
 				FD8FB2D01BB609C600E90D7D /* UnitTests */,
-				FD8FB3331BB60C5D00E90D7D /* EarlGreyUnitTests */,
 				FD8FB2CF1BB609C600E90D7D /* Products */,
 			);
 			sourceTree = "<group>";
@@ -326,7 +359,7 @@
 		FD8FB2CF1BB609C600E90D7D /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				FD8FB2CE1BB609C600E90D7D /* UnitTests.app */,
+				FD8FB2CE1BB609C600E90D7D /* UnitTestRig.app */,
 				FD8FB3321BB60C5D00E90D7D /* EarlGreyUnitTests.xctest */,
 			);
 			name = Products;
@@ -335,27 +368,12 @@
 		FD8FB2D01BB609C600E90D7D /* UnitTests */ = {
 			isa = PBXGroup;
 			children = (
-				FDF47C2D1BBC8A3F001B1F03 /* Resources */,
-				FD8FB2D11BB609C600E90D7D /* Supporting Files */,
+				59467EA81C9379DE0089498B /* LICENSE */,
+				59467EA91C9379DE0089498B /* UnitTests.pch */,
+				59467EAA1C9379DE0089498B /* Sources */,
+				59467ED41C9379DE0089498B /* TestRig */,
 			);
 			path = UnitTests;
-			sourceTree = "<group>";
-		};
-		FD8FB2D11BB609C600E90D7D /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				FD5AD4411C12756A0013312A /* main.m */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		FD8FB3331BB60C5D00E90D7D /* EarlGreyUnitTests */ = {
-			isa = PBXGroup;
-			children = (
-				FD193F221BBDD8EF00153959 /* Sources */,
-				FD193F211BBDD8E400153959 /* SupportingFiles */,
-			);
-			path = EarlGreyUnitTests;
 			sourceTree = "<group>";
 		};
 		FDB855581C12392C00B407EB /* Products */ = {
@@ -366,30 +384,17 @@
 				FDB855641C12392C00B407EB /* libOCMock.a */,
 				FDB855661C12392C00B407EB /* OCMockLibTests.xctest */,
 				FDB855681C12392C00B407EB /* OCMock.framework */,
+				59467EA71C9378F10089498B /* OCMock.framework */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		FDF47C2D1BBC8A3F001B1F03 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				FD5AD4331C1275570013312A /* Default-568h@2x.png */,
-				FD5AD4341C1275570013312A /* Default.png */,
-				FD5AD4351C1275570013312A /* Default@2x.png */,
-				FD5AD4361C1275570013312A /* Default@3x.png */,
-				FD5AD4371C1275570013312A /* ic_local_drink_48pt.png */,
-				FD5AD4381C1275570013312A /* ic_local_drink_48pt@2x.png */,
-				FD5AD4391C1275570013312A /* ic_local_drink_48pt@3x.png */,
-			);
-			name = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		FD8FB2CD1BB609C600E90D7D /* UnitTests */ = {
+		FD8FB2CD1BB609C600E90D7D /* UnitTestRig */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FD8FB2F11BB609C600E90D7D /* Build configuration list for PBXNativeTarget "UnitTests" */;
+			buildConfigurationList = FD8FB2F11BB609C600E90D7D /* Build configuration list for PBXNativeTarget "UnitTestRig" */;
 			buildPhases = (
 				FD8FB2CA1BB609C600E90D7D /* Sources */,
 				FD8FB2CB1BB609C600E90D7D /* Frameworks */,
@@ -399,9 +404,9 @@
 			);
 			dependencies = (
 			);
-			name = UnitTests;
+			name = UnitTestRig;
 			productName = UnitTests;
-			productReference = FD8FB2CE1BB609C600E90D7D /* UnitTests.app */;
+			productReference = FD8FB2CE1BB609C600E90D7D /* UnitTestRig.app */;
 			productType = "com.apple.product-type.application";
 		};
 		FD8FB3311BB60C5D00E90D7D /* EarlGreyUnitTests */ = {
@@ -465,13 +470,20 @@
 			);
 			projectRoot = "";
 			targets = (
-				FD8FB2CD1BB609C600E90D7D /* UnitTests */,
+				FD8FB2CD1BB609C600E90D7D /* UnitTestRig */,
 				FD8FB3311BB60C5D00E90D7D /* EarlGreyUnitTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		59467EA71C9378F10089498B /* OCMock.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = OCMock.framework;
+			remoteRef = 59467EA61C9378F10089498B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		596D89C71C05ACB000025714 /* EarlGrey.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -521,13 +533,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FD5AD43C1C1275570013312A /* Default@2x.png in Resources */,
-				FD5AD43E1C1275570013312A /* ic_local_drink_48pt.png in Resources */,
-				FD5AD43D1C1275570013312A /* Default@3x.png in Resources */,
-				FD5AD43A1C1275570013312A /* Default-568h@2x.png in Resources */,
-				FD5AD43B1C1275570013312A /* Default.png in Resources */,
-				FD5AD43F1C1275570013312A /* ic_local_drink_48pt@2x.png in Resources */,
-				FD5AD4401C1275570013312A /* ic_local_drink_48pt@3x.png in Resources */,
+				59467F3B1C937A110089498B /* Default-568h@2x.png in Resources */,
+				59467F421C937A140089498B /* LICENSE in Resources */,
+				59467F3C1C937A110089498B /* Default.png in Resources */,
+				59467F3D1C937A110089498B /* Default@2x.png in Resources */,
+				59467F3E1C937A110089498B /* Default@3x.png in Resources */,
+				59467F3F1C937A120089498B /* ic_local_drink_48pt.png in Resources */,
+				59467F401C937A120089498B /* ic_local_drink_48pt@2x.png in Resources */,
+				59467F411C937A120089498B /* ic_local_drink_48pt@3x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -545,7 +558,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FD5AD4421C12756A0013312A /* main.m in Sources */,
+				59467F3A1C937A0B0089498B /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -553,45 +566,45 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FD5AD48A1C12758C0013312A /* GREYUIScrollViewTest.m in Sources */,
-				FD5AD48B1C12758C0013312A /* GREYUIThreadExecutorTest.m in Sources */,
-				FD5AD48E1C12758C0013312A /* NSObject+GREYAdditionsTest.m in Sources */,
-				FD5AD4921C12758C0013312A /* UIView+GREYAdditionsTest.m in Sources */,
-				FD5AD4811C12758C0013312A /* GREYPathGestureUtilsTest.m in Sources */,
-				FD5AD47C1C12758C0013312A /* GREYElementProviderTest.m in Sources */,
-				FD5AD4771C12758C0013312A /* GREYDispatchQueueIdlingResourceTest.m in Sources */,
-				FD5AD4761C12758C0013312A /* GREYDataEnumeratorTest.m in Sources */,
-				FD5AD47F1C12758C0013312A /* GREYNSTimerIdlingResourceTest.m in Sources */,
-				FD5AD48F1C12758C0013312A /* NSString+GREYAdditionsTest.m in Sources */,
-				FD5AD4861C12758C0013312A /* GREYSwipeActionTest.m in Sources */,
-				FD5AD4731C12758C0013312A /* GREYBaseTest.m in Sources */,
-				FD5AD4901C12758C0013312A /* NSURLConnection+GREYAdditionsTest.m in Sources */,
-				FD5AD4801C12758C0013312A /* GREYOperationQueueIdlingResourceTest.m in Sources */,
-				FD5AD4701C12758C0013312A /* GREYActionsTest.m in Sources */,
-				FD5AD4911C12758C0013312A /* NSURLSessionTask+GREYAdditionsTest.m in Sources */,
-				FD5AD4821C12758C0013312A /* GREYScreenshotUtilTest.m in Sources */,
-				FD5AD47A1C12758C0013312A /* GREYElementInteractionTest.m in Sources */,
-				FD5AD48C1C12758C0013312A /* GREYUIWindowProviderTest.m in Sources */,
-				FD5AD4891C12758C0013312A /* GREYTimedIdlingResourceTest.m in Sources */,
-				FD5AD47D1C12758C0013312A /* GREYLayoutConstraintTest.m in Sources */,
-				FD5AD4721C12758C0013312A /* GREYAssertionsTest.m in Sources */,
-				FD5AD4931C12758C0013312A /* UIViewController+GREYAdditionsTest.m in Sources */,
-				FD5AD48D1C12758C0013312A /* GREYVisibilityCheckerTest.m in Sources */,
-				FD5AD46E1C12758C0013312A /* CALayer+GREYAdditionsTest.m in Sources */,
-				FD5AD4851C12758C0013312A /* GREYSingleSequenceTouchInjectorTest.m in Sources */,
-				FD5AD4741C12758C0013312A /* GREYConditionTest.m in Sources */,
-				FD5AD4831C12758C0013312A /* GREYScrollActionTest.m in Sources */,
-				FD5AD46F1C12758C0013312A /* CGGeometry+GREYAdditionsTest.m in Sources */,
-				FD5AD46D1C12758C0013312A /* CAAnimation+GREYAdditionsTest.m in Sources */,
-				FD5AD4751C12758C0013312A /* GREYConfigurationTest.m in Sources */,
-				FD5AD4871C12758C0013312A /* GREYSwizzlerTest.m in Sources */,
-				FD5AD4711C12758C0013312A /* GREYAppStateTrackerTest.m in Sources */,
-				FD5AD4881C12758C0013312A /* GREYSyncAPITest.m in Sources */,
-				FD5AD4791C12758C0013312A /* GREYElementHierarchyTest.m in Sources */,
-				FD5AD4781C12758C0013312A /* GREYElementFinderTest.m in Sources */,
-				FD5AD47B1C12758C0013312A /* GREYElementMatcherBlockTest.m in Sources */,
-				FD5AD4941C12758C0013312A /* UIWindow+GREYAdditionsTest.m in Sources */,
-				FD5AD47E1C12758C0013312A /* GREYMatchersTest.m in Sources */,
+				59467F111C9379FC0089498B /* CAAnimation+GREYAdditionsTest.m in Sources */,
+				59467F121C9379FC0089498B /* CALayer+GREYAdditionsTest.m in Sources */,
+				59467F131C9379FC0089498B /* CGGeometry+GREYAdditionsTest.m in Sources */,
+				59467F141C9379FC0089498B /* GREYActionsTest.m in Sources */,
+				59467F151C9379FC0089498B /* GREYAppStateTrackerTest.m in Sources */,
+				59467F161C9379FC0089498B /* GREYAssertionsTest.m in Sources */,
+				59467F181C9379FC0089498B /* GREYBaseTest.m in Sources */,
+				59467F191C9379FC0089498B /* GREYConditionTest.m in Sources */,
+				59467F1A1C9379FC0089498B /* GREYConfigurationTest.m in Sources */,
+				59467F1B1C9379FC0089498B /* GREYDataEnumeratorTest.m in Sources */,
+				59467F1C1C9379FC0089498B /* GREYDispatchQueueIdlingResourceTest.m in Sources */,
+				59467F1D1C9379FC0089498B /* GREYElementFinderTest.m in Sources */,
+				59467F1E1C9379FC0089498B /* GREYElementHierarchyTest.m in Sources */,
+				59467F1F1C9379FC0089498B /* GREYElementInteractionTest.m in Sources */,
+				59467F201C9379FC0089498B /* GREYElementMatcherBlockTest.m in Sources */,
+				59467F211C9379FC0089498B /* GREYElementProviderTest.m in Sources */,
+				59467F231C9379FC0089498B /* GREYLayoutConstraintTest.m in Sources */,
+				59467F241C9379FC0089498B /* GREYMatchersTest.m in Sources */,
+				59467F251C9379FC0089498B /* GREYNSTimerIdlingResourceTest.m in Sources */,
+				59467F261C9379FC0089498B /* GREYOperationQueueIdlingResourceTest.m in Sources */,
+				59467F271C9379FC0089498B /* GREYPathGestureUtilsTest.m in Sources */,
+				59467F281C9379FC0089498B /* GREYScreenshotUtilTest.m in Sources */,
+				59467F291C9379FC0089498B /* GREYScrollActionTest.m in Sources */,
+				59467F2A1C9379FC0089498B /* GREYSingleSequenceTouchInjectorTest.m in Sources */,
+				59467F2B1C9379FC0089498B /* GREYSwipeActionTest.m in Sources */,
+				59467F2C1C9379FC0089498B /* GREYSwizzlerTest.m in Sources */,
+				59467F2D1C9379FC0089498B /* GREYSyncAPITest.m in Sources */,
+				59467F2E1C9379FC0089498B /* GREYTimedIdlingResourceTest.m in Sources */,
+				59467F2F1C9379FC0089498B /* GREYUIScrollViewTest.m in Sources */,
+				59467F301C9379FC0089498B /* GREYUIThreadExecutorTest.m in Sources */,
+				59467F311C9379FC0089498B /* GREYUIWindowProviderTest.m in Sources */,
+				59467F321C9379FC0089498B /* GREYVisibilityCheckerTest.m in Sources */,
+				59467F331C9379FC0089498B /* NSObject+GREYAdditionsTest.m in Sources */,
+				59467F341C9379FC0089498B /* NSString+GREYAdditionsTest.m in Sources */,
+				59467F351C9379FC0089498B /* NSURLConnection+GREYAdditionsTest.m in Sources */,
+				59467F361C9379FC0089498B /* NSURLSessionTask+GREYAdditionsTest.m in Sources */,
+				59467F371C9379FC0089498B /* UIView+GREYAdditionsTest.m in Sources */,
+				59467F381C9379FC0089498B /* UIViewController+GREYAdditionsTest.m in Sources */,
+				59467F391C9379FC0089498B /* UIWindow+GREYAdditionsTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -605,7 +618,7 @@
 		};
 		FD8FB3391BB60C5D00E90D7D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = FD8FB2CD1BB609C600E90D7D /* UnitTests */;
+			target = FD8FB2CD1BB609C600E90D7D /* UnitTestRig */;
 			targetProxy = FD8FB3381BB60C5D00E90D7D /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -633,7 +646,7 @@
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "";
@@ -673,7 +686,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_CFLAGS = "";
 				SDKROOT = iphoneos;
@@ -702,6 +715,7 @@
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				ENABLE_BITCODE = NO;
+				EXECUTABLE_PREFIX = UnitTests.pch;
 				INFOPLIST_FILE = "TestRig/UnitTestRig-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -714,6 +728,7 @@
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				ENABLE_BITCODE = NO;
+				EXECUTABLE_PREFIX = UnitTests.pch;
 				INFOPLIST_FILE = "TestRig/UnitTestRig-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -745,7 +760,7 @@
 					IOKit,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UnitTests.app/UnitTests";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UnitTestRig.app/UnitTests.pchUnitTestRig";
 				WARNING_CFLAGS = "$(inherited)";
 			};
 			name = Debug;
@@ -770,7 +785,7 @@
 					IOKit,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UnitTests.app/UnitTests";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UnitTestRig.app/UnitTests.pchUnitTestRig";
 				WARNING_CFLAGS = "$(inherited)";
 			};
 			name = Release;
@@ -785,16 +800,16 @@
 				FD8FB2F01BB609C600E90D7D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
-		FD8FB2F11BB609C600E90D7D /* Build configuration list for PBXNativeTarget "UnitTests" */ = {
+		FD8FB2F11BB609C600E90D7D /* Build configuration list for PBXNativeTarget "UnitTestRig" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FD8FB2F21BB609C600E90D7D /* Debug */,
 				FD8FB2F31BB609C600E90D7D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		FD8FB33A1BB60C5D00E90D7D /* Build configuration list for PBXNativeTarget "EarlGreyUnitTests" */ = {
 			isa = XCConfigurationList;
@@ -803,7 +818,7 @@
 				FD8FB33C1BB60C5D00E90D7D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};
