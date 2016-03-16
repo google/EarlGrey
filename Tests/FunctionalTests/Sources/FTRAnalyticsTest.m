@@ -16,20 +16,36 @@
 
 #import "FTRBaseAnalyticsTest.h"
 
+// Analytics shouldn't be sent when test cases don't call into Earlgrey.
+static BOOL gAnalyticsShouldBeSent = NO;
+
 @interface FTRAnalyticsTest : FTRBaseAnalyticsTest
 @end
 
 @implementation FTRAnalyticsTest
 
 - (void)testAnalyticsIsEnabled {
+  gAnalyticsShouldBeSent = NO;
+  // Verify that analytics is enabled by default.
+  XCTAssertTrue(GREY_CONFIG_BOOL(kGREYConfigKeyAnalyticsEnabled));
+}
+
+- (void)testAnalyticsNotSent {
+  gAnalyticsShouldBeSent = YES;
+  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait errorOrNil:nil];
   // Verify that analytics is enabled by default.
   XCTAssertTrue(GREY_CONFIG_BOOL(kGREYConfigKeyAnalyticsEnabled));
 }
 
 + (void)tearDown {
-  // The instance tear down method must have been invoked by now and since analytics is enabled, a
-  // single analytics request must have been sent out.
-  [self assertCapturedAnalyticsRequestsCount:1];
+  if (gAnalyticsShouldBeSent) {
+    // The instance tear down method must have been invoked by now and since analytics should be
+    // sent, a single analytics request should have been sent out.
+    [self assertCapturedAnalyticsRequestsCount:1];
+  } else {
+    // No analytics request should have been sent out.
+    [self assertCapturedAnalyticsRequestsCount:0];
+  }
   [super tearDown];
 }
 

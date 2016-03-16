@@ -16,8 +16,8 @@
 
 #import "FTRBaseAnalyticsTest.h"
 
+// Not included in public headers.
 #import <EarlGrey/GREYAppStateTracker.h>
-
 #import "FTRNetworkProxy.h"
 
 /**

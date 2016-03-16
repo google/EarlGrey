@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "FTRBaseIntegrationTest.h"
+@import XCTest;
 
 /**
  *  Base class for Analytics tests. Extending from this class causes FTRNetworkProxy to be
@@ -22,7 +22,7 @@
  *  Additionally the analytics config setting is saved in the test suite's set up and restored in
  *  the tear down so the derived classes can modify it without effecting other tests.
  */
-@interface FTRBaseAnalyticsTest : FTRBaseIntegrationTest
+@interface FTRBaseAnalyticsTest : XCTestCase
 
 /**
  *  Asserts that the number of analytics requests captured by FTRNetworkProxy is equal to the

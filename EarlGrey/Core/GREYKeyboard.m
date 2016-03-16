@@ -34,7 +34,7 @@
 static GREYTapAction *gTapKeyAction;
 
 /**
- *  Flag set to @c YES when is keyboard, @c NO when keyboard is hidden.
+ *  Flag set to @c YES when the keyboard is shown, @c NO when keyboard is hidden.
  */
 static BOOL gIsKeyboardShown = NO;
 

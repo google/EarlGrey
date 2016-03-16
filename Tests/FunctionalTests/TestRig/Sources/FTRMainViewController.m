@@ -92,6 +92,15 @@ static NSString *gTableViewIdentifier = @"TableViewIdentifier";
   [self.navigationController.navigationBar setTranslucent:NO];
 }
 
+// If we find that the orientation of the device / simulator is not
+// UIDeviceOrientationPortrait, then for testing purposes, we rotate
+// it to UIDeviceOrientationPortrait. However, the simulator itself
+// tries to correct the orientation since we support all orientations
+// in our test app. This removes the automated orientation correction.
+- (BOOL)shouldAutorotate {
+  return NO;
+}
+
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

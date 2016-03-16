@@ -450,6 +450,18 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
   return grey_allOf(isEnabledMatcher, areAncestorsEnabled, nil);
 }
 
++ (id<GREYMatcher>)matcherForUserInteractionEnabled {
+  MatchesBlock matches = ^BOOL(UIView *view) {
+    return [view isUserInteractionEnabled];
+  };
+  DescribeToBlock describe = ^void(id<GREYDescription> description) {
+    [description appendText:@"userInteractionEnabled"];
+  };
+  id<GREYMatcher> matcher =
+      [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe];
+  return grey_allOf(grey_kindOfClass([UIView class]), matcher, nil);
+}
+
 + (id<GREYMatcher>)matcherForConstraints:(NSArray *)constraints
             toReferenceElementMatching:(id<GREYMatcher>)referenceElementMatcher {
   MatchesBlock matches = ^BOOL(id element) {
@@ -669,6 +681,10 @@ id<GREYMatcher> grey_datePickerValue(NSDate *value) {
 
 id<GREYMatcher> grey_enabled(void) {
   return [GREYMatchers matcherForEnabledElement];
+}
+
+id<GREYMatcher> grey_userInteractionEnabled(void) {
+  return [GREYMatchers matcherForUserInteractionEnabled];
 }
 
 id<GREYMatcher> grey_layout(NSArray *constraints, id<GREYMatcher> referenceElementMatcher) {

@@ -203,23 +203,6 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
                  andReplaceWithInstanceMethod:@selector(tearDown)];
       NSAssert(swizzleSuccess, @"Cannot swizzle %@ tearDown", NSStringFromClass(selfClass));
       [self grey_markSwizzled];
-
-      // Swizzle recordFailureWithDescription:inFile:atLine:expected: to detect failures that may
-      // not throw exceptions.
-      SEL recordFailureSelector =
-          @selector(recordFailureWithDescription:inFile:atLine:expected:);
-      SEL ituRecordFailureSelector =
-          @selector(grey_recordFailureWithDescription:inFile:atLine:expected:);
-      IMP ituRecordFailureIMP = [self methodForSelector:ituRecordFailureSelector];
-
-      swizzleSuccess = [swizzler swizzleClass:selfClass
-                            addInstanceMethod:ituRecordFailureSelector
-                           withImplementation:ituRecordFailureIMP
-                 andReplaceWithInstanceMethod:recordFailureSelector];
-      NSAssert(swizzleSuccess, @"Cannot swizzle %@ %@", NSStringFromSelector(recordFailureSelector),
-               NSStringFromClass(selfClass));
-
-      [self grey_markSwizzled];
     }
 
     @try {
@@ -232,7 +215,7 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
           [self grey_createDirRemovingExistingDir:[self grey_localizedTestOutputsDirectory]
                                             error:&error];
 
-      NSAssert(success, @"Failed to create localized outputs directory. Cause: %@", error);
+      NSAssert(success, @"Failed to create localized outputs directory with error: %@", error);
       INVOKE_ORIGINAL_IMP(void, @selector(grey_invokeTest));
 
       // The test may have been marked as failed if a failure was recorded with the
@@ -300,28 +283,6 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
   [[NSNotificationCenter defaultCenter] postNotificationName:notificationName
                                                       object:self
                                                     userInfo:userInfo];
-}
-
-/**
- *  Changes the test status when a failure is recorded so we're able to send a failure notification
- *  if for some reason the test fails without throwing an exception.
- *
- *  @param description Description of the failure.
- *  @param filePath    Path to the file where the failure has occured.
- *  @param lineNumber  Line number to the file at @c filePath where the failure has occured.
- *  @param expected    A @c BOOL indicating if the failure was actually expected.
- */
-- (void)grey_recordFailureWithDescription:(NSString *)description
-                                   inFile:(NSString *)filePath
-                                   atLine:(NSUInteger)lineNumber
-                                 expected:(BOOL)expected {
-  [self grey_setStatus:kGREYXCTestCaseStatusFailed];
-  INVOKE_ORIGINAL_IMP4(void,
-                       @selector(grey_recordFailureWithDescription:inFile:atLine:expected:),
-                       description,
-                       filePath,
-                       lineNumber,
-                       expected);
 }
 
 /**
