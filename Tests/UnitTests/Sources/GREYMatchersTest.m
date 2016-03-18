@@ -414,6 +414,21 @@
                  @"Untappable child of tappable parent should not be tappable");
 }
 
+- (void)testIsUserInteractionEnabled_isTrueForEnabledView {
+  UIView *view = [[UIView alloc] init];
+  view.userInteractionEnabled = YES;
+  id<GREYMatcher> matcher = grey_userInteractionEnabled();
+  XCTAssertTrue([matcher matches:view], @"Views with user interaction enabled should be matched");
+}
+
+- (void)testIsUserInteractionEnabled_isFalseForDisabledView {
+  UIView *view = [[UIView alloc] init];
+  view.userInteractionEnabled = NO;
+  id<GREYMatcher> matcher = grey_userInteractionEnabled();
+  XCTAssertFalse([matcher matches:view],
+                 @"Views with user interaction disabled should not be matched");
+}
+
 - (void)testLayoutMatcherWithSingleConstraint {
   // Prepare a window and add reference view to it.
   UIWindow *window = [[UIWindow alloc] init];

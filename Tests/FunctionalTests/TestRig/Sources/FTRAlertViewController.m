@@ -19,9 +19,9 @@
 @interface FTRAlertViewController()
 
 #if !defined(__IPHONE_9_0) || (__IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_9_0)
-@property (strong, nonatomic) UIAlertView *alertView;
+@property(strong, nonatomic) UIAlertView *alertView;
 #else
-@property (strong, nonatomic) UIAlertController *alertController;
+@property(strong, nonatomic) UIAlertController *alertController;
 #endif
 @end
 
@@ -36,11 +36,11 @@
   [super viewWillDisappear:animated];
 
 #if !defined(__IPHONE_9_0) || (__IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_9_0)
-  if (!CGRectEqualToRect(self.alertView.frame, CGRectZero)) {
+  if (self.alertView) {
     [self.alertView dismissWithClickedButtonIndex:[self.alertView cancelButtonIndex] animated:NO];
   }
 #else
-  if (!CGRectEqualToRect(self.alertController.view.frame, CGRectZero)) {
+  if (self.alertController) {
     [self.alertController dismissViewControllerAnimated:NO completion:nil];
   }
 #endif

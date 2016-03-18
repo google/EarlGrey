@@ -58,11 +58,11 @@
   [[EarlGrey selectElementWithMatcher:grey_text(@"Styled Alert")]
       performAction:[GREYActions actionForTap]];
 
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Login")]
+  [[EarlGrey selectElementWithMatcher:grey_text(@"Login")]
       performAction:grey_typeText(@"test_user")];
   [[EarlGrey selectElementWithMatcher:grey_text(@"test_user")] assertWithMatcher:grey_notNil()];
 
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Password")]
+  [[EarlGrey selectElementWithMatcher:grey_text(@"Password")]
       performAction:grey_typeText(@"test_pwd")];
   [[EarlGrey selectElementWithMatcher:grey_text(@"test_pwd")] assertWithMatcher:grey_notNil()];
 

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		59A993281C99453200914F9A /* EarlGrey.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001791C5B46C200B2DB0A /* EarlGrey.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FD1001B01C5B46C200B2DB0A /* GREYAction.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001011C5B46C100B2DB0A /* GREYAction.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FD1001B11C5B46C200B2DB0A /* GREYActionBlock.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001021C5B46C100B2DB0A /* GREYActionBlock.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FD1001B21C5B46C200B2DB0A /* GREYActionBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1001031C5B46C100B2DB0A /* GREYActionBlock.m */; };
@@ -110,7 +111,6 @@
 		FD10021F1C5B46C200B2DB0A /* GREYSurrogateDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1001761C5B46C200B2DB0A /* GREYSurrogateDelegate.m */; };
 		FD1002201C5B46C200B2DB0A /* GREYUIWebViewDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001771C5B46C200B2DB0A /* GREYUIWebViewDelegate.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		FD1002211C5B46C200B2DB0A /* GREYUIWebViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1001781C5B46C200B2DB0A /* GREYUIWebViewDelegate.m */; };
-		FD1002221C5B46C200B2DB0A /* EarlGrey.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001791C5B46C200B2DB0A /* EarlGrey.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FD1002231C5B46C200B2DB0A /* EarlGrey.m in Sources */ = {isa = PBXBuildFile; fileRef = FD10017A1C5B46C200B2DB0A /* EarlGrey.m */; };
 		FD1002241C5B46C200B2DB0A /* GREYSingleSequenceTouchInjector.h in Headers */ = {isa = PBXBuildFile; fileRef = FD10017C1C5B46C200B2DB0A /* GREYSingleSequenceTouchInjector.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		FD1002251C5B46C200B2DB0A /* GREYSingleSequenceTouchInjector.m in Sources */ = {isa = PBXBuildFile; fileRef = FD10017D1C5B46C200B2DB0A /* GREYSingleSequenceTouchInjector.m */; };
@@ -722,7 +722,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FD1002221C5B46C200B2DB0A /* EarlGrey.h in Headers */,
+				59A993281C99453200914F9A /* EarlGrey.h in Headers */,
 				FD1001FD1C5B46C200B2DB0A /* GREYAssertionDefines.h in Headers */,
 				FD1001FA1C5B46C200B2DB0A /* GREYAssertion.h in Headers */,
 				FD1001FE1C5B46C200B2DB0A /* GREYAssertions.h in Headers */,
@@ -965,7 +965,7 @@
 					EarlGrey/,
 					fishhook/,
 				);
-				INFOPLIST_FILE = "";
+				INFOPLIST_FILE = "EarlGrey-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -1010,7 +1010,7 @@
 					EarlGrey/,
 					fishhook/,
 				);
-				INFOPLIST_FILE = "";
+				INFOPLIST_FILE = "EarlGrey-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -1040,6 +1040,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -1060,10 +1061,12 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MODULEMAP_FILE = "";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.earlgrey.EarlGrey;
+				PRODUCT_MODULE_NAME = EarlGrey;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WARNING_CFLAGS = (
@@ -1089,6 +1092,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -1103,10 +1107,12 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PREFIX_HEADER = EarlGrey.pch;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MODULEMAP_FILE = "";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.earlgrey.EarlGrey;
+				PRODUCT_MODULE_NAME = EarlGrey;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;

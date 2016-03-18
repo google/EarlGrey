@@ -265,11 +265,18 @@
 + (id<GREYMatcher>)matcherForDatePickerValue:(NSDate *)value;
 
 /**
- *  Matcher that verifies that if the element is a UIControl, it is enabled.
+ *  Matcher that verifies whether an element, that is a UIControl, is enabled.
  *
- *  @return A matcher checking if a UI element is an enabled UIControl.
+ *  @return A matcher for checking whether a UI element is an enabled UIControl.
  */
 + (id<GREYMatcher>)matcherForEnabledElement;
+
+/**
+ *  Matcher that verifies whether a view has its userInteractionEnabled property set to @c YES.
+ *
+ *  @return A matcher for checking whether a view' userInteractionEnabled property is set to @c YES.
+ */
++ (id<GREYMatcher>)matcherForUserInteractionEnabled;
 
 /**
  *  Matcher that verifies that the selected element satisfies the given constraints to the
@@ -447,6 +454,9 @@ GREY_EXPORT id<GREYMatcher> grey_datePickerValue(NSDate *date);
 
 /** Shorthand for GREYMatchers::matcherForEnabledElement. */
 GREY_EXPORT id<GREYMatcher> grey_enabled(void);
+
+/** Shorthand for GREYMatchers::matcherForUserInteractionEnabled. */
+GREY_EXPORT id<GREYMatcher> grey_userInteractionEnabled(void);
 
 /** Shorthand for GREYMatchers::matcherForConstraints:toReferenceElementMatching:. */
 GREY_EXPORT id<GREYMatcher> grey_layout(NSArray *constraints,

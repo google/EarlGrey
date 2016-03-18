@@ -42,6 +42,19 @@
       assertWithMatcher:grey_accessibilityLabel(@"Switch")];
 }
 
+- (void)testUserInteractionEnabledMatcherForBasicView {
+  [self openTestViewNamed:@"Basic Views"];
+
+  [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_tap()];
+
+  // Simple Label has user interaction enabled set to NO in xib.
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Simple Label")]
+      assertWithMatcher:grey_not(grey_userInteractionEnabled())];
+
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Switch")]
+      assertWithMatcher:grey_userInteractionEnabled()];
+}
+
 - (void)testDescendantMatcherWithTableViews {
   [self openTestViewNamed:@"Table Views"];
 

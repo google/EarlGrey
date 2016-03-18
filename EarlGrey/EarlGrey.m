@@ -36,14 +36,18 @@
 // Handler for all EarlGrey failures.
 id<GREYFailureHandler> greyFailureHandler;
 
+// Lock to guard access to @c greyFailureHandler.
 static pthread_mutex_t gFailureHandlerLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
 
-@implementation EarlGreyImpl
+@implementation EarlGreyImpl {
+  // Invocation should be tracked on next teardown.
+  BOOL _makeAnalyticsCallOnTearDown;
+}
 
 + (void)load {
   @autoreleasepool {
-    // These need to be set in load since someone might call EarlGrey assertion APIs directly
-    //  without calling into EarlGrey.
+    // These need to be set in load since someone might call GREYAssertXXX APIs without calling
+    // into EarlGrey.
     greyFailureHandler = [[GREYDefaultFailureHandler alloc] init];
 
     grey_setupCrashHandlers();
@@ -59,6 +63,88 @@ static pthread_mutex_t gFailureHandlerLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER
       [NSURLProtocol registerClass:[GREYBeaconImageProtocol class]];
     }
   }
+}
+
++ (instancetype)invokedFromFile:(NSString *)fileName lineNumber:(NSUInteger)lineNumber {
+  static EarlGreyImpl *instance = nil;
+  static dispatch_once_t token = 0;
+  dispatch_once(&token, ^{
+    instance = [[EarlGreyImpl alloc] initOnce];
+  });
+
+  if ([greyFailureHandler respondsToSelector:@selector(setInvocationFile:andInvocationLine:)]) {
+    [greyFailureHandler setInvocationFile:fileName andInvocationLine:lineNumber];
+  }
+  [instance grey_didInvokeEarlGrey];
+  return instance;
+}
+
+- (instancetype)initOnce {
+  self = [super init];
+  if (self) {
+    // Add a global observer for all test teardown events.
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(grey_testCaseDidTearDown:)
+                                                 name:kGREYXCTestCaseInstanceDidTearDown
+                                               object:nil];
+  }
+  return self;
+}
+
+- (void)dealloc {
+  [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                  name:kGREYXCTestCaseInstanceDidTearDown
+                                                object:nil];
+}
+
+- (GREYElementInteraction *)selectElementWithMatcher:(id<GREYMatcher>)elementMatcher {
+  return [[GREYElementInteraction alloc] initWithElementMatcher:elementMatcher];
+}
+
+- (void)setFailureHandler:(id<GREYFailureHandler>)handler {
+  [self grey_lockFailureHandler];
+  greyFailureHandler = (handler == nil) ? [[GREYDefaultFailureHandler alloc] init] : handler;
+  [self grey_unlockFailureHandler];
+}
+
+- (void)handleException:(GREYFrameworkException *)exception details:(NSString *)details {
+  [self grey_lockFailureHandler];
+  [greyFailureHandler handleException:exception details:details];
+  [self grey_unlockFailureHandler];
+}
+
+- (BOOL)rotateDeviceToOrientation:(UIDeviceOrientation)deviceOrientation
+                       errorOrNil:(__strong NSError **)errorOrNil {
+  return [GREYSyntheticEvents rotateDeviceToOrientation:deviceOrientation errorOrNil:errorOrNil];
+}
+
+#pragma mark - Private
+
+// Called when any Earlgrey invocation occurs using any @code [EarlGrey XXX] @endcode statements.
+- (void)grey_didInvokeEarlGrey {
+  if ([XCTestCase grey_currentTestCase]) {
+    // Count a hit only if EarlGrey is called within the context of a test case.
+    _makeAnalyticsCallOnTearDown = YES;
+  }
+}
+
+- (void)grey_testCaseDidTearDown:(NSNotification *)note {
+  if (_makeAnalyticsCallOnTearDown) {
+    if (GREY_CONFIG_BOOL(kGREYConfigKeyAnalyticsEnabled)) {
+      [GREYAnalytics trackTestCaseCompletion];
+    }
+    _makeAnalyticsCallOnTearDown = NO;
+  }
+}
+
+- (void)grey_lockFailureHandler {
+  int lock = pthread_mutex_lock(&gFailureHandlerLock);
+  NSAssert(lock == 0, @"Failed to lock.");
+}
+
+- (void)grey_unlockFailureHandler {
+  int unlock = pthread_mutex_unlock(&gFailureHandlerLock);
+  NSAssert(unlock == 0, @"Failed to unlock.");
 }
 
 // Global simulator/device settings that must be configured for EarlGrey to perform correctly.
@@ -93,68 +179,6 @@ static void grey_configureDeviceAndSimulatorForAutomation() {
   }
 
   [axSettingPrefController setAXInspectorEnabled:@(YES) specifier:nil];
-}
-
-+ (instancetype)invokedFromFile:(NSString *)fileName lineNumber:(NSUInteger)lineNumber {
-  static EarlGreyImpl *instance = nil;
-  static dispatch_once_t token = 0;
-  dispatch_once(&token, ^{
-    instance = [[EarlGreyImpl alloc] initOnce];
-  });
-
-  if ([greyFailureHandler respondsToSelector:@selector(setInvocationFile:andInvocationLine:)]) {
-    [greyFailureHandler setInvocationFile:fileName andInvocationLine:lineNumber];
-  }
-  return instance;
-}
-
-- (instancetype)initOnce {
-  self = [super init];
-  if (self) {
-    // Add observer for test case tearDown event for usage tracking.
-    [[NSNotificationCenter defaultCenter] addObserverForName:kGREYXCTestCaseInstanceDidTearDown
-                                                      object:nil
-                                                       queue:nil
-                                                  usingBlock:^(NSNotification *note) {
-      if (GREY_CONFIG_BOOL(kGREYConfigKeyAnalyticsEnabled)) {
-        [GREYAnalytics trackTestCaseCompletion];
-      }
-    }];
-  }
-  return self;
-}
-
-- (GREYElementInteraction *)selectElementWithMatcher:(id<GREYMatcher>)elementMatcher {
-  return [[GREYElementInteraction alloc] initWithElementMatcher:elementMatcher];
-}
-
-- (void)setFailureHandler:(id<GREYFailureHandler>)handler {
-  [self grey_lockFailureHandler];
-  greyFailureHandler = (handler == nil) ? [[GREYDefaultFailureHandler alloc] init] : handler;
-  [self grey_unlockFailureHandler];
-}
-
-- (void)handleException:(GREYFrameworkException *)exception details:(NSString *)details {
-  [self grey_lockFailureHandler];
-  [greyFailureHandler handleException:exception details:details];
-  [self grey_unlockFailureHandler];
-}
-
-- (BOOL)rotateDeviceToOrientation:(UIDeviceOrientation)deviceOrientation
-                       errorOrNil:(__strong NSError **)errorOrNil {
-  return [GREYSyntheticEvents rotateDeviceToOrientation:deviceOrientation errorOrNil:errorOrNil];
-}
-
-#pragma mark - Private
-
-- (void)grey_lockFailureHandler {
-  int lock = pthread_mutex_lock(&gFailureHandlerLock);
-  NSAssert(lock == 0, @"Failed to lock.");
-}
-
-- (void)grey_unlockFailureHandler {
-  int unlock = pthread_mutex_unlock(&gFailureHandlerLock);
-  NSAssert(unlock == 0, @"Failed to unlock.");
 }
 
 #pragma mark - Crash Handlers

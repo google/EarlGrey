@@ -17,7 +17,7 @@
 #import <Foundation/Foundation.h>
 
 /**
- *  Private iOS class that doesn't call through to @code [super viewWillDisappear] @endcode.
+ *  Private iOS class that doesn't call through to @code [super viewWillDisappear:] @endcode.
  *  Without this, EarlGrey is unable to synchronize with disappearance of views of this controller.
  *
  *  @remark This is fixed in iOS 9.

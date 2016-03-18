@@ -16,6 +16,6 @@
 
 #ifdef __OBJC__
   @import EarlGrey;
-  #import <Foundation/Foundation.h>
-  #import <UIKit/UIKit.h>
+  @import Foundation;
+  @import UIKit;
 #endif
