@@ -26,12 +26,12 @@ For EarlGrey, we highly recommend [CocoaPods](https://cocoapods.org/) as the bes
   Phases, we recommend that you create a separate test target for adding EarlGrey tests. If you do not have
   one set up already, you can do so by selecting your project in the Xcode Project Navigator, and then and
   clicking **Editor > Add Target...** from the menu.
-  2. In the **Add Target** window, select **iOS** -> **Test** -> **iOS Unit Testing Bundle**:
+  2. In the **Add Target** window, select **iOS** → **Test** → **iOS Unit Testing Bundle**:
 
       <img src="images/image00.png" width="500">
 
   3. Because EarlGrey uses Schemes, the test target must have a Scheme associated with it. It is also
-  better if the Scheme is shared. If your test target does not have a Scheme, go to **Manage Schemes**, press
+  better if the Scheme is shared. If your test target does not have a Scheme, go to **Product** → **Scheme** → **Manage Schemes**, press
   the plus **(+)** sign, and then select the target from the dropdown menu. Select the **Shared** option and
   have the **Container** set to the app under test.
 
