@@ -25,7 +25,7 @@ For EarlGrey, we highly recommend [CocoaPods](https://cocoapods.org/) as the bes
   1. EarlGrey requires a **Test Target**. Because EarlGrey adds changes to the test target's Scheme and Build
   Phases, we recommend that you create a separate test target for adding EarlGrey tests. If you do not have
   one set up already, you can do so by selecting your project in the Xcode Project Navigator, and then and
-  clicking **Editor > Add Target...** from the menu.
+  clicking **Editor → Add Target...** from the menu.
   2. In the **Add Target** window, select **iOS** → **Test** → **iOS Unit Testing Bundle**:
 
       <img src="images/image00.png" width="500">
@@ -92,6 +92,9 @@ For EarlGrey, we highly recommend [CocoaPods](https://cocoapods.org/) as the bes
    * The `:exclusive => true` and `inherit! :search_paths` flag prevents double-linking for libraries in the test target with any conflicting libraries in the main application.
    * For more information, visit the [CocoaPods Podfile Guide](http://guides.cocoapods.org/using/the-podfile.html).
 
+   Note: If you are trying to run the [EarlGrey Demo App](https://github.com/google/EarlGrey/tree/master/Demo/EarlGreyExample)
+   then ensure you have the latest 1.x CocoaPods version since we use the [updated syntax]
+   (http://blog.cocoapods.org/CocoaPods-1.0/) for it.
 
 #### Step 3: Run the pod install command
 
@@ -132,13 +135,13 @@ In cases where CocoaPods is not compatible with your project, you can add EarlGr
   2. Add **EarlGrey.framework** as a dependency of your project’s Test Target:
 
     ```
-    Project > Test Target > Build Phases > Link Binary With Libraries > + (Add Sign) > EarlGrey.framework`
+    Project → Test Target → Build Phases → Link Binary With Libraries → + (Add Sign) → EarlGrey.framework`
     ```
 
   3. Add EarlGrey as a Target Dependency to the Test Target:
 
     ```
-    Project > Test Target > Build Phases > Target Dependencies > + (Add Sign) > EarlGrey
+    Project → Test Target → Build Phases → Target Dependencies → + (Add Sign) → EarlGrey
     ```
 
      The Test Target’s Build Phases should now look similar to this:
@@ -148,14 +151,14 @@ In cases where CocoaPods is not compatible with your project, you can add EarlGr
   4. Add the path of **EarlGrey.xcodeproj** in your **Header Search Paths**:
 
     ```
-    Project > Test Target > Build Settings > Header Search Paths > + (Add Sign) > Directory_of_EarlGrey.xcodeproj. (recursive)
+    Project → Test Target → Build Settings → Header Search Paths → + (Add Sign) → Directory_of_EarlGrey.xcodeproj. (recursive)
     ```
 
   5. Similarly, add in the path of **EarlGrey.xcodeproj** to the **Framework Search Paths** of your app.
 
   6. Turn off Bitcode as it is not supported by EarlGrey (yet) by setting **Enable Bitcode** to **NO** in the Build Settings of the Test Target.
 
-  7. You must add environment variables in the Test Target's Scheme to inject the EarlGrey framework. To do so, go to **The Test Target > Edit Scheme > Test Action** and then deselect **Use the Run action's arguments and environment variables**. Add the following details in the `Environment Variables`:
+  7. You must add environment variables in the Test Target's Scheme to inject the EarlGrey framework. To do so, go to **The Test Target → Edit Scheme → Test Action** and then deselect **Use the Run action's arguments and environment variables**. Add the following details in the `Environment Variables`:
 
            Key: `DYLD_INSERT_LIBRARIES`
            Value:`@executable_path/EarlGrey.framework/EarlGrey`
@@ -183,7 +186,7 @@ correctly to launch the app under test:
    * **Bundle Loader** is set to *$(TEST_HOST)*.
    * **Wrapper Extension** is set to *xctest*.
 3. Add a **Copy Files** Build Phase to the Test Target to copy the EarlGrey framework to your app under test.
-To do this, choose **Project > Test Target > Build Phases > + (Add Sign) > New Copy Files Phase**, and then
+To do this, choose **Project → Test Target → Build Phases → + (Add Sign) → New Copy Files Phase**, and then
 add the following details in the **Copy Files** phase:
 
            Destination: `Absolute Path`
