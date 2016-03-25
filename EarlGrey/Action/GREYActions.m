@@ -175,29 +175,31 @@
     if ([firstResponder respondsToSelector:@selector(autocorrectionType)] &&
         [firstResponder respondsToSelector:@selector(setAutocorrectionType:)]) {
       originalAutocorrectionType = [firstResponder autocorrectionType];
-      [firstResponder setAutocorrectionType:UITextAutocorrectionTypeNo];
-
-      // If the view already is the first responder and had autocorrect enabled, it must
-      // resign and become first responder for the autocorrect type change to take effect.
-      [firstResponder resignFirstResponder];
-      if (![GREYKeyboard waitForKeyboardToDisappear]) {
-        NSString *description = @"Keyboard did not disappear after resigning first responder "
-                                @"status of %@";
-        [NSError grey_logOrSetOutReferenceIfNonNil:errorOrNil
-                                        withDomain:kGREYInteractionErrorDomain
-                                              code:kGREYInteractionActionFailedErrorCode
-                              andDescriptionFormat:description, firstResponder];
-        return NO;
-      }
-      [firstResponder becomeFirstResponder];
-      if (![GREYKeyboard waitForKeyboardToAppear]) {
-        NSString *description = @"Keyboard did not appear after %@ became the first responder.";
-        [NSError grey_logOrSetOutReferenceIfNonNil:errorOrNil
-                                        withDomain:kGREYInteractionErrorDomain
-                                              code:kGREYInteractionActionFailedErrorCode
-                              andDescriptionFormat:description, firstResponder];
-        return NO;
-      }
+        if (originalAutocorrectionType != UITextAutocorrectionTypeNo) {
+            [firstResponder setAutocorrectionType:UITextAutocorrectionTypeNo];
+            
+            // If the view already is the first responder and had autocorrect enabled, it must
+            // resign and become first responder for the autocorrect type change to take effect.
+            [firstResponder resignFirstResponder];
+            if (![GREYKeyboard waitForKeyboardToDisappear]) {
+                NSString *description = @"Keyboard did not disappear after resigning first responder "
+                @"status of %@";
+                [NSError grey_logOrSetOutReferenceIfNonNil:errorOrNil
+                                                withDomain:kGREYInteractionErrorDomain
+                                                      code:kGREYInteractionActionFailedErrorCode
+                                      andDescriptionFormat:description, firstResponder];
+                return NO;
+            }
+            [firstResponder becomeFirstResponder];
+            if (![GREYKeyboard waitForKeyboardToAppear]) {
+                NSString *description = @"Keyboard did not appear after %@ became the first responder.";
+                [NSError grey_logOrSetOutReferenceIfNonNil:errorOrNil
+                                                withDomain:kGREYInteractionErrorDomain
+                                                      code:kGREYInteractionActionFailedErrorCode
+                                      andDescriptionFormat:description, firstResponder];
+                return NO;
+            }
+        }
     }
 
     // If a position is given, move the text cursor to that position.
