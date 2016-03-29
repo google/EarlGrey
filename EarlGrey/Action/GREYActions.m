@@ -129,94 +129,7 @@
 }
 
 + (id<GREYAction>)actionForTypeText:(NSString *)text {
-  return [GREYActions actionForTypeText:text atUITextPosition:nil];
-}
-
-// Use the iOS keyboard to type a string starting from the provided UITextPosition. If position is
-// nil, then will type text from the text input's current position. Should only be called with a
-// position if element conforms to the UITextInput protocol - which it should if you derived the
-// UITextPosition from the element.
-+ (id<GREYAction>)actionForTypeText:(NSString *)text atUITextPosition:(UITextPosition *)position {
-  return [GREYActionBlock actionWithName:[NSString stringWithFormat:@"Type \"%@\"", text]
-                             constraints:grey_not(grey_systemAlertViewShown())
-                            performBlock:^BOOL (id element, __strong NSError **errorOrNil) {
-    UIView *expectedFirstResponderView;
-    if (![element isKindOfClass:[UIView class]]) {
-      expectedFirstResponderView = [element grey_viewContainingSelf];
-    } else {
-      expectedFirstResponderView = element;
-    }
-
-    // If expectedFirstResponderView or one of its ancestors isn't the first responder, tap on
-    // it so it becomes the first responder.
-    if (![expectedFirstResponderView isFirstResponder] &&
-        ![grey_ancestor(grey_firstResponder()) matches:expectedFirstResponderView]) {
-      // Tap on the element to make expectedFirstResponderView a first responder.
-      if (![[GREYActions actionForTap] perform:element error:errorOrNil]) {
-        return NO;
-      }
-      // Wait for keyboard to show up and any other UI changes to take effect.
-      if (![GREYKeyboard waitForKeyboardToAppear]) {
-        NSString *description = @"Keyboard did not appear after tapping on %@. Are you sure that "
-                                @"tapping on this element will bring up the keyboard?";
-        [NSError grey_logOrSetOutReferenceIfNonNil:errorOrNil
-                                        withDomain:kGREYInteractionErrorDomain
-                                              code:kGREYInteractionActionFailedErrorCode
-                              andDescriptionFormat:description, element];
-        return NO;
-      }
-    }
-
-    // Autocorrection might change the results of the type action in unexpected ways. In order to
-    // avoid that, we must disable autocorrection for the first responder before executing the
-    // action.
-    UITextAutocorrectionType originalAutocorrectionType = UITextAutocorrectionTypeNo;
-    id firstResponder = [expectedFirstResponderView.window firstResponder];
-    if ([firstResponder respondsToSelector:@selector(autocorrectionType)] &&
-        [firstResponder respondsToSelector:@selector(setAutocorrectionType:)]) {
-      originalAutocorrectionType = [firstResponder autocorrectionType];
-      [firstResponder setAutocorrectionType:UITextAutocorrectionTypeNo];
-
-      // If the view already is the first responder and had autocorrect enabled, it must
-      // resign and become first responder for the autocorrect type change to take effect.
-      [firstResponder resignFirstResponder];
-      if (![GREYKeyboard waitForKeyboardToDisappear]) {
-        NSString *description = @"Keyboard did not disappear after resigning first responder "
-                                @"status of %@";
-        [NSError grey_logOrSetOutReferenceIfNonNil:errorOrNil
-                                        withDomain:kGREYInteractionErrorDomain
-                                              code:kGREYInteractionActionFailedErrorCode
-                              andDescriptionFormat:description, firstResponder];
-        return NO;
-      }
-      [firstResponder becomeFirstResponder];
-      if (![GREYKeyboard waitForKeyboardToAppear]) {
-        NSString *description = @"Keyboard did not appear after %@ became the first responder.";
-        [NSError grey_logOrSetOutReferenceIfNonNil:errorOrNil
-                                        withDomain:kGREYInteractionErrorDomain
-                                              code:kGREYInteractionActionFailedErrorCode
-                              andDescriptionFormat:description, firstResponder];
-        return NO;
-      }
-    }
-
-    // If a position is given, move the text cursor to that position.
-    if (position) {
-      UITextRange *newRange = [element textRangeFromPosition:position toPosition:position];
-      [element setSelectedTextRange:newRange];
-    }
-
-    // After autocorrect is disabled, we can perform the actual typing.
-    BOOL retVal = [GREYKeyboard typeString:text error:errorOrNil];
-
-    // If the element's UITextAutocorrection type was changed, it has to be restored before
-    // continuing.
-    if (originalAutocorrectionType != UITextAutocorrectionTypeNo) {
-      [firstResponder setAutocorrectionType:originalAutocorrectionType];
-    }
-
-    return retVal;
-  }];
+  return [GREYActions grey_actionForTypeText:text atUITextPosition:nil];
 }
 
 + (id<GREYAction>)actionForClearText {
@@ -224,8 +137,7 @@
   id<GREYMatcher> constraints = grey_anyOf(grey_respondsToSelector(@selector(text)),
                                            grey_kindOfClass(webElement),
                                            nil);
-  NSString *actionName = [NSString stringWithFormat:@"Clear text"];
-  return [GREYActionBlock actionWithName:actionName
+  return [GREYActionBlock actionWithName:@"Clear text"
                              constraints:constraints
                             performBlock:^BOOL (id element, __strong NSError **errorOrNil) {
     NSString *textStr;
@@ -255,8 +167,8 @@
     if (deleteStr.length == 0) {
       return YES;
     } else if ([element conformsToProtocol:@protocol(UITextInput)]) {
-      id<GREYAction> typeAtEnd = [GREYActions actionForTypeText:deleteStr
-                                               atUITextPosition:[element endOfDocument]];
+      id<GREYAction> typeAtEnd = [GREYActions grey_actionForTypeText:deleteStr
+                                                    atUITextPosition:[element endOfDocument]];
       return [typeAtEnd perform:element error:errorOrNil];
     } else {
       return [[GREYActions actionForTypeText:deleteStr] perform:element error:errorOrNil];
@@ -327,6 +239,197 @@
       return YES;
     }
   }];
+}
+
+#pragma mark - Private
+
+/**
+ *  Use the iOS keyboard to type a string starting from the provided UITextPosition. If the
+ *  position is @c nil, then type text from the text input's current position. Should only be called
+ *  with a position if element conforms to the UITextInput protocol - which it should if you
+ *  derived the UITextPosition from the element.
+ *
+ *  @param text     The text to be typed.
+ *  @param position The position in the text field at which the text is to be typed.
+ *
+ *  @return @c YES if the action succeeded, else @c NO. If an action returns @c NO, it does not
+ *          mean that the action was not performed at all but somewhere during the action execution
+ *          the error occured and so the UI may be in an unrecoverable state.
+ */
++ (id<GREYAction>)grey_actionForTypeText:(NSString *)text
+                        atUITextPosition:(UITextPosition *)position {
+  return [GREYActionBlock actionWithName:[NSString stringWithFormat:@"Type \"%@\"", text]
+                             constraints:grey_not(grey_systemAlertViewShown())
+                            performBlock:^BOOL (id element, __strong NSError **errorOrNil) {
+    UIView *expectedFirstResponderView;
+    if (![element isKindOfClass:[UIView class]]) {
+      expectedFirstResponderView = [element grey_viewContainingSelf];
+    } else {
+      expectedFirstResponderView = element;
+    }
+
+    // If expectedFirstResponderView or one of its ancestors isn't the first responder, tap on
+    // it so it becomes the first responder.
+    if (![expectedFirstResponderView isFirstResponder] &&
+        ![grey_ancestor(grey_firstResponder()) matches:expectedFirstResponderView]) {
+      // Tap on the element to make expectedFirstResponderView a first responder.
+      if (![[GREYActions actionForTap] perform:element error:errorOrNil]) {
+        return NO;
+      }
+      // Wait for keyboard to show up and any other UI changes to take effect.
+      if (![GREYKeyboard waitForKeyboardToAppear]) {
+        NSString *description = @"Keyboard did not appear after tapping on %@. Are you sure that "
+            @"tapping on this element will bring up the keyboard?";
+        [NSError grey_logOrSetOutReferenceIfNonNil:errorOrNil
+                                        withDomain:kGREYInteractionErrorDomain
+                                              code:kGREYInteractionActionFailedErrorCode
+                              andDescriptionFormat:description, element];
+        return NO;
+      }
+    }
+
+    // If a position is given, move the text cursor to that position.
+    id firstResponder = [[expectedFirstResponderView window] firstResponder];
+    if (position) {
+      if ([firstResponder conformsToProtocol:@protocol(UITextInput)]) {
+        UITextRange *newRange = [firstResponder textRangeFromPosition:position toPosition:position];
+        [firstResponder setSelectedTextRange:newRange];
+      } else {
+        NSString *description = @"First Responder %@ of element %@ does not conform to UITextInput"
+            @" protocol.";
+        [NSError grey_logOrSetOutReferenceIfNonNil:errorOrNil
+                                        withDomain:kGREYInteractionErrorDomain
+                                              code:kGREYInteractionActionFailedErrorCode
+                              andDescriptionFormat:description,
+         firstResponder,
+         expectedFirstResponderView];
+        return NO;
+      }
+    }
+
+    BOOL retVal;
+
+    if (iOS8_2_OR_ABOVE()) {
+      // Directly perform the typing since for iOS8.2 and above, we directly turn off Autocorrect
+      // and Predictive Typing from the settings.
+      retVal = [self grey_withAutocorrectAlreadyDisabledTypeText:text
+                                                inFirstResponder:firstResponder
+                                                       withError:errorOrNil];
+    } else {
+      // Perform typing. If this is pre-iOS8.2, then we simply turn the autocorrection
+      // off the current textfield being typed in.
+      retVal = [self grey_disableAutoCorrectForDelegateAndTypeText:text
+                                                  inFirstResponder:firstResponder
+                                                         withError:errorOrNil];
+    }
+
+    return retVal;
+  }];
+}
+
+/**
+ *  Performs typing in the provided element by turning off autocorrect. In case of OS versions
+ *  that provide an easy API to turn off autocorrect from the settings, we do that, else we obtain
+ *  the element being typed in, and turn off autocorrect for that element while being typed on.
+ *
+ *  @param      text           The text to be typed.
+ *  @param      firstResponder The element the action is to be performed on.
+ *                             This must not be @c nil.
+ *  @param[out] errorOrNil     Error that will be populated on failure. The implementing class
+ *                             should handle the behavior when it is @c nil by, for example,
+ *                             logging the error or throwing an exception.
+ *
+ *  @return @c YES if the action succeeded, else @c NO. If an action returns @c NO, it does not
+ *          mean that the action was not performed at all but somewhere during the action execution
+ *          the error occured and so the UI may be in an unrecoverable state.
+ */
++ (BOOL)grey_disableAutoCorrectForDelegateAndTypeText:(NSString *)text
+                                     inFirstResponder:(id)firstResponder
+                                            withError:(__strong NSError **)errorOrNil {
+  // If you're clearing the text label then you do not need to have the autocorrect
+  // turned off.
+  NSCharacterSet *set = [NSCharacterSet characterSetWithCharactersInString:@"\b"];
+  if ([text stringByTrimmingCharactersInSet:set].length == 0) {
+    return [GREYKeyboard typeString:text
+                   inFirstResponder:firstResponder
+                              error:errorOrNil];
+  }
+
+  // Obtain the current delegate from the keyboard. This can only be called when the keyboard is
+  // up. The original delegate has to be passed here in order to change the autocorrection type
+  // since we reset the delegate in the grey_setAutocorrectionType:forIntance:
+  // withOriginalKeyboardDelegate:withKeyboardToggling method in order for the autocorrection type
+  // change to take effect.
+  id keyboardInstance = [UIKeyboardImpl sharedInstance];
+  id originalKeyboardDelegate = [keyboardInstance delegate];
+  UITextAutocorrectionType originalAutoCorrectionType =
+      [originalKeyboardDelegate autocorrectionType];
+  // For a copy of the keyboard's delegate, turn the autocorrection off. Set this copy back
+  // as the delegate.
+  [self grey_setAutocorrectionType:UITextAutocorrectionTypeNo
+                       forInstance:keyboardInstance
+      withOriginalKeyboardDelegate:originalKeyboardDelegate
+              withKeyboardToggling:iOS8_1_OR_ABOVE()];
+
+  // Type the string in the delegate text field.
+  BOOL typingResult = [GREYKeyboard typeString:text
+                              inFirstResponder:firstResponder
+                                         error:errorOrNil];
+
+  // Reset the keyboard delegate's autocorrection back to the original one.
+  [self grey_setAutocorrectionType:originalAutoCorrectionType
+                       forInstance:keyboardInstance
+      withOriginalKeyboardDelegate:originalKeyboardDelegate
+              withKeyboardToggling:NO];
+  return typingResult;
+}
+
+/**
+ *  For the particular element being typed in, signified by the delegate of the keyboard instance
+ *  turn off autocorrection. To provide a delay in this action, we can also hide and show the
+ *  keyboard.
+ *
+ *  @param autoCorrectionType         The autocorrection type to set the current keyboard to.
+ *  @param originalKeyboardDelegate   The current app keyboard's delegate which is the same as the
+ *                                    first responder when obtained from the keyboard.
+ *  @param keyboardInstance           The active keyboard instance.
+ *  @param toggleKeyboardVisibilityOn A switch to show/hide the keyboard.
+ *
+ */
++ (void)grey_setAutocorrectionType:(BOOL)autoCorrectionType
+                       forInstance:(id)keyboardInstance
+      withOriginalKeyboardDelegate:(id)keyboardDelegate
+              withKeyboardToggling:(BOOL)toggleKeyboardVisibilityOn {
+  if (toggleKeyboardVisibilityOn) {
+    [keyboardInstance hideKeyboard];
+  }
+  [keyboardDelegate setAutocorrectionType:autoCorrectionType];
+  [keyboardInstance setDelegate:keyboardDelegate];
+  if (toggleKeyboardVisibilityOn) {
+    [keyboardInstance showKeyboard];
+  }
+}
+
+/**
+ *  Directly perform typing without any changes in the first responder element whatsoever.
+ *
+ *  @param      text           The text to be typed.
+ *  @param      firstResponder The element the action is to be performed on.
+ *                             This must not be @c nil.
+ *  @param[out] errorOrNil     Error that will be populated on failure. The implementing class
+ *                             should handle the behavior when it is @c nil by, for example,
+ *                             logging the error or throwing an exception.
+ *
+ *  @return @c YES if the action succeeded, else @c NO. If an action returns @c NO, it does not
+ *          mean that the action was not performed at all but somewhere during the action execution
+ *          the error occured and so the UI may be in an unrecoverable state.
+ */
++ (BOOL)grey_withAutocorrectAlreadyDisabledTypeText:(NSString *)text
+                                   inFirstResponder:firstResponder
+                                          withError:(__strong NSError **)errorOrNil {
+  // Perform typing. This requires autocorrect to be turned off. In
+  // the case of iOS8+, this is done through the Keyboard Settings bundle.
+  return [GREYKeyboard typeString:text inFirstResponder:firstResponder error:errorOrNil];
 }
 
 @end

@@ -30,7 +30,6 @@
 #import "Core/GREYKeyboard.h"
 #import "Event/GREYSyntheticEvents.h"
 #import "Exception/GREYDefaultFailureHandler.h"
-#import "Synchronization/GREYBeaconImageProtocol.h"
 #import "Synchronization/GREYUIThreadExecutor.h"
 
 // Handler for all EarlGrey failures.
@@ -50,18 +49,8 @@ static pthread_mutex_t gFailureHandlerLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER
     // into EarlGrey.
     greyFailureHandler = [[GREYDefaultFailureHandler alloc] init];
 
-    grey_setupCrashHandlers();
-    grey_configureDeviceAndSimulatorForAutomation();
-  }
-}
-
-+ (void)initialize {
-  @autoreleasepool {
-    if ([self class] == [EarlGreyImpl class]) {
-      // Registering |GREYBeaconImageProtocol| protocol class ensures that requests for EarlGrey
-      // beacon images can be served by that class (without hitting external network).
-      [NSURLProtocol registerClass:[GREYBeaconImageProtocol class]];
-    }
+    [self grey_setupCrashHandlers];
+    [self grey_configureDeviceAndSimulatorForAutomation];
   }
 }
 
@@ -149,36 +138,70 @@ static pthread_mutex_t gFailureHandlerLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER
 
 // Global simulator/device settings that must be configured for EarlGrey to perform correctly.
 // These settings must be set before EarlGrey starts interacting with elements on screen.
-static void grey_configureDeviceAndSimulatorForAutomation() {
++ (void)grey_configureDeviceAndSimulatorForAutomation {
   // This method ensures the software keyboard is shown.
   [[UIKeyboardImpl sharedInstance] setAutomaticMinimizationEnabled:NO];
 
-  // For simulators and devices, this hack enables accessibility which is required for using
-  // anything related to accessibility.
-  // Before we can access AX settings preference, bundle needs to be loaded.
-  NSString *const accessibilitySettingsPrefBundle =
+  // Modifies the accessibility settings to ensure that the accessibility inspector
+  // is always shown.
+  [self grey_modifyAccessibilitySettings];
+
+  // Modifies the keyboard settings to ensure that auto correction is turned off by default
+  // for a ui keyboard. We perform this action only in the case of iOS8+.
+  if (iOS8_2_OR_ABOVE()) {
+    [self grey_modifyKeyboardSettings];
+  }
+}
+
+// For simulators and devices, this hack enables accessibility which is required for using
+// anything related to accessibility.
+// Before we can access AX settings preference, bundle needs to be loaded.
++ (void)grey_modifyAccessibilitySettings {
+  NSString *accessibilitySettingsPrefBundlePath =
       @"/System/Library/PreferenceBundles/AccessibilitySettings.bundle/AccessibilitySettings";
-  char const *const accessibilitySettingsPrefBundlePath =
-      [accessibilitySettingsPrefBundle fileSystemRepresentation];
-  void *handle = dlopen(accessibilitySettingsPrefBundlePath, RTLD_LAZY);
+  NSString *accessibilityControllerClassName = @"AccessibilitySettingsController";
+  id accessibilityControllerInstance =
+      [self grey_settingsClassInstanceFromBundleAtPath:accessibilitySettingsPrefBundlePath
+                                         withClassName:accessibilityControllerClassName];
+  [accessibilityControllerInstance setAXInspectorEnabled:@(YES) specifier:nil];
+}
+
+// Modifies the autocorrect and predictive typing settings to turn them off through the
+// keyboard settings bundle.
++ (void)grey_modifyKeyboardSettings {
+  NSString *keyboardSettingsPrefBundlePath =
+      @"/System/Library/PreferenceBundles/KeyboardSettings.bundle/KeyboardSettings";
+  NSString *keyboardControllerClassName = @"KeyboardController";
+  id keyboardControllerInstance =
+      [self grey_settingsClassInstanceFromBundleAtPath:keyboardSettingsPrefBundlePath
+                                         withClassName:keyboardControllerClassName];
+  [keyboardControllerInstance setAutocorrectionPreferenceValue:@(NO) forSpecifier:nil];
+  [keyboardControllerInstance setPredictionPreferenceValue:@(NO) forSpecifier:nil];
+}
+
+// For the provided settings bundle path, we use the actual name of the controller
+// class to extract and return a class instance that can be modified.
++ (id)grey_settingsClassInstanceFromBundleAtPath:(NSString *)path
+                                   withClassName:(NSString *)className {
+  NSParameterAssert(path);
+  NSParameterAssert(className);
+  char const *const preferenceBundlePath = [path fileSystemRepresentation];
+  void *handle = dlopen(preferenceBundlePath, RTLD_LAZY);
   if (!handle) {
-    NSLog(@"dlopen couldn't open accessibility settings bundle");
-    abort();
+    NSAssert(NO, @"dlopen couldn't open settings bundle at path bundle %@", path);
   }
 
-  Class axSettingsPrefControllerClass = NSClassFromString(@"AccessibilitySettingsController");
-  if (!axSettingsPrefControllerClass) {
-    NSLog(@"Couldn't find AccessibilitySettingsController class");
-    abort();
+  Class klass = NSClassFromString(className);
+  if (!klass) {
+    NSAssert(NO, @"Couldn't find %@ class", klass);
   }
 
-  id axSettingPrefController = [[axSettingsPrefControllerClass alloc] init];
-  if (!axSettingPrefController) {
-    NSLog(@"Couldn't initialize axSettingPrefController");
-    abort();
+  id klassInstance = [[klass alloc] init];
+  if (!klassInstance) {
+    NSAssert(NO, @"Couldn't initialize controller for class: %@", klass);
   }
 
-  [axSettingPrefController setAXInspectorEnabled:@(YES) specifier:nil];
+  return klassInstance;
 }
 
 #pragma mark - Crash Handlers
@@ -201,14 +224,14 @@ static void grey_uncaughtExceptionHandler(NSException *exception) {
   exit(-1);
 }
 
-static void grey_installSignalHander(int signalId, struct sigaction *hander) {
-  int returnValue = sigaction(signalId, hander, NULL);
+static void grey_installSignalHandler(int signalId, struct sigaction *handler) {
+  int returnValue = sigaction(signalId, handler, NULL);
   if (returnValue != 0) {
     NSLog(@"Error installing %s handler: '%s'.", strsignal(signalId), strerror(errno));
   }
 }
 
-static void grey_setupCrashHandlers() {
++ (void) grey_setupCrashHandlers {
   NSLog(@"Crash handler setup started.");
 
   struct sigaction signalActionHandler;
@@ -221,14 +244,14 @@ static void grey_setupCrashHandlers() {
   signalActionHandler.sa_handler = &grey_signalHandler;
 
   // Register the signal handlers.
-  grey_installSignalHander(SIGQUIT, &signalActionHandler);
-  grey_installSignalHander(SIGILL, &signalActionHandler);
-  grey_installSignalHander(SIGTRAP, &signalActionHandler);
-  grey_installSignalHander(SIGABRT, &signalActionHandler);
-  grey_installSignalHander(SIGFPE, &signalActionHandler);
-  grey_installSignalHander(SIGBUS, &signalActionHandler);
-  grey_installSignalHander(SIGSEGV, &signalActionHandler);
-  grey_installSignalHander(SIGSYS, &signalActionHandler);
+  grey_installSignalHandler(SIGQUIT, &signalActionHandler);
+  grey_installSignalHandler(SIGILL, &signalActionHandler);
+  grey_installSignalHandler(SIGTRAP, &signalActionHandler);
+  grey_installSignalHandler(SIGABRT, &signalActionHandler);
+  grey_installSignalHandler(SIGFPE, &signalActionHandler);
+  grey_installSignalHandler(SIGBUS, &signalActionHandler);
+  grey_installSignalHandler(SIGSEGV, &signalActionHandler);
+  grey_installSignalHandler(SIGSYS, &signalActionHandler);
 
   // Register the handler for uncaught exceptions.
   NSSetUncaughtExceptionHandler(&grey_uncaughtExceptionHandler);

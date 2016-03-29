@@ -290,6 +290,18 @@ IOHIDEventRef IOHIDEventCreateDigitizerFingerEvent(CFAllocatorRef allocator,
  *  @param enabled A boolean that indicates automatic minimization (hiding) of the keyboard.
  */
 - (void)setAutomaticMinimizationEnabled:(BOOL)enabled;
+
+/**
+ *  @return The delegate that the UIKeyboard is typing on.
+ */
+- (id)delegate;
+
+/**
+ *  Sets the current UIKeyboard's delegate.
+ *
+ *  @param event The element to set the UIKeyboard's delegate to.
+ */
+- (void)setDelegate:(id)delegate;
 @end
 
 /**
@@ -306,4 +318,45 @@ IOHIDEventRef IOHIDEventCreateDigitizerFingerEvent(CFAllocatorRef allocator,
  */
 - (void)setAXInspectorEnabled:(NSNumber *)enabled specifier:(id)specifier;
 
+/**
+ *  A method to hide the keyboard without resigning the first responder. This is used only
+ *  in iOS 8.1 where we found that turning off the autocorrection type on the first responder
+ *  using setAutomaticMinimizationEnabled: without toggling the keyboard caused keyboard touches
+ *  to be ignored.
+ */
+- (void)hideKeyboard;
+
+/**
+ *  A method to show the keyboard without resigning the first responder. This is used only
+ *  in iOS 8.1 where we found that turning off the autocorrection type on the first responder
+ *  using setAutomaticMinimizationEnabled: without toggling the keyboard caused keyboard touches
+ *  to be ignored.
+ */
+- (void)showKeyboard;
+
+@end
+
+/**
+ *  UI controller for the keyboard preferences pane that can be accessed from the Settings. This
+ *  works only for iOS8+.
+ */
+@interface KeyboardController
+
+/**
+ *  Removes the autocorrect values from being accepted on a UIKeyboard. While the
+ *  autocorrect options may be displayed, they do not affect typing.
+ *
+ *  @param enabled   A boolean that indicates if autocorrect is enabled or not.
+ *  @param specifier Is unused can be @c nil.
+ */
+- (void)setAutocorrectionPreferenceValue:(NSNumber *)enabled forSpecifier:(id)specifier;
+
+/**
+ *  Removes the predictive text from being accepted on a UIKeyboard to stop
+ *  displaying the autocorrect options when typing.
+ *
+ *  @param enabled   A boolean that indicates if predictive typing is enabled or not.
+ *  @param specifier Is unused can be @c nil.
+ */
+- (void)setPredictionPreferenceValue:(NSNumber *)enabled forSpecifier:(id)specifier;
 @end

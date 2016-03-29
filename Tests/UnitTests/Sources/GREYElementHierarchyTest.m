@@ -148,7 +148,7 @@ const CGRect kTestRect = { { 0.0f, 0.0f }, { 10.0f, 10.0f } };
   [cell addSubview:viewA];
 
   // Pre-iOS 8, UITableViewCell holds its views in an internal subview.
-  NSArray *children = iOS8_OR_ABOVE() ? [GREYElementHierarchy grey_orderedChildrenOf:cell] :
+  NSArray *children = iOS8_0_OR_ABOVE() ? [GREYElementHierarchy grey_orderedChildrenOf:cell] :
   [GREYElementHierarchy grey_orderedChildrenOf:[cell.subviews objectAtIndex:0]];
 
   XCTAssertTrue([children containsObject:viewA]);

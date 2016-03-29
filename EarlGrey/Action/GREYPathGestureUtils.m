@@ -162,7 +162,7 @@ static CGFloat kCachedScreenEdgePanDetectionLength = NAN;
  *  @return The relative direction required for the touch path.
  */
 + (GREYDirection)grey_relativeDirectionForCurrentOrientationWithDirection:(GREYDirection)direction {
-  if (iOS8_OR_ABOVE()) {
+  if (iOS8_0_OR_ABOVE()) {
     return direction;
   }
 

@@ -67,7 +67,7 @@
 
   // TODO: Verify the content of the image as well.
   CGSize expectedSize = CGSizeMake(64, 128);
-  if (!iOS8_OR_ABOVE()) {
+  if (!iOS8_0_OR_ABOVE()) {
     // Width and height are interchanged on versions before iOS 8.0
     expectedSize = CGSizeMake(expectedSize.height, expectedSize.width);
   }

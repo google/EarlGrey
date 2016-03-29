@@ -19,7 +19,6 @@
 #import "Additions/UIWebView+GREYAdditions.h"
 #import "Common/GREYDefines.h"
 #import "Common/GREYPrivate.h"
-#import "Synchronization/GREYBeaconImageProtocol.h"
 #import "Synchronization/GREYUIThreadExecutor.h"
 
 /**

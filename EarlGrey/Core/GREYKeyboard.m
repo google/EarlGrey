@@ -143,7 +143,9 @@ static NSString *const kReturnKeyIdentifier = @"\n";
   }
 }
 
-+ (BOOL)typeString:(NSString *)string error:(__strong NSError **)errorOrNil {
++ (BOOL)typeString:(NSString *)string
+    inFirstResponder:(id)firstResponder
+               error:(__strong NSError **)errorOrNil {
   if ([string length] < 1) {
     [NSError grey_logOrSetOutReferenceIfNonNil:errorOrNil
                                     withDomain:kGREYInteractionErrorDomain
@@ -228,8 +230,23 @@ static NSString *const kReturnKeyIdentifier = @"\n";
                                                                          error:errorOrNil];
       }
     }
-    // Key was found; this action should always succeed.
+    // A period key for an email UITextField beyond iOS9 types the email domain by default. This
+    // behavior is added to prevent this.
+    BOOL keyboardTypeWasChangedFromEmailType = NO;
+    if (iOS9_OR_ABOVE() &&
+        [characterAsString isEqualToString:@"."] &&
+        [firstResponder keyboardType] == UIKeyboardTypeEmailAddress) {
+      [firstResponder setKeyboardType:UIKeyboardTypeDefault];
+      keyboardTypeWasChangedFromEmailType = YES;
+    }
+
+    // Keyboard was found; this action should always succeed.
     [GREYKeyboard grey_tapKey:key];
+
+    if (keyboardTypeWasChangedFromEmailType) {
+      // Set the keyboard type back to the Email Type.
+      [firstResponder setKeyboardType:UIKeyboardTypeEmailAddress];
+    }
   }
   return success;
 }

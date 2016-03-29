@@ -56,7 +56,7 @@ static const NSUInteger kBytesPerPixel = 4;
     CGContextTranslateCTM(bitmapContextRef,
                           -CGRectGetWidth(windowRect) * windowAnchor.x,
                           -CGRectGetHeight(windowRect) * windowAnchor.y);
-    if (!iOS8_OR_ABOVE()) {
+    if (!iOS8_0_OR_ABOVE()) {
       if (orientation == UIInterfaceOrientationLandscapeLeft) {
         // Rotate pi/2
         CGContextConcatCTM(bitmapContextRef, CGAffineTransformMake(0, 1, -1, 0, 0, 0));
@@ -185,7 +185,7 @@ static const NSUInteger kBytesPerPixel = 4;
 
 + (CGRect)grey_rectRotatedToStatusBarOrientation:(CGRect)rect {
   UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
-  if (!iOS8_OR_ABOVE() && UIInterfaceOrientationIsLandscape(orientation)) {
+  if (!iOS8_0_OR_ABOVE() && UIInterfaceOrientationIsLandscape(orientation)) {
     CGAffineTransform rotationTransform = CGAffineTransformMake(0, 1, 1, 0, 0, 0);
     return CGRectApplyAffineTransform(rect, rotationTransform);
   }
