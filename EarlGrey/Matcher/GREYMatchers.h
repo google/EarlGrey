@@ -375,6 +375,8 @@
  */
 + (id<GREYMatcher>)matcherForGreaterThan:(id)value;
 
+@end
+
 #if !(GREY_DISABLE_SHORTHAND)
 
 /** Shorthand for GREYMatchers::matcherForKeyWindow. */
@@ -487,5 +489,3 @@ GREY_EXPORT id<GREYMatcher> grey_lessThan(id value);
 GREY_EXPORT id<GREYMatcher> grey_greaterThan(id value);
 
 #endif // GREY_DISABLE_SHORTHAND
-
-@end

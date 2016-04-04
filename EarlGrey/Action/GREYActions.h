@@ -235,6 +235,8 @@
  */
 + (id<GREYAction>)actionForSnapshot:(out __strong UIImage **)outImage;
 
+@end
+
 #if !(GREY_DISABLE_SHORTHAND)
 /** Shorthand macro for GREYActions::actionForMultipleTapsWithCount: with count @c 2. */
 GREY_EXPORT id<GREYAction> grey_doubleTap(void);
@@ -314,5 +316,3 @@ GREY_EXPORT id<GREYAction> grey_javaScriptExecution(NSString *js, __strong NSStr
 GREY_EXPORT id<GREYAction> grey_snapshot(__strong UIImage **outImage);
 
 #endif // GREY_DISABLE_SHORTHAND
-
-@end

@@ -70,7 +70,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     button.frame = CGRectMake(0, 0, 100, 100)
     button.backgroundColor = UIColor.greenColor()
     button.setTitle(title, forState: UIControlState.Normal)
-    button.addTarget(self, action: "buttonAction:",
+    button.addTarget(self, action: #selector(ViewController.buttonAction(_:)),
         forControlEvents: UIControlEvents.TouchUpInside)
     button.accessibilityIdentifier = title
     button.accessibilityLabel = title
