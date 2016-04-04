@@ -15,7 +15,7 @@
 //
 
 public func EarlGrey() -> EarlGreyImpl {
-  return EarlGreyImpl.invokedFromFile(__FILE__, lineNumber: __LINE__)
+  return EarlGreyImpl.invokedFromFile(#file, lineNumber: #line)
 }
 
 public func GREYAssert(@autoclosure expression: () -> BooleanType, reason: String) {
@@ -70,7 +70,9 @@ private func GREYAssert(@autoclosure expression: () -> BooleanType,
 }
 
 private func GREYSetCurrentAsFailable() {
-  if greyFailureHandler.respondsToSelector(Selector("setInvocationFile:andInvocationLine:")) {
-    greyFailureHandler.setInvocationFile!(__FILE__, andInvocationLine: __LINE__)
+  let greyFailureHandlerSelector =
+      #selector(GREYFailureHandler.setInvocationFile(_:andInvocationLine:))
+  if greyFailureHandler.respondsToSelector(greyFailureHandlerSelector) {
+    greyFailureHandler.setInvocationFile!(#file, andInvocationLine: #line)
   }
 }

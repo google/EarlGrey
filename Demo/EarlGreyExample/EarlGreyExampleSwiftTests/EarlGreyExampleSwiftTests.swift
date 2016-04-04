@@ -195,9 +195,8 @@ class EarlGreyExampleSwiftTests: XCTestCase {
 
   func testWithCondition() {
     let myCondition = GREYCondition.init(name: "Example condition", block: { () -> Bool in
-      var i = 1
-      while i <= 100000 {
-        i++
+      for j in 0...100000 {
+        _ = j
       }
       return true
     })

@@ -16,14 +16,6 @@
 
 #import <EarlGrey/GREYBaseMatcher.h>
 
-@protocol GREYDescription;
-
-/**
- *  A block based implementation of GREYBaseMatcher. Enables custom implementation of protocol
- *  method using blocks.
- */
-@interface GREYElementMatcherBlock : GREYBaseMatcher
-
 /**
  *  A block for implementing GREYBaseMatcher::matches:.
  *
@@ -39,6 +31,14 @@ typedef BOOL (^MatchesBlock)(id element);
  *  @param description The description for the matcher.
  */
 typedef void (^DescribeToBlock)(id<GREYDescription> description);
+
+@protocol GREYDescription;
+
+/**
+ *  A block based implementation of GREYBaseMatcher. Enables custom implementation of protocol
+ *  method using blocks.
+ */
+@interface GREYElementMatcherBlock : GREYBaseMatcher
 
 /**
  *  The block which will be invoked for the GREYBaseMatcher::matches: method.
