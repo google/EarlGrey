@@ -111,10 +111,9 @@ In cases where CocoaPods is not compatible with your project, you can add EarlGr
   1. Download the source for EarlGrey and its dependencies.
      * Download EarlGrey's source code from the [Latest Release](https://github.com/google/EarlGrey/archive/1.0.0.zip)
 
-     * Unzip and go to the `EarlGrey-1.0.0/EarlGrey` directory that contains **EarlGrey.xcodeproj**, and run the
-     **setup-earlgrey.sh** script in the `Scripts/` directory.
+     * Unzip and go to the `EarlGrey-1.0.0/EarlGrey` directory that contains **EarlGrey.xcodeproj**.
 
-     * On completion of the script, open the **EarlGrey.xcodeproj** file.
+     * Open the **EarlGrey.xcodeproj** file and build the EarlGrey scheme.
 
       Your EarlGrey folder structure should now look like this:
 
@@ -122,9 +121,9 @@ In cases where CocoaPods is not compatible with your project, you can add EarlGr
 
       And your EarlGrey Project should look like this:
 
-      <img src="images/image04.png" width="400">
+      <img src="images/image04.png" width="200">
 
-  2. Attempt to build targets of **EarlGrey.xcodeproj**; they should all build successfully.
+  2. As part of the initial build step, a script **setup-earlgrey.sh** will be run to download all the required dependencies. Without it, you might find dependencies like `fishhook` and `OCHamcrest` shown as missing in the folder structure.
 
 #### Step 2: Add EarlGrey as a dependency of the project which contains your app under test
 
