@@ -103,6 +103,16 @@
 		FD193FF61BBDDBF500153959 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD193FF51BBDDBF500153959 /* CoreGraphics.framework */; };
 		FD193FF81BBDDBFB00153959 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD193FF71BBDDBFB00153959 /* UIKit.framework */; };
 		FD193FFA1BBDDC0000153959 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD193FF91BBDDC0000153959 /* QuartzCore.framework */; };
+		FD387B4B1CA9C65100958AEE /* EarlGrey.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD387B371CA9C5E200958AEE /* EarlGrey.swift */; };
+		FD387B4C1CA9C65100958AEE /* FTRSwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD387B391CA9C5E200958AEE /* FTRSwiftTests.swift */; };
+		FD387B4F1CA9C69C00958AEE /* EarlGrey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 596D89BE1C05AB0600025714 /* EarlGrey.framework */; };
+		FD387B501CA9C6AB00958AEE /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD5470D61BBDE0A9000661FD /* IOKit.framework */; };
+		FD387B511CA9C6B300958AEE /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD193FF91BBDDC0000153959 /* QuartzCore.framework */; };
+		FD387B521CA9C6B800958AEE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD193FF71BBDDBFB00153959 /* UIKit.framework */; };
+		FD387B531CA9C6BE00958AEE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD193FF51BBDDBF500153959 /* CoreGraphics.framework */; };
+		FD387B541CA9C6C500958AEE /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD193FF11BBDDBE800153959 /* CoreFoundation.framework */; };
+		FD387B551CA9C6C500958AEE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD193FF31BBDDBED00153959 /* Foundation.framework */; };
+		FD387B571CA9C6DA00958AEE /* EarlGrey.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 596D89BE1C05AB0600025714 /* EarlGrey.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		FD5471351BBDF990000661FD /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD193FF11BBDDBE800153959 /* CoreFoundation.framework */; };
 		FD5471361BBDF995000661FD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD193FF31BBDDBED00153959 /* Foundation.framework */; };
 		FD5471371BBDF99B000661FD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD193FF51BBDDBF500153959 /* CoreGraphics.framework */; };
@@ -127,6 +137,20 @@
 			remoteGlobalIDString = FD1000E81C5B466F00B2DB0A;
 			remoteInfo = EarlGrey;
 		};
+		FD387B461CA9C63900958AEE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FD193F241BBDDA4F00153959 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FD193F2B1BBDDA4F00153959;
+			remoteInfo = FunctionalTestRig;
+		};
+		FD387B4D1CA9C67A00958AEE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 596D89B91C05AB0600025714 /* EarlGrey.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = FD1000E81C5B466F00B2DB0A;
+			remoteInfo = EarlGrey;
+		};
 		FD5470F71BBDECBB000661FD /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = FD193F241BBDDA4F00153959 /* Project object */;
@@ -137,6 +161,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		FD387B561CA9C6CA00958AEE /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(TEST_HOST)/..";
+			dstSubfolderSpec = 0;
+			files = (
+				FD387B571CA9C6DA00958AEE /* EarlGrey.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FD60CB601C5B5AFB00F8E318 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 12;
@@ -278,6 +312,10 @@
 		FD193FF51BBDDBF500153959 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		FD193FF71BBDDBFB00153959 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		FD193FF91BBDDC0000153959 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		FD387B371CA9C5E200958AEE /* EarlGrey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EarlGrey.swift; path = Sources/EarlGrey.swift; sourceTree = "<group>"; };
+		FD387B391CA9C5E200958AEE /* FTRSwiftTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FTRSwiftTests.swift; path = Sources/FTRSwiftTests.swift; sourceTree = "<group>"; };
+		FD387B3C1CA9C60D00958AEE /* FunctionalTestRig-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "FunctionalTestRig-Bridging-Header.h"; path = "Sources/FunctionalTestRig-Bridging-Header.h"; sourceTree = "<group>"; };
+		FD387B411CA9C63900958AEE /* EarlGreyFunctionalSwiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EarlGreyFunctionalSwiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD5470D61BBDE0A9000661FD /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = ../../../../../../../../../System/Library/Frameworks/IOKit.framework; sourceTree = "<group>"; };
 		FD5470F11BBDECBB000661FD /* EarlGreyFunctionalTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EarlGreyFunctionalTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -292,6 +330,20 @@
 				FD193FF61BBDDBF500153959 /* CoreGraphics.framework in Frameworks */,
 				FD193FF41BBDDBED00153959 /* Foundation.framework in Frameworks */,
 				FD193FF21BBDDBE800153959 /* CoreFoundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FD387B3E1CA9C63900958AEE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FD387B541CA9C6C500958AEE /* CoreFoundation.framework in Frameworks */,
+				FD387B551CA9C6C500958AEE /* Foundation.framework in Frameworks */,
+				FD387B531CA9C6BE00958AEE /* CoreGraphics.framework in Frameworks */,
+				FD387B521CA9C6B800958AEE /* UIKit.framework in Frameworks */,
+				FD387B511CA9C6B300958AEE /* QuartzCore.framework in Frameworks */,
+				FD387B501CA9C6AB00958AEE /* IOKit.framework in Frameworks */,
+				FD387B4F1CA9C69C00958AEE /* EarlGrey.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -488,6 +540,7 @@
 		FD193F231BBDDA4F00153959 = {
 			isa = PBXGroup;
 			children = (
+				FD387B351CA9C5B500958AEE /* SwiftSources */,
 				59467D5A1C9373A50089498B /* Sources */,
 				59467D7F1C9373A50089498B /* FunctionalTests.pch */,
 				59467D801C9373A50089498B /* LICENSE */,
@@ -508,8 +561,19 @@
 			children = (
 				FD193F2C1BBDDA4F00153959 /* FunctionalTestRig.app */,
 				FD5470F11BBDECBB000661FD /* EarlGreyFunctionalTests.xctest */,
+				FD387B411CA9C63900958AEE /* EarlGreyFunctionalSwiftTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		FD387B351CA9C5B500958AEE /* SwiftSources */ = {
+			isa = PBXGroup;
+			children = (
+				FD387B3C1CA9C60D00958AEE /* FunctionalTestRig-Bridging-Header.h */,
+				FD387B371CA9C5E200958AEE /* EarlGrey.swift */,
+				FD387B391CA9C5E200958AEE /* FTRSwiftTests.swift */,
+			);
+			name = SwiftSources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -531,6 +595,26 @@
 			productName = FunctionalTests;
 			productReference = FD193F2C1BBDDA4F00153959 /* FunctionalTestRig.app */;
 			productType = "com.apple.product-type.application";
+		};
+		FD387B401CA9C63900958AEE /* EarlGreyFunctionalSwiftTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FD387B481CA9C63900958AEE /* Build configuration list for PBXNativeTarget "EarlGreyFunctionalSwiftTests" */;
+			buildPhases = (
+				FD387B3D1CA9C63900958AEE /* Sources */,
+				FD387B3E1CA9C63900958AEE /* Frameworks */,
+				FD387B3F1CA9C63900958AEE /* Resources */,
+				FD387B561CA9C6CA00958AEE /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FD387B4E1CA9C67A00958AEE /* PBXTargetDependency */,
+				FD387B471CA9C63900958AEE /* PBXTargetDependency */,
+			);
+			name = EarlGreyFunctionalSwiftTests;
+			productName = EarlGreyFunctionalSwiftTests;
+			productReference = FD387B411CA9C63900958AEE /* EarlGreyFunctionalSwiftTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		FD5470F01BBDECBB000661FD /* EarlGreyFunctionalTests */ = {
 			isa = PBXNativeTarget;
@@ -558,11 +642,16 @@
 		FD193F241BBDDA4F00153959 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 0640;
 				ORGANIZATIONNAME = "Google Inc.";
 				TargetAttributes = {
 					FD193F2B1BBDDA4F00153959 = {
 						CreatedOnToolsVersion = 6.4;
+					};
+					FD387B401CA9C63900958AEE = {
+						CreatedOnToolsVersion = 7.3;
+						TestTargetID = FD193F2B1BBDDA4F00153959;
 					};
 					FD5470F01BBDECBB000661FD = {
 						CreatedOnToolsVersion = 6.4;
@@ -591,6 +680,7 @@
 			targets = (
 				FD193F2B1BBDDA4F00153959 /* FunctionalTestRig */,
 				FD5470F01BBDECBB000661FD /* EarlGreyFunctionalTests */,
+				FD387B401CA9C63900958AEE /* EarlGreyFunctionalSwiftTests */,
 			);
 		};
 /* End PBXProject section */
@@ -644,6 +734,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FD387B3F1CA9C63900958AEE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FD5470EF1BBDECBB000661FD /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -684,6 +781,15 @@
 				59467E981C9373F00089498B /* FTRVisibilityTestViewController.m in Sources */,
 				59467E9B1C9373F00089498B /* FTRWebViewController.m in Sources */,
 				59467E9D1C9373F00089498B /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FD387B3D1CA9C63900958AEE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FD387B4B1CA9C65100958AEE /* EarlGrey.swift in Sources */,
+				FD387B4C1CA9C65100958AEE /* FTRSwiftTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -735,6 +841,16 @@
 			name = EarlGrey;
 			targetProxy = 596D89C01C05AB8A00025714 /* PBXContainerItemProxy */;
 		};
+		FD387B471CA9C63900958AEE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FD193F2B1BBDDA4F00153959 /* FunctionalTestRig */;
+			targetProxy = FD387B461CA9C63900958AEE /* PBXContainerItemProxy */;
+		};
+		FD387B4E1CA9C67A00958AEE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = EarlGrey;
+			targetProxy = FD387B4D1CA9C67A00958AEE /* PBXContainerItemProxy */;
+		};
 		FD5470F81BBDECBB000661FD /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = FD193F2B1BBDDA4F00153959 /* FunctionalTestRig */;
@@ -752,6 +868,7 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -801,6 +918,7 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -840,8 +958,10 @@
 		FD193F501BBDDA4F00153959 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				GCC_PREFIX_HEADER = TestRig/FunctionalTestRig.pch;
 				INFOPLIST_FILE = "TestRig/FunctionalTestRig-Info.plist";
@@ -850,6 +970,8 @@
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "FunctionalTestRig-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				WARNING_CFLAGS = "$(inherited)";
 			};
 			name = Debug;
@@ -857,8 +979,10 @@
 		FD193F511BBDDA4F00153959 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				GCC_PREFIX_HEADER = TestRig/FunctionalTestRig.pch;
 				INFOPLIST_FILE = "TestRig/FunctionalTestRig-Info.plist";
@@ -867,6 +991,94 @@
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "FunctionalTestRig-Bridging-Header.h";
+				WARNING_CFLAGS = "$(inherited)";
+			};
+			name = Release;
+		};
+		FD387B491CA9C63900958AEE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/../../**",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../**";
+				INFOPLIST_FILE = "TestRig/FunctionalTestRig-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-framework",
+					IOKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Sources/FunctionalTestRig-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FunctionalTestRig.app/FunctionalTestRig";
+				WARNING_CFLAGS = "$(inherited)";
+			};
+			name = Debug;
+		};
+		FD387B4A1CA9C63900958AEE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/../../**",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../**";
+				INFOPLIST_FILE = "TestRig/FunctionalTestRig-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-framework",
+					IOKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Sources/FunctionalTestRig-Bridging-Header.h";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FunctionalTestRig.app/FunctionalTestRig";
 				WARNING_CFLAGS = "$(inherited)";
 			};
 			name = Release;
@@ -876,7 +1088,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/../../**",
@@ -909,7 +1122,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/../../**",
@@ -951,6 +1165,15 @@
 			buildConfigurations = (
 				FD193F501BBDDA4F00153959 /* Debug */,
 				FD193F511BBDDA4F00153959 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FD387B481CA9C63900958AEE /* Build configuration list for PBXNativeTarget "EarlGreyFunctionalSwiftTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FD387B491CA9C63900958AEE /* Debug */,
+				FD387B4A1CA9C63900958AEE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
