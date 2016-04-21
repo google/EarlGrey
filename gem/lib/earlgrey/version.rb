@@ -15,5 +15,4 @@
 
 module EarlGrey
   VERSION = '0.0.2' unless defined? ::EarlGrey::VERSION
-  DATE    = '2016-04-18' unless defined? ::EarlGrey::DATE
 end

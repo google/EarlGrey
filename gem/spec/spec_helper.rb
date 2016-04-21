@@ -13,25 +13,22 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require 'rubygems'
-require 'bundler/gem_tasks'
-require 'rubocop/rake_task'
-require 'rspec/core/rake_task'
+require_relative '../lib/earlgrey'
+require 'rspec'
+require 'tmpdir'
+require 'pry' # enables binding.pry
 
-task default: [:spec]
-
-# rake spec
-RSpec::Core::RakeTask.new do |task|
- task.verbose = false
+module SpecHelper
+  def carthage_before
+    # ensure ends with /. for FileUtils.cp_r
+    @carthage_before ||= begin
+      path = File.join(File.expand_path(File.join(__dir__, 'fixtures', 'carthage_before')), '.')
+      fail "Path doesn't exist: #{path}" unless File.exist?(path)
+      path
+    end
+  end
 end
 
-# rake rubocop
-RuboCop::RakeTask.new
-
-desc 'Check for warnings'
-task :warn do
-  # backticks only capture stdout so we have to redirect stderr
-  result = `env RUBYOPT=W2 ruby -W2 support/gem_warnings.rb 2>&1`
-  puts result
-  abort('warnings detected!') unless result.empty?
+RSpec.configure do |config|
+  config.include SpecHelper
 end

@@ -20,7 +20,6 @@ Gem::Specification.new do |s|
 
   s.name          = 'earlgrey'
   s.version       = EarlGrey::VERSION
-  s.date          = EarlGrey::DATE
   s.license       = 'Apache-2.0'
   s.description   = s.summary = 'EarlGrey installer gem'
   s.description   += '.' # avoid identical warning
