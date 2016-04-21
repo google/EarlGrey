@@ -1,0 +1,46 @@
+#
+#  Copyright 2016 Google Inc.
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+
+module EarlGrey
+  class CLI < Thor
+    package_name 'EarlGrey'
+
+    desc 'install', 'Installs EarlGrey into an Xcode unit test target'
+    method_option :project, aliases: '-p', type: :string, required: false, desc: 'Project'
+    method_option :target,  aliases: '-t', type: :string, required: true, desc: 'EarlGrey'
+    method_option :scheme,  aliases: '-s', type: :string, required: false, desc: 'EarlGrey.xcscheme'
+    method_option :swift,    type: :boolean, default: true
+    method_option :carthage, type: :boolean, default: true
+
+    def install
+      o = options.dup
+
+      project, target, scheme, swift, carthage = 'project', 'target', 'scheme', 'swift', 'carthage'
+
+      # CLI will never use Cocoapod's `post_install do |installer|`
+      podfile_installer = nil
+      EarlGrey.swift    = o[swift]
+      EarlGrey.carthage = o[carthage]
+
+      # Use target as the default Scheme name.
+      o[scheme] ||= o[target]
+
+      o[project] ||= Dir.glob(File.join(Dir.pwd, '*.xcodeproj')).first
+      fail 'No project found' unless o[project]
+
+      EarlGrey.configure_for_earlgrey podfile_installer, o[project], o[target], o[scheme]
+    end
+  end
+end
