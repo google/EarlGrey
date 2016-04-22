@@ -21,10 +21,9 @@ $stderr = Class.new(DelegateClass(IO)) do
   BASE_DIR = Regexp.escape(File.dirname(__dir__))
 
   def write(line)
-    if line =~ /^#{BASE_DIR}.*:\d+: warning:/
-      line.gsub!(BASE_DIR, '.')
-      super
-    end
+    return unless line =~ /^#{BASE_DIR}.*:\d+: warning:/
+    line.gsub!(BASE_DIR, '.')
+    super
   end
 end.new($stderr)
 

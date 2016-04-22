@@ -21,8 +21,8 @@ Gem::Specification.new do |s|
   s.name          = 'earlgrey'
   s.version       = EarlGrey::VERSION
   s.license       = 'Apache-2.0'
-  s.description   = s.summary = 'EarlGrey installer gem'
-  s.description   += '.' # avoid identical warning
+  s.summary       = 'EarlGrey installer gem'
+  s.description   = 'Command line tool for installing EarlGrey into an iOS Unit Testing target'
   s.authors       = s.email = ['code@bootstraponline.com']
   s.homepage      = 'https://github.com/google/EarlGrey'
   s.require_paths = ['lib']

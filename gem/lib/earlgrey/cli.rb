@@ -24,23 +24,27 @@ module EarlGrey
     method_option :swift,    type: :boolean, default: true
     method_option :carthage, type: :boolean, default: true
 
+    PROJECT  = 'project'.freeze
+    TARGET   = 'target'.freeze
+    SCHEME   = 'scheme'.freeze
+    SWIFT    = 'swift'.freeze
+    CARTHAGE = 'carthage'.freeze
+
     def install
       o = options.dup
 
-      project, target, scheme, swift, carthage = 'project', 'target', 'scheme', 'swift', 'carthage'
-
       # CLI will never use Cocoapod's `post_install do |installer|`
       podfile_installer = nil
-      EarlGrey.swift    = o[swift]
-      EarlGrey.carthage = o[carthage]
+      EarlGrey.swift    = o[SWIFT]
+      EarlGrey.carthage = o[CARTHAGE]
 
       # Use target as the default Scheme name.
-      o[scheme] ||= o[target]
+      o[SCHEME] ||= o[TARGET]
 
-      o[project] ||= Dir.glob(File.join(Dir.pwd, '*.xcodeproj')).first
-      fail 'No project found' unless o[project]
+      o[PROJECT] ||= Dir.glob(File.join(Dir.pwd, '*.xcodeproj')).first
+      raise 'No project found' unless o[PROJECT]
 
-      EarlGrey.configure_for_earlgrey podfile_installer, o[project], o[target], o[scheme]
+      EarlGrey.configure_for_earlgrey podfile_installer, o[PROJECT], o[TARGET], o[SCHEME]
     end
   end
 end

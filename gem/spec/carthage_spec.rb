@@ -16,7 +16,7 @@
 require_relative 'spec_helper'
 
 describe 'carthage' do
-  NIL_YAML = "--- \n...\n"
+  NIL_YAML = "--- \n...\n".freeze
 
   it 'successfully modifies the xcode project' do
     xcodeproj_2 = File.expand_path(File.join(__dir__, 'fixtures', 'carthage_after', 'Example.xcodeproj'))
@@ -40,7 +40,7 @@ describe 'carthage' do
 
         if diff != NIL_YAML
           puts diff
-          fail 'difference detected'
+          raise 'difference detected'
         end
       end
     end

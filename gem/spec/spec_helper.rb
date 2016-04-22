@@ -23,7 +23,7 @@ module SpecHelper
     # ensure ends with /. for FileUtils.cp_r
     @carthage_before ||= begin
       path = File.join(File.expand_path(File.join(__dir__, 'fixtures', 'carthage_before')), '.')
-      fail "Path doesn't exist: #{path}" unless File.exist?(path)
+      raise "Path doesn't exist: #{path}" unless File.exist?(path)
       path
     end
   end

@@ -14,7 +14,7 @@
 #  limitations under the License.
 
 # global export for unqualified use in Pods file
-def configure_for_earlgrey *args
+def configure_for_earlgrey(*args)
   EarlGrey.configure_for_earlgrey(*args)
 end
 
@@ -23,22 +23,26 @@ module EarlGrey
     attr_accessor :swift, :carthage
     attr_reader :project_name, :test_target, :test_target_name, :scheme_file, :user_project
 
-    def path_for xcode_file, ext
+    def path_for(xcode_file, ext)
       return xcode_file if File.exist? xcode_file
 
       path = File.join(Dir.pwd, File.basename(xcode_file, '.*') + ext)
       path ? path : nil
     end
 
+    def puts_blue(string)
+      puts string.gsub(/\s+/, ' ').strip.blue
+    end
+
     def configure_for_earlgrey(installer, project_name, test_target_name, scheme_file)
-      puts ("Checking and Updating #{project_name} for EarlGrey.").blue
+      puts_blue "Checking and Updating #{project_name} for EarlGrey."
       pods_project = installer ? installer.pods_project : true
       project_file = path_for project_name, '.xcodeproj'
 
-      fail 'No test target provided' unless test_target_name
+      raise 'No test target provided' unless test_target_name
 
       if pods_project.nil? || project_file.nil?
-        fail "The target's xcodeproj file could not be found. Please check if "\
+        raise "The target's xcodeproj file could not be found. Please check if "\
       'the correct PROJECT_NAME is being passed in the Podfile. Current '\
       "PROJECT_NAME is: #{project_name}"
       end
@@ -49,7 +53,7 @@ module EarlGrey
       @user_project = Xcodeproj::Project.open(project_file)
       all_targets = user_project.targets
       @test_target = all_targets.find { |target| target.name == test_target_name }
-      fail "Unable to find target: #{test_target_name}. Targets are: #{all_targets.map(&:name)}" unless test_target
+      raise "Unable to find target: #{test_target_name}. Targets are: #{all_targets.map(&:name)}" unless test_target
 
       # Add a Test Action to the User Project Scheme.
       scheme = modify_scheme_for_actions
@@ -66,17 +70,15 @@ module EarlGrey
 
       save_earlgrey_scheme_changes(scheme) unless scheme.nil?
 
-      puts ("EarlGrey setup complete. You can use the Test Target : #{test_target_name} "\
-            "for EarlGrey testing.").blue
+      puts_blue "EarlGrey setup complete. You can use the Test Target : #{test_target_name} " \
+                'for EarlGrey testing.'
     end
 
     # Scheme changes to ensure that EarlGrey is correctly loaded before main() is called.
     def modify_scheme_for_actions
       scheme_filename = scheme_file
       # If you do not pass on a scheme name, we set it to the project name itself.
-      if scheme_filename.to_s == ''
-        scheme_filename = project_name
-      end
+      scheme_filename = project_name if scheme_filename.to_s == ''
 
       xcdata_dir = Xcodeproj::XCScheme.user_data_dir(user_project.path)
       unless File.exist?(File.join(xcdata_dir, scheme_filename).to_s)
@@ -84,7 +86,7 @@ module EarlGrey
       end
 
       unless File.exist?(File.join(xcdata_dir, scheme_filename).to_s)
-        fail "\n" + <<-F
+        raise "\n" + <<-F
         The required scheme "#{scheme_filename}" could not be found.
         Please ensure that the required scheme file exists within your
         project directory.
@@ -93,15 +95,14 @@ module EarlGrey
       scheme = Xcodeproj::XCScheme.new File.join(xcdata_dir, scheme_filename)
       test_action_key = 'DYLD_INSERT_LIBRARIES'
       test_action_value = '@executable_path/EarlGrey.framework/EarlGrey'
-      if not scheme.test_action.xml_element.to_s.include? test_action_value
-        scheme =
-            add_environment_variables_to_test_action_scheme(scheme_filename,
-                                                            scheme,
-                                                            test_action_key,
-                                                            test_action_value)
+      unless scheme.test_action.xml_element.to_s.include? test_action_value
+        scheme = add_environment_variables_to_test_action_scheme(scheme_filename,
+                                                                 scheme,
+                                                                 test_action_key,
+                                                                 test_action_value)
       end
 
-      return scheme
+      scheme
     end
 
     # Load the EarlGrey framework when the app binary is loaded by
@@ -112,9 +113,9 @@ module EarlGrey
                                                         test_action_value)
       test_action = scheme.test_action
       if (scheme.test_action.xml_element.to_s.include? test_action_key) ||
-          (scheme.launch_action.xml_element.to_s.include? test_action_key)
-        puts ("\n//////////////////// EARLGREY SCHEME ISSUE ////////////////////\n"\
-      "EarlGrey failed to modify the Test Action part of the scheme: " + scheme_filename + "\n"\
+         (scheme.launch_action.xml_element.to_s.include? test_action_key)
+        puts("\n//////////////////// EARLGREY SCHEME ISSUE ////////////////////\n"\
+      "EarlGrey failed to modify the Test Action part of the scheme: #{scheme_filename}\n"\
       + "for one of following reasons:\n\n"\
       "1) DYLD_INSERT_LIBRARIES is already defined under Environment Variables of\n"\
       "the Test Action.\n"\
@@ -127,7 +128,7 @@ module EarlGrey
       "///////////////////////////////////////////////////////////////\n\n").yellow
         return
       end
-      puts (<<-S).gsub(/\s+/, ' ').strip
+      puts <<-S.gsub(/\s+/, ' ').strip
       Adding EarlGrey Framework Location as an Environment Variable
       in the App Project's Test Target's Scheme Test Action.
       S
@@ -135,12 +136,12 @@ module EarlGrey
       # Check if the test action uses the run action's environment variables and arguments.
       launch_action_env_args_present = false
       if (scheme.test_action.xml_element.to_s.include? 'shouldUseLaunchSchemeArgsEnv') &&
-          ((scheme.launch_action.xml_element.to_s.include? '<EnvironmentVariables>') ||
-              (scheme.launch_action.xml_element.to_s.include? '<CommandLineArguments>'))
+         ((scheme.launch_action.xml_element.to_s.include? '<EnvironmentVariables>') ||
+            (scheme.launch_action.xml_element.to_s.include? '<CommandLineArguments>'))
         launch_action_env_args_present = true
       end
 
-      test_action_isEnabled = 'YES'
+      test_action_is_enabled = 'YES'
       test_action.should_use_launch_scheme_args_env = false
 
       # If no environment variables are set, then create the element itself.
@@ -151,7 +152,7 @@ module EarlGrey
       # If Launch Action Arguments are present and none are present in the test
       # action, then please add them in.
       if (scheme.launch_action.xml_element.to_s.include? '<CommandLineArguments>') &&
-          !(scheme.test_action.xml_element.to_s.include? '<CommandLineArguments>')
+         !(scheme.test_action.xml_element.to_s.include? '<CommandLineArguments>')
         scheme.test_action.xml_element.add_element('CommandLineArguments')
       end
 
@@ -162,7 +163,7 @@ module EarlGrey
       earl_grey_environment_variable = REXML::Element.new 'EnvironmentVariable'
       earl_grey_environment_variable.attributes['key'] = test_action_key
       earl_grey_environment_variable.attributes['value'] = test_action_value
-      earl_grey_environment_variable.attributes['isEnabled'] = test_action_isEnabled
+      earl_grey_environment_variable.attributes['isEnabled'] = test_action_is_enabled
       test_action_env_vars.add_element(earl_grey_environment_variable)
 
       # If any environment variables or arguments were being used in the test action by
@@ -181,7 +182,7 @@ module EarlGrey
           test_action_env_vars.add_element(environment_variable)
         end
 
-        #Add in the Arguments
+        # Add in the Arguments
         launch_action_args.elements.each('CommandLineArgument') do |launch_action_arg|
           argument = REXML::Element.new 'CommandLineArgument'
           argument.attributes['argument'] = launch_action_arg.attributes['argument']
@@ -197,8 +198,11 @@ module EarlGrey
     # Adds EarlGrey.framework to products group. Returns file ref.
     def add_earlgrey_product
       return @add_earlgrey_product if @add_earlgrey_product
-      framework_path = carthage ? '${SRCROOT}/Carthage/Build/iOS/EarlGrey.framework' :
-          '${SRCROOT}/Pods/EarlGrey/EarlGrey-1.0.0/EarlGrey.framework'
+      framework_path = if carthage
+                         '${SRCROOT}/Carthage/Build/iOS/EarlGrey.framework'
+                       else
+                         '${SRCROOT}/Pods/EarlGrey/EarlGrey-1.0.0/EarlGrey.framework'
+                       end
 
       framework_ref = user_project.products_group.files.find { |f| f.path == framework_path }
       return @add_earlgrey_product = framework_ref if framework_ref
@@ -227,13 +231,13 @@ module EarlGrey
 
         file_ref = add_earlgrey_product
         build_file = new_copy_files_phase.add_file_reference(file_ref, true)
-        build_file.settings = {'ATTRIBUTES' => ['CodeSignOnCopy']}
+        build_file.settings = { 'ATTRIBUTES' => ['CodeSignOnCopy'] }
         user_project.save
       end
     end
 
-    FRAMEWORK_SEARCH_PATHS = 'FRAMEWORK_SEARCH_PATHS'
-    HEADER_SEARCH_PATHS = 'HEADER_SEARCH_PATHS'
+    FRAMEWORK_SEARCH_PATHS = 'FRAMEWORK_SEARCH_PATHS'.freeze
+    HEADER_SEARCH_PATHS = 'HEADER_SEARCH_PATHS'.freeze
 
     def add_carthage_search_paths
       return unless carthage
@@ -256,7 +260,7 @@ module EarlGrey
       user_project.save
     end
 
-    SWIFT_OBJC_BRIDGING_HEADER = 'SWIFT_OBJC_BRIDGING_HEADER'
+    SWIFT_OBJC_BRIDGING_HEADER = 'SWIFT_OBJC_BRIDGING_HEADER'.freeze
 
     def copy_swift_files
       return unless swift
@@ -271,23 +275,23 @@ module EarlGrey
 
       src_root = File.join(__dir__, 'files')
       dst_root = File.join(Dir.pwd, test_target_name)
-      fail "Missing target folder #{dst_root}" unless File.exist? dst_root
+      raise "Missing target folder #{dst_root}" unless File.exist? dst_root
 
       src_header_name = 'BridgingHeader.h'
       src_header = File.join(src_root, src_header_name)
-      fail 'Bundled header missing' unless File.exist? src_header
+      raise 'Bundled header missing' unless File.exist? src_header
       dst_header = File.join(dst_root, src_header_name)
 
       src_swift_name = 'EarlGrey.swift'
       src_swift = File.join(src_root, src_swift_name)
-      fail 'Bundled swift missing' unless File.exist? src_swift
+      raise 'Bundled swift missing' unless File.exist? src_swift
       dst_swift = File.join(dst_root, src_swift_name)
 
       FileUtils.copy src_header, dst_header
       FileUtils.copy src_swift, dst_swift
 
       test_target_group = user_project.main_group.children.find { |g| g.display_name == test_target_name }
-      fail "Test target group not found! #{test_target_group}" unless test_target_group
+      raise "Test target group not found! #{test_target_group}" unless test_target_group
 
       # Add files to testing target group otherwise Xcode can't read them.
       new_files = [src_header_name, src_swift_name]
@@ -302,7 +306,7 @@ module EarlGrey
       existing_sources = test_target.source_build_phase.files.map(&:display_name)
       unless existing_sources.include? src_swift_name
         earlgrey_swift_file_ref = test_target_group.files.find { |f| f.display_name == src_swift_name }
-        fail 'EarlGrey.swift not found in testing target' unless earlgrey_swift_file_ref
+        raise 'EarlGrey.swift not found in testing target' unless earlgrey_swift_file_ref
         test_target.source_build_phase.add_file_reference earlgrey_swift_file_ref
       end
 

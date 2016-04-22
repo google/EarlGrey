@@ -18,15 +18,17 @@ require 'bundler/gem_tasks'
 require 'rubocop/rake_task'
 require 'rspec/core/rake_task'
 
-task default: [:spec]
+task default: [:spec, :rubocop, :warn]
 
 # rake spec
 RSpec::Core::RakeTask.new do |task|
- task.verbose = false
+  task.verbose = false
 end
 
 # rake rubocop
-RuboCop::RakeTask.new
+RuboCop::RakeTask.new do |task|
+  task.options = ['-D']
+end
 
 desc 'Check for warnings'
 task :warn do
