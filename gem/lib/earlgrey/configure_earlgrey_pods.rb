@@ -15,7 +15,7 @@
 
 # global export for unqualified use in Pods file
 def configure_for_earlgrey *args
-  EarlGrey.configure_for_earlgrey *args
+  EarlGrey.configure_for_earlgrey(*args)
 end
 
 module EarlGrey
@@ -49,7 +49,7 @@ module EarlGrey
       @user_project = Xcodeproj::Project.open(project_file)
       all_targets = user_project.targets
       @test_target = all_targets.find { |target| target.name == test_target_name }
-      fail "Unable to find target: #{test_target_name}. Targets are: #{all_targets.map &:name}" unless test_target
+      fail "Unable to find target: #{test_target_name}. Targets are: #{all_targets.map(&:name)}" unless test_target
 
       # Add a Test Action to the User Project Scheme.
       scheme = modify_scheme_for_actions
@@ -84,9 +84,11 @@ module EarlGrey
       end
 
       unless File.exist?(File.join(xcdata_dir, scheme_filename).to_s)
-        fail "The required scheme \"" + scheme_filename +"\" could not be found."
-        ' Please ensure that the required scheme file exists within your'\
-        ' project directory.'
+        fail "\n" + <<-F
+        The required scheme "#{scheme_filename}" could not be found.
+        Please ensure that the required scheme file exists within your
+        project directory.
+        F
       end
       scheme = Xcodeproj::XCScheme.new File.join(xcdata_dir, scheme_filename)
       test_action_key = 'DYLD_INSERT_LIBRARIES'
@@ -125,8 +127,10 @@ module EarlGrey
       "///////////////////////////////////////////////////////////////\n\n").yellow
         return
       end
-      puts "Adding EarlGrey Framework Location as an Environment Variable "
-      "in the App Project's Test Target's Scheme Test Action."
+      puts (<<-S).gsub(/\s+/, ' ').strip
+      Adding EarlGrey Framework Location as an Environment Variable
+      in the App Project's Test Target's Scheme Test Action.
+      S
 
       # Check if the test action uses the run action's environment variables and arguments.
       launch_action_env_args_present = false
