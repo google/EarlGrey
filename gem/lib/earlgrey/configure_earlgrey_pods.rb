@@ -23,6 +23,10 @@ module EarlGrey
     attr_accessor :swift, :carthage
     attr_reader :project_name, :test_target, :test_target_name, :scheme_file, :user_project
 
+    # Returns path to Xcode file, prepending current working dir if necessary.
+    # @param xcode_file [String] xcode file path
+    # @param ext [String] xcode file extension
+    # @return [String] path to Xcode file
     def path_for(xcode_file, ext)
       return xcode_file if File.exist? xcode_file
 
@@ -30,10 +34,41 @@ module EarlGrey
       path ? path : nil
     end
 
-    def puts_blue(string)
-      puts string.gsub(/\s+/, ' ').strip.blue
+    # Strips excessive spaces from a string
+    # @param string [String] the string to process
+    # @return [String] the modified string
+    def strip(string)
+      string.split("\n").map(&:strip).join("\n")
     end
 
+    # Raise error message after removing excessive spaces.
+    # @param message [String] the message to raise
+    # @return [nil]
+    def error(message)
+      raise strip(message)
+    end
+
+    # Prints string as blue after stripping excess spacing
+    # @param string [String] the string to print
+    # @return [nil]
+    def puts_blue(string)
+      puts strip(string).blue
+    end
+
+    # Prints string as yellow after stripping excess spacing
+    # @param string [String] the string to print
+    # @return [nil]
+    def puts_yellow(string)
+      puts strip(string).yellow
+    end
+
+    # Main entry point. Configures An Xcode project for use with EarlGrey.
+    #
+    # @param installer [Installer] Cococapods installer object or nil.
+    # @param project_name [String] the xcodeproj file name
+    # @param test_target_name [String] the test target name contained in xcodeproj
+    # @param scheme_file [String] the scheme file name. defaults to project name when nil.
+    # @return [nil]
     def configure_for_earlgrey(installer, project_name, test_target_name, scheme_file)
       puts_blue "Checking and Updating #{project_name} for EarlGrey."
       pods_project = installer ? installer.pods_project : true
@@ -42,9 +77,11 @@ module EarlGrey
       raise 'No test target provided' unless test_target_name
 
       if pods_project.nil? || project_file.nil?
-        raise "The target's xcodeproj file could not be found. Please check if "\
-      'the correct PROJECT_NAME is being passed in the Podfile. Current '\
-      "PROJECT_NAME is: #{project_name}"
+        error <<-E
+          The target's xcodeproj file could not be found.
+          Please check if the correct PROJECT_NAME is being passed in the Podfile.
+          Current PROJECT_NAME is: #{project_name}
+        E
       end
 
       @project_name = project_name
@@ -70,8 +107,7 @@ module EarlGrey
 
       save_earlgrey_scheme_changes(scheme) unless scheme.nil?
 
-      puts_blue "EarlGrey setup complete. You can use the Test Target : #{test_target_name} " \
-                'for EarlGrey testing.'
+      puts_blue "EarlGrey setup complete. You can use the Test Target: #{test_target_name} for EarlGrey testing."
     end
 
     # Scheme changes to ensure that EarlGrey is correctly loaded before main() is called.
@@ -86,11 +122,10 @@ module EarlGrey
       end
 
       unless File.exist?(File.join(xcdata_dir, scheme_filename).to_s)
-        raise "\n" + <<-F
-        The required scheme "#{scheme_filename}" could not be found.
-        Please ensure that the required scheme file exists within your
-        project directory.
-        F
+        error <<-E
+          The required scheme "#{scheme_filename}" could not be found.
+          Please ensure that the required scheme file exists within your project directory.
+        E
       end
       scheme = Xcodeproj::XCScheme.new File.join(xcdata_dir, scheme_filename)
       test_action_key = 'DYLD_INSERT_LIBRARIES'
@@ -114,23 +149,27 @@ module EarlGrey
       test_action = scheme.test_action
       if (scheme.test_action.xml_element.to_s.include? test_action_key) ||
          (scheme.launch_action.xml_element.to_s.include? test_action_key)
-        puts("\n//////////////////// EARLGREY SCHEME ISSUE ////////////////////\n"\
-      "EarlGrey failed to modify the Test Action part of the scheme: #{scheme_filename}\n"\
-      + "for one of following reasons:\n\n"\
-      "1) DYLD_INSERT_LIBRARIES is already defined under Environment Variables of\n"\
-      "the Test Action.\n"\
-      "2) Run Action's environment variables are used for Test Action.\n\n"\
-      "To ensure correct functioning of EarlGrey, please manually add the\n"\
-      "following under Test Action's Environment Variables of the scheme:" + scheme_filename + "\n"\
-      "Environment Variables or EarlGrey's location will not be found.\n"\
-      "Name: DYLD_INSERT_LIBRARIES\n"\
-      "Value: @executable_path/EarlGrey.framework/EarlGrey\n"\
-      "///////////////////////////////////////////////////////////////\n\n").yellow
+        puts_yellow <<-S
+          //////////////////// EARLGREY SCHEME ISSUE ////////////////////
+          EarlGrey failed to modify the Test Action part of the scheme: #{scheme_filename}
+          for one of following reasons:
+
+          1) DYLD_INSERT_LIBRARIES is already defined under Environment Variables of
+          the Test Action.
+          2) Run Action's environment variables are used for Test Action.
+
+          To ensure correct functioning of EarlGrey, please manually add the
+          following under Test Action's Environment Variables of the scheme: #{scheme_filename}
+          Environment Variables or EarlGrey's location will not be found.
+          Name: DYLD_INSERT_LIBRARIES
+          Value: @executable_path/EarlGrey.framework/EarlGrey
+          ///////////////////////////////////////////////////////////////
+        S
         return
       end
-      puts <<-S.gsub(/\s+/, ' ').strip
-      Adding EarlGrey Framework Location as an Environment Variable
-      in the App Project's Test Target's Scheme Test Action.
+      puts strip(<<-S)
+        Adding EarlGrey Framework Location as an Environment Variable
+        in the App Project's Test Target's Scheme Test Action.
       S
 
       # Check if the test action uses the run action's environment variables and arguments.
@@ -239,6 +278,8 @@ module EarlGrey
     FRAMEWORK_SEARCH_PATHS = 'FRAMEWORK_SEARCH_PATHS'.freeze
     HEADER_SEARCH_PATHS = 'HEADER_SEARCH_PATHS'.freeze
 
+    # Updates test target's build configuration framework and header search paths for carthage.
+    # No-op if carthage isn't true.
     def add_carthage_search_paths
       return unless carthage
       carthage_build_ios = '$(SRCROOT)/Carthage/Build/iOS'
@@ -262,6 +303,14 @@ module EarlGrey
 
     SWIFT_OBJC_BRIDGING_HEADER = 'SWIFT_OBJC_BRIDGING_HEADER'.freeze
 
+    # Copies Swift bridging header and configures the test target's build configuration to use it.
+    # Copies EarlGrey.swift and adds it to the project.
+    # Adds EarlGrey.swift and BridgingHeader.h to project's test target group.
+    # Adds EarlGrey.swift to testing target's source build phase
+    # Adds Link Binary With Libraries phase to test target for EarlGrey.framework
+    # Adds shell script phase that runs Carthage copy-frameworks
+    #
+    # No op if swift isn't true
     def copy_swift_files
       return unless swift
       bridge_path = '$(TARGET_NAME)/BridgingHeader.h'
