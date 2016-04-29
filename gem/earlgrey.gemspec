@@ -16,7 +16,7 @@
 require_relative 'lib/earlgrey/version'
 
 Gem::Specification.new do |s|
-  s.required_ruby_version = '>= 2.1.9'
+  s.required_ruby_version = '>= 2'
 
   s.name          = 'earlgrey'
   s.version       = EarlGrey::VERSION
