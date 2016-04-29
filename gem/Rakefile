@@ -18,6 +18,14 @@ require 'bundler/gem_tasks'
 require 'rubocop/rake_task'
 require 'rspec/core/rake_task'
 
+# Skip tagging the repo on Gem releases because that'll conflict with EarlGrey carthage tagged releases.
+raise "Can't find tag_version to patch" unless Bundler::GemHelper.instance.method(:tag_version)
+class Bundler::GemHelper
+  def tag_version
+    nil
+  end
+end
+
 task default: [:spec, :rubocop, :warn]
 
 # rake spec
