@@ -22,16 +22,19 @@
 @interface GREYKeyboard : NSObject
 
 /**
- *  Types @c string using the keyboard. Keyboard must be shown on the screen when this method
- *  is called.
+ *  Types @c string using the keyboard in the provided @c firstResponder. Keyboard must be shown
+ *  on the screen when this method is called.
  *
  *  @param string          Text to be typed using the keyboard.
+ *  @param firstResponder  The element that the text is to be typed in.
  *  @param[out] errorOrNil Error populated when any failure occurs during typing. If @c nil, then a
  *                         custom error with @c kGREYInteractionActionFailedErrorCode is logged.
  *
  *  @return @c YES if typing succeeded, @c NO otherwise.
  */
-+ (BOOL)typeString:(NSString *)string error:(__strong NSError **)errorOrNil;
++ (BOOL)typeString:(NSString *)string
+    inFirstResponder:(id)firstResponder
+               error:(__strong NSError **)errorOrNil;
 
 /**
  *  Waits until the keyboard is visible on the screen.

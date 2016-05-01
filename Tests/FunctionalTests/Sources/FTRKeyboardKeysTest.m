@@ -21,7 +21,8 @@
 
 // Expose private action for testing
 @interface GREYActions (GREYExposedForTesting)
-+ (id<GREYAction>)actionForTypeText:(NSString *)text atUITextPosition:(UITextPosition *)position;
++ (id<GREYAction>)grey_actionForTypeText:(NSString *)text
+                        atUITextPosition:(UITextPosition *)position;
 @end
 
 @interface FTRKeyboardKeysTest : FTRBaseIntegrationTest
@@ -61,6 +62,14 @@
           [GREYActions actionForTypeText:@"This string is a little too long for this text field!"]]
       performAction:[self grey_actionForTypingText:@"Foo" atPosition:1]]
       assertWithMatcher:grey_text(@"TFoohis string is a little too long for this text field!")];
+}
+
+- (void)testTypingAfterTappingOnTextField {
+  [[[[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
+      performAction:[GREYActions actionForTap]]
+      performAction:[GREYActions actionForTypeText:@"foo"]]
+      performAction:[GREYActions actionForClearText]]
+      assertWithMatcher:grey_text(@"")];
 }
 
 - (void)testClearAfterTyping {
@@ -405,7 +414,8 @@
   id<GREYAction> action =
       [GREYActionBlock actionWithName:@"ToggleShift"
                          performBlock:^(id element, __strong NSError **errorOrNil) {
-        NSArray *shiftAXLabels = @[@"shift", @"more, symbols"];
+        NSArray *shiftAXLabels =
+            @[ @"shift", @"Shift", @"SHIFT", @"more, symbols", @"more, numbers", @"more", @"MORE" ];
         for (NSString *axLabel in shiftAXLabels) {
           NSError *error;
           [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(axLabel)]
@@ -457,7 +467,7 @@
             textPosition = [element beginningOfDocument];
           }
         }
-        return [[GREYActions actionForTypeText:text atUITextPosition:textPosition]
+        return [[GREYActions grey_actionForTypeText:text atUITextPosition:textPosition]
                    perform:element error:errorOrNil];
       } else {
         NSString *description = @"Position provided, but the element %@ does not conform to the "

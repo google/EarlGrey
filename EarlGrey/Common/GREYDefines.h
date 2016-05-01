@@ -28,7 +28,9 @@
 
 #define GREY_EXTERN FOUNDATION_EXTERN
 
-#define iOS8_OR_ABOVE() ([UIDevice currentDevice].systemVersion.intValue >= 8)
+#define iOS8_0_OR_ABOVE() ([UIDevice currentDevice].systemVersion.doubleValue >= 8.0)
+#define iOS8_1_OR_ABOVE() ([UIDevice currentDevice].systemVersion.doubleValue >= 8.1)
+#define iOS8_2_OR_ABOVE() ([UIDevice currentDevice].systemVersion.doubleValue >= 8.2)
 #define iOS9_OR_ABOVE() ([UIDevice currentDevice].systemVersion.intValue >= 9)
 
 #pragma mark - Math

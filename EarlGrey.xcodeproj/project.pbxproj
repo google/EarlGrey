@@ -141,7 +141,6 @@
 		FD10023F1C5B46C200B2DB0A /* GREYUIWindowProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = FD10019A1C5B46C200B2DB0A /* GREYUIWindowProvider.m */; };
 		FD1002401C5B46C200B2DB0A /* GREYAppStateTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = FD10019C1C5B46C200B2DB0A /* GREYAppStateTracker.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		FD1002411C5B46C200B2DB0A /* GREYAppStateTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = FD10019D1C5B46C200B2DB0A /* GREYAppStateTracker.m */; };
-		FD1002431C5B46C200B2DB0A /* GREYBeaconImageProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = FD10019F1C5B46C200B2DB0A /* GREYBeaconImageProtocol.m */; };
 		FD1002441C5B46C200B2DB0A /* GREYCondition.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001A01C5B46C200B2DB0A /* GREYCondition.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FD1002451C5B46C200B2DB0A /* GREYCondition.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1001A11C5B46C200B2DB0A /* GREYCondition.m */; };
 		FD1002461C5B46C200B2DB0A /* GREYDispatchQueueIdlingResource.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001A21C5B46C200B2DB0A /* GREYDispatchQueueIdlingResource.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -325,8 +324,6 @@
 		FD10019A1C5B46C200B2DB0A /* GREYUIWindowProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYUIWindowProvider.m; sourceTree = "<group>"; };
 		FD10019C1C5B46C200B2DB0A /* GREYAppStateTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYAppStateTracker.h; sourceTree = "<group>"; };
 		FD10019D1C5B46C200B2DB0A /* GREYAppStateTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYAppStateTracker.m; sourceTree = "<group>"; };
-		FD10019E1C5B46C200B2DB0A /* GREYBeaconImageProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYBeaconImageProtocol.h; sourceTree = "<group>"; };
-		FD10019F1C5B46C200B2DB0A /* GREYBeaconImageProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYBeaconImageProtocol.m; sourceTree = "<group>"; };
 		FD1001A01C5B46C200B2DB0A /* GREYCondition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYCondition.h; sourceTree = "<group>"; };
 		FD1001A11C5B46C200B2DB0A /* GREYCondition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYCondition.m; sourceTree = "<group>"; };
 		FD1001A21C5B46C200B2DB0A /* GREYDispatchQueueIdlingResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYDispatchQueueIdlingResource.h; sourceTree = "<group>"; };
@@ -657,8 +654,6 @@
 			children = (
 				FD10019C1C5B46C200B2DB0A /* GREYAppStateTracker.h */,
 				FD10019D1C5B46C200B2DB0A /* GREYAppStateTracker.m */,
-				FD10019E1C5B46C200B2DB0A /* GREYBeaconImageProtocol.h */,
-				FD10019F1C5B46C200B2DB0A /* GREYBeaconImageProtocol.m */,
 				FD1001A01C5B46C200B2DB0A /* GREYCondition.h */,
 				FD1001A11C5B46C200B2DB0A /* GREYCondition.m */,
 				FD1001A21C5B46C200B2DB0A /* GREYDispatchQueueIdlingResource.h */,
@@ -936,7 +931,6 @@
 				FD10021F1C5B46C200B2DB0A /* GREYSurrogateDelegate.m in Sources */,
 				FD6D0BA91C6D494F0001EA75 /* GREYStringDescription.m in Sources */,
 				FD1002451C5B46C200B2DB0A /* GREYCondition.m in Sources */,
-				FD1002431C5B46C200B2DB0A /* GREYBeaconImageProtocol.m in Sources */,
 				FD1001FC1C5B46C200B2DB0A /* GREYAssertionBlock.m in Sources */,
 				FD1002151C5B46C200B2DB0A /* GREYElementInteraction.m in Sources */,
 				FD1002381C5B46C200B2DB0A /* GREYMatchers.m in Sources */,
