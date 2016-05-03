@@ -43,11 +43,11 @@ typedef NS_ENUM(NSInteger, GREYSyntheticEventInjectionErrorCode) {
  *  will be registered.
  *
  *  @param      deviceOrientation The desired orientation of the device.
- *  @param[out] errorOrNil        Error that will be populated on failure. If nil, the a test
+ *  @param[out] errorOrNil        Error that will be populated on failure. If @c nil, the a test
  *                                failure will be reported if the rotation attempt fails.
  *
- *  @throws GREYFrameworkException if the action fails and @c errorOrNil is nil.
- *  @return @c YES if the rotation was successful, @c NO otherwise. If @c errorOrNil is nil and
+ *  @throws GREYFrameworkException if the action fails and @c errorOrNil is @c nil.
+ *  @return @c YES if the rotation was successful, @c NO otherwise. If @c errorOrNil is @c nil and
  *          the operation fails, it will throw an exception.
  */
 + (BOOL)rotateDeviceToOrientation:(UIDeviceOrientation)deviceOrientation

@@ -88,7 +88,7 @@ GREY_EXTERN NSString *const kGREYActionUserInfoKey;
 
 /**
  *  User Info dictionary key for the element an action was performed on. The element for an
- *  assertion can be nil in case of an error.
+ *  assertion can be @c nil in case of an error.
  */
 GREY_EXTERN NSString *const kGREYActionElementUserInfoKey;
 
@@ -104,7 +104,7 @@ GREY_EXTERN NSString *const kGREYAssertionUserInfoKey;
 
 /**
  *  User Info dictionary key for the element an assertion was checked on. The element for an
- *  assertion can be nil since assertions can be performed on nil elements.
+ *  assertion can be @c nil since assertions can be performed on @c nil elements.
  */
 GREY_EXTERN NSString *const kGREYAssertionElementUserInfoKey;
 

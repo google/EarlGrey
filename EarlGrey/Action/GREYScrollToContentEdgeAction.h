@@ -44,4 +44,18 @@
  */
 - (instancetype)initWithEdge:(GREYContentEdge)edge;
 
+/**
+ *  Creates a scroll action that scrolls to the given @c edge of the contents in the selected
+ *  scroll view with the start point specified by @c startPointPercents.
+ *
+ *  @param edge               The edge of the UIScrollView to scroll the contents.
+ *  @param startPointPercents The start point of the scroll specified as percents (0, 1) exclusive,
+ *                            in the visible area of the scroll view or as @c NAN to pick a point
+ *                            that provides maximum scroll length.
+ *
+ *  @return An instance of GREYScrollToContentEdgeAction, initialized with the provided @c edge.
+ */
+- (instancetype)initWithEdge:(GREYContentEdge)edge
+          startPointPercents:(CGPoint)startPointPercents NS_DESIGNATED_INITIALIZER;
+
 @end

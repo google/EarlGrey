@@ -36,9 +36,19 @@
    *  The specified edge of the content to be scrolled to.
    */
   GREYContentEdge _edge;
+  /**
+   *  The point specified as percentage referencing visible scrollable area to be used for fixing
+   *  scroll start point. If any of the coordinates are set to NAN the corresponding coordinates of
+   *  the scroll start point will be set to achieve maximum scroll.
+   */
+  CGPoint _startPointPercents;
 }
 
-- (instancetype)initWithEdge:(GREYContentEdge)edge {
+- (instancetype)initWithEdge:(GREYContentEdge)edge startPointPercents:(CGPoint)startPointPercents {
+  NSAssert(isnan(startPointPercents.x) || (startPointPercents.x > 0 && startPointPercents.x < 1),
+           @"startPointPercents must be NAN or in the range (0, 1) exclusive");
+  NSAssert(isnan(startPointPercents.y) || (startPointPercents.y > 0 && startPointPercents.y < 1),
+           @"startPointPercents must be NAN or in the range (0, 1) exclusive");
   NSString *name =
       [NSString stringWithFormat:@"Scroll To %@ content edge", NSStringFromGREYContentEdge(edge)];
   self = [super initWithName:name
@@ -49,8 +59,13 @@
                                         nil)];
   if (self) {
     _edge = edge;
+    _startPointPercents = startPointPercents;
   }
   return self;
+}
+
+- (instancetype)initWithEdge:(GREYContentEdge)edge {
+  return [self initWithEdge:edge startPointPercents:GREYCGPointNull];
 }
 
 #pragma mark - GREYAction
@@ -73,7 +88,8 @@
   // running actions and make this process timeout.
   GREYScrollAction *scrollAction =
       [[GREYScrollAction alloc] initWithDirection:[GREYConstants directionFromCenterForEdge:_edge]
-                                           amount:maxScrollInAnyDirection];
+                                           amount:maxScrollInAnyDirection
+                               startPointPercents:_startPointPercents];
   NSError *scrollError;
   while (YES) {
     @autoreleasepool {

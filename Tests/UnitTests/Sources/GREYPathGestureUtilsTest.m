@@ -78,7 +78,8 @@
     view.accessibilityFrame = CGRectZero;
     XCTAssertNil([GREYPathGestureUtils touchPathForGestureInView:view
                                                    withDirection:direction
-                                                          amount:100
+                                                          length:100
+                                              startPointPercents:GREYCGPointNull
                                               outRemainingAmount:NULL]);
   }];
 }
@@ -88,7 +89,8 @@
     UIView *view = [[UIView alloc] initWithFrame:CGRectZero];
     XCTAssertThrowsSpecificNamed([GREYPathGestureUtils touchPathForGestureInView:view
                                                                    withDirection:direction
-                                                                          amount:0
+                                                                          length:0
+                                                              startPointPercents:GREYCGPointNull
                                                               outRemainingAmount:NULL],
                                  NSException,
                                  NSInternalInconsistencyException,
@@ -101,7 +103,8 @@
     UIView *view = [[UIView alloc] initWithFrame:CGRectZero];
     XCTAssertThrowsSpecificNamed([GREYPathGestureUtils touchPathForGestureInView:view
                                                                    withDirection:direction
-                                                                          amount:-1
+                                                                          length:-1
+                                                              startPointPercents:GREYCGPointNull
                                                               outRemainingAmount:NULL],
                                  NSException,
                                  NSInternalInconsistencyException,
@@ -125,7 +128,8 @@
     while (remainingAmount > 0) {
       NSArray *path = [GREYPathGestureUtils touchPathForGestureInView:mockUIView
                                                         withDirection:kGREYDirectionDown
-                                                               amount:remainingAmount
+                                                               length:remainingAmount
+                                                   startPointPercents:GREYCGPointNull
                                                    outRemainingAmount:&remainingAmount];
       CGFloat pathLength = CGVectorLength(CGVectorFromEndPoints([[path firstObject] CGPointValue],
                                                                 [[path lastObject] CGPointValue],
@@ -142,4 +146,5 @@
     XCTAssertEqualWithAccuracy(totalActualPathAmount, totalExpectedPathAmount, 0.000001f);
   }];
 }
+
 @end

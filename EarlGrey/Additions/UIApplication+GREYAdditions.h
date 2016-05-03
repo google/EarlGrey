@@ -23,7 +23,7 @@
 
 /**
  * @return Active mode for the main runloop that was pushed by one of the push runloop methods.
- *         May return nil when no mode was pushed.
+ *         May return @c nil when no mode was pushed.
  */
 - (NSString *)grey_activeRunLoopMode;
 

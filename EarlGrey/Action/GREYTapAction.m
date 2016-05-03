@@ -62,7 +62,7 @@
 }
 
 - (instancetype)initLongPressWithDuration:(CFTimeInterval)duration {
-  return [self initLongPressWithDuration:duration location:CGPointNull];
+  return [self initLongPressWithDuration:duration location:GREYCGPointNull];
 }
 
 - (instancetype)initLongPressWithDuration:(CFTimeInterval)duration location:(CGPoint)location {
@@ -75,7 +75,7 @@
   return [self initWithType:tapType
                numberOfTaps:numberOfTaps
                    duration:duration
-                   location:CGPointNull];
+                   location:GREYCGPointNull];
 }
 
 - (instancetype)initWithType:(GREYTapType)tapType

@@ -29,6 +29,27 @@
   [self verifyGREYScrollActionInitFailsWithAmount:-1.0];
 }
 
+- (void)testEGScrollerCanInitWithValidStartPointsPercents {
+  [self verifyScrollActionInitWithStartPoint:CGPointMake(0.001f, 0.001f) fails:NO];
+  [self verifyScrollActionInitWithStartPoint:CGPointMake(0.001f, 0.99f) fails:NO];
+  [self verifyScrollActionInitWithStartPoint:CGPointMake(0.99f, 0.99f) fails:NO];
+  [self verifyScrollActionInitWithStartPoint:CGPointMake(0.99f, 0.001f) fails:NO];
+}
+
+- (void)testEGScrollerFailsToCreateWithInvalidStartPointsPercents {
+  // Start point percents must be in (0, 1) exclusive or must be NAN.
+  [self verifyScrollActionInitWithStartPoint:CGPointMake(0, 0) fails:YES];
+  [self verifyScrollActionInitWithStartPoint:CGPointMake(0, 0) fails:YES];
+  [self verifyScrollActionInitWithStartPoint:CGPointMake(NAN, 0) fails:YES];
+  [self verifyScrollActionInitWithStartPoint:CGPointMake(0, NAN) fails:YES];
+  [self verifyScrollActionInitWithStartPoint:CGPointMake(0, 0) fails:YES];
+  [self verifyScrollActionInitWithStartPoint:CGPointMake(1, 0.1f) fails:YES];
+  [self verifyScrollActionInitWithStartPoint:CGPointMake(0.1f, 1) fails:YES];
+  [self verifyScrollActionInitWithStartPoint:CGPointMake(1, 1) fails:YES];
+  [self verifyScrollActionInitWithStartPoint:CGPointMake(NAN, 1) fails:YES];
+  [self verifyScrollActionInitWithStartPoint:CGPointMake(1, NAN) fails:YES];
+}
+
 #pragma mark - Private Methods
 
 - (void)verifyGREYScrollActionInitFailsWithAmount:(CGFloat)amount {
@@ -40,6 +61,25 @@
     XCTAssertEqualObjects(@"Scroll 'amount' must be positive and greater than zero.",
                           [exception description],
                           @"Should throw GREYActionFailException");
+  }
+}
+
+- (void)verifyScrollActionInitWithStartPoint:(CGPoint)startPoint fails:(BOOL)fails {
+  GREYScrollAction *scrollAction;
+  @try {
+    scrollAction = [[GREYScrollAction alloc] initWithDirection:kGREYDirectionUp
+                                                        amount:100
+                                            startPointPercents:startPoint];
+    if (fails) {
+      XCTFail(@"Should have thrown an assertion for scroll point %@",
+              NSStringFromCGPoint(startPoint));
+    } else {
+      XCTAssertNotNil(scrollAction);
+    }
+  } @catch (NSException *exception) {
+    XCTAssertEqualObjects(@"startPointPercents must be NAN or in the range (0, 1) exclusive",
+                          [exception description],
+                          @"Should throw NSInternalInconsistencyException");
   }
 }
 

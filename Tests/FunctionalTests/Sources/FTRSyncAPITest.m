@@ -45,6 +45,7 @@
 
 - (void)testGREYExecuteSync {
   __block BOOL firstGREYExecuteSyncStarted = NO;
+  __block BOOL secondGREYExecuteSyncStarted = NO;
 
   // Execute on a background thread.
   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -60,6 +61,7 @@
           performAction:grey_typeText(@"Hello!")];
     });
     grey_execute_sync(^{
+      secondGREYExecuteSyncStarted = YES;
       id<GREYMatcher> matcher = grey_allOf(grey_kindOfClass([UITextField class]),
                                          grey_accessibilityLabel(@"Type Something Here"),
                                          nil);
@@ -67,7 +69,7 @@
     });
   });
 
-  // This should wait for grey_execute_sync to start execution on the background thread.
+  // This should wait for the first grey_execute_sync to start execution on the background thread.
   BOOL success = [[GREYCondition conditionWithName:@"Wait for first grey_execute_sync"
                                              block:^BOOL{
     return firstGREYExecuteSyncStarted;
@@ -78,6 +80,13 @@
                                                  grey_accessibilityLabel(@"Type Something Here"),
                                                  nil)]
       assertWithMatcher:grey_text(@"Hello!")];
+
+  // This should wait for the second grey_execute_sync to start execution on the background thread.
+  success = [[GREYCondition conditionWithName:@"Wait for first grey_execute_sync"
+                                        block:^BOOL{
+    return secondGREYExecuteSyncStarted;
+  }] waitWithTimeout:5.0];
+  GREYAssert(success, @"Waiting for second grey_execute_sync to start timed-out");
 }
 
 - (void)testGREYExecuteAsyncOnMainThread {
@@ -90,7 +99,7 @@
         performAction:grey_tapAtPoint(CGPointMake(0, 0))]
         performAction:grey_typeText(@"Hello!")];
   });
-  // This should wait for the above async to finish.
+  // This should wait for the above async task to finish.
   [[EarlGrey selectElementWithMatcher:grey_allOf(grey_kindOfClass([UITextField class]),
                                                  grey_accessibilityLabel(@"Type Something Here"),
                                                  nil)]
@@ -98,12 +107,12 @@
 }
 
 - (void)testGREYExecuteAsyncOnBackgroundThread {
-  __block BOOL GREYExecuteAsyncStarted = NO;
+  __block BOOL executeAsyncStarted = NO;
 
   // Execute on a background thread.
   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
     grey_execute_async(^{
-      GREYExecuteAsyncStarted = YES;
+      executeAsyncStarted = YES;
       [[EarlGrey selectElementWithMatcher:[GREYMatchers matcherForText:@"Tab 2"]]
           performAction:grey_tap()];
       id matcher = grey_allOf(grey_kindOfClass([UITextField class]),
@@ -116,7 +125,7 @@
   // This should wait for grey_execute_async to start execution on the background thread.
   BOOL success = [[GREYCondition conditionWithName:@"Wait for background grey_execute_async"
                                              block:^BOOL{
-    return GREYExecuteAsyncStarted;
+    return executeAsyncStarted;
   }] waitWithTimeout:5.0];
   GREYAssert(success, @"Waiting for grey_execute_async to start timed-out");
 

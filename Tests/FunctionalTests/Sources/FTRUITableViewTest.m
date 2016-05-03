@@ -46,11 +46,11 @@
 }
 
 - (void)testSearchActionWithTinyScrollIncrements {
-  [[self scrollToCellAtIndex:20 byScrollingInAmounts:20 InDirection:kGREYDirectionDown]
+  [[self scrollToCellAtIndex:20 byScrollingInAmounts:50 InDirection:kGREYDirectionDown]
       assertWithMatcher:grey_notNil()];
-  [[self scrollToCellAtIndex:0 byScrollingInAmounts:20 InDirection:kGREYDirectionUp]
+  [[self scrollToCellAtIndex:0 byScrollingInAmounts:50 InDirection:kGREYDirectionUp]
       assertWithMatcher:grey_notNil()];
-  [[self scrollToCellAtIndex:20 byScrollingInAmounts:20 InDirection:kGREYDirectionDown]
+  [[self scrollToCellAtIndex:20 byScrollingInAmounts:50 InDirection:kGREYDirectionDown]
       assertWithMatcher:grey_notNil()];
 }
 

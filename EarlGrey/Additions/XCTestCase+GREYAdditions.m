@@ -25,12 +25,6 @@
 #import "Synchronization/GREYUIThreadExecutor.h"
 
 /**
- *  The time in seconds beyond which if app remains busy, the App state from GREYAppStateTracker
- *  will be forced clean.
- */
-static const CFTimeInterval kIdleTimeoutSeconds = 5;
-
-/**
  *  Current XCTestCase being executed or @c nil if outside the context of a running test.
  */
 static XCTestCase *gCurrentExecutingTestCase;
@@ -85,15 +79,20 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
     NSAssert(swizzleSuccess, @"Cannot swizzle XCTestCase invokeTest");
 
     void (^tearDownBlock)(NSNotification *note) = ^(NSNotification *note) {
-      // Try to idle for 5 seconds, otherwise cleanup state tracker state forcefully.
+      // The time in seconds beyond which if app remains busy, the App state from
+      // GREYAppStateTracker will be forced clean.
+      static const CFTimeInterval kIdleTimeoutSeconds = 5;
+
+      // Cleanup state tracker state if not idle after 5 seconds.
       BOOL idled =
           [[GREYUIThreadExecutor sharedInstance] drainUntilIdleWithTimeout:kIdleTimeoutSeconds];
       if (!idled) {
         XCTestCase *test = note.userInfo[kGREYXCTestCaseNotificationKey];
         NSLog(@"EarlGrey tried waiting for %.1f seconds for the application to reach an idle "
-              @"state, but it didn't. EarlGrey is now forced to cleanup the state tracker "
-              @"because the test %@ might have caused the UI thread to be in a non-idle state "
-              @"indefinitely", kIdleTimeoutSeconds, test.name);
+              @"state. It is now forced to cleanup the state tracker because the test %@ might "
+              @"have caused the application to be in a non-idle state indefinitely."
+              @"\nFull state tracker description:%@", kIdleTimeoutSeconds, test.name,
+              [GREYAppStateTracker sharedInstance]);
         [[GREYAppStateTracker sharedInstance] grey_clearState];
       }
     };

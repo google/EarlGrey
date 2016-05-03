@@ -28,11 +28,11 @@ static const NSInteger kMaxRenderPassesToWait = 2;
 
 /**
  *  This script adds a JavaScript snippet that keeps tracks of browser's render passes in a global
- *  variable eg_renderPassesCount. This process will continue until the global variable
- *  eg_shouldTrackRendering is set to false. The return value is the number of passes the script
- *  was able to track. Note that iOS safari may drop recursively called request for animation frames
- *  if the page is loaded using UIWebView's loadHTMLString:baseURL: and also if the target page has
- *  JavaScript errors. Hence, this script must be injected multiple times.
+ *  variable @c grey_renderPassesCount. This process will continue until the global variable
+ *  @c grey_shouldTrackRendering is set to false. The return value is the number of passes the
+ *  script was able to track. Note that iOS safari may drop recursively called request for animation
+ *  frames if the page is loaded using UIWebView's loadHTMLString:baseURL: and also if the target
+ *  page has JavaScript errors. Hence, this script must be injected multiple times.
  */
 static NSString *const kRenderPassTrackerScript =
     @"  (function() {                                                                       "
@@ -51,8 +51,8 @@ static NSString *const kRenderPassTrackerScript =
     @"  })()                                                                                ";
 
 /**
- *  This script sets eg_shouldTrackRendering to false to stop any EarlGrey tracking code present on
- *  the page.
+ *  This script sets @c grey_shouldTrackRendering to false to stop any EarlGrey tracking code
+ *  present on the page.
  */
 static NSString *const kTrackerScriptCleanupScript =
     @"  (function() {                                                                       "

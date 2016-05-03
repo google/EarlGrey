@@ -264,7 +264,6 @@ IOHIDEventRef IOHIDEventCreateDigitizerFingerEvent(CFAllocatorRef allocator,
  *          instance could exist even if the keyboard is not shown on the screen.
  */
 + (instancetype)activeInstance;
-- (BOOL)isShifted;
 
 /**
  *  @return The current keyboard layout view, which contains accessibility elements for keyboard
@@ -358,5 +357,5 @@ IOHIDEventRef IOHIDEventCreateDigitizerFingerEvent(CFAllocatorRef allocator,
  *  @param enabled   A boolean that indicates if predictive typing is enabled or not.
  *  @param specifier Is unused can be @c nil.
  */
-- (void)setPredictionPreferenceValue:(NSNumber *)enabled forSpecifier:(id)specifier;
+- (void)setPredictionPreferenceValue:(id)arg1 forSpecifier:(id)arg2;
 @end

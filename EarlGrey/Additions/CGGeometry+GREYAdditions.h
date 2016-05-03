@@ -22,7 +22,7 @@
 /**
  *  Value used to denote a null CGPoint.
  */
-extern const CGPoint CGPointNull;
+extern const CGPoint GREYCGPointNull;
 
 #pragma mark - CGVector
 

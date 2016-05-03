@@ -21,8 +21,7 @@
 
 // Expose private action for testing
 @interface GREYActions (GREYExposedForTesting)
-+ (id<GREYAction>)grey_actionForTypeText:(NSString *)text
-                        atUITextPosition:(UITextPosition *)position;
++ (id<GREYAction>)grey_actionForTypeText:(NSString *)text atUITextPosition:(UITextPosition *)position;
 @end
 
 @interface FTRKeyboardKeysTest : FTRBaseIntegrationTest
@@ -437,6 +436,20 @@
    assertWithMatcher:grey_text(multiCaseString)];
 }
 
+- (void)testSuccessivelyTypingInTheSameTextField {
+  [[[[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
+      performAction:grey_typeText(@"This ")]
+      performAction:grey_typeText(@"Is A ")]
+      performAction:grey_typeText(@"Test")]
+      assertWithMatcher:grey_text(@"This Is A Test")];
+}
+
+- (void)testTypingBlankString {
+  NSString *string = @"       ";
+  [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
+      performAction:grey_typeText(string)]
+      assertWithMatcher:grey_text(string)];
+}
 
 #pragma mark - Private
 

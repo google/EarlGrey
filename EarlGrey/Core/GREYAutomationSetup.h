@@ -14,6 +14,27 @@
 // limitations under the License.
 //
 
-@import EarlGrey;
+#import <Foundation/Foundation.h>
 
-#import "FTRMainViewController.h"
+/**
+ *  Class responsible for setting up the device for automation and configuring crash handlers.
+ */
+@interface GREYAutomationSetup : NSObject
+
+/**
+ *  @return The singleton instance.
+ */
++ (instancetype)sharedInstance;
+
+/**
+ *  @remark init is not an available initializer. Use the other initializers.
+ */
+- (instancetype)init NS_UNAVAILABLE;
+
+/**
+ * Prepare the device for automation but doing one-time setup required to enable accessibility
+ * and setup crash handlers.
+ */
+- (void)perform;
+
+@end

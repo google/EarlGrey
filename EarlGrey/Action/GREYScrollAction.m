@@ -47,10 +47,22 @@ static const NSInteger kMinTouchPointsToDetectScrollResistance = 2;
    *  The amount of scroll (in the units of scrollView's coordinate system) to be applied.
    */
   CGFloat _amount;
+  /**
+   *  The start point of the scroll defined as percentages of the visible area's width and height.
+   *  If any of the coordinate is set to @c NAN the corresponding coordinate of the scroll start
+   *  point will be set to achieve maximum scroll.
+   */
+  CGPoint _startPointPercents;
 }
 
-- (instancetype)initWithDirection:(GREYDirection)direction amount:(CGFloat)amount {
+- (instancetype)initWithDirection:(GREYDirection)direction
+                           amount:(CGFloat)amount
+               startPointPercents:(CGPoint)startPointPercents {
   NSAssert(amount > 0, @"Scroll 'amount' must be positive and greater than zero.");
+  NSAssert(isnan(startPointPercents.x) || (startPointPercents.x > 0 && startPointPercents.x < 1),
+           @"startPointPercents must be NAN or in the range (0, 1) exclusive");
+  NSAssert(isnan(startPointPercents.y) || (startPointPercents.y > 0 && startPointPercents.y < 1),
+           @"startPointPercents must be NAN or in the range (0, 1) exclusive");
   NSString *name =
       [NSString stringWithFormat:@"Scroll %@ for %g", NSStringFromGREYDirection(direction), amount];
 
@@ -63,8 +75,13 @@ static const NSInteger kMinTouchPointsToDetectScrollResistance = 2;
   if (self) {
     _direction = direction;
     _amount = amount;
+    _startPointPercents = startPointPercents;
   }
   return self;
+}
+
+- (instancetype)initWithDirection:(GREYDirection)direction amount:(CGFloat)amount {
+  return [self initWithDirection:direction amount:amount startPointPercents:GREYCGPointNull];
 }
 
 #pragma mark - GREYAction
@@ -86,7 +103,8 @@ static const NSInteger kMinTouchPointsToDetectScrollResistance = 2;
       NSArray *touchPath =
           [GREYPathGestureUtils touchPathForGestureInView:element
                    withDirection:[GREYConstants reverseOfDirection:_direction]
-                          amount:amountRemaining
+                          length:amountRemaining
+              startPointPercents:_startPointPercents
               outRemainingAmount:&amountRemaining];
       if (!touchPath) {
         [NSError grey_logOrSetOutReferenceIfNonNil:errorOrNil

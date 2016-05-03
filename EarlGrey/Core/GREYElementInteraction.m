@@ -439,10 +439,10 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
  *  @param assertionError         Contains the reason for the failure.
  *  @param elementNotFoundError   If non-nil, contains the underlying reason
  *                                for element not being found.
- *  @param[out] userProvidedError Error (or @c nil) provided by the user. When nil, an exception is
- *                                thrown to halt further execution of the test case.
+ *  @param[out] userProvidedError Error (or @c nil) provided by the user. When @c nil, an exception
+ *                                is thrown to halt further execution of the test case.
  *  @throws NSException to denote an assertion failure, thrown if the @c userProvidedError
- *          is nil on test failure.
+ *          is @c nil on test failure.
  *
  *  @return Junk boolean value to suppress xcode warning to have "a non-void return
  *          value to indicate an error occurred"

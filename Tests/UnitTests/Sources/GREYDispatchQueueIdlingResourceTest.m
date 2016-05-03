@@ -25,13 +25,17 @@ static const int kMaxAggresiveCalls = 100;
 @end
 
 @implementation GREYDispatchQueueIdlingResourceTest  {
-  dispatch_queue_t _trackedDispatchQueue;
+  dispatch_queue_t _serialQueue;
 }
 
 - (void)setUp {
   [super setUp];
-  _trackedDispatchQueue = dispatch_queue_create("GREYDispatchQueueIdlingResourceTest",
-                                                DISPATCH_QUEUE_SERIAL);
+  _serialQueue = dispatch_queue_create("SerialQForIdlingResourceTest", DISPATCH_QUEUE_SERIAL);
+}
+
+- (void)tearDown {
+  [[GREYConfiguration sharedInstance] reset];
+  [super tearDown];
 }
 
 - (void)testQueueName {
@@ -40,7 +44,7 @@ static const int kMaxAggresiveCalls = 100;
   [[GREYConfiguration sharedInstance] setValue:@(1.0)
                                   forConfigKey:kGREYConfigKeyDispatchAfterMaxTrackableDelay];
   GREYDispatchQueueIdlingResource *idlingRes =
-      [GREYDispatchQueueIdlingResource resourceWithDispatchQueue:_trackedDispatchQueue
+      [GREYDispatchQueueIdlingResource resourceWithDispatchQueue:_serialQueue
                                                             name:queueName];
   XCTAssertEqual(queueName, [idlingRes idlingResourceName], @"Name differs");
 }
@@ -49,7 +53,7 @@ static const int kMaxAggresiveCalls = 100;
   [[GREYConfiguration sharedInstance] setValue:@(1.0)
                                   forConfigKey:kGREYConfigKeyDispatchAfterMaxTrackableDelay];
   GREYDispatchQueueIdlingResource *idlingRes =
-      [GREYDispatchQueueIdlingResource resourceWithDispatchQueue:_trackedDispatchQueue
+      [GREYDispatchQueueIdlingResource resourceWithDispatchQueue:_serialQueue
                                                             name:@"test"];
   XCTAssertTrue([idlingRes isIdleNow], @"Empty queue should be in idle state.");
 }
@@ -58,7 +62,7 @@ static const int kMaxAggresiveCalls = 100;
   [[GREYConfiguration sharedInstance] setValue:@(1.0)
                                   forConfigKey:kGREYConfigKeyDispatchAfterMaxTrackableDelay];
   GREYDispatchQueueIdlingResource *idlingRes =
-      [GREYDispatchQueueIdlingResource resourceWithDispatchQueue:_trackedDispatchQueue
+      [GREYDispatchQueueIdlingResource resourceWithDispatchQueue:_serialQueue
                                                             name:@"test"];
   // We must verify that sending isIdleNow message itself does not make the queue busy.
   for (int i = 0; i < kMaxAggresiveCalls; i++) {
@@ -72,11 +76,11 @@ static const int kMaxAggresiveCalls = 100;
   [[GREYConfiguration sharedInstance] setValue:@(1.0)
                                   forConfigKey:kGREYConfigKeyDispatchAfterMaxTrackableDelay];
   GREYDispatchQueueIdlingResource *idlingRes =
-      [GREYDispatchQueueIdlingResource resourceWithDispatchQueue:_trackedDispatchQueue
+      [GREYDispatchQueueIdlingResource resourceWithDispatchQueue:_serialQueue
                                                             name:@"test"];
   NSLock *lock = [[NSLock alloc] init];
   [lock lock];
-  dispatch_async(_trackedDispatchQueue, ^{
+  dispatch_async(_serialQueue, ^{
     [lock lock];
     [lock unlock];
   });
@@ -116,90 +120,80 @@ static const int kMaxAggresiveCalls = 100;
   [[GREYConfiguration sharedInstance] setValue:@(trackableValue)
                                   forConfigKey:kGREYConfigKeyDispatchAfterMaxTrackableDelay];
   GREYDispatchQueueIdlingResource *idlingRes =
-      [GREYDispatchQueueIdlingResource resourceWithDispatchQueue:_trackedDispatchQueue
+      [GREYDispatchQueueIdlingResource resourceWithDispatchQueue:_serialQueue
                                                             name:@"test"];
-
-  NSLock *lock = [[NSLock alloc] init];
-  [lock lock];
-
-  dispatch_semaphore_t sem = dispatch_semaphore_create(0);
-  dispatch_async(_trackedDispatchQueue, ^{
-    [lock lock];
-    [lock unlock];
-
-    // Unlock in dispatch_after so current block can complete. This dispatch won't be tracked
-    // because it is delayed beyond the max track time.
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * trackableValue * NSEC_PER_SEC)),
-                   _trackedDispatchQueue, ^{
-      dispatch_semaphore_signal(sem);
+  NSConditionLock *syncLock = [[NSConditionLock alloc] init];
+  [syncLock lockWhenCondition:0];
+  dispatch_async(_serialQueue, ^{
+    // Wait for isIdle evaluation to occur.
+    [syncLock lockWhenCondition:1];
+    int64_t time = (int64_t)(trackableValue * NSEC_PER_SEC);
+    // dispatch_after isn't going to be tracked because the time is less than the min-trackable
+    // amount. Leaving the group in this manner ensures that the idling resource idles right after.
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, time), _serialQueue, ^{
+      [syncLock unlockWithCondition:2];
     });
   });
   XCTAssertFalse([idlingRes isIdleNow], @"Non-empty queue should not be in idle state.");
-  [lock unlock];
+  [syncLock unlockWithCondition:1];
 
-  // Wait for async block to finish execution.
-  dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER);
+  // Wait for queue to empty.
+  [syncLock lockWhenCondition:2];
   XCTAssertTrue([idlingRes isIdleNow], @"Queue should be idle after executing the only task.");
+  [syncLock unlock];
 }
 
-- (void)testIdlingResourceDoesNotTrackDispatchAfterBlockOverMaxDelay {
+- (void)testIdlingResourceDoesNotTrackDispatchAfterBlock {
   double trackableValue = 0.05;
   [[GREYConfiguration sharedInstance] setValue:@(trackableValue)
                                   forConfigKey:kGREYConfigKeyDispatchAfterMaxTrackableDelay];
   GREYDispatchQueueIdlingResource *idlingRes =
-      [GREYDispatchQueueIdlingResource resourceWithDispatchQueue:_trackedDispatchQueue
+      [GREYDispatchQueueIdlingResource resourceWithDispatchQueue:_serialQueue
                                                             name:@"test"];
 
   NSConditionLock *conditionLock = [[NSConditionLock alloc] initWithCondition:0];
   [conditionLock lock];
   __block BOOL executed = NO;
   dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * trackableValue * NSEC_PER_SEC)),
-                 _trackedDispatchQueue, ^{
+                 _serialQueue, ^{
     [conditionLock lockWhenCondition:1];
     executed = YES;
     [conditionLock unlockWithCondition:2];
   });
-  XCTAssert(!executed, @"Block should be pending execution");
-  XCTAssert([idlingRes isIdleNow], @"Idling resource should not track block with large delay");
+  XCTAssertFalse(executed, @"Block should be pending execution");
+  XCTAssertTrue([idlingRes isIdleNow], @"Idling resource should not track block with large delay");
   [conditionLock unlockWithCondition:1];
 
   [conditionLock lockWhenCondition:2];
-  XCTAssert(executed, @"Block should still be be executed even if dispatch_after isn'ttracked");
-  XCTAssert([idlingRes isIdleNow], @"Idling resource should be idle after block execution");
+  XCTAssertTrue(executed, @"Block should still be be executed even if dispatch_after isn'ttracked");
+  XCTAssertTrue([idlingRes isIdleNow], @"Idling resource should be idle after block execution");
   [conditionLock unlock];
 }
 
-- (void)testIdlingResourceTracksDispatchAfterBlockWithSmallDelay {
+- (void)testIdlingResourceTracksDispatchAfterBlock {
   double trackableValue = 0.05;
   [[GREYConfiguration sharedInstance] setValue:@(trackableValue)
                                   forConfigKey:kGREYConfigKeyDispatchAfterMaxTrackableDelay];
   GREYDispatchQueueIdlingResource *idlingRes =
-      [GREYDispatchQueueIdlingResource resourceWithDispatchQueue:_trackedDispatchQueue
+      [GREYDispatchQueueIdlingResource resourceWithDispatchQueue:_serialQueue
                                                             name:@"test"];
   __block BOOL executed = NO;
-  NSLock *lock = [[NSLock alloc] init];
-  [lock lock];
-
-  dispatch_semaphore_t sem = dispatch_semaphore_create(0);
-  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(trackableValue * NSEC_PER_SEC)),
-                 _trackedDispatchQueue, ^{
-    [lock lock];
-    [lock unlock];
-
+  NSConditionLock *syncLock = [[NSConditionLock alloc] init];
+  [syncLock lockWhenCondition:0];
+  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.05 * NSEC_PER_SEC)),
+                 _serialQueue, ^{
+    [syncLock lockWhenCondition:1];
     executed = YES;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * trackableValue * NSEC_PER_SEC)),
-                   _trackedDispatchQueue, ^{
-      dispatch_semaphore_signal(sem);
-    });
+    [syncLock unlockWithCondition:2];
   });
-  XCTAssert(!executed, @"Block should be pending execution");
-  XCTAssert(![idlingRes isIdleNow], @"Idling resource should track block with small delay");
-  [lock unlock];
+  XCTAssertFalse(executed, @"Block should be pending execution");
+  XCTAssertFalse([idlingRes isIdleNow], @"Idling resource should track block with small delay");
+  [syncLock unlockWithCondition:1];
 
-  // Wait for async block to finish execution.
-  dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER);
-  XCTAssert(executed, @"Block should be been executed");
-  XCTAssert([idlingRes isIdleNow], @"Idling resource should be idle after finishing execution");
+  [syncLock lockWhenCondition:2];
+  XCTAssertTrue(executed, @"Block should be been executed");
+  XCTAssertTrue([idlingRes isIdleNow], @"Idling resource should be idle after finishing execution");
+  [syncLock unlock];
 }
 
 - (void)testIdlingResourceTracksDispatchAsyncBlock {
@@ -207,7 +201,7 @@ static const int kMaxAggresiveCalls = 100;
   [[GREYConfiguration sharedInstance] setValue:@(trackableValue)
                                   forConfigKey:kGREYConfigKeyDispatchAfterMaxTrackableDelay];
   GREYDispatchQueueIdlingResource *idlingRes =
-      [GREYDispatchQueueIdlingResource resourceWithDispatchQueue:_trackedDispatchQueue
+      [GREYDispatchQueueIdlingResource resourceWithDispatchQueue:_serialQueue
                                                             name:@"test"];
   __block BOOL executed = NO;
 
@@ -215,56 +209,56 @@ static const int kMaxAggresiveCalls = 100;
   [lock lock];
 
   dispatch_semaphore_t sem = dispatch_semaphore_create(0);
-  dispatch_async(_trackedDispatchQueue, ^{
+  dispatch_async(_serialQueue, ^{
     // Wait for preliminary assertions to be checked first. This lock will be unlocked rightafter.
     [lock lock];
     [lock unlock];
 
-    XCTAssert(![idlingRes isIdleNow], @"Idling resource should track dispatch async block");
+    XCTAssertFalse([idlingRes isIdleNow], @"Idling resource should track dispatch async block");
     executed = YES;
-    // This is to prevent a race condition that causes _trackedDispatchQueue's pending count
+    // This is to prevent a race condition that causes _serialQueue's pending count
     // to be decremented after test has finished execution, causing the last isIdleNow check
     // to fail.
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * trackableValue * NSEC_PER_SEC)),
-                   _trackedDispatchQueue, ^{
+                   _serialQueue, ^{
       dispatch_semaphore_signal(sem);
     });
   });
 
-  XCTAssert(!executed, @"Block should be pending execution");
-  XCTAssert(![idlingRes isIdleNow], @"Idling resource should track dispatch async block");
+  XCTAssertFalse(executed, @"Block should be pending execution");
+  XCTAssertFalse([idlingRes isIdleNow], @"Idling resource should track dispatch async block");
   [lock unlock];
 
   // Wait for async block to finish execution.
   dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER);
-  XCTAssert([idlingRes isIdleNow], @"Idling resource should be idle after finishing execution");
+  XCTAssertTrue([idlingRes isIdleNow], @"Idling resource should be idle after finishing execution");
 }
 
 - (void)testIdlingResourceTracksDispatchSyncBlock {
   [[GREYConfiguration sharedInstance] setValue:@(0.5)
                                   forConfigKey:kGREYConfigKeyDispatchAfterMaxTrackableDelay];
   GREYDispatchQueueIdlingResource *idlingRes =
-      [GREYDispatchQueueIdlingResource resourceWithDispatchQueue:_trackedDispatchQueue
+      [GREYDispatchQueueIdlingResource resourceWithDispatchQueue:_serialQueue
                                                             name:@"test"];
   __block BOOL executed = NO;
-  dispatch_sync(_trackedDispatchQueue, ^{
-    XCTAssert(![idlingRes isIdleNow], @"Idling resource should track dispatch sync block");
-    XCTAssert(!executed, @"Block should be pending execution");
+  dispatch_sync(_serialQueue, ^{
+    XCTAssertFalse([idlingRes isIdleNow], @"Idling resource should track dispatch sync block");
+    XCTAssertFalse(executed, @"Block should be pending execution");
     executed = YES;
   });
-  XCTAssert(executed, @"Block should be been executed");
-  XCTAssert([idlingRes isIdleNow], @"Idling resource should be idle after finishing execution");
+  XCTAssertTrue(executed, @"Block should be been executed");
+  XCTAssertTrue([idlingRes isIdleNow], @"Idling resource should be idle after finishing execution");
 }
 
 - (void)testCreatingSecondIdlingResourceForSameQueueThrowsException {
   [[GREYConfiguration sharedInstance] setValue:@(0.5)
                                   forConfigKey:kGREYConfigKeyDispatchAfterMaxTrackableDelay];
   GREYDispatchQueueIdlingResource *idlingRes =
-      [GREYDispatchQueueIdlingResource resourceWithDispatchQueue:_trackedDispatchQueue
+      [GREYDispatchQueueIdlingResource resourceWithDispatchQueue:_serialQueue
                                                             name:@"test"];
   XCTAssertNotNil(idlingRes);
   XCTAssertThrowsSpecificNamed(
-      [GREYDispatchQueueIdlingResource resourceWithDispatchQueue:_trackedDispatchQueue
+      [GREYDispatchQueueIdlingResource resourceWithDispatchQueue:_serialQueue
                                                             name:@"test"],
       NSException,
       NSInternalInconsistencyException,
@@ -276,11 +270,11 @@ static const int kMaxAggresiveCalls = 100;
                                   forConfigKey:kGREYConfigKeyDispatchAfterMaxTrackableDelay];
   @autoreleasepool {
     __autoreleasing GREYDispatchQueueIdlingResource *idlingRes =
-        [GREYDispatchQueueIdlingResource resourceWithDispatchQueue:_trackedDispatchQueue
+        [GREYDispatchQueueIdlingResource resourceWithDispatchQueue:_serialQueue
                                                               name:@"test"];
     XCTAssertNotNil(idlingRes);
   }
-  XCTAssertNoThrow([GREYDispatchQueueIdlingResource resourceWithDispatchQueue:_trackedDispatchQueue
+  XCTAssertNoThrow([GREYDispatchQueueIdlingResource resourceWithDispatchQueue:_serialQueue
                                                                          name:@"test"],
                    @"should not throw exception since idlingRes was already deallocated");
 }

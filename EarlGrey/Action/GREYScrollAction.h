@@ -46,4 +46,22 @@
  */
 - (instancetype)initWithDirection:(GREYDirection)direction amount:(CGFloat)amount;
 
+/**
+ *  Creates a scroll action that scrolls the contents in the given @c direction for the
+ *  given @c amount with the start point specified by @c startPointPercents.
+ *
+ *  @param direction          The direction of the scroll.
+ *  @param amount             The amount specified in points. The units here are the same as the
+ *                            units of the coordinate system of the element matched.
+ *  @param startPointPercents The start point of the scroll specified as percents (0, 1) exclusive,
+ *                            in the visible area of the scroll view or as @c NAN to pick a point
+ *                            that provides maximum scroll length.
+ *
+ *  @return An instance of GREYScrollAction, initialized with the provided
+ *          direction, scroll amount and start point.
+ */
+- (instancetype)initWithDirection:(GREYDirection)direction
+                           amount:(CGFloat)amount
+               startPointPercents:(CGPoint)startPointPercents NS_DESIGNATED_INITIALIZER;
+
 @end
