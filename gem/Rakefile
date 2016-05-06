@@ -17,6 +17,7 @@ require 'rubygems'
 require 'bundler/gem_tasks'
 require 'rubocop/rake_task'
 require 'rspec/core/rake_task'
+require_relative 'support/bump'
 
 # rubocop:disable Style/ClassAndModuleChildren
 # Skip tagging the repo on Gem releases because that'll conflict with EarlGrey carthage tagged releases.
