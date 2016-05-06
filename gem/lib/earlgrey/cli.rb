@@ -19,8 +19,8 @@ module EarlGrey
 
     desc 'install', 'Installs EarlGrey into an Xcode unit test target'
     method_option :project, aliases: '-p', type: :string, required: false, desc: 'Project'
-    method_option :target,  aliases: '-t', type: :string, required: true, desc: 'EarlGrey'
-    method_option :scheme,  aliases: '-s', type: :string, required: false, desc: 'EarlGrey.xcscheme'
+    method_option :target,  aliases: '-t', type: :string, required: true, desc: 'EarlGreyTestTarget'
+    method_option :scheme,  aliases: '-s', type: :string, required: false, desc: 'EarlGreyTestTarget.xcscheme'
     method_option :swift,    type: :boolean, default: true
     method_option :carthage, type: :boolean, default: true
 
