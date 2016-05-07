@@ -186,7 +186,7 @@
       return YES;
     } else if ([element conformsToProtocol:@protocol(UITextInput)]) {
       id<GREYAction> typeAtEnd = [GREYActions grey_actionForTypeText:deleteStr
-                                               atUITextPosition:[element endOfDocument]];
+                                                    atUITextPosition:[element endOfDocument]];
       return [typeAtEnd perform:element error:errorOrNil];
     } else {
       return [[GREYActions actionForTypeText:deleteStr] perform:element error:errorOrNil];
