@@ -340,7 +340,7 @@
     return ABS(actual.x - expected.x) <= accuracy && ABS(actual.y - expected.y) <= accuracy;
   };
   return [GREYElementMatcherBlock matcherWithMatchesBlock:matchesValueWithAccuracy
-                                       descriptionBlock:^(id<GREYDescription> description) {
+                                         descriptionBlock:^(id<GREYDescription> description) {
       [description appendText:[NSString stringWithFormat:@"textMatcher(%@ +/- %f)",
                                                          NSStringFromCGPoint(expected), accuracy]];
   }];

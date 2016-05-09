@@ -307,8 +307,8 @@ GREY_EXPORT id<GREYAction> grey_scrollInDirection(GREYDirection direction, CGFlo
  */
 GREY_EXPORT id<GREYAction> grey_scrollInDirectionWithStartPoint(GREYDirection direction,
                                                                 CGFloat amount,
-                                                                CGFloat xStartPoint,
-                                                                CGFloat yStartPoint);
+                                                                CGFloat xOriginStartPercentage,
+                                                                CGFloat yOriginStartPercentage);
 
 /** Shorthand macro for GREYActions::actionForScrollToContentEdge:. */
 GREY_EXPORT id<GREYAction> grey_scrollToContentEdge(GREYContentEdge edge);
@@ -318,8 +318,8 @@ GREY_EXPORT id<GREYAction> grey_scrollToContentEdge(GREYContentEdge edge);
  *  GREYActions::actionForScrollToContentEdge:xOriginStartPercentage:yOriginStartPercentage:.
  */
 GREY_EXPORT id<GREYAction> grey_scrollToContentEdgeWithStartPoint(GREYContentEdge edge,
-                                                                  CGFloat xStartPoint,
-                                                                  CGFloat yStartPoint);
+                                                                  CGFloat xOriginStartPercentage,
+                                                                  CGFloat yOriginStartPercentage);
 
 /** Shorthand macro for GREYActions::actionForSwipeFastInDirection:. */
 GREY_EXPORT id<GREYAction> grey_swipeFastInDirection(GREYDirection direction);
@@ -332,16 +332,16 @@ GREY_EXPORT id<GREYAction> grey_swipeSlowInDirection(GREYDirection direction);
  *  GREYActions::actionForSwipeFastInDirection:xOriginStartPercentage:yOriginStartPercentage:.
  */
 GREY_EXPORT id<GREYAction> grey_swipeFastInDirectionWithStartPoint(GREYDirection direction,
-                                                                   CGFloat xStartPoint,
-                                                                   CGFloat yStartPoint);
+                                                                   CGFloat xOriginStartPercentage,
+                                                                   CGFloat yOriginStartPercentage);
 
 /**
  *  Shorthand macro for
  *  GREYActions::actionForSwipeSlowInDirection:xOriginStartPercentage:yOriginStartPercentage:.
  */
 GREY_EXPORT id<GREYAction> grey_swipeSlowInDirectionWithStartPoint(GREYDirection direction,
-                                                                   CGFloat xStartPoint,
-                                                                   CGFloat yStartPoint);
+                                                                   CGFloat xOriginStartPercentage,
+                                                                   CGFloat yOriginStartPercentage);
 
 /** Shorthand macro for GREYActions::actionForMoveSliderToValue:. */
 GREY_EXPORT id<GREYAction> grey_moveSliderToValue(float value);

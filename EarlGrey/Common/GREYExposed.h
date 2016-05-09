@@ -357,5 +357,5 @@ IOHIDEventRef IOHIDEventCreateDigitizerFingerEvent(CFAllocatorRef allocator,
  *  @param enabled   A boolean that indicates if predictive typing is enabled or not.
  *  @param specifier Is unused can be @c nil.
  */
-- (void)setPredictionPreferenceValue:(id)arg1 forSpecifier:(id)arg2;
+- (void)setPredictionPreferenceValue:(NSNumber *)enabled forSpecifier:(id)specifier;
 @end
