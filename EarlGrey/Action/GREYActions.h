@@ -70,9 +70,53 @@
 + (id<GREYAction>)actionForScrollInDirection:(GREYDirection)direction amount:(CGFloat)amount;
 
 /**
+ *  Returns a scroll action that scrolls in a @c direction for an @c amount of points starting from
+ *  the given start point specified as percentages. @c xOriginStartPercentage is the x start
+ *  position as a percentage of the total width of the scrollable visible area,
+ *  @c yOriginStartPercentage is the y start position as a percentage of the total height of the
+ *  scrollable visible area. @c xOriginStartPercentage and @c yOriginStartPercentage must be between
+ *  0 and 1, exclusive.
+ *
+ *  @param direction              The direction of the scroll.
+ *  @param amount                 The amount scroll in points to inject.
+ *  @param xOriginStartPercentage X coordinate of the start point specified as a percentage (0, 1)
+ *                                exclusive, of the total width of the scrollable visible area.
+ *  @param xOriginStartPercentage Y coordinate of the start point specified as a percentage (0, 1)
+ *                                exclusive, of the total height of the scrollable visible area.
+ *
+ *  @return A GREYAction that scrolls a scroll view in a given @c direction for a given @c amount
+ *          starting from the given start points.
+ */
++ (id<GREYAction>)actionForScrollInDirection:(GREYDirection)direction
+                                      amount:(CGFloat)amount
+                      xOriginStartPercentage:(CGFloat)xOriginStartPercentage
+                      yOriginStartPercentage:(CGFloat)yOriginStartPercentage;
+
+/**
  *  @return A GREYAction that scrolls to the given content @c edge of a scroll view.
  */
 + (id<GREYAction>)actionForScrollToContentEdge:(GREYContentEdge)edge;
+
+/**
+ *  A GREYAction that scrolls to the given content @c edge of a scroll view with the scroll action
+ *  starting from the given start point specified as percentages. @c xOriginStartPercentage is the x
+ *  start position as a percentage of the total width of the scrollable visible area,
+ *  @c yOriginStartPercentage is the y start position as a percentage of the total height of the
+ *  scrollable visible area. @c xOriginStartPercentage and @c yOriginStartPercentage must be between
+ *  0 and 1, exclusive.
+ *
+ *  @param edge                   The edge towards which the scrolling is to take place.
+ *  @param xOriginStartPercentage X coordinate of the start point specified as a percentage (0, 1)
+ *                                exclusive, of the total width of the scrollable visible area.
+ *  @param xOriginStartPercentage Y coordinate of the start point specified as a percentage (0, 1)
+ *                                exclusive, of the total height of the scrollable visible area.
+ *
+ *  @return A GREYAction that scrolls to the given content @c edge of a scroll view with the scroll
+ *          action starting from the given start point.
+ */
++ (id<GREYAction>)actionForScrollToContentEdge:(GREYContentEdge)edge
+                        xOriginStartPercentage:(CGFloat)xOriginStartPercentage
+                        yOriginStartPercentage:(CGFloat)yOriginStartPercentage;
 
 /**
  *  Returns an action that fast swipes through the whole view. The start point of the swipe is
@@ -257,8 +301,25 @@ GREY_EXPORT id<GREYAction> grey_longPressAtPointWithDuration(CGPoint point,
 /** Shorthand macro for GREYActions::actionForScrollInDirection:amount:. */
 GREY_EXPORT id<GREYAction> grey_scrollInDirection(GREYDirection direction, CGFloat amount);
 
+/**
+ *  Shorthand macro for
+ *  GREYActions::actionForScrollInDirection:amount:xOriginStartPercentage:yOriginStartPercentage:.
+ */
+GREY_EXPORT id<GREYAction> grey_scrollInDirectionWithStartPoint(GREYDirection direction,
+                                                                CGFloat amount,
+                                                                CGFloat xOriginStartPercentage,
+                                                                CGFloat yOriginStartPercentage);
+
 /** Shorthand macro for GREYActions::actionForScrollToContentEdge:. */
 GREY_EXPORT id<GREYAction> grey_scrollToContentEdge(GREYContentEdge edge);
+
+/**
+ *  Shorthand macro for
+ *  GREYActions::actionForScrollToContentEdge:xOriginStartPercentage:yOriginStartPercentage:.
+ */
+GREY_EXPORT id<GREYAction> grey_scrollToContentEdgeWithStartPoint(GREYContentEdge edge,
+                                                                  CGFloat xOriginStartPercentage,
+                                                                  CGFloat yOriginStartPercentage);
 
 /** Shorthand macro for GREYActions::actionForSwipeFastInDirection:. */
 GREY_EXPORT id<GREYAction> grey_swipeFastInDirection(GREYDirection direction);
@@ -271,16 +332,16 @@ GREY_EXPORT id<GREYAction> grey_swipeSlowInDirection(GREYDirection direction);
  *  GREYActions::actionForSwipeFastInDirection:xOriginStartPercentage:yOriginStartPercentage:.
  */
 GREY_EXPORT id<GREYAction> grey_swipeFastInDirectionWithStartPoint(GREYDirection direction,
-                                                                   CGFloat xStartPoint,
-                                                                   CGFloat yStartPoint);
+                                                                   CGFloat xOriginStartPercentage,
+                                                                   CGFloat yOriginStartPercentage);
 
 /**
  *  Shorthand macro for
  *  GREYActions::actionForSwipeSlowInDirection:xOriginStartPercentage:yOriginStartPercentage:.
  */
 GREY_EXPORT id<GREYAction> grey_swipeSlowInDirectionWithStartPoint(GREYDirection direction,
-                                                                   CGFloat xStartPoint,
-                                                                   CGFloat yStartPoint);
+                                                                   CGFloat xOriginStartPercentage,
+                                                                   CGFloat yOriginStartPercentage);
 
 /** Shorthand macro for GREYActions::actionForMoveSliderToValue:. */
 GREY_EXPORT id<GREYAction> grey_moveSliderToValue(float value);

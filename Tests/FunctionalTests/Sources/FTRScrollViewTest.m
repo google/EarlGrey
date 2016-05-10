@@ -28,42 +28,11 @@
   [self openTestViewNamed:@"Scroll Views"];
 }
 
-// Asserts that the |exception| reason contains the given |subString|.
-- (void)assertExceptionReasonContains:(NSString *)subString withException:(NSException *)exception {
-  NSRange subStringRange = [exception.reason rangeOfString:subString options:0];
-  XCTAssertTrue(subStringRange.location != NSNotFound, @"\"%@\" was not found in \"%@\"",
-                subString, exception.reason);
-}
-
-- (GREYElementMatcherBlock *)matcherForScrolledToEdge:(GREYContentEdge)edge {
-  BOOL (^isScrolledToEdge)(id) = ^BOOL(id element) {
-    CGPoint contentOffset = [(UIScrollView *)element contentOffset];
-    UIEdgeInsets contentInset = [(UIScrollView *)element contentInset];
-
-    switch (edge) {
-      case kGREYContentEdgeTop:
-        return contentOffset.x + contentInset.left == 0 && contentOffset.y + contentInset.top == 0;
-      case kGREYContentEdgeBottom:
-        return contentOffset.x + contentInset.left == 0 &&
-            contentOffset.y + [element frame].size.height == [element contentSize].height;
-      case kGREYContentEdgeLeft:
-        return contentOffset.y + contentInset.top == 0 && contentOffset.x + contentInset.left == 0;
-      case kGREYContentEdgeRight:
-        return contentOffset.y + contentInset.top == 0 &&
-            contentOffset.x + [element frame].size.width == [element contentSize].width;
-    }
-  };
-  return [GREYElementMatcherBlock matcherWithMatchesBlock:isScrolledToEdge
-                                         descriptionBlock:^(id description) {
-    [description appendText:@"matcherForScrolledToEdge"];
-  }];
-}
-
 - (void)testScrollToTopEdge {
   id<GREYMatcher> matcher = grey_allOf(grey_accessibilityLabel(@"Label 2"),
-                                     grey_interactable(),
-                                     grey_sufficientlyVisible(),
-                                     nil);
+                                       grey_interactable(),
+                                       grey_sufficientlyVisible(),
+                                       nil);
   [[[EarlGrey selectElementWithMatcher:matcher]
          usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 50)
       onElementWithMatcher:grey_accessibilityLabel(@"Upper Scroll View")]
@@ -92,6 +61,34 @@
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Bottom Scroll View")]
       performAction:grey_scrollToContentEdge(kGREYContentEdgeLeft)]
       assertWithMatcher:[self matcherForScrolledToEdge:kGREYContentEdgeLeft]];
+}
+
+- (void)testScrollToLeftEdgeWithCustomStartPoint {
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Bottom Scroll View")]
+      performAction:grey_scrollToContentEdgeWithStartPoint(kGREYContentEdgeLeft, 0.5, 0.5)];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Bottom Scroll View")]
+      assertWithMatcher:[self matcherForScrolledToEdge:kGREYContentEdgeLeft]];
+}
+
+- (void)testScrollToRightEdgeWithCustomStartPoint {
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Bottom Scroll View")]
+      performAction:grey_scrollToContentEdgeWithStartPoint(kGREYContentEdgeRight, 0.5, 0.5)];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Bottom Scroll View")]
+      assertWithMatcher:[self matcherForScrolledToEdge:kGREYContentEdgeRight]];
+}
+
+- (void)testScrollToTopEdgeWithCustomStartPoint {
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Bottom Scroll View")]
+      performAction:grey_scrollToContentEdgeWithStartPoint(kGREYContentEdgeTop, 0.5, 0.5)];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Bottom Scroll View")]
+      assertWithMatcher:[self matcherForScrolledToEdge:kGREYContentEdgeTop]];
+}
+
+- (void)testScrollToBottomEdgeWithCustomStartPoint {
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Bottom Scroll View")]
+      performAction:grey_scrollToContentEdgeWithStartPoint(kGREYContentEdgeBottom, 0.5, 0.5)];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Bottom Scroll View")]
+      assertWithMatcher:[self matcherForScrolledToEdge:kGREYContentEdgeBottom]];
 }
 
 - (void)testScrollToTopWorksWithPositiveInsets {
@@ -301,6 +298,53 @@
 }
 
 #pragma mark - Private
+
+// Asserts that the |exception| reason contains the given |subString|.
+- (void)assertExceptionReasonContains:(NSString *)subString withException:(NSException *)exception {
+  NSRange subStringRange = [exception.reason rangeOfString:subString options:0];
+  XCTAssertTrue(subStringRange.location != NSNotFound, @"\"%@\" was not found in \"%@\"",
+                subString, exception.reason);
+}
+
+- (GREYElementMatcherBlock *)matcherForScrolledToEdge:(GREYContentEdge)edge {
+  BOOL (^isScrolledToEdge)(id) = ^BOOL(id element) {
+    CGPoint contentOffset = [(UIScrollView *)element contentOffset];
+    UIEdgeInsets contentInset = [(UIScrollView *)element contentInset];
+    CGSize contentSize = [element contentSize];
+    CGRect frame = [element frame];
+
+    switch (edge) {
+      case kGREYContentEdgeTop:
+        return contentOffset.y + contentInset.top == 0;
+      case kGREYContentEdgeBottom:
+        return (contentInset.bottom + contentSize.height -
+                (frame.size.height + contentOffset.y) == 0);
+      case kGREYContentEdgeLeft:
+        return contentOffset.x + contentInset.left == 0;
+      case kGREYContentEdgeRight:
+        return contentInset.right + contentSize.width - (frame.size.width + contentOffset.x) == 0;
+    }
+  };
+  return [GREYElementMatcherBlock matcherWithMatchesBlock:isScrolledToEdge
+                                         descriptionBlock:^(id description) {
+    [description appendText:@"matcherForScrolledToEdge"];
+  }];
+}
+
+// Returns a matcher that matches if the text in the given element represents a point close to the
+// |expected| point within the given |accuracy|.
+- (GREYElementMatcherBlock *)matcherTextWithCGPointValue:(CGPoint)expected
+                                                accuracy:(CGFloat)accuracy {
+  BOOL (^matchesValueWithAccuracy)(id) = ^BOOL(id element) {
+    CGPoint actual = CGPointFromString([element text]);
+    return ABS(actual.x - expected.x) <= accuracy && ABS(actual.y - expected.y) <= accuracy;
+  };
+  return [GREYElementMatcherBlock matcherWithMatchesBlock:matchesValueWithAccuracy
+                                         descriptionBlock:^(id<GREYDescription> description) {
+      [description appendText:[NSString stringWithFormat:@"textMatcher(%@ +/- %f)",
+                                                         NSStringFromCGPoint(expected), accuracy]];
+  }];
+}
 
 // Asserts that the scroll actions work accurately in all four directions by verifying the content
 // offset changes caused by them.

@@ -101,7 +101,7 @@ void GREYVisibilityDiffBufferSetVisibilityAt(GREYVisibilityDiffBuffer buffer,
 
 /**
  *  @return A visible point where a user can tap to interact with specified @c element, or
- *          CGPointNull if there's no such point.
+ *          @c GREYCGPointNull if there's no such point.
  */
 + (CGPoint)visibleInteractionPointForElement:(id)element;
 

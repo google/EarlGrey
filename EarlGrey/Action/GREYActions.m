@@ -107,8 +107,26 @@
   return [[GREYScrollAction alloc] initWithDirection:direction amount:amount];
 }
 
++ (id<GREYAction>)actionForScrollInDirection:(GREYDirection)direction
+                                      amount:(CGFloat)amount
+                      xOriginStartPercentage:(CGFloat)xOriginStartPercentage
+                      yOriginStartPercentage:(CGFloat)yOriginStartPercentage {
+  return [[GREYScrollAction alloc] initWithDirection:direction
+                                              amount:amount
+                                  startPointPercents:CGPointMake(xOriginStartPercentage,
+                                                                 yOriginStartPercentage)];
+}
+
 + (id<GREYAction>)actionForScrollToContentEdge:(GREYContentEdge)edge {
   return [[GREYScrollToContentEdgeAction alloc] initWithEdge:edge];
+}
+
++ (id<GREYAction>)actionForScrollToContentEdge:(GREYContentEdge)edge
+                        xOriginStartPercentage:(CGFloat)xOriginStartPercentage
+                        yOriginStartPercentage:(CGFloat)yOriginStartPercentage {
+  return [[GREYScrollToContentEdgeAction alloc] initWithEdge:edge
+                                          startPointPercents:CGPointMake(xOriginStartPercentage,
+                                                                         yOriginStartPercentage)];
 }
 
 + (id<GREYAction>)actionForTurnSwitchOn:(BOOL)on {
@@ -301,8 +319,8 @@
                                         withDomain:kGREYInteractionErrorDomain
                                               code:kGREYInteractionActionFailedErrorCode
                               andDescriptionFormat:description,
-         firstResponder,
-         expectedFirstResponderView];
+                                                   firstResponder,
+                                                   expectedFirstResponderView];
         return NO;
       }
     }
@@ -390,8 +408,6 @@
  *  keyboard.
  *
  *  @param autoCorrectionType         The autocorrection type to set the current keyboard to.
- *  @param originalKeyboardDelegate   The current app keyboard's delegate which is the same as the
- *                                    first responder when obtained from the keyboard.
  *  @param keyboardInstance           The active keyboard instance.
  *  @param toggleKeyboardVisibilityOn A switch to show/hide the keyboard.
  *
@@ -460,8 +476,26 @@ id<GREYAction> grey_scrollInDirection(GREYDirection direction, CGFloat amount) {
   return [GREYActions actionForScrollInDirection:direction amount:amount];
 }
 
+id<GREYAction> grey_scrollInDirectionWithStartPoint(GREYDirection direction,
+                                                    CGFloat amount,
+                                                    CGFloat xOriginStartPercentage,
+                                                    CGFloat yOriginStartPercentage) {
+  return [GREYActions actionForScrollInDirection:direction
+                                          amount:amount
+                          xOriginStartPercentage:xOriginStartPercentage
+                          yOriginStartPercentage:yOriginStartPercentage];
+}
+
 id<GREYAction> grey_scrollToContentEdge(GREYContentEdge edge) {
   return [GREYActions actionForScrollToContentEdge:edge];
+}
+
+id<GREYAction> grey_scrollToContentEdgeWithStartPoint(GREYContentEdge edge,
+                                                      CGFloat xOriginStartPercentage,
+                                                      CGFloat yOriginStartPercentage) {
+  return [GREYActions actionForScrollToContentEdge:edge
+                            xOriginStartPercentage:xOriginStartPercentage
+                            yOriginStartPercentage:yOriginStartPercentage];
 }
 
 id<GREYAction> grey_swipeFastInDirection(GREYDirection direction) {

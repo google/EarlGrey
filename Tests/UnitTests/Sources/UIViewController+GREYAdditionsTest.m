@@ -70,11 +70,8 @@
   [viewController viewWillMoveToWindow:window];
   [viewController viewDidAppear:NO];
   [viewController viewWillDisappear:NO];
-  // Starting in iOS 8, viewWillDisappear adds a call that must be drained.
-  CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.1, true);
-  XCTAssertEqual(kGREYPendingViewsToDisappear,
-                 [[GREYAppStateTracker sharedInstance] currentState],
-                 @"Should change state.");
+  XCTAssertTrue(kGREYPendingViewsToDisappear & [[GREYAppStateTracker sharedInstance] currentState],
+                @"State should include kEGPendingViewsToDisappear");
 }
 
 - (void)testViewDidMoveToWindow {
@@ -88,9 +85,8 @@
   [viewController viewWillDisappear:NO];
   id window = [OCMockObject niceMockForClass:[UIWindow class]];
   [viewController viewDidMoveToWindow:window shouldAppearOrDisappear:NO];
-  XCTAssertEqual(kGREYPendingViewsToDisappear,
-                 [[GREYAppStateTracker sharedInstance] currentState],
-                 @"Should change state.");
+  XCTAssertTrue(kGREYPendingViewsToDisappear & [[GREYAppStateTracker sharedInstance] currentState],
+                @"State should include kEGPendingViewsToDisappear");
 }
 
 - (void)testViewViewWillAppearAndViewDidMoveToNilWindow {

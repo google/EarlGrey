@@ -65,9 +65,14 @@ static CGFloat kCachedScreenEdgePanDetectionLength = NAN;
 
 + (NSArray *)touchPathForGestureInView:(UIView *)view
                          withDirection:(GREYDirection)direction
-                                amount:(CGFloat)amount
+                                length:(CGFloat)length
+                    startPointPercents:(CGPoint)startPointPercents
                     outRemainingAmount:(CGFloat *)outRemainingAmountOrNull {
-  NSAssert(amount > 0, @"Scroll 'amount' must be positive and greater than zero.");
+  NSAssert(isnan(startPointPercents.x) || (startPointPercents.x > 0 && startPointPercents.x < 1),
+           @"startPointPercents must be NAN or in the range (0, 1) exclusive");
+  NSAssert(isnan(startPointPercents.y) || (startPointPercents.y > 0 && startPointPercents.y < 1),
+           @"startPointPercents must be NAN or in the range (0, 1) exclusive");
+  NSAssert(length > 0, @"Scroll length must be positive and greater than zero.");
   GREYDirection interfaceTransformedDirection =
       [self grey_relativeDirectionForCurrentOrientationWithDirection:direction];
 
@@ -95,6 +100,15 @@ static CGFloat kCachedScreenEdgePanDetectionLength = NAN;
   GREYContentEdge edgeInReverseDirection = [GREYConstants edgeInDirectionFromCenter:
       [GREYConstants reverseOfDirection:interfaceTransformedDirection]];
   CGPoint startPoint = [self grey_pointOnEdge:edgeInReverseDirection ofRect:safeStartPointRect];
+  // Update start point if startPointPercents are provided.
+  if (!isnan(startPointPercents.x)) {
+    startPoint.x =
+        safeStartPointRect.origin.x + safeStartPointRect.size.width * startPointPercents.x;
+  }
+  if (!isnan(startPointPercents.y)) {
+    startPoint.y =
+        safeStartPointRect.origin.y + safeStartPointRect.size.height * startPointPercents.y;
+  }
 
   // Pick an end point that gives us maximum path length and align as per the direction.
   GREYContentEdge edgeClosestToEndPoint =
@@ -115,14 +129,14 @@ static CGFloat kCachedScreenEdgePanDetectionLength = NAN;
   CGFloat amountWillScroll = 0;
   CGFloat remainingAmount = 0;
   CGVector delta = [GREYConstants normalizedVectorFromDirection:interfaceTransformedDirection];
-  if (scrollAmountPossible > amount) {
+  if (scrollAmountPossible > length) {
     // We have enough space to get the given amount of scroll by a single touch path.
-    amountWillScroll = amount;
+    amountWillScroll = length;
     remainingAmount = 0;
   } else {
     // We will need multiple scrolls to get the required amount.
     amountWillScroll = scrollAmountPossible;
-    remainingAmount = amount - amountWillScroll;
+    remainingAmount = length - amountWillScroll;
   }
 
   if (outRemainingAmountOrNull) {

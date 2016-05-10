@@ -35,6 +35,13 @@ class FunctionalTestRigSwiftTests: XCTestCase {
     self.openTestView("Typing Views")
   }
 
+  func testTyping() {
+    self.openTestView("Typing Views")
+    EarlGrey().selectElementWithMatcher(grey_accessibilityID("TypingTextField"))
+        .performAction(grey_typeText("Sample Swift Test"))
+        .assertWithMatcher(grey_text("Sample Swift Test"))
+  }
+
   func testButtonPressWithGREYAllOf() {
     self.openTestView("Basic Views")
     EarlGrey().selectElementWithMatcher(grey_text("Tab 2")).performAction(grey_tap())
@@ -56,5 +63,6 @@ class FunctionalTestRigSwiftTests: XCTestCase {
     EarlGrey().selectElementWithMatcher(GREYAllOf.init(matchers: [cellMatcher,grey_interactable()]))
       .usingSearchAction(grey_scrollInDirection(GREYDirection.Down, 200),
                          onElementWithMatcher: grey_kindOfClass(UITableView))
+      .performAction(grey_tap())
   }
 }

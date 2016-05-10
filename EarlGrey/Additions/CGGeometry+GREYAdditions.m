@@ -23,7 +23,7 @@
 #pragma mark - Constants
 
 // Extern constants.
-const CGPoint CGPointNull = {NAN, NAN};
+const CGPoint GREYCGPointNull = {NAN, NAN};
 
 #pragma mark - CGVector
 

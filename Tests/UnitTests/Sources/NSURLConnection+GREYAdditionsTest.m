@@ -53,7 +53,7 @@
 
   _mockGREYUIStateTracker =
       [OCMockObject partialMockForObject:[GREYAppStateTracker sharedInstance]];
-  _request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://127.0.0.1/"]];
+  _request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://localhost/"]];
   _externalRequest =
       [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.google.com"]];
   void (^blockPending)(NSInvocation *) = ^(NSInvocation *invocation) {

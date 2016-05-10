@@ -39,14 +39,21 @@
 
 /**
  *  Generates a touch path in the @c window starting from a given @c view in a particular direction
- *  for a certain amount in the window coordinates of the @c view.
+ *  for a certain amount in the window coordinates of the @c view. The start point of the path is
+ *  controlled by @c startPointPercents, which if specified as @c NAN, the start point will be
+ *  chosen to provide longest possible touch path, otherwise start point will be set to the percents
+ *  specified in the visible area of the given @c view. Note that the percent values must lie within
+ *  (0, 1) exclusive and the x and y axis are always the bottom and the left edge respectively of
+ *  the visible rect.
  *
  *  @param      view                     The view from which the touch path originates.
  *  @param      direction                The direction of the touch.
- *  @param      amount                   The length of the touch path. The length of the touch path
+ *  @param      length                   The length of the touch path. The length of the touch path
  *                                       is restricted by the screen dimensions, position of the
  *                                       view and the minimum scroll detection length (10 points as
  *                                       of iOS 8.0).
+ *  @param      startPointPercents       The start point of the touch path specified as percents in
+ *                                       the visible area of the @c view. Must be (0, 1) exclusive.
  *  @param[out] outRemainingAmountOrNull The difference of the length and the amount,
  *                                       if the length falls short.
  *
@@ -56,6 +63,7 @@
  */
 + (NSArray *)touchPathForGestureInView:(UIView *)view
                          withDirection:(GREYDirection)direction
-                                amount:(CGFloat)amount
+                                length:(CGFloat)length
+                    startPointPercents:(CGPoint)startPointPercents
                     outRemainingAmount:(CGFloat *)outRemainingAmountOrNull;
 @end

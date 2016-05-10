@@ -13,7 +13,9 @@ Getting Started
 
 Execute `pod install` from the directory where you have downloaded the source of the example, then
 `open EarlGreyExample.xcworkspace` to open the example in xcode. Ensure that your version of
-CocoaPods is upgraded to the latest 1.x version since this project uses the [1.0.0 syntax](http://blog.cocoapods.org/CocoaPods-1.0/). You can get the latest CocoaPods pre-release version by
+CocoaPods is upgraded to the latest 1.x version since this project uses the [1.0.0 syntax]
+(http://blog.cocoapods.org/CocoaPods-1.0/). You can get the latest CocoaPods pre-release version by
 running `gem install cocoapods --pre`.
+
 
 Run the tests that you want to see in action.

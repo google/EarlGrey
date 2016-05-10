@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		59A993281C99453200914F9A /* EarlGrey.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001791C5B46C200B2DB0A /* EarlGrey.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		61FC0A071CD939C30081BDAA /* GREYAutomationSetup.h in Headers */ = {isa = PBXBuildFile; fileRef = 61FC0A051CD939C30081BDAA /* GREYAutomationSetup.h */; };
+		61FC0A081CD939C30081BDAA /* GREYAutomationSetup.m in Sources */ = {isa = PBXBuildFile; fileRef = 61FC0A061CD939C30081BDAA /* GREYAutomationSetup.m */; };
 		FD1001B01C5B46C200B2DB0A /* GREYAction.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001011C5B46C100B2DB0A /* GREYAction.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FD1001B11C5B46C200B2DB0A /* GREYActionBlock.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001021C5B46C100B2DB0A /* GREYActionBlock.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FD1001B21C5B46C200B2DB0A /* GREYActionBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1001031C5B46C100B2DB0A /* GREYActionBlock.m */; };
@@ -175,6 +177,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		61FC0A051CD939C30081BDAA /* GREYAutomationSetup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYAutomationSetup.h; sourceTree = "<group>"; };
+		61FC0A061CD939C30081BDAA /* GREYAutomationSetup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYAutomationSetup.m; sourceTree = "<group>"; };
 		FD06C66B1BECAD8B009032A5 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		FD06C66C1BECAD8B009032A5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		FD06C66F1BECAD9B009032A5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -552,6 +556,8 @@
 		FD1001671C5B46C200B2DB0A /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				61FC0A051CD939C30081BDAA /* GREYAutomationSetup.h */,
+				61FC0A061CD939C30081BDAA /* GREYAutomationSetup.m */,
 				FD1001681C5B46C200B2DB0A /* GREYElementFinder.h */,
 				FD1001691C5B46C200B2DB0A /* GREYElementFinder.m */,
 				FD10016A1C5B46C200B2DB0A /* GREYElementInteraction.h */,
@@ -737,6 +743,7 @@
 				FD10022D1C5B46C200B2DB0A /* GREYAllOf.h in Headers */,
 				FD1002351C5B46C200B2DB0A /* GREYLayoutConstraint.h in Headers */,
 				FD10022F1C5B46C200B2DB0A /* GREYAnyOf.h in Headers */,
+				61FC0A071CD939C30081BDAA /* GREYAutomationSetup.h in Headers */,
 				FD10022B1C5B46C200B2DB0A /* GREYFrameworkException.h in Headers */,
 				FD1002331C5B46C200B2DB0A /* GREYElementMatcherBlock.h in Headers */,
 				FD6D0BA21C6D494F0001EA75 /* GREYDescription.h in Headers */,
@@ -898,6 +905,7 @@
 				FD1002271C5B46C200B2DB0A /* GREYSyntheticEvents.m in Sources */,
 				FD1002341C5B46C200B2DB0A /* GREYElementMatcherBlock.m in Sources */,
 				FD1001DC1C5B46C200B2DB0A /* NSRunLoop+GREYAdditions.m in Sources */,
+				61FC0A081CD939C30081BDAA /* GREYAutomationSetup.m in Sources */,
 				FD1002251C5B46C200B2DB0A /* GREYSingleSequenceTouchInjector.m in Sources */,
 				FD1001EA1C5B46C200B2DB0A /* UIScrollView+GREYAdditions.m in Sources */,
 				FD1002211C5B46C200B2DB0A /* GREYUIWebViewDelegate.m in Sources */,

@@ -344,7 +344,7 @@
 /**
  *  A Matcher that checks if a provided object is equal to the specified @c value. The equality is
  *  determined by calling the @c isEqual: method of the object being examined. In case the @c
- *  value is nil, then the object itself is checked to be nil.
+ *  value is @c nil, then the object itself is checked to be @c nil.
  *
  *  @param object The object to be checked for equality. Please ensure that scalar values are
  *                passed in as boxed (object) values.

@@ -96,10 +96,10 @@ static const CFTimeInterval kResponseDelayInSeconds = 1.0;
 
 @implementation NSURLSessionTask_GREYAdditionsTest {
   // Indicates if the test response has been fetched or not.
-  BOOL _fetchIsComplete;
+  __block BOOL _fetchIsComplete;
 
   // Indicates if an error is expected in the test response.
-  BOOL _expectError;
+  __block BOOL _expectError;
 }
 
 - (void)setUp {

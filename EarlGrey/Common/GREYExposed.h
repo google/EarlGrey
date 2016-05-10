@@ -264,7 +264,6 @@ IOHIDEventRef IOHIDEventCreateDigitizerFingerEvent(CFAllocatorRef allocator,
  *          instance could exist even if the keyboard is not shown on the screen.
  */
 + (instancetype)activeInstance;
-- (BOOL)isShifted;
 
 /**
  *  @return The current keyboard layout view, which contains accessibility elements for keyboard

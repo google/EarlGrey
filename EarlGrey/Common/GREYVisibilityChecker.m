@@ -206,7 +206,7 @@ inline void GREYVisibilityDiffBufferSetVisibilityAt(GREYVisibilityDiffBuffer buf
 + (CGPoint)visibleInteractionPointForElement:(id)element {
   if (!element) {
     // Nil elements are not considered visible for interaction.
-    return CGPointNull;
+    return GREYCGPointNull;
   }
 
   GREYVisibilityCheckerCacheEntry *cache = [self grey_cacheForElementCreateIfNonExistent:element];
@@ -218,8 +218,8 @@ inline void GREYVisibilityDiffBufferSetVisibilityAt(GREYVisibilityDiffBuffer buf
   UIView *view = [self grey_containingViewIfNonView:element];
   if (!view) {
     // Non-UIView elements without a container are considered NOT visible for interaction.
-    [cache setVisibleInteractionPoint:[NSValue valueWithCGPoint:CGPointNull]];
-    return CGPointNull;
+    [cache setVisibleInteractionPoint:[NSValue valueWithCGPoint:GREYCGPointNull]];
+    return GREYCGPointNull;
   }
 
   CGRect elementFrame = [element accessibilityFrame];
@@ -235,7 +235,7 @@ inline void GREYVisibilityDiffBufferSetVisibilityAt(GREYVisibilityDiffBuffer buf
                                              forView:view
                                           withinRect:elementFrame];
 
-  CGPoint interactionPointInFixedPoints = CGPointNull;
+  CGPoint interactionPointInFixedPoints = GREYCGPointNull;
 
   if (viewIntersectsScreen) {
     const CGFloat scale = [[UIScreen mainScreen] scale];
@@ -248,10 +248,10 @@ inline void GREYVisibilityDiffBufferSetVisibilityAt(GREYVisibilityDiffBuffer buf
     // If the element hasn't a minimum area in pixels, extra checks are unnecessary.
     const size_t elementAreaInPixels = widthInPixels * heightInPixels;
     if (elementAreaInPixels < minimumPixelsVisibleForInteraction) {
-      [cache setVisibleInteractionPoint:[NSValue valueWithCGPoint:CGPointNull]];
+      [cache setVisibleInteractionPoint:[NSValue valueWithCGPoint:GREYCGPointNull]];
       CGImageRelease(beforeImage);
       CGImageRelease(afterImage);
-      return CGPointNull;
+      return GREYCGPointNull;
     }
 
     GREYVisibilityDiffBuffer diffBuffer =
@@ -266,7 +266,7 @@ inline void GREYVisibilityDiffBufferSetVisibilityAt(GREYVisibilityDiffBuffer buf
                                  storeVisiblePixelRectInRect:&visibleRectInVariablePixels
                             andStoreComparisonResultInBuffer:&diffBuffer];
 
-    CGPoint interactionPointInVariablePixels = CGPointNull;
+    CGPoint interactionPointInVariablePixels = GREYCGPointNull;
 
     if (visiblePixelCount >= minimumPixelsVisibleForInteraction) {
       // If the activation point lies inside the screen, use it if it is visible.
@@ -545,7 +545,8 @@ inline void GREYVisibilityDiffBufferSetVisibilityAt(GREYVisibilityDiffBuffer buf
   }
 
   // Calculate the search rectangle for screenshot.
-  CGRect screenshotSearchRect_pixel = iOS8_0_OR_ABOVE() ? searchRectOnScreenInViewInScreenCoordinates
+  CGRect screenshotSearchRect_pixel =
+      iOS8_0_OR_ABOVE() ? searchRectOnScreenInViewInScreenCoordinates
       : CGRectFixedToVariableScreenCoordinates(searchRectOnScreenInViewInScreenCoordinates);
   screenshotSearchRect_pixel = CGRectPointToPixel(screenshotSearchRect_pixel);
   screenshotSearchRect_pixel = CGRectIntegralInside(screenshotSearchRect_pixel);
