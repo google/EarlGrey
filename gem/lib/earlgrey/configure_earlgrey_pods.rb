@@ -34,7 +34,7 @@ module EarlGrey
       path ? path : nil
     end
 
-    # Strips excessive spaces from a string
+    # Strips each line in a string
     # @param string [String] the string to process
     # @return [String] the modified string
     def strip(string)
