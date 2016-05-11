@@ -18,7 +18,7 @@ import XCTest
 @testable import EarlGreyExampleSwift
 
 class EarlGreyExampleSwiftTests: XCTestCase {
-  
+
   func testBasicSelection() {
     // Select the button with Accessibility ID "clickMe".
     EarlGrey().selectElementWithMatcher(grey_accessibilityID("ClickMe"))
@@ -58,7 +58,7 @@ class EarlGreyExampleSwiftTests: XCTestCase {
   func testCollectionMatchers() {
     // First way to disambiguate: use collection matchers.
     let visibleSendButtonMatcher =
-        GREYAllOf.init(matchers: [grey_accessibilityID("ClickMe"), grey_sufficientlyVisible()]);
+        grey_allOfMatchers(grey_accessibilityID("ClickMe"), grey_sufficientlyVisible())
     EarlGrey().selectElementWithMatcher(visibleSendButtonMatcher)
         .performAction(grey_doubleTap())
   }

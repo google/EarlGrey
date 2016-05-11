@@ -127,6 +127,8 @@ to `Send` and is contained in a UI element that is an instance of the `SendMessa
     performAction:grey_tap()];
 ```
 
+Note: For compatibility with Swift, we use `grey_allOfMatchers()` and `grey_anyOfMatchers()` instead of `grey_allOf()` and `grey_anyOf()` respectively.
+
 #### Custom Matchers
 
 To create custom matchers, use the block-based [GREYElementMatcherBlock](../EarlGrey/Matcher/GREYElementMatcherBlock.h)
