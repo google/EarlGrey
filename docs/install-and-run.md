@@ -44,7 +44,7 @@ For EarlGrey, we highly recommend [CocoaPods](https://cocoapods.org/) as the bes
 
 #### Step 2: Add EarlGrey as a framework dependency
 
-  1. After your test target (for example, *AppFunctionalTests*) is set up, you now need to add EarlGrey as
+  1. After your test target (for example, *SampleAppTests*) is set up, you now need to add EarlGrey as
   a framework dependency. To do so, add EarlGrey as a dependency to the test target in your `Podfile`.
   2. Because EarlGrey must be embedded within the app under test, we need to add certain Build Phases and
   Scheme changes to the **Test Target**. Copy the [configure_earlgrey_pods.rb](https://github.com/google/EarlGrey/blob/master/Scripts/configure_earlgrey_pods.rb)
@@ -77,8 +77,8 @@ For EarlGrey, we highly recommend [CocoaPods](https://cocoapods.org/) as the bes
   TEST_TARGET = 'SampleAppTests'
   SCHEME_FILE = 'SampleAppTests.xcscheme'
 
-  xcodeproj 'AppFunctionalTests'
-  target 'AppFunctionalTests', :exclusive => true do
+  xcodeproj PROJECT_NAME
+  target TEST_TARGET, :exclusive => true do
     pod 'EarlGrey'
   end
 
