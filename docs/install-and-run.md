@@ -277,3 +277,4 @@ functions that implement C preprocessor macros that aren't available in Swift.
    EarlGrey().selectElementWithMatcher(grey_accessibilityID("ClickMe"))
        .assertWithMatcher(grey_sufficientlyVisible())
    ```
+3. For compatibility with Swift, we use `grey_allOfMatchers()` and `grey_anyOfMatchers()` instead of `grey_allOf()` and `grey_anyOf()` respectively.

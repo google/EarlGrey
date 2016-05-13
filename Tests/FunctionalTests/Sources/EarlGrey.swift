@@ -14,7 +14,15 @@
 // limitations under the License.
 //
 
-public func EarlGrey() -> EarlGreyImpl {
+func grey_allOfMatchers(args: AnyObject...) -> GREYMatcher! {
+  return GREYAllOf.init(matchers: args)
+}
+
+func grey_anyOfMatchers(args: AnyObject...) -> GREYMatcher! {
+  return GREYAnyOf.init(matchers: args)
+}
+
+public func EarlGrey() -> EarlGreyImpl! {
   return EarlGreyImpl.invokedFromFile(#file, lineNumber: #line)
 }
 

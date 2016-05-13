@@ -45,10 +45,20 @@ class FunctionalTestRigSwiftTests: XCTestCase {
   func testButtonPressWithGREYAllOf() {
     self.openTestView("Basic Views")
     EarlGrey().selectElementWithMatcher(grey_text("Tab 2")).performAction(grey_tap())
-    let matcher = GREYAllOf.init(matchers: [grey_text("Long Press"),
-                                            grey_sufficientlyVisible()])
+    let matcher = grey_allOfMatchers(grey_text("Long Press"), grey_sufficientlyVisible())
     EarlGrey().selectElementWithMatcher(matcher).performAction(grey_longPressWithDuration(1.0))
         .assertWithMatcher(grey_notVisible())
+  }
+
+  func testPossibleOpeningViews() {
+    self.openTestView("Alert Views")
+    let matcher = grey_anyOfMatchers(grey_text("FooText"),
+                                     grey_text("Simple Alert"),
+                                     grey_buttonTitle("BarTitle"))
+    EarlGrey().selectElementWithMatcher(matcher).performAction(grey_tap())
+    EarlGrey().selectElementWithMatcher(grey_text("Flee"))
+        .assertWithMatcher(grey_sufficientlyVisible())
+        .performAction(grey_tap())
   }
 
   func openTestView(name:NSString) {
