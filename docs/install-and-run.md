@@ -70,7 +70,7 @@ For EarlGrey, we highly recommend [CocoaPods](https://cocoapods.org/) as the bes
   end
   ```
 
-    For the CocoaPods 0.39.0 release, the Podfile including EarlGrey should look like this:
+    For the CocoaPods 0.39.0 release, the Podfile should look like:
 
   ```ruby
   PROJECT_NAME = 'SampleApp'
