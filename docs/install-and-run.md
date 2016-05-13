@@ -44,32 +44,14 @@ For EarlGrey, we highly recommend [CocoaPods](https://cocoapods.org/) as the bes
 
 #### Step 2: Add EarlGrey as a framework dependency
 
-  1. After your test target (for example, *AppFunctionalTests*) is set up, you now need to add EarlGrey as
+  1. After your test target (for example, *SampleAppTests*) is set up, you now need to add EarlGrey as
   a framework dependency. To do so, add EarlGrey as a dependency to the test target in your `Podfile`.
   2. Because EarlGrey must be embedded within the app under test, we need to add certain Build Phases and
   Scheme changes to the **Test Target**. Copy the [configure_earlgrey_pods.rb](https://github.com/google/EarlGrey/blob/master/Scripts/configure_earlgrey_pods.rb)
   file to your project directory where you will run the `pod install` command. You need to call this script
   in a `post_install` hook using the project's name, the test target's name, and the name of the xcscheme file.
 
-    For the last stable CocoaPods release - 0.39.0, the Podfile including EarlGrey should look like this:
-
-  ```ruby
-  PROJECT_NAME = 'SampleApp'
-  TEST_TARGET = 'SampleAppTests'
-  SCHEME_FILE = 'SampleAppTests.xcscheme'
-
-  xcodeproj 'AppFunctionalTests'
-  target 'AppFunctionalTests', :exclusive => true do
-    pod 'EarlGrey'
-  end
-
-  post_install do |installer|
-    load('configure_earlgrey_pods.rb')
-    configure_for_earlgrey(installer, PROJECT_NAME, TEST_TARGET, SCHEME_FILE)
-  end
-  ```
-
-    For the CocoaPods 1.0.0 beta releases, the Podfile should look like:
+    For the CocoaPods 1.0.0 release, the Podfile should look like:
 
   ```ruby
   PROJECT_NAME = 'SampleApp'
@@ -79,6 +61,24 @@ For EarlGrey, we highly recommend [CocoaPods](https://cocoapods.org/) as the bes
   target TEST_TARGET do
     project PROJECT_NAME
     inherit! :search_paths
+    pod 'EarlGrey'
+  end
+
+  post_install do |installer|
+    load('configure_earlgrey_pods.rb')
+    configure_for_earlgrey(installer, PROJECT_NAME, TEST_TARGET, SCHEME_FILE)
+  end
+  ```
+
+    For the CocoaPods 0.39.0 release, the Podfile should look like:
+
+  ```ruby
+  PROJECT_NAME = 'SampleApp'
+  TEST_TARGET = 'SampleAppTests'
+  SCHEME_FILE = 'SampleAppTests.xcscheme'
+
+  xcodeproj PROJECT_NAME
+  target TEST_TARGET, :exclusive => true do
     pod 'EarlGrey'
   end
 
