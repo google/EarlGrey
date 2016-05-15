@@ -23,7 +23,7 @@ Gem::Specification.new do |s|
   s.license       = 'Apache-2.0'
   s.summary       = 'EarlGrey installer gem'
   s.description   = 'Command line tool for installing EarlGrey into an iOS Unit Testing target'
-  s.authors       = s.email = ['code@bootstraponline.com']
+  s.authors       = %w[khandpur tirodkar bootstraponline]
   s.homepage      = 'https://github.com/google/EarlGrey'
   s.require_paths = ['lib']
 
