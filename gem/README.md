@@ -25,7 +25,7 @@ Installs EarlGrey into an Xcode unit test target
 
 Create new Target `iOS Unit Testing Bundle` then add a new scheme
 `Product → Scheme → Manage Schemes` and mark it as shared.
-See [EarlGrey docs for screenshots](https://github.com/google/EarlGrey/blob/master/docs/install-and-run.md)
+See [EarlGrey docs for screenshots](https://github.com/google/EarlGrey/blob/master/docs/install-and-run.md#step-1-set-up-a-test-target)
 
 Now run the install command with the test target name:
 
