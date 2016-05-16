@@ -36,7 +36,7 @@ describe 'carthage' do
 
         xcodeproj_1 = File.join(tmp_dir, 'Example.xcodeproj')
 
-        diff = `xcodeproj project-diff "#{xcodeproj_1}" "#{xcodeproj_2}" 2>&1`
+        diff = ProjectDiff.run xcodeproj_1, xcodeproj_2
 
         if diff != NIL_YAML
           puts diff

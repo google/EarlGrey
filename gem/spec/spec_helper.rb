@@ -17,6 +17,7 @@ require_relative '../lib/earlgrey'
 require 'rspec'
 require 'tmpdir'
 require 'pry' # enables binding.pry
+require_relative 'project_diff'
 
 module SpecHelper
   def carthage_before
