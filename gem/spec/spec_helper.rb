@@ -20,12 +20,23 @@ require 'pry' # enables binding.pry
 require_relative 'project_diff'
 
 module SpecHelper
+  def fixture_path(name)
+    path = File.join(File.expand_path(File.join(__dir__, 'fixtures', name)), '.')
+    raise "Path doesn't exist: #{path}" unless File.exist?(path)
+    path
+  end
+
   def carthage_before
     # ensure ends with /. for FileUtils.cp_r
     @carthage_before ||= begin
-      path = File.join(File.expand_path(File.join(__dir__, 'fixtures', 'carthage_before')), '.')
-      raise "Path doesn't exist: #{path}" unless File.exist?(path)
-      path
+      fixture_path 'carthage_before'
+    end
+  end
+
+  def carthage_after
+    # ensure ends with /. for FileUtils.cp_r
+    @carthage_after ||= begin
+      fixture_path 'carthage_after'
     end
   end
 end

@@ -20,7 +20,8 @@ require 'rspec/core/rake_task'
 require_relative 'support/bump'
 
 # rubocop:disable Style/ClassAndModuleChildren
-# Skip tagging the repo on Gem releases because that'll conflict with EarlGrey carthage tagged releases.
+# Skip tagging the repo on Gem releases because that'll
+# conflict with EarlGrey carthage tagged releases.
 raise "Can't find tag_version to patch" unless Bundler::GemHelper.instance.method(:tag_version)
 class Bundler::GemHelper
   def tag_version
@@ -39,6 +40,9 @@ end
 RuboCop::RakeTask.new do |task|
   task.options = ['-D']
 end
+
+# alias for rubocop task
+task cop: [:rubocop]
 
 desc 'Check for warnings'
 task :warn do

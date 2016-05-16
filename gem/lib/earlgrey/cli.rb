@@ -13,6 +13,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+# rubocop:disable Metrics/LineLength
 module EarlGrey
   class CLI < Thor
     package_name 'EarlGrey'

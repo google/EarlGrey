@@ -90,7 +90,12 @@ module EarlGrey
       @user_project = Xcodeproj::Project.open(project_file)
       all_targets = user_project.targets
       @test_target = all_targets.find { |target| target.name == test_target_name }
-      raise "Unable to find target: #{test_target_name}. Targets are: #{all_targets.map(&:name)}" unless test_target
+      unless test_target
+        error <<-E
+          Unable to find target: #{test_target_name}.
+          Targets are: #{all_targets.map(&:name)}
+        E
+      end
 
       # Add a Test Action to the User Project Scheme.
       scheme = modify_scheme_for_actions
@@ -107,7 +112,10 @@ module EarlGrey
 
       save_earlgrey_scheme_changes(scheme) unless scheme.nil?
 
-      puts_blue "EarlGrey setup complete. You can use the Test Target: #{test_target_name} for EarlGrey testing."
+      puts_blue <<-S
+        EarlGrey setup complete.
+        You can use the Test Target: #{test_target_name} for EarlGrey testing."
+      S
     end
 
     # Scheme changes to ensure that EarlGrey is correctly loaded before main() is called.
@@ -215,9 +223,10 @@ module EarlGrey
         # Add in the Environment Variables
         launch_action_env_vars.elements.each('EnvironmentVariable') do |launch_action_env_var|
           environment_variable = REXML::Element.new 'EnvironmentVariable'
-          environment_variable.attributes['key'] = launch_action_env_var.attributes['key']
-          environment_variable.attributes['value'] = launch_action_env_var.attributes['value']
-          environment_variable.attributes['isEnabled'] = launch_action_env_var.attributes['isEnabled']
+          launch_attributes = launch_action_env_var.attributes
+          environment_variable.attributes['key'] = launch_attributes['key']
+          environment_variable.attributes['value'] = launch_attributes['value']
+          environment_variable.attributes['isEnabled'] = launch_attributes['isEnabled']
           test_action_env_vars.add_element(environment_variable)
         end
 
@@ -264,7 +273,8 @@ module EarlGrey
       end
 
       unless earlgrey_copy_files_exists
-        new_copy_files_phase = test_target.new_copy_files_build_phase(earlgrey_copy_files_phase_name)
+        name = earlgrey_copy_files_phase_name
+        new_copy_files_phase = test_target.new_copy_files_build_phase(name)
         new_copy_files_phase.dst_path = '$(TEST_HOST)/../'
         new_copy_files_phase.dst_subfolder_spec = '0'
 
@@ -339,7 +349,8 @@ module EarlGrey
       FileUtils.copy src_header, dst_header
       FileUtils.copy src_swift, dst_swift
 
-      test_target_group = user_project.main_group.children.find { |g| g.display_name == test_target_name }
+      project_test_targets = user_project.main_group.children
+      test_target_group = project_test_targets.find { |g| g.display_name == test_target_name }
       raise "Test target group not found! #{test_target_group}" unless test_target_group
 
       # Add files to testing target group otherwise Xcode can't read them.
@@ -354,7 +365,8 @@ module EarlGrey
       # Add EarlGrey.swift to sources build phase
       existing_sources = test_target.source_build_phase.files.map(&:display_name)
       unless existing_sources.include? src_swift_name
-        earlgrey_swift_file_ref = test_target_group.files.find { |f| f.display_name == src_swift_name }
+        target_files = test_target_group.files
+        earlgrey_swift_file_ref = target_files.find { |f| f.display_name == src_swift_name }
         raise 'EarlGrey.swift not found in testing target' unless earlgrey_swift_file_ref
         test_target.source_build_phase.add_file_reference earlgrey_swift_file_ref
       end

@@ -19,7 +19,7 @@ describe 'carthage' do
   NIL_YAML = "--- \n...\n".freeze
 
   it 'successfully modifies the xcode project' do
-    xcodeproj_2 = File.expand_path(File.join(__dir__, 'fixtures', 'carthage_after', 'Example.xcodeproj'))
+    xcodeproj_2 = File.join(carthage_after, 'Example.xcodeproj')
 
     Dir.mktmpdir do |tmp_dir|
       FileUtils.cp_r carthage_before, tmp_dir

@@ -1,5 +1,5 @@
 Metrics/LineLength:
-  Max: 120
+  Max: 100
 Style/PercentLiteralDelimiters:
   PreferredDelimiters:
     '%i': '[]'
