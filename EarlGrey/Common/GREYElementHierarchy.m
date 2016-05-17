@@ -134,7 +134,10 @@
 
     for (NSInteger elementIndex = 0; elementIndex < aXElementCount; elementIndex++) {
       id accessibilityElement = [element accessibilityElementAtIndex:elementIndex];
-      [subViewSet addObject:accessibilityElement];
+      // if accessibilityElement is not nil add it to subViewSet, sometimes accessibilityElement can be nil
+      if (accessibilityElement) {
+        [subViewSet addObject:accessibilityElement];
+      }
     }
   }
   return [subViewSet array];
