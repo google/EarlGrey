@@ -57,7 +57,7 @@ static const CFTimeInterval kMaxAnimationInterval = 5.0;
   // objc_precise_lifetime required so layer is valid until end of the current scope.
   __attribute__((objc_precise_lifetime)) CALayer *layer = [[CALayer alloc] init];
   [layer setNeedsLayout];
-  XCTAssertEqual(kGREYPendingDrawCycle,
+  XCTAssertEqual(kGREYPendingDrawLayoutPass,
                  [[GREYAppStateTracker sharedInstance] currentState],
                  @"Should change state.");
 
@@ -65,14 +65,14 @@ static const CFTimeInterval kMaxAnimationInterval = 5.0;
 
   layer = [[CALayer alloc] init];
   [layer setNeedsDisplay];
-  XCTAssertEqual(kGREYPendingDrawCycle,
+  XCTAssertEqual(kGREYPendingDrawLayoutPass,
                  [[GREYAppStateTracker sharedInstance] currentState],
                  @"Should change state.");
 
   [[GREYAppStateTracker sharedInstance] grey_clearState];
   layer = [[CALayer alloc] init];
   [layer setNeedsDisplayInRect:CGRectMake(0, 0, 0, 0)];
-  XCTAssertEqual(kGREYPendingDrawCycle,
+  XCTAssertEqual(kGREYPendingDrawLayoutPass,
                  [[GREYAppStateTracker sharedInstance] currentState],
                  @"Should change state.");
 }

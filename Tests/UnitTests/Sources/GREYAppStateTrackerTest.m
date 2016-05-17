@@ -42,12 +42,12 @@
                  [[GREYAppStateTracker sharedInstance] grey_lastKnownStateForElement:obj2],
                  @"Default state should be kGREYIdle");
 
-  NSString *elementID2 = TRACK_STATE_FOR_ELEMENT(kGREYPendingDrawCycle, obj2);
+  NSString *elementID2 = TRACK_STATE_FOR_ELEMENT(kGREYPendingDrawLayoutPass, obj2);
 
   XCTAssertEqual(kGREYPendingCAAnimation,
                  [[GREYAppStateTracker sharedInstance] grey_lastKnownStateForElement:obj1],
                  @"State should be kGREYPendingCAAnimation");
-  XCTAssertEqual(kGREYPendingDrawCycle,
+  XCTAssertEqual(kGREYPendingDrawLayoutPass,
                  [[GREYAppStateTracker sharedInstance] grey_lastKnownStateForElement:obj2],
                  @"State should be kGREYPendingDrawCycle");
 
@@ -56,11 +56,11 @@
   XCTAssertEqual(kGREYIdle,
                  [[GREYAppStateTracker sharedInstance] grey_lastKnownStateForElement:obj1],
                  @"State should be kGREYIdle");
-  XCTAssertEqual(kGREYPendingDrawCycle,
+  XCTAssertEqual(kGREYPendingDrawLayoutPass,
                  [[GREYAppStateTracker sharedInstance] grey_lastKnownStateForElement:obj2],
                  @"State should be kGREYPendingDrawCycle");
 
-  UNTRACK_STATE_FOR_ELEMENT_WITH_ID(kGREYPendingDrawCycle, elementID2);
+  UNTRACK_STATE_FOR_ELEMENT_WITH_ID(kGREYPendingDrawLayoutPass, elementID2);
 
   XCTAssertEqual(kGREYIdle,
                  [[GREYAppStateTracker sharedInstance] grey_lastKnownStateForElement:obj1],
@@ -85,19 +85,19 @@
                  [[GREYAppStateTracker sharedInstance] currentState],
                  @"State should be kGREYPendingCAAnimation");
 
-  NSString *elementID2 = TRACK_STATE_FOR_ELEMENT(kGREYPendingDrawCycle, obj2);
+  NSString *elementID2 = TRACK_STATE_FOR_ELEMENT(kGREYPendingDrawLayoutPass, obj2);
 
-  XCTAssertEqual(kGREYPendingCAAnimation | kGREYPendingDrawCycle,
+  XCTAssertEqual(kGREYPendingCAAnimation | kGREYPendingDrawLayoutPass,
                  [[GREYAppStateTracker sharedInstance] currentState],
                  @"State should be kGREYPendingCAAnimation and kGREYPendingDrawCycle");
 
   UNTRACK_STATE_FOR_ELEMENT_WITH_ID(kGREYPendingCAAnimation, elementID1);
 
-  XCTAssertEqual(kGREYPendingDrawCycle,
+  XCTAssertEqual(kGREYPendingDrawLayoutPass,
                  [[GREYAppStateTracker sharedInstance] currentState],
                  @"State should be kGREYPendingDrawCycle");
 
-  UNTRACK_STATE_FOR_ELEMENT_WITH_ID(kGREYPendingDrawCycle, elementID2);
+  UNTRACK_STATE_FOR_ELEMENT_WITH_ID(kGREYPendingDrawLayoutPass, elementID2);
 
   XCTAssertEqual(kGREYIdle,
                  [[GREYAppStateTracker sharedInstance] currentState],

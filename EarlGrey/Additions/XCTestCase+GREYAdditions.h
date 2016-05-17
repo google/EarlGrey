@@ -91,8 +91,16 @@ UIKIT_EXTERN NSString *const kGREYXCTestCaseNotificationKey;
 /**
  *  Interrupts the current test case execution immediately, tears down the test and marks it as
  *  failed.
+ *
+ *  @param line        Line number at which the failure occured.
+ *  @param file        Name of the file in which the failure occured.
+ *  @param reason      Short reason for the failure.
+ *  @param description Full description of the failure.
  */
-- (void)grey_interruptExecution;
+- (void)grey_markAsFailedAtLine:(NSUInteger)line
+                         inFile:(NSString *)file
+                         reason:(NSString *)reason
+              detailDescription:(NSString *)description;
 
 /**
  *  @return A unique test outputs directory for the current test. All test related outputs should be

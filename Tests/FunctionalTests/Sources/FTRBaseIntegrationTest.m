@@ -50,6 +50,7 @@
   }
   [navController popToRootViewControllerAnimated:YES];
 
+  [[GREYConfiguration sharedInstance] reset];
   [EarlGrey setFailureHandler:_currentFailureHandler];
 
   [super tearDown];

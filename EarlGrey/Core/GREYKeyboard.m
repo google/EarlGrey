@@ -230,11 +230,12 @@ static NSString *const kReturnKeyIdentifier = @"\n";
                                                                          error:errorOrNil];
       }
     }
-    // A period key for an email UITextField beyond iOS9 types the email domain by default. This
-    // behavior is added to prevent this.
+    // A period key for an email UITextField on iOS9 and above types the email domain (.com, .org)
+    // by default. That is not the desired behavior so check below disables it.
     BOOL keyboardTypeWasChangedFromEmailType = NO;
     if (iOS9_OR_ABOVE() &&
         [characterAsString isEqualToString:@"."] &&
+        [firstResponder respondsToSelector:@selector(keyboardType)] &&
         [firstResponder keyboardType] == UIKeyboardTypeEmailAddress) {
       [firstResponder setKeyboardType:UIKeyboardTypeDefault];
       keyboardTypeWasChangedFromEmailType = YES;
@@ -342,8 +343,8 @@ static NSString *const kReturnKeyIdentifier = @"\n";
   [NSError grey_logOrSetOutReferenceIfNonNil:errorOrNil
                                   withDomain:kGREYInteractionErrorDomain
                                         code:kGREYInteractionActionFailedErrorCode
-                        andDescriptionFormat:@"GREYKeyboard: No known SHIFT key was found in the"
-                                             @" hierarchy."];
+                        andDescriptionFormat:@"GREYKeyboard: No known SHIFT key was found in the "
+                                             @"hierarchy."];
   return NO;
 }
 

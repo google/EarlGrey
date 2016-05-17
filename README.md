@@ -37,13 +37,15 @@ configured, take a look at the EarlGrey API and start writing your own tests.
 
 If you need help, several resources are available. First check the [FAQ](https://github.com/google/EarlGrey/tree/master/docs/faq.md).
 If you have more questions after reading the FAQ, see [Known Issues](https://github.com/google/EarlGrey/tree/master/docs/known-issues.md).
-If you still have questions, you can bring them to our attention by asking them on
+You can bring more specific issues to our attention by asking them on
 [stackoverflow.com](http://stackoverflow.com/) using the [#earlgrey tag](http://stackoverflow.com/questions/tagged/earlgrey).
-You can also start new discussions with us on our [Google group](https://groups.google.com/forum/#!forum/earlgrey-discuss).
+You can also start new discussions with us on our [Google group](https://groups.google.com/forum/#!forum/earlgrey-discuss)
+or request to join our [slack channel](https://googleoss.slack.com/messages/earlgrey).
 
   * [FAQ](https://github.com/google/EarlGrey/tree/master/docs/faq.md)
   * [Known Issues](https://github.com/google/EarlGrey/tree/master/docs/known-issues.md)
   * [Stack Overflow](http://stackoverflow.com/questions/tagged/earlgrey)
+  * [Slack](https://googleoss.slack.com/messages/earlgrey)
   * [Google Group](https://groups.google.com/forum/#!forum/earlgrey-discuss)
 
 ## Analytics

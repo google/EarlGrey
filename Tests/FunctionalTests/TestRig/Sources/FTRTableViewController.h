@@ -20,9 +20,4 @@
 @property(retain, nonatomic) IBOutlet UITableView *mainTableView;
 @property(weak, nonatomic) IBOutlet UITextField *insetsValue;
 
-// Throws an error if tableview's delegate is asked to deque cell at specified |index|. It is
-// useful for cases where we want to make sure EarlGrey data providers are not unnecessarily
-// traversing cells that they don't need to.
-+ (void)throwErrorIfElementProviderDequeuesCellAtIndex:(NSInteger)index;
-
 @end

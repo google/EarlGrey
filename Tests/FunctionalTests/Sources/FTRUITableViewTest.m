@@ -27,14 +27,9 @@
   [self openTestViewNamed:@"Table Views"];
 }
 
-- (void)tearDown {
-  [FTRTableViewController throwErrorIfElementProviderDequeuesCellAtIndex:-1];
-  [super tearDown];
-}
-
 - (void)testRemoveRow {
-  id<GREYMatcher> deleteRowMatcher = grey_allOf(grey_accessibilityLabel(@"Delete"),
-                                            grey_kindOfClass([UIButton class]), nil);
+  id<GREYMatcher> deleteRowMatcher =
+      grey_allOf(grey_accessibilityLabel(@"Delete"), grey_kindOfClass([UIButton class]), nil);
   for (int i = 0; i < 5; i++) {
     NSString *labelForRowToDelete = [NSString stringWithFormat:@"Row %d", i];
     [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(labelForRowToDelete)]
@@ -115,8 +110,8 @@
                                 constraints:grey_kindOfClass([UIScrollView class])
                                performBlock:^BOOL(UIScrollView *scrollView,
                                                   NSError *__strong *error) {
-    XCTAssertTrue(scrollView.bounces, @"Bounce must be set or this test is same as"
-                                      @" testScrollToTopWhenAlreadyAtTheTopWithBounce");
+    XCTAssertTrue(scrollView.bounces, @"Bounce must be set or this test is same as "
+                                      @"testScrollToTopWhenAlreadyAtTheTopWithBounce");
     scrollView.bounces = NO;
     return YES;
   }];
@@ -167,17 +162,36 @@
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
-- (void)testHiddenTableViewRow {
-  [FTRTableViewController throwErrorIfElementProviderDequeuesCellAtIndex:1];
-
-  // Try to access the first element and ensure that the element provider does not provide it,
-  // since it is hidden.
+- (void)testSearchActionIsNotPerformedAfterTimeout {
+  __block CGPoint expectedOffset;
+  [[EarlGrey selectElementWithMatcher:grey_kindOfClass([UITableView class])]
+      assert:[GREYAssertionBlock assertionWithName:@"offset"
+                           assertionBlockWithError:^BOOL(id element, NSError *__strong *error) {
+                          expectedOffset = [element contentOffset];
+                          return YES;
+  }]];
+  // No need to reset this, base class does it already.
+  [[GREYConfiguration sharedInstance] setValue:@(0.0)
+                                  forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
   NSError *err;
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Row 40")]
+  [[[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Row 100")]
+      usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 100)
+   onElementWithMatcher:grey_kindOfClass([UITableView class])]
       assertWithMatcher:grey_interactable() error:&err];
-  GREYAssertNotNil(err, @"Looking for hidden tableview cell failed to produce an error.");
-  GREYAssertEqual(err.code, kGREYInteractionElementNotFoundErrorCode,
-                  @"Looking for hidden tableview cell produced error with incorrect code.");
+  XCTAssertEqualObjects(err.domain, kGREYInteractionErrorDomain);
+  XCTAssertEqual(err.code, kGREYInteractionElementNotFoundErrorCode);
+
+  [[EarlGrey selectElementWithMatcher:grey_kindOfClass([UITableView class])]
+      assert:[GREYAssertionBlock assertionWithName:@"offset didn't change"
+                           assertionBlockWithError:^BOOL(id element, NSError *__strong *error) {
+                          CGPoint actualOffset = [element contentOffset];
+                          GREYAssertTrue(CGPointEqualToPoint(actualOffset, expectedOffset),
+                                         @"Table view was scrolled after timeout."
+                                         @"Expected offset: %@ actualOffset: %@",
+                                         NSStringFromCGPoint(expectedOffset),
+                                         NSStringFromCGPoint(actualOffset));
+                          return YES;
+  }]];
 }
 
 #pragma mark - Private
