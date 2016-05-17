@@ -20,6 +20,7 @@
 #include <pthread.h>
 
 #import "Additions/NSObject+GREYAdditions.h"
+#import "Common/GREYConfiguration.h"
 #import "Common/GREYDefines.h"
 
 /**
@@ -115,7 +116,7 @@ static pthread_mutex_t gStateLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
 
   [self grey_performBlockInCriticalSection:^id {
     GREYAppState state = [self currentState];
-    [description appendString:[self stringFromState:state]];
+    [description appendString:[self grey_stringFromState:state]];
 
     if (state != kGREYIdle) {
       [description appendString:@"\n\n"];
@@ -124,7 +125,7 @@ static pthread_mutex_t gStateLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
         NSNumber *stateNumber = (NSNumber *)[_elementIDToState objectForKey:internalElementID];
         [description appendFormat:@"<%@> => %@\n",
             internalElementID,
-            [self stringFromState:[stateNumber unsignedIntegerValue]]];
+            [self grey_stringFromState:[stateNumber unsignedIntegerValue]]];
         [description appendFormat:@"%@\n", [_elementIDToCallStack objectForKey:internalElementID]];
       }
     }
@@ -133,63 +134,78 @@ static pthread_mutex_t gStateLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
   return description;
 }
 
-- (NSString *)stringFromState:(GREYAppState)state {
+#pragma mark - Private
+
+- (NSString *)grey_stringFromState:(GREYAppState)state {
   NSMutableArray *eventStateString = [[NSMutableArray alloc] init];
   if (state == kGREYIdle) {
     return @"Idle";
   }
 
-  if (state & kGREYPendingDrawCycle) {
-    [eventStateString addObject:@"Waiting for a draw/layout pass to complete"];
+  if (state & kGREYPendingDrawLayoutPass) {
+    [eventStateString addObject:@"Waiting for UIView's draw/layout pass to complete. A draw/layout "
+                                @"pass normally completes in the next runloop drain."];
   }
   if (state & kGREYPendingViewsToAppear) {
-    [eventStateString addObject:@"Waiting for UIViews to appear"];
+    [eventStateString addObject:@"Waiting for viewDidAppear: call on this view controller. Please "
+                                @"ensure that this view controller and its subclasses call "
+                                @"through to their super's implementation"];
   }
   if (state & kGREYPendingViewsToDisappear) {
-    [eventStateString addObject:@"Waiting for UIViews to disappear"];
+    [eventStateString addObject:@"Waiting for viewDidDisappear: call on this view controller. "
+                                @"Please ensure that this view controller and it's subclasses call "
+                                @"through to their super's implementation"];
   }
   if (state & kGREYPendingKeyboardTransition) {
-    [eventStateString addObject:@"Waiting for keyboard transition"];
+    [eventStateString addObject:@"Waiting for keyboard transition to finish."];
   }
   if (state & kGREYPendingCAAnimation) {
-    [eventStateString addObject:@"Waiting for CAAnimations to finish"];
-  }
-  if (state & kGREYPendingActionSheetToDisappear) {
-    [eventStateString addObject:@"Waiting for UIActionSheet to disappear"];
-  }
-  if (state & kGREYPendingUIViewAnimation) {
-    [eventStateString addObject:@"Waiting for UIView Animations to finish"];
-  }
-  if (state & kGREYPendingMoveToParent) {
-    [eventStateString addObject:@"Waiting for UIViewController to move to parent"];
+    [eventStateString addObject:@"Waiting for CAAnimations to finish. Continuous animations may "
+                                @"never finish and must be stop explicitly. Animations attached to "
+                                @"hidden view may still be executing in the background."];
   }
   if (state & kGREYPendingRootViewControllerToAppear) {
-    [eventStateString addObject:@"Waiting for root UIViewController to appear"];
+    [eventStateString addObject:@"Waiting for window's rootViewController to appear. "
+                                @"This should happen in the next runloop drain after a window's "
+                                @"state is changed to visible."];
   }
   if (state & kGREYPendingUIWebViewAsyncRequest) {
-    [eventStateString addObject:@"Waiting for UIWebView to finish loading async request"];
+    [eventStateString addObject:@"Waiting for UIWebView to finish loading asynchronous request."];
   }
   if (state & kGREYPendingNetworkRequest) {
-    [eventStateString addObject:@"Waiting for network requests to finish"];
+    NSString *stateMsg =
+        [NSString stringWithFormat:@"Waiting for network requests to finish. By default, EarlGrey "
+                                   @"tracks all network requests. To tell EarlGrey of unwanted or "
+                                   @"on-going network activity that should be ignored, use "
+                                   @"%@.", [GREYConfiguration class]];
+    [eventStateString addObject:stateMsg];
   }
   if (state & kGREYPendingGestureRecognition) {
-    [eventStateString addObject:@"Waiting for gesture recognizer to detect or fail"];
+    [eventStateString addObject:@"Waiting for system-wide gesture recognizer to detect or fail a "
+                                @"recently performed gesture."];
   }
   if (state & kGREYPendingUIScrollViewScrolling) {
-    [eventStateString addObject:@"Waiting for UIScrollView to finish scrolling"];
+    [eventStateString addObject:@"Waiting for UIScrollView to finish scrolling and come to "
+                                @"standstill."];
   }
   if (state & kGREYPendingUIAnimation) {
-    [eventStateString addObject:@"Waiting for UIAnimation to be marked as stopped"];
+    [eventStateString addObject:@"Waiting for UIAnimation to complete. This internal animation "
+                                @"is triggered by UIKit and completes when -[UIAnimation markStop] "
+                                @"is invoked."];
   }
   if (state & kGREYIgnoringSystemWideUserInteraction) {
-    [eventStateString addObject:@"System Wide Events are being ignored"];
+    NSString *stateMsg =
+        [NSString stringWithFormat:@"System wide interaction events are being ignored via %@. "
+                                   @"call %@ to enable interactions again.",
+                                   NSStringFromSelector(@selector(beginIgnoringInteractionEvents)),
+                                   NSStringFromSelector(@selector(endIgnoringInteractionEvents))];
+
+    [eventStateString addObject:stateMsg];
   }
 
-  NSAssert([eventStateString count] > 0, @"Did we forget some states?");
+  NSAssert([eventStateString count] > 0, @"Did we forget to describe some states?");
   return [eventStateString componentsJoinedByString:@"\n"];
 }
-
-#pragma mark - Private
 
 - (id)grey_performBlockInCriticalSection:(id (^)())block {
   int lock = pthread_mutex_lock(&gStateLock);

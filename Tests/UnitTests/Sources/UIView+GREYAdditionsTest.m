@@ -184,25 +184,25 @@
   // objc_precise_lifetime required so view is valid until end of the current scope.
   __attribute__((objc_precise_lifetime)) UIView *view = [[UIView alloc] init];
   [view setNeedsDisplay];
-  XCTAssertEqual(kGREYPendingDrawCycle,
+  XCTAssertEqual(kGREYPendingDrawLayoutPass,
                  [[GREYAppStateTracker sharedInstance] currentState],
                  @"Should change state.");
 
   [[GREYAppStateTracker sharedInstance] grey_clearState];
   [view setNeedsDisplayInRect:CGRectMake(0, 0, 0, 0)];
-  XCTAssertEqual(kGREYPendingDrawCycle,
+  XCTAssertEqual(kGREYPendingDrawLayoutPass,
                  [[GREYAppStateTracker sharedInstance] currentState],
                  @"Should change state.");
 
   [[GREYAppStateTracker sharedInstance] grey_clearState];
   [view setNeedsLayout];
-  XCTAssertEqual(kGREYPendingDrawCycle,
+  XCTAssertEqual(kGREYPendingDrawLayoutPass,
                  [[GREYAppStateTracker sharedInstance] currentState],
                  @"Should change state.");
 
   [[GREYAppStateTracker sharedInstance] grey_clearState];
   [view setNeedsUpdateConstraints];
-  XCTAssertEqual(kGREYPendingDrawCycle,
+  XCTAssertEqual(kGREYPendingDrawLayoutPass,
                  [[GREYAppStateTracker sharedInstance] currentState],
                  @"Should change state.");
 }

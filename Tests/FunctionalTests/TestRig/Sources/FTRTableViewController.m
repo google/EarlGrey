@@ -17,19 +17,9 @@
 #import "FTRTableViewController.h"
 
 static NSString *gTableViewIdentifier = @"TableViewCellReuseIdentifier";
-static NSInteger gThrowErrorWhenCellDequedAtIndex = -1;
 
 @implementation FTRTableViewController {
   NSMutableArray *_rowIndicesRemoved;
-}
-
-+ (void)throwErrorIfElementProviderDequeuesCellAtIndex:(NSInteger)index {
-  gThrowErrorWhenCellDequedAtIndex = index;
-}
-
-- (instancetype)init {
-  NSAssert(NO, @"Invalid Initializer");
-  return nil;
 }
 
 - (void)viewDidLoad {
@@ -71,12 +61,7 @@ static NSInteger gThrowErrorWhenCellDequedAtIndex = -1;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
        cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  if (indexPath.row == gThrowErrorWhenCellDequedAtIndex) {
-    [NSException raise:@"CellDequedAtForbiddenIndex"
-                format:@"Cell was dequed at index %zd", gThrowErrorWhenCellDequedAtIndex];
-  }
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:gTableViewIdentifier];
-
   if (cell == nil) {
     cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
                                   reuseIdentifier:gTableViewIdentifier];

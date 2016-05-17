@@ -165,7 +165,17 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
   return localizedTestOutputsDir;
 }
 
-- (void)grey_interruptExecution {
+- (void)grey_markAsFailedAtLine:(NSUInteger)line
+                         inFile:(NSString *)file
+                         reason:(NSString *)reason
+              detailDescription:(NSString *)description {
+  NSString *fullException =
+      [NSString stringWithFormat:@"%@%@\n%@", reason, [NSThread callStackSymbols], description];
+  gCurrentExecutingTestCase.continueAfterFailure = NO;
+  [gCurrentExecutingTestCase recordFailureWithDescription:fullException
+                                                   inFile:file
+                                                   atLine:line
+                                                 expected:NO];
   [[GREYFrameworkException exceptionWithName:kInternalTestInterruptException
                                       reason:@"Immediately halt execution of testcase"] raise];
 }
@@ -226,7 +236,7 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
     } @catch(NSException *exception) {
       [self grey_setStatus:kGREYXCTestCaseStatusFailed];
       if (![exception.name isEqualToString:kInternalTestInterruptException]) {
-        [exception raise];
+        @throw;
       }
     } @finally {
       switch ([self grey_status]) {

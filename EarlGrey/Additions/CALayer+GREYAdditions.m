@@ -186,28 +186,28 @@ static void const *const kPausedAnimationKeys = &kPausedAnimationKeys;
 }
 
 - (void)greyswizzled_setNeedsDisplayInRect:(CGRect)invalidRect {
-  NSString *elementID = TRACK_STATE_FOR_ELEMENT(kGREYPendingDrawCycle, self);
+  NSString *elementID = TRACK_STATE_FOR_ELEMENT(kGREYPendingDrawLayoutPass, self);
   // Next runloop drain will perform the draw pass.
   dispatch_async(dispatch_get_main_queue(), ^{
-    UNTRACK_STATE_FOR_ELEMENT_WITH_ID(kGREYPendingDrawCycle, elementID);
+    UNTRACK_STATE_FOR_ELEMENT_WITH_ID(kGREYPendingDrawLayoutPass, elementID);
   });
   INVOKE_ORIGINAL_IMP1(void, @selector(greyswizzled_setNeedsDisplayInRect:), invalidRect);
 }
 
 - (void)greyswizzled_setNeedsDisplay {
-  NSString *elementID = TRACK_STATE_FOR_ELEMENT(kGREYPendingDrawCycle, self);
+  NSString *elementID = TRACK_STATE_FOR_ELEMENT(kGREYPendingDrawLayoutPass, self);
   // Next runloop drain will perform the draw pass.
   dispatch_async(dispatch_get_main_queue(), ^{
-    UNTRACK_STATE_FOR_ELEMENT_WITH_ID(kGREYPendingDrawCycle, elementID);
+    UNTRACK_STATE_FOR_ELEMENT_WITH_ID(kGREYPendingDrawLayoutPass, elementID);
   });
   INVOKE_ORIGINAL_IMP(void, @selector(greyswizzled_setNeedsDisplay));
 }
 
 - (void)greyswizzled_setNeedsLayout {
-  NSString *elementID = TRACK_STATE_FOR_ELEMENT(kGREYPendingDrawCycle, self);
+  NSString *elementID = TRACK_STATE_FOR_ELEMENT(kGREYPendingDrawLayoutPass, self);
   // Next runloop drain will perform the layout pass.
   dispatch_async(dispatch_get_main_queue(), ^ {
-    UNTRACK_STATE_FOR_ELEMENT_WITH_ID(kGREYPendingDrawCycle, elementID);
+    UNTRACK_STATE_FOR_ELEMENT_WITH_ID(kGREYPendingDrawLayoutPass, elementID);
   });
   INVOKE_ORIGINAL_IMP(void, @selector(greyswizzled_setNeedsLayout));
 }

@@ -97,12 +97,13 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
  *          seconds, a timeout error will be produced and no elements will be returned.
  */
 - (NSArray *)matchedElementsWithTimeout:(NSTimeInterval)timeout error:(__strong NSError **)error {
+  NSParameterAssert(error);
+
   id<GREYInteractionDataSource> strongDataSource = [self dataSource];
   NSAssert(strongDataSource, @"Datasource must be set before fetching UI elements");
 
   GREYElementProvider *entireRootHierarchyProvider =
       [GREYElementProvider providerWithRootProvider:[strongDataSource rootElementProvider]];
-
   id<GREYMatcher> elementMatcher = _elementMatcher;
   if (_rootMatcher) {
     elementMatcher = grey_allOf(elementMatcher, grey_ancestor(_rootMatcher), nil);
@@ -111,12 +112,11 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
   GREYElementFinder *elementFinder = [[GREYElementFinder alloc] initWithMatcher:elementMatcher];
   NSError *searchActionError = nil;
   CFTimeInterval timeoutTime = CACurrentMediaTime() + timeout;
-
-  do {
+  BOOL timedOut = NO;
+  while(true) {
     @autoreleasepool {
       // Find the element in the current UI hierarchy.
       NSArray *elements = [elementFinder elementsMatchedInProvider:entireRootHierarchyProvider];
-
       if (elements.count > 0) {
         return elements;
       } else if (!_searchAction) {
@@ -130,32 +130,38 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
         break;
       }
 
+      CFTimeInterval currentTime = CACurrentMediaTime();
+      if (currentTime >= timeoutTime) {
+        timedOut = YES;
+        break;
+      }
       // Keep applying search action.
       id<GREYInteraction> interaction =
           [[GREYElementInteraction alloc] initWithElementMatcher:_searchActionElementMatcher];
+      // Don't fail if this interaction error's out. It might still have revealed the element
+      // we're looking for.
       [interaction performAction:_searchAction error:&searchActionError];
       // Drain here so that search at the beginning of the loop looks at stable UI.
       [[GREYUIThreadExecutor sharedInstance] drainUntilIdle];
     }
-  } while(CACurrentMediaTime() < timeoutTime);
-
-  // Populate the error object if it was provided.
-  if (error) {
-    NSDictionary *userInfo = nil;
-    if (searchActionError) {
-      userInfo = @{ NSUnderlyingErrorKey : searchActionError };
-    } else if (CACurrentMediaTime() >= timeoutTime) {
-      CFTimeInterval interactionTimeout =
-          GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
-      NSString *desc = [NSString stringWithFormat:@"Timeout (currently set to %g) occurred when "
-                                                  @"looking for elements.", interactionTimeout];
-      userInfo = @{ NSLocalizedDescriptionKey : desc };
-    }
-    *error = [NSError errorWithDomain:kGREYInteractionErrorDomain
-                                 code:kGREYInteractionElementNotFoundErrorCode
-                             userInfo:userInfo];
   }
 
+  NSDictionary *userInfo = nil;
+  if (searchActionError) {
+    userInfo = @{ NSUnderlyingErrorKey : searchActionError };
+  } else if (CACurrentMediaTime() >= timeoutTime) {
+    CFTimeInterval interactionTimeout =
+        GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
+    NSString *desc = [NSString stringWithFormat:@"Timeout (currently set to %g) occurred when "
+                                                @"looking for elements.", interactionTimeout];
+    NSError *timeoutError = [NSError errorWithDomain:kGREYInteractionErrorDomain
+                                                code:kGREYInteractionTimeoutErrorCode
+                                            userInfo:@{ NSLocalizedDescriptionKey : desc }];
+    userInfo = @{ NSUnderlyingErrorKey : timeoutError };
+  }
+  *error = [NSError errorWithDomain:kGREYInteractionErrorDomain
+                               code:kGREYInteractionElementNotFoundErrorCode
+                           userInfo:userInfo];
   return nil;
 }
 
@@ -405,7 +411,7 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
         case kGREYInteractionElementNotFoundErrorCode: {
           NSString *reason =
               [NSString stringWithFormat:@"Action '%@' was not performed because no UI element "
-                                         @"matching %@  was found.", action.name, _elementMatcher];
+                                         @"matching %@ was found.", action.name, _elementMatcher];
           I_GREYElementNotFound(reason, @"%@Complete Error: %@", searchAPIInfo, actionError);
           return NO;
         }

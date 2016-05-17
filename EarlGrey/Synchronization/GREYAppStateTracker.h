@@ -32,15 +32,15 @@ typedef NS_OPTIONS(NSUInteger, GREYAppState){
    */
   kGREYIdle = 0,
   /**
-   *  View is pending drawing cycle.
+   *  View is pending draw or layout pass.
    */
-  kGREYPendingDrawCycle = (1UL << 0),
+  kGREYPendingDrawLayoutPass = (1UL << 0),
   /**
-   *  Waiting for views to appear.
+   *  Waiting for viewDidAppear: method invocation.
    */
   kGREYPendingViewsToAppear = (1UL << 1),
   /**
-   *  Waiting for views to disappear.
+   *  Waiting for viewDidDisappear: method invocation.
    */
   kGREYPendingViewsToDisappear = (1UL << 2),
   /**
@@ -48,50 +48,38 @@ typedef NS_OPTIONS(NSUInteger, GREYAppState){
    */
   kGREYPendingKeyboardTransition = (1UL << 3),
   /**
-   *  Pending CA animation.
+   *  Waiting for CA animation to complete.
    */
   kGREYPendingCAAnimation = (1UL << 4),
   /**
-   *  Waiting for actionsheet's window to be removed.
+   *  Waiting for a UIAnimation to be marked as stopped.
    */
-  kGREYPendingActionSheetToDisappear = (1UL << 5),
-  /**
-   *  Pending UIView animation
-   */
-  kGREYPendingUIViewAnimation = (1UL << 6),
-  /**
-   *  Pending UIViewController to move to parent.
-   */
-  kGREYPendingMoveToParent = (1UL << 7),
+  kGREYPendingUIAnimation = (1UL << 5),
   /**
    *  Pending root view controller to be set.
    */
-  kGREYPendingRootViewControllerToAppear = (1UL << 8),
+  kGREYPendingRootViewControllerToAppear = (1UL << 6),
   /**
    *  Pending a UIWebView async load request
    */
-  kGREYPendingUIWebViewAsyncRequest = (1UL << 9),
+  kGREYPendingUIWebViewAsyncRequest = (1UL << 7),
   /**
    *  Pending a network request completion.
    */
-  kGREYPendingNetworkRequest = (1UL << 10),
+  kGREYPendingNetworkRequest = (1UL << 8),
   /**
    *  Pending gesture recognition.
    */
-  kGREYPendingGestureRecognition = (1UL << 11),
+  kGREYPendingGestureRecognition = (1UL << 9),
   /**
    *  Waiting for UIScrollView to finish scrolling.
    */
-  kGREYPendingUIScrollViewScrolling = (1UL << 12),
+  kGREYPendingUIScrollViewScrolling = (1UL << 10),
   /**
    *  [UIApplication beginIgnoringInteractionEvents] was called and all interaction events are
    *  being ignored.
    */
-  kGREYIgnoringSystemWideUserInteraction = (1UL << 13),
-  /**
-   *  Waiting for a UIAnimation to be marked as stopped.
-   */
-  kGREYPendingUIAnimation = (1UL << 14),
+  kGREYIgnoringSystemWideUserInteraction = (1UL << 11),
 };
 
 /**

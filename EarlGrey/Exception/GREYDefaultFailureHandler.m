@@ -42,35 +42,15 @@
 - (void)handleException:(GREYFrameworkException *)exception details:(NSString *)details {
   NSParameterAssert(exception);
   NSMutableString *exceptionLog = [[NSMutableString alloc] init];
-
-  // Extra newlines before displaying window hierarchy.
-  [exceptionLog appendString:@"Application window hierarchy (ordered by window level, "
-                             @"from front to back):\n\n"];
-
-  // Legend.
-  [exceptionLog appendString:@"Legend:\n"
-                             @"[Window 1] = [Frontmost Window]\n"
-                             @"[AX] = [Accessibility]\n\n"];
-
-  // Windows
-  int index = 0;
-  for (UIWindow *window in [GREYUIWindowProvider allWindows]) {
-    index++;
-    NSString *hierarchy = [GREYElementHierarchy hierarchyStringForElement:window];
-    [exceptionLog appendFormat:@"========== Window %d ==========\n\n%@\n\n",
-                               index, hierarchy];
-  }
-  // Extra newlines after displaying window hierarchy.
-  [exceptionLog appendString:@"\n\n"];
-
-  [exceptionLog appendString:@"========== Detailed Exception ==========\n\n"];
+  // Start on fresh new line.
+  [exceptionLog appendString:@"\n"];
   [exceptionLog appendFormat:@"Exception: %@\n", [exception name]];
   if ([exception reason]) {
     [exceptionLog appendFormat:@"Reason: %@\n", [exception reason]];
   } else {
     [exceptionLog appendString:@"Reason for exception was not provided.\n"];
   }
-  if (details) {
+  if (details.length > 0) {
     [exceptionLog appendFormat:@"%@\n", details];
   }
   [exceptionLog appendString:@"\n"];
@@ -105,20 +85,29 @@
               forCategory:@"Visibility Checker's Most Recent Actual After Image"
           appendingLogsTo:exceptionLog];
 
-  NSString *failureDescription;
-  if (exception.reason) {
-    failureDescription = exception.reason;
-  } else {
-    failureDescription = [NSString stringWithFormat:@"%@ has occurred.", [exception class]];
-  }
-  NSLog(@"%@", exceptionLog);
+  [exceptionLog appendString:@"\n\n"];
 
-  [XCTestCase grey_currentTestCase].continueAfterFailure = NO;
-  [[XCTestCase grey_currentTestCase] recordFailureWithDescription:failureDescription
-                                                           inFile:_fileName
-                                                           atLine:_lineNumber
-                                                         expected:NO];
-  [[XCTestCase grey_currentTestCase] grey_interruptExecution];
+  // UI hierarchy.
+  [exceptionLog appendString:@"Application window hierarchy (ordered by window level, "
+                             @"from front to back):\n\n"];
+
+  // Legend.
+  [exceptionLog appendString:@"Legend:\n"
+                             @"[Window 1] = [Frontmost Window]\n"
+                             @"[AX] = [Accessibility]\n\n"];
+
+  // Print windows from front to back.
+  int index = 0;
+  for (UIWindow *window in [GREYUIWindowProvider allWindows]) {
+    index++;
+    NSString *hierarchy = [GREYElementHierarchy hierarchyStringForElement:window];
+    [exceptionLog appendFormat:@"========== Window %d ==========\n\n%@\n\n",
+                               index, hierarchy];
+  }
+  [[XCTestCase grey_currentTestCase] grey_markAsFailedAtLine:_lineNumber
+                                                      inFile:_fileName
+                                                      reason:exception.reason
+                                           detailDescription:exceptionLog];
 }
 
 #pragma mark - Private
@@ -138,7 +127,7 @@
               forCategory:(NSString *)category
           appendingLogsTo:(NSMutableString *)allLogs {
   if (!image) {
-    [allLogs appendFormat:@"No \"%@\" to save.\n", category];
+    // nothing to save.
     return;
   }
 
