@@ -31,10 +31,10 @@
 
 // These web view tests are not run by default since they require network access
 // and have a possibility of flakiness.
-@interface FTRUILocalWebViewTest : FTRBaseIntegrationTest<UIWebViewDelegate>
+@interface FTRLocalUIWebViewTest : FTRBaseIntegrationTest<UIWebViewDelegate>
 @end
 
-@implementation FTRUILocalWebViewTest
+@implementation FTRLocalUIWebViewTest
 
 - (void)setUp {
   [super setUp];
