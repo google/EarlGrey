@@ -67,6 +67,8 @@
 - (void)grey_pendingInteractionForTime:(NSTimeInterval)seconds;
 - (void)grey_trackAJAXLoading;
 - (void)grey_untrackAJAXLoading;
+- (void)grey_setIsLoadingFrame:(BOOL)loading;
+- (BOOL)grey_isLoadingFrame;
 
 @end
 

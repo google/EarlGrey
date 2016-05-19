@@ -61,10 +61,6 @@ static NSString *const kTrackerScriptCleanupScript =
 
 @implementation GREYUIWebViewIdlingResource {
   /**
-   *  Private, internal web browser view from @c _webView. Needed to traverse accessibility tree.
-   */
-  __weak id _internalWebBrowserView;
-  /**
    *  Main UIWebView being interacted with.
    */
   __weak UIWebView *_webView;
@@ -89,7 +85,6 @@ static NSString *const kTrackerScriptCleanupScript =
   if (self) {
     _webViewName = [name copy];
     _webView = webView;
-    _internalWebBrowserView = [[_webView valueForKey:@"_internal"] valueForKey:@"browserView"];
   }
   return self;
 }
@@ -105,23 +100,43 @@ static NSString *const kTrackerScriptCleanupScript =
 }
 
 - (BOOL)isIdleNow {
-  if (_webView && _internalWebBrowserView) {
-    NSString *visibilityState =
-      [self grey_evaluateAndAssertNoErrorsJavaScriptInString:@"document.visibilityState"];
-    // Ignore if document is hidden because our attempts to inject image into DOM won't work.
-    // See https://developer.mozilla.org/en-US/docs/Web/Guide/User_experience/Using_the_Page_Visibility_API
-    if (![visibilityState isEqualToString:@"hidden"]) {
-      NSString *renderPassCountResult =
-          [self grey_evaluateAndAssertNoErrorsJavaScriptInString:kRenderPassTrackerScript];
-      NSInteger renderPasses = [renderPassCountResult integerValue];
-      if (renderPasses < kMaxRenderPassesToWait) {
-        return NO;
-      } else {
-        // Run the cleanup script and discard the return value.
-        [self grey_evaluateAndAssertNoErrorsJavaScriptInString:kTrackerScriptCleanupScript];
-      }
-    }
+  UIWebView *strongWebView = _webView;
 
+  if (!strongWebView) {
+    [[GREYUIThreadExecutor sharedInstance] deregisterIdlingResource:self];
+    return YES;
+  }
+
+  // Make this check before running any JavaScript. The JavaScript operations are synchronous,
+  // very heavy, and will drastically slow down page loading.
+  if ([strongWebView grey_isLoadingFrame]) {
+    return NO;
+  }
+
+  NSString *documentState =
+      [self grey_evaluateAndAssertNoErrorsJavaScriptInString:@"document.readyState"];
+  if ([documentState isEqualToString:@"loading"]) {
+    return NO;
+  }
+
+  NSString *visibilityState =
+      [self grey_evaluateAndAssertNoErrorsJavaScriptInString:@"document.visibilityState"];
+  // Ignore if document is hidden because our attempts to inject image into DOM won't work.
+  // See https://developer.mozilla.org/en-US/docs/Web/Guide/User_experience/Using_the_Page_Visibility_API
+  if (![visibilityState isEqualToString:@"hidden"]) {
+    NSString *renderPassCountResult =
+        [self grey_evaluateAndAssertNoErrorsJavaScriptInString:kRenderPassTrackerScript];
+    NSInteger renderPasses = [renderPassCountResult integerValue];
+    if (renderPasses < kMaxRenderPassesToWait) {
+      return NO;
+    } else {
+      // Run the cleanup script and discard the return value.
+      [self grey_evaluateAndAssertNoErrorsJavaScriptInString:kTrackerScriptCleanupScript];
+    }
+  }
+
+  id internalWebBrowserView = [[_webView valueForKey:@"_internal"] valueForKey:@"browserView"];
+  if (internalWebBrowserView) {
     @autoreleasepool {
       // There is a slight delay between a UIWebView delegate receiving webViewDidFinishLoad and
       // all of the WebAccessibilityObjectWrappers corresponding to the text on the web page being
@@ -130,7 +145,7 @@ static NSString *const kTrackerScriptCleanupScript =
       // If we traverse the tree ensuring none are returning NSNotFound,
       // then we know loading is most likely done.
       NSMutableArray *runningElementHierarchy = [[NSMutableArray alloc] init];
-      [runningElementHierarchy addObject:_internalWebBrowserView];
+      [runningElementHierarchy addObject:internalWebBrowserView];
       while (runningElementHierarchy.count > 0) {
         id currentElement = [runningElementHierarchy firstObject];
         NSInteger accessibilityElementCount = [currentElement accessibilityElementCount];
@@ -149,7 +164,6 @@ static NSString *const kTrackerScriptCleanupScript =
       }
     }
   }
-
   // If all of the child accessibility elements have valid element counts, then iOS is done
   // populating the WebAccessibilityObjectWrappers.
   [[GREYUIThreadExecutor sharedInstance] deregisterIdlingResource:self];

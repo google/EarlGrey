@@ -149,7 +149,7 @@
               // Replace mock views with the views they encapsulate.
               element = [element view];
             }
-            // if element is not nil add to runningElementHierarchy, sometimes element can be nil
+            // Need to add a nil check since sometimes element is nil.
             if (element) {
               [runningElementHierarchy addObject:element];
             }

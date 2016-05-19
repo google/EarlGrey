@@ -40,6 +40,12 @@ static void const *const kStateTrackerElementIDKey = &kStateTrackerElementIDKey;
  */
 static void const *const kUIWebViewPendingInteractionKey = &kUIWebViewPendingInteractionKey;
 
+/**
+ *  Key for tracking the web view's loading state. Used to track the web view with respect to its
+ *  delegate callbacks, which is more reliable than UIWebView's isLoading method.
+ */
+static void const *const kUIWebViewLoadingStateKey = &kUIWebViewLoadingStateKey;
+
 @implementation UIWebView (GREYAdditions)
 
 + (void)load {
@@ -107,6 +113,26 @@ static void const *const kUIWebViewPendingInteractionKey = &kUIWebViewPendingInt
 - (void)grey_untrackAJAXLoading {
   NSString *elementID = objc_getAssociatedObject(self, kStateTrackerElementIDKey);
   UNTRACK_STATE_FOR_ELEMENT_WITH_ID(kGREYPendingUIWebViewAsyncRequest, elementID);
+}
+
+/**
+ *  Sets the loading state for this webview.
+ *
+ *  @param loading BOOL value indicating the new loading state of this webview.
+ */
+- (void)grey_setIsLoadingFrame:(BOOL)loading {
+  objc_setAssociatedObject(self,
+                           kUIWebViewLoadingStateKey,
+                           @(loading),
+                           OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+/**
+ *  @return the loading state for this webview.
+ */
+- (BOOL)grey_isLoadingFrame {
+  NSNumber *loading = objc_getAssociatedObject(self, kUIWebViewLoadingStateKey);
+  return [loading boolValue];
 }
 
 #pragma mark - Swizzled Implementation
