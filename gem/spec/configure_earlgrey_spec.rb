@@ -13,13 +13,14 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require 'rubygems'
-require 'xcodeproj'
-require 'colored'
-require 'thor'
+require_relative 'spec_helper'
 
-require 'fileutils'
+describe 'configure_earlgrey' do
+  it 'configures for carthage' do
+    diff_project carthage_after, %w[install -t AutoEarlGrey]
+  end
 
-require_relative 'version'
-require_relative 'configure_earlgrey'
-require_relative 'cli'
+  it 'configures for cocoapods' do
+    diff_project cocoapods_after, %w[install -t AutoEarlGrey --no-carthage]
+  end
+end

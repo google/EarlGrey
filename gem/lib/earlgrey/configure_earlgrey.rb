@@ -84,6 +84,9 @@ module EarlGrey
         E
       end
 
+      # must reset state on every configure
+      @add_earlgrey_product = nil
+
       @project_name = project_name
       @test_target_name = test_target_name
       @scheme_file = File.basename(scheme_file, '.*') + '.xcscheme'
