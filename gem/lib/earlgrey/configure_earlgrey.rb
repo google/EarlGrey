@@ -63,7 +63,7 @@ module EarlGrey
       puts strip(string).yellow
     end
 
-    def set_defaults(installer, project_name, test_target_name, scheme_file, opts)
+    def set_defaults(installer, project_name, test_target_name, scheme_file, opts={})
       @swift = opts.fetch(:swift, false)
       @carthage = opts.fetch(:carthage, false)
 
@@ -105,7 +105,7 @@ module EarlGrey
     # @param test_target_name [String] the test target name contained in xcodeproj
     # @param scheme_file [String] the scheme file name. defaults to project name when nil.
     # @return [nil]
-    def configure_for_earlgrey(installer, project_name, test_target_name, scheme_file, opts)
+    def configure_for_earlgrey(installer, project_name, test_target_name, scheme_file, opts={})
       set_defaults(installer, project_name, test_target_name, scheme_file, opts)
 
       # Add a Test Action to the User Project Scheme.
