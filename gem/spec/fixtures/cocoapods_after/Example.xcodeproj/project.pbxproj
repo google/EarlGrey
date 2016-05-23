@@ -140,7 +140,6 @@
 				F9BC1C911CEFB77F00FE2BB8 /* Frameworks */,
 				F9BC1C921CEFB77F00FE2BB8 /* Resources */,
 				290C55CDAF045D75155F1229 /* EarlGrey Copy Files */,
-				978F47422EEBA86CCF50068D /* Carthage copy-frameworks Run Script */,
 			);
 			buildRules = (
 			);
@@ -209,24 +208,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		978F47422EEBA86CCF50068D /* Carthage copy-frameworks Run Script */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/EarlGrey.framework",
-			);
-			name = "Carthage copy-frameworks Run Script";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/bash;
-			shellScript = "/usr/local/bin/carthage copy-frameworks";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		F98C3B831C65354100389099 /* Sources */ = {

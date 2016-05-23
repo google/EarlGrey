@@ -36,8 +36,7 @@ module EarlGrey
 
       # CLI will never use Cocoapod's `post_install do |installer|`
       podfile_installer = nil
-      EarlGrey.swift    = o[SWIFT]
-      EarlGrey.carthage = o[CARTHAGE]
+      opts = { swift: o[SWIFT], carthage: o[CARTHAGE] }
 
       # Use target as the default Scheme name.
       o[SCHEME] ||= o[TARGET]
@@ -45,7 +44,7 @@ module EarlGrey
       o[PROJECT] ||= Dir.glob(File.join(Dir.pwd, '*.xcodeproj')).first
       raise 'No project found' unless o[PROJECT]
 
-      EarlGrey.configure_for_earlgrey podfile_installer, o[PROJECT], o[TARGET], o[SCHEME]
+      EarlGrey.configure_for_earlgrey podfile_installer, o[PROJECT], o[TARGET], o[SCHEME], opts
     end
   end
 end

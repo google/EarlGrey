@@ -20,15 +20,16 @@ end
 
 module EarlGrey
   class << self
-    attr_accessor :swift, :carthage
-    attr_reader :project_name, :test_target, :test_target_name, :scheme_file, :user_project
+    attr_reader :project_name, :test_target, :test_target_name, :scheme_file,
+                :user_project, :swift, :carthage
 
     # Returns path to Xcode file, prepending current working dir if necessary.
     # @param xcode_file [String] xcode file path
     # @param ext [String] xcode file extension
     # @return [String] path to Xcode file
     def path_for(xcode_file, ext)
-      return xcode_file if File.exist? xcode_file
+      ext_match = File.extname(xcode_file) == ext
+      return xcode_file if File.exist?(xcode_file) && ext_match
 
       path = File.join(Dir.pwd, File.basename(xcode_file, '.*') + ext)
       path ? path : nil
@@ -62,14 +63,10 @@ module EarlGrey
       puts strip(string).yellow
     end
 
-    # Main entry point. Configures An Xcode project for use with EarlGrey.
-    #
-    # @param installer [Installer] Cococapods installer object or nil.
-    # @param project_name [String] the xcodeproj file name
-    # @param test_target_name [String] the test target name contained in xcodeproj
-    # @param scheme_file [String] the scheme file name. defaults to project name when nil.
-    # @return [nil]
-    def configure_for_earlgrey(installer, project_name, test_target_name, scheme_file)
+    def set_defaults(installer, project_name, test_target_name, scheme_file, opts)
+      @swift = opts.fetch(:swift, false)
+      @carthage = opts.fetch(:carthage, false)
+
       puts_blue "Checking and Updating #{project_name} for EarlGrey."
       pods_project = installer ? installer.pods_project : true
       project_file = path_for project_name, '.xcodeproj'
@@ -99,6 +96,17 @@ module EarlGrey
           Targets are: #{all_targets.map(&:name)}
         E
       end
+    end
+
+    # Main entry point. Configures An Xcode project for use with EarlGrey.
+    #
+    # @param installer [Installer] Cococapods installer object or nil.
+    # @param project_name [String] the xcodeproj file name
+    # @param test_target_name [String] the test target name contained in xcodeproj
+    # @param scheme_file [String] the scheme file name. defaults to project name when nil.
+    # @return [nil]
+    def configure_for_earlgrey(installer, project_name, test_target_name, scheme_file, opts)
+      set_defaults(installer, project_name, test_target_name, scheme_file, opts)
 
       # Add a Test Action to the User Project Scheme.
       scheme = modify_scheme_for_actions
@@ -382,13 +390,15 @@ module EarlGrey
         test_target.frameworks_build_phase.add_file_reference framework_ref
       end
 
-      # Add shell script phase
-      shell_script_name = 'Carthage copy-frameworks Run Script'
-      unless test_target.shell_script_build_phases.map(&:name).include?(shell_script_name)
-        shell_script = test_target.new_shell_script_build_phase shell_script_name
-        shell_script.shell_path = '/bin/bash'
-        shell_script.shell_script = '/usr/local/bin/carthage copy-frameworks'
-        shell_script.input_paths = ['$(SRCROOT)/Carthage/Build/iOS/EarlGrey.framework']
+      if carthage
+        # Add shell script phase
+        shell_script_name = 'Carthage copy-frameworks Run Script'
+        unless test_target.shell_script_build_phases.map(&:name).include?(shell_script_name)
+          shell_script = test_target.new_shell_script_build_phase shell_script_name
+          shell_script.shell_path = '/bin/bash'
+          shell_script.shell_script = '/usr/local/bin/carthage copy-frameworks'
+          shell_script.input_paths = ['$(SRCROOT)/Carthage/Build/iOS/EarlGrey.framework']
+        end
       end
 
       user_project.save

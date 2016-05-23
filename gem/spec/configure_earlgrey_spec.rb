@@ -18,9 +18,13 @@ require_relative 'spec_helper'
 describe 'configure_earlgrey' do
   it 'configures for carthage' do
     diff_project carthage_after, %w[install -t AutoEarlGrey]
+    expect(EarlGrey.swift).to eq(true)
+    expect(EarlGrey.carthage).to eq(true)
   end
 
   it 'configures for cocoapods' do
     diff_project cocoapods_after, %w[install -t AutoEarlGrey --no-carthage]
+    expect(EarlGrey.swift).to eq(true)
+    expect(EarlGrey.carthage).to eq(false)
   end
 end
