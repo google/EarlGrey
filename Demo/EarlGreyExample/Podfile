@@ -31,7 +31,7 @@ TARGETS.each do |test_target|
 end
 
 post_install do |installer|
-  load('configure_earlgrey_pods.rb')
+  require 'earlgrey'
 
   # For each test target, you need to call the EarlGrey script's edit method once.
   TARGETS.each do |test_target|
