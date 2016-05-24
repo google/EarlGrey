@@ -1,0 +1,145 @@
+@import url(https://fonts.googleapis.com/css?family=Droid+Sans+Mono|Ubuntu:700);
+
+ol, ul {
+  list-style:none;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-weight: bold;
+  font-family: 'Droid Sans Mono';
+  background-color: #eee;
+}
+
+p, ul {
+  padding: 1em;
+}
+
+ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  background: #eee;
+  max-width: 60em;
+}
+
+li:nth-child(1) {
+  background: inherit;
+  flex-basis: 100%;
+  border: none;
+  box-shadow: none;
+}
+
+ul li {
+  flex-basis: 40%;
+  text-transform: uppercase;
+}
+
+li:nth-child(even) {
+  margin-right: 0.5em;
+}
+
+body > ul:nth-child(1) > li:nth-child(1) {
+  text-transform: initial;
+  padding-bottom: 0;
+  padding-top: 0;
+  font-size: 3em;
+  font-family: 'Ubuntu', sans-serif;
+}
+
+body > ul:nth-child(1) li {
+  color: var(--pink-color);
+  border-color: var(--pink-color);
+  font-family: 'Ubuntu', sans-serif;
+  margin-right: 0.3em;
+}
+
+body > ul:nth-child(2) > li:nth-child(1) {
+  text-transform: initial;
+  padding-bottom: 0;
+  padding-top: 0;
+  margin: 0;
+  font-size: 3em;
+  font-family: 'Ubuntu', sans-serif;
+}
+
+body > ul:nth-child(2) li {
+  color: var(--blue-color);
+  border-color: var(--blue-color);
+  font-family: 'Ubuntu', sans-serif;
+}
+
+body > ul:nth-child(3) > li:nth-child(1) {
+  text-transform: initial;
+  padding-bottom: 0;
+  padding-top: 0;
+  margin: 0;
+  font-size: 3em;
+  font-family: 'Ubuntu', sans-serif;
+}
+
+body > ul:nth-child(3) li {
+  color: var(--green-color);
+  border-color: var(--green-color);
+  font-family: 'Ubuntu', sans-serif;
+}
+
+:root {
+  --pink-color: #e92663;
+  --green-color: #57bb8a;
+  --blue-color: #4285f4
+}
+
+ul > li > ul > li {
+  text-transform: initial !important;
+  color: black !important;
+  border: none;
+  box-shadow: none;
+  font-weight: normal;
+  padding: 0.3em 0 0 0;
+  margin: 0;
+  flex-basis: 100%;
+  font-family: 'Droid Sans Mono' !important;
+}
+
+ul > li > ul {
+  padding: 0;
+  margin: 0;
+  background: white;
+}
+
+li {
+  flex: 4em 1 0;
+  padding: 0.6em;
+  background: white;
+  box-sizing: border-box;
+  border: solid 0.13em #666;
+  border-radius: 1em;
+  box-shadow: 0.3em 0.3em 0px 0px #dcdcdc;
+  text-align: left;
+  margin-top: 0.5em;
+}
+
+.hide {
+  visibility: hidden;
+}
+
+@media print {
+  body {
+    font-size: 55%;
+  }
+
+  ul {
+    max-width: 100%;
+  }
+
+  li {
+    max-width: 60%;
+    /* chrome can't handle box shadows in PDF : https://bugs.chromium.org/p/chromium/issues/detail?id=174583 */
+    box-shadow: none;
+  }
+}
