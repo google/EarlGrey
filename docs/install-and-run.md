@@ -90,6 +90,8 @@ For EarlGrey, we highly recommend [CocoaPods](https://cocoapods.org/) as the bes
    * For multiple targets and Schemes, call the `configure_for_earlgrey` method for each target / Scheme.
    * The `:exclusive => true` and `inherit! :search_paths` flag prevents double-linking for libraries in the test target with any conflicting libraries in the main application.
    * For more information, visit the [CocoaPods Podfile Guide](http://guides.cocoapods.org/using/the-podfile.html).
+   * If you don't want a gem dependency, replace `require 'earlgrey'` with `load 'configure_earlgrey.rb'` and manually
+     copy `configure_earlgrey.rb` from the gem.
 
    Note: If you are trying to run the [EarlGrey Demo App](https://github.com/google/EarlGrey/tree/master/Demo/EarlGreyExample)
    then ensure you have the latest 1.x CocoaPods version since we use the [updated syntax]
