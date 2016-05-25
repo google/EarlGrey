@@ -70,7 +70,6 @@ li:nth-child(even) {
   color: var(--pink-color);
   border-color: var(--pink-color);
   font-family: 'Ubuntu', sans-serif;
-  margin-right: 0.3em;
 }
 
 .body > ul:nth-child(2) > li:nth-child(1) {
@@ -116,8 +115,8 @@ ul > li > ul > li {
   border: none;
   box-shadow: none;
   font-weight: normal;
-  padding: 0.2em 0 0 0;
-  margin: 0;
+  padding: 0;
+  margin: 0.2em 0 0 0;
   flex-basis: 100%;
   font-family: 'Droid Sans Mono' !important;
 }
