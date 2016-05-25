@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Droid+Sans+Mono|Ubuntu:700);
+@import url(https://fonts.googleapis.com/css?family=Droid+Sans+Mono|Ubuntu:400,700,300);
 
 ol, ul {
   list-style:none;
@@ -24,7 +24,7 @@ ul {
   flex-wrap: wrap;
   justify-content: space-between;
   background: #eee;
-  max-width: 60em;
+  max-width: var(--max-width);
 }
 
 li:nth-child(1) {
@@ -43,7 +43,7 @@ li:nth-child(even) {
   margin-right: 0.5em;
 }
 
-body > ul:nth-child(1) > li:nth-child(1) {
+.body > ul:nth-child(1) > li:nth-child(1) {
   text-transform: initial;
   padding-bottom: 0;
   padding-top: 0;
@@ -51,14 +51,14 @@ body > ul:nth-child(1) > li:nth-child(1) {
   font-family: 'Ubuntu', sans-serif;
 }
 
-body > ul:nth-child(1) li {
+.body > ul:nth-child(1) li {
   color: var(--pink-color);
   border-color: var(--pink-color);
   font-family: 'Ubuntu', sans-serif;
   margin-right: 0.3em;
 }
 
-body > ul:nth-child(2) > li:nth-child(1) {
+.body > ul:nth-child(2) > li:nth-child(1) {
   text-transform: initial;
   padding-bottom: 0;
   padding-top: 0;
@@ -67,13 +67,13 @@ body > ul:nth-child(2) > li:nth-child(1) {
   font-family: 'Ubuntu', sans-serif;
 }
 
-body > ul:nth-child(2) li {
+.body > ul:nth-child(2) li {
   color: var(--blue-color);
   border-color: var(--blue-color);
   font-family: 'Ubuntu', sans-serif;
 }
 
-body > ul:nth-child(3) > li:nth-child(1) {
+.body > ul:nth-child(3) > li:nth-child(1) {
   text-transform: initial;
   padding-bottom: 0;
   padding-top: 0;
@@ -82,7 +82,7 @@ body > ul:nth-child(3) > li:nth-child(1) {
   font-family: 'Ubuntu', sans-serif;
 }
 
-body > ul:nth-child(3) li {
+.body > ul:nth-child(3) li {
   color: var(--green-color);
   border-color: var(--green-color);
   font-family: 'Ubuntu', sans-serif;
@@ -91,7 +91,8 @@ body > ul:nth-child(3) li {
 :root {
   --pink-color: #e92663;
   --green-color: #57bb8a;
-  --blue-color: #4285f4
+  --blue-color: #4285f4;
+  --max-width: 60em;
 }
 
 ul > li > ul > li {
@@ -128,12 +129,56 @@ li {
   visibility: hidden;
 }
 
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: var(--max-width);
+}
+
+.usage {
+  font-family: 'Ubuntu', sans-serif;
+  font-weight: normal;
+  white-space: pre;
+  height: 3em;
+  padding-left: 1em;
+}
+
+.usage .one {
+  font-weight: bold;
+}
+
+.usage .two {
+  font-weight: bold;
+  color: var(--pink-color);
+  font-family: 'Ubuntu', sans-serif;
+}
+
+.usage .three {
+  font-weight: bold;
+  color: var(--blue-color);
+  font-family: 'Ubuntu', sans-serif;
+}
+
+.cheatsheet {
+  height: 0.5em;
+  font-weight: 300;
+  padding-right: 1em;
+  padding-top: 1em;
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 2em;
+}
+
 @media print {
   body {
     font-size: 55%;
   }
 
   ul {
+    max-width: 100%;
+  }
+
+  .header {
     max-width: 100%;
   }
 
