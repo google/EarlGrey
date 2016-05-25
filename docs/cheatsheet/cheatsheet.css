@@ -183,6 +183,14 @@ li {
   font-size: 2em;
 }
 
+.objc {
+  text-transform: uppercase !important;
+  padding-top: 1em;
+  color: var(--pink-color) !important;
+  font-weight: bold;
+  font-family: 'Ubuntu', sans-serif !important;
+}
+
 @media print {
   body {
     font-size: 55%;
