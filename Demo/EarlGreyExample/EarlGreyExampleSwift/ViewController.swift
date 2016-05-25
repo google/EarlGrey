@@ -24,23 +24,23 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     super.viewDidLoad()
 
     // Create the send message view to contain one of the two send buttons
-    let sendMessageView = SendMessageView(frame: CGRectMake(0, 0, 200, 200))
+    let sendMessageView = SendMessageView(frame: CGRect(x: 0, y: 0, width: 200, height: 200))
     sendMessageView.translatesAutoresizingMaskIntoConstraints = false
-    self.view.addSubview(sendMessageView)
+    view.addSubview(sendMessageView)
 
     // Create buttons
     let clickMe = createButton("ClickMe")
-    self.view.addSubview(clickMe)
+    view.addSubview(clickMe)
     let send = createButton("Send")
     // Change label to identify this button more easily for the layout test
     send.accessibilityLabel = "SendForLayoutTest"
-    self.view.addSubview(send)
+    view.addSubview(send)
     let send2 = createButton("Send")
     sendMessageView.addSubview(send2)
 
     // Create a UITableView to send some elements out of the screen
     let table = createTable()
-    self.view.addSubview(table)
+    view.addSubview(table)
 
     // Create constraints
     let views = ["clickMe": clickMe, "send": send, "send2": send2, "table": table,
@@ -62,20 +62,19 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         metrics: nil, views: views)
     allConstraints += tableConstraints
     NSLayoutConstraint.activateConstraints(allConstraints)
-
   }
 
   func createButton(title: String) -> UIButton {
-    let button   = UIButton(type: UIButtonType.System) as UIButton
-    button.frame = CGRectMake(0, 0, 100, 100)
+    let button = UIButton(type: .System)
+    button.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
     button.backgroundColor = UIColor.greenColor()
-    button.setTitle(title, forState: UIControlState.Normal)
+    button.setTitle(title, forState: .Normal)
     button.addTarget(self, action: #selector(ViewController.buttonAction(_:)),
-        forControlEvents: UIControlEvents.TouchUpInside)
+        forControlEvents: .TouchUpInside)
     button.accessibilityIdentifier = title
     button.accessibilityLabel = title
     button.translatesAutoresizingMaskIntoConstraints = false
-    return button;
+    return button
   }
 
   func buttonAction(sender: UIButton!) {
@@ -86,7 +85,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
   func createTable() -> UITableView {
     let tableView = UITableView()
-    tableView.frame = CGRectMake(0, 0, 320, 200);
+    tableView.frame = CGRect(x: 0, y: 0, width: 320, height: 200)
     tableView.delegate = self
     tableView.dataSource = self
     tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
@@ -97,12 +96,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     return tableView
   }
 
-  func numberOfSectionsInTableView(tableView:UITableView)->Int {
+  func numberOfSectionsInTableView(tableView:UITableView) -> Int {
     return 1
   }
 
   func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return self.tableItems.count
+    return tableItems.count
   }
 
   func tableView(tableView: UITableView,
@@ -110,11 +109,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     let cell:UITableViewCell =
         tableView.dequeueReusableCellWithIdentifier("cell")! as UITableViewCell
     // For cell 1 to 7, add a date
-    var cellID : String;
+    var cellID : String
     if (indexPath.row >= 1 && indexPath.row <= 7) {
       cellID = getDateForIndex(indexPath.row)
     } else {
-      cellID = "Cell\(self.tableItems[indexPath.row])"
+      cellID = "Cell\(tableItems[indexPath.row])"
     }
     cell.textLabel?.text = cellID
     cell.accessibilityIdentifier = cellID
@@ -126,9 +125,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     let dateDeltaComponents = NSDateComponents()
     dateDeltaComponents.day = index
     date = NSCalendar.currentCalendar().dateByAddingComponents(
-        dateDeltaComponents, toDate: date, options: NSCalendarOptions.init(rawValue: 0))!
+        dateDeltaComponents, toDate: date, options: NSCalendarOptions(rawValue: 0))!
     let formatter = NSDateFormatter()
-    formatter.dateStyle = NSDateFormatterStyle.LongStyle
+    formatter.dateStyle = .LongStyle
     return formatter.stringFromDate(date)
   }
 }
