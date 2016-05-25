@@ -364,10 +364,11 @@
 + (BOOL)grey_disableAutoCorrectForDelegateAndTypeText:(NSString *)text
                                      inFirstResponder:(id)firstResponder
                                             withError:(__strong NSError **)errorOrNil {
-  // If you're clearing the text label then you do not need to have the autocorrect
-  // turned off.
+  // If you're clearing the text label or if the first responder does not have an
+  // autocorrectionType option then you do not need to have the autocorrect turned off.
   NSCharacterSet *set = [NSCharacterSet characterSetWithCharactersInString:@"\b"];
-  if ([text stringByTrimmingCharactersInSet:set].length == 0) {
+  if ([text stringByTrimmingCharactersInSet:set].length == 0 ||
+      ![firstResponder respondsToSelector:@selector(autocorrectionType)]) {
     return [GREYKeyboard typeString:text
                    inFirstResponder:firstResponder
                               error:errorOrNil];
