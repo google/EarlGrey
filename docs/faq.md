@@ -104,3 +104,13 @@ Yes. EarlGrey supports **Test Navigator** out-of-the-box.
 
 Yes. You can set a breakpoint on any interaction. The breakpoint will be hit before that
 interaction is executed, but after all prior interactions have been executed.
+
+**Where do I find the xctest bundle?**
+
+For the Example project, run the `EarlGreyExampleSwiftTests` target once then find the bundle:
+
+> cd ~/Library/Developer/Xcode/DerivedData/EarlGreyExample-*/Build/Products/Debug-iphonesimulator/EarlGreyExampleSwift.app/PlugIns/EarlGreyExampleSwiftTests.xctest/
+
+For physical device builds, replace `Debug-iphonesimulator` with `Debug-iphoneos`.
+
+You can verify the `EarlGrey.framework` is included in the bundle at `EarlGreyExampleSwiftTests.xctest/Frameworks/EarlGrey.framework`
