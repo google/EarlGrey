@@ -114,3 +114,25 @@ For the Example project, run the `EarlGreyExampleSwiftTests` target once then fi
 For physical device builds, replace `Debug-iphonesimulator` with `Debug-iphoneos`.
 
 You can verify the `EarlGrey.framework` is included in the bundle at `EarlGreyExampleSwiftTests.xctest/Frameworks/EarlGrey.framework`
+
+**How should I handle animations?**
+
+Infinite animations must be disabled as they'll cause problems with EarlGrey tests.
+
+```swift
+public class UIAutomation {
+    public static let animate:Bool = Process.arguments.indexOf("NO_ANIMATE") == nil
+}
+
+if UIAutomation.animate { ... }
+```
+
+For finite animations, the animation speed can be increased. This allows UIKit
+completion blocks and async calls to execute as they normally would, just faster. This matches the
+real conditions the iOS app is run under and will catch more bugs than simply disabling animations.
+Note that the speedup doesn't work on `UIScrollView` because it animates via `CADisplayLink` internally.
+Refer to the [PSPDFKit blog post for more details.](https://pspdfkit.com/blog/2016/running-ui-tests-with-ludicrous-speed/)
+
+```swift
+UIApplication.sharedApplication().keyWindow?.layer.speed = 100
+```
