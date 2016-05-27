@@ -1,6 +1,6 @@
 # FAQ
 
-**How does EarlGrey compare to Xcode 7’s UI Testing?**
+**How does EarlGrey compare to Xcode’s UI Testing?**
 
 EarlGrey is more of a [gray-box testing](https://en.wikipedia.org/wiki/Gray_box_testing) solution
 whereas Xcode’s UI Testing is completely [black-box](https://en.wikipedia.org/wiki/Black-box_testing).
