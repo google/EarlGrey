@@ -52,7 +52,7 @@ following:
 }
 ```
 
-**How do I perform conditional actions on elements that may or may not exist in the UI hierarchy?**
+**How do I check whether an element exists in the UI hierarchy?**
 
 If you are unsure whether the element exists in the UI hierarchy, pass an `NSError` to the
 interaction and check if the error domain and code indicate that the element wasn’t found:
@@ -60,8 +60,7 @@ interaction and check if the error domain and code indicate that the element was
 ```objc
 NSError *error;
 [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"Foo")]
-    performAction:grey_tap()
-            error:&error];
+    assertWithMatcher:grey_notNil() error:&error];
 
 if ([error.domain isEqual:kGREYInteractionErrorDomain] &&
     error.code == kGREYInteractionElementNotFoundErrorCode) {
