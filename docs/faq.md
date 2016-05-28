@@ -20,7 +20,7 @@ containers, regardless of the amount of scrolling required.
 
 **I get a crash with “Could not swizzle …”**
 
-This usually means that EarlGrey is being linked to more than once. Ensure that only the **Test Target**
+This means that EarlGrey is trying to swizzle a method that it has swizzled before. It is a result of EarlGrey being linked to more than once. Ensure that only the **Test Target**
 depends on *EarlGrey.framework* and EarlGrey.framework is embedded in the app under test (i.e. `$TEST_HOST`) from the
 test target's build phase.
 
