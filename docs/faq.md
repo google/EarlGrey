@@ -28,8 +28,8 @@ test target's build phase.
 **I see lots of “XXX is implemented in both YYY and ZZZ. One of the two will be used. Which one is
 undefined.” in the logs**
 
-This usually means that EarlGrey is being linked to more than once. Ensure that only the test target
-depends on EarlGrey.framework and EarlGrey.framework is embedded in the app under test (`$TEST_HOST`) from the
+This usually means that EarlGrey is being linked to more than once. Ensure that only the **Test Target**
+depends on *EarlGrey.framework* and *EarlGrey.framework* is embedded in the app under test (i.e. `$TEST_HOST`) from the
 test target's build phase.
 
 **Is there a way to return a specific element?**
@@ -112,4 +112,8 @@ For the Example project, run the `EarlGreyExampleSwiftTests` target once then fi
 
 For physical device builds, replace `Debug-iphonesimulator` with `Debug-iphoneos`.
 
-You can verify the `EarlGrey.framework` is included in the bundle at `EarlGreyExampleSwiftTests.xctest/Frameworks/EarlGrey.framework`
+**How do I resolve "dyld: could not load inserted library '@executable_path/EarlGrey.framework/EarlGrey' because image not found" error?**
+
+The error means that the dynamic loader is unable to find *EarlGrey.framework* at the specified path: `@executable_path/EarlGrey.framework/EarlGrey`
+
+Verify that *EarlGrey.framework* is embedded in the app under test. Build the **Test Target** and check for EarlGrey.framework in the app under test bundle. For an app named *MyApp*, EarlGrey.framework should be at `MyApp.app/EarlGrey.framework`. If it isn't there, make sure that the **Test Target** has a `Copy to $(TEST_HOST)` script in **Build Phases**. Follow [these instructions](https://github.com/google/EarlGrey/blob/master/docs/install-and-run.md#final-test-configuration-) on how to configure it. After configuring it, rebuild and check again. If EarlGrey.framework is still not present in the app under test, please [open an issue](https://github.com/google/EarlGrey/issues/new) describing your project setup and the full error in detail.
