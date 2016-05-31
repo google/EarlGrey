@@ -116,3 +116,29 @@ For physical device builds, replace `Debug-iphonesimulator` with `Debug-iphoneos
 The error means that the dynamic loader is unable to find *EarlGrey.framework* at the specified path: `@executable_path/EarlGrey.framework/EarlGrey`
 
 Verify that *EarlGrey.framework* is embedded in the app under test bundle. Build the **Test Target** and check for EarlGrey.framework in the app under test bundle. For an app named *MyApp*, EarlGrey.framework should be at `MyApp.app/EarlGrey.framework`. If it isn't there, make sure that the **Test Target** has a `Copy to $(TEST_HOST)` script in **Build Phases**. Follow [these instructions](install-and-run.md#final-test-configuration-) on how to configure it. After configuring it, rebuild and check again. If EarlGrey.framework is still not present in the app under test bundle, please [open an issue](https://github.com/google/EarlGrey/issues/new) describing your project setup and the full error in detail.
+
+**How should I handle animations?**
+
+By default, [EarlGrey truncates CALayer based animations](../EarlGrey/Common/GREYConfiguration.h#L108) that exceed a threshold. The max animation duration setting is configurable:
+
+```swift
+// swift
+let kMaxAnimationInterval:CFTimeInterval = 5.0
+GREYConfiguration.sharedInstance().setValue(kMaxAnimationInterval, forConfigKey: kGREYConfigKeyCALayerMaxAnimationDuration)
+```
+
+```objc
+// objc
+[[GREYConfiguration sharedInstance] setValue:@(kMaxAnimationInterval)
+                                forConfigKey:kGREYConfigKeyCALayerMaxAnimationDuration];
+```
+
+In addition to truncating, animation speed can be increased. UIKit
+completion blocks and async calls execute as they normally would, just faster. This matches the
+real conditions the iOS app is run under and will catch more bugs than simply disabling animations.
+Note that the speedup doesn't work on `UIScrollView` because it animates via `CADisplayLink` internally.
+Refer to the [PSPDFKit blog post for more details.](https://pspdfkit.com/blog/2016/running-ui-tests-with-ludicrous-speed/)
+
+```swift
+UIApplication.sharedApplication().keyWindow?.layer.speed = 100
+```
