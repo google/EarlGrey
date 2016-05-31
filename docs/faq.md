@@ -114,3 +114,29 @@ For the Example project, run the `EarlGreyExampleSwiftTests` target once then fi
 For physical device builds, replace `Debug-iphonesimulator` with `Debug-iphoneos`.
 
 You can verify the `EarlGrey.framework` is included in the bundle at `EarlGreyExampleSwiftTests.xctest/Frameworks/EarlGrey.framework`
+
+**How should I handle animations?**
+
+By default, [EarlGrey truncates CALayer based animations](../EarlGrey/Common/GREYConfiguration.h#L108) that exceed a threshold. The max animation duration setting is configurable:
+
+```swift
+// swift
+let kMaxAnimationInterval:CFTimeInterval = 5.0
+GREYConfiguration.sharedInstance().setValue(kMaxAnimationInterval, forConfigKey: kGREYConfigKeyCALayerMaxAnimationDuration)
+```
+
+```objc
+// objc
+[[GREYConfiguration sharedInstance] setValue:@(kMaxAnimationInterval)
+                                forConfigKey:kGREYConfigKeyCALayerMaxAnimationDuration];
+```
+
+In addition to truncating, animation speed can be increased. UIKit
+completion blocks and async calls execute as they normally would, just faster. This matches the
+real conditions the iOS app is run under and will catch more bugs than simply disabling animations.
+Note that the speedup doesn't work on `UIScrollView` because it animates via `CADisplayLink` internally.
+Refer to the [PSPDFKit blog post for more details.](https://pspdfkit.com/blog/2016/running-ui-tests-with-ludicrous-speed/)
+
+```swift
+UIApplication.sharedApplication().keyWindow?.layer.speed = 100
+```
