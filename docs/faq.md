@@ -142,3 +142,11 @@ Refer to the [PSPDFKit blog post for more details.](https://pspdfkit.com/blog/20
 ```swift
 UIApplication.sharedApplication().keyWindow?.layer.speed = 100
 ```
+
+**How do I match an element when it's duplicated in the app?**
+
+EarlGrey requires all matchers return exactly one element.
+This is difficult to do when an element is duplicated (same label/class/location).
+
+We recommend combining the matchers [as suggested here](api.md#earlgrey-matchers) and then adding
+`grey_interactable()` or `grey_sufficientlyVisible()`.
