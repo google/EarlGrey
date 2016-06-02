@@ -66,7 +66,7 @@ GREY_EXTERN id<GREYFailureHandler> greyFailureHandler;
  */
 #define GREYAssertFalse(__a1, __reason, ...) \
   I_GREYSetCurrentAsFailable(); \
-  I_GREYAssertFail(__a1, __reason, ##__VA_ARGS__)
+  I_GREYAssertFalse(__a1, __reason, ##__VA_ARGS__)
 
 /**
  *  Generates a failure with the provided @c __reason if the expression @c __a1 is @c nil.
