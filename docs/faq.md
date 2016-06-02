@@ -150,3 +150,45 @@ This is difficult to do when an element is duplicated (same label/class/location
 
 We recommend combining the matchers [as suggested here](api.md#earlgrey-matchers) and then adding
 `grey_interactable()` or `grey_sufficientlyVisible()`.
+
+**How do I reset application state before each test?**
+
+In the application target's Build Settings, set **Defines Module** to **Yes**. Create a `resetApplicationForTesting()` method on the AppDelegate. The reset method will be invoked on `setUp` instead of `tearDown` because otherwise there's no guarentee the app will be in a clean state when the first test is run.
+
+Swift:
+In the EarlGrey test target, import the application using `@testable`. In `setUp()`, aquire a reference to the delegate then invoke `resetApplicationForTesting()`.
+
+```swift
+// swift
+@testable import App
+
+class MyTests: XCTestCase {
+
+    override func setUp() {
+        super.setUp()
+
+        let delegate: App.AppDelegate = (UIApplication.sharedApplication().delegate as? App.AppDelegate)!
+        delegate.resetApplicationForTesting()
+    }
+```
+
+
+Objective C:
+In the EarlGrey test target, import the application's app delegate header. In `setUp()` aquire a pointer to the delegate then invoke `resetApplicationForTesting()`.
+
+```objc
+// Objective C
+#import "MyAppDelegate.h"
+
+@interface MyTests : XCTestCase
+@end
+
+@implementation MyTests
+
+- (void)setUp {
+    [super setUp];
+
+    MyAppDelegate *delegate = (MyAppDelegate *)[[UIApplication sharedApplication] delegate];
+    [delegate resetApplicationForTesting];
+}
+```
