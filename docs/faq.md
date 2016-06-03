@@ -192,3 +192,11 @@ In the EarlGrey test target, import the application's app delegate header. In `s
     [delegate resetApplicationForTesting];
 }
 ```
+
+**How do I create a matcher that matches internal UIKit classes?**
+
+Use `NSClassFromString` to match on internal classes that can't be referenced directly.
+
+```swift
+grey_kindOfClass(NSClassFromString("_UIAlertControllerView"))
+```
