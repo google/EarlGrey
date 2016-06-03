@@ -200,3 +200,44 @@ Use `NSClassFromString` to match on internal classes that can't be referenced di
 ```swift
 grey_kindOfClass(NSClassFromString("_UIAlertControllerView"))
 ```
+
+**Why does the screen appear frozen for 30 seconds?**
+
+If the tests are erroring with a timeout, then a background animation or synchronization bug may be keeping the application busy. EarlGrey will timeout interactions after 30 seconds.
+
+If the tests are passing and just slow, then there's probably a matcher that's checking every element.
+
+Make sure the matchers are ordered from most specific to least. For example:
+
+```swift
+// Swift
+grey_allOfMatchers(grey_accessibilityID("Foo"),
+                   grey_sufficientlyVisible())
+```
+
+```objc
+// Objective C
+grey_allOf(grey_accessibilityID(@"Foo"),
+           grey_sufficientlyVisible(),
+           nil);
+```
+
+will find one element with the target id and then check that single element for visibility.
+If we had the order wrong:
+
+```swift
+// Swift
+grey_allOfMatchers(grey_sufficientlyVisible(),
+                   grey_accessibilityID("Foo"))
+```
+
+```objc
+// Objective C
+grey_allOf(grey_sufficientlyVisible(),
+           grey_accessibilityID(@"Foo"),
+           nil);
+```
+
+then all elements in the entire application will be checked for visibility, and finally one
+with a matching id will be selected. It's significantly faster to use the most targeted
+matchers first (typically `grey_accessibilityID` or `grey_accessibilityLabel`).
