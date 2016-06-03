@@ -118,6 +118,10 @@ id<GREYMatcher> visibleSendButtonMatcher =
     performAction:grey_tap()];
 ```
 
+Note that with `grey_allOf` the order matters. If `grey_sufficientlyVisible` is used first, then every element
+in the entire application will be checked for visibility. It's important to order matchers from
+most selective (such as accessibility label and accessibility id) to least.
+
 Next, with `inRoot`, the following statement finds an element that has the accessibility label set
 to `Send` and is contained in a UI element that is an instance of the `SendMessageView` class.
 
