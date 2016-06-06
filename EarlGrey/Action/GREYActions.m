@@ -150,6 +150,10 @@
   return [GREYActions grey_actionForTypeText:text atUITextPosition:nil];
 }
 
++ (id<GREYAction>)actionForReplaceText:(NSString *)text {
+    return [GREYActions grey_actionForReplaceText:text];
+}
+
 + (id<GREYAction>)actionForClearText {
   Class webElement = NSClassFromString(@"WebAccessibilityObjectWrapper");
   id<GREYMatcher> constraints = grey_anyOf(grey_respondsToSelector(@selector(text)),
@@ -159,20 +163,9 @@
                              constraints:constraints
                             performBlock:^BOOL (id element, __strong NSError **errorOrNil) {
     NSString *textStr;
-    // If we're dealing with a text field in a web view, we need to use JS to get the text value.
     if ([element isKindOfClass:webElement]) {
-      // Input tags can be identified by having the 'title' attribute set, or current value.
-      // Associating a <label> tag to the input tag does NOT result in an iOS accessibility element.
-      NSString *xPathResultType = @"XPathResult.FIRST_ORDERED_NODE_TYPE";
-      NSString *xPathForTitle =
-          [NSString stringWithFormat:@"//input[@title=\"%@\" or @value=\"%@\"]",
-              [element accessibilityLabel], [element accessibilityLabel]];
-      NSString *jsForTitle = [[NSString alloc] initWithFormat:
-          @"document.evaluate('%@', document, null, %@, null).singleNodeValue.value = '';",
-          xPathForTitle,
-          xPathResultType];
-      UIWebView *parentWebView = (UIWebView *)[element grey_viewContainingSelf];
-      textStr = [parentWebView stringByEvaluatingJavaScriptFromString:jsForTitle];
+      [GREYActions grey_webClearText:element];
+      return YES;
     } else {
       textStr = [element text];
     }
@@ -260,6 +253,71 @@
 }
 
 #pragma mark - Private
+
+
+/**
+ *  Clears WebView input text value.
+ *
+ *  @param element The element to target
+ */
++ (void)grey_webClearText:(id)element {
+    [GREYActions grey_webSetText:element text:@""];
+}
+
+/**
+ *  Sets WebView input text value.
+ *
+ *  @param element The element to target
+ *  @param text The text to set
+ */
++ (void)grey_webSetText:(id)element
+                   text:(NSString *)text {
+  // Input tags can be identified by having the 'title' attribute set, or current value.
+  // Associating a <label> tag to the input tag does NOT result in an iOS accessibility element.
+  if (!text) text = @"";
+
+  // must escape ' or the JS will be invalid
+  text = [text stringByReplacingOccurrencesOfString:@"\'" withString:@"\\\'"];
+
+  NSString *xPathResultType = @"XPathResult.FIRST_ORDERED_NODE_TYPE";
+  NSString *xPathForTitle =
+  [NSString stringWithFormat:@"//input[@title=\"%@\" or @value=\"%@\"]",
+   [element accessibilityLabel], [element accessibilityLabel]];
+  NSString *jsForTitle = [[NSString alloc] initWithFormat:
+                          @"document.evaluate('%@', document, null, %@, null).singleNodeValue.value = '%@';",
+                          xPathForTitle,
+                          xPathResultType,
+                          text];
+  UIWebView *parentWebView = (UIWebView *)[element grey_viewContainingSelf];
+  [parentWebView stringByEvaluatingJavaScriptFromString:jsForTitle];
+}
+
+/**
+ *  Set the UITextField text value directly, bypassing the iOS keyboard.
+ *
+ *  @param text     The text to be typed.
+ *
+ *  @return @c YES if the action succeeded, else @c NO. If an action returns @c NO, it does not
+ *          mean that the action was not performed at all but somewhere during the action execution
+ *          the error occured and so the UI may be in an unrecoverable state.
+ */
++ (id<GREYAction>)grey_actionForReplaceText:(NSString *)text {
+  Class webElement = NSClassFromString(@"WebAccessibilityObjectWrapper");
+  SEL setTextSelector = NSSelectorFromString(@"setText:");
+  id<GREYMatcher> constraints = grey_anyOf(grey_respondsToSelector(setTextSelector),
+                                           grey_kindOfClass(webElement),
+                                           nil);
+  return [GREYActionBlock actionWithName:[NSString stringWithFormat:@"Replace with text: \"%@\"", text]
+                             constraints:constraints
+                            performBlock:^BOOL (id element, __strong NSError **errorOrNil) {
+    if ([element isKindOfClass:webElement]) {
+      [GREYActions grey_webSetText:element text:text];
+    } else {
+      [element setText:text];
+    }
+    return YES;
+  }];
+}
 
 /**
  *  Use the iOS keyboard to type a string starting from the provided UITextPosition. If the
@@ -541,6 +599,10 @@ id<GREYAction> grey_tapAtPoint(CGPoint point) {
 
 id<GREYAction> grey_typeText(NSString *text) {
   return [GREYActions actionForTypeText:text];
+}
+
+id<GREYAction> grey_replaceText(NSString *text) {
+  return [GREYActions actionForReplaceText:text];
 }
 
 id<GREYAction> grey_clearText(void) {

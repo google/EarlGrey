@@ -131,9 +131,18 @@
   [[EarlGrey selectElementWithMatcher:[GREYMatchers matcherForText:@"Tab 2"]]
       performAction:[GREYActions actionForTap]];
 
-  [[[EarlGrey selectElementWithMatcher:grey_allOf(grey_accessibilityLabel(@"Type Something Here"),
-                                                  grey_kindOfClass([UITextField class]),
-                                                  nil)]
+  GREYElementInteraction* typeHere =
+  [EarlGrey selectElementWithMatcher:grey_allOf(grey_accessibilityLabel(@"Type Something Here"),
+                                                grey_kindOfClass([UITextField class]),
+                                                nil)];
+
+  [[typeHere
+      performAction:[GREYActions actionForReplaceText:@"Hello 2"]]
+      assertWithMatcher:grey_text(@"Hello 2")];
+
+  [typeHere performAction:[GREYActions actionForClearText]];
+
+  [[typeHere
       performAction:grey_tapAtPoint(CGPointMake(0, 0))]
       performAction:[GREYActions actionForTypeText:@"Hello!"]];
 

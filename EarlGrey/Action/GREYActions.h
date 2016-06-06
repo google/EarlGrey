@@ -225,6 +225,15 @@
 + (id<GREYAction>)actionForTypeText:(NSString *)text;
 
 /**
+ *  Returns an action that sets text on a UITextField or webview input directly.
+ *
+ *  @param text The text to be typed.
+ *
+ *  @return A GREYAction to type a specific text string in a text field.
+ */
++ (id<GREYAction>)actionForReplaceText:(NSString *)text;
+
+/**
  *  @return A GREYAction that clears a text field by injecting back-spaces.
  */
 + (id<GREYAction>)actionForClearText;
@@ -355,8 +364,11 @@ GREY_EXPORT id<GREYAction> grey_tap(void);
 /** Shorthand macro for GREYActions::actionForTapAtPoint:. */
 GREY_EXPORT id<GREYAction> grey_tapAtPoint(CGPoint point);
 
-/** Shorthand macro for GREYActions::actionForType:. */
+/** Shorthand macro for GREYActions::actionForTypeText:. */
 GREY_EXPORT id<GREYAction> grey_typeText(NSString *text);
+
+/** Shorthand macro for GREYActions::actionForReplaceText:. */
+GREY_EXPORT id<GREYAction> grey_replaceText(NSString *text);
 
 /** Shorthand macro for GREYActions::actionForClearText. */
 GREY_EXPORT id<GREYAction> grey_clearText(void);

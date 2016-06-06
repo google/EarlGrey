@@ -42,6 +42,29 @@ class FunctionalTestRigSwiftTests: XCTestCase {
         .assertWithMatcher(grey_text("Sample Swift Test"))
   }
 
+  func testFastTyping() {
+    self.openTestView("Typing Views")
+    EarlGrey().selectElementWithMatcher(grey_accessibilityID("TypingTextField"))
+      .performAction(grey_replaceText("Sample Swift Test"))
+      .assertWithMatcher(grey_text("Sample Swift Test"))
+  }
+
+  func testFastTypingOnWebView() {
+    self.openTestView("Web Views")
+    EarlGrey().selectElementWithMatcher(grey_accessibilityLabel("loadGoogle"))
+      .performAction(grey_tap())
+    var searchButtonMatcher: GREYMatcher = grey_accessibilityHint("Search")
+
+    self.waitForWebElementWithName("Search Button", elementMatcher: searchButtonMatcher)
+
+    // grey_text() doesn't work on webviews, must use grey_accessibilityValue()
+    EarlGrey().selectElementWithMatcher(searchButtonMatcher)
+      .performAction(grey_clearText())
+      .performAction(grey_typeText("zzz"))
+      .performAction(grey_replaceText("new_text_value"))
+      .assertWithMatcher(grey_accessibilityValue("new_text_value"))
+  }
+
   func testButtonPressWithGREYAllOf() {
     self.openTestView("Basic Views")
     EarlGrey().selectElementWithMatcher(grey_text("Tab 2")).performAction(grey_tap())
@@ -69,11 +92,38 @@ class FunctionalTestRigSwiftTests: XCTestCase {
         .assertWithMatcher(grey_nil())
   }
 
+  func testInteractionWithALabelWithParentHidden() {
+    let checkHiddenBlock:GREYActionBlock =
+        GREYActionBlock.actionWithName("checkHiddenBlock", performBlock: { element, errorOrNil in
+                                       // Check if the found element is hidden or not.
+                                       let superView:UIView! = element as! UIView
+                                       return (superView.hidden == false)
+        })
+
+    self.openTestView("Basic Views")
+    EarlGrey().selectElementWithMatcher(grey_text("Tab 2")).performAction(grey_tap())
+    EarlGrey().selectElementWithMatcher(grey_accessibilityLabel("tab2Container"))
+        .performAction(checkHiddenBlock).assertWithMatcher(grey_sufficientlyVisible())
+    var error:NSError?
+    EarlGrey().selectElementWithMatcher(grey_text("Non Existent Element"))
+        .performAction(grey_tap(), error:&error)
+    if let errorVal = error {
+      XCTAssertTrue(errorVal.domain == kGREYInteractionErrorDomain, "Element Not Found Error")
+    }
+
+  func waitForWebElementWithName(name: String, elementMatcher matcher: GREYMatcher) {
+    GREYCondition(name: name.stringByAppendingString(" Condition"), block: {_ in
+      var errorOrNil: NSError?
+      EarlGrey().selectElementWithMatcher(matcher).assertWithMatcher(grey_sufficientlyVisible(), error: &errorOrNil)
+      return errorOrNil == nil
+    }).waitWithTimeout(3.0)
+  }
+
   func openTestView(name:NSString) {
-    var error : NSError?
+    var errorOrNil : NSError?
     let cellMatcher = grey_accessibilityLabel(name as String)
-    EarlGrey().selectElementWithMatcher(cellMatcher).performAction(grey_tap(), error: &error)
-    if ((error == nil)) {
+    EarlGrey().selectElementWithMatcher(cellMatcher).performAction(grey_tap(), error: &errorOrNil)
+    if ((errorOrNil == nil)) {
       return
     }
     EarlGrey().selectElementWithMatcher(grey_kindOfClass(UITableView))
