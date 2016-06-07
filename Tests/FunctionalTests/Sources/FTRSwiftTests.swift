@@ -42,6 +42,13 @@ class FunctionalTestRigSwiftTests: XCTestCase {
         .assertWithMatcher(grey_text("Sample Swift Test"))
   }
 
+  func testFastTyping() {
+    self.openTestView("Typing Views")
+    EarlGrey().selectElementWithMatcher(grey_accessibilityID("TypingTextField"))
+      .performAction(grey_replaceText("Sample Swift Test"))
+      .assertWithMatcher(grey_text("Sample Swift Test"))
+  }
+
   func testButtonPressWithGREYAllOf() {
     self.openTestView("Basic Views")
     EarlGrey().selectElementWithMatcher(grey_text("Tab 2")).performAction(grey_tap())
