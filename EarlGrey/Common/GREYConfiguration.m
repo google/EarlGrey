@@ -19,6 +19,7 @@
 #import "Additions/NSString+GREYAdditions.h"
 
 NSString *const kGREYConfigKeyAnalyticsEnabled = @"GREYConfigKeyAnalyticsEnabled";
+NSString *const kGREYConfigKeySpeedUpAnimations = @"GREYConfigKeySpeedUpAnimations";
 NSString *const kGREYConfigKeyActionConstraintsEnabled = @"GREYConfigKeyActionConstraintsEnabled";
 NSString *const kGREYConfigKeyInteractionTimeoutDuration =
     @"GREYConfigKeyInteractionTimeoutDuration";
@@ -59,6 +60,7 @@ NSString *const kGREYConfigKeyScreenshotDirLocation = @"GREYConfigKeyScreenshotD
     NSAssert(searchPaths.count > 0, @"Couldn't find a valid documents directory");
     [self setDefaultValue:searchPaths.firstObject forConfigKey:kGREYConfigKeyScreenshotDirLocation];
     [self setDefaultValue:@YES forConfigKey:kGREYConfigKeyAnalyticsEnabled];
+    [self setDefaultValue:@(100.0) forConfigKey:kGREYConfigKeySpeedUpAnimations];
     [self setDefaultValue:@YES forConfigKey:kGREYConfigKeyActionConstraintsEnabled];
     [self setDefaultValue:@(30.0) forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
     [self setDefaultValue:@(10.0) forConfigKey:kGREYConfigKeyCALayerMaxAnimationDuration];

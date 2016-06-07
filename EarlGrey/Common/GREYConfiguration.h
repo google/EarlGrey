@@ -23,6 +23,14 @@
 #import <Foundation/Foundation.h>
 
 /**
+ *  Configuration that sets the CALayer animation speed.
+ *
+ *  Accepted values: @c double (negative values shouldn't be used)
+ *  Default value: 100.0
+ */
+GREY_EXTERN NSString *const kGREYConfigKeySpeedUpAnimations;
+
+/**
  *  Configuration that enables or disables usage tracking for the framework.
  *
  *  Accepted values: @c BOOL (@c YES or @c NO)

@@ -24,6 +24,7 @@
 #import "GREYExposedForTesting.h"
 
 static const CFTimeInterval kMaxAnimationInterval = 5.0;
+static const CFTimeInterval kSpeedUpAnimations = 100.0;
 
 // Class that performs swizzled operations in dealloc to ensure they don't track
 @interface CALayerDealloc : CALayer
@@ -50,6 +51,8 @@ static const CFTimeInterval kMaxAnimationInterval = 5.0;
   [super setUp];
   [[GREYConfiguration sharedInstance] setValue:@(kMaxAnimationInterval)
                                   forConfigKey:kGREYConfigKeyCALayerMaxAnimationDuration];
+  [[GREYConfiguration sharedInstance] setValue:@(kSpeedUpAnimations)
+                                  forConfigKey:kGREYConfigKeySpeedUpAnimations];
 }
 
 - (void)testDrawRequestChangesPendingUIEventState {
