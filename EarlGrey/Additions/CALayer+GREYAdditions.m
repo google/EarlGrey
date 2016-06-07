@@ -73,6 +73,11 @@ static void const *const kPausedAnimationKeys = &kPausedAnimationKeys;
     return;
   }
 
+  CFTimeInterval layerSpeed =
+    (CFTimeInterval)GREY_CONFIG_DOUBLE(kGREYConfigKeySpeedUpAnimations);
+
+    [(CALayer *)[[[[UIApplication sharedApplication] windows] objectAtIndex:0] layer] setSpeed: (float) layerSpeed];
+
   CFTimeInterval maxAllowableAnimationDuration =
       (CFTimeInterval)GREY_CONFIG_DOUBLE(kGREYConfigKeyCALayerMaxAnimationDuration);
   if ([animation duration] > maxAllowableAnimationDuration) {

@@ -158,6 +158,7 @@
 - (void)testResetRemovesValue {
   [_configuration setValue:@NO forConfigKey:kGREYConfigKeyActionConstraintsEnabled];
   [_configuration setValue:@(1.1) forConfigKey:kGREYConfigKeyCALayerMaxAnimationDuration];
+  [_configuration setValue:@(1.7) forConfigKey:kGREYConfigKeySpeedUpAnimations];
 
   [_configuration reset];
 
@@ -165,6 +166,10 @@
   double actualValue =
   [[_configuration valueForConfigKey:kGREYConfigKeyCALayerMaxAnimationDuration] doubleValue];
   XCTAssertEqual(actualValue, 10.0);
+
+  actualValue =
+  [[_configuration valueForConfigKey:kGREYConfigKeySpeedUpAnimations] doubleValue];
+  XCTAssertEqual(actualValue, 100.0);
 }
 
 - (void)testQueryBoolReturnsConvertedValue {
@@ -181,9 +186,18 @@
       [_configuration doubleValueForConfigKey:kGREYConfigKeyCALayerMaxAnimationDuration];
   XCTAssertEqual(1.0, actualValue);
 
+  [_configuration setValue:@(1.0) forConfigKey:kGREYConfigKeySpeedUpAnimations];
+  actualValue =
+  [_configuration doubleValueForConfigKey:kGREYConfigKeySpeedUpAnimations];
+  XCTAssertEqual(1.0, actualValue);
+
   [_configuration setValue:@(1.3) forConfigKey:kGREYConfigKeyCALayerMaxAnimationDuration];
   actualValue = [_configuration doubleValueForConfigKey:kGREYConfigKeyCALayerMaxAnimationDuration];
   XCTAssertEqual(1.3, actualValue);
+
+  [_configuration setValue:@(1.9) forConfigKey:kGREYConfigKeySpeedUpAnimations];
+  actualValue = [_configuration doubleValueForConfigKey:kGREYConfigKeySpeedUpAnimations];
+  XCTAssertEqual(1.9, actualValue);
 }
 
 - (void)testQueryStringThrowsExceptionIfNotAStringValue {
