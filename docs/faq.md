@@ -266,3 +266,29 @@ Alternatively, perform a runtime check for the EarlGrey class:
 // Swift
 public static let envEarlGrey:Bool = NSClassFromString("EarlGreyImpl") != nil
 ```
+
+**How do I find off screen elements?**
+
+EarlGrey requires elements to be visible (in the UI hierarchy) to perform automation.
+Just as a user would, scroll elements into view before interacting with them.
+
+The matcher must contain either `grey_interactable()` or `grey_sufficientlyVisible()` if
+the element will be interacted with (for example via `grey_tap()`). If not, the matcher
+may return an element that exists in the UI hierarchy but isn't interactable. The tap
+will then fail because the element doesn't meet tap's interactable constraint.
+
+```swift
+// Swift
+EarlGrey.selectElementWithMatcher(matcher)
+        .usingSearchAction(grey_scrollInDirection(.Down, 200),
+                           onElementWithMatcher:grey_kindOfClass(UITableView.self))
+        .assertWithMatcher(grey_notNil())
+```
+
+```objc
+// Objective C
+[[EarlGrey selectElementWithMatcher:matcher]
+                  usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 200)
+               onElementWithMatcher:grey_kindOfClass([UITableView class])
+                  assertWithMatcher:grey_notNil()];
+```
