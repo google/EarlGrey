@@ -14,6 +14,24 @@
 // limitations under the License.
 //
 
+func grey_replaceText(text: String) -> GREYAction {
+  return GREYActionBlock.actionWithName("Replace text \"\(text)\"", constraints: grey_not(grey_systemAlertViewShown()),
+                                        performBlock: { element, errorOrNil in
+                                          guard let textfield = element as? UITextField else {
+                                            let reasonAndDetails: String = "grey_replaceText failed. Element is not a UITextField"
+                                            let userInfo: [NSObject : AnyObject] = [NSLocalizedDescriptionKey: reasonAndDetails]
+
+                                            errorOrNil.memory = NSError(domain: kGREYInteractionErrorDomain,
+                                              code: GREYInteractionErrorCode.ActionFailedErrorCode.rawValue,
+                                              userInfo: userInfo)
+                                            return false
+                                          }
+                                          
+                                          textfield.text = text
+                                          return true
+  })
+}
+
 func grey_allOfMatchers(args: AnyObject...) -> GREYMatcher! {
   return GREYAllOf.init(matchers: args)
 }

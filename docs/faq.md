@@ -241,3 +241,8 @@ grey_allOf(grey_sufficientlyVisible(),
 then all elements in the entire application will be checked for visibility, and finally one
 with a matching id will be selected. It's significantly faster to use the most targeted
 matchers first (typically `grey_accessibilityID` or `grey_accessibilityLabel`).
+
+**How do I create a custom action in Swift?**
+
+Checkout the custom `grey_replaceText` in the
+[Swift functional tests for EarlGrey.](../Tests/FunctionalTests/Sources/FTRSwiftTests.swift)
