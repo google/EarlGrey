@@ -153,10 +153,10 @@ We recommend combining the matchers [as suggested here](api.md#earlgrey-matchers
 
 **How do I reset application state before each test?**
 
-In the application target's Build Settings, set **Defines Module** to **Yes**. Create a `resetApplicationForTesting()` method on the AppDelegate. The reset method will be invoked on `setUp` instead of `tearDown` because otherwise there's no guarentee the app will be in a clean state when the first test is run.
+In the application target's Build Settings, set **Defines Module** to **Yes**. Create a `resetApplicationForTesting()` method on the AppDelegate. The reset method will be invoked on `setUp` instead of `tearDown` because otherwise there's no guarantee the app will be in a clean state when the first test is run.
 
 Swift:
-In the EarlGrey test target, import the application using `@testable`. In `setUp()`, aquire a reference to the delegate then invoke `resetApplicationForTesting()`.
+In the EarlGrey test target, import the application using `@testable`. In `setUp()`, acquire a reference to the delegate then invoke `resetApplicationForTesting()`.
 
 ```swift
 // swift
@@ -174,7 +174,7 @@ class MyTests: XCTestCase {
 
 
 Objective C:
-In the EarlGrey test target, import the application's app delegate header. In `setUp()` aquire a pointer to the delegate then invoke `resetApplicationForTesting()`.
+In the EarlGrey test target, import the application's app delegate header. In `setUp()` acquire a pointer to the delegate then invoke `resetApplicationForTesting()`.
 
 ```objc
 // Objective C
@@ -247,3 +247,22 @@ matchers first (typically `grey_accessibilityID` or `grey_accessibilityLabel`).
 Breakpoint in any test, then paste the following into Xcode's lldb debug window:
 
 > expression -- print(GREYElementHierarchy.hierarchyStringForElement(UIApplication.sharedApplication().delegate!.window!! as UIWindow))
+
+**How can I detect if I'm running in an EarlGrey target?**
+
+Creating a [build configuration](https://developer.apple.com/library/ios/documentation/Swift/Conceptual/BuildingCocoaApps/InteractingWithCAPIs.html#//apple_ref/doc/uid/TP40014216-CH8-ID34) for EarlGrey will allow compilation:
+
+```objc
+#if EARLGREY_ENV
+...
+#else
+...
+#endif
+```
+
+Alternatively, perform a runtime check for the EarlGrey class:
+
+```swift
+// Swift
+public static let envEarlGrey:Bool = NSClassFromString("EarlGreyImpl") != nil
+```
