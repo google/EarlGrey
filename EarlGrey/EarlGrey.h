@@ -65,6 +65,7 @@
 #import <EarlGrey/GREYScreenshotUtil.h>
 #import <EarlGrey/GREYScrollActionError.h>
 #import <EarlGrey/GREYSyncAPI.h>
+#import <EarlGrey/GREYTestHelper.h>
 #import <EarlGrey/GREYUIThreadExecutor.h>
 #import <Foundation/Foundation.h>
 

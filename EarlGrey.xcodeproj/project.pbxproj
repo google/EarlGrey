@@ -10,6 +10,8 @@
 		59A993281C99453200914F9A /* EarlGrey.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001791C5B46C200B2DB0A /* EarlGrey.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		61FC0A071CD939C30081BDAA /* GREYAutomationSetup.h in Headers */ = {isa = PBXBuildFile; fileRef = 61FC0A051CD939C30081BDAA /* GREYAutomationSetup.h */; };
 		61FC0A081CD939C30081BDAA /* GREYAutomationSetup.m in Sources */ = {isa = PBXBuildFile; fileRef = 61FC0A061CD939C30081BDAA /* GREYAutomationSetup.m */; };
+		F9144B741D07549300F840B6 /* GREYTestHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = F9144B731D07549300F840B6 /* GREYTestHelper.m */; };
+		F9144B771D0754D200F840B6 /* GREYTestHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = F9144B761D0754D200F840B6 /* GREYTestHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FD1001B01C5B46C200B2DB0A /* GREYAction.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001011C5B46C100B2DB0A /* GREYAction.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FD1001B11C5B46C200B2DB0A /* GREYActionBlock.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001021C5B46C100B2DB0A /* GREYActionBlock.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FD1001B21C5B46C200B2DB0A /* GREYActionBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1001031C5B46C100B2DB0A /* GREYActionBlock.m */; };
@@ -179,6 +181,8 @@
 /* Begin PBXFileReference section */
 		61FC0A051CD939C30081BDAA /* GREYAutomationSetup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYAutomationSetup.h; sourceTree = "<group>"; };
 		61FC0A061CD939C30081BDAA /* GREYAutomationSetup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYAutomationSetup.m; sourceTree = "<group>"; };
+		F9144B731D07549300F840B6 /* GREYTestHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYTestHelper.m; sourceTree = "<group>"; };
+		F9144B761D0754D200F840B6 /* GREYTestHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYTestHelper.h; sourceTree = "<group>"; };
 		FD06C66B1BECAD8B009032A5 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		FD06C66C1BECAD8B009032A5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		FD06C66F1BECAD9B009032A5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -548,6 +552,8 @@
 				FD1001641C5B46C200B2DB0A /* GREYSwizzler.m */,
 				FD1001651C5B46C200B2DB0A /* GREYVisibilityChecker.h */,
 				FD1001661C5B46C200B2DB0A /* GREYVisibilityChecker.m */,
+				F9144B731D07549300F840B6 /* GREYTestHelper.m */,
+				F9144B761D0754D200F840B6 /* GREYTestHelper.h */,
 			);
 			name = Common;
 			path = EarlGrey/Common;
@@ -747,6 +753,7 @@
 				FD10022B1C5B46C200B2DB0A /* GREYFrameworkException.h in Headers */,
 				FD1002331C5B46C200B2DB0A /* GREYElementMatcherBlock.h in Headers */,
 				FD6D0BA21C6D494F0001EA75 /* GREYDescription.h in Headers */,
+				F9144B771D0754D200F840B6 /* GREYTestHelper.h in Headers */,
 				FD1002081C5B46C200B2DB0A /* GREYElementHierarchy.h in Headers */,
 				FD10023D1C5B46C200B2DB0A /* GREYProvider.h in Headers */,
 				FD10024C1C5B46C200B2DB0A /* GREYSyncAPI.h in Headers */,
@@ -944,6 +951,7 @@
 				FD1002381C5B46C200B2DB0A /* GREYMatchers.m in Sources */,
 				FD1001C61C5B46C200B2DB0A /* GREYSwipeAction.m in Sources */,
 				FD1001E21C5B46C200B2DB0A /* NSURL+GREYAdditions.m in Sources */,
+				F9144B741D07549300F840B6 /* GREYTestHelper.m in Sources */,
 				FD1001CE1C5B46C200B2DB0A /* _UIGestureRecognizerFailureMap_GREYAdditions.m in Sources */,
 				FD10023F1C5B46C200B2DB0A /* GREYUIWindowProvider.m in Sources */,
 				FD1001C41C5B46C200B2DB0A /* GREYSlideAction.m in Sources */,
