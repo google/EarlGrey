@@ -241,3 +241,9 @@ grey_allOf(grey_sufficientlyVisible(),
 then all elements in the entire application will be checked for visibility, and finally one
 with a matching id will be selected. It's significantly faster to use the most targeted
 matchers first (typically `grey_accessibilityID` or `grey_accessibilityLabel`).
+
+**How do I inspect the EarlGrey view hierarchy?**
+
+Breakpoint in any test, then paste the following into Xcode's lldb debug window:
+
+> expression -- print(GREYElementHierarchy.hierarchyStringForElement(UIApplication.sharedApplication().delegate!.window!! as UIWindow))
