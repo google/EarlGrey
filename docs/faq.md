@@ -292,3 +292,23 @@ EarlGrey.selectElementWithMatcher(matcher)
                onElementWithMatcher:grey_kindOfClass([UITableView class])
                   assertWithMatcher:grey_notNil()];
 ```
+
+**How do I wait for an element to appear using Swift?**
+
+The best way is to [setup synchronization](features.md#synchronization) so that EarlGrey automatically waits
+for elements to appear. As a work around for when that's not possible, `GREYCondition` and `waitWithTimeout`
+are available. The following is an example of waiting for a collection view to populate.
+
+```swift
+let populated = GREYCondition(name: "Wait for UICollectionView to populate", block: { _ in
+    var errorOrNil: NSError?
+
+    EarlGrey().selectElementWithMatcher(collectionViewMatcher)
+              .assertWithMatcher(grey_notNil(), error: &errorOrNil)
+
+    let success = errorOrNil == nil
+    return success
+}).waitWithTimeout(20.0)
+
+GREYAssertTrue(populated, reason: "Failed to populate UICollectionView in 20 seconds")
+```
