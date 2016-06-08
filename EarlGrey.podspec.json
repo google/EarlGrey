@@ -24,7 +24,7 @@
   "homepage": "https://www.github.com/google/EarlGrey",
   "license": {
     "type": "Apache 2.0, CC-BY 4.0",
-    "file": "EarlGrey-1.0.0/LICENSE"
+    "file": "LICENSE"
   },
   "authors": {
     "Google Inc.": "www.google.com"
@@ -34,8 +34,10 @@
   },
   "requires_arc": true,
   "source": {
-    "http": "http://www.github.com/google/EarlGrey/releases/download/1.0.0/EarlGrey-1.0.0.zip"
+    "git": "https://github.com/google/EarlGrey.git",
+    "tag": "1.0"
   },
+  "source_files": "EarlGrey/**/*",
   "name": "EarlGrey",
   "frameworks": [
     "CoreFoundation",
@@ -46,12 +48,17 @@
     "UIKit",
     "XCTest"
   ],
-  "ios": {
-    "vendored_frameworks": "EarlGrey-1.0.0/EarlGrey.framework"
-  },
+  "dependencies": {
+     "fishhook": [
+       "0.2"
+     ],
+     "OCHamcrest":[
+     "5.4.0"]
+   },
   "pod_target_xcconfig": {
     "FRAMEWORK_SEARCH_PATHS": "$(inherited) $(PLATFORM_DIR)/Developer/Library/Frameworks",
     "ENABLE_BITCODE": "NO",
-    "OTHER_CFLAGS": "-fobjc-arc-exceptions"
+    "OTHER_CFLAGS": "-fobjc-arc-exceptions",
+    "HEADER_SEARCH_PATHS":"$(inherited) $(PODS_ROOT)/EarlGrey/**"
   }
 }
