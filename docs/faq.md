@@ -143,6 +143,24 @@ Refer to the [PSPDFKit blog post for more details.](https://pspdfkit.com/blog/20
 UIApplication.sharedApplication().keyWindow?.layer.speed = 100
 ```
 
+If the above doesn't help, you can temporarily disable synchronization to work around an animation
+and then turn it back on after the animation is gone.
+
+```objc
+// Objective C
+[[GREYConfiguration sharedInstance] setValue:@NO
+                                forConfigKey:kGREYConfigKeySynchronizationEnabled];
+```
+
+```swift
+// Swift
+GREYConfiguration.sharedInstance()
+    .setValue(false, forConfigKey: kGREYConfigKeySynchronizationEnabled)
+```
+
+Alternatively, conditionally disable the
+animation using `#if EARLGREY_ENV`.
+
 **How do I match an element when it's duplicated in the app?**
 
 EarlGrey requires all matchers return exactly one element.
