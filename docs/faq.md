@@ -66,11 +66,11 @@ Here's an example of storing an element's text attribute.
  */
 func grey_getText(inout text: String) -> GREYActionBlock {
   return GREYActionBlock.actionWithName("get text",
-                            constraints: grey_respondsToSelector(Selector("text")),
-                           performBlock: { element, errorOrNil -> Bool in
-    text = element.text
-    return true
-  })
+    constraints: grey_respondsToSelector(Selector("text")),
+    performBlock: { element, errorOrNil -> Bool in
+      text = element.text
+      return true
+    })
 }
 ```
 
