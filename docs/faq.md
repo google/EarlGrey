@@ -51,6 +51,29 @@ following:
 }
 ```
 
+The same technique works for extracting element attributes into variables.
+Here's an example of storing an element's text attribute.
+
+```swift
+// Swift
+/*
+ *  Example Usage:
+ *
+ *  var textValue:String = ""
+ *
+ *  domainField.performAction(grey_typeText("hello.there"))
+ *             .performAction(grey_getText(&textValue))
+ */
+func grey_getText(inout text: String) -> GREYActionBlock {
+  return GREYActionBlock.actionWithName("get text",
+                            constraints: grey_respondsToSelector(Selector("text")),
+                           performBlock: { element, errorOrNil -> Bool in
+    text = element.text
+    return true
+  })
+}
+```
+
 **How do I check whether an element exists in the UI hierarchy?**
 
 If you are unsure whether the element exists in the UI hierarchy, pass an `NSError` to the
