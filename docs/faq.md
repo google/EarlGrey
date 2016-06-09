@@ -312,3 +312,17 @@ let populated = GREYCondition(name: "Wait for UICollectionView to populate", blo
 
 GREYAssertTrue(populated, reason: "Failed to populate UICollectionView in 20 seconds")
 ```
+
+**How do I match elements that are denoted with "AX=N" in the view hierarchy?**
+
+EarlGrey's view hierarchy identifies non-accessible elements with `AX=N`.
+Accessibility IDs can be added to both accessible and non-accessible elements.
+When searching for AX=N elements, the following accessibility matchers won't work:
+
+- `grey_accessibilityLabel`
+- `grey_accessibilityValue`
+- `grey_accessibilityTrait`
+- `grey_accessibilityHint`
+
+If the `AX=N` element can't be matched by `grey_accessibilityID`, then you'll have to use non-accessibility
+matchers to locate the element.
