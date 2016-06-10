@@ -38,8 +38,11 @@ The submitted code should adhere to the following:
   to your git commit message. This helps prevent over-encumbering the CI.
 * Please use [Github's Markdown Formatting](https://help.github.com/articles/getting-started-with-writing-and-formatting-on-github/)
   for formatting your comments and issues.
-* Refer to the [Google Objective-C
-  style guide](https://google.github.io/styleguide/objcguide.xml) for our code conventions.
+* Refer to the [Google Objective-C style guide][objc_style] and
+  [raywenderlich Swift style guide][swift_style] for our code conventions.
+
+[objc_style]: https://google.github.io/styleguide/objcguide.xml
+[swift_style]: https://github.com/raywenderlich/swift-style-guide
 
 ### Don'ts
 
