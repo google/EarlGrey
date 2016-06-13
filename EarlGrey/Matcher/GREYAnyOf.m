@@ -34,7 +34,7 @@
 #pragma mark - GREYMatcher
 
 - (BOOL)matches:(id)item {
-  return [self matches:item describingMismatchTo:nil];
+  return [self matches:item describingMismatchTo:[[GREYStringDescription alloc] init]];
 }
 
 - (BOOL)matches:(id)item describingMismatchTo:(id<GREYDescription>)mismatchDescription {

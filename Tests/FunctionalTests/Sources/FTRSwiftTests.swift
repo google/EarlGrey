@@ -61,6 +61,14 @@ class FunctionalTestRigSwiftTests: XCTestCase {
         .performAction(grey_tap())
   }
 
+  func testSwiftCustomMatcher() {
+    // Verify description in custom matcher isn't nil.
+    // unexpectedly found nil while unwrapping an Optional value
+    EarlGrey().selectElementWithMatcher(grey_allOfMatchers(grey_firstElement(),
+                                                           grey_text("FooText")))
+        .assertWithMatcher(grey_nil())
+  }
+
   func openTestView(name:NSString) {
     var error : NSError?
     let cellMatcher = grey_accessibilityLabel(name as String)
@@ -74,5 +82,23 @@ class FunctionalTestRigSwiftTests: XCTestCase {
       .usingSearchAction(grey_scrollInDirection(GREYDirection.Down, 200),
                          onElementWithMatcher: grey_kindOfClass(UITableView))
       .performAction(grey_tap())
+  }
+
+  func grey_firstElement() -> GREYMatcher {
+    var firstMatch = true
+    let matches: MatchesBlock = { (element: AnyObject!) -> Bool in
+      if firstMatch {
+        firstMatch = false
+        return true
+      }
+
+      return false
+    }
+
+    let description: DescribeToBlock = { (description: GREYDescription!) -> Void in
+      description.appendText("first match")
+    }
+
+    return GREYElementMatcherBlock.init(matchesBlock: matches, descriptionBlock: description)
   }
 }

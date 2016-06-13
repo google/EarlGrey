@@ -16,6 +16,7 @@
 
 #import "Matcher/GREYAllOf.h"
 #import "Matcher/GREYDescription.h"
+#import "Matcher/GREYStringDescription.h"
 
 @implementation GREYAllOf {
   NSArray *_matchers;
@@ -34,7 +35,7 @@
 #pragma mark - GREYMatcher
 
 - (BOOL)matches:(id)item {
-  return [self matches:item describingMismatchTo:nil];
+  return [self matches:item describingMismatchTo:[[GREYStringDescription alloc] init]];
 }
 
 - (BOOL)matches:(id)item describingMismatchTo:(id<GREYDescription>)mismatchDescription {
