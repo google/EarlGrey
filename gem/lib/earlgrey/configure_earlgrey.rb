@@ -125,7 +125,7 @@ module EarlGrey
 
       puts_blue <<-S
         EarlGrey setup complete.
-        You can use the Test Target: #{test_target_name} for EarlGrey testing."
+        You can use the Test Target: #{test_target_name} for EarlGrey testing.
       S
     end
 
