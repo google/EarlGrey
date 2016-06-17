@@ -78,7 +78,7 @@ The submitted code should adhere to the following:
 ## Experimental APIs & Examples
 
 * Experimental new APIs should be added to `UnitTests.xcodeproj` and named appropriately.
-  This ensures that the APIs are tested against EarlGrey master and prevents regressions.
+  This ensures the APIs are tested against EarlGrey master to prevent regressions.
 * Example code that uses existing APIs in EarlGrey should be added to `EarlGreyExample.xcodeproj`.
   Having the examples live in a real Xcode project allows the code to be verified via tests.
 
