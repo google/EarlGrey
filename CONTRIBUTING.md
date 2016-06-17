@@ -1,6 +1,7 @@
 Want to contribute? Great! First, read this page (including the small print at the end).
 
 ## Before you contribute
+
 Before we can use your code, you must sign the
 [Google Individual Contributor License Agreement](https://cla.developers.google.com/about/google-individual)
 (CLA), which you can do online. The CLA is necessary mainly because you own the
@@ -73,6 +74,13 @@ The submitted code should adhere to the following:
 
 * Any vaguely worded issue will be immediately closed. If there is inactivity on an issue for
   an extended period of time, it will also be closed.
+
+## Experimental APIs & Examples
+
+* Experimental new APIs should be added to `UnitTests.xcodeproj` and named appropriately.
+  This ensures that the APIs are tested against EarlGrey master and prevents regressions.
+* Example code that uses existing APIs in EarlGrey should be added to `EarlGreyExample.xcodeproj`.
+  Having the examples live in a real Xcode project allows the code to be verified via tests.
 
 ## The small print
 Contributions made by corporations are covered by a different agreement than
