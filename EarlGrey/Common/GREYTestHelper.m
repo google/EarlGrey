@@ -22,13 +22,13 @@
 
 + (void)enableFastAnimation {
   for (UIWindow *window in [GREYUIWindowProvider allWindows]) {
-    [[window layer] setSpeed: 100];
+    [[window layer] setSpeed:100];
   }
 }
 
 + (void)disableFastAnimation {
   for (UIWindow *window in [GREYUIWindowProvider allWindows]) {
-    [[window layer] setSpeed: 1];
+    [[window layer] setSpeed:1];
   }
 }
 
