@@ -69,6 +69,26 @@ class FunctionalTestRigSwiftTests: XCTestCase {
         .assertWithMatcher(grey_nil())
   }
 
+  func testInteractionWithALabelWithParentHidden() {
+    let checkHiddenBlock:GREYActionBlock =
+        GREYActionBlock.actionWithName("checkHiddenBlock", performBlock: { element, errorOrNil in
+                                        // Check if the found element is hidden or not.
+                                        let superView:UIView! = element as! UIView
+                                        return (superView.hidden == false)
+        })
+
+    self.openTestView("Basic Views")
+    EarlGrey().selectElementWithMatcher(grey_text("Tab 2")).performAction(grey_tap())
+    EarlGrey().selectElementWithMatcher(grey_accessibilityLabel("tab2Container"))
+        .performAction(checkHiddenBlock).assertWithMatcher(grey_sufficientlyVisible())
+    var error:NSError?
+    EarlGrey().selectElementWithMatcher(grey_text("Non Existent Element"))
+        .performAction(grey_tap(), error:&error)
+    if let errorVal = error {
+      XCTAssertTrue(errorVal.domain == kGREYInteractionErrorDomain, "Element Not Found Error")
+    }
+  }
+
   func openTestView(name:NSString) {
     var error : NSError?
     let cellMatcher = grey_accessibilityLabel(name as String)
