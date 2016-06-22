@@ -263,18 +263,6 @@ static NSString *const kReturnKeyIdentifier = @"\n";
   return [keyboardIsShownCondition waitWithTimeout:kKeyboardWillAppearOrDisappearTimeout];
 }
 
-+ (BOOL)waitForKeyboardToDisappear {
-  if (!gIsKeyboardShown) {
-    return YES;
-  }
-  GREYCondition *keyboardIsNotShownCondition =
-      [[GREYCondition alloc] initWithName:@"Keyboard is will disappear." block:^BOOL {
-        return !gIsKeyboardShown;
-      }];
-  return [keyboardIsNotShownCondition waitWithTimeout:kKeyboardWillAppearOrDisappearTimeout];
-}
-
-
 #pragma mark - Private Methods
 
 /**
