@@ -58,6 +58,9 @@
 		596D89CA1C05ACD400025714 /* EarlGrey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 596D89C71C05ACB000025714 /* EarlGrey.framework */; };
 		59AB5FC91C128CCF0017F331 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FDB855641C12392C00B407EB /* libOCMock.a */; };
 		F9C5093F1D11E9CF00D4FDED /* GREYTestHelperTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F9C5093E1D11E9CF00D4FDED /* GREYTestHelperTest.m */; };
+		FD1BCE941D1B3F0B0069D0C6 /* GREYAnalyticsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1BCE911D1B3F0B0069D0C6 /* GREYAnalyticsTest.m */; };
+		FD1BCE951D1B3F0B0069D0C6 /* GREYRunLoopSpinnerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1BCE921D1B3F0B0069D0C6 /* GREYRunLoopSpinnerTest.m */; };
+		FD1BCE961D1B3F0B0069D0C6 /* GREYWeakObjectContainerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1BCE931D1B3F0B0069D0C6 /* GREYWeakObjectContainerTest.m */; };
 		FD768E941C64415500D57E1B /* EarlGrey.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 596D89C71C05ACB000025714 /* EarlGrey.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		FD8FB3091BB60AA300E90D7D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD8FB3081BB60AA300E90D7D /* Foundation.framework */; };
 		FD8FB30B1BB60AA900E90D7D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD8FB30A1BB60AA900E90D7D /* QuartzCore.framework */; };
@@ -208,6 +211,9 @@
 		59467EDF1C9379DE0089498B /* UnitTestRig-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "UnitTestRig-Info.plist"; sourceTree = "<group>"; };
 		596D89C21C05ACAF00025714 /* EarlGrey.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = EarlGrey.xcodeproj; path = ../../EarlGrey.xcodeproj; sourceTree = "<group>"; };
 		F9C5093E1D11E9CF00D4FDED /* GREYTestHelperTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYTestHelperTest.m; sourceTree = "<group>"; };
+		FD1BCE911D1B3F0B0069D0C6 /* GREYAnalyticsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYAnalyticsTest.m; sourceTree = "<group>"; };
+		FD1BCE921D1B3F0B0069D0C6 /* GREYRunLoopSpinnerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYRunLoopSpinnerTest.m; sourceTree = "<group>"; };
+		FD1BCE931D1B3F0B0069D0C6 /* GREYWeakObjectContainerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYWeakObjectContainerTest.m; sourceTree = "<group>"; };
 		FD8FB2CE1BB609C600E90D7D /* UnitTestRig.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UnitTestRig.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD8FB3081BB60AA300E90D7D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		FD8FB30A1BB60AA900E90D7D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -256,6 +262,9 @@
 		59467EAA1C9379DE0089498B /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				FD1BCE911D1B3F0B0069D0C6 /* GREYAnalyticsTest.m */,
+				FD1BCE921D1B3F0B0069D0C6 /* GREYRunLoopSpinnerTest.m */,
+				FD1BCE931D1B3F0B0069D0C6 /* GREYWeakObjectContainerTest.m */,
 				59467EAB1C9379DE0089498B /* CAAnimation+GREYAdditionsTest.m */,
 				59467EAC1C9379DE0089498B /* CALayer+GREYAdditionsTest.m */,
 				59467EAD1C9379DE0089498B /* CGGeometry+GREYAdditionsTest.m */,
@@ -562,6 +571,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				59467F3A1C937A0B0089498B /* main.m in Sources */,
+				FD1BCE961D1B3F0B0069D0C6 /* GREYWeakObjectContainerTest.m in Sources */,
+				FD1BCE941D1B3F0B0069D0C6 /* GREYAnalyticsTest.m in Sources */,
+				FD1BCE951D1B3F0B0069D0C6 /* GREYRunLoopSpinnerTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
