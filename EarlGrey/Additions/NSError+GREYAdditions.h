@@ -22,8 +22,28 @@
 @interface NSError (GREYAdditions)
 
 /**
- *  If @c outErrorReferenceOrNil is provided it is set to an NSError object that is created with the
- *  given @c domain, @c code and description created from the given @c format and the args that
+ *  If @c outErrorReferenceOrNil is provided, it is set to an NSError object that is created with
+ *  the given @c domain, @c code and @c description. The description is accessible by querying
+ *  error's @c userInfo with @c NSLocalizedDescriptionKey. If @c outErrorReferenceOrNil is not
+ *  provided, the error information is logged to the console and @c NO is returned else @c YES is
+ *  returned.
+ *
+ *  @param[out] outErrorReferenceOrNil An optional NSError reference for retrieving the created
+ *                                     error object.
+ *  @param      domain                 The error domain.
+ *  @param      code                   The error code.
+ *  @param      description            The string of the error's localized description.
+ *
+ *  @return @c YES if error object was created and set, @c NO otherwise.
+ */
++ (BOOL)grey_logOrSetOutReferenceIfNonNil:(__strong NSError **)outErrorReferenceOrNil
+                               withDomain:(NSString *)domain
+                                     code:(NSInteger)code
+                           andDescription:(NSString *)description;
+
+/**
+ *  If @c outErrorReferenceOrNil is provided, it is set to an NSError object that is created with
+ *  the given @c domain, @c code and description created from the given @c format and the args that
  *  follow. The description is accessible by querying error's @c userInfo with
  *  @c NSLocalizedDescriptionKey. If @c outErrorReferenceOrNil is not provided, the error
  *  information is logged to the console and @c NO is returned else @c YES is returned.

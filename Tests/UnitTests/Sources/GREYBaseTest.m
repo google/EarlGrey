@@ -128,20 +128,22 @@ static id gRealSharedApplication;
   // We don't want verbose logging in unit test as it can interfere with some timeout related tests.
   [[GREYConfiguration sharedInstance] setValue:@NO forConfigKey:kGREYConfigKeyVerboseLogging];
   [EarlGrey setFailureHandler:[[GREYUTFailureHandler alloc] init]];
-  // Skip monitoring default idling resources because they aggressively track a lot of things
-  // that can interfere with unit testing.
-  [GREYUIThreadExecutor sharedInstance].shouldSkipMonitoringDefaultIdlingResourcesForTesting = YES;
+
+  // Force busy polling so that the thread executor and waiting conditions do not allow the
+  // main thread to sleep.
+  [GREYUIThreadExecutor sharedInstance].forceBusyPolling = YES;
 }
 
 - (void)tearDown {
   [EarlGrey setFailureHandler:nil];
+  self.activeRunLoopMode = nil;
   [gScreenShotsToReturnByGREYScreenshotUtil removeAllObjects];
 
   [[NSOperationQueue mainQueue] cancelAllOperations];
   [[GREYAppStateTracker sharedInstance] grey_clearState];
   // Registered idling resources can leak from one failed test to another if they're not removed on
   // failure. This can cause cascading failures. As a safety net, we remove them here.
-  [[GREYUIThreadExecutor sharedInstance] grey_deregisterAllIdlingResources];
+  [[GREYUIThreadExecutor sharedInstance] grey_resetIdlingResources];
   // Disable analytics for unit tests. Do this in tearDown so it is not affected by tests
   // that reset configuration.
   [[GREYConfiguration sharedInstance] setValue:@NO forConfigKey:kGREYConfigKeyAnalyticsEnabled];
