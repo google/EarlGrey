@@ -21,19 +21,29 @@
 + (BOOL)grey_logOrSetOutReferenceIfNonNil:(__strong NSError **)outErrorReferenceOrNil
                                withDomain:(NSString *)domain
                                      code:(NSInteger)code
-                     andDescriptionFormat:(NSString *)format, ... {
-  va_list args;
-  va_start(args, format);
-  NSString *description = [[NSString alloc] initWithFormat:format arguments:args];
-  va_end(args);
+                           andDescription:(NSString *)description {
   if (outErrorReferenceOrNil) {
     NSDictionary *userInfo = @{ NSLocalizedDescriptionKey : description };
-    *outErrorReferenceOrNil = [NSError errorWithDomain:domain code:code userInfo:userInfo];
+    *outErrorReferenceOrNil = [self errorWithDomain:domain code:code userInfo:userInfo];
     return YES;
   } else {
     NSLog(@"Error (domain: %@, code: %ld): %@", domain, (long)code, description);
     return NO;
   }
+}
+
++ (BOOL)grey_logOrSetOutReferenceIfNonNil:(__strong NSError **)outErrorReferenceOrNil
+                               withDomain:(NSString *)domain
+                                     code:(NSInteger)code
+                     andDescriptionFormat:(NSString *)format, ... {
+  va_list args;
+  va_start(args, format);
+  NSString *description = [[NSString alloc] initWithFormat:format arguments:args];
+  va_end(args);
+  return [NSError grey_logOrSetOutReferenceIfNonNil:outErrorReferenceOrNil
+                                         withDomain:domain
+                                               code:code
+                                     andDescription:description];
 }
 
 @end
