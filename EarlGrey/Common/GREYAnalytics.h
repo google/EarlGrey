@@ -16,6 +16,8 @@
 
 #import <Foundation/Foundation.h>
 
+@protocol GREYAnalyticsDelegate;
+
 /**
  *  Provides methods for tracking EarlGrey usage using Google Analytics.
  *
@@ -30,8 +32,19 @@
 @interface GREYAnalytics : NSObject
 
 /**
- *  Sends usage data indicating completion of a test case. In case of network failures, this method
- *  will fail silently to prevent test interruption.
+ *  @return The current delegate class.
+ */
++ (Class<GREYAnalyticsDelegate>)delegate;
+
+/**
+ *  Sets a delegate for custom handling of analytics payload data. To reset GREYAnalytics to its
+ *  default behavior pass @c nil.
+ */
++ (void)setDelegate:(Class<GREYAnalyticsDelegate>)delegate;
+
+/**
+ *  Usage data is sent via Google Analytics indicating completion of a test case, if a delegate is
+ *  specified it is invoked to handle the analytics instead.
  */
 + (void)trackTestCaseCompletion;
 
