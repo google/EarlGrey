@@ -17,10 +17,12 @@
 #import "Synchronization/GREYOperationQueueIdlingResource.h"
 
 #import "Common/GREYDefines.h"
+#import "Common/GREYPrivate.h"
+#import "Synchronization/GREYUIThreadExecutor.h"
 
 @implementation GREYOperationQueueIdlingResource {
   NSString *_operationQueueName;
-  NSOperationQueue *_operationQueue;
+  __weak NSOperationQueue *_operationQueue;
 }
 
 + (instancetype)resourceWithNSOperationQueue:(NSOperationQueue *)queue name:(NSString *)name {
@@ -51,6 +53,10 @@
 }
 
 - (BOOL)isIdleNow {
+  if (!_operationQueue) {
+    [[GREYUIThreadExecutor sharedInstance] deregisterIdlingResource:self];
+    return YES;
+  }
   return [_operationQueue operationCount] == 0;
 }
 
