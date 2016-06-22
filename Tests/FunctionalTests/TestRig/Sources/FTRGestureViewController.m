@@ -23,6 +23,7 @@
 
   self.greyBox.isAccessibilityElement = YES;
   self.greyBox.accessibilityLabel = @"Grey Box";
+  self.detectedGestureCoordinate.text = nil;
 
   // Tap gesture recognizers.
   for (NSUInteger touches = 1; touches < 5; ++touches) {
@@ -131,6 +132,9 @@
   self.detectedGesture.text = [NSString stringWithFormat:@"%@%@ tap",
       [FTRGestureViewController stringForFingerCount:recognizer.numberOfTouchesRequired],
       [FTRGestureViewController stringForRepetitionCount:recognizer.numberOfTapsRequired]];
+
+  CGPoint tapPoint = [recognizer locationInView:self.greyBox];
+  self.detectedGestureCoordinate.text = [FTRGestureViewController stringForPoint:tapPoint];
 }
 
 - (IBAction)recognizeLongPress:(UILongPressGestureRecognizer *)recognizer {
@@ -241,6 +245,10 @@
     case UISwipeGestureRecognizerDirectionDown:
       return @"down";
   }
+}
+
++ (NSString *)stringForPoint:(CGPoint)point {
+  return [NSString stringWithFormat:@"x:%.1f - y:%.1f", point.x, point.y];
 }
 
 @end
