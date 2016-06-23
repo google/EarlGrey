@@ -72,9 +72,9 @@ class FunctionalTestRigSwiftTests: XCTestCase {
   func testInteractionWithALabelWithParentHidden() {
     let checkHiddenBlock:GREYActionBlock =
         GREYActionBlock.actionWithName("checkHiddenBlock", performBlock: { element, errorOrNil in
-                                        // Check if the found element is hidden or not.
-                                        let superView:UIView! = element as! UIView
-                                        return (superView.hidden == false)
+                                       // Check if the found element is hidden or not.
+                                       let superView:UIView! = element as! UIView
+                                       return (superView.hidden == false)
         })
 
     self.openTestView("Basic Views")
