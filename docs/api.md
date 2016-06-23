@@ -396,8 +396,7 @@ framework handler. To create a custom failure handler, write a class that confor
 
 - (void)setInvocationFile:(NSString *)fileName
         andInvocationLine:(NSUInteger)lineNumber {
-  // Record the file name and line number of the statement which was executing
-before the
+  // Record the file name and line number of the statement which was executing before the
   // failure occurred.
 }
 @end
