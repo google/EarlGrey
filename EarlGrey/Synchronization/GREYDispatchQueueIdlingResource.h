@@ -27,7 +27,8 @@
  *  Creates an idling resource backed by the specified @c queue. @c dispatch_async blocks sent to
  *  @c queue are tracked. @c dispatch_after blocks sent to @c queue are tracked if they are delayed
  *  no more than the delay amount set for the @c kGREYConfigKeyTrackableDispatchAfterDuration
- *  configuration. A weak reference is held to @c queue.
+ *  configuration. A weak reference is held to @c queue. If @c queue is deallocated, then the idling
+ *  resource will deregister itself from the UI thread executor.
  *
  *  @param queue The dispatch queue that will be tracked by the resource.
  *  @param name  A descriptive name for the idling resource.

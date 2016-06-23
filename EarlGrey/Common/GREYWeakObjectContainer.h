@@ -14,12 +14,27 @@
 // limitations under the License.
 //
 
-@interface FTRGestureViewController : UIViewController
+#import <Foundation/Foundation.h>
 
-@property(retain, nonatomic) IBOutlet UILabel *detectedGesture;
-// For now, the value of this label is only set when the gesture recognized is a tap.
-@property(retain, nonatomic) IBOutlet UILabel *detectedGestureCoordinate;
-@property(retain, nonatomic) IBOutlet UILabel *detectedWindowGesture;
-@property(retain, nonatomic) IBOutlet UIView *greyBox;
+/**
+ *  Class used to weakly hold an object so that the object can safely be dereferenced even it has
+ *  been deallocated.
+ */
+@interface GREYWeakObjectContainer : NSObject
+
+/**
+ *  Initialize the container with @c object.
+ *
+ *  @param object The object to be weakly held by the container.
+ */
+- (instancetype)initWithObject:(id)object;
+
+- (instancetype)init NS_UNAVAILABLE;
+
+/**
+ *  The weakly held object. Getting the object will return nil if the object has been deallocated.
+ */
+@property(nonatomic, readonly, weak) id object;
 
 @end
+

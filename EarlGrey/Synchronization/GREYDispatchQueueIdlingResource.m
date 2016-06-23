@@ -22,6 +22,8 @@
 
 #import "Common/GREYConfiguration.h"
 #import "Common/GREYDefines.h"
+#import "Common/GREYPrivate.h"
+#import "Synchronization/GREYUIThreadExecutor.h"
 
 /**
  *  A pointer to the original implementation of @c dispatch_after.
@@ -193,6 +195,10 @@ static void grey_dispatch_sync(dispatch_queue_t queue, dispatch_block_t block) {
 }
 
 - (BOOL)isIdleNow {
+  if (!_dispatchQueue) {
+    [[GREYUIThreadExecutor sharedInstance] deregisterIdlingResource:self];
+    return YES;
+  }
   NSAssert(_pendingBlocks >= 0, @"_pendingBlocks must not be negative");
   BOOL isIdle = OSAtomicCompareAndSwap32Barrier(0, 0, &_pendingBlocks);
   return isIdle;

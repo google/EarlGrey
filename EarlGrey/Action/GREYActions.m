@@ -102,6 +102,12 @@
   return [[GREYTapAction alloc] initWithType:kGREYTapTypeMultiple numberOfTaps:count];
 }
 
++ (id<GREYAction>)actionForMultipleTapsWithCount:(NSUInteger)count atPoint:(CGPoint)point {
+  return [[GREYTapAction alloc] initWithType:kGREYTapTypeMultiple
+                                numberOfTaps:count
+                                    location:point];
+}
+
 // The |amount| is in points
 + (id<GREYAction>)actionForScrollInDirection:(GREYDirection)direction amount:(CGFloat)amount {
   return [[GREYScrollAction alloc] initWithDirection:direction amount:amount];
@@ -455,6 +461,10 @@
 
 id<GREYAction> grey_doubleTap(void) {
   return [GREYActions actionForMultipleTapsWithCount:2];
+}
+
+id<GREYAction> grey_doubleTapAtPoint(CGPoint point) {
+  return [GREYActions actionForMultipleTapsWithCount:2 atPoint:point];
 }
 
 id<GREYAction> grey_multipleTapsWithCount(NSUInteger count) {

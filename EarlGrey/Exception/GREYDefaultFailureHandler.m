@@ -94,7 +94,8 @@
   // Legend.
   [exceptionLog appendString:@"Legend:\n"
                              @"[Window 1] = [Frontmost Window]\n"
-                             @"[AX] = [Accessibility]\n\n"];
+                             @"[AX] = [Accessibility]\n"
+                             @"[UIE] = [User Interaction Enabled]\n\n"];
 
   // Print windows from front to back.
   int index = 0;
