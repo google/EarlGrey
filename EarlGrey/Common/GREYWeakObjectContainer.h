@@ -37,3 +37,4 @@
 @property(nonatomic, readonly, weak) id object;
 
 @end
+
