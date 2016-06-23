@@ -98,3 +98,4 @@
 - (BOOL)spinWithStopConditionBlock:(BOOL (^)(void))stopConditionBlock;
 
 @end
+
