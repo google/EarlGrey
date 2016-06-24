@@ -47,7 +47,7 @@
 
 int main(int argc, char *argv[]) {
   @autoreleasepool {
-    return UIApplicationMain(argc, argv, nil, NSStringFromClass([GREYUTAppDelegate class]));
+    return UIApplicationMain(argc, argv, @"", NSStringFromClass([GREYUTAppDelegate class]));
   }
 }
 
