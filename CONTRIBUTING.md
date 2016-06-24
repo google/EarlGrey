@@ -24,6 +24,7 @@ The submitted code should adhere to the following:
 
 ### Do's
 
+* Keep pull requests focused on addressing one issue or feature. If multiple separate issues are fixed by a pull request, prefer commiting the fixes under multiple commits, one for each issue.
 * For every pull request, make sure all commits are consolidated into one commit before
   sending the pull request.
 * Before submitting any code changes, please ensure that the [Unit Tests](https://github.com/google/EarlGrey/tree/master/Tests/UnitTests)
@@ -32,7 +33,8 @@ The submitted code should adhere to the following:
   framework then please [file an issue](https://github.com/google/EarlGrey/issues).
 * If a pull request looks good then we'll wait for Travis to run all the Unit and
   Functional tests on the changes. We also trigger an internal build to check for
-  further build breakages. In case any of the tests are broken, we will let you know.
+  further build breakages. For each stage, appropriate labels will be set on the pull request.
+  In case any of the tests are broken, we will let you know.
 * If your pull request does not touch any code, then you could skip the Travis Continuous
   Integration check by adding [[ci skip]](https://docs.travis-ci.com/user/customizing-the-build/#Skipping-a-build)
   to your git commit message. This helps prevent over-encumbering the CI.
