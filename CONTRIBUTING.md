@@ -26,8 +26,6 @@ The submitted code should adhere to the following:
 
 * Keep pull requests focused on addressing one issue or feature. If multiple separate issues
   are fixed by a pull request, prefer commiting the fixes under multiple commits, one for each issue.
-* For every pull request, make sure all commits for a related issue or feature are consolidated
-  into a single commit before sending the pull request.
 * Before submitting any code changes, please ensure that the [Unit Tests](https://github.com/google/EarlGrey/tree/master/Tests/UnitTests)
   and [Functional Tests](https://github.com/google/EarlGrey/tree/master/Tests/FunctionalTests)
   projects build and all tests pass. If you believe that the test failures are due to bugs in the
