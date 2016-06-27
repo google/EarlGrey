@@ -19,15 +19,18 @@ set -euxo pipefail
 xcodebuild -version
 xcodebuild -showsdks
 
-if [[ ${UNITTEST} == "1" ]]; then
+if [[ ${TYPE} == "UNIT" ]]; then
   env NSUnbufferedIO=YES xcodebuild -project Tests/UnitTests/UnitTests.xcodeproj -scheme EarlGreyUnitTests -sdk "$SDK" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO test | xcpretty -c;
-elif [[ ${DESTINATION} == "ruby" ]]; then
+elif [[ ${TYPE} == "RUBY" ]]; then
   cd gem;
   bundle install --retry=3;
   rake;
-elif [[ ${DESTINATION} == *"OS=9.3"* ]]; then
+elif [[ ${TYPE} == "FUNCTIONAl_SWIFT" ]]; then
   env NSUnbufferedIO=YES xcodebuild -project Tests/FunctionalTests/FunctionalTests.xcodeproj -scheme EarlGreyFunctionalSwiftTests -sdk "$SDK" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO test | xcpretty -c;
-elif [[ ${DESTINATION} ]]; then
+elif [[ ${TYPE} == "FUNCTIONAL" ]]; then
   env NSUnbufferedIO=YES xcodebuild -project Tests/FunctionalTests/FunctionalTests.xcodeproj -scheme EarlGreyFunctionalTests -sdk "$SDK" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO test | xcpretty -c;
+else
+  echo "Unrecognized Type: ${TYPE}"
+  exit 1
 fi
 
