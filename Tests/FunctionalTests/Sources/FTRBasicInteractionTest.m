@@ -26,7 +26,7 @@
   [self openTestViewNamed:@"Basic Views"];
 }
 
-- (void)testEarlGreyInvocationInsideGREYConditionUsingWaitWithLargeTimeout {
+- (void)testEarlGreyInvocationInsideGREYConditionUsingWait {
   GREYCondition *condition = [GREYCondition conditionWithName:@"conditionWithAction" block:^BOOL {
     static double stepperValue = 51;
     [[EarlGrey selectElementWithMatcher:grey_kindOfClass([UIStepper class])]

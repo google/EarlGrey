@@ -68,21 +68,4 @@
   XCTAssertTrue([idlingRes isIdleNow], @"Queue should be idle after executing the only task.");
 }
 
-- (void)testIdlingResourceWeaklyHeldAndDeregistersItself {
-  GREYOperationQueueIdlingResource *operationQueueIdlingResource;
-  @autoreleasepool {
-    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
-
-    operationQueueIdlingResource =
-        [GREYOperationQueueIdlingResource resourceWithNSOperationQueue:queue
-                                                                  name:@"test"];
-    [[GREYUIThreadExecutor sharedInstance] registerIdlingResource:operationQueueIdlingResource];
-    XCTAssertTrue([[GREYUIThreadExecutor sharedInstance]
-        grey_isTrackingIdlingResource:operationQueueIdlingResource]);
-  }
-  XCTAssertTrue([operationQueueIdlingResource isIdleNow]);
-  XCTAssertFalse([[GREYUIThreadExecutor sharedInstance]
-      grey_isTrackingIdlingResource:operationQueueIdlingResource]);
-}
-
 @end

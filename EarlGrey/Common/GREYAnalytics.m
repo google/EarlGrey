@@ -20,7 +20,6 @@
 
 #import "Additions/NSString+GREYAdditions.h"
 #import "Additions/XCTestCase+GREYAdditions.h"
-#import "Common/GREYAnalyticsDelegate.h"
 
 /**
  *  The Analytics tracking ID that receives EarlGrey usage data.
@@ -37,38 +36,32 @@ static NSString *const kAnalyticsInvocationCategory = @"Test Invocation";
  */
 static NSString *const kTrackingEndPoint = @"https://ssl.google-analytics.com";
 
-/**
- *  The currently set GREYAnalytics delegate for custom handling of analytics.
- */
-Class<GREYAnalyticsDelegate> gAnalyticsDelegate;
-
-@interface GREYAnalytics ()<GREYAnalyticsDelegate>
-@end
-
 @implementation GREYAnalytics
-
-+ (void)setDelegate:(Class<GREYAnalyticsDelegate>)delegate {
-  gAnalyticsDelegate = delegate;
-}
-
-+ (Class<GREYAnalyticsDelegate>)delegate {
-  // The default delegate is self.
-  return gAnalyticsDelegate ? gAnalyticsDelegate : self;
-}
 
 + (void)trackTestCaseCompletion {
   NSString *bundleID = [[NSBundle mainBundle] bundleIdentifier];
-  // If bundle ID is available use an MD5 of it otherwise use a placeholder.
+  // If appId is available use an MD5 of it otherwise use a placeholder.
   bundleID = bundleID ? [bundleID grey_md5String] : @"<Missing bundle ID>";
-  NSNumber *testCaseCount = @([[XCTestSuite defaultTestSuite] testCaseCount]);
-
-  [self.delegate trackEventWithTrackingID:kTrackingID
-                                 category:kAnalyticsInvocationCategory
+  NSString *payload =
+      [self grey_eventPayloadWithCategory:kAnalyticsInvocationCategory
                               subCategory:bundleID
-                                    value:testCaseCount];
+                                    value:@([[XCTestSuite defaultTestSuite] testCaseCount])];
+
+  NSURL *url = [NSURL URLWithString:payload
+                      relativeToURL:[NSURL URLWithString:kTrackingEndPoint]];
+  [[[NSURLSession sharedSession] dataTaskWithURL:url
+                               completionHandler:^(NSData *data,
+                                                   NSURLResponse *response,
+                                                   NSError *error) {
+    if (error) {
+      // Failed to send analytics data, but since the test might be running in a sandboxed
+      // environment it's not a good idea to freeze or throw assertions, let's just log and move on.
+      NSLog(@"Failed to send analytics data due to %@.", error);
+    }
+  }] resume];
 }
 
-#pragma mark - GREYAnalyticsDelegate
+#pragma mark - Private
 
 /**
  *  Creates an Analytics Event payload based on @c kPayloadFormat and URL encodes it.
@@ -82,27 +75,16 @@ Class<GREYAnalyticsDelegate> gAnalyticsDelegate;
  *
  *  @return A URL encoded string for the Analytics Event payload with the specified parameters.
  */
-+ (void)trackEventWithTrackingID:(NSString *)trackingID
-                        category:(NSString *)category
-                     subCategory:(NSString *)subCategory
-                           value:(NSNumber *)valueOrNil {
-  if ([category length] == 0 || [subCategory length] == 0) {
-    NSMutableArray *missingFields = [[NSMutableArray alloc] init];
-    if ([category length] == 0) {
-      [missingFields addObject:@"category"];
-    }
-    if ([subCategory length] == 0) {
-      [missingFields addObject:@"sub-category"];
-    }
-    NSLog(@"Failed to send analytics because the following fields were not provided: %@.",
-          missingFields);
-    return;
-  }
++ (NSString *)grey_eventPayloadWithCategory:(NSString *)category
+                                subCategory:(NSString *)subCategory
+                                      value:(NSNumber *)valueOrNil {
+  NSAssert([category length], @"Category can't be nil or empty.");
+  NSAssert([subCategory length], @"Sub category can't be nil or empty.");
 
   // Initialize the payload with version(=1), tracking ID, client ID, category and sub category.
   NSMutableString *payload =
       [[NSMutableString alloc] initWithFormat:@"collect?v=1&tid=%@&cid=%@&t=event&ec=%@&ea=%@",
-                                              trackingID, @(arc4random()), category, subCategory];
+                                              kTrackingID, @(arc4random()), category, subCategory];
   // Append event value if present.
   if (valueOrNil) {
     [payload appendFormat:@"&ev=%@", valueOrNil];
@@ -110,22 +92,7 @@ Class<GREYAnalyticsDelegate> gAnalyticsDelegate;
 
   // Return an url-encoded payload.
   NSCharacterSet *allowedCharacterSet = [NSCharacterSet URLQueryAllowedCharacterSet];
-  NSString *encodedPayload =
-      [payload stringByAddingPercentEncodingWithAllowedCharacters:allowedCharacterSet];
-
-  NSURL *url = [NSURL URLWithString:encodedPayload
-                      relativeToURL:[NSURL URLWithString:kTrackingEndPoint]];
-  [[[NSURLSession sharedSession] dataTaskWithURL:url
-                               completionHandler:^(NSData *data,
-                                                   NSURLResponse *response,
-                                                   NSError *error) {
-    if (error) {
-      // Failed to send analytics data, but since the test might be running in a sandboxed
-      // environment it's not a good idea to freeze or throw assertions, let's just log and
-      // move on.
-      NSLog(@"Failed to send analytics data due to %@.", error);
-    }
-  }] resume];
+  return [payload stringByAddingPercentEncodingWithAllowedCharacters:allowedCharacterSet];
 }
 
 @end

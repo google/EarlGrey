@@ -70,15 +70,10 @@
   });
 
   // This should wait for the first grey_execute_sync to start execution on the background thread.
-  // It's possible that the last condition check before the timeout will occur at the beginning of
-  // the run loop drain where the execute sync block runs. The run loop spinner will not start more
-  // run loop drains after the timeout. So the timeout must be large enough to allow the entire
-  // execute sync block to run in order to guarantee that we will check the condition after the
-  // execute sync block has run.
   BOOL success = [[GREYCondition conditionWithName:@"Wait for first grey_execute_sync"
                                              block:^BOOL{
     return firstGREYExecuteSyncStarted;
-  }] waitWithTimeout:20.0];
+  }] waitWithTimeout:5.0];
   GREYAssert(success, @"Waiting for first grey_execute_sync to start timed-out");
 
   [[EarlGrey selectElementWithMatcher:grey_allOf(grey_kindOfClass([UITextField class]),
@@ -127,16 +122,11 @@
           performAction:grey_typeText(@"Hello!")];
     });
   });
-  // This should wait for the first grey_execute_sync to start execution on the background thread.
-  // It's possible that the last condition check before the timeout will occur at the beginning of
-  // the run loop drain where the execute sync block runs. The run loop spinner will not start more
-  // run loop drains after the timeout. So the timeout must be large enough to allow the entire
-  // execute sync block to run in order to guarantee that we will check the condition after the
-  // execute sync block has run.
+  // This should wait for grey_execute_async to start execution on the background thread.
   BOOL success = [[GREYCondition conditionWithName:@"Wait for background grey_execute_async"
                                              block:^BOOL{
     return executeAsyncStarted;
-  }] waitWithTimeout:20.0];
+  }] waitWithTimeout:5.0];
   GREYAssert(success, @"Waiting for grey_execute_async to start timed-out");
 
   // This should wait for the above async to finish.

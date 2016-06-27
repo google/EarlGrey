@@ -17,8 +17,6 @@
 @interface FTRGestureViewController : UIViewController
 
 @property(retain, nonatomic) IBOutlet UILabel *detectedGesture;
-// For now, the value of this label is only set when the gesture recognized is a tap.
-@property(retain, nonatomic) IBOutlet UILabel *detectedGestureCoordinate;
 @property(retain, nonatomic) IBOutlet UILabel *detectedWindowGesture;
 @property(retain, nonatomic) IBOutlet UIView *greyBox;
 

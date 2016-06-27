@@ -59,7 +59,7 @@ static BOOL gAppStateTrackerIdle;
   NSOperationQueue *_backgroundQueue;
 }
 
-- (BOOL)grey_isIdleNow {
+- (BOOL)grey_isIdle {
   return gAppStateTrackerIdle;
 }
 
@@ -68,11 +68,11 @@ static BOOL gAppStateTrackerIdle;
 
   gAppStateTrackerIdle = YES;
 
-  // Swizzle isIdleNow so we can set the UI state to to whatever we like. This is useful for
+  // Swizzle isIdle so we can set the UI state to to whatever we like. This is useful for
   // testing various workflows where UI is in idle and non-idle state.
   method_exchangeImplementations(
-      class_getInstanceMethod([GREYAppStateTracker class], @selector(isIdleNow)),
-      class_getInstanceMethod([self class], @selector(grey_isIdleNow)));
+      class_getInstanceMethod([GREYAppStateTracker class], @selector(isIdle)),
+      class_getInstanceMethod([self class], @selector(grey_isIdle)));
 
   _threadExecutor = [GREYUIThreadExecutor sharedInstance];
 
@@ -87,8 +87,8 @@ static BOOL gAppStateTrackerIdle;
 - (void)tearDown {
   // Undo swizzling.
   method_exchangeImplementations(
-      class_getInstanceMethod([GREYAppStateTracker class], @selector(isIdleNow)),
-      class_getInstanceMethod([self class], @selector(grey_isIdleNow)));
+      class_getInstanceMethod([GREYAppStateTracker class], @selector(isIdle)),
+      class_getInstanceMethod([self class], @selector(grey_isIdle)));
 
   [[NSOperationQueue mainQueue] cancelAllOperations];
   [_backgroundQueue cancelAllOperations];
@@ -237,7 +237,7 @@ static BOOL gAppStateTrackerIdle;
                                         name:NSStringFromSelector(_cmd)];
   [_threadExecutor drainUntilIdle];
 
-  XCTAssertTrue([[GREYAppStateTracker sharedInstance] isIdleNow]);
+  XCTAssertTrue([[GREYAppStateTracker sharedInstance] isIdle]);
 }
 
 - (void)testTimeoutWithDrainUntilIdleWithTimeout {
@@ -366,14 +366,14 @@ static BOOL gAppStateTrackerIdle;
 }
 
 - (void)testMainNSOperationQueueIsMonitoredByDefault {
-  [_threadExecutor drainUntilIdle];
+  [GREYUIThreadExecutor sharedInstance].shouldSkipMonitoringDefaultIdlingResourcesForTesting = NO;
   XCTAssertTrue([_threadExecutor grey_areAllResourcesIdle]);
   [[NSOperationQueue mainQueue] addOperationWithBlock:^{}];
   XCTAssertFalse([_threadExecutor grey_areAllResourcesIdle]);
 }
 
 - (void)testMainDispatchQueueIsMonitoredByDefault {
-  [_threadExecutor drainUntilIdle];
+  [GREYUIThreadExecutor sharedInstance].shouldSkipMonitoringDefaultIdlingResourcesForTesting = NO;
   XCTAssertTrue([_threadExecutor grey_areAllResourcesIdle]);
   dispatch_async(dispatch_get_main_queue(), ^{});
   XCTAssertFalse([_threadExecutor grey_areAllResourcesIdle]);

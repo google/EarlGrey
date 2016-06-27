@@ -71,6 +71,8 @@ obtain_ochamcrest() {
   readonly OCHAMCREST_VERSION="OCHamcrest-5.0.0"
   # URL for OCHamcrest to be downloaded from.
   readonly OCHAMCREST_URL="https://github.com/hamcrest/OCHamcrest/releases/download/v5.0.0/${OCHAMCREST_VERSION}.zip"
+  # URL for Google Analytics Call.
+  readonly ANALYTICS_URL="http://www.google-analytics.com/collect?v=1&tid=UA-54227235-2&cid=$RANDOM&ec=Install&ea=Github&ev=1&t=event"
 
   echo "Obtaining the OCHamcrest dependency."
 
