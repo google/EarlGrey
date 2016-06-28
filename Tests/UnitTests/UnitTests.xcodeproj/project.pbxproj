@@ -7,9 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		590022E91D22680E00EE03A1 /* GREYAnalyticsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1BCE911D1B3F0B0069D0C6 /* GREYAnalyticsTest.m */; };
-		590022EA1D22680E00EE03A1 /* GREYRunLoopSpinnerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1BCE921D1B3F0B0069D0C6 /* GREYRunLoopSpinnerTest.m */; };
-		590022EB1D22680E00EE03A1 /* GREYWeakObjectContainerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1BCE931D1B3F0B0069D0C6 /* GREYWeakObjectContainerTest.m */; };
 		59467F111C9379FC0089498B /* CAAnimation+GREYAdditionsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467EAB1C9379DE0089498B /* CAAnimation+GREYAdditionsTest.m */; };
 		59467F121C9379FC0089498B /* CALayer+GREYAdditionsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467EAC1C9379DE0089498B /* CALayer+GREYAdditionsTest.m */; };
 		59467F131C9379FC0089498B /* CGGeometry+GREYAdditionsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467EAD1C9379DE0089498B /* CGGeometry+GREYAdditionsTest.m */; };
@@ -61,6 +58,9 @@
 		596D89CA1C05ACD400025714 /* EarlGrey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 596D89C71C05ACB000025714 /* EarlGrey.framework */; };
 		59AB5FC91C128CCF0017F331 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FDB855641C12392C00B407EB /* libOCMock.a */; };
 		F9C5093F1D11E9CF00D4FDED /* GREYTestHelperTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F9C5093E1D11E9CF00D4FDED /* GREYTestHelperTest.m */; };
+		FD1BCE941D1B3F0B0069D0C6 /* GREYAnalyticsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1BCE911D1B3F0B0069D0C6 /* GREYAnalyticsTest.m */; };
+		FD1BCE951D1B3F0B0069D0C6 /* GREYRunLoopSpinnerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1BCE921D1B3F0B0069D0C6 /* GREYRunLoopSpinnerTest.m */; };
+		FD1BCE961D1B3F0B0069D0C6 /* GREYWeakObjectContainerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1BCE931D1B3F0B0069D0C6 /* GREYWeakObjectContainerTest.m */; };
 		FD768E941C64415500D57E1B /* EarlGrey.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 596D89C71C05ACB000025714 /* EarlGrey.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		FD8FB3091BB60AA300E90D7D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD8FB3081BB60AA300E90D7D /* Foundation.framework */; };
 		FD8FB30B1BB60AA900E90D7D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD8FB30A1BB60AA900E90D7D /* QuartzCore.framework */; };
@@ -571,6 +571,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				59467F3A1C937A0B0089498B /* main.m in Sources */,
+				FD1BCE961D1B3F0B0069D0C6 /* GREYWeakObjectContainerTest.m in Sources */,
+				FD1BCE941D1B3F0B0069D0C6 /* GREYAnalyticsTest.m in Sources */,
+				FD1BCE951D1B3F0B0069D0C6 /* GREYRunLoopSpinnerTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -578,9 +581,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				590022E91D22680E00EE03A1 /* GREYAnalyticsTest.m in Sources */,
-				590022EA1D22680E00EE03A1 /* GREYRunLoopSpinnerTest.m in Sources */,
-				590022EB1D22680E00EE03A1 /* GREYWeakObjectContainerTest.m in Sources */,
 				59467F111C9379FC0089498B /* CAAnimation+GREYAdditionsTest.m in Sources */,
 				59467F121C9379FC0089498B /* CALayer+GREYAdditionsTest.m in Sources */,
 				59467F131C9379FC0089498B /* CGGeometry+GREYAdditionsTest.m in Sources */,
