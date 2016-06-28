@@ -31,12 +31,6 @@
 + (id<GREYAction>)actionForMultipleTapsWithCount:(NSUInteger)count;
 
 /**
- *  @return A GREYAction that performs multiple taps of a specified @c count at a specified
- *          @c point.
- */
-+ (id<GREYAction>)actionForMultipleTapsWithCount:(NSUInteger)count atPoint:(CGPoint)point;
-
-/**
  *  Returns an action that holds down finger for 1.0 second (@c kGREYLongPressDefaultDuration) to
  *  simulate a long press.
  *
@@ -290,12 +284,6 @@
 #if !(GREY_DISABLE_SHORTHAND)
 /** Shorthand macro for GREYActions::actionForMultipleTapsWithCount: with count @c 2. */
 GREY_EXPORT id<GREYAction> grey_doubleTap(void);
-
-/**
- *  Shorthand macro for
- *  GREYActions::actionForMultipleTapsWithCount: with count @c 2 and @c point.
- */
-GREY_EXPORT id<GREYAction> grey_doubleTapAtPoint(CGPoint point);
 
 /** Shorthand macro for GREYActions::actionForMultipleTapsWithCount:. */
 GREY_EXPORT id<GREYAction> grey_multipleTapsWithCount(NSUInteger count);

@@ -56,13 +56,13 @@ Here's an example of storing an element's text attribute.
 
 ```swift
 // Swift
-/**
+/*
  *  Example Usage:
  *
  *  var textValue:String = ""
  *
  *  domainField.performAction(grey_typeText("hello.there"))
- *      .performAction(grey_getText(&textValue))
+ *             .performAction(grey_getText(&textValue))
  */
 func grey_getText(inout text: String) -> GREYActionBlock {
   return GREYActionBlock.actionWithName("get text",
@@ -181,7 +181,8 @@ GREYConfiguration.sharedInstance()
     .setValue(false, forConfigKey: kGREYConfigKeySynchronizationEnabled)
 ```
 
-Alternatively, conditionally disable the animation using `#if EARLGREY_ENV`.
+Alternatively, conditionally disable the
+animation using `#if EARLGREY_ENV`.
 
 **How do I match an element when it's duplicated in the app?**
 
@@ -366,39 +367,3 @@ When searching for AX=N elements, the following accessibility matchers won't wor
 
 If the `AX=N` element can't be matched by `grey_accessibilityID`, then you'll have to use non-accessibility
 matchers to locate the element.
-
-**Why does my Swift project throw compiler errors for all the shorthand matchers?**
-
-A few times, we've noticed Source-Kit issues with Swift projects not finding the EarlGrey C-macros
-when the project is built with CocoaPods. This seems to be caused by the naming scheme of the EarlGrey
-`Pods/` directory. You might face compilation errors such as :
-
-  <img src="images/image12.png" width="900" height="400">
-
-The immediate solution for this is to update your **Xcode version** to the latest one. We can confirm that
-the issue does not exist on Xcode 7.3.1. In case that does not work, you can also get rid of this problem by
-manually changing the filename for the CocoaPods EarlGrey folder from `Pods/EarlGrey/EarlGrey-1.0.0` to
-`Pods/EarlGrey/EarlGrey`. Once this is done, please re-add the`EarlGrey.framework` file in the `Pods/` folder
-in your Project Navigator and also completely remove any Framework Search Paths in your target's Build
-Settings pointing to `EarlGrey-1.0.0`. The project should run fine now.
-
-**How do I create a custom action in Swift?**
-
-You need to create a new object of type `GREYActionBlock` and call pass it to `performAction`. For example,
-take a look at [checkHiddenBlock](../Tests/FunctionalTests/Sources/FTRSwiftTests.swift#L65) in our Functional
-Test App's Swift Tests, which creates it as:
-
-```
-let checkHiddenBlock:GREYActionBlock =
-    GREYActionBlock.actionWithName("checkHiddenBlock", performBlock: { element, errorOrNil in
-                                   // Check if the found element is hidden or not.
-                                   let superView:UIView! = element as! UIView
-                                   return (superView.hidden == false)
-    })
-
-...
-
-EarlGrey().selectElementWithMatcher(grey_accessibilityLabel("label"))
-    .performAction(checkHiddenBlock)
-
-```

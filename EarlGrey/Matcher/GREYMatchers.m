@@ -244,9 +244,9 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
     [description appendText:@"isAccessibilityElement"];
   };
   return grey_allOf(grey_respondsToSelector(@selector(isAccessibilityElement)),
-                    [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches
-                                                         descriptionBlock:describe],
-                    nil);
+                  [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches
+                                                       descriptionBlock:describe],
+                  nil);
 }
 
 + (id<GREYMatcher>)matcherForKindOfClass:(Class)klass {

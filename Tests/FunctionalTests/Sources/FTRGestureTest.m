@@ -26,49 +26,22 @@
   [self openTestViewNamed:@"Gesture Tests"];
 }
 
-- (void)testSingleTap {
+- (void)testTaps {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
-      performAction:grey_tap()];
+      performAction:[self tapWithAmount:1]];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"single tap")]
       assertWithMatcher:grey_sufficientlyVisible()];
-}
-
-- (void)testSingleTapAtPoint {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
-      performAction:grey_tapAtPoint(CGPointMake(12.0, 50.0))];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"single tap")]
-      assertWithMatcher:grey_sufficientlyVisible()];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"x:12.0 - y:50.0")]
-      assertWithMatcher:grey_sufficientlyVisible()];
-
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
-      performAction:grey_tapAtPoint(CGPointZero)];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"single tap")]
-      assertWithMatcher:grey_sufficientlyVisible()];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"x:0.0 - y:0.0")]
-      assertWithMatcher:grey_sufficientlyVisible()];
-}
-
-- (void)testDoubleTap {
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
-      performAction:grey_doubleTap()];
+      performAction:[self tapWithAmount:2]];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"double tap")]
       assertWithMatcher:grey_sufficientlyVisible()];
-}
-
-- (void)testDoubleTapAtPoint {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
-      performAction:grey_doubleTapAtPoint(CGPointMake(50, 50))];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"double tap")]
+      performAction:[self tapWithAmount:3]];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"triple tap")]
       assertWithMatcher:grey_sufficientlyVisible()];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"x:50.0 - y:50.0")]
-      assertWithMatcher:grey_sufficientlyVisible()];
-
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
-      performAction:grey_doubleTapAtPoint(CGPointMake(125, 10))];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"double tap")]
-      assertWithMatcher:grey_sufficientlyVisible()];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"x:125.0 - y:10.0")]
+      performAction:[self tapWithAmount:4]];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"quadruple tap")]
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 

@@ -279,22 +279,4 @@ static const int kMaxAggresiveCalls = 100;
                    @"should not throw exception since idlingRes was already deallocated");
 }
 
-- (void)testIdlingResourceWeaklyHeldAndDeregistersItself {
-  GREYDispatchQueueIdlingResource *dispatchQueueIdlingResource;
-  @autoreleasepool {
-    dispatch_queue_t queue =
-        dispatch_queue_create("GREYDispatchQueueIdlingResourceTestDealloc", DISPATCH_QUEUE_SERIAL);
-
-    dispatchQueueIdlingResource =
-        [GREYDispatchQueueIdlingResource resourceWithDispatchQueue:queue
-                                                              name:@"test"];
-    [[GREYUIThreadExecutor sharedInstance] registerIdlingResource:dispatchQueueIdlingResource];
-    XCTAssertTrue([[GREYUIThreadExecutor sharedInstance]
-        grey_isTrackingIdlingResource:dispatchQueueIdlingResource]);
-  }
-  XCTAssertTrue([dispatchQueueIdlingResource isIdleNow]);
-  XCTAssertFalse([[GREYUIThreadExecutor sharedInstance]
-      grey_isTrackingIdlingResource:dispatchQueueIdlingResource]);
-}
-
 @end

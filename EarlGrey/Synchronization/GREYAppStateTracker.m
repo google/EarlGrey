@@ -96,6 +96,18 @@ static pthread_mutex_t gStateLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
   }] unsignedIntegerValue];
 }
 
+- (BOOL)isIdle {
+  return [[self grey_performBlockInCriticalSection:^id{
+    BOOL idle;
+    // Make sure that we immediately release any autoreleased internal keys.
+    @autoreleasepool {
+      // If we are tracking any elements, then the app is not idle.
+      idle = ([_elementIDs anyObject] == nil);
+    }
+    return @(idle);
+  }] boolValue];
+}
+
 /**
  *  @return A string description of current pending UI event state.
  */
@@ -120,29 +132,6 @@ static pthread_mutex_t gStateLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
     return nil;
   }];
   return description;
-}
-
-
-#pragma mark - GREYIdlingResource
-
-- (BOOL)isIdleNow {
-  return [[self grey_performBlockInCriticalSection:^id {
-    BOOL idle;
-    // Make sure that we immediately release any autoreleased internal keys.
-    @autoreleasepool {
-      // If we are tracking any elements, then the app is not idle.
-      idle = ([_elementIDs anyObject] == nil);
-    }
-    return @(idle);
-  }] boolValue];
-}
-
-- (NSString *)idlingResourceName {
-  return NSStringFromClass([self class]);
-}
-
-- (NSString *)idlingResourceDescription {
-  return [self description];
 }
 
 #pragma mark - Private

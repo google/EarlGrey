@@ -18,7 +18,6 @@
 
 #import "Common/GREYConstants.h"
 #import "Common/GREYDefines.h"
-#import "Synchronization/GREYRunLoopSpinner.h"
 #import "Synchronization/GREYUIThreadExecutor.h"
 
 @implementation GREYCondition {
@@ -43,36 +42,27 @@
 }
 
 - (BOOL)waitWithTimeout:(CFTimeInterval)seconds {
-  return [self waitWithTimeout:seconds pollInterval:0];
-}
-
-- (BOOL)waitWithTimeout:(CFTimeInterval)seconds pollInterval:(CFTimeInterval)interval {
   NSAssert(seconds >= 0, @"timeout seconds must be >= 0.");
-  NSAssert(interval >= 0, @"poll interval must be >= 0.");
 
-  GREYRunLoopSpinner *runLoopSpinner = [[GREYRunLoopSpinner alloc] init];
-
-  runLoopSpinner.timeout = seconds;
-  runLoopSpinner.maxSleepInterval = interval;
-
-  if (interval == 0) {
-    return [runLoopSpinner spinWithStopConditionBlock:^BOOL {
-      return _conditionBlock();
-    }];
+  CFTimeInterval timeout;
+  if (seconds == kGREYInfiniteTimeout) {
+    timeout = DBL_MAX;
   } else {
-    __block CFTimeInterval nextPollTime = CACurrentMediaTime();
-
-    return [runLoopSpinner spinWithStopConditionBlock:^BOOL {
-      CFTimeInterval now = CACurrentMediaTime();
-
-      if (now >= nextPollTime) {
-        nextPollTime = now + interval;
-        return _conditionBlock();
-      } else {
-        return NO;
-      }
-    }];
+    timeout = CACurrentMediaTime() + (seconds > 0 ? seconds : 0);
   }
+
+  CFTimeInterval currentTime;
+  BOOL conditionEval;
+  do {
+    @autoreleasepool {
+      // Always drain once before evaluating condition.
+      [[GREYUIThreadExecutor sharedInstance] drainOnce];
+      currentTime = CACurrentMediaTime();
+      conditionEval = _conditionBlock();
+    }
+  } while (!conditionEval && currentTime <= timeout);
+
+  return conditionEval;
 }
 
 - (NSString *)name {

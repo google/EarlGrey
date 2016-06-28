@@ -14,6 +14,8 @@
 // limitations under the License.
 //
 
+@import XCTest;
+
 /**
  *  Base class for Analytics tests. Extending from this class causes FTRNetworkProxy to be
  *  automatically installed and all network requests captured for the entire duration of the test.

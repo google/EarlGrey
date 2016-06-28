@@ -42,10 +42,9 @@ extern const NSInteger kGREYScrollDetectionLength;
 @end
 
 @interface GREYUIThreadExecutor (EGExposedForTesting)
-@property(nonatomic, assign) BOOL forceBusyPolling;
+@property(nonatomic, assign) BOOL shouldSkipMonitoringDefaultIdlingResourcesForTesting;
 - (BOOL)grey_areAllResourcesIdle;
-- (void)grey_resetIdlingResources;
-- (BOOL)grey_isTrackingIdlingResource:(id<GREYIdlingResource>)idlingResource;
+- (void)grey_deregisterAllIdlingResources;
 @end
 
 @interface CALayer (GREYExposedForTesting)

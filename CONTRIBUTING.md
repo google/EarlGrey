@@ -67,8 +67,6 @@ The submitted code should adhere to the following:
   clarifications for every issue created.
 * For in-depth discussions please use the [EarlGrey Google Group](https://groups.google.com/forum/#!forum/earlgrey-discuss)
   instead of starting a Github Issue.
-* In case of an API update, please make sure the changes are documented in the [cheatsheet.html](./docs/cheatsheet/cheatsheet.html)
-  file. The PDF and .PNG cheatsheet files are to be updated only when we update the EarlGrey CocoaPod.
 
 ### Don'ts
 
