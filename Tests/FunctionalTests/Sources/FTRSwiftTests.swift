@@ -110,6 +110,7 @@ class FunctionalTestRigSwiftTests: XCTestCase {
     if let errorVal = error {
       XCTAssertTrue(errorVal.domain == kGREYInteractionErrorDomain, "Element Not Found Error")
     }
+  }
 
   func waitForWebElementWithName(name: String, elementMatcher matcher: GREYMatcher) {
     GREYCondition(name: name.stringByAppendingString(" Condition"), block: {_ in
