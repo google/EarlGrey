@@ -239,7 +239,7 @@ static int gDrainCountForSpinnerTest;
 
   XCTAssertFalse(result,
                  @"Spin result should be NO. The condition was never met.");
-  XCTAssertEqualWithAccuracy(timeoutTime, CACurrentMediaTime(), .0001,
+  XCTAssertEqualWithAccuracy(timeoutTime, CACurrentMediaTime(), 0.1,
                              @"Since the testing run loop mode drains very quickly, the spinner"
                              @"should return very shortly after its timeout has elapsed.");
 }
@@ -251,7 +251,7 @@ static int gDrainCountForSpinnerTest;
 
   spinner.maxSleepInterval = 0;
   spinner.minRunLoopDrains = 0;
-  spinner.timeout = .1;
+  spinner.timeout = 0.1;
 
   [self changeActiveModeToSpinnerTestMode];
 
@@ -260,7 +260,7 @@ static int gDrainCountForSpinnerTest;
   BOOL result = [spinner spinWithStopConditionBlock:^BOOL{
     // Since we are guaranteed that this condition block is checked once per drain, we can leverage
     // that to verify that the run loop is never sleeping. (Or if it is, not for long.)
-    XCTAssertLessThan(CACurrentMediaTime(), lastConditionCheck + .01,
+    XCTAssertLessThan(CACurrentMediaTime(), lastConditionCheck + 0.1,
                       @"Since the testing run loop mode drains very quickly, the last condition"
                       @"check should have been very recent.");
     lastConditionCheck = CACurrentMediaTime();
