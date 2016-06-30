@@ -78,7 +78,7 @@ Please make sure you’ve followed the guidelines in
     ```
 
   2. After you have cloned the EarlGrey repository, download all the dependencies
-using [**setup-earlgrey.sh**](./Scripts/setup-earlgrey.sh) (run the script from the cloned repo) script in the `Scripts/` directory.
+using [**setup-earlgrey.sh**](./Scripts/setup-earlgrey.sh).
   3. After the script completes successfully, open `EarlGrey.xcodeproj` and ensure that all
 the targets build.
   4. You can now use `EarlGrey.xcodeproj` to make changes to the framework.
