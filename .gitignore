@@ -4,3 +4,6 @@
 xcuserdata
 *.gem
 Gemfile.lock
+fishhook/
+OCHamcrest.framework
+Tests/UnitTests/ocmock/

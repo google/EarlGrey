@@ -198,5 +198,35 @@
   }
 }
 
+- (void)testReplaceTextSucceedsOnUITextField {
+    NSString *textToReplace = @"A String";
+    NSError *error;
+
+    UITextField *textfield = [[UITextField alloc] init];
+
+    id<GREYAction> replace = [GREYActions actionForReplaceText:textToReplace];
+    [replace perform:textfield error:&error];
+
+    XCTAssertNil(error);
+
+    XCTAssertEqualObjects(textToReplace, textfield.text);
+}
+
+- (void)testReplaceTextFailsOnUIView {
+    NSString *textToReplace = @"A String";
+    NSError *error;
+
+    UIView *uiview = [[UIView alloc] init];
+
+    id<GREYAction> replace = [GREYActions actionForReplaceText:textToReplace];
+    [replace perform:uiview error:&error];
+
+    NSString *reasonSubstring = @"failed constraints: respondsToSelector(setText:)";
+    XCTAssertTrue([[error description] rangeOfString:reasonSubstring].length > 0,
+                  @"Did we change the error reason? Expected substring '%@', in '%@' not found",
+                  reasonSubstring,
+                  [error description]);
+}
+
 @end
 
