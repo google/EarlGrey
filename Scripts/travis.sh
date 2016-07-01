@@ -22,6 +22,7 @@ xcodebuild -showsdks
 if [ "${TYPE}" == "UNIT" ]; then
   env NSUnbufferedIO=YES xcodebuild -project Tests/UnitTests/UnitTests.xcodeproj -scheme EarlGreyUnitTests -sdk "$SDK" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO test | xcpretty -c;
 elif [ "${TYPE}" == "RUBY" ]; then
+  rvm use 2.2.2;
   cd gem;
   bundle install --retry=3;
   rake;
