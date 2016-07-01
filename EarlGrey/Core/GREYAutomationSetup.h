@@ -32,8 +32,10 @@
 - (instancetype)init NS_UNAVAILABLE;
 
 /**
- * Prepare the device for automation but doing one-time setup required to enable accessibility
- * and setup crash handlers.
+ * Prepare the device for automation by doing one-time setup:
+ * * Enable accessibility
+ * * Install crash handlers
+ * * Turn off autocorrect on software keyboard
  */
 - (void)perform;
 

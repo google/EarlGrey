@@ -20,7 +20,6 @@
 #include <execinfo.h>
 #include <signal.h>
 
-#import "Additions/XCTestCase+GREYAdditions.h"
 #import "Common/GREYDefines.h"
 #import "Common/GREYExposed.h"
 
@@ -43,40 +42,17 @@
 - (void)perform {
   Class selfClass = [self class];
   [selfClass grey_setupCrashHandlers];
+
+  [self grey_enableAccessibility];
   // Force software keyboard.
   [[UIKeyboardImpl sharedInstance] setAutomaticMinimizationEnabled:NO];
-  // Showing accessibility inspector turns on accessibility for the AUT.
-  [selfClass grey_setEnableAccessibilityInspector:YES];
-  // Turn off auto correction as it inteferes with typing on iOS8.2+.
+  // Turn off auto correction as it interferes with typing on iOS8.2+.
   if (iOS8_2_OR_ABOVE()) {
     [selfClass grey_modifyKeyboardSettings];
   }
-
-  // Setup performed aboves leaves unwanted traces (such as the accessibility inspector)
-  // lingering around after all tests finish.
-  // Register to perform cleanup task right after the first test case ends. After much trial and
-  // error, this approach seems to work nicer than atexit and xctestobservation. atexit isn't
-  // reliable and gets called multiple times and using xctestobservation mysteriously eats up some
-  // of the logs.
-  [[NSNotificationCenter defaultCenter] addObserver:self
-                                           selector:@selector(grey_tearDown:)
-                                               name:kGREYXCTestCaseInstanceDidFinish
-                                             object:nil];
 }
 
 #pragma mark - Automation Setup
-
-// Enables (or disables) the accessibility inspector which is required for using any properties of
-// the accessibility tree.
-+ (void)grey_setEnableAccessibilityInspector:(BOOL)enabled {
-  NSString *accessibilitySettingsPrefBundlePath =
-      @"/System/Library/PreferenceBundles/AccessibilitySettings.bundle/AccessibilitySettings";
-  NSString *accessibilityControllerClassName = @"AccessibilitySettingsController";
-  id accessibilityControllerInstance =
-      [self grey_settingsClassInstanceFromBundleAtPath:accessibilitySettingsPrefBundlePath
-                                         withClassName:accessibilityControllerClassName];
-  [accessibilityControllerInstance setAXInspectorEnabled:@(enabled) specifier:nil];
-}
 
 // Modifies the autocorrect and predictive typing settings to turn them off through the
 // keyboard settings bundle.
@@ -85,16 +61,15 @@
       @"/System/Library/PreferenceBundles/KeyboardSettings.bundle/KeyboardSettings";
   NSString *keyboardControllerClassName = @"KeyboardController";
   id keyboardControllerInstance =
-      [self grey_settingsClassInstanceFromBundleAtPath:keyboardSettingsPrefBundlePath
-                                         withClassName:keyboardControllerClassName];
+      [self grey_classInstanceFromBundleAtPath:keyboardSettingsPrefBundlePath
+                                 withClassName:keyboardControllerClassName];
   [keyboardControllerInstance setAutocorrectionPreferenceValue:@(NO) forSpecifier:nil];
   [keyboardControllerInstance setPredictionPreferenceValue:@(NO) forSpecifier:nil];
 }
 
-// For the provided settings bundle path, we use the actual name of the controller
-// class to extract and return a class instance that can be modified.
-+ (id)grey_settingsClassInstanceFromBundleAtPath:(NSString *)path
-                                   withClassName:(NSString *)className {
+// For the provided bundle @c path, we use the actual @c className of the class to extract and
+// return a class instance that can be modified.
++ (id)grey_classInstanceFromBundleAtPath:(NSString *)path withClassName:(NSString *)className {
   NSParameterAssert(path);
   NSParameterAssert(className);
   char const *const preferenceBundlePath = [path fileSystemRepresentation];
@@ -114,6 +89,18 @@
   }
 
   return klassInstance;
+}
+
+// Enables accessibility as it is required for using any properties of the accessibility tree.
+- (void)grey_enableAccessibility {
+  char const *const libAccessibilityPath =
+      [@"/usr/lib/libAccessibility.dylib" fileSystemRepresentation];
+  void *handle = dlopen(libAccessibilityPath, RTLD_LOCAL);
+  NSAssert(handle, @"dlopen couldn't open libAccessibility.dylib at path %s", libAccessibilityPath);
+  void (*_AXSSetAutomationEnabled)(BOOL) = dlsym(handle, "_AXSSetAutomationEnabled");
+  NSAssert(_AXSSetAutomationEnabled, @"Pointer to _AXSSetAutomationEnabled must not be NULL");
+
+  _AXSSetAutomationEnabled(YES);
 }
 
 #pragma mark - Crash Handlers
@@ -169,17 +156,6 @@ static void grey_installSignalHandler(int signalId, struct sigaction *handler) {
   NSSetUncaughtExceptionHandler(&grey_uncaughtExceptionHandler);
 
   NSLog(@"Crash handlers setup complete.");
-}
-
-#pragma mark - Test observation
-
-// Called on tear down of any xctest.
-- (void)grey_tearDown:(NSNotification *)note {
-  [[self class] grey_setEnableAccessibilityInspector:NO];
-  // Stop observing after one-time setup.
-  [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                  name:kGREYXCTestCaseInstanceDidFinish
-                                                object:nil];
 }
 
 @end
