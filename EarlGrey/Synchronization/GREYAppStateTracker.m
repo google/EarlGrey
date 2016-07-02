@@ -192,8 +192,8 @@ static pthread_mutex_t gStateLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
     [eventStateString addObject:stateMsg];
   }
   if (state & kGREYPendingGestureRecognition) {
-    [eventStateString addObject:@"Waiting for system-wide gesture recognizer to detect or fail a "
-                                @"recently performed gesture."];
+    [eventStateString addObject:@"Waiting for gesture recognizer to detect or fail a recently "
+                                @"started gesture."];
   }
   if (state & kGREYPendingUIScrollViewScrolling) {
     [eventStateString addObject:@"Waiting for UIScrollView to finish scrolling and come to "

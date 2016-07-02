@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		59A993281C99453200914F9A /* EarlGrey.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001791C5B46C200B2DB0A /* EarlGrey.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		61156A511D1B2AC1000013C7 /* UIGestureRecognizer+GREYAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 61156A4F1D1B2AC1000013C7 /* UIGestureRecognizer+GREYAdditions.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		61156A521D1B2AC1000013C7 /* UIGestureRecognizer+GREYAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 61156A501D1B2AC1000013C7 /* UIGestureRecognizer+GREYAdditions.m */; };
 		61FC0A071CD939C30081BDAA /* GREYAutomationSetup.h in Headers */ = {isa = PBXBuildFile; fileRef = 61FC0A051CD939C30081BDAA /* GREYAutomationSetup.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		61FC0A081CD939C30081BDAA /* GREYAutomationSetup.m in Sources */ = {isa = PBXBuildFile; fileRef = 61FC0A061CD939C30081BDAA /* GREYAutomationSetup.m */; };
 		FD1001B01C5B46C200B2DB0A /* GREYAction.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001011C5B46C100B2DB0A /* GREYAction.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -32,8 +34,6 @@
 		FD1001CA1C5B46C200B2DB0A /* GREYTapper.m in Sources */ = {isa = PBXBuildFile; fileRef = FD10011B1C5B46C100B2DB0A /* GREYTapper.m */; };
 		FD1001CB1C5B46C200B2DB0A /* __NSCFLocalDataTask_GREYAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = FD10011D1C5B46C100B2DB0A /* __NSCFLocalDataTask_GREYAdditions.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		FD1001CC1C5B46C200B2DB0A /* __NSCFLocalDataTask_GREYAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = FD10011E1C5B46C100B2DB0A /* __NSCFLocalDataTask_GREYAdditions.m */; };
-		FD1001CD1C5B46C200B2DB0A /* _UIGestureRecognizerFailureMap_GREYAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = FD10011F1C5B46C100B2DB0A /* _UIGestureRecognizerFailureMap_GREYAdditions.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		FD1001CE1C5B46C200B2DB0A /* _UIGestureRecognizerFailureMap_GREYAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1001201C5B46C100B2DB0A /* _UIGestureRecognizerFailureMap_GREYAdditions.m */; };
 		FD1001CF1C5B46C200B2DB0A /* _UIModalItemsPresentingViewController_GREYAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001211C5B46C100B2DB0A /* _UIModalItemsPresentingViewController_GREYAdditions.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		FD1001D01C5B46C200B2DB0A /* _UIModalItemsPresentingViewController_GREYAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1001221C5B46C100B2DB0A /* _UIModalItemsPresentingViewController_GREYAdditions.m */; };
 		FD1001D11C5B46C200B2DB0A /* CAAnimation+GREYAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001231C5B46C100B2DB0A /* CAAnimation+GREYAdditions.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -185,6 +185,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		61156A4F1D1B2AC1000013C7 /* UIGestureRecognizer+GREYAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIGestureRecognizer+GREYAdditions.h"; sourceTree = "<group>"; };
+		61156A501D1B2AC1000013C7 /* UIGestureRecognizer+GREYAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIGestureRecognizer+GREYAdditions.m"; sourceTree = "<group>"; };
 		61FC0A051CD939C30081BDAA /* GREYAutomationSetup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYAutomationSetup.h; sourceTree = "<group>"; };
 		61FC0A061CD939C30081BDAA /* GREYAutomationSetup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYAutomationSetup.m; sourceTree = "<group>"; };
 		FD06C66B1BECAD8B009032A5 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
@@ -220,8 +222,6 @@
 		FD10011B1C5B46C100B2DB0A /* GREYTapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYTapper.m; sourceTree = "<group>"; };
 		FD10011D1C5B46C100B2DB0A /* __NSCFLocalDataTask_GREYAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = __NSCFLocalDataTask_GREYAdditions.h; sourceTree = "<group>"; };
 		FD10011E1C5B46C100B2DB0A /* __NSCFLocalDataTask_GREYAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = __NSCFLocalDataTask_GREYAdditions.m; sourceTree = "<group>"; };
-		FD10011F1C5B46C100B2DB0A /* _UIGestureRecognizerFailureMap_GREYAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _UIGestureRecognizerFailureMap_GREYAdditions.h; sourceTree = "<group>"; };
-		FD1001201C5B46C100B2DB0A /* _UIGestureRecognizerFailureMap_GREYAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _UIGestureRecognizerFailureMap_GREYAdditions.m; sourceTree = "<group>"; };
 		FD1001211C5B46C100B2DB0A /* _UIModalItemsPresentingViewController_GREYAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _UIModalItemsPresentingViewController_GREYAdditions.h; sourceTree = "<group>"; };
 		FD1001221C5B46C100B2DB0A /* _UIModalItemsPresentingViewController_GREYAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _UIModalItemsPresentingViewController_GREYAdditions.m; sourceTree = "<group>"; };
 		FD1001231C5B46C100B2DB0A /* CAAnimation+GREYAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CAAnimation+GREYAdditions.h"; sourceTree = "<group>"; };
@@ -471,8 +471,6 @@
 			children = (
 				FD10011D1C5B46C100B2DB0A /* __NSCFLocalDataTask_GREYAdditions.h */,
 				FD10011E1C5B46C100B2DB0A /* __NSCFLocalDataTask_GREYAdditions.m */,
-				FD10011F1C5B46C100B2DB0A /* _UIGestureRecognizerFailureMap_GREYAdditions.h */,
-				FD1001201C5B46C100B2DB0A /* _UIGestureRecognizerFailureMap_GREYAdditions.m */,
 				FD1001211C5B46C100B2DB0A /* _UIModalItemsPresentingViewController_GREYAdditions.h */,
 				FD1001221C5B46C100B2DB0A /* _UIModalItemsPresentingViewController_GREYAdditions.m */,
 				FD1001231C5B46C100B2DB0A /* CAAnimation+GREYAdditions.h */,
@@ -515,6 +513,8 @@
 				FD1001481C5B46C100B2DB0A /* UIWindow+GREYAdditions.m */,
 				FD1001491C5B46C100B2DB0A /* XCTestCase+GREYAdditions.h */,
 				FD10014A1C5B46C100B2DB0A /* XCTestCase+GREYAdditions.m */,
+				61156A4F1D1B2AC1000013C7 /* UIGestureRecognizer+GREYAdditions.h */,
+				61156A501D1B2AC1000013C7 /* UIGestureRecognizer+GREYAdditions.m */,
 			);
 			name = Additions;
 			path = EarlGrey/Additions;
@@ -796,7 +796,6 @@
 				FD1002101C5B46C200B2DB0A /* GREYVisibilityChecker.h in Headers */,
 				FD1001D31C5B46C200B2DB0A /* CALayer+GREYAdditions.h in Headers */,
 				FD10021C1C5B46C200B2DB0A /* GREYNSURLConnectionDelegate.h in Headers */,
-				FD1001CD1C5B46C200B2DB0A /* _UIGestureRecognizerFailureMap_GREYAdditions.h in Headers */,
 				FD1001CF1C5B46C200B2DB0A /* _UIModalItemsPresentingViewController_GREYAdditions.h in Headers */,
 				FD1001CB1C5B46C200B2DB0A /* __NSCFLocalDataTask_GREYAdditions.h in Headers */,
 				FD1001EB1C5B46C200B2DB0A /* UISwitch+GREYAdditions.h in Headers */,
@@ -827,6 +826,7 @@
 				FD1001E11C5B46C200B2DB0A /* NSURL+GREYAdditions.h in Headers */,
 				FD1001D11C5B46C200B2DB0A /* CAAnimation+GREYAdditions.h in Headers */,
 				FD1001F11C5B46C200B2DB0A /* UIViewController+GREYAdditions.h in Headers */,
+				61156A511D1B2AC1000013C7 /* UIGestureRecognizer+GREYAdditions.h in Headers */,
 				61FC0A071CD939C30081BDAA /* GREYAutomationSetup.h in Headers */,
 				FD242E811D14C24C00046221 /* GREYTestHelper.h in Headers */,
 				FD1001D51C5B46C200B2DB0A /* CGGeometry+GREYAdditions.h in Headers */,
@@ -974,11 +974,11 @@
 				FD1002381C5B46C200B2DB0A /* GREYMatchers.m in Sources */,
 				FD1001C61C5B46C200B2DB0A /* GREYSwipeAction.m in Sources */,
 				FD1001E21C5B46C200B2DB0A /* NSURL+GREYAdditions.m in Sources */,
-				FD1001CE1C5B46C200B2DB0A /* _UIGestureRecognizerFailureMap_GREYAdditions.m in Sources */,
 				FD10023F1C5B46C200B2DB0A /* GREYUIWindowProvider.m in Sources */,
 				FD1001C41C5B46C200B2DB0A /* GREYSlideAction.m in Sources */,
 				FD1001BA1C5B46C200B2DB0A /* GREYPickerAction.m in Sources */,
 				FD1002291C5B46C200B2DB0A /* GREYDefaultFailureHandler.m in Sources */,
+				61156A521D1B2AC1000013C7 /* UIGestureRecognizer+GREYAdditions.m in Sources */,
 				FD1001B21C5B46C200B2DB0A /* GREYActionBlock.m in Sources */,
 				FD1001CA1C5B46C200B2DB0A /* GREYTapper.m in Sources */,
 				FD1002091C5B46C200B2DB0A /* GREYElementHierarchy.m in Sources */,
