@@ -14,12 +14,17 @@
 // limitations under the License.
 //
 
-@interface FTRGestureViewController : UIViewController
+#import "Common/GREYWeakObjectContainer.h"
 
-@property(retain, nonatomic) IBOutlet UILabel *detectedGesture;
-// For now, the value of this label is only set when the gesture recognized is a tap.
-@property(retain, nonatomic) IBOutlet UILabel *detectedGestureCoordinate;
-@property(retain, nonatomic) IBOutlet UILabel *detectedWindowGesture;
-@property(retain, nonatomic) IBOutlet UIView *greyBox;
+@implementation GREYWeakObjectContainer
+
+- (instancetype)initWithObject:(id)object {
+  self = [super init];
+  if (self) {
+    _object = object;
+  }
+  return self;
+}
 
 @end
+

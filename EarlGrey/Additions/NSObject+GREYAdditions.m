@@ -214,7 +214,7 @@ static void const *const kArgumentsToTrackerKey = &kArgumentsToTrackerKey;
     [description appendFormat:@"; alpha=%g", selfAsView.alpha];
 
     if (!selfAsView.isUserInteractionEnabled) {
-      [description appendString:@"; interaction=N"];
+      [description appendString:@"; UIE=N"];
     }
   }
 

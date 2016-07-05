@@ -103,7 +103,7 @@ GREY_EXTERN NSString *const kGREYConfigKeyCALayerModifyAnimations;
  *  specified by this config.
  *
  *  Accepted values: @c double (negative values shouldn't be used)
- *  Default value: 5.0
+ *  Default value: 10.0
  */
 GREY_EXTERN NSString *const kGREYConfigKeyCALayerMaxAnimationDuration;
 

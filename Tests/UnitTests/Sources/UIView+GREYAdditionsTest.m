@@ -301,6 +301,13 @@
 - (void)testSkipTrackingInteractableAnimations {
   void (^animationBlock)(void) = ^ {};
 
+  UIView *view1 = [[UIView alloc] init];
+  UIView *view2 = [[UIView alloc] init];
+
+  // Drain the run loop after initializing the UIViews. Initializing these views kicks off some
+  // Earl Grey tracking that we do not want to affect the test.
+  [[GREYUIThreadExecutor sharedInstance] drainUntilIdle];
+
   [UIView animateKeyframesWithDuration:1.0
                                  delay:0.1
                                options:UIViewKeyframeAnimationOptionAllowUserInteraction
@@ -326,8 +333,6 @@
                    completion:nil];
   XCTAssertTrue([[GREYUIThreadExecutor sharedInstance] grey_areAllResourcesIdle]);
 
-  UIView *view1 = [[UIView alloc] init];
-  UIView *view2 = [[UIView alloc] init];
   [UIView transitionFromView:view1
                       toView:view2
                     duration:1
@@ -342,14 +347,6 @@
                               UIViewAnimationOptionAllowUserInteraction)
                   animations:animationBlock
                   completion:nil];
-  XCTAssertTrue([[GREYUIThreadExecutor sharedInstance] grey_areAllResourcesIdle]);
-
-  [UIView performSystemAnimation:UISystemAnimationDelete
-                         onViews:@[ view1 ]
-                         options:(UIViewAnimationOptionLayoutSubviews |
-                                  UIViewAnimationOptionAllowUserInteraction)
-                      animations:animationBlock
-                      completion:nil];
   XCTAssertTrue([[GREYUIThreadExecutor sharedInstance] grey_areAllResourcesIdle]);
 }
 

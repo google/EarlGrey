@@ -18,4 +18,5 @@
   @import EarlGrey;
   @import Foundation;
   @import UIKit;
+  @import XCTest;
 #endif

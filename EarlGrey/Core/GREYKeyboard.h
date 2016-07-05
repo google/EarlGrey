@@ -42,10 +42,4 @@
  */
 + (BOOL)waitForKeyboardToAppear;
 
-/**
- *  Waits until the keyboard is not visible on the screen.
- *  @return @c YES if the keyboard did disaappear after the wait, @c NO otherwise.
- */
-+ (BOOL)waitForKeyboardToDisappear;
-
 @end

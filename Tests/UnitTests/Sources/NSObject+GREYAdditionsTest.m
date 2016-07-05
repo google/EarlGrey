@@ -248,7 +248,7 @@
   NSString *expectedDescription = [NSString stringWithFormat:@"<UILabel:%p; AX=Y; "
       @"AX.frame={{0, 0}, {0, 0}}; AX.activationPoint={0, 0}; "
       @"AX.traits='UIAccessibilityTraitStaticText'; AX.focused='N'; "
-      @"frame={{0, 0}, {0, 0}}; opaque; hidden; alpha=0; interaction=N; text=''>",
+      @"frame={{0, 0}, {0, 0}}; opaque; hidden; alpha=0; UIE=N; text=''>",
       label];
   XCTAssertEqualObjects(expectedDescription, [label grey_description]);
 }

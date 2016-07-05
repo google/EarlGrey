@@ -14,6 +14,7 @@
 // limitations under the License.
 //
 
+#import <EarlGrey/GREYIdlingResource.h>
 #import <Foundation/Foundation.h>
 
 /**
@@ -83,10 +84,9 @@ typedef NS_OPTIONS(NSUInteger, GREYAppState){
 };
 
 /**
- *  Class that tracks the application state so that EarlGrey can wait until the application is idle
- *  before performing actions or assertions.
+ *  Idling resource that tracks the application state.
  */
-@interface GREYAppStateTracker : NSObject
+@interface GREYAppStateTracker : NSObject<GREYIdlingResource>
 
 /**
  *  @return The unique shared instance of the GREYAppStateTracker.
@@ -102,14 +102,6 @@ typedef NS_OPTIONS(NSUInteger, GREYAppState){
  *  @return The state that the App is in currently.
  */
 - (GREYAppState)currentState;
-
-/**
- * Method for checking if GREYAppStateTracker::currentState is idle. More efficient than
- * currentState.
- *
- * @return @c YES if the state of the App is currently kGREYIdle, @c NO otherwise.
- */
-- (BOOL)isIdle;
 
 /**
  *  Updates the state of the element, including the provided @c state and updating the overall state

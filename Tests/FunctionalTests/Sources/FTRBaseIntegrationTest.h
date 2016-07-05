@@ -14,8 +14,6 @@
 // limitations under the License.
 //
 
-@import XCTest;
-
 // Base test class for all earl grey integration test.
 @interface FTRBaseIntegrationTest : XCTestCase
 
