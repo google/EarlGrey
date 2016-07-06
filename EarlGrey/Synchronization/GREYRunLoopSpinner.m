@@ -46,6 +46,7 @@ static void (^noopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef t
 - (BOOL)spinWithStopConditionBlock:(BOOL (^)(void))stopConditionBlock {
   I_CHECK_MAIN_THREAD();
   NSAssert(!_spinning, @"Should not spin the same run loop spinner instance concurrently.");
+  
   _spinning = YES;
   CFTimeInterval timeoutTime = CACurrentMediaTime() + self.timeout;
 

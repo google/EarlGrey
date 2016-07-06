@@ -113,7 +113,7 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
   NSError *searchActionError = nil;
   CFTimeInterval timeoutTime = CACurrentMediaTime() + timeout;
   BOOL timedOut = NO;
-  while(true) {
+  while (YES) {
     @autoreleasepool {
       // Find the element in the current UI hierarchy.
       NSArray *elements = [elementFinder elementsMatchedInProvider:entireRootHierarchyProvider];
@@ -149,7 +149,7 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
   NSDictionary *userInfo = nil;
   if (searchActionError) {
     userInfo = @{ NSUnderlyingErrorKey : searchActionError };
-  } else if (CACurrentMediaTime() >= timeoutTime) {
+  } else if (timedOut) {
     CFTimeInterval interactionTimeout =
         GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
     NSString *desc = [NSString stringWithFormat:@"Timeout (currently set to %g) occurred when "
@@ -377,6 +377,7 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
              onElementWithMatcher:(id<GREYMatcher>)matcher {
   NSParameterAssert(action);
   NSParameterAssert(matcher);
+  
   _searchActionElementMatcher = matcher;
   _searchAction = action;
   return self;

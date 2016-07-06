@@ -221,24 +221,24 @@
   // Scroll by a fixed amount and verify that the scroll offset has changed by that amount.
   // Go down to (0, 7)
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Infinite Scroll View")]
-   performAction:grey_scrollInDirection(kGREYDirectionDown, 7)];
+      performAction:grey_scrollInDirection(kGREYDirectionDown, 7)];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"topTextbox")]
-   assertWithMatcher:grey_text(NSStringFromCGPoint(CGPointMake(0, 7)))];
+      assertWithMatcher:grey_text(NSStringFromCGPoint(CGPointMake(0, 7)))];
   // Go right to (6, 7)
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Infinite Scroll View")]
-   performAction:grey_scrollInDirection(kGREYDirectionRight, 6)];
+      performAction:grey_scrollInDirection(kGREYDirectionRight, 6)];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"topTextbox")]
-   assertWithMatcher:grey_text(NSStringFromCGPoint(CGPointMake(6, 7)))];
+      assertWithMatcher:grey_text(NSStringFromCGPoint(CGPointMake(6, 7)))];
   // Go up to (6, 4)
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Infinite Scroll View")]
-   performAction:grey_scrollInDirection(kGREYDirectionUp, 3)];
+      performAction:grey_scrollInDirection(kGREYDirectionUp, 3)];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"topTextbox")]
-   assertWithMatcher:grey_text(NSStringFromCGPoint(CGPointMake(6, 4)))];
+      assertWithMatcher:grey_text(NSStringFromCGPoint(CGPointMake(6, 4)))];
   // Go left to (3, 4)
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Infinite Scroll View")]
-   performAction:grey_scrollInDirection(kGREYDirectionLeft, 3)];
+      performAction:grey_scrollInDirection(kGREYDirectionLeft, 3)];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"topTextbox")]
-   assertWithMatcher:grey_text(NSStringFromCGPoint(CGPointMake(3, 4)))];
+      assertWithMatcher:grey_text(NSStringFromCGPoint(CGPointMake(3, 4)))];
 }
 
 - (void)testScrollToTopWithZeroXOffset {
@@ -269,7 +269,7 @@
       assertWithMatcher:grey_text(NSStringFromCGPoint(CGPointMake(50, 0)))];
 }
 
-- (void)testScrollingBeyongTheContentViewCausesScrollErrors {
+- (void)testScrollingBeyondTheContentViewCausesScrollErrors {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Upper Scroll View")]
       performAction:grey_scrollInDirection(kGREYDirectionDown, 100)];
   NSError *scrollError;
@@ -299,13 +299,6 @@
 
 #pragma mark - Private
 
-// Asserts that the |exception| reason contains the given |subString|.
-- (void)assertExceptionReasonContains:(NSString *)subString withException:(NSException *)exception {
-  NSRange subStringRange = [exception.reason rangeOfString:subString options:0];
-  XCTAssertTrue(subStringRange.location != NSNotFound, @"\"%@\" was not found in \"%@\"",
-                subString, exception.reason);
-}
-
 - (GREYElementMatcherBlock *)matcherForScrolledToEdge:(GREYContentEdge)edge {
   BOOL (^isScrolledToEdge)(id) = ^BOOL(id element) {
     CGPoint contentOffset = [(UIScrollView *)element contentOffset];
@@ -328,21 +321,6 @@
   return [GREYElementMatcherBlock matcherWithMatchesBlock:isScrolledToEdge
                                          descriptionBlock:^(id description) {
     [description appendText:@"matcherForScrolledToEdge"];
-  }];
-}
-
-// Returns a matcher that matches if the text in the given element represents a point close to the
-// |expected| point within the given |accuracy|.
-- (GREYElementMatcherBlock *)matcherTextWithCGPointValue:(CGPoint)expected
-                                                accuracy:(CGFloat)accuracy {
-  BOOL (^matchesValueWithAccuracy)(id) = ^BOOL(id element) {
-    CGPoint actual = CGPointFromString([element text]);
-    return ABS(actual.x - expected.x) <= accuracy && ABS(actual.y - expected.y) <= accuracy;
-  };
-  return [GREYElementMatcherBlock matcherWithMatchesBlock:matchesValueWithAccuracy
-                                         descriptionBlock:^(id<GREYDescription> description) {
-      [description appendText:[NSString stringWithFormat:@"textMatcher(%@ +/- %f)",
-                                                         NSStringFromCGPoint(expected), accuracy]];
   }];
 }
 

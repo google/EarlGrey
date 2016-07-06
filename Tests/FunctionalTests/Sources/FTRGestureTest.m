@@ -197,16 +197,6 @@
 
 #pragma mark - Private
 
-- (id<GREYAction>)tapWithAmount:(int)amount {
-  if (amount == 1) {
-    return grey_tap();
-  } else if (amount == 2) {
-    return grey_doubleTap();
-  } else {
-    return grey_multipleTapsWithCount((NSUInteger)amount);
-  }
-}
-
 // Asserts that Swipe works in all directions by verifying if the swipe gestures are correctly
 // recognized.
 - (void)assertSwipeWorksInAllDirections {

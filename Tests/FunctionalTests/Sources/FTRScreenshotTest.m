@@ -90,7 +90,7 @@
 
   CGRect actualRect = CGRectMake(0, 0, screenshot.size.width, screenshot.size.height);
   GREYAssertTrue(CGRectEqualToRect(actualRect, self.grey_expectedImageRectForAppStore),
-               @"Screenshot isn't correct dimension");
+                 @"Screenshot isn't correct dimension");
 }
 
 - (void)testTakeScreenShotForAppStoreInPortraitUpsideDownMode {
@@ -101,7 +101,7 @@
 
   CGRect actualRect = CGRectMake(0, 0, screenshot.size.width, screenshot.size.height);
   GREYAssertTrue(CGRectEqualToRect(actualRect, self.grey_expectedImageRectForAppStore),
-               @"Screenshot isn't correct dimension");
+                 @"Screenshot isn't correct dimension");
 }
 
 - (void)testTakeScreenShotForAppStoreInLandscapeLeftMode {
@@ -112,7 +112,7 @@
 
   CGRect actualRect = CGRectMake(0, 0, screenshot.size.width, screenshot.size.height);
   GREYAssertTrue(CGRectEqualToRect(actualRect, self.grey_expectedImageRectForAppStore),
-               @"Screenshot isn't correct dimension");
+                 @"Screenshot isn't correct dimension");
 }
 
 - (void)testTakeScreenShotForAppStoreInLandscapeRightMode {
@@ -123,7 +123,7 @@
 
   CGRect actualRect = CGRectMake(0, 0, screenshot.size.width, screenshot.size.height);
   GREYAssertTrue(CGRectEqualToRect(actualRect, self.grey_expectedImageRectForAppStore),
-               @"Screenshot isn't correct dimension");
+                 @"Screenshot isn't correct dimension");
 }
 
 #pragma mark - Private

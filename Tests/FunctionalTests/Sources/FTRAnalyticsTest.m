@@ -30,7 +30,7 @@ static BOOL gAnalyticsShouldBeSent = NO;
   XCTAssertTrue(GREY_CONFIG_BOOL(kGREYConfigKeyAnalyticsEnabled));
 }
 
-- (void)testAnalyticsNotSent {
+- (void)testAnalyticsSent {
   gAnalyticsShouldBeSent = YES;
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait errorOrNil:nil];
   // Verify that analytics is enabled by default.
