@@ -53,7 +53,7 @@ class FunctionalTestRigSwiftTests: XCTestCase {
     self.openTestView("Web Views")
     EarlGrey().selectElementWithMatcher(grey_accessibilityLabel("loadGoogle"))
       .performAction(grey_tap())
-    var searchButtonMatcher: GREYMatcher = grey_accessibilityHint("Search")
+    let searchButtonMatcher: GREYMatcher = grey_accessibilityHint("Search")
 
     self.waitForWebElementWithName("Search Button", elementMatcher: searchButtonMatcher)
 
