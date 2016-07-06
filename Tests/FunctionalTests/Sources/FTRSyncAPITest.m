@@ -31,16 +31,21 @@
 }
 
 - (void)testPushAndPopRunLoopModes {
-  XCTAssertNil([[UIApplication sharedApplication] grey_activeRunLoopMode]);
+  GREYAssertNil([[UIApplication sharedApplication] grey_activeRunLoopMode], @"should be nil");
   [[UIApplication sharedApplication] pushRunLoopMode:@"Boo" requester:self];
-  XCTAssertEqualObjects([[UIApplication sharedApplication] grey_activeRunLoopMode], @"Boo");
+  GREYAssertEqualObjects([[UIApplication sharedApplication] grey_activeRunLoopMode], @"Boo",
+                         @"should be equal");
   [[UIApplication sharedApplication] pushRunLoopMode:@"Foo"];
-  XCTAssertEqualObjects([[UIApplication sharedApplication] grey_activeRunLoopMode], @"Foo");
+  GREYAssertEqualObjects([[UIApplication sharedApplication] grey_activeRunLoopMode], @"Foo",
+                         @"should be equal");
   [[UIApplication sharedApplication] popRunLoopMode:@"Foo"];
-  XCTAssertEqualObjects([[UIApplication sharedApplication] grey_activeRunLoopMode], @"Boo");
+  GREYAssertEqualObjects([[UIApplication sharedApplication] grey_activeRunLoopMode], @"Boo",
+                         @"should be equal");
   [[UIApplication sharedApplication] popRunLoopMode:@"Boo" requester:self];
-  XCTAssertNotEqualObjects([[UIApplication sharedApplication] grey_activeRunLoopMode], @"Boo");
-  XCTAssertNotEqualObjects([[UIApplication sharedApplication] grey_activeRunLoopMode], @"Foo");
+  GREYAssertNotEqualObjects([[UIApplication sharedApplication] grey_activeRunLoopMode], @"Boo",
+                            @"should not be equal");
+  GREYAssertNotEqualObjects([[UIApplication sharedApplication] grey_activeRunLoopMode], @"Foo",
+                            @"should not be equal");
 }
 
 - (void)testGREYExecuteSync {

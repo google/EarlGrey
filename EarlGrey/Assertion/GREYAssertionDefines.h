@@ -96,7 +96,8 @@ GREY_EXTERN id<GREYFailureHandler> greyFailureHandler;
   I_GREYAssertNil(__a1, __description, ##__VA_ARGS__)
 
 /**
- *  Generates a failure with the provided @c __description if @c __a1 and @c __a2 are not equal.
+ *  Generates a failure with the provided @c __description if the expression @c __a1 and
+ *  the expression @c __a2 are not equal.
  *  @c __a1 and @c __a2 must be scalar types.
  *
  *  @param __a1          The left hand scalar value on the equality operation.
@@ -108,6 +109,51 @@ GREY_EXTERN id<GREYFailureHandler> greyFailureHandler;
 #define GREYAssertEqual(__a1, __a2, __description, ...) \
   I_GREYSetCurrentAsFailable(); \
   I_GREYAssertEqual(__a1, __a2, __description, ##__VA_ARGS__)
+
+/**
+ *  Generates a failure with the provided @c __description if the expression @c __a1 and
+ *  the expression @c __a2 are equal.
+ *  @c __a1 and @c __a2 must be scalar types.
+ *
+ *  @param __a1          The left hand scalar value on the equality operation.
+ *  @param __a2          The right hand scalar value on the equality operation.
+ *  @param __description Description to print if @c __a1 and @c __a2 are equal. May be a format
+ *                       string, in which case the variable args will be required.
+ *  @param ...           Variable args for @c __description if it is a format string.
+ */
+#define GREYAssertNotEqual(__a1, __a2, __description, ...) \
+  I_GREYSetCurrentAsFailable(); \
+  I_GREYAssertNotEqual(__a1, __a2, __description, ##__VA_ARGS__)
+
+/**
+ *  Generates a failure with the provided @c __description if the expression @c __a1 and
+ *  the expression @c __a2 are not equal.
+ *  @c __a1 and @c __a2 must be descendants of NSObject and will be compared with method isEqual.
+ *
+ *  @param __a1          The left hand object on the equality operation.
+ *  @param __a2          The right hand object on the equality operation.
+ *  @param __description Description to print if @c __a1 and @c __a2 are not equal. May be a format
+ *                       string, in which case the variable args will be required.
+ *  @param ...           Variable args for @c __description if it is a format string.
+ */
+#define GREYAssertEqualObjects(__a1, __a2, __description, ...) \
+  I_GREYSetCurrentAsFailable(); \
+  I_GREYAssertEqualObjects(__a1, __a2, __description, ##__VA_ARGS__)
+
+/**
+ *  Generates a failure with the provided @c __description if the expression @c __a1 and
+ *  the expression @c __a2 are equal.
+ *  @c __a1 and @c __a2 must be descendants of NSObject and will be compared with method isEqual.
+ *
+ *  @param __a1          The left hand object on the equality operation.
+ *  @param __a2          The right hand object on the equality operation.
+ *  @param __description Description to print if @c __a1 and @c __a2 are equal. May be a format
+ *                       string, in which case the variable args will be required.
+ *  @param ...           Variable args for @c __description if it is a format string.
+ */
+#define GREYAssertNotEqualObjects(__a1, __a2, __description, ...) \
+  I_GREYSetCurrentAsFailable(); \
+  I_GREYAssertNotEqualObjects(__a1, __a2, __description, ##__VA_ARGS__)
 
 /**
  *  Generates a failure unconditionally, with the provided @c __description.
@@ -218,6 +264,39 @@ GREY_EXTERN id<GREYFailureHandler> greyFailureHandler;
       I_GREYFormattedString(formattedDescription__, __description, ##__VA_ARGS__); \
       I_GREYRegisterFailure(kGREYAssertionFailedException, \
                             @"((" #__a1 ") == (" #__a2 ")) failed", \
+                            formattedDescription__); \
+    } \
+  } while(NO)
+
+#define I_GREYAssertNotEqual(__a1, __a2, __description, ...) \
+  do { \
+    if ((__a1) == (__a2)) { \
+      NSString *formattedDescription__; \
+      I_GREYFormattedString(formattedDescription__, __description, ##__VA_ARGS__); \
+      I_GREYRegisterFailure(kGREYAssertionFailedException, \
+                            @"((" #__a1 ") != (" #__a2 ")) failed", \
+                            formattedDescription__); \
+    } \
+  } while(NO)
+
+#define I_GREYAssertEqualObjects(__a1, __a2, __description, ...) \
+  do { \
+    if (![(__a1) isEqual:(__a2)]) { \
+      NSString *formattedDescription__; \
+      I_GREYFormattedString(formattedDescription__, __description, ##__VA_ARGS__); \
+      I_GREYRegisterFailure(kGREYAssertionFailedException, \
+                            @"[(" #__a1 ") isEqual:(" #__a2 ")] failed", \
+                            formattedDescription__); \
+    } \
+  } while(NO)
+
+#define I_GREYAssertNotEqualObjects(__a1, __a2, __description, ...) \
+  do { \
+    if ([(__a1) isEqual:(__a2)]) { \
+      NSString *formattedDescription__; \
+      I_GREYFormattedString(formattedDescription__, __description, ##__VA_ARGS__); \
+      I_GREYRegisterFailure(kGREYAssertionFailedException, \
+                            @"![(" #__a1 ") isEqual:(" #__a2 ")] failed", \
                             formattedDescription__); \
     } \
   } while(NO)

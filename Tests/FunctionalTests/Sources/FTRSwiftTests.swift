@@ -104,11 +104,12 @@ class FunctionalTestRigSwiftTests: XCTestCase {
     EarlGrey().selectElementWithMatcher(grey_text("Tab 2")).performAction(grey_tap())
     EarlGrey().selectElementWithMatcher(grey_accessibilityLabel("tab2Container"))
         .performAction(checkHiddenBlock).assertWithMatcher(grey_sufficientlyVisible())
-    var error:NSError?
+    var error: NSError?
     EarlGrey().selectElementWithMatcher(grey_text("Non Existent Element"))
         .performAction(grey_tap(), error:&error)
     if let errorVal = error {
-      XCTAssertTrue(errorVal.domain == kGREYInteractionErrorDomain, "Element Not Found Error")
+      GREYAssertEqual(errorVal.domain, kGREYInteractionErrorDomain,
+                      reason: "Element Not Found Error")
     }
   }
 

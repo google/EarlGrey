@@ -64,11 +64,11 @@
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait errorOrNil:nil];
 
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeLeft errorOrNil:nil];
-  XCTAssertTrue([UIDevice currentDevice].orientation == UIDeviceOrientationLandscapeLeft,
-                @"Device orientation should now be landscape left");
-  XCTAssertTrue([UIApplication sharedApplication].statusBarOrientation ==
-                UIInterfaceOrientationPortrait,
-                @"Interface orientation should remain portrait");
+  GREYAssertTrue([UIDevice currentDevice].orientation == UIDeviceOrientationLandscapeLeft,
+                 @"Device orientation should now be landscape left");
+  GREYAssertTrue([UIApplication sharedApplication].statusBarOrientation ==
+                 UIInterfaceOrientationPortrait,
+                 @"Interface orientation should remain portrait");
 }
 
 - (void)testDeviceChangeWithoutInterfaceChange {
@@ -77,13 +77,13 @@
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeLeft errorOrNil:nil];
   BOOL isStatusBarOrientationPortrait =
       UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation);
-  XCTAssertTrue(isStatusBarOrientationPortrait, @"Status Bar orientation should be Portrait.");
+  GREYAssertTrue(isStatusBarOrientationPortrait, @"Status Bar orientation should be Portrait.");
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait errorOrNil:nil];
-  XCTAssertTrue([UIDevice currentDevice].orientation == UIDeviceOrientationPortrait,
-                @"Device orientation should now be portrait");
-  XCTAssertTrue([UIApplication sharedApplication].statusBarOrientation ==
-                UIInterfaceOrientationPortrait,
-                @"Interface orientation should remain portrait");
+  GREYAssertTrue([UIDevice currentDevice].orientation == UIDeviceOrientationPortrait,
+                 @"Device orientation should now be portrait");
+  GREYAssertTrue([UIApplication sharedApplication].statusBarOrientation ==
+                 UIInterfaceOrientationPortrait,
+                 @"Interface orientation should remain portrait");
 }
 
 @end

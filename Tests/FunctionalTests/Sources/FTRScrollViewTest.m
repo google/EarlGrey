@@ -152,8 +152,8 @@
                                 constraints:grey_kindOfClass([UIScrollView class])
                                performBlock:^BOOL(UIScrollView *scrollView,
                                                   NSError *__strong *error) {
-    XCTAssertTrue(scrollView.bounces, @"Bounce must be set or this test is same as"
-                                      @" testScrollToTopWhenAlreadyAtTheTopWithBounce");
+    GREYAssertTrue(scrollView.bounces, @"Bounce must be set or this test is same as"
+                                       @" testScrollToTopWhenAlreadyAtTheTopWithBounce");
     scrollView.bounces = !scrollView.bounces;
     return YES;
   }];
@@ -275,8 +275,8 @@
   NSError *scrollError;
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Upper Scroll View")]
       performAction:grey_scrollInDirection(kGREYDirectionUp, 200) error:&scrollError];
-  XCTAssertEqual(scrollError.domain, kGREYScrollErrorDomain);
-  XCTAssertEqual(scrollError.code, kGREYScrollReachedContentEdge);
+  GREYAssertEqualObjects(scrollError.domain, kGREYScrollErrorDomain, @"should be equal");
+  GREYAssertEqual(scrollError.code, kGREYScrollReachedContentEdge, @"should be equal");
 }
 
 - (void)testSetContentOffsetAnimatedYesWaitsForAnimation {

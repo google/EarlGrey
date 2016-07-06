@@ -45,15 +45,15 @@
   // TODO: Verify the content of the image as well.
   CGSize expectedSize = CGSizeMake(64, 128);
   CGFloat expectedScale = [UIScreen mainScreen].scale;
-  XCTAssertEqual(expectedSize.width, snapshot.size.width);
-  XCTAssertEqual(expectedSize.height, snapshot.size.height);
-  XCTAssertEqual(expectedScale, snapshot.scale);
+  GREYAssertEqual(expectedSize.width, snapshot.size.width, @"should be equal");
+  GREYAssertEqual(expectedSize.height, snapshot.size.height, @"should be equal");
+  GREYAssertEqual(expectedScale, snapshot.scale, @"should be equal");
 
   NSError *error = nil;
   // Snapshot Accessibility Element with zero height should be an error.
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"ElementWithZeroHeight")]
       performAction:grey_snapshot(&snapshot) error:&error];
-  XCTAssertEqualObjects(kGREYInteractionErrorDomain, error.domain);
+  GREYAssertEqualObjects(kGREYInteractionErrorDomain, error.domain, @"should be equal");
 }
 
 - (void)testSnapshotAXElementInLandscapeMode {
@@ -72,15 +72,15 @@
     expectedSize = CGSizeMake(expectedSize.height, expectedSize.width);
   }
   CGFloat expectedScale = [UIScreen mainScreen].scale;
-  XCTAssertEqual(expectedSize.width, snapshot.size.width);
-  XCTAssertEqual(expectedSize.height, snapshot.size.height);
-  XCTAssertEqual(expectedScale, snapshot.scale);
+  GREYAssertEqual(expectedSize.width, snapshot.size.width, @"should be equal");
+  GREYAssertEqual(expectedSize.height, snapshot.size.height, @"should be equal");
+  GREYAssertEqual(expectedScale, snapshot.scale, @"should be equal");
 
   NSError *error = nil;
   // Snapshot Accessibility Element with zero height should be an error.
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"ElementWithZeroHeight")]
       performAction:grey_snapshot(&snapshot) error:&error];
-  XCTAssertEqualObjects(kGREYInteractionErrorDomain, error.domain);
+  GREYAssertEqualObjects(kGREYInteractionErrorDomain, error.domain, @"should be equal");
 }
 
 - (void)testTakeScreenShotForAppStoreInPortraitMode {

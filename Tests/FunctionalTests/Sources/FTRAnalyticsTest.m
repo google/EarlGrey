@@ -27,14 +27,14 @@ static BOOL gAnalyticsShouldBeSent = NO;
 - (void)testAnalyticsIsEnabled {
   gAnalyticsShouldBeSent = NO;
   // Verify that analytics is enabled by default.
-  XCTAssertTrue(GREY_CONFIG_BOOL(kGREYConfigKeyAnalyticsEnabled));
+  GREYAssertTrue(GREY_CONFIG_BOOL(kGREYConfigKeyAnalyticsEnabled), @"should be true");
 }
 
 - (void)testAnalyticsSent {
   gAnalyticsShouldBeSent = YES;
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait errorOrNil:nil];
   // Verify that analytics is enabled by default.
-  XCTAssertTrue(GREY_CONFIG_BOOL(kGREYConfigKeyAnalyticsEnabled));
+  GREYAssertTrue(GREY_CONFIG_BOOL(kGREYConfigKeyAnalyticsEnabled), @"should be true");
 }
 
 + (void)tearDown {

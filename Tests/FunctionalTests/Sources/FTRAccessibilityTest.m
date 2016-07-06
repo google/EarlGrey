@@ -119,7 +119,7 @@
     XCTFail(@"Should throw an exception");
   } @catch (NSException *exception) {
     NSRange exceptionRange = [[exception reason] rangeOfString:@"Action 'Tap' failed."];
-    XCTAssertNotEqual(exceptionRange.location, (NSUInteger)NSNotFound);
+    GREYAssertNotEqual(exceptionRange.location, NSNotFound, @"should not be equal");
   }
 }
 
