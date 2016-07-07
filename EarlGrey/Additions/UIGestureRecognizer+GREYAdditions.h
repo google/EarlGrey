@@ -14,11 +14,10 @@
 // limitations under the License.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 /**
- *  Class used to track dependencies between gesture recognizers. EarlGrey uses this map to find out
- *  if a gesture recognizer is waiting for other gesture recognizers to fail.
+ *  Additions that allow EarlGrey to synchronize with UIGestureRecognizers.
  */
-@interface _UIGestureRecognizerFailureMap_GREYAdditions : NSObject
+@interface UIGestureRecognizer (GREYAdditions)
 @end
