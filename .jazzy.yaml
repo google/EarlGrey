@@ -12,24 +12,13 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #
-Metrics/LineLength:
-  Max: 100
-Style/PercentLiteralDelimiters:
-  PreferredDelimiters:
-    '%i': '[]'
-    '%w': '[]'
-    '%W': '[]'
-Style/Documentation:
-  Enabled: false
-Metrics/MethodLength:
-  Enabled: false
-Metrics/ClassLength:
-  Enabled: false
-Metrics/PerceivedComplexity:
-  Enabled: false
-Metrics/CyclomaticComplexity:
-  Enabled: false
-Metrics/AbcSize:
-  Enabled: false
-Metrics/ModuleLength:
-  Enabled: false
+copyright: Copyright 2016 Google Inc.
+author: Google Inc.
+github_url: https://github.com/google/EarlGrey
+module: EarlGrey
+objc: true
+umbrella_header: EarlGrey/EarlGrey.h
+framework_root: ./
+sdk: iphonesimulator
+clean: true
+
