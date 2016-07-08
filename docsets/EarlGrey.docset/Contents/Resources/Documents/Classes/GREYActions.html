@@ -1,0 +1,1998 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>GREYActions Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/objc/Class/GREYActions" class="dashAnchor"></a>
+    <a title="GREYActions Class Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">EarlGrey Docs</a> (93% documented)</p>
+        <p class="header-right"><a href="https://github.com/google/EarlGrey"><img src="../img/gh.png"/>View on GitHub</a></p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">EarlGrey Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        GREYActions Class Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/EarlGreyImpl.html">EarlGreyImpl</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GREYActionBlock.html">GREYActionBlock</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GREYActions.html">GREYActions</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GREYAllOf.html">GREYAllOf</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GREYAnyOf.html">GREYAnyOf</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GREYAssertionBlock.html">GREYAssertionBlock</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes.html#/c:objc(cs)GREYAssertions">GREYAssertions</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GREYBaseAction.html">GREYBaseAction</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GREYBaseMatcher.html">GREYBaseMatcher</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GREYCondition.html">GREYCondition</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GREYConfiguration.html">GREYConfiguration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GREYConstants.html">GREYConstants</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GREYDataEnumerator.html">GREYDataEnumerator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GREYDispatchQueueIdlingResource.html">GREYDispatchQueueIdlingResource</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GREYElementFinder.html">GREYElementFinder</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GREYElementHierarchy.html">GREYElementHierarchy</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GREYElementInteraction.html">GREYElementInteraction</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GREYElementMatcherBlock.html">GREYElementMatcherBlock</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GREYFrameworkException.html">GREYFrameworkException</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GREYLayoutConstraint.html">GREYLayoutConstraint</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GREYMatchers.html">GREYMatchers</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GREYNSTimerIdlingResource.html">GREYNSTimerIdlingResource</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GREYNot.html">GREYNot</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GREYOperationQueueIdlingResource.html">GREYOperationQueueIdlingResource</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GREYScreenshotUtil.html">GREYScreenshotUtil</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GREYTestHelper.html">GREYTestHelper</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GREYUIThreadExecutor.html">GREYUIThreadExecutor</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Constants.html">Constants</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@greyFailureHandler">greyFailureHandler</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYAcceptableFloatDifference">kGREYAcceptableFloatDifference</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYActionElementUserInfoKey">kGREYActionElementUserInfoKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYActionErrorUserInfoKey">kGREYActionErrorUserInfoKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYActionFailedException">kGREYActionFailedException</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYActionUserInfoKey">kGREYActionUserInfoKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYAssertionElementUserInfoKey">kGREYAssertionElementUserInfoKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYAssertionErrorUserInfoKey">kGREYAssertionErrorUserInfoKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYAssertionFailedException">kGREYAssertionFailedException</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYAssertionUserInfoKey">kGREYAssertionUserInfoKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYConfigKeyActionConstraintsEnabled">kGREYConfigKeyActionConstraintsEnabled</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYConfigKeyAnalyticsEnabled">kGREYConfigKeyAnalyticsEnabled</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYConfigKeyCALayerMaxAnimationDuration">kGREYConfigKeyCALayerMaxAnimationDuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYConfigKeyCALayerModifyAnimations">kGREYConfigKeyCALayerModifyAnimations</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYConfigKeyDelayedPerformMaxTrackableDuration">kGREYConfigKeyDelayedPerformMaxTrackableDuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYConfigKeyDispatchAfterMaxTrackableDelay">kGREYConfigKeyDispatchAfterMaxTrackableDelay</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYConfigKeyIncludeStatusBarWindow">kGREYConfigKeyIncludeStatusBarWindow</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYConfigKeyInteractionTimeoutDuration">kGREYConfigKeyInteractionTimeoutDuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYConfigKeyNSTimerMaxTrackableInterval">kGREYConfigKeyNSTimerMaxTrackableInterval</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYConfigKeyScreenshotDirLocation">kGREYConfigKeyScreenshotDirLocation</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYConfigKeySynchronizationEnabled">kGREYConfigKeySynchronizationEnabled</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYConfigKeyURLBlacklistRegex">kGREYConfigKeyURLBlacklistRegex</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYConfigKeyVerboseLogging">kGREYConfigKeyVerboseLogging</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYDidPerformActionNotification">kGREYDidPerformActionNotification</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYDidPerformAssertionNotification">kGREYDidPerformAssertionNotification</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYGenericFailureException">kGREYGenericFailureException</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYInfiniteTimeout">kGREYInfiniteTimeout</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYInteractionErrorDomain">kGREYInteractionErrorDomain</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYLongPressDefaultDuration">kGREYLongPressDefaultDuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYMinimumVisibleAlpha">kGREYMinimumVisibleAlpha</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYMultipleElementsFoundException">kGREYMultipleElementsFoundException</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYNilException">kGREYNilException</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYNoMatchingElementException">kGREYNoMatchingElementException</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYNotNilException">kGREYNotNilException</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYScrollErrorDomain">kGREYScrollErrorDomain</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYSwipeFastDuration">kGREYSwipeFastDuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYSwipeSlowDuration">kGREYSwipeSlowDuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYTimeoutException">kGREYTimeoutException</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYUIThreadExecutorErrorDomain">kGREYUIThreadExecutorErrorDomain</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYWillPerformActionNotification">kGREYWillPerformActionNotification</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYWillPerformAssertionNotification">kGREYWillPerformAssertionNotification</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kUIPickerViewMaxAccessibilityViews">kUIPickerViewMaxAccessibilityViews</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enums</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/GREYContentEdge.html">GREYContentEdge</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/GREYDirection.html">GREYDirection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/GREYInteractionErrorCode.html">GREYInteractionErrorCode</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/GREYLayoutAttribute.html">GREYLayoutAttribute</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/GREYLayoutDirection.html">GREYLayoutDirection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/GREYLayoutRelation.html">GREYLayoutRelation</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/GREYScrollErrorCode.html">GREYScrollErrorCode</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/GREYTapType.html">GREYTapType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/GREYUIThreadExecutorErrorCode.html">GREYUIThreadExecutorErrorCode</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/GREYAction.html">GREYAction</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/GREYAssertion.html">GREYAssertion</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/GREYDescription.html">GREYDescription</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/GREYFailureHandler.html">GREYFailureHandler</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/GREYIdlingResource.html">GREYIdlingResource</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/GREYInteraction.html">GREYInteraction</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/GREYMatcher.html">GREYMatcher</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/GREYProvider.html">GREYProvider</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Type Definitions.html">Type Definitions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Type Definitions.html#/c:GREYElementMatcherBlock.h@T@DescribeToBlock">DescribeToBlock</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Type Definitions.html#/c:GREYAssertionBlock.h@T@GREYCheckBlockWithError">GREYCheckBlockWithError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Type Definitions.html#/c:GREYUIThreadExecutor.h@T@GREYExecBlock">GREYExecBlock</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Type Definitions.html#/c:GREYActionBlock.h@T@GREYPerformBlock">GREYPerformBlock</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Type Definitions.html#/c:GREYElementMatcherBlock.h@T@MatchesBlock">MatchesBlock</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Functions.html">Functions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@NSStringFromGREYContentEdge">NSStringFromGREYContentEdge</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@NSStringFromGREYDirection">NSStringFromGREYDirection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@NSStringFromGREYLayoutAttribute">NSStringFromGREYLayoutAttribute</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@NSStringFromGREYLayoutRelation">NSStringFromGREYLayoutRelation</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@NSStringFromUIAccessibilityTraits">NSStringFromUIAccessibilityTraits</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@NSStringFromUIDeviceOrientation">NSStringFromUIDeviceOrientation</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_accessibilityElement">grey_accessibilityElement</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_accessibilityHint">grey_accessibilityHint</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_accessibilityID">grey_accessibilityID</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_accessibilityLabel">grey_accessibilityLabel</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_accessibilityTrait">grey_accessibilityTrait</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_accessibilityValue">grey_accessibilityValue</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_allOf">grey_allOf</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_ancestor">grey_ancestor</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_anyOf">grey_anyOf</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_anything">grey_anything</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_buttonTitle">grey_buttonTitle</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_clearText">grey_clearText</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_closeTo">grey_closeTo</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_conformsToProtocol">grey_conformsToProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_createImagePixelDataFromCGImageRef">grey_createImagePixelDataFromCGImageRef</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_datePickerValue">grey_datePickerValue</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_descendant">grey_descendant</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_doubleTap">grey_doubleTap</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_doubleTapAtPoint">grey_doubleTapAtPoint</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_enabled">grey_enabled</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_equalTo">grey_equalTo</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_execute_async">grey_execute_async</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_execute_sync">grey_execute_sync</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_firstResponder">grey_firstResponder</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_greaterThan">grey_greaterThan</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_interactable">grey_interactable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_javaScriptExecution">grey_javaScriptExecution</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_keyWindow">grey_keyWindow</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_kindOfClass">grey_kindOfClass</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_layout">grey_layout</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_lessThan">grey_lessThan</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_longPress">grey_longPress</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_longPressAtPointWithDuration">grey_longPressAtPointWithDuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_longPressWithDuration">grey_longPressWithDuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_minimumVisiblePercent">grey_minimumVisiblePercent</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_moveSliderToValue">grey_moveSliderToValue</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_multipleTapsWithCount">grey_multipleTapsWithCount</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_nil">grey_nil</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_not">grey_not</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_notNil">grey_notNil</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_notVisible">grey_notVisible</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_pickerColumnSetToValue">grey_pickerColumnSetToValue</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_progress">grey_progress</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_replaceText">grey_replaceText</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_respondsToSelector">grey_respondsToSelector</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_scrollInDirection">grey_scrollInDirection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_scrollInDirectionWithStartPoint">grey_scrollInDirectionWithStartPoint</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_scrollToContentEdge">grey_scrollToContentEdge</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_scrollToContentEdgeWithStartPoint">grey_scrollToContentEdgeWithStartPoint</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_setDate">grey_setDate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_setPickerColumnToValue">grey_setPickerColumnToValue</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_setStepperValue">grey_setStepperValue</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_sliderValueMatcher">grey_sliderValueMatcher</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_snapshot">grey_snapshot</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_stepperValue">grey_stepperValue</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_sufficientlyVisible">grey_sufficientlyVisible</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_swipeFastInDirection">grey_swipeFastInDirection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_swipeFastInDirectionWithStartPoint">grey_swipeFastInDirectionWithStartPoint</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_swipeSlowInDirection">grey_swipeSlowInDirection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_swipeSlowInDirectionWithStartPoint">grey_swipeSlowInDirectionWithStartPoint</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_switchWithOnState">grey_switchWithOnState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_systemAlertViewShown">grey_systemAlertViewShown</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_tap">grey_tap</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_tapAtPoint">grey_tapAtPoint</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_text">grey_text</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_turnSwitchOn">grey_turnSwitchOn</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_typeText">grey_typeText</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_userInteractionEnabled">grey_userInteractionEnabled</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>GREYActions</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">GREYActions</span> <span class="p">:</span> <span class="nc">NSObject</span></code></pre>
+
+                </div>
+              </div>
+            <p>A interface that exposes UI element actions.</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYActions(cm)actionForMultipleTapsWithCount:"></a>
+                    <a name="//apple_ref/objc/Method/+actionForMultipleTapsWithCount:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYActions(cm)actionForMultipleTapsWithCount:">+actionForMultipleTapsWithCount:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">actionForMultipleTapsWithCount</span><span class="p">:(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="nv">count</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A GREYAction that performs multiple taps of a specified @c</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYActions(cm)actionForMultipleTapsWithCount:atPoint:"></a>
+                    <a name="//apple_ref/objc/Method/+actionForMultipleTapsWithCount:atPoint:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYActions(cm)actionForMultipleTapsWithCount:atPoint:">+actionForMultipleTapsWithCount:atPoint:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">actionForMultipleTapsWithCount</span><span class="p">:(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="nv">count</span>
+                                         <span class="nf">atPoint</span><span class="p">:(</span><span class="n">CGPoint</span><span class="p">)</span><span class="nv">point</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A GREYAction that performs multiple taps of a specified @c
+at a specified
+         @c</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYActions(cm)actionForLongPress"></a>
+                    <a name="//apple_ref/objc/Method/+actionForLongPress" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYActions(cm)actionForLongPress">+actionForLongPress</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns an action that holds down finger for 1.0 second (@c kGREYLongPressDefaultDuration) to
+  simulate a long press.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span><span class="p">)</span><span class="n">actionForLongPress</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A GREYAction that performs a long press on an element.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYActions(cm)actionForLongPressWithDuration:"></a>
+                    <a name="//apple_ref/objc/Method/+actionForLongPressWithDuration:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYActions(cm)actionForLongPressWithDuration:">+actionForLongPressWithDuration:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns an action that holds down finger for specified @c duration to simulate a long press.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">actionForLongPressWithDuration</span><span class="p">:(</span><span class="n">CFTimeInterval</span><span class="p">)</span><span class="nv">duration</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>duration</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The duration of the long press.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A GREYAction that performs a long press on an element.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYActions(cm)actionForLongPressAtPoint:duration:"></a>
+                    <a name="//apple_ref/objc/Method/+actionForLongPressAtPoint:duration:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYActions(cm)actionForLongPressAtPoint:duration:">+actionForLongPressAtPoint:duration:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns an action that holds down finger for specified @c duration at the specified @c point
+  (interpreted as being relative to the element) to simulate a long press.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">actionForLongPressAtPoint</span><span class="p">:(</span><span class="n">CGPoint</span><span class="p">)</span><span class="nv">point</span>
+                                   <span class="nf">duration</span><span class="p">:(</span><span class="n">CFTimeInterval</span><span class="p">)</span><span class="nv">duration</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>point</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The point that should be tapped.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>duration</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The duration of the long press.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A GREYAction that performs a long press on an element.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYActions(cm)actionForScrollInDirection:amount:"></a>
+                    <a name="//apple_ref/objc/Method/+actionForScrollInDirection:amount:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYActions(cm)actionForScrollInDirection:amount:">+actionForScrollInDirection:amount:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns an action that scrolls a @c UIScrollView by @c amount (in points) in the specified
+  @c direction.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">actionForScrollInDirection</span><span class="p">:(</span><span class="n"><a href="../Enums/GREYDirection.html">GREYDirection</a></span><span class="p">)</span><span class="nv">direction</span>
+                                      <span class="nf">amount</span><span class="p">:(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">amount</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>direction</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The direction of the swipe.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>amount</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The amount of points in CGPoints to scroll.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A GREYAction that scrolls a scroll view in a given @c
+for a given @c</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYActions(cm)actionForScrollInDirection:amount:xOriginStartPercentage:yOriginStartPercentage:"></a>
+                    <a name="//apple_ref/objc/Method/+actionForScrollInDirection:amount:xOriginStartPercentage:yOriginStartPercentage:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYActions(cm)actionForScrollInDirection:amount:xOriginStartPercentage:yOriginStartPercentage:">+actionForScrollInDirection:amount:xOriginStartPercentage:yOriginStartPercentage:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns a scroll action that scrolls in a @c direction for an @c amount of points starting from
+  the given start point specified as percentages. @c xOriginStartPercentage is the x start
+  position as a percentage of the total width of the scrollable visible area,
+  @c yOriginStartPercentage is the y start position as a percentage of the total height of the
+  scrollable visible area. @c xOriginStartPercentage and @c yOriginStartPercentage must be between
+  0 and 1, exclusive.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">actionForScrollInDirection</span><span class="p">:(</span><span class="n"><a href="../Enums/GREYDirection.html">GREYDirection</a></span><span class="p">)</span><span class="nv">direction</span>
+                                      <span class="nf">amount</span><span class="p">:(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">amount</span>
+                      <span class="nf">xOriginStartPercentage</span><span class="p">:(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">xOriginStartPercentage</span>
+                      <span class="nf">yOriginStartPercentage</span><span class="p">:(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">yOriginStartPercentage</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>direction</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The direction of the scroll.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>amount</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The amount scroll in points to inject.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>xOriginStartPercentage</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>X coordinate of the start point specified as a percentage (0, 1)
+                               exclusive, of the total width of the scrollable visible area.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>xOriginStartPercentage</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Y coordinate of the start point specified as a percentage (0, 1)
+                               exclusive, of the total height of the scrollable visible area.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A GREYAction that scrolls a scroll view in a given @c
+for a given @c
+         starting from the given start points.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYActions(cm)actionForScrollToContentEdge:"></a>
+                    <a name="//apple_ref/objc/Method/+actionForScrollToContentEdge:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYActions(cm)actionForScrollToContentEdge:">+actionForScrollToContentEdge:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">actionForScrollToContentEdge</span><span class="p">:(</span><span class="n"><a href="../Enums/GREYContentEdge.html">GREYContentEdge</a></span><span class="p">)</span><span class="nv">edge</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A GREYAction that scrolls to the given content @c
+of a scroll view.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYActions(cm)actionForScrollToContentEdge:xOriginStartPercentage:yOriginStartPercentage:"></a>
+                    <a name="//apple_ref/objc/Method/+actionForScrollToContentEdge:xOriginStartPercentage:yOriginStartPercentage:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYActions(cm)actionForScrollToContentEdge:xOriginStartPercentage:yOriginStartPercentage:">+actionForScrollToContentEdge:xOriginStartPercentage:yOriginStartPercentage:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A GREYAction that scrolls to the given content @c edge of a scroll view with the scroll action
+  starting from the given start point specified as percentages. @c xOriginStartPercentage is the x
+  start position as a percentage of the total width of the scrollable visible area,
+  @c yOriginStartPercentage is the y start position as a percentage of the total height of the
+  scrollable visible area. @c xOriginStartPercentage and @c yOriginStartPercentage must be between
+  0 and 1, exclusive.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">actionForScrollToContentEdge</span><span class="p">:(</span><span class="n"><a href="../Enums/GREYContentEdge.html">GREYContentEdge</a></span><span class="p">)</span><span class="nv">edge</span>
+                        <span class="nf">xOriginStartPercentage</span><span class="p">:(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">xOriginStartPercentage</span>
+                        <span class="nf">yOriginStartPercentage</span><span class="p">:(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">yOriginStartPercentage</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>edge</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The edge towards which the scrolling is to take place.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>xOriginStartPercentage</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>X coordinate of the start point specified as a percentage (0, 1)
+                               exclusive, of the total width of the scrollable visible area.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>xOriginStartPercentage</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Y coordinate of the start point specified as a percentage (0, 1)
+                               exclusive, of the total height of the scrollable visible area.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A GREYAction that scrolls to the given content @c
+of a scroll view with the scroll
+         action starting from the given start point.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYActions(cm)actionForSwipeFastInDirection:"></a>
+                    <a name="//apple_ref/objc/Method/+actionForSwipeFastInDirection:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYActions(cm)actionForSwipeFastInDirection:">+actionForSwipeFastInDirection:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns an action that fast swipes through the whole view. The start point of the swipe is
+  chosen to achieve the maximum the swipe possible to the other edge.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">actionForSwipeFastInDirection</span><span class="p">:(</span><span class="n"><a href="../Enums/GREYDirection.html">GREYDirection</a></span><span class="p">)</span><span class="nv">direction</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>direction</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The direction of the swipe.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A GREYAction that performs a fast swipe in the given direction.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYActions(cm)actionForSwipeSlowInDirection:"></a>
+                    <a name="//apple_ref/objc/Method/+actionForSwipeSlowInDirection:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYActions(cm)actionForSwipeSlowInDirection:">+actionForSwipeSlowInDirection:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns an action that slow swipes through the whole view. The start point of the swipe is
+  chosen to achieve maximum the swipe possible to the other edge.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">actionForSwipeSlowInDirection</span><span class="p">:(</span><span class="n"><a href="../Enums/GREYDirection.html">GREYDirection</a></span><span class="p">)</span><span class="nv">direction</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>direction</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The direction of the swipe.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A GREYAction that performs a slow swipe in the given direction.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYActions(cm)actionForSwipeFastInDirection:xOriginStartPercentage:yOriginStartPercentage:"></a>
+                    <a name="//apple_ref/objc/Method/+actionForSwipeFastInDirection:xOriginStartPercentage:yOriginStartPercentage:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYActions(cm)actionForSwipeFastInDirection:xOriginStartPercentage:yOriginStartPercentage:">+actionForSwipeFastInDirection:xOriginStartPercentage:yOriginStartPercentage:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns an action that swipes through the view quickly in the given @c direction from a specific
+  origin. The duration here is specified by @c kGREYSwipeFastDuration in GREYConstants.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">actionForSwipeFastInDirection</span><span class="p">:(</span><span class="n"><a href="../Enums/GREYDirection.html">GREYDirection</a></span><span class="p">)</span><span class="nv">direction</span>
+                         <span class="nf">xOriginStartPercentage</span><span class="p">:(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">xOriginStartPercentage</span>
+                         <span class="nf">yOriginStartPercentage</span><span class="p">:(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">yOriginStartPercentage</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>direction</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The direction of the swipe.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>xOriginStartPercentage</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>the x start position as a percentage of the total width
+                               of the view. This must be between 0 and 1.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>yOriginStartPercentage</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>the y start position as a percentage of the total height
+                               of the view. This must be between 0 and 1.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A GREYAction that performs a fast swipe through a view in a specific direction from
+         the specified point.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYActions(cm)actionForSwipeSlowInDirection:xOriginStartPercentage:yOriginStartPercentage:"></a>
+                    <a name="//apple_ref/objc/Method/+actionForSwipeSlowInDirection:xOriginStartPercentage:yOriginStartPercentage:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYActions(cm)actionForSwipeSlowInDirection:xOriginStartPercentage:yOriginStartPercentage:">+actionForSwipeSlowInDirection:xOriginStartPercentage:yOriginStartPercentage:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns an action that swipes through the view quickly in the given @c direction from a specific
+  origin. The duration here is specified by @c kGREYSwipeSlowDuration in GREYConstants.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">actionForSwipeSlowInDirection</span><span class="p">:(</span><span class="n"><a href="../Enums/GREYDirection.html">GREYDirection</a></span><span class="p">)</span><span class="nv">direction</span>
+                         <span class="nf">xOriginStartPercentage</span><span class="p">:(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">xOriginStartPercentage</span>
+                         <span class="nf">yOriginStartPercentage</span><span class="p">:(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">yOriginStartPercentage</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>direction</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The direction of the swipe.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>xOriginStartPercentage</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>the x start position as a percentage of the total width
+                               of the view. This must be between 0 and 1.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>yOriginStartPercentage</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>the y start position as a percentage of the total height
+                               of the view. This must be between 0 and 1.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A GREYAction that performs a slow swipe through a view in a specific direction from
+         the specified point.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYActions(cm)actionForMoveSliderToValue:"></a>
+                    <a name="//apple_ref/objc/Method/+actionForMoveSliderToValue:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYActions(cm)actionForMoveSliderToValue:">+actionForMoveSliderToValue:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns an action that attempts to move slider to within 1.0e-6f values of @c value.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">actionForMoveSliderToValue</span><span class="p">:(</span><span class="kt">float</span><span class="p">)</span><span class="nv">value</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>value</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The value to which the slider should be moved. If this is not attainable after a
+              reasonable number of attempts (currently 10) we assume that the @c
+is
+              unattainable for a user (it is probably the case this value resides between two
+              pixels). In this case, the slider will end up at a user attainable value
+              that is closest to @c</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A GREYAction that moves a slider to a given @c</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYActions(cm)actionForSetStepperValue:"></a>
+                    <a name="//apple_ref/objc/Method/+actionForSetStepperValue:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYActions(cm)actionForSetStepperValue:">+actionForSetStepperValue:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns an action that changes the value of UIStepper to @c value by tapping the appropriate
+  button multiple times.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">actionForSetStepperValue</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">value</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>value</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The value to change the UIStepper to.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A GREYAction that sets the given @c
+on a stepper.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYActions(cm)actionForTap"></a>
+                    <a name="//apple_ref/objc/Method/+actionForTap" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYActions(cm)actionForTap">+actionForTap</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns an action that taps on an element at the activation point of the element.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span><span class="p">)</span><span class="n">actionForTap</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A GREYAction to tap on an element.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYActions(cm)actionForTapAtPoint:"></a>
+                    <a name="//apple_ref/objc/Method/+actionForTapAtPoint:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYActions(cm)actionForTapAtPoint:">+actionForTapAtPoint:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns an action that taps on an element at the specified @c point.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">actionForTapAtPoint</span><span class="p">:(</span><span class="n">CGPoint</span><span class="p">)</span><span class="nv">point</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>point</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The point that should be tapped. It must be in the coordinate system of the
+              element and it&rsquo;s position is relative to the origin of the element, as in
+              (element_width/2, element_height/2) will tap at the center of element.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A GREYAction to tap on an element at a specific point.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYActions(cm)actionForTypeText:"></a>
+                    <a name="//apple_ref/objc/Method/+actionForTypeText:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYActions(cm)actionForTypeText:">+actionForTypeText:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns an action that uses the iOS keyboard to input a string.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">actionForTypeText</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">text</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>text</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The text to be typed. Backspace is supported by using <q>@b
+ in the string.
+              Return key is supported with</q>@n
+<q>.
+              For Example: 
+</q>
+Helpo@b@bloWorld
+&ldquo; will type HelloWorld.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A GREYAction to type a specific text string in a text field.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYActions(cm)actionForReplaceText:"></a>
+                    <a name="//apple_ref/objc/Method/+actionForReplaceText:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYActions(cm)actionForReplaceText:">+actionForReplaceText:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns an action that sets text on a UITextField or webview input directly.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">actionForReplaceText</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">text</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>text</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The text to be typed.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A GREYAction to type a specific text string in a text field.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYActions(cm)actionForClearText"></a>
+                    <a name="//apple_ref/objc/Method/+actionForClearText" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYActions(cm)actionForClearText">+actionForClearText</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span><span class="p">)</span><span class="n">actionForClearText</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A GREYAction that clears a text field by injecting back-spaces.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYActions(cm)actionForTurnSwitchOn:"></a>
+                    <a name="//apple_ref/objc/Method/+actionForTurnSwitchOn:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYActions(cm)actionForTurnSwitchOn:">+actionForTurnSwitchOn:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns an action that toggles a switch control. This action is applicable to all elements that
+  implement the selector UISwitch::isOn and include UISwitch controls.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">actionForTurnSwitchOn</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">on</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>on</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The switch control state.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A GREYAction to toggle a UISwitch.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYActions(cm)actionForSetDate:"></a>
+                    <a name="//apple_ref/objc/Method/+actionForSetDate:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYActions(cm)actionForSetDate:">+actionForSetDate:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns an action that injects dates/times into UIDatePickers.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">actionForSetDate</span><span class="p">:(</span><span class="n">NSDate</span> <span class="o">*</span><span class="p">)</span><span class="nv">date</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>date</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The date to set the UIDatePicker.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A GREYAction that sets a given date/time on a UIDatePicker.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYActions(cm)actionForSetPickerColumn:toValue:"></a>
+                    <a name="//apple_ref/objc/Method/+actionForSetPickerColumn:toValue:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYActions(cm)actionForSetPickerColumn:toValue:">+actionForSetPickerColumn:toValue:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns an action that selects @c value on the given @c column of a UIPickerView.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">actionForSetPickerColumn</span><span class="p">:(</span><span class="n">NSInteger</span><span class="p">)</span><span class="nv">column</span>
+                                   <span class="nf">toValue</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">value</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>column</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The UIPickerView column being set.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>value</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The value to set the UIPickerView.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A GREYAction to set the value of a specified column of a UIPickerView.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYActions(cm)actionForJavaScriptExecution:output:"></a>
+                    <a name="//apple_ref/objc/Method/+actionForJavaScriptExecution:output:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYActions(cm)actionForJavaScriptExecution:output:">+actionForJavaScriptExecution:output:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns an action that executes JavaScript against a UIWebView and sets the return value to
+  @c outResult if provided.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">actionForJavaScriptExecution</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">js</span>
+                                        <span class="nf">output</span><span class="p">:(</span><span class="n">out</span> <span class="n">NSString</span> <span class="o">**</span><span class="p">)</span><span class="nv">outResult</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>js</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The Javascript code to be executed.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>output</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The result of the code execution.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A GREYAction that executes JavaScript code against a UIWebView.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYActions(cm)actionForSnapshot:"></a>
+                    <a name="//apple_ref/objc/Method/+actionForSnapshot:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYActions(cm)actionForSnapshot:">+actionForSnapshot:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns an action that takes a snapshot of the selected element.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">actionForSnapshot</span><span class="p">:(</span><span class="n">out</span> <span class="n">UIImage</span> <span class="o">**</span><span class="p">)</span><span class="nv">outImage</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>outImage</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The UIImage where the image content is stored.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A GREYAction that takes a snapshot of an UI element.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>Copyright 2016 Google Inc.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

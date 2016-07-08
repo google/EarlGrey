@@ -1,0 +1,2318 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>GREYMatchers Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/objc/Class/GREYMatchers" class="dashAnchor"></a>
+    <a title="GREYMatchers Class Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">EarlGrey Docs</a> (93% documented)</p>
+        <p class="header-right"><a href="https://github.com/google/EarlGrey"><img src="../img/gh.png"/>View on GitHub</a></p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">EarlGrey Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        GREYMatchers Class Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/EarlGreyImpl.html">EarlGreyImpl</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GREYActionBlock.html">GREYActionBlock</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GREYActions.html">GREYActions</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GREYAllOf.html">GREYAllOf</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GREYAnyOf.html">GREYAnyOf</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GREYAssertionBlock.html">GREYAssertionBlock</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes.html#/c:objc(cs)GREYAssertions">GREYAssertions</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GREYBaseAction.html">GREYBaseAction</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GREYBaseMatcher.html">GREYBaseMatcher</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GREYCondition.html">GREYCondition</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GREYConfiguration.html">GREYConfiguration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GREYConstants.html">GREYConstants</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GREYDataEnumerator.html">GREYDataEnumerator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GREYDispatchQueueIdlingResource.html">GREYDispatchQueueIdlingResource</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GREYElementFinder.html">GREYElementFinder</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GREYElementHierarchy.html">GREYElementHierarchy</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GREYElementInteraction.html">GREYElementInteraction</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GREYElementMatcherBlock.html">GREYElementMatcherBlock</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GREYFrameworkException.html">GREYFrameworkException</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GREYLayoutConstraint.html">GREYLayoutConstraint</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GREYMatchers.html">GREYMatchers</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GREYNSTimerIdlingResource.html">GREYNSTimerIdlingResource</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GREYNot.html">GREYNot</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GREYOperationQueueIdlingResource.html">GREYOperationQueueIdlingResource</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GREYScreenshotUtil.html">GREYScreenshotUtil</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GREYTestHelper.html">GREYTestHelper</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/GREYUIThreadExecutor.html">GREYUIThreadExecutor</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Constants.html">Constants</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@greyFailureHandler">greyFailureHandler</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYAcceptableFloatDifference">kGREYAcceptableFloatDifference</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYActionElementUserInfoKey">kGREYActionElementUserInfoKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYActionErrorUserInfoKey">kGREYActionErrorUserInfoKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYActionFailedException">kGREYActionFailedException</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYActionUserInfoKey">kGREYActionUserInfoKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYAssertionElementUserInfoKey">kGREYAssertionElementUserInfoKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYAssertionErrorUserInfoKey">kGREYAssertionErrorUserInfoKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYAssertionFailedException">kGREYAssertionFailedException</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYAssertionUserInfoKey">kGREYAssertionUserInfoKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYConfigKeyActionConstraintsEnabled">kGREYConfigKeyActionConstraintsEnabled</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYConfigKeyAnalyticsEnabled">kGREYConfigKeyAnalyticsEnabled</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYConfigKeyCALayerMaxAnimationDuration">kGREYConfigKeyCALayerMaxAnimationDuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYConfigKeyCALayerModifyAnimations">kGREYConfigKeyCALayerModifyAnimations</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYConfigKeyDelayedPerformMaxTrackableDuration">kGREYConfigKeyDelayedPerformMaxTrackableDuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYConfigKeyDispatchAfterMaxTrackableDelay">kGREYConfigKeyDispatchAfterMaxTrackableDelay</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYConfigKeyIncludeStatusBarWindow">kGREYConfigKeyIncludeStatusBarWindow</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYConfigKeyInteractionTimeoutDuration">kGREYConfigKeyInteractionTimeoutDuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYConfigKeyNSTimerMaxTrackableInterval">kGREYConfigKeyNSTimerMaxTrackableInterval</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYConfigKeyScreenshotDirLocation">kGREYConfigKeyScreenshotDirLocation</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYConfigKeySynchronizationEnabled">kGREYConfigKeySynchronizationEnabled</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYConfigKeyURLBlacklistRegex">kGREYConfigKeyURLBlacklistRegex</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYConfigKeyVerboseLogging">kGREYConfigKeyVerboseLogging</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYDidPerformActionNotification">kGREYDidPerformActionNotification</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYDidPerformAssertionNotification">kGREYDidPerformAssertionNotification</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYGenericFailureException">kGREYGenericFailureException</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYInfiniteTimeout">kGREYInfiniteTimeout</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYInteractionErrorDomain">kGREYInteractionErrorDomain</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYLongPressDefaultDuration">kGREYLongPressDefaultDuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYMinimumVisibleAlpha">kGREYMinimumVisibleAlpha</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYMultipleElementsFoundException">kGREYMultipleElementsFoundException</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYNilException">kGREYNilException</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYNoMatchingElementException">kGREYNoMatchingElementException</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYNotNilException">kGREYNotNilException</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYScrollErrorDomain">kGREYScrollErrorDomain</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYSwipeFastDuration">kGREYSwipeFastDuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYSwipeSlowDuration">kGREYSwipeSlowDuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYTimeoutException">kGREYTimeoutException</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYUIThreadExecutorErrorDomain">kGREYUIThreadExecutorErrorDomain</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYWillPerformActionNotification">kGREYWillPerformActionNotification</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYWillPerformAssertionNotification">kGREYWillPerformAssertionNotification</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kUIPickerViewMaxAccessibilityViews">kUIPickerViewMaxAccessibilityViews</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enums</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/GREYContentEdge.html">GREYContentEdge</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/GREYDirection.html">GREYDirection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/GREYInteractionErrorCode.html">GREYInteractionErrorCode</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/GREYLayoutAttribute.html">GREYLayoutAttribute</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/GREYLayoutDirection.html">GREYLayoutDirection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/GREYLayoutRelation.html">GREYLayoutRelation</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/GREYScrollErrorCode.html">GREYScrollErrorCode</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/GREYTapType.html">GREYTapType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/GREYUIThreadExecutorErrorCode.html">GREYUIThreadExecutorErrorCode</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/GREYAction.html">GREYAction</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/GREYAssertion.html">GREYAssertion</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/GREYDescription.html">GREYDescription</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/GREYFailureHandler.html">GREYFailureHandler</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/GREYIdlingResource.html">GREYIdlingResource</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/GREYInteraction.html">GREYInteraction</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/GREYMatcher.html">GREYMatcher</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/GREYProvider.html">GREYProvider</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Type Definitions.html">Type Definitions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Type Definitions.html#/c:GREYElementMatcherBlock.h@T@DescribeToBlock">DescribeToBlock</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Type Definitions.html#/c:GREYAssertionBlock.h@T@GREYCheckBlockWithError">GREYCheckBlockWithError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Type Definitions.html#/c:GREYUIThreadExecutor.h@T@GREYExecBlock">GREYExecBlock</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Type Definitions.html#/c:GREYActionBlock.h@T@GREYPerformBlock">GREYPerformBlock</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Type Definitions.html#/c:GREYElementMatcherBlock.h@T@MatchesBlock">MatchesBlock</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Functions.html">Functions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@NSStringFromGREYContentEdge">NSStringFromGREYContentEdge</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@NSStringFromGREYDirection">NSStringFromGREYDirection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@NSStringFromGREYLayoutAttribute">NSStringFromGREYLayoutAttribute</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@NSStringFromGREYLayoutRelation">NSStringFromGREYLayoutRelation</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@NSStringFromUIAccessibilityTraits">NSStringFromUIAccessibilityTraits</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@NSStringFromUIDeviceOrientation">NSStringFromUIDeviceOrientation</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_accessibilityElement">grey_accessibilityElement</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_accessibilityHint">grey_accessibilityHint</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_accessibilityID">grey_accessibilityID</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_accessibilityLabel">grey_accessibilityLabel</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_accessibilityTrait">grey_accessibilityTrait</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_accessibilityValue">grey_accessibilityValue</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_allOf">grey_allOf</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_ancestor">grey_ancestor</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_anyOf">grey_anyOf</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_anything">grey_anything</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_buttonTitle">grey_buttonTitle</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_clearText">grey_clearText</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_closeTo">grey_closeTo</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_conformsToProtocol">grey_conformsToProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_createImagePixelDataFromCGImageRef">grey_createImagePixelDataFromCGImageRef</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_datePickerValue">grey_datePickerValue</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_descendant">grey_descendant</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_doubleTap">grey_doubleTap</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_doubleTapAtPoint">grey_doubleTapAtPoint</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_enabled">grey_enabled</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_equalTo">grey_equalTo</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_execute_async">grey_execute_async</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_execute_sync">grey_execute_sync</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_firstResponder">grey_firstResponder</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_greaterThan">grey_greaterThan</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_interactable">grey_interactable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_javaScriptExecution">grey_javaScriptExecution</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_keyWindow">grey_keyWindow</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_kindOfClass">grey_kindOfClass</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_layout">grey_layout</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_lessThan">grey_lessThan</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_longPress">grey_longPress</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_longPressAtPointWithDuration">grey_longPressAtPointWithDuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_longPressWithDuration">grey_longPressWithDuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_minimumVisiblePercent">grey_minimumVisiblePercent</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_moveSliderToValue">grey_moveSliderToValue</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_multipleTapsWithCount">grey_multipleTapsWithCount</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_nil">grey_nil</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_not">grey_not</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_notNil">grey_notNil</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_notVisible">grey_notVisible</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_pickerColumnSetToValue">grey_pickerColumnSetToValue</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_progress">grey_progress</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_replaceText">grey_replaceText</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_respondsToSelector">grey_respondsToSelector</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_scrollInDirection">grey_scrollInDirection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_scrollInDirectionWithStartPoint">grey_scrollInDirectionWithStartPoint</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_scrollToContentEdge">grey_scrollToContentEdge</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_scrollToContentEdgeWithStartPoint">grey_scrollToContentEdgeWithStartPoint</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_setDate">grey_setDate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_setPickerColumnToValue">grey_setPickerColumnToValue</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_setStepperValue">grey_setStepperValue</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_sliderValueMatcher">grey_sliderValueMatcher</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_snapshot">grey_snapshot</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_stepperValue">grey_stepperValue</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_sufficientlyVisible">grey_sufficientlyVisible</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_swipeFastInDirection">grey_swipeFastInDirection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_swipeFastInDirectionWithStartPoint">grey_swipeFastInDirectionWithStartPoint</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_swipeSlowInDirection">grey_swipeSlowInDirection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_swipeSlowInDirectionWithStartPoint">grey_swipeSlowInDirectionWithStartPoint</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_switchWithOnState">grey_switchWithOnState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_systemAlertViewShown">grey_systemAlertViewShown</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_tap">grey_tap</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_tapAtPoint">grey_tapAtPoint</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_text">grey_text</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_turnSwitchOn">grey_turnSwitchOn</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_typeText">grey_typeText</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_userInteractionEnabled">grey_userInteractionEnabled</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>GREYMatchers</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">GREYMatchers</span> <span class="p">:</span> <span class="nc">NSObject</span></code></pre>
+
+                </div>
+              </div>
+            <p>EarlGrey matchers for UI elements.</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYMatchers(cm)matcherForKeyWindow"></a>
+                    <a name="//apple_ref/objc/Method/+matcherForKeyWindow" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYMatchers(cm)matcherForKeyWindow">+matcherForKeyWindow</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Matcher for application&rsquo;s key window.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="n">matcherForKeyWindow</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A matcher for the application&rsquo;s key window.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYMatchers(cm)matcherForAccessibilityLabel:"></a>
+                    <a name="//apple_ref/objc/Method/+matcherForAccessibilityLabel:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYMatchers(cm)matcherForAccessibilityLabel:">+matcherForAccessibilityLabel:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Matcher for UI element with the provided accessibility @c label.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForAccessibilityLabel</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">label</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>label</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The accessibility label to be matched.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A matcher for the accessibility label of an accessible element.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYMatchers(cm)matcherForAccessibilityID:"></a>
+                    <a name="//apple_ref/objc/Method/+matcherForAccessibilityID:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYMatchers(cm)matcherForAccessibilityID:">+matcherForAccessibilityID:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Matcher for UI element with the provided accessibility ID @c accessibilityID.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForAccessibilityID</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">accessibilityID</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>accessibilityID</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The accessibility ID to be matched.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A matcher for the accessibility ID of an accessible element.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYMatchers(cm)matcherForAccessibilityValue:"></a>
+                    <a name="//apple_ref/objc/Method/+matcherForAccessibilityValue:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYMatchers(cm)matcherForAccessibilityValue:">+matcherForAccessibilityValue:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Matcher for UI element with the provided accessibility @c value.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForAccessibilityValue</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">value</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>value</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The accessibility value to be matched.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A matcher for the accessibility value of an accessible element.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYMatchers(cm)matcherForAccessibilityTraits:"></a>
+                    <a name="//apple_ref/objc/Method/+matcherForAccessibilityTraits:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYMatchers(cm)matcherForAccessibilityTraits:">+matcherForAccessibilityTraits:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Matcher for UI element with the provided accessibility @c traits.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForAccessibilityTraits</span><span class="p">:(</span><span class="n">UIAccessibilityTraits</span><span class="p">)</span><span class="nv">traits</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>traits</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The accessibility traits to be matched.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A matcher for the accessibility traits of an accessible element.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYMatchers(cm)matcherForAccessibilityHint:"></a>
+                    <a name="//apple_ref/objc/Method/+matcherForAccessibilityHint:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYMatchers(cm)matcherForAccessibilityHint:">+matcherForAccessibilityHint:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Matcher for UI element with the provided accessiblity @c hint.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForAccessibilityHint</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">hint</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>hint</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The accessibility hint to be matched.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A matcher for the accessibility hint of an accessible element.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYMatchers(cm)matcherForText:"></a>
+                    <a name="//apple_ref/objc/Method/+matcherForText:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYMatchers(cm)matcherForText:">+matcherForText:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Matcher for UI elements of type UIButton, UILabel, UITextField or UITextView displaying the
+  provided @c inputText.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForText</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">text</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>text</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The text to be matched in the UI elements.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A matcher to check for any UI elements with a text field containing the given text.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYMatchers(cm)matcherForFirstResponder"></a>
+                    <a name="//apple_ref/objc/Method/+matcherForFirstResponder" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYMatchers(cm)matcherForFirstResponder">+matcherForFirstResponder</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Matcher for element that is the first responder.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="n">matcherForFirstResponder</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A matcher that verifies if a UI element is the first responder.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYMatchers(cm)matcherForSystemAlertViewShown"></a>
+                    <a name="//apple_ref/objc/Method/+matcherForSystemAlertViewShown" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYMatchers(cm)matcherForSystemAlertViewShown">+matcherForSystemAlertViewShown</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Matcher to check if system alert view is shown.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="n">matcherForSystemAlertViewShown</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A matcher to check if a system alert view is being shown.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYMatchers(cm)matcherForMinimumVisiblePercent:"></a>
+                    <a name="//apple_ref/objc/Method/+matcherForMinimumVisiblePercent:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYMatchers(cm)matcherForMinimumVisiblePercent:">+matcherForMinimumVisiblePercent:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Matcher for UI element whose percent visible area (of its accessibility frame) exceeds the
+  given @c percent.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForMinimumVisiblePercent</span><span class="p">:(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">percent</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>percent</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The percent visible area that the UI element being matched has to be visible.
+                Allowed values for @c
+are [0,1] inclusive.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A matcher that checks if a UI element has a visible area at least equal
+         to a minimum value.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYMatchers(cm)matcherForSufficientlyVisible"></a>
+                    <a name="//apple_ref/objc/Method/+matcherForSufficientlyVisible" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYMatchers(cm)matcherForSufficientlyVisible">+matcherForSufficientlyVisible</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Matcher for UI element that is sufficiently visible to the user. EarlGrey considers elements
+  with visible area percentage greater than @c kElementSufficientlyVisiblePercentage (0.75)
+  to be sufficiently visible.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="n">matcherForSufficientlyVisible</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A matcher intialized with a visibility percentage that confirms an element is
+         sufficiently visible.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYMatchers(cm)matcherForNotVisible"></a>
+                    <a name="//apple_ref/objc/Method/+matcherForNotVisible" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYMatchers(cm)matcherForNotVisible">+matcherForNotVisible</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Matcher for UI element that are not visible to the user i.e. has a zero visible area.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="n">matcherForNotVisible</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A matcher for verifying if an element is not visible.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYMatchers(cm)matcherForInteractable"></a>
+                    <a name="//apple_ref/objc/Method/+matcherForInteractable" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYMatchers(cm)matcherForInteractable">+matcherForInteractable</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Matcher for UI element that matches EarlGrey&rsquo;s criteria for user interaction currently it must
+  satisfy at least the following criteria:
+  <ul>
+    <li>At least a few pixels of the element&rsquo;s UI are visible.</li>
+    <li>The element&rsquo;s accessibility activation point OR the center of the element&rsquo;s visible area
+        is visible.</li>
+  </ul></p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="n">matcherForInteractable</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A matcher that checks if a UI element is interactable.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYMatchers(cm)matcherForAccessibilityElement"></a>
+                    <a name="//apple_ref/objc/Method/+matcherForAccessibilityElement" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYMatchers(cm)matcherForAccessibilityElement">+matcherForAccessibilityElement</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Matcher to check if a UI element is accessible.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="n">matcherForAccessibilityElement</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A matcher that checks if a UI element is accessible.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYMatchers(cm)matcherForKindOfClass:"></a>
+                    <a name="//apple_ref/objc/Method/+matcherForKindOfClass:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYMatchers(cm)matcherForKindOfClass:">+matcherForKindOfClass:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Matcher for views that are subclass of the provided @c klass.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForKindOfClass</span><span class="p">:(</span><span class="n">Class</span><span class="p">)</span><span class="nv">klass</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>klass</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A UIView class or subclass.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A matcher that confirms if the given class is a subview of the provided class.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYMatchers(cm)matcherForProgress:"></a>
+                    <a name="//apple_ref/objc/Method/+matcherForProgress:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYMatchers(cm)matcherForProgress:">+matcherForProgress:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Matcher for matching UIProgressView&rsquo;s values. Use greaterThan, greaterThanOrEqualTo,
+  lessThan etc to create @c comparisonMatcher. For example, to match the UIProgressView
+  elements that have progress value greater than 50.2, use
+  @code [GREYMatchers matcherForProgress:grey_greaterThan(@(50.2))] @endcode. In case if an
+  unimplemented matcher is required, please implement it similar to @c grey_closeTo.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForProgress</span><span class="p">:(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nv">comparisonMatcher</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>comparisonMatcher</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The matcher with the value to check the progress against.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A matcher for checking a UIProgessView&rsquo;s value.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYMatchers(cm)matcherForRespondsToSelector:"></a>
+                    <a name="//apple_ref/objc/Method/+matcherForRespondsToSelector:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYMatchers(cm)matcherForRespondsToSelector:">+matcherForRespondsToSelector:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Matcher for UI element that respond to the provided @c sel.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForRespondsToSelector</span><span class="p">:(</span><span class="n">SEL</span><span class="p">)</span><span class="nv">sel</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>sel</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The selector to be responded to.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A matcher to check if a UI element&rsquo;s class responds to a particular selector.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYMatchers(cm)matcherForConformsToProtocol:"></a>
+                    <a name="//apple_ref/objc/Method/+matcherForConformsToProtocol:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYMatchers(cm)matcherForConformsToProtocol:">+matcherForConformsToProtocol:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Matcher for UI element that conform to the provided @c protocol.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForConformsToProtocol</span><span class="p">:(</span><span class="n">Protocol</span> <span class="o">*</span><span class="p">)</span><span class="nv">protocol</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>protocol</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The protocol that the UI element must conform to.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A matcher to check if a UI element&rsquo;s class confirms to a particular protocol.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYMatchers(cm)matcherForAncestor:"></a>
+                    <a name="//apple_ref/objc/Method/+matcherForAncestor:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYMatchers(cm)matcherForAncestor:">+matcherForAncestor:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Matcher that matches UI element based on the presence of an ancestor in its hierarchy.
+  The given matcher is used to match decendants.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForAncestor</span><span class="p">:(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nv">ancestorMatcher</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>ancestorMatcher</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The ancestor UI element whose descendants are to be matched.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A matcher to check if a UI element is the descendant of another.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYMatchers(cm)matcherForDescendant:"></a>
+                    <a name="//apple_ref/objc/Method/+matcherForDescendant:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYMatchers(cm)matcherForDescendant:">+matcherForDescendant:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Matcher that matches any UI element with a descendant matching the given matcher.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForDescendant</span><span class="p">:(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nv">descendantMatcher</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>descendantMatcher</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A matcher being checked to be a descendant
+                          of the UI element being checked.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A matcher to check if a the specified element is in a descendant of another UI element.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYMatchers(cm)matcherForButtonTitle:"></a>
+                    <a name="//apple_ref/objc/Method/+matcherForButtonTitle:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYMatchers(cm)matcherForButtonTitle:">+matcherForButtonTitle:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Matcher that matches UIButton that has title label as @c text.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForButtonTitle</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">title</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>title</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The title to be checked on the UIButtons being matched.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A matcher to confirm UIButton titles.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYMatchers(cm)matcherForStepperValue:"></a>
+                    <a name="//apple_ref/objc/Method/+matcherForStepperValue:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYMatchers(cm)matcherForStepperValue:">+matcherForStepperValue:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Matcher that matches UIStepper with value as @c value.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForStepperValue</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">value</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>value</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A value that the UIStepper should be checked for.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A matcher for checking UIStepper values.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYMatchers(cm)matcherForSliderValueMatcher:"></a>
+                    <a name="//apple_ref/objc/Method/+matcherForSliderValueMatcher:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYMatchers(cm)matcherForSliderValueMatcher:">+matcherForSliderValueMatcher:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Matcher that matches a UISlider&rsquo;s value.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForSliderValueMatcher</span><span class="p">:(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nv">valueMatcher</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>valueMatcher</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A matcher for the UISlider&rsquo;s value. You must provide a valid
+                     @c
+for the floating point value comparison. The
+                     @c
+should be of the type @c
+@c
+                     @c
+@c
+@c
+The
+                     value matchers should account for any loss in precision for the given
+                     floating point value. If you are using @c
+use delta diff as
+                     @c
+In case if an unimplemented matcher
+                     is required, please implement it similar to @c</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A matcher for checking a UISlider&rsquo;s value.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYMatchers(cm)matcherForPickerColumn:setToValue:"></a>
+                    <a name="//apple_ref/objc/Method/+matcherForPickerColumn:setToValue:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYMatchers(cm)matcherForPickerColumn:setToValue:">+matcherForPickerColumn:setToValue:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Matcher that matches UIPickerView that has a column set to @c value.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForPickerColumn</span><span class="p">:(</span><span class="n">NSInteger</span><span class="p">)</span><span class="nv">column</span>
+                               <span class="nf">setToValue</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">value</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>column</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The column of the UIPickerView to be matched.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>value</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The value that should be set in the column of the UIPickerView.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A matcher to check the value in a particular column of a UIPickerView.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYMatchers(cm)matcherForDatePickerValue:"></a>
+                    <a name="//apple_ref/objc/Method/+matcherForDatePickerValue:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYMatchers(cm)matcherForDatePickerValue:">+matcherForDatePickerValue:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Matcher that matches UIDatePicker that is set to @c value.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForDatePickerValue</span><span class="p">:(</span><span class="n">NSDate</span> <span class="o">*</span><span class="p">)</span><span class="nv">value</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>value</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The date value that should be present in the UIDatePicker</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A matcher for a date in a UIDatePicker.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYMatchers(cm)matcherForEnabledElement"></a>
+                    <a name="//apple_ref/objc/Method/+matcherForEnabledElement" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYMatchers(cm)matcherForEnabledElement">+matcherForEnabledElement</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Matcher that verifies whether an element, that is a UIControl, is enabled.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="n">matcherForEnabledElement</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A matcher for checking whether a UI element is an enabled UIControl.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYMatchers(cm)matcherForUserInteractionEnabled"></a>
+                    <a name="//apple_ref/objc/Method/+matcherForUserInteractionEnabled" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYMatchers(cm)matcherForUserInteractionEnabled">+matcherForUserInteractionEnabled</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Matcher that verifies whether a view has its userInteractionEnabled property set to @c YES.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="n">matcherForUserInteractionEnabled</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A matcher for checking whether a view&rsquo; userInteractionEnabled property is set to @c</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYMatchers(cm)matcherForConstraints:toReferenceElementMatching:"></a>
+                    <a name="//apple_ref/objc/Method/+matcherForConstraints:toReferenceElementMatching:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYMatchers(cm)matcherForConstraints:toReferenceElementMatching:">+matcherForConstraints:toReferenceElementMatching:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Matcher that verifies that the selected element satisfies the given constraints to the
+  reference element.
+  Usage:
+  @code
+  GREYLayoutConstraint *constraint1 = [GREYLayoutConstraint layoutConstraintWithAttribute &hellip; ];
+  GREYLayoutConstraint *constraint2 = [GREYLayoutConstraint layoutConstraintForDirection &hellip; ];
+  id<GREYMatcher> *matcher = [GREYMatcher matcherForConstraints:@[ constraint1, constraint2 ]
+                                toReferenceElementMatching:aReferenceElementMatcher];
+  [EarlGrey selectElementWithMatcher &hellip;] assertWithMatcher:matcher];
+  @endcode</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForConstraints</span><span class="p">:(</span><span class="n">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="nv">constraints</span>
+              <span class="nf">toReferenceElementMatching</span><span class="p">:</span>
+                  <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nv">referenceElementMatcher</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>constraints</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The constraints to be matched.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>referenceElementMatcher</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The reference element with the correct constraints.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A matcher to verify the GREYLayoutConstraints on a UI element.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYMatchers(cm)matcherForNil"></a>
+                    <a name="//apple_ref/objc/Method/+matcherForNil" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYMatchers(cm)matcherForNil">+matcherForNil</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Matcher primarily for asserting that the element is @c nil or not found.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="n">matcherForNil</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A matcher to check if a specified element is @c
+or not found.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYMatchers(cm)matcherForNotNil"></a>
+                    <a name="//apple_ref/objc/Method/+matcherForNotNil" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYMatchers(cm)matcherForNotNil">+matcherForNotNil</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Matcher for asserting that the element exists in the UI hierarchy (i.e. not @c nil).</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="n">matcherForNotNil</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A matcher to check if a specified element is not @c</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYMatchers(cm)matcherForSwitchWithOnState:"></a>
+                    <a name="//apple_ref/objc/Method/+matcherForSwitchWithOnState:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYMatchers(cm)matcherForSwitchWithOnState:">+matcherForSwitchWithOnState:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Matcher for toggling the switch control.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForSwitchWithOnState</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">on</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>on</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The state of the switch control. The switch control is in ON state if @c
+is @c
+           or OFF state if @c
+is NO.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A matcher to check if a UISwitch is on or off.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYMatchers(cm)matcherForCloseTo:delta:"></a>
+                    <a name="//apple_ref/objc/Method/+matcherForCloseTo:delta:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYMatchers(cm)matcherForCloseTo:delta:">+matcherForCloseTo:delta:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A Matcher for NSNumbers that matches when the examined number is within a specified @c delta
+  from the specified value.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForCloseTo</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">value</span> <span class="nf">delta</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">delta</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>value</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The expected value of the number being matched.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>delta</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The delta within which matches are allowed</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A matcher that checks if a number is close to a specified @c</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYMatchers(cm)matcherForAnything"></a>
+                    <a name="//apple_ref/objc/Method/+matcherForAnything" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYMatchers(cm)matcherForAnything">+matcherForAnything</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A Matcher that matches against any object, including @c nils.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="n">matcherForAnything</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A matcher that matches any object.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYMatchers(cm)matcherForEqualTo:"></a>
+                    <a name="//apple_ref/objc/Method/+matcherForEqualTo:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYMatchers(cm)matcherForEqualTo:">+matcherForEqualTo:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A Matcher that checks if a provided object is equal to the specified @c value. The equality is
+  determined by calling the @c isEqual: method of the object being examined. In case the @c
+  value is @c nil, then the object itself is checked to be @c nil.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForEqualTo</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="nv">value</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>object</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The object to be checked for equality. Please ensure that scalar values are
+               passed in as boxed (object) values.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A matcher that checks if an object is equal to the provided one.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYMatchers(cm)matcherForLessThan:"></a>
+                    <a name="//apple_ref/objc/Method/+matcherForLessThan:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYMatchers(cm)matcherForLessThan:">+matcherForLessThan:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A Matcher that checks if a provided object is less than a specified @c value. The comparison
+  is made by calling the @c compare: method of the object being examined.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForLessThan</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="nv">value</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>value</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The value to be compared, which should return @c
+Please
+              ensure that scalar values are passed in as boxed (object) values.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A matcher that checks an object is lesser than another provided @c</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYMatchers(cm)matcherForGreaterThan:"></a>
+                    <a name="//apple_ref/objc/Method/+matcherForGreaterThan:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYMatchers(cm)matcherForGreaterThan:">+matcherForGreaterThan:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A Matcher that checks if a provided object is greater than a specified @c value. The comparison
+  is made by calling the @c compare: method of the object being examined.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForGreaterThan</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="nv">value</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>value</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The value to be compared, which should return @c
+Please
+              ensure that scalar values are passed in as boxed (object) values.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A matcher that checks an object is greater than another provided @c</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>Copyright 2016 Google Inc.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

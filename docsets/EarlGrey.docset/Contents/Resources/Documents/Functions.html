@@ -1,0 +1,2830 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Functions  Reference</title>
+    <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="js/jquery.min.js" defer></script>
+    <script src="js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a title="Functions  Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="index.html">EarlGrey Docs</a> (93% documented)</p>
+        <p class="header-right"><a href="https://github.com/google/EarlGrey"><img src="img/gh.png"/>View on GitHub</a></p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="index.html">EarlGrey Reference</a>
+        <img id="carat" src="img/carat.png" />
+        Functions  Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Classes/EarlGreyImpl.html">EarlGreyImpl</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/GREYActionBlock.html">GREYActionBlock</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/GREYActions.html">GREYActions</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/GREYAllOf.html">GREYAllOf</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/GREYAnyOf.html">GREYAnyOf</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/GREYAssertionBlock.html">GREYAssertionBlock</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes.html#/c:objc(cs)GREYAssertions">GREYAssertions</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/GREYBaseAction.html">GREYBaseAction</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/GREYBaseMatcher.html">GREYBaseMatcher</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/GREYCondition.html">GREYCondition</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/GREYConfiguration.html">GREYConfiguration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/GREYConstants.html">GREYConstants</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/GREYDataEnumerator.html">GREYDataEnumerator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/GREYDispatchQueueIdlingResource.html">GREYDispatchQueueIdlingResource</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/GREYElementFinder.html">GREYElementFinder</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/GREYElementHierarchy.html">GREYElementHierarchy</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/GREYElementInteraction.html">GREYElementInteraction</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/GREYElementMatcherBlock.html">GREYElementMatcherBlock</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/GREYFrameworkException.html">GREYFrameworkException</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/GREYLayoutConstraint.html">GREYLayoutConstraint</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/GREYMatchers.html">GREYMatchers</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/GREYNSTimerIdlingResource.html">GREYNSTimerIdlingResource</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/GREYNot.html">GREYNot</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/GREYOperationQueueIdlingResource.html">GREYOperationQueueIdlingResource</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/GREYScreenshotUtil.html">GREYScreenshotUtil</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/GREYTestHelper.html">GREYTestHelper</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/GREYUIThreadExecutor.html">GREYUIThreadExecutor</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Constants.html">Constants</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Constants.html#/c:@greyFailureHandler">greyFailureHandler</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Constants.html#/c:@kGREYAcceptableFloatDifference">kGREYAcceptableFloatDifference</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Constants.html#/c:@kGREYActionElementUserInfoKey">kGREYActionElementUserInfoKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Constants.html#/c:@kGREYActionErrorUserInfoKey">kGREYActionErrorUserInfoKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Constants.html#/c:@kGREYActionFailedException">kGREYActionFailedException</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Constants.html#/c:@kGREYActionUserInfoKey">kGREYActionUserInfoKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Constants.html#/c:@kGREYAssertionElementUserInfoKey">kGREYAssertionElementUserInfoKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Constants.html#/c:@kGREYAssertionErrorUserInfoKey">kGREYAssertionErrorUserInfoKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Constants.html#/c:@kGREYAssertionFailedException">kGREYAssertionFailedException</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Constants.html#/c:@kGREYAssertionUserInfoKey">kGREYAssertionUserInfoKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Constants.html#/c:@kGREYConfigKeyActionConstraintsEnabled">kGREYConfigKeyActionConstraintsEnabled</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Constants.html#/c:@kGREYConfigKeyAnalyticsEnabled">kGREYConfigKeyAnalyticsEnabled</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Constants.html#/c:@kGREYConfigKeyCALayerMaxAnimationDuration">kGREYConfigKeyCALayerMaxAnimationDuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Constants.html#/c:@kGREYConfigKeyCALayerModifyAnimations">kGREYConfigKeyCALayerModifyAnimations</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Constants.html#/c:@kGREYConfigKeyDelayedPerformMaxTrackableDuration">kGREYConfigKeyDelayedPerformMaxTrackableDuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Constants.html#/c:@kGREYConfigKeyDispatchAfterMaxTrackableDelay">kGREYConfigKeyDispatchAfterMaxTrackableDelay</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Constants.html#/c:@kGREYConfigKeyIncludeStatusBarWindow">kGREYConfigKeyIncludeStatusBarWindow</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Constants.html#/c:@kGREYConfigKeyInteractionTimeoutDuration">kGREYConfigKeyInteractionTimeoutDuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Constants.html#/c:@kGREYConfigKeyNSTimerMaxTrackableInterval">kGREYConfigKeyNSTimerMaxTrackableInterval</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Constants.html#/c:@kGREYConfigKeyScreenshotDirLocation">kGREYConfigKeyScreenshotDirLocation</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Constants.html#/c:@kGREYConfigKeySynchronizationEnabled">kGREYConfigKeySynchronizationEnabled</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Constants.html#/c:@kGREYConfigKeyURLBlacklistRegex">kGREYConfigKeyURLBlacklistRegex</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Constants.html#/c:@kGREYConfigKeyVerboseLogging">kGREYConfigKeyVerboseLogging</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Constants.html#/c:@kGREYDidPerformActionNotification">kGREYDidPerformActionNotification</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Constants.html#/c:@kGREYDidPerformAssertionNotification">kGREYDidPerformAssertionNotification</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Constants.html#/c:@kGREYGenericFailureException">kGREYGenericFailureException</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Constants.html#/c:@kGREYInfiniteTimeout">kGREYInfiniteTimeout</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Constants.html#/c:@kGREYInteractionErrorDomain">kGREYInteractionErrorDomain</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Constants.html#/c:@kGREYLongPressDefaultDuration">kGREYLongPressDefaultDuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Constants.html#/c:@kGREYMinimumVisibleAlpha">kGREYMinimumVisibleAlpha</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Constants.html#/c:@kGREYMultipleElementsFoundException">kGREYMultipleElementsFoundException</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Constants.html#/c:@kGREYNilException">kGREYNilException</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Constants.html#/c:@kGREYNoMatchingElementException">kGREYNoMatchingElementException</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Constants.html#/c:@kGREYNotNilException">kGREYNotNilException</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Constants.html#/c:@kGREYScrollErrorDomain">kGREYScrollErrorDomain</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Constants.html#/c:@kGREYSwipeFastDuration">kGREYSwipeFastDuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Constants.html#/c:@kGREYSwipeSlowDuration">kGREYSwipeSlowDuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Constants.html#/c:@kGREYTimeoutException">kGREYTimeoutException</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Constants.html#/c:@kGREYUIThreadExecutorErrorDomain">kGREYUIThreadExecutorErrorDomain</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Constants.html#/c:@kGREYWillPerformActionNotification">kGREYWillPerformActionNotification</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Constants.html#/c:@kGREYWillPerformAssertionNotification">kGREYWillPerformAssertionNotification</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Constants.html#/c:@kUIPickerViewMaxAccessibilityViews">kUIPickerViewMaxAccessibilityViews</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Enums.html">Enums</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Enums/GREYContentEdge.html">GREYContentEdge</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/GREYDirection.html">GREYDirection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/GREYInteractionErrorCode.html">GREYInteractionErrorCode</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/GREYLayoutAttribute.html">GREYLayoutAttribute</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/GREYLayoutDirection.html">GREYLayoutDirection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/GREYLayoutRelation.html">GREYLayoutRelation</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/GREYScrollErrorCode.html">GREYScrollErrorCode</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/GREYTapType.html">GREYTapType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/GREYUIThreadExecutorErrorCode.html">GREYUIThreadExecutorErrorCode</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Protocols/GREYAction.html">GREYAction</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/GREYAssertion.html">GREYAssertion</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/GREYDescription.html">GREYDescription</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/GREYFailureHandler.html">GREYFailureHandler</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/GREYIdlingResource.html">GREYIdlingResource</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/GREYInteraction.html">GREYInteraction</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/GREYMatcher.html">GREYMatcher</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/GREYProvider.html">GREYProvider</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Type Definitions.html">Type Definitions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Type Definitions.html#/c:GREYElementMatcherBlock.h@T@DescribeToBlock">DescribeToBlock</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Type Definitions.html#/c:GREYAssertionBlock.h@T@GREYCheckBlockWithError">GREYCheckBlockWithError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Type Definitions.html#/c:GREYUIThreadExecutor.h@T@GREYExecBlock">GREYExecBlock</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Type Definitions.html#/c:GREYActionBlock.h@T@GREYPerformBlock">GREYPerformBlock</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Type Definitions.html#/c:GREYElementMatcherBlock.h@T@MatchesBlock">MatchesBlock</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Functions.html">Functions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@NSStringFromGREYContentEdge">NSStringFromGREYContentEdge</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@NSStringFromGREYDirection">NSStringFromGREYDirection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@NSStringFromGREYLayoutAttribute">NSStringFromGREYLayoutAttribute</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@NSStringFromGREYLayoutRelation">NSStringFromGREYLayoutRelation</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@NSStringFromUIAccessibilityTraits">NSStringFromUIAccessibilityTraits</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@NSStringFromUIDeviceOrientation">NSStringFromUIDeviceOrientation</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_accessibilityElement">grey_accessibilityElement</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_accessibilityHint">grey_accessibilityHint</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_accessibilityID">grey_accessibilityID</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_accessibilityLabel">grey_accessibilityLabel</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_accessibilityTrait">grey_accessibilityTrait</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_accessibilityValue">grey_accessibilityValue</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_allOf">grey_allOf</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_ancestor">grey_ancestor</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_anyOf">grey_anyOf</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_anything">grey_anything</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_buttonTitle">grey_buttonTitle</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_clearText">grey_clearText</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_closeTo">grey_closeTo</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_conformsToProtocol">grey_conformsToProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_createImagePixelDataFromCGImageRef">grey_createImagePixelDataFromCGImageRef</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_datePickerValue">grey_datePickerValue</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_descendant">grey_descendant</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_doubleTap">grey_doubleTap</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_doubleTapAtPoint">grey_doubleTapAtPoint</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_enabled">grey_enabled</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_equalTo">grey_equalTo</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_execute_async">grey_execute_async</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_execute_sync">grey_execute_sync</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_firstResponder">grey_firstResponder</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_greaterThan">grey_greaterThan</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_interactable">grey_interactable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_javaScriptExecution">grey_javaScriptExecution</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_keyWindow">grey_keyWindow</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_kindOfClass">grey_kindOfClass</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_layout">grey_layout</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_lessThan">grey_lessThan</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_longPress">grey_longPress</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_longPressAtPointWithDuration">grey_longPressAtPointWithDuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_longPressWithDuration">grey_longPressWithDuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_minimumVisiblePercent">grey_minimumVisiblePercent</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_moveSliderToValue">grey_moveSliderToValue</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_multipleTapsWithCount">grey_multipleTapsWithCount</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_nil">grey_nil</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_not">grey_not</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_notNil">grey_notNil</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_notVisible">grey_notVisible</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_pickerColumnSetToValue">grey_pickerColumnSetToValue</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_progress">grey_progress</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_replaceText">grey_replaceText</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_respondsToSelector">grey_respondsToSelector</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_scrollInDirection">grey_scrollInDirection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_scrollInDirectionWithStartPoint">grey_scrollInDirectionWithStartPoint</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_scrollToContentEdge">grey_scrollToContentEdge</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_scrollToContentEdgeWithStartPoint">grey_scrollToContentEdgeWithStartPoint</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_setDate">grey_setDate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_setPickerColumnToValue">grey_setPickerColumnToValue</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_setStepperValue">grey_setStepperValue</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_sliderValueMatcher">grey_sliderValueMatcher</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_snapshot">grey_snapshot</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_stepperValue">grey_stepperValue</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_sufficientlyVisible">grey_sufficientlyVisible</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_swipeFastInDirection">grey_swipeFastInDirection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_swipeFastInDirectionWithStartPoint">grey_swipeFastInDirectionWithStartPoint</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_swipeSlowInDirection">grey_swipeSlowInDirection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_swipeSlowInDirectionWithStartPoint">grey_swipeSlowInDirectionWithStartPoint</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_switchWithOnState">grey_switchWithOnState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_systemAlertViewShown">grey_systemAlertViewShown</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_tap">grey_tap</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_tapAtPoint">grey_tapAtPoint</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_text">grey_text</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_turnSwitchOn">grey_turnSwitchOn</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_typeText">grey_typeText</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_userInteractionEnabled">grey_userInteractionEnabled</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>Functions</h1>
+            <p>The following functions are available globally.</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_doubleTap"></a>
+                    <a name="//apple_ref/objc/Function/grey_doubleTap" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_doubleTap">grey_doubleTap</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand macro for GREYActions::actionForMultipleTapsWithCount: with count @c 2.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span> <span class="n">grey_doubleTap</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_doubleTapAtPoint"></a>
+                    <a name="//apple_ref/objc/Function/grey_doubleTapAtPoint" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_doubleTapAtPoint">grey_doubleTapAtPoint</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand macro for
+GREYActions::actionForMultipleTapsWithCount: with count @c 2 and @c point.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span> <span class="n">grey_doubleTapAtPoint</span><span class="p">(</span><span class="n">CGPoint</span> <span class="n">point</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_multipleTapsWithCount"></a>
+                    <a name="//apple_ref/objc/Function/grey_multipleTapsWithCount" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_multipleTapsWithCount">grey_multipleTapsWithCount</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand macro for GREYActions::actionForMultipleTapsWithCount:.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span> <span class="n">grey_multipleTapsWithCount</span><span class="p">(</span><span class="n">NSUInteger</span> <span class="n">count</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_longPress"></a>
+                    <a name="//apple_ref/objc/Function/grey_longPress" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_longPress">grey_longPress</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand macro for GREYActions::actionForLongPress.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span> <span class="n">grey_longPress</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_longPressWithDuration"></a>
+                    <a name="//apple_ref/objc/Function/grey_longPressWithDuration" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_longPressWithDuration">grey_longPressWithDuration</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand macro for GREYActions::actionForLongPressWithDuration:.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span> <span class="n">grey_longPressWithDuration</span><span class="p">(</span><span class="n">CFTimeInterval</span> <span class="n">duration</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_longPressAtPointWithDuration"></a>
+                    <a name="//apple_ref/objc/Function/grey_longPressAtPointWithDuration" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_longPressAtPointWithDuration">grey_longPressAtPointWithDuration</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand macro for GREYActions::actionForLongPressAtPoint:duration:.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span> <span class="n">grey_longPressAtPointWithDuration</span><span class="p">(</span><span class="n">CGPoint</span> <span class="n">point</span><span class="p">,</span>
+                                                        <span class="n">CFTimeInterval</span> <span class="n">duration</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_scrollInDirection"></a>
+                    <a name="//apple_ref/objc/Function/grey_scrollInDirection" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_scrollInDirection">grey_scrollInDirection</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand macro for GREYActions::actionForScrollInDirection:amount:.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span> <span class="n">grey_scrollInDirection</span><span class="p">(</span><span class="n"><a href="Enums/GREYDirection.html">GREYDirection</a></span> <span class="n">direction</span><span class="p">,</span>
+                                             <span class="n">CGFloat</span> <span class="n">amount</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_scrollInDirectionWithStartPoint"></a>
+                    <a name="//apple_ref/objc/Function/grey_scrollInDirectionWithStartPoint" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_scrollInDirectionWithStartPoint">grey_scrollInDirectionWithStartPoint</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand macro for
+GREYActions::actionForScrollInDirection:amount:xOriginStartPercentage:yOriginStartPercentage:.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span>
+<span class="n">grey_scrollInDirectionWithStartPoint</span><span class="p">(</span><span class="n"><a href="Enums/GREYDirection.html">GREYDirection</a></span> <span class="n">direction</span><span class="p">,</span> <span class="n">CGFloat</span> <span class="n">amount</span><span class="p">,</span>
+                                     <span class="n">CGFloat</span> <span class="n">xOriginStartPercentage</span><span class="p">,</span>
+                                     <span class="n">CGFloat</span> <span class="n">yOriginStartPercentage</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_scrollToContentEdge"></a>
+                    <a name="//apple_ref/objc/Function/grey_scrollToContentEdge" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_scrollToContentEdge">grey_scrollToContentEdge</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand macro for GREYActions::actionForScrollToContentEdge:.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span> <span class="n">grey_scrollToContentEdge</span><span class="p">(</span><span class="n"><a href="Enums/GREYContentEdge.html">GREYContentEdge</a></span> <span class="n">edge</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_scrollToContentEdgeWithStartPoint"></a>
+                    <a name="//apple_ref/objc/Function/grey_scrollToContentEdgeWithStartPoint" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_scrollToContentEdgeWithStartPoint">grey_scrollToContentEdgeWithStartPoint</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand macro for
+GREYActions::actionForScrollToContentEdge:xOriginStartPercentage:yOriginStartPercentage:.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span>
+<span class="n">grey_scrollToContentEdgeWithStartPoint</span><span class="p">(</span><span class="n"><a href="Enums/GREYContentEdge.html">GREYContentEdge</a></span> <span class="n">edge</span><span class="p">,</span>
+                                       <span class="n">CGFloat</span> <span class="n">xOriginStartPercentage</span><span class="p">,</span>
+                                       <span class="n">CGFloat</span> <span class="n">yOriginStartPercentage</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_swipeFastInDirection"></a>
+                    <a name="//apple_ref/objc/Function/grey_swipeFastInDirection" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_swipeFastInDirection">grey_swipeFastInDirection</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand macro for GREYActions::actionForSwipeFastInDirection:.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span> <span class="n">grey_swipeFastInDirection</span><span class="p">(</span><span class="n"><a href="Enums/GREYDirection.html">GREYDirection</a></span> <span class="n">direction</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_swipeSlowInDirection"></a>
+                    <a name="//apple_ref/objc/Function/grey_swipeSlowInDirection" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_swipeSlowInDirection">grey_swipeSlowInDirection</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand macro for GREYActions::actionForSwipeSlowInDirection:.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span> <span class="n">grey_swipeSlowInDirection</span><span class="p">(</span><span class="n"><a href="Enums/GREYDirection.html">GREYDirection</a></span> <span class="n">direction</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_swipeFastInDirectionWithStartPoint"></a>
+                    <a name="//apple_ref/objc/Function/grey_swipeFastInDirectionWithStartPoint" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_swipeFastInDirectionWithStartPoint">grey_swipeFastInDirectionWithStartPoint</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand macro for
+GREYActions::actionForSwipeFastInDirection:xOriginStartPercentage:yOriginStartPercentage:.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span>
+<span class="n">grey_swipeFastInDirectionWithStartPoint</span><span class="p">(</span><span class="n"><a href="Enums/GREYDirection.html">GREYDirection</a></span> <span class="n">direction</span><span class="p">,</span>
+                                        <span class="n">CGFloat</span> <span class="n">xOriginStartPercentage</span><span class="p">,</span>
+                                        <span class="n">CGFloat</span> <span class="n">yOriginStartPercentage</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_swipeSlowInDirectionWithStartPoint"></a>
+                    <a name="//apple_ref/objc/Function/grey_swipeSlowInDirectionWithStartPoint" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_swipeSlowInDirectionWithStartPoint">grey_swipeSlowInDirectionWithStartPoint</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand macro for
+GREYActions::actionForSwipeSlowInDirection:xOriginStartPercentage:yOriginStartPercentage:.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span>
+<span class="n">grey_swipeSlowInDirectionWithStartPoint</span><span class="p">(</span><span class="n"><a href="Enums/GREYDirection.html">GREYDirection</a></span> <span class="n">direction</span><span class="p">,</span>
+                                        <span class="n">CGFloat</span> <span class="n">xOriginStartPercentage</span><span class="p">,</span>
+                                        <span class="n">CGFloat</span> <span class="n">yOriginStartPercentage</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_moveSliderToValue"></a>
+                    <a name="//apple_ref/objc/Function/grey_moveSliderToValue" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_moveSliderToValue">grey_moveSliderToValue</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand macro for GREYActions::actionForMoveSliderToValue:.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span> <span class="n">grey_moveSliderToValue</span><span class="p">(</span><span class="kt">float</span> <span class="n">value</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_setStepperValue"></a>
+                    <a name="//apple_ref/objc/Function/grey_setStepperValue" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_setStepperValue">grey_setStepperValue</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand macro for GREYActions::actionForSetStepperValue:.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span> <span class="n">grey_setStepperValue</span><span class="p">(</span><span class="kt">double</span> <span class="n">value</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_tap"></a>
+                    <a name="//apple_ref/objc/Function/grey_tap" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_tap">grey_tap</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand macro for GREYActions::actionForTap.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span> <span class="n">grey_tap</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_tapAtPoint"></a>
+                    <a name="//apple_ref/objc/Function/grey_tapAtPoint" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_tapAtPoint">grey_tapAtPoint</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand macro for GREYActions::actionForTapAtPoint:.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span> <span class="n">grey_tapAtPoint</span><span class="p">(</span><span class="n">CGPoint</span> <span class="n">point</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_typeText"></a>
+                    <a name="//apple_ref/objc/Function/grey_typeText" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_typeText">grey_typeText</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand macro for GREYActions::actionForTypeText:.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span> <span class="n">grey_typeText</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="n">text</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_replaceText"></a>
+                    <a name="//apple_ref/objc/Function/grey_replaceText" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_replaceText">grey_replaceText</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand macro for GREYActions::actionForReplaceText:.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span> <span class="n">grey_replaceText</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="n">text</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_clearText"></a>
+                    <a name="//apple_ref/objc/Function/grey_clearText" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_clearText">grey_clearText</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand macro for GREYActions::actionForClearText.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span> <span class="n">grey_clearText</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_turnSwitchOn"></a>
+                    <a name="//apple_ref/objc/Function/grey_turnSwitchOn" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_turnSwitchOn">grey_turnSwitchOn</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand macro for GREYActions::actionForTurnSwitchOn:.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span> <span class="n">grey_turnSwitchOn</span><span class="p">(</span><span class="n">BOOL</span> <span class="n">on</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_setDate"></a>
+                    <a name="//apple_ref/objc/Function/grey_setDate" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_setDate">grey_setDate</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand macro for GREYActions::actionForSetDate:.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span> <span class="n">grey_setDate</span><span class="p">(</span><span class="n">NSDate</span> <span class="o">*</span><span class="n">date</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_setPickerColumnToValue"></a>
+                    <a name="//apple_ref/objc/Function/grey_setPickerColumnToValue" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_setPickerColumnToValue">grey_setPickerColumnToValue</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand macro for GREYActions::actionForSetPickerColumn:toValue:.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span> <span class="n">grey_setPickerColumnToValue</span><span class="p">(</span><span class="n">NSInteger</span> <span class="n">column</span><span class="p">,</span>
+                                                  <span class="n">NSString</span> <span class="o">*</span><span class="n">value</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_javaScriptExecution"></a>
+                    <a name="//apple_ref/objc/Function/grey_javaScriptExecution" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_javaScriptExecution">grey_javaScriptExecution</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand macro for GREYActions::actionForJavaScriptExecution:output:.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span> <span class="n">grey_javaScriptExecution</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="n">js</span><span class="p">,</span>
+                                               <span class="n">NSString</span> <span class="o">**</span><span class="n">outResult</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_snapshot"></a>
+                    <a name="//apple_ref/objc/Function/grey_snapshot" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_snapshot">grey_snapshot</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand macro for GREYActions::actionForSnapshot:.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span> <span class="n">grey_snapshot</span><span class="p">(</span><span class="n">UIImage</span> <span class="o">**</span><span class="n">outImage</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_allOf"></a>
+                    <a name="//apple_ref/objc/Function/grey_allOf" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_allOf">grey_allOf</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A shorthand matcher that is a logical AND of all the matchers passed in as variable arguments.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_allOf</span><span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">matcher</span><span class="p">,</span> <span class="p">...)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>matcher</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The first matcher in the list of matchers.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>...</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <pre class="highlight plaintext"><code>Any more matchers to be added. Matchers are invoked in the order they are
+            specified and only if the preceding matcher passes. This va-arg must be
+            terminated with a @c
+</code></pre>
+
+<p>value.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>An object conforming to HCMatcher, initialized with the required matchers.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_anyOf"></a>
+                    <a name="//apple_ref/objc/Function/grey_anyOf" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_anyOf">grey_anyOf</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A matcher that is a logical OR of all the matchers passed in as variable arguments.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_anyOf</span><span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">match</span><span class="p">,</span> <span class="p">...)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>match</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The first matcher in the list of matchers.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>...</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Any more matchers to be added. Matchers are invoked in the order they are
+              specified and only if the preceding matcher fails.
+              This va-arg must be terminated with a @c
+value.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>An object conforming to HCMatcher, initialized with the required matcher(s).</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@NSStringFromUIDeviceOrientation"></a>
+                    <a name="//apple_ref/objc/Function/NSStringFromUIDeviceOrientation" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@NSStringFromUIDeviceOrientation">NSStringFromUIDeviceOrientation</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="n">NSString</span> <span class="o">*</span><span class="n">NSStringFromUIDeviceOrientation</span><span class="p">(</span><span class="n">UIDeviceOrientation</span> <span class="n">deviceOrientation</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A string representation of the given @c</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@NSStringFromGREYDirection"></a>
+                    <a name="//apple_ref/objc/Function/NSStringFromGREYDirection" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@NSStringFromGREYDirection">NSStringFromGREYDirection</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="n">NSString</span> <span class="o">*</span><span class="n">NSStringFromGREYDirection</span><span class="p">(</span><span class="n"><a href="Enums/GREYDirection.html">GREYDirection</a></span> <span class="n">direction</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A string representation of the given @c</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@NSStringFromGREYContentEdge"></a>
+                    <a name="//apple_ref/objc/Function/NSStringFromGREYContentEdge" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@NSStringFromGREYContentEdge">NSStringFromGREYContentEdge</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="n">NSString</span> <span class="o">*</span><span class="n">NSStringFromGREYContentEdge</span><span class="p">(</span><span class="n"><a href="Enums/GREYContentEdge.html">GREYContentEdge</a></span> <span class="n">edge</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A string representation of the given @c</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@NSStringFromGREYLayoutAttribute"></a>
+                    <a name="//apple_ref/objc/Function/NSStringFromGREYLayoutAttribute" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@NSStringFromGREYLayoutAttribute">NSStringFromGREYLayoutAttribute</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="n">NSString</span> <span class="o">*</span><span class="n">NSStringFromGREYLayoutAttribute</span><span class="p">(</span><span class="n"><a href="Enums/GREYLayoutAttribute.html">GREYLayoutAttribute</a></span> <span class="n">attribute</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A string representation of the given layout @c</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@NSStringFromGREYLayoutRelation"></a>
+                    <a name="//apple_ref/objc/Function/NSStringFromGREYLayoutRelation" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@NSStringFromGREYLayoutRelation">NSStringFromGREYLayoutRelation</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="n">NSString</span> <span class="o">*</span><span class="n">NSStringFromGREYLayoutRelation</span><span class="p">(</span><span class="n"><a href="Enums/GREYLayoutRelation.html">GREYLayoutRelation</a></span> <span class="n">relation</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A string representation of the given layout @c</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@NSStringFromUIAccessibilityTraits"></a>
+                    <a name="//apple_ref/objc/Function/NSStringFromUIAccessibilityTraits" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@NSStringFromUIAccessibilityTraits">NSStringFromUIAccessibilityTraits</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="n">NSString</span> <span class="o">*</span><span class="n">NSStringFromUIAccessibilityTraits</span><span class="p">(</span><span class="n">UIAccessibilityTraits</span> <span class="n">traits</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A string representation of the given accessibility trait.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_keyWindow"></a>
+                    <a name="//apple_ref/objc/Function/grey_keyWindow" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_keyWindow">grey_keyWindow</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand for GREYMatchers::matcherForKeyWindow.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_keyWindow</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_accessibilityLabel"></a>
+                    <a name="//apple_ref/objc/Function/grey_accessibilityLabel" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_accessibilityLabel">grey_accessibilityLabel</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand for GREYMatchers::matcherForAccessibilityLabel:.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_accessibilityLabel</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="n">label</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_accessibilityID"></a>
+                    <a name="//apple_ref/objc/Function/grey_accessibilityID" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_accessibilityID">grey_accessibilityID</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand for GREYMatchers::matcherForAccessibilityID:.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_accessibilityID</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="n">accessibilityID</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_accessibilityValue"></a>
+                    <a name="//apple_ref/objc/Function/grey_accessibilityValue" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_accessibilityValue">grey_accessibilityValue</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand for GREYMatchers::matcherForAccessibilityValue:.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span>
+<span class="n">grey_accessibilityValue</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="n">grey_accessibilityValue</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_accessibilityTrait"></a>
+                    <a name="//apple_ref/objc/Function/grey_accessibilityTrait" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_accessibilityTrait">grey_accessibilityTrait</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand for GREYMatchers::matcherForAccessibilityTraits:.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_accessibilityTrait</span><span class="p">(</span><span class="n">UIAccessibilityTraits</span> <span class="n">traits</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_accessibilityHint"></a>
+                    <a name="//apple_ref/objc/Function/grey_accessibilityHint" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_accessibilityHint">grey_accessibilityHint</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand for GREYMatchers::matcherForAccessibilityHint:.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_accessibilityHint</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="n">hint</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_text"></a>
+                    <a name="//apple_ref/objc/Function/grey_text" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_text">grey_text</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand for GREYMatchers::matcherForText:.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_text</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="n">inputText</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_firstResponder"></a>
+                    <a name="//apple_ref/objc/Function/grey_firstResponder" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_firstResponder">grey_firstResponder</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand for GREYMatchers::matcherForFirstResponder.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_firstResponder</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_systemAlertViewShown"></a>
+                    <a name="//apple_ref/objc/Function/grey_systemAlertViewShown" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_systemAlertViewShown">grey_systemAlertViewShown</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand for GREYMatchers::matcherForSystemAlertViewShown.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_systemAlertViewShown</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_minimumVisiblePercent"></a>
+                    <a name="//apple_ref/objc/Function/grey_minimumVisiblePercent" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_minimumVisiblePercent">grey_minimumVisiblePercent</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand for GREYMatchers::matcherForMinimumVisiblePercent:.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_minimumVisiblePercent</span><span class="p">(</span><span class="n">CGFloat</span> <span class="n">percent</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_sufficientlyVisible"></a>
+                    <a name="//apple_ref/objc/Function/grey_sufficientlyVisible" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_sufficientlyVisible">grey_sufficientlyVisible</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand for GREYMatchers::matcherForSufficientlyVisible.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_sufficientlyVisible</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_interactable"></a>
+                    <a name="//apple_ref/objc/Function/grey_interactable" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_interactable">grey_interactable</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand for GREYMatchers::matcherForInteractable.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_interactable</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_notVisible"></a>
+                    <a name="//apple_ref/objc/Function/grey_notVisible" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_notVisible">grey_notVisible</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand for GREYMatchers::matcherForNotVisible.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_notVisible</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_accessibilityElement"></a>
+                    <a name="//apple_ref/objc/Function/grey_accessibilityElement" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_accessibilityElement">grey_accessibilityElement</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand for GREYMatchers::matcherForAccessibilityElement.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_accessibilityElement</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_kindOfClass"></a>
+                    <a name="//apple_ref/objc/Function/grey_kindOfClass" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_kindOfClass">grey_kindOfClass</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand for GREYMatchers::matcherForKindOfClass:.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_kindOfClass</span><span class="p">(</span><span class="n">Class</span> <span class="n">klass</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_progress"></a>
+                    <a name="//apple_ref/objc/Function/grey_progress" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_progress">grey_progress</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand for GREYMatchers::matcherForProgress:.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_progress</span><span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">comparisonMatcher</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_respondsToSelector"></a>
+                    <a name="//apple_ref/objc/Function/grey_respondsToSelector" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_respondsToSelector">grey_respondsToSelector</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand for GREYMatchers::matcherForRespondsToSelector:.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_respondsToSelector</span><span class="p">(</span><span class="n">SEL</span> <span class="n">sel</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_conformsToProtocol"></a>
+                    <a name="//apple_ref/objc/Function/grey_conformsToProtocol" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_conformsToProtocol">grey_conformsToProtocol</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand for GREYMatchers::matcherForConformsToProtocol:.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_conformsToProtocol</span><span class="p">(</span><span class="n">Protocol</span> <span class="o">*</span><span class="n">protocol</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_ancestor"></a>
+                    <a name="//apple_ref/objc/Function/grey_ancestor" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_ancestor">grey_ancestor</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand for GREYMatchers::matcherForAncestor:.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_ancestor</span><span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">ancestorMatcher</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_descendant"></a>
+                    <a name="//apple_ref/objc/Function/grey_descendant" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_descendant">grey_descendant</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand for GREYMatchers::matcherForDescendant:.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_descendant</span><span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">descendantMatcher</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_buttonTitle"></a>
+                    <a name="//apple_ref/objc/Function/grey_buttonTitle" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_buttonTitle">grey_buttonTitle</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand for GREYMatchers::matcherForButtonTitle:.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_buttonTitle</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="n">text</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_stepperValue"></a>
+                    <a name="//apple_ref/objc/Function/grey_stepperValue" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_stepperValue">grey_stepperValue</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand for GREYMatchers::matcherForStepperValue:.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_stepperValue</span><span class="p">(</span><span class="kt">double</span> <span class="n">value</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_sliderValueMatcher"></a>
+                    <a name="//apple_ref/objc/Function/grey_sliderValueMatcher" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_sliderValueMatcher">grey_sliderValueMatcher</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand for GREYMatchers::matcherForSliderValueMatcher:.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_sliderValueMatcher</span><span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">valueMatcher</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_pickerColumnSetToValue"></a>
+                    <a name="//apple_ref/objc/Function/grey_pickerColumnSetToValue" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_pickerColumnSetToValue">grey_pickerColumnSetToValue</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand for GREYMatchers::matcherForPickerColumn:setToValue:.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_pickerColumnSetToValue</span><span class="p">(</span><span class="n">NSInteger</span> <span class="n">column</span><span class="p">,</span>
+                                                   <span class="n">NSString</span> <span class="o">*</span><span class="n">value</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_datePickerValue"></a>
+                    <a name="//apple_ref/objc/Function/grey_datePickerValue" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_datePickerValue">grey_datePickerValue</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand for GREYMatchers::matcherForDatePickerValue:.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_datePickerValue</span><span class="p">(</span><span class="n">NSDate</span> <span class="o">*</span><span class="n">date</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_enabled"></a>
+                    <a name="//apple_ref/objc/Function/grey_enabled" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_enabled">grey_enabled</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand for GREYMatchers::matcherForEnabledElement.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_enabled</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_userInteractionEnabled"></a>
+                    <a name="//apple_ref/objc/Function/grey_userInteractionEnabled" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_userInteractionEnabled">grey_userInteractionEnabled</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand for GREYMatchers::matcherForUserInteractionEnabled.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_userInteractionEnabled</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_layout"></a>
+                    <a name="//apple_ref/objc/Function/grey_layout" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_layout">grey_layout</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand for GREYMatchers::matcherForConstraints:toReferenceElementMatching:.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_layout</span><span class="p">(</span><span class="n">NSArray</span> <span class="o">*</span><span class="n">constraints</span><span class="p">,</span>
+                                   <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">referenceElementMatcher</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_nil"></a>
+                    <a name="//apple_ref/objc/Function/grey_nil" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_nil">grey_nil</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand for GREYMatchers::matcherForNil.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_nil</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_notNil"></a>
+                    <a name="//apple_ref/objc/Function/grey_notNil" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_notNil">grey_notNil</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand for GREYMatchers::matcherForNotNil.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_notNil</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_switchWithOnState"></a>
+                    <a name="//apple_ref/objc/Function/grey_switchWithOnState" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_switchWithOnState">grey_switchWithOnState</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand for GREYMatchers::matcherForSwitchWithOnState:.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_switchWithOnState</span><span class="p">(</span><span class="n">BOOL</span> <span class="n">on</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_closeTo"></a>
+                    <a name="//apple_ref/objc/Function/grey_closeTo" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_closeTo">grey_closeTo</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand for GREYMatchers::matcherForCloseTo:delta.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_closeTo</span><span class="p">(</span><span class="kt">double</span> <span class="n">value</span><span class="p">,</span> <span class="kt">double</span> <span class="n">delta</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_anything"></a>
+                    <a name="//apple_ref/objc/Function/grey_anything" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_anything">grey_anything</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand for GREYMatchers::matcherForAnything.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_anything</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_equalTo"></a>
+                    <a name="//apple_ref/objc/Function/grey_equalTo" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_equalTo">grey_equalTo</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand for GREYMatchers::matcherForEqualTo:object.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_equalTo</span><span class="p">(</span><span class="n">id</span> <span class="n">value</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_lessThan"></a>
+                    <a name="//apple_ref/objc/Function/grey_lessThan" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_lessThan">grey_lessThan</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand for GREYMatchers::matcherForLessThan:value.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_lessThan</span><span class="p">(</span><span class="n">id</span> <span class="n">value</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_greaterThan"></a>
+                    <a name="//apple_ref/objc/Function/grey_greaterThan" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_greaterThan">grey_greaterThan</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand for GREYMatchers::matcherForGreaterThan:value.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_greaterThan</span><span class="p">(</span><span class="n">id</span> <span class="n">value</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_not"></a>
+                    <a name="//apple_ref/objc/Function/grey_not" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_not">grey_not</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand macro for GREYNot::initWithMatcher:.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_not</span><span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">matcher</span><span class="p">)</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">grey_not</span><span class="p">(</span><span class="nv">matcher</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyObject</span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_createImagePixelDataFromCGImageRef"></a>
+                    <a name="//apple_ref/objc/Function/grey_createImagePixelDataFromCGImageRef" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_createImagePixelDataFromCGImageRef">grey_createImagePixelDataFromCGImageRef</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns a new buffer that contains XRGB pixels for the provided @c imageRef i.e. the alpha
+  channel is removed. If @c outBitmapContext is not @c NULL, it is set to the bitmap context of
+  the returned buffer and caller must call CGContextRelease on it. Each pixel in returned buffer
+  occupies 4 bytes and the buffer must be free()&rsquo;d by the caller.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="kt">unsigned</span> <span class="kt">char</span> <span class="o">*</span>
+<span class="n">grey_createImagePixelDataFromCGImageRef</span><span class="p">(</span><span class="n">CGImageRef</span> <span class="n">imageRef</span><span class="p">,</span>
+                                        <span class="n">CGContextRef</span> <span class="o">*</span><span class="n">outBmpCtx</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>imageRef</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The source image.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>outBmpCtx</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Optional bitmap context that holds the returned buffer.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A new buffer that contains XRGB pixels for the provided image.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_execute_sync"></a>
+                    <a name="//apple_ref/objc/Function/grey_execute_sync" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_execute_sync">grey_execute_sync</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Executes a block containing EarlGrey statements on the main thread and waits for it to
+  complete. @c block is retained until execution completes.
+  Important: Must be called from a non-main thread otherwise it will block main thread
+  indefinitely.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="kt">void</span> <span class="n">grey_execute_sync</span><span class="p">(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="n">block</span><span class="p">)())</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>block</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Block that will be executed.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_execute_async"></a>
+                    <a name="//apple_ref/objc/Function/grey_execute_async" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_execute_async">grey_execute_async</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Executes a block containing EarlGrey statements on the main thread without waiting for it to
+  complete. @c block is retained until execution completes.
+  Can be invoked safely from the main or non-main thread.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="kt">void</span> <span class="n">grey_execute_async</span><span class="p">(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="n">block</span><span class="p">)())</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>block</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Block that will be executed.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>Copyright 2016 Google Inc.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>
