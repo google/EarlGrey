@@ -32,7 +32,7 @@ configured, take a look at the EarlGrey API and start writing your own tests.
   * [Backward Compatibility](https://github.com/google/EarlGrey/tree/master/docs/backward-compatibility.md)
   * [Install and Run](https://github.com/google/EarlGrey/tree/master/docs/install-and-run.md)
   * [API](https://github.com/google/EarlGrey/tree/master/docs/api.md)
-  * [Cheat Sheet](docs/cheatsheet/cheatsheet.png)
+  * [Cheat Sheet](https://github.com/google/EarlGrey/tree/master/docs/cheatsheet/cheatsheet.png)
 
 ## Getting Help
 
