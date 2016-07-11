@@ -32,6 +32,15 @@
   _matcherForNonExistingTab = grey_text(@"Tab That Does Not Exist");
 }
 
+- (void)testCallAllAssertionDefines {
+  GREYAssert(42, @"42 should assert fine.");
+  GREYAssertTrue(1 == 1, @"1 should be equal to 1");
+  GREYAssertFalse(0 == 1, @"0 shouldn't be equal to 1");
+  GREYAssertEqual(1, 1, @"1 should be equal to 1");
+  GREYAssertNil(nil, @"nil should be nil");
+  GREYAssertNotNil([[NSObject alloc] init], @"a valid object should not be nil");
+}
+
 - (void)testAssertionErrorAPI {
   NSError *error;
 
