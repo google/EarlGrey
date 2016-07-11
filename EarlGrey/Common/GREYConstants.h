@@ -58,6 +58,11 @@ GREY_EXTERN const CGFloat kGREYAcceptableFloatDifference;
 
 /**
  *  Directions for scrolling and swiping.
+ *
+ *  The direction describes the motion of the view port as a result of the swipe, which is opposite
+ *  to the direction the user's finger moves. For example, a scroll down the page should be
+ *  expressed with @c kEGDirectionDown as it simulates a touch that starts somewhere in the middle
+ *  of the screen and moves up to simulate an absolute scroll down behavior.
  */
 typedef NS_ENUM(NSInteger, GREYDirection) {
   kGREYDirectionLeft = 1,
