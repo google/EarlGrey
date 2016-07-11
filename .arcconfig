@@ -1,0 +1,6 @@
+{
+  "phabricator.uri" : "http://codereview.cc/",
+  "arc.land.onto.default" : "master",
+  "arc.feature.start.default": "origin/master",
+  "git.default-relative-commit" : "origin/master"
+}
