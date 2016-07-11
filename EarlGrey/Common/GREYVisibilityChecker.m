@@ -493,8 +493,9 @@ inline void GREYVisibilityDiffBufferSetVisibilityAt(GREYVisibilityDiffBuffer buf
   CGImageRelease(beforeImage);
   CGImageRelease(afterImage);
 
-  NSLog(@"Percent Visible: %0.1f%%", (double)(percentVisible * 100.0));
-  NSAssert(0 <= percentVisible, @"percentVisible should not be negative");
+  NSAssert(0 <= percentVisible,
+           @"percentVisible should not be negative. Current Percent: %0.1f%%",
+           (double)(percentVisible * 100.0));
 
   return percentVisible;
 }
