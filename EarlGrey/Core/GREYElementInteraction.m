@@ -397,8 +397,8 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
  *          value to indicate an error occurred"
  */
 - (BOOL)grey_handleFailureOfAction:(id<GREYAction>)action
-                     actionError:(NSError *)actionError
-            userProvidedOutError:(__strong NSError **)userProvidedError {
+                       actionError:(NSError *)actionError
+              userProvidedOutError:(__strong NSError **)userProvidedError {
   NSParameterAssert(actionError);
 
   // Throw an exception if userProvidedError isn't provided and the action failed.
@@ -421,7 +421,12 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
                                         @"elements matching %@ were found. Use grey_allOf(...) to "
                                         @"create a more specific matcher.",
                                         action.name, _elementMatcher];
-          I_GREYMultipleElementsFound(reason, @"%@Complete Error: %@", searchAPIInfo, actionError);
+          // We print the localized description here to prevent the multiple matchers info from
+          // being displayed twice - once in the error and once in the userInfo dict.
+          I_GREYMultipleElementsFound(reason,
+                                      @"%@Complete Error: %@",
+                                      searchAPIInfo,
+                                      actionError.localizedDescription);
           return NO;
         }
       }
@@ -454,9 +459,9 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
  *          value to indicate an error occurred"
  */
 - (BOOL)grey_handleFailureOfAssertion:(id<GREYAssertion>)assertion
-                     assertionError:(NSError *)assertionError
-               elementNotFoundError:(NSError *)elementNotFoundError
-               userProvidedOutError:(__strong NSError **)userProvidedError {
+                       assertionError:(NSError *)assertionError
+                 elementNotFoundError:(NSError *)elementNotFoundError
+                 userProvidedOutError:(__strong NSError **)userProvidedError {
   NSParameterAssert(assertionError);
 
   if ([assertionError.domain isEqualToString:kGREYInteractionErrorDomain] &&
