@@ -1,0 +1,345 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		FDFCE9471D3427D2006D9592 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FDFCE9461D3427D2006D9592 /* main.m */; };
+		FDFCE94A1D3427D2006D9592 /* EarlGreyContribsAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FDFCE9491D3427D2006D9592 /* EarlGreyContribsAppDelegate.m */; };
+		FDFCE94D1D3427D2006D9592 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDFCE94C1D3427D2006D9592 /* MainViewController.m */; };
+		FDFCE95E1D342C37006D9592 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDFCE95D1D342C37006D9592 /* MainViewController.xib */; };
+		FDFCE96B1D342E83006D9592 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FDFCE9621D342E83006D9592 /* Default-568h@2x.png */; };
+		FDFCE96C1D342E83006D9592 /* Default-667@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FDFCE9631D342E83006D9592 /* Default-667@2x.png */; };
+		FDFCE96D1D342E83006D9592 /* Default-736h@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = FDFCE9641D342E83006D9592 /* Default-736h@3x.png */; };
+		FDFCE96E1D342E83006D9592 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = FDFCE9651D342E83006D9592 /* Default.png */; };
+		FDFCE96F1D342E83006D9592 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FDFCE9661D342E83006D9592 /* Default@2x.png */; };
+		FDFCE9701D342E83006D9592 /* Default@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = FDFCE9671D342E83006D9592 /* Default@3x.png */; };
+		FDFCE9711D342E83006D9592 /* ic_local_cafe_48pt.png in Resources */ = {isa = PBXBuildFile; fileRef = FDFCE9681D342E83006D9592 /* ic_local_cafe_48pt.png */; };
+		FDFCE9721D342E83006D9592 /* ic_local_cafe_48pt@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FDFCE9691D342E83006D9592 /* ic_local_cafe_48pt@2x.png */; };
+		FDFCE9731D342E83006D9592 /* ic_local_cafe_48pt@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = FDFCE96A1D342E83006D9592 /* ic_local_cafe_48pt@3x.png */; };
+		FDFCE9801D359E8A006D9592 /* BasicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDFCE97E1D359E8A006D9592 /* BasicViewController.m */; };
+		FDFCE9811D359E8A006D9592 /* BasicViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDFCE97F1D359E8A006D9592 /* BasicViewController.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		FDFCE9421D3427D2006D9592 /* EarlGreyContribs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EarlGreyContribs.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FDFCE9461D3427D2006D9592 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		FDFCE9481D3427D2006D9592 /* EarlGreyContribsAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EarlGreyContribsAppDelegate.h; sourceTree = "<group>"; };
+		FDFCE9491D3427D2006D9592 /* EarlGreyContribsAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EarlGreyContribsAppDelegate.m; sourceTree = "<group>"; };
+		FDFCE94B1D3427D2006D9592 /* MainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		FDFCE94C1D3427D2006D9592 /* MainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		FDFCE9561D3427D2006D9592 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FDFCE95D1D342C37006D9592 /* MainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainViewController.xib; sourceTree = "<group>"; };
+		FDFCE9621D342E83006D9592 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "Resources/Default-568h@2x.png"; sourceTree = "<group>"; };
+		FDFCE9631D342E83006D9592 /* Default-667@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-667@2x.png"; path = "Resources/Default-667@2x.png"; sourceTree = "<group>"; };
+		FDFCE9641D342E83006D9592 /* Default-736h@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-736h@3x.png"; path = "Resources/Default-736h@3x.png"; sourceTree = "<group>"; };
+		FDFCE9651D342E83006D9592 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = Resources/Default.png; sourceTree = "<group>"; };
+		FDFCE9661D342E83006D9592 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "Resources/Default@2x.png"; sourceTree = "<group>"; };
+		FDFCE9671D342E83006D9592 /* Default@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@3x.png"; path = "Resources/Default@3x.png"; sourceTree = "<group>"; };
+		FDFCE9681D342E83006D9592 /* ic_local_cafe_48pt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ic_local_cafe_48pt.png; path = Resources/ic_local_cafe_48pt.png; sourceTree = "<group>"; };
+		FDFCE9691D342E83006D9592 /* ic_local_cafe_48pt@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ic_local_cafe_48pt@2x.png"; path = "Resources/ic_local_cafe_48pt@2x.png"; sourceTree = "<group>"; };
+		FDFCE96A1D342E83006D9592 /* ic_local_cafe_48pt@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ic_local_cafe_48pt@3x.png"; path = "Resources/ic_local_cafe_48pt@3x.png"; sourceTree = "<group>"; };
+		FDFCE97D1D359E8A006D9592 /* BasicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BasicViewController.h; sourceTree = "<group>"; };
+		FDFCE97E1D359E8A006D9592 /* BasicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BasicViewController.m; sourceTree = "<group>"; };
+		FDFCE97F1D359E8A006D9592 /* BasicViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BasicViewController.xib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		FDFCE93F1D3427D2006D9592 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		FDFCE9391D3427D2006D9592 = {
+			isa = PBXGroup;
+			children = (
+				FDFCE9441D3427D2006D9592 /* EarlGreyContribs */,
+				FDFCE9431D3427D2006D9592 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		FDFCE9431D3427D2006D9592 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FDFCE9421D3427D2006D9592 /* EarlGreyContribs.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FDFCE9441D3427D2006D9592 /* EarlGreyContribs */ = {
+			isa = PBXGroup;
+			children = (
+				FDFCE9611D342D79006D9592 /* SupportingFiles */,
+				FDFCE9601D342D5D006D9592 /* Sources */,
+				FDFCE95F1D342D50006D9592 /* Resources */,
+			);
+			path = EarlGreyContribs;
+			sourceTree = "<group>";
+		};
+		FDFCE95F1D342D50006D9592 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				FDFCE9621D342E83006D9592 /* Default-568h@2x.png */,
+				FDFCE9631D342E83006D9592 /* Default-667@2x.png */,
+				FDFCE9641D342E83006D9592 /* Default-736h@3x.png */,
+				FDFCE9651D342E83006D9592 /* Default.png */,
+				FDFCE9661D342E83006D9592 /* Default@2x.png */,
+				FDFCE9671D342E83006D9592 /* Default@3x.png */,
+				FDFCE9681D342E83006D9592 /* ic_local_cafe_48pt.png */,
+				FDFCE9691D342E83006D9592 /* ic_local_cafe_48pt@2x.png */,
+				FDFCE96A1D342E83006D9592 /* ic_local_cafe_48pt@3x.png */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		FDFCE9601D342D5D006D9592 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				FDFCE9481D3427D2006D9592 /* EarlGreyContribsAppDelegate.h */,
+				FDFCE9491D3427D2006D9592 /* EarlGreyContribsAppDelegate.m */,
+				FDFCE94B1D3427D2006D9592 /* MainViewController.h */,
+				FDFCE94C1D3427D2006D9592 /* MainViewController.m */,
+				FDFCE95D1D342C37006D9592 /* MainViewController.xib */,
+				FDFCE97D1D359E8A006D9592 /* BasicViewController.h */,
+				FDFCE97E1D359E8A006D9592 /* BasicViewController.m */,
+				FDFCE97F1D359E8A006D9592 /* BasicViewController.xib */,
+			);
+			name = Sources;
+			sourceTree = "<group>";
+		};
+		FDFCE9611D342D79006D9592 /* SupportingFiles */ = {
+			isa = PBXGroup;
+			children = (
+				FDFCE9561D3427D2006D9592 /* Info.plist */,
+				FDFCE9461D3427D2006D9592 /* main.m */,
+			);
+			name = SupportingFiles;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		FDFCE9411D3427D2006D9592 /* EarlGreyContribs */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FDFCE9591D3427D2006D9592 /* Build configuration list for PBXNativeTarget "EarlGreyContribs" */;
+			buildPhases = (
+				FDFCE93E1D3427D2006D9592 /* Sources */,
+				FDFCE93F1D3427D2006D9592 /* Frameworks */,
+				FDFCE9401D3427D2006D9592 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = EarlGreyContribs;
+			productName = EarlGreyContribs;
+			productReference = FDFCE9421D3427D2006D9592 /* EarlGreyContribs.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FDFCE93A1D3427D2006D9592 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0730;
+				ORGANIZATIONNAME = "Google Inc.";
+				TargetAttributes = {
+					FDFCE9411D3427D2006D9592 = {
+						CreatedOnToolsVersion = 7.3;
+					};
+				};
+			};
+			buildConfigurationList = FDFCE93D1D3427D2006D9592 /* Build configuration list for PBXProject "EarlGreyContribs" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = FDFCE9391D3427D2006D9592;
+			productRefGroup = FDFCE9431D3427D2006D9592 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FDFCE9411D3427D2006D9592 /* EarlGreyContribs */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		FDFCE9401D3427D2006D9592 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FDFCE96F1D342E83006D9592 /* Default@2x.png in Resources */,
+				FDFCE9811D359E8A006D9592 /* BasicViewController.xib in Resources */,
+				FDFCE95E1D342C37006D9592 /* MainViewController.xib in Resources */,
+				FDFCE9721D342E83006D9592 /* ic_local_cafe_48pt@2x.png in Resources */,
+				FDFCE96B1D342E83006D9592 /* Default-568h@2x.png in Resources */,
+				FDFCE9731D342E83006D9592 /* ic_local_cafe_48pt@3x.png in Resources */,
+				FDFCE96C1D342E83006D9592 /* Default-667@2x.png in Resources */,
+				FDFCE9711D342E83006D9592 /* ic_local_cafe_48pt.png in Resources */,
+				FDFCE96D1D342E83006D9592 /* Default-736h@3x.png in Resources */,
+				FDFCE96E1D342E83006D9592 /* Default.png in Resources */,
+				FDFCE9701D342E83006D9592 /* Default@3x.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		FDFCE93E1D3427D2006D9592 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FDFCE94D1D3427D2006D9592 /* MainViewController.m in Sources */,
+				FDFCE9801D359E8A006D9592 /* BasicViewController.m in Sources */,
+				FDFCE94A1D3427D2006D9592 /* EarlGreyContribsAppDelegate.m in Sources */,
+				FDFCE9471D3427D2006D9592 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		FDFCE9571D3427D2006D9592 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		FDFCE9581D3427D2006D9592 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		FDFCE95A1D3427D2006D9592 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = EarlGreyContribs/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.google.earlgrey.EarlGreyContribs;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		FDFCE95B1D3427D2006D9592 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = EarlGreyContribs/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.google.earlgrey.EarlGreyContribs;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		FDFCE93D1D3427D2006D9592 /* Build configuration list for PBXProject "EarlGreyContribs" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FDFCE9571D3427D2006D9592 /* Debug */,
+				FDFCE9581D3427D2006D9592 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FDFCE9591D3427D2006D9592 /* Build configuration list for PBXNativeTarget "EarlGreyContribs" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FDFCE95A1D3427D2006D9592 /* Debug */,
+				FDFCE95B1D3427D2006D9592 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = FDFCE93A1D3427D2006D9592 /* Project object */;
+}
