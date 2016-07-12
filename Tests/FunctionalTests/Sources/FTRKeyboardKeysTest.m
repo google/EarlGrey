@@ -141,7 +141,7 @@
   } @catch (NSException *exception) {
     NSRange exceptionRange =
         [[exception reason] rangeOfString:@"Action 'Type \"Should Fail\"' failed."];
-    XCTAssertTrue(exceptionRange.length > 0, @"Should throw exception indicating action failure.");
+    GREYAssertTrue(exceptionRange.length > 0, @"Should throw exception indicating action failure.");
   }
 }
 

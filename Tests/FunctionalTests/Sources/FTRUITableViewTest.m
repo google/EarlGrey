@@ -110,8 +110,8 @@
                                 constraints:grey_kindOfClass([UIScrollView class])
                                performBlock:^BOOL(UIScrollView *scrollView,
                                                   NSError *__strong *error) {
-    XCTAssertTrue(scrollView.bounces, @"Bounce must be set or this test is same as "
-                                      @"testScrollToTopWhenAlreadyAtTheTopWithBounce");
+    GREYAssertTrue(scrollView.bounces, @"Bounce must be set or this test is same as "
+                                       @"testScrollToTopWhenAlreadyAtTheTopWithBounce");
     scrollView.bounces = NO;
     return YES;
   }];
@@ -178,8 +178,8 @@
       usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 100)
    onElementWithMatcher:grey_kindOfClass([UITableView class])]
       assertWithMatcher:grey_interactable() error:&err];
-  XCTAssertEqualObjects(err.domain, kGREYInteractionErrorDomain);
-  XCTAssertEqual(err.code, kGREYInteractionElementNotFoundErrorCode);
+  GREYAssertEqualObjects(err.domain, kGREYInteractionErrorDomain, @"should be equal");
+  GREYAssertEqual(err.code, kGREYInteractionElementNotFoundErrorCode, @"should be equal");
 
   [[EarlGrey selectElementWithMatcher:grey_kindOfClass([UITableView class])]
       assert:[GREYAssertionBlock assertionWithName:@"offset didn't change"

@@ -56,22 +56,23 @@
 }
 
 + (NSArray *)allWindows {
+  UIApplication *sharedApp = UIApplication.sharedApplication;
   NSMutableOrderedSet *windows = [[NSMutableOrderedSet alloc] init];
-  if (UIApplication.sharedApplication.windows) {
-    [windows addObjectsFromArray:UIApplication.sharedApplication.windows];
+  if (sharedApp.windows) {
+    [windows addObjectsFromArray:sharedApp.windows];
   }
 
-  if (UIApplication.sharedApplication.delegate.window) {
-    [windows addObject:UIApplication.sharedApplication.delegate.window];
+  if ([sharedApp.delegate respondsToSelector:@selector(window)] && sharedApp.delegate.window) {
+    [windows addObject:sharedApp.delegate.window];
   }
 
-  if (UIApplication.sharedApplication.keyWindow) {
-    [windows addObject:UIApplication.sharedApplication.keyWindow];
+  if (sharedApp.keyWindow) {
+    [windows addObject:sharedApp.keyWindow];
   }
 
   BOOL includeStatusBarWindow = GREY_CONFIG_BOOL(kGREYConfigKeyIncludeStatusBarWindow);
-  if (includeStatusBarWindow && UIApplication.sharedApplication.statusBarWindow) {
-    [windows addObject:UIApplication.sharedApplication.statusBarWindow];
+  if (includeStatusBarWindow && sharedApp.statusBarWindow) {
+    [windows addObject:sharedApp.statusBarWindow];
   }
 
   // After sorting, reverse the windows because they need to appear from top-most to bottom-most.

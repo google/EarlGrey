@@ -27,7 +27,7 @@
 
 - (void)testCGRectFixedToVariableScreenCoordinates_portrait {
   CGRect actualRect = CGRectFixedToVariableScreenCoordinates(CGRectMake(40, 50, 100, 120));
-  XCTAssertTrue(CGRectEqualToRect(CGRectMake(40, 50, 100, 120), actualRect));
+  GREYAssertTrue(CGRectEqualToRect(CGRectMake(40, 50, 100, 120), actualRect), @"should be true");
 }
 
 - (void)testCGRectFixedToVariableScreenCoordinates_portraitUpsideDown {
@@ -43,7 +43,7 @@
                                    100, 120);
   CGRect actualRect = CGRectFixedToVariableScreenCoordinates(CGRectMake(40, 50, 100, 120));
 
-  XCTAssertTrue(CGRectEqualToRect(expectedRect, actualRect));
+  GREYAssertTrue(CGRectEqualToRect(expectedRect, actualRect), @"should be true");
 }
 
 - (void)testCGRectFixedToVariableScreenCoordinates_landscapeRight {
@@ -59,7 +59,7 @@
                                   10, 20);
   CGRect actualRect = CGRectFixedToVariableScreenCoordinates(rectInFixed);
   CGRect expectedRect = CGRectMake(0, 0, 20, 10);
-  XCTAssertTrue(CGRectEqualToRect(expectedRect, actualRect));
+  GREYAssertTrue(CGRectEqualToRect(expectedRect, actualRect), @"should be true");
 
   // Bottom right => Bottom left
   rectInFixed = CGRectMake((iOS8_0_OR_ABOVE() ? height : width) - 10,
@@ -67,14 +67,14 @@
                            10, 20);
   actualRect = CGRectFixedToVariableScreenCoordinates(rectInFixed);
   expectedRect = CGRectMake(0, (iOS8_0_OR_ABOVE() ? height : width) - 10, 20, 10);
-  XCTAssertTrue(CGRectEqualToRect(expectedRect, actualRect));
+  GREYAssertTrue(CGRectEqualToRect(expectedRect, actualRect), @"should be true");
 
   // Too left => Top right
   rectInFixed = CGRectMake(0, 0, 10, 20);
   actualRect = CGRectFixedToVariableScreenCoordinates(rectInFixed);
   expectedRect = CGRectMake((iOS8_0_OR_ABOVE() ? width : height) - 20, 0,
                             20, 10);
-  XCTAssertTrue(CGRectEqualToRect(expectedRect, actualRect));
+  GREYAssertTrue(CGRectEqualToRect(expectedRect, actualRect), @"should be true");
 
   // Too right => bottom right
   rectInFixed = CGRectMake((iOS8_0_OR_ABOVE() ? height : width) - 10, 0,
@@ -83,7 +83,7 @@
   expectedRect = CGRectMake((iOS8_0_OR_ABOVE() ? width : height) - 20,
                             (iOS8_0_OR_ABOVE() ? height : width) - 10,
                             20, 10);
-  XCTAssertTrue(CGRectEqualToRect(expectedRect, actualRect));
+  GREYAssertTrue(CGRectEqualToRect(expectedRect, actualRect), @"should be true");
 }
 
 - (void)testCGRectFixedToVariableScreenCoordinates_landscapeLeft {
@@ -96,20 +96,22 @@
 
   CGRect rectInFixed = CGRectMake((iOS8_0_OR_ABOVE() ? height : width) - 120, 50, 120, 100);
   CGRect actualRect = CGRectFixedToVariableScreenCoordinates(rectInFixed);
-  XCTAssertTrue(CGRectEqualToRect(CGRectMake(50, 0, 100, 120), actualRect));
+  GREYAssertTrue(CGRectEqualToRect(CGRectMake(50, 0, 100, 120), actualRect),
+                 @"should be true");
 
   rectInFixed = CGRectMake(0, (iOS8_0_OR_ABOVE() ? width : height), 0, 0);
   actualRect = CGRectFixedToVariableScreenCoordinates(rectInFixed);
-  XCTAssertTrue(CGRectEqualToRect(CGRectMake((iOS8_0_OR_ABOVE() ? width : height),
-                                             (iOS8_0_OR_ABOVE() ? height : width), 0, 0),
-                                  actualRect));
+  GREYAssertTrue(CGRectEqualToRect(CGRectMake((iOS8_0_OR_ABOVE() ? width : height),
+                                              (iOS8_0_OR_ABOVE() ? height : width), 0, 0),
+                                   actualRect),
+                 @"should be true");
 }
 
 #pragma mark - CGRectVariableToFixedScreenCoordinates
 
 - (void)testCGRectVariableToFixedScreenCoordinates_portrait {
   CGRect actualRect = CGRectVariableToFixedScreenCoordinates(CGRectMake(40, 50, 100, 120));
-  XCTAssertTrue(CGRectEqualToRect(CGRectMake(40, 50, 100, 120), actualRect));
+  GREYAssertTrue(CGRectEqualToRect(CGRectMake(40, 50, 100, 120), actualRect), @"should be true");
 }
 
 - (void)testCGRectVariableToFixedScreenCoordinates_portraitUpsideDown {
@@ -125,7 +127,7 @@
                                    100, 120);
   CGRect actualRect = CGRectVariableToFixedScreenCoordinates(CGRectMake(40, 50, 100, 120));
 
-  XCTAssertTrue(CGRectEqualToRect(expectedRect, actualRect));
+  GREYAssertTrue(CGRectEqualToRect(expectedRect, actualRect), @"should be true");
 }
 
 
@@ -139,8 +141,9 @@
 
   CGRect rectInVariable = CGRectMake(0, 0, 0, 0);
   CGRect actualRect = CGRectVariableToFixedScreenCoordinates(rectInVariable);
-  XCTAssertTrue(CGRectEqualToRect(CGRectMake(0, (iOS8_0_OR_ABOVE() ? width : height), 0, 0),
-                                  actualRect));
+  GREYAssertTrue(CGRectEqualToRect(CGRectMake(0, (iOS8_0_OR_ABOVE() ? width : height), 0, 0),
+                                   actualRect),
+                 @"should be true");
 }
 
 - (void)testCGRectVariableToFixedScreenCoordinates_landscapeLeft {
@@ -153,17 +156,19 @@
 
   CGRect rectInVariable = CGRectMake(50, 0, 100, 120);
   CGRect actualRect = CGRectVariableToFixedScreenCoordinates(rectInVariable);
-  XCTAssertTrue(CGRectEqualToRect(CGRectMake((iOS8_0_OR_ABOVE() ? height : width) - 120,
-                                             50,
-                                             120,
-                                             100),
-                                  actualRect));
+  GREYAssertTrue(CGRectEqualToRect(CGRectMake((iOS8_0_OR_ABOVE() ? height : width) - 120,
+                                              50,
+                                              120,
+                                              100),
+                                   actualRect),
+                 @"should be true");
 
   rectInVariable = CGRectMake((iOS8_0_OR_ABOVE() ? width : height),
                               (iOS8_0_OR_ABOVE() ? height : width), 0, 0);
   actualRect = CGRectVariableToFixedScreenCoordinates(rectInVariable);
-  XCTAssertTrue(CGRectEqualToRect(CGRectMake(0, (iOS8_0_OR_ABOVE() ? width : height), 0, 0),
-                                  actualRect));
+  GREYAssertTrue(CGRectEqualToRect(CGRectMake(0, (iOS8_0_OR_ABOVE() ? width : height), 0, 0),
+                                   actualRect),
+                 @"should be true");
 }
 
 @end

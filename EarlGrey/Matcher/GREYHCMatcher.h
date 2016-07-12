@@ -24,7 +24,7 @@
 @interface GREYHCMatcher : NSObject<GREYMatcher>
 
 /**
- *  This method takes in a matcher object conforming to HCMatcher protocl and returns an object
+ *  This method takes in a matcher object conforming to HCMatcher protocol and returns an object
  *  conforming to the GREYMatcher protocol.
  *
  *  @param HCMatcher The OCHamcrest matcher to be transformed.

@@ -37,6 +37,10 @@
   GREYAssertTrue(1 == 1, @"1 should be equal to 1");
   GREYAssertFalse(0 == 1, @"0 shouldn't be equal to 1");
   GREYAssertEqual(1, 1, @"1 should be equal to 1");
+  GREYAssertNotEqual(1, 2, @"1 should not be equal to 2");
+  GREYAssertEqualObjects(@"foo", [[NSString alloc] initWithFormat:@"foo"],
+                         @"strings foo must be equal");
+  GREYAssertNotEqualObjects(@"foo", @"bar", @"string foo and bar must not be equal");
   GREYAssertNil(nil, @"nil should be nil");
   GREYAssertNotNil([[NSObject alloc] init], @"a valid object should not be nil");
 }

@@ -320,25 +320,25 @@ static const NSTimeInterval kLocalHTMLPageLoadDelay = 10.0;
 - (void)testDelegateIsProxyDelegate {
   UIWebView *webView = [[UIWebView alloc] init];
   GREYUIWebViewDelegate *delegate = [webView delegate];
-  XCTAssertTrue([delegate isKindOfClass:[GREYUIWebViewDelegate class]], @"%@", [delegate class]);
+  GREYAssertTrue([delegate isKindOfClass:[GREYUIWebViewDelegate class]], @"%@", [delegate class]);
 }
 
 - (void)testDelegateIsProxyDelegateAfterSettingCustomDelegate {
   UIWebView *webView = [[UIWebView alloc] init];
   webView.delegate = self;
   GREYUIWebViewDelegate *delegate = [webView delegate];
-  XCTAssertTrue([delegate isKindOfClass:[GREYUIWebViewDelegate class]], @"%@", [delegate class]);
+  GREYAssertTrue([delegate isKindOfClass:[GREYUIWebViewDelegate class]], @"%@", [delegate class]);
 
   webView.delegate = self;
   delegate = [webView delegate];
-  XCTAssertTrue([delegate isKindOfClass:[GREYUIWebViewDelegate class]], @"%@", [delegate class]);
+  GREYAssertTrue([delegate isKindOfClass:[GREYUIWebViewDelegate class]], @"%@", [delegate class]);
 }
 
 - (void)testDelegateIsNotNilAfterClearingDelegate {
   UIWebView *webView = [[UIWebView alloc] init];
   webView.delegate = nil;
   GREYUIWebViewDelegate *delegate = [webView delegate];
-  XCTAssertTrue([delegate isKindOfClass:[GREYUIWebViewDelegate class]], @"%@", [delegate class]);
+  GREYAssertTrue([delegate isKindOfClass:[GREYUIWebViewDelegate class]], @"%@", [delegate class]);
 }
 
 - (void)testDelegateIsNotDeallocAfterClearingDelegate {
@@ -346,21 +346,21 @@ static const NSTimeInterval kLocalHTMLPageLoadDelay = 10.0;
   __weak GREYUIWebViewDelegate *delegate;
   {
     delegate = [webView delegate];
-    XCTAssertTrue([delegate isKindOfClass:[GREYUIWebViewDelegate class]], @"%@", [delegate class]);
+    GREYAssertTrue([delegate isKindOfClass:[GREYUIWebViewDelegate class]], @"%@", [delegate class]);
     [webView setDelegate:nil];
   }
 
   __weak GREYUIWebViewDelegate *secondDelegate;
   {
     secondDelegate = [webView delegate];
-    XCTAssertTrue([secondDelegate isKindOfClass:[GREYUIWebViewDelegate class]],
-        @"%@", [delegate class]);
+    GREYAssertTrue([secondDelegate isKindOfClass:[GREYUIWebViewDelegate class]],
+                   @"%@", [delegate class]);
     [webView setDelegate:nil];
   }
 
-  XCTAssertNotNil(delegate);
-  XCTAssertNotNil(secondDelegate);
-  XCTAssertNotEqual(delegate, secondDelegate);
+  GREYAssertNotNil(delegate, @"should not be nil");
+  GREYAssertNotNil(secondDelegate, @"should not be nil");
+  GREYAssertNotEqualObjects(delegate, secondDelegate, @"should not be equal");
 }
 
 - (void)testWebViewDeallocClearsAllDelegates {
@@ -378,12 +378,12 @@ static const NSTimeInterval kLocalHTMLPageLoadDelay = 10.0;
       secondDelegate = [webView delegate];
       [webView setDelegate:nil];
     }
-    XCTAssertTrue([delegate isKindOfClass:[GREYUIWebViewDelegate class]], @"%@", [delegate class]);
-    XCTAssertTrue([secondDelegate isKindOfClass:[GREYUIWebViewDelegate class]],
-        @"%@", [delegate class]);
+    GREYAssertTrue([delegate isKindOfClass:[GREYUIWebViewDelegate class]], @"%@", [delegate class]);
+    GREYAssertTrue([secondDelegate isKindOfClass:[GREYUIWebViewDelegate class]],
+                   @"%@", [delegate class]);
   }
-  XCTAssertNil(delegate);
-  XCTAssertNil(secondDelegate);
+  GREYAssertNil(delegate, @"should be nil");
+  GREYAssertNil(secondDelegate, @"should be nil");
 }
 
 - (void)testWebViewProxyDelegateClearsOutDeallocedDelegates {
@@ -394,7 +394,7 @@ static const NSTimeInterval kLocalHTMLPageLoadDelay = 10.0;
     __autoreleasing id<UIWebViewDelegate> autoRelDelegate = [[FTRUIWebViewTest alloc] init];
     [webView setDelegate:autoRelDelegate];
     delegate = [webView delegate];
-    XCTAssertTrue([delegate isKindOfClass:[GREYUIWebViewDelegate class]], @"%@", [delegate class]);
+    GREYAssertTrue([delegate isKindOfClass:[GREYUIWebViewDelegate class]], @"%@", [delegate class]);
   }
 
   // Should not crash.
@@ -407,12 +407,12 @@ static const NSTimeInterval kLocalHTMLPageLoadDelay = 10.0;
   GREYAppState lastState =
       [[GREYAppStateTracker sharedInstance] grey_lastKnownStateForElement:webView];
   BOOL isAsyncRequestPending = ((lastState & kGREYPendingUIWebViewAsyncRequest) != 0);
-  XCTAssertTrue(isAsyncRequestPending);
+  GREYAssertTrue(isAsyncRequestPending, @"should be pending");
 
   [webView stopLoading];
   lastState = [[GREYAppStateTracker sharedInstance] grey_lastKnownStateForElement:webView];
   isAsyncRequestPending = ((lastState & kGREYPendingUIWebViewAsyncRequest) != 0);
-  XCTAssertFalse(isAsyncRequestPending);
+  GREYAssertFalse(isAsyncRequestPending, @"should not be pending");
 }
 
 - (void)testAjaxTrackedWhenAJAXListenerSchemeIsStarting {
@@ -426,7 +426,7 @@ static const NSTimeInterval kLocalHTMLPageLoadDelay = 10.0;
   GREYAppState lastState =
       [[GREYAppStateTracker sharedInstance] grey_lastKnownStateForElement:webView];
   BOOL isAsyncRequestPending = ((lastState & kGREYPendingUIWebViewAsyncRequest) != 0);
-  XCTAssertTrue(isAsyncRequestPending);
+  GREYAssertTrue(isAsyncRequestPending, @"should be pending");
 }
 
 - (void)testAjaxUnTrackedWhenAJAXListenerSchemeIsCompleted {
@@ -436,7 +436,7 @@ static const NSTimeInterval kLocalHTMLPageLoadDelay = 10.0;
   GREYAppState lastState =
       [[GREYAppStateTracker sharedInstance] grey_lastKnownStateForElement:webView];
   BOOL isAsyncRequestPending = ((lastState & kGREYPendingUIWebViewAsyncRequest) != 0);
-  XCTAssertTrue(isAsyncRequestPending);
+  GREYAssertTrue(isAsyncRequestPending, @"should be pending");
 
   NSURLRequest *req =
       [NSURLRequest requestWithURL:[NSURL URLWithString:@"greyajaxlistener://completed"]];
@@ -446,7 +446,7 @@ static const NSTimeInterval kLocalHTMLPageLoadDelay = 10.0;
                   navigationType:UIWebViewNavigationTypeOther];
   lastState = [[GREYAppStateTracker sharedInstance] grey_lastKnownStateForElement:webView];
   isAsyncRequestPending = ((lastState & kGREYPendingUIWebViewAsyncRequest) != 0);
-  XCTAssertFalse(isAsyncRequestPending);
+  GREYAssertFalse(isAsyncRequestPending, @"should not be pending");
 }
 
 @end
