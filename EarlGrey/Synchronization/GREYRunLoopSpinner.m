@@ -94,19 +94,18 @@ static void (^noopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef t
   // for the remaining drains.
   while (drainCount < exitDrainCount) {
     @autoreleasepool {
-      CFStringRef activeMode = CFBridgingRetain([self grey_activeRunLoopMode]);
+      NSString *activeMode = [self grey_activeRunLoopMode];
       CFRunLoopObserverRef drainCountingObserver = [self grey_setupObserverInMode:activeMode
                                                            withBeforeSourcesBlock:drainCountingBlock
                                                                beforeWaitingBlock:wakeUpBlock];
 
-      CFRunLoopRunResult result = CFRunLoopRunInMode(activeMode, DBL_MAX, false);
+      CFRunLoopRunResult result = CFRunLoopRunInMode((CFStringRef)activeMode, DBL_MAX, false);
       if (result == kCFRunLoopRunFinished) {
         // Running a run loop mode will finish if that mode has no sources or timers. In that case,
         // the observer callbacks will not get called, so we need to increment the drain count here.
         drainCount++;
       }
       [self grey_teardownObserver:drainCountingObserver inMode:activeMode];
-      CFRelease(activeMode);
     }
   }
 }
@@ -118,14 +117,14 @@ static void (^noopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef t
  *
  *  @param stopConditionBlock The condition block that should be checked to determine if we should
  *                            stop initiating drains in the active mode.
- *  @param time               The timeout time after which we should stop initiate drains.
+ *  @param time               The timeout time after which we should stop initiating drains.
  *
  *  @return @c YES if the condition block was evaluated to YES while draining or after the active
  *          run loop finished; @c NO otherwise.
  */
 - (BOOL)grey_drainRunLoopInActiveModeAndCheckCondition:(BOOL (^)())stopConditionBlock
                                                forTime:(CFTimeInterval)time {
-  CFStringRef activeMode = CFBridgingRetain([self grey_activeRunLoopMode]);
+  NSString *activeMode = [self grey_activeRunLoopMode];
   CFRunLoopTimerRef wakeUpTimer = [self grey_setupWakeUpTimerInMode:activeMode];
   __block BOOL conditionMet = NO;
   __weak __typeof__(self) weakSelf = self;
@@ -172,7 +171,7 @@ static void (^noopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef t
               withBeforeSourcesBlock:beforeSourcesConditionCheckBlock
                   beforeWaitingBlock:beforeWaitingConditionCheckBlock];
 
-  CFRunLoopRunResult result = CFRunLoopRunInMode(activeMode, time, false);
+  CFRunLoopRunResult result = CFRunLoopRunInMode((CFStringRef)activeMode, time, false);
 
   // Running a run loop mode will finish if that mode has no sources or timers. In that case,
   // the observer callbacks will not get called, so we need to check the condition here.
@@ -184,7 +183,6 @@ static void (^noopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef t
 
   [self grey_teardownObserver:conditionCheckingObserver inMode:activeMode];
   [self grey_teardownTimer:wakeUpTimer inMode:activeMode];
-  CFRelease(activeMode);
 
   return conditionMet;
 }
@@ -201,8 +199,8 @@ static void (^noopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef t
   __block BOOL conditionMet = NO;
   __weak __typeof__(self) weakSelf = self;
 
-  CFStringRef activeMode = CFBridgingRetain([self grey_activeRunLoopMode]);
-  CFRunLoopPerformBlock(CFRunLoopGetMain(), activeMode, ^{
+  NSString *activeMode = [self grey_activeRunLoopMode];
+  CFRunLoopPerformBlock(CFRunLoopGetMain(), (CFStringRef)activeMode, ^{
     __typeof__(self) strongSelf = weakSelf;
     NSAssert(strongSelf, @"The spinner should not have been deallocated while it was spinning.");
 
@@ -216,9 +214,8 @@ static void (^noopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef t
   });
   // Handles at most one souce in the active mode. All enqueued blocks are serviced before any
   // sources are serviced.
-  CFRunLoopRunInMode(activeMode, 0, true);
+  CFRunLoopRunInMode((CFStringRef)activeMode, 0, true);
 
-  CFRelease(activeMode);
   return conditionMet;
 }
 
@@ -238,7 +235,7 @@ static void (^noopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef t
  *
  *  @return The registered observer.
  */
-- (CFRunLoopObserverRef)grey_setupObserverInMode:(CFStringRef)mode
+- (CFRunLoopObserverRef)grey_setupObserverInMode:(NSString *)mode
                           withBeforeSourcesBlock:(void (^)())beforeSourcesBlock
                               beforeWaitingBlock:(void (^)())beforeWaitingBlock {
   __block int numNestedRunLoopModes = 0;
@@ -281,7 +278,7 @@ static void (^noopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef t
   // Let the other observers do their job before querying for idleness.
   CFRunLoopObserverRef observer =
       CFRunLoopObserverCreateWithHandler(NULL, observerFlags, true, LONG_MAX, observerBlock);
-  CFRunLoopAddObserver(CFRunLoopGetMain(), observer, mode);
+  CFRunLoopAddObserver(CFRunLoopGetMain(), observer, (CFStringRef)mode);
   return observer;
 }
 
@@ -294,7 +291,7 @@ static void (^noopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef t
  *
  *  @return The registered timer or @c nil if no timer was added to @c mode.
  */
-- (CFRunLoopTimerRef)grey_setupWakeUpTimerInMode:(CFStringRef)mode {
+- (CFRunLoopTimerRef)grey_setupWakeUpTimerInMode:(NSString *)mode {
   if (self.maxSleepInterval > 0) {
     CFRunLoopTimerRef timer = CFRunLoopTimerCreateWithHandler(kCFAllocatorDefault,
                                                               CFAbsoluteTimeGetCurrent(),
@@ -302,7 +299,7 @@ static void (^noopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef t
                                                               0,
                                                               0,
                                                               noopTimerHandler);
-    CFRunLoopAddTimer(CFRunLoopGetMain(), timer, mode);
+    CFRunLoopAddTimer(CFRunLoopGetMain(), timer, (CFStringRef)mode);
     return timer;
   } else {
     return NULL;
@@ -315,9 +312,9 @@ static void (^noopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef t
  *  @param observer The observer to be removed and released.
  *  @param mode     The mode from which the observer should be removed.
  */
-- (void)grey_teardownObserver:(CFRunLoopObserverRef)observer inMode:(CFStringRef)mode {
+- (void)grey_teardownObserver:(CFRunLoopObserverRef)observer inMode:(NSString *)mode {
   if (observer) {
-    CFRunLoopRemoveObserver(CFRunLoopGetMain(), observer, mode);
+    CFRunLoopRemoveObserver(CFRunLoopGetMain(), observer, (CFStringRef)mode);
     CFRelease(observer);
   }
 }
@@ -328,9 +325,9 @@ static void (^noopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef t
  *  @param timer The time to be removed and released.
  *  @param mode  The mode from which the timer should be removed.
  */
-- (void)grey_teardownTimer:(CFRunLoopTimerRef)timer inMode:(CFStringRef)mode {
+- (void)grey_teardownTimer:(CFRunLoopTimerRef)timer inMode:(NSString *)mode {
   if (timer) {
-    CFRunLoopRemoveTimer(CFRunLoopGetMain(), timer, mode);
+    CFRunLoopRemoveTimer(CFRunLoopGetMain(), timer, (CFStringRef)mode);
     CFRelease(timer);
   }
 }
