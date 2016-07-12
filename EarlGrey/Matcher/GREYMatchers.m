@@ -463,7 +463,7 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
 }
 
 + (id<GREYMatcher>)matcherForConstraints:(NSArray *)constraints
-            toReferenceElementMatching:(id<GREYMatcher>)referenceElementMatcher {
+              toReferenceElementMatching:(id<GREYMatcher>)referenceElementMatcher {
   MatchesBlock matches = ^BOOL(id element) {
     if (!element) {
       // nil elements dont have layout for matching layout constraints.
@@ -477,15 +477,15 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
     NSError *matcherError;
     NSArray *referenceElements = [interaction matchedElementsWithTimeout:0 error:&matcherError];
     if (matcherError) {
-      I_GREYAssert(NO, @"Error finding element:%@", matcherError);
+      I_GREYAssertTrue(NO, @"Error finding element:%@", matcherError);
     } else if (referenceElements.count > 1) {
-      I_GREYAssert(NO, @"More than one element matches the reference matcher: %@",
-                   referenceElements);
+      I_GREYAssertTrue(NO, @"More than one element matches the reference matcher: %@",
+                       referenceElements);
     }
 
     id referenceElement = [referenceElements firstObject];
     if (!referenceElement) {
-      I_GREYAssert(NO, @"Could not find reference element.");
+      I_GREYAssertTrue(NO, @"Could not find reference element.");
     }
 
     for (GREYLayoutConstraint *constraint in constraints) {

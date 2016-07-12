@@ -197,28 +197,27 @@ static void (^noopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef t
  *  @return @c YES if the stop condition block evaluated to @YES; @c NO otherwise.
  */
 - (BOOL)grey_checkConditionInActiveMode:(BOOL (^)())stopConditionBlock  {
-  CFStringRef activeMode = CFBridgingRetain([self grey_activeRunLoopMode]);
   __block BOOL conditionMet = NO;
   __weak __typeof__(self) weakSelf = self;
 
+  CFStringRef activeMode = CFBridgingRetain([self grey_activeRunLoopMode]);
   CFRunLoopPerformBlock(CFRunLoopGetMain(), activeMode, ^{
     __typeof__(self) strongSelf = weakSelf;
     NSAssert(strongSelf, @"The spinner should not have been deallocated while it was spinning.");
 
     if (stopConditionBlock()) {
-      if ([strongSelf conditionMetHandler]) {
-        [strongSelf conditionMetHandler]();
+      void (^conditionMetHandler)(void) = [strongSelf conditionMetHandler];
+      if (conditionMetHandler) {
+        conditionMetHandler();
       }
       conditionMet = YES;
     }
   });
-
   // Handles at most one souce in the active mode. All enqueued blocks are serviced before any
   // sources are serviced.
   CFRunLoopRunInMode(activeMode, 0, true);
 
   CFRelease(activeMode);
-
   return conditionMet;
 }
 
@@ -246,14 +245,14 @@ static void (^noopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef t
   void (^observerBlock)(CFRunLoopObserverRef observer, CFRunLoopActivity activity) =
       ^(CFRunLoopObserverRef observer, CFRunLoopActivity activity) {
         if (activity & kCFRunLoopEntry) {
-          // When entering a run loop in |mode|, increment the nesting count.
+          // When entering a run loop in @c mode, increment the nesting count.
           numNestedRunLoopModes++;
         } else if (activity & kCFRunLoopExit) {
-          // When exiting a run loop in |mode|, decrement the nesting count.
+          // When exiting a run loop in @c mode, decrement the nesting count.
           numNestedRunLoopModes--;
         } else if (activity & kCFRunLoopBeforeSources) {
           // When this observer was created, the nesting count was 0. When we started running the
-          // run loop in |mode|, the run loop entered |mode| and incremented the nesting count. So
+          // run loop in @c mode, the run loop entered @c mode and incremented the nesting count. So
           // now, the "unnested" nesting count is 1.
           if (numNestedRunLoopModes == 1) {
             beforeSourcesBlock();
@@ -270,11 +269,9 @@ static void (^noopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef t
       };
 
   CFOptionFlags observerFlags = kCFRunLoopEntry | kCFRunLoopExit;
-
   if (beforeSourcesBlock) {
     observerFlags = observerFlags | kCFRunLoopBeforeSources;
   }
-
   if (beforeWaitingBlock) {
     observerFlags = observerFlags | kCFRunLoopBeforeWaiting;
   }
@@ -282,30 +279,32 @@ static void (^noopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef t
   // Order = LONG_MAX so it is serviced last after all other higher priority observers.
   // Let the other observers do their job before querying for idleness.
   CFRunLoopObserverRef observer =
-      CFRunLoopObserverCreateWithHandler(NULL, observerFlags, TRUE, LONG_MAX, observerBlock);
+      CFRunLoopObserverCreateWithHandler(NULL, observerFlags, true, LONG_MAX, observerBlock);
   CFRunLoopAddObserver(CFRunLoopGetMain(), observer, mode);
   return observer;
 }
 
 /**
  *  Create and return a wake up timer in @c mode. Will not add a timer if @c maxSleepInterval
- *  is 0.
- *
- *  The wake up timer will fire every @c maxSleepInterval to keep the run loop from sleeping more
- *  than @c maxSleepInterval| while running in @c mode.
+ *  is 0. The wake up timer will fire every @c maxSleepInterval to keep the run loop from sleeping
+ *  more than @c maxSleepInterval while running in @c mode.
  *
  *  @param mode The mode that the timer should be added to.
  *
  *  @return The registered timer or @c nil if no timer was added to @c mode.
  */
 - (CFRunLoopTimerRef)grey_setupWakeUpTimerInMode:(CFStringRef)mode {
-  if (_maxSleepInterval > 0) {
-    CFRunLoopTimerRef timer = CFRunLoopTimerCreateWithHandler(NULL, CFAbsoluteTimeGetCurrent(),
-        _maxSleepInterval, 0, 0, noopTimerHandler);
+  if (self.maxSleepInterval > 0) {
+    CFRunLoopTimerRef timer = CFRunLoopTimerCreateWithHandler(kCFAllocatorDefault,
+                                                              CFAbsoluteTimeGetCurrent(),
+                                                              self.maxSleepInterval,
+                                                              0,
+                                                              0,
+                                                              noopTimerHandler);
     CFRunLoopAddTimer(CFRunLoopGetMain(), timer, mode);
     return timer;
   } else {
-    return nil;
+    return NULL;
   }
 }
 
@@ -373,4 +372,3 @@ static void (^noopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef t
 }
 
 @end
-

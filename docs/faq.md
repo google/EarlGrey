@@ -402,3 +402,12 @@ EarlGrey().selectElementWithMatcher(grey_accessibilityLabel("label"))
     .performAction(checkHiddenBlock)
 
 ```
+
+**How do I change the directory location for where the screenshots are stored?**
+
+You need to change kGREYConfigKeyScreenshotDirLocation in GREYConfiguration to change the location.
+
+```
+[[GREYConfiguration sharedInstance] setValue:@"screenshot_dir_path"
+                                forConfigKey:kGREYConfigKeyScreenshotDirLocation];
+```

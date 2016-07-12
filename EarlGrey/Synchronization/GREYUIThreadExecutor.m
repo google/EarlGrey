@@ -163,9 +163,7 @@ typedef NS_ENUM(NSInteger, EGExecutionState) {
   NSParameterAssert(seconds >= 0);
 
   BOOL isSynchronizationEnabled = GREY_CONFIG_BOOL(kGREYConfigKeySynchronizationEnabled);
-
   GREYRunLoopSpinner *runLoopSpinner = [[GREYRunLoopSpinner alloc] init];
-
   // It is important that we execute @c execBlock in the active run loop mode, which is guaranteed
   // by the run loop spinner's condition met handler. We want actions and other events to execute
   // in the mode that they would without EarlGrey's run loop control.
@@ -179,8 +177,7 @@ typedef NS_ENUM(NSInteger, EGExecutionState) {
 
   if (isSynchronizationEnabled) {
     runLoopSpinner.timeout = seconds;
-
-    if (!_forceBusyPolling) {
+    if (self.forceBusyPolling) {
       runLoopSpinner.maxSleepInterval = kMaximumSynchronizationSleepInterval;
     }
 
@@ -192,7 +189,6 @@ typedef NS_ENUM(NSInteger, EGExecutionState) {
     if (!syncSuccess) {
       NSOrderedSet *busyResources = [self grey_busyResources];
       NSString *errorDescription;
-
       if ([busyResources count] > 0) {
         errorDescription = [self grey_errorDescriptionForBusyResources:busyResources];
       } else {

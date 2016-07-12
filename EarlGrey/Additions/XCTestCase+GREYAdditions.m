@@ -170,7 +170,7 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
                          reason:(NSString *)reason
               detailDescription:(NSString *)description {
   NSString *fullException =
-      [NSString stringWithFormat:@"%@%@\n%@", reason, [NSThread callStackSymbols], description];
+      [NSString stringWithFormat:@"%@\n%@\n%@", reason, [NSThread callStackSymbols], description];
   gCurrentExecutingTestCase.continueAfterFailure = NO;
   [gCurrentExecutingTestCase recordFailureWithDescription:fullException
                                                    inFile:file
