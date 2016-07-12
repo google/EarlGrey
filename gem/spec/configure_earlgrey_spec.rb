@@ -13,28 +13,18 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-# EarlGreyExample
-platform :ios, '8.0'
+require_relative 'spec_helper'
 
-source 'https://github.com/CocoaPods/Specs.git'
-
-PROJECT_NAME = 'EarlGreyExample'
-TARGETS = %w[EarlGreyExampleTests EarlGreyExampleSwiftTests]
-
-TARGETS.each do |test_target|
-  target test_target do
-    project PROJECT_NAME
-
-    inherit! :search_paths
-    pod 'EarlGrey'
+describe 'configure_earlgrey' do
+  it 'configures for carthage' do
+    diff_project carthage_after, %w[install -t AutoEarlGrey]
+    expect(EarlGrey.swift).to eq(true)
+    expect(EarlGrey.carthage).to eq(true)
   end
-end
 
-post_install do |installer|
-  require 'earlgrey'
-
-  # For each test target, you need to call the EarlGrey script's edit method once.
-  TARGETS.each do |test_target|
-    configure_for_earlgrey(installer, PROJECT_NAME, test_target, test_target + '.xcscheme')
+  it 'configures for cocoapods' do
+    diff_project cocoapods_after, %w[install -t AutoEarlGrey --no-carthage]
+    expect(EarlGrey.swift).to eq(true)
+    expect(EarlGrey.carthage).to eq(false)
   end
 end

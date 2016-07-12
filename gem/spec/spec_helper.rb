@@ -21,22 +21,61 @@ require_relative 'project_diff'
 
 module SpecHelper
   def fixture_path(name)
+    # ensure ends with /. for FileUtils.cp_r
     path = File.join(File.expand_path(File.join(__dir__, 'fixtures', name)), '.')
     raise "Path doesn't exist: #{path}" unless File.exist?(path)
     path
   end
 
-  def carthage_before
-    # ensure ends with /. for FileUtils.cp_r
-    @carthage_before ||= begin
-      fixture_path 'carthage_before'
+  def project_before
+    @project_before ||= begin
+      fixture_path 'project_before'
     end
   end
 
   def carthage_after
-    # ensure ends with /. for FileUtils.cp_r
     @carthage_after ||= begin
       fixture_path 'carthage_after'
+    end
+  end
+
+  def cocoapods_after
+    @cocoapods_after ||= begin
+      fixture_path 'cocoapods_after'
+    end
+  end
+
+  NIL_YAML = "--- \n...\n".freeze
+
+  # project_1 is the temp configured project
+  # project_2 is the reference project
+  def diff_project(project_after, command_array)
+    raise 'command_array is not an array' unless command_array && command_array.is_a?(Array)
+    # dirname for "/fixtures/project_before/." => /fixtures/project_before"
+    xcodeproj_2 = File.join(File.dirname(project_after), 'Example.xcodeproj')
+
+    Dir.mktmpdir do |tmp_dir|
+      FileUtils.cp_r project_before, tmp_dir
+
+      Dir.chdir tmp_dir do
+        # carthage modification of xcodeproj is non-deterministic so we can't rely on
+        # comparing git diffs because the diffs are always unique... even after
+        # normalizing the xcode ids.
+        #
+        # instead use project-diff which compares a tree hash of the project.
+
+        # must use .start to activate the default value logic in thor.
+        EarlGrey::CLI.start command_array
+
+        xcodeproj_1 = File.join(tmp_dir, 'Example.xcodeproj')
+
+        diff = ProjectDiff.run xcodeproj_1, xcodeproj_2
+
+        if diff != NIL_YAML
+          puts diff
+          raise 'difference detected'
+        end
+      end
     end
   end
 end

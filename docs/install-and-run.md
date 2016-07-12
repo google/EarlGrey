@@ -1,4 +1,5 @@
 # Install and run
+
 This document shows you how to install EarlGrey and then how to set up and run your first
 test.
 
@@ -47,8 +48,7 @@ For EarlGrey, we highly recommend [CocoaPods](https://cocoapods.org/) as the bes
   1. After your test target (for example, *SampleAppTests*) is set up, you now need to add EarlGrey as
   a framework dependency. To do so, add EarlGrey as a dependency to the test target in your `Podfile`.
   2. Because EarlGrey must be embedded within the app under test, we need to add certain Build Phases and
-  Scheme changes to the **Test Target**. Copy the [configure_earlgrey_pods.rb](https://github.com/google/EarlGrey/blob/master/Scripts/configure_earlgrey_pods.rb)
-  file to your project directory where you will run the `pod install` command. You need to call this script
+  Scheme changes to the **Test Target**. Run `gem install earlgrey`. You need to require this gem
   in a `post_install` hook using the project's name, the test target's name, and the name of the xcscheme file.
 
     For the CocoaPods 1.0.0 release, the Podfile should look like:
@@ -65,7 +65,7 @@ For EarlGrey, we highly recommend [CocoaPods](https://cocoapods.org/) as the bes
   end
 
   post_install do |installer|
-    load('configure_earlgrey_pods.rb')
+    require 'earlgrey'
     configure_for_earlgrey(installer, PROJECT_NAME, TEST_TARGET, SCHEME_FILE)
   end
   ```
@@ -83,7 +83,7 @@ For EarlGrey, we highly recommend [CocoaPods](https://cocoapods.org/) as the bes
   end
 
   post_install do |installer|
-    load('configure_earlgrey_pods.rb')
+    require 'earlgrey'
     configure_for_earlgrey(installer, PROJECT_NAME, TEST_TARGET, SCHEME_FILE)
   end
   ```
@@ -91,6 +91,8 @@ For EarlGrey, we highly recommend [CocoaPods](https://cocoapods.org/) as the bes
    * For multiple targets and Schemes, call the `configure_for_earlgrey` method for each target / Scheme.
    * The `:exclusive => true` and `inherit! :search_paths` flag prevents double-linking for libraries in the test target with any conflicting libraries in the main application.
    * For more information, visit the [CocoaPods Podfile Guide](http://guides.cocoapods.org/using/the-podfile.html).
+   * If you don't want a gem dependency, replace `require 'earlgrey'` with `load 'configure_earlgrey.rb'` and manually
+     copy `configure_earlgrey.rb` from the gem into the same directory as the Podfile.
 
    Note: If you are trying to run the [EarlGrey Demo App](https://github.com/google/EarlGrey/tree/master/Demo/EarlGreyExample)
    then ensure you have the latest 1.x CocoaPods version since we use the [updated syntax]

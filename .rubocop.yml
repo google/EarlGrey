@@ -33,3 +33,5 @@ Metrics/AbcSize:
   Enabled: false
 Metrics/ModuleLength:
   Enabled: false
+Style/GuardClause:
+  Enabled: false

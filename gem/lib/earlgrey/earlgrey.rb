@@ -21,5 +21,5 @@ require 'thor'
 require 'fileutils'
 
 require_relative 'version'
-require_relative 'configure_earlgrey_pods'
+require_relative 'configure_earlgrey'
 require_relative 'cli'
