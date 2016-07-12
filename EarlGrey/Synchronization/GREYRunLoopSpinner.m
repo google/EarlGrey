@@ -48,9 +48,9 @@ static void (^noopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef t
   NSAssert(!_spinning, @"Should not spin the same run loop spinner instance concurrently.");
   
   _spinning = YES;
-  CFTimeInterval timeoutTime = CACurrentMediaTime() + self.timeout;
+  CFTimeInterval timeoutTime = CACurrentMediaTime() + _timeout;
 
-  [self grey_drainRunLoopInActiveModeForDrains:self.minRunLoopDrains];
+  [self grey_drainRunLoopInActiveModeForDrains:_minRunLoopDrains];
 
   BOOL stopConditionMet = [self grey_checkConditionInActiveMode:stopConditionBlock];
   CFTimeInterval remainingTime = [self grey_secondsUntilTime:timeoutTime];
@@ -146,7 +146,7 @@ static void (^noopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef t
     __typeof__(self) strongSelf = weakSelf;
     NSAssert(strongSelf, @"The spinner should not have been deallocated while it was spinning.");
 
-    if ([strongSelf maxSleepInterval] == 0) {
+    if (strongSelf.maxSleepInterval == 0) {
       CFRunLoopWakeUp(CFRunLoopGetMain());
     }
 
@@ -292,11 +292,11 @@ static void (^noopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef t
  *  @return The registered timer or @c nil if no timer was added to @c mode.
  */
 - (CFRunLoopTimerRef)grey_setupWakeUpTimerInMode:(NSString *)mode {
-  if (self.maxSleepInterval > 0) {
+  if (_maxSleepInterval > 0) {
     CFRunLoopTimerRef timer =
         CFRunLoopTimerCreateWithHandler(kCFAllocatorDefault,
-                                        CFAbsoluteTimeGetCurrent() + self.maxSleepInterval,
-                                        self.maxSleepInterval,
+                                        CFAbsoluteTimeGetCurrent() + _maxSleepInterval,
+                                        _maxSleepInterval,
                                         0,
                                         0,
                                         noopTimerHandler);
