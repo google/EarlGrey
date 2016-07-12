@@ -539,6 +539,23 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
   return grey_allOf(grey_respondsToSelector(@selector(isOn)), matcher, nil);
 }
 
++ (id<GREYMatcher>)matcherForElementAtIndex:(NSUInteger)index {
+  __block NSUInteger count = 0;
+  MatchesBlock matches = ^BOOL(id element) {
+    BOOL matched = (count == index);
+    count++;
+    return matched;
+  };
+  DescribeToBlock describe = ^void(id<GREYDescription> description) {
+    NSString *formattedDescription =
+        [NSString stringWithFormat:@"elementMatchedAtIndex:(%lu)", (unsigned long)index];
+    [description appendText:formattedDescription];
+  };
+
+  return [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches
+                                              descriptionBlock:describe];
+}
+
 #pragma mark - Private Methods
 
 /**
@@ -722,6 +739,10 @@ id<GREYMatcher> grey_lessThan(id value) {
 
 id<GREYMatcher> grey_greaterThan(id value) {
   return [GREYMatchers matcherForGreaterThan:value];
+}
+
+id<GREYMatcher> grey_elementAtIndex(NSUInteger index) {
+  return [GREYMatchers matcherForElementAtIndex:index];
 }
 
 #endif // GREY_DISABLE_SHORTHAND
