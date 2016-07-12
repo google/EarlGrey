@@ -21,5 +21,8 @@
 @property(retain, nonatomic) IBOutlet UILabel *translucentLabel;
 @property(retain, nonatomic) IBOutlet UIButton *button;
 @property(retain, nonatomic) IBOutlet UIView *activationPointCover;
+@property(retain, nonatomic) IBOutlet UIView *leftView;
+@property(retain, nonatomic) IBOutlet UIView *centerView;
+@property(retain, nonatomic) IBOutlet UIView *rightView;
 
 @end

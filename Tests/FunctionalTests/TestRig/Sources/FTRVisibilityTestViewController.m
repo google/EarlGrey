@@ -57,6 +57,9 @@
 
   self.translucentLabel.accessibilityIdentifier = @"translucentLabel";
   self.translucentOverlappingView.accessibilityIdentifier = @"translucentOverlappingView";
+  self.leftView.accessibilityIdentifier = @"AView1";
+  self.centerView.accessibilityIdentifier = @"AView2";
+  self.rightView.accessibilityIdentifier = @"AView3";
 }
 
 #pragma mark - Private

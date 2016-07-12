@@ -375,6 +375,26 @@
  */
 + (id<GREYMatcher>)matcherForGreaterThan:(id)value;
 
+/**
+ *  A Matcher that in case where multiple elements are matched, returns the element matched at
+ *  the specified @c index.
+ *  @remark The order of elements returned is not guaranteed by EarlGrey. Use this method
+ *          only when any element from a set of non-specific elements is to be selected. Always
+ *          ensure that this matcher is at the end of the matcher list provided to @c grey_allOf().
+ *          Usage:
+ *          @code
+ *          [EarlGrey selectElementWithMatcher:grey_allOf(fooMultipleElementMatcher(),
+ *                                                        grey_elementAtIndex(2), nil)];
+ *          @endcode
+ *          Here, we would match the third element matched by fooMultipleElementMatcher().
+ *
+ *  @param index The index of the element to return from a list of elements.
+ *
+ *  @return A matcher that returns the element specified at an @c index from a list of non-unique
+ *          matched elements.
+ */
++ (id<GREYMatcher>)matcherForElementAtIndex:(NSUInteger)index;
+
 @end
 
 #if !(GREY_DISABLE_SHORTHAND)
@@ -473,19 +493,22 @@ GREY_EXPORT id<GREYMatcher> grey_notNil(void);
 /** Shorthand for GREYMatchers::matcherForSwitchWithOnState:. */
 GREY_EXPORT id<GREYMatcher> grey_switchWithOnState(BOOL on);
 
-/** Shorthand for GREYMatchers::matcherForCloseTo:delta. */
+/** Shorthand for GREYMatchers::matcherForCloseTo:. */
 GREY_EXPORT id<GREYMatcher> grey_closeTo(double value, double delta);
 
 /** Shorthand for GREYMatchers::matcherForAnything. */
 GREY_EXPORT id<GREYMatcher> grey_anything(void);
 
-/** Shorthand for GREYMatchers::matcherForEqualTo:object. */
+/** Shorthand for GREYMatchers::matcherForEqualTo:. */
 GREY_EXPORT id<GREYMatcher> grey_equalTo(id value);
 
-/** Shorthand for GREYMatchers::matcherForLessThan:value. */
+/** Shorthand for GREYMatchers::matcherForLessThan:. */
 GREY_EXPORT id<GREYMatcher> grey_lessThan(id value);
 
-/** Shorthand for GREYMatchers::matcherForGreaterThan:value. */
+/** Shorthand for GREYMatchers::matcherForGreaterThan:. */
 GREY_EXPORT id<GREYMatcher> grey_greaterThan(id value);
+
+/** Shorthand for GREYMatchers::matcherForElementAtIndex:. */
+GREY_EXPORT id<GREYMatcher> grey_elementAtIndex(NSUInteger index);
 
 #endif // GREY_DISABLE_SHORTHAND
