@@ -293,12 +293,13 @@ static void (^noopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef t
  */
 - (CFRunLoopTimerRef)grey_setupWakeUpTimerInMode:(NSString *)mode {
   if (self.maxSleepInterval > 0) {
-    CFRunLoopTimerRef timer = CFRunLoopTimerCreateWithHandler(kCFAllocatorDefault,
-                                                              CFAbsoluteTimeGetCurrent(),
-                                                              self.maxSleepInterval,
-                                                              0,
-                                                              0,
-                                                              noopTimerHandler);
+    CFRunLoopTimerRef timer =
+        CFRunLoopTimerCreateWithHandler(kCFAllocatorDefault,
+                                        CFAbsoluteTimeGetCurrent() + self.maxSleepInterval,
+                                        self.maxSleepInterval,
+                                        0,
+                                        0,
+                                        noopTimerHandler);
     CFRunLoopAddTimer(CFRunLoopGetMain(), timer, (CFStringRef)mode);
     return timer;
   } else {
