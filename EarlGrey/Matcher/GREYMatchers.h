@@ -493,22 +493,22 @@ GREY_EXPORT id<GREYMatcher> grey_notNil(void);
 /** Shorthand for GREYMatchers::matcherForSwitchWithOnState:. */
 GREY_EXPORT id<GREYMatcher> grey_switchWithOnState(BOOL on);
 
-/** Shorthand for GREYMatchers::matcherForCloseTo:delta. */
+/** Shorthand for GREYMatchers::matcherForCloseTo:. */
 GREY_EXPORT id<GREYMatcher> grey_closeTo(double value, double delta);
 
 /** Shorthand for GREYMatchers::matcherForAnything. */
 GREY_EXPORT id<GREYMatcher> grey_anything(void);
 
-/** Shorthand for GREYMatchers::matcherForEqualTo:object. */
+/** Shorthand for GREYMatchers::matcherForEqualTo:. */
 GREY_EXPORT id<GREYMatcher> grey_equalTo(id value);
 
-/** Shorthand for GREYMatchers::matcherForLessThan:value. */
+/** Shorthand for GREYMatchers::matcherForLessThan:. */
 GREY_EXPORT id<GREYMatcher> grey_lessThan(id value);
 
-/** Shorthand for GREYMatchers::matcherForGreaterThan:value. */
+/** Shorthand for GREYMatchers::matcherForGreaterThan:. */
 GREY_EXPORT id<GREYMatcher> grey_greaterThan(id value);
 
-/** Shorthand for GREYMatchers::elementAtIndex:index. */
+/** Shorthand for GREYMatchers::matcherForElementAtIndex:. */
 GREY_EXPORT id<GREYMatcher> grey_elementAtIndex(NSUInteger index);
 
 #endif // GREY_DISABLE_SHORTHAND
