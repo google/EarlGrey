@@ -261,7 +261,7 @@ steps in your setup:
     #import <EarlGrey/EarlGrey.h>
    ```
 
-2. Download [`EarlGrey.swift`](https://github.com/google/EarlGrey/tree/master/gem/lib/earlgrey/files/EarlGrey.swift) and add it to your test bundle. The file contains
+2. Download [`EarlGrey.swift`](https://github.com/google/EarlGrey/blob/master/docs/downloads/EarlGrey.swift) and add it to your test bundle. The file contains
 functions that implement C preprocessor macros that aren't available in Swift.
 
    Here is an example of a very basic EarlGrey test written in Swift:
