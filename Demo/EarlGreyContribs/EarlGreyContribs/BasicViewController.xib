@@ -21,6 +21,7 @@
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="EarlGrey Contribs Basic VC" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IH3-lx-BCl">
                     <rect key="frame" x="174" y="85" width="252" height="21"/>
+                    <accessibility key="accessibilityConfiguration" label="titleLabel"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="252" id="LrI-kS-kXZ"/>
                     </constraints>
@@ -30,12 +31,14 @@
                 </label>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Text" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oFs-fO-EQ7">
                     <rect key="frame" x="144" y="152" width="312" height="30"/>
+                    <accessibility key="accessibilityConfiguration" label="textField"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lfb-TG-BdN">
                     <rect key="frame" x="159" y="274" width="283" height="91"/>
                     <color key="backgroundColor" red="0.63464951830000005" green="1" blue="0.34803896569999998" alpha="1" colorSpace="calibratedRGB"/>
+                    <accessibility key="accessibilityConfiguration" label="textLabel"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="283" id="AMt-0r-LmY"/>
                         <constraint firstAttribute="height" constant="91" id="kJo-d3-Clx"/>
@@ -46,6 +49,7 @@
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hpF-WH-1hZ">
                     <rect key="frame" x="219" y="214" width="162" height="30"/>
+                    <accessibility key="accessibilityConfiguration" label="showButton"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="162" id="PXT-3W-KYy"/>
                     </constraints>
