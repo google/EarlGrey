@@ -17,7 +17,7 @@
 import XCTest
 
 class EarlGreyContribsSwiftTests: XCTestCase {
-  func testExample() {
+  func testBasicViewController() {
     EarlGrey().selectElementWithMatcher(grey_text("Basic View Controller"))
         .performAction(grey_tap())
     EarlGrey().selectElementWithMatcher(grey_accessibilityLabel("textField"))

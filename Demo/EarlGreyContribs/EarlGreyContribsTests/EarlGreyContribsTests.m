@@ -20,8 +20,15 @@
 
 @implementation EarlGreyContribsTests
 
-- (void)testExample {
-  [EarlGrey selectElementWithMatcher:grey_keyWindow()];
+- (void)testBasicViewController {
+  [[EarlGrey selectElementWithMatcher:grey_text(@"Basic View Controller")]
+      performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"textField")]
+      performAction:grey_typeText(@"Foo")];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"showButton")]
+      performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"textLabel")]
+      assertWithMatcher:grey_text(@"Foo")];
 }
 
 @end

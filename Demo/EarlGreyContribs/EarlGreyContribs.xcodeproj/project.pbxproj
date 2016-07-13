@@ -105,6 +105,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		FDA14AB71D35D017009F60A0 /* EarlGreyContribsTests.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EarlGreyContribsTests.pch; sourceTree = "<group>"; };
 		FDFCE9421D3427D2006D9592 /* EarlGreyContribs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EarlGreyContribs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDFCE9461D3427D2006D9592 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		FDFCE9481D3427D2006D9592 /* EarlGreyContribsAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EarlGreyContribsAppDelegate.h; sourceTree = "<group>"; };
@@ -134,7 +135,6 @@
 		FDFCE9A01D35ADDA006D9592 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		FDFCE9A11D35ADDA006D9592 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		FDFCE9A41D35ADE2006D9592 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = ../../../../../../../System/Library/Frameworks/IOKit.framework; sourceTree = "<group>"; };
-		FDFCE9A61D35AE4B006D9592 /* EarlGreyContribsTests.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EarlGreyContribsTests.pch; sourceTree = "<group>"; };
 		FDFCE9AB1D35B0BC006D9592 /* EarlGreyContribsSwiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EarlGreyContribsSwiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDFCE9AD1D35B0BC006D9592 /* EarlGreyContribsSwiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarlGreyContribsSwiftTests.swift; sourceTree = "<group>"; };
 		FDFCE9C21D35B248006D9592 /* EarlGreyContribsTestRig-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "EarlGreyContribsTestRig-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -180,6 +180,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FDA14AB51D35CFD4009F60A0 /* SupportingFiles */ = {
+			isa = PBXGroup;
+			children = (
+				FDFCE9C31D35B366006D9592 /* EarlGrey.swift */,
+				FDFCE9C21D35B248006D9592 /* EarlGreyContribsTestRig-Bridging-Header.h */,
+			);
+			name = SupportingFiles;
+			sourceTree = "<group>";
+		};
+		FDA14AB61D35CFF7009F60A0 /* SupportingFiles */ = {
+			isa = PBXGroup;
+			children = (
+				FDA14AB71D35D017009F60A0 /* EarlGreyContribsTests.pch */,
+			);
+			name = SupportingFiles;
+			sourceTree = "<group>";
+		};
 		FDFCE9391D3427D2006D9592 = {
 			isa = PBXGroup;
 			children = (
@@ -253,7 +270,6 @@
 			children = (
 				FDFCE9561D3427D2006D9592 /* EarlGreyContribs-Info.plist */,
 				FDFCE9461D3427D2006D9592 /* main.m */,
-				FDFCE9A61D35AE4B006D9592 /* EarlGreyContribsTests.pch */,
 			);
 			name = SupportingFiles;
 			sourceTree = "<group>";
@@ -261,6 +277,7 @@
 		FDFCE9871D35A51C006D9592 /* EarlGreyContribsTests */ = {
 			isa = PBXGroup;
 			children = (
+				FDA14AB61D35CFF7009F60A0 /* SupportingFiles */,
 				FDFCE9881D35A51C006D9592 /* EarlGreyContribsTests.m */,
 			);
 			path = EarlGreyContribsTests;
@@ -277,9 +294,8 @@
 		FDFCE9AC1D35B0BC006D9592 /* EarlGreyContribsSwiftTests */ = {
 			isa = PBXGroup;
 			children = (
-				FDFCE9C31D35B366006D9592 /* EarlGrey.swift */,
+				FDA14AB51D35CFD4009F60A0 /* SupportingFiles */,
 				FDFCE9AD1D35B0BC006D9592 /* EarlGreyContribsSwiftTests.swift */,
-				FDFCE9C21D35B248006D9592 /* EarlGreyContribsTestRig-Bridging-Header.h */,
 			);
 			path = EarlGreyContribsSwiftTests;
 			sourceTree = "<group>";
@@ -636,14 +652,13 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/../../**",
-				);
-				GCC_PREFIX_HEADER = EarlGreyContribs/EarlGreyContribsTests.pch;
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../**";
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				GCC_PREFIX_HEADER = EarlGreyContribsTests/EarlGreyContribsTests.pch;
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "EarlGreyContribs/EarlGreyContribs-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				OTHER_CFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EarlGreyContribs.app/EarlGreyContribs";
@@ -656,14 +671,13 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/../../**",
-				);
-				GCC_PREFIX_HEADER = EarlGreyContribs/EarlGreyContribsTests.pch;
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../**";
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				GCC_PREFIX_HEADER = EarlGreyContribsTests/EarlGreyContribsTests.pch;
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "EarlGreyContribs/EarlGreyContribs-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				OTHER_CFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EarlGreyContribs.app/EarlGreyContribs";
@@ -675,11 +689,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/../../**",
-				);
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../**/**";
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "EarlGreyContribs/EarlGreyContribs-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "";
@@ -694,11 +705,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/../../**",
-				);
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../**/**";
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "EarlGreyContribs/EarlGreyContribs-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "";
@@ -736,6 +744,7 @@
 				FDFCE98F1D35A51C006D9592 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		FDFCE9B21D35B0BC006D9592 /* Build configuration list for PBXNativeTarget "EarlGreyContribsSwiftTests" */ = {
 			isa = XCConfigurationList;
@@ -744,6 +753,7 @@
 				FDFCE9B41D35B0BC006D9592 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
