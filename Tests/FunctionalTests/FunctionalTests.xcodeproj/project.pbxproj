@@ -103,7 +103,6 @@
 		FD193FF61BBDDBF500153959 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD193FF51BBDDBF500153959 /* CoreGraphics.framework */; };
 		FD193FF81BBDDBFB00153959 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD193FF71BBDDBFB00153959 /* UIKit.framework */; };
 		FD193FFA1BBDDC0000153959 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD193FF91BBDDC0000153959 /* QuartzCore.framework */; };
-		FD387B4B1CA9C65100958AEE /* EarlGrey.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD387B371CA9C5E200958AEE /* EarlGrey.swift */; };
 		FD387B4C1CA9C65100958AEE /* FTRSwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD387B391CA9C5E200958AEE /* FTRSwiftTests.swift */; };
 		FD387B4F1CA9C69C00958AEE /* EarlGrey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 596D89BE1C05AB0600025714 /* EarlGrey.framework */; };
 		FD387B501CA9C6AB00958AEE /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD5470D61BBDE0A9000661FD /* IOKit.framework */; };
@@ -120,6 +119,7 @@
 		FD5471391BBDF9AC000661FD /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD193FF91BBDDC0000153959 /* QuartzCore.framework */; };
 		FD54713A1BBDF9C0000661FD /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD5470D61BBDE0A9000661FD /* IOKit.framework */; };
 		FD60CB611C5B5B1B00F8E318 /* EarlGrey.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 596D89BE1C05AB0600025714 /* EarlGrey.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		FD7ACAB81D35BB7100803806 /* EarlGrey.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7ACAB71D35BB7100803806 /* EarlGrey.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -312,12 +312,12 @@
 		FD193FF51BBDDBF500153959 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		FD193FF71BBDDBFB00153959 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		FD193FF91BBDDC0000153959 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		FD387B371CA9C5E200958AEE /* EarlGrey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EarlGrey.swift; path = Sources/EarlGrey.swift; sourceTree = "<group>"; };
 		FD387B391CA9C5E200958AEE /* FTRSwiftTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FTRSwiftTests.swift; path = Sources/FTRSwiftTests.swift; sourceTree = "<group>"; };
 		FD387B3C1CA9C60D00958AEE /* FunctionalTestRig-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "FunctionalTestRig-Bridging-Header.h"; path = "Sources/FunctionalTestRig-Bridging-Header.h"; sourceTree = "<group>"; };
 		FD387B411CA9C63900958AEE /* EarlGreyFunctionalSwiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EarlGreyFunctionalSwiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD5470D61BBDE0A9000661FD /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = ../../../../../../../../../System/Library/Frameworks/IOKit.framework; sourceTree = "<group>"; };
 		FD5470F11BBDECBB000661FD /* EarlGreyFunctionalTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EarlGreyFunctionalTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FD7ACAB71D35BB7100803806 /* EarlGrey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EarlGrey.swift; path = ../../gem/lib/earlgrey/files/EarlGrey.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -569,8 +569,8 @@
 		FD387B351CA9C5B500958AEE /* SwiftSources */ = {
 			isa = PBXGroup;
 			children = (
+				FD7ACAB71D35BB7100803806 /* EarlGrey.swift */,
 				FD387B3C1CA9C60D00958AEE /* FunctionalTestRig-Bridging-Header.h */,
-				FD387B371CA9C5E200958AEE /* EarlGrey.swift */,
 				FD387B391CA9C5E200958AEE /* FTRSwiftTests.swift */,
 			);
 			name = SwiftSources;
@@ -781,6 +781,7 @@
 				59467E981C9373F00089498B /* FTRVisibilityTestViewController.m in Sources */,
 				59467E9B1C9373F00089498B /* FTRWebViewController.m in Sources */,
 				59467E9D1C9373F00089498B /* main.m in Sources */,
+				FD7ACAB81D35BB7100803806 /* EarlGrey.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -788,7 +789,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FD387B4B1CA9C65100958AEE /* EarlGrey.swift in Sources */,
 				FD387B4C1CA9C65100958AEE /* FTRSwiftTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

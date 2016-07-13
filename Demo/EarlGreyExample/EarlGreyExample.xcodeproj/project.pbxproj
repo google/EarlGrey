@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		2CB731501C29E54A00CF35C1 /* EarlGreyExampleSwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB7314F1C29E54A00CF35C1 /* EarlGreyExampleSwiftTests.swift */; };
-		2CB731591C29E63100CF35C1 /* EarlGrey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB731581C29E63100CF35C1 /* EarlGrey.swift */; };
 		2CB7315A1C29E8E600CF35C1 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F9961071AE0CF4F0034F503 /* LaunchScreen.xib */; };
 		2CB7315B1C29E8F400CF35C1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F5A53591ADE670C00F81DF0 /* Main.storyboard */; };
 		2CE7FA481C35AAB00079DE2F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE7FA471C35AAB00079DE2F /* ViewController.swift */; };
@@ -18,6 +17,7 @@
 		5FDE055D1B0DAA090037B82F /* EarlGreyExampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FDE055C1B0DAA090037B82F /* EarlGreyExampleTests.m */; };
 		B138493F020E5722396DA089 /* libPods-EarlGreyExampleTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D46EAF7D333CC260482B66F /* libPods-EarlGreyExampleTests.a */; };
 		D72CF3BA7F23B2D76BDB796B /* libPods-EarlGreyExampleSwiftTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE5C2CF8BE11314537DC2497 /* libPods-EarlGreyExampleSwiftTests.a */; };
+		FD7ACAB51D35BB3300803806 /* EarlGrey.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7ACAB41D35BB3300803806 /* EarlGrey.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,7 +44,6 @@
 		2CB7314F1C29E54A00CF35C1 /* EarlGreyExampleSwiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarlGreyExampleSwiftTests.swift; sourceTree = "<group>"; };
 		2CB731511C29E54A00CF35C1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2CB731571C29E5C800CF35C1 /* BridgingHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BridgingHeader.h; sourceTree = "<group>"; };
-		2CB731581C29E63100CF35C1 /* EarlGrey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EarlGrey.swift; sourceTree = "<group>"; };
 		2CE7FA471C35AAB00079DE2F /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		540847E26AB719CEC24DB704 /* Pods-EarlGreyExampleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EarlGreyExampleTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-EarlGreyExampleTests/Pods-EarlGreyExampleTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5F5A53501ADE670C00F81DF0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../EarlGreyExample/Info.plist; sourceTree = "<group>"; };
@@ -59,6 +58,7 @@
 		6F7D181E51534A271B63232D /* Pods-EarlGreyExampleSwiftTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EarlGreyExampleSwiftTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-EarlGreyExampleSwiftTests/Pods-EarlGreyExampleSwiftTests.release.xcconfig"; sourceTree = "<group>"; };
 		8D46EAF7D333CC260482B66F /* libPods-EarlGreyExampleTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-EarlGreyExampleTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE5C2CF8BE11314537DC2497 /* libPods-EarlGreyExampleSwiftTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-EarlGreyExampleSwiftTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FD7ACAB41D35BB3300803806 /* EarlGrey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EarlGrey.swift; path = ../../../gem/lib/earlgrey/files/EarlGrey.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,10 +91,10 @@
 		2CB7314E1C29E54A00CF35C1 /* EarlGreyExampleSwiftTests */ = {
 			isa = PBXGroup;
 			children = (
+				FD7ACAB41D35BB3300803806 /* EarlGrey.swift */,
 				2CB7314F1C29E54A00CF35C1 /* EarlGreyExampleSwiftTests.swift */,
 				2CB731511C29E54A00CF35C1 /* Info.plist */,
 				2CB731571C29E5C800CF35C1 /* BridgingHeader.h */,
-				2CB731581C29E63100CF35C1 /* EarlGrey.swift */,
 			);
 			path = EarlGreyExampleSwiftTests;
 			sourceTree = "<group>";
@@ -411,8 +411,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2CB731591C29E63100CF35C1 /* EarlGrey.swift in Sources */,
 				2CB731501C29E54A00CF35C1 /* EarlGreyExampleSwiftTests.swift in Sources */,
+				FD7ACAB51D35BB3300803806 /* EarlGrey.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
