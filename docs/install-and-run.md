@@ -149,17 +149,9 @@ In cases where CocoaPods is not compatible with your project, you can add EarlGr
 
      <img src="images/image06.png" width="450">
 
-  4. Add the path of **EarlGrey.xcodeproj** in your **Header Search Paths**:
+  4. Turn off Bitcode as it is not supported by EarlGrey (yet) by setting **Enable Bitcode** to **NO** in the Build Settings of the Test Target.
 
-    ```
-    Project → Test Target → Build Settings → Header Search Paths → + (Add Sign) → Directory_of_EarlGrey.xcodeproj. (recursive)
-    ```
-
-  5. Similarly, add in the path of **EarlGrey.xcodeproj** to the **Framework Search Paths** of your app.
-
-  6. Turn off Bitcode as it is not supported by EarlGrey (yet) by setting **Enable Bitcode** to **NO** in the Build Settings of the Test Target.
-
-  7. You must add environment variables in the Test Target's Scheme to inject the EarlGrey framework. To do so, go to **The Test Target → Edit Scheme → Test Action** and then deselect **Use the Run action's arguments and environment variables**. Add the following details in the `Environment Variables`:
+  5. You must add environment variables in the Test Target's Scheme to inject the EarlGrey framework. To do so, go to **The Test Target → Edit Scheme → Test Action** and then deselect **Use the Run action's arguments and environment variables**. Add the following details in the `Environment Variables`:
 
            Key: `DYLD_INSERT_LIBRARIES`
            Value:`@executable_path/EarlGrey.framework/EarlGrey`
@@ -269,7 +261,7 @@ steps in your setup:
     #import <EarlGrey/EarlGrey.h>
    ```
 
-2. Download [`EarlGrey.swift`](https://github.com/google/EarlGrey/blob/master/docs/downloads/EarlGrey.swift) and add it to your test bundle. The file contains
+2. Download [`EarlGrey.swift`](https://github.com/google/EarlGrey/tree/master/gem/lib/earlgrey/files/EarlGrey.swift) and add it to your test bundle. The file contains
 functions that implement C preprocessor macros that aren't available in Swift.
 
    Here is an example of a very basic EarlGrey test written in Swift:
