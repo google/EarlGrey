@@ -119,7 +119,7 @@
 		FD5471391BBDF9AC000661FD /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD193FF91BBDDC0000153959 /* QuartzCore.framework */; };
 		FD54713A1BBDF9C0000661FD /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD5470D61BBDE0A9000661FD /* IOKit.framework */; };
 		FD60CB611C5B5B1B00F8E318 /* EarlGrey.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 596D89BE1C05AB0600025714 /* EarlGrey.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		FD7ACAB81D35BB7100803806 /* EarlGrey.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7ACAB71D35BB7100803806 /* EarlGrey.swift */; };
+		FDA14AF01D36FDBC009F60A0 /* EarlGrey.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7ACAB71D35BB7100803806 /* EarlGrey.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -781,7 +781,6 @@
 				59467E981C9373F00089498B /* FTRVisibilityTestViewController.m in Sources */,
 				59467E9B1C9373F00089498B /* FTRWebViewController.m in Sources */,
 				59467E9D1C9373F00089498B /* main.m in Sources */,
-				FD7ACAB81D35BB7100803806 /* EarlGrey.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -789,6 +788,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FDA14AF01D36FDBC009F60A0 /* EarlGrey.swift in Sources */,
 				FD387B4C1CA9C65100958AEE /* FTRSwiftTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -970,7 +970,6 @@
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "FunctionalTestRig-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				WARNING_CFLAGS = "$(inherited)";
 			};
@@ -991,7 +990,6 @@
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "FunctionalTestRig-Bridging-Header.h";
 				WARNING_CFLAGS = "$(inherited)";
 			};
 			name = Release;
