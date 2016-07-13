@@ -51,7 +51,7 @@ obtain_fishhook() {
       exit 1
     fi
 
-    mv fishhook-${FISHHOOK_VERSION} ${EARLGREY_DIR}/fishhook/
+    mv fishhook-${FISHHOOK_VERSION} "${EARLGREY_DIR}/fishhook/"
     if [[ $? != 0 ]]; then
       echo "There was an issue moving Fishhook as per"`
         `" the EarlGrey specification." >&2
@@ -116,7 +116,7 @@ obtain_ochamcrest() {
     echo "Renaming the OCHamcrestIOS framework for EarlGrey Dependencies."
     ./rename-ochamcrestIOS.py
 
-    mv "OCHamcrest.framework/" ${EARLGREY_DIR}/.
+    mv "OCHamcrest.framework/" "${EARLGREY_DIR}/."
 
     if [[ $? != 0 ]]; then
       echo "There was an issue in cleaning the OCHamcrestIOS as per"`
@@ -138,7 +138,7 @@ obtain_ocmock() {
   echo "Obtaining the OCMock dependency."
 
   # Git Clone OCMock. Make sure the destination folder is called “ocmock”.
-if [ -d ${OCMOCK_PATH} ]; then
+if [ -d "${OCMOCK_PATH}" ]; then
     echo "The ocmock directory is already present at ${PWD}/${OCMOCK_PATH}."`
       `" If you experience issues with running EarlGrey then please remove"`
       `" this directory and run this script again."
@@ -166,7 +166,7 @@ if [ -d ${OCMOCK_PATH} ]; then
       exit 1
     fi
 
-    mv ocmock-${OCMOCK_VERSION} ${OCMOCK_PATH}
+    mv ocmock-${OCMOCK_VERSION} "${OCMOCK_PATH}"
     rm ${ocmock-${OCMOCK_VERSION}}.zip
 
     echo "OCMock downloaded at ${OCMOCK_PATH}"
@@ -196,7 +196,7 @@ readonly EARLGREY_DIR="${EARLGREY_SCRIPT_DIR}/.."
 
 echo "Changing into EarlGrey Directory"
 # Change Directory to the directory that contains EarlGrey.
-pushd ${EARLGREY_SCRIPT_DIR} >> /dev/null
+pushd "${EARLGREY_SCRIPT_DIR}" >> /dev/null
 
 obtain_fishhook
 obtain_ochamcrest
