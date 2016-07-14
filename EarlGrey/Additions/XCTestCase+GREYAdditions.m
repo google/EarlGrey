@@ -18,11 +18,8 @@
 
 #include <objc/runtime.h>
 
-#import "Common/GREYPrivate.h"
 #import "Common/GREYSwizzler.h"
 #import "Exception/GREYFrameworkException.h"
-#import "Synchronization/GREYAppStateTracker.h"
-#import "Synchronization/GREYUIThreadExecutor.h"
 
 /**
  *  Current XCTestCase being executed or @c nil if outside the context of a running test.
@@ -77,30 +74,6 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
                            replaceInstanceMethod:@selector(invokeTest)
                                       withMethod:@selector(grey_invokeTest)];
     NSAssert(swizzleSuccess, @"Cannot swizzle XCTestCase invokeTest");
-
-    void (^tearDownBlock)(NSNotification *note) = ^(NSNotification *note) {
-      // The time in seconds beyond which if app remains busy, the App state from
-      // GREYAppStateTracker will be forced clean.
-      static const CFTimeInterval kIdleTimeoutSeconds = 5;
-
-      // Cleanup state tracker state if not idle after 5 seconds.
-      BOOL idled =
-          [[GREYUIThreadExecutor sharedInstance] drainUntilIdleWithTimeout:kIdleTimeoutSeconds];
-      if (!idled) {
-        XCTestCase *test = note.userInfo[kGREYXCTestCaseNotificationKey];
-        NSLog(@"EarlGrey tried waiting for %.1f seconds for the application to reach an idle "
-              @"state. It is now forced to cleanup the state tracker because the test %@ might "
-              @"have caused the application to be in a non-idle state indefinitely."
-              @"\nFull state tracker description:%@", kIdleTimeoutSeconds, test.name,
-              [GREYAppStateTracker sharedInstance]);
-        [[GREYAppStateTracker sharedInstance] grey_clearState];
-      }
-    };
-
-    [[NSNotificationCenter defaultCenter] addObserverForName:kGREYXCTestCaseInstanceDidTearDown
-                                                      object:nil
-                                                       queue:nil
-                                                  usingBlock:tearDownBlock];
   }
 }
 

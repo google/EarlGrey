@@ -18,11 +18,13 @@
 
 #import "Additions/NSError+GREYAdditions.h"
 #import "Additions/UIApplication+GREYAdditions.h"
+#import "Additions/XCTestCase+GREYAdditions.h"
 #import "AppSupport/GREYIdlingResource.h"
 #import "Assertion/GREYAssertionDefines.h"
 #import "Common/GREYConfiguration.h"
 #import "Common/GREYConstants.h"
 #import "Common/GREYDefines.h"
+#import "Common/GREYPrivate.h"
 #import "Synchronization/GREYAppStateTracker.h"
 #import "Synchronization/GREYDispatchQueueIdlingResource.h"
 #import "Synchronization/GREYOperationQueueIdlingResource.h"
@@ -36,13 +38,19 @@ NSString *const kGREYUIThreadExecutorErrorDomain =
  *  The number of times idling resources are queried for idleness to be considered "really" idle.
  *  The value used here has worked in practice and has negligible impact on performance.
  */
-static int kConsecutiveTimesIdlingResourcesMustBeIdle = 3;
+static const int kConsecutiveTimesIdlingResourcesMustBeIdle = 3;
 
 /**
  *  The default maximum time that the main thread is allowed to sleep while the thread executor is
  *  attempting to synchronize.
  */
-static CFTimeInterval kMaximumSynchronizationSleepInterval = 0.1;
+static const CFTimeInterval kMaximumSynchronizationSleepInterval = 0.1;
+
+/**
+ *  The maximum amount of time to wait for the UI and idling resources to become idle in
+ *  grey_forcedStateTrackerCleanUp before forcefully clearing the state of GREYAppStateTracker.
+ */
+static const CFTimeInterval kDrainTimeoutSecondsBeforeForcedStateTrackerCleanup = 5;
 
 // Execution states.
 typedef NS_ENUM(NSInteger, EGExecutionState) {
@@ -111,6 +119,11 @@ typedef NS_ENUM(NSInteger, EGExecutionState) {
         [[NSOrderedSet alloc] initWithObjects:appStateTrackerIdlingResource,
                                               defaultMainDispatchQIdlingResource,
                                               defaultMainNSOperationQIdlingResource, nil];
+    // Forcefully clear GREYAppStateTracker state during test case teardown if it is not idle.
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(grey_forcedStateTrackerCleanUp)
+                                                 name:kGREYXCTestCaseInstanceDidTearDown
+                                               object:nil];
   }
   return self;
 }
@@ -346,4 +359,23 @@ typedef NS_ENUM(NSInteger, EGExecutionState) {
 
   return [NSString stringWithFormat:@"%@\n%@", reason, details];
 }
+
+/**
+ *  Drains the UI thread and waits for both the UI and idling resources to idle, for up to
+ *  @c kDrainTimeoutSecondsBeforeForcedStateTrackerCleanup seconds, before forcefully clearing
+ *  the state of GREYAppStateTracker.
+ */
+- (void)grey_forcedStateTrackerCleanUp {
+  BOOL idled = [self drainUntilIdleWithTimeout:kDrainTimeoutSecondsBeforeForcedStateTrackerCleanup];
+  if (!idled) {
+    NSLog(@"EarlGrey tried waiting for %.1f seconds for the application to reach an idle state. It"
+          @" is now forced to clear the state of GREYAppStateTracker, because the test might have"
+          @" caused the application to remain in non-idle state indefinitely."
+          @"\nFull state tracker description:%@",
+          kDrainTimeoutSecondsBeforeForcedStateTrackerCleanup,
+          [GREYAppStateTracker sharedInstance]);
+    [[GREYAppStateTracker sharedInstance] grey_clearState];
+  }
+}
+
 @end
