@@ -106,7 +106,7 @@
 #pragma mark - Crash Handlers
 
 // Call only asynchronous-safe functions within signal handlers
-// See definition here: https://www.securecoding.cert.org/confluence/display/seccode/BB.+Definitions
+// Learn more: https://www.securecoding.cert.org/confluence/display/c/SIG00-C.+Mask+signals+handled+by+noninterruptible+signal+handlers
 static void grey_signalHandler(int signal) {
   char *signalString = strsignal(signal);
   write(STDERR_FILENO, signalString, strlen(signalString));
@@ -130,7 +130,7 @@ static void grey_installSignalHandler(int signalId, struct sigaction *handler) {
   }
 }
 
-+ (void) grey_setupCrashHandlers {
++ (void)grey_setupCrashHandlers {
   NSLog(@"Crash handler setup started.");
 
   struct sigaction signalActionHandler;
