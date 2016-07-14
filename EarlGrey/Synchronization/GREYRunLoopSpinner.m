@@ -24,7 +24,7 @@
  *  implementation, some ports (specifically the dispatch port) will only be serviced every other
  *  run loop drain.
  */
-static const int kDefaultMinRunLoopDrains = 2;
+static const NSUInteger kDefaultMinRunLoopDrains = 2;
 
 /**
  *  No-op timer handler block.
@@ -46,12 +46,10 @@ static void (^noopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef t
 - (BOOL)spinWithStopConditionBlock:(BOOL (^)(void))stopConditionBlock {
   I_CHECK_MAIN_THREAD();
   NSAssert(!_spinning, @"Should not spin the same run loop spinner instance concurrently.");
-  
   _spinning = YES;
+
   CFTimeInterval timeoutTime = CACurrentMediaTime() + _timeout;
-
   [self grey_drainRunLoopInActiveModeForDrains:_minRunLoopDrains];
-
   BOOL stopConditionMet = [self grey_checkConditionInActiveMode:stopConditionBlock];
   CFTimeInterval remainingTime = [self grey_secondsUntilTime:timeoutTime];
 
@@ -74,9 +72,12 @@ static void (^noopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef t
  *
  *  @param exitDrainCount The number of times to drain the active run loop.
  */
-- (void)grey_drainRunLoopInActiveModeForDrains:(int)exitDrainCount {
-  __block int drainCount = 0;
+- (void)grey_drainRunLoopInActiveModeForDrains:(NSUInteger)exitDrainCount {
+  if (exitDrainCount == 0) {
+    return;
+  }
 
+  __block int drainCount = 0;
   void (^drainCountingBlock)() = ^{
     drainCount++;
     if (drainCount >= exitDrainCount) {
