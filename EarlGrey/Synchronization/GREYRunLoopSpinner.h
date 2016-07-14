@@ -70,7 +70,7 @@
  *  @remark The default value is 2 because, as per the CFRunLoop implementation, some ports
  *          (specifically the dispatch port) will only be serviced every other run loop drain.
  */
-@property(nonatomic) int minRunLoopDrains;
+@property(nonatomic) NSUInteger minRunLoopDrains;
 
 /**
  *  This block is invoked in the active run loop mode if the stop condition evaluates to YES.
