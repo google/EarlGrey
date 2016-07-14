@@ -32,7 +32,7 @@ NSString *const kSpinnerTestMode = @"SpinnerTestMode";
 static CFRunLoopSourceRef counterSource;
 
 // The number of times that the counter source has been invoked.
-static int gDrainCountForSpinnerTest;
+static NSUInteger gDrainCountForSpinnerTest;
 
 @implementation GREYRunLoopSpinnerTest
 
@@ -63,7 +63,7 @@ static int gDrainCountForSpinnerTest;
 
   [self changeActiveModeToSpinnerTestMode];
 
-  BOOL result = [spinner spinWithStopConditionBlock:^BOOL{
+  BOOL result = [spinner spinWithStopConditionBlock:^BOOL {
     return YES;
   }];
 
@@ -97,7 +97,7 @@ static int gDrainCountForSpinnerTest;
 
   [self changeActiveModeToSpinnerTestMode];
 
-  BOOL result = [spinner spinWithStopConditionBlock:^BOOL{
+  BOOL result = [spinner spinWithStopConditionBlock:^BOOL {
     currentConditionCheckCount++;
     return currentConditionCheckCount > conditionCheckCountLimit;
   }];
@@ -125,7 +125,7 @@ static int gDrainCountForSpinnerTest;
   spinner.minRunLoopDrains = 2;
   spinner.timeout = 0.1;
 
-  BOOL result = [spinner spinWithStopConditionBlock:^BOOL{
+  BOOL result = [spinner spinWithStopConditionBlock:^BOOL {
     return NO;
   }];
 
@@ -138,8 +138,7 @@ static int gDrainCountForSpinnerTest;
 - (void)testMinDrains {
   GREYRunLoopSpinner *spinner = [[GREYRunLoopSpinner alloc] init];
 
-  __block int minDrains = 5;
-
+  __block NSUInteger minDrains = 5;
   spinner.minRunLoopDrains = minDrains;
 
   spinner.conditionMetHandler = ^{
@@ -151,7 +150,7 @@ static int gDrainCountForSpinnerTest;
   [self setupDrainCounter];
   [self changeActiveModeToSpinnerTestMode];
 
-  BOOL result = [spinner spinWithStopConditionBlock:^BOOL{
+  BOOL result = [spinner spinWithStopConditionBlock:^BOOL {
     XCTAssertEqual(minDrains, gDrainCountForSpinnerTest,
                    @"The stop condition should be checked after exactly the minimum number of"
                    @"drains.");
@@ -162,7 +161,6 @@ static int gDrainCountForSpinnerTest;
                            @"The run loop spinner guarantees that it will not iniate any new"
                            @"drains after the condition is met. However, the counter source may"
                            @"have been handled once after the condition was met.");
-
   XCTAssertTrue(result,
                  @"Spin result should be YES. The condition was met.");
 }
@@ -179,7 +177,7 @@ static int gDrainCountForSpinnerTest;
 
   [self changeActiveModeToSpinnerTestMode];
 
-  BOOL result = [spinner spinWithStopConditionBlock:^BOOL{
+  BOOL result = [spinner spinWithStopConditionBlock:^BOOL {
     currentConditionCheckCount++;
     return currentConditionCheckCount > conditionCheckCountLimit;
   }];
@@ -197,12 +195,12 @@ static int gDrainCountForSpinnerTest;
 
   __block int conditionCheckCountLimit = 20;
   __block int currentConditionCheckCount = 0;
-  __block int lastConditionCheckDrainCount = gDrainCountForSpinnerTest;
+  __block NSUInteger lastConditionCheckDrainCount = gDrainCountForSpinnerTest;
 
   [self changeActiveModeToSpinnerTestMode];
   [self setupDrainCounter];
 
-  BOOL result = [spinner spinWithStopConditionBlock:^BOOL{
+  BOOL result = [spinner spinWithStopConditionBlock:^BOOL {
     XCTAssertLessThanOrEqual(gDrainCountForSpinnerTest, lastConditionCheckDrainCount + 1,
                              @"The drain count should not increase by more than 1 per stop"
                              @"condition check. The spinner should check this condition at least"
@@ -215,7 +213,8 @@ static int gDrainCountForSpinnerTest;
   XCTAssertTrue(result,
                 @"Spin result should be YES. The condition was eventually met.");
   XCTAssertLessThanOrEqual(gDrainCountForSpinnerTest, lastConditionCheckDrainCount + 1,
-                @"Spinner should not iniate any new drains after the condition was met.");
+                           @"Spinner should not iniate any new drains after the condition "
+                           @"was met.");
 }
 
 // Note, though it was shown to be robust when it was added, this test is very likely to become
@@ -233,7 +232,7 @@ static int gDrainCountForSpinnerTest;
 
   [self changeActiveModeToSpinnerTestMode];
 
-  BOOL result = [spinner spinWithStopConditionBlock:^BOOL{
+  BOOL result = [spinner spinWithStopConditionBlock:^BOOL {
     return NO;
   }];
 
@@ -257,7 +256,7 @@ static int gDrainCountForSpinnerTest;
 
   __block CFTimeInterval lastConditionCheck = CACurrentMediaTime();
 
-  BOOL result = [spinner spinWithStopConditionBlock:^BOOL{
+  BOOL result = [spinner spinWithStopConditionBlock:^BOOL {
     // Since we are guaranteed that this condition block is checked once per drain, we can leverage
     // that to verify that the run loop is never sleeping. (Or if it is, not for long.)
     XCTAssertLessThan(CACurrentMediaTime(), lastConditionCheck + 0.1,
