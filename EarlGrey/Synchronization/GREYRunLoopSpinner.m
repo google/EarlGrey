@@ -77,7 +77,7 @@ static void (^noopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef t
     return;
   }
 
-  __block int drainCount = 0;
+  __block NSUInteger drainCount = 0;
   void (^drainCountingBlock)() = ^{
     drainCount++;
     if (drainCount >= exitDrainCount) {
