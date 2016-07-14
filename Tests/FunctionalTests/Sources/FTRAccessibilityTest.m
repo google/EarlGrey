@@ -116,7 +116,7 @@
     // Square element rect is {50, 150, 100, 100}
     [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"SquareElementLabel")]
         performAction:grey_tapAtPoint(CGPointMake(-51, -151))];
-    XCTFail(@"Should throw an exception");
+    GREYFail(@"Should throw an exception");
   } @catch (NSException *exception) {
     NSRange exceptionRange = [[exception reason] rangeOfString:@"Action 'Tap' failed."];
     GREYAssertNotEqual(exceptionRange.location, NSNotFound, @"should not be equal");

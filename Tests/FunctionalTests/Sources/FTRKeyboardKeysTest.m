@@ -137,7 +137,7 @@
   @try {
     [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"NonTypingTextField")]
         performAction:[GREYActions actionForTypeText:@"Should Fail"]];
-    XCTFail(@"Should throw an exception");
+    GREYFail(@"Should throw an exception");
   } @catch (NSException *exception) {
     NSRange exceptionRange =
         [[exception reason] rangeOfString:@"Action 'Type \"Should Fail\"' failed."];

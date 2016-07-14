@@ -181,7 +181,7 @@
   NSError *error;
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AView")]
       assertWithMatcher:grey_sufficientlyVisible() error:&error];
-  XCTAssertEqual(error.code, kGREYInteractionMultipleElementsMatchedErrorCode);
+  GREYAssertEqual(error.code, kGREYInteractionMultipleElementsMatchedErrorCode, @"should be equal");
 
   // Match against the first view present.
   [[EarlGrey selectElementWithMatcher:grey_allOf(grey_accessibilityLabel(@"AView"),
@@ -204,22 +204,22 @@
                                                  grey_accessibilityLabel(@"AView"),
                                                  nil)]
       assertWithMatcher:grey_sufficientlyVisible() error:&error];
-  XCTAssertEqual(error.code, kGREYInteractionElementNotFoundErrorCode);
+  GREYAssertEqual(error.code, kGREYInteractionElementNotFoundErrorCode, @"should be equal");
 
   // Use the element at index matcher with an incorrect matcher.
   [[EarlGrey selectElementWithMatcher:grey_allOf(grey_accessibilityLabel(@"InvalidView"),
                                                  grey_elementAtIndex(0), nil)]
       assertWithMatcher:grey_sufficientlyVisible() error:&error];
-  XCTAssertEqual(error.code, kGREYInteractionElementNotFoundErrorCode);
+  GREYAssertEqual(error.code, kGREYInteractionElementNotFoundErrorCode, @"should be equal");
 
   // Use the element at index matcher with an index greater than the number of
   // matched elements.
   [[EarlGrey selectElementWithMatcher:grey_allOf(grey_accessibilityLabel(@"AView"),
                                                  grey_elementAtIndex(99), nil)]
       assertWithMatcher:grey_sufficientlyVisible() error:&error];
-  XCTAssertEqual(error.code, kGREYInteractionElementNotFoundErrorCode);
+  GREYAssertEqual(error.code, kGREYInteractionElementNotFoundErrorCode, @"should be equal");
 
-  XCTAssertTrue(idSet.count == 3);
+  GREYAssertEqual(idSet.count, 3, @"should be equal");
 }
 
 @end
