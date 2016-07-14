@@ -14,16 +14,16 @@
 // limitations under the License.
 //
 
-public func EarlGrey() -> EarlGreyImpl! {
-  return EarlGreyImpl.invokedFromFile(#file, lineNumber: #line)
-}
-
 func grey_allOfMatchers(args: AnyObject...) -> GREYMatcher! {
   return GREYAllOf.init(matchers: args)
 }
 
 func grey_anyOfMatchers(args: AnyObject...) -> GREYMatcher! {
   return GREYAnyOf.init(matchers: args)
+}
+
+public func EarlGrey() -> EarlGreyImpl! {
+  return EarlGreyImpl.invokedFromFile(#file, lineNumber: #line)
 }
 
 public func GREYAssert(@autoclosure expression: () -> BooleanType, reason: String) {
@@ -39,7 +39,7 @@ public func GREYAssertTrue(@autoclosure expression: () -> BooleanType, reason: S
 public func GREYAssertFalse(@autoclosure expression: () -> BooleanType, reason: String) {
   GREYAssert(!expression().boolValue,
     reason,
-    details: "Expected the boolean expression to be true")
+    details: "Expected the boolean expression to be false")
 }
 
 public func GREYAssertNotNil(@autoclosure expression: () -> Any?, reason: String) {
@@ -52,7 +52,12 @@ public func GREYAssertNil(@autoclosure expression: () -> Any?, reason: String) {
 
 public func GREYAssertEqual<T : Equatable>(@autoclosure left: () -> T?,
     @autoclosure _ right: () -> T?, reason: String) {
-  GREYAssert(left() == right(), reason, details: "Expeted left term to be equal to right term")
+  GREYAssert(left() == right(), reason, details: "Expected left term to be equal to right term")
+}
+
+public func GREYAssertNotEqual<T : Equatable>(@autoclosure left: () -> T?,
+    @autoclosure _ right: () -> T?, reason: String) {
+  GREYAssert(left() != right(), reason, details: "Expected left term to not be equal to right term")
 }
 
 public func GREYFail(reason: String) {
