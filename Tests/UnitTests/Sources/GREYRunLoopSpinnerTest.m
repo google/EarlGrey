@@ -138,8 +138,7 @@ static int gDrainCountForSpinnerTest;
 - (void)testMinDrains {
   GREYRunLoopSpinner *spinner = [[GREYRunLoopSpinner alloc] init];
 
-  __block int minDrains = 5;
-
+  __block NSUInteger minDrains = 5;
   spinner.minRunLoopDrains = minDrains;
 
   spinner.conditionMetHandler = ^{
@@ -162,7 +161,6 @@ static int gDrainCountForSpinnerTest;
                            @"The run loop spinner guarantees that it will not iniate any new"
                            @"drains after the condition is met. However, the counter source may"
                            @"have been handled once after the condition was met.");
-
   XCTAssertTrue(result,
                  @"Spin result should be YES. The condition was met.");
 }
