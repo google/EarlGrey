@@ -89,7 +89,7 @@
   GREYAssert(screenshot, @"Failed to take screenshot");
 
   CGRect actualRect = CGRectMake(0, 0, screenshot.size.width, screenshot.size.height);
-  GREYAssertTrue(CGRectEqualToRect(actualRect, self.grey_expectedImageRectForAppStore),
+  GREYAssertTrue(CGRectEqualToRect(actualRect, [self ftr_expectedImageRectForAppStore]),
                  @"Screenshot isn't correct dimension");
 }
 
@@ -100,7 +100,7 @@
   GREYAssert(screenshot, @"Failed to take screenshot");
 
   CGRect actualRect = CGRectMake(0, 0, screenshot.size.width, screenshot.size.height);
-  GREYAssertTrue(CGRectEqualToRect(actualRect, self.grey_expectedImageRectForAppStore),
+  GREYAssertTrue(CGRectEqualToRect(actualRect, [self ftr_expectedImageRectForAppStore]),
                  @"Screenshot isn't correct dimension");
 }
 
@@ -111,7 +111,7 @@
   GREYAssert(screenshot, @"Failed to take screenshot");
 
   CGRect actualRect = CGRectMake(0, 0, screenshot.size.width, screenshot.size.height);
-  GREYAssertTrue(CGRectEqualToRect(actualRect, self.grey_expectedImageRectForAppStore),
+  GREYAssertTrue(CGRectEqualToRect(actualRect, [self ftr_expectedImageRectForAppStore]),
                  @"Screenshot isn't correct dimension");
 }
 
@@ -122,13 +122,13 @@
   GREYAssert(screenshot, @"Failed to take screenshot");
 
   CGRect actualRect = CGRectMake(0, 0, screenshot.size.width, screenshot.size.height);
-  GREYAssertTrue(CGRectEqualToRect(actualRect, self.grey_expectedImageRectForAppStore),
+  GREYAssertTrue(CGRectEqualToRect(actualRect, [self ftr_expectedImageRectForAppStore]),
                  @"Screenshot isn't correct dimension");
 }
 
 #pragma mark - Private
 
-- (CGRect)grey_expectedImageRectForAppStore {
+- (CGRect)ftr_expectedImageRectForAppStore {
   CGRect screenRect = [UIScreen mainScreen].bounds;
   UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
 

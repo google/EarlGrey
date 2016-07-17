@@ -163,19 +163,6 @@
       assertWithMatcher:grey_interactable()];
 }
 
-- (GREYAssertionBlock *)assertOnIDSet:(NSMutableSet *)idSet{
-  GREYAssertionBlock *assertAxId =
-      [GREYAssertionBlock assertionWithName:@"Check Accessibility Id"
-                    assertionBlockWithError:^BOOL(id element, NSError *__strong *errorOrNil) {
-                      NSParameterAssert(element);
-                      [grey_sufficientlyVisible() matches:element];
-                      UIView *view = element;
-                      [idSet addObject:view.accessibilityIdentifier];
-                      return YES;
-                    }];
-  return assertAxId;
-}
-
 - (void)testVisibilityOfViewsWithSameAccessibilityLabel {
   NSMutableSet *idSet = [NSMutableSet set];
   NSError *error;
@@ -186,17 +173,17 @@
   // Match against the first view present.
   [[EarlGrey selectElementWithMatcher:grey_allOf(grey_accessibilityLabel(@"AView"),
                                                  grey_elementAtIndex(0), nil)]
-      assert:[self assertOnIDSet:idSet]];
+      assert:[self ftr_assertOnIDSet:idSet]];
 
   // Match against the second view present.
   [[EarlGrey selectElementWithMatcher:grey_allOf(grey_accessibilityLabel(@"AView"),
                                                  grey_elementAtIndex(1), nil)]
-      assert:[self assertOnIDSet:idSet]];
+      assert:[self ftr_assertOnIDSet:idSet]];
 
   // Match against the third and last view present.
   [[EarlGrey selectElementWithMatcher:grey_allOf(grey_accessibilityLabel(@"AView"),
                                                  grey_elementAtIndex(2), nil)]
-      assert:[self assertOnIDSet:idSet]];
+      assert:[self ftr_assertOnIDSet:idSet]];
 
   // Try matching against the second view, but pass the defining matcher after the
   // |grey_elementAtIndex| matcher.
@@ -220,6 +207,21 @@
   GREYAssertEqual(error.code, kGREYInteractionElementNotFoundErrorCode, @"should be equal");
 
   GREYAssertEqual(idSet.count, 3, @"should be equal");
+}
+
+#pragma mark - Private
+
+- (GREYAssertionBlock *)ftr_assertOnIDSet:(NSMutableSet *)idSet {
+  GREYAssertionBlock *assertAxId =
+      [GREYAssertionBlock assertionWithName:@"Check Accessibility Id"
+                    assertionBlockWithError:^BOOL(id element, NSError *__strong *errorOrNil) {
+                      NSParameterAssert(element);
+                      [grey_sufficientlyVisible() matches:element];
+                      UIView *view = element;
+                      [idSet addObject:view.accessibilityIdentifier];
+                      return YES;
+                    }];
+  return assertAxId;
 }
 
 @end

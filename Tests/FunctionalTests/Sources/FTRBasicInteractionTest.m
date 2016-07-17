@@ -69,7 +69,7 @@
   [[EarlGrey selectElementWithMatcher:grey_keyWindow()] performAction:[GREYActions actionForTap]];
 
   UITapGestureRecognizer *tapGestureRecognizer =
-      [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissWindow:)];
+      [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(ftr_dismissWindow:)];
   tapGestureRecognizer.numberOfTapsRequired = 1;
 
   // Create a custom window that dismisses itself when tapped.
@@ -86,10 +86,6 @@
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TopMostWindow")]
       assertWithMatcher:grey_notVisible()];
-}
-
-- (void)dismissWindow:(UITapGestureRecognizer *)sender {
-  [sender.view setHidden:YES];
 }
 
 - (void)testRootViewControllerSetMultipleTimesOnMainWindow {
@@ -350,6 +346,12 @@
       performAction:makeWindowOpaqueBlock];
   [[EarlGrey selectElementWithMatcher:[GREYMatchers matcherForAccessibilityLabel:@"Long Press"]]
       assertWithMatcher:grey_sufficientlyVisible()];
+}
+
+#pragma mark - Private
+
+- (void)ftr_dismissWindow:(UITapGestureRecognizer *)sender {
+  [sender.view setHidden:YES];
 }
 
 @end

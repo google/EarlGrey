@@ -115,40 +115,23 @@
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
-// Asserts that the given gesture has been recognised regardless of the gesture's start point.
-- (void)grey_assertGestureRecognized:(NSString *)gesture {
-  MatchesBlock gestureMatcherBlock = ^BOOL (id element) {
-    NSString *text = [(UILabel *)element text];
-    GREYAssert([text hasPrefix:gesture], @"Gesture prefix '%@' not found in '%@'.", gesture, text);
-    return YES;
-  };
-  DescribeToBlock gestureMatcherDescriptionBlock = ^(id<GREYDescription> description) {
-    [description appendText:@"Gesture Matcher"];
-  };
-  GREYElementMatcherBlock *gestureElementMatcher =
-      [[GREYElementMatcherBlock alloc] initWithMatchesBlock:gestureMatcherBlock
-                                           descriptionBlock:gestureMatcherDescriptionBlock];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"gesture")]
-      assertWithMatcher:gestureElementMatcher];
-}
-
 - (void)testSwipeWorksInAllDirectionsInPortraitMode {
-  [self assertSwipeWorksInAllDirections];
+  [self ftr_assertSwipeWorksInAllDirections];
 }
 
 - (void)testSwipeWorksInAllDirectionsInUpsideDownMode {
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortraitUpsideDown errorOrNil:nil];
-  [self assertSwipeWorksInAllDirections];
+  [self ftr_assertSwipeWorksInAllDirections];
 }
 
 - (void)testSwipeWorksInAllDirectionsInLandscapeLeftMode {
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeLeft errorOrNil:nil];
-  [self assertSwipeWorksInAllDirections];
+  [self ftr_assertSwipeWorksInAllDirections];
 }
 
 - (void)testSwipeWorksInAllDirectionsInLandscapeRightMode {
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeRight errorOrNil:nil];
-  [self assertSwipeWorksInAllDirections];
+  [self ftr_assertSwipeWorksInAllDirections];
 }
 
 - (void)testSwipeOnWindow {
@@ -199,19 +182,37 @@
 
 // Asserts that Swipe works in all directions by verifying if the swipe gestures are correctly
 // recognized.
-- (void)assertSwipeWorksInAllDirections {
+- (void)ftr_assertSwipeWorksInAllDirections {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
       performAction:grey_swipeFastInDirection(kGREYDirectionUp)];
-  [self grey_assertGestureRecognized:@"swipe up"];
+  [self ftr_assertGestureRecognized:@"swipe up"];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
       performAction:grey_swipeSlowInDirection(kGREYDirectionDown)];
-  [self grey_assertGestureRecognized:@"swipe down"];
+  [self ftr_assertGestureRecognized:@"swipe down"];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
       performAction:grey_swipeFastInDirection(kGREYDirectionLeft)];
-  [self grey_assertGestureRecognized:@"swipe left"];
+  [self ftr_assertGestureRecognized:@"swipe left"];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
       performAction:grey_swipeSlowInDirection(kGREYDirectionRight)];
-  [self grey_assertGestureRecognized:@"swipe right"];
+  [self ftr_assertGestureRecognized:@"swipe right"];
+}
+
+// Asserts that the given gesture has been recognised regardless of the gesture's start point.
+- (void)ftr_assertGestureRecognized:(NSString *)gesture {
+  MatchesBlock gestureMatcherBlock = ^BOOL (id element) {
+    NSString *text = [(UILabel *)element text];
+    GREYAssert([text hasPrefix:gesture], @"Gesture prefix '%@' not found in '%@'.", gesture, text);
+    return YES;
+  };
+  DescribeToBlock gestureMatcherDescriptionBlock = ^(id<GREYDescription> description) {
+    [description appendText:@"Gesture Matcher"];
+  };
+  GREYElementMatcherBlock *gestureElementMatcher =
+      [[GREYElementMatcherBlock alloc] initWithMatchesBlock:gestureMatcherBlock
+                                           descriptionBlock:gestureMatcherDescriptionBlock];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"gesture")]
+      assertWithMatcher:gestureElementMatcher];
 }
 
 @end
+

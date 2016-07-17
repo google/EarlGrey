@@ -41,33 +41,33 @@
 }
 
 - (void)testSearchActionWithTinyScrollIncrements {
-  [[self scrollToCellAtIndex:20 byScrollingInAmounts:50 InDirection:kGREYDirectionDown]
+  [[self ftr_scrollToCellAtIndex:20 byScrollingInAmounts:50 InDirection:kGREYDirectionDown]
       assertWithMatcher:grey_notNil()];
-  [[self scrollToCellAtIndex:0 byScrollingInAmounts:50 InDirection:kGREYDirectionUp]
+  [[self ftr_scrollToCellAtIndex:0 byScrollingInAmounts:50 InDirection:kGREYDirectionUp]
       assertWithMatcher:grey_notNil()];
-  [[self scrollToCellAtIndex:20 byScrollingInAmounts:50 InDirection:kGREYDirectionDown]
+  [[self ftr_scrollToCellAtIndex:20 byScrollingInAmounts:50 InDirection:kGREYDirectionDown]
       assertWithMatcher:grey_notNil()];
 }
 
 - (void)testSearchActionWithLargeScrollIncrements {
-  [[self scrollToCellAtIndex:20 byScrollingInAmounts:200 InDirection:kGREYDirectionDown]
+  [[self ftr_scrollToCellAtIndex:20 byScrollingInAmounts:200 InDirection:kGREYDirectionDown]
       assertWithMatcher:grey_notNil()];
-  [[self scrollToCellAtIndex:0 byScrollingInAmounts:200 InDirection:kGREYDirectionUp]
+  [[self ftr_scrollToCellAtIndex:0 byScrollingInAmounts:200 InDirection:kGREYDirectionUp]
       assertWithMatcher:grey_notNil()];
-  [[self scrollToCellAtIndex:20 byScrollingInAmounts:200 InDirection:kGREYDirectionDown]
+  [[self ftr_scrollToCellAtIndex:20 byScrollingInAmounts:200 InDirection:kGREYDirectionDown]
       assertWithMatcher:grey_notNil()];
 }
 
 - (void)testScrollToTop {
   // Scroll down.
-  [[self scrollToCellAtIndex:20 byScrollingInAmounts:200 InDirection:kGREYDirectionDown]
+  [[self ftr_scrollToCellAtIndex:20 byScrollingInAmounts:200 InDirection:kGREYDirectionDown]
       assertWithMatcher:grey_notNil()];
   // Scroll to top.
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"main_table_view")]
       performAction:grey_scrollToContentEdge(kGREYContentEdgeTop)];
   // And verify that we are at the top.
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"main_table_view")]
-      assertWithMatcher:[self matcherForScrolledToTop]];
+      assertWithMatcher:[self ftr_matcherForScrolledToTop]];
 }
 
 - (void)testScrollToTopWithPositiveInsets {
@@ -77,14 +77,14 @@
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"insets toggle")]
       performAction:grey_turnSwitchOn(YES)];
   // Scroll down.
-  [[self scrollToCellAtIndex:20 byScrollingInAmounts:200 InDirection:kGREYDirectionDown]
+  [[self ftr_scrollToCellAtIndex:20 byScrollingInAmounts:200 InDirection:kGREYDirectionDown]
       assertWithMatcher:grey_notNil()];
   // Scroll to top.
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"main_table_view")]
       performAction:grey_scrollToContentEdge(kGREYContentEdgeTop)];
   // And verify that we are at the top.
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"main_table_view")]
-      assertWithMatcher:[self matcherForScrolledToTop]];
+      assertWithMatcher:[self ftr_matcherForScrolledToTop]];
 }
 
 - (void)testScrollToTopWithNegativeInsets {
@@ -94,14 +94,14 @@
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"insets toggle")]
       performAction:grey_turnSwitchOn(YES)];
   // Scroll down.
-  [[self scrollToCellAtIndex:20 byScrollingInAmounts:200 InDirection:kGREYDirectionDown]
+  [[self ftr_scrollToCellAtIndex:20 byScrollingInAmounts:200 InDirection:kGREYDirectionDown]
       assertWithMatcher:grey_notNil()];
   // Scroll to top.
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"main_table_view")]
       performAction:grey_scrollToContentEdge(kGREYContentEdgeTop)];
   // And verify that we are at the top.
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"main_table_view")]
-      assertWithMatcher:[self matcherForScrolledToTop]];
+      assertWithMatcher:[self ftr_matcherForScrolledToTop]];
 }
 
 - (void)testScrollToTopWhenAlreadyAtTheTopWithoutBounce {
@@ -122,7 +122,7 @@
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"main_table_view")]
       performAction:grey_scrollToContentEdge(kGREYContentEdgeTop)];
   // Verify that top most cell is visible.
-  [[EarlGrey selectElementWithMatcher:[self matcherForCellAtIndex:0]]
+  [[EarlGrey selectElementWithMatcher:[self ftr_matcherForCellAtIndex:0]]
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
@@ -130,7 +130,7 @@
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"main_table_view")]
       performAction:grey_scrollToContentEdge(kGREYContentEdgeTop)];
   // Verify that top most cell is visible.
-  [[EarlGrey selectElementWithMatcher:[self matcherForCellAtIndex:0]]
+  [[EarlGrey selectElementWithMatcher:[self ftr_matcherForCellAtIndex:0]]
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
@@ -196,21 +196,21 @@
 
 #pragma mark - Private
 
-- (id<GREYMatcher>)matcherForCellAtIndex:(NSInteger)index {
+- (id<GREYMatcher>)ftr_matcherForCellAtIndex:(NSInteger)index {
   return grey_accessibilityLabel([NSString stringWithFormat:@"Row %d", (int)index]);
 }
 
-- (GREYElementInteraction *)scrollToCellAtIndex:(NSInteger)index
-                         byScrollingInAmounts:(CGFloat)amount
-                                  InDirection:(GREYDirection)direction {
+- (GREYElementInteraction *)ftr_scrollToCellAtIndex:(NSInteger)index
+                               byScrollingInAmounts:(CGFloat)amount
+                                        InDirection:(GREYDirection)direction {
   id<GREYMatcher> matcher =
-      grey_allOf([self matcherForCellAtIndex:index], grey_interactable(), nil);
+      grey_allOf([self ftr_matcherForCellAtIndex:index], grey_interactable(), nil);
   return [[EarlGrey selectElementWithMatcher:matcher]
                 usingSearchAction:grey_scrollInDirection(direction, amount)
              onElementWithMatcher:grey_kindOfClass([UITableView class])];
 }
 
-- (GREYElementMatcherBlock *)matcherForScrolledToTop {
+- (GREYElementMatcherBlock *)ftr_matcherForScrolledToTop {
   BOOL (^isScrolledToTop)(id) = ^BOOL(id element) {
     CGPoint contentOffset = [(UIScrollView *)element contentOffset];
     UIEdgeInsets contentInset = [(UIScrollView *)element contentInset];
@@ -218,7 +218,7 @@
   };
   return [GREYElementMatcherBlock matcherWithMatchesBlock:isScrolledToTop
                                          descriptionBlock:^(id<GREYDescription> description) {
-    [description appendText:@"matcherForScrolledToTop"];
+    [description appendText:@"ftr_matcherForScrolledToTop"];
   }];
 }
 
