@@ -81,7 +81,7 @@
   _webView.scrollView.bounces = sender.isOn;
 }
 
-# pragma mark - UIWebViewDelegate methods
+#pragma mark - UIWebViewDelegate methods
 
 - (void)webViewDidStartLoad:(UIWebView *)view {
   [_activityIndicator startAnimating];

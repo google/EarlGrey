@@ -31,7 +31,7 @@
     swipeAction = [[GREYSwipeAction alloc] initWithDirection:kGREYDirectionRight
                                                     duration:1.0
                                                startPercents:startPercents];
-    XCTFail(@"Should have thrown an assertion");
+    XCTFail(@"Should have thrown an exception");
   } @catch (NSException *exception) {
     NSString *expectedErrorDescription =
         [NSString stringWithFormat:@"%cOriginStartPercentage must be between 0 and 1,"

@@ -19,7 +19,7 @@
 #import <Foundation/Foundation.h>
 
 /**
- *  A Matcher for combining multiple matchers with a logical @c AND operator, so that a match
+ *  A matcher for combining multiple matchers with a logical @c AND operator, so that a match
  *  only occurs when all combined matchers match the element. The invocation of the matchers
  *  is in the same order in which they are passed. As soon as one matcher fails, the
  *  rest of the matchers are not invoked.
@@ -35,9 +35,9 @@
  *  Designated initializer that adds the different matchers to be combined.
  *
  *  @param matchers Matchers that conform to GREYMatcher and will be combined together with
- *                  a logical AND in the order they are passed.
+ *                  a logical AND in the order they are passed in.
  *
- *  @return An instance of GREYAllOf, initialized with the provided matcher(s).
+ *  @return An instance of GREYAllOf, initialized with the provided @c matchers.
  */
 - (instancetype)initWithMatchers:(NSArray *)matchers NS_DESIGNATED_INITIALIZER;
 
@@ -51,7 +51,7 @@
  *                 specified and only if the preceding matcher passes. This va-arg must be
  *                 terminated with a @c nil value.
  *
- *  @return An object conforming to HCMatcher, initialized with the required matchers.
+ *  @return An object conforming to GREYMatcher, initialized with the required matchers.
  */
 GREY_EXPORT id<GREYMatcher> grey_allOf(id<GREYMatcher> matcher, ...) NS_REQUIRES_NIL_TERMINATION;
 

@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-@interface FTRAppDelegate : NSObject <UIApplicationDelegate>
+@interface FTRAppDelegate : NSObject<UIApplicationDelegate>
 
 @property(nonatomic, strong) UIWindow *window;
 

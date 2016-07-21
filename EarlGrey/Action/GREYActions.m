@@ -157,7 +157,7 @@
 }
 
 + (id<GREYAction>)actionForReplaceText:(NSString *)text {
-    return [GREYActions grey_actionForReplaceText:text];
+  return [GREYActions grey_actionForReplaceText:text];
 }
 
 + (id<GREYAction>)actionForClearText {

@@ -51,7 +51,7 @@ static NSArray *gShiftKeyLabels;
 /**
  *  Accessibility labels for text modification keys, like shift, delete etc.
  */
-static NSDictionary *modifierKeyIdentifierMapping;
+static NSDictionary *gModifierKeyIdentifierMapping;
 
 /**
  *  A retry time interval in which we re-tap the shift key to ensure
@@ -94,7 +94,7 @@ static NSString *const kReturnKeyIdentifier = @"\n";
     [gAlphabeticKeyplaneCharacters formUnionWithCharacterSet:
         [NSCharacterSet lowercaseLetterCharacterSet]];
 
-    modifierKeyIdentifierMapping = @{
+    gModifierKeyIdentifierMapping = @{
       kSpaceKeyIdentifier : @"space",
       kDeleteKeyIdentifier : @"delete",
       kReturnKeyIdentifier : @"return"
@@ -349,7 +349,7 @@ static NSString *const kReturnKeyIdentifier = @"\n";
   NSString *accessibilityLabel = character;
   // If the key is a modifier key then we need to do a case-insensitive comparison and change the
   // accessibility label to the corresponding modifier key accessibility label.
-  NSString *modifierKeyIdentifier = [modifierKeyIdentifierMapping objectForKey:character];
+  NSString *modifierKeyIdentifier = [gModifierKeyIdentifierMapping objectForKey:character];
   if (modifierKeyIdentifier) {
     // Check for the return key since we can have a different accessibility label
     // depending upon the keyboard.

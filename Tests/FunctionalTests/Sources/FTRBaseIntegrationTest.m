@@ -35,7 +35,7 @@
 - (void)setUp {
   [super setUp];
   _currentFailureHandler = greyFailureHandler;
-  // By default, make all test assume portrait position.
+  // By default, make all tests assume portrait position.
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait errorOrNil:nil];
 }
 

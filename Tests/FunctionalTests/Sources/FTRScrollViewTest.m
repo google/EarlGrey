@@ -94,9 +94,9 @@
 - (void)testScrollToTopWorksWithPositiveInsets {
   // Scroll down.
   id<GREYMatcher> matcher = grey_allOf(grey_accessibilityLabel(@"Label 2"),
-                                     grey_interactable(),
-                                     grey_sufficientlyVisible(),
-                                     nil);
+                                       grey_interactable(),
+                                       grey_sufficientlyVisible(),
+                                       nil);
   [[[EarlGrey selectElementWithMatcher:matcher]
          usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 50)
       onElementWithMatcher:grey_accessibilityLabel(@"Upper Scroll View")]

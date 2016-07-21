@@ -30,7 +30,7 @@ GREY_EXTERN NSString *const kGREYInteractionErrorDomain;
 /**
  *  Error codes for element interaction failures.
  */
-typedef NS_ENUM(NSInteger, GREYInteractionErrorCode){
+typedef NS_ENUM(NSInteger, GREYInteractionErrorCode) {
   /**
    *  Element search has failed.
    */

@@ -153,11 +153,11 @@
 + (id<GREYMatcher>)matcherForAccessibilityElement;
 
 /**
- *  Matcher for views that are subclass of the provided @c klass.
+ *  Matcher for elements that are kind of the provided @c klass.
  *
- *  @param klass A UIView class or subclass.
+ *  @param klass A class.
  *
- *  @return A matcher that confirms if the given class is a subview of the provided class.
+ *  @return A matcher that checks if the given element's class is a kind of the provided @c klass.
  */
 + (id<GREYMatcher>)matcherForKindOfClass:(Class)klass;
 

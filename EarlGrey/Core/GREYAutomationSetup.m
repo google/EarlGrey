@@ -79,15 +79,14 @@ static GREYSignalHandler gPreviousSignalHandlers[kNumSignals];
 }
 
 - (void)perform {
-  Class selfClass = [self class];
-  [selfClass grey_setupCrashHandlers];
+  [self grey_setupCrashHandlers];
 
   [self grey_enableAccessibility];
   // Force software keyboard.
   [[UIKeyboardImpl sharedInstance] setAutomaticMinimizationEnabled:NO];
   // Turn off auto correction as it interferes with typing on iOS8.2+.
   if (iOS8_2_OR_ABOVE()) {
-    [selfClass grey_modifyKeyboardSettings];
+    [self grey_modifyKeyboardSettings];
   }
 }
 
@@ -95,7 +94,7 @@ static GREYSignalHandler gPreviousSignalHandlers[kNumSignals];
 
 // Modifies the autocorrect and predictive typing settings to turn them off through the
 // keyboard settings bundle.
-+ (void)grey_modifyKeyboardSettings {
+- (void)grey_modifyKeyboardSettings {
   NSString *keyboardSettingsPrefBundlePath =
       @"/System/Library/PreferenceBundles/KeyboardSettings.bundle/KeyboardSettings";
   NSString *keyboardControllerClassName = @"KeyboardController";
@@ -108,7 +107,7 @@ static GREYSignalHandler gPreviousSignalHandlers[kNumSignals];
 
 // For the provided bundle @c path, we use the actual @c className of the class to extract and
 // return a class instance that can be modified.
-+ (id)grey_classInstanceFromBundleAtPath:(NSString *)path withClassName:(NSString *)className {
+- (id)grey_classInstanceFromBundleAtPath:(NSString *)path withClassName:(NSString *)className {
   NSParameterAssert(path);
   NSParameterAssert(className);
   char const *const preferenceBundlePath = [path fileSystemRepresentation];
@@ -218,7 +217,7 @@ static void grey_uncaughtExceptionHandler(NSException *exception) {
   }
 }
 
-+ (void)grey_setupCrashHandlers {
+- (void)grey_setupCrashHandlers {
   NSLog(@"Crash handler setup started.");
 
   struct sigaction signalAction;

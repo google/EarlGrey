@@ -262,7 +262,7 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
   return [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe];
 }
 
-+ (id<GREYMatcher>)matcherForProgress:(id)comparisonMatcher {
++ (id<GREYMatcher>)matcherForProgress:(id<GREYMatcher>)comparisonMatcher {
   MatchesBlock matches = ^BOOL(UIProgressView *element) {
     return [comparisonMatcher matches:@(element.progress)];
   };
@@ -461,10 +461,9 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
   };
   id<GREYMatcher> isEnabledMatcher =
       [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe];
-  // This basically checks that we don't have any disabled ancestors because checking for enabled
-  // ancestor will return the first enabled ancestor even through there might be disabled ancestors.
-  id<GREYMatcher> areAncestorsEnabled = grey_not(grey_ancestor(grey_not(isEnabledMatcher)));
-  return grey_allOf(isEnabledMatcher, areAncestorsEnabled, nil);
+  // We also check that we don't have any disabled ancestors because checking for enabled ancestor
+  // will return the first enabled ancestor even through there might be disabled ancestors.
+  return grey_allOf(isEnabledMatcher, grey_not(grey_ancestor(grey_not(isEnabledMatcher))), nil);
 }
 
 + (id<GREYMatcher>)matcherForUserInteractionEnabled {
@@ -474,19 +473,15 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
   DescribeToBlock describe = ^void(id<GREYDescription> description) {
     [description appendText:@"userInteractionEnabled"];
   };
-  id<GREYMatcher> matcher =
-      [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe];
-  return grey_allOf(grey_kindOfClass([UIView class]), matcher, nil);
+  return grey_allOf(grey_kindOfClass([UIView class]),
+                    [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches
+                                                         descriptionBlock:describe],
+                    nil);
 }
 
 + (id<GREYMatcher>)matcherForConstraints:(NSArray *)constraints
               toReferenceElementMatching:(id<GREYMatcher>)referenceElementMatcher {
   MatchesBlock matches = ^BOOL(id element) {
-    if (!element) {
-      // nil elements dont have layout for matching layout constraints.
-      return NO;
-    }
-
     // TODO: This causes searching the UI hierarchy multiple times for each element, refactor the
     // design to avoid this.
     GREYElementInteraction *interaction =
@@ -494,7 +489,7 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
     NSError *matcherError;
     NSArray *referenceElements = [interaction matchedElementsWithTimeout:0 error:&matcherError];
     if (matcherError) {
-      I_GREYAssertTrue(NO, @"Error finding element:%@", matcherError);
+      I_GREYAssertTrue(NO, @"Error finding element: %@", matcherError);
     } else if (referenceElements.count > 1) {
       I_GREYAssertTrue(NO, @"More than one element matches the reference matcher: %@",
                        referenceElements);
@@ -518,8 +513,11 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
             referenceElementMatcher, [constraints componentsJoinedByString:@","]];
     [description appendText:name];
   };
-  return [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches
-                                              descriptionBlock:describe];
+  // Nil elements do not have layout for matching layout constraints.
+  return grey_allOf(grey_notNil(),
+                    [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches
+                                                         descriptionBlock:describe],
+                    nil);
 }
 
 + (id<GREYMatcher>)matcherForNil {
@@ -551,9 +549,10 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
                          [UISwitch grey_stringFromOnState:on]];
     [description appendText:name];
   };
-  id<GREYMatcher> matcher = [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches
-                                                                 descriptionBlock:describe];
-  return grey_allOf(grey_respondsToSelector(@selector(isOn)), matcher, nil);
+  return grey_allOf(grey_respondsToSelector(@selector(isOn)),
+                    [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches
+                                                         descriptionBlock:describe],
+                    nil);
 }
 
 + (id<GREYMatcher>)matcherForElementAtIndex:(NSUInteger)index {
@@ -569,8 +568,7 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
     [description appendText:formattedDescription];
   };
 
-  return [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches
-                                              descriptionBlock:describe];
+  return [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe];
 }
 
 #pragma mark - Private Methods
@@ -767,4 +765,3 @@ id<GREYMatcher> grey_elementAtIndex(NSUInteger index) {
 }
 
 #endif // GREY_DISABLE_SHORTHAND
-

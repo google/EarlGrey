@@ -419,7 +419,7 @@
   }
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
-   assertWithMatcher:grey_text(multiCaseString)];
+      assertWithMatcher:grey_text(multiCaseString)];
 }
 
 - (void)testSuccessivelyTypingInTheSameTextField {

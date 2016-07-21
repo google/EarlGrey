@@ -87,7 +87,7 @@
   return [[GREYDataEnumerator alloc] initWithUserInfo:nil block:^id(id userinfo) {
     id nextObject;
     @autoreleasepool {
-      // If there are no elements left to explore from the current set, add one from the source
+      // If there are no UI elements left to explore from the current set, add one from the source
       // enumerator.
       if (nextObjectIndex >= runningElementHierarchy.count) {
         // Keep retrieving the next element until finding one that hasn't been considered yet.

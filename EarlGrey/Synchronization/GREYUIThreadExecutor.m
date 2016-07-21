@@ -371,7 +371,7 @@ typedef NS_ENUM(NSInteger, EGExecutionState) {
     NSLog(@"EarlGrey tried waiting for %.1f seconds for the application to reach an idle state. It"
           @" is now forced to clear the state of GREYAppStateTracker, because the test might have"
           @" caused the application to remain in non-idle state indefinitely."
-          @"\nFull state tracker description:%@",
+          @"\nFull state tracker description: %@",
           kDrainTimeoutSecondsBeforeForcedStateTrackerCleanup,
           [GREYAppStateTracker sharedInstance]);
     [[GREYAppStateTracker sharedInstance] grey_clearState];

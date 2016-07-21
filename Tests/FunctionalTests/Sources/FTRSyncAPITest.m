@@ -60,16 +60,16 @@
       [[EarlGrey selectElementWithMatcher:[GREYMatchers matcherForText:@"Tab 2"]]
           performAction:grey_tap()];
       id<GREYMatcher> matcher = grey_allOf(grey_kindOfClass([UITextField class]),
-                                         grey_accessibilityLabel(@"Type Something Here"),
-                                         nil);
+                                           grey_accessibilityLabel(@"Type Something Here"),
+                                           nil);
       [[[EarlGrey selectElementWithMatcher:matcher] performAction:grey_tap()]
           performAction:grey_typeText(@"Hello!")];
     });
     grey_execute_sync(^{
       secondGREYExecuteSyncStarted = YES;
       id<GREYMatcher> matcher = grey_allOf(grey_kindOfClass([UITextField class]),
-                                         grey_accessibilityLabel(@"Type Something Here"),
-                                         nil);
+                                           grey_accessibilityLabel(@"Type Something Here"),
+                                           nil);
       [[EarlGrey selectElementWithMatcher:matcher] assertWithMatcher:grey_text(@"Hello!")];
     });
   });

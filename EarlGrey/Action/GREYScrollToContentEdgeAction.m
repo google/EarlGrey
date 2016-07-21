@@ -49,6 +49,7 @@
            @"startPointPercents must be NAN or in the range (0, 1) exclusive");
   NSAssert(isnan(startPointPercents.y) || (startPointPercents.y > 0 && startPointPercents.y < 1),
            @"startPointPercents must be NAN or in the range (0, 1) exclusive");
+
   NSString *name =
       [NSString stringWithFormat:@"Scroll To %@ content edge", NSStringFromGREYContentEdge(edge)];
   self = [super initWithName:name

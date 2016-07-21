@@ -149,15 +149,14 @@
   DescribeToBlock describe = ^void(id<GREYDescription> description) {
     [description appendText:@"scrollViewNotScrolling"];
   };
-
-  id<GREYMatcher> matchers =
+  id<GREYMatcher> notScrollingMatcher =
       grey_allOf(grey_kindOfClass([UIScrollView class]),
                  [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matchesNotScrolling
                                                       descriptionBlock:describe],
                  nil);
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"main_table_view")]
       performAction:grey_swipeSlowInDirection(kGREYDirectionDown)]
-      assertWithMatcher:matchers];
+      assertWithMatcher:notScrollingMatcher];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Row 1")]
       assertWithMatcher:grey_sufficientlyVisible()];
 }

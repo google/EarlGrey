@@ -39,7 +39,7 @@ GREY_EXTERN NSString *const kGREYNilException;
 GREY_EXTERN NSString *const kGREYNotNilException;
 
 /**
- *  Thrown by the selection API when no element matches the selection matcher.
+ *  Thrown by the selection API when no UI element matches the selection matcher.
  */
 GREY_EXTERN NSString *const kGREYNoMatchingElementException;
 

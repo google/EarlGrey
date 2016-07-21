@@ -51,13 +51,13 @@ NSString *const kActionSheetCancelButtonText = @"Cancel";
                                    preferredStyle:UIAlertControllerStyleActionSheet];
   UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:kActionSheetCancelButtonText
                                                          style:UIAlertActionStyleCancel
-                                                       handler:^(UIAlertAction * _Nonnull action) {
+                                                       handler:^(UIAlertAction *_Nonnull action) {
     self.actionLabel.text = kActionLabelText;
   }];
   UIAlertAction *fooAction =
       [UIAlertAction actionWithTitle:kActionSheetSimpleButtonText
                                style:UIAlertActionStyleDefault
-                             handler:^(UIAlertAction * _Nonnull action) {
+                             handler:^(UIAlertAction *_Nonnull action) {
         self.actionLabel.text = @"Action Sheet Button Pressed";
       }];
   [alertController addAction:cancelAction];
@@ -90,19 +90,19 @@ NSString *const kActionSheetCancelButtonText = @"Cancel";
                                    preferredStyle:UIAlertControllerStyleActionSheet];
   UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:kActionSheetCancelButtonText
                                                          style:UIAlertActionStyleCancel
-                                                       handler:^(UIAlertAction * _Nonnull action) {
+                                                       handler:^(UIAlertAction *_Nonnull action) {
     self.actionLabel.text = kActionLabelText;
   }];
   UIAlertAction *fooAction =
       [UIAlertAction actionWithTitle:kActionSheetSimpleButtonText
                                style:UIAlertActionStyleDefault
-                             handler:^(UIAlertAction * _Nonnull action) {
+                             handler:^(UIAlertAction *_Nonnull action) {
     self.actionLabel.text = @"Action Sheet Button Pressed";
   }];
   UIAlertAction *hideAction =
       [UIAlertAction actionWithTitle:kActionSheetHideButtonText
                                style:UIAlertActionStyleDefault
-                             handler:^(UIAlertAction * _Nonnull action) {
+                             handler:^(UIAlertAction *_Nonnull action) {
     self.actionLabel.text = @"";
     self.multipleButtonActionSheetButton.hidden = YES;
   }];
@@ -125,7 +125,7 @@ NSString *const kActionSheetCancelButtonText = @"Cancel";
 
 #pragma mark - UIActionSheetDelegate
 
--(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
   if ([[actionSheet buttonTitleAtIndex:buttonIndex]
          isEqualToString:kActionSheetSimpleButtonText]) {
     self.actionLabel.text = @"Action Sheet Button Pressed";

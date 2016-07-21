@@ -32,7 +32,7 @@ GREY_EXTERN NSString *const kGREYUIThreadExecutorErrorDomain;
 /**
  *  Error codes for thread executor failures.
  */
-typedef NS_ENUM(NSInteger, GREYUIThreadExecutorErrorCode){
+typedef NS_ENUM(NSInteger, GREYUIThreadExecutorErrorCode) {
   /**
    *  Timeout reached before block could be executed.
    */

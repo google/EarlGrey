@@ -86,7 +86,7 @@
 
     // Each of the buttons, when tapped, execute an action that changes the |lastTapped| UILabel
     // to contain their locations. We tap each button then check if the label actually changed.
-    for (NSString* buttonName in buttonNames) {
+    for (NSString *buttonName in buttonNames) {
       [[EarlGrey selectElementWithMatcher:grey_text(buttonName)] performAction:grey_tap()];
 
       [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"lastTapped")]

@@ -33,11 +33,11 @@
   id<GREYAction> tap = [GREYActions actionForTap];
   @try {
     [tap perform:view error:nil];
-    XCTFail(@"Should have thrown an assertion");
+    XCTFail(@"Should have thrown an exception");
   } @catch (NSException *exception) {
     NSString *reason =
-        [NSString stringWithFormat:@"Action could not be performed on element '%@' because it "
-                                   @"failed constraints: interactable",
+        [NSString stringWithFormat:@"Action 'Tap' could not be performed on element '%@' because "
+                                   @"it failed constraints: interactable",
                                    [view grey_description]];
     XCTAssertEqualObjects(kGREYActionFailedException,
                           [exception name],
@@ -54,7 +54,7 @@
   NSError *error;
   [tap perform:view error:&error];
   NSString *reason =
-      [NSString stringWithFormat:@"Action could not be performed on element '%@' because it "
+      [NSString stringWithFormat:@"Action 'Tap' could not be performed on element '%@' because it "
                                  @"failed constraints: interactable",
                                  [view grey_description]];
   XCTAssertEqualObjects(kGREYInteractionErrorDomain, error.domain);
@@ -71,8 +71,8 @@
     XCTFail(@"Should have thrown an exception");
   } @catch (NSException *exception) {
     NSString *reason =
-        [NSString stringWithFormat:@"Action could not be performed on element '%@' because it "
-                                   @"failed constraints: interactable",
+        [NSString stringWithFormat:@"Action 'Tap 2 times' could not be performed on element '%@' "
+                                   @"because it failed constraints: interactable",
                                    [view grey_description]];
     XCTAssertEqualObjects(kGREYActionFailedException,
                           [exception name],
@@ -97,11 +97,12 @@
   id<GREYAction> turnSwitch = grey_turnSwitchOn(YES);
   @try {
     [turnSwitch perform:uiswitch error:nil];
-    XCTFail(@"Should have thrown an assertion");
+    XCTFail(@"Should have thrown an exception");
   } @catch (NSException *exception) {
     NSString *reason =
-        [NSString stringWithFormat:@"Action could not be performed on element '%@' "
-                                   @"because it failed constraints: interactable",
+        [NSString stringWithFormat:@"Action 'Long Press for 0.500000 seconds' could not be "
+                                   @"performed on element '%@' because it failed constraints: "
+                                   @"interactable",
                                    [uiswitch grey_description]];
     XCTAssertEqualObjects(kGREYActionFailedException,
                           [exception name],
@@ -117,11 +118,11 @@
   id<GREYAction> swipeLeft = [GREYActions actionForSwipeFastInDirection:kGREYDirectionLeft];
   @try {
     [swipeLeft perform:view error:nil];
-    XCTFail(@"Should have thrown an assertion");
+    XCTFail(@"Should have thrown an exception");
   } @catch (NSException *exception) {
     NSString *reason =
-        [NSString stringWithFormat:@"Action could not be performed on element '%@' because it "
-                                   @"failed constraints: interactable",
+        [NSString stringWithFormat:@"Action 'Swipe Left for duration 0.1' could not be performed "
+                                   @"on element '%@' because it failed constraints: interactable",
                                    [view grey_description]];
     XCTAssertEqualObjects(kGREYActionFailedException,
                           [exception name],
@@ -144,7 +145,7 @@
 
   @try {
     [swipeLeft perform:view error:nil];
-    XCTFail(@"Should have thrown an assertion");
+    XCTFail(@"Should have thrown an exception");
   } @catch (NSException *exception) {
     NSString *expectedReason =
         [NSString stringWithFormat:@"Cannot swipe on view %@, as it has no window and it isn't a "
@@ -171,7 +172,7 @@
   id<GREYAction> tap = [GREYActions actionForTap];
   @try {
     [tap perform:view error:nil];
-    XCTFail(@"Should have thrown an assertion");
+    XCTFail(@"Should have thrown an exception");
   } @catch (NSException *exception) {
     NSString *reasonSubstring = @"because it failed constraints: enabled";
     XCTAssertEqualObjects(kGREYActionFailedException,

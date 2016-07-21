@@ -31,31 +31,32 @@
 + (id<GREYAssertion>)grey_createAssertionWithMatcher:(id<GREYMatcher>)matcher {
   NSParameterAssert(matcher);
 
-  NSString *assertionName = [NSString stringWithFormat:@"assertWithMatcher:%@", matcher];
+  NSString *assertionName = [NSString stringWithFormat:@"assertWithMatcher: %@", matcher];
   return [GREYAssertionBlock assertionWithName:assertionName
                        assertionBlockWithError:^BOOL (id element, NSError *__strong *errorOrNil) {
     GREYStringDescription *mismatch = [[GREYStringDescription alloc] init];
     if (![matcher matches:element describingMismatchTo:mismatch]) {
       NSMutableString *reason = [[NSMutableString alloc] init];
       if (!element) {
-        [reason appendFormat:@"Element not found."];
+        [reason appendFormat:@"Assertion with matcher '%@' failed: no UI element was matched.",
+                             matcher];
         if (errorOrNil) {
           *errorOrNil = [NSError errorWithDomain:kGREYInteractionErrorDomain
                                             code:kGREYInteractionElementNotFoundErrorCode
-                                        userInfo:nil];
+                                        userInfo:@{ NSLocalizedDescriptionKey : reason }];
         }
       } else {
-        [reason appendFormat:@"UI element '%@' failed to match %@", element, mismatch];
+        [reason appendFormat:@"Assertion with matcher '%@' failed: UI element '%@' failed to match "
+                             @"%@", matcher, element, mismatch];
         if (errorOrNil) {
-          NSDictionary *userInfo = @{ NSLocalizedDescriptionKey : reason };
           *errorOrNil = [NSError errorWithDomain:kGREYInteractionErrorDomain
                                             code:kGREYInteractionAssertionFailedErrorCode
-                                        userInfo:userInfo];
+                                        userInfo:@{ NSLocalizedDescriptionKey : reason }];
         }
       }
       // Log error if we are not populating errorOrNil.
       if (!errorOrNil) {
-        NSLog(@"Assertion with matcher:%@ failed with error:%@", matcher, reason);
+        NSLog(@"%@", reason);
       }
       return NO;
     }

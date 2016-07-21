@@ -128,12 +128,9 @@
       performAction:executeJavascript];
 
   NSString *jsResult;
-  NSString *expected = @"4";
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"FTRTestWebView")]
       performAction:[GREYActions actionForJavaScriptExecution:@"2 + 2" output:&jsResult]];
-
-  GREYAssertTrue([jsResult isEqualToString:expected], @"Expected:%@, Actual:%@",
-                 expected, jsResult);
+  GREYAssertTrue([jsResult isEqualToString:@"4"], @"Expected: 4, Actual: %@", jsResult);
 }
 
 #pragma mark - Private

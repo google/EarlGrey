@@ -69,14 +69,14 @@
   expectedRect = CGRectMake(0, (iOS8_0_OR_ABOVE() ? height : width) - 10, 20, 10);
   GREYAssertTrue(CGRectEqualToRect(expectedRect, actualRect), @"should be true");
 
-  // Too left => Top right
+  // Top left => Top right
   rectInFixed = CGRectMake(0, 0, 10, 20);
   actualRect = CGRectFixedToVariableScreenCoordinates(rectInFixed);
   expectedRect = CGRectMake((iOS8_0_OR_ABOVE() ? width : height) - 20, 0,
                             20, 10);
   GREYAssertTrue(CGRectEqualToRect(expectedRect, actualRect), @"should be true");
 
-  // Too right => bottom right
+  // Top right => bottom right
   rectInFixed = CGRectMake((iOS8_0_OR_ABOVE() ? height : width) - 10, 0,
                            10, 20);
   actualRect = CGRectFixedToVariableScreenCoordinates(rectInFixed);
