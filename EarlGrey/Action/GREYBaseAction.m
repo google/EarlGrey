@@ -64,7 +64,7 @@
   }
 }
 
-#pragma mark - EGAction
+#pragma mark - GREYAction
 
 // The perform:error: method has to be implemented by the subclass.
 - (BOOL)perform:(id)element error:(__strong NSError **)errorOrNil {

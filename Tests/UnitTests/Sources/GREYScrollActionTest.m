@@ -29,14 +29,14 @@
   [self verifyGREYScrollActionInitFailsWithAmount:-1.0];
 }
 
-- (void)testEGScrollerCanInitWithValidStartPointsPercents {
+- (void)testGREYScrollerCanInitWithValidStartPointsPercents {
   [self verifyScrollActionInitWithStartPoint:CGPointMake(0.001f, 0.001f) fails:NO];
   [self verifyScrollActionInitWithStartPoint:CGPointMake(0.001f, 0.99f) fails:NO];
   [self verifyScrollActionInitWithStartPoint:CGPointMake(0.99f, 0.99f) fails:NO];
   [self verifyScrollActionInitWithStartPoint:CGPointMake(0.99f, 0.001f) fails:NO];
 }
 
-- (void)testEGScrollerFailsToCreateWithInvalidStartPointsPercents {
+- (void)testGREYScrollerFailsToCreateWithInvalidStartPointsPercents {
   // Start point percents must be in (0, 1) exclusive or must be NAN.
   [self verifyScrollActionInitWithStartPoint:CGPointMake(0, 0) fails:YES];
   [self verifyScrollActionInitWithStartPoint:CGPointMake(0, 0) fails:YES];
