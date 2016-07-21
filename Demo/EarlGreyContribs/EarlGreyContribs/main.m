@@ -15,6 +15,7 @@
 //
 
 #import <UIKit/UIKit.h>
+
 #import "EarlGreyContribsAppDelegate.h"
 
 int main(int argc, char * argv[]) {

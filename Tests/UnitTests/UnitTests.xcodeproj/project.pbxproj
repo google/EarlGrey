@@ -65,13 +65,11 @@
 		FD8FB3091BB60AA300E90D7D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD8FB3081BB60AA300E90D7D /* Foundation.framework */; };
 		FD8FB30B1BB60AA900E90D7D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD8FB30A1BB60AA900E90D7D /* QuartzCore.framework */; };
 		FD8FB30D1BB60AAD00E90D7D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD8FB30C1BB60AAD00E90D7D /* UIKit.framework */; };
-		FD8FB30F1BB60AB500E90D7D /* libobjc.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FD8FB30E1BB60AB500E90D7D /* libobjc.dylib */; };
 		FD8FB3111BB60ABB00E90D7D /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD8FB3101BB60ABB00E90D7D /* CoreFoundation.framework */; };
 		FD8FB3131BB60AC000E90D7D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD8FB3121BB60AC000E90D7D /* CoreGraphics.framework */; };
 		FD8FB33D1BB60C6900E90D7D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD8FB3081BB60AA300E90D7D /* Foundation.framework */; };
 		FD8FB33E1BB60C7400E90D7D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD8FB30A1BB60AA900E90D7D /* QuartzCore.framework */; };
 		FD8FB33F1BB60C7A00E90D7D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD8FB30C1BB60AAD00E90D7D /* UIKit.framework */; };
-		FD8FB3401BB60C8100E90D7D /* libobjc.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FD8FB30E1BB60AB500E90D7D /* libobjc.dylib */; };
 		FD8FB3411BB60C8700E90D7D /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD8FB3101BB60ABB00E90D7D /* CoreFoundation.framework */; };
 		FD8FB3421BB60C8D00E90D7D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD8FB3121BB60AC000E90D7D /* CoreGraphics.framework */; };
 		FD8FB3431BB60CA800E90D7D /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD8FB31A1BB60BC500E90D7D /* IOKit.framework */; };
@@ -218,7 +216,6 @@
 		FD8FB3081BB60AA300E90D7D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		FD8FB30A1BB60AA900E90D7D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		FD8FB30C1BB60AAD00E90D7D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		FD8FB30E1BB60AB500E90D7D /* libobjc.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libobjc.dylib; path = usr/lib/libobjc.dylib; sourceTree = SDKROOT; };
 		FD8FB3101BB60ABB00E90D7D /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		FD8FB3121BB60AC000E90D7D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		FD8FB31A1BB60BC500E90D7D /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = ../../../../../../../../../../System/Library/Frameworks/IOKit.framework; sourceTree = "<group>"; };
@@ -233,7 +230,6 @@
 			files = (
 				FD8FB3131BB60AC000E90D7D /* CoreGraphics.framework in Frameworks */,
 				FD8FB3111BB60ABB00E90D7D /* CoreFoundation.framework in Frameworks */,
-				FD8FB30F1BB60AB500E90D7D /* libobjc.dylib in Frameworks */,
 				FD8FB30D1BB60AAD00E90D7D /* UIKit.framework in Frameworks */,
 				FD8FB30B1BB60AA900E90D7D /* QuartzCore.framework in Frameworks */,
 				FD8FB3091BB60AA300E90D7D /* Foundation.framework in Frameworks */,
@@ -249,7 +245,6 @@
 				FD8FB3431BB60CA800E90D7D /* IOKit.framework in Frameworks */,
 				FD8FB3421BB60C8D00E90D7D /* CoreGraphics.framework in Frameworks */,
 				FD8FB3411BB60C8700E90D7D /* CoreFoundation.framework in Frameworks */,
-				FD8FB3401BB60C8100E90D7D /* libobjc.dylib in Frameworks */,
 				FD8FB33F1BB60C7A00E90D7D /* UIKit.framework in Frameworks */,
 				FD8FB33E1BB60C7400E90D7D /* QuartzCore.framework in Frameworks */,
 				FD8FB33D1BB60C6900E90D7D /* Foundation.framework in Frameworks */,
@@ -359,7 +354,6 @@
 				FD8FB31A1BB60BC500E90D7D /* IOKit.framework */,
 				FD8FB3121BB60AC000E90D7D /* CoreGraphics.framework */,
 				FD8FB3101BB60ABB00E90D7D /* CoreFoundation.framework */,
-				FD8FB30E1BB60AB500E90D7D /* libobjc.dylib */,
 				FD8FB30C1BB60AAD00E90D7D /* UIKit.framework */,
 				FD8FB30A1BB60AA900E90D7D /* QuartzCore.framework */,
 				FD8FB3081BB60AA300E90D7D /* Foundation.framework */,

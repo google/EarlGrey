@@ -18,7 +18,7 @@
 
 #import "Provider/GREYUIWindowProvider.h"
 
-@implementation GREYTestHelper : NSObject
+@implementation GREYTestHelper
 
 + (void)enableFastAnimation {
   for (UIWindow *window in [GREYUIWindowProvider allWindows]) {

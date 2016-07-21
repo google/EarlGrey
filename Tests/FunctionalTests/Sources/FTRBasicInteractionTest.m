@@ -132,9 +132,9 @@
       performAction:[GREYActions actionForTap]];
 
   GREYElementInteraction* typeHere =
-  [EarlGrey selectElementWithMatcher:grey_allOf(grey_accessibilityLabel(@"Type Something Here"),
-                                                grey_kindOfClass([UITextField class]),
-                                                nil)];
+      [EarlGrey selectElementWithMatcher:grey_allOf(grey_accessibilityLabel(@"Type Something Here"),
+                                                    grey_kindOfClass([UITextField class]),
+                                                    nil)];
 
   [[typeHere
       performAction:[GREYActions actionForReplaceText:@"Hello 2"]]

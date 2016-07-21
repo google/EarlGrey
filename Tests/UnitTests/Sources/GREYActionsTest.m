@@ -208,7 +208,6 @@
     [replace perform:textfield error:&error];
 
     XCTAssertNil(error);
-
     XCTAssertEqualObjects(textToReplace, textfield.text);
 }
 

@@ -260,7 +260,6 @@
 
 #pragma mark - Private
 
-
 /**
  *  Clears WebView input text value.
  *
@@ -276,8 +275,7 @@
  *  @param element The element to target
  *  @param text The text to set
  */
-+ (void)grey_webSetText:(id)element
-                   text:(NSString *)text {
++ (void)grey_webSetText:(id)element text:(NSString *)text {
   // Input tags can be identified by having the 'title' attribute set, or current value.
   // Associating a <label> tag to the input tag does NOT result in an iOS accessibility element.
   if (!text) text = @"";
@@ -289,11 +287,12 @@
   NSString *xPathForTitle =
   [NSString stringWithFormat:@"//input[@title=\"%@\" or @value=\"%@\"]",
    [element accessibilityLabel], [element accessibilityLabel]];
-  NSString *jsForTitle = [[NSString alloc] initWithFormat:
-                          @"document.evaluate('%@', document, null, %@, null).singleNodeValue.value = '%@';",
-                          xPathForTitle,
-                          xPathResultType,
-                          text];
+  NSString *format = @"document.evaluate('%@', document, null, %@, null).singleNodeValue.value"
+                     @"= '%@';";
+  NSString *jsForTitle = [[NSString alloc] initWithFormat:format,
+                                                          xPathForTitle,
+                                                          xPathResultType,
+                                                          text];
   UIWebView *parentWebView = (UIWebView *)[element grey_viewContainingSelf];
   [parentWebView stringByEvaluatingJavaScriptFromString:jsForTitle];
 }
@@ -313,7 +312,8 @@
   id<GREYMatcher> constraints = grey_anyOf(grey_respondsToSelector(setTextSelector),
                                            grey_kindOfClass(webElement),
                                            nil);
-  return [GREYActionBlock actionWithName:[NSString stringWithFormat:@"Replace with text: \"%@\"", text]
+  NSString *replaceActionName = [NSString stringWithFormat:@"Replace with text: \"%@\"", text];
+  return [GREYActionBlock actionWithName:replaceActionName
                              constraints:constraints
                             performBlock:^BOOL (id element, __strong NSError **errorOrNil) {
     if ([element isKindOfClass:webElement]) {

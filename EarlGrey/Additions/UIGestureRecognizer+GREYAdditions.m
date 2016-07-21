@@ -33,12 +33,12 @@ static void const *const kStateTrackerElementIDKey = &kStateTrackerElementIDKey;
                      replaceInstanceMethod:NSSelectorFromString(@"_setDirty")
                                 withMethod:@selector(greyswizzled_setDirty)];
     NSAssert(swizzled, @"Failed to swizzle UIGestureRecognizer _setDirty");
-    
+
     swizzled = [swizzler swizzleClass:self
                 replaceInstanceMethod:NSSelectorFromString(@"_resetGestureRecognizer")
                            withMethod:@selector(greyswizzled_resetGestureRecognizer)];
     NSAssert(swizzled, @"Failed to swizzle UIGestureRecognizer _resetGestureRecognizer");
-    
+
     swizzled = [swizzler swizzleClass:self
                 replaceInstanceMethod:@selector(setState:)
                            withMethod:@selector(greyswizzled_setState:)];
@@ -74,3 +74,4 @@ static void const *const kStateTrackerElementIDKey = &kStateTrackerElementIDKey;
 }
 
 @end
+
