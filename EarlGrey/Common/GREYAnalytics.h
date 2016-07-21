@@ -16,7 +16,7 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol GREYAnalyticsDelegate;
+#import <EarlGrey/GREYAnalyticsDelegate.h>
 
 /**
  *  Provides methods for tracking EarlGrey usage using Google Analytics.
@@ -29,23 +29,27 @@
  *                                          forConfigKey:kGREYConfigKeyAnalyticsEnabled];
  *          @endcode
  */
-@interface GREYAnalytics : NSObject
+@interface GREYAnalytics : NSObject<GREYAnalyticsDelegate>
 
 /**
- *  @return The current delegate class.
+ *  @return The singleton instance.
  */
-+ (Class<GREYAnalyticsDelegate>)delegate;
++ (instancetype)sharedInstance;
+
+/**
+ *  @return The current delegate.
+ */
+- (id<GREYAnalyticsDelegate>)delegate;
 
 /**
  *  Sets a delegate for custom handling of analytics payload data. To reset GREYAnalytics to its
  *  default behavior pass @c nil.
  */
-+ (void)setDelegate:(Class<GREYAnalyticsDelegate>)delegate;
+- (void)setDelegate:(id<GREYAnalyticsDelegate>)delegate;
 
 /**
- *  Usage data is sent via Google Analytics indicating completion of a test case, if a delegate is
- *  specified it is invoked to handle the analytics instead.
+ *  Called when an EarlGrey invocation occurs using any @code [EarlGrey XXX] @endcode statements.
  */
-+ (void)trackTestCaseCompletion;
+- (void)didInvokeEarlGrey;
 
 @end

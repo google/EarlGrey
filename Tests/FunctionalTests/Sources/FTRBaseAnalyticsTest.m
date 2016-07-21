@@ -33,7 +33,7 @@ static id gOriginalAnalyticsSetting;
  *  Holds the original analytics delegate that was present before the test began. We use this to
  *  restore analytics delegate when done testing.
  */
-static id gOriginalAnalyticsDelegate;
+static id<GREYAnalyticsDelegate> gOriginalAnalyticsDelegate;
 
 /**
  *  Holds the proxy's original enabled status.
@@ -57,8 +57,8 @@ static BOOL gOriginalProxyIsEnabled;
 
   // Reset Analytics delegate to its default for Analytics requests to be sent regardless of
   // test environment.
-  gOriginalAnalyticsDelegate = [GREYAnalytics delegate];
-  [GREYAnalytics setDelegate:nil];
+  gOriginalAnalyticsDelegate = [[GREYAnalytics sharedInstance] delegate];
+  [[GREYAnalytics sharedInstance] setDelegate:nil];
 }
 
 + (void)tearDown {
@@ -66,7 +66,7 @@ static BOOL gOriginalProxyIsEnabled;
   [[GREYConfiguration sharedInstance] setValue:gOriginalAnalyticsSetting
                                   forConfigKey:kGREYConfigKeyAnalyticsEnabled];
   [FTRNetworkProxy ftr_removeMostRecentProxyRuleMatchingUrlRegexString:@".*"];
-  [GREYAnalytics setDelegate:gOriginalAnalyticsDelegate];
+  [[GREYAnalytics sharedInstance] setDelegate:gOriginalAnalyticsDelegate];
   [FTRNetworkProxy ftr_setProxyEnabled:gOriginalProxyIsEnabled];
   [super tearDown];
 }
