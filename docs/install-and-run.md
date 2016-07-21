@@ -5,13 +5,7 @@ test.
 
 ## Prerequisites
 
-For EarlGrey to function properly, make sure the app under test fulfills
-these requirements:
-
-  * The correct launch screen images are present for all supported devices (see [iOS Developer Library, Launch Files](https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/MobileHIG/LaunchImages.html)).
-  * The main `UIApplicationDelegate` implements the `(UIWindow *)window` property (see [UIKit Framework Reference, window Property](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIApplicationDelegate_Protocol/index.html#//apple_ref/occ/intfp/UIApplicationDelegate/window)).
-
-And finally, ensure that assertions are enabled for the test target (i.e. `NS_BLOCK_ASSERTIONS` is not set).
+For EarlGrey to function properly, make sure the app under test has correct launch screen images present for all supported devices (see [iOS Developer Library, Launch Files](https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/MobileHIG/LaunchImages.html)).
 
 ## Install EarlGrey
 

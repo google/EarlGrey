@@ -1023,7 +1023,6 @@
 				OTHER_CFLAGS = (
 					"-fobjc-arc",
 					"-fobjc-arc-exceptions",
-					"-UNS_BLOCK_ASSERTIONS",
 				);
 				OTHER_CODE_SIGN_FLAGS = "";
 				OTHER_LDFLAGS = (
@@ -1069,7 +1068,6 @@
 				OTHER_CFLAGS = (
 					"-fobjc-arc",
 					"-fobjc-arc-exceptions",
-					"-UNS_BLOCK_ASSERTIONS",
 				);
 				OTHER_CODE_SIGN_FLAGS = "";
 				OTHER_LDFLAGS = (
@@ -1108,7 +1106,6 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREFIX_HEADER = EarlGrey.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -1158,7 +1155,6 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = EarlGrey.pch;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MODULEMAP_FILE = "";
 				MTL_ENABLE_DEBUG_INFO = NO;
