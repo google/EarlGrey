@@ -22,16 +22,6 @@
                ReferencedContainer = "container:EarlGreyContribs.xcodeproj">
             </BuildableReference>
          </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "FDFCE9C81D35B4FC006D9592"
-               BuildableName = "ffff.xctest"
-               BlueprintName = "ffff"
-               ReferencedContainer = "container:EarlGreyContribs.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <EnvironmentVariables>
          <EnvironmentVariable

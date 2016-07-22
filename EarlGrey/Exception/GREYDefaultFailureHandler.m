@@ -105,10 +105,20 @@
     [exceptionLog appendFormat:@"========== Window %d ==========\n\n%@\n\n",
                                index, hierarchy];
   }
-  [[XCTestCase grey_currentTestCase] grey_markAsFailedAtLine:_lineNumber
-                                                      inFile:_fileName
-                                                      reason:exception.reason
-                                           detailDescription:exceptionLog];
+
+  XCTestCase *currentTestContext = [XCTestCase grey_currentTestCase];
+  if (currentTestContext) {
+    [currentTestContext grey_markAsFailedAtLine:_lineNumber
+                                         inFile:_fileName
+                                         reason:exception.reason
+                              detailDescription:exceptionLog];
+  } else {
+    // Happens when we are not within a valid test context
+    // (i.e. called from +setUp, +tearDown, +load, etc.)
+    [[GREYFrameworkException exceptionWithName:exception.name
+                                        reason:exceptionLog
+                                      userInfo:nil] raise];
+  }
 }
 
 #pragma mark - Private

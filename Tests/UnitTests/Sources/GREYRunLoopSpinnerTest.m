@@ -129,8 +129,7 @@ static NSUInteger gDrainCountForSpinnerTest;
     return NO;
   }];
 
-  XCTAssertFalse(result,
-                 @"Spin result should be NO. The condition was never met.");
+  XCTAssertFalse(result, @"Spin result should be NO. The condition was never met.");
   XCTAssertFalse(conditionMetHandlerCalled,
                  @"Should not call condition met handler if condition was never met.");
 }
@@ -161,8 +160,7 @@ static NSUInteger gDrainCountForSpinnerTest;
                            @"The run loop spinner guarantees that it will not iniate any new"
                            @"drains after the condition is met. However, the counter source may"
                            @"have been handled once after the condition was met.");
-  XCTAssertTrue(result,
-                 @"Spin result should be YES. The condition was met.");
+  XCTAssertTrue(result, @"Spin result should be YES. The condition was met.");
 }
 
 - (void)testSpinningEmptyMode {

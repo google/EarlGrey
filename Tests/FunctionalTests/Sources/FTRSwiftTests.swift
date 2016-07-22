@@ -45,8 +45,8 @@ class FunctionalTestRigSwiftTests: XCTestCase {
   func testFastTyping() {
     self.openTestView("Typing Views")
     EarlGrey().selectElementWithMatcher(grey_accessibilityID("TypingTextField"))
-      .performAction(grey_replaceText("Sample Swift Test"))
-      .assertWithMatcher(grey_text("Sample Swift Test"))
+        .performAction(grey_replaceText("Sample Swift Test"))
+        .assertWithMatcher(grey_text("Sample Swift Test"))
   }
 
   func testFastTypingOnWebView() {
@@ -116,7 +116,8 @@ class FunctionalTestRigSwiftTests: XCTestCase {
   func waitForWebElementWithName(name: String, elementMatcher matcher: GREYMatcher) {
     GREYCondition(name: name.stringByAppendingString(" Condition"), block: {_ in
       var errorOrNil: NSError?
-      EarlGrey().selectElementWithMatcher(matcher).assertWithMatcher(grey_sufficientlyVisible(), error: &errorOrNil)
+      EarlGrey().selectElementWithMatcher(matcher)
+          .assertWithMatcher(grey_sufficientlyVisible(), error: &errorOrNil)
       return errorOrNil == nil
     }).waitWithTimeout(3.0)
   }

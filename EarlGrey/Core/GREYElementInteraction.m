@@ -377,7 +377,7 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
              onElementWithMatcher:(id<GREYMatcher>)matcher {
   NSParameterAssert(action);
   NSParameterAssert(matcher);
-  
+
   _searchActionElementMatcher = matcher;
   _searchAction = action;
   return self;

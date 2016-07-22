@@ -14,22 +14,15 @@
 // limitations under the License.
 //
 
-//
-// Prefix header for all source files.
-//
-
-#define ACCESS_PRIVATE_EARLGREY_HEADERS
+/**
+ * @file
+ * @brief Prefix header for all source files.
+ */
 
 #ifdef __OBJC__
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-// Expose private function for taking screenshots.
-UIKIT_EXTERN UIImage *_UICreateScreenUIImage() NS_RETURNS_RETAINED;
-
-#if defined(NS_BLOCK_ASSERTIONS)
-  #error "This project requires NS_BLOCK_ASSERTIONS to be undefined."
-#endif
-
 #endif  // __OBJC__
+

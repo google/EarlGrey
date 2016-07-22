@@ -25,6 +25,16 @@
   id<GREYMatcher> _matcherForNonExistingTab;
 }
 
++ (void)setUp {
+  @try {
+    GREYFail(@"Testing if this raises an exception and fails the suite");
+    assert(NULL);
+  } @catch (id expectedException) {
+    NSAssert([expectedException isKindOfClass:[GREYFrameworkException class]],
+             @"Incorrect exception class raised.");
+  }
+}
+
 - (void)setUp {
   [super setUp];
 
