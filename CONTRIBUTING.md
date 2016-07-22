@@ -41,6 +41,10 @@ The submitted code should adhere to the following:
   for formatting your comments and issues.
 * Refer to the [Google Objective-C style guide][objc_style] and
   [raywenderlich Swift style guide][swift_style] for our code conventions.
+* If a new custom API is being proposed to be added to EarlGrey, but is still in the
+  experimental phase, then please add it to the [EarlGreyContribs](https://github.com/google/EarlGrey/tree/master/Demo/EarlGreyContribs)
+  project for vetting out. Also, any example code that is added must first
+  be vetted in the EarlGreyContribs project.
 
 [objc_style]: https://google.github.io/styleguide/objcguide.xml
 [swift_style]: https://github.com/raywenderlich/swift-style-guide
