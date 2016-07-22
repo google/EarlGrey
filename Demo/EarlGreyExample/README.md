@@ -1,5 +1,4 @@
-EarlGrey Example
-=============================
+# EarlGrey Example
 
 An example that shows several features of EarlGrey.
 
@@ -8,8 +7,7 @@ An example that shows several features of EarlGrey.
 `EarlGreyExampleTests` and `EarlGreyExampleSwiftTests` are test targets that exercise
 different functionalities provide by EarlGrey, written in Objective-C and Swift.
 
-Getting Started
----------------
+## Getting Started
 
 Execute `gem install earlgrey` then `pod install` from the directory where you have downloaded
 the source of the example, then `open EarlGreyExample.xcworkspace` to open the example in xcode.
