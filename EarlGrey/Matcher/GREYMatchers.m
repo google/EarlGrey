@@ -373,11 +373,10 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
         [NSString stringWithFormat:@"contentOffset(%@)", NSStringFromCGPoint(offset)];
     [description appendText:desc];
   };
-  return grey_allOf(
-      grey_kindOfClass([UIScrollView class]),
-      [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches
-                                           descriptionBlock:describe],
-      nil);
+  return grey_allOf(grey_kindOfClass([UIScrollView class]),
+                    [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches
+                                                         descriptionBlock:describe],
+                    nil);
 }
 
 + (id<GREYMatcher>)matcherForSliderValueMatcher:(id<GREYMatcher>)valueMatcher {
