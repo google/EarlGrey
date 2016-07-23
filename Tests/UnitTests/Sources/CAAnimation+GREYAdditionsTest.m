@@ -34,7 +34,11 @@ static id gDelegate;
 
 @end
 
+#if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
+@interface CAAnimation_GREYAdditionsTest : GREYBaseTest<CAAnimationDelegate>
+#else
 @interface CAAnimation_GREYAdditionsTest : GREYBaseTest
+#endif
 @end
 
 @implementation CAAnimation_GREYAdditionsTest {

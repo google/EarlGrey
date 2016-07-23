@@ -17,6 +17,7 @@
 #import "Matcher/GREYMatchers.h"
 
 #import <OCHamcrest/OCHamcrest.h>
+#import <UIKit/UIKit.h>
 #include <tgmath.h>
 
 #import "Additions/NSString+GREYAdditions.h"
@@ -363,6 +364,21 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
                     nil);
 }
 
++ (id<GREYMatcher>)matcherForScrollViewContentOffset:(CGPoint)offset {
+  MatchesBlock matches = ^BOOL(UIScrollView *element) {
+    return CGPointEqualToPoint([element contentOffset], offset);
+  };
+  DescribeToBlock describe = ^(id<GREYDescription> description) {
+    NSString *desc =
+        [NSString stringWithFormat:@"contentOffset(%@)", NSStringFromCGPoint(offset)];
+    [description appendText:desc];
+  };
+  return grey_allOf(grey_kindOfClass([UIScrollView class]),
+                    [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches
+                                                         descriptionBlock:describe],
+                    nil);
+}
+
 + (id<GREYMatcher>)matcherForSliderValueMatcher:(id<GREYMatcher>)valueMatcher {
   MatchesBlock matches = ^BOOL(UISlider *element) {
     return [valueMatcher matches:@(element.value)];
@@ -674,6 +690,10 @@ id<GREYMatcher> grey_descendant(id<GREYMatcher> matcher) {
 
 id<GREYMatcher> grey_buttonTitle(NSString *text) {
   return [GREYMatchers matcherForButtonTitle:text];
+}
+
+id<GREYMatcher> grey_scrollViewContentOffset(CGPoint offset) {
+  return [GREYMatchers matcherForScrollViewContentOffset:offset];
 }
 
 id<GREYMatcher> grey_sliderValueMatcher(id<GREYMatcher> valueMatcher) {

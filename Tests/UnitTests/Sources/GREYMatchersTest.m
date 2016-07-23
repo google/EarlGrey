@@ -212,6 +212,15 @@
   XCTAssertFalse([matcher matches:view], @"UIView does not have title");
 }
 
+- (void)testScrollViewContentOffsetMatcher {
+  UIScrollView *scrollView = [[UIScrollView alloc] init];
+  scrollView.contentOffset = CGPointMake(10.0f, 20.0f);
+  id<GREYMatcher> matcher = grey_scrollViewContentOffset(CGPointMake(20.0f, 10.0f));
+  XCTAssertFalse([matcher matches:scrollView], @"Matcher should return false");
+  scrollView.contentOffset = CGPointMake(20.0f, 10.0f);
+  XCTAssertTrue([matcher matches:scrollView], @"Matcher should return true");
+}
+
 - (void)testIsSystemAlertViewShown {
   UIView *view = [[UIView alloc] init];
   id<GREYMatcher> matcher = grey_systemAlertViewShown();

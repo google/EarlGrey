@@ -14,6 +14,7 @@
 // limitations under the License.
 //
 
+#import <CoreGraphics/CoreGraphics.h>
 #import <EarlGrey/GREYConstants.h>
 #import <EarlGrey/GREYDefines.h>
 #import <Foundation/Foundation.h>
@@ -219,6 +220,16 @@
  *  @return A matcher to confirm UIButton titles.
  */
 + (id<GREYMatcher>)matcherForButtonTitle:(NSString *)title;
+
+/**
+ *  Matcher that matches UIScrollView that has contentOffset as @c offset.
+ *
+ *  @param offset The content offset to be checked on the UIScrollView being
+ *                matched.
+ *
+ *  @return A matcher to confirm UIScrollView content offset.
+ */
++ (id<GREYMatcher>)matcherForScrollViewContentOffset:(CGPoint)offset;
 
 /**
  *  Matcher that matches UIStepper with value as @c value.
@@ -461,6 +472,9 @@ GREY_EXPORT id<GREYMatcher> grey_descendant(id<GREYMatcher> descendantMatcher);
 
 /** Shorthand for GREYMatchers::matcherForButtonTitle:. */
 GREY_EXPORT id<GREYMatcher> grey_buttonTitle(NSString *text);
+
+/** Shorthand for GREYMatchers::matcherForScrollViewContentOffset:. */
+GREY_EXPORT id<GREYMatcher> grey_scrollViewContentOffset(CGPoint offset);
 
 /** Shorthand for GREYMatchers::matcherForStepperValue:. */
 GREY_EXPORT id<GREYMatcher> grey_stepperValue(double value);
