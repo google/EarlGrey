@@ -54,248 +54,40 @@ static const NSTimeInterval kLocalHTMLPageLoadDelay = 10.0;
   [super tearDown];
 }
 
-- (void)waitForElementWithAccessibilityLabelToAppear:(NSString *)axLabel {
-  NSString *conditionName = [NSString stringWithFormat:@"WaitFor%@", axLabel];
-  GREYCondition *conditionForElement =
-      [GREYCondition conditionWithName:conditionName block:^BOOL {
-        NSError *error;
-        [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(axLabel)]
-            assertWithMatcher:grey_sufficientlyVisible() error:&error];
-        return (error == nil);
-      }];
-  BOOL elementAppeared = [conditionForElement waitWithTimeout:kLocalHTMLPageLoadDelay];
-  GREYAssertTrue(elementAppeared,
-                 @"%@ failed to appear after %.2f seconds",
-                 axLabel,
-                 kLocalHTMLPageLoadDelay);
-}
-
-- (void)navigateToLocallyLoadedRichHTML:(BOOL)bounceEnabled {
-  // Load local page first.
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"loadLocalFile")]
-      performAction:grey_tap()];
-
-  // Bounce is enabled by default, turn it off if not required.
-  if (!bounceEnabled) {
-    [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"bounceSwitch")]
-        performAction:grey_turnSwitchOn(NO)];
-  }
-
-  // Wait local page to load.
-  [self waitForElementWithAccessibilityLabelToAppear:@"Row 1"];
-  // Tap on the next test link.
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Link to Next Test")]
-      performAction:grey_tap()];
-  // Wait for the rich HTML page loading.
-  [self waitForElementWithAccessibilityLabelToAppear:@"MORE ..."];
-}
-
-- (void)verifyComponentsOnLocallyLoadedRichHTML:(BOOL)bounceEnabled {
-  // Navigate to Rich HTML.
-  [self navigateToLocallyLoadedRichHTML:bounceEnabled];
-  // Verify if the image is visible.
-  [[EarlGrey selectElementWithMatcher:grey_allOf(grey_accessibilityLabel(@"A img image."),
-      grey_accessibilityTrait(UIAccessibilityTraitImage), nil)]
-      assertWithMatcher:grey_sufficientlyVisible()];
-  // Verify if the static text is visible.
-  [[EarlGrey selectElementWithMatcher:grey_allOf(grey_accessibilityLabel(@"Static Text"),
-      grey_accessibilityTrait(UIAccessibilityTraitStaticText), nil)]
-      assertWithMatcher:grey_sufficientlyVisible()];
-  // Search until the input field is visible.
-  id<GREYMatcher> matcher = grey_allOf(grey_accessibilityLabel(@"INPUT FIELD"),
-                                       grey_interactable(),
-                                       nil);
-  GREYElementInteraction *interaction = [[EarlGrey selectElementWithMatcher:matcher]
-      usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 200)
-      onElementWithMatcher:grey_accessibilityID(@"FTRTestWebView")];
-  [interaction assertWithMatcher:grey_sufficientlyVisible()];
-  // Clear text in the input field.
-  [interaction performAction:grey_clearText()];
-  // Check if the text was successfully cleared.
-  [interaction assertWithMatcher:grey_accessibilityValue(@"")];
-  // TODO: It is a temporary workaround to pass the input field test. It performs an extra
-  // tap onto the input field then type in the text.
-  [interaction performAction:grey_tap()];
-  // Type "HELLO WORLD" into the input field.
-  [interaction performAction:grey_typeText(@"HELLO WORLD")];
-  // Verify if the "HELLO WORLD" message has been correctly typed.
-  [interaction assertWithMatcher:grey_accessibilityValue(@"HELLO WORLD")];
-  // Close the keyboard.
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"FTRTestWebView")]
-      performAction:grey_javaScriptExecution(@"document.activeElement.blur();", nil)];
-  // Check visibility of the button.
-  matcher = grey_allOf(grey_accessibilityLabel(@"DONT CLICK ME"),
-                       grey_interactable(),
-                       grey_accessibilityTrait(UIAccessibilityTraitButton),
-                       nil);
-  interaction = [[EarlGrey selectElementWithMatcher:matcher]
-      usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 200)
-      onElementWithMatcher:grey_accessibilityID(@"FTRTestWebView")];
-  [interaction assertWithMatcher:grey_sufficientlyVisible()];
-  // Click on the button and wait until the test text appears.
-  [interaction performAction:grey_tap()];
-  // Wait for the test text to appear.
-  [self waitForElementWithAccessibilityLabelToAppear:@"Told ya."];
-}
-
-
 - (void)DISABLED_testComponentsOnLocallyLoadedRichHTMLWithBounce {
-  [self verifyComponentsOnLocallyLoadedRichHTML:YES];
+  [self ftr_verifyComponentsOnLocallyLoadedRichHTML:YES];
 }
 
 - (void)DISABLED_testComponentsOnLocallyLoadedRichHTMLWithoutBounce {
   // TODO: Temporarily disable the test due to a swipe resistance detection bug.
   // Link: https://github.com/google/EarlGrey/issues/152
-  [self verifyComponentsOnLocallyLoadedRichHTML:NO];
-}
-
-- (void)navigateToLocallyLoadedRichHTMLLongTable:(BOOL)bounceEnabled {
-  // Navigate to Rich HTML.
-  [self navigateToLocallyLoadedRichHTML:bounceEnabled];
-  // Navigate to LongTable
-  [[EarlGrey selectElementWithMatcher:grey_allOf(grey_accessibilityLabel(@"LONG TABLE"),
-      grey_accessibilityTrait(UIAccessibilityTraitLink), nil)] performAction:grey_tap()];
-  // Wait for the test text to appear.
-  [self waitForElementWithAccessibilityLabelToAppear:@"R1C1"];
-}
-
-- (void)verifyLongTableOnLocallyLoadedRichHTML:(BOOL)bounceEnabled {
-  [self navigateToLocallyLoadedRichHTMLLongTable:bounceEnabled];
-  // Check the initial visibility of Row1
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"R1C2")]
-      assertWithMatcher:grey_sufficientlyVisible()];
-  // TODO: Tap on <input> tag will not correctly trigger the full checkbox animation.
-  // We shall probably tap on the <span> tag instead to trigger all html5 effect.
-  // Tap on "check all" checkbox to check all checkboxs.
-  GREYElementInteraction *r0checkboxInteraction =
-      [EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"R0CHECKBOX")];
-  // Find row 1 checkbox to verify if the check all JavaScript works.
-  GREYElementInteraction *r1checkboxInteraction =
-      [EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"R1CHECKBOX")];
-  // Verify if they are visible.
-  [r0checkboxInteraction assertWithMatcher:grey_sufficientlyVisible()];
-  [r1checkboxInteraction assertWithMatcher:grey_sufficientlyVisible()];
-  // Tap on it
-  [r0checkboxInteraction performAction:grey_tap()];
-  // Verify if it is checked.
-  [r0checkboxInteraction assertWithMatcher:grey_accessibilityValue(@"1")];
-  [r1checkboxInteraction assertWithMatcher:grey_accessibilityValue(@"1")];
-  // TODO: When using 50 rows, the search action actually gives up pre-maturally, even though the
-  // timeout is not exceeded in iOS 8.4/iPhone setting. Maybe it is due to the unstable swipe
-  // resistance detection.
-  // Check visibility of row 30 after scrolling.
-  id<GREYMatcher> matcher = grey_allOf(grey_accessibilityLabel(@"R30C2"),
-                                       grey_interactable(),
-                                       grey_sufficientlyVisible(),
-                                       nil);
-  [[[EarlGrey selectElementWithMatcher:matcher]
-      usingSearchAction:grey_scrollInDirectionWithStartPoint(kGREYDirectionDown, 400, 0.75, 0.75)
-      onElementWithMatcher:grey_accessibilityID(@"FTRTestWebView")]
-      assertWithMatcher:grey_sufficientlyVisible()];
-  // Verify if we can scroll to the top of the web page.
-  // Here, we cannot use scrollToContentEdge(kGREYContentEdgeTop) to the top. Because it will not
-  // work with a float fixed navbar at the top.
-  matcher = grey_allOf(grey_accessibilityLabel(@"R1C2"),
-                       grey_interactable(),
-                       grey_sufficientlyVisible(),
-                       nil);
-  [[[EarlGrey selectElementWithMatcher:matcher]
-      usingSearchAction:grey_scrollInDirectionWithStartPoint(kGREYDirectionUp, 400, 0.25, 0.25)
-      onElementWithMatcher:grey_accessibilityID(@"FTRTestWebView")]
-      assertWithMatcher:grey_sufficientlyVisible()];
-  // Verify if they are visible.
-  [r0checkboxInteraction assertWithMatcher:grey_sufficientlyVisible()];
-  [r1checkboxInteraction assertWithMatcher:grey_sufficientlyVisible()];
-  // Tap on "check all" checkbox again.
-  [r0checkboxInteraction performAction:grey_tap()];
-  // Verify if the "check all" JavaScript works.
-  [r0checkboxInteraction assertWithMatcher:grey_accessibilityValue(@"0")];
-  [r1checkboxInteraction assertWithMatcher:grey_accessibilityValue(@"0")];
+  [self ftr_verifyComponentsOnLocallyLoadedRichHTML:NO];
 }
 
 - (void)DISABLED_testLongTableOnLocallyLoadedRichHTMLWithBounce {
-  [self verifyLongTableOnLocallyLoadedRichHTML:YES];
+  [self ftr_verifyLongTableOnLocallyLoadedRichHTML:YES];
 }
 
 - (void)DISABLED_testLongTableOnLocallyLoadedRichHTMLWithoutBounce {
   // TODO: Temporarily disable the test due to a swipe resistance detection bug.
   // Link: https://github.com/google/EarlGrey/issues/152
-  [self verifyLongTableOnLocallyLoadedRichHTML:NO];
-}
-
-- (void)verifyScrollingOnLocallyLoadedHTMLPagesWithBounce:(BOOL)bounceEnabled {
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"loadLocalFile")]
-      performAction:grey_tap()];
-
-  // Bounce is enabled by default, turn it off if not required.
-  if (!bounceEnabled) {
-    [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"bounceSwitch")]
-        performAction:grey_turnSwitchOn(NO)];
-  }
-
-  // TODO: Add an GREYCondition to wait for webpage loads, to fix EarlGrey synchronization
-  // issues with loading webpages. These issues induce flakiness in tests that have html files
-  // loaded, whether local or over the web. The GREYCondition added in this test checks if the file
-  // was loaded to mask issues in this particular set of tests, surfacing that the page load error
-  // was what caused the test flake.
-  [self waitForElementWithAccessibilityLabelToAppear:@"Row 1"];
-
-  // Verify we can scroll to the bottom of the web page.
-  id<GREYMatcher> matcher = grey_allOf(grey_accessibilityLabel(@"Row 50"),
-                                       grey_interactable(),
-                                       grey_sufficientlyVisible(),
-                                       nil);
-  [[[EarlGrey selectElementWithMatcher:matcher]
-         usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 200)
-      onElementWithMatcher:grey_accessibilityID(@"FTRTestWebView")]
-      assertWithMatcher:grey_sufficientlyVisible()];
-  // Verify we can scroll to the top of the web page.
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"FTRTestWebView")]
-      performAction:grey_scrollToContentEdge(kGREYContentEdgeTop)];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Row 1")]
-      assertWithMatcher:grey_sufficientlyVisible()];
+  [self ftr_verifyLongTableOnLocallyLoadedRichHTML:NO];
 }
 
 - (void)testScrollingOnLocallyLoadedHTMLPagesWithBounce {
-  [self verifyScrollingOnLocallyLoadedHTMLPagesWithBounce:YES];
+  [self ftr_verifyScrollingOnLocallyLoadedHTMLPagesWithBounce:YES];
 }
 
 - (void)testScrollingOnLocallyLoadedHTMLPagesWithoutBounce {
-  [self verifyScrollingOnLocallyLoadedHTMLPagesWithBounce:NO];
-}
-
-- (void)verifyScrollingOnPagesLoadedUsingLoadHTMLStringWithBounce:(BOOL)bounceEnabled {
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"loadHTMLString")]
-      performAction:grey_tap()];
-
-  // Bounce is enabled by default, turn it off if not required.
-  if (!bounceEnabled) {
-    [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"bounceSwitch")]
-        performAction:grey_turnSwitchOn(NO)];
-  }
-
-  // Verify we can scroll to the bottom of the web page.
-  id<GREYMatcher> matcher = grey_allOf(grey_accessibilityLabel(@"Row 50"),
-                                       grey_interactable(),
-                                       grey_sufficientlyVisible(),
-                                       nil);
-  [[[EarlGrey selectElementWithMatcher:matcher]
-         usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 200)
-      onElementWithMatcher:grey_accessibilityID(@"FTRTestWebView")]
-      assertWithMatcher:grey_sufficientlyVisible()];
-  // Verify we can scroll to the top of the web page.
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"FTRTestWebView")]
-      performAction:grey_scrollToContentEdge(kGREYContentEdgeTop)];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Row 1")]
-      assertWithMatcher:grey_sufficientlyVisible()];
+  [self ftr_verifyScrollingOnLocallyLoadedHTMLPagesWithBounce:NO];
 }
 
 - (void)testScrollingOnPagesLoadedUsingLoadHTMLStringWithBounce {
-  [self verifyScrollingOnPagesLoadedUsingLoadHTMLStringWithBounce:YES];
+  [self ftr_verifyScrollingOnPagesLoadedUsingLoadHTMLStringWithBounce:YES];
 }
 
 - (void)testScrollingOnPagesLoadedUsingLoadHTMLStringWithoutBounce {
-  [self verifyScrollingOnPagesLoadedUsingLoadHTMLStringWithBounce:NO];
+  [self ftr_verifyScrollingOnPagesLoadedUsingLoadHTMLStringWithBounce:NO];
 }
 
 - (void)testSynchronizationWhenSwitchingBetweenLoadingMethods {
@@ -447,6 +239,215 @@ static const NSTimeInterval kLocalHTMLPageLoadDelay = 10.0;
   lastState = [[GREYAppStateTracker sharedInstance] grey_lastKnownStateForElement:webView];
   isAsyncRequestPending = ((lastState & kGREYPendingUIWebViewAsyncRequest) != 0);
   GREYAssertFalse(isAsyncRequestPending, @"should not be pending");
+}
+
+#pragma mark - Private
+
+- (void)ftr_waitForElementWithAccessibilityLabelToAppear:(NSString *)axLabel {
+  NSString *conditionName = [NSString stringWithFormat:@"WaitFor%@", axLabel];
+  GREYCondition *conditionForElement =
+      [GREYCondition conditionWithName:conditionName block:^BOOL {
+        NSError *error;
+        [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(axLabel)]
+            assertWithMatcher:grey_sufficientlyVisible() error:&error];
+        return (error == nil);
+      }];
+  BOOL elementAppeared = [conditionForElement waitWithTimeout:kLocalHTMLPageLoadDelay];
+  GREYAssertTrue(elementAppeared,
+                 @"%@ failed to appear after %.2f seconds",
+                 axLabel,
+                 kLocalHTMLPageLoadDelay);
+}
+
+- (void)ftr_navigateToLocallyLoadedRichHTML:(BOOL)bounceEnabled {
+  // Load local page first.
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"loadLocalFile")]
+      performAction:grey_tap()];
+
+  // Bounce is enabled by default, turn it off if not required.
+  if (!bounceEnabled) {
+    [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"bounceSwitch")]
+        performAction:grey_turnSwitchOn(NO)];
+  }
+
+  // Wait local page to load.
+  [self ftr_waitForElementWithAccessibilityLabelToAppear:@"Row 1"];
+  // Tap on the next test link.
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Link to Next Test")]
+      performAction:grey_tap()];
+  // Wait for the rich HTML page loading.
+  [self ftr_waitForElementWithAccessibilityLabelToAppear:@"MORE ..."];
+}
+
+- (void)ftr_navigateToLocallyLoadedRichHTMLLongTable:(BOOL)bounceEnabled {
+  // Navigate to Rich HTML.
+  [self ftr_navigateToLocallyLoadedRichHTML:bounceEnabled];
+  // Navigate to LongTable
+  [[EarlGrey selectElementWithMatcher:grey_allOf(grey_accessibilityLabel(@"LONG TABLE"),
+      grey_accessibilityTrait(UIAccessibilityTraitLink), nil)] performAction:grey_tap()];
+  // Wait for the test text to appear.
+  [self ftr_waitForElementWithAccessibilityLabelToAppear:@"R1C1"];
+}
+
+- (void)ftr_verifyLongTableOnLocallyLoadedRichHTML:(BOOL)bounceEnabled {
+  [self ftr_navigateToLocallyLoadedRichHTMLLongTable:bounceEnabled];
+  // Check the initial visibility of Row1
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"R1C2")]
+      assertWithMatcher:grey_sufficientlyVisible()];
+  // TODO: Tap on <input> tag will not correctly trigger the full checkbox animation.
+  // We shall probably tap on the <span> tag instead to trigger all html5 effect.
+  // Tap on "check all" checkbox to check all checkboxs.
+  GREYElementInteraction *r0checkboxInteraction =
+      [EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"R0CHECKBOX")];
+  // Find row 1 checkbox to verify if the check all JavaScript works.
+  GREYElementInteraction *r1checkboxInteraction =
+      [EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"R1CHECKBOX")];
+  // Verify if they are visible.
+  [r0checkboxInteraction assertWithMatcher:grey_sufficientlyVisible()];
+  [r1checkboxInteraction assertWithMatcher:grey_sufficientlyVisible()];
+  // Tap on it
+  [r0checkboxInteraction performAction:grey_tap()];
+  // Verify if it is checked.
+  [r0checkboxInteraction assertWithMatcher:grey_accessibilityValue(@"1")];
+  [r1checkboxInteraction assertWithMatcher:grey_accessibilityValue(@"1")];
+  // TODO: When using 50 rows, the search action actually gives up pre-maturally, even though the
+  // timeout is not exceeded in iOS 8.4/iPhone setting. Maybe it is due to the unstable swipe
+  // resistance detection.
+  // Check visibility of row 30 after scrolling.
+  id<GREYMatcher> matcher = grey_allOf(grey_accessibilityLabel(@"R30C2"),
+                                       grey_interactable(),
+                                       grey_sufficientlyVisible(),
+                                       nil);
+  [[[EarlGrey selectElementWithMatcher:matcher]
+      usingSearchAction:grey_scrollInDirectionWithStartPoint(kGREYDirectionDown, 400, 0.75, 0.75)
+      onElementWithMatcher:grey_accessibilityID(@"FTRTestWebView")]
+      assertWithMatcher:grey_sufficientlyVisible()];
+  // Verify if we can scroll to the top of the web page.
+  // Here, we cannot use scrollToContentEdge(kGREYContentEdgeTop) to the top. Because it will not
+  // work with a float fixed navbar at the top.
+  matcher = grey_allOf(grey_accessibilityLabel(@"R1C2"),
+                       grey_interactable(),
+                       grey_sufficientlyVisible(),
+                       nil);
+  [[[EarlGrey selectElementWithMatcher:matcher]
+      usingSearchAction:grey_scrollInDirectionWithStartPoint(kGREYDirectionUp, 400, 0.25, 0.25)
+      onElementWithMatcher:grey_accessibilityID(@"FTRTestWebView")]
+      assertWithMatcher:grey_sufficientlyVisible()];
+  // Verify if they are visible.
+  [r0checkboxInteraction assertWithMatcher:grey_sufficientlyVisible()];
+  [r1checkboxInteraction assertWithMatcher:grey_sufficientlyVisible()];
+  // Tap on "check all" checkbox again.
+  [r0checkboxInteraction performAction:grey_tap()];
+  // Verify if the "check all" JavaScript works.
+  [r0checkboxInteraction assertWithMatcher:grey_accessibilityValue(@"0")];
+  [r1checkboxInteraction assertWithMatcher:grey_accessibilityValue(@"0")];
+}
+
+- (void)ftr_verifyScrollingOnLocallyLoadedHTMLPagesWithBounce:(BOOL)bounceEnabled {
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"loadLocalFile")]
+      performAction:grey_tap()];
+  
+  // Bounce is enabled by default, turn it off if not required.
+  if (!bounceEnabled) {
+    [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"bounceSwitch")]
+        performAction:grey_turnSwitchOn(NO)];
+  }
+  
+  // TODO: Add an GREYCondition to wait for webpage loads, to fix EarlGrey synchronization
+  // issues with loading webpages. These issues induce flakiness in tests that have html files
+  // loaded, whether local or over the web. The GREYCondition added in this test checks if the file
+  // was loaded to mask issues in this particular set of tests, surfacing that the page load error
+  // was what caused the test flake.
+  [self ftr_waitForElementWithAccessibilityLabelToAppear:@"Row 1"];
+  
+  // Verify we can scroll to the bottom of the web page.
+  id<GREYMatcher> matcher = grey_allOf(grey_accessibilityLabel(@"Row 50"),
+                                       grey_interactable(),
+                                       grey_sufficientlyVisible(),
+                                       nil);
+  [[[EarlGrey selectElementWithMatcher:matcher]
+         usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 200)
+      onElementWithMatcher:grey_accessibilityID(@"FTRTestWebView")]
+      assertWithMatcher:grey_sufficientlyVisible()];
+  // Verify we can scroll to the top of the web page.
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"FTRTestWebView")]
+      performAction:grey_scrollToContentEdge(kGREYContentEdgeTop)];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Row 1")]
+      assertWithMatcher:grey_sufficientlyVisible()];
+}
+
+- (void)ftr_verifyScrollingOnPagesLoadedUsingLoadHTMLStringWithBounce:(BOOL)bounceEnabled {
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"loadHTMLString")]
+      performAction:grey_tap()];
+
+  // Bounce is enabled by default, turn it off if not required.
+  if (!bounceEnabled) {
+    [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"bounceSwitch")]
+        performAction:grey_turnSwitchOn(NO)];
+  }
+
+  // Verify we can scroll to the bottom of the web page.
+  id<GREYMatcher> matcher = grey_allOf(grey_accessibilityLabel(@"Row 50"),
+                                       grey_interactable(),
+                                       grey_sufficientlyVisible(),
+                                       nil);
+  [[[EarlGrey selectElementWithMatcher:matcher]
+         usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 200)
+      onElementWithMatcher:grey_accessibilityID(@"FTRTestWebView")]
+      assertWithMatcher:grey_sufficientlyVisible()];
+  // Verify we can scroll to the top of the web page.
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"FTRTestWebView")]
+      performAction:grey_scrollToContentEdge(kGREYContentEdgeTop)];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Row 1")]
+      assertWithMatcher:grey_sufficientlyVisible()];
+}
+
+- (void)ftr_verifyComponentsOnLocallyLoadedRichHTML:(BOOL)bounceEnabled {
+  // Navigate to Rich HTML.
+  [self ftr_navigateToLocallyLoadedRichHTML:bounceEnabled];
+  // Verify if the image is visible.
+  [[EarlGrey selectElementWithMatcher:grey_allOf(grey_accessibilityLabel(@"A img image."),
+      grey_accessibilityTrait(UIAccessibilityTraitImage), nil)]
+      assertWithMatcher:grey_sufficientlyVisible()];
+  // Verify if the static text is visible.
+  [[EarlGrey selectElementWithMatcher:grey_allOf(grey_accessibilityLabel(@"Static Text"),
+      grey_accessibilityTrait(UIAccessibilityTraitStaticText), nil)]
+      assertWithMatcher:grey_sufficientlyVisible()];
+  // Search until the input field is visible.
+  id<GREYMatcher> matcher = grey_allOf(grey_accessibilityLabel(@"INPUT FIELD"),
+                                       grey_interactable(),
+                                       nil);
+  GREYElementInteraction *interaction = [[EarlGrey selectElementWithMatcher:matcher]
+      usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 200)
+      onElementWithMatcher:grey_accessibilityID(@"FTRTestWebView")];
+  [interaction assertWithMatcher:grey_sufficientlyVisible()];
+  // Clear text in the input field.
+  [interaction performAction:grey_clearText()];
+  // Check if the text was successfully cleared.
+  [interaction assertWithMatcher:grey_accessibilityValue(@"")];
+  // TODO: It is a temporary workaround to pass the input field test. It performs an extra
+  // tap onto the input field then type in the text.
+  [interaction performAction:grey_tap()];
+  // Type "HELLO WORLD" into the input field.
+  [interaction performAction:grey_typeText(@"HELLO WORLD")];
+  // Verify if the "HELLO WORLD" message has been correctly typed.
+  [interaction assertWithMatcher:grey_accessibilityValue(@"HELLO WORLD")];
+  // Close the keyboard.
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"FTRTestWebView")]
+      performAction:grey_javaScriptExecution(@"document.activeElement.blur();", nil)];
+  // Check visibility of the button.
+  matcher = grey_allOf(grey_accessibilityLabel(@"DONT CLICK ME"),
+                       grey_interactable(),
+                       grey_accessibilityTrait(UIAccessibilityTraitButton),
+                       nil);
+  interaction = [[EarlGrey selectElementWithMatcher:matcher]
+      usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 200)
+      onElementWithMatcher:grey_accessibilityID(@"FTRTestWebView")];
+  [interaction assertWithMatcher:grey_sufficientlyVisible()];
+  // Click on the button and wait until the test text appears.
+  [interaction performAction:grey_tap()];
+  // Wait for the test text to appear.
+  [self ftr_waitForElementWithAccessibilityLabelToAppear:@"Told ya."];
 }
 
 @end

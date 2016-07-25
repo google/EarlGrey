@@ -73,7 +73,7 @@
       usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 200)
       onElementWithMatcher:grey_kindOfClass([UIWebView class])]
       performAction:grey_tap()];
-  [self waitForWebElementWithName:@"APPS" elementMatcher:grey_accessibilityLabel(@"APPS")];
+  [self ftr_waitForWebElementWithName:@"APPS" elementMatcher:grey_accessibilityLabel(@"APPS")];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"APPS")]
       assertWithMatcher:grey_sufficientlyVisible()];
 }
@@ -82,12 +82,12 @@
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"loadGoogle")]
       performAction:grey_tap()];
   id<GREYMatcher> searchButtonMatcher = grey_accessibilityHint(@"Search");
-  [self waitForWebElementWithName:@"Search Button" elementMatcher:searchButtonMatcher];
+  [self ftr_waitForWebElementWithName:@"Search Button" elementMatcher:searchButtonMatcher];
   [[[EarlGrey selectElementWithMatcher:searchButtonMatcher]
       performAction:grey_clearText()]
       performAction:grey_typeText(@"20 + 22\n")];
 
-  [self waitForWebElementWithName:@"Search Button" elementMatcher:grey_accessibilityLabel(@"42")];
+  [self ftr_waitForWebElementWithName:@"Search Button" elementMatcher:grey_accessibilityLabel(@"42")];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"42")]
       assertWithMatcher:grey_sufficientlyVisible()];
 
@@ -104,7 +104,7 @@
   id<GREYMatcher> resultMatcher = grey_allOf(grey_accessibilityLabel(@"George Lucas"),
                                              grey_accessibilityTrait(UIAccessibilityTraitHeader),
                                              nil);
-  [self waitForWebElementWithName:@"Search Result" elementMatcher:resultMatcher];
+  [self ftr_waitForWebElementWithName:@"Search Result" elementMatcher:resultMatcher];
   [[EarlGrey selectElementWithMatcher:resultMatcher] assertWithMatcher:grey_sufficientlyVisible()];
 }
 
@@ -145,7 +145,7 @@
  *  @param name    Name of the element to wait for.
  *  @param matcher Matcher that uniquely matches the element to wait for.
  */
-- (void)waitForWebElementWithName:(NSString *)name elementMatcher:(id<GREYMatcher>)matcher {
+- (void)ftr_waitForWebElementWithName:(NSString *)name elementMatcher:(id<GREYMatcher>)matcher {
   // TODO: Improve EarlGrey webview synchronization so that it automatically waits for the page to
   // load removing the need for conditions such as this.
   [[GREYCondition conditionWithName:[name stringByAppendingString:@" Condition"]

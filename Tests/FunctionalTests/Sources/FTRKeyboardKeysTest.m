@@ -37,21 +37,21 @@
 - (void)testTypingAtBeginning {
   [[[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
       performAction:[GREYActions actionForTypeText:@"Foo"]]
-      performAction:[self grey_actionForTypingText:@"Bar" atPosition:0]]
+      performAction:[self ftr_actionForTypingText:@"Bar" atPosition:0]]
       assertWithMatcher:grey_text(@"BarFoo")];
 }
 
 - (void)testTypingAtEnd {
     [[[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
       performAction:[GREYActions actionForTypeText:@"Foo"]]
-      performAction:[self grey_actionForTypingText:@"Bar" atPosition:-1]]
+      performAction:[self ftr_actionForTypingText:@"Bar" atPosition:-1]]
       assertWithMatcher:grey_text(@"FooBar")];
 }
 
 - (void)testTypingInMiddle {
   [[[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
       performAction:[GREYActions actionForTypeText:@"Foo"]]
-      performAction:[self grey_actionForTypingText:@"Bar" atPosition:2]]
+      performAction:[self ftr_actionForTypingText:@"Bar" atPosition:2]]
       assertWithMatcher:grey_text(@"FoBaro")];
 }
 
@@ -59,7 +59,7 @@
   [[[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
       performAction:
           [GREYActions actionForTypeText:@"This string is a little too long for this text field!"]]
-      performAction:[self grey_actionForTypingText:@"Foo" atPosition:1]]
+      performAction:[self ftr_actionForTypingText:@"Foo" atPosition:1]]
       assertWithMatcher:grey_text(@"TFoohis string is a little too long for this text field!")];
 }
 
@@ -137,7 +137,7 @@
   @try {
     [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"NonTypingTextField")]
         performAction:[GREYActions actionForTypeText:@"Should Fail"]];
-    XCTFail(@"Should throw an exception");
+    GREYFail(@"Should throw an exception");
   } @catch (NSException *exception) {
     NSRange exceptionRange =
         [[exception reason] rangeOfString:@"Action 'Type \"Should Fail\"' failed."];
@@ -147,74 +147,74 @@
 
 - (void)testTypingWordsThatTriggerAutoCorrect {
   NSString *string = @"hekp";
-  [self typeString:string andVerifyOutput:string];
+  [self ftr_typeString:string andVerifyOutput:string];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
       performAction:grey_clearText()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextView")]
       performAction:grey_clearText()];
 
   string = @"helko";
-  [self typeString:string andVerifyOutput:string];
+  [self ftr_typeString:string andVerifyOutput:string];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
       performAction:grey_clearText()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextView")]
       performAction:grey_clearText()];
 
   string = @"balk";
-  [self typeString:string andVerifyOutput:string];
+  [self ftr_typeString:string andVerifyOutput:string];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
       performAction:grey_clearText()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextView")]
       performAction:grey_clearText()];
 
   string = @"surr";
-  [self typeString:string andVerifyOutput:string];
+  [self ftr_typeString:string andVerifyOutput:string];
 }
 
 - (void)testNumbersTyping {
   NSString *string = @"1234567890";
-  [self typeString:string andVerifyOutput:string];
+  [self ftr_typeString:string andVerifyOutput:string];
 }
 
 - (void)testSymbolsTyping {
   NSString *string = @"~!@#$%^&*()_+-={}:;<>?";
-  [self typeString:string andVerifyOutput:string];
+  [self ftr_typeString:string andVerifyOutput:string];
 }
 
 - (void)testLetterTyping {
   NSString *string = @"aBc";
-  [self typeString:string andVerifyOutput:string];
+  [self ftr_typeString:string andVerifyOutput:string];
 }
 
 - (void)testEmailTyping {
   NSString *string = @"donec.metus+spam@google.com";
-  [self typeString:string andVerifyOutput:string];
+  [self ftr_typeString:string andVerifyOutput:string];
 }
 
 - (void)testUpperCaseLettersTyping {
   NSString *string = @"VERYLONGTEXTWITHMANYLETTERS";
-  [self typeString:string andVerifyOutput:string];
+  [self ftr_typeString:string andVerifyOutput:string];
 }
 
 - (void)testNumbersAndSpacesTyping {
   NSString *string = @"0 1 2 3 4 5 6 7 8 9";
-  [self typeString:string andVerifyOutput:string];
+  [self ftr_typeString:string andVerifyOutput:string];
 }
 
 - (void)testSymbolsAndSpacesTyping {
   NSString *string = @"[ ] # + = _ < > { }";
-  [self typeString:string andVerifyOutput:string];
+  [self ftr_typeString:string andVerifyOutput:string];
 }
 
 - (void)testSpaceKey {
   NSString *string = @"a b";
-  [self typeString:string andVerifyOutput:string];
+  [self ftr_typeString:string andVerifyOutput:string];
 }
 
 - (void)testBackspaceKey {
   NSString *string = @"ab\b";
   NSString *verificationString = @"a";
-  [self typeString:string andVerifyOutput:verificationString];
+  [self ftr_typeString:string andVerifyOutput:verificationString];
 }
 
 - (void)testReturnKey {
@@ -262,20 +262,6 @@
   NSString *string = @"a1a%a%1%";
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
       performAction:grey_typeText(string)];
-}
-
-- (void)typeString:(NSString *)string andVerifyOutput:(NSString *)verificationString {
-  [[[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
-      performAction:grey_typeText(string)]
-      performAction:grey_typeText(@"\n")]
-      assertWithMatcher:grey_text(verificationString)];
-
-  [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextView")]
-      performAction:grey_typeText(string)]
-      assertWithMatcher:grey_text(verificationString)];
-
-  [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"Done")]
-      performAction:grey_tap()];
 }
 
 - (void)testKeyplaneIsDetectedCorrectlyWhenSwitchingTextFields {
@@ -453,8 +439,20 @@
 
 #pragma mark - Private
 
+- (void)ftr_typeString:(NSString *)string andVerifyOutput:(NSString *)verificationString {
+  [[[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
+      performAction:grey_typeText(string)]
+      performAction:grey_typeText(@"\n")]
+      assertWithMatcher:grey_text(verificationString)];
+  [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextView")]
+      performAction:grey_typeText(string)]
+      assertWithMatcher:grey_text(verificationString)];
+  [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"Done")]
+      performAction:grey_tap()];
+}
+
 // Helper action that converts numeric position to UITextPosition.
-- (id<GREYAction>)grey_actionForTypingText:(NSString *)text atPosition:(NSInteger)position {
+- (id<GREYAction>)ftr_actionForTypingText:(NSString *)text atPosition:(NSInteger)position {
   NSString *actionName =
       [NSString stringWithFormat:@"Test type \"%@\" at position %ld", text, (long)position];
   return [GREYActionBlock actionWithName:actionName

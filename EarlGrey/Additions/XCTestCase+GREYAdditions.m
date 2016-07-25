@@ -218,13 +218,6 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
       gCurrentExecutingTestCase = self;
       [self grey_setStatus:kGREYXCTestCaseStatusUnknown];
 
-      // We create a new, empty, outputs directory for the test method prior to its invocation.
-      NSError *error;
-      BOOL success =
-          [self grey_createDirRemovingExistingDir:[self grey_localizedTestOutputsDirectory]
-                                            error:&error];
-
-      NSAssert(success, @"Failed to create localized outputs directory with error: %@", error);
       INVOKE_ORIGINAL_IMP(void, @selector(grey_invokeTest));
 
       // The test may have been marked as failed if a failure was recorded with the
@@ -233,7 +226,7 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
       if ([self grey_status] != kGREYXCTestCaseStatusFailed) {
         [self grey_setStatus:kGREYXCTestCaseStatusPassed];
       }
-    } @catch(NSException *exception) {
+    } @catch (NSException *exception) {
       [self grey_setStatus:kGREYXCTestCaseStatusFailed];
       if (![exception.name isEqualToString:kInternalTestInterruptException]) {
         @throw;

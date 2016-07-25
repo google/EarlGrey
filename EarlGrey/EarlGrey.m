@@ -21,13 +21,9 @@
 #import "Additions/XCTestCase+GREYAdditions.h"
 #import "Common/GREYAnalytics.h"
 #import "Common/GREYConfiguration.h"
-#import "Common/GREYDefines.h"
-#import "Common/GREYExposed.h"
 #import "Core/GREYAutomationSetup.h"
-#import "Core/GREYKeyboard.h"
 #import "Event/GREYSyntheticEvents.h"
 #import "Exception/GREYDefaultFailureHandler.h"
-#import "Synchronization/GREYUIThreadExecutor.h"
 
 // Handler for all EarlGrey failures.
 id<GREYFailureHandler> greyFailureHandler;

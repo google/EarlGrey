@@ -16,7 +16,6 @@
 
 #import "FTRBaseIntegrationTest.h"
 
-#import "FTRMainViewController.h"
 #import "FTRNetworkProxy.h"
 
 @implementation FTRBaseIntegrationTest {

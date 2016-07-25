@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-// Base test class for all earl grey integration test.
+// Base test class for all EarlGrey integration tests.
 @interface FTRBaseIntegrationTest : XCTestCase
 
 - (void)openTestViewNamed:(NSString *)name;

@@ -15,5 +15,3 @@
 //
 
 @import EarlGrey;
-
-#import "FTRMainViewController.h"

@@ -184,7 +184,8 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
 
 + (id<GREYMatcher>)matcherForSystemAlertViewShown {
   MatchesBlock matches = ^BOOL(id element) {
-    return [[UIApplication sharedApplication] _isSpringBoardShowingAnAlert];
+    return [[UIApplication sharedApplication] _isSpringBoardShowingAnAlert] &&
+           ![[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.springboard"];
   };
   DescribeToBlock describe = ^void(id<GREYDescription> description) {
     [description appendText:@"isSystemAlertViewShown"];
