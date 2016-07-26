@@ -32,6 +32,7 @@ elif [ "${TYPE}" == "FUNCTIONAL" ]; then
   env NSUnbufferedIO=YES xcodebuild -project Tests/FunctionalTests/FunctionalTests.xcodeproj -scheme EarlGreyFunctionalTests -sdk "$SDK" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO test | tee xcodebuild.log | xcpretty -s;
 elif [ "${TYPE}" == "CONTRIB" ]; then
   env NSUnbufferedIO=YES xcodebuild -project Demo/EarlGreyContribs/EarlGreyContribs.xcodeproj -scheme EarlGreyContribsTests -sdk "$SDK" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO test | tee xcodebuild.log | xcpretty -s;
+elif [ "${TYPE}" == "CONTRIB_SWIFT" ]; then
   env NSUnbufferedIO=YES xcodebuild -project Demo/EarlGreyContribs/EarlGreyContribs.xcodeproj -scheme EarlGreyContribsSwiftTests -sdk "$SDK" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO test | tee xcodebuild.log | xcpretty -s;
 else
   echo "Unrecognized Type: ${TYPE}"
