@@ -19,22 +19,21 @@ set -euxo pipefail
 xcodebuild -version
 xcodebuild -showsdks
 
-if [ "${TYPE}" == "UNIT" ]; then
-  env NSUnbufferedIO=YES xcodebuild -project Tests/UnitTests/UnitTests.xcodeproj -scheme EarlGreyUnitTests -sdk "$SDK" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO test | xcpretty -c;
-elif [ "${TYPE}" == "RUBY" ]; then
+if [ "${TYPE}" == "RUBY" ]; then
   rvm use 2.2.2;
   cd gem;
   bundle install --retry=3;
   rake;
+elif [ "${TYPE}" == "UNIT" ]; then
+  env NSUnbufferedIO=YES xcodebuild -project Tests/UnitTests/UnitTests.xcodeproj -scheme EarlGreyUnitTests -sdk "$SDK" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO test | tee xcodebuild.log | xcpretty -s;
 elif [ "${TYPE}" == "FUNCTIONAL_SWIFT" ]; then
-  env NSUnbufferedIO=YES xcodebuild -project Tests/FunctionalTests/FunctionalTests.xcodeproj -scheme EarlGreyFunctionalSwiftTests -sdk "$SDK" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO test | xcpretty -c;
+  env NSUnbufferedIO=YES xcodebuild -project Tests/FunctionalTests/FunctionalTests.xcodeproj -scheme EarlGreyFunctionalSwiftTests -sdk "$SDK" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO test | tee xcodebuild.log | xcpretty -s;
 elif [ "${TYPE}" == "FUNCTIONAL" ]; then
-  env NSUnbufferedIO=YES xcodebuild -project Tests/FunctionalTests/FunctionalTests.xcodeproj -scheme EarlGreyFunctionalTests -sdk "$SDK" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO test | xcpretty -c;
+  env NSUnbufferedIO=YES xcodebuild -project Tests/FunctionalTests/FunctionalTests.xcodeproj -scheme EarlGreyFunctionalTests -sdk "$SDK" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO test | tee xcodebuild.log | xcpretty -s;
 elif [ "${TYPE}" == "CONTRIB" ]; then
-  env NSUnbufferedIO=YES xcodebuild -project Demo/EarlGreyContribs/EarlGreyContribs.xcodeproj -scheme EarlGreyContribsTests -sdk "$SDK" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO test | xcpretty -c;
-  env NSUnbufferedIO=YES xcodebuild -project Demo/EarlGreyContribs/EarlGreyContribs.xcodeproj -scheme EarlGreyContribsSwiftTests -sdk "$SDK" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO test | xcpretty -c;
+  env NSUnbufferedIO=YES xcodebuild -project Demo/EarlGreyContribs/EarlGreyContribs.xcodeproj -scheme EarlGreyContribsTests -sdk "$SDK" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO test | tee xcodebuild.log | xcpretty -s;
+  env NSUnbufferedIO=YES xcodebuild -project Demo/EarlGreyContribs/EarlGreyContribs.xcodeproj -scheme EarlGreyContribsSwiftTests -sdk "$SDK" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO test | tee xcodebuild.log | xcpretty -s;
 else
   echo "Unrecognized Type: ${TYPE}"
   exit 1
 fi
-

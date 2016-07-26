@@ -39,4 +39,6 @@ before_script:
   - Scripts/setup-earlgrey.sh
 script:
  - Scripts/travis.sh
+after_failure:
+ - tail -n 100 xcodebuild.log
 
