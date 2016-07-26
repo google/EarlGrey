@@ -27,5 +27,5 @@ before_script:
 script:
  - Scripts/travis.sh
 after_failure:
- - tail -n 100 xcodebuild.log
+ - cat xcodebuild.log
 
