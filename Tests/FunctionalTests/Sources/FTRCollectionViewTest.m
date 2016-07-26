@@ -109,7 +109,7 @@
   NSString *previous = [NSString stringWithFormat:@"%c", ch];
   NSString *next = [NSString stringWithFormat:@"%d", toupper(ch)];
   [[EarlGrey selectElementWithMatcher:grey_text(previous)] performAction:grey_tap()];
-  [EarlGrey selectElementWithMatcher:grey_text(next)];
+  [[EarlGrey selectElementWithMatcher:grey_text(next)] assertWithMatcher:grey_notNil()];
 }
 
 // Scrolls the test CollectionView containing alphabets in the given |direction| until the given
