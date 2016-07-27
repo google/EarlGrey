@@ -35,8 +35,13 @@ execute_xcodebuild() {
   fi
 
   for retry_attempts in {1..3}; do
+    # To retry on failure, disable exiting if command below fails.
+    set +e
     env NSUnbufferedIO=YES xcodebuild -project ${1} -scheme ${2} -sdk "$SDK" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO test | tee xcodebuild.log | xcpretty -s;
-    if [ $? -ne 65 ]; then
+    retval=$?
+    # Re-enable exiting for command failures.
+    set -e
+  if [ ${retval} -ne 65 ]; then
       break
     fi
   done
