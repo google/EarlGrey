@@ -41,7 +41,7 @@ execute_xcodebuild() {
     retval=$?
     # Re-enable exiting for command failures.
     set -e
-  if [ ${retval} -ne 65 ]; then
+    if [ ${retval} -ne 65 ]; then
       break
     fi
   done
