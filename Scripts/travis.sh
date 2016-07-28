@@ -19,7 +19,7 @@ set -euxo pipefail
 xcodebuild -version
 xcodebuild -showsdks
 
-# Runs xcodebuild retrying up to 3 times on failure with exit code 65.
+# Runs xcodebuild retrying up to 3 times on failure to start testing (exit code 65).
 # The following arguments specified in the order below:
 #  $1 : .xcodeproj file
 #  $2 : scheme to run
@@ -41,7 +41,9 @@ execute_xcodebuild() {
     retval=$?
     # Re-enable exiting for command failures.
     set -e
-    if [ ${retval} -ne 65 ]; then
+    # Even failed tests exit with code 65. Add a check to query xcodebuild.log that tests haven't
+    # started.
+    if [ ${retval} -ne 65 ] || [ grep -q "Test Suite" xcodebuild.log ]; then
       break
     fi
   done
