@@ -156,7 +156,7 @@ In cases where CocoaPods is not compatible with your project, you can add EarlGr
 
       <img src="images/image04.png" width="200">
 
-  2. As part of the initial build step, a script **setup-earlgrey.sh** will be run to download all the required dependencies. Without it, you might find dependencies like `fishhook` and `OCHamcrest` shown as missing in the folder structure.
+  2. As part of the initial build step, a script **setup-earlgrey.sh** will be run to download all the required dependencies. Without it, you might find dependencies like `OCHamcrest` shown as missing in the folder structure.
 
 #### Step 2: Add EarlGrey as a dependency of the project which contains your app under test
 
