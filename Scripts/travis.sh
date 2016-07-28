@@ -38,12 +38,14 @@ execute_xcodebuild() {
     # To retry on failure, disable exiting if command below fails.
     set +e
     env NSUnbufferedIO=YES xcodebuild -project ${1} -scheme ${2} -sdk "$SDK" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO test | tee xcodebuild.log | xcpretty -s;
-    retval=$?
+    retval_xcodebuild=$?
+    # Even failed tests exit with code 65. Add a check to ensure test haven't started.
+    # we achieve that by looking for keyword "Test Suite" in xcodebuild.log.
+    $(grep -q "Test Suite" xcodebuild.log)
+    retval_grep=$?
     # Re-enable exiting for command failures.
     set -e
-    # Even failed tests exit with code 65. Add a check to query xcodebuild.log that tests haven't
-    # started.
-    if [[ ${retval} -ne 65 ]] || [[ $(grep -q "Test Suite" xcodebuild.log) ]]; then
+    if [[ ${retval_xcodebuild} -ne 65 ]] || [[ ${retval_grep} -eq 0 ]]; then
       break
     fi
   done
