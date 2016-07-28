@@ -34,6 +34,7 @@ execute_xcodebuild() {
     exit 1
   fi
 
+  retval_xcodebuild=0
   for retry_attempts in {1..3}; do
     # To retry on failure, disable exiting if command below fails.
     set +e
@@ -49,6 +50,10 @@ execute_xcodebuild() {
       break
     fi
   done
+
+  if [[ ${retval_xcodebuild} -ne 0 ]]; then
+    exit ${retval_xcodebuild}
+  fi
 }
 
 if [ "${TYPE}" == "RUBY" ]; then
