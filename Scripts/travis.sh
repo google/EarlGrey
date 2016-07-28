@@ -40,8 +40,9 @@ execute_xcodebuild() {
     set +e
     env NSUnbufferedIO=YES xcodebuild -project ${1} -scheme ${2} -sdk "$SDK" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO test | tee xcodebuild.log | xcpretty -s;
     retval_xcodebuild=$?
-    # Even failed tests exit with code 65. Add a check to ensure test haven't started.
-    # we achieve that by looking for keyword "Test Suite" in xcodebuild.log.
+    # Even failed tests exit with code 65, check to ensure tests haven't started.
+    # We achieve that by looking for keyword "Test Suite" in xcodebuild.log.
+    # TODO: this behavior may change.
     $(grep -q "Test Suite" xcodebuild.log)
     retval_grep=$?
     # Re-enable exiting for command failures.
