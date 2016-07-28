@@ -43,7 +43,7 @@ execute_xcodebuild() {
     set -e
     # Even failed tests exit with code 65. Add a check to query xcodebuild.log that tests haven't
     # started.
-    if [[ ${retval} -ne 65 ]] && [[ $(grep -q "Test Suite" xcodebuild.log) ]]; then
+    if [[ ${retval} -ne 65 ]] || [[ $(grep -q "Test Suite" xcodebuild.log) ]]; then
       break
     fi
   done
