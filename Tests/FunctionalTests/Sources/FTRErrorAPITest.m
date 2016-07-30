@@ -30,8 +30,10 @@
     GREYFail(@"Testing if this raises an exception and fails the suite");
     assert(NULL);
   } @catch (id expectedException) {
-    NSAssert([expectedException isKindOfClass:[GREYFrameworkException class]],
-             @"Incorrect exception class raised.");
+    if (![expectedException isKindOfClass:[GREYFrameworkException class]]) {
+      NSAssert(NO, @"Incorrect exception class: %@ raised.", [expectedException class]);
+      @throw;
+    }
   }
 }
 

@@ -66,9 +66,9 @@ GREY_EXTERN NSString *const kGREYConfigKeySynchronizationEnabled;
 GREY_EXTERN NSString *const kGREYConfigKeyNSTimerMaxTrackableInterval;
 
 /**
- *  Configuration for setting the max delay (in seconds) for dispatch_after calls that EarlGrey
- *  will automatically track. dispatch_after exceeding the specified time won't be tracked by the
- *  framework.
+ *  Configuration for setting the max delay (in seconds) for dispatch_after and dispatch_after_f
+ *  calls that EarlGrey will automatically track. dispatch_after and dispatch_after_f calls
+ *  exceeding the specified time won't be tracked by the framework.
  *
  *  Accepted values: @c double (negative values shouldn't be used)
  *  Default value: 1.5

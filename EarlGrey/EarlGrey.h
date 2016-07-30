@@ -56,6 +56,7 @@
 #import <EarlGrey/GREYIdlingResource.h>
 #import <EarlGrey/GREYInteraction.h>
 #import <EarlGrey/GREYLayoutConstraint.h>
+#import <EarlGrey/GREYManagedObjectContextIdlingResource.h>
 #import <EarlGrey/GREYMatcher.h>
 #import <EarlGrey/GREYMatchers.h>
 #import <EarlGrey/GREYNSTimerIdlingResource.h>

@@ -38,6 +38,7 @@
   },
   "name": "EarlGrey",
   "frameworks": [
+    "CoreData",
     "CoreFoundation",
     "CoreGraphics",
     "Foundation",

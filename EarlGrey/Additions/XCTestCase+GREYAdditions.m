@@ -137,9 +137,7 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
   if (localizedTestOutputsDir == nil) {
     NSString *testClassName = [self grey_testClassName];
     NSString *testMethodName = [self grey_testMethodName];
-
-    NSAssert(testMethodName, @"There's no current test method for the current test case: %@",
-             [XCTestCase grey_currentTestCase]);
+    NSAssert(testMethodName, @"There's no current test method for the current test case: %@", self);
 
     NSArray *documentPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
                                                                  NSUserDomainMask,

@@ -19,6 +19,7 @@
 //
 #import <EarlGrey/GREYAppStateTracker.h>
 #import <EarlGrey/GREYElementHierarchy.h>
+#import <EarlGrey/GREYManagedObjectContextIdlingResource.h>
 #import <EarlGrey/GREYProvider.h>
 #import <EarlGrey/GREYTimedIdlingResource.h>
 #import <EarlGrey/GREYUIThreadExecutor.h>
@@ -37,8 +38,8 @@ extern const NSInteger kGREYScrollDetectionLength;
 - (GREYAppState)grey_lastKnownStateForElement:(id)element;
 @end
 
-@interface GREYDispatchQueueIdlingResource (EGExposedForTesting)
-+ (instancetype)grey_resourceForCurrentlyTrackedDispatchQueue:(dispatch_queue_t)queue;
+@interface GREYManagedObjectContextIdlingResource (GREYExposedForTesting)
+- (dispatch_queue_t)managedObjectContextDispatchQueue;
 @end
 
 @interface GREYUIThreadExecutor (EGExposedForTesting)

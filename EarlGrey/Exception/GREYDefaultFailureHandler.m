@@ -27,6 +27,9 @@
 #import "Exception/GREYFrameworkException.h"
 #import "Provider/GREYUIWindowProvider.h"
 
+// Counter that is incremented each time a failure occurs in an unknown test.
+static NSUInteger gUnknownTestExceptionCounter;
+
 @implementation GREYDefaultFailureHandler {
   NSString *_fileName;
   NSUInteger _lineNumber;
@@ -41,6 +44,12 @@
 
 - (void)handleException:(GREYFrameworkException *)exception details:(NSString *)details {
   NSParameterAssert(exception);
+  // Testcase can be nil if EarlGrey is invoked outside the context of an XCTestCase.
+  XCTestCase *currentTestCase = [XCTestCase grey_currentTestCase];
+  if (!currentTestCase) {
+    gUnknownTestExceptionCounter++;
+  }
+
   NSMutableString *exceptionLog = [[NSMutableString alloc] init];
   // Start on fresh new line.
   [exceptionLog appendString:@"\n"];
@@ -55,15 +64,21 @@
   }
   [exceptionLog appendString:@"\n"];
 
-  // Pull the raw test case name
-  // Test name can be nil if EarlGrey is invoked outside the context of a XCTestCase.
-  NSString *testClassName = [[XCTestCase grey_currentTestCase] grey_testClassName];
-  NSString *testMethodName = [[XCTestCase grey_currentTestCase] grey_testMethodName];
-  NSString *screenshotName = [NSString stringWithFormat:@"%@_%@", testClassName, testMethodName];
+  NSString *screenshotName;
+  if (currentTestCase) {
+    screenshotName = [NSString stringWithFormat:@"%@_%@",
+                                                [currentTestCase grey_testClassName],
+                                                [currentTestCase grey_testMethodName]];
+  } else {
+    screenshotName =
+        [NSString stringWithFormat:@"unknown_%lu", (unsigned long)gUnknownTestExceptionCounter];
+  }
 
+  NSString *screenshotDir = GREY_CONFIG_STRING(kGREYConfigKeyScreenshotDirLocation);
   // Log the screenshot.
   [self grey_savePNGImage:[GREYScreenshotUtil grey_takeScreenshotAfterScreenUpdates:NO]
               toFileNamed:[NSString stringWithFormat:@"%@.png", screenshotName]
+              inDirectory:screenshotDir
               forCategory:@"Screenshot At Failure"
           appendingLogsTo:exceptionLog];
 
@@ -74,14 +89,17 @@
 
   [self grey_savePNGImage:beforeImage
               toFileNamed:[NSString stringWithFormat:@"%@_before.png", screenshotName]
+              inDirectory:screenshotDir
               forCategory:@"Visibility Checker's Most Recent Before Image"
           appendingLogsTo:exceptionLog];
   [self grey_savePNGImage:afterExpectedImage
               toFileNamed:[NSString stringWithFormat:@"%@_after_expected.png", screenshotName]
+              inDirectory:screenshotDir
               forCategory:@"Visibility Checker's Most Recent Expected After Image"
           appendingLogsTo:exceptionLog];
   [self grey_savePNGImage:afterActualImage
               toFileNamed:[NSString stringWithFormat:@"%@_after_actual.png", screenshotName]
+              inDirectory:screenshotDir
               forCategory:@"Visibility Checker's Most Recent Actual After Image"
           appendingLogsTo:exceptionLog];
 
@@ -106,15 +124,13 @@
                                index, hierarchy];
   }
 
-  XCTestCase *currentTestContext = [XCTestCase grey_currentTestCase];
-  if (currentTestContext) {
-    [currentTestContext grey_markAsFailedAtLine:_lineNumber
-                                         inFile:_fileName
-                                         reason:exception.reason
-                              detailDescription:exceptionLog];
+  if (currentTestCase) {
+    [currentTestCase grey_markAsFailedAtLine:_lineNumber
+                                      inFile:_fileName
+                                      reason:exception.reason
+                           detailDescription:exceptionLog];
   } else {
-    // Happens when we are not within a valid test context
-    // (i.e. called from +setUp, +tearDown, +load, etc.)
+    // Happens when exception is thrown outside a valid test context (i.e. +setUp, +tearDown, etc.)
     [[GREYFrameworkException exceptionWithName:exception.name
                                         reason:exceptionLog
                                       userInfo:nil] raise];
@@ -127,29 +143,30 @@
  *  Saves the given @c image as a PNG file to the given @c fileName and appends a log to
  *  @c allLogs with the saved image's absolute path under the specified @c category.
  *
- *  @param image    Image to be saved as a PNG file.
- *  @param fileName The file name for the @c image to be saved.
- *  @param category The category for which the @c image is being saved.
- *                  This will be added to the front of the log.
- *  @param allLogs  Existing logs to which any new log statements are appended.
+ *  @param image     Image to be saved as a PNG file.
+ *  @param fileName  The file name for the @c image to be saved.
+ *  @param directory The directory where @c image will be saved.
+ *  @param category  The category for which the @c image is being saved.
+ *                   This will be added to the front of the log.
+ *  @param allLogs   Existing logs to which any new log statements are appended.
  */
 - (void)grey_savePNGImage:(UIImage *)image
               toFileNamed:(NSString *)fileName
+              inDirectory:(NSString *)directory
               forCategory:(NSString *)category
           appendingLogsTo:(NSMutableString *)allLogs {
   if (!image) {
     // nothing to save.
     return;
   }
-
-  NSString *screenshotDir = GREY_CONFIG_STRING(kGREYConfigKeyScreenshotDirLocation);
-  NSString *filepath = [GREYScreenshotUtil saveImageAsPNG:image
-                                                   toFile:fileName
-                                              inDirectory:screenshotDir];
-  if (filepath) {
-    [allLogs appendFormat:@"%@: %@\n", category, filepath];
+  NSString *screenshotPath = [GREYScreenshotUtil saveImageAsPNG:image
+                                                         toFile:fileName
+                                                    inDirectory:directory];
+  if (screenshotPath) {
+    [allLogs appendFormat:@"%@: %@\n", category, screenshotPath];
   } else {
-    [allLogs appendFormat:@"Unable to save %@ as %@.\n", category, fileName];
+    [allLogs appendFormat:@"Unable to save %@ as %@ in directory %@\n",
+                          category, fileName, directory];
   }
 }
 
