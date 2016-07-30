@@ -16,7 +16,6 @@
 
 #import "Matcher/GREYMatchers.h"
 
-#import <OCHamcrest/OCHamcrest.h>
 #import <UIKit/UIKit.h>
 #include <tgmath.h>
 
@@ -34,7 +33,6 @@
 #import "Matcher/GREYAnyOf.h"
 #import "Matcher/GREYElementMatcherBlock.h"
 #import "Matcher/GREYLayoutConstraint.h"
-#import "Matcher/GREYHCMatcher.h"
 #import "Matcher/GREYMatcher.h"
 #import "Matcher/GREYNot.h"
 #import "Provider/GREYElementProvider.h"
@@ -63,23 +61,62 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
 }
 
 + (id<GREYMatcher>)matcherForCloseTo:(double)value delta:(double)delta {
-  return [[GREYHCMatcher alloc] initWithHCMatcher:HC_closeTo(value, delta)];
+  MatchesBlock matches = ^BOOL(id element) {
+    return fabs([element doubleValue] - value) <= delta;
+  };
+  DescribeToBlock describe = ^void(id<GREYDescription> description) {
+    [description appendText:[NSString stringWithFormat:@"closeTo(%lf) delta(%lf)", value, delta]];
+  };
+  return grey_allOf(grey_kindOfClass([NSNumber class]),
+                    [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches
+                                                         descriptionBlock:describe],
+                    nil);
 }
 
 + (id<GREYMatcher>)matcherForAnything {
-  return [[GREYHCMatcher alloc] initWithHCMatcher:HC_anything()];
+  MatchesBlock matches = ^BOOL(id element) {
+    return YES;
+  };
+  DescribeToBlock describe = ^void(id<GREYDescription> description) {
+    [description appendText:@"anything"];
+  };
+  return [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe];
 }
 
 + (id<GREYMatcher>)matcherForEqualTo:(id)value {
-  return [[GREYHCMatcher alloc] initWithHCMatcher:HC_equalTo(value)];
+  MatchesBlock matches = ^BOOL(id element) {
+    return (element == nil) ? (value == nil) : [element isEqual:value];
+  };
+  DescribeToBlock describe = ^void(id<GREYDescription> description) {
+    [description appendText:[NSString stringWithFormat:@"equalTo(%@)", value]];
+  };
+  return [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe];
 }
 
 + (id<GREYMatcher>)matcherForLessThan:(id)value {
-  return [[GREYHCMatcher alloc] initWithHCMatcher:HC_lessThan(value)];
+  MatchesBlock matches = ^BOOL(id element) {
+    return (value == nil) ? NO : [value compare:element] == NSOrderedDescending;
+  };
+  DescribeToBlock describe = ^void(id<GREYDescription> description) {
+    [description appendText:[NSString stringWithFormat:@"lessThan(%@)", value]];
+  };
+  return grey_allOf(grey_notNil(),
+                    [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches
+                                                         descriptionBlock:describe],
+                    nil);
 }
 
 + (id<GREYMatcher>)matcherForGreaterThan:(id)value {
-  return [[GREYHCMatcher alloc] initWithHCMatcher:HC_greaterThan(value)];
+  MatchesBlock matches = ^BOOL(id element) {
+    return (value == nil) ? NO : [value compare:element] == NSOrderedAscending;
+  };
+  DescribeToBlock describe = ^void(id<GREYDescription> description) {
+    [description appendText:[NSString stringWithFormat:@"greaterThan(%@)", value]];
+  };
+  return grey_allOf(grey_notNil(),
+                    [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches
+                                                         descriptionBlock:describe],
+                    nil);
 }
 
 + (id<GREYMatcher>)matcherForAccessibilityLabel:(NSString *)label {
@@ -176,10 +213,19 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
 }
 
 + (id<GREYMatcher>)matcherForText:(NSString *)text {
+  MatchesBlock matches = ^BOOL(id element) {
+    return [[element text] isEqualToString:text];
+  };
+  DescribeToBlock describe = ^void(id<GREYDescription> description) {
+    [description appendText:[NSString stringWithFormat:@"text(\"%@\")", text]];
+  };
   return grey_allOf(grey_anyOf(grey_kindOfClass([UILabel class]),
                                grey_kindOfClass([UITextField class]),
-                               grey_kindOfClass([UITextView class]), nil),
-                    hasProperty(@"text", text), nil);
+                               grey_kindOfClass([UITextView class]),
+                               nil),
+                    [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches
+                                                         descriptionBlock:describe],
+                    nil);
 }
 
 + (id<GREYMatcher>)matcherForFirstResponder {
