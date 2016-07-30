@@ -182,14 +182,12 @@
 		FD1002571C5B470A00B2DB0A /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD06C66B1BECAD8B009032A5 /* CoreFoundation.framework */; };
 		FD1002581C5B471200B2DB0A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD06C66C1BECAD8B009032A5 /* CoreGraphics.framework */; };
 		FD10025A1C5B472C00B2DB0A /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD1002591C5B472C00B2DB0A /* IOKit.framework */; };
-		FD10025B1C5B473400B2DB0A /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD6160601BF2C97800722593 /* OCHamcrest.framework */; };
 		FD10025C1C5B489A00B2DB0A /* fishhook.c in Sources */ = {isa = PBXBuildFile; fileRef = FD61605D1BF2C80D00722593 /* fishhook.c */; };
 		FD242E731D14B73E00046221 /* GREYTestHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = FD242E711D14B73E00046221 /* GREYTestHelper.m */; };
 		FD242E811D14C24C00046221 /* GREYTestHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = FD242E701D14B73E00046221 /* GREYTestHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FD6D0B981C6D49400001EA75 /* GREYBaseAction.h in Headers */ = {isa = PBXBuildFile; fileRef = FD6D0B961C6D49400001EA75 /* GREYBaseAction.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FD6D0B991C6D49400001EA75 /* GREYBaseAction.m in Sources */ = {isa = PBXBuildFile; fileRef = FD6D0B971C6D49400001EA75 /* GREYBaseAction.m */; };
 		FD6D0BA21C6D494F0001EA75 /* GREYDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = FD6D0B9A1C6D494F0001EA75 /* GREYDescription.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FD6D0BA41C6D494F0001EA75 /* GREYHCMatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = FD6D0B9C1C6D494F0001EA75 /* GREYHCMatcher.m */; };
 		FD6D0BA51C6D494F0001EA75 /* GREYMatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = FD6D0B9D1C6D494F0001EA75 /* GREYMatcher.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FD6D0BA61C6D494F0001EA75 /* GREYNot.h in Headers */ = {isa = PBXBuildFile; fileRef = FD6D0B9E1C6D494F0001EA75 /* GREYNot.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FD6D0BA71C6D494F0001EA75 /* GREYNot.m in Sources */ = {isa = PBXBuildFile; fileRef = FD6D0B9F1C6D494F0001EA75 /* GREYNot.m */; };
@@ -381,12 +379,9 @@
 		FD61605B1BF2C7D100722593 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/IOKit.framework; sourceTree = DEVELOPER_DIR; };
 		FD61605D1BF2C80D00722593 /* fishhook.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = fishhook.c; path = fishhook/fishhook.c; sourceTree = "<group>"; };
 		FD61605E1BF2C80D00722593 /* fishhook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = fishhook.h; path = fishhook/fishhook.h; sourceTree = "<group>"; };
-		FD6160601BF2C97800722593 /* OCHamcrest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OCHamcrest.framework; sourceTree = "<group>"; };
 		FD6D0B961C6D49400001EA75 /* GREYBaseAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYBaseAction.h; sourceTree = "<group>"; };
 		FD6D0B971C6D49400001EA75 /* GREYBaseAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYBaseAction.m; sourceTree = "<group>"; };
 		FD6D0B9A1C6D494F0001EA75 /* GREYDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYDescription.h; sourceTree = "<group>"; };
-		FD6D0B9B1C6D494F0001EA75 /* GREYHCMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYHCMatcher.h; sourceTree = "<group>"; };
-		FD6D0B9C1C6D494F0001EA75 /* GREYHCMatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYHCMatcher.m; sourceTree = "<group>"; };
 		FD6D0B9D1C6D494F0001EA75 /* GREYMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYMatcher.h; sourceTree = "<group>"; };
 		FD6D0B9E1C6D494F0001EA75 /* GREYNot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYNot.h; sourceTree = "<group>"; };
 		FD6D0B9F1C6D494F0001EA75 /* GREYNot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYNot.m; sourceTree = "<group>"; };
@@ -405,7 +400,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				61CBDE801D4CD85200206BF7 /* CoreData.framework in Frameworks */,
-				FD10025B1C5B473400B2DB0A /* OCHamcrest.framework in Frameworks */,
 				FD10025A1C5B472C00B2DB0A /* IOKit.framework in Frameworks */,
 				FD1002581C5B471200B2DB0A /* CoreGraphics.framework in Frameworks */,
 				FD1002571C5B470A00B2DB0A /* CoreFoundation.framework in Frameworks */,
@@ -423,7 +417,6 @@
 			children = (
 				61CBDE7F1D4CD85200206BF7 /* CoreData.framework */,
 				FD1002591C5B472C00B2DB0A /* IOKit.framework */,
-				FD6160601BF2C97800722593 /* OCHamcrest.framework */,
 				FD61605B1BF2C7D100722593 /* IOKit.framework */,
 				FD06C6731BECADAD009032A5 /* UIKit.framework */,
 				FD06C6711BECADA1009032A5 /* QuartzCore.framework */,
@@ -665,8 +658,6 @@
 			isa = PBXGroup;
 			children = (
 				FD6D0B9A1C6D494F0001EA75 /* GREYDescription.h */,
-				FD6D0B9B1C6D494F0001EA75 /* GREYHCMatcher.h */,
-				FD6D0B9C1C6D494F0001EA75 /* GREYHCMatcher.m */,
 				FD6D0B9D1C6D494F0001EA75 /* GREYMatcher.h */,
 				FD6D0B9E1C6D494F0001EA75 /* GREYNot.h */,
 				FD6D0B9F1C6D494F0001EA75 /* GREYNot.m */,
@@ -991,7 +982,6 @@
 				FD1001D21C5B46C200B2DB0A /* CAAnimation+GREYAdditions.m in Sources */,
 				FD1001DE1C5B46C200B2DB0A /* NSString+GREYAdditions.m in Sources */,
 				FD1002491C5B46C200B2DB0A /* GREYNSTimerIdlingResource.m in Sources */,
-				FD6D0BA41C6D494F0001EA75 /* GREYHCMatcher.m in Sources */,
 				FD10021D1C5B46C200B2DB0A /* GREYNSURLConnectionDelegate.m in Sources */,
 				FD720C111CFF7E93007A0942 /* GREYRunLoopSpinner.m in Sources */,
 				FD1002301C5B46C200B2DB0A /* GREYAnyOf.m in Sources */,

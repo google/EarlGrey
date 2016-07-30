@@ -64,68 +64,6 @@ obtain_fishhook() {
   fi
 }
 
-# Download the OCHamcrest IOS framework and rename the files to
-# remove the 'IOS' moniker from it.
-obtain_ochamcrest() {
-  # Set the current release number for OCHamcrest.
-  readonly OCHAMCREST_VERSION="OCHamcrest-5.0.0"
-  # URL for OCHamcrest to be downloaded from.
-  readonly OCHAMCREST_URL="https://github.com/hamcrest/OCHamcrest/releases/download/v5.0.0/${OCHAMCREST_VERSION}.zip"
-
-  echo "Obtaining the OCHamcrest dependency."
-
-  # Check if the required OCHamcrest.framework exists or not.
-  if [ -d "${EARLGREY_DIR}/OCHamcrest.framework" ]; then
-    echo "The required OCHamcrest.framework directory already exists at"`
-      `" ${EARLGREY_DIR}/OCHamcrest.framework. If you experience issues with running"`
-      `" EarlGrey then please remove this directory and run this script"`
-      `" again."
-  else
-    # Download the OCHamcrestIOS framework into the EarlGrey/ directory.
-    run_command "There was an error downloading OCHamcrest."`
-      `" Please check if you are having problems with your connection."`
-      ` curl -LOk ${OCHAMCREST_URL}
-
-    if [ ! -f "${OCHAMCREST_VERSION}.zip" ]; then
-      echo "The required ${OCHAMCREST_VERSION} Framework was not cloned"`
-        `" correctly. Try downloading OCHamcrestIOS.framework to the EarlGrey"`
-        `" folder manually and then run ./rename-ochamcrestIOS.py" >&2
-      exit 1
-    fi
-
-    # Unzip the archive, and move the OCHamcrestIOS framework to the
-    # EarlGrey/ directory, deleting the zip archive in the process.
-    run_command "There was an issue while unzipping the OCHamcrest zip file. "`
-      `"Please ensure if it unzips manually since it might be corrupt."`
-      ` unzip ${OCHAMCREST_VERSION}.zip > /dev/null
-
-    mv ${OCHAMCREST_VERSION}/OCHamcrestIOS.framework/ .
-    rm -r ${OCHAMCREST_VERSION}*
-
-    # Ensure that the correct OCHamcrestIOS.framework is the only OCHamcrest
-    # file or directory present.
-    if [ -f "${OCHAMCREST_VERSION}.zip" ] \
-        || [ -d "${OCHAMCREST_VERSION}" ] \
-        || [ ! -d "OCHamcrestIOS.framework" ]; then
-      echo "There is an error in modifying the OCHamcrestIOS.framework file." >&2
-      exit 1
-    fi
-
-    # Run the rename-ochamcrestIOS.py file to set up the OCHamcrest.framework
-    # that we need.
-    echo "Renaming the OCHamcrestIOS framework for EarlGrey Dependencies."
-    ./rename-ochamcrestIOS.py
-
-    mv "OCHamcrest.framework/" "${EARLGREY_DIR}/."
-
-    if [[ $? != 0 ]]; then
-      echo "There was an issue in cleaning the OCHamcrestIOS as per"`
-        `" the EarlGrey specification." >&2
-      exit 1
-    fi
-  fi
-}
-
 # Download OCMock for the EarlGrey Unit Tests in the EarlGrey
 # Unit Tests directory as ocmock/.
 obtain_ocmock() {
@@ -199,7 +137,6 @@ echo "Changing into EarlGrey Directory"
 pushd "${EARLGREY_SCRIPT_DIR}" >> /dev/null
 
 obtain_fishhook
-obtain_ochamcrest
 obtain_ocmock
 
 echo "The EarlGrey Project and the Test Projects are ready to be run."
