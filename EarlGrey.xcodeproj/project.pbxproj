@@ -10,6 +10,11 @@
 		59A993281C99453200914F9A /* EarlGrey.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001791C5B46C200B2DB0A /* EarlGrey.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		61156A511D1B2AC1000013C7 /* UIGestureRecognizer+GREYAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 61156A4F1D1B2AC1000013C7 /* UIGestureRecognizer+GREYAdditions.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		61156A521D1B2AC1000013C7 /* UIGestureRecognizer+GREYAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 61156A501D1B2AC1000013C7 /* UIGestureRecognizer+GREYAdditions.m */; };
+		611BF1671D4CD292001D9E46 /* GREYDispatchQueueTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = 611BF1651D4CD292001D9E46 /* GREYDispatchQueueTracker.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		611BF1681D4CD292001D9E46 /* GREYDispatchQueueTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 611BF1661D4CD292001D9E46 /* GREYDispatchQueueTracker.m */; };
+		611BF16B1D4CD705001D9E46 /* GREYManagedObjectContextIdlingResource.h in Headers */ = {isa = PBXBuildFile; fileRef = 611BF1691D4CD705001D9E46 /* GREYManagedObjectContextIdlingResource.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		611BF16C1D4CD705001D9E46 /* GREYManagedObjectContextIdlingResource.m in Sources */ = {isa = PBXBuildFile; fileRef = 611BF16A1D4CD705001D9E46 /* GREYManagedObjectContextIdlingResource.m */; };
+		61CBDE801D4CD85200206BF7 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CBDE7F1D4CD85200206BF7 /* CoreData.framework */; };
 		61FC0A071CD939C30081BDAA /* GREYAutomationSetup.h in Headers */ = {isa = PBXBuildFile; fileRef = 61FC0A051CD939C30081BDAA /* GREYAutomationSetup.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		61FC0A081CD939C30081BDAA /* GREYAutomationSetup.m in Sources */ = {isa = PBXBuildFile; fileRef = 61FC0A061CD939C30081BDAA /* GREYAutomationSetup.m */; };
 		FD1001B01C5B46C200B2DB0A /* GREYAction.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001011C5B46C100B2DB0A /* GREYAction.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -187,6 +192,11 @@
 /* Begin PBXFileReference section */
 		61156A4F1D1B2AC1000013C7 /* UIGestureRecognizer+GREYAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIGestureRecognizer+GREYAdditions.h"; sourceTree = "<group>"; };
 		61156A501D1B2AC1000013C7 /* UIGestureRecognizer+GREYAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIGestureRecognizer+GREYAdditions.m"; sourceTree = "<group>"; };
+		611BF1651D4CD292001D9E46 /* GREYDispatchQueueTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYDispatchQueueTracker.h; sourceTree = "<group>"; };
+		611BF1661D4CD292001D9E46 /* GREYDispatchQueueTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYDispatchQueueTracker.m; sourceTree = "<group>"; };
+		611BF1691D4CD705001D9E46 /* GREYManagedObjectContextIdlingResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYManagedObjectContextIdlingResource.h; sourceTree = "<group>"; };
+		611BF16A1D4CD705001D9E46 /* GREYManagedObjectContextIdlingResource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYManagedObjectContextIdlingResource.m; sourceTree = "<group>"; };
+		61CBDE7F1D4CD85200206BF7 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		61FC0A051CD939C30081BDAA /* GREYAutomationSetup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYAutomationSetup.h; sourceTree = "<group>"; };
 		61FC0A061CD939C30081BDAA /* GREYAutomationSetup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYAutomationSetup.m; sourceTree = "<group>"; };
 		FD06C66B1BECAD8B009032A5 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
@@ -381,6 +391,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				61CBDE801D4CD85200206BF7 /* CoreData.framework in Frameworks */,
 				FD10025B1C5B473400B2DB0A /* OCHamcrest.framework in Frameworks */,
 				FD10025A1C5B472C00B2DB0A /* IOKit.framework in Frameworks */,
 				FD1002581C5B471200B2DB0A /* CoreGraphics.framework in Frameworks */,
@@ -397,6 +408,7 @@
 		FD06C6751BECAE6A009032A5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				61CBDE7F1D4CD85200206BF7 /* CoreData.framework */,
 				FD1002591C5B472C00B2DB0A /* IOKit.framework */,
 				FD6160601BF2C97800722593 /* OCHamcrest.framework */,
 				FD61605B1BF2C7D100722593 /* IOKit.framework */,
@@ -686,6 +698,10 @@
 				FD1001A11C5B46C200B2DB0A /* GREYCondition.m */,
 				FD1001A21C5B46C200B2DB0A /* GREYDispatchQueueIdlingResource.h */,
 				FD1001A31C5B46C200B2DB0A /* GREYDispatchQueueIdlingResource.m */,
+				611BF1651D4CD292001D9E46 /* GREYDispatchQueueTracker.h */,
+				611BF1661D4CD292001D9E46 /* GREYDispatchQueueTracker.m */,
+				611BF1691D4CD705001D9E46 /* GREYManagedObjectContextIdlingResource.h */,
+				611BF16A1D4CD705001D9E46 /* GREYManagedObjectContextIdlingResource.m */,
 				FD1001A41C5B46C200B2DB0A /* GREYNSTimerIdlingResource.h */,
 				FD1001A51C5B46C200B2DB0A /* GREYNSTimerIdlingResource.m */,
 				FD1001A61C5B46C200B2DB0A /* GREYOperationQueueIdlingResource.h */,
@@ -781,6 +797,7 @@
 				FD1002481C5B46C200B2DB0A /* GREYNSTimerIdlingResource.h in Headers */,
 				FD1002371C5B46C200B2DB0A /* GREYMatchers.h in Headers */,
 				FD1002121C5B46C200B2DB0A /* GREYElementFinder.h in Headers */,
+				611BF16B1D4CD705001D9E46 /* GREYManagedObjectContextIdlingResource.h in Headers */,
 				FD1002161C5B46C200B2DB0A /* GREYInteraction.h in Headers */,
 				FD720C101CFF7E93007A0942 /* GREYRunLoopSpinner.h in Headers */,
 				FD94FDB71D0F68180021F107 /* GREYWeakObjectContainer.h in Headers */,
@@ -796,6 +813,7 @@
 				FD1002101C5B46C200B2DB0A /* GREYVisibilityChecker.h in Headers */,
 				FD1001D31C5B46C200B2DB0A /* CALayer+GREYAdditions.h in Headers */,
 				FD10021C1C5B46C200B2DB0A /* GREYNSURLConnectionDelegate.h in Headers */,
+				611BF1671D4CD292001D9E46 /* GREYDispatchQueueTracker.h in Headers */,
 				FD1001CF1C5B46C200B2DB0A /* _UIModalItemsPresentingViewController_GREYAdditions.h in Headers */,
 				FD1001CB1C5B46C200B2DB0A /* __NSCFLocalDataTask_GREYAdditions.h in Headers */,
 				FD1001EB1C5B46C200B2DB0A /* UISwitch+GREYAdditions.h in Headers */,
@@ -929,9 +947,11 @@
 				FD1002471C5B46C200B2DB0A /* GREYDispatchQueueIdlingResource.m in Sources */,
 				FD1001D81C5B46C200B2DB0A /* NSError+GREYAdditions.m in Sources */,
 				FD1002231C5B46C200B2DB0A /* EarlGrey.m in Sources */,
+				611BF16C1D4CD705001D9E46 /* GREYManagedObjectContextIdlingResource.m in Sources */,
 				FD1002271C5B46C200B2DB0A /* GREYSyntheticEvents.m in Sources */,
 				FD1002341C5B46C200B2DB0A /* GREYElementMatcherBlock.m in Sources */,
 				FD1001DC1C5B46C200B2DB0A /* NSRunLoop+GREYAdditions.m in Sources */,
+				611BF1681D4CD292001D9E46 /* GREYDispatchQueueTracker.m in Sources */,
 				61FC0A081CD939C30081BDAA /* GREYAutomationSetup.m in Sources */,
 				FD1002251C5B46C200B2DB0A /* GREYSingleSequenceTouchInjector.m in Sources */,
 				FD1001EA1C5B46C200B2DB0A /* UIScrollView+GREYAdditions.m in Sources */,
