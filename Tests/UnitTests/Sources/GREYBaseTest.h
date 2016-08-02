@@ -18,8 +18,6 @@
 #import <EarlGrey/GREYPrivate.h>
 #import <XCTest/XCTest.h>
 
-#import "GREYExposedForTesting.h"
-
 #define OCMOCK_STRUCT(atype, variable) \
   [NSValue valueWithBytes:&variable objCType:@encode(atype)]
 

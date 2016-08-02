@@ -17,6 +17,7 @@
 #import <EarlGrey/GREYAppStateTracker.h>
 
 #import "GREYBaseTest.h"
+#import "GREYExposedForTesting.h"
 
 @interface GREYAppStateTrackerTest : GREYBaseTest
 

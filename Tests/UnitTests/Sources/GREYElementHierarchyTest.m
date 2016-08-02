@@ -19,6 +19,7 @@
 #import <OCMock/OCMock.h>
 
 #import "GREYBaseTest.h"
+#import "GREYExposedForTesting.h"
 
 const CGRect kTestRect = { { 0.0f, 0.0f }, { 10.0f, 10.0f } };
 

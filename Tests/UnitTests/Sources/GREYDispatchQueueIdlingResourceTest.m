@@ -18,6 +18,7 @@
 #import <EarlGrey/GREYDispatchQueueIdlingResource.h>
 
 #import "GREYBaseTest.h"
+#import "GREYExposedForTesting.h"
 
 static const NSTimeInterval kSemaphoreTimeoutSeconds = 0.1;
 

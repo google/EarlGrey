@@ -20,6 +20,7 @@
 #import <OCMock/OCMock.h>
 
 #import "GREYBaseTest.h"
+#import "GREYExposedForTesting.h"
 
 extern const NSUInteger kMinimumPointsVisibleForInteraction;
 

@@ -17,6 +17,7 @@
 #import <EarlGrey/GREYOperationQueueIdlingResource.h>
 
 #import "GREYBaseTest.h"
+#import "GREYExposedForTesting.h"
 
 @interface GREYOperationQueueIdlingResourceTest : GREYBaseTest
 @end
