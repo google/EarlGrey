@@ -456,39 +456,27 @@
   NSString *actionName =
       [NSString stringWithFormat:@"Test type \"%@\" at position %ld", text, (long)position];
   return [GREYActionBlock actionWithName:actionName
-                             constraints:grey_not(grey_systemAlertViewShown())
+                             constraints:grey_conformsToProtocol(@protocol(UITextInput))
                             performBlock:^BOOL (id element, __strong NSError **errorOrNil) {
-      if ([element conformsToProtocol:@protocol(UITextInput)]) {
-        UITextPosition *textPosition;
-        if (position >= 0) {
-          textPosition = [element positionFromPosition:[element beginningOfDocument]
-                                                offset:position];
-          if (!textPosition) {
-            // Text position will be nil if the computed text position is greater than the length
-            // of the backing string or less than zero. Since position is positive, the computed
-            // value was past the end of the text field.
-            textPosition = [element endOfDocument];
-          }
-        } else {
-          // Position is negative. -1 should map to the end of the text field.
-          textPosition = [element positionFromPosition:[element endOfDocument]
-                                                offset:position + 1];
-          if (!textPosition) {
-            // Since position is positive, the computed value was past beginning of the text field.
-            textPosition = [element beginningOfDocument];
-          }
+      UITextPosition *textPosition;
+      if (position >= 0) {
+        textPosition = [element positionFromPosition:[element beginningOfDocument] offset:position];
+        if (!textPosition) {
+          // Text position will be nil if the computed text position is greater than the length
+          // of the backing string or less than zero. Since position is positive, the computed value
+          // was past the end of the text field.
+          textPosition = [element endOfDocument];
         }
-        return [[GREYActions grey_actionForTypeText:text atUITextPosition:textPosition]
-                   perform:element error:errorOrNil];
       } else {
-        NSString *description = @"Position provided, but the element %@ does not conform to the "
-                                @"UITextInput protocol.";
-        [NSError grey_logOrSetOutReferenceIfNonNil:errorOrNil
-                                        withDomain:kGREYInteractionErrorDomain
-                                              code:kGREYInteractionActionFailedErrorCode
-                              andDescriptionFormat:description, element];
-        return NO;
+        // Position is negative. -1 should map to the end of the text field.
+        textPosition = [element positionFromPosition:[element endOfDocument] offset:position + 1];
+        if (!textPosition) {
+          // Since position is positive, the computed value was past beginning of the text field.
+          textPosition = [element beginningOfDocument];
+        }
       }
+      return [[GREYActions grey_actionForTypeText:text atUITextPosition:textPosition]
+                 perform:element error:errorOrNil];
   }];
 }
 
