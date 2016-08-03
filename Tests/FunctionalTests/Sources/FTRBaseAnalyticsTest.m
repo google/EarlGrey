@@ -16,7 +16,10 @@
 
 #import "FTRBaseAnalyticsTest.h"
 
+#import <EarlGrey/EarlGrey.h>
+
 // Not included in public headers.
+#import <EarlGrey/GREYAnalytics.h>
 #import <EarlGrey/GREYAppStateTracker.h>
 #import "FTRNetworkProxy.h"
 
@@ -26,11 +29,24 @@
  */
 static id gOriginalAnalyticsSetting;
 
+/**
+ *  Holds the original analytics delegate that was present before the test began. We use this to
+ *  restore analytics delegate when done testing.
+ */
+static id gOriginalAnalyticsDelegate;
+
+/**
+ *  Holds the proxy's original enabled status.
+ */
+static BOOL gOriginalProxyIsEnabled;
+
 @implementation FTRBaseAnalyticsTest
 
 + (void)setUp {
   [super setUp];
   // Setup proxy to capture all HTTP requests during the test.
+  gOriginalProxyIsEnabled = [FTRNetworkProxy ftr_isProxyEnabled];
+  [FTRNetworkProxy ftr_setProxyEnabled:YES];
   [FTRNetworkProxy ftr_addProxyRuleForUrlsMatchingRegexString:@".*" responseString:@"OK"];
   // Save the analytics config value so that tests can modify it.
   gOriginalAnalyticsSetting = GREY_CONFIG(kGREYConfigKeyAnalyticsEnabled);
@@ -38,6 +54,11 @@ static id gOriginalAnalyticsSetting;
   // Always start analytics tests with clean network actvity.
   [self ftr_waitForNetworkActivityToFinish];
   [FTRNetworkProxy ftr_clearRequestsReceived];
+
+  // Reset Analytics delegate to its default for Analytics requests to be sent regardless of
+  // test environment.
+  gOriginalAnalyticsDelegate = [GREYAnalytics delegate];
+  [GREYAnalytics setDelegate:nil];
 }
 
 + (void)tearDown {
@@ -45,6 +66,8 @@ static id gOriginalAnalyticsSetting;
   [[GREYConfiguration sharedInstance] setValue:gOriginalAnalyticsSetting
                                   forConfigKey:kGREYConfigKeyAnalyticsEnabled];
   [FTRNetworkProxy ftr_removeMostRecentProxyRuleMatchingUrlRegexString:@".*"];
+  [GREYAnalytics setDelegate:gOriginalAnalyticsDelegate];
+  [FTRNetworkProxy ftr_setProxyEnabled:gOriginalProxyIsEnabled];
   [super tearDown];
 }
 

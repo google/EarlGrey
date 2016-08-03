@@ -57,6 +57,12 @@ static NSString *const kFTRNetworkProxyErrorDomain =
   }
 }
 
++ (BOOL)ftr_isProxyEnabled {
+  @synchronized(self) {
+    return gFTRProxyEnabled;
+  }
+}
+
 + (void)ftr_addProxyRuleForUrlsMatchingRegexString:(NSString *)regexString
                                     responseString:(NSString *)data {
   @synchronized(self) {
