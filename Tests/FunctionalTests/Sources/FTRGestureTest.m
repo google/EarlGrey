@@ -159,22 +159,27 @@
 - (void)testSwipeWithLocationForAllDirections {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
       performAction:grey_swipeFastInDirectionWithStartPoint(kGREYDirectionUp, 0.25, 0.25)];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"swipe up startX:70.0 startY:70.0")]
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"swipe up")]
+      assertWithMatcher:grey_sufficientlyVisible()];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"x:70.0 - y:70.0")]
       assertWithMatcher:grey_sufficientlyVisible()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
       performAction:grey_swipeFastInDirectionWithStartPoint(kGREYDirectionDown, 0.75, 0.75)];
-  [[EarlGrey selectElementWithMatcher:
-      grey_accessibilityLabel(@"swipe down startX:210.0 startY:210.0")]
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"swipe down")]
+      assertWithMatcher:grey_sufficientlyVisible()];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"x:210.0 - y:210.0")]
       assertWithMatcher:grey_sufficientlyVisible()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
       performAction:grey_swipeFastInDirectionWithStartPoint(kGREYDirectionLeft, 0.875, 0.5)];
-  [[EarlGrey selectElementWithMatcher:
-      grey_accessibilityLabel(@"swipe left startX:245.0 startY:140.0")]
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"swipe left")]
+      assertWithMatcher:grey_sufficientlyVisible()];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"x:245.0 - y:140.0")]
       assertWithMatcher:grey_sufficientlyVisible()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
       performAction:grey_swipeFastInDirectionWithStartPoint(kGREYDirectionRight, 0.125, 0.75)];
-  [[EarlGrey selectElementWithMatcher:
-      grey_accessibilityLabel(@"swipe right startX:35.0 startY:210.0")]
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"swipe right")]
+      assertWithMatcher:grey_sufficientlyVisible()];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"x:35.0 - y:210.0")]
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
@@ -185,34 +190,20 @@
 - (void)ftr_assertSwipeWorksInAllDirections {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
       performAction:grey_swipeFastInDirection(kGREYDirectionUp)];
-  [self ftr_assertGestureRecognized:@"swipe up"];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"gesture")]
+      assertWithMatcher:grey_text(@"swipe up")];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
       performAction:grey_swipeSlowInDirection(kGREYDirectionDown)];
-  [self ftr_assertGestureRecognized:@"swipe down"];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"gesture")]
+      assertWithMatcher:grey_text(@"swipe down")];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
       performAction:grey_swipeFastInDirection(kGREYDirectionLeft)];
-  [self ftr_assertGestureRecognized:@"swipe left"];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"gesture")]
+      assertWithMatcher:grey_text(@"swipe left")];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
       performAction:grey_swipeSlowInDirection(kGREYDirectionRight)];
-  [self ftr_assertGestureRecognized:@"swipe right"];
-}
-
-// Asserts that the given gesture has been recognised regardless of the gesture's start point.
-- (void)ftr_assertGestureRecognized:(NSString *)gesture {
-  MatchesBlock gestureMatcherBlock = ^BOOL (id element) {
-    NSString *text = [(UILabel *)element text];
-    GREYAssert([text hasPrefix:gesture], @"Gesture prefix '%@' not found in '%@'.", gesture, text);
-    return YES;
-  };
-  DescribeToBlock gestureMatcherDescriptionBlock = ^(id<GREYDescription> description) {
-    [description appendText:@"Gesture Matcher"];
-  };
-  GREYElementMatcherBlock *gestureElementMatcher =
-      [[GREYElementMatcherBlock alloc] initWithMatchesBlock:gestureMatcherBlock
-                                           descriptionBlock:gestureMatcherDescriptionBlock];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"gesture")]
-      assertWithMatcher:gestureElementMatcher];
+      assertWithMatcher:grey_text(@"swipe right")];
 }
 
 @end
-

@@ -108,16 +108,11 @@
 }
 
 - (IBAction)recognizeSwipe:(UISwipeGestureRecognizer *)recognizer {
-  NSString *directionString =
-      [FTRGestureViewController stringFromSwipeDirection:recognizer.direction];
-
-  CGPoint startPoint = [recognizer locationInView:self.greyBox];
-
-  self.detectedGesture.text = [NSString stringWithFormat:@"%@swipe %@ startX:%.1f startY:%.1f",
+  self.detectedGesture.text = [NSString stringWithFormat:@"%@swipe %@",
       [FTRGestureViewController stringForFingerCount:recognizer.numberOfTouchesRequired],
-      directionString,
-      startPoint.x,
-      startPoint.y];
+      [FTRGestureViewController stringFromSwipeDirection:recognizer.direction]];
+  self.detectedGestureCoordinate.text =
+      [FTRGestureViewController stringForPoint:[recognizer locationInView:self.greyBox]];
 }
 
 - (IBAction)recognizeWindowSwipe:(UISwipeGestureRecognizer *)recognizer {
