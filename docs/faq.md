@@ -40,7 +40,7 @@ following:
 
 
 ```objc
-// Objective C
+// Objective-C
 - (void)testInvokeCustomSelectorOnElement {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"id_of_element")]
       performAction:[GREYActionBlock actionWithName:@"Invoke clearStateForTest selector"
@@ -81,7 +81,7 @@ If you are unsure whether the element exists in the UI hierarchy, pass an `NSErr
 interaction and check if the error domain and code indicate that the element wasn’t found:
 
 ```objc
-// Objective C
+// Objective-C
 NSError *error;
 [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"Foo")]
     assertWithMatcher:grey_notNil() error:&error];
@@ -99,7 +99,7 @@ wait for the main screen’s view controller. Here’s an example:
 
 
 ```objc
-// Objective C
+// Objective-C
 - (void)setUp {
   [super setUp];
 
@@ -154,7 +154,7 @@ GREYConfiguration.sharedInstance().setValue(kMaxAnimationInterval, forConfigKey:
 ```
 
 ```objc
-// Objective C
+// Objectiv- C
 [[GREYConfiguration sharedInstance] setValue:@(kMaxAnimationInterval)
                                 forConfigKey:kGREYConfigKeyCALayerMaxAnimationDuration];
 ```
@@ -174,7 +174,7 @@ If the above doesn't help, you can temporarily disable synchronization to work a
 and then turn it back on after the animation is gone.
 
 ```objc
-// Objective C
+// Objective-C
 [[GREYConfiguration sharedInstance] setValue:@NO
                                 forConfigKey:kGREYConfigKeySynchronizationEnabled];
 ```
@@ -217,11 +217,11 @@ class MyTests: XCTestCase {
 ```
 
 
-Objective C:
+Objective-C:
 In the EarlGrey test target, import the application's app delegate header. In `setUp()` acquire a pointer to the delegate then invoke `resetApplicationForTesting()`.
 
 ```objc
-// Objective C
+// Objective-C
 #import "MyAppDelegate.h"
 
 @interface MyTests : XCTestCase
@@ -261,7 +261,7 @@ grey_allOfMatchers(grey_accessibilityID("Foo"),
 ```
 
 ```objc
-// Objective C
+// Objective-C
 grey_allOf(grey_accessibilityID(@"Foo"),
            grey_sufficientlyVisible(),
            nil);
@@ -277,7 +277,7 @@ grey_allOfMatchers(grey_sufficientlyVisible(),
 ```
 
 ```objc
-// Objective C
+// Objective-C
 grey_allOf(grey_sufficientlyVisible(),
            grey_accessibilityID(@"Foo"),
            nil);
@@ -298,7 +298,7 @@ Breakpoint in any test, then paste the following into Xcode's lldb debug window:
 Creating a [build configuration](https://developer.apple.com/library/ios/documentation/Swift/Conceptual/BuildingCocoaApps/InteractingWithCAPIs.html#//apple_ref/doc/uid/TP40014216-CH8-ID34) for EarlGrey will allow compilation:
 
 ```objc
-// Objective C
+// Objective-C
 #if EARLGREY_ENV
 ...
 #else
@@ -332,7 +332,7 @@ EarlGrey.selectElementWithMatcher(matcher)
 ```
 
 ```objc
-// Objective C
+// Objective-C
 [[EarlGrey selectElementWithMatcher:matcher]
                   usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 200)
                onElementWithMatcher:grey_kindOfClass([UITableView class])
@@ -416,7 +416,7 @@ EarlGrey().selectElementWithMatcher(grey_accessibilityLabel("label"))
 You need to change kGREYConfigKeyScreenshotDirLocation in GREYConfiguration to change the location.
 
 ```objc
-// Objective C
+// Objective-C
 [[GREYConfiguration sharedInstance] setValue:@"screenshot_dir_path"
                                 forConfigKey:kGREYConfigKeyScreenshotDirLocation];
 ```
