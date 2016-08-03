@@ -201,7 +201,7 @@ GREY_EXTERN id<GREYFailureHandler> greyFailureHandler;
     I_GREYFormattedString(details__, __details, ##__VA_ARGS__); \
     [greyFailureHandler handleException:[GREYFrameworkException exceptionWithName:__exceptionName \
                                                                            reason:__description] \
-                              details:details__]; \
+                                details:details__]; \
   } while (NO)
 
 // No private macro should call this.

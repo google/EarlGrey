@@ -20,6 +20,11 @@
 @interface FTRNetworkProxy : NSURLProtocol
 
 /**
+ *  @return @c YES if proxy is enabled, @c NO otherwise.
+ */
++ (BOOL)ftr_isProxyEnabled;
+
+/**
  *  Enables (if @c enabled is @c YES) or disables the proxy.
  *
  *  @param enabled A BOOL specifing whether to enable or disable the proxy.

@@ -305,6 +305,7 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
 /**
  *  Creates a new directory under the specified @c path. If a directory already exists under the
  *  same path, it will be removed and a new, empty dir with the same name will be created.
+ *  Intermediate directories are created automatically.
  *
  *  @param      path     The path where a new directory is to be created.
  *  @param[out] outError A reference to receive errors that may have occured during the execution of
