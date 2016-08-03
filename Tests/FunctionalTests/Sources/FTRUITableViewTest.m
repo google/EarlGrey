@@ -62,12 +62,10 @@
   // Scroll down.
   [[self ftr_scrollToCellAtIndex:20 byScrollingInAmounts:200 InDirection:kGREYDirectionDown]
       assertWithMatcher:grey_notNil()];
-  // Scroll to top.
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"main_table_view")]
-      performAction:grey_scrollToContentEdge(kGREYContentEdgeTop)];
-  // And verify that we are at the top.
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"main_table_view")]
-      assertWithMatcher:[self ftr_matcherForScrolledToTop]];
+  // Scroll to top and verify that we are at the top.
+  [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"main_table_view")]
+      performAction:grey_scrollToContentEdge(kGREYContentEdgeTop)]
+      assertWithMatcher:grey_scrolledToContentEdge(kGREYContentEdgeTop)];
 }
 
 - (void)testScrollToTopWithPositiveInsets {
@@ -79,12 +77,10 @@
   // Scroll down.
   [[self ftr_scrollToCellAtIndex:20 byScrollingInAmounts:200 InDirection:kGREYDirectionDown]
       assertWithMatcher:grey_notNil()];
-  // Scroll to top.
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"main_table_view")]
-      performAction:grey_scrollToContentEdge(kGREYContentEdgeTop)];
-  // And verify that we are at the top.
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"main_table_view")]
-      assertWithMatcher:[self ftr_matcherForScrolledToTop]];
+  // Scroll to top and verify that we are at the top.
+  [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"main_table_view")]
+      performAction:grey_scrollToContentEdge(kGREYContentEdgeTop)]
+      assertWithMatcher:grey_scrolledToContentEdge(kGREYContentEdgeTop)];
 }
 
 - (void)testScrollToTopWithNegativeInsets {
@@ -96,12 +92,10 @@
   // Scroll down.
   [[self ftr_scrollToCellAtIndex:20 byScrollingInAmounts:200 InDirection:kGREYDirectionDown]
       assertWithMatcher:grey_notNil()];
-  // Scroll to top.
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"main_table_view")]
-      performAction:grey_scrollToContentEdge(kGREYContentEdgeTop)];
-  // And verify that we are at the top.
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"main_table_view")]
-      assertWithMatcher:[self ftr_matcherForScrolledToTop]];
+  // Scroll to top and verify that we are at the top.
+  [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"main_table_view")]
+      performAction:grey_scrollToContentEdge(kGREYContentEdgeTop)]
+      assertWithMatcher:grey_scrolledToContentEdge(kGREYContentEdgeTop)];
 }
 
 - (void)testScrollToTopWhenAlreadyAtTheTopWithoutBounce {
@@ -207,18 +201,6 @@
   return [[EarlGrey selectElementWithMatcher:matcher]
                 usingSearchAction:grey_scrollInDirection(direction, amount)
              onElementWithMatcher:grey_kindOfClass([UITableView class])];
-}
-
-- (GREYElementMatcherBlock *)ftr_matcherForScrolledToTop {
-  BOOL (^isScrolledToTop)(id) = ^BOOL(id element) {
-    CGPoint contentOffset = [(UIScrollView *)element contentOffset];
-    UIEdgeInsets contentInset = [(UIScrollView *)element contentInset];
-    return contentOffset.x + contentInset.left == 0 && contentOffset.y + contentInset.top == 0;
-  };
-  return [GREYElementMatcherBlock matcherWithMatchesBlock:isScrolledToTop
-                                         descriptionBlock:^(id<GREYDescription> description) {
-    [description appendText:@"ftr_matcherForScrolledToTop"];
-  }];
 }
 
 @end

@@ -406,6 +406,15 @@
  */
 + (id<GREYMatcher>)matcherForElementAtIndex:(NSUInteger)index;
 
+/**
+ *  Matcher that matches a UIScrollView scrolled to content @c edge.
+ *
+ *  @param edge The content edge UIScrollView should be scrolled to.
+ *
+ *  @return A matcher that matches a UIScrollView scrolled to content @c edge.
+ */
++ (id<GREYMatcher>)matcherForScrolledToContentEdge:(GREYContentEdge)edge;
+
 @end
 
 #if !(GREY_DISABLE_SHORTHAND)
@@ -524,5 +533,8 @@ GREY_EXPORT id<GREYMatcher> grey_greaterThan(id value);
 
 /** Shorthand for GREYMatchers::matcherForElementAtIndex:. */
 GREY_EXPORT id<GREYMatcher> grey_elementAtIndex(NSUInteger index);
+
+/** Shorthand for GREYMatchers::matcherForScrolledToContentEdge:. */
+GREY_EXPORT id<GREYMatcher> grey_scrolledToContentEdge(GREYContentEdge edge);
 
 #endif // GREY_DISABLE_SHORTHAND

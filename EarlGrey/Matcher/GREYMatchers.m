@@ -571,6 +571,33 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
   return [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe];
 }
 
++ (id<GREYMatcher>)matcherForScrolledToContentEdge:(GREYContentEdge)edge {
+  MatchesBlock matches = ^BOOL(UIScrollView *scrollView) {
+    CGPoint contentOffset = [scrollView contentOffset];
+    UIEdgeInsets contentInset = [scrollView contentInset];
+    CGSize contentSize = [scrollView contentSize];
+    CGRect frame = [scrollView frame];
+    switch (edge) {
+      case kGREYContentEdgeTop:
+        return contentOffset.y + contentInset.top == 0;
+      case kGREYContentEdgeBottom:
+        return contentInset.bottom + contentSize.height - frame.size.height - contentOffset.y == 0;
+      case kGREYContentEdgeLeft:
+        return contentOffset.x + contentInset.left == 0;
+      case kGREYContentEdgeRight:
+        return contentInset.right + contentSize.width - frame.size.width - contentOffset.x == 0;
+    }
+  };
+  DescribeToBlock describe = ^(id description) {
+    [description appendText:[NSString stringWithFormat:@"scrolledToContentEdge(%@)",
+                                                       NSStringFromGREYContentEdge(edge)]];
+  };
+  return grey_allOf(grey_kindOfClass([UIScrollView class]),
+                    [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches
+                                                         descriptionBlock:describe],
+                    nil);
+}
+
 #pragma mark - Private Methods
 
 /**
@@ -762,6 +789,10 @@ id<GREYMatcher> grey_greaterThan(id value) {
 
 id<GREYMatcher> grey_elementAtIndex(NSUInteger index) {
   return [GREYMatchers matcherForElementAtIndex:index];
+}
+
+id<GREYMatcher> grey_scrolledToContentEdge(GREYContentEdge edge) {
+  return [GREYMatchers matcherForScrolledToContentEdge:edge];
 }
 
 #endif // GREY_DISABLE_SHORTHAND
