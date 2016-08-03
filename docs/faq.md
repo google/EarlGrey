@@ -40,6 +40,7 @@ following:
 
 
 ```objc
+// Objective C
 - (void)testInvokeCustomSelectorOnElement {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"id_of_element")]
       performAction:[GREYActionBlock actionWithName:@"Invoke clearStateForTest selector"
@@ -80,6 +81,7 @@ If you are unsure whether the element exists in the UI hierarchy, pass an `NSErr
 interaction and check if the error domain and code indicate that the element wasn’t found:
 
 ```objc
+// Objective C
 NSError *error;
 [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"Foo")]
     assertWithMatcher:grey_notNil() error:&error];
@@ -97,6 +99,7 @@ wait for the main screen’s view controller. Here’s an example:
 
 
 ```objc
+// Objective C
 - (void)setUp {
   [super setUp];
 
@@ -145,13 +148,13 @@ Verify that *EarlGrey.framework* is embedded in the app under test bundle. Build
 By default, [EarlGrey truncates CALayer based animations](../EarlGrey/Common/GREYConfiguration.h#L108) that exceed a threshold. The max animation duration setting is configurable:
 
 ```swift
-// swift
+// Swift
 let kMaxAnimationInterval:CFTimeInterval = 5.0
 GREYConfiguration.sharedInstance().setValue(kMaxAnimationInterval, forConfigKey: kGREYConfigKeyCALayerMaxAnimationDuration)
 ```
 
 ```objc
-// objc
+// Objective C
 [[GREYConfiguration sharedInstance] setValue:@(kMaxAnimationInterval)
                                 forConfigKey:kGREYConfigKeyCALayerMaxAnimationDuration];
 ```
@@ -163,6 +166,7 @@ Note that the speedup doesn't work on `UIScrollView` because it animates via `CA
 Refer to the [PSPDFKit blog post for more details.](https://pspdfkit.com/blog/2016/running-ui-tests-with-ludicrous-speed/)
 
 ```swift
+// Swift
 UIApplication.sharedApplication().keyWindow?.layer.speed = 100
 ```
 
@@ -199,7 +203,7 @@ Swift:
 In the EarlGrey test target, import the application using `@testable`. In `setUp()`, acquire a reference to the delegate then invoke `resetApplicationForTesting()`.
 
 ```swift
-// swift
+// Swift
 @testable import App
 
 class MyTests: XCTestCase {
@@ -238,6 +242,7 @@ In the EarlGrey test target, import the application's app delegate header. In `s
 Use `NSClassFromString` to match on internal classes that can't be referenced directly.
 
 ```swift
+// Swift
 grey_kindOfClass(NSClassFromString("_UIAlertControllerView"))
 ```
 
@@ -293,6 +298,7 @@ Breakpoint in any test, then paste the following into Xcode's lldb debug window:
 Creating a [build configuration](https://developer.apple.com/library/ios/documentation/Swift/Conceptual/BuildingCocoaApps/InteractingWithCAPIs.html#//apple_ref/doc/uid/TP40014216-CH8-ID34) for EarlGrey will allow compilation:
 
 ```objc
+// Objective C
 #if EARLGREY_ENV
 ...
 #else
@@ -340,6 +346,7 @@ for elements to appear. As a work around for when that's not possible, `GREYCond
 are available. The following is an example of waiting for a collection view to populate.
 
 ```swift
+// Swift
 let populated = GREYCondition(name: "Wait for UICollectionView to populate", block: { _ in
     var errorOrNil: NSError?
 
@@ -388,7 +395,8 @@ You need to create a new object of type `GREYActionBlock` and call pass it to `p
 take a look at [checkHiddenBlock](../Tests/FunctionalTests/Sources/FTRSwiftTests.swift#L65) in our Functional
 Test App's Swift Tests, which creates it as:
 
-```
+```swift
+// Swift
 let checkHiddenBlock:GREYActionBlock =
     GREYActionBlock.actionWithName("checkHiddenBlock", performBlock: { element, errorOrNil in
                                    // Check if the found element is hidden or not.
@@ -407,7 +415,8 @@ EarlGrey().selectElementWithMatcher(grey_accessibilityLabel("label"))
 
 You need to change kGREYConfigKeyScreenshotDirLocation in GREYConfiguration to change the location.
 
-```
+```objc
+// Objective C
 [[GREYConfiguration sharedInstance] setValue:@"screenshot_dir_path"
                                 forConfigKey:kGREYConfigKeyScreenshotDirLocation];
 ```
