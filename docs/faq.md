@@ -154,7 +154,7 @@ GREYConfiguration.sharedInstance().setValue(kMaxAnimationInterval, forConfigKey:
 ```
 
 ```objc
-// Objectiv- C
+// Objective- C
 [[GREYConfiguration sharedInstance] setValue:@(kMaxAnimationInterval)
                                 forConfigKey:kGREYConfigKeyCALayerMaxAnimationDuration];
 ```
