@@ -65,9 +65,18 @@ static const NSTimeInterval kSemaphoreTimeoutSeconds = 0.1;
       grey_isTrackingIdlingResource:dispatchQueueIdlingResource]);
 
   dispatch_semaphore_signal(semaphore);
-  [self waitForExpectationsWithTimeout:5.0 handler:nil];
+  [self waitForExpectationsWithTimeout:1.0 handler:nil];
 
-  XCTAssertTrue([dispatchQueueIdlingResource isIdleNow]);
+  // Wait for the queue to idle to avoid the race condition where the expectation has been fulfilled
+  // by the async task and the main thread resumes before that async task completes. This is the
+  // best we can do since we cannot keep a reference to the queue to drain it.
+  GREYCondition *idleResourceCondition =
+      [GREYCondition conditionWithName:@"GREYDispatchQueueIdlingResourceTestDealloc is idle"
+                                 block:^BOOL {
+        return [dispatchQueueIdlingResource isIdleNow];
+      }];
+
+  XCTAssertTrue([idleResourceCondition waitWithTimeout:1.0]);
   XCTAssertFalse([[GREYUIThreadExecutor sharedInstance]
       grey_isTrackingIdlingResource:dispatchQueueIdlingResource]);
 }
