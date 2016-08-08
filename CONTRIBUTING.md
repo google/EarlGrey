@@ -25,7 +25,14 @@ The submitted code should adhere to the following:
 ### Do's
 
 * Keep pull requests focused on addressing one issue or feature. If multiple separate issues
-  are fixed by a pull request, prefer commiting the fixes under multiple commits, one for each issue.
+  are fixed by a pull request, prefer commiting the fixes under multiple commits, one for each
+  issue.
+* A Pull Request **must** have a [Github Issue](https://github.com/google/EarlGrey/issues) filed
+  for it except in the case of trivial spelling/formatting fixes. For a Pull Request without a
+  corresponding issue, please create the issue first and discuss it with the community to ascertain
+  the severity of the issue. This allows us to prioritize your Pull Request and focus on the
+  most pressing issues at hand. Without a proper context for why the change is being made, we
+  cannot guarantee an expedient review or a merge.
 * Before submitting any code changes, please ensure that the [Unit Tests](https://github.com/google/EarlGrey/tree/master/Tests/UnitTests)
   and [Functional Tests](https://github.com/google/EarlGrey/tree/master/Tests/FunctionalTests)
   projects build and all tests pass. If you believe that the test failures are due to bugs in the
@@ -58,6 +65,8 @@ The submitted code should adhere to the following:
 * A vague description for a pull request adds to the review time because we now have to analyze
   what the code does. A more descriptive description will help the reviewers understand what
   they're reviewing.
+* Refrain from sending us a pull request with a large refactor / feature change with a
+  vague/negligible description or no issue attached.
 
 ## Github Issues
 
