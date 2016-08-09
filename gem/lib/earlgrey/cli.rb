@@ -19,11 +19,12 @@ module EarlGrey
     package_name 'EarlGrey'
 
     desc 'install', 'Installs EarlGrey into an Xcode unit test target'
+    method_option :carthage, type: :boolean, default: true
     method_option :project, aliases: '-p', type: :string, required: false, desc: 'Project'
-    method_option :target,  aliases: '-t', type: :string, required: true, desc: 'EarlGreyTestTarget'
     method_option :scheme,  aliases: '-s', type: :string, required: false, desc: 'EarlGreyTestTarget.xcscheme'
     method_option :swift,    type: :boolean, default: true
-    method_option :carthage, type: :boolean, default: true
+    method_option :swift_version, type: :numeric, default: 3.0, :enum => %w(2.2, 3.0)
+    method_option :target,  aliases: '-t', type: :string, required: true, desc: 'EarlGreyTestTarget'
 
     PROJECT  = 'project'.freeze
     TARGET   = 'target'.freeze
@@ -36,7 +37,7 @@ module EarlGrey
 
       # CLI will never use Cocoapod's `post_install do |installer|`
       podfile_installer = nil
-      opts = { swift: o[SWIFT], carthage: o[CARTHAGE] }
+      opts = { swift: o[SWIFT], carthage: o[CARTHAGE], swift_version: o[SWIFT_VERSION] }
 
       # Use target as the default Scheme name.
       o[SCHEME] ||= o[TARGET]
