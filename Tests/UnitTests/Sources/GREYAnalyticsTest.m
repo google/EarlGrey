@@ -15,24 +15,24 @@
 //
 
 #import <EarlGrey/GREYAnalytics.h>
-#import <EarlGrey/GREYAnalyticsDelegate.h>
 #import <EarlGrey/NSString+GREYAdditions.h>
 
 #import "GREYBaseTest.h"
 #import "GREYExposedForTesting.h"
 
-NSString *gTestDelegateBundleId;
-
 @interface GREYAnalyticsTestDelegate : NSObject<GREYAnalyticsDelegate>
+
+@property(nonatomic, strong) NSString *bundleID;
+
 @end
 
 @implementation GREYAnalyticsTestDelegate
 
-+ (void)trackEventWithTrackingID:(NSString *)trackingID
+- (void)trackEventWithTrackingID:(NSString *)trackingID
                         category:(NSString *)category
                      subCategory:(NSString *)subCategory
                            value:(NSNumber *)valueOrNil {
-  gTestDelegateBundleId = subCategory;
+  _bundleID = subCategory;
 }
 
 @end
@@ -42,17 +42,19 @@ NSString *gTestDelegateBundleId;
 
 @implementation GREYAnalyticsTest
 
-- (void)testAnalyticsDelegateGetsAnonymizedBundleId {
+- (void)testAnalyticsDelegateGetsAnonymizedBundleID {
   // Verify bundle ID is a non-empty string.
-  NSString *bundleId = [[NSBundle mainBundle] bundleIdentifier];
-  XCTAssertGreaterThan([bundleId length], 0u);
+  NSString *bundleID = [[NSBundle mainBundle] bundleIdentifier];
+  XCTAssertGreaterThan([bundleID length], 0u);
 
   // Setup a test delegate and verify the bundle ID passed to it is anonymized.
-  Class<GREYAnalyticsDelegate> previousDelegate = [GREYAnalytics delegate];
-  [GREYAnalytics setDelegate:[GREYAnalyticsTestDelegate class]];
-  [GREYAnalytics trackTestCaseCompletion];
-  XCTAssertEqualObjects([bundleId grey_md5String], gTestDelegateBundleId);
-  [GREYAnalytics setDelegate:previousDelegate];
+  id<GREYAnalyticsDelegate> previousDelegate = [[GREYAnalytics sharedInstance] delegate];
+  GREYAnalyticsTestDelegate *testDelegate = [[GREYAnalyticsTestDelegate alloc] init];
+  [[GREYAnalytics sharedInstance] setDelegate:testDelegate];
+  [[GREYAnalytics sharedInstance] didInvokeEarlGrey];
+  [[GREYAnalytics sharedInstance] grey_testCaseInstanceDidTearDown];
+  XCTAssertEqualObjects([bundleID grey_md5String], testDelegate.bundleID);
+  [[GREYAnalytics sharedInstance] setDelegate:previousDelegate];
 }
 
 @end

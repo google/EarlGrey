@@ -30,7 +30,7 @@
  *  @param subCategory The subcategory(also called label) for the event hit.
  *  @param valueOrNil  An optional value for the event hit.
  */
-+ (void)trackEventWithTrackingID:(NSString *)trackingID
+- (void)trackEventWithTrackingID:(NSString *)trackingID
                         category:(NSString *)category
                      subCategory:(NSString *)subCategory
                            value:(NSNumber *)valueOrNil;
