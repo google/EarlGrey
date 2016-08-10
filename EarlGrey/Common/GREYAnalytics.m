@@ -158,7 +158,7 @@ static NSString *const kTrackingEndPoint = @"https://ssl.google-analytics.com";
     if (GREY_CONFIG_BOOL(kGREYConfigKeyAnalyticsEnabled)) {
       NSString *bundleID = [[NSBundle mainBundle] bundleIdentifier];
       // If bundle ID is available use an MD5 of it otherwise use a placeholder.
-      bundleID = bundleID ? [bundleID grey_md5String] : @"<Missing bundle ID>";
+      bundleID = bundleID ? [bundleID grey_md5String] : @"<Missing Bundle ID>";
       [self.delegate trackEventWithTrackingID:kTrackingID
                                      category:kAnalyticsInvocationCategory
                                   subCategory:bundleID
