@@ -64,24 +64,6 @@ For EarlGrey, we highly recommend [CocoaPods](https://cocoapods.org/) as the bes
   end
   ```
 
-    For the CocoaPods 0.39.0 release, the Podfile should look like:
-
-  ```ruby
-  PROJECT_NAME = 'SampleApp'
-  TEST_TARGET = 'SampleAppTests'
-  SCHEME_FILE = 'SampleAppTests.xcscheme'
-
-  xcodeproj PROJECT_NAME
-  target TEST_TARGET, :exclusive => true do
-    pod 'EarlGrey'
-  end
-
-  post_install do |installer|
-    require 'earlgrey'
-    configure_for_earlgrey(installer, PROJECT_NAME, TEST_TARGET, SCHEME_FILE)
-  end
-  ```
-
    * For multiple targets and Schemes, call the `configure_for_earlgrey` method for each target / Scheme.
    * The `:exclusive => true` and `inherit! :search_paths` flag prevents double-linking for libraries in the test target with any conflicting libraries in the main application.
    * For more information, visit the [CocoaPods Podfile Guide](http://guides.cocoapods.org/using/the-podfile.html).
