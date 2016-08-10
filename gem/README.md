@@ -13,10 +13,12 @@ Options:
   -p, [--project=PROJECT]            # Project
   -t, --target=TARGET                # EarlGrey
   -s, [--scheme=SCHEME]              # EarlGrey.xcscheme
+      [--carthage], [--no-carthage]
+                                     # Default: true  
       [--swift], [--no-swift]
                                      # Default: true
-      [--carthage], [--no-carthage]
-                                     # Default: true
+      [--swift-version]              # Default: 3.0
+                                     # Supported Values: 2.2, 3.0.
 
 Installs EarlGrey into an Xcode unit test target
 ```

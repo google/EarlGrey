@@ -39,9 +39,21 @@ module SpecHelper
     end
   end
 
-  def cocoapods_after
+  def cocoapods_after_default
     @cocoapods_after ||= begin
-      fixture_path 'cocoapods_after'
+      fixture_path 'cocoapods_after_default'
+    end
+  end
+
+  def cocoapods_after_swift_2
+    @cocoapods_after ||= begin
+      fixture_path 'cocoapods_after_swift_2'
+    end
+  end
+
+  def cocoapods_after_swift_3
+    @cocoapods_after ||= begin
+      fixture_path 'cocoapods_after_swift_3'
     end
   end
 

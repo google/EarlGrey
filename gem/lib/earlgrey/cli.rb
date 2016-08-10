@@ -22,15 +22,16 @@ module EarlGrey
     method_option :carthage, type: :boolean, default: true
     method_option :project, aliases: '-p', type: :string, required: false, desc: 'Project'
     method_option :scheme,  aliases: '-s', type: :string, required: false, desc: 'EarlGreyTestTarget.xcscheme'
-    method_option :swift,    type: :boolean, default: true
-    method_option :swift_version, type: :numeric, default: 3.0, :enum => %w(2.2, 3.0)
-    method_option :target,  aliases: '-t', type: :string, required: true, desc: 'EarlGreyTestTarget'
+    method_option :swift, type: :boolean, default: true
+    method_option :swift_version, type: :string, default: '3.0', enum: ['2.2', '3.0']
+    method_option :target, aliases: '-t', type: :string, required: true, desc: 'EarlGreyTestTarget'
 
     PROJECT  = 'project'.freeze
     TARGET   = 'target'.freeze
     SCHEME   = 'scheme'.freeze
     SWIFT    = 'swift'.freeze
     CARTHAGE = 'carthage'.freeze
+    SWIFT_VERSION = 'swift_version'.freeze
 
     def install
       o = options.dup
