@@ -76,7 +76,7 @@ For EarlGrey, we highly recommend [CocoaPods](https://cocoapods.org/) as the bes
   end
 
   post_install do |installer|
-    require 'earlgrey'
+    load 'configure_earlgrey.rb'
     configure_for_earlgrey(installer, PROJECT_NAME, TEST_TARGET, SCHEME_FILE)
   end
   ```
