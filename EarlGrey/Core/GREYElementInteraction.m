@@ -121,9 +121,11 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
         return elements;
       } else if (!_searchAction) {
         if (error) {
+          NSString *desc =
+              @"Interaction cannot continue because the desired element was not found.";
           *error = [NSError errorWithDomain:kGREYInteractionErrorDomain
                                        code:kGREYInteractionElementNotFoundErrorCode
-                                   userInfo:@{ NSLocalizedDescriptionKey : @"No element found." }];
+                                   userInfo:@{ NSLocalizedDescriptionKey : desc }];
         }
         return nil;
       } else if (searchActionError) {
@@ -152,8 +154,8 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
   } else if (timedOut) {
     CFTimeInterval interactionTimeout =
         GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
-    NSString *desc = [NSString stringWithFormat:@"Timeout (currently set to %g) occurred when "
-                                                @"looking for elements.", interactionTimeout];
+    NSString *desc = [NSString stringWithFormat:@"Interaction timed out after %g seconds while "
+                                                @"searching for element.", interactionTimeout];
     NSError *timeoutError = [NSError errorWithDomain:kGREYInteractionErrorDomain
                                                 code:kGREYInteractionTimeoutErrorCode
                                             userInfo:@{ NSLocalizedDescriptionKey : desc }];
@@ -218,7 +220,8 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
         if (element && ![action perform:element error:&actionError]) {
           // Action didn't succeed yet no error was set.
           if (!actionError) {
-            NSDictionary *userInfo = @{ NSLocalizedDescriptionKey : @"No reason provided." };
+            NSDictionary *userInfo =
+                @{ NSLocalizedDescriptionKey : @"Reason for action failure was not provided." };
             actionError = [NSError errorWithDomain:kGREYInteractionErrorDomain
                                               code:kGREYInteractionActionFailedErrorCode
                                           userInfo:userInfo];
@@ -245,7 +248,7 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
     if ([executorError.domain isEqualToString:kGREYUIThreadExecutorErrorDomain] &&
         executorError.code == kGREYUIThreadExecutorTimeoutErrorCode) {
       NSString *actionTimeoutDesc =
-          [NSString stringWithFormat:@"Failed to execute action within %g seconds.",
+          [NSString stringWithFormat:@"Failed to perform action within %g seconds.",
                                      interactionTimeout];
       NSDictionary *userInfo = @{
           NSUnderlyingErrorKey : executorError,
@@ -315,7 +318,8 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
         if (![assertion assert:element error:&assertionError]) {
           // Assertion didn't succeed yet no error was set.
           if (!assertionError) {
-            NSDictionary *userInfo = @{ NSLocalizedDescriptionKey : @"No reason provided." };
+            NSDictionary *userInfo =
+                @{ NSLocalizedDescriptionKey : @"Reason for assertion failure was not provided." };
             assertionError = [NSError errorWithDomain:kGREYInteractionErrorDomain
                                                  code:kGREYInteractionAssertionFailedErrorCode
                                              userInfo:userInfo];

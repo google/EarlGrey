@@ -62,7 +62,7 @@ For EarlGrey, we highly recommend [CocoaPods](https://cocoapods.org/) as the bes
   ```
 
     The earlgrey gem is supported with CocoaPods 1.0.0 and beyond. For earlier versions (or if you don't want a gem dependency) replace `require 'earlgrey'` with `load 'configure_earlgrey.rb'` and manually copy `configure_earlgrey.rb` from the gem into the same directory as the `Podfile`.
-    
+
     For the CocoaPods 0.39.0 release, the Podfile should look like:
 
   ```ruby

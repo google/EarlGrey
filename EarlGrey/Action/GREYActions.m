@@ -266,7 +266,7 @@
  *  @param element The element to target
  */
 + (void)grey_webClearText:(id)element {
-    [GREYActions grey_webSetText:element text:@""];
+  [GREYActions grey_webSetText:element text:@""];
 }
 
 /**
@@ -278,15 +278,16 @@
 + (void)grey_webSetText:(id)element text:(NSString *)text {
   // Input tags can be identified by having the 'title' attribute set, or current value.
   // Associating a <label> tag to the input tag does NOT result in an iOS accessibility element.
-  if (!text) text = @"";
-
-  // must escape ' or the JS will be invalid
+  if (!text) {
+    text = @"";
+  }
+  // Must escape ' or the JS will be invalid.
   text = [text stringByReplacingOccurrencesOfString:@"\'" withString:@"\\\'"];
 
   NSString *xPathResultType = @"XPathResult.FIRST_ORDERED_NODE_TYPE";
-  NSString *xPathForTitle =
-  [NSString stringWithFormat:@"//input[@title=\"%@\" or @value=\"%@\"]",
-   [element accessibilityLabel], [element accessibilityLabel]];
+  NSString *xPathForTitle = [NSString stringWithFormat:@"//input[@title=\"%@\" or @value=\"%@\"]",
+                                                       [element accessibilityLabel],
+                                                       [element accessibilityLabel]];
   NSString *format = @"document.evaluate('%@', document, null, %@, null).singleNodeValue.value"
                      @"= '%@';";
   NSString *jsForTitle = [[NSString alloc] initWithFormat:format,
