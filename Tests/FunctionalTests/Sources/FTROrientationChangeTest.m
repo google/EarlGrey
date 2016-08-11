@@ -29,18 +29,23 @@
 - (void)testBasicOrientationChange {
   // Test rotating to landscape.
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeLeft errorOrNil:nil];
-  GREYAssertEqual([UIDevice currentDevice].orientation, UIDeviceOrientationLandscapeLeft,
-                  @"Device orientation should now be left landscape");
-  UIApplication *sharedApp = [UIApplication sharedApplication];
-  GREYAssertEqual(sharedApp.statusBarOrientation, UIInterfaceOrientationLandscapeRight,
-                  @"Interface orientation should now be right landscape");
+  [EarlGrey executeBlock:^{
+    GREYAssertEqual([UIDevice currentDevice].orientation, UIDeviceOrientationLandscapeLeft,
+                    @"Device orientation should now be left landscape");
+    UIApplication *sharedApp = [UIApplication sharedApplication];
+    GREYAssertEqual(sharedApp.statusBarOrientation, UIInterfaceOrientationLandscapeRight,
+                    @"Interface orientation should now be right landscape");
+  }];
 
   // Test rotating to portrait.
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait errorOrNil:nil];
-  GREYAssertEqual([UIDevice currentDevice].orientation, UIDeviceOrientationPortrait,
-                  @"Device orientation should now be portrait");
-  GREYAssertEqual(sharedApp.statusBarOrientation, UIInterfaceOrientationPortrait,
-                  @"Interface orientation should now be portrait");
+  [EarlGrey executeBlock:^{
+    GREYAssertEqual([UIDevice currentDevice].orientation, UIDeviceOrientationPortrait,
+                    @"Device orientation should now be portrait");
+    UIApplication *sharedApp = [UIApplication sharedApplication];
+    GREYAssertEqual(sharedApp.statusBarOrientation, UIInterfaceOrientationPortrait,
+                    @"Interface orientation should now be portrait");
+  }];
 }
 
 - (void)testRotateToCurrentOrientation {
@@ -49,11 +54,15 @@
   // We have to rotate device twice to test behavior of rotating to the same deviceOrientation,
   // because device orientation could be unknown, or face up, or face down at this point.
   [EarlGrey rotateDeviceToOrientation:deviceOrientation errorOrNil:nil];
-  GREYAssertEqual([UIDevice currentDevice].orientation, deviceOrientation,
-                  @"Device orientation should match");
+  [EarlGrey executeBlock:^{
+    GREYAssertEqual([UIDevice currentDevice].orientation, deviceOrientation,
+                    @"Device orientation should match");
+  }];
   [EarlGrey rotateDeviceToOrientation:deviceOrientation errorOrNil:nil];
-  GREYAssertEqual([UIDevice currentDevice].orientation, deviceOrientation,
-                  @"Device orientation should match");
+  [EarlGrey executeBlock:^{
+    GREYAssertEqual([UIDevice currentDevice].orientation, deviceOrientation,
+                    @"Device orientation should match");
+  }];
 }
 
 - (void)testInteractingWithElementsAfterRotation {
@@ -68,8 +77,10 @@
   for (NSUInteger i = 0; i < [orientations count]; i++) {
     UIDeviceOrientation orientation = [orientations[i] integerValue];
     [EarlGrey rotateDeviceToOrientation:orientation errorOrNil:nil];
-    GREYAssertEqual([UIDevice currentDevice].orientation, orientation,
-                    @"Device orientation should match");
+    [EarlGrey executeBlock:^{
+      GREYAssertEqual([UIDevice currentDevice].orientation, orientation,
+                      @"Device orientation should match");
+    }];
     // Tap clear, check if label was reset
     [[EarlGrey selectElementWithMatcher:grey_text(@"Clear")] performAction:grey_tap()];
     [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"lastTapped")]

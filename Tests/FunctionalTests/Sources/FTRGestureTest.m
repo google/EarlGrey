@@ -80,39 +80,41 @@
 }
 
 - (void)testLongPressAtPoint {
-  // Find the bounds of the element.
-  __block CGRect targetBounds;
-  GREYActionBlock *boundsFinder =
-      [[GREYActionBlock alloc] initWithName:@"Frame finder"
-                                constraints:nil
-                               performBlock:^BOOL(UIView *view, NSError *__strong *error) {
-    targetBounds = view.bounds;
-    return YES;
-  }];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
-      performAction:boundsFinder];
-
-  // Verify tapping outside the bounds does not cause long press.
-  CGFloat midX = CGRectGetMidX(targetBounds);
-  CGFloat midY = CGRectGetMidY(targetBounds);
-  CGPoint outsidePoints[4] = {
-    CGPointMake(CGRectGetMinX(targetBounds) - 1, midY),
-    CGPointMake(CGRectGetMaxX(targetBounds) + 1, midY),
-    CGPointMake(midX, CGRectGetMinY(targetBounds) - 1),
-    CGPointMake(midX, CGRectGetMaxY(targetBounds) + 1)
-  };
-  for (NSInteger i = 0; i < 4; i++) {
+  [EarlGrey executeBlock:^{
+    // Find the bounds of the element.
+    __block CGRect targetBounds;
+    GREYActionBlock *boundsFinder =
+        [[GREYActionBlock alloc] initWithName:@"Frame finder"
+                                  constraints:nil
+                                 performBlock:^BOOL(UIView *view, NSError *__strong *error) {
+      targetBounds = view.bounds;
+      return YES;
+    }];
     [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
-        performAction:grey_longPressAtPointWithDuration(outsidePoints[i], 0.5f)];
-    [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"single long press")]
-        assertWithMatcher:grey_nil()];
-  }
+        performAction:boundsFinder];
 
-  // Verify that tapping inside the bounds causes the long press.
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
-      performAction:grey_longPressAtPointWithDuration(CGPointMake(midX, midX), 0.5f)];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"single long press")]
-      assertWithMatcher:grey_sufficientlyVisible()];
+    // Verify tapping outside the bounds does not cause long press.
+    CGFloat midX = CGRectGetMidX(targetBounds);
+    CGFloat midY = CGRectGetMidY(targetBounds);
+    CGPoint outsidePoints[4] = {
+      CGPointMake(CGRectGetMinX(targetBounds) - 1, midY),
+      CGPointMake(CGRectGetMaxX(targetBounds) + 1, midY),
+      CGPointMake(midX, CGRectGetMinY(targetBounds) - 1),
+      CGPointMake(midX, CGRectGetMaxY(targetBounds) + 1)
+    };
+    for (NSInteger i = 0; i < 4; i++) {
+      [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
+          performAction:grey_longPressAtPointWithDuration(outsidePoints[i], 0.5f)];
+      [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"single long press")]
+          assertWithMatcher:grey_nil()];
+    }
+
+    // Verify that tapping inside the bounds causes the long press.
+    [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
+        performAction:grey_longPressAtPointWithDuration(CGPointMake(midX, midX), 0.5f)];
+    [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"single long press")]
+        assertWithMatcher:grey_sufficientlyVisible()];
+  }];
 }
 
 - (void)testSwipeWorksInAllDirectionsInPortraitMode {

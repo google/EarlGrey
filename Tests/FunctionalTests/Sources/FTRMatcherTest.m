@@ -71,7 +71,7 @@
 
   id<GREYMatcher> matchesParentOfSquare =
       grey_allOf(grey_descendant(grey_accessibilityValue(@"SquareElementValue")),
-                 grey_kindOfClass([FTRAccessibleView class]),
+                 grey_kindOfClassNamed(@"FTRAccessibleView"),
                  nil);
 
   [[EarlGrey selectElementWithMatcher:matchesParentOfSquare]

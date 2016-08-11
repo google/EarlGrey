@@ -17,6 +17,7 @@
 /**
  *  An NSURLProtocol based network proxy for proxying HTTP requests.
  */
+__attribute__((weak_import))
 @interface FTRNetworkProxy : NSURLProtocol
 
 /**

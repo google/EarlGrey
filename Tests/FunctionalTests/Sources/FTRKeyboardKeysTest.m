@@ -35,32 +35,40 @@
 }
 
 - (void)testTypingAtBeginning {
-  [[[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
-      performAction:[GREYActions actionForTypeText:@"Foo"]]
-      performAction:[self ftr_actionForTypingText:@"Bar" atPosition:0]]
-      assertWithMatcher:grey_text(@"BarFoo")];
+  [EarlGrey executeBlock:^{
+    [[[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
+        performAction:[GREYActions actionForTypeText:@"Foo"]]
+        performAction:[FTRKeyboardKeysTest ftr_actionForTypingText:@"Bar" atPosition:0]]
+        assertWithMatcher:grey_text(@"BarFoo")];
+  }];
 }
 
 - (void)testTypingAtEnd {
+  [EarlGrey executeBlock:^{
     [[[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
       performAction:[GREYActions actionForTypeText:@"Foo"]]
-      performAction:[self ftr_actionForTypingText:@"Bar" atPosition:-1]]
+      performAction:[FTRKeyboardKeysTest ftr_actionForTypingText:@"Bar" atPosition:-1]]
       assertWithMatcher:grey_text(@"FooBar")];
+  }];
 }
 
 - (void)testTypingInMiddle {
-  [[[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
-      performAction:[GREYActions actionForTypeText:@"Foo"]]
-      performAction:[self ftr_actionForTypingText:@"Bar" atPosition:2]]
-      assertWithMatcher:grey_text(@"FoBaro")];
+  [EarlGrey executeBlock:^{
+    [[[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
+        performAction:[GREYActions actionForTypeText:@"Foo"]]
+        performAction:[FTRKeyboardKeysTest ftr_actionForTypingText:@"Bar" atPosition:2]]
+        assertWithMatcher:grey_text(@"FoBaro")];
+  }];
 }
 
 - (void)testTypingInMiddleOfBigString {
-  [[[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
-      performAction:
-          [GREYActions actionForTypeText:@"This string is a little too long for this text field!"]]
-      performAction:[self ftr_actionForTypingText:@"Foo" atPosition:1]]
-      assertWithMatcher:grey_text(@"TFoohis string is a little too long for this text field!")];
+  [EarlGrey executeBlock:^{
+    [[[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
+        performAction:
+            [GREYActions actionForTypeText:@"This string is a little too long for this text field!"]]
+        performAction:[FTRKeyboardKeysTest ftr_actionForTypingText:@"Foo" atPosition:1]]
+        assertWithMatcher:grey_text(@"TFoohis string is a little too long for this text field!")];
+  }];
 }
 
 - (void)testTypingAfterTappingOnTextField {
@@ -452,7 +460,7 @@
 }
 
 // Helper action that converts numeric position to UITextPosition.
-- (id<GREYAction>)ftr_actionForTypingText:(NSString *)text atPosition:(NSInteger)position {
++ (id<GREYAction>)ftr_actionForTypingText:(NSString *)text atPosition:(NSInteger)position {
   NSString *actionName =
       [NSString stringWithFormat:@"Test type \"%@\" at position %ld", text, (long)position];
   return [GREYActionBlock actionWithName:actionName

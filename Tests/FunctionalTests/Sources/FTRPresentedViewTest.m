@@ -29,8 +29,10 @@
 }
 
 - (void)testDismissToResetNavController {
-  FTRAppDelegate *app = (FTRAppDelegate *)[[UIApplication sharedApplication] delegate];
-  [app resetRootNavigationController];
+  [EarlGrey executeBlock:^{
+    FTRAppDelegate *app = (FTRAppDelegate *)[[UIApplication sharedApplication] delegate];
+    [app resetRootNavigationController];
+  }];
 
   [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"Dismiss")] performAction:grey_tap()];
 }

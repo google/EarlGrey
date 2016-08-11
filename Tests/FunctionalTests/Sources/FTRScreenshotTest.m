@@ -37,93 +37,106 @@
 - (void)testSnapshotAXElementInPortraitMode {
   [self openTestViewNamed:@"Accessibility Views"];
 
-  UIImage *snapshot;
-  // Snapshot Accessibility Element.
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"OnScreenRectangleElementLabel")]
-      performAction:grey_snapshot(&snapshot)];
+  [EarlGrey executeBlock:^{
+    UIImage *snapshot;
+    // Snapshot Accessibility Element.
+    [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"OnScreenRectangleElementLabel")]
+        performAction:grey_snapshot(&snapshot)];
 
-  // TODO: Verify the content of the image as well.
-  CGSize expectedSize = CGSizeMake(64, 128);
-  CGFloat expectedScale = [UIScreen mainScreen].scale;
-  GREYAssertEqual(expectedSize.width, snapshot.size.width, @"should be equal");
-  GREYAssertEqual(expectedSize.height, snapshot.size.height, @"should be equal");
-  GREYAssertEqual(expectedScale, snapshot.scale, @"should be equal");
+    // TODO: Verify the content of the image as well.
+    CGSize expectedSize = CGSizeMake(64, 128);
+    CGFloat expectedScale = [UIScreen mainScreen].scale;
+    GREYAssertEqual(expectedSize.width, snapshot.size.width, @"should be equal");
+    GREYAssertEqual(expectedSize.height, snapshot.size.height, @"should be equal");
+    GREYAssertEqual(expectedScale, snapshot.scale, @"should be equal");
 
-  NSError *error = nil;
-  // Snapshot Accessibility Element with zero height should be an error.
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"ElementWithZeroHeight")]
-      performAction:grey_snapshot(&snapshot) error:&error];
-  GREYAssertEqualObjects(kGREYInteractionErrorDomain, error.domain, @"should be equal");
+    NSError *error = nil;
+    // Snapshot Accessibility Element with zero height should be an error.
+    [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"ElementWithZeroHeight")]
+        performAction:grey_snapshot(&snapshot) error:&error];
+    GREYAssertEqualObjects(kGREYInteractionErrorDomain, error.domain, @"should be equal");
+  }];
 }
 
 - (void)testSnapshotAXElementInLandscapeMode {
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeLeft errorOrNil:nil];
   [self openTestViewNamed:@"Accessibility Views"];
 
-  UIImage *snapshot;
-  // Snapshot Accessibility Element.
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"OnScreenRectangleElementLabel")]
-      performAction:grey_snapshot(&snapshot)];
+  [EarlGrey executeBlock:^{
+    UIImage *snapshot;
+    // Snapshot Accessibility Element.
+    [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"OnScreenRectangleElementLabel")]
+        performAction:grey_snapshot(&snapshot)];
 
-  // TODO: Verify the content of the image as well.
-  CGSize expectedSize = CGSizeMake(64, 128);
-  if (!iOS8_0_OR_ABOVE()) {
-    // Width and height are interchanged on versions before iOS 8.0
-    expectedSize = CGSizeMake(expectedSize.height, expectedSize.width);
-  }
-  CGFloat expectedScale = [UIScreen mainScreen].scale;
-  GREYAssertEqual(expectedSize.width, snapshot.size.width, @"should be equal");
-  GREYAssertEqual(expectedSize.height, snapshot.size.height, @"should be equal");
-  GREYAssertEqual(expectedScale, snapshot.scale, @"should be equal");
+    // TODO: Verify the content of the image as well.
+    CGSize expectedSize = CGSizeMake(64, 128);
+    if (!iOS8_0_OR_ABOVE()) {
+      // Width and height are interchanged on versions before iOS 8.0
+      expectedSize = CGSizeMake(expectedSize.height, expectedSize.width);
+    }
+    CGFloat expectedScale = [UIScreen mainScreen].scale;
+    GREYAssertEqual(expectedSize.width, snapshot.size.width, @"should be equal");
+    GREYAssertEqual(expectedSize.height, snapshot.size.height, @"should be equal");
+    GREYAssertEqual(expectedScale, snapshot.scale, @"should be equal");
 
-  NSError *error = nil;
-  // Snapshot Accessibility Element with zero height should be an error.
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"ElementWithZeroHeight")]
-      performAction:grey_snapshot(&snapshot) error:&error];
-  GREYAssertEqualObjects(kGREYInteractionErrorDomain, error.domain, @"should be equal");
+    NSError *error = nil;
+    // Snapshot Accessibility Element with zero height should be an error.
+    [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"ElementWithZeroHeight")]
+        performAction:grey_snapshot(&snapshot) error:&error];
+    GREYAssertEqualObjects(kGREYInteractionErrorDomain, error.domain, @"should be equal");
+  }];
 }
 
 - (void)testTakeScreenShotForAppStoreInPortraitMode {
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait errorOrNil:nil];
-  UIImage *screenshot = [GREYScreenshotUtil takeScreenshotForAppStore];
-  GREYAssert(screenshot, @"Failed to take screenshot");
 
-  CGRect actualRect = CGRectMake(0, 0, screenshot.size.width, screenshot.size.height);
-  GREYAssertTrue(CGRectEqualToRect(actualRect, [UIScreen mainScreen].bounds),
-                 @"Screenshot isn't correct dimension");
+  [EarlGrey executeBlock:^{
+    UIImage *screenshot = [GREYScreenshotUtil takeScreenshotForAppStore];
+    GREYAssert(screenshot, @"Failed to take screenshot");
+
+    CGRect actualRect = CGRectMake(0, 0, screenshot.size.width, screenshot.size.height);
+    GREYAssertTrue(CGRectEqualToRect(actualRect, [UIScreen mainScreen].bounds),
+                   @"Screenshot isn't correct dimension");
+  }];
 }
 
 - (void)testTakeScreenShotForAppStoreInPortraitUpsideDownMode {
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortraitUpsideDown errorOrNil:nil];
 
-  UIImage *screenshot = [GREYScreenshotUtil takeScreenshotForAppStore];
-  GREYAssert(screenshot, @"Failed to take screenshot");
+  [EarlGrey executeBlock:^{
+    UIImage *screenshot = [GREYScreenshotUtil takeScreenshotForAppStore];
+    GREYAssert(screenshot, @"Failed to take screenshot");
 
-  CGRect actualRect = CGRectMake(0, 0, screenshot.size.width, screenshot.size.height);
-  GREYAssertTrue(CGRectEqualToRect(actualRect, [UIScreen mainScreen].bounds),
-                 @"Screenshot isn't correct dimension");
+    CGRect actualRect = CGRectMake(0, 0, screenshot.size.width, screenshot.size.height);
+    GREYAssertTrue(CGRectEqualToRect(actualRect, [UIScreen mainScreen].bounds),
+                   @"Screenshot isn't correct dimension");
+  }];
 }
 
 - (void)testTakeScreenShotForAppStoreInLandscapeLeftMode {
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeLeft errorOrNil:nil];
 
-  UIImage *screenshot = [GREYScreenshotUtil takeScreenshotForAppStore];
-  GREYAssert(screenshot, @"Failed to take screenshot");
+  [EarlGrey executeBlock:^{
+    UIImage *screenshot = [GREYScreenshotUtil takeScreenshotForAppStore];
+    GREYAssert(screenshot, @"Failed to take screenshot");
 
-  CGRect actualRect = CGRectMake(0, 0, screenshot.size.width, screenshot.size.height);
-  GREYAssertTrue(CGRectEqualToRect(actualRect, [UIScreen mainScreen].bounds),
-                 @"Screenshot isn't correct dimension");
+    CGRect actualRect = CGRectMake(0, 0, screenshot.size.width, screenshot.size.height);
+    GREYAssertTrue(CGRectEqualToRect(actualRect, [UIScreen mainScreen].bounds),
+                   @"Screenshot isn't correct dimension");
+  }];
 }
 
 - (void)testTakeScreenShotForAppStoreInLandscapeRightMode {
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeRight errorOrNil:nil];
 
-  UIImage *screenshot = [GREYScreenshotUtil takeScreenshotForAppStore];
-  GREYAssert(screenshot, @"Failed to take screenshot");
+  [EarlGrey executeBlock:^{
+    UIImage *screenshot = [GREYScreenshotUtil takeScreenshotForAppStore];
+    GREYAssert(screenshot, @"Failed to take screenshot");
 
-  CGRect actualRect = CGRectMake(0, 0, screenshot.size.width, screenshot.size.height);
-  GREYAssertTrue(CGRectEqualToRect(actualRect, [UIScreen mainScreen].bounds),
-                 @"Screenshot isn't correct dimension");
+    CGRect actualRect = CGRectMake(0, 0, screenshot.size.width, screenshot.size.height);
+    GREYAssertTrue(CGRectEqualToRect(actualRect, [UIScreen mainScreen].bounds),
+                   @"Screenshot isn't correct dimension");
+  }];
 }
 
 @end

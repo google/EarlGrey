@@ -24,20 +24,27 @@
 - (void)setUp {
   [super setUp];
   _currentFailureHandler = greyFailureHandler;
+  if (![[EarlGrey targetApplication] isReady]) {
+    [[EarlGrey targetApplication] launch];
+  }
   // By default, make all tests assume portrait position.
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait errorOrNil:nil];
 }
 
 - (void)tearDown {
-  UIWindow *delegateWindow = [UIApplication sharedApplication].delegate.window;
-  UINavigationController *navController;
-  if ([delegateWindow.rootViewController isKindOfClass:[UINavigationController class]]) {
-    navController = (UINavigationController *)delegateWindow.rootViewController;
-  } else {
-    navController = delegateWindow.rootViewController.navigationController;
+  if ([[EarlGrey targetApplication] isReady]) {
+    [EarlGrey executeBlock:^{
+      UIWindow *delegateWindow = [UIApplication sharedApplication].delegate.window;
+      UINavigationController *navController;
+      if ([delegateWindow.rootViewController isKindOfClass:[UINavigationController class]]) {
+        navController = (UINavigationController *)delegateWindow.rootViewController;
+      } else {
+        navController = delegateWindow.rootViewController.navigationController;
+      }
+      [navController popToRootViewControllerAnimated:YES];
+      [[GREYConfiguration sharedInstance] reset];
+    }];
   }
-  [navController popToRootViewControllerAnimated:YES];
-
   [[GREYConfiguration sharedInstance] reset];
   [EarlGrey setFailureHandler:_currentFailureHandler];
 

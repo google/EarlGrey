@@ -18,16 +18,27 @@ import XCTest
 
 class FunctionalTestRigSwiftTests: XCTestCase {
 
+  override func setUp() {
+    if !EarlGrey().targetApplication().isReady() {
+      EarlGrey().targetApplication().launch()
+    }
+    super.setUp()
+  }
+
   override func tearDown() {
     super.tearDown()
-    let delegateWindow:UIWindow! = UIApplication.sharedApplication().delegate!.window!
-    var navController:UINavigationController?
-    if ((delegateWindow.rootViewController?.isKindOfClass(UINavigationController)) != nil) {
-      navController = delegateWindow.rootViewController as? UINavigationController
-    } else {
-      navController = delegateWindow.rootViewController!.navigationController
+    if EarlGrey().targetApplication().isReady() {
+      EarlGrey().execute {
+        let delegateWindow:UIWindow! = UIApplication.sharedApplication().delegate!.window!
+        var navController:UINavigationController?
+        if ((delegateWindow.rootViewController?.isKindOfClass(UINavigationController)) != nil) {
+          navController = delegateWindow.rootViewController as? UINavigationController
+        } else {
+          navController = delegateWindow.rootViewController!.navigationController
+        }
+        navController?.popToRootViewControllerAnimated(true)
+      }
     }
-    navController?.popToRootViewControllerAnimated(true)
   }
 
   func testOpeningView() {
@@ -84,25 +95,30 @@ class FunctionalTestRigSwiftTests: XCTestCase {
   }
 
   func testSwiftCustomMatcher() {
-    // Verify description in custom matcher isn't nil.
-    // unexpectedly found nil while unwrapping an Optional value
-    EarlGrey().selectElementWithMatcher(grey_allOfMatchers(grey_firstElement(),
-                                                           grey_text("FooText")))
-        .assertWithMatcher(grey_nil())
+    EarlGrey().execute {
+      // Verify description in custom matcher isn't nil.
+      // unexpectedly found nil while unwrapping an Optional value
+      EarlGrey().selectElementWithMatcher(grey_allOfMatchers(FunctionalTestRigSwiftTests.grey_firstElement(),
+                                                             grey_text("FooText")))
+          .assertWithMatcher(grey_nil())
+    }
   }
 
   func testInteractionWithALabelWithParentHidden() {
-    let checkHiddenBlock:GREYActionBlock =
-        GREYActionBlock.actionWithName("checkHiddenBlock", performBlock: { element, errorOrNil in
-                                       // Check if the found element is hidden or not.
-                                       let superView:UIView! = element as! UIView
-                                       return !superView.hidden
-        })
-
     self.openTestView("Basic Views")
     EarlGrey().selectElementWithMatcher(grey_text("Tab 2")).performAction(grey_tap())
-    EarlGrey().selectElementWithMatcher(grey_accessibilityLabel("tab2Container"))
-        .performAction(checkHiddenBlock).assertWithMatcher(grey_sufficientlyVisible())
+
+    EarlGrey().execute {
+      let checkHiddenBlock:GREYActionBlock =
+          GREYActionBlock.actionWithName("checkHiddenBlock", performBlock: { element, errorOrNil in
+                                         // Check if the found element is hidden or not.
+                                         let superView: UIView! = element as! UIView
+                                         return !superView.hidden
+          })
+      EarlGrey().selectElementWithMatcher(grey_accessibilityLabel("tab2Container"))
+          .performAction(checkHiddenBlock).assertWithMatcher(grey_sufficientlyVisible())
+    }
+
     var error: NSError?
     EarlGrey().selectElementWithMatcher(grey_text("Non Existent Element"))
         .performAction(grey_tap(), error:&error)
@@ -136,7 +152,7 @@ class FunctionalTestRigSwiftTests: XCTestCase {
         .performAction(grey_tap())
   }
 
-  func grey_firstElement() -> GREYMatcher {
+  class func grey_firstElement() -> GREYMatcher {
     var firstMatch = true
     let matches: MatchesBlock = { (element: AnyObject!) -> Bool in
       if firstMatch {

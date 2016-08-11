@@ -28,7 +28,7 @@
 
 - (void)testEarlGreyInvocationInsideGREYConditionUsingWaitWithLargeTimeout {
   GREYCondition *condition = [GREYCondition conditionWithName:@"conditionWithAction" block:^BOOL {
-    static double stepperValue = 51;
+    static double stepperValue = 52;
     [[EarlGrey selectElementWithMatcher:grey_kindOfClass([UIStepper class])]
         performAction:[GREYActions actionForSetStepperValue:++stepperValue]];
     return stepperValue == 55;
@@ -43,84 +43,93 @@
   [[EarlGrey selectElementWithMatcher:[GREYMatchers matcherForText:@"Tab 2"]]
       performAction:[GREYActions actionForTap]];
 
-  // Setup an action that grabs a label and returns its text
-  __block NSString *text;
-  id actionBlock = ^(UILabel *element, __strong NSError **errorOrNil) {
-    text = element.text;
-    return YES;
-  };
-  id<GREYAction> action = [GREYActionBlock actionWithName:@"GetSampleLabelText"
-                                             performBlock:actionBlock];
+  [EarlGrey executeBlock:^{
+    // Setup an action that grabs a label and returns its text
+    __block NSString *text;
+    id actionBlock = ^(UILabel *element, __strong NSError **errorOrNil) {
+      text = element.text;
+      return YES;
+    };
+    id<GREYAction> action = [GREYActionBlock actionWithName:@"GetSampleLabelText"
+                                               performBlock:actionBlock];
 
-  // Setup a condition to wait until a specific label says specific text.
-  GREYCondition *waitCondition = [GREYCondition conditionWithName:@"WaitForLabelText"
-                                                            block:^BOOL() {
-    [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"sampleLabel")] performAction:action];
-    return [text isEqualToString:@"OFF"];
+    // Setup a condition to wait until a specific label says specific text.
+    GREYCondition *waitCondition = [GREYCondition conditionWithName:@"WaitForLabelText"
+                                                              block:^BOOL() {
+      [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"sampleLabel")] performAction:action];
+      return [text isEqualToString:@"OFF"];
+    }];
+
+    // Switch text and wait.
+    [[EarlGrey selectElementWithMatcher:[GREYMatchers matcherForAccessibilityLabel:@"Switch"]]
+        performAction:[GREYActions actionForTurnSwitchOn:NO]];
+    [waitCondition waitWithTimeout:10.0];
   }];
-
-  // Switch text and wait.
-  [[EarlGrey selectElementWithMatcher:[GREYMatchers matcherForAccessibilityLabel:@"Switch"]]
-      performAction:[GREYActions actionForTurnSwitchOn:NO]];
-  [waitCondition waitWithTimeout:10.0];
 }
 
 - (void)testTapOnWindow {
   [[EarlGrey selectElementWithMatcher:grey_keyWindow()] performAction:[GREYActions actionForTap]];
 
-  UITapGestureRecognizer *tapGestureRecognizer =
-      [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(ftr_dismissWindow:)];
-  tapGestureRecognizer.numberOfTapsRequired = 1;
+  [EarlGrey executeBlock:^{
+    UITapGestureRecognizer *tapGestureRecognizer =
+        [[UITapGestureRecognizer alloc] initWithTarget:[FTRBasicInteractionTest class]
+                                                action:@selector(ftr_dismissWindow:)];
+    tapGestureRecognizer.numberOfTapsRequired = 1;
 
-  // Create a custom window that dismisses itself when tapped.
-  UIWindow *topMostWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-  [topMostWindow addGestureRecognizer:tapGestureRecognizer];
+    // Create a custom window that dismisses itself when tapped.
+    UIWindow *topMostWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    [topMostWindow addGestureRecognizer:tapGestureRecognizer];
 
-  topMostWindow.accessibilityIdentifier = @"TopMostWindow";
-  topMostWindow.isAccessibilityElement = YES;
-  [topMostWindow makeKeyAndVisible];
+    topMostWindow.accessibilityIdentifier = @"TopMostWindow";
+    topMostWindow.isAccessibilityElement = YES;
+    [topMostWindow makeKeyAndVisible];
 
-  // Tap on topmost window.
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TopMostWindow")]
-      performAction:grey_tap()];
+    // Tap on topmost window.
+    [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TopMostWindow")]
+        performAction:grey_tap()];
 
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TopMostWindow")]
-      assertWithMatcher:grey_notVisible()];
+    [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TopMostWindow")]
+        assertWithMatcher:grey_notVisible()];
+  }];
 }
 
 - (void)testRootViewControllerSetMultipleTimesOnMainWindow {
-  UIWindow *currentWindow = [[UIApplication sharedApplication].delegate window];
-  UIViewController *originalVC = currentWindow.rootViewController;
+  [EarlGrey executeBlock:^{
+    UIWindow *currentWindow = [[UIApplication sharedApplication].delegate window];
+    UIViewController *originalVC = currentWindow.rootViewController;
 
-  UIViewController *vc1 = [[UIViewController alloc] init];
-  [currentWindow setRootViewController:vc1];
+    UIViewController *vc1 = [[UIViewController alloc] init];
+    [currentWindow setRootViewController:vc1];
 
-  [[EarlGrey selectElementWithMatcher:[GREYMatchers matcherForText:@"Tab 2"]]
-      assertWithMatcher:grey_nil()];
-  [currentWindow setRootViewController:nil];
-  [[EarlGrey selectElementWithMatcher:[GREYMatchers matcherForText:@"Tab 2"]]
-      assertWithMatcher:grey_nil()];
+    [[EarlGrey selectElementWithMatcher:[GREYMatchers matcherForText:@"Tab 2"]]
+        assertWithMatcher:grey_nil()];
+    [currentWindow setRootViewController:nil];
+    [[EarlGrey selectElementWithMatcher:[GREYMatchers matcherForText:@"Tab 2"]]
+        assertWithMatcher:grey_nil()];
 
-  [currentWindow setRootViewController:originalVC];
-  [[EarlGrey selectElementWithMatcher:[GREYMatchers matcherForText:@"Tab 2"]]
-      assertWithMatcher:grey_notNil()];
+    [currentWindow setRootViewController:originalVC];
+    [[EarlGrey selectElementWithMatcher:[GREYMatchers matcherForText:@"Tab 2"]]
+        assertWithMatcher:grey_notNil()];
+  }];
 }
 
 - (void)testRootViewControllerSetOnMultipleWindows {
-  UIWindow *currentWindow = [[UIApplication sharedApplication].delegate window];
-  UIViewController *originalVC = currentWindow.rootViewController;
+  [EarlGrey executeBlock:^{
+    UIWindow *currentWindow = [[UIApplication sharedApplication].delegate window];
+    UIViewController *originalVC = currentWindow.rootViewController;
 
-  UIWindow *otherWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-  [otherWindow setRootViewController:originalVC];
-  [currentWindow setRootViewController:nil];
+    UIWindow *otherWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    [otherWindow setRootViewController:originalVC];
+    [currentWindow setRootViewController:nil];
 
-  [[EarlGrey selectElementWithMatcher:[GREYMatchers matcherForText:@"Tab 2"]]
-      assertWithMatcher:grey_nil()];
+    [[EarlGrey selectElementWithMatcher:[GREYMatchers matcherForText:@"Tab 2"]]
+        assertWithMatcher:grey_nil()];
 
-  [otherWindow setRootViewController:nil];
-  [currentWindow setRootViewController:originalVC];
-  [[EarlGrey selectElementWithMatcher:[GREYMatchers matcherForText:@"Tab 2"]]
-      assertWithMatcher:grey_notNil()];
+    [otherWindow setRootViewController:nil];
+    [currentWindow setRootViewController:originalVC];
+    [[EarlGrey selectElementWithMatcher:[GREYMatchers matcherForText:@"Tab 2"]]
+        assertWithMatcher:grey_notNil()];
+  }];
 }
 
 - (void)testBasicInteractionWithViews {
@@ -348,7 +357,7 @@
 
 #pragma mark - Private
 
-- (void)ftr_dismissWindow:(UITapGestureRecognizer *)sender {
++ (void)ftr_dismissWindow:(UITapGestureRecognizer *)sender {
   [sender.view setHidden:YES];
 }
 
