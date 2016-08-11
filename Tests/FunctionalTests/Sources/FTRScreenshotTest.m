@@ -89,7 +89,7 @@
   GREYAssert(screenshot, @"Failed to take screenshot");
 
   CGRect actualRect = CGRectMake(0, 0, screenshot.size.width, screenshot.size.height);
-  GREYAssertTrue(CGRectEqualToRect(actualRect, [self ftr_expectedImageRectForAppStore]),
+  GREYAssertTrue(CGRectEqualToRect(actualRect, [UIScreen mainScreen].bounds),
                  @"Screenshot isn't correct dimension");
 }
 
@@ -100,7 +100,7 @@
   GREYAssert(screenshot, @"Failed to take screenshot");
 
   CGRect actualRect = CGRectMake(0, 0, screenshot.size.width, screenshot.size.height);
-  GREYAssertTrue(CGRectEqualToRect(actualRect, [self ftr_expectedImageRectForAppStore]),
+  GREYAssertTrue(CGRectEqualToRect(actualRect, [UIScreen mainScreen].bounds),
                  @"Screenshot isn't correct dimension");
 }
 
@@ -111,7 +111,7 @@
   GREYAssert(screenshot, @"Failed to take screenshot");
 
   CGRect actualRect = CGRectMake(0, 0, screenshot.size.width, screenshot.size.height);
-  GREYAssertTrue(CGRectEqualToRect(actualRect, [self ftr_expectedImageRectForAppStore]),
+  GREYAssertTrue(CGRectEqualToRect(actualRect, [UIScreen mainScreen].bounds),
                  @"Screenshot isn't correct dimension");
 }
 
@@ -122,23 +122,8 @@
   GREYAssert(screenshot, @"Failed to take screenshot");
 
   CGRect actualRect = CGRectMake(0, 0, screenshot.size.width, screenshot.size.height);
-  GREYAssertTrue(CGRectEqualToRect(actualRect, [self ftr_expectedImageRectForAppStore]),
+  GREYAssertTrue(CGRectEqualToRect(actualRect, [UIScreen mainScreen].bounds),
                  @"Screenshot isn't correct dimension");
-}
-
-#pragma mark - Private
-
-- (CGRect)ftr_expectedImageRectForAppStore {
-  CGRect screenRect = [UIScreen mainScreen].bounds;
-  UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
-
-  BOOL isLandscape = (orientation == UIInterfaceOrientationLandscapeLeft ||
-                      orientation == UIInterfaceOrientationLandscapeRight);
-  // Pre-iOS 8, interface is in fixed screen coordinates. We need to rotate it.
-  if ([UIDevice currentDevice].systemVersion.intValue < 8 && isLandscape) {
-    screenRect = CGRectMake(0, 0, screenRect.size.height, screenRect.size.width);
-  }
-  return screenRect;
 }
 
 @end
