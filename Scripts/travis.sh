@@ -71,6 +71,10 @@ elif [ "${TYPE}" == "FUNCTIONAL_SWIFT" ]; then
   execute_xcodebuild Tests/FunctionalTests/FunctionalTests.xcodeproj EarlGreyFunctionalSwiftTests
 elif [ "${TYPE}" == "FUNCTIONAL" ]; then
   execute_xcodebuild Tests/FunctionalTests/FunctionalTests.xcodeproj EarlGreyFunctionalTests
+elif [ "${TYPE}" == "FUNCTIONAL_SWIFT_UI" ]; then
+  execute_xcodebuild Tests/FunctionalTests/FunctionalTests.xcodeproj EarlGreyFunctionalSwiftUITests
+elif [ "${TYPE}" == "FUNCTIONAL_UI" ]; then
+  execute_xcodebuild Tests/FunctionalTests/FunctionalTests.xcodeproj EarlGreyFunctionalUITests
 elif [ "${TYPE}" == "CONTRIB" ]; then
   execute_xcodebuild Demo/EarlGreyContribs/EarlGreyContribs.xcodeproj EarlGreyContribsTests
 elif [ "${TYPE}" == "CONTRIB_SWIFT" ]; then

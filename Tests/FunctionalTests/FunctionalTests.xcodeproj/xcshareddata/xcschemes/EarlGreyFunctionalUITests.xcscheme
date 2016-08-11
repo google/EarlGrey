@@ -5,6 +5,22 @@
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES">
+      <BuildActionEntries>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "FD193F2B1BBDDA4F00153959"
+               BuildableName = "FunctionalTestRig.app"
+               BlueprintName = "FunctionalTestRig"
+               ReferencedContainer = "container:FunctionalTests.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+      </BuildActionEntries>
    </BuildAction>
    <TestAction
       buildConfiguration = "Debug"
@@ -16,13 +32,13 @@
             ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
             <ActionContent
                title = "EarlGrey Pre-Test Script"
-               scriptText = "if  [[ $PLATFORM_DIR == *iPhoneSimulator.platform ]];&#10;then&#10;  while ! ps aux | grep -q &quot;/SpringBoard.app/SpringBoard$&quot;&#10;  do&#10;    echo &quot;Waiting for SpringBoard before injecting...&quot;&#10;    sleep 1&#10;  done&#10;  xcrun simctl spawn booted launchctl debug system/com.apple.SpringBoard --environment DYLD_INSERT_LIBRARIES=${BUILT_PRODUCTS_DIR}/EarlGrey.framework/EarlGrey&#10;  xcrun simctl spawn booted launchctl stop com.apple.SpringBoard&#10;fi">
+               scriptText = "if  [[ $PLATFORM_DIR == *iPhoneSimulator.platform ]];&#10;then&#10;  while ! ps aux | grep -q &quot;/SpringBoard.app/SpringBoard$&quot;&#10;  do&#10;    echo &quot;Waiting for SpringBoard before injecting...&quot;&#10;    sleep 1&#10;  done&#10;  xcrun simctl spawn booted launchctl debug system/com.apple.SpringBoard --environment DYLD_INSERT_LIBRARIES=${BUILT_PRODUCTS_DIR}/EarlGrey.framework/EarlGrey&#10;  xcrun simctl spawn booted launchctl stop com.apple.SpringBoard&#10;fi&#10;&#10;# Copy XCTest.framework into app&#10;mkdir ${BUILT_PRODUCTS_DIR}/${TEST_TARGET_NAME}.app/Frameworks&#10;cp -R ${TARGET_BUILD_DIR}/../Frameworks/XCTest.framework ${BUILT_PRODUCTS_DIR}/${TEST_TARGET_NAME}.app/Frameworks/&#10;# Copy test plugin into app&#10;cp -R ${TARGET_BUILD_DIR} ${BUILT_PRODUCTS_DIR}/${TEST_TARGET_NAME}.app/">
                <EnvironmentBuildable>
                   <BuildableReference
                      BuildableIdentifier = "primary"
-                     BlueprintIdentifier = "FD5470F01BBDECBB000661FD"
-                     BuildableName = "EarlGreyFunctionalTests.xctest"
-                     BlueprintName = "EarlGreyFunctionalTests"
+                     BlueprintIdentifier = "6135BD3B1D3879AE00F8B1EE"
+                     BuildableName = "EarlGreyFunctionalUITests.xctest"
+                     BlueprintName = "EarlGreyFunctionalUITests"
                      ReferencedContainer = "container:FunctionalTests.xcodeproj">
                   </BuildableReference>
                </EnvironmentBuildable>
@@ -34,20 +50,22 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "FD5470F01BBDECBB000661FD"
-               BuildableName = "EarlGreyFunctionalTests.xctest"
-               BlueprintName = "EarlGreyFunctionalTests"
+               BlueprintIdentifier = "6135BD3B1D3879AE00F8B1EE"
+               BuildableName = "EarlGreyFunctionalUITests.xctest"
+               BlueprintName = "EarlGreyFunctionalUITests"
                ReferencedContainer = "container:FunctionalTests.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
-      <EnvironmentVariables>
-         <EnvironmentVariable
-            key = "DYLD_INSERT_LIBRARIES"
-            value = "@executable_path/EarlGrey.framework/EarlGrey"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-      </EnvironmentVariables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "FD193F2B1BBDDA4F00153959"
+            BuildableName = "FunctionalTestRig.app"
+            BlueprintName = "FunctionalTestRig"
+            ReferencedContainer = "container:FunctionalTests.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>

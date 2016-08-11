@@ -19,6 +19,8 @@ rvm:
   - 2.2.5
 env:
   matrix:
+    - DESTINATION="OS=9.3,name=iPhone 6s" SDK=iphonesimulator9.3 TYPE="FUNCTIONAL_UI"
+    - DESTINATION="OS=9.3,name=iPhone 6s" SDK=iphonesimulator9.3 TYPE="FUNCTIONAL_SWIFT_UI"
     - DESTINATION="OS=9.3,name=iPhone 6s" SDK=iphonesimulator9.3 TYPE="FUNCTIONAL"
     - DESTINATION="OS=9.3,name=iPhone 6s" SDK=iphonesimulator9.3 TYPE="FUNCTIONAL_SWIFT"
     - DESTINATION="OS=9.3,name=iPhone 6s" SDK=iphonesimulator9.3 TYPE="CONTRIB"

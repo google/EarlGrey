@@ -101,6 +101,10 @@
 		61E4E0B31D7559A9007F9EE6 /* FTRImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 61E4E0B11D7559A9007F9EE6 /* FTRImageViewController.m */; };
 		61E4E0B41D7559A9007F9EE6 /* FTRImageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 61E4E0B21D7559A9007F9EE6 /* FTRImageViewController.xib */; };
 		61E4E0C31D755A9B007F9EE6 /* FTRPinchViewTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 61E4E0C11D755A5C007F9EE6 /* FTRPinchViewTest.m */; };
+		6130DF251D38B59500C25E6B /* EarlGrey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 596D89BE1C05AB0600025714 /* EarlGrey.framework */; };
+		6130DF271D38B5AA00C25E6B /* EarlGrey.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 596D89BE1C05AB0600025714 /* EarlGrey.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		6135BD4B1D38841800F8B1EE /* EarlGrey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 596D89BE1C05AB0600025714 /* EarlGrey.framework */; };
+		6135BD4D1D38844100F8B1EE /* EarlGrey.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 596D89BE1C05AB0600025714 /* EarlGrey.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		FD193FF21BBDDBE800153959 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD193FF11BBDDBE800153959 /* CoreFoundation.framework */; };
 		FD193FF41BBDDBED00153959 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD193FF31BBDDBED00153959 /* Foundation.framework */; };
 		FD193FF61BBDDBF500153959 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD193FF51BBDDBF500153959 /* CoreGraphics.framework */; };
@@ -140,6 +144,34 @@
 			remoteGlobalIDString = FD1000E81C5B466F00B2DB0A;
 			remoteInfo = EarlGrey;
 		};
+		6130DF231D38B59000C25E6B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 596D89B91C05AB0600025714 /* EarlGrey.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = FD1000E81C5B466F00B2DB0A;
+			remoteInfo = EarlGrey;
+		};
+		6135BD331D38798200F8B1EE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FD193F241BBDDA4F00153959 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FD193F2B1BBDDA4F00153959;
+			remoteInfo = FunctionalTestRig;
+		};
+		6135BD411D3879AE00F8B1EE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FD193F241BBDDA4F00153959 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FD193F2B1BBDDA4F00153959;
+			remoteInfo = FunctionalTestRig;
+		};
+		6135BD491D38840400F8B1EE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 596D89B91C05AB0600025714 /* EarlGrey.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = FD1000E81C5B466F00B2DB0A;
+			remoteInfo = EarlGrey;
+		};
 		FD387B461CA9C63900958AEE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = FD193F241BBDDA4F00153959 /* Project object */;
@@ -164,6 +196,26 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		6130DF261D38B5A300C25E6B /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 1;
+			files = (
+				6130DF271D38B5AA00C25E6B /* EarlGrey.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6135BD4C1D38843900F8B1EE /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 1;
+			files = (
+				6135BD4D1D38844100F8B1EE /* EarlGrey.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FD387B561CA9C6CA00958AEE /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -313,6 +365,10 @@
 		61E4E0B11D7559A9007F9EE6 /* FTRImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FTRImageViewController.m; sourceTree = "<group>"; };
 		61E4E0B21D7559A9007F9EE6 /* FTRImageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FTRImageViewController.xib; sourceTree = "<group>"; };
 		61E4E0C11D755A5C007F9EE6 /* FTRPinchViewTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FTRPinchViewTest.m; sourceTree = "<group>"; };
+		6135BD2E1D38798200F8B1EE /* EarlGreyFunctionalSwiftUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EarlGreyFunctionalSwiftUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6135BD321D38798200F8B1EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6135BD3C1D3879AE00F8B1EE /* EarlGreyFunctionalUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EarlGreyFunctionalUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6135BD401D3879AE00F8B1EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FD193F2C1BBDDA4F00153959 /* FunctionalTestRig.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FunctionalTestRig.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD193FF11BBDDBE800153959 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		FD193FF31BBDDBED00153959 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -328,6 +384,22 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		6135BD2B1D38798200F8B1EE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6130DF251D38B59500C25E6B /* EarlGrey.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6135BD391D3879AE00F8B1EE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6135BD4B1D38841800F8B1EE /* EarlGrey.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FD193F291BBDDA4F00153959 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -548,6 +620,22 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		6135BD2F1D38798200F8B1EE /* EarlGreyFunctionalSwiftUITests */ = {
+			isa = PBXGroup;
+			children = (
+				6135BD321D38798200F8B1EE /* Info.plist */,
+			);
+			path = EarlGreyFunctionalSwiftUITests;
+			sourceTree = "<group>";
+		};
+		6135BD3D1D3879AE00F8B1EE /* EarlGreyFunctionalUITests */ = {
+			isa = PBXGroup;
+			children = (
+				6135BD401D3879AE00F8B1EE /* Info.plist */,
+			);
+			path = EarlGreyFunctionalUITests;
+			sourceTree = "<group>";
+		};
 		FD193F231BBDDA4F00153959 = {
 			isa = PBXGroup;
 			children = (
@@ -562,6 +650,8 @@
 				FD193FF51BBDDBF500153959 /* CoreGraphics.framework */,
 				FD193FF31BBDDBED00153959 /* Foundation.framework */,
 				FD193FF11BBDDBE800153959 /* CoreFoundation.framework */,
+				6135BD2F1D38798200F8B1EE /* EarlGreyFunctionalSwiftUITests */,
+				6135BD3D1D3879AE00F8B1EE /* EarlGreyFunctionalUITests */,
 				FD193F2D1BBDDA4F00153959 /* Products */,
 				4C0731EECC191DBA6FF23E1E /* Frameworks */,
 			);
@@ -573,6 +663,8 @@
 				FD193F2C1BBDDA4F00153959 /* FunctionalTestRig.app */,
 				FD5470F11BBDECBB000661FD /* EarlGreyFunctionalTests.xctest */,
 				FD387B411CA9C63900958AEE /* EarlGreyFunctionalSwiftTests.xctest */,
+				6135BD2E1D38798200F8B1EE /* EarlGreyFunctionalSwiftUITests.xctest */,
+				6135BD3C1D3879AE00F8B1EE /* EarlGreyFunctionalUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -590,6 +682,46 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		6135BD2D1D38798200F8B1EE /* EarlGreyFunctionalSwiftUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6135BD371D38798200F8B1EE /* Build configuration list for PBXNativeTarget "EarlGreyFunctionalSwiftUITests" */;
+			buildPhases = (
+				6135BD2A1D38798200F8B1EE /* Sources */,
+				6135BD2B1D38798200F8B1EE /* Frameworks */,
+				6135BD2C1D38798200F8B1EE /* Resources */,
+				6130DF261D38B5A300C25E6B /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6130DF241D38B59000C25E6B /* PBXTargetDependency */,
+				6135BD341D38798200F8B1EE /* PBXTargetDependency */,
+			);
+			name = EarlGreyFunctionalSwiftUITests;
+			productName = EarlGreyFunctionalSwiftUITests;
+			productReference = 6135BD2E1D38798200F8B1EE /* EarlGreyFunctionalSwiftUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		6135BD3B1D3879AE00F8B1EE /* EarlGreyFunctionalUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6135BD431D3879AE00F8B1EE /* Build configuration list for PBXNativeTarget "EarlGreyFunctionalUITests" */;
+			buildPhases = (
+				6135BD381D3879AE00F8B1EE /* Sources */,
+				6135BD391D3879AE00F8B1EE /* Frameworks */,
+				6135BD3A1D3879AE00F8B1EE /* Resources */,
+				6135BD4C1D38843900F8B1EE /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6135BD421D3879AE00F8B1EE /* PBXTargetDependency */,
+				6135BD4A1D38840400F8B1EE /* PBXTargetDependency */,
+			);
+			name = EarlGreyFunctionalUITests;
+			productName = EarlGreyFunctionalUITests;
+			productReference = 6135BD3C1D3879AE00F8B1EE /* EarlGreyFunctionalUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		FD193F2B1BBDDA4F00153959 /* FunctionalTestRig */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = FD193F4F1BBDDA4F00153959 /* Build configuration list for PBXNativeTarget "FunctionalTestRig" */;
@@ -657,6 +789,14 @@
 				LastUpgradeCheck = 0640;
 				ORGANIZATIONNAME = "Google Inc.";
 				TargetAttributes = {
+					6135BD2D1D38798200F8B1EE = {
+						CreatedOnToolsVersion = 7.3.1;
+						TestTargetID = FD193F2B1BBDDA4F00153959;
+					};
+					6135BD3B1D3879AE00F8B1EE = {
+						CreatedOnToolsVersion = 7.3.1;
+						TestTargetID = FD193F2B1BBDDA4F00153959;
+					};
 					FD193F2B1BBDDA4F00153959 = {
 						CreatedOnToolsVersion = 6.4;
 					};
@@ -692,6 +832,8 @@
 				FD193F2B1BBDDA4F00153959 /* FunctionalTestRig */,
 				FD5470F01BBDECBB000661FD /* EarlGreyFunctionalTests */,
 				FD387B401CA9C63900958AEE /* EarlGreyFunctionalSwiftTests */,
+				6135BD2D1D38798200F8B1EE /* EarlGreyFunctionalSwiftUITests */,
+				6135BD3B1D3879AE00F8B1EE /* EarlGreyFunctionalUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -707,6 +849,20 @@
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
+		6135BD2C1D38798200F8B1EE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6135BD3A1D3879AE00F8B1EE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FD193F2A1BBDDA4F00153959 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -763,6 +919,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		6135BD2A1D38798200F8B1EE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6130DF221D38B4EB00C25E6B /* EarlGrey.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6135BD381D3879AE00F8B1EE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FD193F281BBDDA4F00153959 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -855,6 +1026,26 @@
 			name = EarlGrey;
 			targetProxy = 596D89C01C05AB8A00025714 /* PBXContainerItemProxy */;
 		};
+		6130DF241D38B59000C25E6B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = EarlGrey;
+			targetProxy = 6130DF231D38B59000C25E6B /* PBXContainerItemProxy */;
+		};
+		6135BD341D38798200F8B1EE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FD193F2B1BBDDA4F00153959 /* FunctionalTestRig */;
+			targetProxy = 6135BD331D38798200F8B1EE /* PBXContainerItemProxy */;
+		};
+		6135BD421D3879AE00F8B1EE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FD193F2B1BBDDA4F00153959 /* FunctionalTestRig */;
+			targetProxy = 6135BD411D3879AE00F8B1EE /* PBXContainerItemProxy */;
+		};
+		6135BD4A1D38840400F8B1EE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = EarlGrey;
+			targetProxy = 6135BD491D38840400F8B1EE /* PBXContainerItemProxy */;
+		};
 		FD387B471CA9C63900958AEE /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = FD193F2B1BBDDA4F00153959 /* FunctionalTestRig */;
@@ -873,6 +1064,129 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		6135BD351D38798200F8B1EE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_TESTABILITY = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = EarlGreyFunctionalSwiftUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks @loader_path";
+				PRODUCT_BUNDLE_IDENTIFIER = com.google.earlgrey.EarlGreyFunctionalSwiftUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Sources/FunctionalTestRig-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TEST_TARGET_NAME = FunctionalTestRig;
+			};
+			name = Debug;
+		};
+		6135BD361D38798200F8B1EE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = EarlGreyFunctionalSwiftUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks @loader_path";
+				PRODUCT_BUNDLE_IDENTIFIER = com.google.earlgrey.EarlGreyFunctionalSwiftUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Sources/FunctionalTestRig-Bridging-Header.h";
+				TEST_TARGET_NAME = FunctionalTestRig;
+			};
+			name = Release;
+		};
+		6135BD441D3879AE00F8B1EE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_TESTABILITY = YES;
+				GCC_PREFIX_HEADER = FunctionalTests.pch;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = EarlGreyFunctionalUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks @loader_path";
+				OTHER_LDFLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.google.earlgrey.EarlGreyFunctionalUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = FunctionalTestRig;
+			};
+			name = Debug;
+		};
+		6135BD451D3879AE00F8B1EE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				GCC_PREFIX_HEADER = FunctionalTests.pch;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = EarlGreyFunctionalUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks @loader_path";
+				OTHER_LDFLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.google.earlgrey.EarlGreyFunctionalUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = FunctionalTestRig;
+			};
+			name = Release;
+		};
 		FD193F4D1BBDDA4F00153959 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1007,7 +1321,7 @@
 		FD387B491CA9C63900958AEE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
+				BUNDLE_LOADER = "";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -1049,7 +1363,7 @@
 		FD387B4A1CA9C63900958AEE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
+				BUNDLE_LOADER = "";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -1089,7 +1403,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				BUNDLE_LOADER = "$(TEST_HOST)";
+				BUNDLE_LOADER = "";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PREFIX_HEADER = FunctionalTests.pch;
@@ -1108,6 +1422,7 @@
 					"-ObjC",
 					"-framework",
 					IOKit,
+					"-Wl,-U,_OBJC_CLASS_$_FTRNetworkProxy",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FunctionalTestRig.app/FunctionalTestRig";
@@ -1119,7 +1434,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				BUNDLE_LOADER = "$(TEST_HOST)";
+				BUNDLE_LOADER = "";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PREFIX_HEADER = FunctionalTests.pch;
@@ -1135,6 +1450,7 @@
 					"-ObjC",
 					"-framework",
 					IOKit,
+					"-Wl,-U,_OBJC_CLASS_$_FTRNetworkProxy",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FunctionalTestRig.app/FunctionalTestRig";
@@ -1145,6 +1461,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		6135BD371D38798200F8B1EE /* Build configuration list for PBXNativeTarget "EarlGreyFunctionalSwiftUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6135BD351D38798200F8B1EE /* Debug */,
+				6135BD361D38798200F8B1EE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6135BD431D3879AE00F8B1EE /* Build configuration list for PBXNativeTarget "EarlGreyFunctionalUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6135BD441D3879AE00F8B1EE /* Debug */,
+				6135BD451D3879AE00F8B1EE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		FD193F271BBDDA4F00153959 /* Build configuration list for PBXProject "FunctionalTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
