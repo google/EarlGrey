@@ -39,21 +39,9 @@ module SpecHelper
     end
   end
 
-  def cocoapods_after_default
+  def cocoapods_after
     @cocoapods_after ||= begin
-      fixture_path 'cocoapods_after_default'
-    end
-  end
-
-  def cocoapods_after_swift_2
-    @cocoapods_after ||= begin
-      fixture_path 'cocoapods_after_swift_2'
-    end
-  end
-
-  def cocoapods_after_swift_3
-    @cocoapods_after ||= begin
-      fixture_path 'cocoapods_after_swift_3'
+      fixture_path 'cocoapods_after'
     end
   end
 
@@ -81,8 +69,8 @@ module SpecHelper
 
         xcodeproj_1 = File.join(tmp_dir, 'Example.xcodeproj')
 
-        diff = ProjectDiff.run xcodeproj_1, xcodeproj_2
-
+        contains_swift_2 = command_array.include? '--swift_version=2.2'
+        diff = ProjectDiff.run(xcodeproj_1, xcodeproj_2, contains_swift_2)
         if diff != NIL_YAML
           puts diff
           raise 'difference detected'

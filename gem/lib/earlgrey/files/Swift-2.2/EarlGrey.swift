@@ -16,11 +16,11 @@
 
 import EarlGrey
 
-func grey_allOfMatchers(args: AnyObject...) -> GREYMatcher! {
+public func grey_allOfMatchers(args: AnyObject...) -> GREYMatcher! {
   return GREYAllOf.init(matchers: args)
 }
 
-func grey_anyOfMatchers(args: AnyObject...) -> GREYMatcher! {
+public func grey_anyOfMatchers(args: AnyObject...) -> GREYMatcher! {
   return GREYAnyOf.init(matchers: args)
 }
 
