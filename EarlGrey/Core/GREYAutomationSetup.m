@@ -208,7 +208,9 @@ static void grey_signalHandler(int signum) {
 }
 
 static void grey_uncaughtExceptionHandler(NSException *exception) {
-  NSLog(@"Uncaught exception: %@", exception);
+  NSLog(@"Uncaught exception: %@; Stack trace:\n%@",
+        exception,
+        [exception.callStackSymbols componentsJoinedByString:@"\n"]);
   if (gPreviousUncaughtExceptionHandler) {
     gPreviousUncaughtExceptionHandler(exception);
   } else {
