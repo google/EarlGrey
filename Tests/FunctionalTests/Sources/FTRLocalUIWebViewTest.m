@@ -18,7 +18,6 @@
 #import <EarlGrey/GREYPrivate.h>
 
 #import "FTRBaseIntegrationTest.h"
-#import "FTRNetworkProxy.h"
 
 // Required for testing UIWebView states.
 @interface GREYAppStateTracker (GREYExposedForTesting)
@@ -39,13 +38,6 @@
 - (void)setUp {
   [super setUp];
   [self openTestViewNamed:@"Web Views"];
-  [FTRNetworkProxy ftr_setProxyEnabled:NO];
-}
-
-- (void)tearDown {
-  [[GREYAppStateTracker sharedInstance] grey_clearState];
-  [FTRNetworkProxy ftr_setProxyEnabled:YES];
-  [super tearDown];
 }
 
 - (void)testSuccessiveTaps {

@@ -16,20 +16,9 @@
 
 #import "FTRBaseIntegrationTest.h"
 
-#import "FTRNetworkProxy.h"
-
 @implementation FTRBaseIntegrationTest {
   // This variable holds the current failure handler before any tests sully it.
   id<GREYFailureHandler> _currentFailureHandler;
-}
-
-+ (void)initialize {
-  static dispatch_once_t onceToken;
-  dispatch_once(&onceToken, ^{
-    // Start proxying all requests.
-    [FTRNetworkProxy ftr_setProxyEnabled:YES];
-    [FTRNetworkProxy ftr_addProxyRuleForUrlsMatchingRegexString:@".*" responseString:@"OK"];
-  });
 }
 
 - (void)setUp {
