@@ -18,15 +18,15 @@
 
 #import "FTRBaseIntegrationTest.h"
 
-@interface FTROrientationPortraitOnlyChangeTest : FTRBaseIntegrationTest
-@end
-
 @implementation UIApplication (Test)
 
 - (NSUInteger)grey_supportedInterfaceOrientationsForWindow:(UIWindow *)window {
   return UIInterfaceOrientationMaskPortrait;
 }
 
+@end
+
+@interface FTROrientationPortraitOnlyChangeTest : FTRBaseIntegrationTest
 @end
 
 @implementation FTROrientationPortraitOnlyChangeTest {
@@ -36,54 +36,49 @@
 - (void)setUp {
   [super setUp];
 
-  // Swizzle supportedInterfaceOrientationsForWindow: for the test to make orientations other than
+  // Swizzle UIApplication supportedInterfaceOrientationsForWindow: to make orientations other than
   // portrait unsupported by the app.
   _swizzler = [[GREYSwizzler alloc] init];
   BOOL swizzle = [_swizzler swizzleClass:[UIApplication class]
                    replaceInstanceMethod:@selector(supportedInterfaceOrientationsForWindow:)
                               withMethod:@selector(grey_supportedInterfaceOrientationsForWindow:)];
-  NSAssert(swizzle, @"Cannot swizzle UIApplication supportedInterfaceOrientationsForWindow:");
+  GREYAssert(swizzle, @"Cannot swizzle UIApplication supportedInterfaceOrientationsForWindow:");
 }
 
 - (void)tearDown {
+  // Tear down before undoing swizzling.
+  [super tearDown];
+
   // Undo swizzling.
-  BOOL swizzle1 = [_swizzler resetInstanceMethod:@selector(supportedInterfaceOrientationsForWindow:)
-                                           class:[UIApplication class]];
+  BOOL swizzle1 =
+      [_swizzler resetInstanceMethod:@selector(supportedInterfaceOrientationsForWindow:)
+                               class:[UIApplication class]];
   BOOL swizzle2 =
       [_swizzler resetInstanceMethod:@selector(grey_supportedInterfaceOrientationsForWindow:)
                                class:[UIApplication class]];
-
-  [super tearDown];
-
-  // Assert undoing swizzling was successful after tearDown is complete.
-  NSAssert(swizzle1 && swizzle2,
-           @"Failed to undo swizzling of supportedInterfaceOrientationsForWindow:");
+  GREYAssert(swizzle1 && swizzle2, @"Failed to undo swizzling of UIApplication methods");
 }
 
 - (void)testRotateToUnsupportedOrientation {
-  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait errorOrNil:nil];
-
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeLeft errorOrNil:nil];
-  GREYAssertTrue([UIDevice currentDevice].orientation == UIDeviceOrientationLandscapeLeft,
-                 @"Device orientation should now be landscape left");
-  GREYAssertTrue([UIApplication sharedApplication].statusBarOrientation ==
-                 UIInterfaceOrientationPortrait,
-                 @"Interface orientation should remain portrait");
+  GREYAssertEqual([UIDevice currentDevice].orientation, UIDeviceOrientationLandscapeLeft,
+                  @"Device orientation should now be landscape left");
+  UIApplication *sharedApp = [UIApplication sharedApplication];
+  GREYAssertEqual(sharedApp.statusBarOrientation, UIInterfaceOrientationPortrait,
+                  @"Interface orientation should remain portrait");
 }
 
 - (void)testDeviceChangeWithoutInterfaceChange {
-  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait errorOrNil:nil];
-
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeLeft errorOrNil:nil];
-  BOOL isStatusBarOrientationPortrait =
-      UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation);
-  GREYAssertTrue(isStatusBarOrientationPortrait, @"Status Bar orientation should be Portrait.");
+  UIApplication *sharedApp = [UIApplication sharedApplication];
+  GREYAssertEqual(sharedApp.statusBarOrientation, UIInterfaceOrientationPortrait,
+                  @"Interface orientation should be portrait.");
+
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait errorOrNil:nil];
-  GREYAssertTrue([UIDevice currentDevice].orientation == UIDeviceOrientationPortrait,
-                 @"Device orientation should now be portrait");
-  GREYAssertTrue([UIApplication sharedApplication].statusBarOrientation ==
-                 UIInterfaceOrientationPortrait,
-                 @"Interface orientation should remain portrait");
+  GREYAssertEqual([UIDevice currentDevice].orientation, UIDeviceOrientationPortrait,
+                  @"Device orientation should now be portrait");
+  GREYAssertEqual(sharedApp.statusBarOrientation, UIInterfaceOrientationPortrait,
+                  @"Interface orientation should remain portrait");
 }
 
 @end
