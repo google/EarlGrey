@@ -161,6 +161,7 @@ li {
 
 .usage .one {
   font-weight: bold;
+  font-family: 'Ubuntu', sans-serif;
 }
 
 .usage .two {
@@ -184,7 +185,7 @@ li {
   font-size: 2em;
 }
 
-.objc {
+.swift {
   text-transform: uppercase !important;
   padding-top: 1em;
   color: var(--pink-color) !important;
