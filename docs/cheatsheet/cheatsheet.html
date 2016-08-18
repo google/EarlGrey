@@ -30,14 +30,14 @@ cheatsheet.png: Save as image from Chrome using https://chrome.google.com/websto
 
 <div class="header">
 <div class="usage">
-<span class="one">EarlGrey().selectElementWithMatcher</span>(<span class="two">ViewMatcher</span>)
-                      .performAction(<span class="three">ViewAction</span>)
-                      .assertWithMatcher(<span class="two">ViewMatcher</span>)
+<span class="one">EarlGrey()</span>.selectElementWithMatcher(<span class="two">ViewMatcher</span>)
+                     .performAction(<span class="three">ViewAction</span>)
+                     .assertWithMatcher(<span class="two">ViewMatcher</span>)
 </pre>
 </div>
 
 <div class="cheatsheet">
-EarlGrey 1.0.0
+EarlGrey 1.1.0
 </div>
 </div>
 
@@ -46,25 +46,33 @@ EarlGrey 1.0.0
   <li>View Matchers</li>
   <li>Accessibility Properties
     <ul>
+      <li>grey_accessibilityElement()</li>
+      <li>grey_accessibilityHint(...)</li>
       <li>grey_accessibilityID(...)</li>
       <li>grey_accessibilityLabel(...)</li>
-      <li>grey_accessibilityValue(...)</li>
       <li>grey_accessibilityTrait(...)</li>
-      <li>grey_accessibilityHint(...)</li>
+      <li>grey_accessibilityValue(...)</li>
     </ul>
   </li>
   <li>UI Properties
     <ul>
-      <li>grey_text(...)</li>
-      <li>grey_minimumVisiblePercent(...)</li>
-      <li>grey_sufficientlyVisible()</li>
-      <li>grey_interactable()</li>
-      <li>grey_notVisible()</li>
-      <li>grey_systemAlertViewShown()</li>
+      <li>grey_buttonTitle(...)</li>
+      <li>grey_datePickerValue(...)</li>
       <li>grey_enabled()</li>
+      <li>grey_firstResponder()</li>
+      <li>grey_interactable()</li>
       <li>grey_layout(...)</li>
-      <li>grey_nil()</li>
-      <li>grey_notNil()</li>
+      <li>grey_minimumVisiblePercent(...)</li>
+      <li>grey_notVisible()</li>
+      <li>grey_pickerColumnSetToValue(...)</li>
+      <li>grey_progress(...)</li>
+      <li>grey_scrollViewContentOffset(...)</li>
+      <li>grey_sliderValueMatcher(...)</li>
+      <li>grey_stepperValue(...)</li>
+      <li>grey_sufficientlyVisible()</li>
+      <li>grey_switchWithOnState(...)</li>
+      <li>grey_text(...)</li>
+      <li>grey_userInteractionEnabled()</li>
     </ul>
   </li>
   <li>Hierarchy
@@ -80,30 +88,32 @@ EarlGrey 1.0.0
       <li>grey_conformsToProtocol(...)</li>
     </ul>
   </li>
-  <li>Other
+  <li>Comparison
     <ul>
-      <li>grey_keyWindow()</li>
-      <li>grey_firstResponder()</li>
-      <li>grey_accessibilityElement()</li>
-      <li>grey_progress(...)</li>
-      <li>grey_buttonTitle(...)</li>
-      <li>grey_stepperValue(...)</li>
-      <li>grey_sliderValueMatcher(...)</li>
-      <li>grey_pickerColumnSetToValue(...)</li>
-      <li>grey_datePickerValue(...)</li>
-      <li>grey_switchWithOnState(...)</li>
       <li>grey_closeTo(...)</li>
-      <li>grey_elementAtIndex(...)</li>
-      <li>grey_scrollViewContentOffset(...)</li>
+      <li>grey_equalTo(...)</li>
+      <li>grey_lessThan(...)</li>
+      <li>grey_greaterThan(...)</li>
     </ul>
   </li>
-  <li>Object Matchers - Swift
+  <li>Other
+    <ul>
+      <li>grey_anything()</li>
+      <li>grey_keyWindow()</li>
+      <li>grey_elementAtIndex(...)</li>
+      <li>grey_nil()</li>
+      <li>grey_notNil()</li>
+      <li>grey_systemAlertViewShown()</li>
+    </ul>
+  </li>
+  <li>Object Matchers - Objective-C
   <ul>
-    <li>grey_allOfMatchers(...)</li>
-    <li>grey_anyOfMatchers(...)</li>
-    <li class="objc">Object Matchers - Objective C</li>
     <li>grey_allOf(...)</li>
     <li>grey_anyOf(...)</li>
+    <li>grey_not(...)</li>
+    <li class="swift">Object Matchers - Swift</li>
+    <li>grey_allOfMatchers(...)</li>
+    <li>grey_anyOfMatchers(...)</li>
   </ul>
   </li>
 </ul>
@@ -117,17 +127,20 @@ EarlGrey 1.0.0
       <li>grey_doubleTap()</li>
       <li>grey_doubleTapAtPoint(...)</li>
       <li>grey_longPress()</li>
-      <li>grey_longPressWithDuration(...)</li>
       <li>grey_longPressAtPointWithDuration(...)</li>
+      <li>grey_longPressWithDuration(...)</li>
+      <li>grey_multipleTapsWithCount(...)</li>
     </ul>
   </li>
   <li>Gestures
     <ul>
       <li>grey_scrollInDirection(...)</li>
+      <li>grey_scrollInDirectionWithStartPoint(...)</li>
       <li>grey_scrollToContentEdge(...)</li>
+      <li>grey_scrollToContentEdgeWithStartPoint(...)</li>
       <li>grey_swipeFastInDirection(...)</li>
-      <li>grey_swipeSlowInDirection(...)</li>
       <li>grey_swipeFastInDirectionWithStartPoint(...)</li>
+      <li>grey_swipeSlowInDirection(...)</li>
       <li>grey_swipeSlowInDirectionWithStartPoint(...)</li>
     </ul>
   </li>
@@ -156,12 +169,16 @@ EarlGrey 1.0.0
   <li>Grey Assert
     <ul>
       <li>GREYAssert(...)</li>
-      <li>GREYAssertTrue(...)</li>
-      <li>GREYAssertFalse(...)</li>
-      <li>GREYAssertNotNil(...)</li>
-      <li>GREYAssertNil(...)</li>
       <li>GREYAssertEqual(...)</li>
+      <li>GREYAssertEqualObjects(...)</li>
+      <li>GREYAssertFalse(...)</li>
+      <li>GREYAssertNil(...)</li>
+      <li>GREYAssertNotEqual(...)</li>
+      <li>GREYAssertNotEqualObjects(...)</li>
+      <li>GREYAssertNotNil(...)</li>
+      <li>GREYAssertTrue(...)</li>
       <li>GREYFail(...)</li>
+      <li>GREYFailWithDetails(...)</li>
     </ul>
   </li>
   <li class="hide"></li>
