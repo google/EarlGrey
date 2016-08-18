@@ -18,13 +18,13 @@
 // frameworks in the app bundle need to include bitcode.
 {
   "name": "EarlGrey",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "summary": "iOS UI Automation Test Framework",
   "description": "EarlGrey is a native iOS UI automation test framework that enables you to write clear, concise tests.\\n\\nWith the EarlGrey framework, you have access to enhanced synchronization features. EarlGrey automatically synchronizes with the UI, network requests, and various queues, but still allows you to manually implement customized timings, if needed.\\n\\nEarlGrey’s synchronization features help ensure that the UI is in a steady state before actions are performed. This greatly increases test stability and makes tests highly repeatable.\\n\\nEarlGrey works in conjunction with the XCTest framework and integrates with Xcode’s Test Navigator so you can run tests directly from Xcode or the command line (using xcodebuild).",
   "homepage": "https://www.github.com/google/EarlGrey",
   "license": {
     "type": "Apache 2.0, CC-BY 4.0",
-    "file": "EarlGrey-1.0.0/LICENSE"
+    "file": "EarlGrey/LICENSE"
   },
   "authors": {
     "Google Inc.": "www.google.com"
@@ -34,7 +34,7 @@
   },
   "requires_arc": true,
   "source": {
-    "http": "http://www.github.com/google/EarlGrey/releases/download/1.0.0/EarlGrey-1.0.0.zip"
+    "http": "http://www.github.com/google/EarlGrey/releases/download/1.1.0/EarlGrey.zip"
   },
   "name": "EarlGrey",
   "frameworks": [
@@ -48,7 +48,7 @@
     "XCTest"
   ],
   "ios": {
-    "vendored_frameworks": "EarlGrey-1.0.0/EarlGrey.framework"
+    "vendored_frameworks": "EarlGrey/EarlGrey.framework"
   },
   "pod_target_xcconfig": {
     "FRAMEWORK_SEARCH_PATHS": "$(inherited) $(PLATFORM_DIR)/Developer/Library/Frameworks",
