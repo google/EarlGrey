@@ -53,10 +53,8 @@
   NSString *name =
       [NSString stringWithFormat:@"Scroll To %@ content edge", NSStringFromGREYContentEdge(edge)];
   self = [super initWithName:name
-                 constraints:grey_allOf(grey_anyOf(grey_kindOfClass([UIScrollView class]),
-                                                   grey_kindOfClass([UIWebView class]),
-                                                   nil),
-                                        grey_not(grey_systemAlertViewShown()),
+                 constraints:grey_anyOf(grey_kindOfClass([UIScrollView class]),
+                                        grey_kindOfClass([UIWebView class]),
                                         nil)];
   if (self) {
     _edge = edge;

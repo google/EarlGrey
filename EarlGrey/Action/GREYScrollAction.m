@@ -67,10 +67,8 @@ static const NSInteger kMinTouchPointsToDetectScrollResistance = 2;
   NSString *name =
       [NSString stringWithFormat:@"Scroll %@ for %g", NSStringFromGREYDirection(direction), amount];
   self = [super initWithName:name
-                 constraints:grey_allOf(grey_anyOf(grey_kindOfClass([UIScrollView class]),
-                                                   grey_kindOfClass([UIWebView class]),
-                                                   nil),
-                                        grey_not(grey_systemAlertViewShown()),
+                 constraints:grey_anyOf(grey_kindOfClass([UIScrollView class]),
+                                        grey_kindOfClass([UIWebView class]),
                                         nil)];
   if (self) {
     _direction = direction;

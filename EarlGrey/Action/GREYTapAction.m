@@ -88,8 +88,7 @@
                                                     duration:duration
                                                 numberOfTaps:numberOfTaps];
   self = [super initWithName:name
-                 constraints:grey_allOf(grey_not(grey_systemAlertViewShown()),
-                                        grey_anyOf(grey_accessibilityElement(),
+                 constraints:grey_allOf(grey_anyOf(grey_accessibilityElement(),
                                                    grey_kindOfClass([UIView class]),
                                                    nil),
                                         grey_enabled(),

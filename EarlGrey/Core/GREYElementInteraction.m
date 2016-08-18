@@ -23,7 +23,7 @@
 #import "Assertion/GREYAssertionDefines.h"
 #import "Assertion/GREYAssertions.h"
 #import "Common/GREYConfiguration.h"
-#import "Common/GREYDefines.h"
+#import "Common/GREYExposed.h"
 #import "Common/GREYPrivate.h"
 #import "Core/GREYElementFinder.h"
 #import "Core/GREYInteractionDataSource.h"
@@ -122,6 +122,14 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
   BOOL timedOut = NO;
   while (YES) {
     @autoreleasepool {
+      if ([[UIApplication sharedApplication] _isSpringBoardShowingAnAlert] &&
+          ![[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.springboard"]) {
+        NSString *description = @"Interaction failed because a system alert view is displayed.";
+        *error = [NSError errorWithDomain:kGREYInteractionErrorDomain
+                                     code:kGREYInteractionSystemAlertViewIsDisplayedErrorCode
+                                 userInfo:@{ NSLocalizedDescriptionKey : description }];
+        return nil;
+      }
       // Find the element in the current UI hierarchy.
       NSArray *elements = [elementFinder elementsMatchedInProvider:entireRootHierarchyProvider];
       if (elements.count > 0) {

@@ -145,12 +145,10 @@
 }
 
 + (id<GREYAction>)actionForTurnSwitchOn:(BOOL)on {
-  id<GREYMatcher> constraints = grey_allOf(grey_not(grey_systemAlertViewShown()),
-                                           grey_respondsToSelector(@selector(isOn)), nil);
   NSString *actionName = [NSString stringWithFormat:@"Turn switch to %@ state",
                              [UISwitch grey_stringFromOnState:on]];
   return [GREYActionBlock actionWithName:actionName
-                             constraints:constraints
+                             constraints:grey_respondsToSelector(@selector(isOn))
                             performBlock:^BOOL (id switchView, __strong NSError **errorOrNil) {
     if (([switchView isOn] && !on) || (![switchView isOn] && on)) {
       id<GREYAction> longPressAction =
@@ -203,12 +201,10 @@
 }
 
 + (id<GREYAction>)actionForSetDate:(NSDate *)date {
-  id<GREYMatcher> constraints = grey_allOf(grey_interactable(),
-                                           grey_not(grey_systemAlertViewShown()),
-                                           grey_kindOfClass([UIDatePicker class]),
-                                           nil);
   return [[GREYActionBlock alloc] initWithName:[NSString stringWithFormat:@"Set date to %@", date]
-                                   constraints:constraints
+                                   constraints:grey_allOf(grey_interactable(),
+                                                          grey_kindOfClass([UIDatePicker class]),
+                                                          nil)
                                   performBlock:^BOOL (UIDatePicker *datePicker,
                                                       __strong NSError **errorOrNil) {
     NSDate *previousDate = [datePicker date];
@@ -229,11 +225,8 @@
 + (id<GREYAction>)actionForJavaScriptExecution:(NSString *)js
                                         output:(out __strong NSString **)outResult {
   // TODO: JS Errors should be propagated up.
-  id<GREYMatcher> constraints = grey_allOf(grey_not(grey_systemAlertViewShown()),
-                                           grey_kindOfClass([UIWebView class]),
-                                           nil);
   return [[GREYActionBlock alloc] initWithName:@"Execute JavaScript"
-                                   constraints:constraints
+                                   constraints:grey_kindOfClass([UIWebView class])
                                   performBlock:^BOOL (UIWebView *webView,
                                                       __strong NSError **errorOrNil) {
     if (outResult) {
@@ -351,7 +344,7 @@
 + (id<GREYAction>)grey_actionForTypeText:(NSString *)text
                         atUITextPosition:(UITextPosition *)position {
   return [GREYActionBlock actionWithName:[NSString stringWithFormat:@"Type \"%@\"", text]
-                             constraints:grey_not(grey_systemAlertViewShown())
+                             constraints:nil
                             performBlock:^BOOL (id element, __strong NSError **errorOrNil) {
     UIView *expectedFirstResponderView;
     if (![element isKindOfClass:[UIView class]]) {
