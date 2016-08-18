@@ -27,39 +27,32 @@
 
 - (void)testCGRectFixedToVariableScreenCoordinates_portrait {
   CGRect actualRect = CGRectFixedToVariableScreenCoordinates(CGRectMake(40, 50, 100, 120));
-  GREYAssertTrue(CGRectEqualToRect(CGRectMake(40, 50, 100, 120), actualRect), @"should be true");
+  GREYAssertTrue(CGRectEqualToRect(actualRect, CGRectMake(40, 50, 100, 120)), @"should be true");
 }
 
 - (void)testCGRectFixedToVariableScreenCoordinates_portraitUpsideDown {
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortraitUpsideDown errorOrNil:nil];
-  [[GREYUIThreadExecutor sharedInstance] drainUntilIdle];
 
   CGRect screenBounds = [UIScreen mainScreen].bounds;
   CGFloat width = CGRectGetWidth(screenBounds);
   CGFloat height = CGRectGetHeight(screenBounds);
-
-  CGRect expectedRect = CGRectMake(width - 40 - 100,
-                                   height - 50 - 120,
-                                   100, 120);
   CGRect actualRect = CGRectFixedToVariableScreenCoordinates(CGRectMake(40, 50, 100, 120));
-
-  GREYAssertTrue(CGRectEqualToRect(expectedRect, actualRect), @"should be true");
+  CGRect expectedRect = CGRectMake(width - 40 - 100, height - 50 - 120, 100, 120);
+  GREYAssertTrue(CGRectEqualToRect(actualRect, expectedRect), @"should be true");
 }
 
 - (void)testCGRectFixedToVariableScreenCoordinates_landscapeRight {
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeRight errorOrNil:nil];
-  [[GREYUIThreadExecutor sharedInstance] drainUntilIdle];
 
   CGRect screenBounds = [UIScreen mainScreen].bounds;
   CGFloat width = CGRectGetWidth(screenBounds);
   CGFloat height = CGRectGetHeight(screenBounds);
 
   // Bottom left => Top left
-  CGRect rectInFixed = CGRectMake(0, (iOS8_0_OR_ABOVE() ? width : height) - 20,
-                                  10, 20);
+  CGRect rectInFixed = CGRectMake(0, (iOS8_0_OR_ABOVE() ? width : height) - 20, 10, 20);
   CGRect actualRect = CGRectFixedToVariableScreenCoordinates(rectInFixed);
   CGRect expectedRect = CGRectMake(0, 0, 20, 10);
-  GREYAssertTrue(CGRectEqualToRect(expectedRect, actualRect), @"should be true");
+  GREYAssertTrue(CGRectEqualToRect(actualRect, expectedRect), @"should be true");
 
   // Bottom right => Bottom left
   rectInFixed = CGRectMake((iOS8_0_OR_ABOVE() ? height : width) - 10,
@@ -67,108 +60,85 @@
                            10, 20);
   actualRect = CGRectFixedToVariableScreenCoordinates(rectInFixed);
   expectedRect = CGRectMake(0, (iOS8_0_OR_ABOVE() ? height : width) - 10, 20, 10);
-  GREYAssertTrue(CGRectEqualToRect(expectedRect, actualRect), @"should be true");
+  GREYAssertTrue(CGRectEqualToRect(actualRect, expectedRect), @"should be true");
 
   // Top left => Top right
-  rectInFixed = CGRectMake(0, 0, 10, 20);
-  actualRect = CGRectFixedToVariableScreenCoordinates(rectInFixed);
-  expectedRect = CGRectMake((iOS8_0_OR_ABOVE() ? width : height) - 20, 0,
-                            20, 10);
-  GREYAssertTrue(CGRectEqualToRect(expectedRect, actualRect), @"should be true");
+  actualRect = CGRectFixedToVariableScreenCoordinates(CGRectMake(0, 0, 10, 20));
+  expectedRect = CGRectMake((iOS8_0_OR_ABOVE() ? width : height) - 20, 0, 20, 10);
+  GREYAssertTrue(CGRectEqualToRect(actualRect, expectedRect), @"should be true");
 
   // Top right => bottom right
-  rectInFixed = CGRectMake((iOS8_0_OR_ABOVE() ? height : width) - 10, 0,
-                           10, 20);
+  rectInFixed = CGRectMake((iOS8_0_OR_ABOVE() ? height : width) - 10, 0, 10, 20);
   actualRect = CGRectFixedToVariableScreenCoordinates(rectInFixed);
   expectedRect = CGRectMake((iOS8_0_OR_ABOVE() ? width : height) - 20,
                             (iOS8_0_OR_ABOVE() ? height : width) - 10,
                             20, 10);
-  GREYAssertTrue(CGRectEqualToRect(expectedRect, actualRect), @"should be true");
+  GREYAssertTrue(CGRectEqualToRect(actualRect, expectedRect), @"should be true");
 }
 
 - (void)testCGRectFixedToVariableScreenCoordinates_landscapeLeft {
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeLeft errorOrNil:nil];
-  [[GREYUIThreadExecutor sharedInstance] drainUntilIdle];
 
   CGRect screenBounds = [UIScreen mainScreen].bounds;
   CGFloat width = CGRectGetWidth(screenBounds);
   CGFloat height = CGRectGetHeight(screenBounds);
-
   CGRect rectInFixed = CGRectMake((iOS8_0_OR_ABOVE() ? height : width) - 120, 50, 120, 100);
   CGRect actualRect = CGRectFixedToVariableScreenCoordinates(rectInFixed);
-  GREYAssertTrue(CGRectEqualToRect(CGRectMake(50, 0, 100, 120), actualRect),
-                 @"should be true");
+  CGRect expectedRect = CGRectMake(50, 0, 100, 120);
+  GREYAssertTrue(CGRectEqualToRect(actualRect, expectedRect), @"should be true");
 
   rectInFixed = CGRectMake(0, (iOS8_0_OR_ABOVE() ? width : height), 0, 0);
   actualRect = CGRectFixedToVariableScreenCoordinates(rectInFixed);
-  GREYAssertTrue(CGRectEqualToRect(CGRectMake((iOS8_0_OR_ABOVE() ? width : height),
-                                              (iOS8_0_OR_ABOVE() ? height : width), 0, 0),
-                                   actualRect),
-                 @"should be true");
+  expectedRect =
+      CGRectMake((iOS8_0_OR_ABOVE() ? width : height), (iOS8_0_OR_ABOVE() ? height : width), 0, 0);
+  GREYAssertTrue(CGRectEqualToRect(actualRect, expectedRect), @"should be true");
 }
 
 #pragma mark - CGRectVariableToFixedScreenCoordinates
 
 - (void)testCGRectVariableToFixedScreenCoordinates_portrait {
   CGRect actualRect = CGRectVariableToFixedScreenCoordinates(CGRectMake(40, 50, 100, 120));
-  GREYAssertTrue(CGRectEqualToRect(CGRectMake(40, 50, 100, 120), actualRect), @"should be true");
+  GREYAssertTrue(CGRectEqualToRect(actualRect, CGRectMake(40, 50, 100, 120)), @"should be true");
 }
 
 - (void)testCGRectVariableToFixedScreenCoordinates_portraitUpsideDown {
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortraitUpsideDown errorOrNil:nil];
-  [[GREYUIThreadExecutor sharedInstance] drainUntilIdle];
 
   CGRect screenBounds = [UIScreen mainScreen].bounds;
   CGFloat width = CGRectGetWidth(screenBounds);
   CGFloat height = CGRectGetHeight(screenBounds);
-
-  CGRect expectedRect = CGRectMake(width - 40 - 100,
-                                   height - 50 - 120,
-                                   100, 120);
   CGRect actualRect = CGRectVariableToFixedScreenCoordinates(CGRectMake(40, 50, 100, 120));
-
-  GREYAssertTrue(CGRectEqualToRect(expectedRect, actualRect), @"should be true");
+  CGRect expectedRect = CGRectMake(width - 40 - 100, height - 50 - 120, 100, 120);
+  GREYAssertTrue(CGRectEqualToRect(actualRect, expectedRect), @"should be true");
 }
 
 
 - (void)testCGRectVariableToFixedScreenCoordinates_landscapeRight {
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeRight errorOrNil:nil];
-  [[GREYUIThreadExecutor sharedInstance] drainUntilIdle];
 
   CGRect screenBounds = [UIScreen mainScreen].bounds;
   CGFloat width = CGRectGetWidth(screenBounds);
   CGFloat height = CGRectGetHeight(screenBounds);
-
-  CGRect rectInVariable = CGRectMake(0, 0, 0, 0);
-  CGRect actualRect = CGRectVariableToFixedScreenCoordinates(rectInVariable);
-  GREYAssertTrue(CGRectEqualToRect(CGRectMake(0, (iOS8_0_OR_ABOVE() ? width : height), 0, 0),
-                                   actualRect),
-                 @"should be true");
+  CGRect actualRect = CGRectVariableToFixedScreenCoordinates(CGRectMake(0, 0, 0, 0));
+  CGRect expectedRect = CGRectMake(0, (iOS8_0_OR_ABOVE() ? width : height), 0, 0);
+  GREYAssertTrue(CGRectEqualToRect(actualRect, expectedRect), @"should be true");
 }
 
 - (void)testCGRectVariableToFixedScreenCoordinates_landscapeLeft {
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeLeft errorOrNil:nil];
-  [[GREYUIThreadExecutor sharedInstance] drainUntilIdle];
 
   CGRect screenBounds = [UIScreen mainScreen].bounds;
   CGFloat width = CGRectGetWidth(screenBounds);
   CGFloat height = CGRectGetHeight(screenBounds);
+  CGRect actualRect = CGRectVariableToFixedScreenCoordinates(CGRectMake(50, 0, 100, 120));
+  CGRect expectedRect = CGRectMake((iOS8_0_OR_ABOVE() ? height : width) - 120, 50, 120, 100);
+  GREYAssertTrue(CGRectEqualToRect(actualRect, expectedRect), @"should be true");
 
-  CGRect rectInVariable = CGRectMake(50, 0, 100, 120);
-  CGRect actualRect = CGRectVariableToFixedScreenCoordinates(rectInVariable);
-  GREYAssertTrue(CGRectEqualToRect(CGRectMake((iOS8_0_OR_ABOVE() ? height : width) - 120,
-                                              50,
-                                              120,
-                                              100),
-                                   actualRect),
-                 @"should be true");
-
-  rectInVariable = CGRectMake((iOS8_0_OR_ABOVE() ? width : height),
-                              (iOS8_0_OR_ABOVE() ? height : width), 0, 0);
+  CGRect rectInVariable =
+      CGRectMake((iOS8_0_OR_ABOVE() ? width : height), (iOS8_0_OR_ABOVE() ? height : width), 0, 0);
   actualRect = CGRectVariableToFixedScreenCoordinates(rectInVariable);
-  GREYAssertTrue(CGRectEqualToRect(CGRectMake(0, (iOS8_0_OR_ABOVE() ? width : height), 0, 0),
-                                   actualRect),
-                 @"should be true");
+  expectedRect = CGRectMake(0, (iOS8_0_OR_ABOVE() ? width : height), 0, 0);
+  GREYAssertTrue(CGRectEqualToRect(actualRect, expectedRect), @"should be true");
 }
 
 @end
