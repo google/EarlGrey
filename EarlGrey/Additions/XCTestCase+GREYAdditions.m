@@ -156,12 +156,9 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
 
 - (void)grey_markAsFailedAtLine:(NSUInteger)line
                          inFile:(NSString *)file
-                         reason:(NSString *)reason
-              detailDescription:(NSString *)description {
-  NSString *fullException =
-      [NSString stringWithFormat:@"%@\n%@\n%@", reason, [NSThread callStackSymbols], description];
+                    description:(NSString *)description {
   gCurrentExecutingTestCase.continueAfterFailure = NO;
-  [gCurrentExecutingTestCase recordFailureWithDescription:fullException
+  [gCurrentExecutingTestCase recordFailureWithDescription:description
                                                    inFile:file
                                                    atLine:line
                                                  expected:NO];
