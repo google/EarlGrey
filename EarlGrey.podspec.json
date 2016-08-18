@@ -36,7 +36,6 @@
   "source": {
     "http": "http://www.github.com/google/EarlGrey/releases/download/1.1.0/EarlGrey.zip"
   },
-  "name": "EarlGrey",
   "frameworks": [
     "CoreData",
     "CoreFoundation",
@@ -46,6 +45,11 @@
     "QuartzCore",
     "UIKit",
     "XCTest"
+  ],
+  "preserve_paths": [
+    "CHANGELOG.md",
+    "LICENSE",
+    "README.md"
   ],
   "ios": {
     "vendored_frameworks": "EarlGrey/EarlGrey.framework"
