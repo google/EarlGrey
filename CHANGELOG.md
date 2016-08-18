@@ -3,11 +3,11 @@
 Details changes in each release of EarlGrey. EarlGrey follows
 [semantic versioning](http://semver.org/).
 
-## [1.1.0](https://github.com/google/EarlGrey/tree/1.1.0) (08/17/2016)
+## [1.1.0](https://github.com/google/EarlGrey/tree/1.1.0) (08/18/2016)
 
 ```
-Baseline: [d3698b0]
-   + [d3698b0]: print out the stack track when unhandled exceptions are caught by EarlGrey.
+Baseline: [107dba5]
+   + [107dba5]: Update podspec for 1.1.0 release [ci skip]
 ```
 
 ### New Features
@@ -71,4 +71,3 @@ Baseline: [7099484]
 ```
 
 Initial release.
-
