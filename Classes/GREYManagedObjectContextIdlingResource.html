@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>GREYActionBlock Class Reference</title>
+    <title>GREYManagedObjectContextIdlingResource Class Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset='utf-8'>
@@ -10,8 +10,8 @@
     
   </head>
   <body>
-    <a name="//apple_ref/objc/Class/GREYActionBlock" class="dashAnchor"></a>
-    <a title="GREYActionBlock Class Reference"></a>
+    <a name="//apple_ref/objc/Class/GREYManagedObjectContextIdlingResource" class="dashAnchor"></a>
+    <a title="GREYManagedObjectContextIdlingResource Class Reference"></a>
     <header>
       <div class="content-wrapper">
         <p><a href="../index.html">EarlGrey Docs</a> (93% documented)</p>
@@ -22,7 +22,7 @@
       <p id="breadcrumbs">
         <a href="../index.html">EarlGrey Reference</a>
         <img id="carat" src="../img/carat.png" />
-        GREYActionBlock Class Reference
+        GREYManagedObjectContextIdlingResource Class Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -567,14 +567,18 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>GREYActionBlock</h1>
+            <h1>GREYManagedObjectContextIdlingResource</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">GREYActionBlock</span> <span class="p">:</span> <span class="nc">GREYBaseAction</span></code></pre>
+                  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">GREYManagedObjectContextIdlingResource</span>
+    <span class="p">:</span> <span class="nc">NSObject</span> <span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYIdlingResource.html">GREYIdlingResource</a></span><span class="o">&gt;</span></code></pre>
 
                 </div>
               </div>
-            <p>A class for creating block based GREYAction.</p>
+            <p>Idling resource that tracks core data managed object context operations.</p>
+
+<p>Tracks the managed object context&rsquo;s internal operation queue and optionally any pending changes
+ yet to be committed.</p>
 
           </section>
           <section class="section task-group-section">
@@ -583,9 +587,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:objc(cs)GREYActionBlock(cm)actionWithName:performBlock:"></a>
-                    <a name="//apple_ref/objc/Method/+actionWithName:performBlock:" class="dashAnchor"></a>
-                    <a class="token" href="#/c:objc(cs)GREYActionBlock(cm)actionWithName:performBlock:">+actionWithName:performBlock:</a>
+                    <a name="/c:objc(cs)GREYManagedObjectContextIdlingResource(cm)resourceWithManagedObjectContext:trackPendingChanges:name:"></a>
+                    <a name="//apple_ref/objc/Method/+resourceWithManagedObjectContext:trackPendingChanges:name:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYManagedObjectContextIdlingResource(cm)resourceWithManagedObjectContext:trackPendingChanges:name:">+resourceWithManagedObjectContext:trackPendingChanges:name:</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -593,20 +597,25 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Creates a GREYAction that performs the action in the provided @c block.</p>
+                        <p>Creates an idling resource tracking @c managedObjectContext.</p>
+
+<p>A weak reference is held to @c managedObjectContext. If @c managedObjectContext is deallocated,
+  then the idling resource will deregister itself from the thread executor.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">actionWithName</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span>
-                  <span class="nf">performBlock</span><span class="p">:(</span><span class="n"><a href="../Type Definitions.html#/c:GREYActionBlock.h@T@GREYPerformBlock">GREYPerformBlock</a></span><span class="p">)</span><span class="nv">block</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">resourceWithManagedObjectContext</span><span class="p">:</span>
+                    <span class="p">(</span><span class="n">NSManagedObjectContext</span> <span class="o">*</span><span class="p">)</span><span class="nv">managedObjectContext</span>
+                             <span class="nf">trackPendingChanges</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">trackPendingChanges</span>
+                                            <span class="nf">name</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span><span class="p">;</span></code></pre>
 
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">actionWithName</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="o">!</span><span class="p">,</span> <span class="n">performBlock</span> <span class="nv">block</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span><span class="o">!</span></code></pre>
+                          <pre class="highlight"><code><span class="n">convenience</span> <span class="nf">init</span><span class="o">!</span><span class="p">(</span><span class="nv">managedObjectContext</span><span class="p">:</span> <span class="kt">NSManagedObjectContext</span><span class="o">!</span><span class="p">,</span> <span class="nv">trackPendingChanges</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="o">!</span><span class="p">,</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="o">!</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -617,12 +626,12 @@
                             <tr>
                               <td>
                                 <code>
-                                <em>name</em>
+                                <em>managedObjectContext</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p>The name of the action</p>
+                                  <p>The managed object context to be tracked by the resource.</p>
 
                                 </div>
                               </td>
@@ -630,12 +639,27 @@
                             <tr>
                               <td>
                                 <code>
-                                <em>block</em>
+                                <em>trackPendingChanges</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p>A block that contains the action to execute.</p>
+                                  <p>If @c
+then the idling resource will report that it is busy
+                             when the managed object context has pending changes.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>name</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A descriptive name for the idling resource.</p>
 
                                 </div>
                               </td>
@@ -645,7 +669,7 @@
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>A GREYActionBlock instance with the given name.</p>
+                        <p>An idling resource tracking @c</p>
 
                       </div>
                     </section>
@@ -654,91 +678,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:objc(cs)GREYActionBlock(cm)actionWithName:constraints:performBlock:"></a>
-                    <a name="//apple_ref/objc/Method/+actionWithName:constraints:performBlock:" class="dashAnchor"></a>
-                    <a class="token" href="#/c:objc(cs)GREYActionBlock(cm)actionWithName:constraints:performBlock:">+actionWithName:constraints:performBlock:</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Creates a GREYAction that performs the action in the provided @c block subject to the
-  provided @c constraints.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">actionWithName</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span>
-                   <span class="nf">constraints</span><span class="p">:(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nv">constraints</span>
-                  <span class="nf">performBlock</span><span class="p">:(</span><span class="n"><a href="../Type Definitions.html#/c:GREYActionBlock.h@T@GREYPerformBlock">GREYPerformBlock</a></span><span class="p">)</span><span class="nv">block</span><span class="p">;</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>name</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The name of the action.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>constraints</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Constraints that must be satisfied before the action is performed
-                    This is optional and can be @c</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>block</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>A block that contains the action to execute.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
-                        <h4>Return Value</h4>
-                        <p>A GREYActionBlock instance with the given name and constraints.</p>
-
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/c:objc(cs)GREYActionBlock(im)init"></a>
+                    <a name="/c:objc(cs)GREYManagedObjectContextIdlingResource(im)init"></a>
                     <a name="//apple_ref/objc/Method/-init" class="dashAnchor"></a>
-                    <a class="token" href="#/c:objc(cs)GREYActionBlock(im)init">-init</a>
+                    <a class="token" href="#/c:objc(cs)GREYManagedObjectContextIdlingResource(im)init">-init</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -761,115 +703,6 @@
                           <pre class="highlight"><code><span class="nf">init</span><span class="o">!</span><span class="p">()</span></code></pre>
 
                         </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/c:objc(cs)GREYActionBlock(im)initWithName:constraints:"></a>
-                    <a name="//apple_ref/objc/Method/-initWithName:constraints:" class="dashAnchor"></a>
-                    <a class="token" href="#/c:objc(cs)GREYActionBlock(im)initWithName:constraints:">-initWithName:constraints:</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>@remark initWithName::constraints: is overridden from its superclass.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithName</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span>
-                 <span class="nf">constraints</span><span class="p">:(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nv">constraints</span><span class="p">;</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/c:objc(cs)GREYActionBlock(im)initWithName:constraints:performBlock:"></a>
-                    <a name="//apple_ref/objc/Method/-initWithName:constraints:performBlock:" class="dashAnchor"></a>
-                    <a class="token" href="#/c:objc(cs)GREYActionBlock(im)initWithName:constraints:performBlock:">-initWithName:constraints:performBlock:</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Designated Initializer.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithName</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span>
-                 <span class="nf">constraints</span><span class="p">:(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nv">constraints</span>
-                <span class="nf">performBlock</span><span class="p">:(</span><span class="n"><a href="../Type Definitions.html#/c:GREYActionBlock.h@T@GREYPerformBlock">GREYPerformBlock</a></span><span class="p">)</span><span class="nv">block</span><span class="p">;</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>name</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The name of the action.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>constraints</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Constraints that must be satisfied before the action is performed
-                    This is optional and can be @c</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>block</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>A block that contains the action to execute.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
-                        <h4>Return Value</h4>
-                        <p>A GREYActionBlock instance with the given name and constraints.</p>
-
                       </div>
                     </section>
                   </div>

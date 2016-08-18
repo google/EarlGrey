@@ -92,6 +92,9 @@
                 <a href="../Classes/GREYLayoutConstraint.html">GREYLayoutConstraint</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Classes/GREYManagedObjectContextIdlingResource.html">GREYManagedObjectContextIdlingResource</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Classes/GREYMatchers.html">GREYMatchers</a>
               </li>
               <li class="nav-group-task">
@@ -498,6 +501,9 @@
                 <a href="../Functions.html#/c:@F@grey_scrollToContentEdgeWithStartPoint">grey_scrollToContentEdgeWithStartPoint</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_scrollViewContentOffset">grey_scrollViewContentOffset</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@grey_setDate">grey_setDate</a>
               </li>
               <li class="nav-group-task">
@@ -587,13 +593,15 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>@todo Consider also overriding @c dispatch_after_f and @c dispatch_async_f.</p>
+                        <p>Creates an idling resource backed by the specified @c queue.</p>
 
-<p>Creates an idling resource backed by the specified @c queue. @c dispatch_async blocks sent to
-  @c queue are tracked. @c dispatch_after blocks sent to @c queue are tracked if they are delayed
-  no more than the delay amount set for the @c kGREYConfigKeyTrackableDispatchAfterDuration
-  configuration. A weak reference is held to @c queue. If @c queue is deallocated, then the idling
-  resource will deregister itself from the UI thread executor.</p>
+<p>@c dispatch_sync blocks and dispatch_sync_f tasks sent to @c queue are tracked.
+  @c dispatch_async blocks and @c dispatch_async_f tasks sent to @c queue are tracked.
+  @c dispatch_after blocks and @c dispatch_after_f tasks sent to @c queue are tracked if they are
+  delayed no more than the delay amount set for the
+  @c kGREYConfigKeyTrackableDispatchAfterDuration configuration. A weak reference is held to
+  @c queue. If @c queue is deallocated, then the idling resource will deregister itself from the
+  UI thread executor.</p>
 
                       </div>
                       <div class="declaration">
