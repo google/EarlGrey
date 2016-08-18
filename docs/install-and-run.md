@@ -193,7 +193,7 @@ Because EarlGrey is based on XCTest, creating your first test in Xcode is as eas
 Class**. **UI Test Case Class** uses the new UI Testing feature added to XCTest and isn’t yet
 compatible with EarlGrey.
 
-1. **Cmd+Click** the folder for your app's source files, and then select **New file...**. The
+1. **Ctrl+Click** the folder for your app's source files, and then select **New file...**. The
 following dialog will appear:
 
    <img src="images/image09.png" width="422">
@@ -239,7 +239,7 @@ asserts that it is displayed. Here’s what the resulting test would look like:
    ```
 
 6. And that’s it! As with any other unit test, this test will show up in the test navigator, so you
-can run it by just clicking on the **run** icon or by Cmd+clicking the test name and then selecting
+can run it by just clicking on the **run** icon or by Ctrl+clicking the test name and then selecting
 **Test "testPresenceOfKeyWindow"**. Because this is a regular unit test, you can place breakpoints in
 your test and in your application code and use the built-in tools seamlessly.
 
