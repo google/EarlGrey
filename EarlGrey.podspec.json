@@ -47,9 +47,9 @@
     "XCTest"
   ],
   "preserve_paths": [
-    "CHANGELOG.md",
-    "LICENSE",
-    "README.md"
+    "EarlGrey/CHANGELOG.md",
+    "EarlGrey/LICENSE",
+    "EarlGrey/README.md"
   ],
   "ios": {
     "vendored_frameworks": "EarlGrey/EarlGrey.framework"
