@@ -20,8 +20,10 @@
 #include <execinfo.h>
 #include <signal.h>
 
+#import "Common/GREYCoder.h"
 #import "Common/GREYDefines.h"
 #import "Common/GREYExposed.h"
+#import "Common/GREYPrivate.h"
 
 // Exception handler that was previously installed before we replaced it with our own.
 static NSUncaughtExceptionHandler *gPreviousUncaughtExceptionHandler;
@@ -79,8 +81,6 @@ static GREYSignalHandler gPreviousSignalHandlers[kNumSignals];
 }
 
 - (void)perform {
-  [self grey_setupCrashHandlers];
-
   [self grey_enableAccessibility];
   // Force software keyboard.
   [[UIKeyboardImpl sharedInstance] setAutomaticMinimizationEnabled:NO];
@@ -210,6 +210,9 @@ static void grey_uncaughtExceptionHandler(NSException *exception) {
   NSLog(@"Uncaught exception: %@; Stack trace:\n%@",
         exception,
         [exception.callStackSymbols componentsJoinedByString:@"\n"]);
+  if (![GREYCoder isInXCTestProcess]) {
+    [[GREYApplication targetApplication] grey_reportException:exception withLog:nil halt:NO];
+  }
   if (gPreviousUncaughtExceptionHandler) {
     gPreviousUncaughtExceptionHandler(exception);
   } else {
@@ -217,7 +220,7 @@ static void grey_uncaughtExceptionHandler(NSException *exception) {
   }
 }
 
-- (void)grey_setupCrashHandlers {
+- (void)setupCrashHandlers {
   NSLog(@"Crash handler setup started.");
 
   struct sigaction signalAction;

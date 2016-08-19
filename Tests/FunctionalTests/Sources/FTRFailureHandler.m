@@ -18,6 +18,10 @@
 
 @implementation FTRFailureHandler
 
+- (void)handleRemoteException:(NSException *)exception exceptionLog:(NSString *)exceptionLog {
+  [exception raise];
+}
+
 - (void)handleException:(GREYFrameworkException *)exception details:(NSString *)details {
   [exception raise];
 }

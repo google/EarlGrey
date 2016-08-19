@@ -19,9 +19,11 @@
 #include <pthread.h>
 
 #import "Common/GREYAnalytics.h"
+#import "Common/GREYCoder.h"
+#import "Common/GREYPrivate.h"
 #import "Core/GREYAutomationSetup.h"
-#import "Event/GREYSyntheticEvents.h"
 #import "Exception/GREYDefaultFailureHandler.h"
+#import "Interprocess/GREYApplication.h"
 
 // Handler for all EarlGrey failures.
 id<GREYFailureHandler> greyFailureHandler;
@@ -36,8 +38,12 @@ static pthread_mutex_t gFailureHandlerLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER
     // These need to be set in load since someone might call GREYAssertXXX APIs without calling
     // into EarlGrey.
     greyFailureHandler = [[GREYDefaultFailureHandler alloc] init];
-    // Prepare for automation.
-    [[GREYAutomationSetup sharedInstance] perform];
+    // Setup crash handlers.
+    [[GREYAutomationSetup sharedInstance] setupCrashHandlers];
+    if ([GREYCoder isInApplicationProcess]) {
+      // Prepare for automation.
+      [[GREYAutomationSetup sharedInstance] perform];
+    }
   }
 }
 
@@ -51,6 +57,9 @@ static pthread_mutex_t gFailureHandlerLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER
   if ([greyFailureHandler respondsToSelector:@selector(setInvocationFile:andInvocationLine:)]) {
     [greyFailureHandler setInvocationFile:fileName andInvocationLine:lineNumber];
   }
+  if (![GREYCoder isInXCTestProcess]) {
+    [[GREYApplication targetApplication] grey_sendMessage:[GREYMessage messageForInvocationFile:fileName lineNumber:lineNumber]];
+  }
   [[GREYAnalytics sharedInstance] didInvokeEarlGrey];
   return instance;
 }
@@ -61,7 +70,7 @@ static pthread_mutex_t gFailureHandlerLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER
 }
 
 - (GREYElementInteraction *)selectElementWithMatcher:(id<GREYMatcher>)elementMatcher {
-  return [[GREYElementInteraction alloc] initWithElementMatcher:elementMatcher];
+  return [[GREYApplication targetApplication] selectElementWithMatcher:elementMatcher];
 }
 
 - (void)setFailureHandler:(id<GREYFailureHandler>)handler {
@@ -78,7 +87,23 @@ static pthread_mutex_t gFailureHandlerLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER
 
 - (BOOL)rotateDeviceToOrientation:(UIDeviceOrientation)deviceOrientation
                        errorOrNil:(__strong NSError **)errorOrNil {
-  return [GREYSyntheticEvents rotateDeviceToOrientation:deviceOrientation errorOrNil:errorOrNil];
+  return [[GREYApplication targetApplication] rotateDeviceToOrientation:deviceOrientation errorOrNil:errorOrNil];
+}
+
+- (GREYApplication *)systemApplication {
+  return [GREYApplication systemApplication];
+}
+
+- (GREYApplication *)targetApplication {
+  return [GREYApplication targetApplication];
+}
+
+- (void)executeBlock:(GREYExecBlock)block {
+  [[GREYApplication targetApplication] executeBlock:block];
+}
+
+- (void)execute:(GREYExecFunction)function {
+  [[GREYApplication targetApplication] execute:function];
 }
 
 #pragma mark - Private

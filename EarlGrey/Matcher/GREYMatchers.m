@@ -598,7 +598,8 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
     // TODO: This causes searching the UI hierarchy multiple times for each element, refactor the
     // design to avoid this.
     GREYElementInteraction *interaction =
-        [[GREYElementInteraction alloc] initWithElementMatcher:referenceElementMatcher];
+        [[GREYElementInteraction alloc] initWithApplication:[GREYApplication targetApplication]
+                                             elementMatcher:referenceElementMatcher];
     NSError *matcherError;
     NSArray *referenceElements = [interaction matchedElementsWithTimeout:0 error:&matcherError];
     if (matcherError) {

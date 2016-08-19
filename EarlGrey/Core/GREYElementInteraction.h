@@ -16,6 +16,8 @@
 
 #import <EarlGrey/GREYInteraction.h>
 
+@class GREYApplication;
+
 /**
  *  Interface for creating an interaction with a UI element. If no datasource is set,
  *  a default datasource is used. The default datasource provides access to the entire UI element
@@ -35,6 +37,7 @@
  *
  *  @return An instance of GREYElementInteraction, initialized with a specified matcher.
  */
-- (instancetype)initWithElementMatcher:(id<GREYMatcher>)elementMatcher;
+- (instancetype)initWithApplication:(GREYApplication *)application
+                     elementMatcher:(id<GREYMatcher>)elementMatcher;
 
 @end

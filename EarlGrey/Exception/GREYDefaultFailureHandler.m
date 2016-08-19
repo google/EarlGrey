@@ -19,6 +19,7 @@
 #import <XCTest/XCTest.h>
 
 #import "Additions/XCTestCase+GREYAdditions.h"
+#import "Assertion/GREYAssertionDefines.h"
 #import "Common/GREYConfiguration.h"
 #import "Common/GREYElementHierarchy.h"
 #import "Common/GREYPrivate.h"
@@ -33,6 +34,7 @@ static NSUInteger gUnknownTestExceptionCounter = 0;
 @implementation GREYDefaultFailureHandler {
   NSString *_fileName;
   NSUInteger _lineNumber;
+  NSString *_clientScreenshotName;
 }
 
 #pragma mark - GREYFailureHandler
@@ -40,6 +42,21 @@ static NSUInteger gUnknownTestExceptionCounter = 0;
 - (void)setInvocationFile:(NSString *)fileName andInvocationLine:(NSUInteger)lineNumber {
   _fileName = fileName;
   _lineNumber = lineNumber;
+}
+
+- (void)setScreenshotName:(NSString *)name {
+  _clientScreenshotName = name;
+}
+
+- (void)handleRemoteException:(NSException *)exception exceptionLog:(NSString *)exceptionLog {
+  I_CHECK_XCTEST_PROCESS();
+  
+  XCTestCase *currentTestCase = [XCTestCase grey_currentTestCase];
+  if (currentTestCase) {
+    [currentTestCase grey_markAsFailedAtLine:_lineNumber inFile:_fileName description:exceptionLog];
+  } else {
+    [exception raise];
+  }
 }
 
 - (void)handleException:(GREYFrameworkException *)exception details:(NSString *)details {
@@ -65,10 +82,12 @@ static NSUInteger gUnknownTestExceptionCounter = 0;
   [log appendString:@"\n"];
 
   NSString *screenshotName;
-  if (currentTestCase) {
+  if ([GREYCoder isInXCTestProcess] && currentTestCase) {
     screenshotName = [NSString stringWithFormat:@"%@_%@",
                                                 [currentTestCase grey_testClassName],
                                                 [currentTestCase grey_testMethodName]];
+  } else if (![GREYCoder isInXCTestProcess] && _clientScreenshotName) {
+    screenshotName = _clientScreenshotName;
   } else {
     screenshotName =
         [NSString stringWithFormat:@"unknown_%lu", (unsigned long)gUnknownTestExceptionCounter];
@@ -111,11 +130,15 @@ static NSUInteger gUnknownTestExceptionCounter = 0;
                       index, [GREYElementHierarchy hierarchyStringForElement:window]];
   }
 
-  if (currentTestCase) {
-    [currentTestCase grey_markAsFailedAtLine:_lineNumber inFile:_fileName description:log];
+  if ([GREYCoder isInXCTestProcess]) {
+    if (currentTestCase) {
+      [currentTestCase grey_markAsFailedAtLine:_lineNumber inFile:_fileName description:log];
+    } else {
+      // Happens when exception is thrown outside a valid test context (i.e. +setUp, +tearDown, ...)
+      [[GREYFrameworkException exceptionWithName:exception.name reason:log userInfo:nil] raise];
+    }
   } else {
-    // Happens when exception is thrown outside a valid test context (i.e. +setUp, +tearDown, etc.)
-    [[GREYFrameworkException exceptionWithName:exception.name reason:log userInfo:nil] raise];
+    [[GREYApplication targetApplication] grey_reportException:exception withLog:log halt:YES];
   }
 }
 

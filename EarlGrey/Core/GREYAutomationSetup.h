@@ -39,4 +39,6 @@
  */
 - (void)perform;
 
+- (void)setupCrashHandlers;
+
 @end

@@ -63,6 +63,10 @@
 		6106C05A1D6E70A7003F518C /* GREYSerializable.m in Sources */ = {isa = PBXBuildFile; fileRef = 6106C0581D6E70A7003F518C /* GREYSerializable.m */; };
 		6106C05D1D6E70CA003F518C /* GREYCoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 6106C05B1D6E70CA003F518C /* GREYCoder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6106C05E1D6E70CA003F518C /* GREYCoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 6106C05C1D6E70CA003F518C /* GREYCoder.m */; };
+		6106C06B1D6E73C6003F518C /* GREYApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = 6106C0651D6E73C6003F518C /* GREYApplication.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6106C06C1D6E73C6003F518C /* GREYApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 6106C0661D6E73C6003F518C /* GREYApplication.m */; };
+		6106C06F1D6E73C6003F518C /* GREYMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 6106C0691D6E73C6003F518C /* GREYMessage.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6106C0701D6E73C6003F518C /* GREYMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6106C06A1D6E73C6003F518C /* GREYMessage.m */; };
 		61156A521D1B2AC1000013C7 /* UIGestureRecognizer+GREYAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 61156A501D1B2AC1000013C7 /* UIGestureRecognizer+GREYAdditions.m */; };
 		611BF1681D4CD292001D9E46 /* GREYDispatchQueueTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 611BF1661D4CD292001D9E46 /* GREYDispatchQueueTracker.m */; };
 		611BF16B1D4CD705001D9E46 /* GREYManagedObjectContextIdlingResource.h in Headers */ = {isa = PBXBuildFile; fileRef = 611BF1691D4CD705001D9E46 /* GREYManagedObjectContextIdlingResource.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -205,6 +209,10 @@
 		6106C0581D6E70A7003F518C /* GREYSerializable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYSerializable.m; sourceTree = "<group>"; };
 		6106C05B1D6E70CA003F518C /* GREYCoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYCoder.h; sourceTree = "<group>"; };
 		6106C05C1D6E70CA003F518C /* GREYCoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYCoder.m; sourceTree = "<group>"; };
+		6106C0651D6E73C6003F518C /* GREYApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYApplication.h; path = EarlGrey/Interprocess/GREYApplication.h; sourceTree = SOURCE_ROOT; };
+		6106C0661D6E73C6003F518C /* GREYApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYApplication.m; path = EarlGrey/Interprocess/GREYApplication.m; sourceTree = SOURCE_ROOT; };
+		6106C0691D6E73C6003F518C /* GREYMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYMessage.h; path = EarlGrey/Interprocess/GREYMessage.h; sourceTree = SOURCE_ROOT; };
+		6106C06A1D6E73C6003F518C /* GREYMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYMessage.m; path = EarlGrey/Interprocess/GREYMessage.m; sourceTree = SOURCE_ROOT; };
 		61156A4F1D1B2AC1000013C7 /* UIGestureRecognizer+GREYAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIGestureRecognizer+GREYAdditions.h"; sourceTree = "<group>"; };
 		61156A501D1B2AC1000013C7 /* UIGestureRecognizer+GREYAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIGestureRecognizer+GREYAdditions.m"; sourceTree = "<group>"; };
 		611BF1651D4CD292001D9E46 /* GREYDispatchQueueTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYDispatchQueueTracker.h; sourceTree = "<group>"; };
@@ -420,6 +428,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6106C0641D6E73A8003F518C /* Interprocess */ = {
+			isa = PBXGroup;
+			children = (
+				6106C0651D6E73C6003F518C /* GREYApplication.h */,
+				6106C0661D6E73C6003F518C /* GREYApplication.m */,
+				6106C0691D6E73C6003F518C /* GREYMessage.h */,
+				6106C06A1D6E73C6003F518C /* GREYMessage.m */,
+			);
+			name = Interprocess;
+			path = ../EarlGrey/Core;
+			sourceTree = "<group>";
+		};
 		FD06C6751BECAE6A009032A5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -449,6 +469,7 @@
 				FD10017A1C5B46C200B2DB0A /* EarlGrey.m */,
 				FD10017B1C5B46C200B2DB0A /* Event */,
 				FD1001801C5B46C200B2DB0A /* Exception */,
+				6106C0641D6E73A8003F518C /* Interprocess */,
 				FD1001861C5B46C200B2DB0A /* Matcher */,
 				FD1001931C5B46C200B2DB0A /* Provider */,
 				FD10019B1C5B46C200B2DB0A /* Synchronization */,
@@ -793,6 +814,7 @@
 				FD1001FE1C5B46C200B2DB0A /* GREYAssertions.h in Headers */,
 				FD1001FB1C5B46C200B2DB0A /* GREYAssertionBlock.h in Headers */,
 				FD1001FD1C5B46C200B2DB0A /* GREYAssertionDefines.h in Headers */,
+				6106C06F1D6E73C6003F518C /* GREYMessage.h in Headers */,
 				FD1002071C5B46C200B2DB0A /* GREYDefines.h in Headers */,
 				FD1002051C5B46C200B2DB0A /* GREYConstants.h in Headers */,
 				FD242E811D14C24C00046221 /* GREYTestHelper.h in Headers */,
@@ -810,6 +832,7 @@
 				FD10022F1C5B46C200B2DB0A /* GREYAnyOf.h in Headers */,
 				FD6D0BA51C6D494F0001EA75 /* GREYMatcher.h in Headers */,
 				FD1002371C5B46C200B2DB0A /* GREYMatchers.h in Headers */,
+				6106C06B1D6E73C6003F518C /* GREYApplication.h in Headers */,
 				FD6D0BA21C6D494F0001EA75 /* GREYDescription.h in Headers */,
 				FD1002311C5B46C200B2DB0A /* GREYBaseMatcher.h in Headers */,
 				FD1002351C5B46C200B2DB0A /* GREYLayoutConstraint.h in Headers */,
@@ -945,7 +968,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd ${PROJECT_DIR}\n./Scripts/setup-earlgrey.sh";
+			shellScript = "cd ${PROJECT_DIR}\n./Scripts/setup-earlgrey.sh\n\nif  [[ $PLATFORM_DIR == *iPhoneSimulator.platform ]];\nthen\n  # Copy all developer frameworks, including XCTest.framework, into EarlGrey.framework bundle\n  cp -R \"${PLATFORM_DIR}/Developer/Library/Frameworks\" \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/\"\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -966,6 +989,7 @@
 				FD1001E61C5B46C200B2DB0A /* UIAnimation+GREYAdditions.m in Sources */,
 				FD1002041C5B46C200B2DB0A /* GREYConfiguration.m in Sources */,
 				FD1001EE1C5B46C200B2DB0A /* UITouch+GREYAdditions.m in Sources */,
+				6106C0701D6E73C6003F518C /* GREYMessage.m in Sources */,
 				FD1002061C5B46C200B2DB0A /* GREYConstants.m in Sources */,
 				FD10021B1C5B46C200B2DB0A /* GREYCAAnimationDelegate.m in Sources */,
 				6106C05E1D6E70CA003F518C /* GREYCoder.m in Sources */,
@@ -1000,6 +1024,7 @@
 				FD10021D1C5B46C200B2DB0A /* GREYNSURLConnectionDelegate.m in Sources */,
 				FD720C111CFF7E93007A0942 /* GREYRunLoopSpinner.m in Sources */,
 				FD1002301C5B46C200B2DB0A /* GREYAnyOf.m in Sources */,
+				6106C06C1D6E73C6003F518C /* GREYApplication.m in Sources */,
 				FD1001EC1C5B46C200B2DB0A /* UISwitch+GREYAdditions.m in Sources */,
 				6106C05A1D6E70A7003F518C /* GREYSerializable.m in Sources */,
 				FD1002321C5B46C200B2DB0A /* GREYBaseMatcher.m in Sources */,

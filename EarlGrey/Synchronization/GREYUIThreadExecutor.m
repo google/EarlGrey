@@ -18,7 +18,6 @@
 
 #import "Additions/NSError+GREYAdditions.h"
 #import "Additions/UIApplication+GREYAdditions.h"
-#import "Additions/XCTestCase+GREYAdditions.h"
 #import "AppSupport/GREYIdlingResource.h"
 #import "Assertion/GREYAssertionDefines.h"
 #import "Common/GREYConfiguration.h"
@@ -119,11 +118,6 @@ typedef NS_ENUM(NSInteger, GREYExecutionState) {
         [[NSOrderedSet alloc] initWithObjects:appStateTrackerIdlingResource,
                                               defaultMainDispatchQIdlingResource,
                                               defaultMainNSOperationQIdlingResource, nil];
-    // Forcefully clear GREYAppStateTracker state during test case teardown if it is not idle.
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(grey_forcedStateTrackerCleanUp)
-                                                 name:kGREYXCTestCaseInstanceDidTearDown
-                                               object:nil];
   }
   return self;
 }

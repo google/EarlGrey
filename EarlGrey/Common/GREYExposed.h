@@ -48,6 +48,8 @@ enum {
   BLOCK_HAS_DESCRIPTOR = (1 << 29)
 };
 
+CFNotificationCenterRef CFNotificationCenterGetDistributedCenter(void);
+
 @interface UIWindow (GREYExposed)
 - (id)firstResponder;
 @end
@@ -385,4 +387,11 @@ IOHIDEventRef IOHIDEventCreateDigitizerFingerEvent(CFAllocatorRef allocator,
  *  @param specifier Is unused can be @c nil.
  */
 - (void)setPredictionPreferenceValue:(NSNumber *)enabled forSpecifier:(id)specifier;
+@end
+
+@interface XCTestConfiguration : NSObject
+
++ (instancetype)activeTestConfiguration;
+- (NSString *)targetApplicationBundleID;
+
 @end

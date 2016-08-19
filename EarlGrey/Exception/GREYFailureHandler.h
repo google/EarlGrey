@@ -31,6 +31,8 @@
  */
 - (void)handleException:(GREYFrameworkException *)exception details:(NSString *)details;
 
+- (void)handleRemoteException:(NSException *)exception exceptionLog:(NSString *)details;
+
 @optional
 
 /**
@@ -40,5 +42,7 @@
  *  @param lineNumber The line number in the file that caused the error.
  */
 - (void)setInvocationFile:(NSString *)fileName andInvocationLine:(NSUInteger)lineNumber;
+
+- (void)setScreenshotName:(NSString *)name;
 
 @end

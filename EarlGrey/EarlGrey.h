@@ -34,6 +34,7 @@
 #import <EarlGrey/GREYActions.h>
 #import <EarlGrey/GREYAllOf.h>
 #import <EarlGrey/GREYAnyOf.h>
+#import <EarlGrey/GREYApplication.h>
 #import <EarlGrey/GREYAssertion.h>
 #import <EarlGrey/GREYAssertionBlock.h>
 #import <EarlGrey/GREYAssertionDefines.h>
@@ -166,5 +167,14 @@
  */
 - (BOOL)rotateDeviceToOrientation:(UIDeviceOrientation)deviceOrientation
                        errorOrNil:(__strong NSError **)errorOrNil;
+
+- (GREYApplication *)systemApplication;
+- (GREYApplication *)targetApplication;
+
+// Objective-C only. Disabled in Swift because block syntax doesn't work with Objective-C blocks.
+- (void)executeBlock:(GREYExecBlock)block NS_SWIFT_UNAVAILABLE("Use execute: instead");
+
+// Swift only. Not for use in Objective-C.
+- (void)execute:(GREYExecFunction)function;
 
 @end

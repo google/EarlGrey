@@ -29,6 +29,7 @@
 #import "Core/GREYElementFinder.h"
 #import "Core/GREYInteractionDataSource.h"
 #import "Exception/GREYFrameworkException.h"
+#import "Interprocess/GREYApplication.h"
 #import "Matcher/GREYAllOf.h"
 #import "Matcher/GREYMatcher.h"
 #import "Matcher/GREYMatchers.h"
@@ -59,9 +60,10 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
 @end
 
 @implementation GREYElementInteraction {
+  GREYApplication *_application;
+  id<GREYMatcher> _elementMatcher;
   id<GREYMatcher> _rootMatcher;
   id<GREYMatcher> _searchActionElementMatcher;
-  id<GREYMatcher> _elementMatcher;
   id<GREYAction> _searchAction;
   // If _index is set to NSUIntegerMax, then it is unassigned.
   NSUInteger _index;
@@ -69,13 +71,16 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
 
 @synthesize dataSource;
 
-- (instancetype)initWithElementMatcher:(id<GREYMatcher>)elementMatcher {
+- (instancetype)initWithApplication:(GREYApplication *)application
+                     elementMatcher:(id<GREYMatcher>)elementMatcher {
+  NSParameterAssert(application);
   NSParameterAssert(elementMatcher);
 
   self = [super init];
   if (self) {
     _elementMatcher = elementMatcher;
     _index = NSUIntegerMax;
+    _application = application;
     [self setDataSource:self];
   }
   return self;
@@ -85,6 +90,7 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
   self = [super init];
   if (self) {
     [self setDataSource:self];
+    _application = [coder decodeObjectForKey:@"application"];
     _elementMatcher = [coder decodeObjectForKey:@"elementMatcher"];
     _index = [GREYCoder decodeNSUInteger:[coder decodeObjectForKey:@"index"]];
     _rootMatcher = [coder decodeObjectForKey:@"rootMatcher"];
@@ -97,6 +103,7 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
 - (void)encodeWithCoder:(NSCoder *)coder {
   NSAssert([self dataSource] == self, @"self must be dataSource when using encodeWithCoder:");
 
+  [coder encodeObject:_application forKey:@"application"];
   [coder encodeObject:_elementMatcher forKey:@"elementMatcher"];
   [coder encodeObject:[GREYCoder encodeNSUInteger:_index] forKey:@"index"];
   [coder encodeObject:_rootMatcher forKey:@"rootMatcher"];
@@ -178,7 +185,8 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
       }
       // Keep applying search action.
       id<GREYInteraction> interaction =
-          [[GREYElementInteraction alloc] initWithElementMatcher:_searchActionElementMatcher];
+          [[GREYElementInteraction alloc] initWithApplication:_application
+                                               elementMatcher:_searchActionElementMatcher];
       // Don't fail if this interaction error's out. It might still have revealed the element
       // we're looking for.
       [interaction performAction:_searchAction error:&searchActionError];
@@ -224,6 +232,9 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
 - (instancetype)performAction:(id<GREYAction>)action error:(__strong NSError **)errorOrNil {
   NSParameterAssert(action);
   I_CHECK_MAIN_THREAD();
+  GREY_REMOTE2(_application, return self,
+               Object, id<GREYAction>, action,
+               Out, NSError *__strong *, errorOrNil);
 
   @autoreleasepool {
     NSError *executorError;
@@ -337,6 +348,9 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
 - (instancetype)assert:(id<GREYAssertion>)assertion error:(__strong NSError **)errorOrNil {
   NSParameterAssert(assertion);
   I_CHECK_MAIN_THREAD();
+  GREY_REMOTE2(_application, return self,
+               Object, id<GREYAssertion>, assertion,
+               Out, NSError *__strong *, errorOrNil);
 
   @autoreleasepool {
     NSError *executorError;
