@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FD8277DC1D677D0D00C7C2AD /* EarlGrey.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8277DB1D677D0D00C7C2AD /* EarlGrey.swift */; };
 		FDA14ADF1D36DEC6009F60A0 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FDA14AD61D36DEC6009F60A0 /* Default-568h@2x.png */; };
 		FDA14AE01D36DEC6009F60A0 /* Default-667@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FDA14AD71D36DEC6009F60A0 /* Default-667@2x.png */; };
 		FDA14AE11D36DEC6009F60A0 /* Default-736h@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = FDA14AD81D36DEC6009F60A0 /* Default-736h@3x.png */; };
@@ -40,7 +41,6 @@
 		FDFCE9BD1D35B198006D9592 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FDFCE9A41D35ADE2006D9592 /* IOKit.framework */; };
 		FDFCE9BF1D35B1B3006D9592 /* EarlGrey.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = FDFCE9951D35AD04006D9592 /* EarlGrey.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		FDFCE9C11D35B1C6006D9592 /* EarlGrey.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = FDFCE9951D35AD04006D9592 /* EarlGrey.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		FDFCE9C41D35B366006D9592 /* EarlGrey.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDFCE9C31D35B366006D9592 /* EarlGrey.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -105,6 +105,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		FD8277DB1D677D0D00C7C2AD /* EarlGrey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EarlGrey.swift; path = "../../../gem/lib/earlgrey/files/Swift-3.0/EarlGrey.swift"; sourceTree = "<group>"; };
 		FDA14AB71D35D017009F60A0 /* EarlGreyContribsTests.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EarlGreyContribsTests.pch; sourceTree = "<group>"; };
 		FDA14AD61D36DEC6009F60A0 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../../../Tests/FunctionalTests/TestRig/Resources/Default-568h@2x.png"; sourceTree = "<group>"; };
 		FDA14AD71D36DEC6009F60A0 /* Default-667@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-667@2x.png"; path = "../../../Tests/FunctionalTests/TestRig/Resources/Default-667@2x.png"; sourceTree = "<group>"; };
@@ -138,7 +139,6 @@
 		FDFCE9AB1D35B0BC006D9592 /* EarlGreyContribsSwiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EarlGreyContribsSwiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDFCE9AD1D35B0BC006D9592 /* EarlGreyContribsSwiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarlGreyContribsSwiftTests.swift; sourceTree = "<group>"; };
 		FDFCE9C21D35B248006D9592 /* EarlGreyContribsTestRig-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "EarlGreyContribsTestRig-Bridging-Header.h"; sourceTree = "<group>"; };
-		FDFCE9C31D35B366006D9592 /* EarlGrey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EarlGrey.swift; path = ../../../gem/lib/earlgrey/files/EarlGrey.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -183,7 +183,7 @@
 		FDA14AB51D35CFD4009F60A0 /* SupportingFiles */ = {
 			isa = PBXGroup;
 			children = (
-				FDFCE9C31D35B366006D9592 /* EarlGrey.swift */,
+				FD8277DB1D677D0D00C7C2AD /* EarlGrey.swift */,
 				FDFCE9C21D35B248006D9592 /* EarlGreyContribsTestRig-Bridging-Header.h */,
 			);
 			name = SupportingFiles;
@@ -478,7 +478,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FDFCE9C41D35B366006D9592 /* EarlGrey.swift in Sources */,
+				FD8277DC1D677D0D00C7C2AD /* EarlGrey.swift in Sources */,
 				FDFCE9AE1D35B0BC006D9592 /* EarlGreyContribsSwiftTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
