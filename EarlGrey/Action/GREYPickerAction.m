@@ -49,6 +49,16 @@
   return self;
 }
 
+- (id)initWithCoder:(NSCoder *)coder {
+  return [self initWithColumn:[coder decodeIntegerForKey:@"column"]
+                        value:[coder decodeObjectForKey:@"value"]];
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+  [coder encodeInteger:_column forKey:@"column"];
+  [coder encodeObject:_value forKey:@"value"];
+}
+
 #pragma mark - GREYAction
 
 - (BOOL)perform:(UIPickerView *)pickerView error:(__strong NSError **)errorOrNil {

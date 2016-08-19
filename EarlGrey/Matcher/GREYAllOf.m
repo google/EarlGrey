@@ -56,6 +56,14 @@
   [description appendText:@")"];
 }
 
+- (id)initWithCoder:(NSCoder *)coder {
+  return [self initWithMatchers:[coder decodeObjectForKey:@"matchers"]];
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+  [coder encodeObject:_matchers forKey:@"matchers"];
+}
+
 @end
 
 #if !(GREY_DISABLE_SHORTHAND)

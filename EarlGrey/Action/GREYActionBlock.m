@@ -17,11 +17,13 @@
 #import "Action/GREYActionBlock.h"
 
 #import "Assertion/GREYAssertionDefines.h"
+#import "Common/GREYCoder.h"
 #import "Common/GREYDefines.h"
 #import "Matcher/GREYMatcher.h"
 
 @implementation GREYActionBlock {
   GREYPerformBlock _performBlock;
+  id<GREYMatcher> _constraints;
 }
 
 + (instancetype)actionWithName:(NSString *)name performBlock:(GREYPerformBlock)block {
@@ -41,8 +43,21 @@
   self = [super initWithName:name constraints:constraints];
   if (self) {
     _performBlock = block;
+    _constraints = constraints;
   }
   return self;
+}
+
+- (id)initWithCoder:(NSCoder *)coder {
+  return [self initWithName:[coder decodeObjectForKey:@"name"]
+                constraints:[coder decodeObjectForKey:@"constraints"]
+               performBlock:[GREYCoder decodeObject:[coder decodeObjectForKey:@"performBlock"]]];
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+  [coder encodeObject:[self name] forKey:@"name"];
+  [coder encodeObject:_constraints forKey:@"constraints"];
+  [coder encodeObject:[GREYCoder encodeObject:_performBlock] forKey:@"performBlock"];
 }
 
 #pragma mark - GREYAction

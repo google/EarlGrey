@@ -24,6 +24,7 @@
 #import "Additions/NSString+GREYAdditions.h"
 #import "Additions/UIScrollView+GREYAdditions.h"
 #import "Assertion/GREYAssertionDefines.h"
+#import "Common/GREYCoder.h"
 #import "Event/GREYSyntheticEvents.h"
 #import "Matcher/GREYAllOf.h"
 #import "Matcher/GREYAnyOf.h"
@@ -80,6 +81,18 @@ static const NSInteger kMinTouchPointsToDetectScrollResistance = 2;
 
 - (instancetype)initWithDirection:(GREYDirection)direction amount:(CGFloat)amount {
   return [self initWithDirection:direction amount:amount startPointPercents:GREYCGPointNull];
+}
+
+- (id)initWithCoder:(NSCoder *)coder {
+  return [self initWithDirection:[coder decodeIntegerForKey:@"direction"]
+                          amount:[GREYCoder decodeCGFloat:[coder decodeObjectForKey:@"amount"]]
+              startPointPercents:[GREYCoder decodeCGPoint:[coder decodeObjectForKey:@"startPointPercents"]]];
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+  [coder encodeInteger:_direction forKey:@"direction"];
+  [coder encodeObject:[GREYCoder encodeCGFloat:_amount] forKey:@"amount"];
+  [coder encodeObject:[GREYCoder encodeCGPoint:_startPointPercents] forKey:@"startPointPercents"];
 }
 
 #pragma mark - GREYAction

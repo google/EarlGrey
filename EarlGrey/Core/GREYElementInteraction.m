@@ -22,6 +22,7 @@
 #import "Assertion/GREYAssertion.h"
 #import "Assertion/GREYAssertionDefines.h"
 #import "Assertion/GREYAssertions.h"
+#import "Common/GREYCoder.h"
 #import "Common/GREYConfiguration.h"
 #import "Common/GREYExposed.h"
 #import "Common/GREYPrivate.h"
@@ -78,6 +79,29 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
     [self setDataSource:self];
   }
   return self;
+}
+
+- (id)initWithCoder:(NSCoder *)coder {
+  self = [super init];
+  if (self) {
+    [self setDataSource:self];
+    _elementMatcher = [coder decodeObjectForKey:@"elementMatcher"];
+    _index = [GREYCoder decodeNSUInteger:[coder decodeObjectForKey:@"index"]];
+    _rootMatcher = [coder decodeObjectForKey:@"rootMatcher"];
+    _searchActionElementMatcher = [coder decodeObjectForKey:@"searchActionElementMatcher"];
+    _searchAction = [coder decodeObjectForKey:@"searchAction"];
+  }
+  return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+  NSAssert([self dataSource] == self, @"self must be dataSource when using encodeWithCoder:");
+
+  [coder encodeObject:_elementMatcher forKey:@"elementMatcher"];
+  [coder encodeObject:[GREYCoder encodeNSUInteger:_index] forKey:@"index"];
+  [coder encodeObject:_rootMatcher forKey:@"rootMatcher"];
+  [coder encodeObject:_searchActionElementMatcher forKey:@"searchActionElementMatcher"];
+  [coder encodeObject:_searchAction forKey:@"searchAction"];
 }
 
 - (instancetype)inRoot:(id<GREYMatcher>)rootMatcher {

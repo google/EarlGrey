@@ -36,6 +36,11 @@
 #define iOS9_OR_ABOVE() ([UIDevice currentDevice].systemVersion.intValue >= 9)
 #define iOS10_OR_ABOVE() ([UIDevice currentDevice].systemVersion.intValue >= 10)
 
+// Used for Objective-C block syntax.
+typedef void(^GREYExecBlock)(void);
+// Used for Swift block syntax.
+typedef void(*GREYExecFunction)(void);
+
 #pragma mark - Math
 
 /**

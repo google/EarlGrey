@@ -17,6 +17,7 @@
 #import "Assertion/GREYAssertionBlock.h"
 
 #import "Assertion/GREYAssertionDefines.h"
+#import "Common/GREYCoder.h"
 #import "Common/GREYDefines.h"
 
 @implementation GREYAssertionBlock {
@@ -40,6 +41,16 @@
     _checkBlockWithError = [block copy];
   }
   return self;
+}
+
+- (id)initWithCoder:(NSCoder *)coder {
+  return [self initWithName:[coder decodeObjectForKey:@"name"]
+    assertionBlockWithError:[GREYCoder decodeObject:[coder decodeObjectForKey:@"checkBlockWithError"]]];
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+  [coder encodeObject:_name forKey:@"name"];
+  [coder encodeObject:[GREYCoder encodeObject:_checkBlockWithError] forKey:@"checkBlockWithError"];
 }
 
 #pragma mark - GREYAssertion

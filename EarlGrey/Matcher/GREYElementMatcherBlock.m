@@ -16,6 +16,7 @@
 
 #import "Matcher/GREYElementMatcherBlock.h"
 
+#import "Common/GREYCoder.h"
 #import "Common/GREYDefines.h"
 
 // Base matcher which takes block parameters that implement |matches| and |describeTo|.
@@ -38,6 +39,16 @@
     _descriptionBlock = describeBlock;
   }
   return self;
+}
+
+- (id)initWithCoder:(NSCoder *)coder {
+  return [self initWithMatchesBlock:[GREYCoder decodeObject:[coder decodeObjectForKey:@"matcherBlock"]]
+                   descriptionBlock:[GREYCoder decodeObject:[coder decodeObjectForKey:@"descriptionBlock"]]];
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+  [coder encodeObject:[GREYCoder encodeObject:_matcherBlock] forKey:@"matcherBlock"];
+  [coder encodeObject:[GREYCoder encodeObject:_descriptionBlock] forKey:@"descriptionBlock"];
 }
 
 - (BOOL)matches:(id)item {

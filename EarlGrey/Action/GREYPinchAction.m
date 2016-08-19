@@ -70,6 +70,16 @@ CGFloat const kDefaultPinchAngle = (CGFloat)(30.0 * M_PI / 180.0);
   return self;
 }
 
+- (id)initWithCoder:(NSCoder *)coder {
+  return [self initWithDirection:[coder decodeIntegerForKey:@"pinchDirection"]
+                        duration:[coder decodeDoubleForKey:@"duration"]];
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+  [coder encodeInteger:_pinchDirection forKey:@"pinchDirection"];
+  [coder encodeDouble:_duration forKey:@"duration"];
+}
+
 #pragma mark - GREYAction
 
 - (BOOL)perform:(id)element error:(__strong NSError **)errorOrNil {

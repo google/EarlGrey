@@ -22,6 +22,7 @@
 #ifndef GREY_ASSERTION_DEFINES_H
 #define GREY_ASSERTION_DEFINES_H
 
+#import <EarlGrey/GREYCoder.h>
 #import <EarlGrey/GREYDefines.h>
 #import <EarlGrey/GREYFailureHandler.h>
 #import <EarlGrey/GREYFrameworkException.h>
@@ -329,6 +330,15 @@ GREY_EXTERN id<GREYFailureHandler> greyFailureHandler;
 
 #define I_CHECK_MAIN_THREAD() \
   I_GREYAssertTrue([NSThread isMainThread], @"Must be on the main thread.")
+
+#define I_CHECK_APPLICATION_PROCESS() \
+  I_GREYAssertTrue([GREYCoder isInApplicationProcess], @"Must be in an application process.")
+
+#define I_CHECK_REMOTE_APPLICATION_PROCESS() \
+  I_GREYAssertTrue(![GREYCoder isInXCTestProcess], @"Must be in a remote application process.")
+
+#define I_CHECK_XCTEST_PROCESS() \
+  I_GREYAssertTrue([GREYCoder isInXCTestProcess], @"Must be in the XCTest process.")
 
 /// @endcond
 

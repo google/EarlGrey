@@ -59,6 +59,10 @@
 		597E030E1D55BC930052A8D1 /* GREYScrollToContentEdgeAction.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001101C5B46C100B2DB0A /* GREYScrollToContentEdgeAction.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		597E030F1D55BC930052A8D1 /* GREYSlideAction.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001141C5B46C100B2DB0A /* GREYSlideAction.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		59A993281C99453200914F9A /* EarlGrey.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001791C5B46C200B2DB0A /* EarlGrey.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6106C0591D6E70A7003F518C /* GREYSerializable.h in Headers */ = {isa = PBXBuildFile; fileRef = 6106C0571D6E70A7003F518C /* GREYSerializable.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6106C05A1D6E70A7003F518C /* GREYSerializable.m in Sources */ = {isa = PBXBuildFile; fileRef = 6106C0581D6E70A7003F518C /* GREYSerializable.m */; };
+		6106C05D1D6E70CA003F518C /* GREYCoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 6106C05B1D6E70CA003F518C /* GREYCoder.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6106C05E1D6E70CA003F518C /* GREYCoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 6106C05C1D6E70CA003F518C /* GREYCoder.m */; };
 		61156A521D1B2AC1000013C7 /* UIGestureRecognizer+GREYAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 61156A501D1B2AC1000013C7 /* UIGestureRecognizer+GREYAdditions.m */; };
 		611BF1681D4CD292001D9E46 /* GREYDispatchQueueTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 611BF1661D4CD292001D9E46 /* GREYDispatchQueueTracker.m */; };
 		611BF16B1D4CD705001D9E46 /* GREYManagedObjectContextIdlingResource.h in Headers */ = {isa = PBXBuildFile; fileRef = 611BF1691D4CD705001D9E46 /* GREYManagedObjectContextIdlingResource.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -197,6 +201,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6106C0571D6E70A7003F518C /* GREYSerializable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYSerializable.h; sourceTree = "<group>"; };
+		6106C0581D6E70A7003F518C /* GREYSerializable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYSerializable.m; sourceTree = "<group>"; };
+		6106C05B1D6E70CA003F518C /* GREYCoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYCoder.h; sourceTree = "<group>"; };
+		6106C05C1D6E70CA003F518C /* GREYCoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYCoder.m; sourceTree = "<group>"; };
 		61156A4F1D1B2AC1000013C7 /* UIGestureRecognizer+GREYAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIGestureRecognizer+GREYAdditions.h"; sourceTree = "<group>"; };
 		61156A501D1B2AC1000013C7 /* UIGestureRecognizer+GREYAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIGestureRecognizer+GREYAdditions.m"; sourceTree = "<group>"; };
 		611BF1651D4CD292001D9E46 /* GREYDispatchQueueTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYDispatchQueueTracker.h; sourceTree = "<group>"; };
@@ -573,6 +581,8 @@
 				FD242E711D14B73E00046221 /* GREYTestHelper.m */,
 				FD1001561C5B46C200B2DB0A /* GREYAnalytics.h */,
 				FD1001571C5B46C200B2DB0A /* GREYAnalytics.m */,
+				6106C05B1D6E70CA003F518C /* GREYCoder.h */,
+				6106C05C1D6E70CA003F518C /* GREYCoder.m */,
 				FD1001581C5B46C200B2DB0A /* GREYConfiguration.h */,
 				FD1001591C5B46C200B2DB0A /* GREYConfiguration.m */,
 				FD10015A1C5B46C200B2DB0A /* GREYConstants.h */,
@@ -584,6 +594,8 @@
 				FD1001601C5B46C200B2DB0A /* GREYPrivate.h */,
 				FD1001611C5B46C200B2DB0A /* GREYScreenshotUtil.h */,
 				FD1001621C5B46C200B2DB0A /* GREYScreenshotUtil.m */,
+				6106C0571D6E70A7003F518C /* GREYSerializable.h */,
+				6106C0581D6E70A7003F518C /* GREYSerializable.m */,
 				FD1001631C5B46C200B2DB0A /* GREYSwizzler.h */,
 				FD1001641C5B46C200B2DB0A /* GREYSwizzler.m */,
 				FD1001651C5B46C200B2DB0A /* GREYVisibilityChecker.h */,
@@ -776,6 +788,7 @@
 				FD1001B11C5B46C200B2DB0A /* GREYActionBlock.h in Headers */,
 				FD1001BD1C5B46C200B2DB0A /* GREYScrollActionError.h in Headers */,
 				FD1001F91C5B46C200B2DB0A /* GREYIdlingResource.h in Headers */,
+				6106C05D1D6E70CA003F518C /* GREYCoder.h in Headers */,
 				FD1001FA1C5B46C200B2DB0A /* GREYAssertion.h in Headers */,
 				FD1001FE1C5B46C200B2DB0A /* GREYAssertions.h in Headers */,
 				FD1001FB1C5B46C200B2DB0A /* GREYAssertionBlock.h in Headers */,
@@ -783,6 +796,7 @@
 				FD1002071C5B46C200B2DB0A /* GREYDefines.h in Headers */,
 				FD1002051C5B46C200B2DB0A /* GREYConstants.h in Headers */,
 				FD242E811D14C24C00046221 /* GREYTestHelper.h in Headers */,
+				6106C0591D6E70A7003F518C /* GREYSerializable.h in Headers */,
 				FD1002031C5B46C200B2DB0A /* GREYConfiguration.h in Headers */,
 				FD10020C1C5B46C200B2DB0A /* GREYScreenshotUtil.h in Headers */,
 				FD1002081C5B46C200B2DB0A /* GREYElementHierarchy.h in Headers */,
@@ -954,6 +968,7 @@
 				FD1001EE1C5B46C200B2DB0A /* UITouch+GREYAdditions.m in Sources */,
 				FD1002061C5B46C200B2DB0A /* GREYConstants.m in Sources */,
 				FD10021B1C5B46C200B2DB0A /* GREYCAAnimationDelegate.m in Sources */,
+				6106C05E1D6E70CA003F518C /* GREYCoder.m in Sources */,
 				FD1001B41C5B46C200B2DB0A /* GREYActions.m in Sources */,
 				FD6D0B991C6D49400001EA75 /* GREYBaseAction.m in Sources */,
 				FD10025C1C5B489A00B2DB0A /* fishhook.c in Sources */,
@@ -986,6 +1001,7 @@
 				FD720C111CFF7E93007A0942 /* GREYRunLoopSpinner.m in Sources */,
 				FD1002301C5B46C200B2DB0A /* GREYAnyOf.m in Sources */,
 				FD1001EC1C5B46C200B2DB0A /* UISwitch+GREYAdditions.m in Sources */,
+				6106C05A1D6E70A7003F518C /* GREYSerializable.m in Sources */,
 				FD1002321C5B46C200B2DB0A /* GREYBaseMatcher.m in Sources */,
 				FD1001C01C5B46C200B2DB0A /* GREYScrollToContentEdgeAction.m in Sources */,
 				FD242E731D14B73E00046221 /* GREYTestHelper.m in Sources */,

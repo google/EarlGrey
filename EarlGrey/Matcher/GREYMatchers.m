@@ -26,6 +26,7 @@
 #import "Common/GREYConstants.h"
 #import "Common/GREYExposed.h"
 #import "Common/GREYPrivate.h"
+#import "Common/GREYSerializable.h"
 #import "Common/GREYVisibilityChecker.h"
 #import "Core/GREYElementFinder.h"
 #import "Core/GREYElementInteraction.h"
@@ -84,6 +85,8 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
 }
 
 + (id<GREYMatcher>)matcherForEqualTo:(id)value {
+  GREY_SERIALIZE(Object, id, value);
+
   MatchesBlock matches = ^BOOL(id element) {
     return (element == nil) ? (value == nil) : [element isEqual:value];
   };
@@ -94,6 +97,8 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
 }
 
 + (id<GREYMatcher>)matcherForLessThan:(id)value {
+  GREY_SERIALIZE(Object, id, value);
+
   MatchesBlock matches = ^BOOL(id element) {
     return (value == nil) ? NO : [value compare:element] == NSOrderedDescending;
   };
@@ -107,6 +112,8 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
 }
 
 + (id<GREYMatcher>)matcherForGreaterThan:(id)value {
+  GREY_SERIALIZE(Object, id, value);
+
   MatchesBlock matches = ^BOOL(id element) {
     return (value == nil) ? NO : [value compare:element] == NSOrderedAscending;
   };
@@ -120,6 +127,8 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
 }
 
 + (id<GREYMatcher>)matcherForAccessibilityLabel:(NSString *)label {
+  GREY_SERIALIZE(Object, NSString *, label);
+
   MatchesBlock matches = ^BOOL(NSObject *element) {
     return [self grey_accessibilityString:element.accessibilityLabel
              isEqualToAccessibilityString:label];
@@ -134,6 +143,8 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
 }
 
 + (id<GREYMatcher>)matcherForAccessibilityID:(NSString *)accessibilityID {
+  GREY_SERIALIZE(Object, NSString *, accessibilityID);
+
   MatchesBlock matches = ^BOOL(id<UIAccessibilityIdentification> element) {
     if (element.accessibilityIdentifier == accessibilityID) {
       return YES;
@@ -151,6 +162,8 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
 }
 
 + (id<GREYMatcher>)matcherForAccessibilityValue:(NSString *)value {
+  GREY_SERIALIZE(Object, NSString *, value);
+
   MatchesBlock matches = ^BOOL(NSObject *element) {
     if (element.accessibilityValue == value) {
       return YES;
@@ -183,6 +196,8 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
 }
 
 + (id<GREYMatcher>)matcherForAccessibilityHint:(NSString *)hint {
+  GREY_SERIALIZE(Object, NSString *, hint);
+
   MatchesBlock matches = ^BOOL(NSObject *element) {
     if (element.accessibilityHint == hint) {
       return YES;
@@ -213,6 +228,8 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
 }
 
 + (id<GREYMatcher>)matcherForText:(NSString *)text {
+  GREY_SERIALIZE(Object, NSString *, text);
+
   MatchesBlock matches = ^BOOL(id element) {
     return [[element text] isEqualToString:text];
   };
@@ -312,6 +329,7 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
 
 + (id<GREYMatcher>)matcherForKindOfClass:(Class)klass {
   NSParameterAssert(klass);
+  GREY_SERIALIZE(Object, Class, klass);
 
   MatchesBlock matches = ^BOOL(id element) {
     return [element isKindOfClass:klass];
@@ -325,6 +343,7 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
 
 + (id<GREYMatcher>)matcherForKindOfClassNamed:(NSString *)className {
   NSParameterAssert(className);
+  GREY_SERIALIZE(Object, NSString *, className);
 
   Class klass = NSClassFromString(className);
   MatchesBlock matches = ^BOOL(id element) {
@@ -337,6 +356,8 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
 }
 
 + (id<GREYMatcher>)matcherForProgress:(id<GREYMatcher>)comparisonMatcher {
+  GREY_SERIALIZE(Object, id<GREYMatcher>, comparisonMatcher);
+
   MatchesBlock matches = ^BOOL(UIProgressView *element) {
     return [comparisonMatcher matches:@(element.progress)];
   };
@@ -351,6 +372,8 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
 }
 
 + (id<GREYMatcher>)matcherForRespondsToSelector:(SEL)sel {
+  GREY_SERIALIZE(Selector, SEL, sel);
+
   MatchesBlock matches = ^BOOL(id element) {
     return [element respondsToSelector:sel];
   };
@@ -362,6 +385,8 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
 }
 
 + (id<GREYMatcher>)matcherForConformsToProtocol:(Protocol *)protocol {
+  GREY_SERIALIZE(Protocol, Protocol *, protocol);
+
   MatchesBlock matches = ^BOOL(id element) {
     return [element conformsToProtocol:protocol];
   };
@@ -373,6 +398,8 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
 }
 
 + (id<GREYMatcher>)matcherForAncestor:(id<GREYMatcher>)ancestorMatcher {
+  GREY_SERIALIZE(Object, id<GREYMatcher>, ancestorMatcher);
+
   MatchesBlock matches = ^BOOL(id element) {
     id parent = element;
     while (parent) {
@@ -400,6 +427,8 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
 }
 
 + (id<GREYMatcher>)matcherForDescendant:(id<GREYMatcher>)descendantMatcher {
+  GREY_SERIALIZE(Object, id<GREYMatcher>, descendantMatcher);
+
   MatchesBlock matches = ^BOOL(id element) {
     if (element == nil) {
       return NO;
@@ -424,6 +453,8 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
 }
 
 + (id<GREYMatcher>)matcherForButtonTitle:(NSString *)title {
+  GREY_SERIALIZE(Object, NSString *, title);
+
   MatchesBlock matches = ^BOOL(UIButton *element) {
     if (element.titleLabel.text == title) {
       return YES;
@@ -455,6 +486,8 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
 }
 
 + (id<GREYMatcher>)matcherForSliderValueMatcher:(id<GREYMatcher>)valueMatcher {
+  GREY_SERIALIZE(Object, id<GREYMatcher>, valueMatcher);
+
   MatchesBlock matches = ^BOOL(UISlider *element) {
     return [valueMatcher matches:@(element.value)];
   };
@@ -481,6 +514,8 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
 }
 
 + (id<GREYMatcher>)matcherForPickerColumn:(NSInteger)column setToValue:(NSString *)value {
+  GREY_SERIALIZE2(NSInteger, NSInteger, column, Object, NSString *, value);
+
   MatchesBlock matches = ^BOOL(UIPickerView *element) {
     if ([element numberOfComponents] < column) {
       return NO;
@@ -506,6 +541,8 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
 }
 
 + (id<GREYMatcher>)matcherForDatePickerValue:(NSDate *)value {
+  GREY_SERIALIZE(Object, NSDate *, value);
+
   MatchesBlock matches = ^BOOL(UIDatePicker *element) {
     if (element.date == value) {
       return YES;
@@ -555,6 +592,8 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
 
 + (id<GREYMatcher>)matcherForConstraints:(NSArray *)constraints
               toReferenceElementMatching:(id<GREYMatcher>)referenceElementMatcher {
+  GREY_SERIALIZE2(Object, NSArray *, constraints, Object, id<GREYMatcher>, referenceElementMatcher);
+
   MatchesBlock matches = ^BOOL(id element) {
     // TODO: This causes searching the UI hierarchy multiple times for each element, refactor the
     // design to avoid this.

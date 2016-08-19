@@ -21,6 +21,33 @@
 
 #import <UIKit/UIKit.h>
 
+// Source: https://opensource.apple.com/source/libclosure/libclosure-65/Block_private.h
+struct Block_descriptor {
+  unsigned long int reserved;
+  unsigned long int size;
+  void (*copy)(void *dst, void *src);
+  void (*dispose)(void *);
+};
+
+struct Block_layout {
+  void *isa;
+  int flags;
+  int reserved;
+  void (*invoke)(void);
+  struct Block_descriptor *descriptor;
+  /* imported variables */
+};
+
+enum {
+  BLOCK_REFCOUNT_MASK = (0xffff),
+  BLOCK_NEEDS_FREE = (1 << 24),
+  BLOCK_HAS_COPY_DISPOSE = (1 << 25),
+  BLOCK_HAS_CTOR = (1 << 26), /* Helpers have C++ code. */
+  BLOCK_IS_GC = (1 << 27),
+  BLOCK_IS_GLOBAL = (1 << 28),
+  BLOCK_HAS_DESCRIPTOR = (1 << 29)
+};
+
 @interface UIWindow (GREYExposed)
 - (id)firstResponder;
 @end

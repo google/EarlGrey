@@ -33,6 +33,7 @@
 #import "Assertion/GREYAssertionDefines.h"
 #import "Common/GREYExposed.h"
 #import "Common/GREYScreenshotUtil.h"
+#import "Common/GREYSerializable.h"
 #import "Core/GREYInteraction.h"
 #import "Core/GREYKeyboard.h"
 #import "Matcher/GREYAllOf.h"
@@ -201,6 +202,8 @@
 }
 
 + (id<GREYAction>)actionForSetDate:(NSDate *)date {
+  GREY_SERIALIZE(Object, NSDate *, date);
+
   return [[GREYActionBlock alloc] initWithName:[NSString stringWithFormat:@"Set date to %@", date]
                                    constraints:grey_allOf(grey_interactable(),
                                                           grey_kindOfClass([UIDatePicker class]),
@@ -224,6 +227,8 @@
 
 + (id<GREYAction>)actionForJavaScriptExecution:(NSString *)js
                                         output:(out __strong NSString **)outResult {
+  GREY_SERIALIZE2(Object, NSString *, js, Out, __strong id *, outResult);
+
   // TODO: JS Errors should be propagated up.
   return [[GREYActionBlock alloc] initWithName:@"Execute JavaScript"
                                    constraints:grey_kindOfClass([UIWebView class])
@@ -241,6 +246,8 @@
 }
 
 + (id<GREYAction>)actionForSnapshot:(out __strong UIImage **)outImage {
+  GREY_SERIALIZE(Out, __strong id *, outImage);
+
   NSParameterAssert(outImage);
 
   return [[GREYActionBlock alloc] initWithName:@"Element Snapshot"
@@ -310,6 +317,8 @@
  *          the error occured and so the UI may be in an unrecoverable state.
  */
 + (id<GREYAction>)grey_actionForReplaceText:(NSString *)text {
+  GREY_SERIALIZE(Object, NSString *, text);
+
   SEL setTextSelector = NSSelectorFromString(@"setText:");
   id<GREYMatcher> constraints =
       grey_anyOf(grey_respondsToSelector(setTextSelector),
@@ -343,6 +352,8 @@
  */
 + (id<GREYAction>)grey_actionForTypeText:(NSString *)text
                         atUITextPosition:(UITextPosition *)position {
+  GREY_SERIALIZE2(Object, NSString *, text, Object, UITextPosition *, position);
+
   return [GREYActionBlock actionWithName:[NSString stringWithFormat:@"Type \"%@\"", text]
                              constraints:nil
                             performBlock:^BOOL (id element, __strong NSError **errorOrNil) {

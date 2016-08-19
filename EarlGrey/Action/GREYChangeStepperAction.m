@@ -44,6 +44,14 @@
   return self;
 }
 
+- (id)initWithCoder:(NSCoder *)coder {
+  return [self initWithValue:[coder decodeDoubleForKey:@"value"]];
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+  [coder encodeDouble:_value forKey:@"value"];
+}
+
 #pragma mark - GREYAction
 
 - (BOOL)perform:(UIStepper *)stepper error:(__strong NSError **)errorOrNil {

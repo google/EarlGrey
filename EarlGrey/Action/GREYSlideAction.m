@@ -47,6 +47,14 @@
   return self;
 }
 
+- (id)initWithCoder:(NSCoder *)coder {
+  return [self initWithSliderValue:[coder decodeFloatForKey:@"finalValue"]];
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+  [coder encodeFloat:_finalValue forKey:@"finalValue"];
+}
+
 #pragma mark - GREYAction
 
 - (BOOL)perform:(UISlider *)slider error:(__strong NSError **)errorOrNil {

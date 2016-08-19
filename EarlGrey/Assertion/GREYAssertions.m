@@ -19,6 +19,7 @@
 #import "Assertion/GREYAssertion.h"
 #import "Assertion/GREYAssertionBlock.h"
 #import "Assertion/GREYAssertionDefines.h"
+#import "Common/GREYSerializable.h"
 #import "Core/GREYInteraction.h"
 #import "Matcher/GREYMatcher.h"
 #import "Matcher/GREYMatchers.h"
@@ -30,6 +31,7 @@
 
 + (id<GREYAssertion>)grey_createAssertionWithMatcher:(id<GREYMatcher>)matcher {
   NSParameterAssert(matcher);
+  GREY_SERIALIZE(Object, id<GREYMatcher>, matcher);
 
   NSString *assertionName = [NSString stringWithFormat:@"assertWithMatcher: %@", matcher];
   return [GREYAssertionBlock assertionWithName:assertionName

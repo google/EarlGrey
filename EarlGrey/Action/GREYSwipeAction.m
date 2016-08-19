@@ -19,6 +19,7 @@
 #import "Action/GREYPathGestureUtils.h"
 #import "Additions/NSString+GREYAdditions.h"
 #import "Assertion/GREYAssertionDefines.h"
+#import "Common/GREYCoder.h"
 #import "Event/GREYSyntheticEvents.h"
 #import "Matcher/GREYAllOf.h"
 #import "Matcher/GREYMatcher.h"
@@ -78,6 +79,18 @@
   return [self initWithDirection:direction
                         duration:duration
                     percentPoint:startPercents];
+}
+
+- (id)initWithCoder:(NSCoder *)coder {
+  return [self initWithDirection:[coder decodeIntegerForKey:@"direction"]
+                        duration:[coder decodeDoubleForKey:@"duration"]
+                    percentPoint:[GREYCoder decodeCGPoint:[coder decodeObjectForKey:@"startPercents"]]];
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+  [coder encodeInteger:_direction forKey:@"direction"];
+  [coder encodeDouble:_duration forKey:@"duration"];
+  [coder encodeObject:[GREYCoder encodeCGPoint:_startPercents] forKey:@"startPercents"];
 }
 
 #pragma mark - GREYAction

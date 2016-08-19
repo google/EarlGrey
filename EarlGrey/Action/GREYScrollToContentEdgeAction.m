@@ -24,6 +24,7 @@
 #import "Additions/NSString+GREYAdditions.h"
 #import "Additions/UIScrollView+GREYAdditions.h"
 #import "Assertion/GREYAssertionDefines.h"
+#import "Common/GREYCoder.h"
 #import "Common/GREYVisibilityChecker.h"
 #import "Event/GREYSyntheticEvents.h"
 #import "Matcher/GREYAllOf.h"
@@ -65,6 +66,16 @@
 
 - (instancetype)initWithEdge:(GREYContentEdge)edge {
   return [self initWithEdge:edge startPointPercents:GREYCGPointNull];
+}
+
+- (id)initWithCoder:(NSCoder *)coder {
+  return [self initWithEdge:[coder decodeIntegerForKey:@"edge"]
+         startPointPercents:[GREYCoder decodeCGPoint:[coder decodeObjectForKey:@"startPointPercents"]]];
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+  [coder encodeInteger:_edge forKey:@"edge"];
+  [coder encodeObject:[GREYCoder encodeCGPoint:_startPointPercents] forKey:@"startPointPercents"];
 }
 
 #pragma mark - GREYAction

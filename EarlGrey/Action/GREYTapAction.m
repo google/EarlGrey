@@ -20,6 +20,7 @@
 #import "Additions/CGGeometry+GREYAdditions.h"
 #import "Additions/NSError+GREYAdditions.h"
 #import "Additions/NSObject+GREYAdditions.h"
+#import "Common/GREYCoder.h"
 #import "Common/GREYDefines.h"
 #import "Common/GREYVisibilityChecker.h"
 #import "Core/GREYInteraction.h"
@@ -102,6 +103,20 @@
     _tapLocation = tapLocation;
   }
   return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)coder {
+  return [self initWithType:[coder decodeIntegerForKey:@"type"]
+               numberOfTaps:[GREYCoder decodeNSUInteger:[coder decodeObjectForKey:@"numberOfTaps"]]
+                   duration:[coder decodeDoubleForKey:@"duration"]
+                   location:[GREYCoder decodeCGPoint:[coder decodeObjectForKey:@"tapLocation"]]];
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+  [coder encodeInteger:_type forKey:@"type"];
+  [coder encodeObject:[GREYCoder encodeNSUInteger:_numberOfTaps] forKey:@"numberOfTaps"];
+  [coder encodeDouble:_duration forKey:@"duration"];
+  [coder encodeObject:[GREYCoder encodeCGPoint:_tapLocation] forKey:@"tapLocation"];
 }
 
 #pragma mark - GREYAction protocol

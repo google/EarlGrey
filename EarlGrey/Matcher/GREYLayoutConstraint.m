@@ -17,6 +17,7 @@
 #import "Matcher/GREYLayoutConstraint.h"
 
 #import "Additions/NSString+GREYAdditions.h"
+#import "Common/GREYCoder.h"
 
 @implementation GREYLayoutConstraint
 
@@ -61,6 +62,24 @@
                                                         constant:separation];
   }
 }
+
+- (id)initWithCoder:(NSCoder *)coder {
+  return [[GREYLayoutConstraint alloc]
+                initWithAttribute:[coder decodeIntegerForKey:@"attribute"]
+                        relatedBy:[coder decodeIntegerForKey:@"relation"]
+             toReferenceAttribute:[coder decodeIntegerForKey:@"referenceAttribute"]
+                       multiplier:[GREYCoder decodeCGFloat:[coder decodeObjectForKey:@"multiplier"]]
+                         constant:[GREYCoder decodeCGFloat:[coder decodeObjectForKey:@"constant"]]];
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+  [coder encodeInteger:self.attribute forKey:@"attribute"];
+  [coder encodeInteger:self.relation forKey:@"relation"];
+  [coder encodeInteger:self.referenceAttribute forKey:@"referenceAttribute"];
+  [coder encodeObject:[GREYCoder encodeCGFloat:self.multiplier] forKey:@"multiplier"];
+  [coder encodeObject:[GREYCoder encodeCGFloat:self.constant] forKey:@"constant"];
+}
+
 
 - (BOOL)satisfiedByElement:(id)element andReferenceElement:(id)referenceElement {
   CGFloat value1 = [GREYLayoutConstraint grey_attribute:self.attribute ofElement:element];

@@ -40,11 +40,6 @@ typedef NS_ENUM(NSInteger, GREYUIThreadExecutorErrorCode) {
 };
 
 /**
- *  Typedef for blocks that can be executed by the GREYUIThreadExecutor.
- */
-typedef void(^GREYExecBlock)(void);
-
-/**
  *  Executor that syncs execution with the UI events on the main thread.
  *  Before executing a block or operation, it waits for any pending UI events to complete.
  */
