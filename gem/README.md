@@ -14,7 +14,7 @@ Options:
   -t, --target=TARGET                # EarlGrey
   -s, [--scheme=SCHEME]              # EarlGrey.xcscheme
       [--carthage], [--no-carthage]
-                                     # Default: true  
+                                     # Default: true
       [--swift], [--no-swift]
                                      # Default: true
       [--swift-version]              # Default: 3.0
