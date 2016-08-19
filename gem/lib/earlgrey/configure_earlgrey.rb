@@ -261,7 +261,7 @@ module EarlGrey
       framework_path = if carthage
                          '${SRCROOT}/Carthage/Build/iOS/EarlGrey.framework'
                        else
-                         '${SRCROOT}/Pods/EarlGrey/EarlGrey-1.0.0/EarlGrey.framework'
+                         '${SRCROOT}/Pods/EarlGrey/EarlGrey/EarlGrey.framework'
                        end
 
       framework_ref = user_project.products_group.files.find { |f| f.path == framework_path }
