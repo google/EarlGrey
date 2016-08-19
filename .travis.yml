@@ -42,4 +42,6 @@ script:
  - Scripts/travis.sh
 after_failure:
  - cat xcodebuild.log
-
+branches:
+  only:
+  - master
