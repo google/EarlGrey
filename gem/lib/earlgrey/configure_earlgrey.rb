@@ -21,7 +21,7 @@ end
 module EarlGrey
   class << self
     attr_reader :project_name, :test_target, :test_target_name, :scheme_file,
-                :user_project, :swift, :carthage
+                :user_project, :carthage, :swift, :swift_version
 
     # Returns path to Xcode file, prepending current working dir if necessary.
     # @param xcode_file [String] xcode file path
@@ -66,6 +66,7 @@ module EarlGrey
     def set_defaults(installer, project_name, test_target_name, scheme_file, opts = {})
       @swift = opts.fetch(:swift, false)
       @carthage = opts.fetch(:carthage, false)
+      @swift_version = opts.fetch(:swift_version, '3.0')
 
       puts_blue "Checking and Updating #{project_name} for EarlGrey."
       pods_project = installer ? installer.pods_project : true
@@ -353,7 +354,8 @@ module EarlGrey
       dst_header = File.join(dst_root, src_header_name)
 
       src_swift_name = 'EarlGrey.swift'
-      src_swift = File.join(src_root, src_swift_name)
+      src_swift = File.join(src_root, "Swift-#{swift_version}", src_swift_name)
+
       raise 'Bundled swift missing' unless File.exist? src_swift
       dst_swift = File.join(dst_root, src_swift_name)
 

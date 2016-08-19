@@ -22,8 +22,22 @@ describe 'configure_earlgrey' do
     expect(EarlGrey.carthage).to eq(true)
   end
 
-  it 'configures for cocoapods' do
+  it 'configures for cocoapods with default swift version' do
     diff_project cocoapods_after, %w[install -t AutoEarlGrey --no-carthage]
+    expect(EarlGrey.swift).to eq(true)
+    expect(EarlGrey.carthage).to eq(false)
+  end
+
+  it 'configures for cocoapods with Swift 2.2' do
+    diff_project cocoapods_after,
+                 %w[install -t AutoEarlGrey --no-carthage --swift_version=2.2]
+    expect(EarlGrey.swift).to eq(true)
+    expect(EarlGrey.carthage).to eq(false)
+  end
+
+  it 'configures for cocoapods with Swift 3' do
+    diff_project cocoapods_after,
+                 %w[install -t AutoEarlGrey --no-carthage --swift_version=3.0]
     expect(EarlGrey.swift).to eq(true)
     expect(EarlGrey.carthage).to eq(false)
   end

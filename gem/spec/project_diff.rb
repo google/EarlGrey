@@ -14,6 +14,7 @@
 #  limitations under the License.
 
 require 'yaml'
+require 'digest/sha1'
 
 # Define a custom project diff to avoid path names from showing up in the report.
 # The tests use a temporary directory and the path to that will always be different
@@ -25,9 +26,49 @@ class ProjectDiff
       Xcodeproj::Project.open(path).to_tree_hash.dup
     end
 
+    def sha1(file_name)
+      file_path = File.expand_path(File.join(file_name))
+      Digest::SHA1.hexdigest(File.read(file_path))
+    end
+
+    def validate_swift_version(version)
+      raise 'Invalid version. Expected 2.2 or 3.0' unless %w[2.2 3.0].include?(version)
+    end
+
+    def earlgrey_path(version)
+      validate_swift_version version
+      File.expand_path(File.join(__dir__, '..', 'lib', 'earlgrey', 'files',
+                                 "Swift-#{version}", 'EarlGrey.swift'))
+    end
+
+    def swift_mismatch_error(version)
+      validate_swift_version(version)
+      <<-FF
+          The wrong Swift #{version} file was downloaded. Please File a Bug against the EarlGrey
+          gem at https://github.com/google/EarlGrey/issues.
+      FF
+    end
+
+    def expected_hash(version)
+      case version
+      when '2.2'
+        @swift_2_2_sha1 ||= sha1(earlgrey_path('2.2'))
+      when '3.0'
+        @swift_3_0_sha1 ||= sha1(earlgrey_path('3.0'))
+      else
+        raise 'Invalid version'
+      end
+    end
+
     # Based on code from:
     # https://github.com/CocoaPods/Xcodeproj/blob/480e2f99e5e9315b8032854a9530aa500761e138/lib/xcodeproj/command/project_diff.rb
-    def run(path_1, path_2)
+    def run(path_1, path_2, has_swift_2)
+      actual_swift_file = File.join(path_1, '..', 'AutoEarlGrey/EarlGrey.swift')
+      swift_version = has_swift_2 ? '2.2' : '3.0'
+
+      hash_match = expected_hash(swift_version) == sha1(actual_swift_file)
+      raise swift_mismatch_error(swift_version) unless hash_match
+
       Xcodeproj::Differ.project_diff(tree(path_1), tree(path_2)).to_yaml
     end
   end
