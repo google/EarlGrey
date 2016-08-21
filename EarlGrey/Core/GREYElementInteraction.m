@@ -282,7 +282,7 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
       NSArray *elements = [strongSelf matchedElementsWithTimeout:timeout
                                                            error:&elementNotFoundError];
       if (elements.count > 1) {
-        assertionError = [self grey_errorForMultipleMatchingElements:elements];
+        assertionError = [strongSelf grey_errorForMultipleMatchingElements:elements];
       } else {
         id element = [elements firstObject];
         // Notification for the assertion to be checked on the found element.
