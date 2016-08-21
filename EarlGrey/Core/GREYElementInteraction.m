@@ -187,9 +187,6 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
     NSError *executorError;
     __block NSError *actionError = nil;
     __weak __typeof__(self) weakSelf = self;
-    // Create the user info dictionary for any notificatons and set it up with the action.
-    NSMutableDictionary *actionUserInfo = [[NSMutableDictionary alloc] init];
-    [actionUserInfo setObject:action forKey:kGREYActionUserInfoKey];
     NSNotificationCenter *defaultNotificationCenter = [NSNotificationCenter defaultCenter];
     CFTimeInterval timeout = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
 
@@ -203,12 +200,17 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
       } else {
         id element = [elements firstObject];
         // Notification that the action is to be performed on the found element.
+        NSMutableDictionary *actionUserInfo = [[NSMutableDictionary alloc] init];
+        [actionUserInfo setObject:action forKey:kGREYActionUserInfoKey];
         if (element) {
           [actionUserInfo setObject:element forKey:kGREYActionElementUserInfoKey];
         }
         [defaultNotificationCenter postNotificationName:kGREYWillPerformActionNotification
                                                  object:nil
                                                userInfo:actionUserInfo];
+        // We only call perform:error: if element is not nil, as it is a default constraint for all
+        // actions. WillPerformAction and DidPerformAction notifications will always be sent, even
+        // if element is nil.
         if (element && ![action perform:element error:&actionError]) {
           // Action didn't succeed yet no error was set.
           if (!actionError) {
@@ -220,11 +222,11 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
           // Add the error obtained from the action to the user info notification dictionary.
           [actionUserInfo setObject:actionError forKey:kGREYActionErrorUserInfoKey];
         }
+        // Notification for the action being successfully completed on the found element.
+        [defaultNotificationCenter postNotificationName:kGREYDidPerformActionNotification
+                                                 object:nil
+                                               userInfo:actionUserInfo];
       }
-      // Notification for the action being successfully completed on the found element.
-      [defaultNotificationCenter postNotificationName:kGREYDidPerformActionNotification
-                                               object:nil
-                                             userInfo:actionUserInfo];
       // If we encountered a failure and are going to raise an exception, raise it right away before
       // the main runloop drains any further.
       if (actionError && !errorOrNil) {
@@ -270,9 +272,6 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
     __block NSError *elementNotFoundError = nil;
     __block NSError *assertionError = nil;
     __weak __typeof__(self) weakSelf = self;
-    // Create the user info dictionary for any notificatons and set it up with the assertion.
-    NSMutableDictionary *assertionUserInfo = [[NSMutableDictionary alloc] init];
-    [assertionUserInfo setObject:assertion forKey:kGREYAssertionUserInfoKey];
     NSNotificationCenter *defaultNotificationCenter = [NSNotificationCenter defaultCenter];
     CFTimeInterval timeout = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
 
@@ -288,6 +287,8 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
         id element = [elements firstObject];
         // Notification for the assertion to be checked on the found element.
         // We send the notification for an assert even if no element was found.
+        NSMutableDictionary *assertionUserInfo = [[NSMutableDictionary alloc] init];
+        [assertionUserInfo setObject:assertion forKey:kGREYAssertionUserInfoKey];
         if (element) {
           [assertionUserInfo setObject:element forKey:kGREYAssertionElementUserInfoKey];
         }
@@ -305,11 +306,11 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
           // Add the error obtained from the assertion to the user info notification dictionary.
           [assertionUserInfo setObject:assertionError forKey:kGREYAssertionErrorUserInfoKey];
         }
+        // Notification for the assertion being successfully completed on the found element.
+        [defaultNotificationCenter postNotificationName:kGREYDidPerformAssertionNotification
+                                                 object:nil
+                                               userInfo:assertionUserInfo];
       }
-      // Notification for the assertion being successfully completed on the found element.
-      [defaultNotificationCenter postNotificationName:kGREYDidPerformAssertionNotification
-                                               object:nil
-                                             userInfo:assertionUserInfo];
       // If we encountered a failure and are going to raise an exception, raise it right away before
       // the main runloop drains any further.
       if (assertionError && !errorOrNil) {
