@@ -634,12 +634,12 @@ NSMutableArray *appWindows;
   NSError *error;
   [elementInteraction performAction:action error:&error];
   XCTAssertNotNil(error);
-  // No element found means that the error will be a no
-  // element found error and not the custom error.
+  // No element found means that the error will be a no element found error and not custom error.
   XCTAssertEqualObjects(error.domain, kGREYInteractionErrorDomain);
   XCTAssertEqual(error.code, kGREYInteractionElementNotFoundErrorCode);
-  // No element found means that the error is not set here.
-  XCTAssertNil(actionError);
+  // Error should still be set even if no element was found.
+  XCTAssertEqualObjects(actionError.domain, kGREYInteractionErrorDomain);
+  XCTAssertEqual(actionError.code, kGREYInteractionElementNotFoundErrorCode);
   XCTAssertNil(element);
   XCTAssertTrue(willPerformNotificationPosted);
   XCTAssertTrue(didPerformNotificationPosted);

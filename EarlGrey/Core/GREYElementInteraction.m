@@ -211,15 +211,14 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
         // We only call perform:error: if element is not nil, as it is a default constraint for all
         // actions. WillPerformAction and DidPerformAction notifications will always be sent, even
         // if element is nil.
-        if (element && ![action perform:element error:&actionError]) {
+        if (element && ![action perform:element error:&actionError] && !actionError) {
           // Action didn't succeed yet no error was set.
-          if (!actionError) {
-            NSString *description = @"Reason for action failure was not provided.";
-            actionError = [NSError errorWithDomain:kGREYInteractionErrorDomain
-                                              code:kGREYInteractionActionFailedErrorCode
-                                          userInfo:@{ NSLocalizedDescriptionKey : description }];
-          }
-          // Add the error obtained from the action to the user info notification dictionary.
+          NSString *description = @"Reason for action failure was not provided.";
+          actionError = [NSError errorWithDomain:kGREYInteractionErrorDomain
+                                            code:kGREYInteractionActionFailedErrorCode
+                                        userInfo:@{ NSLocalizedDescriptionKey : description }];
+        }
+        if (actionError) {
           [actionUserInfo setObject:actionError forKey:kGREYActionErrorUserInfoKey];
         }
         // Notification for the action being successfully completed on the found element.
@@ -295,15 +294,14 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
         [defaultNotificationCenter postNotificationName:kGREYWillPerformAssertionNotification
                                                  object:nil
                                                userInfo:assertionUserInfo];
-        if (![assertion assert:element error:&assertionError]) {
+        if (![assertion assert:element error:&assertionError] && !assertionError) {
           // Assertion didn't succeed yet no error was set.
-          if (!assertionError) {
-            NSString *description = @"Reason for assertion failure was not provided.";
-            assertionError = [NSError errorWithDomain:kGREYInteractionErrorDomain
-                                                 code:kGREYInteractionAssertionFailedErrorCode
-                                             userInfo:@{ NSLocalizedDescriptionKey : description }];
-          }
-          // Add the error obtained from the assertion to the user info notification dictionary.
+          NSString *description = @"Reason for assertion failure was not provided.";
+          assertionError = [NSError errorWithDomain:kGREYInteractionErrorDomain
+                                               code:kGREYInteractionAssertionFailedErrorCode
+                                           userInfo:@{ NSLocalizedDescriptionKey : description }];
+        }
+        if (assertionError) {
           [assertionUserInfo setObject:assertionError forKey:kGREYAssertionErrorUserInfoKey];
         }
         // Notification for the assertion being successfully completed on the found element.
