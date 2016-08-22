@@ -262,6 +262,19 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
   return [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe];
 }
 
++ (id<GREYMatcher>)matcherForKindOfClassNamed:(NSString *)className {
+  NSParameterAssert(className);
+
+  Class klass = NSClassFromString(className);
+  MatchesBlock matches = ^BOOL(id element) {
+    return [element isKindOfClass:klass];
+  };
+  DescribeToBlock describe = ^void(id<GREYDescription> description) {
+    [description appendText:[NSString stringWithFormat:@"kindOfClassNamed(\"%@\")", className]];
+  };
+  return [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe];
+}
+
 + (id<GREYMatcher>)matcherForProgress:(id<GREYMatcher>)comparisonMatcher {
   MatchesBlock matches = ^BOOL(UIProgressView *element) {
     return [comparisonMatcher matches:@(element.progress)];
@@ -692,6 +705,10 @@ id<GREYMatcher> grey_accessibilityElement(void) {
 
 id<GREYMatcher> grey_kindOfClass(Class klass) {
   return [GREYMatchers matcherForKindOfClass:klass];
+}
+
+id<GREYMatcher> grey_kindOfClassNamed(NSString *className) {
+  return [GREYMatchers matcherForKindOfClassNamed:className];
 }
 
 id<GREYMatcher> grey_progress(id<GREYMatcher> comparisonMatcher) {
