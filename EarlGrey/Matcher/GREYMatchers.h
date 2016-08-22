@@ -171,6 +171,16 @@
 + (id<GREYMatcher>)matcherForKindOfClass:(Class)klass;
 
 /**
+ *  Matcher for elements that are kind of the provided @c className.
+ *
+ *  @param className String with name of a class.
+ *
+ *  @return A matcher that checks if the given element's class is a kind of the provided
+ *          @c className.
+ */
++ (id<GREYMatcher>)matcherForKindOfClassNamed:(NSString *)className;
+
+/**
  *  Matcher for matching UIProgressView's values. Use greaterThan, greaterThanOrEqualTo,
  *  lessThan etc to create @c comparisonMatcher. For example, to match the UIProgressView
  *  elements that have progress value greater than 50.2, use
@@ -455,6 +465,9 @@ GREY_EXPORT id<GREYMatcher> grey_accessibilityElement(void);
 
 /** Shorthand for GREYMatchers::matcherForKindOfClass:. */
 GREY_EXPORT id<GREYMatcher> grey_kindOfClass(Class klass);
+
+/** Shorthand for GREYMatchers::matcherForKindOfClassNamed:. */
+GREY_EXPORT id<GREYMatcher> grey_kindOfClassNamed(NSString *className);
 
 /** Shorthand for GREYMatchers::matcherForProgress:. */
 GREY_EXPORT id<GREYMatcher> grey_progress(id<GREYMatcher> comparisonMatcher);
