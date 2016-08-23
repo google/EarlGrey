@@ -28,6 +28,8 @@
 
 #define GREY_EXTERN FOUNDATION_EXTERN
 
+#define GREY_UNUSED_VARIABLE __attribute__((unused))
+
 #define iOS8_0_OR_ABOVE() ([UIDevice currentDevice].systemVersion.doubleValue >= 8.0)
 #define iOS8_1_OR_ABOVE() ([UIDevice currentDevice].systemVersion.doubleValue >= 8.1)
 #define iOS8_2_OR_ABOVE() ([UIDevice currentDevice].systemVersion.doubleValue >= 8.2)
