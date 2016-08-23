@@ -119,7 +119,7 @@
 		FD5471391BBDF9AC000661FD /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD193FF91BBDDC0000153959 /* QuartzCore.framework */; };
 		FD54713A1BBDF9C0000661FD /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD5470D61BBDE0A9000661FD /* IOKit.framework */; };
 		FD60CB611C5B5B1B00F8E318 /* EarlGrey.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 596D89BE1C05AB0600025714 /* EarlGrey.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		FDA14AF01D36FDBC009F60A0 /* EarlGrey.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7ACAB71D35BB7100803806 /* EarlGrey.swift */; };
+		FD983D6C1D67E8B40059F4CC /* EarlGrey.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8277DE1D677D9F00C7C2AD /* EarlGrey.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -317,7 +317,7 @@
 		FD387B411CA9C63900958AEE /* EarlGreyFunctionalSwiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EarlGreyFunctionalSwiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD5470D61BBDE0A9000661FD /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = ../../../../../../../../../System/Library/Frameworks/IOKit.framework; sourceTree = "<group>"; };
 		FD5470F11BBDECBB000661FD /* EarlGreyFunctionalTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EarlGreyFunctionalTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		FD7ACAB71D35BB7100803806 /* EarlGrey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EarlGrey.swift; path = ../../gem/lib/earlgrey/files/EarlGrey.swift; sourceTree = "<group>"; };
+		FD8277DE1D677D9F00C7C2AD /* EarlGrey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EarlGrey.swift; path = "../../gem/lib/earlgrey/files/Swift-3.0/EarlGrey.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -569,7 +569,7 @@
 		FD387B351CA9C5B500958AEE /* SwiftSources */ = {
 			isa = PBXGroup;
 			children = (
-				FD7ACAB71D35BB7100803806 /* EarlGrey.swift */,
+				FD8277DE1D677D9F00C7C2AD /* EarlGrey.swift */,
 				FD387B3C1CA9C60D00958AEE /* FunctionalTestRig-Bridging-Header.h */,
 				FD387B391CA9C5E200958AEE /* FTRSwiftTests.swift */,
 			);
@@ -788,7 +788,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FDA14AF01D36FDBC009F60A0 /* EarlGrey.swift in Sources */,
+				FD983D6C1D67E8B40059F4CC /* EarlGrey.swift in Sources */,
 				FD387B4C1CA9C65100958AEE /* FTRSwiftTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

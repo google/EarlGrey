@@ -254,14 +254,35 @@ steps in your setup:
     #import <EarlGrey/EarlGrey.h>
    ```
 
-2. Download [`EarlGrey.swift`](https://github.com/google/EarlGrey/tree/master/gem/lib/earlgrey/files/EarlGrey.swift) and add it to your test bundle. The file contains
-functions that implement C preprocessor macros that aren't available in Swift.
+2. Include the `EarlGrey.swift` file in your Swift Test Project. The file contain functions that
+   implement C preprocessor macros that aren't available in Swift.
 
-   Here is an example of a very basic EarlGrey test written in Swift:
+  * **If you're using the [earlgrey gem](https://rubygems.org/gems/earlgrey)**
 
-   ```swift
-   // Select the button with Accessibility ID "clickMe" and assert it's visible.
-   EarlGrey().selectElementWithMatcher(grey_accessibilityID("ClickMe"))
-       .assertWithMatcher(grey_sufficientlyVisible())
-   ```
-3. For compatibility with Swift, we use `grey_allOfMatchers()` and `grey_anyOfMatchers()` instead of `grey_allOf()` and `grey_anyOf()` respectively.
+      The EarlGrey gem also copies the `EarlGrey.swift` file to your project directory if you're passing the
+      `{swift: true}` parameter to the args for the `configure_for_earlgrey()` method as in the below snippet.
+      You need to manually link this file to your project.
+
+      ```ruby
+      configure_for_earlgrey(installer, PROJECT_NAME, test_target, test_target + '.xcscheme', {swift: true})
+      ```
+
+      EarlGrey currently supports Swift 3.0 and 2.2. While 3.0 is the default, you can also use 2.2 by adding
+      `{swift: true, swift_version: 2.2}`.
+
+  * **Manual installation without the [earlgrey gem](https://rubygems.org/gems/earlgrey)**
+
+      In this case you need to download the correct
+      [`EarlGrey.swift`](https://github.com/google/EarlGrey/tree/master/gem/lib/earlgrey/files/) file
+      for your Swift version and add it to your test bundle. 
+
+Here is an example of a very basic EarlGrey test written in Swift:
+
+```swift
+ // Select the button with Accessibility ID "clickMe" and assert it's visible.
+ EarlGrey().selectElementWithMatcher(grey_accessibilityID("ClickMe"))
+     .assertWithMatcher(grey_sufficientlyVisible())
+```
+
+> For compatibility with Swift, we use `grey_allOfMatchers()` and `grey_anyOfMatchers()` instead of `grey_allOf()`
+and `grey_anyOf()` respectively.

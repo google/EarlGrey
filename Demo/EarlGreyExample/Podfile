@@ -35,6 +35,10 @@ post_install do |installer|
 
   # For each test target, you need to call the EarlGrey script's edit method once.
   TARGETS.each do |test_target|
-    configure_for_earlgrey(installer, PROJECT_NAME, test_target, test_target + '.xcscheme')
+    var_args = {}
+    if test_target.include? "Swift"
+      var_args = {swift: true}
+    end
+    configure_for_earlgrey(installer, PROJECT_NAME, test_target, test_target + '.xcscheme', var_args)
   end
 end
