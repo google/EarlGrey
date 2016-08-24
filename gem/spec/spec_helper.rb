@@ -33,6 +33,12 @@ module SpecHelper
     end
   end
 
+  def project_scheme_before
+    @project_scheme_before ||= begin
+      fixture_path 'project_scheme_before'
+    end
+  end
+
   def carthage_after
     @carthage_after ||= begin
       fixture_path 'carthage_after'
@@ -45,17 +51,23 @@ module SpecHelper
     end
   end
 
+  def cocoapods_scheme_after
+    @cocoapods_scheme_after ||= begin
+      fixture_path 'cocoapods_scheme_after'
+    end
+  end
+
   NIL_YAML = "--- \n...\n".freeze
 
   # project_1 is the temp configured project
   # project_2 is the reference project
-  def diff_project(project_after, command_array)
+  def diff_project(project_init, project_after, command_array)
     raise 'command_array is not an array' unless command_array && command_array.is_a?(Array)
     # dirname for "/fixtures/project_before/." => /fixtures/project_before"
     xcodeproj_2 = File.join(File.dirname(project_after), 'Example.xcodeproj')
 
     Dir.mktmpdir do |tmp_dir|
-      FileUtils.cp_r project_before, tmp_dir
+      FileUtils.cp_r project_init, tmp_dir
 
       Dir.chdir tmp_dir do
         # carthage modification of xcodeproj is non-deterministic so we can't rely on

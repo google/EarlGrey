@@ -233,21 +233,25 @@ module EarlGrey
         launch_action_args = scheme.launch_action.xml_element.elements['CommandLineArguments']
 
         # Add in the Environment Variables
-        launch_action_env_vars.elements.each('EnvironmentVariable') do |launch_action_env_var|
-          environment_variable = REXML::Element.new 'EnvironmentVariable'
-          launch_attributes = launch_action_env_var.attributes
-          environment_variable.attributes['key'] = launch_attributes['key']
-          environment_variable.attributes['value'] = launch_attributes['value']
-          environment_variable.attributes['isEnabled'] = launch_attributes['isEnabled']
-          test_action_env_vars.add_element(environment_variable)
+        unless launch_action_env_vars.nil?
+          launch_action_env_vars.elements.each('EnvironmentVariable') do |launch_action_env_var|
+            environment_variable = REXML::Element.new 'EnvironmentVariable'
+            launch_attributes = launch_action_env_var.attributes
+            environment_variable.attributes['key'] = launch_attributes['key']
+            environment_variable.attributes['value'] = launch_attributes['value']
+            environment_variable.attributes['isEnabled'] = launch_attributes['isEnabled']
+            test_action_env_vars.add_element(environment_variable)
+          end
         end
 
         # Add in the Arguments
-        launch_action_args.elements.each('CommandLineArgument') do |launch_action_arg|
-          argument = REXML::Element.new 'CommandLineArgument'
-          argument.attributes['argument'] = launch_action_arg.attributes['argument']
-          argument.attributes['isEnabled'] = launch_action_arg.attributes['isEnabled']
-          test_action_args.add_element(argument)
+        unless launch_action_args.nil?
+          launch_action_args.elements.each('CommandLineArgument') do |launch_action_arg|
+            argument = REXML::Element.new 'CommandLineArgument'
+            argument.attributes['argument'] = launch_action_arg.attributes['argument']
+            argument.attributes['isEnabled'] = launch_action_arg.attributes['isEnabled']
+            test_action_args.add_element(argument)
+          end
         end
 
       end
