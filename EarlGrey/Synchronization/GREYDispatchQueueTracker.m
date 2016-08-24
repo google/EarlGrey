@@ -203,7 +203,8 @@ static void grey_dispatch_sync_f(dispatch_queue_t queue, void *context, dispatch
   @autoreleasepool {
     gDispatchQueueToTracker = [NSMapTable weakToWeakObjectsMapTable];
 
-    dispatch_queue_t dummyQueue = dispatch_queue_create("GREYDummyQueue", DISPATCH_QUEUE_SERIAL);
+    GREY_UNUSED_VARIABLE dispatch_queue_t dummyQueue =
+        dispatch_queue_create("GREYDummyQueue", DISPATCH_QUEUE_SERIAL);
     NSAssert(dummyQueue, @"dummmyQueue must not be nil");
 
     // Use dlsym to get the original pointer because of
@@ -230,7 +231,8 @@ static void grey_dispatch_sync_f(dispatch_queue_t queue, void *context, dispatch
       {"dispatch_async_f", grey_dispatch_async_f, NULL},
       {"dispatch_sync_f", grey_dispatch_sync_f, NULL},
     };
-    int failure = rebind_symbols(rebindings, sizeof(rebindings) / sizeof(rebindings[0]));
+    GREY_UNUSED_VARIABLE int failure =
+        rebind_symbols(rebindings, sizeof(rebindings) / sizeof(rebindings[0]));
     NSAssert(!failure, @"rebinding symbols failed");
   }
 }

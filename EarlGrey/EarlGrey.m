@@ -84,12 +84,12 @@ static pthread_mutex_t gFailureHandlerLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER
 #pragma mark - Private
 
 - (void)grey_lockFailureHandler {
-  int lock = pthread_mutex_lock(&gFailureHandlerLock);
+  GREY_UNUSED_VARIABLE int lock = pthread_mutex_lock(&gFailureHandlerLock);
   NSAssert(lock == 0, @"Failed to lock.");
 }
 
 - (void)grey_unlockFailureHandler {
-  int unlock = pthread_mutex_unlock(&gFailureHandlerLock);
+  GREY_UNUSED_VARIABLE int unlock = pthread_mutex_unlock(&gFailureHandlerLock);
   NSAssert(unlock == 0, @"Failed to unlock.");
 }
 

@@ -219,10 +219,10 @@ static pthread_mutex_t gStateLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
 }
 
 - (id)grey_performBlockInCriticalSection:(id (^)())block {
-  int lock = pthread_mutex_lock(&gStateLock);
+  GREY_UNUSED_VARIABLE int lock = pthread_mutex_lock(&gStateLock);
   NSAssert(lock == 0, @"Failed to lock.");
   id retVal = block();
-  int unlock = pthread_mutex_unlock(&gStateLock);
+  GREY_UNUSED_VARIABLE int unlock = pthread_mutex_unlock(&gStateLock);
   NSAssert(unlock == 0, @"Failed to unlock.");
 
   return retVal;
