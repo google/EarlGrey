@@ -33,6 +33,7 @@ env:
     - DESTINATION="OS=8.2,name=iPad Air" SDK=iphonesimulator9.3 TYPE="FUNCTIONAL"
     - DESTINATION="OS=8.1,name=iPhone 5" SDK=iphonesimulator9.3 TYPE="FUNCTIONAL"
     - DESTINATION="OS=8.1,name=iPhone 4S" SDK=iphonesimulator9.3 TYPE="FUNCTIONAL"
+    - DESTINATION="OS=9.3,name=iPhone 6s" SDK=iphonesimulator9.3 TYPE="CARTHAGE"
     - TYPE="RUBY"
 before_install:
   - gem install xcpretty --no-rdoc --no-ri --no-document --quiet
