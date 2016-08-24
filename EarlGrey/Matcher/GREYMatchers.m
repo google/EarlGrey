@@ -525,7 +525,8 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
   DescribeToBlock describe = ^void(id<GREYDescription> description) {
     NSString *name =
         [NSString stringWithFormat:@"layoutWithConstraints(%@) referenceElementMatcher:(%@)",
-            referenceElementMatcher, [constraints componentsJoinedByString:@","]];
+                                   [constraints componentsJoinedByString:@","],
+                                   referenceElementMatcher];
     [description appendText:name];
   };
   // Nil elements do not have layout for matching layout constraints.
