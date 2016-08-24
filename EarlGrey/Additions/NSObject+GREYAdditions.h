@@ -57,6 +57,11 @@
 - (CGPoint)grey_accessibilityActivationPointRelativeToFrame;
 
 /**
+ *  @return @c YES if @c self is an accessibility element within a UIWebView, @c NO otherwise.
+ */
+- (BOOL)grey_isWebAccessibilityElement;
+
+/**
  *  @return A detailed description of the element, including accessibility attributes.
  */
 - (NSString *)grey_description;

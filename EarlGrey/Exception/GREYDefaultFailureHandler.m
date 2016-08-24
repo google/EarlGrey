@@ -28,7 +28,7 @@
 #import "Provider/GREYUIWindowProvider.h"
 
 // Counter that is incremented each time a failure occurs in an unknown test.
-static NSUInteger gUnknownTestExceptionCounter;
+static NSUInteger gUnknownTestExceptionCounter = 0;
 
 @implementation GREYDefaultFailureHandler {
   NSString *_fileName;
@@ -44,25 +44,24 @@ static NSUInteger gUnknownTestExceptionCounter;
 
 - (void)handleException:(GREYFrameworkException *)exception details:(NSString *)details {
   NSParameterAssert(exception);
-  // Testcase can be nil if EarlGrey is invoked outside the context of an XCTestCase.
+
+  // Test case can be nil if EarlGrey is invoked outside the context of an XCTestCase.
   XCTestCase *currentTestCase = [XCTestCase grey_currentTestCase];
   if (!currentTestCase) {
     gUnknownTestExceptionCounter++;
   }
 
-  NSMutableString *exceptionLog = [[NSMutableString alloc] init];
+  NSMutableString *log = [[NSMutableString alloc] init];
   // Start on fresh new line.
-  [exceptionLog appendString:@"\n"];
-  [exceptionLog appendFormat:@"Exception: %@\n", [exception name]];
-  if ([exception reason]) {
-    [exceptionLog appendFormat:@"Reason: %@\n", [exception reason]];
-  } else {
-    [exceptionLog appendString:@"Reason for exception was not provided.\n"];
-  }
+  [log appendString:@"\n"];
+  [log appendFormat:@"Exception: %@\n", exception.name];
+  NSString *reason =
+      exception.reason.length > 0 ? exception.reason : @"exception.reason was not provided";
+  [log appendFormat:@"Reason: %@\n", reason];
   if (details.length > 0) {
-    [exceptionLog appendFormat:@"%@\n", details];
+    [log appendFormat:@"%@\n", details];
   }
-  [exceptionLog appendString:@"\n"];
+  [log appendString:@"\n"];
 
   NSString *screenshotName;
   if (currentTestCase) {
@@ -74,65 +73,52 @@ static NSUInteger gUnknownTestExceptionCounter;
         [NSString stringWithFormat:@"unknown_%lu", (unsigned long)gUnknownTestExceptionCounter];
   }
 
+  // Save and log screenshot and before and after images (if available).
   NSString *screenshotDir = GREY_CONFIG_STRING(kGREYConfigKeyScreenshotDirLocation);
-  // Log the screenshot.
   [self grey_savePNGImage:[GREYScreenshotUtil grey_takeScreenshotAfterScreenUpdates:NO]
               toFileNamed:[NSString stringWithFormat:@"%@.png", screenshotName]
               inDirectory:screenshotDir
               forCategory:@"Screenshot At Failure"
-          appendingLogsTo:exceptionLog];
-
-  // Log before and after images (if available) for the element under test.
-  UIImage *beforeImage = [GREYVisibilityChecker grey_lastActualBeforeImage];
-  UIImage *afterExpectedImage = [GREYVisibilityChecker grey_lastExpectedAfterImage];
-  UIImage *afterActualImage = [GREYVisibilityChecker grey_lastActualAfterImage];
-
-  [self grey_savePNGImage:beforeImage
+          appendingLogsTo:log];
+  [self grey_savePNGImage:[GREYVisibilityChecker grey_lastActualBeforeImage]
               toFileNamed:[NSString stringWithFormat:@"%@_before.png", screenshotName]
               inDirectory:screenshotDir
               forCategory:@"Visibility Checker's Most Recent Before Image"
-          appendingLogsTo:exceptionLog];
-  [self grey_savePNGImage:afterExpectedImage
+          appendingLogsTo:log];
+  [self grey_savePNGImage:[GREYVisibilityChecker grey_lastExpectedAfterImage]
               toFileNamed:[NSString stringWithFormat:@"%@_after_expected.png", screenshotName]
               inDirectory:screenshotDir
               forCategory:@"Visibility Checker's Most Recent Expected After Image"
-          appendingLogsTo:exceptionLog];
-  [self grey_savePNGImage:afterActualImage
+          appendingLogsTo:log];
+  [self grey_savePNGImage:[GREYVisibilityChecker grey_lastActualAfterImage]
               toFileNamed:[NSString stringWithFormat:@"%@_after_actual.png", screenshotName]
               inDirectory:screenshotDir
               forCategory:@"Visibility Checker's Most Recent Actual After Image"
-          appendingLogsTo:exceptionLog];
+          appendingLogsTo:log];
 
-  [exceptionLog appendString:@"\n\n"];
-
-  // UI hierarchy.
-  [exceptionLog appendString:@"Application window hierarchy (ordered by window level, "
-                             @"from front to back):\n\n"];
-
-  // Legend.
-  [exceptionLog appendString:@"Legend:\n"
-                             @"[Window 1] = [Frontmost Window]\n"
-                             @"[AX] = [Accessibility]\n"
-                             @"[UIE] = [User Interaction Enabled]\n\n"];
-
-  // Print windows from front to back.
+  // UI hierarchy and legend. Print windows from front to back.
+  [log appendString:@"\n"
+                    @"Application window hierarchy (ordered by window level, front to back):\n\n"
+                    @"Legend:\n"
+                    @"[Window 1] = [Frontmost Window]\n"
+                    @"[AX] = [Accessibility]\n"
+                    @"[UIE] = [User Interaction Enabled]\n\n"];
   int index = 0;
   for (UIWindow *window in [GREYUIWindowProvider allWindows]) {
     index++;
-    NSString *hierarchy = [GREYElementHierarchy hierarchyStringForElement:window];
-    [exceptionLog appendFormat:@"========== Window %d ==========\n\n%@\n\n",
-                               index, hierarchy];
+    [log appendFormat:@"========== Window %d ==========\n\n%@\n\n",
+                      index, [GREYElementHierarchy hierarchyStringForElement:window]];
   }
 
   if (currentTestCase) {
     [currentTestCase grey_markAsFailedAtLine:_lineNumber
                                       inFile:_fileName
                                       reason:exception.reason
-                           detailDescription:exceptionLog];
+                           detailDescription:log];
   } else {
     // Happens when exception is thrown outside a valid test context (i.e. +setUp, +tearDown, etc.)
     [[GREYFrameworkException exceptionWithName:exception.name
-                                        reason:exceptionLog
+                                        reason:log
                                       userInfo:nil] raise];
   }
 }

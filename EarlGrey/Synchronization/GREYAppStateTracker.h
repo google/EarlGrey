@@ -27,7 +27,7 @@
  *  These states are not mutually exclusive and can be combined together using Bitwise-OR to
  *  represent multiple states.
  */
-typedef NS_OPTIONS(NSUInteger, GREYAppState){
+typedef NS_OPTIONS(NSUInteger, GREYAppState) {
   /**
    *  Idle state implies App is not undergoing any state changes and it is OK to interact with it.
    */

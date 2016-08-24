@@ -53,7 +53,7 @@ static const CFTimeInterval kMaximumSynchronizationSleepInterval = 0.1;
 static const CFTimeInterval kDrainTimeoutSecondsBeforeForcedStateTrackerCleanup = 5;
 
 // Execution states.
-typedef NS_ENUM(NSInteger, EGExecutionState) {
+typedef NS_ENUM(NSInteger, GREYExecutionState) {
   kGREYExecutionNotStarted = -1,
   kGREYExecutionWaitingForIdle,
   kGREYExecutionCompleted,
@@ -72,9 +72,9 @@ typedef NS_ENUM(NSInteger, EGExecutionState) {
 
 @implementation GREYUIThreadExecutor {
   /**
-   *  All idling resources that are registered with the framework using
-   *  EGUIThreadExecutor::registerIdlingResource:. This list excludes the idling resources that are
-   *  monitored by default and don't require registration.
+   *  All idling resources that are registered with the framework using registerIdlingResource:.
+   *  This list excludes the idling resources that are monitored by default and do not require
+   *  registration.
    */
   NSMutableOrderedSet *_registeredIdlingResources;
 
@@ -371,7 +371,7 @@ typedef NS_ENUM(NSInteger, EGExecutionState) {
     NSLog(@"EarlGrey tried waiting for %.1f seconds for the application to reach an idle state. It"
           @" is now forced to clear the state of GREYAppStateTracker, because the test might have"
           @" caused the application to remain in non-idle state indefinitely."
-          @"\nFull state tracker description:%@",
+          @"\nFull state tracker description: %@",
           kDrainTimeoutSecondsBeforeForcedStateTrackerCleanup,
           [GREYAppStateTracker sharedInstance]);
     [[GREYAppStateTracker sharedInstance] grey_clearState];

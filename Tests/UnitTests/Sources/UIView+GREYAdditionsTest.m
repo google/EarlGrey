@@ -20,6 +20,7 @@
 #import <objc/runtime.h>
 
 #import "GREYBaseTest.h"
+#import "GREYExposedForTesting.h"
 
 // Class that performs swizzled operations in dealloc to ensure they don't track
 @interface UIViewDealloc : UIView

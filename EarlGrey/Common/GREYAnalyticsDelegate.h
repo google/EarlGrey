@@ -16,7 +16,7 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol GREYAnalyticsDelegate <NSObject>
+@protocol GREYAnalyticsDelegate<NSObject>
 
 @required
 /**

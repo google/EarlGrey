@@ -63,9 +63,9 @@ static const NSInteger kMinTouchPointsToDetectScrollResistance = 2;
            @"startPointPercents must be NAN or in the range (0, 1) exclusive");
   NSAssert(isnan(startPointPercents.y) || (startPointPercents.y > 0 && startPointPercents.y < 1),
            @"startPointPercents must be NAN or in the range (0, 1) exclusive");
+
   NSString *name =
       [NSString stringWithFormat:@"Scroll %@ for %g", NSStringFromGREYDirection(direction), amount];
-
   self = [super initWithName:name
                  constraints:grey_allOf(grey_anyOf(grey_kindOfClass([UIScrollView class]),
                                                    grey_kindOfClass([UIWebView class]),

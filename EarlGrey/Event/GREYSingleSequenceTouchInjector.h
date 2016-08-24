@@ -19,7 +19,7 @@
 /**
  *  State for touch injector.
  */
-typedef NS_ENUM(NSInteger, GREYTouchInjectorState){
+typedef NS_ENUM(NSInteger, GREYTouchInjectorState) {
   /**
    *  Touch injection hasn't started yet.
    */

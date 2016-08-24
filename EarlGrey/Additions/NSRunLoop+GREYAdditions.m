@@ -32,7 +32,7 @@
   }
 }
 
-# pragma mark - Swizzled Implementation
+#pragma mark - Swizzled Implementation
 
 - (void)greyswizzled_addTimer:(NSTimer *)timer forMode:(NSString *)mode {
   if ([mode isEqualToString:NSDefaultRunLoopMode]) {

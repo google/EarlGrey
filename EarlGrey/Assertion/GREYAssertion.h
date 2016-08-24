@@ -19,7 +19,7 @@
 /**
  *  Protocol to which EarlGrey assertion classes must conform.
  */
-@protocol GREYAssertion
+@protocol GREYAssertion<NSObject>
 
 /**
  *  Checks whether the assertion is valid for the provided @c element, throwing an exception if the

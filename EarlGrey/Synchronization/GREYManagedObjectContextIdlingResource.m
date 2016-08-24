@@ -61,7 +61,7 @@
     _name = [name copy];
 
     NSString *dispatchQueueResourceName =
-        [NSString stringWithFormat:@"DispatchQueueForNSManagedObject:%@", _name];
+        [NSString stringWithFormat:@"DispatchQueueForNSManagedObject: %@", _name];
 
     dispatch_queue_t managedContextQueue = [self managedObjectContextDispatchQueue];
 

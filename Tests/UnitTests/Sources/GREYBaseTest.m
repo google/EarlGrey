@@ -22,6 +22,7 @@
 #import <OCMock/OCMock.h>
 #import <objc/message.h>
 
+#import "GREYExposedForTesting.h"
 
 // A list containing UIImage that are returned by each invocation of takeScreenShot of
 // GREYScreenshotUtil. After a screenshot is returned (in-order), it is removed from this list.

@@ -41,16 +41,17 @@ static NSString *const kFTRProxyRegex = @"^http://www.youtube.com";
   return nil;
 }
 
-- (void)viewDidLoad {
-  [super viewDidLoad];
+- (void)viewWillAppear:(BOOL)animated {
   [FTRNetworkProxy ftr_setProxyEnabled:YES];
   [FTRNetworkProxy ftr_addProxyRuleForUrlsMatchingRegexString:kFTRProxyRegex
                                                responseString:kFTRTestProxyData];
+  [super viewWillAppear:animated];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
   [super viewWillDisappear:animated];
   [FTRNetworkProxy ftr_removeMostRecentProxyRuleMatchingUrlRegexString:kFTRProxyRegex];
+  [FTRNetworkProxy ftr_setProxyEnabled:NO];
 }
 
 /**

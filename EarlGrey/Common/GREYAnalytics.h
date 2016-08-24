@@ -23,7 +23,7 @@
  *
  *  @remark To opt out of Analytics use GREYConfiguration and set config value for
  *          @c kGREYConfigKeyAnalyticsEnabled to @c NO before the instance tear down method
- *          (XCTest::tearDown) method returns. Sample code to opt out of analytics:
+ *          XCTestCase::tearDown method returns. Sample code to opt out of analytics:
  *          @code
  *          [[GREYConfiguration sharedInstance] setValue:@(NO)
  *                                          forConfigKey:kGREYConfigKeyAnalyticsEnabled];

@@ -73,7 +73,7 @@ static NSMutableArray *gRunLoopModes;
   }
 }
 
-# pragma mark - Swizzled Implementation
+#pragma mark - Swizzled Implementation
 
 - (void)greyswizzled_beginIgnoringInteractionEvents {
   INVOKE_ORIGINAL_IMP(void, @selector(greyswizzled_beginIgnoringInteractionEvents));

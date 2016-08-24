@@ -19,7 +19,7 @@
 /**
  *  A protocol for actions that are performed on accessibility elements.
  */
-@protocol GREYAction
+@protocol GREYAction<NSObject>
 
 /**
  *  Perform the action specified by the GREYAction object on an @c element if and only if the

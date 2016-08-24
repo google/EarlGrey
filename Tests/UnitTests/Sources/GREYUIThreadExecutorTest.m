@@ -22,6 +22,7 @@
 #import <objc/runtime.h>
 
 #import "GREYBaseTest.h"
+#import "GREYExposedForTesting.h"
 
 static BOOL gAppStateTrackerIdle;
 

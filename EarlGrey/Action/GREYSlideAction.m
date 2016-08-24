@@ -48,6 +48,8 @@
   return self;
 }
 
+#pragma mark - GREYAction
+
 - (BOOL)perform:(UISlider *)slider error:(__strong NSError **)errorOrNil {
   if (![self satisfiesConstraintsForElement:slider error:errorOrNil]) {
     return NO;
@@ -56,14 +58,14 @@
     return YES;
   }
 
-  if (![self checkEdgeCasesForFinalValueOfSlider:slider error:errorOrNil]) {
+  if (![self grey_checkEdgeCasesForFinalValueOfSlider:slider error:errorOrNil]) {
     return NO;
   };
 
   float currentSliderValue = slider.value;
 
   // Get the center of the thumb in coordinates respective of the slider it is in.
-  CGPoint touchPoint = [self centerOfSliderThumbInSliderCoordinates:slider];
+  CGPoint touchPoint = [self grey_centerOfSliderThumbInSliderCoordinates:slider];
 
   // Begin sliding by injecting touch events.
   GREYSyntheticEvents *eventGenerator = [[GREYSyntheticEvents alloc] init];
@@ -136,7 +138,9 @@
   return YES;
 }
 
-- (CGPoint)centerOfSliderThumbInSliderCoordinates:(UISlider *)slider {
+#pragma mark - Private
+
+- (CGPoint)grey_centerOfSliderThumbInSliderCoordinates:(UISlider *)slider {
   CGRect sliderBounds = slider.bounds;
   CGRect trackBounds = [slider trackRectForBounds:sliderBounds];
   CGRect thumbBounds = [slider thumbRectForBounds:sliderBounds
@@ -145,8 +149,8 @@
   return CGPointMake(CGRectGetMidX(thumbBounds), CGRectGetMidY(thumbBounds));
 }
 
-- (BOOL)checkEdgeCasesForFinalValueOfSlider:(UISlider *)slider
-                                      error:(__strong NSError **)errorOrNil {
+- (BOOL)grey_checkEdgeCasesForFinalValueOfSlider:(UISlider *)slider
+                                           error:(__strong NSError **)errorOrNil {
   NSString *reason;
   if (isgreater(_finalValue, slider.maximumValue)) {
     reason = @"Value to move to is larger than slider's maximum value";

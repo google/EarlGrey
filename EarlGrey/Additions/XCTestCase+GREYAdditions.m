@@ -234,7 +234,7 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
 }
 
 /**
- *  A swizzled implementation for XCTestCase::setUp.
+ *  A swizzled implementation for XCTestCase::tearDown.
  *
  *  @remark These methods need to be added to each instance of XCTestCase because we don't expect
  *          tests to invoke <tt> [super tearDown] </tt>.

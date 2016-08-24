@@ -37,7 +37,7 @@
  *  @param matchers The matchers, one of which is required to be matched by the matcher.
  *                  They are invoked in the order that they are passed in.
  *
- *  @return An instance of GREYAnyOf, initialized with the provided matcher(s).
+ *  @return An instance of GREYAnyOf, initialized with the provided matchers.
  */
 - (instancetype)initWithMatchers:(NSArray *)matchers NS_DESIGNATED_INITIALIZER;
 
@@ -51,7 +51,7 @@
  *               specified and only if the preceding matcher fails.
  *               This va-arg must be terminated with a @c nil value.
  *
- *  @return An object conforming to HCMatcher, initialized with the required matcher(s).
+ *  @return An object conforming to GREYMatcher, initialized with the required matchers.
  */
 GREY_EXPORT id<GREYMatcher> grey_anyOf(id<GREYMatcher> match, ...) NS_REQUIRES_NIL_TERMINATION;
 

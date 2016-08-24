@@ -83,6 +83,7 @@
                     duration:(CFTimeInterval)duration
                     location:(CGPoint)tapLocation {
   NSAssert((numberOfTaps > 0), @"You cannot initialize a tap action with zero taps.");
+
   NSString *name = [GREYTapAction grey_actionNameWithTapType:tapType
                                                     duration:duration
                                                 numberOfTaps:numberOfTaps];
@@ -154,27 +155,18 @@
 + (NSString *)grey_actionNameWithTapType:(GREYTapType)tapType
                                 duration:(CFTimeInterval)duration
                             numberOfTaps:(NSUInteger)numberOfTaps {
-  NSString *actionName;
-
   switch (tapType) {
-    case kGREYTapTypeShort: {
-      actionName = @"Tap";
-      break;
-    }
-    case kGREYTapTypeMultiple: {
-      actionName = [NSString stringWithFormat:@"Tap %ld times", (long)numberOfTaps];
-      break;
-    }
-    case kGREYTapTypeLong: {
-      actionName = [NSString stringWithFormat:@"Long Press for %f seconds", duration];
-      break;
-    }
-    case kGREYTapTypeKBKey: {
-      actionName = [NSString stringWithFormat:@"Tap on keyboard key"];
-      break;
-    }
+    case kGREYTapTypeShort:
+      return @"Tap";
+    case kGREYTapTypeMultiple:
+      return [NSString stringWithFormat:@"Tap %ld times", (long)numberOfTaps];
+    case kGREYTapTypeLong:
+      return [NSString stringWithFormat:@"Long Press for %f seconds", duration];
+    case kGREYTapTypeKBKey:
+      return [NSString stringWithFormat:@"Tap on keyboard key"];
   }
-  return actionName;
+  NSAssert(NO, @"Unknown tapType %d was provided", (int)tapType);
+  return nil;
 }
 
 /**

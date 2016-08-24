@@ -19,7 +19,6 @@
 #import <EarlGrey/GREYUIWebViewDelegate.h>
 
 #import "FTRBaseIntegrationTest.h"
-#import "FTRNetworkProxy.h"
 
 /**
  *  A constant to wait for the locally loaded HTML page.
@@ -44,14 +43,7 @@ static const NSTimeInterval kLocalHTMLPageLoadDelay = 10.0;
 
 - (void)setUp {
   [super setUp];
-  [FTRNetworkProxy ftr_setProxyEnabled:NO];
   [self openTestViewNamed:@"Web Views"];
-}
-
-- (void)tearDown {
-  [[GREYAppStateTracker sharedInstance] grey_clearState];
-  [FTRNetworkProxy ftr_setProxyEnabled:YES];
-  [super tearDown];
 }
 
 - (void)DISABLED_testComponentsOnLocallyLoadedRichHTMLWithBounce {

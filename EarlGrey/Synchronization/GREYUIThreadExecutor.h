@@ -32,7 +32,7 @@ GREY_EXTERN NSString *const kGREYUIThreadExecutorErrorDomain;
 /**
  *  Error codes for thread executor failures.
  */
-typedef NS_ENUM(NSInteger, GREYUIThreadExecutorErrorCode){
+typedef NS_ENUM(NSInteger, GREYUIThreadExecutorErrorCode) {
   /**
    *  Timeout reached before block could be executed.
    */
@@ -62,7 +62,7 @@ typedef void(^GREYExecBlock)(void);
 
 /**
  *  Blocking call that drains the main runloop enough times to make each source gets a fair chance
- *  of service. No guarantee is made on whether the App is in kEGIdle state after this method
+ *  of service. No guarantee is made on whether the app is in kGREYIdle state after this method
  *  returns.
  */
 - (void)drainOnce;

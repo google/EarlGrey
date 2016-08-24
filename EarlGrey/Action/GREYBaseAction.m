@@ -15,8 +15,6 @@
 //
 #import "Action/GREYBaseAction.h"
 
-#import <OCHamcrest/OCHamcrest.h>
-
 #import "Additions/NSError+GREYAdditions.h"
 #import "Additions/NSObject+GREYAdditions.h"
 #import "Assertion/GREYAssertionDefines.h"
@@ -48,16 +46,15 @@
     GREYStringDescription *mismatchDetail = [[GREYStringDescription alloc] init];
     if (![_constraints matches:element describingMismatchTo:mismatchDetail]) {
       NSString *reason =
-          [NSString stringWithFormat:@"Action could not be performed on "
+          [NSString stringWithFormat:@"Action '%@' could not be performed on "
                                      @"element '%@' because it failed constraints: %@",
-                                     [element grey_description], mismatchDetail];
+                                     _name, [element grey_description], mismatchDetail];
       NSString *details = [NSString stringWithFormat:@"All Constraints: %@", _constraints];
       if (errorOrNilPtr) {
-        NSString *reasonAndDetails = [NSString stringWithFormat:@"%@\n%@", reason, details];
-        NSDictionary *userInfo = @{ NSLocalizedDescriptionKey : reasonAndDetails };
+        NSString *description = [NSString stringWithFormat:@"%@\n%@", reason, details];
         *errorOrNilPtr = [NSError errorWithDomain:kGREYInteractionErrorDomain
                                              code:kGREYInteractionActionFailedErrorCode
-                                         userInfo:userInfo];
+                                         userInfo:@{ NSLocalizedDescriptionKey : description }];
       } else {
         I_GREYActionFail(reason, details);
       }
@@ -67,7 +64,7 @@
   }
 }
 
-#pragma mark - EGAction
+#pragma mark - GREYAction
 
 // The perform:error: method has to be implemented by the subclass.
 - (BOOL)perform:(id)element error:(__strong NSError **)errorOrNil {

@@ -141,7 +141,7 @@ static void const *const kPausedAnimationKeys = &kPausedAnimationKeys;
   }
 }
 
-# pragma mark - Swizzled Implementations
+#pragma mark - Swizzled Implementations
 
 - (void)greyswizzled_removeAllAnimations {
   for (NSString *key in [self animationKeys]) {

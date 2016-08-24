@@ -19,6 +19,7 @@
 #import <EarlGrey/GREYManagedObjectContextIdlingResource.h>
 
 #import "GREYBaseTest.h"
+#import "GREYExposedForTesting.h"
 
 static const NSTimeInterval kSemaphoreTimeoutSeconds = 0.1;
 static const NSTimeInterval kExpectationTimeoutSeconds = 1.0;

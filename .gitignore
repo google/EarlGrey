@@ -7,3 +7,5 @@ Gemfile.lock
 fishhook/
 OCHamcrest.framework
 Tests/UnitTests/ocmock/
+Tests/UnitTests/UnitTests.xcodeproj/project.xcworkspace/
+Tests/FunctionalTests/FunctionalTests.xcodeproj/project.xcworkspace/

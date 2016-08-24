@@ -40,19 +40,19 @@
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Upper Scroll View")]
       performAction:grey_scrollToContentEdge(kGREYContentEdgeTop)];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Upper Scroll View")]
-      assertWithMatcher:[self ftr_matcherForScrolledToEdge:kGREYContentEdgeTop]];
+      assertWithMatcher:grey_scrolledToContentEdge(kGREYContentEdgeTop)];
 }
 
 - (void)testScrollToBottomEdge {
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Upper Scroll View")]
       performAction:grey_scrollToContentEdge(kGREYContentEdgeBottom)]
-      assertWithMatcher:[self ftr_matcherForScrolledToEdge:kGREYContentEdgeBottom]];
+      assertWithMatcher:grey_scrolledToContentEdge(kGREYContentEdgeBottom)];
 }
 
 - (void)testScrollToRightEdge {
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Bottom Scroll View")]
       performAction:grey_scrollToContentEdge(kGREYContentEdgeRight)]
-      assertWithMatcher:[self ftr_matcherForScrolledToEdge:kGREYContentEdgeRight]];
+      assertWithMatcher:grey_scrolledToContentEdge(kGREYContentEdgeRight)];
 }
 
 - (void)testScrollToLeftEdge {
@@ -60,43 +60,43 @@
       performAction:grey_scrollToContentEdge(kGREYContentEdgeRight)];
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Bottom Scroll View")]
       performAction:grey_scrollToContentEdge(kGREYContentEdgeLeft)]
-      assertWithMatcher:[self ftr_matcherForScrolledToEdge:kGREYContentEdgeLeft]];
+      assertWithMatcher:grey_scrolledToContentEdge(kGREYContentEdgeLeft)];
 }
 
 - (void)testScrollToLeftEdgeWithCustomStartPoint {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Bottom Scroll View")]
       performAction:grey_scrollToContentEdgeWithStartPoint(kGREYContentEdgeLeft, 0.5, 0.5)];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Bottom Scroll View")]
-      assertWithMatcher:[self ftr_matcherForScrolledToEdge:kGREYContentEdgeLeft]];
+      assertWithMatcher:grey_scrolledToContentEdge(kGREYContentEdgeLeft)];
 }
 
 - (void)testScrollToRightEdgeWithCustomStartPoint {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Bottom Scroll View")]
       performAction:grey_scrollToContentEdgeWithStartPoint(kGREYContentEdgeRight, 0.5, 0.5)];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Bottom Scroll View")]
-      assertWithMatcher:[self ftr_matcherForScrolledToEdge:kGREYContentEdgeRight]];
+      assertWithMatcher:grey_scrolledToContentEdge(kGREYContentEdgeRight)];
 }
 
 - (void)testScrollToTopEdgeWithCustomStartPoint {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Bottom Scroll View")]
       performAction:grey_scrollToContentEdgeWithStartPoint(kGREYContentEdgeTop, 0.5, 0.5)];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Bottom Scroll View")]
-      assertWithMatcher:[self ftr_matcherForScrolledToEdge:kGREYContentEdgeTop]];
+      assertWithMatcher:grey_scrolledToContentEdge(kGREYContentEdgeTop)];
 }
 
 - (void)testScrollToBottomEdgeWithCustomStartPoint {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Bottom Scroll View")]
       performAction:grey_scrollToContentEdgeWithStartPoint(kGREYContentEdgeBottom, 0.5, 0.5)];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Bottom Scroll View")]
-      assertWithMatcher:[self ftr_matcherForScrolledToEdge:kGREYContentEdgeBottom]];
+      assertWithMatcher:grey_scrolledToContentEdge(kGREYContentEdgeBottom)];
 }
 
 - (void)testScrollToTopWorksWithPositiveInsets {
   // Scroll down.
   id<GREYMatcher> matcher = grey_allOf(grey_accessibilityLabel(@"Label 2"),
-                                     grey_interactable(),
-                                     grey_sufficientlyVisible(),
-                                     nil);
+                                       grey_interactable(),
+                                       grey_sufficientlyVisible(),
+                                       nil);
   [[[EarlGrey selectElementWithMatcher:matcher]
          usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 50)
       onElementWithMatcher:grey_accessibilityLabel(@"Upper Scroll View")]
@@ -112,7 +112,7 @@
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Upper Scroll View")]
       performAction:grey_scrollToContentEdge(kGREYContentEdgeTop)];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Upper Scroll View")]
-      assertWithMatcher:[self ftr_matcherForScrolledToEdge:kGREYContentEdgeTop]];
+      assertWithMatcher:grey_scrolledToContentEdge(kGREYContentEdgeTop)];
 }
 
 - (void)testScrollToTopWorksWithNegativeInsets {
@@ -134,7 +134,7 @@
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Upper Scroll View")]
       performAction:grey_scrollToContentEdge(kGREYContentEdgeTop)];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Upper Scroll View")]
-      assertWithMatcher:[self ftr_matcherForScrolledToEdge:kGREYContentEdgeTop]];
+      assertWithMatcher:grey_scrolledToContentEdge(kGREYContentEdgeTop)];
 }
 
 - (void)testSearchActionReturnsNilWhenElementIsNotFound {
@@ -163,7 +163,7 @@
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Upper Scroll View")]
       performAction:grey_scrollToContentEdge(kGREYContentEdgeTop)];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Upper Scroll View")]
-      assertWithMatcher:[self ftr_matcherForScrolledToEdge:kGREYContentEdgeTop]];
+      assertWithMatcher:grey_scrolledToContentEdge(kGREYContentEdgeTop)];
 }
 
 - (void)testScrollToTopWhenAlreadyAtTheTopWithBounce {
@@ -171,7 +171,7 @@
       performAction:grey_scrollToContentEdge(kGREYContentEdgeTop)];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Upper Scroll View")]
-      assertWithMatcher:[self ftr_matcherForScrolledToEdge:kGREYContentEdgeTop]];
+      assertWithMatcher:grey_scrolledToContentEdge(kGREYContentEdgeTop)];
 }
 
 - (void)testVisibilityOnPartiallyObscuredScrollView {
@@ -298,31 +298,6 @@
 }
 
 #pragma mark - Private
-
-- (GREYElementMatcherBlock *)ftr_matcherForScrolledToEdge:(GREYContentEdge)edge {
-  BOOL (^isScrolledToEdge)(id) = ^BOOL(id element) {
-    CGPoint contentOffset = [(UIScrollView *)element contentOffset];
-    UIEdgeInsets contentInset = [(UIScrollView *)element contentInset];
-    CGSize contentSize = [element contentSize];
-    CGRect frame = [element frame];
-
-    switch (edge) {
-      case kGREYContentEdgeTop:
-        return contentOffset.y + contentInset.top == 0;
-      case kGREYContentEdgeBottom:
-        return (contentInset.bottom + contentSize.height -
-                (frame.size.height + contentOffset.y) == 0);
-      case kGREYContentEdgeLeft:
-        return contentOffset.x + contentInset.left == 0;
-      case kGREYContentEdgeRight:
-        return contentInset.right + contentSize.width - (frame.size.width + contentOffset.x) == 0;
-    }
-  };
-  return [GREYElementMatcherBlock matcherWithMatchesBlock:isScrolledToEdge
-                                         descriptionBlock:^(id description) {
-    [description appendText:@"ftr_matcherForScrolledToEdge"];
-  }];
-}
 
 // Asserts that the scroll actions work accurately in all four directions by verifying the content
 // offset changes caused by them.

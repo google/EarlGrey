@@ -25,13 +25,11 @@
                          toReferenceAttribute:(GREYLayoutAttribute)referenceAttribute
                                    multiplier:(CGFloat)multiplier
                                      constant:(CGFloat)constant {
-  GREYLayoutConstraint *constraint = [[GREYLayoutConstraint alloc] init];
-  constraint.attribute = attribute;
-  constraint.relation = relation;
-  constraint.referenceAttribute = referenceAttribute;
-  constraint.multiplier = multiplier;
-  constraint.constant = constant;
-  return constraint;
+  return [[GREYLayoutConstraint alloc] initWithAttribute:attribute
+                                               relatedBy:relation
+                                    toReferenceAttribute:referenceAttribute
+                                              multiplier:multiplier
+                                                constant:constant];
 }
 
 + (instancetype)layoutConstraintForDirection:(GREYLayoutDirection)direction
@@ -83,6 +81,22 @@
 }
 
 #pragma mark - Private
+
+- (instancetype)initWithAttribute:(GREYLayoutAttribute)attribute
+                        relatedBy:(GREYLayoutRelation)relation
+             toReferenceAttribute:(GREYLayoutAttribute)referenceAttribute
+                       multiplier:(CGFloat)multiplier
+                         constant:(CGFloat)constant {
+  self = [super init];
+  if (self) {
+    _attribute = attribute;
+    _relation = relation;
+    _referenceAttribute = referenceAttribute;
+    _multiplier = multiplier;
+    _constant = constant;
+  }
+  return self;
+}
 
 // Returns the attribute value for the given element.
 + (CGFloat)grey_attribute:(GREYLayoutAttribute)attribute ofElement:(id)element {

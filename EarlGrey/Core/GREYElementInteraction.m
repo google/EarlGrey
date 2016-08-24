@@ -17,13 +17,11 @@
 #import "Core/GREYElementInteraction.h"
 
 #import "Action/GREYAction.h"
-#import "Additions/NSError+GREYAdditions.h"
 #import "Additions/NSObject+GREYAdditions.h"
 #import "Assertion/GREYAssertion.h"
 #import "Assertion/GREYAssertionDefines.h"
 #import "Assertion/GREYAssertions.h"
 #import "Common/GREYConfiguration.h"
-#import "Common/GREYDefines.h"
 #import "Common/GREYPrivate.h"
 #import "Core/GREYElementFinder.h"
 #import "Core/GREYInteractionDataSource.h"
@@ -93,14 +91,14 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
  *                 previous search are ignored. However, if an element is not found, the error
  *                 will be propagated.
  *
- *  @return An array of matched elements in the data source. If no element is found in @c timeout
- *          seconds, a timeout error will be produced and no elements will be returned.
+ *  @return An array of matched UI elements in the data source. If no UI element is found in
+ *          @c timeout seconds, a timeout error will be produced and no UI element will be returned.
  */
-- (NSArray *)matchedElementsWithTimeout:(NSTimeInterval)timeout error:(__strong NSError **)error {
+- (NSArray *)matchedElementsWithTimeout:(CFTimeInterval)timeout error:(__strong NSError **)error {
   NSParameterAssert(error);
 
   id<GREYInteractionDataSource> strongDataSource = [self dataSource];
-  NSAssert(strongDataSource, @"Datasource must be set before fetching UI elements");
+  NSAssert(strongDataSource, @"strongDataSource must be set before fetching UI elements");
 
   GREYElementProvider *entireRootHierarchyProvider =
       [GREYElementProvider providerWithRootProvider:[strongDataSource rootElementProvider]];
@@ -108,7 +106,6 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
   if (_rootMatcher) {
     elementMatcher = grey_allOf(elementMatcher, grey_ancestor(_rootMatcher), nil);
   }
-
   GREYElementFinder *elementFinder = [[GREYElementFinder alloc] initWithMatcher:elementMatcher];
   NSError *searchActionError = nil;
   CFTimeInterval timeoutTime = CACurrentMediaTime() + timeout;
@@ -190,52 +187,46 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
     NSError *executorError;
     __block NSError *actionError = nil;
     __weak __typeof__(self) weakSelf = self;
-
-    // Create the user info dictionary for any notificatons and set it up with the action.
-    NSMutableDictionary *actionUserInfo = [[NSMutableDictionary alloc] init];
-    [actionUserInfo setObject:action forKey:kGREYActionUserInfoKey];
     NSNotificationCenter *defaultNotificationCenter = [NSNotificationCenter defaultCenter];
+    CFTimeInterval timeout = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
 
-    CFTimeInterval interactionTimeout =
-        GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
-    [[GREYUIThreadExecutor sharedInstance] executeSyncWithTimeout:interactionTimeout block:^{
+    [[GREYUIThreadExecutor sharedInstance] executeSyncWithTimeout:timeout block:^{
       __typeof__(self) strongSelf = weakSelf;
-      NSAssert(strongSelf, @"Must not be nil");
+      NSAssert(strongSelf, @"strongSelf must not be nil");
 
-      NSArray *elements = [strongSelf matchedElementsWithTimeout:interactionTimeout
-                                                           error:&actionError];
-
+      NSArray *elements = [strongSelf matchedElementsWithTimeout:timeout error:&actionError];
       if (elements.count > 1) {
         actionError = [strongSelf grey_errorForMultipleMatchingElements:elements];
       } else {
         id element = [elements firstObject];
         // Notification that the action is to be performed on the found element.
+        NSMutableDictionary *actionUserInfo = [[NSMutableDictionary alloc] init];
+        [actionUserInfo setObject:action forKey:kGREYActionUserInfoKey];
         if (element) {
           [actionUserInfo setObject:element forKey:kGREYActionElementUserInfoKey];
         }
         [defaultNotificationCenter postNotificationName:kGREYWillPerformActionNotification
                                                  object:nil
                                                userInfo:actionUserInfo];
-
-        if (element && ![action perform:element error:&actionError]) {
+        // We only call perform:error: if element is not nil, as it is a default constraint for all
+        // actions. WillPerformAction and DidPerformAction notifications will always be sent, even
+        // if element is nil.
+        if (element && ![action perform:element error:&actionError] && !actionError) {
           // Action didn't succeed yet no error was set.
-          if (!actionError) {
-            NSDictionary *userInfo =
-                @{ NSLocalizedDescriptionKey : @"Reason for action failure was not provided." };
-            actionError = [NSError errorWithDomain:kGREYInteractionErrorDomain
-                                              code:kGREYInteractionActionFailedErrorCode
-                                          userInfo:userInfo];
-          }
-          // Add the error obtained from the action to the user info notification dictionary.
+          NSString *description = @"Reason for action failure was not provided.";
+          actionError = [NSError errorWithDomain:kGREYInteractionErrorDomain
+                                            code:kGREYInteractionActionFailedErrorCode
+                                        userInfo:@{ NSLocalizedDescriptionKey : description }];
+        }
+        if (actionError) {
           [actionUserInfo setObject:actionError forKey:kGREYActionErrorUserInfoKey];
         }
+        // Notification for the action being successfully completed on the found element.
+        [defaultNotificationCenter postNotificationName:kGREYDidPerformActionNotification
+                                                 object:nil
+                                               userInfo:actionUserInfo];
       }
-
-      // Notification for the action being successfully completed on the found element.
-      [defaultNotificationCenter postNotificationName:kGREYDidPerformActionNotification
-                                               object:nil
-                                             userInfo:actionUserInfo];
-      // If we encounter a failure and going to raise an exception, raise it right away before
+      // If we encountered a failure and are going to raise an exception, raise it right away before
       // the main runloop drains any further.
       if (actionError && !errorOrNil) {
         [strongSelf grey_handleFailureOfAction:action
@@ -247,28 +238,21 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
     // Failure to execute due to timeout should be represented as interaction timeout.
     if ([executorError.domain isEqualToString:kGREYUIThreadExecutorErrorDomain] &&
         executorError.code == kGREYUIThreadExecutorTimeoutErrorCode) {
-      NSString *actionTimeoutDesc =
-          [NSString stringWithFormat:@"Failed to perform action within %g seconds.",
-                                     interactionTimeout];
-      NSDictionary *userInfo = @{
-          NSUnderlyingErrorKey : executorError,
-          NSLocalizedDescriptionKey : actionTimeoutDesc,
-      };
+      NSString *description =
+          [NSString stringWithFormat:@"Failed to perform action within %g seconds.", timeout];
       actionError = [NSError errorWithDomain:kGREYInteractionErrorDomain
                                         code:kGREYInteractionTimeoutErrorCode
-                                    userInfo:userInfo];
+                                    userInfo:@{ NSUnderlyingErrorKey      : executorError,
+                                                NSLocalizedDescriptionKey : description }];
     }
-
     if (actionError) {
       [self grey_handleFailureOfAction:action
                            actionError:actionError
                   userProvidedOutError:errorOrNil];
     }
-
     // Drain once to update idling resources and redraw the screen.
     [[GREYUIThreadExecutor sharedInstance] drainOnce];
   }
-
   return self;
 }
 
@@ -287,53 +271,45 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
     __block NSError *elementNotFoundError = nil;
     __block NSError *assertionError = nil;
     __weak __typeof__(self) weakSelf = self;
-
-    // Create the user info dictionary for any notificatons and set it up with the assertion.
-    NSMutableDictionary *assertionUserInfo = [[NSMutableDictionary alloc] init];
-    [assertionUserInfo setObject:assertion forKey:kGREYAssertionUserInfoKey];
     NSNotificationCenter *defaultNotificationCenter = [NSNotificationCenter defaultCenter];
+    CFTimeInterval timeout = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
 
-    CGFloat interactionTimeout =
-        (CGFloat)GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
-    [[GREYUIThreadExecutor sharedInstance] executeSyncWithTimeout:interactionTimeout block:^{
+    [[GREYUIThreadExecutor sharedInstance] executeSyncWithTimeout:timeout block:^{
       __typeof__(self) strongSelf = weakSelf;
-      NSAssert(strongSelf, @"Must not be nil");
+      NSAssert(strongSelf, @"strongSelf must not be nil");
 
-      NSArray *elements = [strongSelf matchedElementsWithTimeout:interactionTimeout
+      NSArray *elements = [strongSelf matchedElementsWithTimeout:timeout
                                                            error:&elementNotFoundError];
-
       if (elements.count > 1) {
-        assertionError = [self grey_errorForMultipleMatchingElements:elements];
+        assertionError = [strongSelf grey_errorForMultipleMatchingElements:elements];
       } else {
         id element = [elements firstObject];
         // Notification for the assertion to be checked on the found element.
         // We send the notification for an assert even if no element was found.
+        NSMutableDictionary *assertionUserInfo = [[NSMutableDictionary alloc] init];
+        [assertionUserInfo setObject:assertion forKey:kGREYAssertionUserInfoKey];
         if (element) {
           [assertionUserInfo setObject:element forKey:kGREYAssertionElementUserInfoKey];
         }
         [defaultNotificationCenter postNotificationName:kGREYWillPerformAssertionNotification
                                                  object:nil
                                                userInfo:assertionUserInfo];
-
-        if (![assertion assert:element error:&assertionError]) {
+        if (![assertion assert:element error:&assertionError] && !assertionError) {
           // Assertion didn't succeed yet no error was set.
-          if (!assertionError) {
-            NSDictionary *userInfo =
-                @{ NSLocalizedDescriptionKey : @"Reason for assertion failure was not provided." };
-            assertionError = [NSError errorWithDomain:kGREYInteractionErrorDomain
-                                                 code:kGREYInteractionAssertionFailedErrorCode
-                                             userInfo:userInfo];
-          }
-          // Add the error obtained from the action to the user info notification dictionary.
+          NSString *description = @"Reason for assertion failure was not provided.";
+          assertionError = [NSError errorWithDomain:kGREYInteractionErrorDomain
+                                               code:kGREYInteractionAssertionFailedErrorCode
+                                           userInfo:@{ NSLocalizedDescriptionKey : description }];
+        }
+        if (assertionError) {
           [assertionUserInfo setObject:assertionError forKey:kGREYAssertionErrorUserInfoKey];
         }
+        // Notification for the assertion being successfully completed on the found element.
+        [defaultNotificationCenter postNotificationName:kGREYDidPerformAssertionNotification
+                                                 object:nil
+                                               userInfo:assertionUserInfo];
       }
-
-      // Notification for the action being successfully completed on the found element.
-      [defaultNotificationCenter postNotificationName:kGREYDidPerformAssertionNotification
-                                               object:nil
-                                             userInfo:assertionUserInfo];
-      // If we encounter a failure and going to raise an exception, raise it right away before
+      // If we encountered a failure and are going to raise an exception, raise it right away before
       // the main runloop drains any further.
       if (assertionError && !errorOrNil) {
         [strongSelf grey_handleFailureOfAssertion:assertion
@@ -346,18 +322,13 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
     // Failure to execute due to timeout should be represented as interaction timeout.
     if ([executorError.domain isEqualToString:kGREYUIThreadExecutorErrorDomain] &&
         executorError.code == kGREYUIThreadExecutorTimeoutErrorCode) {
-      NSString *assertionTimeoutDesc =
-          [NSString stringWithFormat:@"Failed to execute assertion within %g seconds.",
-                                     interactionTimeout];
-      NSDictionary *userInfo = @{
-          NSUnderlyingErrorKey : executorError,
-          NSLocalizedDescriptionKey : assertionTimeoutDesc,
-      };
+      NSString *description =
+          [NSString stringWithFormat:@"Failed to execute assertion within %g seconds.", timeout];
       assertionError = [NSError errorWithDomain:kGREYInteractionErrorDomain
                                            code:kGREYInteractionTimeoutErrorCode
-                                       userInfo:userInfo];
+                                       userInfo:@{ NSUnderlyingErrorKey      : executorError,
+                                                   NSLocalizedDescriptionKey : description }];
     }
-
     if (assertionError) {
       [self grey_handleFailureOfAssertion:assertion
                            assertionError:assertionError
@@ -365,12 +336,11 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
                      userProvidedOutError:errorOrNil];
     }
   }
-
   return self;
 }
 
 - (instancetype)assertWithMatcher:(id<GREYMatcher>)matcher {
-  return [self assert:[GREYAssertions grey_createAssertionWithMatcher:matcher]];
+  return [self assertWithMatcher:matcher error:nil];
 }
 
 - (instancetype)assertWithMatcher:(id<GREYMatcher>)matcher error:(__strong NSError **)errorOrNil {
@@ -387,7 +357,7 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
   return self;
 }
 
-# pragma mark - Private
+#pragma mark - Private
 
 /**
  *  Handles failure of an @c action.
@@ -526,20 +496,17 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
  *  @return Error for matching multiple elements.
  */
 - (NSError *)grey_errorForMultipleMatchingElements:(NSArray *)matchingElements {
-  NSMutableArray *elementDescriptions =
-      [[NSMutableArray alloc] initWithCapacity:matchingElements.count];
+  NSMutableArray *elementDescriptions = [NSMutableArray arrayWithCapacity:matchingElements.count];
   [matchingElements enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
     [elementDescriptions addObject:[obj grey_description]];
   }];
-
-  NSString *errorDescription =
-      [NSString stringWithFormat:@"Multiple elements were matched: %@. Please use selection "
-                                 @"matchers to narrow the selection down to single element.",
+  NSString *description =
+      [NSString stringWithFormat:@"Interaction failed because multiple elements were matched: %@. "
+                                 @"Use matchers to narrow the selection down to a single element.",
                                  elementDescriptions];
-  NSDictionary *userInfo = @{ NSLocalizedDescriptionKey : errorDescription };
   return [NSError errorWithDomain:kGREYInteractionErrorDomain
                              code:kGREYInteractionMultipleElementsMatchedErrorCode
-                         userInfo:userInfo];
+                         userInfo:@{ NSLocalizedDescriptionKey : description }];
 }
 
 /**
@@ -555,4 +522,3 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
 }
 
 @end
-

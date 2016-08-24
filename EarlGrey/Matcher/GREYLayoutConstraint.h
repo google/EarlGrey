@@ -60,6 +60,11 @@
                         andMinimumSeparation:(CGFloat)separation;
 
 /**
+ *  @remark init is not an available initializer. Use the other initializers.
+ */
+- (instancetype)init NS_UNAVAILABLE;
+
+/**
  *  Checks if the given element satisfies the provided constraints, as shown by a reference element.
  *
  *  @param element          The element being checked for the constraints.

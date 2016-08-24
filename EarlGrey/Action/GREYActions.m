@@ -157,19 +157,18 @@
 }
 
 + (id<GREYAction>)actionForReplaceText:(NSString *)text {
-    return [GREYActions grey_actionForReplaceText:text];
+  return [GREYActions grey_actionForReplaceText:text];
 }
 
 + (id<GREYAction>)actionForClearText {
-  Class webElement = NSClassFromString(@"WebAccessibilityObjectWrapper");
   id<GREYMatcher> constraints = grey_anyOf(grey_respondsToSelector(@selector(text)),
-                                           grey_kindOfClass(webElement),
+                                           grey_kindOfClassNamed(@"WebAccessibilityObjectWrapper"),
                                            nil);
   return [GREYActionBlock actionWithName:@"Clear text"
                              constraints:constraints
                             performBlock:^BOOL (id element, __strong NSError **errorOrNil) {
     NSString *textStr;
-    if ([element isKindOfClass:webElement]) {
+    if ([element grey_isWebAccessibilityElement]) {
       [GREYActions grey_webClearText:element];
       return YES;
     } else {
@@ -308,16 +307,15 @@
  *          the error occured and so the UI may be in an unrecoverable state.
  */
 + (id<GREYAction>)grey_actionForReplaceText:(NSString *)text {
-  Class webElement = NSClassFromString(@"WebAccessibilityObjectWrapper");
   SEL setTextSelector = NSSelectorFromString(@"setText:");
   id<GREYMatcher> constraints = grey_anyOf(grey_respondsToSelector(setTextSelector),
-                                           grey_kindOfClass(webElement),
+                                           grey_kindOfClassNamed(@"WebAccessibilityObjectWrapper"),
                                            nil);
   NSString *replaceActionName = [NSString stringWithFormat:@"Replace with text: \"%@\"", text];
   return [GREYActionBlock actionWithName:replaceActionName
                              constraints:constraints
                             performBlock:^BOOL (id element, __strong NSError **errorOrNil) {
-    if ([element isKindOfClass:webElement]) {
+    if ([element grey_isWebAccessibilityElement]) {
       [GREYActions grey_webSetText:element text:text];
     } else {
       [element setText:text];

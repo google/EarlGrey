@@ -84,7 +84,7 @@
   UIAlertAction *usePhaserAction =
       [UIAlertAction actionWithTitle:@"Use Phaser"
                                style:UIAlertActionStyleDefault
-                             handler:^(UIAlertAction * _Nonnull action) {
+                             handler:^(UIAlertAction *_Nonnull action) {
                                [self presentViewController:[self chainedViewController]
                                                   animated:YES
                                                 completion:nil];
@@ -127,7 +127,7 @@
   UIAlertAction *leaveAction =
       [UIAlertAction actionWithTitle:@"Leave"
                                style:UIAlertActionStyleDefault
-                             handler:^(UIAlertAction * _Nonnull action) {
+                             handler:^(UIAlertAction *_Nonnull action) {
                                [self presentViewController:[self chainedViewController]
                                                   animated:YES
                                                 completion:nil];

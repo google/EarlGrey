@@ -31,7 +31,6 @@ class FunctionalTestRigSwiftTests: XCTestCase {
   }
 
   func testOpeningView() {
-    EarlGrey().selectElementWithMatcher(grey_keyWindow())
     self.openTestView("Typing Views")
   }
 
@@ -52,17 +51,17 @@ class FunctionalTestRigSwiftTests: XCTestCase {
   func testFastTypingOnWebView() {
     self.openTestView("Web Views")
     EarlGrey().selectElementWithMatcher(grey_accessibilityLabel("loadGoogle"))
-      .performAction(grey_tap())
+        .performAction(grey_tap())
     let searchButtonMatcher: GREYMatcher = grey_accessibilityHint("Search")
 
     self.waitForWebElementWithName("Search Button", elementMatcher: searchButtonMatcher)
 
     // grey_text() doesn't work on webviews, must use grey_accessibilityValue()
     EarlGrey().selectElementWithMatcher(searchButtonMatcher)
-      .performAction(grey_clearText())
-      .performAction(grey_typeText("zzz"))
-      .performAction(grey_replaceText("new_text_value"))
-      .assertWithMatcher(grey_accessibilityValue("new_text_value"))
+        .performAction(grey_clearText())
+        .performAction(grey_typeText("zzz"))
+        .performAction(grey_replaceText("new_text_value"))
+        .assertWithMatcher(grey_accessibilityValue("new_text_value"))
   }
 
   func testButtonPressWithGREYAllOf() {
@@ -97,7 +96,7 @@ class FunctionalTestRigSwiftTests: XCTestCase {
         GREYActionBlock.actionWithName("checkHiddenBlock", performBlock: { element, errorOrNil in
                                        // Check if the found element is hidden or not.
                                        let superView:UIView! = element as! UIView
-                                       return (superView.hidden == false)
+                                       return !superView.hidden
         })
 
     self.openTestView("Basic Views")
@@ -122,19 +121,19 @@ class FunctionalTestRigSwiftTests: XCTestCase {
     }).waitWithTimeout(3.0)
   }
 
-  func openTestView(name:NSString) {
+  func openTestView(name: String) {
     var errorOrNil : NSError?
-    let cellMatcher = grey_accessibilityLabel(name as String)
+    let cellMatcher = grey_accessibilityLabel(name)
     EarlGrey().selectElementWithMatcher(cellMatcher).performAction(grey_tap(), error: &errorOrNil)
     if ((errorOrNil == nil)) {
       return
     }
     EarlGrey().selectElementWithMatcher(grey_kindOfClass(UITableView))
-      .performAction(grey_scrollToContentEdge(GREYContentEdge.Top))
+        .performAction(grey_scrollToContentEdge(GREYContentEdge.Top))
     EarlGrey().selectElementWithMatcher(GREYAllOf.init(matchers: [cellMatcher,grey_interactable()]))
-      .usingSearchAction(grey_scrollInDirection(GREYDirection.Down, 200),
-                         onElementWithMatcher: grey_kindOfClass(UITableView))
-      .performAction(grey_tap())
+        .usingSearchAction(grey_scrollInDirection(GREYDirection.Down, 200),
+                           onElementWithMatcher: grey_kindOfClass(UITableView))
+        .performAction(grey_tap())
   }
 
   func grey_firstElement() -> GREYMatcher {

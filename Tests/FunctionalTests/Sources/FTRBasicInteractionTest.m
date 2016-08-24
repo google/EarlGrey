@@ -43,7 +43,7 @@
   [[EarlGrey selectElementWithMatcher:[GREYMatchers matcherForText:@"Tab 2"]]
       performAction:[GREYActions actionForTap]];
 
-  // Setup an action that grabs a label and returns it's text
+  // Setup an action that grabs a label and returns its text
   __block NSString *text;
   id actionBlock = ^(UILabel *element, __strong NSError **errorOrNil) {
     text = element.text;
@@ -127,19 +127,17 @@
   [[EarlGrey selectElementWithMatcher:[GREYMatchers matcherForText:@"Tab 2"]]
       performAction:[GREYActions actionForTap]];
 
-  GREYElementInteraction* typeHere =
+  GREYElementInteraction *typeHere =
       [EarlGrey selectElementWithMatcher:grey_allOf(grey_accessibilityLabel(@"Type Something Here"),
                                                     grey_kindOfClass([UITextField class]),
                                                     nil)];
 
-  [[typeHere
-      performAction:[GREYActions actionForReplaceText:@"Hello 2"]]
+  [[typeHere performAction:[GREYActions actionForReplaceText:@"Hello 2"]]
       assertWithMatcher:grey_text(@"Hello 2")];
 
   [typeHere performAction:[GREYActions actionForClearText]];
 
-  [[typeHere
-      performAction:grey_tapAtPoint(CGPointMake(0, 0))]
+  [[typeHere performAction:grey_tapAtPoint(CGPointMake(0, 0))]
       performAction:[GREYActions actionForTypeText:@"Hello!"]];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"return")]
@@ -264,14 +262,14 @@
 - (void)testInteractionWithLabelWithParentHiddenAndUnhidden {
   GREYActionBlock *hideTab2Block =
       [GREYActionBlock actionWithName:@"hideTab2"
-                         performBlock:^BOOL(id element, NSError *__strong * error) {
+                         performBlock:^BOOL(id element, NSError *__strong *error) {
                            UIView *superView = element;
                            superView.hidden = YES;
                            return YES;
       }];
   GREYActionBlock *unhideTab2Block =
       [GREYActionBlock actionWithName:@"unhideTab2"
-                         performBlock:^BOOL(id element, NSError *__strong * error) {
+                         performBlock:^BOOL(id element, NSError *__strong *error) {
                            UIView *superView = element;
                            superView.hidden = NO;
                            return YES;
@@ -291,14 +289,14 @@
 - (void)testInteractionWithLabelWithParentTranslucentAndOpaque {
   GREYActionBlock *makeTab2OpaqueBlock =
       [GREYActionBlock actionWithName:@"makeTab2Opaque"
-                         performBlock:^BOOL(id element, NSError *__strong * error) {
+                         performBlock:^BOOL(id element, NSError *__strong *error) {
                            UIView *superView = element;
                            superView.alpha = 1;
                            return YES;
       }];
   GREYActionBlock *makeTab2TranslucentBlock =
       [GREYActionBlock actionWithName:@"makeTab2Translucent"
-                         performBlock:^BOOL(id element, NSError *__strong * error) {
+                         performBlock:^BOOL(id element, NSError *__strong *error) {
                            UIView *superView = element;
                            superView.alpha = 0;
                            return YES;
@@ -322,7 +320,7 @@
 - (void)testInteractionWithLabelWithWindowTranslucentAndOpaque {
   GREYActionBlock *makeWindowOpaqueBlock =
       [GREYActionBlock actionWithName:@"unhideTab2"
-                         performBlock:^BOOL(id element, NSError *__strong * error) {
+                         performBlock:^BOOL(id element, NSError *__strong *error) {
                            UIView *view = element;
                            UIWindow *window = view.window;
                            window.alpha = 1;
@@ -330,7 +328,7 @@
       }];
   GREYActionBlock *makeWindowTranslucentBlock =
       [GREYActionBlock actionWithName:@"hideTab2"
-                         performBlock:^BOOL(id element, NSError *__strong * error) {
+                         performBlock:^BOOL(id element, NSError *__strong *error) {
                            UIView *view = element;
                            UIWindow *window = view.window;
                            window.alpha = 0;

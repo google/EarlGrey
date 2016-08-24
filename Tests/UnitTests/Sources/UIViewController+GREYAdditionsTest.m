@@ -71,7 +71,7 @@
   [viewController viewDidAppear:NO];
   [viewController viewWillDisappear:NO];
   XCTAssertTrue(kGREYPendingViewsToDisappear & [[GREYAppStateTracker sharedInstance] currentState],
-                @"State should include kEGPendingViewsToDisappear");
+                @"State should include kGREYPendingViewsToDisappear");
 }
 
 - (void)testViewDidMoveToWindow {
@@ -86,7 +86,7 @@
   id window = [OCMockObject niceMockForClass:[UIWindow class]];
   [viewController viewDidMoveToWindow:window shouldAppearOrDisappear:NO];
   XCTAssertTrue(kGREYPendingViewsToDisappear & [[GREYAppStateTracker sharedInstance] currentState],
-                @"State should include kEGPendingViewsToDisappear");
+                @"State should include kGREYPendingViewsToDisappear");
 }
 
 - (void)testViewViewWillAppearAndViewDidMoveToNilWindow {

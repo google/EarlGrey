@@ -153,13 +153,23 @@
 + (id<GREYMatcher>)matcherForAccessibilityElement;
 
 /**
- *  Matcher for views that are subclass of the provided @c klass.
+ *  Matcher for elements that are kind of the provided @c klass.
  *
- *  @param klass A UIView class or subclass.
+ *  @param klass A class.
  *
- *  @return A matcher that confirms if the given class is a subview of the provided class.
+ *  @return A matcher that checks if the given element's class is a kind of the provided @c klass.
  */
 + (id<GREYMatcher>)matcherForKindOfClass:(Class)klass;
+
+/**
+ *  Matcher for elements that are kind of the provided @c className.
+ *
+ *  @param className String with name of a class.
+ *
+ *  @return A matcher that checks if the given element's class is a kind of the provided
+ *          @c className.
+ */
++ (id<GREYMatcher>)matcherForKindOfClassNamed:(NSString *)className;
 
 /**
  *  Matcher for matching UIProgressView's values. Use greaterThan, greaterThanOrEqualTo,
@@ -406,6 +416,15 @@
  */
 + (id<GREYMatcher>)matcherForElementAtIndex:(NSUInteger)index;
 
+/**
+ *  Matcher that matches a UIScrollView scrolled to content @c edge.
+ *
+ *  @param edge The content edge UIScrollView should be scrolled to.
+ *
+ *  @return A matcher that matches a UIScrollView scrolled to content @c edge.
+ */
++ (id<GREYMatcher>)matcherForScrolledToContentEdge:(GREYContentEdge)edge;
+
 @end
 
 #if !(GREY_DISABLE_SHORTHAND)
@@ -454,6 +473,9 @@ GREY_EXPORT id<GREYMatcher> grey_accessibilityElement(void);
 
 /** Shorthand for GREYMatchers::matcherForKindOfClass:. */
 GREY_EXPORT id<GREYMatcher> grey_kindOfClass(Class klass);
+
+/** Shorthand for GREYMatchers::matcherForKindOfClassNamed:. */
+GREY_EXPORT id<GREYMatcher> grey_kindOfClassNamed(NSString *className);
 
 /** Shorthand for GREYMatchers::matcherForProgress:. */
 GREY_EXPORT id<GREYMatcher> grey_progress(id<GREYMatcher> comparisonMatcher);
@@ -524,5 +546,8 @@ GREY_EXPORT id<GREYMatcher> grey_greaterThan(id value);
 
 /** Shorthand for GREYMatchers::matcherForElementAtIndex:. */
 GREY_EXPORT id<GREYMatcher> grey_elementAtIndex(NSUInteger index);
+
+/** Shorthand for GREYMatchers::matcherForScrolledToContentEdge:. */
+GREY_EXPORT id<GREYMatcher> grey_scrolledToContentEdge(GREYContentEdge edge);
 
 #endif // GREY_DISABLE_SHORTHAND

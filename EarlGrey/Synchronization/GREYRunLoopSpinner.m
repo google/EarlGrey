@@ -359,7 +359,7 @@ static void (^noopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef t
   return activeRunLoopMode;
 }
 
-# pragma mark - Getters and Setters
+#pragma mark - Getters and Setters
 
 - (void)setMaxSleepInterval:(CFTimeInterval)maxSleepInterval {
   NSAssert(maxSleepInterval >= 0, @"Maximum sleep interval must be non-negative.");

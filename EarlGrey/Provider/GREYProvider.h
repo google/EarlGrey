@@ -16,7 +16,7 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol GREYProvider
+@protocol GREYProvider<NSObject>
 
 /**
  *  @return A new enumerator that can be used to enumerate data backed by this provider.

@@ -35,17 +35,10 @@ static id gOriginalAnalyticsSetting;
  */
 static id<GREYAnalyticsDelegate> gOriginalAnalyticsDelegate;
 
-/**
- *  Holds the proxy's original enabled status.
- */
-static BOOL gOriginalProxyIsEnabled;
-
 @implementation FTRBaseAnalyticsTest
 
 + (void)setUp {
   [super setUp];
-  // Setup proxy to capture all HTTP requests during the test.
-  gOriginalProxyIsEnabled = [FTRNetworkProxy ftr_isProxyEnabled];
   [FTRNetworkProxy ftr_setProxyEnabled:YES];
   [FTRNetworkProxy ftr_addProxyRuleForUrlsMatchingRegexString:@".*" responseString:@"OK"];
   // Save the analytics config value so that tests can modify it.
@@ -66,8 +59,8 @@ static BOOL gOriginalProxyIsEnabled;
   [[GREYConfiguration sharedInstance] setValue:gOriginalAnalyticsSetting
                                   forConfigKey:kGREYConfigKeyAnalyticsEnabled];
   [FTRNetworkProxy ftr_removeMostRecentProxyRuleMatchingUrlRegexString:@".*"];
+  [FTRNetworkProxy ftr_setProxyEnabled:NO];
   [[GREYAnalytics sharedInstance] setDelegate:gOriginalAnalyticsDelegate];
-  [FTRNetworkProxy ftr_setProxyEnabled:gOriginalProxyIsEnabled];
   [super tearDown];
 }
 

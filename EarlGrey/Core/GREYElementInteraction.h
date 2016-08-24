@@ -16,12 +16,6 @@
 
 #import <EarlGrey/GREYInteraction.h>
 
-@class GREYElementFinder;
-
-@protocol GREYAction;
-@protocol GREYAssertion;
-@protocol GREYMatcher;
-
 /**
  *  Interface for creating an interaction with a UI element. If no datasource is set,
  *  a default datasource is used. The default datasource provides access to the entire UI element

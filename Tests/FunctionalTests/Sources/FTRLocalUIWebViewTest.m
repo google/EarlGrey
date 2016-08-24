@@ -18,7 +18,6 @@
 #import <EarlGrey/GREYPrivate.h>
 
 #import "FTRBaseIntegrationTest.h"
-#import "FTRNetworkProxy.h"
 
 // Required for testing UIWebView states.
 @interface GREYAppStateTracker (GREYExposedForTesting)
@@ -39,13 +38,6 @@
 - (void)setUp {
   [super setUp];
   [self openTestViewNamed:@"Web Views"];
-  [FTRNetworkProxy ftr_setProxyEnabled:NO];
-}
-
-- (void)tearDown {
-  [[GREYAppStateTracker sharedInstance] grey_clearState];
-  [FTRNetworkProxy ftr_setProxyEnabled:YES];
-  [super tearDown];
 }
 
 - (void)testSuccessiveTaps {
@@ -128,12 +120,9 @@
       performAction:executeJavascript];
 
   NSString *jsResult;
-  NSString *expected = @"4";
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"FTRTestWebView")]
       performAction:[GREYActions actionForJavaScriptExecution:@"2 + 2" output:&jsResult]];
-
-  GREYAssertTrue([jsResult isEqualToString:expected], @"Expected:%@, Actual:%@",
-                 expected, jsResult);
+  GREYAssertTrue([jsResult isEqualToString:@"4"], @"Expected: 4, Actual: %@", jsResult);
 }
 
 #pragma mark - Private

@@ -29,14 +29,14 @@
   [self verifyGREYScrollActionInitFailsWithAmount:-1.0];
 }
 
-- (void)testEGScrollerCanInitWithValidStartPointsPercents {
+- (void)testGREYScrollerCanInitWithValidStartPointsPercents {
   [self verifyScrollActionInitWithStartPoint:CGPointMake(0.001f, 0.001f) fails:NO];
   [self verifyScrollActionInitWithStartPoint:CGPointMake(0.001f, 0.99f) fails:NO];
   [self verifyScrollActionInitWithStartPoint:CGPointMake(0.99f, 0.99f) fails:NO];
   [self verifyScrollActionInitWithStartPoint:CGPointMake(0.99f, 0.001f) fails:NO];
 }
 
-- (void)testEGScrollerFailsToCreateWithInvalidStartPointsPercents {
+- (void)testGREYScrollerFailsToCreateWithInvalidStartPointsPercents {
   // Start point percents must be in (0, 1) exclusive or must be NAN.
   [self verifyScrollActionInitWithStartPoint:CGPointMake(0, 0) fails:YES];
   [self verifyScrollActionInitWithStartPoint:CGPointMake(0, 0) fails:YES];
@@ -56,7 +56,7 @@
   GREYScrollAction *scrollAction;
   @try {
     scrollAction = [[GREYScrollAction alloc] initWithDirection:kGREYDirectionUp amount:amount];
-    XCTFail(@"Should have thrown an assertion for scroll amount %f", (float)amount);
+    XCTFail(@"Should have thrown an exception for scroll amount %f", (float)amount);
   } @catch (NSException *exception) {
     XCTAssertEqualObjects(@"Scroll 'amount' must be positive and greater than zero.",
                           [exception description],
@@ -71,7 +71,7 @@
                                                         amount:100
                                             startPointPercents:startPoint];
     if (fails) {
-      XCTFail(@"Should have thrown an assertion for scroll point %@",
+      XCTFail(@"Should have thrown an exception for scroll point %@",
               NSStringFromCGPoint(startPoint));
     } else {
       XCTAssertNotNil(scrollAction);

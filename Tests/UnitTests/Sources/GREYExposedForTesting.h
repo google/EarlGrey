@@ -47,7 +47,7 @@ extern const NSInteger kGREYScrollDetectionLength;
 - (dispatch_queue_t)managedObjectContextDispatchQueue;
 @end
 
-@interface GREYUIThreadExecutor (EGExposedForTesting)
+@interface GREYUIThreadExecutor (GREYExposedForTesting)
 @property(nonatomic, assign) BOOL forceBusyPolling;
 - (BOOL)grey_areAllResourcesIdle;
 - (void)grey_resetIdlingResources;
