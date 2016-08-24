@@ -20,6 +20,7 @@
 #import <UIKit/UIKit.h>
 #include <tgmath.h>
 
+#import "Additions/NSObject+GREYAdditions.h"
 #import "Additions/NSString+GREYAdditions.h"
 #import "Additions/UISwitch+GREYAdditions.h"
 #import "Assertion/GREYAssertionDefines.h"
@@ -496,25 +497,39 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
 
 + (id<GREYMatcher>)matcherForConstraints:(NSArray *)constraints
               toReferenceElementMatching:(id<GREYMatcher>)referenceElementMatcher {
+  NSParameterAssert(constraints.count > 0);
+  NSParameterAssert(referenceElementMatcher);
+
+  NSString *name =
+      [NSString stringWithFormat:@"layoutWithConstraints(%@) referenceElementMatcher:(%@)",
+                                 [constraints componentsJoinedByString:@","],
+                                 referenceElementMatcher];
+  GREYElementInteraction *interaction =
+      [[GREYElementInteraction alloc] initWithElementMatcher:referenceElementMatcher];
   MatchesBlock matches = ^BOOL(id element) {
     // TODO: This causes searching the UI hierarchy multiple times for each element, refactor the
     // design to avoid this.
-    GREYElementInteraction *interaction =
-        [[GREYElementInteraction alloc] initWithElementMatcher:referenceElementMatcher];
-    NSError *matcherError;
-    NSArray *referenceElements = [interaction matchedElementsWithTimeout:0 error:&matcherError];
-    if (matcherError) {
-      I_GREYAssertTrue(NO, @"Error finding element: %@", matcherError);
-    } else if (referenceElements.count > 1) {
-      I_GREYAssertTrue(NO, @"More than one element matches the reference matcher: %@",
-                       referenceElements);
-    }
-
+    NSError *matchError;
+    NSArray *referenceElements = [interaction matchedElementsWithTimeout:0 error:&matchError];
     id referenceElement = [referenceElements firstObject];
     if (!referenceElement) {
-      I_GREYAssertTrue(NO, @"Could not find reference element.");
+      NSString *reason = @"Matcher for layout constraints failed: no UI element matching reference "
+                         @"element matcher was found.";
+      I_GREYElementNotFound(reason, @"Reference element matcher: %@", referenceElementMatcher);
+    } else if (referenceElements.count > 1) {
+      NSString *reason = @"Matcher for layout constraints failed: multiple UI elements matching "
+                         @"reference element matcher were found. Use grey_allOf(...) to create a "
+                         @"more specific reference element matcher.";
+      NSMutableArray *elementDescriptions =
+          [NSMutableArray arrayWithCapacity:referenceElements.count];
+      [elementDescriptions enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [elementDescriptions addObject:[obj grey_description]];
+      }];
+      I_GREYMultipleElementsFound(reason, @"Reference element matcher: %@\nMatched elements: %@",
+                                          referenceElementMatcher, elementDescriptions);
+    } else {
+      NSAssert(!matchError, @"error was set even though 1 element was returned: %@", matchError);
     }
-
     for (GREYLayoutConstraint *constraint in constraints) {
       if (![constraint satisfiedByElement:element andReferenceElement:referenceElement]) {
         return NO;
@@ -523,10 +538,6 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
     return YES;
   };
   DescribeToBlock describe = ^void(id<GREYDescription> description) {
-    NSString *name =
-        [NSString stringWithFormat:@"layoutWithConstraints(%@) referenceElementMatcher:(%@)",
-                                   [constraints componentsJoinedByString:@","],
-                                   referenceElementMatcher];
     [description appendText:name];
   };
   // Nil elements do not have layout for matching layout constraints.
