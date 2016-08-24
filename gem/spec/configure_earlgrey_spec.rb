@@ -17,27 +17,43 @@ require_relative 'spec_helper'
 
 describe 'configure_earlgrey' do
   it 'configures for carthage' do
-    diff_project carthage_after, %w[install -t AutoEarlGrey]
+    diff_project project_before, carthage_after, %w[install -t AutoEarlGrey]
     expect(EarlGrey.swift).to eq(true)
     expect(EarlGrey.carthage).to eq(true)
   end
 
   it 'configures for cocoapods with default swift version' do
-    diff_project cocoapods_after, %w[install -t AutoEarlGrey --no-carthage]
+    diff_project project_before, cocoapods_after, %w[install -t AutoEarlGrey --no-carthage]
+    expect(EarlGrey.swift).to eq(true)
+    expect(EarlGrey.carthage).to eq(false)
+  end
+
+  it 'configures for cocoapods' do
+    diff_project project_before, cocoapods_after, %w[install -t AutoEarlGrey --no-carthage]
     expect(EarlGrey.swift).to eq(true)
     expect(EarlGrey.carthage).to eq(false)
   end
 
   it 'configures for cocoapods with Swift 2.2' do
-    diff_project cocoapods_after,
+    diff_project project_before,
+                 cocoapods_after,
                  %w[install -t AutoEarlGrey --no-carthage --swift_version=2.2]
     expect(EarlGrey.swift).to eq(true)
     expect(EarlGrey.carthage).to eq(false)
   end
 
   it 'configures for cocoapods with Swift 3' do
-    diff_project cocoapods_after,
+    diff_project project_before,
+                 cocoapods_after,
                  %w[install -t AutoEarlGrey --no-carthage --swift_version=3.0]
+    expect(EarlGrey.swift).to eq(true)
+    expect(EarlGrey.carthage).to eq(false)
+  end
+
+  it 'configures for cocoapods with scheme changes' do
+    diff_project project_scheme_before,
+                 cocoapods_scheme_after,
+                 %w[install -t AutoEarlGrey --no-carthage]
     expect(EarlGrey.swift).to eq(true)
     expect(EarlGrey.carthage).to eq(false)
   end
