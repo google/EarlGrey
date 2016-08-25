@@ -19,6 +19,9 @@ set -euxo pipefail
 xcodebuild -version
 xcodebuild -showsdks
 
+CONFIG="Debug"
+ACTION="test"
+
 # Runs xcodebuild retrying up to 3 times on failure to start testing (exit code 65).
 # The following arguments specified in the order below:
 #  $1 : .xcodeproj file
@@ -38,7 +41,7 @@ execute_xcodebuild() {
   for retry_attempts in {1..3}; do
     # To retry on failure, disable exiting if command below fails.
     set +e
-    env NSUnbufferedIO=YES xcodebuild -project ${1} -scheme ${2} -sdk "$SDK" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO test | tee xcodebuild.log | xcpretty -sc;
+    env NSUnbufferedIO=YES xcodebuild -project ${1} -scheme ${2} -sdk "$SDK" -destination "$DESTINATION" -configuration "$CONFIG" ONLY_ACTIVE_ARCH=NO $ACTION | tee xcodebuild.log | xcpretty -sc;
     retval_xcodebuild=$?
     # Even failed tests exit with code 65, check to ensure tests haven't started.
     # We achieve that by looking for keyword "Test Suite" in xcodebuild.log.
@@ -72,6 +75,10 @@ elif [ "${TYPE}" == "CONTRIB" ]; then
   execute_xcodebuild Demo/EarlGreyContribs/EarlGreyContribs.xcodeproj EarlGreyContribsTests
 elif [ "${TYPE}" == "CONTRIB_SWIFT" ]; then
   execute_xcodebuild Demo/EarlGreyContribs/EarlGreyContribs.xcodeproj EarlGreyContribsSwiftTests
+elif [ "${TYPE}" == "CARTHAGE" ]; then
+  CONFIG="Release"
+  ACTION="clean build"
+  execute_xcodebuild EarlGrey.xcodeproj EarlGrey
 else
   echo "Unrecognized Type: ${TYPE}"
   exit 1
