@@ -50,14 +50,27 @@ public func GREYAssertNil(@autoclosure expression: () -> Any?, reason: String) {
   GREYAssert(expression() == nil, reason, details: "Expected expression to be nil")
 }
 
-public func GREYAssertEqual<T : Equatable>(@autoclosure left: () -> T?,
-    @autoclosure _ right: () -> T?, reason: String) {
-  GREYAssert(left() == right(), reason, details: "Expected left term to be equal to right term")
+public func GREYAssertEqual(@autoclosure left: () -> AnyObject?,
+    @autoclosure _ right: () -> AnyObject?, reason: String) {
+  GREYAssert(left() === right(), reason, details: "Expected left term to be equal to right term")
 }
 
-public func GREYAssertNotEqual<T : Equatable>(@autoclosure left: () -> T?,
+public func GREYAssertNotEqual(@autoclosure left: () -> AnyObject?,
+    @autoclosure _ right: () -> AnyObject?, reason: String) {
+  GREYAssert(left() !== right(), reason, details: "Expected left term to not be equal to right" +
+    " term")
+}
+
+public func GREYAssertEqualObjects<T : Equatable>(@autoclosure left: () -> T?,
     @autoclosure _ right: () -> T?, reason: String) {
-  GREYAssert(left() != right(), reason, details: "Expected left term to not be equal to right term")
+  GREYAssert(left() == right(), reason, details: "Expected object of the left term to be equal" +
+    " to the object of the right term")
+}
+
+public func GREYAssertNotEqualObjects<T : Equatable>(@autoclosure left: () -> T?,
+    @autoclosure _ right: () -> T?, reason: String) {
+  GREYAssert(left() != right(), reason, details: "Expected object of the left term to not be" +
+    " equal to the object of the right term")
 }
 
 public func GREYFail(reason: String) {
@@ -66,7 +79,14 @@ public func GREYFail(reason: String) {
     details: "")
 }
 
+@available(*, deprecated=1.1.1, message="Please use GREYFAIL::withDetails instead.")
 public func GREYFail(reason: String, details: String) {
+  greyFailureHandler.handleException(GREYFrameworkException(name: kGREYAssertionFailedException,
+    reason: reason),
+    details: details)
+}
+
+public func GREYFailWithDetails(reason: String, details: String) {
   greyFailureHandler.handleException(GREYFrameworkException(name: kGREYAssertionFailedException,
     reason: reason),
     details: details)
