@@ -102,11 +102,15 @@
 - (instancetype)init NS_UNAVAILABLE;
 
 /**
- *  Starts an interaction with a single UI element of the application.
+ *  Initiates an interaction by selecting a single UI element of the application. In this step, a
+ *  matcher is passed that EarlGrey can use to parse the UI Hierarchy. This step will not show any
+ *  changes in the visible UI. You need to use a GREYAction or GREYAssertion in order to actually
+ *  perform the interaction.
  *
- *  The interaction will start on the UI element that matches the specified
- *  @c elementMatcher. Interation will fail when multiple elements are matched and
- *  @c elementMatcher should be refined to match a single element.
+ *  The interaction will start on the UI element that matches the specified @c elementMatcher.
+ *  Interaction will fail when multiple elements are matched. In that case, you will have to
+ *  refine the @c elementMatcher to match a single element or use GREYInteraction::atIndex to
+ *  specify the index of the element in the list of elements matched.
  *
  *  By default, EarlGrey looks at all the windows from front to back and
  *  searches for the UI element. To focus on a specific window or container, use

@@ -266,13 +266,8 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
   NSParameterAssert(className);
 
   Class klass = NSClassFromString(className);
-  MatchesBlock matches = ^BOOL(id element) {
-    return [element isKindOfClass:klass];
-  };
-  DescribeToBlock describe = ^void(id<GREYDescription> description) {
-    [description appendText:[NSString stringWithFormat:@"kindOfClassNamed(\"%@\")", className]];
-  };
-  return [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe];
+  NSAssert(klass, @"Class named %@ does not exist.", className);
+  return [self matcherForKindOfClass:klass];
 }
 
 + (id<GREYMatcher>)matcherForProgress:(id<GREYMatcher>)comparisonMatcher {
@@ -569,6 +564,7 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
 }
 
 + (id<GREYMatcher>)matcherForElementAtIndex:(NSUInteger)index {
+  NSLog(@"grey_elementAtIndex() has been deprecated. Please use atIndex: instead.");
   __block NSUInteger count = 0;
   MatchesBlock matches = ^BOOL(id element) {
     BOOL matched = (count == index);
