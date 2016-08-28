@@ -19,6 +19,8 @@
 const CGFloat kGREYMinimumVisibleAlpha = 0.01f;
 const CFTimeInterval kGREYSwipeFastDuration = 0.1;
 const CFTimeInterval kGREYSwipeSlowDuration = 1.0;
+const CFTimeInterval kGREYPinchFastDuration = 0.1;
+const CFTimeInterval kGREYPinchSlowDuration = 1.0;
 const CFTimeInterval kGREYInfiniteTimeout = DBL_MAX;
 const CFTimeInterval kGREYLongPressDefaultDuration = 0.5;
 const CGFloat kGREYAcceptableFloatDifference = 0.00001f;
@@ -57,6 +59,15 @@ NSString *NSStringFromGREYDirection(GREYDirection direction) {
     case kGREYDirectionDown:
       return @"Down";
       break;
+  }
+}
+
+NSString *NSStringFromPinchDirection(GREYPinchDirection pinchDirection) {
+  switch (pinchDirection) {
+    case kGREYPinchDirectionOutward:
+      return @"Outward";
+    case kGREYPinchDirectionInward:
+      return @"Inward";
   }
 }
 

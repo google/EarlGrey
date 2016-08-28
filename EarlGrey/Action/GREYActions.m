@@ -20,6 +20,7 @@
 #import "Action/GREYActionBlock.h"
 #import "Action/GREYChangeStepperAction.h"
 #import "Action/GREYPickerAction.h"
+#import "Action/GREYPinchAction.h"
 #import "Action/GREYScrollAction.h"
 #import "Action/GREYScrollToContentEdgeAction.h"
 #import "Action/GREYSlideAction.h"
@@ -68,6 +69,14 @@
                                            duration:kGREYSwipeSlowDuration
                                       startPercents:CGPointMake(xOriginStartPercentage,
                                                                 yOriginStartPercentage)];
+}
+
++ (id<GREYAction>)actionForPinchFastInDirection:(GREYPinchDirection)pinchDirection {
+  return [[GREYPinchAction alloc] initWithDirection:pinchDirection duration:kGREYPinchFastDuration];
+}
+
++ (id<GREYAction>)actionForPinchSlowInDirection:(GREYPinchDirection)pinchDirection {
+  return [[GREYPinchAction alloc] initWithDirection:pinchDirection duration:kGREYPinchSlowDuration];
 }
 
 + (id<GREYAction>)actionForMoveSliderToValue:(float)value {
@@ -588,6 +597,14 @@ id<GREYAction> grey_swipeSlowInDirectionWithStartPoint(GREYDirection direction,
   return [GREYActions actionForSwipeSlowInDirection:direction
                              xOriginStartPercentage:xOriginStartPercentage
                              yOriginStartPercentage:yOriginStartPercentage];
+}
+
+id<GREYAction> grey_pinchFastInDirection(GREYPinchDirection pinchDirection) {
+  return [GREYActions actionForPinchFastInDirection:pinchDirection];
+}
+
+id<GREYAction> grey_pinchSlowInDirection(GREYPinchDirection pinchDirection) {
+  return [GREYActions actionForPinchSlowInDirection:pinchDirection];
 }
 
 id<GREYAction> grey_moveSliderToValue(float value) {

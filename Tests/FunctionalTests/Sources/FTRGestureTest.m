@@ -183,6 +183,25 @@
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
+- (void)testPinchWorksInAllDirectionsInPortraitMode {
+  [self ftr_assertPinchWorksInAllDirections];
+}
+
+- (void)testPinchWorksInAllDirectionsInUpsideDownMode {
+  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortraitUpsideDown errorOrNil:nil];
+  [self ftr_assertPinchWorksInAllDirections];
+}
+
+- (void)testPinchWorksInAllDirectionsInLandscapeLeftMode {
+  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeLeft errorOrNil:nil];
+  [self ftr_assertPinchWorksInAllDirections];
+}
+
+- (void)testPinchWorksInAllDirectionsInLandscapeRightMode {
+  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeRight errorOrNil:nil];
+  [self ftr_assertPinchWorksInAllDirections];
+}
+
 #pragma mark - Private
 
 // Asserts that Swipe works in all directions by verifying if the swipe gestures are correctly
@@ -206,4 +225,16 @@
       assertWithMatcher:grey_text(@"swipe right")];
 }
 
+// Asserts that Pinch works in all directions by verifying if the pinch gestures are correctly
+// recognized.
+- (void)ftr_assertPinchWorksInAllDirections {
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
+      performAction:grey_pinchFastInDirection(kGREYPinchDirectionOutward)];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"gesture")]
+      assertWithMatcher:grey_text(@"pinch out")];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
+      performAction:grey_pinchSlowInDirection(kGREYPinchDirectionInward)];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"gesture")]
+      assertWithMatcher:grey_text(@"pinch in")];
+}
 @end
