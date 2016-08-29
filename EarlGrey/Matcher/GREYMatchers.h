@@ -399,31 +399,20 @@
 /**
  *  A Matcher that in case where multiple elements are matched, returns the element matched at
  *  the specified @c index.
- *
  *  @remark The order of elements returned is not guaranteed by EarlGrey. Use this method
- *          only when any element from a set of non-specific elements is to be selected. This
- *          matchers only works if used at the end of the matcher list provided to @c grey_allOf().
- *          It does not work with grey_anyOf(), by itself or at any other position in the order of
- *          matchers sent to grey_allOf() since it has to iterate over a list of already matched
- *          elements that would otherwise throw a multiple matchers exception, to select one at a
- *          particular index.
- *
+ *          only when any element from a set of non-specific elements is to be selected. Always
+ *          ensure that this matcher is at the end of the matcher list provided to @c grey_allOf().
  *          Usage:
  *          @code
- *          [EarlGrey selectElementWithMatcher:grey_allOf(fooAnyElementWithAxLabel(@"Foo"),
+ *          [EarlGrey selectElementWithMatcher:grey_allOf(fooMultipleElementMatcher(),
  *                                                        grey_elementAtIndex(2), nil)];
  *          @endcode
- *          Here, we would match the third element matched by fooAnyElementWithAxLabel(). Notice
- *          how the fooAnyElementWithAxLabel() matcher is so generic that it is simply looking for
- *          one element out of many to match with.
+ *          Here, we would match the third element matched by fooMultipleElementMatcher().
  *
  *  @param index The index of the element to return from a list of elements.
  *
  *  @return A matcher that returns the element specified at an @c index from a list of non-unique
  *          matched elements.
- *
- *  @deprecated This is being phased out in favor of @c atIndex() in
- *              GREYElementInteraction::atIndex.
  */
 + (id<GREYMatcher>)matcherForElementAtIndex:(NSUInteger)index;
 

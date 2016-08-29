@@ -66,21 +66,4 @@
                                 length:(CGFloat)length
                     startPointPercents:(CGPoint)startPointPercents
                     outRemainingAmount:(CGFloat *)outRemainingAmountOrNull;
-
-/**
- *  Generates a touch path in the @c window from the given @c startPoint and the given @c
- *  endPoint. Based on the @c GreyPinchDirection two such touch paths are required to generate pinch
- *  gesture. If the pinch direction is @c kGREYPinchDirectionOutward then two touch paths have
- *  starting points as the center of the view under test and ending points are on circle having
- *  touch path as the radius. Similarly when pinch direction is @c kGREYPinchDirectionInward then
- *  two touch paths have starting points on the circle having touch path as the radius and
- *  ending points are the center of the the view under test.
- *
- *  @param startPoint The starting point for touch path.
- *  @param endPoint   The end point for touch path
- *
- *  @return NSArray of CGPoints that denote the points in the touch path.
- */
-+ (NSArray *)touchPathForPinchGestureWithStartPoint:(CGPoint)startPoint
-                                        andEndPoint:(CGPoint)endPoint;
 @end

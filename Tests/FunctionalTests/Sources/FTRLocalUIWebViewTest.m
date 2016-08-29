@@ -83,7 +83,7 @@
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"42")]
       assertWithMatcher:grey_sufficientlyVisible()];
 
-  // We need to tap because the second time we do typeAfterClearing, it passes firstResponder check
+  // We need to tap because the second time we do typeAfterClearning, it passes firstResponder check
   // and never ends up auto-tapping on search field.
   [[EarlGrey selectElementWithMatcher:searchButtonMatcher]
       performAction:grey_tap()];

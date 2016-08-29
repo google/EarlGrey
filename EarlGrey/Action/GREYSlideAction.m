@@ -88,7 +88,7 @@
   double amountToSlide = stepSize * ((double)_finalValue - (double)currentSliderValue);
 
   // A value could be unattainable, in which case, this algorithm would run forever. From testing,
-  // we've seen that it takes anywhere from 2-4 interactions to find a final value that is
+  // we've seen that it takes anywhere from 2-4 interations to find a final value that is
   // acceptable (see constants defined above to understand what accepable is). So, we let the
   // algorithm run for at most ten iterations and then halt.
   static const unsigned short kAllowedAttemptsBeforeStopping = 10;

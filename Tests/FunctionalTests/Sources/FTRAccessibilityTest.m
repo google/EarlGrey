@@ -21,7 +21,7 @@
 @interface FTRAccessibilityTest : FTRBaseIntegrationTest
 @end
 
-// TODO: Test edge cases for UI Accessibility Element visibility as well.
+// TODO: Test edge cases for uiaccessibilityelement visibility as well.
 @implementation FTRAccessibilityTest
 
 - (void)setUp {

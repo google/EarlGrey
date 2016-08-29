@@ -179,35 +179,15 @@
                          yOriginStartPercentage:(CGFloat)yOriginStartPercentage;
 
 /**
- * Returns an action that pinches whole view quickly in the specified @c direction.
- * @c kGREYPinchFastDuration in @c GREYConstants determines the duration of the gesture.
+ *  Returns an action that attempts to move slider to within 1.0e-6f values of @c value.
  *
- * @param  pinchDirection The direction of the pinch action.
+ *  @param value The value to which the slider should be moved. If this is not attainable after a
+ *               reasonable number of attempts (currently 10) we assume that the @c value is
+ *               unattainable for a user (it is probably the case this value resides between two
+ *               pixels). In this case, the slider will end up at a user attainable value
+ *               that is closest to @c value.
  *
- * @return A GREYAction that performs a fast pinch on the whole view in the specified @c direction.
- */
-+ (id<GREYAction>)actionForPinchFastInDirection:(GREYPinchDirection)pinchDirection;
-
-/**
- * Returns an action that pinches whole view slowly in the specified @c direction.
- * kGREYPinchSlowDuration in GREYConstants determines the duration of the gesture.
- *
- * @param  pinchDirection The direction of the pinch action.
- *
- * @return A GREYAction that performs a slow pinch on the whole view in the specified @c direction.
- */
-+ (id<GREYAction>)actionForPinchSlowInDirection:(GREYPinchDirection)pinchDirection;
-
-/**
- * Returns an action that attempts to move slider to within 1.0e-6f values of @c value.
- *
- * @param value The value to which the slider should be moved. If this is not attainable after a
- *              reasonable number of attempts (currently 10) we assume that the @c value is
- *              unattainable for a user (it is probably the case this value resides between two
- *              pixels). In this case, the slider will end up at a user attainable value
- *              that is closest to @c value.
- *
- * @return A GREYAction that moves a slider to a given @c value.
+ *  @return A GREYAction that moves a slider to a given @c value.
  */
 + (id<GREYAction>)actionForMoveSliderToValue:(float)value;
 
@@ -383,12 +363,6 @@ GREY_EXPORT id<GREYAction> grey_swipeFastInDirectionWithStartPoint(GREYDirection
 GREY_EXPORT id<GREYAction> grey_swipeSlowInDirectionWithStartPoint(GREYDirection direction,
                                                                    CGFloat xOriginStartPercentage,
                                                                    CGFloat yOriginStartPercentage);
-
-/** Shorthand macro for GREYActions::actionForPinchFastInDirection:pinchDirection:. */
-GREY_EXPORT id<GREYAction> grey_pinchFastInDirection(GREYPinchDirection pinchDirection);
-
-/** Shorthand macro for GREYActions::actionForPinchSlowInDirection:pinchDirection:. */
-GREY_EXPORT id<GREYAction> grey_pinchSlowInDirection(GREYPinchDirection pinchDirection);
 
 /** Shorthand macro for GREYActions::actionForMoveSliderToValue:. */
 GREY_EXPORT id<GREYAction> grey_moveSliderToValue(float value);
