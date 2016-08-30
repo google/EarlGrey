@@ -65,7 +65,8 @@
 
   [[EarlGrey selectElementWithMatcher:_matcherForNonExistingTab]
       assertWithMatcher:grey_nil() error:&error];
-  GREYAssertNil(error, @"Must be nil");
+  GREYAssertTrue(error.code == kGREYInteractionElementNotFoundErrorCode,
+                 @"The error code should point to element not found");
 
   [[EarlGrey selectElementWithMatcher:_matcherForNonExistingTab]
       assertWithMatcher:grey_notNil() error:&error];

@@ -252,25 +252,14 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
 }
 
 + (id<GREYMatcher>)matcherForKindOfClass:(Class)klass {
+  NSParameterAssert(klass);
+
   MatchesBlock matches = ^BOOL(id element) {
     return [element isKindOfClass:klass];
   };
   DescribeToBlock describe = ^void(id<GREYDescription> description) {
     [description appendText:[NSString stringWithFormat:@"kindOfClass(\"%@\")",
                                                        NSStringFromClass(klass)]];
-  };
-  return [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe];
-}
-
-+ (id<GREYMatcher>)matcherForKindOfClassNamed:(NSString *)className {
-  NSParameterAssert(className);
-
-  Class klass = NSClassFromString(className);
-  MatchesBlock matches = ^BOOL(id element) {
-    return [element isKindOfClass:klass];
-  };
-  DescribeToBlock describe = ^void(id<GREYDescription> description) {
-    [description appendText:[NSString stringWithFormat:@"kindOfClassNamed(\"%@\")", className]];
   };
   return [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe];
 }
@@ -569,6 +558,7 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
 }
 
 + (id<GREYMatcher>)matcherForElementAtIndex:(NSUInteger)index {
+  NSLog(@"grey_elementAtIndex() has been deprecated. Please use atIndex: instead.");
   __block NSUInteger count = 0;
   MatchesBlock matches = ^BOOL(id element) {
     BOOL matched = (count == index);
@@ -705,10 +695,6 @@ id<GREYMatcher> grey_accessibilityElement(void) {
 
 id<GREYMatcher> grey_kindOfClass(Class klass) {
   return [GREYMatchers matcherForKindOfClass:klass];
-}
-
-id<GREYMatcher> grey_kindOfClassNamed(NSString *className) {
-  return [GREYMatchers matcherForKindOfClassNamed:className];
 }
 
 id<GREYMatcher> grey_progress(id<GREYMatcher> comparisonMatcher) {
