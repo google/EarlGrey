@@ -14,35 +14,35 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/GREYSingleSequenceTouchInjector.h>
+#import <EarlGrey/GREYTouchInjector.h>
 
 #import "GREYBaseTest.h"
 
 #pragma mark - Methods Only For Testing
 
-@interface GREYSingleSequenceTouchInjector (GREYExposedForTesting)
+@interface GREYTouchInjector (GREYExposedForTesting)
 - (GREYTouchInfo *)grey_dequeueTouchInfoForDeliveryWithCurrentTime:(CFTimeInterval)currentTime;
 @end
 
-@interface GREYSingleSequenceTouchInjectorTest : GREYBaseTest
+@interface GREYTouchInjectorTest : GREYBaseTest
 @end
 
-@implementation GREYSingleSequenceTouchInjectorTest {
-  GREYSingleSequenceTouchInjector *_injector;
+@implementation GREYTouchInjectorTest {
+  GREYTouchInjector *_injector;
 }
 
 - (void)setUp {
   [super setUp];
   UIWindow *window = [[UIWindow alloc] initWithFrame:CGRectZero];
-  _injector = [[GREYSingleSequenceTouchInjector alloc] initWithWindow:window];
+  _injector = [[GREYTouchInjector alloc] initWithWindow:window];
 }
 
 - (GREYTouchInfo *)touchInfoWithTimeDelta:(CFTimeInterval)delta
                              expendable:(BOOL)expendable {
-  return [[GREYTouchInfo alloc] initWithPoint:CGPointZero
-                                    lastTouch:NO
-              deliveryTimeDeltaSinceLastTouch:delta
-                                   expendable:expendable];
+  return [[GREYTouchInfo alloc] initWithPoints:@[[NSValue valueWithCGPoint:CGPointZero]]
+                                     lastTouch:NO
+               deliveryTimeDeltaSinceLastTouch:delta
+                                    expendable:expendable];
 }
 
 - (void)testTouchInjectoreCanDequeueSingleNonExpendableTouchInQueue {

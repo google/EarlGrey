@@ -98,6 +98,9 @@
 		59467E9B1C9373F00089498B /* FTRWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467DD51C9373A50089498B /* FTRWebViewController.m */; };
 		59467E9D1C9373F00089498B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467DD71C9373A50089498B /* main.m */; };
 		596D89BF1C05AB1600025714 /* EarlGrey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 596D89BE1C05AB0600025714 /* EarlGrey.framework */; };
+		61E4E0B31D7559A9007F9EE6 /* FTRImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 61E4E0B11D7559A9007F9EE6 /* FTRImageViewController.m */; };
+		61E4E0B41D7559A9007F9EE6 /* FTRImageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 61E4E0B21D7559A9007F9EE6 /* FTRImageViewController.xib */; };
+		61E4E0C31D755A9B007F9EE6 /* FTRPinchViewTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 61E4E0C11D755A5C007F9EE6 /* FTRPinchViewTest.m */; };
 		FD193FF21BBDDBE800153959 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD193FF11BBDDBE800153959 /* CoreFoundation.framework */; };
 		FD193FF41BBDDBED00153959 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD193FF31BBDDBED00153959 /* Foundation.framework */; };
 		FD193FF61BBDDBF500153959 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD193FF51BBDDBF500153959 /* CoreGraphics.framework */; };
@@ -306,6 +309,10 @@
 		59467DD61C9373A50089498B /* FTRWebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FTRWebViewController.xib; sourceTree = "<group>"; };
 		59467DD71C9373A50089498B /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		596D89B91C05AB0600025714 /* EarlGrey.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = EarlGrey.xcodeproj; path = ../../EarlGrey.xcodeproj; sourceTree = "<group>"; };
+		61E4E0B01D7559A9007F9EE6 /* FTRImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FTRImageViewController.h; sourceTree = "<group>"; };
+		61E4E0B11D7559A9007F9EE6 /* FTRImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FTRImageViewController.m; sourceTree = "<group>"; };
+		61E4E0B21D7559A9007F9EE6 /* FTRImageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FTRImageViewController.xib; sourceTree = "<group>"; };
+		61E4E0C11D755A5C007F9EE6 /* FTRPinchViewTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FTRPinchViewTest.m; sourceTree = "<group>"; };
 		FD193F2C1BBDDA4F00153959 /* FunctionalTestRig.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FunctionalTestRig.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD193FF11BBDDBE800153959 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		FD193FF31BBDDBED00153959 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -404,6 +411,7 @@
 				59467D751C9373A50089498B /* FTROrientationPortraitOnlyChangeTest.m */,
 				59467D761C9373A50089498B /* FTRPickerViewInteractionTest.m */,
 				59467D771C9373A50089498B /* FTRPresentedViewTest.m */,
+				61E4E0C11D755A5C007F9EE6 /* FTRPinchViewTest.m */,
 				59467D781C9373A50089498B /* FTRScreenshotTest.m */,
 				59467D791C9373A50089498B /* FTRScrollViewTest.m */,
 				59467D7A1C9373A50089498B /* FTRSlideTest.m */,
@@ -487,6 +495,9 @@
 				59467DAF1C9373A50089498B /* FTRGestureViewController.h */,
 				59467DB01C9373A50089498B /* FTRGestureViewController.m */,
 				59467DB11C9373A50089498B /* FTRGestureViewController.xib */,
+				61E4E0B01D7559A9007F9EE6 /* FTRImageViewController.h */,
+				61E4E0B11D7559A9007F9EE6 /* FTRImageViewController.m */,
+				61E4E0B21D7559A9007F9EE6 /* FTRImageViewController.xib */,
 				59467DB21C9373A50089498B /* FTRMainViewController.h */,
 				59467DB31C9373A50089498B /* FTRMainViewController.m */,
 				59467DB41C9373A50089498B /* FTRMainViewController.xib */,
@@ -725,6 +736,7 @@
 				59467E2F1C9373A50089498B /* FTRVisibilityTestViewController.xib in Resources */,
 				59467E121C9373A50089498B /* FTRBasicViewController.xib in Resources */,
 				59467E061C9373A50089498B /* FTRAccessibilityViewController.xib in Resources */,
+				61E4E0B41D7559A9007F9EE6 /* FTRImageViewController.xib in Resources */,
 				59467DFB1C9373A50089498B /* Default-568h@2x.png in Resources */,
 				59467E1B1C9373A50089498B /* FTRMainViewController.xib in Resources */,
 				59467E2D1C9373A50089498B /* FTRTypingViewController.xib in Resources */,
@@ -761,6 +773,7 @@
 				59467E601C9373F00089498B /* FTRActivityIndicatorViewController.m in Sources */,
 				59467E631C9373F00089498B /* FTRAlertViewController.m in Sources */,
 				59467E661C9373F00089498B /* FTRAnimationViewController.m in Sources */,
+				61E4E0B31D7559A9007F9EE6 /* FTRImageViewController.m in Sources */,
 				59467E691C9373F00089498B /* FTRAppDelegate.m in Sources */,
 				59467E6B1C9373F00089498B /* FTRBasicViewController.m in Sources */,
 				59467E6E1C9373F00089498B /* FTRCollectionViewCell.m in Sources */,
@@ -819,6 +832,7 @@
 				59467E491C9373B90089498B /* FTRLocalUIWebViewTest.m in Sources */,
 				59467E4A1C9373B90089498B /* FTRMatcherTest.m in Sources */,
 				59467E4B1C9373B90089498B /* FTRNetworkTest.m in Sources */,
+				61E4E0C31D755A9B007F9EE6 /* FTRPinchViewTest.m in Sources */,
 				59467E4C1C9373B90089498B /* FTROrientationChangeTest.m in Sources */,
 				59467E4D1C9373B90089498B /* FTROrientationPortraitOnlyChangeTest.m in Sources */,
 				59467E4E1C9373B90089498B /* FTRPickerViewInteractionTest.m in Sources */,
