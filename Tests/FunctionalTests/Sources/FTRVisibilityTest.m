@@ -163,7 +163,7 @@
       assertWithMatcher:grey_interactable()];
 }
 
-- (void)testVisibilityOfViewsWithSameAccessibilityLabel {
+- (void)testVisibilityOfViewsWithSameAccessibilityLabelAndElementAtIndexMatcher {
   NSMutableSet *idSet = [NSMutableSet set];
   NSError *error;
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AView")]
@@ -205,6 +205,59 @@
                                                  grey_elementAtIndex(99), nil)]
       assertWithMatcher:grey_sufficientlyVisible() error:&error];
   GREYAssertEqual(error.code, kGREYInteractionElementNotFoundErrorCode, @"should be equal");
+
+  GREYAssertEqual(idSet.count, 3, @"should be equal");
+}
+
+- (void)testVisibilityOfViewsWithSameAccessibilityLabelAndAtIndex {
+  NSError *error;
+
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AView")]
+      assertWithMatcher:grey_sufficientlyVisible() error:&error];
+  GREYAssertEqual(error.code, kGREYInteractionMultipleElementsMatchedErrorCode, @"should be equal");
+
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AView")]
+      performAction:grey_tap() error:&error];
+  GREYAssertEqual(error.code, kGREYInteractionMultipleElementsMatchedErrorCode, @"should be equal");
+
+  NSMutableSet *idSet = [NSMutableSet set];
+
+  // Match against the first view present.
+  [[[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AView")] atIndex:0]
+      assert:[self ftr_assertOnIDSet:idSet]];
+
+  // Match against the second view present.
+  [[[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AView")] atIndex:1]
+      assert:[self ftr_assertOnIDSet:idSet]];
+
+  // Match against the third and last view present.
+  [[[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AView")] atIndex:2]
+      assert:[self ftr_assertOnIDSet:idSet]];
+
+  // Use the element at index matcher with an incorrect matcher.
+  [[[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"InvalidView")] atIndex:0]
+      assertWithMatcher:grey_sufficientlyVisible() error:&error];
+  GREYAssertEqual(error.code, kGREYInteractionElementNotFoundErrorCode, @"should be equal");
+
+  // Use the element at index matcher with an incorrect matcher on an action.
+  [[[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"InvalidView")] atIndex:0]
+      performAction:grey_tap() error:&error];
+  GREYAssertEqual(error.code, kGREYInteractionElementNotFoundErrorCode, @"should be equal");
+
+  // Use the element at index matcher with an incorrect matcher and also an invalid bounds.
+  // This should throw an error with the code as kGREYInteractionElementNotFoundErrorCode
+  // since we first check if the number of matched elements is greater than zero.
+  [[[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"InvalidView")] atIndex:99]
+      assertWithMatcher:grey_sufficientlyVisible() error:&error];
+  GREYAssertEqual(error.code, kGREYInteractionElementNotFoundErrorCode, @"should be equal");
+
+  // Use the element at index matcher with an index greater than the number of
+  // matched elements.
+  [[[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AView")] atIndex:999]
+      assertWithMatcher:grey_sufficientlyVisible() error:&error];
+  GREYAssertEqual(error.code,
+                  kGREYInteractionMatchedElementIndexOutOfBoundsErrorCode,
+                  @"should be equal");
 
   GREYAssertEqual(idSet.count, 3, @"should be equal");
 }
