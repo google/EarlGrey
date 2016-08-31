@@ -20,6 +20,7 @@
 #import "Action/GREYActionBlock.h"
 #import "Action/GREYChangeStepperAction.h"
 #import "Action/GREYPickerAction.h"
+#import "Action/GREYPinchAction.h"
 #import "Action/GREYScrollAction.h"
 #import "Action/GREYScrollToContentEdgeAction.h"
 #import "Action/GREYSlideAction.h"
@@ -68,6 +69,14 @@
                                            duration:kGREYSwipeSlowDuration
                                       startPercents:CGPointMake(xOriginStartPercentage,
                                                                 yOriginStartPercentage)];
+}
+
++ (id<GREYAction>)actionForPinchFastInDirection:(GREYPinchDirection)pinchDirection {
+  return [[GREYPinchAction alloc] initWithDirection:pinchDirection duration:kGREYPinchFastDuration];
+}
+
++ (id<GREYAction>)actionForPinchSlowInDirection:(GREYPinchDirection)pinchDirection {
+  return [[GREYPinchAction alloc] initWithDirection:pinchDirection duration:kGREYPinchSlowDuration];
 }
 
 + (id<GREYAction>)actionForMoveSliderToValue:(float)value {
@@ -161,9 +170,10 @@
 }
 
 + (id<GREYAction>)actionForClearText {
-  id<GREYMatcher> constraints = grey_anyOf(grey_respondsToSelector(@selector(text)),
-                                           grey_kindOfClassNamed(@"WebAccessibilityObjectWrapper"),
-                                           nil);
+  id<GREYMatcher> constraints =
+      grey_anyOf(grey_respondsToSelector(@selector(text)),
+                 grey_kindOfClass(NSClassFromString(@"WebAccessibilityObjectWrapper")),
+                 nil);
   return [GREYActionBlock actionWithName:@"Clear text"
                              constraints:constraints
                             performBlock:^BOOL (id element, __strong NSError **errorOrNil) {
@@ -308,9 +318,10 @@
  */
 + (id<GREYAction>)grey_actionForReplaceText:(NSString *)text {
   SEL setTextSelector = NSSelectorFromString(@"setText:");
-  id<GREYMatcher> constraints = grey_anyOf(grey_respondsToSelector(setTextSelector),
-                                           grey_kindOfClassNamed(@"WebAccessibilityObjectWrapper"),
-                                           nil);
+  id<GREYMatcher> constraints =
+      grey_anyOf(grey_respondsToSelector(setTextSelector),
+                 grey_kindOfClass(NSClassFromString(@"WebAccessibilityObjectWrapper")),
+                 nil);
   NSString *replaceActionName = [NSString stringWithFormat:@"Replace with text: \"%@\"", text];
   return [GREYActionBlock actionWithName:replaceActionName
                              constraints:constraints
@@ -588,6 +599,14 @@ id<GREYAction> grey_swipeSlowInDirectionWithStartPoint(GREYDirection direction,
   return [GREYActions actionForSwipeSlowInDirection:direction
                              xOriginStartPercentage:xOriginStartPercentage
                              yOriginStartPercentage:yOriginStartPercentage];
+}
+
+id<GREYAction> grey_pinchFastInDirection(GREYPinchDirection pinchDirection) {
+  return [GREYActions actionForPinchFastInDirection:pinchDirection];
+}
+
+id<GREYAction> grey_pinchSlowInDirection(GREYPinchDirection pinchDirection) {
+  return [GREYActions actionForPinchSlowInDirection:pinchDirection];
 }
 
 id<GREYAction> grey_moveSliderToValue(float value) {

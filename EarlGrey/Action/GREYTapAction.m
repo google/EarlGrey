@@ -165,7 +165,7 @@
     case kGREYTapTypeKBKey:
       return [NSString stringWithFormat:@"Tap on keyboard key"];
   }
-  NSAssert(NO, @"Unknown tapType %d was provided", (int)tapType);
+  NSAssert(NO, @"Unknown tapType %ld was provided", (long)tapType);
   return nil;
 }
 

@@ -96,8 +96,8 @@ static NSUInteger gUnknownTestExceptionCounter = 0;
               forCategory:@"Visibility Checker's Most Recent Actual After Image"
           appendingLogsTo:log];
 
-  // UI hierarchy and legend. Print windows from front to back.
-  [log appendString:@"\n"
+  // UI hierarchy and legend. Print windows from front to back, formatted for easier readability.
+  [log appendString:@"\n\n"
                     @"Application window hierarchy (ordered by window level, front to back):\n\n"
                     @"Legend:\n"
                     @"[Window 1] = [Frontmost Window]\n"

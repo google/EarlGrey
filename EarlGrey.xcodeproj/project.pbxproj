@@ -40,7 +40,6 @@
 		597E02F11D55AD6D0052A8D1 /* UIWindow+GREYAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001471C5B46C100B2DB0A /* UIWindow+GREYAdditions.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		597E02F21D55AD6D0052A8D1 /* XCTestCase+GREYAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001491C5B46C100B2DB0A /* XCTestCase+GREYAdditions.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		597E02F31D55AD6D0052A8D1 /* UIGestureRecognizer+GREYAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 61156A4F1D1B2AC1000013C7 /* UIGestureRecognizer+GREYAdditions.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		597E02F41D55AD8B0052A8D1 /* GREYSingleSequenceTouchInjector.h in Headers */ = {isa = PBXBuildFile; fileRef = FD10017C1C5B46C200B2DB0A /* GREYSingleSequenceTouchInjector.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		597E02F51D55AD8B0052A8D1 /* GREYSyntheticEvents.h in Headers */ = {isa = PBXBuildFile; fileRef = FD10017E1C5B46C200B2DB0A /* GREYSyntheticEvents.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		597E02F61D55ADBE0052A8D1 /* GREYNSURLConnectionDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001731C5B46C200B2DB0A /* GREYNSURLConnectionDelegate.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		597E02F71D55ADBE0052A8D1 /* GREYSurrogateDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001751C5B46C200B2DB0A /* GREYSurrogateDelegate.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -65,6 +64,12 @@
 		611BF16B1D4CD705001D9E46 /* GREYManagedObjectContextIdlingResource.h in Headers */ = {isa = PBXBuildFile; fileRef = 611BF1691D4CD705001D9E46 /* GREYManagedObjectContextIdlingResource.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		611BF16C1D4CD705001D9E46 /* GREYManagedObjectContextIdlingResource.m in Sources */ = {isa = PBXBuildFile; fileRef = 611BF16A1D4CD705001D9E46 /* GREYManagedObjectContextIdlingResource.m */; };
 		61CBDE801D4CD85200206BF7 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CBDE7F1D4CD85200206BF7 /* CoreData.framework */; };
+		61E4E0B91D7559DA007F9EE6 /* GREYTouchInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 61E4E0B51D7559DA007F9EE6 /* GREYTouchInfo.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		61E4E0BA1D7559DA007F9EE6 /* GREYTouchInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 61E4E0B61D7559DA007F9EE6 /* GREYTouchInfo.m */; };
+		61E4E0BB1D7559DA007F9EE6 /* GREYTouchInjector.h in Headers */ = {isa = PBXBuildFile; fileRef = 61E4E0B71D7559DA007F9EE6 /* GREYTouchInjector.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		61E4E0BC1D7559DA007F9EE6 /* GREYTouchInjector.m in Sources */ = {isa = PBXBuildFile; fileRef = 61E4E0B81D7559DA007F9EE6 /* GREYTouchInjector.m */; };
+		61E4E0BF1D755A0D007F9EE6 /* GREYPinchAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 61E4E0BD1D755A0D007F9EE6 /* GREYPinchAction.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		61E4E0C01D755A0D007F9EE6 /* GREYPinchAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 61E4E0BE1D755A0D007F9EE6 /* GREYPinchAction.m */; };
 		61FC0A081CD939C30081BDAA /* GREYAutomationSetup.m in Sources */ = {isa = PBXBuildFile; fileRef = 61FC0A061CD939C30081BDAA /* GREYAutomationSetup.m */; };
 		FD1001B01C5B46C200B2DB0A /* GREYAction.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001011C5B46C100B2DB0A /* GREYAction.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FD1001B11C5B46C200B2DB0A /* GREYActionBlock.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001021C5B46C100B2DB0A /* GREYActionBlock.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -134,7 +139,6 @@
 		FD10021F1C5B46C200B2DB0A /* GREYSurrogateDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1001761C5B46C200B2DB0A /* GREYSurrogateDelegate.m */; };
 		FD1002211C5B46C200B2DB0A /* GREYUIWebViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1001781C5B46C200B2DB0A /* GREYUIWebViewDelegate.m */; };
 		FD1002231C5B46C200B2DB0A /* EarlGrey.m in Sources */ = {isa = PBXBuildFile; fileRef = FD10017A1C5B46C200B2DB0A /* EarlGrey.m */; };
-		FD1002251C5B46C200B2DB0A /* GREYSingleSequenceTouchInjector.m in Sources */ = {isa = PBXBuildFile; fileRef = FD10017D1C5B46C200B2DB0A /* GREYSingleSequenceTouchInjector.m */; };
 		FD1002271C5B46C200B2DB0A /* GREYSyntheticEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = FD10017F1C5B46C200B2DB0A /* GREYSyntheticEvents.m */; };
 		FD1002291C5B46C200B2DB0A /* GREYDefaultFailureHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1001821C5B46C200B2DB0A /* GREYDefaultFailureHandler.m */; };
 		FD10022A1C5B46C200B2DB0A /* GREYFailureHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001831C5B46C200B2DB0A /* GREYFailureHandler.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -202,6 +206,12 @@
 		611BF1691D4CD705001D9E46 /* GREYManagedObjectContextIdlingResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYManagedObjectContextIdlingResource.h; sourceTree = "<group>"; };
 		611BF16A1D4CD705001D9E46 /* GREYManagedObjectContextIdlingResource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYManagedObjectContextIdlingResource.m; sourceTree = "<group>"; };
 		61CBDE7F1D4CD85200206BF7 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		61E4E0B51D7559DA007F9EE6 /* GREYTouchInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYTouchInfo.h; sourceTree = "<group>"; };
+		61E4E0B61D7559DA007F9EE6 /* GREYTouchInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYTouchInfo.m; sourceTree = "<group>"; };
+		61E4E0B71D7559DA007F9EE6 /* GREYTouchInjector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYTouchInjector.h; sourceTree = "<group>"; };
+		61E4E0B81D7559DA007F9EE6 /* GREYTouchInjector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYTouchInjector.m; sourceTree = "<group>"; };
+		61E4E0BD1D755A0D007F9EE6 /* GREYPinchAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYPinchAction.h; sourceTree = "<group>"; };
+		61E4E0BE1D755A0D007F9EE6 /* GREYPinchAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYPinchAction.m; sourceTree = "<group>"; };
 		61FC0A051CD939C30081BDAA /* GREYAutomationSetup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYAutomationSetup.h; sourceTree = "<group>"; };
 		61FC0A061CD939C30081BDAA /* GREYAutomationSetup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYAutomationSetup.m; sourceTree = "<group>"; };
 		FD06C66B1BECAD8B009032A5 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
@@ -321,8 +331,6 @@
 		FD1001781C5B46C200B2DB0A /* GREYUIWebViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYUIWebViewDelegate.m; sourceTree = "<group>"; };
 		FD1001791C5B46C200B2DB0A /* EarlGrey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EarlGrey.h; path = EarlGrey/EarlGrey.h; sourceTree = SOURCE_ROOT; };
 		FD10017A1C5B46C200B2DB0A /* EarlGrey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EarlGrey.m; path = EarlGrey/EarlGrey.m; sourceTree = SOURCE_ROOT; };
-		FD10017C1C5B46C200B2DB0A /* GREYSingleSequenceTouchInjector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYSingleSequenceTouchInjector.h; sourceTree = "<group>"; };
-		FD10017D1C5B46C200B2DB0A /* GREYSingleSequenceTouchInjector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYSingleSequenceTouchInjector.m; sourceTree = "<group>"; };
 		FD10017E1C5B46C200B2DB0A /* GREYSyntheticEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYSyntheticEvents.h; sourceTree = "<group>"; };
 		FD10017F1C5B46C200B2DB0A /* GREYSyntheticEvents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYSyntheticEvents.m; sourceTree = "<group>"; };
 		FD1001811C5B46C200B2DB0A /* GREYDefaultFailureHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYDefaultFailureHandler.h; sourceTree = "<group>"; };
@@ -458,6 +466,8 @@
 				FD1001031C5B46C100B2DB0A /* GREYActionBlock.m */,
 				FD1001041C5B46C100B2DB0A /* GREYActions.h */,
 				FD1001051C5B46C100B2DB0A /* GREYActions.m */,
+				61E4E0BD1D755A0D007F9EE6 /* GREYPinchAction.h */,
+				61E4E0BE1D755A0D007F9EE6 /* GREYPinchAction.m */,
 				FD1001061C5B46C100B2DB0A /* GREYChangeStepperAction.h */,
 				FD1001071C5B46C100B2DB0A /* GREYChangeStepperAction.m */,
 				FD1001081C5B46C100B2DB0A /* GREYPathGestureUtils.h */,
@@ -627,10 +637,12 @@
 		FD10017B1C5B46C200B2DB0A /* Event */ = {
 			isa = PBXGroup;
 			children = (
-				FD10017C1C5B46C200B2DB0A /* GREYSingleSequenceTouchInjector.h */,
-				FD10017D1C5B46C200B2DB0A /* GREYSingleSequenceTouchInjector.m */,
 				FD10017E1C5B46C200B2DB0A /* GREYSyntheticEvents.h */,
 				FD10017F1C5B46C200B2DB0A /* GREYSyntheticEvents.m */,
+				61E4E0B51D7559DA007F9EE6 /* GREYTouchInfo.h */,
+				61E4E0B61D7559DA007F9EE6 /* GREYTouchInfo.m */,
+				61E4E0B71D7559DA007F9EE6 /* GREYTouchInjector.h */,
+				61E4E0B81D7559DA007F9EE6 /* GREYTouchInjector.m */,
 			);
 			name = Event;
 			path = EarlGrey/Event;
@@ -811,6 +823,7 @@
 				597E02CB1D55AC180052A8D1 /* GREYScrollAction.h in Headers */,
 				597E02CD1D55AC2B0052A8D1 /* GREYSwipeAction.h in Headers */,
 				597E030B1D55B9F60052A8D1 /* GREYPickerAction.h in Headers */,
+				61E4E0BF1D755A0D007F9EE6 /* GREYPinchAction.h in Headers */,
 				597E02CA1D55AC040052A8D1 /* GREYPathGestureUtils.h in Headers */,
 				597E03051D55B3120052A8D1 /* GREYChangeStepperAction.h in Headers */,
 				597E030E1D55BC930052A8D1 /* GREYScrollToContentEdgeAction.h in Headers */,
@@ -850,8 +863,9 @@
 				597E02D61D55AC730052A8D1 /* GREYCAAnimationDelegate.h in Headers */,
 				597E02D71D55AC730052A8D1 /* GREYUIWebViewDelegate.h in Headers */,
 				597E02F61D55ADBE0052A8D1 /* GREYNSURLConnectionDelegate.h in Headers */,
+				61E4E0BB1D7559DA007F9EE6 /* GREYTouchInjector.h in Headers */,
+				61E4E0B91D7559DA007F9EE6 /* GREYTouchInfo.h in Headers */,
 				597E02F51D55AD8B0052A8D1 /* GREYSyntheticEvents.h in Headers */,
-				597E02F41D55AD8B0052A8D1 /* GREYSingleSequenceTouchInjector.h in Headers */,
 				597E02D81D55AD100052A8D1 /* GREYElementProvider.h in Headers */,
 				597E02D91D55AD100052A8D1 /* GREYUIWindowProvider.h in Headers */,
 				597E02DA1D55AD100052A8D1 /* GREYRunLoopSpinner.h in Headers */,
@@ -963,10 +977,10 @@
 				FD1001DC1C5B46C200B2DB0A /* NSRunLoop+GREYAdditions.m in Sources */,
 				611BF1681D4CD292001D9E46 /* GREYDispatchQueueTracker.m in Sources */,
 				61FC0A081CD939C30081BDAA /* GREYAutomationSetup.m in Sources */,
-				FD1002251C5B46C200B2DB0A /* GREYSingleSequenceTouchInjector.m in Sources */,
 				FD1001EA1C5B46C200B2DB0A /* UIScrollView+GREYAdditions.m in Sources */,
 				FD1002211C5B46C200B2DB0A /* GREYUIWebViewDelegate.m in Sources */,
 				FD1001FF1C5B46C200B2DB0A /* GREYAssertions.m in Sources */,
+				61E4E0C01D755A0D007F9EE6 /* GREYPinchAction.m in Sources */,
 				FD10024F1C5B46C200B2DB0A /* GREYTimedIdlingResource.m in Sources */,
 				FD1001D41C5B46C200B2DB0A /* CALayer+GREYAdditions.m in Sources */,
 				FD1001D61C5B46C200B2DB0A /* CGGeometry+GREYAdditions.m in Sources */,
@@ -996,6 +1010,7 @@
 				FD1001F41C5B46C200B2DB0A /* UIWebView+GREYAdditions.m in Sources */,
 				FD1001CC1C5B46C200B2DB0A /* __NSCFLocalDataTask_GREYAdditions.m in Sources */,
 				FD1001F61C5B46C200B2DB0A /* UIWindow+GREYAdditions.m in Sources */,
+				61E4E0BA1D7559DA007F9EE6 /* GREYTouchInfo.m in Sources */,
 				FD10021F1C5B46C200B2DB0A /* GREYSurrogateDelegate.m in Sources */,
 				FD6D0BA91C6D494F0001EA75 /* GREYStringDescription.m in Sources */,
 				FD1002451C5B46C200B2DB0A /* GREYCondition.m in Sources */,
@@ -1003,6 +1018,7 @@
 				FD1002151C5B46C200B2DB0A /* GREYElementInteraction.m in Sources */,
 				FD1002381C5B46C200B2DB0A /* GREYMatchers.m in Sources */,
 				FD1001C61C5B46C200B2DB0A /* GREYSwipeAction.m in Sources */,
+				61E4E0BC1D7559DA007F9EE6 /* GREYTouchInjector.m in Sources */,
 				FD1001E21C5B46C200B2DB0A /* NSURL+GREYAdditions.m in Sources */,
 				FD10023F1C5B46C200B2DB0A /* GREYUIWindowProvider.m in Sources */,
 				FD1001C41C5B46C200B2DB0A /* GREYSlideAction.m in Sources */,
