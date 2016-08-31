@@ -223,6 +223,12 @@
                 <a href="../Constants.html#/c:@kGREYNotNilException">kGREYNotNilException</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYPinchFastDuration">kGREYPinchFastDuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYPinchSlowDuration">kGREYPinchSlowDuration</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Constants.html#/c:@kGREYScrollErrorDomain">kGREYScrollErrorDomain</a>
               </li>
               <li class="nav-group-task">
@@ -268,6 +274,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Enums/GREYLayoutRelation.html">GREYLayoutRelation</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/GREYPinchDirection.html">GREYPinchDirection</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Enums/GREYScrollErrorCode.html">GREYScrollErrorCode</a>
@@ -343,6 +352,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@NSStringFromGREYLayoutRelation">NSStringFromGREYLayoutRelation</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@NSStringFromPinchDirection">NSStringFromPinchDirection</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@NSStringFromUIAccessibilityTraits">NSStringFromUIAccessibilityTraits</a>
@@ -480,6 +492,12 @@
                 <a href="../Functions.html#/c:@F@grey_pickerColumnSetToValue">grey_pickerColumnSetToValue</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_pinchFastInDirection">grey_pinchFastInDirection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_pinchSlowInDirection">grey_pinchSlowInDirection</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@grey_progress">grey_progress</a>
               </li>
               <li class="nav-group-task">
@@ -502,6 +520,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@grey_scrollViewContentOffset">grey_scrollViewContentOffset</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_scrolledToContentEdge">grey_scrolledToContentEdge</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@grey_setDate">grey_setDate</a>
@@ -574,7 +595,7 @@
 
                 </div>
               </div>
-            <p>A Matcher for combining multiple matchers with a logical @c AND operator, so that a match
+            <p>A matcher for combining multiple matchers with a logical @c AND operator, so that a match
 only occurs when all combined matchers match the element. The invocation of the matchers
 is in the same order in which they are passed. As soon as one matcher fails, the
 rest of the matchers are not invoked.</p>
@@ -652,7 +673,7 @@ rest of the matchers are not invoked.</p>
                               <td>
                                 <div>
                                   <p>Matchers that conform to GREYMatcher and will be combined together with
-                 a logical AND in the order they are passed.</p>
+                 a logical AND in the order they are passed in.</p>
 
                                 </div>
                               </td>
@@ -662,7 +683,7 @@ rest of the matchers are not invoked.</p>
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>An instance of GREYAllOf, initialized with the provided matcher(s).</p>
+                        <p>An instance of GREYAllOf, initialized with the provided @c</p>
 
                       </div>
                     </section>

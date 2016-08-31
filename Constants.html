@@ -222,6 +222,12 @@
                 <a href="Constants.html#/c:@kGREYNotNilException">kGREYNotNilException</a>
               </li>
               <li class="nav-group-task">
+                <a href="Constants.html#/c:@kGREYPinchFastDuration">kGREYPinchFastDuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Constants.html#/c:@kGREYPinchSlowDuration">kGREYPinchSlowDuration</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Constants.html#/c:@kGREYScrollErrorDomain">kGREYScrollErrorDomain</a>
               </li>
               <li class="nav-group-task">
@@ -267,6 +273,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="Enums/GREYLayoutRelation.html">GREYLayoutRelation</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/GREYPinchDirection.html">GREYPinchDirection</a>
               </li>
               <li class="nav-group-task">
                 <a href="Enums/GREYScrollErrorCode.html">GREYScrollErrorCode</a>
@@ -342,6 +351,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="Functions.html#/c:@F@NSStringFromGREYLayoutRelation">NSStringFromGREYLayoutRelation</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@NSStringFromPinchDirection">NSStringFromPinchDirection</a>
               </li>
               <li class="nav-group-task">
                 <a href="Functions.html#/c:@F@NSStringFromUIAccessibilityTraits">NSStringFromUIAccessibilityTraits</a>
@@ -479,6 +491,12 @@
                 <a href="Functions.html#/c:@F@grey_pickerColumnSetToValue">grey_pickerColumnSetToValue</a>
               </li>
               <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_pinchFastInDirection">grey_pinchFastInDirection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_pinchSlowInDirection">grey_pinchSlowInDirection</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Functions.html#/c:@F@grey_progress">grey_progress</a>
               </li>
               <li class="nav-group-task">
@@ -501,6 +519,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="Functions.html#/c:@F@grey_scrollViewContentOffset">grey_scrollViewContentOffset</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_scrolledToContentEdge">grey_scrolledToContentEdge</a>
               </li>
               <li class="nav-group-task">
                 <a href="Functions.html#/c:@F@grey_setDate">grey_setDate</a>
@@ -1094,6 +1115,60 @@
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/c:@kGREYPinchFastDuration"></a>
+                    <a name="//apple_ref/objc/Constant/kGREYPinchFastDuration" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@kGREYPinchFastDuration">kGREYPinchFastDuration</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Amount of time a <q>fast</q> pinch should last for, in seconds</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="k">const</span> <span class="n">CFTimeInterval</span> <span class="n">kGREYPinchFastDuration</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@kGREYPinchSlowDuration"></a>
+                    <a name="//apple_ref/objc/Constant/kGREYPinchSlowDuration" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@kGREYPinchSlowDuration">kGREYPinchSlowDuration</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Amount of time a <q>slow</q> pinch should last for, in seconds</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="k">const</span> <span class="n">CFTimeInterval</span> <span class="n">kGREYPinchSlowDuration</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/c:@kGREYInfiniteTimeout"></a>
                     <a name="//apple_ref/objc/Constant/kGREYInfiniteTimeout" class="dashAnchor"></a>
                     <a class="token" href="#/c:@kGREYInfiniteTimeout">kGREYInfiniteTimeout</a>
@@ -1353,7 +1428,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Thrown by the selection API when no element matches the selection matcher.</p>
+                        <p>Thrown by the selection API when no UI element matches the selection matcher.</p>
 
                       </div>
                       <div class="declaration">

@@ -222,6 +222,12 @@
                 <a href="Constants.html#/c:@kGREYNotNilException">kGREYNotNilException</a>
               </li>
               <li class="nav-group-task">
+                <a href="Constants.html#/c:@kGREYPinchFastDuration">kGREYPinchFastDuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Constants.html#/c:@kGREYPinchSlowDuration">kGREYPinchSlowDuration</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Constants.html#/c:@kGREYScrollErrorDomain">kGREYScrollErrorDomain</a>
               </li>
               <li class="nav-group-task">
@@ -267,6 +273,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="Enums/GREYLayoutRelation.html">GREYLayoutRelation</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/GREYPinchDirection.html">GREYPinchDirection</a>
               </li>
               <li class="nav-group-task">
                 <a href="Enums/GREYScrollErrorCode.html">GREYScrollErrorCode</a>
@@ -342,6 +351,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="Functions.html#/c:@F@NSStringFromGREYLayoutRelation">NSStringFromGREYLayoutRelation</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@NSStringFromPinchDirection">NSStringFromPinchDirection</a>
               </li>
               <li class="nav-group-task">
                 <a href="Functions.html#/c:@F@NSStringFromUIAccessibilityTraits">NSStringFromUIAccessibilityTraits</a>
@@ -479,6 +491,12 @@
                 <a href="Functions.html#/c:@F@grey_pickerColumnSetToValue">grey_pickerColumnSetToValue</a>
               </li>
               <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_pinchFastInDirection">grey_pinchFastInDirection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_pinchSlowInDirection">grey_pinchSlowInDirection</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Functions.html#/c:@F@grey_progress">grey_progress</a>
               </li>
               <li class="nav-group-task">
@@ -501,6 +519,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="Functions.html#/c:@F@grey_scrollViewContentOffset">grey_scrollViewContentOffset</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_scrolledToContentEdge">grey_scrolledToContentEdge</a>
               </li>
               <li class="nav-group-task">
                 <a href="Functions.html#/c:@F@grey_setDate">grey_setDate</a>
@@ -973,6 +994,62 @@ GREYActions::actionForSwipeSlowInDirection:xOriginStartPercentage:yOriginStartPe
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/c:@F@grey_pinchFastInDirection"></a>
+                    <a name="//apple_ref/objc/Function/grey_pinchFastInDirection" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_pinchFastInDirection">grey_pinchFastInDirection</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand macro for GREYActions::actionForPinchFastInDirection:pinchDirection:.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span>
+<span class="n">grey_pinchFastInDirection</span><span class="p">(</span><span class="n"><a href="Enums/GREYPinchDirection.html">GREYPinchDirection</a></span> <span class="n">pinchDirection</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_pinchSlowInDirection"></a>
+                    <a name="//apple_ref/objc/Function/grey_pinchSlowInDirection" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_pinchSlowInDirection">grey_pinchSlowInDirection</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand macro for GREYActions::actionForPinchSlowInDirection:pinchDirection:.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span>
+<span class="n">grey_pinchSlowInDirection</span><span class="p">(</span><span class="n"><a href="Enums/GREYPinchDirection.html">GREYPinchDirection</a></span> <span class="n">pinchDirection</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/c:@F@grey_moveSliderToValue"></a>
                     <a name="//apple_ref/objc/Function/grey_moveSliderToValue" class="dashAnchor"></a>
                     <a class="token" href="#/c:@F@grey_moveSliderToValue">grey_moveSliderToValue</a>
@@ -1364,7 +1441,7 @@ GREYActions::actionForSwipeSlowInDirection:xOriginStartPercentage:yOriginStartPe
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>An object conforming to HCMatcher, initialized with the required matchers.</p>
+                        <p>An object conforming to GREYMatcher, initialized with the required matchers.</p>
 
                       </div>
                     </section>
@@ -1436,7 +1513,7 @@ value.</p>
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>An object conforming to HCMatcher, initialized with the required matcher(s).</p>
+                        <p>An object conforming to GREYMatcher, initialized with the required matchers.</p>
 
                       </div>
                     </section>
@@ -1504,6 +1581,33 @@ value.</p>
                         <h4>Return Value</h4>
                         <p>A string representation of the given @c</p>
 
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@NSStringFromPinchDirection"></a>
+                    <a name="//apple_ref/objc/Function/NSStringFromPinchDirection" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@NSStringFromPinchDirection">NSStringFromPinchDirection</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns a string representation of the given @c pinchDirection.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="n">NSString</span> <span class="o">*</span><span class="n">NSStringFromPinchDirection</span><span class="p">(</span><span class="n"><a href="Enums/GREYPinchDirection.html">GREYPinchDirection</a></span> <span class="n">pinchDirection</span><span class="p">)</span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>
@@ -2665,6 +2769,33 @@ value.</p>
                     </section>
                   </div>
                 </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_scrolledToContentEdge"></a>
+                    <a name="//apple_ref/objc/Function/grey_scrolledToContentEdge" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_scrolledToContentEdge">grey_scrolledToContentEdge</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand for GREYMatchers::matcherForScrolledToContentEdge:.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_scrolledToContentEdge</span><span class="p">(</span><span class="n"><a href="Enums/GREYContentEdge.html">GREYContentEdge</a></span> <span class="n">edge</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
               </ul>
             </div>
             <div class="task-group">
@@ -2690,11 +2821,6 @@ value.</p>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
                           <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_not</span><span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">matcher</span><span class="p">)</span></code></pre>
-
-                        </div>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">grey_not</span><span class="p">(</span><span class="nv">matcher</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyObject</span><span class="o">!</span></code></pre>
 
                         </div>
                       </div>

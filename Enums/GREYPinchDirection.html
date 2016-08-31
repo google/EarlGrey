@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>GREYIdlingResource Protocol Reference</title>
+    <title>GREYPinchDirection Enum Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset='utf-8'>
@@ -10,8 +10,8 @@
     
   </head>
   <body>
-    <a name="//apple_ref/objc/Protocol/GREYIdlingResource" class="dashAnchor"></a>
-    <a title="GREYIdlingResource Protocol Reference"></a>
+    <a name="//apple_ref/objc/Enum/GREYPinchDirection" class="dashAnchor"></a>
+    <a title="GREYPinchDirection Enum Reference"></a>
     <header>
       <div class="content-wrapper">
         <p><a href="../index.html">EarlGrey Docs</a> (93% documented)</p>
@@ -22,7 +22,7 @@
       <p id="breadcrumbs">
         <a href="../index.html">EarlGrey Reference</a>
         <img id="carat" src="../img/carat.png" />
-        GREYIdlingResource Protocol Reference
+        GREYPinchDirection Enum Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -588,15 +588,17 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>GREYIdlingResource</h1>
+            <h1>GREYPinchDirection</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight"><code><span class="k">@protocol</span> <span class="nc">GREYIdlingResource</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span></code></pre>
+                  <pre class="highlight"><code><span class="k">enum</span> <span class="n">GREYPinchDirection</span> <span class="o">:</span> <span class="n">NSInteger</span> <span class="p">{}</span></code></pre>
 
                 </div>
               </div>
-            <p>A protocol for resources that can potentially modify the UI and should be synchronized with
-before performing any interaction or verification with UI element.</p>
+            <p>Directions for pinch gesture.</p>
+
+<p>The direction describes the motion of the view port as a result of pinch. There are two
+  possible directions for pinch action inward and outward.</p>
 
           </section>
           <section class="section task-group-section">
@@ -605,9 +607,9 @@ before performing any interaction or verification with UI element.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:objc(pl)GREYIdlingResource(im)isIdleNow"></a>
-                    <a name="//apple_ref/objc/Method/-isIdleNow" class="dashAnchor"></a>
-                    <a class="token" href="#/c:objc(pl)GREYIdlingResource(im)isIdleNow">-isIdleNow</a>
+                    <a name="/c:@E@GREYPinchDirection@kGREYPinchDirectionOutward"></a>
+                    <a name="//apple_ref/objc/Case/kGREYPinchDirectionOutward" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@E@GREYPinchDirection@kGREYPinchDirectionOutward">kGREYPinchDirectionOutward</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -615,32 +617,16 @@ before performing any interaction or verification with UI element.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>A method to query idleness of this resource.</p>
-
-<p>Note: This method is called on the main thread and polled continuously until this resource goes
-  into idle state or a test timeout occurs. It is discouraged to perform any heavy tasks in this
-  method.</p>
+                        <p>Undocumented</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="n">isIdleNow</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">enum</span> <span class="n">GREYPinchDirection</span> <span class="o">:</span> <span class="n">NSInteger</span> <span class="p">{}</span></code></pre>
 
                         </div>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">isIdleNow</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Return Value</h4>
-                        <p>@c
-if the resource is currently idle; @c
-otherwise.</p>
-
                       </div>
                     </section>
                   </div>
@@ -648,9 +634,9 @@ otherwise.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:objc(pl)GREYIdlingResource(im)idlingResourceName"></a>
-                    <a name="//apple_ref/objc/Method/-idlingResourceName" class="dashAnchor"></a>
-                    <a class="token" href="#/c:objc(pl)GREYIdlingResource(im)idlingResourceName">-idlingResourceName</a>
+                    <a name="/c:@E@GREYPinchDirection@kGREYPinchDirectionInward"></a>
+                    <a name="//apple_ref/objc/Case/kGREYPinchDirectionInward" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@E@GREYPinchDirection@kGREYPinchDirectionInward">kGREYPinchDirectionInward</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -658,63 +644,16 @@ otherwise.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        
+                        <p>Undocumented</p>
+
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="n">idlingResourceName</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">enum</span> <span class="n">GREYPinchDirection</span> <span class="o">:</span> <span class="n">NSInteger</span> <span class="p">{}</span></code></pre>
 
                         </div>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">idlingResourceName</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">String</span><span class="o">!</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Return Value</h4>
-                        <p>A user friendly name that will be printed if this resource fails to idle leading to a
-         test timeout.</p>
-
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/c:objc(pl)GREYIdlingResource(im)idlingResourceDescription"></a>
-                    <a name="//apple_ref/objc/Method/-idlingResourceDescription" class="dashAnchor"></a>
-                    <a class="token" href="#/c:objc(pl)GREYIdlingResource(im)idlingResourceDescription">-idlingResourceDescription</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="n">idlingResourceDescription</span><span class="p">;</span></code></pre>
-
-                        </div>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">idlingResourceDescription</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">String</span><span class="o">!</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Return Value</h4>
-                        <p>Information that will be printed alongside the name if this resource fails to idle in
-         the given timeout.</p>
-
                       </div>
                     </section>
                   </div>

@@ -223,6 +223,12 @@
                 <a href="../Constants.html#/c:@kGREYNotNilException">kGREYNotNilException</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYPinchFastDuration">kGREYPinchFastDuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYPinchSlowDuration">kGREYPinchSlowDuration</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Constants.html#/c:@kGREYScrollErrorDomain">kGREYScrollErrorDomain</a>
               </li>
               <li class="nav-group-task">
@@ -268,6 +274,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Enums/GREYLayoutRelation.html">GREYLayoutRelation</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/GREYPinchDirection.html">GREYPinchDirection</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Enums/GREYScrollErrorCode.html">GREYScrollErrorCode</a>
@@ -343,6 +352,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@NSStringFromGREYLayoutRelation">NSStringFromGREYLayoutRelation</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@NSStringFromPinchDirection">NSStringFromPinchDirection</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@NSStringFromUIAccessibilityTraits">NSStringFromUIAccessibilityTraits</a>
@@ -480,6 +492,12 @@
                 <a href="../Functions.html#/c:@F@grey_pickerColumnSetToValue">grey_pickerColumnSetToValue</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_pinchFastInDirection">grey_pinchFastInDirection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_pinchSlowInDirection">grey_pinchSlowInDirection</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@grey_progress">grey_progress</a>
               </li>
               <li class="nav-group-task">
@@ -502,6 +520,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@grey_scrollViewContentOffset">grey_scrollViewContentOffset</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_scrolledToContentEdge">grey_scrolledToContentEdge</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@grey_setDate">grey_setDate</a>
@@ -694,11 +715,15 @@ Use methods of this class to initiate interaction with any UI element on the scr
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Starts an interaction with a single UI element of the application.</p>
+                        <p>Initiates an interaction by selecting a single UI element of the application. In this step, a
+  matcher is passed that EarlGrey can use to parse the UI Hierarchy. This step will not show any
+  changes in the visible UI. You need to use a GREYAction or GREYAssertion in order to actually
+  perform the interaction.</p>
 
-<p>The interaction will start on the UI element that matches the specified
-  @c elementMatcher. Interation will fail when multiple elements are matched and
-  @c elementMatcher should be refined to match a single element.</p>
+<p>The interaction will start on the UI element that matches the specified @c elementMatcher.
+  Interaction will fail when multiple elements are matched. In that case, you will have to
+  refine the @c elementMatcher to match a single element or use GREYInteraction::atIndex to
+  specify the index of the element in the list of elements matched.</p>
 
 <p>By default, EarlGrey looks at all the windows from front to back and
   searches for the UI element. To focus on a specific window or container, use

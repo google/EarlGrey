@@ -223,6 +223,12 @@
                 <a href="../Constants.html#/c:@kGREYNotNilException">kGREYNotNilException</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYPinchFastDuration">kGREYPinchFastDuration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYPinchSlowDuration">kGREYPinchSlowDuration</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Constants.html#/c:@kGREYScrollErrorDomain">kGREYScrollErrorDomain</a>
               </li>
               <li class="nav-group-task">
@@ -268,6 +274,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Enums/GREYLayoutRelation.html">GREYLayoutRelation</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/GREYPinchDirection.html">GREYPinchDirection</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Enums/GREYScrollErrorCode.html">GREYScrollErrorCode</a>
@@ -343,6 +352,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@NSStringFromGREYLayoutRelation">NSStringFromGREYLayoutRelation</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@NSStringFromPinchDirection">NSStringFromPinchDirection</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@NSStringFromUIAccessibilityTraits">NSStringFromUIAccessibilityTraits</a>
@@ -480,6 +492,12 @@
                 <a href="../Functions.html#/c:@F@grey_pickerColumnSetToValue">grey_pickerColumnSetToValue</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_pinchFastInDirection">grey_pinchFastInDirection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_pinchSlowInDirection">grey_pinchSlowInDirection</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@grey_progress">grey_progress</a>
               </li>
               <li class="nav-group-task">
@@ -502,6 +520,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@grey_scrollViewContentOffset">grey_scrollViewContentOffset</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_scrolledToContentEdge">grey_scrolledToContentEdge</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@grey_setDate">grey_setDate</a>
@@ -1366,6 +1387,114 @@ of a scroll view with the scroll
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/c:objc(cs)GREYActions(cm)actionForPinchFastInDirection:"></a>
+                    <a name="//apple_ref/objc/Method/+actionForPinchFastInDirection:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYActions(cm)actionForPinchFastInDirection:">+actionForPinchFastInDirection:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns an action that pinches whole view quickly in the specified @c direction.
+ @c kGREYPinchFastDuration in @c GREYConstants determines the duration of the gesture.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">actionForPinchFastInDirection</span><span class="p">:</span>
+    <span class="p">(</span><span class="n"><a href="../Enums/GREYPinchDirection.html">GREYPinchDirection</a></span><span class="p">)</span><span class="nv">pinchDirection</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>pinchDirection</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The direction of the pinch action.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A GREYAction that performs a fast pinch on the whole view in the specified @c</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYActions(cm)actionForPinchSlowInDirection:"></a>
+                    <a name="//apple_ref/objc/Method/+actionForPinchSlowInDirection:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYActions(cm)actionForPinchSlowInDirection:">+actionForPinchSlowInDirection:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns an action that pinches whole view slowly in the specified @c direction.
+ kGREYPinchSlowDuration in GREYConstants determines the duration of the gesture.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">actionForPinchSlowInDirection</span><span class="p">:</span>
+    <span class="p">(</span><span class="n"><a href="../Enums/GREYPinchDirection.html">GREYPinchDirection</a></span><span class="p">)</span><span class="nv">pinchDirection</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>pinchDirection</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The direction of the pinch action.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A GREYAction that performs a slow pinch on the whole view in the specified @c</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/c:objc(cs)GREYActions(cm)actionForMoveSliderToValue:"></a>
                     <a name="//apple_ref/objc/Method/+actionForMoveSliderToValue:" class="dashAnchor"></a>
                     <a class="token" href="#/c:objc(cs)GREYActions(cm)actionForMoveSliderToValue:">+actionForMoveSliderToValue:</a>
@@ -1400,11 +1529,11 @@ of a scroll view with the scroll
                               <td>
                                 <div>
                                   <p>The value to which the slider should be moved. If this is not attainable after a
-              reasonable number of attempts (currently 10) we assume that the @c
+             reasonable number of attempts (currently 10) we assume that the @c
 is
-              unattainable for a user (it is probably the case this value resides between two
-              pixels). In this case, the slider will end up at a user attainable value
-              that is closest to @c</p>
+             unattainable for a user (it is probably the case this value resides between two
+             pixels). In this case, the slider will end up at a user attainable value
+             that is closest to @c</p>
 
                                 </div>
                               </td>
