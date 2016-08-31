@@ -15,5 +15,5 @@
 
 source 'https://rubygems.org'
 
-gem 'eyes_selenium', '>= 2.31'      # Enables full page screenshos
+gem 'eyes_selenium', '>= 2.37.0'    # Enables full page screenshos
 gem 'chromedriver-helper', '>= 1.0' # Downloads chromedriver automatically
