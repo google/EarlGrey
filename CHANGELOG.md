@@ -12,17 +12,18 @@ Baseline: [2c52007]
 
 ### New Features
 
-* MultiTouch support: EarlGrey can now perform multi touch pinch gestures!
-* Added interaction API to select from multiple element matches.
+* EarlGrey now supports multi-touch gestures! Following pinch actions have been added
+  `grey_pinchFastInDirection`, `grey_pinchSlowInDirection`.
+* Added `atIndex:` interaction API to select from multiple element matches.
 
 ### Enhancements
-* Updated Swift Macros in the gem.
+* Updated Swift Macros in EarlGrey gem.
 * Implemented matcher for UIScrollView scrolled to content edge.
 
 ### Bug Fixes
 * Fixed several typos and cleaned up many project files with proper error messages.
-* Added carthage xcodebuild command to Travis CI.
-* Fixed issue with {Did,Will}PerformAction notification and its userInfo.
+* Added carthage `xcodebuild` command to Travis CI.
+* Fixed issue with action{Did,Will}PerformAction notification and its userInfo.
 * Updated protocol signatures.
 
 ### Contributors
