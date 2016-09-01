@@ -81,7 +81,7 @@ public func GREYFail(reason: String) {
                                      details: "")
 }
 
-@available(*, deprecated=1.1.1, message="Please use GREYFAIL::withDetails instead.")
+@available(*, deprecated=1.2.0, message="Please use GREYFAIL::withDetails instead.")
 public func GREYFail(reason: String, details: String) {
   greyFailureHandler.handleException(GREYFrameworkException(name: kGREYAssertionFailedException,
     reason: reason),
