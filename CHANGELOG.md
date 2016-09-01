@@ -3,6 +3,33 @@
 Details changes in each release of EarlGrey. EarlGrey follows
 [semantic versioning](http://semver.org/).
 
+## [1.2.0](https://github.com/google/EarlGrey/tree/1.2.0) (08/31/2016)
+
+```
+Baseline: [2c52007]
+   + [2c52007]: Updated cheatsheet and podspec for 1.2.0 release
+```
+
+### New Features
+
+* EarlGrey now supports multi-touch gestures! Following pinch actions have been added:
+  * `grey_pinchFastInDirection`
+  * `grey_pinchSlowInDirection`
+* Added `atIndex:` interaction API to select from multiple element matches.
+
+### Enhancements
+* Updated Swift Macros in EarlGrey gem.
+* Implemented matcher for UIScrollView scrolled to content edge.
+
+### Bug Fixes
+* Fixed several typos and cleaned up many project files with proper error messages.
+* Added carthage `xcodebuild` command to Travis CI.
+* Fixed issue with action{Did,Will}PerformAction notification and its userInfo.
+* Updated protocol signatures.
+
+### Contributors
+Special thanks to [axi0mX](https://github.com/axi0mX) and the rest of our contributors.
+
 ## [1.1.0](https://github.com/google/EarlGrey/tree/1.1.0) (08/18/2016)
 
 ```
