@@ -6,8 +6,8 @@ Details changes in each release of EarlGrey. EarlGrey follows
 ## [1.2.0](https://github.com/google/EarlGrey/tree/1.2.0) (08/31/2016)
 
 ```
-Baseline: [2c52007]
-   + [2c52007]: Updated cheatsheet and podspec for 1.2.0 release
+Baseline: [7070e1a]
+   + [7070e1a]: Updated cheatsheet and podspec for 1.2.0 release
 ```
 
 ### New Features
