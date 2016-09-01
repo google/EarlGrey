@@ -12,8 +12,9 @@ Baseline: [2c52007]
 
 ### New Features
 
-* EarlGrey now supports multi-touch gestures! Following pinch actions have been added
-  `grey_pinchFastInDirection`, `grey_pinchSlowInDirection`.
+* EarlGrey now supports multi-touch gestures! Following pinch actions have been added:
+  * `grey_pinchFastInDirection`
+  * `grey_pinchSlowInDirection`
 * Added `atIndex:` interaction API to select from multiple element matches.
 
 ### Enhancements
