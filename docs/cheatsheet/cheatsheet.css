@@ -73,6 +73,10 @@ li:nth-child(even) {
   font-family: 'Ubuntu', sans-serif;
 }
 
+.body > ul li:last-child {
+  margin-right: 0;
+}
+
 .body > ul:nth-child(2) > li:nth-child(1) {
   text-transform: initial;
   padding-bottom: 0;
@@ -155,7 +159,7 @@ li {
   font-family: 'Ubuntu', sans-serif;
   font-weight: normal;
   white-space: pre;
-  height: 3em;
+  height: 5em;
   padding-left: 1em;
 }
 
@@ -176,13 +180,16 @@ li {
   font-family: 'Ubuntu', sans-serif;
 }
 
-.cheatsheet {
+.EarlGreyTitle {
   height: 0.5em;
   font-weight: 300;
   padding-right: 1em;
   padding-top: 1em;
   font-family: 'Ubuntu', sans-serif;
   font-size: 2em;
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 
 .swift {
