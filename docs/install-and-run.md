@@ -97,6 +97,44 @@ After you successfully run the `pod install` command, open the generated workspa
 
   <img src="images/image02.png" width="250">
 
+### Carthage Installation
+
+EarlGrey supports Carthage via [the EarlGrey gem.](https://rubygems.org/gems/earlgrey)
+
+#### Step 1: Set up a test target for Carthage
+
+See [Step 1 from the `CocoaPods installation`](#step-1-set-up-a-test-target) detailed above.
+
+#### Step 2: Configure carthage
+
+Install carthage
+
+`brew update; brew install carthage`
+
+Specify the version of EarlGrey to use in Cartfile.private.
+Note that you can also use "master" instead of a release tag.
+
+`echo 'github "google/EarlGrey" "1.2.0"' >> Cartfile.private`
+
+Update to latest EarlGrey revision and create Cartfile.resolved.
+
+`carthage update EarlGrey --platform ios`
+
+#### Step 3: Use the EarlGrey gem
+
+Install the EarlGrey gem.
+
+`gem install earlgrey`
+
+Use the gem to install EarlGrey into the testing target.
+
+`earlgrey install -t EarlGreyExampleSwiftTests`
+
+Now you're ready to start testing with EarlGrey!
+If you need more control, review the available install options.
+
+`earlgrey help install`
+
 ### GitHub Installation
 
 In cases where CocoaPods is not compatible with your project, you can add EarlGrey manually to your Xcode project.
