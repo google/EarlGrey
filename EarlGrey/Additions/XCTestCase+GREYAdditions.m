@@ -46,15 +46,6 @@ static const void *const kTestCaseStatus = &kTestCaseStatus;
  */
 static NSString *const kInternalTestInterruptException = @"EarlGreyInternalTestInterruptException";
 
-/**
- *  Enumeration with the possible statuses of a XCTestCase.
- */
-typedef NS_ENUM(NSUInteger, GREYXCTestCaseStatus) {
-  kGREYXCTestCaseStatusUnknown = 0,
-  kGREYXCTestCaseStatusPassed,
-  kGREYXCTestCaseStatusFailed,
-};
-
 // Extern constants.
 NSString *const kGREYXCTestCaseInstanceWillSetUp = @"GREYXCTestCaseInstanceWillSetUp";
 NSString *const kGREYXCTestCaseInstanceDidSetUp = @"GREYXCTestCaseInstanceDidSetUp";
@@ -70,16 +61,37 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
 + (void)load {
   @autoreleasepool {
     GREYSwizzler *swizzler = [[GREYSwizzler alloc] init];
-    GREY_UNUSED_VARIABLE BOOL swizzleSuccess =
+    BOOL swizzleSuccess =
         [swizzler swizzleClass:self
             replaceInstanceMethod:@selector(invokeTest)
                        withMethod:@selector(grey_invokeTest)];
     NSAssert(swizzleSuccess, @"Cannot swizzle XCTestCase invokeTest");
+
+    SEL recordFailSEL = @selector(recordFailureWithDescription:inFile:atLine:expected:);
+    SEL grey_recordFailSEL = @selector(grey_recordFailureWithDescription:inFile:atLine:expected:);
+    swizzleSuccess = [swizzler swizzleClass:self
+                      replaceInstanceMethod:recordFailSEL
+                                 withMethod:grey_recordFailSEL];
+    NSAssert(swizzleSuccess, @"Cannot swizzle XCTestCase "
+                             @"recordFailureWithDescription:inFile:atLine:expected:");
   }
 }
 
 + (XCTestCase *)grey_currentTestCase {
   return gCurrentExecutingTestCase;
+}
+
+- (void)grey_recordFailureWithDescription:(NSString *)description
+                                   inFile:(NSString *)filePath
+                                   atLine:(NSUInteger)lineNumber
+                                 expected:(BOOL)expected {
+  [self grey_setStatus:kGREYXCTestCaseStatusFailed];
+  INVOKE_ORIGINAL_IMP4(void,
+                       @selector(grey_recordFailureWithDescription:inFile:atLine:expected:),
+                       description,
+                       filePath,
+                       lineNumber,
+                       expected);
 }
 
 - (NSString *)grey_testMethodName {
@@ -103,6 +115,11 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
 
 - (NSString *)grey_testClassName {
   return NSStringFromClass([self class]);
+}
+
+- (GREYXCTestCaseStatus)grey_status {
+  id status = objc_getAssociatedObject(self, kTestCaseStatus);
+  return (GREYXCTestCaseStatus)[status unsignedIntegerValue];
 }
 
 - (NSString *)grey_localizedTestOutputsDirectory {
@@ -148,6 +165,8 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
                                                    inFile:file
                                                    atLine:line
                                                  expected:NO];
+  // If the test fails outside of the main thread in a nested runloop it will not be interrupted
+  // until it's back in the outer most runloop. Raise an exception to interrupt the test immediately
   [[GREYFrameworkException exceptionWithName:kInternalTestInterruptException
                                       reason:@"Immediately halt execution of testcase"] raise];
 }
@@ -265,15 +284,7 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
  *  @param status The new object-association value for the test status.
  */
 - (void)grey_setStatus:(GREYXCTestCaseStatus)status {
-  objc_setAssociatedObject([self class], kTestCaseStatus, @(status), OBJC_ASSOCIATION_RETAIN);
-}
-
-/**
- *  @return The status of the currently running test.
- */
-- (GREYXCTestCaseStatus)grey_status {
-  id status = objc_getAssociatedObject([self class], kTestCaseStatus);
-  return (GREYXCTestCaseStatus)[status unsignedIntegerValue];
+  objc_setAssociatedObject(self, kTestCaseStatus, @(status), OBJC_ASSOCIATION_RETAIN);
 }
 
 /**

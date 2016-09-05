@@ -33,9 +33,6 @@ static id gRealSharedApplication;
 
 #pragma mark - GREYUTFailureHandler
 
-@interface GREYUTFailureHandler : NSObject<GREYFailureHandler>
-@end
-
 @implementation GREYUTFailureHandler
 
 - (void)handleException:(GREYFrameworkException *)exception details:(NSString *)details {

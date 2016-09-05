@@ -21,6 +21,10 @@
 #define OCMOCK_STRUCT(atype, variable) \
   [NSValue valueWithBytes:&variable objCType:@encode(atype)]
 
+// Failure handler for EarlGrey unit tests
+@interface GREYUTFailureHandler : NSObject<GREYFailureHandler>
+@end
+
 // Base test class for every unit test.
 // Each subclass must call through to super's implementation.
 @interface GREYBaseTest : XCTestCase
