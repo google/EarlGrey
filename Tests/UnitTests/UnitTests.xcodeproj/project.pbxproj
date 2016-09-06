@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		007CF78B1D78A0F400228BF3 /* XCTestCase+GREYAdditionsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 007CF78A1D78A0F400228BF3 /* XCTestCase+GREYAdditionsTest.m */; };
 		59467F111C9379FC0089498B /* CAAnimation+GREYAdditionsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467EAB1C9379DE0089498B /* CAAnimation+GREYAdditionsTest.m */; };
 		59467F121C9379FC0089498B /* CALayer+GREYAdditionsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467EAC1C9379DE0089498B /* CALayer+GREYAdditionsTest.m */; };
 		59467F131C9379FC0089498B /* CGGeometry+GREYAdditionsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467EAD1C9379DE0089498B /* CGGeometry+GREYAdditionsTest.m */; };
@@ -158,6 +159,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		007CF78A1D78A0F400228BF3 /* XCTestCase+GREYAdditionsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XCTestCase+GREYAdditionsTest.m"; sourceTree = "<group>"; };
 		59467EA81C9379DE0089498B /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = SOURCE_ROOT; };
 		59467EA91C9379DE0089498B /* UnitTests.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnitTests.pch; sourceTree = SOURCE_ROOT; };
 		59467EAB1C9379DE0089498B /* CAAnimation+GREYAdditionsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CAAnimation+GREYAdditionsTest.m"; sourceTree = "<group>"; };
@@ -310,6 +312,7 @@
 				59467ED11C9379DE0089498B /* UIView+GREYAdditionsTest.m */,
 				59467ED21C9379DE0089498B /* UIViewController+GREYAdditionsTest.m */,
 				59467ED31C9379DE0089498B /* UIWindow+GREYAdditionsTest.m */,
+				007CF78A1D78A0F400228BF3 /* XCTestCase+GREYAdditionsTest.m */,
 				F9C5093E1D11E9CF00D4FDED /* GREYTestHelperTest.m */,
 			);
 			path = Sources;
@@ -621,6 +624,7 @@
 				59467F341C9379FC0089498B /* NSString+GREYAdditionsTest.m in Sources */,
 				FD4AB2B81D23181900D0C44D /* GREYWeakObjectContainerTest.m in Sources */,
 				61E4E0CD1D755B1C007F9EE6 /* GREYTouchInjectorTest.m in Sources */,
+				007CF78B1D78A0F400228BF3 /* XCTestCase+GREYAdditionsTest.m in Sources */,
 				59467F351C9379FC0089498B /* NSURLConnection+GREYAdditionsTest.m in Sources */,
 				59467F361C9379FC0089498B /* NSURLSessionTask+GREYAdditionsTest.m in Sources */,
 				59467F371C9379FC0089498B /* UIView+GREYAdditionsTest.m in Sources */,

@@ -568,17 +568,4 @@
   XCTAssertTrue([[GREYMatchers matcherForSwitchWithOnState:YES] matches:uiswitch]);
 }
 
-- (void)testMatcherAtIndex {
-  for (NSUInteger index = 0; index < 10; index++) {
-    id<GREYMatcher> matcher = grey_elementAtIndex(index);
-    for (NSUInteger i = 0; i < 10; i++) {
-      if (i == index) {
-        XCTAssertTrue([matcher matches:nil]);
-      } else {
-        XCTAssertFalse([matcher matches:nil]);
-      }
-    }
-  }
-}
-
 @end

@@ -65,6 +65,15 @@ UIKIT_EXTERN NSString *const kGREYXCTestCaseInstanceDidFinish;
 UIKIT_EXTERN NSString *const kGREYXCTestCaseNotificationKey;
 
 /**
+ *  Enumeration with the possible statuses of an XCTestCase.
+ */
+typedef NS_ENUM(NSUInteger, GREYXCTestCaseStatus) {
+  kGREYXCTestCaseStatusUnknown = 0,
+  kGREYXCTestCaseStatusPassed,
+  kGREYXCTestCaseStatusFailed,
+};
+
+/**
  *  Extends XCTestCase with capabilities to return current testcase and allows observing various
  *  states of test execution. Also allows clearing various states that can leak across from one
  *  testcase to another.
@@ -87,6 +96,11 @@ UIKIT_EXTERN NSString *const kGREYXCTestCaseNotificationKey;
  *  @return The name of the test class to which this message was sent.
  */
 - (NSString *)grey_testClassName;
+
+/**
+ *  @return The status of the currently running test.
+ */
+- (GREYXCTestCaseStatus)grey_status;
 
 /**
  *  Interrupts the current test case execution immediately, tears down the test and marks it as

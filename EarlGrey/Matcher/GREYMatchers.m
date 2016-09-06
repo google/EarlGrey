@@ -557,23 +557,6 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
                     nil);
 }
 
-+ (id<GREYMatcher>)matcherForElementAtIndex:(NSUInteger)index {
-  NSLog(@"grey_elementAtIndex() has been deprecated. Please use atIndex: instead.");
-  __block NSUInteger count = 0;
-  MatchesBlock matches = ^BOOL(id element) {
-    BOOL matched = (count == index);
-    count++;
-    return matched;
-  };
-  DescribeToBlock describe = ^void(id<GREYDescription> description) {
-    NSString *formattedDescription =
-        [NSString stringWithFormat:@"elementMatchedAtIndex:(%lu)", (unsigned long)index];
-    [description appendText:formattedDescription];
-  };
-
-  return [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe];
-}
-
 + (id<GREYMatcher>)matcherForScrolledToContentEdge:(GREYContentEdge)edge {
   MatchesBlock matches = ^BOOL(UIScrollView *scrollView) {
     CGPoint contentOffset = [scrollView contentOffset];
@@ -788,10 +771,6 @@ id<GREYMatcher> grey_lessThan(id value) {
 
 id<GREYMatcher> grey_greaterThan(id value) {
   return [GREYMatchers matcherForGreaterThan:value];
-}
-
-id<GREYMatcher> grey_elementAtIndex(NSUInteger index) {
-  return [GREYMatchers matcherForElementAtIndex:index];
 }
 
 id<GREYMatcher> grey_scrolledToContentEdge(GREYContentEdge edge) {
