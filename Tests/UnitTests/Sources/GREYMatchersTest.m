@@ -22,6 +22,17 @@
 
 #import "GREYBaseTest.h"
 
+#pragma mark - Test Helpers
+
+@interface CustomUIView : UIView
+@property(nonatomic, assign) BOOL accessibilityElementIsFocused;
+@end
+
+@implementation CustomUIView : UIView
+@end
+
+#pragma mark -
+
 @interface GREYMatchersTest : GREYBaseTest
 @end
 
@@ -307,6 +318,20 @@
   viewWithHint.accessibilityHint = @"An UIView with hint";
   id<GREYMatcher> hintMatcher = grey_accessibilityHint(@"Different hint");
   XCTAssertFalse([hintMatcher matches:viewWithHint], @"Matching a11y hint should return false");
+}
+
+- (void)testFocused {
+  CustomUIView *customUIView = [[CustomUIView alloc] init];
+  [customUIView setAccessibilityElementIsFocused:YES];
+  id<GREYMatcher> focusMatcher = grey_accessibilityFocused();
+  XCTAssertTrue([focusMatcher matches:customUIView], @"View should be focused");
+}
+
+- (void)testNotFocused {
+  CustomUIView *customUIView = [[CustomUIView alloc] init];
+  [customUIView setAccessibilityElementIsFocused:NO];
+  id<GREYMatcher> focusMatcher = grey_accessibilityFocused();
+  XCTAssertFalse([focusMatcher matches:customUIView], @"View should not be focused");
 }
 
 - (void)testMatchingTestPass {
