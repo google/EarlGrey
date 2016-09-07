@@ -39,7 +39,6 @@
 - (instancetype)initWithSliderValue:(float)value {
   self = [super initWithName:[NSString stringWithFormat:@"Slide to value: %g", value]
                  constraints:grey_allOf(grey_interactable(),
-                                        grey_not(grey_systemAlertViewShown()),
                                         grey_kindOfClass([UISlider class]),
                                         nil)];
   if (self) {
