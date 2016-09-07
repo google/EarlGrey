@@ -24,6 +24,7 @@
 #import "Assertion/GREYAssertions.h"
 #import "Common/GREYConfiguration.h"
 #import "Common/GREYDefines.h"
+#import "Common/GREYExposed.h"
 #import "Common/GREYPrivate.h"
 #import "Core/GREYElementFinder.h"
 #import "Core/GREYInteractionDataSource.h"
@@ -214,17 +215,26 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
       __typeof__(self) strongSelf = weakSelf;
       NSAssert(strongSelf, @"Must not be nil");
 
-      // Obtain all elements from the hierarchy and populate the passed error in case of
-      // an element not being found.
+      // Obtain all elements from the hierarchy and populate the passed error in case of an element
+      // not being found.
       NSError *elementNotFoundError = nil;
       NSArray *elements = [strongSelf matchedElementsWithTimeout:interactionTimeout
                                                            error:&elementNotFoundError];
       id element = nil;
-      if (elements) {
+      // We must check for system alert view after calling matchedElementsWithTimeout:error:,
+      // because a search action could have caused one to appear.
+      if ([[UIApplication sharedApplication] _isSpringBoardShowingAnAlert] &&
+          ![[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.springboard"]) {
+        interactionFailed = YES;
+        NSString *description = @"System alert view is displayed.";
+        actionError = [NSError errorWithDomain:kGREYInteractionErrorDomain
+                                          code:kGREYInteractionSystemAlertViewIsDisplayedErrorCode
+                                      userInfo:@{ NSLocalizedDescriptionKey : description }];
+        [actionUserInfo setObject:actionError forKey:kGREYActionErrorUserInfoKey];
+      } else if (elements) {
         // Get the uniquely matched element. If this is nil, then it means that there has been
         // an error in finding a unique element, such as multiple matcher error.
-        element = [strongSelf grey_uniqueElementInMatchedElements:elements
-                                                         andError:&actionError];
+        element = [strongSelf grey_uniqueElementInMatchedElements:elements andError:&actionError];
         if (element) {
           [actionUserInfo setObject:element forKey:kGREYActionElementUserInfoKey];
         } else {
@@ -520,6 +530,13 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
                                       @"%@Complete Error: %@",
                                       searchAPIInfo,
                                       actionError.localizedDescription);
+          return NO;
+        }
+        case kGREYInteractionSystemAlertViewIsDisplayedErrorCode: {
+          NSString *reason = [NSString stringWithFormat:@"Action '%@' was not performed because a "
+                                                        @"system alert view was displayed.",
+                                                        action.name];
+          I_GREYActionFail(reason, @"%@Complete Error: %@", searchAPIInfo, actionError);
           return NO;
         }
       }
