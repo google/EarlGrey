@@ -162,6 +162,19 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
                     nil);
 }
 
++ (id<GREYMatcher>)matcherForAccessibilityElementIsFocused {
+  MatchesBlock matches = ^BOOL(NSObject *element) {
+    return [element accessibilityElementIsFocused];
+  };
+  DescribeToBlock describe = ^void(id<GREYDescription> description) {
+    [description appendText:@"accessibilityFocused"];
+  };
+  id<GREYMatcher> matcher = [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches
+                                                                 descriptionBlock:describe];
+  return grey_allOf(grey_respondsToSelector(@selector(accessibilityElementIsFocused)),
+                    matcher, nil);
+}
+
 + (id<GREYMatcher>)matcherForText:(NSString *)text {
   return grey_allOf(grey_anyOf(grey_kindOfClass([UILabel class]),
                                grey_kindOfClass([UITextField class]),
@@ -646,6 +659,10 @@ id<GREYMatcher> grey_accessibilityTrait(UIAccessibilityTraits traits) {
 
 id<GREYMatcher> grey_accessibilityHint(NSString *hint) {
   return [GREYMatchers matcherForAccessibilityHint:hint];
+}
+
+id<GREYMatcher> grey_accessibilityFocused(void) {
+  return [GREYMatchers matcherForAccessibilityElementIsFocused];
 }
 
 id<GREYMatcher> grey_text(NSString *text) {

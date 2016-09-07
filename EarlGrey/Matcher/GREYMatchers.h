@@ -80,6 +80,13 @@
 + (id<GREYMatcher>)matcherForAccessibilityHint:(NSString *)hint;
 
 /**
+ *  Matcher for UI element with accessiblity focus.
+ *
+ *  @return A matcher for the accessibility focus of an accessible element.
+ */
++ (id<GREYMatcher>)matcherForAccessibilityElementIsFocused;
+
+/**
  *  Matcher for UI elements of type UIButton, UILabel, UITextField or UITextView displaying the
  *  provided @c inputText.
  *
@@ -415,6 +422,9 @@ GREY_EXPORT id<GREYMatcher> grey_accessibilityValue(NSString *grey_accessibility
 
 /** Shorthand for GREYMatchers::matcherForAccessibilityTraits:. */
 GREY_EXPORT id<GREYMatcher> grey_accessibilityTrait(UIAccessibilityTraits traits);
+
+/** Shorthand for GREYMatchers::matcherForAccessibilityElementIsFocused. */
+GREY_EXPORT id<GREYMatcher> grey_accessibilityFocused(void);
 
 /** Shorthand for GREYMatchers::matcherForAccessibilityHint:. */
 GREY_EXPORT id<GREYMatcher> grey_accessibilityHint(NSString *hint);
