@@ -355,6 +355,7 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
         // Check for multiple matchers since we don't want the assertion to be checked when this
         // error surfaces.
         multipleMatchesPresent =
+            [assertionError.domain isEqualToString:kGREYInteractionErrorDomain] &&
             (assertionError.code == kGREYInteractionMultipleElementsMatchedErrorCode ||
             assertionError.code == kGREYInteractionMatchedElementIndexOutOfBoundsErrorCode);
         [assertionUserInfo setObject:assertionError forKey:kGREYAssertionErrorUserInfoKey];
