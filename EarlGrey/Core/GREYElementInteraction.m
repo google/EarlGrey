@@ -113,14 +113,12 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
 
   GREYElementProvider *entireRootHierarchyProvider =
       [GREYElementProvider providerWithRootProvider:[strongDataSource rootElementProvider]];
-  id<GREYMatcher> elementMatcher = _elementMatcher;
-  if (_rootMatcher) {
-    elementMatcher = grey_allOf(elementMatcher, grey_ancestor(_rootMatcher), nil);
-  }
-  GREYElementFinder *elementFinder = [[GREYElementFinder alloc] initWithMatcher:elementMatcher];
+  id<GREYMatcher> matcher = _rootMatcher
+      ? grey_allOf(_elementMatcher, grey_ancestor(_rootMatcher), nil) : _elementMatcher;
+  GREYElementFinder *elementFinder = [[GREYElementFinder alloc] initWithMatcher:matcher];
   NSError *searchActionError = nil;
   CFTimeInterval timeoutTime = CACurrentMediaTime() + timeout;
-  BOOL timedOut = NO;
+
   while (YES) {
     @autoreleasepool {
       // Find the element in the current UI hierarchy.
@@ -128,50 +126,39 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
       if (elements.count > 0) {
         return elements;
       } else if (!_searchAction) {
-        if (error) {
-          NSString *desc =
-              @"Interaction cannot continue because the desired element was not found.";
-          *error = [NSError errorWithDomain:kGREYInteractionErrorDomain
-                                       code:kGREYInteractionElementNotFoundErrorCode
-                                   userInfo:@{ NSLocalizedDescriptionKey : desc }];
-        }
-        return nil;
+        NSString *description =
+            @"Interaction cannot continue because the desired element was not found.";
+        *error = [NSError errorWithDomain:kGREYInteractionErrorDomain
+                                     code:kGREYInteractionElementNotFoundErrorCode
+                                 userInfo:@{ NSLocalizedDescriptionKey : description }];
+        break;
       } else if (searchActionError) {
+        *error = [NSError errorWithDomain:kGREYInteractionErrorDomain
+                                     code:kGREYInteractionElementNotFoundErrorCode
+                                 userInfo:@{ NSUnderlyingErrorKey : searchActionError }];
+        break;
+      } else if (CACurrentMediaTime() >= timeoutTime) {
+        NSString *description = [NSString stringWithFormat:@"Interaction timed out after %g "
+                                                           @"seconds while searching for element.",
+                                                           timeout];
+        NSError *timeoutError =
+            [NSError errorWithDomain:kGREYInteractionErrorDomain
+                                code:kGREYInteractionTimeoutErrorCode
+                            userInfo:@{ NSLocalizedDescriptionKey : description }];
+        *error = [NSError errorWithDomain:kGREYInteractionErrorDomain
+                                     code:kGREYInteractionElementNotFoundErrorCode
+                                 userInfo:@{ NSUnderlyingErrorKey : timeoutError }];
         break;
       }
-
-      CFTimeInterval currentTime = CACurrentMediaTime();
-      if (currentTime >= timeoutTime) {
-        timedOut = YES;
-        break;
-      }
-      // Keep applying search action.
-      id<GREYInteraction> interaction =
-          [[GREYElementInteraction alloc] initWithElementMatcher:_searchActionElementMatcher];
-      // Don't fail if this interaction error's out. It might still have revealed the element
-      // we're looking for.
-      [interaction performAction:_searchAction error:&searchActionError];
+      // Keep applying search action. Don't fail if this interaction errors out. It might have
+      // revealed the element we are looking for.
+      [[[GREYElementInteraction alloc] initWithElementMatcher:_searchActionElementMatcher]
+          performAction:_searchAction error:&searchActionError];
       // Drain here so that search at the beginning of the loop looks at stable UI.
       [[GREYUIThreadExecutor sharedInstance] drainUntilIdle];
     }
   }
 
-  NSDictionary *userInfo = nil;
-  if (searchActionError) {
-    userInfo = @{ NSUnderlyingErrorKey : searchActionError };
-  } else if (timedOut) {
-    CFTimeInterval interactionTimeout =
-        GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
-    NSString *desc = [NSString stringWithFormat:@"Interaction timed out after %g seconds while "
-                                                @"searching for element.", interactionTimeout];
-    NSError *timeoutError = [NSError errorWithDomain:kGREYInteractionErrorDomain
-                                                code:kGREYInteractionTimeoutErrorCode
-                                            userInfo:@{ NSLocalizedDescriptionKey : desc }];
-    userInfo = @{ NSUnderlyingErrorKey : timeoutError };
-  }
-  *error = [NSError errorWithDomain:kGREYInteractionErrorDomain
-                               code:kGREYInteractionElementNotFoundErrorCode
-                           userInfo:userInfo];
   return nil;
 }
 
