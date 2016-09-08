@@ -52,11 +52,12 @@ static NSUInteger gUnknownTestExceptionCounter = 0;
   }
 
   NSMutableString *log = [[NSMutableString alloc] init];
-  // Start on fresh new line.
-  [log appendString:@"\n"];
-  [log appendFormat:@"Exception: %@\n", exception.name];
   NSString *reason =
       exception.reason.length > 0 ? exception.reason : @"exception.reason was not provided";
+  [log appendFormat:@"%@\n\n", reason];
+  [log appendFormat:@"Bundle ID: %@\n\n", [[NSBundle mainBundle] bundleIdentifier]];
+  [log appendFormat:@"Stack trace: %@\n\n", [NSThread callStackSymbols]];
+  [log appendFormat:@"Exception: %@\n", exception.name];
   [log appendFormat:@"Reason: %@\n", reason];
   if (details.length > 0) {
     [log appendFormat:@"%@\n", details];
@@ -111,15 +112,10 @@ static NSUInteger gUnknownTestExceptionCounter = 0;
   }
 
   if (currentTestCase) {
-    [currentTestCase grey_markAsFailedAtLine:_lineNumber
-                                      inFile:_fileName
-                                      reason:exception.reason
-                           detailDescription:log];
+    [currentTestCase grey_markAsFailedAtLine:_lineNumber inFile:_fileName description:log];
   } else {
     // Happens when exception is thrown outside a valid test context (i.e. +setUp, +tearDown, etc.)
-    [[GREYFrameworkException exceptionWithName:exception.name
-                                        reason:log
-                                      userInfo:nil] raise];
+    [[GREYFrameworkException exceptionWithName:exception.name reason:log userInfo:nil] raise];
   }
 }
 
