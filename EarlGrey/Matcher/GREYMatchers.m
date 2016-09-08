@@ -515,7 +515,10 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
     if (!referenceElement) {
       NSString *reason = @"Matcher for layout constraints failed: no UI element matching reference "
                          @"element matcher was found.";
-      I_GREYElementNotFound(reason, @"Reference element matcher: %@", referenceElementMatcher);
+      I_GREYRegisterFailure(kGREYNoMatchingElementException,
+                            reason,
+                            @"Reference element matcher: %@",
+                            referenceElementMatcher);
     } else if (referenceElements.count > 1) {
       NSString *reason = @"Matcher for layout constraints failed: multiple UI elements matching "
                          @"reference element matcher were found. Use grey_allOf(...) to create a "
@@ -525,8 +528,11 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
       [elementDescriptions enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         [elementDescriptions addObject:[obj grey_description]];
       }];
-      I_GREYMultipleElementsFound(reason, @"Reference element matcher: %@\nMatched elements: %@",
-                                          referenceElementMatcher, elementDescriptions);
+      I_GREYRegisterFailure(kGREYMultipleElementsFoundException,
+                            reason,
+                            @"Reference element matcher: %@\nMatched elements: %@",
+                            referenceElementMatcher,
+                            elementDescriptions);
     } else {
       NSAssert(!matchError, @"error was set even though 1 element was returned: %@", matchError);
     }

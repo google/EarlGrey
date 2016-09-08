@@ -56,7 +56,7 @@
                                              code:kGREYInteractionActionFailedErrorCode
                                          userInfo:@{ NSLocalizedDescriptionKey : description }];
       } else {
-        I_GREYActionFail(reason, details);
+        I_GREYRegisterFailure(kGREYActionFailedException, reason, details);
       }
       return NO;
     }

@@ -309,24 +309,6 @@ GREY_EXTERN id<GREYFailureHandler> greyFailureHandler;
 #define I_GREYFailWithDetails(__description, __details, ...)  \
   I_GREYRegisterFailure(kGREYGenericFailureException, __description, __details, ##__VA_ARGS__)
 
-#define I_GREYTimeout(__description, __details, ...) \
-  I_GREYRegisterFailure(kGREYTimeoutException, __description, __details, ##__VA_ARGS__)
-
-#define I_GREYActionFail(__description, __details, ...) \
-  I_GREYRegisterFailure(kGREYActionFailedException, __description, __details, ##__VA_ARGS__)
-
-#define I_GREYAssertionFail(__description, __details, ...) \
-  I_GREYRegisterFailure(kGREYAssertionFailedException, __description, __details, ##__VA_ARGS__)
-
-#define I_GREYElementNotFound(__description, __details, ...) \
-  I_GREYRegisterFailure(kGREYNoMatchingElementException, __description, __details, ##__VA_ARGS__)
-
-#define I_GREYMultipleElementsFound(__description, __details, ...) \
-  I_GREYRegisterFailure(kGREYMultipleElementsFoundException, \
-                        __description, \
-                        __details, \
-                        ##__VA_ARGS__)
-
 #define I_CHECK_MAIN_THREAD() \
   I_GREYAssertTrue([NSThread isMainThread], @"Must be on the main thread.")
 
