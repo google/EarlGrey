@@ -330,6 +330,16 @@
       [GREYActions grey_webSetText:element text:text];
     } else {
       [element setText:text];
+            // For UIControl-s, send actions for UIControlEventEditingChanged, as it is not sent when directly
+      // setting the text.
+      [element sendActionsForControlEvents:UIControlEventEditingChanged];
+      // For UITextField-s, send the UITextFieldTextDidChangeNotification notification, as it is not sent
+      // when directly setting the text.
+      if ([element isKindOfClass:[UITextField class]]) {
+        NSNotification *notification =
+            [NSNotification notificationWithName:UITextFieldTextDidChangeNotification object:element];
+        [NSNotificationCenter.defaultCenter postNotification:notification];
+      }
     }
     return YES;
   }];
