@@ -235,7 +235,7 @@ NSMutableArray *appWindows;
   }];
 
   NSDictionary *userInfo =
-      @{ NSLocalizedDescriptionKey : @"Reason for action failure was not provided." };
+      @{ NSLocalizedDescriptionKey : @"Action 'test' failed: no details given." };
   NSError *expectedError = [NSError errorWithDomain:kGREYInteractionErrorDomain
                                                code:kGREYInteractionActionFailedErrorCode
                                            userInfo:userInfo];
@@ -360,7 +360,7 @@ NSMutableArray *appWindows;
                     }];
 
   NSDictionary *userInfo =
-      @{ NSLocalizedDescriptionKey : @"Reason for assertion failure was not provided." };
+      @{ NSLocalizedDescriptionKey : @"Assertion 'name' failed: no details given." };
   NSError *expectedError = [NSError errorWithDomain:kGREYInteractionErrorDomain
                                                code:kGREYInteractionAssertionFailedErrorCode
                                            userInfo:userInfo];

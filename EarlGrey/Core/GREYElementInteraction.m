@@ -255,11 +255,11 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
         interactionFailed = YES;
         // Action didn't succeed yet no error was set.
         if (!actionError) {
-          NSDictionary *userInfo =
-              @{ NSLocalizedDescriptionKey : @"Reason for action failure was not provided." };
+          NSString *description =
+              [NSString stringWithFormat:@"%@ failed: no details given.", interactionName];
           actionError = [NSError errorWithDomain:kGREYInteractionErrorDomain
                                             code:kGREYInteractionActionFailedErrorCode
-                                        userInfo:userInfo];
+                                        userInfo:@{ NSLocalizedDescriptionKey : description }];
         }
         // Add the error obtained from the action to the user info notification dictionary.
         [actionUserInfo setObject:actionError forKey:kGREYActionErrorUserInfoKey];
@@ -282,13 +282,11 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
     if (!executionSucceeded) {
       if ([executorError.domain isEqualToString:kGREYUIThreadExecutorErrorDomain] &&
           executorError.code == kGREYUIThreadExecutorTimeoutErrorCode) {
-        NSString *actionTimeoutDesc =
-            [NSString stringWithFormat:@"Failed to perform action within %g seconds.",
-             interactionTimeout];
-        NSDictionary *userInfo = @{
-                                   NSUnderlyingErrorKey : executorError,
-                                   NSLocalizedDescriptionKey : actionTimeoutDesc,
-                                   };
+        NSString *description =
+            [NSString stringWithFormat:@"%@ failed: timed out after %g seconds.",
+                                       interactionName, interactionTimeout];
+        NSDictionary *userInfo = @{ NSUnderlyingErrorKey      : executorError,
+                                    NSLocalizedDescriptionKey : description };
         actionError = [NSError errorWithDomain:kGREYInteractionErrorDomain
                                           code:kGREYInteractionTimeoutErrorCode
                                       userInfo:userInfo];
@@ -380,11 +378,11 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
         }
         // Assertion didn't succeed yet no error was set.
         if (!assertionError) {
-          NSDictionary *userInfo =
-              @{ NSLocalizedDescriptionKey : @"Reason for assertion failure was not provided." };
+          NSString *description =
+              [NSString stringWithFormat:@"%@ failed: no details given.", interactionName];
           assertionError = [NSError errorWithDomain:kGREYInteractionErrorDomain
                                                code:kGREYInteractionAssertionFailedErrorCode
-                                           userInfo:userInfo];
+                                           userInfo:@{ NSLocalizedDescriptionKey : description }];
         }
         // Add the error obtained from the action to the user info notification dictionary.
         [assertionUserInfo setObject:assertionError forKey:kGREYAssertionErrorUserInfoKey];
@@ -409,16 +407,13 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
     if (!executionSucceeded) {
       if ([executorError.domain isEqualToString:kGREYUIThreadExecutorErrorDomain] &&
           executorError.code == kGREYUIThreadExecutorTimeoutErrorCode) {
-        NSString *assertionTimeoutDesc =
-            [NSString stringWithFormat:@"Failed to execute assertion within %g seconds.",
-             interactionTimeout];
-        NSDictionary *userInfo = @{
-                                   NSUnderlyingErrorKey : executorError,
-                                   NSLocalizedDescriptionKey : assertionTimeoutDesc,
-                                   };
+        NSString *description =
+            [NSString stringWithFormat:@"%@ failed: timed out after %g seconds.",
+                                       interactionName, interactionTimeout];
         assertionError = [NSError errorWithDomain:kGREYInteractionErrorDomain
                                              code:kGREYInteractionTimeoutErrorCode
-                                         userInfo:userInfo];
+                                         userInfo:@{ NSUnderlyingErrorKey      : executorError,
+                                                     NSLocalizedDescriptionKey : description }];
       }
     }
 
