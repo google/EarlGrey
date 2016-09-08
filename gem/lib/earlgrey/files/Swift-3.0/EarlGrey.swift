@@ -15,15 +15,15 @@
 //
 
 public func grey_allOfMatchers(args: AnyObject...) -> GREYMatcher! {
-  return GREYAllOf.init(matchers: args)
+  return GREYAllOf(matchers: args)
 }
 
 public func grey_anyOfMatchers(args: AnyObject...) -> GREYMatcher! {
-  return GREYAnyOf.init(matchers: args)
+  return GREYAnyOf(matchers: args)
 }
 
-public func EarlGrey() -> EarlGreyImpl! {
-  return EarlGreyImpl.invokedFromFile(#file, lineNumber: #line)
+public func EarlGrey(file: String = #file, line: UInt = #line) -> EarlGreyImpl! {
+  return EarlGreyImpl.invokedFromFile(file, lineNumber: line)
 }
 
 public func GREYAssert(@autoclosure expression: () -> BooleanType, reason: String) {
@@ -102,10 +102,10 @@ private func GREYAssert(@autoclosure expression: () -> BooleanType,
   }
 }
 
-private func GREYSetCurrentAsFailable() {
+private func GREYSetCurrentAsFailable(file: String = #file, line: UInt = #line) {
   let greyFailureHandlerSelector =
       #selector(GREYFailureHandler.setInvocationFile(_:andInvocationLine:))
   if greyFailureHandler.respondsToSelector(greyFailureHandlerSelector) {
-    greyFailureHandler.setInvocationFile!(#file, andInvocationLine: #line)
+    greyFailureHandler.setInvocationFile!(file, andInvocationLine: line)
   }
 }
