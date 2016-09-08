@@ -56,6 +56,10 @@ typedef NS_ENUM(NSInteger, GREYInteractionErrorCode) {
    *  found.
    */
   kGREYInteractionMatchedElementIndexOutOfBoundsErrorCode,
+  /**
+   *  System alert view is displayed.
+   */
+  kGREYInteractionSystemAlertViewIsDisplayedErrorCode,
 };
 
 /**
