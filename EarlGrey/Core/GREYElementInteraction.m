@@ -221,7 +221,7 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
       } else if (elements) {
         // Get the uniquely matched element. If this is nil, then it means that there has been
         // an error in finding a unique element, such as multiple matcher error.
-        element = [strongSelf grey_uniqueElementInMatchedElements:elements andError:&actionError];
+        element = [strongSelf grey_uniqueElementInMatchedElements:elements error:&actionError];
         if (element) {
           [actionUserInfo setObject:element forKey:kGREYActionElementUserInfoKey];
         } else {
@@ -325,7 +325,7 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
       NSArray *elements = [strongSelf matchedElementsWithTimeout:interactionTimeout
                                                            error:&elementNotFoundError];
       id element = (elements.count != 0) ?
-          [strongSelf grey_uniqueElementInMatchedElements:elements andError:&assertionError] : nil;
+          [strongSelf grey_uniqueElementInMatchedElements:elements error:&assertionError] : nil;
 
       // Create the user info dictionary for any notificatons and set it up with the assertion.
       NSMutableDictionary *assertionUserInfo = [[NSMutableDictionary alloc] init];
@@ -436,16 +436,15 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
 /**
  *  From the set of matched elements, obtain one unique element for the provided matcher. In case
  *  there are multiple elements matched, then the one selected by the _@c index provided is chosen
- *  else the provided @c interactionError is populated.
+ *  else the provided @c error is populated.
  *
- *  @param[out] interactionError A passed error for populating if multiple elements are found.
- *                               If this is nil then cases like multiple matchers cannot be checked
- *                               for.
+ *  @param[out] error The error to be populated on failure. Must not be nil.
  *
  *  @return A uniquely matched element, if any.
  */
-- (id)grey_uniqueElementInMatchedElements:(NSArray *)elements
-                                 andError:(__strong NSError **)interactionError {
+- (id)grey_uniqueElementInMatchedElements:(NSArray *)elements error:(__strong NSError **)error {
+  NSParameterAssert(error);
+
   // If we find that multiple matched elements are present, we narrow them down based on
   // any index passed or populate the passed error if the multiple matches are present and
   // an incorrect index was passed.
@@ -454,19 +453,39 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
     // matching. We perform a bounds check on the index provided here and throw an exception if
     // it fails.
     if (_index == NSUIntegerMax) {
-      *interactionError = [self grey_errorForMultipleMatchingElements:elements
-                                  withMatchedElementsIndexOutOfBounds:NO];
+      NSMutableArray *elementDescriptions = [NSMutableArray arrayWithCapacity:elements.count];
+      [elements enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [elementDescriptions addObject:[obj grey_description]];
+      }];
+      NSString *description =
+          [NSString stringWithFormat:@"Multiple elements were matched: %@. Use selection matchers"
+                                     @"to narrow the selection down to a single element.",
+                                     elementDescriptions];
+      *error = [NSError errorWithDomain:kGREYInteractionErrorDomain
+                                   code:kGREYInteractionMultipleElementsMatchedErrorCode
+                               userInfo:@{ NSLocalizedDescriptionKey : description }];
       return nil;
     } else if (_index >= elements.count) {
-      *interactionError = [self grey_errorForMultipleMatchingElements:elements
-                                  withMatchedElementsIndexOutOfBounds:YES];
+      NSMutableArray *elementDescriptions = [NSMutableArray arrayWithCapacity:elements.count];
+      [elements enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [elementDescriptions addObject:[obj grey_description]];
+      }];
+      NSString *description =
+          [NSString stringWithFormat:@"Multiple elements were matched: %@ but index %lu@ is out of "
+                                     @"bounds of the number of matched elements. Modify selection "
+                                     @"matchers or use element index between 0 and %tu.",
+                                     elementDescriptions,
+                                     (unsigned long)_index,
+                                     [elementDescriptions count] - 1];
+      *error = [NSError errorWithDomain:kGREYInteractionErrorDomain
+                                   code:kGREYInteractionMatchedElementIndexOutOfBoundsErrorCode
+                               userInfo:@{ NSLocalizedDescriptionKey : description }];
       return nil;
     } else {
       return [elements objectAtIndex:_index];
     }
   }
-  // If you haven't got a multiple / element not found error then you have one single matched
-  // element and can select it directly.
+  // No error: there are 0 or 1 elements in the array and we can return the first one, if any.
   return [elements firstObject];
 }
 
@@ -593,59 +612,6 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
   }
 
   return NO;
-}
-
-/**
- *  Provides an error with @c kGREYInteractionMultipleElementsMatchedErrorCode for multiple
- *  elements matching the specified matcher. In case we have multiple matchers and the Index
- *  provided for not matching with it is out of bounds, then we set the error code to
- *  @c kGREYInteractionMatchedElementIndexOutOfBoundsErrorCode.
- *
- *  @param matchingElements A set of matching elements.
- *  @param outOfBounds      A boolean that flags if the index for finding a matching element
- *                          is out of bounds.
- *
- *  @return Error for matching multiple elements.
- */
-- (NSError *)grey_errorForMultipleMatchingElements:(NSArray *)matchingElements
-               withMatchedElementsIndexOutOfBounds:(BOOL)outOfBounds {
-
-  // Populate an array with the matching elements that are causing the exception.
-  NSMutableArray *elementDescriptions =
-      [[NSMutableArray alloc] initWithCapacity:matchingElements.count];
-
-  [matchingElements enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-    [elementDescriptions addObject:[obj grey_description]];
-  }];
-
-  // Populate the multiple matching elements error.
-  NSString *errorDescription;
-  NSInteger errorCode;
-  if (outOfBounds) {
-    // Populate with an error specifying that the index provided for matching the multiple elements
-    // was out of bounds.
-    errorDescription = [NSString stringWithFormat:@"Multiple elements were matched: %@ with an "
-                                                  @"index that is out of bounds of the number of "
-                                                  @"matched elements. Please use an element "
-                                                  @"index from 0 to %tu",
-                                                  elementDescriptions,
-                                                  ([elementDescriptions count] - 1)];
-    errorCode = kGREYInteractionMatchedElementIndexOutOfBoundsErrorCode;
-  } else {
-    // Populate with an error specifying that multiple elements were matched without providing
-    // an index.
-    errorDescription = [NSString stringWithFormat:@"Multiple elements were matched: %@. Please "
-                                                  @"use selection matchers to narrow the "
-                                                  @"selection down to single element.",
-                                                  elementDescriptions];
-    errorCode = kGREYInteractionMultipleElementsMatchedErrorCode;
-  }
-
-  // Populate the user info for the multiple matching elements error.
-  NSDictionary *userInfo = @{ NSLocalizedDescriptionKey : errorDescription };
-  return [NSError errorWithDomain:kGREYInteractionErrorDomain
-                             code:errorCode
-                         userInfo:userInfo];
 }
 
 /**
