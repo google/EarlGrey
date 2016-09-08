@@ -98,9 +98,6 @@
 		59467E9B1C9373F00089498B /* FTRWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467DD51C9373A50089498B /* FTRWebViewController.m */; };
 		59467E9D1C9373F00089498B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467DD71C9373A50089498B /* main.m */; };
 		596D89BF1C05AB1600025714 /* EarlGrey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 596D89BE1C05AB0600025714 /* EarlGrey.framework */; };
-		61E4E0B31D7559A9007F9EE6 /* FTRImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 61E4E0B11D7559A9007F9EE6 /* FTRImageViewController.m */; };
-		61E4E0B41D7559A9007F9EE6 /* FTRImageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 61E4E0B21D7559A9007F9EE6 /* FTRImageViewController.xib */; };
-		61E4E0C31D755A9B007F9EE6 /* FTRPinchViewTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 61E4E0C11D755A5C007F9EE6 /* FTRPinchViewTest.m */; };
 		6130DF251D38B59500C25E6B /* EarlGrey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 596D89BE1C05AB0600025714 /* EarlGrey.framework */; };
 		6130DF271D38B5AA00C25E6B /* EarlGrey.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 596D89BE1C05AB0600025714 /* EarlGrey.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6135BD4B1D38841800F8B1EE /* EarlGrey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 596D89BE1C05AB0600025714 /* EarlGrey.framework */; };
@@ -131,6 +128,8 @@
 		615C88451D5359C500001D9A /* FTRUIWebViewTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467D7D1C9373A50089498B /* FTRUIWebViewTest.m */; };
 		615C88461D5359C800001D9A /* FTRVisibilityTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467D7E1C9373A50089498B /* FTRVisibilityTest.m */; };
 		615C88471D535A3500001D9A /* FTRFailureHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467D6D1C9373A50089498B /* FTRFailureHandler.m */; };
+		61E4E0B31D7559A9007F9EE6 /* FTRImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 61E4E0B11D7559A9007F9EE6 /* FTRImageViewController.m */; };
+		61E4E0B41D7559A9007F9EE6 /* FTRImageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 61E4E0B21D7559A9007F9EE6 /* FTRImageViewController.xib */; };
 		61EB6C351D52B7BF00A87450 /* FTRMultiprocessTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EB6C331D52B73500A87450 /* FTRMultiprocessTest.m */; };
 		61EB6C361D52B7C000A87450 /* FTRMultiprocessTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EB6C331D52B73500A87450 /* FTRMultiprocessTest.m */; };
 		FD193FF21BBDDBE800153959 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD193FF11BBDDBE800153959 /* CoreFoundation.framework */; };
@@ -389,14 +388,14 @@
 		59467DD61C9373A50089498B /* FTRWebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FTRWebViewController.xib; sourceTree = "<group>"; };
 		59467DD71C9373A50089498B /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		596D89B91C05AB0600025714 /* EarlGrey.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = EarlGrey.xcodeproj; path = ../../EarlGrey.xcodeproj; sourceTree = "<group>"; };
-		61E4E0B01D7559A9007F9EE6 /* FTRImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FTRImageViewController.h; sourceTree = "<group>"; };
-		61E4E0B11D7559A9007F9EE6 /* FTRImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FTRImageViewController.m; sourceTree = "<group>"; };
-		61E4E0B21D7559A9007F9EE6 /* FTRImageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FTRImageViewController.xib; sourceTree = "<group>"; };
-		61E4E0C11D755A5C007F9EE6 /* FTRPinchViewTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FTRPinchViewTest.m; sourceTree = "<group>"; };
 		6135BD2E1D38798200F8B1EE /* EarlGreyFunctionalSwiftUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EarlGreyFunctionalSwiftUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6135BD321D38798200F8B1EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6135BD3C1D3879AE00F8B1EE /* EarlGreyFunctionalUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EarlGreyFunctionalUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6135BD401D3879AE00F8B1EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		61E4E0B01D7559A9007F9EE6 /* FTRImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FTRImageViewController.h; sourceTree = "<group>"; };
+		61E4E0B11D7559A9007F9EE6 /* FTRImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FTRImageViewController.m; sourceTree = "<group>"; };
+		61E4E0B21D7559A9007F9EE6 /* FTRImageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FTRImageViewController.xib; sourceTree = "<group>"; };
+		61E4E0C11D755A5C007F9EE6 /* FTRPinchViewTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FTRPinchViewTest.m; sourceTree = "<group>"; };
 		61EB6C331D52B73500A87450 /* FTRMultiprocessTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FTRMultiprocessTest.m; sourceTree = "<group>"; };
 		FD193F2C1BBDDA4F00153959 /* FunctionalTestRig.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FunctionalTestRig.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD193FF11BBDDBE800153959 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
@@ -1059,7 +1058,6 @@
 				59467E491C9373B90089498B /* FTRLocalUIWebViewTest.m in Sources */,
 				59467E4A1C9373B90089498B /* FTRMatcherTest.m in Sources */,
 				59467E4B1C9373B90089498B /* FTRNetworkTest.m in Sources */,
-				61E4E0C31D755A9B007F9EE6 /* FTRPinchViewTest.m in Sources */,
 				59467E4C1C9373B90089498B /* FTROrientationChangeTest.m in Sources */,
 				59467E4D1C9373B90089498B /* FTROrientationPortraitOnlyChangeTest.m in Sources */,
 				59467E4E1C9373B90089498B /* FTRPickerViewInteractionTest.m in Sources */,
