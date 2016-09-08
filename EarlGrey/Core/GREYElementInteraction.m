@@ -196,6 +196,7 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
 
     // Assign a flag that provides info if the interaction being performed failed.
     __block BOOL interactionFailed = NO;
+    NSString *interactionName = [NSString stringWithFormat:@"Action '%@'", action.name];
     BOOL executionSucceeded =
         [[GREYUIThreadExecutor sharedInstance] executeSyncWithTimeout:interactionTimeout
                                                                 block:^{
@@ -259,9 +260,9 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
       // If we encounter a failure and going to raise an exception, raise it right away before
       // the main runloop drains any further.
       if (interactionFailed && !errorOrNil) {
-        [strongSelf grey_handleFailureOfAction:action
-                                   actionError:actionError
-                          userProvidedOutError:nil];
+        [strongSelf grey_failInteraction:interactionName
+                               exception:kGREYActionFailedException
+                                   error:actionError];
       }
     } error:&executorError];
 
@@ -283,9 +284,13 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
     // Since we assign all errors found to the @c actionError, if either of these failed then
     // we provide it for error handling.
     if (!executionSucceeded || interactionFailed) {
-      [self grey_handleFailureOfAction:action
-                           actionError:actionError
-                  userProvidedOutError:errorOrNil];
+      if (errorOrNil) {
+        *errorOrNil = actionError;
+      } else {
+        [self grey_failInteraction:interactionName
+                         exception:kGREYActionFailedException
+                             error:actionError];
+      }
     }
     // Drain once to update idling resources and redraw the screen.
     [[GREYUIThreadExecutor sharedInstance] drainOnce];
@@ -312,6 +317,7 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
         (CGFloat)GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
     // Assign a flag that provides info if the interaction being performed failed.
     __block BOOL interactionFailed = NO;
+    NSString *interactionName = [NSString stringWithFormat:@"Assertion '%@'", assertion.name];
     BOOL executionSucceeded =
         [[GREYUIThreadExecutor sharedInstance] executeSyncWithTimeout:interactionTimeout block:^{
       __typeof__(self) strongSelf = weakSelf;
@@ -384,9 +390,9 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
       // If we encounter a failure and going to raise an exception, raise it right away before
       // the main runloop drains any further.
       if (interactionFailed && !errorOrNil) {
-        [strongSelf grey_handleFailureOfAssertion:assertion
-                                   assertionError:assertionError
-                             userProvidedOutError:nil];
+        [strongSelf grey_failInteraction:interactionName
+                               exception:kGREYAssertionFailedException
+                                   error:assertionError];
       }
     } error:&executorError];
 
@@ -405,9 +411,13 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
     }
 
     if (!executionSucceeded || interactionFailed) {
-      [self grey_handleFailureOfAssertion:assertion
-                           assertionError:assertionError
-                     userProvidedOutError:errorOrNil];
+      if (errorOrNil) {
+        *errorOrNil = assertionError;
+      } else {
+        [self grey_failInteraction:interactionName
+                         exception:kGREYAssertionFailedException
+                             error:assertionError];
+      }
     }
   }
   return self;
@@ -432,6 +442,74 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
 }
 
 # pragma mark - Private
+
+/**
+ *  Handles failure of an @c interaction.
+ *
+ *  @param interactionName      Name of the failing action or assertion.
+ *  @param defaultExceptionName Default exception name for this type of interaction.
+ *  @param error                NSError object with information about the failure.
+ *  @throws NSException with the interaction failure is always thrown.
+ */
+- (void)grey_failInteraction:(NSString *)interactionName
+                   exception:(NSString *)defaultExceptionName
+                       error:(NSError *)error {
+  NSParameterAssert(interactionName);
+  NSParameterAssert(defaultExceptionName);
+  NSParameterAssert(error);
+
+  if ([error.domain isEqualToString:kGREYInteractionErrorDomain]) {
+    NSString *searchActionDescription = @"";
+    if (_searchAction) {
+      searchActionDescription =
+          [NSString stringWithFormat:@"Search action: %@. \nSearch action element matcher: %@.\n",
+                                     _searchAction, _searchActionElementMatcher];
+    }
+    // Customize exception based on the error.
+    switch (error.code) {
+      case kGREYInteractionElementNotFoundErrorCode: {
+        NSString *reason =
+            [NSString stringWithFormat:@"%@ was not performed because no UI element matching %@ "
+                                       @"was found.", interactionName, _elementMatcher];
+        I_GREYRegisterFailure(kGREYNoMatchingElementException,
+                              reason,
+                              @"%@Complete error: %@",
+                              searchActionDescription,
+                              error);
+      }
+      case kGREYInteractionMultipleElementsMatchedErrorCode: {
+        NSString *reason =
+            [NSString stringWithFormat:@"%@ was not performed because multiple UI elements "
+                                       @"matching %@ were found. Use grey_allOf(...) to create a "
+                                       @"more specific matcher.", interactionName, _elementMatcher];
+        // We print the localized description here to prevent multiple matchers info from being
+        // displayed twice - once in the error and once in the userInfo dict.
+        I_GREYRegisterFailure(kGREYMultipleElementsFoundException,
+                              reason,
+                              @"%@Complete error: %@",
+                              searchActionDescription,
+                              error.localizedDescription);
+      }
+      case kGREYInteractionSystemAlertViewIsDisplayedErrorCode: {
+        NSString *reason = [NSString stringWithFormat:@"%@ was not performed because a system "
+                                                      @"alert view was displayed.",
+                                                      interactionName];
+        I_GREYRegisterFailure(defaultExceptionName,
+                              reason,
+                              @"%@Complete error: %@",
+                              searchActionDescription,
+                              error);
+      }
+    }
+  }
+  // TODO: Add unique failure messages for timeout and other well-known reasons for failure.
+  NSString *reason = [NSString stringWithFormat:@"%@ failed.", interactionName];
+  I_GREYRegisterFailure(defaultExceptionName,
+                        reason,
+                        @"Element matcher: %@\nComplete error: %@",
+                        _elementMatcher,
+                        error);
+}
 
 /**
  *  From the set of matched elements, obtain one unique element for the provided matcher. In case
@@ -487,162 +565,6 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
   }
   // No error: there are 0 or 1 elements in the array and we can return the first one, if any.
   return [elements firstObject];
-}
-
-/**
- *  Handles failure of an @c action.
- *
- *  @param action                 The action that failed.
- *  @param actionError            Contains the reason for failure.
- *  @param[out] userProvidedError The out error (or nil) provided by the user.
- *  @throws NSException to denote the failure of an action, thrown if the @c userProvidedError
- *          is nil on test failure.
- *
- *  @return Junk boolean value to suppress xcode warning to have "a non-void return
- *          value to indicate an error occurred"
- */
-- (BOOL)grey_handleFailureOfAction:(id<GREYAction>)action
-                       actionError:(NSError *)actionError
-              userProvidedOutError:(__strong NSError **)userProvidedError {
-  NSParameterAssert(actionError);
-
-  // Throw an exception if userProvidedError isn't provided and the action failed.
-  if (!userProvidedError) {
-    if ([actionError.domain isEqualToString:kGREYInteractionErrorDomain]) {
-      NSString *searchAPIInfo = [self grey_searchActionDescription];
-
-      // Customize exception based on the error.
-      switch (actionError.code) {
-        case kGREYInteractionElementNotFoundErrorCode: {
-          NSString *reason =
-              [NSString stringWithFormat:@"Action '%@' was not performed because no UI element "
-                                         @"matching %@ was found.", action.name, _elementMatcher];
-          I_GREYRegisterFailure(kGREYNoMatchingElementException,
-                                reason,
-                                @"%@Complete Error: %@",
-                                searchAPIInfo,
-                                actionError);
-          return NO;
-        }
-        case kGREYInteractionMultipleElementsMatchedErrorCode: {
-          NSString *reason =
-             [NSString stringWithFormat:@"Action '%@' was not performed because multiple UI "
-                                        @"elements matching %@ were found. Use grey_allOf(...) to "
-                                        @"create a more specific matcher.",
-                                        action.name, _elementMatcher];
-          // We print the localized description here to prevent the multiple matchers info from
-          // being displayed twice - once in the error and once in the userInfo dict.
-          I_GREYRegisterFailure(kGREYMultipleElementsFoundException,
-                                reason,
-                                @"%@Complete Error: %@",
-                                searchAPIInfo,
-                                actionError.localizedDescription);
-          return NO;
-        }
-        case kGREYInteractionSystemAlertViewIsDisplayedErrorCode: {
-          NSString *reason = [NSString stringWithFormat:@"Action '%@' was not performed because a "
-                                                        @"system alert view was displayed.",
-                                                        action.name];
-          I_GREYRegisterFailure(kGREYActionFailedException,
-                                reason,
-                                @"%@Complete Error: %@",
-                                searchAPIInfo,
-                                actionError);
-          return NO;
-        }
-      }
-    }
-
-    // TODO: Add unique failure messages for timeout and other well-known reasons.
-    NSString *reason = [NSString stringWithFormat:@"Action '%@' failed.", action.name];
-    I_GREYRegisterFailure(kGREYActionFailedException,
-                          reason,
-                          @"Element matcher: %@\nComplete Error: %@",
-                          _elementMatcher,
-                          actionError);
-  } else {
-    *userProvidedError = actionError;
-  }
-
-  return NO;
-}
-
-/**
- *  Handles failure of an @c assertion.
- *
- *  @param assertion              The asserion that failed.
- *  @param assertionError         Contains the reason for the failure.
- *  @param elementNotFoundError   If non-nil, contains the underlying reason
- *                                for element not being found.
- *  @param[out] userProvidedError Error (or @c nil) provided by the user. When @c nil, an exception
- *                                is thrown to halt further execution of the test case.
- *  @throws NSException to denote an assertion failure, thrown if the @c userProvidedError
- *          is @c nil on test failure.
- *
- *  @return Junk boolean value to suppress xcode warning to have "a non-void return
- *          value to indicate an error occurred"
- */
-- (BOOL)grey_handleFailureOfAssertion:(id<GREYAssertion>)assertion
-                       assertionError:(NSError *)assertionError
-                 userProvidedOutError:(__strong NSError **)userProvidedError {
-  NSParameterAssert(assertionError);
-  // Throw an exception if userProvidedError isn't provided and the assertion failed.
-  if (!userProvidedError) {
-    if ([assertionError.domain isEqualToString:kGREYInteractionErrorDomain]) {
-      NSString *searchAPIInfo = [self grey_searchActionDescription];
-
-      // Customize exception based on the error.
-      switch (assertionError.code) {
-        case kGREYInteractionElementNotFoundErrorCode: {
-          NSString *reason =
-              [NSString stringWithFormat:@"Assertion '%@' was not performed because no UI element "
-                                         @"matching %@ was found.",
-                                         [assertion name], _elementMatcher];
-          I_GREYRegisterFailure(kGREYNoMatchingElementException,
-                                reason,
-                                @"%@Complete Error: %@",
-                                searchAPIInfo,
-                                assertionError);
-          return NO;
-        }
-        case kGREYInteractionMultipleElementsMatchedErrorCode: {
-          NSString *reason =
-              [NSString stringWithFormat:@"Assertion '%@' was not performed because multiple UI "
-                                         @"elements matching %@ were found. Use grey_allOf(...) to "
-                                         @"create a more specific matcher.",
-                                         [assertion name], _elementMatcher];
-          I_GREYRegisterFailure(kGREYMultipleElementsFoundException,
-                                reason,
-                                @"%@Complete Error: %@",
-                                searchAPIInfo,
-                                assertionError);
-          return NO;
-        }
-      }
-    }
-
-    // TODO: Add unique failure messages for timeout and other well-known reason for failure.
-    NSString *reason = [NSString stringWithFormat:@"Assertion '%@' failed.", assertion.name];
-    I_GREYRegisterFailure(kGREYAssertionFailedException, reason,
-                          @"Element matcher: %@\nComplete Error: %@",
-                          _elementMatcher, assertionError);
-  } else {
-    *userProvidedError = assertionError;
-  }
-
-  return NO;
-}
-
-/**
- *  @return A String description of the current search action.
- */
-- (NSString *)grey_searchActionDescription {
-  if (_searchAction) {
-    return [NSString stringWithFormat:@"Search action: %@. \nSearch action element matcher: %@.\n",
-            _searchAction, _searchActionElementMatcher];
-  } else {
-    return @"";
-  }
 }
 
 @end
