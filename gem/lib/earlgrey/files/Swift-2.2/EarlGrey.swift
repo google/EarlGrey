@@ -17,15 +17,15 @@
 import EarlGrey
 
 public func grey_allOfMatchers(args: AnyObject...) -> GREYMatcher! {
-  return GREYAllOf.init(matchers: args)
+  return GREYAllOf(matchers: args)
 }
 
 public func grey_anyOfMatchers(args: AnyObject...) -> GREYMatcher! {
-  return GREYAnyOf.init(matchers: args)
+  return GREYAnyOf(matchers: args)
 }
 
-public func EarlGrey() -> EarlGreyImpl! {
-  return EarlGreyImpl.invokedFromFile(__FILE__, lineNumber: __LINE__)
+public func EarlGrey(file: String = __FILE__, line: UInt = __LINE__) -> EarlGreyImpl! {
+  return EarlGreyImpl.invokedFromFile(file, lineNumber: line)
 }
 
 public func GREYAssert(@autoclosure expression: () -> BooleanType, reason: String) {
@@ -104,10 +104,10 @@ private func GREYAssert(@autoclosure expression: () -> BooleanType,
     }
 }
 
-private func GREYSetCurrentAsFailable() {
+private func GREYSetCurrentAsFailable(file: String = __FILE__, line: UInt = __LINE__) {
   let greyFailureHandlerSelector =
   Selector("GREYFailureHandler.setInvocationFile(__FILE__, andInvocationLine:__LINE__)")
   if greyFailureHandler.respondsToSelector(greyFailureHandlerSelector) {
-    greyFailureHandler.setInvocationFile!(__FILE__, andInvocationLine: __LINE__)
+    greyFailureHandler.setInvocationFile!(file, andInvocationLine: line)
   }
 }
