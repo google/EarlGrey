@@ -55,6 +55,8 @@ NSString *const kGREYAssertionUserInfoKey = @"kGREYAssertionUserInfoKey";
 NSString *const kGREYAssertionElementUserInfoKey = @"kGREYAssertionElementUserInfoKey";
 NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKey";
 
+typedef void (^GREYInteractionBlock)(id element, NSError *matchError, __strong NSError **error);
+
 @interface GREYElementInteraction() <GREYInteractionDataSource>
 @end
 
@@ -177,250 +179,8 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
   return [self performAction:action error:nil];
 }
 
-- (instancetype)performAction:(id<GREYAction>)action error:(__strong NSError **)errorOrNil {
-  NSParameterAssert(action);
-  I_CHECK_MAIN_THREAD();
-
-  @autoreleasepool {
-    NSError *executorError;
-    __block NSError *actionError = nil;
-    __weak __typeof__(self) weakSelf = self;
-
-    // Create the user info dictionary for any notificatons and set it up with the action.
-    NSMutableDictionary *actionUserInfo = [[NSMutableDictionary alloc] init];
-    [actionUserInfo setObject:action forKey:kGREYActionUserInfoKey];
-    NSNotificationCenter *defaultNotificationCenter = [NSNotificationCenter defaultCenter];
-
-    CFTimeInterval interactionTimeout =
-        GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
-
-    // Assign a flag that provides info if the interaction being performed failed.
-    __block BOOL interactionFailed = NO;
-    NSString *interactionName = [NSString stringWithFormat:@"Action '%@'", action.name];
-    BOOL executionSucceeded =
-        [[GREYUIThreadExecutor sharedInstance] executeSyncWithTimeout:interactionTimeout
-                                                                block:^{
-      __typeof__(self) strongSelf = weakSelf;
-      NSAssert(strongSelf, @"Must not be nil");
-
-      // Obtain all elements from the hierarchy and populate the passed error in case of an element
-      // not being found.
-      NSError *elementNotFoundError = nil;
-      NSArray *elements = [strongSelf matchedElementsWithTimeout:interactionTimeout
-                                                           error:&elementNotFoundError];
-      id element = nil;
-      // We must check for system alert view after calling matchedElementsWithTimeout:error:,
-      // because a search action could have caused one to appear.
-      if ([[UIApplication sharedApplication] _isSpringBoardShowingAnAlert] &&
-          ![[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.springboard"]) {
-        interactionFailed = YES;
-        NSString *description = @"System alert view is displayed.";
-        actionError = [NSError errorWithDomain:kGREYInteractionErrorDomain
-                                          code:kGREYInteractionSystemAlertViewIsDisplayedErrorCode
-                                      userInfo:@{ NSLocalizedDescriptionKey : description }];
-        [actionUserInfo setObject:actionError forKey:kGREYActionErrorUserInfoKey];
-      } else if (elements) {
-        // Get the uniquely matched element. If this is nil, then it means that there has been
-        // an error in finding a unique element, such as multiple matcher error.
-        element = [strongSelf grey_uniqueElementInMatchedElements:elements error:&actionError];
-        if (element) {
-          [actionUserInfo setObject:element forKey:kGREYActionElementUserInfoKey];
-        } else {
-          interactionFailed = YES;
-          [actionUserInfo setObject:actionError forKey:kGREYActionErrorUserInfoKey];
-        }
-      } else {
-        interactionFailed = YES;
-        actionError = elementNotFoundError;
-        [actionUserInfo setObject:elementNotFoundError forKey:kGREYActionErrorUserInfoKey];
-      }
-      // Post notification that the action is to be performed on the found element.
-      [defaultNotificationCenter postNotificationName:kGREYWillPerformActionNotification
-                                               object:nil
-                                             userInfo:actionUserInfo];
-
-      if (element && ![action perform:element error:&actionError]) {
-        interactionFailed = YES;
-        // Action didn't succeed yet no error was set.
-        if (!actionError) {
-          NSString *description =
-              [NSString stringWithFormat:@"%@ failed: no details given.", interactionName];
-          actionError = [NSError errorWithDomain:kGREYInteractionErrorDomain
-                                            code:kGREYInteractionActionFailedErrorCode
-                                        userInfo:@{ NSLocalizedDescriptionKey : description }];
-        }
-        // Add the error obtained from the action to the user info notification dictionary.
-        [actionUserInfo setObject:actionError forKey:kGREYActionErrorUserInfoKey];
-      }
-      // Post notification for the process of an action's execution being completed. This
-      // notification does not mean that the action was performed successfully.
-      [defaultNotificationCenter postNotificationName:kGREYDidPerformActionNotification
-                                               object:nil
-                                             userInfo:actionUserInfo];
-      // If we encounter a failure and going to raise an exception, raise it right away before
-      // the main runloop drains any further.
-      if (interactionFailed && !errorOrNil) {
-        [strongSelf grey_failInteraction:interactionName
-                               exception:kGREYActionFailedException
-                                   error:actionError];
-      }
-    } error:&executorError];
-
-    // Failure to execute due to timeout should be represented as interaction timeout.
-    if (!executionSucceeded) {
-      if ([executorError.domain isEqualToString:kGREYUIThreadExecutorErrorDomain] &&
-          executorError.code == kGREYUIThreadExecutorTimeoutErrorCode) {
-        NSString *description =
-            [NSString stringWithFormat:@"%@ failed: timed out after %g seconds.",
-                                       interactionName, interactionTimeout];
-        NSDictionary *userInfo = @{ NSUnderlyingErrorKey      : executorError,
-                                    NSLocalizedDescriptionKey : description };
-        actionError = [NSError errorWithDomain:kGREYInteractionErrorDomain
-                                          code:kGREYInteractionTimeoutErrorCode
-                                      userInfo:userInfo];
-      }
-    }
-
-    // Since we assign all errors found to the @c actionError, if either of these failed then
-    // we provide it for error handling.
-    if (!executionSucceeded || interactionFailed) {
-      if (errorOrNil) {
-        *errorOrNil = actionError;
-      } else {
-        [self grey_failInteraction:interactionName
-                         exception:kGREYActionFailedException
-                             error:actionError];
-      }
-    }
-    // Drain once to update idling resources and redraw the screen.
-    [[GREYUIThreadExecutor sharedInstance] drainOnce];
-  }
-  return self;
-}
-
 - (instancetype)assert:(id<GREYAssertion>)assertion {
   return [self assert:assertion error:nil];
-}
-
-- (instancetype)assert:(id<GREYAssertion>)assertion error:(__strong NSError **)errorOrNil {
-  NSParameterAssert(assertion);
-  I_CHECK_MAIN_THREAD();
-
-  @autoreleasepool {
-    NSError *executorError;
-    __block NSError *assertionError = nil;
-    __weak __typeof__(self) weakSelf = self;
-
-    NSNotificationCenter *defaultNotificationCenter = [NSNotificationCenter defaultCenter];
-
-    CGFloat interactionTimeout =
-        (CGFloat)GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
-    // Assign a flag that provides info if the interaction being performed failed.
-    __block BOOL interactionFailed = NO;
-    NSString *interactionName = [NSString stringWithFormat:@"Assertion '%@'", assertion.name];
-    BOOL executionSucceeded =
-        [[GREYUIThreadExecutor sharedInstance] executeSyncWithTimeout:interactionTimeout block:^{
-      __typeof__(self) strongSelf = weakSelf;
-      NSAssert(strongSelf, @"strongSelf must not be nil");
-
-      // An error object that holds error due to element not found (if any). It is used only when
-      // an assertion fails because element was nil. That's when we surface this error.
-      NSError *elementNotFoundError = nil;
-      // Obtain all elements from the hierarchy and populate the passed error in case of
-      // an element not being found.
-      NSArray *elements = [strongSelf matchedElementsWithTimeout:interactionTimeout
-                                                           error:&elementNotFoundError];
-      id element = (elements.count != 0) ?
-          [strongSelf grey_uniqueElementInMatchedElements:elements error:&assertionError] : nil;
-
-      // Create the user info dictionary for any notificatons and set it up with the assertion.
-      NSMutableDictionary *assertionUserInfo = [[NSMutableDictionary alloc] init];
-      [assertionUserInfo setObject:assertion forKey:kGREYAssertionUserInfoKey];
-
-      // Post notification for the assertion to be checked on the found element.
-      // We send the notification for an assert even if no element was found.
-      BOOL multipleMatchesPresent = NO;
-      if (element) {
-        [assertionUserInfo setObject:element forKey:kGREYAssertionElementUserInfoKey];
-      } else if (assertionError) {
-        // Check for multiple matchers since we don't want the assertion to be checked when this
-        // error surfaces.
-        multipleMatchesPresent =
-            [assertionError.domain isEqualToString:kGREYInteractionErrorDomain] &&
-            (assertionError.code == kGREYInteractionMultipleElementsMatchedErrorCode ||
-            assertionError.code == kGREYInteractionMatchedElementIndexOutOfBoundsErrorCode);
-        [assertionUserInfo setObject:assertionError forKey:kGREYAssertionErrorUserInfoKey];
-      }
-      [defaultNotificationCenter postNotificationName:kGREYWillPerformAssertionNotification
-                                               object:nil
-                                             userInfo:assertionUserInfo];
-
-      // In the case of an assertion, we can have a nil element present as well. For this purpose,
-      // we check the assertion directly and see if there was any issue. The only case where we
-      // are completely sure we do not need to perform the action is in the case of a multiple
-      // matcher.
-      if (multipleMatchesPresent) {
-        interactionFailed = YES;
-      } else if (![assertion assert:element error:&assertionError]) {
-        interactionFailed = YES;
-        // Set the elementNotFoundError to the assertionError since the error has been utilized
-        // already.
-        if ([assertionError.domain isEqualToString:kGREYInteractionErrorDomain] &&
-            (assertionError.code == kGREYInteractionElementNotFoundErrorCode)) {
-          assertionError = elementNotFoundError;
-        }
-        // Assertion didn't succeed yet no error was set.
-        if (!assertionError) {
-          NSString *description =
-              [NSString stringWithFormat:@"%@ failed: no details given.", interactionName];
-          assertionError = [NSError errorWithDomain:kGREYInteractionErrorDomain
-                                               code:kGREYInteractionAssertionFailedErrorCode
-                                           userInfo:@{ NSLocalizedDescriptionKey : description }];
-        }
-        // Add the error obtained from the action to the user info notification dictionary.
-        [assertionUserInfo setObject:assertionError forKey:kGREYAssertionErrorUserInfoKey];
-      }
-
-      // Post notification for the process of an assertion's execution on the specified element
-      // being completed. This notification does not mean that the assertion was performed
-      // successfully.
-      [defaultNotificationCenter postNotificationName:kGREYDidPerformAssertionNotification
-                                               object:nil
-                                             userInfo:assertionUserInfo];
-      // If we encounter a failure and going to raise an exception, raise it right away before
-      // the main runloop drains any further.
-      if (interactionFailed && !errorOrNil) {
-        [strongSelf grey_failInteraction:interactionName
-                               exception:kGREYAssertionFailedException
-                                   error:assertionError];
-      }
-    } error:&executorError];
-
-    // Failure to execute due to timeout should be represented as interaction timeout.
-    if (!executionSucceeded) {
-      if ([executorError.domain isEqualToString:kGREYUIThreadExecutorErrorDomain] &&
-          executorError.code == kGREYUIThreadExecutorTimeoutErrorCode) {
-        NSString *description =
-            [NSString stringWithFormat:@"%@ failed: timed out after %g seconds.",
-                                       interactionName, interactionTimeout];
-        assertionError = [NSError errorWithDomain:kGREYInteractionErrorDomain
-                                             code:kGREYInteractionTimeoutErrorCode
-                                         userInfo:@{ NSUnderlyingErrorKey      : executorError,
-                                                     NSLocalizedDescriptionKey : description }];
-      }
-    }
-
-    if (!executionSucceeded || interactionFailed) {
-      if (errorOrNil) {
-        *errorOrNil = assertionError;
-      } else {
-        [self grey_failInteraction:interactionName
-                         exception:kGREYAssertionFailedException
-                             error:assertionError];
-      }
-    }
-  }
-  return self;
 }
 
 - (instancetype)assertWithMatcher:(id<GREYMatcher>)matcher {
@@ -441,7 +201,159 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
   return self;
 }
 
+- (instancetype)performAction:(id<GREYAction>)action error:(__strong NSError **)errorOrNil {
+  NSParameterAssert(action);
+
+  NSString *name = [NSString stringWithFormat:@"Action '%@'", action.name];
+  [self grey_performInteraction:name
+                failedException:kGREYActionFailedException
+                     errorOrNil:errorOrNil
+               interactionBlock:^(id element, NSError *matchError, __strong NSError **error) {
+    NSParameterAssert(error);
+
+    if ([[UIApplication sharedApplication] _isSpringBoardShowingAnAlert] &&
+        ![[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.springboard"]) {
+      NSString *description = @"System alert view is displayed.";
+      *error = [NSError errorWithDomain:kGREYInteractionErrorDomain
+                                   code:kGREYInteractionSystemAlertViewIsDisplayedErrorCode
+                               userInfo:@{ NSLocalizedDescriptionKey : description }];
+    } else if (matchError) {
+      *error = matchError;
+    }
+    NSMutableDictionary *userInfo =
+        [NSMutableDictionary dictionaryWithDictionary:@{ kGREYActionUserInfoKey : action }];
+    if (element) {
+      [userInfo setObject:element forKey:kGREYActionElementUserInfoKey];
+    }
+    if (*error) {
+     [userInfo setObject:*error forKey:kGREYActionErrorUserInfoKey];
+    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:kGREYWillPerformActionNotification
+                                                        object:nil
+                                                      userInfo:userInfo];
+    // We only call perform:error: if element is not nil, as it is a default constraint for all
+    // actions. WillPerformAction and DidPerformAction notifications will always be sent, even if
+    // element is nil. Don't perform if error was already set (such as multiple elements error).
+    if (!*error && element && ![action perform:element error:error]) {
+      if (!*error) {
+        // Action didn't succeed yet no error was set.
+        NSString *description = [NSString stringWithFormat:@"%@ failed: no details given.", name];
+        *error = [NSError errorWithDomain:kGREYInteractionErrorDomain
+                                     code:kGREYInteractionActionFailedErrorCode
+                                 userInfo:@{ NSLocalizedDescriptionKey : description }];
+      }
+    }
+    if (*error) {
+      [userInfo setObject:*error forKey:kGREYActionErrorUserInfoKey];
+    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:kGREYDidPerformActionNotification
+                                                        object:nil
+                                                      userInfo:userInfo];
+  }];
+  // Drain once to update idling resources and redraw the screen.
+  [[GREYUIThreadExecutor sharedInstance] drainOnce];
+  return self;
+}
+
+- (instancetype)assert:(id<GREYAssertion>)assertion error:(__strong NSError **)errorOrNil {
+  NSParameterAssert(assertion);
+
+  NSString *name = [NSString stringWithFormat:@"Assertion '%@'", assertion.name];
+  [self grey_performInteraction:name
+                failedException:kGREYAssertionFailedException
+                     errorOrNil:errorOrNil
+               interactionBlock:^(id element, NSError *matchError, __strong NSError **error) {
+    NSParameterAssert(error);
+
+    NSMutableDictionary *userInfo =
+        [NSMutableDictionary dictionaryWithDictionary:@{ kGREYAssertionUserInfoKey : assertion }];
+    if (element) {
+      [userInfo setObject:element forKey:kGREYAssertionElementUserInfoKey];
+    }
+    if (*error) {
+     [userInfo setObject:*error forKey:kGREYAssertionErrorUserInfoKey];
+    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:kGREYWillPerformAssertionNotification
+                                                        object:nil
+                                                      userInfo:userInfo];
+    // Don't assert if error was already set (such as multiple elements error).
+    if (!*error && ![assertion assert:element error:error]) {
+      if (!*error) {
+        // Assertion didn't succeed yet no error was set.
+        NSString *description = [NSString stringWithFormat:@"%@ failed: no details given.", name];
+        *error = [NSError errorWithDomain:kGREYInteractionErrorDomain
+                                     code:kGREYInteractionAssertionFailedErrorCode
+                                 userInfo:@{ NSLocalizedDescriptionKey : description }];
+      }
+    }
+    if ([(*error).domain isEqualToString:kGREYInteractionErrorDomain] &&
+        (*error).code == kGREYInteractionElementNotFoundErrorCode) {
+      *error = matchError;
+    }
+    if (*error) {
+      [userInfo setObject:*error forKey:kGREYAssertionErrorUserInfoKey];
+    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:kGREYDidPerformAssertionNotification
+                                                        object:nil
+                                                      userInfo:userInfo];
+  }];
+  return self;
+}
+
 # pragma mark - Private
+
+- (BOOL)grey_performInteraction:(NSString *)interactionName
+                failedException:(NSString *)exceptionName
+                     errorOrNil:(__strong NSError **)errorOrNil
+               interactionBlock:(GREYInteractionBlock)interactionBlock {
+  I_CHECK_MAIN_THREAD();
+  NSParameterAssert(interactionName);
+  NSParameterAssert(exceptionName);
+  NSParameterAssert(interactionBlock);
+
+  NSError *executorError;
+  __block NSError *internalError = nil;
+  __weak __typeof__(self) weakSelf = self;
+  CFTimeInterval timeout = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
+
+  BOOL executed = [[GREYUIThreadExecutor sharedInstance] executeSyncWithTimeout:timeout block:^{
+    __typeof__(self) strongSelf = weakSelf;
+    NSAssert(strongSelf, @"strongSelf must not be nil");
+
+    @autoreleasepool {
+      NSError *matchError = nil;
+      NSArray *elements = [strongSelf matchedElementsWithTimeout:timeout error:&matchError];
+      id element = [strongSelf grey_uniqueElementInMatchedElements:elements error:&internalError];
+      interactionBlock(element, matchError, &internalError);
+    }
+    // If we encountered a failure and are going to raise an exception, raise it right away before
+    // the main runloop drains any further.
+    if (internalError && !errorOrNil) {
+      [strongSelf grey_failInteraction:interactionName exception:exceptionName error:internalError];
+    }
+  } error:&executorError];
+
+  // Failure to execute due to timeout should be represented as interaction timeout.
+  if ([executorError.domain isEqualToString:kGREYUIThreadExecutorErrorDomain] &&
+      executorError.code == kGREYUIThreadExecutorTimeoutErrorCode) {
+    NSString *description = [NSString stringWithFormat:@"%@ failed: timed out after %g seconds.",
+                                                       interactionName, timeout];
+    internalError = [NSError errorWithDomain:kGREYInteractionErrorDomain
+                                        code:kGREYInteractionTimeoutErrorCode
+                                    userInfo:@{ NSUnderlyingErrorKey      : executorError,
+                                                NSLocalizedDescriptionKey : description }];
+  } else if (!executed) {
+    NSAssert(executorError, @"executorError should be set if execution failed");
+    internalError = executorError;
+  }
+  if (internalError && errorOrNil) {
+    *errorOrNil = internalError;
+  } else if (internalError) {
+    [self grey_failInteraction:interactionName exception:exceptionName error:internalError];
+  }
+  // Method accepting NSError ** should have a non-void return value.
+  return !internalError;
+}
 
 /**
  *  Handles failure of an @c interaction.
