@@ -298,7 +298,7 @@ IOHIDEventRef IOHIDEventCreateDigitizerFingerEvent(CFAllocatorRef allocator,
 /**
  *  Sets the current UIKeyboard's delegate.
  *
- *  @param event The element to set the UIKeyboard's delegate to.
+ *  @param delegate The element to set the UIKeyboard's delegate to.
  */
 - (void)setDelegate:(id)delegate;
 @end

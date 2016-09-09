@@ -16,7 +16,6 @@
 
 #import "Action/GREYPinchAction.h"
 
-#import <OCHamcrest/HCStringDescription.h>
 #include <tgmath.h>
 
 #import "Additions/NSError+GREYAdditions.h"
