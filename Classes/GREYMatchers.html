@@ -366,6 +366,9 @@
                 <a href="../Functions.html#/c:@F@grey_accessibilityElement">grey_accessibilityElement</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_accessibilityFocused">grey_accessibilityFocused</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@grey_accessibilityHint">grey_accessibilityHint</a>
               </li>
               <li class="nav-group-task">
@@ -418,9 +421,6 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@grey_doubleTapAtPoint">grey_doubleTapAtPoint</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Functions.html#/c:@F@grey_elementAtIndex">grey_elementAtIndex</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@grey_enabled">grey_enabled</a>
@@ -523,6 +523,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@grey_scrolledToContentEdge">grey_scrolledToContentEdge</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_selected">grey_selected</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@grey_setDate">grey_setDate</a>
@@ -888,6 +891,38 @@
                       <div>
                         <h4>Return Value</h4>
                         <p>A matcher for the accessibility hint of an accessible element.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYMatchers(cm)matcherForAccessibilityElementIsFocused"></a>
+                    <a name="//apple_ref/objc/Method/+matcherForAccessibilityElementIsFocused" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYMatchers(cm)matcherForAccessibilityElementIsFocused">+matcherForAccessibilityElementIsFocused</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Matcher for UI element with accessiblity focus.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="n">matcherForAccessibilityElementIsFocused</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A matcher for the accessibility focus of an accessible element.</p>
 
                       </div>
                     </section>
@@ -1901,6 +1936,38 @@ In case if an unimplemented matcher
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/c:objc(cs)GREYMatchers(cm)matcherForSelectedElement"></a>
+                    <a name="//apple_ref/objc/Method/+matcherForSelectedElement" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYMatchers(cm)matcherForSelectedElement">+matcherForSelectedElement</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Matcher that verifies whether an element, that is a UIControl, is selected.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="n">matcherForSelectedElement</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A matcher for checking whether a UI element is a selected UIControl.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/c:objc(cs)GREYMatchers(cm)matcherForUserInteractionEnabled"></a>
                     <a name="//apple_ref/objc/Method/+matcherForUserInteractionEnabled" class="dashAnchor"></a>
                     <a class="token" href="#/c:objc(cs)GREYMatchers(cm)matcherForUserInteractionEnabled">+matcherForUserInteractionEnabled</a>
@@ -2384,82 +2451,6 @@ Please
                       <div>
                         <h4>Return Value</h4>
                         <p>A matcher that checks an object is greater than another provided @c</p>
-
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/c:objc(cs)GREYMatchers(cm)matcherForElementAtIndex:"></a>
-                    <a name="//apple_ref/objc/Method/+matcherForElementAtIndex:" class="dashAnchor"></a>
-                    <a class="token" href="#/c:objc(cs)GREYMatchers(cm)matcherForElementAtIndex:">+matcherForElementAtIndex:</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>A Matcher that in case where multiple elements are matched, returns the element matched at
-  the specified @c index.</p>
-
-<p>@remark The order of elements returned is not guaranteed by EarlGrey. Use this method
-          only when any element from a set of non-specific elements is to be selected. This
-          matchers only works if used at the end of the matcher list provided to @c grey_allOf().
-          It does not work with grey_anyOf(), by itself or at any other position in the order of
-          matchers sent to grey_allOf() since it has to iterate over a list of already matched
-          elements that would otherwise throw a multiple matchers exception, to select one at a
-          particular index.</p>
-
-<pre class="highlight plaintext"><code>      Usage:
-      @code
-      [EarlGrey selectElementWithMatcher:grey_allOf(fooAnyElementWithAxLabel(@"Foo"),
-                                                    grey_elementAtIndex(2), nil)];
-      @endcode
-      Here, we would match the third element matched by fooAnyElementWithAxLabel(). Notice
-      how the fooAnyElementWithAxLabel() matcher is so generic that it is simply looking for
-      one element out of many to match with.
-</code></pre>
-
-<p>@deprecated This is being phased out in favor of @c atIndex() in
-              GREYElementInteraction::atIndex.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForElementAtIndex</span><span class="p">:(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="nv">index</span><span class="p">;</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>index</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The index of the element to return from a list of elements.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
-                        <h4>Return Value</h4>
-                        <p>A matcher that returns the element specified at an @c
-from a list of non-unique
-         matched elements.</p>
 
                       </div>
                     </section>
