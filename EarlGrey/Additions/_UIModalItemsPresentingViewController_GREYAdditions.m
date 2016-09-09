@@ -29,11 +29,12 @@
     if (!iOS9_OR_ABOVE()) {
       GREYSwizzler *swizzler = [[GREYSwizzler alloc] init];
       IMP implementation = [self methodForSelector:@selector(greyswizzled_viewWillDisappear:)];
-      GREY_UNUSED_VARIABLE BOOL swizzled =
-          [swizzler swizzleClass:NSClassFromString(@"_UIModalItemsPresentingViewController")
-                   addInstanceMethod:@selector(greyswizzled_viewWillDisappear:)
-                  withImplementation:implementation
-        andReplaceWithInstanceMethod:@selector(viewWillDisappear:)];
+      Class clazz = NSClassFromString(@"_UIModalItemsPresentingViewController");
+      SEL swizzledSEL = @selector(greyswizzled_viewWillDisappear:);
+      GREY_UNUSED_VARIABLE BOOL swizzled = [swizzler swizzleClass:clazz
+                                                addInstanceMethod:swizzledSEL
+                                               withImplementation:implementation
+                                     andReplaceWithInstanceMethod:@selector(viewWillDisappear:)];
       NSAssert(swizzled,
                @"Failed to swizzle _UIModalItemsPresentingViewController::viewWillDisappear:");
     }

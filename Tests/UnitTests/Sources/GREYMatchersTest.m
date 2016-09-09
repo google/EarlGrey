@@ -18,6 +18,7 @@
 #import <EarlGrey/GREYExposed.h>
 #import <EarlGrey/GREYMatcher.h>
 #import <EarlGrey/GREYMatchers.h>
+#import <EarlGrey/GREYStringDescription.h>
 #import <OCMock/OCMock.h>
 
 #import "GREYBaseTest.h"
@@ -446,6 +447,23 @@
   id<GREYMatcher> matcher = grey_enabled();
   XCTAssertFalse([matcher matches:child],
                  @"Untappable child of tappable parent should not be tappable");
+}
+
+- (void)testIsSelected_isTrueForSelectedControl {
+  UIControl *control = [[UIControl alloc] init];
+  control.selected = YES;
+  id<GREYMatcher> matcher = grey_selected();
+  XCTAssertTrue([matcher matches:control], @"Selected controls should be matched");
+}
+
+- (void)testIsSelected_isFalseForUnselectedControl {
+  UIControl *control = [[UIControl alloc] init];
+  control.selected = NO;
+  id<GREYMatcher> matcher = grey_selected();
+  id<GREYDescription> description = [[GREYStringDescription alloc] init];
+  XCTAssertFalse([matcher matches:control describingMismatchTo:description],
+                 @"Unselected controls should not be matched");
+  XCTAssertTrue([[description description] isEqualToString:@"selected"]);
 }
 
 - (void)testIsUserInteractionEnabled_isTrueForEnabledView {

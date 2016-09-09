@@ -61,10 +61,9 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
 + (void)load {
   @autoreleasepool {
     GREYSwizzler *swizzler = [[GREYSwizzler alloc] init];
-    BOOL swizzleSuccess =
-        [swizzler swizzleClass:self
-            replaceInstanceMethod:@selector(invokeTest)
-                       withMethod:@selector(grey_invokeTest)];
+    BOOL swizzleSuccess = [swizzler swizzleClass:self
+                           replaceInstanceMethod:@selector(invokeTest)
+                                      withMethod:@selector(grey_invokeTest)];
     NSAssert(swizzleSuccess, @"Cannot swizzle XCTestCase invokeTest");
 
     SEL recordFailSEL = @selector(recordFailureWithDescription:inFile:atLine:expected:);

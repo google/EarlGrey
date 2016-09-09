@@ -346,6 +346,19 @@
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
+- (void)testButtonSelectedState {
+  [[EarlGrey selectElementWithMatcher:[GREYMatchers matcherForText:@"Tab 2"]]
+      performAction:[GREYActions actionForTap]];
+
+  id<GREYMatcher> buttonMatcher = grey_allOf(grey_kindOfClass([UIButton class]),
+                                             grey_descendant(grey_accessibilityLabel(@"Send")),
+                                             nil);
+
+  [[EarlGrey selectElementWithMatcher:buttonMatcher] assertWithMatcher:grey_not(grey_selected())];
+  [[EarlGrey selectElementWithMatcher:buttonMatcher] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:buttonMatcher] assertWithMatcher:grey_selected()];
+}
+
 #pragma mark - Private
 
 - (void)ftr_dismissWindow:(UITapGestureRecognizer *)sender {

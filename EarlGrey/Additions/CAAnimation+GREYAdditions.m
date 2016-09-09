@@ -35,8 +35,8 @@ static void const *const kStateTrackerElementIDKey = &kStateTrackerElementIDKey;
     // Swizzle delegate.
     GREY_UNUSED_VARIABLE BOOL swizzleSuccess =
         [swizzler swizzleClass:self
-            replaceInstanceMethod:@selector(delegate)
-                       withMethod:@selector(greyswizzled_delegate)];
+         replaceInstanceMethod:@selector(delegate)
+                    withMethod:@selector(greyswizzled_delegate)];
     NSAssert(swizzleSuccess, @"Cannot swizzle CAAnimation delegate");
   }
 }

@@ -49,7 +49,7 @@
 }
 
 - (NSString *)description {
-  return _description;
+  return _description ? _description : @"";
 }
 
 @end

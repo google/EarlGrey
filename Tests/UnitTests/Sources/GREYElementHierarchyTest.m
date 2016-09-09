@@ -116,16 +116,16 @@ const CGRect kTestRect = { { 0.0f, 0.0f }, { 10.0f, 10.0f } };
   UIView *viewB = [[UIView alloc] initWithFrame:kTestRect];
   UIView *viewC = [[UIView alloc] initWithFrame:kTestRect];
   UIView *viewD = [[UIView alloc] initWithFrame:kTestRect];
-  GREYUTCustomAccessibilityView *viewA = [[GREYUTCustomAccessibilityView alloc]
-                                        initWithObjects:@[ viewB, viewC, viewD ]];
+  GREYUTCustomAccessibilityView *viewA =
+      [[GREYUTCustomAccessibilityView alloc] initWithObjects:@[ viewB, viewC, viewD ]];
   NSArray *orderedViews = @[ viewB, viewC, viewD ];
   XCTAssertEqualObjects([GREYElementHierarchy grey_orderedChildrenOf:viewA], orderedViews);
 }
 
 - (void)testSortedChildViewsForCustomViewWithSingleAXView {
   UIView *viewB = [[UIView alloc] initWithFrame:kTestRect];
-  GREYUTCustomAccessibilityView *viewA = [[GREYUTCustomAccessibilityView alloc]
-                                        initWithObjects:@[viewB]];
+  GREYUTCustomAccessibilityView *viewA =
+      [[GREYUTCustomAccessibilityView alloc] initWithObjects:@[viewB]];
   NSArray *orderedViews = @[viewB];
   XCTAssertEqualObjects([GREYElementHierarchy grey_orderedChildrenOf:viewA], orderedViews);
 }
@@ -177,8 +177,8 @@ const CGRect kTestRect = { { 0.0f, 0.0f }, { 10.0f, 10.0f } };
   UIView *viewE = [[UIView alloc] initWithFrame:kTestRect];
   UIView *viewF = [[UIView alloc] initWithFrame:kTestRect];
   UIView *viewG = [[UIView alloc] initWithFrame:kTestRect];
-  GREYUTCustomAccessibilityView *viewA = [[GREYUTCustomAccessibilityView alloc]
-                                        initWithObjects:@[ viewD, viewE ]];
+  GREYUTCustomAccessibilityView *viewA =
+      [[GREYUTCustomAccessibilityView alloc] initWithObjects:@[ viewD, viewE ]];
   [viewA addSubview:viewB];
   [viewA addSubview:viewC];
   [viewB addSubview:viewF];
@@ -235,10 +235,10 @@ const CGRect kTestRect = { { 0.0f, 0.0f }, { 10.0f, 10.0f } };
 - (void)testStringForCascadingHierarchyWithBothSubviewsandAXViews {
   UIView *viewB = [[UIView alloc] initWithFrame:kTestRect];
   UIView *viewD = [[UIView alloc] initWithFrame:kTestRect];
-  GREYUTCustomAccessibilityView *viewC = [[GREYUTCustomAccessibilityView alloc]
-                                        initWithObjects:@[ viewD ]];
-  GREYUTCustomAccessibilityView *viewA = [[GREYUTCustomAccessibilityView alloc]
-                                        initWithObjects:@[ viewB ]];
+  GREYUTCustomAccessibilityView *viewC =
+      [[GREYUTCustomAccessibilityView alloc] initWithObjects:@[ viewD ]];
+  GREYUTCustomAccessibilityView *viewA =
+      [[GREYUTCustomAccessibilityView alloc] initWithObjects:@[ viewB ]];
   [viewB addSubview:viewC];
   NSString *stringHierarchy = [GREYElementHierarchy hierarchyStringForElement:viewA];
   NSArray *stringTargetHierarchy = @[ @"<GREYUTCustomAccessibilityView:",
@@ -304,8 +304,8 @@ const CGRect kTestRect = { { 0.0f, 0.0f }, { 10.0f, 10.0f } };
   UIView *viewB = [[UIView alloc] initWithFrame:kTestRect];
   UIView *viewC = [[UIView alloc] initWithFrame:kTestRect];
   UIView *viewD = [[UIView alloc] initWithFrame:kTestRect];
-  GREYUTCustomAccessibilityView *viewA = [[GREYUTCustomAccessibilityView alloc]
-                                       initWithObjects:@[ viewB, viewC ]];
+  GREYUTCustomAccessibilityView *viewA =
+      [[GREYUTCustomAccessibilityView alloc] initWithObjects:@[ viewB, viewC ]];
   [viewC addSubview:viewD];
   NSString *viewAAnnotation = @"This is the root AX |view| A";
   NSString *viewBAnnotation = @"This is a child of A called B";
@@ -355,8 +355,8 @@ const CGRect kTestRect = { { 0.0f, 0.0f }, { 10.0f, 10.0f } };
 
 - (void)testHierarchyStringForSingleAccessibilityElement {
   UIView *viewA = [[UIView alloc] initWithFrame:kTestRect];
-  UIAccessibilityElement *element = [[UIAccessibilityElement alloc]
-                                     initWithAccessibilityContainer:viewA];
+  UIAccessibilityElement *element =
+      [[UIAccessibilityElement alloc] initWithAccessibilityContainer:viewA];
   NSString *accessibilityIdentifier = @"AxElement";
   element.accessibilityIdentifier = accessibilityIdentifier;
   NSString *stringHierarchy = [GREYElementHierarchy hierarchyStringForElement:element
@@ -397,15 +397,15 @@ const CGRect kTestRect = { { 0.0f, 0.0f }, { 10.0f, 10.0f } };
 - (void)testHierarchyStringForViewWithAccessibilityElementsAndSubviews {
   UIView *viewForElementA = [[UIView alloc] initWithFrame:kTestRect];
   UIView *viewForElementB = [[UIView alloc] initWithFrame:kTestRect];
-  UIAccessibilityElement *elementA = [[UIAccessibilityElement alloc]
-                                          initWithAccessibilityContainer:viewForElementA];
-  UIAccessibilityElement *elementB = [[UIAccessibilityElement alloc]
-                                        initWithAccessibilityContainer:viewForElementB];
+  UIAccessibilityElement *elementA =
+      [[UIAccessibilityElement alloc] initWithAccessibilityContainer:viewForElementA];
+  UIAccessibilityElement *elementB =
+      [[UIAccessibilityElement alloc] initWithAccessibilityContainer:viewForElementB];
   UIView *viewA = [[UIView alloc] initWithFrame:kTestRect];
-  GREYUTCustomAccessibilityView *viewB = [[GREYUTCustomAccessibilityView alloc]
-                                        initWithObjects:@[ elementA ]];
-  GREYUTCustomAccessibilityView *viewC = [[GREYUTCustomAccessibilityView alloc]
-                                        initWithObjects:@[ elementB ]];
+  GREYUTCustomAccessibilityView *viewB =
+      [[GREYUTCustomAccessibilityView alloc] initWithObjects:@[ elementA ]];
+  GREYUTCustomAccessibilityView *viewC =
+      [[GREYUTCustomAccessibilityView alloc] initWithObjects:@[ elementB ]];
   UIView *viewD = [[UIView alloc] initWithFrame:kTestRect];
   [viewA addSubview:viewB];
   [viewA addSubview:viewC];
@@ -434,12 +434,12 @@ const CGRect kTestRect = { { 0.0f, 0.0f }, { 10.0f, 10.0f } };
   UIAccessibilityElement *elementC = [[UIAccessibilityElement alloc]
                                           initWithAccessibilityContainer:viewForElementC];
 
-  GREYUTCustomAccessibilityView *viewC = [[GREYUTCustomAccessibilityView alloc]
-                                        initWithObjects:@[ elementC ]];
-  GREYUTCustomAccessibilityView *viewB = [[GREYUTCustomAccessibilityView alloc]
-                                        initWithObjects:@[ viewC, elementB ]];
-  GREYUTCustomAccessibilityView *viewA = [[GREYUTCustomAccessibilityView alloc]
-                                        initWithObjects:@[ viewB, elementA ]];
+  GREYUTCustomAccessibilityView *viewC =
+      [[GREYUTCustomAccessibilityView alloc] initWithObjects:@[ elementC ]];
+  GREYUTCustomAccessibilityView *viewB =
+      [[GREYUTCustomAccessibilityView alloc] initWithObjects:@[ viewC, elementB ]];
+  GREYUTCustomAccessibilityView *viewA =
+      [[GREYUTCustomAccessibilityView alloc] initWithObjects:@[ viewB, elementA ]];
 
   NSString *stringHierarchy = [GREYElementHierarchy hierarchyStringForElement:viewA
                                                      withAnnotationDictionary:nil];
@@ -457,11 +457,11 @@ const CGRect kTestRect = { { 0.0f, 0.0f }, { 10.0f, 10.0f } };
 
 - (void)testHierarchyStringForAXViewWithAnnotations {
   UIView *viewForElementA = [[UIView alloc] initWithFrame:kTestRect];
-  UIAccessibilityElement *elementA = [[UIAccessibilityElement alloc]
-                                      initWithAccessibilityContainer:viewForElementA];
+  UIAccessibilityElement *elementA =
+      [[UIAccessibilityElement alloc] initWithAccessibilityContainer:viewForElementA];
   NSString *elementAAnnotation = @"This is Accessibility Element A";
-  NSDictionary *annotations = @{ [NSValue valueWithNonretainedObject:elementA] :
-                                     elementAAnnotation };
+  NSDictionary *annotations =
+      @{ [NSValue valueWithNonretainedObject:elementA]:elementAAnnotation };
   NSString *stringHierarchy = [GREYElementHierarchy hierarchyStringForElement:elementA
                                                      withAnnotationDictionary:annotations];
   NSString *targetString =
