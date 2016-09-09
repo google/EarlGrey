@@ -103,8 +103,8 @@ typedef NS_ENUM(NSUInteger, GREYXCTestCaseStatus) {
 - (GREYXCTestCaseStatus)grey_status;
 
 /**
- *  Interrupts the current test case execution immediately, tears down the test and marks it as
- *  failed.
+ *  Interrupts the current test case execution immediately and triggers XCTest's error handling
+ *  mechanism to invoke the appropriate methods to tear down the test.
  *
  *  @param line        Line number at which the failure occured.
  *  @param file        Name of the file in which the failure occured.
