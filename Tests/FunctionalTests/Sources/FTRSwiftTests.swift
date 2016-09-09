@@ -28,6 +28,8 @@ class FunctionalTestRigSwiftTests: XCTestCase {
       navController = delegateWindow.rootViewController!.navigationController
     }
     navController?.popToRootViewControllerAnimated(true)
+    textFieldChangedReceived = false
+    editingChangedReceived = false
   }
 
   func testOpeningView() {
@@ -37,6 +39,7 @@ class FunctionalTestRigSwiftTests: XCTestCase {
   func testTyping() {
     self.openTestView("Typing Views")
     EarlGrey().selectElementWithMatcher(grey_accessibilityID("TypingTextField"))
+        .performAction(registerForChanges())
         .performAction(grey_typeText("Sample Swift Test"))
         .assertWithMatcher(grey_text("Sample Swift Test"))
   }
@@ -44,8 +47,11 @@ class FunctionalTestRigSwiftTests: XCTestCase {
   func testFastTyping() {
     self.openTestView("Typing Views")
     EarlGrey().selectElementWithMatcher(grey_accessibilityID("TypingTextField"))
+        .performAction(registerForChanges())
         .performAction(grey_replaceText("Sample Swift Test"))
         .assertWithMatcher(grey_text("Sample Swift Test"))
+    GREYAssert(textFieldChangedReceived, reason: "Notification that text changed was not received")
+    GREYAssert(editingChangedReceived, reason: "Event that text changed was not received")
   }
 
   func testFastTypingOnWebView() {
@@ -152,5 +158,25 @@ class FunctionalTestRigSwiftTests: XCTestCase {
     }
 
     return GREYElementMatcherBlock.init(matchesBlock: matches, descriptionBlock: description)
+  }
+
+  func registerForChanges() -> GREYActionBlock {
+    NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(textFieldChanged), name: UITextFieldTextDidChangeNotification, object: nil)
+    return GREYActionBlock.actionWithName("Register to editing events") {
+      (element: AnyObject!, _: UnsafeMutablePointer<NSError?>) -> Bool in
+      element.addTarget(self, action: #selector(self.editingChanged), forControlEvents: .EditingChanged)
+      return true
+    }
+
+  }
+
+  var textFieldChangedReceived = false
+  @objc func textFieldChanged() {
+    textFieldChangedReceived = true
+  }
+
+  var editingChangedReceived = false
+  @objc func editingChanged() {
+    editingChangedReceived = true
   }
 }
