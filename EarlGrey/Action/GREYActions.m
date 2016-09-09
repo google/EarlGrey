@@ -329,11 +329,33 @@
     if ([element grey_isWebAccessibilityElement]) {
       [GREYActions grey_webSetText:element text:text];
     } else {
+      BOOL elementIsUITextField = [element isKindOfClass:[UITextField class]];
+
+      // Did begin editing notifications.
+      [element sendActionsForControlEvents:UIControlEventEditingDidBegin];
+      if (elementIsUITextField) {
+        NSNotification *notification =
+            [NSNotification notificationWithName:UITextFieldTextDidBeginEditingNotification object:element];
+        [NSNotificationCenter.defaultCenter postNotification:notification];
+      }
+
+      // Actually change the text.
       [element setText:text];
+
+      // Did change editing notifications.
       [element sendActionsForControlEvents:UIControlEventEditingChanged];
-      if ([element isKindOfClass:[UITextField class]]) {
+      if (elementIsUITextField) {
         NSNotification *notification =
             [NSNotification notificationWithName:UITextFieldTextDidChangeNotification object:element];
+        [NSNotificationCenter.defaultCenter postNotification:notification];
+      }
+
+      // Did end editing notifications.
+      [element sendActionsForControlEvents:UIControlEventEditingDidEndOnExit];
+      [element sendActionsForControlEvents:UIControlEventEditingDidEnd];
+      if (elementIsUITextField) {
+        NSNotification *notification =
+            [NSNotification notificationWithName:UITextFieldTextDidEndEditingNotification object:element];
         [NSNotificationCenter.defaultCenter postNotification:notification];
       }
     }

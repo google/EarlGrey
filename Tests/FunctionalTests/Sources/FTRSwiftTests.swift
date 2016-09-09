@@ -16,6 +16,43 @@
 
 import XCTest
 
+class TextFieldEventsRecorder {
+  var textDidBeginEditing = false
+  var textDidChange = false
+  var textDidEndEditing = false
+  var editingDidBegin = false
+  var editingChanged = false
+  var editingDidEndOnExit = false
+  var editingDidEnd = false
+
+  func registerActionBlock() -> GREYActionBlock {
+    NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(textDidBeginEditingHandler), name: UITextFieldTextDidBeginEditingNotification, object: nil)
+    NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(textDidChangeHandler), name: UITextFieldTextDidChangeNotification, object: nil)
+    NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(textDidEndEditingHandler), name: UITextFieldTextDidEndEditingNotification, object: nil)
+    return GREYActionBlock.actionWithName("Register to editing events") {
+      (element: AnyObject!, _: UnsafeMutablePointer<NSError?>) -> Bool in
+      element.addTarget(self, action: #selector(self.editingDidBeginHandler), forControlEvents: .EditingDidBegin)
+      element.addTarget(self, action: #selector(self.editingChangedHandler), forControlEvents: .EditingChanged)
+      element.addTarget(self, action: #selector(self.editingDidEndOnExitHandler), forControlEvents: .EditingDidEndOnExit)
+      element.addTarget(self, action: #selector(self.editingDidEndHandler), forControlEvents: .EditingDidEnd)
+      return true
+    }
+  }
+
+  func verify() -> Bool {
+    return textDidBeginEditing && textDidChange && textDidEndEditing &&
+      editingDidBegin && editingChanged && editingDidEndOnExit && editingDidEnd
+  }
+
+  @objc func textDidBeginEditingHandler() { textDidBeginEditing = true }
+  @objc func textDidChangeHandler() { textDidChange = true }
+  @objc func textDidEndEditingHandler() { textDidEndEditing = true }
+  @objc func editingDidBeginHandler() { editingDidBegin = true }
+  @objc func editingChangedHandler() { editingChanged = true }
+  @objc func editingDidEndOnExitHandler() { editingDidEndOnExit = true }
+  @objc func editingDidEndHandler() { editingDidEnd = true }
+}
+
 class FunctionalTestRigSwiftTests: XCTestCase {
 
   override func tearDown() {
@@ -28,8 +65,6 @@ class FunctionalTestRigSwiftTests: XCTestCase {
       navController = delegateWindow.rootViewController!.navigationController
     }
     navController?.popToRootViewControllerAnimated(true)
-    textFieldChangedReceived = false
-    editingChangedReceived = false
   }
 
   func testOpeningView() {
@@ -39,19 +74,18 @@ class FunctionalTestRigSwiftTests: XCTestCase {
   func testTyping() {
     self.openTestView("Typing Views")
     EarlGrey().selectElementWithMatcher(grey_accessibilityID("TypingTextField"))
-        .performAction(registerForChanges())
         .performAction(grey_typeText("Sample Swift Test"))
         .assertWithMatcher(grey_text("Sample Swift Test"))
   }
 
   func testFastTyping() {
     self.openTestView("Typing Views")
+    let textFieldEventsRecorder = TextFieldEventsRecorder()
     EarlGrey().selectElementWithMatcher(grey_accessibilityID("TypingTextField"))
-        .performAction(registerForChanges())
+        .performAction(textFieldEventsRecorder.registerActionBlock())
         .performAction(grey_replaceText("Sample Swift Test"))
         .assertWithMatcher(grey_text("Sample Swift Test"))
-    GREYAssert(textFieldChangedReceived, reason: "Notification that text changed was not received")
-    GREYAssert(editingChangedReceived, reason: "Event that text changed was not received")
+    GREYAssert(textFieldEventsRecorder.verify(), reason: "Text field events were not all received")
   }
 
   func testFastTypingOnWebView() {
@@ -158,24 +192,5 @@ class FunctionalTestRigSwiftTests: XCTestCase {
     }
 
     return GREYElementMatcherBlock.init(matchesBlock: matches, descriptionBlock: description)
-  }
-
-  func registerForChanges() -> GREYActionBlock {
-    NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(textFieldChanged), name: UITextFieldTextDidChangeNotification, object: nil)
-    return GREYActionBlock.actionWithName("Register to editing events") {
-      (element: AnyObject!, _: UnsafeMutablePointer<NSError?>) -> Bool in
-      element.addTarget(self, action: #selector(self.editingChanged), forControlEvents: .EditingChanged)
-      return true
-    }
-  }
-
-  var textFieldChangedReceived = false
-  @objc func textFieldChanged() {
-    textFieldChangedReceived = true
-  }
-
-  var editingChangedReceived = false
-  @objc func editingChanged() {
-    editingChangedReceived = true
   }
 }
