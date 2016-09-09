@@ -167,7 +167,6 @@ class FunctionalTestRigSwiftTests: XCTestCase {
       element.addTarget(self, action: #selector(self.editingChanged), forControlEvents: .EditingChanged)
       return true
     }
-
   }
 
   var textFieldChangedReceived = false
