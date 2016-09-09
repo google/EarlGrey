@@ -99,7 +99,8 @@ static NSUInteger gUnknownTestExceptionCounter = 0;
 
   // UI hierarchy and legend. Print windows from front to back, formatted for easier readability.
   [log appendString:@"\n\n"
-                    @"Application window hierarchy (ordered by window level, front to back):\n\n"
+                    @"Application window hierarchy (ordered by window level, front to back as "
+                    @"rendered):\n\n"
                     @"Legend:\n"
                     @"[Window 1] = [Frontmost Window]\n"
                     @"[AX] = [Accessibility]\n"
@@ -112,10 +113,14 @@ static NSUInteger gUnknownTestExceptionCounter = 0;
   }
 
   if (currentTestCase) {
-    [currentTestCase grey_markAsFailedAtLine:_lineNumber inFile:_fileName description:log];
+    [currentTestCase grey_markAsFailedAtLine:_lineNumber
+                                      inFile:_fileName
+                                 description:log];
   } else {
     // Happens when exception is thrown outside a valid test context (i.e. +setUp, +tearDown, etc.)
-    [[GREYFrameworkException exceptionWithName:exception.name reason:log userInfo:nil] raise];
+    [[GREYFrameworkException exceptionWithName:exception.name
+                                        reason:log
+                                      userInfo:nil] raise];
   }
 }
 
