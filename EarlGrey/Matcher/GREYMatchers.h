@@ -292,6 +292,13 @@
 + (id<GREYMatcher>)matcherForEnabledElement;
 
 /**
+ *  Matcher that verifies whether an element, that is a UIControl, is selected.
+ *
+ *  @return A matcher for checking whether a UI element is a selected UIControl.
+ */
++ (id<GREYMatcher>)matcherForSelectedElement;
+
+/**
  *  Matcher that verifies whether a view has its userInteractionEnabled property set to @c YES.
  *
  *  @return A matcher for checking whether a view' userInteractionEnabled property is set to @c YES.
@@ -491,6 +498,9 @@ GREY_EXPORT id<GREYMatcher> grey_datePickerValue(NSDate *date);
 
 /** Shorthand for GREYMatchers::matcherForEnabledElement. */
 GREY_EXPORT id<GREYMatcher> grey_enabled(void);
+
+/** Shorthand for GREYMatchers::matcherForSelectedElement. */
+GREY_EXPORT id<GREYMatcher> grey_selected(void);
 
 /** Shorthand for GREYMatchers::matcherForUserInteractionEnabled. */
 GREY_EXPORT id<GREYMatcher> grey_userInteractionEnabled(void);

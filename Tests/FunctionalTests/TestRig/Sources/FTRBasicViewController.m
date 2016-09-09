@@ -103,6 +103,7 @@
 - (IBAction)onSendClick:(id)sender {
   self.sampleLabel.text = [self.textField.text copy];
   self.textView.text = @"";
+  self.sendButton.selected = YES;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {

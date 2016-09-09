@@ -481,6 +481,19 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
   return grey_allOf(isEnabledMatcher, grey_not(grey_ancestor(grey_not(isEnabledMatcher))), nil);
 }
 
++ (id<GREYMatcher>)matcherForSelectedElement {
+  MatchesBlock matches = ^BOOL(UIControl *control) {
+    return [control isSelected];
+  };
+  DescribeToBlock describe = ^void(id<GREYDescription> description) {
+    [description appendText:@"selected"];
+  };
+  return grey_allOf(grey_kindOfClass([UIControl class]),
+                    [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches
+                                                         descriptionBlock:describe],
+                    nil);
+}
+
 + (id<GREYMatcher>)matcherForUserInteractionEnabled {
   MatchesBlock matches = ^BOOL(UIView *view) {
     return [view isUserInteractionEnabled];
@@ -747,6 +760,10 @@ id<GREYMatcher> grey_datePickerValue(NSDate *value) {
 
 id<GREYMatcher> grey_enabled(void) {
   return [GREYMatchers matcherForEnabledElement];
+}
+
+id<GREYMatcher> grey_selected(void) {
+  return [GREYMatchers matcherForSelectedElement];
 }
 
 id<GREYMatcher> grey_userInteractionEnabled(void) {
