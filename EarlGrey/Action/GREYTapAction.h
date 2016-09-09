@@ -96,7 +96,7 @@
  *  @param tapType      The type of the tap.
  *  @param numberOfTaps Number of times the element should be tapped.
  *  @param duration     The duration of the tap event if applicable.
- *  @param location     The location of the tap relative to the element recieving the touch
+ *  @param tapLocation  The location of the tap relative to the element recieving the touch
  *                      event.
  *
  *  @return An initialized (to the given parameters) instance of GREYTapAction.

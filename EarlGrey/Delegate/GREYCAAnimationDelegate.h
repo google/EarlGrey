@@ -28,7 +28,7 @@
 /**
  *  Creates an instance of GREYCAAnimationDelegate backed by the provided delegate.
  *
- *  @param delegate The original delegate being proxied.
+ *  @param originalDelegate The original delegate being proxied.
  *  @return an instance of GREYCAAnimationDelegate backed by the original delegate.
  */
 - (instancetype)initWithOriginalCAAnimationDelegate:(id)originalDelegate;

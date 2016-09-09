@@ -373,7 +373,7 @@
  *  determined by calling the @c isEqual: method of the object being examined. In case the @c
  *  value is @c nil, then the object itself is checked to be @c nil.
  *
- *  @param object The object to be checked for equality. Please ensure that scalar values are
+ *  @param value  The value to be checked for equality. Please ensure that scalar types are
  *                passed in as boxed (object) values.
  *
  *  @return A matcher that checks if an object is equal to the provided one.

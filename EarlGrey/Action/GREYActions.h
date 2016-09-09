@@ -87,7 +87,7 @@
  *  @param amount                 The amount scroll in points to inject.
  *  @param xOriginStartPercentage X coordinate of the start point specified as a percentage (0, 1)
  *                                exclusive, of the total width of the scrollable visible area.
- *  @param xOriginStartPercentage Y coordinate of the start point specified as a percentage (0, 1)
+ *  @param yOriginStartPercentage Y coordinate of the start point specified as a percentage (0, 1)
  *                                exclusive, of the total height of the scrollable visible area.
  *
  *  @return A GREYAction that scrolls a scroll view in a given @c direction for a given @c amount
@@ -114,7 +114,7 @@
  *  @param edge                   The edge towards which the scrolling is to take place.
  *  @param xOriginStartPercentage X coordinate of the start point specified as a percentage (0, 1)
  *                                exclusive, of the total width of the scrollable visible area.
- *  @param xOriginStartPercentage Y coordinate of the start point specified as a percentage (0, 1)
+ *  @param yOriginStartPercentage Y coordinate of the start point specified as a percentage (0, 1)
  *                                exclusive, of the total height of the scrollable visible area.
  *
  *  @return A GREYAction that scrolls to the given content @c edge of a scroll view with the scroll
@@ -297,8 +297,8 @@
  *  Returns an action that executes JavaScript against a UIWebView and sets the return value to
  *  @c outResult if provided.
  *
- *  @param js     The Javascript code to be executed.
- *  @param output The result of the code execution.
+ *  @param js        The Javascript code to be executed.
+ *  @param outResult The result of the code execution.
  *
  *  @return A GREYAction that executes JavaScript code against a UIWebView.
  */

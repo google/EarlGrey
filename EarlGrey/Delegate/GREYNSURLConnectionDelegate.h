@@ -34,7 +34,7 @@
 /**
  *  Creates an instance of GREYNSURLConnectionDelegate backed by the provided delegate.
  *
- *  @param delegate The original delegate being proxied.
+ *  @param originalDelegate The original delegate being proxied.
  *  @return an instance of GREYNSURLConnectionDelegate backed by the original delegate.
  */
 - (instancetype)initWithOriginalNSURLConnectionDelegate:(id)originalDelegate;

@@ -296,8 +296,8 @@ typedef NS_ENUM(NSInteger, GREYExecutionState) {
 }
 
 /**
- *  @param returnAfterFirstBusyResource A boolean flag to determine if this method should return
- *                                      immediately after finding one busy resource.
+ *  @param returnEarly A boolean flag to determine if this method should return
+ *                     immediately after finding one busy resource.
  *
  *  @return An ordered set the registered and default idling resources that are currently busy.
  */

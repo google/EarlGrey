@@ -95,8 +95,6 @@ static NSString *const kTrackingEndPoint = @"https://ssl.google-analytics.com";
  *  @param subCategory The sub-category value to be used for the created Analytics Event payload.
  *  @param valueOrNil  The value to be used for the created Analytics Event payload. The value
  *                     can be @c nil to indicate that value is not to be added to the payload.
- *
- *  @return A URL encoded string for the Analytics Event payload with the specified parameters.
  */
 - (void)trackEventWithTrackingID:(NSString *)trackingID
                         category:(NSString *)category
