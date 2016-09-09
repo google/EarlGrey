@@ -59,6 +59,7 @@
 		597E030E1D55BC930052A8D1 /* GREYScrollToContentEdgeAction.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001101C5B46C100B2DB0A /* GREYScrollToContentEdgeAction.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		597E030F1D55BC930052A8D1 /* GREYSlideAction.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001141C5B46C100B2DB0A /* GREYSlideAction.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		59A993281C99453200914F9A /* EarlGrey.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001791C5B46C200B2DB0A /* EarlGrey.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6113A2ED1D7F72FA00443D9B /* GREYStringDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = FD6D0BA01C6D494F0001EA75 /* GREYStringDescription.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		61156A521D1B2AC1000013C7 /* UIGestureRecognizer+GREYAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 61156A501D1B2AC1000013C7 /* UIGestureRecognizer+GREYAdditions.m */; };
 		611BF1681D4CD292001D9E46 /* GREYDispatchQueueTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 611BF1661D4CD292001D9E46 /* GREYDispatchQueueTracker.m */; };
 		611BF16B1D4CD705001D9E46 /* GREYManagedObjectContextIdlingResource.h in Headers */ = {isa = PBXBuildFile; fileRef = 611BF1691D4CD705001D9E46 /* GREYManagedObjectContextIdlingResource.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -869,6 +870,7 @@
 				597E02D81D55AD100052A8D1 /* GREYElementProvider.h in Headers */,
 				597E02D91D55AD100052A8D1 /* GREYUIWindowProvider.h in Headers */,
 				597E02DA1D55AD100052A8D1 /* GREYRunLoopSpinner.h in Headers */,
+				6113A2ED1D7F72FA00443D9B /* GREYStringDescription.h in Headers */,
 				597E02DB1D55AD100052A8D1 /* GREYAppStateTracker.h in Headers */,
 				597E02DD1D55AD100052A8D1 /* GREYTimedIdlingResource.h in Headers */,
 				597E02DC1D55AD100052A8D1 /* GREYDispatchQueueTracker.h in Headers */,
