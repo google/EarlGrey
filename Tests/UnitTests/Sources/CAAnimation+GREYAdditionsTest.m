@@ -53,9 +53,10 @@ static id gDelegate;
   _swizzler = [[GREYSwizzler alloc] init];
 
   // Swizzle setDelegate so we can tell if animation tracking logic was injected in init method.
-  BOOL swizzled = [_swizzler swizzleClass:[CAAnimation class]
-                      replaceInstanceMethod:@selector(setDelegate:)
-                                 withMethod:@selector(greyswizzled_test_setDelegate:)];
+  SEL swizzledSEL = @selector(greyswizzled_test_setDelegate:);
+  GREY_UNUSED_VARIABLE BOOL swizzled = [_swizzler swizzleClass:[CAAnimation class]
+                                         replaceInstanceMethod:@selector(setDelegate:)
+                                                    withMethod:swizzledSEL];
   NSAssert(swizzled, @"Could not swizzle CAAnimation setDelegate");
 }
 

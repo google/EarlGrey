@@ -27,8 +27,8 @@
     GREYSwizzler *swizzler = [[GREYSwizzler alloc] init];
     GREY_UNUSED_VARIABLE BOOL swizzleSuccess =
         [swizzler swizzleClass:self
-            replaceInstanceMethod:@selector(addTimer:forMode:)
-                       withMethod:@selector(greyswizzled_addTimer:forMode:)];
+         replaceInstanceMethod:@selector(addTimer:forMode:)
+                    withMethod:@selector(greyswizzled_addTimer:forMode:)];
     NSAssert(swizzleSuccess, @"Cannot swizzle NSRunLoop addTimer:forMode:");
   }
 }

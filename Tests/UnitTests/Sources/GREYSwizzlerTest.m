@@ -223,8 +223,8 @@
                  @"Never swizzled. Should not reset.");
 
   XCTAssertTrue([_swizzler swizzleClass:[GREYUTClassA class]
-                    replaceInstanceMethod:@selector(instanceMethod1)
-                               withMethod:@selector(instanceMethod2)],
+                  replaceInstanceMethod:@selector(instanceMethod1)
+                             withMethod:@selector(instanceMethod2)],
                 @"Swizzle should succeed");
 
   // Reset method 1, method 2 should remain
@@ -259,8 +259,8 @@
 
 - (void)testNotSwizzleSuperInstanceMethod {
   XCTAssertTrue([_swizzler swizzleClass:[GREYUTClassB class]
-                    replaceInstanceMethod:@selector(instanceMethod1)
-                               withMethod:@selector(instanceMethod2)],
+                  replaceInstanceMethod:@selector(instanceMethod1)
+                             withMethod:@selector(instanceMethod2)],
                 @"Swizzle should succeed");
   GREYUTClassB *objectB = [[GREYUTClassB alloc] init];
   GREYUTClassC *objectC = [[GREYUTClassC alloc] init];
@@ -290,9 +290,9 @@
   SEL addSel = @selector(instanceMethod2);
   IMP addIMP = [_objectA methodForSelector:addSel];
   BOOL swizzleSucceeded = [_swizzler swizzleClass:[GREYUTClassD class]
-                                         addInstanceMethod:addSel
-                                        withImplementation:addIMP
-                              andReplaceWithInstanceMethod:@selector(classDInstanceMethod)];
+                                addInstanceMethod:addSel
+                               withImplementation:addIMP
+                     andReplaceWithInstanceMethod:@selector(classDInstanceMethod)];
   XCTAssertTrue(swizzleSucceeded, @"Swizzling should succeed");
   XCTAssertEqualObjects([_objectD classDInstanceMethod], @"Class A Instance Method 2");
   [_swizzler resetInstanceMethod:@selector(classDInstanceMethod) class:[GREYUTClassD class]];
@@ -304,9 +304,9 @@
   SEL addSel = @selector(instanceMethod3);
   IMP addIMP = [_objectD methodForSelector:addSel];
   BOOL swizzleSucceeded = [_swizzler swizzleClass:[GREYUTClassD class]
-                                         addInstanceMethod:addSel
-                                        withImplementation:addIMP
-                              andReplaceWithInstanceMethod:@selector(instanceMethod1)];
+                                addInstanceMethod:addSel
+                               withImplementation:addIMP
+                     andReplaceWithInstanceMethod:@selector(instanceMethod1)];
   XCTAssertFalse(swizzleSucceeded,
                 @"Swizzling failed because the replaced method is not in the swizzled class");
   XCTAssertFalse([_objectD respondsToSelector:@selector(instanceMethod3)]);
@@ -316,9 +316,9 @@
   SEL addSel = @selector(instanceMethod1);
   IMP addIMP = [_objectA methodForSelector:addSel];
   BOOL swizzleSucceeded = [_swizzler swizzleClass:[GREYUTClassD class]
-                                         addInstanceMethod:addSel
-                                        withImplementation:addIMP
-                              andReplaceWithInstanceMethod:@selector(classDClassMethod)];
+                                addInstanceMethod:addSel
+                               withImplementation:addIMP
+                     andReplaceWithInstanceMethod:@selector(classDClassMethod)];
   XCTAssertFalse(swizzleSucceeded,
                  @"Swizzling failed because the method being replaced is a class method");
   XCTAssertEqualObjects([GREYUTClassD classDClassMethod], @"Class D Class Method");
@@ -329,9 +329,9 @@
   SEL addSel = @selector(classMethod3);
   IMP addIMP = [GREYUTClassA methodForSelector:addSel];
   BOOL swizzleSucceeded = [_swizzler swizzleClass:[GREYUTClassD class]
-                                         addInstanceMethod:addSel
-                                        withImplementation:addIMP
-                              andReplaceWithInstanceMethod:@selector(classDClassMethod)];
+                                addInstanceMethod:addSel
+                               withImplementation:addIMP
+                     andReplaceWithInstanceMethod:@selector(classDClassMethod)];
   XCTAssertFalse(swizzleSucceeded, @"Swizzling failed because the methods are class methods");
   XCTAssertEqualObjects([_objectD classDInstanceMethod1], @"Class D Instance Method 1");
   XCTAssertFalse([GREYUTClassD instancesRespondToSelector:addSel]);
@@ -341,9 +341,9 @@
   SEL addSel = @selector(classDInstanceMethod1);
   IMP addIMP = [_objectD methodForSelector:addSel];
   BOOL swizzleSucceeded = [_swizzler swizzleClass:[GREYUTClassD class]
-                                         addInstanceMethod:addSel
-                                        withImplementation:addIMP
-                              andReplaceWithInstanceMethod:@selector(classDInstanceMethod)];
+                                addInstanceMethod:addSel
+                               withImplementation:addIMP
+                     andReplaceWithInstanceMethod:@selector(classDInstanceMethod)];
   XCTAssertFalse(swizzleSucceeded, @"Selector Being Added already exists");
   XCTAssertTrue([GREYUTClassD instancesRespondToSelector:addSel]);
   XCTAssertEqualObjects([_objectD classDInstanceMethod], @"Class D Instance Method");
@@ -369,8 +369,8 @@
   SEL fakeSelector = NSSelectorFromString(@"garbageSEL");
 
   BOOL swizzleSucceeded = [_swizzler swizzleClass:[GREYUTClassD class]
-                              replaceInstanceMethod:fakeSelector
-                                         withMethod:swizzledSelector];
+                            replaceInstanceMethod:fakeSelector
+                                       withMethod:swizzledSelector];
 
   XCTAssertFalse(swizzleSucceeded,
                  @"Swizzle should Fail because the methods used are incorrect.");
@@ -380,9 +380,9 @@
 
 - (void)testSwizzleNilCheck_NilSelector {
   BOOL swizzleSucceeded = [_swizzler swizzleClass:[GREYUTClassD class]
-                                         addInstanceMethod:nil
-                                        withImplementation:nil
-                              andReplaceWithInstanceMethod:@selector(classDInstanceMethod)];
+                                addInstanceMethod:nil
+                               withImplementation:nil
+                     andReplaceWithInstanceMethod:@selector(classDInstanceMethod)];
   XCTAssertFalse(swizzleSucceeded, @"Swizzling failed because the swizzle with method is nil");
   XCTAssertEqualObjects([_objectD classDInstanceMethod], @"Class D Instance Method");
 }
@@ -391,9 +391,9 @@
   SEL addSel = @selector(instanceMethod3);
   IMP addIMP = [_objectA methodForSelector:addSel];
   BOOL swizzleSucceeded = [_swizzler swizzleClass:[GREYUTClassD class]
-                                         addInstanceMethod:addSel
-                                        withImplementation:addIMP
-                              andReplaceWithInstanceMethod:nil];
+                                addInstanceMethod:addSel
+                               withImplementation:addIMP
+                     andReplaceWithInstanceMethod:nil];
   XCTAssertFalse(swizzleSucceeded, @"Swizzling failed because the replacement method is nil");
   XCTAssertFalse([GREYUTClassD instancesRespondToSelector:addSel]);
   XCTAssertEqualObjects([_objectD classDInstanceMethod], @"Class D Instance Method");
@@ -403,9 +403,9 @@
   SEL addSel = @selector(instanceMethod3);
   IMP addIMP = [_objectA methodForSelector:addSel];
   BOOL swizzleSucceeded = [_swizzler swizzleClass:nil
-                                         addInstanceMethod:addSel
-                                        withImplementation:addIMP
-                              andReplaceWithInstanceMethod:@selector(classDInstanceMethod)];
+                                addInstanceMethod:addSel
+                               withImplementation:addIMP
+                     andReplaceWithInstanceMethod:@selector(classDInstanceMethod)];
   XCTAssertFalse(swizzleSucceeded, @"Swizzling failed because the class is nil");
   XCTAssertFalse([GREYUTClassD instancesRespondToSelector:addSel]);
 }
@@ -414,9 +414,9 @@
   SEL addSel = @selector(instanceMethod3);
   IMP addIMP = [GREYUTClassA methodForSelector:addSel];
   BOOL swizzleSucceeded = [_swizzler swizzleClass:[GREYUTClassD class]
-                                         addInstanceMethod:addSel
-                                        withImplementation:addIMP
-                              andReplaceWithInstanceMethod:@selector(classDInstanceMethod)];
+                                addInstanceMethod:addSel
+                               withImplementation:addIMP
+                     andReplaceWithInstanceMethod:@selector(classDInstanceMethod)];
   XCTAssertFalse(swizzleSucceeded, @"Swizzling failed because the an instance method's "
                     @"implementation is being obtained using a class method's utility");
   XCTAssertFalse([GREYUTClassD instancesRespondToSelector:addSel]);
@@ -426,9 +426,9 @@
   SEL addSel = @selector(classMethod1);
   IMP addIMP = [GREYUTClassA instanceMethodForSelector:addSel];
   BOOL swizzleSucceeded = [_swizzler swizzleClass:[GREYUTClassD class]
-                                         addInstanceMethod:addSel
-                                        withImplementation:addIMP
-                              andReplaceWithInstanceMethod:@selector(classDInstanceMethod)];
+                                addInstanceMethod:addSel
+                               withImplementation:addIMP
+                     andReplaceWithInstanceMethod:@selector(classDInstanceMethod)];
   XCTAssertFalse(swizzleSucceeded, @"Swizzling failed because a class method's "
                  @"implementation is being obtained using an instance method's utility");
   XCTAssertFalse([GREYUTClassD instancesRespondToSelector:addSel]);
