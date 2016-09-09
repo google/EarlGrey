@@ -3,6 +3,44 @@
 Details changes in each release of EarlGrey. EarlGrey follows
 [semantic versioning](http://semver.org/).
 
+## [1.3.0](https://github.com/google/EarlGrey/tree/1.3.0) (09/09/2016)
+
+```
+Baseline: [6b2f329]
+   + [6b2f329]: Add fixes for documentation.
+```
+
+### Compatibility
+* Requires iOS 8 as the minimum deployment target.
+* Has been tested for support till iOS 10 beta 4.
+
+### New Features
+
+* The following new matchers were added EarlGrey:
+  * `grey_selected`: Checks if a UIControl is selected.
+  * `grey_accessibilityFocused`: Checks if a UI element is focused by accessibility technologies
+  like Voiceover or Switch Control.
+
+### Enhancements
+* Added an API to find the `XCTestCase` status through an EarlGrey test run.
+* Improved the failure description in the failure handler.
+* Made the `EarlGrey.swift` file syntax swiftier.
+* Improved Unit and Functional test coverage.
+
+### Bug Fixes
+* Fixed Travis issue with the Ruby version.
+* Minor documentation and syntax fixes.
+
+### Deprecations
+* `grey_elementAtIndex` has been removed in favor of the `atIndex:` interaction API. For migrating
+  your tests, please follow the announcement
+  [here](https://groups.google.com/forum/#!topic/earlgrey-discuss/Q6RhxRhtRvo).
+
+### Contributors
+Special thanks to [axi0mX](https://github.com/axi0mX),
+[bootstraponline](https://github.com/bootstraponline),
+[KazuCocoa](https://github.com/KazuCocoa) and the rest of our contributors.
+
 ## [1.2.0](https://github.com/google/EarlGrey/tree/1.2.0) (08/31/2016)
 
 ```
