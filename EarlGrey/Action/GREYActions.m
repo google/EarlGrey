@@ -310,7 +310,7 @@
 /**
  *  Set the UITextField text value directly, bypassing the iOS keyboard.
  *
- *  @param text     The text to be typed.
+ *  @param text The text to be typed.
  *
  *  @return @c YES if the action succeeded, else @c NO. If an action returns @c NO, it does not
  *          mean that the action was not performed at all but somewhere during the action execution
@@ -329,7 +329,46 @@
     if ([element grey_isWebAccessibilityElement]) {
       [GREYActions grey_webSetText:element text:text];
     } else {
+      BOOL elementIsUIControl = [element isKindOfClass:[UIControl class]];
+      BOOL elementIsUITextField = [element isKindOfClass:[UITextField class]];
+
+      // Did begin editing notifications.
+      if (elementIsUIControl) {
+        [element sendActionsForControlEvents:UIControlEventEditingDidBegin];
+      }
+
+      if (elementIsUITextField) {
+        NSNotification *notification =
+            [NSNotification notificationWithName:UITextFieldTextDidBeginEditingNotification
+                                          object:element];
+        [NSNotificationCenter.defaultCenter postNotification:notification];
+      }
+
+      // Actually change the text.
       [element setText:text];
+
+      // Did change editing notifications.
+      if (elementIsUIControl) {
+        [element sendActionsForControlEvents:UIControlEventEditingChanged];
+      }
+      if (elementIsUITextField) {
+        NSNotification *notification =
+            [NSNotification notificationWithName:UITextFieldTextDidChangeNotification
+                                          object:element];
+        [NSNotificationCenter.defaultCenter postNotification:notification];
+      }
+
+      // Did end editing notifications.
+      if (elementIsUIControl) {
+        [element sendActionsForControlEvents:UIControlEventEditingDidEndOnExit];
+        [element sendActionsForControlEvents:UIControlEventEditingDidEnd];
+      }
+      if (elementIsUITextField) {
+        NSNotification *notification =
+            [NSNotification notificationWithName:UITextFieldTextDidEndEditingNotification
+                                          object:element];
+        [NSNotificationCenter.defaultCenter postNotification:notification];
+      }
     }
     return YES;
   }];
