@@ -40,6 +40,7 @@
   NSString *name =
       [NSString stringWithFormat:@"Set picker column %ld to value \"%@\"", (long)column, value];
   self = [super initWithName:name constraints:grey_allOf(grey_interactable(),
+                                                         grey_userInteractionEnabled(),
                                                          grey_not(grey_systemAlertViewShown()),
                                                          grey_kindOfClass([UIPickerView class]),
                                                          nil)];
