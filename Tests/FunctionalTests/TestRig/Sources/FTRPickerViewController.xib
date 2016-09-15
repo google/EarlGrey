@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="13F1077" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FTRPickerViewController">
@@ -12,6 +12,7 @@
                 <outlet property="dateLabel" destination="XMm-0B-uOK" id="z5c-bW-3XC"/>
                 <outlet property="datePicker" destination="nsh-tZ-mIw" id="ZAa-Ka-SLh"/>
                 <outlet property="datePickerSegmentedControl" destination="SKZ-9B-Fzx" id="JO0-1t-WVj"/>
+                <outlet property="disabledPicker" destination="337-zK-QgX" id="jU6-uC-Ugd"/>
                 <outlet property="view" destination="1" id="NcN-en-NCW"/>
             </connections>
         </placeholder>
@@ -34,6 +35,7 @@
                         <segment title="DateTime"/>
                         <segment title="Counter"/>
                         <segment title="Custom"/>
+                        <segment title="Disabled"/>
                     </segments>
                     <connections>
                         <action selector="valueChanged:" destination="-1" eventType="valueChanged" id="nWS-n6-KYk"/>
@@ -60,13 +62,15 @@
                         <action selector="clearDateLabelButtonTapped:" destination="-1" eventType="touchUpInside" id="mvT-Ug-LOM"/>
                     </connections>
                 </button>
+                <pickerView userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="337-zK-QgX">
+                    <rect key="frame" x="0.0" y="129" width="320" height="162"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="XRm-Up-6D1"/>
+                        <outlet property="delegate" destination="-1" id="LO7-do-cDW"/>
+                    </connections>
+                </pickerView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
         </view>
     </objects>
-    <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar"/>
-        <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4"/>
-    </simulatedMetricsContainer>
 </document>

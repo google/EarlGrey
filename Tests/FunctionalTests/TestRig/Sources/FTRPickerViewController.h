@@ -18,6 +18,7 @@
 
 @property(nonatomic, retain) IBOutlet UIPickerView *customPicker;
 @property(nonatomic, retain) IBOutlet UIDatePicker *datePicker;
+@property (weak, nonatomic) IBOutlet UIPickerView *disabledPicker;
 @property(nonatomic, retain) IBOutlet UISegmentedControl *datePickerSegmentedControl;
 @property(nonatomic, retain) IBOutlet UIButton *clearLabelButton;
 @property(weak, nonatomic) IBOutlet UILabel *dateLabel;

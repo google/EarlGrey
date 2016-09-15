@@ -26,6 +26,21 @@
   [self openTestViewNamed:@"Picker Views"];
 }
 
+- (void)testInteractionIsImpossibleIfInteractionDisabled {
+    [[EarlGrey selectElementWithMatcher:grey_text(@"Disabled")] performAction:grey_tap()];
+    
+    NSError *error;
+    
+    [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"DisabledPickerId")]
+     performAction:[GREYActions actionForSetPickerColumn:0 toValue:@"Green"]
+     error:&error];
+    
+    GREYAssertTrue(error.code == kGREYInteractionActionFailedErrorCode, @"code should match");
+    
+    [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"DisabledPickerId")]
+     assertWithMatcher:grey_pickerColumnSetToValue(0, @"Red")];
+}
+
 - (void)testDateOnlyPicker {
   NSString *dateString = @"1986/12/26";
   NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
