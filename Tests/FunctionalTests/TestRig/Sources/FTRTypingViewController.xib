@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="14F1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FTRTypingViewController">
@@ -19,19 +19,17 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Text Field" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="HbD-2h-bQc">
-                    <rect key="frame" x="20" y="132" width="280" height="30"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <textInputTraits key="textInputTraits" autocorrectionType="yes" spellCheckingType="yes"/>
-                </textField>
-                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" keyboardDismissMode="interactive" translatesAutoresizingMaskIntoConstraints="NO" id="F8N-FE-LqS">
-                    <rect key="frame" x="20" y="170" width="280" height="90"/>
-                    <color key="backgroundColor" red="0.91907269021739135" green="0.91907269021739135" blue="0.91907269021739135" alpha="1" colorSpace="calibratedRGB"/>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Never First Responder" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PBX-7b-uV2">
+                    <rect key="frame" x="20" y="75" width="280" height="30"/>
+                    <accessibility key="accessibilityConfiguration" label=""/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
-                </textView>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ugr-WT-H7I">
+                </textField>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ugr-WT-H7I">
                     <rect key="frame" x="167" y="103" width="133" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="133" id="Sle-WE-dbc"/>
+                    </constraints>
                     <state key="normal" title="next returnKeyType">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -39,14 +37,25 @@
                         <action selector="changeReturnKeyType:" destination="-1" eventType="touchUpInside" id="jOw-jE-AVj"/>
                     </connections>
                 </button>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Never First Responder" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PBX-7b-uV2">
-                    <rect key="frame" x="20" y="75" width="280" height="30"/>
-                    <accessibility key="accessibilityConfiguration" label=""/>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Text Field" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="HbD-2h-bQc">
+                    <rect key="frame" x="20" y="132" width="280" height="30"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" autocorrectionType="yes" spellCheckingType="yes"/>
+                </textField>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="interactive" translatesAutoresizingMaskIntoConstraints="NO" id="F8N-FE-LqS">
+                    <rect key="frame" x="20" y="170" width="280" height="90"/>
+                    <color key="backgroundColor" red="0.91907269021739135" green="0.91907269021739135" blue="0.91907269021739135" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="90" id="dkB-da-5H4"/>
+                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
-                </textField>
-                <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="D9d-aK-L7i">
-                    <rect key="frame" x="0.0" y="267" width="320" height="162"/>
+                </textView>
+                <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D9d-aK-L7i">
+                    <rect key="frame" x="23" y="274" width="274" height="153"/>
+                    <constraints>
+                        <constraint firstAttribute="height" relation="lessThanOrEqual" constant="153" id="tXv-0u-8eh"/>
+                    </constraints>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="LBq-of-PdJ"/>
                         <outlet property="delegate" destination="-1" id="iXT-ja-Und"/>
@@ -54,6 +63,22 @@
                 </pickerView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="ugr-WT-H7I" firstAttribute="top" secondItem="PBX-7b-uV2" secondAttribute="bottom" constant="-2" id="235-Sq-djF"/>
+                <constraint firstItem="D9d-aK-L7i" firstAttribute="top" secondItem="F8N-FE-LqS" secondAttribute="bottom" constant="14" id="7lt-2I-EnD"/>
+                <constraint firstItem="F8N-FE-LqS" firstAttribute="trailing" secondItem="HbD-2h-bQc" secondAttribute="trailing" id="8KB-Rw-Tc2"/>
+                <constraint firstItem="F8N-FE-LqS" firstAttribute="top" secondItem="HbD-2h-bQc" secondAttribute="bottom" constant="8" id="SR1-CW-I1F"/>
+                <constraint firstItem="D9d-aK-L7i" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Tl2-UC-MYa"/>
+                <constraint firstItem="HbD-2h-bQc" firstAttribute="leading" secondItem="PBX-7b-uV2" secondAttribute="leading" id="UEg-Pi-rj1"/>
+                <constraint firstItem="HbD-2h-bQc" firstAttribute="top" secondItem="ugr-WT-H7I" secondAttribute="bottom" constant="-1" id="bsg-uk-Fwm"/>
+                <constraint firstItem="D9d-aK-L7i" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="23" id="c0l-gT-H6D"/>
+                <constraint firstItem="F8N-FE-LqS" firstAttribute="leading" secondItem="HbD-2h-bQc" secondAttribute="leading" id="hnc-hX-M2h"/>
+                <constraint firstItem="ugr-WT-H7I" firstAttribute="leading" secondItem="PBX-7b-uV2" secondAttribute="leading" constant="147" id="iOu-FI-RjM"/>
+                <constraint firstItem="PBX-7b-uV2" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="75" id="lYW-um-p8F"/>
+                <constraint firstItem="PBX-7b-uV2" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="rKg-R1-50Z"/>
+                <constraint firstItem="PBX-7b-uV2" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="xxX-1T-fAt"/>
+                <constraint firstItem="HbD-2h-bQc" firstAttribute="trailing" secondItem="PBX-7b-uV2" secondAttribute="trailing" id="zCU-gO-eFg"/>
+            </constraints>
         </view>
     </objects>
 </document>
