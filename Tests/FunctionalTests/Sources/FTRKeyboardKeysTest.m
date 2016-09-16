@@ -440,9 +440,8 @@
 #pragma mark - Private
 
 - (void)ftr_typeString:(NSString *)string andVerifyOutput:(NSString *)verificationString {
-  [[[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
+  [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
       performAction:grey_typeText(string)]
-      performAction:grey_typeText(@"\n")]
       assertWithMatcher:grey_text(verificationString)];
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextView")]
       performAction:grey_typeText(string)]

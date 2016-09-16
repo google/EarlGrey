@@ -89,7 +89,7 @@ static NSString *const kReturnKeyIdentifier = @"\n";
     // Note: more, numbers label must be after shift and SHIFT labels, because it is also used for
     // the key for switching between keyplanes.
     gShiftKeyLabels =
-        @[ @"shift", @"Shift", @"SHIFT", @"more, symbols", @"more, numbers", @"more", @"MORE" ];
+        @[ @"shift", @"Shift", @"SHIFT",  @"more", @"more, symbols", @"more, numbers", @"MORE" ];
 
     gAlphabeticKeyplaneCharacters = [NSMutableCharacterSet uppercaseLetterCharacterSet];
     [gAlphabeticKeyplaneCharacters formUnionWithCharacterSet:
@@ -282,12 +282,16 @@ static NSString *const kReturnKeyIdentifier = @"\n";
   __block NSError *error;
   GREYCondition *shiftToggleSucceded =
       [GREYCondition conditionWithName:@"Shift key toggled keyplane" block:^BOOL() {
-     [GREYKeyboard grey_toggleShiftKeyWithError:&error];
-     key = [GREYKeyboard grey_findKeyForCharacter:accessibilityLabel];
-     return (key != nil) || (error != nil);
-   }];
+        key = [GREYKeyboard grey_findKeyForCharacter:accessibilityLabel];
+        if (!key) {
+          [GREYKeyboard grey_toggleShiftKeyWithError:&error];
+        }
+        key = [GREYKeyboard grey_findKeyForCharacter:accessibilityLabel];
+        return (key != nil) || (error != nil) || ![[key accessibilityLabel] isEqualToString:accessibilityLabel];
+      }];
 
-  BOOL didTimeOut = ![shiftToggleSucceded waitWithTimeout:kMaxShiftKeyToggleDuration];
+  BOOL didTimeOut = ![shiftToggleSucceded waitWithTimeout:kMaxShiftKeyToggleDuration
+                                             pollInterval:0.5];
   if (didTimeOut) {
     [NSError grey_logOrSetOutReferenceIfNonNil:&error
                                     withDomain:kGREYInteractionErrorDomain
@@ -394,7 +398,15 @@ static NSString *const kReturnKeyIdentifier = @"\n";
       if ((ignoreCase &&
            [[key accessibilityLabel] caseInsensitiveCompare:accessibilityLabel] == NSOrderedSame) ||
           (!ignoreCase && [[key accessibilityLabel] isEqualToString:accessibilityLabel])) {
-        return key;
+        if ([accessibilityLabel isEqualToString:@"shift"]) {
+          if ((ignoreCase &&
+               [[key accessibilityIdentifier] caseInsensitiveCompare:accessibilityLabel] == NSOrderedSame) ||
+              (!ignoreCase && [[key accessibilityIdentifier] isEqualToString:accessibilityLabel])){
+            return key;
+          }
+        } else {
+          return key;
+        }
       }
     }
   }
@@ -410,6 +422,23 @@ static NSString *const kReturnKeyIdentifier = @"\n";
   // Arbitrarily choose e/E as the key to look for to determine if alphabetic keyplane is shown.
   return [GREYKeyboard grey_findKeyForCharacter:@"e"] != nil
       || [GREYKeyboard grey_findKeyForCharacter:@"E"] != nil;
+}
+
+/**
+ *  A flag to check if the alphabetic keyplan is currently visible on the keyboard.
+ *
+ *  @return @c YES if the alphabetic keyplan is being shown on the keyboard, else @c NO.
+ */
++ (BOOL)grey_keyplane {
+  // Arbitrarily choose e/E as the key to look for to determine if alphabetic keyplane is shown.
+  if ([GREYKeyboard grey_findKeyForCharacter:@"e"] != nil) {
+    return 0;
+  }
+  if ([GREYKeyboard grey_findKeyForCharacter:@"E"] != nil) {
+    return 1;
+  }
+
+  return 2;
 }
 
 /**
@@ -434,7 +463,7 @@ static NSString *const kReturnKeyIdentifier = @"\n";
   NSLog(@"Tapping on key: %@.", [key accessibilityLabel]);
   [gTapKeyAction perform:key error:nil];
   [[[GREYKeyboard grey_keyboardObject] taskQueue] waitUntilAllTasksAreFinished];
-  [[GREYUIThreadExecutor sharedInstance] drainOnce];
+  [[GREYUIThreadExecutor sharedInstance] drainForTime:0.04];
 }
 
 /**

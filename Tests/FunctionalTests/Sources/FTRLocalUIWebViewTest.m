@@ -52,7 +52,9 @@
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"NEWS")]
       performAction:[GREYActions actionForTap]];
 
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"ALL")]
+  [[EarlGrey selectElementWithMatcher:grey_anyOf(grey_accessibilityLabel(@"All"),
+                                                 grey_accessibilityLabel(@"ALL"),
+                                                 nil)]
       performAction:[GREYActions actionForTap]];
 }
 
@@ -60,7 +62,11 @@
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"loadGoogle")]
       performAction:grey_tap()];
   id<GREYMatcher> nextPageMatcher =
-      grey_allOf(grey_accessibilityLabel(@"Next page"), grey_interactable(), nil);
+      grey_allOf(grey_anyOf(grey_accessibilityLabel(@"Next"),
+                            grey_accessibilityLabel(@"Next page"),
+                            nil),
+                 grey_interactable(),
+                 nil);
   [[[EarlGrey selectElementWithMatcher:nextPageMatcher]
       usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 200)
       onElementWithMatcher:grey_kindOfClass([UIWebView class])]
@@ -73,10 +79,17 @@
 - (void)testTextFieldInteraction {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"loadGoogle")]
       performAction:grey_tap()];
-  id<GREYMatcher> searchButtonMatcher = grey_accessibilityHint(@"Search");
+  id<GREYMatcher> searchButtonMatcher =
+  grey_allOf(grey_anyOf(grey_accessibilityHint(@"Search"),
+                        grey_accessibilityLabel(@"Search"),
+                        nil),
+             grey_not(grey_kindOfClass(NSClassFromString(@"UIAccessibilityElementKBKey"))),
+             nil);
+
   [self ftr_waitForWebElementWithName:@"Search Button" elementMatcher:searchButtonMatcher];
-  [[[EarlGrey selectElementWithMatcher:searchButtonMatcher]
-      performAction:grey_clearText()]
+  [[EarlGrey selectElementWithMatcher:searchButtonMatcher]
+      performAction:grey_clearText()];
+  [[EarlGrey selectElementWithMatcher:searchButtonMatcher]
       performAction:grey_typeText(@"20 + 22\n")];
 
   [self ftr_waitForWebElementWithName:@"Search Button" elementMatcher:grey_accessibilityLabel(@"42")];
@@ -86,10 +99,9 @@
   // We need to tap because the second time we do typeAfterClearing, it passes firstResponder check
   // and never ends up auto-tapping on search field.
   [[EarlGrey selectElementWithMatcher:searchButtonMatcher]
-      performAction:grey_tap()];
+      performAction:grey_clearText()];
 
-  [[[EarlGrey selectElementWithMatcher:searchButtonMatcher]
-      performAction:grey_clearText()]
+  [[EarlGrey selectElementWithMatcher:searchButtonMatcher]
       performAction:grey_typeText(@"Who wrote Star Wars IV - A New Hope?\n")];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Google Search")]
       performAction:grey_tap()];
@@ -108,7 +120,14 @@
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"FTRTestWebView")]
       performAction:jsAction];
 
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"IMAGES")]
+  id<GREYMatcher> imageMatcher =
+      grey_allOf(grey_anyOf(grey_accessibilityLabel(@"IMAGES"),
+                            grey_accessibilityLabel(@"Images"),
+                            nil),
+                 grey_accessibilityTrait(UIAccessibilityTraitLink),
+                 grey_not(grey_accessibilityTrait(UIAccessibilityTraitStaticText)),
+                 nil);
+  [[EarlGrey selectElementWithMatcher:imageMatcher]
       assertWithMatcher:grey_sufficientlyVisible()];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"FTRTestWebView")] performAction:
