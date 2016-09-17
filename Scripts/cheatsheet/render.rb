@@ -39,7 +39,7 @@ begin
   screenshot = eyes_browser.fullpage_screenshot
 
   # remove right hand scrollbars by cropping.
-  crop_width = screenshot.width - Integer((screenshot.width * 5.2/100))
+  crop_width = screenshot.width - 20
   screenshot.crop!(0, 0, crop_width, screenshot.height)
   screenshot.save(cheatsheet_png, :best_compression)
 ensure
