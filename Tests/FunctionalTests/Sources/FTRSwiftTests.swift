@@ -26,15 +26,25 @@ class TextFieldEventsRecorder {
   var editingDidEnd = false
 
   func registerActionBlock() -> GREYActionBlock {
-    NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(textDidBeginEditingHandler), name: UITextFieldTextDidBeginEditingNotification, object: nil)
-    NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(textDidChangeHandler), name: UITextFieldTextDidChangeNotification, object: nil)
-    NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(textDidEndEditingHandler), name: UITextFieldTextDidEndEditingNotification, object: nil)
+    NSNotificationCenter.defaultCenter().addObserver(self,
+      selector: #selector(textDidBeginEditingHandler),
+      name: UITextFieldTextDidBeginEditingNotification, object: nil)
+    NSNotificationCenter.defaultCenter().addObserver(self,
+      selector: #selector(textDidChangeHandler), name: UITextFieldTextDidChangeNotification,
+      object: nil)
+    NSNotificationCenter.defaultCenter().addObserver(self,
+      selector: #selector(textDidEndEditingHandler),
+      name: UITextFieldTextDidEndEditingNotification, object: nil)
     return GREYActionBlock.actionWithName("Register to editing events") {
       (element: AnyObject!, _: UnsafeMutablePointer<NSError?>) -> Bool in
-      element.addTarget(self, action: #selector(self.editingDidBeginHandler), forControlEvents: .EditingDidBegin)
-      element.addTarget(self, action: #selector(self.editingChangedHandler), forControlEvents: .EditingChanged)
-      element.addTarget(self, action: #selector(self.editingDidEndOnExitHandler), forControlEvents: .EditingDidEndOnExit)
-      element.addTarget(self, action: #selector(self.editingDidEndHandler), forControlEvents: .EditingDidEnd)
+      element.addTarget(self,
+        action: #selector(self.editingDidBeginHandler), forControlEvents: .EditingDidBegin)
+      element.addTarget(self,
+        action: #selector(self.editingChangedHandler), forControlEvents: .EditingChanged)
+      element.addTarget(self,
+        action: #selector(self.editingDidEndOnExitHandler), forControlEvents: .EditingDidEndOnExit)
+      element.addTarget(self,
+        action: #selector(self.editingDidEndHandler), forControlEvents: .EditingDidEnd)
       return true
     }
   }
