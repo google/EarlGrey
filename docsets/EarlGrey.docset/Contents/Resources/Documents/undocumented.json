@@ -1,1 +1,187 @@
-{"warnings":[{"file":"/Volumes/untitled/github/appledoc/EarlGrey/EarlGrey/GREYAssertionDefines.h","line":29,"symbol":"greyFailureHandler","symbol_kind":"sourcekitten.source.lang.objc.decl.constant","warning":"undocumented"},{"file":"/Volumes/untitled/github/appledoc/EarlGrey/EarlGrey/GREYConstants.h","line":78,"symbol":"kGREYDirectionLeft","symbol_kind":"sourcekitten.source.lang.objc.decl.enumcase","warning":"undocumented"},{"file":"/Volumes/untitled/github/appledoc/EarlGrey/EarlGrey/GREYConstants.h","line":79,"symbol":"kGREYDirectionRight","symbol_kind":"sourcekitten.source.lang.objc.decl.enumcase","warning":"undocumented"},{"file":"/Volumes/untitled/github/appledoc/EarlGrey/EarlGrey/GREYConstants.h","line":80,"symbol":"kGREYDirectionUp","symbol_kind":"sourcekitten.source.lang.objc.decl.enumcase","warning":"undocumented"},{"file":"/Volumes/untitled/github/appledoc/EarlGrey/EarlGrey/GREYConstants.h","line":81,"symbol":"kGREYDirectionDown","symbol_kind":"sourcekitten.source.lang.objc.decl.enumcase","warning":"undocumented"},{"file":"/Volumes/untitled/github/appledoc/EarlGrey/EarlGrey/GREYConstants.h","line":91,"symbol":"kGREYPinchDirectionOutward","symbol_kind":"sourcekitten.source.lang.objc.decl.enumcase","warning":"undocumented"},{"file":"/Volumes/untitled/github/appledoc/EarlGrey/EarlGrey/GREYConstants.h","line":92,"symbol":"kGREYPinchDirectionInward","symbol_kind":"sourcekitten.source.lang.objc.decl.enumcase","warning":"undocumented"},{"file":"/Volumes/untitled/github/appledoc/EarlGrey/EarlGrey/GREYConstants.h","line":99,"symbol":"kGREYContentEdgeLeft","symbol_kind":"sourcekitten.source.lang.objc.decl.enumcase","warning":"undocumented"},{"file":"/Volumes/untitled/github/appledoc/EarlGrey/EarlGrey/GREYConstants.h","line":100,"symbol":"kGREYContentEdgeRight","symbol_kind":"sourcekitten.source.lang.objc.decl.enumcase","warning":"undocumented"},{"file":"/Volumes/untitled/github/appledoc/EarlGrey/EarlGrey/GREYConstants.h","line":101,"symbol":"kGREYContentEdgeTop","symbol_kind":"sourcekitten.source.lang.objc.decl.enumcase","warning":"undocumented"},{"file":"/Volumes/untitled/github/appledoc/EarlGrey/EarlGrey/GREYConstants.h","line":102,"symbol":"kGREYContentEdgeBottom","symbol_kind":"sourcekitten.source.lang.objc.decl.enumcase","warning":"undocumented"},{"file":"/Volumes/untitled/github/appledoc/EarlGrey/EarlGrey/GREYConstants.h","line":109,"symbol":"kGREYLayoutDirectionLeft","symbol_kind":"sourcekitten.source.lang.objc.decl.enumcase","warning":"undocumented"},{"file":"/Volumes/untitled/github/appledoc/EarlGrey/EarlGrey/GREYConstants.h","line":110,"symbol":"kGREYLayoutDirectionRight","symbol_kind":"sourcekitten.source.lang.objc.decl.enumcase","warning":"undocumented"},{"file":"/Volumes/untitled/github/appledoc/EarlGrey/EarlGrey/GREYConstants.h","line":111,"symbol":"kGREYLayoutDirectionUp","symbol_kind":"sourcekitten.source.lang.objc.decl.enumcase","warning":"undocumented"},{"file":"/Volumes/untitled/github/appledoc/EarlGrey/EarlGrey/GREYConstants.h","line":112,"symbol":"kGREYLayoutDirectionDown","symbol_kind":"sourcekitten.source.lang.objc.decl.enumcase","warning":"undocumented"},{"file":"/Volumes/untitled/github/appledoc/EarlGrey/EarlGrey/GREYConstants.h","line":119,"symbol":"kGREYLayoutAttributeLeft","symbol_kind":"sourcekitten.source.lang.objc.decl.enumcase","warning":"undocumented"},{"file":"/Volumes/untitled/github/appledoc/EarlGrey/EarlGrey/GREYConstants.h","line":120,"symbol":"kGREYLayoutAttributeRight","symbol_kind":"sourcekitten.source.lang.objc.decl.enumcase","warning":"undocumented"},{"file":"/Volumes/untitled/github/appledoc/EarlGrey/EarlGrey/GREYConstants.h","line":121,"symbol":"kGREYLayoutAttributeTop","symbol_kind":"sourcekitten.source.lang.objc.decl.enumcase","warning":"undocumented"},{"file":"/Volumes/untitled/github/appledoc/EarlGrey/EarlGrey/GREYConstants.h","line":122,"symbol":"kGREYLayoutAttributeBottom","symbol_kind":"sourcekitten.source.lang.objc.decl.enumcase","warning":"undocumented"},{"file":"/Volumes/untitled/github/appledoc/EarlGrey/EarlGrey/GREYConstants.h","line":129,"symbol":"kGREYLayoutRelationLessThanOrEqual","symbol_kind":"sourcekitten.source.lang.objc.decl.enumcase","warning":"undocumented"},{"file":"/Volumes/untitled/github/appledoc/EarlGrey/EarlGrey/GREYConstants.h","line":130,"symbol":"kGREYLayoutRelationEqual","symbol_kind":"sourcekitten.source.lang.objc.decl.enumcase","warning":"undocumented"},{"file":"/Volumes/untitled/github/appledoc/EarlGrey/EarlGrey/GREYConstants.h","line":131,"symbol":"kGREYLayoutRelationGreaterThanOrEqual","symbol_kind":"sourcekitten.source.lang.objc.decl.enumcase","warning":"undocumented"},{"file":"/Volumes/untitled/github/appledoc/EarlGrey/EarlGrey/GREYConstants.h","line":191,"symbol":"GREYConstants","symbol_kind":"sourcekitten.source.lang.objc.decl.class","warning":"undocumented"},{"file":"/Volumes/untitled/github/appledoc/EarlGrey/EarlGrey/GREYElementHierarchy.h","line":19,"symbol":"GREYElementHierarchy","symbol_kind":"sourcekitten.source.lang.objc.decl.class","warning":"undocumented"},{"file":"/Volumes/untitled/github/appledoc/EarlGrey/EarlGrey/GREYNot.h","line":20,"symbol":"GREYNot","symbol_kind":"sourcekitten.source.lang.objc.decl.class","warning":"undocumented"},{"file":"/Volumes/untitled/github/appledoc/EarlGrey/EarlGrey/GREYProvider.h","line":19,"symbol":"GREYProvider","symbol_kind":"sourcekitten.source.lang.objc.decl.protocol","warning":"undocumented"}],"source_directory":"/Volumes/untitled/github/appledoc/EarlGrey"}
+{
+  "warnings": [
+    {
+      "file": "/Users/sskhandp/gsrc/earlgrey_oss/EarlGrey/EarlGrey/GREYAssertionDefines.h",
+      "line": 29,
+      "symbol": "greyFailureHandler",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/sskhandp/gsrc/earlgrey_oss/EarlGrey/EarlGrey/GREYConstants.h",
+      "line": 78,
+      "symbol": "GREYDirection.kGREYDirectionLeft",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/sskhandp/gsrc/earlgrey_oss/EarlGrey/EarlGrey/GREYConstants.h",
+      "line": 79,
+      "symbol": "GREYDirection.kGREYDirectionRight",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/sskhandp/gsrc/earlgrey_oss/EarlGrey/EarlGrey/GREYConstants.h",
+      "line": 80,
+      "symbol": "GREYDirection.kGREYDirectionUp",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/sskhandp/gsrc/earlgrey_oss/EarlGrey/EarlGrey/GREYConstants.h",
+      "line": 81,
+      "symbol": "GREYDirection.kGREYDirectionDown",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/sskhandp/gsrc/earlgrey_oss/EarlGrey/EarlGrey/GREYConstants.h",
+      "line": 91,
+      "symbol": "GREYPinchDirection.kGREYPinchDirectionOutward",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/sskhandp/gsrc/earlgrey_oss/EarlGrey/EarlGrey/GREYConstants.h",
+      "line": 92,
+      "symbol": "GREYPinchDirection.kGREYPinchDirectionInward",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/sskhandp/gsrc/earlgrey_oss/EarlGrey/EarlGrey/GREYConstants.h",
+      "line": 99,
+      "symbol": "GREYContentEdge.kGREYContentEdgeLeft",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/sskhandp/gsrc/earlgrey_oss/EarlGrey/EarlGrey/GREYConstants.h",
+      "line": 100,
+      "symbol": "GREYContentEdge.kGREYContentEdgeRight",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/sskhandp/gsrc/earlgrey_oss/EarlGrey/EarlGrey/GREYConstants.h",
+      "line": 101,
+      "symbol": "GREYContentEdge.kGREYContentEdgeTop",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/sskhandp/gsrc/earlgrey_oss/EarlGrey/EarlGrey/GREYConstants.h",
+      "line": 102,
+      "symbol": "GREYContentEdge.kGREYContentEdgeBottom",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/sskhandp/gsrc/earlgrey_oss/EarlGrey/EarlGrey/GREYConstants.h",
+      "line": 109,
+      "symbol": "GREYLayoutDirection.kGREYLayoutDirectionLeft",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/sskhandp/gsrc/earlgrey_oss/EarlGrey/EarlGrey/GREYConstants.h",
+      "line": 110,
+      "symbol": "GREYLayoutDirection.kGREYLayoutDirectionRight",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/sskhandp/gsrc/earlgrey_oss/EarlGrey/EarlGrey/GREYConstants.h",
+      "line": 111,
+      "symbol": "GREYLayoutDirection.kGREYLayoutDirectionUp",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/sskhandp/gsrc/earlgrey_oss/EarlGrey/EarlGrey/GREYConstants.h",
+      "line": 112,
+      "symbol": "GREYLayoutDirection.kGREYLayoutDirectionDown",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/sskhandp/gsrc/earlgrey_oss/EarlGrey/EarlGrey/GREYConstants.h",
+      "line": 119,
+      "symbol": "GREYLayoutAttribute.kGREYLayoutAttributeLeft",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/sskhandp/gsrc/earlgrey_oss/EarlGrey/EarlGrey/GREYConstants.h",
+      "line": 120,
+      "symbol": "GREYLayoutAttribute.kGREYLayoutAttributeRight",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/sskhandp/gsrc/earlgrey_oss/EarlGrey/EarlGrey/GREYConstants.h",
+      "line": 121,
+      "symbol": "GREYLayoutAttribute.kGREYLayoutAttributeTop",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/sskhandp/gsrc/earlgrey_oss/EarlGrey/EarlGrey/GREYConstants.h",
+      "line": 122,
+      "symbol": "GREYLayoutAttribute.kGREYLayoutAttributeBottom",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/sskhandp/gsrc/earlgrey_oss/EarlGrey/EarlGrey/GREYConstants.h",
+      "line": 129,
+      "symbol": "GREYLayoutRelation.kGREYLayoutRelationLessThanOrEqual",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/sskhandp/gsrc/earlgrey_oss/EarlGrey/EarlGrey/GREYConstants.h",
+      "line": 130,
+      "symbol": "GREYLayoutRelation.kGREYLayoutRelationEqual",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/sskhandp/gsrc/earlgrey_oss/EarlGrey/EarlGrey/GREYConstants.h",
+      "line": 131,
+      "symbol": "GREYLayoutRelation.kGREYLayoutRelationGreaterThanOrEqual",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/sskhandp/gsrc/earlgrey_oss/EarlGrey/EarlGrey/GREYConstants.h",
+      "line": 191,
+      "symbol": "GREYConstants",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/sskhandp/gsrc/earlgrey_oss/EarlGrey/EarlGrey/GREYElementHierarchy.h",
+      "line": 19,
+      "symbol": "GREYElementHierarchy",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/sskhandp/gsrc/earlgrey_oss/EarlGrey/EarlGrey/GREYNot.h",
+      "line": 20,
+      "symbol": "GREYNot",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/sskhandp/gsrc/earlgrey_oss/EarlGrey/EarlGrey/GREYProvider.h",
+      "line": 19,
+      "symbol": "GREYProvider",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.protocol",
+      "warning": "undocumented"
+    }
+  ],
+  "source_directory": "/Users/sskhandp/gsrc/earlgrey_oss/EarlGrey"
+}
