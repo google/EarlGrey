@@ -338,20 +338,20 @@ static const NSTimeInterval kLocalHTMLPageLoadDelay = 10.0;
 - (void)ftr_verifyScrollingOnLocallyLoadedHTMLPagesWithBounce:(BOOL)bounceEnabled {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"loadLocalFile")]
       performAction:grey_tap()];
-  
+
   // Bounce is enabled by default, turn it off if not required.
   if (!bounceEnabled) {
     [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"bounceSwitch")]
         performAction:grey_turnSwitchOn(NO)];
   }
-  
+
   // TODO: Add an GREYCondition to wait for webpage loads, to fix EarlGrey synchronization
   // issues with loading webpages. These issues induce flakiness in tests that have html files
   // loaded, whether local or over the web. The GREYCondition added in this test checks if the file
   // was loaded to mask issues in this particular set of tests, surfacing that the page load error
   // was what caused the test flake.
   [self ftr_waitForElementWithAccessibilityLabelToAppear:@"Row 1"];
-  
+
   // Verify we can scroll to the bottom of the web page.
   id<GREYMatcher> matcher = grey_allOf(grey_accessibilityLabel(@"Row 50"),
                                        grey_interactable(),

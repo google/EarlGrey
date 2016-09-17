@@ -35,7 +35,7 @@
 
 /**
  *  Performs a swipe in the given @c direction in the given @c duration, the start of swipe is
- *  chosen to achieve maximum swipe, such as a point close to bottom edge of the element is chosen 
+ *  chosen to achieve maximum swipe, such as a point close to bottom edge of the element is chosen
  *  in case of a swipe in up direction
  *
  *  @param direction The direction of the swipe.
