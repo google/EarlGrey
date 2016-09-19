@@ -463,7 +463,7 @@ static NSString *const kReturnKeyIdentifier = @"\n";
   NSLog(@"Tapping on key: %@.", [key accessibilityLabel]);
   [gTapKeyAction perform:key error:nil];
   [[[GREYKeyboard grey_keyboardObject] taskQueue] waitUntilAllTasksAreFinished];
-  [[GREYUIThreadExecutor sharedInstance] drainForTime:0.04];
+  [[GREYUIThreadExecutor sharedInstance] drainUntilIdleWithTimeout:2];
 }
 
 /**
