@@ -16,7 +16,7 @@ Baseline: [c4913b]
 
 ### Enhancements
 * Add autolayout to `FTRTypingViewController`
- 
+
 ### Bug Fixes
 * Minor documentation and syntax fixes.
 * Fixed Functional Test Project scheme preventing it to be run on devices.
