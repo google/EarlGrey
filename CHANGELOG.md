@@ -12,7 +12,7 @@ Baseline: [c4913b]
 
 ### Compatibility
 * Requires iOS 8 as the minimum deployment target.
-* Has been tested for support till iOS 10.01 on devices and simulator
+* Has been tested for support till iOS 10.01 on devices and simulator.
 
 ### Enhancements
 * Add autolayout to `FTRTypingViewController`
