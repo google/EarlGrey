@@ -3,6 +3,24 @@
 Details changes in each release of EarlGrey. EarlGrey follows
 [semantic versioning](http://semver.org/).
 
+## [1.3.1](https://github.com/google/EarlGrey/tree/1.3.1) (09/19/2016)
+
+```
+Baseline: [c4913b]
+   + [c4913b]: Update compatibility doc to include iOS 10.
+```
+
+### Compatibility
+* Requires iOS 8 as the minimum deployment target.
+* Has been tested for support till iOS 10.01 on devices and simulator
+
+### Enhancements
+* Add autolayout to `FTRTypingViewController`
+ 
+### Bug Fixes
+* Minor documentation and syntax fixes.
+* Fixed Functional Test Project scheme preventing it to be run on devices.
+
 ## [1.3.0](https://github.com/google/EarlGrey/tree/1.3.0) (09/09/2016)
 
 ```
