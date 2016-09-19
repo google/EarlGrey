@@ -12,7 +12,7 @@ Baseline: [c4913b]
 
 ### Compatibility
 * Requires iOS 8 as the minimum deployment target.
-* Has been tested for support till iOS 10.01 on devices and simulator
+* Has been tested for support till iOS 10.01 on devices and simulator.
 
 ### Enhancements
 * Add autolayout to `FTRTypingViewController`
@@ -20,6 +20,7 @@ Baseline: [c4913b]
 ### Bug Fixes
 * Minor documentation and syntax fixes.
 * Fixed Functional Test Project scheme preventing it to be run on devices.
+* Add a temporary hold on the xcodeproj gem dependency to unblock tests.
 
 ## [1.3.0](https://github.com/google/EarlGrey/tree/1.3.0) (09/09/2016)
 
