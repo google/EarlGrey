@@ -63,7 +63,7 @@ class ProjectDiff
     # Based on code from:
     # https://github.com/CocoaPods/Xcodeproj/blob/480e2f99e5e9315b8032854a9530aa500761e138/lib/xcodeproj/command/project_diff.rb
     def run(path_1, path_2, has_swift_2)
-      actual_swift_file = File.join(path_1, '..', 'AutoEarlGrey/EarlGrey.swift')
+      actual_swift_file = File.join(path_1, '..', 'ExampleTests/EarlGrey.swift')
       swift_version = has_swift_2 ? '2.2' : '3.0'
 
       hash_match = expected_hash(swift_version) == sha1(actual_swift_file)
