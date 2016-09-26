@@ -53,7 +53,6 @@
                                  duration];
   self = [super initWithName:name
                  constraints:grey_allOf(grey_interactable(),
-                                        grey_not(grey_systemAlertViewShown()),
                                         grey_kindOfClass([UIView class]),
                                         grey_respondsToSelector(@selector(accessibilityFrame)),
                                         nil)];

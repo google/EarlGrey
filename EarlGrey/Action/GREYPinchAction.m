@@ -59,8 +59,7 @@ CGFloat const kDefaultPinchAngle = (CGFloat)(30.0 * M_PI / 180.0);
   NSString *name = [NSString stringWithFormat:@"Pinch %@ for duration %g",
                         NSStringFromPinchDirection(pinchDirection), duration];
   self = [super initWithName:name
-                 constraints:grey_allOf(grey_not(grey_systemAlertViewShown()),
-                                        grey_interactable(),
+                 constraints:grey_allOf(grey_interactable(),
                                         grey_respondsToSelector(@selector(accessibilityFrame)),
                                         nil)];
   if (self) {

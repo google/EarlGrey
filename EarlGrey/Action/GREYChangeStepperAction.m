@@ -36,7 +36,6 @@
 - (instancetype)initWithValue:(double)value {
   self = [super initWithName:[NSString stringWithFormat:@"Change stepper to %g", value]
                  constraints:grey_allOf(grey_interactable(),
-                                        grey_not(grey_systemAlertViewShown()),
                                         grey_kindOfClass([UIStepper class]),
                                         nil)];
   if (self) {
