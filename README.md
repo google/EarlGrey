@@ -60,18 +60,18 @@ information about our analytics collection, please peruse the
 [GREYAnalytics.m](https://github.com/google/EarlGrey/tree/master/EarlGrey/Common/GREYAnalytics.m)
 file which contains the implementation details. If they wish,
 users can choose to opt out by disabling the Analytics config setting in their
-test’s setUp method:
+test’s `- (void)setUp` method:
 
+In Objective-C:
 ```objc
 // Disable analytics.
-[[GREYConfiguration sharedInstance] setValue:@(NO)
-                                forConfigKey:kGREYConfigKeyAnalyticsEnabled];
+[[GREYConfiguration sharedInstance] setValue:@(NO) forConfigKey:kGREYConfigKeyAnalyticsEnabled];
 ```
 
+In Swift:
 ```swift
 // Disable analytics.
-GREYConfiguration.sharedInstance().setValue(false,
-    forConfigKey: kGREYConfigKeyAnalyticsEnabled)
+GREYConfiguration.sharedInstance().setValue(false, forConfigKey: kGREYConfigKeyAnalyticsEnabled)
 ```
 
 ## For Contributors
