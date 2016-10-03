@@ -20,19 +20,25 @@ end
 
 module EarlGrey
   class << self
-    attr_reader :project_name, :test_target, :test_target_name, :scheme_file,
-                :user_project, :carthage, :swift, :swift_version
+    attr_reader :project_name, :installer, :test_target, :test_target_name, :scheme_file,
+              :user_project, :carthage, :swift, :swift_version
 
     # Returns path to Xcode file, prepending current working dir if necessary.
-    # @param xcode_file [String] xcode file path
+    # @param project_name [String] name of the .xcodeproj file
     # @param ext [String] xcode file extension
     # @return [String] path to Xcode file
-    def path_for(xcode_file, ext)
-      ext_match = File.extname(xcode_file) == ext
-      return xcode_file if File.exist?(xcode_file) && ext_match
-
-      path = File.join(Dir.pwd, File.basename(xcode_file, '.*') + ext)
+    def path_for(project_name, ext)
+      ext_match = File.extname(project_name) == ext
+      return project_name if File.exist?(project_name) && ext_match
+      path = File.join(dir_path, File.basename(project_name, '.*') + ext)
       path ? path : nil
+    end
+
+    # Returns the project's directory. If CocoaPods hasn't had it passed in, then the current
+    # directory is chosen.
+    # @return [String] directory path for the Xcode project
+    def dir_path
+      installer ? installer.config.installation_root : Dir.pwd
     end
 
     # Strips each line in a string
@@ -67,6 +73,7 @@ module EarlGrey
       @swift = opts.fetch(:swift, false)
       @carthage = opts.fetch(:carthage, false)
       @swift_version = opts.fetch(:swift_version, '3.0')
+      @installer = installer
 
       puts_blue "Checking and Updating #{project_name} for EarlGrey."
       pods_project = installer ? installer.pods_project : true
@@ -349,7 +356,7 @@ module EarlGrey
       user_project.save
 
       src_root = File.join(__dir__, 'files')
-      dst_root = File.join(Dir.pwd, test_target_name)
+      dst_root = File.join(dir_path, test_target_name)
       raise "Missing target folder #{dst_root}" unless File.exist? dst_root
 
       src_header_name = 'BridgingHeader.h'
