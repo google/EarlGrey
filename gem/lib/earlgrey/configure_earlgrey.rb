@@ -21,7 +21,7 @@ end
 module EarlGrey
   class << self
     attr_reader :project_name, :installer, :test_target, :test_target_name, :scheme_file,
-              :user_project, :carthage, :swift, :swift_version
+                :user_project, :carthage, :swift, :swift_version
 
     # Returns path to Xcode file, prepending current working dir if necessary.
     # @param project_name [String] name of the .xcodeproj file
