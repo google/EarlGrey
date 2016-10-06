@@ -291,7 +291,14 @@ matchers first (typically `grey_accessibilityID` or `grey_accessibilityLabel`).
 
 Breakpoint in any test, then paste the following into Xcode's lldb debug window:
 
-> expression -- print(GREYElementHierarchy.hierarchyStringForElement(UIApplication.sharedApplication().delegate!.window!! as UIWindow))
+```swift
+> expression -- print(GREYElementHierarchy.hierarchyStringForAllUIWindows())
+```
+
+```objc
+> po [GREYElementHierarchy hierarchyStringForAllUIWindows]
+```
+
 
 **How can I detect if I'm running in an EarlGrey target?**
 

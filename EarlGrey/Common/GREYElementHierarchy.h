@@ -46,7 +46,7 @@
                withAnnotationDictionary:(NSDictionary *)annotationDictionary;
 
 /**
- *  Returns the UI hierarchy for all UI windows provided by the GREYUIWindowProvider.
+ *  Returns the UI hierarchy for all @c UIWindows provided by the GREYUIWindowProvider.
  */
 + (NSString *)hierarchyStringForAllUIWindows;
 @end

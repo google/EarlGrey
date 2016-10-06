@@ -79,8 +79,8 @@ static Class gWebAccessibilityWrapper;
   } else {
     NSAssert(NO, @"The element hierarchy call is being made on an element that is not a valid "
                  @"UI element.");
+    return nil;
   }
-  return nil;
 }
 
 - (UIView *)grey_viewContainingSelf {

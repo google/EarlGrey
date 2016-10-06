@@ -87,19 +87,17 @@
 
 - (void)testStopwatchTimesWithBenchmark {
   GREYStopwatch *benchmarkStopwatch = [[GREYStopwatch alloc] init];
-  [benchmarkStopwatch start];
-  [self grey_benchmarkOperation];
-  [benchmarkStopwatch stop];
-  NSTimeInterval benchmarkTime = [benchmarkStopwatch elapsedTime];
-
   GREYStopwatch *testStopwatch = [[GREYStopwatch alloc] init];
+  [benchmarkStopwatch start];
   [testStopwatch start];
   [self grey_benchmarkOperation];
+  [benchmarkStopwatch stop];
   [testStopwatch stop];
-  NSTimeInterval benchmarkTestTime = [testStopwatch elapsedTime];
+  NSTimeInterval difference =
+      ([benchmarkStopwatch elapsedTime] - [testStopwatch elapsedTime]) / 0.5;
+  NSTimeInterval minTime = MIN([testStopwatch elapsedTime], [benchmarkStopwatch elapsedTime]) ;
 
-  XCTAssert(benchmarkTestTime >= 0.75 * benchmarkTime, @"The min variance in times should be .25");
-  XCTAssert(benchmarkTestTime <= 1.25 * benchmarkTime, @"The min variance in times should be .25");
+  XCTAssertGreaterThan(minTime, difference, @"The difference between times shouldn't be huge.");
 }
 
 - (void)testStopwatchStoppingWithoutStarting {
