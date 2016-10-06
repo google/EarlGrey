@@ -67,6 +67,12 @@ GREY_EXTERN const CFTimeInterval kGREYLongPressDefaultDuration;
 GREY_EXTERN const CGFloat kGREYAcceptableFloatDifference;
 
 /**
+ *  NSUserDefaults key for checking if verbose logging is turned on. (i.e. logs with
+ *  GREYLogVerbose are printed.)
+ */
+GREY_EXTERN NSString *const kGREYAllowVerboseLogging;
+
+/**
  *  Directions for scrolling and swiping.
  *
  *  The direction describes the motion of the view port as a result of the swipe, which is opposite

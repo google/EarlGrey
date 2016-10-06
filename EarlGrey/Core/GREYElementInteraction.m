@@ -24,6 +24,8 @@
 #import "Assertion/GREYAssertions.h"
 #import "Common/GREYConfiguration.h"
 #import "Common/GREYDefines.h"
+#import "Common/GREYStopwatch.h"
+#import "Common/GREYVerboseLogger.h"
 #import "Common/GREYPrivate.h"
 #import "Core/GREYElementFinder.h"
 #import "Core/GREYInteractionDataSource.h"
@@ -106,7 +108,7 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
  */
 - (NSArray *)matchedElementsWithTimeout:(CFTimeInterval)timeout error:(__strong NSError **)error {
   NSParameterAssert(error);
-
+  GREYLogVerbose(@"Scanning for element matching: %@", _elementMatcher);
   id<GREYInteractionDataSource> strongDataSource = [self dataSource];
   NSAssert(strongDataSource, @"strongDataSource must be set before fetching UI elements");
 
@@ -123,7 +125,13 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
   while (YES) {
     @autoreleasepool {
       // Find the element in the current UI hierarchy.
+      GREYStopwatch *elementFinderStopwatch = [[GREYStopwatch alloc] init];
+      [elementFinderStopwatch start];
       NSArray *elements = [elementFinder elementsMatchedInProvider:entireRootHierarchyProvider];
+      [elementFinderStopwatch stop];
+      GREYLogVerbose(@"Element found for matcher: %@\n with time: %f seconds",
+                     _elementMatcher,
+                     [elementFinderStopwatch elapsedTime]);
       if (elements.count > 0) {
         return elements;
       } else if (!_searchAction) {
@@ -192,6 +200,10 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
 - (instancetype)performAction:(id<GREYAction>)action error:(__strong NSError **)errorOrNil {
   NSParameterAssert(action);
   I_CHECK_MAIN_THREAD();
+  GREYLogVerbose(@"--Action started--");
+  GREYLogVerbose(@"Action to perform: %@", [action name]);
+  GREYStopwatch *stopwatch = [[GREYStopwatch alloc] init];
+  [stopwatch start];
 
   @autoreleasepool {
     NSError *executorError;
@@ -240,6 +252,8 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
       [defaultNotificationCenter postNotificationName:kGREYWillPerformActionNotification
                                                object:nil
                                              userInfo:actionUserInfo];
+      GREYLogVerbose(@"Performing action: %@\n  with matcher: %@\n  with root matcher: %@",
+                     [action name], _elementMatcher, _rootMatcher);
 
       if (element && ![action perform:element error:&actionError]) {
         interactionFailed = YES;
@@ -259,6 +273,7 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
       [defaultNotificationCenter postNotificationName:kGREYDidPerformActionNotification
                                                object:nil
                                              userInfo:actionUserInfo];
+
       // If we encounter a failure and going to raise an exception, raise it right away before
       // the main runloop drains any further.
       if (interactionFailed && !errorOrNil) {
@@ -287,14 +302,27 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
 
     // Since we assign all errors found to the @c actionError, if either of these failed then
     // we provide it for error handling.
-    if (!executionSucceeded || interactionFailed) {
+    BOOL actionFailed = !executionSucceeded || interactionFailed;
+    if (actionFailed) {
       [self grey_handleFailureOfAction:action
                            actionError:actionError
                   userProvidedOutError:errorOrNil];
     }
     // Drain once to update idling resources and redraw the screen.
     [[GREYUIThreadExecutor sharedInstance] drainOnce];
+
+    [stopwatch stop];
+    if (actionFailed) {
+      GREYLogVerbose(@"Action failed: %@ with time: %f seconds",
+                     [action name],
+                     [stopwatch elapsedTime]);
+    } else {
+      GREYLogVerbose(@"Action succeeded: %@ with time: %f seconds",
+                     [action name],
+                     [stopwatch elapsedTime]);
+    }
   }
+  GREYLogVerbose(@"--Action finished--");
   return self;
 }
 
@@ -305,6 +333,10 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
 - (instancetype)assert:(id<GREYAssertion>)assertion error:(__strong NSError **)errorOrNil {
   NSParameterAssert(assertion);
   I_CHECK_MAIN_THREAD();
+  GREYLogVerbose(@"--Assertion started--");
+  GREYLogVerbose(@"Assertion to perform: %@", [assertion name]);
+  GREYStopwatch *stopwatch = [[GREYStopwatch alloc] init];
+  [stopwatch start];
 
   @autoreleasepool {
     NSError *executorError;
@@ -352,6 +384,8 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
       [defaultNotificationCenter postNotificationName:kGREYWillPerformAssertionNotification
                                                object:nil
                                              userInfo:assertionUserInfo];
+      GREYLogVerbose(@"Performing assertion: %@\n  with matcher: %@\n  with root matcher: %@",
+                     [assertion name], _elementMatcher, _rootMatcher);
 
       // In the case of an assertion, we can have a nil element present as well. For this purpose,
       // we check the assertion directly and see if there was any issue. The only case where we
@@ -385,6 +419,7 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
       [defaultNotificationCenter postNotificationName:kGREYDidPerformAssertionNotification
                                                object:nil
                                              userInfo:assertionUserInfo];
+
       // If we encounter a failure and going to raise an exception, raise it right away before
       // the main runloop drains any further.
       if (interactionFailed && !errorOrNil) {
@@ -411,12 +446,24 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
       }
     }
 
-    if (!executionSucceeded || interactionFailed) {
+    BOOL actionFailed = !executionSucceeded || interactionFailed;
+    if (actionFailed) {
       [self grey_handleFailureOfAssertion:assertion
                            assertionError:assertionError
                      userProvidedOutError:errorOrNil];
     }
+
+    [stopwatch stop];
+    if (actionFailed) {
+      GREYLogVerbose(@"Assertion failed: %@ with time: %f seconds",
+                     [assertion name],
+                     [stopwatch elapsedTime]);
+    } else {
+      GREYLogVerbose(@"Assertion succeeded: %@ with time: %f seconds",
+                     [assertion name],
+                     [stopwatch elapsedTime]);    }
   }
+  GREYLogVerbose(@"--Assertion finished--");
   return self;
 }
 

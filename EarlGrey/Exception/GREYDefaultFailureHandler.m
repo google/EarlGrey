@@ -105,12 +105,9 @@ static NSUInteger gUnknownTestExceptionCounter = 0;
                     @"[Window 1] = [Frontmost Window]\n"
                     @"[AX] = [Accessibility]\n"
                     @"[UIE] = [User Interaction Enabled]\n\n"];
-  int index = 0;
-  for (UIWindow *window in [GREYUIWindowProvider allWindows]) {
-    index++;
-    [log appendFormat:@"========== Window %d ==========\n\n%@\n\n",
-                      index, [GREYElementHierarchy hierarchyStringForElement:window]];
-  }
+
+  // Append the hierarchy for all UI Windows in the app.
+  [log appendFormat:@"%@", [GREYElementHierarchy hierarchyStringForAllUIWindows]];
 
   if (currentTestCase) {
     [currentTestCase grey_markAsFailedAtLine:_lineNumber

@@ -20,6 +20,7 @@
 
 #import "Common/GREYExposed.h"
 #import "Common/GREYSwizzler.h"
+#import "Common/GREYVerboseLogger.h"
 #import "Synchronization/GREYAppStateTracker.h"
 
 /**
@@ -125,7 +126,7 @@ static void const *const kViewControllerAppearanceKey = &kViewControllerAppearan
 - (void)greyswizzled_viewWillAppear:(BOOL)animated {
   BOOL movingToNilWindow = [self grey_isMovingToNilWindow];
   if (movingToNilWindow) {
-    NSLog(@"View is moving to nil window. Skipping viewWillAppear state tracking.");
+    GREYLogVerbose(@"View is moving to nil window. Skipping viewWillAppear state tracking.");
   }
 
   if (!movingToNilWindow) {
@@ -162,7 +163,7 @@ static void const *const kViewControllerAppearanceKey = &kViewControllerAppearan
 - (void)greyswizzled_viewWillDisappear:(BOOL)animated {
   BOOL movingToNilWindow = [self grey_isMovingToNilWindow];
   if (movingToNilWindow) {
-    NSLog(@"View is moving to nil window. Skipping viewWillDisappear state tracking.");
+    GREYLogVerbose(@"View is moving to nil window. Skipping viewWillDisappear state tracking.");
   }
 
   if (!movingToNilWindow) {

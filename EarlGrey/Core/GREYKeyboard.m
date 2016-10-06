@@ -23,6 +23,7 @@
 #import "Assertion/GREYAssertionDefines.h"
 #import "Common/GREYDefines.h"
 #import "Common/GREYExposed.h"
+#import "Common/GREYVerboseLogger.h"
 #import "Core/GREYInteraction.h"
 #import "Synchronization/GREYAppStateTracker.h"
 #import "Synchronization/GREYCondition.h"
@@ -172,7 +173,7 @@ static NSString *const kReturnKeyIdentifier = @"\n";
     if (!key) {
       unichar currentCharacter = [characterAsString characterAtIndex:0];
       if ([gAlphabeticKeyplaneCharacters characterIsMember:currentCharacter]) {
-        NSLog(@"Detected an alphabetic key.");
+        GREYLogVerbose(@"Detected an alphabetic key.");
         // Switch to alphabetic keyplane if we are on numbers/symbols keyplane.
         if (![GREYKeyboard grey_isAlphabeticKeyplaneShown]) {
           id moreLettersKey = [GREYKeyboard grey_findKeyForCharacter:@"more, letters"];
@@ -190,7 +191,7 @@ static NSString *const kReturnKeyIdentifier = @"\n";
                                                                      withError:errorOrNil];
         }
       } else {
-        NSLog(@"Detected a non-alphabetic key.");
+        GREYLogVerbose(@"Detected a non-alphabetic key.");
         // Switch to numbers/symbols keyplane if we are on alphabetic keyplane.
         if ([GREYKeyboard grey_isAlphabeticKeyplaneShown]) {
           id moreNumbersKey = [GREYKeyboard grey_findKeyForCharacter:@"more, numbers"];
@@ -312,7 +313,7 @@ static NSString *const kReturnKeyIdentifier = @"\n";
  *  @return YES if the shift toggle succeeded, else NO.
  */
 + (BOOL)grey_toggleShiftKeyWithError:(__strong NSError **)errorOrNil {
-  NSLog(@"Tapping on Shift key.");
+  GREYLogVerbose(@"Tapping on Shift key.");
   UIKeyboardImpl *keyboard = [GREYKeyboard grey_keyboardObject];
   // Clear time Shift key was pressed last to make sure the keyboard will not ignore this event.
   // If we do not reset this value, we would need to wait at least 0.35 seconds after toggling

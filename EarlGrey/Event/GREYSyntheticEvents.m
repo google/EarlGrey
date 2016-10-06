@@ -20,6 +20,7 @@
 #import "Assertion/GREYAssertionDefines.h"
 #import "Common/GREYConstants.h"
 #import "Common/GREYExposed.h"
+#import "Common/GREYVerboseLogger.h"
 #import "Event/GREYTouchInjector.h"
 #import "Synchronization/GREYUIThreadExecutor.h"
 
@@ -43,6 +44,9 @@ NSString *const kGREYSyntheticEventInjectionErrorDomain =
 
   NSError *error;
   UIDeviceOrientation initialDeviceOrientation = [[UIDevice currentDevice] orientation];
+  GREYLogVerbose(@"The current device's orientation is being rotated from %@ to: %@",
+                 NSStringFromUIDeviceOrientation(initialDeviceOrientation),
+                 NSStringFromUIDeviceOrientation(deviceOrientation));
   BOOL success = [[GREYUIThreadExecutor sharedInstance] executeSyncWithTimeout:10.0 block:^{
     [[UIDevice currentDevice] setOrientation:deviceOrientation animated:YES];
   } error:&error];
