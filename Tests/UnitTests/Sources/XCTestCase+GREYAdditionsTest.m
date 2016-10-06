@@ -76,6 +76,11 @@ static NSString * const kXCTestCaseInterruptionExceptionName = @"_XCTestCaseInte
 
 @implementation XCTestCase_GREYAdditionsTest
 
+- (void)tearDown {
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
+  [super tearDown];
+}
+
 - (void)testGreyStatusIsFailedAfterGreyAssertFailure {
   GREYSampleTests *failingTest =
       [GREYSampleTests testCaseWithSelector:@selector(failUsingGREYAssert)];
@@ -126,7 +131,7 @@ static NSString * const kXCTestCaseInterruptionExceptionName = @"_XCTestCaseInte
            @"Test should have passed");
 }
 
-- (void)testTestStatusIsFailedOnWillTeardownAfterGreyAssertFailure {
+- (void)testTestStatusIsFailedOnWillTeardownAfterGREYAssertFailure {
   SEL willTearDownObserverSEL = @selector(verifyTestStatusIsFailedOnWillTearDown:);
   [[NSNotificationCenter defaultCenter] addObserver:self
                                            selector:willTearDownObserverSEL
@@ -144,6 +149,24 @@ static NSString * const kXCTestCaseInterruptionExceptionName = @"_XCTestCaseInte
                                                 object:nil];
 }
 
+- (void)testTestStatusIsFailedOnWillTeardownAfterNSAssertFailure {
+  SEL willTearDownObserverSEL = @selector(verifyTestStatusIsFailedOnWillTearDown:);
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:willTearDownObserverSEL
+                                               name:kGREYXCTestCaseInstanceWillTearDown
+                                             object:nil];
+
+  GREYSampleTests *failingTest =
+      [GREYSampleTests testCaseWithSelector:@selector(failUsingNSAssert)];
+  XCTAssertThrowsSpecificNamed([failingTest invokeTest],
+                               NSException,
+                               NSInternalInconsistencyException);
+
+  [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                  name:kGREYXCTestCaseInstanceWillTearDown
+                                                object:nil];
+}
+
 - (void)testTestStatusIsFailedOnWillTeardownAfterRecordFailureWithDescription {
   SEL willTearDownObserverSEL = @selector(verifyTestStatusIsFailedOnWillTearDown:);
   [[NSNotificationCenter defaultCenter] addObserver:self
@@ -154,6 +177,24 @@ static NSString * const kXCTestCaseInterruptionExceptionName = @"_XCTestCaseInte
   GREYSampleTests *failingTest =
       [GREYSampleTests testCaseWithSelector:@selector(failUsingRecordFailureWithDescription)];
   [failingTest invokeTest];
+
+  [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                  name:kGREYXCTestCaseInstanceWillTearDown
+                                                object:nil];
+}
+
+- (void)testTestStatusIsFailedOnWillTeardownAfterUncaughtException {
+  SEL willTearDownObserverSEL = @selector(verifyTestStatusIsFailedOnWillTearDown:);
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:willTearDownObserverSEL
+                                               name:kGREYXCTestCaseInstanceWillTearDown
+                                             object:nil];
+
+  GREYSampleTests *failingTest =
+      [GREYSampleTests testCaseWithSelector:@selector(failByRaisingException)];
+  XCTAssertThrowsSpecificNamed([failingTest invokeTest],
+                               NSException,
+                               kGREYSampleExceptionName);
 
   [[NSNotificationCenter defaultCenter] removeObserver:self
                                                   name:kGREYXCTestCaseInstanceWillTearDown

@@ -16,28 +16,69 @@
 
 #import "Additions/NSURL+GREYAdditions.h"
 
+#import <objc/runtime.h>
+
 #import "Common/GREYConfiguration.h"
+
+/**
+ * Object-association key used for storing all framework blacklisted URL regexs.
+ */
+static void const *const kFrameworkBlacklistedRegExKey = &kFrameworkBlacklistedRegExKey;
 
 @implementation NSURL (GREYAdditions)
 
 - (BOOL)grey_shouldSynchronize {
-  NSString *regex = GREY_CONFIG_STRING(kGREYConfigKeyURLBlacklistRegex);
-  if ([regex length] <= 0) {
+  NSArray *blacklistRegExs = [[self class] grey_blacklistRegEx];
+  if (blacklistRegExs.count == 0) {
     return YES;
   }
-  static NSRegularExpression *cachedNetworkRegex;
-  // Create a NSRegularExpression object if not already done so.
-  if (cachedNetworkRegex == nil || ![cachedNetworkRegex.pattern isEqualToString:regex]) {
-    NSError *error;
-    cachedNetworkRegex = [NSRegularExpression regularExpressionWithPattern:regex
-                                                                   options:0
-                                                                     error:&error];
-    NSAssert(!error, @"Invalid regex:\"%@\". See error: %@", regex, [error localizedDescription]);
-  }
+
   NSString *stringURL = [self absoluteString];
-  return [cachedNetworkRegex numberOfMatchesInString:stringURL
-                                             options:0
-                                               range:NSMakeRange(0, [stringURL length])] == 0;
+  NSRegularExpression *regex;
+  NSError *error;
+  for (NSString *regexStr in blacklistRegExs) {
+    regex = [NSRegularExpression regularExpressionWithPattern:regexStr
+                                                      options:0
+                                                        error:&error];
+    NSAssert(!error, @"Invalid regex:\"%@\". See error: %@", regex, error);
+    NSUInteger numMatches =
+        [regex numberOfMatchesInString:stringURL
+                               options:0
+                                 range:NSMakeRange(0, [stringURL length])];
+    if (numMatches > 0) {
+      NSLog(@"Matched a blacklisted URL: %@", stringURL);
+      return NO;
+    }
+  }
+  return YES;
+}
+
+// Returns an @c NSArray of @c NSString representing regexs of URLs that shouldn't be synchronized
+// with.
++ (NSArray *)grey_blacklistRegEx {
+  // Get user blacklisted URLs.
+  NSMutableArray *blacklist = GREY_CONFIG_ARRAY(kGREYConfigKeyURLBlacklistRegex).mutableCopy;
+  @synchronized (self) {
+    // Merge with framework blacklisted URLs.
+    NSArray *frameworkBlacklist = objc_getAssociatedObject(self, kFrameworkBlacklistedRegExKey);
+    if (frameworkBlacklist) {
+      [blacklist addObjectsFromArray:frameworkBlacklist];
+    }
+  }
+  return blacklist;
+}
+
++ (void)grey_addBlacklistRegEx:(NSString *)URLRegEx {
+  NSParameterAssert(URLRegEx);
+  @synchronized (self) {
+    NSMutableArray *blacklist = objc_getAssociatedObject(self, kFrameworkBlacklistedRegExKey);
+    if (!blacklist) {
+      blacklist = [[NSMutableArray alloc] init];
+      objc_setAssociatedObject(self, kFrameworkBlacklistedRegExKey,
+                               blacklist, OBJC_ASSOCIATION_RETAIN);
+    }
+    [blacklist addObject:URLRegEx];
+  }
 }
 
 @end

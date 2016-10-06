@@ -16,16 +16,20 @@
 
 /**
  *  @file GREYConfiguration.h
- *  @brief Interfaces for reading and configuring various EarlGrey behaviours.
+ *  @brief A key-value store for configuring global behavior. Configuration values are read just
+ *         before performing a related function. On-going functions may not be affected by the
+ *         changes in the configuration until the values are re-read.
  */
 
 #import <EarlGrey/GREYDefines.h>
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  Configuration that enables or disables usage tracking for the framework.
  *
- *  Accepted values: @c BOOL (@c YES or @c NO)
+ *  Accepted values: @c BOOL (i.e. @c YES or @c NO)
  *  Default value: @c YES
  */
 GREY_EXTERN NSString *const kGREYConfigKeyAnalyticsEnabled;
@@ -33,25 +37,25 @@ GREY_EXTERN NSString *const kGREYConfigKeyAnalyticsEnabled;
 /**
  *  Configuration that enables or disables constraint checks before performing an action.
  *
- *  Accepted values: @c BOOL (@c YES or @c NO)
+ *  Accepted values: @c BOOL (i.e. @c YES or @c NO)
  *  Default value: @c YES
  */
 GREY_EXTERN NSString *const kGREYConfigKeyActionConstraintsEnabled;
 
 /**
  *  Configuration that holds timeout duration (in seconds) for action and assertions. Actions or
- *  assertions that are not scheduled within this time will fail due to timeout.
+ *  assertions that are not scheduled within this time will fail with a timeout.
  *
- *  Accepted values: @c double (negative values shouldn't be used)
+ *  Accepted values: @c double (negative values are invalid)
  *  Default value: 30.0
  */
 GREY_EXTERN NSString *const kGREYConfigKeyInteractionTimeoutDuration;
 
 /**
  *  Configuration that enables or disables synchronization for all actions and assertions.
- *  When disabled, actions and assertions DO NOT wait for the App to idle before proceeding.
+ *  When disabled, actions and assertions DO NOT wait for the app to idle before proceeding.
  *
- *  Accepted values: @c BOOL (@c YES or @c NO)
+ *  Accepted values: @c BOOL (i.e. @c YES or @c NO)
  *  Default value: @c YES
  */
 GREY_EXTERN NSString *const kGREYConfigKeySynchronizationEnabled;
@@ -60,7 +64,7 @@ GREY_EXTERN NSString *const kGREYConfigKeySynchronizationEnabled;
  *  Configuration for setting the max interval (in seconds) of non-repeating NSTimers that EarlGrey
  *  will automatically track.
  *
- *  Accepted values: @c double (negative values shouldn't be used)
+ *  Accepted values: @c double (negative values are invalid)
  *  Default value: 1.5
  */
 GREY_EXTERN NSString *const kGREYConfigKeyNSTimerMaxTrackableInterval;
@@ -70,7 +74,7 @@ GREY_EXTERN NSString *const kGREYConfigKeyNSTimerMaxTrackableInterval;
  *  calls that EarlGrey will automatically track. dispatch_after and dispatch_after_f calls
  *  exceeding the specified time won't be tracked by the framework.
  *
- *  Accepted values: @c double (negative values shouldn't be used)
+ *  Accepted values: @c double (negative values are invalid)
  *  Default value: 1.5
  */
 GREY_EXTERN NSString *const kGREYConfigKeyDispatchAfterMaxTrackableDelay;
@@ -80,19 +84,20 @@ GREY_EXTERN NSString *const kGREYConfigKeyDispatchAfterMaxTrackableDelay;
  *  main thread originating from any performSelector:afterDelay invocations that EarlGrey will
  *  automatically track.
  *
- *  Accepted values: @c double (negative values shouldn't be used)
+ *  Accepted values: @c double (negative values are invalid)
  *  Default value: 1.5
  */
 GREY_EXTERN NSString *const kGREYConfigKeyDelayedPerformMaxTrackableDuration;
 
 /**
  *  Configuration that determines whether or not CALayer animations are modified. If @c YES, then
- *  cyclic animations are set to only run once, and animation duration is limited to a maximum
+ *  cyclic animations are set to run only once and the animation duration is limited to a maximum
  *  of @c kGREYConfigKeyCALayerMaxAnimationDuration.
- *  @remark This should only be used if synchronization is disabled, since otherwise cyclic
- *          animations will cause EarlGrey to timeout and fail tests.
  *
- *  Accepted values: @c BOOL (@c YES or @c NO)
+ *  @remark This should only be used if synchronization is disabled; otherwise cyclic animations
+ *          will cause EarlGrey to timeout and fail tests.
+ *
+ *  Accepted values: @c BOOL (i.e. @c YES or @c NO)
  *  Default value: @c YES
  */
 GREY_EXTERN NSString *const kGREYConfigKeyCALayerModifyAnimations;
@@ -102,35 +107,28 @@ GREY_EXTERN NSString *const kGREYConfigKeyCALayerModifyAnimations;
  *  animation. Animations exceeding the specified time will have their duration truncated to value
  *  specified by this config.
  *
- *  Accepted values: @c double (negative values shouldn't be used)
+ *  Accepted values: @c double (negative values are invalid)
  *  Default value: 10.0
  */
 GREY_EXTERN NSString *const kGREYConfigKeyCALayerMaxAnimationDuration;
 
 /**
- *  Configuration that holds a regular expression used to determine whether EarlGrey should
- *  synchronize with a web request made to a URL or not. EarlGrey will not synchronize with requests
- *  made to URLs matching the configured regular expression.
+ *  Configuration that holds regular expressions for URLs that are blacklisted from synchronization.
+ *  EarlGrey will not wait for any network request with URLs matching the blacklisted regular
+ *  expressions to complete. Most frequently blacklisted URLs include those used for sending
+ *  analytics, pingbacks, and background network tasks that don't interfere with testing.
  *
- *  Accepted values: @c nil or any regex strings accepted by NSRegularExpression. The empty string
- *                   and @c nil indicate that EarlGrey must synchronize with all network URLs.
- *  Default value: @c nil (synchronize with all network URLs.).
+ *  Accepted values: @c An @c NSArray of valid regular expressions as @c NSString.
+ *                   The strings must be accepted by @c NSRegularExpression.
+ *  Default value: an empty @c NSArray
  */
 GREY_EXTERN NSString *const kGREYConfigKeyURLBlacklistRegex;
-
-/**
- *  Configuration that enables/disables verbose logging (logs emitted by GREYLogV(...))
- *
- *  Accepted values: @c BOOL (@c YES or @c NO)
- *  Default value: NO
- */
-GREY_EXTERN NSString *const kGREYConfigKeyVerboseLogging;
 
 /**
  *  Configuration that enables/disables inclusion of status bar window in every operation performed
  *  by EarlGrey. By default, the status bar window is excluded from screenshots and UI hierarchy.
  *
- *  Accepted values: @c BOOL (@c YES or @c NO)
+ *  Accepted values: @c BOOL (i.e. @c YES or @c NO)
  *  Default value: NO
  */
 GREY_EXTERN NSString *const kGREYConfigKeyIncludeStatusBarWindow;
@@ -156,10 +154,10 @@ GREY_EXTERN NSString *const kGREYConfigKeyScreenshotDirLocation;
 
 /**
  *  If a user-configured value is associated with the given @c configKey, it is returned,
- *  otherwise the default value is returned, if a default value is not found, or an
+ *  otherwise the default value is returned. If a default value is not found, or an
  *  NSInvalidArgumentException is raised.
  *
- *  @param configKey The key whose value is being queried. It cannot be be @c nil or empty.
+ *  @param configKey The key whose value is being queried. Must be a valid @c NSString.
  *
  *  @throws NSInvalidArgumentException If no value could be found associated with @c configKey.
  *
@@ -169,10 +167,10 @@ GREY_EXTERN NSString *const kGREYConfigKeyScreenshotDirLocation;
 
 /**
  *  If a user-configured value is associated with the given @c configKey, it is returned, otherwise
- *  the default value is returned, if a default value is not found, NSInvalidArgumentException is
- *  raised. Configuration keys cannot be be empty strings or @c nil.
+ *  the default value is returned. If a default value is not found, NSInvalidArgumentException is
+ *  raised.
  *
- *  @param configKey The key whose value is being queried.
+ *  @param configKey The key whose value is being queried. Must be a valid @c NSString.
  *
  *  @throws NSInvalidArgumentException If no value could be found for the given @c configKey.
  *
@@ -182,23 +180,23 @@ GREY_EXTERN NSString *const kGREYConfigKeyScreenshotDirLocation;
 
 /**
  *  If a user-configured value is associated with the given @c configKey, it is returned, otherwise
- *  the default value is returned, if a default value is not found, NSInvalidArgumentException is
- *  raised. Configuration keys cannot be be empty strings or @c nil.
+ *  the default value is returned. If a default value is not found, NSInvalidArgumentException is
+ *  raised.
  *
- *  @param configKey The key whose value is being queried.
+ *  @param configKey The key whose value is being queried. Must be a valid @c NSString.
  *
  *  @throws NSInvalidArgumentException If no value could be found for the given @c configKey.
  *
  *  @return The integer value for the configuration associated with @c configKey.
  */
-- (NSInteger)intValueForConfigKey:(NSString *)configKey;
+- (NSInteger)integerValueForConfigKey:(NSString *)configKey;
 
 /**
  *  If a user-configured value is associated with the given @c configKey, it is returned, otherwise
- *  the default value is returned, if a default value is not found, NSInvalidArgumentException is
- *  raised. Configuration keys cannot be be empty strings or @c nil.
+ *  the default value is returned. If a default value is not found, NSInvalidArgumentException is
+ *  raised.
  *
- *  @param configKey The key whose value is being queried.
+ *  @param configKey The key whose value is being queried. Must be a valid @c NSString.
  *
  *  @throws NSInvalidArgumentException If no value could be found for the given @c configKey.
  *
@@ -207,11 +205,11 @@ GREY_EXTERN NSString *const kGREYConfigKeyScreenshotDirLocation;
 - (double)doubleValueForConfigKey:(NSString *)configKey;
 
 /**
- *  If a user-configured value associated with the given @c configKey, it is returned, otherwise
- *  the default value is returned, if a default value is not found, NSInvalidArgumentException is
- *  raised. Configuration keys cannot be be empty strings or @c nil.
+ *  If a user-configured value is associated with the given @c configKey, it is returned, otherwise
+ *  the default value is returned. If a default value is not found, NSInvalidArgumentException is
+ *  raised.
  *
- *  @param configKey The key whose value is being queried.
+ *  @param configKey The key whose value is being queried. Must be a valid @c NSString.
  *
  *  @throws NSInvalidArgumentException If no value could be found for the given @c configKey.
  *
@@ -220,59 +218,84 @@ GREY_EXTERN NSString *const kGREYConfigKeyScreenshotDirLocation;
 - (NSString *)stringValueForConfigKey:(NSString *)configKey;
 
 /**
- *  Resets the configuration to default values, removing all configured values.
+ *  If a user-configured value is associated with the given @c configKey, it is returned, otherwise
+ *  the default value is returned. If a default value is not found, NSInvalidArgumentException is
+ *  raised.
+ *
+ *  @param configKey The key whose value is being queried. Must be a valid @c NSString.
+ *
+ *  @throws NSInvalidArgumentException If no value could be found for the given @c configKey.
+ *
+ *  @return The array value for the configuration associated with @c configKey.
+ */
+- (NSArray *)arrayValueForConfigKey:(NSString *)configKey;
+
+/**
+ *  Resets all configurations to default values, removing all the configured values.
+ *
+ *  @remark Any default values added by calling GREYConfiguration:setDefaultValue:forConfigKey:
+ *  are not reset.
  */
 - (void)reset;
 
 /**
- *  Sets the configuration with key @c configKey to the provided @c value. Overwrites any default
- *  entry for @c configKey. To restore the default values, call reset method. Configuration keys
- *  cannot be be empty strings or @c nil.
+ *  Given a value and a key that identifies a configuration, set the value of the configuration.
+ *  Overwrites any previous value for the configuration.
  *
- *  @param value     The configuration value to be set.
- *  @param configKey The key with which the given @c value will be associated.
+ *  @remark To restore original values, call GREYConfiguration::reset.
+ *
+ *  @param value     The configuration value to be set. Scalars should be wrapped in @c NSValue.
+ *  @param configKey Key identifying an existing or new configuration. Must be a valid @c NSString.
  */
 - (void)setValue:(id)value forConfigKey:(NSString *)configKey;
 
 /**
- *  Adds a default entry for configuration with key @c configKey set to provided @c value. Default
- *  values persist even after reset is called but may be overwritten by calling
- *  GREYConfiguration::setValue:forConfigKey: Configuration keys cannot be be empty strings or
- *  @c nil.
+ *  Associates configuration identified by @c configKey with the provided @c value.
  *
- *  @param value     The configuration value to be set.
- *  @param configKey The key with which the given @c value will be associated.
+ *  @remark Default values persist even after resetting the configuration
+ *         (using GREYConfiguration::reset)
+ *
+ *  @param value     The configuration value to be set. Scalars should be wrapped in @c NSValue.
+ *  @param configKey Key identifying an existing or new configuration. Must be a valid @c NSString.
  */
 - (void)setDefaultValue:(id)value forConfigKey:(NSString *)configKey;
 
 @end
 
 /**
- *  @return Value of type @c id associated with the given @c __configName.
+ *  @return the value of type @c id associated with the given @c __configName.
  */
 #define GREY_CONFIG(__configName) \
   [[GREYConfiguration sharedInstance] valueForConfigKey:(__configName)]
 
 /**
- *  @return @c BOOL associated with the given @c __configName.
+ *  @return @c BOOL value associated with the given @c __configName.
  */
 #define GREY_CONFIG_BOOL(__configName) \
   [[GREYConfiguration sharedInstance] boolValueForConfigKey:(__configName)]
 
 /**
- *  @return NSInteger associated with the given @c __configName.
+ *  @return @c NSInteger value associated with the given @c __configName.
  */
-#define GREY_CONFIG_INT(__configName) \
-  [[GREYConfiguration sharedInstance] intValueForConfigKey:(__configName)]
+#define GREY_CONFIG_INTEGER(__configName) \
+  [[GREYConfiguration sharedInstance] integerValueForConfigKey:(__configName)]
 
 /**
- *  @return @c double associated with the given @c __configName.
+ *  @return @c double value associated with the given @c __configName.
  */
 #define GREY_CONFIG_DOUBLE(__configName) \
   [[GREYConfiguration sharedInstance] doubleValueForConfigKey:(__configName)]
 
 /**
- *  @return NSString associated with the given @c __configName.
+ *  @return @c NSString value associated with the given @c __configName.
  */
 #define GREY_CONFIG_STRING(__configName) \
   [[GREYConfiguration sharedInstance] stringValueForConfigKey:(__configName)]
+
+/**
+ *  @return @c NSArray value associated with the given @c __configName.
+ */
+#define GREY_CONFIG_ARRAY(__configName) \
+  [[GREYConfiguration sharedInstance] arrayValueForConfigKey:(__configName)]
+
+NS_ASSUME_NONNULL_END

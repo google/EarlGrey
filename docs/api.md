@@ -511,8 +511,8 @@ to suit the needs of your app. For example:
 NSTimers that EarlGrey should synchronize with.
 - `kGREYConfigKeyDispatchAfterMaxTrackableDelay` can be used to specify the maximum delay
 for future executions using `dispatch_after` calls that EarlGrey must synchronize with.
-- `kGREYConfigKeyURLBlacklistRegex` can be used to specify a black list of URLs that EarlGrey must **not**
-synchronize with.
+- `kGREYConfigKeyURLBlacklistRegex` can be used to specify a list of URLs for which EarlGrey should
+**not** wait.
 
 And several such configurations are available in [GREYConfiguration](../EarlGrey/Common/GREYConfiguration.h).
 See below for some specific use cases in detail.
@@ -520,15 +520,15 @@ See below for some specific use cases in detail.
 ### Network
 
 By default, EarlGrey synchronizes with all network calls, but you can customize this behavior by
-providing a regular expression to skip over certain URLs. Note that even though only one blacklist
-regular expression can be specified, it can be used to skip multiple URLs. To construct a regular
-expression that matches two distinct URLs, you can use an `OR` (|) operator in the regular
-expression. For example, `(http://www.google.com|http://www.youtube.com)` (unescaped for clarity) matches all URLs matching either
-[http://www.google.com](http://www.google.com) or
-[http://www.youtube.com](http://www.youtube.com).
+providing regular expressions to skip over certain URLs. To blacklist a URL, create a regular
+expression that matches the URL, add it to an `NSArray` and pass it to `GREYConfiguration`.
+For multiple URLs, repeat the same process by creating one regular expression for each URL.
+For example, to tell the framework not to wait for www.google.com and www.youtube.com,
+do something like:
 
 ```objc
-[[GREYConfiguration sharedInstance] setValue:@".*\\.foo\\.com/.*"
+NSArray *blacklist = @[ @".*www\\.google\\.com", @".*www\\.youtube\\.com" ];
+[[GREYConfiguration sharedInstance] setValue:blacklist
                                 forConfigKey:kGREYConfigKeyURLBlacklistRegex];
 ```
 

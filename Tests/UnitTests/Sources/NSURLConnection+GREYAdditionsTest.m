@@ -142,7 +142,7 @@
 
 - (void)testFilterConnectionChanges {
   // All connections should be ignored.
-  [[GREYConfiguration sharedInstance] setValue:@"."
+  [[GREYConfiguration sharedInstance] setValue:@[@"."]
                                   forConfigKey:kGREYConfigKeyURLBlacklistRegex];
   NSURLConnection *connection1 = [[NSURLConnection alloc] initWithRequest:_request delegate:self];
 
@@ -151,7 +151,7 @@
   [connection1 cancel];
 
   // All connections should be accepted.
-  [[GREYConfiguration sharedInstance] setValue:@""
+  [[GREYConfiguration sharedInstance] setValue:@[]
                                   forConfigKey:kGREYConfigKeyURLBlacklistRegex];
   NSURLConnection *connection2 = [[NSURLConnection alloc] initWithRequest:_request delegate:self];
 
@@ -172,7 +172,7 @@
 
   [connection start];
   // All connections should be ignored.
-  [[GREYConfiguration sharedInstance] setValue:@"."
+  [[GREYConfiguration sharedInstance] setValue:@[@"."]
                                   forConfigKey:kGREYConfigKeyURLBlacklistRegex];
   [[GREYUIThreadExecutor sharedInstance] drainUntilIdle];
 
