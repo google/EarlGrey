@@ -46,7 +46,7 @@
   [self grey_assertThatExceptionThrownWithName:@"NSUnknownKeyException"
                                 andDescription:@"Unknown configuration key: Unset"
                            whileExecutingBlock:^{
-                             [_configuration intValueForConfigKey:@"Unset"];
+                             [_configuration integerValueForConfigKey:@"Unset"];
                            }];
 
   [self grey_assertThatExceptionThrownWithName:@"NSUnknownKeyException"
@@ -56,65 +56,35 @@
                            }];
 }
 
-- (void)testKeysCannotBeNilOrEmpty {
+- (void)testKeysMustBeValidNSString {
   [self grey_assertThatExceptionThrownWithName:NSInvalidArgumentException
-                                andDescription:@"Configuration keys cannot be empty strings or nil."
-                           whileExecutingBlock:^{
-                             [_configuration setValue:@"Some value" forConfigKey:nil];
-                           }];
-
-  [self grey_assertThatExceptionThrownWithName:NSInvalidArgumentException
-                                andDescription:@"Configuration keys cannot be empty strings or nil."
+                                andDescription:@"Configuration key must be a valid NSString."
                            whileExecutingBlock:^{
                              [_configuration setValue:@"Some value" forConfigKey:@""];
                            }];
 
   [self grey_assertThatExceptionThrownWithName:NSInvalidArgumentException
-                                andDescription:@"Configuration keys cannot be empty strings or nil."
+                                andDescription:@"Configuration key must be a valid NSString."
                            whileExecutingBlock:^{
                              [_configuration setValue:@"Some value" forConfigKey:@"\t\r\n"];
                            }];
 
   [self grey_assertThatExceptionThrownWithName:NSInvalidArgumentException
-                                andDescription:@"Configuration keys cannot be empty strings or nil."
+                                andDescription:@"Configuration key must be a valid NSString."
                            whileExecutingBlock:^{
                              [_configuration setValue:@"Some value" forConfigKey:@"  "];
                            }];
 
   [self grey_assertThatExceptionThrownWithName:NSInvalidArgumentException
-                                andDescription:@"Configuration keys cannot be empty strings or nil."
-                           whileExecutingBlock:^{
-                             [_configuration valueForConfigKey:nil];
-                           }];
-
-  [self grey_assertThatExceptionThrownWithName:NSInvalidArgumentException
-                                andDescription:@"Configuration keys cannot be empty strings or nil."
+                                andDescription:@"Configuration key must be a valid NSString."
                            whileExecutingBlock:^{
                              [_configuration valueForConfigKey:@""];
                            }];
 
   [self grey_assertThatExceptionThrownWithName:NSInvalidArgumentException
-                                andDescription:@"Configuration keys cannot be empty strings or nil."
+                                andDescription:@"Configuration key must be a valid NSString."
                            whileExecutingBlock:^{
                              [_configuration valueForConfigKey:@"   "];
-                           }];
-
-  [self grey_assertThatExceptionThrownWithName:NSInvalidArgumentException
-                                andDescription:@"Configuration keys cannot be empty strings or nil."
-                           whileExecutingBlock:^{
-                             [_configuration boolValueForConfigKey:nil];
-                           }];
-
-  [self grey_assertThatExceptionThrownWithName:NSInvalidArgumentException
-                                andDescription:@"Configuration keys cannot be empty strings or nil."
-                           whileExecutingBlock:^{
-                             [_configuration intValueForConfigKey:nil];
-                           }];
-
-  [self grey_assertThatExceptionThrownWithName:NSInvalidArgumentException
-                                andDescription:@"Configuration keys cannot be empty strings or nil."
-                           whileExecutingBlock:^{
-                             [_configuration stringValueForConfigKey:nil];
                            }];
 }
 
@@ -148,7 +118,6 @@
   [_configuration setDefaultValue:@(5.0) forConfigKey:@"defaultValue2"];
 
   [_configuration reset];
-
   XCTAssertEqual([_configuration valueForConfigKey:@"defaultValue1"], @NO);
 
   double actualValue = [[_configuration valueForConfigKey:@"defaultValue2"] doubleValue];
@@ -163,7 +132,7 @@
 
   XCTAssertEqual([_configuration valueForConfigKey:kGREYConfigKeyActionConstraintsEnabled], @YES);
   double actualValue =
-  [[_configuration valueForConfigKey:kGREYConfigKeyCALayerMaxAnimationDuration] doubleValue];
+      [[_configuration valueForConfigKey:kGREYConfigKeyCALayerMaxAnimationDuration] doubleValue];
   XCTAssertEqual(actualValue, 10.0);
 }
 
@@ -186,12 +155,27 @@
   XCTAssertEqual(1.3, actualValue);
 }
 
+- (void)testArrayReturnsSameObjects {
+  NSArray *array = @[ @"foo", @(YES), @(42) ];
+  [_configuration setValue:array forConfigKey:@"foo"];
+  XCTAssertEqualObjects([_configuration arrayValueForConfigKey:@"foo"], array);
+  [_configuration setValue:@[] forConfigKey:@"foo"];
+  XCTAssertEqual([_configuration arrayValueForConfigKey:@"foo"].count, (NSUInteger)0);
+}
+
+- (void)testSettingEmptyArray {
+  NSArray *array = @[];
+  [_configuration setValue:array forConfigKey:@"foo"];
+  XCTAssertEqualObjects([_configuration arrayValueForConfigKey:@"foo"], array);
+}
+
 - (void)testQueryStringThrowsExceptionIfNotAStringValue {
   [_configuration setValue:@12345 forConfigKey:@"NonStringConfig"];
 
   [self grey_assertThatExceptionThrownWithName:NSInternalInconsistencyException
-                                andDescription:@"NonStringConfig's value type __NSCFNumber is not"
-                                               @" of type NSString."
+                                andDescription:@"Expected class type:NSString, actual class "
+                                               @"type:__NSCFNumber for value with config "
+                                               @"key:NonStringConfig"
                            whileExecutingBlock:^{
                              [_configuration stringValueForConfigKey:@"NonStringConfig"];
                            }];
@@ -207,8 +191,8 @@
                  [_configuration boolValueForConfigKey:@"boolConfig"]);
 
   [_configuration setValue:@1234 forConfigKey:@"intConfig"];
-  XCTAssertEqual(GREY_CONFIG_INT(@"intConfig"),
-                 [_configuration intValueForConfigKey:@"intConfig"]);
+  XCTAssertEqual(GREY_CONFIG_INTEGER(@"intConfig"),
+                 [_configuration integerValueForConfigKey:@"intConfig"]);
 
   [_configuration setValue:@"StringValue" forConfigKey:@"stringConfig"];
   XCTAssertEqualObjects(GREY_CONFIG_STRING(@"stringConfig"),
@@ -217,6 +201,10 @@
   [_configuration setValue:@(1.2) forConfigKey:@"doubleConfig"];
   XCTAssertEqual(GREY_CONFIG_DOUBLE(@"doubleConfig"),
                  [_configuration doubleValueForConfigKey:@"doubleConfig"]);
+
+  [_configuration setValue:@[@"hello"] forConfigKey:@"arrayConfig"];
+  XCTAssertEqual(GREY_CONFIG_ARRAY(@"arrayConfig"),
+                 [_configuration arrayValueForConfigKey:@"arrayConfig"]);
 }
 
 #pragma mark - Private

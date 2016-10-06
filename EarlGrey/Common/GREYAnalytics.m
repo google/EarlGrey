@@ -19,14 +19,16 @@
 #import <XCTest/XCTest.h>
 
 #import "Additions/NSString+GREYAdditions.h"
+#import "Additions/NSURL+GREYAdditions.h"
 #import "Additions/XCTestCase+GREYAdditions.h"
 #import "Common/GREYAnalyticsDelegate.h"
 #import "Common/GREYConfiguration.h"
+#import "Common/GREYVerboseLogger.h"
 
 /**
  *  The Analytics tracking ID that receives EarlGrey usage data.
  */
-static NSString *const kTrackingID = @"UA-54227235-2";
+static NSString *const kGREYAnalyticsTrackingID = @"UA-54227235-2";
 
 /**
  *  The event category under which the analytics data is to be sent.
@@ -43,6 +45,11 @@ static NSString *const kTrackingEndPoint = @"https://ssl.google-analytics.com";
   __weak id<GREYAnalyticsDelegate> _delegate;
   // Once set, analytics will be sent on next XCTestCase tearDown.
   BOOL _earlgreyWasCalledInXCTestContext;
+}
+
++ (void)load {
+  NSString *analyticsRegEx = [NSString stringWithFormat:@".*%@.*", kGREYAnalyticsTrackingID];
+  [NSURL grey_addBlacklistRegEx:analyticsRegEx];
 }
 
 + (instancetype)sharedInstance {
@@ -108,8 +115,8 @@ static NSString *const kTrackingEndPoint = @"https://ssl.google-analytics.com";
     if ([subCategory length] == 0) {
       [missingFields addObject:@"sub-category"];
     }
-    NSLog(@"Failed to send analytics because the following fields were not provided: %@.",
-          missingFields);
+    GREYLogVerbose(@"Failed to send analytics because the following fields were not provided: %@.",
+                   missingFields);
     return;
   }
 
@@ -129,6 +136,7 @@ static NSString *const kTrackingEndPoint = @"https://ssl.google-analytics.com";
 
   NSURL *url = [NSURL URLWithString:encodedPayload
                       relativeToURL:[NSURL URLWithString:kTrackingEndPoint]];
+
   [[[NSURLSession sharedSession] dataTaskWithURL:url
                                completionHandler:^(NSData *data,
                                                    NSURLResponse *response,
@@ -137,7 +145,7 @@ static NSString *const kTrackingEndPoint = @"https://ssl.google-analytics.com";
       // Failed to send analytics data, but since the test might be running in a sandboxed
       // environment it's not a good idea to freeze or throw assertions, let's just log and
       // move on.
-      NSLog(@"Failed to send analytics data due to %@.", error);
+      GREYLogVerbose(@"Failed to send analytics data due to %@.", error);
     }
   }] resume];
 }
@@ -157,7 +165,7 @@ static NSString *const kTrackingEndPoint = @"https://ssl.google-analytics.com";
       NSString *bundleID = [[NSBundle mainBundle] bundleIdentifier];
       // If bundle ID is available use an MD5 of it otherwise use a placeholder.
       bundleID = bundleID ? [bundleID grey_md5String] : @"<Missing Bundle ID>";
-      [self.delegate trackEventWithTrackingID:kTrackingID
+      [self.delegate trackEventWithTrackingID:kGREYAnalyticsTrackingID
                                      category:kAnalyticsInvocationCategory
                                   subCategory:bundleID
                                         value:@([[XCTestSuite defaultTestSuite] testCaseCount])];

@@ -15,6 +15,7 @@
 //
 
 #import "Common/GREYConfiguration.h"
+#import "Common/GREYVerboseLogger.h"
 
 #import "Additions/NSString+GREYAdditions.h"
 
@@ -29,7 +30,6 @@ NSString *const kGREYConfigKeyCALayerModifyAnimations = @"GREYConfigKeyCALayerMo
 NSString *const kGREYConfigKeyCALayerMaxAnimationDuration =
     @"GREYConfigKeyCALayerMaxAnimationDuration";
 NSString *const kGREYConfigKeyURLBlacklistRegex = @"GREYConfigKeyURLBlacklistRegex";
-NSString *const kGREYConfigKeyVerboseLogging = @"GREYConfigKeyVerboseLogging";
 NSString *const kGREYConfigKeyDispatchAfterMaxTrackableDelay =
     @"GREYConfigKeyDispatchAfterMaxTrackableDelay";
 NSString *const kGREYConfigKeyDelayedPerformMaxTrackableDuration =
@@ -65,11 +65,10 @@ NSString *const kGREYConfigKeyScreenshotDirLocation = @"GREYConfigKeyScreenshotD
     [self setDefaultValue:@YES forConfigKey:kGREYConfigKeySynchronizationEnabled];
     [self setDefaultValue:@(1.5) forConfigKey:kGREYConfigKeyNSTimerMaxTrackableInterval];
     [self setDefaultValue:@YES forConfigKey:kGREYConfigKeyCALayerModifyAnimations];
-    [self setDefaultValue:[NSNull null] forConfigKey:kGREYConfigKeyURLBlacklistRegex];
-    [self setDefaultValue:@NO forConfigKey:kGREYConfigKeyVerboseLogging];
     [self setDefaultValue:@(1.5) forConfigKey:kGREYConfigKeyDispatchAfterMaxTrackableDelay];
     [self setDefaultValue:@NO forConfigKey:kGREYConfigKeyIncludeStatusBarWindow];
     [self setDefaultValue:@(1.5) forConfigKey:kGREYConfigKeyDelayedPerformMaxTrackableDuration];
+    [self setDefaultValue:@[] forConfigKey:kGREYConfigKeyURLBlacklistRegex];
   }
   return self;
 }
@@ -86,18 +85,25 @@ NSString *const kGREYConfigKeyScreenshotDirLocation = @"GREYConfigKeyScreenshotD
 }
 
 - (void)setValue:(id)value forConfigKey:(NSString *)configKey {
+  NSParameterAssert(value);
   [self grey_validateConfigKey:configKey];
+
   @synchronized(self) {
-    [_overridenConfiguration setObject:(value ? value : [NSNull null]) forKey:configKey];
+    [_overridenConfiguration setObject:value forKey:configKey];
     _needsMerge = YES;
   }
+  GREYLogVerbose(@"Config Key: %@ was set to: %@", configKey, value);
 }
 
 - (void)setDefaultValue:(id)value forConfigKey:(NSString *)configKey {
+  NSParameterAssert(value);
+  [self grey_validateConfigKey:configKey];
+
   @synchronized(self) {
     [_defaultConfiguration setObject:value forKey:configKey];
     _needsMerge = YES;
   }
+  GREYLogVerbose(@"Default Value for Config Key: %@ was set to: %@", configKey, value);
 }
 
 - (id)valueForConfigKey:(NSString *)configKey {
@@ -112,33 +118,39 @@ NSString *const kGREYConfigKeyScreenshotDirLocation = @"GREYConfigKeyScreenshotD
     }
     value = [_mergedConfiguration objectForKey:configKey];
   }
-
   if (!value) {
     [NSException raise:@"NSUnknownKeyException" format:@"Unknown configuration key: %@", configKey];
   }
-  return ([value isEqual:[NSNull null]] ? nil : value);
+  return value;
 }
 
 - (BOOL)boolValueForConfigKey:(NSString *)configKey {
-  return [[self valueForConfigKey:configKey] boolValue];
+  id value = [self valueForConfigKey:configKey];
+  [self grey_validateValue:value forConfigKey:configKey isKindOfClass:[NSValue class]];
+  return [value boolValue];
 }
 
-- (NSInteger)intValueForConfigKey:(NSString *)configKey {
-  return [[self valueForConfigKey:configKey] integerValue];
+- (NSInteger)integerValueForConfigKey:(NSString *)configKey {
+  id value = [self valueForConfigKey:configKey];
+  [self grey_validateValue:value forConfigKey:configKey isKindOfClass:[NSValue class]];
+  return [value integerValue];
 }
 
 - (double)doubleValueForConfigKey:(NSString *)configKey {
-  return [[self valueForConfigKey:configKey] doubleValue];
+  id value = [self valueForConfigKey:configKey];
+  [self grey_validateValue:value forConfigKey:configKey isKindOfClass:[NSValue class]];
+  return [value doubleValue];
 }
 
 - (NSString *)stringValueForConfigKey:(NSString *)configKey {
   NSString *value = [self valueForConfigKey:configKey];
+  [self grey_validateValue:value forConfigKey:configKey isKindOfClass:[NSString class]];
+  return value;
+}
 
-  if (value && ![value isKindOfClass:[NSString class]]) {
-    [NSException raise:NSInternalInconsistencyException
-                format:@"%@'s value type %@ is not of type NSString.", configKey, [value class]];
-  }
-
+- (NSArray *)arrayValueForConfigKey:(NSString *)configKey {
+  NSArray *value = [self valueForConfigKey:configKey];
+  [self grey_validateValue:value forConfigKey:configKey isKindOfClass:[NSArray class]];
   return value;
 }
 
@@ -162,7 +174,17 @@ NSString *const kGREYConfigKeyScreenshotDirLocation = @"GREYConfigKeyScreenshotD
 - (void)grey_validateConfigKey:(NSString *)configKey {
   if (![configKey grey_isNonEmptyAfterTrimming]) {
     [NSException raise:NSInvalidArgumentException
-                format:@"Configuration keys cannot be empty strings or nil."];
+                format:@"Configuration key must be a valid NSString."];
+  }
+}
+
+/**
+ *  Validates that [value kindOfClass:class] holds, otherwise throws an @c NSException.
+ */
+- (void)grey_validateValue:(id)value forConfigKey:(NSString *)key isKindOfClass:(Class)class {
+  if (![value isKindOfClass:class]) {
+    NSString *fmt = @"Expected class type:%@, actual class type:%@ for value with config key:%@";
+    [NSException raise:NSInternalInconsistencyException format:fmt, class, [value class], key];
   }
 }
 
