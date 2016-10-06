@@ -25,6 +25,7 @@
 #import <EarlGrey/GREYScreenshotUtil.h>
 #import <EarlGrey/GREYUIThreadExecutor.h>
 #import <EarlGrey/GREYVisibilityChecker.h>
+#import <EarlGrey/XCTestCase+GREYAdditions.h>
 
 @protocol GREYIdlingResource, GREYMatcher;
 
@@ -90,5 +91,11 @@
 + (UIImage *)grey_lastActualBeforeImage;
 + (UIImage *)grey_lastActualAfterImage;
 + (UIImage *)grey_lastExpectedAfterImage;
+
+@end
+
+@interface XCTestCase (GREYPrivate)
+
+- (void)grey_setStatus:(GREYXCTestCaseStatus)status;
 
 @end

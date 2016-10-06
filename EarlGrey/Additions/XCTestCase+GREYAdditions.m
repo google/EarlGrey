@@ -19,6 +19,7 @@
 #include <objc/runtime.h>
 
 #import "Common/GREYSwizzler.h"
+#import "Common/GREYTestCaseInvocation.h"
 #import "Exception/GREYFrameworkException.h"
 
 /**
@@ -201,6 +202,11 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
       [self grey_markSwizzled];
     }
 
+    // Change invocation type to GREYTestCaseInvocation to set grey_status to failed if the test
+    // method throws an exception. This ensure grey_status is accurate in the test case teardown.
+    Class originalInvocationClass =
+        object_setClass(self.invocation, [GREYTestCaseInvocation class]);
+
     @try {
       gCurrentExecutingTestCase = self;
       [self grey_setStatus:kGREYXCTestCaseStatusUnknown];
@@ -227,9 +233,15 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
           [self grey_sendNotification:kGREYXCTestCaseInstanceDidPass];
           break;
         case kGREYXCTestCaseStatusUnknown:
-          NSAssert(NO, @"Test has finished with unknown status.");
+          self.continueAfterFailure = YES;
+          [self recordFailureWithDescription:@"Test has finished with unknown status."
+                                      inFile:@__FILE__
+                                      atLine:__LINE__
+                                    expected:NO];
           break;
       }
+
+      object_setClass(self.invocation, originalInvocationClass);
       [self grey_sendNotification:kGREYXCTestCaseInstanceDidFinish];
       // We only reset the current test case after all possible notifications have been sent.
       gCurrentExecutingTestCase = nil;
