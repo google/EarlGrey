@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FTRPickerViewController">
@@ -12,7 +12,7 @@
                 <outlet property="dateLabel" destination="XMm-0B-uOK" id="z5c-bW-3XC"/>
                 <outlet property="datePicker" destination="nsh-tZ-mIw" id="ZAa-Ka-SLh"/>
                 <outlet property="datePickerSegmentedControl" destination="SKZ-9B-Fzx" id="JO0-1t-WVj"/>
-                <outlet property="disabledPicker" destination="337-zK-QgX" id="jU6-uC-Ugd"/>
+                <outlet property="interactionDisabledPicker" destination="337-zK-QgX" id="PhU-x0-W3V"/>
                 <outlet property="view" destination="1" id="NcN-en-NCW"/>
             </connections>
         </placeholder>

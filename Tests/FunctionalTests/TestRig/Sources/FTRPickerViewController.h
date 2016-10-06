@@ -18,12 +18,12 @@
 
 @property(nonatomic, retain) IBOutlet UIPickerView *customPicker;
 @property(nonatomic, retain) IBOutlet UIDatePicker *datePicker;
-@property (weak, nonatomic) IBOutlet UIPickerView *disabledPicker;
+@property(nonatomic, retain) IBOutlet UIPickerView *interactionDisabledPicker;
 @property(nonatomic, retain) IBOutlet UISegmentedControl *datePickerSegmentedControl;
 @property(nonatomic, retain) IBOutlet UIButton *clearLabelButton;
-@property(weak, nonatomic) IBOutlet UILabel *dateLabel;
+@property(nonatomic, retain) IBOutlet UILabel *dateLabel;
 
-@property(retain, nonatomic) NSArray *customColumn1Array;
-@property(retain, nonatomic) NSArray *customColumn2Array;
+@property(nonatomic, retain) NSArray *customColumn1Array;
+@property(nonatomic, retain) NSArray *customColumn2Array;
 
 @end
