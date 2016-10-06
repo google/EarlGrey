@@ -23,6 +23,7 @@
 #import "Assertion/GREYAssertionDefines.h"
 #import "Common/GREYConfiguration.h"
 #import "Common/GREYConstants.h"
+#import "Common/GREYElementHierarchy.h"
 #import "Common/GREYSwizzler.h"
 #import "Synchronization/GREYAppStateTracker.h"
 #import "Synchronization/GREYTimedIdlingResource.h"
@@ -31,6 +32,11 @@
  *  Key to store map of perform selector arguments to timed resource trackers.
  */
 static void const *const kArgumentsToTrackerKey = &kArgumentsToTrackerKey;
+
+/**
+ *  Class that all Web Accessibility Elements have to be a kind of.
+ */
+static Class gWebAccessibilityWrapper;
 
 @implementation NSObject (GREYAdditions)
 
@@ -60,24 +66,36 @@ static void const *const kArgumentsToTrackerKey = &kArgumentsToTrackerKey;
                     withMethod:swizzledSEL];
     NSAssert(swizzleSuccess,
              @"Cannot swizzle NSObject's performSelector:withObject:afterDelay:inModes");
+    gWebAccessibilityWrapper = NSClassFromString(@"WebAccessibilityObjectWrapper");
   }
 }
 
-- (UIView *)grey_viewContainingSelf {
-  UIView *parentView;
+- (NSString *)grey_recursiveDescription {
   if ([self grey_isWebAccessibilityElement]) {
-    parentView = [[self grey_containersAssignableFromClass:[UIWebView class]] firstObject];
-  } else if ([self isKindOfClass:[UIView class]]) {
-    parentView = [(UIView *)self superview];
-  } else if ([self respondsToSelector:@selector(accessibilityContainer)]) {
-    id container = [(UIAccessibilityElement *)self accessibilityContainer];
-    if ([container isKindOfClass:[UIView class]]) {
-      parentView = (UIView *)container;
-    } else {
-      parentView = [container grey_viewContainingSelf];
-    }
+    return [GREYElementHierarchy hierarchyStringForElement:[self grey_viewContainingSelf]];
+  } else if ([self isKindOfClass:[UIView class]] ||
+             [self respondsToSelector:@selector(accessibilityContainer)]) {
+    return [GREYElementHierarchy hierarchyStringForElement:self];
+  } else {
+    NSAssert(NO, @"The element hierarchy call is being made on an element that is not a valid "
+                 @"UI element.");
   }
-  return parentView;
+  return nil;
+}
+
+- (UIView *)grey_viewContainingSelf {
+  if ([self grey_isWebAccessibilityElement]) {
+    return [[self grey_containersAssignableFromClass:[UIWebView class]] firstObject];
+  } else if ([self isKindOfClass:[UIView class]]) {
+    return [self grey_container];
+  } else if ([self respondsToSelector:@selector(accessibilityContainer)]) {
+    id container = [self grey_container];
+    if (![container isKindOfClass:[UIView class]]) {
+      return [container grey_viewContainingSelf];
+    }
+    return container;
+  }
+  return nil;
 }
 
 - (id)grey_container {
@@ -108,7 +126,7 @@ static void const *const kArgumentsToTrackerKey = &kArgumentsToTrackerKey;
  *  @return @c YES if @c self is an accessibility element within a UIWebView, @c NO otherwise.
  */
 - (BOOL)grey_isWebAccessibilityElement {
-  return [self isKindOfClass:NSClassFromString(@"WebAccessibilityObjectWrapper")];
+  return [self isKindOfClass:gWebAccessibilityWrapper];
 }
 
 - (CGPoint)grey_accessibilityActivationPointInWindowCoordinates {

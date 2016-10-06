@@ -15,6 +15,7 @@
 //
 
 #import <EarlGrey/CGGeometry+GREYAdditions.h>
+#import <EarlGrey/GREYElementHierarchy.h>
 #import <EarlGrey/GREYVisibilityChecker.h>
 
 #import "FTRBaseIntegrationTest.h"
@@ -214,6 +215,25 @@
                   @"should be equal");
 
   GREYAssertEqual(idSet.count, 3, @"should be equal");
+}
+
+- (void)testElementsInHierarchyDump {
+  NSString *hierarchyDump = [GREYElementHierarchy hierarchyStringForAllUIWindows];
+  NSArray *stringTargetHierarchy =
+      @[ @"========== Window 1 ==========",
+         @"========== Window 2 ==========",
+         @"<UITextEffectsWindow",
+         @"  |--<UIInputSetContainerView:",
+         @"  |  |--<UIInputSetHostView:",
+         @"<UIWindow:",
+         @"  |--<UILayoutContainerView:",
+         @"  |  |--<UINavigationTransitionView:",
+         @"  |  |  |--<UIViewControllerWrapperView:",
+         @"  |  |  |  |--<UIView",
+         @"  |  |  |  |  |--<UIView:"];
+  for (NSString *targetString in stringTargetHierarchy) {
+    XCTAssertNotEqual([hierarchyDump rangeOfString:targetString].location, (NSUInteger)NSNotFound);
+  }
 }
 
 #pragma mark - Private

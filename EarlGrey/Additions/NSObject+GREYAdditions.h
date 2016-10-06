@@ -17,7 +17,7 @@
 #import <UIKit/UIKit.h>
 
 /**
- *  Additions to NSObject for EarlGrey specific tasks.
+ *  Additions to NSObject for obtaining details for UI and Accessibility Elements.
  */
 @interface NSObject (GREYAdditions)
 
@@ -70,5 +70,11 @@
  *  @return A short description of the element, including its class, accessibility ID and label.
  */
 - (NSString *)grey_shortDescription;
+
+/**
+ *  @return The recursive description of the UI hierarchy for the current element. This should be
+ *          used only with objects that are UIViews or UIAccessibilityElements.
+ */
+- (NSString *)grey_recursiveDescription;
 
 @end

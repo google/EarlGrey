@@ -18,6 +18,7 @@
 
 #import "Additions/NSObject+GREYAdditions.h"
 #import "Common/GREYConstants.h"
+#import "Provider/GREYUIWindowProvider.h"
 
 @implementation GREYElementHierarchy
 
@@ -34,6 +35,18 @@
                          withLevel:0
                       outputString:[[NSMutableString alloc] init]
            andAnnotationDictionary:annotationDictionary];
+}
+
++ (NSString *)hierarchyStringForAllUIWindows {
+  NSMutableString *log = [[NSMutableString alloc] init];
+  long unsigned index = 0;
+  for (UIWindow *window in [GREYUIWindowProvider allWindows]) {
+    index++;
+    [log appendFormat:@"========== Window %lu ==========\n\n%@\n\n",
+                      index,
+                      [GREYElementHierarchy hierarchyStringForElement:window]];
+  }
+  return log;
 }
 
 #pragma mark - Private Methods
