@@ -55,6 +55,7 @@
 		59467F401C937A120089498B /* ic_local_drink_48pt@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 59467EDB1C9379DE0089498B /* ic_local_drink_48pt@2x.png */; };
 		59467F411C937A120089498B /* ic_local_drink_48pt@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 59467EDC1C9379DE0089498B /* ic_local_drink_48pt@3x.png */; };
 		59467F421C937A140089498B /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 59467EA81C9379DE0089498B /* LICENSE */; };
+		594A1A2C1D8BB8F500625FB3 /* NSURL+GREYAdditionsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 594A1A2A1D8BB8E800625FB3 /* NSURL+GREYAdditionsTest.m */; };
 		596D89CA1C05ACD400025714 /* EarlGrey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 596D89C71C05ACB000025714 /* EarlGrey.framework */; };
 		59AB5FC91C128CCF0017F331 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FDB855641C12392C00B407EB /* libOCMock.a */; };
 		6113A2F11D7F74F400443D9B /* GREYStringDescriptionTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6113A2F01D7F74F400443D9B /* GREYStringDescriptionTest.m */; };
@@ -63,6 +64,7 @@
 		61322DA31D4CD7C300A5B0C1 /* GREYManagedObjectContextIdlingResourceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 61322D9F1D4CD7B900A5B0C1 /* GREYManagedObjectContextIdlingResourceTest.m */; };
 		61E4E0CD1D755B1C007F9EE6 /* GREYTouchInjectorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 61E4E0CC1D755B1C007F9EE6 /* GREYTouchInjectorTest.m */; };
 		F9C5093F1D11E9CF00D4FDED /* GREYTestHelperTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F9C5093E1D11E9CF00D4FDED /* GREYTestHelperTest.m */; };
+		FD1948341DA232E000B9BA2D /* GREYStopwatchTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD19482C1DA2324200B9BA2D /* GREYStopwatchTest.m */; };
 		FD4AB2B61D23181400D0C44D /* GREYAnalyticsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1BCE911D1B3F0B0069D0C6 /* GREYAnalyticsTest.m */; };
 		FD4AB2B71D23181600D0C44D /* GREYRunLoopSpinnerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1BCE921D1B3F0B0069D0C6 /* GREYRunLoopSpinnerTest.m */; };
 		FD4AB2B81D23181900D0C44D /* GREYWeakObjectContainerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1BCE931D1B3F0B0069D0C6 /* GREYWeakObjectContainerTest.m */; };
@@ -212,6 +214,7 @@
 		59467EDC1C9379DE0089498B /* ic_local_drink_48pt@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_local_drink_48pt@3x.png"; sourceTree = "<group>"; };
 		59467EDE1C9379DE0089498B /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		59467EDF1C9379DE0089498B /* UnitTestRig-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "UnitTestRig-Info.plist"; sourceTree = "<group>"; };
+		594A1A2A1D8BB8E800625FB3 /* NSURL+GREYAdditionsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+GREYAdditionsTest.m"; sourceTree = "<group>"; };
 		596D89C21C05ACAF00025714 /* EarlGrey.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = EarlGrey.xcodeproj; path = ../../EarlGrey.xcodeproj; sourceTree = "<group>"; };
 		6113A2F01D7F74F400443D9B /* GREYStringDescriptionTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYStringDescriptionTest.m; sourceTree = "<group>"; };
 		61322D9E1D4CD7B900A5B0C1 /* GREYDispatchQueueTrackerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYDispatchQueueTrackerTest.m; sourceTree = "<group>"; };
@@ -219,6 +222,7 @@
 		61CFE8EF1D4CE99D00E1A48E /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		61E4E0CC1D755B1C007F9EE6 /* GREYTouchInjectorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYTouchInjectorTest.m; sourceTree = "<group>"; };
 		F9C5093E1D11E9CF00D4FDED /* GREYTestHelperTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYTestHelperTest.m; sourceTree = "<group>"; };
+		FD19482C1DA2324200B9BA2D /* GREYStopwatchTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYStopwatchTest.m; sourceTree = "<group>"; };
 		FD1BCE911D1B3F0B0069D0C6 /* GREYAnalyticsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYAnalyticsTest.m; sourceTree = "<group>"; };
 		FD1BCE921D1B3F0B0069D0C6 /* GREYRunLoopSpinnerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYRunLoopSpinnerTest.m; sourceTree = "<group>"; };
 		FD1BCE931D1B3F0B0069D0C6 /* GREYWeakObjectContainerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYWeakObjectContainerTest.m; sourceTree = "<group>"; };
@@ -268,7 +272,9 @@
 		59467EAA1C9379DE0089498B /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				594A1A2A1D8BB8E800625FB3 /* NSURL+GREYAdditionsTest.m */,
 				FD1BCE911D1B3F0B0069D0C6 /* GREYAnalyticsTest.m */,
+				FD19482C1DA2324200B9BA2D /* GREYStopwatchTest.m */,
 				FD1BCE921D1B3F0B0069D0C6 /* GREYRunLoopSpinnerTest.m */,
 				FD1BCE931D1B3F0B0069D0C6 /* GREYWeakObjectContainerTest.m */,
 				59467EAB1C9379DE0089498B /* CAAnimation+GREYAdditionsTest.m */,
@@ -588,6 +594,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				594A1A2C1D8BB8F500625FB3 /* NSURL+GREYAdditionsTest.m in Sources */,
 				59467F111C9379FC0089498B /* CAAnimation+GREYAdditionsTest.m in Sources */,
 				59467F121C9379FC0089498B /* CALayer+GREYAdditionsTest.m in Sources */,
 				59467F131C9379FC0089498B /* CGGeometry+GREYAdditionsTest.m in Sources */,
@@ -619,6 +626,7 @@
 				59467F2B1C9379FC0089498B /* GREYSwipeActionTest.m in Sources */,
 				59467F2C1C9379FC0089498B /* GREYSwizzlerTest.m in Sources */,
 				59467F2D1C9379FC0089498B /* GREYSyncAPITest.m in Sources */,
+				FD1948341DA232E000B9BA2D /* GREYStopwatchTest.m in Sources */,
 				59467F2E1C9379FC0089498B /* GREYTimedIdlingResourceTest.m in Sources */,
 				59467F2F1C9379FC0089498B /* GREYUIScrollViewTest.m in Sources */,
 				59467F301C9379FC0089498B /* GREYUIThreadExecutorTest.m in Sources */,
