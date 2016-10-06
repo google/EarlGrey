@@ -15,6 +15,8 @@
 //
 
 #import <EarlGrey/GREYElementHierarchy.h>
+#import <EarlGrey/GREYPrivate.h>
+#import <EarlGrey/NSObject+GREYAdditions.h>
 
 #import <OCMock/OCMock.h>
 
@@ -188,18 +190,14 @@ const CGRect kTestRect = { { 0.0f, 0.0f }, { 10.0f, 10.0f } };
   NSArray *stringTargetHierarchy = @[ @"<GREYUTCustomAccessibilityView:",
                                         @"  |--<UIView:",
                                         @"  |  |--<UIView:" ];
-  for (NSString *targetString in stringTargetHierarchy) {
-    XCTAssertTrue([stringHierarchy rangeOfString:targetString].location != NSNotFound);
-  }
+  [self grey_assertString:stringHierarchy containsStringsInArray:stringTargetHierarchy];
 }
 
 - (void)testHierarchyStringWithSingleView {
   UIView *viewA = [[UIView alloc] initWithFrame:kTestRect];
   NSString *stringHierarchy = [GREYElementHierarchy hierarchyStringForElement:viewA];
   NSArray *stringTargetHierarchy = @[ @"<UIView:" ];
-  for (NSString *targetString in stringTargetHierarchy) {
-    XCTAssertTrue([stringHierarchy rangeOfString:targetString].location != NSNotFound);
-  }
+  [self grey_assertString:stringHierarchy containsStringsInArray:stringTargetHierarchy];
 }
 
 - (void)testHierarchyStringWithSubviews {
@@ -213,9 +211,7 @@ const CGRect kTestRect = { { 0.0f, 0.0f }, { 10.0f, 10.0f } };
   NSString *stringHierarchy = [GREYElementHierarchy hierarchyStringForElement:viewA];
   NSArray *stringTargetHierarchy = @[ @"<UIView:",
                                         @"  |--<UIView:"];
-  for (NSString *targetString in stringTargetHierarchy) {
-    XCTAssertTrue([stringHierarchy rangeOfString:targetString].location != NSNotFound);
-  }
+  [self grey_assertString:stringHierarchy containsStringsInArray:stringTargetHierarchy];
 }
 
 - (void)testHierarchyStringWithAccessibilityViews {
@@ -227,9 +223,7 @@ const CGRect kTestRect = { { 0.0f, 0.0f }, { 10.0f, 10.0f } };
   NSString *stringHierarchy = [GREYElementHierarchy hierarchyStringForElement:viewA];
   NSArray *stringTargetHierarchy = @[ @"<GREYUTCustomAccessibilityView:",
                                         @"  |--<UIView:"];
-  for (NSString *targetString in stringTargetHierarchy) {
-    XCTAssertTrue([stringHierarchy rangeOfString:targetString].location != NSNotFound);
-  }
+  [self grey_assertString:stringHierarchy containsStringsInArray:stringTargetHierarchy];
 }
 
 - (void)testStringForCascadingHierarchyWithBothSubviewsandAXViews {
@@ -245,9 +239,7 @@ const CGRect kTestRect = { { 0.0f, 0.0f }, { 10.0f, 10.0f } };
                                         @"  |--<UIView:",
                                         @"  |  |--<GREYUTCustomAccessibilityView:",
                                         @"  |  |  |--<UIView:" ];
-  for (NSString *targetString in stringTargetHierarchy) {
-    XCTAssertTrue([stringHierarchy rangeOfString:targetString].location != NSNotFound);
-  }
+  [self grey_assertString:stringHierarchy containsStringsInArray:stringTargetHierarchy];
 }
 
 - (void)testPrintingOfDescriptionAtLevelZero {
@@ -318,9 +310,7 @@ const CGRect kTestRect = { { 0.0f, 0.0f }, { 10.0f, 10.0f } };
                                  [NSValue valueWithNonretainedObject:viewD] : viewDAnnotation };
   NSString *stringHierarchy = [GREYElementHierarchy hierarchyStringForElement:viewA
                                                      withAnnotationDictionary:annotations];
-  for (NSString *targetString in [annotations allValues]) {
-    XCTAssertTrue([stringHierarchy rangeOfString:targetString].location != NSNotFound);
-  }
+  [self grey_assertString:stringHierarchy containsStringsInArray:[annotations allValues]];
 }
 
 - (void)testHierarchyStringForANilAnnotationDictionary {
@@ -387,11 +377,7 @@ const CGRect kTestRect = { { 0.0f, 0.0f }, { 10.0f, 10.0f } };
   NSArray *stringTargetHierarchy = @[ @"<UIView:",
                                         @"  |--<GREYUTCustomAccessibilityView:",
                                         @"  |--<UIAccessibilityElement:" ];
-
-  for (NSString *targetString in stringTargetHierarchy) {
-    NSUInteger foundLocation = [stringHierarchy rangeOfString:targetString].location;
-    XCTAssertNotEqual(foundLocation, (NSUInteger)NSNotFound);
-  }
+  [self grey_assertString:stringHierarchy containsStringsInArray:stringTargetHierarchy];
 }
 
 - (void)testHierarchyStringForViewWithAccessibilityElementsAndSubviews {
@@ -417,22 +403,19 @@ const CGRect kTestRect = { { 0.0f, 0.0f }, { 10.0f, 10.0f } };
                                         @"  |--<UIView:",
                                         @"  |--<GREYUTCustomAccessibilityView:",
                                         @"  |  |--<UIAccessibilityElement:" ];
-
-  for (NSString *targetString in stringTargetHierarchy) {
-    XCTAssert([stringHierarchy rangeOfString:targetString].location != NSNotFound);
-  }
+  [self grey_assertString:stringHierarchy containsStringsInArray:stringTargetHierarchy];
 }
 
 - (void)testHierarchyStringForViewWithCascadingAXElements {
   UIView *viewForElementA = [[UIView alloc] initWithFrame:kTestRect];
   UIView *viewForElementB = [[UIView alloc] initWithFrame:kTestRect];
   UIView *viewForElementC = [[UIView alloc] initWithFrame:kTestRect];
-  UIAccessibilityElement *elementA = [[UIAccessibilityElement alloc]
-                                          initWithAccessibilityContainer:viewForElementA];
-  UIAccessibilityElement *elementB = [[UIAccessibilityElement alloc]
-                                          initWithAccessibilityContainer:viewForElementB];
-  UIAccessibilityElement *elementC = [[UIAccessibilityElement alloc]
-                                          initWithAccessibilityContainer:viewForElementC];
+  UIAccessibilityElement *elementA =
+      [[UIAccessibilityElement alloc] initWithAccessibilityContainer:viewForElementA];
+  UIAccessibilityElement *elementB =
+      [[UIAccessibilityElement alloc] initWithAccessibilityContainer:viewForElementB];
+  UIAccessibilityElement *elementC =
+      [[UIAccessibilityElement alloc] initWithAccessibilityContainer:viewForElementC];
 
   GREYUTCustomAccessibilityView *viewC =
       [[GREYUTCustomAccessibilityView alloc] initWithObjects:@[ elementC ]];
@@ -449,10 +432,7 @@ const CGRect kTestRect = { { 0.0f, 0.0f }, { 10.0f, 10.0f } };
                                         @"  |--<UIAccessibilityElement:",
                                         @"  |  |--<GREYUTCustomAccessibilityView:",
                                         @"  |  |--<UIAccessibilityElement:" ];
-
-  for (NSString *targetString in stringTargetHierarchy) {
-    XCTAssert([stringHierarchy rangeOfString:targetString].location != NSNotFound);
-  }
+  [self grey_assertString:stringHierarchy containsStringsInArray:stringTargetHierarchy];
 }
 
 - (void)testHierarchyStringForAXViewWithAnnotations {
@@ -487,6 +467,74 @@ const CGRect kTestRect = { { 0.0f, 0.0f }, { 10.0f, 10.0f } };
                     (NSUInteger)NSNotFound);
   XCTAssertNotEqual([uiHierarchy rangeOfString:imgViewCustomPrefix].location,
                     (NSUInteger)NSNotFound);
+}
+
+- (void)testHierarchyStringForNSObjectCategory {
+  UIView *viewForElementA = [[UIView alloc] initWithFrame:kTestRect];
+  UIView *viewForElementB = [[UIView alloc] initWithFrame:kTestRect];
+  UIView *viewForElementC = [[UIView alloc] initWithFrame:kTestRect];
+  UIAccessibilityElement *elementA =
+      [[UIAccessibilityElement alloc] initWithAccessibilityContainer:viewForElementA];
+  UIAccessibilityElement *elementB =
+      [[UIAccessibilityElement alloc] initWithAccessibilityContainer:viewForElementB];
+  UIAccessibilityElement *elementC =
+      [[UIAccessibilityElement alloc] initWithAccessibilityContainer:viewForElementC];
+
+  GREYUTCustomAccessibilityView *viewC =
+      [[GREYUTCustomAccessibilityView alloc] initWithObjects:@[ elementC ]];
+  GREYUTCustomAccessibilityView *viewB =
+      [[GREYUTCustomAccessibilityView alloc] initWithObjects:@[ viewC, elementB ]];
+  GREYUTCustomAccessibilityView *viewA =
+      [[GREYUTCustomAccessibilityView alloc] initWithObjects:@[ viewB, elementA ]];
+
+  NSString *hierarchyForViewA = [viewA grey_recursiveDescription];
+  NSArray *stringTargetHierarchy = @[ @"<GREYUTCustomAccessibilityView:",
+                                      @"<UIAccessibilityElement:",
+                                      @"  |--<GREYUTCustomAccessibilityView:",
+                                      @"  |--<UIAccessibilityElement:",
+                                      @"  |  |--<GREYUTCustomAccessibilityView:",
+                                      @"  |  |--<UIAccessibilityElement:" ];
+  [self grey_assertString:hierarchyForViewA containsStringsInArray:stringTargetHierarchy];
+
+  NSString *hierarchyForSingleAxElement = [elementC grey_recursiveDescription];
+  stringTargetHierarchy = @[ @"<UIAccessibilityElement:" ];
+  [self grey_assertString:hierarchyForSingleAxElement containsStringsInArray:stringTargetHierarchy];
+
+  NSString *hierarchyForSingleView = [viewForElementA grey_recursiveDescription];
+  stringTargetHierarchy = @[ @"<UIView:" ];
+  [self grey_assertString:hierarchyForSingleView containsStringsInArray:stringTargetHierarchy];
+
+  NSString *hierarchyForViewWithContainer = [viewC grey_recursiveDescription];
+  stringTargetHierarchy = @[ @"<GREYUTCustomAccessibilityView:",
+                             @"  |--<UIAccessibilityElement:" ];
+  [self grey_assertString:hierarchyForViewWithContainer
+      containsStringsInArray:stringTargetHierarchy];
+
+  NSString *hierarchyForContainerWithView = [elementA grey_recursiveDescription];
+  stringTargetHierarchy = @[ @"<UIAccessibilityElement:" ];
+  for (NSString *targetString in stringTargetHierarchy) {
+    XCTAssertNotEqual([hierarchyForContainerWithView rangeOfString:targetString].location,
+                      (NSUInteger)NSNotFound);
+  }
+  [self grey_assertString:hierarchyForContainerWithView
+      containsStringsInArray:stringTargetHierarchy];
+}
+
+- (void)testHierarchyForInstantiatedNSObject {
+  NSObject *object = [[NSObject alloc] init];
+  NSString *hierarchyForNSObject = [object grey_recursiveDescription];
+  NSString *stringTargetHierarchy = @"<NSObject:";
+  XCTAssertNotEqual([hierarchyForNSObject rangeOfString:stringTargetHierarchy].location,
+                    (NSUInteger)NSNotFound);
+}
+
+# pragma mark - Private
+
+- (void)grey_assertString:(NSString *)hierarchyString
+   containsStringsInArray:(NSArray<NSString *> *)targetHierarchy {
+  for (NSString *targetString in targetHierarchy) {
+    XCTAssert([hierarchyString rangeOfString:targetString].location != NSNotFound);
+  }
 }
 
 @end
