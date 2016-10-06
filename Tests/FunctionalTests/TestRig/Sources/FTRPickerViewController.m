@@ -20,7 +20,7 @@
 
 @synthesize customPicker;
 @synthesize datePicker;
-@synthesize disabledPicker;
+@synthesize interactionDisabledPicker;
 @synthesize datePickerSegmentedControl;
 @synthesize customColumn1Array;
 @synthesize customColumn2Array;
@@ -46,11 +46,11 @@
 
   [self.customPicker setHidden:YES];
   [self.datePicker setHidden:YES];
-    [self.disabledPicker setHidden:YES];
+  [self.interactionDisabledPicker setHidden:YES];
 
   self.datePicker.accessibilityIdentifier = @"DatePickerId";
   self.customPicker.accessibilityIdentifier = @"CustomPickerId";
-  self.disabledPicker.accessibilityIdentifier = @"DisabledPickerId";
+  self.interactionDisabledPicker.accessibilityIdentifier = @"InteractionDisabledPickerId";
   self.dateLabel.accessibilityIdentifier = @"DateLabelId";
   self.clearLabelButton.accessibilityIdentifier = @"ClearDateLabelButtonId";
 
@@ -72,7 +72,7 @@
 - (IBAction)valueChanged:(id)sender {
   [datePicker setHidden:YES];
   [customPicker setHidden:YES];
-  [disabledPicker setHidden:YES];
+  [interactionDisabledPicker setHidden:YES];
   NSInteger selectedSegment = datePickerSegmentedControl.selectedSegmentIndex;
 
   switch (selectedSegment) {
@@ -96,7 +96,7 @@
       [customPicker setHidden:NO];
       break;
     case 5:
-      [disabledPicker setHidden:NO];
+      [interactionDisabledPicker setHidden:NO];
   }
 }
 

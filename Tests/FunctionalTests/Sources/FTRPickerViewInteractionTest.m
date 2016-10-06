@@ -27,18 +27,19 @@
 }
 
 - (void)testInteractionIsImpossibleIfInteractionDisabled {
-    [[EarlGrey selectElementWithMatcher:grey_text(@"Disabled")] performAction:grey_tap()];
-    
-    NSError *error;
-    
-    [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"DisabledPickerId")]
-     performAction:[GREYActions actionForSetPickerColumn:0 toValue:@"Green"]
-     error:&error];
-    
-    GREYAssertTrue(error.code == kGREYInteractionActionFailedErrorCode, @"code should match");
-    
-    [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"DisabledPickerId")]
-     assertWithMatcher:grey_pickerColumnSetToValue(0, @"Red")];
+  [[EarlGrey selectElementWithMatcher:grey_text(@"Disabled")] performAction:grey_tap()];
+
+  NSError *error;
+
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"InteractionDisabledPickerId")]
+      performAction:[GREYActions actionForSetPickerColumn:0 toValue:@"Green"]
+              error:&error];
+
+  GREYAssertTrue(error.domain == kGREYInteractionErrorDomain, @"Error domain should match");
+  GREYAssertTrue(error.code == kGREYInteractionActionFailedErrorCode, @"Error code should match");
+
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"InteractionDisabledPickerId")]
+      assertWithMatcher:grey_pickerColumnSetToValue(0, @"Red")];
 }
 
 - (void)testDateOnlyPicker {
