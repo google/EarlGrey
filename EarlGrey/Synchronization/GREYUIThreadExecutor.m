@@ -25,6 +25,8 @@
 #import "Common/GREYConstants.h"
 #import "Common/GREYDefines.h"
 #import "Common/GREYPrivate.h"
+#import "Common/GREYStopwatch.h"
+#import "Common/GREYVerboseLogger.h"
 #import "Synchronization/GREYAppStateTracker.h"
 #import "Synchronization/GREYDispatchQueueIdlingResource.h"
 #import "Synchronization/GREYOperationQueueIdlingResource.h"
@@ -141,7 +143,9 @@ typedef NS_ENUM(NSInteger, GREYExecutionState) {
 
 - (void)drainForTime:(CFTimeInterval)seconds {
   NSParameterAssert(seconds >= 0);
-
+  GREYLogVerbose(@"Active Run Loop being drained for %f seconds.", seconds);
+  GREYStopwatch *stopwatch = [[GREYStopwatch alloc] init];
+  [stopwatch start];
   // Drain the active run loop for @c seconds. Allow the run loop to sleep.
   GREYRunLoopSpinner *runLoopSpinner = [[GREYRunLoopSpinner alloc] init];
 
@@ -154,18 +158,38 @@ typedef NS_ENUM(NSInteger, GREYExecutionState) {
   [runLoopSpinner spinWithStopConditionBlock:^BOOL{
     return NO;
   }];
+  [stopwatch stop];
+  GREYLogVerbose(@"Active Run Loop was drained for %f seconds", [stopwatch elapsedTime]);
 }
 
 - (void)drainUntilIdle {
+  GREYLogVerbose(@"Active Run Loop being drained for an infinite timeout until the app is Idle.");
+  GREYStopwatch *stopwatch = [[GREYStopwatch alloc] init];
+  [stopwatch start];
   [self executeSyncWithTimeout:kGREYInfiniteTimeout block:nil error:nil];
+  [stopwatch stop];
+  GREYLogVerbose(@"App became idle after %f seconds", [stopwatch elapsedTime]);
 }
 
 - (BOOL)drainUntilIdleWithTimeout:(CFTimeInterval)seconds {
   NSError *ignoreError;
-  return [self executeSyncWithTimeout:seconds block:nil error:&ignoreError];
+  GREYLogVerbose(@"Active Run Loop being drained for an %f seconds until the app is Idle.",
+                 seconds);
+  GREYStopwatch *stopwatch = [[GREYStopwatch alloc] init];
+  [stopwatch start];
+  BOOL success = [self executeSyncWithTimeout:seconds block:nil error:&ignoreError];
+  [stopwatch stop];
+  if (success) {
+    GREYLogVerbose(@"App became idle after %f seconds", [stopwatch elapsedTime]);
+  } else {
+    GREYLogVerbose(@"Run loop drain timed out after %f seconds", [stopwatch elapsedTime]);
+  }
+  return success;
 }
 
 - (BOOL)executeSync:(GREYExecBlock)execBlock error:(__strong NSError **)error {
+  GREYLogVerbose(@"Execution block: %@ is being synchronized and executed on the main thread.",
+                 execBlock);
   return [self executeSyncWithTimeout:kGREYInfiniteTimeout block:execBlock error:error];
 }
 

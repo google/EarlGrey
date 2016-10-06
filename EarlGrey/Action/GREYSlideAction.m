@@ -23,6 +23,7 @@
 #import "Assertion/GREYAssertionDefines.h"
 #import "Common/GREYConstants.h"
 #import "Common/GREYDefines.h"
+#import "Common/GREYVerboseLogger.h"
 #import "Core/GREYInteraction.h"
 #import "Event/GREYSyntheticEvents.h"
 #import "Matcher/GREYAllOf.h"
@@ -109,7 +110,7 @@
                                 expendable:NO];
 
       // For debugging purposes, leave this in.
-      NSLog(@"Slider value after moving: %f", slider.value);
+      GREYLogVerbose(@"Slider value after moving: %f", slider.value);
 
       // Update |previousSliderValue| and |currentSliderValue| only if slider value actually
       // changed.

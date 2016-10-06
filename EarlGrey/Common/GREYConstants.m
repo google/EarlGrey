@@ -25,6 +25,7 @@ const CFTimeInterval kGREYInfiniteTimeout = DBL_MAX;
 const CFTimeInterval kGREYLongPressDefaultDuration = 0.5;
 const CGFloat kGREYAcceptableFloatDifference = 0.00001f;
 const NSInteger kUIPickerViewMaxAccessibilityViews = 500;
+NSString *const kGREYAllowVerboseLogging = @"kGREYAllowVerboseLogging";
 
 NSString *NSStringFromUIDeviceOrientation(UIDeviceOrientation deviceOrientation) {
   switch (deviceOrientation) {

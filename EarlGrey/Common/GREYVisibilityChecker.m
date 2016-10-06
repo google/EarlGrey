@@ -22,6 +22,7 @@
 #import "Additions/NSObject+GREYAdditions.h"
 #import "Additions/UIView+GREYAdditions.h"
 #import "Common/GREYConstants.h"
+#import "Common/GREYVerboseLogger.h"
 #import "Common/GREYScreenshotUtil.h"
 #import "Synchronization/GREYUIThreadExecutor.h"
 
@@ -149,6 +150,9 @@ inline void GREYVisibilityDiffBufferSetVisibilityAt(GREYVisibilityDiffBuffer buf
     [cache setVisibleAreaPercent:percentVisible];
   }
 
+  GREYLogVerbose(@"Visibility Percent: %f for Element: %@",
+                 [percentVisible floatValue],
+                 [element grey_description]);
   return [percentVisible floatValue];
 }
 

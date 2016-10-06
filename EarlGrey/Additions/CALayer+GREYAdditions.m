@@ -22,6 +22,7 @@
 #import "Additions/NSObject+GREYAdditions.h"
 #import "Common/GREYConfiguration.h"
 #import "Common/GREYSwizzler.h"
+#import "Common/GREYVerboseLogger.h"
 #import "Synchronization/GREYAppStateTracker.h"
 
 static void const *const kPausedAnimationKeys = &kPausedAnimationKeys;
@@ -76,8 +77,10 @@ static void const *const kPausedAnimationKeys = &kPausedAnimationKeys;
   CFTimeInterval maxAllowableAnimationDuration =
       (CFTimeInterval)GREY_CONFIG_DOUBLE(kGREYConfigKeyCALayerMaxAnimationDuration);
   if ([animation duration] > maxAllowableAnimationDuration) {
-    NSLog(@"Adjusting repeatCount and repeatDuration to 0 for animation %@", animation);
-    NSLog(@"Adjusting duration to %f for animation %@", maxAllowableAnimationDuration, animation);
+    GREYLogVerbose(@"Adjusting repeatCount and repeatDuration to 0 for animation %@", animation);
+    GREYLogVerbose(@"Adjusting duration to %f for animation %@",
+                   maxAllowableAnimationDuration,
+                   animation);
     animation.duration = maxAllowableAnimationDuration;
   }
   if (animation.duration != 0) {
@@ -85,10 +88,14 @@ static void const *const kPausedAnimationKeys = &kPausedAnimationKeys;
     float allowableRepeatCount = (float)(allowableRepeatDuration / animation.duration);
     // Either repeatCount or repeatDuration is specified, not both.
     if (animation.repeatDuration > allowableRepeatDuration) {
-      NSLog(@"Adjusting repeatDuration to %f for animation %@", allowableRepeatDuration, animation);
+      GREYLogVerbose(@"Adjusting repeatDuration to %f for animation %@",
+                     allowableRepeatDuration,
+                     animation);
       animation.repeatDuration = allowableRepeatDuration;
     } else if (animation.repeatCount > allowableRepeatCount) {
-      NSLog(@"Adjusting repeatCount to %f for animation %@", allowableRepeatCount, animation);
+      GREYLogVerbose(@"Adjusting repeatCount to %f for animation %@",
+                     allowableRepeatCount,
+                     animation);
       animation.repeatCount = allowableRepeatCount;
     }
   }

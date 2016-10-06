@@ -124,7 +124,6 @@ static id gRealSharedApplication;
   [[GREYConfiguration sharedInstance] reset];
 
   // We don't want verbose logging in unit test as it can interfere with some timeout related tests.
-  [[GREYConfiguration sharedInstance] setValue:@NO forConfigKey:kGREYConfigKeyVerboseLogging];
   [EarlGrey setFailureHandler:[[GREYUTFailureHandler alloc] init]];
 
   // Force busy polling so that the thread executor and waiting conditions do not allow the
