@@ -139,6 +139,9 @@
                 <a href="../Constants.html#/c:@kGREYActionUserInfoKey">kGREYActionUserInfoKey</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYAllowVerboseLogging">kGREYAllowVerboseLogging</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Constants.html#/c:@kGREYAssertionElementUserInfoKey">kGREYAssertionElementUserInfoKey</a>
               </li>
               <li class="nav-group-task">
@@ -185,9 +188,6 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Constants.html#/c:@kGREYConfigKeyURLBlacklistRegex">kGREYConfigKeyURLBlacklistRegex</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Constants.html#/c:@kGREYConfigKeyVerboseLogging">kGREYConfigKeyVerboseLogging</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Constants.html#/c:@kGREYDidPerformActionNotification">kGREYDidPerformActionNotification</a>
@@ -623,12 +623,12 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="n">sharedInstance</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="p">)</span><span class="n">sharedInstance</span><span class="p">;</span></code></pre>
 
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">sharedInstance</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">AnyObject</span><span class="o">!</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">sharedInstance</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">AnyObject</span></code></pre>
 
                         </div>
                       </div>
@@ -654,7 +654,7 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>If a user-configured value is associated with the given @c configKey, it is returned,
-  otherwise the default value is returned, if a default value is not found, or an
+  otherwise the default value is returned. If a default value is not found, or an
   NSInvalidArgumentException is raised.</p>
 
 <p>@throws NSInvalidArgumentException If no value could be found associated with @c configKey.</p>
@@ -664,12 +664,12 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="nf">valueForConfigKey</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">configKey</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="p">)</span><span class="nf">valueForConfigKey</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">configKey</span><span class="p">;</span></code></pre>
 
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">valueForConfigKey</span><span class="p">(</span><span class="nv">configKey</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyObject</span><span class="o">!</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">valueForConfigKey</span><span class="p">(</span><span class="nv">configKey</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyObject</span></code></pre>
 
                         </div>
                       </div>
@@ -685,8 +685,7 @@
                               </td>
                               <td>
                                 <div>
-                                  <p>The key whose value is being queried. It cannot be be @c
-or empty.</p>
+                                  <p>The key whose value is being queried. Must be a valid @c</p>
 
                                 </div>
                               </td>
@@ -716,8 +715,8 @@ or empty.</p>
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>If a user-configured value is associated with the given @c configKey, it is returned, otherwise
-  the default value is returned, if a default value is not found, NSInvalidArgumentException is
-  raised. Configuration keys cannot be be empty strings or @c nil.</p>
+  the default value is returned. If a default value is not found, NSInvalidArgumentException is
+  raised.</p>
 
 <p>@throws NSInvalidArgumentException If no value could be found for the given @c configKey.</p>
 
@@ -726,12 +725,12 @@ or empty.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">boolValueForConfigKey</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">configKey</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">boolValueForConfigKey</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">configKey</span><span class="p">;</span></code></pre>
 
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">boolValueForConfigKey</span><span class="p">(</span><span class="nv">configKey</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">boolValueForConfigKey</span><span class="p">(</span><span class="nv">configKey</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
 
                         </div>
                       </div>
@@ -747,7 +746,7 @@ or empty.</p>
                               </td>
                               <td>
                                 <div>
-                                  <p>The key whose value is being queried.</p>
+                                  <p>The key whose value is being queried. Must be a valid @c</p>
 
                                 </div>
                               </td>
@@ -767,9 +766,9 @@ value for the configuration associated with @c</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:objc(cs)GREYConfiguration(im)intValueForConfigKey:"></a>
-                    <a name="//apple_ref/objc/Method/-intValueForConfigKey:" class="dashAnchor"></a>
-                    <a class="token" href="#/c:objc(cs)GREYConfiguration(im)intValueForConfigKey:">-intValueForConfigKey:</a>
+                    <a name="/c:objc(cs)GREYConfiguration(im)integerValueForConfigKey:"></a>
+                    <a name="//apple_ref/objc/Method/-integerValueForConfigKey:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYConfiguration(im)integerValueForConfigKey:">-integerValueForConfigKey:</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -778,8 +777,8 @@ value for the configuration associated with @c</p>
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>If a user-configured value is associated with the given @c configKey, it is returned, otherwise
-  the default value is returned, if a default value is not found, NSInvalidArgumentException is
-  raised. Configuration keys cannot be be empty strings or @c nil.</p>
+  the default value is returned. If a default value is not found, NSInvalidArgumentException is
+  raised.</p>
 
 <p>@throws NSInvalidArgumentException If no value could be found for the given @c configKey.</p>
 
@@ -788,12 +787,12 @@ value for the configuration associated with @c</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">NSInteger</span><span class="p">)</span><span class="nf">intValueForConfigKey</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">configKey</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">NSInteger</span><span class="p">)</span><span class="nf">integerValueForConfigKey</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">configKey</span><span class="p">;</span></code></pre>
 
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">intValueForConfigKey</span><span class="p">(</span><span class="nv">configKey</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Int</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">integerValueForConfigKey</span><span class="p">(</span><span class="nv">configKey</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Int</span></code></pre>
 
                         </div>
                       </div>
@@ -809,7 +808,7 @@ value for the configuration associated with @c</p>
                               </td>
                               <td>
                                 <div>
-                                  <p>The key whose value is being queried.</p>
+                                  <p>The key whose value is being queried. Must be a valid @c</p>
 
                                 </div>
                               </td>
@@ -839,8 +838,8 @@ value for the configuration associated with @c</p>
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>If a user-configured value is associated with the given @c configKey, it is returned, otherwise
-  the default value is returned, if a default value is not found, NSInvalidArgumentException is
-  raised. Configuration keys cannot be be empty strings or @c nil.</p>
+  the default value is returned. If a default value is not found, NSInvalidArgumentException is
+  raised.</p>
 
 <p>@throws NSInvalidArgumentException If no value could be found for the given @c configKey.</p>
 
@@ -849,12 +848,12 @@ value for the configuration associated with @c</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="nf">doubleValueForConfigKey</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">configKey</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="nf">doubleValueForConfigKey</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">configKey</span><span class="p">;</span></code></pre>
 
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">doubleValueForConfigKey</span><span class="p">(</span><span class="nv">configKey</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Double</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">doubleValueForConfigKey</span><span class="p">(</span><span class="nv">configKey</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Double</span></code></pre>
 
                         </div>
                       </div>
@@ -870,7 +869,7 @@ value for the configuration associated with @c</p>
                               </td>
                               <td>
                                 <div>
-                                  <p>The key whose value is being queried.</p>
+                                  <p>The key whose value is being queried. Must be a valid @c</p>
 
                                 </div>
                               </td>
@@ -900,9 +899,9 @@ value for the configuration associated with @c</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>If a user-configured value associated with the given @c configKey, it is returned, otherwise
-  the default value is returned, if a default value is not found, NSInvalidArgumentException is
-  raised. Configuration keys cannot be be empty strings or @c nil.</p>
+                        <p>If a user-configured value is associated with the given @c configKey, it is returned, otherwise
+  the default value is returned. If a default value is not found, NSInvalidArgumentException is
+  raised.</p>
 
 <p>@throws NSInvalidArgumentException If no value could be found for the given @c configKey.</p>
 
@@ -911,12 +910,12 @@ value for the configuration associated with @c</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nf">stringValueForConfigKey</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">configKey</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nf">stringValueForConfigKey</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">configKey</span><span class="p">;</span></code></pre>
 
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">stringValueForConfigKey</span><span class="p">(</span><span class="nv">configKey</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">String</span><span class="o">!</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">stringValueForConfigKey</span><span class="p">(</span><span class="nv">configKey</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">String</span></code></pre>
 
                         </div>
                       </div>
@@ -932,7 +931,7 @@ value for the configuration associated with @c</p>
                               </td>
                               <td>
                                 <div>
-                                  <p>The key whose value is being queried.</p>
+                                  <p>The key whose value is being queried. Must be a valid @c</p>
 
                                 </div>
                               </td>
@@ -951,6 +950,67 @@ value for the configuration associated with @c</p>
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/c:objc(cs)GREYConfiguration(im)arrayValueForConfigKey:"></a>
+                    <a name="//apple_ref/objc/Method/-arrayValueForConfigKey:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYConfiguration(im)arrayValueForConfigKey:">-arrayValueForConfigKey:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>If a user-configured value is associated with the given @c configKey, it is returned, otherwise
+  the default value is returned. If a default value is not found, NSInvalidArgumentException is
+  raised.</p>
+
+<p>@throws NSInvalidArgumentException If no value could be found for the given @c configKey.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="nf">arrayValueForConfigKey</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">configKey</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">arrayValueForConfigKey</span><span class="p">(</span><span class="nv">configKey</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">AnyObject</span><span class="p">]</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>configKey</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The key whose value is being queried. Must be a valid @c</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The array value for the configuration associated with @c</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/c:objc(cs)GREYConfiguration(im)reset"></a>
                     <a name="//apple_ref/objc/Method/-reset" class="dashAnchor"></a>
                     <a class="token" href="#/c:objc(cs)GREYConfiguration(im)reset">-reset</a>
@@ -961,7 +1021,10 @@ value for the configuration associated with @c</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Resets the configuration to default values, removing all configured values.</p>
+                        <p>Resets all configurations to default values, removing all the configured values.</p>
+
+<p>@remark Any default values added by calling GREYConfiguration:setDefaultValue:forConfigKey:
+  are not reset.</p>
 
                       </div>
                       <div class="declaration">
@@ -993,21 +1056,22 @@ value for the configuration associated with @c</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Sets the configuration with key @c configKey to the provided @c value. Overwrites any default
-  entry for @c configKey. To restore the default values, call reset method. Configuration keys
-  cannot be be empty strings or @c nil.</p>
+                        <p>Given a value and a key that identifies a configuration, set the value of the configuration.
+  Overwrites any previous value for the configuration.</p>
+
+<p>@remark To restore original values, call GREYConfiguration::reset.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setValue</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="nv">value</span> <span class="nf">forConfigKey</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">configKey</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setValue</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">id</span><span class="p">)</span><span class="nv">value</span> <span class="nf">forConfigKey</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">configKey</span><span class="p">;</span></code></pre>
 
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">setValue</span><span class="p">(</span><span class="nv">value</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="o">!</span><span class="p">,</span> <span class="n">forConfigKey</span> <span class="nv">configKey</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">setValue</span><span class="p">(</span><span class="nv">value</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">,</span> <span class="n">forConfigKey</span> <span class="nv">configKey</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -1023,7 +1087,7 @@ value for the configuration associated with @c</p>
                               </td>
                               <td>
                                 <div>
-                                  <p>The configuration value to be set.</p>
+                                  <p>The configuration value to be set. Scalars should be wrapped in @c</p>
 
                                 </div>
                               </td>
@@ -1036,8 +1100,7 @@ value for the configuration associated with @c</p>
                               </td>
                               <td>
                                 <div>
-                                  <p>The key with which the given @c
-will be associated.</p>
+                                  <p>Key identifying an existing or new configuration. Must be a valid @c</p>
 
                                 </div>
                               </td>
@@ -1061,22 +1124,23 @@ will be associated.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Adds a default entry for configuration with key @c configKey set to provided @c value. Default
-  values persist even after reset is called but may be overwritten by calling
-  GREYConfiguration::setValue:forConfigKey: Configuration keys cannot be be empty strings or
-  @c nil.</p>
+                        <p>Associates configuration identified by @c configKey with the provided @c value.</p>
+
+<p>@remark Default values persist even after resetting the configuration
+         (using GREYConfiguration::reset)</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setDefaultValue</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="nv">value</span> <span class="nf">forConfigKey</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">configKey</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setDefaultValue</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">id</span><span class="p">)</span><span class="nv">value</span>
+           <span class="nf">forConfigKey</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">configKey</span><span class="p">;</span></code></pre>
 
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">setDefaultValue</span><span class="p">(</span><span class="nv">value</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="o">!</span><span class="p">,</span> <span class="n">forConfigKey</span> <span class="nv">configKey</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">setDefaultValue</span><span class="p">(</span><span class="nv">value</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">,</span> <span class="n">forConfigKey</span> <span class="nv">configKey</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -1092,7 +1156,7 @@ will be associated.</p>
                               </td>
                               <td>
                                 <div>
-                                  <p>The configuration value to be set.</p>
+                                  <p>The configuration value to be set. Scalars should be wrapped in @c</p>
 
                                 </div>
                               </td>
@@ -1105,8 +1169,7 @@ will be associated.</p>
                               </td>
                               <td>
                                 <div>
-                                  <p>The key with which the given @c
-will be associated.</p>
+                                  <p>Key identifying an existing or new configuration. Must be a valid @c</p>
 
                                 </div>
                               </td>
