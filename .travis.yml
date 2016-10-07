@@ -36,7 +36,7 @@ env:
     - DESTINATION="OS=9.3,name=iPhone 6s" SDK=iphonesimulator9.3 TYPE="CARTHAGE"
     - TYPE="RUBY"
 before_install:
-  - gem install xcpretty --no-rdoc --no-ri --no-document --quiet
+  - gem install xcpretty -v 0.2.2 --no-rdoc --no-ri --no-document --quiet
 before_script:
   - Scripts/setup-earlgrey.sh
 script:
