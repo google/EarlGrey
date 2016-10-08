@@ -3,6 +3,33 @@
 Details changes in each release of EarlGrey. EarlGrey follows
 [semantic versioning](http://semver.org/).
 
+## [1.4.0](https://github.com/google/EarlGrey/tree/1.4.0) (10/07/2016)
+
+```
+Baseline: [b5e34db]
+   + [b5e34db]: Update Info.plist / Podspec / Cheatsheet for EarlGrey 1.4.0
+```
+
+### Compatibility
+* Requires iOS 8 as the minimum deployment target.
+* EarlGrey.gem runs out of the box for Swift 2.2.x. For Swift 3.0, please
+  use the [Swift Migration Guide](https://swift.org/migration-guide/) to
+  add the `Use Legacy Swift` build setting to your test target until we
+  provide support.
+* Has been tested for support till iOS 10.01 on devices and simulator.
+
+### Enhancements
+* A better way to blacklist URL's in GREYConfiguration by adding them to an NSArray.
+* A verbose logger to provide more descriptive EarlGrey logs that can be enabled by passing
+  `-kGREYAllowVerboseLogging YES` as a command line argument to xcodebuild. Verbose
+  logging also measures the performance of interactions and the thread executor
+  by using a stopwatch class.
+* Improvements to `-[XCTestCase greyStatus]` to better reflect the status of a test.
+
+### Bug Fixes
+* Corrected selection of `UIPickerView`s even when they were disabled.
+* Minor documentation and syntax fixes.
+
 ## [1.3.1](https://github.com/google/EarlGrey/tree/1.3.1) (09/19/2016)
 
 ```
