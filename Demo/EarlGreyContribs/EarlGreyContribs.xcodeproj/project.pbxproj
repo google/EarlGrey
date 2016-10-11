@@ -379,6 +379,7 @@
 					};
 					FDFCE9AA1D35B0BC006D9592 = {
 						CreatedOnToolsVersion = 7.3;
+						LastSwiftMigration = 0800;
 						TestTargetID = FDFCE9411D3427D2006D9592;
 					};
 				};
@@ -697,6 +698,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "EarlGreyContribsSwiftTests/EarlGreyContribsTestRig-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EarlGreyContribs.app/EarlGreyContribs";
 			};
 			name = Debug;
@@ -712,6 +714,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "EarlGreyContribsSwiftTests/EarlGreyContribsTestRig-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EarlGreyContribs.app/EarlGreyContribs";
 			};
 			name = Release;

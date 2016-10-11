@@ -46,38 +46,38 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     let views = ["clickMe": clickMe, "send": send, "send2": send2, "table": table,
         "sendMessageView": sendMessageView]
     var allConstraints = [NSLayoutConstraint]()
-    let verticalConstraints = NSLayoutConstraint.constraintsWithVisualFormat(
-        "V:|-40-[clickMe]-40-[send2]-40-[table]|", options: [], metrics: nil, views: views)
+    let verticalConstraints = NSLayoutConstraint.constraints(
+        withVisualFormat: "V:|-40-[clickMe]-40-[send2]-40-[table]|", options: [], metrics: nil, views: views)
     allConstraints += verticalConstraints
-    let buttonsHorizontalConstraints = NSLayoutConstraint.constraintsWithVisualFormat(
-        "|-10-[clickMe(100)]-20-[send(100)]", options:.AlignAllTop,
+    let buttonsHorizontalConstraints = NSLayoutConstraint.constraints(
+        withVisualFormat: "|-10-[clickMe(100)]-20-[send(100)]", options:.alignAllTop,
         metrics: nil, views: views)
     allConstraints += buttonsHorizontalConstraints
-    let sendMessageViewConstraints = NSLayoutConstraint.constraintsWithVisualFormat(
-        "|-10-[send2(100)]", options:.AlignAllTop,
+    let sendMessageViewConstraints = NSLayoutConstraint.constraints(
+        withVisualFormat: "|-10-[send2(100)]", options:.alignAllTop,
         metrics: nil, views: views)
     allConstraints += sendMessageViewConstraints
-    let tableConstraints = NSLayoutConstraint.constraintsWithVisualFormat(
-        "|-10-[table(320)]", options:.AlignAllTop,
+    let tableConstraints = NSLayoutConstraint.constraints(
+        withVisualFormat: "|-10-[table(320)]", options:.alignAllTop,
         metrics: nil, views: views)
     allConstraints += tableConstraints
-    NSLayoutConstraint.activateConstraints(allConstraints)
+    NSLayoutConstraint.activate(allConstraints)
   }
 
-  func createButton(title: String) -> UIButton {
-    let button = UIButton(type: .System)
+  func createButton(_ title: String) -> UIButton {
+    let button = UIButton(type: .system)
     button.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
-    button.backgroundColor = UIColor.greenColor()
-    button.setTitle(title, forState: .Normal)
+    button.backgroundColor = UIColor.green
+    button.setTitle(title, for: UIControlState())
     button.addTarget(self, action: #selector(ViewController.buttonAction(_:)),
-        forControlEvents: .TouchUpInside)
+        for: .touchUpInside)
     button.accessibilityIdentifier = title
     button.accessibilityLabel = title
     button.translatesAutoresizingMaskIntoConstraints = false
     return button
   }
 
-  func buttonAction(sender: UIButton!) {
+  func buttonAction(_ sender: UIButton!) {
     if let id = sender.accessibilityIdentifier {
       print("Button \(id) clicked")
     }
@@ -88,7 +88,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     tableView.frame = CGRect(x: 0, y: 0, width: 320, height: 200)
     tableView.delegate = self
     tableView.dataSource = self
-    tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
+    tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
     tableView.translatesAutoresizingMaskIntoConstraints = false
     tableView.estimatedRowHeight = 85.0
     tableView.rowHeight = UITableViewAutomaticDimension
@@ -96,39 +96,39 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     return tableView
   }
 
-  func numberOfSectionsInTableView(tableView:UITableView) -> Int {
+  func numberOfSections(in tableView:UITableView) -> Int {
     return 1
   }
 
-  func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return tableItems.count
   }
 
-  func tableView(tableView: UITableView,
-      cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+  func tableView(_ tableView: UITableView,
+      cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell:UITableViewCell =
-        tableView.dequeueReusableCellWithIdentifier("cell")! as UITableViewCell
+        tableView.dequeueReusableCell(withIdentifier: "cell")! as UITableViewCell
     // For cell 1 to 7, add a date
     var cellID : String
-    if (indexPath.row >= 1 && indexPath.row <= 7) {
-      cellID = getDateForIndex(indexPath.row)
+    if ((indexPath as NSIndexPath).row >= 1 && (indexPath as NSIndexPath).row <= 7) {
+      cellID = getDateForIndex((indexPath as NSIndexPath).row)
     } else {
-      cellID = "Cell\(tableItems[indexPath.row])"
+      cellID = "Cell\(tableItems[(indexPath as NSIndexPath).row])"
     }
     cell.textLabel?.text = cellID
     cell.accessibilityIdentifier = cellID
     return cell
   }
 
-  func getDateForIndex(index: Int) -> String {
-    var date = NSDate()
-    let dateDeltaComponents = NSDateComponents()
+  func getDateForIndex(_ index: Int) -> String {
+    var date = Date()
+    var dateDeltaComponents = DateComponents()
     dateDeltaComponents.day = index
-    date = NSCalendar.currentCalendar().dateByAddingComponents(
-        dateDeltaComponents, toDate: date, options: NSCalendarOptions(rawValue: 0))!
-    let formatter = NSDateFormatter()
-    formatter.dateStyle = .LongStyle
-    return formatter.stringFromDate(date)
+    date = (Calendar.current as NSCalendar).date(
+        byAdding: dateDeltaComponents, to: date, options: NSCalendar.Options(rawValue: 0))!
+    let formatter = DateFormatter()
+    formatter.dateStyle = .long
+    return formatter.string(from: date)
   }
 }
 
