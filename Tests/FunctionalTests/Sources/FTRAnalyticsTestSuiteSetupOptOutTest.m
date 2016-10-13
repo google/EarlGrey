@@ -21,21 +21,16 @@
 
 @implementation FTRAnalyticsTestSuiteSetupOptOutTest
 
-- (void)testMethodToTriggerTestRunner {
-  // This method is needed to indicate to the test runner that setUp and tearDown are to be called.
-}
-
 + (void)setUp {
   [super setUp];
   [[GREYConfiguration sharedInstance] setValue:@(NO)
                                   forConfigKey:kGREYConfigKeyAnalyticsEnabled];
+  [FTRBaseAnalyticsTest setExpectedAnalyticsRequestsCount:0];
 }
 
-+ (void)tearDown {
-  // The instance tear down method must have been invoked by now and since we have disabled
-  // analytics *no* request must be sent out.
-  [self assertCapturedAnalyticsRequestsCount:0];
-  [super tearDown];
+- (void)testTrivialEarlGreyInvocationToTriggerAnalytics {
+  // Invoke trivial EarlGrey statement to trigger analytics.
+  [[EarlGrey selectElementWithMatcher:grey_keyWindow()] assertWithMatcher:grey_notNil()];
 }
 
 @end

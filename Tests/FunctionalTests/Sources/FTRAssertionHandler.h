@@ -14,21 +14,20 @@
 // limitations under the License.
 //
 
-#import "FTRBaseAnalyticsTest.h"
+/**
+ *  A NSAssertionHandler for FTR tests to capture NSAsserts. Note that NSAsserts are captured and
+ *  saved but not raised again.
+ */
+@interface FTRAssertionHandler : NSAssertionHandler
 
-@interface FTRAnalyticsTest : FTRBaseAnalyticsTest
-@end
+/**
+ *  A property that keeps track of total number of failing assertions.
+ */
+@property(nonatomic, assign) NSInteger failuresCount;
 
-@implementation FTRAnalyticsTest
-
-- (void)testMethodWithEarlGreyUsage {
-  [FTRBaseAnalyticsTest setExpectedAnalyticsRequestsCount:1];
-
-  // Verify that analytics is enabled.
-  GREYAssertTrue(GREY_CONFIG_BOOL(kGREYConfigKeyAnalyticsEnabled), @"should be true");
-
-  // Invoke trivial EarlGrey statement to trigger analytics.
-  [[EarlGrey selectElementWithMatcher:grey_keyWindow()] assertWithMatcher:grey_notNil()];
-}
+/**
+ *  A property that keeps track of the descriptions of all failing assertions.
+ */
+@property(nonatomic, strong) NSMutableArray *failureDescriptions;
 
 @end

@@ -16,26 +16,16 @@
 
 #import "FTRBaseAnalyticsTest.h"
 
-@interface FTRAnalyticsTearDownOptOutTest : FTRBaseAnalyticsTest
+@interface FTRAnalyticsNoEarlGreyUsageTest : FTRBaseAnalyticsTest
 @end
 
-@implementation FTRAnalyticsTearDownOptOutTest
+@implementation FTRAnalyticsNoEarlGreyUsageTest
 
-- (void)testTrivialEarlGreyInvocationToTriggerAnalytics {
+- (void)testMethodWithoutEarlGreyUsage {
   [FTRBaseAnalyticsTest setExpectedAnalyticsRequestsCount:0];
 
-  // Verify that analytics is enabled.
+  // Verify that analytics is enabled by default.
   GREYAssertTrue(GREY_CONFIG_BOOL(kGREYConfigKeyAnalyticsEnabled), @"should be true");
-
-  // Invoke trivial EarlGrey statement to trigger analytics.
-  [[EarlGrey selectElementWithMatcher:grey_keyWindow()] assertWithMatcher:grey_notNil()];
-}
-
-- (void)tearDown {
-  // OptOut of analytics.
-  [[GREYConfiguration sharedInstance] setValue:@(NO)
-                                  forConfigKey:kGREYConfigKeyAnalyticsEnabled];
-  [super tearDown];
 }
 
 @end

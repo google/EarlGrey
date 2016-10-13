@@ -17,17 +17,22 @@
 #import "FTRBaseAnalyticsTest.h"
 
 #import <EarlGrey/EarlGrey.h>
-
-// Not included in public headers.
 #import <EarlGrey/GREYAnalytics.h>
-#import <EarlGrey/GREYAppStateTracker.h>
-#import "FTRNetworkProxy.h"
+#import <EarlGrey/GREYAnalyticsDelegate.h>
+
+#import "FTRAssertionHandler.h"
+
+/**
+ *  A constant used for asserting mismatched analytics hits, this is set to be a global to allow for
+ *  the assertions themselves be tested.
+ */
+NSString *const gFTRAnalyticsHitsMisMatchedPrefix = @"Mismatched Analytics Hits";
 
 /**
  *  Holds the original config setting for analytics that was present before the test began. We use
  *  this to restore analytics setting when done testing.
  */
-static id gOriginalAnalyticsSetting;
+static id<GREYAnalyticsDelegate> gOriginalAnalyticsSetting;
 
 /**
  *  Holds the original analytics delegate that was present before the test began. We use this to
@@ -35,65 +40,81 @@ static id gOriginalAnalyticsSetting;
  */
 static id<GREYAnalyticsDelegate> gOriginalAnalyticsDelegate;
 
+/**
+ *  Holds the test analytics delegate used for intercepting analytics requests.
+ */
+static id<GREYAnalyticsDelegate> gTestAnalyticsDelegate;
+
+/**
+ *  The current total number of analytics hits recieved.
+ */
+static volatile NSInteger gTotalHitsReceived;
+
+/**
+ *  The total number of analytics hits expected by the end of test.
+ */
+static NSInteger gTotalHitsExpected;
+
+@interface FTRBaseAnalyticsTest () <GREYAnalyticsDelegate>
+@end
+
 @implementation FTRBaseAnalyticsTest
 
 + (void)setUp {
   [super setUp];
-  [FTRNetworkProxy ftr_setProxyEnabled:YES];
-  [FTRNetworkProxy ftr_addProxyRuleForUrlsMatchingRegexString:@".*" responseString:@"OK"];
-  // Save the analytics config value so that tests can modify it.
+
+  // Assert there are no leaking hits.
+  NSAssert(gTotalHitsReceived == 0,
+           @"gTotalHitsReceived must was %d, it must be 0 at the start of test, non zero values"
+           @"indicate leaking hits.", (int)gTotalHitsReceived);
+
+  // Save analytics settings so that tests can modify it.
   gOriginalAnalyticsSetting = GREY_CONFIG(kGREYConfigKeyAnalyticsEnabled);
-
-  // Always start analytics tests with clean network actvity.
-  [self ftr_waitForNetworkActivityToFinish];
-  [FTRNetworkProxy ftr_clearRequestsReceived];
-
-  // Reset Analytics delegate to its default for Analytics requests to be sent regardless of
-  // test environment.
   gOriginalAnalyticsDelegate = [[GREYAnalytics sharedInstance] delegate];
-  [[GREYAnalytics sharedInstance] setDelegate:nil];
+
+  // Set Analytics delegate to the test's delegate.
+  gTestAnalyticsDelegate = [[FTRBaseAnalyticsTest alloc] init];
+  [[GREYAnalytics sharedInstance] setDelegate:gTestAnalyticsDelegate];
+}
+
++ (void)classSpecificTearDown {
+  // Assert that  the expected number of hits are received.
+  NSAssert(gTotalHitsExpected == gTotalHitsReceived,
+           @"%@, Received %d count, expected %d",
+           gFTRAnalyticsHitsMisMatchedPrefix,
+           (int)gTotalHitsReceived,
+           (int)gTotalHitsExpected);
+  gTotalHitsReceived = 0;
+
+  // Restore analytics to its original settings.
+  [[GREYConfiguration sharedInstance] setValue:gOriginalAnalyticsSetting
+                                  forConfigKey:kGREYConfigKeyAnalyticsEnabled];
+  [[GREYAnalytics sharedInstance] setDelegate:gOriginalAnalyticsDelegate];
+  gTestAnalyticsDelegate = nil;
 }
 
 + (void)tearDown {
-  // Restore analytics setting to its original value and uninstall the proxy.
-  [[GREYConfiguration sharedInstance] setValue:gOriginalAnalyticsSetting
-                                  forConfigKey:kGREYConfigKeyAnalyticsEnabled];
-  [FTRNetworkProxy ftr_removeMostRecentProxyRuleMatchingUrlRegexString:@".*"];
-  [FTRNetworkProxy ftr_setProxyEnabled:NO];
-  [[GREYAnalytics sharedInstance] setDelegate:gOriginalAnalyticsDelegate];
+  [self classSpecificTearDown];
   [super tearDown];
 }
 
-+ (void)assertCapturedAnalyticsRequestsCount:(NSInteger)count {
-  // Wait for an analytics request to be captured by the proxy.
-  [self ftr_waitForNetworkActivityToFinish];
-  NSInteger actualCount = [self ftr_countAnalyticsRequests:[FTRNetworkProxy ftr_requestsReceived]];
-  NSAssert(count == actualCount,
-           @"Received %d count, expected %d", (int)actualCount, (int)count);
++ (void)setExpectedAnalyticsRequestsCount:(NSInteger)count {
+  gTotalHitsExpected = count;
 }
 
 #pragma mark - Private
 
-/**
- *  @return The count of analytics requests in the specified array of request URL strings.
- */
-+ (NSInteger)ftr_countAnalyticsRequests:(NSArray *)requests {
-  NSInteger count = 0;
-  for (NSString *requestURL in requests) {
-    if ([requestURL hasPrefix:@"https://ssl.google-analytics.com/collect?"]) {
-      count += 1;
-    }
-  }
-  return count;
-}
-
-/**
- *  Waits for all network activity to finish.
- */
-+ (void)ftr_waitForNetworkActivityToFinish {
-  while ([[GREYAppStateTracker sharedInstance] currentState] & kGREYPendingNetworkRequest) {
-    [[GREYUIThreadExecutor sharedInstance] drainOnce];
-  }
+- (void)trackEventWithTrackingID:(NSString *)trackingID
+                        category:(NSString *)category
+                     subCategory:(NSString *)subCategory
+                           value:(NSNumber *)valueOrNil {
+  NSAssert([NSThread isMainThread], @"The tests expects that Analytics delegate is invoked on "
+                                    @"main thread.");
+  gTotalHitsReceived += 1;
+  [gOriginalAnalyticsDelegate trackEventWithTrackingID:trackingID
+                                              category:category
+                                           subCategory:subCategory
+                                                 value:valueOrNil];
 }
 
 @end
