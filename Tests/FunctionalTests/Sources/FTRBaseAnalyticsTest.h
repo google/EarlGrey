@@ -15,20 +15,30 @@
 //
 
 /**
- *  Base class for Analytics tests. Extending from this class causes FTRNetworkProxy to be
- *  automatically installed and all network requests captured for the entire duration of the test.
- *  Additionally the analytics config setting is saved in the test suite's set up and restored in
- *  the tear down so the derived classes can modify it without effecting other tests.
+ *  A constant used for asserting mismatched analytics hits, this is set to be a global to allow for
+ *  the assertions themselves be tested.
+ */
+extern NSString *const gFTRAnalyticsHitsMisMatchedPrefix;
+
+/**
+ *  Base class for Analytics tests. Extending from this class causes the analytics config settings
+ *  to be saved in the test class's setUp and restored in the tearDown so that the derived classes
+ *  can modify it without effecting other tests. In addition, this class provides APIs to assert on
+ *  the total number of hits sent out during the test.
  */
 @interface FTRBaseAnalyticsTest : XCTestCase
 
 /**
- *  Asserts that the number of analytics requests captured by FTRNetworkProxy is equal to the
- *  specified @c count. The method waits for a maximum of 2.0 seconds for the expected requests to
- *  be sent out, after which it will work with what ever requests have been captured.
+ *  Sets the expected analytics requests by the end of current test *class*, this value is asserted
+ *  for in test class's tearDown.
  *
- *  @param count The count of expected analytics requests.
+ *  @param count The count of expected analytics requests that must be sent out by EarlGrey.
  */
-+ (void)assertCapturedAnalyticsRequestsCount:(NSInteger)count;
++ (void)setExpectedAnalyticsRequestsCount:(NSInteger)count;
+
+/**
+ *  Performs this class specific teardown without invoking super teardown.
+ */
++ (void)classSpecificTearDown;
 
 @end

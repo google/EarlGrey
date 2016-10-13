@@ -98,6 +98,10 @@
 		59467E9B1C9373F00089498B /* FTRWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467DD51C9373A50089498B /* FTRWebViewController.m */; };
 		59467E9D1C9373F00089498B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467DD71C9373A50089498B /* main.m */; };
 		596D89BF1C05AB1600025714 /* EarlGrey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 596D89BE1C05AB0600025714 /* EarlGrey.framework */; };
+		61192E411DB18A6500C74371 /* FTRAnalyticsPostSuperTearDownOptOutTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 61192E3F1DB18A6500C74371 /* FTRAnalyticsPostSuperTearDownOptOutTest.m */; };
+		61192E421DB18A6500C74371 /* FTRAnalyticsNoEarlGreyUsageTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 61192E401DB18A6500C74371 /* FTRAnalyticsNoEarlGreyUsageTest.m */; };
+		6122AEB11DB7EF65006A094A /* FTRAnalyticsTestHarnessTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6122AEB01DB7EF65006A094A /* FTRAnalyticsTestHarnessTest.m */; };
+		61784D7C1DB6F4AB00054372 /* FTRAssertionHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 61784D7B1DB6F4AB00054372 /* FTRAssertionHandler.m */; };
 		61E4E0B31D7559A9007F9EE6 /* FTRImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 61E4E0B11D7559A9007F9EE6 /* FTRImageViewController.m */; };
 		61E4E0B41D7559A9007F9EE6 /* FTRImageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 61E4E0B21D7559A9007F9EE6 /* FTRImageViewController.xib */; };
 		61E4E0C31D755A9B007F9EE6 /* FTRPinchViewTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 61E4E0C11D755A5C007F9EE6 /* FTRPinchViewTest.m */; };
@@ -309,6 +313,11 @@
 		59467DD61C9373A50089498B /* FTRWebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FTRWebViewController.xib; sourceTree = "<group>"; };
 		59467DD71C9373A50089498B /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		596D89B91C05AB0600025714 /* EarlGrey.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = EarlGrey.xcodeproj; path = ../../EarlGrey.xcodeproj; sourceTree = "<group>"; };
+		61192E3F1DB18A6500C74371 /* FTRAnalyticsPostSuperTearDownOptOutTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FTRAnalyticsPostSuperTearDownOptOutTest.m; sourceTree = "<group>"; };
+		61192E401DB18A6500C74371 /* FTRAnalyticsNoEarlGreyUsageTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FTRAnalyticsNoEarlGreyUsageTest.m; sourceTree = "<group>"; };
+		6122AEB01DB7EF65006A094A /* FTRAnalyticsTestHarnessTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FTRAnalyticsTestHarnessTest.m; sourceTree = "<group>"; };
+		61784D7A1DB6F4AB00054372 /* FTRAssertionHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FTRAssertionHandler.h; sourceTree = "<group>"; };
+		61784D7B1DB6F4AB00054372 /* FTRAssertionHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FTRAssertionHandler.m; sourceTree = "<group>"; };
 		61E4E0B01D7559A9007F9EE6 /* FTRImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FTRImageViewController.h; sourceTree = "<group>"; };
 		61E4E0B11D7559A9007F9EE6 /* FTRImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FTRImageViewController.m; sourceTree = "<group>"; };
 		61E4E0B21D7559A9007F9EE6 /* FTRImageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FTRImageViewController.xib; sourceTree = "<group>"; };
@@ -387,11 +396,16 @@
 				59467D5D1C9373A50089498B /* FTRActivityIndicatorTest.m */,
 				59467D5E1C9373A50089498B /* FTRAlertViewTest.m */,
 				59467D5F1C9373A50089498B /* FTRAnalyticsTearDownOptOutTest.m */,
+				61192E3F1DB18A6500C74371 /* FTRAnalyticsPostSuperTearDownOptOutTest.m */,
+				61192E401DB18A6500C74371 /* FTRAnalyticsNoEarlGreyUsageTest.m */,
 				59467D601C9373A50089498B /* FTRAnalyticsTest.m */,
 				59467D611C9373A50089498B /* FTRAnalyticsTestCaseSetupOptOutTest.m */,
+				6122AEB01DB7EF65006A094A /* FTRAnalyticsTestHarnessTest.m */,
 				59467D621C9373A50089498B /* FTRAnalyticsTestMethodOptOutTest.m */,
 				59467D631C9373A50089498B /* FTRAnalyticsTestSuiteSetupOptOutTest.m */,
 				59467D641C9373A50089498B /* FTRAnimationsTest.m */,
+				61784D7A1DB6F4AB00054372 /* FTRAssertionHandler.h */,
+				61784D7B1DB6F4AB00054372 /* FTRAssertionHandler.m */,
 				59467D651C9373A50089498B /* FTRBaseAnalyticsTest.h */,
 				59467D661C9373A50089498B /* FTRBaseAnalyticsTest.m */,
 				59467D671C9373A50089498B /* FTRBaseIntegrationTest.h */,
@@ -815,6 +829,7 @@
 				59467E351C9373B90089498B /* FTRActivityIndicatorTest.m in Sources */,
 				59467E361C9373B90089498B /* FTRAlertViewTest.m in Sources */,
 				59467E371C9373B90089498B /* FTRAnalyticsTearDownOptOutTest.m in Sources */,
+				61192E411DB18A6500C74371 /* FTRAnalyticsPostSuperTearDownOptOutTest.m in Sources */,
 				59467E381C9373B90089498B /* FTRAnalyticsTest.m in Sources */,
 				59467E391C9373B90089498B /* FTRAnalyticsTestCaseSetupOptOutTest.m in Sources */,
 				59467E3A1C9373B90089498B /* FTRAnalyticsTestMethodOptOutTest.m in Sources */,
@@ -834,11 +849,14 @@
 				59467E4B1C9373B90089498B /* FTRNetworkTest.m in Sources */,
 				61E4E0C31D755A9B007F9EE6 /* FTRPinchViewTest.m in Sources */,
 				59467E4C1C9373B90089498B /* FTROrientationChangeTest.m in Sources */,
+				61784D7C1DB6F4AB00054372 /* FTRAssertionHandler.m in Sources */,
 				59467E4D1C9373B90089498B /* FTROrientationPortraitOnlyChangeTest.m in Sources */,
 				59467E4E1C9373B90089498B /* FTRPickerViewInteractionTest.m in Sources */,
+				61192E421DB18A6500C74371 /* FTRAnalyticsNoEarlGreyUsageTest.m in Sources */,
 				59467E4F1C9373B90089498B /* FTRPresentedViewTest.m in Sources */,
 				59467E501C9373B90089498B /* FTRScreenshotTest.m in Sources */,
 				59467E511C9373B90089498B /* FTRScrollViewTest.m in Sources */,
+				6122AEB11DB7EF65006A094A /* FTRAnalyticsTestHarnessTest.m in Sources */,
 				59467E521C9373B90089498B /* FTRSlideTest.m in Sources */,
 				59467E531C9373B90089498B /* FTRSyncAPITest.m in Sources */,
 				59467E541C9373B90089498B /* FTRUITableViewTest.m in Sources */,

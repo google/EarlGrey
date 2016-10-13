@@ -14,21 +14,23 @@
 // limitations under the License.
 //
 
-#import "FTRBaseAnalyticsTest.h"
+#import "FTRAssertionHandler.h"
 
-@interface FTRAnalyticsTest : FTRBaseAnalyticsTest
-@end
+@implementation FTRAssertionHandler
 
-@implementation FTRAnalyticsTest
-
-- (void)testMethodWithEarlGreyUsage {
-  [FTRBaseAnalyticsTest setExpectedAnalyticsRequestsCount:1];
-
-  // Verify that analytics is enabled.
-  GREYAssertTrue(GREY_CONFIG_BOOL(kGREYConfigKeyAnalyticsEnabled), @"should be true");
-
-  // Invoke trivial EarlGrey statement to trigger analytics.
-  [[EarlGrey selectElementWithMatcher:grey_keyWindow()] assertWithMatcher:grey_notNil()];
+- (void)handleFailureInMethod:(SEL)selector
+                       object:(id)object
+                         file:(NSString *)fileName
+                   lineNumber:(NSInteger)line
+                  description:(NSString *)format, ... {
+  _failuresCount += 1;
+  va_list args;
+  va_start(args, format);
+  if (!_failureDescriptions) {
+    _failureDescriptions = [[NSMutableArray alloc] init];
+  }
+  [_failureDescriptions addObject:[[NSString alloc] initWithFormat:format arguments:args]];
+  va_end(args);
 }
 
 @end

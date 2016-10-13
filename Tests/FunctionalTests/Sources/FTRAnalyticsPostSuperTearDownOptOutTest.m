@@ -16,10 +16,10 @@
 
 #import "FTRBaseAnalyticsTest.h"
 
-@interface FTRAnalyticsTearDownOptOutTest : FTRBaseAnalyticsTest
+@interface FTRAnalyticsPostSuperTearDownOptOutTest : FTRBaseAnalyticsTest
 @end
 
-@implementation FTRAnalyticsTearDownOptOutTest
+@implementation FTRAnalyticsPostSuperTearDownOptOutTest
 
 - (void)testTrivialEarlGreyInvocationToTriggerAnalytics {
   [FTRBaseAnalyticsTest setExpectedAnalyticsRequestsCount:0];
@@ -32,10 +32,11 @@
 }
 
 - (void)tearDown {
-  // OptOut of analytics.
+  [super tearDown];
+
+  // OptOut of analytics after [super tearDown] call.
   [[GREYConfiguration sharedInstance] setValue:@(NO)
                                   forConfigKey:kGREYConfigKeyAnalyticsEnabled];
-  [super tearDown];
 }
 
 @end
