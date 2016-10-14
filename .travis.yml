@@ -13,12 +13,21 @@
 #  limitations under the License.
 #
 language: objective-c
-osx_image: xcode7.3
+osx_image: 
+  matrix: 
+    - xcode7.3
+    - xcode8
 sudo: false
 rvm:
   - 2.2.5
 env:
   matrix:
+    exclude:
+    - osx_image: xcode8
+      env: xcode_7_tests
+    - osx_image: xcode7.3
+      env: xcode_8_tests
+xcode_7_tests:
     - DESTINATION="OS=9.3,name=iPhone 6s" SDK=iphonesimulator9.3 TYPE="FUNCTIONAL"
     - DESTINATION="OS=9.3,name=iPhone 6s" SDK=iphonesimulator9.3 TYPE="FUNCTIONAL_SWIFT"
     - DESTINATION="OS=9.3,name=iPhone 6s" SDK=iphonesimulator9.3 TYPE="CONTRIB"
@@ -35,6 +44,8 @@ env:
     - DESTINATION="OS=8.1,name=iPhone 4S" SDK=iphonesimulator9.3 TYPE="FUNCTIONAL"
     - DESTINATION="OS=9.3,name=iPhone 6s" SDK=iphonesimulator9.3 TYPE="CARTHAGE"
     - TYPE="RUBY"
+xcode_8_tests:
+    - DESTINATION="OS=10.0,name=iPhone 6s" SDK=iphonesimulator10.0 TYPE="FUNCTIONAL"
 before_install:
   - gem install xcpretty --no-rdoc --no-ri --no-document --quiet
 before_script:
