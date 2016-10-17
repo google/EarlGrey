@@ -427,3 +427,45 @@ You need to change kGREYConfigKeyScreenshotDirLocation in GREYConfiguration to c
 [[GREYConfiguration sharedInstance] setValue:@"screenshot_dir_path"
                                 forConfigKey:kGREYConfigKeyScreenshotDirLocation];
 ```
+
+**How do I run tests against a precompiled app?**
+
+Xcode 8 adds two new commands for building and running tests:
+
+- `build-for-testing` - Generates a xctestrun file for use with `test-without-building`.
+- `test-without-building` - Runs the tests from xctestrun against a precompiled app.
+
+For more information see `man xcodebuild.xctestrun`. The following commands work on [the EarlGreyExample project.](../Demo/EarlGreyExample)
+
+```bash
+$ cd Demo/EarlGreyExample
+$ pod install
+```
+
+```bash
+xcodebuild \
+-workspace EarlGreyExample.xcworkspace \
+-scheme EarlGreyExampleSwiftTests \
+-destination 'platform=iOS Simulator,name=iPhone 6,OS=latest' \
+-derivedDataPath 'xctestrun_dd' \
+build-for-testing
+```
+
+```bash
+xcodebuild \
+-workspace EarlGreyExample.xcworkspace \
+-scheme EarlGreyExampleSwiftTests \
+-destination 'platform=iOS Simulator,name=iPhone 6,OS=latest' \
+-derivedDataPath 'xctestrun_dd' \
+test-without-building
+```
+
+You can also specify the xctestrun file directly:
+
+```bash
+xcodebuild \
+-xctestrun './xctestrun_dd/Build/Intermediates/CodeCoverage/Products/EarlGreyExample_iphonesimulator10.0-x86_64.xctestrun' \
+-destination 'platform=iOS Simulator,name=iPhone 6,OS=latest' \
+-derivedDataPath 'xctestrun_dd'
+test-without-building
+```
