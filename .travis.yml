@@ -13,39 +13,39 @@
 #  limitations under the License.
 #
 language: objective-c
-osx_image: 
-  matrix: 
-    - xcode7.3
-    - xcode8
 sudo: false
 rvm:
   - 2.2.5
-env:
-  matrix:
-    exclude:
-    - osx_image: xcode8
-      env: xcode_7_tests
-    - osx_image: xcode7.3
-      env: xcode_8_tests
-xcode_7_tests:
+matrix:
+  include:
+  - os: osx
+    osx_image: xcode7.3
+    env:
     - DESTINATION="OS=9.3,name=iPhone 6s" SDK=iphonesimulator9.3 TYPE="FUNCTIONAL"
+  - os: osx
+    osx_image: xcode7.3
+    env:
     - DESTINATION="OS=9.3,name=iPhone 6s" SDK=iphonesimulator9.3 TYPE="FUNCTIONAL_SWIFT"
-    - DESTINATION="OS=9.3,name=iPhone 6s" SDK=iphonesimulator9.3 TYPE="CONTRIB"
-    - DESTINATION="OS=9.3,name=iPhone 6s" SDK=iphonesimulator9.3 TYPE="CONTRIB_SWIFT"
-    - DESTINATION="OS=9.3,name=iPhone 6s" SDK=iphonesimulator9.3 TYPE="UNIT"
-    - DESTINATION="OS=9.2,name=iPhone 6s" SDK=iphonesimulator9.3 TYPE="FUNCTIONAL"
-    - DESTINATION="OS=9.1,name=iPad Pro" SDK=iphonesimulator9.3 TYPE="FUNCTIONAL"
-    - DESTINATION="OS=9.0,name=iPhone 6s Plus" SDK=iphonesimulator9.3 TYPE="FUNCTIONAL"
-    - DESTINATION="OS=8.4,name=iPad 2" SDK=iphonesimulator9.3 TYPE="FUNCTIONAL"
-    - DESTINATION="OS=8.4,name=iPad 2" SDK=iphonesimulator9.3 TYPE="UNIT"
-    - DESTINATION="OS=8.3,name=iPad Retina" SDK=iphonesimulator9.3 TYPE="FUNCTIONAL"
-    - DESTINATION="OS=8.2,name=iPad Air" SDK=iphonesimulator9.3 TYPE="FUNCTIONAL"
-    - DESTINATION="OS=8.1,name=iPhone 5" SDK=iphonesimulator9.3 TYPE="FUNCTIONAL"
-    - DESTINATION="OS=8.1,name=iPhone 4S" SDK=iphonesimulator9.3 TYPE="FUNCTIONAL"
+  - os: osx
+    osx_image: xcode7.3
+    env:
     - DESTINATION="OS=9.3,name=iPhone 6s" SDK=iphonesimulator9.3 TYPE="CARTHAGE"
+  - os: osx
+    osx_image: xcode7.3
+    env:
     - TYPE="RUBY"
-xcode_8_tests:
-    - DESTINATION="OS=10.0,name=iPhone 6s" SDK=iphonesimulator10.0 TYPE="FUNCTIONAL"
+  - os: osx
+    osx_image: xcode8
+    env:
+      - DESTINATION="OS=10.0,name=iPhone 6s" SDK=iphonesimulator10.0 TYPE="FUNCTIONAL"
+  - os: osx
+    osx_image: xcode8
+    env:
+      - DESTINATION="OS=10.0,name=iPhone 6s" SDK=iphonesimulator9.3 TYPE="FUNCTIONAL_SWIFT"
+  - os: osx
+    osx_image: xcode8
+    env:
+      - DESTINATION="OS=10.0,name=iPhone 6s" SDK=iphonesimulator10.0 TYPE="UNIT"
 before_install:
   - gem install xcpretty --no-rdoc --no-ri --no-document --quiet
 before_script:
