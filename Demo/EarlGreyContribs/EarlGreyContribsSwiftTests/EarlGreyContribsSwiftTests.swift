@@ -18,13 +18,13 @@ import XCTest
 
 class EarlGreyContribsSwiftTests: XCTestCase {
   func testBasicViewController() {
-    EarlGrey().selectElement(with: grey_text("Basic View Controller"))
-        .perform(grey_tap())
-    EarlGrey().selectElement(with: grey_accessibilityLabel("textField"))
-        .perform(grey_typeText("Foo"))
-    EarlGrey().selectElement(with: grey_accessibilityLabel("showButton"))
-        .perform(grey_tap())
-    EarlGrey().selectElement(with: grey_accessibilityLabel("textLabel"))
-        .assert(with: grey_text("Foo"))
+    EarlGrey.select(elementWithMatcher: grey_text("Basic View Controller"))
+      .perform(grey_tap()).assert(grey_anything())
+    EarlGrey.select(elementWithMatcher: grey_accessibilityLabel("textField"))
+      .perform(grey_typeText("Foo"))
+    EarlGrey.select(elementWithMatcher:
+      grey_allOfMatchers([grey_accessibilityLabel("showButton")])).perform(grey_tap())
+    EarlGrey.select(elementWithMatcher: grey_accessibilityLabel("textLabel"))
+      .assert(grey_text("Foo"))
   }
 }
