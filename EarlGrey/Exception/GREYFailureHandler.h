@@ -19,7 +19,7 @@
 @class GREYFrameworkException;
 
 /**
- *  Protocol for handling framework failures such as failure of an action.
+ *  Protocol for handling failures (such as failure of actions and assertions) raised by EarlGrey.
  */
 @protocol GREYFailureHandler<NSObject>
 

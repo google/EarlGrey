@@ -19,43 +19,43 @@
 
 /**
  *  Posted immediately prior to XCTestCase::setUp. The @c userInfo dictionary contains
- *  the current XCTestCase.
+ *  the executing XCTestCase.
  */
 UIKIT_EXTERN NSString *const kGREYXCTestCaseInstanceWillSetUp;
 
 /**
  *  Posted immediately after XCTestCase::setUp is called. The @c userInfo dictionary contains the
- *  current XCTestCase.
+ *  executing XCTestCase.
  */
 UIKIT_EXTERN NSString *const kGREYXCTestCaseInstanceDidSetUp;
 
 /**
  *  Posted immediately prior to XCTestCase::tearDown. The @c userInfo dictionary contains
- *  the current XCTestCase.
+ *  the executing XCTestCase.
  */
 UIKIT_EXTERN NSString *const kGREYXCTestCaseInstanceWillTearDown;
 
 /**
  *  Posted immediately after XCTestCase::tearDown is called. The @c userInfo dictionary contains
- *  the current XCTestCase.
+ *  the executing XCTestCase.
  */
 UIKIT_EXTERN NSString *const kGREYXCTestCaseInstanceDidTearDown;
 
 /**
  *  Posted immediately after XCTestCase::invokeTest is executed successfully, denoting that the
- *  test has passed. The @c userInfo dictionary contains the current XCTestCase.
+ *  test has passed. The @c userInfo dictionary contains the executing XCTestCase.
  */
 UIKIT_EXTERN NSString *const kGREYXCTestCaseInstanceDidPass;
 
 /**
  *  Posted immediately after XCTestCase::invokeTest raises an Exception, denoting that the test has
- *  failed. The @c userInfo dictionary contains the current XCTestCase.
+ *  failed. The @c userInfo dictionary contains the executing XCTestCase.
  */
 UIKIT_EXTERN NSString *const kGREYXCTestCaseInstanceDidFail;
 
 /**
  *  Posted immediately after a XCTestCase finishes, successfully or not. The @c userInfo dictionary
- *  contains the current XCTestCase.
+ *  contains the executing XCTestCase.
  */
 UIKIT_EXTERN NSString *const kGREYXCTestCaseInstanceDidFinish;
 
@@ -81,14 +81,14 @@ typedef NS_ENUM(NSUInteger, GREYXCTestCaseStatus) {
 @interface XCTestCase (GREYAdditions)
 
 /**
- *  @return The current XCTestCase being executed or @c nil if called outside context of a test
+ *  @return The current XCTestCase being executed or @c nil if called outside the context of a test
  *          method.
  */
 + (XCTestCase *)grey_currentTestCase;
 
 /**
- *  @return The name of the current test method being executed or @c nil if called outside context
- *          of a test method.
+ *  @return The name of the current test method being executed or @c nil if called outside the
+ *          context of a test method.
  */
 - (NSString *)grey_testMethodName;
 
@@ -98,7 +98,7 @@ typedef NS_ENUM(NSUInteger, GREYXCTestCaseStatus) {
 - (NSString *)grey_testClassName;
 
 /**
- *  @return The status of the currently running test.
+ *  @return The status (passed, failed, unknown) of this test.
  */
 - (GREYXCTestCaseStatus)grey_status;
 
