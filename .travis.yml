@@ -13,39 +13,26 @@
 #  limitations under the License.
 #
 language: objective-c
+osx_image: xcode8
 sudo: false
 rvm:
-  - 2.2.5
-matrix:
-  include:
-  - os: osx
-    osx_image: xcode7.3
-    env:
-    - DESTINATION="OS=9.3,name=iPhone 6s" SDK=iphonesimulator9.3 TYPE="FUNCTIONAL"
-  - os: osx
-    osx_image: xcode7.3
-    env:
-    - DESTINATION="OS=9.3,name=iPhone 6s" SDK=iphonesimulator9.3 TYPE="FUNCTIONAL_SWIFT"
-  - os: osx
-    osx_image: xcode7.3
-    env:
-    - DESTINATION="OS=9.3,name=iPhone 6s" SDK=iphonesimulator9.3 TYPE="CARTHAGE"
-  - os: osx
-    osx_image: xcode7.3
-    env:
-    - TYPE="RUBY"
-  - os: osx
-    osx_image: xcode8
-    env:
-      - DESTINATION="OS=10.0,name=iPhone 6s" SDK=iphonesimulator10.0 TYPE="FUNCTIONAL"
-  - os: osx
-    osx_image: xcode8
-    env:
-      - DESTINATION="OS=10.0,name=iPhone 6s" SDK=iphonesimulator9.3 TYPE="FUNCTIONAL_SWIFT"
-  - os: osx
-    osx_image: xcode8
-    env:
-      - DESTINATION="OS=10.0,name=iPhone 6s" SDK=iphonesimulator10.0 TYPE="UNIT"
+    - 2.2.5
+env:
+  matrix:
+      - DESTINATION="OS=8.1,name=iPhone 4s" SDK=iphonesimulator10.0 TYPE="FUNCTIONAL"
+      - DESTINATION="OS=8.1,name=iPhone 4s" SDK=iphonesimulator10.0 TYPE="UNIT"
+      - DESTINATION="OS=8.1,name=iPhone 5" SDK=iphonesimulator10.0 TYPE="UNIT"
+      - DESTINATION="OS=8.2,name=iPhone 5s" SDK=iphonesimulator10.0 TYPE="FUNCTIONAL" FILTER="EarlGreyFunctionalTests/FTRKeyboardKeysTest"
+      - DESTINATION="OS=8.3,name=iPhone 6" SDK=iphonesimulator10.0 TYPE="CONTRIB_SWIFT"
+      - DESTINATION="OS=8.4,name=iPad Retina" SDK=iphonesimulator10.0 TYPE="FUNCTIONAL" FILTER="EarlGreyFunctionalTests/FTRKeyboardKeysTest"
+      - DESTINATION="OS=9.0,name=iPhone 6s Plus" SDK=iphonesimulator10.0 TYPE="FUNCTIONAL"
+      - DESTINATION="OS=9.0,name=iPhone 4s" SDK=iphonesimulator10.0 TYPE="CONTRIB_SWIFT"
+      - DESTINATION="OS=9.1,name=iPhone 6s" SDK=iphonesimulator10.0 TYPE="UNIT"
+      - DESTINATION="OS=9.2,name=iPad Air" SDK=iphonesimulator10.0 TYPE="FUNCTIONAL_SWIFT"
+      - DESTINATION="OS=9.3,name=iPhone 6s Plus" SDK=iphonesimulator10.0 TYPE="FUNCTIONAL"
+      - DESTINATION="OS=10.0,name=iPhone 7" SDK=iphonesimulator10.0 TYPE="FUNCTIONAL"
+      - DESTINATION="OS=10.0,name=iPhone 7 Plus" SDK=iphonesimulator10.0 TYPE="UNIT"
+      - TYPE="RUBY"
 before_install:
   - gem install xcpretty --no-rdoc --no-ri --no-document --quiet
 before_script:
@@ -53,7 +40,7 @@ before_script:
 script:
  - Scripts/travis.sh
 after_failure:
- - cat xcodebuild.log
+ - tail -n 200 xcodebuild.log
 branches:
   only:
   - master
