@@ -29,7 +29,9 @@
  *    -kGREYAllowVerboseLogging YES
  *  @endcode
  *  Or from NSUserDefaults, by adding the @c kGREYAllowVerboseLogging key.
- *  [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kGREYAllowVerboseLogging];
+ *  @code
+ *    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kGREYAllowVerboseLogging];
+ *  @endcode
  *
  *  @remark Once you set this, as with any NSUserDefault, you need to explicitly turn it off
  *          or delete and re-install the app under test.

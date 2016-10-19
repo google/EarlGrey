@@ -251,12 +251,11 @@ static void grey_uncaughtExceptionHandler(NSException *exception) {
       previousSignalHandler->handler.signalHandler = previousSigAction.__sigaction_u.__sa_handler;
     }
   }
-
   // Register the handler for uncaught exceptions.
   gPreviousUncaughtExceptionHandler = NSGetUncaughtExceptionHandler();
   NSSetUncaughtExceptionHandler(&grey_uncaughtExceptionHandler);
 
-  NSLog(@"Crash handlers setup completed.");
+  NSLog(@"Crash handler setup completed.");
 }
 
 @end

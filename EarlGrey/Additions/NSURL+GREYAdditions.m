@@ -15,6 +15,7 @@
 //
 
 #import "Additions/NSURL+GREYAdditions.h"
+#import "Common/GREYVerboseLogger.h"
 
 #import <objc/runtime.h>
 
@@ -46,7 +47,7 @@ static void const *const kFrameworkBlacklistedRegExKey = &kFrameworkBlacklistedR
                                options:0
                                  range:NSMakeRange(0, [stringURL length])];
     if (numMatches > 0) {
-      NSLog(@"Matched a blacklisted URL: %@", stringURL);
+      GREYLogVerbose(@"Matched a blacklisted URL: %@", stringURL);
       return NO;
     }
   }
