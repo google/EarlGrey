@@ -26,28 +26,34 @@ static NSString * const kXCTestCaseInterruptionExceptionName = @"_XCTestCaseInte
 
 @interface GREYSampleTests : XCTestCase
 
+@property(nonatomic, assign) BOOL failInSetUp;
+@property(nonatomic, assign) BOOL failInTearDown;
+
 @end
 
 @implementation GREYSampleTests
 
 - (void)setUp {
   [super setUp];
-  // Use the default failure handler in the example testcases.
   [EarlGrey setFailureHandler:nil];
+  if (self.failInSetUp) {
+    GREYAssertTrue(NO, @"Induced failure in setUp.");
+  }
 }
 
 - (void)tearDown {
-  // Reset the failure handler to unit test failure handler.
-  [EarlGrey setFailureHandler:[[GREYUTFailureHandler alloc] init]];
   [super tearDown];
+  if (self.failInTearDown) {
+    GREYAssertTrue(NO, @"Induced failure in tearDown.");
+  }
 }
 
 - (void)failUsingGREYAssert {
-  GREYAssert(NO, @"Failing test with EarlGrey assertion");
+  GREYAssertTrue(NO, @"Failing test with GREYAssert.");
 }
 
 - (void)failUsingNSAssert {
-  NSAssert(NO, @"Failing test with NSAssert");
+  NSAssert(NO, @"Failing test with NSAssert.");
 }
 
 - (void)failUsingRecordFailureWithDescription {
@@ -64,7 +70,7 @@ static NSString * const kXCTestCaseInterruptionExceptionName = @"_XCTestCaseInte
 }
 
 - (void)successfulTest {
-  GREYAssert(YES, @"Test should pass");
+  GREYAssertTrue(YES, @"Test should pass.");
 }
 
 @end
@@ -215,6 +221,148 @@ static NSString * const kXCTestCaseInterruptionExceptionName = @"_XCTestCaseInte
   [[NSNotificationCenter defaultCenter] removeObserver:self
                                                   name:kGREYXCTestCaseInstanceWillTearDown
                                                 object:nil];
+}
+
+- (void)testPassedSetUpSendsNotifications {
+  GREYSampleTests *passingTest =
+      [GREYSampleTests testCaseWithSelector:@selector(successfulTest)];
+
+  __block BOOL willSetUpCalled = NO;
+  void (^willSetUpBlock)(NSNotification *) = ^(NSNotification * _Nonnull note) {
+    willSetUpCalled = YES;
+    XCTAssertEqual(note.object, passingTest);
+  };
+
+  __block BOOL didSetUpCalled = NO;
+  void (^didSetUpBlock)(NSNotification *) = ^(NSNotification * _Nonnull note) {
+    didSetUpCalled = YES;
+    XCTAssertEqual(note.object, passingTest);
+  };
+  id notificationID1 =
+      [[NSNotificationCenter defaultCenter] addObserverForName:kGREYXCTestCaseInstanceWillSetUp
+                                                        object:nil
+                                                         queue:nil
+                                                    usingBlock:willSetUpBlock];
+  id notificationID2 =
+      [[NSNotificationCenter defaultCenter] addObserverForName:kGREYXCTestCaseInstanceDidSetUp
+                                                        object:nil
+                                                         queue:nil
+                                                    usingBlock:didSetUpBlock];
+
+  [passingTest invokeTest];
+  XCTAssertTrue(willSetUpCalled);
+  XCTAssertTrue(didSetUpCalled);
+
+  [[NSNotificationCenter defaultCenter] removeObserver:notificationID1];
+  [[NSNotificationCenter defaultCenter] removeObserver:notificationID2];
+}
+
+- (void)testFailedSetUpSendsNotifications {
+  GREYSampleTests *failingSetUpTest =
+      [GREYSampleTests testCaseWithSelector:@selector(successfulTest)];
+  failingSetUpTest.failInSetUp = YES;
+
+  __block BOOL willSetUpCalled = NO;
+  void (^willSetUpBlock)(NSNotification *) = ^(NSNotification * _Nonnull note) {
+    willSetUpCalled = YES;
+    XCTAssertEqual(note.object, failingSetUpTest);
+  };
+
+  __block BOOL didSetUpCalled = NO;
+  void (^didSetUpBlock)(NSNotification *) = ^(NSNotification * _Nonnull note) {
+    didSetUpCalled = YES;
+    XCTAssertEqual(note.object, failingSetUpTest);
+  };
+  id notificationID1 =
+      [[NSNotificationCenter defaultCenter] addObserverForName:kGREYXCTestCaseInstanceWillSetUp
+                                                        object:nil
+                                                         queue:nil
+                                                    usingBlock:willSetUpBlock];
+  id notificationID2 =
+      [[NSNotificationCenter defaultCenter] addObserverForName:kGREYXCTestCaseInstanceDidSetUp
+                                                        object:nil
+                                                         queue:nil
+                                                    usingBlock:didSetUpBlock];
+
+  XCTAssertThrowsSpecificNamed([failingSetUpTest invokeTest],
+                               NSException,
+                               kXCTestCaseInterruptionExceptionName);
+  XCTAssertTrue(willSetUpCalled);
+  XCTAssertFalse(didSetUpCalled);
+
+  [[NSNotificationCenter defaultCenter] removeObserver:notificationID1];
+  [[NSNotificationCenter defaultCenter] removeObserver:notificationID2];
+}
+
+- (void)testPassedTearDownSendsNotifications {
+  GREYSampleTests *passingTest =
+      [GREYSampleTests testCaseWithSelector:@selector(successfulTest)];
+
+  __block BOOL willTearDownCalled = NO;
+  void (^willTearDownBlock)(NSNotification *) = ^(NSNotification * _Nonnull note) {
+    willTearDownCalled = YES;
+    XCTAssertEqual(note.object, passingTest);
+  };
+
+  __block BOOL didTearDownCalled = NO;
+  void (^didTearDownBlock)(NSNotification *) = ^(NSNotification * _Nonnull note) {
+    didTearDownCalled = YES;
+    XCTAssertEqual(note.object, passingTest);
+  };
+  id notificationID1 =
+      [[NSNotificationCenter defaultCenter] addObserverForName:kGREYXCTestCaseInstanceWillTearDown
+                                                        object:nil
+                                                         queue:nil
+                                                    usingBlock:willTearDownBlock];
+  id notificationID2 =
+      [[NSNotificationCenter defaultCenter] addObserverForName:kGREYXCTestCaseInstanceDidTearDown
+                                                        object:nil
+                                                         queue:nil
+                                                    usingBlock:didTearDownBlock];
+
+  [passingTest invokeTest];
+  XCTAssertTrue(willTearDownCalled);
+  XCTAssertTrue(didTearDownCalled);
+
+  [[NSNotificationCenter defaultCenter] removeObserver:notificationID1];
+  [[NSNotificationCenter defaultCenter] removeObserver:notificationID2];
+}
+
+- (void)testFailedTearDownSendsNotifications {
+  GREYSampleTests *failingTearDownTest =
+      [GREYSampleTests testCaseWithSelector:@selector(successfulTest)];
+  failingTearDownTest.failInTearDown = YES;
+
+  __block BOOL willTearDownCalled = NO;
+  void (^willTearDownBlock)(NSNotification *) = ^(NSNotification * _Nonnull note) {
+    willTearDownCalled = YES;
+    XCTAssertEqual(note.object, failingTearDownTest);
+  };
+
+  __block BOOL didTearDownCalled = NO;
+  void (^didTearDownBlock)(NSNotification *) = ^(NSNotification * _Nonnull note) {
+    didTearDownCalled = YES;
+    XCTAssertEqual(note.object, failingTearDownTest);
+  };
+  id notificationID1 =
+      [[NSNotificationCenter defaultCenter] addObserverForName:kGREYXCTestCaseInstanceWillTearDown
+                                                        object:nil
+                                                         queue:nil
+                                                    usingBlock:willTearDownBlock];
+  id notificationID2 =
+      [[NSNotificationCenter defaultCenter] addObserverForName:kGREYXCTestCaseInstanceDidTearDown
+                                                        object:nil
+                                                         queue:nil
+                                                    usingBlock:didTearDownBlock];
+
+  XCTAssertThrowsSpecificNamed([failingTearDownTest invokeTest],
+                               NSException,
+                               kXCTestCaseInterruptionExceptionName);
+  XCTAssertTrue(willTearDownCalled);
+  XCTAssertFalse(didTearDownCalled);
+
+  [[NSNotificationCenter defaultCenter] removeObserver:notificationID1];
+  [[NSNotificationCenter defaultCenter] removeObserver:notificationID2];
 }
 
 #pragma mark - Helper methods

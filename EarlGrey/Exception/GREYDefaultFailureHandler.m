@@ -52,8 +52,10 @@ static NSUInteger gUnknownTestExceptionCounter = 0;
   }
 
   NSMutableString *log = [[NSMutableString alloc] init];
-  NSString *reason =
-      exception.reason.length > 0 ? exception.reason : @"exception.reason was not provided";
+  NSString *reason = exception.reason;
+  if (reason.length == 0) {
+    reason = @"exception.reason was not provided";
+  }
   [log appendFormat:@"%@\n\n", reason];
   [log appendFormat:@"Bundle ID: %@\n\n", [[NSBundle mainBundle] bundleIdentifier]];
   [log appendFormat:@"Stack trace: %@\n\n", [NSThread callStackSymbols]];
@@ -76,6 +78,10 @@ static NSUInteger gUnknownTestExceptionCounter = 0;
 
   // Save and log screenshot and before and after images (if available).
   NSString *screenshotDir = GREY_CONFIG_STRING(kGREYConfigKeyScreenshotDirLocation);
+  NSString *uniqueSubDirName =
+      [NSString stringWithFormat:@"%@-%@", exception.name, [[NSUUID UUID] UUIDString]];
+  screenshotDir = [screenshotDir stringByAppendingPathComponent:uniqueSubDirName];
+
   [self grey_savePNGImage:[GREYScreenshotUtil grey_takeScreenshotAfterScreenUpdates:NO]
               toFileNamed:[NSString stringWithFormat:@"%@.png", screenshotName]
               inDirectory:screenshotDir

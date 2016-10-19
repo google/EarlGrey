@@ -157,11 +157,8 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
 - (void)grey_markAsFailedAtLine:(NSUInteger)line
                          inFile:(NSString *)file
                     description:(NSString *)description {
-  gCurrentExecutingTestCase.continueAfterFailure = NO;
-  [gCurrentExecutingTestCase recordFailureWithDescription:description
-                                                   inFile:file
-                                                   atLine:line
-                                                 expected:NO];
+  self.continueAfterFailure = NO;
+  [self recordFailureWithDescription:description inFile:file atLine:line expected:NO];
   // If the test fails outside of the main thread in a nested runloop it will not be interrupted
   // until it's back in the outer most runloop. Raise an exception to interrupt the test immediately
   [[GREYFrameworkException exceptionWithName:kInternalTestInterruptException
@@ -240,7 +237,6 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
                                     expected:NO];
           break;
       }
-
       object_setClass(self.invocation, originalInvocationClass);
       [self grey_sendNotification:kGREYXCTestCaseInstanceDidFinish];
       // We only reset the current test case after all possible notifications have been sent.
@@ -293,44 +289,6 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
  */
 - (void)grey_setStatus:(GREYXCTestCaseStatus)status {
   objc_setAssociatedObject(self, kTestCaseStatus, @(status), OBJC_ASSOCIATION_RETAIN);
-}
-
-/**
- *  Creates a new directory under the specified @c path. If a directory already exists under the
- *  same path, it will be removed and a new, empty dir with the same name will be created.
- *  Intermediate directories are created automatically.
- *
- *  @param      path     The path where a new directory is to be created.
- *  @param[out] outError A reference to receive errors that may have occured during the execution of
- *                       this method.
- *
- *  @return @c YES on success, @c NO otherwise.
- */
-- (BOOL)grey_createDirRemovingExistingDir:(NSString *)path error:(NSError **)outError {
-  NSParameterAssert(path);
-  NSParameterAssert(outError);
-
-  NSFileManager *manager = [NSFileManager defaultManager];
-  BOOL isDirectory;
-  if ([manager fileExistsAtPath:path isDirectory:&isDirectory]) {
-    if (!isDirectory) {
-      NSDictionary *errorUserInfo =
-          @{ NSLocalizedDescriptionKey: @"File not deleted as it not a directory." };
-      *outError = [NSError errorWithDomain:NSCocoaErrorDomain
-                                      code:NSFileReadInvalidFileNameError
-                                  userInfo:errorUserInfo];
-      return NO;
-    }
-
-    if (![manager removeItemAtPath:path error:outError]) {
-      return NO;
-    }
-  }
-
-  return [manager createDirectoryAtPath:path
-             withIntermediateDirectories:YES
-                              attributes:nil
-                                   error:outError];
 }
 
 @end
