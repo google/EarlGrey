@@ -24,7 +24,7 @@ public func grey_anyOfMatchers(args: AnyObject...) -> GREYMatcher! {
   return GREYAnyOf(matchers: args)
 }
 
-public func EarlGrey(file: String = __FILE__, line: UInt = __LINE__) -> EarlGreyImpl! {
+public func EarlGrey(file: String = #file, line: UInt = #line) -> EarlGreyImpl! {
   return EarlGreyImpl.invokedFromFile(file, lineNumber: line)
 }
 
@@ -78,7 +78,7 @@ public func GREYAssertNotEqualObjects<T : Equatable>(@autoclosure left: () -> T?
 public func GREYFail(reason: String) {
   greyFailureHandler.handleException(GREYFrameworkException(name: kGREYAssertionFailedException,
     reason: reason),
-                                     details: "")
+    details: "")
 }
 
 @available(*, deprecated=1.2.0, message="Please use GREYFAIL::withDetails instead.")
@@ -104,9 +104,9 @@ private func GREYAssert(@autoclosure expression: () -> BooleanType,
     }
 }
 
-private func GREYSetCurrentAsFailable(file: String = __FILE__, line: UInt = __LINE__) {
+private func GREYSetCurrentAsFailable(file: String = #file, line: UInt = #line) {
   let greyFailureHandlerSelector =
-  Selector("GREYFailureHandler.setInvocationFile(__FILE__, andInvocationLine:__LINE__)")
+      #selector(GREYFailureHandler.setInvocationFile(_:andInvocationLine:))
   if greyFailureHandler.respondsToSelector(greyFailureHandlerSelector) {
     greyFailureHandler.setInvocationFile!(file, andInvocationLine: line)
   }
