@@ -27,7 +27,7 @@ ACTION="test"
 #  $1 : .xcodeproj file
 #  $2 : scheme to run
 #
-# The output is prettified using xcpretty and redirected to xcodebuild.log for failure analysis.
+# The output is formatted using xcpretty and redirected to xcodebuild.log for failure analysis.
 execute_xcodebuild() {
   if [ -z ${1+x} ]; then
     echo "first argument must be a valid .xcodeproj file"
@@ -37,12 +37,15 @@ execute_xcodebuild() {
     exit 1
   fi
 
-  retval_test_command=0
+  retval_command=0
+  # Are we running a test?
+  [[ "${ACTION}" == *"test"* ]] && is_running_test=1 || is_running_test=0
+
   for retry_attempts in {1..3}; do
     # As we are attempting retries, disable exiting when command below fails.
     set +e
     env NSUnbufferedIO=YES xcodebuild -project ${1} -scheme ${2} -sdk "$SDK" -destination "$DESTINATION" -configuration "$CONFIG" ONLY_ACTIVE_ARCH=NO $ACTION | tee xcodebuild.log | xcpretty -sc;
-    retval_test_command=$?
+    retval_command=$?
 
     # Retry condition 1: Tests haven't started.
     # We achieve that by looking for keyword "Test Suite" in xcodebuild.log.
@@ -53,8 +56,12 @@ execute_xcodebuild() {
     # Re-enable exiting on command failures.
     set -e
 
+    if [[ ${is_running_test} -ne 1 ]]; then
+      break
+    fi
+
     # Should we retry?
-    if [[ ${retval_test_command} -eq 65 ]] && [[ ${retval_test_started} -ne 0 ]]; then
+    if [[ ${retval_command} -eq 65 ]] && [[ ${retval_test_started} -ne 0 ]]; then
       continue
     else
       break
@@ -65,12 +72,12 @@ execute_xcodebuild() {
   # In case of failure in test's +setUp or +tearDown, Xcode doesn't exit with an error code but logs it.
   # Add another check to make sure no unexpected failure occured.
   $(grep -q "0 failures (0 unexpected)" xcodebuild.log)
-  retval_no_expected_failures=$?
+  retval_no_expected_test_failures=$?
   set -e
 
-  if [[ ${retval_test_command} -ne 0 ]]; then
-    exit ${retval_test_command}
-  elif [[ ${retval_no_expected_failures} -ne 0 ]]; then
+  if [[ ${retval_command} -ne 0 ]]; then
+    exit ${retval_command}
+  elif [[ ${is_running_test} -eq 0 ]] && [[ ${retval_no_expected_test_failures} -ne 0 ]]; then
     exit 1
   fi
 }
