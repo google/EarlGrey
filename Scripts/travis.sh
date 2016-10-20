@@ -37,7 +37,7 @@ execute_xcodebuild() {
     exit 1
   fi
 
-  retval_command=0
+  local retval_command=0
   # Are we running a test?
   [[ "${ACTION}" == *"test"* ]] && is_running_test=1 || is_running_test=0
 
