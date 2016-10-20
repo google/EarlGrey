@@ -77,7 +77,7 @@ execute_xcodebuild() {
 
   if [[ ${retval_command} -ne 0 ]]; then
     exit ${retval_command}
-  elif [[ ${is_running_test} -eq 0 ]] && [[ ${retval_no_expected_test_failures} -ne 0 ]]; then
+  elif [[ ${is_running_test} -eq 1 ]] && [[ ${retval_no_expected_test_failures} -ne 0 ]]; then
     exit 1
   fi
 }
