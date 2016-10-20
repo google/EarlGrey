@@ -17,6 +17,15 @@
 #import <UIKit/UIKit.h>
 
 /**
+ *  An enum for what phase of a touch action a @c GREYTouchInfo object is in.
+ */
+typedef NS_ENUM(NSUInteger, GREYTouchInfoPhase) {
+  GREYTouchInfoPhaseTouchBegan,
+  GREYTouchInfoPhaseTouchMoved,
+  GREYTouchInfoPhaseTouchEnded,
+};
+
+/**
  *  An object to encapsulate essential information about a touch.
  */
 @interface GREYTouchInfo : NSObject
@@ -25,10 +34,12 @@
  *  Points where touch should be delivered.
  */
 @property(nonatomic, readonly) NSArray *points;
+
 /**
- *  Set to YES if this is the last touch in the sequence of touches.
+ *  The phase (began, moved etc) of the touch object.
  */
-@property(nonatomic, readonly, getter=isLastTouch) BOOL lastTouch;
+@property(nonatomic, assign) GREYTouchInfoPhase phase;
+
 /**
  *  Delays this touch for specified value since the last touch delivery.
  */
@@ -56,7 +67,7 @@
  *  @return An instance of GREYTouchInfo, initialized with all required data.
  */
 - (instancetype)initWithPoints:(NSArray *)points
-                     lastTouch:(BOOL)isLastTouch
+                              phase:(GREYTouchInfoPhase)phase
     deliveryTimeDeltaSinceLastTouch:(NSTimeInterval)timeDeltaSinceLastTouchSeconds
                          expendable:(BOOL)expendable NS_DESIGNATED_INITIALIZER;
 

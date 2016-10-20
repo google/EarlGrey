@@ -40,7 +40,7 @@
 - (GREYTouchInfo *)touchInfoWithTimeDelta:(CFTimeInterval)delta
                              expendable:(BOOL)expendable {
   return [[GREYTouchInfo alloc] initWithPoints:@[[NSValue valueWithCGPoint:CGPointZero]]
-                                     lastTouch:NO
+                                         phase:GREYTouchInfoPhaseTouchBegan
                deliveryTimeDeltaSinceLastTouch:delta
                                     expendable:expendable];
 }

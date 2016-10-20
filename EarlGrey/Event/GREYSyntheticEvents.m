@@ -36,6 +36,11 @@ NSString *const kGREYSyntheticEventInjectionErrorDomain =
    *  The touch injector that completes the touch sequence for an event.
    */
   GREYTouchInjector *_touchInjector;
+
+  /**
+   *  The last injected touch point.
+   */
+  NSValue *_lastInjectedTouchPoint;
 }
 
 + (BOOL)rotateDeviceToOrientation:(UIDeviceOrientation)deviceOrientation
@@ -132,7 +137,8 @@ NSString *const kGREYSyntheticEventInjectionErrorDomain =
 - (void)beginTouchAtPoint:(CGPoint)point
          relativeToWindow:(UIWindow *)window
         immediateDelivery:(BOOL)immediate {
-  [self grey_beginTouchesAtPoints:@[[NSValue valueWithCGPoint:point]]
+  _lastInjectedTouchPoint = [NSValue valueWithCGPoint:point];
+  [self grey_beginTouchesAtPoints:@[_lastInjectedTouchPoint]
                  relativeToWindow:window
                 immediateDelivery:immediate];
 }
@@ -140,14 +146,15 @@ NSString *const kGREYSyntheticEventInjectionErrorDomain =
 - (void)continueTouchAtPoint:(CGPoint)point
            immediateDelivery:(BOOL)immediate
                   expendable:(BOOL)expendable {
-  [self grey_continueTouchAtPoints:@[[NSValue valueWithCGPoint:point]]
+  _lastInjectedTouchPoint = [NSValue valueWithCGPoint:point];
+  [self grey_continueTouchAtPoints:@[_lastInjectedTouchPoint]
       afterTimeElapsedSinceLastTouchDelivery:0
                            immediateDelivery:immediate
                                   expendable:expendable];
 }
 
 - (void)endTouch {
-  [self grey_endTouchesAtPoints:@[[NSValue valueWithCGPoint:CGPointZero]]
+  [self grey_endTouchesAtPoints:@[_lastInjectedTouchPoint]
       timeElapsedSinceLastTouchDelivery:0];
 }
 
@@ -186,7 +193,7 @@ NSString *const kGREYSyntheticEventInjectionErrorDomain =
   NSAssert(!_touchInjector, @"Cannot call this method more than once until endTouch is called.");
   _touchInjector = [[GREYTouchInjector alloc] initWithWindow:window];
   GREYTouchInfo *touchInfo = [[GREYTouchInfo alloc] initWithPoints:points
-                                                         lastTouch:NO
+                                                             phase:GREYTouchInfoPhaseTouchBegan
                                    deliveryTimeDeltaSinceLastTouch:0
                                                         expendable:NO];
   [_touchInjector enqueueTouchInfoForDelivery:touchInfo];
@@ -210,7 +217,7 @@ NSString *const kGREYSyntheticEventInjectionErrorDomain =
                          immediateDelivery:(BOOL)immediate
                                 expendable:(BOOL)expendable {
   GREYTouchInfo *touchInfo = [[GREYTouchInfo alloc] initWithPoints:points
-                                                         lastTouch:NO
+                                                             phase:GREYTouchInfoPhaseTouchMoved
                                    deliveryTimeDeltaSinceLastTouch:seconds
                                                         expendable:expendable];
   [_touchInjector enqueueTouchInfoForDelivery:touchInfo];
@@ -223,7 +230,7 @@ NSString *const kGREYSyntheticEventInjectionErrorDomain =
 - (void)grey_endTouchesAtPoints:(NSArray *)points
     timeElapsedSinceLastTouchDelivery:(NSTimeInterval)seconds {
   GREYTouchInfo *touchInfo = [[GREYTouchInfo alloc] initWithPoints:points
-                                                         lastTouch:YES
+                                                             phase:GREYTouchInfoPhaseTouchEnded
                                    deliveryTimeDeltaSinceLastTouch:seconds
                                                         expendable:NO];
 
