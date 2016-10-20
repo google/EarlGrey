@@ -48,13 +48,13 @@ execute_xcodebuild() {
     # We achieve that by looking for keyword "Test Suite" in xcodebuild.log.
     # FIXME: This is a brittle check and may break in future versions of Xcode. Come up with a better fix?
     $(grep -q "Test Suite" xcodebuild.log)
-    retval_grep=$?
+    retval_test_started=$?
 
     # Re-enable exiting on command failures.
     set -e
 
     # Should we retry?
-    if [[ ${retval_test_command} -eq 65 ]] && [[ ${retval_grep} -ne 0 ]]; then
+    if [[ ${retval_test_command} -eq 65 ]] && [[ ${retval_test_started} -ne 0 ]]; then
       continue
     else
       break
@@ -70,7 +70,7 @@ execute_xcodebuild() {
 
   if [[ ${retval_test_command} -ne 0 ]]; then
     exit ${retval_test_command}
-  elif [[ ${retval_no_expected_failures} -eq 0 ]]; then
+  elif [[ ${retval_no_expected_failures} -ne 0 ]]; then
     exit 1
   fi
 }
