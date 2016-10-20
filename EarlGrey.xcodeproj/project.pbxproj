@@ -64,6 +64,8 @@
 		611BF1681D4CD292001D9E46 /* GREYDispatchQueueTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 611BF1661D4CD292001D9E46 /* GREYDispatchQueueTracker.m */; };
 		611BF16B1D4CD705001D9E46 /* GREYManagedObjectContextIdlingResource.h in Headers */ = {isa = PBXBuildFile; fileRef = 611BF1691D4CD705001D9E46 /* GREYManagedObjectContextIdlingResource.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		611BF16C1D4CD705001D9E46 /* GREYManagedObjectContextIdlingResource.m in Sources */ = {isa = PBXBuildFile; fileRef = 611BF16A1D4CD705001D9E46 /* GREYManagedObjectContextIdlingResource.m */; };
+		6171EA861D9C748600FD900E /* GREYZeroToleranceTimer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6171EA841D9C748600FD900E /* GREYZeroToleranceTimer.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6171EA871D9C748600FD900E /* GREYZeroToleranceTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6171EA851D9C748600FD900E /* GREYZeroToleranceTimer.m */; };
 		61CBDE801D4CD85200206BF7 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CBDE7F1D4CD85200206BF7 /* CoreData.framework */; };
 		61E4E0B91D7559DA007F9EE6 /* GREYTouchInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 61E4E0B51D7559DA007F9EE6 /* GREYTouchInfo.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		61E4E0BA1D7559DA007F9EE6 /* GREYTouchInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 61E4E0B61D7559DA007F9EE6 /* GREYTouchInfo.m */; };
@@ -211,6 +213,8 @@
 		611BF1661D4CD292001D9E46 /* GREYDispatchQueueTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYDispatchQueueTracker.m; sourceTree = "<group>"; };
 		611BF1691D4CD705001D9E46 /* GREYManagedObjectContextIdlingResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYManagedObjectContextIdlingResource.h; sourceTree = "<group>"; };
 		611BF16A1D4CD705001D9E46 /* GREYManagedObjectContextIdlingResource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYManagedObjectContextIdlingResource.m; sourceTree = "<group>"; };
+		6171EA841D9C748600FD900E /* GREYZeroToleranceTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYZeroToleranceTimer.h; sourceTree = "<group>"; };
+		6171EA851D9C748600FD900E /* GREYZeroToleranceTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYZeroToleranceTimer.m; sourceTree = "<group>"; };
 		61CBDE7F1D4CD85200206BF7 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		61E4E0B51D7559DA007F9EE6 /* GREYTouchInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYTouchInfo.h; sourceTree = "<group>"; };
 		61E4E0B61D7559DA007F9EE6 /* GREYTouchInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYTouchInfo.m; sourceTree = "<group>"; };
@@ -659,6 +663,8 @@
 				61E4E0B61D7559DA007F9EE6 /* GREYTouchInfo.m */,
 				61E4E0B71D7559DA007F9EE6 /* GREYTouchInjector.h */,
 				61E4E0B81D7559DA007F9EE6 /* GREYTouchInjector.m */,
+				6171EA841D9C748600FD900E /* GREYZeroToleranceTimer.h */,
+				6171EA851D9C748600FD900E /* GREYZeroToleranceTimer.m */,
 			);
 			name = Event;
 			path = EarlGrey/Event;
@@ -881,6 +887,7 @@
 				597E02D71D55AC730052A8D1 /* GREYUIWebViewDelegate.h in Headers */,
 				597E02F61D55ADBE0052A8D1 /* GREYNSURLConnectionDelegate.h in Headers */,
 				61E4E0BB1D7559DA007F9EE6 /* GREYTouchInjector.h in Headers */,
+				6171EA861D9C748600FD900E /* GREYZeroToleranceTimer.h in Headers */,
 				61E4E0B91D7559DA007F9EE6 /* GREYTouchInfo.h in Headers */,
 				597E02F51D55AD8B0052A8D1 /* GREYSyntheticEvents.h in Headers */,
 				597E02D81D55AD100052A8D1 /* GREYElementProvider.h in Headers */,
@@ -1011,6 +1018,7 @@
 				FD1001F01C5B46C200B2DB0A /* UIView+GREYAdditions.m in Sources */,
 				FD10024D1C5B46C200B2DB0A /* GREYSyncAPI.m in Sources */,
 				FD1001D21C5B46C200B2DB0A /* CAAnimation+GREYAdditions.m in Sources */,
+				6171EA871D9C748600FD900E /* GREYZeroToleranceTimer.m in Sources */,
 				FD1001DE1C5B46C200B2DB0A /* NSString+GREYAdditions.m in Sources */,
 				FD1002491C5B46C200B2DB0A /* GREYNSTimerIdlingResource.m in Sources */,
 				FD6D0BA41C6D494F0001EA75 /* GREYHCMatcher.m in Sources */,

@@ -37,7 +37,7 @@ const NSInteger kGREYScrollDetectionLength = 10;
 static const CGFloat kGREYDistanceBetweenTwoAdjacentPoints = 5.0;
 
 /**
- *  Cached screen egde pan detection length for the current device.
+ *  Cached screen edge pan detection length for the current device.
  */
 static CGFloat kCachedScreenEdgePanDetectionLength = NAN;
 

@@ -25,6 +25,8 @@
 #import "Common/GREYDefines.h"
 #import "Common/GREYExposed.h"
 #import "Common/GREYPrivate.h"
+#import "Event/GREYZeroToleranceTimer.h"
+#import "Synchronization/GREYRunLoopSpinner.h"
 
 /**
  *  Maximum time to wait for UIWebView delegates to get called after the
@@ -32,13 +34,22 @@
  */
 static const NSTimeInterval kGREYMaxIntervalForUIWebViewResponse = 2.0;
 
+/**
+ *  The time interval in seconds between each touch injection, set to 120Hz to match peak touch
+ *  refresh rate on iOS devices.
+ */
+static const NSTimeInterval kTouchInjectionInterval = 1.0 / 120.0;
+
+@interface GREYTouchInjector () <GREYZeroToleranceTimerTarget>
+@end
+
 @implementation GREYTouchInjector {
   // Window to which touches will be delivered.
   UIWindow *_window;
   // List of objects that aid in creation of UITouches.
-  NSMutableArray *_touchInfoList;
-  // Synchronizes with display vsync updates.
-  CADisplayLink *_displayLink;
+  NSMutableArray *_enqueuedTouchInfoList;
+  // A timer used for injecting touches.
+  GREYZeroToleranceTimer *_timer;
   // Touch objects created to start the touch sequence for every
   // touch points. It stores one UITouch object for each finger
   // in a touch event.
@@ -51,9 +62,6 @@ static const NSTimeInterval kGREYMaxIntervalForUIWebViewResponse = 2.0;
   // whether an injected touch needs to be stationary or not.
   // May be nil.
   GREYTouchInfo *_previousTouchInfo;
-  // The info for the touch that is currently being injected.
-  // May be nil.
-  GREYTouchInfo *_currentTouchInfo;
 }
 
 - (instancetype)initWithWindow:(UIWindow *)window {
@@ -62,7 +70,7 @@ static const NSTimeInterval kGREYMaxIntervalForUIWebViewResponse = 2.0;
   self = [super init];
   if (self) {
     _window = window;
-    _touchInfoList = [[NSMutableArray alloc] init];
+    _enqueuedTouchInfoList = [[NSMutableArray alloc] init];
     _state = kGREYTouchInjectorPendingStart;
     _ongoingUITouches = [[NSMutableArray alloc] init];
   }
@@ -71,7 +79,7 @@ static const NSTimeInterval kGREYMaxIntervalForUIWebViewResponse = 2.0;
 
 - (void)enqueueTouchInfoForDelivery:(GREYTouchInfo *)touchInfo {
   I_CHECK_MAIN_THREAD();
-  [_touchInfoList addObject:touchInfo];
+  [_enqueuedTouchInfoList addObject:touchInfo];
 }
 
 - (GREYTouchInjectorState)state {
@@ -79,16 +87,17 @@ static const NSTimeInterval kGREYMaxIntervalForUIWebViewResponse = 2.0;
 }
 
 - (void)startInjecting {
+  I_CHECK_MAIN_THREAD();
+
   if (_state == kGREYTouchInjectorStarted) {
     return;
   }
 
   _state = kGREYTouchInjectorStarted;
-  if (!_displayLink) {
-    _displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(dispatchTouch:)];
-    [_displayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
+  if (!_timer) {
+    _timer = [[GREYZeroToleranceTimer alloc] initWithInterval:kTouchInjectionInterval
+                                                       target:self];
   }
-  [_displayLink setPaused:NO];
 }
 
 - (void)waitUntilAllTouchesAreDeliveredUsingInjector {
@@ -97,21 +106,26 @@ static const NSTimeInterval kGREYMaxIntervalForUIWebViewResponse = 2.0;
   if (_state == kGREYTouchInjectorPendingStart || _state == kGREYTouchInjectorStopped) {
     [self startInjecting];
   }
+
   // Now wait for it to finish.
-  while (_state != kGREYTouchInjectorStopped) {
-    [[GREYUIThreadExecutor sharedInstance] drainOnce];
-  }
+  GREYRunLoopSpinner *runLoopSpinner = [[GREYRunLoopSpinner alloc] init];
+  runLoopSpinner.timeout = DBL_MAX;
+  runLoopSpinner.minRunLoopDrains = 0;
+  runLoopSpinner.maxSleepInterval = DBL_MAX;
+  [runLoopSpinner spinWithStopConditionBlock:^BOOL {
+    return (_state == kGREYTouchInjectorStopped);
+  }];
 }
 
-#pragma mark - CADisplayLink
+#pragma mark - GREYZeroToleranceTimer
 
-- (void)dispatchTouch:(CADisplayLink *)sender {
+- (void)timerFiredWithZeroToleranceTimer:(GREYZeroToleranceTimer *)timer {
   I_CHECK_MAIN_THREAD();
 
   GREYTouchInfo *touchInfo =
       [self grey_dequeueTouchInfoForDeliveryWithCurrentTime:CACurrentMediaTime()];
   if (!touchInfo) {
-    if (_touchInfoList.count == 0) {
+    if (_enqueuedTouchInfoList.count == 0) {
       // Queue is empty - we are done delivering touches.
       [self grey_stopTouchInjection];
     }
@@ -119,7 +133,7 @@ static const NSTimeInterval kGREYMaxIntervalForUIWebViewResponse = 2.0;
   }
   if ([_ongoingUITouches count] == 0) {
     [self grey_extractAndChangeTouchToStartPhase:touchInfo];
-  } else if (touchInfo.isLastTouch) {
+  } else if (touchInfo.phase == GREYTouchInfoPhaseTouchEnded) {
     [self grey_changeTouchToEndPhase:touchInfo];
   } else {
     [self grey_changeTouchToMovePhase:touchInfo];
@@ -154,7 +168,6 @@ static const NSTimeInterval kGREYMaxIntervalForUIWebViewResponse = 2.0;
     [touch setPhase:UITouchPhaseBegan];
     [_ongoingUITouches addObject:touch];
   }
-  _currentTouchInfo = touchInfo;
 }
 
 /**
@@ -169,7 +182,6 @@ static const NSTimeInterval kGREYMaxIntervalForUIWebViewResponse = 2.0;
     [touch _setLocationInWindow:touchPoint resetPrevious:NO];
     [touch setPhase:UITouchPhaseEnded];
   }
-  _currentTouchInfo = _previousTouchInfo;
 }
 
 /**
@@ -190,7 +202,6 @@ static const NSTimeInterval kGREYMaxIntervalForUIWebViewResponse = 2.0;
       [touch setPhase:UITouchPhaseMoved];
     }
   }
-  _currentTouchInfo = touchInfo;
 }
 
 /**
@@ -249,13 +260,13 @@ static const NSTimeInterval kGREYMaxIntervalForUIWebViewResponse = 2.0;
   // We should mimic that if we want to relinquish bits in a timely manner.
   @autoreleasepool {
     _previousTouchDeliveryTime = CACurrentMediaTime();
-    _previousTouchInfo = _currentTouchInfo;
+    _previousTouchInfo = touchInfo;
 
     @try {
       [[UIApplication sharedApplication] sendEvent:event];
 
       // If a UIWebView is being tapped, allow time for delegates to be called after end touch.
-      if (touchInfo.isLastTouch) {
+      if (touchInfo.phase == GREYTouchInfoPhaseTouchEnded) {
         UIWebView *touchWebView = nil;
         if (_ongoingUITouches.count > 0) {
           UIView *touchView = [self grey_UITouchForFinger:0].view;
@@ -283,7 +294,7 @@ static const NSTimeInterval kGREYMaxIntervalForUIWebViewResponse = 2.0;
         CFRelease(hidEvent);
       }
       [hidEvents removeAllObjects];
-      if (touchInfo.isLastTouch) {
+      if (touchInfo.phase == GREYTouchInfoPhaseTouchEnded) {
         [_ongoingUITouches removeAllObjects];
       }
     }
@@ -291,13 +302,13 @@ static const NSTimeInterval kGREYMaxIntervalForUIWebViewResponse = 2.0;
 }
 
 /**
- *  Stops touch injection by invalidating the current display link and clearing the touch info list.
+ *  Stops touch injection by invalidating the current timer and clearing the touch info list.
  */
 - (void)grey_stopTouchInjection {
   _state = kGREYTouchInjectorStopped;
-  [_displayLink invalidate];
-  _displayLink = nil;
-  [_touchInfoList removeAllObjects];
+  [_timer invalidate];
+  _timer = nil;
+  [_enqueuedTouchInfoList removeAllObjects];
 }
 
 /**
@@ -310,13 +321,13 @@ static const NSTimeInterval kGREYMaxIntervalForUIWebViewResponse = 2.0;
  *          @c nil is returned.
  */
 - (GREYTouchInfo *)grey_dequeueTouchInfoForDeliveryWithCurrentTime:(CFTimeInterval)currentTime {
-  if (_touchInfoList.count == 0) {
+  if (_enqueuedTouchInfoList.count == 0) {
     return nil;
   }
   // Count the number of stale touches.
   NSUInteger staleTouches = 0;
   CFTimeInterval simulatedPreviousDeliveryTime = _previousTouchDeliveryTime;
-  for (GREYTouchInfo *touchInfo in _touchInfoList) {
+  for (GREYTouchInfo *touchInfo in _enqueuedTouchInfoList) {
     simulatedPreviousDeliveryTime += touchInfo.deliveryTimeDeltaSinceLastTouch;
     if (touchInfo.isExpendable &&
         simulatedPreviousDeliveryTime < currentTime) {
@@ -327,8 +338,9 @@ static const NSTimeInterval kGREYMaxIntervalForUIWebViewResponse = 2.0;
   }
 
   // Remove all but the last stale touch if any.
-  [_touchInfoList removeObjectsInRange:NSMakeRange(0, (staleTouches > 1) ? (staleTouches - 1) : 0)];
-  GREYTouchInfo *dequeuedTouchInfo = [_touchInfoList firstObject];
+  NSUInteger touchesToRemove = (staleTouches > 1) ? (staleTouches - 1) : 0;
+  [_enqueuedTouchInfoList removeObjectsInRange:NSMakeRange(0, touchesToRemove)];
+  GREYTouchInfo *dequeuedTouchInfo = [_enqueuedTouchInfoList firstObject];
 
   CFTimeInterval expectedTouchDeliveryTime =
       dequeuedTouchInfo.deliveryTimeDeltaSinceLastTouch + _previousTouchDeliveryTime;
@@ -336,7 +348,7 @@ static const NSTimeInterval kGREYMaxIntervalForUIWebViewResponse = 2.0;
     // This touch is scheduled to be delivered in the future.
     return nil;
   }
-  [_touchInfoList removeObjectAtIndex:0];
+  [_enqueuedTouchInfoList removeObjectAtIndex:0];
   return dequeuedTouchInfo;
 }
 

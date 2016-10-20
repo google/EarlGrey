@@ -19,13 +19,13 @@
 @implementation GREYTouchInfo
 
 - (instancetype)initWithPoints:(NSArray *)points
-                     lastTouch:(BOOL)isLastTouch
-    deliveryTimeDeltaSinceLastTouch:(NSTimeInterval)timeDeltaSinceLastTouchSeconds
-                         expendable:(BOOL)expendable {
+                                phase:(GREYTouchInfoPhase)phase
+      deliveryTimeDeltaSinceLastTouch:(NSTimeInterval)timeDeltaSinceLastTouchSeconds
+                           expendable:(BOOL)expendable {
   self = [super init];
   if (self) {
     _points = points;
-    _lastTouch = isLastTouch;
+    _phase = phase;
     _deliveryTimeDeltaSinceLastTouch = timeDeltaSinceLastTouchSeconds;
     _expendable = expendable;
   }
