@@ -66,9 +66,9 @@ module SpecHelper
     # dirname for "/fixtures/project_before/." => /fixtures/project_before"
     xcodeproj_2 = File.join(File.dirname(project_after), 'Example.xcodeproj')
 
-    Dir.mktmpdir do |tmp_dir|
+    begin
+      tmp_dir = File.join(project_init, '../tmpdir')
       FileUtils.cp_r project_init, tmp_dir
-
       Dir.chdir tmp_dir do
         # carthage modification of xcodeproj is non-deterministic so we can't rely on
         # comparing git diffs because the diffs are always unique... even after
@@ -88,6 +88,8 @@ module SpecHelper
           raise 'difference detected'
         end
       end
+    ensure
+      FileUtils.rm_rf(Dir.glob(File.join(tmp_dir, '*')).reject { |file| file.end_with?('README') })
     end
   end
 end
