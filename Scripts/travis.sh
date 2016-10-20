@@ -39,7 +39,7 @@ execute_xcodebuild() {
   fi
 
   if [ -n ${3+x}]; then
-    test_filter=${3+x}
+    test_filter="-only-testing:${3+x}"
   fi
 
   local retval_command=0
@@ -87,8 +87,13 @@ execute_xcodebuild() {
   fi
 }
 
+test_filter=""
+if [ -n "${FILTER}" ]; then
+  test_filter=$FILTER
+fi
+
 if [ "${TYPE}" == "RUBY" ]; then
-  rvm use 2.2.2;
+  rvm use 2.2.5;
   cd gem;
   bundle install --retry=3;
   rake;
@@ -97,7 +102,7 @@ elif [ "${TYPE}" == "UNIT" ]; then
 elif [ "${TYPE}" == "FUNCTIONAL_SWIFT" ]; then
   execute_xcodebuild Tests/FunctionalTests/FunctionalTests.xcodeproj EarlGreyFunctionalSwiftTests
 elif [ "${TYPE}" == "FUNCTIONAL" ]; then
-  execute_xcodebuild Tests/FunctionalTests/FunctionalTests.xcodeproj EarlGreyFunctionalTests -only-testing:$FILTER
+  execute_xcodebuild Tests/FunctionalTests/FunctionalTests.xcodeproj EarlGreyFunctionalTests ${test_filter}
 elif [ "${TYPE}" == "CONTRIB" ]; then
   execute_xcodebuild Demo/EarlGreyContribs/EarlGreyContribs.xcodeproj EarlGreyContribsTests
 elif [ "${TYPE}" == "CONTRIB_SWIFT" ]; then
@@ -107,6 +112,6 @@ elif [ "${TYPE}" == "CARTHAGE" ]; then
   ACTION="clean build"
   execute_xcodebuild EarlGrey.xcodeproj EarlGrey
 else
-  echo "Unrecognized Type: ${TYPE}"
+  echo "Unrecognized Type: ${TYPE}. Please confirm if you haven't set an invalid Test Type in the Travis Matrix."
   exit 1
 fi
