@@ -35,7 +35,7 @@
                                                 @"stopwatch is off.");
 }
 
-- (void)testCheckingElapsedTimeWatchIsStartedAndStopped {
+- (void)testCheckingElapsedTimeWhenWatchIsStartedAndStopped {
   GREYStopwatch *stopwatch = [[GREYStopwatch alloc] init];
   XCTAssertThrows([stopwatch elapsedTime], @"Stopwatch has to be started to get elapsed time.");
   [stopwatch start];
@@ -43,16 +43,18 @@
   NSTimeInterval interval;
   XCTAssertNoThrow(interval = [stopwatch elapsedTime]);
   [stopwatch start];
-  [self grey_benchmarkOperation];
+  CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.01, NO);
   NSTimeInterval noStopInterval = [stopwatch elapsedTime];
-  XCTAssertGreaterThan(noStopInterval, interval, @"Should be able to get elapsed time without "
-                                                 @"calling stop");
+  XCTAssertNotEqual(noStopInterval, interval, @"Should be able to get elapsed time without "
+                                              @"calling stop");
   [stopwatch stop];
-  XCTAssertGreaterThan([stopwatch elapsedTime], noStopInterval, @"Stopping should make the "
-                                                                @"elapsed time now greater.");
+  XCTAssertGreaterThan([stopwatch elapsedTime], noStopInterval, @"Since the stopwatch was stopped "
+                                                                @"later than when the interval "
+                                                                @"was taken, elapsed time should "
+                                                                @"be greater than the interval.");
 }
 
-- (void)testStopwatchTimeOnActionBeingPerformedAndNoActionPerformed {
+- (void)testStopwatchTimeOnDifferentActionsBeingPerformedBetweenChecks {
   GREYStopwatch *noActionStopwatch = [[GREYStopwatch alloc] init];
   [noActionStopwatch start];
   [noActionStopwatch stop];
@@ -60,13 +62,12 @@
 
   GREYStopwatch *someActionStopwatch = [[GREYStopwatch alloc] init];
   [someActionStopwatch start];
-  [self grey_benchmarkOperation];
+  CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.01, NO);
   [someActionStopwatch stop];
   NSTimeInterval intervalOnSomeActionPerformed = [someActionStopwatch elapsedTime];
-  XCTAssertGreaterThan(intervalOnSomeActionPerformed,
-                       intervalOnNoActionPerformed,
-                       @"Interval on some action being performed was not greater than that on no"
-                       @" action being performed");
+  XCTAssertNotEqual(intervalOnSomeActionPerformed,
+                    intervalOnNoActionPerformed,
+                    @"Interval on some action being performed was not greater than one without.");
 }
 
 - (void)testStopwatchWithinStopwatch {
@@ -85,67 +86,53 @@
                        @"The outer stop watch, should have a higher value.");
 }
 
-- (void)testStopwatchTimesWithBenchmark {
+- (void)testStopwatchTimesWithASleepBetweenThem {
   GREYStopwatch *benchmarkStopwatch = [[GREYStopwatch alloc] init];
   GREYStopwatch *testStopwatch = [[GREYStopwatch alloc] init];
   [benchmarkStopwatch start];
   [testStopwatch start];
-  [self grey_benchmarkOperation];
+  CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.01, NO);
   [benchmarkStopwatch stop];
+  CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.01, NO);
   [testStopwatch stop];
   NSTimeInterval difference =
-      ([benchmarkStopwatch elapsedTime] - [testStopwatch elapsedTime]) / 0.5;
-  NSTimeInterval minTime = MIN([testStopwatch elapsedTime], [benchmarkStopwatch elapsedTime]) ;
-
-  XCTAssertGreaterThan(minTime, difference, @"The difference between times shouldn't be huge.");
+      [testStopwatch elapsedTime] - [benchmarkStopwatch elapsedTime];
+  XCTAssertGreaterThan(difference, 0.01f, @"The sleep should provide at least a difference of 0.1 "
+                                          @"second.");
 }
 
 - (void)testStopwatchStoppingWithoutStarting {
   GREYStopwatch *stopwatch = [[GREYStopwatch alloc] init];
   XCTAssertThrows([stopwatch stop], @"Calling stop on a stopwatch that isn't started will fail.");
   XCTAssertThrows([stopwatch elapsedTime], @"Calling elapsed time stop on a stopwatch that"
-                                                @" isn't started will return a NaN");
+                                           @" isn't started will return a NaN");
 }
 
 - (void)testStopwatchWithLappingAndAddingStartAndStopElapsedTimes {
   GREYStopwatch *lappingStopwatch = [[GREYStopwatch alloc] init];
   [lappingStopwatch start];
-  [self grey_benchmarkOperation];
+  CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.01, NO);
   NSTimeInterval lapTime = [lappingStopwatch lapAndReturnTime];
   [lappingStopwatch stop];
   NSTimeInterval elapsedTime = [lappingStopwatch elapsedTime];
+  XCTAssertGreaterThan(elapsedTime, lapTime, @"Elapsed has to be greater than lap time");
   [lappingStopwatch start];
-  XCTAssert(fabs(elapsedTime - lapTime) < 0.1 * lapTime, @"On being called the first time, elapsed"
-            @" and lap times should be very similar");
-  [self grey_benchmarkOperation];
+  CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.01, NO);
   lapTime = [lappingStopwatch lapAndReturnTime];
   [lappingStopwatch stop];
-  elapsedTime += [lappingStopwatch elapsedTime];
+  NSTimeInterval secondElapsedTime = elapsedTime + [lappingStopwatch elapsedTime];
+  XCTAssertGreaterThan(secondElapsedTime, lapTime, @"Elapsed has to be greater than lap time");
+  XCTAssertGreaterThan(secondElapsedTime, elapsedTime, @"Progressive elapsed times checks must be "
+                                                       @"greater than the previous ones.");
   [lappingStopwatch start];
-  XCTAssert(elapsedTime > 1.5 * lapTime, @"On being called after the first time,"
-            @" elapsed time should be much greater than lap time");
-  [self grey_benchmarkOperation];
+  CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.01, NO);
   lapTime = [lappingStopwatch lapAndReturnTime];
   [lappingStopwatch stop];
-  elapsedTime += [lappingStopwatch elapsedTime];
-  XCTAssert(elapsedTime > 2.5 * lapTime, @"On being called after the first time,"
-                                         @" elapsed time should be much greater than lap time");
-}
-
-#pragma mark - Private
-
-- (void)grey_benchmarkOperation {
-  NSMutableArray *array = [[NSMutableArray alloc] initWithArray:@[@"a", @"b", @"c"]];
-  for (int i = 1; i < 1000; i++) {
-    [array addObject:[NSString stringWithFormat:@"Foo Value : %d", i]];
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
-    [view setBackgroundColor:[UIColor greenColor]];
-    UIView *containerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 500, 500)];
-    [containerView setBackgroundColor:[UIColor redColor]];
-    [containerView addSubview:view];
-  }
-  NSArray *copyArray = [NSArray arrayWithArray:array];
-  NSAssert([copyArray count] > 0, @"The array should always contain objects");
+  NSTimeInterval thirdElapsedTime = secondElapsedTime + [lappingStopwatch elapsedTime];
+  XCTAssertGreaterThan(thirdElapsedTime, lapTime, @"Elapsed has to be greater than lap time");
+  XCTAssertGreaterThan(thirdElapsedTime, secondElapsedTime, @"Progressive elapsed times checks "
+                                                            @"must be greater than the previous "
+                                                            @"ones.");
 }
 
 @end
