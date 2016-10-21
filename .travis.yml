@@ -14,50 +14,39 @@
 #
 language: objective-c
 sudo: false
+osx_image: xcode7.3
 matrix:
   global:
     rvm:
       - 2.2.5
   include:
-    - osx_image: xcode7.3
-      env:
+    - env:
         - DESTINATION="OS=8.1,name=iPhone 4s" SDK=iphonesimulator9.3 TYPE="FUNCTIONAL"
-    - osx_image: xcode7.3
-      env:
+    - env:
         - DESTINATION="OS=8.1,name=iPhone 4s" SDK=iphonesimulator9.3 TYPE="UNIT"
-    - osx_image: xcode7.3
-      env:
+    - env:
         - DESTINATION="OS=8.1,name=iPhone 5" SDK=iphonesimulator9.3 TYPE="UNIT"
-    - osx_image: xcode7.3
-      env:
+    - env:
         - DESTINATION="OS=8.2,name=iPhone 5s" SDK=iphonesimulator9.3 TYPE="FUNCTIONAL"
-    - osx_image: xcode7.3
-      env:
+    - env:
         - DESTINATION="OS=8.3,name=iPhone 6" SDK=iphonesimulator9.3 TYPE="CONTRIB"
-    - osx_image: xcode7.3
-      env:
+    - env:
         - DESTINATION="OS=8.4,name=iPad Retina" SDK=iphonesimulator9.3 TYPE="FUNCTIONAL"
-    - osx_image: xcode7.3
-      env:
+    - env:
         - DESTINATION="OS=9.0,name=iPhone 6s Plus" SDK=iphonesimulator9.3 TYPE="FUNCTIONAL"
-    - osx_image: xcode7.3
-      env:
+    - env:
         - DESTINATION="OS=9.0,name=iPhone 4s" SDK=iphonesimulator9.3 TYPE="CONTRIB_SWIFT"
-    - osx_image: xcode7.3
-      env:
+    - env:
         - DESTINATION="OS=9.1,name=iPhone 6s" SDK=iphonesimulator9.3 TYPE="UNIT"
-    - osx_image: xcode7.3
-      env:
+    - env:
         - DESTINATION="OS=9.2,name=iPad Air" SDK=iphonesimulator9.3 TYPE="FUNCTIONAL_SWIFT"
-    - osx_image: xcode7.3
-      env:
+    - env:
         - DESTINATION="OS=9.3,name=iPhone 6s Plus" SDK=iphonesimulator9.3 TYPE="FUNCTIONAL"
-    - osx_image: xcode7.3
-      env:
+    - env:
         - DESTINATION="OS=9.3,name=iPhone 6s" SDK=iphonesimulator9.3 TYPE="CARTHAGE"
     - osx_image: xcode8
       env:
-        - DESTINATION="OS=10.0,name=iPhone 7" SDK=iphonesimulator10.0 TYPE="FUNCTIONAL" FILTER="EarlGreyFunctionalTests/FTRKeyboardKeysTest"
+        - DESTINATION="OS=10.0,name=iPhone 7" SDK=iphonesimulator10.0 TYPE="FUNCTIONAL"
     - osx_image: xcode8
       env:
         - DESTINATION="OS=10.0,name=iPhone 7 Plus" SDK=iphonesimulator10.0 TYPE="UNIT"

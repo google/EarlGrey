@@ -29,17 +29,12 @@ ACTION="test"
 #
 # The output is formatted using xcpretty and redirected to xcodebuild.log for failure analysis.
 execute_xcodebuild() {
-  test_filter=""
   if [ -z ${1+x} ]; then
     echo "first argument must be a valid .xcodeproj file"
     exit 1
   elif [ -z ${2+x} ]; then
     echo "second argument must be a valid scheme"
     exit 1
-  fi
-
-  if [ -n ${3+x}]; then
-    test_filter="-only-testing:${3+x}"
   fi
 
   local retval_command=0
@@ -49,8 +44,8 @@ execute_xcodebuild() {
   for retry_attempts in {1..3}; do
     # As we are attempting retries, disable exiting when command below fails.
     set +e
-    env NSUnbufferedIO=YES xcodebuild -project ${1} -scheme ${2} -sdk "$SDK" -destination "$DESTINATION" -configuration "$CONFIG" ONLY_ACTIVE_ARCH=NO ${test_filter} $ACTION | tee xcodebuild.log | xcpretty -sc;
-    retval_xcodebuild=$?
+    env NSUnbufferedIO=YES xcodebuild -project ${1} -scheme ${2} -sdk "$SDK" -destination "$DESTINATION" -configuration "$CONFIG" ONLY_ACTIVE_ARCH=NO $ACTION | tee xcodebuild.log | xcpretty -sc;
+    retval_command=$?
 
     # Retry condition 1: Tests haven't started.
     # We achieve that by looking for keyword "Test Suite" in xcodebuild.log.
@@ -87,13 +82,8 @@ execute_xcodebuild() {
   fi
 }
 
-test_filter=""
-if [ -n "${FILTER}" ]; then
-  test_filter=$FILTER
-fi
-
 if [ "${TYPE}" == "RUBY" ]; then
-  rvm use 2.2.5;
+  rvm use 2.2.2;
   cd gem;
   bundle install --retry=3;
   rake;
@@ -102,7 +92,7 @@ elif [ "${TYPE}" == "UNIT" ]; then
 elif [ "${TYPE}" == "FUNCTIONAL_SWIFT" ]; then
   execute_xcodebuild Tests/FunctionalTests/FunctionalTests.xcodeproj EarlGreyFunctionalSwiftTests
 elif [ "${TYPE}" == "FUNCTIONAL" ]; then
-  execute_xcodebuild Tests/FunctionalTests/FunctionalTests.xcodeproj EarlGreyFunctionalTests ${test_filter}
+  execute_xcodebuild Tests/FunctionalTests/FunctionalTests.xcodeproj EarlGreyFunctionalTests
 elif [ "${TYPE}" == "CONTRIB" ]; then
   execute_xcodebuild Demo/EarlGreyContribs/EarlGreyContribs.xcodeproj EarlGreyContribsTests
 elif [ "${TYPE}" == "CONTRIB_SWIFT" ]; then
@@ -112,6 +102,6 @@ elif [ "${TYPE}" == "CARTHAGE" ]; then
   ACTION="clean build"
   execute_xcodebuild EarlGrey.xcodeproj EarlGrey
 else
-  echo "Unrecognized Type: ${TYPE}. Please confirm if you haven't set an invalid Test Type in the Travis Matrix."
+  echo "Unrecognized Type: ${TYPE}"
   exit 1
 fi
