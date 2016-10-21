@@ -27,7 +27,7 @@ ACTION="test"
 #  $1 : .xcodeproj file
 #  $2 : scheme to run
 #
-# The output is prettified using xcpretty and redirected to xcodebuild.log for failure analysis.
+# The output is formatted using xcpretty and redirected to xcodebuild.log for failure analysis.
 execute_xcodebuild() {
   if [ -z ${1+x} ]; then
     echo "first argument must be a valid .xcodeproj file"
@@ -37,26 +37,48 @@ execute_xcodebuild() {
     exit 1
   fi
 
-  retval_xcodebuild=0
+  local retval_command=0
+  # Are we running a test?
+  [[ "${ACTION}" == *"test"* ]] && is_running_test=1 || is_running_test=0
+
   for retry_attempts in {1..3}; do
-    # To retry on failure, disable exiting if command below fails.
+    # As we are attempting retries, disable exiting when command below fails.
     set +e
     env NSUnbufferedIO=YES xcodebuild -project ${1} -scheme ${2} -sdk "$SDK" -destination "$DESTINATION" -configuration "$CONFIG" ONLY_ACTIVE_ARCH=NO $ACTION | tee xcodebuild.log | xcpretty -sc;
-    retval_xcodebuild=$?
-    # Even failed tests exit with code 65, check to ensure tests haven't started.
+    retval_command=$?
+
+    # Retry condition 1: Tests haven't started.
     # We achieve that by looking for keyword "Test Suite" in xcodebuild.log.
-    # TODO: this behavior may change.
-    $(grep -q "Test Suite" xcodebuild.log)
-    retval_grep=$?
-    # Re-enable exiting for command failures.
+    # FIXME: This is a brittle check and may break in future versions of Xcode. Come up with a better fix?
+    $(grep -q -m 1 "Test Suite" xcodebuild.log)
+    retval_test_started=$?
+
+    # Re-enable exiting on command failures.
     set -e
-    if [[ ${retval_xcodebuild} -ne 65 ]] || [[ ${retval_grep} -eq 0 ]]; then
+
+    if [[ ${is_running_test} -ne 1 ]]; then
+      break
+    fi
+
+    # Should we retry?
+    if [[ ${retval_command} -eq 65 ]] && [[ ${retval_test_started} -ne 0 ]]; then
+      continue
+    else
       break
     fi
   done
 
-  if [[ ${retval_xcodebuild} -ne 0 ]]; then
-    exit ${retval_xcodebuild}
+  set +e
+  # In case of failure in test's +setUp or +tearDown, Xcode doesn't exit with an error code but logs it.
+  # Add another check to make sure no unexpected failure occured.
+  $(grep -q -m 1 -ie ".*[1-9]\d* unexpected" xcodebuild.log)
+  retval_expected_test_failures=$?
+  set -e
+
+  if [[ ${retval_command} -ne 0 ]]; then
+    exit ${retval_command}
+  elif [[ ${is_running_test} -eq 1 ]] && [[ ${retval_expected_test_failures} -eq 0 ]]; then
+    exit 1
   fi
 }
 
