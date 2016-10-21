@@ -95,6 +95,25 @@ class FunctionalTestRigSwiftTests: XCTestCase {
       .assert(grey_text("Sample Swift Test"))
   }
 
+  func testTypingWithError() {
+    self.openTestView("Typing Views")
+    EarlGrey.select(elementWithMatcher: grey_accessibilityID("TypingTextField"))
+      .perform(grey_typeText("Sample Swift Test"))
+      .assert(grey_text("Sample Swift Test"))
+
+    var error: NSError?
+    EarlGrey.select(elementWithMatcher: grey_accessibilityID("TypingTextField"))
+      .perform(grey_typeText(""), error: &error)
+      .assert(grey_text("Sample Swift Test"), error: nil)
+    GREYAssert(error != nil, reason: "Performance should have errored")
+    error = nil
+    EarlGrey.select(elementWithMatcher: grey_accessibilityID("TypingTextField"))
+      .perform(grey_clearText())
+      .perform(grey_typeText("Sample Swift Test"), error: nil)
+      .assert(grey_text("Garbage Value"), error: &error)
+    GREYAssert(error != nil, reason: "Performance should have errored")
+  }
+
   func testFastTyping() {
     self.openTestView("Typing Views")
     let textFieldEventsRecorder = TextFieldEventsRecorder()

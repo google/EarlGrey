@@ -87,23 +87,32 @@ private func GREYSetCurrentAsFailable() {
 }
 
 class EarlGrey: NSObject {
-  public class func select(elementWithMatcher matcher:GREYMatcher) -> GREYElementInteraction {
-    return EarlGreyImpl.invoked(fromFile: #file, lineNumber: #line).selectElement(with: matcher)
+  public class func select(elementWithMatcher matcher:GREYMatcher,
+                           file: String = #file,
+                           line: UInt = #line) -> GREYElementInteraction {
+    return EarlGreyImpl.invoked(fromFile: file, lineNumber: line).selectElement(with: matcher)
   }
 
-  public class func setFailureHandler(handler: GREYFailureHandler) {
-    return EarlGreyImpl.invoked(fromFile: #file, lineNumber: #line).setFailureHandler(handler)
+  public class func setFailureHandler(handler: GREYFailureHandler,
+                                      file: String = #file,
+                                      line: UInt = #line) {
+    return EarlGreyImpl.invoked(fromFile: file, lineNumber: line).setFailureHandler(handler)
   }
 
-  public class func handle(exception: GREYFrameworkException, details: String) {
-    return EarlGreyImpl.invoked(fromFile: #file, lineNumber: #line).handle(exception,
+  public class func handle(exception: GREYFrameworkException,
+                           details: String,
+                           file: String = #file,
+                           line: UInt = #line) {
+    return EarlGreyImpl.invoked(fromFile: file, lineNumber: line).handle(exception,
                                                                            details: details)
   }
 
   @discardableResult public class func rotateDeviceto(orientation: UIDeviceOrientation,
-                                                       errorOrNil: UnsafeMutablePointer<NSError?>!)
+                                                       errorOrNil: UnsafeMutablePointer<NSError?>!,
+                                                       file: String = #file,
+                                                       line: UInt = #line)
     -> Bool {
-    return EarlGreyImpl.invoked(fromFile: #file, lineNumber: #line)
+    return EarlGreyImpl.invoked(fromFile: file, lineNumber: line)
       .rotateDevice(to: orientation,
                     errorOrNil: errorOrNil)
   }
@@ -115,7 +124,7 @@ extension GREYInteraction {
   }
 
   @discardableResult public func assert(_ matcher: @autoclosure () -> GREYMatcher,
-                                        error:UnsafeMutablePointer<NSError?>) -> Self {
+                                        error:UnsafeMutablePointer<NSError?>!) -> Self {
     return self.assert(with: matcher(), error: error)
   }
 

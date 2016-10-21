@@ -58,7 +58,7 @@ class EarlGreyExampleSwiftTests: XCTestCase {
 
   func testCollectionMatchers() {
     // First way to disambiguate: use collection matchers.
-    let visibleSendButtonMatcher =
+    let visibleSendButtonMatcher: GREYMatcher! =
         grey_allOfMatchers([grey_accessibilityID("ClickMe"), grey_sufficientlyVisible()])
     EarlGrey.select(elementWithMatcher: visibleSendButtonMatcher)
       .perform(grey_doubleTap())
@@ -74,7 +74,7 @@ class EarlGreyExampleSwiftTests: XCTestCase {
 
   func testWithCustomMatcher() {
     // Define the match condition: matches table cells that contains a date for a Thursday.
-    let matches: MatchesBlock = { (element: Any) -> Bool in
+    let matches: MatchesBlock = { (element: Any?) -> Bool in
       if let cell = element as? UITableViewCell {
         let formatter = DateFormatter()
         formatter.dateStyle = DateFormatter.Style.long
@@ -97,7 +97,7 @@ class EarlGreyExampleSwiftTests: XCTestCase {
     }
 
     // Create an EarlGrey custom matcher.
-    let matcherForThursday = GREYElementMatcherBlock.init(matchesBlock: matches,
+    let matcherForThursday: GREYElementMatcherBlock! = GREYElementMatcherBlock.init(matchesBlock: matches,
       descriptionBlock: describe)
     // Profit
     EarlGrey.select(elementWithMatcher: matcherForThursday)
@@ -192,8 +192,8 @@ class EarlGreyExampleSwiftTests: XCTestCase {
   func testWithCustomFailureHandler() {
     // This test will fail and use our custom handler to handle the failure.
     // The custom handler is defined at the end of this file.
-    let myHandler = PrintOnlyHandler()
-    EarlGrey.setFailureHandler(myHandler)
+    let myHandler = SampleFailureHandler()
+    EarlGrey.setFailureHandler(handler: myHandler)
     EarlGrey.select(elementWithMatcher: grey_accessibilityID("TapMe"))
       .perform(grey_tap())
   }
@@ -236,7 +236,18 @@ class EarlGreyExampleSwiftTests: XCTestCase {
     GREYAssertNil(nil, reason: "Assert with GREYAssertNil")
     GREYAssertEqualObjects(1, 1, reason: "Assert with GREYAssertEqualObjects")
     // Uncomment one of the following lines to fail the test.
-    GREYFail("Failing with GREYFail")
+    //GREYFail("Failing with GREYFail")
   }
+}
 
+class SampleFailureHandler : NSObject, GREYFailureHandler {
+  /**
+   *  Called by the framework to raise an exception.
+   *
+   *  @param exception The exception to be handled.
+   *  @param details   Extra information about the failure.
+   */
+  public func handle(_ exception: GREYFrameworkException!, details: String!) {
+    print("Test Failed With Reason : \(exception.reason) and details \(details)")
+  }
 }

@@ -14,8 +14,6 @@
 // limitations under the License.
 //
 
-import EarlGrey
-
 public func grey_allOfMatchers(args: AnyObject...) -> GREYMatcher! {
   return GREYAllOf(matchers: args)
 }
@@ -95,13 +93,13 @@ public func GREYFailWithDetails(reason: String, details: String) {
 }
 
 private func GREYAssert(@autoclosure expression: () -> BooleanType,
-  _ reason: String, details: String) {
-    GREYSetCurrentAsFailable()
-    if !expression().boolValue {
-      greyFailureHandler.handleException(GREYFrameworkException(name: kGREYAssertionFailedException,
-        reason: reason),
-        details: details)
-    }
+                        _ reason: String, details: String) {
+  GREYSetCurrentAsFailable()
+  if !expression().boolValue {
+    greyFailureHandler.handleException(GREYFrameworkException(name: kGREYAssertionFailedException,
+      reason: reason),
+      details: details)
+  }
 }
 
 private func GREYSetCurrentAsFailable(file: String = #file, line: UInt = #line) {
