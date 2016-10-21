@@ -50,7 +50,7 @@ execute_xcodebuild() {
     # Retry condition 1: Tests haven't started.
     # We achieve that by looking for keyword "Test Suite" in xcodebuild.log.
     # FIXME: This is a brittle check and may break in future versions of Xcode. Come up with a better fix?
-    $(grep -q "Test Suite" xcodebuild.log)
+    $(grep "Test Suite" xcodebuild.log)
     retval_test_started=$?
 
     # Re-enable exiting on command failures.
@@ -72,7 +72,7 @@ execute_xcodebuild() {
   $(tail -n 200 xcodebuild.log)
   # In case of failure in test's +setUp or +tearDown, Xcode doesn't exit with an error code but logs it.
   # Add another check to make sure no unexpected failure occured.
-  $(grep -q "0 failures (0 unexpected)" xcodebuild.log)
+  $(grep "0 failures (0 unexpected)" xcodebuild.log)
   retval_no_expected_test_failures=$?
   set -e
 
