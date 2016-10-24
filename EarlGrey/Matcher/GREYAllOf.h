@@ -55,6 +55,8 @@
  */
 GREY_EXPORT id<GREYMatcher> grey_allOf(id<GREYMatcher> matcher, ...) NS_REQUIRES_NIL_TERMINATION;
 
+GREY_EXPORT id<GREYMatcher> grey_allOfMatchers(NSArray<GREYMatcher> *matchers);
+
 #endif // GREY_DISABLE_SHORTHAND
 
 @end

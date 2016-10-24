@@ -74,4 +74,8 @@ id<GREYMatcher> grey_allOf(id<GREYMatcher> matcher, ...) {
   return [[GREYAllOf alloc] initWithMatchers:matcherList];
 }
 
+id<GREYMatcher> grey_allOfMatchers(NSArray<GREYMatcher> *matchers) {
+  return [[GREYAllOf alloc] initWithMatchers:matchers];
+}
+
 #endif // GREY_DISABLE_SHORTHAND

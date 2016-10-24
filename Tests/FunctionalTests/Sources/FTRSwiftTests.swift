@@ -26,25 +26,27 @@ class TextFieldEventsRecorder {
   var editingDidEnd = false
 
   func registerActionBlock() -> GREYActionBlock {
-    NSNotificationCenter.defaultCenter().addObserver(self,
-      selector: #selector(textDidBeginEditingHandler),
-      name: UITextFieldTextDidBeginEditingNotification, object: nil)
-    NSNotificationCenter.defaultCenter().addObserver(self,
-      selector: #selector(textDidChangeHandler), name: UITextFieldTextDidChangeNotification,
-      object: nil)
-    NSNotificationCenter.defaultCenter().addObserver(self,
-      selector: #selector(textDidEndEditingHandler),
-      name: UITextFieldTextDidEndEditingNotification, object: nil)
-    return GREYActionBlock.actionWithName("Register to editing events") {
-      (element: AnyObject!, _: UnsafeMutablePointer<NSError?>) -> Bool in
+    NotificationCenter.default.addObserver(self,
+                                           selector: #selector(textDidBeginEditingHandler),
+                                           name: NSNotification.Name.UITextFieldTextDidBeginEditing, object: nil)
+    NotificationCenter.default.addObserver(self,
+                                           selector: #selector(textDidChangeHandler),
+                                           name: NSNotification.Name.UITextFieldTextDidChange,
+                                           object: nil)
+    NotificationCenter.default.addObserver(self,
+                                           selector: #selector(textDidEndEditingHandler),
+                                           name: NSNotification.Name.UITextFieldTextDidEndEditing, object: nil)
+    return GREYActionBlock.action(withName: "Register to editing events") {
+      (element: Any?, errorOrNil: UnsafeMutablePointer<NSError?>?) -> Bool in
+      let element:UIControl = element as! UIControl
       element.addTarget(self,
-        action: #selector(self.editingDidBeginHandler), forControlEvents: .EditingDidBegin)
+                        action: #selector(self.editingDidBeginHandler), for: .editingDidBegin)
       element.addTarget(self,
-        action: #selector(self.editingChangedHandler), forControlEvents: .EditingChanged)
+                        action: #selector(self.editingChangedHandler), for: .editingChanged)
       element.addTarget(self,
-        action: #selector(self.editingDidEndOnExitHandler), forControlEvents: .EditingDidEndOnExit)
+                        action: #selector(self.editingDidEndOnExitHandler), for: .editingDidEndOnExit)
       element.addTarget(self,
-        action: #selector(self.editingDidEndHandler), forControlEvents: .EditingDidEnd)
+                        action: #selector(self.editingDidEndHandler), for: .editingDidEnd)
       return true
     }
   }
@@ -67,140 +69,168 @@ class FunctionalTestRigSwiftTests: XCTestCase {
 
   override func tearDown() {
     super.tearDown()
-    let delegateWindow:UIWindow! = UIApplication.sharedApplication().delegate!.window!
+    let delegateWindow:UIWindow! = UIApplication.shared.delegate!.window!
     var navController:UINavigationController?
-    if ((delegateWindow.rootViewController?.isKindOfClass(UINavigationController)) != nil) {
+    if ((delegateWindow.rootViewController?.isKind(of: UINavigationController.self)) != nil) {
       navController = delegateWindow.rootViewController as? UINavigationController
     } else {
       navController = delegateWindow.rootViewController!.navigationController
     }
-    navController?.popToRootViewControllerAnimated(true)
+    _ = navController?.popToRootViewController(animated: true)
   }
 
   func testOpeningView() {
     self.openTestView("Typing Views")
   }
 
+  func testRotation() {
+    EarlGrey.rotateDeviceto(orientation: UIDeviceOrientation.landscapeLeft, errorOrNil: nil)
+    EarlGrey.rotateDeviceto(orientation: UIDeviceOrientation.portrait, errorOrNil: nil)
+  }
+
   func testTyping() {
     self.openTestView("Typing Views")
-    EarlGrey().selectElementWithMatcher(grey_accessibilityID("TypingTextField"))
-        .performAction(grey_typeText("Sample Swift Test"))
-        .assertWithMatcher(grey_text("Sample Swift Test"))
+    EarlGrey.select(elementWithMatcher: grey_accessibilityID("TypingTextField"))
+      .perform(grey_typeText("Sample Swift Test"))
+      .assert(grey_text("Sample Swift Test"))
+  }
+
+  func testTypingWithError() {
+    self.openTestView("Typing Views")
+    EarlGrey.select(elementWithMatcher: grey_accessibilityID("TypingTextField"))
+      .perform(grey_typeText("Sample Swift Test"))
+      .assert(grey_text("Sample Swift Test"))
+
+    var error: NSError?
+    EarlGrey.select(elementWithMatcher: grey_accessibilityID("TypingTextField"))
+      .perform(grey_typeText(""), error: &error)
+      .assert(grey_text("Sample Swift Test"), error: nil)
+    GREYAssert(error != nil, reason: "Performance should have errored")
+    error = nil
+    EarlGrey.select(elementWithMatcher: grey_accessibilityID("TypingTextField"))
+      .perform(grey_clearText())
+      .perform(grey_typeText("Sample Swift Test"), error: nil)
+      .assert(grey_text("Garbage Value"), error: &error)
+    GREYAssert(error != nil, reason: "Performance should have errored")
   }
 
   func testFastTyping() {
     self.openTestView("Typing Views")
     let textFieldEventsRecorder = TextFieldEventsRecorder()
-    EarlGrey().selectElementWithMatcher(grey_accessibilityID("TypingTextField"))
-        .performAction(textFieldEventsRecorder.registerActionBlock())
-        .performAction(grey_replaceText("Sample Swift Test"))
-        .assertWithMatcher(grey_text("Sample Swift Test"))
+    EarlGrey.select(elementWithMatcher: grey_accessibilityID("TypingTextField"))
+      .perform(textFieldEventsRecorder.registerActionBlock())
+      .perform(grey_replaceText("Sample Swift Test"))
+      .assert(grey_text("Sample Swift Test"))
     GREYAssert(textFieldEventsRecorder.verify(), reason: "Text field events were not all received")
   }
 
   func testFastTypingOnWebView() {
     self.openTestView("Web Views")
-    EarlGrey().selectElementWithMatcher(grey_accessibilityLabel("loadGoogle"))
-        .performAction(grey_tap())
+    EarlGrey.select(elementWithMatcher: grey_accessibilityLabel("loadGoogle"))
+      .perform(grey_tap())
     let searchButtonMatcher: GREYMatcher = grey_accessibilityHint("Search")
 
     self.waitForWebElementWithName("Search Button", elementMatcher: searchButtonMatcher)
 
     // grey_text() doesn't work on webviews, must use grey_accessibilityValue()
-    EarlGrey().selectElementWithMatcher(searchButtonMatcher)
-        .performAction(grey_clearText())
-        .performAction(grey_typeText("zzz"))
-        .performAction(grey_replaceText("new_text_value"))
-        .assertWithMatcher(grey_accessibilityValue("new_text_value"))
+    EarlGrey.select(elementWithMatcher: searchButtonMatcher)
+      .perform(grey_clearText())
+      .perform(grey_typeText("zzz"))
+      .perform(grey_replaceText("new_text_value"))
+      .assert(grey_accessibilityValue("new_text_value"))
   }
 
   func testButtonPressWithGREYAllOf() {
     self.openTestView("Basic Views")
-    EarlGrey().selectElementWithMatcher(grey_text("Tab 2")).performAction(grey_tap())
-    let matcher = grey_allOfMatchers(grey_text("Long Press"), grey_sufficientlyVisible())
-    EarlGrey().selectElementWithMatcher(matcher).performAction(grey_longPressWithDuration(1.0))
-        .assertWithMatcher(grey_notVisible())
+    EarlGrey.select(elementWithMatcher: grey_text("Tab 2")).perform(grey_tap())
+    if let matcher = grey_allOfMatchers([grey_text("Long Press"), grey_sufficientlyVisible()]) {
+      EarlGrey.select(elementWithMatcher: matcher).perform(grey_longPressWithDuration(1.0))
+        .assert(grey_notVisible())
+    } else {
+      GREYFail("Could not find an element to perform a Long Press on.")
+    }
   }
 
   func testPossibleOpeningViews() {
     self.openTestView("Alert Views")
-    let matcher = grey_anyOfMatchers(grey_text("FooText"),
-                                     grey_text("Simple Alert"),
-                                     grey_buttonTitle("BarTitle"))
-    EarlGrey().selectElementWithMatcher(matcher).performAction(grey_tap())
-    EarlGrey().selectElementWithMatcher(grey_text("Flee"))
-        .assertWithMatcher(grey_sufficientlyVisible())
-        .performAction(grey_tap())
+    let matcher = grey_anyOfMatchers([grey_text("FooText"),
+                                      grey_text("Simple Alert"),
+                                      grey_buttonTitle("BarTitle")])
+    EarlGrey.select(elementWithMatcher: matcher!).perform(grey_tap())
+    EarlGrey.select(elementWithMatcher: grey_text("Flee"))
+      .assert(grey_sufficientlyVisible())
+      .perform(grey_tap())
   }
 
   func testSwiftCustomMatcher() {
     // Verify description in custom matcher isn't nil.
     // unexpectedly found nil while unwrapping an Optional value
-    EarlGrey().selectElementWithMatcher(grey_allOfMatchers(grey_firstElement(),
-                                                           grey_text("FooText")))
-        .assertWithMatcher(grey_nil())
+    EarlGrey.select(elementWithMatcher: grey_allOfMatchers([grey_firstElement(),
+                                                            grey_text("FooText")]))
+      .assert(grey_nil())
   }
 
   func testInteractionWithALabelWithParentHidden() {
     let checkHiddenBlock:GREYActionBlock =
-        GREYActionBlock.actionWithName("checkHiddenBlock", performBlock: { element, errorOrNil in
-                                       // Check if the found element is hidden or not.
-                                       let superView:UIView! = element as! UIView
-                                       return !superView.hidden
-        })
+      GREYActionBlock.action(withName: "checkHiddenBlock", perform: { element, errorOrNil in
+        // Check if the found element is hidden or not.
+        let superView:UIView! = element as! UIView
+        return !superView.isHidden
+      })
 
     self.openTestView("Basic Views")
-    EarlGrey().selectElementWithMatcher(grey_text("Tab 2")).performAction(grey_tap())
-    EarlGrey().selectElementWithMatcher(grey_accessibilityLabel("tab2Container"))
-        .performAction(checkHiddenBlock).assertWithMatcher(grey_sufficientlyVisible())
+    EarlGrey.select(elementWithMatcher: grey_text("Tab 2")).perform(grey_tap())
+    EarlGrey.select(elementWithMatcher: grey_accessibilityLabel("tab2Container"))
+      .perform(checkHiddenBlock).assert(grey_sufficientlyVisible())
     var error: NSError?
-    EarlGrey().selectElementWithMatcher(grey_text("Non Existent Element"))
-        .performAction(grey_tap(), error:&error)
+    EarlGrey.select(elementWithMatcher: grey_text("Non Existent Element"))
+      .perform(grey_tap(), error:&error)
     if let errorVal = error {
-      GREYAssertEqual(errorVal.domain, kGREYInteractionErrorDomain,
+      GREYAssertEqual(errorVal.domain as AnyObject?, kGREYInteractionErrorDomain as AnyObject?,
                       reason: "Element Not Found Error")
     }
   }
 
-  func waitForWebElementWithName(name: String, elementMatcher matcher: GREYMatcher) {
-    GREYCondition(name: name.stringByAppendingString(" Condition"), block: {_ in
+  func waitForWebElementWithName(_ name: String, elementMatcher matcher: GREYMatcher) {
+    GREYCondition(name: name + " Condition", block: {_ in
       var errorOrNil: NSError?
-      EarlGrey().selectElementWithMatcher(matcher)
-          .assertWithMatcher(grey_sufficientlyVisible(), error: &errorOrNil)
+      EarlGrey.select(elementWithMatcher: matcher)
+        .assert(grey_sufficientlyVisible(), error: &errorOrNil)
       return errorOrNil == nil
-    }).waitWithTimeout(3.0)
+    }).wait(withTimeout: 3.0)
   }
 
-  func openTestView(name: String) {
+  func openTestView(_ name: String) {
     var errorOrNil : NSError?
-    let cellMatcher = grey_accessibilityLabel(name)
-    EarlGrey().selectElementWithMatcher(cellMatcher).performAction(grey_tap(), error: &errorOrNil)
+    EarlGrey.select(elementWithMatcher: grey_accessibilityLabel(name))
+      .perform(grey_tap(), error: &errorOrNil)
     if ((errorOrNil == nil)) {
       return
     }
-    EarlGrey().selectElementWithMatcher(grey_kindOfClass(UITableView))
-        .performAction(grey_scrollToContentEdge(GREYContentEdge.Top))
-    EarlGrey().selectElementWithMatcher(GREYAllOf.init(matchers: [cellMatcher,grey_interactable()]))
-        .usingSearchAction(grey_scrollInDirection(GREYDirection.Down, 200),
-                           onElementWithMatcher: grey_kindOfClass(UITableView))
-        .performAction(grey_tap())
+    EarlGrey.select(elementWithMatcher: grey_kindOfClass(UITableView.self))
+      .perform(grey_scrollToContentEdge(GREYContentEdge.top))
+    EarlGrey.select(elementWithMatcher: grey_allOfMatchers([grey_accessibilityLabel(name),
+                                                            grey_interactable()]))
+      .using(searchAction: grey_scrollInDirection(GREYDirection.down, 200),
+             onElementWithMatcher: grey_kindOfClass(UITableView.self))
+      .perform(grey_tap())
   }
 
   func grey_firstElement() -> GREYMatcher {
     var firstMatch = true
-    let matches: MatchesBlock = { (element: AnyObject!) -> Bool in
+    let matches: MatchesBlock = { (element: Any) -> Bool in
       if firstMatch {
         firstMatch = false
         return true
       }
-
+      
       return false
     }
-
-    let description: DescribeToBlock = { (description: GREYDescription!) -> Void in
-      description.appendText("first match")
+    
+    let describe: DescribeToBlock = { (description: GREYDescription?) -> Void in
+      description!.appendText("first match")
     }
-
-    return GREYElementMatcherBlock.init(matchesBlock: matches, descriptionBlock: description)
+    
+    return GREYElementMatcherBlock.init(matchesBlock: matches, descriptionBlock: describe)
   }
 }
