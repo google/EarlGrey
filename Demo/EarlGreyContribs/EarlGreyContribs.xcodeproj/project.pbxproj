@@ -105,7 +105,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		FD8277DB1D677D0D00C7C2AD /* EarlGrey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EarlGrey.swift; path = "../../../gem/lib/earlgrey/files/Swift-3.0/EarlGrey.swift"; sourceTree = "<group>"; };
+		FD8277DB1D677D0D00C7C2AD /* EarlGrey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EarlGrey.swift; path = "../../../gem/lib/earlgrey/files/Swift-2.2/EarlGrey.swift"; sourceTree = "<group>"; };
 		FDA14AB71D35D017009F60A0 /* EarlGreyContribsTests.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EarlGreyContribsTests.pch; sourceTree = "<group>"; };
 		FDA14AD61D36DEC6009F60A0 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../../../Tests/FunctionalTests/TestRig/Resources/Default-568h@2x.png"; sourceTree = "<group>"; };
 		FDA14AD71D36DEC6009F60A0 /* Default-667@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-667@2x.png"; path = "../../../Tests/FunctionalTests/TestRig/Resources/Default-667@2x.png"; sourceTree = "<group>"; };
@@ -552,7 +552,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 2.3;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WARNING_CFLAGS = (
 					"-Werror",
@@ -607,7 +607,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 2.3;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				WARNING_CFLAGS = (
@@ -700,7 +700,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "EarlGreyContribsSwiftTests/EarlGreyContribsTestRig-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 2.3;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EarlGreyContribs.app/EarlGreyContribs";
 			};
 			name = Debug;
@@ -716,7 +716,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "EarlGreyContribsSwiftTests/EarlGreyContribsTestRig-Bridging-Header.h";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 2.3;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EarlGreyContribs.app/EarlGreyContribs";
 			};
 			name = Release;
