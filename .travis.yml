@@ -47,7 +47,7 @@ matrix:
         - DESTINATION="OS=10.0,name=iPhone 7" SDK=iphonesimulator10.0 TYPE="FUNCTIONAL"
     - osx_image: xcode8
       env:
-        - DESTINATION="OS=10.0,name=iPad Air" SDK=iphonesimulator10.0 TYPE="FUNCTIONAL_SWIFT"    
+        - DESTINATION="OS=10.0,name=iPad Air" SDK=iphonesimulator10.0 TYPE="FUNCTIONAL_SWIFT"
     - osx_image: xcode8
       env:
         - DESTINATION="OS=10.0,name=iPhone 7 Plus" SDK=iphonesimulator10.0 TYPE="UNIT"
