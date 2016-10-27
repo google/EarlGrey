@@ -47,7 +47,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         "sendMessageView": sendMessageView]
     var allConstraints = [NSLayoutConstraint]()
     let verticalConstraints = NSLayoutConstraint.constraints(
-        withVisualFormat: "V:|-40-[clickMe]-40-[send2]-40-[table]|", options: [], metrics: nil, views: views)
+        withVisualFormat: "V:|-40-[clickMe]-40-[send2]-40-[table]|",
+        options: [], metrics: nil, views: views)
     allConstraints += verticalConstraints
     let buttonsHorizontalConstraints = NSLayoutConstraint.constraints(
         withVisualFormat: "|-10-[clickMe(100)]-20-[send(100)]", options:.alignAllTop,

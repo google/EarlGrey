@@ -97,8 +97,8 @@ class EarlGreyExampleSwiftTests: XCTestCase {
     }
 
     // Create an EarlGrey custom matcher.
-    let matcherForThursday: GREYElementMatcherBlock! = GREYElementMatcherBlock.init(matchesBlock: matches,
-      descriptionBlock: describe)
+    let matcherForThursday: GREYElementMatcherBlock! =
+      GREYElementMatcherBlock.init(matchesBlock: matches, descriptionBlock: describe)
     // Profit
     EarlGrey.select(elementWithMatcher: matcherForThursday)
       .perform(grey_doubleTap())
@@ -118,7 +118,8 @@ class EarlGreyExampleSwiftTests: XCTestCase {
   }
 
   func testCatchErrorOnFailure() {
-    // TapMe doesn't exist, but the test doesn't fail because we are getting a pointer to the error.
+    // TapMe doesn't exist, but the test doesn't fail because we are getting a pointer to the
+    // error.
     var error: NSError?
     EarlGrey.select(elementWithMatcher: grey_accessibilityID("TapMe"))
       .perform(grey_tap(), error: &error)
@@ -134,55 +135,53 @@ class EarlGreyExampleSwiftTests: XCTestCase {
                      options: UIViewAnimationOptions.curveEaseOut,
                      animations: { element.alpha = 0.0 }, completion: {
             (finished: Bool) -> Void in
-            UIView.animate(withDuration: 1.0,
-                           delay: 0.0,
-                           options: UIViewAnimationOptions.curveEaseIn,
-                           animations: { element.alpha = 1.0 },
-                           completion: nil)
+              UIView.animate(withDuration: 1.0,
+                             delay: 0.0,
+                             options: UIViewAnimationOptions.curveEaseIn,
+                             animations: { element.alpha = 1.0 },
+                             completion: nil)
       })
     }
     // Define a custom action that applies fadeInAndOut to the selected element.
     let tapClickMe: GREYActionBlock =
-      GREYActionBlock.action(withName: "Fade In And Out",
-                             perform: {
-                              (element: Any?,
-                              errorOrNil: UnsafeMutablePointer<NSError?>?) -> Bool in
-                              // First make sure element is attached to a window.
-                              let elementAsView :UIView = element as! UIView
-                              guard let window = elementAsView.window! as UIView! else {
-                                let errorInfo = [NSLocalizedDescriptionKey:
-                                  NSLocalizedString("Element is not attached to a window",
-                                                    comment: "")]
-                                errorOrNil?.pointee = NSError(domain: kGREYInteractionErrorDomain,
-                                                              code: 1,
-                                                              userInfo: errorInfo)
-                                return false
-                              }
-                              fadeInAndOut(window)
-                              return true
+      GREYActionBlock.action(withName: "Fade In And Out", perform: {
+        (element: Any?, errorOrNil: UnsafeMutablePointer<NSError?>?) -> Bool in
+        // First make sure element is attached to a window.
+        let elementAsView :UIView = element as! UIView
+        guard let window = elementAsView.window! as UIView! else {
+          let errorInfo = [NSLocalizedDescriptionKey:
+            NSLocalizedString("Element is not attached to a window",
+                              comment: "")]
+          errorOrNil?.pointee = NSError(domain: kGREYInteractionErrorDomain,
+                                        code: 1,
+                                        userInfo: errorInfo)
+          return false
+        }
+        fadeInAndOut(window)
+        return true
       });
     EarlGrey.select(elementWithMatcher: grey_accessibilityID("ClickMe"))
       .perform(tapClickMe)
   }
 
   func testWithCustomAssertion() {
-    // Write a custom assertion that checks if the alpha of an element is equal to the expected value.
+    // Write a custom assertion that checks if the alpha of an element is equal to the expected
+    // value.
     let alphaEqual = { (expectedAlpha: CGFloat) -> GREYAssertionBlock in
       return GREYAssertionBlock.assertion(withName: "Assert Alpha Equal",
                                           assertionBlockWithError: {
-                                            (element: Any?,
-                                            errorOrNil: UnsafeMutablePointer<NSError?>?) -> Bool in
-                                            guard let view = element! as! UIView as UIView! else {
-                                              let errorInfo = [NSLocalizedDescriptionKey:
-                                                NSLocalizedString("Element is not a UIView",
-                                                                  comment: "")]
-                                              errorOrNil?.pointee =
-                                                NSError(domain: kGREYInteractionErrorDomain,
-                                                        code: 2,
-                                                        userInfo: errorInfo)
-                                              return false
-                                            }
-                                            return view.alpha == expectedAlpha
+        (element: Any?, errorOrNil: UnsafeMutablePointer<NSError?>?) -> Bool in
+        guard let view = element! as! UIView as UIView! else {
+          let errorInfo = [NSLocalizedDescriptionKey:
+            NSLocalizedString("Element is not a UIView",
+                              comment: "")]
+          errorOrNil?.pointee =
+            NSError(domain: kGREYInteractionErrorDomain,
+                    code: 2,
+                    userInfo: errorInfo)
+          return false
+        }
+        return view.alpha == expectedAlpha
       })
     }
     EarlGrey.select(elementWithMatcher: grey_accessibilityID("ClickMe"))

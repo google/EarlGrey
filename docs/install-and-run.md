@@ -305,8 +305,8 @@ steps in your setup:
       configure_for_earlgrey(installer, PROJECT_NAME, test_target, test_target + '.xcscheme', {swift: true})
       ```
 
-      EarlGrey currently supports Swift 3.0 and 2.2. While 3.0 is the default, you can also use 2.2 by adding
-      `{swift: true, swift_version: 2.2}`.
+      EarlGrey currently supports Swift 3.0 and 2.3. While 3.0 is the default, you can also use 2.3 by adding
+      `{swift: true, swift_version: 2.3}`.
 
   * **Manual installation without the [earlgrey gem](https://rubygems.org/gems/earlgrey)**
 

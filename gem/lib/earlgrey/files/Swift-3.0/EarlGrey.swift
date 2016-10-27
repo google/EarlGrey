@@ -107,10 +107,10 @@ class EarlGrey: NSObject {
                                                                            details: details)
   }
 
-  @discardableResult public class func rotateDeviceto(orientation: UIDeviceOrientation,
-                                                       errorOrNil: UnsafeMutablePointer<NSError?>!,
-                                                       file: String = #file,
-                                                       line: UInt = #line)
+  @discardableResult public class func rotateDeviceTo(orientation: UIDeviceOrientation,
+                                                      errorOrNil: UnsafeMutablePointer<NSError?>!,
+                                                      file: String = #file,
+                                                      line: UInt = #line)
     -> Bool {
     return EarlGreyImpl.invoked(fromFile: file, lineNumber: line)
       .rotateDevice(to: orientation,

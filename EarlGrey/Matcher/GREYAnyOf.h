@@ -55,6 +55,14 @@
  */
 GREY_EXPORT id<GREYMatcher> grey_anyOf(id<GREYMatcher> match, ...) NS_REQUIRES_NIL_TERMINATION;
 
+/**
+ *  A matcher that is a logical OR of all the matchers passed in within an NSArray.
+ *
+ *  @param matchers An array of one more matchers to be added. Matchers are invoked in the order
+ *                  they are specified and only if the preceding matcher fails.
+ *
+ *  @return An object conforming to GREYMatcher, initialized with the required matchers.
+ */
 GREY_EXPORT id<GREYMatcher> grey_anyOfMatchers(NSArray<GREYMatcher>* matchers);
 
 #endif // GREY_DISABLE_SHORTHAND
