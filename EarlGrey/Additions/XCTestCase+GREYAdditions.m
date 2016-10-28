@@ -28,21 +28,6 @@
 static XCTestCase *gCurrentExecutingTestCase;
 
 /**
- *  Object-association key to indicate whether setup and teardown have been swizzled.
- */
-static const void *const kSetupTearDownSwizzedKey = &kSetupTearDownSwizzedKey;
-
-/**
- *  Object-association key for the localized test outputs for a test case.
- */
-static const void *const kLocalizedTestOutputsDirKey = &kLocalizedTestOutputsDirKey;
-
-/**
- *  Object-association key for the status of a test case.
- */
-static const void *const kTestCaseStatus = &kTestCaseStatus;
-
-/**
  *  Name of the exception that's thrown to interrupt current test execution.
  */
 static NSString *const kInternalTestInterruptException = @"EarlGreyInternalTestInterruptException";
@@ -118,12 +103,13 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
 }
 
 - (GREYXCTestCaseStatus)grey_status {
-  id status = objc_getAssociatedObject(self, kTestCaseStatus);
+  id status = objc_getAssociatedObject(self, @selector(grey_status));
   return (GREYXCTestCaseStatus)[status unsignedIntegerValue];
 }
 
 - (NSString *)grey_localizedTestOutputsDirectory {
-  NSString *localizedTestOutputsDir = objc_getAssociatedObject(self, kLocalizedTestOutputsDirKey);
+  NSString *localizedTestOutputsDir =
+      objc_getAssociatedObject(self, @selector(grey_localizedTestOutputsDirectory));
 
   if (localizedTestOutputsDir == nil) {
     NSString *testClassName = [self grey_testClassName];
@@ -146,9 +132,9 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
     localizedTestOutputsDir = [testSpecificOutputsDir stringByStandardizingPath];
 
     objc_setAssociatedObject(self,
-                             kLocalizedTestOutputsDirKey,
+                             @selector(grey_localizedTestOutputsDirectory),
                              localizedTestOutputsDir,
-                             OBJC_ASSOCIATION_RETAIN);
+                             OBJC_ASSOCIATION_RETAIN_NONATOMIC);
   }
 
   return localizedTestOutputsDir;
@@ -168,11 +154,14 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
 #pragma mark - Private
 
 - (BOOL)grey_isSwizzled {
-  return [objc_getAssociatedObject([self class], kSetupTearDownSwizzedKey) boolValue];
+  return [objc_getAssociatedObject([self class], @selector(grey_isSwizzled)) boolValue];
 }
 
 - (void)grey_markSwizzled {
-  objc_setAssociatedObject([self class], kSetupTearDownSwizzedKey, @(YES), OBJC_ASSOCIATION_RETAIN);
+  objc_setAssociatedObject([self class],
+                           @selector(grey_isSwizzled),
+                           @(YES),
+                           OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 - (void)grey_invokeTest {
@@ -288,7 +277,10 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
  *  @param status The new object-association value for the test status.
  */
 - (void)grey_setStatus:(GREYXCTestCaseStatus)status {
-  objc_setAssociatedObject(self, kTestCaseStatus, @(status), OBJC_ASSOCIATION_RETAIN);
+  objc_setAssociatedObject(self,
+                           @selector(grey_status),
+                           @(status),
+                           OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 @end

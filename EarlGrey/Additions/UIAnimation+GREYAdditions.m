@@ -21,8 +21,6 @@
 #import "Common/GREYSwizzler.h"
 #import "Synchronization/GREYAppStateTracker.h"
 
-static void const *const kStateTrackerElementIDKey = &kStateTrackerElementIDKey;
-
 @implementation UIAnimation_GREYAdditions
 
 + (void)load {
@@ -56,7 +54,7 @@ static void const *const kStateTrackerElementIDKey = &kStateTrackerElementIDKey;
 - (void)greyswizzled_markStart:(double)startTime {
   NSString *elementID = TRACK_STATE_FOR_ELEMENT(kGREYPendingUIAnimation, self);
   objc_setAssociatedObject(self,
-                           kStateTrackerElementIDKey,
+                           @selector(greyswizzled_markStart:),
                            elementID,
                            OBJC_ASSOCIATION_RETAIN_NONATOMIC);
   INVOKE_ORIGINAL_IMP1(void, @selector(greyswizzled_markStart:), startTime);
@@ -67,8 +65,12 @@ static void const *const kStateTrackerElementIDKey = &kStateTrackerElementIDKey;
  *  triggered by a UIScrollView::setContentEnd:finished: is finished.
  */
 - (void)greyswizzled_markStop {
-  NSString *elementID = objc_getAssociatedObject(self, kStateTrackerElementIDKey);
+  NSString *elementID = objc_getAssociatedObject(self, @selector(greyswizzled_markStart:));
   UNTRACK_STATE_FOR_ELEMENT_WITH_ID(kGREYPendingUIAnimation, elementID);
+  objc_setAssociatedObject(self,
+                           @selector(greyswizzled_markStart:),
+                           nil,
+                           OBJC_ASSOCIATION_ASSIGN);
   INVOKE_ORIGINAL_IMP(void, @selector(greyswizzled_markStop));
 }
 

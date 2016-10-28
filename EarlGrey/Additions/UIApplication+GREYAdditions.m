@@ -22,8 +22,6 @@
 #import "Common/GREYSwizzler.h"
 #import "Synchronization/GREYAppStateTracker.h"
 
-static void const *const kStateTrackerElementIDKey = &kStateTrackerElementIDKey;
-
 /**
  *  List for all the runloop modes that have been pushed and unpopped using UIApplication's push/pop
  *  runloop mode methods. The most recently pushed runloop mode is at the end of the list.
@@ -79,7 +77,7 @@ static NSMutableArray *gRunLoopModes;
   INVOKE_ORIGINAL_IMP(void, @selector(greyswizzled_beginIgnoringInteractionEvents));
   NSString *elementID = TRACK_STATE_FOR_ELEMENT(kGREYIgnoringSystemWideUserInteraction, self);
   objc_setAssociatedObject(self,
-                           kStateTrackerElementIDKey,
+                           @selector(greyswizzled_beginIgnoringInteractionEvents),
                            elementID,
                            OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
@@ -88,8 +86,13 @@ static NSMutableArray *gRunLoopModes;
   INVOKE_ORIGINAL_IMP(void, @selector(greyswizzled_endIgnoringInteractionEvents));
   // begin/end can be nested, instead of keeping the count, simply use isIgnoringInteractionEvents.
   if (!self.isIgnoringInteractionEvents) {
-    NSString *elementID = objc_getAssociatedObject(self, kStateTrackerElementIDKey);
+    NSString *elementID =
+        objc_getAssociatedObject(self, @selector(greyswizzled_beginIgnoringInteractionEvents));
     UNTRACK_STATE_FOR_ELEMENT_WITH_ID(kGREYIgnoringSystemWideUserInteraction, elementID);
+    objc_setAssociatedObject(self,
+                             @selector(greyswizzled_beginIgnoringInteractionEvents),
+                             nil,
+                             OBJC_ASSOCIATION_ASSIGN);
   }
 }
 

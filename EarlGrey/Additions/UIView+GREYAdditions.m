@@ -25,28 +25,6 @@
 #import "Synchronization/GREYAppStateTracker.h"
 #import "Synchronization/GREYTimedIdlingResource.h"
 
-/**
- * Object-association key used for keeping track of the subview that should be always on top.
- */
-static void const *const kAlwaysTopMostSubviewKey = &kAlwaysTopMostSubviewKey;
-
-/**
- * Object-association key used for storing the view's frame so it can be reset when the parent
- * changes it.
- */
-static void const *const kFixedFrame = &kFixedFrame;
-
-/**
- * Object-association key used for keeping track of the view's state.
- */
-static void const *const kStateTrackerElementIDKey = &kStateTrackerElementIDKey;
-
-/**
- * Object-association key used for storing the view's alpha value when invoking
- * UIView::grey_setAlphaAndStoreCurrentValue.
- */
-static void const *const kOriginalAlphaKey = &kOriginalAlphaKey;
-
 @implementation UIView (GREYAdditions)
 
 + (void)load {
@@ -204,16 +182,20 @@ static void const *const kOriginalAlphaKey = &kOriginalAlphaKey;
 
 - (void)grey_keepSubviewOnTopAndFrameFixed:(UIView *)view {
   NSValue *frameRect = [NSValue valueWithCGRect:view.frame];
-  objc_setAssociatedObject(view, kFixedFrame, frameRect, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+  objc_setAssociatedObject(view,
+                           @selector(grey_keepSubviewOnTopAndFrameFixed:),
+                           frameRect,
+                           OBJC_ASSOCIATION_RETAIN_NONATOMIC);
   objc_setAssociatedObject(self,
-                           kAlwaysTopMostSubviewKey,
+                           @selector(grey_bringAlwaysTopSubviewToFront),
                            view,
                            OBJC_ASSOCIATION_RETAIN_NONATOMIC);
   [self bringSubviewToFront:view];
 }
 
 - (void)grey_bringAlwaysTopSubviewToFront {
-  UIView *alwaysTopSubview = objc_getAssociatedObject(self, kAlwaysTopMostSubviewKey);
+  UIView *alwaysTopSubview =
+      objc_getAssociatedObject(self, @selector(grey_bringAlwaysTopSubviewToFront));
   if (alwaysTopSubview && [self.subviews containsObject:alwaysTopSubview]) {
     [self bringSubviewToFront:alwaysTopSubview];
   }
@@ -221,16 +203,16 @@ static void const *const kOriginalAlphaKey = &kOriginalAlphaKey;
 
 - (void)grey_saveCurrentAlphaAndUpdateWithValue:(float)alpha {
   objc_setAssociatedObject(self,
-                           kOriginalAlphaKey,
+                           @selector(grey_restoreAlpha),
                            @(self.alpha),
                            OBJC_ASSOCIATION_RETAIN_NONATOMIC);
   self.alpha = alpha;
 }
 
 - (void)grey_restoreAlpha {
-  id alpha = objc_getAssociatedObject(self, kOriginalAlphaKey);
+  id alpha = objc_getAssociatedObject(self, @selector(grey_restoreAlpha));
   self.alpha = [alpha floatValue];
-  objc_setAssociatedObject(self, kOriginalAlphaKey, nil, OBJC_ASSOCIATION_ASSIGN);
+  objc_setAssociatedObject(self, @selector(grey_restoreAlpha), nil, OBJC_ASSOCIATION_ASSIGN);
 }
 
 - (BOOL)grey_isVisible {
@@ -252,7 +234,8 @@ static void const *const kOriginalAlphaKey = &kOriginalAlphaKey;
 #pragma mark - Swizzled Implementation
 
 - (void)greyswizzled_setCenter:(CGPoint)center {
-  NSValue *fixedFrame = objc_getAssociatedObject(self, kFixedFrame);
+  NSValue *fixedFrame =
+      objc_getAssociatedObject(self, @selector(grey_keepSubviewOnTopAndFrameFixed:));
   if (fixedFrame) {
     center = CGPointMake(CGRectGetMidX(fixedFrame.CGRectValue),
                          CGRectGetMidY(fixedFrame.CGRectValue));
@@ -261,7 +244,8 @@ static void const *const kOriginalAlphaKey = &kOriginalAlphaKey;
 }
 
 - (void)greyswizzled_setFrame:(CGRect)frame {
-  NSValue *fixedFrame = objc_getAssociatedObject(self, kFixedFrame);
+  NSValue *fixedFrame =
+      objc_getAssociatedObject(self, @selector(grey_keepSubviewOnTopAndFrameFixed:));
   if (fixedFrame) {
     frame = fixedFrame.CGRectValue;
   }
@@ -274,11 +258,17 @@ static void const *const kOriginalAlphaKey = &kOriginalAlphaKey;
 }
 
 - (void)greyswizzled_willRemoveSubview:(UIView *)view {
-  UIView *alwaysTopSubview = objc_getAssociatedObject(self, kAlwaysTopMostSubviewKey);
-
+  UIView *alwaysTopSubview =
+      objc_getAssociatedObject(self, @selector(grey_bringAlwaysTopSubviewToFront));
   if ([view isEqual:alwaysTopSubview]) {
-    objc_setAssociatedObject(self, kAlwaysTopMostSubviewKey, nil, OBJC_ASSOCIATION_ASSIGN);
-    objc_setAssociatedObject(view, kFixedFrame, nil, OBJC_ASSOCIATION_ASSIGN);
+    objc_setAssociatedObject(self,
+                             @selector(grey_bringAlwaysTopSubviewToFront),
+                             nil,
+                             OBJC_ASSOCIATION_ASSIGN);
+    objc_setAssociatedObject(view,
+                             @selector(grey_keepSubviewOnTopAndFrameFixed:),
+                             nil,
+                             OBJC_ASSOCIATION_ASSIGN);
   }
   INVOKE_ORIGINAL_IMP1(void, @selector(greyswizzled_willRemoveSubview:), view);
 }

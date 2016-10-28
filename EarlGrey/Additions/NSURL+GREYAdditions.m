@@ -21,11 +21,6 @@
 
 #import "Common/GREYConfiguration.h"
 
-/**
- * Object-association key used for storing all framework blacklisted URL regexs.
- */
-static void const *const kFrameworkBlacklistedRegExKey = &kFrameworkBlacklistedRegExKey;
-
 @implementation NSURL (GREYAdditions)
 
 - (BOOL)grey_shouldSynchronize {
@@ -61,7 +56,7 @@ static void const *const kFrameworkBlacklistedRegExKey = &kFrameworkBlacklistedR
   NSMutableArray *blacklist = GREY_CONFIG_ARRAY(kGREYConfigKeyURLBlacklistRegex).mutableCopy;
   @synchronized (self) {
     // Merge with framework blacklisted URLs.
-    NSArray *frameworkBlacklist = objc_getAssociatedObject(self, kFrameworkBlacklistedRegExKey);
+    NSArray *frameworkBlacklist = objc_getAssociatedObject(self, @selector(grey_blacklistRegEx));
     if (frameworkBlacklist) {
       [blacklist addObjectsFromArray:frameworkBlacklist];
     }
@@ -72,11 +67,13 @@ static void const *const kFrameworkBlacklistedRegExKey = &kFrameworkBlacklistedR
 + (void)grey_addBlacklistRegEx:(NSString *)URLRegEx {
   NSParameterAssert(URLRegEx);
   @synchronized (self) {
-    NSMutableArray *blacklist = objc_getAssociatedObject(self, kFrameworkBlacklistedRegExKey);
+    NSMutableArray *blacklist = objc_getAssociatedObject(self, @selector(grey_blacklistRegEx));
     if (!blacklist) {
       blacklist = [[NSMutableArray alloc] init];
-      objc_setAssociatedObject(self, kFrameworkBlacklistedRegExKey,
-                               blacklist, OBJC_ASSOCIATION_RETAIN);
+      objc_setAssociatedObject(self,
+                               @selector(grey_blacklistRegEx),
+                               blacklist,
+                               OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
     [blacklist addObject:URLRegEx];
   }
