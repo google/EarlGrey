@@ -34,7 +34,7 @@
  *
  *  @param subview The view to keep as the top-most fixed subview.
  */
-- (void)grey_keepSubviewOnTopAndFrameFixed:(UIView *)subview;
+- (void)grey_keepSubviewOnTopAndFrameFixed:(UIView *)view;
 
 /**
  * Sets the view's alpha value to the provided @c alpha value, storing the current value so it can

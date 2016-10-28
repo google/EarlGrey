@@ -93,7 +93,7 @@
   return !busyBecauseOfChanges && !busyBecauseOfDispatchQueue;
 }
 
-#pragma mark - Exposed For Testing
+#pragma mark - Internal Methods Exposed For Testing
 
 /**
  *  @return The private dispatch queue for this idling resource's tracked managed object context.

@@ -24,11 +24,7 @@
 /**
  *  Prints a log statement if @c kGREYAllowVerboseLogging is present and turned to @c YES in
  *  NSUserDefaults. You can pass it in the command line arguments as:
- *  To turn on,
- *  @code
- *    -kGREYAllowVerboseLogging YES
- *  @endcode
- *  Or from NSUserDefaults, by adding the @c kGREYAllowVerboseLogging key.
+ *  To turn on, set @c kGREYAllowVerboseLogging key in NSUserDefaults to @c YES.
  *  @code
  *    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kGREYAllowVerboseLogging];
  *  @endcode

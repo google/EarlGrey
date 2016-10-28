@@ -20,10 +20,10 @@ Baseline: [b5e34db]
 
 ### Enhancements
 * A better way to blacklist URL's in GREYConfiguration by adding them to an NSArray.
-* A verbose logger to provide more descriptive EarlGrey logs that can be enabled by passing
-  `-kGREYAllowVerboseLogging YES` as a command line argument to xcodebuild. Verbose
-  logging also measures the performance of interactions and the thread executor
-  by using a stopwatch class.
+* A verbose logger to provide more descriptive EarlGrey logs that can be enabled by
+  setting the `kGREYAllowVerboseLogging` key in NSUserDefaults to `YES`. Verbose
+  logging also measures the performance of interactions and the thread executor by
+  using a stopwatch class.
 * Improvements to `-[XCTestCase greyStatus]` to better reflect the status of a test.
 
 ### Bug Fixes
