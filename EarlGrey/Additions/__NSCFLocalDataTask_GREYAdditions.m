@@ -22,8 +22,6 @@
 #import "Common/GREYSwizzler.h"
 #import "Synchronization/GREYAppStateTracker.h"
 
-static void const *const kStateTrackerElementIDKey = &kStateTrackerElementIDKey;
-
 @implementation __NSCFLocalDataTask_GREYAdditions
 
 + (void)load {
@@ -64,7 +62,7 @@ static void const *const kStateTrackerElementIDKey = &kStateTrackerElementIDKey;
     // Monitor the "state" value to synchronize with the task completion.
     NSString *elementID = TRACK_STATE_FOR_ELEMENT(kGREYPendingNetworkRequest, self);
     objc_setAssociatedObject(self,
-                             kStateTrackerElementIDKey,
+                             @selector(greyswizzled_setState:),
                              elementID,
                              OBJC_ASSOCIATION_RETAIN_NONATOMIC);
   }
@@ -77,16 +75,16 @@ static void const *const kStateTrackerElementIDKey = &kStateTrackerElementIDKey;
  *  @param newState The new state value to be set.
  */
 - (void)greyswizzled_setState:(NSURLSessionTaskState)newState {
-  NSString *elementID = objc_getAssociatedObject(self, kStateTrackerElementIDKey);
+  NSString *elementID = objc_getAssociatedObject(self, @selector(greyswizzled_setState:));
   if (elementID) {
     BOOL terminalState = (newState == NSURLSessionTaskStateCompleted) ||
         (newState == NSURLSessionTaskStateSuspended);
     if (terminalState) {
       UNTRACK_STATE_FOR_ELEMENT_WITH_ID(kGREYPendingNetworkRequest, elementID);
       objc_setAssociatedObject(self,
-                               kStateTrackerElementIDKey,
+                               @selector(greyswizzled_setState:),
                                nil,
-                               OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+                               OBJC_ASSOCIATION_ASSIGN);
     }
   }
   INVOKE_ORIGINAL_IMP1(void,

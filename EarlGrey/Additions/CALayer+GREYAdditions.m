@@ -25,8 +25,6 @@
 #import "Common/GREYVerboseLogger.h"
 #import "Synchronization/GREYAppStateTracker.h"
 
-static void const *const kPausedAnimationKeys = &kPausedAnimationKeys;
-
 @implementation CALayer (GREYAdditions)
 
 + (void)load {
@@ -104,11 +102,11 @@ static void const *const kPausedAnimationKeys = &kPausedAnimationKeys;
 - (void)grey_pauseAnimations {
   if (self.animationKeys.count > 0) {
     // Keep track of animation keys that have been idled. Used for resuming tracking.
-    NSMutableSet *pausedAnimationKeys = objc_getAssociatedObject(self, kPausedAnimationKeys);
+    NSMutableSet *pausedAnimationKeys = [self grey_pausedAnimationKeys];
     if (!pausedAnimationKeys) {
       pausedAnimationKeys = [[NSMutableSet alloc] init];
       objc_setAssociatedObject(self,
-                               kPausedAnimationKeys,
+                               @selector(grey_pauseAnimations),
                                pausedAnimationKeys,
                                OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
@@ -130,7 +128,7 @@ static void const *const kPausedAnimationKeys = &kPausedAnimationKeys;
 }
 
 - (void)grey_resumeAnimations {
-  NSMutableSet *pausedAnimationKeys = objc_getAssociatedObject(self, kPausedAnimationKeys);
+  NSMutableSet *pausedAnimationKeys = [self grey_pausedAnimationKeys];
   for (NSString *key in pausedAnimationKeys) {
     CAAnimation *animation = [self animationForKey:key];
     if ([animation grey_animationState] == kGREYAnimationStarted) {
@@ -219,10 +217,10 @@ static void const *const kPausedAnimationKeys = &kPausedAnimationKeys;
   INVOKE_ORIGINAL_IMP(void, @selector(greyswizzled_setNeedsLayout));
 }
 
-#pragma mark - Methods Only For Testing
+#pragma mark - Internal Methods Exposed For Testing
 
-- (NSMutableSet *)pausedAnimationKeys {
-  return objc_getAssociatedObject(self, kPausedAnimationKeys);
+- (NSMutableSet *)grey_pausedAnimationKeys {
+  return objc_getAssociatedObject(self, @selector(grey_pauseAnimations));
 }
 
 @end

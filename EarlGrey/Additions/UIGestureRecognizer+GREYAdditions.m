@@ -22,8 +22,6 @@
 #import "Common/GREYSwizzler.h"
 #import "Synchronization/GREYAppStateTracker.h"
 
-static void const *const kStateTrackerElementIDKey = &kStateTrackerElementIDKey;
-
 @implementation UIGestureRecognizer (GREYAdditions)
 
 + (void)load {
@@ -52,14 +50,18 @@ static void const *const kStateTrackerElementIDKey = &kStateTrackerElementIDKey;
   INVOKE_ORIGINAL_IMP(void, @selector(greyswizzled_setDirty));
   NSString *elementID = TRACK_STATE_FOR_ELEMENT(kGREYPendingGestureRecognition, self);
   objc_setAssociatedObject(self,
-                           kStateTrackerElementIDKey,
+                           @selector(greyswizzled_setState:),
                            elementID,
                            OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 - (void)greyswizzled_resetGestureRecognizer {
-  NSString *elementID = objc_getAssociatedObject(self, kStateTrackerElementIDKey);
+  NSString *elementID = objc_getAssociatedObject(self, @selector(greyswizzled_setState:));
   UNTRACK_STATE_FOR_ELEMENT_WITH_ID(kGREYPendingGestureRecognition, elementID);
+  objc_setAssociatedObject(self,
+                           @selector(greyswizzled_setState:),
+                           nil,
+                           OBJC_ASSOCIATION_ASSIGN);
   INVOKE_ORIGINAL_IMP(void, @selector(greyswizzled_resetGestureRecognizer));
 }
 
@@ -67,8 +69,12 @@ static void const *const kStateTrackerElementIDKey = &kStateTrackerElementIDKey;
   // This is needed only for a few cases where reset isn't called on the gesture recognizer when
   // keyboard is shown. We need to manually untrack when state is set to failed.
   if (state == UIGestureRecognizerStateFailed) {
-    NSString *elementID = objc_getAssociatedObject(self, kStateTrackerElementIDKey);
+    NSString *elementID = objc_getAssociatedObject(self, @selector(greyswizzled_setState:));
     UNTRACK_STATE_FOR_ELEMENT_WITH_ID(kGREYPendingGestureRecognition, elementID);
+    objc_setAssociatedObject(self,
+                             @selector(greyswizzled_setState:),
+                             nil,
+                             OBJC_ASSOCIATION_ASSIGN);
   }
   INVOKE_ORIGINAL_IMP1(void, @selector(greyswizzled_setState:), state);
 }

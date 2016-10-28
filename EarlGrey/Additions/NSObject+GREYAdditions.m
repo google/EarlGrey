@@ -29,11 +29,6 @@
 #import "Synchronization/GREYTimedIdlingResource.h"
 
 /**
- *  Key to store map of perform selector arguments to timed resource trackers.
- */
-static void const *const kArgumentsToTrackerKey = &kArgumentsToTrackerKey;
-
-/**
  *  Class that all Web Accessibility Elements have to be a kind of.
  */
 static Class gWebAccessibilityWrapper;
@@ -452,7 +447,7 @@ static Class gWebAccessibilityWrapper;
       [self grey_unmapAllTrackersForPerformSelectorArguments:arguments];
     }
     objc_setAssociatedObject(self,
-                             kArgumentsToTrackerKey,
+                             @selector(grey_customPerformSelectorWithParameters:),
                              nil,
                              OBJC_ASSOCIATION_ASSIGN);
   }
@@ -463,11 +458,12 @@ static Class gWebAccessibilityWrapper;
  */
 - (NSMutableDictionary *)grey_performSelectorArgumentsToTrackerMap {
   @synchronized(self) {
-    NSMutableDictionary *dictionary = objc_getAssociatedObject(self, kArgumentsToTrackerKey);
+    NSMutableDictionary *dictionary =
+        objc_getAssociatedObject(self, @selector(grey_customPerformSelectorWithParameters:));
     if (!dictionary) {
       dictionary = [[NSMutableDictionary alloc] init];
       objc_setAssociatedObject(self,
-                               kArgumentsToTrackerKey,
+                               @selector(grey_customPerformSelectorWithParameters:),
                                dictionary,
                                OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }

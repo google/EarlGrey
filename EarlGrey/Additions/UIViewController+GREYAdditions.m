@@ -23,22 +23,6 @@
 #import "Common/GREYVerboseLogger.h"
 #import "Synchronization/GREYAppStateTracker.h"
 
-/**
- *  Object association key to indicate view controller moving to @c nil window.
- */
-static void const *const kMovingToNilWindowKey = &kMovingToNilWindowKey;
-
-/**
- *  Object association key to store element id for tracking view controller state with
- *  GREYAppStateTracker.
- */
-static void const *const kStateTrackerElementIDKey = &kStateTrackerElementIDKey;
-
-/**
- *  Object association key to store appearance of view controller.
- */
-static void const *const kViewControllerAppearanceKey = &kViewControllerAppearanceKey;
-
 @implementation UIViewController (GREYAdditions)
 
 + (void)load {
@@ -84,13 +68,13 @@ static void const *const kViewControllerAppearanceKey = &kViewControllerAppearan
   // Untrack state for hidden (or nil) windows. When window becomes visible, this method will be
   // called again.
   if (!window || window.hidden) {
-    NSString *elementID = objc_getAssociatedObject(self, kStateTrackerElementIDKey);
+    NSString *elementID = objc_getAssociatedObject(self, @selector(greyswizzled_viewWillAppear:));
     GREYAppState state = kGREYPendingViewsToAppear | kGREYPendingRootViewControllerToAppear;
     UNTRACK_STATE_FOR_ELEMENT_WITH_ID(state, elementID);
   } else if (![self grey_hasAppeared]) {
     NSString *elementID = TRACK_STATE_FOR_ELEMENT(kGREYPendingRootViewControllerToAppear, self);
     objc_setAssociatedObject(self,
-                             kStateTrackerElementIDKey,
+                             @selector(greyswizzled_viewWillAppear:),
                              elementID,
                              OBJC_ASSOCIATION_RETAIN_NONATOMIC);
   }
@@ -100,7 +84,7 @@ static void const *const kViewControllerAppearanceKey = &kViewControllerAppearan
 
 - (void)greyswizzled_viewWillMoveToWindow:(id)window {
   objc_setAssociatedObject(self,
-                           kMovingToNilWindowKey,
+                           @selector(grey_isMovingToNilWindow),
                            (window == nil) ? @(YES) : @(NO),
                            OBJC_ASSOCIATION_RETAIN_NONATOMIC);
   INVOKE_ORIGINAL_IMP1(void, @selector(greyswizzled_viewWillMoveToWindow:), window);
@@ -111,7 +95,7 @@ static void const *const kViewControllerAppearanceKey = &kViewControllerAppearan
   // Untrack the UIViewController when it moves to a nil window. We must clear the state regardless
   // of |arg|, because viewDidAppear, viewWillDisappear or viewDidDisappear will not be called.
   if (!window) {
-    NSString *elementID = objc_getAssociatedObject(self, kStateTrackerElementIDKey);
+    NSString *elementID = objc_getAssociatedObject(self, @selector(greyswizzled_viewWillAppear:));
     GREYAppState state = (kGREYPendingViewsToAppear |
                           kGREYPendingRootViewControllerToAppear |
                           kGREYPendingViewsToDisappear);
@@ -136,7 +120,8 @@ static void const *const kViewControllerAppearanceKey = &kViewControllerAppearan
       [coordinator notifyWhenInteractionEndsUsingBlock:
           ^(id<UIViewControllerTransitionCoordinatorContext> context) {
             if ([context isCancelled]) {
-              NSString *elementID = objc_getAssociatedObject(self, kStateTrackerElementIDKey);
+              NSString *elementID =
+                  objc_getAssociatedObject(self, @selector(greyswizzled_viewWillAppear:));
               UNTRACK_STATE_FOR_ELEMENT_WITH_ID(kGREYPendingViewsToAppear, elementID);
             }
           }];
@@ -144,7 +129,7 @@ static void const *const kViewControllerAppearanceKey = &kViewControllerAppearan
 
     NSString *elementID = TRACK_STATE_FOR_ELEMENT(kGREYPendingViewsToAppear, self);
     objc_setAssociatedObject(self,
-                             kStateTrackerElementIDKey,
+                             @selector(greyswizzled_viewWillAppear:),
                              elementID,
                              OBJC_ASSOCIATION_RETAIN_NONATOMIC);
   }
@@ -152,7 +137,7 @@ static void const *const kViewControllerAppearanceKey = &kViewControllerAppearan
 }
 
 - (void)greyswizzled_viewDidAppear:(BOOL)animated {
-  NSString *elementID = objc_getAssociatedObject(self, kStateTrackerElementIDKey);
+  NSString *elementID = objc_getAssociatedObject(self, @selector(greyswizzled_viewWillAppear:));
   GREYAppState state = kGREYPendingViewsToAppear | kGREYPendingRootViewControllerToAppear;
   UNTRACK_STATE_FOR_ELEMENT_WITH_ID(state, elementID);
 
@@ -173,7 +158,8 @@ static void const *const kViewControllerAppearanceKey = &kViewControllerAppearan
       [coordinator notifyWhenInteractionEndsUsingBlock:
           ^(id<UIViewControllerTransitionCoordinatorContext> context) {
             if ([context isCancelled]) {
-              NSString *elementID = objc_getAssociatedObject(self, kStateTrackerElementIDKey);
+              NSString *elementID =
+                  objc_getAssociatedObject(self, @selector(greyswizzled_viewWillAppear:));
               UNTRACK_STATE_FOR_ELEMENT_WITH_ID(kGREYPendingViewsToDisappear, elementID);
             }
           }];
@@ -181,7 +167,7 @@ static void const *const kViewControllerAppearanceKey = &kViewControllerAppearan
 
     NSString *elementID = TRACK_STATE_FOR_ELEMENT(kGREYPendingViewsToDisappear, self);
     objc_setAssociatedObject(self,
-                             kStateTrackerElementIDKey,
+                             @selector(greyswizzled_viewWillAppear:),
                              elementID,
                              OBJC_ASSOCIATION_RETAIN_NONATOMIC);
   }
@@ -189,7 +175,7 @@ static void const *const kViewControllerAppearanceKey = &kViewControllerAppearan
 }
 
 - (void)greyswizzled_viewDidDisappear:(BOOL)animated {
-  NSString *elementID = objc_getAssociatedObject(self, kStateTrackerElementIDKey);
+  NSString *elementID = objc_getAssociatedObject(self, @selector(greyswizzled_viewWillAppear:));
   GREYAppState state = (kGREYPendingViewsToAppear |
                         kGREYPendingRootViewControllerToAppear |
                         kGREYPendingViewsToDisappear);
@@ -206,7 +192,7 @@ static void const *const kViewControllerAppearanceKey = &kViewControllerAppearan
  *          callback called and no other disappearance methods have been invoked.
  */
 - (BOOL)grey_hasAppeared {
-  return [objc_getAssociatedObject(self, kViewControllerAppearanceKey) boolValue];
+  return [objc_getAssociatedObject(self, @selector(grey_hasAppeared)) boolValue];
 }
 
 /**
@@ -217,7 +203,7 @@ static void const *const kViewControllerAppearanceKey = &kViewControllerAppearan
  */
 - (void)grey_setAppeared:(BOOL)appeared {
   objc_setAssociatedObject(self,
-                           kViewControllerAppearanceKey,
+                           @selector(grey_hasAppeared),
                            @(appeared),
                            OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
@@ -228,7 +214,7 @@ static void const *const kViewControllerAppearanceKey = &kViewControllerAppearan
 - (BOOL)grey_isMovingToNilWindow {
   UIViewController *parent = self;
   while (parent) {
-    if ([objc_getAssociatedObject(parent, kMovingToNilWindowKey) boolValue]) {
+    if ([objc_getAssociatedObject(parent, @selector(grey_isMovingToNilWindow)) boolValue]) {
       return YES;
     }
     parent = [parent parentViewController];

@@ -24,9 +24,6 @@
 #import "Delegate/GREYCAAnimationDelegate.h"
 #import "Synchronization/GREYAppStateTracker.h"
 
-static void const *const kAnimationStateKey = &kAnimationStateKey;
-static void const *const kStateTrackerElementIDKey = &kStateTrackerElementIDKey;
-
 @implementation CAAnimation (GREYAdditions)
 
 + (void)load {
@@ -42,7 +39,10 @@ static void const *const kStateTrackerElementIDKey = &kStateTrackerElementIDKey;
 }
 
 - (void)grey_setAnimationState:(GREYCAAnimationState)state {
-  objc_setAssociatedObject(self, kAnimationStateKey, @(state), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+  objc_setAssociatedObject(self,
+                           @selector(grey_animationState),
+                           @(state),
+                           OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 
   if (state == kGREYAnimationStarted) {
     [self grey_trackForDurationOfAnimation];
@@ -52,7 +52,7 @@ static void const *const kStateTrackerElementIDKey = &kStateTrackerElementIDKey;
 }
 
 - (GREYCAAnimationState)grey_animationState {
-  NSNumber *animationState = objc_getAssociatedObject(self, kAnimationStateKey);
+  NSNumber *animationState = objc_getAssociatedObject(self, @selector(grey_animationState));
   if (!animationState) {
     return kGREYAnimationPendingStart;
   } else {
@@ -63,7 +63,7 @@ static void const *const kStateTrackerElementIDKey = &kStateTrackerElementIDKey;
 - (void)grey_trackForDurationOfAnimation {
   NSString *elementID = TRACK_STATE_FOR_ELEMENT(kGREYPendingCAAnimation, self);
   objc_setAssociatedObject(self,
-                           kStateTrackerElementIDKey,
+                           @selector(grey_trackForDurationOfAnimation),
                            elementID,
                            OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 
@@ -83,7 +83,7 @@ static void const *const kStateTrackerElementIDKey = &kStateTrackerElementIDKey;
 }
 
 - (void)grey_untrack {
-  NSString *elementID = objc_getAssociatedObject(self, kStateTrackerElementIDKey);
+  NSString *elementID = objc_getAssociatedObject(self, @selector(grey_trackForDurationOfAnimation));
   UNTRACK_STATE_FOR_ELEMENT_WITH_ID(kGREYPendingCAAnimation, elementID);
   [NSObject cancelPreviousPerformRequestsWithTarget:self
                                            selector:@selector(grey_untrack)
