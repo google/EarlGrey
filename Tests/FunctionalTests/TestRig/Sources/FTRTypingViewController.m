@@ -20,6 +20,7 @@
 
 @implementation FTRTypingViewController {
   UIKeyboardType _keyboardTypeArray[kFTRKeyboardTypeCount];
+  UITextField *_accessoryTextField;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -78,7 +79,35 @@
   self.textView.accessibilityIdentifier = @"TypingTextView";
   self.textView.autocorrectionType = UITextAutocorrectionTypeYes;
 
+  self.inputAccessoryTextField.delegate = self;
+  self.inputAccessoryTextField.isAccessibilityElement = YES;
+  self.inputAccessoryTextField.userInteractionEnabled = YES;
+  self.inputAccessoryTextField.accessibilityIdentifier = @"InputAccessoryTextField";
+  self.inputAccessoryTextField.autocorrectionType = UITextAutocorrectionTypeYes;
+  [self AddInputAccessoryViewtoKeyboard];
+
+  self.inputButton.accessibilityIdentifier = @"Input Button";
+  [self.inputButton addTarget:self
+                       action:@selector(buttonPressedForTyping)
+             forControlEvents:UIControlEventTouchUpInside];
+
   self.keyboardPicker.accessibilityIdentifier = @"KeyboardPicker";
+}
+
+- (void)buttonPressedForTyping {
+  [self.inputAccessoryTextField becomeFirstResponder];
+  [_accessoryTextField becomeFirstResponder];
+}
+
+- (void)AddInputAccessoryViewtoKeyboard {
+  UIView *customView = [[UIView alloc] initWithFrame: CGRectMake(0, 0, 20, 100)];
+  _accessoryTextField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, 100, 50)];
+  _accessoryTextField.backgroundColor = [UIColor greenColor];
+  [customView addSubview:_accessoryTextField];
+  _accessoryTextField.accessibilityIdentifier = @"AccessoryTextField";
+  _accessoryTextField.inputAccessoryView = customView;
+  customView.backgroundColor = [UIColor redColor];
+  self.inputAccessoryTextField.inputAccessoryView = customView;
 }
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {

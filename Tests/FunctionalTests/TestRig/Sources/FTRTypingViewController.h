@@ -20,6 +20,8 @@
 @interface FTRTypingViewController : UIViewController <UITextFieldDelegate, UITextViewDelegate>
 
 @property(nonatomic, retain) IBOutlet UITextView *textView;
+@property(nonatomic, retain) IBOutlet UITextField *inputAccessoryTextField;
+@property(nonatomic, retain) IBOutlet UIButton *inputButton;
 @property(nonatomic, retain) IBOutlet UITextField *textField;
 @property(nonatomic, retain) IBOutlet UITextField *nonTypingTextField;
 @property(nonatomic, retain) UIBarButtonItem *dismissKeyboardButton;
