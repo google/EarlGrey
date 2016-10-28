@@ -55,7 +55,7 @@ extern const NSInteger kGREYScrollDetectionLength;
 @end
 
 @interface CALayer (GREYExposedForTesting)
-- (NSMutableSet *)pausedAnimationKeys;
+- (NSMutableSet *)grey_pausedAnimationKeys;
 @end
 
 @interface CAAnimation (GREYExposedForTesting)

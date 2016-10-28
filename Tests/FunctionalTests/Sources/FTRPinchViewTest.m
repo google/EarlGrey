@@ -39,10 +39,9 @@
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Image View")]
       performAction:grey_pinchFastInDirection(kGREYPinchDirectionOutward)];
   _imageViewFrameAfterPinch = [self ftr_imageViewFrame];
-  GREYAssertTrue(_imageViewFrameAfterPinch.size.width > _imageViewFrameBeforePinch.size.width,
-                 @"Frame size of image view should increase on pinching outward");
-  GREYAssertTrue(_imageViewFrameAfterPinch.size.height > _imageViewFrameBeforePinch.size.height,
-                 @"Frame size of image view should increase on pinching outward");
+  [self ftr_assertThatInitialSize:_imageViewFrameBeforePinch.size
+                     andFinalSize:_imageViewFrameAfterPinch.size
+                       areOrdered:NSOrderedAscending];
 }
 
 - (void)testImageViewFrameSizeOnZoomingSlowOutward {
@@ -50,10 +49,9 @@
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Image View")]
       performAction:grey_pinchSlowInDirection(kGREYPinchDirectionOutward)];
   _imageViewFrameAfterPinch = [self ftr_imageViewFrame];
-  GREYAssertTrue(_imageViewFrameAfterPinch.size.width > _imageViewFrameBeforePinch.size.width,
-                 @"Frame size of image view should increase on pinching outward");
-  GREYAssertTrue(_imageViewFrameAfterPinch.size.height > _imageViewFrameBeforePinch.size.height,
-                 @"Frame size of image view should increase on pinching outward");
+  [self ftr_assertThatInitialSize:_imageViewFrameBeforePinch.size
+                     andFinalSize:_imageViewFrameAfterPinch.size
+                       areOrdered:NSOrderedAscending];
 }
 
 - (void)testImageViewFrameSizeOnZoomingFastInward {
@@ -61,10 +59,9 @@
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Image View")]
       performAction:grey_pinchFastInDirection(kGREYPinchDirectionInward)];
   _imageViewFrameAfterPinch = [self ftr_imageViewFrame];
-  GREYAssertTrue(_imageViewFrameAfterPinch.size.width < _imageViewFrameBeforePinch.size.width,
-                 @"Frame size of image view should decrease on pinching inward");
-  GREYAssertTrue(_imageViewFrameAfterPinch.size.height < _imageViewFrameBeforePinch.size.height,
-                 @"Frame size of image view should decrease on pinching inward");
+  [self ftr_assertThatInitialSize:_imageViewFrameBeforePinch.size
+                     andFinalSize:_imageViewFrameAfterPinch.size
+                       areOrdered:NSOrderedDescending];
 }
 
 - (void)testImageViewFrameSizeOnZoomingSlowInward {
@@ -72,15 +69,48 @@
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Image View")]
       performAction:grey_pinchSlowInDirection(kGREYPinchDirectionInward)];
   _imageViewFrameAfterPinch = [self ftr_imageViewFrame];
-  GREYAssertTrue(_imageViewFrameAfterPinch.size.width < _imageViewFrameBeforePinch.size.width,
-                 @"Frame size of image view should decrease on pinching inward");
-  GREYAssertTrue(_imageViewFrameAfterPinch.size.height < _imageViewFrameBeforePinch.size.height,
-                 @"Frame size of image view should decrease on pinching inward");
+  [self ftr_assertThatInitialSize:_imageViewFrameBeforePinch.size
+                     andFinalSize:_imageViewFrameAfterPinch.size
+                       areOrdered:NSOrderedDescending];
 }
 
 #pragma mark - Private
 
-// Returns the image view controller frame.
+/**
+ *  Asserts that the given initial size and final size are in the given order.
+ */
+- (void)ftr_assertThatInitialSize:(CGSize)initialSize
+                     andFinalSize:(CGSize)finalSize
+                       areOrdered:(NSComparisonResult)expectedOrder {
+  BOOL success;
+  NSString *expectedOrderString;
+  switch (expectedOrder) {
+    case NSOrderedSame:
+      success = initialSize.width == finalSize.width && initialSize.height == finalSize.height;
+      expectedOrderString = @"equal";
+      break;
+
+    case NSOrderedAscending:
+      success = initialSize.width < finalSize.width && initialSize.height < finalSize.height;
+      expectedOrderString = @"in increasing order";
+      break;
+
+    case NSOrderedDescending:
+      success = initialSize.width > finalSize.width && initialSize.height > finalSize.height;
+      expectedOrderString = @"in decreasing order";
+      break;
+
+    default:
+      GREYAssert(NO, @"Unknown comparision result was expected %d", (int)expectedOrder);
+  }
+
+  GREYAssert(success, @"Image sizes before pinch - %@ and after pinch - %@ must be %@.",
+             NSStringFromCGSize(initialSize), NSStringFromCGSize(finalSize), expectedOrderString);
+}
+
+/**
+ *  Returns the image view controller frame.
+ */
 - (CGRect)ftr_imageViewFrame {
   UIWindow *delegateWindow = [UIApplication sharedApplication].delegate.window;
   UINavigationController *rootNC = (UINavigationController *)[delegateWindow rootViewController];

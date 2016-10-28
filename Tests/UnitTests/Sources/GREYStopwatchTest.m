@@ -43,7 +43,7 @@
   NSTimeInterval interval;
   XCTAssertNoThrow(interval = [stopwatch elapsedTime]);
   [stopwatch start];
-  CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.01, NO);
+  CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.01, FALSE);
   NSTimeInterval noStopInterval = [stopwatch elapsedTime];
   XCTAssertNotEqual(noStopInterval, interval, @"Should be able to get elapsed time without "
                                               @"calling stop");
@@ -62,7 +62,7 @@
 
   GREYStopwatch *someActionStopwatch = [[GREYStopwatch alloc] init];
   [someActionStopwatch start];
-  CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.01, NO);
+  CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.01, FALSE);
   [someActionStopwatch stop];
   NSTimeInterval intervalOnSomeActionPerformed = [someActionStopwatch elapsedTime];
   XCTAssertNotEqual(intervalOnSomeActionPerformed,
@@ -91,9 +91,9 @@
   GREYStopwatch *testStopwatch = [[GREYStopwatch alloc] init];
   [benchmarkStopwatch start];
   [testStopwatch start];
-  CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.01, NO);
+  CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.01, FALSE);
   [benchmarkStopwatch stop];
-  CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.01, NO);
+  CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.01, FALSE);
   [testStopwatch stop];
   NSTimeInterval difference =
       [testStopwatch elapsedTime] - [benchmarkStopwatch elapsedTime];
@@ -111,13 +111,13 @@
 - (void)testStopwatchWithLappingAndAddingStartAndStopElapsedTimes {
   GREYStopwatch *lappingStopwatch = [[GREYStopwatch alloc] init];
   [lappingStopwatch start];
-  CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.01, NO);
+  CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.01, FALSE);
   NSTimeInterval lapTime = [lappingStopwatch lapAndReturnTime];
   [lappingStopwatch stop];
   NSTimeInterval elapsedTime = [lappingStopwatch elapsedTime];
   XCTAssertGreaterThan(elapsedTime, lapTime, @"Elapsed has to be greater than lap time");
   [lappingStopwatch start];
-  CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.01, NO);
+  CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.01, FALSE);
   lapTime = [lappingStopwatch lapAndReturnTime];
   [lappingStopwatch stop];
   NSTimeInterval secondElapsedTime = elapsedTime + [lappingStopwatch elapsedTime];
@@ -125,7 +125,7 @@
   XCTAssertGreaterThan(secondElapsedTime, elapsedTime, @"Progressive elapsed times checks must be "
                                                        @"greater than the previous ones.");
   [lappingStopwatch start];
-  CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.01, NO);
+  CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.01, FALSE);
   lapTime = [lappingStopwatch lapAndReturnTime];
   [lappingStopwatch stop];
   NSTimeInterval thirdElapsedTime = secondElapsedTime + [lappingStopwatch elapsedTime];

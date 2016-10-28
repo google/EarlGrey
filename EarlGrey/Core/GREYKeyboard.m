@@ -101,8 +101,6 @@ static NSString *const kReturnKeyIdentifier = @"\n";
       kReturnKeyIdentifier : @"return"
     };
 
-    static void const *const kStateTrackerElementIDKey = &kStateTrackerElementIDKey;
-
     // Hooks to keyboard lifecycle notification.
     NSNotificationCenter *defaultNotificationCenter = [NSNotificationCenter defaultCenter];
     [defaultNotificationCenter addObserverForName:UIKeyboardWillShowNotification
@@ -111,7 +109,7 @@ static NSString *const kReturnKeyIdentifier = @"\n";
                                        usingBlock:^(NSNotification *note) {
       NSString *elementID = TRACK_STATE_FOR_ELEMENT(kGREYPendingKeyboardTransition, keyboardObject);
       objc_setAssociatedObject(keyboardObject,
-                               kStateTrackerElementIDKey,
+                               @selector(grey_keyboardObject),
                                elementID,
                                OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }];
@@ -119,7 +117,8 @@ static NSString *const kReturnKeyIdentifier = @"\n";
                                            object:nil
                                             queue:nil
                                        usingBlock:^(NSNotification *note) {
-      NSString *elementID = objc_getAssociatedObject(keyboardObject, kStateTrackerElementIDKey);
+      NSString *elementID = objc_getAssociatedObject(keyboardObject,
+                                                     @selector(grey_keyboardObject));
       UNTRACK_STATE_FOR_ELEMENT_WITH_ID(kGREYPendingKeyboardTransition, elementID);
       gIsKeyboardShown = YES;
     }];
@@ -130,7 +129,7 @@ static NSString *const kReturnKeyIdentifier = @"\n";
       gIsKeyboardShown = NO;
       NSString *elementID = TRACK_STATE_FOR_ELEMENT(kGREYPendingKeyboardTransition, keyboardObject);
       objc_setAssociatedObject(keyboardObject,
-                               kStateTrackerElementIDKey,
+                               @selector(grey_keyboardObject),
                                elementID,
                                OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }];
@@ -138,7 +137,8 @@ static NSString *const kReturnKeyIdentifier = @"\n";
                                            object:nil
                                             queue:nil
                                        usingBlock:^(NSNotification *note) {
-      NSString *elementID = objc_getAssociatedObject(keyboardObject, kStateTrackerElementIDKey);
+      NSString *elementID = objc_getAssociatedObject(keyboardObject,
+                                                     @selector(grey_keyboardObject));
       UNTRACK_STATE_FOR_ELEMENT_WITH_ID(kGREYPendingKeyboardTransition, elementID);
     }];
   }

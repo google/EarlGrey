@@ -188,7 +188,7 @@ static const CFTimeInterval kMaxAnimationInterval = 5.0;
   // Pause top-most view layer.
   view.layer.speed = 0;
 
-  NSMutableSet *pausedAnimationKeys = [sublayer pausedAnimationKeys];
+  NSMutableSet *pausedAnimationKeys = [sublayer grey_pausedAnimationKeys];
   XCTAssertEqual(pausedAnimationKeys.count, 1u,
                  @"Number of paused animations should be exactly 1!");
   XCTAssertTrue([pausedAnimationKeys containsObject:@"TestAnim1"],
@@ -202,7 +202,7 @@ static const CFTimeInterval kMaxAnimationInterval = 5.0;
   // Resume top-most view layer.
   view.layer.speed = 1;
 
-  pausedAnimationKeys = [sublayer pausedAnimationKeys];
+  pausedAnimationKeys = [sublayer grey_pausedAnimationKeys];
   XCTAssertEqual(pausedAnimationKeys.count, 0u, @"Animation did not resume!");
   state = [[GREYAppStateTracker sharedInstance] currentState];
   XCTAssertFalse(state & kGREYPendingCAAnimation,
@@ -227,7 +227,7 @@ static const CFTimeInterval kMaxAnimationInterval = 5.0;
   // Pause top-most view layer.
   sublayer.speed = 0;
 
-  NSMutableSet *pausedAnimationKeys = [sublayer pausedAnimationKeys];
+  NSMutableSet *pausedAnimationKeys = [sublayer grey_pausedAnimationKeys];
   XCTAssertEqual(pausedAnimationKeys.count, 1u,
                  @"Number of paused animations should be exactly 1!");
   XCTAssertTrue([pausedAnimationKeys containsObject:@"TestAnim1"],
@@ -240,7 +240,7 @@ static const CFTimeInterval kMaxAnimationInterval = 5.0;
   // Resume top-most view layer.
   sublayer.speed = 1;
 
-  pausedAnimationKeys = [sublayer pausedAnimationKeys];
+  pausedAnimationKeys = [sublayer grey_pausedAnimationKeys];
   XCTAssertEqual(pausedAnimationKeys.count, 0u, @"Animation did not resume!");
   state = [[GREYAppStateTracker sharedInstance] currentState];
   XCTAssertFalse(state & kGREYPendingCAAnimation,
@@ -265,7 +265,7 @@ static const CFTimeInterval kMaxAnimationInterval = 5.0;
   // Pause top-most view layer.
   sublayer.speed = 0;
 
-  NSMutableSet *pausedAnimationKeys = [sublayer pausedAnimationKeys];
+  NSMutableSet *pausedAnimationKeys = [sublayer grey_pausedAnimationKeys];
   XCTAssertEqual(pausedAnimationKeys.count, 1u,
                  @"Number of paused animations should be exactly 1!");
   XCTAssertTrue([pausedAnimationKeys containsObject:@"TestAnim1"],
@@ -278,7 +278,7 @@ static const CFTimeInterval kMaxAnimationInterval = 5.0;
   // Resume top-most view layer.
   sublayer.speed = 1;
 
-  pausedAnimationKeys = [sublayer pausedAnimationKeys];
+  pausedAnimationKeys = [sublayer grey_pausedAnimationKeys];
   XCTAssertEqual(pausedAnimationKeys.count, 0u, @"Animation did not resume!");
   state = [[GREYAppStateTracker sharedInstance] currentState];
   XCTAssertFalse(state & kGREYPendingCAAnimation,
@@ -309,13 +309,13 @@ static const CFTimeInterval kMaxAnimationInterval = 5.0;
   sublayer.speed = 0;
 
   // Check view layer animations are paused.
-  NSMutableSet *pausedAnimationKeys = [view.layer pausedAnimationKeys];
+  NSMutableSet *pausedAnimationKeys = [view.layer grey_pausedAnimationKeys];
   XCTAssertEqual(pausedAnimationKeys.count, 1u,
                  @"Number of paused animations should be exactly 1!");
   XCTAssertTrue([pausedAnimationKeys containsObject:@"TestAnim1"],
                 @"Animation was not paused!");
   // Check sublayer animations are paused.
-  pausedAnimationKeys = [sublayer pausedAnimationKeys];
+  pausedAnimationKeys = [sublayer grey_pausedAnimationKeys];
   XCTAssertEqual(pausedAnimationKeys.count, 1u,
                  @"Number of paused animations should be exactly 1!");
   XCTAssertTrue([pausedAnimationKeys containsObject:@"TestAnim2"],
@@ -327,10 +327,10 @@ static const CFTimeInterval kMaxAnimationInterval = 5.0;
   view.layer.speed = 1;
 
   // Check that view layer animation resumed.
-  pausedAnimationKeys = [view.layer pausedAnimationKeys];
+  pausedAnimationKeys = [view.layer grey_pausedAnimationKeys];
   XCTAssertEqual(pausedAnimationKeys.count, 0u, @"Animation was not resumed!");
   // Check that sublayer animation did not resume.
-  pausedAnimationKeys = [sublayer pausedAnimationKeys];
+  pausedAnimationKeys = [sublayer grey_pausedAnimationKeys];
   XCTAssertEqual(pausedAnimationKeys.count, 1u, @"Animation was not resumed!");
   XCTAssertTrue([pausedAnimationKeys containsObject:@"TestAnim2"],
                 @"Animation was not paused!");
@@ -356,7 +356,7 @@ static const CFTimeInterval kMaxAnimationInterval = 5.0;
   // Pause layer.
   view.layer.speed = 0;
 
-  NSMutableSet *pausedAnimationKeys = [sublayer pausedAnimationKeys];
+  NSMutableSet *pausedAnimationKeys = [sublayer grey_pausedAnimationKeys];
   XCTAssertEqual(pausedAnimationKeys.count, 1u,
                  @"Number of paused animations should be exactly 1!");
   XCTAssertTrue([pausedAnimationKeys containsObject:@"TestAnim1"],
@@ -369,7 +369,7 @@ static const CFTimeInterval kMaxAnimationInterval = 5.0;
   // Resume layer.
   view.layer.speed = 1;
 
-  pausedAnimationKeys = [sublayer pausedAnimationKeys];
+  pausedAnimationKeys = [sublayer grey_pausedAnimationKeys];
   XCTAssertEqual(pausedAnimationKeys.count, 0u, @"Animation did not resume!");
   state = [[GREYAppStateTracker sharedInstance] currentState];
   XCTAssertFalse(state & kGREYPendingCAAnimation,
@@ -378,7 +378,7 @@ static const CFTimeInterval kMaxAnimationInterval = 5.0;
   // Resume layer again.
   view.layer.speed = 1;
 
-  pausedAnimationKeys = [sublayer pausedAnimationKeys];
+  pausedAnimationKeys = [sublayer grey_pausedAnimationKeys];
   XCTAssertEqual(pausedAnimationKeys.count, 0u, @"Animation did not resume!");
   state = [[GREYAppStateTracker sharedInstance] currentState];
   XCTAssertFalse(state & kGREYPendingCAAnimation,
@@ -411,13 +411,13 @@ static const CFTimeInterval kMaxAnimationInterval = 5.0;
   // Track the animation as if it was running.
   [morphedFrameworkAnimation grey_trackForDurationOfAnimation];
 
-  NSMutableSet *pausedAnimationKeys = [sublayer pausedAnimationKeys];
+  NSMutableSet *pausedAnimationKeys = [sublayer grey_pausedAnimationKeys];
   XCTAssertEqual(pausedAnimationKeys.count, 0u, @"Animation did not resume!");
 
   // Pause animation.
   view.layer.speed = 0;
 
-  pausedAnimationKeys = [sublayer pausedAnimationKeys];
+  pausedAnimationKeys = [sublayer grey_pausedAnimationKeys];
   XCTAssertEqual(pausedAnimationKeys.count, 1u,
       @"Number of paused animations should be exactly 1!");
   XCTAssertTrue([pausedAnimationKeys containsObject:@"TestAnim1"],
@@ -429,7 +429,7 @@ static const CFTimeInterval kMaxAnimationInterval = 5.0;
   // Resume negative speed.
   view.layer.speed = -1;
 
-  pausedAnimationKeys = [sublayer pausedAnimationKeys];
+  pausedAnimationKeys = [sublayer grey_pausedAnimationKeys];
   XCTAssertEqual(pausedAnimationKeys.count, 0u, @"Animation did not resume!");
   state = [[GREYAppStateTracker sharedInstance] currentState];
   XCTAssertFalse(state & kGREYPendingCAAnimation,
