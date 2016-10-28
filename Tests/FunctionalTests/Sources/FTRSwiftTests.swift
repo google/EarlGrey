@@ -28,14 +28,16 @@ class TextFieldEventsRecorder {
   func registerActionBlock() -> GREYActionBlock {
     NotificationCenter.default.addObserver(self,
                                            selector: #selector(textDidBeginEditingHandler),
-                                           name: NSNotification.Name.UITextFieldTextDidBeginEditing, object: nil)
+                                           name: NSNotification.Name.UITextFieldTextDidBeginEditing,
+                                           object: nil)
     NotificationCenter.default.addObserver(self,
                                            selector: #selector(textDidChangeHandler),
                                            name: NSNotification.Name.UITextFieldTextDidChange,
                                            object: nil)
     NotificationCenter.default.addObserver(self,
                                            selector: #selector(textDidEndEditingHandler),
-                                           name: NSNotification.Name.UITextFieldTextDidEndEditing, object: nil)
+                                           name: NSNotification.Name.UITextFieldTextDidEndEditing,
+                                           object: nil)
     return GREYActionBlock.action(withName: "Register to editing events") {
       (element: Any?, errorOrNil: UnsafeMutablePointer<NSError?>?) -> Bool in
       let element:UIControl = element as! UIControl
@@ -44,7 +46,8 @@ class TextFieldEventsRecorder {
       element.addTarget(self,
                         action: #selector(self.editingChangedHandler), for: .editingChanged)
       element.addTarget(self,
-                        action: #selector(self.editingDidEndOnExitHandler), for: .editingDidEndOnExit)
+                        action: #selector(self.editingDidEndOnExitHandler),
+                        for: .editingDidEndOnExit)
       element.addTarget(self,
                         action: #selector(self.editingDidEndHandler), for: .editingDidEnd)
       return true
@@ -223,14 +226,14 @@ class FunctionalTestRigSwiftTests: XCTestCase {
         firstMatch = false
         return true
       }
-      
+
       return false
     }
-    
+
     let describe: DescribeToBlock = { (description: GREYDescription?) -> Void in
       description!.appendText("first match")
     }
-    
+
     return GREYElementMatcherBlock.init(matchesBlock: matches, descriptionBlock: describe)
   }
 }
