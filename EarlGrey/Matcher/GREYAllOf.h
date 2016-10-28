@@ -55,6 +55,16 @@
  */
 GREY_EXPORT id<GREYMatcher> grey_allOf(id<GREYMatcher> matcher, ...) NS_REQUIRES_NIL_TERMINATION;
 
+/**
+ *  A shorthand matcher that is a logical AND of all the matchers passed in within an NSArray.
+ *
+ *  @param matchers An NSArray of one or more matchers to be added. Matchers are invoked in the
+ *                  order they are specified and only if the preceding matcher passes.
+ *
+ *  @return An object conforming to GREYMatcher, initialized with the required matchers.
+ */
+GREY_EXPORT id<GREYMatcher> grey_allOfMatchers(NSArray<GREYMatcher> *matchers);
+
 #endif // GREY_DISABLE_SHORTHAND
 
 @end
