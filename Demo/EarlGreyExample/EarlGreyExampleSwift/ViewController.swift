@@ -44,23 +44,33 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
     // Create constraints
     let views = ["clickMe": clickMe, "send": send, "send2": send2, "table": table,
-        "sendMessageView": sendMessageView]
+                 "sendMessageView": sendMessageView]
+    let metrics = ["smallMargin": 10, "mediumMargin": 20, "largeMargin": 40, "buttonSize": 100,
+                   "tableSize": 320]
     var allConstraints = [NSLayoutConstraint]()
     let verticalConstraints = NSLayoutConstraint.constraints(
-        withVisualFormat: "V:|-40-[clickMe]-40-[send2]-40-[table]|",
-        options: [], metrics: nil, views: views)
+      withVisualFormat: "V:|-largeMargin-[clickMe]-largeMargin-[send2]-largeMargin-[table]|",
+      options: [],
+      metrics: metrics,
+      views: views)
     allConstraints += verticalConstraints
     let buttonsHorizontalConstraints = NSLayoutConstraint.constraints(
-        withVisualFormat: "|-10-[clickMe(100)]-20-[send(100)]", options:.alignAllTop,
-        metrics: nil, views: views)
+      withVisualFormat: "|-smallMargin-[clickMe(buttonSize)]-mediumMargin-[send(buttonSize)]",
+      options:.alignAllTop,
+      metrics: metrics,
+      views: views)
     allConstraints += buttonsHorizontalConstraints
     let sendMessageViewConstraints = NSLayoutConstraint.constraints(
-        withVisualFormat: "|-10-[send2(100)]", options:.alignAllTop,
-        metrics: nil, views: views)
+      withVisualFormat: "|-smallMargin-[send2(buttonSize)]",
+      options:.alignAllTop,
+      metrics: metrics,
+      views: views)
     allConstraints += sendMessageViewConstraints
     let tableConstraints = NSLayoutConstraint.constraints(
-        withVisualFormat: "|-10-[table(320)]", options:.alignAllTop,
-        metrics: nil, views: views)
+      withVisualFormat: "|-smallMargin-[table(tableSize)]",
+      options:.alignAllTop,
+      metrics: metrics,
+      views: views)
     allConstraints += tableConstraints
     NSLayoutConstraint.activate(allConstraints)
   }

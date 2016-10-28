@@ -84,8 +84,8 @@ class FunctionalTestRigSwiftTests: XCTestCase {
   }
 
   func testRotation() {
-    EarlGrey.rotateDeviceto(orientation: UIDeviceOrientation.landscapeLeft, errorOrNil: nil)
-    EarlGrey.rotateDeviceto(orientation: UIDeviceOrientation.portrait, errorOrNil: nil)
+    EarlGrey.rotateDeviceTo(orientation: UIDeviceOrientation.landscapeLeft, errorOrNil: nil)
+    EarlGrey.rotateDeviceTo(orientation: UIDeviceOrientation.portrait, errorOrNil: nil)
   }
 
   func testTyping() {
