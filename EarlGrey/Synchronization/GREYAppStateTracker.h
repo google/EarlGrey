@@ -118,12 +118,32 @@ typedef NS_OPTIONS(NSUInteger, GREYAppState) {
 - (NSString *)trackState:(GREYAppState)state forElement:(id)element;
 
 /**
- *  Untracks the state from the element with the specified id.
+ *  Untracks the state for the element with the specified id. For untracking, it does not matter
+ *  if the state has been added to being ignored.
  *
  *  @param state     The state that should be untracked.
  *  @param elementID The identifer of the element which state should be untracked.
  */
 - (void)untrackState:(GREYAppState)state forElementWithID:(NSString *)elementID;
+
+/**
+ *  Ignore any state changes made to the state(s) provided. To stop ignoring a state, set this
+ *  to a @c GREYAppState value that does not contain that particular state or use
+ *  @c GREYAppStateTracker::clearIgnoredStates.
+ *
+ *  @remark This will not retroactively affect any currently tracked elements with the ignored app
+ *          state(s). This only ensures that any further tracking of an element with an app state
+ *          that is being ignored will be ignored. Untracking is not affected by this method.
+ *
+ *  @param state The app state that should be ignored. This can be a bitwise-OR of multiple
+ *               app states.
+ */
+- (void)ignoreChangesToState:(GREYAppState)state;
+
+/**
+ *  Removes any states that were being ignored.
+ */
+- (void)clearIgnoredStates;
 
 @end
 

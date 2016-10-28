@@ -22,6 +22,7 @@
 #import "Additions/NSObject+GREYAdditions.h"
 #import "Common/GREYConfiguration.h"
 #import "Common/GREYDefines.h"
+#import "Common/GREYVerboseLogger.h"
 
 /**
  *  Lock protecting element state map.
@@ -40,11 +41,17 @@ static pthread_mutex_t gStateLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
    */
   NSMapTable *_elementIDToCallStack;
   /**
-   * Set of all tracked element IDs. Used for efficient membership checking and to work around
-   * NSMapTable's lack of a guarantee to immediately purge weak keys.
-   * Access should be guarded by @c gStateLock lock.
+   *  Set of all tracked element IDs. Used for efficient membership checking and to work around
+   *  NSMapTable's lack of a guarantee to immediately purge weak keys.
+   *  Access should be guarded by @c gStateLock lock.
    */
   NSHashTable *_elementIDs;
+  /**
+   *  The app state for which any state changes are not tracked. This can be a bitwise-OR of
+   *  multiple app states.
+   *  Access should be guarded by @c gStateLock lock.
+   */
+  GREYAppState _ignoredAppState;
 }
 
 + (instancetype)sharedInstance {
@@ -68,6 +75,7 @@ static pthread_mutex_t gStateLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
     _elementIDToState = [NSMapTable weakToStrongObjectsMapTable];
     _elementIDToCallStack = [NSMapTable weakToStrongObjectsMapTable];
     _elementIDs = [NSHashTable weakObjectsHashTable];
+    _ignoredAppState = kGREYIdle;
   }
   return self;
 }
@@ -122,6 +130,23 @@ static pthread_mutex_t gStateLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
   return description;
 }
 
+
+- (void)ignoreChangesToState:(GREYAppState)state {
+  NSAssert(state != kGREYIdle, @"Do not directly set kGREYIdle as the state to be ignored, to "
+                               @"clear the states, use GREYAppStateTracker::clearIgnoredStates "
+                               @"instead.");
+  [self grey_performBlockInCriticalSection:^id {
+    _ignoredAppState = state;
+    return nil;
+  }];
+}
+
+- (void)clearIgnoredStates {
+  [self grey_performBlockInCriticalSection:^id {
+    _ignoredAppState = kGREYIdle;
+    return nil;
+  }];
+}
 
 #pragma mark - GREYIdlingResource
 
@@ -247,6 +272,9 @@ static pthread_mutex_t gStateLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
            @"Provide either a valid element or a valid externalElementID, not both.");
   return [self grey_performBlockInCriticalSection:^id {
     static void const *const stateAssociationKey = &stateAssociationKey;
+
+    // Modify State to remove ignored states from those being changed.
+    GREYAppState modifiedState = busy ? state & (~_ignoredAppState) : state;
     NSString *elementIDToReturn;
 
     // This autorelease pool makes sure we release any autoreleased objects added to the tracker
@@ -290,11 +318,12 @@ static pthread_mutex_t gStateLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
           // Explicit ownership.
           internalElementID = [[NSString alloc] initWithString:potentialInternalElementID];
           // When element deallocates, so will internalElementID causing our weak references to it
-          // to be removed.
+          // to be removed and state for that element to clear up.
           objc_setAssociatedObject(element,
                                    stateAssociationKey,
                                    internalElementID,
-                                   OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+                                   // Use atomic retain here to avoid race.
+                                   OBJC_ASSOCIATION_RETAIN);
         } else {
           // External element id was specified and we couldn't find an internal element id
           // associated to the external element id. This could happen if element was deallocated and
@@ -308,7 +337,8 @@ static pthread_mutex_t gStateLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
       NSNumber *originalStateNumber = [_elementIDToState objectForKey:internalElementID];
       GREYAppState originalState =
           originalStateNumber ? [originalStateNumber unsignedIntegerValue] : kGREYIdle;
-      GREYAppState newState = busy ? (originalState | state) : (originalState & ~state);
+      GREYAppState newState =
+          busy ? (originalState | modifiedState) : (originalState & ~modifiedState);
 
       if (newState == kGREYIdle) {
         [_elementIDs removeObject:internalElementID];
