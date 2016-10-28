@@ -21,7 +21,8 @@
 
 // Expose private action for testing
 @interface GREYActions (GREYExposedForTesting)
-+ (id<GREYAction>)grey_actionForTypeText:(NSString *)text atUITextPosition:(UITextPosition *)position;
++ (id<GREYAction>)grey_actionForTypeText:(NSString *)text
+                        atUITextPosition:(UITextPosition *)position;
 @end
 
 @interface FTRKeyboardKeysTest : FTRBaseIntegrationTest
@@ -435,6 +436,14 @@
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
       performAction:grey_typeText(string)]
       assertWithMatcher:grey_text(string)];
+}
+
+// TODO(31886754):Enabled this for testing the Input Accessory Code
+- (void)DISABLED_testTypingOnTextFieldInUIInputAccessory {
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"Input Button")]
+      performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
+      performAction:grey_typeText(@"Test")];
 }
 
 #pragma mark - Private
