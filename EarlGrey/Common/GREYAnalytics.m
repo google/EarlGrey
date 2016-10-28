@@ -45,6 +45,8 @@ static NSString *const kTrackingEndPoint = @"https://ssl.google-analytics.com";
   __weak id<GREYAnalyticsDelegate> _delegate;
   // Once set, analytics will be sent on next XCTestCase tearDown.
   BOOL _earlgreyWasCalledInXCTestContext;
+  // Test case counter used for counting testcases
+  unsigned int _testCaseCounter;
 }
 
 + (void)load {
@@ -66,6 +68,7 @@ static NSString *const kTrackingEndPoint = @"https://ssl.google-analytics.com";
   if (self) {
     _delegate = nil;
     _earlgreyWasCalledInXCTestContext = NO;
+    _testCaseCounter = 0;
     // Register as an observer for kGREYXCTestCaseInstanceDidTearDown.
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(grey_testCaseInstanceDidTearDown)
@@ -155,19 +158,25 @@ static NSString *const kTrackingEndPoint = @"https://ssl.google-analytics.com";
 /**
  *  Usage data is sent via Google Analytics indicating completion of a test case, if a delegate is
  *  specified it is invoked to handle the analytics instead.
+ *  EarlGrey uses Google Analytics's event tracking with *anonymized* bundle ID (md5) as the
+ *  category and "TestCase_{x}" as the sub-category where 'x' is the current test case count.
  */
 - (void)grey_testCaseInstanceDidTearDown {
   if (_earlgreyWasCalledInXCTestContext) {
     // Reset var to track multiple test case invocations.
     _earlgreyWasCalledInXCTestContext = NO;
+    _testCaseCounter += 1;
 
     if (GREY_CONFIG_BOOL(kGREYConfigKeyAnalyticsEnabled)) {
-      NSString *bundleID = [[NSBundle mainBundle] bundleIdentifier];
-      // If bundle ID is available use an MD5 of it otherwise use a placeholder.
-      bundleID = bundleID ? [bundleID grey_md5String] : @"<Missing Bundle ID>";
+      NSString *bundleIDMD5 = [[[NSBundle mainBundle] bundleIdentifier] grey_md5String];
+      if (!bundleIDMD5) {
+        // If bundle ID is not available we use a placeholder.
+        bundleIDMD5 = @"<Missing Bundle ID>";
+      }
+      NSString *subCategory = [NSString stringWithFormat:@"TestCase_%u", _testCaseCounter];
       [self.delegate trackEventWithTrackingID:kGREYAnalyticsTrackingID
-                                     category:kAnalyticsInvocationCategory
-                                  subCategory:bundleID
+                                     category:bundleIDMD5
+                                  subCategory:subCategory
                                         value:@([[XCTestSuite defaultTestSuite] testCaseCount])];
     }
   }

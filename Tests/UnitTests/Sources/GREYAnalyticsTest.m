@@ -23,6 +23,7 @@
 @interface GREYAnalyticsTestDelegate : NSObject<GREYAnalyticsDelegate>
 
 @property(nonatomic, strong) NSString *bundleID;
+@property(nonatomic, strong) NSString *subCategory;
 
 @end
 
@@ -32,7 +33,8 @@
                         category:(NSString *)category
                      subCategory:(NSString *)subCategory
                            value:(NSNumber *)valueOrNil {
-  _bundleID = subCategory;
+  _bundleID = category;
+  _subCategory = subCategory;
 }
 
 @end
@@ -55,6 +57,57 @@
   [[GREYAnalytics sharedInstance] grey_testCaseInstanceDidTearDown];
   XCTAssertEqualObjects([bundleID grey_md5String], testDelegate.bundleID);
   [[GREYAnalytics sharedInstance] setDelegate:previousDelegate];
+}
+
+- (void)testAnalyticsDelegateGetsTestCaseCount {
+  // Setup a test delegate.
+  id<GREYAnalyticsDelegate> previousDelegate = [[GREYAnalytics sharedInstance] delegate];
+  GREYAnalyticsTestDelegate *testDelegate = [[GREYAnalyticsTestDelegate alloc] init];
+  [[GREYAnalytics sharedInstance] setDelegate:testDelegate];
+
+  // Simulate execution of a test.
+  [[GREYAnalytics sharedInstance] didInvokeEarlGrey];
+  [[GREYAnalytics sharedInstance] grey_testCaseInstanceDidTearDown];
+
+  // Verify the testcase name includes a count.
+  XCTAssertTrue([[testDelegate.subCategory lowercaseString] hasPrefix:@"testcase_"]);
+  XCTAssertGreaterThanOrEqual(
+      [self greytest_getTestCaseCountFromSubCategory:testDelegate.subCategory], 1);
+  [[GREYAnalytics sharedInstance] setDelegate:previousDelegate];
+}
+
+- (void)testAnalyticsDelegateTestCaseCountIncrements {
+  // Setup a test delegate.
+  id<GREYAnalyticsDelegate> previousDelegate = [[GREYAnalytics sharedInstance] delegate];
+  GREYAnalyticsTestDelegate *testDelegate = [[GREYAnalyticsTestDelegate alloc] init];
+  [[GREYAnalytics sharedInstance] setDelegate:testDelegate];
+
+  // Simulate execution of first test.
+  [[GREYAnalytics sharedInstance] didInvokeEarlGrey];
+  [[GREYAnalytics sharedInstance] grey_testCaseInstanceDidTearDown];
+  NSInteger firstTestCaseCount =
+      [self greytest_getTestCaseCountFromSubCategory:testDelegate.subCategory];
+
+  // Simulate execution of second test.
+  [[GREYAnalytics sharedInstance] didInvokeEarlGrey];
+  [[GREYAnalytics sharedInstance] grey_testCaseInstanceDidTearDown];
+  NSInteger secondTestCaseCount =
+      [self greytest_getTestCaseCountFromSubCategory:testDelegate.subCategory];
+  [[GREYAnalytics sharedInstance] setDelegate:previousDelegate];
+
+  XCTAssertEqual(secondTestCaseCount - firstTestCaseCount, 1);
+}
+
+#pragma mark - Private
+
+/**
+ *  @return The testcase count present in the given Analytics Event sub-category value.
+ */
+- (NSInteger)greytest_getTestCaseCountFromSubCategory:(NSString *)subCategoryValue {
+  // Subcategory is in the following format: TestCase_<count>, we must extract <count>.
+  NSString *testCaseCountString =
+      [[subCategoryValue lowercaseString] componentsSeparatedByString:@"testcase_"][1];
+  return [testCaseCountString integerValue];
 }
 
 @end
