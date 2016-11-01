@@ -12,7 +12,7 @@ Baseline: [55d42a4]
 
 ### Compatibility
 * Requires iOS 8 as the minimum deployment target.
-* The EarlGrey gem runs out of the box for [Swift 3.0](https://goo.gl/bEAiiI) and Swift 2.3.
+* The EarlGrey gem runs out of the box for [Swift 3.0](https://docs.google.com/document/d/1AeleXccp35EUX4ILa6CT3CwlxLSZq1YLrco9JF27p9k/edit) and Swift 2.3.
 * Has been tested for support till iOS 10.01 on devices and simulator.
 
 ### Bug Fixes
