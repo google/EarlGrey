@@ -59,6 +59,7 @@
 		596D89CA1C05ACD400025714 /* EarlGrey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 596D89C71C05ACB000025714 /* EarlGrey.framework */; };
 		59AB5FC91C128CCF0017F331 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FDB855641C12392C00B407EB /* libOCMock.a */; };
 		6113A2F11D7F74F400443D9B /* GREYStringDescriptionTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6113A2F01D7F74F400443D9B /* GREYStringDescriptionTest.m */; };
+		6114A27D1DC93544002360AA /* GREYInterposerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6114A27C1DC93544002360AA /* GREYInterposerTest.m */; };
 		611BC9791D4CF5B700C1F69D /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CFE8EF1D4CE99D00E1A48E /* CoreData.framework */; };
 		61322DA21D4CD7C300A5B0C1 /* GREYDispatchQueueTrackerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 61322D9E1D4CD7B900A5B0C1 /* GREYDispatchQueueTrackerTest.m */; };
 		61322DA31D4CD7C300A5B0C1 /* GREYManagedObjectContextIdlingResourceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 61322D9F1D4CD7B900A5B0C1 /* GREYManagedObjectContextIdlingResourceTest.m */; };
@@ -217,6 +218,7 @@
 		594A1A2A1D8BB8E800625FB3 /* NSURL+GREYAdditionsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+GREYAdditionsTest.m"; sourceTree = "<group>"; };
 		596D89C21C05ACAF00025714 /* EarlGrey.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = EarlGrey.xcodeproj; path = ../../EarlGrey.xcodeproj; sourceTree = "<group>"; };
 		6113A2F01D7F74F400443D9B /* GREYStringDescriptionTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYStringDescriptionTest.m; sourceTree = "<group>"; };
+		6114A27C1DC93544002360AA /* GREYInterposerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYInterposerTest.m; sourceTree = "<group>"; };
 		61322D9E1D4CD7B900A5B0C1 /* GREYDispatchQueueTrackerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYDispatchQueueTrackerTest.m; sourceTree = "<group>"; };
 		61322D9F1D4CD7B900A5B0C1 /* GREYManagedObjectContextIdlingResourceTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYManagedObjectContextIdlingResourceTest.m; sourceTree = "<group>"; };
 		61CFE8EF1D4CE99D00E1A48E /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -323,6 +325,7 @@
 				59467ED31C9379DE0089498B /* UIWindow+GREYAdditionsTest.m */,
 				007CF78A1D78A0F400228BF3 /* XCTestCase+GREYAdditionsTest.m */,
 				F9C5093E1D11E9CF00D4FDED /* GREYTestHelperTest.m */,
+				6114A27C1DC93544002360AA /* GREYInterposerTest.m */,
 			);
 			path = Sources;
 			sourceTree = SOURCE_ROOT;
@@ -609,6 +612,7 @@
 				61322DA31D4CD7C300A5B0C1 /* GREYManagedObjectContextIdlingResourceTest.m in Sources */,
 				59467F1C1C9379FC0089498B /* GREYDispatchQueueIdlingResourceTest.m in Sources */,
 				59467F1D1C9379FC0089498B /* GREYElementFinderTest.m in Sources */,
+				6114A27D1DC93544002360AA /* GREYInterposerTest.m in Sources */,
 				59467F1E1C9379FC0089498B /* GREYElementHierarchyTest.m in Sources */,
 				FD4AB2B71D23181600D0C44D /* GREYRunLoopSpinnerTest.m in Sources */,
 				59467F1F1C9379FC0089498B /* GREYElementInteractionTest.m in Sources */,
