@@ -126,6 +126,7 @@
 		FD5471391BBDF9AC000661FD /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD193FF91BBDDC0000153959 /* QuartzCore.framework */; };
 		FD54713A1BBDF9C0000661FD /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD5470D61BBDE0A9000661FD /* IOKit.framework */; };
 		FD60CB611C5B5B1B00F8E318 /* EarlGrey.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 596D89BE1C05AB0600025714 /* EarlGrey.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		FD771E761DC1D9F500E199A1 /* FTRCustomTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = FD771E751DC1D9F500E199A1 /* FTRCustomTextView.m */; };
 		FD983D6C1D67E8B40059F4CC /* EarlGrey.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8277DE1D677D9F00C7C2AD /* EarlGrey.swift */; };
 /* End PBXBuildFile section */
 
@@ -333,6 +334,8 @@
 		FD387B411CA9C63900958AEE /* EarlGreyFunctionalSwiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EarlGreyFunctionalSwiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD5470D61BBDE0A9000661FD /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = ../../../../../../../../../System/Library/Frameworks/IOKit.framework; sourceTree = "<group>"; };
 		FD5470F11BBDECBB000661FD /* EarlGreyFunctionalTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EarlGreyFunctionalTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FD771E741DC1D9F500E199A1 /* FTRCustomTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FTRCustomTextView.h; sourceTree = "<group>"; };
+		FD771E751DC1D9F500E199A1 /* FTRCustomTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FTRCustomTextView.m; sourceTree = "<group>"; };
 		FD8277DE1D677D9F00C7C2AD /* EarlGrey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EarlGrey.swift; path = "../../gem/lib/earlgrey/files/Swift-3.0/EarlGrey.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -506,6 +509,8 @@
 				59467DAC1C9373A50089498B /* FTRCollectionViewController.xib */,
 				59467DAD1C9373A50089498B /* FTRCollectionViewLayout.h */,
 				59467DAE1C9373A50089498B /* FTRCollectionViewLayout.m */,
+				FD771E741DC1D9F500E199A1 /* FTRCustomTextView.h */,
+				FD771E751DC1D9F500E199A1 /* FTRCustomTextView.m */,
 				59467DAF1C9373A50089498B /* FTRGestureViewController.h */,
 				59467DB01C9373A50089498B /* FTRGestureViewController.m */,
 				59467DB11C9373A50089498B /* FTRGestureViewController.xib */,
@@ -793,6 +798,7 @@
 				59467E6E1C9373F00089498B /* FTRCollectionViewCell.m in Sources */,
 				59467E711C9373F00089498B /* FTRCollectionViewController.m in Sources */,
 				59467E741C9373F00089498B /* FTRCollectionViewLayout.m in Sources */,
+				FD771E761DC1D9F500E199A1 /* FTRCustomTextView.m in Sources */,
 				59467E761C9373F00089498B /* FTRGestureViewController.m in Sources */,
 				59467E791C9373F00089498B /* FTRMainViewController.m in Sources */,
 				59467E7C1C9373F00089498B /* FTRNetworkProxy.m in Sources */,

@@ -438,6 +438,30 @@
       assertWithMatcher:grey_text(string)];
 }
 
+- (void)testClearAfterTypingInCustomTextView {
+  [[[[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CustomTextView")]
+      performAction:[GREYActions actionForTypeText:@"Foo"]]
+      assertWithMatcher:grey_accessibilityLabel(@"Foo")]
+      performAction:[GREYActions actionForClearText]]
+      assertWithMatcher:grey_accessibilityLabel(@"")];
+}
+
+- (void)testClearAfterClearingInCustomTextView {
+  [[[[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CustomTextView")]
+      performAction:[GREYActions actionForClearText]]
+      assertWithMatcher:grey_accessibilityLabel(@"")]
+      performAction:[GREYActions actionForClearText]]
+      assertWithMatcher:grey_accessibilityLabel(@"")];
+}
+
+- (void)testTypeAfterClearingInCustomTextView {
+  [[[[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CustomTextView")]
+      performAction:[GREYActions actionForClearText]]
+      assertWithMatcher:grey_accessibilityLabel(@"")]
+      performAction:[GREYActions actionForTypeText:@"Foo"]]
+      assertWithMatcher:grey_accessibilityLabel(@"Foo")];
+}
+
 // TODO(31886754):Enabled this for testing the Input Accessory Code
 - (void)DISABLED_testTypingOnTextFieldInUIInputAccessory {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"Input Button")]

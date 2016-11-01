@@ -173,6 +173,7 @@
   id<GREYMatcher> constraints =
       grey_anyOf(grey_respondsToSelector(@selector(text)),
                  grey_kindOfClass(NSClassFromString(@"WebAccessibilityObjectWrapper")),
+                 grey_conformsToProtocol(@protocol(UITextInput)),
                  nil);
   return [GREYActionBlock actionWithName:@"Clear text"
                              constraints:constraints
@@ -181,8 +182,12 @@
     if ([element grey_isWebAccessibilityElement]) {
       [GREYActions grey_webClearText:element];
       return YES;
-    } else {
+    } else if ([element respondsToSelector:@selector(text)]) {
       textStr = [element text];
+    } else {
+      UITextRange *range = [element textRangeFromPosition:[element beginningOfDocument]
+                                               toPosition:[element endOfDocument]];
+      textStr = [element textInRange:range];
     }
 
     NSMutableString *deleteStr = [[NSMutableString alloc] init];

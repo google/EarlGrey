@@ -8,6 +8,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FTRTypingViewController">
             <connections>
+                <outlet property="customTextView" destination="kf2-uc-vdE" id="XsY-7I-QdM"/>
                 <outlet property="inputAccessoryTextField" destination="Zla-Kl-dQS" id="XJs-DG-mGU"/>
                 <outlet property="inputButton" destination="8cM-Do-eO8" id="bVw-42-ZKa"/>
                 <outlet property="keyboardPicker" destination="D9d-aK-L7i" id="snm-E2-L5v"/>
@@ -28,8 +29,8 @@
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Never First Responder" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PBX-7b-uV2">
-                    <rect key="frame" x="20" y="75" width="335" height="30"/>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Never First Responder" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PBX-7b-uV2">
+                    <rect key="frame" x="20" y="75" width="280" height="30"/>
                     <accessibility key="accessibilityConfiguration" label=""/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
@@ -46,59 +47,68 @@
                         <action selector="changeReturnKeyType:" destination="-1" eventType="touchUpInside" id="jOw-jE-AVj"/>
                     </connections>
                 </button>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Text Field" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="HbD-2h-bQc">
-                    <rect key="frame" x="20" y="132" width="335" height="30"/>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Text Field" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="HbD-2h-bQc">
+                    <rect key="frame" x="20" y="132" width="280" height="30"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" autocorrectionType="yes" spellCheckingType="yes"/>
                 </textField>
-                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" keyboardDismissMode="interactive" translatesAutoresizingMaskIntoConstraints="NO" id="F8N-FE-LqS">
-                    <rect key="frame" x="20" y="170" width="335" height="90"/>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="interactive" translatesAutoresizingMaskIntoConstraints="NO" id="F8N-FE-LqS">
+                    <rect key="frame" x="20" y="170" width="280" height="53"/>
                     <color key="backgroundColor" red="0.91907269021739135" green="0.91907269021739135" blue="0.91907269021739135" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="90" id="dkB-da-5H4"/>
+                        <constraint firstAttribute="height" constant="53" id="dkB-da-5H4"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
                 </textView>
-                <pickerView contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="D9d-aK-L7i">
-                    <rect key="frame" x="23" y="274" width="329" height="153"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8cM-Do-eO8">
+                    <rect key="frame" x="226" y="31" width="46" height="30"/>
+                    <state key="normal" title="Button"/>
+                </button>
+                <pickerView contentMode="scaleToFill" verticalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="D9d-aK-L7i">
+                    <rect key="frame" x="0.0" y="304" width="320" height="100"/>
                     <constraints>
-                        <constraint firstAttribute="height" relation="lessThanOrEqual" constant="153" id="tXv-0u-8eh"/>
+                        <constraint firstAttribute="height" constant="100" id="EaZ-Z7-fey"/>
                     </constraints>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="LBq-of-PdJ"/>
                         <outlet property="delegate" destination="-1" id="iXT-ja-Und"/>
                     </connections>
                 </pickerView>
-                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8cM-Do-eO8">
-                    <rect key="frame" x="226" y="31" width="126" height="30"/>
-                    <state key="normal" title="Button"/>
-                </button>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kf2-uc-vdE" customClass="FTRCustomTextView">
+                    <rect key="frame" x="27" y="231" width="266" height="51"/>
+                    <color key="backgroundColor" red="0.72336632013320923" green="0.72336632013320923" blue="0.72336632013320923" alpha="1" colorSpace="calibratedRGB"/>
+                    <accessibility key="accessibilityConfiguration" identifier="CustomTextView"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="266" id="Jks-lU-kXW"/>
+                        <constraint firstAttribute="height" constant="51" id="KQW-5b-HjZ"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstItem="ugr-WT-H7I" firstAttribute="top" secondItem="PBX-7b-uV2" secondAttribute="bottom" constant="-2" id="235-Sq-djF"/>
-                <constraint firstItem="8cM-Do-eO8" firstAttribute="trailing" secondItem="D9d-aK-L7i" secondAttribute="trailing" id="4ld-oX-N08"/>
-                <constraint firstItem="D9d-aK-L7i" firstAttribute="top" secondItem="F8N-FE-LqS" secondAttribute="bottom" constant="14" id="7lt-2I-EnD"/>
+                <constraint firstItem="D9d-aK-L7i" firstAttribute="top" secondItem="kf2-uc-vdE" secondAttribute="bottom" constant="22" id="89S-kl-2ip"/>
                 <constraint firstItem="F8N-FE-LqS" firstAttribute="trailing" secondItem="HbD-2h-bQc" secondAttribute="trailing" id="8KB-Rw-Tc2"/>
                 <constraint firstItem="8cM-Do-eO8" firstAttribute="top" secondItem="Zla-Kl-dQS" secondAttribute="top" id="DRS-KN-TDs"/>
                 <constraint firstItem="PBX-7b-uV2" firstAttribute="top" secondItem="Zla-Kl-dQS" secondAttribute="bottom" constant="14" id="KOR-ch-AcP"/>
                 <constraint firstItem="PBX-7b-uV2" firstAttribute="leading" secondItem="Zla-Kl-dQS" secondAttribute="trailing" constant="-159" id="Qp9-sU-WVB"/>
                 <constraint firstItem="F8N-FE-LqS" firstAttribute="top" secondItem="HbD-2h-bQc" secondAttribute="bottom" constant="8" id="SR1-CW-I1F"/>
-                <constraint firstItem="D9d-aK-L7i" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Tl2-UC-MYa"/>
                 <constraint firstItem="HbD-2h-bQc" firstAttribute="leading" secondItem="PBX-7b-uV2" secondAttribute="leading" id="UEg-Pi-rj1"/>
+                <constraint firstItem="kf2-uc-vdE" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="XWX-Tv-nor"/>
                 <constraint firstItem="8cM-Do-eO8" firstAttribute="leading" secondItem="Zla-Kl-dQS" secondAttribute="trailing" constant="47" id="aK4-9j-Fgo"/>
                 <constraint firstItem="HbD-2h-bQc" firstAttribute="top" secondItem="ugr-WT-H7I" secondAttribute="bottom" constant="-1" id="bsg-uk-Fwm"/>
-                <constraint firstItem="D9d-aK-L7i" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="23" id="c0l-gT-H6D"/>
                 <constraint firstItem="F8N-FE-LqS" firstAttribute="leading" secondItem="HbD-2h-bQc" secondAttribute="leading" id="hnc-hX-M2h"/>
                 <constraint firstItem="ugr-WT-H7I" firstAttribute="leading" secondItem="PBX-7b-uV2" secondAttribute="leading" constant="147" id="iOu-FI-RjM"/>
                 <constraint firstItem="PBX-7b-uV2" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="75" id="lYW-um-p8F"/>
                 <constraint firstItem="Zla-Kl-dQS" firstAttribute="leading" secondItem="PBX-7b-uV2" secondAttribute="leading" id="ogg-4Z-m4i"/>
+                <constraint firstItem="kf2-uc-vdE" firstAttribute="top" secondItem="F8N-FE-LqS" secondAttribute="bottom" constant="8" id="qML-SM-Cnd"/>
                 <constraint firstItem="PBX-7b-uV2" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="rKg-R1-50Z"/>
+                <constraint firstItem="D9d-aK-L7i" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="s2a-zj-xOX"/>
                 <constraint firstItem="PBX-7b-uV2" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="xxX-1T-fAt"/>
                 <constraint firstItem="HbD-2h-bQc" firstAttribute="trailing" secondItem="PBX-7b-uV2" secondAttribute="trailing" id="zCU-gO-eFg"/>
             </constraints>
-            <point key="canvasLocation" x="24.5" y="52.5"/>
+            <point key="canvasLocation" x="24" y="52"/>
         </view>
     </objects>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
