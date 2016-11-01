@@ -24,24 +24,27 @@
 @implementation NSURL (GREYAdditions)
 
 - (BOOL)grey_shouldSynchronize {
+  if ([[self scheme] isEqualToString:@"data"]) {
+    // skip data schemes. They can be huge and we can get stuck evaluating them.
+    return NO;
+  }
+
   NSArray *blacklistRegExs = [[self class] grey_blacklistRegEx];
   if (blacklistRegExs.count == 0) {
     return YES;
   }
 
   NSString *stringURL = [self absoluteString];
-  NSRegularExpression *regex;
   NSError *error;
   for (NSString *regexStr in blacklistRegExs) {
-    regex = [NSRegularExpression regularExpressionWithPattern:regexStr
-                                                      options:0
-                                                        error:&error];
+    NSRegularExpression * regex = [NSRegularExpression regularExpressionWithPattern:regexStr
+                                                                            options:0
+                                                                              error:&error];
     NSAssert(!error, @"Invalid regex:\"%@\". See error: %@", regex, error);
-    NSUInteger numMatches =
-        [regex numberOfMatchesInString:stringURL
-                               options:0
-                                 range:NSMakeRange(0, [stringURL length])];
-    if (numMatches > 0) {
+    NSRange firstMatch = [regex rangeOfFirstMatchInString:stringURL
+                                                  options:0
+                                                    range:NSMakeRange(0, [stringURL length])];
+    if (firstMatch.location != NSNotFound) {
       GREYLogVerbose(@"Matched a blacklisted URL: %@", stringURL);
       return NO;
     }

@@ -66,6 +66,22 @@
   XCTAssertTrue([url grey_shouldSynchronize]);
 }
 
+- (void)testURLsWithDataSchemeAreIgnored {
+  NSURL *url = [NSURL URLWithString:@"data:"];
+  XCTAssertFalse([url grey_shouldSynchronize]);
+  url = [NSURL URLWithString:@"data:%20%20foo"];
+  XCTAssertFalse([url grey_shouldSynchronize]);
+  url =
+      [NSURL URLWithString:@"data:image/gif;base64,R0lGODdhMAAwAPAAAAAAAP///ywAAAAAMAAw"
+                           @"AAAC8IyPqcvt3wCcDkiLc7C0qwyGHhSWpjQu5yqmCYsapyuvUUlvONmOZtfzgFz"
+                           @"ByTB10QgxOR0TqBQejhRNzOfkVJ+5YiUqrXF5Y5lKh/DeuNcP5yLWGsEbtLiOSp"
+                           @"a/TPg7JpJHxyendzWTBfX0cxOnKPjgBzi4diinWGdkF8kjdfnycQZXZeYGejmJl"
+                           @"ZeGl9i2icVqaNVailT6F5iJ90m6mvuTS4OK05M0vDk0Q4XUtwvKOzrcd3iq9uis"
+                           @"F81M1OIcR7lEewwcLp7tuNNkM3uNna3F2JQFo97Vriy/Xl4/f1cf5VWzXyym7PH"
+                           @"hhx4dbgYKAAA7"];
+  XCTAssertFalse([url grey_shouldSynchronize]);
+}
+
 - (void)testBlacklistURLsCleared {
   // Set it to something then clear it.
   [[GREYConfiguration sharedInstance] setValue:@[@"."]
