@@ -3,6 +3,27 @@
 Details changes in each release of EarlGrey. EarlGrey follows
 [semantic versioning](http://semver.org/).
 
+## [1.5.0](https://github.com/google/EarlGrey/tree/1.5.0) (10/31/2016)
+
+```
+Baseline: [55d42a4]
+   + [55d42a4]: Updated ChangeLog and pod spec for 1.5 release
+```
+
+### Compatibility
+* Requires iOS 8 as the minimum deployment target.
+* The EarlGrey gem runs out of the box for [Swift 3.0](https://goo.gl/bEAiiI) and Swift 2.3. Swift 2.2 is no longer supported.
+* Has been tested for support till iOS 10.01 on devices and simulator.
+
+### Bug Fixes
+* Failing analytics tests fixes.
+* Fix flaky Travis Stopwatch Test.
+* Fix rspec tests broken by ruby update and changing the directory.
+
+### Enhancements
+* Improved UIAppStateTracker APIs to allow for ignoring states.
+* Safe to invoke failure handlers multiple times within context of a valid test case.
+
 ## [1.4.0](https://github.com/google/EarlGrey/tree/1.4.0) (10/07/2016)
 
 ```
