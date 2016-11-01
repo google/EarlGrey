@@ -118,6 +118,8 @@ GREY_EXTERN NSString *const kGREYConfigKeyCALayerMaxAnimationDuration;
  *  expressions to complete. Most frequently blacklisted URLs include those used for sending
  *  analytics, pingbacks, and background network tasks that don't interfere with testing.
  *
+ *  @remark By default, EarlGrey will not synchronize with any URLs with "data" scheme.
+ *
  *  Accepted values: @c An @c NSArray of valid regular expressions as @c NSString.
  *                   The strings must be accepted by @c NSRegularExpression.
  *  Default value: an empty @c NSArray

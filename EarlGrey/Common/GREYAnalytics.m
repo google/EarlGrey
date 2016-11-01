@@ -49,9 +49,11 @@ static NSString *const kTrackingEndPoint = @"https://ssl.google-analytics.com";
   unsigned int _testCaseCounter;
 }
 
-+ (void)load {
-  NSString *analyticsRegEx = [NSString stringWithFormat:@".*%@.*", kGREYAnalyticsTrackingID];
-  [NSURL grey_addBlacklistRegEx:analyticsRegEx];
++ (void)initialize {
+  if (self == [GREYAnalytics class]) {
+    NSString *analyticsRegEx = [NSString stringWithFormat:@".*%@.*", kGREYAnalyticsTrackingID];
+    [NSURL grey_addBlacklistRegEx:analyticsRegEx];
+  }
 }
 
 + (instancetype)sharedInstance {
