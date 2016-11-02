@@ -16,6 +16,8 @@
 
 #import "FTRTypingViewController.h"
 
+#import "FTRCustomTextView.h"
+
 #define kFTRKeyboardTypeCount 11
 
 @implementation FTRTypingViewController {
@@ -92,6 +94,10 @@
              forControlEvents:UIControlEventTouchUpInside];
 
   self.keyboardPicker.accessibilityIdentifier = @"KeyboardPicker";
+
+  self.customTextView.isAccessibilityElement = YES;
+  self.customTextView.userInteractionEnabled = YES;
+  self.customTextView.accessibilityIdentifier = @"CustomTextView";
 }
 
 - (void)buttonPressedForTyping {
