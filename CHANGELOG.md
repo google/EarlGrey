@@ -12,7 +12,7 @@ Baseline: [d9eb1bc]
 
 ### Compatibility
 * Requires iOS 8 as the minimum deployment target.
-* The EarlGrey gem runs out of the box for [Swift 3.0](https://docs.google.com/document/d/1AeleXccp35EUX4ILa6CT3CwlxLSZq1YLrco9JF27p9k/edit) and Swift 2.3.
+* The EarlGrey gem runs out of the box for Swift 3.0 and Swift 2.3.
 * Has been tested for support till iOS 10.01 on devices and simulator.
 
 ### Bug Fixes
@@ -20,8 +20,8 @@ Baseline: [d9eb1bc]
 
 ### Enhancements
 * Improved touch injection speed by making it work independent of the screen refresh rate.
-* Added synchronization for NSURLConnection::sendSynchronousRequest.
-* Added synchronization support for data URLs.
+* Added synchronization for `NSURLConnection::sendSynchronousRequest`.
+* Removed synchronization data URLs (URLs with `data:` scheme).
 * Updated clearText action to accept elements conforming to UITextInput protocol.
 
 ### Deprecations
