@@ -386,10 +386,16 @@
                 <a href="Functions.html#/c:@F@grey_allOf">grey_allOf</a>
               </li>
               <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_allOfMatchers">grey_allOfMatchers</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Functions.html#/c:@F@grey_ancestor">grey_ancestor</a>
               </li>
               <li class="nav-group-task">
                 <a href="Functions.html#/c:@F@grey_anyOf">grey_anyOf</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_anyOfMatchers">grey_anyOfMatchers</a>
               </li>
               <li class="nav-group-task">
                 <a href="Functions.html#/c:@F@grey_anything">grey_anything</a>
@@ -1450,6 +1456,59 @@ GREYActions::actionForSwipeSlowInDirection:xOriginStartPercentage:yOriginStartPe
                     </section>
                   </div>
                 </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_allOfMatchers"></a>
+                    <a name="//apple_ref/objc/Function/grey_allOfMatchers" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_allOfMatchers">grey_allOfMatchers</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A shorthand matcher that is a logical AND of all the matchers passed in within an NSArray.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_allOfMatchers</span><span class="p">(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">matchers</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>matchers</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An NSArray of one or more matchers to be added. Matchers are invoked in the
+                 order they are specified and only if the preceding matcher passes.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>An object conforming to GREYMatcher, initialized with the required matchers.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
               </ul>
             </div>
             <div class="task-group">
@@ -1507,6 +1566,59 @@ GREYActions::actionForSwipeSlowInDirection:xOriginStartPercentage:yOriginStartPe
               specified and only if the preceding matcher fails.
               This va-arg must be terminated with a @c
 value.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>An object conforming to GREYMatcher, initialized with the required matchers.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_anyOfMatchers"></a>
+                    <a name="//apple_ref/objc/Function/grey_anyOfMatchers" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_anyOfMatchers">grey_anyOfMatchers</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A matcher that is a logical OR of all the matchers passed in within an NSArray.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_anyOfMatchers</span><span class="p">(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">matchers</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>matchers</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An array of one more matchers to be added. Matchers are invoked in the order
+                 they are specified and only if the preceding matcher fails.</p>
 
                                 </div>
                               </td>
@@ -2851,11 +2963,6 @@ value.</p>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
                           <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_not</span><span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">matcher</span><span class="p">)</span></code></pre>
-
-                        </div>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">grey_not</span><span class="p">(</span><span class="nv">matcher</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyObject</span><span class="o">!</span></code></pre>
 
                         </div>
                       </div>

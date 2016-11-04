@@ -386,10 +386,16 @@
                 <a href="Functions.html#/c:@F@grey_allOf">grey_allOf</a>
               </li>
               <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_allOfMatchers">grey_allOfMatchers</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Functions.html#/c:@F@grey_ancestor">grey_ancestor</a>
               </li>
               <li class="nav-group-task">
                 <a href="Functions.html#/c:@F@grey_anyOf">grey_anyOf</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_anyOfMatchers">grey_anyOfMatchers</a>
               </li>
               <li class="nav-group-task">
                 <a href="Functions.html#/c:@F@grey_anything">grey_anything</a>
@@ -724,8 +730,12 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Configuration that enables or disables synchronization for all actions and assertions.
-  When disabled, actions and assertions DO NOT wait for the app to idle before proceeding.</p>
+                        <p>Configuration that enables or disables EarlGrey&rsquo;s synchronization feature.
+  When disabled, any command that used to wait for the app to idle before proceeding will no
+  longer do so.</p>
+
+<p>@remark For more fine-grained control over synchronization parameters, you can tweak other
+          provided configuration options.</p>
 
 <p>Accepted values: @c BOOL (i.e. @c YES or @c NO)
   Default value: @c YES</p>
@@ -921,6 +931,8 @@
   EarlGrey will not wait for any network request with URLs matching the blacklisted regular
   expressions to complete. Most frequently blacklisted URLs include those used for sending
   analytics, pingbacks, and background network tasks that don&rsquo;t interfere with testing.</p>
+
+<p>@remark By default, EarlGrey will not synchronize with any URLs with <q>data</q> scheme.</p>
 
 <p>Accepted values: @c An @c NSArray of valid regular expressions as @c NSString.
                    The strings must be accepted by @c NSRegularExpression.
