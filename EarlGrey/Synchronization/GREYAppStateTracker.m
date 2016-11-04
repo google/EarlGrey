@@ -271,8 +271,6 @@ static pthread_mutex_t gStateLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
   NSAssert((element && !externalElementID || !element && externalElementID),
            @"Provide either a valid element or a valid externalElementID, not both.");
   return [self grey_performBlockInCriticalSection:^id {
-    static void const *const stateAssociationKey = &stateAssociationKey;
-
     // Modify State to remove ignored states from those being changed.
     GREYAppState modifiedState = busy ? state & (~_ignoredAppState) : state;
     NSString *elementIDToReturn;
@@ -320,7 +318,7 @@ static pthread_mutex_t gStateLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
           // When element deallocates, so will internalElementID causing our weak references to it
           // to be removed and state for that element to clear up.
           objc_setAssociatedObject(element,
-                                   stateAssociationKey,
+                                   @selector(currentState),
                                    internalElementID,
                                    // Use atomic retain here to avoid race.
                                    OBJC_ASSOCIATION_RETAIN);
@@ -345,7 +343,7 @@ static pthread_mutex_t gStateLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
         [_elementIDToState removeObjectForKey:internalElementID];
         [_elementIDToCallStack removeObjectForKey:internalElementID];
         if (element) {
-          objc_setAssociatedObject(element, stateAssociationKey, nil, OBJC_ASSOCIATION_ASSIGN);
+          objc_setAssociatedObject(element, @selector(currentState), nil, OBJC_ASSOCIATION_ASSIGN);
         }
       } else {
         // Track the element with internalElementID. When internalElementID's underlying element

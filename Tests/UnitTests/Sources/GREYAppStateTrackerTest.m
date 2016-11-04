@@ -31,9 +31,9 @@
 }
 
 - (void)testLastKnownStateChangedAfterOnStateChange {
-  // objc_precise_lifetime required so obj1 and obj2 are valid until end of the current scope.
-  __attribute__((objc_precise_lifetime)) NSObject *obj1 = [[NSObject alloc] init];
-  __attribute__((objc_precise_lifetime)) NSObject *obj2 = [[NSObject alloc] init];
+  // NS_VALID_UNTIL_END_OF_SCOPE required so obj1 and obj2 are valid until end of the current scope.
+  NS_VALID_UNTIL_END_OF_SCOPE NSObject *obj1 = [[NSObject alloc] init];
+  NS_VALID_UNTIL_END_OF_SCOPE NSObject *obj2 = [[NSObject alloc] init];
 
   XCTAssertEqual([[GREYAppStateTracker sharedInstance] grey_lastKnownStateForElement:obj1],
                  kGREYIdle,

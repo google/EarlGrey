@@ -194,6 +194,7 @@ CGRect CGRectIntegralInside(CGRect rectInPixels);
 /**
  *  Returns the transform required for transforming from fixed coordinate system (iOS 7 and below)
  *  to variable coordinate system.
+ *
  *  @remark This method is only applicable on iOS 7 and below as the later OSes use variable
  *          coordinate system by default.
  *
