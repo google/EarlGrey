@@ -6,8 +6,8 @@ Details changes in each release of EarlGrey. EarlGrey follows
 ## [1.5.1](https://github.com/google/EarlGrey/tree/1.5.1) (11/04/2016)
 
 ```
-Baseline: [55d42a4]
-   + [55d42a4]: Updated ChangeLog and pod spec for 1.5.1 release
+Baseline: [d9eb1bc]
+   + [d9eb1bc]: Updated ChangeLog and pod spec for 1.5.1 release
 ```
 
 ### Compatibility
