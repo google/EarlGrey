@@ -19,7 +19,7 @@ Baseline: [d9eb1bc]
 * Fixed CI Ruby test for Carthage.
 
 ### Enhancements
-* Improved touch injection for speed and to work independent of screen refresh rate.
+* Improved touch injection speed by making it work independent of the screen refresh rate.
 * Added synchronization for NSURLConnection::sendSynchronousRequest.
 * Added synchronization support for data URLs.
 * Updated clearText action to accept elements conforming to UITextInput protocol.
