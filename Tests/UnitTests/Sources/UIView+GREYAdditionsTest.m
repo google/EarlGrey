@@ -182,8 +182,8 @@
 }
 
 - (void)testDrawRequestChangesPendingUIEventState {
-  // objc_precise_lifetime required so view is valid until end of the current scope.
-  __attribute__((objc_precise_lifetime)) UIView *view = [[UIView alloc] init];
+  // NS_VALID_UNTIL_END_OF_SCOPE required so view is valid until end of the current scope.
+  NS_VALID_UNTIL_END_OF_SCOPE UIView *view = [[UIView alloc] init];
   [view setNeedsDisplay];
   XCTAssertEqual(kGREYPendingDrawLayoutPass,
                  [[GREYAppStateTracker sharedInstance] currentState],
@@ -534,7 +534,7 @@
 
 - (void)testNotTrackedDuringDealloc {
   {
-    __attribute((objc_precise_lifetime)) UIViewDealloc *view = [[UIViewDealloc alloc] init];
+    NS_VALID_UNTIL_END_OF_SCOPE UIViewDealloc *view = [[UIViewDealloc alloc] init];
 
     [[GREYUIThreadExecutor sharedInstance] drainUntilIdle];
     XCTAssertEqual([[GREYAppStateTracker sharedInstance] currentState], kGREYIdle,

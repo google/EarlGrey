@@ -54,8 +54,8 @@ static const CFTimeInterval kMaxAnimationInterval = 5.0;
 
 - (void)testDrawRequestChangesPendingUIEventState {
   [[GREYAppStateTracker sharedInstance] grey_clearState];
-  // objc_precise_lifetime required so layer is valid until end of the current scope.
-  __attribute__((objc_precise_lifetime)) CALayer *layer = [[CALayer alloc] init];
+  // NS_VALID_UNTIL_END_OF_SCOPE required so layer is valid until end of the current scope.
+  NS_VALID_UNTIL_END_OF_SCOPE CALayer *layer = [[CALayer alloc] init];
   [layer setNeedsLayout];
   XCTAssertEqual(kGREYPendingDrawLayoutPass,
                  [[GREYAppStateTracker sharedInstance] currentState],
@@ -156,8 +156,8 @@ static const CFTimeInterval kMaxAnimationInterval = 5.0;
 
 - (void)testNotTrackedDuringDealloc {
   {
-    // objc_precise_lifetime required so layer is valid until end of the current scope.
-    __attribute__((objc_precise_lifetime)) CALayerDealloc *layer = [[CALayerDealloc alloc] init];
+    // NS_VALID_UNTIL_END_OF_SCOPE required so layer is valid until end of the current scope.
+    NS_VALID_UNTIL_END_OF_SCOPE CALayerDealloc *layer = [[CALayerDealloc alloc] init];
 
     [[GREYUIThreadExecutor sharedInstance] drainUntilIdle];
     XCTAssertEqual([[GREYAppStateTracker sharedInstance] currentState],

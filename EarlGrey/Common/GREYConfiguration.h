@@ -52,8 +52,12 @@ GREY_EXTERN NSString *const kGREYConfigKeyActionConstraintsEnabled;
 GREY_EXTERN NSString *const kGREYConfigKeyInteractionTimeoutDuration;
 
 /**
- *  Configuration that enables or disables synchronization for all actions and assertions.
- *  When disabled, actions and assertions DO NOT wait for the app to idle before proceeding.
+ *  Configuration that enables or disables EarlGrey's synchronization feature.
+ *  When disabled, any command that used to wait for the app to idle before proceeding will no
+ *  longer do so.
+ *
+ *  @remark For more fine-grained control over synchronization parameters, you can tweak other
+ *          provided configuration options.
  *
  *  Accepted values: @c BOOL (i.e. @c YES or @c NO)
  *  Default value: @c YES
