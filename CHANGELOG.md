@@ -3,6 +3,30 @@
 Details changes in each release of EarlGrey. EarlGrey follows
 [semantic versioning](http://semver.org/).
 
+## [1.5.1](https://github.com/google/EarlGrey/tree/1.5.1) (11/04/2016)
+
+```
+Baseline: [55d42a4]
+   + [55d42a4]: Updated ChangeLog and pod spec for 1.5.1 release
+```
+
+### Compatibility
+* Requires iOS 8 as the minimum deployment target.
+* The EarlGrey gem runs out of the box for [Swift 3.0](https://docs.google.com/document/d/1AeleXccp35EUX4ILa6CT3CwlxLSZq1YLrco9JF27p9k/edit) and Swift 2.3.
+* Has been tested for support till iOS 10.01 on devices and simulator.
+
+### Bug Fixes
+* Fixed CI Ruby test for Carthage.
+
+### Enhancements
+* Improved touch injection for speed and to work independent of screen refresh rate.
+* Added synchronization for NSURLConnection::sendSynchronousRequest.
+* Added synchronization support for data URLs.
+* Updated clearText action to accept elements conforming to UITextInput protocol.
+
+### Deprecations
+* Deprecated GREYFail in favor of GREYFailWithDetails.
+
 ## [1.5.0](https://github.com/google/EarlGrey/tree/1.5.0) (10/31/2016)
 
 ```
