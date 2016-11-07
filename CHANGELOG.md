@@ -75,6 +75,9 @@ Baseline: [b5e34db]
 * Corrected selection of `UIPickerView`s even when they were disabled.
 * Minor documentation and syntax fixes.
 
+### Deprecations
+* Deprecated GREYFail in favor of GREYFailWithDetails.
+
 ## [1.3.1](https://github.com/google/EarlGrey/tree/1.3.1) (09/19/2016)
 
 ```
