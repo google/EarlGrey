@@ -3,7 +3,7 @@
 Details changes in each release of EarlGrey. EarlGrey follows
 [semantic versioning](http://semver.org/).
 
-## [1.5.1](https://github.com/google/EarlGrey/tree/1.5.1) (11/04/2016)
+## [1.5.1](https://github.com/google/EarlGrey/tree/1.5.1) (11/07/2016)
 
 ```
 Baseline: [d9eb1bc]
@@ -21,11 +21,8 @@ Baseline: [d9eb1bc]
 ### Enhancements
 * Improved touch injection speed by making it work independent of the screen refresh rate.
 * Added synchronization for `NSURLConnection::sendSynchronousRequest`.
-* Removed synchronization data URLs (URLs with `data:` scheme).
-* Updated clearText action to accept elements conforming to UITextInput protocol.
-
-### Deprecations
-* Deprecated GREYFail in favor of GREYFailWithDetails.
+* Exclude URLs that start with `data` scheme from being synchronized.
+* Updated `grey_clearText` action to accept elements conforming to UITextInput protocol.
 
 ## [1.5.0](https://github.com/google/EarlGrey/tree/1.5.0) (10/31/2016)
 
