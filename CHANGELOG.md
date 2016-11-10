@@ -76,7 +76,7 @@ Baseline: [b5e34db]
 * Minor documentation and syntax fixes.
 
 ### Deprecations
-* Deprecated GREYFail in favor of GREYFailWithDetails.
+* Deprecated `GREYFail` in favor of `GREYFailWithDetails`.
 
 ## [1.3.1](https://github.com/google/EarlGrey/tree/1.3.1) (09/19/2016)
 
