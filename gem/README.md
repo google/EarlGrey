@@ -62,10 +62,8 @@ rake warn                  # Check for warnings
 
 The install command does the following by default:
 
-- Adds BridgingHeader.h and EarlGrey.swift to test target
 - FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/Carthage/Build/iOS";
 - HEADER_SEARCH_PATHS = "$(SRCROOT)/Carthage/Build/iOS/**";
-- SWIFT_OBJC_BRIDGING_HEADER = "$(TARGET_NAME)/BridgingHeader.h";
 - Add EarlGrey.swift to compile sources (PBXSourcesBuildPhase)
 - Link binary with libraries. EarlGrey.framework
 - Use carthage copy-files to ensure frameworks are signed, dSYMs/BCSymbolMaps copied.
