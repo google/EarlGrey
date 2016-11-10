@@ -194,6 +194,20 @@ class FunctionalTestRigSwiftTests: XCTestCase {
     }
   }
 
+  func testChangingDatePickerToAFutureDate() {
+    self.openTestView("Picker Views")
+    // Have an arbitrary date created
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateStyle = .medium
+    let date = Date(timeIntervalSinceReferenceDate: 118800)
+    dateFormatter.locale = Locale(identifier: "en_US")
+    EarlGrey.select(elementWithMatcher: grey_text("Date")).perform(grey_tap())
+    EarlGrey.select(elementWithMatcher: grey_accessibilityID("DatePickerId"))
+      .perform(grey_setDate(date))
+    EarlGrey.select(elementWithMatcher: grey_accessibilityID("DatePickerId"))
+      .assert(grey_datePickerValue(date))
+  }
+
   func waitForWebElementWithName(_ name: String, elementMatcher matcher: GREYMatcher) {
     GREYCondition(name: name + " Condition", block: {_ in
       var errorOrNil: NSError?
