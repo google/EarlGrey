@@ -54,8 +54,12 @@
 
 #if CGFLOAT_IS_DOUBLE
   #define grey_fabs(x) fabs(x)
+  #define grey_cos(x) cos(x)
+  #define grey_sin(x) sin(x)
 #else
   #define grey_fabs(x) fabsf(x)
+  #define grey_cos(x) cosf(x)
+  #define grey_sin(x) sinf(x)
 #endif
 
 #endif  // EARLGREY_DEFINES_H
