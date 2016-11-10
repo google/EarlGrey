@@ -159,8 +159,8 @@ CGFloat const kDefaultPinchAngle = (CGFloat)(30.0 * M_PI / 180.0);
 - (CGPoint)grey_pointOnCircleAtAngle:(CGFloat)angle
                               center:(CGPoint)center
                               radius:(CGFloat)radius {
-  return CGPointMake(center.x + (radius * cos(angle)),
-                     center.y + (radius * sin(angle)));
+  return CGPointMake(center.x + (radius * grey_cos(angle)),
+                     center.y + (radius * grey_sin(angle)));
 }
 
 @end
