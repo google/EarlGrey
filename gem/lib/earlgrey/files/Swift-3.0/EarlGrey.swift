@@ -14,6 +14,9 @@
 // limitations under the License.
 //
 
+import EarlGrey
+import Foundation
+
 public func GREYAssert(_ expression: @autoclosure () -> Bool, reason: String) {
   GREYAssert(expression, reason, details: "Expected expression to be true")
 }

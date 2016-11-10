@@ -30,7 +30,6 @@
 		FD8B60D51D90E8B500E5821A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FD8B60DA1D90E8B500E5821A /* ExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD8B60DE1D90E8B500E5821A /* ExampleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleTests.swift; sourceTree = "<group>"; };
-		FD8B61141D92063E00E5821A /* BridgingHeader.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = BridgingHeader.h; sourceTree = "<group>"; };
 		FD8B61151D92063E00E5821A /* EarlGrey.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = EarlGrey.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -86,7 +85,6 @@
 			children = (
 				FD8B61151D92063E00E5821A /* EarlGrey.swift */,
 				FD8B60DE1D90E8B500E5821A /* ExampleTests.swift */,
-				FD8B61141D92063E00E5821A /* BridgingHeader.h */,
 			);
 			path = ExampleTests;
 			sourceTree = "<group>";

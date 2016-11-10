@@ -14,6 +14,9 @@
 // limitations under the License.
 //
 
+import EarlGrey
+import Foundation
+
 public func grey_allOfMatchers(args: AnyObject...) -> GREYMatcher! {
   return GREYAllOf(matchers: args)
 }

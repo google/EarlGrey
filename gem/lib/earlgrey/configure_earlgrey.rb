@@ -126,7 +126,7 @@ module EarlGrey
       # Add header/framework search paths for carthage
       add_carthage_search_paths
 
-      # Adds BridgingHeader.h, EarlGrey.swift and sets bridging header.
+      # Adds EarlGrey.swift
       copy_swift_files
 
       save_earlgrey_scheme_changes(scheme) unless scheme.nil?
@@ -334,11 +334,8 @@ module EarlGrey
       user_project.save
     end
 
-    SWIFT_OBJC_BRIDGING_HEADER = 'SWIFT_OBJC_BRIDGING_HEADER'.freeze
-
-    # Copies Swift bridging header and configures the test target's build configuration to use it.
     # Copies EarlGrey.swift and adds it to the project.
-    # Adds EarlGrey.swift and BridgingHeader.h to project's test target group.
+    # Adds EarlGrey.swift to project's test target group.
     # Adds EarlGrey.swift to testing target's source build phase
     # Adds Link Binary With Libraries phase to test target for EarlGrey.framework
     # Adds shell script phase that runs Carthage copy-frameworks
@@ -346,23 +343,10 @@ module EarlGrey
     # No op if swift isn't true
     def copy_swift_files
       return unless swift
-      bridge_path = '$(TARGET_NAME)/BridgingHeader.h'
-
-      test_target.build_configurations.each do |config|
-        settings = config.build_settings
-        settings[SWIFT_OBJC_BRIDGING_HEADER] = bridge_path
-      end
-
-      user_project.save
 
       src_root = File.join(__dir__, 'files')
       dst_root = File.join(dir_path, test_target_name)
       raise "Missing target folder #{dst_root}" unless File.exist? dst_root
-
-      src_header_name = 'BridgingHeader.h'
-      src_header = File.join(src_root, src_header_name)
-      raise 'Bundled header missing' unless File.exist? src_header
-      dst_header = File.join(dst_root, src_header_name)
 
       src_swift_name = 'EarlGrey.swift'
       src_swift = File.join(src_root, "Swift-#{swift_version}", src_swift_name)
@@ -370,7 +354,6 @@ module EarlGrey
       raise 'Bundled swift missing' unless File.exist? src_swift
       dst_swift = File.join(dst_root, src_swift_name)
 
-      FileUtils.copy src_header, dst_header
       FileUtils.copy src_swift, dst_swift
 
       project_test_targets = user_project.main_group.children
@@ -378,7 +361,7 @@ module EarlGrey
       raise "Test target group not found! #{test_target_group}" unless test_target_group
 
       # Add files to testing target group otherwise Xcode can't read them.
-      new_files = [src_header_name, src_swift_name]
+      new_files = [src_swift_name]
       existing_files = test_target_group.children.map(&:display_name)
 
       new_files.each do |file|
