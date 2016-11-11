@@ -62,6 +62,7 @@ rake warn                  # Check for warnings
 
 The install command does the following by default:
 
+-- Adds EarlGrey.swift to test target
 - FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/Carthage/Build/iOS";
 - HEADER_SEARCH_PATHS = "$(SRCROOT)/Carthage/Build/iOS/**";
 - Add EarlGrey.swift to compile sources (PBXSourcesBuildPhase)
