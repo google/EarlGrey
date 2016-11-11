@@ -21,6 +21,8 @@
   id<GREYZeroToleranceTimerTarget> _target;
   // The internal dispatch timer used for firing timeouts.
   dispatch_source_t _timer;
+  // Holds the NSProcessInfo's activity id for high-precision timer.
+  NSObject *_activityID;
 }
 
 - (instancetype)initWithInterval:(CFTimeInterval)interval
@@ -29,8 +31,11 @@
   self = [super init];
   if (self) {
     _target = target;
-    _timer = [GREYZeroToleranceTimer scheduleZeroToleranceTimerWithInterval:interval
-                                                                    handler:^{
+    _activityID =
+        [[NSProcessInfo processInfo] beginActivityWithOptions:NSActivityLatencyCritical
+                                                       reason:@"Using high-precision timer."];
+    _timer = [GREYZeroToleranceTimer grey_scheduleZeroToleranceTimerWithInterval:interval
+                                                                         handler:^{
       [_target timerFiredWithZeroToleranceTimer:self];
     }];
   }
@@ -46,6 +51,10 @@
     dispatch_source_cancel(_timer);
     _timer = nil;
   }
+  if (_activityID) {
+    [[NSProcessInfo processInfo] endActivity:_activityID];
+    _activityID = nil;
+  }
   _target = nil;
 }
 
@@ -57,8 +66,8 @@
  *
  *  @return A dispatch_source_t pointing to the newly created timer.
  */
-+ (dispatch_source_t)scheduleZeroToleranceTimerWithInterval:(CFTimeInterval)interval
-                                                    handler:(void(^)())handler {
++ (dispatch_source_t)grey_scheduleZeroToleranceTimerWithInterval:(CFTimeInterval)interval
+                                                         handler:(void(^)())handler {
   dispatch_source_t timer =
       dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, dispatch_get_main_queue());
   NSAssert(timer, @"Timer could not be created");

@@ -286,13 +286,7 @@ your test and in your application code and use the built-in tools seamlessly.
 If you want to write your test cases in Swift, you need to perform two additional
 steps in your setup:
 
-1. Import EarlGrey in your test bundle's bridging header:
-
-   ```objc
-    #import <EarlGrey/EarlGrey.h>
-   ```
-
-2. Include the `EarlGrey.swift` file in your Swift Test Project. The file contain functions that
+1. Include the `EarlGrey.swift` file in your Swift Test Project. The file contains functions that
    implement C preprocessor macros that aren't available in Swift.
 
   * **If you're using the [earlgrey gem](https://rubygems.org/gems/earlgrey)**
@@ -317,6 +311,8 @@ steps in your setup:
 Here is an example of a very basic EarlGrey test written in Swift:
 
 ```swift
+import EarlGrey
+
  // Select the button with Accessibility ID "clickMe" and assert it's visible.
  EarlGrey().selectElementWithMatcher(grey_accessibilityID("ClickMe"))
      .assertWithMatcher(grey_sufficientlyVisible())

@@ -14,6 +14,7 @@
 // limitations under the License.
 //
 
+import EarlGrey
 import XCTest
 
 class TextFieldEventsRecorder {
