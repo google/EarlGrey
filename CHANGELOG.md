@@ -3,6 +3,20 @@
 Details changes in each release of EarlGrey. EarlGrey follows
 [semantic versioning](http://semver.org/).
 
+## [1.5.2](https://github.com/google/EarlGrey/tree/1.5.2) (11/11/2016)
+
+```
+Baseline: [f3ee931]
+   + [f3ee931]: Updated ChangeLog and pod spec for 1.5.2 release
+```
+
+### Compatibility
+* Handle bit-dependent CGFloat with bit-dependent trig function
+
+### Enhancements
+* Enhance precision of timer used for touch injection
+* Removed requirement for bridging header for Swift and EarlGrey
+
 ## [1.5.1](https://github.com/google/EarlGrey/tree/1.5.1) (11/07/2016)
 
 ```
