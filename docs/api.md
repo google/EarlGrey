@@ -419,6 +419,12 @@ nil
 non-nil value
   * `GREYAssertEqual(left, right, reason, ...)` — Fails if left != right for scalar
 types
+  * `GREYAssertNotEqual(left, right, reason, ...)` — Fails if left == right for scalar
+types
+  * `GREYAssertEqualObjects(left, right, reason, ...)` — Fails if [left isEqual:right] returns
+false
+  * `GREYAssertNotEqualObjects(left, right, reason, ...)` — Fails if [left isEqual:right] returns
+true
   * `GREYFail(reason, ...)` — Fails immediately with the provided reason
   * `GREYFailWithDetails(reason, details, ...)` — Fails immediately with the provided reason and
   details
