@@ -3,11 +3,11 @@
 Details changes in each release of EarlGrey. EarlGrey follows
 [semantic versioning](http://semver.org/).
 
-## [1.5.2](https://github.com/google/EarlGrey/tree/1.5.2) (11/11/2016)
+## [1.5.3](https://github.com/google/EarlGrey/tree/1.5.3) (11/11/2016)
 
 ```
 Baseline: [f3ee931]
-   + [f3ee931]: Updated ChangeLog and pod spec for 1.5.2 release
+   + [f3ee931]: Updated ChangeLog and pod spec for 1.5.3 release
 ```
 
 ### Compatibility
