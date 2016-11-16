@@ -6,9 +6,12 @@ Details changes in each release of EarlGrey. EarlGrey follows
 ## [1.5.3](https://github.com/google/EarlGrey/tree/1.5.3) (11/14/2016)
 
 ```
-Baseline: [512a0e6]
-   + [512a0e6]: Updated ChangeLog and pod spec for 1.5.3 release
+Baseline: [690eaa2]
+   + [690eaa2]: Updated ChangeLog and pod spec for 1.5.3 release
 ```
+
+### Enhancements
+* Resolve CocoaPods rating
 
 ## [1.5.2](https://github.com/google/EarlGrey/tree/1.5.2) (11/11/2016)
 
