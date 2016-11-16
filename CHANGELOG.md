@@ -11,7 +11,7 @@ Baseline: [690eaa2]
 ```
 
 ### Enhancements
-* Resolve CocoaPods rating [bug](https://github.com/CocoaPods/CocoaPods/issues/6175)
+* Resolve CocoaPods rating [Github issue](https://github.com/CocoaPods/CocoaPods/issues/6175)
 
 ## [1.5.2](https://github.com/google/EarlGrey/tree/1.5.2) (11/11/2016)
 
