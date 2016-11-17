@@ -3,6 +3,16 @@
 Details changes in each release of EarlGrey. EarlGrey follows
 [semantic versioning](http://semver.org/).
 
+## [1.5.3](https://github.com/google/EarlGrey/tree/1.5.3) (11/14/2016)
+
+```
+Baseline: [690eaa2]
+   + [690eaa2]: Updated ChangeLog and pod spec for 1.5.3 release
+```
+
+### Enhancements
+* Resolve CocoaPods rating [Github issue](https://github.com/CocoaPods/CocoaPods/issues/6175)
+
 ## [1.5.2](https://github.com/google/EarlGrey/tree/1.5.2) (11/11/2016)
 
 ```
