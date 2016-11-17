@@ -894,7 +894,6 @@
 				597E02D91D55AD100052A8D1 /* GREYUIWindowProvider.h in Headers */,
 				597E02DA1D55AD100052A8D1 /* GREYRunLoopSpinner.h in Headers */,
 				FD1948261DA231ED00B9BA2D /* GREYStopwatch.h in Headers */,
-				FD1948281DA231ED00B9BA2D /* GREYTestCaseInvocation.h in Headers */,
 				6113A2ED1D7F72FA00443D9B /* GREYStringDescription.h in Headers */,
 				597E02DB1D55AD100052A8D1 /* GREYAppStateTracker.h in Headers */,
 				597E02DD1D55AD100052A8D1 /* GREYTimedIdlingResource.h in Headers */,
@@ -1002,7 +1001,6 @@
 				611BF16C1D4CD705001D9E46 /* GREYManagedObjectContextIdlingResource.m in Sources */,
 				FD1002271C5B46C200B2DB0A /* GREYSyntheticEvents.m in Sources */,
 				FD1002341C5B46C200B2DB0A /* GREYElementMatcherBlock.m in Sources */,
-				FD1948291DA231ED00B9BA2D /* GREYTestCaseInvocation.m in Sources */,
 				FD1001DC1C5B46C200B2DB0A /* NSRunLoop+GREYAdditions.m in Sources */,
 				611BF1681D4CD292001D9E46 /* GREYDispatchQueueTracker.m in Sources */,
 				61FC0A081CD939C30081BDAA /* GREYAutomationSetup.m in Sources */,
@@ -1231,6 +1229,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = NS_BLOCK_ASSERTIONS;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MODULEMAP_FILE = "";
