@@ -256,8 +256,7 @@ Make sure the matchers are ordered from most specific to least. For example:
 
 ```swift
 // Swift
-grey_allOfMatchers(grey_accessibilityID("Foo"),
-                   grey_sufficientlyVisible())
+grey_allOfMatchers([grey_accessibilityID("Foo"), grey_sufficientlyVisible()])
 ```
 
 ```objc
@@ -272,8 +271,7 @@ If we had the order wrong:
 
 ```swift
 // Swift
-grey_allOfMatchers(grey_sufficientlyVisible(),
-                   grey_accessibilityID("Foo"))
+grey_allOfMatchers([grey_sufficientlyVisible(), grey_accessibilityID("Foo")])
 ```
 
 ```objc
