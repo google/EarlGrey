@@ -16,7 +16,7 @@ the first element.
  *  EarlGrey().selectElementWithMatcher(grey_allOfMatchers([
  *    grey_accessibilityID("some_id"),
  *    grey_interactable(),
- *    grey_firstElement())).assertWithMatcher(grey_notNil())
+ *    grey_firstElement()])).assertWithMatcher(grey_notNil())
  *
  *  Only intended to be used with selectElementWithMatcher.
  */
