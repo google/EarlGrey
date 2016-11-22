@@ -19,16 +19,20 @@ platform :ios, '8.0'
 source 'https://github.com/CocoaPods/Specs.git'
 
 PROJECT_NAME = 'EarlGreyExample'
-TARGETS = %w[EarlGreyExampleTests EarlGreyExampleSwiftTests]
 
-TARGETS.each do |test_target|
-  target test_target do
-    project PROJECT_NAME
+target EarlGreyExampleTests do
+  project 'EarlGreyExample'
 
-    use_frameworks!
-    inherit! :search_paths
-    pod 'EarlGrey'
-  end
+  inherit! :search_paths
+  pod 'EarlGrey'
+end
+
+target EarlGreyExampleSwiftTests do
+  project 'EarlGreyExample'
+
+  use_frameworks!
+  inherit! :search_paths
+  pod 'EarlGrey'
 end
 
 post_install do |installer|
@@ -50,3 +54,4 @@ post_install do |installer|
     configure_for_earlgrey(installer, PROJECT_NAME, test_target, test_target + '.xcscheme', var_args)
   end
 end
+

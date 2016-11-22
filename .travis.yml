@@ -66,9 +66,9 @@ before_install:
 before_script:
   - Scripts/setup-earlgrey.sh
 script:
- - Scripts/travis.sh
+  - Scripts/travis.sh
 after_failure:
- - tail -n 200 xcodebuild.log
+  - tail -n 200 xcodebuild.log
 branches:
   only:
-  - master
+    - master

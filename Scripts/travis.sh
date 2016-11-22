@@ -42,12 +42,12 @@ execute_xcodebuild() {
   [[ "${ACTION}" == *"test"* ]] && is_running_test=1 || is_running_test=0
 
   # Are we running a workspace or a project?
-  [[ "${1}" == *"xcodeproj"* ]] && setup_type="-project" || setup_type="-workspace"
+  [[ "${1}" == *".xcodeproj"* ]] && file_type="-project" || file_type="-workspace"
 
   for retry_attempts in {1..3}; do
     # As we are attempting retries, disable exiting when command below fails.
     set +e
-    env NSUnbufferedIO=YES xcodebuild ${setup_type} ${1} -scheme ${2} -sdk "$SDK" -destination "$DESTINATION" -configuration "$CONFIG" ONLY_ACTIVE_ARCH=NO $ACTION | tee xcodebuild.log | xcpretty -sc;
+    env NSUnbufferedIO=YES xcodebuild ${file_type} ${1} -scheme ${2} -sdk "$SDK" -destination "$DESTINATION" -configuration "$CONFIG" ONLY_ACTIVE_ARCH=NO $ACTION | tee xcodebuild.log | xcpretty -sc;
     retval_command=$?
 
     # Retry condition 1: Tests haven't started.
@@ -104,9 +104,7 @@ elif [ "${TYPE}" == "EXAMPLE_PODS" ]; then
   pod install --project-directory=Demo/EarlGreyExample
   execute_xcodebuild Demo/EarlGreyExample/EarlGreyExample.xcworkspace EarlGreyExampleTests
 elif [ "${TYPE}" == "EXAMPLE_PODS_SWIFT" ]; then
-  cd gem/
-  rake install
-  cd ..
+  rake -f gem/Rakefile install
   pod install --project-directory=Demo/EarlGreyExample
   execute_xcodebuild Demo/EarlGreyExample/EarlGreyExample.xcworkspace EarlGreyExampleSwiftTests
 elif [ "${TYPE}" == "CARTHAGE" ]; then
