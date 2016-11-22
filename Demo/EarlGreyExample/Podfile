@@ -25,6 +25,7 @@ TARGETS.each do |test_target|
   target test_target do
     project PROJECT_NAME
 
+    use_frameworks!
     inherit! :search_paths
     pod 'EarlGrey'
   end

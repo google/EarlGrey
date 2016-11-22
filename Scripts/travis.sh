@@ -97,6 +97,12 @@ elif [ "${TYPE}" == "CONTRIB" ]; then
   execute_xcodebuild Demo/EarlGreyContribs/EarlGreyContribs.xcodeproj EarlGreyContribsTests
 elif [ "${TYPE}" == "CONTRIB_SWIFT" ]; then
   execute_xcodebuild Demo/EarlGreyContribs/EarlGreyContribs.xcodeproj EarlGreyContribsSwiftTests
+elif [ "${TYPE}" == "EXAMPLE_PODS" ]; then
+  pod install
+  execute_xcodebuild Demo/EarlGreyExample/EarlGreyExample.xcworkspace EarlGreyExampleTests
+elif [ "${TYPE}" == "EXAMPLE_PODS_SWIFT" ]; then
+  pod install
+  execute_xcodebuild Demo/EarlGreyExample/EarlGreyExample.xcworkspace EarlGreyExampleSwiftTests
 elif [ "${TYPE}" == "CARTHAGE" ]; then
   CONFIG="Release"
   ACTION="clean build"

@@ -51,6 +51,12 @@ matrix:
     - osx_image: xcode8
       env:
         - DESTINATION="OS=10.0,name=iPhone 7 Plus" SDK=iphonesimulator10.0 TYPE="UNIT"
+    - osx_image: xcode8
+      env:
+        - DESTINATION="OS=10.0,name=iPhone 7 Plus" SDK=iphonesimulator10.0 TYPE="EXAMPLE_PODS"
+    - osx_image: xcode8
+      env:
+        - DESTINATION="OS=10.0,name=iPhone 7 Plus" SDK=iphonesimulator10.0 TYPE="EXAMPLE_PODS_SWIFT"
     - env:
       - TYPE="RUBY"
 before_install:
