@@ -15,8 +15,6 @@
 		5F5A537E1ADE67D500F81DF0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5A537D1ADE67D500F81DF0 /* AppDelegate.swift */; };
 		5F99610B1AE0CF4F0034F503 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5F9961061AE0CF4F0034F503 /* Images.xcassets */; };
 		5FDE055D1B0DAA090037B82F /* EarlGreyExampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FDE055C1B0DAA090037B82F /* EarlGreyExampleTests.m */; };
-		B138493F020E5722396DA089 /* libPods-EarlGreyExampleTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D46EAF7D333CC260482B66F /* libPods-EarlGreyExampleTests.a */; };
-		D72CF3BA7F23B2D76BDB796B /* libPods-EarlGreyExampleSwiftTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE5C2CF8BE11314537DC2497 /* libPods-EarlGreyExampleSwiftTests.a */; };
 		FD983D6A1D67E0BE0059F4CC /* EarlGrey.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD983D691D67E0BE0059F4CC /* EarlGrey.swift */; };
 /* End PBXBuildFile section */
 
@@ -38,14 +36,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		14B7C7CB16519288F6A8197D /* Pods-EarlGreyExampleTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EarlGreyExampleTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-EarlGreyExampleTests/Pods-EarlGreyExampleTests.release.xcconfig"; sourceTree = "<group>"; };
 		2C2C13E81C346CAB006F467D /* BridgingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BridgingHeader.h; sourceTree = "<group>"; };
 		2CB7314D1C29E54A00CF35C1 /* EarlGreyExampleSwiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EarlGreyExampleSwiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CB7314F1C29E54A00CF35C1 /* EarlGreyExampleSwiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarlGreyExampleSwiftTests.swift; sourceTree = "<group>"; };
 		2CB731511C29E54A00CF35C1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2CB731571C29E5C800CF35C1 /* BridgingHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BridgingHeader.h; sourceTree = "<group>"; };
 		2CE7FA471C35AAB00079DE2F /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		540847E26AB719CEC24DB704 /* Pods-EarlGreyExampleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EarlGreyExampleTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-EarlGreyExampleTests/Pods-EarlGreyExampleTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5F5A53501ADE670C00F81DF0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../EarlGreyExample/Info.plist; sourceTree = "<group>"; };
 		5F5A535A1ADE670C00F81DF0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5F5A53791ADE67D500F81DF0 /* EarlGreyExampleSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EarlGreyExampleSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -54,10 +50,6 @@
 		5F9961071AE0CF4F0034F503 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = SOURCE_ROOT; };
 		5FDE05581B0DAA090037B82F /* EarlGreyExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EarlGreyExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FDE055C1B0DAA090037B82F /* EarlGreyExampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EarlGreyExampleTests.m; sourceTree = "<group>"; };
-		5FE4B5D7B5765034B220C51F /* Pods-EarlGreyExampleSwiftTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EarlGreyExampleSwiftTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-EarlGreyExampleSwiftTests/Pods-EarlGreyExampleSwiftTests.debug.xcconfig"; sourceTree = "<group>"; };
-		6F7D181E51534A271B63232D /* Pods-EarlGreyExampleSwiftTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EarlGreyExampleSwiftTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-EarlGreyExampleSwiftTests/Pods-EarlGreyExampleSwiftTests.release.xcconfig"; sourceTree = "<group>"; };
-		8D46EAF7D333CC260482B66F /* libPods-EarlGreyExampleTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-EarlGreyExampleTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		CE5C2CF8BE11314537DC2497 /* libPods-EarlGreyExampleSwiftTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-EarlGreyExampleSwiftTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD983D691D67E0BE0059F4CC /* EarlGrey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EarlGrey.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -66,7 +58,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D72CF3BA7F23B2D76BDB796B /* libPods-EarlGreyExampleSwiftTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,7 +72,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B138493F020E5722396DA089 /* libPods-EarlGreyExampleTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -99,15 +89,6 @@
 			path = EarlGreyExampleSwiftTests;
 			sourceTree = "<group>";
 		};
-		3A463122608DA40CD297FB5B /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				8D46EAF7D333CC260482B66F /* libPods-EarlGreyExampleTests.a */,
-				CE5C2CF8BE11314537DC2497 /* libPods-EarlGreyExampleSwiftTests.a */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		5F5A53431ADE670C00F81DF0 = {
 			isa = PBXGroup;
 			children = (
@@ -116,8 +97,6 @@
 				2CB7314E1C29E54A00CF35C1 /* EarlGreyExampleSwiftTests */,
 				5F5A534D1ADE670C00F81DF0 /* Products */,
 				5F9961041AE0CF4F0034F503 /* Shared */,
-				E20C73A98BDCC01A389F66E0 /* Pods */,
-				3A463122608DA40CD297FB5B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 			wrapsLines = 0;
@@ -170,17 +149,6 @@
 			path = EarlGreyExampleTests;
 			sourceTree = "<group>";
 		};
-		E20C73A98BDCC01A389F66E0 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				540847E26AB719CEC24DB704 /* Pods-EarlGreyExampleTests.debug.xcconfig */,
-				14B7C7CB16519288F6A8197D /* Pods-EarlGreyExampleTests.release.xcconfig */,
-				5FE4B5D7B5765034B220C51F /* Pods-EarlGreyExampleSwiftTests.debug.xcconfig */,
-				6F7D181E51534A271B63232D /* Pods-EarlGreyExampleSwiftTests.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -188,12 +156,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2CB731541C29E54A00CF35C1 /* Build configuration list for PBXNativeTarget "EarlGreyExampleSwiftTests" */;
 			buildPhases = (
-				FD959BB2A48726E9F209F796 /* [CP] Check Pods Manifest.lock */,
 				2CB731491C29E54A00CF35C1 /* Sources */,
 				2CB7314A1C29E54A00CF35C1 /* Frameworks */,
 				2CB7314B1C29E54A00CF35C1 /* Resources */,
-				FB6BD5CE1AEFEF9A71982797 /* [CP] Embed Pods Frameworks */,
-				DDEC9CF1B0D4F54C1B412C58 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -226,12 +191,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5FDE05621B0DAA090037B82F /* Build configuration list for PBXNativeTarget "EarlGreyExampleTests" */;
 			buildPhases = (
-				0166C8F7037B87E3D731F7C7 /* [CP] Check Pods Manifest.lock */,
 				5FDE05541B0DAA090037B82F /* Sources */,
 				5FDE05551B0DAA090037B82F /* Frameworks */,
 				5FDE05561B0DAA090037B82F /* Resources */,
-				D79A64509DEFA5F223AF6416 /* [CP] Embed Pods Frameworks */,
-				9D3EB4BFF27FE8ED94A60C21 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -315,99 +277,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		0166C8F7037B87E3D731F7C7 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		9D3EB4BFF27FE8ED94A60C21 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-EarlGreyExampleTests/Pods-EarlGreyExampleTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D79A64509DEFA5F223AF6416 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-EarlGreyExampleTests/Pods-EarlGreyExampleTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		DDEC9CF1B0D4F54C1B412C58 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-EarlGreyExampleSwiftTests/Pods-EarlGreyExampleSwiftTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		FB6BD5CE1AEFEF9A71982797 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-EarlGreyExampleSwiftTests/Pods-EarlGreyExampleSwiftTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		FD959BB2A48726E9F209F796 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		2CB731491C29E54A00CF35C1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -466,7 +335,6 @@
 /* Begin XCBuildConfiguration section */
 		2CB731551C29E54A00CF35C1 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5FE4B5D7B5765034B220C51F /* Pods-EarlGreyExampleSwiftTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -488,7 +356,6 @@
 		};
 		2CB731561C29E54A00CF35C1 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6F7D181E51534A271B63232D /* Pods-EarlGreyExampleSwiftTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -641,7 +508,6 @@
 		};
 		5FDE05601B0DAA090037B82F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 540847E26AB719CEC24DB704 /* Pods-EarlGreyExampleTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
@@ -659,7 +525,7 @@
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					EarlGreyExample,
-					$CONFIGURATION_TEMP_DIR/EarlGreyExampleSwift.build/DerivedSources,
+					"$CONFIGURATION_TEMP_DIR/EarlGreyExampleSwift.build/DerivedSources",
 				);
 				INFOPLIST_FILE = EarlGreyExample/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
@@ -676,7 +542,6 @@
 		};
 		5FDE05611B0DAA090037B82F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 14B7C7CB16519288F6A8197D /* Pods-EarlGreyExampleTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
@@ -691,7 +556,7 @@
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					EarlGreyExample,
-					$CONFIGURATION_TEMP_DIR/EarlGreyExampleSwift.build/DerivedSources,
+					"$CONFIGURATION_TEMP_DIR/EarlGreyExampleSwift.build/DerivedSources",
 				);
 				INFOPLIST_FILE = EarlGreyExample/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
