@@ -32,7 +32,14 @@ TARGETS.each do |test_target|
 end
 
 post_install do |installer|
-  require 'earlgrey'
+  # If the EarlGrey gem is not present in your system, then install it.
+  begin
+    require 'earlgrey'
+  rescue LoadError
+    require 'rubygems/command_manager'
+    Gem::CommandManager.instance[:install].install_gem('earlgrey', Gem::Requirement.default)
+    require 'earlgrey'
+  end
 
   # For each test target, you need to call the EarlGrey script's edit method once.
   TARGETS.each do |test_target|
