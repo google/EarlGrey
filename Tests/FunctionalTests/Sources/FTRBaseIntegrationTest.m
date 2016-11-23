@@ -23,7 +23,8 @@
 
 - (void)setUp {
   [super setUp];
-  _currentFailureHandler = greyFailureHandler;
+  _currentFailureHandler =
+      [[[NSThread currentThread] threadDictionary] valueForKey:kGREYFailureHandlerKey];
   // By default, make all tests assume portrait position.
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait errorOrNil:nil];
 }

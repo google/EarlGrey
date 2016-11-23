@@ -17,6 +17,8 @@
 #import <EarlGrey/GREYDefines.h>
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  Generic framework failure.
  */
@@ -75,6 +77,22 @@ GREY_EXTERN NSString *const kGREYTimeoutException;
  *
  *  @return A GREYFrameworkException instance, initialized with a @c name and @c reason.
  */
-+ (GREYFrameworkException *)exceptionWithName:(NSString *)name reason:(NSString *)reason;
++ (instancetype)exceptionWithName:(NSString *)name reason:(nullable NSString *)reason;
+
+/**
+ *  Creates a new exception instance.
+ *
+ *  @param name     The name of the exception.
+ *  @param reason   The reason for the exception.
+ *  @param userInfo userInfo as used by @c NSException.
+ *                  EarlGrey doesn't use this param so it's safe to pass nil.
+ *
+ *  @return A GREYFrameworkException instance, initialized with a @c name and @c reason.
+ */
++ (instancetype)exceptionWithName:(NSString *)name
+                           reason:(nullable NSString *)reason
+                         userInfo:(nullable NSDictionary *)userInfo;
 
 @end
+
+NS_ASSUME_NONNULL_END

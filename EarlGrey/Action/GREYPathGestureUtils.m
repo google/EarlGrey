@@ -123,9 +123,9 @@ static CGFloat kCachedScreenEdgePanDetectionLength = NAN;
   CGPoint endPoint = [self grey_pointOnEdge:edgeClosestToEndPoint ofRect:safeScreenBounds];
   CGFloat scrollAmountPossible;
   if ([self grey_isVerticalDirection:interfaceTransformedDirection]) {
-    scrollAmountPossible = grey_fabs(endPoint.y - startPoint.y);
+    scrollAmountPossible = (CGFloat)fabs(endPoint.y - startPoint.y);
   } else {
-    scrollAmountPossible = grey_fabs(endPoint.x - startPoint.x);
+    scrollAmountPossible = (CGFloat)fabs(endPoint.x - startPoint.x);
   }
   scrollAmountPossible -= kGREYScrollDetectionLength;
   if (scrollAmountPossible <= 0) {
