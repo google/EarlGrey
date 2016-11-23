@@ -13,7 +13,7 @@
     <a title="Functions  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html">EarlGrey Docs</a> (93% documented)</p>
+        <p><a href="index.html">EarlGrey Docs</a> (94% documented)</p>
         <p class="header-right"><a href="https://github.com/google/EarlGrey"><img src="img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -120,9 +120,6 @@
             <a href="Constants.html">Constants</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="Constants.html#/c:@greyFailureHandler">greyFailureHandler</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="Constants.html#/c:@kGREYAcceptableFloatDifference">kGREYAcceptableFloatDifference</a>
               </li>
               <li class="nav-group-task">
@@ -193,6 +190,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="Constants.html#/c:@kGREYDidPerformAssertionNotification">kGREYDidPerformAssertionNotification</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Constants.html#/c:@kGREYFailureHandlerKey">kGREYFailureHandlerKey</a>
               </li>
               <li class="nav-group-task">
                 <a href="Constants.html#/c:@kGREYGenericFailureException">kGREYGenericFailureException</a>
@@ -500,7 +500,13 @@
                 <a href="Functions.html#/c:@F@grey_pinchFastInDirection">grey_pinchFastInDirection</a>
               </li>
               <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_pinchFastInDirectionAndAngle">grey_pinchFastInDirectionAndAngle</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Functions.html#/c:@F@grey_pinchSlowInDirection">grey_pinchSlowInDirection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_pinchSlowInDirectionAndAngle">grey_pinchSlowInDirectionAndAngle</a>
               </li>
               <li class="nav-group-task">
                 <a href="Functions.html#/c:@F@grey_progress">grey_progress</a>
@@ -1059,6 +1065,64 @@ GREYActions::actionForSwipeSlowInDirection:xOriginStartPercentage:yOriginStartPe
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/c:@F@grey_pinchFastInDirectionAndAngle"></a>
+                    <a name="//apple_ref/objc/Function/grey_pinchFastInDirectionAndAngle" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_pinchFastInDirectionAndAngle">grey_pinchFastInDirectionAndAngle</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand macro for GREYActions::actionForPinchFastInDirection:pinchDirection:angle:.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span>
+<span class="n">grey_pinchFastInDirectionAndAngle</span><span class="p">(</span><span class="n"><a href="Enums/GREYPinchDirection.html">GREYPinchDirection</a></span> <span class="n">pinchDirection</span><span class="p">,</span>
+                                  <span class="kt">double</span> <span class="n">angle</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_pinchSlowInDirectionAndAngle"></a>
+                    <a name="//apple_ref/objc/Function/grey_pinchSlowInDirectionAndAngle" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_pinchSlowInDirectionAndAngle">grey_pinchSlowInDirectionAndAngle</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand macro for GREYActions::actionForPinchSlowInDirection:pinchDirection:angle:.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span>
+<span class="n">grey_pinchSlowInDirectionAndAngle</span><span class="p">(</span><span class="n"><a href="Enums/GREYPinchDirection.html">GREYPinchDirection</a></span> <span class="n">pinchDirection</span><span class="p">,</span>
+                                  <span class="kt">double</span> <span class="n">angle</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/c:@F@grey_moveSliderToValue"></a>
                     <a name="//apple_ref/objc/Function/grey_moveSliderToValue" class="dashAnchor"></a>
                     <a class="token" href="#/c:@F@grey_moveSliderToValue">grey_moveSliderToValue</a>
@@ -1479,6 +1543,11 @@ GREYActions::actionForSwipeSlowInDirection:xOriginStartPercentage:yOriginStartPe
                           <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_allOfMatchers</span><span class="p">(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">matchers</span><span class="p">)</span></code></pre>
 
                         </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">grey_allOfMatchers</span><span class="p">(</span><span class="nv">matchers</span><span class="p">:</span> <span class="p">[</span><span class="kt">AnyObject</span><span class="p">]</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyObject</span><span class="o">!</span></code></pre>
+
+                        </div>
                       </div>
                       <div>
                         <h4>Parameters</h4>
@@ -1602,6 +1671,11 @@ value.</p>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
                           <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_anyOfMatchers</span><span class="p">(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">matchers</span><span class="p">)</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">grey_anyOfMatchers</span><span class="p">(</span><span class="nv">matchers</span><span class="p">:</span> <span class="p">[</span><span class="kt">AnyObject</span><span class="p">]</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyObject</span><span class="o">!</span></code></pre>
 
                         </div>
                       </div>
@@ -2963,6 +3037,11 @@ value.</p>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
                           <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_not</span><span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">matcher</span><span class="p">)</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">grey_not</span><span class="p">(</span><span class="nv">matcher</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyObject</span><span class="o">!</span></code></pre>
 
                         </div>
                       </div>
