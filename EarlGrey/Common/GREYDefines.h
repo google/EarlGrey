@@ -25,9 +25,7 @@
 #define EARLGREY_DEFINES_H
 
 #define GREY_EXPORT FOUNDATION_EXPORT __used
-
 #define GREY_EXTERN FOUNDATION_EXTERN
-
 #define GREY_UNUSED_VARIABLE __attribute__((unused))
 
 #define iOS8_0_OR_ABOVE() ([UIDevice currentDevice].systemVersion.doubleValue >= 8.0)
@@ -51,15 +49,5 @@
  *          map from tgmath.h to math.h.
  */
 #define grey_floor(x) ((CGFloat)floor(x))
-
-#if CGFLOAT_IS_DOUBLE
-  #define grey_fabs(x) fabs(x)
-  #define grey_cos(x) cos(x)
-  #define grey_sin(x) sin(x)
-#else
-  #define grey_fabs(x) fabsf(x)
-  #define grey_cos(x) cosf(x)
-  #define grey_sin(x) sinf(x)
-#endif
 
 #endif  // EARLGREY_DEFINES_H
