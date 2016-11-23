@@ -84,6 +84,8 @@ private func GREYAssert(_ expression: @autoclosure () -> Bool,
 private func GREYSetCurrentAsFailable() {
   let greyFailureHandlerSelector =
     #selector(GREYFailureHandler.setInvocationFile(_:andInvocationLine:))
+  let greyFailureHandler =
+    Thread.current.threadDictionary.value(forKey: kGREYFailureHandlerKey) as! GREYFailureHandler
   if greyFailureHandler.responds(to: greyFailureHandlerSelector) {
     greyFailureHandler.setInvocationFile!(#file, andInvocationLine:#line)
   }
