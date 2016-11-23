@@ -14,7 +14,8 @@
 #  limitations under the License.
 
 require 'rubygems'
-require 'bundler/gem_tasks'
+require 'bundler'
+Bundler::GemHelper.install_tasks name: 'earlgrey', dir: __dir__
 require 'rubocop/rake_task'
 require 'rspec/core/rake_task'
 require_relative 'support/bump'

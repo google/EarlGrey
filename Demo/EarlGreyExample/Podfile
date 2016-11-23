@@ -19,18 +19,21 @@ platform :ios, '8.0'
 source 'https://github.com/CocoaPods/Specs.git'
 
 PROJECT_NAME = 'EarlGreyExample'
+TEST_TARGET = 'EarlGreyExampleTests'
+TEST_TARGET_SWIFT = 'EarlGreyExampleSwiftTests'
 
-target EarlGreyExampleTests do
+use_frameworks!
+
+target TEST_TARGET do
   project 'EarlGreyExample'
 
   inherit! :search_paths
   pod 'EarlGrey'
 end
 
-target EarlGreyExampleSwiftTests do
+target TEST_TARGET_SWIFT do
   project 'EarlGreyExample'
 
-  use_frameworks!
   inherit! :search_paths
   pod 'EarlGrey'
 end
@@ -46,12 +49,7 @@ post_install do |installer|
   end
 
   # For each test target, you need to call the EarlGrey script's edit method once.
-  TARGETS.each do |test_target|
-    var_args = {}
-    if test_target.include? "Swift"
-      var_args = {swift: true}
-    end
-    configure_for_earlgrey(installer, PROJECT_NAME, test_target, test_target + '.xcscheme', var_args)
-  end
+  configure_for_earlgrey(installer, PROJECT_NAME, TEST_TARGET, TEST_TARGET + '.xcscheme')
+  configure_for_earlgrey(installer, PROJECT_NAME, TEST_TARGET_SWIFT, TEST_TARGET_SWIFT + '.xcscheme', {swift: true})
 end
 

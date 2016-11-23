@@ -104,7 +104,10 @@ elif [ "${TYPE}" == "EXAMPLE_PODS" ]; then
   pod install --project-directory=Demo/EarlGreyExample
   execute_xcodebuild Demo/EarlGreyExample/EarlGreyExample.xcworkspace EarlGreyExampleTests
 elif [ "${TYPE}" == "EXAMPLE_PODS_SWIFT" ]; then
-  rake -f gem/Rakefile install
+  cd gem/
+  bundle install
+  rake install
+  cd ..
   pod install --project-directory=Demo/EarlGreyExample
   execute_xcodebuild Demo/EarlGreyExample/EarlGreyExample.xcworkspace EarlGreyExampleSwiftTests
 elif [ "${TYPE}" == "CARTHAGE" ]; then

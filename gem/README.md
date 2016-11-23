@@ -25,7 +25,6 @@ Options:
 
 Installs EarlGrey into an Xcode unit test target
 ```
-  gem install earlgrey
 
 ## Usage
 
