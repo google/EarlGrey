@@ -14,7 +14,7 @@
     <a title="GREYActions Class Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">EarlGrey Docs</a> (93% documented)</p>
+        <p><a href="../index.html">EarlGrey Docs</a> (94% documented)</p>
         <p class="header-right"><a href="https://github.com/google/EarlGrey"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -121,9 +121,6 @@
             <a href="../Constants.html">Constants</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../Constants.html#/c:@greyFailureHandler">greyFailureHandler</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="../Constants.html#/c:@kGREYAcceptableFloatDifference">kGREYAcceptableFloatDifference</a>
               </li>
               <li class="nav-group-task">
@@ -194,6 +191,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Constants.html#/c:@kGREYDidPerformAssertionNotification">kGREYDidPerformAssertionNotification</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYFailureHandlerKey">kGREYFailureHandlerKey</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Constants.html#/c:@kGREYGenericFailureException">kGREYGenericFailureException</a>
@@ -501,7 +501,13 @@
                 <a href="../Functions.html#/c:@F@grey_pinchFastInDirection">grey_pinchFastInDirection</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_pinchFastInDirectionAndAngle">grey_pinchFastInDirectionAndAngle</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@grey_pinchSlowInDirection">grey_pinchSlowInDirection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_pinchSlowInDirectionAndAngle">grey_pinchSlowInDirectionAndAngle</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@grey_progress">grey_progress</a>
@@ -1239,7 +1245,7 @@ of a scroll view with the scroll
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Returns an action that swipes through the view quickly in the given @c direction from a specific
-  origin. The duration here is specified by @c kGREYSwipeFastDuration in GREYConstants.</p>
+  origin.</p>
 
                       </div>
                       <div class="declaration">
@@ -1322,8 +1328,8 @@ of a scroll view with the scroll
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Returns an action that swipes through the view quickly in the given @c direction from a specific
-  origin. The duration here is specified by @c kGREYSwipeSlowDuration in GREYConstants.</p>
+                        <p>Returns an action that swipes through the view quickly in the given @c direction from a
+  specific origin.</p>
 
                       </div>
                       <div class="declaration">
@@ -1406,8 +1412,9 @@ of a scroll view with the scroll
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Returns an action that pinches whole view quickly in the specified @c direction.
- @c kGREYPinchFastDuration in @c GREYConstants determines the duration of the gesture.</p>
+                        <p>Returns an action that pinches whole view quickly in the specified @c direction.</p>
+
+<p>@deprecated A pinch action without the angle is deprecated in EarlGrey 1.6.0.</p>
 
                       </div>
                       <div class="declaration">
@@ -1460,8 +1467,9 @@ of a scroll view with the scroll
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Returns an action that pinches whole view slowly in the specified @c direction.
- kGREYPinchSlowDuration in GREYConstants determines the duration of the gesture.</p>
+                        <p>Returns an action that pinches whole view slowly in the specified @c direction.</p>
+
+<p>@deprecated A pinch action without the angle is deprecated in EarlGrey 1.6.0.</p>
 
                       </div>
                       <div class="declaration">
@@ -1486,6 +1494,140 @@ of a scroll view with the scroll
                               <td>
                                 <div>
                                   <p>The direction of the pinch action.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A GREYAction that performs a slow pinch on the whole view in the specified @c</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYActions(cm)actionForPinchFastInDirection:withAngle:"></a>
+                    <a name="//apple_ref/objc/Method/+actionForPinchFastInDirection:withAngle:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYActions(cm)actionForPinchFastInDirection:withAngle:">+actionForPinchFastInDirection:withAngle:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns an action that pinches whole view quickly in the specified @c direction and @c angle.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">actionForPinchFastInDirection</span><span class="p">:</span>
+                      <span class="p">(</span><span class="n"><a href="../Enums/GREYPinchDirection.html">GREYPinchDirection</a></span><span class="p">)</span><span class="nv">pinchDirection</span>
+                                      <span class="nf">withAngle</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">angle</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>pinchDirection</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The direction of the pinch action.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>angle</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The angle of the pinch action in radians such as (75.0 * M_PI / 180.0).</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A GREYAction that performs a fast pinch on the whole view in the specified @c</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYActions(cm)actionForPinchSlowInDirection:withAngle:"></a>
+                    <a name="//apple_ref/objc/Method/+actionForPinchSlowInDirection:withAngle:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYActions(cm)actionForPinchSlowInDirection:withAngle:">+actionForPinchSlowInDirection:withAngle:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns an action that pinches whole view slowly in the specified @c direction and @c angle.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">actionForPinchSlowInDirection</span><span class="p">:</span>
+                      <span class="p">(</span><span class="n"><a href="../Enums/GREYPinchDirection.html">GREYPinchDirection</a></span><span class="p">)</span><span class="nv">pinchDirection</span>
+                                      <span class="nf">withAngle</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">angle</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>pinchDirection</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The direction of the pinch action.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>angle</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The angle of the pinch action in radians such as (75.0 * M_PI / 180.0).</p>
 
                                 </div>
                               </td>
