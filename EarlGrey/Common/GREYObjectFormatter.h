@@ -27,7 +27,7 @@ GREY_EXTERN NSInteger const GREYObjectFormatIndent;
 
 /**
  *  Serializes an array of objects into JSON string.
- *  The supported objects are: NSString, NSNumber, NSArray, NSDictionary.
+ *  The supported objects are: NSString, NSNumber, NSArray, NSDictionary and GREYError.
  *
  *  @param array  The array to serialize.
  *  @param indent The spaces that will be applied to each element of the serialized array.
@@ -40,7 +40,7 @@ GREY_EXTERN NSInteger const GREYObjectFormatIndent;
 
 /**
  *  Serializes a dictionary of objects into JSON string.
- *  The supported objects are: NSString, NSNumber, NSArray, NSDictionary.
+ *  The supported objects are: NSString, NSNumber, NSArray, NSDictionary and GREYError.
  *
  *  @param dictionary The dictionary to serialize.
  *  @param indent     Number of spaces that will be applied to each element
