@@ -51,6 +51,8 @@ For EarlGrey, we highly recommend [CocoaPods](https://cocoapods.org/) as the bes
 
   target TEST_TARGET do
     project PROJECT_NAME
+
+    use_frameworks!
     inherit! :search_paths
     pod 'EarlGrey'
   end
@@ -63,26 +65,9 @@ For EarlGrey, we highly recommend [CocoaPods](https://cocoapods.org/) as the bes
 
     The earlgrey gem is supported with CocoaPods 1.0.0 and beyond. For earlier versions (or if you don't want a gem dependency) replace `require 'earlgrey'` with `load 'configure_earlgrey.rb'` and manually copy `configure_earlgrey.rb` from the gem into the same directory as the `Podfile`.
 
-    For the CocoaPods 0.39.0 release, the Podfile should look like:
-
-  ```ruby
-  PROJECT_NAME = 'SampleApp'
-  TEST_TARGET = 'SampleAppTests'
-  SCHEME_FILE = 'SampleAppTests.xcscheme'
-
-  xcodeproj PROJECT_NAME
-  target TEST_TARGET, :exclusive => true do
-    pod 'EarlGrey'
-  end
-
-  post_install do |installer|
-    load 'configure_earlgrey.rb'
-    configure_for_earlgrey(installer, PROJECT_NAME, TEST_TARGET, SCHEME_FILE)
-  end
-  ```
-
    * For multiple targets and Schemes, call the `configure_for_earlgrey` method for each target / Scheme.
    * The `:exclusive => true` and `inherit! :search_paths` flag prevents double-linking for libraries in the test target with any conflicting libraries in the main application.
+   * Please ensure you use `use_frameworks!` if you wish to run EarlGrey in a Swift Test Target. This is not required if you're running EarlGrey in an Objective-C Test Target.
    * For more information, visit the [CocoaPods Podfile Guide](http://guides.cocoapods.org/using/the-podfile.html).
    * If you don't want a gem dependency, replace `require 'earlgrey'` with `load 'configure_earlgrey.rb'` and manually
      copy `configure_earlgrey.rb` from the gem into the same directory as the Podfile.

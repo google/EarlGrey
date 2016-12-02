@@ -19,26 +19,37 @@ platform :ios, '8.0'
 source 'https://github.com/CocoaPods/Specs.git'
 
 PROJECT_NAME = 'EarlGreyExample'
-TARGETS = %w[EarlGreyExampleTests EarlGreyExampleSwiftTests]
+TEST_TARGET = 'EarlGreyExampleTests'
+TEST_TARGET_SWIFT = 'EarlGreyExampleSwiftTests'
 
-TARGETS.each do |test_target|
-  target test_target do
-    project PROJECT_NAME
+use_frameworks!
 
-    inherit! :search_paths
-    pod 'EarlGrey'
-  end
+target TEST_TARGET do
+  project 'EarlGreyExample'
+
+  inherit! :search_paths
+  pod 'EarlGrey'
+end
+
+target TEST_TARGET_SWIFT do
+  project 'EarlGreyExample'
+
+  inherit! :search_paths
+  pod 'EarlGrey'
 end
 
 post_install do |installer|
-  require 'earlgrey'
+  # If the EarlGrey gem is not present in your system, then install it.
+  begin
+    require 'earlgrey'
+  rescue LoadError
+    require 'rubygems/command_manager'
+    Gem::CommandManager.instance[:install].install_gem('earlgrey', Gem::Requirement.default)
+    require 'earlgrey'
+  end
 
   # For each test target, you need to call the EarlGrey script's edit method once.
-  TARGETS.each do |test_target|
-    var_args = {}
-    if test_target.include? "Swift"
-      var_args = {swift: true}
-    end
-    configure_for_earlgrey(installer, PROJECT_NAME, test_target, test_target + '.xcscheme', var_args)
-  end
+  configure_for_earlgrey(installer, PROJECT_NAME, TEST_TARGET, TEST_TARGET + '.xcscheme')
+  configure_for_earlgrey(installer, PROJECT_NAME, TEST_TARGET_SWIFT, TEST_TARGET_SWIFT + '.xcscheme', {swift: true})
 end
+

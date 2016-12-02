@@ -51,17 +51,24 @@ matrix:
     - osx_image: xcode8
       env:
         - DESTINATION="OS=10.0,name=iPhone 7 Plus" SDK=iphonesimulator10.0 TYPE="UNIT"
+    - osx_image: xcode8
+      env:
+        - DESTINATION="OS=10.0,name=iPhone 7 Plus" SDK=iphonesimulator10.0 TYPE="EXAMPLE_PODS"
+    - osx_image: xcode8
+      env:
+        - DESTINATION="OS=10.0,name=iPhone 7 Plus" SDK=iphonesimulator10.0 TYPE="EXAMPLE_PODS_SWIFT"
     - env:
       - TYPE="RUBY"
 before_install:
   - rvm use 2.2.5
+  - gem update --system
   - gem install xcpretty --no-rdoc --no-ri --no-document --quiet
 before_script:
   - Scripts/setup-earlgrey.sh
 script:
- - Scripts/travis.sh
+  - Scripts/travis.sh
 after_failure:
- - tail -n 200 xcodebuild.log
+  - tail -n 200 xcodebuild.log
 branches:
   only:
-  - master
+    - master
