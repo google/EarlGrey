@@ -158,7 +158,7 @@ typedef NS_OPTIONS(NSUInteger, GREYAppState) {
  *          until the element is untracked.
  */
 #define TRACK_STATE_FOR_ELEMENT(state_, element_) \
-  [[GREYAppStateTracker sharedInstance] trackState:state_ forElement:element_]
+  [[GREYAppStateTracker sharedInstance] trackState:(state_) forElement:(element_)]
 
 /**
  *  Utility macro for untracking the state of an element.
@@ -167,4 +167,4 @@ typedef NS_OPTIONS(NSUInteger, GREYAppState) {
  *  @param elementID The identifer of the element which state should be untracked.
  */
 #define UNTRACK_STATE_FOR_ELEMENT_WITH_ID(state_, elementID_) \
-  [[GREYAppStateTracker sharedInstance] untrackState:state_ forElementWithID:elementID_]
+  [[GREYAppStateTracker sharedInstance] untrackState:(state_) forElementWithID:(elementID_)]

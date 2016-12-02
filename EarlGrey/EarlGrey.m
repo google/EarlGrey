@@ -45,7 +45,10 @@ NSString *const kGREYFailureHandlerKey = @"GREYFailureHandlerKey";
   });
 
   SEL invocationFileAndLineSEL = @selector(setInvocationFile:andInvocationLine:);
-  id<GREYFailureHandler> failureHandler = getFailureHandler();
+  id<GREYFailureHandler> failureHandler;
+  @synchronized (self) {
+    failureHandler = getFailureHandler();
+  }
   if ([failureHandler respondsToSelector:invocationFileAndLineSEL]) {
     [failureHandler setInvocationFile:fileName andInvocationLine:lineNumber];
   }
@@ -63,7 +66,7 @@ NSString *const kGREYFailureHandlerKey = @"GREYFailureHandlerKey";
 }
 
 - (void)setFailureHandler:(id<GREYFailureHandler>)handler {
-  @synchronized (self) {
+  @synchronized ([self class]) {
     if (handler) {
       NSMutableDictionary *TLSDict = [[NSThread currentThread] threadDictionary];
       [TLSDict setValue:handler forKey:kGREYFailureHandlerKey];
@@ -74,7 +77,7 @@ NSString *const kGREYFailureHandlerKey = @"GREYFailureHandlerKey";
 }
 
 - (void)handleException:(GREYFrameworkException *)exception details:(NSString *)details {
-  @synchronized (self) {
+  @synchronized ([self class]) {
     id<GREYFailureHandler> failureHandler = getFailureHandler();
     [failureHandler handleException:exception details:details];
   }
@@ -93,7 +96,7 @@ static inline void resetFailureHandler() {
   [TLSDict setValue:[[GREYDefaultFailureHandler alloc] init] forKey:kGREYFailureHandlerKey];
 }
 
-// Returns the current failure handler.
+// Returns the current failure handler. Not thread safe.
 static inline id<GREYFailureHandler> getFailureHandler() {
   NSMutableDictionary *TLSDict = [[NSThread currentThread] threadDictionary];
   return [TLSDict valueForKey:kGREYFailureHandlerKey];
