@@ -57,7 +57,6 @@
 		59467F421C937A140089498B /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 59467EA81C9379DE0089498B /* LICENSE */; };
 		594A1A2C1D8BB8F500625FB3 /* NSURL+GREYAdditionsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 594A1A2A1D8BB8E800625FB3 /* NSURL+GREYAdditionsTest.m */; };
 		596D89CA1C05ACD400025714 /* EarlGrey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 596D89C71C05ACB000025714 /* EarlGrey.framework */; };
-		598B73E51DDC2452007DB8AF /* EarlGreyTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 598B73E41DDC2452007DB8AF /* EarlGreyTest.m */; };
 		598B73E61DDC2465007DB8AF /* EarlGreyTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 598B73E41DDC2452007DB8AF /* EarlGreyTest.m */; };
 		59AB5FC91C128CCF0017F331 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FDB855641C12392C00B407EB /* libOCMock.a */; };
 		6113A2F11D7F74F400443D9B /* GREYStringDescriptionTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6113A2F01D7F74F400443D9B /* GREYStringDescriptionTest.m */; };
@@ -590,7 +589,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				598B73E51DDC2452007DB8AF /* EarlGreyTest.m in Sources */,
 				59467F3A1C937A0B0089498B /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
