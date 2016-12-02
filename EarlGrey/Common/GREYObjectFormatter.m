@@ -17,6 +17,7 @@
 #import "Common/GREYObjectFormatter.h"
 
 #import "Additions/NSString+GREYAdditions.h"
+#import "Common/GREYError.h"
 #import "Matcher/GREYStringDescription.h"
 
 NSInteger const GREYObjectFormatIndent = 2;
@@ -146,7 +147,7 @@ NSInteger const GREYObjectFormatIndent = 2;
 
 /**
  *  Serializes an object into JSON-like string.
- *  The supported objects are: NSString, NSNumber, NSArray, NSDictionary.
+ *  The supported objects are: NSString, NSNumber, NSArray, NSDictionary and GREYError.
  *
  *  @remark The serialized string is formatted as a JSON for presentation purposes but it doesn't
  *          have the right escaping applied for special character as it hinders readability.
@@ -206,6 +207,8 @@ NSInteger const GREYObjectFormatIndent = 2;
                                           indent:indent
                                        hideEmpty:YES
                                         keyOrder:keyOrder];
+  } else if ([object isKindOfClass:[GREYError class]]) {
+    return [object description];
   }
 
   NSAssert(NO, @"Unhandled output type: %@", [object class]);

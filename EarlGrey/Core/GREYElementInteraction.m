@@ -143,7 +143,7 @@
     GREYPopulateNestedErrorOrLog(error,
                                  kGREYInteractionErrorDomain,
                                  kGREYInteractionElementNotFoundErrorCode,
-                                 @"",
+                                 @"Search action failed",
                                  searchActionError);
   } else if (timedOut) {
     CFTimeInterval interactionTimeout =
