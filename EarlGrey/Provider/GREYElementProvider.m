@@ -94,8 +94,7 @@
         id nextFromEnumerator;
         do {
           nextFromEnumerator = [enumerator nextObject];
-        } while(nextFromEnumerator != nil &&
-                [runningElementHierarchy containsObject:nextFromEnumerator]);
+        } while (nextFromEnumerator && [runningElementHierarchy containsObject:nextFromEnumerator]);
 
         // If no next valid element is found, the enumeration should stop.
         if (!nextFromEnumerator) {

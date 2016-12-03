@@ -57,6 +57,7 @@
 		59467F421C937A140089498B /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 59467EA81C9379DE0089498B /* LICENSE */; };
 		594A1A2C1D8BB8F500625FB3 /* NSURL+GREYAdditionsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 594A1A2A1D8BB8E800625FB3 /* NSURL+GREYAdditionsTest.m */; };
 		596D89CA1C05ACD400025714 /* EarlGrey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 596D89C71C05ACB000025714 /* EarlGrey.framework */; };
+		598B73E61DDC2465007DB8AF /* EarlGreyTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 598B73E41DDC2452007DB8AF /* EarlGreyTest.m */; };
 		59AB5FC91C128CCF0017F331 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FDB855641C12392C00B407EB /* libOCMock.a */; };
 		6113A2F11D7F74F400443D9B /* GREYStringDescriptionTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6113A2F01D7F74F400443D9B /* GREYStringDescriptionTest.m */; };
 		611BC9791D4CF5B700C1F69D /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CFE8EF1D4CE99D00E1A48E /* CoreData.framework */; };
@@ -216,6 +217,7 @@
 		59467EDF1C9379DE0089498B /* UnitTestRig-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "UnitTestRig-Info.plist"; sourceTree = "<group>"; };
 		594A1A2A1D8BB8E800625FB3 /* NSURL+GREYAdditionsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+GREYAdditionsTest.m"; sourceTree = "<group>"; };
 		596D89C21C05ACAF00025714 /* EarlGrey.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = EarlGrey.xcodeproj; path = ../../EarlGrey.xcodeproj; sourceTree = "<group>"; };
+		598B73E41DDC2452007DB8AF /* EarlGreyTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EarlGreyTest.m; sourceTree = "<group>"; };
 		6113A2F01D7F74F400443D9B /* GREYStringDescriptionTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYStringDescriptionTest.m; sourceTree = "<group>"; };
 		61322D9E1D4CD7B900A5B0C1 /* GREYDispatchQueueTrackerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYDispatchQueueTrackerTest.m; sourceTree = "<group>"; };
 		61322D9F1D4CD7B900A5B0C1 /* GREYManagedObjectContextIdlingResourceTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYManagedObjectContextIdlingResourceTest.m; sourceTree = "<group>"; };
@@ -272,6 +274,7 @@
 		59467EAA1C9379DE0089498B /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				598B73E41DDC2452007DB8AF /* EarlGreyTest.m */,
 				594A1A2A1D8BB8E800625FB3 /* NSURL+GREYAdditionsTest.m */,
 				FD1BCE911D1B3F0B0069D0C6 /* GREYAnalyticsTest.m */,
 				FD19482C1DA2324200B9BA2D /* GREYStopwatchTest.m */,
@@ -594,6 +597,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				598B73E61DDC2465007DB8AF /* EarlGreyTest.m in Sources */,
 				594A1A2C1D8BB8F500625FB3 /* NSURL+GREYAdditionsTest.m in Sources */,
 				59467F111C9379FC0089498B /* CAAnimation+GREYAdditionsTest.m in Sources */,
 				59467F121C9379FC0089498B /* CALayer+GREYAdditionsTest.m in Sources */,

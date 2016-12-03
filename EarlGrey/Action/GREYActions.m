@@ -72,11 +72,29 @@
 }
 
 + (id<GREYAction>)actionForPinchFastInDirection:(GREYPinchDirection)pinchDirection {
+  NSLog(@"GREYActions::actionForPinchFastInDirection: is to be deprecated with EarlGrey 1.6.0 "
+        @"for GREYActions::actionForPinchFastInDirection:withAngle:");
   return [[GREYPinchAction alloc] initWithDirection:pinchDirection duration:kGREYPinchFastDuration];
 }
 
 + (id<GREYAction>)actionForPinchSlowInDirection:(GREYPinchDirection)pinchDirection {
+  NSLog(@"GREYActions::actionForPinchSlowInDirection: is to be deprecated with EarlGrey 1.6.0 "
+        @"for GREYActions::actionForPinchSlowInDirection:withAngle:");
   return [[GREYPinchAction alloc] initWithDirection:pinchDirection duration:kGREYPinchSlowDuration];
+}
+
++ (id<GREYAction>)actionForPinchFastInDirection:(GREYPinchDirection)pinchDirection
+                                      withAngle:(double)angle {
+  return [[GREYPinchAction alloc] initWithDirection:pinchDirection
+                                           duration:kGREYPinchFastDuration
+                                      andPinchAngle:angle];
+}
+
++ (id<GREYAction>)actionForPinchSlowInDirection:(GREYPinchDirection)pinchDirection
+                                      withAngle:(double)angle {
+  return [[GREYPinchAction alloc] initWithDirection:pinchDirection
+                                           duration:kGREYPinchSlowDuration
+                                      andPinchAngle:angle];
 }
 
 + (id<GREYAction>)actionForMoveSliderToValue:(float)value {
@@ -651,6 +669,16 @@ id<GREYAction> grey_pinchFastInDirection(GREYPinchDirection pinchDirection) {
 
 id<GREYAction> grey_pinchSlowInDirection(GREYPinchDirection pinchDirection) {
   return [GREYActions actionForPinchSlowInDirection:pinchDirection];
+}
+
+id<GREYAction> grey_pinchFastInDirectionAndAngle(GREYPinchDirection pinchDirection,
+                                                 double angle) {
+  return [GREYActions actionForPinchFastInDirection:pinchDirection withAngle:angle];
+}
+
+id<GREYAction> grey_pinchSlowInDirectionAndAngle(GREYPinchDirection pinchDirection,
+                                                 double angle) {
+  return [GREYActions actionForPinchSlowInDirection:pinchDirection withAngle:angle];
 }
 
 id<GREYAction> grey_moveSliderToValue(float value) {

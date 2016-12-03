@@ -146,7 +146,7 @@
 
 /**
  *  Returns an action that swipes through the view quickly in the given @c direction from a specific
- *  origin. The duration here is specified by @c kGREYSwipeFastDuration in GREYConstants.
+ *  origin.
  *
  *  @param direction              The direction of the swipe.
  *  @param xOriginStartPercentage the x start position as a percentage of the total width
@@ -162,8 +162,8 @@
                          yOriginStartPercentage:(CGFloat)yOriginStartPercentage;
 
 /**
- *  Returns an action that swipes through the view quickly in the given @c direction from a specific
- *  origin. The duration here is specified by @c kGREYSwipeSlowDuration in GREYConstants.
+ *  Returns an action that swipes through the view quickly in the given @c direction from a
+ *  specific origin.
  *
  *  @param direction              The direction of the swipe.
  *  @param xOriginStartPercentage the x start position as a percentage of the total width
@@ -180,23 +180,47 @@
 
 /**
  * Returns an action that pinches whole view quickly in the specified @c direction.
- * @c kGREYPinchFastDuration in @c GREYConstants determines the duration of the gesture.
  *
  * @param  pinchDirection The direction of the pinch action.
  *
  * @return A GREYAction that performs a fast pinch on the whole view in the specified @c direction.
+ *
+ * @deprecated A pinch action without the angle is deprecated in EarlGrey 1.6.0.
  */
 + (id<GREYAction>)actionForPinchFastInDirection:(GREYPinchDirection)pinchDirection;
 
 /**
  * Returns an action that pinches whole view slowly in the specified @c direction.
- * kGREYPinchSlowDuration in GREYConstants determines the duration of the gesture.
  *
  * @param  pinchDirection The direction of the pinch action.
  *
  * @return A GREYAction that performs a slow pinch on the whole view in the specified @c direction.
+ *
+ * @deprecated A pinch action without the angle is deprecated in EarlGrey 1.6.0.
  */
 + (id<GREYAction>)actionForPinchSlowInDirection:(GREYPinchDirection)pinchDirection;
+
+/**
+ * Returns an action that pinches whole view quickly in the specified @c direction and @c angle.
+ *
+ * @param  pinchDirection The direction of the pinch action.
+ * @param  angle          The angle of the pinch action in radians such as (75.0 * M_PI / 180.0).
+ *
+ * @return A GREYAction that performs a fast pinch on the whole view in the specified @c direction.
+ */
++ (id<GREYAction>)actionForPinchFastInDirection:(GREYPinchDirection)pinchDirection
+                                      withAngle:(double)angle;
+
+/**
+ * Returns an action that pinches whole view slowly in the specified @c direction and @c angle.
+ *
+ * @param  pinchDirection The direction of the pinch action.
+ * @param  angle          The angle of the pinch action in radians such as (75.0 * M_PI / 180.0).
+ *
+ * @return A GREYAction that performs a slow pinch on the whole view in the specified @c direction.
+ */
++ (id<GREYAction>)actionForPinchSlowInDirection:(GREYPinchDirection)pinchDirection
+                                      withAngle:(double)angle;
 
 /**
  * Returns an action that attempts to move slider to within 1.0e-6f values of @c value.
@@ -389,6 +413,14 @@ GREY_EXPORT id<GREYAction> grey_pinchFastInDirection(GREYPinchDirection pinchDir
 
 /** Shorthand macro for GREYActions::actionForPinchSlowInDirection:pinchDirection:. */
 GREY_EXPORT id<GREYAction> grey_pinchSlowInDirection(GREYPinchDirection pinchDirection);
+
+/** Shorthand macro for GREYActions::actionForPinchFastInDirection:pinchDirection:angle:. */
+GREY_EXPORT id<GREYAction> grey_pinchFastInDirectionAndAngle(GREYPinchDirection pinchDirection,
+                                                             double angle);
+
+/** Shorthand macro for GREYActions::actionForPinchSlowInDirection:pinchDirection:angle:. */
+GREY_EXPORT id<GREYAction> grey_pinchSlowInDirectionAndAngle(GREYPinchDirection pinchDirection,
+                                                             double angle);
 
 /** Shorthand macro for GREYActions::actionForMoveSliderToValue:. */
 GREY_EXPORT id<GREYAction> grey_moveSliderToValue(float value);

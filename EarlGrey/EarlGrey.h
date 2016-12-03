@@ -71,6 +71,11 @@
 #import <Foundation/Foundation.h>
 
 /**
+ *  Key for currently set failure handler for EarlGrey in thread's local storage dictionary.
+ */
+GREY_EXTERN NSString *const kGREYFailureHandlerKey;
+
+/**
  *  Convenience replacement for every EarlGrey method call with
  *  EarlGreyImpl::invokedFromFile:lineNumber: so it can get the invocation file and line to
  *  report to XCTest on failure.

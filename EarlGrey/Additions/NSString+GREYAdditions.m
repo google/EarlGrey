@@ -34,7 +34,7 @@
 
   // Parse MD5 value into individual hex values.
   NSMutableString *stringWithHexMd5Values = [[NSMutableString alloc] init];
-  for(int i = 0; i < CC_MD5_DIGEST_LENGTH; i++) {
+  for (int i = 0; i < CC_MD5_DIGEST_LENGTH; i++) {
     [stringWithHexMd5Values appendFormat:@"%02x", md5Value[i]];
   }
 
