@@ -87,14 +87,14 @@
                                       withAngle:(double)angle {
   return [[GREYPinchAction alloc] initWithDirection:pinchDirection
                                            duration:kGREYPinchFastDuration
-                                      andPinchAngle:angle];
+                                         pinchAngle:angle];
 }
 
 + (id<GREYAction>)actionForPinchSlowInDirection:(GREYPinchDirection)pinchDirection
                                       withAngle:(double)angle {
   return [[GREYPinchAction alloc] initWithDirection:pinchDirection
                                            duration:kGREYPinchSlowDuration
-                                      andPinchAngle:angle];
+                                         pinchAngle:angle];
 }
 
 + (id<GREYAction>)actionForMoveSliderToValue:(float)value {

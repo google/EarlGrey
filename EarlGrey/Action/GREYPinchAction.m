@@ -60,13 +60,14 @@ static double const kDefaultPinchAngle = (30.0 * M_PI / 180.0);
 
 - (instancetype)initWithDirection:(GREYPinchDirection)pinchDirection
                          duration:(CFTimeInterval)duration {
-  return [self initWithDirection:pinchDirection duration:duration
-                   andPinchAngle:kDefaultPinchAngle];
+  return [self initWithDirection:pinchDirection
+                        duration:duration
+                      pinchAngle:kDefaultPinchAngle];
 }
 
 - (instancetype)initWithDirection:(GREYPinchDirection)pinchDirection
                          duration:(CFTimeInterval)duration
-                    andPinchAngle:(double)pinchAngle {
+                       pinchAngle:(double)pinchAngle {
   NSString *name = [NSString stringWithFormat:@"Pinch %@ for duration %g and angle %f",
                                               NSStringFromPinchDirection(pinchDirection),
                                               duration,

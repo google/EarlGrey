@@ -61,6 +61,6 @@ typedef NS_ENUM(NSInteger, GREYPinchErrorCode) {
  */
 - (instancetype)initWithDirection:(GREYPinchDirection)direction
                          duration:(CFTimeInterval)duration
-                    andPinchAngle:(double)pinchAngle;
+                       pinchAngle:(double)pinchAngle;
 
 @end
