@@ -70,4 +70,33 @@
                                                            inDirectory:screenshotDir]);
 }
 
+- (void)testSnapshotInvalidUIView {
+  UIView *element = [[UIView alloc] initWithFrame:CGRectMake(1, 1, 0, 5)];
+  UIImage *image = [GREYScreenshotUtil snapshotElement:element];
+  XCTAssertNil(image);
+
+  element = [[UIView alloc] initWithFrame:CGRectMake(2, 2, 5, 0)];
+  image = [GREYScreenshotUtil snapshotElement:element];
+  XCTAssertNil(image);
+
+  image = [GREYScreenshotUtil snapshotElement:nil];
+  XCTAssertNil(image);
+}
+
+- (void)testSnapshotInvalidAccessibilityElement {
+  UIView *container = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
+  UIAccessibilityElement *element =
+      [[UIAccessibilityElement alloc] initWithAccessibilityContainer:container];
+  element.accessibilityFrame = CGRectMake(1, 1, 0, 5);
+  UIImage *image = [GREYScreenshotUtil snapshotElement:element];
+  XCTAssertNil(image);
+
+  element.accessibilityFrame = CGRectMake(2, 2, 5, 0);
+  image = [GREYScreenshotUtil snapshotElement:element];
+  XCTAssertNil(image);
+
+  image = [GREYScreenshotUtil snapshotElement:nil];
+  XCTAssertNil(image);
+}
+
 @end

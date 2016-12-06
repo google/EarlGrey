@@ -17,6 +17,10 @@
 import EarlGrey
 import Foundation
 
+let greyFailureHandler =
+  NSThread.currentThread().threadDictionary
+    .valueForKey(kGREYFailureHandlerKey) as! GREYFailureHandler
+
 public func grey_allOfMatchers(args: AnyObject...) -> GREYMatcher! {
   return GREYAllOf(matchers: args)
 }

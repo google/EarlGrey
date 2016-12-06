@@ -48,7 +48,8 @@
 + (UIImage *)takeScreenshotForAppStore;
 
 /**
- *  @return A snapshot of the provided @c element.
+ *  @return A snapshot of the provided @c element. @c element must be an instance of @c UIView or
+ *          an accessibility element.
  */
 + (UIImage *)snapshotElement:(id)element;
 

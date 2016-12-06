@@ -35,13 +35,13 @@ NSString *const kGREYPinchErrorDomain = @"com.google.earlgrey.PinchErrorDomain";
  *  Reduce the magnitude of vector in the direction of pinch action to make sure that it is minimum
  *  of either height or width of the view.
  */
-CGFloat const kPinchScale = (CGFloat)0.8;
+static CGFloat const kPinchScale = (CGFloat)0.8;
+
 /**
- * Angle of the vector in radians to which the pinch direction is pointing.
- * Using a default pinch angle of 30 degrees to closely match the average pinch angle of a natural
- * right handed pinch.
+ *  The default pinch angle for the pinch action, specified by an approximate angle for a right
+ *  handed two finger pinch.
  */
-CGFloat const kDefaultPinchAngle = (CGFloat)(30.0 * M_PI / 180.0);
+static double const kDefaultPinchAngle = (30.0 * M_PI / 180.0);
 
 @implementation GREYPinchAction {
   /**
@@ -52,12 +52,26 @@ CGFloat const kDefaultPinchAngle = (CGFloat)(30.0 * M_PI / 180.0);
    *  The duration within which the pinch action must be completed.
    */
   CFTimeInterval _duration;
+  /**
+   *  The angle in which in the pinch direction in pointing.
+   */
+  double _pinchAngle;
 }
 
 - (instancetype)initWithDirection:(GREYPinchDirection)pinchDirection
                          duration:(CFTimeInterval)duration {
-  NSString *name = [NSString stringWithFormat:@"Pinch %@ for duration %g",
-                        NSStringFromPinchDirection(pinchDirection), duration];
+  return [self initWithDirection:pinchDirection
+                        duration:duration
+                      pinchAngle:kDefaultPinchAngle];
+}
+
+- (instancetype)initWithDirection:(GREYPinchDirection)pinchDirection
+                         duration:(CFTimeInterval)duration
+                       pinchAngle:(double)pinchAngle {
+  NSString *name = [NSString stringWithFormat:@"Pinch %@ for duration %g and angle %f",
+                                              NSStringFromPinchDirection(pinchDirection),
+                                              duration,
+                                              pinchAngle];
   self = [super initWithName:name
                  constraints:grey_allOf(grey_not(grey_systemAlertViewShown()),
                                         grey_interactable(),
@@ -66,6 +80,7 @@ CGFloat const kDefaultPinchAngle = (CGFloat)(30.0 * M_PI / 180.0);
   if (self) {
     _pinchDirection = pinchDirection;
     _duration = duration;
+    _pinchAngle = pinchAngle;
   }
   return self;
 }
@@ -112,10 +127,10 @@ CGFloat const kDefaultPinchAngle = (CGFloat)(30.0 * M_PI / 180.0);
   CGFloat rotationVectorScale = MIN(centerPoint.x, centerPoint.y) * kPinchScale;
 
   // Rotated points at the given pinch angle to determine start and end points.
-  CGPoint rotatedPoint1 = [self grey_pointOnCircleAtAngle:kDefaultPinchAngle
+  CGPoint rotatedPoint1 = [self grey_pointOnCircleAtAngle:_pinchAngle
                                                    center:centerPoint
                                                    radius:rotationVectorScale];
-  CGPoint rotatedPoint2 = [self grey_pointOnCircleAtAngle:(kDefaultPinchAngle + (CGFloat)M_PI)
+  CGPoint rotatedPoint2 = [self grey_pointOnCircleAtAngle:(_pinchAngle + M_PI)
                                                    center:centerPoint
                                                    radius:rotationVectorScale];
 
@@ -156,11 +171,11 @@ CGFloat const kDefaultPinchAngle = (CGFloat)(30.0 * M_PI / 180.0);
  *  @param center  Center of the circle.
  *  @param radius  Radius of the circle.
  */
-- (CGPoint)grey_pointOnCircleAtAngle:(CGFloat)angle
+- (CGPoint)grey_pointOnCircleAtAngle:(double)angle
                               center:(CGPoint)center
                               radius:(CGFloat)radius {
-  return CGPointMake(center.x + (radius * grey_cos(angle)),
-                     center.y + (radius * grey_sin(angle)));
+  return CGPointMake(center.x + (CGFloat)(radius * cos(angle)),
+                     center.y + (CGFloat)(radius * sin(angle)));
 }
 
 @end

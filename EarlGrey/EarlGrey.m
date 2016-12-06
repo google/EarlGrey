@@ -23,11 +23,7 @@
 #import "Event/GREYSyntheticEvents.h"
 #import "Exception/GREYDefaultFailureHandler.h"
 
-// Handler for all EarlGrey failures.
-id<GREYFailureHandler> greyFailureHandler;
-
-// Lock to guard access to @c greyFailureHandler.
-static pthread_mutex_t gFailureHandlerLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
+NSString *const kGREYFailureHandlerKey = @"GREYFailureHandlerKey";
 
 @implementation EarlGreyImpl
 
@@ -35,7 +31,7 @@ static pthread_mutex_t gFailureHandlerLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER
   @autoreleasepool {
     // These need to be set in load since someone might call GREYAssertXXX APIs without calling
     // into EarlGrey.
-    greyFailureHandler = [[GREYDefaultFailureHandler alloc] init];
+    resetFailureHandler();
     // Prepare for automation.
     [[GREYAutomationSetup sharedInstance] perform];
   }
@@ -48,8 +44,13 @@ static pthread_mutex_t gFailureHandlerLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER
     instance = [[EarlGreyImpl alloc] initOnce];
   });
 
-  if ([greyFailureHandler respondsToSelector:@selector(setInvocationFile:andInvocationLine:)]) {
-    [greyFailureHandler setInvocationFile:fileName andInvocationLine:lineNumber];
+  SEL invocationFileAndLineSEL = @selector(setInvocationFile:andInvocationLine:);
+  id<GREYFailureHandler> failureHandler;
+  @synchronized (self) {
+    failureHandler = getFailureHandler();
+  }
+  if ([failureHandler respondsToSelector:invocationFileAndLineSEL]) {
+    [failureHandler setInvocationFile:fileName andInvocationLine:lineNumber];
   }
   [[GREYAnalytics sharedInstance] didInvokeEarlGrey];
   return instance;
@@ -65,15 +66,21 @@ static pthread_mutex_t gFailureHandlerLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER
 }
 
 - (void)setFailureHandler:(id<GREYFailureHandler>)handler {
-  [self grey_lockFailureHandler];
-  greyFailureHandler = (handler == nil) ? [[GREYDefaultFailureHandler alloc] init] : handler;
-  [self grey_unlockFailureHandler];
+  @synchronized ([self class]) {
+    if (handler) {
+      NSMutableDictionary *TLSDict = [[NSThread currentThread] threadDictionary];
+      [TLSDict setValue:handler forKey:kGREYFailureHandlerKey];
+    } else {
+      resetFailureHandler();
+    }
+  }
 }
 
 - (void)handleException:(GREYFrameworkException *)exception details:(NSString *)details {
-  [self grey_lockFailureHandler];
-  [greyFailureHandler handleException:exception details:details];
-  [self grey_unlockFailureHandler];
+  @synchronized ([self class]) {
+    id<GREYFailureHandler> failureHandler = getFailureHandler();
+    [failureHandler handleException:exception details:details];
+  }
 }
 
 - (BOOL)rotateDeviceToOrientation:(UIDeviceOrientation)deviceOrientation
@@ -83,14 +90,16 @@ static pthread_mutex_t gFailureHandlerLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER
 
 #pragma mark - Private
 
-- (void)grey_lockFailureHandler {
-  GREY_UNUSED_VARIABLE int lock = pthread_mutex_lock(&gFailureHandlerLock);
-  NSAssert(lock == 0, @"Failed to lock.");
+// Resets the failure handler. Not thread safe.
+static inline void resetFailureHandler() {
+  NSMutableDictionary *TLSDict = [[NSThread currentThread] threadDictionary];
+  [TLSDict setValue:[[GREYDefaultFailureHandler alloc] init] forKey:kGREYFailureHandlerKey];
 }
 
-- (void)grey_unlockFailureHandler {
-  GREY_UNUSED_VARIABLE int unlock = pthread_mutex_unlock(&gFailureHandlerLock);
-  NSAssert(unlock == 0, @"Failed to unlock.");
+// Returns the current failure handler. Not thread safe.
+static inline id<GREYFailureHandler> getFailureHandler() {
+  NSMutableDictionary *TLSDict = [[NSThread currentThread] threadDictionary];
+  return [TLSDict valueForKey:kGREYFailureHandlerKey];
 }
 
 @end

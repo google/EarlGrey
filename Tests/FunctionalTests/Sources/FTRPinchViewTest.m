@@ -74,6 +74,42 @@
                        areOrdered:NSOrderedDescending];
 }
 
+- (void)testImageViewFrameSizeOnZoomingInwardWithZeroAngle {
+  double defaultPinchAngle = 0;
+  _imageViewFrameBeforePinch = [self ftr_imageViewFrame];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Image View")]
+      performAction:grey_pinchSlowInDirectionAndAngle(kGREYPinchDirectionInward,
+                                                      defaultPinchAngle)];
+  _imageViewFrameAfterPinch = [self ftr_imageViewFrame];
+}
+
+- (void)testImageViewFrameSizeOnZoomingInwardWithNegativeAngle {
+  double defaultPinchAngle = (-90.0 * M_PI / 180.0);
+  _imageViewFrameBeforePinch = [self ftr_imageViewFrame];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Image View")]
+      performAction:grey_pinchSlowInDirectionAndAngle(kGREYPinchDirectionInward,
+                                                      defaultPinchAngle)];
+  _imageViewFrameAfterPinch = [self ftr_imageViewFrame];
+}
+
+- (void)testImageViewFrameSizeOnZoomingInwardWithAngle {
+  double defaultPinchAngle = (30.0 * M_PI / 180.0);
+  _imageViewFrameBeforePinch = [self ftr_imageViewFrame];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Image View")]
+      performAction:grey_pinchFastInDirectionAndAngle(kGREYPinchDirectionInward,
+                                                      defaultPinchAngle)];
+  _imageViewFrameAfterPinch = [self ftr_imageViewFrame];
+}
+
+- (void)testImageViewFrameSizeOnZoomingOutwardWithAngle {
+  double defaultPinchAngle = (180.0 * M_PI / 180.0);
+  _imageViewFrameBeforePinch = [self ftr_imageViewFrame];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Image View")]
+      performAction:grey_pinchFastInDirectionAndAngle(kGREYPinchDirectionOutward,
+                                                      defaultPinchAngle)];
+  _imageViewFrameAfterPinch = [self ftr_imageViewFrame];
+}
+
 #pragma mark - Private
 
 /**

@@ -114,8 +114,13 @@ static const NSUInteger kBytesPerPixel = 4;
 }
 
 + (UIImage *)snapshotElement:(id)element {
-  CGRect elementAXFrame = CGRectIntersection([UIScreen mainScreen].bounds,
-                                             [element accessibilityFrame]);
+  if (![element respondsToSelector:@selector(accessibilityFrame)]) {
+    return nil;
+  }
+  CGRect elementAXFrame = [element accessibilityFrame];
+  if (CGRectIsEmpty(elementAXFrame)) {
+    return nil;
+  }
   UIView *viewToSnapshot = [element isKindOfClass:[UIView class]] ? (UIView *)element :
       [element grey_viewContainingSelf];
   CGRect viewAXFrame = [viewToSnapshot accessibilityFrame];

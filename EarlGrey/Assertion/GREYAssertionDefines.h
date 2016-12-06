@@ -26,7 +26,7 @@
 #import <EarlGrey/GREYFailureHandler.h>
 #import <EarlGrey/GREYFrameworkException.h>
 
-GREY_EXTERN id<GREYFailureHandler> greyFailureHandler;
+GREY_EXTERN NSString *const kGREYFailureHandlerKey;
 
 #pragma mark - Public
 
@@ -42,8 +42,10 @@ GREY_EXTERN id<GREYFailureHandler> greyFailureHandler;
  *  @param ...           Variable args for @c __description if it is a format string.
  */
 #define GREYAssert(__a1, __description, ...) \
+({ \
   I_GREYSetCurrentAsFailable(); \
-  I_GREYAssertTrue(__a1, __description, ##__VA_ARGS__)
+  I_GREYAssertTrue((__a1), (__description), ##__VA_ARGS__); \
+})
 
 /**
  *  Generates a failure with the provided @c __description if the expression @c __a1 evaluates to
@@ -55,8 +57,10 @@ GREY_EXTERN id<GREYFailureHandler> greyFailureHandler;
  *  @param ...           Variable args for @c __description if it is a format string.
  */
 #define GREYAssertTrue(__a1, __description, ...) \
+({ \
   I_GREYSetCurrentAsFailable(); \
-  I_GREYAssertTrue(__a1, __description, ##__VA_ARGS__)
+  I_GREYAssertTrue((__a1), (__description), ##__VA_ARGS__); \
+})
 
 /**
  *  Generates a failure with the provided @c __description if the expression @c __a1 evaluates to
@@ -68,8 +72,10 @@ GREY_EXTERN id<GREYFailureHandler> greyFailureHandler;
  *  @param ...           Variable args for @c __description if it is a format string.
  */
 #define GREYAssertFalse(__a1, __description, ...) \
+({ \
   I_GREYSetCurrentAsFailable(); \
-  I_GREYAssertFalse(__a1, __description, ##__VA_ARGS__)
+  I_GREYAssertFalse((__a1), (__description), ##__VA_ARGS__); \
+})
 
 /**
  *  Generates a failure with the provided @c __description if the expression @c __a1 is @c nil.
@@ -80,8 +86,10 @@ GREY_EXTERN id<GREYFailureHandler> greyFailureHandler;
  *  @param ...           Variable args for @c __description if it is a format string.
  */
 #define GREYAssertNotNil(__a1, __description, ...) \
+({ \
   I_GREYSetCurrentAsFailable(); \
-  I_GREYAssertNotNil(__a1, __description, ##__VA_ARGS__)
+  I_GREYAssertNotNil((__a1), (__description), ##__VA_ARGS__); \
+})
 
 /**
  *  Generates a failure with the provided @c __description if the expression @c __a1 is not @c nil.
@@ -92,8 +100,10 @@ GREY_EXTERN id<GREYFailureHandler> greyFailureHandler;
  *  @param ...           Variable args for @c __description if it is a format string.
  */
 #define GREYAssertNil(__a1, __description, ...) \
+({ \
   I_GREYSetCurrentAsFailable(); \
-  I_GREYAssertNil(__a1, __description, ##__VA_ARGS__)
+  I_GREYAssertNil((__a1), (__description), ##__VA_ARGS__); \
+})
 
 /**
  *  Generates a failure with the provided @c __description if the expression @c __a1 and
@@ -107,8 +117,10 @@ GREY_EXTERN id<GREYFailureHandler> greyFailureHandler;
  *  @param ...           Variable args for @c __description if it is a format string.
  */
 #define GREYAssertEqual(__a1, __a2, __description, ...) \
+({ \
   I_GREYSetCurrentAsFailable(); \
-  I_GREYAssertEqual(__a1, __a2, __description, ##__VA_ARGS__)
+  I_GREYAssertEqual((__a1), (__a2), (__description), ##__VA_ARGS__); \
+})
 
 /**
  *  Generates a failure with the provided @c __description if the expression @c __a1 and
@@ -122,8 +134,10 @@ GREY_EXTERN id<GREYFailureHandler> greyFailureHandler;
  *  @param ...           Variable args for @c __description if it is a format string.
  */
 #define GREYAssertNotEqual(__a1, __a2, __description, ...) \
+({ \
   I_GREYSetCurrentAsFailable(); \
-  I_GREYAssertNotEqual(__a1, __a2, __description, ##__VA_ARGS__)
+  I_GREYAssertNotEqual((__a1), (__a2), (__description), ##__VA_ARGS__); \
+})
 
 /**
  *  Generates a failure with the provided @c __description if the expression @c __a1 and
@@ -137,8 +151,10 @@ GREY_EXTERN id<GREYFailureHandler> greyFailureHandler;
  *  @param ...           Variable args for @c __description if it is a format string.
  */
 #define GREYAssertEqualObjects(__a1, __a2, __description, ...) \
+({ \
   I_GREYSetCurrentAsFailable(); \
-  I_GREYAssertEqualObjects(__a1, __a2, __description, ##__VA_ARGS__)
+  I_GREYAssertEqualObjects((__a1), (__a2), __description, ##__VA_ARGS__); \
+})
 
 /**
  *  Generates a failure with the provided @c __description if the expression @c __a1 and
@@ -152,8 +168,10 @@ GREY_EXTERN id<GREYFailureHandler> greyFailureHandler;
  *  @param ...           Variable args for @c __description if it is a format string.
  */
 #define GREYAssertNotEqualObjects(__a1, __a2, __description, ...) \
+({ \
   I_GREYSetCurrentAsFailable(); \
-  I_GREYAssertNotEqualObjects(__a1, __a2, __description, ##__VA_ARGS__)
+  I_GREYAssertNotEqualObjects((__a1), (__a2), (__description), ##__VA_ARGS__); \
+})
 
 /**
  *  Generates a failure unconditionally, with the provided @c __description.
@@ -163,8 +181,10 @@ GREY_EXTERN id<GREYFailureHandler> greyFailureHandler;
  *  @param ...           Variable args for @c __description if it is a format string.
  */
 #define GREYFail(__description, ...) \
-  I_GREYSetCurrentAsFailable(); \
-  I_GREYFail(__description, ##__VA_ARGS__)
+({ \
+    I_GREYSetCurrentAsFailable(); \
+    I_GREYFail((__description), ##__VA_ARGS__); \
+})
 
 /**
  *  Generates a failure unconditionally, with the provided @c __description and @c __details.
@@ -175,8 +195,10 @@ GREY_EXTERN id<GREYFailureHandler> greyFailureHandler;
  *  @param ...            Variable args for @c __description if it is a format string.
  */
 #define GREYFailWithDetails(__description, __details, ...)  \
+({ \
   I_GREYSetCurrentAsFailable(); \
-  I_GREYFailWithDetails(__description, __details, ##__VA_ARGS__)
+  I_GREYFailWithDetails((__description), (__details), ##__VA_ARGS__); \
+})
 
 #pragma mark - Private Use By Framework Only
 
@@ -186,125 +208,131 @@ GREY_EXTERN id<GREYFailureHandler> greyFailureHandler;
 /// @cond INTERNAL
 
 #define I_GREYFormattedString(__var, __format, ...) \
-  do { \
-    /* clang warns us about a leak in formatting but we don't care as we are about to fail. */ \
-    _Pragma("clang diagnostic push") \
-    _Pragma("clang diagnostic ignored \"-Wformat-nonliteral\"") \
-    _Pragma("clang diagnostic ignored \"-Wformat-security\"") \
-    __var = [NSString stringWithFormat:__format, ##__VA_ARGS__]; \
-    _Pragma("clang diagnostic pop") \
-  } while (NO)
+({ \
+  /* clang warns us about a leak in formatting but we don't care as we are about to fail. */ \
+  _Pragma("clang diagnostic push") \
+  _Pragma("clang diagnostic ignored \"-Wformat-nonliteral\"") \
+  _Pragma("clang diagnostic ignored \"-Wformat-security\"") \
+  (__var) = [NSString stringWithFormat:(__format), ##__VA_ARGS__]; \
+  _Pragma("clang diagnostic pop") \
+})
 
 #define I_GREYRegisterFailure(__exceptionName, __description, __details, ...) \
-  do { \
-    NSString *details__; \
-    I_GREYFormattedString(details__, __details, ##__VA_ARGS__); \
-    [greyFailureHandler handleException:[GREYFrameworkException exceptionWithName:__exceptionName \
-                                                                           reason:__description] \
-                                details:details__]; \
-  } while (NO)
+({ \
+  NSString *details__; \
+  I_GREYFormattedString(details__, __details, ##__VA_ARGS__); \
+  id<GREYFailureHandler> failureHandler__ = \
+      [[[NSThread currentThread] threadDictionary] valueForKey:kGREYFailureHandlerKey]; \
+  [failureHandler__ handleException:[GREYFrameworkException exceptionWithName:__exceptionName \
+                                                                       reason:(__description)] \
+                            details:(details__)]; \
+})
 
 // No private macro should call this.
 #define I_GREYSetCurrentAsFailable() \
-  do { \
-    if ([greyFailureHandler respondsToSelector:@selector(setInvocationFile:andInvocationLine:)]) { \
-      [greyFailureHandler setInvocationFile:[NSString stringWithUTF8String:__FILE__] \
-                          andInvocationLine:__LINE__]; \
-    } \
-  } while (NO)
+({ \
+  id<GREYFailureHandler> failureHandler__ = \
+      [[[NSThread currentThread] threadDictionary] valueForKey:kGREYFailureHandlerKey]; \
+  if ([failureHandler__ respondsToSelector:@selector(setInvocationFile:andInvocationLine:)]) { \
+    [failureHandler__ setInvocationFile:[NSString stringWithUTF8String:__FILE__] \
+                      andInvocationLine:__LINE__]; \
+  } \
+})
 
 #define I_GREYAssertTrue(__a1, __description, ...) \
-  do { \
-    if (!(__a1)) { \
-      NSString *formattedDescription__; \
-      I_GREYFormattedString(formattedDescription__, __description, ##__VA_ARGS__); \
-      I_GREYRegisterFailure(kGREYAssertionFailedException, \
-                            @"((" #__a1 ") is true) failed", \
-                            formattedDescription__); \
-    } \
-  } while(NO)
+({ \
+  if (!(__a1)) { \
+    NSString *formattedDescription__; \
+    I_GREYFormattedString(formattedDescription__, (__description), ##__VA_ARGS__); \
+    I_GREYRegisterFailure(kGREYAssertionFailedException, \
+                          @"((" #__a1 ") is true) failed", \
+                          formattedDescription__); \
+  } \
+})
 
 #define I_GREYAssertFalse(__a1, __description, ...) \
-  do { \
-    if ((__a1)) { \
-      NSString *formattedDescription__; \
-      I_GREYFormattedString(formattedDescription__, __description, ##__VA_ARGS__); \
-      I_GREYRegisterFailure(kGREYAssertionFailedException, \
-                            @"((" #__a1 ") is false) failed", \
-                            formattedDescription__); \
-    } \
-  } while(NO)
+({ \
+  if ((__a1)) { \
+    NSString *formattedDescription__; \
+    I_GREYFormattedString(formattedDescription__, (__description), ##__VA_ARGS__); \
+    I_GREYRegisterFailure(kGREYAssertionFailedException, \
+                          @"((" #__a1 ") is false) failed", \
+                          formattedDescription__); \
+  } \
+})
 
 #define I_GREYAssertNotNil(__a1, __description, ...) \
-  do { \
-    if ((__a1) == nil) { \
-      NSString *formattedDescription__; \
-      I_GREYFormattedString(formattedDescription__, __description, ##__VA_ARGS__); \
-      I_GREYRegisterFailure(kGREYNotNilException, \
-                            @"((" #__a1 ") != nil) failed", \
-                            formattedDescription__); \
-    } \
-  } while(NO)
+({ \
+  if ((__a1) == nil) { \
+    NSString *formattedDescription__; \
+    I_GREYFormattedString(formattedDescription__, (__description), ##__VA_ARGS__); \
+    I_GREYRegisterFailure(kGREYNotNilException, \
+                          @"((" #__a1 ") != nil) failed", \
+                          formattedDescription__); \
+  } \
+})
 
 #define I_GREYAssertNil(__a1, __description, ...) \
-  do { \
-    if ((__a1) != nil) { \
-      NSString *formattedDescription__; \
-      I_GREYFormattedString(formattedDescription__, __description, ##__VA_ARGS__); \
-      I_GREYRegisterFailure(kGREYNilException, \
-                            @"((" #__a1 ") == nil) failed", \
-                            formattedDescription__); \
-    } \
-  } while(NO)
+({ \
+  if ((__a1) != nil) { \
+    NSString *formattedDescription__; \
+    I_GREYFormattedString(formattedDescription__, (__description), ##__VA_ARGS__); \
+    I_GREYRegisterFailure(kGREYNilException, \
+                          @"((" #__a1 ") == nil) failed", \
+                          formattedDescription__); \
+  } \
+})
 
 #define I_GREYAssertEqual(__a1, __a2, __description, ...) \
-  do { \
-    if ((__a1) != (__a2)) { \
-      NSString *formattedDescription__; \
-      I_GREYFormattedString(formattedDescription__, __description, ##__VA_ARGS__); \
-      I_GREYRegisterFailure(kGREYAssertionFailedException, \
-                            @"((" #__a1 ") == (" #__a2 ")) failed", \
-                            formattedDescription__); \
-    } \
-  } while(NO)
+({ \
+  if ((__a1) != (__a2)) { \
+    NSString *formattedDescription__; \
+    I_GREYFormattedString(formattedDescription__, (__description), ##__VA_ARGS__); \
+    I_GREYRegisterFailure(kGREYAssertionFailedException, \
+                          @"((" #__a1 ") == (" #__a2 ")) failed", \
+                          formattedDescription__); \
+  } \
+})
 
 #define I_GREYAssertNotEqual(__a1, __a2, __description, ...) \
-  do { \
-    if ((__a1) == (__a2)) { \
-      NSString *formattedDescription__; \
-      I_GREYFormattedString(formattedDescription__, __description, ##__VA_ARGS__); \
-      I_GREYRegisterFailure(kGREYAssertionFailedException, \
-                            @"((" #__a1 ") != (" #__a2 ")) failed", \
-                            formattedDescription__); \
+({ \
+  if ((__a1) == (__a2)) { \
+    NSString *formattedDescription__; \
+    I_GREYFormattedString(formattedDescription__, (__description), ##__VA_ARGS__); \
+    I_GREYRegisterFailure(kGREYAssertionFailedException, \
+                          @"((" #__a1 ") != (" #__a2 ")) failed", \
+                          formattedDescription__); \
     } \
-  } while(NO)
+})
 
 #define I_GREYAssertEqualObjects(__a1, __a2, __description, ...) \
-  do { \
-    if (![(__a1) isEqual:(__a2)]) { \
-      NSString *formattedDescription__; \
-      I_GREYFormattedString(formattedDescription__, __description, ##__VA_ARGS__); \
-      I_GREYRegisterFailure(kGREYAssertionFailedException, \
-                            @"[(" #__a1 ") isEqual:(" #__a2 ")] failed", \
-                            formattedDescription__); \
-    } \
-  } while(NO)
+({ \
+  if (![(__a1) isEqual:(__a2)]) { \
+    NSString *formattedDescription__; \
+    I_GREYFormattedString(formattedDescription__, (__description), ##__VA_ARGS__); \
+    I_GREYRegisterFailure(kGREYAssertionFailedException, \
+                          @"[(" #__a1 ") isEqual:(" #__a2 ")] failed", \
+                          formattedDescription__); \
+  } \
+})
 
 #define I_GREYAssertNotEqualObjects(__a1, __a2, __description, ...) \
-  do { \
-    if ([(__a1) isEqual:(__a2)]) { \
-      NSString *formattedDescription__; \
-      I_GREYFormattedString(formattedDescription__, __description, ##__VA_ARGS__); \
-      I_GREYRegisterFailure(kGREYAssertionFailedException, \
-                            @"![(" #__a1 ") isEqual:(" #__a2 ")] failed", \
-                            formattedDescription__); \
-    } \
-  } while(NO)
+({ \
+  if ([(__a1) isEqual:(__a2)]) { \
+    NSString *formattedDescription__; \
+    I_GREYFormattedString(formattedDescription__, (__description), ##__VA_ARGS__); \
+    I_GREYRegisterFailure(kGREYAssertionFailedException, \
+                          @"![(" #__a1 ") isEqual:(" #__a2 ")] failed", \
+                          formattedDescription__); \
+  } \
+})
 
 #define I_GREYFail(__description, ...) \
+({ \
   NSString *formattedDescription__; \
   I_GREYFormattedString(formattedDescription__, __description, ##__VA_ARGS__); \
-  I_GREYRegisterFailure(kGREYGenericFailureException, formattedDescription__, @"")
+  I_GREYRegisterFailure(kGREYGenericFailureException, formattedDescription__, @""); \
+})
 
 #define I_GREYFailWithDetails(__description, __details, ...)  \
   I_GREYRegisterFailure(kGREYGenericFailureException, __description, __details, ##__VA_ARGS__)
