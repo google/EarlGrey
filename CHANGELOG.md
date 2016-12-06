@@ -3,7 +3,33 @@
 Details changes in each release of EarlGrey. EarlGrey follows
 [semantic versioning](http://semver.org/).
 
-## [1.5.3](https://github.com/google/EarlGrey/tree/1.5.3) (11/14/2016)
+## [1.6.0](https://github.com/google/EarlGrey/tree/1.6.0)(12/06/2016)
+
+```
+Baseline: [5080a21]
+   + [5080a21]: Updated changelog info.plist pod spec and gem version for 1.6.0 release.
+```
+
+### Compatibility
+* Requires iOS 8 as the minimum deployment target.
+* The EarlGrey gem runs out of the box for Swift 3.0 and Swift 2.3.
+* Has been tested for support till iOS 10.01 on devices and simulator.
+
+### Bug Fixes
+* Fixed CocoaPods issue with using EarlGrey as a module in Swift projects.
+* Fixed issue with Accessibility service not enabled for simulators and devices.
+* Minor documentation and syntax fixes.
+
+### Enhancements
+* Moved failure handler from a global variable to a thread local storage, like NSAssertionHandlers.
+* Exposed the angle for a GREYPinchAction.*
+* Added EarlGreyExample CocoaPods project to travis, deintegrating it for a clean setup.*
+
+### Deprecations
+* Deprecated `grey_pinchSlowInDirection` and `grey_pinchFastInDirection` in favor of
+  `grey_pinchSlowInDirectionWithAngle` and `grey_pinchFastInDirectionWithAngle`.
+
+## [1.5.3](https://github.com/google/EarlGrey/tree/1.5.3)(11/14/2016)
 
 ```
 Baseline: [690eaa2]
@@ -21,9 +47,12 @@ Baseline: [f3ee931]
 ```
 
 ### Compatibility
-* Handle bit-dependent CGFloat with bit-dependent trig function
+* Requires iOS 8 as the minimum deployment target.
+* The EarlGrey gem runs out of the box for Swift 3.0 and Swift 2.3.
+* Has been tested for support till iOS 10.01 on devices and simulator.
 
 ### Enhancements
+* Handle bit-dependent CGFloat with bit-dependent trig function
 * Enhance precision of timer used for touch injection
 * Removed requirement for bridging header for Swift and EarlGrey
 
