@@ -66,23 +66,33 @@ static const NSTimeInterval kLocalHTMLPageLoadDelay = 10.0;
   [self ftr_verifyLongTableOnLocallyLoadedRichHTML:NO];
 }
 
-- (void)testScrollingOnLocallyLoadedHTMLPagesWithBounce {
+// TODO: Temporarily disable the test due to the flakiness.
+// Link: https://github.com/google/EarlGrey/issues/181
+- (void)DISABLED_testScrollingOnLocallyLoadedHTMLPagesWithBounce {
   [self ftr_verifyScrollingOnLocallyLoadedHTMLPagesWithBounce:YES];
 }
 
-- (void)testScrollingOnLocallyLoadedHTMLPagesWithoutBounce {
+// TODO: Temporarily disable the test due to the flakiness.
+// Link: https://github.com/google/EarlGrey/issues/181
+- (void)DISABLED_testScrollingOnLocallyLoadedHTMLPagesWithoutBounce {
   [self ftr_verifyScrollingOnLocallyLoadedHTMLPagesWithBounce:NO];
 }
 
-- (void)testScrollingOnPagesLoadedUsingLoadHTMLStringWithBounce {
+// TODO: Temporarily disable the test due to the flakiness.
+// Link: https://github.com/google/EarlGrey/issues/181
+- (void)DISABLED_testScrollingOnPagesLoadedUsingLoadHTMLStringWithBounce {
   [self ftr_verifyScrollingOnPagesLoadedUsingLoadHTMLStringWithBounce:YES];
 }
 
-- (void)testScrollingOnPagesLoadedUsingLoadHTMLStringWithoutBounce {
+// TODO: Temporarily disable the test due to the flakiness.
+// Link: https://github.com/google/EarlGrey/issues/181
+- (void)DISABLED_testScrollingOnPagesLoadedUsingLoadHTMLStringWithoutBounce {
   [self ftr_verifyScrollingOnPagesLoadedUsingLoadHTMLStringWithBounce:NO];
 }
 
-- (void)testSynchronizationWhenSwitchingBetweenLoadingMethods {
+// TODO: Temporarily disable the test due to the flakiness.
+// Link: https://github.com/google/EarlGrey/issues/181
+- (void)DISABLED_testSynchronizationWhenSwitchingBetweenLoadingMethods {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"loadLocalFile")]
       performAction:grey_tap()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Row 1")]

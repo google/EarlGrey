@@ -29,6 +29,12 @@
   [self openTestViewNamed:@"Accessibility Views"];
 }
 
+// Test for https://github.com/google/EarlGrey/issues/108
+- (void)testAccessibilityMessageViewController {
+  [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"Open MVC")] performAction:grey_tap()];
+  [[[EarlGrey selectElementWithMatcher:grey_anything()] atIndex:0] assertWithMatcher:grey_notNil()];
+}
+
 - (void)testAccessibilityValues {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityValue(@"SquareElementValue")]
       assertWithMatcher:grey_sufficientlyVisible()];

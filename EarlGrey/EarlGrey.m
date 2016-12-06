@@ -16,10 +16,7 @@
 
 #import "EarlGrey.h"
 
-#include <pthread.h>
-
 #import "Common/GREYAnalytics.h"
-#import "Core/GREYAutomationSetup.h"
 #import "Event/GREYSyntheticEvents.h"
 #import "Exception/GREYDefaultFailureHandler.h"
 
@@ -32,8 +29,6 @@ NSString *const kGREYFailureHandlerKey = @"GREYFailureHandlerKey";
     // These need to be set in load since someone might call GREYAssertXXX APIs without calling
     // into EarlGrey.
     resetFailureHandler();
-    // Prepare for automation.
-    [[GREYAutomationSetup sharedInstance] perform];
   }
 }
 

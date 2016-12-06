@@ -301,22 +301,6 @@ IOHIDEventRef IOHIDEventCreateDigitizerFingerEvent(CFAllocatorRef allocator,
  *  @param delegate The element to set the UIKeyboard's delegate to.
  */
 - (void)setDelegate:(id)delegate;
-@end
-
-/**
- *  UI controller for accessibility preference pane that can be accessed from Settings app.
- */
-@interface AccessibilitySettingsController
-
-/**
- *  Hides the Accessibility inspector if @c enabled is @c NO, otherwise it is shown. @c specifier's
- *  value is ignored and can be @c nil.
- *
- *  @param enabled   A boolean that indicates if accessibility inspector is enabled or not.
- *  @param specifier Is unused can be @c nil.
- */
-- (void)setAXInspectorEnabled:(NSNumber *)enabled specifier:(id)specifier;
-
 /**
  *  A method to hide the keyboard without resigning the first responder. This is used only
  *  in iOS 8.1 where we found that turning off the autocorrection type on the first responder
@@ -332,7 +316,6 @@ IOHIDEventRef IOHIDEventCreateDigitizerFingerEvent(CFAllocatorRef allocator,
  *  to be ignored.
  */
 - (void)showKeyboard;
-
 @end
 
 /**
@@ -358,4 +341,43 @@ IOHIDEventRef IOHIDEventCreateDigitizerFingerEvent(CFAllocatorRef allocator,
  *  @param specifier Is unused can be @c nil.
  */
 - (void)setPredictionPreferenceValue:(NSNumber *)enabled forSpecifier:(id)specifier;
+@end
+
+/**
+ *  Used for enabling accessibility on simulator and device.
+ */
+@interface AXBackBoardServer
+
+/**
+ *  Returns backboard server instance.
+ */
++ (id)server;
+
+/**
+ *  Sets preference with @c key to @c value and raises @c notification.
+ */
+- (void)setAccessibilityPreferenceAsMobile:(CFStringRef)key
+                                     value:(CFBooleanRef)value
+                              notification:(CFStringRef)notification;
+
+@end
+
+/**
+ *  Used for enabling accessibility on device.
+ */
+@interface XCAXClient_iOS
+
+/*
+ *  Singleton shared instance when initialized will try to background the current process.
+ */
++ (id)sharedClient;
+
+/**
+ *  Programatically enable accessibility on both simulator and device.
+ *  Blocks until accessibility is fully loaded.
+ *
+ *  @return ignored.
+ */
+- (bool)loadAccessibility:(void **)unused;
+
 @end

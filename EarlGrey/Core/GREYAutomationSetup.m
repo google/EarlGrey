@@ -16,12 +16,15 @@
 
 #import "Core/GREYAutomationSetup.h"
 
+#import <XCTest/XCTest.h>
 #include <dlfcn.h>
 #include <execinfo.h>
+#include <objc/runtime.h>
 #include <signal.h>
 
 #import "Common/GREYDefines.h"
 #import "Common/GREYExposed.h"
+#import "Common/GREYSwizzler.h"
 
 // Exception handler that was previously installed before we replaced it with our own.
 static NSUncaughtExceptionHandler *gPreviousUncaughtExceptionHandler;
@@ -62,6 +65,54 @@ typedef struct GREYSignalHandler {
 // All previous signal handlers we replaced with our own.
 static GREYSignalHandler gPreviousSignalHandlers[kNumSignals];
 
+#pragma mark - Accessibility On Device
+
+#if !(TARGET_OS_SIMULATOR)
+
+@implementation NSNotificationCenter (GREYAdditions)
+/**
+ *  Fakes app going into background mode by calling the @c block immediately when
+ *  registered to be notified for UIApplicationDidEnterBackgroundNotification
+ */
+- (id<NSObject>)grey_addObserverForName:(NSString *)name
+                                 object:(id)obj
+                                  queue:(NSOperationQueue *)queue
+                             usingBlock:(void (^)(NSNotification *note))block {
+  if ([name isEqualToString:UIApplicationDidEnterBackgroundNotification]) {
+    block(nil);
+    return nil;
+  } else {
+    return INVOKE_ORIGINAL_IMP4(id<NSObject>,
+                                @selector(grey_addObserverForName:object:queue:usingBlock:),
+                                name,
+                                obj,
+                                queue,
+                                block);
+  }
+}
+@end
+
+@interface XCUIDevice (GREYExposed)
+/**
+ *  Exposing method to overwrite it with our own implementation.
+ */
+- (void)_silentPressButton:(XCUIDeviceButton)buttonType;
+@end
+
+@implementation XCUIDevice (GREYAdditions)
+/**
+ *  No-op method to prevent XCUITest from backgrounding the app when we use private API to enable
+ *  accessibility.
+ */
+- (void)grey_silentPressButton:(XCUIDeviceButton)buttonType {
+  // No-op because we don't want the test to background itself.
+}
+@end
+
+#endif
+
+#pragma mark - Automation Setup
+
 @implementation GREYAutomationSetup
 
 + (instancetype)sharedInstance {
@@ -78,9 +129,8 @@ static GREYSignalHandler gPreviousSignalHandlers[kNumSignals];
   return self;
 }
 
-- (void)perform {
+- (void)prepare {
   [self grey_setupCrashHandlers];
-
   [self grey_enableAccessibility];
   // Force software keyboard.
   [[UIKeyboardImpl sharedInstance] setAutomaticMinimizationEnabled:NO];
@@ -90,14 +140,81 @@ static GREYSignalHandler gPreviousSignalHandlers[kNumSignals];
   }
 }
 
-#pragma mark - Automation Setup
+#pragma mark - Accessibility
+
+// Enables accessibility as it is required for using any property of the accessibility tree.
+- (void)grey_enableAccessibility {
+#if TARGET_OS_SIMULATOR
+  NSLog(@"Enabling accessibility for automation on Simulator.");
+  static NSString *path =
+      @"/System/Library/PrivateFrameworks/AccessibilityUtilities.framework/AccessibilityUtilities";
+  char const *const localPath = [path fileSystemRepresentation];
+  NSAssert(localPath, @"localPath should not be nil");
+
+  void *handle = dlopen(localPath, RTLD_LOCAL);
+  NSAssert(handle, @"dlopen couldn't open AccessibilityUtilities at path %s", localPath);
+
+  Class AXBackBoardServerClass = NSClassFromString(@"AXBackBoardServer");
+  NSAssert(AXBackBoardServerClass, @"AXBackBoardServer class not found");
+  id server = [AXBackBoardServerClass server];
+  NSAssert(server, @"server should not be nil");
+
+  [server setAccessibilityPreferenceAsMobile:(CFStringRef)@"ApplicationAccessibilityEnabled"
+                                       value:kCFBooleanTrue
+                                notification:(CFStringRef)@"com.apple.accessibility.cache.app.ax"];
+  [server setAccessibilityPreferenceAsMobile:(CFStringRef)@"AccessibilityEnabled"
+                                       value:kCFBooleanTrue
+                                notification:(CFStringRef)@"com.apple.accessibility.cache.ax"];
+#else // On device
+  NSLog(@"Enabling accessibility for automation on Device.");
+  char const *const libAccessibilityPath =
+      [@"/usr/lib/libAccessibility.dylib" fileSystemRepresentation];
+  void *handle = dlopen(libAccessibilityPath, RTLD_LOCAL);
+  NSAssert(handle, @"dlopen couldn't open libAccessibility.dylib at path %s", libAccessibilityPath);
+  void (*_AXSSetAutomationEnabled)(BOOL) = dlsym(handle, "_AXSSetAutomationEnabled");
+  NSAssert(_AXSSetAutomationEnabled, @"Pointer to _AXSSetAutomationEnabled must not be NULL");
+
+  _AXSSetAutomationEnabled(YES);
+
+  Class XCAXClientClass = NSClassFromString(@"XCAXClient_iOS");
+  NSAssert(XCAXClientClass, @"XCAXClient_iOS class not found");
+  // As part of turning on accessibility, XCUITest tries to background this process.
+  // Swizzle to prevent app from being backgrounded.
+  GREYSwizzler *swizzler = [[GREYSwizzler alloc] init];
+  BOOL swizzleSuccess = [swizzler swizzleClass:[XCUIDevice class]
+                         replaceInstanceMethod:@selector(_silentPressButton:)
+                                    withMethod:@selector(grey_silentPressButton:)];
+  NSAssert(swizzleSuccess, @"Cannot swizzle XCUIDevice _silentPressButton:");
+  swizzleSuccess =
+      [swizzler swizzleClass:[NSNotificationCenter class]
+       replaceInstanceMethod:@selector(addObserverForName:object:queue:usingBlock:)
+                  withMethod:@selector(grey_addObserverForName:object:queue:usingBlock:)];
+  NSAssert(swizzleSuccess,
+           @"Cannot swizzle NSNotificationCenter addObserverForName:object:queue:usingBlock:");
+  // Call which backgrounds the app and enables accessibility on iOS 9 and below. For iOS 10
+  // another call is made below to load accessibility.
+  id XCAXClient = [XCAXClientClass sharedClient];
+  NSAssert(XCAXClient, @"XCAXClient_iOS sharedClient doesn't exist.");
+  // Accessibility should be enabled...Reset swizzled implementations to original.
+  BOOL reset = [swizzler resetInstanceMethod:@selector(_silentPressButton:)
+                                       class:[XCUIDevice class]];
+  NSAssert(reset, @"Failed to reset swizzled method _silentPressButton:");
+  reset = [swizzler resetInstanceMethod:@selector(addObserverForName:object:queue:usingBlock:)
+                                  class:[NSNotificationCenter class]];
+  NSAssert(reset, @"Failed to reset swizzled method addObserverForName:object:queue:usingBlock:");
+  if (iOS10_OR_ABOVE()) {
+    void *unused = 0;
+    [XCAXClient loadAccessibility:&unused];
+  }
+#endif
+}
 
 // Modifies the autocorrect and predictive typing settings to turn them off through the
 // keyboard settings bundle.
 - (void)grey_modifyKeyboardSettings {
-  NSString *keyboardSettingsPrefBundlePath =
+  static NSString *const keyboardSettingsPrefBundlePath =
       @"/System/Library/PreferenceBundles/KeyboardSettings.bundle/KeyboardSettings";
-  NSString *keyboardControllerClassName = @"KeyboardController";
+  static NSString *const keyboardControllerClassName = @"KeyboardController";
   id keyboardControllerInstance =
       [self grey_classInstanceFromBundleAtPath:keyboardSettingsPrefBundlePath
                                  withClassName:keyboardControllerClassName];
@@ -127,18 +244,6 @@ static GREYSignalHandler gPreviousSignalHandlers[kNumSignals];
   }
 
   return klassInstance;
-}
-
-// Enables accessibility as it is required for using any properties of the accessibility tree.
-- (void)grey_enableAccessibility {
-  char const *const libAccessibilityPath =
-      [@"/usr/lib/libAccessibility.dylib" fileSystemRepresentation];
-  void *handle = dlopen(libAccessibilityPath, RTLD_LOCAL);
-  NSAssert(handle, @"dlopen couldn't open libAccessibility.dylib at path %s", libAccessibilityPath);
-  void (*_AXSSetAutomationEnabled)(BOOL) = dlsym(handle, "_AXSSetAutomationEnabled");
-  NSAssert(_AXSSetAutomationEnabled, @"Pointer to _AXSSetAutomationEnabled must not be NULL");
-
-  _AXSSetAutomationEnabled(YES);
 }
 
 #pragma mark - Crash Handlers

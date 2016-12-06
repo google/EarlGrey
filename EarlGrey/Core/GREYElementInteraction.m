@@ -291,9 +291,9 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
             [NSString stringWithFormat:@"Failed to perform action within %g seconds.",
              interactionTimeout];
         NSDictionary *userInfo = @{
-                                   NSUnderlyingErrorKey : executorError,
-                                   NSLocalizedDescriptionKey : actionTimeoutDesc,
-                                   };
+          NSUnderlyingErrorKey : executorError,
+          NSLocalizedDescriptionKey : actionTimeoutDesc,
+        };
         actionError = [NSError errorWithDomain:kGREYInteractionErrorDomain
                                           code:kGREYInteractionTimeoutErrorCode
                                       userInfo:userInfo];
@@ -437,24 +437,24 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
             [NSString stringWithFormat:@"Failed to execute assertion within %g seconds.",
              interactionTimeout];
         NSDictionary *userInfo = @{
-                                   NSUnderlyingErrorKey : executorError,
-                                   NSLocalizedDescriptionKey : assertionTimeoutDesc,
-                                   };
+          NSUnderlyingErrorKey : executorError,
+          NSLocalizedDescriptionKey : assertionTimeoutDesc,
+        };
         assertionError = [NSError errorWithDomain:kGREYInteractionErrorDomain
                                              code:kGREYInteractionTimeoutErrorCode
                                          userInfo:userInfo];
       }
     }
 
-    BOOL actionFailed = !executionSucceeded || interactionFailed;
-    if (actionFailed) {
+    BOOL assertionFailed = !executionSucceeded || interactionFailed;
+    if (assertionFailed) {
       [self grey_handleFailureOfAssertion:assertion
                            assertionError:assertionError
                      userProvidedOutError:errorOrNil];
     }
 
     [stopwatch stop];
-    if (actionFailed) {
+    if (assertionFailed) {
       GREYLogVerbose(@"Assertion failed: %@ with time: %f seconds",
                      [assertion name],
                      [stopwatch elapsedTime]);
