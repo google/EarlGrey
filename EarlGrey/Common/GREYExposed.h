@@ -367,7 +367,7 @@ IOHIDEventRef IOHIDEventCreateDigitizerFingerEvent(CFAllocatorRef allocator,
  */
 @interface XCAXClient_iOS
 
-/*
+/**
  *  Singleton shared instance when initialized will try to background the current process.
  */
 + (id)sharedClient;
