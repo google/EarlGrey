@@ -20,6 +20,7 @@
 
 #import "Common/GREYSwizzler.h"
 #import "Common/GREYTestCaseInvocation.h"
+#import "Core/GREYAutomationSetup.h"
 #import "Exception/GREYFrameworkException.h"
 
 /**
@@ -59,6 +60,10 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
                                  withMethod:grey_recordFailSEL];
     NSAssert(swizzleSuccess, @"Cannot swizzle XCTestCase "
                              @"recordFailureWithDescription:inFile:atLine:expected:");
+#if TARGET_OS_SIMULATOR
+    // Simulator needs accessibility to be enabled before main is called.
+    [[GREYAutomationSetup sharedInstance] prepare];
+#endif
   }
 }
 
@@ -166,6 +171,13 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
 
 - (void)grey_invokeTest {
   @autoreleasepool {
+#if !(TARGET_OS_SIMULATOR)
+    // Enabling accessibility on device must be done after XCTest has been loaded.
+    static dispatch_once_t prepareForAutomation;
+    dispatch_once(&prepareForAutomation, ^{
+      [[GREYAutomationSetup sharedInstance] prepare];
+    });
+#endif
     if (![self grey_isSwizzled]) {
       GREYSwizzler *swizzler = [[GREYSwizzler alloc] init];
       Class selfClass = [self class];
@@ -284,4 +296,3 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
 }
 
 @end
-

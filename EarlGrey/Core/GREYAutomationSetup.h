@@ -17,7 +17,7 @@
 #import <Foundation/Foundation.h>
 
 /**
- *  Class responsible for setting up the device for automation and configuring crash handlers.
+ *  Class responsible for preparing the test environment for automation.
  */
 @interface GREYAutomationSetup : NSObject
 
@@ -27,16 +27,18 @@
 + (instancetype)sharedInstance;
 
 /**
- *  @remark init is not an available initializer. Use the other initializers.
+ *  @remark init is not an available initializer. Use singleton instance.
  */
 - (instancetype)init NS_UNAVAILABLE;
 
 /**
  * Prepare the device for automation by doing one-time setup:
- * * Enable accessibility
+ * * Turn on accessibility
  * * Install crash handlers
  * * Turn off autocorrect on software keyboard
+ *
+ * @remark Must be called during XCTestCase invocation, otherwise the behavior is undefined.
  */
-- (void)perform;
+- (void)prepare;
 
 @end

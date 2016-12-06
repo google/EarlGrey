@@ -21,9 +21,7 @@
 
 static NSString *const kGREYTestCaseInvocationExceptionName = @"GREYTestCaseInvocationException";
 
-@implementation GREYTestCaseInvocation
-
-- (void)checkXCTestCaseIsTypeOfTarget:(id)target {
+inline static void checkXCTestCaseIsTypeOfTarget(id target) {
   if (![target isKindOfClass:[XCTestCase class]]) {
     [[NSException exceptionWithName:kGREYTestCaseInvocationExceptionName
                              reason:@"The target of a GREYTestCaseInvocation must be an XCTestCase"
@@ -31,8 +29,10 @@ static NSString *const kGREYTestCaseInvocationExceptionName = @"GREYTestCaseInvo
   }
 }
 
+@implementation GREYTestCaseInvocation
+
 - (void)invokeWithTarget:(id)target {
-  [self checkXCTestCaseIsTypeOfTarget:target];
+  checkXCTestCaseIsTypeOfTarget(target);
 
   @try {
     [super invokeWithTarget:target];
@@ -43,7 +43,7 @@ static NSString *const kGREYTestCaseInvocationExceptionName = @"GREYTestCaseInvo
 }
 
 - (void)invoke {
-  [self checkXCTestCaseIsTypeOfTarget:self.target];
+  checkXCTestCaseIsTypeOfTarget(self.target);
 
   @try {
     [super invoke];
