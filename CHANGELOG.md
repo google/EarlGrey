@@ -13,7 +13,7 @@ Baseline: [5080a21]
 ### Compatibility
 * Requires iOS 8 as the minimum deployment target.
 * The EarlGrey gem runs out of the box for Swift 3.0 and Swift 2.3.
-* Has been tested for support till iOS 10.1.0 on devices and simulator.
+* Has been tested for support till iOS 10.1 on devices and simulator.
 
 ### Bug Fixes
 * Fixed CocoaPods issue with using EarlGrey as a module in Swift projects.
@@ -49,7 +49,7 @@ Baseline: [f3ee931]
 ### Compatibility
 * Requires iOS 8 as the minimum deployment target.
 * The EarlGrey gem runs out of the box for Swift 3.0 and Swift 2.3.
-* Has been tested for support till iOS 10.01 on devices and simulator.
+* Has been tested for support till iOS 10.1 on devices and simulator.
 
 ### Enhancements
 * Enhance precision of timer used for touch injection
