@@ -104,6 +104,7 @@ elif [ "${TYPE}" == "EXAMPLE_PODS" ]; then
   pod install --project-directory=Demo/EarlGreyExample
   execute_xcodebuild Demo/EarlGreyExample/EarlGreyExample.xcworkspace EarlGreyExampleTests
 elif [ "${TYPE}" == "EXAMPLE_PODS_SWIFT" ]; then
+  gem uninstall -aIx nanaimo
   cd gem/
   bundle install
   rake install
