@@ -151,7 +151,7 @@ static GREYSignalHandler gPreviousSignalHandlers[kNumSignals];
   char const *const localPath = [path fileSystemRepresentation];
   NSAssert(localPath, @"localPath should not be nil");
 
-  void *handle = dlopen(localPath, RTLD_LOCAL);
+  GREY_UNUSED_VARIABLE void *handle = dlopen(localPath, RTLD_LOCAL);
   NSAssert(handle, @"dlopen couldn't open AccessibilityUtilities at path %s", localPath);
 
   Class AXBackBoardServerClass = NSClassFromString(@"AXBackBoardServer");
