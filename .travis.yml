@@ -63,7 +63,7 @@ before_install:
   - rvm use 2.2.5
   - gem update --system
   - gem install xcpretty --no-rdoc --no-ri --no-document --quiet
-  - gem uninstall -ax nanaimo
+  - gem uninstall -axI nanaimo
 before_script:
   - Scripts/setup-earlgrey.sh
 script:
