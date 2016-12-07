@@ -43,15 +43,13 @@
 - (void)testSuccessiveTaps {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"loadGoogle")]
       performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"IMAGES")]
-      performAction:[GREYActions actionForTap]];
-
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"APPS")]
-      performAction:[GREYActions actionForTap]];
-
+  [self ftr_waitForWebElementWithName:@"NEWS" elementMatcher:grey_accessibilityLabel(@"NEWS")];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"NEWS")]
       performAction:[GREYActions actionForTap]];
-
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"IMAGES")]
+      performAction:[GREYActions actionForTap]];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"VIDEOS")]
+      performAction:[GREYActions actionForTap]];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"ALL")]
       performAction:[GREYActions actionForTap]];
 }
@@ -59,14 +57,14 @@
 - (void)testAJAXLoad {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"loadGoogle")]
       performAction:grey_tap()];
+  [self ftr_waitForWebElementWithName:@"ALL" elementMatcher:grey_accessibilityLabel(@"ALL")];
   id<GREYMatcher> nextPageMatcher =
-      grey_allOf(grey_accessibilityLabel(@"Next page"), grey_interactable(), nil);
+      grey_allOf(grey_accessibilityLabel(@"Next"), grey_interactable(), nil);
   [[[EarlGrey selectElementWithMatcher:nextPageMatcher]
       usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 200)
       onElementWithMatcher:grey_kindOfClass([UIWebView class])]
       performAction:grey_tap()];
-  [self ftr_waitForWebElementWithName:@"APPS" elementMatcher:grey_accessibilityLabel(@"APPS")];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"APPS")]
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"IMAGES")]
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
@@ -74,12 +72,13 @@
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"loadGoogle")]
       performAction:grey_tap()];
   id<GREYMatcher> searchButtonMatcher = grey_accessibilityHint(@"Search");
-  [self ftr_waitForWebElementWithName:@"Search Button" elementMatcher:searchButtonMatcher];
+  [self ftr_waitForWebElementWithName:@"Search" elementMatcher:searchButtonMatcher];
   [[[EarlGrey selectElementWithMatcher:searchButtonMatcher]
       performAction:grey_clearText()]
       performAction:grey_typeText(@"20 + 22\n")];
 
-  [self ftr_waitForWebElementWithName:@"Search Button" elementMatcher:grey_accessibilityLabel(@"42")];
+  [self ftr_waitForWebElementWithName:@"42"
+                       elementMatcher:grey_accessibilityLabel(@"42")];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"42")]
       assertWithMatcher:grey_sufficientlyVisible()];
 
@@ -137,7 +136,7 @@
 - (void)ftr_waitForWebElementWithName:(NSString *)name elementMatcher:(id<GREYMatcher>)matcher {
   // TODO: Improve EarlGrey webview synchronization so that it automatically waits for the page to
   // load removing the need for conditions such as this.
-  [[GREYCondition conditionWithName:[name stringByAppendingString:@" Condition"]
+  [[GREYCondition conditionWithName:[@"Wait For Element With Name: " stringByAppendingString:name]
                               block:^BOOL {
     NSError *error = nil;
     [[EarlGrey selectElementWithMatcher:matcher]
