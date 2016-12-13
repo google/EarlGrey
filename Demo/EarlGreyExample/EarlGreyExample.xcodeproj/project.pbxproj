@@ -529,7 +529,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.samples.EarlGreyTests;
 				PRODUCT_MODULE_NAME = EarlGreyExampleTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = EarlGreyExampleSwift/BridgingHeader.h;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "EarlGreyExampleSwift-Swift.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EarlGreyExampleSwift.app/EarlGreyExampleSwift";
@@ -560,7 +560,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.samples.EarlGreyTests;
 				PRODUCT_MODULE_NAME = EarlGreyExampleTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = EarlGreyExampleSwift/BridgingHeader.h;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "EarlGreyExampleSwift-Swift.h";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EarlGreyExampleSwift.app/EarlGreyExampleSwift";
 			};

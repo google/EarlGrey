@@ -64,7 +64,6 @@ static NSString *gTableViewIdentifier = @"TableViewIdentifier";
       @"Gesture Tests" : [FTRGestureViewController class],
       @"Pinch Tests" : [FTRImageViewController class],
       @"Network Test" : [FTRNetworkTestViewController class],
-      @"Notifications" : [NSNull null],
       @"Picker Views" : [FTRPickerViewController class],
       @"Presented Views" : [FTRPresentedViewController class],
       @"Rotated Views" : [FTRRotatedViewsViewController class],
