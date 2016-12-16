@@ -156,7 +156,7 @@ GREY_EXTERN NSString *const kGREYConfigKeyScreenshotDirLocation;
 /**
  *  @return The singleton GREYConfiguration instance.
  */
-+ (id)sharedInstance;
++ (instancetype)sharedInstance;
 
 /**
  *  If a user-configured value is associated with the given @c configKey, it is returned,

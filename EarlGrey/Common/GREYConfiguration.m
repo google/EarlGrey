@@ -73,7 +73,7 @@ NSString *const kGREYConfigKeyScreenshotDirLocation = @"GREYConfigKeyScreenshotD
   return self;
 }
 
-+ (id)sharedInstance {
++ (instancetype)sharedInstance {
   static GREYConfiguration *sharedInstance = nil;
   static dispatch_once_t token = 0;
 
