@@ -243,6 +243,26 @@ static const NSTimeInterval kLocalHTMLPageLoadDelay = 10.0;
   GREYAssertFalse(isAsyncRequestPending, @"should not be pending");
 }
 
+// TODO: Temporarily disable the test due to that it fails to dectect the UIWebView is idling.
+// Link: https://github.com/google/EarlGrey/issues/365
+- (void)DISABLED_testLongPressLinkInUIWebView {
+  // Load local page first.
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"loadLocalFile")]
+      performAction:grey_tap()];
+
+  // Wait local page to load.
+  [self ftr_waitForElementWithAccessibilityLabelToAppear:@"Row 1"];
+
+  // Long press on the next test link.
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Link to Next Test")]
+      performAction:grey_longPress()];
+
+  // Click on 'Open' button to validate the popup
+  id<GREYMatcher> openLabelMatcher = grey_allOf(grey_accessibilityTrait(UIAccessibilityTraitButton),
+                                                grey_accessibilityLabel(@"Open"), nil);
+  [[EarlGrey selectElementWithMatcher:openLabelMatcher] performAction:grey_tap()];
+}
+
 #pragma mark - Private
 
 - (void)ftr_waitForElementWithAccessibilityLabelToAppear:(NSString *)axLabel {
