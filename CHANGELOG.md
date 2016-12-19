@@ -3,6 +3,20 @@
 Details changes in each release of EarlGrey. EarlGrey follows
 [semantic versioning](http://semver.org/).
 
+## [1.6.1](https://github.com/google/EarlGrey/tree/1.6.1) (12/20/2016)
+
+```
+Baseline: [9e04024]
+   + [9e04024]: Release 1.6.1
+```
+
+### Bug Fixes
+* Add a test for long pressing the link in the UI webview.
+* Fix issue with xcodeproj gem in travis runs.
+
+### Enhancements
+* Update travis run to use Xcode 8.2
+
 ## [1.6.0](https://github.com/google/EarlGrey/tree/1.6.0) (12/06/2016)
 
 ```
