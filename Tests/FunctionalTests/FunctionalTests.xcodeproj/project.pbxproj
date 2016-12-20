@@ -330,7 +330,6 @@
 		FD193FF71BBDDBFB00153959 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		FD193FF91BBDDC0000153959 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		FD387B391CA9C5E200958AEE /* FTRSwiftTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FTRSwiftTests.swift; path = Sources/FTRSwiftTests.swift; sourceTree = "<group>"; };
-		FD387B3C1CA9C60D00958AEE /* FunctionalTestRig-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "FunctionalTestRig-Bridging-Header.h"; path = "Sources/FunctionalTestRig-Bridging-Header.h"; sourceTree = "<group>"; };
 		FD387B411CA9C63900958AEE /* EarlGreyFunctionalSwiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EarlGreyFunctionalSwiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD5470D61BBDE0A9000661FD /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = ../../../../../../../../../System/Library/Frameworks/IOKit.framework; sourceTree = "<group>"; };
 		FD5470F11BBDECBB000661FD /* EarlGreyFunctionalTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EarlGreyFunctionalTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -600,7 +599,6 @@
 			isa = PBXGroup;
 			children = (
 				FD8277DE1D677D9F00C7C2AD /* EarlGrey.swift */,
-				FD387B3C1CA9C60D00958AEE /* FunctionalTestRig-Bridging-Header.h */,
 				FD387B391CA9C5E200958AEE /* FTRSwiftTests.swift */,
 			);
 			name = SwiftSources;
@@ -1065,7 +1063,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Sources/FunctionalTestRig-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FunctionalTestRig.app/FunctionalTestRig";
 				WARNING_CFLAGS = "$(inherited)";
@@ -1105,7 +1103,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Sources/FunctionalTestRig-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FunctionalTestRig.app/FunctionalTestRig";
 				WARNING_CFLAGS = "$(inherited)";
 			};

@@ -138,7 +138,6 @@
 		FDFCE9A41D35ADE2006D9592 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = ../../../../../../../System/Library/Frameworks/IOKit.framework; sourceTree = "<group>"; };
 		FDFCE9AB1D35B0BC006D9592 /* EarlGreyContribsSwiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EarlGreyContribsSwiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDFCE9AD1D35B0BC006D9592 /* EarlGreyContribsSwiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarlGreyContribsSwiftTests.swift; sourceTree = "<group>"; };
-		FDFCE9C21D35B248006D9592 /* EarlGreyContribsTestRig-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "EarlGreyContribsTestRig-Bridging-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -184,7 +183,6 @@
 			isa = PBXGroup;
 			children = (
 				FDBC1BF41DC1788900D06106 /* EarlGrey.swift */,
-				FDFCE9C21D35B248006D9592 /* EarlGreyContribsTestRig-Bridging-Header.h */,
 			);
 			name = SupportingFiles;
 			sourceTree = "<group>";
@@ -698,7 +696,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "EarlGreyContribsSwiftTests/EarlGreyContribsTestRig-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 2.3;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EarlGreyContribs.app/EarlGreyContribs";
@@ -715,7 +713,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "EarlGreyContribsSwiftTests/EarlGreyContribsTestRig-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 2.3;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EarlGreyContribs.app/EarlGreyContribs";
 			};

@@ -40,8 +40,9 @@ matrix:
         - DESTINATION="OS=9.1,name=iPhone 6s" SDK=iphonesimulator9.3 TYPE="UNIT"
     - env:
         - DESTINATION="OS=9.3,name=iPhone 6s Plus" SDK=iphonesimulator9.3 TYPE="FUNCTIONAL"
-    - env:
-        - DESTINATION="OS=9.3,name=iPhone 6s" SDK=iphonesimulator10.2 TYPE="CARTHAGE"
+    - osx_image: xcode8.2
+      env:
+        - DESTINATION="OS=10.1,name=iPhone 6s" SDK=iphonesimulator10.2 TYPE="CARTHAGE"
     - osx_image: xcode8.2
       env:
         - DESTINATION="OS=10.1,name=iPhone 7" SDK=iphonesimulator10.2 TYPE="FUNCTIONAL"
