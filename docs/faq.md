@@ -467,3 +467,9 @@ xcodebuild \
 -derivedDataPath 'xctestrun_dd'
 test-without-building
 ```
+
+**I get a compiler error `i"Invalid escaped sequence in literal"` when I add the backspace escape character
+in a Swift string `"grey_typeText("foob\bar")"` to type "fooar". How do I use backspace to delete text in Swift?**
+
+For Swift, the backspace escape character is `\u{8}`. You need to add that in your string to be typed for
+Swift. For example, To type "fooar", you should use `grey_typeText("foob\u{8}ar")`
