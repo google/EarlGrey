@@ -42,7 +42,9 @@ For EarlGrey, we highly recommend [CocoaPods](https://cocoapods.org/) as the bes
   1. After your test target (for example, *SampleAppTests*) is set up, you now need to add EarlGrey as
   a framework dependency. To do so, add EarlGrey as a dependency to the test target in your `Podfile`.
   2. Because EarlGrey must be embedded within the app under test, we need to add certain Build Phases and
-  Scheme changes to the **Test Target**. We recommend using our earlgrey gem to install any dependencies if you're using a CocoaPods version from `1.0.0` onwards. Run `gem install earlgrey`. You need to require this gem in a post_install hook using the project's name, the test target's name, and the name of the xcscheme file as is shown in the below example for `1.0.0`:
+  Scheme changes to the **Test Target**. We recommend using our earlgrey gem to install any dependencies if you're using a CocoaPods version from `1.0.0` onwards. Run `gem install earlgrey`. In case you are using an earlier version of the EarlGrey CocoaPod, please use the corresponding version of the EarlGrey gem from the info provided [here](https://github.com/google/EarlGrey/tree/master/docs/versions.md) and specify the version with `gem install earlgrey -v x.y.z`.
+  
+  You need to require this gem in a post_install hook using the project's name, the test target's name, and the name of the xcscheme file as is shown in the below example for `1.0.0`:
 
   ```ruby
   PROJECT_NAME = 'SampleApp'
@@ -71,10 +73,6 @@ For EarlGrey, we highly recommend [CocoaPods](https://cocoapods.org/) as the bes
    * For more information, visit the [CocoaPods Podfile Guide](http://guides.cocoapods.org/using/the-podfile.html).
    * If you don't want a gem dependency, replace `require 'earlgrey'` with `load 'configure_earlgrey.rb'` and manually
      copy `configure_earlgrey.rb` from the gem into the same directory as the Podfile.
-
-   Note: If you are trying to run the [EarlGrey Demo App](https://github.com/google/EarlGrey/tree/master/Demo/EarlGreyExample)
-   then ensure you have the latest 1.x CocoaPods version since we use the [updated syntax]
-   (http://blog.cocoapods.org/CocoaPods-1.0/) for it.
 
 #### Step 3: Run the pod install command
 
