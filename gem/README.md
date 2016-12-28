@@ -17,8 +17,6 @@ Options:
                                      # Default: true
       [--swift], [--no-swift]
                                      # Default: true
-      [--swift], [--no-swift]
-                                     # Default: true
       [--swift-version]
                                      # Default: 3.0
                                      # Supported Values: 2.3, 3.0.
