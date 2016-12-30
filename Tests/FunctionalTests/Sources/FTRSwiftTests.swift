@@ -69,7 +69,7 @@ class TextFieldEventsRecorder {
   @objc func editingDidEndHandler() { editingDidEnd = true }
 }
 
-class FunctionalTestRigSwiftTests: XCTestCase {
+class FTRSwiftTests: XCTestCase {
 
   override func tearDown() {
     super.tearDown()
