@@ -543,8 +543,8 @@ inline void GREYVisibilityDiffBufferSetVisibilityAt(GREYVisibilityDiffBuffer buf
   CGRect screenBounds = [[UIScreen mainScreen] bounds];
   CGRect axFrame = [view accessibilityFrame];
   CGRect searchRectOnScreenInViewInScreenCoordinates =
-      CGRectIntersection(searchRectInScreenCoordinates,
-                         CGRectIntersection(axFrame, screenBounds));
+      CGRectIntersectionStrict(searchRectInScreenCoordinates,
+                               CGRectIntersectionStrict(axFrame, screenBounds));
   if (CGRectIsEmpty(searchRectOnScreenInViewInScreenCoordinates)) {
     return NO;
   }

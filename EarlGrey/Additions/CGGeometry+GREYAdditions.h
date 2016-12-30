@@ -179,6 +179,21 @@ CGRect CGRectFixedToVariableScreenCoordinates(CGRect rectInFixedCoordinates);
 CGRect CGRectVariableToFixedScreenCoordinates(CGRect rectInVariableCoordinates);
 
 /**
+ *  Return the intersection of @c rect1 and @c rect2. The built-in function can produce floating
+ *  errors on 32-bit platform (i.e. iphone 5), which results in a bigger rectangle than both
+ *  sources. This will remove the errors by forcing the resulting rectangle to be no greater than
+ *  the sources.
+ *
+ *  @param rect1 The first source rectangle.
+ *  @param rect2 The second source rectangle.
+ *
+ *  @return A rectangle that represents the intersection of the two specified rectangles. If the two
+ *          rectangles do not intersect, returns the null rectangle. To check for this condition,
+ *          use CGRectIsNull.
+ */
+CGRect CGRectIntersectionStrict(CGRect rect1, CGRect rect2);
+
+/**
  *  Normalizes @c rectInPixels to the largest rectangle that is within rectInPixels and
  *  pixel-boundary aligned. If the fractional part of height or width are > 0.5, they are rounded up
  *  otherwise rounded down.

@@ -99,6 +99,50 @@
                                   CGRectIntegralInside(rect11)));
 }
 
+- (void)testCGRectIntersectionError {
+  CGRect rectBound = CGRectMake(-500, -500, 1000, 1000);
+
+  // this articulated float number will fail when calling CGRectIntersection on 32-bit cpu where
+  // the single precision will produce an errorous result.
+  CGRect rect1 = CGRectMake(110.666672f, 420, 98.6666641f, 72);
+  CGRect rect2 = CGRectMake(420, 110.666672f, 72, 98.6666641f);
+
+#if !CGFLOAT_IS_DOUBLE
+  // the built-in function would fail on 32 bit cpu
+  XCTAssertFalse(CGRectEqualToRect(CGRectIntersection(rect1, rectBound), rect1));
+  XCTAssertFalse(CGRectEqualToRect(CGRectIntersection(rect2, rectBound), rect2));
+#else
+  // the built-in function would work for 64 bit
+  XCTAssertTrue(CGRectEqualToRect(CGRectIntersection(rect1, rectBound), rect1));
+  XCTAssertTrue(CGRectEqualToRect(CGRectIntersection(rect2, rectBound), rect2));
+#endif
+
+  // the workaround function would always work
+  XCTAssertTrue(CGRectEqualToRect(CGRectIntersectionStrict(rect1, rectBound), rect1));
+  XCTAssertTrue(CGRectEqualToRect(CGRectIntersectionStrict(rect2, rectBound), rect2));
+
+  // the regular numbers should work
+  CGRect rect3 = CGRectMake(420, 110, 72, 98);
+  XCTAssertTrue(CGRectEqualToRect(CGRectIntersection(rect3, rectBound), rect3));
+  XCTAssertTrue(CGRectEqualToRect(CGRectIntersectionStrict(rect3, rectBound), rect3));
+
+  // the non-normalized rect with floating errors
+  CGRect rect4 = CGRectMake(420, 110.666672f, -70, 98.6666641f);
+  CGRect rect4_result = CGRectMake(350, 110.666672f, 70, 98.6666641f);
+  XCTAssertTrue(CGRectEqualToRect(CGRectIntersectionStrict(rect4, rectBound), rect4_result));
+#if !CGFLOAT_IS_DOUBLE
+  XCTAssertFalse(CGRectEqualToRect(CGRectIntersection(rect4, rectBound), rect4_result));
+#else
+  XCTAssertTrue(CGRectEqualToRect(CGRectIntersection(rect4, rectBound), rect4_result));
+#endif
+
+  // the non-normalized rect with regular numbers
+  CGRect rect5 = CGRectMake(-10, -10, -70, -20);
+  CGRect rect5_result = CGRectMake(-80, -30, 70, 20);
+  XCTAssertTrue(CGRectEqualToRect(CGRectIntersectionStrict(rect5, rectBound), rect5_result));
+  XCTAssertTrue(CGRectEqualToRect(CGRectIntersection(rect5, rectBound), rect5_result));
+}
+
 - (void)testCGPointAfterRemovingFractionalPixelsRoundedDown {
   CGFloat scale = [UIScreen mainScreen].scale;
   CGPoint expected = CGPointMake(1.0f / scale, 1.0f / scale);
