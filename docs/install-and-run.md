@@ -42,8 +42,8 @@ For EarlGrey, we highly recommend [CocoaPods](https://cocoapods.org/) as the bes
   1. After your test target (for example, *SampleAppTests*) is set up, you now need to add EarlGrey as
   a framework dependency. To do so, add EarlGrey as a dependency to the test target in your `Podfile`.
   2. Because EarlGrey must be embedded within the app under test, we need to add certain Build Phases and
-  Scheme changes to the **Test Target**. We recommend using our earlgrey gem to install any dependencies if you're using a CocoaPods version from `1.0.0` onwards. Run `gem install earlgrey`. In case you are using an earlier version of the EarlGrey CocoaPod, please use the corresponding version of the EarlGrey gem from the info provided [here](https://github.com/google/EarlGrey/tree/master/docs/versions.md) and specify the version with `gem install earlgrey -v x.y.z`.
-  
+  Scheme changes to the **Test Target**. We recommend using our earlgrey gem to install any dependencies. You can use it by running `gem install earlgrey`. In case you are using an earlier version of the EarlGrey CocoaPod, please peruse this [doc](https://github.com/google/EarlGrey/tree/master/docs/versions.md) to find the corresponding EarlGrey gem version and any syntax changes. To download a particular version of the gem, use `gem install earlgrey -v x.y.z`.
+
   You need to require this gem in a post_install hook using the project's name, the test target's name, and the name of the xcscheme file as is shown in the below example for `1.0.0`:
 
   ```ruby
