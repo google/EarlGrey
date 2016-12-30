@@ -128,20 +128,11 @@ class FunctionalTestRigSwiftTests: XCTestCase {
     GREYAssert(textFieldEventsRecorder.verify(), reason: "Text field events were not all received")
   }
 
-  func testFastTypingOnWebView() {
-    self.openTestView("Web Views")
-    EarlGrey.select(elementWithMatcher: grey_accessibilityLabel("loadGoogle"))
-      .perform(grey_tap())
-    let searchButtonMatcher: GREYMatcher = grey_accessibilityHint("Search")
-
-    self.waitForWebElementWithName("Search Button", elementMatcher: searchButtonMatcher)
-
-    // grey_text() doesn't work on webviews, must use grey_accessibilityValue()
-    EarlGrey.select(elementWithMatcher: searchButtonMatcher)
-      .perform(grey_clearText())
-      .perform(grey_typeText("zzz"))
-      .perform(grey_replaceText("new_text_value"))
-      .assert(grey_accessibilityValue("new_text_value"))
+  func testTypingWithDeletion() {
+    self.openTestView("Typing Views")
+    EarlGrey.select(elementWithMatcher: grey_accessibilityID("TypingTextField"))
+      .perform(grey_typeText("Fooo\u{8}B\u{8}Bar"))
+      .assert(grey_text("FooBar"))
   }
 
   func testButtonPressWithGREYAllOf() {
@@ -207,15 +198,6 @@ class FunctionalTestRigSwiftTests: XCTestCase {
       .perform(grey_setDate(date))
     EarlGrey.select(elementWithMatcher: grey_accessibilityID("DatePickerId"))
       .assert(grey_datePickerValue(date))
-  }
-
-  func waitForWebElementWithName(_ name: String, elementMatcher matcher: GREYMatcher) {
-    GREYCondition(name: name + " Condition", block: {_ in
-      var errorOrNil: NSError?
-      EarlGrey.select(elementWithMatcher: matcher)
-        .assert(grey_sufficientlyVisible(), error: &errorOrNil)
-      return errorOrNil == nil
-    }).wait(withTimeout: 3.0)
   }
 
   func openTestView(_ name: String) {
