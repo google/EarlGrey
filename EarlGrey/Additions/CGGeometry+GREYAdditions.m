@@ -169,6 +169,19 @@ CGRect CGRectVariableToFixedScreenCoordinates(CGRect rectInVariableCoordinates) 
   return rectInFixedCoordinates;
 }
 
+CGRect CGRectIntersectionStrict(CGRect rect1, CGRect rect2) {
+  CGRect rect = CGRectIntersection(rect1, rect2);
+#if !CGFLOAT_IS_DOUBLE
+  // CGRectGetWidth and CGRectGetHeight will return normalized results, this will ensure the
+  // resulting rect is no greater than the given sources
+  rect.size.width = MIN(CGRectGetWidth(rect),
+                        MIN(CGRectGetWidth(rect1), CGRectGetWidth(rect2)));
+  rect.size.height = MIN(CGRectGetHeight(rect),
+                         MIN(CGRectGetHeight(rect1), CGRectGetHeight(rect2)));
+#endif
+  return rect;
+}
+
 CGRect CGRectIntegralInside(CGRect rectInPixels) {
   CGFloat minXFraction = CGRectGetMinX(rectInPixels) - grey_floor(CGRectGetMinX(rectInPixels));
   // Adjust horizontal pixel boundary alignment.
@@ -194,13 +207,9 @@ CGRect CGRectIntegralInside(CGRect rectInPixels) {
     rectInPixels.origin.y = grey_floor(CGRectGetMinY(rectInPixels));
   }
 
-  CGFloat widthFraction = rectInPixels.size.width - grey_floor(rectInPixels.size.width);
-  CGFloat heightFraction = rectInPixels.size.height - grey_floor(rectInPixels.size.height);
   // Pixel-align width and height as per iOS implementation.
-  rectInPixels.size.width = widthFraction > 0.5 ? grey_ceil(rectInPixels.size.width) :
-      grey_floor(rectInPixels.size.width);
-  rectInPixels.size.height = heightFraction > 0.5 ? grey_ceil(rectInPixels.size.height) :
-      grey_floor(rectInPixels.size.height);
+  rectInPixels.size.width = grey_ceil(rectInPixels.size.width - 0.5);
+  rectInPixels.size.height = grey_ceil(rectInPixels.size.height - 0.5);
   return rectInPixels;
 }
 
