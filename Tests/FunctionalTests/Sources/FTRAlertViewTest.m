@@ -54,8 +54,7 @@
       performAction:[GREYActions actionForTap]];
 }
 
-//TODO: Investigate this flaky test.
-- (void)DISABLED_testStyledAlertView {
+- (void)testStyledAlertView {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Styled Alert")]
       performAction:[GREYActions actionForTap]];
 
