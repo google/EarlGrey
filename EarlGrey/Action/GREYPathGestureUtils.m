@@ -63,8 +63,8 @@ static CGFloat kCachedScreenEdgePanDetectionLength = NAN;
                         shouldCancelInertia:NO];
 }
 
-+ (NSArray *)touchPathForPinchGestureWithStartPoint:(CGPoint)startPoint
-                                        andEndPoint:(CGPoint)endPoint {
++ (NSArray *)touchPathForDragGestureWithStartPoint:(CGPoint)startPoint
+                                       andEndPoint:(CGPoint)endPoint {
   return [self grey_touchPathWithStartPoint:startPoint
                                    endPoint:endPoint
                         shouldCancelInertia:YES];
