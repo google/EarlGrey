@@ -477,17 +477,19 @@ Swift. For example, To type "fooar", you should use `grey_typeText("foob\u{8}ar"
 **Does EarlGrey support finding react-native elements?**
 
 Yes. By default [all touchable elements](https://facebook.github.io/react-native/docs/accessibility.html)
-are accessible. Setting `accessibilityLabel` on a button will enable you to find it by `grey_accessibilityLabel`.
-For other elements, you must set `accessible: true` or `grey_accessibilityLabel` will not match on them
-even if they have a label. Finding by label only works on accessible elements to match Voice Over and the iOS accessibility
-inspector. Certain components also support setting a `testID` and those can always be matched with `grey_accessibilityID`,
-even if the element is `accessible: false`.
+are accessible. A button with the `accessibilityLabel` prop set can be found by `grey_accessibilityLabel`.
+For other elements, `accessible: true` must be set otherwise `grey_accessibilityLabel` will not match on them
+even if they have a label. Finding by label is designed to match the behavior of Voice Over and the iOS accessibility which
+is why it doesn't match on non-accessible elements that have labels. Components that support the `testID` prop can always be
+matched with `grey_accessibilityID`, even if the element is `accessible: false`.
+
+Term               | iOS                | Android
+---                | ---                | ---
+accessibilityLabel | accessibilityLabel | content description
+testID             | accessibilityID    | view tag
 
 ```javascript
 function testLabel(description) {
-  // Term               | iOS                | Android
-  // accessibilityLabel | accessibilityLabel | content description
-  // testID             | accessibilityID    | view tag
   return {
                 accessible: true,
                     testID: description + "_id",
@@ -496,14 +498,13 @@ function testLabel(description) {
 }
 
 <Button
-onPress={()=>{}}
-title="automation"
-{...testLabel('automation_button')}
-/>
+  onPress={()=>{}}
+  title="automation"
+  {...testLabel('automation_button')} />
 
-<Image source={require('./img/image.png')}
-{...testLabel('automation_image')} />
-</View>
+<Image
+  source={require('./img/image.png')}
+  {...testLabel('automation_image')} />
 ```
 
 ```swift
