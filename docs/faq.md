@@ -488,6 +488,7 @@ accessibilityLabel | accessibilityLabel | content description
 testID             | accessibilityID    | view tag
 
 ```javascript
+// Set the test props of a component to enable UI testing
 function testLabel(description) {
   return {
                 accessible: true,
