@@ -473,3 +473,43 @@ in a Swift string `"grey_typeText("foob\bar")"` to type "fooar". How do I use ba
 
 For Swift, the backspace escape character is `\u{8}`. You need to add that in your string to be typed for
 Swift. For example, To type "fooar", you should use `grey_typeText("foob\u{8}ar")`
+
+**Does EarlGrey support finding react-native elements?**
+
+Yes. By default [all touchable elements](https://facebook.github.io/react-native/docs/accessibility.html)
+are accessible. Setting `accessibilityLabel` on a button will enable you to find it by `grey_accessibilityLabel`.
+For other elements, you must set `accessible: true` or `grey_accessibilityLabel` will not match on them
+even if they have a label. Finding by label only works on accessible elements to match Voice Over and the iOS accessibility
+inspector. Certain components also support setting a `testID` and those can always be matched with `grey_accessibilityID`,
+even if the element is `accessible: false`.
+
+```javascript
+function testLabel(description) {
+  // Term               | iOS                | Android
+  // accessibilityLabel | accessibilityLabel | content description
+  // testID             | accessibilityID    | view tag
+  return {
+                accessible: true,
+                    testID: description + "_id",
+        accessibilityLabel: description + "_label"
+  }
+}
+
+<Button
+onPress={()=>{}}
+title="automation"
+{...testLabel('automation_button')}
+/>
+
+<Image source={require('./img/image.png')}
+{...testLabel('automation_image')} />
+</View>
+```
+
+```swift
+// Swift
+EarlGrey.select(elementWithMatcher: grey_accessibilityLabel("automation_button_label")).assert(grey_sufficientlyVisible());
+
+EarlGrey.select(elementWithMatcher: grey_accessibilityLabel("automation_image_label")).assert(grey_sufficientlyVisible());
+EarlGrey.select(elementWithMatcher: grey_accessibilityID("automation_image_id")).assert(grey_sufficientlyVisible());
+```
