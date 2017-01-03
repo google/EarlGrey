@@ -479,8 +479,8 @@ Swift. For example, To type "fooar", you should use `grey_typeText("foob\u{8}ar"
 Yes. By default [all touchable elements](https://facebook.github.io/react-native/docs/accessibility.html)
 are accessible. A button with the `accessibilityLabel` prop set can be found by `grey_accessibilityLabel`.
 For other elements, `accessible: true` must be set otherwise `grey_accessibilityLabel` will not match on them
-even if they have a label. Finding by label is designed to match the behavior of Voice Over and the iOS accessibility which
-is why it doesn't match on non-accessible elements that have labels. Components that support the `testID` prop can always be
+even if they have a label. Finding by label will not match on non-accessible elements. This matches the behavior
+of `Voice Over` and the `iOS accessibility inspector`. Components that support the `testID` prop can always be
 matched with `grey_accessibilityID`, even if the element is `accessible: false`.
 
 Term               | iOS                | Android
