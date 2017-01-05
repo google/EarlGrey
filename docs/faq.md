@@ -181,8 +181,7 @@ and then turn it back on after the animation is gone.
 
 ```swift
 // Swift
-GREYConfiguration.sharedInstance()
-    .setValue(false, forConfigKey: kGREYConfigKeySynchronizationEnabled)
+GREYConfiguration.sharedInstance().setValue(false, forConfigKey: kGREYConfigKeySynchronizationEnabled)
 ```
 
 Alternatively, conditionally disable the animation using `#if EARLGREY_ENV`.
@@ -211,8 +210,8 @@ class MyTests: XCTestCase {
     override func setUp() {
         super.setUp()
 
-        let delegate: App.AppDelegate = (UIApplication.sharedApplication().delegate as? App.AppDelegate)!
-        delegate.resetApplicationForTesting()
+        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.resetApplicationForTesting()
     }
 ```
 
@@ -330,10 +329,10 @@ will then fail because the element doesn't meet tap's interactable constraint.
 
 ```swift
 // Swift
-EarlGrey.selectElementWithMatcher(matcher)
-        .usingSearchAction(grey_scrollInDirection(.Down, 200),
-                           onElementWithMatcher:grey_kindOfClass(UITableView.self))
-        .assertWithMatcher(grey_notNil())
+EarlGrey.select(elementWithMatcher:matcher)
+        .using(searchAction: grey_scrollInDirection(GREYDirection.down, 200),
+               onElementWithMatcher: grey_kindOfClass(UITableView.self))
+        .assert(grey_notNil())
 ```
 
 ```objc
@@ -355,12 +354,12 @@ are available. The following is an example of waiting for a collection view to p
 let populated = GREYCondition(name: "Wait for UICollectionView to populate", block: { _ in
     var errorOrNil: NSError?
 
-    EarlGrey().selectElementWithMatcher(collectionViewMatcher)
-              .assertWithMatcher(grey_notNil(), error: &errorOrNil)
+    EarlGrey.select(elementWithMatcher:collectionViewMatcher)
+            .assert(grey_notNil(), error: &errorOrNil)
 
     let success = errorOrNil == nil
     return success
-}).waitWithTimeout(20.0)
+}).wait(withTimeout: 20.0)
 
 GREYAssertTrue(populated, reason: "Failed to populate UICollectionView in 20 seconds")
 ```
@@ -403,11 +402,11 @@ Test App's Swift Tests, which creates it as:
 ```swift
 // Swift
 let checkHiddenBlock:GREYActionBlock =
-    GREYActionBlock.actionWithName("checkHiddenBlock", performBlock: { element, errorOrNil in
-                                   // Check if the found element is hidden or not.
-                                   let superView:UIView! = element as! UIView
-                                   return (superView.hidden == false)
-    })
+    GREYActionBlock.action(withName: "checkHiddenBlock") { (element, errorOrNil) -> Bool in
+      // Check if the found element is hidden or not.
+      let superView:UIView! = element as! UIView
+      return (superView.isHidden == false)
+    }
 
 ...
 
@@ -473,43 +472,3 @@ in a Swift string `"grey_typeText("foob\bar")"` to type "fooar". How do I use ba
 
 For Swift, the backspace escape character is `\u{8}`. You need to add that in your string to be typed for
 Swift. For example, To type "fooar", you should use `grey_typeText("foob\u{8}ar")`
-
-**Does EarlGrey support finding react-native elements?**
-
-Yes. By default [all touchable elements](https://facebook.github.io/react-native/docs/accessibility.html)
-are accessible. A button with the `accessibilityLabel` prop set can be found by `grey_accessibilityLabel`.
-For other elements, `accessible: true` must also be set. Finding by label will not match on `accessible: false` elements.
-Components that support the `testID` prop can always be matched with `grey_accessibilityID`, even if the element
-is `accessible: false`.
-
-Term               | iOS                | Android
----                | ---                | ---
-accessibilityLabel | accessibilityLabel | content description
-testID             | accessibilityID    | view tag
-
-```javascript
-// Set the test props of a component to enable UI testing
-function testLabel(description) {
-  return {
-                accessible: true,
-                    testID: description + "_id",
-        accessibilityLabel: description + "_label"
-  }
-}
-
-<Button
-  onPress={()=>{}}
-  title="automation"
-  {...testLabel('automation_button')} />
-
-<Image
-  source={require('./img/image.png')}
-  {...testLabel('automation_image')} />
-```
-
-```swift
-// Swift
-EarlGrey.select(elementWithMatcher: grey_accessibilityLabel("automation_button_label")).assert(grey_sufficientlyVisible());
-EarlGrey.select(elementWithMatcher: grey_accessibilityLabel("automation_image_label")).assert(grey_sufficientlyVisible());
-EarlGrey.select(elementWithMatcher: grey_accessibilityID("automation_image_id")).assert(grey_sufficientlyVisible());
-```
