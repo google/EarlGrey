@@ -60,13 +60,13 @@ public func GREYAssertNotEqualObjects<T: Equatable>( _ left: @autoclosure () -> 
 }
 
 public func GREYFail(_ reason: String) {
-  EarlGrey.handle(GREYFrameworkException(name: kGREYAssertionFailedException,
+  EarlGrey.handle(exception: GREYFrameworkException(name: kGREYAssertionFailedException,
                                                     reason: reason),
                   details: "")
 }
 
 public func GREYFailWithDetails(_ reason: String, details: String) {
-  EarlGrey.handle(GREYFrameworkException(name: kGREYAssertionFailedException,
+  EarlGrey.handle(exception: GREYFrameworkException(name: kGREYAssertionFailedException,
                                                     reason: reason),
                   details: details)
 }
@@ -75,7 +75,7 @@ private func GREYAssert(_ expression: @autoclosure () -> Bool,
                         _ reason: String, details: String) {
   GREYSetCurrentAsFailable()
   if !expression() {
-    EarlGrey.handle(GREYFrameworkException(name: kGREYAssertionFailedException,
+    EarlGrey.handle(exception: GREYFrameworkException(name: kGREYAssertionFailedException,
                                                       reason: reason),
                     details: details)
   }
@@ -98,13 +98,13 @@ class EarlGrey: NSObject {
     return EarlGreyImpl.invoked(fromFile: file, lineNumber: line).selectElement(with: matcher)
   }
 
-  open class func setFailureHandler(_ handler: GREYFailureHandler,
+  open class func setFailureHandler(handler: GREYFailureHandler,
                                       file: String = #file,
                                       line: UInt = #line) {
     return EarlGreyImpl.invoked(fromFile: file, lineNumber: line).setFailureHandler(handler)
   }
 
-  open class func handle(_ exception: GREYFrameworkException,
+  open class func handle(exception: GREYFrameworkException,
                            details: String,
                            file: String = #file,
                            line: UInt = #line) {
@@ -112,7 +112,7 @@ class EarlGrey: NSObject {
                                                                            details: details)
   }
 
-  @discardableResult open class func rotateDeviceTo(_ orientation: UIDeviceOrientation,
+  @discardableResult open class func rotateDeviceTo(orientation: UIDeviceOrientation,
                                                       errorOrNil: UnsafeMutablePointer<NSError?>!,
                                                       file: String = #file,
                                                       line: UInt = #line)
@@ -134,7 +134,7 @@ extension GREYInteraction {
   }
 
 
-  @discardableResult public func using(_ searchAction: GREYAction,
+  @discardableResult public func using(searchAction: GREYAction,
                                        onElementWithMatcher matcher: GREYMatcher) -> Self {
     return self.usingSearch(searchAction, onElementWith: matcher)
   }
