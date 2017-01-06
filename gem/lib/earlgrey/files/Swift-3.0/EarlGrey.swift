@@ -17,55 +17,55 @@
 import EarlGrey
 import Foundation
 
-public func GREYAssert(_ expression: @autoclosure () -> Bool, reason: String) {
+open func GREYAssert(_ expression: @autoclosure () -> Bool, reason: String) {
   GREYAssert(expression, reason, details: "Expected expression to be true")
 }
 
-public func GREYAssertTrue(_ expression: @autoclosure () -> Bool, reason: String) {
+open func GREYAssertTrue(_ expression: @autoclosure () -> Bool, reason: String) {
   GREYAssert(expression(), reason, details: "Expected the boolean expression to be true")
 }
 
-public func GREYAssertFalse(_ expression: @autoclosure () -> Bool, reason: String) {
+open func GREYAssertFalse(_ expression: @autoclosure () -> Bool, reason: String) {
   GREYAssert(!expression(), reason, details: "Expected the boolean expression to be false")
 }
 
-public func GREYAssertNotNil(_ expression: @autoclosure ()-> Any?, reason: String) {
+open func GREYAssertNotNil(_ expression: @autoclosure ()-> Any?, reason: String) {
   GREYAssert(expression() != nil, reason, details: "Expected expression to be not nil")
 }
 
-public func GREYAssertNil(_ expression: @autoclosure () -> Any?, reason: String) {
+open func GREYAssertNil(_ expression: @autoclosure () -> Any?, reason: String) {
   GREYAssert(expression() == nil, reason, details: "Expected expression to be nil")
 }
 
-public func GREYAssertEqual(_ left: @autoclosure () -> AnyObject?,
+open func GREYAssertEqual(_ left: @autoclosure () -> AnyObject?,
                             _ right: @autoclosure () -> AnyObject?, reason: String) {
   GREYAssert(left() === right(), reason, details: "Expected left term to be equal to right term")
 }
 
-public func GREYAssertNotEqual(_ left: @autoclosure () -> AnyObject?,
+open func GREYAssertNotEqual(_ left: @autoclosure () -> AnyObject?,
                                _ right: @autoclosure () -> AnyObject?, reason: String) {
   GREYAssert(left() !== right(), reason, details: "Expected left term to not equal the right term")
 }
 
-public func GREYAssertEqualObjects<T: Equatable>( _ left: @autoclosure () -> T?,
+open func GREYAssertEqualObjects<T: Equatable>( _ left: @autoclosure () -> T?,
                                                   _ right: @autoclosure () -> T?, reason: String) {
   GREYAssert(left() == right(), reason, details: "Expected object of the left term to be equal" +
     " to the object of the right term")
 }
 
-public func GREYAssertNotEqualObjects<T: Equatable>( _ left: @autoclosure () -> T?,
+open func GREYAssertNotEqualObjects<T: Equatable>( _ left: @autoclosure () -> T?,
                                       _ right: @autoclosure () -> T?, reason: String) {
   GREYAssert(left() != right(), reason, details: "Expected object of the left term to not" +
     " equal the object of the right term")
 }
 
-public func GREYFail(_ reason: String) {
+open func GREYFail(_ reason: String) {
   EarlGrey.handle(exception: GREYFrameworkException(name: kGREYAssertionFailedException,
                                                     reason: reason),
                   details: "")
 }
 
-public func GREYFailWithDetails(_ reason: String, details: String) {
+open func GREYFailWithDetails(_ reason: String, details: String) {
   EarlGrey.handle(exception: GREYFrameworkException(name: kGREYAssertionFailedException,
                                                     reason: reason),
                   details: details)
@@ -124,17 +124,17 @@ class EarlGrey: NSObject {
 }
 
 extension GREYInteraction {
-  @discardableResult public func assert(_ matcher: @autoclosure () -> GREYMatcher) -> Self {
+  @discardableResult open func assert(_ matcher: @autoclosure () -> GREYMatcher) -> Self {
     return self.assert(with:matcher())
   }
 
-  @discardableResult public func assert(_ matcher: @autoclosure () -> GREYMatcher,
+  @discardableResult open func assert(_ matcher: @autoclosure () -> GREYMatcher,
                                         error:UnsafeMutablePointer<NSError?>!) -> Self {
     return self.assert(with: matcher(), error: error)
   }
 
 
-  @discardableResult public func using(searchAction: GREYAction,
+  @discardableResult open func using(searchAction: GREYAction,
                                        onElementWithMatcher matcher: GREYMatcher) -> Self {
     return self.usingSearch(searchAction, onElementWith: matcher)
   }
