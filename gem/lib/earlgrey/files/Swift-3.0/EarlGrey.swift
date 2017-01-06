@@ -91,22 +91,22 @@ private func GREYSetCurrentAsFailable() {
   }
 }
 
-class EarlGrey: NSObject {
-  public class func select(elementWithMatcher matcher:GREYMatcher,
+open class EarlGrey: NSObject {
+  open class func select(elementWithMatcher matcher:GREYMatcher,
                            file: StaticString = #file,
                            line: UInt = #line) -> GREYElementInteraction {
     return EarlGreyImpl.invoked(fromFile: file.description, lineNumber: line)
              .selectElement(with: matcher)
   }
 
-  public class func setFailureHandler(handler: GREYFailureHandler,
+  open class func setFailureHandler(handler: GREYFailureHandler,
                                       file: StaticString = #file,
                                       line: UInt = #line) {
     return EarlGreyImpl.invoked(fromFile: file.description, lineNumber: line)
              .setFailureHandler(handler)
   }
 
-  public class func handle(exception: GREYFrameworkException,
+  open class func handle(exception: GREYFrameworkException,
                            details: String,
                            file: StaticString = #file,
                            line: UInt = #line) {
@@ -114,7 +114,7 @@ class EarlGrey: NSObject {
              .handle(exception, details: details)
   }
 
-  @discardableResult public class func rotateDeviceTo(orientation: UIDeviceOrientation,
+  @discardableResult open class func rotateDeviceTo(orientation: UIDeviceOrientation,
                                                       errorOrNil: UnsafeMutablePointer<NSError?>!,
                                                       file: StaticString = #file,
                                                       line: UInt = #line)
@@ -134,7 +134,6 @@ extension GREYInteraction {
                                         error:UnsafeMutablePointer<NSError?>!) -> Self {
     return self.assert(with: matcher(), error: error)
   }
-
 
   @discardableResult public func using(searchAction: GREYAction,
                                        onElementWithMatcher matcher: GREYMatcher) -> Self {
