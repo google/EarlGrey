@@ -289,7 +289,7 @@ steps in your setup:
 
       In this case you need to download the correct
       [`EarlGrey.swift`](https://github.com/google/EarlGrey/tree/master/gem/lib/earlgrey/files/) file
-      for your Swift version and add it to your test bundle. 
+      for your Swift version and add it to your test bundle.
 
 Here is an example of a very basic EarlGrey test written in Swift:
 
@@ -297,8 +297,8 @@ Here is an example of a very basic EarlGrey test written in Swift:
 import EarlGrey
 
  // Select the button with Accessibility ID "clickMe" and assert it's visible.
- EarlGrey().selectElementWithMatcher(grey_accessibilityID("ClickMe"))
-     .assertWithMatcher(grey_sufficientlyVisible())
+ EarlGrey.select(elementWithMatcher: grey_accessibilityID("ClickMe"))
+   .assert(grey_sufficientlyVisible())
 ```
 
 > For compatibility with Swift, we use `grey_allOfMatchers()` and `grey_anyOfMatchers()` instead of `grey_allOf()`

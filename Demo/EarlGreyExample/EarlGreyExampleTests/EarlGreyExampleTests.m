@@ -93,11 +93,14 @@
       NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
       formatter.dateStyle = NSDateFormatterLongStyle;
       NSDate *date = [formatter dateFromString:[[(UITableViewCell *)cell textLabel] text]];
+      if (!date) {
+        return NO;
+      }
       NSCalendar *calendar = [NSCalendar currentCalendar];
       NSInteger weekday = [calendar component:NSCalendarUnitWeekday fromDate:date];
       return weekday == 5;
     } else {
-      return false;
+      return NO;
     }
   };
   DescribeToBlock describe = ^void(id<GREYDescription> description) {

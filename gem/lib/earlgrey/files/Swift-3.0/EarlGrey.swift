@@ -93,33 +93,35 @@ private func GREYSetCurrentAsFailable() {
 
 open class EarlGrey: NSObject {
   open class func select(elementWithMatcher matcher:GREYMatcher,
-                           file: String = #file,
+                           file: StaticString = #file,
                            line: UInt = #line) -> GREYElementInteraction {
-    return EarlGreyImpl.invoked(fromFile: file, lineNumber: line).selectElement(with: matcher)
+    return EarlGreyImpl.invoked(fromFile: file.description, lineNumber: line)
+             .selectElement(with: matcher)
   }
 
   open class func setFailureHandler(handler: GREYFailureHandler,
-                                      file: String = #file,
+                                      file: StaticString = #file,
                                       line: UInt = #line) {
-    return EarlGreyImpl.invoked(fromFile: file, lineNumber: line).setFailureHandler(handler)
+    return EarlGreyImpl.invoked(fromFile: file.description, lineNumber: line)
+             .setFailureHandler(handler)
   }
 
   open class func handle(exception: GREYFrameworkException,
                            details: String,
-                           file: String = #file,
+                           file: StaticString = #file,
                            line: UInt = #line) {
-    return EarlGreyImpl.invoked(fromFile: file, lineNumber: line).handle(exception,
-                                                                           details: details)
+    return EarlGreyImpl.invoked(fromFile: file.description, lineNumber: line)
+             .handle(exception, details: details)
   }
 
   @discardableResult open class func rotateDeviceTo(orientation: UIDeviceOrientation,
                                                       errorOrNil: UnsafeMutablePointer<NSError?>!,
-                                                      file: String = #file,
+                                                      file: StaticString = #file,
                                                       line: UInt = #line)
     -> Bool {
-    return EarlGreyImpl.invoked(fromFile: file, lineNumber: line)
-      .rotateDevice(to: orientation,
-                    errorOrNil: errorOrNil)
+    return EarlGreyImpl.invoked(fromFile: file.description, lineNumber: line)
+            .rotateDevice(to: orientation,
+                          errorOrNil: errorOrNil)
   }
 }
 

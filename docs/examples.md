@@ -13,10 +13,10 @@ the first element.
 /**
  *  Example Usage:
  *
- *  EarlGrey().selectElementWithMatcher(grey_allOfMatchers([
+ *  EarlGrey.select(elementWithMatcher:grey_allOfMatchers([
  *    grey_accessibilityID("some_id"),
  *    grey_interactable(),
- *    grey_firstElement()])).assertWithMatcher(grey_notNil())
+ *    grey_firstElement()])).assert(grey_notNil())
  *
  *  Only intended to be used with selectElementWithMatcher.
  */

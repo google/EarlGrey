@@ -45,25 +45,41 @@
       performAction:grey_tap()];
   [self ftr_waitForWebElementWithName:@"NEWS" elementMatcher:grey_accessibilityLabel(@"NEWS")];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"NEWS")]
-      performAction:[GREYActions actionForTap]];
+      performAction:grey_tap()];
+
+  NSError *error;
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"IMAGES")]
-      performAction:[GREYActions actionForTap]];
+      performAction:grey_tap() error:&error];
+  if (error) {
+    // On some form factors, label is set to "Images" instead of "IMAGES".
+    [[[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Images")] atIndex:1]
+        performAction:grey_tap()];
+  }
+
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"VIDEOS")]
-      performAction:[GREYActions actionForTap]];
+      performAction:grey_tap()];
+
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"ALL")]
-      performAction:[GREYActions actionForTap]];
+      performAction:grey_tap()];
 }
 
 - (void)testAJAXLoad {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"loadGoogle")]
       performAction:grey_tap()];
   [self ftr_waitForWebElementWithName:@"ALL" elementMatcher:grey_accessibilityLabel(@"ALL")];
+
+  // Clicking on "Next page" triggers AJAX loading.
   id<GREYMatcher> nextPageMatcher =
-      grey_allOf(grey_accessibilityLabel(@"Next"), grey_interactable(), nil);
+      grey_allOf(grey_accessibilityLabel(@"Next page"), grey_interactable(), nil);
+  NSError *error;
   [[[EarlGrey selectElementWithMatcher:nextPageMatcher]
       usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 200)
       onElementWithMatcher:grey_kindOfClass([UIWebView class])]
-      performAction:grey_tap()];
+      performAction:grey_tap() error:&error];
+  if (error) {
+    // On some form factors, label is set to "Next" instead of "Next page".
+    [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Next")] performAction:grey_tap()];
+  }
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"IMAGES")]
       assertWithMatcher:grey_sufficientlyVisible()];
 }
@@ -107,11 +123,18 @@
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"FTRTestWebView")]
       performAction:jsAction];
 
+  NSError *error;
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"IMAGES")]
-      assertWithMatcher:grey_sufficientlyVisible()];
+      assertWithMatcher:grey_sufficientlyVisible() error:&error];
+  if (error) {
+    // On some form factors, label is set to "Images" instead of "IMAGES".
+    [[[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Images")] atIndex:1]
+        assertWithMatcher:grey_sufficientlyVisible()];
+  }
 
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"FTRTestWebView")] performAction:
-      grey_javaScriptExecution(@"window.location.href='http://translate.google.com'", nil)];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"FTRTestWebView")]
+      performAction:grey_javaScriptExecution(@"window.location.href='http://translate.google.com'",
+                                             nil)];
 
   id<GREYAction> executeJavascript =
       grey_javaScriptExecution(@"window.location.href='http://play.google.com'", nil);
@@ -120,7 +143,7 @@
 
   NSString *jsResult;
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"FTRTestWebView")]
-      performAction:[GREYActions actionForJavaScriptExecution:@"2 + 2" output:&jsResult]];
+      performAction:grey_javaScriptExecution(@"2 + 2", &jsResult)];
   GREYAssertTrue([jsResult isEqualToString:@"4"], @"Expected: 4, Actual: %@", jsResult);
 }
 
