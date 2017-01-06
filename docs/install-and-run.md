@@ -1,3 +1,4 @@
+This is a test
 # Install and run
 
 This document shows you how to install EarlGrey and then how to set up and run your first
