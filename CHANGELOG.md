@@ -12,8 +12,11 @@ Baseline: [0cdda9c]
 
 ### Bug Fixes
 * Fixed EarlGrey.swift for Swift 3.0
-* Improved webtest and swift tests.
-* Fixed a bug in the visibility checker for 32bit platform
+* Improved web tests to work with current google.com UI.
+* Fixed a bug in the visibility checker for 32bit platform.
+
+### Enhancements
+* Update travis run not run for docs-only changes.
 
 ### Contributors
 Thanks to [bootstraponline](https://github.com/bootstraponline)
