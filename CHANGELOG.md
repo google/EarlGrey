@@ -3,6 +3,22 @@
 Details changes in each release of EarlGrey. EarlGrey follows
 [semantic versioning](http://semver.org/).
 
+## [1.6.2](https://github.com/google/EarlGrey/tree/1.6.2) (01/06/2017)
+
+```
+Baseline: [0cdda9c]
++ [0cdda9c]: EarlGrey Sync for 1.6.2
+```
+
+### Bug Fixes
+* Fixed EarlGrey.swift for Swift 3.0
+* Improved webtest and swift tests.
+* Fixed a bug in the visibility checker for 32bit platform
+
+### Contributors
+Thanks to [bootstraponline](https://github.com/bootstraponline)
+and the rest of the contributors!
+
 ## [1.6.1](https://github.com/google/EarlGrey/tree/1.6.1) (12/20/2016)
 
 ```
