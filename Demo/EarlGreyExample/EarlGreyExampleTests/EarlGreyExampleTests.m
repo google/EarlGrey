@@ -68,7 +68,7 @@
   [[EarlGrey selectElementWithMatcher:grey_sufficientlyVisible()]
       performAction:grey_tap() error:&error];
   if (error) {
-    NSLog(@"Test Failed with Error : %@",[error description]);
+    NSLog(@"Test Failed with Error : %@", [error description]);
   }
 }
 
