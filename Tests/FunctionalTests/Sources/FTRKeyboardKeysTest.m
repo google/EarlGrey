@@ -462,7 +462,7 @@
       assertWithMatcher:grey_accessibilityLabel(@"Foo")];
 }
 
-// TODO(31886754):Enabled this for testing the Input Accessory Code
+// TODO:Enabled this for testing the Input Accessory Code
 - (void)DISABLED_testTypingOnTextFieldInUIInputAccessory {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"Input Button")]
       performAction:grey_tap()];
