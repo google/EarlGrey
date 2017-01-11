@@ -29,8 +29,6 @@
 @property(nonatomic) dispatch_semaphore_t semaphore;
 @end
 
-static const NSTimeInterval kSemaphoreTimeoutSeconds = 0.1;
-
 @implementation GREYTestContainer
 @end
 
@@ -42,7 +40,7 @@ static void testFunction(void *context) {
 
   if (semaphore) {
     dispatch_time_t timeout = dispatch_time(DISPATCH_TIME_NOW,
-                                            (int64_t)(kSemaphoreTimeoutSeconds * NSEC_PER_SEC));
+                                            (int64_t)(5.0 * NSEC_PER_SEC));
     dispatch_semaphore_wait(semaphore, timeout);
   }
 
@@ -182,14 +180,14 @@ static const int kMaxAggresiveCalls = 100;
   dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.05 * NSEC_PER_SEC)),
                  _serialQueue, ^{
     dispatch_time_t timeout = dispatch_time(DISPATCH_TIME_NOW,
-                                            (int64_t)(kSemaphoreTimeoutSeconds * NSEC_PER_SEC));
+                                            (int64_t)(5.0 * NSEC_PER_SEC));
     dispatch_semaphore_wait(semaphore, timeout);
     [expectation fulfill];
   });
   XCTAssertFalse([tracker isIdleNow], @"Idling resource should track block with small delay");
 
   dispatch_semaphore_signal(semaphore);
-  [self waitForExpectationsWithTimeout:5 handler:nil];
+  [self waitForExpectationsWithTimeout:5.0 handler:nil];
 
   // Drain the queue in order to avoid the race condition where the expectation has been fulfilled
   // by the async task and the main thread resumes before that async task completes.
@@ -210,7 +208,7 @@ static const int kMaxAggresiveCalls = 100;
 
   dispatch_async(_serialQueue, ^{
     dispatch_time_t timeout = dispatch_time(DISPATCH_TIME_NOW,
-                                            (int64_t)(kSemaphoreTimeoutSeconds * NSEC_PER_SEC));
+                                            (int64_t)(5.0 * NSEC_PER_SEC));
     dispatch_semaphore_wait(semaphore, timeout);
     XCTAssertFalse([tracker isIdleNow], @"Idling resource should track dispatch async block");
     [expectation fulfill];
@@ -218,7 +216,7 @@ static const int kMaxAggresiveCalls = 100;
 
   XCTAssertFalse([tracker isIdleNow], @"Idling resource should track dispatch async block");
   dispatch_semaphore_signal(semaphore);
-  [self waitForExpectationsWithTimeout:5 handler:nil];
+  [self waitForExpectationsWithTimeout:5.0 handler:nil];
 
   // Drain the queue in order to avoid the race condition where the expectation has been fulfilled
   // by the async task and the main thread resumes before that async task completes.
@@ -294,7 +292,7 @@ static const int kMaxAggresiveCalls = 100;
   dispatch_sync_f(_serialQueue, (__bridge void *)container, testFunction);
 
   XCTAssertTrue([tracker isIdleNow]);
-  [self waitForExpectationsWithTimeout:0 handler:nil];
+  [self waitForExpectationsWithTimeout:5.0 handler:nil];
   XCTAssertTrue([tracker isIdleNow]);
 }
 
@@ -316,11 +314,12 @@ static const int kMaxAggresiveCalls = 100;
   XCTestExpectation *expectation = [self expectationWithDescription:@"Async block fired"];
   dispatch_async(_serialQueue, ^{
     dispatch_time_t timeout = dispatch_time(DISPATCH_TIME_NOW,
-                                            (int64_t)(kSemaphoreTimeoutSeconds * NSEC_PER_SEC));
+                                            (int64_t)(5.0 * NSEC_PER_SEC));
     dispatch_semaphore_wait(semaphore, timeout);
     [expectation fulfill];
   });
   XCTAssertFalse([tracker isIdleNow]);
+
   dispatch_semaphore_signal(semaphore);
   [self waitForExpectationsWithTimeout:5.0 handler:nil];
   // Drain the queue in order to avoid the race condition where the expectation has been fulfilled
@@ -329,35 +328,12 @@ static const int kMaxAggresiveCalls = 100;
   XCTAssertTrue([tracker isIdleNow]);
 }
 
-- (void)testTrackingZombieQueue {
-  GREYDispatchQueueTracker *tracker;
-  XCTestExpectation *expectation = [self expectationWithDescription:@"Async block fired"];
-  dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
-  @autoreleasepool {
-    dispatch_queue_t queue =
-        dispatch_queue_create("GREYDispatchQueueIdlingResourceTestDealloc", DISPATCH_QUEUE_SERIAL);
-
-    tracker = [GREYDispatchQueueTracker trackerForDispatchQueue:queue];
-    dispatch_async(queue, ^{
-      dispatch_time_t timeout = dispatch_time(DISPATCH_TIME_NOW,
-                                              (int64_t)(kSemaphoreTimeoutSeconds * NSEC_PER_SEC));
-      dispatch_semaphore_wait(semaphore, timeout);
-      dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.05 * NSEC_PER_SEC)),
-                     dispatch_get_main_queue(), ^{
-        // Fulfill the expectation on the main thread after a delay so that this task can complete
-        // before the expectation is fulfilled. We use this work around because we drop the
-        // reference to the queue and do not have a good way of draining it after this point.
-        [expectation fulfill];
-      });
-    });
-    XCTAssertTrue([tracker isTrackingALiveQueue]);
-  }
-  XCTAssertFalse([tracker isTrackingALiveQueue]);
-  XCTAssertFalse([tracker isIdleNow]);
-  dispatch_semaphore_signal(semaphore);
-  [self waitForExpectationsWithTimeout:5.0 handler:nil];
-  XCTAssertFalse([tracker isTrackingALiveQueue]);
-  XCTAssertTrue([tracker isIdleNow]);
+- (void)testIsTrackingALiveQueueWithALivingQueue {
+  NS_VALID_UNTIL_END_OF_SCOPE dispatch_queue_t queue =
+      dispatch_queue_create("GREYDispatchQueueIdlingResourceTestDealloc", DISPATCH_QUEUE_SERIAL);;
+  GREYDispatchQueueTracker *tracker =
+      [GREYDispatchQueueTracker trackerForDispatchQueue:queue];
+  XCTAssertTrue([tracker isTrackingALiveQueue]);
 }
 
 @end

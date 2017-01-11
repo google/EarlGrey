@@ -72,7 +72,7 @@
 - (void)testIdlingResourceWeaklyHeldAndDeregistersItself {
   GREYOperationQueueIdlingResource *operationQueueIdlingResource;
   @autoreleasepool {
-    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+    __autoreleasing NSOperationQueue *queue = [[NSOperationQueue alloc] init];
 
     operationQueueIdlingResource =
         [GREYOperationQueueIdlingResource resourceWithNSOperationQueue:queue

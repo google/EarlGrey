@@ -33,7 +33,7 @@
 - (void)testRetrievingDeallocatedObject {
   GREYWeakObjectContainer *container;
   @autoreleasepool {
-    NSObject *object = [[NSObject alloc] init];
+    __autoreleasing NSObject *object = [[NSObject alloc] init];
     container = [[GREYWeakObjectContainer alloc] initWithObject:object];
     XCTAssertNotNil([container object], @"Contained object should still referenced");
     XCTAssertEqual(object, [container object], @"Objects should have the same pointer value");

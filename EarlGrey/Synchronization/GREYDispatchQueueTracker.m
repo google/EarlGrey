@@ -246,7 +246,7 @@ static void grey_dispatch_sync_f(dispatch_queue_t queue, void *context, dispatch
     GREYDispatchQueueTracker *tracker = grey_getTrackerForQueue(queue);
     if (!tracker) {
       tracker = [[GREYDispatchQueueTracker alloc] initWithDispatchQueue:queue];
-      // Register this tracker with dispatch queue to tracker map.
+      // Register this tracker with dispatch queue. Both entries are weakly held.
       [gDispatchQueueToTracker setObject:tracker forKey:queue];
     }
     return tracker;

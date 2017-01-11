@@ -49,7 +49,7 @@
   return log;
 }
 
-#pragma mark - Private Methods
+#pragma mark - Private
 
 /**
  *  Recursively prints the hierarchy from the given UI @c element along with any annotations in

@@ -610,7 +610,7 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
                     nil);
 }
 
-#pragma mark - Private Methods
+#pragma mark - Private
 
 /**
  * @return @c YES if the strings have the same string values, @c NO otherwise.

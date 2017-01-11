@@ -65,7 +65,7 @@ static void (^noopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef t
   return stopConditionMet;
 }
 
-#pragma mark - Private Methods
+#pragma mark - Private
 
 /**
  *  Spins the run loop in the active mode for @c exitDrainCount drains.
