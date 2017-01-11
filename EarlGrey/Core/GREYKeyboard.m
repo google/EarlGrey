@@ -264,7 +264,7 @@ static NSString *const kReturnKeyIdentifier = @"\n";
   return [keyboardIsShownCondition waitWithTimeout:kKeyboardWillAppearOrDisappearTimeout];
 }
 
-#pragma mark - Private Methods
+#pragma mark - Private
 
 /**
  *  A utility method to continuously toggle the shift key on an alphabet keyplane until

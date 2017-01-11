@@ -192,7 +192,7 @@ static const NSTimeInterval kExpectationTimeoutSeconds = 1.0;
   GREYUIThreadExecutor *threadExecutor = [GREYUIThreadExecutor sharedInstance];
 
   @autoreleasepool {
-    NSManagedObjectContext *managedObjectContext =
+    __autoreleasing NSManagedObjectContext *managedObjectContext =
         [self setUpContextWithConcurrencyType:NSPrivateQueueConcurrencyType];
     contextIdlingResource =
         [self setUpContextIdlingResourceWithContext:managedObjectContext

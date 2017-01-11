@@ -116,7 +116,7 @@ static NSMutableArray *gRunLoopModes;
   INVOKE_ORIGINAL_IMP2(void, @selector(greyswizzled_popRunLoopMode:requester:), mode, requester);
 }
 
-#pragma mark - Private Methods
+#pragma mark - Private
 
 - (void)grey_pushRunLoopMode:(NSString *)mode {
   @synchronized(gRunLoopModes) {
