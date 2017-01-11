@@ -21,8 +21,6 @@
 #import "GREYBaseTest.h"
 #import "GREYExposedForTesting.h"
 
-static const NSTimeInterval kSemaphoreTimeoutSeconds = 0.1;
-
 @interface GREYDispatchQueueIdlingResourceTest : GREYBaseTest
 @end
 
@@ -41,30 +39,28 @@ static const NSTimeInterval kSemaphoreTimeoutSeconds = 0.1;
 
 - (void)testIdlingResourceWeaklyHoldsQueueAndDeregistersItselfAfterOperationsHaveCompleted {
   GREYDispatchQueueIdlingResource *dispatchQueueIdlingResource;
+  GREYUIThreadExecutor *sharedThreadExecutor = [GREYUIThreadExecutor sharedInstance];
   XCTestExpectation *expectation = [self expectationWithDescription:@"Async block fired"];
   dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
 
   @autoreleasepool {
-    dispatch_queue_t queue =
+    __autoreleasing dispatch_queue_t queue =
         dispatch_queue_create("GREYDispatchQueueIdlingResourceTestDealloc", DISPATCH_QUEUE_SERIAL);
 
     dispatchQueueIdlingResource =
         [GREYDispatchQueueIdlingResource resourceWithDispatchQueue:queue
                                                               name:@"test"];
     [[GREYUIThreadExecutor sharedInstance] registerIdlingResource:dispatchQueueIdlingResource];
-    XCTAssertTrue([[GREYUIThreadExecutor sharedInstance]
-        grey_isTrackingIdlingResource:dispatchQueueIdlingResource]);
+    XCTAssertTrue([sharedThreadExecutor grey_isTrackingIdlingResource:dispatchQueueIdlingResource]);
 
     dispatch_async(queue, ^{
-      dispatch_time_t timeout = dispatch_time(DISPATCH_TIME_NOW,
-                                              (int64_t)(kSemaphoreTimeoutSeconds * NSEC_PER_SEC));
+      dispatch_time_t timeout = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5.0 * NSEC_PER_SEC));
       dispatch_semaphore_wait(semaphore, timeout);
       [expectation fulfill];
     });
   }
   XCTAssertFalse([dispatchQueueIdlingResource isIdleNow]);
-  XCTAssertTrue([[GREYUIThreadExecutor sharedInstance]
-      grey_isTrackingIdlingResource:dispatchQueueIdlingResource]);
+  XCTAssertTrue([sharedThreadExecutor grey_isTrackingIdlingResource:dispatchQueueIdlingResource]);
 
   dispatch_semaphore_signal(semaphore);
   [self waitForExpectationsWithTimeout:1.0 handler:nil];
@@ -79,8 +75,7 @@ static const NSTimeInterval kSemaphoreTimeoutSeconds = 0.1;
       }];
 
   XCTAssertTrue([idleResourceCondition waitWithTimeout:1.0]);
-  XCTAssertFalse([[GREYUIThreadExecutor sharedInstance]
-      grey_isTrackingIdlingResource:dispatchQueueIdlingResource]);
+  XCTAssertFalse([sharedThreadExecutor grey_isTrackingIdlingResource:dispatchQueueIdlingResource]);
 }
 
 @end
