@@ -19,8 +19,8 @@
 #import <CoreData/CoreData.h>
 #import <objc/runtime.h>
 
-#import "Common/GREYPrivate.h"
 #import "Synchronization/GREYDispatchQueueIdlingResource.h"
+#import "Synchronization/GREYUIThreadExecutor+Internal.h"
 
 @implementation GREYManagedObjectContextIdlingResource {
   BOOL _trackPendingChanges;

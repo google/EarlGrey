@@ -15,7 +15,7 @@
 //
 
 #import <EarlGrey/GREYElementHierarchy.h>
-#import <EarlGrey/GREYPrivate.h>
+//#import <EarlGrey/GREYPrivate.h>
 #import <EarlGrey/NSObject+GREYAdditions.h>
 
 #import <OCMock/OCMock.h>

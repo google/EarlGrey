@@ -18,6 +18,7 @@
 #import <EarlGrey/GREYOperationQueueIdlingResource.h>
 #import <EarlGrey/GREYTimedIdlingResource.h>
 #import <EarlGrey/GREYUIThreadExecutor.h>
+#import <EarlGrey/GREYUIThreadExecutor+Internal.h>
 #import <EarlGrey/UIView+GREYAdditions.h>
 #import <objc/runtime.h>
 

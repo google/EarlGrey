@@ -17,6 +17,7 @@
 #import <CoreData/CoreData.h>
 #import <EarlGrey/GREYConfiguration.h>
 #import <EarlGrey/GREYManagedObjectContextIdlingResource.h>
+#import <EarlGrey/GREYUIThreadExecutor+Internal.h>
 
 #import "GREYBaseTest.h"
 #import "GREYExposedForTesting.h"

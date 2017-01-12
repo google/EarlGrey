@@ -21,10 +21,10 @@
 
 #import "Additions/NSObject+GREYAdditions.h"
 #import "Additions/UITouch+GREYAdditions.h"
+#import "Additions/UIWebView+GREYAdditions+Internal.h"
 #import "Assertion/GREYAssertionDefines.h"
 #import "Common/GREYDefines.h"
 #import "Common/GREYExposed.h"
-#import "Common/GREYPrivate.h"
 #import "Event/GREYZeroToleranceTimer.h"
 #import "Synchronization/GREYRunLoopSpinner.h"
 

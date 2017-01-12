@@ -360,15 +360,6 @@ static pthread_mutex_t gStateLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
   }];
 }
 
-- (void)grey_clearState {
-  [self grey_performBlockInCriticalSection:^id {
-    [_elementIDs removeAllObjects];
-    [_elementIDToState removeAllObjects];
-    [_elementIDToCallStack removeAllObjects];
-    return nil;
-  }];
-}
-
 #pragma mark - Methods Only For Testing
 
 - (GREYAppState)grey_lastKnownStateForElement:(id)element {
@@ -379,6 +370,17 @@ static pthread_mutex_t gStateLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
 
     return @(state);
   }] unsignedIntegerValue];
+}
+
+#pragma mark - Package Internal
+
+- (void)grey_clearState {
+  [self grey_performBlockInCriticalSection:^id {
+    [_elementIDs removeAllObjects];
+    [_elementIDToState removeAllObjects];
+    [_elementIDToCallStack removeAllObjects];
+    return nil;
+  }];
 }
 
 @end

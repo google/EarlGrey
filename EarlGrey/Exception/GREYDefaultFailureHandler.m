@@ -21,9 +21,10 @@
 #import "Additions/XCTestCase+GREYAdditions.h"
 #import "Common/GREYConfiguration.h"
 #import "Common/GREYElementHierarchy.h"
-#import "Common/GREYPrivate.h"
 #import "Common/GREYScreenshotUtil.h"
+#import "Common/GREYScreenshotUtil+Internal.h"
 #import "Common/GREYVisibilityChecker.h"
+#import "Common/GREYVisibilityChecker+Internal.h"
 #import "Exception/GREYFrameworkException.h"
 #import "Provider/GREYUIWindowProvider.h"
 

@@ -14,16 +14,11 @@
 // limitations under the License.
 //
 
+#import <EarlGrey/GREYActions+Internal.h>
 #import <EarlGrey/NSError+GREYAdditions.h>
 
 #import "FTRBaseIntegrationTest.h"
 #import "FTRFailureHandler.h"
-
-// Expose private action for testing
-@interface GREYActions (GREYExposedForTesting)
-+ (id<GREYAction>)grey_actionForTypeText:(NSString *)text
-                        atUITextPosition:(UITextPosition *)position;
-@end
 
 @interface FTRKeyboardKeysTest : FTRBaseIntegrationTest
 @end
