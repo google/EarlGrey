@@ -200,6 +200,20 @@ class FTRSwiftTests: XCTestCase {
       .assert(grey_datePickerValue(date))
   }
 
+  func testStepperActionWithCondition() {
+    self.openTestView("Basic Views")
+    var stepperValue = 51.0
+    // Without the parameter using the value of the wait action, a warning should be seen.
+    _ = GREYCondition.init(name: "conditionWithAction", block: {
+      stepperValue += 1
+      EarlGrey.select(elementWithMatcher: grey_kindOfClass(UIStepper.self))
+        .perform(grey_setStepperValue(stepperValue))
+      return stepperValue == 55
+    }).waitWithTimeout(seconds: 10.0)
+    EarlGrey.select(elementWithMatcher: grey_kindOfClass(UIStepper.self))
+      .assert(with: grey_stepperValue(55))
+  }
+
   func openTestView(_ name: String) {
     var errorOrNil : NSError?
     EarlGrey.select(elementWithMatcher: grey_accessibilityLabel(name))

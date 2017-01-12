@@ -115,13 +115,13 @@ open class EarlGrey: NSObject {
   }
 
   @discardableResult open class func rotateDeviceTo(orientation: UIDeviceOrientation,
-                                                      errorOrNil: UnsafeMutablePointer<NSError?>!,
-                                                      file: StaticString = #file,
-                                                      line: UInt = #line)
+                                                    errorOrNil: UnsafeMutablePointer<NSError?>!,
+                                                    file: StaticString = #file,
+                                                    line: UInt = #line)
     -> Bool {
     return EarlGreyImpl.invoked(fromFile: file.description, lineNumber: line)
-            .rotateDevice(to: orientation,
-                          errorOrNil: errorOrNil)
+             .rotateDevice(to: orientation,
+                           errorOrNil: errorOrNil)
   }
 }
 
@@ -138,5 +138,16 @@ extension GREYInteraction {
   @discardableResult public func using(searchAction: GREYAction,
                                        onElementWithMatcher matcher: GREYMatcher) -> Self {
     return self.usingSearch(searchAction, onElementWith: matcher)
+  }
+}
+
+extension GREYCondition {
+  open func waitWithTimeout(seconds: CFTimeInterval) -> Bool {
+    return self.wait(withTimeout: seconds)
+  }
+
+  open func waitWithTimeout(seconds: CFTimeInterval, pollInterval: CFTimeInterval)
+    -> Bool {
+    return self.wait(withTimeout: seconds, pollInterval: pollInterval)
   }
 }
