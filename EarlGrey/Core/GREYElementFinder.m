@@ -37,8 +37,8 @@
   NSParameterAssert(elementProvider);
   I_CHECK_MAIN_THREAD();
   NSMutableArray *matchingElements = [[NSMutableArray alloc] init];
-  @autoreleasepool {
-    for (id element in [elementProvider dataEnumerator]) {
+  for (id element in [elementProvider dataEnumerator]) {
+    @autoreleasepool {
       if ([_matcher matches:element]) {
         [matchingElements addObject:element];
       }
