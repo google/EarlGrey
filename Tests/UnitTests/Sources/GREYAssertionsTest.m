@@ -16,6 +16,7 @@
 
 #import <EarlGrey/GREYAssertions.h>
 
+#import <EarlGrey/GREYAssertions+Internal.h>
 #import <EarlGrey/GREYAssertion.h>
 #import <EarlGrey/GREYElementFinder.h>
 #import <EarlGrey/GREYMatchers.h>

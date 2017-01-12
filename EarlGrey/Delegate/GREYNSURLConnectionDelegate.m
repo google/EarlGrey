@@ -17,8 +17,8 @@
 #import "Delegate/GREYNSURLConnectionDelegate.h"
 
 #import "Additions/NSURLConnection+GREYAdditions.h"
+#import "Additions/NSURLConnection+GREYAdditions+Internal.h"
 #import "Common/GREYDefines.h"
-#import "Common/GREYPrivate.h"
 #import "Synchronization/GREYAppStateTracker.h"
 
 @implementation GREYNSURLConnectionDelegate

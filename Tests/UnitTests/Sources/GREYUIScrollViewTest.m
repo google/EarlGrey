@@ -15,8 +15,10 @@
 //
 
 #import <EarlGrey/GREYExposed.h>
+#import <EarlGrey/GREYAppStateTracker+Internal.h>
 
 #import "GREYBaseTest.h"
+
 
 @interface GREYUIScrollViewTest : GREYBaseTest
 @end

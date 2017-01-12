@@ -26,7 +26,7 @@
 
 @implementation GREYAssertions
 
-#pragma mark - Private
+#pragma mark - Package Internal
 
 + (id<GREYAssertion>)grey_createAssertionWithMatcher:(id<GREYMatcher>)matcher {
   NSParameterAssert(matcher);

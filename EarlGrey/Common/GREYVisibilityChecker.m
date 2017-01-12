@@ -832,6 +832,8 @@ static inline bool grey_isColorDifferent(unsigned char rgb1[], unsigned char rgb
   return (redDiff > 0) || (greenDiff > 0) || (blueDiff > 0);
 }
 
+#pragma mark - Package Internal
+
 + (UIImage *)grey_lastActualBeforeImage {
   return gLastActualBeforeImage;
 }

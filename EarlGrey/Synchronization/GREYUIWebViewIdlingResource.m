@@ -17,9 +17,10 @@
 #import "Synchronization/GREYUIWebViewIdlingResource.h"
 
 #import "Additions/UIWebView+GREYAdditions.h"
+#import "Additions/UIWebView+GREYAdditions+Internal.h"
 #import "Common/GREYDefines.h"
-#import "Common/GREYPrivate.h"
 #import "Synchronization/GREYUIThreadExecutor.h"
+#import "Synchronization/GREYUIThreadExecutor+Internal.h"
 
 /**
  *  The maximum number of render passes to wait for before the UIWebView can be considered idle.

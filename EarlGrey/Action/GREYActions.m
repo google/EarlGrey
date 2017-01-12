@@ -398,90 +398,6 @@
 }
 
 /**
- *  Use the iOS keyboard to type a string starting from the provided UITextPosition. If the
- *  position is @c nil, then type text from the text input's current position. Should only be called
- *  with a position if element conforms to the UITextInput protocol - which it should if you
- *  derived the UITextPosition from the element.
- *
- *  @param text     The text to be typed.
- *  @param position The position in the text field at which the text is to be typed.
- *
- *  @return @c YES if the action succeeded, else @c NO. If an action returns @c NO, it does not
- *          mean that the action was not performed at all but somewhere during the action execution
- *          the error occured and so the UI may be in an unrecoverable state.
- */
-+ (id<GREYAction>)grey_actionForTypeText:(NSString *)text
-                        atUITextPosition:(UITextPosition *)position {
-  return [GREYActionBlock actionWithName:[NSString stringWithFormat:@"Type \"%@\"", text]
-                             constraints:grey_not(grey_systemAlertViewShown())
-                            performBlock:^BOOL (id element, __strong NSError **errorOrNil) {
-    UIView *expectedFirstResponderView;
-    if (![element isKindOfClass:[UIView class]]) {
-      expectedFirstResponderView = [element grey_viewContainingSelf];
-    } else {
-      expectedFirstResponderView = element;
-    }
-
-    // If expectedFirstResponderView or one of its ancestors isn't the first responder, tap on
-    // it so it becomes the first responder.
-    if (![expectedFirstResponderView isFirstResponder] &&
-        ![grey_ancestor(grey_firstResponder()) matches:expectedFirstResponderView]) {
-      // Tap on the element to make expectedFirstResponderView a first responder.
-      if (![[GREYActions actionForTap] perform:element error:errorOrNil]) {
-        return NO;
-      }
-      // Wait for keyboard to show up and any other UI changes to take effect.
-      if (![GREYKeyboard waitForKeyboardToAppear]) {
-        NSString *description = @"Keyboard did not appear after tapping on %@. Are you sure that "
-            @"tapping on this element will bring up the keyboard?";
-        [NSError grey_logOrSetOutReferenceIfNonNil:errorOrNil
-                                        withDomain:kGREYInteractionErrorDomain
-                                              code:kGREYInteractionActionFailedErrorCode
-                              andDescriptionFormat:description, element];
-        return NO;
-      }
-    }
-
-    // If a position is given, move the text cursor to that position.
-    id firstResponder = [[expectedFirstResponderView window] firstResponder];
-    if (position) {
-      if ([firstResponder conformsToProtocol:@protocol(UITextInput)]) {
-        UITextRange *newRange = [firstResponder textRangeFromPosition:position toPosition:position];
-        [firstResponder setSelectedTextRange:newRange];
-      } else {
-        NSString *description = @"First Responder %@ of element %@ does not conform to UITextInput"
-            @" protocol.";
-        [NSError grey_logOrSetOutReferenceIfNonNil:errorOrNil
-                                        withDomain:kGREYInteractionErrorDomain
-                                              code:kGREYInteractionActionFailedErrorCode
-                              andDescriptionFormat:description,
-                                                   firstResponder,
-                                                   expectedFirstResponderView];
-        return NO;
-      }
-    }
-
-    BOOL retVal;
-
-    if (iOS8_2_OR_ABOVE()) {
-      // Directly perform the typing since for iOS8.2 and above, we directly turn off Autocorrect
-      // and Predictive Typing from the settings.
-      retVal = [self grey_withAutocorrectAlreadyDisabledTypeText:text
-                                                inFirstResponder:firstResponder
-                                                       withError:errorOrNil];
-    } else {
-      // Perform typing. If this is pre-iOS8.2, then we simply turn the autocorrection
-      // off the current textfield being typed in.
-      retVal = [self grey_disableAutoCorrectForDelegateAndTypeText:text
-                                                  inFirstResponder:firstResponder
-                                                         withError:errorOrNil];
-    }
-
-    return retVal;
-  }];
-}
-
-/**
  *  Performs typing in the provided element by turning off autocorrect. In case of OS versions
  *  that provide an easy API to turn off autocorrect from the settings, we do that, else we obtain
  *  the element being typed in, and turn off autocorrect for that element while being typed on.
@@ -583,6 +499,79 @@
   // Perform typing. This requires autocorrect to be turned off. In
   // the case of iOS8+, this is done through the Keyboard Settings bundle.
   return [GREYKeyboard typeString:text inFirstResponder:firstResponder error:errorOrNil];
+}
+
+#pragma mark - Package Internal
+
++ (id<GREYAction>)grey_actionForTypeText:(NSString *)text
+                        atUITextPosition:(UITextPosition *)position {
+  return [GREYActionBlock actionWithName:[NSString stringWithFormat:@"Type \"%@\"", text]
+                             constraints:grey_not(grey_systemAlertViewShown())
+                            performBlock:^BOOL (id element, __strong NSError **errorOrNil) {
+    UIView *expectedFirstResponderView;
+    if (![element isKindOfClass:[UIView class]]) {
+      expectedFirstResponderView = [element grey_viewContainingSelf];
+    } else {
+      expectedFirstResponderView = element;
+    }
+
+    // If expectedFirstResponderView or one of its ancestors isn't the first responder, tap on
+    // it so it becomes the first responder.
+    if (![expectedFirstResponderView isFirstResponder] &&
+        ![grey_ancestor(grey_firstResponder()) matches:expectedFirstResponderView]) {
+      // Tap on the element to make expectedFirstResponderView a first responder.
+      if (![[GREYActions actionForTap] perform:element error:errorOrNil]) {
+        return NO;
+      }
+      // Wait for keyboard to show up and any other UI changes to take effect.
+      if (![GREYKeyboard waitForKeyboardToAppear]) {
+        NSString *description = @"Keyboard did not appear after tapping on %@. Are you sure that "
+            @"tapping on this element will bring up the keyboard?";
+        [NSError grey_logOrSetOutReferenceIfNonNil:errorOrNil
+                                        withDomain:kGREYInteractionErrorDomain
+                                              code:kGREYInteractionActionFailedErrorCode
+                              andDescriptionFormat:description, element];
+        return NO;
+      }
+    }
+
+    // If a position is given, move the text cursor to that position.
+    id firstResponder = [[expectedFirstResponderView window] firstResponder];
+    if (position) {
+      if ([firstResponder conformsToProtocol:@protocol(UITextInput)]) {
+        UITextRange *newRange = [firstResponder textRangeFromPosition:position toPosition:position];
+        [firstResponder setSelectedTextRange:newRange];
+      } else {
+        NSString *description = @"First Responder %@ of element %@ does not conform to UITextInput"
+            @" protocol.";
+        [NSError grey_logOrSetOutReferenceIfNonNil:errorOrNil
+                                        withDomain:kGREYInteractionErrorDomain
+                                              code:kGREYInteractionActionFailedErrorCode
+                              andDescriptionFormat:description,
+                                                   firstResponder,
+                                                   expectedFirstResponderView];
+        return NO;
+      }
+    }
+
+    BOOL retVal;
+
+    if (iOS8_2_OR_ABOVE()) {
+      // Directly perform the typing since for iOS8.2 and above, we directly turn off Autocorrect
+      // and Predictive Typing from the settings.
+      retVal = [self grey_withAutocorrectAlreadyDisabledTypeText:text
+                                                inFirstResponder:firstResponder
+                                                       withError:errorOrNil];
+    } else {
+      // Perform typing. If this is pre-iOS8.2, then we simply turn the autocorrection
+      // off the current textfield being typed in.
+      retVal = [self grey_disableAutoCorrectForDelegateAndTypeText:text
+                                                  inFirstResponder:firstResponder
+                                                         withError:errorOrNil];
+    }
+
+    return retVal;
+  }];
 }
 
 @end

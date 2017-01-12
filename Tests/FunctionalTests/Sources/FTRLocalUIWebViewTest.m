@@ -15,18 +15,8 @@
 //
 
 #import <EarlGrey/GREYAppStateTracker.h>
-#import <EarlGrey/GREYPrivate.h>
 
 #import "FTRBaseIntegrationTest.h"
-
-// Required for testing UIWebView states.
-@interface GREYAppStateTracker (GREYExposedForTesting)
-- (GREYAppState)grey_lastKnownStateForElement:(id)element;
-@end
-
-@interface UIWebView (GREYExposedForTesting)
-- (void)grey_trackAJAXLoading;
-@end
 
 // These web view tests are not run by default since they require network access
 // and have a possibility of flakiness.
