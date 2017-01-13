@@ -23,7 +23,8 @@
 #import "Assertion/GREYAssertionDefines.h"
 #import "Common/GREYConstants.h"
 #import "Common/GREYDefines.h"
-#import "Common/GREYVerboseLogger.h"
+#import "Common/GREYError.h"
+#import "Common/GREYLogger.h"
 #import "Core/GREYInteraction.h"
 #import "Event/GREYSyntheticEvents.h"
 #import "Matcher/GREYAllOf.h"
@@ -164,12 +165,18 @@
     return YES;
   }
 
-  [NSError grey_logOrSetOutReferenceIfNonNil:errorOrNil
-                                  withDomain:kGREYInteractionErrorDomain
-                                        code:kGREYInteractionActionFailedErrorCode
-                        andDescriptionFormat:@"%@: Slider's Minimum is %g, Maximum is %g, desired"
-                                             @" value is %g", reason, slider.minimumValue,
-                                             slider.maximumValue, _finalValue];
+  NSString *description = [NSString stringWithFormat:@"%@: Slider's Minimum is %g, Maximum is %g, "
+                                                     @"desired value is %g",
+                                                     reason,
+                                                     slider.minimumValue,
+                                                     slider.maximumValue,
+                                                     _finalValue];
+
+  GREYPopulateErrorOrLog(errorOrNil,
+                         kGREYInteractionErrorDomain,
+                         kGREYInteractionActionFailedErrorCode,
+                         description);
+
   return NO;
 }
 

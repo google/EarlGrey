@@ -124,7 +124,7 @@
         performAction:grey_tapAtPoint(CGPointMake(-51, -151))];
     GREYFail(@"Should throw an exception");
   } @catch (NSException *exception) {
-    NSRange exceptionRange = [[exception reason] rangeOfString:@"Action 'Tap' failed."];
+    NSRange exceptionRange = [[exception reason] rangeOfString:@"\"Action Name\" : \"Tap\""];
     GREYAssertNotEqual(exceptionRange.location, NSNotFound, @"should not be equal");
   }
 }

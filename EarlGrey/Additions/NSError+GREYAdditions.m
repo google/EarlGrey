@@ -16,34 +16,20 @@
 
 #import "Additions/NSError+GREYAdditions.h"
 
+#import "Common/GREYError.h"
+
 @implementation NSError (GREYAdditions)
 
-+ (BOOL)grey_logOrSetOutReferenceIfNonNil:(__strong NSError **)outErrorReferenceOrNil
-                               withDomain:(NSString *)domain
-                                     code:(NSInteger)code
-                           andDescription:(NSString *)description {
-  if (outErrorReferenceOrNil) {
-    NSDictionary *userInfo = @{ NSLocalizedDescriptionKey : description };
-    *outErrorReferenceOrNil = [self errorWithDomain:domain code:code userInfo:userInfo];
-    return YES;
-  } else {
-    NSLog(@"Error (domain: %@, code: %ld): %@", domain, (long)code, description);
-    return NO;
-  }
-}
+- (NSDictionary *)grey_descriptionDictionary {
+  NSMutableDictionary *descriptionObject = [[NSMutableDictionary alloc] init];
 
-+ (BOOL)grey_logOrSetOutReferenceIfNonNil:(__strong NSError **)outErrorReferenceOrNil
-                               withDomain:(NSString *)domain
-                                     code:(NSInteger)code
-                     andDescriptionFormat:(NSString *)format, ... {
-  va_list args;
-  va_start(args, format);
-  NSString *description = [[NSString alloc] initWithFormat:format arguments:args];
-  va_end(args);
-  return [NSError grey_logOrSetOutReferenceIfNonNil:outErrorReferenceOrNil
-                                         withDomain:domain
-                                               code:code
-                                     andDescription:description];
+  descriptionObject[kErrorDomainKey] = self.domain;
+  descriptionObject[kErrorCodeKey] = [NSString stringWithFormat:@"%ld", (long)self.code];
+  descriptionObject[kErrorDescriptionKey] =  self.localizedDescription;
+  descriptionObject[kErrorFailureReasonKey] = self.localizedFailureReason;
+  descriptionObject[kErrorRecoverySuggestionKey] = self.localizedRecoverySuggestion;
+
+  return descriptionObject;
 }
 
 @end

@@ -31,6 +31,7 @@
 #import "Additions/NSString+GREYAdditions.h"
 #import "Additions/UISwitch+GREYAdditions.h"
 #import "Assertion/GREYAssertionDefines.h"
+#import "Common/GREYError.h"
 #import "Common/GREYExposed.h"
 #import "Common/GREYScreenshotUtil.h"
 #import "Core/GREYInteraction.h"
@@ -278,10 +279,10 @@
                                   performBlock:^BOOL (id element, __strong NSError **errorOrNil) {
     UIImage *snapshot = [GREYScreenshotUtil snapshotElement:element];
     if (snapshot == nil) {
-      [NSError grey_logOrSetOutReferenceIfNonNil:errorOrNil
-                                      withDomain:kGREYInteractionErrorDomain
-                                            code:kGREYInteractionActionFailedErrorCode
-                            andDescriptionFormat:@"Failed to take snapshot. Snapshot is nil."];
+      GREYPopulateErrorOrLog(errorOrNil,
+                             kGREYInteractionErrorDomain,
+                             kGREYInteractionActionFailedErrorCode,
+                             @"Failed to take snapshot. Snapshot is nil.");
       return NO;
     } else {
       *outImage = snapshot;
@@ -525,12 +526,14 @@
       }
       // Wait for keyboard to show up and any other UI changes to take effect.
       if (![GREYKeyboard waitForKeyboardToAppear]) {
-        NSString *description = @"Keyboard did not appear after tapping on %@. Are you sure that "
-            @"tapping on this element will bring up the keyboard?";
-        [NSError grey_logOrSetOutReferenceIfNonNil:errorOrNil
-                                        withDomain:kGREYInteractionErrorDomain
-                                              code:kGREYInteractionActionFailedErrorCode
-                              andDescriptionFormat:description, element];
+        NSString *description = @"Keyboard did not appear after tapping on element (E)."
+            @"Are you sure that tapping on this element will bring up the keyboard?";
+        NSDictionary *note = @{ @"E" : [element grey_description] };
+        GREYPopulateErrorNotedOrLog(errorOrNil,
+                                    kGREYInteractionErrorDomain,
+                                    kGREYInteractionActionFailedErrorCode,
+                                    description,
+                                    note);
         return NO;
       }
     }
@@ -542,14 +545,15 @@
         UITextRange *newRange = [firstResponder textRangeFromPosition:position toPosition:position];
         [firstResponder setSelectedTextRange:newRange];
       } else {
-        NSString *description = @"First Responder %@ of element %@ does not conform to UITextInput"
-            @" protocol.";
-        [NSError grey_logOrSetOutReferenceIfNonNil:errorOrNil
-                                        withDomain:kGREYInteractionErrorDomain
-                                              code:kGREYInteractionActionFailedErrorCode
-                              andDescriptionFormat:description,
-                                                   firstResponder,
-                                                   expectedFirstResponderView];
+        NSString *description = @"First responder (F) of element (E) does not conform to "
+            @"UITextInput protocol.";
+        NSDictionary *note = @{ @"F" : [firstResponder description],
+                                @"E" : [expectedFirstResponderView description] };
+        GREYPopulateErrorNotedOrLog(errorOrNil,
+                                    kGREYInteractionErrorDomain,
+                                    kGREYInteractionActionFailedErrorCode,
+                                    description,
+                                    note);
         return NO;
       }
     }

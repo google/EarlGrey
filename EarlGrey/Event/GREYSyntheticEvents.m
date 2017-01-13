@@ -17,10 +17,13 @@
 #import "Event/GREYSyntheticEvents.h"
 
 #import "Additions/NSString+GREYAdditions.h"
+#import "Additions/NSError+GREYAdditions.h"
 #import "Assertion/GREYAssertionDefines.h"
 #import "Common/GREYConstants.h"
+#import "Common/GREYError.h"
 #import "Common/GREYExposed.h"
-#import "Common/GREYVerboseLogger.h"
+#import "Common/GREYLogger.h"
+
 #import "Event/GREYTouchInjector.h"
 #import "Synchronization/GREYUIThreadExecutor.h"
 
@@ -60,25 +63,31 @@ NSString *const kGREYSyntheticEventInjectionErrorDomain =
     if (errorOrNil) {
       *errorOrNil = error;
     } else {
-      I_GREYFail(@"Failed to change device orientation due to error: %@", error);
+      I_GREYFail(@"%@\nError: %@",
+                 @"Failed to change device orientation",
+                 [GREYError grey_nestedDescriptionForError:error]);
     }
+
+    return NO;
   } else if (deviceOrientation != [[UIDevice currentDevice] orientation]) {
     NSString *errorDescription =
         [NSString stringWithFormat:@"Device orientation could not be set to %@ from %@.",
             NSStringFromUIDeviceOrientation(deviceOrientation),
             NSStringFromUIDeviceOrientation(initialDeviceOrientation)];
 
+    NSError *error = GREYErrorMake(kGREYSyntheticEventInjectionErrorDomain,
+                                   kGREYOrientationChangeFailedErrorCode,
+                                   errorDescription);
+
     if (errorOrNil) {
-      NSDictionary *userInfo = @{ NSLocalizedDescriptionKey : errorDescription };
-      *errorOrNil = [NSError errorWithDomain:kGREYSyntheticEventInjectionErrorDomain
-                                        code:kGREYOrientationChangeFailedErrorCode
-                                    userInfo:userInfo];
-      return NO;
+      *errorOrNil = error;
     } else {
-      I_GREYFail(@"Device orientation could not be set to %@ from %@.",
-                 NSStringFromUIDeviceOrientation(deviceOrientation),
-                 NSStringFromUIDeviceOrientation(initialDeviceOrientation));
+      I_GREYFail(@"%@.\nError: %@\n",
+                 errorDescription,
+                 [GREYError grey_nestedDescriptionForError:error]);
     }
+
+    return NO;
   }
 
   return success;

@@ -21,6 +21,8 @@
 #import "Additions/XCTestCase+GREYAdditions.h"
 #import "Common/GREYConfiguration.h"
 #import "Common/GREYElementHierarchy.h"
+#import "Common/GREYFailureFormatter.h"
+#import "Common/GREYFailureScreenshotter.h"
 #import "Common/GREYScreenshotUtil.h"
 #import "Common/GREYScreenshotUtil+Internal.h"
 #import "Common/GREYVisibilityChecker.h"
@@ -29,8 +31,6 @@
 #import "Provider/GREYUIWindowProvider.h"
 
 // Counter that is incremented each time a failure occurs in an unknown test.
-static NSUInteger gUnknownTestExceptionCounter = 0;
-
 @implementation GREYDefaultFailureHandler {
   NSString *_fileName;
   NSUInteger _lineNumber;
@@ -48,73 +48,39 @@ static NSUInteger gUnknownTestExceptionCounter = 0;
 
   // Test case can be nil if EarlGrey is invoked outside the context of an XCTestCase.
   XCTestCase *currentTestCase = [XCTestCase grey_currentTestCase];
-  if (!currentTestCase) {
-    gUnknownTestExceptionCounter++;
-  }
 
-  NSMutableString *log = [[NSMutableString alloc] init];
+  NSMutableArray *logger = [[NSMutableArray alloc] init];
   NSString *reason = exception.reason;
+
   if (reason.length == 0) {
     reason = @"exception.reason was not provided";
   }
-  [log appendFormat:@"%@\n\n", reason];
-  [log appendFormat:@"Bundle ID: %@\n\n", [[NSBundle mainBundle] bundleIdentifier]];
-  [log appendFormat:@"Stack trace: %@\n\n", [NSThread callStackSymbols]];
-  [log appendFormat:@"Exception: %@\n", exception.name];
-  [log appendFormat:@"Reason: %@\n", reason];
+
+  [logger addObject:[NSString stringWithFormat:@"%@: %@", @"Exception Name", exception.name]];
+  [logger addObject:[NSString stringWithFormat:@"%@: %@", @"Exception Reason", reason]];
+
   if (details.length > 0) {
-    [log appendFormat:@"%@\n", details];
+    [logger addObject:[NSString stringWithFormat:@"%@: %@", @"Exception Details", details]];
   }
-  [log appendString:@"\n"];
+  [logger addObject:@""];
 
-  NSString *screenshotName;
-  if (currentTestCase) {
-    screenshotName = [NSString stringWithFormat:@"%@_%@",
-                                                [currentTestCase grey_testClassName],
-                                                [currentTestCase grey_testMethodName]];
-  } else {
-    screenshotName =
-        [NSString stringWithFormat:@"unknown_%lu", (unsigned long)gUnknownTestExceptionCounter];
-  }
+  NSString *logMessage = [logger componentsJoinedByString:@"\n"];
+  NSString *screenshotPrefix = [NSString stringWithFormat:@"%@_%@",
+                                                          [currentTestCase grey_testClassName],
+                                                          [currentTestCase grey_testMethodName]];
+  NSDictionary *appScreenshots =
+      [GREYFailureScreenshotter generateAppScreenshotsWithPrefix:screenshotPrefix
+                                                         failure:exception.name];
 
-  // Save and log screenshot and before and after images (if available).
-  NSString *screenshotDir = GREY_CONFIG_STRING(kGREYConfigKeyScreenshotDirLocation);
-  NSString *uniqueSubDirName =
-      [NSString stringWithFormat:@"%@-%@", exception.name, [[NSUUID UUID] UUIDString]];
-  screenshotDir = [screenshotDir stringByAppendingPathComponent:uniqueSubDirName];
-
-  [self grey_savePNGImage:[GREYScreenshotUtil grey_takeScreenshotAfterScreenUpdates:NO]
-              toFileNamed:[NSString stringWithFormat:@"%@.png", screenshotName]
-              inDirectory:screenshotDir
-              forCategory:@"Screenshot At Failure"
-          appendingLogsTo:log];
-  [self grey_savePNGImage:[GREYVisibilityChecker grey_lastActualBeforeImage]
-              toFileNamed:[NSString stringWithFormat:@"%@_before.png", screenshotName]
-              inDirectory:screenshotDir
-              forCategory:@"Visibility Checker's Most Recent Before Image"
-          appendingLogsTo:log];
-  [self grey_savePNGImage:[GREYVisibilityChecker grey_lastExpectedAfterImage]
-              toFileNamed:[NSString stringWithFormat:@"%@_after_expected.png", screenshotName]
-              inDirectory:screenshotDir
-              forCategory:@"Visibility Checker's Most Recent Expected After Image"
-          appendingLogsTo:log];
-  [self grey_savePNGImage:[GREYVisibilityChecker grey_lastActualAfterImage]
-              toFileNamed:[NSString stringWithFormat:@"%@_after_actual.png", screenshotName]
-              inDirectory:screenshotDir
-              forCategory:@"Visibility Checker's Most Recent Actual After Image"
-          appendingLogsTo:log];
-
-  // UI hierarchy and legend. Print windows from front to back, formatted for easier readability.
-  [log appendString:@"\n\n"
-                    @"Application window hierarchy (ordered by window level, front to back as "
-                    @"rendered):\n\n"
-                    @"Legend:\n"
-                    @"[Window 1] = [Frontmost Window]\n"
-                    @"[AX] = [Accessibility]\n"
-                    @"[UIE] = [User Interaction Enabled]\n\n"];
-
-  // Append the hierarchy for all UI Windows in the app.
-  [log appendFormat:@"%@", [GREYElementHierarchy hierarchyStringForAllUIWindows]];
+  NSString *log = [GREYFailureFormatter formatFailureForTestCase:currentTestCase
+                                                    failureLabel:@"Exception"
+                                                     failureName:exception.name
+                                                        filePath:_fileName
+                                                      lineNumber:_lineNumber
+                                                    functionName:nil
+                                                      stackTrace:[NSThread callStackSymbols]
+                                                  appScreenshots:appScreenshots
+                                                          format:@"%@\n", logMessage];
 
   if (currentTestCase) {
     [currentTestCase grey_markAsFailedAtLine:_lineNumber
@@ -125,39 +91,6 @@ static NSUInteger gUnknownTestExceptionCounter = 0;
     [[GREYFrameworkException exceptionWithName:exception.name
                                         reason:log
                                       userInfo:nil] raise];
-  }
-}
-
-#pragma mark - Private
-
-/**
- *  Saves the given @c image as a PNG file to the given @c fileName and appends a log to
- *  @c allLogs with the saved image's absolute path under the specified @c category.
- *
- *  @param image     Image to be saved as a PNG file.
- *  @param fileName  The file name for the @c image to be saved.
- *  @param directory The directory where @c image will be saved.
- *  @param category  The category for which the @c image is being saved.
- *                   This will be added to the front of the log.
- *  @param allLogs   Existing logs to which any new log statements are appended.
- */
-- (void)grey_savePNGImage:(UIImage *)image
-              toFileNamed:(NSString *)fileName
-              inDirectory:(NSString *)directory
-              forCategory:(NSString *)category
-          appendingLogsTo:(NSMutableString *)allLogs {
-  if (!image) {
-    // nothing to save.
-    return;
-  }
-  NSString *screenshotPath = [GREYScreenshotUtil saveImageAsPNG:image
-                                                         toFile:fileName
-                                                    inDirectory:directory];
-  if (screenshotPath) {
-    [allLogs appendFormat:@"%@: %@\n", category, screenshotPath];
-  } else {
-    [allLogs appendFormat:@"Unable to save %@ as %@ in directory %@\n",
-                          category, fileName, directory];
   }
 }
 

@@ -20,17 +20,34 @@
  *  testing purposes.
  */
 
+#import <EarlGrey/GREYAssertions.h>
+
 #import <EarlGrey/GREYAssertion.h>
+#import <EarlGrey/GREYError.h>
+
 @protocol GREYMatcher;
 
 @interface GREYAssertions (Internal)
 
 /**
-*  Create a GREYAssertion with the provided @c matcher to check assertions on elements.
+ *  Raise a @c GREYFrameworkException with the provided @c name, @c details and @c error.
+ *
+ *  @param name    The name of the exception.
+ *  @param details The details of the exception.
+ *  @param error   The error that is the major reason of the exception.
+ *
+ *  @remark This is available only for internal usage purposes.
+ */
++ (void)grey_raiseExceptionNamed:(NSString *)name
+                exceptionDetails:(NSString *)details
+                       withError:(GREYError *)error;
+
+/**
+*  Create a @c GREYAssertion with the provided @c matcher to check assertions on elements.
 *
-*  @param matcher The GREYMatcher object to be matched by the assertion.
+*  @param matcher The @c GREYMatcher object to be matched by the assertion.
 *
-*  @return A GREYAssertion object that can be used to match an object with the provided @c matcher.
+*  @return A @c GREYAssertion object that can be used to match an object with the provided @c matcher.
 *
 *  @remark This is available only for internal testing purposes.
 */

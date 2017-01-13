@@ -22,6 +22,8 @@
 #import "Additions/NSObject+GREYAdditions.h"
 #import "Action/GREYPathGestureUtils.h"
 #import "Assertion/GREYAssertionDefines.h"
+#import "Common/GREYObjectFormatter.h"
+#import "Common/GREYError.h"
 #import "Event/GREYSyntheticEvents.h"
 #import "Matcher/GREYAllOf.h"
 #import "Matcher/GREYMatchers.h"
@@ -42,6 +44,10 @@ static CGFloat const kPinchScale = (CGFloat)0.8;
  *  handed two finger pinch.
  */
 static double const kDefaultPinchAngle = (30.0 * M_PI / 180.0);
+
+NSString *const kErrorDetailElementKey = @"Element";
+NSString *const kErrorDetailWindowKey = @"Window";
+
 
 @implementation GREYPinchAction {
   /**
@@ -68,10 +74,10 @@ static double const kDefaultPinchAngle = (30.0 * M_PI / 180.0);
 - (instancetype)initWithDirection:(GREYPinchDirection)pinchDirection
                          duration:(CFTimeInterval)duration
                        pinchAngle:(double)pinchAngle {
-  NSString *name = [NSString stringWithFormat:@"Pinch %@ for duration %g and angle %f",
+  NSString *name = [NSString stringWithFormat:@"Pinch %@ for duration %g and angle %f degree",
                                               NSStringFromPinchDirection(pinchDirection),
                                               duration,
-                                              pinchAngle];
+                                              (pinchAngle * 180.0 / M_PI)];
   self = [super initWithName:name
                  constraints:grey_allOf(grey_not(grey_systemAlertViewShown()),
                                         grey_interactable(),
@@ -98,17 +104,45 @@ static double const kDefaultPinchAngle = (30.0 * M_PI / 180.0);
       ? (UIWindow *)viewToPinch : viewToPinch.window;
 
   if (!window) {
-    NSString *errorDescription =
-        @"Cannot pinch on view %@, as it has no window and it isn't a window itself.";
-    [NSError grey_logOrSetOutReferenceIfNonNil:errorOrNil
-                                    withDomain:kGREYPinchErrorDomain
-                                          code:kGREYPinchFailedErrorCode
-                          andDescriptionFormat:errorDescription, element];
+    NSString *errorDescription = [NSString stringWithFormat:@"Cannot pinch on view (V), "
+                                                            @"as it has no window "
+                                                            @"and it isn't a window itself."];
+    NSDictionary *note = @{ @"V" : element };
+    GREYPopulateErrorNotedOrLog(errorOrNil,
+                                kGREYPinchErrorDomain,
+                                kGREYPinchFailedErrorCode,
+                                errorDescription,
+                                note);
     return NO;
   }
 
   CGRect pinchActionFrame = CGRectIntersection([element accessibilityFrame], window.bounds);
-  NSAssert(!CGRectIsNull(pinchActionFrame), @"View frame to apply pinch, cannot be Null");
+  if (CGRectIsNull(pinchActionFrame)) {
+    NSMutableDictionary *errorDetails = [[NSMutableDictionary alloc] init];
+
+    errorDetails[kErrorDetailActionNameKey] = self.name;
+    errorDetails[kErrorDetailElementKey] = [element grey_description];
+    errorDetails[kErrorDetailWindowKey] = [window description];
+    errorDetails[kErrorDetailRecoverySuggestionKey] = @"Make sure the element lies in the window";
+
+    NSArray *keyOrder = @[ kErrorDetailActionNameKey,
+                           kErrorDetailElementKey,
+                           kErrorDetailWindowKey,
+                           kErrorDetailRecoverySuggestionKey ];
+
+    NSString *reasonDetail = [GREYObjectFormatter formatDictionary:errorDetails
+                                                            indent:2
+                                                         hideEmpty:YES
+                                                          keyOrder:keyOrder];
+
+    NSString *reason = [NSString stringWithFormat:@"Cannot apply pinch on element.\n"
+                                                  @"Exception with Action: %@\n",
+                                                  reasonDetail];
+
+    GREYFailWithDetails(reason, @"");
+
+    return NO;
+  }
 
   // Outward pinch starts at the center of pinchActionFrame.
   // Inward pinch ends at the center of pinchActionFrame.

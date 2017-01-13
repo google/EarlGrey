@@ -21,8 +21,8 @@
 #import "Additions/CAAnimation+GREYAdditions.h"
 #import "Additions/NSObject+GREYAdditions.h"
 #import "Common/GREYConfiguration.h"
+#import "Common/GREYLogger.h"
 #import "Common/GREYSwizzler.h"
-#import "Common/GREYVerboseLogger.h"
 #import "Synchronization/GREYAppStateTracker.h"
 
 @implementation CALayer (GREYAdditions)

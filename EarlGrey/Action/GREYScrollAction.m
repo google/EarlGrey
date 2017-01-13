@@ -24,6 +24,7 @@
 #import "Additions/NSString+GREYAdditions.h"
 #import "Additions/UIScrollView+GREYAdditions.h"
 #import "Assertion/GREYAssertionDefines.h"
+#import "Common/GREYError.h"
 #import "Event/GREYSyntheticEvents.h"
 #import "Matcher/GREYAllOf.h"
 #import "Matcher/GREYAnyOf.h"
@@ -107,22 +108,21 @@ static const NSInteger kMinTouchPointsToDetectScrollResistance = 2;
               startPointPercents:_startPointPercents
               outRemainingAmount:&amountRemaining];
       if (!touchPath) {
-        [NSError grey_logOrSetOutReferenceIfNonNil:errorOrNil
-                                        withDomain:kGREYScrollErrorDomain
-                                              code:kGREYScrollImpossible
-                              andDescriptionFormat:@"Cannot scroll, ensure that the selected scroll"
-                                                   @" view is wide enough to scroll."];
+        GREYPopulateErrorOrLog(errorOrNil,
+                               kGREYScrollErrorDomain,
+                               kGREYScrollImpossible,
+                               @"Cannot scroll, ensure that the selected scroll view "
+                               @"is wide enough to scroll.");
         return NO;
       }
       success = [GREYScrollAction grey_injectTouchPath:touchPath onScrollView:element];
     }
   }
   if (!success) {
-    [NSError grey_logOrSetOutReferenceIfNonNil:errorOrNil
-                                    withDomain:kGREYScrollErrorDomain
-                                          code:kGREYScrollReachedContentEdge
-                          andDescriptionFormat:@"Cannot scroll, the scrollview is already at"
-                                               @" the edge."];
+    GREYPopulateErrorOrLog(errorOrNil,
+                           kGREYScrollErrorDomain,
+                           kGREYScrollReachedContentEdge,
+                           @"Cannot scroll, the scrollview is already at the edge.");
   }
   return success;
 }

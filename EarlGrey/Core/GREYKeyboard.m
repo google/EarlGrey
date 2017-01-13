@@ -23,7 +23,8 @@
 #import "Assertion/GREYAssertionDefines.h"
 #import "Common/GREYDefines.h"
 #import "Common/GREYExposed.h"
-#import "Common/GREYVerboseLogger.h"
+#import "Common/GREYError.h"
+#import "Common/GREYLogger.h"
 #import "Core/GREYInteraction.h"
 #import "Synchronization/GREYAppStateTracker.h"
 #import "Synchronization/GREYCondition.h"
@@ -148,18 +149,22 @@ static NSString *const kReturnKeyIdentifier = @"\n";
     inFirstResponder:(id)firstResponder
                error:(__strong NSError **)errorOrNil {
   if ([string length] < 1) {
-    [NSError grey_logOrSetOutReferenceIfNonNil:errorOrNil
-                                    withDomain:kGREYInteractionErrorDomain
-                                          code:kGREYInteractionActionFailedErrorCode
-                          andDescriptionFormat:@"Failed to type, because the string provided was"
-                                               @" empty."];
+    GREYPopulateErrorOrLog(errorOrNil,
+                           kGREYInteractionErrorDomain,
+                           kGREYInteractionActionFailedErrorCode,
+                           @"Failed to type, because the string provided was empty.");
+
     return NO;
   } else if (!gIsKeyboardShown) {
-    [NSError grey_logOrSetOutReferenceIfNonNil:errorOrNil
-                                    withDomain:kGREYInteractionErrorDomain
-                                          code:kGREYInteractionActionFailedErrorCode
-                          andDescriptionFormat:@"Failed to type string \"%@\", because keyboard was"
-                                               @" not shown on screen.", string];
+    NSString *description = [NSString stringWithFormat:@"Failed to type string '%@', "
+                                                       @"because keyboard was not shown on screen.",
+                             string];
+
+    GREYPopulateErrorOrLog(errorOrNil,
+                           kGREYInteractionErrorDomain,
+                           kGREYInteractionActionFailedErrorCode,
+                           description);
+
     return NO;
   }
 
@@ -182,7 +187,7 @@ static NSString *const kReturnKeyIdentifier = @"\n";
                                                                    forTypingString:string
                                                                              error:errorOrNil];
           }
-          [GREYKeyboard grey_tapKey:moreLettersKey];
+          [GREYKeyboard grey_tapKey:moreLettersKey error:errorOrNil];
           key = [GREYKeyboard grey_findKeyForCharacter:characterAsString];
         }
         // If key is not on the current keyplane, use shift to switch to the other one.
@@ -200,7 +205,7 @@ static NSString *const kReturnKeyIdentifier = @"\n";
                                                                    forTypingString:string
                                                                              error:errorOrNil];
           }
-          [GREYKeyboard grey_tapKey:moreNumbersKey];
+          [GREYKeyboard grey_tapKey:moreNumbersKey error:errorOrNil];
           key = [GREYKeyboard grey_findKeyForCharacter:characterAsString];
         }
         // If key is not on the current keyplane, use shift to switch to the other one.
@@ -220,7 +225,7 @@ static NSString *const kReturnKeyIdentifier = @"\n";
                                                                    forTypingString:string
                                                                              error:errorOrNil];
           }
-          [GREYKeyboard grey_tapKey:moreLettersKey];
+          [GREYKeyboard grey_tapKey:moreLettersKey error:errorOrNil];
           key = [GREYKeyboard grey_findKeyForCharacter:characterAsString];
         }
       }
@@ -243,7 +248,7 @@ static NSString *const kReturnKeyIdentifier = @"\n";
     }
 
     // Keyboard was found; this action should always succeed.
-    [GREYKeyboard grey_tapKey:key];
+    [GREYKeyboard grey_tapKey:key error:errorOrNil];
 
     if (keyboardTypeWasChangedFromEmailType) {
       // Set the keyboard type back to the Email Type.
@@ -289,15 +294,11 @@ static NSString *const kReturnKeyIdentifier = @"\n";
 
   BOOL didTimeOut = ![shiftToggleSucceded waitWithTimeout:kMaxShiftKeyToggleDuration];
   if (didTimeOut) {
-    [NSError grey_logOrSetOutReferenceIfNonNil:&error
-                                    withDomain:kGREYInteractionErrorDomain
-                                          code:kGREYInteractionTimeoutErrorCode
-                          andDescriptionFormat:@"GREYKeyboard : Shift Key toggling timed out "
-                                               @"since key with correct case wasn't found"];
-  }
-
-  if (error && errorOrNil) {
-    *errorOrNil = error;
+    GREYPopulateErrorOrLog(errorOrNil,
+                           kGREYInteractionErrorDomain,
+                           kGREYInteractionTimeoutErrorCode,
+                           @"GREYKeyboard : Shift Key toggling timed out "
+                           @"since key with correct case wasn't found");
   }
 
   return key;
@@ -325,15 +326,14 @@ static NSString *const kReturnKeyIdentifier = @"\n";
     id key = [GREYKeyboard grey_findKeyForCharacter:shiftKeyLabel];
     if (key) {
       // Shift key was found; this action should always succeed.
-      [GREYKeyboard grey_tapKey:key];
+      [GREYKeyboard grey_tapKey:key error:errorOrNil];
       return YES;
     }
   }
-  [NSError grey_logOrSetOutReferenceIfNonNil:errorOrNil
-                                  withDomain:kGREYInteractionErrorDomain
-                                        code:kGREYInteractionActionFailedErrorCode
-                        andDescriptionFormat:@"GREYKeyboard: No known SHIFT key was found in the "
-                                             @"hierarchy."];
+  GREYPopulateErrorOrLog(errorOrNil,
+                         kGREYInteractionErrorDomain,
+                         kGREYInteractionActionFailedErrorCode,
+                         @"GREYKeyboard: No known SHIFT key was found in the hierarchy.");
   return NO;
 }
 
@@ -426,13 +426,15 @@ static NSString *const kReturnKeyIdentifier = @"\n";
 /**
  *  Utility method to tap on a key on the keyboard.
  *
- *  @param key The key to be tapped.
+ *  @param      key           The key to be tapped.
+ *  *param[out] errorOrNil    The error to be populated. If this is @c nil,
+ *                            then an error message is logged.
  */
-+ (void)grey_tapKey:(id)key {
++ (void)grey_tapKey:(id)key error:(__strong NSError **)errorOrNil {
   NSParameterAssert(key);
 
   NSLog(@"Tapping on key: %@.", [key accessibilityLabel]);
-  [gTapKeyAction perform:key error:nil];
+  [gTapKeyAction perform:key error:errorOrNil];
   [[[GREYKeyboard grey_keyboardObject] taskQueue] waitUntilAllTasksAreFinished];
   [[GREYUIThreadExecutor sharedInstance] drainOnce];
 }
@@ -451,12 +453,16 @@ static NSString *const kReturnKeyIdentifier = @"\n";
 + (BOOL)grey_setErrorForkeyNotFoundWithAccessibilityLabel:(NSString *)accessibilityLabel
                                           forTypingString:(NSString *)string
                                                     error:(__strong NSError **)errorOrNil {
-  [NSError grey_logOrSetOutReferenceIfNonNil:errorOrNil
-                                  withDomain:kGREYInteractionErrorDomain
-                                        code:kGREYInteractionElementNotFoundErrorCode
-                        andDescriptionFormat:@"Failed to type string \"%@\", because "
-                                             @"key '%@' could not be found on the keyboard.",
-                                             string, accessibilityLabel];
+  NSString *description = [NSString stringWithFormat:@"Failed to type string '%@', "
+                                                     @"because key (K) could not be found "
+                                                     @"on the keyboard.",
+                                                     string];
+  NSDictionary *note = @{ @"K" : [accessibilityLabel description] };
+  GREYPopulateErrorNotedOrLog(errorOrNil,
+                              kGREYInteractionErrorDomain,
+                              kGREYInteractionElementNotFoundErrorCode,
+                              description,
+                              note);
   return NO;
 }
 
