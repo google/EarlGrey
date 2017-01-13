@@ -24,8 +24,9 @@
 #import "Common/GREYConfiguration.h"
 #import "Common/GREYConstants.h"
 #import "Common/GREYDefines.h"
+#import "Common/GREYError.h"
+#import "Common/GREYLogger.h"
 #import "Common/GREYStopwatch.h"
-#import "Common/GREYVerboseLogger.h"
 #import "Synchronization/GREYAppStateTracker.h"
 #import "Synchronization/GREYAppStateTracker+Internal.h"
 #import "Synchronization/GREYDispatchQueueIdlingResource.h"
@@ -232,10 +233,10 @@ typedef NS_ENUM(NSInteger, GREYExecutionState) {
         errorDescription = @"Failed to synchronize, but all resources are idle after timeout.";
       }
 
-      [NSError grey_logOrSetOutReferenceIfNonNil:error
-                                      withDomain:kGREYUIThreadExecutorErrorDomain
-                                            code:kGREYUIThreadExecutorTimeoutErrorCode
-                                  andDescription:errorDescription];
+      GREYPopulateErrorOrLog(error,
+                             kGREYUIThreadExecutorErrorDomain,
+                             kGREYUIThreadExecutorTimeoutErrorCode,
+                             errorDescription);
     }
     return syncSuccess;
   } else {

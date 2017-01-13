@@ -23,7 +23,7 @@
 #import "Additions/XCTestCase+GREYAdditions.h"
 #import "Common/GREYAnalyticsDelegate.h"
 #import "Common/GREYConfiguration.h"
-#import "Common/GREYVerboseLogger.h"
+#import "Common/GREYLogger.h"
 
 /**
  *  The Analytics tracking ID that receives EarlGrey usage data.

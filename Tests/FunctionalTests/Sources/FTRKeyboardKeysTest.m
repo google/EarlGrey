@@ -136,7 +136,7 @@
     GREYFail(@"Should throw an exception");
   } @catch (NSException *exception) {
     NSRange exceptionRange =
-        [[exception reason] rangeOfString:@"Action 'Type \"Should Fail\"' failed."];
+        [[exception reason] rangeOfString:@"\"Action Name\" : \"Type \\\"Should Fail\\\"\""];
     GREYAssertTrue(exceptionRange.length > 0, @"Should throw exception indicating action failure.");
   }
 }

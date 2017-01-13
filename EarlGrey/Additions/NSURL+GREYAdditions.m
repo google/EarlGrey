@@ -15,11 +15,11 @@
 //
 
 #import "Additions/NSURL+GREYAdditions.h"
-#import "Common/GREYVerboseLogger.h"
 
 #import <objc/runtime.h>
 
 #import "Common/GREYConfiguration.h"
+#import "Common/GREYLogger.h"
 
 @implementation NSURL (GREYAdditions)
 

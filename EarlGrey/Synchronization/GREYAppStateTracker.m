@@ -22,7 +22,7 @@
 #import "Additions/NSObject+GREYAdditions.h"
 #import "Common/GREYConfiguration.h"
 #import "Common/GREYDefines.h"
-#import "Common/GREYVerboseLogger.h"
+#import "Common/GREYLogger.h"
 
 /**
  *  Lock protecting element state map.
