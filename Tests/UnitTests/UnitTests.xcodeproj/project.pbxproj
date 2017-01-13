@@ -64,6 +64,9 @@
 		61322DA21D4CD7C300A5B0C1 /* GREYDispatchQueueTrackerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 61322D9E1D4CD7B900A5B0C1 /* GREYDispatchQueueTrackerTest.m */; };
 		61322DA31D4CD7C300A5B0C1 /* GREYManagedObjectContextIdlingResourceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 61322D9F1D4CD7B900A5B0C1 /* GREYManagedObjectContextIdlingResourceTest.m */; };
 		61E4E0CD1D755B1C007F9EE6 /* GREYTouchInjectorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 61E4E0CC1D755B1C007F9EE6 /* GREYTouchInjectorTest.m */; };
+		7C38A9671E1C800B00E37A8F /* GREYErrorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C38A9661E1C800B00E37A8F /* GREYErrorTest.m */; };
+		7CA881CC1E1D888E00EE18D4 /* GREYObjectFormatterTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CA881CB1E1D888E00EE18D4 /* GREYObjectFormatterTest.m */; };
+		7CA881D61E1DBFBE00EE18D4 /* GREYFailureFormatterTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CA881D51E1DBFBE00EE18D4 /* GREYFailureFormatterTest.m */; };
 		F9C5093F1D11E9CF00D4FDED /* GREYTestHelperTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F9C5093E1D11E9CF00D4FDED /* GREYTestHelperTest.m */; };
 		FD1948341DA232E000B9BA2D /* GREYStopwatchTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD19482C1DA2324200B9BA2D /* GREYStopwatchTest.m */; };
 		FD4AB2B61D23181400D0C44D /* GREYAnalyticsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1BCE911D1B3F0B0069D0C6 /* GREYAnalyticsTest.m */; };
@@ -223,6 +226,9 @@
 		61322D9F1D4CD7B900A5B0C1 /* GREYManagedObjectContextIdlingResourceTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYManagedObjectContextIdlingResourceTest.m; sourceTree = "<group>"; };
 		61CFE8EF1D4CE99D00E1A48E /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		61E4E0CC1D755B1C007F9EE6 /* GREYTouchInjectorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYTouchInjectorTest.m; sourceTree = "<group>"; };
+		7C38A9661E1C800B00E37A8F /* GREYErrorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYErrorTest.m; sourceTree = "<group>"; };
+		7CA881CB1E1D888E00EE18D4 /* GREYObjectFormatterTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYObjectFormatterTest.m; sourceTree = "<group>"; };
+		7CA881D51E1DBFBE00EE18D4 /* GREYFailureFormatterTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYFailureFormatterTest.m; sourceTree = "<group>"; };
 		F9C5093E1D11E9CF00D4FDED /* GREYTestHelperTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYTestHelperTest.m; sourceTree = "<group>"; };
 		FD19482C1DA2324200B9BA2D /* GREYStopwatchTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYStopwatchTest.m; sourceTree = "<group>"; };
 		FD1BCE911D1B3F0B0069D0C6 /* GREYAnalyticsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYAnalyticsTest.m; sourceTree = "<group>"; };
@@ -326,6 +332,9 @@
 				59467ED31C9379DE0089498B /* UIWindow+GREYAdditionsTest.m */,
 				007CF78A1D78A0F400228BF3 /* XCTestCase+GREYAdditionsTest.m */,
 				F9C5093E1D11E9CF00D4FDED /* GREYTestHelperTest.m */,
+				7C38A9661E1C800B00E37A8F /* GREYErrorTest.m */,
+				7CA881CB1E1D888E00EE18D4 /* GREYObjectFormatterTest.m */,
+				7CA881D51E1DBFBE00EE18D4 /* GREYFailureFormatterTest.m */,
 			);
 			path = Sources;
 			sourceTree = SOURCE_ROOT;
@@ -606,11 +615,13 @@
 				59467F151C9379FC0089498B /* GREYAppStateTrackerTest.m in Sources */,
 				FD4AB2B61D23181400D0C44D /* GREYAnalyticsTest.m in Sources */,
 				59467F161C9379FC0089498B /* GREYAssertionsTest.m in Sources */,
+				7CA881D61E1DBFBE00EE18D4 /* GREYFailureFormatterTest.m in Sources */,
 				59467F181C9379FC0089498B /* GREYBaseTest.m in Sources */,
 				59467F191C9379FC0089498B /* GREYConditionTest.m in Sources */,
 				59467F1A1C9379FC0089498B /* GREYConfigurationTest.m in Sources */,
 				59467F1B1C9379FC0089498B /* GREYDataEnumeratorTest.m in Sources */,
 				61322DA31D4CD7C300A5B0C1 /* GREYManagedObjectContextIdlingResourceTest.m in Sources */,
+				7CA881CC1E1D888E00EE18D4 /* GREYObjectFormatterTest.m in Sources */,
 				59467F1C1C9379FC0089498B /* GREYDispatchQueueIdlingResourceTest.m in Sources */,
 				59467F1D1C9379FC0089498B /* GREYElementFinderTest.m in Sources */,
 				59467F1E1C9379FC0089498B /* GREYElementHierarchyTest.m in Sources */,
@@ -646,6 +657,7 @@
 				59467F371C9379FC0089498B /* UIView+GREYAdditionsTest.m in Sources */,
 				61322DA21D4CD7C300A5B0C1 /* GREYDispatchQueueTrackerTest.m in Sources */,
 				59467F381C9379FC0089498B /* UIViewController+GREYAdditionsTest.m in Sources */,
+				7C38A9671E1C800B00E37A8F /* GREYErrorTest.m in Sources */,
 				59467F391C9379FC0089498B /* UIWindow+GREYAdditionsTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -19,8 +19,8 @@
 #include <objc/runtime.h>
 
 #import "Common/GREYExposed.h"
+#import "Common/GREYLogger.h"
 #import "Common/GREYSwizzler.h"
-#import "Common/GREYVerboseLogger.h"
 #import "Synchronization/GREYAppStateTracker.h"
 
 @implementation UIViewController (GREYAdditions)

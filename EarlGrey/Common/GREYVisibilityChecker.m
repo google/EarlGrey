@@ -22,8 +22,8 @@
 #import "Additions/NSObject+GREYAdditions.h"
 #import "Additions/UIView+GREYAdditions.h"
 #import "Common/GREYConstants.h"
+#import "Common/GREYLogger.h"
 #import "Common/GREYScreenshotUtil.h"
-#import "Common/GREYVerboseLogger.h"
 #import "Synchronization/GREYUIThreadExecutor.h"
 
 static const NSUInteger kColorChannelsPerPixel = 4;

@@ -15,8 +15,8 @@
 //
 
 #import "Common/GREYConfiguration.h"
-#import "Common/GREYVerboseLogger.h"
 
+#import "Common/GREYLogger.h"
 #import "Additions/NSString+GREYAdditions.h"
 
 NSString *const kGREYConfigKeyAnalyticsEnabled = @"GREYConfigKeyAnalyticsEnabled";

@@ -16,18 +16,18 @@
 
 #import <Foundation/Foundation.h>
 
-/**
- *  Additions to NSError to facilitate error logging.
- */
-@interface NSError (GREYAdditions)
+@interface GREYFailureScreenshotter : NSObject
 
 /**
- *  For a given error, create a description dictionary of the error.
- *  The description includes error's domain, error code and error description.
+ *  Generate app screenshot with given prefix and failure name.
  *
- *  @return A description dictionary for the given @c error.
+ *  @param screenshotPrefix  Prefix for the screenshots.
+ *  @param failureName       Failure name associated with the screenshots.
+ *
+ *  @return A dictionary of the screenshot names and their corresponding paths.
  */
 
-- (NSDictionary *)grey_descriptionDictionary;
++ (NSDictionary *)generateAppScreenshotsWithPrefix:(NSString *)screenshotPrefix
+                                           failure:(NSString *)failureName;
 
 @end
