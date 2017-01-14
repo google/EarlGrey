@@ -36,16 +36,15 @@
     [tap perform:view error:nil];
     XCTFail(@"Should have thrown an exception");
   } @catch (NSException *exception) {
-    NSString *reason = @"Action is not able to carried out due to constraint.";
-    XCTAssertEqualObjects(kGREYActionFailedException,
-                          [exception name],
+    NSString *reason = @"Cannot perform action due to a constraint failure.";
+    XCTAssertEqualObjects([exception name], kGREYActionFailedException,
                           @"Should throw GREYActionFailException");
     NSRange reasonRange = [exception.reason rangeOfString:reason];
-    XCTAssertTrue(reasonRange.location != NSNotFound,
-                  @"Did we change the exception reason?");
+    XCTAssertNotEqual(reasonRange.location, NSNotFound,
+                      @"Did we change the exception reason?");
     NSRange viewDescriptionRange = [exception.reason rangeOfString:[view grey_description]];
-    XCTAssertTrue(viewDescriptionRange.location != NSNotFound,
-                  @"Did we change the element description?");
+    XCTAssertNotEqual(viewDescriptionRange.location, NSNotFound,
+                      @"Did we change the element description?");
   }
 }
 
@@ -54,12 +53,14 @@
   id<GREYAction> tap = [GREYActions actionForTap];
   GREYError *error;
   [tap perform:view error:&error];
-  XCTAssertEqualObjects(kGREYInteractionErrorDomain, error.domain);
-  XCTAssertEqual(kGREYInteractionActionFailedErrorCode, error.code);
-  XCTAssertTrue([error.errorInfo[kErrorDetailActionNameKey] isEqualToString:@"Tap"],
-                @"Wrong error action.");
-  XCTAssertTrue([error.errorInfo[@"Element Description"] isEqualToString:[view grey_description]],
-                @"Wrong error element description.");
+  XCTAssertEqualObjects(error.domain, kGREYInteractionErrorDomain,
+                        @"Wrong error domain.");
+  XCTAssertEqual(error.code, kGREYInteractionActionFailedErrorCode,
+                 @"Wrong error code.");
+  XCTAssertEqualObjects(error.errorInfo[kErrorDetailActionNameKey], @"Tap",
+                        @"Wrong error action.");
+  XCTAssertEqualObjects(error.errorInfo[@"Element Description"], [view grey_description],
+                        @"Wrong error element description.");
 }
 
 - (void)testMultiTapActionConstraintsFailed {
@@ -70,15 +71,14 @@
     XCTFail(@"Should have thrown an exception");
   } @catch (NSException *exception) {
     NSString *actionName = @"Tap 2 times";
-    XCTAssertEqualObjects(kGREYActionFailedException,
-                          [exception name],
+    XCTAssertEqualObjects([exception name], kGREYActionFailedException,
                           @"Should throw GREYActionFailException");
     NSRange actionNameRange = [exception.reason rangeOfString:actionName];
-    XCTAssertTrue(actionNameRange.location != NSNotFound,
-                  @"Did we change the action name?");
+    XCTAssertNotEqual(actionNameRange.location, NSNotFound,
+                      @"Did we change the action name?");
     NSRange viewDescriptionRange = [exception.reason rangeOfString:[view grey_description]];
-    XCTAssertTrue(viewDescriptionRange.location != NSNotFound,
-                  @"Did we change the element description?");
+    XCTAssertNotEqual(viewDescriptionRange.location, NSNotFound,
+                      @"Did we change the element description?");
 
   }
 }
@@ -99,20 +99,19 @@
     [turnSwitch perform:uiswitch error:nil];
     XCTFail(@"Should have thrown an exception");
   } @catch (NSException *exception) {
-    NSString *reason = @"Action is not able to carried out due to constraint.";
+    NSString *reason = @"Cannot perform action due to a constraint failure.";
     NSString *actionName = @"Long Press for 0.500000 seconds";
-    XCTAssertEqualObjects(kGREYActionFailedException,
-                          [exception name],
+    XCTAssertEqualObjects([exception name], kGREYActionFailedException,
                           @"Should throw GREYActionFailException");
     NSRange reasonRange = [exception.reason rangeOfString:reason];
-    XCTAssertTrue(reasonRange.location != NSNotFound,
-                  @"Did we change the exception reason?");
+    XCTAssertNotEqual(reasonRange.location, NSNotFound,
+                      @"Did we change the exception reason?");
     NSRange actionNameRange = [exception.reason rangeOfString:actionName];
-    XCTAssertTrue(actionNameRange.location != NSNotFound,
-                  @"Did we change the action name?");
+    XCTAssertNotEqual(actionNameRange.location, NSNotFound,
+                      @"Did we change the action name?");
     NSRange viewDescriptionRange = [exception.reason rangeOfString:[uiswitch grey_description]];
-    XCTAssertTrue(viewDescriptionRange.location != NSNotFound,
-                  @"Did we change the element description?");
+    XCTAssertNotEqual(viewDescriptionRange.location, NSNotFound,
+                      @"Did we change the element description?");
   }
 }
 
@@ -123,20 +122,19 @@
     [swipeLeft perform:view error:nil];
     XCTFail(@"Should have thrown an exception");
   } @catch (NSException *exception) {
-    NSString *reason = @"Action is not able to carried out due to constraint.";
+    NSString *reason = @"Cannot perform action due to a constraint failure.";
     NSString *actionName = @"Swipe Left for duration 0.1";
-    XCTAssertEqualObjects(kGREYActionFailedException,
-                          [exception name],
+    XCTAssertEqualObjects([exception name], kGREYActionFailedException,
                           @"Should throw GREYActionFailException");
     NSRange reasonRange = [exception.reason rangeOfString:reason];
-    XCTAssertTrue(reasonRange.location != NSNotFound,
-                  @"Did we change the exception reason?");
+    XCTAssertNotEqual(reasonRange.location, NSNotFound,
+                      @"Did we change the exception reason?");
     NSRange actionNameRange = [exception.reason rangeOfString:actionName];
-    XCTAssertTrue(actionNameRange.location != NSNotFound,
-                  @"Did we change the action name?");
+    XCTAssertNotEqual(actionNameRange.location, NSNotFound,
+                      @"Did we change the action name?");
     NSRange viewDescriptionRange = [exception.reason rangeOfString:[view grey_description]];
-    XCTAssertTrue(viewDescriptionRange.location != NSNotFound,
-                  @"Did we change the element description?");
+    XCTAssertNotEqual(viewDescriptionRange.location, NSNotFound,
+                      @"Did we change the element description?");
   }
 }
 
@@ -156,15 +154,14 @@
   } @catch (NSException *exception) {
     NSString *reason = @"Cannot swipe on view (V), as it has no window and "
         @"it isn't a window itself.";
-    XCTAssertEqualObjects(kGREYGenericFailureException,
-                          [exception name],
+    XCTAssertEqualObjects([exception name], kGREYGenericFailureException,
                           @"Should throw GREYActionFailException");
     NSRange reasonRange = [exception.reason rangeOfString:reason];
-    XCTAssertTrue(reasonRange.location != NSNotFound,
-                  @"Did we change the exception reason?");
+    XCTAssertNotEqual(reasonRange.location, NSNotFound,
+                      @"Did we change the exception reason?");
     NSRange viewDescriptionRange = [exception.reason rangeOfString:[view grey_description]];
-    XCTAssertTrue(viewDescriptionRange.location != NSNotFound,
-                  @"Did we change the element description?");
+    XCTAssertNotEqual(viewDescriptionRange.location, NSNotFound,
+                      @"Did we change the element description?");
   }
 }
 
@@ -183,16 +180,15 @@
     [tap perform:view error:nil];
     XCTFail(@"Should have thrown an exception");
   } @catch (NSException *exception) {
-    NSString *reason = @"Action is not able to carried out due to constraint.";
-    XCTAssertEqualObjects(kGREYActionFailedException,
-                          [exception name],
+    NSString *reason = @"Cannot perform action due to a constraint failure.";
+    XCTAssertEqualObjects([exception name], kGREYActionFailedException,
                           @"Should throw GREYActionFailException");
     NSRange reasonRange = [exception.reason rangeOfString:reason];
-    XCTAssertTrue(reasonRange.location != NSNotFound,
-                  @"Did we change the exception reason?");
+    XCTAssertNotEqual(reasonRange.location, NSNotFound,
+                      @"Did we change the exception reason?");
     NSRange viewDescriptionRange = [exception.reason rangeOfString:[view grey_description]];
-    XCTAssertTrue(viewDescriptionRange.location != NSNotFound,
-                  @"Did we change the element description?");
+    XCTAssertNotEqual(viewDescriptionRange.location, NSNotFound,
+                      @"Did we change the element description?");
 
   }
 }
@@ -233,13 +229,15 @@
   id<GREYAction> replace = [GREYActions actionForReplaceText:textToReplace];
   [replace perform:view error:&error];
 
-  XCTAssertEqualObjects(kGREYInteractionErrorDomain, error.domain);
-  XCTAssertEqual(kGREYInteractionActionFailedErrorCode, error.code);
+  XCTAssertEqualObjects(error.domain, kGREYInteractionErrorDomain,
+                        @"Wrong error domain.");
+  XCTAssertEqual(error.code, kGREYInteractionActionFailedErrorCode,
+                 @"Wrong error code");
   NSString *actionName = [NSString stringWithFormat:@"Replace with text: \"%@\"", textToReplace];
-  XCTAssertTrue([error.errorInfo[kErrorDetailActionNameKey] isEqualToString:actionName],
-                @"Wrong error action.");
-  XCTAssertTrue([error.errorInfo[@"Element Description"] isEqualToString:[view grey_description]],
-                @"Wrong error element description.");
+  XCTAssertEqualObjects(error.errorInfo[kErrorDetailActionNameKey], actionName,
+                        @"Wrong error action.");
+  XCTAssertEqualObjects(error.errorInfo[@"Element Description"], [view grey_description],
+                        @"Wrong error element description.");
 }
 
 @end

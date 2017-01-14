@@ -15,7 +15,6 @@
 //
 
 #import <XCTest/XCTest.h>
-
 #import <EarlGrey/GREYError.h>
 #import <EarlGrey/GREYFailureFormatter.h>
 #import <EarlGrey/XCTestCase+GREYAdditions.h>

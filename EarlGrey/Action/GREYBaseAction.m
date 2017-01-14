@@ -67,7 +67,7 @@ NSString *const kErrorDetailConstraintDetailsKey = @"Constraint Details";
 
       GREYError *error = GREYErrorMake(kGREYInteractionErrorDomain,
                                        kGREYInteractionActionFailedErrorCode,
-                                       @"Action is not able to carried out due to constraint.");
+                                       @"Cannot perform action due to a constraint failure.");
       error.errorInfo = errorDetails;
 
       if (errorOrNil) {
@@ -84,10 +84,10 @@ NSString *const kErrorDetailConstraintDetailsKey = @"Constraint Details";
                                                              hideEmpty:YES
                                                               keyOrder:keyOrder];
 
-        NSString *reason = [NSString stringWithFormat:@"Action is not able to carried out "
-                            @"due to constraint.\n"
-                            @"Exception with Action: %@\n",
-                            reasonDetail];
+        NSString *reason = [NSString stringWithFormat:@"Cannot perform action due to "
+                                                      @"a constraint failure.\n"
+                                                      @"Exception with Action: %@\n",
+                                                      reasonDetail];
 
         I_GREYActionFail(reason, @"");
       }
