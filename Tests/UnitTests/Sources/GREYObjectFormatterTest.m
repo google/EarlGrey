@@ -15,11 +15,10 @@
 //
 
 #import <XCTest/XCTest.h>
-
-#import "GREYBaseTest.h"
-
 #import <EarlGrey/GREYObjectFormatter.h>
 #import <EarlGrey/GREYObjectFormatter+Internal.h>
+
+#import "GREYBaseTest.h"
 
 @interface GREYObjectFormatterTest : GREYBaseTest
 @end

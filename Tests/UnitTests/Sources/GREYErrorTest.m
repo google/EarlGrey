@@ -15,7 +15,6 @@
 //
 
 #import <XCTest/XCTest.h>
-
 #import <EarlGrey/GREYError.h>
 
 #import "GREYBaseTest.h"
@@ -36,17 +35,16 @@
                                    errorDescription);
 
   XCTAssertNotNil(error, @"Error object cannot be generated using GREYErrorMake.");
-  XCTAssertTrue([error.domain isEqualToString:kGREYInteractionErrorDomain],
-                @"The domain in the error object does not match given domain.");
-  XCTAssertEqual(error.code,
-                 kGREYInteractionTimeoutErrorCode,
-                @"The error code in the error object does not match given error code.");
-  XCTAssertTrue([error.testCaseClassName isEqualToString:className],
-                @"The class name in the error object does not match current class name.");
-  XCTAssertTrue([error.functionName isEqualToString:functionName],
+  XCTAssertEqualObjects(error.domain, kGREYInteractionErrorDomain,
+                        @"The domain in the error object does not match given domain.");
+  XCTAssertEqual(error.code, kGREYInteractionTimeoutErrorCode,
+                 @"The error code in the error object does not match given error code.");
+  XCTAssertEqualObjects(error.testCaseClassName, className,
+                        @"The class name in the error object does not match current class name.");
+  XCTAssertEqualObjects(error.functionName, functionName,
                 @"The function name in the error object does not match current function name.");
-  XCTAssertTrue([error.bundleID isEqualToString:[[NSBundle mainBundle] bundleIdentifier]],
-                @"The bundle ID in the error object does not match bundle ID.");
+  XCTAssertEqualObjects(error.bundleID, [[NSBundle mainBundle] bundleIdentifier],
+                        @"The bundle ID in the error object does not match bundle ID.");
 
   NSData *jsonData = [error.description dataUsingEncoding:NSUTF8StringEncoding];
   NSDictionary *parsed = [NSJSONSerialization JSONObjectWithData:jsonData
@@ -54,27 +52,28 @@
                                                            error:nil];
   XCTAssertNotNil(parsed, @"Error parse error description.");
 
-  XCTAssertTrue([parsed[kErrorDescriptionKey] isEqualToString:errorDescription],
-                @"The description in the error object does not match given description.");
+  XCTAssertEqualObjects(parsed[kErrorDescriptionKey], errorDescription,
+                        @"The description in the error object does not match given description.");
 
-  XCTAssertTrue([parsed[kErrorDomainKey] isEqualToString:kGREYInteractionErrorDomain],
-                @"The domain in description in the error object does not match given domain.");
+  XCTAssertEqualObjects(parsed[kErrorDomainKey], kGREYInteractionErrorDomain,
+                        @"The domain in description in the error object does not "
+                        "match given domain.");
   NSString *codeString =
       [NSString stringWithFormat:@"%ld", (long)kGREYInteractionTimeoutErrorCode];
-  XCTAssertTrue([parsed[kErrorCodeKey] isEqualToString:codeString],
-                @"The code in description in the error object does not match given code.");
+  XCTAssertEqualObjects(parsed[kErrorCodeKey], codeString,
+                        @"The code in description in the error object does not match given code.");
 
-  XCTAssertTrue([parsed[@"File Name"] isEqualToString:fileName],
-                @"The file name in description in the error object does not match "
-                "given file path.");
+  XCTAssertEqualObjects(parsed[@"File Name"], fileName,
+                        @"The file name in description in the error object does not "
+                        "match given file path.");
 
-  XCTAssertTrue([parsed[@"Function Name"] isEqualToString:functionName],
-                @"The function name in description in the error object does not match "
-                "given function name.");
+  XCTAssertEqualObjects(parsed[@"Function Name"], functionName,
+                        @"The function name in description in the error object does not "
+                        "match given function name.");
 
-  XCTAssertTrue([parsed[@"Bundle ID"] isEqualToString:[[NSBundle mainBundle] bundleIdentifier]],
-                @"The bundle ID in description in the error object does not match "
-                "given bundle ID.");
+  XCTAssertEqualObjects(parsed[@"Bundle ID"], [[NSBundle mainBundle] bundleIdentifier],
+                        @"The bundle ID in description in the error object does not match "
+                        "given bundle ID.");
 
   NSArray *callStack = [NSThread callStackSymbols];
   [parsed[@"StackTrace"] enumerateObjectsUsingBlock:
@@ -83,9 +82,9 @@
            return;
          }
 
-         XCTAssertTrue([stackItem isEqualToString:callStack[idx]],
-                       @"The stack trace in description in the error object does not match "
-                       "given stack trace.");
+         XCTAssertEqualObjects(stackItem, callStack[idx],
+                               @"The stack trace in description in the error object does not "
+                               "match given stack trace.");
   }];
 }
 
@@ -101,8 +100,7 @@
                                          errorDescription,
                                          nestedError);
 
-  XCTAssertEqual(error.nestedError,
-                 nestedError,
+  XCTAssertEqual(error.nestedError, nestedError,
                  @"The nested error does not match given error");
 }
 @end
