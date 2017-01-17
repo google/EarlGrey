@@ -23,7 +23,6 @@
 #import "Common/GREYElementHierarchy.h"
 #import "Common/GREYFailureScreenshotter.h"
 #import "Common/GREYObjectFormatter.h"
-#import "Common/GREYPrivate.h"
 #import "Common/GREYScreenshotUtil.h"
 
 NSString *const kGREYGenericErrorDomain = @"com.google.earlgrey.GenericErrorDomain";
