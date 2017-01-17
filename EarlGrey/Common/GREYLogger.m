@@ -21,7 +21,6 @@
 #import "Common/GREYObjectFormatter.h"
 #import "Common/GREYFailureFormatter.h"
 #import "Common/GREYFailureScreenshotter.h"
-#import "Common/GREYPrivate.h"
 #import "Additions/XCTestCase+GREYAdditions.h"
 #import "Additions/NSError+GREYAdditions.h"
 
