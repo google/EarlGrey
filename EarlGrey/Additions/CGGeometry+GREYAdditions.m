@@ -183,33 +183,22 @@ CGRect CGRectIntersectionStrict(CGRect rect1, CGRect rect2) {
 }
 
 CGRect CGRectIntegralInside(CGRect rectInPixels) {
-  CGFloat minXFraction = CGRectGetMinX(rectInPixels) - grey_floor(CGRectGetMinX(rectInPixels));
+  CGFloat newIntegralX = grey_ceil(CGRectGetMinX(rectInPixels));
   // Adjust horizontal pixel boundary alignment.
-  if (minXFraction > 0) {
-    rectInPixels.origin.x = grey_ceil(CGRectGetMinX(rectInPixels));
-    CGFloat newWidth = grey_floor(rectInPixels.size.width - minXFraction);
-    if (newWidth >= 1) {
-      rectInPixels.size.width = newWidth;
-    }
-  } else {
-    rectInPixels.origin.x = grey_floor(CGRectGetMinX(rectInPixels));
-  }
+  CGFloat newIntegralWidth = CGRectGetMaxX(rectInPixels) - newIntegralX;
+  rectInPixels.size.width = newIntegralWidth > 1.0
+      ? grey_floor(newIntegralWidth)
+      : grey_ceil(rectInPixels.size.width - 0.5);   // rounded up when it's <1 and >0.5 per iOS
+  rectInPixels.origin.x = newIntegralX;
 
-  CGFloat minYFraction = CGRectGetMinY(rectInPixels) - grey_floor(CGRectGetMinY(rectInPixels));
   // Adjust vertical pixel boundary alignment.
-  if (minYFraction > 0) {
-    rectInPixels.origin.y = grey_ceil(CGRectGetMinY(rectInPixels));
-    CGFloat newHeight = grey_floor(rectInPixels.size.height - minYFraction);
-    if (newHeight >= 1) {
-      rectInPixels.size.height = newHeight;
-    }
-  } else {
-    rectInPixels.origin.y = grey_floor(CGRectGetMinY(rectInPixels));
-  }
+  CGFloat newIntegralY = grey_ceil(CGRectGetMinY(rectInPixels));
+  CGFloat newIntegralHeight = CGRectGetMaxY(rectInPixels) - newIntegralY;
+  rectInPixels.size.height = newIntegralHeight > 1.0
+      ? grey_floor(newIntegralHeight)
+      : grey_ceil(rectInPixels.size.height - 0.5);  // rounded up when it's <1 and >=0.5 per iOS
+  rectInPixels.origin.y = newIntegralY;
 
-  // Pixel-align width and height as per iOS implementation.
-  rectInPixels.size.width = grey_ceil(rectInPixels.size.width - 0.5);
-  rectInPixels.size.height = grey_ceil(rectInPixels.size.height - 0.5);
   return rectInPixels;
 }
 
