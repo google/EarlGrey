@@ -21,7 +21,6 @@
 #import "Common/GREYConfiguration.h"
 #import "Common/GREYError+Internal.h"
 #import "Common/GREYElementHierarchy.h"
-#import "Common/GREYFailureScreenshotter.h"
 #import "Common/GREYObjectFormatter.h"
 #import "Common/GREYScreenshotUtil.h"
 
@@ -71,9 +70,6 @@ GREYError *I_GREYErrorMake(NSString *domain,
   error.errorInfo = errorInfo;
   error.stackTrace = stackTrace;
   error.appUIHierarchy = [GREYElementHierarchy hierarchyStringForAllUIWindows];
-  error.appScreenshots =
-      [GREYFailureScreenshotter generateAppScreenshotsWithPrefix:nil
-                                                         failure:@"Error"];
 
   return error;
 }
