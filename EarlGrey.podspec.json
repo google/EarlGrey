@@ -34,7 +34,7 @@
   },
   "requires_arc": true,
   "source": {
-    "http": "http://www.github.com/google/EarlGrey/releases/download/1.6.2/EarlGrey.zip"
+    "http": "https://www.github.com/google/EarlGrey/releases/download/1.6.2/EarlGrey.zip"
   },
   "frameworks": [
     "CoreData",
