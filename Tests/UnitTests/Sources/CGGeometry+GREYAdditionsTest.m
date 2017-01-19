@@ -54,49 +54,64 @@
 }
 
 - (void)testCGRectIntegralInside {
-  CGRect rect1 = CGRectMake(10, 10, 20, 20);
-  XCTAssertTrue(CGRectEqualToRect(CGRectMake(10, 10, 20, 20),
-                                  CGRectIntegralInside(rect1)));
+  CGRect expected[][2] = {
+    /* input, expected result */
 
-  CGRect rect2 = CGRectMake(10.5, 10, 20, 20);
-  XCTAssertTrue(CGRectEqualToRect(CGRectMake(11, 10, 19, 20),
-                                  CGRectIntegralInside(rect2)));
+    // integer inputs
+    {CGRectMake(10, 10, 20, 30), CGRectMake(10, 10, 20, 30)},
+    {CGRectMake(0, 0, 20, 30), CGRectMake(0, 0, 20, 30)},
+    {CGRectMake(0, 0, 0, 0), CGRectMake(0, 0, 0, 0)},
+    {CGRectMake(10, 9, -10, -10), CGRectMake(0, -1, 10, 10)},
 
-  CGRect rect3 = CGRectMake(10.5, 10.5, 20, 20);
-  XCTAssertTrue(CGRectEqualToRect(CGRectMake(11, 11, 19, 19),
-                                  CGRectIntegralInside(rect3)));
+    // inputs w/ non-integer widths (and > 1)
+    {CGRectMake(10, 11, (CGFloat)1.51, (CGFloat)1.51), CGRectMake(10, 11, 1, 1)},
+    {CGRectMake(10.5, 11.5, (CGFloat)1.51, (CGFloat)1.51), CGRectMake(11, 12, 1, 1)},
+    {CGRectMake((CGFloat)10.2, (CGFloat)11.2, (CGFloat)2.8, (CGFloat)2.8),
+      CGRectMake(11, 12, 2, 2)},
 
-  CGRect rect4 = CGRectMake(10.5, 10.5, 1, 1);
-  XCTAssertTrue(CGRectEqualToRect(CGRectMake(11, 11, 1, 1),
-                                  CGRectIntegralInside(rect4)));
+    // inputs w/ shrinking widths
+    {CGRectMake(10.5, 11.5, 20, 30), CGRectMake(11, 12, 19, 29)},
+    {CGRectMake(10, 11, (CGFloat)19.5, (CGFloat)20.5), CGRectMake(10, 11, 19, 20)},
+    {CGRectMake(10.5, 11.5, (CGFloat)20.4, (CGFloat)21.4), CGRectMake(11, 12, 19, 20)},
 
-  CGRect rect5 = CGRectMake(10.5f, 10.5f, 1.51f, 1.51f);
-  XCTAssertTrue(CGRectEqualToRect(CGRectMake(11, 11, 1, 1),
-                                  CGRectIntegralInside(rect5)));
+    // inputs w/ width < 1
+    //// rounded up when it's > 0.5
+    {CGRectMake((CGFloat)10.51, (CGFloat)11.51, 1, 1), CGRectMake(11, 12, 1, 1)},
+    {CGRectMake(10, 11, (CGFloat)0.51, (CGFloat)0.51), CGRectMake(10, 11, 1, 1)},
+    {CGRectMake((CGFloat)10.4, (CGFloat)11.4, (CGFloat).51, (CGFloat).51),
+      CGRectMake(11, 12, 1, 1)},
+    //// rounded down when it's <= 0.5
+    {CGRectMake((CGFloat)10.25, (CGFloat)11.25, .5, .5), CGRectMake(11, 12, 0, 0)},
+    {CGRectMake(10.5, 11.5, (CGFloat).99, (CGFloat).99), CGRectMake(11, 12, 1, 1)},
+    {CGRectMake(5, 6, (CGFloat)0.5, (CGFloat)0.5), CGRectMake(5, 6, 0, 0)},
+    {CGRectMake((CGFloat)5.99, (CGFloat)6.99, (CGFloat).49, (CGFloat).49), CGRectMake(6, 7, 0, 0)},
 
-  CGRect rect6 = CGRectMake(10.2f, 10.88f, 1, 2);
-  XCTAssertTrue(CGRectEqualToRect(CGRectMake(11, 11, 1, 1),
-                                  CGRectIntegralInside(rect6)));
+    // inputs w/ non-shrinking-greater-than-1 widths: the compromized width can compensate itself
+    {CGRectMake((CGFloat)5.9, (CGFloat)5.9, (CGFloat)1.1, (CGFloat)1.1), CGRectMake(6, 6, 1, 1)},
+    {CGRectMake((CGFloat).95, (CGFloat)0.95, (CGFloat)10.1, (CGFloat)10.1),
+      CGRectMake(1, 1, 10, 10)},
+    {CGRectMake(1.5, 1.5, 1.5, 1.5), CGRectMake(2, 2, 1, 1)},
 
-  CGRect rect7 = CGRectMake(11.99f, 10.2f, 1.1f, 2.8f);
-  XCTAssertTrue(CGRectEqualToRect(CGRectMake(12, 11, 1, 2),
-                                  CGRectIntegralInside(rect7)));
+    // inputs w/ negative origins and/or negative sizes
+    {CGRectMake((CGFloat)-.05, (CGFloat)-.06, (CGFloat)10.1, (CGFloat)11.12),
+      CGRectMake(0, 0, 10, 11)},
+    {CGRectMake((CGFloat).05, (CGFloat).06, (CGFloat)-10.1, (CGFloat)-11.12),
+      CGRectMake(-10, -11, 10, 11)},
+    {CGRectMake(-1.5, -2.5, 5.5, 6.5), CGRectMake(-1, -2, 5, 6)},
+    {CGRectMake(-1.5, -2.5, (CGFloat)5.49, (CGFloat)6.49), CGRectMake(-1, -2, 4, 5)},
+    {CGRectMake((CGFloat)-.05, (CGFloat)-.05, (CGFloat)-10.1, (CGFloat)-11.1),
+      CGRectMake(-10, -11, 9, 10)},
+    {CGRectMake(2, 4, (CGFloat)-10.5, (CGFloat)-11.5), CGRectMake(-8, -7, 10, 11)},
+  };
 
-  CGRect rect8 = CGRectMake(5, 5, 0.4f, 0.5f);
-  XCTAssertTrue(CGRectEqualToRect(CGRectMake(5, 5, 0, 0),
-                                  CGRectIntegralInside(rect8)));
-
-  CGRect rect9 = CGRectMake(5, 5, 1.51f, 0.5f);
-  XCTAssertTrue(CGRectEqualToRect(CGRectMake(5, 5, 2, 0),
-                                  CGRectIntegralInside(rect9)));
-
-  CGRect rect10 = CGRectMake(5, 5, 1.5f, 1.51f);
-  XCTAssertTrue(CGRectEqualToRect(CGRectMake(5, 5, 1, 2),
-                                  CGRectIntegralInside(rect10)));
-
-  CGRect rect11 = CGRectMake(1.5f, 1.5f, 1.5f, 1.5f);
-  XCTAssertTrue(CGRectEqualToRect(CGRectMake(2, 2, 1, 1),
-                                  CGRectIntegralInside(rect11)));
+  int testSize = sizeof(expected) / sizeof(expected[0]);
+  for (int i = 0; i < testSize; ++i) {
+    XCTAssertTrue(CGRectEqualToRect(CGRectIntegralInside(expected[i][0]), expected[i][1]),
+                  @"Test %d: IntegralInside of %@ is not equal to %@, but %@", i + 1,
+                  NSStringFromCGRect(expected[i][0]),
+                  NSStringFromCGRect(expected[i][1]),
+                  NSStringFromCGRect(CGRectIntegralInside(expected[i][0])));
+  }
 }
 
 - (void)testCGRectIntersectionError {
