@@ -222,8 +222,12 @@ static const NSTimeInterval kTouchInjectionInterval = 1.0 / 120.0;
   timeStamp.hi = (UInt32)(machAbsoluteTime >> 32);
   timeStamp.lo = (UInt32)(machAbsoluteTime);
 
-  for (NSUInteger i  = 0; i < [_ongoingUITouches count]; i++) {
+  UIView *currentTouchView = nil;
+  for (NSUInteger i = 0; i < [_ongoingUITouches count]; i++) {
     UITouch *currentTouch = [self grey_UITouchForFinger:i];
+    if (i == 0) {
+      currentTouchView = currentTouch.view;
+    }
     [currentTouch setTimestamp:[[NSProcessInfo processInfo] systemUptime]];
 
     IOHIDDigitizerEventMask eventMask = (currentTouch.phase == UITouchPhaseMoved)
@@ -261,33 +265,41 @@ static const NSTimeInterval kTouchInjectionInterval = 1.0 / 120.0;
   @autoreleasepool {
     _previousTouchDeliveryTime = CACurrentMediaTime();
     _previousTouchInfo = touchInfo;
+    BOOL touchViewContainsWKWebView = NO;
 
     @try {
       [[UIApplication sharedApplication] sendEvent:event];
 
-      // If a UIWebView is being tapped, allow time for delegates to be called after end touch.
-      if (touchInfo.phase == GREYTouchInfoPhaseTouchEnded) {
-        UIWebView *touchWebView = nil;
-        if (_ongoingUITouches.count > 0) {
-          UIView *touchView = [self grey_UITouchForFinger:0].view;
-          if ([touchView isKindOfClass:[UIWebView class]]) {
-            touchWebView = (UIWebView *)touchView;
+      if (currentTouchView) {
+        // If a WKWebView is being tapped, don't call [event _clearTouches], as this causes long
+        // presses to fail. For this case, the child of |currentTouchView| is a WKCompositingView.
+        UIView *firstChild = currentTouchView.subviews.firstObject;
+        if ([firstChild isKindOfClass:NSClassFromString(@"WKCompositingView")]) {
+          touchViewContainsWKWebView = YES;
+        }
+        if (touchInfo.phase == GREYTouchInfoPhaseTouchEnded) {
+          UIWebView *touchWebView = nil;
+          if ([currentTouchView isKindOfClass:[UIWebView class]]) {
+            touchWebView = (UIWebView *)currentTouchView;
           } else {
             NSArray *webViewContainers =
-                [touchView grey_containersAssignableFromClass:[UIWebView class]];
+                [currentTouchView grey_containersAssignableFromClass:[UIWebView class]];
             if (webViewContainers.count > 0) {
               touchWebView = (UIWebView *)[webViewContainers firstObject];
             }
           }
+          [touchWebView grey_pendingInteractionForTime:kGREYMaxIntervalForUIWebViewResponse];
         }
-        [touchWebView grey_pendingInteractionForTime:kGREYMaxIntervalForUIWebViewResponse];
       }
     } @catch (NSException *e) {
       [self grey_stopTouchInjection];
       @throw;
     } @finally {
-      // Clear all touches so that it is not leaked.
-      [event _clearTouches];
+      // Clear all touches so that it is not leaked, except for WKWebViews, where these calls
+      // can prevent the app tracker from becoming idle.
+      if (!touchViewContainsWKWebView) {
+        [event _clearTouches];
+      }
       // We need to release the event manually, otherwise it will leak.
       for (NSValue *hidEventValue in hidEvents) {
         IOHIDEventRef hidEvent = [hidEventValue pointerValue];
