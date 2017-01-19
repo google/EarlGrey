@@ -21,6 +21,7 @@
 #import "Additions/NSError+GREYAdditions.h"
 #import "Additions/NSObject+GREYAdditions.h"
 #import "Common/GREYDefines.h"
+#import "Common/GREYError.h"
 #import "Common/GREYVisibilityChecker.h"
 #import "Core/GREYInteraction.h"
 #import "Matcher/GREYAllOf.h"
@@ -124,11 +125,16 @@
       // transforms. Sending the tap directly to its windows is overall simpler.
       UIWindow *window = [element grey_viewContainingSelf].window;
       if (!window) {
-        [NSError grey_logOrSetOutReferenceIfNonNil:errorOrNil
-                                        withDomain:kGREYInteractionErrorDomain
-                                              code:kGREYInteractionActionFailedErrorCode
-                              andDescriptionFormat:@"Element: %@ is not attached to a window.",
-         element];
+        NSString *description =
+            [NSString stringWithFormat:@"Element (E) is not attached to a window."];
+        NSDictionary *note = @{ @"E" : [element grey_description] };
+
+        GREYPopulateErrorNotedOrLog(errorOrNil,
+                                    kGREYInteractionErrorDomain,
+                                    kGREYInteractionActionFailedErrorCode,
+                                    description,
+                                    note);
+
         return NO;
       }
       return [GREYTapper tapOnWindow:window
@@ -143,10 +149,15 @@
                                       error:errorOrNil];
     }
   }
-  [NSError grey_logOrSetOutReferenceIfNonNil:errorOrNil
-                                  withDomain:kGREYInteractionErrorDomain
-                                        code:kGREYInteractionActionFailedErrorCode
-                        andDescriptionFormat:@"Unknown tap type: %ld", (long)_type];
+
+  NSString *description =
+      [NSString stringWithFormat:@"Unknown tap type: %ld", (long)_type];
+
+  GREYPopulateErrorOrLog(errorOrNil,
+                         kGREYInteractionErrorDomain,
+                         kGREYInteractionActionFailedErrorCode,
+                         description);
+
   return NO;
 }
 

@@ -16,8 +16,8 @@
 
 #import "Synchronization/GREYDispatchQueueIdlingResource.h"
 
-#import "Common/GREYPrivate.h"
 #import "Synchronization/GREYDispatchQueueTracker.h"
+#import "Synchronization/GREYUIThreadExecutor+Internal.h"
 
 @implementation GREYDispatchQueueIdlingResource {
   NSString *_idlingResourceName;
@@ -51,12 +51,13 @@
 }
 
 - (BOOL)isIdleNow {
+  BOOL trackerIsIdle = [_dispatchQueueTracker isIdleNow];
   // It is possible that all external references to the dispatch queue have been dropped, but that
   // the queue is still kept active by enqueued blocks. In that case, the queue is a "zombie" and
   // no longer a "live" queue. We want to track live and zombie queues, so we will only untrack the
   // queue if it is no longer alive and it has no more enqueued blocks.
-  BOOL trackerIsIdle = [_dispatchQueueTracker isIdleNow];
-  if (trackerIsIdle && ![_dispatchQueueTracker isTrackingALiveQueue]) {
+  BOOL isDead = ![_dispatchQueueTracker isTrackingALiveQueue];
+  if (trackerIsIdle && isDead) {
     [[GREYUIThreadExecutor sharedInstance] deregisterIdlingResource:self];
   }
   return trackerIsIdle;

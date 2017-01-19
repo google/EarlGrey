@@ -18,8 +18,8 @@
 
 #include <objc/runtime.h>
 
+#import "Additions/NSObject+GREYAdditions+Internal.h"
 #import "Common/GREYDefines.h"
-#import "Common/GREYPrivate.h"
 #import "Common/GREYSwizzler.h"
 #import "Delegate/GREYCAAnimationDelegate.h"
 #import "Synchronization/GREYAppStateTracker.h"

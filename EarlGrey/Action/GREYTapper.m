@@ -21,6 +21,7 @@
 #import "Additions/NSObject+GREYAdditions.h"
 #import "Assertion/GREYAssertionDefines.h"
 #import "Common/GREYConstants.h"
+#import "Common/GREYError.h"
 #import "Core/GREYInteraction.h"
 #import "Event/GREYSyntheticEvents.h"
 
@@ -145,14 +146,17 @@ static const int kGREYLongPressEventCount = 60;
   // Don't use frame because if transform property isn't identity matrix, the frame property is
   // undefined.
   if (!CGRectContainsPoint(window.bounds, location)) {
-    [NSError grey_logOrSetOutReferenceIfNonNil:errorOrNil
-                                  withDomain:kGREYInteractionErrorDomain
-                                        code:kGREYInteractionActionFailedErrorCode
-                        andDescriptionFormat:@"Cannot perform %@ at %@ as it is outside window's"
-                                             @" bounds %@",
-                                             name,
-                                             NSStringFromCGPoint(location),
-                                             NSStringFromCGRect(window.bounds)];
+    NSString *description = [NSString stringWithFormat:@"Cannot perform %@ at %@ "
+                                                       @"as it is outside window's bounds %@",
+                                                       name,
+                                                       NSStringFromCGPoint(location),
+                                                       NSStringFromCGRect(window.bounds)];
+
+    GREYPopulateErrorOrLog(errorOrNil,
+                           kGREYInteractionErrorDomain,
+                           kGREYInteractionActionFailedErrorCode,
+                           description);
+
     return NO;
   }
   return YES;

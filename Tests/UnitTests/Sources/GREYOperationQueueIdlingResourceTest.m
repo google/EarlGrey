@@ -15,6 +15,7 @@
 //
 
 #import <EarlGrey/GREYOperationQueueIdlingResource.h>
+#import <EarlGrey/GREYUIThreadExecutor+Internal.h>
 
 #import "GREYBaseTest.h"
 #import "GREYExposedForTesting.h"
@@ -72,7 +73,7 @@
 - (void)testIdlingResourceWeaklyHeldAndDeregistersItself {
   GREYOperationQueueIdlingResource *operationQueueIdlingResource;
   @autoreleasepool {
-    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+    __autoreleasing NSOperationQueue *queue = [[NSOperationQueue alloc] init];
 
     operationQueueIdlingResource =
         [GREYOperationQueueIdlingResource resourceWithNSOperationQueue:queue

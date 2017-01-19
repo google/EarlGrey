@@ -24,10 +24,11 @@
 #import "Common/GREYConfiguration.h"
 #import "Common/GREYConstants.h"
 #import "Common/GREYDefines.h"
-#import "Common/GREYPrivate.h"
+#import "Common/GREYError.h"
+#import "Common/GREYLogger.h"
 #import "Common/GREYStopwatch.h"
-#import "Common/GREYVerboseLogger.h"
 #import "Synchronization/GREYAppStateTracker.h"
+#import "Synchronization/GREYAppStateTracker+Internal.h"
 #import "Synchronization/GREYDispatchQueueIdlingResource.h"
 #import "Synchronization/GREYOperationQueueIdlingResource.h"
 #import "Synchronization/GREYRunLoopSpinner.h"
@@ -232,10 +233,10 @@ typedef NS_ENUM(NSInteger, GREYExecutionState) {
         errorDescription = @"Failed to synchronize, but all resources are idle after timeout.";
       }
 
-      [NSError grey_logOrSetOutReferenceIfNonNil:error
-                                      withDomain:kGREYUIThreadExecutorErrorDomain
-                                            code:kGREYUIThreadExecutorTimeoutErrorCode
-                                  andDescription:errorDescription];
+      GREYPopulateErrorOrLog(error,
+                             kGREYUIThreadExecutorErrorDomain,
+                             kGREYUIThreadExecutorTimeoutErrorCode,
+                             errorDescription);
     }
     return syncSuccess;
   } else {
@@ -250,13 +251,8 @@ typedef NS_ENUM(NSInteger, GREYExecutionState) {
   }
 }
 
-/**
- *  Register the specified @c resource to be checked for idling before executing test actions.
- *  A strong reference is held to @c resource until it is deregistered using
- *  @c deregisterIdlingResource. It is safe to call this from any thread.
- *
- *  @param resource The idling resource to register.
- */
+#pragma mark - Package Internal
+
 - (void)registerIdlingResource:(id<GREYIdlingResource>)resource {
   NSParameterAssert(resource);
   @synchronized(_registeredIdlingResources) {
@@ -266,11 +262,6 @@ typedef NS_ENUM(NSInteger, GREYExecutionState) {
   }
 }
 
-/**
- *  Unregisters a previously registered @c resource. It is safe to call this from any thread.
- *
- *  @param resource The resource to unregistered.
- */
 - (void)deregisterIdlingResource:(id<GREYIdlingResource>)resource {
   NSParameterAssert(resource);
   @synchronized(_registeredIdlingResources) {

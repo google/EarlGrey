@@ -283,11 +283,8 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
                                                     userInfo:userInfo];
 }
 
-/**
- *  Sets the object-association value for the test status.
- *
- *  @param status The new object-association value for the test status.
- */
+#pragma mark - Package Internal
+
 - (void)grey_setStatus:(GREYXCTestCaseStatus)status {
   objc_setAssociatedObject(self,
                            @selector(grey_status),

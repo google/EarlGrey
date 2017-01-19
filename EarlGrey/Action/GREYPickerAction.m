@@ -19,6 +19,7 @@
 #import "Additions/NSError+GREYAdditions.h"
 #import "Additions/UIView+GREYAdditions.h"
 #import "Common/GREYDefines.h"
+#import "Common/GREYError.h"
 #import "Core/GREYInteraction.h"
 #import "Matcher/GREYAllOf.h"
 #import "Matcher/GREYMatchers.h"
@@ -38,7 +39,7 @@
 
 - (instancetype)initWithColumn:(NSInteger)column value:(NSString *)value {
   NSString *name =
-      [NSString stringWithFormat:@"Set picker column %ld to value \"%@\"", (long)column, value];
+      [NSString stringWithFormat:@"Set picker column %ld to value '%@'", (long)column, value];
   self = [super initWithName:name constraints:grey_allOf(grey_interactable(),
                                                          grey_userInteractionEnabled(),
                                                          grey_not(grey_systemAlertViewShown()),
@@ -61,14 +62,16 @@
   NSInteger componentCount = [pickerView.dataSource numberOfComponentsInPickerView:pickerView];
 
   if (componentCount < _column) {
-    [NSError grey_logOrSetOutReferenceIfNonNil:errorOrNil
-                                    withDomain:kGREYInteractionErrorDomain
-                                          code:kGREYInteractionActionFailedErrorCode
-                          andDescriptionFormat:@"Invalid column on UIPickerView: cannot find the"
-                                               @" column.Picker View: %@\n"
-                                               @"Column:%ld\n",
-                                               pickerView,
-                                               (long)_column];
+    NSString *description = [NSString stringWithFormat:@"Invalid column on picker view (P) "
+                                                       @"cannot find the column %lu.",
+                                                       (unsigned long)_column];
+    NSDictionary *note = @{ @"P" : [pickerView description] };
+    GREYPopulateErrorNotedOrLog(errorOrNil,
+                                kGREYInteractionErrorDomain,
+                                kGREYInteractionActionFailedErrorCode,
+                                description,
+                                note);
+
     return NO;
   }
 
@@ -111,10 +114,10 @@
       return YES;
     }
   }
-  [NSError grey_logOrSetOutReferenceIfNonNil:errorOrNil
-                                  withDomain:kGREYInteractionErrorDomain
-                                        code:kGREYInteractionActionFailedErrorCode
-                        andDescriptionFormat:@"UIPickerView does not contain desired value!"];
+  GREYPopulateErrorOrLog(errorOrNil,
+                         kGREYInteractionErrorDomain,
+                         kGREYInteractionActionFailedErrorCode,
+                         @"UIPickerView does not contain desired value!");
   return NO;
 }
 

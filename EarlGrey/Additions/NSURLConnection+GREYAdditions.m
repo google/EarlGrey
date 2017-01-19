@@ -86,9 +86,8 @@ typedef void (^NSURLConnectionCompletionBlock)(NSURLResponse *, NSData *, NSErro
   }
 }
 
-/**
- *  Tracks the current connection as pending in GREYAppStateTracker.
- */
+#pragma mark - Package Internal
+
 - (void)grey_trackPending {
   NSString *elementID = TRACK_STATE_FOR_ELEMENT(kGREYPendingNetworkRequest, self);
   objc_setAssociatedObject(self,
@@ -97,9 +96,6 @@ typedef void (^NSURLConnectionCompletionBlock)(NSURLResponse *, NSData *, NSErro
                            OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-/**
- *  Untracks the current connection from GREYAppStateTracker, marking it as completed.
- */
 - (void)grey_untrackPending {
   NSString *elementID = objc_getAssociatedObject(self, @selector(grey_trackPending));
   UNTRACK_STATE_FOR_ELEMENT_WITH_ID(kGREYPendingNetworkRequest, elementID);

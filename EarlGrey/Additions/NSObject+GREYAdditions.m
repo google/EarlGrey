@@ -296,6 +296,8 @@ static Class gWebAccessibilityWrapper;
   }
 }
 
+#pragma mark - Package Internal
+
 - (void)greyswizzled_performSelector:(SEL)aSelector
                           withObject:(id)anArgument
                           afterDelay:(NSTimeInterval)delay

@@ -14,16 +14,11 @@
 // limitations under the License.
 //
 
+#import <EarlGrey/GREYActions+Internal.h>
 #import <EarlGrey/NSError+GREYAdditions.h>
 
 #import "FTRBaseIntegrationTest.h"
 #import "FTRFailureHandler.h"
-
-// Expose private action for testing
-@interface GREYActions (GREYExposedForTesting)
-+ (id<GREYAction>)grey_actionForTypeText:(NSString *)text
-                        atUITextPosition:(UITextPosition *)position;
-@end
 
 @interface FTRKeyboardKeysTest : FTRBaseIntegrationTest
 @end
@@ -141,7 +136,7 @@
     GREYFail(@"Should throw an exception");
   } @catch (NSException *exception) {
     NSRange exceptionRange =
-        [[exception reason] rangeOfString:@"Action 'Type \"Should Fail\"' failed."];
+        [[exception reason] rangeOfString:@"\"Action Name\" : \"Type \\\"Should Fail\\\"\""];
     GREYAssertTrue(exceptionRange.length > 0, @"Should throw exception indicating action failure.");
   }
 }
@@ -462,7 +457,7 @@
       assertWithMatcher:grey_accessibilityLabel(@"Foo")];
 }
 
-// TODO(31886754):Enabled this for testing the Input Accessory Code
+// TODO:Enabled this for testing the Input Accessory Code
 - (void)DISABLED_testTypingOnTextFieldInUIInputAccessory {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"Input Button")]
       performAction:grey_tap()];

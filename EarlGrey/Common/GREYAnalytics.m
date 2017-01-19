@@ -23,7 +23,7 @@
 #import "Additions/XCTestCase+GREYAdditions.h"
 #import "Common/GREYAnalyticsDelegate.h"
 #import "Common/GREYConfiguration.h"
-#import "Common/GREYVerboseLogger.h"
+#import "Common/GREYLogger.h"
 
 /**
  *  The Analytics tracking ID that receives EarlGrey usage data.
@@ -45,8 +45,6 @@ static NSString *const kTrackingEndPoint = @"https://ssl.google-analytics.com";
   __weak id<GREYAnalyticsDelegate> _delegate;
   // Once set, analytics will be sent on next XCTestCase tearDown.
   BOOL _earlgreyWasCalledInXCTestContext;
-  // Test case counter used for counting testcases
-  unsigned int _testCaseCounter;
 }
 
 + (void)initialize {
@@ -70,7 +68,6 @@ static NSString *const kTrackingEndPoint = @"https://ssl.google-analytics.com";
   if (self) {
     _delegate = nil;
     _earlgreyWasCalledInXCTestContext = NO;
-    _testCaseCounter = 0;
     // Register as an observer for kGREYXCTestCaseInstanceDidTearDown.
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(grey_testCaseInstanceDidTearDown)
@@ -167,7 +164,6 @@ static NSString *const kTrackingEndPoint = @"https://ssl.google-analytics.com";
   if (_earlgreyWasCalledInXCTestContext) {
     // Reset var to track multiple test case invocations.
     _earlgreyWasCalledInXCTestContext = NO;
-    _testCaseCounter += 1;
 
     if (GREY_CONFIG_BOOL(kGREYConfigKeyAnalyticsEnabled)) {
       NSString *bundleIDMD5 = [[[NSBundle mainBundle] bundleIdentifier] grey_md5String];
@@ -175,7 +171,12 @@ static NSString *const kTrackingEndPoint = @"https://ssl.google-analytics.com";
         // If bundle ID is not available we use a placeholder.
         bundleIDMD5 = @"<Missing Bundle ID>";
       }
-      NSString *subCategory = [NSString stringWithFormat:@"TestCase_%u", _testCaseCounter];
+      XCTestCase *testCase = [XCTestCase grey_currentTestCase];
+      NSString *testCaseMD5 =
+          [[NSString stringWithFormat:@"%@::%@",
+                                      [testCase grey_testClassName],
+                                      [testCase grey_testMethodName]] grey_md5String];
+      NSString *subCategory = [NSString stringWithFormat:@"TestCase_%@", testCaseMD5];
       [self.delegate trackEventWithTrackingID:kGREYAnalyticsTrackingID
                                      category:bundleIDMD5
                                   subCategory:subCategory

@@ -54,13 +54,13 @@ or request to join our [slack channel](https://googleoss.slack.com/messages/earl
 
 To prioritize and improve EarlGrey, the framework collects usage data and
 uploads it to Google Analytics. More specifically, the framework collects the
-App’s *Bundle ID* (as a MD5 hash) and the total number of test cases. This
+**MD5 hash** of *Bundle ID*,  *Test Class Names* and *Test Method Names*. This
 information allows us to measure the volume of usage. For more detailed
 information about our analytics collection, please peruse the
 [GREYAnalytics.m](https://github.com/google/EarlGrey/tree/master/EarlGrey/Common/GREYAnalytics.m)
-file which contains the implementation details. If they wish,
-users can choose to opt out by disabling the Analytics config setting in their
-test’s `- (void)setUp` method:
+file which contains the implementation details. If they wish, users can choose
+to opt out by disabling the Analytics config setting in their test’s
+`- (void)setUp` method:
 
 In Objective-C:
 ```objc

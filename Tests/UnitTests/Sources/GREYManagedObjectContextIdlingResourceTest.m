@@ -17,6 +17,7 @@
 #import <CoreData/CoreData.h>
 #import <EarlGrey/GREYConfiguration.h>
 #import <EarlGrey/GREYManagedObjectContextIdlingResource.h>
+#import <EarlGrey/GREYUIThreadExecutor+Internal.h>
 
 #import "GREYBaseTest.h"
 #import "GREYExposedForTesting.h"
@@ -191,7 +192,7 @@ static const NSTimeInterval kExpectationTimeoutSeconds = 1.0;
   GREYUIThreadExecutor *threadExecutor = [GREYUIThreadExecutor sharedInstance];
 
   @autoreleasepool {
-    NSManagedObjectContext *managedObjectContext =
+    __autoreleasing NSManagedObjectContext *managedObjectContext =
         [self setUpContextWithConcurrencyType:NSPrivateQueueConcurrencyType];
     contextIdlingResource =
         [self setUpContextIdlingResourceWithContext:managedObjectContext

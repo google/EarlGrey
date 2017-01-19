@@ -13,15 +13,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
+
 #import "Action/GREYBaseAction.h"
 
 #import "Additions/NSError+GREYAdditions.h"
 #import "Additions/NSObject+GREYAdditions.h"
 #import "Assertion/GREYAssertionDefines.h"
+#import "Assertion/GREYAssertions+Internal.h"
 #import "Common/GREYConfiguration.h"
+#import "Common/GREYError.h"
+#import "Common/GREYError+Internal.h"
+#import "Common/GREYObjectFormatter.h"
+#import "Common/GREYObjectFormatter+Internal.h"
 #import "Core/GREYInteraction.h"
 #import "Matcher/GREYMatcher.h"
 #import "Matcher/GREYStringDescription.h"
+
+NSString *const kErrorDetailElementDescriptionKey = @"Element Description";
+NSString *const kErrorDetailConstraintRequirementKey = @"Constraint Requirement";
+NSString *const kErrorDetailConstraintDetailsKey = @"Constraint Details";
 
 @implementation GREYBaseAction {
   NSString *_name;
@@ -39,24 +49,46 @@
   return self;
 }
 
-- (BOOL)satisfiesConstraintsForElement:(id)element error:(__strong NSError **)errorOrNilPtr {
+- (BOOL)satisfiesConstraintsForElement:(id)element error:(__strong NSError **)errorOrNil {
   if (!_constraints || !GREY_CONFIG_BOOL(kGREYConfigKeyActionConstraintsEnabled)) {
     return YES;
   } else {
     GREYStringDescription *mismatchDetail = [[GREYStringDescription alloc] init];
     if (![_constraints matches:element describingMismatchTo:mismatchDetail]) {
-      NSString *reason =
-          [NSString stringWithFormat:@"Action '%@' could not be performed on "
-                                     @"element '%@' because it failed constraints: %@",
-                                     _name, [element grey_description], mismatchDetail];
-      NSString *details = [NSString stringWithFormat:@"All Constraints: %@", _constraints];
-      if (errorOrNilPtr) {
-        NSString *description = [NSString stringWithFormat:@"%@\n%@", reason, details];
-        *errorOrNilPtr = [NSError errorWithDomain:kGREYInteractionErrorDomain
-                                             code:kGREYInteractionActionFailedErrorCode
-                                         userInfo:@{ NSLocalizedDescriptionKey : description }];
+      NSMutableDictionary *errorDetails = [[NSMutableDictionary alloc] init];
+
+      errorDetails[kErrorDetailActionNameKey] = _name;
+      errorDetails[kErrorDetailElementDescriptionKey] = [element grey_description];
+      errorDetails[kErrorDetailConstraintRequirementKey] = mismatchDetail;
+      errorDetails[kErrorDetailConstraintDetailsKey] = [_constraints description];
+      errorDetails[kErrorDetailRecoverySuggestionKey] = @"Adjust element properties "
+          @"so that it matches the failed constraints.";
+
+      GREYError *error = GREYErrorMake(kGREYInteractionErrorDomain,
+                                       kGREYInteractionActionFailedErrorCode,
+                                       @"Cannot perform action due to a constraint failure.");
+      error.errorInfo = errorDetails;
+
+      if (errorOrNil) {
+        *errorOrNil = error;
       } else {
-        I_GREYActionFail(reason, details);
+        NSArray *keyOrder = @[ kErrorDetailActionNameKey,
+                               kErrorDetailElementDescriptionKey,
+                               kErrorDetailConstraintRequirementKey,
+                               kErrorDetailConstraintDetailsKey,
+                               kErrorDetailRecoverySuggestionKey ];
+
+        NSString *reasonDetail = [GREYObjectFormatter formatDictionary:errorDetails
+                                                                indent:2
+                                                             hideEmpty:YES
+                                                              keyOrder:keyOrder];
+
+        NSString *reason = [NSString stringWithFormat:@"Cannot perform action due to "
+                                                      @"a constraint failure.\n"
+                                                      @"Exception with Action: %@\n",
+                                                      reasonDetail];
+
+        I_GREYActionFail(reason, @"");
       }
       return NO;
     }

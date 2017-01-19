@@ -22,8 +22,8 @@
 #import "Additions/NSObject+GREYAdditions.h"
 #import "Additions/UIView+GREYAdditions.h"
 #import "Common/GREYConstants.h"
+#import "Common/GREYLogger.h"
 #import "Common/GREYScreenshotUtil.h"
-#import "Common/GREYVerboseLogger.h"
 #import "Synchronization/GREYUIThreadExecutor.h"
 
 static const NSUInteger kColorChannelsPerPixel = 4;
@@ -831,6 +831,8 @@ static inline bool grey_isColorDifferent(unsigned char rgb1[], unsigned char rgb
   int blueDiff = abs(rgb1[2] - rgb2[2]);
   return (redDiff > 0) || (greenDiff > 0) || (blueDiff > 0);
 }
+
+#pragma mark - Package Internal
 
 + (UIImage *)grey_lastActualBeforeImage {
   return gLastActualBeforeImage;

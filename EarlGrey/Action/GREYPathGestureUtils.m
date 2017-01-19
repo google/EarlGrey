@@ -154,7 +154,7 @@ static CGFloat kCachedScreenEdgePanDetectionLength = NAN;
   return [self grey_touchPathWithStartPoint:startPoint endPoint:endPoint shouldCancelInertia:YES];
 }
 
-#pragma mark - Private Methods
+#pragma mark - Private
 
 /**
  *  Gives the direction obtained from clockwise rotation of the given @c direction.

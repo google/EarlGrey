@@ -17,8 +17,12 @@
 #import "Action/GREYSwipeAction.h"
 
 #import "Action/GREYPathGestureUtils.h"
+#import "Additions/NSError+GREYAdditions.h"
+#import "Additions/NSObject+GREYAdditions.h"
 #import "Additions/NSString+GREYAdditions.h"
 #import "Assertion/GREYAssertionDefines.h"
+#import "Assertion/GREYAssertions+Internal.h"
+#import "Common/GREYError.h"
 #import "Event/GREYSyntheticEvents.h"
 #import "Matcher/GREYAllOf.h"
 #import "Matcher/GREYMatcher.h"
@@ -97,8 +101,24 @@
     if ([element isKindOfClass:[UIWindow class]]) {
       window = (UIWindow *)element;
     } else {
-      I_GREYFail(@"Cannot swipe on view %@, as it has no window and it isn't a window itself.",
-                 element);
+      NSString *errorDescription =
+          [NSString stringWithFormat:@"Cannot swipe on view (V), as it has no window and "
+                                     @"it isn't a window itself."];
+      NSDictionary *errorNote = @{ @"V" : [element grey_description]};
+      GREYError *error;
+      error = GREYErrorMake(kGREYSyntheticEventInjectionErrorDomain,
+                            kGREYOrientationChangeFailedErrorCode,
+                            errorDescription);
+      error.note = errorNote;
+      if (errorOrNil) {
+        *errorOrNil = error;
+      } else {
+        [GREYAssertions grey_raiseExceptionNamed:kGREYGenericFailureException
+                                exceptionDetails:@""
+                                       withError:error];
+      }
+
+      return NO;
     }
   }
   NSArray *touchPath = [GREYPathGestureUtils touchPathForGestureWithStartPoint:startPoint
