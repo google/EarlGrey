@@ -340,7 +340,7 @@
 				INFOPLIST_FILE = EarlGreyExampleSwiftTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.google.samples.EarlGreySwiftTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.google.earlgrey.samples.EarlGreySwiftTests;
 				PRODUCT_MODULE_NAME = EarlGreyExampleTestsSwift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -361,7 +361,7 @@
 				INFOPLIST_FILE = EarlGreyExampleSwiftTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.google.samples.EarlGreySwiftTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.google.earlgrey.samples.EarlGreySwiftTests;
 				PRODUCT_MODULE_NAME = EarlGreyExampleTestsSwift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -471,7 +471,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/EarlGreyExample/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.google.samples.EarlGrey;
+				PRODUCT_BUNDLE_IDENTIFIER = com.google.earlgrey.samples.EarlGrey;
 				PRODUCT_MODULE_NAME = EarlGreyExampleSwift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INSTALL_OBJC_HEADER = NO;
@@ -493,7 +493,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/EarlGreyExample/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.google.samples.EarlGrey;
+				PRODUCT_BUNDLE_IDENTIFIER = com.google.earlgrey.samples.EarlGrey;
 				PRODUCT_MODULE_NAME = EarlGreyExampleSwift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INSTALL_OBJC_HEADER = NO;
@@ -526,7 +526,7 @@
 				INFOPLIST_FILE = EarlGreyExample/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.google.samples.EarlGreyTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.google.earlgrey.samples.EarlGreyTests;
 				PRODUCT_MODULE_NAME = EarlGreyExampleTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
@@ -557,7 +557,7 @@
 				INFOPLIST_FILE = EarlGreyExample/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.google.samples.EarlGreyTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.google.earlgrey.samples.EarlGreyTests;
 				PRODUCT_MODULE_NAME = EarlGreyExampleTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
