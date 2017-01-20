@@ -89,7 +89,7 @@ GREYError *I_GREYErrorMake(NSString *domain,
 
 @dynamic nestedError;
 
-- (instancetype)initWithDomain:(NSErrorDomain)domain
+- (instancetype)initWithDomain:(NSString *)domain
                           code:(NSInteger)code
                       userInfo:(NSDictionary *)dict {
   return [self initWithDomain:domain
