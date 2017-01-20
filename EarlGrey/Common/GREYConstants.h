@@ -73,6 +73,12 @@ GREY_EXTERN const CGFloat kGREYAcceptableFloatDifference;
 GREY_EXTERN NSString *const kGREYAllowVerboseLogging;
 
 /**
+ *  The default pinch angle for the pinch action, specified by an approximate angle for a right
+ *  handed two finger pinch.
+ */
+GREY_EXTERN const double kGREYPinchAngleDefault;
+
+/**
  *  Directions for scrolling and swiping.
  *
  *  The direction describes the motion of the view port as a result of the swipe, which is opposite

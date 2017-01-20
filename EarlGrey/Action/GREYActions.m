@@ -71,18 +71,6 @@
                                                                 yOriginStartPercentage)];
 }
 
-+ (id<GREYAction>)actionForPinchFastInDirection:(GREYPinchDirection)pinchDirection {
-  NSLog(@"GREYActions::actionForPinchFastInDirection: is to be deprecated with EarlGrey 1.6.0 "
-        @"for GREYActions::actionForPinchFastInDirection:withAngle:");
-  return [[GREYPinchAction alloc] initWithDirection:pinchDirection duration:kGREYPinchFastDuration];
-}
-
-+ (id<GREYAction>)actionForPinchSlowInDirection:(GREYPinchDirection)pinchDirection {
-  NSLog(@"GREYActions::actionForPinchSlowInDirection: is to be deprecated with EarlGrey 1.6.0 "
-        @"for GREYActions::actionForPinchSlowInDirection:withAngle:");
-  return [[GREYPinchAction alloc] initWithDirection:pinchDirection duration:kGREYPinchSlowDuration];
-}
-
 + (id<GREYAction>)actionForPinchFastInDirection:(GREYPinchDirection)pinchDirection
                                       withAngle:(double)angle {
   return [[GREYPinchAction alloc] initWithDirection:pinchDirection
@@ -650,14 +638,6 @@ id<GREYAction> grey_swipeSlowInDirectionWithStartPoint(GREYDirection direction,
   return [GREYActions actionForSwipeSlowInDirection:direction
                              xOriginStartPercentage:xOriginStartPercentage
                              yOriginStartPercentage:yOriginStartPercentage];
-}
-
-id<GREYAction> grey_pinchFastInDirection(GREYPinchDirection pinchDirection) {
-  return [GREYActions actionForPinchFastInDirection:pinchDirection];
-}
-
-id<GREYAction> grey_pinchSlowInDirection(GREYPinchDirection pinchDirection) {
-  return [GREYActions actionForPinchSlowInDirection:pinchDirection];
 }
 
 id<GREYAction> grey_pinchFastInDirectionAndAngle(GREYPinchDirection pinchDirection,

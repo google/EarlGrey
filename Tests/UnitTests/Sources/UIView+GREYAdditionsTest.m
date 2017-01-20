@@ -244,19 +244,19 @@
   [root addSubview:child2];
   [child1 addSubview:child1A];
 
-  NSArray *subviews = [root grey_childElementsAssignableFromClass:[UIView class]];
+  NSArray *subviews = [root grey_childrenAssignableFromClass:[UIView class]];
   NSArray *expected = @[ child1, child1A, child2 ];
   XCTAssertEqualObjects(expected, subviews, @"Should return all subviews");
 
-  subviews = [root grey_childElementsAssignableFromClass:[UILabel class]];
+  subviews = [root grey_childrenAssignableFromClass:[UILabel class]];
   expected = @[ child1, child1A ];
   XCTAssertEqualObjects(expected, subviews, @"Should return all UILabel views");
 
-  subviews = [root grey_childElementsAssignableFromClass:[UISlider class]];
+  subviews = [root grey_childrenAssignableFromClass:[UISlider class]];
   expected = @[ child2 ];
   XCTAssertEqualObjects(expected, subviews, @"Should return just one UISlider view");
 
-  subviews = [root grey_childElementsAssignableFromClass:[UIWindow class]];
+  subviews = [root grey_childrenAssignableFromClass:[UIWindow class]];
   XCTAssertEqual(0u, [subviews count], @"Should return no view");
 }
 

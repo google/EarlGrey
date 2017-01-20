@@ -229,11 +229,13 @@
 // recognized.
 - (void)ftr_assertPinchWorksInAllDirections {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
-      performAction:grey_pinchFastInDirection(kGREYPinchDirectionOutward)];
+      performAction:grey_pinchFastInDirectionAndAngle(kGREYPinchDirectionOutward,
+                                                      kGREYPinchAngleDefault)];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"gesture")]
       assertWithMatcher:grey_text(@"pinch out")];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
-      performAction:grey_pinchSlowInDirection(kGREYPinchDirectionInward)];
+      performAction:grey_pinchSlowInDirectionAndAngle(kGREYPinchDirectionInward,
+                                                      kGREYPinchAngleDefault)];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"gesture")]
       assertWithMatcher:grey_text(@"pinch in")];
 }

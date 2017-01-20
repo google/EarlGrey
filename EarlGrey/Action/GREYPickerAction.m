@@ -90,7 +90,7 @@
                                            forComponent:_column
                                             reusingView:nil];
       if (![rowView isKindOfClass:[UILabel class]]) {
-        NSArray *labels = [rowView grey_childElementsAssignableFromClass:[UILabel class]];
+        NSArray *labels = [rowView grey_childrenAssignableFromClass:[UILabel class]];
         UILabel *label = (labels.count > 0 ? labels[0] : nil);
         rowTitle = label.text;
       } else {

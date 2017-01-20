@@ -37,7 +37,8 @@
 - (void)testImageViewFrameSizeOnZoomingFastOutward {
   _imageViewFrameBeforePinch = [self ftr_imageViewFrame];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Image View")]
-      performAction:grey_pinchFastInDirection(kGREYPinchDirectionOutward)];
+      performAction:grey_pinchFastInDirectionAndAngle(kGREYPinchDirectionOutward,
+                                                      kGREYPinchAngleDefault)];
   _imageViewFrameAfterPinch = [self ftr_imageViewFrame];
   [self ftr_assertThatInitialSize:_imageViewFrameBeforePinch.size
                      andFinalSize:_imageViewFrameAfterPinch.size
@@ -47,7 +48,8 @@
 - (void)testImageViewFrameSizeOnZoomingSlowOutward {
   _imageViewFrameBeforePinch = [self ftr_imageViewFrame];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Image View")]
-      performAction:grey_pinchSlowInDirection(kGREYPinchDirectionOutward)];
+      performAction:grey_pinchSlowInDirectionAndAngle(kGREYPinchDirectionOutward,
+                                                      kGREYPinchAngleDefault)];
   _imageViewFrameAfterPinch = [self ftr_imageViewFrame];
   [self ftr_assertThatInitialSize:_imageViewFrameBeforePinch.size
                      andFinalSize:_imageViewFrameAfterPinch.size
@@ -57,7 +59,8 @@
 - (void)testImageViewFrameSizeOnZoomingFastInward {
   _imageViewFrameBeforePinch = [self ftr_imageViewFrame];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Image View")]
-      performAction:grey_pinchFastInDirection(kGREYPinchDirectionInward)];
+      performAction:grey_pinchFastInDirectionAndAngle(kGREYPinchDirectionInward,
+                                                      kGREYPinchAngleDefault)];
   _imageViewFrameAfterPinch = [self ftr_imageViewFrame];
   [self ftr_assertThatInitialSize:_imageViewFrameBeforePinch.size
                      andFinalSize:_imageViewFrameAfterPinch.size
@@ -67,7 +70,8 @@
 - (void)testImageViewFrameSizeOnZoomingSlowInward {
   _imageViewFrameBeforePinch = [self ftr_imageViewFrame];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Image View")]
-      performAction:grey_pinchSlowInDirection(kGREYPinchDirectionInward)];
+      performAction:grey_pinchFastInDirectionAndAngle(kGREYPinchDirectionInward,
+                                                      kGREYPinchAngleDefault)];
   _imageViewFrameAfterPinch = [self ftr_imageViewFrame];
   [self ftr_assertThatInitialSize:_imageViewFrameBeforePinch.size
                      andFinalSize:_imageViewFrameAfterPinch.size

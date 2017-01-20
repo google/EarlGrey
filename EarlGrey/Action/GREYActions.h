@@ -179,32 +179,12 @@
                          yOriginStartPercentage:(CGFloat)yOriginStartPercentage;
 
 /**
- * Returns an action that pinches whole view quickly in the specified @c direction.
- *
- * @param  pinchDirection The direction of the pinch action.
- *
- * @return A GREYAction that performs a fast pinch on the whole view in the specified @c direction.
- *
- * @deprecated A pinch action without the angle is deprecated in EarlGrey 1.6.0.
- */
-+ (id<GREYAction>)actionForPinchFastInDirection:(GREYPinchDirection)pinchDirection;
-
-/**
- * Returns an action that pinches whole view slowly in the specified @c direction.
- *
- * @param  pinchDirection The direction of the pinch action.
- *
- * @return A GREYAction that performs a slow pinch on the whole view in the specified @c direction.
- *
- * @deprecated A pinch action without the angle is deprecated in EarlGrey 1.6.0.
- */
-+ (id<GREYAction>)actionForPinchSlowInDirection:(GREYPinchDirection)pinchDirection;
-
-/**
  * Returns an action that pinches whole view quickly in the specified @c direction and @c angle.
  *
  * @param  pinchDirection The direction of the pinch action.
- * @param  angle          The angle of the pinch action in radians such as (75.0 * M_PI / 180.0).
+ * @param  angle          The angle of the pinch action in radians.
+ *                        Use @c kGREYPinchAngleDefault for the default angle (currently set to
+ *                        30 degrees).
  *
  * @return A GREYAction that performs a fast pinch on the whole view in the specified @c direction.
  */
@@ -215,7 +195,9 @@
  * Returns an action that pinches whole view slowly in the specified @c direction and @c angle.
  *
  * @param  pinchDirection The direction of the pinch action.
- * @param  angle          The angle of the pinch action in radians such as (75.0 * M_PI / 180.0).
+ * @param  angle          The angle of the pinch action in radians.
+ *                        Use @c kGREYPinchAngleDefault for the default angle (currently set to
+ *                        30 degrees).
  *
  * @return A GREYAction that performs a slow pinch on the whole view in the specified @c direction.
  */
@@ -408,12 +390,6 @@ GREY_EXPORT id<GREYAction> grey_swipeFastInDirectionWithStartPoint(GREYDirection
 GREY_EXPORT id<GREYAction> grey_swipeSlowInDirectionWithStartPoint(GREYDirection direction,
                                                                    CGFloat xOriginStartPercentage,
                                                                    CGFloat yOriginStartPercentage);
-
-/** Shorthand macro for GREYActions::actionForPinchFastInDirection:pinchDirection:. */
-GREY_EXPORT id<GREYAction> grey_pinchFastInDirection(GREYPinchDirection pinchDirection);
-
-/** Shorthand macro for GREYActions::actionForPinchSlowInDirection:pinchDirection:. */
-GREY_EXPORT id<GREYAction> grey_pinchSlowInDirection(GREYPinchDirection pinchDirection);
 
 /** Shorthand macro for GREYActions::actionForPinchFastInDirection:pinchDirection:angle:. */
 GREY_EXPORT id<GREYAction> grey_pinchFastInDirectionAndAngle(GREYPinchDirection pinchDirection,

@@ -16,6 +16,8 @@
 
 #import "Common/GREYConstants.h"
 
+#include <math.h>
+
 const CGFloat kGREYMinimumVisibleAlpha = 0.01f;
 const CFTimeInterval kGREYSwipeFastDuration = 0.1;
 const CFTimeInterval kGREYSwipeSlowDuration = 1.0;
@@ -26,6 +28,7 @@ const CFTimeInterval kGREYLongPressDefaultDuration = 0.5;
 const CGFloat kGREYAcceptableFloatDifference = 0.00001f;
 const NSInteger kUIPickerViewMaxAccessibilityViews = 500;
 NSString *const kGREYAllowVerboseLogging = @"kGREYAllowVerboseLogging";
+const double kGREYPinchAngleDefault = (30.0 * M_PI / 180.0);
 
 NSString *NSStringFromUIDeviceOrientation(UIDeviceOrientation deviceOrientation) {
   switch (deviceOrientation) {
