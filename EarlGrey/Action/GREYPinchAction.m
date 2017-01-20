@@ -37,11 +37,9 @@ NSString *const kGREYPinchErrorDomain = @"com.google.earlgrey.PinchErrorDomain";
  */
 static CGFloat const kPinchScale = (CGFloat)0.8;
 
-/**
- *  The default pinch angle for the pinch action, specified by an approximate angle for a right
- *  handed two finger pinch.
- */
-static double const kDefaultPinchAngle = (30.0 * M_PI / 180.0);
+NSString *const kErrorDetailElementKey = @"Element";
+NSString *const kErrorDetailWindowKey = @"Window";
+
 
 @implementation GREYPinchAction {
   /**
@@ -56,13 +54,6 @@ static double const kDefaultPinchAngle = (30.0 * M_PI / 180.0);
    *  The angle in which in the pinch direction in pointing.
    */
   double _pinchAngle;
-}
-
-- (instancetype)initWithDirection:(GREYPinchDirection)pinchDirection
-                         duration:(CFTimeInterval)duration {
-  return [self initWithDirection:pinchDirection
-                        duration:duration
-                      pinchAngle:kDefaultPinchAngle];
 }
 
 - (instancetype)initWithDirection:(GREYPinchDirection)pinchDirection

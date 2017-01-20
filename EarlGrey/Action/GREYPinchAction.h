@@ -30,27 +30,17 @@ typedef NS_ENUM(NSInteger, GREYPinchErrorCode) {
 };
 
 /**
- *  A @c GREYAction that pinches the view on which it is called.
+ *  A @c GREYAction that performs the pinch gesture on the view on which it is called.
  */
 @interface GREYPinchAction : GREYBaseAction
 
 /**
  *  Performs a pinch action in the given @c direction for the @c duration. The start of outward
- *  pinch is from the center of the view and stops before 20% margin of the view's
- *  width or height, on either side.
- *  For an inward pinch the start point is at a 20% margin of the view's width or height on either
+ *  pinch is from the center of the view and stops before 20% margin of the view's bounding rect.
+ *
+ *  For an inward pinch the start point is at a 20% margin of the view's bounding rect on either
  *  side and stops at the center. The default angle of the pinch action is 30 degrees to closely
  *  match the average pinch angle of a natural right handed pinch.
- *
- *  @param direction The direction of the pinch.
- *  @param duration  The time interval for which the pinch takes place.
- *
- *  @returns An instance of @c GREYPinchAction, initialized with a provided direction and duration.
- */
-- (instancetype)initWithDirection:(GREYPinchDirection)direction duration:(CFTimeInterval)duration;
-
-/**
- *  Variant of GREYPinchAction::initWithDirection::duration: that takes an angle for the pinch.
  *
  *  @param direction The direction of the pinch.
  *  @param duration  The time interval for which the pinch takes place.

@@ -167,7 +167,7 @@
   }
 }
 
-- (NSArray *)grey_childElementsAssignableFromClass:(Class)klass {
+- (NSArray *)grey_childrenAssignableFromClass:(Class)klass {
   NSMutableArray *subviews = [[NSMutableArray alloc] init];
   for (UIView *child in self.subviews) {
     GREYElementProvider *childHierarchy = [GREYElementProvider providerWithRootElements:@[ child ]];
