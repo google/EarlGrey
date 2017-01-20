@@ -91,15 +91,15 @@ NSString *const kErrorDetailWindowKey = @"Window";
       ? (UIWindow *)viewToPinch : viewToPinch.window;
 
   if (!window) {
-    NSString *errorDescription = [NSString stringWithFormat:@"Cannot pinch on view (V), "
+    NSString *errorDescription = [NSString stringWithFormat:@"Cannot pinch on view [V], "
                                                             @"as it has no window "
                                                             @"and it isn't a window itself."];
-    NSDictionary *note = @{ @"V" : element };
+    NSDictionary *glossary = @{ @"V" : element };
     GREYPopulateErrorNotedOrLog(errorOrNil,
                                 kGREYPinchErrorDomain,
                                 kGREYPinchFailedErrorCode,
                                 errorDescription,
-                                note);
+                                glossary);
     return NO;
   }
 

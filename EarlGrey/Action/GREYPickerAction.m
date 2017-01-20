@@ -62,15 +62,15 @@
   NSInteger componentCount = [pickerView.dataSource numberOfComponentsInPickerView:pickerView];
 
   if (componentCount < _column) {
-    NSString *description = [NSString stringWithFormat:@"Invalid column on picker view (P) "
+    NSString *description = [NSString stringWithFormat:@"Invalid column on picker view [P] "
                                                        @"cannot find the column %lu.",
                                                        (unsigned long)_column];
-    NSDictionary *note = @{ @"P" : [pickerView description] };
+    NSDictionary *glossary = @{ @"P" : [pickerView description] };
     GREYPopulateErrorNotedOrLog(errorOrNil,
                                 kGREYInteractionErrorDomain,
                                 kGREYInteractionActionFailedErrorCode,
                                 description,
-                                note);
+                                glossary);
 
     return NO;
   }

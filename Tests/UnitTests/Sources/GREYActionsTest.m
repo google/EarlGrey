@@ -152,7 +152,7 @@
     [swipeLeft perform:view error:nil];
     XCTFail(@"Should have thrown an exception");
   } @catch (NSException *exception) {
-    NSString *reason = @"Cannot swipe on view (V), as it has no window and "
+    NSString *reason = @"Cannot swipe on view [V], as it has no window and "
         @"it isn't a window itself.";
     XCTAssertEqualObjects([exception name], kGREYGenericFailureException,
                           @"Should throw GREYActionFailException");

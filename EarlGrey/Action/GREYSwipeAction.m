@@ -102,14 +102,14 @@
       window = (UIWindow *)element;
     } else {
       NSString *errorDescription =
-          [NSString stringWithFormat:@"Cannot swipe on view (V), as it has no window and "
+          [NSString stringWithFormat:@"Cannot swipe on view [V], as it has no window and "
                                      @"it isn't a window itself."];
-      NSDictionary *errorNote = @{ @"V" : [element grey_description]};
+      NSDictionary *glossary = @{ @"V" : [element grey_description]};
       GREYError *error;
       error = GREYErrorMake(kGREYSyntheticEventInjectionErrorDomain,
                             kGREYOrientationChangeFailedErrorCode,
                             errorDescription);
-      error.note = errorNote;
+      error.descriptionGlossary = glossary;
       if (errorOrNil) {
         *errorOrNil = error;
       } else {

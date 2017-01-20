@@ -39,13 +39,22 @@ static inline NSInteger getNextScreenshotCount() {
 
 + (NSDictionary *)generateAppScreenshotsWithPrefix:(NSString *)screenshotPrefix
                                            failure:(NSString *)failureName {
+
+  NSString *screenshotDir = GREY_CONFIG_STRING(kGREYConfigKeyScreenshotDirLocation);
+  NSString *uniqueSubDirName =
+  [NSString stringWithFormat:@"%@-%@", failureName, [[NSUUID UUID] UUIDString]];
+  screenshotDir = [screenshotDir stringByAppendingPathComponent:uniqueSubDirName];
+  return [self generateAppScreenshotsWithPrefix:screenshotPrefix
+                                        failure:failureName
+                                  screenshotDir:screenshotDir];
+}
+
++ (NSDictionary *)generateAppScreenshotsWithPrefix:(NSString *)screenshotPrefix
+                                           failure:(NSString *)failureName
+                                     screenshotDir:(NSString *)screenshotDir {
   NSMutableDictionary *appScreenshots = [[NSMutableDictionary alloc] init];
 
   // Save and log screenshot and before and after images (if available).
-  NSString *screenshotDir = GREY_CONFIG_STRING(kGREYConfigKeyScreenshotDirLocation);
-  NSString *uniqueSubDirName =
-      [NSString stringWithFormat:@"%@-%@", failureName, [[NSUUID UUID] UUIDString]];
-  screenshotDir = [screenshotDir stringByAppendingPathComponent:uniqueSubDirName];
 
   NSString *screenshotPath;
   NSString *fileName;

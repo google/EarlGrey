@@ -113,14 +113,14 @@ NSString *const kErrorDetailStepMinValueKey = @"StepMinValue";
 
   if (!(minusButton && plusButton)) {
     NSString *description = [NSString stringWithFormat:@"Failed to find stepper buttons "
-                                                       @"in stepper (S)"];
-    NSDictionary *note = @{ @"S" : [stepper description] };
+                                                       @"in stepper [S]"];
+    NSDictionary *glossary = @{ @"S" : [stepper description] };
 
     GREYPopulateErrorNotedOrLog(errorOrNil,
                                 kGREYInteractionErrorDomain,
                                 kGREYInteractionActionFailedErrorCode,
                                 description,
-                                note);
+                                glossary);
     return NO;
   }
 

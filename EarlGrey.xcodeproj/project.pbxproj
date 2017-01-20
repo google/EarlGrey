@@ -75,6 +75,7 @@
 		61FC0A081CD939C30081BDAA /* GREYAutomationSetup.m in Sources */ = {isa = PBXBuildFile; fileRef = 61FC0A061CD939C30081BDAA /* GREYAutomationSetup.m */; };
 		7C32F6FB1E258A9800B00610 /* GREYObjectFormatter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 7C32F6FA1E2589B400B00610 /* GREYObjectFormatter+Internal.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		7C32F6FD1E258E7200B00610 /* GREYError+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 7C32F6FC1E258E3800B00610 /* GREYError+Internal.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		7CA390421E3177270028AE5F /* GREYFailureScreenshotter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 7CA390411E31721C0028AE5F /* GREYFailureScreenshotter+Internal.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		7CA546131E24133E007EA7F6 /* GREYFailureScreenshotter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7CA546111E24133E007EA7F6 /* GREYFailureScreenshotter.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		7CA546141E24133E007EA7F6 /* GREYFailureScreenshotter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CA546121E24133E007EA7F6 /* GREYFailureScreenshotter.m */; };
 		7CCBEBA61DCD2F0500CC01B8 /* GREYError.h in Headers */ = {isa = PBXBuildFile; fileRef = 7CCBEBA31DCD2F0500CC01B8 /* GREYError.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -247,6 +248,7 @@
 		61FC0A061CD939C30081BDAA /* GREYAutomationSetup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYAutomationSetup.m; sourceTree = "<group>"; };
 		7C32F6FA1E2589B400B00610 /* GREYObjectFormatter+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GREYObjectFormatter+Internal.h"; sourceTree = "<group>"; };
 		7C32F6FC1E258E3800B00610 /* GREYError+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GREYError+Internal.h"; sourceTree = "<group>"; };
+		7CA390411E31721C0028AE5F /* GREYFailureScreenshotter+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GREYFailureScreenshotter+Internal.h"; sourceTree = "<group>"; };
 		7CA546111E24133E007EA7F6 /* GREYFailureScreenshotter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYFailureScreenshotter.h; sourceTree = "<group>"; };
 		7CA546121E24133E007EA7F6 /* GREYFailureScreenshotter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYFailureScreenshotter.m; sourceTree = "<group>"; };
 		7CCBEBA31DCD2F0500CC01B8 /* GREYError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYError.h; sourceTree = "<group>"; };
@@ -674,6 +676,7 @@
 				7C32F6FC1E258E3800B00610 /* GREYError+Internal.h */,
 				7CCBEBA41DCD2F0500CC01B8 /* GREYError.m */,
 				7CA546111E24133E007EA7F6 /* GREYFailureScreenshotter.h */,
+				7CA390411E31721C0028AE5F /* GREYFailureScreenshotter+Internal.h */,
 				7CA546121E24133E007EA7F6 /* GREYFailureScreenshotter.m */,
 			);
 			name = Common;
@@ -980,6 +983,7 @@
 				597E02DB1D55AD100052A8D1 /* GREYAppStateTracker.h in Headers */,
 				597E02DD1D55AD100052A8D1 /* GREYTimedIdlingResource.h in Headers */,
 				7CA546131E24133E007EA7F6 /* GREYFailureScreenshotter.h in Headers */,
+				7CA390421E3177270028AE5F /* GREYFailureScreenshotter+Internal.h in Headers */,
 				597E02DC1D55AD100052A8D1 /* GREYDispatchQueueTracker.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
