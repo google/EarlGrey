@@ -494,7 +494,7 @@
 
 + (id<GREYAction>)grey_actionForTypeText:(NSString *)text
                         atUITextPosition:(UITextPosition *)position {
-  return [GREYActionBlock actionWithName:[NSString stringWithFormat:@"Type \"%@\"", text]
+  return [GREYActionBlock actionWithName:[NSString stringWithFormat:@"Type '%@'", text]
                              constraints:grey_not(grey_systemAlertViewShown())
                             performBlock:^BOOL (id element, __strong NSError **errorOrNil) {
     UIView *expectedFirstResponderView;
@@ -514,14 +514,14 @@
       }
       // Wait for keyboard to show up and any other UI changes to take effect.
       if (![GREYKeyboard waitForKeyboardToAppear]) {
-        NSString *description = @"Keyboard did not appear after tapping on element (E)."
+        NSString *description = @"Keyboard did not appear after tapping on element [E]. "
             @"Are you sure that tapping on this element will bring up the keyboard?";
-        NSDictionary *note = @{ @"E" : [element grey_description] };
+        NSDictionary *glossary = @{ @"E" : [element grey_description] };
         GREYPopulateErrorNotedOrLog(errorOrNil,
                                     kGREYInteractionErrorDomain,
                                     kGREYInteractionActionFailedErrorCode,
                                     description,
-                                    note);
+                                    glossary);
         return NO;
       }
     }
@@ -533,15 +533,15 @@
         UITextRange *newRange = [firstResponder textRangeFromPosition:position toPosition:position];
         [firstResponder setSelectedTextRange:newRange];
       } else {
-        NSString *description = @"First responder (F) of element (E) does not conform to "
+        NSString *description = @"First responder [F] of element [E] does not conform to "
             @"UITextInput protocol.";
-        NSDictionary *note = @{ @"F" : [firstResponder description],
-                                @"E" : [expectedFirstResponderView description] };
+        NSDictionary *glossary = @{ @"F" : [firstResponder description],
+                                    @"E" : [expectedFirstResponderView description] };
         GREYPopulateErrorNotedOrLog(errorOrNil,
                                     kGREYInteractionErrorDomain,
                                     kGREYInteractionActionFailedErrorCode,
                                     description,
-                                    note);
+                                    glossary);
         return NO;
       }
     }

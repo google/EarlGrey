@@ -126,14 +126,14 @@
       UIWindow *window = [element grey_viewContainingSelf].window;
       if (!window) {
         NSString *description =
-            [NSString stringWithFormat:@"Element (E) is not attached to a window."];
-        NSDictionary *note = @{ @"E" : [element grey_description] };
+            [NSString stringWithFormat:@"Element [E] is not attached to a window."];
+        NSDictionary *glossary = @{ @"E" : [element grey_description] };
 
         GREYPopulateErrorNotedOrLog(errorOrNil,
                                     kGREYInteractionErrorDomain,
                                     kGREYInteractionActionFailedErrorCode,
                                     description,
-                                    note);
+                                    glossary);
 
         return NO;
       }

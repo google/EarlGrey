@@ -49,7 +49,7 @@ NSString *const kErrorBundleIDKey = @"Bundle ID";
 NSString *const kErrorStackTraceKey = @"Stack Trace";
 NSString *const kErrorAppUIHierarchyKey = @"App UI Hierarchy";
 NSString *const kErrorAppScreenShotsKey = @"App Screenshots";
-NSString *const kErrorNoteKey = @"Note";
+NSString *const kErrorDescriptionGlossaryKey = @"Description Glossary";
 
 GREYError *I_GREYErrorMake(NSString *domain,
                            NSInteger code,
@@ -186,7 +186,7 @@ GREYError *I_GREYErrorMake(NSString *domain,
   descriptionDictionary[kErrorStackTraceKey] = _stackTrace;
   descriptionDictionary[kErrorAppUIHierarchyKey] = _appUIHierarchy;
   descriptionDictionary[kErrorAppScreenShotsKey] = _appScreenshots;
-  descriptionDictionary[kErrorNoteKey] = _note;
+  descriptionDictionary[kErrorDescriptionGlossaryKey] = _descriptionGlossary;
 
   return descriptionDictionary;
 }
@@ -231,7 +231,7 @@ GREYError *I_GREYErrorMake(NSString *domain,
   }
 
   NSArray *keyOrder = @[ kErrorDescriptionKey,
-                         kErrorNoteKey,
+                         kErrorDescriptionGlossaryKey,
                          kErrorDomainKey,
                          kErrorCodeKey,
                          kErrorFileNameKey,

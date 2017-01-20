@@ -101,13 +101,13 @@ I_GREYErrorMake((domain), \
  *  @param      domain      The error domain.
  *  @param      code        The error code.
  *  @param      description The error's localized description.
- *  @param      errorNote   An note directory that is going to be populated with the error.
+ *  @param      glossary    A glossary dictionary that is going to be populated with the error.
  *
  */
-#define GREYPopulateErrorNotedOrLog(errorRef, domain, code, description, errorNote) \
+#define GREYPopulateErrorNotedOrLog(errorRef, domain, code, description, glossary) \
 ({ \
   GREYError *e = GREYErrorMake((domain), (code), (description)); \
-  e.note = (errorNote); \
+  e.descriptionGlossary = (glossary); \
   if(errorRef) { \
     *errorRef = e; \
   } else { \
@@ -305,9 +305,9 @@ GREY_EXTERN NSString *const kScreenshotActualAfterImage;
 @property(nonatomic, readonly) NSError *nestedError;
 
 /**
- *  The note dictionary that is associated with the error.
+ *  The description glossary dictionary that is associated with the error.
  */
-@property(nonatomic) NSDictionary *note;
+@property(nonatomic) NSDictionary *descriptionGlossary;
 
 /**
  *  @remark init is not an available initializer.

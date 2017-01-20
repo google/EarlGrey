@@ -454,15 +454,15 @@ static NSString *const kReturnKeyIdentifier = @"\n";
                                           forTypingString:(NSString *)string
                                                     error:(__strong NSError **)errorOrNil {
   NSString *description = [NSString stringWithFormat:@"Failed to type string '%@', "
-                                                     @"because key (K) could not be found "
+                                                     @"because key [K] could not be found "
                                                      @"on the keyboard.",
                                                      string];
-  NSDictionary *note = @{ @"K" : [accessibilityLabel description] };
+  NSDictionary *glossary = @{ @"K" : [accessibilityLabel description] };
   GREYPopulateErrorNotedOrLog(errorOrNil,
                               kGREYInteractionErrorDomain,
                               kGREYInteractionElementNotFoundErrorCode,
                               description,
-                              note);
+                              glossary);
   return NO;
 }
 

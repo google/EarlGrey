@@ -72,8 +72,9 @@
   error.testCaseMethodName = [testCase grey_testMethodName];
   error.appScreenshots = appScreenshots;
 
+  NSArray *excluding = @[ kErrorFilePathKey, kErrorLineKey, kErrorDescriptionGlossaryKey ];
   return [self formatFailureForError:error
-                           excluding:@[ kErrorFilePathKey, kErrorLineKey, kErrorNoteKey ]
+                           excluding:excluding
                         failureLabel:failureLabel
                          failureName:failureName
                     errorDescription:errorDescription];
@@ -150,12 +151,14 @@
     [logger addObject:error.appUIHierarchy];
   }
 
-  if (![excluding containsObject:kErrorNoteKey]) {
-    NSString *note = [GREYObjectFormatter formatDictionary:error.note
-                                                    indent:GREYObjectFormatIndent
-                                                 hideEmpty:YES
-                                                  keyOrder:nil];
-    [logger addObject:[NSString stringWithFormat:@"Note: %@\n", note]];
+  if (![excluding containsObject:kErrorDescriptionGlossaryKey]) {
+    NSString *glossary = [GREYObjectFormatter formatDictionary:error.descriptionGlossary
+                                                        indent:GREYObjectFormatIndent
+                                                     hideEmpty:YES
+                                                      keyOrder:nil];
+    [logger addObject:[NSString stringWithFormat:@"%@: %@\n",
+                                                 kErrorDescriptionGlossaryKey,
+                                                 glossary]];
   }
 
   return [logger componentsJoinedByString:@"\n"];
