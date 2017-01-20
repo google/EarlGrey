@@ -14,6 +14,8 @@
 #
 Metrics/LineLength:
   Max: 100
+Metrics/BlockLength:
+  Enabled: false
 Style/PercentLiteralDelimiters:
   PreferredDelimiters:
     '%i': '[]'
