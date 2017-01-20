@@ -175,7 +175,7 @@ static const NSUInteger kBytesPerPixel = 4;
   }
 }
 
-#pragma mark - Private
+#pragma mark - Package Internal
 
 + (UIImage *)grey_takeScreenshotAfterScreenUpdates:(BOOL)afterScreenUpdates {
   UIScreen *mainScreen = [UIScreen mainScreen];
@@ -187,6 +187,8 @@ static const NSUInteger kBytesPerPixel = 4;
 
   return orientedScreenshot;
 }
+
+#pragma mark - Private
 
 + (CGRect)grey_rectRotatedToStatusBarOrientation:(CGRect)rect {
   UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;

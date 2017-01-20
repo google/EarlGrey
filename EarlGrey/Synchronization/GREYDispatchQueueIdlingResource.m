@@ -16,8 +16,8 @@
 
 #import "Synchronization/GREYDispatchQueueIdlingResource.h"
 
-#import "Common/GREYPrivate.h"
 #import "Synchronization/GREYDispatchQueueTracker.h"
+#import "Synchronization/GREYUIThreadExecutor+Internal.h"
 
 @implementation GREYDispatchQueueIdlingResource {
   NSString *_idlingResourceName;

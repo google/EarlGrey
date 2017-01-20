@@ -17,8 +17,8 @@
 #import "Synchronization/GREYOperationQueueIdlingResource.h"
 
 #import "Common/GREYDefines.h"
-#import "Common/GREYPrivate.h"
 #import "Synchronization/GREYUIThreadExecutor.h"
+#import "Synchronization/GREYUIThreadExecutor+Internal.h"
 
 @implementation GREYOperationQueueIdlingResource {
   NSString *_operationQueueName;

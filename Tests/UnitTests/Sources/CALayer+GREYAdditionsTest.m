@@ -16,6 +16,7 @@
 
 #import <EarlGrey/CALayer+GREYAdditions.h>
 
+#import <EarlGrey/GREYAppStateTracker+Internal.h>
 #import <EarlGrey/GREYConfiguration.h>
 #import <EarlGrey/NSObject+GREYAdditions.h>
 #import <objc/runtime.h>

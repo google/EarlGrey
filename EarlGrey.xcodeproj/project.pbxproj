@@ -14,7 +14,6 @@
 		597E02CE1D55AC320052A8D1 /* GREYAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001561C5B46C200B2DB0A /* GREYAnalytics.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		597E02CF1D55AC380052A8D1 /* GREYAnalyticsDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = FD94FDB31D0F68180021F107 /* GREYAnalyticsDelegate.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		597E02D01D55AC460052A8D1 /* GREYExposed.h in Headers */ = {isa = PBXBuildFile; fileRef = FD10015F1C5B46C200B2DB0A /* GREYExposed.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		597E02D11D55AC4D0052A8D1 /* GREYPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001601C5B46C200B2DB0A /* GREYPrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		597E02D21D55AC520052A8D1 /* GREYSwizzler.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001631C5B46C200B2DB0A /* GREYSwizzler.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		597E02D31D55AC580052A8D1 /* GREYVisibilityChecker.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001651C5B46C200B2DB0A /* GREYVisibilityChecker.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		597E02D41D55AC5E0052A8D1 /* GREYWeakObjectContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = FD94FDB41D0F68180021F107 /* GREYWeakObjectContainer.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -204,6 +203,17 @@
 		FD94FDB81D0F68180021F107 /* GREYWeakObjectContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = FD94FDB51D0F68180021F107 /* GREYWeakObjectContainer.m */; };
 		FDB26BA31DA467E900E7B5C0 /* GREYTestCaseInvocation.h in Headers */ = {isa = PBXBuildFile; fileRef = FDB26BA11DA467E900E7B5C0 /* GREYTestCaseInvocation.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		FDB26BA41DA467E900E7B5C0 /* GREYTestCaseInvocation.m in Sources */ = {isa = PBXBuildFile; fileRef = FDB26BA21DA467E900E7B5C0 /* GREYTestCaseInvocation.m */; };
+		FDCB297A1E2465670001557E /* NSObject+GREYAdditions+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = FDCB29761E2465670001557E /* NSObject+GREYAdditions+Internal.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		FDCB297B1E2465670001557E /* NSURLConnection+GREYAdditions+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = FDCB29771E2465670001557E /* NSURLConnection+GREYAdditions+Internal.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		FDCB297C1E2465670001557E /* UIWebView+GREYAdditions+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = FDCB29781E2465670001557E /* UIWebView+GREYAdditions+Internal.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		FDCB297D1E2465670001557E /* XCTestCase+GREYAdditions+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = FDCB29791E2465670001557E /* XCTestCase+GREYAdditions+Internal.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		FDCB297F1E24656F0001557E /* GREYAssertions+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = FDCB297E1E24656F0001557E /* GREYAssertions+Internal.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		FDCB29821E24658E0001557E /* GREYScreenshotUtil+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = FDCB29801E24658E0001557E /* GREYScreenshotUtil+Internal.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		FDCB29831E24658E0001557E /* GREYVisibilityChecker+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = FDCB29811E24658E0001557E /* GREYVisibilityChecker+Internal.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		FDCB29851E2465A20001557E /* GREYElementInteraction+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = FDCB29841E2465A20001557E /* GREYElementInteraction+Internal.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		FDCB29881E2465BF0001557E /* GREYAppStateTracker+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = FDCB29861E2465BF0001557E /* GREYAppStateTracker+Internal.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		FDCB29891E2465BF0001557E /* GREYUIThreadExecutor+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = FDCB29871E2465BF0001557E /* GREYUIThreadExecutor+Internal.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		FDCB29941E2467F60001557E /* GREYActions+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = FDCB29931E2467F60001557E /* GREYActions+Internal.h */; settings = {ATTRIBUTES = (Private, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -316,7 +326,6 @@
 		FD10015D1C5B46C200B2DB0A /* GREYElementHierarchy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYElementHierarchy.h; sourceTree = "<group>"; };
 		FD10015E1C5B46C200B2DB0A /* GREYElementHierarchy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYElementHierarchy.m; sourceTree = "<group>"; };
 		FD10015F1C5B46C200B2DB0A /* GREYExposed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYExposed.h; sourceTree = "<group>"; };
-		FD1001601C5B46C200B2DB0A /* GREYPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYPrivate.h; sourceTree = "<group>"; };
 		FD1001611C5B46C200B2DB0A /* GREYScreenshotUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYScreenshotUtil.h; sourceTree = "<group>"; };
 		FD1001621C5B46C200B2DB0A /* GREYScreenshotUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYScreenshotUtil.m; sourceTree = "<group>"; };
 		FD1001631C5B46C200B2DB0A /* GREYSwizzler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYSwizzler.h; sourceTree = "<group>"; };
@@ -412,6 +421,17 @@
 		FD94FDB51D0F68180021F107 /* GREYWeakObjectContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYWeakObjectContainer.m; path = EarlGrey/Common/GREYWeakObjectContainer.m; sourceTree = SOURCE_ROOT; };
 		FDB26BA11DA467E900E7B5C0 /* GREYTestCaseInvocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYTestCaseInvocation.h; sourceTree = "<group>"; };
 		FDB26BA21DA467E900E7B5C0 /* GREYTestCaseInvocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYTestCaseInvocation.m; sourceTree = "<group>"; };
+		FDCB29761E2465670001557E /* NSObject+GREYAdditions+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+GREYAdditions+Internal.h"; sourceTree = "<group>"; };
+		FDCB29771E2465670001557E /* NSURLConnection+GREYAdditions+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURLConnection+GREYAdditions+Internal.h"; sourceTree = "<group>"; };
+		FDCB29781E2465670001557E /* UIWebView+GREYAdditions+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWebView+GREYAdditions+Internal.h"; sourceTree = "<group>"; };
+		FDCB29791E2465670001557E /* XCTestCase+GREYAdditions+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XCTestCase+GREYAdditions+Internal.h"; sourceTree = "<group>"; };
+		FDCB297E1E24656F0001557E /* GREYAssertions+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GREYAssertions+Internal.h"; sourceTree = "<group>"; };
+		FDCB29801E24658E0001557E /* GREYScreenshotUtil+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GREYScreenshotUtil+Internal.h"; sourceTree = "<group>"; };
+		FDCB29811E24658E0001557E /* GREYVisibilityChecker+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GREYVisibilityChecker+Internal.h"; sourceTree = "<group>"; };
+		FDCB29841E2465A20001557E /* GREYElementInteraction+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GREYElementInteraction+Internal.h"; sourceTree = "<group>"; };
+		FDCB29861E2465BF0001557E /* GREYAppStateTracker+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GREYAppStateTracker+Internal.h"; sourceTree = "<group>"; };
+		FDCB29871E2465BF0001557E /* GREYUIThreadExecutor+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GREYUIThreadExecutor+Internal.h"; sourceTree = "<group>"; };
+		FDCB29931E2467F60001557E /* GREYActions+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GREYActions+Internal.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -480,6 +500,7 @@
 				FD1001021C5B46C100B2DB0A /* GREYActionBlock.h */,
 				FD1001031C5B46C100B2DB0A /* GREYActionBlock.m */,
 				FD1001041C5B46C100B2DB0A /* GREYActions.h */,
+				FDCB29931E2467F60001557E /* GREYActions+Internal.h */,
 				FD1001051C5B46C100B2DB0A /* GREYActions.m */,
 				61E4E0BD1D755A0D007F9EE6 /* GREYPinchAction.h */,
 				61E4E0BE1D755A0D007F9EE6 /* GREYPinchAction.m */,
@@ -511,6 +532,10 @@
 		FD10011C1C5B46C100B2DB0A /* Additions */ = {
 			isa = PBXGroup;
 			children = (
+				FDCB29761E2465670001557E /* NSObject+GREYAdditions+Internal.h */,
+				FDCB29771E2465670001557E /* NSURLConnection+GREYAdditions+Internal.h */,
+				FDCB29781E2465670001557E /* UIWebView+GREYAdditions+Internal.h */,
+				FDCB29791E2465670001557E /* XCTestCase+GREYAdditions+Internal.h */,
 				FD10011D1C5B46C100B2DB0A /* __NSCFLocalDataTask_GREYAdditions.h */,
 				FD10011E1C5B46C100B2DB0A /* __NSCFLocalDataTask_GREYAdditions.m */,
 				FD1001211C5B46C100B2DB0A /* _UIModalItemsPresentingViewController_GREYAdditions.h */,
@@ -577,6 +602,7 @@
 		FD10014D1C5B46C200B2DB0A /* Assertion */ = {
 			isa = PBXGroup;
 			children = (
+				FDCB297E1E24656F0001557E /* GREYAssertions+Internal.h */,
 				FD10014E1C5B46C200B2DB0A /* GREYAssertion.h */,
 				FD10014F1C5B46C200B2DB0A /* GREYAssertionBlock.h */,
 				FD1001501C5B46C200B2DB0A /* GREYAssertionBlock.m */,
@@ -592,6 +618,8 @@
 			isa = PBXGroup;
 			children = (
 				FD1948221DA231ED00B9BA2D /* GREYStopwatch.h */,
+				FDCB29801E24658E0001557E /* GREYScreenshotUtil+Internal.h */,
+				FDCB29811E24658E0001557E /* GREYVisibilityChecker+Internal.h */,
 				FD1948231DA231ED00B9BA2D /* GREYStopwatch.m */,
 				FDB26BA11DA467E900E7B5C0 /* GREYTestCaseInvocation.h */,
 				FDB26BA21DA467E900E7B5C0 /* GREYTestCaseInvocation.m */,
@@ -608,7 +636,6 @@
 				FD10015D1C5B46C200B2DB0A /* GREYElementHierarchy.h */,
 				FD10015E1C5B46C200B2DB0A /* GREYElementHierarchy.m */,
 				FD10015F1C5B46C200B2DB0A /* GREYExposed.h */,
-				FD1001601C5B46C200B2DB0A /* GREYPrivate.h */,
 				FD1001611C5B46C200B2DB0A /* GREYScreenshotUtil.h */,
 				FD1001621C5B46C200B2DB0A /* GREYScreenshotUtil.m */,
 				FD1001631C5B46C200B2DB0A /* GREYSwizzler.h */,
@@ -624,6 +651,7 @@
 			isa = PBXGroup;
 			children = (
 				61FC0A051CD939C30081BDAA /* GREYAutomationSetup.h */,
+				FDCB29841E2465A20001557E /* GREYElementInteraction+Internal.h */,
 				61FC0A061CD939C30081BDAA /* GREYAutomationSetup.m */,
 				FD1001681C5B46C200B2DB0A /* GREYElementFinder.h */,
 				FD1001691C5B46C200B2DB0A /* GREYElementFinder.m */,
@@ -729,6 +757,8 @@
 		FD10019B1C5B46C200B2DB0A /* Synchronization */ = {
 			isa = PBXGroup;
 			children = (
+				FDCB29861E2465BF0001557E /* GREYAppStateTracker+Internal.h */,
+				FDCB29871E2465BF0001557E /* GREYUIThreadExecutor+Internal.h */,
 				FD720C0E1CFF7E93007A0942 /* GREYRunLoopSpinner.h */,
 				FD720C0F1CFF7E93007A0942 /* GREYRunLoopSpinner.m */,
 				FD10019C1C5B46C200B2DB0A /* GREYAppStateTracker.h */,
@@ -808,7 +838,9 @@
 				FD1001BD1C5B46C200B2DB0A /* GREYScrollActionError.h in Headers */,
 				FD1001F91C5B46C200B2DB0A /* GREYIdlingResource.h in Headers */,
 				FD1001FA1C5B46C200B2DB0A /* GREYAssertion.h in Headers */,
+				FDCB29831E24658E0001557E /* GREYVisibilityChecker+Internal.h in Headers */,
 				FD1001FE1C5B46C200B2DB0A /* GREYAssertions.h in Headers */,
+				FDCB297F1E24656F0001557E /* GREYAssertions+Internal.h in Headers */,
 				FD1001FB1C5B46C200B2DB0A /* GREYAssertionBlock.h in Headers */,
 				FD1001FD1C5B46C200B2DB0A /* GREYAssertionDefines.h in Headers */,
 				FD1002071C5B46C200B2DB0A /* GREYDefines.h in Headers */,
@@ -816,14 +848,17 @@
 				FD242E811D14C24C00046221 /* GREYTestHelper.h in Headers */,
 				FD1002031C5B46C200B2DB0A /* GREYConfiguration.h in Headers */,
 				FD10020C1C5B46C200B2DB0A /* GREYScreenshotUtil.h in Headers */,
+				FDCB297C1E2465670001557E /* UIWebView+GREYAdditions+Internal.h in Headers */,
 				FD1002081C5B46C200B2DB0A /* GREYElementHierarchy.h in Headers */,
 				FD1002161C5B46C200B2DB0A /* GREYInteraction.h in Headers */,
 				FD1002121C5B46C200B2DB0A /* GREYElementFinder.h in Headers */,
 				FD1002141C5B46C200B2DB0A /* GREYElementInteraction.h in Headers */,
+				FDCB297B1E2465670001557E /* NSURLConnection+GREYAdditions+Internal.h in Headers */,
 				FD10022A1C5B46C200B2DB0A /* GREYFailureHandler.h in Headers */,
 				FD10022B1C5B46C200B2DB0A /* GREYFrameworkException.h in Headers */,
 				FD6D0BA61C6D494F0001EA75 /* GREYNot.h in Headers */,
 				FD10022D1C5B46C200B2DB0A /* GREYAllOf.h in Headers */,
+				FDCB297A1E2465670001557E /* NSObject+GREYAdditions+Internal.h in Headers */,
 				FD10022F1C5B46C200B2DB0A /* GREYAnyOf.h in Headers */,
 				FD6D0BA51C6D494F0001EA75 /* GREYMatcher.h in Headers */,
 				FD1002371C5B46C200B2DB0A /* GREYMatchers.h in Headers */,
@@ -835,22 +870,26 @@
 				FD1002391C5B46C200B2DB0A /* GREYDataEnumerator.h in Headers */,
 				FD10024C1C5B46C200B2DB0A /* GREYSyncAPI.h in Headers */,
 				FD1002441C5B46C200B2DB0A /* GREYCondition.h in Headers */,
+				FDCB29821E24658E0001557E /* GREYScreenshotUtil+Internal.h in Headers */,
 				FD1002501C5B46C200B2DB0A /* GREYUIThreadExecutor.h in Headers */,
 				FD1002481C5B46C200B2DB0A /* GREYNSTimerIdlingResource.h in Headers */,
 				FD1002461C5B46C200B2DB0A /* GREYDispatchQueueIdlingResource.h in Headers */,
 				FD10024A1C5B46C200B2DB0A /* GREYOperationQueueIdlingResource.h in Headers */,
 				611BF16B1D4CD705001D9E46 /* GREYManagedObjectContextIdlingResource.h in Headers */,
+				FDCB29881E2465BF0001557E /* GREYAppStateTracker+Internal.h in Headers */,
 				597E02CC1D55AC240052A8D1 /* GREYTapAction.h in Headers */,
 				597E030F1D55BC930052A8D1 /* GREYSlideAction.h in Headers */,
 				FDB26BA31DA467E900E7B5C0 /* GREYTestCaseInvocation.h in Headers */,
 				597E02CB1D55AC180052A8D1 /* GREYScrollAction.h in Headers */,
 				597E02CD1D55AC2B0052A8D1 /* GREYSwipeAction.h in Headers */,
 				597E030B1D55B9F60052A8D1 /* GREYPickerAction.h in Headers */,
+				FDCB297D1E2465670001557E /* XCTestCase+GREYAdditions+Internal.h in Headers */,
 				61E4E0BF1D755A0D007F9EE6 /* GREYPinchAction.h in Headers */,
 				597E02CA1D55AC040052A8D1 /* GREYPathGestureUtils.h in Headers */,
 				597E03051D55B3120052A8D1 /* GREYChangeStepperAction.h in Headers */,
 				597E030E1D55BC930052A8D1 /* GREYScrollToContentEdgeAction.h in Headers */,
 				597E02EE1D55AD6D0052A8D1 /* UIView+GREYAdditions.h in Headers */,
+				FDCB29941E2467F60001557E /* GREYActions+Internal.h in Headers */,
 				597E02E81D55AD6D0052A8D1 /* NSURL+GREYAdditions.h in Headers */,
 				597E02ED1D55AD6D0052A8D1 /* UITouch+GREYAdditions.h in Headers */,
 				597E02EA1D55AD6D0052A8D1 /* UIAnimation+GREYAdditions.h in Headers */,
@@ -873,7 +912,6 @@
 				597E02FF1D55AF3C0052A8D1 /* NSRunLoop+GREYAdditions.h in Headers */,
 				597E03001D55AF3C0052A8D1 /* NSString+GREYAdditions.h in Headers */,
 				597E03011D55AF3C0052A8D1 /* NSTimer+GREYAdditions.h in Headers */,
-				597E02D11D55AC4D0052A8D1 /* GREYPrivate.h in Headers */,
 				597E02D21D55AC520052A8D1 /* GREYSwizzler.h in Headers */,
 				597E02D01D55AC460052A8D1 /* GREYExposed.h in Headers */,
 				597E02CE1D55AC320052A8D1 /* GREYAnalytics.h in Headers */,
@@ -886,6 +924,7 @@
 				597E02D61D55AC730052A8D1 /* GREYCAAnimationDelegate.h in Headers */,
 				597E02D71D55AC730052A8D1 /* GREYUIWebViewDelegate.h in Headers */,
 				597E02F61D55ADBE0052A8D1 /* GREYNSURLConnectionDelegate.h in Headers */,
+				FDCB29891E2465BF0001557E /* GREYUIThreadExecutor+Internal.h in Headers */,
 				61E4E0BB1D7559DA007F9EE6 /* GREYTouchInjector.h in Headers */,
 				6171EA861D9C748600FD900E /* GREYZeroToleranceTimer.h in Headers */,
 				61E4E0B91D7559DA007F9EE6 /* GREYTouchInfo.h in Headers */,
@@ -894,6 +933,7 @@
 				597E02D91D55AD100052A8D1 /* GREYUIWindowProvider.h in Headers */,
 				597E02DA1D55AD100052A8D1 /* GREYRunLoopSpinner.h in Headers */,
 				FD1948261DA231ED00B9BA2D /* GREYStopwatch.h in Headers */,
+				FDCB29851E2465A20001557E /* GREYElementInteraction+Internal.h in Headers */,
 				6113A2ED1D7F72FA00443D9B /* GREYStringDescription.h in Headers */,
 				597E02DB1D55AD100052A8D1 /* GREYAppStateTracker.h in Headers */,
 				597E02DD1D55AD100052A8D1 /* GREYTimedIdlingResource.h in Headers */,

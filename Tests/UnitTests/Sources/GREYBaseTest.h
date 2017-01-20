@@ -15,7 +15,6 @@
 //
 
 #import <EarlGrey/EarlGrey.h>
-#import <EarlGrey/GREYPrivate.h>
 #import <XCTest/XCTest.h>
 
 #define OCMOCK_STRUCT(atype, variable) \

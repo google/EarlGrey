@@ -15,7 +15,6 @@
 //
 
 #import <EarlGrey/GREYAppStateTracker.h>
-#import <EarlGrey/GREYPrivate.h>
 #import <EarlGrey/GREYUIWebViewDelegate.h>
 
 #import "FTRBaseIntegrationTest.h"

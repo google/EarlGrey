@@ -17,9 +17,8 @@
 #import "Synchronization/GREYNSTimerIdlingResource.h"
 
 #import "Common/GREYDefines.h"
-#import "Common/GREYPrivate.h"
 #import "Synchronization/GREYUIThreadExecutor.h"
-
+#import "Synchronization/GREYUIThreadExecutor+Internal.h"
 
 @implementation GREYNSTimerIdlingResource {
   NSString *_name;

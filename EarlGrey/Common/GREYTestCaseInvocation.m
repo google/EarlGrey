@@ -17,7 +17,7 @@
 #import "Common/GREYTestCaseInvocation.h"
 
 #import "Additions/XCTestCase+GREYAdditions.h"
-#import "Common/GREYPrivate.h"
+#import "Additions/XCTestCase+GREYAdditions+Internal.h"
 
 static NSString *const kGREYTestCaseInvocationExceptionName = @"GREYTestCaseInvocationException";
 

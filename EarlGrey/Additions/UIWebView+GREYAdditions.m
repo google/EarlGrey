@@ -52,9 +52,8 @@ static void const *const kUIWebViewLoadingStateKey = &kUIWebViewLoadingStateKey;
   }
 }
 
-/**
- *  Explicitly clears the pending interaction state for UIWebViews.
- */
+#pragma mark - Package Internal
+
 - (void)grey_clearPendingInteraction {
   GREYTimedIdlingResource *timedIdlingResource =
       objc_getAssociatedObject(self, @selector(grey_pendingInteractionForTime:));
@@ -65,12 +64,6 @@ static void const *const kUIWebViewLoadingStateKey = &kUIWebViewLoadingStateKey;
                            OBJC_ASSOCIATION_ASSIGN);
 }
 
-/**
- *  Will mark the UIWebView's state as busy waiting for interaction until @c seconds have elapsed or
- *  UIWebView::grey_clearPendingInteraction is called (whichever comes first).
- *
- *  @param seconds Time interval in seconds for which to mark the UIWebView as busy.
- */
 - (void)grey_pendingInteractionForTime:(NSTimeInterval)seconds {
   [self grey_clearPendingInteraction];
   NSString *resourceName =
@@ -84,9 +77,6 @@ static void const *const kUIWebViewLoadingStateKey = &kUIWebViewLoadingStateKey;
                            OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-/**
- *  Marks webview as pending load in GREYAppStateTracker.
- */
 - (void)grey_trackAJAXLoading {
   NSString *elementID = TRACK_STATE_FOR_ELEMENT(kGREYPendingUIWebViewAsyncRequest, self);
   objc_setAssociatedObject(self,
@@ -95,9 +85,6 @@ static void const *const kUIWebViewLoadingStateKey = &kUIWebViewLoadingStateKey;
                            OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-/**
- *  Untracks webview loading state from GREYAppStateTracker.
- */
 - (void)grey_untrackAJAXLoading {
   NSString *elementID = objc_getAssociatedObject(self, @selector(grey_trackAJAXLoading));
   UNTRACK_STATE_FOR_ELEMENT_WITH_ID(kGREYPendingUIWebViewAsyncRequest, elementID);
@@ -107,11 +94,6 @@ static void const *const kUIWebViewLoadingStateKey = &kUIWebViewLoadingStateKey;
                            OBJC_ASSOCIATION_ASSIGN);
 }
 
-/**
- *  Sets the loading state for this webview.
- *
- *  @param loading BOOL value indicating the new loading state of this webview.
- */
 - (void)grey_setIsLoadingFrame:(BOOL)loading {
   objc_setAssociatedObject(self,
                            kUIWebViewLoadingStateKey,
@@ -119,9 +101,6 @@ static void const *const kUIWebViewLoadingStateKey = &kUIWebViewLoadingStateKey;
                            OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-/**
- *  @return the loading state for this webview.
- */
 - (BOOL)grey_isLoadingFrame {
   NSNumber *loading = objc_getAssociatedObject(self, kUIWebViewLoadingStateKey);
   return [loading boolValue];
