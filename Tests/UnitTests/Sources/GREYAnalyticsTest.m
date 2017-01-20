@@ -16,6 +16,7 @@
 
 #import <EarlGrey/GREYAnalytics.h>
 #import <EarlGrey/NSString+GREYAdditions.h>
+#import <EarlGrey/XCTestCase+GREYAdditions.h>
 
 #import "GREYBaseTest.h"
 #import "GREYExposedForTesting.h"
@@ -59,7 +60,7 @@
   [[GREYAnalytics sharedInstance] setDelegate:previousDelegate];
 }
 
-- (void)testAnalyticsDelegateGetsTestCaseCount {
+- (void)testAnalyticsDelegateGetsTestCaseMD5 {
   // Setup a test delegate.
   id<GREYAnalyticsDelegate> previousDelegate = [[GREYAnalytics sharedInstance] delegate];
   GREYAnalyticsTestDelegate *testDelegate = [[GREYAnalyticsTestDelegate alloc] init];
@@ -69,33 +70,15 @@
   [[GREYAnalytics sharedInstance] didInvokeEarlGrey];
   [[GREYAnalytics sharedInstance] grey_testCaseInstanceDidTearDown];
 
-  // Verify the testcase name includes a count.
-  XCTAssertTrue([[testDelegate.subCategory lowercaseString] hasPrefix:@"testcase_"]);
-  XCTAssertGreaterThanOrEqual(
-      [self greytest_getTestCaseCountFromSubCategory:testDelegate.subCategory], 1);
+  // Verify the testcase name is md5ed.
+  NSString *testCase = [NSString stringWithFormat:@"%@::%@",
+                                                  [self grey_testClassName],
+                                                  [self grey_testMethodName]];
+  NSString *testCaseId = [NSString stringWithFormat:@"TestCase_%@", [testCase grey_md5String]];
+  NSString *expectedTestCaseId = @"TestCase_5f844eaf0aeace73b955acc9f896800f";
+  XCTAssertEqualObjects(testCaseId, expectedTestCaseId);
+  XCTAssertEqualObjects(testDelegate.subCategory, expectedTestCaseId);
   [[GREYAnalytics sharedInstance] setDelegate:previousDelegate];
-}
-
-- (void)testAnalyticsDelegateTestCaseCountIncrements {
-  // Setup a test delegate.
-  id<GREYAnalyticsDelegate> previousDelegate = [[GREYAnalytics sharedInstance] delegate];
-  GREYAnalyticsTestDelegate *testDelegate = [[GREYAnalyticsTestDelegate alloc] init];
-  [[GREYAnalytics sharedInstance] setDelegate:testDelegate];
-
-  // Simulate execution of first test.
-  [[GREYAnalytics sharedInstance] didInvokeEarlGrey];
-  [[GREYAnalytics sharedInstance] grey_testCaseInstanceDidTearDown];
-  NSInteger firstTestCaseCount =
-      [self greytest_getTestCaseCountFromSubCategory:testDelegate.subCategory];
-
-  // Simulate execution of second test.
-  [[GREYAnalytics sharedInstance] didInvokeEarlGrey];
-  [[GREYAnalytics sharedInstance] grey_testCaseInstanceDidTearDown];
-  NSInteger secondTestCaseCount =
-      [self greytest_getTestCaseCountFromSubCategory:testDelegate.subCategory];
-  [[GREYAnalytics sharedInstance] setDelegate:previousDelegate];
-
-  XCTAssertEqual(secondTestCaseCount - firstTestCaseCount, 1);
 }
 
 #pragma mark - Private
