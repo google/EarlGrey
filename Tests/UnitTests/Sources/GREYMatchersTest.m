@@ -335,18 +335,23 @@
   XCTAssertFalse([focusMatcher matches:customUIView], @"View should not be focused");
 }
 
-- (void)testMatchingTestPass {
+- (void)testTextMatcherPass {
   UILabel *testLabel = [[UILabel alloc] init];
   [testLabel setText:@"display text"];
   id<GREYMatcher> textMatcher = grey_text(@"display text");
   XCTAssertTrue([textMatcher matches:testLabel], @"Matching text should return true");
 }
 
-- (void)testMatchingTestFail {
+- (void)testTextMatcherFail {
   UILabel *testLabel = [[UILabel alloc] init];
   [testLabel setText:@"display text"];
+  id<GREYDescription> failureDesc = [[GREYStringDescription alloc] init];
   id<GREYMatcher> textMatcher = grey_text(@"incorrect display text");
-  XCTAssertFalse([textMatcher matches:testLabel], @"Non-matching text should return false");
+  XCTAssertFalse([textMatcher matches:testLabel describingMismatchTo:failureDesc],
+                 @"Non-matching text should return false");
+  NSRange failureMessageRange =
+      [[failureDesc description] rangeOfString:@"hasText('incorrect display text')"];
+  XCTAssertNotEqual(failureMessageRange.location, NSNotFound);
 }
 
 - (void)testBadObjectTypeFail {
