@@ -25,6 +25,18 @@
 @implementation FTRAccessibilityTest
 
 - (void)setUp {
+  dispatch_sync(dispatch_get_global_queue(0, 0), ^{
+    NSArray *symbols = [NSThread callStackSymbols];
+    // Check if dispatch_sync is interposed.
+    BOOL found = NO;
+    for (NSString *s in symbols) {
+      if ([s rangeOfString:@"grey_dispatch_sync"].location != NSNotFound) {
+        found = YES;
+        break;
+      }
+    }
+    NSAssert(found, @"dispatch_sync is not interposed");
+  });
   [super setUp];
   [self openTestViewNamed:@"Accessibility Views"];
 }
