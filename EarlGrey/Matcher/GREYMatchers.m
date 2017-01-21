@@ -147,13 +147,13 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
                     nil);
 }
 
-+ (id<GREYMatcher>)matcherForAccessibilityHint:(NSString *)hint {
++ (id<GREYMatcher>)matcherForAccessibilityHint:(id)hint {
   MatchesBlock matches = ^BOOL(NSObject *element) {
-    if (element.accessibilityHint == hint) {
+    id accessibilityHint = element.accessibilityHint;
+    if (accessibilityHint == hint) {
       return YES;
     }
-    return [self grey_accessibilityString:element.accessibilityHint
-             isEqualToAccessibilityString:hint];
+    return [self grey_accessibilityString:accessibilityHint isEqualToAccessibilityString:hint];
   };
   DescribeToBlock describe = ^void(id<GREYDescription> description) {
     [description appendText:[NSString stringWithFormat:@"accessibilityHint('%@')", hint]];
@@ -178,10 +178,19 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
 }
 
 + (id<GREYMatcher>)matcherForText:(NSString *)text {
+  MatchesBlock matches = ^BOOL(id element) {
+    return [[element text] isEqualToString:text];
+  };
+  DescribeToBlock describe = ^void(id<GREYDescription> description) {
+    [description appendText:[NSString stringWithFormat:@"hasText('%@')", text]];
+  };
+  id<GREYMatcher> matcher = [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches
+                                                                 descriptionBlock:describe];
   return grey_allOf(grey_anyOf(grey_kindOfClass([UILabel class]),
                                grey_kindOfClass([UITextField class]),
                                grey_kindOfClass([UITextView class]), nil),
-                    hasProperty(@"text", text), nil);
+                    matcher,
+                    nil);
 }
 
 + (id<GREYMatcher>)matcherForFirstResponder {
