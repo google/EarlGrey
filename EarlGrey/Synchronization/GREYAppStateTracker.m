@@ -197,8 +197,8 @@ static pthread_mutex_t gStateLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
   }
   if (state & kGREYPendingCAAnimation) {
     [eventStateString addObject:@"Waiting for CAAnimations to finish. Continuous animations may "
-                                @"never finish and must be stop explicitly. Animations attached to "
-                                @"hidden view may still be executing in the background."];
+                                @"never finish and must be stopped explicitly. Animations attached "
+                                @"to hidden view may still be running in the background."];
   }
   if (state & kGREYPendingRootViewControllerToAppear) {
     [eventStateString addObject:@"Waiting for window's rootViewController to appear. "

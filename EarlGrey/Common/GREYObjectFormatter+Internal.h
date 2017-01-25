@@ -23,16 +23,18 @@
 @interface GREYObjectFormatter (Internal)
 
 /**
- *  Serializes an array of objects into JSON string.
+ *  Serializes an array of objects into JSON-like string.
  *  The supported objects are: NSString, NSNumber, NSArray, NSDictionary.
+ *
+ *  @remark The serialized string is formatted as a JSON for presentation purposes but it doesn't
+ *          have the right escaping applied for special character as it hinders readability.
  *
  *  @param array    The array to serialize.
  *  @param prefix   A string that will be applied to each newline of the serialized array.
  *  @param indent   The spaces that will be applied to each element of the serialized array.
  *  @param keyOrder Output the key-value pair in the order of the keys specified
  *                  in the keyOrder array.
- *
- *  @return JSON-ified string of the provided @c array.
+ *  @return Serialized JSON-like string of the provided @c array.
  */
 + (NSString *)formatArray:(NSArray *)array
                    prefix:(NSString *)prefix
@@ -40,8 +42,11 @@
                  keyOrder:(NSArray *)keyOrder;
 
 /**
- *  Serializes a dictionary of objects into JSON string.
+ *  Serializes a dictionary of objects into JSON-like string.
  *  The supported objects are: NSString, NSNumber, NSArray, NSDictionary.
+ *
+ *  @remark The serialized string is formatted as a JSON for presentation purposes but it doesn't
+ *          have the right escaping applied for special character as it hinders readability.
  *
  *  @param dictionary The dictionary to serialize.
  *  @param prefix     A string that will be applied to each newline
@@ -53,7 +58,7 @@
  *  @param keyOrder   Output the key-value pair in the order of the keys specified
  *                    in the keyOrder array.
  *
- *  @return JSON-ified string of the provided @c dictionary.
+ *  @return Serialized string of the provided @c dictionary.
  */
 + (NSString *)formatDictionary:(NSDictionary *)dictionary
                         prefix:(NSString *)prefix

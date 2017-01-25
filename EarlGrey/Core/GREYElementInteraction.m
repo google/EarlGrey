@@ -583,9 +583,9 @@ NSString *const kErrorDetailElementMatcherKey = @"Element Matcher";
                                                                 indent:GREYObjectFormatIndent
                                                              hideEmpty:YES
                                                               keyOrder:keyOrder];
-        NSString *reason = [NSString stringWithFormat:@"Thread executor errors.\n"
-                                                      @"Exception with Action: %@\n",
-                                                      reasonDetail];
+        NSString *reason =
+            [NSString stringWithFormat:@"Timed out while waiting to perform action.\n"
+                                       @"Exception with Action: %@\n", reasonDetail];
 
         if ([actionError isKindOfClass:[GREYError class]]) {
           [(GREYError *)actionError setErrorInfo:errorDetails];
@@ -608,9 +608,8 @@ NSString *const kErrorDetailElementMatcherKey = @"Element Matcher";
 
           errorDetails[kErrorDetailActionNameKey] = action.name;
           errorDetails[kErrorDetailElementMatcherKey] = _elementMatcher.description;
-          errorDetails[kErrorDetailRecoverySuggestionKey] = @"Check if element exists in the UI, "
-                                                            @"modify assert criteria, "
-                                                            @"or adjust element matcher";
+          errorDetails[kErrorDetailRecoverySuggestionKey] =
+              @"Check if element exists in the UI, modify assert criteria, or adjust the matcher";
 
           NSArray *keyOrder = @[ kErrorDetailActionNameKey,
                                  kErrorDetailElementMatcherKey,
@@ -619,7 +618,7 @@ NSString *const kErrorDetailElementMatcherKey = @"Element Matcher";
                                                                   indent:GREYObjectFormatIndent
                                                                hideEmpty:YES
                                                                 keyOrder:keyOrder];
-          NSString *reason = [NSString stringWithFormat:@"UI element cannot be found.\n"
+          NSString *reason = [NSString stringWithFormat:@"Cannot find UI element.\n"
                                                         @"Exception with Action: %@\n",
                                                         reasonDetail];
 
@@ -639,8 +638,8 @@ NSString *const kErrorDetailElementMatcherKey = @"Element Matcher";
 
           errorDetails[kErrorDetailActionNameKey] = action.name;
           errorDetails[kErrorDetailElementMatcherKey] = _elementMatcher.description;
-          errorDetails[kErrorDetailRecoverySuggestionKey] = @"Create a more specific matcher "
-          @"to limit matched element";
+          errorDetails[kErrorDetailRecoverySuggestionKey] =
+              @"Create a more specific matcher to narrow matched element";
 
           NSArray *keyOrder = @[ kErrorDetailActionNameKey,
                                  kErrorDetailElementMatcherKey,
@@ -760,9 +759,9 @@ NSString *const kErrorDetailElementMatcherKey = @"Element Matcher";
                                                                 indent:GREYObjectFormatIndent
                                                              hideEmpty:YES
                                                               keyOrder:keyOrder];
-        NSString *reason = [NSString stringWithFormat:@"Thread executor errors."
-                                                      @"Exception with Assertion: %@\n",
-                                                      reasonDetail];
+        NSString *reason =
+            [NSString stringWithFormat:@"Timed out while waiting to perform assertion.\n"
+                                       @"Exception with Assertion: %@\n", reasonDetail];
 
         if ([assertionError isKindOfClass:[GREYError class]]) {
           [(GREYError *)assertionError setErrorInfo:errorDetails];
@@ -786,9 +785,8 @@ NSString *const kErrorDetailElementMatcherKey = @"Element Matcher";
 
           errorDetails[kErrorDetailAssertCriteriaKey] = assertion.name;
           errorDetails[kErrorDetailElementMatcherKey] = _elementMatcher.description;
-          errorDetails[kErrorDetailRecoverySuggestionKey] = @"Check if element exists in the UI, "
-                                                            @"modify assert criteria, "
-                                                            @"or adjust element matcher";
+          errorDetails[kErrorDetailRecoverySuggestionKey] =
+              @"Check if element exists in the UI, modify assert criteria, or adjust the matcher";
 
           NSArray *keyOrder = @[ kErrorDetailAssertCriteriaKey,
                                  kErrorDetailElementMatcherKey,
@@ -797,7 +795,7 @@ NSString *const kErrorDetailElementMatcherKey = @"Element Matcher";
                                                                   indent:GREYObjectFormatIndent
                                                                hideEmpty:YES
                                                                 keyOrder:keyOrder];
-          NSString *reason = [NSString stringWithFormat:@"UI element cannot be found."
+          NSString *reason = [NSString stringWithFormat:@"Cannot find UI Element.\n"
                                                         @"Exception with Assertion: %@\n",
                                                         reasonDetail];
 
@@ -816,8 +814,8 @@ NSString *const kErrorDetailElementMatcherKey = @"Element Matcher";
 
           errorDetails[kErrorDetailAssertCriteriaKey] = assertion.name;
           errorDetails[kErrorDetailElementMatcherKey] = _elementMatcher.description;
-          errorDetails[kErrorDetailRecoverySuggestionKey] = @"Create a more specific matcher to "
-                                                            @"limit matched element";
+          errorDetails[kErrorDetailRecoverySuggestionKey] =
+              @"Create a more specific matcher to narrow matched element";
 
           NSArray *keyOrder = @[ kErrorDetailAssertCriteriaKey,
                                  kErrorDetailElementMatcherKey,
@@ -926,7 +924,7 @@ NSString *const kErrorDetailElementMatcherKey = @"Element Matcher";
 - (NSString *)grey_searchActionDescription {
   if (_searchAction) {
     return [NSString stringWithFormat:@"Search action: %@. \nSearch action element matcher: %@.\n",
-            _searchAction, _searchActionElementMatcher];
+                                      _searchAction, _searchActionElementMatcher];
   } else {
     return @"";
   }

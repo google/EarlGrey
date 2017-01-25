@@ -90,7 +90,6 @@
   }
 
   NSMutableArray *logger = [[NSMutableArray alloc] init];
-
   [logger addObject:[NSString stringWithFormat:@"%@: %@\n", failureLabel, failureName]];
 
   if (![excluding containsObject:kErrorFilePathKey]) {
@@ -135,18 +134,16 @@
 
   // UI hierarchy and legend. Print windows from front to back, formatted for easier readability.
   if (![excluding containsObject:kErrorAppUIHierarchyKey]) {
-
-    [logger addObject:@"\n\nUI hierarchy (ordered by window level, front to back as rendered):\n"];
+    [logger addObject:@"UI hierarchy (ordered by window level, front to back as rendered):\n"];
 
     NSDictionary *legendLabels = @{ @"[Window 1]" : @"Frontmost Window",
-                                    @"[AX]" : @"[Accessibility]",
-                                    @"[UIE]" : @"User Interaction Enabled]" };
+                                    @"[AX]" : @"Accessibility",
+                                    @"[UIE]" : @"User Interaction Enabled" };
     NSString *legendDescription = [GREYObjectFormatter formatDictionary:legendLabels
                                                                  indent:GREYObjectFormatIndent
                                                               hideEmpty:NO
                                                                keyOrder:nil];
     [logger addObject:[NSString stringWithFormat:@"%@: %@\n", @"Legend", legendDescription]];
-
     // Append the hierarchy for all UI Windows in the app.
     [logger addObject:error.appUIHierarchy];
   }

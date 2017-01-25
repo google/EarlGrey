@@ -163,7 +163,7 @@ static BOOL gAppStateTrackerIdle;
   XCTAssertEqualObjects(kGREYUIThreadExecutorErrorDomain, error.domain);
   XCTAssertEqual(kGREYUIThreadExecutorTimeoutErrorCode, error.code);
 
-  NSString *errorSubstring = @"'background thread'";
+  NSString *errorSubstring = @"background thread";
   BOOL errorMatched = [error.description rangeOfString:errorSubstring].length > 0;
   XCTAssertTrue(errorMatched,
                 @"Reason '%@' does not contain substring '%@'",
@@ -402,8 +402,12 @@ static BOOL gAppStateTrackerIdle;
                                                                           block:^{}
                                                                           error:&error];
   XCTAssertTrue(timeout);
-  XCTAssertGreaterThan([error.localizedDescription rangeOfString:@"Test Idling Resource"].length,
-                       0ul);
+  NSString *errorSubstring = @"Test Idling Resource";
+  BOOL errorMatched = [error.description rangeOfString:@"Test Idling Resource"].length > 0;
+  XCTAssertTrue(errorMatched,
+                @"Reason '%@' does not contain substring '%@'",
+                error.description,
+                errorSubstring);
 }
 
 @end

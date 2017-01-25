@@ -145,8 +145,11 @@ NSInteger const GREYObjectFormatIndent = 2;
 #pragma mark - Private
 
 /**
- *  Serializes a object into JSON string.
+ *  Serializes a object into JSON-like string.
  *  The supported objects are: NSString, NSNumber, NSArray, NSDictionary.
+ *
+ *  @remark The serialized string is formatted as a JSON for presentation purposes but it doesn't
+ *          have the right escaping applied for special character as it hinders readability.
  *
  *  @param object        The object to serialize.
  *  @param prefixString  Whether a prefix string should be applied to each newline
@@ -156,7 +159,7 @@ NSInteger const GREYObjectFormatIndent = 2;
  *  @param indent        Number of spaces that will be applied to each element
  *                       of the serialized dictionary.
  *
- *  @return JSON-ified string of the provided @c object.
+ *  @return Serialized string of the provided @c object.
  */
 
 + (NSString *)grey_formatObject:(id)object
@@ -184,9 +187,9 @@ NSInteger const GREYObjectFormatIndent = 2;
       return [NSString stringWithFormat:@"%@%@\"%@\"",
                                         prefix,
                                         indentString,
-                                        [objectString grey_JSONEscape]];
+                                        objectString];
     } else {
-      return [NSString stringWithFormat:@"\"%@\"", [objectString grey_JSONEscape]];
+      return [NSString stringWithFormat:@"\"%@\"", objectString];
     }
   } else if ([object isKindOfClass:[NSNumber class]]) {
     return [object stringValue];
@@ -205,8 +208,7 @@ NSInteger const GREYObjectFormatIndent = 2;
                                         keyOrder:keyOrder];
   }
 
-  NSAssert(NO, @"output type");
-
+  NSAssert(NO, @"Unhandled output type: %@", [object class]);
   return nil;
 }
 

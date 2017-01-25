@@ -135,9 +135,7 @@
                                           indent:GREYObjectFormatIndent
                                         keyOrder:nil];
   } @catch (NSException *exception) {
-    NSString *reason = @"output type";
-    XCTAssertTrue([exception.reason isEqualToString:reason],
-                  @"Error getting unsupported error for dictionary formatting");
+    XCTAssertEqualObjects(exception.reason, @"Unhandled output type: NSObject");
   }
   XCTAssertNil(formatted,
                @"Error getting unsupported error for dictionary formatting");
@@ -194,9 +192,7 @@
                                             hideEmpty:NO
                                              keyOrder:nil];
   } @catch (NSException *exception) {
-    NSString *reason = @"output type";
-    XCTAssertTrue([exception.reason isEqualToString:reason],
-                  @"Error getting unsupported error for dictionary formatting");
+    XCTAssertEqualObjects(exception.reason, @"Unhandled output type: NSObject");
   }
   XCTAssertNil(formatted,
                @"Error getting unsupported error for dictionary formatting");

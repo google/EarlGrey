@@ -60,8 +60,8 @@ NSString *const kGREYConfigKeyScreenshotDirLocation = @"GREYConfigKeyScreenshotD
     [self setDefaultValue:searchPaths.firstObject forConfigKey:kGREYConfigKeyScreenshotDirLocation];
     [self setDefaultValue:@YES forConfigKey:kGREYConfigKeyAnalyticsEnabled];
     [self setDefaultValue:@YES forConfigKey:kGREYConfigKeyActionConstraintsEnabled];
-    [self setDefaultValue:@(30.0) forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
-    [self setDefaultValue:@(10.0) forConfigKey:kGREYConfigKeyCALayerMaxAnimationDuration];
+    [self setDefaultValue:@(30) forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
+    [self setDefaultValue:@(10) forConfigKey:kGREYConfigKeyCALayerMaxAnimationDuration];
     [self setDefaultValue:@YES forConfigKey:kGREYConfigKeySynchronizationEnabled];
     [self setDefaultValue:@(1.5) forConfigKey:kGREYConfigKeyNSTimerMaxTrackableInterval];
     [self setDefaultValue:@YES forConfigKey:kGREYConfigKeyCALayerModifyAnimations];

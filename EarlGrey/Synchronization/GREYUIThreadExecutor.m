@@ -220,25 +220,27 @@ typedef NS_ENUM(NSInteger, GREYExecutionState) {
     }
 
     // Spin the run loop until the all of the resources are idle or until @c seconds.
-    BOOL syncSuccess = [runLoopSpinner spinWithStopConditionBlock:^BOOL {
+    BOOL isAppIdle = [runLoopSpinner spinWithStopConditionBlock:^BOOL {
       return [self grey_areAllResourcesIdle];
     }];
 
-    if (!syncSuccess) {
+    if (!isAppIdle) {
       NSOrderedSet *busyResources = [self grey_busyResources];
-      NSString *errorDescription;
       if ([busyResources count] > 0) {
-        errorDescription = [self grey_errorDescriptionForBusyResources:busyResources];
+        NSString *description = @"Failed to execute block because idling resources below are busy.";
+        GREYPopulateErrorNotedOrLog(error,
+                                    kGREYUIThreadExecutorErrorDomain,
+                                    kGREYUIThreadExecutorTimeoutErrorCode,
+                                    description,
+                                    [self grey_errorDictionaryForBusyResources:busyResources]);
       } else {
-        errorDescription = @"Failed to synchronize, but all resources are idle after timeout.";
+        GREYPopulateErrorOrLog(error,
+                               kGREYUIThreadExecutorErrorDomain,
+                               kGREYUIThreadExecutorTimeoutErrorCode,
+                               @"Failed to idle but all resources are idle after timeout.");
       }
-
-      GREYPopulateErrorOrLog(error,
-                             kGREYUIThreadExecutorErrorDomain,
-                             kGREYUIThreadExecutorTimeoutErrorCode,
-                             errorDescription);
     }
-    return syncSuccess;
+    return isAppIdle;
   } else {
     // Spin the run loop with an always true stop condition. The spinner will only drain the run
     // loop for its minimum number of drains before executing the conditionMetHandler in the active
@@ -246,7 +248,6 @@ typedef NS_ENUM(NSInteger, GREYExecutionState) {
     [runLoopSpinner spinWithStopConditionBlock:^BOOL{
       return YES;
     }];
-
     return YES;
   }
 }
@@ -348,31 +349,13 @@ typedef NS_ENUM(NSInteger, GREYExecutionState) {
 /**
  *  @return An error description string for all of the resources in @c busyResources.
  */
-- (NSString *)grey_errorDescriptionForBusyResources:(NSOrderedSet *)busyResources {
-  NSMutableArray *busyResourcesNames = [[NSMutableArray alloc] init];
-  NSMutableArray *busyResourcesDescription = [[NSMutableArray alloc] init];
+- (NSDictionary *)grey_errorDictionaryForBusyResources:(NSOrderedSet *)busyResources {
+  NSMutableDictionary *busyResourcesNameToDesc = [[NSMutableDictionary alloc] init];
 
   for (id<GREYIdlingResource> resource in busyResources) {
-    NSString *formattedResourceName =
-        [NSString stringWithFormat:@"\'%@\'", [resource idlingResourceName]];
-    [busyResourcesNames addObject:formattedResourceName];
-
-    NSString *busyResourceDescription =
-        [NSString stringWithFormat:@"  %@ : %@",
-                                   [resource idlingResourceName],
-                                   [resource idlingResourceDescription]];
-    [busyResourcesDescription addObject:busyResourceDescription];
+    busyResourcesNameToDesc[resource.idlingResourceName] = [resource idlingResourceDescription];
   }
-
-  NSString *reason =
-      [NSString stringWithFormat:@"Failed to execute block because the following "
-                                 @"IdlingResources are busy: [%@]",
-                                 [busyResourcesNames componentsJoinedByString:@", "]];
-  NSString *details =
-      [NSString stringWithFormat:@"Busy resource description:\n%@",
-                                 [busyResourcesDescription componentsJoinedByString:@",\n"]];
-
-  return [NSString stringWithFormat:@"%@\n%@", reason, details];
+  return busyResourcesNameToDesc;
 }
 
 /**
