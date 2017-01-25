@@ -167,7 +167,7 @@ static NSString *const kFTRNetworkProxyErrorDomain =
 }
 
 /**
- * @remark This is a required overidden method.
+ *  @remark This is a required overidden method.
  *
  *  @return A canonical version of the specified @c request.
  */

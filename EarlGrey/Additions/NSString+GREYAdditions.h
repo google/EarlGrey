@@ -36,9 +36,4 @@
  */
 - (NSString *)grey_md5String;
 
-/**
- *  @return a JSON in the escaped format of the given input @c string.
- */
-- (NSString *)grey_JSONEscape;
-
 @end

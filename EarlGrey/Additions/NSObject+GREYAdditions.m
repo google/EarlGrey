@@ -311,7 +311,7 @@ static Class gWebAccessibilityWrapper;
       // As a safeguard, track the pending call for twice the amount incase the execution is
       // *really* delayed (due to cpu trashing) for more than the expected execution-time.
       // The custom selector will stop tracking as soon as it is triggered.
-      NSString *trackerName = [NSString stringWithFormat:@"performSelector %@ on %@",
+      NSString *trackerName = [NSString stringWithFormat:@"performSelector @selector(%@) on %@",
                                   NSStringFromSelector(aSelector), NSStringFromClass([self class])];
       // For negative delays use 0.
       NSTimeInterval nonNegativeDelay = MAX(0, 2 * delay);

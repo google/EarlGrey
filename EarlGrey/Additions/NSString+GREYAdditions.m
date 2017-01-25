@@ -41,38 +41,4 @@
   return [stringWithHexMd5Values copy];
 }
 
-- (NSString *)grey_JSONEscape {
-  NSMutableString *escaped = [NSMutableString stringWithString:self];
-  [escaped replaceOccurrencesOfString:@"\""
-                     withString:@"\\\""
-                              options:NSCaseInsensitiveSearch
-                                range:NSMakeRange(0, [escaped length])];
-  [escaped replaceOccurrencesOfString:@"/"
-                           withString:@"\\/"
-                              options:NSCaseInsensitiveSearch
-                                range:NSMakeRange(0, [escaped length])];
-  [escaped replaceOccurrencesOfString:@"\n"
-                           withString:@"\\n"
-                              options:NSCaseInsensitiveSearch
-                                range:NSMakeRange(0, [escaped length])];
-  [escaped replaceOccurrencesOfString:@"\b"
-                           withString:@"\\b"
-                              options:NSCaseInsensitiveSearch
-                                range:NSMakeRange(0, [escaped length])];
-  [escaped replaceOccurrencesOfString:@"\f"
-                           withString:@"\\f"
-                              options:NSCaseInsensitiveSearch
-                                range:NSMakeRange(0, [escaped length])];
-  [escaped replaceOccurrencesOfString:@"\r"
-                           withString:@"\\r"
-                              options:NSCaseInsensitiveSearch
-                                range:NSMakeRange(0, [escaped length])];
-  [escaped replaceOccurrencesOfString:@"\t"
-                           withString:@"\\t"
-                              options:NSCaseInsensitiveSearch
-                                range:NSMakeRange(0, [escaped length])];
-  return [NSString stringWithString:escaped];
-}
-
-
 @end
