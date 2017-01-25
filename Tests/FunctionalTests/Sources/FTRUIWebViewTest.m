@@ -244,7 +244,7 @@ static const NSTimeInterval kLocalHTMLPageLoadDelay = 10.0;
 
 // TODO: Temporarily disable the test due to that it fails to dectect the UIWebView is idling.
 // Link: https://github.com/google/EarlGrey/issues/365
-- (void)DISABLED_testLongPressLinkInUIWebView {
+- (void)testLongPressLinkInUIWebView {
   // Load local page first.
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"loadLocalFile")]
       performAction:grey_tap()];
