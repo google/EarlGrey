@@ -223,6 +223,9 @@
                 <a href="../Constants.html#/c:@kGREYNotNilException">kGREYNotNilException</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYPinchAngleDefault">kGREYPinchAngleDefault</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Constants.html#/c:@kGREYPinchFastDuration">kGREYPinchFastDuration</a>
               </li>
               <li class="nav-group-task">
@@ -498,13 +501,7 @@
                 <a href="../Functions.html#/c:@F@grey_pickerColumnSetToValue">grey_pickerColumnSetToValue</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Functions.html#/c:@F@grey_pinchFastInDirection">grey_pinchFastInDirection</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@grey_pinchFastInDirectionAndAngle">grey_pinchFastInDirectionAndAngle</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Functions.html#/c:@F@grey_pinchSlowInDirection">grey_pinchSlowInDirection</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@grey_pinchSlowInDirectionAndAngle">grey_pinchSlowInDirectionAndAngle</a>
@@ -1402,116 +1399,6 @@ of a scroll view with the scroll
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:objc(cs)GREYActions(cm)actionForPinchFastInDirection:"></a>
-                    <a name="//apple_ref/objc/Method/+actionForPinchFastInDirection:" class="dashAnchor"></a>
-                    <a class="token" href="#/c:objc(cs)GREYActions(cm)actionForPinchFastInDirection:">+actionForPinchFastInDirection:</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Returns an action that pinches whole view quickly in the specified @c direction.</p>
-
-<p>@deprecated A pinch action without the angle is deprecated in EarlGrey 1.6.0.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">actionForPinchFastInDirection</span><span class="p">:</span>
-    <span class="p">(</span><span class="n"><a href="../Enums/GREYPinchDirection.html">GREYPinchDirection</a></span><span class="p">)</span><span class="nv">pinchDirection</span><span class="p">;</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>pinchDirection</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The direction of the pinch action.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
-                        <h4>Return Value</h4>
-                        <p>A GREYAction that performs a fast pinch on the whole view in the specified @c</p>
-
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/c:objc(cs)GREYActions(cm)actionForPinchSlowInDirection:"></a>
-                    <a name="//apple_ref/objc/Method/+actionForPinchSlowInDirection:" class="dashAnchor"></a>
-                    <a class="token" href="#/c:objc(cs)GREYActions(cm)actionForPinchSlowInDirection:">+actionForPinchSlowInDirection:</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Returns an action that pinches whole view slowly in the specified @c direction.</p>
-
-<p>@deprecated A pinch action without the angle is deprecated in EarlGrey 1.6.0.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">actionForPinchSlowInDirection</span><span class="p">:</span>
-    <span class="p">(</span><span class="n"><a href="../Enums/GREYPinchDirection.html">GREYPinchDirection</a></span><span class="p">)</span><span class="nv">pinchDirection</span><span class="p">;</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>pinchDirection</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The direction of the pinch action.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
-                        <h4>Return Value</h4>
-                        <p>A GREYAction that performs a slow pinch on the whole view in the specified @c</p>
-
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
                     <a name="/c:objc(cs)GREYActions(cm)actionForPinchFastInDirection:withAngle:"></a>
                     <a name="//apple_ref/objc/Method/+actionForPinchFastInDirection:withAngle:" class="dashAnchor"></a>
                     <a class="token" href="#/c:objc(cs)GREYActions(cm)actionForPinchFastInDirection:withAngle:">+actionForPinchFastInDirection:withAngle:</a>
@@ -1560,7 +1447,12 @@ of a scroll view with the scroll
                               </td>
                               <td>
                                 <div>
-                                  <p>The angle of the pinch action in radians such as (75.0 * M_PI / 180.0).</p>
+                                  <pre class="highlight plaintext"><code>     The angle of the pinch action in radians.
+                   Use @c
+</code></pre>
+
+<p>for the default angle (currently set to
+                       30 degrees).</p>
 
                                 </div>
                               </td>
@@ -1627,7 +1519,12 @@ of a scroll view with the scroll
                               </td>
                               <td>
                                 <div>
-                                  <p>The angle of the pinch action in radians such as (75.0 * M_PI / 180.0).</p>
+                                  <pre class="highlight plaintext"><code>     The angle of the pinch action in radians.
+                   Use @c
+</code></pre>
+
+<p>for the default angle (currently set to
+                       30 degrees).</p>
 
                                 </div>
                               </td>
@@ -1876,14 +1773,18 @@ on a stepper.</p>
                               </td>
                               <td>
                                 <div>
-                                  <p>The text to be typed. Backspace is supported by using <q>@b
- in the string.
-              Return key is supported with</q>@n
+                                  <p>The text to be typed. For Objective-C, backspace is supported by using <q>@b
+ in the
+              string and</q>@u
+{8}<q>in Swift strings. Return key is supported with</q>@n
 <q>.
               For Example: 
 </q>
 Helpo@b@bloWorld
-&ldquo; will type HelloWorld.</p>
+<q>will type HelloWorld in Objective-C.
+</q>Helpo@u
+{8}@u
+{8}loWorld&quot; will type HelloWorld in Swift.</p>
 
                                 </div>
                               </td>
@@ -2278,7 +2179,7 @@ Helpo@b@bloWorld
         </section>
         <section id="footer">
           <p>Copyright 2016 Google Inc.</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>
