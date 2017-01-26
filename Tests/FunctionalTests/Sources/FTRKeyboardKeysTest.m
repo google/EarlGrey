@@ -182,7 +182,9 @@
   [self ftr_typeString:string andVerifyOutput:string];
 }
 
-- (void)testEmailTyping {
+// TODO: Re-enable this test once the issue with the touch injector is fixed. This test's failure
+// is seen on iPad 10.
+- (void)DISABLED_testEmailTyping {
   NSString *string = @"donec.metus+spam@google.com";
   [self ftr_typeString:string andVerifyOutput:string];
 }
@@ -455,6 +457,14 @@
       assertWithMatcher:grey_accessibilityLabel(@"")]
       performAction:[GREYActions actionForTypeText:@"Foo"]]
       assertWithMatcher:grey_accessibilityLabel(@"Foo")];
+}
+
+- (void)testTypingANonExistentKeyAndCheckError {
+  NSError *error;
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
+      performAction:grey_typeText(@"°°°°°") error:&error];
+  XCTAssertEqual(error.domain, kGREYInteractionErrorDomain);
+  XCTAssertEqual(error.code, kGREYInteractionElementNotFoundErrorCode);
 }
 
 // TODO(31886754):Enabled this for testing the Input Accessory Code
