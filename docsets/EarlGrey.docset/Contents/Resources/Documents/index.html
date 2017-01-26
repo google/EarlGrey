@@ -666,17 +666,15 @@ file which contains the implementation details. If they wish, users can choose
 to opt out by disabling the Analytics config setting in their test’s
 <code>- (void)setUp</code> method:</p>
 
-<p>In Objective-C:
-<code>objc
-// Disable analytics.
-[[GREYConfiguration sharedInstance] setValue:@(NO) forConfigKey:kGREYConfigKeyAnalyticsEnabled];
-</code></p>
+<p>In Objective-C:</p>
+<pre class="highlight objective_c"><code><span class="c1">// Disable analytics.
+</span><span class="p">[[</span><span class="n">GREYConfiguration</span> <span class="nf">sharedInstance</span><span class="p">]</span> <span class="nf">setValue</span><span class="p">:</span><span class="err">@</span><span class="p">(</span><span class="nb">NO</span><span class="p">)</span> <span class="nf">forConfigKey</span><span class="p">:</span><span class="n">kGREYConfigKeyAnalyticsEnabled</span><span class="p">];</span>
+</code></pre>
 
-<p>In Swift:
-<code>swift
-// Disable analytics.
-GREYConfiguration.sharedInstance().setValue(false, forConfigKey: kGREYConfigKeyAnalyticsEnabled)
-</code></p>
+<p>In Swift:</p>
+<pre class="highlight swift"><code><span class="c1">// Disable analytics.</span>
+<span class="kt">GREYConfiguration</span><span class="o">.</span><span class="nf">sharedInstance</span><span class="p">()</span><span class="o">.</span><span class="nf">setValue</span><span class="p">(</span><span class="kc">false</span><span class="p">,</span> <span class="nv">forConfigKey</span><span class="p">:</span> <span class="n">kGREYConfigKeyAnalyticsEnabled</span><span class="p">)</span>
+</code></pre>
 <a href='#for-contributors' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='for-contributors'>For Contributors</h2>
 
 <p>Please make sure you’ve followed the guidelines in
