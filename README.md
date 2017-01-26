@@ -63,12 +63,14 @@ to opt out by disabling the Analytics config setting in their test’s
 `- (void)setUp` method:
 
 In Objective-C:
+
 ```objc
 // Disable analytics.
 [[GREYConfiguration sharedInstance] setValue:@(NO) forConfigKey:kGREYConfigKeyAnalyticsEnabled];
 ```
 
 In Swift:
+
 ```swift
 // Disable analytics.
 GREYConfiguration.sharedInstance().setValue(false, forConfigKey: kGREYConfigKeyAnalyticsEnabled)
