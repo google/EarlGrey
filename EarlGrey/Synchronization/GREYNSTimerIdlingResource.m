@@ -57,7 +57,7 @@
 }
 
 - (NSString *)idlingResourceDescription {
-  return [NSString stringWithFormat:@"Waiting for timer %@ to fire(will fire after %g seconds)",
+  return [NSString stringWithFormat:@"Waiting for timer %@ to fire (next fire in %g seconds)",
              _trackedTimer, [_trackedTimer.fireDate timeIntervalSinceNow]];
 }
 
