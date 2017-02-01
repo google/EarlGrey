@@ -52,4 +52,22 @@
  */
 - (void)didInvokeEarlGrey;
 
+/**
+ *  A util method that sends an Analytics Event hit based on:
+ *  https://developers.google.com/analytics/devguides/collection/protocol/v1/devguide#event
+ *  @note This method exists to so that @c GREYAnalyticsDelegate objects can make use of it to send
+ *  one or more event hits in response to the delegate methods being called.
+ *
+ *  @param trackingID  The tracking ID for the created Analytics Event payload.
+ *  @param userID      The user ID for the created Analytics Event payload.
+ *  @param category    The category value to be used for the created Analytics Event payload.
+ *  @param subCategory The sub-category value to be used for the created Analytics Event payload.
+ *  @param valueOrNil  The value to be used for the created Analytics Event payload. The value
+ *                     can be @c nil to indicate that value is not to be added to the payload.
+ */
++ (void)sendEventHitWithTrackingID:(NSString *)trackingID
+                            userID:(NSString *)userID
+                          category:(NSString *)category
+                       subCategory:(NSString *)subCategory
+                             value:(NSNumber *)valueOrNil;
 @end

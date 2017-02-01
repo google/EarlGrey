@@ -95,20 +95,25 @@ static NSString *const kTrackingEndPoint = @"https://ssl.google-analytics.com";
 
 #pragma mark - GREYAnalyticsDelegate
 
-/**
- *  Creates an Analytics Event payload based on @c kPayloadFormat and URL encodes it.
- *  @see https://developers.google.com/analytics/devguides/collection/protocol/v1/devguide#event for
- *  more info on Analytics Events and its parameters.
- *
- *  @param category    The category value to be used for the created Analytics Event payload.
- *  @param subCategory The sub-category value to be used for the created Analytics Event payload.
- *  @param valueOrNil  The value to be used for the created Analytics Event payload. The value
- *                     can be @c nil to indicate that value is not to be added to the payload.
- */
 - (void)trackEventWithTrackingID:(NSString *)trackingID
+                          userID:(NSString *)userID
                         category:(NSString *)category
                      subCategory:(NSString *)subCategory
                            value:(NSNumber *)valueOrNil {
+  [GREYAnalytics sendEventHitWithTrackingID:trackingID
+                                     userID:userID
+                                   category:category
+                                subCategory:subCategory
+                                      value:valueOrNil];
+}
+
+#pragma mark - Private
+
++ (void)sendEventHitWithTrackingID:(NSString *)trackingID
+                            userID:(NSString *)userID
+                          category:(NSString *)category
+                       subCategory:(NSString *)subCategory
+                             value:(NSNumber *)valueOrNil {
   if ([category length] == 0 || [subCategory length] == 0) {
     NSMutableArray *missingFields = [[NSMutableArray alloc] init];
     if ([category length] == 0) {
@@ -122,10 +127,10 @@ static NSString *const kTrackingEndPoint = @"https://ssl.google-analytics.com";
     return;
   }
 
-  // Initialize the payload with version(=1), tracking ID, client ID, category and sub category.
+  // Initialize the payload with version(=1), tracking ID, user ID, category and sub category.
   NSMutableString *payload =
-      [[NSMutableString alloc] initWithFormat:@"collect?v=1&tid=%@&cid=%@&t=event&ec=%@&ea=%@",
-                                              trackingID, @(arc4random()), category, subCategory];
+      [[NSMutableString alloc] initWithFormat:@"collect?v=1&tid=%@&uid=%@&t=event&ec=%@&ea=%@",
+                                              trackingID, userID, category, subCategory];
   // Append event value if present.
   if (valueOrNil) {
     [payload appendFormat:@"&ev=%@", valueOrNil];
@@ -152,7 +157,6 @@ static NSString *const kTrackingEndPoint = @"https://ssl.google-analytics.com";
   }] resume];
 }
 
-#pragma mark - Private
 
 /**
  *  Usage data is sent via Google Analytics indicating completion of a test case, if a delegate is
@@ -177,7 +181,9 @@ static NSString *const kTrackingEndPoint = @"https://ssl.google-analytics.com";
                                       [testCase grey_testClassName],
                                       [testCase grey_testMethodName]] grey_md5String];
       NSString *subCategory = [NSString stringWithFormat:@"TestCase_%@", testCaseMD5];
+      NSString *userID = [NSString stringWithFormat:@"%@_%@", bundleIDMD5, testCaseMD5];
       [self.delegate trackEventWithTrackingID:kGREYAnalyticsTrackingID
+                                       userID:userID
                                      category:bundleIDMD5
                                   subCategory:subCategory
                                         value:@([[XCTestSuite defaultTestSuite] testCaseCount])];

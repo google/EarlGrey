@@ -105,6 +105,7 @@ static NSInteger gTotalHitsExpected;
 #pragma mark - Private
 
 - (void)trackEventWithTrackingID:(NSString *)trackingID
+                          userID:(NSString *)userID
                         category:(NSString *)category
                      subCategory:(NSString *)subCategory
                            value:(NSNumber *)valueOrNil {
@@ -112,6 +113,7 @@ static NSInteger gTotalHitsExpected;
                                     @"main thread.");
   gTotalHitsReceived += 1;
   [gOriginalAnalyticsDelegate trackEventWithTrackingID:trackingID
+                                                userID:userID
                                               category:category
                                            subCategory:subCategory
                                                  value:valueOrNil];
