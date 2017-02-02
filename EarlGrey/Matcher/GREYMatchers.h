@@ -19,6 +19,8 @@
 #import <EarlGrey/GREYDefines.h>
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol GREYMatcher;
 
 /**
@@ -537,3 +539,5 @@ GREY_EXPORT id<GREYMatcher> grey_greaterThan(id value);
 GREY_EXPORT id<GREYMatcher> grey_scrolledToContentEdge(GREYContentEdge edge);
 
 #endif // GREY_DISABLE_SHORTHAND
+
+NS_ASSUME_NONNULL_END

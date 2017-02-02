@@ -94,9 +94,12 @@ class FTRSwiftTests: XCTestCase {
 
   func testTyping() {
     self.openTestView("Typing Views")
-    EarlGrey.select(elementWithMatcher: grey_accessibilityID("TypingTextField"))
-      .perform(grey_typeText("Sample Swift Test"))
-      .assert(grey_text("Sample Swift Test"))
+    let matcher = grey_accessibilityID("TypingTextField")
+    let action = grey_typeText("Sample Swift Test")
+    let assertionMatcher = grey_text("Sample Swift Test")
+    EarlGrey.select(elementWithMatcher: matcher)
+      .perform(action)
+      .assert(assertionMatcher)
   }
 
   func testTypingWithError() {
