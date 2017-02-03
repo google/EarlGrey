@@ -187,6 +187,9 @@
                 <a href="../Constants.html#/c:@kGREYConfigKeyURLBlacklistRegex">kGREYConfigKeyURLBlacklistRegex</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYConstraintFailedException">kGREYConstraintFailedException</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Constants.html#/c:@kGREYDidPerformActionNotification">kGREYDidPerformActionNotification</a>
               </li>
               <li class="nav-group-task">
@@ -633,7 +636,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="n">matcherForKeyWindow</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="n">matcherForKeyWindow</span><span class="p">;</span></code></pre>
 
                         </div>
                       </div>
@@ -665,7 +668,8 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForAccessibilityLabel</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">label</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForAccessibilityLabel</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">label</span><span class="p">;</span></code></pre>
 
                         </div>
                       </div>
@@ -717,7 +721,8 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForAccessibilityID</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">accessibilityID</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForAccessibilityID</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">accessibilityID</span><span class="p">;</span></code></pre>
 
                         </div>
                       </div>
@@ -769,7 +774,8 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForAccessibilityValue</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">value</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForAccessibilityValue</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">value</span><span class="p">;</span></code></pre>
 
                         </div>
                       </div>
@@ -821,7 +827,8 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForAccessibilityTraits</span><span class="p">:(</span><span class="n">UIAccessibilityTraits</span><span class="p">)</span><span class="nv">traits</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForAccessibilityTraits</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">UIAccessibilityTraits</span><span class="p">)</span><span class="nv">traits</span><span class="p">;</span></code></pre>
 
                         </div>
                       </div>
@@ -873,7 +880,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForAccessibilityHint</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">hint</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForAccessibilityHint</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">hint</span><span class="p">;</span></code></pre>
 
                         </div>
                       </div>
@@ -925,7 +932,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="n">matcherForAccessibilityElementIsFocused</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="n">matcherForAccessibilityElementIsFocused</span><span class="p">;</span></code></pre>
 
                         </div>
                       </div>
@@ -958,7 +965,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForText</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">text</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForText</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">text</span><span class="p">;</span></code></pre>
 
                         </div>
                       </div>
@@ -1010,7 +1017,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="n">matcherForFirstResponder</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="n">matcherForFirstResponder</span><span class="p">;</span></code></pre>
 
                         </div>
                       </div>
@@ -1042,7 +1049,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="n">matcherForSystemAlertViewShown</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="n">matcherForSystemAlertViewShown</span><span class="p">;</span></code></pre>
 
                         </div>
                       </div>
@@ -1075,7 +1082,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForMinimumVisiblePercent</span><span class="p">:(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">percent</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForMinimumVisiblePercent</span><span class="p">:(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">percent</span><span class="p">;</span></code></pre>
 
                         </div>
                       </div>
@@ -1132,7 +1139,7 @@ are [0,1] inclusive.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="n">matcherForSufficientlyVisible</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="n">matcherForSufficientlyVisible</span><span class="p">;</span></code></pre>
 
                         </div>
                       </div>
@@ -1165,7 +1172,7 @@ are [0,1] inclusive.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="n">matcherForNotVisible</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="n">matcherForNotVisible</span><span class="p">;</span></code></pre>
 
                         </div>
                       </div>
@@ -1203,7 +1210,7 @@ are [0,1] inclusive.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="n">matcherForInteractable</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="n">matcherForInteractable</span><span class="p">;</span></code></pre>
 
                         </div>
                       </div>
@@ -1235,7 +1242,7 @@ are [0,1] inclusive.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="n">matcherForAccessibilityElement</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="n">matcherForAccessibilityElement</span><span class="p">;</span></code></pre>
 
                         </div>
                       </div>
@@ -1268,7 +1275,7 @@ are [0,1] inclusive.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForKindOfClass</span><span class="p">:(</span><span class="n">Class</span><span class="p">)</span><span class="nv">klass</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForKindOfClass</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">Class</span><span class="p">)</span><span class="nv">klass</span><span class="p">;</span></code></pre>
 
                         </div>
                       </div>
@@ -1326,7 +1333,8 @@ or any of
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForProgress</span><span class="p">:(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nv">comparisonMatcher</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForProgress</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nv">comparisonMatcher</span><span class="p">;</span></code></pre>
 
                         </div>
                       </div>
@@ -1378,7 +1386,7 @@ or any of
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForRespondsToSelector</span><span class="p">:(</span><span class="n">SEL</span><span class="p">)</span><span class="nv">sel</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForRespondsToSelector</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">SEL</span><span class="p">)</span><span class="nv">sel</span><span class="p">;</span></code></pre>
 
                         </div>
                       </div>
@@ -1430,7 +1438,8 @@ or any of
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForConformsToProtocol</span><span class="p">:(</span><span class="n">Protocol</span> <span class="o">*</span><span class="p">)</span><span class="nv">protocol</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForConformsToProtocol</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">nonnull</span> <span class="n">Protocol</span> <span class="o">*</span><span class="p">)</span><span class="nv">protocol</span><span class="p">;</span></code></pre>
 
                         </div>
                       </div>
@@ -1483,7 +1492,8 @@ or any of
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForAncestor</span><span class="p">:(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nv">ancestorMatcher</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForAncestor</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nv">ancestorMatcher</span><span class="p">;</span></code></pre>
 
                         </div>
                       </div>
@@ -1535,7 +1545,8 @@ or any of
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForDescendant</span><span class="p">:(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nv">descendantMatcher</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForDescendant</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nv">descendantMatcher</span><span class="p">;</span></code></pre>
 
                         </div>
                       </div>
@@ -1588,7 +1599,7 @@ or any of
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForButtonTitle</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">title</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForButtonTitle</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">title</span><span class="p">;</span></code></pre>
 
                         </div>
                       </div>
@@ -1640,7 +1651,7 @@ or any of
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForScrollViewContentOffset</span><span class="p">:(</span><span class="n">CGPoint</span><span class="p">)</span><span class="nv">offset</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForScrollViewContentOffset</span><span class="p">:(</span><span class="n">CGPoint</span><span class="p">)</span><span class="nv">offset</span><span class="p">;</span></code></pre>
 
                         </div>
                       </div>
@@ -1693,7 +1704,7 @@ or any of
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForStepperValue</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">value</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForStepperValue</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">value</span><span class="p">;</span></code></pre>
 
                         </div>
                       </div>
@@ -1745,7 +1756,8 @@ or any of
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForSliderValueMatcher</span><span class="p">:(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nv">valueMatcher</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForSliderValueMatcher</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nv">valueMatcher</span><span class="p">;</span></code></pre>
 
                         </div>
                       </div>
@@ -1812,8 +1824,8 @@ In case if an unimplemented matcher
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForPickerColumn</span><span class="p">:(</span><span class="n">NSInteger</span><span class="p">)</span><span class="nv">column</span>
-                               <span class="nf">setToValue</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">value</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForPickerColumn</span><span class="p">:(</span><span class="n">NSInteger</span><span class="p">)</span><span class="nv">column</span>
+                                       <span class="nf">setToValue</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">value</span><span class="p">;</span></code></pre>
 
                         </div>
                       </div>
@@ -1878,7 +1890,7 @@ In case if an unimplemented matcher
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForDatePickerValue</span><span class="p">:(</span><span class="n">NSDate</span> <span class="o">*</span><span class="p">)</span><span class="nv">value</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForDatePickerValue</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSDate</span> <span class="o">*</span><span class="p">)</span><span class="nv">value</span><span class="p">;</span></code></pre>
 
                         </div>
                       </div>
@@ -1930,7 +1942,7 @@ In case if an unimplemented matcher
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="n">matcherForEnabledElement</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="n">matcherForEnabledElement</span><span class="p">;</span></code></pre>
 
                         </div>
                       </div>
@@ -1962,7 +1974,7 @@ In case if an unimplemented matcher
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="n">matcherForSelectedElement</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="n">matcherForSelectedElement</span><span class="p">;</span></code></pre>
 
                         </div>
                       </div>
@@ -1994,7 +2006,7 @@ In case if an unimplemented matcher
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="n">matcherForUserInteractionEnabled</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="n">matcherForUserInteractionEnabled</span><span class="p">;</span></code></pre>
 
                         </div>
                       </div>
@@ -2035,9 +2047,9 @@ In case if an unimplemented matcher
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForConstraints</span><span class="p">:(</span><span class="n">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="nv">constraints</span>
-              <span class="nf">toReferenceElementMatching</span><span class="p">:</span>
-                  <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nv">referenceElementMatcher</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForConstraints</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="nv">constraints</span>
+                      <span class="nf">toReferenceElementMatching</span><span class="p">:</span>
+                          <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nv">referenceElementMatcher</span><span class="p">;</span></code></pre>
 
                         </div>
                       </div>
@@ -2102,7 +2114,7 @@ In case if an unimplemented matcher
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="n">matcherForNil</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="n">matcherForNil</span><span class="p">;</span></code></pre>
 
                         </div>
                       </div>
@@ -2135,7 +2147,7 @@ or not found.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="n">matcherForNotNil</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="n">matcherForNotNil</span><span class="p">;</span></code></pre>
 
                         </div>
                       </div>
@@ -2167,7 +2179,7 @@ or not found.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForSwitchWithOnState</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">on</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForSwitchWithOnState</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">on</span><span class="p">;</span></code></pre>
 
                         </div>
                       </div>
@@ -2223,7 +2235,7 @@ is NO.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForCloseTo</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">value</span> <span class="nf">delta</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">delta</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForCloseTo</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">value</span> <span class="nf">delta</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">delta</span><span class="p">;</span></code></pre>
 
                         </div>
                       </div>
@@ -2288,7 +2300,7 @@ is NO.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="n">matcherForAnything</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="n">matcherForAnything</span><span class="p">;</span></code></pre>
 
                         </div>
                       </div>
@@ -2322,7 +2334,7 @@ is NO.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForEqualTo</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="nv">value</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForEqualTo</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">id</span><span class="p">)</span><span class="nv">value</span><span class="p">;</span></code></pre>
 
                         </div>
                       </div>
@@ -2376,7 +2388,7 @@ is NO.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForLessThan</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="nv">value</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForLessThan</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">id</span><span class="p">)</span><span class="nv">value</span><span class="p">;</span></code></pre>
 
                         </div>
                       </div>
@@ -2431,7 +2443,7 @@ Please
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForGreaterThan</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="nv">value</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForGreaterThan</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">id</span><span class="p">)</span><span class="nv">value</span><span class="p">;</span></code></pre>
 
                         </div>
                       </div>
@@ -2485,7 +2497,8 @@ Please
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForScrolledToContentEdge</span><span class="p">:(</span><span class="n"><a href="../Enums/GREYContentEdge.html">GREYContentEdge</a></span><span class="p">)</span><span class="nv">edge</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nf">matcherForScrolledToContentEdge</span><span class="p">:</span>
+    <span class="p">(</span><span class="n"><a href="../Enums/GREYContentEdge.html">GREYContentEdge</a></span><span class="p">)</span><span class="nv">edge</span><span class="p">;</span></code></pre>
 
                         </div>
                       </div>
