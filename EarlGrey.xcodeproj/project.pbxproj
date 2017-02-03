@@ -213,6 +213,8 @@
 		FD6D0BA91C6D494F0001EA75 /* GREYStringDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = FD6D0BA11C6D494F0001EA75 /* GREYStringDescription.m */; };
 		FD720C111CFF7E93007A0942 /* GREYRunLoopSpinner.m in Sources */ = {isa = PBXBuildFile; fileRef = FD720C0F1CFF7E93007A0942 /* GREYRunLoopSpinner.m */; };
 		FD94FDB81D0F68180021F107 /* GREYWeakObjectContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = FD94FDB51D0F68180021F107 /* GREYWeakObjectContainer.m */; };
+		FDA218ED1E450A9900693978 /* GREYErrorConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = FDA218EB1E450A9900693978 /* GREYErrorConstants.h */; };
+		FDA218EE1E450A9900693978 /* GREYErrorConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = FDA218EC1E450A9900693978 /* GREYErrorConstants.m */; };
 		FDB26BA31DA467E900E7B5C0 /* GREYTestCaseInvocation.h in Headers */ = {isa = PBXBuildFile; fileRef = FDB26BA11DA467E900E7B5C0 /* GREYTestCaseInvocation.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		FDB26BA41DA467E900E7B5C0 /* GREYTestCaseInvocation.m in Sources */ = {isa = PBXBuildFile; fileRef = FDB26BA21DA467E900E7B5C0 /* GREYTestCaseInvocation.m */; };
 		FDCB297A1E2465670001557E /* NSObject+GREYAdditions+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = FDCB29761E2465670001557E /* NSObject+GREYAdditions+Internal.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -443,6 +445,8 @@
 		FD94FDB31D0F68180021F107 /* GREYAnalyticsDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYAnalyticsDelegate.h; path = EarlGrey/Common/GREYAnalyticsDelegate.h; sourceTree = SOURCE_ROOT; };
 		FD94FDB41D0F68180021F107 /* GREYWeakObjectContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYWeakObjectContainer.h; path = EarlGrey/Common/GREYWeakObjectContainer.h; sourceTree = SOURCE_ROOT; };
 		FD94FDB51D0F68180021F107 /* GREYWeakObjectContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYWeakObjectContainer.m; path = EarlGrey/Common/GREYWeakObjectContainer.m; sourceTree = SOURCE_ROOT; };
+		FDA218EB1E450A9900693978 /* GREYErrorConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYErrorConstants.h; sourceTree = "<group>"; };
+		FDA218EC1E450A9900693978 /* GREYErrorConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYErrorConstants.m; sourceTree = "<group>"; };
 		FDB26BA11DA467E900E7B5C0 /* GREYTestCaseInvocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYTestCaseInvocation.h; sourceTree = "<group>"; };
 		FDB26BA21DA467E900E7B5C0 /* GREYTestCaseInvocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYTestCaseInvocation.m; sourceTree = "<group>"; };
 		FDCB29761E2465670001557E /* NSObject+GREYAdditions+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+GREYAdditions+Internal.h"; sourceTree = "<group>"; };
@@ -641,6 +645,8 @@
 		FD1001541C5B46C200B2DB0A /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				FDA218EB1E450A9900693978 /* GREYErrorConstants.h */,
+				FDA218EC1E450A9900693978 /* GREYErrorConstants.m */,
 				7CFDF8E41DBBD5FC00CAADB3 /* GREYLogger.h */,
 				7CFDF8E51DBBD5FC00CAADB3 /* GREYLogger.m */,
 				FD1948221DA231ED00B9BA2D /* GREYStopwatch.h */,
@@ -954,6 +960,7 @@
 				597E02CE1D55AC320052A8D1 /* GREYAnalytics.h in Headers */,
 				597E02CF1D55AC380052A8D1 /* GREYAnalyticsDelegate.h in Headers */,
 				7CCBEBA61DCD2F0500CC01B8 /* GREYError.h in Headers */,
+				FDA218ED1E450A9900693978 /* GREYErrorConstants.h in Headers */,
 				7C32F6FD1E258E7200B00610 /* GREYError+Internal.h in Headers */,
 				597E02D01D55AC460052A8D1 /* GREYExposed.h in Headers */,
 				7CFDF8E81DBBD5FC00CAADB3 /* GREYFailureFormatter.h in Headers */,
@@ -1139,6 +1146,7 @@
 				FD1001C61C5B46C200B2DB0A /* GREYSwipeAction.m in Sources */,
 				61E4E0BC1D7559DA007F9EE6 /* GREYTouchInjector.m in Sources */,
 				FD1001E21C5B46C200B2DB0A /* NSURL+GREYAdditions.m in Sources */,
+				FDA218EE1E450A9900693978 /* GREYErrorConstants.m in Sources */,
 				FD10023F1C5B46C200B2DB0A /* GREYUIWindowProvider.m in Sources */,
 				FD1001C41C5B46C200B2DB0A /* GREYSlideAction.m in Sources */,
 				FD1001BA1C5B46C200B2DB0A /* GREYPickerAction.m in Sources */,
