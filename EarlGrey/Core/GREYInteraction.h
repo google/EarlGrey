@@ -36,6 +36,10 @@ typedef NS_ENUM(NSInteger, GREYInteractionErrorCode) {
    */
   kGREYInteractionElementNotFoundErrorCode = 0,
   /**
+   *  Constraints failed for performing an interaction.
+   */
+  kGREYInteractionConstraintsFailedErrorCode,
+  /**
    *  Action execution has failed.
    */
   kGREYInteractionActionFailedErrorCode,

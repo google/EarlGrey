@@ -36,7 +36,8 @@
               error:&error];
 
   GREYAssertTrue(error.domain == kGREYInteractionErrorDomain, @"Error domain should match");
-  GREYAssertTrue(error.code == kGREYInteractionActionFailedErrorCode, @"Error code should match");
+  GREYAssertTrue(error.code == kGREYInteractionConstraintsFailedErrorCode,
+                 @"Error code should match");
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"InteractionDisabledPickerId")]
       assertWithMatcher:grey_pickerColumnSetToValue(0, @"Red")];

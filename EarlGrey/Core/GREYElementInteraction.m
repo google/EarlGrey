@@ -26,6 +26,7 @@
 #import "Common/GREYConfiguration.h"
 #import "Common/GREYError.h"
 #import "Common/GREYError+Internal.h"
+#import "Common/GREYErrorConstants.h"
 #import "Common/GREYDefines.h"
 #import "Common/GREYLogger.h"
 #import "Common/GREYObjectFormatter.h"
@@ -40,30 +41,6 @@
 #import "Provider/GREYElementProvider.h"
 #import "Provider/GREYUIWindowProvider.h"
 #import "Synchronization/GREYUIThreadExecutor.h"
-
-/**
- *  Extern variable specifying the error domain for GREYElementInteraction.
- */
-NSString *const kGREYInteractionErrorDomain = @"com.google.earlgrey.ElementInteractionErrorDomain";
-NSString *const kGREYWillPerformActionNotification = @"GREYWillPerformActionNotification";
-NSString *const kGREYDidPerformActionNotification = @"GREYDidPerformActionNotification";
-NSString *const kGREYWillPerformAssertionNotification = @"GREYWillPerformAssertionNotification";
-NSString *const kGREYDidPerformAssertionNotification = @"GREYDidPerformAssertionNotification";
-
-/**
- *  Extern variables specifying the user info keys for any notifications.
- */
-NSString *const kGREYActionUserInfoKey = @"kGREYActionUserInfoKey";
-NSString *const kGREYActionElementUserInfoKey = @"kGREYActionElementUserInfoKey";
-NSString *const kGREYActionErrorUserInfoKey = @"kGREYActionErrorUserInfoKey";
-NSString *const kGREYAssertionUserInfoKey = @"kGREYAssertionUserInfoKey";
-NSString *const kGREYAssertionElementUserInfoKey = @"kGREYAssertionElementUserInfoKey";
-NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKey";
-
-/**
- *  Internal variables specifying the detail keys for error details.
- */
-NSString *const kErrorDetailElementMatcherKey = @"Element Matcher";
 
 @interface GREYElementInteraction() <GREYInteractionDataSource>
 @end
@@ -663,6 +640,15 @@ NSString *const kErrorDetailElementMatcherKey = @"Element Matcher";
                                       [GREYError grey_nestedDescriptionForError:actionError]);
           return NO;
         }
+        case kGREYInteractionConstraintsFailedErrorCode: {
+          NSString *reason = [NSString stringWithFormat:@"Cannot perform action due to "
+                                                        @"a constraint failure\n"
+                                                        @"Exception with Action: %@\n",
+                                                        [(GREYError *)actionError errorInfo]];
+          NSString *nestedError = [GREYError grey_nestedDescriptionForError:actionError];
+          I_GREYConstraintsFailedWithDetails(reason, nestedError);
+          return NO;
+        }
       }
     }
 
@@ -682,7 +668,6 @@ NSString *const kErrorDetailElementMatcherKey = @"Element Matcher";
                                                   @"Please refer to the error trace below.\n"
                                                   @"Exception with Action: %@\n",
                                                   reasonDetail];
-
     I_GREYActionFail(reason,
                      @"Error Trace: %@",
                      [GREYError grey_nestedDescriptionForError:actionError]);

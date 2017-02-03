@@ -22,16 +22,12 @@
 #import "Assertion/GREYAssertionDefines.h"
 #import "Common/GREYDefines.h"
 #import "Common/GREYError.h"
+#import "Common/GREYErrorConstants.h"
 #import "Common/GREYObjectFormatter.h"
 #import "Core/GREYInteraction.h"
 #import "Matcher/GREYAllOf.h"
 #import "Matcher/GREYMatchers.h"
 #import "Matcher/GREYNot.h"
-
-NSString *const kErrorDetailStepperKey = @"Stepper";
-NSString *const kErrorDetailUserValueKey = @"UserValue";
-NSString *const kErrorDetailStepMaxValueKey = @"StepMaxValue";
-NSString *const kErrorDetailStepMinValueKey = @"StepMinValue";
 
 @implementation GREYChangeStepperAction {
   /**
