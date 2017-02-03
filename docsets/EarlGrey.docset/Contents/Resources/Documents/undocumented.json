@@ -1,187 +1,180 @@
 {
   "warnings": [
     {
-      "file": "/Volumes/untitled/github/jazzy_update/EarlGrey/EarlGrey/GREYAssertionDefines.h",
-      "line": 29,
-      "symbol": "greyFailureHandler",
-      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Volumes/untitled/github/jazzy_update/EarlGrey/EarlGrey/GREYConstants.h",
-      "line": 84,
+      "file": "/private/var/folders/l_/6205k6514q37hg45tv596frh009y5m/T/tmp.DhZ3xHjf/source/EarlGrey/GREYConstants.h",
+      "line": 90,
       "symbol": "GREYDirection.kGREYDirectionLeft",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
-      "file": "/Volumes/untitled/github/jazzy_update/EarlGrey/EarlGrey/GREYConstants.h",
-      "line": 85,
+      "file": "/private/var/folders/l_/6205k6514q37hg45tv596frh009y5m/T/tmp.DhZ3xHjf/source/EarlGrey/GREYConstants.h",
+      "line": 91,
       "symbol": "GREYDirection.kGREYDirectionRight",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
-      "file": "/Volumes/untitled/github/jazzy_update/EarlGrey/EarlGrey/GREYConstants.h",
-      "line": 86,
+      "file": "/private/var/folders/l_/6205k6514q37hg45tv596frh009y5m/T/tmp.DhZ3xHjf/source/EarlGrey/GREYConstants.h",
+      "line": 92,
       "symbol": "GREYDirection.kGREYDirectionUp",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
-      "file": "/Volumes/untitled/github/jazzy_update/EarlGrey/EarlGrey/GREYConstants.h",
-      "line": 87,
+      "file": "/private/var/folders/l_/6205k6514q37hg45tv596frh009y5m/T/tmp.DhZ3xHjf/source/EarlGrey/GREYConstants.h",
+      "line": 93,
       "symbol": "GREYDirection.kGREYDirectionDown",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
-      "file": "/Volumes/untitled/github/jazzy_update/EarlGrey/EarlGrey/GREYConstants.h",
-      "line": 97,
+      "file": "/private/var/folders/l_/6205k6514q37hg45tv596frh009y5m/T/tmp.DhZ3xHjf/source/EarlGrey/GREYConstants.h",
+      "line": 103,
       "symbol": "GREYPinchDirection.kGREYPinchDirectionOutward",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
-      "file": "/Volumes/untitled/github/jazzy_update/EarlGrey/EarlGrey/GREYConstants.h",
-      "line": 98,
+      "file": "/private/var/folders/l_/6205k6514q37hg45tv596frh009y5m/T/tmp.DhZ3xHjf/source/EarlGrey/GREYConstants.h",
+      "line": 104,
       "symbol": "GREYPinchDirection.kGREYPinchDirectionInward",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
-      "file": "/Volumes/untitled/github/jazzy_update/EarlGrey/EarlGrey/GREYConstants.h",
-      "line": 105,
+      "file": "/private/var/folders/l_/6205k6514q37hg45tv596frh009y5m/T/tmp.DhZ3xHjf/source/EarlGrey/GREYConstants.h",
+      "line": 111,
       "symbol": "GREYContentEdge.kGREYContentEdgeLeft",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
-      "file": "/Volumes/untitled/github/jazzy_update/EarlGrey/EarlGrey/GREYConstants.h",
-      "line": 106,
+      "file": "/private/var/folders/l_/6205k6514q37hg45tv596frh009y5m/T/tmp.DhZ3xHjf/source/EarlGrey/GREYConstants.h",
+      "line": 112,
       "symbol": "GREYContentEdge.kGREYContentEdgeRight",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
-      "file": "/Volumes/untitled/github/jazzy_update/EarlGrey/EarlGrey/GREYConstants.h",
-      "line": 107,
+      "file": "/private/var/folders/l_/6205k6514q37hg45tv596frh009y5m/T/tmp.DhZ3xHjf/source/EarlGrey/GREYConstants.h",
+      "line": 113,
       "symbol": "GREYContentEdge.kGREYContentEdgeTop",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
-      "file": "/Volumes/untitled/github/jazzy_update/EarlGrey/EarlGrey/GREYConstants.h",
-      "line": 108,
+      "file": "/private/var/folders/l_/6205k6514q37hg45tv596frh009y5m/T/tmp.DhZ3xHjf/source/EarlGrey/GREYConstants.h",
+      "line": 114,
       "symbol": "GREYContentEdge.kGREYContentEdgeBottom",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
-      "file": "/Volumes/untitled/github/jazzy_update/EarlGrey/EarlGrey/GREYConstants.h",
-      "line": 115,
+      "file": "/private/var/folders/l_/6205k6514q37hg45tv596frh009y5m/T/tmp.DhZ3xHjf/source/EarlGrey/GREYConstants.h",
+      "line": 121,
       "symbol": "GREYLayoutDirection.kGREYLayoutDirectionLeft",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
-      "file": "/Volumes/untitled/github/jazzy_update/EarlGrey/EarlGrey/GREYConstants.h",
-      "line": 116,
+      "file": "/private/var/folders/l_/6205k6514q37hg45tv596frh009y5m/T/tmp.DhZ3xHjf/source/EarlGrey/GREYConstants.h",
+      "line": 122,
       "symbol": "GREYLayoutDirection.kGREYLayoutDirectionRight",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
-      "file": "/Volumes/untitled/github/jazzy_update/EarlGrey/EarlGrey/GREYConstants.h",
-      "line": 117,
+      "file": "/private/var/folders/l_/6205k6514q37hg45tv596frh009y5m/T/tmp.DhZ3xHjf/source/EarlGrey/GREYConstants.h",
+      "line": 123,
       "symbol": "GREYLayoutDirection.kGREYLayoutDirectionUp",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
-      "file": "/Volumes/untitled/github/jazzy_update/EarlGrey/EarlGrey/GREYConstants.h",
-      "line": 118,
+      "file": "/private/var/folders/l_/6205k6514q37hg45tv596frh009y5m/T/tmp.DhZ3xHjf/source/EarlGrey/GREYConstants.h",
+      "line": 124,
       "symbol": "GREYLayoutDirection.kGREYLayoutDirectionDown",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
-      "file": "/Volumes/untitled/github/jazzy_update/EarlGrey/EarlGrey/GREYConstants.h",
-      "line": 125,
+      "file": "/private/var/folders/l_/6205k6514q37hg45tv596frh009y5m/T/tmp.DhZ3xHjf/source/EarlGrey/GREYConstants.h",
+      "line": 131,
       "symbol": "GREYLayoutAttribute.kGREYLayoutAttributeLeft",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
-      "file": "/Volumes/untitled/github/jazzy_update/EarlGrey/EarlGrey/GREYConstants.h",
-      "line": 126,
+      "file": "/private/var/folders/l_/6205k6514q37hg45tv596frh009y5m/T/tmp.DhZ3xHjf/source/EarlGrey/GREYConstants.h",
+      "line": 132,
       "symbol": "GREYLayoutAttribute.kGREYLayoutAttributeRight",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
-      "file": "/Volumes/untitled/github/jazzy_update/EarlGrey/EarlGrey/GREYConstants.h",
-      "line": 127,
+      "file": "/private/var/folders/l_/6205k6514q37hg45tv596frh009y5m/T/tmp.DhZ3xHjf/source/EarlGrey/GREYConstants.h",
+      "line": 133,
       "symbol": "GREYLayoutAttribute.kGREYLayoutAttributeTop",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
-      "file": "/Volumes/untitled/github/jazzy_update/EarlGrey/EarlGrey/GREYConstants.h",
-      "line": 128,
+      "file": "/private/var/folders/l_/6205k6514q37hg45tv596frh009y5m/T/tmp.DhZ3xHjf/source/EarlGrey/GREYConstants.h",
+      "line": 134,
       "symbol": "GREYLayoutAttribute.kGREYLayoutAttributeBottom",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
-      "file": "/Volumes/untitled/github/jazzy_update/EarlGrey/EarlGrey/GREYConstants.h",
-      "line": 135,
+      "file": "/private/var/folders/l_/6205k6514q37hg45tv596frh009y5m/T/tmp.DhZ3xHjf/source/EarlGrey/GREYConstants.h",
+      "line": 141,
       "symbol": "GREYLayoutRelation.kGREYLayoutRelationLessThanOrEqual",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
-      "file": "/Volumes/untitled/github/jazzy_update/EarlGrey/EarlGrey/GREYConstants.h",
-      "line": 136,
+      "file": "/private/var/folders/l_/6205k6514q37hg45tv596frh009y5m/T/tmp.DhZ3xHjf/source/EarlGrey/GREYConstants.h",
+      "line": 142,
       "symbol": "GREYLayoutRelation.kGREYLayoutRelationEqual",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
-      "file": "/Volumes/untitled/github/jazzy_update/EarlGrey/EarlGrey/GREYConstants.h",
-      "line": 137,
+      "file": "/private/var/folders/l_/6205k6514q37hg45tv596frh009y5m/T/tmp.DhZ3xHjf/source/EarlGrey/GREYConstants.h",
+      "line": 143,
       "symbol": "GREYLayoutRelation.kGREYLayoutRelationGreaterThanOrEqual",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
       "warning": "undocumented"
     },
     {
-      "file": "/Volumes/untitled/github/jazzy_update/EarlGrey/EarlGrey/GREYConstants.h",
-      "line": 197,
+      "file": "/private/var/folders/l_/6205k6514q37hg45tv596frh009y5m/T/tmp.DhZ3xHjf/source/EarlGrey/GREYConstants.h",
+      "line": 203,
       "symbol": "GREYConstants",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
       "warning": "undocumented"
     },
     {
-      "file": "/Volumes/untitled/github/jazzy_update/EarlGrey/EarlGrey/GREYElementHierarchy.h",
+      "file": "/private/var/folders/l_/6205k6514q37hg45tv596frh009y5m/T/tmp.DhZ3xHjf/source/EarlGrey/GREYElementHierarchy.h",
       "line": 19,
       "symbol": "GREYElementHierarchy",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
       "warning": "undocumented"
     },
     {
-      "file": "/Volumes/untitled/github/jazzy_update/EarlGrey/EarlGrey/GREYNot.h",
+      "file": "/private/var/folders/l_/6205k6514q37hg45tv596frh009y5m/T/tmp.DhZ3xHjf/source/EarlGrey/GREYNot.h",
       "line": 20,
       "symbol": "GREYNot",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
       "warning": "undocumented"
     },
     {
-      "file": "/Volumes/untitled/github/jazzy_update/EarlGrey/EarlGrey/GREYProvider.h",
+      "file": "/private/var/folders/l_/6205k6514q37hg45tv596frh009y5m/T/tmp.DhZ3xHjf/source/EarlGrey/GREYProvider.h",
       "line": 19,
       "symbol": "GREYProvider",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.protocol",
       "warning": "undocumented"
     }
   ],
-  "source_directory": "/Volumes/untitled/github/jazzy_update/EarlGrey"
+  "source_directory": "/private/var/folders/l_/6205k6514q37hg45tv596frh009y5m/T/tmp.DhZ3xHjf/source"
 }

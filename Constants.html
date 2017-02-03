@@ -13,7 +13,7 @@
     <a title="Constants  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html">EarlGrey Docs</a> (93% documented)</p>
+        <p><a href="index.html">EarlGrey Docs</a> (94% documented)</p>
         <p class="header-right"><a href="https://github.com/google/EarlGrey"><img src="img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -120,9 +120,6 @@
             <a href="Constants.html">Constants</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="Constants.html#/c:@greyFailureHandler">greyFailureHandler</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="Constants.html#/c:@kGREYAcceptableFloatDifference">kGREYAcceptableFloatDifference</a>
               </li>
               <li class="nav-group-task">
@@ -189,10 +186,16 @@
                 <a href="Constants.html#/c:@kGREYConfigKeyURLBlacklistRegex">kGREYConfigKeyURLBlacklistRegex</a>
               </li>
               <li class="nav-group-task">
+                <a href="Constants.html#/c:@kGREYConstraintFailedException">kGREYConstraintFailedException</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Constants.html#/c:@kGREYDidPerformActionNotification">kGREYDidPerformActionNotification</a>
               </li>
               <li class="nav-group-task">
                 <a href="Constants.html#/c:@kGREYDidPerformAssertionNotification">kGREYDidPerformAssertionNotification</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Constants.html#/c:@kGREYFailureHandlerKey">kGREYFailureHandlerKey</a>
               </li>
               <li class="nav-group-task">
                 <a href="Constants.html#/c:@kGREYGenericFailureException">kGREYGenericFailureException</a>
@@ -220,6 +223,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="Constants.html#/c:@kGREYNotNilException">kGREYNotNilException</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Constants.html#/c:@kGREYPinchAngleDefault">kGREYPinchAngleDefault</a>
               </li>
               <li class="nav-group-task">
                 <a href="Constants.html#/c:@kGREYPinchFastDuration">kGREYPinchFastDuration</a>
@@ -497,10 +503,10 @@
                 <a href="Functions.html#/c:@F@grey_pickerColumnSetToValue">grey_pickerColumnSetToValue</a>
               </li>
               <li class="nav-group-task">
-                <a href="Functions.html#/c:@F@grey_pinchFastInDirection">grey_pinchFastInDirection</a>
+                <a href="Functions.html#/c:@F@grey_pinchFastInDirectionAndAngle">grey_pinchFastInDirectionAndAngle</a>
               </li>
               <li class="nav-group-task">
-                <a href="Functions.html#/c:@F@grey_pinchSlowInDirection">grey_pinchSlowInDirection</a>
+                <a href="Functions.html#/c:@F@grey_pinchSlowInDirectionAndAngle">grey_pinchSlowInDirectionAndAngle</a>
               </li>
               <li class="nav-group-task">
                 <a href="Functions.html#/c:@F@grey_progress">grey_progress</a>
@@ -606,9 +612,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@greyFailureHandler"></a>
-                    <a name="//apple_ref/objc/Constant/greyFailureHandler" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@greyFailureHandler">greyFailureHandler</a>
+                    <a name="/c:@kGREYFailureHandlerKey"></a>
+                    <a name="//apple_ref/objc/Constant/kGREYFailureHandlerKey" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@kGREYFailureHandlerKey">kGREYFailureHandlerKey</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -616,8 +622,16 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Key for currently set failure handler for EarlGrey in thread&rsquo;s local storage dictionary.</p>
 
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">NSString</span> <span class="o">*</span><span class="k">const</span> <span class="n">kGREYFailureHandlerKey</span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>
@@ -1291,6 +1305,34 @@ GREYLogVerbose are printed.)</p>
                     </section>
                   </div>
                 </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@kGREYPinchAngleDefault"></a>
+                    <a name="//apple_ref/objc/Constant/kGREYPinchAngleDefault" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@kGREYPinchAngleDefault">kGREYPinchAngleDefault</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The default pinch angle for the pinch action, specified by an approximate angle for a right
+handed two finger pinch.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="k">const</span> <span class="kt">double</span> <span class="n">kGREYPinchAngleDefault</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
               </ul>
             </div>
             <div class="task-group">
@@ -1315,7 +1357,7 @@ GREYLogVerbose are printed.)</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">NSString</span> <span class="o">*</span><span class="k">const</span> <span class="n">kGREYGenericFailureException</span></code></pre>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">NSString</span> <span class="o">*</span><span class="k">const</span> <span class="n">_Nonnull</span> <span class="n">kGREYGenericFailureException</span></code></pre>
 
                         </div>
                       </div>
@@ -1342,7 +1384,7 @@ GREYLogVerbose are printed.)</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">NSString</span> <span class="o">*</span><span class="k">const</span> <span class="n">kGREYActionFailedException</span></code></pre>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">NSString</span> <span class="o">*</span><span class="k">const</span> <span class="n">_Nonnull</span> <span class="n">kGREYActionFailedException</span></code></pre>
 
                         </div>
                       </div>
@@ -1369,7 +1411,7 @@ GREYLogVerbose are printed.)</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">NSString</span> <span class="o">*</span><span class="k">const</span> <span class="n">kGREYAssertionFailedException</span></code></pre>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">NSString</span> <span class="o">*</span><span class="k">const</span> <span class="n">_Nonnull</span> <span class="n">kGREYAssertionFailedException</span></code></pre>
 
                         </div>
                       </div>
@@ -1396,7 +1438,7 @@ GREYLogVerbose are printed.)</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">NSString</span> <span class="o">*</span><span class="k">const</span> <span class="n">kGREYNilException</span></code></pre>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">NSString</span> <span class="o">*</span><span class="k">const</span> <span class="n">_Nonnull</span> <span class="n">kGREYNilException</span></code></pre>
 
                         </div>
                       </div>
@@ -1423,7 +1465,7 @@ GREYLogVerbose are printed.)</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">NSString</span> <span class="o">*</span><span class="k">const</span> <span class="n">kGREYNotNilException</span></code></pre>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">NSString</span> <span class="o">*</span><span class="k">const</span> <span class="n">_Nonnull</span> <span class="n">kGREYNotNilException</span></code></pre>
 
                         </div>
                       </div>
@@ -1450,7 +1492,7 @@ GREYLogVerbose are printed.)</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">NSString</span> <span class="o">*</span><span class="k">const</span> <span class="n">kGREYNoMatchingElementException</span></code></pre>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">NSString</span> <span class="o">*</span><span class="k">const</span> <span class="n">_Nonnull</span> <span class="n">kGREYNoMatchingElementException</span></code></pre>
 
                         </div>
                       </div>
@@ -1478,7 +1520,7 @@ elements in the UI hierarchy.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">NSString</span> <span class="o">*</span><span class="k">const</span> <span class="n">kGREYMultipleElementsFoundException</span></code></pre>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">NSString</span> <span class="o">*</span><span class="k">const</span> <span class="n">_Nonnull</span> <span class="n">kGREYMultipleElementsFoundException</span></code></pre>
 
                         </div>
                       </div>
@@ -1506,7 +1548,35 @@ app to become idle.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">NSString</span> <span class="o">*</span><span class="k">const</span> <span class="n">kGREYTimeoutException</span></code></pre>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">NSString</span> <span class="o">*</span><span class="k">const</span> <span class="n">_Nonnull</span> <span class="n">kGREYTimeoutException</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@kGREYConstraintFailedException"></a>
+                    <a name="//apple_ref/objc/Constant/kGREYConstraintFailedException" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@kGREYConstraintFailedException">kGREYConstraintFailedException</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Thrown by the action API when the constraints required for performing the action are not
+satisfied.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">NSString</span> <span class="o">*</span><span class="k">const</span> <span class="n">_Nonnull</span> <span class="n">kGREYConstraintFailedException</span></code></pre>
 
                         </div>
                       </div>
@@ -1892,7 +1962,7 @@ assertion can be @c nil since assertions can be performed on @c nil elements.</p
         </section>
         <section id="footer">
           <p>Copyright 2016 Google Inc.</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

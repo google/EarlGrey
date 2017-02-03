@@ -13,7 +13,7 @@
     <a title="Functions  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html">EarlGrey Docs</a> (93% documented)</p>
+        <p><a href="index.html">EarlGrey Docs</a> (94% documented)</p>
         <p class="header-right"><a href="https://github.com/google/EarlGrey"><img src="img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -120,9 +120,6 @@
             <a href="Constants.html">Constants</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="Constants.html#/c:@greyFailureHandler">greyFailureHandler</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="Constants.html#/c:@kGREYAcceptableFloatDifference">kGREYAcceptableFloatDifference</a>
               </li>
               <li class="nav-group-task">
@@ -189,10 +186,16 @@
                 <a href="Constants.html#/c:@kGREYConfigKeyURLBlacklistRegex">kGREYConfigKeyURLBlacklistRegex</a>
               </li>
               <li class="nav-group-task">
+                <a href="Constants.html#/c:@kGREYConstraintFailedException">kGREYConstraintFailedException</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Constants.html#/c:@kGREYDidPerformActionNotification">kGREYDidPerformActionNotification</a>
               </li>
               <li class="nav-group-task">
                 <a href="Constants.html#/c:@kGREYDidPerformAssertionNotification">kGREYDidPerformAssertionNotification</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Constants.html#/c:@kGREYFailureHandlerKey">kGREYFailureHandlerKey</a>
               </li>
               <li class="nav-group-task">
                 <a href="Constants.html#/c:@kGREYGenericFailureException">kGREYGenericFailureException</a>
@@ -220,6 +223,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="Constants.html#/c:@kGREYNotNilException">kGREYNotNilException</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Constants.html#/c:@kGREYPinchAngleDefault">kGREYPinchAngleDefault</a>
               </li>
               <li class="nav-group-task">
                 <a href="Constants.html#/c:@kGREYPinchFastDuration">kGREYPinchFastDuration</a>
@@ -497,10 +503,10 @@
                 <a href="Functions.html#/c:@F@grey_pickerColumnSetToValue">grey_pickerColumnSetToValue</a>
               </li>
               <li class="nav-group-task">
-                <a href="Functions.html#/c:@F@grey_pinchFastInDirection">grey_pinchFastInDirection</a>
+                <a href="Functions.html#/c:@F@grey_pinchFastInDirectionAndAngle">grey_pinchFastInDirectionAndAngle</a>
               </li>
               <li class="nav-group-task">
-                <a href="Functions.html#/c:@F@grey_pinchSlowInDirection">grey_pinchSlowInDirection</a>
+                <a href="Functions.html#/c:@F@grey_pinchSlowInDirectionAndAngle">grey_pinchSlowInDirectionAndAngle</a>
               </li>
               <li class="nav-group-task">
                 <a href="Functions.html#/c:@F@grey_progress">grey_progress</a>
@@ -1003,9 +1009,9 @@ GREYActions::actionForSwipeSlowInDirection:xOriginStartPercentage:yOriginStartPe
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@F@grey_pinchFastInDirection"></a>
-                    <a name="//apple_ref/objc/Function/grey_pinchFastInDirection" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@F@grey_pinchFastInDirection">grey_pinchFastInDirection</a>
+                    <a name="/c:@F@grey_pinchFastInDirectionAndAngle"></a>
+                    <a name="//apple_ref/objc/Function/grey_pinchFastInDirectionAndAngle" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_pinchFastInDirectionAndAngle">grey_pinchFastInDirectionAndAngle</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1013,7 +1019,7 @@ GREYActions::actionForSwipeSlowInDirection:xOriginStartPercentage:yOriginStartPe
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Shorthand macro for GREYActions::actionForPinchFastInDirection:pinchDirection:.</p>
+                        <p>Shorthand macro for GREYActions::actionForPinchFastInDirection:pinchDirection:angle:.</p>
 
                       </div>
                       <div class="declaration">
@@ -1021,7 +1027,8 @@ GREYActions::actionForSwipeSlowInDirection:xOriginStartPercentage:yOriginStartPe
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
                           <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span>
-<span class="n">grey_pinchFastInDirection</span><span class="p">(</span><span class="n"><a href="Enums/GREYPinchDirection.html">GREYPinchDirection</a></span> <span class="n">pinchDirection</span><span class="p">)</span></code></pre>
+<span class="n">grey_pinchFastInDirectionAndAngle</span><span class="p">(</span><span class="n"><a href="Enums/GREYPinchDirection.html">GREYPinchDirection</a></span> <span class="n">pinchDirection</span><span class="p">,</span>
+                                  <span class="kt">double</span> <span class="n">angle</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -1031,9 +1038,9 @@ GREYActions::actionForSwipeSlowInDirection:xOriginStartPercentage:yOriginStartPe
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@F@grey_pinchSlowInDirection"></a>
-                    <a name="//apple_ref/objc/Function/grey_pinchSlowInDirection" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@F@grey_pinchSlowInDirection">grey_pinchSlowInDirection</a>
+                    <a name="/c:@F@grey_pinchSlowInDirectionAndAngle"></a>
+                    <a name="//apple_ref/objc/Function/grey_pinchSlowInDirectionAndAngle" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_pinchSlowInDirectionAndAngle">grey_pinchSlowInDirectionAndAngle</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1041,7 +1048,7 @@ GREYActions::actionForSwipeSlowInDirection:xOriginStartPercentage:yOriginStartPe
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Shorthand macro for GREYActions::actionForPinchSlowInDirection:pinchDirection:.</p>
+                        <p>Shorthand macro for GREYActions::actionForPinchSlowInDirection:pinchDirection:angle:.</p>
 
                       </div>
                       <div class="declaration">
@@ -1049,7 +1056,8 @@ GREYActions::actionForSwipeSlowInDirection:xOriginStartPercentage:yOriginStartPe
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
                           <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span>
-<span class="n">grey_pinchSlowInDirection</span><span class="p">(</span><span class="n"><a href="Enums/GREYPinchDirection.html">GREYPinchDirection</a></span> <span class="n">pinchDirection</span><span class="p">)</span></code></pre>
+<span class="n">grey_pinchSlowInDirectionAndAngle</span><span class="p">(</span><span class="n"><a href="Enums/GREYPinchDirection.html">GREYPinchDirection</a></span> <span class="n">pinchDirection</span><span class="p">,</span>
+                                  <span class="kt">double</span> <span class="n">angle</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -1479,6 +1487,11 @@ GREYActions::actionForSwipeSlowInDirection:xOriginStartPercentage:yOriginStartPe
                           <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_allOfMatchers</span><span class="p">(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">matchers</span><span class="p">)</span></code></pre>
 
                         </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">grey_allOfMatchers</span><span class="p">(</span><span class="n">_</span> <span class="nv">matchers</span><span class="p">:</span> <span class="p">[</span><span class="kt">Any</span><span class="p">]</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Any</span><span class="o">!</span></code></pre>
+
+                        </div>
                       </div>
                       <div>
                         <h4>Parameters</h4>
@@ -1602,6 +1615,11 @@ value.</p>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
                           <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_anyOfMatchers</span><span class="p">(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="o">*</span><span class="n">matchers</span><span class="p">)</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">grey_anyOfMatchers</span><span class="p">(</span><span class="n">_</span> <span class="nv">matchers</span><span class="p">:</span> <span class="p">[</span><span class="kt">Any</span><span class="p">]</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Any</span><span class="o">!</span></code></pre>
 
                         </div>
                       </div>
@@ -1875,7 +1893,7 @@ value.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_keyWindow</span><span class="p">()</span></code></pre>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nonnull</span> <span class="n">grey_keyWindow</span><span class="p">()</span></code></pre>
 
                         </div>
                       </div>
@@ -1902,7 +1920,8 @@ value.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_accessibilityLabel</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="n">label</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nonnull</span> <span class="n">grey_accessibilityLabel</span><span class="p">(</span>
+    <span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">label</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -1929,7 +1948,8 @@ value.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_accessibilityID</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="n">accessibilityID</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nonnull</span> <span class="n">grey_accessibilityID</span><span class="p">(</span>
+    <span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">accessibilityID</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -1956,8 +1976,8 @@ value.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span>
-<span class="n">grey_accessibilityValue</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="n">grey_accessibilityValue</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nonnull</span> <span class="n">grey_accessibilityValue</span><span class="p">(</span>
+    <span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">grey_accessibilityValue</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -1984,7 +2004,8 @@ value.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_accessibilityTrait</span><span class="p">(</span><span class="n">UIAccessibilityTraits</span> <span class="n">traits</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nonnull</span> <span class="n">grey_accessibilityTrait</span><span class="p">(</span>
+    <span class="n">UIAccessibilityTraits</span> <span class="n">traits</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -2011,7 +2032,7 @@ value.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_accessibilityFocused</span><span class="p">()</span></code></pre>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nonnull</span> <span class="n">grey_accessibilityFocused</span><span class="p">()</span></code></pre>
 
                         </div>
                       </div>
@@ -2038,7 +2059,7 @@ value.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_accessibilityHint</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="n">hint</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nonnull</span> <span class="n">grey_accessibilityHint</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">hint</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -2065,7 +2086,7 @@ value.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_text</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="n">inputText</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nonnull</span> <span class="n">grey_text</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">inputText</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -2092,7 +2113,7 @@ value.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_firstResponder</span><span class="p">()</span></code></pre>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nonnull</span> <span class="n">grey_firstResponder</span><span class="p">()</span></code></pre>
 
                         </div>
                       </div>
@@ -2119,7 +2140,7 @@ value.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_systemAlertViewShown</span><span class="p">()</span></code></pre>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nonnull</span> <span class="n">grey_systemAlertViewShown</span><span class="p">()</span></code></pre>
 
                         </div>
                       </div>
@@ -2146,7 +2167,7 @@ value.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_minimumVisiblePercent</span><span class="p">(</span><span class="n">CGFloat</span> <span class="n">percent</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nonnull</span> <span class="n">grey_minimumVisiblePercent</span><span class="p">(</span><span class="n">CGFloat</span> <span class="n">percent</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -2173,7 +2194,7 @@ value.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_sufficientlyVisible</span><span class="p">()</span></code></pre>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nonnull</span> <span class="n">grey_sufficientlyVisible</span><span class="p">()</span></code></pre>
 
                         </div>
                       </div>
@@ -2200,7 +2221,7 @@ value.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_interactable</span><span class="p">()</span></code></pre>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nonnull</span> <span class="n">grey_interactable</span><span class="p">()</span></code></pre>
 
                         </div>
                       </div>
@@ -2227,7 +2248,7 @@ value.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_notVisible</span><span class="p">()</span></code></pre>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nonnull</span> <span class="n">grey_notVisible</span><span class="p">()</span></code></pre>
 
                         </div>
                       </div>
@@ -2254,7 +2275,7 @@ value.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_accessibilityElement</span><span class="p">()</span></code></pre>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nonnull</span> <span class="n">grey_accessibilityElement</span><span class="p">()</span></code></pre>
 
                         </div>
                       </div>
@@ -2281,7 +2302,7 @@ value.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_kindOfClass</span><span class="p">(</span><span class="n">Class</span> <span class="n">klass</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nonnull</span> <span class="n">grey_kindOfClass</span><span class="p">(</span><span class="n">Class</span> <span class="n">_Nonnull</span> <span class="n">klass</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -2308,7 +2329,8 @@ value.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_progress</span><span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">comparisonMatcher</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nonnull</span> <span class="n">grey_progress</span><span class="p">(</span>
+    <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nonnull</span> <span class="n">comparisonMatcher</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -2335,7 +2357,7 @@ value.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_respondsToSelector</span><span class="p">(</span><span class="n">SEL</span> <span class="n">sel</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nonnull</span> <span class="n">grey_respondsToSelector</span><span class="p">(</span><span class="n">SEL</span> <span class="n">_Nonnull</span> <span class="n">sel</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -2362,7 +2384,8 @@ value.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_conformsToProtocol</span><span class="p">(</span><span class="n">Protocol</span> <span class="o">*</span><span class="n">protocol</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nonnull</span> <span class="n">grey_conformsToProtocol</span><span class="p">(</span>
+    <span class="n">Protocol</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">protocol</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -2389,7 +2412,8 @@ value.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_ancestor</span><span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">ancestorMatcher</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nonnull</span> <span class="n">grey_ancestor</span><span class="p">(</span>
+    <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nonnull</span> <span class="n">ancestorMatcher</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -2416,7 +2440,8 @@ value.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_descendant</span><span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">descendantMatcher</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nonnull</span> <span class="n">grey_descendant</span><span class="p">(</span>
+    <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nonnull</span> <span class="n">descendantMatcher</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -2443,7 +2468,7 @@ value.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_buttonTitle</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="n">text</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nonnull</span> <span class="n">grey_buttonTitle</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">text</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -2470,7 +2495,7 @@ value.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_scrollViewContentOffset</span><span class="p">(</span><span class="n">CGPoint</span> <span class="n">offset</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nonnull</span> <span class="n">grey_scrollViewContentOffset</span><span class="p">(</span><span class="n">CGPoint</span> <span class="n">offset</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -2497,7 +2522,7 @@ value.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_stepperValue</span><span class="p">(</span><span class="kt">double</span> <span class="n">value</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nonnull</span> <span class="n">grey_stepperValue</span><span class="p">(</span><span class="kt">double</span> <span class="n">value</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -2524,7 +2549,8 @@ value.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_sliderValueMatcher</span><span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">valueMatcher</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nonnull</span> <span class="n">grey_sliderValueMatcher</span><span class="p">(</span>
+    <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nonnull</span> <span class="n">valueMatcher</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -2551,8 +2577,8 @@ value.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_pickerColumnSetToValue</span><span class="p">(</span><span class="n">NSInteger</span> <span class="n">column</span><span class="p">,</span>
-                                                   <span class="n">NSString</span> <span class="o">*</span><span class="n">value</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nonnull</span> <span class="n">grey_pickerColumnSetToValue</span><span class="p">(</span>
+    <span class="n">NSInteger</span> <span class="n">column</span><span class="p">,</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">value</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -2579,7 +2605,7 @@ value.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_datePickerValue</span><span class="p">(</span><span class="n">NSDate</span> <span class="o">*</span><span class="n">date</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nonnull</span> <span class="n">grey_datePickerValue</span><span class="p">(</span><span class="n">NSDate</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">date</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -2606,7 +2632,7 @@ value.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_enabled</span><span class="p">()</span></code></pre>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nonnull</span> <span class="n">grey_enabled</span><span class="p">()</span></code></pre>
 
                         </div>
                       </div>
@@ -2633,7 +2659,7 @@ value.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_selected</span><span class="p">()</span></code></pre>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nonnull</span> <span class="n">grey_selected</span><span class="p">()</span></code></pre>
 
                         </div>
                       </div>
@@ -2660,7 +2686,7 @@ value.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_userInteractionEnabled</span><span class="p">()</span></code></pre>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nonnull</span> <span class="n">grey_userInteractionEnabled</span><span class="p">()</span></code></pre>
 
                         </div>
                       </div>
@@ -2687,8 +2713,9 @@ value.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_layout</span><span class="p">(</span><span class="n">NSArray</span> <span class="o">*</span><span class="n">constraints</span><span class="p">,</span>
-                                   <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">referenceElementMatcher</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nonnull</span> <span class="n">grey_layout</span><span class="p">(</span>
+    <span class="n">NSArray</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">constraints</span><span class="p">,</span>
+    <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nonnull</span> <span class="n">referenceElementMatcher</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -2715,7 +2742,7 @@ value.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_nil</span><span class="p">()</span></code></pre>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nonnull</span> <span class="n">grey_nil</span><span class="p">()</span></code></pre>
 
                         </div>
                       </div>
@@ -2742,7 +2769,7 @@ value.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_notNil</span><span class="p">()</span></code></pre>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nonnull</span> <span class="n">grey_notNil</span><span class="p">()</span></code></pre>
 
                         </div>
                       </div>
@@ -2769,7 +2796,7 @@ value.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_switchWithOnState</span><span class="p">(</span><span class="n">BOOL</span> <span class="n">on</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nonnull</span> <span class="n">grey_switchWithOnState</span><span class="p">(</span><span class="n">BOOL</span> <span class="n">on</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -2796,7 +2823,7 @@ value.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_closeTo</span><span class="p">(</span><span class="kt">double</span> <span class="n">value</span><span class="p">,</span> <span class="kt">double</span> <span class="n">delta</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nonnull</span> <span class="n">grey_closeTo</span><span class="p">(</span><span class="kt">double</span> <span class="n">value</span><span class="p">,</span> <span class="kt">double</span> <span class="n">delta</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -2823,7 +2850,7 @@ value.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_anything</span><span class="p">()</span></code></pre>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nonnull</span> <span class="n">grey_anything</span><span class="p">()</span></code></pre>
 
                         </div>
                       </div>
@@ -2850,7 +2877,7 @@ value.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_equalTo</span><span class="p">(</span><span class="n">id</span> <span class="n">value</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nonnull</span> <span class="n">grey_equalTo</span><span class="p">(</span><span class="n">id</span> <span class="n">_Nonnull</span> <span class="n">value</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -2877,7 +2904,7 @@ value.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_lessThan</span><span class="p">(</span><span class="n">id</span> <span class="n">value</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nonnull</span> <span class="n">grey_lessThan</span><span class="p">(</span><span class="n">id</span> <span class="n">_Nonnull</span> <span class="n">value</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -2904,7 +2931,7 @@ value.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_greaterThan</span><span class="p">(</span><span class="n">id</span> <span class="n">value</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nonnull</span> <span class="n">grey_greaterThan</span><span class="p">(</span><span class="n">id</span> <span class="n">_Nonnull</span> <span class="n">value</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -2931,7 +2958,7 @@ value.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_scrolledToContentEdge</span><span class="p">(</span><span class="n"><a href="Enums/GREYContentEdge.html">GREYContentEdge</a></span> <span class="n">edge</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nonnull</span> <span class="n">grey_scrolledToContentEdge</span><span class="p">(</span><span class="n"><a href="Enums/GREYContentEdge.html">GREYContentEdge</a></span> <span class="n">edge</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -2965,6 +2992,11 @@ value.</p>
                           <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">grey_not</span><span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">matcher</span><span class="p">)</span></code></pre>
 
                         </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">grey_not</span><span class="p">(</span><span class="n">_</span> <span class="nv">matcher</span><span class="p">:</span> <span class="kt">Any</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Any</span><span class="o">!</span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>
@@ -2989,7 +3021,7 @@ value.</p>
                         <p>Returns a new buffer that contains XRGB pixels for the provided @c imageRef i.e. the alpha
   channel is removed. If @c outBitmapContext is not @c NULL, it is set to the bitmap context of
   the returned buffer and caller must call CGContextRelease on it. Each pixel in returned buffer
-  occupies 4 bytes and the buffer must be free()&rsquo;d by the caller.</p>
+  occupies 4 bytes and the buffer must be free()&lsquo;d by the caller.</p>
 
                       </div>
                       <div class="declaration">
@@ -3152,7 +3184,7 @@ value.</p>
         </section>
         <section id="footer">
           <p>Copyright 2016 Google Inc.</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

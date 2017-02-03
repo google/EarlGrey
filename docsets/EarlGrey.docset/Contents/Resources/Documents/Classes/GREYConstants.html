@@ -14,7 +14,7 @@
     <a title="GREYConstants Class Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">EarlGrey Docs</a> (93% documented)</p>
+        <p><a href="../index.html">EarlGrey Docs</a> (94% documented)</p>
         <p class="header-right"><a href="https://github.com/google/EarlGrey"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -121,9 +121,6 @@
             <a href="../Constants.html">Constants</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../Constants.html#/c:@greyFailureHandler">greyFailureHandler</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="../Constants.html#/c:@kGREYAcceptableFloatDifference">kGREYAcceptableFloatDifference</a>
               </li>
               <li class="nav-group-task">
@@ -190,10 +187,16 @@
                 <a href="../Constants.html#/c:@kGREYConfigKeyURLBlacklistRegex">kGREYConfigKeyURLBlacklistRegex</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYConstraintFailedException">kGREYConstraintFailedException</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Constants.html#/c:@kGREYDidPerformActionNotification">kGREYDidPerformActionNotification</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Constants.html#/c:@kGREYDidPerformAssertionNotification">kGREYDidPerformAssertionNotification</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYFailureHandlerKey">kGREYFailureHandlerKey</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Constants.html#/c:@kGREYGenericFailureException">kGREYGenericFailureException</a>
@@ -221,6 +224,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Constants.html#/c:@kGREYNotNilException">kGREYNotNilException</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYPinchAngleDefault">kGREYPinchAngleDefault</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Constants.html#/c:@kGREYPinchFastDuration">kGREYPinchFastDuration</a>
@@ -498,10 +504,10 @@
                 <a href="../Functions.html#/c:@F@grey_pickerColumnSetToValue">grey_pickerColumnSetToValue</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Functions.html#/c:@F@grey_pinchFastInDirection">grey_pinchFastInDirection</a>
+                <a href="../Functions.html#/c:@F@grey_pinchFastInDirectionAndAngle">grey_pinchFastInDirectionAndAngle</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Functions.html#/c:@F@grey_pinchSlowInDirection">grey_pinchSlowInDirection</a>
+                <a href="../Functions.html#/c:@F@grey_pinchSlowInDirectionAndAngle">grey_pinchSlowInDirectionAndAngle</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@grey_progress">grey_progress</a>
@@ -628,7 +634,7 @@
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">directionFromCenterForEdge</span><span class="p">(</span><span class="nv">edge</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyObject</span><span class="o">!</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">directionFromCenter</span><span class="p">(</span><span class="n">forEdge</span> <span class="nv">edge</span><span class="p">:</span> <span class="kt">Any</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Any</span><span class="o">!</span></code></pre>
 
                         </div>
                       </div>
@@ -664,7 +670,7 @@
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">edgeInDirectionFromCenter</span><span class="p">(</span><span class="nv">direction</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyObject</span><span class="o">!</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">edgeInDirection</span><span class="p">(</span><span class="n">fromCenter</span> <span class="nv">direction</span><span class="p">:</span> <span class="kt">Any</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Any</span><span class="o">!</span></code></pre>
 
                         </div>
                       </div>
@@ -701,7 +707,7 @@ from the center.</p>
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">reverseOfDirection</span><span class="p">(</span><span class="nv">direction</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyObject</span><span class="o">!</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">reverse</span><span class="p">(</span><span class="n">ofDirection</span> <span class="nv">direction</span><span class="p">:</span> <span class="kt">Any</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Any</span><span class="o">!</span></code></pre>
 
                         </div>
                       </div>
@@ -737,7 +743,7 @@ from the center.</p>
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">normalizedVectorFromDirection</span><span class="p">(</span><span class="nv">direction</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyObject</span><span class="o">!</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">normalizedVector</span><span class="p">(</span><span class="n">fromDirection</span> <span class="nv">direction</span><span class="p">:</span> <span class="kt">Any</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Any</span><span class="o">!</span></code></pre>
 
                         </div>
                       </div>
@@ -755,7 +761,7 @@ from the center.</p>
         </section>
         <section id="footer">
           <p>Copyright 2016 Google Inc.</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>
