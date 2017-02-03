@@ -23,15 +23,12 @@
 #import "Common/GREYConfiguration.h"
 #import "Common/GREYError.h"
 #import "Common/GREYError+Internal.h"
+#import "Common/GREYErrorConstants.h"
 #import "Common/GREYObjectFormatter.h"
 #import "Common/GREYObjectFormatter+Internal.h"
 #import "Core/GREYInteraction.h"
 #import "Matcher/GREYMatcher.h"
 #import "Matcher/GREYStringDescription.h"
-
-NSString *const kErrorDetailElementDescriptionKey = @"Element Description";
-NSString *const kErrorDetailConstraintRequirementKey = @"Constraint Requirement";
-NSString *const kErrorDetailConstraintDetailsKey = @"Constraint Details";
 
 @implementation GREYBaseAction {
   NSString *_name;
@@ -65,7 +62,7 @@ NSString *const kErrorDetailConstraintDetailsKey = @"Constraint Details";
           @"so that it matches the failed constraints.";
 
       GREYError *error = GREYErrorMake(kGREYInteractionErrorDomain,
-                                       kGREYInteractionActionFailedErrorCode,
+                                       kGREYInteractionConstraintsFailedErrorCode,
                                        @"Cannot perform action due to a constraint failure.");
       error.errorInfo = errorDetails;
 

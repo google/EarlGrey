@@ -62,7 +62,6 @@
   if (details.length > 0) {
     [logger addObject:[NSString stringWithFormat:@"%@: %@", @"Exception Details", details]];
   }
-  [logger addObject:@""];
 
   NSString *logMessage = [logger componentsJoinedByString:@"\n"];
   NSString *screenshotPrefix = [NSString stringWithFormat:@"%@_%@",

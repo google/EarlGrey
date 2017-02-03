@@ -24,24 +24,17 @@
 #import "Assertion/GREYAssertionDefines.h"
 #import "Common/GREYObjectFormatter.h"
 #import "Common/GREYError.h"
+#import "Common/GREYErrorConstants.h"
 #import "Event/GREYSyntheticEvents.h"
 #import "Matcher/GREYAllOf.h"
 #import "Matcher/GREYMatchers.h"
 #import "Matcher/GREYNot.h"
 
 /**
- *  The error domain for pinch action related errors.
- */
-NSString *const kGREYPinchErrorDomain = @"com.google.earlgrey.PinchErrorDomain";
-/**
  *  Reduce the magnitude of vector in the direction of pinch action to make sure that it is minimum
  *  of either height or width of the view.
  */
 static CGFloat const kPinchScale = (CGFloat)0.8;
-
-NSString *const kErrorDetailElementKey = @"Element";
-NSString *const kErrorDetailWindowKey = @"Window";
-
 
 @implementation GREYPinchAction {
   /**

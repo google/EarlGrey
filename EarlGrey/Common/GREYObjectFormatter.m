@@ -145,7 +145,7 @@ NSInteger const GREYObjectFormatIndent = 2;
 #pragma mark - Private
 
 /**
- *  Serializes a object into JSON-like string.
+ *  Serializes an object into JSON-like string.
  *  The supported objects are: NSString, NSNumber, NSArray, NSDictionary.
  *
  *  @remark The serialized string is formatted as a JSON for presentation purposes but it doesn't

@@ -55,7 +55,7 @@
   [tap perform:view error:&error];
   XCTAssertEqualObjects(error.domain, kGREYInteractionErrorDomain,
                         @"Wrong error domain.");
-  XCTAssertEqual(error.code, kGREYInteractionActionFailedErrorCode,
+  XCTAssertEqual(error.code, kGREYInteractionConstraintsFailedErrorCode,
                  @"Wrong error code.");
   XCTAssertEqualObjects(error.errorInfo[kErrorDetailActionNameKey], @"Tap",
                         @"Wrong error action.");
@@ -231,7 +231,7 @@
 
   XCTAssertEqualObjects(error.domain, kGREYInteractionErrorDomain,
                         @"Wrong error domain.");
-  XCTAssertEqual(error.code, kGREYInteractionActionFailedErrorCode,
+  XCTAssertEqual(error.code, kGREYInteractionConstraintsFailedErrorCode,
                  @"Wrong error code");
   NSString *actionName = [NSString stringWithFormat:@"Replace with text: \"%@\"", textToReplace];
   XCTAssertEqualObjects(error.errorInfo[kErrorDetailActionNameKey], actionName,

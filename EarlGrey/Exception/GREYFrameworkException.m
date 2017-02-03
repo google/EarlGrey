@@ -26,6 +26,7 @@ NSString *const kGREYNoMatchingElementException = @"NoMatchingElementException";
 NSString *const kGREYMultipleElementsFoundException = @"MultipleElementsFoundException";
 NSString *const kGREYNotNilException = @"NotNilException";
 NSString *const kGREYTimeoutException = @"TimeoutException";
+NSString *const kGREYConstraintFailedException = @"ConstraintFailedException";
 
 @implementation GREYFrameworkException
 
