@@ -3,6 +3,26 @@
 Details changes in each release of EarlGrey. EarlGrey follows
 [semantic versioning](http://semver.org/).
 
+## [1.7.1](https://github.com/google/EarlGrey/tree/1.7.1) (02/03/2017)
+
+```
+Baseline: [e026773]
++ [e026773]: Change version numbers for EarlGrey 1.7.1
+```
+
+### Bug Fixes
+* Fixed an issue with constraint failure details not being logged in the error trace.
+* Updated nullability for GREYMatchers to improve Swift support.
+* Minor changes to logging strings and docs.
+
+### Compatibility
+* Requires iOS 8 as the minimum deployment target.
+* Supports Xcode 8.2.1 and iOS 10.2.1 on devices and simulators.
+* The EarlGrey gem runs out of the box for Swift 3.0 and Swift 2.3.
+
+### Enhancements
+* Updated analytics to use an md5 hashed uid.
+
 ## [1.7.0](https://github.com/google/EarlGrey/tree/1.7.0) (01/25/2017)
 
 ```
@@ -19,7 +39,7 @@ Baseline: [f823ff2]
 
 ### Compatibility
 * Requires iOS 8 as the minimum deployment target.
-* Supports with Xcode 8.2.1 and iOS 10.2.1 on devices and simulators.
+* Supports Xcode 8.2.1 and iOS 10.2.1 on devices and simulators.
 
 ### New Features
 * Updated analytics to include *hash* of test class name and *hash* of test case names to better estimate the volume of EarlGrey usage.
