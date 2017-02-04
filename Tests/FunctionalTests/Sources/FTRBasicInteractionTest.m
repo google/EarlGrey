@@ -218,7 +218,7 @@
       assertWithMatcher:grey_nil()];
 }
 
-- (void)testLongPressOnTextField {
+- (void)DISABLED_testLongPressOnTextField {
   [[EarlGrey selectElementWithMatcher:[GREYMatchers matcherForText:@"Tab 2"]]
      performAction:[GREYActions actionForTap]];
 
