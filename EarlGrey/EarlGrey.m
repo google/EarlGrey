@@ -91,8 +91,7 @@ static inline void resetFailureHandler() {
   [TLSDict setValue:[[GREYDefaultFailureHandler alloc] init] forKey:kGREYFailureHandlerKey];
 }
 
-// Returns the current failure handler. Not thread safe.
-static inline id<GREYFailureHandler> getFailureHandler() {
+inline id<GREYFailureHandler> getFailureHandler() {
   NSMutableDictionary *TLSDict = [[NSThread currentThread] threadDictionary];
   return [TLSDict valueForKey:kGREYFailureHandlerKey];
 }
