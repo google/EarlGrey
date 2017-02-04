@@ -26,7 +26,7 @@
 #import <EarlGrey/GREYFailureHandler.h>
 #import <EarlGrey/GREYFrameworkException.h>
 
-GREY_EXTERN NSString *const kGREYFailureHandlerKey;
+GREY_EXPORT id<GREYFailureHandler> getFailureHandler();
 
 #pragma mark - Public
 
@@ -236,8 +236,7 @@ GREY_EXTERN NSString *const kGREYFailureHandlerKey;
 ({ \
   NSString *details__; \
   I_GREYFormattedString(details__, __details, ##__VA_ARGS__); \
-  id<GREYFailureHandler> failureHandler__ = \
-      [[[NSThread currentThread] threadDictionary] valueForKey:kGREYFailureHandlerKey]; \
+  id<GREYFailureHandler> failureHandler__ = getFailureHandler(); \
   [failureHandler__ handleException:[GREYFrameworkException exceptionWithName:__exceptionName \
                                                                        reason:(__description)] \
                             details:(details__)]; \
@@ -246,8 +245,7 @@ GREY_EXTERN NSString *const kGREYFailureHandlerKey;
 // No private macro should call this.
 #define I_GREYSetCurrentAsFailable() \
 ({ \
-  id<GREYFailureHandler> failureHandler__ = \
-      [[[NSThread currentThread] threadDictionary] valueForKey:kGREYFailureHandlerKey]; \
+  id<GREYFailureHandler> failureHandler__ = getFailureHandler(); \
   if ([failureHandler__ respondsToSelector:@selector(setInvocationFile:andInvocationLine:)]) { \
     [failureHandler__ setInvocationFile:[NSString stringWithUTF8String:__FILE__] \
                       andInvocationLine:__LINE__]; \
