@@ -218,6 +218,17 @@
       assertWithMatcher:grey_nil()];
 }
 
+- (void)DISABLED_testLongPressOnTextField {
+  [[EarlGrey selectElementWithMatcher:[GREYMatchers matcherForText:@"Tab 2"]]
+     performAction:[GREYActions actionForTap]];
+
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
+     performAction:[GREYActions actionForLongPressWithDuration:1.0f]];
+
+  [[EarlGrey selectElementWithMatcher:[GREYMatchers matcherForText:@"Tab 2"]]
+     assertWithMatcher:grey_notNil()];
+}
+
 - (void)testBasicInteractionWithStepper {
   [[EarlGrey selectElementWithMatcher:grey_kindOfClass([UIStepper class])]
       performAction:[GREYActions actionForSetStepperValue:87]];
