@@ -54,7 +54,9 @@
       performAction:[GREYActions actionForTap]];
 }
 
-- (void)testStyledAlertView {
+// TODO: Re-enable this test once the issue with the touch injector is fixed. This test's failure
+// is seen on iPad 10.
+- (void)DISABLED_testStyledAlertView {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Styled Alert")]
       performAction:[GREYActions actionForTap]];
 

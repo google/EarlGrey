@@ -174,6 +174,14 @@ IOHIDEventRef IOHIDEventCreateDigitizerFingerEvent(CFAllocatorRef allocator,
 @end
 
 @interface UIDevice (GREYExposed)
+
+/**
+ *  Set the simulator / device's orientation to the provided orientation value.
+ *
+ *  @param orientation The orientation to set the device to.
+ *  @param animated    A boolean that indicates if the orientation change should be animated or
+ *                     not.
+ */
 - (void)setOrientation:(UIDeviceOrientation)orientation animated:(BOOL)animated;
 @end
 
