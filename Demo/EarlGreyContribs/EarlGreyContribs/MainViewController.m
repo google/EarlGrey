@@ -42,8 +42,26 @@ static NSString *gTableViewIdentifier = @"EarlGreyContribsMainVCTableViewID";
   if (self) {
     self.title = @"EarlGreyContribTestApp";
     _nameToControllerMap = @{
-      @"Basic View Controller" : [BasicViewController class],
-    };
+                             @"Accessibility Views" : [NSNull null],
+                             @"Action Sheets" : [NSNull null],
+                             @"Activity Indicator Views" : [NSNull null],
+                             @"Alert Views" : [NSNull null],
+                             @"Animations" : [NSNull null],
+                             @"Basic Views" : [BasicViewController class],
+                             @"Collection Views": [NSNull null],
+                             @"Gesture Tests" : [NSNull null],
+                             @"Pinch Tests" : [NSNull null],
+                             @"Network Test" : [NSNull null],
+                             @"Picker Views" : [NSNull null],
+                             @"Presented Views" : [NSNull null],
+                             @"Rotated Views" : [NSNull null],
+                             @"Scroll Views" : [NSNull null],
+                             @"Slider Views" : [NSNull null],
+                             @"Table Views" : [NSNull null],
+                             @"Typing Views" : [NSNull null],
+                             @"Visibility Tests" : [NSNull null],
+                             @"Web Views" : [NSNull null],
+                             };
   }
   return self;
 }
