@@ -28,4 +28,35 @@ class EarlGreyContribsSwiftTests: XCTestCase {
     EarlGrey().selectElementWithMatcher(grey_accessibilityLabel("textLabel"))
       .assertWithMatcher(grey_text("Foo"))
   }
+
+  func testCountOfTableViewCells() {
+    var error: NSError? = nil
+    let matcher: GREYMatcher! = grey_kindOfClass(UITableViewCell.self)
+    let countOfTableViewCells: UInt = count(matcher)
+    GREYAssert(countOfTableViewCells > 1, reason: "There are more than one cell present.")
+    EarlGrey().selectElementWithMatcher(matcher)
+      .atIndex(countOfTableViewCells + 1)
+      .assertWithMatcher(grey_notNil(), error: &error)
+    let errorCode: GREYInteractionErrorCode = GREYInteractionErrorCode.MatchedElementIndexOutOfBoundsErrorCode
+    GREYAssert(error?.code == errorCode.rawValue,
+               reason: "The Interaction element's index being used was over the count of matched" +
+      " elements available.")
+  }
+}
+
+func count(matcher: GREYMatcher!) -> UInt {
+  var error: NSError? = nil
+  var index: UInt = 0
+  while (true) {
+    EarlGrey().selectElementWithMatcher(matcher)
+      .atIndex(index)
+      .assertWithMatcher(grey_notNil(), error: &error)
+    if ((error) != nil) {
+      break
+    } else {
+      print(index)
+      index = index + 1
+    }
+  }
+  return index
 }
