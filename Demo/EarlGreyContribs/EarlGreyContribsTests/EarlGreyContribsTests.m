@@ -20,8 +20,14 @@
 
 @implementation EarlGreyContribsTests
 
+- (void)tearDown {
+  [[EarlGrey selectElementWithMatcher:grey_text(@"EarlGreyContribTestApp")]
+      performAction:grey_tap()];
+  [super tearDown];
+}
+
 - (void)testBasicViewController {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Basic View Controller")]
+  [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")]
       performAction:grey_tap()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"textField")]
       performAction:grey_typeText(@"Foo")];
