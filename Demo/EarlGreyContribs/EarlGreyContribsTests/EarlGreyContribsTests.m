@@ -21,7 +21,9 @@
 @implementation EarlGreyContribsTests
 
 - (void)tearDown {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"EarlGreyContribTestApp")]
+  [[EarlGrey selectElementWithMatcher:grey_anyOf(grey_text(@"EarlGreyContribTestApp"),
+                                                 grey_text(@"Back"),
+                                                 nil)]
       performAction:grey_tap()];
   [super tearDown];
 }
