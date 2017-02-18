@@ -15,5 +15,6 @@
 
 source 'https://rubygems.org'
 
+gem 'selenium-webdriver', '~> 3.0.5'
 gem 'eyes_selenium', '>= 2.37.0'    # Enables full page screenshot
 gem 'chromedriver-helper', '>= 1.0' # Downloads chromedriver automatically
