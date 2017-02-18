@@ -22,33 +22,46 @@
 @interface GREYSwizzler : NSObject
 
 /**
- *  Resets the original implementaion of the class method to what it was first swizzled from.
+ *  Resets @c methodSelector to the original implementation if it's implementation was swapped using
+ *  this swizzler.
+ *
+ *  @remark If the same method was swizzled multiple times, resetting will restore to the very first
+ *          implementation before any swizzling.
  *
  *  @param methodSelector The selector of the method that was originally swizzled.
- *  @param klass          The class that the method belongs to.
+ *  @param klass          The class that the class-method belongs to.
  *
- *  @return @c YES if successfully reset, @c NO otherwise (the method was never swizzled before).
+ *  @return @c YES if reset was successful, @c NO otherwise.
  */
 - (BOOL)resetClassMethod:(SEL)methodSelector class:(Class)klass;
 
 /**
- *  Resets the original implementaion of the instance method to what it was first swizzled from.
- *  @c YES if successfully reset, @c NO otherwise (the method is never swizzled before).
+ *  Resets @c methodSelector to the original implementation if it's implementation was swapped using
+ *  this swizzler.
+ *
+ *  @remark If the same method was swizzled multiple times using this swizzler, resetting will
+ *          restore to the very first implementation before any swizzling performed with this
+ *          swizzler.
  *
  *  @param methodSelector The selector of the method that was originally swizzled.
- *  @param klass          The class that the method belongs to.
+ *  @param klass          The class that the instance-method belongs to.
  *
- *  @return @c YES if successfully reset, @c NO otherwise (the method was never swizzled before).
+ *  @return @c YES if reset was successful, @c NO otherwise.
  */
 - (BOOL)resetInstanceMethod:(SEL)methodSelector class:(Class)klass;
 
 /**
+ *  Resets implementation of all the selectors swapped using this swizzler.
+ */
+- (void)resetAll;
+
+/**
  *  Swizzle class methods of a class. The first time a method is swizzled, its current
  *  implementation will be saved. If @c klass does not directly implement @c methodSelector1
- *  (inherit its superclass implementation), we dynamically override @c methodSelector1 with a
+ *  (inherits it from a superclass), we dynamically override @c methodSelector1 with a
  *  copy of @c methodSelector2's implementation. This is to avoid swizzling the superclass's
  *  implementation. The same happens for @c methodSelector2, if @c klass does not directly
- *  implement @c methodSelector2, it is also added to @c klass.
+ *  implement @c methodSelector2, it is added to @c klass before swizzling.
  *
  *  @param klass           The class whose methods are to be swizzled.
  *  @param methodSelector1 Selector of the method which is to be replaced.
@@ -63,10 +76,10 @@
 /**
  *  Swizzle instance methods of a class. The first time a method is swizzled, its current
  *  implementation will be saved. If @c klass does not directly implement @c methodSelector1
- *  (inherit its superclass implementation), we dynamically override @c methodSelector1 with a
+ *  (inherits it from a superclass), we dynamically override @c methodSelector1 with a
  *  copy of @c methodSelector2's implementation. This is to avoid swizzling the superclass's
  *  implementation. The same happens for @c methodSelector2, if @c klass does not directly
- *  implement @c methodSelector2, it is also added to @c klass.
+ *  implement @c methodSelector2, it is added to @c klass before swizzling.
  *
  *  @param klass           The class whose methods are to be swizzled.
  *  @param methodSelector1 Selector of the method which is to be replaced.
@@ -79,23 +92,25 @@
                withMethod:(SEL)methodSelector2;
 
 /**
- *  Adds @c methodSelector to @c klass bound to the implementation @c imp and swizzles it with
- *  @c sel. @c sel must be an instance method of @c klass and methodSelector must accept the same
- *  parameter and have same return type as @c sel.
+ *  Adds @c methodSelector with implementation @c imp to @c klass. After that, swizzles
+ *  @c methodSelector with @c sel. @c sel must be an instance method of @c klass and
+ *  @c methodSelector must have the same signature as @c sel.
  *
- *  @param klass          The class whose methods are to be swizzled.
- *  @param methodSelector The selector that needs to be added.
- *  @param imp            The method implementation that must be bound to @c methodSelector.
- *  @param sel            Selector of the method which is to be replaced.
+ *  @param klass            The class whose methods are to be swizzled.
+ *  @param addSelector      The selector to add to @c klass.
+ *  @param addIMP           Implementation of @c methodSelector when it's added to @c klass.
+ *  @param instanceSelector Selector of the method which will be swizzled with @c methodSelector.
  *
  *  @return @c YES if the given method could be successfully added and swizzled, @c NO otherwise.
  */
 - (BOOL)swizzleClass:(Class)klass
-               addInstanceMethod:(SEL)methodSelector
-              withImplementation:(IMP)imp
-    andReplaceWithInstanceMethod:(SEL)sel;
+               addInstanceMethod:(SEL)addSelector
+              withImplementation:(IMP)addIMP
+    andReplaceWithInstanceMethod:(SEL)instanceSelector;
 
 @end
+
+# pragma mark - Original Method Invocation Macros
 
 /**
  *  Invokes the original implementation from inside a swizzled implementation.
