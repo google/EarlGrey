@@ -93,24 +93,8 @@ static NSString *const kTrackingEndPoint = @"https://ssl.google-analytics.com";
   return _delegate ? _delegate : self;
 }
 
-#pragma mark - GREYAnalyticsDelegate
-
-- (void)trackEventWithTrackingID:(NSString *)trackingID
-                          userID:(NSString *)userID
-                        category:(NSString *)category
-                     subCategory:(NSString *)subCategory
-                           value:(NSNumber *)valueOrNil {
-  [GREYAnalytics sendEventHitWithTrackingID:trackingID
-                                     userID:userID
-                                   category:category
-                                subCategory:subCategory
-                                      value:valueOrNil];
-}
-
-#pragma mark - Private
-
 + (void)sendEventHitWithTrackingID:(NSString *)trackingID
-                            userID:(NSString *)userID
+                          clientID:(NSString *)clientID
                           category:(NSString *)category
                        subCategory:(NSString *)subCategory
                              value:(NSNumber *)valueOrNil {
@@ -127,10 +111,10 @@ static NSString *const kTrackingEndPoint = @"https://ssl.google-analytics.com";
     return;
   }
 
-  // Initialize the payload with version(=1), tracking ID, user ID, category and sub category.
+  // Initialize the payload with version(=1), tracking ID, client ID, category and sub category.
   NSMutableString *payload =
-      [[NSMutableString alloc] initWithFormat:@"collect?v=1&tid=%@&uid=%@&t=event&ec=%@&ea=%@",
-                                              trackingID, userID, category, subCategory];
+      [[NSMutableString alloc] initWithFormat:@"collect?v=1&tid=%@&cid=%@&t=event&ec=%@&ea=%@",
+                                              trackingID, clientID, category, subCategory];
   // Append event value if present.
   if (valueOrNil) {
     [payload appendFormat:@"&ev=%@", valueOrNil];
@@ -157,6 +141,21 @@ static NSString *const kTrackingEndPoint = @"https://ssl.google-analytics.com";
   }] resume];
 }
 
+#pragma mark - GREYAnalyticsDelegate
+
+- (void)trackEventWithTrackingID:(NSString *)trackingID
+                        clientID:(NSString *)clientID
+                        category:(NSString *)category
+                     subCategory:(NSString *)subCategory
+                           value:(NSNumber *)valueOrNil {
+  [GREYAnalytics sendEventHitWithTrackingID:trackingID
+                                   clientID:clientID
+                                   category:category
+                                subCategory:subCategory
+                                      value:valueOrNil];
+}
+
+#pragma mark - Private
 
 /**
  *  Usage data is sent via Google Analytics indicating completion of a test case, if a delegate is
@@ -181,9 +180,10 @@ static NSString *const kTrackingEndPoint = @"https://ssl.google-analytics.com";
                                       [testCase grey_testClassName],
                                       [testCase grey_testMethodName]] grey_md5String];
       NSString *subCategory = [NSString stringWithFormat:@"TestCase_%@", testCaseMD5];
-      NSString *userID = [NSString stringWithFormat:@"%@_%@", bundleIDMD5, testCaseMD5];
+      NSString *clientID =
+          [[NSString stringWithFormat:@"%@_%@", bundleIDMD5, testCaseMD5] grey_md5String];
       [self.delegate trackEventWithTrackingID:kGREYAnalyticsTrackingID
-                                       userID:userID
+                                     clientID:clientID
                                      category:bundleIDMD5
                                   subCategory:subCategory
                                         value:@([[XCTestSuite defaultTestSuite] testCaseCount])];
