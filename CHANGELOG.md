@@ -6,8 +6,8 @@ Details changes in each release of EarlGrey. EarlGrey follows
 ## [1.7.2](https://github.com/google/EarlGrey/tree/1.7.2) (02/17/2017)
 
 ```
-Baseline: [1b247fc]
-   + [1b247fc]: 1.7.2 Release
+Baseline: [6d55af5]
+   + [6d55af5]: 1.7.2 Release
 ```
 
 ### Bug Fixes
