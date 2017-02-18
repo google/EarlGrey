@@ -28,14 +28,13 @@ NSString *const kGREYGenericErrorDomain = @"com.google.earlgrey.GenericErrorDoma
 NSInteger const kGREYGenericErrorCode = 0;
 NSString *const kErrorDetailFailureNameKey = @"Failure Name";
 NSString *const kErrorDetailActionNameKey = @"Action Name";
-NSString *const kErrorDetailAssertCriteriaKey = @"Assert Criteria";
+NSString *const kErrorDetailAssertCriteriaKey = @"Assertion Criteria";
 NSString *const kErrorDetailRecoverySuggestionKey = @"Recovery Suggestion";
 
 NSString *const kErrorDomainKey = @"Domain";
 NSString *const kErrorCodeKey = @"Code";
 NSString *const kErrorDescriptionKey = @"Description";
 NSString *const kErrorFailureReasonKey = @"Failure Reason";
-NSString *const kErrorRecoverySuggestionKey = @"Recovery Suggestion";
 
 NSString *const kErrorTestCaseClassNameKey = @"TestCase Class";
 NSString *const kErrorTestCaseMethodNameKey = @"TestCase Method";
