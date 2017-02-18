@@ -3,6 +3,28 @@
 Details changes in each release of EarlGrey. EarlGrey follows
 [semantic versioning](http://semver.org/).
 
+## [1.7.2](https://github.com/google/EarlGrey/tree/1.7.2) (02/17/2017)
+
+```
+Baseline: [1b247fc]
+   + [1b247fc]: 1.7.2 Release
+```
+
+### Bug Fixes
+* Fixed Swizzler to properly reset swizzled selectors.
+* Fixed typing by blacklisting UICompatibilityInputViewController in UIViewController tracking.
+
+### Compatibility
+* Requires iOS 8 as the minimum deployment target.
+* Supports Xcode 8.2.1 and iOS 10.2.1 on devices and simulators.
+* The EarlGrey gem runs out of the box for Swift 3.0 and Swift 2.3.
+
+### Enhancements
+* Updated analytics to use an client ID instead of user ID.
+
+### Contributors
+[mbaxley](https://github.com/mbaxley), thank you!
+
 ## [1.7.1](https://github.com/google/EarlGrey/tree/1.7.1) (02/03/2017)
 
 ```
