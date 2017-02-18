@@ -21,60 +21,57 @@
 
 #import "Common/GREYDefines.h"
 
-typedef enum {
+typedef NS_ENUM(NSUInteger, GREYMethodType) {
   GREYMethodTypeClass,
   GREYMethodTypeInstance
-} GREYMethodType;
+};
 
-#pragma mark - GREYImpHolder
+#pragma mark - GREYResetter
 
 /**
- *  Utility class to hold original implementation of a method of a class. Used to reset the original
- *  implementation of a method.
+ *  Utility class to hold original implementation of a method of a class for the purpose of
+ *  resetting.
  */
-@interface GREYImpHolder : NSObject
+@interface GREYResetter : NSObject
 
 /**
  *  @remark init is not an available initializer. Use the other initializers.
  */
 - (instancetype)init NS_UNAVAILABLE;
 
-- (instancetype)initWithClass:(Class)klass
-                       method:(SEL)sel
-                         type:(GREYMethodType)type
-               implementation:(IMP)imp NS_DESIGNATED_INITIALIZER;
+/**
+ *  Designated initializer.
+ *
+ *  @param originalMethod Method being swizzled
+ *  @param originalIMP    Implementation of the method being swizzled
+ */
+- (instancetype)initWithOriginalMethod:(Method)originalMethod
+                originalImplementation:(IMP)originalIMP;
 
-- (void)resetMethod;
+/**
+ *  Reset the original method selector to its unmodified/vanilla implementations.
+ */
+- (void)reset;
 
 @end
 
-@implementation GREYImpHolder {
-  Class _klass;
-  Method _method;
-  IMP _imp;
+@implementation GREYResetter {
+  Method _originalMethod;
+  IMP _originalIMP;
 }
 
-- (instancetype)initWithClass:(Class)klass
-                       method:(SEL)sel
-                         type:(GREYMethodType)type
-               implementation:(IMP)imp {
+- (instancetype)initWithOriginalMethod:(Method)originalMethod
+                originalImplementation:(IMP)originalIMP {
   self = [super init];
   if (self) {
-    _klass = klass;
-    _imp = imp;
-    if (type == GREYMethodTypeClass) {
-      _method = class_getClassMethod(_klass, sel);
-    } else if (type == GREYMethodTypeInstance) {
-      _method = class_getInstanceMethod(_klass, sel);
-    } else {
-      NSAssert(NO, @"Unknown method type");
-    }
+    _originalMethod = originalMethod;
+    _originalIMP = originalIMP;
   }
   return self;
 }
 
-- (void)resetMethod {
-  method_setImplementation(_method, _imp);
+- (void)reset {
+  method_setImplementation(_originalMethod, _originalIMP);
 }
 
 @end
@@ -82,13 +79,13 @@ typedef enum {
 #pragma mark - GREYSwizzler
 
 @implementation GREYSwizzler {
-  NSMutableDictionary *_originalMethodImpls;
+  NSMutableDictionary *_resetters;
 }
 
 - (instancetype)init {
   self = [super init];
   if (self) {
-    _originalMethodImpls = [[NSMutableDictionary alloc] init];
+    _resetters = [[NSMutableDictionary alloc] init];
   }
   return self;
 }
@@ -99,47 +96,49 @@ typedef enum {
     return NO;
   }
 
-  NSString *key = [self grey_keyForClass:klass method:methodSelector type:GREYMethodTypeClass];
-  GREYImpHolder *holder = _originalMethodImpls[key];
-  if (holder) {
-    [holder resetMethod];
-    [_originalMethodImpls removeObjectForKey:key];
+  NSString *key = [[self class] grey_keyForClass:klass
+                                        selector:methodSelector
+                                            type:GREYMethodTypeClass];
+  GREYResetter *resetter = _resetters[key];
+  if (resetter) {
+    [resetter reset];
+    [_resetters removeObjectForKey:key];
     return YES;
   } else {
-    NSLog(@"IMP Holder was nil for class: %@ and selector: %@",
+    NSLog(@"Resetter was nil for class: %@ and class selector: %@",
           NSStringFromClass(klass),
           NSStringFromSelector(methodSelector));
     return NO;
   }
 }
 
-/**
- *  The reset method here doesn't "remove" the method, but simply redirects it to an empty selector
- *  hence NSObject::respondsToSelector and @c class_getInstanceMethod will still work.
- *
- *  @param methodSelector The selector of the instance method to be reset.
- *  @param klass          The class to which the given @c methodSelector belongs.
- *
- *  @return @c YES on success, @c NO otherwise.
- */
 - (BOOL)resetInstanceMethod:(SEL)methodSelector class:(Class)klass {
   if (!klass || !methodSelector) {
     NSLog(@"Nil Parameter(s) found when swizzling.");
     return NO;
   }
 
-  NSString *key = [self grey_keyForClass:klass method:methodSelector type:GREYMethodTypeInstance];
-  GREYImpHolder *holder = _originalMethodImpls[key];
-  if (holder) {
-    [holder resetMethod];
-    [_originalMethodImpls removeObjectForKey:key];
+  NSString *key = [[self class] grey_keyForClass:klass
+                                        selector:methodSelector
+                                            type:GREYMethodTypeInstance];
+  GREYResetter *resetter = _resetters[key];
+  if (resetter) {
+    [resetter reset];
+    [_resetters removeObjectForKey:key];
     return YES;
   } else {
-    NSLog(@"IMP Holder was nil for class: %@ and selector: %@",
+    NSLog(@"Resetter was nil for class: %@ and instance selector: %@",
           NSStringFromClass(klass),
           NSStringFromSelector(methodSelector));
     return NO;
   }
+}
+
+- (void)resetAll {
+  for (GREYResetter *resetter in [_resetters allValues]) {
+    [resetter reset];
+  }
+  [_resetters removeAllObjects];
 }
 
 - (BOOL)swizzleClass:(Class)klass
@@ -152,13 +151,18 @@ typedef enum {
 
   Method method1 = class_getClassMethod(klass, methodSelector1);
   Method method2 = class_getClassMethod(klass, methodSelector2);
-  // Only swizzle if both methods found
+  // Only swizzle if both methods are found.
   if (method1 && method2) {
-    // Try to save the current implementations
+    // Save the current implementations
     IMP imp1 = method_getImplementation(method1);
-    [self grey_saveMethod:methodSelector1 type:GREYMethodTypeClass class:klass implementation:imp1];
     IMP imp2 = method_getImplementation(method2);
-    [self grey_saveMethod:methodSelector2 type:GREYMethodTypeClass class:klass implementation:imp2];
+    [self grey_saveOriginalMethod:method1
+                      originalIMP:imp1
+                    originalClass:klass
+                   swizzledMethod:method2
+                      swizzledIMP:imp2
+                    swizzledClass:klass
+                       methodType:GREYMethodTypeClass];
 
     // To add a class method, we need to get the class meta first.
     // http://stackoverflow.com/questions/9377840/how-to-dynamically-add-a-class-method
@@ -186,19 +190,18 @@ typedef enum {
 
   Method method1 = class_getInstanceMethod(klass, methodSelector1);
   Method method2 = class_getInstanceMethod(klass, methodSelector2);
-  // Only swizzle if both methods found
+  // Only swizzle if both methods are found.
   if (method1 && method2) {
-    // Try to save the current implementations
+    // Save the current implementations
     IMP imp1 = method_getImplementation(method1);
-    [self grey_saveMethod:methodSelector1
-                     type:GREYMethodTypeInstance
-                    class:klass
-           implementation:imp1];
     IMP imp2 = method_getImplementation(method2);
-    [self grey_saveMethod:methodSelector2
-                     type:GREYMethodTypeInstance
-                    class:klass
-           implementation:imp2];
+    [self grey_saveOriginalMethod:method1
+                      originalIMP:imp1
+                    originalClass:klass
+                   swizzledMethod:method2
+                      swizzledIMP:imp2
+                    swizzledClass:klass
+                       methodType:GREYMethodTypeInstance];
 
     if (class_addMethod(klass, methodSelector1, imp2, method_getTypeEncoding(method2))) {
       class_replaceMethod(klass, methodSelector2, imp1, method_getTypeEncoding(method1));
@@ -213,10 +216,10 @@ typedef enum {
 }
 
 - (BOOL)swizzleClass:(Class)klass
-               addInstanceMethod:(SEL)methodSelector
-              withImplementation:(IMP)imp
-    andReplaceWithInstanceMethod:(SEL)sel {
-  if (!klass || !methodSelector || !imp || !sel) {
+               addInstanceMethod:(SEL)addSelector
+              withImplementation:(IMP)addIMP
+    andReplaceWithInstanceMethod:(SEL)instanceSelector {
+  if (!klass || !addSelector || !addIMP || !instanceSelector) {
     NSLog(@"Nil Parameter(s) found when swizzling.");
     return NO;
   }
@@ -225,81 +228,78 @@ typedef enum {
   // This is caused when you use the incorrect methodForSelector call in order
   // to get the implementation for a selector.
   void *messageForwardingIMP = dlsym(RTLD_DEFAULT, "_objc_msgForward");
-  if (imp == messageForwardingIMP) {
+  if (addIMP == messageForwardingIMP) {
     NSLog(@"Wrong Type of Implementation obtained for selector %@", NSStringFromClass(klass));
     return NO;
   }
 
-  Method swizzleWithMethod = class_getInstanceMethod(klass, sel);
-  if (swizzleWithMethod) {
-    struct objc_method_description *desc = method_getDescription(swizzleWithMethod);
+  Method instanceMethod = class_getInstanceMethod(klass, instanceSelector);
+  if (instanceMethod) {
+    struct objc_method_description *desc = method_getDescription(instanceMethod);
     if (!desc || desc->name == NULL) {
       NSLog(@"Failed to get method description.");
       return NO;
     }
 
-    if (!class_addMethod(klass, methodSelector, imp, desc->types)) {
+    if (!class_addMethod(klass, addSelector, addIMP, desc->types)) {
       NSLog(@"Failed to add class method.");
       return NO;
     }
-    return [self swizzleClass:klass replaceInstanceMethod:sel withMethod:methodSelector];
+    return [self swizzleClass:klass replaceInstanceMethod:instanceSelector withMethod:addSelector];
   } else {
-    NSLog(@"Method being swizzled with: %@ does not exist in the class %@.",
-          NSStringFromSelector(sel), NSStringFromClass(klass));
+    NSLog(@"Instance method: %@ does not exist in the class %@.",
+          NSStringFromSelector(instanceSelector), NSStringFromClass(klass));
     return NO;
   }
 }
 
 #pragma mark - Private
 
-- (NSString *)grey_keyForClass:(Class)klass
-                      method:(SEL)instanceMethod
-                        type:(GREYMethodType)methodType {
++ (NSString *)grey_keyForClass:(Class)klass selector:(SEL)sel type:(GREYMethodType)methodType {
   NSParameterAssert(klass);
-  NSParameterAssert(instanceMethod);
+  NSParameterAssert(sel);
 
   NSString *methodTypeString;
-  if (instanceMethod == GREYMethodTypeClass) {
-    methodTypeString = @"_CLASS_METHOD_";
+  if (methodType == GREYMethodTypeClass) {
+    methodTypeString = @"+";
   } else {
-    methodTypeString = @"_INSTANCE_METHOD_";
+    methodTypeString = @"-";
   }
-  return [NSString stringWithFormat:@"%@+%@+%@",
-          NSStringFromClass(klass),
-          methodTypeString,
-          NSStringFromSelector(instanceMethod)];
+  return [NSString stringWithFormat:@"%@[%@ %@]",
+                                    methodTypeString,
+                                    NSStringFromClass(klass),
+                                    NSStringFromSelector(sel)];
 }
 
-/**
- *  Saves the given implementation: @c imp of a method under the given @c methodSelector.
- *
- *  @remark Only one implementation of a method will be saved.
- *
- *  @param methodSelector The selector of the method that is to be saved.
- *  @param methodType     The type of the referenced method (class/instance).
- *  @param klass          The class to which the method belongs.
- *  @param imp            The implementation for the method.
- *
- *  @return @c YES on success, @c NO otherwise.
- */
-- (BOOL)grey_saveMethod:(SEL)methodSelector
-                 type:(GREYMethodType)methodType
-                class:(Class)klass
-       implementation:(IMP)imp {
-  NSParameterAssert(klass);
-  NSParameterAssert(methodSelector);
-  NSParameterAssert(imp);
+- (void)grey_saveOriginalMethod:(Method)originalMethod
+                    originalIMP:(IMP)originalIMP
+                  originalClass:(Class)originalClass
+                 swizzledMethod:(Method)swizzledMethod
+                    swizzledIMP:(IMP)swizzledIMP
+                  swizzledClass:(Class)swizzledClass
+                     methodType:(GREYMethodType)methodType {
+  NSParameterAssert(originalMethod);
+  NSParameterAssert(originalIMP);
+  NSParameterAssert(originalClass);
+  NSParameterAssert(swizzledMethod);
+  NSParameterAssert(swizzledIMP);
 
-  NSString *key = [self grey_keyForClass:klass method:methodSelector type:methodType];
-  if (!_originalMethodImpls[key]) {
-    GREYImpHolder *holder = [[GREYImpHolder alloc] initWithClass:klass
-                                                          method:methodSelector
-                                                            type:methodType
-                                                  implementation:imp];
-    _originalMethodImpls[key] = holder;
-    return YES;
-  } else {
-    return NO;
+  NSString *keyForOriginal = [[self class] grey_keyForClass:originalClass
+                                                     selector:method_getName(originalMethod)
+                                                       type:methodType];
+  if (!_resetters[keyForOriginal]) {
+    GREYResetter *resetter = [[GREYResetter alloc] initWithOriginalMethod:originalMethod
+                                                   originalImplementation:originalIMP];
+    _resetters[keyForOriginal] = resetter;
+  }
+
+  NSString *keyForSwizzled = [[self class] grey_keyForClass:swizzledClass
+                                                     selector:method_getName(swizzledMethod)
+                                                       type:methodType];
+  if (!_resetters[keyForSwizzled]) {
+    GREYResetter *resetter = [[GREYResetter alloc] initWithOriginalMethod:swizzledMethod
+                                                   originalImplementation:swizzledIMP];
+    _resetters[keyForSwizzled] = resetter;
   }
 }
 
