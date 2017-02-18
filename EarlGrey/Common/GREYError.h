@@ -217,11 +217,6 @@ GREY_EXTERN NSString *const kErrorDescriptionKey;
 GREY_EXTERN NSString *const kErrorFailureReasonKey;
 
 /**
- *  Key used to retrieve the failure reason from an error object.
- */
-GREY_EXTERN NSString *const kErrorRecoverySuggestionKey;
-
-/**
  *  Key used to retrieve the screenshot at failure from an error object's app screenshots.
  */
 GREY_EXTERN NSString *const kScreenshotAtFailure;

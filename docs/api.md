@@ -247,10 +247,14 @@ object containing failure details.
 
 ```objc
 NSError *error;
-[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TapMe")]
+[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"Non-Existent-Ax-Id")]
     performAction:grey_tap()
             error:&error];
 ```
+
+In the above case, an exception **will not** be thrown for the EarlGrey interaction being performed
+on a non-existent element. Instead, the error object passed will save the failure details and not
+fail the test immediately. The error details can then be perused for finding the failure details.
 
 #### Custom Actions
 
