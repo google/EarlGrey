@@ -11,3 +11,4 @@ Renders the cheatsheet HTML to a PNG via Chrome.
 
 - `gem cleanup` - Remove old versions of gems
 - `bundle update` - Update Gemfile.lock to use new gems
+- `chromedriver-update` - Update the chromedriver to latest
