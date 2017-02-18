@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>GREYDataEnumerator Class Reference</title>
+    <title>GREYMultiFingerSwipeAction Class Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset='utf-8'>
@@ -10,8 +10,8 @@
     
   </head>
   <body>
-    <a name="//apple_ref/objc/Class/GREYDataEnumerator" class="dashAnchor"></a>
-    <a title="GREYDataEnumerator Class Reference"></a>
+    <a name="//apple_ref/objc/Class/GREYMultiFingerSwipeAction" class="dashAnchor"></a>
+    <a title="GREYMultiFingerSwipeAction Class Reference"></a>
     <header>
       <div class="content-wrapper">
         <p><a href="../index.html">EarlGrey Docs</a> (93% documented)</p>
@@ -22,7 +22,7 @@
       <p id="breadcrumbs">
         <a href="../index.html">EarlGrey Reference</a>
         <img id="carat" src="../img/carat.png" />
-        GREYDataEnumerator Class Reference
+        GREYMultiFingerSwipeAction Class Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -609,14 +609,14 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>GREYDataEnumerator</h1>
+            <h1>GREYMultiFingerSwipeAction</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">GREYDataEnumerator</span> <span class="p">:</span> <span class="nc">NSEnumerator</span></code></pre>
+                  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">GREYMultiFingerSwipeAction</span> <span class="p">:</span> <span class="nc">GREYBaseAction</span></code></pre>
 
                 </div>
               </div>
-            <p>An block-based enumerator that repeatedly invokes the block to return the next object.</p>
+            <p>A GREYAction that swipes/flicks with multiple touches</p>
 
           </section>
           <section class="section task-group-section">
@@ -625,9 +625,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:objc(cs)GREYDataEnumerator(im)init"></a>
+                    <a name="/c:objc(cs)GREYMultiFingerSwipeAction(im)init"></a>
                     <a name="//apple_ref/objc/Method/-init" class="dashAnchor"></a>
-                    <a class="token" href="#/c:objc(cs)GREYDataEnumerator(im)init">-init</a>
+                    <a class="token" href="#/c:objc(cs)GREYMultiFingerSwipeAction(im)init">-init</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -645,6 +645,11 @@
                           <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">init</span><span class="p">;</span></code></pre>
 
                         </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="nf">init</span><span class="o">!</span><span class="p">()</span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>
@@ -652,9 +657,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:objc(cs)GREYDataEnumerator(im)initWithUserInfo:block:"></a>
-                    <a name="//apple_ref/objc/Method/-initWithUserInfo:block:" class="dashAnchor"></a>
-                    <a class="token" href="#/c:objc(cs)GREYDataEnumerator(im)initWithUserInfo:block:">-initWithUserInfo:block:</a>
+                    <a name="/c:objc(cs)GREYMultiFingerSwipeAction(im)initWithName:constraints:"></a>
+                    <a name="//apple_ref/objc/Method/-initWithName:constraints:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYMultiFingerSwipeAction(im)initWithName:constraints:">-initWithName:constraints:</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -662,19 +667,57 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Instantiates the enumerator with custom information and a block to return the next object.</p>
+                        <p>@remark initWithName::constraints: is overridden from its superclass.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithUserInfo</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="nv">userInfo</span> <span class="nf">block</span><span class="p">:(</span><span class="n">id</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">id</span><span class="p">))</span><span class="nv">nextObjectBlock</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithName</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span>
+                 <span class="nf">constraints</span><span class="p">:(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nv">constraints</span><span class="p">;</span></code></pre>
 
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="nf">init</span><span class="o">!</span><span class="p">(</span><span class="nv">userInfo</span><span class="p">:</span> <span class="kt">Any</span><span class="o">!</span><span class="p">,</span> <span class="n">block</span> <span class="nv">nextObjectBlock</span><span class="p">:</span> <span class="p">((</span><span class="kt">Any</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Any</span><span class="p">?)</span><span class="o">!</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="nf">init</span><span class="o">!</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="kt">Any</span><span class="o">!</span><span class="p">,</span> <span class="nv">constraints</span><span class="p">:</span> <span class="kt">Any</span><span class="o">!</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYMultiFingerSwipeAction(im)initWithDirection:duration:numberOfFingers:"></a>
+                    <a name="//apple_ref/objc/Method/-initWithDirection:duration:numberOfFingers:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYMultiFingerSwipeAction(im)initWithDirection:duration:numberOfFingers:">-initWithDirection:duration:numberOfFingers:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Performs a swipe with multiple parallel fingers in the given @c direction in the given
+  @c duration, the start of swipe is chosen to achieve maximum swipe, such as a point close to
+  bottom edge of the element is chosen in case of a swipe in up direction. Using this method will
+  infer a start percentage of x: 0.5, y: 0.5.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithDirection</span><span class="p">:(</span><span class="n"><a href="../Enums/GREYDirection.html">GREYDirection</a></span><span class="p">)</span><span class="nv">direction</span>
+                         <span class="nf">duration</span><span class="p">:(</span><span class="n">CFTimeInterval</span><span class="p">)</span><span class="nv">duration</span>
+                  <span class="nf">numberOfFingers</span><span class="p">:(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="nv">numberOfFingers</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="nf">init</span><span class="o">!</span><span class="p">(</span><span class="nv">direction</span><span class="p">:</span> <span class="kt">Any</span><span class="o">!</span><span class="p">,</span> <span class="nv">duration</span><span class="p">:</span> <span class="kt">Any</span><span class="o">!</span><span class="p">,</span> <span class="nv">numberOfFingers</span><span class="p">:</span> <span class="kt">Any</span><span class="o">!</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -685,13 +728,12 @@
                             <tr>
                               <td>
                                 <code>
-                                <em>userInfo</em>
+                                <em>direction</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p>Custom object that is passed into the block. Use this for passing any
-                 additional information required by the block.</p>
+                                  <p>The direction of the swipe.</p>
 
                                 </div>
                               </td>
@@ -699,12 +741,25 @@
                             <tr>
                               <td>
                                 <code>
-                                <em>nextObjectBlock</em>
+                                <em>duration</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p>A block that is invoked to return the next object in the enumerator.</p>
+                                  <p>The time interval for which the swipe takes place.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>numberOfFingers</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The number of parallel fingers to use. Max value: 4.</p>
 
                                 </div>
                               </td>
@@ -714,55 +769,8 @@
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>An instance of GREYDataEnumerator, initialized with the specified information.</p>
-
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <div class="task-name-container">
-                <a name="/NSEnumerator"></a>
-                <a name="//apple_ref/objc/Section/NSEnumerator" class="dashAnchor"></a>
-                <a href="#/NSEnumerator">
-                  <h3 class="section-name">NSEnumerator</h3>
-                </a>
-              </div>
-              <ul>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/c:objc(cs)GREYDataEnumerator(im)nextObject"></a>
-                    <a name="//apple_ref/objc/Method/-nextObject" class="dashAnchor"></a>
-                    <a class="token" href="#/c:objc(cs)GREYDataEnumerator(im)nextObject">-nextObject</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="n">nextObject</span><span class="p">;</span></code></pre>
-
-                        </div>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">nextObject</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Any</span><span class="o">!</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Return Value</h4>
-                        <p>The next object in the enumerator returned by the @nextObjectBlock
-. Can also be @c</p>
+                        <p>An instance of GREYMultiFingerSwipeAction, initialized with the provided direction,
+         duration and number of fingers to swipe with.</p>
 
                       </div>
                     </section>
@@ -771,9 +779,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:objc(cs)GREYDataEnumerator(im)allObjects"></a>
-                    <a name="//apple_ref/objc/Method/-allObjects" class="dashAnchor"></a>
-                    <a class="token" href="#/c:objc(cs)GREYDataEnumerator(im)allObjects">-allObjects</a>
+                    <a name="/c:objc(cs)GREYMultiFingerSwipeAction(im)initWithDirection:duration:numberOfFingers:startPercents:"></a>
+                    <a name="//apple_ref/objc/Method/-initWithDirection:duration:numberOfFingers:startPercents:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYMultiFingerSwipeAction(im)initWithDirection:duration:numberOfFingers:startPercents:">-initWithDirection:duration:numberOfFingers:startPercents:</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -781,24 +789,95 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        
+                        <p>Performs a swipe with multiple parallel fingers in the given @c direction in the given
+  @c duration, the start of swipe is chosen based on @c startPercents. Since swipes must begin
+  inside the element and not on the edge of it x/y, startPercents must be in the range (0,1)
+  exclusive.</p>
+
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="n">allObjects</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithDirection</span><span class="p">:(</span><span class="n"><a href="../Enums/GREYDirection.html">GREYDirection</a></span><span class="p">)</span><span class="nv">direction</span>
+                         <span class="nf">duration</span><span class="p">:(</span><span class="n">CFTimeInterval</span><span class="p">)</span><span class="nv">duration</span>
+                  <span class="nf">numberOfFingers</span><span class="p">:(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="nv">numberOfFingers</span>
+                    <span class="nf">startPercents</span><span class="p">:(</span><span class="n">CGPoint</span><span class="p">)</span><span class="nv">startPercents</span><span class="p">;</span></code></pre>
 
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">allObjects</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">Any</span><span class="p">]</span><span class="o">!</span></code></pre>
+                          <pre class="highlight"><code><span class="nf">init</span><span class="o">!</span><span class="p">(</span><span class="nv">direction</span><span class="p">:</span> <span class="kt">Any</span><span class="o">!</span><span class="p">,</span> <span class="nv">duration</span><span class="p">:</span> <span class="kt">Any</span><span class="o">!</span><span class="p">,</span> <span class="nv">numberOfFingers</span><span class="p">:</span> <span class="kt">Any</span><span class="o">!</span><span class="p">,</span> <span class="nv">startPercents</span><span class="p">:</span> <span class="kt">Any</span><span class="o">!</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
                       <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>direction</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The direction of the swipe.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>duration</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The time interval for which the swipe takes place.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>numberOfFingers</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The number of parallel fingers to use. Max Value: 4.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>startPercents</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>@c
+sets the value of the x-coordinate of the start point
+                        by interpolating between left(for 0.0) and right(for 1.0) edge similarly
+                        @c
+determines the y coordinate.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
                         <h4>Return Value</h4>
-                        <p>An array of all the objects in the enumerator.</p>
+                        <p>An instance of GREYMultiFingerSwipeAction, initialized with the provided direction,
+         duration, information for the start point and number of fingers to swipe with.</p>
 
                       </div>
                     </section>
