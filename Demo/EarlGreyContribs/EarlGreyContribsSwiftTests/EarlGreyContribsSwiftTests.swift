@@ -19,7 +19,8 @@ import XCTest
 
 class EarlGreyContribsSwiftTests: XCTestCase {
   override func tearDown() {
-    EarlGrey().selectElementWithMatcher(grey_text("EarlGreyContribTestApp"))
+    EarlGrey().selectElementWithMatcher(grey_anyOfMatchers([grey_text("EarlGreyContribTestApp"),
+                                                            grey_text("Back")]))
       .performAction(grey_tap())
     super.tearDown()
   }
