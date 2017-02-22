@@ -27,6 +27,8 @@ class EarlGreyContribsSwiftTests: XCTestCase {
 
   func testBasicViewController() {
     EarlGrey().selectElementWithMatcher(grey_text("Basic Views"))
+      .usingSearchAction(grey_scrollInDirection(.Down, 50),
+        onElementWithMatcher: grey_kindOfClass(UITableView.self))
       .performAction(grey_tap())
     EarlGrey().selectElementWithMatcher(grey_accessibilityLabel("textField"))
       .performAction(grey_typeText("Foo"))
