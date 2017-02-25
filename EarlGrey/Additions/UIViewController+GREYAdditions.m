@@ -33,7 +33,6 @@ static Class compatibilityVCClass;
 
 + (void)load {
   @autoreleasepool {
-    compatibilityVCClass = NSClassFromString(@"UICompatibilityInputViewController");
     GREYSwizzler *swizzler = [[GREYSwizzler alloc] init];
     // Swizzle viewWillAppear.
     BOOL swizzleSuccess = [swizzler swizzleClass:self
@@ -68,6 +67,12 @@ static Class compatibilityVCClass;
                     withMethod:swizzledSel];
     NSAssert(swizzleSuccess,
              @"Cannot swizzle UIViewController viewDidMoveToWindow:shouldAppearOrDisappear:");
+  }
+}
+
++ (void)initialize {
+  if (self == [UIViewController class]) {
+    compatibilityVCClass = NSClassFromString(@"UICompatibilityInputViewController");
   }
 }
 
