@@ -44,7 +44,17 @@
 #import "Synchronization/GREYUIThreadExecutor.h"
 #import "Synchronization/GREYUIWebViewIdlingResource.h"
 
+static Class webAccessibilityObjectWrapperClass;
+static Class accessibilityTextFieldElementClass;
+
 @implementation GREYActions
+
++ (void)initialize {
+  if (self == [GREYActions class]) {
+    webAccessibilityObjectWrapperClass = NSClassFromString(@"WebAccessibilityObjectWrapper");
+    accessibilityTextFieldElementClass = NSClassFromString(@"UIAccessibilityTextFieldElement");
+  }
+}
 
 + (id<GREYAction>)actionForSwipeFastInDirection:(GREYDirection)direction {
   return [[GREYSwipeAction alloc] initWithDirection:direction duration:kGREYSwipeFastDuration];
@@ -179,7 +189,8 @@
 + (id<GREYAction>)actionForClearText {
   id<GREYMatcher> constraints =
       grey_anyOf(grey_respondsToSelector(@selector(text)),
-                 grey_kindOfClass(NSClassFromString(@"WebAccessibilityObjectWrapper")),
+                 grey_kindOfClass(accessibilityTextFieldElementClass),
+                 grey_kindOfClass(webAccessibilityObjectWrapperClass),
                  grey_conformsToProtocol(@protocol(UITextInput)),
                  nil);
   return [GREYActionBlock actionWithName:@"Clear text"
@@ -189,6 +200,10 @@
     if ([element grey_isWebAccessibilityElement]) {
       [GREYActions grey_webClearText:element];
       return YES;
+    } else if ([element isKindOfClass:accessibilityTextFieldElementClass]) {
+      UIAccessibilityTextFieldElement *textFieldElement =
+          (UIAccessibilityTextFieldElement *)element;
+      element = [textFieldElement textField];
     } else if ([element respondsToSelector:@selector(text)]) {
       textStr = [element text];
     } else {
@@ -332,7 +347,8 @@
   SEL setTextSelector = NSSelectorFromString(@"setText:");
   id<GREYMatcher> constraints =
       grey_anyOf(grey_respondsToSelector(setTextSelector),
-                 grey_kindOfClass(NSClassFromString(@"WebAccessibilityObjectWrapper")),
+                 grey_kindOfClass(accessibilityTextFieldElementClass),
+                 grey_kindOfClass(webAccessibilityObjectWrapperClass),
                  nil);
   NSString *replaceActionName = [NSString stringWithFormat:@"Replace with text: \"%@\"", text];
   return [GREYActionBlock actionWithName:replaceActionName
@@ -340,6 +356,10 @@
                             performBlock:^BOOL (id element, __strong NSError **errorOrNil) {
     if ([element grey_isWebAccessibilityElement]) {
       [GREYActions grey_webSetText:element text:text];
+    } else if ([element isKindOfClass:accessibilityTextFieldElementClass]) {
+      UIAccessibilityTextFieldElement *textFieldElement =
+      (UIAccessibilityTextFieldElement *)element;
+      element = [textFieldElement textField];
     } else {
       BOOL elementIsUIControl = [element isKindOfClass:[UIControl class]];
       BOOL elementIsUITextField = [element isKindOfClass:[UITextField class]];

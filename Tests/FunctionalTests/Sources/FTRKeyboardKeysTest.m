@@ -464,6 +464,20 @@
       performAction:grey_typeText(@"Test")] assertWithMatcher:grey_text(@"Test")];
 }
 
+- (void)testTypingOnUIAccessibilityTextFieldElement {
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"Input Button")]
+      performAction:grey_tap()];
+  Class accessibilityTextFieldElemClass = NSClassFromString(@"UIAccessibilityTextFieldElement");
+  [[EarlGrey selectElementWithMatcher:grey_allOf(grey_accessibilityValue(@"Text Field"),
+                                                 grey_kindOfClass(accessibilityTextFieldElemClass),
+                                                 nil)]
+      performAction:grey_clearText()];
+  [[EarlGrey selectElementWithMatcher:grey_allOf(grey_accessibilityValue(@"Text Field"),
+                                                 grey_kindOfClass(accessibilityTextFieldElemClass),
+                                                 nil)]
+      performAction:grey_replaceText(@"")];
+}
+
 #pragma mark - Private
 
 - (void)ftr_typeString:(NSString *)string andVerifyOutput:(NSString *)verificationString {

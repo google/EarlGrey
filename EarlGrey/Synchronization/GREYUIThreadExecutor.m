@@ -53,7 +53,7 @@ static const CFTimeInterval kMaximumSynchronizationSleepInterval = 0.1;
  *  The maximum amount of time to wait for the UI and idling resources to become idle in
  *  grey_forcedStateTrackerCleanUp before forcefully clearing the state of GREYAppStateTracker.
  */
-static const CFTimeInterval kDrainTimeoutSecondsBeforeForcedStateTrackerCleanup = 5;
+static const CFTimeInterval kDrainTimeoutSecondsBeforeForcedStateTrackerCleanup = 10;
 
 // Execution states.
 typedef NS_ENUM(NSInteger, GREYExecutionState) {

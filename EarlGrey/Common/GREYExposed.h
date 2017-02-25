@@ -381,3 +381,12 @@ IOHIDEventRef IOHIDEventCreateDigitizerFingerEvent(CFAllocatorRef allocator,
 - (bool)loadAccessibility:(void **)unused;
 
 @end
+
+@interface UIAccessibilityTextFieldElement
+
+/**
+ *  @return The UITextField that contains the accessibility text field element.
+ */
+-(UITextField *)textField;
+
+@end
