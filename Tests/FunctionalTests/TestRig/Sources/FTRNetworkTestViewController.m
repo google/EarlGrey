@@ -69,7 +69,6 @@ static NSString *const kFTRProxyRegex = @"^http://www.youtube.com";
   }
 }
 
-
 - (IBAction)testNetworkClick:(id)sender {
   NSURLRequest *request =
       [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.youtube.com/"]];
