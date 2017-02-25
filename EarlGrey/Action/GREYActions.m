@@ -358,7 +358,7 @@ static Class accessibilityTextFieldElementClass;
       [GREYActions grey_webSetText:element text:text];
     } else if ([element isKindOfClass:accessibilityTextFieldElementClass]) {
       UIAccessibilityTextFieldElement *textFieldElement =
-      (UIAccessibilityTextFieldElement *)element;
+          (UIAccessibilityTextFieldElement *)element;
       element = [textFieldElement textField];
     } else {
       BOOL elementIsUIControl = [element isKindOfClass:[UIControl class]];

@@ -464,7 +464,7 @@
       performAction:grey_typeText(@"Test")] assertWithMatcher:grey_text(@"Test")];
 }
 
-- (void)testTypingOnUIAccessibilityTextFieldElement {
+- (void)testClearAndReplaceWorksWithUIAccessibilityTextFieldElement {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"Input Button")]
       performAction:grey_tap()];
   Class accessibilityTextFieldElemClass = NSClassFromString(@"UIAccessibilityTextFieldElement");

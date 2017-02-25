@@ -97,14 +97,10 @@
   UIPinchGestureRecognizer *pinchRecognizer =
       [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(recognizePinch:)];
   [self.greyBox addGestureRecognizer:pinchRecognizer];
-  // Required to disable the swipe from edge to go back gesture as it can interfere with tests.
-  [self.navigationItem setHidesBackButton:YES animated:NO];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
   [super viewWillDisappear:animated];
-  // Enable the swipe from edge to go back gesture.
-  [self.navigationItem setHidesBackButton:NO animated:NO];
 }
 
 - (IBAction)recognizeSwipe:(UISwipeGestureRecognizer *)recognizer {
