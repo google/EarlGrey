@@ -119,7 +119,7 @@ If you need more control, review the available install options.
 
 ### GitHub Installation
 
-In cases where neither CocoaPods not Carthage is compatible with your project, you can add EarlGrey manually to your Xcode project.
+In cases where neither CocoaPods nor Carthage is compatible with your project, you can add EarlGrey manually to your Xcode project.
 
 #### Step 1: Generate EarlGrey.framework
 
