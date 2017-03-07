@@ -86,7 +86,7 @@
 		7CFDF8EB1DBBD5FC00CAADB3 /* GREYLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CFDF8E51DBBD5FC00CAADB3 /* GREYLogger.m */; };
 		7CFDF8EC1DBBD5FC00CAADB3 /* GREYObjectFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7CFDF8E61DBBD5FC00CAADB3 /* GREYObjectFormatter.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		7CFDF8ED1DBBD5FC00CAADB3 /* GREYObjectFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CFDF8E71DBBD5FC00CAADB3 /* GREYObjectFormatter.m */; };
-		D210ED8D1E6F47D100978B9E /* GREYMultiFingerSwipeAction.h in Headers */ = {isa = PBXBuildFile; fileRef = D210ED8B1E6F47D100978B9E /* GREYMultiFingerSwipeAction.h */; };
+		D210ED8D1E6F47D100978B9E /* GREYMultiFingerSwipeAction.h in Headers */ = {isa = PBXBuildFile; fileRef = D210ED8B1E6F47D100978B9E /* GREYMultiFingerSwipeAction.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D210ED8E1E6F47D100978B9E /* GREYMultiFingerSwipeAction.m in Sources */ = {isa = PBXBuildFile; fileRef = D210ED8C1E6F47D100978B9E /* GREYMultiFingerSwipeAction.m */; };
 		FD1001B01C5B46C200B2DB0A /* GREYAction.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001011C5B46C100B2DB0A /* GREYAction.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FD1001B11C5B46C200B2DB0A /* GREYActionBlock.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001021C5B46C100B2DB0A /* GREYActionBlock.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -878,6 +878,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D210ED8D1E6F47D100978B9E /* GREYMultiFingerSwipeAction.h in Headers */,
 				59A993281C99453200914F9A /* EarlGrey.h in Headers */,
 				FD1001B01C5B46C200B2DB0A /* GREYAction.h in Headers */,
 				FD1001B31C5B46C200B2DB0A /* GREYActions.h in Headers */,
@@ -886,7 +887,6 @@
 				FD1001BD1C5B46C200B2DB0A /* GREYScrollActionError.h in Headers */,
 				FD1001F91C5B46C200B2DB0A /* GREYIdlingResource.h in Headers */,
 				FD1001FA1C5B46C200B2DB0A /* GREYAssertion.h in Headers */,
-				D210ED8D1E6F47D100978B9E /* GREYMultiFingerSwipeAction.h in Headers */,
 				FDCB29831E24658E0001557E /* GREYVisibilityChecker+Internal.h in Headers */,
 				FD1001FE1C5B46C200B2DB0A /* GREYAssertions.h in Headers */,
 				FDCB297F1E24656F0001557E /* GREYAssertions+Internal.h in Headers */,
