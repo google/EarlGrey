@@ -69,6 +69,7 @@
 #import <EarlGrey/GREYTestHelper.h>
 #import <EarlGrey/GREYUIThreadExecutor.h>
 #import <Foundation/Foundation.h>
+#import <EarlGrey/GREYMultiFingerSwipeAction.h>
 
 /**
  *  Key for currently set failure handler for EarlGrey in thread's local storage dictionary.
