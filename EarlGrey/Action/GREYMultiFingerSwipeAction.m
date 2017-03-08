@@ -134,13 +134,30 @@
     }
     
     NSMutableArray *multiTouchPaths = [[NSMutableArray alloc] init];
+    
+    CGRect accessibilityFrame = [element accessibilityFrame];
+    
     for(NSUInteger i = 0; i < _numberOfSwipes; i++) {
         
-        CGRect accessibilityFrame = [element accessibilityFrame];
-        CGFloat swipeOffset = (CGFloat)i * (CGFloat)10.0;
+        CGFloat xOffset, yOffset;
+        switch (_direction) {
+            case kGREYDirectionDown:
+            case kGREYDirectionUp:
+                xOffset = (CGFloat)i * 10;
+                yOffset = 0.0;
+                break;
+            
+            case kGREYDirectionLeft:
+            case kGREYDirectionRight:
+                xOffset = 0.0;
+                yOffset = (CGFloat)i * 10;
+                break;
+        }
+        
+        
         CGPoint startPoint =
-        CGPointMake(accessibilityFrame.origin.x + accessibilityFrame.size.width * _startPercents.x,
-                    accessibilityFrame.origin.y + accessibilityFrame.size.height * _startPercents.y + swipeOffset);
+        CGPointMake(accessibilityFrame.origin.x + accessibilityFrame.size.width * _startPercents.x + xOffset,
+                    accessibilityFrame.origin.y + accessibilityFrame.size.height * _startPercents.y + yOffset);
         
         NSArray *touchPath = [GREYPathGestureUtils touchPathForGestureWithStartPoint:startPoint
                                                                         andDirection:_direction
