@@ -59,6 +59,7 @@
 #import <EarlGrey/GREYManagedObjectContextIdlingResource.h>
 #import <EarlGrey/GREYMatcher.h>
 #import <EarlGrey/GREYMatchers.h>
+#import <EarlGrey/GREYMultiFingerSwipeAction.h>
 #import <EarlGrey/GREYNSTimerIdlingResource.h>
 #import <EarlGrey/GREYNot.h>
 #import <EarlGrey/GREYOperationQueueIdlingResource.h>
@@ -69,7 +70,6 @@
 #import <EarlGrey/GREYTestHelper.h>
 #import <EarlGrey/GREYUIThreadExecutor.h>
 #import <Foundation/Foundation.h>
-#import <EarlGrey/GREYMultiFingerSwipeAction.h>
 
 /**
  *  Key for currently set failure handler for EarlGrey in thread's local storage dictionary.

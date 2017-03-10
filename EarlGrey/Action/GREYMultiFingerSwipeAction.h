@@ -70,7 +70,7 @@
 - (instancetype)initWithDirection:(GREYDirection)direction
                          duration:(CFTimeInterval)duration
                   numberOfFingers:(NSUInteger)numberOfFingers
-                    startPercents:(CGPoint)startPercents;
+                    startPercents:(CGPoint)startPercents NS_DESIGNATED_INITIALIZER;
     
 
     
