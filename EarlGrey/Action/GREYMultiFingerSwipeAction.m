@@ -39,7 +39,7 @@
      */
     CFTimeInterval _duration;
     /**
-     *  Start point for the swipe specified as percentage of swipped element's accessibility frame.
+     *  Start point for the swipe specified as a percentage of the swipped element's accessibility frame.
      */
     CGPoint _startPercents;
     /**
@@ -134,7 +134,6 @@
     }
     
     NSMutableArray *multiTouchPaths = [[NSMutableArray alloc] init];
-    
     CGRect accessibilityFrame = [element accessibilityFrame];
     
     for(NSUInteger i = 0; i < _numberOfFingers; i++) {
@@ -154,7 +153,6 @@
                 break;
         }
         
-        
         CGPoint startPoint =
         CGPointMake(accessibilityFrame.origin.x + accessibilityFrame.size.width * _startPercents.x + xOffset,
                     accessibilityFrame.origin.y + accessibilityFrame.size.height * _startPercents.y + yOffset);
@@ -172,7 +170,4 @@
     
     return YES;
 }
-
-    
-    
 @end

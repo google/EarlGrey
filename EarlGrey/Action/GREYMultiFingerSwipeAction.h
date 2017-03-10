@@ -37,34 +37,35 @@
                  constraints:(id<GREYMatcher>)constraints NS_UNAVAILABLE;
     
 /**
- *  Performs a swipe in the given @c direction in the given @c duration, the start of swipe is
+ *  Performs a swipe with multiple parallel fingers in the given @c direction in the given @c duration, the start of swipe is
  *  chosen to achieve maximum swipe, such as a point close to bottom edge of the element is chosen
- *  in case of a swipe in up direction
+ *  in case of a swipe in up direction. Using this method will infer a start percentage of x: 0.5, y: 0.5.
  *
- *  @param direction The direction of the swipe.
- *  @param duration  The time interval for which the swipe takes place.
- *  @param numberOfSwipes The number of parallel swipes to use. Max value: 4.
+ *  @param direction        The direction of the swipe.
+ *  @param duration         The time interval for which the swipe takes place.
+ *  @param numberOfFingers  The number of parallel fingers to use. Max value: 4.
  *
- *  @return An instance of GREYSwipeAction, initialized with the provided direction and duration.
+ *  @return An instance of GREYMultiFingerSwipeAction, initialized with the provided direction, duration and 
+ (          number of fingers to swipe with.
  */
 - (instancetype)initWithDirection:(GREYDirection)direction
                          duration:(CFTimeInterval)duration
                   numberOfFingers:(NSUInteger)numberOfFingers;
     
 /**
- *  Performs a swipe in the given @c direction in the given @c duration, the start of swipe is
+ *  Performs a swipe with multiple parallel fingers in the given @c direction in the given @c duration, the start of swipe is
  *  chosen based on @c startPercents. Since swipes must begin inside the element and not
- *  on the edge of it x/y startPercents must be in the range (0,1) exclusive.
+ *  on the edge of it x/y, startPercents must be in the range (0,1) exclusive.
  *
- *  @param direction     The direction of the swipe.
- *  @param duration      The time interval for which the swipe takes place.
- *  @param numberOfSwipes The number of parallel swipes to use. MAx Value: 4.
- *  @param startPercents @c startPercents.x sets the value of the x-coordinate of the start point
- *                       by interpolating between left(for 0.0) and right(for 1.0) edge similarly
- *                       @c startPercents.y determines the y coordinate.
+ *  @param direction        The direction of the swipe.
+ *  @param duration         The time interval for which the swipe takes place.
+ *  @param numberOfFingers  The number of parallel fingers to use. Max Value: 4.
+ *  @param startPercents    @c startPercents.x sets the value of the x-coordinate of the start point
+ *                          by interpolating between left(for 0.0) and right(for 1.0) edge similarly
+ *                          @c startPercents.y determines the y coordinate.
  *
- *  @return An instance of GREYSwipeAction, initialized with the provided direction, duration
- *          and information for the start point.
+ *  @return An instance of GREYMultiFingerSwipeAction, initialized with the provided direction, duration,
+ *          ,information for the start point and number of fingers to swipe with.
  */
 - (instancetype)initWithDirection:(GREYDirection)direction
                          duration:(CFTimeInterval)duration
