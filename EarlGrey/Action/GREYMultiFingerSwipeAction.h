@@ -33,7 +33,7 @@
 /**
  *  @remark initWithName::constraints: is overridden from its superclass.
  */
-- (instancetype)initWithNAme:(NSString *)name
+- (instancetype)initWithName:(NSString *)name
                  constraints:(id<GREYMatcher>)constraints NS_UNAVAILABLE;
     
 /**
