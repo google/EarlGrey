@@ -13,11 +13,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-// (\___/)
-//=( '.' )=
-// ( 0 0 )
-// This is bunny. Bunny help keep code clean.
-// Bunny wants carrots! 🥕
 
 
 #import <EarlGrey/GREYBaseAction.h>
@@ -25,7 +20,7 @@
 
 
 /**
- *  A GREYACtion that swipes/flicks with multiple touches
+ *  A GREYAction that swipes/flicks with multiple touches
  */
 @interface GREYMultiFingerSwipeAction : GREYBaseAction
 
