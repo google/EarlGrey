@@ -35,9 +35,7 @@
                             @(UISwipeGestureRecognizerDirectionDown),
                             ];
     for (NSNumber *direction in directions) {
-    
         for (NSUInteger fingers = 1; fingers <= 4; fingers++) {
-            
             UISwipeGestureRecognizer *swipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(gestureRecognizedAction:)];
             swipeGesture.direction = (UISwipeGestureRecognizerDirection)direction.integerValue;
             
@@ -46,15 +44,11 @@
             [swipeGestureRecognizers addObject:swipeGesture];
             
             [self.view.subviews[1] addGestureRecognizer:swipeGesture];
-            
         }
-        
     }
-    
 }
 
 - (IBAction)gestureRecognizedAction:(UISwipeGestureRecognizer *)sender {
-    
     NSString *direction;
     switch (sender.direction) {
         case UISwipeGestureRecognizerDirectionLeft:
@@ -75,7 +69,6 @@
                                 sender.numberOfTouches, direction];
     
     self.gestureRecognizedLabel.text = recognizerText;
-    
 }
 
 @end
