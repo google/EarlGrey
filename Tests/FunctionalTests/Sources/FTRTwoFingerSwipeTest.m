@@ -31,7 +31,7 @@
 }
     
 - (GREYMultiFingerSwipeAction *)swipeActionForDirection:(GREYDirection)direction {
-    return [[GREYMultiFingerSwipeAction alloc] initWithDirection:direction duration:0.2 numberOfSwipes:2];
+    return [[GREYMultiFingerSwipeAction alloc] initWithDirection:direction duration:0.2 numberOfFingers:2];
 }
     
 - (void)testTwoFingerSwipeLeft {

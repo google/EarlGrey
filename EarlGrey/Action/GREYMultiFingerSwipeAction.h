@@ -49,7 +49,7 @@
  */
 - (instancetype)initWithDirection:(GREYDirection)direction
                          duration:(CFTimeInterval)duration
-                   numberOfSwipes:(NSUInteger)numberOfSwipes;
+                  numberOfFingers:(NSUInteger)numberOfFingers;
     
 /**
  *  Performs a swipe in the given @c direction in the given @c duration, the start of swipe is
@@ -68,7 +68,7 @@
  */
 - (instancetype)initWithDirection:(GREYDirection)direction
                          duration:(CFTimeInterval)duration
-                   numberOfSwipes:(NSUInteger)numberOfSwipes
+                  numberOfFingers:(NSUInteger)numberOfFingers
                     startPercents:(CGPoint)startPercents;
     
 

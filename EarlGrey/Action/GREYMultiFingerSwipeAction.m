@@ -45,19 +45,19 @@
     /**
      *  Number of parallel swipes
      */
-    NSUInteger _numberOfSwipes;
+    NSUInteger _numberOfFingers;
 }
     
 - (instancetype)initWithDirection:(GREYDirection)direction
                          duration:(CFTimeInterval)duration
-                   numberOfSwipes:(NSUInteger)numberOfSwipes
+                  numberOfFingers:(NSUInteger)numberOfFingers
                      percentPoint:(CGPoint)percents {
     NSAssert(percents.x > 0.0f && percents.x < 1.0f,
              @"xOriginStartPercentage must be between 0 and 1, exclusively");
     NSAssert(percents.y > 0.0f && percents.y < 1.0f,
              @"yOriginStartPercentage must be between 0 and 1, exclusively");
     
-    NSAssert(numberOfSwipes <= 4, @"No more than four parallel swipes are supported");
+    NSAssert(numberOfFingers <= 4, @"No more than four parallel swipes are supported");
     
     NSString *name =
     [NSString stringWithFormat:@"Swipe %@ for duration %g", NSStringFromGREYDirection(direction),
@@ -71,7 +71,7 @@
     if (self) {
         _direction = direction;
         _duration = duration;
-        _numberOfSwipes = numberOfSwipes;
+        _numberOfFingers = numberOfFingers;
         _startPercents = percents;
     }
     return self;
@@ -80,23 +80,23 @@
     
 - (instancetype)initWithDirection:(GREYDirection)direction
                          duration:(CFTimeInterval)duration
-                   numberOfSwipes:(NSUInteger)numberOfSwipes {
+                  numberOfFingers:(NSUInteger)numberOfFingers {
     
     return [self initWithDirection:direction
                           duration:duration
-                    numberOfSwipes:numberOfSwipes
+                    numberOfFingers:numberOfFingers
                       percentPoint:CGPointMake(0.5, 0.5)];
 }
     
     
 - (instancetype)initWithDirection:(GREYDirection)direction
                          duration:(CFTimeInterval)duration
-                   numberOfSwipes:(NSUInteger)numberOfSwipes
+                  numberOfFingers:(NSUInteger)numberOfFingers
                     startPercents:(CGPoint)startPercents {
     
     return [self initWithDirection:direction
                           duration:duration
-                    numberOfSwipes:numberOfSwipes
+                   numberOfFingers:numberOfFingers
                       percentPoint:startPercents];
 }
     
@@ -137,7 +137,7 @@
     
     CGRect accessibilityFrame = [element accessibilityFrame];
     
-    for(NSUInteger i = 0; i < _numberOfSwipes; i++) {
+    for(NSUInteger i = 0; i < _numberOfFingers; i++) {
         
         CGFloat xOffset, yOffset;
         switch (_direction) {
