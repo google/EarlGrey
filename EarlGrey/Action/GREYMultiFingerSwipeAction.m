@@ -61,8 +61,8 @@
   NSAssert(numberOfFingers <= 4, @"No more than four parallel fingers are supported");
   
   NSString *name =
-  [NSString stringWithFormat:@"Swipe %@ for duration %g", NSStringFromGREYDirection(direction),
-   duration];
+      [NSString stringWithFormat:@"Swipe %@ for duration %g", NSStringFromGREYDirection(direction),
+      duration];
   self = [super initWithName:name
                  constraints:grey_allOf(grey_interactable(),
                                         grey_not(grey_systemAlertViewShown()),
