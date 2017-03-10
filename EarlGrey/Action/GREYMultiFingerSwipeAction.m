@@ -54,9 +54,9 @@
                   numberOfFingers:(NSUInteger)numberOfFingers
                      percentPoint:(CGPoint)percents {
   NSAssert(percents.x > 0.0f && percents.x < 1.0f,
-           @"xOriginStartPercentage must be between 0 and 1, exclusively");
+           @"percents.x must be between 0 and 1, exclusively");
   NSAssert(percents.y > 0.0f && percents.y < 1.0f,
-           @"yOriginStartPercentage must be between 0 and 1, exclusively");
+           @"percents.y must be between 0 and 1, exclusively");
   
   NSAssert(numberOfFingers <= 4, @"No more than four parallel fingers are supported");
   
