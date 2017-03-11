@@ -25,50 +25,52 @@
 @implementation FTRMultiFingerSwipeGestureRecognizerViewController
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
-    
-    NSMutableArray *swipeGestureRecognizers = [[NSMutableArray alloc] init];
-    
-    NSArray *directions = @[@(UISwipeGestureRecognizerDirectionRight),
-                            @(UISwipeGestureRecognizerDirectionLeft),
-                            @(UISwipeGestureRecognizerDirectionUp),
-                            @(UISwipeGestureRecognizerDirectionDown),
-                            ];
-    for (NSNumber *direction in directions) {
-        for (NSUInteger fingers = 1; fingers <= 4; fingers++) {
-            UISwipeGestureRecognizer *swipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(gestureRecognizedAction:)];
-            swipeGesture.direction = (UISwipeGestureRecognizerDirection)direction.integerValue;
-            
-            swipeGesture.numberOfTouchesRequired = fingers;
-            
-            [swipeGestureRecognizers addObject:swipeGesture];
-            
-            [self.view.subviews[1] addGestureRecognizer:swipeGesture];
-        }
+  [super viewDidLoad];
+  
+  NSMutableArray *swipeGestureRecognizers = [[NSMutableArray alloc] init];
+  
+  NSArray *directions = @[@(UISwipeGestureRecognizerDirectionRight),
+                          @(UISwipeGestureRecognizerDirectionLeft),
+                          @(UISwipeGestureRecognizerDirectionUp),
+                          @(UISwipeGestureRecognizerDirectionDown),
+                          ];
+  for (NSNumber *direction in directions) {
+    for (NSUInteger fingers = 1; fingers <= 4; fingers++) {
+      UISwipeGestureRecognizer *swipeGesture =
+          [[UISwipeGestureRecognizer alloc] initWithTarget:self
+                                                    action:@selector(gestureRecognizedAction:)];
+      swipeGesture.direction = (UISwipeGestureRecognizerDirection)direction.integerValue;
+      
+      swipeGesture.numberOfTouchesRequired = fingers;
+      
+      [swipeGestureRecognizers addObject:swipeGesture];
+      
+      [self.view.subviews[1] addGestureRecognizer:swipeGesture];
     }
+  }
 }
 
 - (IBAction)gestureRecognizedAction:(UISwipeGestureRecognizer *)sender {
-    NSString *direction;
-    switch (sender.direction) {
-        case UISwipeGestureRecognizerDirectionLeft:
-            direction = @"Left";
-            break;
-        case UISwipeGestureRecognizerDirectionRight:
-            direction = @"Right";
-            break;
-        case UISwipeGestureRecognizerDirectionUp:
-            direction = @"Up";
-            break;
-        case UISwipeGestureRecognizerDirectionDown:
-            direction = @"Down";
-            break;
-    }
-
-    NSString *recognizerText = [NSString stringWithFormat:@"Swiped with %lu fingers %@",
-                                sender.numberOfTouches, direction];
-    
-    self.gestureRecognizedLabel.text = recognizerText;
+  NSString *direction;
+  switch (sender.direction) {
+    case UISwipeGestureRecognizerDirectionLeft:
+      direction = @"Left";
+      break;
+    case UISwipeGestureRecognizerDirectionRight:
+      direction = @"Right";
+      break;
+    case UISwipeGestureRecognizerDirectionUp:
+      direction = @"Up";
+      break;
+    case UISwipeGestureRecognizerDirectionDown:
+      direction = @"Down";
+      break;
+  }
+  
+  NSString *recognizerText = [NSString stringWithFormat:@"Swiped with %lu fingers %@",
+                              sender.numberOfTouches, direction];
+  
+  self.gestureRecognizedLabel.text = recognizerText;
 }
 
 @end

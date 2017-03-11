@@ -65,14 +65,11 @@
  *                          @c startPercents.y determines the y coordinate.
  *
  *  @return An instance of GREYMultiFingerSwipeAction, initialized with the provided direction, duration,
- *          ,information for the start point and number of fingers to swipe with.
+ *          information for the start point and number of fingers to swipe with.
  */
 - (instancetype)initWithDirection:(GREYDirection)direction
                          duration:(CFTimeInterval)duration
                   numberOfFingers:(NSUInteger)numberOfFingers
                     startPercents:(CGPoint)startPercents NS_DESIGNATED_INITIALIZER;
-    
 
-    
-    
 @end

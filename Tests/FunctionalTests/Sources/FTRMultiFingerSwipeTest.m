@@ -30,14 +30,18 @@
     [self openTestViewNamed:@"Multi finger swipe gestures"];
 }
     
-- (GREYMultiFingerSwipeAction *)swipeActionForDirection:(GREYDirection)direction usingNumberOfFingers:(NSUInteger)fingerCount {
-    return [[GREYMultiFingerSwipeAction alloc] initWithDirection:direction duration:0.2 numberOfFingers:fingerCount];
+- (GREYMultiFingerSwipeAction *)swipeActionForDirection:(GREYDirection)direction
+                                   usingNumberOfFingers:(NSUInteger)fingerCount {
+    return [[GREYMultiFingerSwipeAction alloc] initWithDirection:direction
+                                                        duration:0.2
+                                                 numberOfFingers:fingerCount];
 }
 
 #pragma mark - Two fingers
     
 - (void)testTwoFingerSwipeLeft {
-    GREYMultiFingerSwipeAction *multiSwipe = [self swipeActionForDirection:kGREYDirectionLeft usingNumberOfFingers:2];
+    GREYMultiFingerSwipeAction *multiSwipe = [self swipeActionForDirection:kGREYDirectionLeft
+                                                      usingNumberOfFingers:2];
     
     [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"gestureRecognizerBox")]
         performAction:multiSwipe];
@@ -47,7 +51,8 @@
 }
 
 - (void)testTwoFingerSwipeRight {
-    GREYMultiFingerSwipeAction *multiSwipe = [self swipeActionForDirection:kGREYDirectionRight usingNumberOfFingers:2];
+    GREYMultiFingerSwipeAction *multiSwipe = [self swipeActionForDirection:kGREYDirectionRight
+                                                      usingNumberOfFingers:2];
     
     [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"gestureRecognizerBox")]
         performAction:multiSwipe];
@@ -57,7 +62,8 @@
 }
     
 - (void)testTwoFingerSwipeUp {
-    GREYMultiFingerSwipeAction *multiSwipe = [self swipeActionForDirection:kGREYDirectionUp usingNumberOfFingers:2];
+    GREYMultiFingerSwipeAction *multiSwipe = [self swipeActionForDirection:kGREYDirectionUp
+                                                      usingNumberOfFingers:2];
     
     [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"gestureRecognizerBox")]
         performAction:multiSwipe];
@@ -67,7 +73,8 @@
 }
     
 - (void)testTwoFingerSwipeDown {
-    GREYMultiFingerSwipeAction *multiSwipe = [self swipeActionForDirection:kGREYDirectionDown usingNumberOfFingers:2];
+    GREYMultiFingerSwipeAction *multiSwipe = [self swipeActionForDirection:kGREYDirectionDown
+                                                      usingNumberOfFingers:2];
     
     [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"gestureRecognizerBox")]
         performAction:multiSwipe];
@@ -79,7 +86,8 @@
 #pragma mark - Three fingers
 
 - (void)testThreeFingerSwipeLeft {
-    GREYMultiFingerSwipeAction *multiSwipe = [self swipeActionForDirection:kGREYDirectionLeft usingNumberOfFingers:3];
+    GREYMultiFingerSwipeAction *multiSwipe = [self swipeActionForDirection:kGREYDirectionLeft
+                                                      usingNumberOfFingers:3];
     
     [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"gestureRecognizerBox")]
         performAction:multiSwipe];
@@ -89,7 +97,8 @@
 }
 
 - (void)testThreeFingerSwipeRight {
-    GREYMultiFingerSwipeAction *multiSwipe = [self swipeActionForDirection:kGREYDirectionRight usingNumberOfFingers:3];
+    GREYMultiFingerSwipeAction *multiSwipe = [self swipeActionForDirection:kGREYDirectionRight
+                                                      usingNumberOfFingers:3];
     
     [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"gestureRecognizerBox")]
         performAction:multiSwipe];
@@ -99,7 +108,8 @@
 }
 
 - (void)testThreeFingerSwipeUp {
-    GREYMultiFingerSwipeAction *multiSwipe = [self swipeActionForDirection:kGREYDirectionUp usingNumberOfFingers:3];
+    GREYMultiFingerSwipeAction *multiSwipe = [self swipeActionForDirection:kGREYDirectionUp
+                                                      usingNumberOfFingers:3];
     
     [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"gestureRecognizerBox")]
         performAction:multiSwipe];
@@ -109,7 +119,8 @@
 }
 
 - (void)testThreeFingerSwipeDown {
-    GREYMultiFingerSwipeAction *multiSwipe = [self swipeActionForDirection:kGREYDirectionDown usingNumberOfFingers:3];
+    GREYMultiFingerSwipeAction *multiSwipe = [self swipeActionForDirection:kGREYDirectionDown
+                                                      usingNumberOfFingers:3];
     
     [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"gestureRecognizerBox")]
         performAction:multiSwipe];
@@ -121,7 +132,8 @@
 #pragma mark - Four fingers
 
 - (void)testFourFingerSwipeLeft {
-    GREYMultiFingerSwipeAction *multiSwipe = [self swipeActionForDirection:kGREYDirectionLeft usingNumberOfFingers:4];
+    GREYMultiFingerSwipeAction *multiSwipe = [self swipeActionForDirection:kGREYDirectionLeft
+                                                      usingNumberOfFingers:4];
     
     [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"gestureRecognizerBox")]
         performAction:multiSwipe];
@@ -131,7 +143,8 @@
 }
 
 - (void)testFourFingerSwipeRight {
-    GREYMultiFingerSwipeAction *multiSwipe = [self swipeActionForDirection:kGREYDirectionRight usingNumberOfFingers:4];
+    GREYMultiFingerSwipeAction *multiSwipe = [self swipeActionForDirection:kGREYDirectionRight
+                                                      usingNumberOfFingers:4];
     
     [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"gestureRecognizerBox")]
         performAction:multiSwipe];
@@ -141,7 +154,8 @@
 }
 
 - (void)testFourFingerSwipeUp {
-    GREYMultiFingerSwipeAction *multiSwipe = [self swipeActionForDirection:kGREYDirectionUp usingNumberOfFingers:4];
+    GREYMultiFingerSwipeAction *multiSwipe = [self swipeActionForDirection:kGREYDirectionUp
+                                                      usingNumberOfFingers:4];
     
     [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"gestureRecognizerBox")]
         performAction:multiSwipe];
@@ -151,7 +165,8 @@
 }
 
 - (void)testFourFingerSwipeDown {
-    GREYMultiFingerSwipeAction *multiSwipe = [self swipeActionForDirection:kGREYDirectionDown usingNumberOfFingers:4];
+    GREYMultiFingerSwipeAction *multiSwipe = [self swipeActionForDirection:kGREYDirectionDown
+                                                      usingNumberOfFingers:4];
     
     [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"gestureRecognizerBox")]
         performAction:multiSwipe];
