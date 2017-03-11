@@ -29,11 +29,12 @@
   
   NSMutableArray *swipeGestureRecognizers = [[NSMutableArray alloc] init];
   
-  NSArray *directions = @[@(UISwipeGestureRecognizerDirectionRight),
+  NSArray *directions = @[
+                          @(UISwipeGestureRecognizerDirectionRight),
                           @(UISwipeGestureRecognizerDirectionLeft),
                           @(UISwipeGestureRecognizerDirectionUp),
                           @(UISwipeGestureRecognizerDirectionDown),
-                          ];
+                         ];
   for (NSNumber *direction in directions) {
     for (NSUInteger fingers = 1; fingers <= 4; fingers++) {
       UISwipeGestureRecognizer *swipeGesture =
