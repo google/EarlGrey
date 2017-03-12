@@ -62,7 +62,7 @@
   
   NSString *name =
       [NSString stringWithFormat:@"Swipe %@ for duration %g", NSStringFromGREYDirection(direction),
-      duration];
+                                 duration];
   self = [super initWithName:name
                  constraints:grey_allOf(grey_interactable(),
                                         grey_not(grey_systemAlertViewShown()),
@@ -76,7 +76,6 @@
     _startPercents = percents;
   }
   return self;
-  
 }
 
 - (instancetype)initWithDirection:(GREYDirection)direction
@@ -87,7 +86,6 @@
                  numberOfFingers:numberOfFingers
                     percentPoint:CGPointMake(0.5, 0.5)];
 }
-
 
 - (instancetype)initWithDirection:(GREYDirection)direction
                          duration:(CFTimeInterval)duration
@@ -112,8 +110,8 @@
       window = (UIWindow *)element;
     } else {
       NSString *errorDescription =
-      [NSString stringWithFormat:@"Cannot multi finger swipe on view [V], "
-                                 @"as it has no window and it isn't a window itself."];
+          [NSString stringWithFormat:@"Cannot multi finger swipe on view [V], "
+                                     @"as it has no window and it isn't a window itself."];
       NSDictionary *glossary = @{ @"V" : [element grey_description]};
       GREYError *error;
       error = GREYErrorMake(kGREYSyntheticEventInjectionErrorDomain,
@@ -127,7 +125,6 @@
                                 exceptionDetails:@""
                                        withError:error];
       }
-      
       return NO;
     }
   }
@@ -136,7 +133,6 @@
   CGRect accessibilityFrame = [element accessibilityFrame];
   
   for(NSUInteger i = 0; i < _numberOfFingers; i++) {
-    
     CGFloat xOffset, yOffset;
     switch (_direction) {
       case kGREYDirectionDown:
@@ -153,7 +149,7 @@
     }
     
     CGFloat xStartPoint = CGRectGetMaxX(accessibilityFrame) * _startPercents.x + xOffset;
-    CGFLoat yStartPoint = CGRectGetMaxY(accessibilityFrame) * _startPercents.y + yOffset;
+    CGFloat yStartPoint = CGRectGetMaxY(accessibilityFrame) * _startPercents.y + yOffset;
     CGPoint startPoint = CGPointMake(xStartPoint, yStartPoint);
     
     NSArray *touchPath = [GREYPathGestureUtils touchPathForGestureWithStartPoint:startPoint
@@ -166,7 +162,6 @@
                               relativeToWindow:window
                                    forDuration:_duration
                                     expendable:YES];
-  
   return YES;
 }
 @end

@@ -14,17 +14,14 @@
 // limitations under the License.
 //
 
-
 #import <EarlGrey/GREYBaseAction.h>
 #import <EarlGrey/GREYConstants.h>
-
 
 /**
  *  A GREYAction that swipes/flicks with multiple touches
  */
 @interface GREYMultiFingerSwipeAction : GREYBaseAction
 
-    
 /**
  *  @remark init is not an available initializer. Use the other initializers.
  */

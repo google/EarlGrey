@@ -41,9 +41,7 @@
           [[UISwipeGestureRecognizer alloc] initWithTarget:self
                                                     action:@selector(gestureRecognizedAction:)];
       swipeGesture.direction = (UISwipeGestureRecognizerDirection)direction.integerValue;
-      
       swipeGesture.numberOfTouchesRequired = fingers;
-      
       [swipeGestureRecognizers addObject:swipeGesture];
       
       [self.view.subviews[1] addGestureRecognizer:swipeGesture];
@@ -70,7 +68,6 @@
   
   NSString *recognizerText = [NSString stringWithFormat:@"Swiped with %lu fingers %@",
                               sender.numberOfTouches, direction];
-  
   self.gestureRecognizedLabel.text = recognizerText;
 }
 
