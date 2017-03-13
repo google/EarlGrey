@@ -4,7 +4,6 @@
         <deployment identifier="iOS"/>
         <development version="7000" identifier="xcode"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FTRMultiFingerSwipeGestureRecognizerViewController">
@@ -26,13 +25,13 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zcB-0i-jxD">
-                    <rect key="frame" x="16" y="49" width="343" height="343"/>
+                    <rect key="frame" x="16" y="49" width="343" height="514"/>
                     <color key="backgroundColor" red="0.72336632013320923" green="0.72336632013320923" blue="0.72336632013320923" alpha="1" colorSpace="calibratedRGB"/>
                     <accessibility key="accessibilityConfiguration" identifier="gestureRecognizerBox"/>
                     <gestureRecognizers/>
                     <constraints>
+                        <constraint firstAttribute="height" constant="514" id="1PV-da-CqC"/>
                         <constraint firstAttribute="width" constant="343" id="G39-6S-isj"/>
-                        <constraint firstAttribute="width" secondItem="zcB-0i-jxD" secondAttribute="height" multiplier="1:1" id="i0G-ma-sr8"/>
                     </constraints>
                 </view>
             </subviews>
