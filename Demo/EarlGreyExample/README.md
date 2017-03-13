@@ -24,6 +24,6 @@ From the directory containing the example source, run:
 - `gem install earlgrey`
 - `earlgrey install --carthage --swift-version=3.0 --target=EarlGreyExampleSwiftTests`
 - `carthage update EarlGrey --platform ios`
-- `open EarlGreyExample.xcworkspace`
+- `open EarlGreyExample.xcodeproj`
 
 Xcode should now allow you to execute the EarlGreyExampleSwiftTests tests.
