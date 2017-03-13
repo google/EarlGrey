@@ -27,6 +27,8 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   
+  self.view.subviews[1].accessibilityIdentifier = @"gestureRecognizerBox";
+  
   NSMutableArray *swipeGestureRecognizers = [[NSMutableArray alloc] init];
   
   NSArray *directions = @[
@@ -67,7 +69,7 @@
   }
   
   NSString *recognizerText = [NSString stringWithFormat:@"Swiped with %lu fingers %@",
-                              sender.numberOfTouches, direction];
+                              (unsigned long)sender.numberOfTouches, direction];
   self.gestureRecognizedLabel.text = recognizerText;
 }
 
