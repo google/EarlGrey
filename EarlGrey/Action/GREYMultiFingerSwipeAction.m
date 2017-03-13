@@ -51,50 +51,40 @@
 
 - (instancetype)initWithDirection:(GREYDirection)direction
                          duration:(CFTimeInterval)duration
-                  numberOfFingers:(NSUInteger)numberOfFingers
-                     percentPoint:(CGPoint)percents {
-  NSAssert(percents.x > 0.0f && percents.x < 1.0f,
-           @"percents.x must be between 0 and 1, exclusively");
-  NSAssert(percents.y > 0.0f && percents.y < 1.0f,
-           @"percents.y must be between 0 and 1, exclusively");
-  
-  NSAssert(numberOfFingers <= 4, @"No more than four parallel fingers are supported");
-  
-  NSString *name =
-      [NSString stringWithFormat:@"Swipe %@ for duration %g", NSStringFromGREYDirection(direction),
-                                 duration];
-  self = [super initWithName:name
-                 constraints:grey_allOf(grey_interactable(),
-                                        grey_not(grey_systemAlertViewShown()),
-                                        grey_kindOfClass([UIView class]),
-                                        grey_respondsToSelector(@selector(accessibilityFrame)),
-                                        nil)];
-  if (self) {
-    _direction = direction;
-    _duration = duration;
-    _numberOfFingers = numberOfFingers;
-    _startPercents = percents;
-  }
-  return self;
-}
-
-- (instancetype)initWithDirection:(GREYDirection)direction
-                         duration:(CFTimeInterval)duration
                   numberOfFingers:(NSUInteger)numberOfFingers {
-  return [self initWithDirection:direction
-                        duration:duration
-                 numberOfFingers:numberOfFingers
-                    percentPoint:CGPointMake(0.5, 0.5)];
+    return [self initWithDirection:direction
+                          duration:duration
+                   numberOfFingers:numberOfFingers
+                     startPercents:CGPointMake(0.5, 0.5)];
 }
 
 - (instancetype)initWithDirection:(GREYDirection)direction
                          duration:(CFTimeInterval)duration
                   numberOfFingers:(NSUInteger)numberOfFingers
                     startPercents:(CGPoint)startPercents {
-  return [self initWithDirection:direction
-                        duration:duration
-                 numberOfFingers:numberOfFingers
-                    percentPoint:startPercents];
+    NSAssert(startPercents.x > 0.0f && startPercents.x < 1.0f,
+             @"percents.x must be between 0 and 1, exclusively");
+    NSAssert(startPercents.y > 0.0f && startPercents.y < 1.0f,
+             @"percents.y must be between 0 and 1, exclusively");
+    
+    NSAssert(numberOfFingers <= 4, @"No more than four parallel fingers are supported");
+    
+    NSString *name =
+    [NSString stringWithFormat:@"Swipe %@ for duration %g", NSStringFromGREYDirection(direction),
+     duration];
+    self = [super initWithName:name
+                   constraints:grey_allOf(grey_interactable(),
+                                          grey_not(grey_systemAlertViewShown()),
+                                          grey_kindOfClass([UIView class]),
+                                          grey_respondsToSelector(@selector(accessibilityFrame)),
+                                          nil)];
+    if (self) {
+        _direction = direction;
+        _duration = duration;
+        _numberOfFingers = numberOfFingers;
+        _startPercents = startPercents;
+    }
+    return self;
 }
 
 #pragma mark - GREYAction
