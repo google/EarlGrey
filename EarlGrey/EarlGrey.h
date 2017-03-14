@@ -59,6 +59,7 @@
 #import <EarlGrey/GREYManagedObjectContextIdlingResource.h>
 #import <EarlGrey/GREYMatcher.h>
 #import <EarlGrey/GREYMatchers.h>
+#import <EarlGrey/GREYMultiFingerSwipeAction.h>
 #import <EarlGrey/GREYNSTimerIdlingResource.h>
 #import <EarlGrey/GREYNot.h>
 #import <EarlGrey/GREYOperationQueueIdlingResource.h>

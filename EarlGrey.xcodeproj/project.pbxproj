@@ -86,6 +86,8 @@
 		7CFDF8EB1DBBD5FC00CAADB3 /* GREYLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CFDF8E51DBBD5FC00CAADB3 /* GREYLogger.m */; };
 		7CFDF8EC1DBBD5FC00CAADB3 /* GREYObjectFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7CFDF8E61DBBD5FC00CAADB3 /* GREYObjectFormatter.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		7CFDF8ED1DBBD5FC00CAADB3 /* GREYObjectFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CFDF8E71DBBD5FC00CAADB3 /* GREYObjectFormatter.m */; };
+		D210ED8D1E6F47D100978B9E /* GREYMultiFingerSwipeAction.h in Headers */ = {isa = PBXBuildFile; fileRef = D210ED8B1E6F47D100978B9E /* GREYMultiFingerSwipeAction.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D210ED8E1E6F47D100978B9E /* GREYMultiFingerSwipeAction.m in Sources */ = {isa = PBXBuildFile; fileRef = D210ED8C1E6F47D100978B9E /* GREYMultiFingerSwipeAction.m */; };
 		FD1001B01C5B46C200B2DB0A /* GREYAction.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001011C5B46C100B2DB0A /* GREYAction.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FD1001B11C5B46C200B2DB0A /* GREYActionBlock.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001021C5B46C100B2DB0A /* GREYActionBlock.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FD1001B21C5B46C200B2DB0A /* GREYActionBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1001031C5B46C100B2DB0A /* GREYActionBlock.m */; };
@@ -261,6 +263,8 @@
 		7CFDF8E51DBBD5FC00CAADB3 /* GREYLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYLogger.m; sourceTree = "<group>"; };
 		7CFDF8E61DBBD5FC00CAADB3 /* GREYObjectFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYObjectFormatter.h; sourceTree = "<group>"; };
 		7CFDF8E71DBBD5FC00CAADB3 /* GREYObjectFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYObjectFormatter.m; sourceTree = "<group>"; };
+		D210ED8B1E6F47D100978B9E /* GREYMultiFingerSwipeAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYMultiFingerSwipeAction.h; sourceTree = "<group>"; };
+		D210ED8C1E6F47D100978B9E /* GREYMultiFingerSwipeAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYMultiFingerSwipeAction.m; sourceTree = "<group>"; };
 		FD06C66B1BECAD8B009032A5 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		FD06C66C1BECAD8B009032A5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		FD06C66F1BECAD9B009032A5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -552,6 +556,8 @@
 				FD1001191C5B46C100B2DB0A /* GREYTapAction.m */,
 				FD10011A1C5B46C100B2DB0A /* GREYTapper.h */,
 				FD10011B1C5B46C100B2DB0A /* GREYTapper.m */,
+				D210ED8B1E6F47D100978B9E /* GREYMultiFingerSwipeAction.h */,
+				D210ED8C1E6F47D100978B9E /* GREYMultiFingerSwipeAction.m */,
 			);
 			name = Action;
 			path = EarlGrey/Action;
@@ -872,6 +878,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D210ED8D1E6F47D100978B9E /* GREYMultiFingerSwipeAction.h in Headers */,
 				59A993281C99453200914F9A /* EarlGrey.h in Headers */,
 				FD1001B01C5B46C200B2DB0A /* GREYAction.h in Headers */,
 				FD1001B31C5B46C200B2DB0A /* GREYActions.h in Headers */,
@@ -1146,6 +1153,7 @@
 				FD1001C61C5B46C200B2DB0A /* GREYSwipeAction.m in Sources */,
 				61E4E0BC1D7559DA007F9EE6 /* GREYTouchInjector.m in Sources */,
 				FD1001E21C5B46C200B2DB0A /* NSURL+GREYAdditions.m in Sources */,
+				D210ED8E1E6F47D100978B9E /* GREYMultiFingerSwipeAction.m in Sources */,
 				FDA218EE1E450A9900693978 /* GREYErrorConstants.m in Sources */,
 				FD10023F1C5B46C200B2DB0A /* GREYUIWindowProvider.m in Sources */,
 				FD1001C41C5B46C200B2DB0A /* GREYSlideAction.m in Sources */,

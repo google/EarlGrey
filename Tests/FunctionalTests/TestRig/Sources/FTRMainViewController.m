@@ -35,6 +35,7 @@
 #import "FTRTypingViewController.h"
 #import "FTRVisibilityTestViewController.h"
 #import "FTRWebViewController.h"
+#import "FTRMultiFingerSwipeGestureRecognizerViewController.h"
 
 static NSString *gTableViewIdentifier = @"TableViewIdentifier";
 
@@ -73,6 +74,7 @@ static NSString *gTableViewIdentifier = @"TableViewIdentifier";
       @"Typing Views" : [FTRTypingViewController class],
       @"Visibility Tests" : [FTRVisibilityTestViewController class],
       @"Web Views" : [FTRWebViewController class],
+      @"Multi finger swipe gestures" : [FTRMultiFingerSwipeGestureRecognizerViewController class],
     };
   }
   return self;
