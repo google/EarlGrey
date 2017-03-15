@@ -276,8 +276,6 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
 }
 
 + (id<GREYMatcher>)matcherForKindOfClass:(Class)klass {
-  NSParameterAssert(klass);
-
   MatchesBlock matches = ^BOOL(id element) {
     return [element isKindOfClass:klass];
   };

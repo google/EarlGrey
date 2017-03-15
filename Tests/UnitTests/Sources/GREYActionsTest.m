@@ -36,7 +36,7 @@
     [tap perform:view error:nil];
     XCTFail(@"Should have thrown an exception");
   } @catch (NSException *exception) {
-    NSString *reason = @"Cannot perform action due to a constraint failure.";
+    NSString *reason = @"Cannot perform action due to constraint(s) failure.";
     XCTAssertEqualObjects([exception name], kGREYActionFailedException,
                           @"Should throw GREYActionFailException");
     NSRange reasonRange = [exception.reason rangeOfString:reason];
@@ -99,7 +99,7 @@
     [turnSwitch perform:uiswitch error:nil];
     XCTFail(@"Should have thrown an exception");
   } @catch (NSException *exception) {
-    NSString *reason = @"Cannot perform action due to a constraint failure.";
+    NSString *reason = @"Cannot perform action due to constraint(s) failure.";
     NSString *actionName = @"Long Press for 0.500000 seconds";
     XCTAssertEqualObjects([exception name], kGREYActionFailedException,
                           @"Should throw GREYActionFailException");
@@ -122,7 +122,7 @@
     [swipeLeft perform:view error:nil];
     XCTFail(@"Should have thrown an exception");
   } @catch (NSException *exception) {
-    NSString *reason = @"Cannot perform action due to a constraint failure.";
+    NSString *reason = @"Cannot perform action due to constraint(s) failure.";
     NSString *actionName = @"Swipe Left for duration 0.1";
     XCTAssertEqualObjects([exception name], kGREYActionFailedException,
                           @"Should throw GREYActionFailException");
@@ -180,7 +180,7 @@
     [tap perform:view error:nil];
     XCTFail(@"Should have thrown an exception");
   } @catch (NSException *exception) {
-    NSString *reason = @"Cannot perform action due to a constraint failure.";
+    NSString *reason = @"Cannot perform action due to constraint(s) failure.";
     XCTAssertEqualObjects([exception name], kGREYActionFailedException,
                           @"Should throw GREYActionFailException");
     NSRange reasonRange = [exception.reason rangeOfString:reason];

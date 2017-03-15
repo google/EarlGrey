@@ -20,7 +20,7 @@
 #import "Common/GREYError.h"
 #import "Matcher/GREYStringDescription.h"
 
-NSInteger const GREYObjectFormatIndent = 2;
+NSInteger const kGREYObjectFormatIndent = 2;
 
 @implementation GREYObjectFormatter
 

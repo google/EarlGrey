@@ -55,7 +55,6 @@ static inline NSInteger getNextScreenshotCount() {
   NSMutableDictionary *appScreenshots = [[NSMutableDictionary alloc] init];
 
   // Save and log screenshot and before and after images (if available).
-
   NSString *screenshotPath;
   NSString *fileName;
   UIImage *screenshot;
@@ -64,8 +63,8 @@ static inline NSInteger getNextScreenshotCount() {
   if (screenshotPrefix) {
     screenshotName = screenshotPrefix;
   } else {
-    screenshotName = [NSString stringWithFormat:@"unknown_%ld",
-                      (unsigned long)getNextScreenshotCount()];
+    screenshotName =
+        [NSString stringWithFormat:@"unknown_%ld", (unsigned long)getNextScreenshotCount()];
   }
 
   screenshot = [GREYScreenshotUtil grey_takeScreenshotAfterScreenUpdates:NO];
