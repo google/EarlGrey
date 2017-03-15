@@ -125,7 +125,7 @@
                            kScreenshotActualAfterImage ];
 
     NSString *screenshots = [GREYObjectFormatter formatDictionary:error.appScreenshots
-                                                           indent:GREYObjectFormatIndent
+                                                           indent:kGREYObjectFormatIndent
                                                         hideEmpty:YES
                                                          keyOrder:keyOrder];
 
@@ -140,17 +140,18 @@
                                     @"[AX]" : @"Accessibility",
                                     @"[UIE]" : @"User Interaction Enabled" };
     NSString *legendDescription = [GREYObjectFormatter formatDictionary:legendLabels
-                                                                 indent:GREYObjectFormatIndent
+                                                                 indent:kGREYObjectFormatIndent
                                                               hideEmpty:NO
                                                                keyOrder:nil];
     [logger addObject:[NSString stringWithFormat:@"%@: %@\n", @"Legend", legendDescription]];
     // Append the hierarchy for all UI Windows in the app.
     [logger addObject:error.appUIHierarchy];
+    [logger addObject:@"\n"];
   }
 
   if (![excluding containsObject:kErrorDescriptionGlossaryKey]) {
     NSString *glossary = [GREYObjectFormatter formatDictionary:error.descriptionGlossary
-                                                        indent:GREYObjectFormatIndent
+                                                        indent:kGREYObjectFormatIndent
                                                      hideEmpty:YES
                                                       keyOrder:nil];
     [logger addObject:[NSString stringWithFormat:@"%@: %@\n",

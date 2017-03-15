@@ -554,7 +554,7 @@ static Class accessibilityTextFieldElementClass;
         [firstResponder setSelectedTextRange:newRange];
       } else {
         NSString *description = @"First responder [F] of element [E] does not conform to "
-            @"UITextInput protocol.";
+                                @"UITextInput protocol.";
         NSDictionary *glossary = @{ @"F" : [firstResponder description],
                                     @"E" : [expectedFirstResponderView description] };
         GREYPopulateErrorNotedOrLog(errorOrNil,

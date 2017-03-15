@@ -81,7 +81,7 @@
   NSArray *testArray = @[ @"item1", @"item2", @"item3" ];
   NSString *formatted = [GREYObjectFormatter formatArray:testArray
                                                   prefix:@""
-                                                  indent:GREYObjectFormatIndent
+                                                  indent:kGREYObjectFormatIndent
                                                 keyOrder:nil];
   XCTAssertTrue([formatted isEqualToString:@"[\n  \"item1\",\n  \"item2\",\n  \"item3\"\n]"],
                 @"Error formatting array with indent");
@@ -91,7 +91,7 @@
   NSArray *testArray = @[ @"item1", @"item2", @"item3" ];
   NSString *formatted = [GREYObjectFormatter formatArray:testArray
                                                   prefix:@"  "
-                                                  indent:GREYObjectFormatIndent
+                                                  indent:kGREYObjectFormatIndent
                                                 keyOrder:nil];
   NSString *expected = @"  [\n    \"item1\",\n    \"item2\",\n    \"item3\"\n  ]";
   XCTAssertTrue([formatted isEqualToString:expected],
@@ -103,7 +103,7 @@
       @[ @[ @"item211", @"item212" ], @[ @"item221" ] ] ];
   NSString *formatted = [GREYObjectFormatter formatArray:testArray
                                                   prefix:@"  "
-                                                  indent:GREYObjectFormatIndent
+                                                  indent:kGREYObjectFormatIndent
                                                 keyOrder:nil];
   NSString *expected = @"  [\n    [\n      \"item11\",\n      \"item12\"\n    ],"
       "\n    [\n      [\n        \"item211\",\n        \"item212\"\n      ],"
@@ -117,7 +117,7 @@
                           @[ @[ @"item211", @"item212" ], @[ ] ] ];
   NSString *formatted = [GREYObjectFormatter formatArray:testArray
                                                   prefix:@"  "
-                                                  indent:GREYObjectFormatIndent
+                                                  indent:kGREYObjectFormatIndent
                                                 keyOrder:nil];
   NSString *expected = @"  [\n    [\n      \"item11\",\n      \"item12\"\n    ],"
       "\n    [\n      [\n        \"item211\",\n        \"item212\"\n      ],"
@@ -132,7 +132,7 @@
   @try {
     formatted = [GREYObjectFormatter formatArray:testArray
                                           prefix:@"  "
-                                          indent:GREYObjectFormatIndent
+                                          indent:kGREYObjectFormatIndent
                                         keyOrder:nil];
   } @catch (NSException *exception) {
     XCTAssertEqualObjects(exception.reason, @"Unhandled output type: NSObject");
@@ -260,7 +260,7 @@
   NSDictionary *testDict = @{ @"key1" : @"value1", @"key2" : @"value2" };
   NSString *formatted = [GREYObjectFormatter formatDictionary:testDict
                                                        prefix:nil
-                                                       indent:GREYObjectFormatIndent
+                                                       indent:kGREYObjectFormatIndent
                                                     hideEmpty:YES
                                                      keyOrder:@[ @"key1", @"key2", @"key3" ]];
   NSString *expected = @"{\n  \"key1\" : \"value1\",\n  \"key2\" : \"value2\"\n}";
@@ -272,7 +272,7 @@
   NSDictionary *testDict = @{ @"key1" : @"value1", @"key2" : @"value2" };
   NSString *formatted = [GREYObjectFormatter formatDictionary:testDict
                                                        prefix:@"  "
-                                                       indent:GREYObjectFormatIndent
+                                                       indent:kGREYObjectFormatIndent
                                                     hideEmpty:YES
                                                      keyOrder:@[ @"key1", @"key2", @"key3" ]];
   NSString *expected = @"  {\n    \"key1\" : \"value1\",\n    \"key2\" : \"value2\"\n  }";
@@ -287,7 +287,7 @@
                                                          @"key312" : @"value312" } } };
   NSString *formatted = [GREYObjectFormatter formatDictionary:testDict
                                                        prefix:@"  "
-                                                       indent:GREYObjectFormatIndent
+                                                       indent:kGREYObjectFormatIndent
                                                     hideEmpty:YES
                                                      keyOrder:@[ @"key1", @"key2", @"key3" ]];
   NSData *jsonData = [formatted dataUsingEncoding:NSUTF8StringEncoding];
@@ -334,7 +334,7 @@
                               @"key7" : @{} };
   NSString *formatted = [GREYObjectFormatter formatDictionary:testDict
                                                        prefix:@"  "
-                                                       indent:GREYObjectFormatIndent
+                                                       indent:kGREYObjectFormatIndent
                                                     hideEmpty:YES
                                                      keyOrder:@[ @"key1", @"key2", @"key3" ]];
   NSData *jsonData = [formatted dataUsingEncoding:NSUTF8StringEncoding];

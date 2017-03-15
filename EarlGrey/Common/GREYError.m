@@ -162,7 +162,7 @@ GREYError *I_GREYErrorMake(NSString *domain,
 
 - (NSString *)description {
   return [GREYObjectFormatter formatDictionary:[self grey_descriptionDictionary]
-                                        indent:GREYObjectFormatIndent
+                                        indent:kGREYObjectFormatIndent
                                      hideEmpty:YES
                                       keyOrder:nil];
 }
@@ -240,7 +240,7 @@ GREYError *I_GREYErrorMake(NSString *domain,
                          kErrorTestCaseMethodNameKey ];
 
   return [GREYObjectFormatter formatArray:descriptions
-                                   indent:GREYObjectFormatIndent
+                                   indent:kGREYObjectFormatIndent
                                  keyOrder:keyOrder];
 }
 

@@ -41,8 +41,11 @@
   NSMutableString *log = [[NSMutableString alloc] init];
   long unsigned index = 0;
   for (UIWindow *window in [GREYUIWindowProvider allWindows]) {
+    if (index != 0) {
+      [log appendString:@"\n\n"];
+    }
     index++;
-    [log appendFormat:@"========== Window %lu ==========\n\n%@\n\n",
+    [log appendFormat:@"========== Window %lu ==========\n\n%@",
                       index,
                       [GREYElementHierarchy hierarchyStringForElement:window]];
   }

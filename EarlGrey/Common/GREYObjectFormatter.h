@@ -21,7 +21,7 @@
 /**
  *  Indent when perform object formation.
  */
-GREY_EXTERN NSInteger const GREYObjectFormatIndent;
+GREY_EXTERN NSInteger const kGREYObjectFormatIndent;
 
 @interface GREYObjectFormatter : NSObject
 
