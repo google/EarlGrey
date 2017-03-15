@@ -17,6 +17,7 @@
 #import <EarlGrey/GREYAnalytics.h>
 #import <EarlGrey/NSString+GREYAdditions.h>
 #import <EarlGrey/XCTestCase+GREYAdditions.h>
+#import <OCMock/OCMock.h>
 
 #import "GREYBaseTest.h"
 #import "GREYExposedForTesting.h"
@@ -35,8 +36,8 @@
 - (void)trackEventWithTrackingID:(NSString *)trackingID
                         clientID:(NSString *)clientID
                         category:(NSString *)category
-                     subCategory:(NSString *)subCategory
-                           value:(NSNumber *)valueOrNil {
+                          action:(NSString *)subCategory
+                           value:(NSString *)value {
   _clientID = clientID;
   _bundleID = category;
   _subCategory = subCategory;
@@ -94,12 +95,18 @@
 }
 
 - (void)testAnalyticsDelegateGetsAnonymousClientId {
+  NSString *fakeUUID = @"1234-1234-1234-1234";
+  id uuidMock = [OCMockObject mockForClass:[NSUUID class]];
+  [[[uuidMock stub] andReturn:fakeUUID] UUIDString];
+  id uuidClassMock = [OCMockObject mockForClass:[NSUUID class]];
+  [[[uuidClassMock stub] andReturn:uuidMock] UUID];
+
   [self greytest_simulateTestExecution];
 
   // Verify the client ID passed to the delegate contains anonymous data.
   // Note that this string must be modified if the test class name, test case name or the test app's
   // bundle ID changes.
-  NSString *expectedClientId = @"d7efefce9fa02f8fba47ef34ab7b711d";
+  NSString *expectedClientId = fakeUUID;
   XCTAssertEqualObjects(_testDelegate.clientID, expectedClientId,
                         @"Either the user ID is not being anonymized or the test class, test "
                         @"method or test app's bundle ID has changed.");

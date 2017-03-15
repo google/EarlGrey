@@ -107,16 +107,16 @@ static NSInteger gTotalHitsExpected;
 - (void)trackEventWithTrackingID:(NSString *)trackingID
                         clientID:(NSString *)clientID
                         category:(NSString *)category
-                     subCategory:(NSString *)subCategory
-                           value:(NSNumber *)valueOrNil {
+                          action:(NSString *)action
+                           value:(NSString *)value {
   NSAssert([NSThread isMainThread], @"The tests expects that Analytics delegate is invoked on "
                                     @"main thread.");
   gTotalHitsReceived += 1;
   [gOriginalAnalyticsDelegate trackEventWithTrackingID:trackingID
                                                 clientID:clientID
                                               category:category
-                                           subCategory:subCategory
-                                                 value:valueOrNil];
+                                                action:action
+                                                 value:value];
 }
 
 @end
