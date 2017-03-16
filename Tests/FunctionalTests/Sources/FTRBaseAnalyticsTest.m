@@ -113,7 +113,7 @@ static NSInteger gTotalHitsExpected;
                                     @"main thread.");
   gTotalHitsReceived += 1;
   [gOriginalAnalyticsDelegate trackEventWithTrackingID:trackingID
-                                                clientID:clientID
+                                              clientID:clientID
                                               category:category
                                                 action:action
                                                  value:value];
