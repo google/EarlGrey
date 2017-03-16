@@ -56,11 +56,11 @@
  *  Sends an Analytics Event hit based on protocol specified in:
  *  @see https://developers.google.com/analytics/devguides/collection/protocol/v1/devguide#event
  *
- *  @param trackingID  The tracking ID under which to track this event.
- *  @param clientID    The ID for the user sending this event.
- *  @param category    The Event Category for the event hit.
- *  @param action      The Event Action for the event hit.
- *  @param value       The event value for the event hit.
+ *  @param trackingID The tracking ID under which to track this event.
+ *  @param clientID   The ID for the user sending this event.
+ *  @param category   The Event Category for the event hit.
+ *  @param action     The Event Action for the event hit.
+ *  @param value      The event value for the event hit.
  */
 + (void)sendEventHitWithTrackingID:(NSString *)trackingID
                           clientID:(NSString *)clientID

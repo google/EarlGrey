@@ -25,11 +25,11 @@
  *
  *  @note In case of failure to track the method must fail silently to prevent test interruption.
  *
- *  @param trackingID  The tracking ID under which to track this event.
- *  @param clientID    The ID for the user sending this event.
- *  @param category    The Event Category for the event hit.
- *  @param action      The Event Action for the event hit.
- *  @param value       The event value for the event hit.
+ *  @param trackingID The tracking ID under which to track this event.
+ *  @param clientID   The ID for the user sending this event.
+ *  @param category   The Event Category for the event hit.
+ *  @param action     The Event Action for the event hit.
+ *  @param value      The event value for the event hit.
  */
 - (void)trackEventWithTrackingID:(NSString *)trackingID
                         clientID:(NSString *)clientID
