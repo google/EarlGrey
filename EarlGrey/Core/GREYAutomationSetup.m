@@ -202,7 +202,9 @@ static GREYSignalHandler gPreviousSignalHandlers[kNumSignals];
   reset = [swizzler resetInstanceMethod:@selector(addObserverForName:object:queue:usingBlock:)
                                   class:[NSNotificationCenter class]];
   NSAssert(reset, @"Failed to reset swizzled method addObserverForName:object:queue:usingBlock:");
-  if (iOS10_OR_ABOVE()) {
+  // The method may not be available on older versions of XCTest/Xcode
+  // This is needed on iOS 9.1 and higher
+  if ([XCAXClient respondsToSelector:@selector(loadAccessibility:)]) {
     void *unused = 0;
     [XCAXClient loadAccessibility:&unused];
   }
