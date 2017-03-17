@@ -374,7 +374,7 @@ module EarlGrey
         target_files = test_target_group.files
         earlgrey_swift_file_ref = target_files.find { |f| f.display_name == src_swift_name }
         raise 'EarlGrey.swift not found in testing target' unless earlgrey_swift_file_ref
-        test_target.source_build_phase.add_file_reference earlgrey_swift_file_ref
+        test_target.source_build_phase.add_file_reference(earlgrey_swift_file_ref, true)
       end
 
       # Link Binary With Libraries - frameworks_build_phase - Add EarlGrey.framework
@@ -382,7 +382,8 @@ module EarlGrey
       existing_frameworks = test_target.frameworks_build_phase.files.map(&:display_name)
       unless existing_frameworks.include? earlgrey_framework
         framework_ref = add_earlgrey_product
-        test_target.frameworks_build_phase.add_file_reference framework_ref
+        # must pass 'true' to avoid duplicates
+        test_target.frameworks_build_phase.add_file_reference(framework_ref, true)
       end
 
       user_project.save
