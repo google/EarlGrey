@@ -57,21 +57,31 @@ Here's an example of storing an element's text attribute.
 
 ```swift
 // Swift
-/**
+//
+// Must use wrapper class to force pass by reference in block.
+// inout params won't work. http://stackoverflow.com/a/28252105
+open class Element {
+  var text = ""
+}
+
+/*
  *  Example Usage:
  *
- *  var textValue:String = ""
+ *  let element = Element()
  *
- *  domainField.performAction(grey_typeText("hello.there"))
- *      .performAction(grey_getText(&textValue))
+ *  domainField.performAction(grey_replaceText("hello.there"))
+ *             .performAction(grey_getText(element))
+ *
+ *  GREYAssertTrue(element.text != "", reason: "get text failed")
  */
-func grey_getText(inout text: String) -> GREYActionBlock {
-  return GREYActionBlock.actionWithName("get text",
-    constraints: grey_respondsToSelector(Selector("text")),
-    performBlock: { element, errorOrNil -> Bool in
-      text = element.text
-      return true
-    })
+public func grey_getText(_ elementCopy: Element) -> GREYActionBlock {
+  return GREYActionBlock.action(withName: "get text", constraints: grey_respondsToSelector(#selector(getter: UILabel.text))) { element, errorOrNil -> Bool in
+        let elementObject = element as? NSObject
+        let text = elementObject?.perform(#selector(getter: UILabel.text), with: nil)?.takeRetainedValue() as? String
+
+        elementCopy.text = text ?? ""
+        return true
+    }
 }
 ```
 
