@@ -101,7 +101,7 @@
 }
 
 static inline id<GREYFailureHandler> getCurrentFailureHandler() {
-  return [[[NSThread currentThread] threadDictionary] valueForKey:kGREYFailureHandlerKey];
+  return [[[NSThread mainThread] threadDictionary] valueForKey:kGREYFailureHandlerKey];
 }
 
 @end
