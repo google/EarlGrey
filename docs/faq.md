@@ -75,7 +75,8 @@ open class Element {
  *  GREYAssertTrue(element.text != "", reason: "get text failed")
  */
 public func grey_getText(_ elementCopy: Element) -> GREYActionBlock {
-  return GREYActionBlock.action(withName: "get text", constraints: grey_respondsToSelector(#selector(getter: UILabel.text))) { element, errorOrNil -> Bool in
+  return GREYActionBlock.action(withName: "get text", 
+  constraints: grey_respondsToSelector(#selector(getter: UILabel.text))) { element, errorOrNil -> Bool in
         let elementObject = element as? NSObject
         let text = elementObject?.perform(#selector(getter: UILabel.text), with: nil)?.takeRetainedValue() as? String
 
