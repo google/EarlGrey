@@ -30,7 +30,7 @@ For EarlGrey, we highly recommend [CocoaPods](https://cocoapods.org/) as the bes
   the plus **(+)** sign, and then select the target from the dropdown menu. Select the **Shared** option and
   have the **Container** set to the app under test.
 
-    <img src="images/image01.png" width="500">
+      <img src="images/image01.png" width="500">
 
      Note: If you recently created the Schemes, you need to run them once for them to be picked up by the
      `pod install` command. If your **Test Target(s)** do not contain these changes to the
@@ -39,12 +39,13 @@ For EarlGrey, we highly recommend [CocoaPods](https://cocoapods.org/) as the bes
 
 #### Step 2: Add EarlGrey as a framework dependency
 
-  1. After your test target (for example, *SampleAppTests*) is set up, you now need to add EarlGrey as
-  a framework dependency. To do so, add EarlGrey as a dependency to the test target in your `Podfile`.
-  2. Because EarlGrey must be embedded within the app under test, we need to add certain Build Phases and
-  Scheme changes to the **Test Target**. We recommend using our earlgrey gem to install any dependencies. You can use it by running `gem install earlgrey`. In case you are using an earlier version of the EarlGrey CocoaPod, please peruse this [doc](https://github.com/google/EarlGrey/tree/master/docs/versions.md) to find the corresponding EarlGrey gem version and any syntax changes. To download a particular version of the gem, use `gem install earlgrey -v x.y.z`.
+  1. In the test target's section in your `Podfile`, add EarlGrey as a dependency.
+  2. Use the `configure_for_earlgrey` method from the [EarlGrey gem](https://rubygems.org/gems/earlgrey)
+     in your `post_install` actions to add Build Settings and Scheme changes to the **Test Target**
+     for embedding EarlGrey in your app. To use the setup gem, use `gem install earlgrey` before
+     `pod install`.
 
-  You need to require this gem in a post_install hook using the project's name, the test target's name, and the name of the xcscheme file as is shown in the below example for `1.0.0`:
+  Use the patten shown in the following Podfile to setup EarlGrey with the latest CocoaPods:
 
   ```ruby
   PROJECT_NAME = 'SampleApp'
@@ -54,72 +55,69 @@ For EarlGrey, we highly recommend [CocoaPods](https://cocoapods.org/) as the bes
   target TEST_TARGET do
     project PROJECT_NAME
 
-    use_frameworks!
-    inherit! :search_paths
+    use_frameworks! # Required for Swift Test Targets only
+    inherit! :search_paths # Required for not double-linking libraries in the app and test targets.
     pod 'EarlGrey'
   end
 
   post_install do |installer|
-    require 'earlgrey'
-    configure_for_earlgrey(installer, PROJECT_NAME, TEST_TARGET, SCHEME_FILE)
+    require 'earlgrey' # Imports the EarlGrey gem for usage in your Podfile
+    configure_for_earlgrey(installer, PROJECT_NAME, TEST_TARGET, SCHEME_FILE) # EarlGrey Gem Call
   end
   ```
 
-    The earlgrey gem is supported with CocoaPods 1.0.0 and beyond. For earlier versions (or if you don't want a gem dependency) replace `require 'earlgrey'` with `load 'configure_earlgrey.rb'` and manually copy `configure_earlgrey.rb` from the gem into the same directory as the `Podfile`.
-
-   * For multiple targets and Schemes, call the `configure_for_earlgrey` method for each target / Scheme.
-   * The `:exclusive => true` and `inherit! :search_paths` flag prevents double-linking for libraries in the test target with any conflicting libraries in the main application.
-   * Please ensure you use `use_frameworks!` if you wish to run EarlGrey in a Swift Test Target. This is not required if you're running EarlGrey in an Objective-C Test Target.
-   * For more information, visit the [CocoaPods Podfile Guide](http://guides.cocoapods.org/using/the-podfile.html).
-   * If you don't want a gem dependency, replace `require 'earlgrey'` with `load 'configure_earlgrey.rb'` and manually
-     copy `configure_earlgrey.rb` from the gem into the same directory as the Podfile.
+   * Call the `configure_for_earlgrey` method for each target / Scheme.
+   * For compatibility between different versions, please peruse [this doc](https://github.com/google/EarlGrey/tree/master/docs/versions.md).
+     To download a particular version of the gem, use `gem install earlgrey -v x.y.z`.
 
 #### Step 3: Run the pod install command
 
-After you successfully run the `pod install` command, open the generated workspace and find EarlGrey installed in the `Pods/` directory. The generated `Pods/` project should look similar to:
+After you successfully run the `pod install` command, open the generated workspace and find EarlGrey
+installed in the `Pods/` directory. The generated `Pods/` project should look similar to:
 
   <img src="images/image02.png" width="250">
 
 ### Carthage Installation
 
-EarlGrey supports Carthage via the [EarlGrey gem.](https://rubygems.org/gems/earlgrey)
+EarlGrey supports Carthage via [the EarlGrey gem.](https://rubygems.org/gems/earlgrey)
 
 #### Step 1: Set up a test target for Carthage
 
-Follow [Step 1 from `CocoaPods installation`](#step-1-set-up-a-test-target) detailed above.
+See [Step 1 from the `CocoaPods installation`](#step-1-set-up-a-test-target) detailed above.
 
-#### Step 2: Configure Carthage
+#### Step 2: Configure carthage
 
-  1. Install carthage.
+Install Carthage
 
-    `brew update; brew install carthage`
+`brew update; brew install carthage`
 
-  2. Specify the version of EarlGrey to use in Cartfile.private.
-     Note that you can also use "master" instead of a release tag.
+Specify the version of EarlGrey to use in Cartfile.private.
+Note that you can also use "master" instead of a release tag.
 
-    `echo 'github "google/EarlGrey" "1.2.0"' >> Cartfile.private`
+`echo 'github "google/EarlGrey" "1.2.0"' >> Cartfile.private`
 
-  3. Update to latest EarlGrey revision and create Cartfile.resolved.
+Update to latest EarlGrey revision and create Cartfile.resolved.
 
-    `carthage update EarlGrey --platform ios`
+`carthage update EarlGrey --platform ios`
 
-#### Step 3: Complete installation
+#### Step 3: Use the EarlGrey gem
 
-  1. Install the EarlGrey gem.
+Install the EarlGrey gem.
 
-    `gem install earlgrey`
+`gem install earlgrey`
 
-  2. Use the gem to install EarlGrey into the testing target.
+Use the gem to install EarlGrey into the testing target.
 
-    `earlgrey install -t EarlGreyExampleSwiftTests`
+`earlgrey install -t EarlGreyExampleSwiftTests`
 
 Now you're ready to start testing with EarlGrey!
 If you need more control, review the available install options.
+
 `earlgrey help install`
 
 ### GitHub Installation
 
-In cases where neither CocoaPods nor Carthage is compatible with your project, you can add EarlGrey manually to your Xcode project.
+In cases where CocoaPods is not compatible with your project, you can add EarlGrey manually to your Xcode project.
 
 #### Step 1: Generate EarlGrey.framework
 
@@ -177,7 +175,7 @@ In cases where neither CocoaPods nor Carthage is compatible with your project, y
 
 In Xcode, attempt to build the app under test. It should build without any errors. After EarlGrey is built, see the [Final Test Configuration](#final-test-configuration) section for additional customizations that you may need to get your tests to run.
 
-#### Final Test Configuration <a name="final-test-configuration"></a>
+### Final Test Configuration <a name="final-test-configuration"></a>
 
 The EarlGrey tests are hosted from the application being tested. Make sure the test target is setup
 correctly to launch the app under test:
