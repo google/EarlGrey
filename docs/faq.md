@@ -58,8 +58,8 @@ Here's an example of storing an element's text attribute.
 ```swift
 // Swift
 //
-// Must use wrapper class to force pass by reference in block.
-// inout params won't work. http://stackoverflow.com/a/28252105
+// Must use a wrapper class to force pass by reference in Swift 3 closures.
+// inout params cannot be modified within closures. http://stackoverflow.com/a/28252105
 open class Element {
   var text = ""
 }
@@ -68,7 +68,6 @@ open class Element {
  *  Example Usage:
  *
  *  let element = Element()
- *
  *  domainField.performAction(grey_replaceText("hello.there"))
  *             .performAction(grey_getText(element))
  *
@@ -76,10 +75,11 @@ open class Element {
  */
 public func grey_getText(_ elementCopy: Element) -> GREYActionBlock {
   return GREYActionBlock.action(withName: "get text", 
-  constraints: grey_respondsToSelector(#selector(getter: UILabel.text))) { element, errorOrNil -> Bool in
+  constraints: grey_respondsToSelector(#selector(getter: UILabel.text))) { element, 
+                                                                           errorOrNil -> Bool in
         let elementObject = element as? NSObject
-        let text = elementObject?.perform(#selector(getter: UILabel.text), with: nil)?.takeRetainedValue() as? String
-
+        let text = elementObject?.perform(#selector(getter: UILabel.text), 
+                                          with: nil)?.takeRetainedValue() as? String
         elementCopy.text = text ?? ""
         return true
     }
