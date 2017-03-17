@@ -1,5 +1,13 @@
 # FAQ
 
+**I did a fresh `git clone` of the EarlGreyExample CocoaPods Demo project followed by a
+`pod install`. However, I get an error similar to `No such module 'EarlGrey'`.**
+This is a known issue with EarlGrey's CocoaPods support. EarlGrey requires some additions to the
+test project's Build Settings and Schemes. If your **Test Target(s)** do not contain these changes
+to the [Scheme](./install-and-run.md#scheme-changes) and
+[Build Phases](./install-and-run.md#build-phase-changes) after running `pod install`, please re-run
+`pod install` again.'
+
 **How does EarlGrey compare to Xcode’s UI Testing?**
 
 EarlGrey is more of a [gray-box testing](https://en.wikipedia.org/wiki/Gray_box_testing) solution
@@ -18,9 +26,16 @@ assertions. The ability to search for elements (using search actions) makes test
 UI changes. For example, EarlGrey provides APIs that allow searching for elements in scrollable
 containers, regardless of the amount of scrolling required.
 
+**Why do tests have the video cropped? How can  I get them to fit in the video frame?**
+For your tests to have the video properly scaled, make sure the app under test has correct launch
+screen images present for all supported devices (see 
+[iOS Developer Library, Launch Files](https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/MobileHIG/LaunchImages.html)).
+
+
 **I get a crash with “Could not swizzle …”**
 
-This means that EarlGrey is trying to swizzle a method that it has swizzled before. It is a result of EarlGrey being linked to more than once. Ensure that only the **Test Target**
+This means that EarlGrey is trying to swizzle a method that it has swizzled before. It is a result
+of EarlGrey being linked to more than once. Ensure that only the **Test Target**
 depends on *EarlGrey.framework* and EarlGrey.framework is embedded in the app under test (i.e. *$TEST_HOST*) from the
 test target's build phase.
 
