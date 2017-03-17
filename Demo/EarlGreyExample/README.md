@@ -21,9 +21,16 @@ Run the tests that you want to see in action.
 
 From the directory containing the example source, run:
 
+- `brew install carthage`
+- `xcode-select --install`
 - `gem install earlgrey`
 - `earlgrey install --carthage --swift-version=3.0 --target=EarlGreyExampleSwiftTests`
 - `carthage update EarlGrey --platform ios`
 - `open EarlGreyExample.xcodeproj`
 
-Xcode should now allow you to execute the EarlGreyExampleSwiftTests tests.
+Xcode should now allow you to execute the EarlGreyExampleSwiftTests tests. If you get a compile error, try the following:
+
+- Delete derived data
+  - `rm -rf "$HOME/Library/Developer/Xcode/DerivedData"`
+- Delete untracked and modified data
+  - `git reset --hard; git clean -dfx`
