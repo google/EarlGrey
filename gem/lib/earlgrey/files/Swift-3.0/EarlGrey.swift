@@ -74,6 +74,7 @@ public func GREYFailWithDetails(_ reason: String, details: String) {
 private func GREYAssert(_ expression: @autoclosure () -> Bool,
                         _ reason: String, details: String) {
   GREYSetCurrentAsFailable()
+  GREYWaitUntilIdle()
   if !expression() {
     EarlGrey.handle(exception: GREYFrameworkException(name: kGREYAssertionFailedException,
                                                       reason: reason),
@@ -89,6 +90,10 @@ private func GREYSetCurrentAsFailable() {
   if greyFailureHandler.responds(to: greyFailureHandlerSelector) {
     greyFailureHandler.setInvocationFile!(#file, andInvocationLine:#line)
   }
+}
+
+private func GREYWaitUntilIdle() {
+  GREYUIThreadExecutor.sharedInstance().drainUntilIdle()
 }
 
 open class EarlGrey: NSObject {

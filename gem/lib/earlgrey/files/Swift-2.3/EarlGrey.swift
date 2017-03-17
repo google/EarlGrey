@@ -102,11 +102,16 @@ public func GREYFailWithDetails(reason: String, details: String) {
 private func GREYAssert(@autoclosure expression: () -> BooleanType,
                         _ reason: String, details: String) {
   GREYSetCurrentAsFailable()
+  GREYWaitUntilIdle()
   if !expression().boolValue {
     greyFailureHandler.handleException(GREYFrameworkException(name: kGREYAssertionFailedException,
       reason: reason),
       details: details)
   }
+}
+
+private func GREYWaitUntilIdle() {
+  GREYUIThreadExecutor.sharedInstance().drainUntilIdle()
 }
 
 private func GREYSetCurrentAsFailable(file: String = #file, line: UInt = #line) {
