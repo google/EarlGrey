@@ -34,4 +34,3 @@ Xcode should now allow you to execute the EarlGreyExampleSwiftTests tests. If yo
   - `rm -rf "$HOME/Library/Developer/Xcode/DerivedData"`
 - Delete untracked and modified data
   - `git reset --hard; git clean -dfx`
-- Restart the computer
