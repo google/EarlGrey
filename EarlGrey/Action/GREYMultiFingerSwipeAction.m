@@ -1,5 +1,5 @@
 //
-// Copyright 2016 Google Inc.
+// Copyright 2017 Google Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -39,12 +39,12 @@
    */
   CFTimeInterval _duration;
   /**
-   *  Start point for the swipe specified as a percentage 
-   *  of the swipped element's accessibility frame.
+   *  Start point for the swipe specified as a percentage of the swipped element's accessibility
+   *  frame.
    */
   CGPoint _startPercents;
   /**
-   *  Number of parallel swipes
+   *  Number of parallel swipes.
    */
   NSUInteger _numberOfFingers;
 }
@@ -52,39 +52,41 @@
 - (instancetype)initWithDirection:(GREYDirection)direction
                          duration:(CFTimeInterval)duration
                   numberOfFingers:(NSUInteger)numberOfFingers {
-    return [self initWithDirection:direction
-                          duration:duration
-                   numberOfFingers:numberOfFingers
-                     startPercents:CGPointMake(0.5, 0.5)];
+  return [self initWithDirection:direction
+                        duration:duration
+                 numberOfFingers:numberOfFingers
+                   startPercents:CGPointMake(0.5, 0.5)];
 }
 
 - (instancetype)initWithDirection:(GREYDirection)direction
                          duration:(CFTimeInterval)duration
                   numberOfFingers:(NSUInteger)numberOfFingers
                     startPercents:(CGPoint)startPercents {
-    NSAssert(startPercents.x > 0.0f && startPercents.x < 1.0f,
-             @"percents.x must be between 0 and 1, exclusively");
-    NSAssert(startPercents.y > 0.0f && startPercents.y < 1.0f,
-             @"percents.y must be between 0 and 1, exclusively");
-    
-    NSAssert(numberOfFingers <= 4, @"No more than four parallel fingers are supported");
-    
-    NSString *name =
-    [NSString stringWithFormat:@"Swipe %@ for duration %g", NSStringFromGREYDirection(direction),
-     duration];
-    self = [super initWithName:name
-                   constraints:grey_allOf(grey_interactable(),
-                                          grey_not(grey_systemAlertViewShown()),
-                                          grey_kindOfClass([UIView class]),
-                                          grey_respondsToSelector(@selector(accessibilityFrame)),
-                                          nil)];
-    if (self) {
-        _direction = direction;
-        _duration = duration;
-        _numberOfFingers = numberOfFingers;
-        _startPercents = startPercents;
-    }
-    return self;
+  NSAssert(startPercents.x > 0.0f && startPercents.x < 1.0f,
+           @"percents.x must be between 0 and 1, exclusive.");
+  NSAssert(startPercents.y > 0.0f && startPercents.y < 1.0f,
+           @"percents.y must be between 0 and 1, exclusive.");
+
+  NSAssert(numberOfFingers > 1 && numberOfFingers <= 4,
+           @"numberOfFingers must be between 2 and 4 inclusive. For single touch use the single "
+           @"touch APIs (grey_swipeFastInDirection etc).");
+
+  NSString *name =
+      [NSString stringWithFormat:@"Swipe %@ for duration %g", NSStringFromGREYDirection(direction),
+                                 duration];
+  self = [super initWithName:name
+                 constraints:grey_allOf(grey_interactable(),
+                                        grey_not(grey_systemAlertViewShown()),
+                                        grey_kindOfClass([UIView class]),
+                                        grey_respondsToSelector(@selector(accessibilityFrame)),
+                                        nil)];
+  if (self) {
+    _direction = direction;
+    _duration = duration;
+    _numberOfFingers = numberOfFingers;
+    _startPercents = startPercents;
+  }
+  return self;
 }
 
 #pragma mark - GREYAction
@@ -93,16 +95,16 @@
   if (![self satisfiesConstraintsForElement:element error:errorOrNil]) {
     return NO;
   }
-  
+
   UIWindow *window = [element window];
   if (!window) {
     if ([element isKindOfClass:[UIWindow class]]) {
       window = (UIWindow *)element;
     } else {
       NSString *errorDescription =
-          [NSString stringWithFormat:@"Cannot multi finger swipe on view [V], "
-                                     @"as it has no window and it isn't a window itself."];
-      NSDictionary *glossary = @{ @"V" : [element grey_description]};
+          [NSString stringWithFormat:@"Cannot perform multi-finger swipe on view [V], as it has no "
+                                     @" window and it isn't a window itself."];
+      NSDictionary *glossary = @{ @"V" : [element grey_description] };
       GREYError *error;
       error = GREYErrorMake(kGREYSyntheticEventInjectionErrorDomain,
                             kGREYOrientationChangeFailedErrorCode,
@@ -118,10 +120,10 @@
       return NO;
     }
   }
-  
+
   NSMutableArray *multiTouchPaths = [[NSMutableArray alloc] init];
   CGRect accessibilityFrame = [element accessibilityFrame];
-  
+
   for(NSUInteger i = 0; i < _numberOfFingers; i++) {
     CGFloat xOffset, yOffset;
     switch (_direction) {
@@ -130,24 +132,23 @@
         xOffset = (CGFloat)i * 10;
         yOffset = 0.0;
         break;
-        
+
       case kGREYDirectionLeft:
       case kGREYDirectionRight:
         xOffset = 0.0;
         yOffset = (CGFloat)i * 10;
         break;
     }
-    
-    CGFloat xStartPoint = CGRectGetMaxX(accessibilityFrame) * _startPercents.x + xOffset;
-    CGFloat yStartPoint = CGRectGetMaxY(accessibilityFrame) * _startPercents.y + yOffset;
+
+    CGFloat xStartPoint = xOffset + CGRectGetMaxX(accessibilityFrame) * _startPercents.x;
+    CGFloat yStartPoint = yOffset + CGRectGetMaxY(accessibilityFrame) * _startPercents.y;
     CGPoint startPoint = CGPointMake(xStartPoint, yStartPoint);
-    
     NSArray *touchPath = [GREYPathGestureUtils touchPathForGestureWithStartPoint:startPoint
                                                                     andDirection:_direction
                                                                         inWindow:window];
     [multiTouchPaths addObject:touchPath];
   }
-  
+
   [GREYSyntheticEvents touchAlongMultiplePaths:multiTouchPaths
                               relativeToWindow:window
                                    forDuration:_duration

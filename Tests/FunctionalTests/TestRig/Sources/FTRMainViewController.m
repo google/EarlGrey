@@ -25,6 +25,7 @@
 #import "FTRCollectionViewController.h"
 #import "FTRGestureViewController.h"
 #import "FTRImageViewController.h"
+#import "FTRMultiFingerSwipeGestureRecognizerViewController.h"
 #import "FTRNetworkTestViewController.h"
 #import "FTRPickerViewController.h"
 #import "FTRPresentedViewController.h"
@@ -35,7 +36,6 @@
 #import "FTRTypingViewController.h"
 #import "FTRVisibilityTestViewController.h"
 #import "FTRWebViewController.h"
-#import "FTRMultiFingerSwipeGestureRecognizerViewController.h"
 
 static NSString *gTableViewIdentifier = @"TableViewIdentifier";
 
