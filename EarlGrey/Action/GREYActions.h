@@ -179,6 +179,70 @@
                          yOriginStartPercentage:(CGFloat)yOriginStartPercentage;
 
 /**
+ *  Returns an action that performs a multi-finger slow swipe through the view in the given
+ *  @c direction.
+ *
+ *  @param direction       The direction of the swipe.
+ *  @param numberOfFingers Number of fingers touching the screen for the swipe.
+ *
+ *  @return A GREYAction that performs a multi-finger slow swipe through a view in a specific
+ *          direction from the specified point.
+ */
++ (id<GREYAction>)actionForMultiFingerSwipeSlowInDirection:(GREYDirection)direction
+                                           numberOfFingers:(NSUInteger)numberOfFingers;
+
+/**
+ *  Returns an action that performs a multi-finger fast swipe through the view in the given
+ *  @c direction.
+ *
+ *  @param direction       The direction of the swipe.
+ *  @param numberOfFingers Number of fingers touching the screen for the swipe.
+ *
+ *  @return A GREYAction that performs a multi-finger fast swipe through a view in a specific
+ *          direction from the specified point.
+ */
++ (id<GREYAction>)actionForMultiFingerSwipeFastInDirection:(GREYDirection)direction
+                                           numberOfFingers:(NSUInteger)numberOfFingers;
+
+/**
+ *  Returns an action that performs a multi-finger slow swipe through the view in the given
+ *  @c direction from a specified origin.
+ *
+ *  @param direction              The direction of the swipe.
+ *  @param numberOfFingers        Number of fingers touching the screen for the swipe.
+ *  @param xOriginStartPercentage The x start position as a percentage of the total width
+ *                                of the view. This must be between 0 and 1.
+ *  @param yOriginStartPercentage The y start position as a percentage of the total height
+ *                                of the view. This must be between 0 and 1.
+ *
+ *  @return A GREYAction that performs a multi-finger slow swipe through a view in a specific
+ *          direction from the specified point.
+ */
++ (id<GREYAction>)actionForMultiFingerSwipeSlowInDirection:(GREYDirection)direction
+                                           numberOfFingers:(NSUInteger)numberOfFingers
+                                    xOriginStartPercentage:(CGFloat)xOriginStartPercentage
+                                    yOriginStartPercentage:(CGFloat)yOriginStartPercentage;
+
+/**
+ *  Returns an action that performs a multi-finger fast swipe through the view in the given
+ *  @c direction from a specified origin.
+ *
+ *  @param direction              The direction of the swipe.
+ *  @param numberOfFingers        Number of fingers touching the screen for the swipe.
+ *  @param xOriginStartPercentage The x start position as a percentage of the total width
+ *                                of the view. This must be between 0 and 1.
+ *  @param yOriginStartPercentage The y start position as a percentage of the total height
+ *                                of the view. This must be between 0 and 1.
+ *
+ *  @return A GREYAction that performs a multi-finger fast swipe through a view in a specific
+ *          direction from the specified point.
+ */
++ (id<GREYAction>)actionForMultiFingerSwipeFastInDirection:(GREYDirection)direction
+                                           numberOfFingers:(NSUInteger)numberOfFingers
+                                    xOriginStartPercentage:(CGFloat)xOriginStartPercentage
+                                    yOriginStartPercentage:(CGFloat)yOriginStartPercentage;
+
+/**
  * Returns an action that pinches whole view quickly in the specified @c direction and @c angle.
  *
  * @param  pinchDirection The direction of the pinch action.
@@ -390,6 +454,42 @@ GREY_EXPORT id<GREYAction> grey_swipeFastInDirectionWithStartPoint(GREYDirection
 GREY_EXPORT id<GREYAction> grey_swipeSlowInDirectionWithStartPoint(GREYDirection direction,
                                                                    CGFloat xOriginStartPercentage,
                                                                    CGFloat yOriginStartPercentage);
+
+/**
+ *  Shorthand macro for
+ *  GREYActions::actionForMultiFingerSwipeSlowInDirection:numberOfFingers:.
+ */
+GREY_EXPORT id<GREYAction> grey_multiFingerSwipeSlowInDirection(GREYDirection direction,
+                                                                NSUInteger numberOfFingers);
+
+/**
+ *  Shorthand macro for
+ *  GREYActions::actionForMultiFingerSwipeFastInDirection:numberOfFingers:.
+ */
+GREY_EXPORT id<GREYAction> grey_multiFingerSwipeFastInDirection(GREYDirection direction,
+                                                                NSUInteger numberOfFingers);
+
+/**
+ *  Shorthand macro for
+ *  GREYActions::actionForMultiFingerSwipeSlowInDirection:numberOfFingers:xOriginStartPercentage:
+ *  yOriginStartPercentage:.
+ */
+GREY_EXPORT id<GREYAction> grey_multiFingerSwipeSlowInDirectionWithStartPoint(
+    GREYDirection direction,
+    NSUInteger numberOfFingers,
+    CGFloat xOriginStartPercentage,
+    CGFloat yOriginStartPercentage);
+
+/**
+ *  Shorthand macro for
+ *  GREYActions::actionForMultiFingerSwipeFastInDirection:numberOfFingers:xOriginStartPercentage:
+ *  yOriginStartPercentage:.
+ */
+GREY_EXPORT id<GREYAction> grey_multiFingerSwipeFastInDirectionWithStartPoint(
+    GREYDirection direction,
+    NSUInteger numberOfFingers,
+    CGFloat xOriginStartPercentage,
+    CGFloat yOriginStartPercentage);
 
 /** Shorthand macro for GREYActions::actionForPinchFastInDirection:pinchDirection:angle:. */
 GREY_EXPORT id<GREYAction> grey_pinchFastInDirectionAndAngle(GREYPinchDirection pinchDirection,

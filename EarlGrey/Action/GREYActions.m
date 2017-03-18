@@ -19,6 +19,7 @@
 #import "Action/GREYAction.h"
 #import "Action/GREYActionBlock.h"
 #import "Action/GREYChangeStepperAction.h"
+#import "Action/GREYMultiFingerSwipeAction.h"
 #import "Action/GREYPickerAction.h"
 #import "Action/GREYPinchAction.h"
 #import "Action/GREYScrollAction.h"
@@ -80,6 +81,42 @@ static Class accessibilityTextFieldElementClass;
                                            duration:kGREYSwipeSlowDuration
                                       startPercents:CGPointMake(xOriginStartPercentage,
                                                                 yOriginStartPercentage)];
+}
+
++ (id<GREYAction>)actionForMultiFingerSwipeSlowInDirection:(GREYDirection)direction
+                                           numberOfFingers:(NSUInteger)numberOfFingers {
+  return [[GREYMultiFingerSwipeAction alloc] initWithDirection:direction
+                                                      duration:kGREYSwipeSlowDuration
+                                               numberOfFingers:numberOfFingers];
+}
+
++ (id<GREYAction>)actionForMultiFingerSwipeFastInDirection:(GREYDirection)direction
+                                           numberOfFingers:(NSUInteger)numberOfFingers {
+  return [[GREYMultiFingerSwipeAction alloc] initWithDirection:direction
+                                                      duration:kGREYSwipeFastDuration
+                                               numberOfFingers:numberOfFingers];
+}
+
++ (id<GREYAction>)actionForMultiFingerSwipeSlowInDirection:(GREYDirection)direction
+                                           numberOfFingers:(NSUInteger)numberOfFingers
+                                    xOriginStartPercentage:(CGFloat)xOriginStartPercentage
+                                    yOriginStartPercentage:(CGFloat)yOriginStartPercentage {
+  return [[GREYMultiFingerSwipeAction alloc] initWithDirection:direction
+                                                      duration:kGREYSwipeSlowDuration
+                                               numberOfFingers:numberOfFingers
+                                                 startPercents:CGPointMake(xOriginStartPercentage,
+                                                                           yOriginStartPercentage)];
+}
+
++ (id<GREYAction>)actionForMultiFingerSwipeFastInDirection:(GREYDirection)direction
+                                           numberOfFingers:(NSUInteger)numberOfFingers
+                                    xOriginStartPercentage:(CGFloat)xOriginStartPercentage
+                                    yOriginStartPercentage:(CGFloat)yOriginStartPercentage {
+  return [[GREYMultiFingerSwipeAction alloc] initWithDirection:direction
+                                                      duration:kGREYSwipeFastDuration
+                                               numberOfFingers:numberOfFingers
+                                                 startPercents:CGPointMake(xOriginStartPercentage,
+                                                                           yOriginStartPercentage)];
 }
 
 + (id<GREYAction>)actionForPinchFastInDirection:(GREYPinchDirection)pinchDirection
@@ -662,6 +699,38 @@ id<GREYAction> grey_swipeSlowInDirectionWithStartPoint(GREYDirection direction,
   return [GREYActions actionForSwipeSlowInDirection:direction
                              xOriginStartPercentage:xOriginStartPercentage
                              yOriginStartPercentage:yOriginStartPercentage];
+}
+
+id<GREYAction> grey_multiFingerSwipeSlowInDirection(GREYDirection direction,
+                                                    NSUInteger numberOfFingers) {
+  return [GREYActions actionForMultiFingerSwipeSlowInDirection:direction
+                                               numberOfFingers:numberOfFingers];
+}
+
+id<GREYAction> grey_multiFingerSwipeFastInDirection(GREYDirection direction,
+                                                    NSUInteger numberOfFingers) {
+  return [GREYActions actionForMultiFingerSwipeFastInDirection:direction
+                                               numberOfFingers:numberOfFingers];
+}
+
+id<GREYAction> grey_multiFingerSwipeSlowInDirectionWithStartPoint(GREYDirection direction,
+                                                                  NSUInteger numberOfFingers,
+                                                                  CGFloat xOriginStartPercentage,
+                                                                  CGFloat yOriginStartPercentage) {
+  return [GREYActions actionForMultiFingerSwipeSlowInDirection:direction
+                                               numberOfFingers:numberOfFingers
+                                        xOriginStartPercentage:xOriginStartPercentage
+                                        yOriginStartPercentage:yOriginStartPercentage];
+}
+
+id<GREYAction> grey_multiFingerSwipeFastInDirectionWithStartPoint(GREYDirection direction,
+                                                                  NSUInteger numberOfFingers,
+                                                                  CGFloat xOriginStartPercentage,
+                                                                  CGFloat yOriginStartPercentage) {
+  return [GREYActions actionForMultiFingerSwipeFastInDirection:direction
+                                               numberOfFingers:numberOfFingers
+                                        xOriginStartPercentage:xOriginStartPercentage
+                                        yOriginStartPercentage:yOriginStartPercentage];
 }
 
 id<GREYAction> grey_pinchFastInDirectionAndAngle(GREYPinchDirection pinchDirection,

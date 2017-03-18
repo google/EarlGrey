@@ -1,5 +1,5 @@
 //
-// Copyright 2016 Google Inc.
+// Copyright 2017 Google Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@
 
 @interface FTRMultiFingerSwipeGestureRecognizerViewController ()
 
-@property (weak, nonatomic) IBOutlet UILabel *gestureRecognizedLabel;
+@property(weak, nonatomic) IBOutlet UILabel *gestureRecognizedLabel;
 
 @end
 
@@ -26,11 +26,11 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  
+
   self.view.subviews[1].accessibilityIdentifier = @"gestureRecognizerBox";
-  
+
   NSMutableArray *swipeGestureRecognizers = [[NSMutableArray alloc] init];
-  
+
   NSArray *directions = @[
                           @(UISwipeGestureRecognizerDirectionRight),
                           @(UISwipeGestureRecognizerDirectionLeft),
@@ -45,7 +45,7 @@
       swipeGesture.direction = (UISwipeGestureRecognizerDirection)direction.integerValue;
       swipeGesture.numberOfTouchesRequired = fingers;
       [swipeGestureRecognizers addObject:swipeGesture];
-      
+
       [self.view.subviews[1] addGestureRecognizer:swipeGesture];
     }
   }
@@ -67,9 +67,10 @@
       direction = @"Down";
       break;
   }
-  
-  NSString *recognizerText = [NSString stringWithFormat:@"Swiped with %lu fingers %@",
-                              (unsigned long)sender.numberOfTouches, direction];
+
+  NSString *recognizerText =
+      [NSString stringWithFormat:@"Swiped with %lu fingers %@",
+                                 (unsigned long)sender.numberOfTouches, direction];
   self.gestureRecognizedLabel.text = recognizerText;
 }
 
