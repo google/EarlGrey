@@ -1,7 +1,39 @@
 # Change Log
 
-Details changes in each release of EarlGrey. EarlGrey follows
-[semantic versioning](http://semver.org/).
+Details changes in each release of EarlGrey. EarlGrey follows [semantic versioning](http://semver.org/).
+
+## [1.8.0](https://github.com/google/EarlGrey/tree/1.8.0) (03/17/2017)
+
+```
+Baseline: [0dc7c18]
+   + [0dc7c18]: 1.8.0 Release
+```
+
+### New Features
+* Added multi-finger swipe action API's:
+    * grey_multiFingerSwipeFastInDirection
+    * grey_multiFingerSwipeSlowInDirection
+    * grey_multiFingerSwipeFastInDirectionWithStartPoint
+    * grey_multiFingerSwipeSlowInDirectionWithStartPoint
+
+### Bug Fixes
+* Fixed issue with accessibility spamming "Remote service does not respond to _accessibilityMachPort" message on iOS 9.1 device.
+* Fixed issues with EarlGrey working with a `UIAccessibilityTextFieldElement`.
+* Fixed typing by blacklisting `UICompatibilityInputViewController` in UIViewController tracking.
+
+### Compatibility
+* Requires iOS 8 as the minimum deployment target.
+* Supports Xcode 8.3 beta 4 and iOS 10.3 on devices and simulators.
+* The EarlGrey gem runs out of the box for Swift 3.0 and Swift 2.3.
+
+### Enhancements
+* Improvements to the EarlGrey FunctionalTests TestRig.
+* All `GREYAssertXXX` macros now wait for the app to idle before being evaluated.
+* Unified the `Copy Files` modification script for Carthage and CocoaPods support.
+
+### Contributors
+[bootstraponline](https://github.com/bootstraponline)<br/> 
+[petaren](https://github.com/petaren)
 
 ## [1.7.2](https://github.com/google/EarlGrey/tree/1.7.2) (02/17/2017)
 
