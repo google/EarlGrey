@@ -2,11 +2,12 @@
 
 **I did a fresh `git clone` of the EarlGreyExample CocoaPods Demo project followed by a
 `pod install`. However, I get an error similar to `No such module 'EarlGrey'`.**
+
 This is a known issue with EarlGrey's CocoaPods support. EarlGrey requires some additions to the
 test project's Build Settings and Schemes. If your **Test Target(s)** do not contain these changes
 to the [Scheme](./install-and-run.md#scheme-changes) and
 [Build Phases](./install-and-run.md#build-phase-changes) after running `pod install`, please re-run
-`pod install` again.'
+`pod install` again.
 
 **How does EarlGrey compare to Xcode’s UI Testing?**
 
@@ -26,11 +27,24 @@ assertions. The ability to search for elements (using search actions) makes test
 UI changes. For example, EarlGrey provides APIs that allow searching for elements in scrollable
 containers, regardless of the amount of scrolling required.
 
-**Why do tests have the video cropped? How can  I get them to fit in the video frame?**
-For your tests to have the video properly scaled, make sure the app under test has correct launch
-screen images present for all supported devices (see 
+**Why do the tests have the application scaled with borders around it? How can I get them to fit in
+the video frame?**
+
+For your tests to have the application properly scaled, make sure the app under test has correct
+launch screen images present for all supported devices (see 
 [iOS Developer Library, Launch Files](https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/MobileHIG/LaunchImages.html)).
 
+**Why does EarlGrey need to modify the test's scheme and add a Copy Files Build Phase?**
+
+EarlGrey synchronizes by keeping track of the app's internal state. It is essential that EarlGrey
+therefore be embedded into the app. Since we do not want users to have EarlGrey directly link to
+the app under test or create separate test rigs, we perform the embedding ourselves by adding a
+Copy Files Build Phase that copies the *EarlGrey.framework* linked to the test target to the app
+under test, as specified by the *$TEST_HOST* variable.
+
+Also, EarlGrey needs to be loaded before the app to ensure that we do not miss any states that
+should have been tracked, along with giving EarlGrey fine-grained control of the test's execution.
+For this purpose, we add a *DYLD_INSERT_LIBRARIES* environment variable in the test's scheme.
 
 **I get a crash with “Could not swizzle …”**
 
@@ -44,7 +58,7 @@ undefined.” in the logs**
 
 This usually means that EarlGrey is being linked to more than once. Ensure that only the **Test Target**
 depends on *EarlGrey.framework* and EarlGrey.framework is embedded in the app under test (i.e. *$TEST_HOST*) from the
-test target's build phase.
+test target's built products via a Copy File(s) Build Phase.
 
 **Is there a way to return a specific element?**
 
