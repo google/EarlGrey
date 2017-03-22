@@ -23,7 +23,7 @@ Gem::Specification.new do |s|
   s.license       = 'Apache-2.0'
   s.summary       = 'EarlGrey installer gem'
   s.description   = 'Command line tool for installing EarlGrey into an iOS Unit Testing target'
-  s.authors       = %w[khandpur tirodkar bootstraponline]
+  s.authors       = %w[khandpur tirodkar bootstraponline wuhao5]
   s.homepage      = 'https://github.com/google/EarlGrey'
   s.require_paths = ['lib']
 
@@ -31,9 +31,9 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'xcodeproj', '>= 1.3.0'
   s.add_runtime_dependency 'thor',      '>= 0.19.1'
 
+  s.add_development_dependency 'rubygems',    '>= 2.3.0'
   s.add_development_dependency 'rspec',       '>= 3.4.0'
   s.add_development_dependency 'rubocop',     '>= 0.39.0'
-  s.add_development_dependency 'coveralls',   '~> 0.8.13'
   s.add_development_dependency 'pry',         '~> 0.10.3'
   s.add_development_dependency 'rake',        '~> 11.1'
 
