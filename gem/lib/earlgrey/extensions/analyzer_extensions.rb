@@ -18,31 +18,26 @@ require_relative 'aggregate_target_extensions'
 
 module EarlGrey
   module AnalyzerExtension
-    def generate_target(target_definition, *args)
-      target = super
-      if target.is_earlgrey?
+    def analyze(*_)
+      result = super
+      eg_targets = result.targets.select(&:is_earlgrey?).each do |target|
         target.user_targets.each do |native_target|
           EarlGrey.copy_swift_files(target.user_project, native_target,
-                                    target_definition.swift_version)
+                                    target.target_definition.swift_version)
 
           framework_ref = EarlGrey.add_earlgrey_product target.user_project, false
           EarlGrey.add_earlgrey_copy_files_script native_target, framework_ref
           EarlGrey.add_earlgrey_framework native_target, framework_ref
         end
       end
-      target
-    end
 
-    def generate_targets
-      targets = super
-      schemes = targets.select(&:is_earlgrey?).map(&:schemes_for_native_targets)
-      schemes = schemes.flatten(1).uniq do |name, _|
+      schemes = eg_targets.map(&:schemes_for_native_targets).flatten(1).uniq do |name, _|
         name
       end
       schemes.each do |name, scheme|
         EarlGrey.add_environment_variables_to_test_scheme(name, scheme)
       end
-      targets
+      result
     end
   end
 end

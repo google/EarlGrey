@@ -50,8 +50,8 @@ module EarlGrey
                 :scheme_file, :user_project, :carthage, :swift, :swift_version
 
     # Returns path to Xcode file, prepending current working dir if necessary.
-    # @param project_name [String] name of the .xcodeproj file
-    # @param ext [String] xcode file extension
+    # @param [String] project_name name of the .xcodeproj file
+    # @param [String] ext xcode file extension
     # @return [String] path to Xcode file
     def path_for(project_name, ext)
       ext_match = File.extname(project_name) == ext
@@ -68,28 +68,28 @@ module EarlGrey
     end
 
     # Strips each line in a string
-    # @param string [String] the string to process
+    # @param [String] string the string to process
     # @return [String] the modified string
     def strip(string)
       string.split("\n").map(&:strip).join("\n")
     end
 
     # Raise error message after removing excessive spaces.
-    # @param message [String] the message to raise
+    # @param [String] message the message to raise
     # @return [nil]
     def error(message)
       raise strip(message)
     end
 
     # Prints string as blue after stripping excess spacing
-    # @param string [String] the string to print
+    # @param [String] string the string to print
     # @return [nil]
     def puts_blue(string)
       puts strip(string).blue
     end
 
     # Prints string as yellow after stripping excess spacing
-    # @param string [String] the string to print
+    # @param [String] string the string to print
     # @return [nil]
     def puts_yellow(string)
       puts strip(string).yellow
@@ -107,7 +107,7 @@ module EarlGrey
 
       if project_file.nil?
         error <<-E
-          The target's xcodeproj file could not be found.  Please check if the
+          The target's xcodeproj file could not be found. Please check if the
           correct PROJECT_NAME is being passed in the Podfile.
           Current PROJECT_NAME is: #{project_name}
         E
@@ -129,12 +129,12 @@ module EarlGrey
 
     # Main entry point. Configures An Xcode project for use with EarlGrey.
     #
-    # @param  [String] project_name
-    #         the xcodeproj file name
-    # @param  [String] test_target_name
-    #         the test target name contained in xcodeproj
-    # @param  [String] scheme_file
-    #         the scheme file name. defaults to project name when nil.
+    # @param [String] project_name
+    #        the xcodeproj file name
+    # @param [String] test_target_name
+    #        the test target name contained in xcodeproj
+    # @param [String] scheme_file
+    #        the scheme file name. defaults to project name when nil.
     # @return [nil]
     def configure_for_earlgrey(project_name, test_target_name,
                                scheme_file, opts = {})
@@ -166,8 +166,8 @@ module EarlGrey
 
     # Returns the schemes that contain the given targets
     #
-    # @param  [Xcodeproj::Project] project
-    # @param  [Array<Xcodeproj::PBXNativeTarget>] targets
+    # @param [Xcodeproj::Project] project
+    # @param [Array<Xcodeproj::PBXNativeTarget>] targets
     # @return [Array<Xcodeproj::XCScheme>]
     def schemes_for_native_targets(project, targets)
       schemes = Dir[File.join(XCScheme.shared_data_dir(project.path), XCSCHEME_EXT)] +
@@ -189,8 +189,8 @@ module EarlGrey
     # schemes to ensure that EarlGrey is correctly loaded before main() is
     # called.
     #
-    # @param  [Xcodeproj::Project] project
-    # @param  [Array<Xcodeproj::PBXNativeTarget>] targets
+    # @param [Xcodeproj::Project] project
+    # @param [Array<Xcodeproj::PBXNativeTarget>] targets
     # @return [Array<String, Xcodeproj::XCScheme>]
     def modify_scheme_for_actions(project, targets)
       schemes = schemes_for_native_targets(project, targets).uniq do |name, _|
@@ -293,7 +293,7 @@ module EarlGrey
     end
 
     # Updates test target's build configuration framework and header search
-    # paths for carthage.  Generates a copy files build phase to embed the
+    # paths for carthage. Generates a copy files build phase to embed the
     # EarlGrey framework into the app under test.
     #
     # @param [PBXNativeTarget] target
@@ -316,7 +316,7 @@ module EarlGrey
 
     # Add Carthage copy phase
     #
-    # @param  [PBXNativeTarget] target
+    # @param [PBXNativeTarget] target
     def add_carthage_copy_phase(target)
       shell_script_name = 'Carthage copy-frameworks Run Script'
       target_names = target.shell_script_build_phases.map(&:name)
@@ -330,9 +330,9 @@ module EarlGrey
 
     # Add EarlGrey.framework into the build phase "Link Binary With Libraries"
     #
-    # @param  [PBXNativeTarget] target
-    # @param  [PBXFileReference] framework_ref
-    #         the framework reference pointing to the EarlGrey.framework
+    # @param [PBXNativeTarget] target
+    # @param [PBXFileReference] framework_ref
+    #        the framework reference pointing to the EarlGrey.framework
     def add_earlgrey_framework(target, framework_ref)
       linked_frameworks = target.frameworks_build_phase.files.map(&:display_name)
       unless linked_frameworks.include? EARLGREY_FRAMEWORK
@@ -341,7 +341,7 @@ module EarlGrey
     end
 
     # Check if the target contains a swift source file
-    # @param  [PBXNativeTarget] target
+    # @param [PBXNativeTarget] target
     # @return [Boolean]
     # rubocop:disable Style/PredicateName
     def has_swift?(target)
@@ -354,8 +354,8 @@ module EarlGrey
     # Copies EarlGrey.swift and adds it to the project.
     # No op if the target doesn't contain swift.
     #
-    # @param  [Xcodeproj::Project] project
-    # @param  [PBXNativeTarget] target
+    # @param [Xcodeproj::Project] project
+    # @param [PBXNativeTarget] target
     def copy_swift_files(project, target, swift_version = nil)
       return unless has_swift?(target) || !swift_version.nil?
 
