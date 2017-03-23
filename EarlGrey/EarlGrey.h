@@ -102,7 +102,8 @@ GREY_EXTERN NSString *const kGREYFailureHandlerKey;
 + (instancetype)invokedFromFile:(NSString *)fileName lineNumber:(NSUInteger)lineNumber;
 
 /**
- *  @remark init is not an available initializer. Use the other initializers.
+ *  @remark init is not an available initializer. Use the <b>EarlGrey</b> macro to start an
+ *  interaction.
  */
 - (instancetype)init NS_UNAVAILABLE;
 
