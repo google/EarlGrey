@@ -13,7 +13,7 @@
     <a title="Functions  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html">EarlGrey Docs</a> (93% documented)</p>
+        <p><a href="index.html">EarlGrey Docs</a> (100% documented)</p>
         <p class="header-right"><a href="https://github.com/google/EarlGrey"><img src="img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -368,9 +368,6 @@
                 <a href="Functions.html#/c:@F@NSStringFromUIDeviceOrientation">NSStringFromUIDeviceOrientation</a>
               </li>
               <li class="nav-group-task">
-                <a href="Functions.html#/c:@F@getFailureHandler">getFailureHandler</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="Functions.html#/c:@F@grey_accessibilityElement">grey_accessibilityElement</a>
               </li>
               <li class="nav-group-task">
@@ -452,6 +449,9 @@
                 <a href="Functions.html#/c:@F@grey_firstResponder">grey_firstResponder</a>
               </li>
               <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_getFailureHandler">grey_getFailureHandler</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Functions.html#/c:@F@grey_greaterThan">grey_greaterThan</a>
               </li>
               <li class="nav-group-task">
@@ -486,6 +486,18 @@
               </li>
               <li class="nav-group-task">
                 <a href="Functions.html#/c:@F@grey_moveSliderToValue">grey_moveSliderToValue</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_multiFingerSwipeFastInDirection">grey_multiFingerSwipeFastInDirection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_multiFingerSwipeFastInDirectionWithStartPoint">grey_multiFingerSwipeFastInDirectionWithStartPoint</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_multiFingerSwipeSlowInDirection">grey_multiFingerSwipeSlowInDirection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_multiFingerSwipeSlowInDirectionWithStartPoint">grey_multiFingerSwipeSlowInDirectionWithStartPoint</a>
               </li>
               <li class="nav-group-task">
                 <a href="Functions.html#/c:@F@grey_multipleTapsWithCount">grey_multipleTapsWithCount</a>
@@ -1003,6 +1015,128 @@ GREYActions::actionForSwipeSlowInDirection:xOriginStartPercentage:yOriginStartPe
 <span class="n">grey_swipeSlowInDirectionWithStartPoint</span><span class="p">(</span><span class="n"><a href="Enums/GREYDirection.html">GREYDirection</a></span> <span class="n">direction</span><span class="p">,</span>
                                         <span class="n">CGFloat</span> <span class="n">xOriginStartPercentage</span><span class="p">,</span>
                                         <span class="n">CGFloat</span> <span class="n">yOriginStartPercentage</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_multiFingerSwipeSlowInDirection"></a>
+                    <a name="//apple_ref/objc/Function/grey_multiFingerSwipeSlowInDirection" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_multiFingerSwipeSlowInDirection">grey_multiFingerSwipeSlowInDirection</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand macro for
+GREYActions::actionForMultiFingerSwipeSlowInDirection:numberOfFingers:.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span>
+<span class="n">grey_multiFingerSwipeSlowInDirection</span><span class="p">(</span><span class="n"><a href="Enums/GREYDirection.html">GREYDirection</a></span> <span class="n">direction</span><span class="p">,</span>
+                                     <span class="n">NSUInteger</span> <span class="n">numberOfFingers</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_multiFingerSwipeFastInDirection"></a>
+                    <a name="//apple_ref/objc/Function/grey_multiFingerSwipeFastInDirection" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_multiFingerSwipeFastInDirection">grey_multiFingerSwipeFastInDirection</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand macro for
+GREYActions::actionForMultiFingerSwipeFastInDirection:numberOfFingers:.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span>
+<span class="n">grey_multiFingerSwipeFastInDirection</span><span class="p">(</span><span class="n"><a href="Enums/GREYDirection.html">GREYDirection</a></span> <span class="n">direction</span><span class="p">,</span>
+                                     <span class="n">NSUInteger</span> <span class="n">numberOfFingers</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_multiFingerSwipeSlowInDirectionWithStartPoint"></a>
+                    <a name="//apple_ref/objc/Function/grey_multiFingerSwipeSlowInDirectionWithStartPoint" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_multiFingerSwipeSlowInDirectionWithStartPoint">grey_multiFingerSwipeSlowInDirectionWithStartPoint</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand macro for
+GREYActions::actionForMultiFingerSwipeSlowInDirection:numberOfFingers:xOriginStartPercentage:
+yOriginStartPercentage:.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span> <span class="n">grey_multiFingerSwipeSlowInDirectionWithStartPoint</span><span class="p">(</span>
+    <span class="n"><a href="Enums/GREYDirection.html">GREYDirection</a></span> <span class="n">direction</span><span class="p">,</span> <span class="n">NSUInteger</span> <span class="n">numberOfFingers</span><span class="p">,</span>
+    <span class="n">CGFloat</span> <span class="n">xOriginStartPercentage</span><span class="p">,</span> <span class="n">CGFloat</span> <span class="n">yOriginStartPercentage</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@F@grey_multiFingerSwipeFastInDirectionWithStartPoint"></a>
+                    <a name="//apple_ref/objc/Function/grey_multiFingerSwipeFastInDirectionWithStartPoint" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_multiFingerSwipeFastInDirectionWithStartPoint">grey_multiFingerSwipeFastInDirectionWithStartPoint</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Shorthand macro for
+GREYActions::actionForMultiFingerSwipeFastInDirection:numberOfFingers:xOriginStartPercentage:
+yOriginStartPercentage:.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span> <span class="n">grey_multiFingerSwipeFastInDirectionWithStartPoint</span><span class="p">(</span>
+    <span class="n"><a href="Enums/GREYDirection.html">GREYDirection</a></span> <span class="n">direction</span><span class="p">,</span> <span class="n">NSUInteger</span> <span class="n">numberOfFingers</span><span class="p">,</span>
+    <span class="n">CGFloat</span> <span class="n">xOriginStartPercentage</span><span class="p">,</span> <span class="n">CGFloat</span> <span class="n">yOriginStartPercentage</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -1662,9 +1796,9 @@ value.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@F@getFailureHandler"></a>
-                    <a name="//apple_ref/objc/Function/getFailureHandler" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@F@getFailureHandler">getFailureHandler</a>
+                    <a name="/c:@F@grey_getFailureHandler"></a>
+                    <a name="//apple_ref/objc/Function/grey_getFailureHandler" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@F@grey_getFailureHandler">grey_getFailureHandler</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1672,8 +1806,22 @@ value.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Exposes internal method to get the failure handler registered with EarlGrey.
+It must be called from main thread otherwise the behavior is undefined.</p>
 
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYFailureHandler.html">GREYFailureHandler</a></span><span class="o">&gt;</span> <span class="n">grey_getFailureHandler</span><span class="p">()</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">grey_getFailureHandler</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Any</span><span class="o">!</span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>

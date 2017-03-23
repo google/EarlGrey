@@ -13,7 +13,7 @@
     <a title="EarlGrey  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html">EarlGrey Docs</a> (93% documented)</p>
+        <p><a href="index.html">EarlGrey Docs</a> (100% documented)</p>
         <p class="header-right"><a href="https://github.com/google/EarlGrey"><img src="img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -368,9 +368,6 @@
                 <a href="Functions.html#/c:@F@NSStringFromUIDeviceOrientation">NSStringFromUIDeviceOrientation</a>
               </li>
               <li class="nav-group-task">
-                <a href="Functions.html#/c:@F@getFailureHandler">getFailureHandler</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="Functions.html#/c:@F@grey_accessibilityElement">grey_accessibilityElement</a>
               </li>
               <li class="nav-group-task">
@@ -452,6 +449,9 @@
                 <a href="Functions.html#/c:@F@grey_firstResponder">grey_firstResponder</a>
               </li>
               <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_getFailureHandler">grey_getFailureHandler</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Functions.html#/c:@F@grey_greaterThan">grey_greaterThan</a>
               </li>
               <li class="nav-group-task">
@@ -486,6 +486,18 @@
               </li>
               <li class="nav-group-task">
                 <a href="Functions.html#/c:@F@grey_moveSliderToValue">grey_moveSliderToValue</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_multiFingerSwipeFastInDirection">grey_multiFingerSwipeFastInDirection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_multiFingerSwipeFastInDirectionWithStartPoint">grey_multiFingerSwipeFastInDirectionWithStartPoint</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_multiFingerSwipeSlowInDirection">grey_multiFingerSwipeSlowInDirection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_multiFingerSwipeSlowInDirectionWithStartPoint">grey_multiFingerSwipeSlowInDirectionWithStartPoint</a>
               </li>
               <li class="nav-group-task">
                 <a href="Functions.html#/c:@F@grey_multipleTapsWithCount">grey_multipleTapsWithCount</a>
@@ -610,9 +622,10 @@
 
 <p><a href="https://github.com/google/EarlGrey/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-Apache%202-lightgrey.svg?style=flat" alt="Apache License"></a>
 <a href="https://github.com/google/EarlGrey/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-CC%20BY%204.0-lightgrey.svg" alt="CC-BY 4.0 License"></a>
-<a href="https://cocoapods.org/pods/EarlGrey"><img src="https://img.shields.io/cocoapods/v/EarlGrey.svg?maxAge=2592000" alt="CocoaPods"></a>
 <a href="https://travis-ci.org/google/EarlGrey"><img src="https://travis-ci.org/google/EarlGrey.svg?branch=master" alt="Build Status"></a>
-<a href="https://github.com/Carthage/Carthage"><img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat" alt="Carthage compatible"></a></p>
+<a href="https://github.com/Carthage/Carthage"><img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat" alt="Carthage compatible"></a>
+<a href="https://cocoapods.org/pods/EarlGrey"><img src="https://img.shields.io/cocoapods/v/EarlGrey.svg?maxAge=2592000" alt="CocoaPods"></a>
+<a href="https://rubygems.org/gems/earlgrey"><img src="https://badge.fury.io/rb/earlgrey.svg" alt="Gem Version"></a></p>
 
 <p>EarlGrey is a native iOS UI automation test framework that enables you to write
 clear, concise tests.</p>
@@ -689,8 +702,8 @@ to opt out by disabling the Analytics config setting in their test’s
 
 <ol>
 <li><p>Clone the EarlGrey repository from GitHub:</p>
-<pre class="highlight plaintext"><code>git clone https://github.com/google/EarlGrey.git
-</code></pre></li>
+
+<p>git clone <a href="https://github.com/google/EarlGrey.git">https://github.com/google/EarlGrey.git</a></p></li>
 <li><p>After you have cloned the EarlGrey repository, download all the dependencies
 using <a href="https://github.com/google/EarlGrey/tree/master/Scripts/setup-earlgrey.sh"><strong>setup-earlgrey.sh</strong></a>.</p></li>
 <li><p>After the script completes successfully, open <code>EarlGrey.xcodeproj</code> and ensure that all

@@ -14,7 +14,7 @@
     <a title="GREYActions Class Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">EarlGrey Docs</a> (93% documented)</p>
+        <p><a href="../index.html">EarlGrey Docs</a> (100% documented)</p>
         <p class="header-right"><a href="https://github.com/google/EarlGrey"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -369,9 +369,6 @@
                 <a href="../Functions.html#/c:@F@NSStringFromUIDeviceOrientation">NSStringFromUIDeviceOrientation</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Functions.html#/c:@F@getFailureHandler">getFailureHandler</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@grey_accessibilityElement">grey_accessibilityElement</a>
               </li>
               <li class="nav-group-task">
@@ -453,6 +450,9 @@
                 <a href="../Functions.html#/c:@F@grey_firstResponder">grey_firstResponder</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_getFailureHandler">grey_getFailureHandler</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@grey_greaterThan">grey_greaterThan</a>
               </li>
               <li class="nav-group-task">
@@ -487,6 +487,18 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@grey_moveSliderToValue">grey_moveSliderToValue</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_multiFingerSwipeFastInDirection">grey_multiFingerSwipeFastInDirection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_multiFingerSwipeFastInDirectionWithStartPoint">grey_multiFingerSwipeFastInDirectionWithStartPoint</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_multiFingerSwipeSlowInDirection">grey_multiFingerSwipeSlowInDirection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_multiFingerSwipeSlowInDirectionWithStartPoint">grey_multiFingerSwipeSlowInDirectionWithStartPoint</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@grey_multipleTapsWithCount">grey_multipleTapsWithCount</a>
@@ -1141,8 +1153,8 @@ of a scroll view with the scroll
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Returns an action that fast swipes through the whole view. The start point of the swipe is
-  chosen to achieve the maximum the swipe possible to the other edge.</p>
+                        <p>Returns an action that fast swipes through the view. The start point of the swipe is chosen to
+  achieve the maximum the swipe possible to the other edge.</p>
 
                       </div>
                       <div class="declaration">
@@ -1194,8 +1206,8 @@ of a scroll view with the scroll
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Returns an action that slow swipes through the whole view. The start point of the swipe is
-  chosen to achieve maximum the swipe possible to the other edge.</p>
+                        <p>Returns an action that slow swipes through the view. The start point of the swipe is chosen to
+  achieve maximum the swipe possible to the other edge.</p>
 
                       </div>
                       <div class="declaration">
@@ -1405,6 +1417,342 @@ of a scroll view with the scroll
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/c:objc(cs)GREYActions(cm)actionForMultiFingerSwipeSlowInDirection:numberOfFingers:"></a>
+                    <a name="//apple_ref/objc/Method/+actionForMultiFingerSwipeSlowInDirection:numberOfFingers:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYActions(cm)actionForMultiFingerSwipeSlowInDirection:numberOfFingers:">+actionForMultiFingerSwipeSlowInDirection:numberOfFingers:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns an action that performs a multi-finger slow swipe through the view in the given
+  @c direction.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span><span class="p">)</span>
+<span class="nf">actionForMultiFingerSwipeSlowInDirection</span><span class="p">:(</span><span class="n"><a href="../Enums/GREYDirection.html">GREYDirection</a></span><span class="p">)</span><span class="nv">direction</span>
+                         <span class="nf">numberOfFingers</span><span class="p">:(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="nv">numberOfFingers</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>direction</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The direction of the swipe.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>numberOfFingers</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Number of fingers touching the screen for the swipe.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A GREYAction that performs a multi-finger slow swipe through a view in a specific
+         direction from the specified point.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYActions(cm)actionForMultiFingerSwipeFastInDirection:numberOfFingers:"></a>
+                    <a name="//apple_ref/objc/Method/+actionForMultiFingerSwipeFastInDirection:numberOfFingers:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYActions(cm)actionForMultiFingerSwipeFastInDirection:numberOfFingers:">+actionForMultiFingerSwipeFastInDirection:numberOfFingers:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns an action that performs a multi-finger fast swipe through the view in the given
+  @c direction.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span><span class="p">)</span>
+<span class="nf">actionForMultiFingerSwipeFastInDirection</span><span class="p">:(</span><span class="n"><a href="../Enums/GREYDirection.html">GREYDirection</a></span><span class="p">)</span><span class="nv">direction</span>
+                         <span class="nf">numberOfFingers</span><span class="p">:(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="nv">numberOfFingers</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>direction</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The direction of the swipe.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>numberOfFingers</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Number of fingers touching the screen for the swipe.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A GREYAction that performs a multi-finger fast swipe through a view in a specific
+         direction from the specified point.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYActions(cm)actionForMultiFingerSwipeSlowInDirection:numberOfFingers:xOriginStartPercentage:yOriginStartPercentage:"></a>
+                    <a name="//apple_ref/objc/Method/+actionForMultiFingerSwipeSlowInDirection:numberOfFingers:xOriginStartPercentage:yOriginStartPercentage:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYActions(cm)actionForMultiFingerSwipeSlowInDirection:numberOfFingers:xOriginStartPercentage:yOriginStartPercentage:">+actionForMultiFingerSwipeSlowInDirection:numberOfFingers:xOriginStartPercentage:yOriginStartPercentage:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns an action that performs a multi-finger slow swipe through the view in the given
+  @c direction from a specified origin.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span><span class="p">)</span>
+<span class="nf">actionForMultiFingerSwipeSlowInDirection</span><span class="p">:(</span><span class="n"><a href="../Enums/GREYDirection.html">GREYDirection</a></span><span class="p">)</span><span class="nv">direction</span>
+                         <span class="nf">numberOfFingers</span><span class="p">:(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="nv">numberOfFingers</span>
+                  <span class="nf">xOriginStartPercentage</span><span class="p">:(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">xOriginStartPercentage</span>
+                  <span class="nf">yOriginStartPercentage</span><span class="p">:(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">yOriginStartPercentage</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>direction</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The direction of the swipe.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>numberOfFingers</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Number of fingers touching the screen for the swipe.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>xOriginStartPercentage</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The x start position as a percentage of the total width
+                               of the view. This must be between 0 and 1.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>yOriginStartPercentage</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The y start position as a percentage of the total height
+                               of the view. This must be between 0 and 1.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A GREYAction that performs a multi-finger slow swipe through a view in a specific
+         direction from the specified point.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)GREYActions(cm)actionForMultiFingerSwipeFastInDirection:numberOfFingers:xOriginStartPercentage:yOriginStartPercentage:"></a>
+                    <a name="//apple_ref/objc/Method/+actionForMultiFingerSwipeFastInDirection:numberOfFingers:xOriginStartPercentage:yOriginStartPercentage:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)GREYActions(cm)actionForMultiFingerSwipeFastInDirection:numberOfFingers:xOriginStartPercentage:yOriginStartPercentage:">+actionForMultiFingerSwipeFastInDirection:numberOfFingers:xOriginStartPercentage:yOriginStartPercentage:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns an action that performs a multi-finger fast swipe through the view in the given
+  @c direction from a specified origin.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYAction.html">GREYAction</a></span><span class="o">&gt;</span><span class="p">)</span>
+<span class="nf">actionForMultiFingerSwipeFastInDirection</span><span class="p">:(</span><span class="n"><a href="../Enums/GREYDirection.html">GREYDirection</a></span><span class="p">)</span><span class="nv">direction</span>
+                         <span class="nf">numberOfFingers</span><span class="p">:(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="nv">numberOfFingers</span>
+                  <span class="nf">xOriginStartPercentage</span><span class="p">:(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">xOriginStartPercentage</span>
+                  <span class="nf">yOriginStartPercentage</span><span class="p">:(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">yOriginStartPercentage</span><span class="p">;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>direction</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The direction of the swipe.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>numberOfFingers</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Number of fingers touching the screen for the swipe.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>xOriginStartPercentage</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The x start position as a percentage of the total width
+                               of the view. This must be between 0 and 1.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>yOriginStartPercentage</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The y start position as a percentage of the total height
+                               of the view. This must be between 0 and 1.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A GREYAction that performs a multi-finger fast swipe through a view in a specific
+         direction from the specified point.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/c:objc(cs)GREYActions(cm)actionForPinchFastInDirection:withAngle:"></a>
                     <a name="//apple_ref/objc/Method/+actionForPinchFastInDirection:withAngle:" class="dashAnchor"></a>
                     <a class="token" href="#/c:objc(cs)GREYActions(cm)actionForPinchFastInDirection:withAngle:">+actionForPinchFastInDirection:withAngle:</a>
@@ -1415,7 +1763,7 @@ of a scroll view with the scroll
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Returns an action that pinches whole view quickly in the specified @c direction and @c angle.</p>
+                        <p>Returns an action that pinches view quickly in the specified @c direction and @c angle.</p>
 
                       </div>
                       <div class="declaration">
@@ -1454,11 +1802,11 @@ of a scroll view with the scroll
                               <td>
                                 <div>
                                   <pre class="highlight plaintext"><code>     The angle of the pinch action in radians.
-                   Use @c
+                    Use @c
 </code></pre>
 
 <p>for the default angle (currently set to
-                       30 degrees).</p>
+                        30 degrees).</p>
 
                                 </div>
                               </td>
@@ -1468,7 +1816,7 @@ of a scroll view with the scroll
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>A GREYAction that performs a fast pinch on the whole view in the specified @c</p>
+                        <p>A GREYAction that performs a fast pinch on the view in the specified @c</p>
 
                       </div>
                     </section>
@@ -1487,7 +1835,7 @@ of a scroll view with the scroll
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Returns an action that pinches whole view slowly in the specified @c direction and @c angle.</p>
+                        <p>Returns an action that pinches view slowly in the specified @c direction and @c angle.</p>
 
                       </div>
                       <div class="declaration">
@@ -1526,11 +1874,11 @@ of a scroll view with the scroll
                               <td>
                                 <div>
                                   <pre class="highlight plaintext"><code>     The angle of the pinch action in radians.
-                   Use @c
+                    Use @c
 </code></pre>
 
 <p>for the default angle (currently set to
-                       30 degrees).</p>
+                        30 degrees).</p>
 
                                 </div>
                               </td>
@@ -1540,7 +1888,7 @@ of a scroll view with the scroll
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>A GREYAction that performs a slow pinch on the whole view in the specified @c</p>
+                        <p>A GREYAction that performs a slow pinch on the view in the specified @c</p>
 
                       </div>
                     </section>
