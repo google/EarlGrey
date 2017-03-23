@@ -87,9 +87,21 @@ GREY_EXTERN const double kGREYPinchAngleDefault;
  *  of the screen and moves up to simulate an absolute scroll down behavior.
  */
 typedef NS_ENUM(NSInteger, GREYDirection) {
+  /**
+   *  The finger is moving to the right, view port is moving left.
+   */
   kGREYDirectionLeft = 1,
+  /**
+   *  The finger is moving to the left, view port is moving right.
+   */
   kGREYDirectionRight,
+  /**
+   *  The finger is moving downwards, view port is moving up.
+   */
   kGREYDirectionUp,
+  /**
+   *  The finger is moving upwards, view port is moving down.
+   */
   kGREYDirectionDown,
 };
 
@@ -100,7 +112,13 @@ typedef NS_ENUM(NSInteger, GREYDirection) {
  *  possible directions for pinch action inward and outward.
  */
 typedef NS_ENUM(NSInteger, GREYPinchDirection) {
+  /**
+   *  Two fingers pinching outward.
+   */
   kGREYPinchDirectionOutward = 1,
+  /**
+   *  Two fingers pinching inward.
+   */
   kGREYPinchDirectionInward,
 };
 
@@ -108,9 +126,21 @@ typedef NS_ENUM(NSInteger, GREYPinchDirection) {
  *  Content edges for scrolling.
  */
 typedef NS_ENUM(NSInteger, GREYContentEdge) {
+  /**
+   *  The left content edge of the screen in the current orientation.
+   */
   kGREYContentEdgeLeft,
+  /**
+   *  The right content edge of the screen in the current orientation.
+   */
   kGREYContentEdgeRight,
+  /**
+   *  The top content edge of the screen in the current orientation.
+   */
   kGREYContentEdgeTop,
+  /**
+   *  The bottom content edge of the screen in the current orientation.
+   */
   kGREYContentEdgeBottom,
 };
 
@@ -118,28 +148,61 @@ typedef NS_ENUM(NSInteger, GREYContentEdge) {
  *  Directions for layout specification.
  */
 typedef NS_ENUM(NSInteger, GREYLayoutDirection) {
+  /**
+   *  To the left of the current element.
+   */
   kGREYLayoutDirectionLeft = 1,
+  /**
+   *  To the right of the current element.
+   */
   kGREYLayoutDirectionRight,
+  /**
+   *  Above the current element.
+   */
   kGREYLayoutDirectionUp,
+  /**
+   *  Below the current element.
+   */
   kGREYLayoutDirectionDown,
 };
 
 /**
- *  Layout attributes for matching on layouts (modelled after NSLayoutAttribute).
+ *  Layout attributes for matching on layouts (modelled after @c NSLayoutAttribute).
  */
 typedef NS_ENUM(NSInteger, GREYLayoutAttribute) {
+  /**
+   *  The left edge of element.
+   */
   kGREYLayoutAttributeLeft = 1,
+  /**
+   *  The right edge of element.
+   */
   kGREYLayoutAttributeRight,
+  /**
+   *  The top edge of element.
+   */
   kGREYLayoutAttributeTop,
+  /**
+   *  The bottom edge of element.
+   */
   kGREYLayoutAttributeBottom,
 };
 
 /**
- *  Layout relations for comparision of layout attributes (modelled after NSLayoutRelation).
+ *  Layout relations for comparision of layout attributes (modelled after @c NSLayoutRelation).
  */
 typedef NS_ENUM(NSInteger, GREYLayoutRelation) {
+  /**
+   *  Value is less than or equal to the other operand.
+   */
   kGREYLayoutRelationLessThanOrEqual = -1,
+  /**
+   *  Value is equal to the other operand.
+   */
   kGREYLayoutRelationEqual = 0,
+  /**
+   *  Value is greater than or equal to the other operand.
+   */
   kGREYLayoutRelationGreaterThanOrEqual = 1,
 };
 
@@ -200,6 +263,9 @@ NSString *NSStringFromGREYLayoutRelation(GREYLayoutRelation relation);
  */
 NSString *NSStringFromUIAccessibilityTraits(UIAccessibilityTraits traits);
 
+/**
+ *  A class containing helper methods for conversion to-and-from constants.
+ */
 @interface GREYConstants : NSObject
 
 /**

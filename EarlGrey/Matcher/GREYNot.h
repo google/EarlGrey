@@ -17,6 +17,9 @@
 #import <EarlGrey/GREYBaseMatcher.h>
 #import <EarlGrey/GREYDefines.h>
 
+/**
+ *  A matcher to negate the result of another matcher.
+ */
 @interface GREYNot : GREYBaseMatcher
 
 /**
@@ -25,9 +28,9 @@
 - (instancetype)init NS_UNAVAILABLE;
 
 /**
- *  Initializes the finder with a given @c matcher.
+ *  Initializes this matcher with another @c matcher whose result is negated.
  *
- *  @param matcher Matcher that defines the element whose negation is to be matched for.
+ *  @param matcher A matcher whose result will be negated.
  *
  *  @return An instance of GREYNot, initialized with a matcher.
  */

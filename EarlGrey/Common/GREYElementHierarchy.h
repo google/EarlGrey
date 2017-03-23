@@ -16,6 +16,9 @@
 
 #import <Foundation/Foundation.h>
 
+/**
+ *  A utility to get the string representation of the UI hierarchy.
+ */
 @interface GREYElementHierarchy : NSObject
 
 /**

@@ -125,8 +125,8 @@
                         yOriginStartPercentage:(CGFloat)yOriginStartPercentage;
 
 /**
- *  Returns an action that fast swipes through the whole view. The start point of the swipe is
- *  chosen to achieve the maximum the swipe possible to the other edge.
+ *  Returns an action that fast swipes through the view. The start point of the swipe is chosen to
+ *  achieve the maximum the swipe possible to the other edge.
  *
  *  @param direction The direction of the swipe.
  *
@@ -135,8 +135,8 @@
 + (id<GREYAction>)actionForSwipeFastInDirection:(GREYDirection)direction;
 
 /**
- *  Returns an action that slow swipes through the whole view. The start point of the swipe is
- *  chosen to achieve maximum the swipe possible to the other edge.
+ *  Returns an action that slow swipes through the view. The start point of the swipe is chosen to
+ *  achieve maximum the swipe possible to the other edge.
  *
  *  @param direction The direction of the swipe.
  *
@@ -243,27 +243,27 @@
                                     yOriginStartPercentage:(CGFloat)yOriginStartPercentage;
 
 /**
- * Returns an action that pinches whole view quickly in the specified @c direction and @c angle.
+ *  Returns an action that pinches view quickly in the specified @c direction and @c angle.
  *
- * @param  pinchDirection The direction of the pinch action.
- * @param  angle          The angle of the pinch action in radians.
- *                        Use @c kGREYPinchAngleDefault for the default angle (currently set to
- *                        30 degrees).
+ *  @param  pinchDirection The direction of the pinch action.
+ *  @param  angle          The angle of the pinch action in radians.
+ *                         Use @c kGREYPinchAngleDefault for the default angle (currently set to
+ *                         30 degrees).
  *
- * @return A GREYAction that performs a fast pinch on the whole view in the specified @c direction.
+ *  @return A GREYAction that performs a fast pinch on the view in the specified @c direction.
  */
 + (id<GREYAction>)actionForPinchFastInDirection:(GREYPinchDirection)pinchDirection
                                       withAngle:(double)angle;
 
 /**
- * Returns an action that pinches whole view slowly in the specified @c direction and @c angle.
+ *  Returns an action that pinches view slowly in the specified @c direction and @c angle.
  *
- * @param  pinchDirection The direction of the pinch action.
- * @param  angle          The angle of the pinch action in radians.
- *                        Use @c kGREYPinchAngleDefault for the default angle (currently set to
- *                        30 degrees).
+ *  @param  pinchDirection The direction of the pinch action.
+ *  @param  angle          The angle of the pinch action in radians.
+ *                         Use @c kGREYPinchAngleDefault for the default angle (currently set to
+ *                         30 degrees).
  *
- * @return A GREYAction that performs a slow pinch on the whole view in the specified @c direction.
+ *  @return A GREYAction that performs a slow pinch on the view in the specified @c direction.
  */
 + (id<GREYAction>)actionForPinchSlowInDirection:(GREYPinchDirection)pinchDirection
                                       withAngle:(double)angle;

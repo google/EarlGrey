@@ -16,6 +16,9 @@
 
 #import <Foundation/Foundation.h>
 
+/**
+ *  A protocol for providing arbitrary data as an enumeration.
+ */
 @protocol GREYProvider<NSObject>
 
 /**
