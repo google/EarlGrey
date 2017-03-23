@@ -42,7 +42,7 @@ NSString *const kGREYFailureHandlerKey = @"GREYFailureHandlerKey";
   SEL invocationFileAndLineSEL = @selector(setInvocationFile:andInvocationLine:);
   id<GREYFailureHandler> failureHandler;
   @synchronized (self) {
-    failureHandler = getFailureHandler();
+    failureHandler = grey_getFailureHandler();
   }
   if ([failureHandler respondsToSelector:invocationFileAndLineSEL]) {
     [failureHandler setInvocationFile:fileName andInvocationLine:lineNumber];
@@ -74,7 +74,7 @@ NSString *const kGREYFailureHandlerKey = @"GREYFailureHandlerKey";
 
 - (void)handleException:(GREYFrameworkException *)exception details:(NSString *)details {
   @synchronized ([self class]) {
-    id<GREYFailureHandler> failureHandler = getFailureHandler();
+    id<GREYFailureHandler> failureHandler = grey_getFailureHandler();
     [failureHandler handleException:exception details:details];
   }
 }
@@ -94,7 +94,7 @@ static inline void resetFailureHandler() {
 }
 
 // Gets the failure handler. Must be called from main thread otherwise behavior is undefined.
-inline id<GREYFailureHandler> getFailureHandler() {
+inline id<GREYFailureHandler> grey_getFailureHandler() {
   assert([NSThread isMainThread]);
   NSMutableDictionary *TLSDict = [[NSThread mainThread] threadDictionary];
   return [TLSDict valueForKey:kGREYFailureHandlerKey];

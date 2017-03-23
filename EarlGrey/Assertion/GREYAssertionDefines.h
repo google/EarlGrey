@@ -29,7 +29,11 @@
 #import <EarlGrey/GREYFrameworkException.h>
 #import <EarlGrey/GREYUIThreadExecutor.h>
 
-GREY_EXPORT id<GREYFailureHandler> getFailureHandler();
+/**
+ *  Exposes internal method to get the failure handler registered with EarlGrey.
+ *  It must be called from main thread otherwise the behavior is undefined.
+ */
+GREY_EXPORT id<GREYFailureHandler> grey_getFailureHandler();
 
 /**
  *  These Macros are safe to call from anywhere within a testcase.
@@ -240,7 +244,7 @@ GREY_EXPORT id<GREYFailureHandler> getFailureHandler();
 // No private macro should call this.
 #define I_GREYSetCurrentAsFailable() \
 ({ \
-  id<GREYFailureHandler> failureHandler__ = getFailureHandler(); \
+  id<GREYFailureHandler> failureHandler__ = grey_getFailureHandler(); \
   if ([failureHandler__ respondsToSelector:@selector(setInvocationFile:andInvocationLine:)]) { \
     [failureHandler__ setInvocationFile:[NSString stringWithUTF8String:__FILE__] \
                       andInvocationLine:__LINE__]; \
@@ -267,7 +271,7 @@ GREY_EXPORT id<GREYFailureHandler> getFailureHandler();
 ({ \
   NSString *details__; \
   I_GREYFormattedString(details__, __details, ##__VA_ARGS__); \
-  id<GREYFailureHandler> failureHandler__ = getFailureHandler(); \
+  id<GREYFailureHandler> failureHandler__ = grey_getFailureHandler(); \
   [failureHandler__ handleException:[GREYFrameworkException exceptionWithName:__exceptionName \
                                                                        reason:(__description)] \
                             details:(details__)]; \

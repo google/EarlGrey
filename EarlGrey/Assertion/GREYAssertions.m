@@ -34,7 +34,7 @@
 + (void)grey_raiseExceptionNamed:(NSString *)name
                 exceptionDetails:(NSString *)details
                        withError:(GREYError *)error {
-  id<GREYFailureHandler> failureHandler = getFailureHandler();
+  id<GREYFailureHandler> failureHandler = grey_getFailureHandler();
   NSString *reason = [GREYError grey_nestedDescriptionForError:error];
   [failureHandler handleException:[GREYFrameworkException exceptionWithName:name
                                                                      reason:reason]
