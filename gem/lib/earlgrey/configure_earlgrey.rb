@@ -18,8 +18,14 @@ require 'colored'
 require 'fileutils'
 require 'xcodeproj'
 
-def configure_for_earlgrey
-  raise 'configure_for_earlgrey is deprecated, please remove.'
+def configure_for_earlgrey(*_)
+  EarlGrey.puts_yellow <<-S
+    configure_for_earlgrey in post_install is now deprecated, you should safely remove it now.
+    EarlGrey pod will automatically set up your project and schemes.
+
+    for more information, please visit our installation guideline:
+    https://github.com/google/EarlGrey/blob/master/docs/install-and-run.md
+    S
 end
 
 module EarlGrey
@@ -81,11 +87,11 @@ module EarlGrey
       raise strip(message)
     end
 
-    # Prints string as blue after stripping excess spacing
+    # Prints string as magenta after stripping excess spacing
     # @param [String] string the string to print
     # @return [nil]
-    def puts_blue(string)
-      puts strip(string).blue
+    def puts_magenta(string)
+      puts strip(string).magenta
     end
 
     # Prints string as yellow after stripping excess spacing
@@ -100,7 +106,7 @@ module EarlGrey
       @carthage = opts.fetch(:carthage, false)
       @swift_version = opts.fetch(:swift_version, '3.0')
 
-      puts_blue "Checking and Updating #{project_name} for EarlGrey."
+      puts_magenta "Checking and Updating #{project_name} for EarlGrey."
       project_file = path_for project_name, '.xcodeproj'
 
       raise 'No test target provided' unless test_target_name
@@ -158,7 +164,7 @@ module EarlGrey
       copy_swift_files(user_project, test_target, swift_version) if swift
 
       user_project.save
-      puts_blue <<-S
+      puts_magenta <<-S
         EarlGrey setup complete.
         You can use the Test Target: #{test_target_name} for EarlGrey testing.
       S
@@ -223,12 +229,12 @@ module EarlGrey
       env_variable = test_variables[ENVIRONMENT_KEY] ||
                      EnvironmentVariable.new(key: ENVIRONMENT_KEY, value: '')
       if env_variable.value.include? ENVIRONMENT_VALUE
-        puts_blue <<-S
+        puts_magenta <<-S
           DYLD_INSERT_LIBRARIES is already set up for #{name}, ignored.
         S
         return scheme
       end
-      puts strip(<<-S)
+      puts_magenta <<-S
         Adding EarlGrey Framework Location as an Environment Variable
         in the App Project's Test Target's Scheme Test Action #{name}.
       S
