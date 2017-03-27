@@ -9,6 +9,13 @@ to the [Scheme](./install-and-run.md#scheme-changes) and
 [Build Phases](./install-and-run.md#build-phase-changes) after running `pod install`, please re-run
 `pod install` again.
 
+**I see lots of “XXX is implemented in both YYY and ZZZ. One of the two will be used. Which one is
+undefined.” in the logs**
+
+This usually means that EarlGrey is being linked to more than once. Ensure that only the **Test Target**
+depends on *EarlGrey.framework* and EarlGrey.framework is embedded in the app under test (i.e. *$TEST_HOST*) from the
+test target's built products via a Copy File(s) Build Phase.
+
 **How does EarlGrey compare to Xcode’s UI Testing?**
 
 EarlGrey is more of a [gray-box testing](https://en.wikipedia.org/wiki/Gray_box_testing) solution
@@ -31,34 +38,8 @@ containers, regardless of the amount of scrolling required.
 the video frame?**
 
 For your tests to have the application properly scaled, make sure the app under test has correct
-launch screen images present for all supported devices (see 
+launch screen images present for all supported devices (see
 [iOS Developer Library, Launch Files](https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/MobileHIG/LaunchImages.html)).
-
-**Why does EarlGrey need to modify the test's scheme and add a Copy Files Build Phase?**
-
-EarlGrey synchronizes by keeping track of the app's internal state. It is essential that EarlGrey
-therefore be embedded into the app. Since we do not want users to have EarlGrey directly link to
-the app under test or create separate test rigs, we perform the embedding ourselves by adding a
-Copy Files Build Phase that copies the *EarlGrey.framework* linked to the test target to the app
-under test, as specified by the *$TEST_HOST* variable.
-
-Also, EarlGrey needs to be loaded before the app to ensure that we do not miss any states that
-should have been tracked, along with giving EarlGrey fine-grained control of the test's execution.
-For this purpose, we add a *DYLD_INSERT_LIBRARIES* environment variable in the test's scheme.
-
-**I get a crash with “Could not swizzle …”**
-
-This means that EarlGrey is trying to swizzle a method that it has swizzled before. It is a result
-of EarlGrey being linked to more than once. Ensure that only the **Test Target**
-depends on *EarlGrey.framework* and EarlGrey.framework is embedded in the app under test (i.e. *$TEST_HOST*) from the
-test target's build phase.
-
-**I see lots of “XXX is implemented in both YYY and ZZZ. One of the two will be used. Which one is
-undefined.” in the logs**
-
-This usually means that EarlGrey is being linked to more than once. Ensure that only the **Test Target**
-depends on *EarlGrey.framework* and EarlGrey.framework is embedded in the app under test (i.e. *$TEST_HOST*) from the
-test target's built products via a Copy File(s) Build Phase.
 
 **Is there a way to return a specific element?**
 
@@ -103,17 +84,24 @@ open class Element {
  *  GREYAssertTrue(element.text != "", reason: "get text failed")
  */
 public func grey_getText(_ elementCopy: Element) -> GREYActionBlock {
-  return GREYActionBlock.action(withName: "get text", 
-  constraints: grey_respondsToSelector(#selector(getter: UILabel.text))) { element, 
+  return GREYActionBlock.action(withName: "get text",
+  constraints: grey_respondsToSelector(#selector(getter: UILabel.text))) { element,
                                                                            errorOrNil -> Bool in
         let elementObject = element as? NSObject
-        let text = elementObject?.perform(#selector(getter: UILabel.text), 
+        let text = elementObject?.perform(#selector(getter: UILabel.text),
                                           with: nil)?.takeRetainedValue() as? String
         elementCopy.text = text ?? ""
         return true
     }
 }
 ```
+
+**I get a crash with “Could not swizzle …”**
+
+This means that EarlGrey is trying to swizzle a method that it has swizzled before. It is a result
+of EarlGrey being linked to more than once. Ensure that only the **Test Target**
+depends on *EarlGrey.framework* and EarlGrey.framework is embedded in the app under test (i.e. *$TEST_HOST*) from the
+test target's build phase.
 
 **How do I check whether an element exists in the UI hierarchy?**
 
