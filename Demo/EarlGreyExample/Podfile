@@ -22,15 +22,15 @@ use_frameworks!
 
 target "EarlGreyExampleTests" do
   project 'EarlGreyExample'
-  pod 'EarlGrey'
 
   inherit! :search_paths
+  pod 'EarlGrey'
 end
 
 target "EarlGreyExampleSwiftTests" do
   project 'EarlGreyExample'
-  pod 'EarlGrey'
 
   inherit! :search_paths
+  pod 'EarlGrey'
 end
 
