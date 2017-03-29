@@ -45,7 +45,8 @@ You can bring more specific issues to our attention by asking them on
 You can also start new discussions with us on our [Google group](https://groups.google.com/forum/#!forum/earlgrey-discuss)
 or request to join our [slack channel](https://googleoss.slack.com/messages/earlgrey).
 
-  * [FAQ](https://github.com/google/EarlGrey/tree/master/docs/faq.md)
+  * [FAQ - Frequently Asked Questions](https://github.com/google/EarlGrey/tree/master/docs/faq.md)
+  * [IFAQ - Infrequently Asked Questions](https://github.com/google/EarlGrey/tree/master/docs/ifaq.md)
   * [Known Issues](https://github.com/google/EarlGrey/tree/master/docs/known-issues.md)
   * [Stack Overflow](http://stackoverflow.com/questions/tagged/earlgrey)
   * [Slack](https://googleoss.slack.com/messages/earlgrey)

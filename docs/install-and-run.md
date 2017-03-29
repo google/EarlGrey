@@ -1,13 +1,13 @@
 # Install and run
 
 This document shows you how to install EarlGrey and then how to set up and run your first
-test.M
+test.
 
 ## Install EarlGrey
 
 You can add EarlGrey to Xcode projects in three ways: using [CocoaPods](#cocoapods-installation), [Carthage](#carthage-installation) or [Manually](#github-installation) through the Xcode Project.
 
-For EarlGrey, we highly recommend [CocoaPods](http://cocoapods.org/pods/EarlGrey) as the best way to get started.
+For EarlGrey, we highly recommend [CocoaPods](#cocoapods-installation) as the best way to get started.
 
 ### CocoaPods installation
 
@@ -35,7 +35,7 @@ For EarlGrey, we highly recommend [CocoaPods](http://cocoapods.org/pods/EarlGrey
 #### Step 2: Add EarlGrey as a framework dependency
 
    1. Install the EarlGrey gem by doing
-      `gem install   earlgrey`.
+      `gem install earlgrey`.
 
    2. In the test target's section in your `Podfile`, add
       EarlGrey as a dependency.
@@ -60,7 +60,13 @@ For EarlGrey, we highly recommend [CocoaPods](http://cocoapods.org/pods/EarlGrey
         configure_for_earlgrey(installer, PROJECT_NAME, TEST_TARGET, SCHEME_FILE) # EarlGrey Gem Call
       end
       ```
-      The EarlGrey gem also copies the `EarlGrey.swift` file to your project directory if you're passing the `{swift: true}` parameter to the args for the configure_for_earlgrey() method.
+      The EarlGrey gem also copies the `EarlGrey.swift` file to your project directory if you're passing the `{swift: true}` parameter to the args for the configure_for_earlgrey() method as in below:
+
+      ```ruby
+      post_install do |installer|
+        configure_for_earlgrey(installer, PROJECT_NAME, TEST_TARGET, SCHEME_FILE, {swift: true})
+      end
+      ```
 
    4. Your complete Podfile when using EarlGrey with the latest
       CocoaPods should look like:
@@ -97,13 +103,19 @@ For EarlGrey, we highly recommend [CocoaPods](http://cocoapods.org/pods/EarlGrey
 
 #### Step 1: Set up a test target for Carthage
 
-   See [Step 1 from the `CocoaPods installation`](#step-1:-set-up-a-unit-target) detailed above.
+   See [Step 1 from the `CocoaPods installation`](#step-1:-set-up-a-unit-testing-target) detailed above.
 
 #### Step 2: Configure carthage
 
    1. Install Carthage
 
-      `brew update; brew install carthage`
+      For Carthage, you need Homebrew installed which you can get from [here](https://brew.sh/). We recommend keeping your version updated.
+
+      `brew update`
+
+      To install Carthage, execute:
+
+      `brew install carthage`
 
    2. Specify the version of EarlGrey to use in Cartfile.private.
 
@@ -126,58 +138,52 @@ For EarlGrey, we highly recommend [CocoaPods](http://cocoapods.org/pods/EarlGrey
       `earlgrey install -t EarlGreyExampleSwiftTests`
 
       Now you're ready to start testing with EarlGrey!
-      If you need more control, review the available installation options in the `earlgrey gem`:
+      If you need more control, review the available installation options in the earlgrey gem:
 
       `earlgrey help install`
 
 ### GitHub Installation
 
-In cases where CocoaPods is not compatible with your project, you can add EarlGrey manually to your Xcode project.
+If CocoaPods or Carthage doesn't suit your use case, then you can add EarlGrey manually to your Xcode project.
 
 #### Step 1: Generate EarlGrey.framework
 
-   1. Download the source for EarlGrey.
-     1. Download EarlGrey's source code from the
-        [Latest Release](https://github.com/google/EarlGrey/releases/tag/1.8.0).
+   1. Download EarlGrey's source code from the
+      [Latest Release](https://github.com/google/EarlGrey/releases/latest).
 
-     2. Unzip and go to the `EarlGrey-x.y.z/EarlGrey` directory
-        that contains **EarlGrey.xcodeproj**.
+   2. Unzip and go to the `EarlGrey-x.y.z/EarlGrey` directory
+      that contains **EarlGrey.xcodeproj**.
 
-     3. Open the **EarlGrey.xcodeproj** file.
+   3. Open the **EarlGrey.xcodeproj** file.
 
-     4. Build the EarlGrey scheme.
+   4. Build the EarlGrey scheme.
 
-        **Note:** As part of the initial build step, a script [**setup-earlgrey.sh**](https://github.com/google/EarlGrey/tree/master/Scripts/setup-earlgrey.sh)
-        will be run to download all the required dependencies. Without it, you might find dependencies
-        like `fishhook` and `OCHamcrest` shown as missing in the folder structure. Ensure that you are online for this step.
+      **Note:** As part of the initial build step, a script [**setup-earlgrey.sh**](https://github.com/google/EarlGrey/tree/master/Scripts/setup-earlgrey.sh)
+      will be run to download all the required dependencies. Without it, you might find dependencies
+      like `fishhook` and `OCHamcrest` shown as missing in the folder structure. Ensure that you are online for this step.
 
-        Your EarlGrey folder structure should now look like this:
+      Your EarlGrey folder structure should now look like this:
 
-        <img src="images/image03.png" width="200">
+      <img src="images/image03.png" width="200">
 
-        And your EarlGrey Project should look like this:
+      And your EarlGrey Project should look like this:
 
-        <img src="images/image04.png" width="200">
+      <img src="images/image04.png" width="200">
 
 #### Step 2: Add EarlGrey as a dependency of the project which contains your app under test
 
-   1. Close **EarlGrey.xcodeproj** so that it is no longer   
-      open in any Xcode window. Once closed, drag **EarlGrey.xcodeproj** from its directory into your App’s project or workspace in Xcode. To verify this, you should find `EarlGrey` in the list of targets of your app in Xcode:
+   1. Close **EarlGrey.xcodeproj** so that it is no longer open in any Xcode window.
+      Once closed, drag **EarlGrey.xcodeproj** from its directory into your App’s project or workspace in Xcode. To verify this, you should find `EarlGrey` in the list of targets of your app in Xcode:
 
       <img src="images/image05.png" width="350">
 
-   2. Add **EarlGrey.framework** as a dependency of your  
-      project’s Test Target:
+   2. Add **EarlGrey.framework** as a dependency of your project’s Test Target:
 
-      ```
       **Project** → **Test Target** → **Build Phases** → **Link Binary With Libraries** → **+ (Add Sign)** → **EarlGrey.framework**
-      ```
 
    3. Add EarlGrey as a Target Dependency to the Test Target:
 
-      ```
       **Project** → **Test Target** → **Build Phases** → **Target Dependencies** → **+ (Add Sign)** → **EarlGrey**
-      ```
 
       The Test Target’s Build Phases should now look similar to this:
 
@@ -192,10 +198,10 @@ In cases where CocoaPods is not compatible with your project, you can add EarlGr
 
    5. You must add environment variables in the Test Target's
       Scheme to inject the EarlGrey framework. To do so, go to **The Test Target → Edit Scheme → Test Action** and then deselect **Use the Run action's arguments and environment variables**. Add the following details in the `Environment Variables`:
-
-      Key: `DYLD_INSERT_LIBRARIES`
-      Value:`@executable_path/EarlGrey.framework/EarlGrey`
-
+      ```
+      Key: DYLD_INSERT_LIBRARIES
+      Value: @executable_path/EarlGrey.framework/EarlGrey
+      ```
       Make sure the `Expand Variables Based On` value points to the app under test. The Scheme should now look like this:<a name="scheme-changes"></a>
 
       <img src="images/image07.png" width="500">
@@ -222,10 +228,10 @@ In cases where CocoaPods is not compatible with your project, you can add EarlGr
       To do this, choose **Project → Test Target → Build Phases → + (Add Sign) → New Copy Files Phase**, and then
       add the following details in the **Copy Files** phase:
       ```
-      Destination: `Absolute Path`
-      Path: `$(TEST_HOST)/..`
+      Destination: Absolute Path
+      Path: $(TEST_HOST)/..
       Copy files only when installing: Deselect
-      Name: `Path to EarlGrey.Framework` with `Code Sign on Copy` selected.
+      Name: "Path to EarlGrey.Framework" with "Code Sign on Copy" selected.
       ```
       The Build Phases should now include:<a name="build-phase-changes"></a>
 
@@ -250,13 +256,13 @@ compatible with EarlGrey.
 
    2. Select **Unit Test Case Class**, and then click
       **Next**. On the following screen, type the name
-      of your test case. For this example, let’s leave it as *MyFirstEarlGreyTest*:
+      of your test case. For this example, let’s leave it as **MyFirstEarlGreyTest**:
 
       <img src="images/image10.png" width="422">
 
    3. On the next screen, make sure that the test is
       associated with the Unit Test target. In this
-      case, our target is *SimpleAppTests*:
+      case, our target is **SimpleAppTests**:
 
       <img src="images/image11.png" width="422">
 

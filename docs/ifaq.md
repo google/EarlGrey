@@ -1,6 +1,6 @@
-#IFAQ - Infrequently Asked Questions
+# IFAQ - Infrequently Asked Questions
 
-**Why does EarlGrey need to modify the test's scheme and add a Copy Files Build Phase?**
+#### **Why does EarlGrey need to modify the test's scheme and add a Copy Files Build Phase?**
 
 EarlGrey synchronizes by keeping track of the app's internal state. It is essential that EarlGrey
 therefore be embedded into the app. Since we do not want users to have EarlGrey directly link to
