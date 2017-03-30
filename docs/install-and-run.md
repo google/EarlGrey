@@ -50,46 +50,6 @@ For EarlGrey, we highly recommend [CocoaPods](#cocoapods-installation) as the be
       end
       ```
 
-   3. Call the `configure_for_earlgrey` method from the
-      [EarlGrey gem](https://rubygems.org/gems/earlgrey)
-      in your Podfile's `post_install` section for each EarlGrey testing target and scheme.
-
-      ```ruby
-      post_install do |installer|
-        require 'earlgrey' # Imports the EarlGrey gem for usage in your Podfile
-        configure_for_earlgrey(installer, PROJECT_NAME, TEST_TARGET, SCHEME_FILE) # EarlGrey Gem Call
-      end
-      ```
-      The EarlGrey gem also copies the `EarlGrey.swift` file to your project directory if you're passing the `{swift: true}` parameter to the args for the configure_for_earlgrey() method as in below:
-
-      ```ruby
-      post_install do |installer|
-        configure_for_earlgrey(installer, PROJECT_NAME, TEST_TARGET, SCHEME_FILE, {swift: true})
-      end
-      ```
-
-   4. Your complete Podfile when using EarlGrey with the latest
-      CocoaPods should look like:
-
-      ```ruby
-      PROJECT_NAME = 'SampleApp'
-      TEST_TARGET = 'SampleAppTests'
-      SCHEME_FILE = 'SampleAppTests.xcscheme'
-
-      target TEST_TARGET do
-        project PROJECT_NAME
-
-        use_frameworks! # Required for Swift Test Targets only
-        inherit! :search_paths # Required for not double-linking libraries in the app and test targets.
-        pod 'EarlGrey'
-      end
-
-      post_install do |installer|
-        require 'earlgrey' # Imports the EarlGrey gem for usage in your Podfile
-        configure_for_earlgrey(installer, PROJECT_NAME, TEST_TARGET, SCHEME_FILE) # EarlGrey Gem Call
-      end
-      ```
-
       Once finished, do a `pod install`. For compatibility between different versions, please see [this doc](https://github.com/google/EarlGrey/tree/master/docs/versions.md). To download a particular version of the gem, use `gem install earlgrey -v x.y.z`.
 
 #### Step 3: Open the workspace and verify that you see EarlGrey.
