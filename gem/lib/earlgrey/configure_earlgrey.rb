@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #
 #  Copyright 2016 Google Inc.
 #
@@ -365,9 +366,14 @@ module EarlGrey
     def copy_swift_files(project, target, swift_version = nil)
       return unless has_swift?(target) || !swift_version.nil?
 
+      project_test_targets = project.main_group.children
+      test_target_group = project_test_targets.find { |g| g.display_name == target.name }
+
+      raise "Test target group not found! #{test_target_group}" unless test_target_group
+
       swift_version ||= '3.0'
       src_root = File.join(__dir__, 'files')
-      dst_root = File.join(dir_path, target.name)
+      dst_root = test_target_group.real_path
       raise "Missing target folder #{dst_root}" unless File.exist? dst_root
 
       src_swift_name = 'EarlGrey.swift'
@@ -377,11 +383,6 @@ module EarlGrey
       dst_swift = File.join(dst_root, src_swift_name)
 
       FileUtils.copy src_swift, dst_swift
-
-      project_test_targets = project.main_group.children
-      test_target_group = project_test_targets.find { |g| g.display_name == target.name }
-
-      raise "Test target group not found! #{test_target_group}" unless test_target_group
 
       # Add files to testing target group otherwise Xcode can't read them.
       new_files = [src_swift_name]

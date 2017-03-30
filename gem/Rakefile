@@ -31,7 +31,7 @@ class Bundler::GemHelper
   end
 end
 
-task default: [:spec, :rubocop, :warn]
+task default: %i[spec rubocop warn]
 
 # rake spec
 RSpec::Core::RakeTask.new do |task|
