@@ -21,14 +21,6 @@ let greyFailureHandler =
   NSThread.currentThread().threadDictionary
     .valueForKey(kGREYFailureHandlerKey) as! GREYFailureHandler
 
-public func grey_allOfMatchers(args: AnyObject...) -> GREYMatcher! {
-  return GREYAllOf(matchers: args)
-}
-
-public func grey_anyOfMatchers(args: AnyObject...) -> GREYMatcher! {
-  return GREYAnyOf(matchers: args)
-}
-
 public func EarlGrey(file: String = #file, line: UInt = #line) -> EarlGreyImpl! {
   return EarlGreyImpl.invokedFromFile(file, lineNumber: line)
 }

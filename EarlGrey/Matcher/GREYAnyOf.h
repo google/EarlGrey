@@ -18,6 +18,8 @@
 #import <EarlGrey/GREYDefines.h>
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  Matcher for combining multiple matchers with a logical @c OR operator, so that a match occurs
  *  when any of the matchers match the element. The invocation of the matchers is in the same
@@ -39,7 +41,8 @@
  *
  *  @return An instance of GREYAnyOf, initialized with the provided matchers.
  */
-- (instancetype)initWithMatchers:(NSArray *)matchers NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithMatchers:(NSArray<__kindof id<GREYMatcher>> *)matchers
+    NS_DESIGNATED_INITIALIZER;
 
 #if !(GREY_DISABLE_SHORTHAND)
 
@@ -53,7 +56,9 @@
  *
  *  @return An object conforming to GREYMatcher, initialized with the required matchers.
  */
-GREY_EXPORT id<GREYMatcher> grey_anyOf(id<GREYMatcher> match, ...) NS_REQUIRES_NIL_TERMINATION;
+GREY_EXPORT id<GREYMatcher> grey_anyOf(id<GREYMatcher> match, ...)
+    NS_SWIFT_UNAVAILABLE("Use grey_anyOf(_:) instead")
+    NS_REQUIRES_NIL_TERMINATION;
 
 /**
  *  A matcher that is a logical OR of all the matchers passed in within an NSArray.
@@ -63,8 +68,11 @@ GREY_EXPORT id<GREYMatcher> grey_anyOf(id<GREYMatcher> match, ...) NS_REQUIRES_N
  *
  *  @return An object conforming to GREYMatcher, initialized with the required matchers.
  */
-GREY_EXPORT id<GREYMatcher> grey_anyOfMatchers(NSArray<GREYMatcher>* matchers);
+GREY_EXPORT id<GREYMatcher> grey_anyOfMatchers(NSArray<__kindof id<GREYMatcher>> *matchers)
+    NS_SWIFT_NAME(grey_anyOf(_:));
 
 #endif // GREY_DISABLE_SHORTHAND
 
 @end
+
+NS_ASSUME_NONNULL_END
