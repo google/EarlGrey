@@ -259,7 +259,7 @@ compatible with EarlGrey.
       @end
       ```
 
-   5. Now let’s add a simple EarlGrey assertion that checks    
+   5. Now let’s add a simple EarlGrey assertion that checks
       for the presence of a key window and
       asserts that it is displayed. Here’s what the resulting test would look like:
 

@@ -1,11 +1,5 @@
 # FAQ
 
-#### **I see lots of “XXX is implemented in both YYY and ZZZ. One of the two will be used. Which one is undefined.” in the logs**
-
-This usually means that EarlGrey is being linked to more than once. Ensure that only the **Test Target**
-depends on *EarlGrey.framework* and EarlGrey.framework is embedded in the app under test (i.e. *$TEST_HOST*) from the
-test target's built products via a Copy File(s) Build Phase.
-
 #### **How does EarlGrey compare to Xcode’s UI Testing?**
 
 EarlGrey is more of a [gray-box testing](https://en.wikipedia.org/wiki/Gray_box_testing) solution
@@ -23,6 +17,12 @@ Nonetheless, EarlGrey’s APIs are highly extensible and provide a way to write 
 assertions. The ability to search for elements (using search actions) makes test cases resilient to
 UI changes. For example, EarlGrey provides APIs that allow searching for elements in scrollable
 containers, regardless of the amount of scrolling required.
+
+#### **I see lots of “XXX is implemented in both YYY and ZZZ. One of the two will be used. Which one is undefined.” in the logs**
+
+This usually means that EarlGrey is being linked to more than once. Ensure that only the **Test Target**
+depends on *EarlGrey.framework* and EarlGrey.framework is embedded in the app under test (i.e. *$TEST_HOST*) from the
+test target's built products via a Copy File(s) Build Phase.
 
 #### **Why do the tests have the application scaled with borders around it? How can I get them to fit in the video frame?**
 
