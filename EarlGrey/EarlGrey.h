@@ -76,6 +76,21 @@
 GREY_EXTERN NSString *const kGREYFailureHandlerKey;
 
 /**
+ *  Error domain for keyboard dismissal.
+ */
+GREY_EXTERN NSString *const kGREYKeyboardDismissalErrorDomain;
+
+/**
+ *  Error code for keyboard dismissal actions.
+ */
+typedef NS_ENUM(NSInteger, GREYKeyboardDismissalErrorCode) {
+  /**
+   *  The keyboard dismissal failed.
+   */
+  GREYKeyboardDismissalFailedErrorCode = 0,  // Keyboard Dismissal failed.
+};
+
+/**
  *  Convenience replacement for every EarlGrey method call with
  *  EarlGreyImpl::invokedFromFile:lineNumber: so it can get the invocation file and line to
  *  report to XCTest on failure.
@@ -170,5 +185,16 @@ GREY_EXTERN NSString *const kGREYFailureHandlerKey;
  */
 - (BOOL)rotateDeviceToOrientation:(UIDeviceOrientation)deviceOrientation
                        errorOrNil:(__strong NSError **)errorOrNil;
+
+/**
+ *  Dismisses the keyboard by resigning the first responder, if any. Will populate the provided
+ *  error if the first responder is not present or if the keyboard is not visible.
+ *
+ *  @param[out] errorOrNil Error that will be populated on failure. If @c nil, a test
+ *                         failure will be reported if the dismissing fails.
+ *
+ *  @return @c YES if the dismissing of the keyboard was successful, @c NO otherwise.
+ */
+- (BOOL)dismissKeyboardWithError:(__strong NSError **)errorOrNil;
 
 @end

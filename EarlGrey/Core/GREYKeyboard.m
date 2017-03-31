@@ -17,6 +17,7 @@
 #import "Core/GREYKeyboard.h"
 
 #include <objc/runtime.h>
+#include <stdatomic.h>
 
 #import "Action/GREYTapAction.h"
 #import "Additions/NSError+GREYAdditions.h"
@@ -36,9 +37,9 @@
 static GREYTapAction *gTapKeyAction;
 
 /**
- *  Flag set to @c YES when the keyboard is shown, @c NO when keyboard is hidden.
+ *  Flag set to @c true when the keyboard is shown, @c false when keyboard is hidden.
  */
-static BOOL gIsKeyboardShown = NO;
+static atomic_bool gIsKeyboardShown = false;
 
 /**
  *  A character set for all alphabets present on a keyboard.
@@ -121,13 +122,13 @@ static NSString *const kReturnKeyIdentifier = @"\n";
       NSString *elementID = objc_getAssociatedObject(keyboardObject,
                                                      @selector(grey_keyboardObject));
       UNTRACK_STATE_FOR_ELEMENT_WITH_ID(kGREYPendingKeyboardTransition, elementID);
-      gIsKeyboardShown = YES;
+      atomic_store(&gIsKeyboardShown, true);
     }];
     [defaultNotificationCenter addObserverForName:UIKeyboardWillHideNotification
                                            object:nil
                                             queue:nil
                                        usingBlock:^(NSNotification *note) {
-      gIsKeyboardShown = NO;
+      atomic_store(&gIsKeyboardShown, false);
       NSString *elementID = TRACK_STATE_FOR_ELEMENT(kGREYPendingKeyboardTransition, keyboardObject);
       objc_setAssociatedObject(keyboardObject,
                                @selector(grey_keyboardObject),
@@ -155,7 +156,7 @@ static NSString *const kReturnKeyIdentifier = @"\n";
                            @"Failed to type, because the string provided was empty.");
 
     return NO;
-  } else if (!gIsKeyboardShown) {
+  } else if (!atomic_load(&gIsKeyboardShown)) {
     NSString *description = [NSString stringWithFormat:@"Failed to type string '%@', "
                                                        @"because keyboard was not shown on screen.",
                              string];
@@ -259,14 +260,18 @@ static NSString *const kReturnKeyIdentifier = @"\n";
 }
 
 + (BOOL)waitForKeyboardToAppear {
-  if (gIsKeyboardShown) {
+  if (atomic_load(&gIsKeyboardShown)) {
     return YES;
   }
   GREYCondition *keyboardIsShownCondition =
       [[GREYCondition alloc] initWithName:@"Keyboard will appear." block:^BOOL {
-        return gIsKeyboardShown;
+        return atomic_load(&gIsKeyboardShown);
       }];
   return [keyboardIsShownCondition waitWithTimeout:kKeyboardWillAppearOrDisappearTimeout];
+}
+
++ (BOOL)isKeyboardShown {
+  return atomic_load(&gIsKeyboardShown);
 }
 
 #pragma mark - Private
