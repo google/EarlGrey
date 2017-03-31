@@ -17,10 +17,15 @@
 #import "EarlGrey.h"
 
 #import "Common/GREYAnalytics.h"
+#import "Common/GREYErrorConstants.h"
+#import "Common/GREYError.h"
+#import "Common/GREYExposed.h"
+#import "Core/GREYKeyboard.h"
 #import "Event/GREYSyntheticEvents.h"
 #import "Exception/GREYDefaultFailureHandler.h"
 
 NSString *const kGREYFailureHandlerKey = @"GREYFailureHandlerKey";
+NSString *const kGREYKeyboardDismissalErrorDomain = @"com.google.earlgrey.KeyboardDismissalDomain";
 
 @implementation EarlGreyImpl
 
@@ -82,6 +87,34 @@ NSString *const kGREYFailureHandlerKey = @"GREYFailureHandlerKey";
 - (BOOL)rotateDeviceToOrientation:(UIDeviceOrientation)deviceOrientation
                        errorOrNil:(__strong NSError **)errorOrNil {
   return [GREYSyntheticEvents rotateDeviceToOrientation:deviceOrientation errorOrNil:errorOrNil];
+}
+
+- (BOOL)dismissKeyboardWithError:(__strong NSError **)errorOrNil {
+  __block NSError *executionError;
+  [[GREYUIThreadExecutor sharedInstance] executeSync:^{
+    if (![GREYKeyboard isKeyboardShown]) {
+      executionError = GREYErrorMake(kGREYKeyboardDismissalErrorDomain,
+                                     GREYKeyboardDismissalFailedErrorCode,
+                                     @"Failed to dismiss keyboard since it was not showing.");
+    } else {
+      [[UIApplication sharedApplication] sendAction:@selector(resignFirstResponder)
+                                                 to:nil
+                                               from:nil
+                                           forEvent:nil];
+    }
+  } error:&executionError];
+
+  if (executionError) {
+    if (errorOrNil) {
+      *errorOrNil = executionError;
+    } else {
+      I_GREYFail(@"%@\nError: %@",
+                 @"Dismising keyboard errored out.",
+                 [GREYError grey_nestedDescriptionForError:executionError]);
+    }
+    return NO;
+  }
+  return YES;
 }
 
 #pragma mark - Private
