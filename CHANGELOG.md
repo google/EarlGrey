@@ -2,6 +2,32 @@
 
 Details changes in each release of EarlGrey. EarlGrey follows [semantic versioning](http://semver.org/).
 
+## [1.9.0](https://github.com/google/EarlGrey/tree/1.9.0) (03/31/2017)
+
+```
+Baseline: [6bceffc]
+   + [6bceffc]: Sync 1.9.0
+```
+
+### Compatibility
+* Requires iOS 8 as the minimum deployment target.
+* Supports Xcode 8.3 and iOS 10.3 on devices and simulators.
+* The EarlGrey gem runs out of the box for Swift 3.0 and Swift 2.3.
+
+### New Features
+* Add `-[GREYKeyboard dismissKeyboardWithError:]` API to dismiss the keyboard.
+
+### Enhancements
+* Improved earlgrey gem by removing post_install and letting pod update
+  the project.
+* Improved swift support for `grey_allOf` and `grey_anyOf`.
+* Several documentation updates including installation steps improvements.
+* Added gem badge to `README.md`.
+
+### Contributors
+* [bootstraponline](https://github.com/bootstraponline)
+* [Felix Krause](https://github.com/KrauseFx)<br/>
+
 ## [1.8.0](https://github.com/google/EarlGrey/tree/1.8.0) (03/17/2017)
 
 ```
@@ -32,7 +58,7 @@ Baseline: [0dc7c18]
 * Unified the `Copy Files` modification script for Carthage and CocoaPods support.
 
 ### Contributors
-[bootstraponline](https://github.com/bootstraponline)<br/> 
+[bootstraponline](https://github.com/bootstraponline)<br/>
 [petaren](https://github.com/petaren)
 
 ## [1.7.2](https://github.com/google/EarlGrey/tree/1.7.2) (02/17/2017)
