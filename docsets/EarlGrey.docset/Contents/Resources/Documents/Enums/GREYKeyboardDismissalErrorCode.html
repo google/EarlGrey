@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>GREYBaseMatcher Class Reference</title>
+    <title>GREYKeyboardDismissalErrorCode Enum Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset='utf-8'>
@@ -10,8 +10,8 @@
     
   </head>
   <body>
-    <a name="//apple_ref/objc/Class/GREYBaseMatcher" class="dashAnchor"></a>
-    <a title="GREYBaseMatcher Class Reference"></a>
+    <a name="//apple_ref/objc/Enum/GREYKeyboardDismissalErrorCode" class="dashAnchor"></a>
+    <a title="GREYKeyboardDismissalErrorCode Enum Reference"></a>
     <header>
       <div class="content-wrapper">
         <p><a href="../index.html">EarlGrey Docs</a> (100% documented)</p>
@@ -22,7 +22,7 @@
       <p id="breadcrumbs">
         <a href="../index.html">EarlGrey Reference</a>
         <img id="carat" src="../img/carat.png" />
-        GREYBaseMatcher Class Reference
+        GREYKeyboardDismissalErrorCode Enum Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -624,17 +624,14 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>GREYBaseMatcher</h1>
+            <h1>GREYKeyboardDismissalErrorCode</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">GREYBaseMatcher</span> <span class="p">:</span> <span class="nc">NSObject</span> <span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="p">,</span> <span class="n">NSCopying</span><span class="o">&gt;</span></code></pre>
+                  <pre class="highlight"><code><span class="k">enum</span> <span class="n">GREYKeyboardDismissalErrorCode</span> <span class="o">:</span> <span class="n">NSInteger</span> <span class="p">{}</span></code></pre>
 
                 </div>
               </div>
-            <p>A base class that implements the GREYMatcher protocol methods.
-Prefer subclassing this class over creating your own matchers.
-Every subclass must override and provide its own implementation for GREYBaseMatcher::matches:
-and GREYBaseMatcher::describeTo: methods.</p>
+            <p>Error code for keyboard dismissal actions.</p>
 
           </section>
           <section class="section task-group-section">
@@ -643,9 +640,9 @@ and GREYBaseMatcher::describeTo: methods.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:objc(cs)GREYBaseMatcher(im)matches:"></a>
-                    <a name="//apple_ref/objc/Method/-matches:" class="dashAnchor"></a>
-                    <a class="token" href="#/c:objc(cs)GREYBaseMatcher(im)matches:">-matches:</a>
+                    <a name="/c:@E@GREYKeyboardDismissalErrorCode@GREYKeyboardDismissalFailedErrorCode"></a>
+                    <a name="//apple_ref/objc/Case/GREYKeyboardDismissalFailedErrorCode" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@E@GREYKeyboardDismissalErrorCode@GREYKeyboardDismissalFailedErrorCode">GREYKeyboardDismissalFailedErrorCode</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -653,63 +650,19 @@ and GREYBaseMatcher::describeTo: methods.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <div class="aside aside-see">
-    <p class="aside-title">See</p>
-    GREYMatcher::matches:
-
-</div>
-
-<p>@remark This method is required to be implemented in the subclass.</p>
+                        <p>The keyboard dismissal failed.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">matches</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="nv">item</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="n">GREYKeyboardDismissalFailedErrorCode</span> <span class="o">=</span> <span class="mi">0</span></code></pre>
 
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">matches</span><span class="p">(</span><span class="n">_</span> <span class="nv">item</span><span class="p">:</span> <span class="kt">Any</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/c:objc(cs)GREYBaseMatcher(im)describeTo:"></a>
-                    <a name="//apple_ref/objc/Method/-describeTo:" class="dashAnchor"></a>
-                    <a class="token" href="#/c:objc(cs)GREYBaseMatcher(im)describeTo:">-describeTo:</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <div class="aside aside-see">
-    <p class="aside-title">See</p>
-    GREYMatcher::describeTo:
-
-</div>
-
-<p>@remark This method is required to be implemented in the subclass.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">describeTo</span><span class="p">:(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYDescription.html">GREYDescription</a></span><span class="o">&gt;</span><span class="p">)</span><span class="nv">description</span><span class="p">;</span></code></pre>
-
-                        </div>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">describe</span><span class="p">(</span><span class="n">to</span> <span class="nv">description</span><span class="p">:</span> <span class="kt">Any</span><span class="o">!</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">failedErrorCode</span> <span class="o">=</span> <span class="mi">0</span></code></pre>
 
                         </div>
                       </div>

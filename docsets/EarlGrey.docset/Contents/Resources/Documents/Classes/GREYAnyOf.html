@@ -208,6 +208,9 @@
                 <a href="../Constants.html#/c:@kGREYInteractionErrorDomain">kGREYInteractionErrorDomain</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYKeyboardDismissalErrorDomain">kGREYKeyboardDismissalErrorDomain</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Constants.html#/c:@kGREYLongPressDefaultDuration">kGREYLongPressDefaultDuration</a>
               </li>
               <li class="nav-group-task">
@@ -271,6 +274,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Enums/GREYInteractionErrorCode.html">GREYInteractionErrorCode</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/GREYKeyboardDismissalErrorCode.html">GREYKeyboardDismissalErrorCode</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Enums/GREYLayoutAttribute.html">GREYLayoutAttribute</a>
@@ -654,7 +660,7 @@ not invoked.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">init</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="n">init</span><span class="p">;</span></code></pre>
 
                         </div>
                       </div>
@@ -681,12 +687,13 @@ not invoked.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithMatchers</span><span class="p">:(</span><span class="n">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="nv">matchers</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithMatchers</span><span class="p">:</span>
+    <span class="p">(</span><span class="n">nonnull</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">__kindof</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="../Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">matchers</span><span class="p">;</span></code></pre>
 
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="nf">init</span><span class="o">!</span><span class="p">(</span><span class="nv">matchers</span><span class="p">:</span> <span class="p">[</span><span class="kt">Any</span><span class="p">]</span><span class="o">!</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="nf">init</span><span class="p">(</span><span class="nv">matchers</span><span class="p">:</span> <span class="p">[</span><span class="kt">Any</span><span class="p">])</span></code></pre>
 
                         </div>
                       </div>
