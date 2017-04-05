@@ -34,8 +34,9 @@ For EarlGrey, we highly recommend [CocoaPods](#cocoapods-installation) as the be
 
 #### Step 2: Add EarlGrey as a framework dependency
 
-   1. Install the EarlGrey gem by doing
-      `gem install earlgrey`.
+   1. Install the EarlGrey gem by doing `gem install earlgrey`.
+      See the [installing Ruby section](#install-ruby) section
+      if your Ruby isn't up to date.
 
    2. In the test target's section in your `Podfile`, add
       EarlGrey as a dependency.
@@ -285,3 +286,36 @@ compatible with EarlGrey.
 can run it by just clicking on the **run** icon or by Ctrl+clicking the test name and then selecting
 **Test "testPresenceOfKeyWindow"**. Because this is a regular unit test, you can place breakpoints in
 your test and in your application code and use the built-in tools seamlessly.
+
+### Install Ruby
+
+If you already have a working Ruby install, skip this part.
+
+1. Install rbenv
+
+       $ brew update
+       $ brew install rbenv
+
+2. Load rbenv automatically by appending the following to `~/.bash_profile` or `~/.zshrc`
+
+       export PATH="$HOME/.rbenv/bin:$PATH"
+       eval "$(rbenv init -)"
+
+3. Source bash profile or zshrc:
+
+       $ source ~/.bash_profile
+       $ source ~/.zshrc
+
+4. Run the following commands:
+
+       $ rbenv install 2.4.0
+       $ rbenv global 2.4.0
+       $ echo "gem: --no-document" >> ~/.gemrc
+       $ gem update --system --no-document
+       $ gem install --no-document bundler fastlane cocoapods
+
+5. Now manually run `rbenv init`
+
+6. If Ruby still isn't on your path, try reinstalling ruby:
+
+       $ rbenv install 2.4.0
