@@ -366,21 +366,39 @@ EarlGrey.select(elementWithMatcher:matcher)
 
 The best way is to [setup synchronization](features.md#synchronization) so that EarlGrey automatically waits
 for elements to appear. As a work around for when that's not possible, `GREYCondition` and `waitWithTimeout`
-are available. The following is an example of waiting for a collection view to populate.
+are available. The following is an example of waiting for a collection view to populate. Note that `pollInterval` should be > 0 to avoid excessive hierarchy scans slowing down the main thread.
 
 ```swift
 // Swift
+// Wait until 5 seconds for the view.
 let populated = GREYCondition(name: "Wait for UICollectionView to populate", block: { _ in
-    var errorOrNil: NSError?
+    var error: NSError?
 
+    // Checking if collection view exists in the UI hierarchy.
     EarlGrey.select(elementWithMatcher:collectionViewMatcher)
-            .assert(grey_notNil(), error: &errorOrNil)
+            .assert(grey_notNil(), error: &error)
 
-    let success = errorOrNil == nil
-    return success
-}).wait(withTimeout: 20.0)
+    return error == nil
+}).wait(withTimeout: 5.0, pollInterval: 0.5)
 
-GREYAssertTrue(populated, reason: "Failed to populate UICollectionView in 20 seconds")
+GREYAssertTrue(populated, reason: "Failed to populate UICollectionView in 5 seconds")
+```
+
+```objc
+// Objective-C
+GREYCondition *waitCondition = [GREYCondition conditionWithName:@"Wait for UICollectionView to populate" block:^BOOL {
+  NSError *error;
+
+  // Checking if collection view exists in the UI hierarchy.
+  [[EarlGrey selectElementWithMatcher:collectionViewMatcher]
+      assertWithMatcher:grey_notNil() error:&error];
+
+  return error == nil;
+}];
+
+// Wait until 5 seconds for the view.
+BOOL populated = [waitCondition waitWithTimeout:5.0 pollInterval:0.5];
+GREYAssertTrue(populated, @"Failed to populate UICollectionView in 5 seconds");
 ```
 
 #### **How do I match elements that are denoted with "AX=N" in the view hierarchy?**
