@@ -362,7 +362,7 @@ EarlGrey.select(elementWithMatcher:matcher)
                   assertWithMatcher:grey_notNil()];
 ```
 
-#### **How do I wait for an element to appear using Swift?**
+#### **How do I wait for an element to appear?**
 
 The best way is to [setup synchronization](features.md#synchronization) so that EarlGrey automatically waits
 for elements to appear. As a work around for when that's not possible, `GREYCondition` and `waitWithTimeout`
