@@ -36,7 +36,7 @@
 }
 
 - (void)describeTo:(id<GREYDescription>)description {
-  [[description appendText:@"!"] appendDescriptionOf:_matcher];
+  [[[description appendText:@"!("] appendDescriptionOf:_matcher] appendText:@")"];
 }
 
 @end
