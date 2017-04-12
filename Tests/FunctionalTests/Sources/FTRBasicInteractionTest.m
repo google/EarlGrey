@@ -234,10 +234,10 @@
       performAction:[GREYActions actionForTap]];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
-      performAction:[GREYActions actionForTypeText:@"CopiedText"]];
+      performAction:[GREYActions actionForTypeText:@"Hello"]];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
-      performAction:[GREYActions actionForLongPressWithDuration:1.0f]];
+      performAction:[GREYActions actionForLongPressAtPoint:CGPointMake(1, 1) duration:1.0]];
 
   [[EarlGrey selectElementWithMatcher:grey_text(@"Select")]
       performAction:[GREYActions actionForTap]];
@@ -246,15 +246,15 @@
       performAction:[GREYActions actionForTap]];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
-      performAction:[GREYActions actionForTypeText:@"TextToCopyTo"]];
+      performAction:[GREYActions actionForTypeText:@"FromEarlGrey"]];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
-      performAction:[GREYActions actionForLongPressWithDuration:1.0f]];
+      performAction:[GREYActions actionForLongPressAtPoint:CGPointMake(1, 1) duration:1.0]];
 
   [[EarlGrey selectElementWithMatcher:grey_text(@"Paste")]
       performAction:[GREYActions actionForTap]];
 
-  [[EarlGrey selectElementWithMatcher:grey_text(@"TextToCopyToCopiedText")]
+  [[EarlGrey selectElementWithMatcher:grey_text(@"HelloFromEarlGrey")]
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 

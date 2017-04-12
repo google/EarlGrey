@@ -27,7 +27,7 @@
  *  The class for UICompatibilityInputViewController which isn't tracked here since we've faced
  *  issues with tracking it when it comes to typing on keyboards with accessory views.
  */
-static Class compatibilityVCClass;
+static Class gCompatibilityVCClass;
 
 @implementation UIViewController (GREYAdditions)
 
@@ -72,7 +72,7 @@ static Class compatibilityVCClass;
 
 + (void)initialize {
   if (self == [UIViewController class]) {
-    compatibilityVCClass = NSClassFromString(@"UICompatibilityInputViewController");
+    gCompatibilityVCClass = NSClassFromString(@"UICompatibilityInputViewController");
   }
 }
 
@@ -122,7 +122,7 @@ static Class compatibilityVCClass;
 - (void)greyswizzled_viewWillAppear:(BOOL)animated {
   // For a UICompatibilityInputViewController, do not track this state due to issues seen with
   // untracking.
-  if (![self isKindOfClass:compatibilityVCClass]) {
+  if (![self isKindOfClass:gCompatibilityVCClass]) {
     BOOL movingToNilWindow = [self grey_isMovingToNilWindow];
     if (movingToNilWindow) {
       GREYLogVerbose(@"View is moving to nil window. Skipping viewWillAppear state tracking.");

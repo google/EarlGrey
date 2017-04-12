@@ -43,6 +43,8 @@
       performAction:[GREYActions actionForTap]];
   [[EarlGrey selectElementWithMatcher:grey_text(@"Roger")]
       performAction:[GREYActions actionForTap]];
+  [[EarlGrey selectElementWithMatcher:grey_text(@"Multi-Option Alert")]
+      assertWithMatcher:grey_sufficientlyVisible()];
 }
 
 - (void)testAlertViewChain {
@@ -52,6 +54,8 @@
       performAction:[GREYActions actionForTap]];
   [[EarlGrey selectElementWithMatcher:grey_text(@"Roger")]
       performAction:[GREYActions actionForTap]];
+  [[EarlGrey selectElementWithMatcher:grey_text(@"Multi-Option Alert")]
+      assertWithMatcher:grey_sufficientlyVisible()];
 }
 
 - (void)testStyledAlertView {
