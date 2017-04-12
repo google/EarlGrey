@@ -44,7 +44,7 @@
 + (id<GREYAssertion>)grey_createAssertionWithMatcher:(id<GREYMatcher>)matcher {
   NSParameterAssert(matcher);
 
-  NSString *assertionName = [NSString stringWithFormat:@"assertWithMatcher: %@", matcher];
+  NSString *assertionName = [NSString stringWithFormat:@"assertWithMatcher:%@", matcher];
   return [GREYAssertionBlock assertionWithName:assertionName
                        assertionBlockWithError:^BOOL (id element, NSError *__strong *errorOrNil) {
     GREYStringDescription *mismatch = [[GREYStringDescription alloc] init];

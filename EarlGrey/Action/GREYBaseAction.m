@@ -70,8 +70,8 @@
         *errorOrNil = error;
       } else {
         NSArray *keyOrder = @[ kErrorDetailActionNameKey,
-                               kErrorDetailElementDescriptionKey,
                                kErrorDetailConstraintRequirementKey,
+                               kErrorDetailElementDescriptionKey,
                                kErrorDetailConstraintDetailsKey,
                                kErrorDetailRecoverySuggestionKey ];
 
