@@ -24,7 +24,6 @@
 #import "Common/GREYConstants.h"
 #import "Common/GREYLogger.h"
 #import "Common/GREYScreenshotUtil.h"
-#import "Synchronization/GREYUIThreadExecutor.h"
 
 static const NSUInteger kColorChannelsPerPixel = 4;
 
@@ -104,7 +103,7 @@ void GREYVisibilityDiffBufferRelease(GREYVisibilityDiffBuffer buffer) {
   free(buffer.data);
 }
 
-BOOL GREYVisibilityDiffBufferIsVisibleAt(GREYVisibilityDiffBuffer buffer, size_t x, size_t y) {
+BOOL GREYVisibilityDiffBufferIsVisible(GREYVisibilityDiffBuffer buffer, size_t x, size_t y) {
   if (x >= buffer.width || y >= buffer.height) {
     return NO;
   }
@@ -112,7 +111,7 @@ BOOL GREYVisibilityDiffBufferIsVisibleAt(GREYVisibilityDiffBuffer buffer, size_t
   return buffer.data[y * buffer.width + x];
 }
 
-inline void GREYVisibilityDiffBufferSetVisibilityAt(GREYVisibilityDiffBuffer buffer,
+inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffer,
                                                   size_t x,
                                                   size_t y,
                                                   BOOL value) {
@@ -150,7 +149,7 @@ inline void GREYVisibilityDiffBufferSetVisibilityAt(GREYVisibilityDiffBuffer buf
     [cache setVisibleAreaPercent:percentVisible];
   }
 
-  GREYLogVerbose(@"Visibility Percent: %f for Element: %@",
+  GREYLogVerbose(@"Visibility percent: %f for element: %@",
                  [percentVisible floatValue],
                  [element grey_description]);
   return [percentVisible floatValue];
@@ -226,30 +225,28 @@ inline void GREYVisibilityDiffBufferSetVisibilityAt(GREYVisibilityDiffBuffer buf
     return GREYCGPointNull;
   }
 
-  CGRect elementFrame = [element accessibilityFrame];
+  // Interaction point to be calculated after peforming visibility checks.
+  CGPoint interactionPointInFixedPoints = GREYCGPointNull;
 
+  CGRect elementFrame = [element accessibilityFrame];
   CGImageRef beforeImage = NULL;
   CGImageRef afterImage = NULL;
-
   CGPoint intersectionPointInVariablePixels;
+
   BOOL viewIntersectsScreen =
       [GREYVisibilityChecker grey_captureBeforeImage:&beforeImage
                                        andAfterImage:&afterImage
                             andGetIntersectionOrigin:&intersectionPointInVariablePixels
                                              forView:view
                                           withinRect:elementFrame];
-
-  CGPoint interactionPointInFixedPoints = GREYCGPointNull;
-
   if (viewIntersectsScreen) {
     const CGFloat scale = [[UIScreen mainScreen] scale];
     const size_t widthInPixels = (size_t)CGImageGetWidth(beforeImage);
     const size_t heightInPixels = (size_t)CGImageGetHeight(beforeImage);
-
     const size_t minimumPixelsVisibleForInteraction =
         (size_t)(kMinimumPointsVisibleForInteraction * scale);
 
-    // If the element hasn't a minimum area in pixels, extra checks are unnecessary.
+    // If the element hasn't a minimum area in pixels, stop immediately.
     const size_t elementAreaInPixels = widthInPixels * heightInPixels;
     if (elementAreaInPixels < minimumPixelsVisibleForInteraction) {
       [cache setVisibleInteractionPoint:[NSValue valueWithCGPoint:GREYCGPointNull]];
@@ -261,15 +258,15 @@ inline void GREYVisibilityDiffBufferSetVisibilityAt(GREYVisibilityDiffBuffer buf
     GREYVisibilityDiffBuffer diffBuffer =
         GREYVisibilityDiffBufferCreate(widthInPixels, heightInPixels);
 
-    // visiblePixelRect will contain the minimum rect containing all visible pixels, and a sub-area
-    // of the diffBuffer rectangle, which is the intersection of the view and the screen.
+    // visibleRectInVariablePixels will contain the minimum rect containing all visible pixels
+    // and a sub-area of the diffBuffer rectangle, which is the intersection of the view and the
+    // screen.
     CGRect visibleRectInVariablePixels;
-    // visiblePixelCount will contain the count of all visibile pixels inside that rect.
-    size_t visiblePixelCount = [self grey_countPixelsInImage:afterImage
-                                 thatAreShiftedPixelsOfImage:beforeImage
-                                 storeVisiblePixelRectInRect:&visibleRectInVariablePixels
-                            andStoreComparisonResultInBuffer:&diffBuffer];
-
+    GREYVisiblePixelData visiblePixels = [self grey_countPixelsInImage:afterImage
+                                           thatAreShiftedPixelsOfImage:beforeImage
+                                           storeVisiblePixelRectInRect:&visibleRectInVariablePixels
+                                      andStoreComparisonResultInBuffer:&diffBuffer];
+    size_t visiblePixelCount = visiblePixels.visiblePixelCount;
     CGPoint interactionPointInVariablePixels = GREYCGPointNull;
 
     if (visiblePixelCount >= minimumPixelsVisibleForInteraction) {
@@ -287,57 +284,64 @@ inline void GREYVisibilityDiffBufferSetVisibilityAt(GREYVisibilityDiffBuffer buf
             CGPointMake(activationPointInVariablePixels.x - intersectionPointInVariablePixels.x,
                         activationPointInVariablePixels.y - intersectionPointInVariablePixels.y);
 
-        if (relativeActivationPointInVariablePixels.x >= 0 &&
+        BOOL isVisible = relativeActivationPointInVariablePixels.x >= 0 &&
             relativeActivationPointInVariablePixels.y >= 0 &&
-            GREYVisibilityDiffBufferIsVisibleAt(diffBuffer,
+            GREYVisibilityDiffBufferIsVisible(diffBuffer,
                                               (size_t)relativeActivationPointInVariablePixels.x,
-                                              (size_t)relativeActivationPointInVariablePixels.y)) {
-            interactionPointInVariablePixels = relativeActivationPointInVariablePixels;
+                                              (size_t)relativeActivationPointInVariablePixels.y);
+        if (isVisible) {
+          // So that it's relative to screen coordinates.
+          interactionPointInVariablePixels = activationPointInVariablePixels;
         }
       }
-
-      // If the activation point is not a valid point, use the center of the visible area if it
-      // is visible.
-      CGPoint centerOfVisibleAreaInVariablePixels = CGRectCenter(visibleRectInVariablePixels);
-
-      if (CGPointIsNull(interactionPointInFixedPoints) &&
-          GREYVisibilityDiffBufferIsVisibleAt(diffBuffer,
-                                            (size_t)centerOfVisibleAreaInVariablePixels.x,
-                                            (size_t)centerOfVisibleAreaInVariablePixels.y)) {
-        interactionPointInVariablePixels = centerOfVisibleAreaInVariablePixels;
+      // If the activation point is not visible, try the center of visible rect.
+      if (CGPointIsNull(interactionPointInVariablePixels)) {
+        CGPoint centerOfVisibleAreaInVariablePixels = CGRectCenter(visibleRectInVariablePixels);
+        if (GREYVisibilityDiffBufferIsVisible(diffBuffer,
+                                              (size_t)centerOfVisibleAreaInVariablePixels.x,
+                                              (size_t)centerOfVisibleAreaInVariablePixels.y)) {
+          interactionPointInVariablePixels = centerOfVisibleAreaInVariablePixels;
+          // Adjust offsets so it's relative to screen coordinates.
+          interactionPointInVariablePixels.x += intersectionPointInVariablePixels.x;
+          interactionPointInVariablePixels.y += intersectionPointInVariablePixels.y;
+        }
+      }
+      // If the center of the visible rect isn't visible, get a default visible pixel.
+      if (CGPointIsNull(interactionPointInVariablePixels)) {
+        interactionPointInVariablePixels = visiblePixels.visiblePixel;
+        // Adjust offsets so it's relative to screen coordinates.
         interactionPointInVariablePixels.x += intersectionPointInVariablePixels.x;
         interactionPointInVariablePixels.y += intersectionPointInVariablePixels.y;
       }
 
-      // At this point the interaction point is in variable screen coordinates, but the expected
-      // output is in fixed view coordinates so it needs to be converted.
-      interactionPointInFixedPoints = CGPixelToPoint(interactionPointInVariablePixels);
-      if (!iOS8_0_OR_ABOVE()) {
-        interactionPointInFixedPoints = CGPointVariableToFixed(interactionPointInFixedPoints);
-      }
-      interactionPointInFixedPoints = [view.window convertPoint:interactionPointInFixedPoints
-                                                     fromWindow:nil];
-      interactionPointInFixedPoints = [view convertPoint:interactionPointInFixedPoints
-                                                fromView:nil];
+      if (!CGPointIsNull(interactionPointInVariablePixels)) {
+        // At this point the interaction point is in variable screen coordinates, but the expected
+        // output is in fixed view coordinates so it needs to be converted.
+        interactionPointInFixedPoints = CGPixelToPoint(interactionPointInVariablePixels);
+        if (!iOS8_0_OR_ABOVE()) {
+          interactionPointInFixedPoints = CGPointVariableToFixed(interactionPointInFixedPoints);
+        }
+        interactionPointInFixedPoints = [view.window convertPoint:interactionPointInFixedPoints
+                                                       fromWindow:nil];
+        interactionPointInFixedPoints = [view convertPoint:interactionPointInFixedPoints
+                                                  fromView:nil];
+        // If the element is an accessibility view, the interaction point has to be further
+        // converted into its coordinate system.
+        if (element != view) {
+          CGRect axFrameRelativeToView = [view.window convertRect:elementFrame
+                                                       fromWindow:nil];
+          axFrameRelativeToView = [view convertRect:axFrameRelativeToView fromView:nil];
 
-      // If the element is an accessibility view, the interaction point has to be further converted
-      // into its coordinate system.
-      if (element != view) {
-        CGRect axFrameRelativeToView = [view.window convertRect:[element accessibilityFrame]
-                                                     fromWindow:nil];
-        axFrameRelativeToView = [view convertRect:axFrameRelativeToView fromView:nil];
-
-        interactionPointInFixedPoints.x -= axFrameRelativeToView.origin.x;
-        interactionPointInFixedPoints.y -= axFrameRelativeToView.origin.y;
+          interactionPointInFixedPoints.x -= axFrameRelativeToView.origin.x;
+          interactionPointInFixedPoints.y -= axFrameRelativeToView.origin.y;
+        }
       }
     }
-
     GREYVisibilityDiffBufferRelease(diffBuffer);
   }
 
   CGImageRelease(beforeImage);
   CGImageRelease(afterImage);
-
   [cache setVisibleInteractionPoint:[NSValue valueWithCGPoint:interactionPointInFixedPoints]];
   return interactionPointInFixedPoints;
 }
@@ -471,7 +475,7 @@ inline void GREYVisibilityDiffBufferSetVisibilityAt(GREYVisibilityDiffBuffer buf
  *          rect.
  */
 + (double)grey_percentViewVisibleOnScreen:(UIView *)view
-                             withinRect:(CGRect)searchRectInScreenCoordinates {
+                               withinRect:(CGRect)searchRectInScreenCoordinates {
   CGImageRef beforeImage = NULL;
   CGImageRef afterImage = NULL;
   BOOL viewIntersectsScreen =
@@ -487,11 +491,11 @@ inline void GREYVisibilityDiffBufferSetVisibilityAt(GREYVisibilityDiffBuffer buf
     CGRect searchRect_pixels = CGRectPointToPixel(searchRectInScreenCoordinates);
     double countTotalSearchRectPixels = CGRectArea(CGRectIntegralInside(searchRect_pixels));
     NSAssert(countTotalSearchRectPixels >= 1, @"countTotalSearchRectPixels should be at least 1");
-    NSUInteger countTotalVisiblePixels = [self grey_countPixelsInImage:afterImage
-                                                  thatAreShiftedPixelsOfImage:beforeImage
-                                                  storeVisiblePixelRectInRect:NULL
-                                             andStoreComparisonResultInBuffer:NULL];
-    percentVisible = countTotalVisiblePixels / countTotalSearchRectPixels;
+    GREYVisiblePixelData visiblePixelData = [self grey_countPixelsInImage:afterImage
+                                              thatAreShiftedPixelsOfImage:beforeImage
+                                              storeVisiblePixelRectInRect:NULL
+                                         andStoreComparisonResultInBuffer:NULL];
+    percentVisible = visiblePixelData.visiblePixelCount / countTotalSearchRectPixels;
   }
 
   CGImageRelease(beforeImage);
@@ -500,7 +504,6 @@ inline void GREYVisibilityDiffBufferSetVisibilityAt(GREYVisibilityDiffBuffer buf
   NSAssert(0 <= percentVisible,
            @"percentVisible should not be negative. Current Percent: %0.1f%%",
            (double)(percentVisible * 100.0));
-
   return percentVisible;
 }
 
@@ -528,10 +531,10 @@ inline void GREYVisibilityDiffBufferSetVisibilityAt(GREYVisibilityDiffBuffer buf
  *          @c searchRectInScreenCoordinates, @c NO otherwise.
  */
 + (BOOL)grey_captureBeforeImage:(CGImageRef *)outBeforeImage
-                andAfterImage:(CGImageRef *)outAfterImage
-     andGetIntersectionOrigin:(CGPoint *)outIntersectionOriginOrNull
-                      forView:(UIView *)view
-                   withinRect:(CGRect)searchRectInScreenCoordinates {
+                  andAfterImage:(CGImageRef *)outAfterImage
+       andGetIntersectionOrigin:(CGPoint *)outIntersectionOriginOrNull
+                        forView:(UIView *)view
+                     withinRect:(CGRect)searchRectInScreenCoordinates {
   NSParameterAssert(outBeforeImage);
   NSParameterAssert(outAfterImage);
 
@@ -683,9 +686,10 @@ inline void GREYVisibilityDiffBufferSetVisibilityAt(GREYVisibilityDiffBuffer buf
 }
 
 /**
- *  Returns the number of pixels in @c afterImage that are shifted pixels of @c beforeImage. If @c
- *  visiblePixelRect is not NULL, stores the smallest rectangle enclosing all shifted pixels in *@c
- *  visiblePixelRect. If no shifted pixels are found, *@c visiblePixelRect will be CGRectZero.
+ *  Calculates the number of pixel in @c afterImage that have different pixel intensity in
+ *  @c beforeImage.
+ *  If @c visiblePixelRect is not NULL, stores the smallest rectangle enclosing all shifted pixels
+ *  in @c visiblePixelRect. If no shifted pixels are found, @c visiblePixelRect will be CGRectZero.
  *  @todo Use a better image comparison library/tool for this stuff. For now, pixel-by-pixel
  *        comparison it is.
  *
@@ -696,12 +700,13 @@ inline void GREYVisibilityDiffBufferSetVisibilityAt(GREYVisibilityDiffBuffer buf
  *  @param[out] outDiffBufferOrNULL A reference for getting the GREYVisibilityDiffBuffer that was
  *                                  created to detect image diff.
  *
- *  @return The number of pixels in @c afterImage that are shifted pixels of @c beforeImage.
+ *  @return The number of pixels and a default pixel in @c afterImage that are shifted
+ *          intensity of @c beforeImage.
  */
-+ (NSUInteger)grey_countPixelsInImage:(CGImageRef)afterImage
-         thatAreShiftedPixelsOfImage:(CGImageRef)beforeImage
-         storeVisiblePixelRectInRect:(CGRect *)outVisiblePixelRect
-    andStoreComparisonResultInBuffer:(GREYVisibilityDiffBuffer *)outDiffBufferOrNULL {
++ (GREYVisiblePixelData)grey_countPixelsInImage:(CGImageRef)afterImage
+                    thatAreShiftedPixelsOfImage:(CGImageRef)beforeImage
+                    storeVisiblePixelRectInRect:(CGRect *)outVisiblePixelRect
+               andStoreComparisonResultInBuffer:(GREYVisibilityDiffBuffer *)outDiffBufferOrNULL {
   NSParameterAssert(beforeImage);
   NSParameterAssert(afterImage);
   NSAssert(CGImageGetWidth(beforeImage) == CGImageGetWidth(afterImage),
@@ -720,35 +725,42 @@ inline void GREYVisibilityDiffBufferSetVisibilityAt(GREYVisibilityDiffBuffer buf
   CGFloat maxX = -FLT_MAX;
   CGFloat minY = FLT_MAX;
   CGFloat maxY = -FLT_MAX;
-  NSUInteger totalMatch = 0;
+  GREYVisiblePixelData visiblePixelData = {0, GREYCGPointNull};
   for (NSUInteger x = 0; x < width; x++) {
     for (NSUInteger y = 0; y < height; y++) {
       NSUInteger currentPixelIndex = (y * width + x) * kColorChannelsPerPixel;
       // We don't care about the first byte because we are dealing with XRGB format.
-      BOOL pixelHasDiff = grey_isColorDifferent(&pixelBuffer[currentPixelIndex + 1],
-                                              &shiftedPixelBuffer[currentPixelIndex + 1]);
+      BOOL pixelHasDiff = grey_isPixelDifferent(&pixelBuffer[currentPixelIndex + 1],
+                                                &shiftedPixelBuffer[currentPixelIndex + 1]);
       if (pixelHasDiff) {
-        totalMatch++;
         minX = MIN(minX, x);
         maxX = MAX(maxX, x);
         minY = MIN(minY, y);
         maxY = MAX(maxY, y);
+
+        visiblePixelData.visiblePixelCount++;
+        // Always pick the bottom and right-most pixel. We may want to consider using tax-cab
+        // formula to find a pixel that's closest to the center if we encounter problems with this
+        // approach.
+        visiblePixelData.visiblePixel.x = x;
+        visiblePixelData.visiblePixel.y = y;
       }
 
       if (outDiffBufferOrNULL) {
-        GREYVisibilityDiffBufferSetVisibilityAt(*outDiffBufferOrNULL, x, y, pixelHasDiff);
+        GREYVisibilityDiffBufferSetVisibility(*outDiffBufferOrNULL, x, y, pixelHasDiff);
       }
     }
   }
   if (outVisiblePixelRect) {
     // Width and height require a +1 to accomodate single pixel images.
-    *outVisiblePixelRect =
-        totalMatch > 0 ? CGRectMake(minX, minY, maxX - minX + 1, maxY - minY + 1) : CGRectZero;
+    *outVisiblePixelRect = visiblePixelData.visiblePixelCount > 0
+        ? CGRectMake(minX, minY, maxX - minX + 1, maxY - minY + 1)
+        : CGRectZero;
   }
 
   free(pixelBuffer);
   free(shiftedPixelBuffer);
-  return totalMatch;
+  return visiblePixelData;
 }
 
 /**
@@ -820,16 +832,13 @@ inline void GREYVisibilityDiffBufferSetVisibilityAt(GREYVisibilityDiffBuffer buf
  *          values, @c false otherwise.
  *  @todo Ideally, we should be testing that pixel colors are shifted by a certain amount instead of
  *        checking if they are simply different. However, the naive check for shifted colors doesn't
- *        work if pixels are overlapped by a translucent mask or have special layer-filters applied
+ *        work if pixels are overlapped by a translucent mask or have special layer effects applied
  *        to it. Because they are still visible to user and we want to avoid false-negatives that
  *        would cause the test to fail, we resort to a naive check that rbg1 and rgb2 are not the
  *        same without specifying the exact delta between them.
  */
-static inline bool grey_isColorDifferent(unsigned char rgb1[], unsigned char rgb2[]) {
-  int redDiff = abs(rgb1[0] - rgb2[0]);
-  int greenDiff = abs(rgb1[1] - rgb2[1]);
-  int blueDiff = abs(rgb1[2] - rgb2[2]);
-  return (redDiff > 0) || (greenDiff > 0) || (blueDiff > 0);
+static inline bool grey_isPixelDifferent(unsigned char rgb1[], unsigned char rgb2[]) {
+  return (rgb1[0] != rgb2[0]) || (rgb1[1] != rgb2[1]) || (rgb1[2] != rgb2[2]);
 }
 
 #pragma mark - Package Internal

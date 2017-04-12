@@ -25,7 +25,20 @@
  */
 static const NSUInteger kBytesPerPixel = 4;
 
+// Private class for AlertController window that doesn't work with drawViewHierarchyInRect.
+static Class gUIAlertControllerShimPresenterWindowClass;
+// Private class for ModalHostingWindow window that doesn't work with drawViewHierarchyInRect.
+static Class gUIModalItemHostingWindowClass;
+
 @implementation GREYScreenshotUtil
+
++ (void)initialize {
+  if (self == [GREYScreenshotUtil class]) {
+    gUIAlertControllerShimPresenterWindowClass =
+        NSClassFromString(@"_UIAlertControllerShimPresenterWindow");
+    gUIModalItemHostingWindowClass = NSClassFromString(@"_UIModalItemHostingWindow");
+  }
+}
 
 + (void)drawScreenInContext:(CGContextRef)bitmapContextRef afterScreenUpdates:(BOOL)afterUpdates {
   NSAssert(CGBitmapContextGetBitmapInfo(bitmapContextRef) != 0,
@@ -74,15 +87,15 @@ static const NSUInteger kBytesPerPixel = 4;
       }
     }
 
-    // This special case is for Alert-Views that for some reason do not render correctly using
-    if (![window isKindOfClass:NSClassFromString(@"_UIAlertControllerShimPresenterWindow")] &&
-        ![window isKindOfClass:NSClassFromString(@"_UIModalItemHostingWindow")]) {
+    // This special case is for Alert-Views that for some reason do not render correctly.
+    if ([window isKindOfClass:gUIAlertControllerShimPresenterWindowClass] ||
+        [window isKindOfClass:gUIModalItemHostingWindowClass]) {
+      [window.layer renderInContext:UIGraphicsGetCurrentContext()];
+    } else {
       BOOL success = [window drawViewHierarchyInRect:windowRect afterScreenUpdates:afterUpdates];
       if (!success) {
-        NSLog(@"Window %@ failed to draw view hierarchy in rect.", window);
+        NSLog(@"Failed to drawViewHierarchyInRect for window: %@", window);
       }
-    } else {
-      [window.layer renderInContext:UIGraphicsGetCurrentContext()];
     }
 
     CGContextRestoreGState(bitmapContextRef);

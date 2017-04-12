@@ -63,10 +63,10 @@ extern const NSInteger kGREYScrollDetectionLength;
 @end
 
 @interface GREYVisibilityChecker (GREYExposedForTesting)
-+ (NSUInteger)grey_countPixelsInImage:(CGImageRef)afterImage
-           thatAreShiftedPixelsOfImage:(CGImageRef)beforeImage
-           storeVisiblePixelRectInRect:(CGRect *)outVisiblePixelRect
-      andStoreComparisonResultInBuffer:(GREYVisibilityDiffBuffer *)outDiffBufferOrNULL;
++ (GREYVisiblePixelData)grey_countPixelsInImage:(CGImageRef)afterImage
+                    thatAreShiftedPixelsOfImage:(CGImageRef)beforeImage
+                    storeVisiblePixelRectInRect:(CGRect *)outVisiblePixelRect
+               andStoreComparisonResultInBuffer:(GREYVisibilityDiffBuffer *)outDiffBufferOrNULL;
 @end
 
 @interface GREYElementHierarchy (GREYExposedForTesting)
