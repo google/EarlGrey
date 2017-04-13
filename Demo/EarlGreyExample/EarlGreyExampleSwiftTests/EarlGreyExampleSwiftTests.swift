@@ -16,6 +16,7 @@
 
 import EarlGrey
 import XCTest
+
 @testable import EarlGreyExampleSwift
 
 class EarlGreyExampleSwiftTests: XCTestCase {
@@ -248,6 +249,6 @@ class SampleFailureHandler : NSObject, GREYFailureHandler {
    *  @param details   Extra information about the failure.
    */
   public func handle(_ exception: GREYFrameworkException!, details: String!) {
-    print("Test Failed With Reason : \(exception.reason) and details \(details)")
+    print("Test Failed With Reason : \(exception.reason!) and details \(details)")
   }
 }
