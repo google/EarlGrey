@@ -83,7 +83,8 @@
   // Second way to disambiguate: use inRoot to focus on a specific window or container.
   // There are two buttons with accessibility id "Send", but only one is inside SendMessageView.
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"Send")]
-      inRoot:grey_kindOfClass([SendMessageView class])] performAction:grey_doubleTap()];
+      inRoot:grey_kindOfClass([SendMessageView class])]
+      performAction:grey_doubleTap()];
 }
 
 // Define a custom matcher for table cells that contains a date for a Thursday.
