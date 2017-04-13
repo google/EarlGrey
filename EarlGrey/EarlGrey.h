@@ -123,25 +123,27 @@ typedef NS_ENUM(NSInteger, GREYKeyboardDismissalErrorCode) {
 - (instancetype)init NS_UNAVAILABLE;
 
 /**
- *  Initiates an interaction by selecting a single UI element of the application. In this step, a
- *  matcher is passed that EarlGrey can use to parse the UI Hierarchy. This step will not show any
- *  changes in the visible UI. You need to use a GREYAction or GREYAssertion in order to actually
- *  perform the interaction.
+ *  Creates a pending interaction with a single UI element on the screen.
  *
- *  The interaction will start on the UI element that matches the specified @c elementMatcher.
- *  Interaction will fail when multiple elements are matched. In that case, you will have to
- *  refine the @c elementMatcher to match a single element or use GREYInteraction::atIndex to
+ *  In this step, a matcher is supplied to EarlGrey which is later used to sift through the elements
+ *  in the UI Hierarchy. This method only denotes that you have an intent to perform an action and
+ *  packages a GREYElementInteraction object to do so.
+ *  The interaction is *actually* started when it's performed with a @c GREYAction or
+ *  @c GREYAssertion.
+ *
+ *  An interaction will fail when multiple elements are matched. In that case, you will have to
+ *  refine the @c elementMatcher to match a single element or use GREYInteraction::atIndex: to
  *  specify the index of the element in the list of elements matched.
  *
  *  By default, EarlGrey looks at all the windows from front to back and
  *  searches for the UI element. To focus on a specific window or container, use
- *  GREYElementInteraction::inRoot:.
+ *  GREYElementInteraction::inRoot: method.
  *
  *  For example, this code will match a UI element with accessibility identifier "foo"
- *  that is inside FooWindow :
+ *  inside a custom UIWindow of type MyCustomWindow:
  *      @code
  *      [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
- *          inRoot:grey_kindOfClass([FooWindow class])]
+ *          inRoot:grey_kindOfClass([MyCustomWindow class])]
  *      @endcode
  *
  *  @param elementMatcher The matcher specifying the UI element that will be targeted by the
