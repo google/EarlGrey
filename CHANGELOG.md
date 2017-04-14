@@ -2,6 +2,26 @@
 
 Details changes in each release of EarlGrey. EarlGrey follows [semantic versioning](http://semver.org/).
 
+## [1.9.1](https://github.com/google/EarlGrey/tree/1.9.1) (04/14/2017)
+
+```
+Baseline: [932c3f6]
+   + [932c3f6]: Doc updates
+```
+
+### Bug Fixes
+* Fixed a bug in interaction point calculation for cases where activation point
+and the center of visible area is hidden.
+
+### Enhancements
+* Updated documentation for GREYCondition and ruby setup.
+* Minor improvements to formatting of failure messages.
+* Updated travis to run tests on iOS 10.3 and Xcode 8.3.
+* Deleted .arcconfig file.
+
+### Contributors
+* [bootstraponline](https://github.com/bootstraponline)
+
 ## [1.9.0](https://github.com/google/EarlGrey/tree/1.9.0) (03/31/2017)
 
 ```
