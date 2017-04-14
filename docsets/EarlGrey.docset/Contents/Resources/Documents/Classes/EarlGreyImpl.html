@@ -752,25 +752,27 @@ interaction.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Initiates an interaction by selecting a single UI element of the application. In this step, a
-  matcher is passed that EarlGrey can use to parse the UI Hierarchy. This step will not show any
-  changes in the visible UI. You need to use a GREYAction or GREYAssertion in order to actually
-  perform the interaction.</p>
+                        <p>Creates a pending interaction with a single UI element on the screen.</p>
 
-<p>The interaction will start on the UI element that matches the specified @c elementMatcher.
-  Interaction will fail when multiple elements are matched. In that case, you will have to
-  refine the @c elementMatcher to match a single element or use GREYInteraction::atIndex to
+<p>In this step, a matcher is supplied to EarlGrey which is later used to sift through the elements
+  in the UI Hierarchy. This method only denotes that you have an intent to perform an action and
+  packages a GREYElementInteraction object to do so.
+  The interaction is <em>actually</em> started when it&rsquo;s performed with a @c GREYAction or
+  @c GREYAssertion.</p>
+
+<p>An interaction will fail when multiple elements are matched. In that case, you will have to
+  refine the @c elementMatcher to match a single element or use GREYInteraction::atIndex: to
   specify the index of the element in the list of elements matched.</p>
 
 <p>By default, EarlGrey looks at all the windows from front to back and
   searches for the UI element. To focus on a specific window or container, use
-  GREYElementInteraction::inRoot:.</p>
+  GREYElementInteraction::inRoot: method.</p>
 
 <p>For example, this code will match a UI element with accessibility identifier <q>foo</q>
-  that is inside FooWindow :
+  inside a custom UIWindow of type MyCustomWindow:
       @code
       [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@<q>foo</q>)]
-          inRoot:grey_kindOfClass([FooWindow class])]
+          inRoot:grey_kindOfClass([MyCustomWindow class])]
       @endcode</p>
 
                       </div>
