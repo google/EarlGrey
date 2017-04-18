@@ -257,9 +257,9 @@ static pthread_mutex_t gStateLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
 }
 
 - (NSString *)grey_changeState:(GREYAppState)state
-                  forElement:(id)element
-         orExternalElementID:(NSString *)externalElementID
-                      toBusy:(BOOL)busy {
+                    forElement:(id)element
+           orExternalElementID:(NSString *)externalElementID
+                        toBusy:(BOOL)busy {
   // It is possible for both element and externalElementID to be nil in cases where
   // the tracking logic tries to be overly safe and untrack elements which were never registered
   // before.
