@@ -61,10 +61,16 @@
   if ([[task currentRequest].URL grey_shouldSynchronize]) {
     // Monitor the "state" value to synchronize with the task completion.
     NSString *elementID = TRACK_STATE_FOR_ELEMENT(kGREYPendingNetworkRequest, self);
+    // Use OBJC_ASSOCIATION_RETAIN here to make both reads and writes atomic.
+    // The method below (setState:) which reads and writes this associated object can be
+    // invoked on background threads. This can cause a race condition where the object
+    // is set to nil by one thread and read by another. The read gets a deallocated
+    // instance of the object back which causes EXC_BAD_ACCESS. Using OBJC_ASSOCIATION_RETAIN
+    // prevents this.
     objc_setAssociatedObject(self,
                              @selector(greyswizzled_setState:),
                              elementID,
-                             OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+                             OBJC_ASSOCIATION_RETAIN);
   }
   INVOKE_ORIGINAL_IMP(void, @selector(greyswizzled_resume));
 }
