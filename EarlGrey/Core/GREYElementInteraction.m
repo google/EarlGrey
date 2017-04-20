@@ -445,7 +445,8 @@
 }
 
 - (instancetype)assertWithMatcher:(id<GREYMatcher>)matcher error:(__strong NSError **)errorOrNil {
-  return [self assert:[GREYAssertions grey_createAssertionWithMatcher:matcher] error:errorOrNil];
+  id<GREYAssertion> assertion = [GREYAssertions grey_createAssertionWithMatcher:matcher];
+  return [self assert:assertion error:errorOrNil];
 }
 
 - (instancetype)usingSearchAction:(id<GREYAction>)action
@@ -540,11 +541,9 @@
         NSString *reason = [NSString stringWithFormat:@"Matching element timed out.\n"
                                                       @"Exception with Action: %@\n",
                                                       reasonDetail];
-
         I_GREYTimeout(reason,
                       @"Error Trace: %@",
                       [GREYError grey_nestedDescriptionForError:actionError]);
-
         return NO;
       } else if (([errorDomain isEqualToString:kGREYUIThreadExecutorErrorDomain]) &&
                  (errorCode == kGREYUIThreadExecutorTimeoutErrorCode)) {
@@ -566,9 +565,8 @@
           [(GREYError *)actionError setErrorInfo:errorDetails];
         }
 
-        I_GREYAssertionFail(reason, @"Error Trace: %@",
-                            [GREYError grey_nestedDescriptionForError:actionError]);
-
+        I_GREYTimeout(reason, @"Error Trace: %@",
+                      [GREYError grey_nestedDescriptionForError:actionError]);
         return NO;
       }
     }
@@ -736,7 +734,6 @@
         I_GREYTimeout(reason,
                       @"Error Trace: %@",
                       [GREYError grey_nestedDescriptionForError:assertionError]);
-
         return NO;
       } else if (([errorDomain isEqualToString:kGREYUIThreadExecutorErrorDomain]) &&
                  (errorCode == kGREYUIThreadExecutorTimeoutErrorCode)) {
@@ -759,10 +756,9 @@
           [(GREYError *)assertionError setErrorInfo:errorDetails];
         }
 
-        I_GREYAssertionFail(reason,
-                            @"Error Trace: %@",
-                            [GREYError grey_nestedDescriptionForError:assertionError]);
-
+        I_GREYTimeout(reason,
+                      @"Error Trace: %@",
+                      [GREYError grey_nestedDescriptionForError:assertionError]);
         return NO;
       }
     }
