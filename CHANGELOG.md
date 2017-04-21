@@ -2,6 +2,20 @@
 
 Details changes in each release of EarlGrey. EarlGrey follows [semantic versioning](http://semver.org/).
 
+## [1.9.2](https://github.com/google/EarlGrey/tree/1.9.2) (04/21/2017)
+
+```
+Baseline: [b9d7a7c]
+   + [b9d7a7c]: Update OS=10.3 for travis CI
+```
+
+### Bug Fixes
+* Fixed timeout related failures from being reported as assertion failures.
+* Fixed to wait for rotation to complete before verifying that it changed.
+* Fixed Swift breaks by correcting issue with Gem adding EarlGrey.swift for
+  Objective C targets.
+* Fixed race condition with reading and writing to state tracker elementID.
+
 ## [1.9.1](https://github.com/google/EarlGrey/tree/1.9.1) (04/14/2017)
 
 ```
