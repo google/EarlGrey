@@ -20,3 +20,4 @@ EarlGrey Release Version                                       | Corresponding E
 [1.6.2](https://github.com/google/EarlGrey/releases/tag/1.6.2) | [0.1.5](https://rubygems.org/gems/earlgrey/versions/0.1.5) | 1.0.0
 [1.7.0](https://github.com/google/EarlGrey/releases/tag/1.7.0) | [0.1.5](https://rubygems.org/gems/earlgrey/versions/0.1.5) | 1.0.0
 [1.7.1](https://github.com/google/EarlGrey/releases/tag/1.7.1) | [0.1.5](https://rubygems.org/gems/earlgrey/versions/0.1.5) | 1.0.0
+[1.9.2](https://github.com/google/EarlGrey/releases/tag/1.9.2) | [0.2.1](https://rubygems.org/gems/earlgrey/versions/0.2.1) | 1.0.0
