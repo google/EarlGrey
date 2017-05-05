@@ -7,4 +7,4 @@ iOS Version        | Devices           | Simulators
 ------------       | ------------      | ------------
 iOS 8.x            | iPhone, iPad      | iPhone, iPad
 iOS 9.x            | iPhone, iPad      | iPhone, iPad
-iOS 10.2.1         | iPhone, iPad      | iPhone, iPad
+iOS 10.3.2         | iPhone, iPad      | iPhone, iPad
