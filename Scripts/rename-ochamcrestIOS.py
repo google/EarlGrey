@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #
-#  Copyright 2016 Google Inc.
+#  Copyright 2016 Google Inc. All Rights Reserved.
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -14,7 +14,8 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-"""
+"""Rename the prebuilt OCHamcrest framework to not use the IOS suffix.
+
 Script to rename 'OCHamcrestIOS' to 'OCHamcrest' in the
 OCHamcrestIOS framework. We use 'OCHamcrest' as our imports in EarlGrey
 and using the OCHamcrestIOS.framework breaks these imports. This changes
@@ -28,17 +29,19 @@ have the OCHamcrestIOS.framework file.
 import glob
 import os
 import sys
-import traceback
+
 
 def _ChangeFrameworkName():
   """Change OCHamcrestIOS.framework to OCHamcrest.framework."""
-  if os.path.isdir(_FilePathWithScriptDirectory('../OCHamcrest.framework')):
+  file_path = _FilePathRelativeToScriptDirectory('../OCHamcrest.framework')
+  if os.path.isdir(file_path):
     print '''
     OCHamcrest.framework is already present in the script directory: %s/../.
     Please remove the file since we do not over-write it.
     ''' % _CurrentScriptDirectory()
     exit(1)
-  if not os.path.isdir(_FilePathWithScriptDirectory('OCHamcrestIOS.framework')):
+  file_path = _FilePathRelativeToScriptDirectory('OCHamcrestIOS.framework')
+  if not os.path.isdir(file_path):
     print '''
     OCHamcrestIOS.framework not present in the script directory: %s/../.
     Please make sure that the rename-ochamcrest.py script is present in
@@ -46,44 +49,52 @@ def _ChangeFrameworkName():
     ''' % _CurrentScriptDirectory()
     exit(1)
 
-  real_path = _FilePathWithScriptDirectory('OCHamcrestIOS.framework')
-  os.rename(real_path, real_path.replace('OCHamcrestIOS.framework', 'OCHamcrest.framework'))
+  real_path = _FilePathRelativeToScriptDirectory('OCHamcrestIOS.framework')
+  os.rename(real_path,
+            real_path.replace('OCHamcrestIOS.framework',
+                              'OCHamcrest.framework'))
 
 
 def _ChangeFrameworkHeaderFileNames():
   """Change OCHamcrestIOS.h files to OCHamcrest.h."""
-  file_glob = glob.glob(_FilePathWithScriptDirectory('OCHamcrest.framework/Headers/*'))
-  file_glob.extend(glob.glob(_FilePathWithScriptDirectory('OCHamcrest.framework/*')))
+  script_header_dir = 'OCHamcrest.framework/Headers/*'
+  script_dir = 'OCHamcrest.framework/*'
+  file_glob = glob.glob(_FilePathRelativeToScriptDirectory(script_header_dir))
+  extention_glob = glob.glob(_FilePathRelativeToScriptDirectory(script_dir))
+  file_glob.extend(extention_glob)
   for oc_file in file_glob:
     os.rename(oc_file, oc_file.replace('OCHamcrestIOS', 'OCHamcrest'))
 
 
 def _ChangeFrameworkTextInFiles():
-  """Change instances of OCHamcrestIOS in the OCHamcrest Framework to
-  OCHamcrest."""
-  abs_path = _FilePathWithScriptDirectory('OCHamcrest.framework')
+  """Change instances of OCHamcrestIOS to OCHamcrest."""
+  abs_path = _FilePathRelativeToScriptDirectory('OCHamcrest.framework')
   for dname, _, files in os.walk(abs_path):
     for fname in files:
       relative_file_path = os.path.join(dname, fname)
       if relative_file_path.endswith('.h'):
-        _ReplaceInFile(relative_file_path, '#import <OCHamcrestIOS', '#import <OCHamcrest')
+        _ReplaceInFile(relative_file_path,
+                       '#import <OCHamcrestIOS',
+                       '#import <OCHamcrest')
       elif relative_file_path.endswith('.plist'):
         _ReplaceInFile(relative_file_path, 'OCHamcrestIOS', 'OCHamcrest')
 
 
 def _ReplaceInFile(filepath, original, replacement):
-  """Reads a file's contents and changes all mentions of the original text with a replacement."""
+  """Replaces original text to the replacement in a file."""
   with open(filepath) as oc_file:
     data = None
     with open(filepath, 'rt') as input_file:
-      data = oc_file.read().replace(original, replacement)
+      if input_file:
+        data = oc_file.read().replace(original, replacement)
     with open(filepath, 'wt') as out_file:
       out_file.write(data)
 
 
-def _FilePathWithScriptDirectory(file):
+def _FilePathRelativeToScriptDirectory(file_name):
   """Returns the path of the file with respect to the script directory."""
-  return os.path.join(_CurrentScriptDirectory(), file)
+  return os.path.join(_CurrentScriptDirectory(), file_name)
+
 
 def _CurrentScriptDirectory():
   """Returns the directory where the script is located."""
