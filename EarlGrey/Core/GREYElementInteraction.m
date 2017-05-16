@@ -235,7 +235,7 @@
       [defaultNotificationCenter postNotificationName:kGREYWillPerformActionNotification
                                                object:nil
                                              userInfo:actionUserInfo];
-      GREYLogVerbose(@"Performing action: %@\n  with matcher: %@\n  with root matcher: %@",
+      GREYLogVerbose(@"Performing action: %@\n with matcher: %@\n with root matcher: %@",
                      [action name], _elementMatcher, _rootMatcher);
 
       if (element && ![action perform:element error:&actionError]) {
@@ -362,7 +362,7 @@
       [defaultNotificationCenter postNotificationName:kGREYWillPerformAssertionNotification
                                                object:nil
                                              userInfo:assertionUserInfo];
-      GREYLogVerbose(@"Performing assertion: %@\n  with matcher: %@\n  with root matcher: %@",
+      GREYLogVerbose(@"Performing assertion: %@\n with matcher: %@\n with root matcher: %@",
                      [assertion name], _elementMatcher, _rootMatcher);
 
       // In the case of an assertion, we can have a nil element present as well. For this purpose,

@@ -37,6 +37,8 @@ static Class gWebAccessibilityWrapper;
 
 + (void)load {
   @autoreleasepool {
+    gWebAccessibilityWrapper = NSClassFromString(@"WebAccessibilityObjectWrapper");
+
     GREYSwizzler *swizzler = [[GREYSwizzler alloc] init];
     BOOL swizzleSuccess =
         [swizzler swizzleClass:self
@@ -61,7 +63,6 @@ static Class gWebAccessibilityWrapper;
                     withMethod:swizzledSEL];
     NSAssert(swizzleSuccess,
              @"Cannot swizzle NSObject's performSelector:withObject:afterDelay:inModes");
-    gWebAccessibilityWrapper = NSClassFromString(@"WebAccessibilityObjectWrapper");
   }
 }
 
@@ -72,8 +73,7 @@ static Class gWebAccessibilityWrapper;
              [self respondsToSelector:@selector(accessibilityContainer)]) {
     return [GREYElementHierarchy hierarchyStringForElement:self];
   } else {
-    NSAssert(NO, @"The element hierarchy call is being made on an element that is not a valid "
-                 @"UI element.");
+    NSAssert(NO, @"grey_recursiveDescription made on an element that is not a valid UI element.");
     return nil;
   }
 }
@@ -272,7 +272,7 @@ static Class gWebAccessibilityWrapper;
 #pragma mark - Swizzled Implementation
 
 + (void)greyswizzled_cancelPreviousPerformRequestsWithTarget:(id)aTarget {
-  if (CFRunLoopGetCurrent() == CFRunLoopGetMain()) {
+  if ([NSThread isMainThread]) {
     [aTarget grey_unmapAllTrackersForAllPerformSelectorArguments];
   }
 
@@ -285,7 +285,7 @@ static Class gWebAccessibilityWrapper;
                                                       object:(id)anArgument {
   SEL swizzledSEL =
       @selector(greyswizzled_cancelPreviousPerformRequestsWithTarget:selector:object:);
-  if (CFRunLoopGetCurrent() == CFRunLoopGetMain()) {
+  if ([NSThread isMainThread]) {
     NSArray *arguments = [self grey_arrayWithSelector:aSelector argument:anArgument];
     [aTarget grey_unmapAllTrackersForPerformSelectorArguments:arguments];
 
@@ -302,7 +302,7 @@ static Class gWebAccessibilityWrapper;
                           withObject:(id)anArgument
                           afterDelay:(NSTimeInterval)delay
                              inModes:(NSArray *)modes {
-  if (CFRunLoopGetCurrent() == CFRunLoopGetMain()) {
+  if ([NSThread isMainThread]) {
     NSArray *arguments = [self grey_arrayWithSelector:aSelector argument:anArgument];
     // Track delayed executions on main thread that fall within a trackable duration.
     CFTimeInterval maxDelayToTrack =
