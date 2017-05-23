@@ -48,9 +48,9 @@ module EarlGrey
 
   EARLGREY_FRAMEWORK = 'EarlGrey.framework'.freeze
   CARTHAGE_FRAMEWORK_PATH =
-    '${SRCROOT}/Carthage/Build/iOS/EarlGrey.framework'.freeze
+    'Carthage/Build/iOS/EarlGrey.framework'.freeze
   POD_FRAMEWORK_PATH =
-    '${SRCROOT}/Pods/EarlGrey/EarlGrey/EarlGrey.framework'.freeze
+    'Pods/EarlGrey/EarlGrey/EarlGrey.framework'.freeze
 
   class << self
     attr_reader :project_name, :installer, :test_target, :test_target_name,
@@ -264,13 +264,13 @@ module EarlGrey
                          POD_FRAMEWORK_PATH
                        end
 
-      framework_ref = project.products_group.files.find do |f|
+      framework_ref = project.frameworks_group.files.find do |f|
         # TODO: should have some md5 check on the actual binary
         f.path == framework_path
       end
       unless framework_ref
-        framework_ref = project.products_group.new_file(framework_path)
-        framework_ref.source_tree = 'SRCROOT'
+        framework_ref = project.frameworks_group.new_file(framework_path)
+        framework_ref.source_tree = 'SOURCE_ROOT'
       end
       framework_ref
     end
