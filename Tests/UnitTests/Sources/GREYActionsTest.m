@@ -100,7 +100,7 @@
     XCTFail(@"Should have thrown an exception");
   } @catch (NSException *exception) {
     NSString *reason = @"Cannot perform action due to constraint(s) failure.";
-    NSString *actionName = @"Long Press for 0.500000 seconds";
+    NSString *actionName = @"Long Press for 0.700000 seconds";
     XCTAssertEqualObjects([exception name], kGREYActionFailedException,
                           @"Should throw GREYActionFailException");
     NSRange reasonRange = [exception.reason rangeOfString:reason];

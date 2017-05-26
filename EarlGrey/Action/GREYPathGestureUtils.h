@@ -29,12 +29,14 @@
  *
  *  @param startPointInWindowCoordinates The start point within the given @c window
  *  @param direction                     The direction of the touch path.
+ *  @param duration                      How long the gesture should last (in seconds).
  *  @param window                        The window in which the touch path is generated.
  *
  *  @return NSArray of CGPoints that denote the points in the touch path.
  */
 + (NSArray *)touchPathForGestureWithStartPoint:(CGPoint)startPointInWindowCoordinates
                                   andDirection:(GREYDirection)direction
+                                   andDuration:(CFTimeInterval)duration
                                       inWindow:(UIWindow *)window;
 
 /**

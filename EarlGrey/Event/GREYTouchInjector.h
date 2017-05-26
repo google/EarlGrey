@@ -14,7 +14,13 @@
 // limitations under the License.
 //
 
+#import <EarlGrey/GREYDefines.h>
 #import <EarlGrey/GREYTouchInfo.h>
+
+/**
+ *  The frequency at which touches will be injected per second. Currently set to 60Hz.
+ */
+GREY_EXTERN const NSTimeInterval kGREYTouchInjectionFrequency;
 
 /**
  *  State for touch injector.

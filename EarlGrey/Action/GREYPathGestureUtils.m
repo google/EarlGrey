@@ -24,6 +24,7 @@
 #import "Common/GREYDefines.h"
 #import "Common/GREYVisibilityChecker.h"
 #import "Event/GREYSyntheticEvents.h"
+#import "Event/GREYTouchInjector.h"
 
 /**
  *  Refers to the minimum 10 points of scroll that is required for any scroll to be detected.
@@ -32,9 +33,11 @@
 const NSInteger kGREYScrollDetectionLength = 10;
 
 /**
- *  The maximum distance between any 2 adjacent points in the touch path.
+ *  The minimum distance between any 2 adjacent points in the touch path.
+ *  In practice, this value seems to yield the best results by triggering the gestures more
+ *  accurately, even on slower machines.
  */
-static const CGFloat kGREYDistanceBetweenTwoAdjacentPoints = 5.0;
+static const CGFloat kGREYDistanceBetweenTwoAdjacentPoints = 10.0f;
 
 /**
  *  Cached screen edge pan detection length for the current device.
@@ -45,6 +48,7 @@ static CGFloat kCachedScreenEdgePanDetectionLength = NAN;
 
 + (NSArray *)touchPathForGestureWithStartPoint:(CGPoint)startPointInWindowCoords
                                   andDirection:(GREYDirection)direction
+                                   andDuration:(CFTimeInterval)duration
                                       inWindow:(UIWindow *)window {
   GREYDirection interfaceTransformedDirection =
       [self grey_relativeDirectionForCurrentOrientationWithDirection:direction];
@@ -60,6 +64,7 @@ static CGFloat kCachedScreenEdgePanDetectionLength = NAN;
   }
   return [self grey_touchPathWithStartPoint:startPointInWindowCoords
                                    endPoint:endPointInWindowCoords
+                                   duration:duration
                         shouldCancelInertia:NO];
 }
 
@@ -67,6 +72,7 @@ static CGFloat kCachedScreenEdgePanDetectionLength = NAN;
                                        andEndPoint:(CGPoint)endPoint {
   return [self grey_touchPathWithStartPoint:startPoint
                                    endPoint:endPoint
+                                   duration:NAN
                         shouldCancelInertia:YES];
 }
 
@@ -151,7 +157,10 @@ static CGFloat kCachedScreenEdgePanDetectionLength = NAN;
   }
   endPoint = CGPointAddVector(startPoint,
                               CGVectorScale(delta, amountWillScroll + kGREYScrollDetectionLength));
-  return [self grey_touchPathWithStartPoint:startPoint endPoint:endPoint shouldCancelInertia:YES];
+  return [self grey_touchPathWithStartPoint:startPoint
+                                   endPoint:endPoint
+                                   duration:NAN
+                        shouldCancelInertia:YES];
 }
 
 #pragma mark - Private
@@ -257,37 +266,104 @@ static CGFloat kCachedScreenEdgePanDetectionLength = NAN;
  *
  *  @param startPoint    The start point of the touch path.
  *  @param endPoint      The end point of the touch path.
+ *  @param duration      How long the gesture should last.
+ *                       Can be NAN to indicate that path lengths of fixed magnitude should be used.
  *  @param cancelInertia A check to nullify the inertia in the touch path.
  *
  *  @return A touch path between the two points.
  */
 + (NSArray *)grey_touchPathWithStartPoint:(CGPoint)startPoint
                                  endPoint:(CGPoint)endPoint
+                                 duration:(CFTimeInterval)duration
                       shouldCancelInertia:(BOOL)cancelInertia {
-  const CGVector delta = CGVectorFromEndPoints(startPoint, endPoint, NO);
-  const CGFloat pathLength = CGVectorLength(delta);
+  const CGVector deltaVector = CGVectorFromEndPoints(startPoint, endPoint, NO);
+  const CGFloat pathLength = CGVectorLength(deltaVector);
   if (pathLength <= kGREYScrollDetectionLength) {
     return nil;
   }
 
-  // Compute delta for each point and create a path with it.
-  NSInteger totalPoints = (NSInteger)(pathLength / kGREYDistanceBetweenTwoAdjacentPoints) + 1;
-  CGFloat remaining = pathLength - totalPoints * kGREYDistanceBetweenTwoAdjacentPoints;
-  CGFloat deltaX = (endPoint.x - startPoint.x) / totalPoints;
-  CGFloat deltaY = (endPoint.y - startPoint.y) / totalPoints;
   NSMutableArray *touchPath = [[NSMutableArray alloc] init];
-  for (int i = 0; i < totalPoints; i++) {
-    CGPoint touchPoint = CGPointMake(startPoint.x + deltaX * i, startPoint.y + deltaY * i);
-    [touchPath addObject:[NSValue valueWithCGPoint:touchPoint]];
-  }
-  if (remaining > 0) {
+  if (isnan(duration)) {
+    NSUInteger totalPoints = (NSUInteger)(pathLength / kGREYDistanceBetweenTwoAdjacentPoints) + 1;
+    CGFloat remaining = pathLength - (totalPoints * kGREYDistanceBetweenTwoAdjacentPoints);
+    // Compute delta for each point and create a path with it.
+    CGFloat deltaX = (endPoint.x - startPoint.x) / totalPoints;
+    CGFloat deltaY = (endPoint.y - startPoint.y) / totalPoints;
+
+    for (NSUInteger i = 0; i < totalPoints; i++) {
+      CGPoint touchPoint = CGPointMake(startPoint.x + (deltaX * i), startPoint.y + (deltaY * i));
+      [touchPath addObject:[NSValue valueWithCGPoint:touchPoint]];
+    }
+
+    if (remaining > 0) {
+      [touchPath addObject:[NSValue valueWithCGPoint:endPoint]];
+    }
+  } else {
+    [touchPath addObject:[NSValue valueWithCGPoint:startPoint]];
+
+    // Uses the kinematics equation for distance: d = a*t*t/2 + v*t
+    const double initialVelocity = 0;
+    const double initialDisplacement = (initialVelocity * duration);
+    const double acceleration = (2 * (pathLength - initialDisplacement)) / (duration * duration);
+
+    // Determine the angle which will be used for calculating individual x and y components of the
+    // displacement.
+    double angleFromXAxis;
+    CGPoint deltaPoint = CGPointMake(endPoint.x - startPoint.x, endPoint.y - startPoint.y);
+    if (deltaPoint.x == 0) {
+      angleFromXAxis = deltaPoint.y > 0 ? M_PI_2 : -M_PI_2;
+    } else if (deltaPoint.y == 0) {
+      angleFromXAxis = deltaPoint.x > 0 ? 0 : -M_PI;
+    } else {
+      angleFromXAxis = atan2(deltaPoint.y, deltaPoint.x);
+    }
+
+    const double cosAngle = cos(angleFromXAxis);
+    const double sinAngle = sin(angleFromXAxis);
+
+    // Duration is divided into fixed intervals which depends on the frequency at which touches are
+    // delivered. The first and last interval are always going to be the start and end touch points.
+    // Through experiments, it was discovered that not all gestures trigger until there is a
+    // minimum of kGREYDistanceBetweenTwoAdjacentPoints movement. For that reason, we find the
+    // interval (after first touch point) at which displacement is at least
+    // kGREYDistanceBetweenTwoAdjacentPoints and continue the gesture from there.
+    // With this approach, touch points after first touch point is at least
+    // kGREYDistanceBetweenTwoAdjacentPoints apart and gesture recognizers can detect them
+    // correctly.
+    const double interval = (1 / kGREYTouchInjectionFrequency);
+    // The last interval is always the last touch point so use 2nd to last as the end of loop below.
+    const double interval_penultimate = (duration - interval);
+    double interval_shift =
+        sqrt(((2 * (kGREYDistanceBetweenTwoAdjacentPoints - initialDisplacement)) / acceleration));
+    // Negative interval can't be shifted.
+    if (interval_shift < 0) {
+      interval_shift = 0;
+    }
+    // Boundary-align interval_shift to interval.
+    interval_shift = ceil(interval_shift / interval) * interval;
+    // interval_shift past 2nd last interval means only 2 touches will be injected.
+    // Adjust it to the last interval.
+    if (interval_shift > interval_penultimate) {
+      interval_shift = interval_penultimate;
+    }
+
+    for (double time = interval_shift; time < interval_penultimate; time += interval) {
+      double displacement = ((acceleration * time * time) / 2);
+      displacement = displacement + (initialVelocity * time);
+
+      double deltaX = displacement * cosAngle;
+      double deltaY = displacement * sinAngle;
+      CGPoint touchPoint = CGPointMake((CGFloat)(startPoint.x + deltaX),
+                                       (CGFloat)(startPoint.y + deltaY));
+      [touchPath addObject:[NSValue valueWithCGPoint:touchPoint]];
+    }
     [touchPath addObject:[NSValue valueWithCGPoint:endPoint]];
   }
 
   if (cancelInertia) {
     // To cancel inertia, we step back 1 point unit from the last touch point and back to
     // the original last touch point.
-    CGVector reverseDeltaUnitVector = CGVectorScale(delta, -1.0f / pathLength);
+    CGVector reverseDeltaUnitVector = CGVectorScale(deltaVector, (CGFloat)(-1.0 / pathLength));
     CGPoint stepBackPoint = CGPointAddVector(endPoint, reverseDeltaUnitVector);
     [touchPath addObject:[NSValue valueWithCGPoint:stepBackPoint]];
     [touchPath addObject:[NSValue valueWithCGPoint:endPoint]];

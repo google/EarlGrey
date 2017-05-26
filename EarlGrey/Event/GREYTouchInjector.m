@@ -28,6 +28,8 @@
 #import "Event/GREYZeroToleranceTimer.h"
 #import "Synchronization/GREYRunLoopSpinner.h"
 
+const NSTimeInterval kGREYTouchInjectionFrequency = 60.0;
+
 /**
  *  Maximum time to wait for UIWebView delegates to get called after the
  *  last touch (i.e. @c isLastTouch is @c YES).
@@ -35,10 +37,9 @@
 static const NSTimeInterval kGREYMaxIntervalForUIWebViewResponse = 2.0;
 
 /**
- *  The time interval in seconds between each touch injection, set to 120Hz to match peak touch
- *  refresh rate on iOS devices.
+ *  The time interval in seconds between each touch injection.
  */
-static const NSTimeInterval kTouchInjectionInterval = 1.0 / 120.0;
+static const NSTimeInterval kGREYTouchInjectionInterval = 1.0 / kGREYTouchInjectionFrequency;
 
 @interface GREYTouchInjector () <GREYZeroToleranceTimerTarget>
 @end
@@ -95,7 +96,7 @@ static const NSTimeInterval kTouchInjectionInterval = 1.0 / 120.0;
 
   _state = kGREYTouchInjectorStarted;
   if (!_timer) {
-    _timer = [[GREYZeroToleranceTimer alloc] initWithInterval:kTouchInjectionInterval
+    _timer = [[GREYZeroToleranceTimer alloc] initWithInterval:kGREYTouchInjectionInterval
                                                        target:self];
   }
 }
