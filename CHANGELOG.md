@@ -2,6 +2,20 @@
 
 Details changes in each release of EarlGrey. EarlGrey follows [semantic versioning](http://semver.org/).
 
+## [1.9.3](https://github.com/google/EarlGrey/tree/1.9.3) (05/26/2017)
+
+```
+Baseline: [a915cd1]
++ [a915cd1]: Fix breaking test with Long Press
+```
+
+### Improvements
+* Revaming of Swipe Touch Path Gestures to make them more like a real-user.
+
+### Bug Fixes
+* Fixed breaking tests for Long Press Gestures.
+* Fix source_tree and relative path for the EarlGrey gem to prevent Carthage breakages.
+
 ## [1.9.2](https://github.com/google/EarlGrey/tree/1.9.2) (04/21/2017)
 
 ```
