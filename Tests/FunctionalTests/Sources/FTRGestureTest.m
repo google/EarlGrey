@@ -74,12 +74,19 @@
 
 - (void)testLongPress {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
-      performAction:grey_longPressWithDuration(0.5f)];
+      performAction:grey_longPress()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"single long press")]
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
-- (void)testLongPressAtPoint {
+- (void)testLongPressWithDuration {
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
+      performAction:grey_longPressWithDuration(1.0)];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"single long press")]
+      assertWithMatcher:grey_sufficientlyVisible()];
+}
+
+- (void)testLongPressWithDurationAtPoint {
   // Find the bounds of the element.
   __block CGRect targetBounds;
   GREYActionBlock *boundsFinder =
@@ -103,14 +110,14 @@
   };
   for (NSInteger i = 0; i < 4; i++) {
     [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
-        performAction:grey_longPressAtPointWithDuration(outsidePoints[i], 0.5f)];
+        performAction:grey_longPressAtPointWithDuration(outsidePoints[i], 1.0)];
     [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"single long press")]
         assertWithMatcher:grey_nil()];
   }
 
   // Verify that tapping inside the bounds causes the long press.
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
-      performAction:grey_longPressAtPointWithDuration(CGPointMake(midX, midX), 0.5f)];
+      performAction:grey_longPressAtPointWithDuration(CGPointMake(midX, midX), 1.0)];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"single long press")]
       assertWithMatcher:grey_sufficientlyVisible()];
 }
@@ -239,4 +246,5 @@
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"gesture")]
       assertWithMatcher:grey_text(@"pinch in")];
 }
+
 @end
