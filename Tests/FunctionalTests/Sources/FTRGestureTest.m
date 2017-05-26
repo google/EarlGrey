@@ -204,7 +204,7 @@
 
 #pragma mark - Private
 
-// Asserts that Swipe works in all directions by verifying if the swipe gestures are correctly
+// Asserts that swipe works in all directions by verifying if the swipe gestures are correctly
 // recognized.
 - (void)ftr_assertSwipeWorksInAllDirections {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]

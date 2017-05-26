@@ -65,6 +65,7 @@
     UIWindow *window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     NSArray *path = [GREYPathGestureUtils touchPathForGestureWithStartPoint:startPoint
                                                                andDirection:direction
+                                                                andDuration:1.0
                                                                    inWindow:window];
     CGPoint pathStartPoint = [path[0] CGPointValue];
     XCTAssertEqual(pathStartPoint.x, startPoint.x);

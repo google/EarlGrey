@@ -25,11 +25,6 @@
 #import "Core/GREYInteraction.h"
 #import "Event/GREYSyntheticEvents.h"
 
-/**
- *  Number of events in a long press.
- */
-static const int kGREYLongPressEventCount = 60;
-
 @implementation GREYTapper
 
 + (BOOL)tapOnElement:(id)element
@@ -87,11 +82,7 @@ static const int kGREYLongPressEventCount = 60;
     return NO;
   }
 
-  NSMutableArray *touchPath = [[NSMutableArray alloc] init];
-  for (int i = 0; i < kGREYLongPressEventCount; i++) {
-    [touchPath addObject:[NSValue valueWithCGPoint:resolvedLocation]];
-  }
-
+  NSArray *touchPath = @[[NSValue valueWithCGPoint:resolvedLocation]];
   [GREYSyntheticEvents touchAlongPath:touchPath
                      relativeToWindow:window
                           forDuration:duration

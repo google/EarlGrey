@@ -145,6 +145,7 @@
     CGPoint startPoint = CGPointMake(xStartPoint, yStartPoint);
     NSArray *touchPath = [GREYPathGestureUtils touchPathForGestureWithStartPoint:startPoint
                                                                     andDirection:_direction
+                                                                     andDuration:_duration
                                                                         inWindow:window];
     [multiTouchPaths addObject:touchPath];
   }
