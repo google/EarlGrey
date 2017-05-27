@@ -14,5 +14,5 @@
 #  limitations under the License.
 
 module EarlGrey
-  VERSION = '0.2.2'.freeze unless defined? ::EarlGrey::VERSION
+  VERSION = '1.9.3'.freeze unless defined? ::EarlGrey::VERSION
 end
