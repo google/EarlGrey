@@ -38,20 +38,21 @@ The submitted code should adhere to the following:
   projects build and all tests pass. If you believe that the test failures are due to bugs in the
   framework then please [file an issue](https://github.com/google/EarlGrey/issues).
 * If a pull request looks good then we'll wait for Travis to run all the Unit and
-  Functional tests on the changes. We also trigger an internal build to check for
-  further build breakages. For each stage, appropriate labels will be set on the pull request.
+  Functional tests on the changes. We also trigger an internal test to check for
+  further breakages. For each stage, appropriate labels will be set on the pull request.
   In case any of the tests are broken, we will let you know.
 * If your pull request does not touch any code, then you could skip the Travis Continuous
   Integration check by adding [[ci skip]](https://docs.travis-ci.com/user/customizing-the-build/#Skipping-a-build)
   to your git commit message. This helps prevent over-encumbering the CI.
-* Please use [Github's Markdown Formatting](https://help.github.com/articles/getting-started-with-writing-and-formatting-on-github/)
-  for formatting your comments and issues.
-* Refer to the [Google Objective-C style guide][objc_style] and
-  [the Realm SwiftLint Style][swift_style] for our code conventions.
+* Any PR marked as experiment will not be merged. You can indicate that either in the title of the PR or by labelling the PR   with `experiment`. Use it to share a prototype for which you want to get more feedback from the core team.
 * If a new custom API is being proposed to be added to EarlGrey, but is still in the
   experimental phase, then please add it to the [EarlGreyContribs](https://github.com/google/EarlGrey/tree/master/Demo/EarlGreyContribs)
   project for vetting out. Also, any example code that is added must first
   be vetted in the EarlGreyContribs project.
+* Please use [Github's Markdown Formatting](https://help.github.com/articles/getting-started-with-writing-and-formatting-on-github/)
+  for formatting your comments and issues.
+* Refer to the [Google Objective-C style guide][objc_style] and
+  [the Realm SwiftLint Style][swift_style] for our code conventions.
 
 [objc_style]: https://google.github.io/styleguide/objcguide.xml
 [swift_style]: https://github.com/realm/SwiftLint
@@ -85,8 +86,8 @@ The submitted code should adhere to the following:
 
 ### Don'ts
 
-* Any vaguely worded issue will be immediately closed. If there is inactivity on an issue for
-  an extended period of time, it will also be closed.
+* Any vaguely worded issue will be immediately closed.
+* If there is inactivity on an issue for an extended period of time, it will be closed.
 
 ## The small print
 Contributions made by corporations are covered by a different agreement than
