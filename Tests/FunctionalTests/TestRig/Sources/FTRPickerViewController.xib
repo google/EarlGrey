@@ -1,8 +1,10 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="NO">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <development version="7000" identifier="xcode"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FTRPickerViewController">
@@ -18,17 +20,38 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="1">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <datePicker contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="nsh-tZ-mIw">
-                    <rect key="frame" x="0.0" y="129" width="320" height="162"/>
+                <datePicker contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="nsh-tZ-mIw">
+                    <rect key="frame" x="8" y="171.5" width="304" height="106.5"/>
                     <date key="date" timeIntervalSinceReferenceDate="417508172.06960303">
                         <!--2014-03-26 06:29:32 +0000-->
                     </date>
                 </datePicker>
-                <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" translatesAutoresizingMaskIntoConstraints="NO" id="SKZ-9B-Fzx">
-                    <rect key="frame" x="5" y="93" width="310" height="29"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XMm-0B-uOK">
+                    <rect key="frame" x="139" y="401" width="42" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q2B-5N-PzE">
+                    <rect key="frame" x="123.5" y="430" width="73" height="30"/>
+                    <state key="normal" title="Clear label">
+                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="clearDateLabelButtonTapped:" destination="-1" eventType="touchUpInside" id="mvT-Ug-LOM"/>
+                    </connections>
+                </button>
+                <pickerView userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="337-zK-QgX">
+                    <rect key="frame" x="8" y="56" width="304" height="107.5"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="XRm-Up-6D1"/>
+                        <outlet property="delegate" destination="-1" id="LO7-do-cDW"/>
+                    </connections>
+                </pickerView>
+                <segmentedControl opaque="NO" contentMode="scaleAspectFit" verticalCompressionResistancePriority="751" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" translatesAutoresizingMaskIntoConstraints="NO" id="SKZ-9B-Fzx">
+                    <rect key="frame" x="2" y="20" width="316" height="29"/>
                     <segments>
                         <segment title="Date"/>
                         <segment title="Time"/>
@@ -41,36 +64,43 @@
                         <action selector="valueChanged:" destination="-1" eventType="valueChanged" id="nWS-n6-KYk"/>
                     </connections>
                 </segmentedControl>
-                <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pY3-tM-fNr">
-                    <rect key="frame" x="0.0" y="129" width="320" height="162"/>
+                <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pY3-tM-fNr">
+                    <rect key="frame" x="8" y="286" width="304" height="107"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="Rb1-cs-qRN"/>
                         <outlet property="delegate" destination="-1" id="ZFr-dS-eGQ"/>
                     </connections>
                 </pickerView>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XMm-0B-uOK">
-                    <rect key="frame" x="110" y="347" width="101" height="21"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q2B-5N-PzE">
-                    <rect key="frame" x="124" y="376" width="73" height="30"/>
-                    <state key="normal" title="Clear label">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="clearDateLabelButtonTapped:" destination="-1" eventType="touchUpInside" id="mvT-Ug-LOM"/>
-                    </connections>
-                </button>
-                <pickerView userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="337-zK-QgX">
-                    <rect key="frame" x="0.0" y="129" width="320" height="162"/>
-                    <connections>
-                        <outlet property="dataSource" destination="-1" id="XRm-Up-6D1"/>
-                        <outlet property="delegate" destination="-1" id="LO7-do-cDW"/>
-                    </connections>
-                </pickerView>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstItem="pY3-tM-fNr" firstAttribute="height" secondItem="337-zK-QgX" secondAttribute="height" id="0pf-g3-pbb"/>
+                <constraint firstItem="pY3-tM-fNr" firstAttribute="width" secondItem="337-zK-QgX" secondAttribute="width" id="1D3-6l-IBj"/>
+                <constraint firstItem="SKZ-9B-Fzx" firstAttribute="centerX" secondItem="1" secondAttribute="centerX" id="1Vb-cv-hq4"/>
+                <constraint firstItem="pY3-tM-fNr" firstAttribute="top" secondItem="nsh-tZ-mIw" secondAttribute="bottom" constant="8" id="1bW-4r-KmR"/>
+                <constraint firstItem="XMm-0B-uOK" firstAttribute="centerX" secondItem="1" secondAttribute="centerX" id="7eL-PJ-9iA"/>
+                <constraint firstItem="SKZ-9B-Fzx" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="1" secondAttribute="leading" constant="2" id="Bfh-2C-jZM"/>
+                <constraint firstItem="nsh-tZ-mIw" firstAttribute="width" secondItem="337-zK-QgX" secondAttribute="width" id="Eyy-Om-xO0"/>
+                <constraint firstItem="nsh-tZ-mIw" firstAttribute="height" secondItem="337-zK-QgX" secondAttribute="height" id="GHZ-c5-mP7"/>
+                <constraint firstItem="XMm-0B-uOK" firstAttribute="top" relation="greaterThanOrEqual" secondItem="pY3-tM-fNr" secondAttribute="bottom" constant="8" id="Md7-jM-zPh"/>
+                <constraint firstItem="nsh-tZ-mIw" firstAttribute="top" secondItem="337-zK-QgX" secondAttribute="bottom" constant="8" id="Za9-cK-Tvr"/>
+                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="SKZ-9B-Fzx" secondAttribute="trailing" constant="2" id="aHT-O9-fGL"/>
+                <constraint firstItem="Q2B-5N-PzE" firstAttribute="centerX" secondItem="1" secondAttribute="centerX" id="agj-D3-H1H"/>
+                <constraint firstItem="nsh-tZ-mIw" firstAttribute="centerX" secondItem="1" secondAttribute="centerX" id="bRL-Eo-VuY"/>
+                <constraint firstAttribute="bottom" secondItem="Q2B-5N-PzE" secondAttribute="bottom" constant="20" symbolic="YES" id="gJK-bc-RHz"/>
+                <constraint firstAttribute="trailingMargin" secondItem="337-zK-QgX" secondAttribute="trailing" id="jR1-Yt-sfV"/>
+                <constraint firstItem="pY3-tM-fNr" firstAttribute="centerX" secondItem="1" secondAttribute="centerX" id="qMT-pl-fRY"/>
+                <constraint firstItem="SKZ-9B-Fzx" firstAttribute="top" secondItem="1" secondAttribute="top" constant="20" symbolic="YES" id="rMa-du-zed"/>
+                <constraint firstItem="337-zK-QgX" firstAttribute="top" secondItem="SKZ-9B-Fzx" secondAttribute="bottom" constant="8" id="tLq-rL-N7H"/>
+                <constraint firstItem="337-zK-QgX" firstAttribute="centerX" secondItem="1" secondAttribute="centerX" id="xK0-sY-I9B"/>
+                <constraint firstItem="337-zK-QgX" firstAttribute="leading" secondItem="1" secondAttribute="leadingMargin" id="yXT-wO-0K2"/>
+                <constraint firstItem="Q2B-5N-PzE" firstAttribute="top" secondItem="XMm-0B-uOK" secondAttribute="bottom" constant="8" id="yjI-aJ-pV8"/>
+            </constraints>
         </view>
     </objects>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination"/>
+    </simulatedMetricsContainer>
 </document>
