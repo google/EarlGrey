@@ -44,7 +44,7 @@ The submitted code should adhere to the following:
 * If your pull request does not touch any code, then you could skip the Travis Continuous
   Integration check by adding [[ci skip]](https://docs.travis-ci.com/user/customizing-the-build/#Skipping-a-build)
   to your git commit message. This helps prevent over-encumbering the CI.
-* Any PR marked as experiment will not be merged. You can indicate that either in the title of the PR or by labelling the PR   with `experiment`. Use it to share a prototype for which you want to get more feedback from the core team.
+* Any PR marked as experiment will not be merged. You can indicate that either in the title of the PR or by labelling the PR  with `experiment`. Use it to share a prototype for which you want to get more feedback from the core team.
 * If a new custom API is being proposed to be added to EarlGrey, but is still in the
   experimental phase, then please add it to the [EarlGreyContribs](https://github.com/google/EarlGrey/tree/master/Demo/EarlGreyContribs)
   project for vetting out. Also, any example code that is added must first
