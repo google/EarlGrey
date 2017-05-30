@@ -87,7 +87,7 @@ The submitted code should adhere to the following:
 ### Don'ts
 
 * Any vaguely worded issue will be immediately closed.
-* If there is inactivity on an issue for an extended period of time, it will be closed.
+* If there is inactivity on an issue for an extended period of time, it will be closed. Please update the issue and reopen it in case you find that it still persists.
 
 ## The small print
 Contributions made by corporations are covered by a different agreement than
