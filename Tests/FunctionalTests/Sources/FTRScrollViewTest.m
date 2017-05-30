@@ -185,7 +185,7 @@
         CGRect visibleRect = [GREYVisibilityChecker rectEnclosingVisibleAreaOfElement:view];
         visibleRect = [view.window convertRect:visibleRect fromWindow:nil];
         visibleRect = [view convertRect:visibleRect fromView:nil];
-        CGRect expectedVisibleRect = CGRectMake(0, 0, 320, 82);
+        CGRect expectedVisibleRect = CGRectMake(0, 0, view.superview.bounds.size.width, 82);
         GREYAssertTrue(CGRectEqualToRect(visibleRect, expectedVisibleRect),
                       @"rects must be equal");
         return YES;
