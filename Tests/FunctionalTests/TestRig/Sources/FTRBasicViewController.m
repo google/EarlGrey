@@ -68,7 +68,7 @@
 }
 
 - (void)moveDoubleTapOffScreen {
-  self.doubleTapLabel.frame = CGRectMake(-20, -20, 10, 10);
+  self.doubleTapLabel.hidden = YES;
 }
 
 - (void)tabChange:(id)sender {
