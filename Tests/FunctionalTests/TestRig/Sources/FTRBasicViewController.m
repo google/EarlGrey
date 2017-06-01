@@ -53,7 +53,7 @@
   UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc]
                                                         initWithTarget:self
                                                                 action:@selector(hideLongPress)];
-  longPressGesture.minimumPressDuration = 1.0;
+  longPressGesture.minimumPressDuration = 0.8;
   [self.longPressLabel addGestureRecognizer:longPressGesture];
 
   UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc]
