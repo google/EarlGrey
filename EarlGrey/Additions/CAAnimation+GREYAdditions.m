@@ -18,7 +18,7 @@
 
 #include <objc/runtime.h>
 
-#import "Additions/NSObject+GREYAdditions+Internal.h"
+#import "Additions/NSObject+GREYAdditions.h"
 #import "Common/GREYDefines.h"
 #import "Common/GREYSwizzler.h"
 #import "Delegate/GREYCAAnimationDelegate.h"

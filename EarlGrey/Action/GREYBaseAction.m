@@ -25,7 +25,6 @@
 #import "Common/GREYError+Internal.h"
 #import "Common/GREYErrorConstants.h"
 #import "Common/GREYObjectFormatter.h"
-#import "Common/GREYObjectFormatter+Internal.h"
 #import "Core/GREYInteraction.h"
 #import "Matcher/GREYMatcher.h"
 #import "Matcher/GREYStringDescription.h"

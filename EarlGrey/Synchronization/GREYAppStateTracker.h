@@ -145,6 +145,13 @@ typedef NS_OPTIONS(NSUInteger, GREYAppState) {
  */
 - (void)clearIgnoredStates;
 
+/**
+ *  Clears all states that are tracked by the GREYAppStateTracker singleton.
+ *
+ *  @remark This is available only for internal testing purposes.
+ */
+- (void)grey_clearState;
+
 @end
 
 /**

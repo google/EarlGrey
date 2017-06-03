@@ -22,7 +22,6 @@
 #import "Common/GREYError.h"
 #import "Common/GREYError+Internal.h"
 #import "Common/GREYObjectFormatter.h"
-#import "Common/GREYObjectFormatter+Internal.h"
 
 #import "Common/GREYVisibilityChecker.h"
 

@@ -120,5 +120,12 @@ typedef NS_ENUM(NSUInteger, GREYXCTestCaseStatus) {
  */
 - (NSString *)grey_localizedTestOutputsDirectory;
 
+/**
+ *  Sets the value for the test status.
+ *
+ *  @param status The new object-association value for the test status.
+ */
+- (void)grey_setStatus:(GREYXCTestCaseStatus)status;
+
 @end
 

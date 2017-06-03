@@ -15,7 +15,7 @@
 //
 
 #import <EarlGrey/GREYExposed.h>
-#import <EarlGrey/GREYAppStateTracker+Internal.h>
+#import <EarlGrey/GREYAppStateTracker.h>
 
 #import "GREYBaseTest.h"
 
