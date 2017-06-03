@@ -21,6 +21,7 @@
 #import "Common/GREYObjectFormatter.h"
 #import "Common/GREYFailureFormatter.h"
 #import "Common/GREYFailureScreenshotter.h"
+#import "Common/GREYThrowDefines.h"
 #import "Additions/XCTestCase+GREYAdditions.h"
 #import "Additions/NSError+GREYAdditions.h"
 
@@ -29,10 +30,12 @@ void I_GREYLogError(NSError *error,
                     NSUInteger lineNumber,
                     NSString *functionName,
                     NSArray *stackTrace) {
-  NSCAssert(error != nil, @"Invalid parameter for nil error object");
+  if (!error) {
+    NSLog(@"No error specified");
+    return;
+  }
 
   GREYError *errorObject;
-
   if ([error isKindOfClass:[GREYError class]]) {
     errorObject = (GREYError *)error;
   } else {

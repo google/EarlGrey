@@ -22,6 +22,8 @@
 #import "Additions/NSObject+GREYAdditions.h"
 #import "Common/GREYDefines.h"
 #import "Common/GREYError.h"
+#import "Common/GREYFatalAsserts.h"
+#import "Common/GREYThrowDefines.h"
 #import "Common/GREYVisibilityChecker.h"
 #import "Core/GREYInteraction.h"
 #import "Matcher/GREYAllOf.h"
@@ -83,7 +85,8 @@
                 numberOfTaps:(NSUInteger)numberOfTaps
                     duration:(CFTimeInterval)duration
                     location:(CGPoint)tapLocation {
-  NSAssert((numberOfTaps > 0), @"You cannot initialize a tap action with zero taps.");
+  GREYThrowOnFailedConditionWithMessage(numberOfTaps > 0,
+                                        @"You cannot initialize a tap action with zero taps.");
 
   NSString *name = [GREYTapAction grey_actionNameWithTapType:tapType
                                                     duration:duration
@@ -176,7 +179,7 @@
     case kGREYTapTypeKBKey:
       return [NSString stringWithFormat:@"Tap on keyboard key"];
   }
-  NSAssert(NO, @"Unknown tapType %ld was provided", (long)tapType);
+  GREYFatalAssertWithMessage(NO, @"Unknown tapType %ld was provided", (long)tapType);
   return nil;
 }
 

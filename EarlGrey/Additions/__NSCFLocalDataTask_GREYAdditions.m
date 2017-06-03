@@ -19,6 +19,7 @@
 #include <objc/runtime.h>
 
 #import "Additions/NSURL+GREYAdditions.h"
+#import "Common/GREYFatalAsserts.h"
 #import "Common/GREYSwizzler.h"
 #import "Synchronization/GREYAppStateTracker.h"
 
@@ -38,7 +39,7 @@
                                addInstanceMethod:@selector(greyswizzled_resume)
                               withImplementation:newImplementation
                     andReplaceWithInstanceMethod:@selector(resume)];
-    NSAssert(swizzleSuccess, @"Could not swizzle resume in %@", class);
+    GREYFatalAssertWithMessage(swizzleSuccess, @"Could not swizzle resume in %@", class);
 
     newImplementation = [[self class] instanceMethodForSelector:@selector(greyswizzled_setState:)];
     // __NSCFLocalDataTask is the internal class used by NSURLSessionTask for web requests.
@@ -46,7 +47,7 @@
                           addInstanceMethod:@selector(greyswizzled_setState:)
                          withImplementation:newImplementation
                andReplaceWithInstanceMethod:NSSelectorFromString(@"setState:")];
-    NSAssert(swizzleSuccess, @"Could not swizzle setState in %@", class);
+    GREYFatalAssertWithMessage(swizzleSuccess, @"Could not swizzle setState in %@", class);
   }
 }
 

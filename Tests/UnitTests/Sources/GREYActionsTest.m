@@ -88,7 +88,7 @@
                                NSException,
                                NSInternalInconsistencyException,
                                @"Should throw an exception for initializing a tap action with "
-                               @" zero tap count.");
+                               @"zero tap count.");
 }
 
 - (void)testTurnSwitchActionConstraintsFailed {

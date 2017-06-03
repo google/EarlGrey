@@ -22,6 +22,8 @@
 #import "Additions/UIScrollView+GREYAdditions.h"
 #import "Common/GREYConstants.h"
 #import "Common/GREYDefines.h"
+#import "Common/GREYFatalAsserts.h"
+#import "Common/GREYThrowDefines.h"
 #import "Common/GREYVisibilityChecker.h"
 #import "Event/GREYSyntheticEvents.h"
 #import "Event/GREYTouchInjector.h"
@@ -81,11 +83,17 @@ static CGFloat kCachedScreenEdgePanDetectionLength = NAN;
                                 length:(CGFloat)length
                     startPointPercents:(CGPoint)startPointPercents
                     outRemainingAmount:(CGFloat *)outRemainingAmountOrNull {
-  NSAssert(isnan(startPointPercents.x) || (startPointPercents.x > 0 && startPointPercents.x < 1),
-           @"startPointPercents must be NAN or in the range (0, 1) exclusive");
-  NSAssert(isnan(startPointPercents.y) || (startPointPercents.y > 0 && startPointPercents.y < 1),
-           @"startPointPercents must be NAN or in the range (0, 1) exclusive");
-  NSAssert(length > 0, @"Scroll length must be positive and greater than zero.");
+  GREYThrowOnFailedConditionWithMessage(isnan(startPointPercents.x) ||
+                                        (startPointPercents.x > 0 && startPointPercents.x < 1),
+                                        @"startPointPercents must be NAN or in the range (0, 1) "
+                                        @"exclusive");
+  GREYThrowOnFailedConditionWithMessage(isnan(startPointPercents.y) ||
+                                        (startPointPercents.y > 0 && startPointPercents.y < 1),
+                                        @"startPointPercents must be NAN or in the range (0, 1) "
+                                        @"exclusive");
+  GREYThrowOnFailedConditionWithMessage(length > 0,
+                                        @"Scroll length must be positive and greater than zero.");
+
   GREYDirection interfaceTransformedDirection =
       [self grey_relativeDirectionForCurrentOrientationWithDirection:direction];
 
@@ -210,7 +218,7 @@ static CGFloat kCachedScreenEdgePanDetectionLength = NAN;
       return [GREYConstants reverseOfDirection:
         [self grey_directionByClockwiseRotationOfDirection:direction]];
     case UIInterfaceOrientationUnknown:
-      NSAssert(NO, @"Unknown orientation, cannot transform direction.");
+      GREYFatalAssertWithMessage(NO, @"Unknown orientation, cannot transform direction.");
       return 0;
   }
 }

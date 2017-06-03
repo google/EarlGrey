@@ -31,10 +31,10 @@
 #import "Additions/NSObject+GREYAdditions.h"
 #import "Additions/NSString+GREYAdditions.h"
 #import "Additions/UISwitch+GREYAdditions.h"
-#import "Assertion/GREYAssertionDefines.h"
 #import "Common/GREYError.h"
 #import "Common/GREYExposed.h"
 #import "Common/GREYScreenshotUtil.h"
+#import "Common/GREYThrowDefines.h"
 #import "Core/GREYInteraction.h"
 #import "Core/GREYKeyboard.h"
 #import "Matcher/GREYAllOf.h"
@@ -312,7 +312,7 @@ static Class accessibilityTextFieldElementClass;
 }
 
 + (id<GREYAction>)actionForSnapshot:(out __strong UIImage **)outImage {
-  NSParameterAssert(outImage);
+  GREYThrowOnNilParameter(outImage);
 
   return [[GREYActionBlock alloc] initWithName:@"Element Snapshot"
                                    constraints:nil

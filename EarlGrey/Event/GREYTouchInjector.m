@@ -21,10 +21,12 @@
 
 #import "Additions/NSObject+GREYAdditions.h"
 #import "Additions/UITouch+GREYAdditions.h"
-#import "Additions/UIWebView+GREYAdditions+Internal.h"
+#import "Additions/UIWebView+GREYAdditions.h"
 #import "Assertion/GREYAssertionDefines.h"
 #import "Common/GREYDefines.h"
 #import "Common/GREYExposed.h"
+#import "Common/GREYFatalAsserts.h"
+#import "Common/GREYThrowDefines.h"
 #import "Event/GREYZeroToleranceTimer.h"
 #import "Synchronization/GREYRunLoopSpinner.h"
 
@@ -66,7 +68,7 @@ static const NSTimeInterval kGREYTouchInjectionInterval = 1.0 / kGREYTouchInject
 }
 
 - (instancetype)initWithWindow:(UIWindow *)window {
-  NSParameterAssert(window);
+  GREYThrowOnNilParameter(window);
 
   self = [super init];
   if (self) {
@@ -79,7 +81,7 @@ static const NSTimeInterval kGREYTouchInjectionInterval = 1.0 / kGREYTouchInject
 }
 
 - (void)enqueueTouchInfoForDelivery:(GREYTouchInfo *)touchInfo {
-  I_CHECK_MAIN_THREAD();
+  GREYFatalAssertMainThread();
   [_enqueuedTouchInfoList addObject:touchInfo];
 }
 
@@ -88,7 +90,7 @@ static const NSTimeInterval kGREYTouchInjectionInterval = 1.0 / kGREYTouchInject
 }
 
 - (void)startInjecting {
-  I_CHECK_MAIN_THREAD();
+  GREYFatalAssertMainThread();
 
   if (_state == kGREYTouchInjectorStarted) {
     return;
@@ -102,7 +104,8 @@ static const NSTimeInterval kGREYTouchInjectionInterval = 1.0 / kGREYTouchInject
 }
 
 - (void)waitUntilAllTouchesAreDeliveredUsingInjector {
-  I_CHECK_MAIN_THREAD();
+  GREYFatalAssertMainThread();
+
   // Start if necessary.
   if (_state == kGREYTouchInjectorPendingStart || _state == kGREYTouchInjectorStopped) {
     [self startInjecting];
@@ -121,7 +124,7 @@ static const NSTimeInterval kGREYTouchInjectionInterval = 1.0 / kGREYTouchInject
 #pragma mark - GREYZeroToleranceTimer
 
 - (void)timerFiredWithZeroToleranceTimer:(GREYZeroToleranceTimer *)timer {
-  I_CHECK_MAIN_THREAD();
+  GREYFatalAssertMainThread();
 
   GREYTouchInfo *touchInfo =
       [self grey_dequeueTouchInfoForDeliveryWithCurrentTime:CACurrentMediaTime()];

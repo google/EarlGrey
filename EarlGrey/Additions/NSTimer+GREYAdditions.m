@@ -17,6 +17,7 @@
 #import "Additions/NSTimer+GREYAdditions.h"
 
 #import "Common/GREYConfiguration.h"
+#import "Common/GREYFatalAsserts.h"
 #import "Common/GREYSwizzler.h"
 #import "Synchronization/GREYNSTimerIdlingResource.h"
 
@@ -31,8 +32,9 @@
     BOOL swizzleSuccess = [swizzler swizzleClass:self
                               replaceClassMethod:originalSel
                                       withMethod:swizzledSel];
-    NSAssert(swizzleSuccess,
-             @"Cannot swizzle NSTimer's scheduledTimerWithTimeInterval:invocation:repeats:");
+    GREYFatalAssertWithMessage(swizzleSuccess,
+                               @"Cannot swizzle "
+                               @"NSTimer::scheduledTimerWithTimeInterval:invocation:repeats:");
 
     originalSel = @selector(scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:);
     swizzledSel =
@@ -40,7 +42,8 @@
     swizzleSuccess = [swizzler swizzleClass:self
                          replaceClassMethod:originalSel
                                  withMethod:swizzledSel];
-    NSAssert(swizzleSuccess, @"Cannot swizzle NSTimer's %@", NSStringFromSelector(originalSel));
+    GREYFatalAssertWithMessage(swizzleSuccess,
+                               @"Cannot swizzle NSTimer's %@", NSStringFromSelector(originalSel));
   }
 }
 

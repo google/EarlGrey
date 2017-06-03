@@ -15,6 +15,7 @@
 //
 
 @interface FTRBasicViewController : UIViewController <UITextFieldDelegate>
+
 @property(retain, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 
 @property(retain, nonatomic) IBOutlet UILabel *hiddenLabel;
@@ -33,4 +34,7 @@
 
 @property(retain, nonatomic) IBOutlet UILabel *longPressLabel;
 @property(retain, nonatomic) IBOutlet UILabel *doubleTapLabel;
+
+- (instancetype)init NS_UNAVAILABLE;
+
 @end

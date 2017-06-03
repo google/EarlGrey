@@ -242,7 +242,8 @@
   GREYAssertionBlock *assertAxId =
       [GREYAssertionBlock assertionWithName:@"Check Accessibility Id"
                     assertionBlockWithError:^BOOL(id element, NSError *__strong *errorOrNil) {
-                      NSParameterAssert(element);
+                      XCTAssertNotNil(element);
+
                       [grey_sufficientlyVisible() matches:element];
                       UIView *view = element;
                       [idSet addObject:view.accessibilityIdentifier];

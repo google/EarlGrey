@@ -22,6 +22,7 @@
 #import "Assertion/GREYAssertionDefines.h"
 #import "Common/GREYConstants.h"
 #import "Common/GREYError.h"
+#import "Common/GREYThrowDefines.h"
 #import "Core/GREYInteraction.h"
 #import "Event/GREYSyntheticEvents.h"
 
@@ -31,7 +32,8 @@
         numberOfTaps:(NSUInteger)numberOfTaps
             location:(CGPoint)location
                error:(__strong NSError **)errorOrNil {
-  NSParameterAssert(numberOfTaps > 0);
+  GREYThrowOnFailedCondition(numberOfTaps > 0);
+
   UIView *viewToTap =
       [element isKindOfClass:[UIView class]] ? element : [element grey_viewContainingSelf];
   UIWindow *window =

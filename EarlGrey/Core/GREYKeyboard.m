@@ -25,6 +25,7 @@
 #import "Common/GREYDefines.h"
 #import "Common/GREYExposed.h"
 #import "Common/GREYError.h"
+#import "Common/GREYFatalAsserts.h"
 #import "Common/GREYLogger.h"
 #import "Core/GREYInteraction.h"
 #import "Synchronization/GREYAppStateTracker.h"
@@ -350,7 +351,8 @@ static NSString *const kReturnKeyIdentifier = @"\n";
  *  @return A UI element that signifies the key to be tapped for typing action.
  */
 + (id)grey_findKeyForCharacter:(NSString *)character {
-  NSParameterAssert(character);
+  GREYFatalAssert(character);
+
   BOOL ignoreCase = NO;
   NSString *accessibilityLabel = character;
   // If the key is a modifier key then we need to do a case-insensitive comparison and change the
@@ -392,7 +394,7 @@ static NSString *const kReturnKeyIdentifier = @"\n";
   // Type of layout is private class UIKeyboardLayoutStar, which implements UIAccessibilityContainer
   // Protocol and contains accessibility elements for keyboard keys that it shows on the screen.
   id layout = [keyboard _layout];
-  NSAssert(layout, @"Layout instance must not be nil");
+  GREYFatalAssertWithMessage(layout, @"Layout instance must not be nil");
   if ([layout accessibilityElementCount] != NSNotFound) {
     for (NSInteger i = 0; i < [layout accessibilityElementCount]; ++i) {
       id key = [layout accessibilityElementAtIndex:i];
@@ -424,7 +426,7 @@ static NSString *const kReturnKeyIdentifier = @"\n";
  */
 + (UIKeyboardImpl *)grey_keyboardObject {
   UIKeyboardImpl *keyboard = [UIKeyboardImpl activeInstance];
-  NSAssert(keyboard, @"Keyboard instance must not be nil");
+  GREYFatalAssertWithMessage(keyboard, @"Keyboard instance must not be nil");
   return keyboard;
 }
 
@@ -436,7 +438,7 @@ static NSString *const kReturnKeyIdentifier = @"\n";
  *                            then an error message is logged.
  */
 + (void)grey_tapKey:(id)key error:(__strong NSError **)errorOrNil {
-  NSParameterAssert(key);
+  GREYFatalAssert(key);
 
   NSLog(@"Tapping on key: %@.", [key accessibilityLabel]);
   [gTapKeyAction perform:key error:errorOrNil];

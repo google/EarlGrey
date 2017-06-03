@@ -22,6 +22,7 @@
 #import "Additions/NSObject+GREYAdditions.h"
 #import "Additions/UIView+GREYAdditions.h"
 #import "Common/GREYConstants.h"
+#import "Common/GREYFatalAsserts.h"
 #import "Common/GREYLogger.h"
 #import "Common/GREYScreenshotUtil.h"
 
@@ -144,8 +145,10 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
   NSNumber *percentVisible = [cache visibleAreaPercent];
   if (!percentVisible) {
     percentVisible = @([self grey_percentElementVisibleOnScreen:element]);
-    NSAssert([percentVisible floatValue] >= 0.0f && [percentVisible floatValue] <= 1.0f,
-             @"percentVisible(%f) must be in the range [0,1]", [percentVisible floatValue]);
+    GREYFatalAssertWithMessage([percentVisible floatValue] >= 0.0f &&
+                               [percentVisible floatValue] <= 1.0f,
+                               @"percentVisible(%f) must be in the range [0,1]",
+                               [percentVisible floatValue]);
     [cache setVisibleAreaPercent:percentVisible];
   }
 
@@ -162,8 +165,8 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
 
 + (CGRect)rectEnclosingVisibleAreaOfElement:(id)element {
   // TODO: Add support for accessibility elements, if needed.
-  NSAssert([element isKindOfClass:[UIView class]],
-           @"Only elements of kind UIView are supported by this method.");
+  GREYFatalAssertWithMessage([element isKindOfClass:[UIView class]],
+                             @"Only elements of kind UIView are supported by this method.");
 
   GREYVisibilityCheckerCacheEntry *cache = [self grey_cacheForElementCreateIfNonExistent:element];
   NSValue *rectValue = [cache rectEnclosingVisibleArea];
@@ -448,7 +451,7 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
  *  @return The percent area in range [0,1], of the @c element that is visible on the screen.
  */
 + (double)grey_percentNonViewVisibleOnScreen:(id)element {
-  NSParameterAssert(![element isKindOfClass:[UIView class]]);
+  GREYFatalAssert(![element isKindOfClass:[UIView class]]);
   if (![element isKindOfClass:[NSObject class]] ||
       ![element respondsToSelector:@selector(accessibilityFrame)] ||
       CGRectIsEmpty([element accessibilityFrame])) {
@@ -490,7 +493,8 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
     // view.
     CGRect searchRect_pixels = CGRectPointToPixel(searchRectInScreenCoordinates);
     double countTotalSearchRectPixels = CGRectArea(CGRectIntegralInside(searchRect_pixels));
-    NSAssert(countTotalSearchRectPixels >= 1, @"countTotalSearchRectPixels should be at least 1");
+    GREYFatalAssertWithMessage(countTotalSearchRectPixels >= 1,
+                               @"countTotalSearchRectPixels should be at least 1");
     GREYVisiblePixelData visiblePixelData = [self grey_countPixelsInImage:afterImage
                                               thatAreShiftedPixelsOfImage:beforeImage
                                               storeVisiblePixelRectInRect:NULL
@@ -501,9 +505,9 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
   CGImageRelease(beforeImage);
   CGImageRelease(afterImage);
 
-  NSAssert(0 <= percentVisible,
-           @"percentVisible should not be negative. Current Percent: %0.1f%%",
-           (double)(percentVisible * 100.0));
+  GREYFatalAssertWithMessage(0 <= percentVisible,
+                             @"percentVisible should not be negative. Current Percent: %0.1f%%",
+                             (double)(percentVisible * 100.0));
   return percentVisible;
 }
 
@@ -535,8 +539,8 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
        andGetIntersectionOrigin:(CGPoint *)outIntersectionOriginOrNull
                         forView:(UIView *)view
                      withinRect:(CGRect)searchRectInScreenCoordinates {
-  NSParameterAssert(outBeforeImage);
-  NSParameterAssert(outAfterImage);
+  GREYFatalAssert(outBeforeImage);
+  GREYFatalAssert(outAfterImage);
 
   if (![view grey_isVisible] || CGRectIsEmpty(searchRectInScreenCoordinates)) {
     return NO;
@@ -616,7 +620,7 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
   CGImageRef afterImage =
       CGImageCreateWithImageInRect(afterScreenshot.CGImage, screenshotSearchRect_pixel);
   if (!afterImage) {
-    NSAssert(NO, @"afterImage should not be null");
+    GREYFatalAssertWithMessage(NO, @"afterImage should not be null");
     CGImageRelease(beforeImage);
     return NO;
   }
@@ -630,8 +634,8 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
 }
 
 + (UIImage *)grey_imageAfterAddingSubview:(UIView *)shiftedView toView:(UIView *)view {
-  NSParameterAssert(shiftedView);
-  NSParameterAssert(view);
+  GREYFatalAssert(shiftedView);
+  GREYFatalAssert(view);
 
   // Rasterizing induces flakiness by re-drawing the view frame by frame for any layout change and
   // caching it for further use. This brings a delay in refreshing the layout for the shiftedView.
@@ -707,17 +711,17 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
                     thatAreShiftedPixelsOfImage:(CGImageRef)beforeImage
                     storeVisiblePixelRectInRect:(CGRect *)outVisiblePixelRect
                andStoreComparisonResultInBuffer:(GREYVisibilityDiffBuffer *)outDiffBufferOrNULL {
-  NSParameterAssert(beforeImage);
-  NSParameterAssert(afterImage);
-  NSAssert(CGImageGetWidth(beforeImage) == CGImageGetWidth(afterImage),
-           @"width must be the same");
-  NSAssert(CGImageGetHeight(beforeImage) == CGImageGetHeight(afterImage),
-           @"height must be the same");
+  GREYFatalAssert(beforeImage);
+  GREYFatalAssert(afterImage);
+  GREYFatalAssertWithMessage(CGImageGetWidth(beforeImage) == CGImageGetWidth(afterImage),
+                             @"width must be the same");
+  GREYFatalAssertWithMessage(CGImageGetHeight(beforeImage) == CGImageGetHeight(afterImage),
+                             @"height must be the same");
 
   unsigned char *pixelBuffer = grey_createImagePixelDataFromCGImageRef(beforeImage, NULL);
-  NSAssert(pixelBuffer, @"pixelBuffer must not be null");
+  GREYFatalAssertWithMessage(pixelBuffer, @"pixelBuffer must not be null");
   unsigned char *shiftedPixelBuffer = grey_createImagePixelDataFromCGImageRef(afterImage, NULL);
-  NSAssert(shiftedPixelBuffer, @"shiftedPixelBuffer must not be null");
+  GREYFatalAssertWithMessage(shiftedPixelBuffer, @"shiftedPixelBuffer must not be null");
 
   NSUInteger width = CGImageGetWidth(beforeImage);
   NSUInteger height = CGImageGetHeight(beforeImage);
@@ -779,7 +783,7 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
 + (UIView *)grey_imageViewWithShiftedColorOfImage:(CGImageRef)imageRef
                                     frameOffset:(CGPoint)offset
                                     orientation:(UIImageOrientation)orientation {
-  NSParameterAssert(imageRef);
+  GREYFatalAssert(imageRef);
 
   size_t width = CGImageGetWidth(imageRef);
   size_t height = CGImageGetHeight(imageRef);

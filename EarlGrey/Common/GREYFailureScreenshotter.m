@@ -20,7 +20,6 @@
 #import "Common/GREYScreenshotUtil.h"
 #import "Common/GREYScreenshotUtil+Internal.h"
 #import "Common/GREYVisibilityChecker.h"
-#import "Common/GREYVisibilityChecker+Internal.h"
 
 NSString *const kScreenshotAtFailure = @"Screenshot At Failure";
 NSString *const kScreenshotBeforeImage = @"Visibility Checker Most Recent Before Image";

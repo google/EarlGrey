@@ -19,4 +19,7 @@
 // View controller with a button which sends a network request and shows the comletion label after
 // request gets finished.
 @interface FTRNetworkTestViewController : UIViewController
+
+- (instancetype)init NS_UNAVAILABLE;
+
 @end

@@ -25,7 +25,7 @@
 #import "Common/GREYError+Internal.h"
 #import "Common/GREYErrorConstants.h"
 #import "Common/GREYObjectFormatter.h"
-#import "Common/GREYObjectFormatter+Internal.h"
+#import "Common/GREYThrowDefines.h"
 #import "Core/GREYInteraction.h"
 #import "Matcher/GREYMatcher.h"
 #import "Matcher/GREYStringDescription.h"
@@ -36,7 +36,7 @@
 }
 
 - (instancetype)initWithName:(NSString *)name constraints:(id<GREYMatcher>)constraints {
-  NSParameterAssert(name);
+  GREYThrowOnNilParameter(name);
 
   self = [super init];
   if (self) {

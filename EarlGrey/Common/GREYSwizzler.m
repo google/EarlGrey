@@ -20,6 +20,7 @@
 #include <objc/runtime.h>
 
 #import "Common/GREYDefines.h"
+#import "Common/GREYFatalAsserts.h"
 
 typedef NS_ENUM(NSUInteger, GREYMethodType) {
   GREYMethodTypeClass,
@@ -256,8 +257,8 @@ typedef NS_ENUM(NSUInteger, GREYMethodType) {
 #pragma mark - Private
 
 + (NSString *)grey_keyForClass:(Class)klass selector:(SEL)sel type:(GREYMethodType)methodType {
-  NSParameterAssert(klass);
-  NSParameterAssert(sel);
+  GREYFatalAssert(klass);
+  GREYFatalAssert(sel);
 
   NSString *methodTypeString;
   if (methodType == GREYMethodTypeClass) {
@@ -278,11 +279,11 @@ typedef NS_ENUM(NSUInteger, GREYMethodType) {
                     swizzledIMP:(IMP)swizzledIMP
                   swizzledClass:(Class)swizzledClass
                      methodType:(GREYMethodType)methodType {
-  NSParameterAssert(originalMethod);
-  NSParameterAssert(originalIMP);
-  NSParameterAssert(originalClass);
-  NSParameterAssert(swizzledMethod);
-  NSParameterAssert(swizzledIMP);
+  GREYFatalAssert(originalMethod);
+  GREYFatalAssert(originalIMP);
+  GREYFatalAssert(originalClass);
+  GREYFatalAssert(swizzledMethod);
+  GREYFatalAssert(swizzledIMP);
 
   NSString *keyForOriginal = [[self class] grey_keyForClass:originalClass
                                                      selector:method_getName(originalMethod)

@@ -23,6 +23,7 @@
 #import "Assertion/GREYAssertionDefines.h"
 #import "Assertion/GREYAssertions+Internal.h"
 #import "Common/GREYError.h"
+#import "Common/GREYFatalAsserts.h"
 #import "Event/GREYSyntheticEvents.h"
 #import "Matcher/GREYAllOf.h"
 #import "Matcher/GREYMatcher.h"
@@ -62,14 +63,14 @@
                          duration:(CFTimeInterval)duration
                   numberOfFingers:(NSUInteger)numberOfFingers
                     startPercents:(CGPoint)startPercents {
-  NSAssert(startPercents.x > 0.0f && startPercents.x < 1.0f,
-           @"percents.x must be between 0 and 1, exclusive.");
-  NSAssert(startPercents.y > 0.0f && startPercents.y < 1.0f,
-           @"percents.y must be between 0 and 1, exclusive.");
-
-  NSAssert(numberOfFingers > 1 && numberOfFingers <= 4,
-           @"numberOfFingers must be between 2 and 4 inclusive. For single touch use the single "
-           @"touch APIs (grey_swipeFastInDirection etc).");
+  GREYFatalAssertWithMessage(startPercents.x > 0.0f && startPercents.x < 1.0f,
+                             @"percents.x must be between 0 and 1, exclusive.");
+  GREYFatalAssertWithMessage(startPercents.y > 0.0f && startPercents.y < 1.0f,
+                             @"percents.y must be between 0 and 1, exclusive.");
+  GREYFatalAssertWithMessage(numberOfFingers > 1 && numberOfFingers <= 4,
+                             @"numberOfFingers must be between 2 and 4 inclusive. "
+                             @"For single touch use the single touch APIs "
+                             @"(grey_swipeFastInDirection etc).");
 
   NSString *name =
       [NSString stringWithFormat:@"Swipe %@ for duration %g", NSStringFromGREYDirection(direction),

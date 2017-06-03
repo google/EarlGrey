@@ -126,4 +126,23 @@ typedef struct GREYVisiblePixelData {
  */
 + (CGRect)rectEnclosingVisibleAreaOfElement:(id)element;
 
+/**
+ *   @return The last known original image used by the visibility checker.
+ *
+ *   @remark This is available only for internal testing purposes.
+ */
++ (UIImage *)grey_lastActualBeforeImage;
+/**
+ *   @return The last known actual color shifted image used by visibility checker.
+ *
+ *   @remark This is available only for internal testing purposes.
+ */
++ (UIImage *)grey_lastActualAfterImage;
+/**
+ *   @return The last known actual color shifted image used by visibility checker.
+ *
+ *   @remark This is available only for internal testing purposes.
+ */
++ (UIImage *)grey_lastExpectedAfterImage;
+
 @end

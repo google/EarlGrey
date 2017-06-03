@@ -25,6 +25,7 @@
 #import "Matcher/GREYMatchers.h"
 #import "Matcher/GREYStringDescription.h"
 #import "Common/GREYError.h"
+#import "Common/GREYFatalAsserts.h"
 #import "Common/GREYLogger.h"
 
 @implementation GREYAssertions
@@ -42,7 +43,7 @@
 }
 
 + (id<GREYAssertion>)grey_createAssertionWithMatcher:(id<GREYMatcher>)matcher {
-  NSParameterAssert(matcher);
+  GREYFatalAssert(matcher);
 
   NSString *assertionName = [NSString stringWithFormat:@"assertWithMatcher:%@", matcher];
   return [GREYAssertionBlock assertionWithName:assertionName

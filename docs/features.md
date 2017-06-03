@@ -9,28 +9,7 @@ UI, network requests, main [Dispatch Queue](https://developer.apple.com/library/
 and the main [NSOperationQueue](https://developer.apple.com/library/mac/documentation/Cocoa/Reference/NSOperationQueue_class/).
 To support cases where you want to wait for some event to occur before the next UI interaction happens,
 EarlGrey provides Synchronization APIs that allow you to control EarlGrey's synchronization behavior. You can
-use these APIs to increase the stability of your tests. EarlGrey current synchronizes with the
-following:
-
-App Resource
--------------------------|
-Main Dispatch Queues
-Main NSOperationQueue
-Animations
-Gestures
-Network
-View Controller Appearance / Disappearance
-Keyboard Typing
-Scrolling
-Main Run Loop
-Web View
-
-EarlGrey's synchronization works by tracking the states of different resources that can affect the
-app's state and performing an action or an assertion only when the app is found to be idle. Based
-on the structure of the app, this can affect the performance of the app when tested. EarlGrey
-provides different `GREYConfiguration` values for mitigating these effects, such as changing the
-maximum animation duration with `kGREYConfigKeyCALayerMaxAnimationDuration`, blacklisting long
-network calls with kGREYConfigKeyURLBlacklistRegex or so.
+use these APIs to increase the stability of your tests.
 
 ## Visibility Checks<a name="visibility-checks"></a>
 

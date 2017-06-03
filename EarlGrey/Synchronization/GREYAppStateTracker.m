@@ -22,7 +22,9 @@
 #import "Additions/NSObject+GREYAdditions.h"
 #import "Common/GREYConfiguration.h"
 #import "Common/GREYDefines.h"
+#import "Common/GREYFatalAsserts.h"
 #import "Common/GREYLogger.h"
+#import "Common/GREYThrowDefines.h"
 
 /**
  *  Lock protecting element state map.
@@ -130,11 +132,12 @@ static pthread_mutex_t gStateLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
   return description;
 }
 
-
 - (void)ignoreChangesToState:(GREYAppState)state {
-  NSAssert(state != kGREYIdle, @"Do not directly set kGREYIdle as the state to be ignored, to "
-                               @"clear the states, use GREYAppStateTracker::clearIgnoredStates "
-                               @"instead.");
+  GREYThrowOnFailedConditionWithMessage(state != kGREYIdle,
+                                        @"Do not directly set kGREYIdle as the state to be "
+                                        @"ignored, to clear the states, use GREYAppStateTracker::"
+                                        @"clearIgnoredStates instead.");
+
   [self grey_performBlockInCriticalSection:^id {
     _ignoredAppState = state;
     return nil;
@@ -179,14 +182,14 @@ static pthread_mutex_t gStateLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
   }
 
   if (state & kGREYPendingViewsToAppear) {
-    [eventStateString addObject:@"Waiting for viewDidAppear: call on this view controller. Please "
+    [eventStateString addObject:@"Waiting for viewDidAppear: call on the view controller. Please "
                                 @"ensure that this view controller and its subclasses call "
-                                @"through to their super's implementation"];
+                                @"through to their super's implementation."];
   }
   if (state & kGREYPendingViewsToDisappear) {
-    [eventStateString addObject:@"Waiting for viewDidDisappear: call on this view controller. "
+    [eventStateString addObject:@"Waiting for viewDidDisappear: call on the view controller. "
                                 @"Please ensure that this view controller and it's subclasses call "
-                                @"through to their super's implementation"];
+                                @"through to their super's implementation."];
   }
   if (state & kGREYPendingCAAnimation) {
     [eventStateString addObject:@"Waiting for CAAnimations to finish. Continuous animations may "
@@ -237,17 +240,17 @@ static pthread_mutex_t gStateLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
     [eventStateString addObject:@"Waiting for UIView's draw/layout pass to complete. A draw/layout "
                                 @"pass normally completes in the next runloop drain."];
   }
-
-  NSAssert([eventStateString count] > 0, @"Did we forget to describe some states?");
+  GREYFatalAssertWithMessage([eventStateString count] > 0,
+                             @"Did we forget to describe some states?");
   return [eventStateString componentsJoinedByString:@"\n"];
 }
 
 - (id)grey_performBlockInCriticalSection:(id (^)())block {
-  GREY_UNUSED_VARIABLE int lock = pthread_mutex_lock(&gStateLock);
-  NSAssert(lock == 0, @"Failed to lock.");
+  int lock = pthread_mutex_lock(&gStateLock);
+  GREYFatalAssertWithMessage(lock == 0, @"Failed to lock.");
   id retVal = block();
-  GREY_UNUSED_VARIABLE int unlock = pthread_mutex_unlock(&gStateLock);
-  NSAssert(unlock == 0, @"Failed to unlock.");
+  int unlock = pthread_mutex_unlock(&gStateLock);
+  GREYFatalAssertWithMessage(unlock == 0, @"Failed to unlock.");
 
   return retVal;
 }
@@ -267,8 +270,9 @@ static pthread_mutex_t gStateLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
     return nil;
   }
 
-  NSAssert((element && !externalElementID || !element && externalElementID),
-           @"Provide either a valid element or a valid externalElementID, not both.");
+  GREYFatalAssertWithMessage((element && !externalElementID) || (!element && externalElementID),
+                             @"Provide either a valid element or a valid externalElementID, "
+                             @"not both.");
   return [self grey_performBlockInCriticalSection:^id {
     // Modify State to remove ignored states from those being changed.
     GREYAppState modifiedState = busy ? state & (~_ignoredAppState) : state;

@@ -16,8 +16,8 @@
 
 #import "Action/GREYActionBlock.h"
 
-#import "Assertion/GREYAssertionDefines.h"
 #import "Common/GREYDefines.h"
+#import "Common/GREYThrowDefines.h"
 #import "Matcher/GREYMatcher.h"
 
 @implementation GREYActionBlock {
@@ -37,7 +37,8 @@
 - (instancetype)initWithName:(NSString *)name
                  constraints:(id<GREYMatcher>)constraints
                 performBlock:(GREYPerformBlock)block {
-  NSParameterAssert(block);
+  GREYThrowOnNilParameter(block);
+
   self = [super initWithName:name constraints:constraints];
   if (self) {
     _performBlock = block;

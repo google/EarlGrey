@@ -19,6 +19,7 @@
 #import <UIKit/UIGestureRecognizerSubclass.h>
 #include <objc/runtime.h>
 
+#import "Common/GREYFatalAsserts.h"
 #import "Common/GREYSwizzler.h"
 #import "Synchronization/GREYAppStateTracker.h"
 
@@ -30,17 +31,18 @@
     BOOL swizzled = [swizzler swizzleClass:self
                      replaceInstanceMethod:NSSelectorFromString(@"_setDirty")
                                 withMethod:@selector(greyswizzled_setDirty)];
-    NSAssert(swizzled, @"Failed to swizzle UIGestureRecognizer _setDirty");
+    GREYFatalAssertWithMessage(swizzled, @"Failed to swizzle UIGestureRecognizer _setDirty");
 
     swizzled = [swizzler swizzleClass:self
                 replaceInstanceMethod:NSSelectorFromString(@"_resetGestureRecognizer")
                            withMethod:@selector(greyswizzled_resetGestureRecognizer)];
-    NSAssert(swizzled, @"Failed to swizzle UIGestureRecognizer _resetGestureRecognizer");
+    GREYFatalAssertWithMessage(swizzled,
+                               @"Failed to swizzle UIGestureRecognizer _resetGestureRecognizer");
 
     swizzled = [swizzler swizzleClass:self
                 replaceInstanceMethod:@selector(setState:)
                            withMethod:@selector(greyswizzled_setState:)];
-    NSAssert(swizzled, @"Failed to swizzle UIGestureRecognizer setState:");
+    GREYFatalAssertWithMessage(swizzled, @"Failed to swizzle UIGestureRecognizer setState:");
   }
 }
 

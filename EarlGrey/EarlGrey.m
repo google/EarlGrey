@@ -20,6 +20,7 @@
 #import "Common/GREYErrorConstants.h"
 #import "Common/GREYError.h"
 #import "Common/GREYExposed.h"
+#import "Common/GREYFatalAsserts.h"
 #import "Core/GREYKeyboard.h"
 #import "Event/GREYSyntheticEvents.h"
 #import "Exception/GREYDefaultFailureHandler.h"
@@ -66,7 +67,7 @@ NSString *const kGREYKeyboardDismissalErrorDomain = @"com.google.earlgrey.Keyboa
 }
 
 - (void)setFailureHandler:(id<GREYFailureHandler>)handler {
-  NSAssert([NSThread isMainThread], @"Calling from non-main thread is undefined.");
+  GREYFatalAssertMainThread();
   @synchronized ([self class]) {
     if (handler) {
       NSMutableDictionary *TLSDict = [[NSThread mainThread] threadDictionary];

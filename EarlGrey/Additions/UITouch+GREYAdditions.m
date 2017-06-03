@@ -18,11 +18,12 @@
 
 #import "Additions/CGGeometry+GREYAdditions.h"
 #import "Common/GREYExposed.h"
+#import "Common/GREYThrowDefines.h"
 
 @implementation UITouch (GREYAdditions)
 
 - (id)initAtPoint:(CGPoint)point relativeToWindow:(UIWindow *)window {
-  NSParameterAssert(window);
+  GREYThrowOnNilParameter(window);
 
   point = CGPointAfterRemovingFractionalPixels(point);
 

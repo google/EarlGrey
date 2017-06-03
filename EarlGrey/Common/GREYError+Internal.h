@@ -23,7 +23,6 @@
 
 @class XCTestCase;
 
-
 /**
  *  Key used to retrieve the error test case class name from an error object dictionary.
  */

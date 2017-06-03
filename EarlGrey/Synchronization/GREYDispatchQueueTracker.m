@@ -21,6 +21,8 @@
 #include <libkern/OSAtomic.h>
 
 #import "Common/GREYConfiguration.h"
+#import "Common/GREYFatalAsserts.h"
+#import "Common/GREYThrowDefines.h"
 
 /**
  *  A pointer to the original implementation of @c dispatch_after.
@@ -203,9 +205,8 @@ static void grey_dispatch_sync_f(dispatch_queue_t queue, void *context, dispatch
   @autoreleasepool {
     gDispatchQueueToTracker = [NSMapTable weakToWeakObjectsMapTable];
 
-    GREY_UNUSED_VARIABLE dispatch_queue_t dummyQueue =
-        dispatch_queue_create("GREYDummyQueue", DISPATCH_QUEUE_SERIAL);
-    NSAssert(dummyQueue, @"dummmyQueue must not be nil");
+    dispatch_queue_t dummyQueue = dispatch_queue_create("GREYDummyQueue", DISPATCH_QUEUE_SERIAL);
+    GREYFatalAssertWithMessage(dummyQueue, @"dummmyQueue must not be nil");
 
     // Use dlsym to get the original pointer because of
     // https://github.com/facebook/fishhook/issues/21
@@ -215,12 +216,18 @@ static void grey_dispatch_sync_f(dispatch_queue_t queue, void *context, dispatch
     grey_original_dispatch_after_f = dlsym(RTLD_DEFAULT, "dispatch_after_f");
     grey_original_dispatch_async_f = dlsym(RTLD_DEFAULT, "dispatch_async_f");
     grey_original_dispatch_sync_f = dlsym(RTLD_DEFAULT, "dispatch_sync_f");
-    NSAssert(grey_original_dispatch_after, @"Pointer to dispatch_after must not be NULL");
-    NSAssert(grey_original_dispatch_async, @"Pointer to dispatch_async must not be NULL");
-    NSAssert(grey_original_dispatch_sync, @"Pointer to dispatch_sync must not be NULL");
-    NSAssert(grey_original_dispatch_after_f, @"Pointer to dispatch_after_f must not be NULL");
-    NSAssert(grey_original_dispatch_async_f, @"Pointer to dispatch_async_f must not be NULL");
-    NSAssert(grey_original_dispatch_sync_f, @"Pointer to dispatch_sync_f must not be NULL");
+    GREYFatalAssertWithMessage(grey_original_dispatch_after,
+                               @"Pointer to dispatch_after must not be NULL");
+    GREYFatalAssertWithMessage(grey_original_dispatch_async,
+                               @"Pointer to dispatch_async must not be NULL");
+    GREYFatalAssertWithMessage(grey_original_dispatch_sync,
+                               @"Pointer to dispatch_sync must not be NULL");
+    GREYFatalAssertWithMessage(grey_original_dispatch_after_f,
+                               @"Pointer to dispatch_after_f must not be NULL");
+    GREYFatalAssertWithMessage(grey_original_dispatch_async_f,
+                               @"Pointer to dispatch_async_f must not be NULL");
+    GREYFatalAssertWithMessage(grey_original_dispatch_sync_f,
+                               @"Pointer to dispatch_sync_f must not be NULL");
 
     // Rebind symbols dispatch_* to point to our own implementation.
     struct rebinding rebindings[] = {
@@ -231,16 +238,15 @@ static void grey_dispatch_sync_f(dispatch_queue_t queue, void *context, dispatch
       {"dispatch_async_f", grey_dispatch_async_f, NULL},
       {"dispatch_sync_f", grey_dispatch_sync_f, NULL},
     };
-    GREY_UNUSED_VARIABLE int failure =
-        rebind_symbols(rebindings, sizeof(rebindings) / sizeof(rebindings[0]));
-    NSAssert(!failure, @"rebinding symbols failed");
+    int failure = rebind_symbols(rebindings, sizeof(rebindings) / sizeof(rebindings[0]));
+    GREYFatalAssertWithMessage(!failure, @"rebinding symbols failed");
   }
 }
 
 #pragma mark -
 
 + (instancetype)trackerForDispatchQueue:(dispatch_queue_t)queue {
-  NSParameterAssert(queue);
+  GREYThrowOnNilParameter(queue);
 
   @synchronized(gDispatchQueueToTracker) {
     GREYDispatchQueueTracker *tracker = grey_getTrackerForQueue(queue);
@@ -254,7 +260,7 @@ static void grey_dispatch_sync_f(dispatch_queue_t queue, void *context, dispatch
 }
 
 - (instancetype)initWithDispatchQueue:(dispatch_queue_t)queue {
-  NSParameterAssert(queue);
+  GREYThrowOnNilParameter(queue);
 
   self = [super init];
   if (self) {
@@ -264,7 +270,7 @@ static void grey_dispatch_sync_f(dispatch_queue_t queue, void *context, dispatch
 }
 
 - (BOOL)isIdleNow {
-  NSAssert(_pendingBlocks >= 0, @"_pendingBlocks must not be negative");
+  GREYFatalAssertWithMessage(_pendingBlocks >= 0, @"_pendingBlocks must not be negative");
   BOOL isIdle = OSAtomicCompareAndSwap32Barrier(0, 0, &_pendingBlocks);
   return isIdle;
 }

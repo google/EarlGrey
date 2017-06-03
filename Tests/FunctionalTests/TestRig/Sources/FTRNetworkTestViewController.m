@@ -35,11 +35,6 @@ static NSString *const kFTRProxyRegex = @"^http://www.youtube.com";
 
 @implementation FTRNetworkTestViewController
 
-- (instancetype)init {
-  NSAssert(NO, @"Invalid Initializer");
-  return nil;
-}
-
 - (void)viewWillAppear:(BOOL)animated {
   [FTRNetworkProxy ftr_setProxyEnabled:YES];
   [FTRNetworkProxy ftr_addProxyRuleForUrlsMatchingRegexString:kFTRProxyRegex

@@ -15,7 +15,6 @@
 //
 
 #import <EarlGrey/GREYAppStateTracker.h>
-#import <EarlGrey/GREYAppStateTracker+Internal.h>
 #import <EarlGrey/NSObject+GREYAdditions.h>
 #import <EarlGrey/UIView+GREYAdditions.h>
 #import <objc/runtime.h>

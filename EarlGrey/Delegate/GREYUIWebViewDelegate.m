@@ -18,7 +18,6 @@
 
 #import "Additions/UIWebView+GREYAdditions.h"
 
-#import "Additions/UIWebView+GREYAdditions+Internal.h"
 #import "Synchronization/GREYAppStateTracker.h"
 #import "Synchronization/GREYUIWebViewIdlingResource.h"
 #import "Synchronization/GREYUIThreadExecutor+Internal.h"
