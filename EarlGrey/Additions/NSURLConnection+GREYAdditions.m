@@ -21,6 +21,7 @@
 #import "Additions/NSObject+GREYAdditions.h"
 #import "Additions/NSURL+GREYAdditions.h"
 #import "Common/GREYConfiguration.h"
+#import "Common/GREYFatalAsserts.h"
 #import "Common/GREYSwizzler.h"
 #import "Delegate/GREYNSURLConnectionDelegate.h"
 #import "Synchronization/GREYAppStateTracker.h"
@@ -37,52 +38,57 @@ typedef void (^NSURLConnectionCompletionBlock)(NSURLResponse *, NSData *, NSErro
     BOOL swizzleSuccess = [swizzler swizzleClass:self
                               replaceClassMethod:originalSelector
                                       withMethod:swizzledSelector];
-    NSAssert(swizzleSuccess,
-             @"Cannot swizzle NSURLConnection sendAsynchronousRequest:queue:completionHandler:");
+    GREYFatalAssertWithMessage(swizzleSuccess,
+                               @"Cannot swizzle NSURLConnection::"
+                               @"sendAsynchronousRequest:queue:completionHandler:");
 
     originalSelector = @selector(sendSynchronousRequest:returningResponse:error:);
     swizzledSelector = @selector(greyswizzled_sendSynchronousRequest:returningResponse:error:);
     swizzleSuccess = [swizzler swizzleClass:self
                          replaceClassMethod:originalSelector
                                  withMethod:swizzledSelector];
-    NSAssert(swizzleSuccess,
-             @"Cannot swizzle NSURLConnection sendSynchronousRequest:returningResponse:error:");
+    GREYFatalAssertWithMessage(swizzleSuccess,
+                               @"Cannot swizzle "
+                               @"NSURLConnection::sendSynchronousRequest:returningResponse:error:");
 
     originalSelector = @selector(connectionWithRequest:delegate:);
     swizzledSelector = @selector(greyswizzled_connectionWithRequest:delegate:);
     swizzleSuccess = [swizzler swizzleClass:self
                          replaceClassMethod:originalSelector
                                  withMethod:swizzledSelector];
-    NSAssert(swizzleSuccess, @"Cannot swizzle NSURLConnection connectionWithRequest:delegate:");
+    GREYFatalAssertWithMessage(swizzleSuccess,
+                               @"Cannot swizzle NSURLConnection::connectionWithRequest:delegate:");
 
     originalSelector = @selector(initWithRequest:delegate:startImmediately:);
     swizzledSelector = @selector(greyswizzled_initWithRequest:delegate:startImmediately:);
     swizzleSuccess = [swizzler swizzleClass:self
                       replaceInstanceMethod:originalSelector
                                  withMethod:swizzledSelector];
-    NSAssert(swizzleSuccess,
-             @"Cannot swizzle NSURLConnection initWithRequest:delegate:startImmediately:");
+    GREYFatalAssertWithMessage(swizzleSuccess,
+                               @"Cannot swizzle "
+                               @"NSURLConnection::initWithRequest:delegate:startImmediately:");
 
     originalSelector = @selector(initWithRequest:delegate:);
     swizzledSelector = @selector(greyswizzled_initWithRequest:delegate:);
     swizzleSuccess = [swizzler swizzleClass:self
                       replaceInstanceMethod:originalSelector
                                  withMethod:swizzledSelector];
-    NSAssert(swizzleSuccess, @"Cannot swizzle NSURLConnection initWithRequest:delegate:");
+    GREYFatalAssertWithMessage(swizzleSuccess,
+                               @"Cannot swizzle NSURLConnection::initWithRequest:delegate:");
 
     originalSelector = @selector(start);
     swizzledSelector = @selector(greyswizzled_start);
     swizzleSuccess = [swizzler swizzleClass:self
                       replaceInstanceMethod:originalSelector
                                  withMethod:swizzledSelector];
-    NSAssert(swizzleSuccess, @"Cannot swizzle NSURLConnection start");
+    GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle NSURLConnection::start");
 
     originalSelector = @selector(cancel);
     swizzledSelector = @selector(greyswizzled_cancel);
     swizzleSuccess = [swizzler swizzleClass:self
                       replaceInstanceMethod:originalSelector
                                  withMethod:swizzledSelector];
-    NSAssert(swizzleSuccess, @"Cannot swizzle NSURLConnection cancel");
+    GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle NSURLConnection::cancel");
   }
 }
 

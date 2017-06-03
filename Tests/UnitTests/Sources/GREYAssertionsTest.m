@@ -281,21 +281,6 @@ static NSMutableArray *gAppWindows;
   XCTAssertNil(error);
 }
 
-- (void)testNilMatcherWithNil {
-  NSError *error;
-
-  XCTAssertThrows([[GREYAssertions grey_createAssertionWithMatcher:nil] assert:nil error:&error]);
-  XCTAssertNil(error);
-}
-
-- (void)testNilMatcherWithView {
-  UIView *view = [[UIView alloc] init];
-  NSError *error;
-
-  XCTAssertThrows([[GREYAssertions grey_createAssertionWithMatcher:nil] assert:view error:&error]);
-  XCTAssertNil(error);
-}
-
 - (void)testAllOfMatcherWithNil {
   UIView *view = [[UIView alloc] init];
   NSError *error;

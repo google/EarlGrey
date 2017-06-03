@@ -21,8 +21,8 @@
 
 #import <UIKit/UIKit.h>
 
-#ifndef EARLGREY_DEFINES_H
-#define EARLGREY_DEFINES_H
+#ifndef GREY_DEFINES_H
+#define GREY_DEFINES_H
 
 #define GREY_EXPORT FOUNDATION_EXPORT __used
 #define GREY_EXTERN FOUNDATION_EXTERN
@@ -50,4 +50,4 @@
  */
 #define grey_floor(x) ((CGFloat)floor(x))
 
-#endif  // EARLGREY_DEFINES_H
+#endif  // GREY_DEFINES_H

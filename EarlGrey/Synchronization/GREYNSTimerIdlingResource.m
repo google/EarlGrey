@@ -17,6 +17,7 @@
 #import "Synchronization/GREYNSTimerIdlingResource.h"
 
 #import "Common/GREYDefines.h"
+#import "Common/GREYThrowDefines.h"
 #import "Synchronization/GREYUIThreadExecutor.h"
 #import "Synchronization/GREYUIThreadExecutor+Internal.h"
 
@@ -38,8 +39,8 @@
 - (instancetype)initWithTimer:(NSTimer *)timer
                          name:(NSString *)name
                  removeOnIdle:(BOOL)removeOnIdle {
-  NSParameterAssert(timer);
-  NSParameterAssert(name);
+  GREYThrowOnNilParameter(timer);
+  GREYThrowOnNilParameter(name);
 
   self = [super init];
   if (self) {

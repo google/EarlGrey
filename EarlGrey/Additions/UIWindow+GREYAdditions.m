@@ -19,6 +19,7 @@
 #include <objc/runtime.h>
 
 #import "Additions/UIViewController+GREYAdditions.h"
+#import "Common/GREYFatalAsserts.h"
 #import "Common/GREYSwizzler.h"
 #import "Synchronization/GREYAppStateTracker.h"
 
@@ -30,11 +31,11 @@
     BOOL swizzleSuccess = [swizzler swizzleClass:self
                            replaceInstanceMethod:@selector(setRootViewController:)
                                       withMethod:@selector(greyswizzled_setRootViewController:)];
-    NSAssert(swizzleSuccess, @"Cannot swizzle UIWindow setRootViewController");
+    GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle UIWindow setRootViewController");
     swizzleSuccess = [swizzler swizzleClass:self
                       replaceInstanceMethod:@selector(setHidden:)
                                  withMethod:@selector(greyswizzled_setHidden:)];
-    NSAssert(swizzleSuccess, @"Cannot swizzle UIWindow setHidden");
+    GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle UIWindow setHidden");
   }
 }
 

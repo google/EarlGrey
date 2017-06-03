@@ -18,4 +18,6 @@
 
 @property(unsafe_unretained, nonatomic) IBOutlet UITableView *tableview;
 
+- (instancetype)init NS_UNAVAILABLE;
+
 @end

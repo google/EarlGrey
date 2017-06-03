@@ -17,7 +17,9 @@
 #import "Synchronization/GREYUIWebViewIdlingResource.h"
 
 #import "Additions/UIWebView+GREYAdditions.h"
+#import "Assertion/GREYAssertionDefines.h"
 #import "Common/GREYDefines.h"
+#import "Common/GREYThrowDefines.h"
 #import "Synchronization/GREYUIThreadExecutor.h"
 #import "Synchronization/GREYUIThreadExecutor+Internal.h"
 
@@ -79,7 +81,7 @@ static NSString *const kTrackerScriptCleanupScript =
 }
 
 - (instancetype)initWithUIWebView:(UIWebView *)webView name:(NSString *)name {
-  NSParameterAssert(webView);
+  GREYThrowOnNilParameter(webView);
 
   self = [super init];
   if (self) {
@@ -175,12 +177,11 @@ static NSString *const kTrackerScriptCleanupScript =
  *  asserts that there were no errors after the javascript was executed.
  *
  *  @param jsString JavaScript source code to be evaluated.
- *
  *  @return Stringified JavaScript value as returned by the script.
  */
 - (NSString *)grey_evaluateAndAssertNoErrorsJavaScriptInString:(NSString *)jsString {
   NSString *grey_errorPrefix = @"grey_errorPrefix";
-  NSString *safeJavaScriptTemplate =
+  NSString *const safeJavaScriptTemplate =
       @"  (function() {                                                                    "
       @"     try {                                                                         "
       @"       return (%@);                                                                "
@@ -191,8 +192,9 @@ static NSString *const kTrackerScriptCleanupScript =
   NSString *safeJavaScript =
       [NSString stringWithFormat:safeJavaScriptTemplate, jsString, grey_errorPrefix];
   NSString *result = [_webView stringByEvaluatingJavaScriptFromString:safeJavaScript];
-  NSAssert(![result hasPrefix:grey_errorPrefix], @"Javascript error %@ was detected in %@.",
-           jsString, [result substringFromIndex:[grey_errorPrefix length]]);
+  I_GREYAssertFalse([result hasPrefix:grey_errorPrefix],
+                    @"Javascript error %@ was detected in %@.",
+                    jsString, [result substringFromIndex:[grey_errorPrefix length]]);
   return result;
 }
 

@@ -22,7 +22,9 @@
 #import "Common/GREYConstants.h"
 #import "Common/GREYError.h"
 #import "Common/GREYExposed.h"
+#import "Common/GREYFatalAsserts.h"
 #import "Common/GREYLogger.h"
+#import "Common/GREYThrowDefines.h"
 
 #import "Event/GREYTouchInjector.h"
 #import "Synchronization/GREYUIThreadExecutor.h"
@@ -52,7 +54,7 @@ static const CFTimeInterval kRotationTimeout = 10.0;
 
 + (BOOL)rotateDeviceToOrientation:(UIDeviceOrientation)deviceOrientation
                        errorOrNil:(__strong NSError **)errorOrNil {
-  I_CHECK_MAIN_THREAD();
+  GREYFatalAssertMainThread();
 
   NSError *error;
   UIDeviceOrientation initialDeviceOrientation = [[UIDevice currentDevice] orientation];
@@ -125,8 +127,8 @@ static const CFTimeInterval kRotationTimeout = 10.0;
                relativeToWindow:(UIWindow *)window
                     forDuration:(NSTimeInterval)duration
                      expendable:(BOOL)expendable {
-  NSParameterAssert(touchPaths.count >= 1);
-  NSParameterAssert(duration >= 0);
+  GREYThrowOnFailedCondition(touchPaths.count >= 1);
+  GREYThrowOnFailedCondition(duration >= 0);
 
   NSUInteger firstTouchPathSize = [touchPaths[0] count];
   GREYSyntheticEvents *eventGenerator = [[GREYSyntheticEvents alloc] init];
@@ -190,15 +192,16 @@ static const CFTimeInterval kRotationTimeout = 10.0;
 // Given an array containing multiple arrays, returns an array with the index'th element of each
 // array.
 + (NSArray *)grey_objectsAtIndex:(NSUInteger)index ofArrays:(NSArray *)arrayOfArrays {
-  NSAssert([arrayOfArrays count] > 0, @"arrayOfArrays must contain at least one element.");
-
-  GREY_UNUSED_VARIABLE NSUInteger firstArraySize = [arrayOfArrays[0] count];
-
-  NSAssert(index < firstArraySize, @"index must be smaller than the size of the arrays.");
+  GREYFatalAssertWithMessage([arrayOfArrays count] > 0,
+                             @"arrayOfArrays must contain at least one element.");
+  NSUInteger firstArraySize = [arrayOfArrays[0] count];
+  GREYFatalAssertWithMessage(index < firstArraySize,
+                             @"index must be smaller than the size of the arrays.");
 
   NSMutableArray *output = [[NSMutableArray alloc] initWithCapacity:[arrayOfArrays count]];
   for (NSArray *array in arrayOfArrays) {
-    NSAssert([array count] == firstArraySize, @"All arrays must be of the same size.");
+    GREYFatalAssertWithMessage([array count] == firstArraySize,
+                               @"All arrays must be of the same size.");
     [output addObject:array[index]];
   }
 
@@ -217,7 +220,8 @@ static const CFTimeInterval kRotationTimeout = 10.0;
 - (void)grey_beginTouchesAtPoints:(NSArray *)points
                  relativeToWindow:(UIWindow *)window
                 immediateDelivery:(BOOL)immediate {
-  NSAssert(!_touchInjector, @"Cannot call this method more than once until endTouch is called.");
+  GREYFatalAssertWithMessage(!_touchInjector,
+                             @"Cannot call this method more than once until endTouch is called.");
   _touchInjector = [[GREYTouchInjector alloc] initWithWindow:window];
   GREYTouchInfo *touchInfo = [[GREYTouchInfo alloc] initWithPoints:points
                                                              phase:GREYTouchInfoPhaseTouchBegan

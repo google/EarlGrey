@@ -16,9 +16,9 @@
 
 #import "Provider/GREYElementProvider.h"
 
-#import "Assertion/GREYAssertionDefines.h"
 #import "Common/GREYConstants.h"
 #import "Common/GREYDefines.h"
+#import "Common/GREYFatalAsserts.h"
 #import "Provider/GREYDataEnumerator.h"
 
 @implementation GREYElementProvider {
@@ -54,11 +54,11 @@
 - (instancetype)initWithRootProvider:(id<GREYProvider>)rootProvider
                       orRootElements:(NSArray *)rootElements
                           orElements:(NSArray *)elements {
-  NSAssert((rootProvider && !rootElements && !elements) ||
-           (!rootProvider && rootElements && !elements) ||
-           (!rootProvider && !rootElements && elements),
-           @"Must provide exactly one non-nil parameter out of all the parameters accepted by this "
-           @"initializer.");
+  GREYFatalAssertWithMessage((rootProvider && !rootElements && !elements) ||
+                             (!rootProvider && rootElements && !elements) ||
+                             (!rootProvider && !rootElements && elements),
+                             @"Must provide exactly one non-nil parameter out of all the "
+                             @"parameters accepted by this initializer.");
   self = [super init];
   if (self) {
     _rootProvider = rootProvider;
@@ -71,7 +71,7 @@
 #pragma mark - GREYProvider
 
 - (NSEnumerator *)dataEnumerator {
-  I_CHECK_MAIN_THREAD();
+  GREYFatalAssertMainThread();
 
   NSEnumerator *enumerator;
   if (_rootElements) {

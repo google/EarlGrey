@@ -17,6 +17,8 @@
 #import "Common/GREYScreenshotUtil.h"
 
 #import "Additions/NSObject+GREYAdditions.h"
+#import "Common/GREYFatalAsserts.h"
+#import "Common/GREYThrowDefines.h"
 #import "Provider/GREYUIWindowProvider.h"
 #import "Synchronization/GREYUIThreadExecutor.h"
 
@@ -41,8 +43,8 @@ static Class gUIModalItemHostingWindowClass;
 }
 
 + (void)drawScreenInContext:(CGContextRef)bitmapContextRef afterScreenUpdates:(BOOL)afterUpdates {
-  NSAssert(CGBitmapContextGetBitmapInfo(bitmapContextRef) != 0,
-           @"The context ref must point to a CGBitmapContext.");
+  GREYFatalAssertWithMessage(CGBitmapContextGetBitmapInfo(bitmapContextRef) != 0,
+                             @"The context ref must point to a CGBitmapContext.");
   UIScreen *mainScreen = [UIScreen mainScreen];
   CGRect screenRect = [self grey_rectRotatedToStatusBarOrientation:mainScreen.bounds];
 
@@ -160,9 +162,9 @@ static Class gUIModalItemHostingWindowClass;
 + (NSString *)saveImageAsPNG:(UIImage *)image
                       toFile:(NSString *)filename
                  inDirectory:(NSString *)directoryPath {
-  NSAssert(image, @"Expected a non-nil image.");
-  NSAssert(filename, @"Expected a non-nil filename.");
-  NSAssert(directoryPath, @"Expected a non-nil directory path.");
+  GREYThrowOnNilParameterWithMessage(image, @"Expected a non-nil image.");
+  GREYThrowOnNilParameterWithMessage(filename, @"Expected a non-nil filename.");
+  GREYThrowOnNilParameterWithMessage(directoryPath, @"Expected a non-nil directory path.");
 
   // Create screenshot dir and its parent directories if any of them don't exist
   NSError *error;

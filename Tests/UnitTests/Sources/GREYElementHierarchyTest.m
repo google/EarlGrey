@@ -68,16 +68,6 @@ const CGRect kTestRect = { { 0.0f, 0.0f }, { 10.0f, 10.0f } };
 
 @implementation GREYElementHierarchyTest
 
-- (void)testSortedChildViewsForNilView {
-  UIView *view = nil;
-  XCTAssertThrows([GREYElementHierarchy grey_orderedChildrenOf:view]);
-}
-
-- (void)testSortedChildViewsForNilCustomView {
-  GREYUTCustomAccessibilityView *view = nil;
-  XCTAssertThrows([GREYElementHierarchy grey_orderedChildrenOf:view]);
-}
-
 - (void)testSortedChildViewsForViewWithSingleSubview {
   UIView *viewA = [[UIView alloc] initWithFrame:kTestRect];
   UIView *viewB = [[UIView alloc] initWithFrame:kTestRect];
@@ -322,24 +312,7 @@ const CGRect kTestRect = { { 0.0f, 0.0f }, { 10.0f, 10.0f } };
 }
 
 - (void)testHierarchyStringForANilView {
-  XCTAssertThrows([GREYElementHierarchy grey_recursivePrint:nil
-                                                  withLevel:0
-                                               outputString:[[NSMutableString alloc] init]
-                                    andAnnotationDictionary:nil]);
-}
-
-- (void)testHierarchyStringForANilString {
-  XCTAssertThrows([GREYElementHierarchy grey_recursivePrint:nil
-                                                  withLevel:0
-                                               outputString:nil
-                                    andAnnotationDictionary:nil]);
-}
-
-- (void)testHierarchyStringForAGarbageStartLevel {
-  XCTAssertThrows([GREYElementHierarchy grey_recursivePrint:nil
-                                                  withLevel:NSNotFound
-                                               outputString:nil
-                                    andAnnotationDictionary:nil]);
+  XCTAssertThrows([GREYElementHierarchy hierarchyStringForElement:nil]);
 }
 
 - (void)testHierarchyStringForSingleAccessibilityElement {

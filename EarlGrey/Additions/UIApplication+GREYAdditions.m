@@ -19,6 +19,7 @@
 #include <objc/runtime.h>
 
 #import "Common/GREYExposed.h"
+#import "Common/GREYFatalAsserts.h"
 #import "Common/GREYSwizzler.h"
 #import "Synchronization/GREYAppStateTracker.h"
 
@@ -40,27 +41,33 @@ static NSMutableArray *gRunLoopModes;
     BOOL swizzleSuccess = [swizzler swizzleClass:self
                            replaceInstanceMethod:originalSel
                                       withMethod:swizzledSel];
-    NSAssert(swizzleSuccess, @"Cannot swizzle UIApplication beginIgnoringInteractionEvents");
+    GREYFatalAssertWithMessage(swizzleSuccess,
+                               @"Cannot swizzle UIApplication beginIgnoringInteractionEvents");
     swizzleSuccess = [swizzler swizzleClass:self
                       replaceInstanceMethod:@selector(endIgnoringInteractionEvents)
                                  withMethod:@selector(greyswizzled_endIgnoringInteractionEvents)];
-    NSAssert(swizzleSuccess, @"Cannot swizzle UIApplication endIgnoringInteractionEvents");
+    GREYFatalAssertWithMessage(swizzleSuccess,
+                               @"Cannot swizzle UIApplication endIgnoringInteractionEvents");
     swizzleSuccess = [swizzler swizzleClass:self
                       replaceInstanceMethod:@selector(pushRunLoopMode:)
                                  withMethod:@selector(greyswizzled_pushRunLoopMode:)];
-    NSAssert(swizzleSuccess, @"Cannot swizzle UIApplication pushRunLoopMode:");
+    GREYFatalAssertWithMessage(swizzleSuccess,
+                               @"Cannot swizzle UIApplication pushRunLoopMode:");
     swizzleSuccess = [swizzler swizzleClass:self
                       replaceInstanceMethod:@selector(pushRunLoopMode:requester:)
                                  withMethod:@selector(greyswizzled_pushRunLoopMode:requester:)];
-    NSAssert(swizzleSuccess, @"Cannot swizzle UIApplication pushRunLoopMode:requester:");
+    GREYFatalAssertWithMessage(swizzleSuccess,
+                               @"Cannot swizzle UIApplication pushRunLoopMode:requester:");
     swizzleSuccess = [swizzler swizzleClass:self
                       replaceInstanceMethod:@selector(popRunLoopMode:)
                                  withMethod:@selector(greyswizzled_popRunLoopMode:)];
-    NSAssert(swizzleSuccess, @"Cannot swizzle UIApplication popRunLoopMode:");
+    GREYFatalAssertWithMessage(swizzleSuccess,
+                               @"Cannot swizzle UIApplication popRunLoopMode:");
     swizzleSuccess = [swizzler swizzleClass:self
                       replaceInstanceMethod:@selector(popRunLoopMode:requester:)
                                  withMethod:@selector(greyswizzled_popRunLoopMode:requester:)];
-    NSAssert(swizzleSuccess, @"Cannot swizzle UIApplication popRunLoopMode:requester:");
+    GREYFatalAssertWithMessage(swizzleSuccess,
+                               @"Cannot swizzle UIApplication popRunLoopMode:requester:");
   }
 }
 

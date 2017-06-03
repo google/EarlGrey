@@ -20,13 +20,14 @@
 #import "Additions/UIApplication+GREYAdditions.h"
 #import "Additions/XCTestCase+GREYAdditions.h"
 #import "AppSupport/GREYIdlingResource.h"
-#import "Assertion/GREYAssertionDefines.h"
 #import "Common/GREYConfiguration.h"
 #import "Common/GREYConstants.h"
 #import "Common/GREYDefines.h"
 #import "Common/GREYError.h"
+#import "Common/GREYFatalAsserts.h"
 #import "Common/GREYLogger.h"
 #import "Common/GREYStopwatch.h"
+#import "Common/GREYThrowDefines.h"
 #import "Synchronization/GREYAppStateTracker.h"
 #import "Synchronization/GREYDispatchQueueIdlingResource.h"
 #import "Synchronization/GREYOperationQueueIdlingResource.h"
@@ -142,8 +143,9 @@ typedef NS_ENUM(NSInteger, GREYExecutionState) {
 }
 
 - (void)drainForTime:(CFTimeInterval)seconds {
-  NSParameterAssert(seconds >= 0);
+  GREYThrowOnNilParameter(seconds >= 0);
   GREYLogVerbose(@"Active Run Loop being drained for %f seconds.", seconds);
+
   GREYStopwatch *stopwatch = [[GREYStopwatch alloc] init];
   [stopwatch start];
   // Drain the active run loop for @c seconds. Allow the run loop to sleep.
@@ -196,8 +198,8 @@ typedef NS_ENUM(NSInteger, GREYExecutionState) {
 - (BOOL)executeSyncWithTimeout:(CFTimeInterval)seconds
                          block:(GREYExecBlock)execBlock
                          error:(__strong NSError **)error {
-  I_CHECK_MAIN_THREAD();
-  NSParameterAssert(seconds >= 0);
+  GREYFatalAssertMainThread();
+  GREYThrowOnFailedCondition(seconds >= 0);
 
   BOOL isSynchronizationEnabled = GREY_CONFIG_BOOL(kGREYConfigKeySynchronizationEnabled);
   GREYRunLoopSpinner *runLoopSpinner = [[GREYRunLoopSpinner alloc] init];
@@ -254,7 +256,7 @@ typedef NS_ENUM(NSInteger, GREYExecutionState) {
 #pragma mark - Package Internal
 
 - (void)registerIdlingResource:(id<GREYIdlingResource>)resource {
-  NSParameterAssert(resource);
+  GREYFatalAssert(resource);
   @synchronized(_registeredIdlingResources) {
     // Add the object at the beginning of the ordered set. Resource checking order is important for
     // stability and the default resources should be checked last.
@@ -263,7 +265,7 @@ typedef NS_ENUM(NSInteger, GREYExecutionState) {
 }
 
 - (void)deregisterIdlingResource:(id<GREYIdlingResource>)resource {
-  NSParameterAssert(resource);
+  GREYFatalAssert(resource);
   @synchronized(_registeredIdlingResources) {
     [_registeredIdlingResources removeObject:resource];
   }

@@ -18,6 +18,8 @@
 
 #import "Additions/NSString+GREYAdditions.h"
 #import "Common/GREYError.h"
+#import "Common/GREYFatalAsserts.h"
+#import "Common/GREYThrowDefines.h"
 #import "Matcher/GREYStringDescription.h"
 
 NSInteger const kGREYObjectFormatIndent = 2;
@@ -209,9 +211,9 @@ NSInteger const kGREYObjectFormatIndent = 2;
                                         keyOrder:keyOrder];
   } else if ([object isKindOfClass:[GREYError class]]) {
     return [object description];
+  } else {
+    GREYThrow(@"Unhandled output type: %@", [object class]);
   }
-
-  NSAssert(NO, @"Unhandled output type: %@", [object class]);
   return nil;
 }
 

@@ -18,6 +18,8 @@
 
 #include <mach/mach_time.h>
 
+#import "Common/GREYThrowDefines.h"
+
 @implementation GREYStopwatch {
   /**
    *  The last time GREYStopwatch::start was called on the stopwatch.
@@ -46,7 +48,7 @@
 - (void)stop {
   // Save the time first to prevent any performance overhead.
   uint64_t stoppedTime = mach_absolute_time();
-  NSAssert(_isRunning, @"Stopwatch must have been started.");
+  GREYThrowOnFailedConditionWithMessage(_isRunning, @"Stopwatch must have been started.");
   _stopTime = stoppedTime;
   _isRunning = NO;
 }
@@ -54,7 +56,7 @@
 - (NSTimeInterval)elapsedTime {
   // Save the time first to prevent any performance overhead.
   uint64_t elapsedTime = mach_absolute_time();
-  NSAssert(_startTime, @"Stopwatch was never started.");
+  GREYThrowOnFailedConditionWithMessage(_startTime != 0, @"Stopwatch was never started.");
   if (_stopTime && _stopTime >= _startTime) {
     return grey_timeIntervalBetween(_startTime, _stopTime);
   } else {
@@ -65,7 +67,7 @@
 - (NSTimeInterval)lapAndReturnTime {
   // Save the time first to prevent any performance overhead.
   uint64_t lapTime = mach_absolute_time();
-  NSAssert(_isRunning, @"Stopwatch must have been started.");
+  GREYThrowOnFailedConditionWithMessage(_isRunning, @"Stopwatch must have been started.");
   uint64_t startTime = _lastLapTime ? _lastLapTime : _startTime;
   _lastLapTime = lapTime;
   return grey_timeIntervalBetween(startTime, lapTime);

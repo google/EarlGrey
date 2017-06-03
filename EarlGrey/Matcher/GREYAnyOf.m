@@ -15,6 +15,8 @@
 //
 
 #import "Matcher/GREYAnyOf.h"
+
+#import "Common/GREYThrowDefines.h"
 #import "Matcher/GREYStringDescription.h"
 
 @implementation GREYAnyOf {
@@ -22,7 +24,7 @@
 }
 
 - (instancetype)initWithMatchers:(NSArray *)matchers {
-  NSParameterAssert(matchers.count > 0);
+  GREYThrowOnFailedCondition(matchers.count > 0);
 
   self = [super init];
   if (self) {

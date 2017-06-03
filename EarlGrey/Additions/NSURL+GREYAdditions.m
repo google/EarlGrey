@@ -19,6 +19,8 @@
 #import <objc/runtime.h>
 
 #import "Common/GREYConfiguration.h"
+#import "Common/GREYFatalAsserts.h"
+#import "Common/GREYThrowDefines.h"
 #import "Common/GREYLogger.h"
 
 @implementation NSURL (GREYAdditions)
@@ -40,7 +42,7 @@
     NSRegularExpression * regex = [NSRegularExpression regularExpressionWithPattern:regexStr
                                                                             options:0
                                                                               error:&error];
-    NSAssert(!error, @"Invalid regex:\"%@\". See error: %@", regex, error);
+    GREYFatalAssertWithMessage(!error, @"Invalid regex:\"%@\". See error: %@", regex, error);
     NSRange firstMatch = [regex rangeOfFirstMatchInString:stringURL
                                                   options:0
                                                     range:NSMakeRange(0, [stringURL length])];
@@ -68,7 +70,8 @@
 }
 
 + (void)grey_addBlacklistRegEx:(NSString *)URLRegEx {
-  NSParameterAssert(URLRegEx);
+  GREYThrowOnNilParameter(URLRegEx);
+
   @synchronized (self) {
     NSMutableArray *blacklist = objc_getAssociatedObject(self, @selector(grey_blacklistRegEx));
     if (!blacklist) {
