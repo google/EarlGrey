@@ -7,7 +7,8 @@ test.
 
 You can add EarlGrey to Xcode projects in three ways: using [CocoaPods](#cocoapods-installation), [Carthage](#carthage-installation) or [Manually](#github-installation) through the Xcode Project.
 
-For EarlGrey, we highly recommend [CocoaPods](#cocoapods-installation) as the best way to get started.
+For EarlGrey, we highly recommend [CocoaPods](#cocoapods-installation) as the best way to get started
+and that you keep your EarlGrey version synced to the latest.
 
 ### CocoaPods installation
 
