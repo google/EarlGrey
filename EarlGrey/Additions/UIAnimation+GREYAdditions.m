@@ -18,6 +18,7 @@
 
 #include <objc/runtime.h>
 
+#import "Common/GREYFatalAsserts.h"
 #import "Common/GREYSwizzler.h"
 #import "Synchronization/GREYAppStateTracker.h"
 
@@ -32,14 +33,14 @@
                          addInstanceMethod:@selector(greyswizzled_markStart:)
                         withImplementation:implementation
               andReplaceWithInstanceMethod:NSSelectorFromString(@"markStart:")];
-    NSAssert(swizzled, @"Failed to swizzle UIAnimation markStart:");
+    GREYFatalAssertWithMessage(swizzled, @"Failed to swizzle UIAnimation markStart:");
 
     IMP swizzledIMP = [self instanceMethodForSelector:@selector(greyswizzled_markStop)];
     swizzled = [swizzler swizzleClass:NSClassFromString(@"UIAnimation")
                     addInstanceMethod:@selector(greyswizzled_markStop)
                    withImplementation:swizzledIMP
          andReplaceWithInstanceMethod:NSSelectorFromString(@"markStop")];
-    NSAssert(swizzled, @"Failed to swizzle UIAnimation markStop");
+    GREYFatalAssertWithMessage(swizzled, @"Failed to swizzle UIAnimation markStop");
   }
 }
 

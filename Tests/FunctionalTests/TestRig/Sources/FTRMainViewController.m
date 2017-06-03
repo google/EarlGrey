@@ -80,11 +80,6 @@ static NSString *gTableViewIdentifier = @"TableViewIdentifier";
   return self;
 }
 
-- (instancetype)init {
-  NSAssert(NO, @"Invalid Initializer");
-  return nil;
-}
-
 - (void)viewDidLoad {
   [super viewDidLoad];
 

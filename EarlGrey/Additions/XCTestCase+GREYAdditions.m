@@ -18,6 +18,7 @@
 
 #include <objc/runtime.h>
 
+#import "Common/GREYFatalAsserts.h"
 #import "Common/GREYSwizzler.h"
 #import "Common/GREYTestCaseInvocation.h"
 #import "Core/GREYAutomationSetup.h"
@@ -51,15 +52,16 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
     BOOL swizzleSuccess = [swizzler swizzleClass:self
                            replaceInstanceMethod:@selector(invokeTest)
                                       withMethod:@selector(grey_invokeTest)];
-    NSAssert(swizzleSuccess, @"Cannot swizzle XCTestCase invokeTest");
+    GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle XCTestCase::invokeTest");
 
     SEL recordFailSEL = @selector(recordFailureWithDescription:inFile:atLine:expected:);
     SEL grey_recordFailSEL = @selector(grey_recordFailureWithDescription:inFile:atLine:expected:);
     swizzleSuccess = [swizzler swizzleClass:self
                       replaceInstanceMethod:recordFailSEL
                                  withMethod:grey_recordFailSEL];
-    NSAssert(swizzleSuccess, @"Cannot swizzle XCTestCase "
-                             @"recordFailureWithDescription:inFile:atLine:expected:");
+    GREYFatalAssertWithMessage(swizzleSuccess,
+                               @"Cannot swizzle "
+                               @"XCTestCase::recordFailureWithDescription:inFile:atLine:expected:");
 #if TARGET_OS_SIMULATOR
     // Simulator needs accessibility to be enabled before main is called.
     [[GREYAutomationSetup sharedInstance] prepare];
@@ -119,13 +121,15 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
   if (localizedTestOutputsDir == nil) {
     NSString *testClassName = [self grey_testClassName];
     NSString *testMethodName = [self grey_testMethodName];
-    NSAssert(testMethodName, @"There's no current test method for the current test case: %@", self);
+    GREYFatalAssertWithMessage(testMethodName,
+                               @"There's no current test method for the current test case: %@",
+                               self);
 
     NSArray *documentPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
                                                                  NSUserDomainMask,
                                                                  YES);
-    NSAssert(documentPaths.count > 0,
-             @"At least one path for the user documents dir should exist.");
+    GREYFatalAssertWithMessage(documentPaths.count > 0,
+                               @"At least one path for the user documents dir should exist.");
     NSString *testOutputsDir =
         [documentPaths.firstObject stringByAppendingPathComponent:@"earlgrey-test-outputs"];
 
@@ -188,7 +192,8 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
                                  addInstanceMethod:@selector(grey_setUp)
                                 withImplementation:setUpIMP
                       andReplaceWithInstanceMethod:@selector(setUp)];
-      NSAssert(swizzleSuccess, @"Cannot swizzle %@ setUp", NSStringFromClass(selfClass));
+      GREYFatalAssertWithMessage(swizzleSuccess,
+                                 @"Cannot swizzle %@ setUp", NSStringFromClass(selfClass));
 
       // Swizzle tearDown.
       IMP tearDownIMP = [self methodForSelector:@selector(grey_tearDown)];
@@ -196,7 +201,8 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
                             addInstanceMethod:@selector(grey_tearDown)
                            withImplementation:tearDownIMP
                  andReplaceWithInstanceMethod:@selector(tearDown)];
-      NSAssert(swizzleSuccess, @"Cannot swizzle %@ tearDown", NSStringFromClass(selfClass));
+      GREYFatalAssertWithMessage(swizzleSuccess,
+                                 @"Cannot swizzle %@ tearDown", NSStringFromClass(selfClass));
       [self grey_markSwizzled];
     }
 

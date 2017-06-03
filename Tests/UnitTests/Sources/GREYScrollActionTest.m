@@ -58,9 +58,9 @@
     scrollAction = [[GREYScrollAction alloc] initWithDirection:kGREYDirectionUp amount:amount];
     XCTFail(@"Should have thrown an exception for scroll amount %f", (float)amount);
   } @catch (NSException *exception) {
-    XCTAssertEqualObjects(@"Scroll 'amount' must be positive and greater than zero.",
+    XCTAssertEqualObjects(@"Scroll amount must be positive and greater than zero.",
                           [exception description],
-                          @"Should throw GREYActionFailException");
+                          @"Should throw NSInternalInconsistencyException");
   }
 }
 

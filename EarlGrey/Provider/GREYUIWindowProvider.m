@@ -16,10 +16,10 @@
 
 #import "Provider/GREYUIWindowProvider.h"
 
-#import "Assertion/GREYAssertionDefines.h"
 #import "Common/GREYConfiguration.h"
 #import "Common/GREYDefines.h"
 #import "Common/GREYExposed.h"
+#import "Common/GREYFatalAsserts.h"
 
 @implementation GREYUIWindowProvider {
   NSArray *_windows;
@@ -46,7 +46,7 @@
 }
 
 - (NSEnumerator *)dataEnumerator {
-  I_CHECK_MAIN_THREAD();
+  GREYFatalAssertMainThread();
 
   if (_windows) {
     return [_windows objectEnumerator];

@@ -18,19 +18,20 @@
 
 #import "Additions/NSObject+GREYAdditions.h"
 #import "Common/GREYConstants.h"
+#import "Common/GREYFatalAsserts.h"
+#import "Common/GREYThrowDefines.h"
 #import "Provider/GREYUIWindowProvider.h"
 
 @implementation GREYElementHierarchy
 
 + (NSString *)hierarchyStringForElement:(id)element {
-  return [self grey_recursivePrint:element
-                         withLevel:0
-                      outputString:[[NSMutableString alloc] init]
-           andAnnotationDictionary:nil];
+  return [self hierarchyStringForElement:element withAnnotationDictionary:nil];
 }
 
 + (NSString *)hierarchyStringForElement:(id)element
                withAnnotationDictionary:(NSDictionary *)annotationDictionary {
+  GREYThrowOnNilParameterWithMessage(element, @"element can't be nil.");
+
   return [self grey_recursivePrint:element
                          withLevel:0
                       outputString:[[NSMutableString alloc] init]
@@ -69,8 +70,9 @@
                         withLevel:(NSUInteger)level
                      outputString:(NSMutableString *)outputString
           andAnnotationDictionary:(NSDictionary *)annotationDictionary {
-  NSParameterAssert(element);
-  NSParameterAssert(outputString);
+  GREYFatalAssert(element);
+  GREYFatalAssert(outputString);
+
   // Add any annotation, if present for the view
   NSString *annotation = annotationDictionary[[NSValue valueWithNonretainedObject:element]];
   if ([outputString length] != 0) {
@@ -100,7 +102,7 @@
  *  @return A string with the description of the given @c element.
  */
 + (NSString *)grey_printDescriptionForElement:(id)element atLevel:(NSUInteger)level {
-  NSParameterAssert(element);
+  GREYFatalAssert(element);
   NSMutableString *printOutput = [NSMutableString stringWithString:@""];
 
   if (level > 0) {
@@ -122,9 +124,9 @@
  *          elements and de-duped.
  */
 + (NSArray *)grey_orderedChildrenOf:(id)element {
-  NSMutableOrderedSet *subViewSet = [[NSMutableOrderedSet alloc] init];
-  NSParameterAssert(element);
+  GREYFatalAssert(element);
 
+  NSMutableOrderedSet *subViewSet = [[NSMutableOrderedSet alloc] init];
   if ([element isKindOfClass:[UIView class]]) {
     UIView *parentView = (UIView *)element;
     // Create an ordered set with all the subviews of the parent.
@@ -137,11 +139,9 @@
                                     || [element isKindOfClass:[UITableViewCell class]];
 
   // We check here for NSNotFound since accessibilityElementCount on an NSObject without
-  // an initialized accessibilityElements array throws us an NSNotFound.
+  // an initialized accessibilityElements array returns NSNotFound.
   NSInteger aXElementCount = [element accessibilityElementCount];
-  if (!viewIsATableViewOrCell
-         && (aXElementCount > 0)
-         && aXElementCount != NSNotFound) {
+  if (!viewIsATableViewOrCell && (aXElementCount > 0) && aXElementCount != NSNotFound) {
     if ([element isKindOfClass:[UIPickerView class]]) {
       // For a UIPickerView, we cap off all the acccessibility containers at 500, to prevent
       // a timeout searching through identical views that can go into an infinite loop.

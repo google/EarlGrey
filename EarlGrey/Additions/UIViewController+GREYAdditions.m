@@ -19,6 +19,7 @@
 #include <objc/runtime.h>
 
 #import "Common/GREYExposed.h"
+#import "Common/GREYFatalAsserts.h"
 #import "Common/GREYLogger.h"
 #import "Common/GREYSwizzler.h"
 #import "Synchronization/GREYAppStateTracker.h"
@@ -38,35 +39,38 @@ static Class gCompatibilityVCClass;
     BOOL swizzleSuccess = [swizzler swizzleClass:self
                            replaceInstanceMethod:@selector(viewWillAppear:)
                                       withMethod:@selector(greyswizzled_viewWillAppear:)];
-    NSAssert(swizzleSuccess, @"Cannot swizzle UIViewController viewWillAppear");
+    GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle UIViewController viewWillAppear");
     // Swizzle viewDidAppear.
     swizzleSuccess = [swizzler swizzleClass:self
                       replaceInstanceMethod:@selector(viewDidAppear:)
                                  withMethod:@selector(greyswizzled_viewDidAppear:)];
-    NSAssert(swizzleSuccess, @"Cannot swizzle UIViewController viewDidAppear");
+    GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle UIViewController viewDidAppear");
     // Swizzle viewWillDisappear.
     swizzleSuccess = [swizzler swizzleClass:self
                       replaceInstanceMethod:@selector(viewWillDisappear:)
                                  withMethod:@selector(greyswizzled_viewWillDisappear:)];
-    NSAssert(swizzleSuccess, @"Cannot swizzle UIViewController viewWillDisappear");
+    GREYFatalAssertWithMessage(swizzleSuccess,
+                               @"Cannot swizzle UIViewController viewWillDisappear");
     // Swizzle viewDidDisappear.
     swizzleSuccess = [swizzler swizzleClass:self
                       replaceInstanceMethod:@selector(viewDidDisappear:)
                                  withMethod:@selector(greyswizzled_viewDidDisappear:)];
-    NSAssert(swizzleSuccess, @"Cannot swizzle UIViewController viewDidDisappear");
+    GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle UIViewController viewDidDisappear");
     // Swizzle viewWillMoveToWindow.
     swizzleSuccess = [swizzler swizzleClass:self
                       replaceInstanceMethod:@selector(viewWillMoveToWindow:)
                                  withMethod:@selector(greyswizzled_viewWillMoveToWindow:)];
-    NSAssert(swizzleSuccess, @"Cannot swizzle UIViewController viewWillMoveToWindow:");
+    GREYFatalAssertWithMessage(swizzleSuccess,
+                               @"Cannot swizzle UIViewController viewWillMoveToWindow:");
     // Swizzle viewDidMoveToWindow:shouldAppearOrDisappear.
     SEL swizzledSel = @selector(greyswizzled_viewDidMoveToWindow:shouldAppearOrDisappear:);
     swizzleSuccess =
         [swizzler swizzleClass:self
          replaceInstanceMethod:@selector(viewDidMoveToWindow:shouldAppearOrDisappear:)
                     withMethod:swizzledSel];
-    NSAssert(swizzleSuccess,
-             @"Cannot swizzle UIViewController viewDidMoveToWindow:shouldAppearOrDisappear:");
+    GREYFatalAssertWithMessage(swizzleSuccess,
+                               @"Cannot swizzle UIViewController viewDidMoveToWindow:"
+                               @"shouldAppearOrDisappear:");
   }
 }
 

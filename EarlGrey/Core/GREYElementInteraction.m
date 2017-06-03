@@ -24,13 +24,15 @@
 #import "Assertion/GREYAssertions.h"
 #import "Assertion/GREYAssertions+Internal.h"
 #import "Common/GREYConfiguration.h"
+#import "Common/GREYDefines.h"
 #import "Common/GREYError.h"
 #import "Common/GREYError+Internal.h"
 #import "Common/GREYErrorConstants.h"
-#import "Common/GREYDefines.h"
+#import "Common/GREYFatalAsserts.h"
 #import "Common/GREYLogger.h"
 #import "Common/GREYObjectFormatter.h"
 #import "Common/GREYStopwatch.h"
+#import "Common/GREYThrowDefines.h"
 #import "Core/GREYElementFinder.h"
 #import "Core/GREYElementInteraction+Internal.h"
 #import "Core/GREYInteractionDataSource.h"
@@ -57,7 +59,7 @@
 @synthesize dataSource;
 
 - (instancetype)initWithElementMatcher:(id<GREYMatcher>)elementMatcher {
-  NSParameterAssert(elementMatcher);
+  GREYThrowOnNilParameter(elementMatcher);
 
   self = [super init];
   if (self) {
@@ -81,10 +83,12 @@
 #pragma mark - Package Internal
 
 - (NSArray *)matchedElementsWithTimeout:(CFTimeInterval)timeout error:(__strong NSError **)error {
-  NSParameterAssert(error);
+  GREYFatalAssert(error);
+
   GREYLogVerbose(@"Scanning for element matching: %@", _elementMatcher);
   id<GREYInteractionDataSource> strongDataSource = [self dataSource];
-  NSAssert(strongDataSource, @"strongDataSource must be set before fetching UI elements");
+  GREYFatalAssertWithMessage(strongDataSource,
+                             @"strongDataSource must be set before fetching UI elements");
 
   GREYElementProvider *entireRootHierarchyProvider =
       [GREYElementProvider providerWithRootProvider:[strongDataSource rootElementProvider]];
@@ -109,15 +113,12 @@
       if (elements.count > 0) {
         return elements;
       } else if (!_searchAction) {
-        if (error) {
-          NSString *desc =
-              @"Interaction cannot continue because the desired element was not found.";
-
-          GREYPopulateErrorOrLog(error,
-                                 kGREYInteractionErrorDomain,
-                                 kGREYInteractionElementNotFoundErrorCode,
-                                 desc);
-        }
+        NSString *desc =
+            @"Interaction cannot continue because the desired element was not found.";
+        GREYPopulateErrorOrLog(error,
+                               kGREYInteractionErrorDomain,
+                               kGREYInteractionElementNotFoundErrorCode,
+                               desc);
         return nil;
       } else if (searchActionError) {
         break;
@@ -181,8 +182,9 @@
 }
 
 - (instancetype)performAction:(id<GREYAction>)action error:(__strong NSError **)errorOrNil {
-  NSParameterAssert(action);
-  I_CHECK_MAIN_THREAD();
+  GREYThrowOnNilParameterWithMessage(action, @"action can't be nil.");
+  GREYFatalAssertMainThread();
+
   GREYLogVerbose(@"--Action started--");
   GREYLogVerbose(@"Action to perform: %@", [action name]);
   GREYStopwatch *stopwatch = [[GREYStopwatch alloc] init];
@@ -207,7 +209,7 @@
         [[GREYUIThreadExecutor sharedInstance] executeSyncWithTimeout:interactionTimeout
                                                                 block:^{
       __typeof__(self) strongSelf = weakSelf;
-      NSAssert(strongSelf, @"Must not be nil");
+      GREYFatalAssertWithMessage(strongSelf, @"Must not be nil");
 
       // Obtain all elements from the hierarchy and populate the passed error in case of
       // an element not being found.
@@ -309,8 +311,9 @@
 }
 
 - (instancetype)assert:(id<GREYAssertion>)assertion error:(__strong NSError **)errorOrNil {
-  NSParameterAssert(assertion);
-  I_CHECK_MAIN_THREAD();
+  GREYThrowOnNilParameterWithMessage(assertion, @"assertion can't be nil.");
+  GREYFatalAssertMainThread();
+
   GREYLogVerbose(@"--Assertion started--");
   GREYLogVerbose(@"Assertion to perform: %@", [assertion name]);
   GREYStopwatch *stopwatch = [[GREYStopwatch alloc] init];
@@ -330,7 +333,7 @@
     BOOL executionSucceeded =
         [[GREYUIThreadExecutor sharedInstance] executeSyncWithTimeout:interactionTimeout block:^{
       __typeof__(self) strongSelf = weakSelf;
-      NSAssert(strongSelf, @"strongSelf must not be nil");
+      GREYFatalAssertWithMessage(strongSelf, @"strongSelf must not be nil");
 
       // An error object that holds error due to element not found (if any). It is used only when
       // an assertion fails because element was nil. That's when we surface this error.
@@ -451,8 +454,8 @@
 
 - (instancetype)usingSearchAction:(id<GREYAction>)action
              onElementWithMatcher:(id<GREYMatcher>)matcher {
-  NSParameterAssert(action);
-  NSParameterAssert(matcher);
+  GREYThrowOnNilParameter(action);
+  GREYThrowOnNilParameter(matcher);
 
   _searchActionElementMatcher = matcher;
   _searchAction = action;
@@ -513,7 +516,7 @@
 - (BOOL)grey_handleFailureOfAction:(id<GREYAction>)action
                        actionError:(NSError *)actionError
               userProvidedOutError:(__strong NSError **)userProvidedError {
-  NSParameterAssert(actionError);
+  GREYFatalAssert(actionError);
 
   // Throw an exception if userProvidedError isn't provided and the action failed.
   if (!userProvidedError) {
@@ -582,7 +585,8 @@
           errorDetails[kErrorDetailActionNameKey] = action.name;
           errorDetails[kErrorDetailElementMatcherKey] = _elementMatcher.description;
           errorDetails[kErrorDetailRecoverySuggestionKey] =
-              @"Check if element exists in the UI, modify assert criteria, or adjust the matcher";
+              @"Check if the element exists in the UI hierarchy printed below. If it exists, "
+              @"adjust the matcher so that it accurately matches element.";
 
           NSArray *keyOrder = @[ kErrorDetailActionNameKey,
                                  kErrorDetailElementMatcherKey,
@@ -699,7 +703,8 @@
 - (BOOL)grey_handleFailureOfAssertion:(id<GREYAssertion>)assertion
                        assertionError:(NSError *)assertionError
                  userProvidedOutError:(__strong NSError **)userProvidedError {
-  NSParameterAssert(assertionError);
+  GREYFatalAssert(assertionError);
+
   // Throw an exception if userProvidedError isn't provided and the assertion failed.
   if (!userProvidedError) {
     // first check errors that can happens at the inner most level
@@ -774,7 +779,8 @@
           errorDetails[kErrorDetailAssertCriteriaKey] = assertion.name;
           errorDetails[kErrorDetailElementMatcherKey] = _elementMatcher.description;
           errorDetails[kErrorDetailRecoverySuggestionKey] =
-              @"Check if element exists in the UI, modify assert criteria, or adjust the matcher";
+              @"Check if the element exists in the UI hierarchy printed below. If it exists, "
+              @"adjust the matcher so that it accurately matches element.";
 
           NSArray *keyOrder = @[ kErrorDetailAssertCriteriaKey,
                                  kErrorDetailElementMatcherKey,

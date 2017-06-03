@@ -24,6 +24,7 @@
 #import "Additions/NSString+GREYAdditions.h"
 #import "Additions/UIScrollView+GREYAdditions.h"
 #import "Assertion/GREYAssertionDefines.h"
+#import "Common/GREYFatalAsserts.h"
 #import "Common/GREYVisibilityChecker.h"
 #import "Event/GREYSyntheticEvents.h"
 #import "Matcher/GREYAllOf.h"
@@ -45,10 +46,12 @@
 }
 
 - (instancetype)initWithEdge:(GREYContentEdge)edge startPointPercents:(CGPoint)startPointPercents {
-  NSAssert(isnan(startPointPercents.x) || (startPointPercents.x > 0 && startPointPercents.x < 1),
-           @"startPointPercents must be NAN or in the range (0, 1) exclusive");
-  NSAssert(isnan(startPointPercents.y) || (startPointPercents.y > 0 && startPointPercents.y < 1),
-           @"startPointPercents must be NAN or in the range (0, 1) exclusive");
+  GREYFatalAssertWithMessage(isnan(startPointPercents.x) ||
+                             (startPointPercents.x > 0 && startPointPercents.x < 1),
+                             @"startPointPercents must be NAN or in the range (0, 1) exclusive");
+  GREYFatalAssertWithMessage(isnan(startPointPercents.y) ||
+                             (startPointPercents.y > 0 && startPointPercents.y < 1),
+                             @"startPointPercents must be NAN or in the range (0, 1) exclusive");
 
   NSString *name =
       [NSString stringWithFormat:@"Scroll To %@ content edge", NSStringFromGREYContentEdge(edge)];

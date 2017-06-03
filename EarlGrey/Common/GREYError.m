@@ -31,8 +31,8 @@ NSString *const kErrorDetailActionNameKey = @"Action Name";
 NSString *const kErrorDetailAssertCriteriaKey = @"Assertion Criteria";
 NSString *const kErrorDetailRecoverySuggestionKey = @"Recovery Suggestion";
 
-NSString *const kErrorDomainKey = @"Domain";
-NSString *const kErrorCodeKey = @"Code";
+NSString *const kErrorDomainKey = @"Error Domain";
+NSString *const kErrorCodeKey = @"Error Code";
 NSString *const kErrorDescriptionKey = @"Description";
 NSString *const kErrorFailureReasonKey = @"Failure Reason";
 
@@ -69,7 +69,6 @@ GREYError *I_GREYErrorMake(NSString *domain,
   error.errorInfo = errorInfo;
   error.stackTrace = stackTrace;
   error.appUIHierarchy = [GREYElementHierarchy hierarchyStringForAllUIWindows];
-
   return error;
 }
 

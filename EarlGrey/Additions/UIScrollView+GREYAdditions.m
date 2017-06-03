@@ -20,6 +20,7 @@
 #include <objc/runtime.h>
 
 #import "Common/GREYExposed.h"
+#import "Common/GREYFatalAsserts.h"
 #import "Common/GREYSwizzler.h"
 #import "Synchronization/GREYAppStateTracker.h"
 
@@ -34,21 +35,25 @@
     BOOL swizzled = [swizzler swizzleClass:[UIScrollView class]
                      replaceInstanceMethod:originalSel
                                 withMethod:swizzledSel];
-    NSAssert(swizzled, @"Cannot swizzle [UIScrollView _scrollViewWillBeginDragging]");
+    GREYFatalAssertWithMessage(swizzled,
+                               @"Cannot swizzle [UIScrollView _scrollViewWillBeginDragging]");
 
     originalSel = @selector(_scrollViewDidEndDraggingWithDeceleration:);
     swizzledSel = @selector(greyswizzled_scrollViewDidEndDraggingWithDeceleration:);
     swizzled = [swizzler swizzleClass:[UIScrollView class]
                 replaceInstanceMethod:originalSel
                            withMethod:swizzledSel];
-    NSAssert(swizzled, @"Cannot swizzle [UIScrollView _scrollViewDidEndDraggingWithDeceleration:]");
+    GREYFatalAssertWithMessage(swizzled,
+                               @"Cannot swizzle "
+                               @"[UIScrollView _scrollViewDidEndDraggingWithDeceleration:]");
 
     originalSel = @selector(_stopScrollDecelerationNotify:);
     swizzledSel = @selector(greyswizzled_stopScrollDecelerationNotify:);
     swizzled = [swizzler swizzleClass:[UIScrollView class]
                 replaceInstanceMethod:originalSel
                            withMethod:swizzledSel];
-    NSAssert(swizzled, @"Cannot swizzle [UIScrollView _stopScrollDecelerationNotify:]");
+    GREYFatalAssertWithMessage(swizzled,
+                               @"Cannot swizzle [UIScrollView _stopScrollDecelerationNotify:]");
   }
 }
 

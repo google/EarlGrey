@@ -19,13 +19,15 @@
 #import <OCHamcrest/HCMatcher.h>
 #import <OCHamcrest/HCStringDescription.h>
 
+#import "Common/GREYFatalAsserts.h"
+
 @implementation GREYHCMatcher {
   id<HCMatcher> _hamcrestMatcher;
 }
 
 - (instancetype)initWithHCMatcher:(id)HCMatcher {
-  NSAssert([HCMatcher conformsToProtocol:@protocol(HCMatcher)],
-           @"matcher must be an HCMatcher");
+  GREYFatalAssertWithMessage([HCMatcher conformsToProtocol:@protocol(HCMatcher)],
+                             @"matcher must be an HCMatcher");
 
   self = [super init];
   if(self) {

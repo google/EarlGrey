@@ -17,6 +17,7 @@
 #import "Additions/NSRunLoop+GREYAdditions.h"
 
 #import "Common/GREYConfiguration.h"
+#import "Common/GREYFatalAsserts.h"
 #import "Common/GREYSwizzler.h"
 #import "Synchronization/GREYNSTimerIdlingResource.h"
 
@@ -25,11 +26,11 @@
 + (void)load {
   @autoreleasepool {
     GREYSwizzler *swizzler = [[GREYSwizzler alloc] init];
-    GREY_UNUSED_VARIABLE BOOL swizzleSuccess =
+    BOOL swizzleSuccess =
         [swizzler swizzleClass:self
          replaceInstanceMethod:@selector(addTimer:forMode:)
                     withMethod:@selector(greyswizzled_addTimer:forMode:)];
-    NSAssert(swizzleSuccess, @"Cannot swizzle NSRunLoop addTimer:forMode:");
+    GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle NSRunLoop addTimer:forMode:");
   }
 }
 

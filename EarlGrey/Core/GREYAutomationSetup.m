@@ -24,6 +24,7 @@
 
 #import "Common/GREYDefines.h"
 #import "Common/GREYExposed.h"
+#import "Common/GREYFatalAsserts.h"
 #import "Common/GREYSwizzler.h"
 
 // Exception handler that was previously installed before we replaced it with our own.
@@ -149,15 +150,16 @@ static GREYSignalHandler gPreviousSignalHandlers[kNumSignals];
   static NSString *path =
       @"/System/Library/PrivateFrameworks/AccessibilityUtilities.framework/AccessibilityUtilities";
   char const *const localPath = [path fileSystemRepresentation];
-  NSAssert(localPath, @"localPath should not be nil");
+  GREYFatalAssertWithMessage(localPath, @"localPath should not be nil");
 
-  GREY_UNUSED_VARIABLE void *handle = dlopen(localPath, RTLD_LOCAL);
-  NSAssert(handle, @"dlopen couldn't open AccessibilityUtilities at path %s", localPath);
+  void *handle = dlopen(localPath, RTLD_LOCAL);
+  GREYFatalAssertWithMessage(handle,
+                             @"dlopen couldn't open AccessibilityUtilities at path %s", localPath);
 
   Class AXBackBoardServerClass = NSClassFromString(@"AXBackBoardServer");
-  NSAssert(AXBackBoardServerClass, @"AXBackBoardServer class not found");
+  GREYFatalAssertWithMessage(AXBackBoardServerClass, @"AXBackBoardServer class not found");
   id server = [AXBackBoardServerClass server];
-  NSAssert(server, @"server should not be nil");
+  GREYFatalAssertWithMessage(server, @"server should not be nil");
 
   [server setAccessibilityPreferenceAsMobile:(CFStringRef)@"ApplicationAccessibilityEnabled"
                                        value:kCFBooleanTrue
@@ -170,38 +172,44 @@ static GREYSignalHandler gPreviousSignalHandlers[kNumSignals];
   char const *const libAccessibilityPath =
       [@"/usr/lib/libAccessibility.dylib" fileSystemRepresentation];
   void *handle = dlopen(libAccessibilityPath, RTLD_LOCAL);
-  NSAssert(handle, @"dlopen couldn't open libAccessibility.dylib at path %s", libAccessibilityPath);
+  GREYFatalAssertWithMessage(handle,
+                             @"dlopen couldn't open libAccessibility.dylib at path %s",
+                             libAccessibilityPath);
   void (*_AXSSetAutomationEnabled)(BOOL) = dlsym(handle, "_AXSSetAutomationEnabled");
-  NSAssert(_AXSSetAutomationEnabled, @"Pointer to _AXSSetAutomationEnabled must not be NULL");
+  GREYFatalAssertWithMessage(_AXSSetAutomationEnabled,
+                             @"Pointer to _AXSSetAutomationEnabled must not be NULL");
 
   _AXSSetAutomationEnabled(YES);
 
   Class XCAXClientClass = NSClassFromString(@"XCAXClient_iOS");
-  NSAssert(XCAXClientClass, @"XCAXClient_iOS class not found");
+  GREYFatalAssertWithMessage(XCAXClientClass, @"XCAXClient_iOS class not found");
   // As part of turning on accessibility, XCUITest tries to background this process.
   // Swizzle to prevent app from being backgrounded.
   GREYSwizzler *swizzler = [[GREYSwizzler alloc] init];
   BOOL swizzleSuccess = [swizzler swizzleClass:[XCUIDevice class]
                          replaceInstanceMethod:@selector(_silentPressButton:)
                                     withMethod:@selector(grey_silentPressButton:)];
-  NSAssert(swizzleSuccess, @"Cannot swizzle XCUIDevice _silentPressButton:");
+  GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle XCUIDevice _silentPressButton:");
   swizzleSuccess =
       [swizzler swizzleClass:[NSNotificationCenter class]
        replaceInstanceMethod:@selector(addObserverForName:object:queue:usingBlock:)
                   withMethod:@selector(grey_addObserverForName:object:queue:usingBlock:)];
-  NSAssert(swizzleSuccess,
-           @"Cannot swizzle NSNotificationCenter addObserverForName:object:queue:usingBlock:");
+  GREYFatalAssertWithMessage(swizzleSuccess,
+                             @"Cannot swizzle NSNotificationCenter "
+                             @"addObserverForName:object:queue:usingBlock:");
   // Call which backgrounds the app and enables accessibility on iOS 9 and below. For iOS 10
   // another call is made below to load accessibility.
   id XCAXClient = [XCAXClientClass sharedClient];
-  NSAssert(XCAXClient, @"XCAXClient_iOS sharedClient doesn't exist.");
+  GREYFatalAssertWithMessage(XCAXClient, @"XCAXClient_iOS sharedClient doesn't exist.");
   // Accessibility should be enabled...Reset swizzled implementations to original.
   BOOL reset = [swizzler resetInstanceMethod:@selector(_silentPressButton:)
                                        class:[XCUIDevice class]];
-  NSAssert(reset, @"Failed to reset swizzled method _silentPressButton:");
+  GREYFatalAssertWithMessage(reset, @"Failed to reset swizzled method _silentPressButton:");
   reset = [swizzler resetInstanceMethod:@selector(addObserverForName:object:queue:usingBlock:)
                                   class:[NSNotificationCenter class]];
-  NSAssert(reset, @"Failed to reset swizzled method addObserverForName:object:queue:usingBlock:");
+  GREYFatalAssertWithMessage(reset,
+                             @"Failed to reset swizzled method "
+                             @"addObserverForName:object:queue:usingBlock:");
   // The method may not be available on older versions of XCTest/Xcode
   // This is needed on iOS 9.1 and higher
   if ([XCAXClient respondsToSelector:@selector(loadAccessibility:)]) {
@@ -227,23 +235,19 @@ static GREYSignalHandler gPreviousSignalHandlers[kNumSignals];
 // For the provided bundle @c path, we use the actual @c className of the class to extract and
 // return a class instance that can be modified.
 - (id)grey_classInstanceFromBundleAtPath:(NSString *)path withClassName:(NSString *)className {
-  NSParameterAssert(path);
-  NSParameterAssert(className);
+  GREYFatalAssert(path);
+  GREYFatalAssert(className);
+
   char const *const preferenceBundlePath = [path fileSystemRepresentation];
   void *handle = dlopen(preferenceBundlePath, RTLD_LAZY);
-  if (!handle) {
-    NSAssert(NO, @"dlopen couldn't open settings bundle at path bundle %@", path);
-  }
+  GREYFatalAssertWithMessage(handle,
+                             @"dlopen couldn't open settings bundle at path bundle %@", path);
 
   Class klass = NSClassFromString(className);
-  if (!klass) {
-    NSAssert(NO, @"Couldn't find %@ class", klass);
-  }
+  GREYFatalAssertWithMessage(klass, @"Couldn't find %@ class", klass);
 
   id klassInstance = [[klass alloc] init];
-  if (!klassInstance) {
-    NSAssert(NO, @"Couldn't initialize controller for class: %@", klass);
-  }
+  GREYFatalAssertWithMessage(klassInstance, @"Couldn't initialize controller for class: %@", klass);
 
   return klassInstance;
 }
