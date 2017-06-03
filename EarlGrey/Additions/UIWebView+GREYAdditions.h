@@ -20,4 +20,40 @@
  *  Additions that allow EarlGrey to sync with UIWebView load requests.
  */
 @interface UIWebView (GREYAdditions)
+
+/**
+ *  Explicitly clears the pending interaction state for UIWebViews.
+ */
+- (void)grey_clearPendingInteraction;
+
+/**
+ *  Will mark the UIWebView's state as busy waiting for interaction until @c seconds have elapsed or
+ *  UIWebView::grey_clearPendingInteraction is called (whichever comes first).
+ *
+ *  @param seconds Time interval in seconds for which to mark the UIWebView as busy.
+ */
+- (void)grey_pendingInteractionForTime:(NSTimeInterval)seconds;
+
+/**
+ *  Marks webview as pending load in GREYAppStateTracker.
+ */
+- (void)grey_trackAJAXLoading;
+
+/**
+ *  Untracks webview loading state from GREYAppStateTracker.
+ */
+- (void)grey_untrackAJAXLoading;
+
+/**
+ *  Sets the loading state for this webview.
+ *
+ *  @param loading BOOL value indicating the new loading state of this webview.
+ */
+- (void)grey_setIsLoadingFrame:(BOOL)loading;
+
+/**
+ *  @return the loading state for this webview.
+ */
+- (BOOL)grey_isLoadingFrame;
+
 @end

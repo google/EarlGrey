@@ -22,4 +22,15 @@
  *  setting with @c kGREYConfigKeyURLBlacklistRegex key.
  */
 @interface NSURLConnection (GREYAdditions)
+
+/**
+ *  Tracks the current connection as pending in GREYAppStateTracker.
+ */
+- (void)grey_trackPending;
+
+/**
+ *  Untracks the current connection from GREYAppStateTracker, marking it as completed.
+ */
+- (void)grey_untrackPending;
+
 @end

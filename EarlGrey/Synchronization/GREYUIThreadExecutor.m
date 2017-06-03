@@ -28,7 +28,6 @@
 #import "Common/GREYLogger.h"
 #import "Common/GREYStopwatch.h"
 #import "Synchronization/GREYAppStateTracker.h"
-#import "Synchronization/GREYAppStateTracker+Internal.h"
 #import "Synchronization/GREYDispatchQueueIdlingResource.h"
 #import "Synchronization/GREYOperationQueueIdlingResource.h"
 #import "Synchronization/GREYRunLoopSpinner.h"

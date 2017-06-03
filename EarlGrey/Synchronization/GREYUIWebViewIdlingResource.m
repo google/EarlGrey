@@ -17,7 +17,6 @@
 #import "Synchronization/GREYUIWebViewIdlingResource.h"
 
 #import "Additions/UIWebView+GREYAdditions.h"
-#import "Additions/UIWebView+GREYAdditions+Internal.h"
 #import "Common/GREYDefines.h"
 #import "Synchronization/GREYUIThreadExecutor.h"
 #import "Synchronization/GREYUIThreadExecutor+Internal.h"

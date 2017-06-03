@@ -16,7 +16,7 @@
 
 #import "GREYBaseTest.h"
 
-#import <EarlGrey/GREYAppStateTracker+Internal.h>
+#import <EarlGrey/GREYAppStateTracker.h>
 #import <EarlGrey/GREYConfiguration.h>
 #import <EarlGrey/GREYSwizzler.h>
 #import <EarlGrey/UIApplication+GREYAdditions.h>

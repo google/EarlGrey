@@ -16,7 +16,6 @@
 
 #import <XCTest/XCTest.h>
 #import <EarlGrey/GREYObjectFormatter.h>
-#import <EarlGrey/GREYObjectFormatter+Internal.h>
 
 #import "GREYBaseTest.h"
 

@@ -30,4 +30,17 @@
 + (NSDictionary *)generateAppScreenshotsWithPrefix:(NSString *)screenshotPrefix
                                            failure:(NSString *)failureName;
 
+/**
+ *  Generate app screenshot with given prefix and failure name.
+ *
+ *  @param screenshotPrefix  Prefix for the screenshots.
+ *  @param failureName       Failure name associated with the screenshots.
+ *  @param screenshotDir     The screenshot directory where the screenshots are placed.
+ *
+ *  @return A dictionary of the screenshot names and their corresponding paths.
+ */
++ (NSDictionary *)generateAppScreenshotsWithPrefix:(NSString *)screenshotPrefix
+                                           failure:(NSString *)failureName
+                                     screenshotDir:(NSString *)screenshotDir;
+
 @end
