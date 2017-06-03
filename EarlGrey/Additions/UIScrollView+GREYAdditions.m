@@ -19,7 +19,7 @@
 #include <objc/message.h>
 #include <objc/runtime.h>
 
-#import "Common/GREYExposed.h"
+#import "Common/GREYAppleInternals.h"
 #import "Common/GREYFatalAsserts.h"
 #import "Common/GREYSwizzler.h"
 #import "Synchronization/GREYAppStateTracker.h"

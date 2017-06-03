@@ -17,9 +17,9 @@
 #import "EarlGrey.h"
 
 #import "Common/GREYAnalytics.h"
+#import "Common/GREYAppleInternals.h"
 #import "Common/GREYErrorConstants.h"
 #import "Common/GREYError.h"
-#import "Common/GREYExposed.h"
 #import "Common/GREYFatalAsserts.h"
 #import "Core/GREYKeyboard.h"
 #import "Event/GREYSyntheticEvents.h"

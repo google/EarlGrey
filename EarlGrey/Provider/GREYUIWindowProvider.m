@@ -16,9 +16,10 @@
 
 #import "Provider/GREYUIWindowProvider.h"
 
+#import "Assertion/GREYAssertionDefines.h"
+#import "Common/GREYAppleInternals.h"
 #import "Common/GREYConfiguration.h"
 #import "Common/GREYDefines.h"
-#import "Common/GREYExposed.h"
 #import "Common/GREYFatalAsserts.h"
 
 @implementation GREYUIWindowProvider {
