@@ -13,7 +13,6 @@
 		597E02CD1D55AC2B0052A8D1 /* GREYSwipeAction.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001161C5B46C100B2DB0A /* GREYSwipeAction.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		597E02CE1D55AC320052A8D1 /* GREYAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001561C5B46C200B2DB0A /* GREYAnalytics.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		597E02CF1D55AC380052A8D1 /* GREYAnalyticsDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = FD94FDB31D0F68180021F107 /* GREYAnalyticsDelegate.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		597E02D01D55AC460052A8D1 /* GREYExposed.h in Headers */ = {isa = PBXBuildFile; fileRef = FD10015F1C5B46C200B2DB0A /* GREYExposed.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		597E02D21D55AC520052A8D1 /* GREYSwizzler.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001631C5B46C200B2DB0A /* GREYSwizzler.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		597E02D31D55AC580052A8D1 /* GREYVisibilityChecker.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001651C5B46C200B2DB0A /* GREYVisibilityChecker.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		597E02D41D55AC5E0052A8D1 /* GREYWeakObjectContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = FD94FDB41D0F68180021F107 /* GREYWeakObjectContainer.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -203,6 +202,7 @@
 		FD1948271DA231ED00B9BA2D /* GREYStopwatch.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1948231DA231ED00B9BA2D /* GREYStopwatch.m */; };
 		FD242E731D14B73E00046221 /* GREYTestHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = FD242E711D14B73E00046221 /* GREYTestHelper.m */; };
 		FD242E811D14C24C00046221 /* GREYTestHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = FD242E701D14B73E00046221 /* GREYTestHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FD3CBAF91EDF79BA002FCB66 /* GREYAppleInternals.h in Headers */ = {isa = PBXBuildFile; fileRef = FD3CBAF81EDF79BA002FCB66 /* GREYAppleInternals.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		FD6D0B981C6D49400001EA75 /* GREYBaseAction.h in Headers */ = {isa = PBXBuildFile; fileRef = FD6D0B961C6D49400001EA75 /* GREYBaseAction.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FD6D0B991C6D49400001EA75 /* GREYBaseAction.m in Sources */ = {isa = PBXBuildFile; fileRef = FD6D0B971C6D49400001EA75 /* GREYBaseAction.m */; };
 		FD6D0BA21C6D494F0001EA75 /* GREYDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = FD6D0B9A1C6D494F0001EA75 /* GREYDescription.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -348,7 +348,6 @@
 		FD10015C1C5B46C200B2DB0A /* GREYDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYDefines.h; sourceTree = "<group>"; };
 		FD10015D1C5B46C200B2DB0A /* GREYElementHierarchy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYElementHierarchy.h; sourceTree = "<group>"; };
 		FD10015E1C5B46C200B2DB0A /* GREYElementHierarchy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYElementHierarchy.m; sourceTree = "<group>"; };
-		FD10015F1C5B46C200B2DB0A /* GREYExposed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYExposed.h; sourceTree = "<group>"; };
 		FD1001611C5B46C200B2DB0A /* GREYScreenshotUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYScreenshotUtil.h; sourceTree = "<group>"; };
 		FD1001621C5B46C200B2DB0A /* GREYScreenshotUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYScreenshotUtil.m; sourceTree = "<group>"; };
 		FD1001631C5B46C200B2DB0A /* GREYSwizzler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYSwizzler.h; sourceTree = "<group>"; };
@@ -422,6 +421,7 @@
 		FD1948231DA231ED00B9BA2D /* GREYStopwatch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYStopwatch.m; sourceTree = "<group>"; };
 		FD242E701D14B73E00046221 /* GREYTestHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYTestHelper.h; sourceTree = "<group>"; };
 		FD242E711D14B73E00046221 /* GREYTestHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYTestHelper.m; sourceTree = "<group>"; };
+		FD3CBAF81EDF79BA002FCB66 /* GREYAppleInternals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYAppleInternals.h; sourceTree = "<group>"; };
 		FD61605B1BF2C7D100722593 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/IOKit.framework; sourceTree = DEVELOPER_DIR; };
 		FD61605D1BF2C80D00722593 /* fishhook.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = fishhook.c; path = fishhook/fishhook.c; sourceTree = "<group>"; };
 		FD61605E1BF2C80D00722593 /* fishhook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = fishhook.h; path = fishhook/fishhook.h; sourceTree = "<group>"; };
@@ -633,6 +633,7 @@
 		FD1001541C5B46C200B2DB0A /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				FD3CBAF81EDF79BA002FCB66 /* GREYAppleInternals.h */,
 				599E31F61ED7DF280091178D /* GREYThrowDefines.h */,
 				599E31E61ED79E1D0091178D /* GREYFatalAsserts.h */,
 				FDA218EB1E450A9900693978 /* GREYErrorConstants.h */,
@@ -655,7 +656,6 @@
 				FD10015C1C5B46C200B2DB0A /* GREYDefines.h */,
 				FD10015D1C5B46C200B2DB0A /* GREYElementHierarchy.h */,
 				FD10015E1C5B46C200B2DB0A /* GREYElementHierarchy.m */,
-				FD10015F1C5B46C200B2DB0A /* GREYExposed.h */,
 				FD1001611C5B46C200B2DB0A /* GREYScreenshotUtil.h */,
 				FD1001621C5B46C200B2DB0A /* GREYScreenshotUtil.m */,
 				FD1001631C5B46C200B2DB0A /* GREYSwizzler.h */,
@@ -938,12 +938,12 @@
 				597E03001D55AF3C0052A8D1 /* NSString+GREYAdditions.h in Headers */,
 				597E03011D55AF3C0052A8D1 /* NSTimer+GREYAdditions.h in Headers */,
 				597E02D21D55AC520052A8D1 /* GREYSwizzler.h in Headers */,
-				597E02D01D55AC460052A8D1 /* GREYExposed.h in Headers */,
 				597E02CE1D55AC320052A8D1 /* GREYAnalytics.h in Headers */,
 				597E02CF1D55AC380052A8D1 /* GREYAnalyticsDelegate.h in Headers */,
 				7CCBEBA61DCD2F0500CC01B8 /* GREYError.h in Headers */,
+				FDA218ED1E450A9900693978 /* GREYErrorConstants.h in Headers */,
+				FD3CBAF91EDF79BA002FCB66 /* GREYAppleInternals.h in Headers */,
 				7C32F6FD1E258E7200B00610 /* GREYError+Internal.h in Headers */,
-				597E02D01D55AC460052A8D1 /* GREYExposed.h in Headers */,
 				7CFDF8E81DBBD5FC00CAADB3 /* GREYFailureFormatter.h in Headers */,
 				7CFDF8EA1DBBD5FC00CAADB3 /* GREYLogger.h in Headers */,
 				597E02D21D55AC520052A8D1 /* GREYSwizzler.h in Headers */,

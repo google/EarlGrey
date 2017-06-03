@@ -22,8 +22,8 @@
 #include <objc/runtime.h>
 #include <signal.h>
 
+#import "Common/GREYAppleInternals.h"
 #import "Common/GREYDefines.h"
-#import "Common/GREYExposed.h"
 #import "Common/GREYFatalAsserts.h"
 #import "Common/GREYSwizzler.h"
 

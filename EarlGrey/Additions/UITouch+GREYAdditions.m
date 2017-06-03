@@ -17,7 +17,7 @@
 #import "Additions/UITouch+GREYAdditions.h"
 
 #import "Additions/CGGeometry+GREYAdditions.h"
-#import "Common/GREYExposed.h"
+#import "Common/GREYAppleInternals.h"
 #import "Common/GREYThrowDefines.h"
 
 @implementation UITouch (GREYAdditions)

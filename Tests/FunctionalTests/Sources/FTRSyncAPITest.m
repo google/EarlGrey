@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/GREYExposed.h>
+#import <EarlGrey/GREYAppleInternals.h>
 #import <EarlGrey/UIApplication+GREYAdditions.h>
 
 #import "FTRBaseIntegrationTest.h"
