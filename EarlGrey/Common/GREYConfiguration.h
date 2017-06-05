@@ -143,10 +143,20 @@ GREY_EXTERN NSString *const kGREYConfigKeyIncludeStatusBarWindow;
  *  Configuration for setting the default screenshot location. The value must be absolute path
  *  pointing to a directory where screenshots will be saved.
  *
- *  Accepted values: NSString containing valid absolute filepath
+ *  Accepted values: NSString containing valid absolute filepath writable by the test.
  *  Default value: Documents directory of the app under test
  */
 GREY_EXTERN NSString *const kGREYConfigKeyScreenshotDirLocation;
+
+/**
+ *  Configuration for setting a directory location where any test artifacts such as screenshots,
+ *  test logs, etc. are stored. The user should ensure that the location provided is writable by
+ *  the test.
+ *
+ *  Accepted values: NSString containing a valid absolute filepath that is writable by the test.
+ *  Default value: @c nil
+ */
+GREY_EXTERN NSString *const kGREYConfigKeyArtifactsDirLocation;
 
 /**
  *  Provides an interface for runtime configuration of EarlGrey's behavior.
@@ -259,7 +269,7 @@ GREY_EXTERN NSString *const kGREYConfigKeyScreenshotDirLocation;
  *  Associates configuration identified by @c configKey with the provided @c value.
  *
  *  @remark Default values persist even after resetting the configuration
- *         (using GREYConfiguration::reset)
+ *          (using GREYConfiguration::reset)
  *
  *  @param value     The configuration value to be set. Scalars should be wrapped in @c NSValue.
  *  @param configKey Key identifying an existing or new configuration. Must be a valid @c NSString.
