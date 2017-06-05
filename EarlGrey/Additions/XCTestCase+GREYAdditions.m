@@ -214,7 +214,6 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
     @try {
       gCurrentExecutingTestCase = self;
       [self grey_setStatus:kGREYXCTestCaseStatusUnknown];
-
       INVOKE_ORIGINAL_IMP(void, @selector(grey_invokeTest));
 
       // The test may have been marked as failed if a failure was recorded with the
