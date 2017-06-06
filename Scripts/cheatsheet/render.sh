@@ -1,5 +1,6 @@
+#!/bin/bash
 #
-#  Copyright 2016 Google Inc.
+#  Copyright 2017 Google Inc.
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -13,21 +14,13 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-def join *args
-  File.expand_path(File.join(*args))
-end
+set -euo pipefail
 
-def assert_exists(path, message)
-  abort message unless File.exist?(path.gsub('\ ', ' '))
-end
+CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+CHEATSHEET_DIR=$(cd ../../docs/cheatsheet; pwd)
+CHEATSHEET_HTML="$CHEATSHEET_DIR/cheatsheet.html"
+CHEATSHEET_PNG="$CHEATSHEET_DIR/cheatsheet.png"
 
-def run_command cmd
-  puts "$ #{cmd}"
-  raise "#{cmd} failed" unless system(cmd)
-end
+set -x
 
-def assert_chrome_59_required
-  version = `#{'/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome  --version'}`
-  major_version = version.match(/(\d+)\./)[1].to_i
-  raise "Chrome v59 or newer required. Found v#{major_version}" unless major_version >= 59
-end
+"$CHROME" --headless --hide-scrollbars --disable-gpu --screenshot="$CHEATSHEET_PNG" --window-size=1024,2550 "file://$CHEATSHEET_HTML"
