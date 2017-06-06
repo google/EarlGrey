@@ -13,14 +13,15 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require 'rubygems'
-require 'bundler/setup'
-require 'eyes_selenium'
-
 def join *args
   File.expand_path(File.join(*args))
 end
 
 def assert_exists(path, message)
-  abort message unless File.exist?(path)
+  abort message unless File.exist?(path.gsub('\ ', ' '))
+end
+
+def run_command cmd
+  puts "$ #{cmd}"
+  raise "#{cmd} failed" unless system(cmd)
 end
