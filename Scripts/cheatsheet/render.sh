@@ -1,5 +1,6 @@
+#!/bin/bash
 #
-#  Copyright 2016 Google Inc.
+#  Copyright 2017 Google Inc.
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -13,14 +14,13 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require 'rubygems'
-require 'bundler/setup'
-require 'eyes_selenium'
+set -euo pipefail
 
-def join *args
-  File.expand_path(File.join(*args))
-end
+CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+CHEATSHEET_DIR=$(cd ../../docs/cheatsheet; pwd)
+CHEATSHEET_HTML="$CHEATSHEET_DIR/cheatsheet.html"
+CHEATSHEET_PNG="$CHEATSHEET_DIR/cheatsheet.png"
 
-def assert_exists(path, message)
-  abort message unless File.exist?(path)
-end
+set -x
+
+"$CHROME" --headless --hide-scrollbars --disable-gpu --screenshot="$CHEATSHEET_PNG" --window-size=1024,2550 "file://$CHEATSHEET_HTML"
