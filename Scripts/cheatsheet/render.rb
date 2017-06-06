@@ -18,8 +18,6 @@
 
 require_relative 'setup'
 
-# chrome 59 required!
-
 cheatsheet_dir  = join(__dir__, *%w[.. .. docs cheatsheet])
 cheatsheet_html = join(cheatsheet_dir, 'cheatsheet.html').gsub(' ', '\ ')
 cheatsheet_png  = join(cheatsheet_dir, 'cheatsheet.png').gsub(' ', '\ ')
@@ -30,6 +28,7 @@ assert_exists(cheatsheet_pdf, "Cheatsheet PDF doesn't exist!")
 
 chrome = "/Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome"
 assert_exists(chrome, "Chrome doesn't exist!")
+assert_chrome_59_required
 
 # run_command "#{chrome} --headless --disable-gpu --print-to-pdf=#{cheatsheet_pdf} file://#{cheatsheet_html}"
 run_command "#{chrome} --headless --hide-scrollbars --disable-gpu --screenshot=#{cheatsheet_png} --window-size=1024,2550 file://#{cheatsheet_html}"

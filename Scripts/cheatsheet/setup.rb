@@ -25,3 +25,9 @@ def run_command cmd
   puts "$ #{cmd}"
   raise "#{cmd} failed" unless system(cmd)
 end
+
+def assert_chrome_59_required
+  version = `#{'/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome  --version'}`
+  major_version = version.match(/(\d+)\./)[1].to_i
+  raise "Chrome v59 or newer required. Found v#{major_version}" unless major_version >= 59
+end
