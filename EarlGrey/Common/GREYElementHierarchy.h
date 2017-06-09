@@ -32,8 +32,8 @@
 + (NSString *)hierarchyStringForElement:(id)element;
 
 /**
- *  Similar to hierarchyStringFor: with additional parameters for providing annotations for printed
- *  views and returns a String as well. @c annotationDictionary is a dictionary of type
+ *  Similar to hierarchyStringForElement: with additional parameters for providing annotations
+ *  for printed views. @c annotationDictionary is a dictionary of type
  *  @code @{[NSValue valueWithNonretainedObject:id]:NSString} @endcode with UI elements that
  *  require special formatting i.e. special text to be appended to the description. For example,
  *  @code @{viewA : @"This is a special view"} @endcode or
@@ -52,4 +52,5 @@
  *  Returns the UI hierarchy for all @c UIWindows provided by the GREYUIWindowProvider.
  */
 + (NSString *)hierarchyStringForAllUIWindows;
+
 @end

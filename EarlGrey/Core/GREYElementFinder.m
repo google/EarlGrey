@@ -37,7 +37,7 @@
   GREYThrowOnNilParameter(elementProvider);
   GREYFatalAssertMainThread();
 
-  NSMutableArray *matchingElements = [[NSMutableArray alloc] init];
+  NSMutableOrderedSet *matchingElements = [[NSMutableOrderedSet alloc] init];
   for (id element in [elementProvider dataEnumerator]) {
     @autoreleasepool {
       if ([_matcher matches:element]) {
@@ -45,7 +45,7 @@
       }
     }
   }
-  return [NSArray arrayWithArray:matchingElements];
+  return [matchingElements array];
 }
 
 @end

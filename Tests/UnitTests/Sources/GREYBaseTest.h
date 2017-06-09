@@ -20,7 +20,10 @@
 #define OCMOCK_STRUCT(atype, variable) \
   [NSValue valueWithBytes:&variable objCType:@encode(atype)]
 
-// Failure handler for EarlGrey unit tests
+// Declare the CGRect variable.
+extern const CGRect kTestRect;
+
+// Failure handler for EarlGrey unit tests.
 @interface GREYUTFailureHandler : NSObject<GREYFailureHandler>
 @end
 

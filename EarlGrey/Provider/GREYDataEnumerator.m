@@ -54,7 +54,7 @@
       }
     }
   }
-  return [remainingObjects copy];
+  return [NSArray arrayWithArray:remainingObjects];
 }
 
 @end

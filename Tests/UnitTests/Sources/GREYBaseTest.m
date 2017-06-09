@@ -32,6 +32,9 @@ static NSMutableArray *gScreenShotsToReturnByGREYScreenshotUtil;
 // Real, original / unmocked shared UIApplication.
 static id gRealSharedApplication;
 
+// A CGRect value to use for instantiating views
+const CGRect kTestRect = { { 0.0f, 0.0f }, { 10.0f, 10.0f } };
+
 #pragma mark - GREYUTFailureHandler
 
 @implementation GREYUTFailureHandler

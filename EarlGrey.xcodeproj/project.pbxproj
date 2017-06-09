@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3F5122141EE1D37E0000CC56 /* GREYTraversal.h in Headers */ = {isa = PBXBuildFile; fileRef = 3F51220E1EE1D37E0000CC56 /* GREYTraversal.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		3F5122151EE1D37E0000CC56 /* GREYTraversal.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F51220F1EE1D37E0000CC56 /* GREYTraversal.m */; };
+		3F5122161EE1D37E0000CC56 /* GREYTraversalBFS.h in Headers */ = {isa = PBXBuildFile; fileRef = 3F5122101EE1D37E0000CC56 /* GREYTraversalBFS.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		3F5122171EE1D37E0000CC56 /* GREYTraversalBFS.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F5122111EE1D37E0000CC56 /* GREYTraversalBFS.m */; };
+		3F5122181EE1D37E0000CC56 /* GREYTraversalDFS.h in Headers */ = {isa = PBXBuildFile; fileRef = 3F5122121EE1D37E0000CC56 /* GREYTraversalDFS.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		3F5122191EE1D37E0000CC56 /* GREYTraversalDFS.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F5122131EE1D37E0000CC56 /* GREYTraversalDFS.m */; };
 		597E02CA1D55AC040052A8D1 /* GREYPathGestureUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001081C5B46C100B2DB0A /* GREYPathGestureUtils.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		597E02CB1D55AC180052A8D1 /* GREYScrollAction.h in Headers */ = {isa = PBXBuildFile; fileRef = FD10010C1C5B46C100B2DB0A /* GREYScrollAction.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		597E02CC1D55AC240052A8D1 /* GREYTapAction.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001181C5B46C100B2DB0A /* GREYTapAction.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -225,6 +231,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3F51220E1EE1D37E0000CC56 /* GREYTraversal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYTraversal.h; path = EarlGrey/Traversal/GREYTraversal.h; sourceTree = SOURCE_ROOT; };
+		3F51220F1EE1D37E0000CC56 /* GREYTraversal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYTraversal.m; path = EarlGrey/Traversal/GREYTraversal.m; sourceTree = SOURCE_ROOT; };
+		3F5122101EE1D37E0000CC56 /* GREYTraversalBFS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYTraversalBFS.h; path = EarlGrey/Traversal/GREYTraversalBFS.h; sourceTree = SOURCE_ROOT; };
+		3F5122111EE1D37E0000CC56 /* GREYTraversalBFS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYTraversalBFS.m; path = EarlGrey/Traversal/GREYTraversalBFS.m; sourceTree = SOURCE_ROOT; };
+		3F5122121EE1D37E0000CC56 /* GREYTraversalDFS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYTraversalDFS.h; path = EarlGrey/Traversal/GREYTraversalDFS.h; sourceTree = SOURCE_ROOT; };
+		3F5122131EE1D37E0000CC56 /* GREYTraversalDFS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYTraversalDFS.m; path = EarlGrey/Traversal/GREYTraversalDFS.m; sourceTree = SOURCE_ROOT; };
 		599E31E61ED79E1D0091178D /* GREYFatalAsserts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYFatalAsserts.h; sourceTree = "<group>"; };
 		599E31F61ED7DF280091178D /* GREYThrowDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYThrowDefines.h; sourceTree = "<group>"; };
 		61156A4F1D1B2AC1000013C7 /* UIGestureRecognizer+GREYAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIGestureRecognizer+GREYAdditions.h"; sourceTree = "<group>"; };
@@ -471,6 +483,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3F5122091EE1CF2B0000CC56 /* Traversal */ = {
+			isa = PBXGroup;
+			children = (
+				3F51220E1EE1D37E0000CC56 /* GREYTraversal.h */,
+				3F51220F1EE1D37E0000CC56 /* GREYTraversal.m */,
+				3F5122101EE1D37E0000CC56 /* GREYTraversalBFS.h */,
+				3F5122111EE1D37E0000CC56 /* GREYTraversalBFS.m */,
+				3F5122121EE1D37E0000CC56 /* GREYTraversalDFS.h */,
+				3F5122131EE1D37E0000CC56 /* GREYTraversalDFS.m */,
+			);
+			name = Traversal;
+			sourceTree = "<group>";
+		};
 		FD06C6751BECAE6A009032A5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -504,6 +529,7 @@
 				FD1001861C5B46C200B2DB0A /* Matcher */,
 				FD1001931C5B46C200B2DB0A /* Provider */,
 				FD10019B1C5B46C200B2DB0A /* Synchronization */,
+				3F5122091EE1CF2B0000CC56 /* Traversal */,
 			);
 			name = EarlGrey;
 			path = EGFramework;
@@ -891,6 +917,7 @@
 				FD1002311C5B46C200B2DB0A /* GREYBaseMatcher.h in Headers */,
 				FD1002351C5B46C200B2DB0A /* GREYLayoutConstraint.h in Headers */,
 				FD1002331C5B46C200B2DB0A /* GREYElementMatcherBlock.h in Headers */,
+				3F5122161EE1D37E0000CC56 /* GREYTraversalBFS.h in Headers */,
 				FD10023D1C5B46C200B2DB0A /* GREYProvider.h in Headers */,
 				FD1002391C5B46C200B2DB0A /* GREYDataEnumerator.h in Headers */,
 				FD10024C1C5B46C200B2DB0A /* GREYSyncAPI.h in Headers */,
@@ -918,6 +945,7 @@
 				597E02E81D55AD6D0052A8D1 /* NSURL+GREYAdditions.h in Headers */,
 				597E02ED1D55AD6D0052A8D1 /* UITouch+GREYAdditions.h in Headers */,
 				597E02EA1D55AD6D0052A8D1 /* UIAnimation+GREYAdditions.h in Headers */,
+				3F5122141EE1D37E0000CC56 /* GREYTraversal.h in Headers */,
 				597E02EC1D55AD6D0052A8D1 /* UIScrollView+GREYAdditions.h in Headers */,
 				597E02EB1D55AD6D0052A8D1 /* UIApplication+GREYAdditions.h in Headers */,
 				597E02EF1D55AD6D0052A8D1 /* UIViewController+GREYAdditions.h in Headers */,
@@ -960,6 +988,7 @@
 				61E4E0BB1D7559DA007F9EE6 /* GREYTouchInjector.h in Headers */,
 				6171EA861D9C748600FD900E /* GREYZeroToleranceTimer.h in Headers */,
 				61E4E0B91D7559DA007F9EE6 /* GREYTouchInfo.h in Headers */,
+				3F5122181EE1D37E0000CC56 /* GREYTraversalDFS.h in Headers */,
 				597E02F51D55AD8B0052A8D1 /* GREYSyntheticEvents.h in Headers */,
 				597E02D81D55AD100052A8D1 /* GREYElementProvider.h in Headers */,
 				597E02D91D55AD100052A8D1 /* GREYUIWindowProvider.h in Headers */,
@@ -1088,7 +1117,9 @@
 				FD1001D41C5B46C200B2DB0A /* CALayer+GREYAdditions.m in Sources */,
 				FD1001D61C5B46C200B2DB0A /* CGGeometry+GREYAdditions.m in Sources */,
 				FD10024B1C5B46C200B2DB0A /* GREYOperationQueueIdlingResource.m in Sources */,
+				3F5122171EE1D37E0000CC56 /* GREYTraversalBFS.m in Sources */,
 				FD1001DA1C5B46C200B2DB0A /* NSObject+GREYAdditions.m in Sources */,
+				3F5122151EE1D37E0000CC56 /* GREYTraversal.m in Sources */,
 				FD1001F01C5B46C200B2DB0A /* UIView+GREYAdditions.m in Sources */,
 				FD10024D1C5B46C200B2DB0A /* GREYSyncAPI.m in Sources */,
 				FD1001D21C5B46C200B2DB0A /* CAAnimation+GREYAdditions.m in Sources */,
@@ -1099,6 +1130,7 @@
 				FD10021D1C5B46C200B2DB0A /* GREYNSURLConnectionDelegate.m in Sources */,
 				FD720C111CFF7E93007A0942 /* GREYRunLoopSpinner.m in Sources */,
 				FD1002301C5B46C200B2DB0A /* GREYAnyOf.m in Sources */,
+				3F5122191EE1D37E0000CC56 /* GREYTraversalDFS.m in Sources */,
 				FD1001EC1C5B46C200B2DB0A /* UISwitch+GREYAdditions.m in Sources */,
 				FD1002321C5B46C200B2DB0A /* GREYBaseMatcher.m in Sources */,
 				FD1001C01C5B46C200B2DB0A /* GREYScrollToContentEdgeAction.m in Sources */,
