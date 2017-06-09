@@ -885,9 +885,9 @@ extern const NSUInteger kMinimumPointsVisibleForInteraction;
 }
 
 - (UIImage *)grey_imageOfSize:(CGSize)size
-                   withBackgroundColor:(UIColor *)backgroundColor
-                       withVisibleArea:(CGRect)paintedArea
-   andOptionalHiddenAreaFromVisibleArea:(CGRect)hiddenArea {
+                     withBackgroundColor:(UIColor *)backgroundColor
+                         withVisibleArea:(CGRect)paintedArea
+    andOptionalHiddenAreaFromVisibleArea:(CGRect)hiddenArea {
   UIGraphicsBeginImageContextWithOptions(size, YES, 0);
 
   [backgroundColor setFill];

@@ -20,57 +20,8 @@
 #import <OCMock/OCMock.h>
 
 #import "GREYBaseTest.h"
-
-@interface GREYUTAccessibilityViewContainerView : UIView
-
-@property(nonatomic, strong) NSMutableArray *accessibleElements;
-
-- (id)initWithImage:(UIImage *)image;
-
-// UIAccessibilityContainer methods
-- (NSInteger)accessibilityElementCount;
-- (id)accessibilityElementAtIndex:(NSInteger)index;
-- (NSInteger)indexOfAccessibilityElement:(id)element;
-
-@end
-
-@implementation GREYUTAccessibilityViewContainerView
-
-@synthesize accessibleElements;
-
-- (id)initWithImage:(UIImage *)image {
-  return [self initWithElements:@[ image ]];
-}
-
-- (id)initWithElements:(NSArray *)elements {
-  self = [super init];
-  if (self) {
-    accessibleElements = [[NSMutableArray alloc] init];
-    [accessibleElements addObjectsFromArray:elements];
-  }
-  return(self);
-}
-
-- (instancetype)init {
-  [self doesNotRecognizeSelector:_cmd];
-  return nil;
-}
-
-#pragma mark - UIAccessibilityContainer Protocol
-
-- (NSInteger)accessibilityElementCount {
-  return (NSInteger)[[self accessibleElements] count];
-}
-
-- (id)accessibilityElementAtIndex:(NSInteger)index {
-  return [[self accessibleElements] objectAtIndex:(NSUInteger)index];
-}
-
-- (NSInteger)indexOfAccessibilityElement:(id)element {
-  return (NSInteger)[[self accessibleElements] indexOfObject:element];
-}
-
-@end
+#import "GREYUTCustomAccessibilityView.h"
+#import "GREYUTAccessibilityViewContainerView.h"
 
 @interface GREYElementProviderTest : GREYBaseTest<UITableViewDataSource, UITableViewDelegate>
 @end
@@ -262,37 +213,6 @@
   XCTAssertEqualObjects(expectedAfterNext,
                         [dataEnumerator allObjects],
                         @"Should contain all views and elements the provider was initialized with");
-}
-
-- (void)testDuplicatedViewsAsAccessibilityViewsDoNotAppearTwice {
-  // An element may appear more than once in the UI hierarchy when because it can also appear as
-  // an accessibility container's elements. To test that, we create an hierarchy where
-  // |internalElement| appears twice and check if the enumeration only shows it once.
-  UILabel *containerParent = [[UILabel alloc] init];
-
-  UILabel *internalElement = [[UILabel alloc] init];
-  GREYUTAccessibilityViewContainerView *container =
-      [[GREYUTAccessibilityViewContainerView alloc] initWithElements:@[ internalElement ]];
-  [containerParent addSubview:container];
-
-  // |parent| contains both the container's parent and one of the container's
-  // accessibility elements.
-  UILabel *parent = [[UILabel alloc] init];
-  [parent addSubview:containerParent];
-  [parent addSubview:internalElement];
-
-  // containerParent also shows in the initial list of elements. To make sure that its presence
-  // won't affect the processing of the other elements, include an element after it.
-  UIWindow *window = [[UIWindow alloc] init];
-
-  GREYElementProvider *provider =
-      [GREYElementProvider providerWithElements:@[ parent, containerParent, window ]];
-
-  NSEnumerator *dataEnumerator = [provider dataEnumerator];
-  NSArray *expectedAfterNext = @[ parent, internalElement, containerParent, container, window ];
-  XCTAssertEqualObjects([dataEnumerator allObjects],
-                        expectedAfterNext,
-                        @"Should contain the internal accessibility once.");
 }
 
 #pragma mark - UITableViewDelegate

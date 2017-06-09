@@ -21,6 +21,7 @@
 #import <OCMock.h>
 
 #import "GREYBaseTest.h"
+#import "GREYUTAccessibilityViewContainerView.h"
 
 static NSMutableArray *gAppWindows;
 
@@ -115,6 +116,43 @@ static NSMutableArray *gAppWindows;
   id<GREYMatcher> hiddenLabelMatcher = grey_accessibilityLabel(@"hiddenAccessibilityLabel");
   elementFinder = [[GREYElementFinder alloc] initWithMatcher:hiddenLabelMatcher];
   XCTAssertEqual([elementFinder elementsMatchedInProvider:viewProvider].count, 1u);
+}
+
+- (void)testDuplicatedViewsAsAccessibilityViewsDoNotAppearTwice {
+  // An element may appear more than once in the UI hierarchy when because it can also appear as
+  // an accessibility container's elements. To test that, we create an hierarchy where
+  // |internalElement| appears twice and check if the enumeration only shows it once.
+  UILabel *containerParent = [[UILabel alloc] init];
+
+  UILabel *internalElement = [[UILabel alloc] init];
+  GREYUTAccessibilityViewContainerView *container =
+  [[GREYUTAccessibilityViewContainerView alloc] initWithElements:@[ internalElement ]];
+  [containerParent addSubview:container];
+
+  // |parent| contains both the container's parent and one of the container's
+  // accessibility elements.
+  UILabel *parent = [[UILabel alloc] init];
+  [parent addSubview:containerParent];
+  [parent addSubview:internalElement];
+
+  // containerParent also shows in the initial list of elements. To make sure that its presence
+  // won't affect the processing of the other elements, include an element after it.
+  UIWindow *window = [[UIWindow alloc] init];
+
+  // Mark it as an accessbility element.
+  containerParent.accessibilityLabel = @"CP";
+  containerParent.isAccessibilityElement = YES;
+
+  // GREYElementFinder to find the @c containerParent.
+  id<GREYMatcher> matcher = grey_accessibilityLabel(@"CP");
+  GREYElementFinder *finder = [[GREYElementFinder alloc] initWithMatcher:matcher];
+
+  GREYElementProvider *provider =
+      [GREYElementProvider providerWithElements:@[ parent, containerParent, window ]];
+
+  // Since @c containerParent is present in the hierarchy twice, it will be returned twice by the
+  // GREYTraversalBFS instance, but the GREYElementFinder should only return it once.
+  XCTAssertEqual([finder elementsMatchedInProvider:provider].count, 1u);
 }
 
 @end

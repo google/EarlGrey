@@ -116,18 +116,15 @@
 
   self.scrollview.isAccessibilityElement = YES;
   self.scrollview.accessibilityLabel = @"Upper Scroll View";
-  //self.scrollview.contentSize = CGSizeMake(320, 1400);
-  
+
   self.bottomScrollView.isAccessibilityElement = YES;
   self.bottomScrollView.accessibilityLabel = @"Bottom Scroll View";
-  //self.bottomScrollView.contentSize = CGSizeMake(600, 500);
   self.bottomScrollView.backgroundColor = [UIColor lightGrayColor];
 
   // Named infinite scroll because this scroll view verifies a bug in scroll algorithm that causes
   // infinite scrolling.
   self.infiniteScrollView.isAccessibilityElement = YES;
   self.infiniteScrollView.accessibilityLabel = @"Infinite Scroll View";
-  //self.infiniteScrollView.contentSize = CGSizeMake(600, 500);
   self.infiniteScrollView.backgroundColor = [UIColor lightGrayColor];
   self.infiniteScrollView.delegate = self;
 
