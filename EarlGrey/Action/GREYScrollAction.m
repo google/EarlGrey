@@ -108,12 +108,12 @@ static const NSInteger kMinTouchPointsToDetectScrollResistance = 2;
   while (amountRemaining > 0 && success) {
     @autoreleasepool {
       // To scroll the content view in a direction
-      NSArray *touchPath =
-          [GREYPathGestureUtils touchPathForGestureInView:element
-                   withDirection:[GREYConstants reverseOfDirection:_direction]
-                          length:amountRemaining
-              startPointPercents:_startPointPercents
-              outRemainingAmount:&amountRemaining];
+      GREYDirection reverseDirection = [GREYConstants reverseOfDirection:_direction];
+      NSArray *touchPath = [GREYPathGestureUtils touchPathForGestureInView:element
+                                                             withDirection:reverseDirection
+                                                                    length:amountRemaining
+                                                        startPointPercents:_startPointPercents
+                                                        outRemainingAmount:&amountRemaining];
       if (!touchPath) {
         GREYPopulateErrorOrLog(errorOrNil,
                                kGREYScrollErrorDomain,

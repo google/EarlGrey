@@ -73,11 +73,14 @@
  *  Generates a touch path in the @c window from the given @c startPoint and the given @c
  *  endPoint.
  *
- *  @param startPoint The starting point for touch path.
- *  @param endPoint   The end point for touch path
+ *  @param startPoint    The starting point for touch path.
+ *  @param endPoint      The end point for touch path.
+ *  @param cancelInertia A boolean value indicating whether intertial movement should be cancelled.
  *
  *  @return NSArray of CGPoints that denote the points in the touch path.
  */
 + (NSArray *)touchPathForDragGestureWithStartPoint:(CGPoint)startPoint
-                                       andEndPoint:(CGPoint)endPoint;
+                                          endPoint:(CGPoint)endPoint
+                                     cancelInertia:(BOOL)cancelInertia;
+
 @end
