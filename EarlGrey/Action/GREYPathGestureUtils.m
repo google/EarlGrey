@@ -71,11 +71,12 @@ static CGFloat kCachedScreenEdgePanDetectionLength = NAN;
 }
 
 + (NSArray *)touchPathForDragGestureWithStartPoint:(CGPoint)startPoint
-                                       andEndPoint:(CGPoint)endPoint {
+                                          endPoint:(CGPoint)endPoint
+                                     cancelInertia:(BOOL)cancelInertia {
   return [self grey_touchPathWithStartPoint:startPoint
                                    endPoint:endPoint
                                    duration:NAN
-                        shouldCancelInertia:YES];
+                        shouldCancelInertia:cancelInertia];
 }
 
 + (NSArray *)touchPathForGestureInView:(UIView *)view
@@ -118,8 +119,9 @@ static CGFloat kCachedScreenEdgePanDetectionLength = NAN;
       [GREYPathGestureUtils grey_rectByAddingEdgeInsets:UIEdgeInsetsMake(1, 1, 1, 1)
                                                  toRect:CGRectIntersection(visibleArea,
                                                                            safeScreenBounds)];
-  GREYContentEdge edgeInReverseDirection = [GREYConstants edgeInDirectionFromCenter:
-      [GREYConstants reverseOfDirection:interfaceTransformedDirection]];
+  GREYDirection reverseDirection = [GREYConstants reverseOfDirection:interfaceTransformedDirection];
+  GREYContentEdge edgeInReverseDirection =
+      [GREYConstants edgeInDirectionFromCenter:reverseDirection];
   CGPoint startPoint = [self grey_pointOnEdge:edgeInReverseDirection ofRect:safeStartPointRect];
   // Update start point if startPointPercents are provided.
   if (!isnan(startPointPercents.x)) {
@@ -292,19 +294,15 @@ static CGFloat kCachedScreenEdgePanDetectionLength = NAN;
 
   NSMutableArray *touchPath = [[NSMutableArray alloc] init];
   if (isnan(duration)) {
-    NSUInteger totalPoints = (NSUInteger)(pathLength / kGREYDistanceBetweenTwoAdjacentPoints) + 1;
-    CGFloat remaining = pathLength - (totalPoints * kGREYDistanceBetweenTwoAdjacentPoints);
+    // After the start point, rest of the path is divided into equal segments and a touch point is
+    // created for each segment.
+    NSUInteger totalPoints = (NSUInteger)(pathLength / kGREYDistanceBetweenTwoAdjacentPoints);
     // Compute delta for each point and create a path with it.
     CGFloat deltaX = (endPoint.x - startPoint.x) / totalPoints;
     CGFloat deltaY = (endPoint.y - startPoint.y) / totalPoints;
-
     for (NSUInteger i = 0; i < totalPoints; i++) {
       CGPoint touchPoint = CGPointMake(startPoint.x + (deltaX * i), startPoint.y + (deltaY * i));
       [touchPath addObject:[NSValue valueWithCGPoint:touchPoint]];
-    }
-
-    if (remaining > 0) {
-      [touchPath addObject:[NSValue valueWithCGPoint:endPoint]];
     }
   } else {
     [touchPath addObject:[NSValue valueWithCGPoint:startPoint]];
@@ -365,17 +363,29 @@ static CGFloat kCachedScreenEdgePanDetectionLength = NAN;
                                        (CGFloat)(startPoint.y + deltaY));
       [touchPath addObject:[NSValue valueWithCGPoint:touchPoint]];
     }
-    [touchPath addObject:[NSValue valueWithCGPoint:endPoint]];
   }
 
+  NSValue *endPointValue = [NSValue valueWithCGPoint:endPoint];
   if (cancelInertia) {
-    // To cancel inertia, we step back 1 point unit from the last touch point and back to
-    // the original last touch point.
-    CGVector reverseDeltaUnitVector = CGVectorScale(deltaVector, (CGFloat)(-1.0 / pathLength));
-    CGPoint stepBackPoint = CGPointAddVector(endPoint, reverseDeltaUnitVector);
-    [touchPath addObject:[NSValue valueWithCGPoint:stepBackPoint]];
-    [touchPath addObject:[NSValue valueWithCGPoint:endPoint]];
+    // To cancel inertia, slow down as approaching the end point. This is done by inserting a series
+    // of points between the 2nd last and the last point.
+    static const NSUInteger kNumSlowTouchesBetweenSecondLastAndLastTouch = 20;
+
+    NSValue *secondLastValue = [touchPath lastObject];
+    CGPoint secondLastPoint = [secondLastValue CGPointValue];
+    CGVector secondLastToLastVector = CGVectorFromEndPoints(secondLastPoint, endPoint, NO);
+
+    CGFloat slowTouchesVectorScale = (CGFloat)(1.0 / kNumSlowTouchesBetweenSecondLastAndLastTouch);
+    CGVector slowTouchesVector = CGVectorScale(secondLastToLastVector, slowTouchesVectorScale);
+
+    CGPoint slowTouchPoint = secondLastPoint;
+    for (NSUInteger i = 0; i < (kNumSlowTouchesBetweenSecondLastAndLastTouch - 1); i++) {
+      slowTouchPoint = CGPointAddVector(slowTouchPoint, slowTouchesVector);
+      [touchPath addObject:[NSValue valueWithCGPoint:slowTouchPoint]];
+    }
   }
+  [touchPath addObject:endPointValue];
+
   return touchPath;
 }
 

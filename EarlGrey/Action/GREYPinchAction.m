@@ -163,7 +163,7 @@ static CGFloat const kPinchScale = (CGFloat)0.8;
       break;
   }
 
-  // Based on the @c GREYPinchDirection two touch paths are required to generate a pinch gesture
+  // Based on the @c GREYPinchDirection two touch paths are required to generate a pinch gesture.
   // If the pinch direction is @c kGREYPinchDirectionOutward then the two touch paths have their
   // starting points as the center of the view for the gesture and the ending points are on the
   // circle having the touch path as the radius. Similarly when pinch direction is
@@ -172,10 +172,12 @@ static CGFloat const kPinchScale = (CGFloat)0.8;
   // test.
   NSArray *touchPathInDirection1 =
       [GREYPathGestureUtils touchPathForDragGestureWithStartPoint:startPoint1
-                                                      andEndPoint:endPoint1];
+                                                         endPoint:endPoint1
+                                                    cancelInertia:NO];
   NSArray *touchPathInDirection2 =
       [GREYPathGestureUtils touchPathForDragGestureWithStartPoint:startPoint2
-                                                      andEndPoint:endPoint2];
+                                                         endPoint:endPoint2
+                                                    cancelInertia:NO];
 
   [GREYSyntheticEvents touchAlongMultiplePaths:@[ touchPathInDirection1, touchPathInDirection2 ]
                               relativeToWindow:window

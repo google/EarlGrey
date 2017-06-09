@@ -52,7 +52,7 @@
   CGRect bounds = [UIScreen mainScreen].bounds;
   id mockUIView = [OCMockObject partialMockForObject:[[UIView alloc] initWithFrame:bounds]];
   id mockWindow = [OCMockObject partialMockForObject:[[UIWindow alloc] initWithFrame:bounds]];
-  [[[mockWindow stub] andReturnValue:OCMOCK_VALUE(bounds)] convertRect:bounds
+  [[[mockWindow stub] andReturnValue:OCMOCK_VALUE(bounds)] convertRect:CGRectZero
                                                             fromWindow:OCMOCK_ANY];
   [[[mockUIView stub] andReturn:mockWindow] window];
   [[[mockUIView stub] andReturnValue:OCMOCK_VALUE(bounds)] accessibilityFrame];
@@ -73,6 +73,99 @@
   }];
 }
 
+- (void)testDragTouchPath_noCancelInertia {
+  CGPoint startPoint = CGPointMake(100, 200);
+  CGPoint endPoint = CGPointMake(200, 300);
+  NSArray *path = [GREYPathGestureUtils touchPathForDragGestureWithStartPoint:startPoint
+                                                                     endPoint:endPoint
+                                                                cancelInertia:NO];
+  CGPoint pathStartPoint = [[path firstObject] CGPointValue];
+  XCTAssertEqual(pathStartPoint.x, startPoint.x);
+  XCTAssertEqual(pathStartPoint.y, startPoint.y);
+
+  CGPoint pathEndPoint = [[path lastObject] CGPointValue];
+  XCTAssertEqual(pathEndPoint.x, endPoint.x);
+  XCTAssertEqual(pathEndPoint.y, endPoint.y);
+
+  NSUInteger pathLength = [path count];
+  CGPoint path2ndLastPoint = [[path objectAtIndex:(pathLength - 2)] CGPointValue];
+  XCTAssertLessThan(path2ndLastPoint.x, endPoint.x);
+  XCTAssertLessThan(path2ndLastPoint.y, endPoint.y);
+
+  CGPoint path3rdLastPoint = [[path objectAtIndex:(pathLength - 3)] CGPointValue];
+  XCTAssertLessThan(path3rdLastPoint.x, path2ndLastPoint.x);
+  XCTAssertLessThan(path3rdLastPoint.y, path2ndLastPoint.y);
+}
+
+- (void)testDragTouchPath_cancelInertia {
+  CGPoint startPoint = CGPointMake(100, 200);
+  CGPoint endPoint = CGPointMake(0, 0);
+  NSArray *path = [GREYPathGestureUtils touchPathForDragGestureWithStartPoint:startPoint
+                                                                     endPoint:endPoint
+                                                                cancelInertia:YES];
+  CGPoint pathStartPoint = [[path firstObject] CGPointValue];
+  XCTAssertEqual(pathStartPoint.x, startPoint.x);
+  XCTAssertEqual(pathStartPoint.y, startPoint.y);
+
+  CGPoint pathEndPoint = [[path lastObject] CGPointValue];
+  XCTAssertEqual(pathEndPoint.x, endPoint.x);
+  XCTAssertEqual(pathEndPoint.y, endPoint.y);
+
+  NSUInteger pathLength = [path count];
+  CGPoint path2ndPoint = [[path objectAtIndex:1] CGPointValue];
+  CGPoint diffStartAndNextPoint =
+      CGPointMake(path2ndPoint.x - startPoint.x, path2ndPoint.y - startPoint.y);
+  XCTAssertLessThan(diffStartAndNextPoint.x, 0);
+  XCTAssertLessThan(diffStartAndNextPoint.y, 0);
+
+  CGPoint path2ndLastPoint = [[path objectAtIndex:(pathLength - 2)] CGPointValue];
+  CGPoint diff2ndLastAndLastPoint =
+      CGPointMake(path2ndLastPoint.x - endPoint.x, path2ndLastPoint.y - endPoint.y);
+  XCTAssertLessThan(fabsf((float)diff2ndLastAndLastPoint.x),
+                    fabsf((float)diffStartAndNextPoint.x));
+  XCTAssertLessThan(fabsf((float)diff2ndLastAndLastPoint.y),
+                    fabsf((float)diffStartAndNextPoint.y));
+
+  CGPoint path3rdLastPoint = [[path objectAtIndex:(pathLength - 3)] CGPointValue];
+  CGPoint diff3rdLastAnd2ndLastPoint = CGPointMake(path3rdLastPoint.x - path2ndLastPoint.x,
+                                                   path3rdLastPoint.y - path2ndLastPoint.y);
+  XCTAssertEqualWithAccuracy(diff3rdLastAnd2ndLastPoint.x, diff2ndLastAndLastPoint.x, 0.001);
+  XCTAssertEqualWithAccuracy(diff3rdLastAnd2ndLastPoint.y, diff2ndLastAndLastPoint.y, 0.001);
+}
+
+- (void)testTouchPathWithLengthAndLeftDirection_cancelInertia {
+  id mockUIView = [self mockFullScreenUIView];
+  NSArray *path = [GREYPathGestureUtils touchPathForGestureInView:mockUIView
+                                                    withDirection:kGREYDirectionLeft
+                                                           length:100
+                                               startPointPercents:CGPointMake(0.1f, 0.1f)
+                                               outRemainingAmount:NULL];
+
+  CGPoint pathStartPoint = [[path firstObject] CGPointValue];
+  CGPoint pathEndPoint = [[path lastObject] CGPointValue];
+  XCTAssertGreaterThan(pathStartPoint.x, pathEndPoint.x);
+  XCTAssertEqual(pathStartPoint.y, pathEndPoint.y);
+
+  NSUInteger pathLength = [path count];
+  CGPoint path2ndPoint = [[path objectAtIndex:1] CGPointValue];
+  CGPoint diffStartAndNextPoint =
+      CGPointMake(path2ndPoint.x - pathStartPoint.x, path2ndPoint.y - pathStartPoint.y);
+  XCTAssertLessThan(diffStartAndNextPoint.x, 0);
+  XCTAssertEqual(diffStartAndNextPoint.y, 0);
+
+  CGPoint path2ndLastPoint = [[path objectAtIndex:(pathLength - 2)] CGPointValue];
+  CGPoint diff2ndLastAndLastPoint =
+      CGPointMake(path2ndLastPoint.x - pathEndPoint.x, path2ndLastPoint.y - pathEndPoint.y);
+  XCTAssertLessThan(fabsf((float)diff2ndLastAndLastPoint.x), fabsf((float)diffStartAndNextPoint.x));
+  XCTAssertEqual(diff2ndLastAndLastPoint.y, diffStartAndNextPoint.y);
+
+  CGPoint path3rdLastPoint = [[path objectAtIndex:(pathLength - 3)] CGPointValue];
+  CGPoint diff3rdLastAnd2ndLastPoint = CGPointMake(path3rdLastPoint.x - path2ndLastPoint.x,
+                                                   path3rdLastPoint.y - path2ndLastPoint.y);
+  XCTAssertEqualWithAccuracy(diff3rdLastAnd2ndLastPoint.x, diff2ndLastAndLastPoint.x, 0.001);
+  XCTAssertEqualWithAccuracy(diff3rdLastAnd2ndLastPoint.y, diff2ndLastAndLastPoint.y, 0.001);
+}
+
 - (void)testTouchPathIsNilForHiddenViews {
   [self forEachDirectionPerformBlock:^(GREYDirection direction) {
     UIView *view = [[UIView alloc] initWithFrame:CGRectZero];
@@ -85,7 +178,7 @@
   }];
 }
 
-- (void)testTouchPathCannotBegeneratedForZeroAmounts {
+- (void)testTouchPathCannotBeGeneratedForZeroAmounts {
   [self forEachDirectionPerformBlock:^(GREYDirection direction) {
     UIView *view = [[UIView alloc] initWithFrame:CGRectZero];
     XCTAssertThrowsSpecificNamed([GREYPathGestureUtils touchPathForGestureInView:view
@@ -99,7 +192,7 @@
   }];
 }
 
-- (void)testTouchPathCannotBegeneratedForNegativeAmounts {
+- (void)testTouchPathCannotBeGeneratedForNegativeAmounts {
   [self forEachDirectionPerformBlock:^(GREYDirection direction) {
     UIView *view = [[UIView alloc] initWithFrame:CGRectZero];
     XCTAssertThrowsSpecificNamed([GREYPathGestureUtils touchPathForGestureInView:view
