@@ -193,7 +193,6 @@
   @autoreleasepool {
     NSError *executorError;
     __block NSError *actionError = nil;
-    __weak __typeof__(self) weakSelf = self;
 
     // Create the user info dictionary for any notificatons and set it up with the action.
     NSMutableDictionary *actionUserInfo = [[NSMutableDictionary alloc] init];
@@ -205,9 +204,9 @@
 
     // Assign a flag that provides info if the interaction being performed failed.
     __block BOOL interactionFailed = NO;
-    BOOL executionSucceeded =
-        [[GREYUIThreadExecutor sharedInstance] executeSyncWithTimeout:interactionTimeout
-                                                                block:^{
+    __weak __typeof__(self) weakSelf = self;
+
+    GREYExecBlock actionExecBlock = ^{
       __typeof__(self) strongSelf = weakSelf;
       GREYFatalAssertWithMessage(strongSelf, @"Must not be nil");
 
@@ -264,7 +263,12 @@
                                    actionError:actionError
                           userProvidedOutError:nil];
       }
-    } error:&executorError];
+    };
+
+    BOOL executionSucceeded =
+        [[GREYUIThreadExecutor sharedInstance] executeSyncWithTimeout:interactionTimeout
+                                                                block:actionExecBlock
+                                                                error:&executorError];
 
     // Failure to execute due to timeout should be represented as interaction timeout.
     if (!executionSucceeded) {
@@ -322,7 +326,6 @@
   @autoreleasepool {
     NSError *executorError;
     __block NSError *assertionError = nil;
-    __weak __typeof__(self) weakSelf = self;
 
     NSNotificationCenter *defaultNotificationCenter = [NSNotificationCenter defaultCenter];
 
@@ -330,8 +333,9 @@
         (CGFloat)GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
     // Assign a flag that provides info if the interaction being performed failed.
     __block BOOL interactionFailed = NO;
-    BOOL executionSucceeded =
-        [[GREYUIThreadExecutor sharedInstance] executeSyncWithTimeout:interactionTimeout block:^{
+    __weak __typeof__(self) weakSelf = self;
+
+    GREYExecBlock assertionExecBlock = ^{
       __typeof__(self) strongSelf = weakSelf;
       GREYFatalAssertWithMessage(strongSelf, @"strongSelf must not be nil");
 
@@ -343,7 +347,7 @@
       NSArray *elements = [strongSelf matchedElementsWithTimeout:interactionTimeout
                                                            error:&elementNotFoundError];
       id element = (elements.count != 0) ?
-          [strongSelf grey_uniqueElementInMatchedElements:elements andError:&assertionError] : nil;
+      [strongSelf grey_uniqueElementInMatchedElements:elements andError:&assertionError] : nil;
 
       // Create the user info dictionary for any notificatons and set it up with the assertion.
       NSMutableDictionary *assertionUserInfo = [[NSMutableDictionary alloc] init];
@@ -358,8 +362,8 @@
         // Check for multiple matchers since we don't want the assertion to be checked when this
         // error surfaces.
         multipleMatchesPresent =
-            (assertionError.code == kGREYInteractionMultipleElementsMatchedErrorCode ||
-            assertionError.code == kGREYInteractionMatchedElementIndexOutOfBoundsErrorCode);
+        (assertionError.code == kGREYInteractionMultipleElementsMatchedErrorCode ||
+         assertionError.code == kGREYInteractionMatchedElementIndexOutOfBoundsErrorCode);
         [assertionUserInfo setObject:assertionError forKey:kGREYAssertionErrorUserInfoKey];
       }
       [defaultNotificationCenter postNotificationName:kGREYWillPerformAssertionNotification
@@ -406,7 +410,12 @@
                                    assertionError:assertionError
                              userProvidedOutError:nil];
       }
-    } error:&executorError];
+    };
+
+    BOOL executionSucceeded =
+        [[GREYUIThreadExecutor sharedInstance] executeSyncWithTimeout:interactionTimeout
+                                                                block:assertionExecBlock
+                                                                error:&executorError];
 
     // Failure to execute due to timeout should be represented as interaction timeout.
     if (!executionSucceeded) {
@@ -518,7 +527,7 @@
               userProvidedOutError:(__strong NSError **)userProvidedError {
   GREYFatalAssert(actionError);
 
-  // Throw an exception if userProvidedError isn't provided and the action failed.
+  // Throw an exception if the user did not provide an out error.
   if (!userProvidedError) {
     // First check errors that can happen at the inner most level such as timeouts.
     NSDictionary * errorDescriptions =
@@ -681,9 +690,14 @@
                      @"Error Trace: %@",
                      [GREYError grey_nestedDescriptionForError:actionError]);
   } else {
+    if ([actionError isKindOfClass:[GREYError class]]) {
+      NSMutableDictionary *errorDetails = [[NSMutableDictionary alloc] init];
+      errorDetails[kErrorDetailActionNameKey] = action.name;
+      errorDetails[kErrorDetailElementMatcherKey] = _elementMatcher.description;
+      [(GREYError *)actionError setErrorInfo:errorDetails];
+    }
     *userProvidedError = actionError;
   }
-
   return NO;
 }
 
@@ -705,7 +719,7 @@
                  userProvidedOutError:(__strong NSError **)userProvidedError {
   GREYFatalAssert(assertionError);
 
-  // Throw an exception if userProvidedError isn't provided and the assertion failed.
+  // Throw an exception if the user did not provide an out error.
   if (!userProvidedError) {
     // first check errors that can happens at the inner most level
     // for example: executor error
@@ -856,9 +870,14 @@
                         @"Error Trace: %@",
                         [GREYError grey_nestedDescriptionForError:assertionError]);
   } else {
+    if ([assertionError isKindOfClass:[GREYError class]]) {
+      NSMutableDictionary *errorDetails = [[NSMutableDictionary alloc] init];
+      errorDetails[kErrorDetailActionNameKey] = assertion.name;
+      errorDetails[kErrorDetailElementMatcherKey] = _elementMatcher.description;
+      [(GREYError *)assertionError setErrorInfo:errorDetails];
+    }
     *userProvidedError = assertionError;
   }
-
   return NO;
 }
 
