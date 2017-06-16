@@ -43,7 +43,7 @@ GREY_EXTERN NSString *const kGREYConfigKeyAnalyticsEnabled;
 GREY_EXTERN NSString *const kGREYConfigKeyActionConstraintsEnabled;
 
 /**
- *  Configuration that holds timeout duration (in seconds) for action and assertions. Actions or
+ *  Configuration that holds timeout duration (in seconds) for actions and assertions. Actions or
  *  assertions that are not scheduled within this time will fail with a timeout.
  *
  *  Accepted values: @c double (negative values are invalid)
@@ -57,7 +57,7 @@ GREY_EXTERN NSString *const kGREYConfigKeyInteractionTimeoutDuration;
  *  longer do so.
  *
  *  @remark For more fine-grained control over synchronization parameters, you can tweak other
- *          provided configuration options.
+ *          provided configuration options below.
  *
  *  Accepted values: @c BOOL (i.e. @c YES or @c NO)
  *  Default value: @c YES

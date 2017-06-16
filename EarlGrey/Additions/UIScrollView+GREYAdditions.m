@@ -64,9 +64,9 @@
     // NOTE that these values are not reliable as scroll views without bounce have non-zero
     // velocities even when they are at the edge of the content and cannot be scrolled.
     double horizontalVelocity =
-    ((double (*)(id, SEL))objc_msgSend)(self, NSSelectorFromString(@"_horizontalVelocity"));
+        ((double (*)(id, SEL))objc_msgSend)(self, NSSelectorFromString(@"_horizontalVelocity"));
     double verticalVelocity =
-    ((double (*)(id, SEL))objc_msgSend)(self, NSSelectorFromString(@"_verticalVelocity"));
+        ((double (*)(id, SEL))objc_msgSend)(self, NSSelectorFromString(@"_verticalVelocity"));
     return horizontalVelocity == 0 && verticalVelocity == 0;
   }
 }

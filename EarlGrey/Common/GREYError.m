@@ -195,35 +195,32 @@ GREYError *I_GREYErrorMake(NSString *domain,
   }
 
   NSMutableArray *errorStack = [[NSMutableArray alloc] init];
-
-  if (error.userInfo[NSUnderlyingErrorKey]) {
-    NSError *underlyingError = error.userInfo[NSUnderlyingErrorKey];
+  NSError *underlyingError = error.userInfo[NSUnderlyingErrorKey];
+  if (underlyingError) {
     NSArray *errorDescriptions = [GREYError grey_nestedErrorDictionariesForError:underlyingError];
     [errorStack addObjectsFromArray:errorDescriptions];
   }
 
-  // for GREYError, we need to remove some of the fields
+  NSDictionary *descriptions = [error grey_descriptionDictionary];
+  // For GREYError, we need to remove some of the fields.
   if ([error isKindOfClass:[GREYError class]]) {
-    NSMutableDictionary *descriptionDictionary = [[error grey_descriptionDictionary] mutableCopy];
+    NSMutableDictionary *mutableDescriptions = [descriptions mutableCopy];
 
-    [descriptionDictionary removeObjectForKey:kErrorUserInfoKey];
-    [descriptionDictionary removeObjectForKey:kErrorErrorInfoKey];
-    [descriptionDictionary removeObjectForKey:kErrorBundleIDKey];
-    [descriptionDictionary removeObjectForKey:kErrorStackTraceKey];
-    [descriptionDictionary removeObjectForKey:kErrorAppUIHierarchyKey];
-    [descriptionDictionary removeObjectForKey:kErrorAppScreenShotsKey];
-
-    [errorStack addObject:descriptionDictionary];
-  } else {
-    [errorStack addObject:[error grey_descriptionDictionary]];
+    [mutableDescriptions removeObjectForKey:kErrorUserInfoKey];
+    [mutableDescriptions removeObjectForKey:kErrorErrorInfoKey];
+    [mutableDescriptions removeObjectForKey:kErrorBundleIDKey];
+    [mutableDescriptions removeObjectForKey:kErrorStackTraceKey];
+    [mutableDescriptions removeObjectForKey:kErrorAppUIHierarchyKey];
+    [mutableDescriptions removeObjectForKey:kErrorAppScreenShotsKey];
+    descriptions = mutableDescriptions;
   }
+  [errorStack addObject:descriptions];
 
   return errorStack;
 }
 
 + (NSString *)grey_nestedDescriptionForError:(NSError *)error {
   NSArray *descriptions = [GREYError grey_nestedErrorDictionariesForError:error];
-
   if (descriptions.count == 0) {
     return @"";
   }
