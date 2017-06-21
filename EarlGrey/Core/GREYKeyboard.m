@@ -354,7 +354,6 @@ static NSString *const kReturnKeyIdentifier = @"\n";
   GREYFatalAssert(character);
 
   BOOL ignoreCase = NO;
-  NSString *accessibilityLabel = character;
   // If the key is a modifier key then we need to do a case-insensitive comparison and change the
   // accessibility label to the corresponding modifier key accessibility label.
   NSString *modifierKeyIdentifier = [gModifierKeyIdentifierMapping objectForKey:character];
@@ -365,30 +364,30 @@ static NSString *const kReturnKeyIdentifier = @"\n";
     if ([character isEqualToString:kReturnKeyIdentifier]) {
       modifierKeyIdentifier = [currentKeyboard returnKeyDisplayName];
     }
-    accessibilityLabel = modifierKeyIdentifier;
+    character = modifierKeyIdentifier;
     ignoreCase = YES;
   }
 
   // iOS 9 changes & to ampersand.
-  if ([accessibilityLabel isEqualToString:@"&"] && iOS9_OR_ABOVE()) {
-    accessibilityLabel = @"ampersand";
+  if ([character isEqualToString:@"&"] && iOS9_OR_ABOVE()) {
+    character = @"ampersand";
   }
 
-  return [self grey_keyWithAccessibilityLabel:accessibilityLabel
-          inKeyboardLayoutWithCaseSensitivity:ignoreCase];
+  return [self grey_keyForCharacterValue:character
+     inKeyboardLayoutWithCaseSensitivity:ignoreCase];
 }
 
 /**
  *  Get the key on the keyboard for the given accessibility label.
  *
- *  @param accessibilityLabel The accessibility key of the key to be searched.
- *  @param ignoreCase         A Boolean that is @c YES if searching for the key requires ignoring
- *                            the case. This is seen in the case of modifier keys that have
- *                            differing cases across iOS versions.
+ *  @param character  The accessibility key of the key to be searched.
+ *  @param ignoreCase A Boolean that is @c YES if searching for the key requires ignoring
+ *                    the case. This is seen in the case of modifier keys that have
+ *                    differing cases across iOS versions.
  *
  *  @return A key that has the given accessibility label.
  */
-+ (id)grey_keyWithAccessibilityLabel:(NSString *)accessibilityLabel
++ (id)grey_keyForCharacterValue:(NSString *)character
       inKeyboardLayoutWithCaseSensitivity:(BOOL)ignoreCase {
   UIKeyboardImpl *keyboard = [GREYKeyboard grey_keyboardObject];
   // Type of layout is private class UIKeyboardLayoutStar, which implements UIAccessibilityContainer
@@ -399,8 +398,13 @@ static NSString *const kReturnKeyIdentifier = @"\n";
     for (NSInteger i = 0; i < [layout accessibilityElementCount]; ++i) {
       id key = [layout accessibilityElementAtIndex:i];
       if ((ignoreCase &&
-           [[key accessibilityLabel] caseInsensitiveCompare:accessibilityLabel] == NSOrderedSame) ||
-          (!ignoreCase && [[key accessibilityLabel] isEqualToString:accessibilityLabel])) {
+           [[key accessibilityLabel] caseInsensitiveCompare:character] == NSOrderedSame) ||
+          (!ignoreCase && [[key accessibilityLabel] isEqualToString:character])) {
+        return key;
+      }
+
+      if ([key accessibilityIdentifier] &&
+          [[key accessibilityIdentifier] isEqualToString:character]) {
         return key;
       }
     }
