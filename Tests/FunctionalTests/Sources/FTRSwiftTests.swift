@@ -142,7 +142,7 @@ class FTRSwiftTests: XCTestCase {
     self.openTestView("Basic Views")
     EarlGrey.select(elementWithMatcher: grey_text("Tab 2")).perform(grey_tap())
     let matcher = grey_allOf([grey_text("Long Press"), grey_sufficientlyVisible()])
-    EarlGrey.select(elementWithMatcher: matcher).perform(grey_longPressWithDuration(1.0))
+    EarlGrey.select(elementWithMatcher: matcher).perform(grey_longPressWithDuration(1.1))
       .assert(grey_notVisible())
   }
 
