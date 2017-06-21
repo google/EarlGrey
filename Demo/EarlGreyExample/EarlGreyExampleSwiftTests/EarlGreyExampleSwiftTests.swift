@@ -109,7 +109,7 @@ class EarlGreyExampleSwiftTests: XCTestCase {
   func testTableCellOutOfScreen() {
     // Go find one cell out of the screen.
     EarlGrey.select(elementWithMatcher: grey_accessibilityID("Cell30"))
-      .usingSearch(grey_scrollInDirection(GREYDirection.down, 50),
+      .usingSearch(grey_scrollInDirection(GREYDirection.down, 100),
           onElementWith: grey_accessibilityID("table"))
       .perform(grey_tap())
     // Move back to top of the table.
