@@ -385,7 +385,6 @@ static NSString *const kReturnKeyIdentifier = @"\n";
  *  Get the key on the keyboard for the given accessibility label.
  *
  *  @param character  A string identifying the key to be searched.
->>>>>>> Fixed all static analysis errors
  *  @param ignoreCase A Boolean that is @c YES if searching for the key requires ignoring
  *                    the case. This is seen in the case of modifier keys that have
  *                    differing cases across iOS versions.
@@ -393,7 +392,7 @@ static NSString *const kReturnKeyIdentifier = @"\n";
  *  @return A key that has the given accessibility label.
  */
 + (id)grey_keyForCharacterValue:(NSString *)character
-      inKeyboardLayoutWithCaseSensitivity:(BOOL)ignoreCase {
+    inKeyboardLayoutWithCaseSensitivity:(BOOL)ignoreCase {
   UIKeyboardImpl *keyboard = [GREYKeyboard grey_keyboardObject];
   // Type of layout is private class UIKeyboardLayoutStar, which implements UIAccessibilityContainer
   // Protocol and contains accessibility elements for keyboard keys that it shows on the screen.
@@ -425,7 +424,7 @@ static NSString *const kReturnKeyIdentifier = @"\n";
 + (BOOL)grey_isAlphabeticKeyplaneShown {
   // Arbitrarily choose e/E as the key to look for to determine if alphabetic keyplane is shown.
   return [GREYKeyboard grey_findKeyForCharacter:@"e"] != nil
-      || [GREYKeyboard grey_findKeyForCharacter:@"E"] != nil;
+  || [GREYKeyboard grey_findKeyForCharacter:@"E"] != nil;
 }
 
 /**
