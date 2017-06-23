@@ -286,7 +286,8 @@ static NSMutableArray *gAppWindows;
   NSError *error;
 
   id<GREYAssertion> assertion =
-      [GREYAssertions grey_createAssertionWithMatcher:grey_allOf(grey_equalTo(view), nil)];
+      [GREYAssertions grey_createAssertionWithMatcher:grey_allOf(grey_equalTo(view), grey_notNil(),
+                                                                 nil)];
   [assertion assert:nil error:&error];
   XCTAssertEqualObjects(error.domain, kGREYInteractionErrorDomain);
   XCTAssertEqual(error.code, kGREYInteractionElementNotFoundErrorCode);
@@ -294,7 +295,7 @@ static NSMutableArray *gAppWindows;
 
 - (void)testAllOfMatcherWithView {
   UIView *view = [[UIView alloc] init];
-  id<GREYMatcher> allOfMatcher = grey_allOf(grey_equalTo(view), nil);
+  id<GREYMatcher> allOfMatcher = grey_allOf(grey_equalTo(view), grey_notNil(), nil);
   NSError *error;
 
   [[GREYAssertions grey_createAssertionWithMatcher:allOfMatcher] assert:view error:&error];

@@ -74,11 +74,6 @@
                                     reason,
                                     glossary);
       }
-
-      // Log error if we are not populating errorOrNil.
-      if (!errorOrNil) {
-        GREYLogError(*errorOrNil);
-      }
       return NO;
     }
     return YES;

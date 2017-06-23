@@ -486,6 +486,7 @@
  */
 - (id)grey_uniqueElementInMatchedElements:(NSArray *)elements
                                  andError:(__strong NSError **)interactionError {
+  NSError *error;
   // If we find that multiple matched elements are present, we narrow them down based on
   // any index passed or populate the passed error if the multiple matches are present and
   // an incorrect index was passed.
@@ -494,12 +495,18 @@
     // matching. We perform a bounds check on the index provided here and throw an exception if
     // it fails.
     if (_index == NSUIntegerMax) {
-      *interactionError = [self grey_errorForMultipleMatchingElements:elements
-                                  withMatchedElementsIndexOutOfBounds:NO];
+      error = [self grey_errorForMultipleMatchingElements:elements
+                      withMatchedElementsIndexOutOfBounds:NO];
+      if (interactionError) {
+        *interactionError = error;
+      }
       return nil;
     } else if (_index >= elements.count) {
-      *interactionError = [self grey_errorForMultipleMatchingElements:elements
-                                  withMatchedElementsIndexOutOfBounds:YES];
+      error = [self grey_errorForMultipleMatchingElements:elements
+                      withMatchedElementsIndexOutOfBounds:YES];
+      if (interactionError) {
+        *interactionError = error;
+      }
       return nil;
     } else {
       return [elements objectAtIndex:_index];
