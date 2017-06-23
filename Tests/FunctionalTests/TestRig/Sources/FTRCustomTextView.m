@@ -186,8 +186,8 @@
 }
 
 - (NSArray *)selectionRectsForRange:(UITextRange *)range {
-  // Required method. Returns nil. Add code if needed
-  return nil;
+  // Required method that expect non-null value. Returning empty array by default.
+  return @[];
 }
 
 - (UITextRange *)markedTextRange {

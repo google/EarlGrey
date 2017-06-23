@@ -87,23 +87,7 @@ static NSString *const kReturnKeyIdentifier = @"\n";
 
 + (void)load {
   @autoreleasepool {
-    gTapKeyAction = [[GREYTapAction alloc] initWithType:kGREYTapTypeKBKey];
     NSObject *keyboardObject = [[NSObject alloc] init];
-    // Note: more, numbers label must be after shift and SHIFT labels, because it is also used for
-    // the key for switching between keyplanes.
-    gShiftKeyLabels =
-        @[ @"shift", @"Shift", @"SHIFT", @"more, symbols", @"more, numbers", @"more", @"MORE" ];
-
-    gAlphabeticKeyplaneCharacters = [NSMutableCharacterSet uppercaseLetterCharacterSet];
-    [gAlphabeticKeyplaneCharacters formUnionWithCharacterSet:
-        [NSCharacterSet lowercaseLetterCharacterSet]];
-
-    gModifierKeyIdentifierMapping = @{
-      kSpaceKeyIdentifier : @"space",
-      kDeleteKeyIdentifier : @"delete",
-      kReturnKeyIdentifier : @"return"
-    };
-
     // Hooks to keyboard lifecycle notification.
     NSNotificationCenter *defaultNotificationCenter = [NSNotificationCenter defaultCenter];
     [defaultNotificationCenter addObserverForName:UIKeyboardWillShowNotification
@@ -144,6 +128,26 @@ static NSString *const kReturnKeyIdentifier = @"\n";
                                                      @selector(grey_keyboardObject));
       UNTRACK_STATE_FOR_ELEMENT_WITH_ID(kGREYPendingKeyboardTransition, elementID);
     }];
+  }
+}
+
++ (void)initialize {
+  if (self == [GREYKeyboard class]) {
+    gTapKeyAction = [[GREYTapAction alloc] initWithType:kGREYTapTypeKBKey];
+    // Note: more, numbers label must be after shift and SHIFT labels, because it is also used for
+    // the key for switching between keyplanes.
+    gShiftKeyLabels =
+        @[ @"shift", @"Shift", @"SHIFT", @"more, symbols", @"more, numbers", @"more", @"MORE" ];
+
+    NSCharacterSet *lowerCaseSet = [NSCharacterSet lowercaseLetterCharacterSet];
+    gAlphabeticKeyplaneCharacters = [NSMutableCharacterSet uppercaseLetterCharacterSet];
+    [gAlphabeticKeyplaneCharacters formUnionWithCharacterSet:lowerCaseSet];
+
+    gModifierKeyIdentifierMapping = @{
+        kSpaceKeyIdentifier : @"space",
+        kDeleteKeyIdentifier : @"delete",
+        kReturnKeyIdentifier : @"return"
+    };
   }
 }
 
@@ -380,7 +384,8 @@ static NSString *const kReturnKeyIdentifier = @"\n";
 /**
  *  Get the key on the keyboard for the given accessibility label.
  *
- *  @param character  The accessibility key of the key to be searched.
+ *  @param character  A string identifying the key to be searched.
+>>>>>>> Fixed all static analysis errors
  *  @param ignoreCase A Boolean that is @c YES if searching for the key requires ignoring
  *                    the case. This is seen in the case of modifier keys that have
  *                    differing cases across iOS versions.
@@ -437,17 +442,18 @@ static NSString *const kReturnKeyIdentifier = @"\n";
 /**
  *  Utility method to tap on a key on the keyboard.
  *
- *  @param      key           The key to be tapped.
- *  *param[out] errorOrNil    The error to be populated. If this is @c nil,
- *                            then an error message is logged.
+ *  @param      key        The key to be tapped.
+ *  @param[out] errorOrNil The error to be populated. If this is @c nil,
+ *                         then an error message is logged.
  */
-+ (void)grey_tapKey:(id)key error:(__strong NSError **)errorOrNil {
++ (BOOL)grey_tapKey:(id)key error:(__strong NSError **)errorOrNil {
   GREYFatalAssert(key);
 
   NSLog(@"Tapping on key: %@.", [key accessibilityLabel]);
-  [gTapKeyAction perform:key error:errorOrNil];
+  BOOL success = [gTapKeyAction perform:key error:errorOrNil];
   [[[GREYKeyboard grey_keyboardObject] taskQueue] waitUntilAllTasksAreFinished];
   [[GREYUIThreadExecutor sharedInstance] drainOnce];
+  return success;
 }
 
 /**

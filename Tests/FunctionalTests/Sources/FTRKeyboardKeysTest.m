@@ -468,15 +468,17 @@
 - (void)testClearAndReplaceWorksWithUIAccessibilityTextFieldElement {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"Input Button")]
       performAction:grey_tap()];
+
   Class accessibilityTextFieldElemClass = NSClassFromString(@"UIAccessibilityTextFieldElement");
-  [[EarlGrey selectElementWithMatcher:grey_allOf(grey_accessibilityValue(@"Text Field"),
-                                                 grey_kindOfClass(accessibilityTextFieldElemClass),
-                                                 nil)]
-      performAction:grey_clearText()];
-  [[EarlGrey selectElementWithMatcher:grey_allOf(grey_accessibilityValue(@"Text Field"),
-                                                 grey_kindOfClass(accessibilityTextFieldElemClass),
-                                                 nil)]
-      performAction:grey_replaceText(@"")];
+  id<GREYMatcher> elementMatcher = grey_allOf(grey_accessibilityValue(@"Text Field"),
+                                              grey_kindOfClass(accessibilityTextFieldElemClass),
+                                              nil);
+  [[[EarlGrey selectElementWithMatcher:elementMatcher]
+      performAction:grey_clearText()]
+      performAction:grey_replaceText(@"foo")];
+
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"foo")]
+      assertWithMatcher:grey_text(@"foo")];
 }
 
 - (void)testTypingAndResigningOfFirstResponder {
