@@ -60,6 +60,18 @@
   self.leftView.accessibilityIdentifier = @"AView1";
   self.centerView.accessibilityIdentifier = @"AView2";
   self.rightView.accessibilityIdentifier = @"AView3";
+  self.bottomScrollView.accessibilityIdentifier = @"bottomScrollView";
+  self.coverScrollView.accessibilityIdentifier = @"coverScrollView";
+}
+
+- (void)viewDidLayoutSubviews {
+  [super viewDidLayoutSubviews];
+
+  self.bottomScrollView.contentSize = CGSizeMake(1000, 1000);
+  self.coverScrollView.contentSize = CGSizeMake(1000, 1000);
+
+  self.bottomScrollView.contentOffset = CGPointMake(100, 100);
+  self.coverScrollView.contentOffset = CGPointMake(100, 100);
 }
 
 #pragma mark - Private
