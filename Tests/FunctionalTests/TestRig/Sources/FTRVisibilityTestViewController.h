@@ -17,6 +17,8 @@
 // View controller used for visibility checker tests.
 @interface FTRVisibilityTestViewController : UIViewController
 
+@property(retain, nonatomic) IBOutlet UIScrollView *bottomScrollView;
+@property(retain, nonatomic) IBOutlet UIScrollView *coverScrollView;
 @property(retain, nonatomic) IBOutlet UIView *translucentOverlappingView;
 @property(retain, nonatomic) IBOutlet UILabel *translucentLabel;
 @property(retain, nonatomic) IBOutlet UIButton *button;

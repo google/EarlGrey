@@ -690,6 +690,73 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
 }
 
 /**
+ *  Given a list of values representing a histogram (values are the heights of the bars), this
+ *  method returns the largest contiguous rectangle in that histogram.
+ *
+ *  @param histogram The array of values representing the histogram.
+ *  @param length    The number of values in the histogram.
+ *
+ *  @return A CGRect of the largest rectangle in the given histogram.
+ */
++ (CGRect)grey_largestRectInHistogram:(uint16_t *)histogram
+                               length:(uint16_t)length {
+  uint16_t *leftNeighbors = malloc(sizeof(uint16_t) * length);
+  uint16_t *rightNeighbors = malloc(sizeof(uint16_t) * length);
+  uint16_t *leftStack = malloc(sizeof(uint16_t) * length);
+  uint16_t *rightStack = malloc(sizeof(uint16_t) * length);
+  // Index of the last element on the stack.
+  NSInteger leftStackIdx = -1;
+  NSInteger rightStackIdx = -1;
+  CGRect largestRect = CGRectZero;
+  CGFloat largestArea = 0;
+  // We make two passes at once, one from left to right and one from right to left.
+  for (uint16_t idx = 0; idx < length; idx++) {
+    uint16_t tailIdx = (length - 1) - idx;
+    // Find nearest column shorter than this one on either side.
+    while (leftStackIdx >= 0 && histogram[leftStack[leftStackIdx]] >= histogram[idx]) {
+      leftStackIdx--;
+    }
+    while (rightStackIdx >= 0 && histogram[rightStack[rightStackIdx]] >= histogram[tailIdx]) {
+      rightStackIdx--;
+    }
+    // Set the number of columns at least as tall as this one on either side.
+    if (leftStackIdx < 0) {
+      leftNeighbors[idx] = idx;
+    } else {
+      leftNeighbors[idx] = idx - leftStack[leftStackIdx] - 1;
+    }
+    if (rightStackIdx < 0) {
+      rightNeighbors[tailIdx] = length - tailIdx - 1;
+    } else {
+      rightNeighbors[tailIdx] = rightStack[rightStackIdx] - tailIdx - 1;
+    }
+    // Add the current index to the stack
+    leftStack[++leftStackIdx] = idx;
+    rightStack[++rightStackIdx] = tailIdx;
+  }
+  // Now we have the number of histogram bars immediately left and right of each bar that are at
+  // least as tall as the given bar. Now we can compute areas easily.
+  for (NSUInteger idx = 0; idx < length; idx++) {
+    CGFloat area = (leftNeighbors[idx] + rightNeighbors[idx] + 1) * histogram[idx];
+    if (area > largestArea) {
+      largestArea = area;
+      largestRect.origin.x = idx - leftNeighbors[idx];
+      largestRect.size.width = leftNeighbors[idx] + rightNeighbors[idx] + 1;
+      largestRect.size.height = histogram[idx];
+    }
+  }
+  free(leftStack);
+  leftStack = NULL;
+  free(rightStack);
+  rightStack = NULL;
+  free(leftNeighbors);
+  leftNeighbors = NULL;
+  free(rightNeighbors);
+  rightNeighbors = NULL;
+  return largestRect;
+}
+
+/**
  *  Calculates the number of pixel in @c afterImage that have different pixel intensity in
  *  @c beforeImage.
  *  If @c visiblePixelRect is not NULL, stores the smallest rectangle enclosing all shifted pixels
@@ -699,8 +766,8 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
  *
  *  @param      afterImage          The image containing view with shifted colors.
  *  @param      beforeImage         The original image of the view.
- *  @param[out] outVisiblePixelRect A reference for getting the smallest rectangle enclosing all
- *                                  shifted pixels.
+ *  @param[out] outVisiblePixelRect A reference for getting the largest
+ *                                  rectangle enclosing only visible points in the view.
  *  @param[out] outDiffBufferOrNULL A reference for getting the GREYVisibilityDiffBuffer that was
  *                                  created to detect image diff.
  *
@@ -717,31 +784,27 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
                              @"width must be the same");
   GREYFatalAssertWithMessage(CGImageGetHeight(beforeImage) == CGImageGetHeight(afterImage),
                              @"height must be the same");
-
   unsigned char *pixelBuffer = grey_createImagePixelDataFromCGImageRef(beforeImage, NULL);
   GREYFatalAssertWithMessage(pixelBuffer, @"pixelBuffer must not be null");
   unsigned char *shiftedPixelBuffer = grey_createImagePixelDataFromCGImageRef(afterImage, NULL);
   GREYFatalAssertWithMessage(shiftedPixelBuffer, @"shiftedPixelBuffer must not be null");
-
   NSUInteger width = CGImageGetWidth(beforeImage);
   NSUInteger height = CGImageGetHeight(beforeImage);
-  CGFloat minX = FLT_MAX;
-  CGFloat maxX = -FLT_MAX;
-  CGFloat minY = FLT_MAX;
-  CGFloat maxY = -FLT_MAX;
+  uint16_t *histograms = NULL;
+  // We only want to perform the relatively expensive rect computation if we've actually
+  // been asked for it.
+  if (outVisiblePixelRect) {
+    histograms = calloc((size_t)(width * height), sizeof(uint16_t));
+  }
   GREYVisiblePixelData visiblePixelData = {0, GREYCGPointNull};
-  for (NSUInteger x = 0; x < width; x++) {
-    for (NSUInteger y = 0; y < height; y++) {
+  // Make sure we go row-order to take advantage of data locality (cuts runtime in half).
+  for (NSUInteger y = 0; y < height; y++) {
+    for (NSUInteger x = 0; x < width; x++) {
       NSUInteger currentPixelIndex = (y * width + x) * kColorChannelsPerPixel;
       // We don't care about the first byte because we are dealing with XRGB format.
       BOOL pixelHasDiff = grey_isPixelDifferent(&pixelBuffer[currentPixelIndex + 1],
                                                 &shiftedPixelBuffer[currentPixelIndex + 1]);
       if (pixelHasDiff) {
-        minX = MIN(minX, x);
-        maxX = MAX(maxX, x);
-        minY = MIN(minY, y);
-        maxY = MAX(maxY, y);
-
         visiblePixelData.visiblePixelCount++;
         // Always pick the bottom and right-most pixel. We may want to consider using tax-cab
         // formula to find a pixel that's closest to the center if we encounter problems with this
@@ -749,21 +812,38 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
         visiblePixelData.visiblePixel.x = x;
         visiblePixelData.visiblePixel.y = y;
       }
-
+      if (outVisiblePixelRect) {
+        if (y == 0) {
+          histograms[x] = pixelHasDiff ? 1 : 0;
+        } else {
+          histograms[y * width + x] = pixelHasDiff ? (histograms[(y - 1) * width + x] + 1) : 0;
+        }
+      }
       if (outDiffBufferOrNULL) {
         GREYVisibilityDiffBufferSetVisibility(*outDiffBufferOrNULL, x, y, pixelHasDiff);
       }
     }
   }
   if (outVisiblePixelRect) {
-    // Width and height require a +1 to accomodate single pixel images.
-    *outVisiblePixelRect = visiblePixelData.visiblePixelCount > 0
-        ? CGRectMake(minX, minY, maxX - minX + 1, maxY - minY + 1)
-        : CGRectZero;
+    CGRect largestRect = CGRectZero;
+    for (NSUInteger idx = 0; idx < height; idx++) {
+      CGRect thisLargest =
+      [GREYVisibilityChecker grey_largestRectInHistogram:&histograms[idx * width]
+                                                  length:(uint16_t)width];
+      if (CGRectArea(thisLargest) > CGRectArea(largestRect)) {
+        // Because our histograms point up, not down.
+        thisLargest.origin.y = idx - thisLargest.size.height + 1;
+        largestRect = thisLargest;
+      }
+    }
+    *outVisiblePixelRect = largestRect;
+    free(histograms);
+    histograms = NULL;
   }
-
   free(pixelBuffer);
+  pixelBuffer = NULL;
   free(shiftedPixelBuffer);
+  shiftedPixelBuffer = NULL;
   return visiblePixelData;
 }
 
