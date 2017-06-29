@@ -754,6 +754,316 @@ extern const NSUInteger kMinimumPointsVisibleForInteraction;
   XCTAssertTrue(isVisibleForInteraction, @"Cached value should also be YES. Are we using cache?");
 }
 
+/**
+ *  Helper for checking corner cases that calculates the visible rect for an imaginary view of a
+ *  given size @c size with area @c targetArea hidden if @c hidden is YES or with only are
+ *  @c targetArea showing if @c hidden is NO.
+ *
+ *  @param size       The size of the view image to build (for checking performance).
+ *  @param targetArea The area to make visible/not visible depending on @c hidden
+ *  @param hidden     If YES, make @c targetArea hidden. Otherwise, make @c targetArea
+ *                    visible and everywhere else hidden.
+ *
+ *  @return The visible rect computed from the given parameters.
+ */
+- (CGRect)grey_visibleRectForSize:(CGSize)size
+                             area:(CGRect)targetArea
+                       areaHidden:(BOOL)hidden {
+  CGRect visibleRect = CGRectMake(0, 0, size.width, size.height);
+  // Generate some test images.
+  UIImage *before = [self grey_imageOfSize:visibleRect.size withColor:[UIColor whiteColor]];
+  UIImage *after;
+  if (hidden) {
+    after = [self grey_imageOfSize:visibleRect.size
+               withBackgroundColor:[UIColor whiteColor]
+                   withVisibleArea:visibleRect
+andOptionalHiddenAreaFromVisibleArea:targetArea];
+  } else {
+    after = [self grey_imageOfSize:visibleRect.size
+               withBackgroundColor:[UIColor whiteColor]
+                    withVisibleArea:targetArea];
+  }
+  CGRect enclosing_px;
+  [GREYVisibilityChecker grey_countPixelsInImage:before.CGImage
+                     thatAreShiftedPixelsOfImage:after.CGImage
+                     storeVisiblePixelRectInRect:&enclosing_px
+                andStoreComparisonResultInBuffer:NULL];
+  return CGRectPixelToPoint(enclosing_px);
+}
+
+- (void)testVisibleAreaCorrectTopLeftVisible {
+  // Test (starred region visible):
+  // ****---
+  // ****   |
+  // ****   |
+  // |      |
+  // |      |
+  // |      |
+  // |      |
+  // |      |
+  //  ------
+  CGRect correct = CGRectMake(0, 0, 20, 20);
+  CGRect rect = [self grey_visibleRectForSize:CGSizeMake(100, 10000)
+                                    area:correct
+                              areaHidden:NO];
+  XCTAssertTrue(CGRectEqualToRect(rect, correct),
+                @"Visible rect returned incorrect (expected %@ got %@).",
+                NSStringFromCGRect(correct),
+                NSStringFromCGRect(rect));
+}
+
+- (void)testVisibleAreaCorrectCenterVisible {
+  // Test (starred region visible):
+  //  --------
+  // |        |
+  // | *****  |
+  // | *****  |
+  // |        |
+  //  --------
+  CGRect correct = CGRectMake(2, 3, 4, 4);
+  CGRect rect = [self grey_visibleRectForSize:CGSizeMake(10, 10)
+                                    area:correct
+                              areaHidden:NO];
+  XCTAssertTrue(CGRectEqualToRect(rect, correct),
+                @"Visible rect returned incorrect (expected %@ got %@).",
+                NSStringFromCGRect(correct),
+                NSStringFromCGRect(rect));
+}
+
+- (void)testVisibleAreaCorrectBottomRightTallHidden {
+  // Test (starred region visible):
+  //  --------
+  // |        |
+  // |     ****
+  // |     ****
+  // |     ****
+  //  -----****
+  CGRect correct = CGRectMake(6, 3, 4, 7);
+  CGRect rect = [self grey_visibleRectForSize:CGSizeMake(10, 10)
+                                    area:correct
+                              areaHidden:NO];
+  XCTAssertTrue(CGRectEqualToRect(rect, correct),
+                @"Visible rect returned incorrect (expected %@ got %@).",
+                NSStringFromCGRect(correct),
+                NSStringFromCGRect(rect));
+}
+
+- (void)testVisibleAreaCorrectTopLeftHidden {
+  // Test (starred region occluded):
+  // ****----------
+  // ****          |
+  // ****          |
+  // |             |
+  // |             |
+  //  -------------
+  CGRect rect = [self grey_visibleRectForSize:CGSizeMake(100, 10000)
+                                    area:CGRectMake(0, 0, 20, 20)
+                              areaHidden:YES];
+  CGRect correct = CGRectMake(0, 20, 100, 9980);
+  XCTAssertTrue(CGRectEqualToRect(rect, correct),
+                @"Visible rect returned incorrect (expected %@ got %@).",
+                NSStringFromCGRect(correct),
+                NSStringFromCGRect(rect));
+}
+
+- (void)testVisibleAreaCorrectTopRightHidden {
+  // Test (starred region occluded):
+  //  ----------****
+  // |          ****
+  // |          ****
+  // |             |
+  // |             |
+  //  -------------
+  CGRect rect = [self grey_visibleRectForSize:CGSizeMake(10000, 10)
+                                    area:CGRectMake(9996, 0, 4, 4)
+                              areaHidden:YES];
+  CGRect correct = CGRectMake(0, 0, 9996, 10);
+  XCTAssertTrue(CGRectEqualToRect(rect, correct),
+                @"Visible rect returned incorrect (expected %@ got %@).",
+                NSStringFromCGRect(correct),
+                NSStringFromCGRect(rect));
+}
+
+- (void)testVisibleAreaCorrectCenterHidden {
+  // Test (starred region occluded):
+  //  --------
+  // |        |
+  // | *****  |
+  // | *****  |
+  // |        |
+  //  --------
+  CGRect rect = [self grey_visibleRectForSize:CGSizeMake(10, 10)
+                                    area:CGRectMake(2, 3, 4, 4)
+                              areaHidden:YES];
+  CGRect correct = CGRectMake(6, 0, 4, 10);
+  XCTAssertTrue(CGRectEqualToRect(rect, correct),
+                @"Visible rect returned incorrect (expected %@ got %@).",
+                NSStringFromCGRect(correct),
+                NSStringFromCGRect(rect));
+}
+
+- (void)testVisibleAreaCorrectLeftHidden {
+  // Test (starred region occluded):
+  //  --------
+  // |        |
+  // ****     |
+  // ****     |
+  // |        |
+  //  --------
+  CGRect rect = [self grey_visibleRectForSize:CGSizeMake(10, 10)
+                                    area:CGRectMake(0, 3, 4, 4)
+                              areaHidden:YES];
+  CGRect correct = CGRectMake(4, 0, 6, 10);
+  XCTAssertTrue(CGRectEqualToRect(rect, correct),
+                @"Visible rect returned incorrect (expected %@ got %@).",
+                NSStringFromCGRect(correct),
+                NSStringFromCGRect(rect));
+}
+
+- (void)testVisibleAreaCorrectRightHidden {
+  // Test (starred region occluded):
+  //  --------
+  // |        |
+  // |     ****
+  // |     ****
+  // |        |
+  //  --------
+  CGRect rect = [self grey_visibleRectForSize:CGSizeMake(10, 10)
+                                    area:CGRectMake(6, 3, 4, 4)
+                              areaHidden:YES];
+  CGRect correct = CGRectMake(0, 0, 6, 10);
+  XCTAssertTrue(CGRectEqualToRect(rect, correct),
+                @"Visible rect returned incorrect (expected %@ got %@).",
+                NSStringFromCGRect(correct),
+                NSStringFromCGRect(rect));
+}
+
+- (void)testVisibleAreaCorrectBottomHidden {
+  // Test (starred region occluded):
+  //  --------
+  // |        |
+  // |        |
+  // |  ****  |
+  // |  ****  |
+  //  --****--
+  CGRect rect = [self grey_visibleRectForSize:CGSizeMake(10, 10)
+                                    area:CGRectMake(3, 6, 4, 4)
+                              areaHidden:YES];
+  CGRect correct = CGRectMake(0, 0, 10, 6);
+  XCTAssertTrue(CGRectEqualToRect(rect, correct),
+                @"Visible rect returned incorrect (expected %@ got %@).",
+                NSStringFromCGRect(correct),
+                NSStringFromCGRect(rect));
+}
+
+- (void)testVisibleAreaCorrectBottomRightTallVisible {
+  // Test (starred region occluded):
+  //  --------
+  // |        |
+  // |     ****
+  // |     ****
+  // |     ****
+  //  -----****
+  CGRect rect = [self grey_visibleRectForSize:CGSizeMake(10, 10)
+                                    area:CGRectMake(6, 3, 4, 7)
+                              areaHidden:YES];
+  CGRect correct = CGRectMake(0, 0, 6, 10);
+  XCTAssertTrue(CGRectEqualToRect(rect, correct),
+                @"Visible rect returned incorrect (expected %@ got %@).",
+                NSStringFromCGRect(correct),
+                NSStringFromCGRect(rect));
+}
+
+- (void)testVisibleAreaCorrectBottomRightWideHidden {
+  // Test (starred region occluded):
+  //  --------
+  // |        |
+  // |        |
+  // |        |
+  // |   ******
+  //  ---******
+  CGRect rect = [self grey_visibleRectForSize:CGSizeMake(10, 10)
+                                    area:CGRectMake(6, 7, 3, 3)
+                              areaHidden:YES];
+  CGRect correct = CGRectMake(0, 0, 10, 7);
+  XCTAssertTrue(CGRectEqualToRect(rect, correct),
+                @"Visible rect returned incorrect (expected %@ got %@).",
+                NSStringFromCGRect(correct),
+                NSStringFromCGRect(rect));
+}
+
+- (void)testVisibleAreaCorrectBottomLeftSinglePixelHidden {
+  // Test (starred region occluded):
+  //  --------
+  // |        |
+  // |        |
+  // |        |
+  // |        |
+  // **-------
+  CGRect rect = [self grey_visibleRectForSize:CGSizeMake(10, 10)
+                                    area:CGRectMake(0, 9, 2, 1)
+                              areaHidden:YES];
+  CGRect correct = CGRectMake(0, 0, 10, 9);
+  XCTAssertTrue(CGRectEqualToRect(rect, correct),
+                @"Visible rect returned incorrect (expected %@ got %@).",
+                NSStringFromCGRect(correct),
+                NSStringFromCGRect(rect));
+}
+
+- (void)testVisibleAreaCorrectBottomRightSinglePixelHidden {
+  // Test (starred region occluded):
+  //  --------
+  // |        |
+  // |        |
+  // |        |
+  // |        |
+  //  --------*
+  CGRect rect = [self grey_visibleRectForSize:CGSizeMake(10, 10)
+                                    area:CGRectMake(9, 9, 1, 1)
+                              areaHidden:YES];
+  CGRect correct = CGRectMake(0, 0, 10, 9);
+  XCTAssertTrue(CGRectEqualToRect(rect, correct),
+                @"Visible rect returned incorrect (expected %@ got %@).",
+                NSStringFromCGRect(correct),
+                NSStringFromCGRect(rect));
+}
+
+- (void)testVisibleAreaCorrectTopRightSinglePixelHidden {
+  // Test (starred region occluded):
+  //  -------**
+  // |        |
+  // |        |
+  // |        |
+  // |        |
+  //  --------
+  CGRect rect = [self grey_visibleRectForSize:CGSizeMake(10, 10)
+                                    area:CGRectMake(8, 0, 2, 1)
+                              areaHidden:YES];
+  CGRect correct = CGRectMake(0, 1, 10, 9);
+  XCTAssertTrue(CGRectEqualToRect(rect, correct),
+                @"Visible rect returned incorrect (expected %@ got %@).",
+                NSStringFromCGRect(correct),
+                NSStringFromCGRect(rect));
+}
+
+- (void)testVisibleAreaCorrectTopLeftSinglePixelHidden {
+  // Test (starred region occluded):
+  // *--------
+  // *        |
+  // |        |
+  // |        |
+  // |        |
+  //  --------
+  CGRect rect = [self grey_visibleRectForSize:CGSizeMake(10, 10)
+                                    area:CGRectMake(0, 0, 1, 2)
+                              areaHidden:YES];
+  CGRect correct = CGRectMake(1, 0, 9, 10);
+  XCTAssertTrue(CGRectEqualToRect(rect, correct),
+                @"Visible rect returned incorrect (expected %@ got %@).",
+                NSStringFromCGRect(correct),
+                NSStringFromCGRect(rect));
+}
+
 - (void)testRectEnclosingVisibleAreaOfElementIsUsingCache {
   CGSize imageSize = CGSizeMake(10, 10);
   // Before screenshot.
