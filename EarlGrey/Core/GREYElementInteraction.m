@@ -486,7 +486,6 @@
  */
 - (id)grey_uniqueElementInMatchedElements:(NSArray *)elements
                                  andError:(__strong NSError **)interactionError {
-  NSError *error;
   // If we find that multiple matched elements are present, we narrow them down based on
   // any index passed or populate the passed error if the multiple matches are present and
   // an incorrect index was passed.
@@ -495,18 +494,12 @@
     // matching. We perform a bounds check on the index provided here and throw an exception if
     // it fails.
     if (_index == NSUIntegerMax) {
-      error = [self grey_errorForMultipleMatchingElements:elements
-                      withMatchedElementsIndexOutOfBounds:NO];
-      if (interactionError) {
-        *interactionError = error;
-      }
+      *interactionError = [self grey_errorForMultipleMatchingElements:elements
+                                  withMatchedElementsIndexOutOfBounds:NO];
       return nil;
     } else if (_index >= elements.count) {
-      error = [self grey_errorForMultipleMatchingElements:elements
-                      withMatchedElementsIndexOutOfBounds:YES];
-      if (interactionError) {
-        *interactionError = error;
-      }
+      *interactionError = [self grey_errorForMultipleMatchingElements:elements
+                                  withMatchedElementsIndexOutOfBounds:YES];
       return nil;
     } else {
       return [elements objectAtIndex:_index];
@@ -549,8 +542,9 @@
 
         errorDetails[kErrorDetailActionNameKey] = action.name;
         errorDetails[kErrorDetailRecoverySuggestionKey] = @"Increase timeout for matching element";
-
+        errorDetails[kErrorDetailElementMatcherKey] = _elementMatcher.description;
         NSArray *keyOrder = @[ kErrorDetailActionNameKey,
+                               kErrorDetailElementMatcherKey,
                                kErrorDetailRecoverySuggestionKey ];
 
         NSString *reasonDetail = [GREYObjectFormatter formatDictionary:errorDetails
@@ -742,9 +736,11 @@
 
         errorDetails[kErrorDetailAssertCriteriaKey] = assertion.name;
         errorDetails[kErrorDetailRecoverySuggestionKey] = @"Increase timeout for matching element";
-
+        errorDetails[kErrorDetailElementMatcherKey] = _elementMatcher.description;
         NSArray *keyOrder = @[ kErrorDetailAssertCriteriaKey,
+                               kErrorDetailElementMatcherKey,
                                kErrorDetailRecoverySuggestionKey ];
+
         NSString *reasonDetail = [GREYObjectFormatter formatDictionary:errorDetails
                                                                 indent:kGREYObjectFormatIndent
                                                              hideEmpty:YES
