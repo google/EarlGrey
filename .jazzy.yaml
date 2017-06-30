@@ -12,7 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #
-copyright: Copyright 2016 Google Inc.
+copyright: Copyright 2017 Google Inc.
 author: Google Inc.
 github_url: https://github.com/google/EarlGrey
 module: EarlGrey
@@ -21,4 +21,3 @@ umbrella_header: EarlGrey/EarlGrey.h
 framework_root: ./
 sdk: iphonesimulator
 clean: true
-
