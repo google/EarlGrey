@@ -424,7 +424,7 @@ static NSString *const kReturnKeyIdentifier = @"\n";
 + (BOOL)grey_isAlphabeticKeyplaneShown {
   // Arbitrarily choose e/E as the key to look for to determine if alphabetic keyplane is shown.
   return [GREYKeyboard grey_findKeyForCharacter:@"e"] != nil
-  || [GREYKeyboard grey_findKeyForCharacter:@"E"] != nil;
+      || [GREYKeyboard grey_findKeyForCharacter:@"E"] != nil;
 }
 
 /**
