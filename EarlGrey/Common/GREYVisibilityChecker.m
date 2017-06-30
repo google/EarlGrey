@@ -698,8 +698,7 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
  *
  *  @return A CGRect of the largest rectangle in the given histogram.
  */
-+ (CGRect)grey_largestRectInHistogram:(uint16_t *)histogram
-                               length:(uint16_t)length {
++ (CGRect)grey_largestRectInHistogram:(uint16_t *)histogram length:(uint16_t)length {
   uint16_t *leftNeighbors = malloc(sizeof(uint16_t) * length);
   uint16_t *rightNeighbors = malloc(sizeof(uint16_t) * length);
   uint16_t *leftStack = malloc(sizeof(uint16_t) * length);
@@ -828,8 +827,8 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
     CGRect largestRect = CGRectZero;
     for (NSUInteger idx = 0; idx < height; idx++) {
       CGRect thisLargest =
-      [GREYVisibilityChecker grey_largestRectInHistogram:&histograms[idx * width]
-                                                  length:(uint16_t)width];
+          [GREYVisibilityChecker grey_largestRectInHistogram:&histograms[idx * width]
+                                                      length:(uint16_t)width];
       if (CGRectArea(thisLargest) > CGRectArea(largestRect)) {
         // Because our histograms point up, not down.
         thisLargest.origin.y = idx - thisLargest.size.height + 1;
