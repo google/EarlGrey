@@ -49,14 +49,19 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  A matcher that is a logical OR of all the matchers passed in as variable arguments.
  *
- *  @param match The first matcher in the list of matchers.
- *  @param ...   Any more matchers to be added. Matchers are invoked in the order they are
- *               specified and only if the preceding matcher fails.
- *               This va-arg must be terminated with a @c nil value.
+ *  @param first      The first matcher in the list of matchers.
+ *  @param second     The second matcher in the list of matchers.
+ *  @param thirdOrNil The third matcher in the list of matchers, optionally the nil terminator.
+ *  @param ...        Any more matchers to be added. Matchers are invoked in the order they are
+ *                    specified and only if the preceding matcher fails.
+ *                    This va-arg must be terminated with a @c nil value.
  *
  *  @return An object conforming to GREYMatcher, initialized with the required matchers.
  */
-GREY_EXPORT id<GREYMatcher> grey_anyOf(id<GREYMatcher> match, ...)
+GREY_EXPORT id<GREYMatcher> grey_anyOf(id<GREYMatcher> first,
+                                       id<GREYMatcher> second,
+                                       id<GREYMatcher> _Nullable thirdOrNil,
+                                       ...)
     NS_SWIFT_UNAVAILABLE("Use grey_anyOf(_:) instead")
     NS_REQUIRES_NIL_TERMINATION;
 
