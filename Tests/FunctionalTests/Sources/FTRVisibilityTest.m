@@ -39,7 +39,7 @@
 
 - (void)testOverlappingViews {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"bottomScrollView")]
-   performAction:grey_scrollToContentEdge(kGREYContentEdgeTop)];
+      performAction:grey_scrollToContentEdge(kGREYContentEdgeTop)];
 
   id<GREYAssertion> assertion = [GREYAssertionBlock assertionWithName:@"coverContentOffsetUnchanged"
                                               assertionBlockWithError:
@@ -246,25 +246,25 @@
 - (void)testElementsInHierarchyDump {
   NSString *hierarchyDump = [GREYElementHierarchy hierarchyStringForAllUIWindows];
   NSArray *stringTargetHierarchy_iOS10Later =
-  @[ @"========== Window 1 ==========",
-     @"<UIWindow:",
-     @"  |--<UILayoutContainerView:",
-     @"  |  |--<UINavigationTransitionView:",
-     @"  |  |  |--<UIViewControllerWrapperView:",
-     @"  |  |  |  |--<UIView",
-     @"  |  |  |  |  |--<UIView:"];
+      @[ @"========== Window 1 ==========",
+         @"<UIWindow:",
+         @"  |--<UILayoutContainerView:",
+         @"  |  |--<UINavigationTransitionView:",
+         @"  |  |  |--<UIViewControllerWrapperView:",
+         @"  |  |  |  |--<UIView",
+         @"  |  |  |  |  |--<UIView:"];
   NSArray *stringTargetHierarchy_iOS9Earlier =
-  @[ @"========== Window 1 ==========",
-     @"========== Window 2 ==========",
-     @"<UITextEffectsWindow",
-     @"  |--<UIInputSetContainerView:",
-     @"  |  |--<UIInputSetHostView:",
-     @"<UIWindow:",
-     @"  |--<UILayoutContainerView:",
-     @"  |  |--<UINavigationTransitionView:",
-     @"  |  |  |--<UIViewControllerWrapperView:",
-     @"  |  |  |  |--<UIView",
-     @"  |  |  |  |  |--<UIView:"];
+      @[ @"========== Window 1 ==========",
+         @"========== Window 2 ==========",
+         @"<UITextEffectsWindow",
+         @"  |--<UIInputSetContainerView:",
+         @"  |  |--<UIInputSetHostView:",
+         @"<UIWindow:",
+         @"  |--<UILayoutContainerView:",
+         @"  |  |--<UINavigationTransitionView:",
+         @"  |  |  |--<UIViewControllerWrapperView:",
+         @"  |  |  |  |--<UIView",
+         @"  |  |  |  |  |--<UIView:"];
   if (iOS10_OR_ABOVE()) {
     for (NSString *targetString in stringTargetHierarchy_iOS10Later) {
       XCTAssertNotEqual([hierarchyDump rangeOfString:targetString].location,
