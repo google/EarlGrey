@@ -157,6 +157,9 @@
                 <a href="../Constants.html#/c:@kGREYConfigKeyAnalyticsEnabled">kGREYConfigKeyAnalyticsEnabled</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYConfigKeyArtifactsDirLocation">kGREYConfigKeyArtifactsDirLocation</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Constants.html#/c:@kGREYConfigKeyCALayerMaxAnimationDuration">kGREYConfigKeyCALayerMaxAnimationDuration</a>
               </li>
               <li class="nav-group-task">
@@ -690,7 +693,6 @@ constraint: two attributes and a relation that must be satisfied between them.</
                               <td>
                                 <div>
                                   <p>A layout attribute to create the constraint from.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -702,12 +704,8 @@ constraint: two attributes and a relation that must be satisfied between them.</
                               </td>
                               <td>
                                 <div>
-                                  <pre class="highlight plaintext"><code>      The GREYLayoutRelation between the @c
-</code></pre>
-
-<p>and
-                           the @c</p>
-
+                                  <p>The GREYLayoutRelation between the @c attribute and
+                        the @c referenceAttribute</p>
                                 </div>
                               </td>
                             </tr>
@@ -720,9 +718,7 @@ constraint: two attributes and a relation that must be satisfied between them.</
                               <td>
                                 <div>
                                   <p>The layout attribute whose relation is being checked
-                            with respect to @attribute
-.</p>
-
+                        with respect to @attribute.</p>
                                 </div>
                               </td>
                             </tr>
@@ -734,11 +730,7 @@ constraint: two attributes and a relation that must be satisfied between them.</
                               </td>
                               <td>
                                 <div>
-                                  <pre class="highlight plaintext"><code>    Value to multiply the @c
-</code></pre>
-
-<p>value.</p>
-
+                                  <p>Value to multiply the @c referenceAttribute value.</p>
                                 </div>
                               </td>
                             </tr>
@@ -751,7 +743,6 @@ constraint: two attributes and a relation that must be satisfied between them.</
                               <td>
                                 <div>
                                   <p>Any constant to be added to the relation being checked.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -761,8 +752,7 @@ constraint: two attributes and a relation that must be satisfied between them.</
                       <div>
                         <h4>Return Value</h4>
                         <p>A GREYLayoutConstraint instance, that constrains an element&rsquo;s attribute with
-         respect to a reference.</p>
-
+      respect to a reference.</p>
                       </div>
                     </section>
                   </div>
@@ -811,7 +801,6 @@ constraint: two attributes and a relation that must be satisfied between them.</
                               <td>
                                 <div>
                                   <p>The direction being checked against the reference element.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -823,8 +812,7 @@ constraint: two attributes and a relation that must be satisfied between them.</
                               </td>
                               <td>
                                 <div>
-                                  <p>The separation between an element and an edge in the given @c</p>
-
+                                  <p>The separation between an element and an edge in the given @c direction.</p>
                                 </div>
                               </td>
                             </tr>
@@ -834,7 +822,6 @@ constraint: two attributes and a relation that must be satisfied between them.</
                       <div>
                         <h4>Return Value</h4>
                         <p>A GREYLayoutConstraint instance that constrains an element to a particular direction.</p>
-
                       </div>
                     </section>
                   </div>
@@ -913,7 +900,6 @@ constraint: two attributes and a relation that must be satisfied between them.</
                               <td>
                                 <div>
                                   <p>The element being checked for the constraints.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -925,9 +911,7 @@ constraint: two attributes and a relation that must be satisfied between them.</
                               </td>
                               <td>
                                 <div>
-                                  <p>The reference element to check the @c
-against.</p>
-
+                                  <p>The reference element to check the @c element against.</p>
                                 </div>
                               </td>
                             </tr>
@@ -936,10 +920,7 @@ against.</p>
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>@c
- if the the given elements satisify the constraint, else @NO
-.</p>
-
+                        <p>@c YES if the the given elements satisify the constraint, else @NO.</p>
                       </div>
                     </section>
                   </div>
@@ -975,7 +956,6 @@ against.</p>
                       <div>
                         <h4>Return Value</h4>
                         <p>A description of the GREYLayoutConstraint created.</p>
-
                       </div>
                     </section>
                   </div>
@@ -1145,8 +1125,8 @@ against.</p>
           </section>
         </section>
         <section id="footer">
-          <p>Copyright 2016 Google Inc.</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>Copyright 2017 Google Inc.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

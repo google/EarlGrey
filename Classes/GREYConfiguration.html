@@ -157,6 +157,9 @@
                 <a href="../Constants.html#/c:@kGREYConfigKeyAnalyticsEnabled">kGREYConfigKeyAnalyticsEnabled</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYConfigKeyArtifactsDirLocation">kGREYConfigKeyArtifactsDirLocation</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Constants.html#/c:@kGREYConfigKeyCALayerMaxAnimationDuration">kGREYConfigKeyCALayerMaxAnimationDuration</a>
               </li>
               <li class="nav-group-task">
@@ -668,7 +671,6 @@
                       <div>
                         <h4>Return Value</h4>
                         <p>The singleton GREYConfiguration instance.</p>
-
                       </div>
                     </section>
                   </div>
@@ -718,8 +720,7 @@
                               </td>
                               <td>
                                 <div>
-                                  <p>The key whose value is being queried. Must be a valid @c</p>
-
+                                  <p>The key whose value is being queried. Must be a valid @c NSString.</p>
                                 </div>
                               </td>
                             </tr>
@@ -728,8 +729,7 @@
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>The value for the configuration stored associate with @c</p>
-
+                        <p>The value for the configuration stored associate with @c configKey.</p>
                       </div>
                     </section>
                   </div>
@@ -779,8 +779,7 @@
                               </td>
                               <td>
                                 <div>
-                                  <p>The key whose value is being queried. Must be a valid @c</p>
-
+                                  <p>The key whose value is being queried. Must be a valid @c NSString.</p>
                                 </div>
                               </td>
                             </tr>
@@ -789,9 +788,7 @@
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>The @c
-value for the configuration associated with @c</p>
-
+                        <p>The @c BOOL value for the configuration associated with @c configKey.</p>
                       </div>
                     </section>
                   </div>
@@ -841,8 +838,7 @@ value for the configuration associated with @c</p>
                               </td>
                               <td>
                                 <div>
-                                  <p>The key whose value is being queried. Must be a valid @c</p>
-
+                                  <p>The key whose value is being queried. Must be a valid @c NSString.</p>
                                 </div>
                               </td>
                             </tr>
@@ -851,8 +847,7 @@ value for the configuration associated with @c</p>
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>The integer value for the configuration associated with @c</p>
-
+                        <p>The integer value for the configuration associated with @c configKey.</p>
                       </div>
                     </section>
                   </div>
@@ -902,8 +897,7 @@ value for the configuration associated with @c</p>
                               </td>
                               <td>
                                 <div>
-                                  <p>The key whose value is being queried. Must be a valid @c</p>
-
+                                  <p>The key whose value is being queried. Must be a valid @c NSString.</p>
                                 </div>
                               </td>
                             </tr>
@@ -912,9 +906,7 @@ value for the configuration associated with @c</p>
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>The @c
-value for the configuration associated with @c</p>
-
+                        <p>The @c double value for the configuration associated with @c configKey.</p>
                       </div>
                     </section>
                   </div>
@@ -964,8 +956,7 @@ value for the configuration associated with @c</p>
                               </td>
                               <td>
                                 <div>
-                                  <p>The key whose value is being queried. Must be a valid @c</p>
-
+                                  <p>The key whose value is being queried. Must be a valid @c NSString.</p>
                                 </div>
                               </td>
                             </tr>
@@ -974,8 +965,7 @@ value for the configuration associated with @c</p>
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>The string value for the configuration associated with @c</p>
-
+                        <p>The string value for the configuration associated with @c configKey.</p>
                       </div>
                     </section>
                   </div>
@@ -1025,8 +1015,7 @@ value for the configuration associated with @c</p>
                               </td>
                               <td>
                                 <div>
-                                  <p>The key whose value is being queried. Must be a valid @c</p>
-
+                                  <p>The key whose value is being queried. Must be a valid @c NSString.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1035,8 +1024,7 @@ value for the configuration associated with @c</p>
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>The array value for the configuration associated with @c</p>
-
+                        <p>The array value for the configuration associated with @c configKey.</p>
                       </div>
                     </section>
                   </div>
@@ -1120,8 +1108,7 @@ value for the configuration associated with @c</p>
                               </td>
                               <td>
                                 <div>
-                                  <p>The configuration value to be set. Scalars should be wrapped in @c</p>
-
+                                  <p>The configuration value to be set. Scalars should be wrapped in @c NSValue.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1133,8 +1120,7 @@ value for the configuration associated with @c</p>
                               </td>
                               <td>
                                 <div>
-                                  <p>Key identifying an existing or new configuration. Must be a valid @c</p>
-
+                                  <p>Key identifying an existing or new configuration. Must be a valid @c NSString.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1160,7 +1146,7 @@ value for the configuration associated with @c</p>
                         <p>Associates configuration identified by @c configKey with the provided @c value.</p>
 
 <p>@remark Default values persist even after resetting the configuration
-         (using GREYConfiguration::reset)</p>
+          (using GREYConfiguration::reset)</p>
 
                       </div>
                       <div class="declaration">
@@ -1189,8 +1175,7 @@ value for the configuration associated with @c</p>
                               </td>
                               <td>
                                 <div>
-                                  <p>The configuration value to be set. Scalars should be wrapped in @c</p>
-
+                                  <p>The configuration value to be set. Scalars should be wrapped in @c NSValue.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1202,8 +1187,7 @@ value for the configuration associated with @c</p>
                               </td>
                               <td>
                                 <div>
-                                  <p>Key identifying an existing or new configuration. Must be a valid @c</p>
-
+                                  <p>Key identifying an existing or new configuration. Must be a valid @c NSString.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1218,8 +1202,8 @@ value for the configuration associated with @c</p>
           </section>
         </section>
         <section id="footer">
-          <p>Copyright 2016 Google Inc.</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>Copyright 2017 Google Inc.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

@@ -156,6 +156,9 @@
                 <a href="Constants.html#/c:@kGREYConfigKeyAnalyticsEnabled">kGREYConfigKeyAnalyticsEnabled</a>
               </li>
               <li class="nav-group-task">
+                <a href="Constants.html#/c:@kGREYConfigKeyArtifactsDirLocation">kGREYConfigKeyArtifactsDirLocation</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Constants.html#/c:@kGREYConfigKeyCALayerMaxAnimationDuration">kGREYConfigKeyCALayerMaxAnimationDuration</a>
               </li>
               <li class="nav-group-task">
@@ -1557,7 +1560,9 @@ yOriginStartPercentage:.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nonnull</span> <span class="n">grey_allOf</span><span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nullable</span> <span class="n">matcher</span><span class="p">,</span>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nonnull</span> <span class="n">grey_allOf</span><span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nonnull</span> <span class="n">first</span><span class="p">,</span>
+                                           <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nonnull</span> <span class="n">second</span><span class="p">,</span>
+                                           <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nullable</span> <span class="n">thirdOrNil</span><span class="p">,</span>
                                            <span class="p">...)</span></code></pre>
 
                         </div>
@@ -1569,13 +1574,36 @@ yOriginStartPercentage:.</p>
                             <tr>
                               <td>
                                 <code>
-                                <em>matcher</em>
+                                <em>first</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
                                   <p>The first matcher in the list of matchers.</p>
-
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>second</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The second matcher in the list of matchers.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>thirdOrNil</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The third matcher in the list of matchers, optionally the nil terminator.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1587,13 +1615,9 @@ yOriginStartPercentage:.</p>
                               </td>
                               <td>
                                 <div>
-                                  <pre class="highlight plaintext"><code>Any more matchers to be added. Matchers are invoked in the order they are
-            specified and only if the preceding matcher passes. This va-arg must be
-            terminated with a @c
-</code></pre>
-
-<p>value.</p>
-
+                                  <p>Any more matchers to be added. Matchers are invoked in the order they are
+                specified and only if the preceding matcher passes. This va-arg must be
+                terminated with a @c nil value.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1603,7 +1627,6 @@ yOriginStartPercentage:.</p>
                       <div>
                         <h4>Return Value</h4>
                         <p>An object conforming to GREYMatcher, initialized with the required matchers.</p>
-
                       </div>
                     </section>
                   </div>
@@ -1651,8 +1674,7 @@ yOriginStartPercentage:.</p>
                               <td>
                                 <div>
                                   <p>An NSArray of one or more matchers to be added. Matchers are invoked in the
-                 order they are specified and only if the preceding matcher passes.</p>
-
+              order they are specified and only if the preceding matcher passes.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1662,7 +1684,6 @@ yOriginStartPercentage:.</p>
                       <div>
                         <h4>Return Value</h4>
                         <p>An object conforming to GREYMatcher, initialized with the required matchers.</p>
-
                       </div>
                     </section>
                   </div>
@@ -1691,7 +1712,10 @@ yOriginStartPercentage:.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nonnull</span> <span class="n">grey_anyOf</span><span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nonnull</span> <span class="n">match</span><span class="p">,</span> <span class="p">...)</span></code></pre>
+                          <pre class="highlight"><code><span class="k">extern</span> <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nonnull</span> <span class="n">grey_anyOf</span><span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nonnull</span> <span class="n">first</span><span class="p">,</span>
+                                           <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nonnull</span> <span class="n">second</span><span class="p">,</span>
+                                           <span class="n">id</span><span class="o">&lt;</span><span class="n"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="o">&gt;</span> <span class="n">_Nullable</span> <span class="n">thirdOrNil</span><span class="p">,</span>
+                                           <span class="p">...)</span></code></pre>
 
                         </div>
                       </div>
@@ -1702,13 +1726,36 @@ yOriginStartPercentage:.</p>
                             <tr>
                               <td>
                                 <code>
-                                <em>match</em>
+                                <em>first</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
                                   <p>The first matcher in the list of matchers.</p>
-
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>second</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The second matcher in the list of matchers.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>thirdOrNil</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The third matcher in the list of matchers, optionally the nil terminator.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1721,10 +1768,8 @@ yOriginStartPercentage:.</p>
                               <td>
                                 <div>
                                   <p>Any more matchers to be added. Matchers are invoked in the order they are
-              specified and only if the preceding matcher fails.
-              This va-arg must be terminated with a @c
-value.</p>
-
+                specified and only if the preceding matcher fails.
+                This va-arg must be terminated with a @c nil value.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1734,7 +1779,6 @@ value.</p>
                       <div>
                         <h4>Return Value</h4>
                         <p>An object conforming to GREYMatcher, initialized with the required matchers.</p>
-
                       </div>
                     </section>
                   </div>
@@ -1782,8 +1826,7 @@ value.</p>
                               <td>
                                 <div>
                                   <p>An array of one more matchers to be added. Matchers are invoked in the order
-                 they are specified and only if the preceding matcher fails.</p>
-
+              they are specified and only if the preceding matcher fails.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1793,7 +1836,6 @@ value.</p>
                       <div>
                         <h4>Return Value</h4>
                         <p>An object conforming to GREYMatcher, initialized with the required matchers.</p>
-
                       </div>
                     </section>
                   </div>
@@ -1864,8 +1906,7 @@ It must be called from main thread otherwise the behavior is undefined.</p>
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>A string representation of the given @c</p>
-
+                        <p>A string representation of the given @c deviceOrientation.</p>
                       </div>
                     </section>
                   </div>
@@ -1895,8 +1936,7 @@ It must be called from main thread otherwise the behavior is undefined.</p>
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>A string representation of the given @c</p>
-
+                        <p>A string representation of the given @c direction.</p>
                       </div>
                     </section>
                   </div>
@@ -1953,8 +1993,7 @@ It must be called from main thread otherwise the behavior is undefined.</p>
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>A string representation of the given @c</p>
-
+                        <p>A string representation of the given @c edge.</p>
                       </div>
                     </section>
                   </div>
@@ -1984,8 +2023,7 @@ It must be called from main thread otherwise the behavior is undefined.</p>
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>A string representation of the given layout @c</p>
-
+                        <p>A string representation of the given layout @c attribute.</p>
                       </div>
                     </section>
                   </div>
@@ -2015,8 +2053,7 @@ It must be called from main thread otherwise the behavior is undefined.</p>
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>A string representation of the given layout @c</p>
-
+                        <p>A string representation of the given layout @c relation.</p>
                       </div>
                     </section>
                   </div>
@@ -2047,7 +2084,6 @@ It must be called from main thread otherwise the behavior is undefined.</p>
                       <div>
                         <h4>Return Value</h4>
                         <p>A string representation of the given accessibility trait.</p>
-
                       </div>
                     </section>
                   </div>
@@ -3229,8 +3265,8 @@ It must be called from main thread otherwise the behavior is undefined.</p>
                               </td>
                               <td>
                                 <div>
-                                  <p>The source image.</p>
-
+                                  <p>The source image.
+@param[out] outBmpCtx Optional bitmap context that holds the returned buffer.</p>
                                 </div>
                               </td>
                             </tr>
@@ -3242,8 +3278,7 @@ It must be called from main thread otherwise the behavior is undefined.</p>
                               </td>
                               <td>
                                 <div>
-                                  <p>Optional bitmap context that holds the returned buffer.</p>
-
+                                  
                                 </div>
                               </td>
                             </tr>
@@ -3253,7 +3288,6 @@ It must be called from main thread otherwise the behavior is undefined.</p>
                       <div>
                         <h4>Return Value</h4>
                         <p>A new buffer that contains XRGB pixels for the provided image.</p>
-
                       </div>
                     </section>
                   </div>
@@ -3302,7 +3336,6 @@ It must be called from main thread otherwise the behavior is undefined.</p>
                               <td>
                                 <div>
                                   <p>Block that will be executed.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -3351,7 +3384,6 @@ It must be called from main thread otherwise the behavior is undefined.</p>
                               <td>
                                 <div>
                                   <p>Block that will be executed.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -3366,8 +3398,8 @@ It must be called from main thread otherwise the behavior is undefined.</p>
           </section>
         </section>
         <section id="footer">
-          <p>Copyright 2016 Google Inc.</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>Copyright 2017 Google Inc.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

@@ -157,6 +157,9 @@
                 <a href="../Constants.html#/c:@kGREYConfigKeyAnalyticsEnabled">kGREYConfigKeyAnalyticsEnabled</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYConfigKeyArtifactsDirLocation">kGREYConfigKeyArtifactsDirLocation</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Constants.html#/c:@kGREYConfigKeyCALayerMaxAnimationDuration">kGREYConfigKeyCALayerMaxAnimationDuration</a>
               </li>
               <li class="nav-group-task">
@@ -657,7 +660,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">init</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="n">init</span><span class="p">;</span></code></pre>
 
                         </div>
                       </div>
@@ -684,12 +687,14 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithUserInfo</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="nv">userInfo</span> <span class="nf">block</span><span class="p">:(</span><span class="n">id</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">id</span><span class="p">))</span><span class="nv">nextObjectBlock</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="nf">initWithUserInfo</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">id</span><span class="p">)</span><span class="nv">userInfo</span>
+                                   <span class="nf">block</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">id</span> <span class="n">_Nonnull</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">id</span> <span class="n">_Nonnull</span><span class="p">))</span>
+                                             <span class="n">nextObjectBlock</span><span class="p">;</span></code></pre>
 
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="nf">init</span><span class="o">!</span><span class="p">(</span><span class="nv">userInfo</span><span class="p">:</span> <span class="kt">Any</span><span class="o">!</span><span class="p">,</span> <span class="n">block</span> <span class="nv">nextObjectBlock</span><span class="p">:</span> <span class="p">((</span><span class="kt">Any</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Any</span><span class="p">?)</span><span class="o">!</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="nf">init</span><span class="p">(</span><span class="nv">userInfo</span><span class="p">:</span> <span class="kt">Any</span><span class="p">,</span> <span class="n">block</span> <span class="nv">nextObjectBlock</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Any</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -706,8 +711,7 @@
                               <td>
                                 <div>
                                   <p>Custom object that is passed into the block. Use this for passing any
-                 additional information required by the block.</p>
-
+                     additional information required by the block.</p>
                                 </div>
                               </td>
                             </tr>
@@ -720,7 +724,6 @@
                               <td>
                                 <div>
                                   <p>A block that is invoked to return the next object in the enumerator.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -730,7 +733,6 @@
                       <div>
                         <h4>Return Value</h4>
                         <p>An instance of GREYDataEnumerator, initialized with the specified information.</p>
-
                       </div>
                     </section>
                   </div>
@@ -765,20 +767,18 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="n">nextObject</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">id</span> <span class="n">_Nullable</span><span class="p">)</span><span class="n">nextObject</span><span class="p">;</span></code></pre>
 
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">nextObject</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Any</span><span class="o">!</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">nextObject</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Any</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>The next object in the enumerator returned by the @nextObjectBlock
-. Can also be @c</p>
-
+                        <p>The next object in the enumerator returned by the @c nextObjectBlock.</p>
                       </div>
                     </section>
                   </div>
@@ -802,19 +802,18 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
-                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="n">allObjects</span><span class="p">;</span></code></pre>
+                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="n">allObjects</span><span class="p">;</span></code></pre>
 
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">allObjects</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">Any</span><span class="p">]</span><span class="o">!</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">allObjects</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">Any</span><span class="p">]</span></code></pre>
 
                         </div>
                       </div>
                       <div>
                         <h4>Return Value</h4>
                         <p>An array of all the objects in the enumerator.</p>
-
                       </div>
                     </section>
                   </div>
@@ -824,8 +823,8 @@
           </section>
         </section>
         <section id="footer">
-          <p>Copyright 2016 Google Inc.</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>Copyright 2017 Google Inc.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

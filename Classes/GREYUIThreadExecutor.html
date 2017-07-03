@@ -157,6 +157,9 @@
                 <a href="../Constants.html#/c:@kGREYConfigKeyAnalyticsEnabled">kGREYConfigKeyAnalyticsEnabled</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYConfigKeyArtifactsDirLocation">kGREYConfigKeyArtifactsDirLocation</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Constants.html#/c:@kGREYConfigKeyCALayerMaxAnimationDuration">kGREYConfigKeyCALayerMaxAnimationDuration</a>
               </li>
               <li class="nav-group-task">
@@ -669,7 +672,6 @@ Before executing a block or operation, it waits for any pending UI events to com
                       <div>
                         <h4>Return Value</h4>
                         <p>The unique shared instance of the GREYUIThreadExecutor.</p>
-
                       </div>
                     </section>
                   </div>
@@ -779,7 +781,6 @@ returns.</p>
                               <td>
                                 <div>
                                   <p>Amount of time that the UI thread should be drained for, in seconds.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -871,7 +872,6 @@ returns.</p>
                               <td>
                                 <div>
                                   <p>Amount of time to wait for the UI and idling resources to idle.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -880,11 +880,7 @@ returns.</p>
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>@c
-if idled within @c
-@c
-otherwise.</p>
-
+                        <p>@c YES if idled within @c seconds, @c NO otherwise.</p>
                       </div>
                     </section>
                   </div>
@@ -932,7 +928,6 @@ otherwise.</p>
                               <td>
                                 <div>
                                   <p>The block to be executed.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -945,7 +940,6 @@ otherwise.</p>
                               <td>
                                 <div>
                                   <p>Reference to the error that will store the failure cause, if any.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -954,12 +948,8 @@ otherwise.</p>
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>@c
-if the block was executed, @c
-otherwise, in which case @c
-will be set to
-         the failure cause.</p>
-
+                        <p>@c YES if the block was executed, @c NO otherwise, in which case @c error will be set to
+      the failure cause.</p>
                       </div>
                     </section>
                   </div>
@@ -1013,9 +1003,7 @@ will be set to
                               <td>
                                 <div>
                                   <p>The timeout for waiting for the resources to idle, in seconds.
-                  A value of @c
-indicates an infinite timeout.</p>
-
+               A value of @c kGREYInfiniteTimeout indicates an infinite timeout.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1028,7 +1016,6 @@ indicates an infinite timeout.</p>
                               <td>
                                 <div>
                                   <p>The block to be executed.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -1041,7 +1028,6 @@ indicates an infinite timeout.</p>
                               <td>
                                 <div>
                                   <p>Reference to the error that will store the failure cause, if any.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -1050,12 +1036,8 @@ indicates an infinite timeout.</p>
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>@c
-if the block was executed, @c
-otherwise, in which case @c
-will be set to
-         the failure cause.</p>
-
+                        <p>@c YES if the block was executed, @c NO otherwise, in which case @c error will be set to
+      the failure cause.</p>
                       </div>
                     </section>
                   </div>
@@ -1065,8 +1047,8 @@ will be set to
           </section>
         </section>
         <section id="footer">
-          <p>Copyright 2016 Google Inc.</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>Copyright 2017 Google Inc.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>
