@@ -157,6 +157,9 @@
                 <a href="../Constants.html#/c:@kGREYConfigKeyAnalyticsEnabled">kGREYConfigKeyAnalyticsEnabled</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYConfigKeyArtifactsDirLocation">kGREYConfigKeyArtifactsDirLocation</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Constants.html#/c:@kGREYConfigKeyCALayerMaxAnimationDuration">kGREYConfigKeyCALayerMaxAnimationDuration</a>
               </li>
               <li class="nav-group-task">
@@ -683,7 +686,6 @@ Use methods of this class to initiate interaction with any UI element on the scr
                               <td>
                                 <div>
                                   <p>The name of the file where the failing code exists.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -696,7 +698,6 @@ Use methods of this class to initiate interaction with any UI element on the scr
                               <td>
                                 <div>
                                   <p>The line number of the failing code.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -706,7 +707,6 @@ Use methods of this class to initiate interaction with any UI element on the scr
                       <div>
                         <h4>Return Value</h4>
                         <p>An EarlGreyImpl instance, with details of the code invoking EarlGrey.</p>
-
                       </div>
                     </section>
                   </div>
@@ -803,8 +803,7 @@ interaction.</p>
                               <td>
                                 <div>
                                   <p>The matcher specifying the UI element that will be targeted by the
-                       interaction.</p>
-
+                    interaction.</p>
                                 </div>
                               </td>
                             </tr>
@@ -814,7 +813,6 @@ interaction.</p>
                       <div>
                         <h4>Return Value</h4>
                         <p>A GREYElementInteraction instance, initialized with an appropriate matcher.</p>
-
                       </div>
                     </section>
                   </div>
@@ -865,7 +863,6 @@ interaction.</p>
                               <td>
                                 <div>
                                   <p>The failure handler to be used for all test failures.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -919,7 +916,6 @@ interaction.</p>
                               <td>
                                 <div>
                                   <p>The exception to be handled.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -932,7 +928,6 @@ interaction.</p>
                               <td>
                                 <div>
                                   <p>Any extra details about the failure.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -987,8 +982,9 @@ interaction.</p>
                               </td>
                               <td>
                                 <div>
-                                  <p>The desired orientation of the device.</p>
-
+                                  <p>The desired orientation of the device.
+@param[out] errorOrNil        Error that will be populated on failure. If @c nil, a test
+                            failure will be reported if the rotation attempt fails.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1000,12 +996,7 @@ interaction.</p>
                               </td>
                               <td>
                                 <div>
-                                  <pre class="highlight plaintext"><code>   Error that will be populated on failure. If @c
-</code></pre>
-
-<p>a test
-                               failure will be reported if the rotation attempt fails.</p>
-
+                                  
                                 </div>
                               </td>
                             </tr>
@@ -1014,10 +1005,7 @@ interaction.</p>
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>@c
-if the rotation was successful, @c
-otherwise.</p>
-
+                        <p>@c YES if the rotation was successful, @c NO otherwise.</p>
                       </div>
                     </section>
                   </div>
@@ -1067,10 +1055,7 @@ otherwise.</p>
                               </td>
                               <td>
                                 <div>
-                                  <p>Error that will be populated on failure. If @c
-a test
-                        failure will be reported if the dismissing fails.</p>
-
+                                  
                                 </div>
                               </td>
                             </tr>
@@ -1079,10 +1064,7 @@ a test
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>@c
-if the dismissing of the keyboard was successful, @c
-otherwise.</p>
-
+                        <p>@c YES if the dismissing of the keyboard was successful, @c NO otherwise.</p>
                       </div>
                     </section>
                   </div>
@@ -1092,8 +1074,8 @@ otherwise.</p>
           </section>
         </section>
         <section id="footer">
-          <p>Copyright 2016 Google Inc.</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>Copyright 2017 Google Inc.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

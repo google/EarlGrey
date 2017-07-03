@@ -156,6 +156,9 @@
                 <a href="Constants.html#/c:@kGREYConfigKeyAnalyticsEnabled">kGREYConfigKeyAnalyticsEnabled</a>
               </li>
               <li class="nav-group-task">
+                <a href="Constants.html#/c:@kGREYConfigKeyArtifactsDirLocation">kGREYConfigKeyArtifactsDirLocation</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Constants.html#/c:@kGREYConfigKeyCALayerMaxAnimationDuration">kGREYConfigKeyCALayerMaxAnimationDuration</a>
               </li>
               <li class="nav-group-task">
@@ -624,7 +627,7 @@
         <section>
           <section class="section">
             
-            <a href='#earlgrey' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h1 id='earlgrey'>EarlGrey</h1>
+            <h1 id='earlgrey' class='heading'>EarlGrey</h1>
 
 <p><a href="https://github.com/google/EarlGrey/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-Apache%202-lightgrey.svg?style=flat" alt="Apache License"></a>
 <a href="https://github.com/google/EarlGrey/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-CC%20BY%204.0-lightgrey.svg" alt="CC-BY 4.0 License"></a>
@@ -648,7 +651,7 @@ makes tests highly repeatable.</p>
 <p>EarlGrey works in conjunction with the XCTest framework and integrates with
 Xcode’s Test Navigator so you can run tests directly from Xcode or the command
 line (using xcodebuild).</p>
-<a href='#getting-started' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='getting-started'>Getting Started</h2>
+<h2 id='getting-started' class='heading'>Getting Started</h2>
 
 <p>The EarlGrey documentation for users is located in the
 <a href="https://github.com/google/EarlGrey/tree/master/docs">EarlGrey/docs</a> folder.
@@ -663,7 +666,7 @@ configured, take a look at the EarlGrey API and start writing your own tests.</p
 <li><a href="https://github.com/google/EarlGrey/tree/master/docs/api.md">API</a></li>
 <li><a href="https://github.com/google/EarlGrey/tree/master/docs/cheatsheet/cheatsheet.png">Cheat Sheet</a></li>
 </ul>
-<a href='#getting-help' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='getting-help'>Getting Help</h2>
+<h2 id='getting-help' class='heading'>Getting Help</h2>
 
 <p>If you need help, several resources are available. First check the <a href="https://github.com/google/EarlGrey/tree/master/docs/faq.md">FAQ</a>.
 If you have more questions after reading the FAQ, see <a href="https://github.com/google/EarlGrey/tree/master/docs/known-issues.md">Known Issues</a>.
@@ -680,7 +683,7 @@ or request to join our <a href="https://googleoss.slack.com/messages/earlgrey">s
 <li><a href="https://googleoss.slack.com/messages/earlgrey">Slack</a></li>
 <li><a href="https://groups.google.com/forum/#!forum/earlgrey-discuss">Google Group</a></li>
 </ul>
-<a href='#analytics' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='analytics'>Analytics</h2>
+<h2 id='analytics' class='heading'>Analytics</h2>
 
 <p>To prioritize and improve EarlGrey, the framework collects usage data and
 uploads it to Google Analytics. More specifically, the framework collects the
@@ -701,11 +704,11 @@ to opt out by disabling the Analytics config setting in their test’s
 <pre class="highlight swift"><code><span class="c1">// Disable analytics.</span>
 <span class="kt">GREYConfiguration</span><span class="o">.</span><span class="nf">sharedInstance</span><span class="p">()</span><span class="o">.</span><span class="nf">setValue</span><span class="p">(</span><span class="kc">false</span><span class="p">,</span> <span class="nv">forConfigKey</span><span class="p">:</span> <span class="n">kGREYConfigKeyAnalyticsEnabled</span><span class="p">)</span>
 </code></pre>
-<a href='#for-contributors' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='for-contributors'>For Contributors</h2>
+<h2 id='for-contributors' class='heading'>For Contributors</h2>
 
 <p>Please make sure you’ve followed the guidelines in
 <a href="https://github.com/google/EarlGrey/tree/master/CONTRIBUTING.md">CONTRIBUTING.md</a> before making any contributions.</p>
-<a href='#setup-an-earlgrey-project' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='setup-an-earlgrey-project'>Setup an EarlGrey Project</h3>
+<h3 id='setup-an-earlgrey-project' class='heading'>Setup an EarlGrey Project</h3>
 
 <ol>
 <li><p>Clone the EarlGrey repository from GitHub:</p>
@@ -717,12 +720,12 @@ using <a href="https://github.com/google/EarlGrey/tree/master/Scripts/setup-earl
 the targets build.</p></li>
 <li><p>You can now use <code>EarlGrey.xcodeproj</code> to make changes to the framework.</p></li>
 </ol>
-<a href='#add-and-run-tests' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='add-and-run-tests'>Add and Run Tests</h3>
-<a href='#unit-tests' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='unit-tests'>Unit Tests</h4>
+<h3 id='add-and-run-tests' class='heading'>Add and Run Tests</h3>
+<h4 id='unit-tests' class='heading'>Unit Tests</h4>
 
 <p>To add unit tests for EarlGrey, use <code>UnitTests.xcodeproj</code> located at
 <code>Tests/UnitTests</code>. To run all unit tests, select the <strong>UnitTests</strong> Scheme and press Cmd+U.</p>
-<a href='#functional-tests' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='functional-tests'>Functional Tests</h4>
+<h4 id='functional-tests' class='heading'>Functional Tests</h4>
 
 <p>To add functional tests for EarlGrey, use the <code>FunctionalTests.xcodeproj</code> located
 at <code>Tests/FunctionalTests</code>. To run all functional tests, select the <strong>FunctionalTests</strong> Scheme and press Cmd+U.</p>
@@ -730,8 +733,8 @@ at <code>Tests/FunctionalTests</code>. To run all functional tests, select the <
           </section>
         </section>
         <section id="footer">
-          <p>Copyright 2016 Google Inc.</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>Copyright 2017 Google Inc.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

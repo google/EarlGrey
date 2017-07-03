@@ -157,6 +157,9 @@
                 <a href="../Constants.html#/c:@kGREYConfigKeyAnalyticsEnabled">kGREYConfigKeyAnalyticsEnabled</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Constants.html#/c:@kGREYConfigKeyArtifactsDirLocation">kGREYConfigKeyArtifactsDirLocation</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Constants.html#/c:@kGREYConfigKeyCALayerMaxAnimationDuration">kGREYConfigKeyCALayerMaxAnimationDuration</a>
               </li>
               <li class="nav-group-task">
@@ -662,8 +665,7 @@
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>A GREYAction that performs multiple taps of a specified @c</p>
-
+                        <p>A GREYAction that performs multiple taps of a specified @c count.</p>
                       </div>
                     </section>
                   </div>
@@ -694,10 +696,8 @@
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>A GREYAction that performs multiple taps of a specified @c
-at a specified
-         @c</p>
-
+                        <p>A GREYAction that performs multiple taps of a specified @c count at a specified
+    @c point.</p>
                       </div>
                     </section>
                   </div>
@@ -730,7 +730,6 @@ at a specified
                       <div>
                         <h4>Return Value</h4>
                         <p>A GREYAction that performs a long press on an element.</p>
-
                       </div>
                     </section>
                   </div>
@@ -772,7 +771,6 @@ at a specified
                               <td>
                                 <div>
                                   <p>The duration of the long press.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -782,7 +780,6 @@ at a specified
                       <div>
                         <h4>Return Value</h4>
                         <p>A GREYAction that performs a long press on an element.</p>
-
                       </div>
                     </section>
                   </div>
@@ -826,7 +823,6 @@ at a specified
                               <td>
                                 <div>
                                   <p>The point that should be tapped.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -839,7 +835,6 @@ at a specified
                               <td>
                                 <div>
                                   <p>The duration of the long press.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -849,7 +844,6 @@ at a specified
                       <div>
                         <h4>Return Value</h4>
                         <p>A GREYAction that performs a long press on an element.</p>
-
                       </div>
                     </section>
                   </div>
@@ -893,7 +887,6 @@ at a specified
                               <td>
                                 <div>
                                   <p>The direction of the swipe.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -906,7 +899,6 @@ at a specified
                               <td>
                                 <div>
                                   <p>The amount of points in CGPoints to scroll.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -915,9 +907,7 @@ at a specified
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>A GREYAction that scrolls a scroll view in a given @c
-for a given @c</p>
-
+                        <p>A GREYAction that scrolls a scroll view in a given @c direction for a given @c amount.</p>
                       </div>
                     </section>
                   </div>
@@ -967,7 +957,6 @@ for a given @c</p>
                               <td>
                                 <div>
                                   <p>The direction of the scroll.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -980,7 +969,6 @@ for a given @c</p>
                               <td>
                                 <div>
                                   <p>The amount scroll in points to inject.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -993,8 +981,7 @@ for a given @c</p>
                               <td>
                                 <div>
                                   <p>X coordinate of the start point specified as a percentage (0, 1)
-                               exclusive, of the total width of the scrollable visible area.</p>
-
+                            exclusive, of the total width of the scrollable visible area.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1007,8 +994,7 @@ for a given @c</p>
                               <td>
                                 <div>
                                   <p>Y coordinate of the start point specified as a percentage (0, 1)
-                               exclusive, of the total height of the scrollable visible area.</p>
-
+                            exclusive, of the total height of the scrollable visible area.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1017,10 +1003,8 @@ for a given @c</p>
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>A GREYAction that scrolls a scroll view in a given @c
-for a given @c
-         starting from the given start points.</p>
-
+                        <p>A GREYAction that scrolls a scroll view in a given @c direction for a given @c amount
+      starting from the given start points.</p>
                       </div>
                     </section>
                   </div>
@@ -1050,9 +1034,7 @@ for a given @c
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>A GREYAction that scrolls to the given content @c
-of a scroll view.</p>
-
+                        <p>A GREYAction that scrolls to the given content @c edge of a scroll view.</p>
                       </div>
                     </section>
                   </div>
@@ -1101,7 +1083,6 @@ of a scroll view.</p>
                               <td>
                                 <div>
                                   <p>The edge towards which the scrolling is to take place.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -1114,8 +1095,7 @@ of a scroll view.</p>
                               <td>
                                 <div>
                                   <p>X coordinate of the start point specified as a percentage (0, 1)
-                               exclusive, of the total width of the scrollable visible area.</p>
-
+                            exclusive, of the total width of the scrollable visible area.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1128,8 +1108,7 @@ of a scroll view.</p>
                               <td>
                                 <div>
                                   <p>Y coordinate of the start point specified as a percentage (0, 1)
-                               exclusive, of the total height of the scrollable visible area.</p>
-
+                            exclusive, of the total height of the scrollable visible area.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1138,10 +1117,8 @@ of a scroll view.</p>
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>A GREYAction that scrolls to the given content @c
-of a scroll view with the scroll
-         action starting from the given start point.</p>
-
+                        <p>A GREYAction that scrolls to the given content @c edge of a scroll view with the scroll
+      action starting from the given start point.</p>
                       </div>
                     </section>
                   </div>
@@ -1184,7 +1161,6 @@ of a scroll view with the scroll
                               <td>
                                 <div>
                                   <p>The direction of the swipe.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -1194,7 +1170,6 @@ of a scroll view with the scroll
                       <div>
                         <h4>Return Value</h4>
                         <p>A GREYAction that performs a fast swipe in the given direction.</p>
-
                       </div>
                     </section>
                   </div>
@@ -1237,7 +1212,6 @@ of a scroll view with the scroll
                               <td>
                                 <div>
                                   <p>The direction of the swipe.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -1247,7 +1221,6 @@ of a scroll view with the scroll
                       <div>
                         <h4>Return Value</h4>
                         <p>A GREYAction that performs a slow swipe in the given direction.</p>
-
                       </div>
                     </section>
                   </div>
@@ -1292,7 +1265,6 @@ of a scroll view with the scroll
                               <td>
                                 <div>
                                   <p>The direction of the swipe.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -1305,8 +1277,7 @@ of a scroll view with the scroll
                               <td>
                                 <div>
                                   <p>the x start position as a percentage of the total width
-                               of the view. This must be between 0 and 1.</p>
-
+                            of the view. This must be between 0 and 1.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1319,8 +1290,7 @@ of a scroll view with the scroll
                               <td>
                                 <div>
                                   <p>the y start position as a percentage of the total height
-                               of the view. This must be between 0 and 1.</p>
-
+                            of the view. This must be between 0 and 1.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1330,8 +1300,7 @@ of a scroll view with the scroll
                       <div>
                         <h4>Return Value</h4>
                         <p>A GREYAction that performs a fast swipe through a view in a specific direction from
-         the specified point.</p>
-
+      the specified point.</p>
                       </div>
                     </section>
                   </div>
@@ -1376,7 +1345,6 @@ of a scroll view with the scroll
                               <td>
                                 <div>
                                   <p>The direction of the swipe.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -1389,8 +1357,7 @@ of a scroll view with the scroll
                               <td>
                                 <div>
                                   <p>the x start position as a percentage of the total width
-                               of the view. This must be between 0 and 1.</p>
-
+                            of the view. This must be between 0 and 1.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1403,8 +1370,7 @@ of a scroll view with the scroll
                               <td>
                                 <div>
                                   <p>the y start position as a percentage of the total height
-                               of the view. This must be between 0 and 1.</p>
-
+                            of the view. This must be between 0 and 1.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1414,8 +1380,7 @@ of a scroll view with the scroll
                       <div>
                         <h4>Return Value</h4>
                         <p>A GREYAction that performs a slow swipe through a view in a specific direction from
-         the specified point.</p>
-
+      the specified point.</p>
                       </div>
                     </section>
                   </div>
@@ -1460,7 +1425,6 @@ of a scroll view with the scroll
                               <td>
                                 <div>
                                   <p>The direction of the swipe.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -1473,7 +1437,6 @@ of a scroll view with the scroll
                               <td>
                                 <div>
                                   <p>Number of fingers touching the screen for the swipe.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -1483,8 +1446,7 @@ of a scroll view with the scroll
                       <div>
                         <h4>Return Value</h4>
                         <p>A GREYAction that performs a multi-finger slow swipe through a view in a specific
-         direction from the specified point.</p>
-
+      direction from the specified point.</p>
                       </div>
                     </section>
                   </div>
@@ -1529,7 +1491,6 @@ of a scroll view with the scroll
                               <td>
                                 <div>
                                   <p>The direction of the swipe.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -1542,7 +1503,6 @@ of a scroll view with the scroll
                               <td>
                                 <div>
                                   <p>Number of fingers touching the screen for the swipe.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -1552,8 +1512,7 @@ of a scroll view with the scroll
                       <div>
                         <h4>Return Value</h4>
                         <p>A GREYAction that performs a multi-finger fast swipe through a view in a specific
-         direction from the specified point.</p>
-
+      direction from the specified point.</p>
                       </div>
                     </section>
                   </div>
@@ -1600,7 +1559,6 @@ of a scroll view with the scroll
                               <td>
                                 <div>
                                   <p>The direction of the swipe.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -1613,7 +1571,6 @@ of a scroll view with the scroll
                               <td>
                                 <div>
                                   <p>Number of fingers touching the screen for the swipe.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -1626,8 +1583,7 @@ of a scroll view with the scroll
                               <td>
                                 <div>
                                   <p>The x start position as a percentage of the total width
-                               of the view. This must be between 0 and 1.</p>
-
+                            of the view. This must be between 0 and 1.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1640,8 +1596,7 @@ of a scroll view with the scroll
                               <td>
                                 <div>
                                   <p>The y start position as a percentage of the total height
-                               of the view. This must be between 0 and 1.</p>
-
+                            of the view. This must be between 0 and 1.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1651,8 +1606,7 @@ of a scroll view with the scroll
                       <div>
                         <h4>Return Value</h4>
                         <p>A GREYAction that performs a multi-finger slow swipe through a view in a specific
-         direction from the specified point.</p>
-
+      direction from the specified point.</p>
                       </div>
                     </section>
                   </div>
@@ -1699,7 +1653,6 @@ of a scroll view with the scroll
                               <td>
                                 <div>
                                   <p>The direction of the swipe.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -1712,7 +1665,6 @@ of a scroll view with the scroll
                               <td>
                                 <div>
                                   <p>Number of fingers touching the screen for the swipe.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -1725,8 +1677,7 @@ of a scroll view with the scroll
                               <td>
                                 <div>
                                   <p>The x start position as a percentage of the total width
-                               of the view. This must be between 0 and 1.</p>
-
+                            of the view. This must be between 0 and 1.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1739,8 +1690,7 @@ of a scroll view with the scroll
                               <td>
                                 <div>
                                   <p>The y start position as a percentage of the total height
-                               of the view. This must be between 0 and 1.</p>
-
+                            of the view. This must be between 0 and 1.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1750,8 +1700,7 @@ of a scroll view with the scroll
                       <div>
                         <h4>Return Value</h4>
                         <p>A GREYAction that performs a multi-finger fast swipe through a view in a specific
-         direction from the specified point.</p>
-
+      direction from the specified point.</p>
                       </div>
                     </section>
                   </div>
@@ -1795,7 +1744,6 @@ of a scroll view with the scroll
                               <td>
                                 <div>
                                   <p>The direction of the pinch action.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -1807,13 +1755,9 @@ of a scroll view with the scroll
                               </td>
                               <td>
                                 <div>
-                                  <pre class="highlight plaintext"><code>     The angle of the pinch action in radians.
-                    Use @c
-</code></pre>
-
-<p>for the default angle (currently set to
-                        30 degrees).</p>
-
+                                  <p>The angle of the pinch action in radians.
+                     Use @c kGREYPinchAngleDefault for the default angle (currently set to
+                     30 degrees).</p>
                                 </div>
                               </td>
                             </tr>
@@ -1822,8 +1766,7 @@ of a scroll view with the scroll
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>A GREYAction that performs a fast pinch on the view in the specified @c</p>
-
+                        <p>A GREYAction that performs a fast pinch on the view in the specified @c direction.</p>
                       </div>
                     </section>
                   </div>
@@ -1867,7 +1810,6 @@ of a scroll view with the scroll
                               <td>
                                 <div>
                                   <p>The direction of the pinch action.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -1879,13 +1821,9 @@ of a scroll view with the scroll
                               </td>
                               <td>
                                 <div>
-                                  <pre class="highlight plaintext"><code>     The angle of the pinch action in radians.
-                    Use @c
-</code></pre>
-
-<p>for the default angle (currently set to
-                        30 degrees).</p>
-
+                                  <p>The angle of the pinch action in radians.
+                     Use @c kGREYPinchAngleDefault for the default angle (currently set to
+                     30 degrees).</p>
                                 </div>
                               </td>
                             </tr>
@@ -1894,8 +1832,7 @@ of a scroll view with the scroll
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>A GREYAction that performs a slow pinch on the view in the specified @c</p>
-
+                        <p>A GREYAction that performs a slow pinch on the view in the specified @c direction.</p>
                       </div>
                     </section>
                   </div>
@@ -1937,12 +1874,10 @@ of a scroll view with the scroll
                               <td>
                                 <div>
                                   <p>The value to which the slider should be moved. If this is not attainable after a
-             reasonable number of attempts (currently 10) we assume that the @c
-is
-             unattainable for a user (it is probably the case this value resides between two
-             pixels). In this case, the slider will end up at a user attainable value
-             that is closest to @c</p>
-
+          reasonable number of attempts (currently 10) we assume that the @c value is
+          unattainable for a user (it is probably the case this value resides between two
+          pixels). In this case, the slider will end up at a user attainable value
+          that is closest to @c value.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1951,8 +1886,7 @@ is
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>A GREYAction that moves a slider to a given @c</p>
-
+                        <p>A GREYAction that moves a slider to a given @c value.</p>
                       </div>
                     </section>
                   </div>
@@ -1995,7 +1929,6 @@ is
                               <td>
                                 <div>
                                   <p>The value to change the UIStepper to.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -2004,9 +1937,7 @@ is
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>A GREYAction that sets the given @c
-on a stepper.</p>
-
+                        <p>A GREYAction that sets the given @c value on a stepper.</p>
                       </div>
                     </section>
                   </div>
@@ -2038,7 +1969,6 @@ on a stepper.</p>
                       <div>
                         <h4>Return Value</h4>
                         <p>A GREYAction to tap on an element.</p>
-
                       </div>
                     </section>
                   </div>
@@ -2080,9 +2010,8 @@ on a stepper.</p>
                               <td>
                                 <div>
                                   <p>The point that should be tapped. It must be in the coordinate system of the
-              element and it&rsquo;s position is relative to the origin of the element, as in
-              (element_width/2, element_height/2) will tap at the center of element.</p>
-
+           element and it&rsquo;s position is relative to the origin of the element, as in
+           (element_width/2, element_height/2) will tap at the center of element.</p>
                                 </div>
                               </td>
                             </tr>
@@ -2092,7 +2021,6 @@ on a stepper.</p>
                       <div>
                         <h4>Return Value</h4>
                         <p>A GREYAction to tap on an element at a specific point.</p>
-
                       </div>
                     </section>
                   </div>
@@ -2133,19 +2061,10 @@ on a stepper.</p>
                               </td>
                               <td>
                                 <div>
-                                  <p>The text to be typed. For Objective-C, backspace is supported by using <q>@b
- in the
-              string and</q>@u
-{8}<q>in Swift strings. Return key is supported with</q>@n
-<q>.
-              For Example: 
-</q>
-Helpo@b@bloWorld
-<q>will type HelloWorld in Objective-C.
-</q>Helpo@u
-{8}@u
-{8}loWorld&quot; will type HelloWorld in Swift.</p>
-
+                                  <p>The text to be typed. For Objective-C, backspace is supported by using <q>\b</q> in the
+          string and <q>\u{8}</q> in Swift strings. Return key is supported with <q>\n</q>.
+          For Example: @<q>Helpo\b\bloWorld</q> will type HelloWorld in Objective-C.
+                       <q>Helpo\u{8}\u{8}loWorld</q> will type HelloWorld in Swift.</p>
                                 </div>
                               </td>
                             </tr>
@@ -2155,7 +2074,6 @@ Helpo@b@bloWorld
                       <div>
                         <h4>Return Value</h4>
                         <p>A GREYAction to type a specific text string in a text field.</p>
-
                       </div>
                     </section>
                   </div>
@@ -2197,7 +2115,6 @@ Helpo@b@bloWorld
                               <td>
                                 <div>
                                   <p>The text to be typed.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -2207,7 +2124,6 @@ Helpo@b@bloWorld
                       <div>
                         <h4>Return Value</h4>
                         <p>A GREYAction to type a specific text string in a text field.</p>
-
                       </div>
                     </section>
                   </div>
@@ -2238,7 +2154,6 @@ Helpo@b@bloWorld
                       <div>
                         <h4>Return Value</h4>
                         <p>A GREYAction that clears a text field by injecting back-spaces.</p>
-
                       </div>
                     </section>
                   </div>
@@ -2281,7 +2196,6 @@ Helpo@b@bloWorld
                               <td>
                                 <div>
                                   <p>The switch control state.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -2291,7 +2205,6 @@ Helpo@b@bloWorld
                       <div>
                         <h4>Return Value</h4>
                         <p>A GREYAction to toggle a UISwitch.</p>
-
                       </div>
                     </section>
                   </div>
@@ -2333,7 +2246,6 @@ Helpo@b@bloWorld
                               <td>
                                 <div>
                                   <p>The date to set the UIDatePicker.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -2343,7 +2255,6 @@ Helpo@b@bloWorld
                       <div>
                         <h4>Return Value</h4>
                         <p>A GREYAction that sets a given date/time on a UIDatePicker.</p>
-
                       </div>
                     </section>
                   </div>
@@ -2386,7 +2297,6 @@ Helpo@b@bloWorld
                               <td>
                                 <div>
                                   <p>The UIPickerView column being set.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -2399,7 +2309,6 @@ Helpo@b@bloWorld
                               <td>
                                 <div>
                                   <p>The value to set the UIPickerView.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -2409,7 +2318,6 @@ Helpo@b@bloWorld
                       <div>
                         <h4>Return Value</h4>
                         <p>A GREYAction to set the value of a specified column of a UIPickerView.</p>
-
                       </div>
                     </section>
                   </div>
@@ -2453,7 +2361,6 @@ Helpo@b@bloWorld
                               <td>
                                 <div>
                                   <p>The Javascript code to be executed.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -2466,7 +2373,6 @@ Helpo@b@bloWorld
                               <td>
                                 <div>
                                   <p>The result of the code execution.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -2476,7 +2382,6 @@ Helpo@b@bloWorld
                       <div>
                         <h4>Return Value</h4>
                         <p>A GREYAction that executes JavaScript code against a UIWebView.</p>
-
                       </div>
                     </section>
                   </div>
@@ -2518,7 +2423,6 @@ Helpo@b@bloWorld
                               <td>
                                 <div>
                                   <p>The UIImage where the image content is stored.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -2528,7 +2432,6 @@ Helpo@b@bloWorld
                       <div>
                         <h4>Return Value</h4>
                         <p>A GREYAction that takes a snapshot of an UI element.</p>
-
                       </div>
                     </section>
                   </div>
@@ -2538,8 +2441,8 @@ Helpo@b@bloWorld
           </section>
         </section>
         <section id="footer">
-          <p>Copyright 2016 Google Inc.</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>Copyright 2017 Google Inc.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>
