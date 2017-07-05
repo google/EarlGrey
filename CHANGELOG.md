@@ -2,23 +2,52 @@
 
 Details changes in each release of EarlGrey. EarlGrey follows [semantic versioning](http://semver.org/).
 
+## [1.10.0](https://github.com/google/EarlGrey/tree/1.10.0) (07/05/2017)
+
+```
+Baseline: [7fdc3ec]
++ [7fdc3ec]: Remove the kGREYConfigKeyScreenshotDirLocation config key.
+```
+
+### Bug Fixes
+* Resolved visibility checker overlapping view issue. [Issue #532](https://github.com/google/EarlGrey/issues/532)
+* Use accessibility ID in place of accessibility label for keyboard modifier keys. [Issue #539](https://github.com/google/EarlGrey/issues/539)
+
+### Enhancements
+* Removed `kGREYConfigKeyScreenshotDirLocation` in favor of `kGREYConfigKeyArtifactsDirLocation`.
+* Fixed all issues reported by Xcode's static analysis.
+* Fixed long press test failures on travis.
+* Improved interaction error logging by adding more information about failure to the out error parameter.
+* Added more error details to timeout failures.
+* Add explicit 1st and 2nd param to grey_allOf and grey_anyOf to prevent redundant uses.
+* Update jazzy copyright year.
+
+### Compatibility
+* Adding xcode version to backwards compatibility doc.
+
 ## [1.9.4](https://github.com/google/EarlGrey/tree/1.9.4) (06/09/2017)
 
 ```
-Baseline: [ed9c6d3]
-+ [ed9c6d3]: Add RVM before-install step in before install for travis runs.
+Baseline: [76a6d65]
++ [76a6d65]: Updated Hierarchy traversal to use common traversal logic with DFS/BF.
 ```
 
 ### Bug Fixes
 * Fixed a bug in scroll action that can sometimes cause a tap at the end of scroll.
 
+### New Features
+* Added `kGREYConfigKeyArtifactsDirLocation` configuration key for setting a custom folder to store artifacts.
+
 ### Enhancements
 * Improved CI execution on travis.
 * Updated test app with better AutoLayout support.
-* Improved docs for earlgrey gem, contributors guide etc.
+* Improved docs for earlgrey gem, contributors guide, etc.
 * Fixed all asserts to use internal implementation instead of NSAssert which
   can be disabled.
 * Updated cheatsheet render script to use Chrome 59.
+* Consolidated DFS and BFS hierarchy traversals.
+* Renamed `GREYExposed.h` to `GREYAppleInternals.h`
+* Removed redundant categories and moved methods to private headers.
 
 ### Contributors
 * [bootstraponline](https://github.com/bootstraponline)
@@ -26,8 +55,8 @@ Baseline: [ed9c6d3]
 ## [1.9.3](https://github.com/google/EarlGrey/tree/1.9.3) (05/26/2017)
 
 ```
-Baseline: [a915cd1]
-+ [a915cd1]: Fix breaking test with Long Press
+Baseline: [a3ba675]
++ [a3ba675]: Fix breaking test with Long Press
 ```
 
 ### Improvements
