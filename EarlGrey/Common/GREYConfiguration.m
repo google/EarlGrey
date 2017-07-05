@@ -37,7 +37,6 @@ NSString *const kGREYConfigKeyDispatchAfterMaxTrackableDelay =
 NSString *const kGREYConfigKeyDelayedPerformMaxTrackableDuration =
     @"GREYConfigKeyDelayedPerformMaxTrackableDuration";
 NSString *const kGREYConfigKeyIncludeStatusBarWindow = @"GREYConfigKeyIncludeStatusBarWindow";
-NSString *const kGREYConfigKeyScreenshotDirLocation = @"GREYConfigKeyScreenshotDirLocation";
 NSString *const kGREYConfigKeyArtifactsDirLocation = @"GREYConfigKeyArtifactsDirLocation";
 
 @implementation GREYConfiguration {
@@ -60,10 +59,6 @@ NSString *const kGREYConfigKeyArtifactsDirLocation = @"GREYConfigKeyArtifactsDir
                                                                NSUserDomainMask,
                                                                YES);
     GREYFatalAssertWithMessage(searchPaths.count > 0, @"Couldn't find a valid documents directory");
-    NSLog(@"kGREYConfigKeyScreenshotDirLocation is to be deprecated in the "
-          @"1.10.0 release. Please use the kGREYConfigKeyArtifactsDirLocation "
-          @"config key instead.");
-    [self setDefaultValue:searchPaths.firstObject forConfigKey:kGREYConfigKeyScreenshotDirLocation];
     [self setDefaultValue:searchPaths.firstObject forConfigKey:kGREYConfigKeyArtifactsDirLocation];
     [self setDefaultValue:@YES forConfigKey:kGREYConfigKeyAnalyticsEnabled];
     [self setDefaultValue:@YES forConfigKey:kGREYConfigKeyActionConstraintsEnabled];
@@ -94,11 +89,6 @@ NSString *const kGREYConfigKeyArtifactsDirLocation = @"GREYConfigKeyArtifactsDir
 - (void)setValue:(id)value forConfigKey:(NSString *)configKey {
   GREYThrowOnNilParameter(value);
 
-  if ([configKey isEqualToString:kGREYConfigKeyScreenshotDirLocation]) {
-    NSLog(@"kGREYConfigKeyScreenshotDirLocation is to be deprecated in the "
-          @"1.10.0 release. Please use the kGREYConfigKeyArtifactsDirLocation "
-          @"config key instead.");
-  }
   [self grey_validateConfigKey:configKey];
 
   @synchronized(self) {

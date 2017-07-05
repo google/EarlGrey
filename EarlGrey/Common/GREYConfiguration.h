@@ -140,15 +140,6 @@ GREY_EXTERN NSString *const kGREYConfigKeyURLBlacklistRegex;
 GREY_EXTERN NSString *const kGREYConfigKeyIncludeStatusBarWindow;
 
 /**
- *  Configuration for setting the default screenshot location. The value must be absolute path
- *  pointing to a directory where screenshots will be saved.
- *
- *  Accepted values: NSString containing valid absolute filepath writable by the test.
- *  Default value: Documents directory of the app under test
- */
-GREY_EXTERN NSString *const kGREYConfigKeyScreenshotDirLocation;
-
-/**
  *  Configuration for setting a directory location where any test artifacts such as screenshots,
  *  test logs, etc. are stored. The user should ensure that the location provided is writable by
  *  the test.
