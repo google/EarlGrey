@@ -452,16 +452,6 @@ EarlGrey().selectElementWithMatcher(grey_accessibilityLabel("label"))
 
 ```
 
-#### **How do I change the directory location for where the screenshots are stored?**
-
-You need to change kGREYConfigKeyScreenshotDirLocation in GREYConfiguration to change the location.
-
-```objc
-// Objective-C
-[[GREYConfiguration sharedInstance] setValue:@"screenshot_dir_path"
-                                forConfigKey:kGREYConfigKeyScreenshotDirLocation];
-```
-
 #### **How do I run tests against a precompiled app?**
 
 Xcode 8 adds two new commands for building and running tests:
