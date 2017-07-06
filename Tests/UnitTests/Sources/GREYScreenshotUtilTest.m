@@ -25,7 +25,7 @@
 
 - (void)testExceptionOnNilImage {
   NSString *filename = @"dummyFileName";
-  NSString *screenshotDir = GREY_CONFIG_STRING(kGREYConfigKeyScreenshotDirLocation);
+  NSString *screenshotDir = GREY_CONFIG_STRING(kGREYConfigKeyArtifactsDirLocation);
 
   // The original saveImageAsPNG was swizzled by GREYBaseTest, so check the original version.
   XCTAssertThrowsSpecificNamed([GREYScreenshotUtil greyswizzled_fakeSaveImageAsPNG:nil
@@ -37,7 +37,7 @@
 
 - (void)testExceptionOnNilFileName {
   UIImage *image = [[UIImage alloc] init];
-  NSString *screenshotDir = GREY_CONFIG_STRING(kGREYConfigKeyScreenshotDirLocation);
+  NSString *screenshotDir = GREY_CONFIG_STRING(kGREYConfigKeyArtifactsDirLocation);
 
   // The original saveImageAsPNG was swizzled by GREYBaseTest, so check the original version.
   XCTAssertThrowsSpecificNamed([GREYScreenshotUtil greyswizzled_fakeSaveImageAsPNG:image
@@ -62,7 +62,7 @@
 - (void)testScreenshotSucceedsOnCorrectValues {
   UIImage *image = [[UIImage alloc] init];
   NSString *filename = @"dummyFileName";
-  NSString *screenshotDir = GREY_CONFIG_STRING(kGREYConfigKeyScreenshotDirLocation);
+  NSString *screenshotDir = GREY_CONFIG_STRING(kGREYConfigKeyArtifactsDirLocation);
 
   // The original saveImageAsPNG was swizzled by GREYBaseTest, so check the original version.
   XCTAssertNoThrow([GREYScreenshotUtil greyswizzled_fakeSaveImageAsPNG:image
