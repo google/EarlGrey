@@ -5,8 +5,8 @@ Details changes in each release of EarlGrey. EarlGrey follows [semantic versioni
 ## [1.10.0](https://github.com/google/EarlGrey/tree/1.10.0) (07/05/2017)
 
 ```
-Baseline: [da24302]
-+ [da24302]: Add Documents Update for Screenshot Dir Location.
+Baseline: [a386cb2]
++ [a386cb2]: Update Changelog for the 1.10.0 release for the Screenshot Docs change.
 ```
 
 ### Bug Fixes
