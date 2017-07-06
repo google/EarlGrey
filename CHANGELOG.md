@@ -5,8 +5,8 @@ Details changes in each release of EarlGrey. EarlGrey follows [semantic versioni
 ## [1.10.0](https://github.com/google/EarlGrey/tree/1.10.0) (07/05/2017)
 
 ```
-Baseline: [7fdc3ec]
-+ [7fdc3ec]: Remove the kGREYConfigKeyScreenshotDirLocation config key.
+Baseline: [0bdf8ba]
++ [0bdf8ba]: Fix Unit Tests Break after the Screenshot Dir Config Key change.
 ```
 
 ### Bug Fixes
