@@ -108,21 +108,24 @@ typedef NS_ENUM(NSInteger, GREYExecutionState) {
     _registeredIdlingResources = [[NSMutableOrderedSet alloc] init];
 
     // Create the default idling resources.
-    id<GREYIdlingResource> defaultMainNSOperationQIdlingResource =
+    NSString *trackerName = @"Main NSOperation Queue Tracker";
+    id<GREYIdlingResource> mainNSOperationQIdlingResource =
         [GREYOperationQueueIdlingResource resourceWithNSOperationQueue:[NSOperationQueue mainQueue]
-                                                                  name:@"Main NSOperation Queue"];
-    id<GREYIdlingResource> defaultMainDispatchQIdlingResource =
+                                                                  name:trackerName];
+    id<GREYIdlingResource> mainDispatchQIdlingResource =
         [GREYDispatchQueueIdlingResource resourceWithDispatchQueue:dispatch_get_main_queue()
-                                                              name:@"Main Dispatch Queue"];
+                                                              name:@"Main Dispatch Queue Tracker"];
     id<GREYIdlingResource> appStateTrackerIdlingResource = [GREYAppStateTracker sharedInstance];
 
     // The default resources' order is important as it affects the order in which the resources
     // will be checked.
     _defaultIdlingResources =
         [[NSOrderedSet alloc] initWithObjects:appStateTrackerIdlingResource,
-                                              defaultMainDispatchQIdlingResource,
-                                              defaultMainNSOperationQIdlingResource, nil];
-    // Forcefully clear GREYAppStateTracker state during test case teardown if it is not idle.
+                                              mainNSOperationQIdlingResource,
+                                              mainDispatchQIdlingResource, nil];
+    // To forcefully clear GREYAppStateTracker state during test case teardown if it is not idle.
+    // This prevents the next test case from timing out in case the previous one puts the app into
+    // a non-idle state.
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(grey_forcedStateTrackerCleanUp)
                                                  name:kGREYXCTestCaseInstanceDidTearDown

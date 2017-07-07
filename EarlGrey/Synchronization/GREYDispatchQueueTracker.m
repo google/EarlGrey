@@ -279,6 +279,19 @@ static void grey_dispatch_sync_f(dispatch_queue_t queue, void *context, dispatch
   return _dispatchQueue != nil;
 }
 
+- (NSString *)description {
+  NSMutableString *description =
+      [[NSMutableString alloc] initWithFormat:@"Tracking dispatch queue: %@", _dispatchQueue];
+  [description appendString:@" and the following methods used on the queue:"];
+  [description appendString:@" dispatch_sync"];
+  [description appendString:@", dispatch_sync_f"];
+  [description appendString:@", dispatch_async"];
+  [description appendString:@", dispatch_async_f"];
+  [description appendString:@", dispatch_after"];
+  [description appendString:@", dispatch_after_f"];
+  return description;
+}
+
 #pragma mark - Private
 
 - (void)grey_dispatchAfterCallWithTime:(dispatch_time_t)when block:(dispatch_block_t)block {
