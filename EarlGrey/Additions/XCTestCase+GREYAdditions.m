@@ -62,10 +62,10 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
     GREYFatalAssertWithMessage(swizzleSuccess,
                                @"Cannot swizzle "
                                @"XCTestCase::recordFailureWithDescription:inFile:atLine:expected:");
-#if TARGET_OS_SIMULATOR
-    // Simulator needs accessibility to be enabled before main is called.
-    [[GREYAutomationSetup sharedInstance] prepare];
-#endif
+    // As soon as XCTest is loaded, we setup the EarlGrey crash handlers so that any issue is
+    // tracked at the earliest. Also, we turn on accessibility for the simulator since it needs to
+    // be enabled before main is called.
+    [[GREYAutomationSetup sharedInstance] prepareOnLoad];
   }
 }
 
@@ -175,13 +175,13 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
 
 - (void)grey_invokeTest {
   @autoreleasepool {
-#if !(TARGET_OS_SIMULATOR)
-    // Enabling accessibility on device must be done after XCTest has been loaded.
     static dispatch_once_t prepareForAutomation;
     dispatch_once(&prepareForAutomation, ^{
-      [[GREYAutomationSetup sharedInstance] prepare];
+      // Accessibility for a device is enabled here since for a device it must be enabled after
+      // XCTest has been loaded. We also turn off autocorrect and predictive text to not interfere
+      // with EarlGrey's typing.
+      [[GREYAutomationSetup sharedInstance] preparePostLoad];
     });
-#endif
     if (![self grey_isSwizzled]) {
       GREYSwizzler *swizzler = [[GREYSwizzler alloc] init];
       Class selfClass = [self class];

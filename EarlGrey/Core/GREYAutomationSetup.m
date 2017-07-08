@@ -68,8 +68,6 @@ static GREYSignalHandler gPreviousSignalHandlers[kNumSignals];
 
 #pragma mark - Accessibility On Device
 
-#if !(TARGET_OS_SIMULATOR)
-
 @implementation NSNotificationCenter (GREYAdditions)
 /**
  *  Fakes app going into background mode by calling the @c block immediately when
@@ -110,8 +108,6 @@ static GREYSignalHandler gPreviousSignalHandlers[kNumSignals];
 }
 @end
 
-#endif
-
 #pragma mark - Automation Setup
 
 @implementation GREYAutomationSetup
@@ -130,9 +126,17 @@ static GREYSignalHandler gPreviousSignalHandlers[kNumSignals];
   return self;
 }
 
-- (void)prepare {
+- (void)prepareOnLoad {
   [self grey_setupCrashHandlers];
-  [self grey_enableAccessibility];
+#if TARGET_OS_SIMULATOR
+  [self grey_enableAccessibilityForSimulator];
+#endif
+}
+
+- (void)preparePostLoad {
+#if !(TARGET_OS_SIMULATOR)
+  [self grey_enableAccessibilityForDevice];
+#endif
   // Force software keyboard.
   [[UIKeyboardImpl sharedInstance] setAutomaticMinimizationEnabled:NO];
   // Turn off auto correction as it interferes with typing on iOS8.2+.
@@ -144,8 +148,7 @@ static GREYSignalHandler gPreviousSignalHandlers[kNumSignals];
 #pragma mark - Accessibility
 
 // Enables accessibility as it is required for using any property of the accessibility tree.
-- (void)grey_enableAccessibility {
-#if TARGET_OS_SIMULATOR
+- (void)grey_enableAccessibilityForSimulator {
   NSLog(@"Enabling accessibility for automation on Simulator.");
   static NSString *path =
       @"/System/Library/PrivateFrameworks/AccessibilityUtilities.framework/AccessibilityUtilities";
@@ -167,7 +170,9 @@ static GREYSignalHandler gPreviousSignalHandlers[kNumSignals];
   [server setAccessibilityPreferenceAsMobile:(CFStringRef)@"AccessibilityEnabled"
                                        value:kCFBooleanTrue
                                 notification:(CFStringRef)@"com.apple.accessibility.cache.ax"];
-#else // On device
+}
+
+- (void)grey_enableAccessibilityForDevice {
   NSLog(@"Enabling accessibility for automation on Device.");
   char const *const libAccessibilityPath =
       [@"/usr/lib/libAccessibility.dylib" fileSystemRepresentation];
@@ -216,7 +221,6 @@ static GREYSignalHandler gPreviousSignalHandlers[kNumSignals];
     void *unused = 0;
     [XCAXClient loadAccessibility:&unused];
   }
-#endif
 }
 
 // Modifies the autocorrect and predictive typing settings to turn them off through the
