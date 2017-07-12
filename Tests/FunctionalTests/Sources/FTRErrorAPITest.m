@@ -84,7 +84,7 @@
   // Should throw exception.
   @try {
     [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")]
-         assertWithMatcher:grey_nil() error:nil];
+        assertWithMatcher:grey_nil() error:nil];
     GREYFail(@"Shouldn't be here");
   } @catch (GREYFrameworkException *exception) {
     GREYAssertTrue([exception.name isEqual:@"AssertionFailedException"],

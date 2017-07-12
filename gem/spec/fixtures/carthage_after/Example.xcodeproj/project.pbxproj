@@ -7,10 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5B5678F4326B273D6B2DD1F4 /* EarlGrey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B657D1D6749CAC16B3688D5 /* EarlGrey.framework */; };
+		7D3DE2B2D4B6ADBAD8023E1F /* EarlGrey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23083A8BBED0E8BDFEA08B61 /* EarlGrey.swift */; };
+		9F0F538927F2B2C5677F9D15 /* EarlGrey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E96DE017C569DE30A62E26B5 /* EarlGrey.framework */; };
+		C1553B0F1C2816DB1DA7C0FE /* EarlGrey.framework in EarlGrey Copy Files */ = {isa = PBXBuildFile; fileRef = E96DE017C569DE30A62E26B5 /* EarlGrey.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		FD8B60CA1D90E8B500E5821A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8B60C91D90E8B500E5821A /* AppDelegate.swift */; };
 		FD8B60DF1D90E8B500E5821A /* ExampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8B60DE1D90E8B500E5821A /* ExampleTests.swift */; };
-		FD8B61161D92063E00E5821A /* EarlGrey.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8B61151D92063E00E5821A /* EarlGrey.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -23,14 +24,28 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		331E67B242A7A0D8136BDCC3 /* EarlGrey Copy Files */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(TEST_HOST)/../";
+			dstSubfolderSpec = 0;
+			files = (
+				C1553B0F1C2816DB1DA7C0FE /* EarlGrey.framework in EarlGrey Copy Files */,
+			);
+			name = "EarlGrey Copy Files";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		0B657D1D6749CAC16B3688D5 /* EarlGrey.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EarlGrey.framework; path = "${SRCROOT}/Carthage/Build/iOS/EarlGrey.framework"; sourceTree = SRCROOT; };
+		23083A8BBED0E8BDFEA08B61 /* EarlGrey.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = EarlGrey.swift; sourceTree = "<group>"; };
+		E96DE017C569DE30A62E26B5 /* EarlGrey.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EarlGrey.framework; path = "Carthage/Build/iOS/EarlGrey.framework"; sourceTree = SOURCE_ROOT; };
 		FD8B60C61D90E8B500E5821A /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD8B60C91D90E8B500E5821A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FD8B60D51D90E8B500E5821A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FD8B60DA1D90E8B500E5821A /* ExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD8B60DE1D90E8B500E5821A /* ExampleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleTests.swift; sourceTree = "<group>"; };
-		FD8B61151D92063E00E5821A /* EarlGrey.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = EarlGrey.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,19 +60,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5B5678F4326B273D6B2DD1F4 /* EarlGrey.framework in Frameworks */,
+				9F0F538927F2B2C5677F9D15 /* EarlGrey.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		621418901F970B0B816CC656 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E96DE017C569DE30A62E26B5 /* EarlGrey.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		FD8B60BD1D90E8B500E5821A = {
 			isa = PBXGroup;
 			children = (
 				FD8B60C81D90E8B500E5821A /* Example */,
 				FD8B60DD1D90E8B500E5821A /* ExampleTests */,
 				FD8B60C71D90E8B500E5821A /* Products */,
+				621418901F970B0B816CC656 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -66,7 +90,6 @@
 			children = (
 				FD8B60C61D90E8B500E5821A /* Example.app */,
 				FD8B60DA1D90E8B500E5821A /* ExampleTests.xctest */,
-				0B657D1D6749CAC16B3688D5 /* EarlGrey.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -83,8 +106,8 @@
 		FD8B60DD1D90E8B500E5821A /* ExampleTests */ = {
 			isa = PBXGroup;
 			children = (
-				FD8B61151D92063E00E5821A /* EarlGrey.swift */,
 				FD8B60DE1D90E8B500E5821A /* ExampleTests.swift */,
+				23083A8BBED0E8BDFEA08B61 /* EarlGrey.swift */,
 			);
 			path = ExampleTests;
 			sourceTree = "<group>";
@@ -116,7 +139,7 @@
 				FD8B60D61D90E8B500E5821A /* Sources */,
 				FD8B60D71D90E8B500E5821A /* Frameworks */,
 				FD8B60D81D90E8B500E5821A /* Resources */,
-				FD8B61181D9219DC00E5821A /* Carthage copy-frameworks Run Script */,
+				331E67B242A7A0D8136BDCC3 /* EarlGrey Copy Files */,
 			);
 			buildRules = (
 			);
@@ -185,25 +208,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		FD8B61181D9219DC00E5821A /* Carthage copy-frameworks Run Script */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/EarlGrey.framework",
-			);
-			name = "Carthage copy-frameworks Run Script";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/bash;
-			shellScript = "/usr/local/bin/carthage copy-frameworks";
-			showEnvVarsInLog = 1;
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		FD8B60C21D90E8B500E5821A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -218,7 +222,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FD8B60DF1D90E8B500E5821A /* ExampleTests.swift in Sources */,
-				FD8B61161D92063E00E5821A /* EarlGrey.swift in Sources */,
+				7D3DE2B2D4B6ADBAD8023E1F /* EarlGrey.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

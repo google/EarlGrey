@@ -116,27 +116,15 @@
 
   self.scrollview.isAccessibilityElement = YES;
   self.scrollview.accessibilityLabel = @"Upper Scroll View";
-  self.scrollview.contentSize = CGSizeMake(320, 1400);
-
-  self.zeroHeightScrollView.isAccessibilityElement = YES;
-  self.zeroHeightScrollView.accessibilityLabel = @"Zero Height Scroll View";
-
-  self.zeroWidthScrollView.isAccessibilityElement = YES;
-  self.zeroWidthScrollView.accessibilityLabel = @"Zero Width Scroll View";
-
-  self.zeroWidthAndHeightScrollView.isAccessibilityElement = YES;
-  self.zeroWidthAndHeightScrollView.accessibilityLabel = @"Zero Width and Height Scroll View";
 
   self.bottomScrollView.isAccessibilityElement = YES;
   self.bottomScrollView.accessibilityLabel = @"Bottom Scroll View";
-  self.bottomScrollView.contentSize = CGSizeMake(600, 500);
   self.bottomScrollView.backgroundColor = [UIColor lightGrayColor];
 
   // Named infinite scroll because this scroll view verifies a bug in scroll algorithm that causes
   // infinite scrolling.
   self.infiniteScrollView.isAccessibilityElement = YES;
   self.infiniteScrollView.accessibilityLabel = @"Infinite Scroll View";
-  self.infiniteScrollView.contentSize = CGSizeMake(600, 500);
   self.infiniteScrollView.backgroundColor = [UIColor lightGrayColor];
   self.infiniteScrollView.delegate = self;
 
@@ -147,25 +135,6 @@
 
   // Required to disable the swipe from edge to go back gesture as it can interfere with tests.
   [self.navigationItem setHidesBackButton:YES animated:NO];
-}
-
-- (void)viewDidLayoutSubviews {
-  [super viewDidLayoutSubviews];
-
-  // Even when xib sets scrollview's width/height to 0 via constraints, on iPhone 6 they end up as
-  // some non-zero value, this code overides that behavior for scrollviews that need 0 width/height.
-  CGRect scrollViewFrameRect = self.zeroHeightScrollView.frame;
-  scrollViewFrameRect.size.height = 0;
-  [self.zeroHeightScrollView setFrame:scrollViewFrameRect];
-
-  scrollViewFrameRect = self.zeroWidthScrollView.frame;
-  scrollViewFrameRect.size.width = 0;
-  [self.zeroWidthScrollView setFrame:scrollViewFrameRect];
-
-  scrollViewFrameRect = self.zeroWidthAndHeightScrollView.frame;
-  scrollViewFrameRect.size.width = 0;
-  scrollViewFrameRect.size.height = 0;
-  [self.zeroWidthAndHeightScrollView setFrame:scrollViewFrameRect];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

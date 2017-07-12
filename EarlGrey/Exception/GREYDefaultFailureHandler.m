@@ -25,8 +25,8 @@
 #import "Common/GREYFailureScreenshotter.h"
 #import "Common/GREYScreenshotUtil.h"
 #import "Common/GREYScreenshotUtil+Internal.h"
+#import "Common/GREYThrowDefines.h"
 #import "Common/GREYVisibilityChecker.h"
-#import "Common/GREYVisibilityChecker+Internal.h"
 #import "Exception/GREYFrameworkException.h"
 #import "Provider/GREYUIWindowProvider.h"
 
@@ -44,7 +44,7 @@
 }
 
 - (void)handleException:(GREYFrameworkException *)exception details:(NSString *)details {
-  NSParameterAssert(exception);
+  GREYThrowOnNilParameter(exception);
 
   // Test case can be nil if EarlGrey is invoked outside the context of an XCTestCase.
   XCTestCase *currentTestCase = [XCTestCase grey_currentTestCase];
@@ -71,13 +71,14 @@
       [GREYFailureScreenshotter generateAppScreenshotsWithPrefix:screenshotPrefix
                                                          failure:exception.name];
 
+  NSArray *stackTrace = [NSThread callStackSymbols];
   NSString *log = [GREYFailureFormatter formatFailureForTestCase:currentTestCase
                                                     failureLabel:@"Exception"
                                                      failureName:exception.name
                                                         filePath:_fileName
                                                       lineNumber:_lineNumber
                                                     functionName:nil
-                                                      stackTrace:[NSThread callStackSymbols]
+                                                      stackTrace:stackTrace
                                                   appScreenshots:appScreenshots
                                                           format:@"%@\n", logMessage];
 

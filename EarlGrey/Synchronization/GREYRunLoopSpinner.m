@@ -17,7 +17,7 @@
 #import "Synchronization/GREYRunLoopSpinner.h"
 
 #import "Additions/UIApplication+GREYAdditions.h"
-#import "Assertion/GREYAssertionDefines.h"
+#import "Common/GREYFatalAsserts.h"
 
 /**
  *  The default minimum number of run loop drains. The default is 2 because, as per the CFRunLoop
@@ -44,10 +44,11 @@ static void (^noopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef t
 }
 
 - (BOOL)spinWithStopConditionBlock:(BOOL (^)(void))stopConditionBlock {
-  I_CHECK_MAIN_THREAD();
-  NSAssert(!_spinning, @"Should not spin the same run loop spinner instance concurrently.");
-  _spinning = YES;
+  GREYFatalAssertMainThread();
+  GREYFatalAssertWithMessage(!_spinning,
+                             @"Should not spin the same run loop spinner instance concurrently.");
 
+  _spinning = YES;
   CFTimeInterval timeoutTime = CACurrentMediaTime() + _timeout;
   [self grey_drainRunLoopInActiveModeForDrains:_minRunLoopDrains];
   BOOL stopConditionMet = [self grey_checkConditionInActiveMode:stopConditionBlock];
@@ -132,7 +133,7 @@ static void (^noopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef t
 
   void (^beforeSourcesConditionCheckBlock)() = ^{
     __typeof__(self) strongSelf = weakSelf;
-    NSAssert(strongSelf, @"The spinner should not have been deallocated while it was spinning.");
+    GREYFatalAssertWithMessage(strongSelf, @"The spinner should not have been deallocated.");
 
     if (stopConditionBlock()) {
       if ([strongSelf conditionMetHandler]) {
@@ -145,7 +146,7 @@ static void (^noopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef t
 
   void (^beforeWaitingConditionCheckBlock)() = ^{
     __typeof__(self) strongSelf = weakSelf;
-    NSAssert(strongSelf, @"The spinner should not have been deallocated while it was spinning.");
+    GREYFatalAssertWithMessage(strongSelf, @"The spinner should not have been deallocated.");
 
     if (strongSelf.maxSleepInterval == 0) {
       CFRunLoopWakeUp(CFRunLoopGetMain());
@@ -177,8 +178,9 @@ static void (^noopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef t
   // Running a run loop mode will finish if that mode has no sources or timers. In that case,
   // the observer callbacks will not get called, so we need to check the condition here.
   if (result == kCFRunLoopRunFinished) {
-    NSAssert(!conditionMet, @"If the running the active mode returned finished, the condition"
-                            @"should not have been met.");
+    GREYFatalAssertWithMessage(!conditionMet,
+                               @"If the running the active mode returned finished, the condition "
+                               @"should not have been met.");
     conditionMet = [self grey_checkConditionInActiveMode:stopConditionBlock];
   }
 
@@ -203,7 +205,7 @@ static void (^noopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef t
   NSString *activeMode = [self grey_activeRunLoopMode];
   CFRunLoopPerformBlock(CFRunLoopGetMain(), (CFStringRef)activeMode, ^{
     __typeof__(self) strongSelf = weakSelf;
-    NSAssert(strongSelf, @"The spinner should not have been deallocated while it was spinning.");
+    GREYFatalAssertWithMessage(strongSelf, @"The spinner should not have been deallocated.");
 
     if (stopConditionBlock()) {
       void (^conditionMetHandler)(void) = [strongSelf conditionMetHandler];
@@ -261,10 +263,12 @@ static void (^noopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef t
             beforeWaitingBlock();
           }
         } else {
-          NSAssert(NO, @"Should not get here. Observer is not registered for any other options.");
+          GREYFatalAssertWithMessage(NO,
+                                     @"Should not get here. Observer is not registered for any "
+                                     @"other options.");
         }
-        NSAssert(numNestedRunLoopModes >= 0,
-                 @"The nesting count for |mode| should never be less than zero.");
+        GREYFatalAssertWithMessage(numNestedRunLoopModes >= 0,
+                                   @"The nesting count for |mode| should never be less than zero.");
       };
 
   CFOptionFlags observerFlags = kCFRunLoopEntry | kCFRunLoopExit;
@@ -362,12 +366,13 @@ static void (^noopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef t
 #pragma mark - Getters and Setters
 
 - (void)setMaxSleepInterval:(CFTimeInterval)maxSleepInterval {
-  NSAssert(maxSleepInterval >= 0, @"Maximum sleep interval must be non-negative.");
+  GREYFatalAssertWithMessage(maxSleepInterval >= 0,
+                             @"Maximum sleep interval must be non-negative.");
   _maxSleepInterval = maxSleepInterval;
 }
 
 - (void)setTimeout:(CFTimeInterval)timeout {
-  NSAssert(timeout >= 0, @"Timeout must be non-negative.");
+  GREYFatalAssertWithMessage(timeout >= 0, @"Timeout must be non-negative.");
   _timeout = timeout;
 }
 

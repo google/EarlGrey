@@ -17,6 +17,7 @@
 #import "Synchronization/GREYOperationQueueIdlingResource.h"
 
 #import "Common/GREYDefines.h"
+#import "Common/GREYThrowDefines.h"
 #import "Synchronization/GREYUIThreadExecutor.h"
 #import "Synchronization/GREYUIThreadExecutor+Internal.h"
 
@@ -26,7 +27,8 @@
 }
 
 + (instancetype)resourceWithNSOperationQueue:(NSOperationQueue *)queue name:(NSString *)name {
-  NSParameterAssert(queue);
+  GREYThrowOnNilParameter(queue);
+
   GREYOperationQueueIdlingResource *resource = [[GREYOperationQueueIdlingResource alloc]
                                                  initWithNSOperationQueue:queue
                                                                   andName:name];

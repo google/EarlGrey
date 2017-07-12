@@ -21,14 +21,6 @@ let greyFailureHandler =
   NSThread.currentThread().threadDictionary
     .valueForKey(kGREYFailureHandlerKey) as! GREYFailureHandler
 
-public func grey_allOfMatchers(args: AnyObject...) -> GREYMatcher! {
-  return GREYAllOf(matchers: args)
-}
-
-public func grey_anyOfMatchers(args: AnyObject...) -> GREYMatcher! {
-  return GREYAnyOf(matchers: args)
-}
-
 public func EarlGrey(file: String = #file, line: UInt = #line) -> EarlGreyImpl! {
   return EarlGreyImpl.invokedFromFile(file, lineNumber: line)
 }
@@ -102,11 +94,16 @@ public func GREYFailWithDetails(reason: String, details: String) {
 private func GREYAssert(@autoclosure expression: () -> BooleanType,
                         _ reason: String, details: String) {
   GREYSetCurrentAsFailable()
+  GREYWaitUntilIdle()
   if !expression().boolValue {
     greyFailureHandler.handleException(GREYFrameworkException(name: kGREYAssertionFailedException,
       reason: reason),
       details: details)
   }
+}
+
+private func GREYWaitUntilIdle() {
+  GREYUIThreadExecutor.sharedInstance().drainUntilIdle()
 }
 
 private func GREYSetCurrentAsFailable(file: String = #file, line: UInt = #line) {

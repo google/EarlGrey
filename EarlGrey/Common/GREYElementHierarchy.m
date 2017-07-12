@@ -18,31 +18,37 @@
 
 #import "Additions/NSObject+GREYAdditions.h"
 #import "Common/GREYConstants.h"
+#import "Common/GREYFatalAsserts.h"
+#import "Common/GREYThrowDefines.h"
 #import "Provider/GREYUIWindowProvider.h"
+#import "Traversal/GREYTraversalDFS.h"
 
 @implementation GREYElementHierarchy
 
 + (NSString *)hierarchyStringForElement:(id)element {
-  return [self grey_recursivePrint:element
-                         withLevel:0
-                      outputString:[[NSMutableString alloc] init]
-           andAnnotationDictionary:nil];
+  GREYThrowOnNilParameter(element);
+  return [self grey_hierarchyString:element
+                       outputString:[[NSMutableString alloc] init]
+            andAnnotationDictionary:nil];
 }
 
 + (NSString *)hierarchyStringForElement:(id)element
                withAnnotationDictionary:(NSDictionary *)annotationDictionary {
-  return [self grey_recursivePrint:element
-                         withLevel:0
-                      outputString:[[NSMutableString alloc] init]
-           andAnnotationDictionary:annotationDictionary];
+  GREYThrowOnNilParameter(element);
+  return [self grey_hierarchyString:element
+                       outputString:[[NSMutableString alloc] init]
+            andAnnotationDictionary:annotationDictionary];
 }
 
 + (NSString *)hierarchyStringForAllUIWindows {
   NSMutableString *log = [[NSMutableString alloc] init];
   long unsigned index = 0;
   for (UIWindow *window in [GREYUIWindowProvider allWindows]) {
+    if (index != 0) {
+      [log appendString:@"\n\n"];
+    }
     index++;
-    [log appendFormat:@"========== Window %lu ==========\n\n%@\n\n",
+    [log appendFormat:@"========== Window %lu ==========\n\n%@",
                       index,
                       [GREYElementHierarchy hierarchyStringForElement:window]];
   }
@@ -62,28 +68,28 @@
  *
  *  @return A string containing the full view hierarchy from the given @c element.
  */
-+ (NSString *)grey_recursivePrint:(id)element
-                        withLevel:(NSUInteger)level
-                     outputString:(NSMutableString *)outputString
-          andAnnotationDictionary:(NSDictionary *)annotationDictionary {
-  NSParameterAssert(element);
-  NSParameterAssert(outputString);
-  // Add any annotation, if present for the view
-  NSString *annotation = annotationDictionary[[NSValue valueWithNonretainedObject:element]];
-  if ([outputString length] != 0) {
-    [outputString appendString:@"\n"];
-  }
-  [outputString appendString:[self grey_printDescriptionForElement:element atLevel:level]];
-  if (annotation) {
-    [outputString appendString:@" "]; // Space before annotation.
-    [outputString appendString:annotation];
-  }
-  for (id child in [self grey_orderedChildrenOf:element]) {
-    [self grey_recursivePrint:child
-                      withLevel:(level + 1)
-                   outputString:outputString
-        andAnnotationDictionary:annotationDictionary];
-  }
++ (NSString *)grey_hierarchyString:(id)element
+                      outputString:(NSMutableString *)outputString
+           andAnnotationDictionary:(NSDictionary *)annotationDictionary {
+  GREYFatalAssert(element);
+  GREYFatalAssert(outputString);
+
+  // Traverse the hierarchy associated with the element.
+  GREYTraversalDFS *traversal = [GREYTraversalDFS hierarchyForElementWithDFSTraversal:element];
+
+  // Enumerate the hierarchy using block enumeration.
+  [traversal enumerateUsingBlock:^(id _Nonnull element, NSUInteger level) {
+    if ([outputString length] != 0) {
+      [outputString appendString:@"\n"];
+    }
+    [outputString appendString:[self grey_printDescriptionForElement:element
+                                                             atLevel:level]];
+    NSString *annotation = annotationDictionary[[NSValue valueWithNonretainedObject:element]];
+    if (annotation) {
+      [outputString appendString:@" "]; // Space before annotation.
+      [outputString appendString:annotation];
+    }
+  }];
   return outputString;
 }
 
@@ -97,7 +103,7 @@
  *  @return A string with the description of the given @c element.
  */
 + (NSString *)grey_printDescriptionForElement:(id)element atLevel:(NSUInteger)level {
-  NSParameterAssert(element);
+  GREYFatalAssert(element);
   NSMutableString *printOutput = [NSMutableString stringWithString:@""];
 
   if (level > 0) {
@@ -112,48 +118,6 @@
   }
   [printOutput appendString:[element grey_description]];
   return printOutput;
-}
-
-/**
- *  @return An array of children of the given @c element ordered and separated for accessibility
- *          elements and de-duped.
- */
-+ (NSArray *)grey_orderedChildrenOf:(id)element {
-  NSMutableOrderedSet *subViewSet = [[NSMutableOrderedSet alloc] init];
-  NSParameterAssert(element);
-
-  if ([element isKindOfClass:[UIView class]]) {
-    UIView *parentView = (UIView *)element;
-    // Create an ordered set with all the subviews of the parent.
-    subViewSet = [[NSMutableOrderedSet alloc] initWithArray:[parentView subviews]];
-  }
-
-  // Get all the children accessibility elements.
-  // Check added since this runs into an infinite loop for UITableView or a UITableViewCell.
-  BOOL viewIsATableViewOrCell = [element isKindOfClass:[UITableView class]]
-                                    || [element isKindOfClass:[UITableViewCell class]];
-
-  // We check here for NSNotFound since accessibilityElementCount on an NSObject without
-  // an initialized accessibilityElements array throws us an NSNotFound.
-  NSInteger aXElementCount = [element accessibilityElementCount];
-  if (!viewIsATableViewOrCell
-         && (aXElementCount > 0)
-         && aXElementCount != NSNotFound) {
-    if ([element isKindOfClass:[UIPickerView class]]) {
-      // For a UIPickerView, we cap off all the acccessibility containers at 500, to prevent
-      // a timeout searching through identical views that can go into an infinite loop.
-      aXElementCount = MIN(aXElementCount, kUIPickerViewMaxAccessibilityViews);
-    }
-
-    for (NSInteger elementIndex = 0; elementIndex < aXElementCount; elementIndex++) {
-      id accessibilityElement = [element accessibilityElementAtIndex:elementIndex];
-      // Need to add a nil check since sometimes accessibilityElement is nil.
-      if (accessibilityElement) {
-        [subViewSet addObject:accessibilityElement];
-      }
-    }
-  }
-  return [subViewSet array];
 }
 
 @end

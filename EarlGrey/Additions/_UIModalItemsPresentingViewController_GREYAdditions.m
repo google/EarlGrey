@@ -19,6 +19,7 @@
 #include <objc/message.h>
 
 #import "Common/GREYDefines.h"
+#import "Common/GREYFatalAsserts.h"
 #import "Common/GREYSwizzler.h"
 
 @implementation _UIModalItemsPresentingViewController_GREYAdditions
@@ -31,12 +32,13 @@
       IMP implementation = [self methodForSelector:@selector(greyswizzled_viewWillDisappear:)];
       Class clazz = NSClassFromString(@"_UIModalItemsPresentingViewController");
       SEL swizzledSEL = @selector(greyswizzled_viewWillDisappear:);
-      GREY_UNUSED_VARIABLE BOOL swizzled = [swizzler swizzleClass:clazz
-                                                addInstanceMethod:swizzledSEL
-                                               withImplementation:implementation
-                                     andReplaceWithInstanceMethod:@selector(viewWillDisappear:)];
-      NSAssert(swizzled,
-               @"Failed to swizzle _UIModalItemsPresentingViewController::viewWillDisappear:");
+      BOOL swizzled = [swizzler swizzleClass:clazz
+                           addInstanceMethod:swizzledSEL
+                          withImplementation:implementation
+                andReplaceWithInstanceMethod:@selector(viewWillDisappear:)];
+      GREYFatalAssertWithMessage(swizzled,
+                                 @"Failed to swizzle "
+                                 @"_UIModalItemsPresentingViewController::viewWillDisappear:");
     }
   }
 }

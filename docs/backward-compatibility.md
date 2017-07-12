@@ -3,8 +3,8 @@
 EarlGrey is supported on the following platforms:
 
 
-iOS Version        | Devices           | Simulators
-------------       | ------------      | ------------
-iOS 8.x            | iPhone, iPad      | iPhone, iPad
-iOS 9.x            | iPhone, iPad      | iPhone, iPad
-iOS 10.2.1         | iPhone, iPad      | iPhone, iPad
+iOS Version  | Xcode Version | Devices           | Simulators
+------------ | ------------- | ------------      | ------------
+iOS 8.x      | 7.3 - 8.3.3   | iPhone, iPad      | iPhone, iPad
+iOS 9.x      | 7.3 - 8.3.3   | iPhone, iPad      | iPhone, iPad
+iOS 10.3.3   | 7.3 - 8.3.3   | iPhone, iPad      | iPhone, iPad

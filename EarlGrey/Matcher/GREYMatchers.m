@@ -24,10 +24,11 @@
 #import "Additions/UISwitch+GREYAdditions.h"
 #import "Additions/NSError+GREYAdditions.h"
 #import "Assertion/GREYAssertionDefines.h"
+#import "Common/GREYAppleInternals.h"
 #import "Common/GREYConfiguration.h"
 #import "Common/GREYConstants.h"
-#import "Common/GREYExposed.h"
 #import "Common/GREYError.h"
+#import "Common/GREYFatalAsserts.h"
 #import "Common/GREYVisibilityChecker.h"
 #import "Core/GREYElementFinder.h"
 #import "Core/GREYElementInteraction.h"
@@ -218,7 +219,8 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
 }
 
 + (id<GREYMatcher>)matcherForMinimumVisiblePercent:(CGFloat)percent {
-  NSAssert(percent >= 0.0f && percent <= 1.0f, @"Percent %f must be in the range [0,1]", percent);
+  GREYFatalAssertWithMessage(percent >= 0.0f && percent <= 1.0f,
+                             @"Percent %f must be in the range [0,1]", percent);
   MatchesBlock matches = ^BOOL(UIView *element) {
     return [GREYVisibilityChecker percentVisibleAreaOfElement:element] > percent;
   };
@@ -276,8 +278,6 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
 }
 
 + (id<GREYMatcher>)matcherForKindOfClass:(Class)klass {
-  NSParameterAssert(klass);
-
   MatchesBlock matches = ^BOOL(id element) {
     return [element isKindOfClass:klass];
   };

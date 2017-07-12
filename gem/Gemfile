@@ -16,8 +16,3 @@
 source 'https://rubygems.org'
 
 gemspec
-
-gem 'coveralls', require: false
-gem 'rspec'
-gem 'rubocop'
-gem 'thor' # enable: bundle exec thor spec

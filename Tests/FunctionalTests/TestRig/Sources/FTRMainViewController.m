@@ -25,6 +25,7 @@
 #import "FTRCollectionViewController.h"
 #import "FTRGestureViewController.h"
 #import "FTRImageViewController.h"
+#import "FTRMultiFingerSwipeGestureRecognizerViewController.h"
 #import "FTRNetworkTestViewController.h"
 #import "FTRPickerViewController.h"
 #import "FTRPresentedViewController.h"
@@ -73,14 +74,10 @@ static NSString *gTableViewIdentifier = @"TableViewIdentifier";
       @"Typing Views" : [FTRTypingViewController class],
       @"Visibility Tests" : [FTRVisibilityTestViewController class],
       @"Web Views" : [FTRWebViewController class],
+      @"Multi finger swipe gestures" : [FTRMultiFingerSwipeGestureRecognizerViewController class],
     };
   }
   return self;
-}
-
-- (instancetype)init {
-  NSAssert(NO, @"Invalid Initializer");
-  return nil;
 }
 
 - (void)viewDidLoad {

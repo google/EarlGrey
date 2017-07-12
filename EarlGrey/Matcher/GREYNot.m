@@ -16,12 +16,15 @@
 
 #import "Matcher/GREYNot.h"
 
+#import "Common/GREYThrowDefines.h"
+
 @implementation GREYNot {
   id<GREYMatcher> _matcher;
 }
 
 - (instancetype)initWithMatcher:(id<GREYMatcher>)matcher {
-  NSParameterAssert(matcher);
+  GREYThrowOnNilParameter(matcher);
+
   self = [super init];
   if (self) {
     _matcher = matcher;
@@ -36,7 +39,7 @@
 }
 
 - (void)describeTo:(id<GREYDescription>)description {
-  [[description appendText:@"!"] appendDescriptionOf:_matcher];
+  [[[description appendText:@"!("] appendDescriptionOf:_matcher] appendText:@")"];
 }
 
 @end

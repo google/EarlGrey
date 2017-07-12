@@ -28,14 +28,13 @@ NSString *const kGREYGenericErrorDomain = @"com.google.earlgrey.GenericErrorDoma
 NSInteger const kGREYGenericErrorCode = 0;
 NSString *const kErrorDetailFailureNameKey = @"Failure Name";
 NSString *const kErrorDetailActionNameKey = @"Action Name";
-NSString *const kErrorDetailAssertCriteriaKey = @"Assert Criteria";
+NSString *const kErrorDetailAssertCriteriaKey = @"Assertion Criteria";
 NSString *const kErrorDetailRecoverySuggestionKey = @"Recovery Suggestion";
 
-NSString *const kErrorDomainKey = @"Domain";
-NSString *const kErrorCodeKey = @"Code";
+NSString *const kErrorDomainKey = @"Error Domain";
+NSString *const kErrorCodeKey = @"Error Code";
 NSString *const kErrorDescriptionKey = @"Description";
 NSString *const kErrorFailureReasonKey = @"Failure Reason";
-NSString *const kErrorRecoverySuggestionKey = @"Recovery Suggestion";
 
 NSString *const kErrorTestCaseClassNameKey = @"TestCase Class";
 NSString *const kErrorTestCaseMethodNameKey = @"TestCase Method";
@@ -70,7 +69,6 @@ GREYError *I_GREYErrorMake(NSString *domain,
   error.errorInfo = errorInfo;
   error.stackTrace = stackTrace;
   error.appUIHierarchy = [GREYElementHierarchy hierarchyStringForAllUIWindows];
-
   return error;
 }
 
@@ -163,7 +161,7 @@ GREYError *I_GREYErrorMake(NSString *domain,
 
 - (NSString *)description {
   return [GREYObjectFormatter formatDictionary:[self grey_descriptionDictionary]
-                                        indent:GREYObjectFormatIndent
+                                        indent:kGREYObjectFormatIndent
                                      hideEmpty:YES
                                       keyOrder:nil];
 }
@@ -197,35 +195,32 @@ GREYError *I_GREYErrorMake(NSString *domain,
   }
 
   NSMutableArray *errorStack = [[NSMutableArray alloc] init];
-
-  if (error.userInfo[NSUnderlyingErrorKey]) {
-    NSError *underlyingError = error.userInfo[NSUnderlyingErrorKey];
+  NSError *underlyingError = error.userInfo[NSUnderlyingErrorKey];
+  if (underlyingError) {
     NSArray *errorDescriptions = [GREYError grey_nestedErrorDictionariesForError:underlyingError];
     [errorStack addObjectsFromArray:errorDescriptions];
   }
 
-  // for GREYError, we need to remove some of the fields
+  NSDictionary *descriptions = [error grey_descriptionDictionary];
+  // For GREYError, we need to remove some of the fields.
   if ([error isKindOfClass:[GREYError class]]) {
-    NSMutableDictionary *descriptionDictionary = [[error grey_descriptionDictionary] mutableCopy];
+    NSMutableDictionary *mutableDescriptions = [descriptions mutableCopy];
 
-    [descriptionDictionary removeObjectForKey:kErrorUserInfoKey];
-    [descriptionDictionary removeObjectForKey:kErrorErrorInfoKey];
-    [descriptionDictionary removeObjectForKey:kErrorBundleIDKey];
-    [descriptionDictionary removeObjectForKey:kErrorStackTraceKey];
-    [descriptionDictionary removeObjectForKey:kErrorAppUIHierarchyKey];
-    [descriptionDictionary removeObjectForKey:kErrorAppScreenShotsKey];
-
-    [errorStack addObject:descriptionDictionary];
-  } else {
-    [errorStack addObject:[error grey_descriptionDictionary]];
+    [mutableDescriptions removeObjectForKey:kErrorUserInfoKey];
+    [mutableDescriptions removeObjectForKey:kErrorErrorInfoKey];
+    [mutableDescriptions removeObjectForKey:kErrorBundleIDKey];
+    [mutableDescriptions removeObjectForKey:kErrorStackTraceKey];
+    [mutableDescriptions removeObjectForKey:kErrorAppUIHierarchyKey];
+    [mutableDescriptions removeObjectForKey:kErrorAppScreenShotsKey];
+    descriptions = mutableDescriptions;
   }
+  [errorStack addObject:descriptions];
 
   return errorStack;
 }
 
 + (NSString *)grey_nestedDescriptionForError:(NSError *)error {
   NSArray *descriptions = [GREYError grey_nestedErrorDictionariesForError:error];
-
   if (descriptions.count == 0) {
     return @"";
   }
@@ -241,7 +236,7 @@ GREYError *I_GREYErrorMake(NSString *domain,
                          kErrorTestCaseMethodNameKey ];
 
   return [GREYObjectFormatter formatArray:descriptions
-                                   indent:GREYObjectFormatIndent
+                                   indent:kGREYObjectFormatIndent
                                  keyOrder:keyOrder];
 }
 

@@ -32,13 +32,30 @@
 - (instancetype)init NS_UNAVAILABLE;
 
 /**
- * Prepare the device for automation by doing one-time setup:
- * * Turn on accessibility
+ * Perform setup actions as the EarlGrey frameworked is loaded. Setup actions performed here are:
+ *
+ * * Turn on accessibility if on a simulator.
  * * Install crash handlers
- * * Turn off autocorrect on software keyboard
  *
  * @remark Must be called during XCTestCase invocation, otherwise the behavior is undefined.
  */
-- (void)prepare;
+- (void)prepareOnLoad;
+
+/**
+ *
+ * Performs setup actions as the test case is invoked. Setup actions performed here are:
+ *
+ * * Turn on accessibility if on a device.
+ * * Turn off autocorrect on software keyboard
+ *
+ * @remark Must be called before test starts and after the Earlgrey library is loaded in memory.
+ *         For iOS 11, the UI is seen to fade / turn black as soon as we call these
+ *         keyboard-related methods. This might be caused due to the keyboard modifications
+ *         coinciding with the UI being loaded. For this purpose, we now perform changes for
+ *         keyboard modifications when the test is invoked rather than in +load.
+ */
+- (void)preparePostLoad;
 
 @end
+
+

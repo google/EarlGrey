@@ -18,12 +18,12 @@
 
 NSString *const kErrorDetailStepperKey = @"Stepper";
 NSString *const kErrorDetailUserValueKey = @"UserValue";
-NSString *const kErrorDetailStepMaxValueKey = @"StepMaxValue";
-NSString *const kErrorDetailStepMinValueKey = @"StepMinValue";
+NSString *const kErrorDetailStepMaxValueKey = @"Stepper Max Value";
+NSString *const kErrorDetailStepMinValueKey = @"Stepper Min Value";
 
 NSString *const kErrorDetailElementDescriptionKey = @"Element Description";
-NSString *const kErrorDetailConstraintRequirementKey = @"Constraint Requirement";
-NSString *const kErrorDetailConstraintDetailsKey = @"Constraint Details";
+NSString *const kErrorDetailConstraintRequirementKey = @"Failed Constraint(s)";
+NSString *const kErrorDetailConstraintDetailsKey = @"All Constraint(s)";
 
 NSString *const kGREYInteractionErrorDomain = @"com.google.earlgrey.ElementInteractionErrorDomain";
 NSString *const kGREYWillPerformActionNotification = @"GREYWillPerformActionNotification";

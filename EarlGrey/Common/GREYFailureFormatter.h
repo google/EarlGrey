@@ -71,7 +71,7 @@
  *  @param filePath       The path to the source code file where the error happens.
  *  @param lineNumber     The line number of the source code file when the error happens.
  *  @param stackTrace     The stack trace of the executable when the error happens.
- *  @param appScreenshots The dictionary of app screenshot names and image paths 
+ *  @param appScreenshots The dictionary of app screenshot names and image paths
  *                        when the error happens.
  *  @param format         Extra message to be included in the message.
  *

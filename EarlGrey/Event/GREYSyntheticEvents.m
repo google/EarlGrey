@@ -19,10 +19,12 @@
 #import "Additions/NSString+GREYAdditions.h"
 #import "Additions/NSError+GREYAdditions.h"
 #import "Assertion/GREYAssertionDefines.h"
+#import "Common/GREYAppleInternals.h"
 #import "Common/GREYConstants.h"
 #import "Common/GREYError.h"
-#import "Common/GREYExposed.h"
+#import "Common/GREYFatalAsserts.h"
 #import "Common/GREYLogger.h"
+#import "Common/GREYThrowDefines.h"
 
 #import "Event/GREYTouchInjector.h"
 #import "Synchronization/GREYUIThreadExecutor.h"
@@ -31,6 +33,10 @@
 
 NSString *const kGREYSyntheticEventInjectionErrorDomain =
     @"com.google.earlgrey.SyntheticEventInjectionErrorDomain";
+
+// Timeout for waiting for rotation to start and then again waiting for app to idle after it
+// completes.
+static const CFTimeInterval kRotationTimeout = 10.0;
 
 #pragma mark - Implementation
 
@@ -48,14 +54,15 @@ NSString *const kGREYSyntheticEventInjectionErrorDomain =
 
 + (BOOL)rotateDeviceToOrientation:(UIDeviceOrientation)deviceOrientation
                        errorOrNil:(__strong NSError **)errorOrNil {
-  I_CHECK_MAIN_THREAD();
+  GREYFatalAssertMainThread();
 
   NSError *error;
   UIDeviceOrientation initialDeviceOrientation = [[UIDevice currentDevice] orientation];
   GREYLogVerbose(@"The current device's orientation is being rotated from %@ to: %@",
                  NSStringFromUIDeviceOrientation(initialDeviceOrientation),
                  NSStringFromUIDeviceOrientation(deviceOrientation));
-  BOOL success = [[GREYUIThreadExecutor sharedInstance] executeSyncWithTimeout:10.0 block:^{
+  BOOL success = [[GREYUIThreadExecutor sharedInstance] executeSyncWithTimeout:kRotationTimeout
+                                                                         block:^{
     [[UIDevice currentDevice] setOrientation:deviceOrientation animated:YES];
   } error:&error];
 
@@ -63,22 +70,37 @@ NSString *const kGREYSyntheticEventInjectionErrorDomain =
     if (errorOrNil) {
       *errorOrNil = error;
     } else {
-      I_GREYFail(@"%@\nError: %@",
-                 @"Failed to change device orientation",
+      I_GREYFail(@"Failed to change device orientation. Error: %@",
                  [GREYError grey_nestedDescriptionForError:error]);
     }
-
     return NO;
-  } else if (deviceOrientation != [[UIDevice currentDevice] orientation]) {
-    NSString *errorDescription =
-        [NSString stringWithFormat:@"Device orientation could not be set to %@ from %@.",
-            NSStringFromUIDeviceOrientation(deviceOrientation),
-            NSStringFromUIDeviceOrientation(initialDeviceOrientation)];
+  }
 
+  // Verify that the device orientation actually changed to the requested orientation.
+  __block UIDeviceOrientation currentOrientation = UIDeviceOrientationUnknown;
+  success = [[GREYUIThreadExecutor sharedInstance] executeSyncWithTimeout:kRotationTimeout
+                                                                    block:^{
+      currentOrientation = [[UIDevice currentDevice] orientation];
+  } error:&error];
+
+  if (!success) {
+    if (errorOrNil) {
+      *errorOrNil = error;
+    } else {
+      I_GREYFail(@"Failed to verify that the device orientation changed. Error: %@",
+                 [GREYError grey_nestedDescriptionForError:error]);
+    }
+    return NO;
+  } else if (currentOrientation != deviceOrientation) {
+    NSString *errorDescription =
+        [NSString stringWithFormat:@"Device orientation mismatch. "
+                                   @"Before: %@. After Expected: %@. \nAfter Actual: %@.",
+                                   NSStringFromUIDeviceOrientation(initialDeviceOrientation),
+                                   NSStringFromUIDeviceOrientation(deviceOrientation),
+                                   NSStringFromUIDeviceOrientation(currentOrientation)];
     NSError *error = GREYErrorMake(kGREYSyntheticEventInjectionErrorDomain,
                                    kGREYOrientationChangeFailedErrorCode,
                                    errorDescription);
-
     if (errorOrNil) {
       *errorOrNil = error;
     } else {
@@ -86,11 +108,9 @@ NSString *const kGREYSyntheticEventInjectionErrorDomain =
                  errorDescription,
                  [GREYError grey_nestedDescriptionForError:error]);
     }
-
     return NO;
   }
-
-  return success;
+  return YES;
 }
 
 + (void)touchAlongPath:(NSArray *)touchPath
@@ -107,8 +127,8 @@ NSString *const kGREYSyntheticEventInjectionErrorDomain =
                relativeToWindow:(UIWindow *)window
                     forDuration:(NSTimeInterval)duration
                      expendable:(BOOL)expendable {
-  NSParameterAssert(touchPaths.count >= 1);
-  NSParameterAssert(duration >= 0);
+  GREYThrowOnFailedCondition(touchPaths.count >= 1);
+  GREYThrowOnFailedCondition(duration >= 0);
 
   NSUInteger firstTouchPathSize = [touchPaths[0] count];
   GREYSyntheticEvents *eventGenerator = [[GREYSyntheticEvents alloc] init];
@@ -172,15 +192,16 @@ NSString *const kGREYSyntheticEventInjectionErrorDomain =
 // Given an array containing multiple arrays, returns an array with the index'th element of each
 // array.
 + (NSArray *)grey_objectsAtIndex:(NSUInteger)index ofArrays:(NSArray *)arrayOfArrays {
-  NSAssert([arrayOfArrays count] > 0, @"arrayOfArrays must contain at least one element.");
-
-  GREY_UNUSED_VARIABLE NSUInteger firstArraySize = [arrayOfArrays[0] count];
-
-  NSAssert(index < firstArraySize, @"index must be smaller than the size of the arrays.");
+  GREYFatalAssertWithMessage([arrayOfArrays count] > 0,
+                             @"arrayOfArrays must contain at least one element.");
+  NSUInteger firstArraySize = [arrayOfArrays[0] count];
+  GREYFatalAssertWithMessage(index < firstArraySize,
+                             @"index must be smaller than the size of the arrays.");
 
   NSMutableArray *output = [[NSMutableArray alloc] initWithCapacity:[arrayOfArrays count]];
   for (NSArray *array in arrayOfArrays) {
-    NSAssert([array count] == firstArraySize, @"All arrays must be of the same size.");
+    GREYFatalAssertWithMessage([array count] == firstArraySize,
+                               @"All arrays must be of the same size.");
     [output addObject:array[index]];
   }
 
@@ -199,7 +220,8 @@ NSString *const kGREYSyntheticEventInjectionErrorDomain =
 - (void)grey_beginTouchesAtPoints:(NSArray *)points
                  relativeToWindow:(UIWindow *)window
                 immediateDelivery:(BOOL)immediate {
-  NSAssert(!_touchInjector, @"Cannot call this method more than once until endTouch is called.");
+  GREYFatalAssertWithMessage(!_touchInjector,
+                             @"Cannot call this method more than once until endTouch is called.");
   _touchInjector = [[GREYTouchInjector alloc] initWithWindow:window];
   GREYTouchInfo *touchInfo = [[GREYTouchInfo alloc] initWithPoints:points
                                                              phase:GREYTouchInfoPhaseTouchBegan

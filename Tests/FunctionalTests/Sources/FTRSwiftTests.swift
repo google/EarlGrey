@@ -141,20 +141,17 @@ class FTRSwiftTests: XCTestCase {
   func testButtonPressWithGREYAllOf() {
     self.openTestView("Basic Views")
     EarlGrey.select(elementWithMatcher: grey_text("Tab 2")).perform(grey_tap())
-    if let matcher = grey_allOfMatchers([grey_text("Long Press"), grey_sufficientlyVisible()]) {
-      EarlGrey.select(elementWithMatcher: matcher).perform(grey_longPressWithDuration(1.0))
-        .assert(grey_notVisible())
-    } else {
-      GREYFail("Could not find an element to perform a Long Press on.")
-    }
+    let matcher = grey_allOf([grey_text("Long Press"), grey_sufficientlyVisible()])
+    EarlGrey.select(elementWithMatcher: matcher).perform(grey_longPressWithDuration(1.1))
+      .assert(grey_notVisible())
   }
 
   func testPossibleOpeningViews() {
     self.openTestView("Alert Views")
-    let matcher = grey_anyOfMatchers([grey_text("FooText"),
-                                      grey_text("Simple Alert"),
-                                      grey_buttonTitle("BarTitle")])
-    EarlGrey.select(elementWithMatcher: matcher!).perform(grey_tap())
+    let matcher = grey_anyOf([grey_text("FooText"),
+                              grey_text("Simple Alert"),
+                              grey_buttonTitle("BarTitle")])
+    EarlGrey.select(elementWithMatcher: matcher).perform(grey_tap())
     EarlGrey.select(elementWithMatcher: grey_text("Flee"))
       .assert(grey_sufficientlyVisible())
       .perform(grey_tap())
@@ -163,8 +160,8 @@ class FTRSwiftTests: XCTestCase {
   func testSwiftCustomMatcher() {
     // Verify description in custom matcher isn't nil.
     // unexpectedly found nil while unwrapping an Optional value
-    EarlGrey.select(elementWithMatcher: grey_allOfMatchers([grey_firstElement(),
-                                                            grey_text("FooText")]))
+    EarlGrey.select(elementWithMatcher: grey_allOf([grey_firstElement(),
+                                                    grey_text("FooText")]))
       .assert(grey_nil())
   }
 
@@ -226,8 +223,8 @@ class FTRSwiftTests: XCTestCase {
     }
     EarlGrey.select(elementWithMatcher: grey_kindOfClass(UITableView.self))
       .perform(grey_scrollToContentEdge(GREYContentEdge.top))
-    EarlGrey.select(elementWithMatcher: grey_allOfMatchers([grey_accessibilityLabel(name),
-                                                            grey_interactable()]))
+    EarlGrey.select(elementWithMatcher: grey_allOf([grey_accessibilityLabel(name),
+                                                    grey_interactable()]))
       .using(searchAction: grey_scrollInDirection(GREYDirection.down, 200),
              onElementWithMatcher: grey_kindOfClass(UITableView.self))
       .perform(grey_tap())

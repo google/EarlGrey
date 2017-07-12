@@ -19,6 +19,7 @@
 #import <UIKit/UIKit.h>
 #include <objc/runtime.h>
 
+#import "Common/GREYFatalAsserts.h"
 #import "Common/GREYSwizzler.h"
 #import "Delegate/GREYUIWebViewDelegate.h"
 #import "Synchronization/GREYAppStateTracker.h"
@@ -38,17 +39,17 @@ static void const *const kUIWebViewLoadingStateKey = &kUIWebViewLoadingStateKey;
     BOOL swizzleSuccess = [swizzler swizzleClass:self
                            replaceInstanceMethod:@selector(delegate)
                                       withMethod:@selector(greyswizzled_delegate)];
-    NSAssert(swizzleSuccess, @"Cannot swizzle UIWebView delegate");
+    GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle UIWebView delegate");
 
     swizzleSuccess = [swizzler swizzleClass:self
                       replaceInstanceMethod:@selector(setDelegate:)
                                  withMethod:@selector(greyswizzled_setDelegate:)];
-    NSAssert(swizzleSuccess, @"Cannot swizzle UIWebView setDelegate:");
+    GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle UIWebView setDelegate:");
 
     swizzleSuccess = [swizzler swizzleClass:self
                       replaceInstanceMethod:@selector(stopLoading)
                                  withMethod:@selector(greyswizzled_stopLoading)];
-    NSAssert(swizzleSuccess, @"Cannot swizzle UIWebView stopLoading:");
+    GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle UIWebView stopLoading:");
   }
 }
 

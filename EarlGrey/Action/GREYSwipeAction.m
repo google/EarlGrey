@@ -23,6 +23,7 @@
 #import "Assertion/GREYAssertionDefines.h"
 #import "Assertion/GREYAssertions+Internal.h"
 #import "Common/GREYError.h"
+#import "Common/GREYThrowDefines.h"
 #import "Event/GREYSyntheticEvents.h"
 #import "Matcher/GREYAllOf.h"
 #import "Matcher/GREYMatcher.h"
@@ -47,10 +48,12 @@
 - (instancetype)initWithDirection:(GREYDirection)direction
                          duration:(CFTimeInterval)duration
                      percentPoint:(CGPoint)percents {
-  NSAssert(percents.x > 0.0f && percents.x < 1.0f,
-           @"xOriginStartPercentage must be between 0 and 1, exclusively");
-  NSAssert(percents.y > 0.0f && percents.y < 1.0f,
-           @"yOriginStartPercentage must be between 0 and 1, exclusively");
+  GREYThrowOnFailedConditionWithMessage(percents.x > 0.0f && percents.x < 1.0f,
+                                        @"xOriginStartPercentage must be between 0 and 1, "
+                                        @"exclusively");
+  GREYThrowOnFailedConditionWithMessage(percents.y > 0.0f && percents.y < 1.0f,
+                                        @"yOriginStartPercentage must be between 0 and 1, "
+                                        @"exclusively");
 
   NSString *name =
       [NSString stringWithFormat:@"Swipe %@ for duration %g", NSStringFromGREYDirection(direction),
@@ -123,6 +126,7 @@
   }
   NSArray *touchPath = [GREYPathGestureUtils touchPathForGestureWithStartPoint:startPoint
                                                                   andDirection:_direction
+                                                                   andDuration:_duration
                                                                       inWindow:window];
   [GREYSyntheticEvents touchAlongPath:touchPath
                      relativeToWindow:window

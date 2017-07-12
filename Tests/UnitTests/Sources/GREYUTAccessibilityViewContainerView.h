@@ -1,5 +1,5 @@
 //
-// Copyright 2016 Google Inc.
+// Copyright 2017 Google Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,22 +14,18 @@
 // limitations under the License.
 //
 
-/**
- *  @file NSURLConnection+GREYAdditions+Internal.h
- *  @brief Exposes NSURLConnection+GREYAdditions' interfaces and methods that are otherwise private
- *  for testing purposes.
- */
+#import <UIKit/UIKit.h>
 
-@interface NSURLConnection (Internal)
+@interface GREYUTAccessibilityViewContainerView : UIView
 
-/**
- *  Tracks the current connection as pending in GREYAppStateTracker.
- */
-- (void)grey_trackPending;
+@property(nonatomic, strong) NSMutableArray *accessibleElements;
 
-/**
- *  Untracks the current connection from GREYAppStateTracker, marking it as completed.
- */
-- (void)grey_untrackPending;
+- (id)initWithImage:(UIImage *)image;
+- (id)initWithElements:(NSArray *)elements;
+
+// UIAccessibilityContainer methods
+- (NSInteger)accessibilityElementCount;
+- (id)accessibilityElementAtIndex:(NSInteger)index;
+- (NSInteger)indexOfAccessibilityElement:(id)element;
 
 @end

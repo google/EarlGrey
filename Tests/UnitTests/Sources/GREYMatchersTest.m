@@ -14,8 +14,8 @@
 // limitations under the License.
 //
 
+#import <EarlGrey/GREYAppleInternals.h>
 #import <EarlGrey/GREYElementInteraction.h>
-#import <EarlGrey/GREYExposed.h>
 #import <EarlGrey/GREYMatcher.h>
 #import <EarlGrey/GREYMatchers.h>
 #import <EarlGrey/GREYStringDescription.h>

@@ -18,6 +18,7 @@
 
 #import "Assertion/GREYAssertionDefines.h"
 #import "Common/GREYDefines.h"
+#import "Common/GREYThrowDefines.h"
 
 @implementation GREYAssertionBlock {
   NSString *_name;
@@ -31,8 +32,8 @@
 
 - (instancetype)initWithName:(NSString *)name
       assertionBlockWithError:(GREYCheckBlockWithError)block {
-  NSParameterAssert(name);
-  NSParameterAssert(block);
+  GREYThrowOnNilParameter(name);
+  GREYThrowOnNilParameter(block);
 
   self = [super init];
   if (self) {

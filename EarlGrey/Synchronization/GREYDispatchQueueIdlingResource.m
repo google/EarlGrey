@@ -16,6 +16,7 @@
 
 #import "Synchronization/GREYDispatchQueueIdlingResource.h"
 
+#import "Common/GREYThrowDefines.h"
 #import "Synchronization/GREYDispatchQueueTracker.h"
 #import "Synchronization/GREYUIThreadExecutor+Internal.h"
 
@@ -29,8 +30,8 @@
 }
 
 - (instancetype)initWithDispatchQueue:(dispatch_queue_t)queue name:(NSString *)name {
-  NSParameterAssert(queue);
-  NSParameterAssert(name);
+  GREYThrowOnNilParameter(queue);
+  GREYThrowOnNilParameter(name);
 
   self = [super init];
   if (self) {
@@ -47,7 +48,7 @@
 }
 
 - (NSString *)idlingResourceDescription {
-  return _idlingResourceName;
+  return _dispatchQueueTracker.description;
 }
 
 - (BOOL)isIdleNow {

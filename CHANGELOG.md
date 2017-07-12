@@ -1,7 +1,185 @@
 # Change Log
 
-Details changes in each release of EarlGrey. EarlGrey follows
-[semantic versioning](http://semver.org/).
+Details changes in each release of EarlGrey. EarlGrey follows [semantic versioning](http://semver.org/).
+
+## [1.10.0](https://github.com/google/EarlGrey/tree/1.10.0) (07/05/2017)
+
+```
+Baseline: [a386cb2]
++ [a386cb2]: Update Changelog for the 1.10.0 release for the Screenshot Docs change.
+```
+
+### Bug Fixes
+* Resolved visibility checker overlapping view issue. [Issue #532](https://github.com/google/EarlGrey/issues/532)
+* Use accessibility ID in place of accessibility label for keyboard modifier keys. [Issue #539](https://github.com/google/EarlGrey/issues/539)
+
+### Enhancements
+* Removed `kGREYConfigKeyScreenshotDirLocation` in favor of `kGREYConfigKeyArtifactsDirLocation`.
+* Fixed all issues reported by Xcode's static analysis.
+* Fixed long press test failures on travis.
+* Improved interaction error logging by adding more information about failure to the out error parameter.
+* Added more error details to timeout failures.
+* Add explicit 1st and 2nd param to grey_allOf and grey_anyOf to prevent redundant uses.
+* Update jazzy copyright year.
+
+### Compatibility
+* Adding xcode version to backwards compatibility doc.
+
+## [1.9.4](https://github.com/google/EarlGrey/tree/1.9.4) (06/09/2017)
+
+```
+Baseline: [76a6d65]
++ [76a6d65]: Updated Hierarchy traversal to use common traversal logic with DFS/BF.
+```
+
+### Bug Fixes
+* Fixed a bug in scroll action that can sometimes cause a tap at the end of scroll.
+
+### New Features
+* Added `kGREYConfigKeyArtifactsDirLocation` configuration key for setting a custom folder to store artifacts.
+
+### Enhancements
+* Improved CI execution on travis.
+* Updated test app with better AutoLayout support.
+* Improved docs for earlgrey gem, contributors guide, etc.
+* Fixed all asserts to use internal implementation instead of NSAssert which
+  can be disabled.
+* Updated cheatsheet render script to use Chrome 59.
+* Consolidated DFS and BFS hierarchy traversals.
+* Renamed `GREYExposed.h` to `GREYAppleInternals.h`
+* Removed redundant categories and moved methods to private headers.
+
+### Contributors
+* [bootstraponline](https://github.com/bootstraponline)
+
+## [1.9.3](https://github.com/google/EarlGrey/tree/1.9.3) (05/26/2017)
+
+```
+Baseline: [a3ba675]
++ [a3ba675]: Fix breaking test with Long Press
+```
+
+### Improvements
+* Revaming of Swipe Touch Path Gestures to make them more like a real-user.
+
+### Bug Fixes
+* Fixed breaking tests for Long Press Gestures.
+* Fix source_tree and relative path for the EarlGrey gem to prevent Carthage breakages.
+
+## [1.9.2](https://github.com/google/EarlGrey/tree/1.9.2) (04/21/2017)
+
+```
+Baseline: [b9d7a7c]
+   + [b9d7a7c]: Update OS=10.3 for travis CI
+```
+
+### Bug Fixes
+* Fixed timeout related failures from being reported as assertion failures.
+* Fixed to wait for rotation to complete before verifying that it changed.
+* Fixed Swift breaks by correcting issue with Gem adding EarlGrey.swift for
+  Objective C targets.
+* Fixed race condition with reading and writing to state tracker elementID.
+
+## [1.9.1](https://github.com/google/EarlGrey/tree/1.9.1) (04/14/2017)
+
+```
+Baseline: [932c3f6]
+   + [932c3f6]: Doc updates
+```
+
+### Bug Fixes
+* Fixed a bug in interaction point calculation for cases where activation point
+and the center of visible area is hidden.
+
+### Enhancements
+* Updated documentation for GREYCondition and ruby setup.
+* Minor improvements to formatting of failure messages.
+* Updated travis to run tests on iOS 10.3 and Xcode 8.3.
+* Deleted .arcconfig file.
+
+### Contributors
+* [bootstraponline](https://github.com/bootstraponline)
+
+## [1.9.0](https://github.com/google/EarlGrey/tree/1.9.0) (03/31/2017)
+
+```
+Baseline: [6bceffc]
+   + [6bceffc]: Sync 1.9.0
+```
+
+### Compatibility
+* Requires iOS 8 as the minimum deployment target.
+* Supports Xcode 8.3 and iOS 10.3 on devices and simulators.
+* The EarlGrey gem runs out of the box for Swift 3.0 and Swift 2.3.
+
+### New Features
+* Add `-[GREYKeyboard dismissKeyboardWithError:]` API to dismiss the keyboard.
+
+### Enhancements
+* Improved earlgrey gem by removing post_install and letting pod update
+  the project.
+* Improved swift support for `grey_allOf` and `grey_anyOf`.
+* Several documentation updates including installation steps improvements.
+* Added gem badge to `README.md`.
+
+### Contributors
+* [bootstraponline](https://github.com/bootstraponline)
+* [Felix Krause](https://github.com/KrauseFx)<br/>
+
+## [1.8.0](https://github.com/google/EarlGrey/tree/1.8.0) (03/17/2017)
+
+```
+Baseline: [0dc7c18]
+   + [0dc7c18]: 1.8.0 Release
+```
+
+### New Features
+* Added multi-finger swipe action API's:
+    * grey_multiFingerSwipeFastInDirection
+    * grey_multiFingerSwipeSlowInDirection
+    * grey_multiFingerSwipeFastInDirectionWithStartPoint
+    * grey_multiFingerSwipeSlowInDirectionWithStartPoint
+
+### Bug Fixes
+* Fixed issue with accessibility spamming "Remote service does not respond to _accessibilityMachPort" message on iOS 9.1 device.
+* Fixed issues with EarlGrey working with a `UIAccessibilityTextFieldElement`.
+* Fixed typing by blacklisting `UICompatibilityInputViewController` in UIViewController tracking.
+
+### Compatibility
+* Requires iOS 8 as the minimum deployment target.
+* Supports Xcode 8.3 beta 4 and iOS 10.3 on devices and simulators.
+* The EarlGrey gem runs out of the box for Swift 3.0 and Swift 2.3.
+
+### Enhancements
+* Improvements to the EarlGrey FunctionalTests TestRig.
+* All `GREYAssertXXX` macros now wait for the app to idle before being evaluated.
+* Unified the `Copy Files` modification script for Carthage and CocoaPods support.
+
+### Contributors
+[bootstraponline](https://github.com/bootstraponline)<br/>
+[petaren](https://github.com/petaren)
+
+## [1.7.2](https://github.com/google/EarlGrey/tree/1.7.2) (02/17/2017)
+
+```
+Baseline: [6d55af5]
+   + [6d55af5]: 1.7.2 Release
+```
+
+### Bug Fixes
+* Fixed Swizzler to properly reset swizzled selectors.
+* Fixed typing by blacklisting UICompatibilityInputViewController in UIViewController tracking.
+
+### Compatibility
+* Requires iOS 8 as the minimum deployment target.
+* Supports Xcode 8.2.1 and iOS 10.2.1 on devices and simulators.
+* The EarlGrey gem runs out of the box for Swift 3.0 and Swift 2.3.
+
+### Enhancements
+* Updated analytics to use an client ID instead of user ID.
+
+### Contributors
+[mbaxley](https://github.com/mbaxley), thank you!
 
 ## [1.7.1](https://github.com/google/EarlGrey/tree/1.7.1) (02/03/2017)
 

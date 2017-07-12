@@ -229,6 +229,35 @@
      assertWithMatcher:grey_notNil()];
 }
 
+- (void)testLongPressFollowedBySelectingMenuOption {
+  [[EarlGrey selectElementWithMatcher:[GREYMatchers matcherForText:@"Tab 2"]]
+      performAction:[GREYActions actionForTap]];
+
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
+      performAction:[GREYActions actionForTypeText:@"Hello"]];
+
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
+      performAction:[GREYActions actionForLongPressAtPoint:CGPointMake(1, 1) duration:1.0]];
+
+  [[EarlGrey selectElementWithMatcher:grey_text(@"Select")]
+      performAction:[GREYActions actionForTap]];
+
+  [[EarlGrey selectElementWithMatcher:grey_text(@"Cut")]
+      performAction:[GREYActions actionForTap]];
+
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
+      performAction:[GREYActions actionForTypeText:@"FromEarlGrey"]];
+
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
+      performAction:[GREYActions actionForLongPressAtPoint:CGPointMake(1, 1) duration:1.0]];
+
+  [[EarlGrey selectElementWithMatcher:grey_text(@"Paste")]
+      performAction:[GREYActions actionForTap]];
+
+  [[EarlGrey selectElementWithMatcher:grey_text(@"HelloFromEarlGrey")]
+      assertWithMatcher:grey_sufficientlyVisible()];
+}
+
 - (void)testBasicInteractionWithStepper {
   [[EarlGrey selectElementWithMatcher:grey_kindOfClass([UIStepper class])]
       performAction:[GREYActions actionForSetStepperValue:87]];

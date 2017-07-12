@@ -21,6 +21,7 @@
 #import "Additions/CAAnimation+GREYAdditions.h"
 #import "Additions/NSObject+GREYAdditions.h"
 #import "Common/GREYConfiguration.h"
+#import "Common/GREYFatalAsserts.h"
 #import "Common/GREYLogger.h"
 #import "Common/GREYSwizzler.h"
 #import "Synchronization/GREYAppStateTracker.h"
@@ -33,37 +34,37 @@
     BOOL swizzleSuccess = [swizzler swizzleClass:self
                            replaceInstanceMethod:@selector(setNeedsDisplay)
                                       withMethod:@selector(greyswizzled_setNeedsDisplay)];
-    NSAssert(swizzleSuccess, @"Cannot swizzle CALayer setNeedsDisplay");
+    GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle CALayer setNeedsDisplay");
 
     swizzleSuccess = [swizzler swizzleClass:self
                       replaceInstanceMethod:@selector(setNeedsDisplayInRect:)
                                  withMethod:@selector(greyswizzled_setNeedsDisplayInRect:)];
-    NSAssert(swizzleSuccess, @"Cannot swizzle CALayer setNeedsDisplayInRect");
+    GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle CALayer setNeedsDisplayInRect");
 
     swizzleSuccess = [swizzler swizzleClass:self
                       replaceInstanceMethod:@selector(setNeedsLayout)
                                  withMethod:@selector(greyswizzled_setNeedsLayout)];
-    NSAssert(swizzleSuccess, @"Cannot swizzle CALayer setNeedsLayout");
+    GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle CALayer setNeedsLayout");
 
     swizzleSuccess = [swizzler swizzleClass:self
                       replaceInstanceMethod:@selector(addAnimation:forKey:)
                                  withMethod:@selector(greyswizzled_addAnimation:forKey:)];
-    NSAssert(swizzleSuccess, @"Cannot swizzle CALayer addAnimation:forKey:");
+    GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle CALayer addAnimation:forKey:");
 
     swizzleSuccess = [swizzler swizzleClass:self
                       replaceInstanceMethod:@selector(setSpeed:)
                                  withMethod:@selector(greyswizzled_setSpeed:)];
-    NSAssert(swizzleSuccess, @"Cannot swizzle CALayer setSpeed:");
+    GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle CALayer setSpeed:");
 
     swizzleSuccess = [swizzler swizzleClass:self
                       replaceInstanceMethod:@selector(removeAnimationForKey:)
                                  withMethod:@selector(greyswizzled_removeAnimationForKey:)];
-    NSAssert(swizzleSuccess, @"Cannot swizzle CALayer removeAnimationForKey:");
+    GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle CALayer removeAnimationForKey:");
 
     swizzleSuccess = [swizzler swizzleClass:self
                       replaceInstanceMethod:@selector(removeAllAnimations)
                                  withMethod:@selector(greyswizzled_removeAllAnimations)];
-    NSAssert(swizzleSuccess, @"Cannot swizzle CALayer removeAllAnimations");
+    GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle CALayer removeAllAnimations");
   }
 }
 

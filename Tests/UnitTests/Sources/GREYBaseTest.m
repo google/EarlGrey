@@ -16,7 +16,7 @@
 
 #import "GREYBaseTest.h"
 
-#import <EarlGrey/GREYAppStateTracker+Internal.h>
+#import <EarlGrey/GREYAppStateTracker.h>
 #import <EarlGrey/GREYConfiguration.h>
 #import <EarlGrey/GREYSwizzler.h>
 #import <EarlGrey/UIApplication+GREYAdditions.h>
@@ -31,6 +31,9 @@ static NSMutableArray *gScreenShotsToReturnByGREYScreenshotUtil;
 
 // Real, original / unmocked shared UIApplication.
 static id gRealSharedApplication;
+
+// A CGRect value to use for instantiating views
+const CGRect kTestRect = { { 0.0f, 0.0f }, { 10.0f, 10.0f } };
 
 #pragma mark - GREYUTFailureHandler
 

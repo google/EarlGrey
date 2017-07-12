@@ -58,7 +58,7 @@ void GREYVisibilityDiffBufferRelease(GREYVisibilityDiffBuffer buffer);
  *  @param x      The x coordinate of the search point.
  *  @param y      The y coordinate of the search point.
  */
-BOOL GREYVisibilityDiffBufferIsVisibleAt(GREYVisibilityDiffBuffer buffer, size_t x, size_t y);
+BOOL GREYVisibilityDiffBufferIsVisible(GREYVisibilityDiffBuffer buffer, size_t x, size_t y);
 
 /**
  *  Changes the visibility value for the {@c x, @c y} position. If @c isVisible is @c YES the point
@@ -70,12 +70,25 @@ BOOL GREYVisibilityDiffBufferIsVisibleAt(GREYVisibilityDiffBuffer buffer, size_t
  *  @param isVisible A boolean that indicates the new visibility status (@c YES for visible,
                      @c NO otherwise) for the target point.
  */
-void GREYVisibilityDiffBufferSetVisibilityAt(GREYVisibilityDiffBuffer buffer,
-                                             size_t x,
-                                             size_t y,
-                                             BOOL isVisible);
+void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffer,
+                                           size_t x,
+                                           size_t y,
+                                           BOOL isVisible);
 
 #pragma mark - GREYVisibilityChecker
+
+/**
+ *  Data structure to hold information about visible pixels.
+ */
+typedef struct GREYVisiblePixelData {
+  /** The number of visible pixels. */
+  NSUInteger visiblePixelCount;
+  /**
+   *  A default pixel that's visible.
+   *  If no pixel is visible -- i.e. the visiblePixelCount = 0, then this is set to CGPointNull.
+   */
+  CGPoint visiblePixel;
+} GREYVisiblePixelData;
 
 /**
  *  Checker for assessing the visibility of elements on screen as they appear to the user.
@@ -102,6 +115,7 @@ void GREYVisibilityDiffBufferSetVisibilityAt(GREYVisibilityDiffBuffer buffer,
 /**
  *  @return A visible point where a user can tap to interact with specified @c element, or
  *          @c GREYCGPointNull if there's no such point.
+ *  @remark The returned point is relative to @c element's bound.
  */
 + (CGPoint)visibleInteractionPointForElement:(id)element;
 
@@ -111,5 +125,24 @@ void GREYVisibilityDiffBufferSetVisibilityAt(GREYVisibilityDiffBuffer buffer,
  *          returned rect is always in points.
  */
 + (CGRect)rectEnclosingVisibleAreaOfElement:(id)element;
+
+/**
+ *   @return The last known original image used by the visibility checker.
+ *
+ *   @remark This is available only for internal testing purposes.
+ */
++ (UIImage *)grey_lastActualBeforeImage;
+/**
+ *   @return The last known actual color shifted image used by visibility checker.
+ *
+ *   @remark This is available only for internal testing purposes.
+ */
++ (UIImage *)grey_lastActualAfterImage;
+/**
+ *   @return The last known actual color shifted image used by visibility checker.
+ *
+ *   @remark This is available only for internal testing purposes.
+ */
++ (UIImage *)grey_lastExpectedAfterImage;
 
 @end

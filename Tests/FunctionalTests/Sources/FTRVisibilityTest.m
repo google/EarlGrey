@@ -37,6 +37,32 @@
   [super tearDown];
 }
 
+- (void)testOverlappingViews {
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"bottomScrollView")]
+      performAction:grey_scrollToContentEdge(kGREYContentEdgeTop)];
+
+  id<GREYAssertion> assertion = [GREYAssertionBlock assertionWithName:@"coverContentOffsetUnchanged"
+                                              assertionBlockWithError:
+                                 ^BOOL(id element, NSError *__strong *errorOrNil) {
+                                   CGPoint offset = ((UIScrollView*) element).contentOffset;
+                                   CGPoint expectedOffset = CGPointMake(100, 100);
+                                   if (CGPointEqualToPoint(offset, expectedOffset)) {
+                                     return YES;
+                                   } else {
+                                     NSError* error = [[NSError alloc]
+                                                       initWithDomain:kGREYInteractionErrorDomain
+                                                       code:
+                                                       kGREYInteractionAssertionFailedErrorCode
+                                                       userInfo:@{
+                                                                  NSLocalizedDescriptionKey:
+                                                                    @"Cover view moved."}];
+                                     *errorOrNil = error;
+                                     return NO;
+                                   }
+                                 }];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"coverScrollView")] assert:assertion];
+}
+
 - (void)testTranslucentViews {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"translucentLabel")]
       assertWithMatcher:grey_sufficientlyVisible()];
@@ -219,7 +245,15 @@
 
 - (void)testElementsInHierarchyDump {
   NSString *hierarchyDump = [GREYElementHierarchy hierarchyStringForAllUIWindows];
-  NSArray *stringTargetHierarchy =
+  NSArray *stringTargetHierarchy_iOS10Later =
+      @[ @"========== Window 1 ==========",
+         @"<UIWindow:",
+         @"  |--<UILayoutContainerView:",
+         @"  |  |--<UINavigationTransitionView:",
+         @"  |  |  |--<UIViewControllerWrapperView:",
+         @"  |  |  |  |--<UIView",
+         @"  |  |  |  |  |--<UIView:"];
+  NSArray *stringTargetHierarchy_iOS9Earlier =
       @[ @"========== Window 1 ==========",
          @"========== Window 2 ==========",
          @"<UITextEffectsWindow",
@@ -231,8 +265,16 @@
          @"  |  |  |--<UIViewControllerWrapperView:",
          @"  |  |  |  |--<UIView",
          @"  |  |  |  |  |--<UIView:"];
-  for (NSString *targetString in stringTargetHierarchy) {
-    XCTAssertNotEqual([hierarchyDump rangeOfString:targetString].location, (NSUInteger)NSNotFound);
+  if (iOS10_OR_ABOVE()) {
+    for (NSString *targetString in stringTargetHierarchy_iOS10Later) {
+      XCTAssertNotEqual([hierarchyDump rangeOfString:targetString].location,
+                        (NSUInteger)NSNotFound);
+    }
+  } else {
+    for (NSString *targetString in stringTargetHierarchy_iOS9Earlier) {
+      XCTAssertNotEqual([hierarchyDump rangeOfString:targetString].location,
+                        (NSUInteger)NSNotFound);
+    }
   }
 }
 
@@ -242,7 +284,8 @@
   GREYAssertionBlock *assertAxId =
       [GREYAssertionBlock assertionWithName:@"Check Accessibility Id"
                     assertionBlockWithError:^BOOL(id element, NSError *__strong *errorOrNil) {
-                      NSParameterAssert(element);
+                      XCTAssertNotNil(element);
+
                       [grey_sufficientlyVisible() matches:element];
                       UIView *view = element;
                       [idSet addObject:view.accessibilityIdentifier];

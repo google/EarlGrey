@@ -17,6 +17,7 @@
 #import "Provider/GREYDataEnumerator.h"
 
 #import "Common/GREYDefines.h"
+#import "Common/GREYThrowDefines.h"
 
 @implementation GREYDataEnumerator {
   id(^_nextObjectBlock)(id);
@@ -24,7 +25,7 @@
 }
 
 - (instancetype)initWithUserInfo:(id)userInfo block:(id(^)(id))nextObjectBlock {
-  NSParameterAssert(nextObjectBlock);
+  GREYThrowOnNilParameter(nextObjectBlock);
 
   self = [super init];
   if (self) {
@@ -53,7 +54,7 @@
       }
     }
   }
-  return [remainingObjects copy];
+  return [NSArray arrayWithArray:remainingObjects];
 }
 
 @end

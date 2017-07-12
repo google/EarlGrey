@@ -25,7 +25,7 @@
 #import "Common/GREYError+Internal.h"
 #import "Common/GREYErrorConstants.h"
 #import "Common/GREYObjectFormatter.h"
-#import "Common/GREYObjectFormatter+Internal.h"
+#import "Common/GREYThrowDefines.h"
 #import "Core/GREYInteraction.h"
 #import "Matcher/GREYMatcher.h"
 #import "Matcher/GREYStringDescription.h"
@@ -36,7 +36,7 @@
 }
 
 - (instancetype)initWithName:(NSString *)name constraints:(id<GREYMatcher>)constraints {
-  NSParameterAssert(name);
+  GREYThrowOnNilParameter(name);
 
   self = [super init];
   if (self) {
@@ -58,20 +58,20 @@
       errorDetails[kErrorDetailElementDescriptionKey] = [element grey_description];
       errorDetails[kErrorDetailConstraintRequirementKey] = mismatchDetail;
       errorDetails[kErrorDetailConstraintDetailsKey] = [_constraints description];
-      errorDetails[kErrorDetailRecoverySuggestionKey] = @"Adjust element properties "
-          @"so that it matches the failed constraints.";
+      errorDetails[kErrorDetailRecoverySuggestionKey] =
+          @"Adjust element properties so that it matches the failed constraint(s).";
 
       GREYError *error = GREYErrorMake(kGREYInteractionErrorDomain,
                                        kGREYInteractionConstraintsFailedErrorCode,
-                                       @"Cannot perform action due to a constraint failure.");
+                                       @"Cannot perform action due to constraint(s) failure.");
       error.errorInfo = errorDetails;
 
       if (errorOrNil) {
         *errorOrNil = error;
       } else {
         NSArray *keyOrder = @[ kErrorDetailActionNameKey,
-                               kErrorDetailElementDescriptionKey,
                                kErrorDetailConstraintRequirementKey,
+                               kErrorDetailElementDescriptionKey,
                                kErrorDetailConstraintDetailsKey,
                                kErrorDetailRecoverySuggestionKey ];
 
@@ -81,7 +81,7 @@
                                                               keyOrder:keyOrder];
 
         NSString *reason = [NSString stringWithFormat:@"Cannot perform action due to "
-                                                      @"a constraint failure.\n"
+                                                      @"constraint(s) failure.\n"
                                                       @"Exception with Action: %@\n",
                                                       reasonDetail];
 

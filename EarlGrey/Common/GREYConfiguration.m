@@ -16,7 +16,9 @@
 
 #import "Common/GREYConfiguration.h"
 
+#import "Common/GREYFatalAsserts.h"
 #import "Common/GREYLogger.h"
+#import "Common/GREYThrowDefines.h"
 #import "Additions/NSString+GREYAdditions.h"
 
 NSString *const kGREYConfigKeyAnalyticsEnabled = @"GREYConfigKeyAnalyticsEnabled";
@@ -35,7 +37,7 @@ NSString *const kGREYConfigKeyDispatchAfterMaxTrackableDelay =
 NSString *const kGREYConfigKeyDelayedPerformMaxTrackableDuration =
     @"GREYConfigKeyDelayedPerformMaxTrackableDuration";
 NSString *const kGREYConfigKeyIncludeStatusBarWindow = @"GREYConfigKeyIncludeStatusBarWindow";
-NSString *const kGREYConfigKeyScreenshotDirLocation = @"GREYConfigKeyScreenshotDirLocation";
+NSString *const kGREYConfigKeyArtifactsDirLocation = @"GREYConfigKeyArtifactsDirLocation";
 
 @implementation GREYConfiguration {
   NSMutableDictionary *_defaultConfiguration; // Dict for storing the default configs
@@ -56,8 +58,8 @@ NSString *const kGREYConfigKeyScreenshotDirLocation = @"GREYConfigKeyScreenshotD
     NSArray *searchPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
                                                                NSUserDomainMask,
                                                                YES);
-    NSAssert(searchPaths.count > 0, @"Couldn't find a valid documents directory");
-    [self setDefaultValue:searchPaths.firstObject forConfigKey:kGREYConfigKeyScreenshotDirLocation];
+    GREYFatalAssertWithMessage(searchPaths.count > 0, @"Couldn't find a valid documents directory");
+    [self setDefaultValue:searchPaths.firstObject forConfigKey:kGREYConfigKeyArtifactsDirLocation];
     [self setDefaultValue:@YES forConfigKey:kGREYConfigKeyAnalyticsEnabled];
     [self setDefaultValue:@YES forConfigKey:kGREYConfigKeyActionConstraintsEnabled];
     [self setDefaultValue:@(30) forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
@@ -85,7 +87,8 @@ NSString *const kGREYConfigKeyScreenshotDirLocation = @"GREYConfigKeyScreenshotD
 }
 
 - (void)setValue:(id)value forConfigKey:(NSString *)configKey {
-  NSParameterAssert(value);
+  GREYThrowOnNilParameter(value);
+
   [self grey_validateConfigKey:configKey];
 
   @synchronized(self) {
@@ -96,7 +99,8 @@ NSString *const kGREYConfigKeyScreenshotDirLocation = @"GREYConfigKeyScreenshotD
 }
 
 - (void)setDefaultValue:(id)value forConfigKey:(NSString *)configKey {
-  NSParameterAssert(value);
+  GREYThrowOnNilParameter(value);
+
   [self grey_validateConfigKey:configKey];
 
   @synchronized(self) {

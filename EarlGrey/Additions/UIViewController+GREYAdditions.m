@@ -18,10 +18,17 @@
 
 #include <objc/runtime.h>
 
-#import "Common/GREYExposed.h"
+#import "Common/GREYAppleInternals.h"
+#import "Common/GREYFatalAsserts.h"
 #import "Common/GREYLogger.h"
 #import "Common/GREYSwizzler.h"
 #import "Synchronization/GREYAppStateTracker.h"
+
+/**
+ *  The class for UICompatibilityInputViewController which isn't tracked here since we've faced
+ *  issues with tracking it when it comes to typing on keyboards with accessory views.
+ */
+static Class gCompatibilityVCClass;
 
 @implementation UIViewController (GREYAdditions)
 
@@ -32,35 +39,44 @@
     BOOL swizzleSuccess = [swizzler swizzleClass:self
                            replaceInstanceMethod:@selector(viewWillAppear:)
                                       withMethod:@selector(greyswizzled_viewWillAppear:)];
-    NSAssert(swizzleSuccess, @"Cannot swizzle UIViewController viewWillAppear");
+    GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle UIViewController viewWillAppear");
     // Swizzle viewDidAppear.
     swizzleSuccess = [swizzler swizzleClass:self
                       replaceInstanceMethod:@selector(viewDidAppear:)
                                  withMethod:@selector(greyswizzled_viewDidAppear:)];
-    NSAssert(swizzleSuccess, @"Cannot swizzle UIViewController viewDidAppear");
+    GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle UIViewController viewDidAppear");
     // Swizzle viewWillDisappear.
     swizzleSuccess = [swizzler swizzleClass:self
                       replaceInstanceMethod:@selector(viewWillDisappear:)
                                  withMethod:@selector(greyswizzled_viewWillDisappear:)];
-    NSAssert(swizzleSuccess, @"Cannot swizzle UIViewController viewWillDisappear");
+    GREYFatalAssertWithMessage(swizzleSuccess,
+                               @"Cannot swizzle UIViewController viewWillDisappear");
     // Swizzle viewDidDisappear.
     swizzleSuccess = [swizzler swizzleClass:self
                       replaceInstanceMethod:@selector(viewDidDisappear:)
                                  withMethod:@selector(greyswizzled_viewDidDisappear:)];
-    NSAssert(swizzleSuccess, @"Cannot swizzle UIViewController viewDidDisappear");
+    GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle UIViewController viewDidDisappear");
     // Swizzle viewWillMoveToWindow.
     swizzleSuccess = [swizzler swizzleClass:self
                       replaceInstanceMethod:@selector(viewWillMoveToWindow:)
                                  withMethod:@selector(greyswizzled_viewWillMoveToWindow:)];
-    NSAssert(swizzleSuccess, @"Cannot swizzle UIViewController viewWillMoveToWindow:");
+    GREYFatalAssertWithMessage(swizzleSuccess,
+                               @"Cannot swizzle UIViewController viewWillMoveToWindow:");
     // Swizzle viewDidMoveToWindow:shouldAppearOrDisappear.
     SEL swizzledSel = @selector(greyswizzled_viewDidMoveToWindow:shouldAppearOrDisappear:);
     swizzleSuccess =
         [swizzler swizzleClass:self
          replaceInstanceMethod:@selector(viewDidMoveToWindow:shouldAppearOrDisappear:)
                     withMethod:swizzledSel];
-    NSAssert(swizzleSuccess,
-             @"Cannot swizzle UIViewController viewDidMoveToWindow:shouldAppearOrDisappear:");
+    GREYFatalAssertWithMessage(swizzleSuccess,
+                               @"Cannot swizzle UIViewController viewDidMoveToWindow:"
+                               @"shouldAppearOrDisappear:");
+  }
+}
+
++ (void)initialize {
+  if (self == [UIViewController class]) {
+    gCompatibilityVCClass = NSClassFromString(@"UICompatibilityInputViewController");
   }
 }
 
@@ -108,30 +124,34 @@
 }
 
 - (void)greyswizzled_viewWillAppear:(BOOL)animated {
-  BOOL movingToNilWindow = [self grey_isMovingToNilWindow];
-  if (movingToNilWindow) {
-    GREYLogVerbose(@"View is moving to nil window. Skipping viewWillAppear state tracking.");
-  }
-
-  if (!movingToNilWindow) {
-    // Interactive transitions can cancel and cause imbalance of will and did calls.
-    id<UIViewControllerTransitionCoordinator> coordinator = [self transitionCoordinator];
-    if (coordinator && [coordinator initiallyInteractive]) {
-      [coordinator notifyWhenInteractionEndsUsingBlock:
-          ^(id<UIViewControllerTransitionCoordinatorContext> context) {
-            if ([context isCancelled]) {
-              NSString *elementID =
-                  objc_getAssociatedObject(self, @selector(greyswizzled_viewWillAppear:));
-              UNTRACK_STATE_FOR_ELEMENT_WITH_ID(kGREYPendingViewsToAppear, elementID);
-            }
-          }];
+  // For a UICompatibilityInputViewController, do not track this state due to issues seen with
+  // untracking.
+  if (![self isKindOfClass:gCompatibilityVCClass]) {
+    BOOL movingToNilWindow = [self grey_isMovingToNilWindow];
+    if (movingToNilWindow) {
+      GREYLogVerbose(@"View is moving to nil window. Skipping viewWillAppear state tracking.");
     }
 
-    NSString *elementID = TRACK_STATE_FOR_ELEMENT(kGREYPendingViewsToAppear, self);
-    objc_setAssociatedObject(self,
-                             @selector(greyswizzled_viewWillAppear:),
-                             elementID,
-                             OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    if (!movingToNilWindow) {
+      // Interactive transitions can cancel and cause imbalance of will and did calls.
+      id<UIViewControllerTransitionCoordinator> coordinator = [self transitionCoordinator];
+      if (coordinator && [coordinator initiallyInteractive]) {
+        [coordinator notifyWhenInteractionEndsUsingBlock:
+         ^(id<UIViewControllerTransitionCoordinatorContext> context) {
+           if ([context isCancelled]) {
+             NSString *elementID =
+             objc_getAssociatedObject(self, @selector(greyswizzled_viewWillAppear:));
+             UNTRACK_STATE_FOR_ELEMENT_WITH_ID(kGREYPendingViewsToAppear, elementID);
+           }
+         }];
+      }
+
+      NSString *elementID = TRACK_STATE_FOR_ELEMENT(kGREYPendingViewsToAppear, self);
+      objc_setAssociatedObject(self,
+                               @selector(greyswizzled_viewWillAppear:),
+                               elementID,
+                               OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
   }
   INVOKE_ORIGINAL_IMP1(void, @selector(greyswizzled_viewWillAppear:), animated);
 }

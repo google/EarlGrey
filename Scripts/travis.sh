@@ -108,7 +108,9 @@ elif [ "${TYPE}" == "EXAMPLE_PODS_SWIFT" ]; then
   cd gem/
   bundle install
   rake install
-  cd ..
+  cd ../Demo/EarlGreyExample
+  pod update
+  cd ../../
   pod install --project-directory=Demo/EarlGreyExample
   execute_xcodebuild Demo/EarlGreyExample/EarlGreyExample.xcworkspace EarlGreyExampleSwiftTests
 elif [ "${TYPE}" == "CARTHAGE" ]; then

@@ -20,15 +20,15 @@
 #import "Additions/UIApplication+GREYAdditions.h"
 #import "Additions/XCTestCase+GREYAdditions.h"
 #import "AppSupport/GREYIdlingResource.h"
-#import "Assertion/GREYAssertionDefines.h"
 #import "Common/GREYConfiguration.h"
 #import "Common/GREYConstants.h"
 #import "Common/GREYDefines.h"
 #import "Common/GREYError.h"
+#import "Common/GREYFatalAsserts.h"
 #import "Common/GREYLogger.h"
 #import "Common/GREYStopwatch.h"
+#import "Common/GREYThrowDefines.h"
 #import "Synchronization/GREYAppStateTracker.h"
-#import "Synchronization/GREYAppStateTracker+Internal.h"
 #import "Synchronization/GREYDispatchQueueIdlingResource.h"
 #import "Synchronization/GREYOperationQueueIdlingResource.h"
 #import "Synchronization/GREYRunLoopSpinner.h"
@@ -53,7 +53,7 @@ static const CFTimeInterval kMaximumSynchronizationSleepInterval = 0.1;
  *  The maximum amount of time to wait for the UI and idling resources to become idle in
  *  grey_forcedStateTrackerCleanUp before forcefully clearing the state of GREYAppStateTracker.
  */
-static const CFTimeInterval kDrainTimeoutSecondsBeforeForcedStateTrackerCleanup = 5;
+static const CFTimeInterval kDrainTimeoutSecondsBeforeForcedStateTrackerCleanup = 10;
 
 // Execution states.
 typedef NS_ENUM(NSInteger, GREYExecutionState) {
@@ -108,21 +108,24 @@ typedef NS_ENUM(NSInteger, GREYExecutionState) {
     _registeredIdlingResources = [[NSMutableOrderedSet alloc] init];
 
     // Create the default idling resources.
-    id<GREYIdlingResource> defaultMainNSOperationQIdlingResource =
+    NSString *trackerName = @"Main NSOperation Queue Tracker";
+    id<GREYIdlingResource> mainNSOperationQIdlingResource =
         [GREYOperationQueueIdlingResource resourceWithNSOperationQueue:[NSOperationQueue mainQueue]
-                                                                  name:@"Main NSOperation Queue"];
-    id<GREYIdlingResource> defaultMainDispatchQIdlingResource =
+                                                                  name:trackerName];
+    id<GREYIdlingResource> mainDispatchQIdlingResource =
         [GREYDispatchQueueIdlingResource resourceWithDispatchQueue:dispatch_get_main_queue()
-                                                              name:@"Main Dispatch Queue"];
+                                                              name:@"Main Dispatch Queue Tracker"];
     id<GREYIdlingResource> appStateTrackerIdlingResource = [GREYAppStateTracker sharedInstance];
 
     // The default resources' order is important as it affects the order in which the resources
     // will be checked.
     _defaultIdlingResources =
         [[NSOrderedSet alloc] initWithObjects:appStateTrackerIdlingResource,
-                                              defaultMainDispatchQIdlingResource,
-                                              defaultMainNSOperationQIdlingResource, nil];
-    // Forcefully clear GREYAppStateTracker state during test case teardown if it is not idle.
+                                              mainNSOperationQIdlingResource,
+                                              mainDispatchQIdlingResource, nil];
+    // To forcefully clear GREYAppStateTracker state during test case teardown if it is not idle.
+    // This prevents the next test case from timing out in case the previous one puts the app into
+    // a non-idle state.
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(grey_forcedStateTrackerCleanUp)
                                                  name:kGREYXCTestCaseInstanceDidTearDown
@@ -143,8 +146,9 @@ typedef NS_ENUM(NSInteger, GREYExecutionState) {
 }
 
 - (void)drainForTime:(CFTimeInterval)seconds {
-  NSParameterAssert(seconds >= 0);
+  GREYThrowOnNilParameter(seconds >= 0);
   GREYLogVerbose(@"Active Run Loop being drained for %f seconds.", seconds);
+
   GREYStopwatch *stopwatch = [[GREYStopwatch alloc] init];
   [stopwatch start];
   // Drain the active run loop for @c seconds. Allow the run loop to sleep.
@@ -197,8 +201,8 @@ typedef NS_ENUM(NSInteger, GREYExecutionState) {
 - (BOOL)executeSyncWithTimeout:(CFTimeInterval)seconds
                          block:(GREYExecBlock)execBlock
                          error:(__strong NSError **)error {
-  I_CHECK_MAIN_THREAD();
-  NSParameterAssert(seconds >= 0);
+  GREYFatalAssertMainThread();
+  GREYThrowOnFailedCondition(seconds >= 0);
 
   BOOL isSynchronizationEnabled = GREY_CONFIG_BOOL(kGREYConfigKeySynchronizationEnabled);
   GREYRunLoopSpinner *runLoopSpinner = [[GREYRunLoopSpinner alloc] init];
@@ -255,7 +259,7 @@ typedef NS_ENUM(NSInteger, GREYExecutionState) {
 #pragma mark - Package Internal
 
 - (void)registerIdlingResource:(id<GREYIdlingResource>)resource {
-  NSParameterAssert(resource);
+  GREYFatalAssert(resource);
   @synchronized(_registeredIdlingResources) {
     // Add the object at the beginning of the ordered set. Resource checking order is important for
     // stability and the default resources should be checked last.
@@ -264,7 +268,7 @@ typedef NS_ENUM(NSInteger, GREYExecutionState) {
 }
 
 - (void)deregisterIdlingResource:(id<GREYIdlingResource>)resource {
-  NSParameterAssert(resource);
+  GREYFatalAssert(resource);
   @synchronized(_registeredIdlingResources) {
     [_registeredIdlingResources removeObject:resource];
   }

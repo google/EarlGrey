@@ -16,6 +16,9 @@
 
 #import "Event/GREYZeroToleranceTimer.h"
 
+#import "Common/GREYFatalAsserts.h"
+#import "Common/GREYThrowDefines.h"
+
 @implementation GREYZeroToleranceTimer {
   // The target that will handle timeouts fired from this timer.
   id<GREYZeroToleranceTimerTarget> _target;
@@ -27,7 +30,8 @@
 
 - (instancetype)initWithInterval:(CFTimeInterval)interval
                           target:(id<GREYZeroToleranceTimerTarget>)target {
-  NSParameterAssert(target);
+  GREYThrowOnNilParameter(target);
+
   self = [super init];
   if (self) {
     _target = target;
@@ -70,7 +74,8 @@
                                                          handler:(void(^)())handler {
   dispatch_source_t timer =
       dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, dispatch_get_main_queue());
-  NSAssert(timer, @"Timer could not be created");
+  GREYFatalAssertWithMessage(timer, @"Timer could not be created");
+
   dispatch_time_t fireTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(interval * NSEC_PER_SEC));
   dispatch_source_set_timer(timer,
                             fireTime,

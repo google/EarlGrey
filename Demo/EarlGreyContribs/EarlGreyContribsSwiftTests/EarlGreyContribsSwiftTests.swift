@@ -18,8 +18,17 @@ import EarlGrey
 import XCTest
 
 class EarlGreyContribsSwiftTests: XCTestCase {
+  override func tearDown() {
+    EarlGrey().selectElementWithMatcher(grey_anyOf([grey_text("EarlGreyContribTestApp"),
+                                                    grey_text("Back")]))
+      .performAction(grey_tap())
+    super.tearDown()
+  }
+
   func testBasicViewController() {
-    EarlGrey().selectElementWithMatcher(grey_text("Basic View Controller"))
+    EarlGrey().selectElementWithMatcher(grey_text("Basic Views"))
+      .usingSearchAction(grey_scrollInDirection(.Down, 50),
+        onElementWithMatcher: grey_kindOfClass(UITableView.self))
       .performAction(grey_tap())
     EarlGrey().selectElementWithMatcher(grey_accessibilityLabel("textField"))
       .performAction(grey_typeText("Foo"))
@@ -28,4 +37,37 @@ class EarlGreyContribsSwiftTests: XCTestCase {
     EarlGrey().selectElementWithMatcher(grey_accessibilityLabel("textLabel"))
       .assertWithMatcher(grey_text("Foo"))
   }
+
+  func testCountOfTableViewCells() {
+    var error: NSError? = nil
+    let matcher: GREYMatcher! = grey_kindOfClass(UITableViewCell.self)
+    let countOfTableViewCells: UInt = count(matcher)
+    GREYAssert(countOfTableViewCells > 1, reason: "There are more than one cell present.")
+    EarlGrey().selectElementWithMatcher(matcher)
+      .atIndex(countOfTableViewCells + 1)
+      .assertWithMatcher(grey_notNil(), error: &error)
+    let errorCode: GREYInteractionErrorCode =
+      GREYInteractionErrorCode.MatchedElementIndexOutOfBoundsErrorCode
+    let errorReason: String = "The Interaction element's index being used was over the count " +
+                              "of matched elements available."
+    GREYAssert(error?.code == errorCode.rawValue, reason:errorReason)
+  }
+}
+
+func count(matcher: GREYMatcher!) -> UInt {
+  var error: NSError? = nil
+  var index: UInt = 0
+  let countMatcher: GREYElementMatcherBlock =
+    GREYElementMatcherBlock.matcherWithMatchesBlock({ (element: AnyObject?) -> Bool in
+      if (matcher.matches(element)) {
+        index = index + 1;
+      }
+      return false;
+    }) { (description: AnyObject?) in
+      let greyDescription:GREYDescription = description as! GREYDescription
+      greyDescription.appendText("Count of Matcher")
+    }
+  EarlGrey().selectElementWithMatcher(countMatcher)
+    .assertWithMatcher(grey_notNil(), error: &error);
+  return index
 }

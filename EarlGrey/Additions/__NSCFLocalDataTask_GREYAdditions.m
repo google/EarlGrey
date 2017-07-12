@@ -19,6 +19,7 @@
 #include <objc/runtime.h>
 
 #import "Additions/NSURL+GREYAdditions.h"
+#import "Common/GREYFatalAsserts.h"
 #import "Common/GREYSwizzler.h"
 #import "Synchronization/GREYAppStateTracker.h"
 
@@ -38,7 +39,7 @@
                                addInstanceMethod:@selector(greyswizzled_resume)
                               withImplementation:newImplementation
                     andReplaceWithInstanceMethod:@selector(resume)];
-    NSAssert(swizzleSuccess, @"Could not swizzle resume in %@", class);
+    GREYFatalAssertWithMessage(swizzleSuccess, @"Could not swizzle resume in %@", class);
 
     newImplementation = [[self class] instanceMethodForSelector:@selector(greyswizzled_setState:)];
     // __NSCFLocalDataTask is the internal class used by NSURLSessionTask for web requests.
@@ -46,7 +47,7 @@
                           addInstanceMethod:@selector(greyswizzled_setState:)
                          withImplementation:newImplementation
                andReplaceWithInstanceMethod:NSSelectorFromString(@"setState:")];
-    NSAssert(swizzleSuccess, @"Could not swizzle setState in %@", class);
+    GREYFatalAssertWithMessage(swizzleSuccess, @"Could not swizzle setState in %@", class);
   }
 }
 
@@ -61,10 +62,16 @@
   if ([[task currentRequest].URL grey_shouldSynchronize]) {
     // Monitor the "state" value to synchronize with the task completion.
     NSString *elementID = TRACK_STATE_FOR_ELEMENT(kGREYPendingNetworkRequest, self);
+    // Use OBJC_ASSOCIATION_RETAIN here to make both reads and writes atomic.
+    // The method below (setState:) which reads and writes this associated object can be
+    // invoked on background threads. This can cause a race condition where the object
+    // is set to nil by one thread and read by another. The read gets a deallocated
+    // instance of the object back which causes EXC_BAD_ACCESS. Using OBJC_ASSOCIATION_RETAIN
+    // prevents this.
     objc_setAssociatedObject(self,
                              @selector(greyswizzled_setState:),
                              elementID,
-                             OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+                             OBJC_ASSOCIATION_RETAIN);
   }
   INVOKE_ORIGINAL_IMP(void, @selector(greyswizzled_resume));
 }

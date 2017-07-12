@@ -18,6 +18,7 @@
 
 #import "Common/GREYConstants.h"
 #import "Common/GREYDefines.h"
+#import "Common/GREYThrowDefines.h"
 #import "Synchronization/GREYRunLoopSpinner.h"
 #import "Synchronization/GREYUIThreadExecutor.h"
 
@@ -31,8 +32,8 @@
 }
 
 - (instancetype)initWithName:(NSString *)name block:(BOOL(^)(void))conditionBlock {
-  NSParameterAssert(name);
-  NSParameterAssert(conditionBlock);
+  GREYThrowOnNilParameter(name);
+  GREYThrowOnNilParameter(conditionBlock);
 
   self = [super init];
   if (self) {
@@ -47,8 +48,8 @@
 }
 
 - (BOOL)waitWithTimeout:(CFTimeInterval)seconds pollInterval:(CFTimeInterval)interval {
-  NSAssert(seconds >= 0, @"timeout seconds must be >= 0.");
-  NSAssert(interval >= 0, @"poll interval must be >= 0.");
+  GREYThrowOnFailedConditionWithMessage(seconds >= 0, @"timeout seconds must be >= 0.");
+  GREYThrowOnFailedConditionWithMessage(interval >= 0, @"poll interval must be >= 0.");
 
   GREYRunLoopSpinner *runLoopSpinner = [[GREYRunLoopSpinner alloc] init];
 

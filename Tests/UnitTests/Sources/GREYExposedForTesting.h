@@ -23,6 +23,8 @@
 #import <EarlGrey/GREYManagedObjectContextIdlingResource.h>
 #import <EarlGrey/GREYProvider.h>
 #import <EarlGrey/GREYTimedIdlingResource.h>
+#import <EarlGrey/GREYTraversal.h>
+#import <EarlGrey/GREYTraversalDFS.h>
 #import <EarlGrey/GREYUIThreadExecutor.h>
 #import <EarlGrey/GREYVisibilityChecker.h>
 #import <EarlGrey/UIView+GREYAdditions.h>
@@ -63,18 +65,21 @@ extern const NSInteger kGREYScrollDetectionLength;
 @end
 
 @interface GREYVisibilityChecker (GREYExposedForTesting)
-+ (NSUInteger)grey_countPixelsInImage:(CGImageRef)afterImage
-           thatAreShiftedPixelsOfImage:(CGImageRef)beforeImage
-           storeVisiblePixelRectInRect:(CGRect *)outVisiblePixelRect
-      andStoreComparisonResultInBuffer:(GREYVisibilityDiffBuffer *)outDiffBufferOrNULL;
++ (GREYVisiblePixelData)grey_countPixelsInImage:(CGImageRef)afterImage
+                    thatAreShiftedPixelsOfImage:(CGImageRef)beforeImage
+                    storeVisiblePixelRectInRect:(CGRect *)outVisiblePixelRect
+               andStoreComparisonResultInBuffer:(GREYVisibilityDiffBuffer *)outDiffBufferOrNULL;
 @end
 
 @interface GREYElementHierarchy (GREYExposedForTesting)
 + (NSString *)grey_printDescriptionForElement:(id)element
                                     atLevel:(NSUInteger)level;
-+ (NSArray *)grey_orderedChildrenOf:(id)element;
-+ (NSString *) grey_recursivePrint:(id)element
-                       withLevel:(NSUInteger)level
-                    outputString:(NSMutableString *)outputString
-         andAnnotationDictionary:(NSDictionary *)annotationDictionary;
++ (NSString *)grey_hierarchyString:(id)element
+                      outputString:(NSMutableString *)outputString
+           andAnnotationDictionary:(NSDictionary *)annotationDictionary;
+@end
+
+@interface GREYTraversal (GREYExposedForTesting)
+- (instancetype)init;
+- (NSArray *)exploreImmediateChildren:(id)element;
 @end

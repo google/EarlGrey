@@ -18,6 +18,8 @@
 #import <EarlGrey/GREYDefines.h>
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  A matcher for combining multiple matchers with a logical @c AND operator, so that a match
  *  only occurs when all combined matchers match the element. The invocation of the matchers
@@ -39,21 +41,28 @@
  *
  *  @return An instance of GREYAllOf, initialized with the provided @c matchers.
  */
-- (instancetype)initWithMatchers:(NSArray *)matchers NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithMatchers:(NSArray<__kindof id<GREYMatcher>> *)matchers
+    NS_DESIGNATED_INITIALIZER;
 
 #if !(GREY_DISABLE_SHORTHAND)
 
 /**
  *  A shorthand matcher that is a logical AND of all the matchers passed in as variable arguments.
  *
- *  @param matcher The first matcher in the list of matchers.
- *  @param ...     Any more matchers to be added. Matchers are invoked in the order they are
- *                 specified and only if the preceding matcher passes. This va-arg must be
- *                 terminated with a @c nil value.
+ *  @param first      The first matcher in the list of matchers.
+ *  @param second     The second matcher in the list of matchers.
+ *  @param thirdOrNil The third matcher in the list of matchers, optionally the nil terminator.
+ *  @param ...        Any more matchers to be added. Matchers are invoked in the order they are
+ *                    specified and only if the preceding matcher passes. This va-arg must be
+ *                    terminated with a @c nil value.
  *
  *  @return An object conforming to GREYMatcher, initialized with the required matchers.
  */
-GREY_EXPORT id<GREYMatcher> grey_allOf(id<GREYMatcher> matcher, ...) NS_REQUIRES_NIL_TERMINATION;
+GREY_EXPORT id<GREYMatcher> grey_allOf(id<GREYMatcher> first,
+                                       id<GREYMatcher> second,
+                                       id<GREYMatcher> _Nullable thirdOrNil,
+                                       ...)
+    NS_SWIFT_UNAVAILABLE("Use grey_allOf(_:) instead") NS_REQUIRES_NIL_TERMINATION;
 
 /**
  *  A shorthand matcher that is a logical AND of all the matchers passed in within an NSArray.
@@ -63,8 +72,12 @@ GREY_EXPORT id<GREYMatcher> grey_allOf(id<GREYMatcher> matcher, ...) NS_REQUIRES
  *
  *  @return An object conforming to GREYMatcher, initialized with the required matchers.
  */
-GREY_EXPORT id<GREYMatcher> grey_allOfMatchers(NSArray<GREYMatcher> *matchers);
+GREY_EXPORT id<GREYMatcher>
+    grey_allOfMatchers(NSArray<__kindof id<GREYMatcher>> *matchers)
+    NS_SWIFT_NAME(grey_allOf(_:));
 
 #endif // GREY_DISABLE_SHORTHAND
 
 @end
+
+NS_ASSUME_NONNULL_END

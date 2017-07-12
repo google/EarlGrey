@@ -20,8 +20,18 @@
 
 @implementation EarlGreyContribsTests
 
+- (void)tearDown {
+  [[EarlGrey selectElementWithMatcher:grey_anyOf(grey_text(@"EarlGreyContribTestApp"),
+                                                 grey_text(@"Back"),
+                                                 nil)]
+      performAction:grey_tap()];
+  [super tearDown];
+}
+
 - (void)testBasicViewController {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Basic View Controller")]
+  [[[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")]
+      usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 50)
+      onElementWithMatcher:grey_kindOfClass([UITableView class])]
       performAction:grey_tap()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"textField")]
       performAction:grey_typeText(@"Foo")];

@@ -359,7 +359,6 @@ extern const NSUInteger kMinimumPointsVisibleForInteraction;
                  @"Should pass because all of the pixels in the view are visible.");
 }
 
-// TODO before submit: verify this is actually required.
 - (void)testVisibleForInteractionOfViewWithAlphaAndBeforeAndShiftedAfterImage {
   [[[self.mockSharedApplication stub] andReturnValue:@(UIInterfaceOrientationPortrait)]
       statusBarOrientation];
@@ -451,15 +450,15 @@ extern const NSUInteger kMinimumPointsVisibleForInteraction;
 
 - (void)testVisibleForInteractionIsNoForHiddenActivationPointAndCenterOfVisibleArea {
   [[[self.mockSharedApplication stub] andReturnValue:@(UIInterfaceOrientationPortrait)]
-   statusBarOrientation];
+      statusBarOrientation];
 
   CGSize size = CGSizeMake(10, 10);
   UIImage *before = [self grey_imageOfSize:size   withColor:[UIColor whiteColor]];
   // Indicate that the activation point is hidden by setting color at the view's center same as
   // before image.
   UIImage *after = [self grey_imageOfSize:size
-                        withBackgroundColor:[UIColor whiteColor]
-                            withVisibleArea:CGRectMake(5, 5, 1, 1)];
+                      withBackgroundColor:[UIColor whiteColor]
+                          withVisibleArea:CGRectMake(5, 5, 1, 1)];
 
   // For each invocation of isVisibleForInteraction, 2 screenshots are needed, for before and after.
   [self addToScreenshotListReturnedByScreenshotUtil:before];
@@ -480,7 +479,7 @@ extern const NSUInteger kMinimumPointsVisibleForInteraction;
 
 - (void)testVisibleForInteractionIsYesForHiddenActivationPointButVisibleCenterOfVisibleArea {
   [[[self.mockSharedApplication stub] andReturnValue:@(UIInterfaceOrientationPortrait)]
-   statusBarOrientation];
+      statusBarOrientation];
 
   // Image has to be bigger because of the minimum visible area constraints.
   CGSize size = CGSizeMake(100, 100);
@@ -490,8 +489,8 @@ extern const NSUInteger kMinimumPointsVisibleForInteraction;
   // the same as in the before image. The checker should then pick the center of the visible area.
   CGRect visibleArea = CGRectMake(0, 0, 30, 30);
   UIImage *after = [self grey_imageOfSize:size
-                       withBackgroundColor:[UIColor whiteColor]
-                           withVisibleArea:visibleArea];
+                      withBackgroundColor:[UIColor whiteColor]
+                          withVisibleArea:visibleArea];
 
   // For each invocation of isVisibleForInteraction, 2 screenshots are needed, for before and after.
   [self addToScreenshotListReturnedByScreenshotUtil:before];
@@ -513,16 +512,16 @@ extern const NSUInteger kMinimumPointsVisibleForInteraction;
 
 - (void)testVisibleForInteractionIsNoForLowVisiblePixelCount {
   [[[self.mockSharedApplication stub] andReturnValue:@(UIInterfaceOrientationPortrait)]
-   statusBarOrientation];
+      statusBarOrientation];
 
   CGSize size = CGSizeMake(10, 10);
-  UIImage *before = [self grey_imageOfSize:size   withColor:[UIColor whiteColor]];
+  UIImage *before = [self grey_imageOfSize:size withColor:[UIColor whiteColor]];
 
   // Indicate that the activation point is visible by changing color at the view's center.
+  CGRect visibleArea = CGRectMake((size.width / 2) - 1, (size.height / 2) - 1, 1, 1);
   UIImage *after = [self grey_imageOfSize:size
-                       withBackgroundColor:[UIColor whiteColor]
-                           withVisibleArea:CGRectMake(size.width / 2 - 1, size.height / 2 - 1,
-                                                      1, 1)];
+                      withBackgroundColor:[UIColor whiteColor]
+                          withVisibleArea:visibleArea];
 
   // For each invocation of isVisibleForInteraction, 2 screenshots are needed, for before and after.
   [self addToScreenshotListReturnedByScreenshotUtil:before];
@@ -544,14 +543,14 @@ extern const NSUInteger kMinimumPointsVisibleForInteraction;
   GREYVisibilityDiffBuffer diffBuffer =
       GREYVisibilityDiffBufferCreate((size_t)imageSizeInPixels.width,
                                      (size_t)imageSizeInPixels.height);
-  NSUInteger visiblePixelCount =
+  GREYVisiblePixelData visiblePixels =
       [GREYVisibilityChecker grey_countPixelsInImage:before.CGImage
                          thatAreShiftedPixelsOfImage:after.CGImage
                          storeVisiblePixelRectInRect:NULL
                     andStoreComparisonResultInBuffer:&diffBuffer];
   free(diffBuffer.data);
 
-  XCTAssertTrue(visiblePixelCount <
+  XCTAssertTrue(visiblePixels.visiblePixelCount <
                 kMinimumPointsVisibleForInteraction * [[UIScreen mainScreen] scale],
                 @"Too many visible pixels.");
 
@@ -562,27 +561,121 @@ extern const NSUInteger kMinimumPointsVisibleForInteraction;
 
 }
 
-#pragma mark - Private
+- (void)testVisibleInteractionPointForViewWithVisibleAccessibilityActivationPoint {
+  [[[self.mockSharedApplication stub] andReturnValue:@(UIInterfaceOrientationPortrait)]
+      statusBarOrientation];
 
-- (UIImage *)grey_imageOfSize:(CGSize)size   withColor:(UIColor *)color {
-  return [self grey_imageOfSize:size withBackgroundColor:color withVisibleArea:CGRectZero];
+  CGRect viewRect = CGRectMake(0, 0, 10, 10);
+
+  UIWindow *window = [[UIWindow alloc] initWithFrame:viewRect];
+  window.alpha = 1;
+  window.hidden = NO;
+
+  UIView *view = [[UIView alloc] initWithFrame:viewRect];
+  view.alpha = 1;
+  view.hidden = NO;
+  view.accessibilityFrame = UIAccessibilityConvertFrameToScreenCoordinates(view.bounds, view);
+  CGPoint accessibilityActivationPoint = CGPointMake(1, 1);
+  view.accessibilityActivationPoint = accessibilityActivationPoint;
+
+  [window addSubview:view];
+
+  UIImage *before = [self grey_imageOfSize:viewRect.size withColor:[UIColor whiteColor]];
+  CGRect visibleArea =
+      CGRectMake(accessibilityActivationPoint.x, accessibilityActivationPoint.y, 3, 3);
+  XCTAssertTrue(CGRectContainsPoint(visibleArea, view.accessibilityActivationPoint));
+
+  UIImage *after = [self grey_imageOfSize:viewRect.size
+                      withBackgroundColor:[UIColor whiteColor]
+                          withVisibleArea:visibleArea];
+
+  // For each invocation of visibleInteractionPointForElement, 2 screenshots are needed.
+  [self addToScreenshotListReturnedByScreenshotUtil:before];
+  [self addToScreenshotListReturnedByScreenshotUtil:after];
+
+  CGPoint visibleInteractionPoint = [GREYVisibilityChecker visibleInteractionPointForElement:view];
+  XCTAssertTrue(CGRectContainsPoint(view.accessibilityFrame, visibleInteractionPoint));
+  XCTAssertTrue(CGPointEqualToPoint(view.accessibilityActivationPoint, visibleInteractionPoint));
 }
 
-- (UIImage *)grey_imageOfSize:(CGSize)size
-          withBackgroundColor:(UIColor *)backgroundColor
-              withVisibleArea:(CGRect)paintedArea {
-  UIGraphicsBeginImageContextWithOptions(size, YES, 0);
+- (void)testVisibleInteractionPointForViewWithHiddenAccessibilityActivationPointAndVisibleCenter {
+  [[[self.mockSharedApplication stub] andReturnValue:@(UIInterfaceOrientationPortrait)]
+      statusBarOrientation];
 
-  [backgroundColor setFill];
-  UIRectFill(CGRectMake(0, 0, size.width, size.height));
+  CGRect viewRect = CGRectMake(0, 0, 10, 10);
 
-  [[UIColor grayColor] setFill];
-  UIRectFill(paintedArea);
+  UIWindow *window = [[UIWindow alloc] initWithFrame:viewRect];
+  window.alpha = 1;
+  window.hidden = NO;
 
-  UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-  UIGraphicsEndImageContext();
+  UIView *view = [[UIView alloc] initWithFrame:viewRect];
+  view.alpha = 1;
+  view.hidden = NO;
+  view.accessibilityFrame = UIAccessibilityConvertFrameToScreenCoordinates(view.bounds, view);
+  CGPoint accessibilityActivationPoint = CGPointMake(5, 5);
+  view.accessibilityActivationPoint = accessibilityActivationPoint;
 
-  return image;
+  [window addSubview:view];
+
+  UIImage *before = [self grey_imageOfSize:viewRect.size withColor:[UIColor whiteColor]];
+  CGRect visibleArea = CGRectMake(0, 0, 3, 3);
+  XCTAssertFalse(CGRectContainsPoint(visibleArea, view.accessibilityActivationPoint));
+
+  UIImage *after = [self grey_imageOfSize:viewRect.size
+                      withBackgroundColor:[UIColor whiteColor]
+                          withVisibleArea:visibleArea];
+
+  // For each invocation of visibleInteractionPointForElement, 2 screenshots are needed.
+  [self addToScreenshotListReturnedByScreenshotUtil:before];
+  [self addToScreenshotListReturnedByScreenshotUtil:after];
+
+  CGPoint visibleInteractionPoint = [GREYVisibilityChecker visibleInteractionPointForElement:view];
+  CGPoint expectedVisibleInteractionPoint = CGRectCenter(visibleArea);
+  XCTAssertFalse(CGPointEqualToPoint(view.accessibilityActivationPoint, visibleInteractionPoint));
+  XCTAssertTrue(CGPointEqualToPoint(expectedVisibleInteractionPoint, visibleInteractionPoint));
+}
+
+- (void)testVisibleInteractionPointForViewWithHiddenCenterAndAccessibilityActivationPoint {
+  [[[self.mockSharedApplication stub] andReturnValue:@(UIInterfaceOrientationPortrait)]
+      statusBarOrientation];
+
+  CGRect viewRect = CGRectMake(0, 0, 10, 10);
+
+  UIWindow *window = [[UIWindow alloc] initWithFrame:viewRect];
+  window.alpha = 1;
+  window.hidden = NO;
+
+  UIView *view = [[UIView alloc] initWithFrame:viewRect];
+  view.alpha = 1;
+  view.hidden = NO;
+  view.accessibilityFrame = UIAccessibilityConvertFrameToScreenCoordinates(view.bounds, view);
+  view.accessibilityActivationPoint = CGRectCenter(view.accessibilityFrame);
+
+  [window addSubview:view];
+
+  UIImage *before = [self grey_imageOfSize:viewRect.size withColor:[UIColor whiteColor]];
+  // Neither center or activation point is visible.
+  CGRect visibleArea = CGRectMake(viewRect.origin.x, viewRect.origin.y, 3, 3);
+  XCTAssertFalse(CGRectContainsPoint(visibleArea, view.accessibilityActivationPoint));
+  XCTAssertFalse(CGRectContainsPoint(visibleArea, CGRectCenter(view.accessibilityFrame)));
+
+  UIImage *after = [self grey_imageOfSize:viewRect.size
+                      withBackgroundColor:[UIColor whiteColor]
+                          withVisibleArea:visibleArea
+     andOptionalHiddenAreaFromVisibleArea:CGRectMake(CGRectGetMidX(visibleArea) - 1,
+                                                     CGRectGetMidY(visibleArea) - 1,
+                                                     CGRectGetWidth(visibleArea) / 2,
+                                                     CGRectGetHeight(visibleArea) / 2)];
+
+  // For each invocation of visibleInteractionPointForElement, 2 screenshots are needed.
+  [self addToScreenshotListReturnedByScreenshotUtil:before];
+  [self addToScreenshotListReturnedByScreenshotUtil:after];
+
+  CGPoint visibleInteractionPoint = [GREYVisibilityChecker visibleInteractionPointForElement:view];
+  XCTAssertTrue(CGRectContainsPoint(view.accessibilityFrame, visibleInteractionPoint));
+  XCTAssertFalse(CGPointEqualToPoint(view.accessibilityActivationPoint, visibleInteractionPoint));
+  XCTAssertFalse(CGPointEqualToPoint(CGRectCenter(visibleArea), visibleInteractionPoint));
+  XCTAssertFalse(CGPointIsNull(visibleInteractionPoint));
 }
 
 - (void)testIsNotVisibleIsUsingCache {
@@ -659,6 +752,316 @@ extern const NSUInteger kMinimumPointsVisibleForInteraction;
   // Calling it again. This time it should use cached value.
   isVisibleForInteraction = [GREYVisibilityChecker isVisibleForInteraction:view];
   XCTAssertTrue(isVisibleForInteraction, @"Cached value should also be YES. Are we using cache?");
+}
+
+/**
+ *  Helper for checking corner cases that calculates the visible rect for an imaginary view of a
+ *  given size @c size with area @c targetArea hidden if @c hidden is YES or with only are
+ *  @c targetArea showing if @c hidden is NO.
+ *
+ *  @param size       The size of the view image to build (for checking performance).
+ *  @param targetArea The area to make visible/not visible depending on @c hidden
+ *  @param hidden     If YES, make @c targetArea hidden. Otherwise, make @c targetArea
+ *                    visible and everywhere else hidden.
+ *
+ *  @return The visible rect computed from the given parameters.
+ */
+- (CGRect)grey_visibleRectForSize:(CGSize)size
+                             area:(CGRect)targetArea
+                       areaHidden:(BOOL)hidden {
+  CGRect visibleRect = CGRectMake(0, 0, size.width, size.height);
+  // Generate some test images.
+  UIImage *before = [self grey_imageOfSize:visibleRect.size withColor:[UIColor whiteColor]];
+  UIImage *after;
+  if (hidden) {
+    after = [self grey_imageOfSize:visibleRect.size
+               withBackgroundColor:[UIColor whiteColor]
+                   withVisibleArea:visibleRect
+andOptionalHiddenAreaFromVisibleArea:targetArea];
+  } else {
+    after = [self grey_imageOfSize:visibleRect.size
+               withBackgroundColor:[UIColor whiteColor]
+                    withVisibleArea:targetArea];
+  }
+  CGRect enclosing_px;
+  [GREYVisibilityChecker grey_countPixelsInImage:before.CGImage
+                     thatAreShiftedPixelsOfImage:after.CGImage
+                     storeVisiblePixelRectInRect:&enclosing_px
+                andStoreComparisonResultInBuffer:NULL];
+  return CGRectPixelToPoint(enclosing_px);
+}
+
+- (void)testVisibleAreaCorrectTopLeftVisible {
+  // Test (starred region visible):
+  // ****---
+  // ****   |
+  // ****   |
+  // |      |
+  // |      |
+  // |      |
+  // |      |
+  // |      |
+  //  ------
+  CGRect correct = CGRectMake(0, 0, 20, 20);
+  CGRect rect = [self grey_visibleRectForSize:CGSizeMake(100, 10000)
+                                    area:correct
+                              areaHidden:NO];
+  XCTAssertTrue(CGRectEqualToRect(rect, correct),
+                @"Visible rect returned incorrect (expected %@ got %@).",
+                NSStringFromCGRect(correct),
+                NSStringFromCGRect(rect));
+}
+
+- (void)testVisibleAreaCorrectCenterVisible {
+  // Test (starred region visible):
+  //  --------
+  // |        |
+  // | *****  |
+  // | *****  |
+  // |        |
+  //  --------
+  CGRect correct = CGRectMake(2, 3, 4, 4);
+  CGRect rect = [self grey_visibleRectForSize:CGSizeMake(10, 10)
+                                    area:correct
+                              areaHidden:NO];
+  XCTAssertTrue(CGRectEqualToRect(rect, correct),
+                @"Visible rect returned incorrect (expected %@ got %@).",
+                NSStringFromCGRect(correct),
+                NSStringFromCGRect(rect));
+}
+
+- (void)testVisibleAreaCorrectBottomRightTallHidden {
+  // Test (starred region visible):
+  //  --------
+  // |        |
+  // |     ****
+  // |     ****
+  // |     ****
+  //  -----****
+  CGRect correct = CGRectMake(6, 3, 4, 7);
+  CGRect rect = [self grey_visibleRectForSize:CGSizeMake(10, 10)
+                                    area:correct
+                              areaHidden:NO];
+  XCTAssertTrue(CGRectEqualToRect(rect, correct),
+                @"Visible rect returned incorrect (expected %@ got %@).",
+                NSStringFromCGRect(correct),
+                NSStringFromCGRect(rect));
+}
+
+- (void)testVisibleAreaCorrectTopLeftHidden {
+  // Test (starred region occluded):
+  // ****----------
+  // ****          |
+  // ****          |
+  // |             |
+  // |             |
+  //  -------------
+  CGRect rect = [self grey_visibleRectForSize:CGSizeMake(100, 10000)
+                                    area:CGRectMake(0, 0, 20, 20)
+                              areaHidden:YES];
+  CGRect correct = CGRectMake(0, 20, 100, 9980);
+  XCTAssertTrue(CGRectEqualToRect(rect, correct),
+                @"Visible rect returned incorrect (expected %@ got %@).",
+                NSStringFromCGRect(correct),
+                NSStringFromCGRect(rect));
+}
+
+- (void)testVisibleAreaCorrectTopRightHidden {
+  // Test (starred region occluded):
+  //  ----------****
+  // |          ****
+  // |          ****
+  // |             |
+  // |             |
+  //  -------------
+  CGRect rect = [self grey_visibleRectForSize:CGSizeMake(10000, 10)
+                                    area:CGRectMake(9996, 0, 4, 4)
+                              areaHidden:YES];
+  CGRect correct = CGRectMake(0, 0, 9996, 10);
+  XCTAssertTrue(CGRectEqualToRect(rect, correct),
+                @"Visible rect returned incorrect (expected %@ got %@).",
+                NSStringFromCGRect(correct),
+                NSStringFromCGRect(rect));
+}
+
+- (void)testVisibleAreaCorrectCenterHidden {
+  // Test (starred region occluded):
+  //  --------
+  // |        |
+  // | *****  |
+  // | *****  |
+  // |        |
+  //  --------
+  CGRect rect = [self grey_visibleRectForSize:CGSizeMake(10, 10)
+                                    area:CGRectMake(2, 3, 4, 4)
+                              areaHidden:YES];
+  CGRect correct = CGRectMake(6, 0, 4, 10);
+  XCTAssertTrue(CGRectEqualToRect(rect, correct),
+                @"Visible rect returned incorrect (expected %@ got %@).",
+                NSStringFromCGRect(correct),
+                NSStringFromCGRect(rect));
+}
+
+- (void)testVisibleAreaCorrectLeftHidden {
+  // Test (starred region occluded):
+  //  --------
+  // |        |
+  // ****     |
+  // ****     |
+  // |        |
+  //  --------
+  CGRect rect = [self grey_visibleRectForSize:CGSizeMake(10, 10)
+                                    area:CGRectMake(0, 3, 4, 4)
+                              areaHidden:YES];
+  CGRect correct = CGRectMake(4, 0, 6, 10);
+  XCTAssertTrue(CGRectEqualToRect(rect, correct),
+                @"Visible rect returned incorrect (expected %@ got %@).",
+                NSStringFromCGRect(correct),
+                NSStringFromCGRect(rect));
+}
+
+- (void)testVisibleAreaCorrectRightHidden {
+  // Test (starred region occluded):
+  //  --------
+  // |        |
+  // |     ****
+  // |     ****
+  // |        |
+  //  --------
+  CGRect rect = [self grey_visibleRectForSize:CGSizeMake(10, 10)
+                                    area:CGRectMake(6, 3, 4, 4)
+                              areaHidden:YES];
+  CGRect correct = CGRectMake(0, 0, 6, 10);
+  XCTAssertTrue(CGRectEqualToRect(rect, correct),
+                @"Visible rect returned incorrect (expected %@ got %@).",
+                NSStringFromCGRect(correct),
+                NSStringFromCGRect(rect));
+}
+
+- (void)testVisibleAreaCorrectBottomHidden {
+  // Test (starred region occluded):
+  //  --------
+  // |        |
+  // |        |
+  // |  ****  |
+  // |  ****  |
+  //  --****--
+  CGRect rect = [self grey_visibleRectForSize:CGSizeMake(10, 10)
+                                    area:CGRectMake(3, 6, 4, 4)
+                              areaHidden:YES];
+  CGRect correct = CGRectMake(0, 0, 10, 6);
+  XCTAssertTrue(CGRectEqualToRect(rect, correct),
+                @"Visible rect returned incorrect (expected %@ got %@).",
+                NSStringFromCGRect(correct),
+                NSStringFromCGRect(rect));
+}
+
+- (void)testVisibleAreaCorrectBottomRightTallVisible {
+  // Test (starred region occluded):
+  //  --------
+  // |        |
+  // |     ****
+  // |     ****
+  // |     ****
+  //  -----****
+  CGRect rect = [self grey_visibleRectForSize:CGSizeMake(10, 10)
+                                    area:CGRectMake(6, 3, 4, 7)
+                              areaHidden:YES];
+  CGRect correct = CGRectMake(0, 0, 6, 10);
+  XCTAssertTrue(CGRectEqualToRect(rect, correct),
+                @"Visible rect returned incorrect (expected %@ got %@).",
+                NSStringFromCGRect(correct),
+                NSStringFromCGRect(rect));
+}
+
+- (void)testVisibleAreaCorrectBottomRightWideHidden {
+  // Test (starred region occluded):
+  //  --------
+  // |        |
+  // |        |
+  // |        |
+  // |   ******
+  //  ---******
+  CGRect rect = [self grey_visibleRectForSize:CGSizeMake(10, 10)
+                                    area:CGRectMake(6, 7, 3, 3)
+                              areaHidden:YES];
+  CGRect correct = CGRectMake(0, 0, 10, 7);
+  XCTAssertTrue(CGRectEqualToRect(rect, correct),
+                @"Visible rect returned incorrect (expected %@ got %@).",
+                NSStringFromCGRect(correct),
+                NSStringFromCGRect(rect));
+}
+
+- (void)testVisibleAreaCorrectBottomLeftSinglePixelHidden {
+  // Test (starred region occluded):
+  //  --------
+  // |        |
+  // |        |
+  // |        |
+  // |        |
+  // **-------
+  CGRect rect = [self grey_visibleRectForSize:CGSizeMake(10, 10)
+                                    area:CGRectMake(0, 9, 2, 1)
+                              areaHidden:YES];
+  CGRect correct = CGRectMake(0, 0, 10, 9);
+  XCTAssertTrue(CGRectEqualToRect(rect, correct),
+                @"Visible rect returned incorrect (expected %@ got %@).",
+                NSStringFromCGRect(correct),
+                NSStringFromCGRect(rect));
+}
+
+- (void)testVisibleAreaCorrectBottomRightSinglePixelHidden {
+  // Test (starred region occluded):
+  //  --------
+  // |        |
+  // |        |
+  // |        |
+  // |        |
+  //  --------*
+  CGRect rect = [self grey_visibleRectForSize:CGSizeMake(10, 10)
+                                    area:CGRectMake(9, 9, 1, 1)
+                              areaHidden:YES];
+  CGRect correct = CGRectMake(0, 0, 10, 9);
+  XCTAssertTrue(CGRectEqualToRect(rect, correct),
+                @"Visible rect returned incorrect (expected %@ got %@).",
+                NSStringFromCGRect(correct),
+                NSStringFromCGRect(rect));
+}
+
+- (void)testVisibleAreaCorrectTopRightSinglePixelHidden {
+  // Test (starred region occluded):
+  //  -------**
+  // |        |
+  // |        |
+  // |        |
+  // |        |
+  //  --------
+  CGRect rect = [self grey_visibleRectForSize:CGSizeMake(10, 10)
+                                    area:CGRectMake(8, 0, 2, 1)
+                              areaHidden:YES];
+  CGRect correct = CGRectMake(0, 1, 10, 9);
+  XCTAssertTrue(CGRectEqualToRect(rect, correct),
+                @"Visible rect returned incorrect (expected %@ got %@).",
+                NSStringFromCGRect(correct),
+                NSStringFromCGRect(rect));
+}
+
+- (void)testVisibleAreaCorrectTopLeftSinglePixelHidden {
+  // Test (starred region occluded):
+  // *--------
+  // *        |
+  // |        |
+  // |        |
+  // |        |
+  //  --------
+  CGRect rect = [self grey_visibleRectForSize:CGSizeMake(10, 10)
+                                    area:CGRectMake(0, 0, 1, 2)
+                              areaHidden:YES];
+  CGRect correct = CGRectMake(1, 0, 9, 10);
+  XCTAssertTrue(CGRectEqualToRect(rect, correct),
+                @"Visible rect returned incorrect (expected %@ got %@).",
+                NSStringFromCGRect(correct),
+                NSStringFromCGRect(rect));
 }
 
 - (void)testRectEnclosingVisibleAreaOfElementIsUsingCache {
@@ -774,6 +1177,42 @@ extern const NSUInteger kMinimumPointsVisibleForInteraction;
   XCTAssertEqualObjects([NSValue valueWithCGRect:enclosingRect],
                         [NSValue valueWithCGRect:CGRectZero],
                         @"Rect for View is not CGRectZero.");
+}
+
+#pragma mark - Private
+
+- (UIImage *)grey_imageOfSize:(CGSize)size withColor:(UIColor *)color {
+  return [self grey_imageOfSize:size withBackgroundColor:color withVisibleArea:CGRectZero];
+}
+
+- (UIImage *)grey_imageOfSize:(CGSize)size
+          withBackgroundColor:(UIColor *)backgroundColor
+              withVisibleArea:(CGRect)paintedArea {
+  return [self grey_imageOfSize:size
+                     withBackgroundColor:backgroundColor
+                         withVisibleArea:paintedArea
+    andOptionalHiddenAreaFromVisibleArea:CGRectNull];
+}
+
+- (UIImage *)grey_imageOfSize:(CGSize)size
+                     withBackgroundColor:(UIColor *)backgroundColor
+                         withVisibleArea:(CGRect)paintedArea
+    andOptionalHiddenAreaFromVisibleArea:(CGRect)hiddenArea {
+  UIGraphicsBeginImageContextWithOptions(size, YES, 0);
+
+  [backgroundColor setFill];
+  UIRectFill(CGRectMake(0, 0, size.width, size.height));
+
+  [[UIColor grayColor] setFill];
+  UIRectFill(paintedArea);
+
+  if (!CGRectIsNull(hiddenArea)) {
+    [backgroundColor setFill];
+    UIRectFill(hiddenArea);
+  }
+  UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+  UIGraphicsEndImageContext();
+  return image;
 }
 
 @end

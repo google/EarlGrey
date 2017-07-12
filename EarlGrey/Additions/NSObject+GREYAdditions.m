@@ -24,6 +24,7 @@
 #import "Common/GREYConfiguration.h"
 #import "Common/GREYConstants.h"
 #import "Common/GREYElementHierarchy.h"
+#import "Common/GREYFatalAsserts.h"
 #import "Common/GREYSwizzler.h"
 #import "Synchronization/GREYAppStateTracker.h"
 #import "Synchronization/GREYTimedIdlingResource.h"
@@ -37,13 +38,16 @@ static Class gWebAccessibilityWrapper;
 
 + (void)load {
   @autoreleasepool {
+    gWebAccessibilityWrapper = NSClassFromString(@"WebAccessibilityObjectWrapper");
+
     GREYSwizzler *swizzler = [[GREYSwizzler alloc] init];
     BOOL swizzleSuccess =
         [swizzler swizzleClass:self
             replaceClassMethod:@selector(cancelPreviousPerformRequestsWithTarget:)
                     withMethod:@selector(greyswizzled_cancelPreviousPerformRequestsWithTarget:)];
-    NSAssert(swizzleSuccess,
-             @"Cannot swizzle NSObject's cancelPreviousPerformRequestsWithTarget:");
+    GREYFatalAssertWithMessage(swizzleSuccess,
+                               @"Cannot swizzle NSObject::"
+                               @"cancelPreviousPerformRequestsWithTarget:");
 
     SEL swizzledSEL =
         @selector(greyswizzled_cancelPreviousPerformRequestsWithTarget:selector:object:);
@@ -51,17 +55,18 @@ static Class gWebAccessibilityWrapper;
         [swizzler swizzleClass:self
             replaceClassMethod:@selector(cancelPreviousPerformRequestsWithTarget:selector:object:)
                     withMethod:swizzledSEL];
-    NSAssert(swizzleSuccess,
-             @"Cannot swizzle NSObject's cancelPreviousPerformRequestsWithTarget:selector:object:");
+    GREYFatalAssertWithMessage(swizzleSuccess,
+                               @"Cannot swizzle NSObject::"
+                               @"cancelPreviousPerformRequestsWithTarget:selector:object:");
 
     swizzledSEL = @selector(greyswizzled_performSelector:withObject:afterDelay:inModes:);
     swizzleSuccess =
         [swizzler swizzleClass:self
          replaceInstanceMethod:@selector(performSelector:withObject:afterDelay:inModes:)
                     withMethod:swizzledSEL];
-    NSAssert(swizzleSuccess,
-             @"Cannot swizzle NSObject's performSelector:withObject:afterDelay:inModes");
-    gWebAccessibilityWrapper = NSClassFromString(@"WebAccessibilityObjectWrapper");
+    GREYFatalAssertWithMessage(swizzleSuccess,
+                               @"Cannot swizzle "
+                               @"NSObject::performSelector:withObject:afterDelay:inModes");
   }
 }
 
@@ -72,8 +77,9 @@ static Class gWebAccessibilityWrapper;
              [self respondsToSelector:@selector(accessibilityContainer)]) {
     return [GREYElementHierarchy hierarchyStringForElement:self];
   } else {
-    NSAssert(NO, @"The element hierarchy call is being made on an element that is not a valid "
-                 @"UI element.");
+    GREYFatalAssertWithMessage(NO,
+                               @"grey_recursiveDescription made on an element that is not a valid "
+                               @"UI element: %@", self);
     return nil;
   }
 }
@@ -127,7 +133,8 @@ static Class gWebAccessibilityWrapper;
 - (CGPoint)grey_accessibilityActivationPointInWindowCoordinates {
   UIView *view =
       [self isKindOfClass:[UIView class]] ? (UIView *)self : [self grey_viewContainingSelf];
-  NSAssert(view, @"Corresponding UIView could not be found for UI element %@", self);
+  GREYFatalAssertWithMessage(view,
+                             @"Corresponding UIView could not be found for UI element %@", self);
 
   // Convert activation point from screen coordinates to window coordinates.
   if ([view isKindOfClass:[UIWindow class]]) {
@@ -272,7 +279,7 @@ static Class gWebAccessibilityWrapper;
 #pragma mark - Swizzled Implementation
 
 + (void)greyswizzled_cancelPreviousPerformRequestsWithTarget:(id)aTarget {
-  if (CFRunLoopGetCurrent() == CFRunLoopGetMain()) {
+  if ([NSThread isMainThread]) {
     [aTarget grey_unmapAllTrackersForAllPerformSelectorArguments];
   }
 
@@ -285,7 +292,7 @@ static Class gWebAccessibilityWrapper;
                                                       object:(id)anArgument {
   SEL swizzledSEL =
       @selector(greyswizzled_cancelPreviousPerformRequestsWithTarget:selector:object:);
-  if (CFRunLoopGetCurrent() == CFRunLoopGetMain()) {
+  if ([NSThread isMainThread]) {
     NSArray *arguments = [self grey_arrayWithSelector:aSelector argument:anArgument];
     [aTarget grey_unmapAllTrackersForPerformSelectorArguments:arguments];
 
@@ -302,7 +309,7 @@ static Class gWebAccessibilityWrapper;
                           withObject:(id)anArgument
                           afterDelay:(NSTimeInterval)delay
                              inModes:(NSArray *)modes {
-  if (CFRunLoopGetCurrent() == CFRunLoopGetMain()) {
+  if ([NSThread isMainThread]) {
     NSArray *arguments = [self grey_arrayWithSelector:aSelector argument:anArgument];
     // Track delayed executions on main thread that fall within a trackable duration.
     CFTimeInterval maxDelayToTrack =
@@ -350,7 +357,8 @@ static Class gWebAccessibilityWrapper;
  *                   selector.
  */
 - (void)grey_customPerformSelectorWithParameters:(NSArray *)arguments {
-  NSAssert(arguments.count >= 1, @"at the very least, an entry to selector must be present.");
+  GREYFatalAssertWithMessage(arguments.count >= 1,
+                             @"at the very least, an entry to selector must be present.");
   SEL selector = [arguments[0] pointerValue];
   id objectParam = (arguments.count > 1) ? arguments[1] : nil;
 

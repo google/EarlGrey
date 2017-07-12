@@ -15,7 +15,7 @@
 //
 
 /**
- *  @file GREYExposed.h
+ *  @file GREYAppleInternals.h
  *  @brief Exposes interfaces, structs and methods that are otherwise private.
  */
 
@@ -379,5 +379,14 @@ IOHIDEventRef IOHIDEventCreateDigitizerFingerEvent(CFAllocatorRef allocator,
  *  @return ignored.
  */
 - (bool)loadAccessibility:(void **)unused;
+
+@end
+
+@interface UIAccessibilityTextFieldElement
+
+/**
+ *  @return The UITextField that contains the accessibility text field element.
+ */
+-(UITextField *)textField;
 
 @end

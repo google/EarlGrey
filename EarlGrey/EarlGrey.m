@@ -17,10 +17,16 @@
 #import "EarlGrey.h"
 
 #import "Common/GREYAnalytics.h"
+#import "Common/GREYAppleInternals.h"
+#import "Common/GREYErrorConstants.h"
+#import "Common/GREYError.h"
+#import "Common/GREYFatalAsserts.h"
+#import "Core/GREYKeyboard.h"
 #import "Event/GREYSyntheticEvents.h"
 #import "Exception/GREYDefaultFailureHandler.h"
 
 NSString *const kGREYFailureHandlerKey = @"GREYFailureHandlerKey";
+NSString *const kGREYKeyboardDismissalErrorDomain = @"com.google.earlgrey.KeyboardDismissalDomain";
 
 @implementation EarlGreyImpl
 
@@ -42,7 +48,7 @@ NSString *const kGREYFailureHandlerKey = @"GREYFailureHandlerKey";
   SEL invocationFileAndLineSEL = @selector(setInvocationFile:andInvocationLine:);
   id<GREYFailureHandler> failureHandler;
   @synchronized (self) {
-    failureHandler = getFailureHandler();
+    failureHandler = grey_getFailureHandler();
   }
   if ([failureHandler respondsToSelector:invocationFileAndLineSEL]) {
     [failureHandler setInvocationFile:fileName andInvocationLine:lineNumber];
@@ -61,9 +67,10 @@ NSString *const kGREYFailureHandlerKey = @"GREYFailureHandlerKey";
 }
 
 - (void)setFailureHandler:(id<GREYFailureHandler>)handler {
+  GREYFatalAssertMainThread();
   @synchronized ([self class]) {
     if (handler) {
-      NSMutableDictionary *TLSDict = [[NSThread currentThread] threadDictionary];
+      NSMutableDictionary *TLSDict = [[NSThread mainThread] threadDictionary];
       [TLSDict setValue:handler forKey:kGREYFailureHandlerKey];
     } else {
       resetFailureHandler();
@@ -73,7 +80,7 @@ NSString *const kGREYFailureHandlerKey = @"GREYFailureHandlerKey";
 
 - (void)handleException:(GREYFrameworkException *)exception details:(NSString *)details {
   @synchronized ([self class]) {
-    id<GREYFailureHandler> failureHandler = getFailureHandler();
+    id<GREYFailureHandler> failureHandler = grey_getFailureHandler();
     [failureHandler handleException:exception details:details];
   }
 }
@@ -83,16 +90,47 @@ NSString *const kGREYFailureHandlerKey = @"GREYFailureHandlerKey";
   return [GREYSyntheticEvents rotateDeviceToOrientation:deviceOrientation errorOrNil:errorOrNil];
 }
 
+- (BOOL)dismissKeyboardWithError:(__strong NSError **)errorOrNil {
+  __block NSError *executionError;
+  [[GREYUIThreadExecutor sharedInstance] executeSync:^{
+    if (![GREYKeyboard isKeyboardShown]) {
+      executionError = GREYErrorMake(kGREYKeyboardDismissalErrorDomain,
+                                     GREYKeyboardDismissalFailedErrorCode,
+                                     @"Failed to dismiss keyboard since it was not showing.");
+    } else {
+      [[UIApplication sharedApplication] sendAction:@selector(resignFirstResponder)
+                                                 to:nil
+                                               from:nil
+                                           forEvent:nil];
+    }
+  } error:&executionError];
+
+  if (executionError) {
+    if (errorOrNil) {
+      *errorOrNil = executionError;
+    } else {
+      I_GREYFail(@"%@\nError: %@",
+                 @"Dismising keyboard errored out.",
+                 [GREYError grey_nestedDescriptionForError:executionError]);
+    }
+    return NO;
+  }
+  return YES;
+}
+
 #pragma mark - Private
 
-// Resets the failure handler. Not thread safe.
+// Resets the failure handler. Must be called from main thread otherwise behavior is undefined.
 static inline void resetFailureHandler() {
-  NSMutableDictionary *TLSDict = [[NSThread currentThread] threadDictionary];
+  assert([NSThread isMainThread]);
+  NSMutableDictionary *TLSDict = [[NSThread mainThread] threadDictionary];
   [TLSDict setValue:[[GREYDefaultFailureHandler alloc] init] forKey:kGREYFailureHandlerKey];
 }
 
-inline id<GREYFailureHandler> getFailureHandler() {
-  NSMutableDictionary *TLSDict = [[NSThread currentThread] threadDictionary];
+// Gets the failure handler. Must be called from main thread otherwise behavior is undefined.
+inline id<GREYFailureHandler> grey_getFailureHandler() {
+  assert([NSThread isMainThread]);
+  NSMutableDictionary *TLSDict = [[NSThread mainThread] threadDictionary];
   return [TLSDict valueForKey:kGREYFailureHandlerKey];
 }
 

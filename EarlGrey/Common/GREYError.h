@@ -68,9 +68,8 @@ I_GREYErrorMake((domain), \
 /**
  *  If @c errorRef is not @c NULL, it is set to a @c GREYError object that is created with
  *  the given @c domain, @c code and @c description.
- *  The description is accessible by querying error's @c userInfo with
- *  @c NSLocalizedDescriptionKey.
- *  If @c errorRef is @c NULL, the error information is logged to the console.
+ *  The description is accessible by querying error's @c userInfo with @c NSLocalizedDescriptionKey.
+ *  If @c errorRef is @c NULL, the error information is logged using NSLog.
  *
  *  @param[out] errorRef    A @c GREYError reference for retrieving the created
  *                          error object.
@@ -91,10 +90,9 @@ I_GREYErrorMake((domain), \
 
 /**
  *  If @c errorRef is not @c NULL, it is set to a @c GREYError object that is created with
- *  the given @c domain, @c code, @c description and @c note.
- *  The description is accessible by querying error's @c userInfo with
- *  @c NSLocalizedDescriptionKey.
- *  If @c errorRef is @c NULL, the error information is logged to the console.
+ *  the given @c domain, @c code, @c description and @c glossary.
+ *  The description is accessible by querying error's @c userInfo with @c NSLocalizedDescriptionKey.
+ *  If @c errorRef is @c NULL, the error information is logged using NSLog.
  *
  *  @param[out] errorRef    A @c GREYError reference for retrieving the created
  *                          error object.
@@ -121,7 +119,7 @@ I_GREYErrorMake((domain), \
  *  The description is accessible by querying error's @c userInfo with
  *  @c NSLocalizedDescriptionKey. The @c nestedError is accessible by error's
  *  @c userInfo with @c NSUnderlyingErrorKey.
- *  If @c errorRef is @c NULL, the error information is logged to the console.
+ *  If @c errorRef is @c NULL, the error information is logged using NSLog.
  *
  *  @param[out] errorRef    A @c GREYError reference for retrieving the created
  *                          error object.
@@ -215,11 +213,6 @@ GREY_EXTERN NSString *const kErrorDescriptionKey;
  *  Key used to retrieve the failure reason from an error object.
  */
 GREY_EXTERN NSString *const kErrorFailureReasonKey;
-
-/**
- *  Key used to retrieve the failure reason from an error object.
- */
-GREY_EXTERN NSString *const kErrorRecoverySuggestionKey;
 
 /**
  *  Key used to retrieve the screenshot at failure from an error object's app screenshots.

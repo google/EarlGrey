@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		007CF78B1D78A0F400228BF3 /* XCTestCase+GREYAdditionsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 007CF78A1D78A0F400228BF3 /* XCTestCase+GREYAdditionsTest.m */; };
+		3F49F7B21ED4B36500B02ED7 /* GREYTraversalBFSTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F49F7B11ED4B36500B02ED7 /* GREYTraversalBFSTest.m */; };
+		3F49F81A1ED7CAFB00B02ED7 /* GREYTraversalDFSTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F49F8191ED7CAFB00B02ED7 /* GREYTraversalDFSTest.m */; };
+		3F49F81C1ED7D17700B02ED7 /* GREYTraversalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F49F81B1ED7D17700B02ED7 /* GREYTraversalTests.m */; };
+		3FA382041EE2135D00B7D09F /* GREYUTCustomAccessibilityView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FA382031EE2135D00B7D09F /* GREYUTCustomAccessibilityView.m */; };
+		3FA3820D1EE2139200B7D09F /* GREYUTAccessibilityViewContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FA3820C1EE2139200B7D09F /* GREYUTAccessibilityViewContainerView.m */; };
 		59467F111C9379FC0089498B /* CAAnimation+GREYAdditionsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467EAB1C9379DE0089498B /* CAAnimation+GREYAdditionsTest.m */; };
 		59467F121C9379FC0089498B /* CALayer+GREYAdditionsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467EAC1C9379DE0089498B /* CALayer+GREYAdditionsTest.m */; };
 		59467F131C9379FC0089498B /* CGGeometry+GREYAdditionsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467EAD1C9379DE0089498B /* CGGeometry+GREYAdditionsTest.m */; };
@@ -167,6 +172,13 @@
 
 /* Begin PBXFileReference section */
 		007CF78A1D78A0F400228BF3 /* XCTestCase+GREYAdditionsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XCTestCase+GREYAdditionsTest.m"; sourceTree = "<group>"; };
+		3F49F7B11ED4B36500B02ED7 /* GREYTraversalBFSTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYTraversalBFSTest.m; sourceTree = "<group>"; };
+		3F49F8191ED7CAFB00B02ED7 /* GREYTraversalDFSTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYTraversalDFSTest.m; sourceTree = "<group>"; };
+		3F49F81B1ED7D17700B02ED7 /* GREYTraversalTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYTraversalTests.m; sourceTree = "<group>"; };
+		3FA382021EE2135D00B7D09F /* GREYUTCustomAccessibilityView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYUTCustomAccessibilityView.h; sourceTree = "<group>"; };
+		3FA382031EE2135D00B7D09F /* GREYUTCustomAccessibilityView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYUTCustomAccessibilityView.m; sourceTree = "<group>"; };
+		3FA3820B1EE2139200B7D09F /* GREYUTAccessibilityViewContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYUTAccessibilityViewContainerView.h; sourceTree = "<group>"; };
+		3FA3820C1EE2139200B7D09F /* GREYUTAccessibilityViewContainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYUTAccessibilityViewContainerView.m; sourceTree = "<group>"; };
 		59467EA81C9379DE0089498B /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = SOURCE_ROOT; };
 		59467EA91C9379DE0089498B /* UnitTests.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnitTests.pch; sourceTree = SOURCE_ROOT; };
 		59467EAB1C9379DE0089498B /* CAAnimation+GREYAdditionsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CAAnimation+GREYAdditionsTest.m"; sourceTree = "<group>"; };
@@ -302,6 +314,9 @@
 				61322D9F1D4CD7B900A5B0C1 /* GREYManagedObjectContextIdlingResourceTest.m */,
 				59467EB71C9379DE0089498B /* GREYElementFinderTest.m */,
 				59467EB81C9379DE0089498B /* GREYElementHierarchyTest.m */,
+				3F49F81B1ED7D17700B02ED7 /* GREYTraversalTests.m */,
+				3F49F7B11ED4B36500B02ED7 /* GREYTraversalBFSTest.m */,
+				3F49F8191ED7CAFB00B02ED7 /* GREYTraversalDFSTest.m */,
 				59467EB91C9379DE0089498B /* GREYElementInteractionTest.m */,
 				59467EBA1C9379DE0089498B /* GREYElementMatcherBlockTest.m */,
 				59467EBB1C9379DE0089498B /* GREYElementProviderTest.m */,
@@ -335,6 +350,10 @@
 				7C38A9661E1C800B00E37A8F /* GREYErrorTest.m */,
 				7CA881CB1E1D888E00EE18D4 /* GREYObjectFormatterTest.m */,
 				7CA881D51E1DBFBE00EE18D4 /* GREYFailureFormatterTest.m */,
+				3FA382021EE2135D00B7D09F /* GREYUTCustomAccessibilityView.h */,
+				3FA382031EE2135D00B7D09F /* GREYUTCustomAccessibilityView.m */,
+				3FA3820B1EE2139200B7D09F /* GREYUTAccessibilityViewContainerView.h */,
+				3FA3820C1EE2139200B7D09F /* GREYUTAccessibilityViewContainerView.m */,
 			);
 			path = Sources;
 			sourceTree = SOURCE_ROOT;
@@ -598,6 +617,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3FA382041EE2135D00B7D09F /* GREYUTCustomAccessibilityView.m in Sources */,
+				3FA3820D1EE2139200B7D09F /* GREYUTAccessibilityViewContainerView.m in Sources */,
 				59467F3A1C937A0B0089498B /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -627,11 +648,13 @@
 				59467F1E1C9379FC0089498B /* GREYElementHierarchyTest.m in Sources */,
 				FD4AB2B71D23181600D0C44D /* GREYRunLoopSpinnerTest.m in Sources */,
 				59467F1F1C9379FC0089498B /* GREYElementInteractionTest.m in Sources */,
+				3F49F81C1ED7D17700B02ED7 /* GREYTraversalTests.m in Sources */,
 				F9C5093F1D11E9CF00D4FDED /* GREYTestHelperTest.m in Sources */,
 				59467F201C9379FC0089498B /* GREYElementMatcherBlockTest.m in Sources */,
 				6113A2F11D7F74F400443D9B /* GREYStringDescriptionTest.m in Sources */,
 				59467F211C9379FC0089498B /* GREYElementProviderTest.m in Sources */,
 				59467F231C9379FC0089498B /* GREYLayoutConstraintTest.m in Sources */,
+				3F49F7B21ED4B36500B02ED7 /* GREYTraversalBFSTest.m in Sources */,
 				59467F241C9379FC0089498B /* GREYMatchersTest.m in Sources */,
 				59467F251C9379FC0089498B /* GREYNSTimerIdlingResourceTest.m in Sources */,
 				59467F261C9379FC0089498B /* GREYOperationQueueIdlingResourceTest.m in Sources */,
@@ -650,6 +673,7 @@
 				59467F331C9379FC0089498B /* NSObject+GREYAdditionsTest.m in Sources */,
 				59467F341C9379FC0089498B /* NSString+GREYAdditionsTest.m in Sources */,
 				FD4AB2B81D23181900D0C44D /* GREYWeakObjectContainerTest.m in Sources */,
+				3F49F81A1ED7CAFB00B02ED7 /* GREYTraversalDFSTest.m in Sources */,
 				61E4E0CD1D755B1C007F9EE6 /* GREYTouchInjectorTest.m in Sources */,
 				007CF78B1D78A0F400228BF3 /* XCTestCase+GREYAdditionsTest.m in Sources */,
 				59467F351C9379FC0089498B /* NSURLConnection+GREYAdditionsTest.m in Sources */,

@@ -18,8 +18,9 @@
 
 #include <objc/runtime.h>
 
-#import "Additions/NSObject+GREYAdditions+Internal.h"
+#import "Additions/NSObject+GREYAdditions.h"
 #import "Common/GREYDefines.h"
+#import "Common/GREYFatalAsserts.h"
 #import "Common/GREYSwizzler.h"
 #import "Delegate/GREYCAAnimationDelegate.h"
 #import "Synchronization/GREYAppStateTracker.h"
@@ -30,11 +31,10 @@
   @autoreleasepool {
     GREYSwizzler *swizzler = [[GREYSwizzler alloc] init];
     // Swizzle delegate.
-    GREY_UNUSED_VARIABLE BOOL swizzleSuccess =
-        [swizzler swizzleClass:self
-         replaceInstanceMethod:@selector(delegate)
-                    withMethod:@selector(greyswizzled_delegate)];
-    NSAssert(swizzleSuccess, @"Cannot swizzle CAAnimation delegate");
+    BOOL swizzleSuccess = [swizzler swizzleClass:self
+                           replaceInstanceMethod:@selector(delegate)
+                                      withMethod:@selector(greyswizzled_delegate)];
+    GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle CAAnimation delegate");
   }
 }
 

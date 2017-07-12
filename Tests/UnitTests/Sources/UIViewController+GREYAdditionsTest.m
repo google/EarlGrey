@@ -14,8 +14,8 @@
 // limitations under the License.
 //
 
+#import <EarlGrey/GREYAppleInternals.h>
 #import <EarlGrey/GREYAppStateTracker.h>
-#import <EarlGrey/GREYExposed.h>
 #import <EarlGrey/UIViewController+GREYAdditions.h>
 #import <OCMock/OCMock.h>
 #import <objc/runtime.h>

@@ -25,16 +25,16 @@
  *
  *  @note In case of failure to track the method must fail silently to prevent test interruption.
  *
- *  @param trackingID  The tracking ID under which to track this event.
- *  @param userID      The ID for the user sending this event.
- *  @param category    The category value for the event hit.
- *  @param subCategory The subcategory(also called label) for the event hit.
- *  @param valueOrNil  An optional value for the event hit.
+ *  @param trackingID The tracking ID under which to track this event.
+ *  @param clientID   The ID for the user sending this event.
+ *  @param category   The Event Category for the event hit.
+ *  @param action     The Event Action for the event hit.
+ *  @param value      The event value for the event hit.
  */
 - (void)trackEventWithTrackingID:(NSString *)trackingID
-                          userID:(NSString *)userID
+                        clientID:(NSString *)clientID
                         category:(NSString *)category
-                     subCategory:(NSString *)subCategory
-                           value:(NSNumber *)valueOrNil;
+                          action:(NSString *)action
+                           value:(NSString *)value;
 
 @end

@@ -24,9 +24,6 @@
 // The current scroll algorithm ends up in a infinite scroll loop when trying to scroll to a label
 // inside this view.
 @property(weak, nonatomic) IBOutlet UIScrollView *infiniteScrollView;
-@property(weak, nonatomic) IBOutlet UIScrollView *zeroHeightScrollView;
-@property(weak, nonatomic) IBOutlet UIScrollView *zeroWidthScrollView;
-@property(weak, nonatomic) IBOutlet UIScrollView *zeroWidthAndHeightScrollView;
 @property(retain, nonatomic) IBOutlet UIView *blockView;
 @property(retain, nonatomic) IBOutlet UITextField *topTextbox;
 @property(retain, nonatomic) UIAccessibilityElement *accessibilityElement;

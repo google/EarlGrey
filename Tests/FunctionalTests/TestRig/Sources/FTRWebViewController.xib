@@ -1,8 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="13F1077" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="NO">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <development version="7000" identifier="xcode"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FTRWebViewController">
@@ -18,22 +19,22 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8B3-Zu-4Xm">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="432"/>
+                <webView contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8B3-Zu-4Xm">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="619"/>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <connections>
                         <outlet property="delegate" destination="-1" id="OUR-2i-ber"/>
                     </connections>
                 </webView>
-                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Dow-02-PiP">
-                    <rect key="frame" x="150" y="274" width="20" height="20"/>
+                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Dow-02-PiP">
+                    <rect key="frame" x="177.5" y="367.5" width="20" height="20"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="20" id="lmI-6V-z28"/>
                         <constraint firstAttribute="width" constant="20" id="xMr-uO-BLq"/>
                     </constraints>
                 </activityIndicatorView>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IM9-Gf-dmX">
-                    <rect key="frame" x="0.0" y="432" width="320" height="48"/>
+                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IM9-Gf-dmX">
+                    <rect key="frame" x="0.0" y="619" width="375" height="48"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k27-It-B2V">
                             <rect key="frame" x="8" y="8" width="50" height="30"/>
@@ -43,7 +44,7 @@
                                 <constraint firstAttribute="width" constant="50" id="AYj-fv-6sH"/>
                             </constraints>
                             <state key="normal" title="Google">
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="calibratedRGB"/>
                             </state>
                             <connections>
                                 <action selector="userDidTapLoadGoogle" destination="-1" eventType="touchUpInside" id="grk-8L-GPA"/>
@@ -57,7 +58,7 @@
                                 <constraint firstAttribute="width" constant="38" id="d0B-cz-tgJ"/>
                             </constraints>
                             <state key="normal" title="Local">
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="calibratedRGB"/>
                             </state>
                             <connections>
                                 <action selector="userDidTapLoadLocalTestPage" destination="-1" eventType="touchUpInside" id="XLr-qj-4O5"/>
@@ -71,14 +72,14 @@
                                 <constraint firstAttribute="height" constant="30" id="zfW-E8-fBo"/>
                             </constraints>
                             <state key="normal" title="LoadHTML:">
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="calibratedRGB"/>
                             </state>
                             <connections>
                                 <action selector="userDidTapLoadHTMLUsingLoadHTMLString" destination="-1" eventType="touchUpInside" id="21Q-20-srs"/>
                             </connections>
                         </button>
-                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qUg-34-n03">
-                            <rect key="frame" x="263" y="9" width="51" height="31"/>
+                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qUg-34-n03">
+                            <rect key="frame" x="318" y="9" width="51" height="31"/>
                             <accessibility key="accessibilityConfiguration" label="bounceSwitch"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="49" id="CFC-j2-1vl"/>
@@ -89,7 +90,7 @@
                             </connections>
                         </switch>
                     </subviews>
-                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="48" id="GLr-vA-GE7"/>
                         <constraint firstItem="ci5-c5-vzb" firstAttribute="centerY" secondItem="vpc-AG-Y4W" secondAttribute="centerY" id="OeS-pN-79u"/>
@@ -103,7 +104,7 @@
                     </constraints>
                 </view>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstItem="8B3-Zu-4Xm" firstAttribute="centerX" secondItem="Dow-02-PiP" secondAttribute="centerX" id="2OT-na-w3X"/>
                 <constraint firstItem="8B3-Zu-4Xm" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="6Zj-5x-vk4"/>
@@ -115,12 +116,11 @@
                 <constraint firstItem="8B3-Zu-4Xm" firstAttribute="centerY" secondItem="Dow-02-PiP" secondAttribute="centerY" constant="-68" id="o57-El-CUU"/>
                 <constraint firstAttribute="bottom" secondItem="IM9-Gf-dmX" secondAttribute="bottom" id="oCj-92-WEE"/>
             </constraints>
-            <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
         </view>
     </objects>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4"/>
+        <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
 </document>

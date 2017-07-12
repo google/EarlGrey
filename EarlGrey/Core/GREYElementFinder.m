@@ -16,15 +16,15 @@
 
 #import "Core/GREYElementFinder.h"
 
-#import "Assertion/GREYAssertionDefines.h"
-#import "Common/GREYDefines.h"
+#import "Common/GREYFatalAsserts.h"
+#import "Common/GREYThrowDefines.h"
 #import "Matcher/GREYMatcher.h"
 #import "Provider/GREYProvider.h"
 
 @implementation GREYElementFinder
 
 - (instancetype)initWithMatcher:(id<GREYMatcher>)matcher {
-  NSParameterAssert(matcher);
+  GREYThrowOnNilParameter(matcher);
 
   self = [super init];
   if (self) {
@@ -34,9 +34,10 @@
 }
 
 - (NSArray *)elementsMatchedInProvider:(id<GREYProvider>)elementProvider {
-  NSParameterAssert(elementProvider);
-  I_CHECK_MAIN_THREAD();
-  NSMutableArray *matchingElements = [[NSMutableArray alloc] init];
+  GREYThrowOnNilParameter(elementProvider);
+  GREYFatalAssertMainThread();
+
+  NSMutableOrderedSet *matchingElements = [[NSMutableOrderedSet alloc] init];
   for (id element in [elementProvider dataEnumerator]) {
     @autoreleasepool {
       if ([_matcher matches:element]) {
@@ -44,7 +45,7 @@
       }
     }
   }
-  return [NSArray arrayWithArray:matchingElements];
+  return [matchingElements array];
 }
 
 @end

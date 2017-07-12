@@ -21,150 +21,14 @@
 
 #import "GREYBaseTest.h"
 #import "GREYExposedForTesting.h"
-
-const CGRect kTestRect = { { 0.0f, 0.0f }, { 10.0f, 10.0f } };
-
-@interface GREYUTCustomAccessibilityView : UIView
-
-@property(nonatomic, strong) NSArray *accessibleElements;
-
-- (id)initWithObjects:(NSArray *)objectArray;
-
-// UIAccessibilityContainer methods
-- (NSInteger)accessibilityElementCount;
-- (id)accessibilityElementAtIndex:(NSInteger)index;
-- (NSInteger)indexOfAccessibilityElement:(id)element;
-@end
-
-@implementation GREYUTCustomAccessibilityView
-
-- (id)initWithObjects:(NSArray *)objectArray {
-  self = [super init];
-  if (self) {
-    self.accessibleElements = objectArray;
-  }
-  return(self);
-}
-
-#pragma mark - UIAccessibilityContainer Protocol
-
-- (NSInteger)accessibilityElementCount {
-  return (NSInteger)[[self accessibleElements] count];
-}
-
-- (id)accessibilityElementAtIndex:(NSInteger)index {
-  return [[self accessibleElements] objectAtIndex:(NSUInteger)index];
-}
-
-- (NSInteger)indexOfAccessibilityElement:(id)element {
-  return (NSInteger)[[self accessibleElements] indexOfObject:element];
-}
-
-@end
+#import "GREYUTCustomAccessibilityView.h"
+#import "GREYUTAccessibilityViewContainerView.h"
 
 @interface GREYElementHierarchyTest : GREYBaseTest
 
 @end
 
 @implementation GREYElementHierarchyTest
-
-- (void)testSortedChildViewsForNilView {
-  UIView *view = nil;
-  XCTAssertThrows([GREYElementHierarchy grey_orderedChildrenOf:view]);
-}
-
-- (void)testSortedChildViewsForNilCustomView {
-  GREYUTCustomAccessibilityView *view = nil;
-  XCTAssertThrows([GREYElementHierarchy grey_orderedChildrenOf:view]);
-}
-
-- (void)testSortedChildViewsForViewWithSingleSubview {
-  UIView *viewA = [[UIView alloc] initWithFrame:kTestRect];
-  UIView *viewB = [[UIView alloc] initWithFrame:kTestRect];
-
-  [viewA accessibilityElementCount];
-  [viewA addSubview:viewB];
-  NSArray *orderedViews = @[viewB];
-  XCTAssertEqualObjects([GREYElementHierarchy grey_orderedChildrenOf:viewA], orderedViews);
-}
-
-- (void)testSortedChildViewsForViewWithSubviews {
-  UIView *viewA = [[UIView alloc] initWithFrame:kTestRect];
-  UIView *viewB = [[UIView alloc] initWithFrame:kTestRect];
-  UIView *viewC = [[UIView alloc] initWithFrame:kTestRect];
-  UIView *viewD = [[UIView alloc] initWithFrame:kTestRect];
-  [viewA addSubview:viewB];
-  [viewA addSubview:viewC];
-  [viewA addSubview:viewD];
-  NSArray *orderedViews = @[ viewB, viewC, viewD ];
-  XCTAssertEqualObjects([GREYElementHierarchy grey_orderedChildrenOf:viewA], orderedViews);
-}
-
-- (void)testSortedChildViewsForCustomViewWithSubviews {
-  GREYUTCustomAccessibilityView *viewA =
-      [[GREYUTCustomAccessibilityView alloc] initWithFrame:kTestRect];
-  UIView *viewB = [[UIView alloc] initWithFrame:kTestRect];
-  UIView *viewC = [[UIView alloc] initWithFrame:kTestRect];
-  UIView *viewD = [[UIView alloc] initWithFrame:kTestRect];
-  [viewA addSubview:viewB];
-  [viewA addSubview:viewC];
-  [viewA addSubview:viewD];
-  NSArray *orderedViews = @[ viewB, viewC, viewD ];
-  XCTAssertEqualObjects([GREYElementHierarchy grey_orderedChildrenOf:viewA], orderedViews);
-}
-
-- (void)testSortedChildViewsForCustomViewWithAXViews {
-  UIView *viewB = [[UIView alloc] initWithFrame:kTestRect];
-  UIView *viewC = [[UIView alloc] initWithFrame:kTestRect];
-  UIView *viewD = [[UIView alloc] initWithFrame:kTestRect];
-  GREYUTCustomAccessibilityView *viewA =
-      [[GREYUTCustomAccessibilityView alloc] initWithObjects:@[ viewB, viewC, viewD ]];
-  NSArray *orderedViews = @[ viewB, viewC, viewD ];
-  XCTAssertEqualObjects([GREYElementHierarchy grey_orderedChildrenOf:viewA], orderedViews);
-}
-
-- (void)testSortedChildViewsForCustomViewWithSingleAXView {
-  UIView *viewB = [[UIView alloc] initWithFrame:kTestRect];
-  GREYUTCustomAccessibilityView *viewA =
-      [[GREYUTCustomAccessibilityView alloc] initWithObjects:@[viewB]];
-  NSArray *orderedViews = @[viewB];
-  XCTAssertEqualObjects([GREYElementHierarchy grey_orderedChildrenOf:viewA], orderedViews);
-}
-
-- (void)testSortedChildViewsForCustomViewWithBothSubViewsAndAXViews {
-  UIView *viewB = [[UIView alloc] initWithFrame:kTestRect];
-  UIView *viewC = [[UIView alloc] initWithFrame:kTestRect];
-  GREYUTCustomAccessibilityView *viewA = [[GREYUTCustomAccessibilityView alloc]
-                                        initWithObjects:@[viewB, viewC]];
-  UIView *viewD = [[UIView alloc] initWithFrame:kTestRect];
-  UIView *viewE = [[UIView alloc] initWithFrame:kTestRect];
-  [viewA addSubview:viewD];
-  [viewA addSubview:viewE];
-  NSArray *orderedViews = @[viewD, viewE, viewB, viewC];
-  XCTAssertEqualObjects([GREYElementHierarchy grey_orderedChildrenOf:viewA], orderedViews);
-}
-
-- (void)testSortedChildViewsForViewWithATableViewCellAsASubview {
-  UITableViewCell *cell = [[UITableViewCell alloc] init];
-  UIView *viewA = [[UIView alloc] initWithFrame:kTestRect];
-  [cell addSubview:viewA];
-
-  // Pre-iOS 8, UITableViewCell holds its views in an internal subview.
-  NSArray *children = iOS8_0_OR_ABOVE() ? [GREYElementHierarchy grey_orderedChildrenOf:cell] :
-  [GREYElementHierarchy grey_orderedChildrenOf:[cell.subviews objectAtIndex:0]];
-
-  XCTAssertTrue([children containsObject:viewA]);
-  XCTAssertTrue([children containsObject:viewA],
-                @"View to look for: %@\nList: %@", viewA, children);
-}
-
-- (void)testSortedChildViewsForViewWithATableViewCellAsAnAXView {
-  UITableViewCell *cell = [[UITableViewCell alloc] init];
-  GREYUTCustomAccessibilityView *viewA =
-      [[GREYUTCustomAccessibilityView alloc] initWithObjects:@[ cell ]];
-  id firstObject = [[GREYElementHierarchy grey_orderedChildrenOf:viewA] firstObject];
-  XCTAssertEqualObjects(firstObject, cell);
-}
 
 - (void)testHierarchyStringWithNilView {
   UIView *view = nil;
@@ -313,33 +177,18 @@ const CGRect kTestRect = { { 0.0f, 0.0f }, { 10.0f, 10.0f } };
 }
 
 - (void)testHierarchyStringForANilAnnotationDictionary {
+
+  UIView *view = [[UIView alloc] initWithFrame:kTestRect];
+
   NSString *test =
-      [GREYElementHierarchy grey_recursivePrint:[[UIView alloc] initWithFrame:kTestRect]
-                                      withLevel:0
-                                   outputString:[[NSMutableString alloc] init]
-                        andAnnotationDictionary:nil];
+  [GREYElementHierarchy grey_hierarchyString:view
+                                outputString:[[NSMutableString alloc] init]
+                     andAnnotationDictionary:nil];
   XCTAssertNotNil(test);
 }
 
 - (void)testHierarchyStringForANilView {
-  XCTAssertThrows([GREYElementHierarchy grey_recursivePrint:nil
-                                                  withLevel:0
-                                               outputString:[[NSMutableString alloc] init]
-                                    andAnnotationDictionary:nil]);
-}
-
-- (void)testHierarchyStringForANilString {
-  XCTAssertThrows([GREYElementHierarchy grey_recursivePrint:nil
-                                                  withLevel:0
-                                               outputString:nil
-                                    andAnnotationDictionary:nil]);
-}
-
-- (void)testHierarchyStringForAGarbageStartLevel {
-  XCTAssertThrows([GREYElementHierarchy grey_recursivePrint:nil
-                                                  withLevel:NSNotFound
-                                               outputString:nil
-                                    andAnnotationDictionary:nil]);
+  XCTAssertThrows([GREYElementHierarchy hierarchyStringForElement:nil]);
 }
 
 - (void)testHierarchyStringForSingleAccessibilityElement {
@@ -525,6 +374,22 @@ const CGRect kTestRect = { { 0.0f, 0.0f }, { 10.0f, 10.0f } };
   NSString *stringTargetHierarchy = @"<NSObject:";
   XCTAssertNotEqual([hierarchyForNSObject rangeOfString:stringTargetHierarchy].location,
                     (NSUInteger)NSNotFound);
+}
+
+- (void)testTraversalDoesNotVisitSameElementTwice {
+  UIView *child = [[UIView alloc] init];
+  GREYUTAccessibilityViewContainerView *view =
+      [[GREYUTAccessibilityViewContainerView alloc] initWithElements:@[child]];
+  // The same view @c child has been added as a subview and as an accessibility element.
+  [view addSubview:child];
+
+  NSArray *stringTargetHierarchy = @[ @"<GREYUTAccessibilityViewContainerView:",
+                                      @"  |--<UIView:"];
+  NSString *hierarchyForView = [view grey_recursiveDescription];
+  NSUInteger count = ((NSArray *)[hierarchyForView componentsSeparatedByString:@"\n"]).count;
+
+  // Make sure that two views were printed, instead of 3 views.
+  XCTAssertEqual(count, stringTargetHierarchy.count);
 }
 
 # pragma mark - Private

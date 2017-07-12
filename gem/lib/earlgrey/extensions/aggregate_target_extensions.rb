@@ -1,5 +1,5 @@
 #
-#  Copyright 2016 Google Inc.
+#  Copyright 2017 Google Inc.
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -13,14 +13,24 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-require 'rubygems'
-require 'bundler/setup'
-require 'eyes_selenium'
+require_relative '../configure_earlgrey'
 
-def join *args
-  File.expand_path(File.join(*args))
+module EarlGrey
+  module AggregateTargetExtensions
+    # rubocop:disable Style/PredicateName
+    def is_earlgrey?
+      @is_earlgrey ||= specs.any? { |spec| 'EarlGrey'.eql? spec.name }
+    end
+    # rubocop:enable Style/PredicateName
+
+    def schemes_for_native_targets
+      EarlGrey.schemes_for_native_targets user_project, user_targets
+    end
+  end
 end
 
-def assert_exists(path, message)
-  abort message unless File.exist?(path)
+module Pod
+  class AggregateTarget
+    include EarlGrey::AggregateTargetExtensions
+  end
 end

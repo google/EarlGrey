@@ -77,4 +77,20 @@
  */
 - (NSString *)grey_recursiveDescription;
 
+/**
+ *  Swizzle a selector with a particular object after a specified delay time interval in a
+ *  specific run loop mode.
+ *
+ *  @param aSelector  The selector to be swizzled.
+ *  @param anArgument The object to swizzle the selector with.
+ *  @param delay      The NSTimeInterval after which the swizzling is to be done.
+ *  @param modes      The run loop mode to perform the swizzling in.
+ *
+ *  @remark This is available only for internal testing purposes.
+ */
+- (void)greyswizzled_performSelector:(SEL)aSelector
+                          withObject:(id)anArgument
+                          afterDelay:(NSTimeInterval)delay
+                             inModes:(NSArray *)modes;
+
 @end

@@ -18,6 +18,7 @@
 
 #include <objc/runtime.h>
 
+#import "Common/GREYFatalAsserts.h"
 #import "Common/GREYSwizzler.h"
 #import "Common/GREYTestCaseInvocation.h"
 #import "Core/GREYAutomationSetup.h"
@@ -51,19 +52,20 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
     BOOL swizzleSuccess = [swizzler swizzleClass:self
                            replaceInstanceMethod:@selector(invokeTest)
                                       withMethod:@selector(grey_invokeTest)];
-    NSAssert(swizzleSuccess, @"Cannot swizzle XCTestCase invokeTest");
+    GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle XCTestCase::invokeTest");
 
     SEL recordFailSEL = @selector(recordFailureWithDescription:inFile:atLine:expected:);
     SEL grey_recordFailSEL = @selector(grey_recordFailureWithDescription:inFile:atLine:expected:);
     swizzleSuccess = [swizzler swizzleClass:self
                       replaceInstanceMethod:recordFailSEL
                                  withMethod:grey_recordFailSEL];
-    NSAssert(swizzleSuccess, @"Cannot swizzle XCTestCase "
-                             @"recordFailureWithDescription:inFile:atLine:expected:");
-#if TARGET_OS_SIMULATOR
-    // Simulator needs accessibility to be enabled before main is called.
-    [[GREYAutomationSetup sharedInstance] prepare];
-#endif
+    GREYFatalAssertWithMessage(swizzleSuccess,
+                               @"Cannot swizzle "
+                               @"XCTestCase::recordFailureWithDescription:inFile:atLine:expected:");
+    // As soon as XCTest is loaded, we setup the EarlGrey crash handlers so that any issue is
+    // tracked at the earliest. Also, we turn on accessibility for the simulator since it needs to
+    // be enabled before main is called.
+    [[GREYAutomationSetup sharedInstance] prepareOnLoad];
   }
 }
 
@@ -119,13 +121,15 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
   if (localizedTestOutputsDir == nil) {
     NSString *testClassName = [self grey_testClassName];
     NSString *testMethodName = [self grey_testMethodName];
-    NSAssert(testMethodName, @"There's no current test method for the current test case: %@", self);
+    GREYFatalAssertWithMessage(testMethodName,
+                               @"There's no current test method for the current test case: %@",
+                               self);
 
     NSArray *documentPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
                                                                  NSUserDomainMask,
                                                                  YES);
-    NSAssert(documentPaths.count > 0,
-             @"At least one path for the user documents dir should exist.");
+    GREYFatalAssertWithMessage(documentPaths.count > 0,
+                               @"At least one path for the user documents dir should exist.");
     NSString *testOutputsDir =
         [documentPaths.firstObject stringByAppendingPathComponent:@"earlgrey-test-outputs"];
 
@@ -171,13 +175,13 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
 
 - (void)grey_invokeTest {
   @autoreleasepool {
-#if !(TARGET_OS_SIMULATOR)
-    // Enabling accessibility on device must be done after XCTest has been loaded.
     static dispatch_once_t prepareForAutomation;
     dispatch_once(&prepareForAutomation, ^{
-      [[GREYAutomationSetup sharedInstance] prepare];
+      // Accessibility for a device is enabled here since for a device it must be enabled after
+      // XCTest has been loaded. We also turn off autocorrect and predictive text to not interfere
+      // with EarlGrey's typing.
+      [[GREYAutomationSetup sharedInstance] preparePostLoad];
     });
-#endif
     if (![self grey_isSwizzled]) {
       GREYSwizzler *swizzler = [[GREYSwizzler alloc] init];
       Class selfClass = [self class];
@@ -188,7 +192,8 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
                                  addInstanceMethod:@selector(grey_setUp)
                                 withImplementation:setUpIMP
                       andReplaceWithInstanceMethod:@selector(setUp)];
-      NSAssert(swizzleSuccess, @"Cannot swizzle %@ setUp", NSStringFromClass(selfClass));
+      GREYFatalAssertWithMessage(swizzleSuccess,
+                                 @"Cannot swizzle %@ setUp", NSStringFromClass(selfClass));
 
       // Swizzle tearDown.
       IMP tearDownIMP = [self methodForSelector:@selector(grey_tearDown)];
@@ -196,7 +201,8 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
                             addInstanceMethod:@selector(grey_tearDown)
                            withImplementation:tearDownIMP
                  andReplaceWithInstanceMethod:@selector(tearDown)];
-      NSAssert(swizzleSuccess, @"Cannot swizzle %@ tearDown", NSStringFromClass(selfClass));
+      GREYFatalAssertWithMessage(swizzleSuccess,
+                                 @"Cannot swizzle %@ tearDown", NSStringFromClass(selfClass));
       [self grey_markSwizzled];
     }
 
@@ -208,7 +214,6 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
     @try {
       gCurrentExecutingTestCase = self;
       [self grey_setStatus:kGREYXCTestCaseStatusUnknown];
-
       INVOKE_ORIGINAL_IMP(void, @selector(grey_invokeTest));
 
       // The test may have been marked as failed if a failure was recorded with the
