@@ -362,6 +362,24 @@ EarlGrey.select(elementWithMatcher:matcher)
                   assertWithMatcher:grey_notNil()];
 ```
 
+**How do I dismiss system alerts, like being asked to allow push notifications?**
+Include a launch argument for testing, that doesn't register your app for notifications.
+
+Something like:
+
+```if [[[NSProcessInfo processInfo] arguments] containsObject:argument] {
+     return;
+    }
+```
+
+before you call
+
+```[[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+   [[UIApplication sharedApplication] registerForRemoteNotifications];
+```
+
+This way, the "Do you want to allow push notifications..." alert won't show.
+
 #### **How do I wait for an element to appear?**
 
 The best way is to [setup synchronization](features.md#synchronization) so that EarlGrey automatically waits
