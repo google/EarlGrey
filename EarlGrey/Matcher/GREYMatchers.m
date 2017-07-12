@@ -438,9 +438,16 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
       return NO;
     }
     NSInteger row = [element selectedRowInComponent:column];
-    NSString *rowLabel = [element.delegate pickerView:element
-                                          titleForRow:row
-                                         forComponent:column];
+    NSString *rowLabel;
+    if ([element.delegate respondsToSelector:@selector(pickerView:attributedTitleForRow:forComponent:)]) {
+        rowLabel = [element.delegate pickerView:element
+                          attributedTitleForRow:row
+                                   forComponent:column].string;
+    } else {
+        rowLabel = [element.delegate pickerView:element
+                                    titleForRow:row
+                                   forComponent:column];
+    }
     if ([rowLabel isEqualToString:value]) {
       return YES;
     } else {
