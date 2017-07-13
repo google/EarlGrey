@@ -93,8 +93,8 @@ that can pinpoint any element in the UI hierarchy.
 All EarlGrey matchers are available in the [GREYMatchers](../EarlGrey/Matcher/GREYMatchers.m)
 factory class. The best way to find a UI element is to use its accessibility properties. We
 strongly recommend using an [accessibility identifier](https://developer.apple.com/library/ios/documentation/uikit/reference/UIAccessibilityIdentification_Protocol/Introduction/Introduction.html)
-as it uniquely identifies an element. Use `grey_accessibilityID()` as your matcher to get a UI
-element's accessibility identifier. You can also use other accessibility properties, such as using
+as it uniquely identifies an element. Use `grey_accessibilityID()` as your matcher to select a UI
+element by its accessibility identifier. You can also use other accessibility properties, such as using
 `grey_accessibilityTrait()` as the matcher for UI elements with specific accessibility traits, or by using
 `grey_accessibilityLabel()` as the matcher for accessibility labels.
 
