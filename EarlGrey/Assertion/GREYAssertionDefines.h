@@ -24,6 +24,7 @@
 #ifndef GREY_ASSERTION_DEFINES_H
 #define GREY_ASSERTION_DEFINES_H
 
+#import <EarlGrey/GREYConfiguration.h>
 #import <EarlGrey/GREYDefines.h>
 #import <EarlGrey/GREYFailureHandler.h>
 #import <EarlGrey/GREYFrameworkException.h>
@@ -52,7 +53,8 @@ GREY_EXPORT id<GREYFailureHandler> grey_getFailureHandler();
 #define GREYAssert(__a1, __description, ...) \
 ({ \
   I_GREYSetCurrentAsFailable(); \
-  I_GREYWaitUntilIdle(); \
+  NSString *timeoutString__ = @"Couldn't assert that (" #__a1 ") is true."; \
+  I_GREYWaitForIdle(timeoutString__); \
   I_GREYAssertTrue((__a1), (__description), ##__VA_ARGS__); \
 })
 
@@ -68,7 +70,8 @@ GREY_EXPORT id<GREYFailureHandler> grey_getFailureHandler();
 #define GREYAssertTrue(__a1, __description, ...) \
 ({ \
   I_GREYSetCurrentAsFailable(); \
-  I_GREYWaitUntilIdle(); \
+  NSString *timeoutString__ = @"Couldn't assert that (" #__a1 ") is true."; \
+  I_GREYWaitForIdle(timeoutString__); \
   I_GREYAssertTrue((__a1), (__description), ##__VA_ARGS__); \
 })
 
@@ -84,7 +87,8 @@ GREY_EXPORT id<GREYFailureHandler> grey_getFailureHandler();
 #define GREYAssertFalse(__a1, __description, ...) \
 ({ \
   I_GREYSetCurrentAsFailable(); \
-  I_GREYWaitUntilIdle(); \
+  NSString *timeoutString__ = @"Couldn't assert that (" #__a1 ") is false."; \
+  I_GREYWaitForIdle(timeoutString__); \
   I_GREYAssertFalse((__a1), (__description), ##__VA_ARGS__); \
 })
 
@@ -99,7 +103,8 @@ GREY_EXPORT id<GREYFailureHandler> grey_getFailureHandler();
 #define GREYAssertNotNil(__a1, __description, ...) \
 ({ \
   I_GREYSetCurrentAsFailable(); \
-  I_GREYWaitUntilIdle(); \
+  NSString *timeoutString__ = @"Couldn't assert that (" #__a1 ") is not nil."; \
+  I_GREYWaitForIdle(timeoutString__); \
   I_GREYAssertNotNil((__a1), (__description), ##__VA_ARGS__); \
 })
 
@@ -114,7 +119,8 @@ GREY_EXPORT id<GREYFailureHandler> grey_getFailureHandler();
 #define GREYAssertNil(__a1, __description, ...) \
 ({ \
   I_GREYSetCurrentAsFailable(); \
-  I_GREYWaitUntilIdle(); \
+  NSString *timeoutString__ = @"Couldn't assert that (" #__a1 ") is nil."; \
+  I_GREYWaitForIdle(timeoutString__); \
   I_GREYAssertNil((__a1), (__description), ##__VA_ARGS__); \
 })
 
@@ -132,7 +138,8 @@ GREY_EXPORT id<GREYFailureHandler> grey_getFailureHandler();
 #define GREYAssertEqual(__a1, __a2, __description, ...) \
 ({ \
   I_GREYSetCurrentAsFailable(); \
-  I_GREYWaitUntilIdle(); \
+  NSString *timeoutString__ = @"Couldn't assert that (" #__a1 ") and (" #__a2 ") are equal."; \
+  I_GREYWaitForIdle(timeoutString__); \
   I_GREYAssertEqual((__a1), (__a2), (__description), ##__VA_ARGS__); \
 })
 
@@ -150,7 +157,9 @@ GREY_EXPORT id<GREYFailureHandler> grey_getFailureHandler();
 #define GREYAssertNotEqual(__a1, __a2, __description, ...) \
 ({ \
   I_GREYSetCurrentAsFailable(); \
-  I_GREYWaitUntilIdle(); \
+  NSString *timeoutString__ = \
+      @"Couldn't assert that (" #__a1 ") and (" #__a2 ") are not equal."; \
+  I_GREYWaitForIdle(timeoutString__); \
   I_GREYAssertNotEqual((__a1), (__a2), (__description), ##__VA_ARGS__); \
 })
 
@@ -168,7 +177,9 @@ GREY_EXPORT id<GREYFailureHandler> grey_getFailureHandler();
 #define GREYAssertEqualObjects(__a1, __a2, __description, ...) \
 ({ \
   I_GREYSetCurrentAsFailable(); \
-  I_GREYWaitUntilIdle(); \
+  NSString *timeoutString__ = \
+      @"Couldn't assert that (" #__a1 ") and (" #__a2 ") are equal objects."; \
+  I_GREYWaitForIdle(timeoutString__); \
   I_GREYAssertEqualObjects((__a1), (__a2), __description, ##__VA_ARGS__); \
 })
 
@@ -186,7 +197,9 @@ GREY_EXPORT id<GREYFailureHandler> grey_getFailureHandler();
 #define GREYAssertNotEqualObjects(__a1, __a2, __description, ...) \
 ({ \
   I_GREYSetCurrentAsFailable(); \
-  I_GREYWaitUntilIdle(); \
+  NSString *timeoutString__ = \
+      @"Couldn't assert that (" #__a1 ") and (" #__a2 ") are not equal objects."; \
+  I_GREYWaitForIdle(timeoutString__); \
   I_GREYAssertNotEqualObjects((__a1), (__a2), (__description), ##__VA_ARGS__); \
 })
 
@@ -252,9 +265,18 @@ GREY_EXPORT id<GREYFailureHandler> grey_getFailureHandler();
 })
 
 // No private macro should call this.
-#define I_GREYWaitUntilIdle() \
+#define I_GREYWaitForIdle(__timeoutDescription) \
 ({ \
-  [[GREYUIThreadExecutor sharedInstance] drainUntilIdle]; \
+  CFTimeInterval interactionTimeout__ = \
+      GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration); \
+  NSError *error__; \
+  BOOL success__ = \
+      [[GREYUIThreadExecutor sharedInstance] executeSyncWithTimeout:interactionTimeout__ \
+                                                              block:nil \
+                                                            error:&error__]; \
+  if (!success__) { \
+    I_GREYTimeout(__timeoutDescription, @"Timed out waiting for app to idle. %@", error__); \
+  } \
 })
 
 #define I_GREYFormattedString(__var, __format, ...) \
