@@ -13,6 +13,7 @@
 		3F49F81C1ED7D17700B02ED7 /* GREYTraversalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F49F81B1ED7D17700B02ED7 /* GREYTraversalTests.m */; };
 		3FA382041EE2135D00B7D09F /* GREYUTCustomAccessibilityView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FA382031EE2135D00B7D09F /* GREYUTCustomAccessibilityView.m */; };
 		3FA3820D1EE2139200B7D09F /* GREYUTAccessibilityViewContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FA3820C1EE2139200B7D09F /* GREYUTAccessibilityViewContainerView.m */; };
+		3FD78DD11F0EDD3500AE8ABF /* GREYAssertionDefinesTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FD78DD01F0EDD3500AE8ABF /* GREYAssertionDefinesTest.m */; };
 		59467F111C9379FC0089498B /* CAAnimation+GREYAdditionsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467EAB1C9379DE0089498B /* CAAnimation+GREYAdditionsTest.m */; };
 		59467F121C9379FC0089498B /* CALayer+GREYAdditionsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467EAC1C9379DE0089498B /* CALayer+GREYAdditionsTest.m */; };
 		59467F131C9379FC0089498B /* CGGeometry+GREYAdditionsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59467EAD1C9379DE0089498B /* CGGeometry+GREYAdditionsTest.m */; };
@@ -179,6 +180,7 @@
 		3FA382031EE2135D00B7D09F /* GREYUTCustomAccessibilityView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYUTCustomAccessibilityView.m; sourceTree = "<group>"; };
 		3FA3820B1EE2139200B7D09F /* GREYUTAccessibilityViewContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYUTAccessibilityViewContainerView.h; sourceTree = "<group>"; };
 		3FA3820C1EE2139200B7D09F /* GREYUTAccessibilityViewContainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYUTAccessibilityViewContainerView.m; sourceTree = "<group>"; };
+		3FD78DD01F0EDD3500AE8ABF /* GREYAssertionDefinesTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYAssertionDefinesTest.m; sourceTree = "<group>"; };
 		59467EA81C9379DE0089498B /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = SOURCE_ROOT; };
 		59467EA91C9379DE0089498B /* UnitTests.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnitTests.pch; sourceTree = SOURCE_ROOT; };
 		59467EAB1C9379DE0089498B /* CAAnimation+GREYAdditionsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CAAnimation+GREYAdditionsTest.m"; sourceTree = "<group>"; };
@@ -303,6 +305,7 @@
 				59467EAD1C9379DE0089498B /* CGGeometry+GREYAdditionsTest.m */,
 				59467EAE1C9379DE0089498B /* GREYActionsTest.m */,
 				59467EAF1C9379DE0089498B /* GREYAppStateTrackerTest.m */,
+				3FD78DD01F0EDD3500AE8ABF /* GREYAssertionDefinesTest.m */,
 				59467EB01C9379DE0089498B /* GREYAssertionsTest.m */,
 				59467EB11C9379DE0089498B /* GREYBaseTest.h */,
 				59467EB21C9379DE0089498B /* GREYBaseTest.m */,
@@ -661,6 +664,7 @@
 				59467F271C9379FC0089498B /* GREYPathGestureUtilsTest.m in Sources */,
 				59467F281C9379FC0089498B /* GREYScreenshotUtilTest.m in Sources */,
 				59467F291C9379FC0089498B /* GREYScrollActionTest.m in Sources */,
+				3FD78DD11F0EDD3500AE8ABF /* GREYAssertionDefinesTest.m in Sources */,
 				59467F2B1C9379FC0089498B /* GREYSwipeActionTest.m in Sources */,
 				59467F2C1C9379FC0089498B /* GREYSwizzlerTest.m in Sources */,
 				59467F2D1C9379FC0089498B /* GREYSyncAPITest.m in Sources */,
