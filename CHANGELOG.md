@@ -2,6 +2,16 @@
 
 Details changes in each release of EarlGrey. EarlGrey follows [semantic versioning](http://semver.org/).
 
+## [1.10.1](https://github.com/google/EarlGrey/tree/1.10.1) (07/14/2017)
+
+```
+Baseline: [2abda72]
++ [2abda72]: Modified GREYElementInteraction.m to drain the thread for a timeout.
+```
+
+### Enhancements
+* Improved GREYAssertion and GREYElementInteraction
+
 ## [1.10.0](https://github.com/google/EarlGrey/tree/1.10.0) (07/05/2017)
 
 ```
