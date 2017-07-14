@@ -17,6 +17,7 @@
 #import <EarlGrey/GREYAction.h>
 #import <EarlGrey/GREYActionBlock.h>
 #import <EarlGrey/GREYActions.h>
+#import <EarlGrey/GREYAppStateTracker.h>
 #import <EarlGrey/GREYAssertion.h>
 #import <EarlGrey/GREYAssertionBlock.h>
 #import <EarlGrey/GREYAssertions.h>
@@ -27,6 +28,7 @@
 #import <OCMock/OCMock.h>
 
 #import "GREYBaseTest.h"
+#import "GREYExposedForTesting.h"
 
 NSMutableArray *appWindows;
 
@@ -734,6 +736,58 @@ NSMutableArray *appWindows;
   XCTAssertTrue(didPerformNotificationPosted);
   [[NSNotificationCenter defaultCenter] removeObserver:willPerformNotificationObserver];
   [[NSNotificationCenter defaultCenter] removeObserver:didPerformNotificationObserver];
+}
+
+- (void)testUIThreadExecutorTimesOutWhilePerformingSearchActionAndSearchActionIsPerformedOnlyOnce {
+  UIView *view1 = [[UIView alloc] init];
+  view1.accessibilityIdentifier = @"view1";
+
+  UIWindow *window = [[UIWindow alloc] init];
+  window.accessibilityIdentifier = @"window1";
+
+  [appWindows addObjectsFromArray:@[ window ]];
+
+  __block NSUInteger count = 0;
+  // Make the app not idle.
+  NSObject *object = [[NSObject alloc] init];
+  id<GREYAction> action =
+      [GREYActionBlock actionWithName:@"SearchAction"
+                        performBlock:^BOOL(id element, NSError *__strong *errorOrNil) {
+                          [window addSubview:view1];
+                          [[GREYAppStateTracker sharedInstance] trackState:kGREYPendingViewsToAppear
+                                                                forElement:object];
+                          ++count;
+                          return YES;
+  }];
+
+  // Setting the timeout time to 0 seconds to check if the search action is at least executed once.
+  [[GREYConfiguration sharedInstance] setValue:@0
+                                  forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
+
+  // Mock the GREYUIThreadExecutor to return @c YES. This is so because the main dipatch queue
+  // may not be idle due to system service and this may cause the search action to fail.
+  // The following mocking makes the search action to execute, and after that the original
+  // implementation will be invoked.
+  id mockUIThreadExecutor =
+      [OCMockObject partialMockForObject:[GREYUIThreadExecutor sharedInstance]];
+  [[[mockUIThreadExecutor expect] andReturnValue:@YES] grey_areAllResourcesIdle];
+  [[[mockUIThreadExecutor expect] andReturnValue:@YES] grey_areAllResourcesIdle];
+
+  NSError *error;
+  [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"view1")]
+      usingSearchAction:action
+      onElementWithMatcher:grey_kindOfClass([UIWindow class])] performAction:grey_tap()
+                                                                       error:&error];
+  // The interaction should time out after the search action is executed.
+  NSUInteger location =
+      [error.description rangeOfString:@"Interaction timed out"].location != NSNotFound;
+  XCTAssertTrue(location, @"Interaction should time out.");
+
+  // Make sure that the search action was performed only once.
+  XCTAssertEqual(count, 1u);
+
+  [mockUIThreadExecutor verify];
+  [mockUIThreadExecutor stopMocking];
 }
 
 #pragma mark - Private
