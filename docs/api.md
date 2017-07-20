@@ -268,7 +268,7 @@ of a block. The following code creates an action using a block that invokes a cu
 ```objc
 - (id<GREYAction>)animateWindowAction {
   return [GREYActionBlock actionWithName:@"Animate Window"
-                              constraints:nil
+                             constraints:nil
                             performBlock:^(id element, NSError *__strong *errorOrNil) {
     // First, make sure the element is attached to a window.
     if ([element window] == nil) {
