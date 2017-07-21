@@ -53,7 +53,7 @@
       NSMutableString *reason = [[NSMutableString alloc] init];
       NSMutableDictionary *glossary = [[NSMutableDictionary alloc] init];
       if (!element) {
-        [reason appendFormat:@"Assertion with matcher [M] failed: no UI element was matched."];
+        [reason appendFormat:@"Assertion with matcher [M] failed: No UI element was matched."];
         glossary[@"M"] = [matcher description];
 
         GREYPopulateErrorNotedOrLog(errorOrNil,
@@ -63,7 +63,7 @@
                                     glossary);
       } else {
         [reason appendFormat:@"Assertion with matcher [M] failed: UI element [E] failed to match "
-                             @"due to the mismatch [S]."];
+                             @"the following matcher(s): [S]"];
         glossary[@"M"] = [matcher description];
         glossary[@"E"] = [element grey_description];
         glossary[@"S"] = [mismatch description];

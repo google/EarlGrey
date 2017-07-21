@@ -570,7 +570,7 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
     return element == nil;
   };
   DescribeToBlock describe = ^void(id<GREYDescription> description) {
-    [description appendText:@"nil"];
+    [description appendText:@"isNil"];
   };
   return [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe];
 }
@@ -580,7 +580,7 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
     return element != nil;
   };
   DescribeToBlock describe = ^void(id<GREYDescription> description) {
-    [description appendText:@"notNil"];
+    [description appendText:@"isNotNil"];
   };
   return [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe];
 }
@@ -622,6 +622,19 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
                                                        NSStringFromGREYContentEdge(edge)]];
   };
   return grey_allOf(grey_kindOfClass([UIScrollView class]),
+                    [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches
+                                                         descriptionBlock:describe],
+                    nil);
+}
+
++ (id<GREYMatcher>)matcherForTextFieldValue:(NSString *)value {
+  MatchesBlock matches = ^BOOL(UITextField *textField) {
+    return [textField.text isEqualToString:value];
+  };
+  DescribeToBlock describe = ^void(id<GREYDescription> description) {
+    [description appendText:[NSString stringWithFormat:@"textFieldValue('%@')", value]];
+  };
+  return grey_allOf(grey_kindOfClass([UITextField class]),
                     [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches
                                                          descriptionBlock:describe],
                     nil);
@@ -826,6 +839,10 @@ id<GREYMatcher> grey_greaterThan(id value) {
 
 id<GREYMatcher> grey_scrolledToContentEdge(GREYContentEdge edge) {
   return [GREYMatchers matcherForScrolledToContentEdge:edge];
+}
+
+id<GREYMatcher> grey_textFieldValue(NSString *value) {
+  return [GREYMatchers matcherForTextFieldValue:value];
 }
 
 #endif // GREY_DISABLE_SHORTHAND

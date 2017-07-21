@@ -644,7 +644,9 @@
           errorDetails[kErrorDetailActionNameKey] = action.name;
           errorDetails[kErrorDetailElementMatcherKey] = _elementMatcher.description;
           errorDetails[kErrorDetailRecoverySuggestionKey] =
-              @"Create a more specific matcher to narrow matched element";
+              @"Create a more specific matcher to uniquely match an element. If that's not "
+              @"possible then use atIndex: to select from one of the matched elements but the "
+              @"order of elements may change.";
 
           NSArray *keyOrder = @[ kErrorDetailActionNameKey,
                                  kErrorDetailElementMatcherKey,
@@ -654,8 +656,8 @@
                                                                hideEmpty:YES
                                                                 keyOrder:keyOrder];
           NSString *reason = [NSString stringWithFormat:@"Multiple UI elements matched "
-                                                        @"for given criteria.\n"
-                                                        @"Exception with Assertion: %@\n",
+                                                        @"for the given criteria.\n"
+                                                        @"Exception with Action: %@\n",
                                                         reasonDetail];
 
           if ([actionError isKindOfClass:[GREYError class]]) {
