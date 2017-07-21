@@ -10,8 +10,7 @@ Baseline: [2abda72]
 ```
 
 ### Enhancements
-* Improved `GREYAssert` macros to not wait until idle as it can cause it to never return.
-* Improved Search action to not wait until idle as it can cause it to never return.
+* Improved GREYAssertion and GREYElementInteraction
 
 ## [1.10.0](https://github.com/google/EarlGrey/tree/1.10.0) (07/05/2017)
 
