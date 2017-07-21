@@ -31,3 +31,4 @@ EarlGrey Release Version                                       | Corresponding E
 [1.9.4](https://github.com/google/EarlGrey/releases/tag/1.9.4) | [1.9.4](https://rubygems.org/gems/earlgrey/versions/1.9.4)   | 1.0.0
 [1.10.0](https://github.com/google/EarlGrey/releases/tag/1.10.0) | [1.10.0](https://rubygems.org/gems/earlgrey/versions/1.10.0)   | 1.0.0
 [1.10.1](https://github.com/google/EarlGrey/releases/tag/1.10.1) | [1.10.1](https://rubygems.org/gems/earlgrey/versions/1.10.1)   | 1.0.0
+[1.11.0](https://github.com/google/EarlGrey/releases/tag/1.11.0) | [1.11.0](https://rubygems.org/gems/earlgrey/versions/1.11.0)   | 1.0.0
