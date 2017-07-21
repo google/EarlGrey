@@ -30,7 +30,11 @@
   [self openTestViewNamed:@"Web Views"];
 }
 
+// Test disabled on Xcode 9 beta. http://www.openradar.me/33383174
 - (void)testSuccessiveTaps {
+  if (iOS11_OR_ABOVE()) {
+    return;
+  }
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"loadGoogle")]
       performAction:grey_tap()];
   [self ftr_waitForWebElementWithName:@"NEWS" elementMatcher:grey_accessibilityLabel(@"NEWS")];
@@ -53,7 +57,11 @@
       performAction:grey_tap()];
 }
 
+// Test disabled on Xcode 9 beta. http://www.openradar.me/33383174
 - (void)testAJAXLoad {
+  if (iOS11_OR_ABOVE()) {
+    return;
+  }
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"loadGoogle")]
       performAction:grey_tap()];
   [self ftr_waitForWebElementWithName:@"ALL" elementMatcher:grey_accessibilityLabel(@"ALL")];
@@ -68,13 +76,18 @@
       performAction:grey_tap() error:&error];
   if (error) {
     // On some form factors, label is set to "Next" instead of "Next page".
-    [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Next")] performAction:grey_tap()];
+    [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Next")]
+        performAction:grey_tap()];
   }
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"IMAGES")]
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
+// Test disabled on Xcode 9 beta. http://www.openradar.me/33383174
 - (void)testTextFieldInteraction {
+  if (iOS11_OR_ABOVE()) {
+    return;
+  }
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"loadGoogle")]
       performAction:grey_tap()];
   id<GREYMatcher> searchButtonMatcher = grey_accessibilityHint(@"Search");
@@ -88,8 +101,8 @@
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"42")]
       assertWithMatcher:grey_sufficientlyVisible()];
 
-  // We need to tap because the second time we do typeAfterClearing, it passes firstResponder check
-  // and never ends up auto-tapping on search field.
+  // We need to tap because the second time we do typeAfterClearing, it passes firstResponder
+  // check and never ends up auto-tapping on search field.
   [[EarlGrey selectElementWithMatcher:searchButtonMatcher]
       performAction:grey_tap()];
 
@@ -102,10 +115,15 @@
                                              grey_accessibilityTrait(UIAccessibilityTraitHeader),
                                              nil);
   [self ftr_waitForWebElementWithName:@"Search Result" elementMatcher:resultMatcher];
-  [[EarlGrey selectElementWithMatcher:resultMatcher] assertWithMatcher:grey_sufficientlyVisible()];
+  [[EarlGrey selectElementWithMatcher:resultMatcher]
+      assertWithMatcher:grey_sufficientlyVisible()];
 }
 
+// Test disabled on Xcode 9 beta. http://www.openradar.me/33383174
 - (void)testJavaScriptExecution {
+  if (iOS11_OR_ABOVE()) {
+    return;
+  }
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"loadGoogle")]
       performAction:grey_tap()];
   id<GREYAction> jsAction =
@@ -122,9 +140,9 @@
         assertWithMatcher:grey_sufficientlyVisible()];
   }
 
+  NSString *executionString = @"window.location.href='http://translate.google.com'";
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"FTRTestWebView")]
-      performAction:grey_javaScriptExecution(@"window.location.href='http://translate.google.com'",
-                                             nil)];
+      performAction:grey_javaScriptExecution(executionString, nil)];
 
   id<GREYAction> executeJavascript =
       grey_javaScriptExecution(@"window.location.href='http://play.google.com'", nil);

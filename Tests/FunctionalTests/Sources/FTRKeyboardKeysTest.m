@@ -477,7 +477,7 @@
       performAction:grey_clearText()]
       performAction:grey_replaceText(@"foo")];
 
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"foo")]
+  [[EarlGrey selectElementWithMatcher:grey_textFieldValue(@"foo")]
       assertWithMatcher:grey_text(@"foo")];
 }
 
