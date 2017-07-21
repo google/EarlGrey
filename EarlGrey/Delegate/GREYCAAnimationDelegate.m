@@ -68,17 +68,17 @@ static void AnimationDidStop(id self,
  *  @return An id<CAAnimationDelegate> that has been appropriately instrumented for EarlGrey's
  *          synchronization.
  */
-static id<CAAnimationDelegate> InstrumentSurrogateDelegate(id self,
-                                                           id<CAAnimationDelegate> delegate,
-                                                           SEL originalSelector,
-                                                           SEL swizzledSelector,
-                                                           IMP originalImplementation,
-                                                           IMP swizzledImplementation);
+static id InstrumentSurrogateDelegate(id self,
+                                      id delegate,
+                                      SEL originalSelector,
+                                      SEL swizzledSelector,
+                                      IMP originalImplementation,
+                                      IMP swizzledImplementation);
 
 @implementation GREYCAAnimationDelegate
 
-+ (id<CAAnimationDelegate>)surrogateDelegateForDelegate:(id<CAAnimationDelegate>)delegate {
-  id<CAAnimationDelegate> outDelegate = nil;
++ (id)surrogateDelegateForDelegate:(id)delegate {
+  id outDelegate = nil;
   if (!delegate) {
     // If the delegate is nil then wrap it in a new surrogate delegate for the CAAnimation
     // delegate provided.
@@ -191,12 +191,12 @@ static id<CAAnimationDelegate> InstrumentSurrogateDelegate(id self,
 
 @end
 
-static id<CAAnimationDelegate> InstrumentSurrogateDelegate(id self,
-                                                           id<CAAnimationDelegate> delegate,
-                                                           SEL originalSelector,
-                                                           SEL swizzledSelector,
-                                                           IMP originalImplementation,
-                                                           IMP swizzledImplementation) {
+static id InstrumentSurrogateDelegate(id self,
+                                      id delegate,
+                                      SEL originalSelector,
+                                      SEL swizzledSelector,
+                                      IMP originalImplementation,
+                                      IMP swizzledImplementation) {
   Class klass = [delegate class];
   if (![delegate respondsToSelector:swizzledSelector]) {
     // If the delegate's class does not implement the swizzled greyswizzled_animationDidStart:

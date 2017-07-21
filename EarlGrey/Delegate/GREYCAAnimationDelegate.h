@@ -28,7 +28,7 @@
  *
  *  @return An NSObject conforming to CAAnimationDelegate.
  */
-+ (id<CAAnimationDelegate>)surrogateDelegateForDelegate:(id<CAAnimationDelegate>)delegate;
++ (id)surrogateDelegateForDelegate:(id)delegate;
 
 /**
  *  @remark init is not an available initializer. Use surrogateDelegateForDelegate.
