@@ -413,6 +413,15 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (id<GREYMatcher>)matcherForScrolledToContentEdge:(GREYContentEdge)edge;
 
+/**
+ *  Matcher that matches a UITextField's content.
+ *
+ *  @param text The text string contained inside the UITextField.
+ *
+ *  @return A matcher that matches the value inside a UITextField.
+ */
++ (id<GREYMatcher>)matcherForTextFieldValue:(NSString *)value;
+
 @end
 
 #if !(GREY_DISABLE_SHORTHAND)
@@ -537,6 +546,9 @@ GREY_EXPORT id<GREYMatcher> grey_greaterThan(id value);
 
 /** Shorthand for GREYMatchers::matcherForScrolledToContentEdge:. */
 GREY_EXPORT id<GREYMatcher> grey_scrolledToContentEdge(GREYContentEdge edge);
+
+/** Shorthand for GREYMatchers::matcherForTextFieldValue:. */
+GREY_EXPORT id<GREYMatcher> grey_textFieldValue(NSString *value);
 
 #endif // GREY_DISABLE_SHORTHAND
 

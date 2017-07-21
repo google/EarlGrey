@@ -81,8 +81,6 @@
       assertWithMatcher:grey_sufficientlyVisible()];
   [[EarlGrey selectElementWithMatcher:grey_text(@"Hide Button")]
       performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"")]
-      assertWithMatcher:grey_sufficientlyVisible()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"multipleActionSheetButton")]
       assertWithMatcher:grey_notVisible()];
 }

@@ -60,7 +60,9 @@ static NSString *const kFTRProxyRegex = @"^http://www.youtube.com";
   // instead.
   NSString *dataStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
   if ([kFTRTestProxyData isEqualToString:dataStr]) {
-    self.responseVerifiedLabel.hidden = NO;
+    dispatch_async(dispatch_get_main_queue(), ^{
+      self.responseVerifiedLabel.hidden = NO;
+    });
   }
 }
 
@@ -75,9 +77,11 @@ static NSString *const kFTRProxyRegex = @"^http://www.youtube.com";
   NSURLSessionTask *task =
       [session dataTaskWithURL:[NSURL URLWithString:@"http://www.youtube.com/"]
              completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-    [self verifyReceivedData:data];
-    _requestCompletedLabel.hidden = NO;
-  }];
+               [self verifyReceivedData:data];
+               dispatch_async(dispatch_get_main_queue(), ^{
+                 _requestCompletedLabel.hidden = NO;
+               });
+             }];
   // Begin the fetch.
   [task resume];
 }
