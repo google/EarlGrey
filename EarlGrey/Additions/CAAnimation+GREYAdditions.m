@@ -27,15 +27,27 @@
 
 @implementation CAAnimation (GREYAdditions)
 
+// TODO(tirodkar): Investigate moving all swizzled methods in +load to +initialize.
 + (void)load {
   @autoreleasepool {
+    // Swizzle the animation's CAAnimation::delegate and CAAnimation::setDelegate methods
+    // with EarlGrey's custom methods for tracking the CAAnimationDelegate:animationDidStart: and
+    // CAAnimationDelegate:animationDidStop:finished: methods on the delegate.
     GREYSwizzler *swizzler = [[GREYSwizzler alloc] init];
-    // Swizzle delegate.
     BOOL swizzleSuccess = [swizzler swizzleClass:self
                            replaceInstanceMethod:@selector(delegate)
                                       withMethod:@selector(greyswizzled_delegate)];
     GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle CAAnimation delegate");
+    swizzleSuccess = [swizzler swizzleClass:self
+                      replaceInstanceMethod:@selector(setDelegate:)
+                                 withMethod:@selector(greyswizzled_setDelegate:)];
+    GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle CAAnimation setDelegate:");
   }
+}
+
+- (void)greyswizzled_setDelegate:(id<CAAnimationDelegate>)delegate {
+  id surrogate = [GREYCAAnimationDelegate surrogateDelegateForDelegate:delegate];
+  INVOKE_ORIGINAL_IMP1(void, @selector(greyswizzled_setDelegate:), surrogate);
 }
 
 - (void)grey_setAnimationState:(GREYCAAnimationState)state {
@@ -90,16 +102,13 @@
                                              object:nil];
 }
 
-#pragma mark - Swizzled Implementation
-
-- (id)greyswizzled_delegate {
-  id delegate = INVOKE_ORIGINAL_IMP(id, @selector(greyswizzled_delegate));
-  if (![delegate isKindOfClass:[GREYCAAnimationDelegate class]]) {
-    delegate = [[GREYCAAnimationDelegate alloc] initWithOriginalCAAnimationDelegate:delegate];
-  }
-  // We don't call setDelegate: here because this might be an immutable internal class such as
-  // CAAnimationImmutable.
-  return delegate;
+/**
+ *  @return The Swizzled EarlGrey animation delegate. When called, a surrogate is returned which
+ *          has delegate methods swizzled for EarlGrey synchronization.
+ */
+- (id<CAAnimationDelegate>)greyswizzled_delegate {
+  id delegate = INVOKE_ORIGINAL_IMP(id<CAAnimationDelegate>, @selector(greyswizzled_delegate));
+  return [GREYCAAnimationDelegate surrogateDelegateForDelegate:delegate];
 }
 
 @end
