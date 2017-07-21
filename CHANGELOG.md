@@ -2,6 +2,22 @@
 
 Details changes in each release of EarlGrey. EarlGrey follows [semantic versioning](http://semver.org/).
 
+## [1.11.0](https://github.com/google/EarlGrey/tree/1.11.0) (07/21/2017)
+
+```
+Baseline: [XXXXXXX]
++ [XXXXXXX]: XXXXXX
+```
+
+### Enhancements
+* Added support for iOS 11 & Xcode 9.0.
+* Added the `grey_textFieldValue()` matcher for updates to UITextFields with iOS11.
+
+### Bug Fixes
+* Fixed Minor issue that was causing infinitely long touch paths for zero sized areas.
+* Grammatical and Language Fixes.
+* Refactored FunctionalTests tests for adding iOS 11 support.
+
 ## [1.10.1](https://github.com/google/EarlGrey/tree/1.10.1) (07/14/2017)
 
 ```
