@@ -21,17 +21,19 @@
 @interface GREYCAAnimationDelegate : GREYSurrogateDelegate
 
 /**
- *  @remark init is not an available initializer. Use the other initializers.
+ *  Wraps the passed in CAAnimationDelegate in a GREYSurrogateDelegate for helping in tracking
+ *  the delegate's animation start and stop events for better synchronization.
+ *
+ *  @param delegate The CAAnimationDelegate animation delegate that is to be swizzled.
+ *
+ *  @return An NSObject conforming to CAAnimationDelegate.
  */
-- (instancetype)init NS_UNAVAILABLE;
++ (id<CAAnimationDelegate>)surrogateDelegateForDelegate:(id<CAAnimationDelegate>)delegate;
 
 /**
- *  Creates an instance of GREYCAAnimationDelegate backed by the provided delegate.
- *
- *  @param originalDelegate The original delegate being proxied.
- *  @return an instance of GREYCAAnimationDelegate backed by the original delegate.
+ *  @remark init is not an available initializer. Use surrogateDelegateForDelegate.
  */
-- (instancetype)initWithOriginalCAAnimationDelegate:(id)originalDelegate;
+- (instancetype)init NS_UNAVAILABLE;
 
 /**
  *  Called when the animation begins its active duration.
