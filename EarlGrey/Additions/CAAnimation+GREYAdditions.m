@@ -27,7 +27,7 @@
 
 @implementation CAAnimation (GREYAdditions)
 
-// TODO(tirodkar): Investigate moving all swizzled methods in +load to +initialize.
+// TODO: Investigate moving all swizzled methods in +load to +initialize.
 + (void)load {
   @autoreleasepool {
     // Swizzle the animation's CAAnimation::delegate and CAAnimation::setDelegate methods
@@ -45,7 +45,7 @@
   }
 }
 
-- (void)greyswizzled_setDelegate:(id<CAAnimationDelegate>)delegate {
+- (void)greyswizzled_setDelegate:(id)delegate {
   id surrogate = [GREYCAAnimationDelegate surrogateDelegateForDelegate:delegate];
   INVOKE_ORIGINAL_IMP1(void, @selector(greyswizzled_setDelegate:), surrogate);
 }
@@ -106,8 +106,8 @@
  *  @return The Swizzled EarlGrey animation delegate. When called, a surrogate is returned which
  *          has delegate methods swizzled for EarlGrey synchronization.
  */
-- (id<CAAnimationDelegate>)greyswizzled_delegate {
-  id delegate = INVOKE_ORIGINAL_IMP(id<CAAnimationDelegate>, @selector(greyswizzled_delegate));
+- (id)greyswizzled_delegate {
+  id delegate = INVOKE_ORIGINAL_IMP(id, @selector(greyswizzled_delegate));
   return [GREYCAAnimationDelegate surrogateDelegateForDelegate:delegate];
 }
 
