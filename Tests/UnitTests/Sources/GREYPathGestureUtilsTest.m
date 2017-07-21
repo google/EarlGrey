@@ -166,11 +166,33 @@
   XCTAssertEqualWithAccuracy(diff3rdLastAnd2ndLastPoint.y, diff2ndLastAndLastPoint.y, 0.001);
 }
 
-- (void)testTouchPathIsNilForHiddenViews {
+- (void)testTouchPathIsNilForZeroSizedViews {
   [self forEachDirectionPerformBlock:^(GREYDirection direction) {
     UIView *view = [[UIView alloc] initWithFrame:CGRectZero];
     view.accessibilityFrame = CGRectZero;
     XCTAssertNil([GREYPathGestureUtils touchPathForGestureInView:view
+                                                   withDirection:direction
+                                                          length:100
+                                              startPointPercents:GREYCGPointNull
+                                              outRemainingAmount:NULL]);
+  }];
+}
+
+- (void)testTouchPathIsNilForOnePixelViews {
+  // One pixel views must also have no touch path as EarlGrey ignores one pixel on all sides to
+  // ensure gesture starts inside the view.
+  CGRect onePixelRect = CGRectMake(0, 0, 1, 1);
+  id mockVisibilityChecker = OCMClassMock([GREYVisibilityChecker class]);
+  OCMStub([mockVisibilityChecker
+           rectEnclosingVisibleAreaOfElement:OCMOCK_ANY]).andReturn(onePixelRect);
+
+  [self forEachDirectionPerformBlock:^(GREYDirection direction) {
+    UIView *view = [[UIView alloc] initWithFrame:onePixelRect];
+    view.accessibilityFrame = onePixelRect;
+    UIWindow *window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    id mockView = OCMPartialMock(view);
+    OCMStub([mockView window]).andReturn(window);
+    XCTAssertNil([GREYPathGestureUtils touchPathForGestureInView:mockView
                                                    withDirection:direction
                                                           length:100
                                               startPointPercents:GREYCGPointNull

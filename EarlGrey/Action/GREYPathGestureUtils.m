@@ -119,6 +119,9 @@ static CGFloat kCachedScreenEdgePanDetectionLength = NAN;
       [GREYPathGestureUtils grey_rectByAddingEdgeInsets:UIEdgeInsetsMake(1, 1, 1, 1)
                                                  toRect:CGRectIntersection(visibleArea,
                                                                            safeScreenBounds)];
+  if (CGRectIsEmpty(safeStartPointRect)) {
+    return nil;
+  }
   GREYDirection reverseDirection = [GREYConstants reverseOfDirection:interfaceTransformedDirection];
   GREYContentEdge edgeInReverseDirection =
       [GREYConstants edgeInDirectionFromCenter:reverseDirection];
@@ -253,7 +256,8 @@ static CGFloat kCachedScreenEdgePanDetectionLength = NAN;
 
 /**
  *  Standardizes the given @c rect and shrinks (or expands if inset is negative) the given @c rect
- *  by the given @c insets and returns it.
+ *  by the given @c insets. Note that if width/height is less than the required insets they are
+ *  set to zero.
  *
  *  @param insets The insets to standardize the given @c rect.
  *  @param rect   The rect to be standardized.
@@ -266,8 +270,16 @@ static CGFloat kCachedScreenEdgePanDetectionLength = NAN;
   rect.origin.y += insets.top;
   // Note that right edge and bottom edge must be adjusted for the change in origin along with
   // applying the given insets.
-  rect.size.width -= insets.right + insets.left;
-  rect.size.height -= insets.bottom + insets.top;
+  if (rect.size.width > insets.right + insets.left) {
+    rect.size.width -= insets.right + insets.left;
+  } else {
+    rect.size.width = 0;
+  }
+  if (rect.size.height > insets.bottom + insets.top) {
+    rect.size.height -= insets.bottom + insets.top;
+  } else {
+    rect.size.height = 0;
+  }
   return rect;
 }
 
