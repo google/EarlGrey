@@ -5,8 +5,8 @@ Details changes in each release of EarlGrey. EarlGrey follows [semantic versioni
 ## [1.11.0](https://github.com/google/EarlGrey/tree/1.11.0) (07/21/2017)
 
 ```
-Baseline: [XXXXXXX]
-+ [XXXXXXX]: XXXXXX
+Baseline: [0d1086d]
++ [0d1086d]: Modify 1.10.2 -> 1.11.0 and update the CHANGELOG
 ```
 
 ### Enhancements
