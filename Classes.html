@@ -608,6 +608,9 @@
                 <a href="Functions.html#/c:@F@grey_text">grey_text</a>
               </li>
               <li class="nav-group-task">
+                <a href="Functions.html#/c:@F@grey_textFieldValue">grey_textFieldValue</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Functions.html#/c:@F@grey_turnSwitchOn">grey_turnSwitchOn</a>
               </li>
               <li class="nav-group-task">
@@ -694,7 +697,7 @@ Use methods of this class to initiate interaction with any UI element on the scr
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">class</span> <span class="kt">GREYActionBlock</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">class</span> <span class="kt">GREYActionBlock</span> <span class="p">:</span> <span class="kt"><a href="Classes/GREYBaseAction.html">GREYBaseAction</a></span></code></pre>
 
                         </div>
                       </div>
@@ -771,7 +774,7 @@ rest of the matchers are not invoked.</p>
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">class</span> <span class="kt">GREYAllOf</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">class</span> <span class="kt">GREYAllOf</span> <span class="p">:</span> <span class="kt"><a href="Classes/GREYBaseMatcher.html">GREYBaseMatcher</a></span></code></pre>
 
                         </div>
                       </div>
@@ -811,7 +814,7 @@ not invoked.</p>
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">class</span> <span class="kt">GREYAnyOf</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">class</span> <span class="kt">GREYAnyOf</span> <span class="p">:</span> <span class="kt"><a href="Classes/GREYBaseMatcher.html">GREYBaseMatcher</a></span></code></pre>
 
                         </div>
                       </div>
@@ -848,7 +851,7 @@ not invoked.</p>
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">class</span> <span class="kt">GREYAssertionBlock</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">class</span> <span class="kt">GREYAssertionBlock</span> <span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt"><a href="Protocols/GREYAssertion.html">GREYAssertion</a></span></code></pre>
 
                         </div>
                       </div>
@@ -922,7 +925,7 @@ parameters and constraint checking.</p>
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">class</span> <span class="kt">GREYBaseAction</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">class</span> <span class="kt">GREYBaseAction</span> <span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt"><a href="Protocols/GREYAction.html">GREYAction</a></span></code></pre>
 
                         </div>
                       </div>
@@ -962,7 +965,7 @@ and GREYBaseMatcher::describeTo: methods.</p>
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">class</span> <span class="kt">GREYBaseMatcher</span> <span class="p">:</span> <span class="kt">NSObject</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">class</span> <span class="kt">GREYBaseMatcher</span> <span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt"><a href="Protocols/GREYMatcher.html">GREYMatcher</a></span><span class="p">,</span> <span class="kt">NSCopying</span></code></pre>
 
                         </div>
                       </div>
@@ -1077,7 +1080,7 @@ and GREYBaseMatcher::describeTo: methods.</p>
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">class</span> <span class="kt">GREYConstants</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">class</span> <span class="kt">GREYConstants</span> <span class="p">:</span> <span class="kt">NSObject</span></code></pre>
 
                         </div>
                       </div>
@@ -1151,7 +1154,7 @@ and GREYBaseMatcher::describeTo: methods.</p>
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">class</span> <span class="kt">GREYDispatchQueueIdlingResource</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">class</span> <span class="kt">GREYDispatchQueueIdlingResource</span> <span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt"><a href="Protocols/GREYIdlingResource.html">GREYIdlingResource</a></span></code></pre>
 
                         </div>
                       </div>
@@ -1264,7 +1267,7 @@ hierarchy of all the windows in the application.</p>
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">class</span> <span class="kt">GREYElementInteraction</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">class</span> <span class="kt">GREYElementInteraction</span> <span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt"><a href="Protocols/GREYInteraction.html">GREYInteraction</a></span></code></pre>
 
                         </div>
                       </div>
@@ -1302,7 +1305,7 @@ method using blocks.</p>
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">class</span> <span class="kt">GREYElementMatcherBlock</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">class</span> <span class="kt">GREYElementMatcherBlock</span> <span class="p">:</span> <span class="kt"><a href="Classes/GREYBaseMatcher.html">GREYBaseMatcher</a></span></code></pre>
 
                         </div>
                       </div>
@@ -1379,7 +1382,7 @@ constraint: two attributes and a relation that must be satisfied between them.</
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">class</span> <span class="kt">GREYLayoutConstraint</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">class</span> <span class="kt">GREYLayoutConstraint</span> <span class="p">:</span> <span class="kt">NSObject</span></code></pre>
 
                         </div>
                       </div>
@@ -1420,7 +1423,7 @@ constraint: two attributes and a relation that must be satisfied between them.</
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">class</span> <span class="kt">GREYManagedObjectContextIdlingResource</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">class</span> <span class="kt">GREYManagedObjectContextIdlingResource</span> <span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt"><a href="Protocols/GREYIdlingResource.html">GREYIdlingResource</a></span></code></pre>
 
                         </div>
                       </div>
@@ -1495,7 +1498,7 @@ with them.</p>
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">class</span> <span class="kt">GREYNSTimerIdlingResource</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">class</span> <span class="kt">GREYNSTimerIdlingResource</span> <span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt"><a href="Protocols/GREYIdlingResource.html">GREYIdlingResource</a></span></code></pre>
 
                         </div>
                       </div>
@@ -1532,7 +1535,7 @@ with them.</p>
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">class</span> <span class="kt">GREYNot</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">class</span> <span class="kt">GREYNot</span> <span class="p">:</span> <span class="kt"><a href="Classes/GREYBaseMatcher.html">GREYBaseMatcher</a></span></code></pre>
 
                         </div>
                       </div>
@@ -1569,7 +1572,7 @@ with them.</p>
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">class</span> <span class="kt">GREYOperationQueueIdlingResource</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">class</span> <span class="kt">GREYOperationQueueIdlingResource</span> <span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt"><a href="Protocols/GREYIdlingResource.html">GREYIdlingResource</a></span></code></pre>
 
                         </div>
                       </div>
@@ -1606,7 +1609,7 @@ with them.</p>
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">class</span> <span class="kt">GREYScreenshotUtil</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">class</span> <span class="kt">GREYScreenshotUtil</span> <span class="p">:</span> <span class="kt">NSObject</span></code></pre>
 
                         </div>
                       </div>
@@ -1643,7 +1646,7 @@ with them.</p>
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">class</span> <span class="kt">GREYTestHelper</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">class</span> <span class="kt">GREYTestHelper</span> <span class="p">:</span> <span class="kt">NSObject</span></code></pre>
 
                         </div>
                       </div>
@@ -1694,7 +1697,7 @@ Before executing a block or operation, it waits for any pending UI events to com
         </section>
         <section id="footer">
           <p>Copyright 2017 Google Inc.</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

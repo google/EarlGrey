@@ -609,6 +609,9 @@
                 <a href="../Functions.html#/c:@F@grey_text">grey_text</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_textFieldValue">grey_textFieldValue</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@grey_turnSwitchOn">grey_turnSwitchOn</a>
               </li>
               <li class="nav-group-task">
@@ -659,6 +662,11 @@ method using blocks.</p>
                         <div class="language">
                           <p class="aside-title">Objective-C</p>
                           <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readwrite</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n"><a href="../Type Definitions.html#/c:GREYElementMatcherBlock.h@T@MatchesBlock">MatchesBlock</a></span> <span class="n">matcherBlock</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">var</span> <span class="nv">matcherBlock</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:GREYElementMatcherBlock.h@T@MatchesBlock">MatchesBlock</a></span><span class="o">!</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
@@ -723,7 +731,7 @@ method using blocks.</p>
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">matcher</span><span class="p">(</span><span class="n">withMatchesBlock</span> <span class="nv">matchBlock</span><span class="p">:</span> <span class="kt">Any</span><span class="o">!</span><span class="p">,</span> <span class="n"><a href="../Classes/GREYElementMatcherBlock.html#/c:objc(cs)GREYElementMatcherBlock(py)descriptionBlock">descriptionBlock</a></span> <span class="nv">describeBlock</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:GREYElementMatcherBlock.h@T@DescribeToBlock">DescribeToBlock</a></span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span><span class="o">!</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">matcher</span><span class="p">(</span><span class="n">matchesBlock</span> <span class="nv">matchBlock</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:GREYElementMatcherBlock.h@T@MatchesBlock">MatchesBlock</a></span><span class="o">!</span><span class="p">,</span> <span class="n"><a href="../Classes/GREYElementMatcherBlock.html#/c:objc(cs)GREYElementMatcherBlock(py)descriptionBlock">descriptionBlock</a></span> <span class="nv">describeBlock</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:GREYElementMatcherBlock.h@T@DescribeToBlock">DescribeToBlock</a></span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">Self</span><span class="o">!</span></code></pre>
 
                         </div>
                       </div>
@@ -790,11 +798,6 @@ method using blocks.</p>
                           <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">init</span><span class="p">;</span></code></pre>
 
                         </div>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="nf">init</span><span class="o">!</span><span class="p">()</span></code></pre>
-
-                        </div>
                       </div>
                     </section>
                   </div>
@@ -825,7 +828,7 @@ method using blocks.</p>
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="nf">init</span><span class="o">!</span><span class="p">(</span><span class="n">matchesBlock</span> <span class="nv">matchBlock</span><span class="p">:</span> <span class="kt">Any</span><span class="o">!</span><span class="p">,</span> <span class="n"><a href="../Classes/GREYElementMatcherBlock.html#/c:objc(cs)GREYElementMatcherBlock(py)descriptionBlock">descriptionBlock</a></span> <span class="nv">describeBlock</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:GREYElementMatcherBlock.h@T@DescribeToBlock">DescribeToBlock</a></span><span class="o">!</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="nf">init</span><span class="o">!</span><span class="p">(</span><span class="n">matchesBlock</span> <span class="nv">matchBlock</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:GREYElementMatcherBlock.h@T@MatchesBlock">MatchesBlock</a></span><span class="o">!</span><span class="p">,</span> <span class="n"><a href="../Classes/GREYElementMatcherBlock.html#/c:objc(cs)GREYElementMatcherBlock(py)descriptionBlock">descriptionBlock</a></span> <span class="nv">describeBlock</span><span class="p">:</span> <span class="kt"><a href="../Type Definitions.html#/c:GREYElementMatcherBlock.h@T@DescribeToBlock">DescribeToBlock</a></span><span class="o">!</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -874,7 +877,7 @@ method using blocks.</p>
         </section>
         <section id="footer">
           <p>Copyright 2017 Google Inc.</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>
