@@ -609,6 +609,9 @@
                 <a href="../Functions.html#/c:@F@grey_text">grey_text</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Functions.html#/c:@F@grey_textFieldValue">grey_textFieldValue</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Functions.html#/c:@F@grey_turnSwitchOn">grey_turnSwitchOn</a>
               </li>
               <li class="nav-group-task">
@@ -667,7 +670,7 @@
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">drawScreen</span><span class="p">(</span><span class="n">inContext</span> <span class="nv">bitmapContextRef</span><span class="p">:</span> <span class="kt">Any</span><span class="o">!</span><span class="p">,</span> <span class="n">afterScreenUpdates</span> <span class="nv">afterUpdates</span><span class="p">:</span> <span class="kt">Any</span><span class="o">!</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">drawScreen</span><span class="p">(</span><span class="k">in</span> <span class="nv">bitmapContextRef</span><span class="p">:</span> <span class="kt">CGContext</span><span class="o">!</span><span class="p">,</span> <span class="n">afterScreenUpdates</span> <span class="nv">afterUpdates</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -730,7 +733,7 @@
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">takeScreenshot</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Any</span><span class="o">!</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">takeScreenshot</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">UIImage</span><span class="o">!</span></code></pre>
 
                         </div>
                       </div>
@@ -767,7 +770,7 @@
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">takeScreenshotForAppStore</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Any</span><span class="o">!</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">takeScreenshotForAppStore</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">UIImage</span><span class="o">!</span></code></pre>
 
                         </div>
                       </div>
@@ -802,7 +805,7 @@
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">snapshotElement</span><span class="p">(</span><span class="n">_</span> <span class="nv">element</span><span class="p">:</span> <span class="kt">Any</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Any</span><span class="o">!</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">snapshotElement</span><span class="p">(</span><span class="n">_</span> <span class="nv">element</span><span class="p">:</span> <span class="kt">Any</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">UIImage</span><span class="o">!</span></code></pre>
 
                         </div>
                       </div>
@@ -842,7 +845,7 @@
                         </div>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">saveImage</span><span class="p">(</span><span class="n">asPNG</span> <span class="nv">image</span><span class="p">:</span> <span class="kt">Any</span><span class="o">!</span><span class="p">,</span> <span class="n">toFile</span> <span class="nv">filename</span><span class="p">:</span> <span class="kt">Any</span><span class="o">!</span><span class="p">,</span> <span class="n">inDirectory</span> <span class="nv">directoryPath</span><span class="p">:</span> <span class="kt">Any</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Any</span><span class="o">!</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">saveImage</span><span class="p">(</span><span class="n">asPNG</span> <span class="nv">image</span><span class="p">:</span> <span class="kt">UIImage</span><span class="o">!</span><span class="p">,</span> <span class="n">toFile</span> <span class="nv">filename</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span><span class="p">,</span> <span class="n">inDirectory</span> <span class="nv">directoryPath</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">String</span><span class="o">!</span></code></pre>
 
                         </div>
                       </div>
@@ -902,7 +905,7 @@
         </section>
         <section id="footer">
           <p>Copyright 2017 Google Inc.</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>
