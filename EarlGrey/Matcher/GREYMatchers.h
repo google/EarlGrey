@@ -416,7 +416,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Matcher that matches a UITextField's content.
  *
- *  @param text The text string contained inside the UITextField.
+ *  @param value The text string contained inside the UITextField.
  *
  *  @return A matcher that matches the value inside a UITextField.
  */
