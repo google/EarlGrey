@@ -378,7 +378,10 @@ module EarlGrey
       src_swift_name = 'EarlGrey.swift'
       src_swift = File.join(src_root, "Swift-#{swift_version}", src_swift_name)
 
-      raise 'Bundled swift missing' unless File.exist? src_swift
+      unless File.exist? src_swift
+        puts_magenta "Fallback to swift version 3.0 for #{swift_version}."
+        src_swift = File.join(src_root, "Swift-3.0", src_swift_name)
+      end
       dst_swift = File.join(dst_root, src_swift_name)
 
       FileUtils.copy src_swift, dst_swift
