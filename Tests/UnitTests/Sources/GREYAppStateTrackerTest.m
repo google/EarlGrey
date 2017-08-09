@@ -14,9 +14,10 @@
 // limitations under the License.
 //
 
+#import "GREYBaseTest.h"
+
 #import <EarlGrey/GREYAppStateTracker.h>
 
-#import "GREYBaseTest.h"
 #import "GREYExposedForTesting.h"
 
 @interface GREYAppStateTrackerTest : GREYBaseTest
@@ -33,45 +34,42 @@
 - (void)testLastKnownStateChangedAfterOnStateChange {
   // NS_VALID_UNTIL_END_OF_SCOPE required so obj1 and obj2 are valid until end of the current scope.
   NS_VALID_UNTIL_END_OF_SCOPE NSObject *obj1 = [[NSObject alloc] init];
+
+  XCTAssertEqual([[GREYAppStateTracker sharedInstance] grey_lastKnownStateForObject:obj1],
+                 kGREYIdle,
+                 @"By default current state should always be in kGREYIdle");
+
+  GREYAppStateTrackerObject *elementID1 = TRACK_STATE_FOR_OBJECT(kGREYPendingCAAnimation, obj1);
+
+  XCTAssertEqual([[GREYAppStateTracker sharedInstance] grey_lastKnownStateForObject:obj1],
+                 kGREYPendingCAAnimation,
+                 @"State should be kGREYPendingCAAnimation");
+
   NS_VALID_UNTIL_END_OF_SCOPE NSObject *obj2 = [[NSObject alloc] init];
+  GREYAppStateTrackerObject *elementID2 = TRACK_STATE_FOR_OBJECT(kGREYPendingDrawLayoutPass, obj2);
 
-  XCTAssertEqual([[GREYAppStateTracker sharedInstance] grey_lastKnownStateForElement:obj1],
-                 kGREYIdle,
-                 @"Default state should be kGREYIdle");
-
-  NSString *elementID1 = TRACK_STATE_FOR_ELEMENT(kGREYPendingCAAnimation, obj1);
-
-  XCTAssertEqual([[GREYAppStateTracker sharedInstance] grey_lastKnownStateForElement:obj1],
+  XCTAssertEqual([[GREYAppStateTracker sharedInstance] grey_lastKnownStateForObject:obj1],
                  kGREYPendingCAAnimation,
                  @"State should be kGREYPendingCAAnimation");
-  XCTAssertEqual([[GREYAppStateTracker sharedInstance] grey_lastKnownStateForElement:obj2],
-                 kGREYIdle,
-                 @"Default state should be kGREYIdle");
-
-  NSString *elementID2 = TRACK_STATE_FOR_ELEMENT(kGREYPendingDrawLayoutPass, obj2);
-
-  XCTAssertEqual([[GREYAppStateTracker sharedInstance] grey_lastKnownStateForElement:obj1],
-                 kGREYPendingCAAnimation,
-                 @"State should be kGREYPendingCAAnimation");
-  XCTAssertEqual([[GREYAppStateTracker sharedInstance] grey_lastKnownStateForElement:obj2],
+  XCTAssertEqual([[GREYAppStateTracker sharedInstance] grey_lastKnownStateForObject:obj2],
                  kGREYPendingDrawLayoutPass,
                  @"State should be kGREYPendingDrawCycle");
 
-  UNTRACK_STATE_FOR_ELEMENT_WITH_ID(kGREYPendingCAAnimation, elementID1);
+  UNTRACK_STATE_FOR_OBJECT(kGREYPendingCAAnimation, elementID1);
 
-  XCTAssertEqual([[GREYAppStateTracker sharedInstance] grey_lastKnownStateForElement:obj1],
+  XCTAssertEqual([[GREYAppStateTracker sharedInstance] grey_lastKnownStateForObject:obj1],
                  kGREYIdle,
                  @"State should be kGREYIdle");
-  XCTAssertEqual([[GREYAppStateTracker sharedInstance] grey_lastKnownStateForElement:obj2],
+  XCTAssertEqual([[GREYAppStateTracker sharedInstance] grey_lastKnownStateForObject:obj2],
                  kGREYPendingDrawLayoutPass,
                  @"State should be kGREYPendingDrawCycle");
 
-  UNTRACK_STATE_FOR_ELEMENT_WITH_ID(kGREYPendingDrawLayoutPass, elementID2);
+  UNTRACK_STATE_FOR_OBJECT(kGREYPendingDrawLayoutPass, elementID2);
 
-  XCTAssertEqual([[GREYAppStateTracker sharedInstance] grey_lastKnownStateForElement:obj1],
+  XCTAssertEqual([[GREYAppStateTracker sharedInstance] grey_lastKnownStateForObject:obj1],
                  kGREYIdle,
                  @"State should be kGREYIdle");
-  XCTAssertEqual([[GREYAppStateTracker sharedInstance] grey_lastKnownStateForElement:obj2],
+  XCTAssertEqual([[GREYAppStateTracker sharedInstance] grey_lastKnownStateForObject:obj2],
                  kGREYIdle,
                  @"State should be kGREYIdle");
 
@@ -84,23 +82,23 @@
   XCTAssertEqual([[GREYAppStateTracker sharedInstance] currentState], kGREYIdle,
                  @"By default current state should always be in kGREYIdle");
 
-  NSString *elementID1 = TRACK_STATE_FOR_ELEMENT(kGREYPendingCAAnimation, obj1);
+  GREYAppStateTrackerObject *elementID1 = TRACK_STATE_FOR_OBJECT(kGREYPendingCAAnimation, obj1);
 
   XCTAssertEqual([[GREYAppStateTracker sharedInstance] currentState], kGREYPendingCAAnimation,
                  @"State should be kGREYPendingCAAnimation");
 
-  NSString *elementID2 = TRACK_STATE_FOR_ELEMENT(kGREYPendingDrawLayoutPass, obj2);
+  GREYAppStateTrackerObject *elementID2 = TRACK_STATE_FOR_OBJECT(kGREYPendingDrawLayoutPass, obj2);
 
   XCTAssertEqual([[GREYAppStateTracker sharedInstance] currentState],
                  kGREYPendingCAAnimation | kGREYPendingDrawLayoutPass,
                  @"State should be kGREYPendingCAAnimation and kGREYPendingDrawCycle");
 
-  UNTRACK_STATE_FOR_ELEMENT_WITH_ID(kGREYPendingCAAnimation, elementID1);
+  UNTRACK_STATE_FOR_OBJECT(kGREYPendingCAAnimation, elementID1);
 
   XCTAssertEqual([[GREYAppStateTracker sharedInstance] currentState], kGREYPendingDrawLayoutPass,
                  @"State should be kGREYPendingDrawCycle");
 
-  UNTRACK_STATE_FOR_ELEMENT_WITH_ID(kGREYPendingDrawLayoutPass, elementID2);
+  UNTRACK_STATE_FOR_OBJECT(kGREYPendingDrawLayoutPass, elementID2);
 
   XCTAssertEqual([[GREYAppStateTracker sharedInstance] currentState], kGREYIdle,
                  @"State should be kGREYIdle");
@@ -113,13 +111,14 @@
   XCTAssertTrue([desc rangeOfString:@"Idle"].location != NSNotFound,
                  @"No state transition, should report Idle state in description");
 
-  TRACK_STATE_FOR_ELEMENT(kGREYPendingCAAnimation, obj1);
+  TRACK_STATE_FOR_OBJECT(kGREYPendingCAAnimation, obj1);
 
   desc = [[GREYAppStateTracker sharedInstance] description];
   XCTAssertTrue([desc rangeOfString:@"Waiting for CAAnimations to finish"].location != NSNotFound,
                 @"Should report that it is waiting on CAAnimation to finish");
 
-  NSString *obj1ClassAndMemory = [NSString stringWithFormat:@"<%@:%p>", [obj1 class], obj1];
+  NSString *obj1ClassAndMemory =
+      [NSString stringWithFormat:@"<%@:%p>", [obj1 class], obj1];
   NSString *obj1FullStateDesc = [NSString stringWithFormat:@"%@ => %@",
                                                            obj1ClassAndMemory,
                                                            @"Waiting for CAAnimations to finish"];
@@ -130,8 +129,8 @@
 - (void)testDeallocatedObjectClearsState {
   @autoreleasepool {
     __autoreleasing NSObject *obj = [[NSObject alloc] init];
-    TRACK_STATE_FOR_ELEMENT(kGREYPendingUIWebViewAsyncRequest, obj);
-    XCTAssertEqual([[GREYAppStateTracker sharedInstance] grey_lastKnownStateForElement:obj],
+    TRACK_STATE_FOR_OBJECT(kGREYPendingUIWebViewAsyncRequest, obj);
+    XCTAssertEqual([[GREYAppStateTracker sharedInstance] grey_lastKnownStateForObject:obj],
                    kGREYPendingUIWebViewAsyncRequest);
   }
   // obj should dealloc and clear all associations, causing state tracker to untrack all states
@@ -159,7 +158,7 @@
   [[GREYAppStateTracker sharedInstance] ignoreChangesToState:testIgnoreState];
   {
     NS_VALID_UNTIL_END_OF_SCOPE NSObject *obj = [[NSObject alloc] init];
-    XCTAssertNotNil([self grey_trackStateForTesting:testIgnoreState onObject:obj]);
+    XCTAssertNil([self grey_trackStateForTesting:testIgnoreState onObject:obj]);
     XCTAssertNotEqual([[GREYAppStateTracker sharedInstance] currentState], testIgnoreState);
     XCTAssertFalse([[GREYAppStateTracker sharedInstance] currentState] & testIgnoreState);
   }
@@ -169,7 +168,8 @@
   GREYAppState testIgnoreState = kGREYPendingViewsToAppear;
   {
     NS_VALID_UNTIL_END_OF_SCOPE NSObject *obj = [[NSObject alloc] init];
-    NSString *objId = [self grey_trackStateForTesting:testIgnoreState onObject:obj];
+    GREYAppStateTrackerObject *objId =
+        [self grey_trackStateForTesting:testIgnoreState onObject:obj];
     XCTAssertEqual([[GREYAppStateTracker sharedInstance] currentState], testIgnoreState);
     objId = [self grey_ignoreAndTrackStateForTesting:testIgnoreState onObject:obj];
     XCTAssertEqual([[GREYAppStateTracker sharedInstance] currentState], testIgnoreState);
@@ -185,7 +185,8 @@
   GREYAppState testIgnoreStates = kGREYPendingViewsToAppear | kGREYPendingViewsToDisappear;
   {
     NS_VALID_UNTIL_END_OF_SCOPE NSObject *obj = [[NSObject alloc] init];
-    NSString *objId = [self grey_ignoreAndTrackStateForTesting:testIgnoreStates onObject:obj];
+    GREYAppStateTrackerObject *objId =
+        [self grey_ignoreAndTrackStateForTesting:testIgnoreStates onObject:obj];
     XCTAssertEqual([[GREYAppStateTracker sharedInstance] currentState], kGREYIdle);
     objId = [self grey_trackStateForTesting:kGREYPendingViewsToAppear onObject:obj];
     XCTAssertEqual([[GREYAppStateTracker sharedInstance] currentState], kGREYIdle);
@@ -210,7 +211,8 @@
   GREYAppState testIgnoreState = kGREYPendingViewsToAppear;
   {
     NS_VALID_UNTIL_END_OF_SCOPE NSObject *obj = [[NSObject alloc] init];
-    NSString *objId = [self grey_ignoreAndTrackStateForTesting:testIgnoreState onObject:obj];
+    GREYAppStateTrackerObject *objId =
+        [self grey_ignoreAndTrackStateForTesting:testIgnoreState onObject:obj];
     XCTAssertEqual([[GREYAppStateTracker sharedInstance] currentState], kGREYIdle);
     testIgnoreState = testIgnoreState | kGREYPendingViewsToDisappear;
     [[GREYAppStateTracker sharedInstance] ignoreChangesToState:testIgnoreState];
@@ -243,11 +245,12 @@
   // Track a particular state.
   {
     NS_VALID_UNTIL_END_OF_SCOPE NSObject *obj = [[NSObject alloc] init];
-    NSString *objID = [self grey_trackStateForTesting:testIgnoreState onObject:obj];
+    GREYAppStateTrackerObject *objID =
+        [self grey_trackStateForTesting:testIgnoreState onObject:obj];
     XCTAssertEqual([[GREYAppStateTracker sharedInstance] currentState], testIgnoreState);
     // Ignore the particular state. The untracking should work.
     [[GREYAppStateTracker sharedInstance] ignoreChangesToState:testIgnoreState];
-    UNTRACK_STATE_FOR_ELEMENT_WITH_ID(testIgnoreState, objID);
+    UNTRACK_STATE_FOR_OBJECT(testIgnoreState, objID);
     XCTAssertEqual([[GREYAppStateTracker sharedInstance] currentState], kGREYIdle);
   }
 }
@@ -257,11 +260,12 @@
   // Track a particular state.
   {
     NS_VALID_UNTIL_END_OF_SCOPE NSObject *obj = [[NSObject alloc] init];
-    NSString *objId = [self grey_trackStateForTesting:testIgnoreState onObject:obj];
+    GREYAppStateTrackerObject *objId =
+        [self grey_trackStateForTesting:testIgnoreState onObject:obj];
     XCTAssertEqual([[GREYAppStateTracker sharedInstance] currentState], testIgnoreState);
     // Ignore the particular state. The untracking should work.
     [[GREYAppStateTracker sharedInstance] ignoreChangesToState:testIgnoreState];
-    UNTRACK_STATE_FOR_ELEMENT_WITH_ID(testIgnoreState, objId);
+    UNTRACK_STATE_FOR_OBJECT(testIgnoreState, objId);
     XCTAssertEqual([[GREYAppStateTracker sharedInstance] currentState], kGREYIdle);
 
     // Re-track the particular state. This won't work since we're ignoring the state.
@@ -270,7 +274,7 @@
     // Stop ignoring the particular state. The untracking shouldn't affect anything since
     // nothing was tracked.
     [[GREYAppStateTracker sharedInstance] clearIgnoredStates];
-    UNTRACK_STATE_FOR_ELEMENT_WITH_ID(testIgnoreState, objId);
+    UNTRACK_STATE_FOR_OBJECT(testIgnoreState, objId);
     XCTAssertEqual([[GREYAppStateTracker sharedInstance] currentState], kGREYIdle);
   }
 }
@@ -279,7 +283,8 @@
   GREYAppState testIgnoreState = kGREYPendingViewsToAppear;
   {
     NS_VALID_UNTIL_END_OF_SCOPE NSObject *obj = [[NSObject alloc] init];
-    NSString *objId = [self grey_ignoreAndTrackStateForTesting:testIgnoreState onObject:obj];
+    GREYAppStateTrackerObject *objId =
+        [self grey_ignoreAndTrackStateForTesting:testIgnoreState onObject:obj];
     XCTAssertEqual([[GREYAppStateTracker sharedInstance] currentState], kGREYIdle);
     // Clear the ignored states.
     [[GREYAppStateTracker sharedInstance] clearIgnoredStates];
@@ -291,15 +296,15 @@
 
 #pragma mark - Private
 
-- (NSString *)grey_ignoreAndTrackStateForTesting:(GREYAppState)state onObject:(id)object {
+- (GREYAppStateTrackerObject *)grey_ignoreAndTrackStateForTesting:(GREYAppState)state
+                                                         onObject:(id)object {
   [[GREYAppStateTracker sharedInstance] ignoreChangesToState:state];
   return [self grey_trackStateForTesting:state onObject:object];
 }
 
-- (NSString *)grey_trackStateForTesting:(GREYAppState)state onObject:(id)object {
+- (GREYAppStateTrackerObject *)grey_trackStateForTesting:(GREYAppState)state onObject:(id)object {
   XCTAssert(object != nil, @"The object for tracking cannot be nil.");
-  NSString *objId = TRACK_STATE_FOR_ELEMENT(state, object);
-  XCTAssertNotNil(objId);
+  GREYAppStateTrackerObject *objId = TRACK_STATE_FOR_OBJECT(state, object);
   return objId;
 }
 

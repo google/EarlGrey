@@ -17,7 +17,6 @@
 #import <EarlGrey/GREYAction.h>
 #import <EarlGrey/GREYActionBlock.h>
 #import <EarlGrey/GREYActions.h>
-#import <EarlGrey/GREYAppStateTracker.h>
 #import <EarlGrey/GREYAssertion.h>
 #import <EarlGrey/GREYAssertionBlock.h>
 #import <EarlGrey/GREYAssertions.h>
@@ -755,7 +754,7 @@ NSMutableArray *appWindows;
                         performBlock:^BOOL(id element, NSError *__strong *errorOrNil) {
                           [window addSubview:view1];
                           [[GREYAppStateTracker sharedInstance] trackState:kGREYPendingViewsToAppear
-                                                                forElement:object];
+                                                                 forObject:object];
                           ++count;
                           return YES;
   }];

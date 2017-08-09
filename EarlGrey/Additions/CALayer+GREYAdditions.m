@@ -25,6 +25,7 @@
 #import "Common/GREYLogger.h"
 #import "Common/GREYSwizzler.h"
 #import "Synchronization/GREYAppStateTracker.h"
+#import "Synchronization/GREYAppStateTrackerObject.h"
 
 @implementation CALayer (GREYAdditions)
 
@@ -175,9 +176,9 @@
   }
   // At this point, the app could be in idle state and the next runloop drain may trigger this
   // animation so track this LAYER (not animation) until next runloop drain.
-  NSString *elementID = TRACK_STATE_FOR_ELEMENT(kGREYPendingCAAnimation, self);
+  GREYAppStateTrackerObject *object = TRACK_STATE_FOR_OBJECT(kGREYPendingCAAnimation, self);
   dispatch_async(dispatch_get_main_queue(), ^{
-    UNTRACK_STATE_FOR_ELEMENT_WITH_ID(kGREYPendingCAAnimation, elementID);
+    UNTRACK_STATE_FOR_OBJECT(kGREYPendingCAAnimation, object);
   });
   INVOKE_ORIGINAL_IMP2(void, @selector(greyswizzled_addAnimation:forKey:), animation, outKey);
 }
@@ -192,28 +193,28 @@
 }
 
 - (void)greyswizzled_setNeedsDisplayInRect:(CGRect)invalidRect {
-  NSString *elementID = TRACK_STATE_FOR_ELEMENT(kGREYPendingDrawLayoutPass, self);
+  GREYAppStateTrackerObject *object = TRACK_STATE_FOR_OBJECT(kGREYPendingDrawLayoutPass, self);
   // Next runloop drain will perform the draw pass.
   dispatch_async(dispatch_get_main_queue(), ^{
-    UNTRACK_STATE_FOR_ELEMENT_WITH_ID(kGREYPendingDrawLayoutPass, elementID);
+    UNTRACK_STATE_FOR_OBJECT(kGREYPendingDrawLayoutPass, object);
   });
   INVOKE_ORIGINAL_IMP1(void, @selector(greyswizzled_setNeedsDisplayInRect:), invalidRect);
 }
 
 - (void)greyswizzled_setNeedsDisplay {
-  NSString *elementID = TRACK_STATE_FOR_ELEMENT(kGREYPendingDrawLayoutPass, self);
+  GREYAppStateTrackerObject *object = TRACK_STATE_FOR_OBJECT(kGREYPendingDrawLayoutPass, self);
   // Next runloop drain will perform the draw pass.
   dispatch_async(dispatch_get_main_queue(), ^{
-    UNTRACK_STATE_FOR_ELEMENT_WITH_ID(kGREYPendingDrawLayoutPass, elementID);
+    UNTRACK_STATE_FOR_OBJECT(kGREYPendingDrawLayoutPass, object);
   });
   INVOKE_ORIGINAL_IMP(void, @selector(greyswizzled_setNeedsDisplay));
 }
 
 - (void)greyswizzled_setNeedsLayout {
-  NSString *elementID = TRACK_STATE_FOR_ELEMENT(kGREYPendingDrawLayoutPass, self);
+  GREYAppStateTrackerObject *object = TRACK_STATE_FOR_OBJECT(kGREYPendingDrawLayoutPass, self);
   // Next runloop drain will perform the layout pass.
   dispatch_async(dispatch_get_main_queue(), ^ {
-    UNTRACK_STATE_FOR_ELEMENT_WITH_ID(kGREYPendingDrawLayoutPass, elementID);
+    UNTRACK_STATE_FOR_OBJECT(kGREYPendingDrawLayoutPass, object);
   });
   INVOKE_ORIGINAL_IMP(void, @selector(greyswizzled_setNeedsLayout));
 }

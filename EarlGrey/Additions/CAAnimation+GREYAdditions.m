@@ -24,6 +24,7 @@
 #import "Common/GREYSwizzler.h"
 #import "Delegate/GREYCAAnimationDelegate.h"
 #import "Synchronization/GREYAppStateTracker.h"
+#import "Synchronization/GREYAppStateTrackerObject.h"
 
 @implementation CAAnimation (GREYAdditions)
 
@@ -73,10 +74,10 @@
 }
 
 - (void)grey_trackForDurationOfAnimation {
-  NSString *elementID = TRACK_STATE_FOR_ELEMENT(kGREYPendingCAAnimation, self);
+  GREYAppStateTrackerObject *object = TRACK_STATE_FOR_OBJECT(kGREYPendingCAAnimation, self);
   objc_setAssociatedObject(self,
                            @selector(grey_trackForDurationOfAnimation),
-                           elementID,
+                           object,
                            OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 
   CFTimeInterval animRuntimeTime =
@@ -95,8 +96,9 @@
 }
 
 - (void)grey_untrack {
-  NSString *elementID = objc_getAssociatedObject(self, @selector(grey_trackForDurationOfAnimation));
-  UNTRACK_STATE_FOR_ELEMENT_WITH_ID(kGREYPendingCAAnimation, elementID);
+  GREYAppStateTrackerObject *object =
+      objc_getAssociatedObject(self, @selector(grey_trackForDurationOfAnimation));
+  UNTRACK_STATE_FOR_OBJECT(kGREYPendingCAAnimation, object);
   [NSObject cancelPreviousPerformRequestsWithTarget:self
                                            selector:@selector(grey_untrack)
                                              object:nil];

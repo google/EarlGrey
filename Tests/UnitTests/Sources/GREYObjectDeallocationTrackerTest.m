@@ -14,17 +14,22 @@
 // limitations under the License.
 //
 
-#import "Common/GREYWeakObjectContainer.h"
+#import <XCTest/XCTest.h>
+#import <EarlGrey/GREYObjectDeallocationTracker.h>
 
-@implementation GREYWeakObjectContainer
-
-- (instancetype)initWithObject:(id)object {
-  self = [super init];
-  if (self) {
-    _object = object;
-  }
-  return self;
-}
+@interface GREYObjectDeallocationTrackerTest : XCTestCase
 
 @end
 
+@implementation GREYObjectDeallocationTrackerTest
+
+- (void)testTrackedObjectIsReturned {
+  NSObject *trackedObject = [[NSObject alloc] init];
+  GREYObjectDeallocationTracker *objectTracker =
+      [[GREYObjectDeallocationTracker alloc] initWithObject:trackedObject delegate:nil];
+  GREYObjectDeallocationTracker *tracker =
+      [GREYObjectDeallocationTracker deallocationTrackerRegisteredWithObject:trackedObject];
+  XCTAssertEqual(objectTracker, tracker);
+}
+
+@end

@@ -15,6 +15,7 @@
 //
 
 #import <EarlGrey/GREYAppStateTracker.h>
+#import <EarlGrey/GREYAppStateTrackerObject.h>
 #import <EarlGrey/GREYUIWebViewDelegate.h>
 
 #import "FTRBaseIntegrationTest.h"
@@ -28,11 +29,12 @@ static const NSTimeInterval kLocalHTMLPageLoadDelay = 10.0;
  *  Required for testing UIWebView states.
  */
 @interface GREYAppStateTracker (FTRExposedForTesting)
-- (GREYAppState)grey_lastKnownStateForElement:(id)element;
+- (GREYAppState)grey_lastKnownStateForObject:(id)object;
 @end
 
 @interface UIWebView (FTRExposedForTesting)
 - (void)grey_trackAJAXLoading;
+- (GREYAppStateTrackerObject *)trackerObjectForWebView;
 @end
 
 @interface FTRUIWebViewTest : FTRBaseIntegrationTest<UIWebViewDelegate>
@@ -198,12 +200,12 @@ static const NSTimeInterval kLocalHTMLPageLoadDelay = 10.0;
   UIWebView *webView = [[UIWebView alloc] init];
   [webView grey_trackAJAXLoading];
   GREYAppState lastState =
-      [[GREYAppStateTracker sharedInstance] grey_lastKnownStateForElement:webView];
+      [[GREYAppStateTracker sharedInstance] grey_lastKnownStateForObject:webView];
   BOOL isAsyncRequestPending = ((lastState & kGREYPendingUIWebViewAsyncRequest) != 0);
   XCTAssertTrue(isAsyncRequestPending, @"should be pending");
 
   [webView stopLoading];
-  lastState = [[GREYAppStateTracker sharedInstance] grey_lastKnownStateForElement:webView];
+  lastState = [[GREYAppStateTracker sharedInstance] grey_lastKnownStateForObject:webView];
   isAsyncRequestPending = ((lastState & kGREYPendingUIWebViewAsyncRequest) != 0);
   XCTAssertFalse(isAsyncRequestPending, @"should not be pending");
 }
@@ -217,7 +219,7 @@ static const NSTimeInterval kLocalHTMLPageLoadDelay = 10.0;
       shouldStartLoadWithRequest:req
                   navigationType:UIWebViewNavigationTypeOther];
   GREYAppState lastState =
-      [[GREYAppStateTracker sharedInstance] grey_lastKnownStateForElement:webView];
+      [[GREYAppStateTracker sharedInstance] grey_lastKnownStateForObject:webView];
   BOOL isAsyncRequestPending = ((lastState & kGREYPendingUIWebViewAsyncRequest) != 0);
   XCTAssertTrue(isAsyncRequestPending, @"should be pending");
 }
@@ -227,7 +229,7 @@ static const NSTimeInterval kLocalHTMLPageLoadDelay = 10.0;
   [webView grey_trackAJAXLoading];
 
   GREYAppState lastState =
-      [[GREYAppStateTracker sharedInstance] grey_lastKnownStateForElement:webView];
+      [[GREYAppStateTracker sharedInstance] grey_lastKnownStateForObject:webView];
   BOOL isAsyncRequestPending = ((lastState & kGREYPendingUIWebViewAsyncRequest) != 0);
   XCTAssertTrue(isAsyncRequestPending, @"should be pending");
 
@@ -237,7 +239,7 @@ static const NSTimeInterval kLocalHTMLPageLoadDelay = 10.0;
   [[webView delegate] webView:webView
       shouldStartLoadWithRequest:req
                   navigationType:UIWebViewNavigationTypeOther];
-  lastState = [[GREYAppStateTracker sharedInstance] grey_lastKnownStateForElement:webView];
+  lastState = [[GREYAppStateTracker sharedInstance] grey_lastKnownStateForObject:webView];
   isAsyncRequestPending = ((lastState & kGREYPendingUIWebViewAsyncRequest) != 0);
   XCTAssertFalse(isAsyncRequestPending, @"should not be pending");
 }

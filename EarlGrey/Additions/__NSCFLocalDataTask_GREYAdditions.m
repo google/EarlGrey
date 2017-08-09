@@ -22,6 +22,7 @@
 #import "Common/GREYFatalAsserts.h"
 #import "Common/GREYSwizzler.h"
 #import "Synchronization/GREYAppStateTracker.h"
+#import "Synchronization/GREYAppStateTrackerObject.h"
 
 @implementation __NSCFLocalDataTask_GREYAdditions
 
@@ -61,7 +62,7 @@
   NSURLSessionTask *task = (NSURLSessionTask *)self;
   if ([[task currentRequest].URL grey_shouldSynchronize]) {
     // Monitor the "state" value to synchronize with the task completion.
-    NSString *elementID = TRACK_STATE_FOR_ELEMENT(kGREYPendingNetworkRequest, self);
+    GREYAppStateTrackerObject *object = TRACK_STATE_FOR_OBJECT(kGREYPendingNetworkRequest, self);
     // Use OBJC_ASSOCIATION_RETAIN here to make both reads and writes atomic.
     // The method below (setState:) which reads and writes this associated object can be
     // invoked on background threads. This can cause a race condition where the object
@@ -70,7 +71,7 @@
     // prevents this.
     objc_setAssociatedObject(self,
                              @selector(greyswizzled_setState:),
-                             elementID,
+                             object,
                              OBJC_ASSOCIATION_RETAIN);
   }
   INVOKE_ORIGINAL_IMP(void, @selector(greyswizzled_resume));
@@ -82,12 +83,13 @@
  *  @param newState The new state value to be set.
  */
 - (void)greyswizzled_setState:(NSURLSessionTaskState)newState {
-  NSString *elementID = objc_getAssociatedObject(self, @selector(greyswizzled_setState:));
-  if (elementID) {
+  GREYAppStateTrackerObject *object =
+      objc_getAssociatedObject(self, @selector(greyswizzled_setState:));
+  if (object) {
     BOOL terminalState = (newState == NSURLSessionTaskStateCompleted) ||
         (newState == NSURLSessionTaskStateSuspended);
     if (terminalState) {
-      UNTRACK_STATE_FOR_ELEMENT_WITH_ID(kGREYPendingNetworkRequest, elementID);
+      UNTRACK_STATE_FOR_OBJECT(kGREYPendingNetworkRequest, object);
       objc_setAssociatedObject(self,
                                @selector(greyswizzled_setState:),
                                nil,

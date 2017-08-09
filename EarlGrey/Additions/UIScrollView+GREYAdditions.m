@@ -23,6 +23,7 @@
 #import "Common/GREYFatalAsserts.h"
 #import "Common/GREYSwizzler.h"
 #import "Synchronization/GREYAppStateTracker.h"
+#import "Synchronization/GREYAppStateTrackerObject.h"
 
 @implementation UIScrollView (GREYAdditions)
 
@@ -74,19 +75,20 @@
 #pragma mark - Swizzled Implementation
 
 - (void)greyswizzled_scrollViewWillBeginDragging {
-  NSString *elementID = TRACK_STATE_FOR_ELEMENT(kGREYPendingUIScrollViewScrolling, self);
+  GREYAppStateTrackerObject *object =
+      TRACK_STATE_FOR_OBJECT(kGREYPendingUIScrollViewScrolling, self);
   objc_setAssociatedObject(self,
                            @selector(greyswizzled_scrollViewWillBeginDragging),
-                           elementID,
+                           object,
                            OBJC_ASSOCIATION_RETAIN_NONATOMIC);
   INVOKE_ORIGINAL_IMP(void, @selector(greyswizzled_scrollViewWillBeginDragging));
 }
 
 - (void)greyswizzled_scrollViewDidEndDraggingWithDeceleration:(BOOL)deceleration {
   if (!deceleration) {
-    NSString *elementID =
+    GREYAppStateTrackerObject *object =
         objc_getAssociatedObject(self, @selector(greyswizzled_scrollViewWillBeginDragging));
-    UNTRACK_STATE_FOR_ELEMENT_WITH_ID(kGREYPendingUIScrollViewScrolling, elementID);
+    UNTRACK_STATE_FOR_OBJECT(kGREYPendingUIScrollViewScrolling, object);
     objc_setAssociatedObject(self,
                              @selector(greyswizzled_scrollViewWillBeginDragging),
                              nil,
@@ -98,9 +100,9 @@
 }
 
 - (void)greyswizzled_stopScrollDecelerationNotify:(BOOL)notify {
-  NSString *elementID =
+  GREYAppStateTrackerObject *object =
       objc_getAssociatedObject(self, @selector(greyswizzled_scrollViewWillBeginDragging));
-  UNTRACK_STATE_FOR_ELEMENT_WITH_ID(kGREYPendingUIScrollViewScrolling, elementID);
+  UNTRACK_STATE_FOR_OBJECT(kGREYPendingUIScrollViewScrolling, object);
   objc_setAssociatedObject(self,
                            @selector(greyswizzled_scrollViewWillBeginDragging),
                            nil,
