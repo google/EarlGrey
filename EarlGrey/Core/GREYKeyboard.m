@@ -29,6 +29,7 @@
 #import "Common/GREYLogger.h"
 #import "Core/GREYInteraction.h"
 #import "Synchronization/GREYAppStateTracker.h"
+#import "Synchronization/GREYAppStateTrackerObject.h"
 #import "Synchronization/GREYCondition.h"
 #import "Synchronization/GREYUIThreadExecutor.h"
 
@@ -94,19 +95,20 @@ static NSString *const kReturnKeyIdentifier = @"\n";
                                            object:nil
                                             queue:nil
                                        usingBlock:^(NSNotification *note) {
-      NSString *elementID = TRACK_STATE_FOR_ELEMENT(kGREYPendingKeyboardTransition, keyboardObject);
+      GREYAppStateTrackerObject *object =
+          TRACK_STATE_FOR_OBJECT(kGREYPendingKeyboardTransition, keyboardObject);
       objc_setAssociatedObject(keyboardObject,
                                @selector(grey_keyboardObject),
-                               elementID,
+                               object,
                                OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }];
     [defaultNotificationCenter addObserverForName:UIKeyboardDidShowNotification
                                            object:nil
                                             queue:nil
                                        usingBlock:^(NSNotification *note) {
-      NSString *elementID = objc_getAssociatedObject(keyboardObject,
-                                                     @selector(grey_keyboardObject));
-      UNTRACK_STATE_FOR_ELEMENT_WITH_ID(kGREYPendingKeyboardTransition, elementID);
+      GREYAppStateTrackerObject *object =
+          objc_getAssociatedObject(keyboardObject, @selector(grey_keyboardObject));
+      UNTRACK_STATE_FOR_OBJECT(kGREYPendingKeyboardTransition, object);
       atomic_store(&gIsKeyboardShown, true);
     }];
     [defaultNotificationCenter addObserverForName:UIKeyboardWillHideNotification
@@ -114,19 +116,20 @@ static NSString *const kReturnKeyIdentifier = @"\n";
                                             queue:nil
                                        usingBlock:^(NSNotification *note) {
       atomic_store(&gIsKeyboardShown, false);
-      NSString *elementID = TRACK_STATE_FOR_ELEMENT(kGREYPendingKeyboardTransition, keyboardObject);
+      GREYAppStateTrackerObject *object =
+          TRACK_STATE_FOR_OBJECT(kGREYPendingKeyboardTransition, keyboardObject);
       objc_setAssociatedObject(keyboardObject,
                                @selector(grey_keyboardObject),
-                               elementID,
+                               object,
                                OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }];
     [defaultNotificationCenter addObserverForName:UIKeyboardDidHideNotification
                                            object:nil
                                             queue:nil
                                        usingBlock:^(NSNotification *note) {
-      NSString *elementID = objc_getAssociatedObject(keyboardObject,
-                                                     @selector(grey_keyboardObject));
-      UNTRACK_STATE_FOR_ELEMENT_WITH_ID(kGREYPendingKeyboardTransition, elementID);
+      GREYAppStateTrackerObject *object =
+          objc_getAssociatedObject(keyboardObject, @selector(grey_keyboardObject));
+      UNTRACK_STATE_FOR_OBJECT(kGREYPendingKeyboardTransition, object);
     }];
   }
 }

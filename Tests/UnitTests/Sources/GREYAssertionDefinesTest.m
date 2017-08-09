@@ -48,7 +48,7 @@
 
   // Make the app not idle.
   NSObject *object = [[NSObject alloc] init];
-  [[GREYAppStateTracker sharedInstance] trackState:kGREYPendingViewsToAppear forElement:object];
+  [[GREYAppStateTracker sharedInstance] trackState:kGREYPendingViewsToAppear forObject:object];
 
   // Change timeout
   [[GREYConfiguration sharedInstance] setValue:@1

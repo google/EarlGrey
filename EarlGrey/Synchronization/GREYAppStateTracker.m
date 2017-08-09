@@ -25,35 +25,52 @@
 #import "Common/GREYFatalAsserts.h"
 #import "Common/GREYLogger.h"
 #import "Common/GREYThrowDefines.h"
+#import "Synchronization/GREYAppStateTrackerObject.h"
+#import "Synchronization/GREYObjectDeallocationTracker.h"
 
 /**
- *  Lock protecting element state map.
+ *  Enum to specify the type of operation that is being performed on an object.
+ */
+typedef NS_ENUM(NSUInteger, GREYStateOperation) {
+  kGREYTrackState,
+  kGREYUnTrackState,
+  kGREYClearState
+};
+
+/**
+ *  Lock protecting object state map.
  */
 static pthread_mutex_t gStateLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
 
+/**
+ *  The number of app states that exist. Used as a hint in creating @c _stateDictionary.
+ */
+static const unsigned short kNumGREYAppStates = 12;
+
+@interface GREYAppStateTracker () <GREYObjectDeallocationTrackerDelegate>
+
+@end
+
 @implementation GREYAppStateTracker {
   /**
-   *  Mapping of each UI element ID to the state(s) it is in.
-   *  Access should be guarded by @c gStateLock lock.
+   *  Stores the GREYAppStateTrackerObjects that are being used to track objects.
    */
-  NSMapTable *_elementIDToState;
-  /**
-   *  Mapping of each UI element ID to the callstack of the most recently set busy state.
-   *  Access should be guarded by @c gStateLock lock.
-   */
-  NSMapTable *_elementIDToCallStack;
-  /**
-   *  Set of all tracked element IDs. Used for efficient membership checking and to work around
-   *  NSMapTable's lack of a guarantee to immediately purge weak keys.
-   *  Access should be guarded by @c gStateLock lock.
-   */
-  NSHashTable *_elementIDs;
+  NSMutableSet<GREYAppStateTrackerObject *> *_externalTrackerObjects;
   /**
    *  The app state for which any state changes are not tracked. This can be a bitwise-OR of
    *  multiple app states.
    *  Access should be guarded by @c gStateLock lock.
    */
   GREYAppState _ignoredAppState;
+  /**
+   *  The current state of the app. Access should be guarded by @c gStateLock lock.
+   */
+  GREYAppState _currentState;
+  /**
+   *  A dictionary that maps the state to the number of objects that are currently in that state.
+   *  Access should be guarded by @c gStateLock lock.
+   */
+  NSMutableDictionary<NSNumber *, NSNumber *> *_stateDictionary;
 }
 
 + (instancetype)sharedInstance {
@@ -74,35 +91,33 @@ static pthread_mutex_t gStateLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
 - (instancetype)initOnce {
   self = [super init];
   if (self) {
-    _elementIDToState = [NSMapTable weakToStrongObjectsMapTable];
-    _elementIDToCallStack = [NSMapTable weakToStrongObjectsMapTable];
-    _elementIDs = [NSHashTable weakObjectsHashTable];
+    _currentState = kGREYIdle;
+    _externalTrackerObjects = [[NSMutableSet alloc] init];
     _ignoredAppState = kGREYIdle;
+    _stateDictionary = [[NSMutableDictionary alloc] initWithCapacity:kNumGREYAppStates];
   }
   return self;
 }
 
-- (NSString *)trackState:(GREYAppState)state forElement:(id)element {
-  return [self grey_changeState:state forElement:element orExternalElementID:nil toBusy:YES];
+- (GREYAppStateTrackerObject *)trackState:(GREYAppState)state forObject:(id)object {
+  return [self grey_changeState:state
+                     usingOperation:kGREYTrackState
+                          forObject:object
+orInternalObjectDeallocationTracker:nil
+    orExternalAppStateTrackerObject:nil];
 }
 
-- (void)untrackState:(GREYAppState)state forElementWithID:(NSString *)elementID {
-  [self grey_changeState:state forElement:nil orExternalElementID:elementID toBusy:NO];
+- (void)untrackState:(GREYAppState)state forObject:(GREYAppStateTrackerObject *)object {
+  [self grey_changeState:state
+                     usingOperation:kGREYUnTrackState
+                          forObject:nil
+orInternalObjectDeallocationTracker:nil
+    orExternalAppStateTrackerObject:object];
 }
 
 - (GREYAppState)currentState {
   return [[self grey_performBlockInCriticalSection:^id {
-    // Recalc current UI state.
-    GREYAppState curState = kGREYIdle;
-    // Make sure that we immediately release any autoreleased internal keys.
-    @autoreleasepool {
-      // Iterate over the _elementID hashtable's objects because the hashtable guarantees to
-      // purge weak objects, and each object in _elementIDs is a valid key in _elementIDToState.
-      for (NSString *internalElementID in _elementIDs) {
-        curState |= [[_elementIDToState objectForKey:internalElementID] unsignedIntegerValue];
-      }
-    }
-    return @(curState);
+    return @(_currentState);
   }] unsignedIntegerValue];
 }
 
@@ -118,13 +133,12 @@ static pthread_mutex_t gStateLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
 
     if (state != kGREYIdle) {
       [description appendString:@"\n\n"];
-      [description appendString:@"Full state transition call stack for all elements:\n"];
-      for (NSString *internalElementID in _elementIDs) {
-        NSNumber *stateNumber = (NSNumber *)[_elementIDToState objectForKey:internalElementID];
+      [description appendString:@"Full state transition call stack for all objects:\n"];
+      for (GREYAppStateTrackerObject *object in _externalTrackerObjects) {
         [description appendFormat:@"<%@> => %@\n",
-            internalElementID,
-            [self grey_stringFromState:[stateNumber unsignedIntegerValue]]];
-        [description appendFormat:@"%@\n", [_elementIDToCallStack objectForKey:internalElementID]];
+                                  object.objectDescription,
+                                  [self grey_stringFromState:object.state]];
+        [description appendFormat:@"%@\n", [object stateAssignmentCallStack]];
       }
     }
     return nil;
@@ -154,15 +168,7 @@ static pthread_mutex_t gStateLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
 #pragma mark - GREYIdlingResource
 
 - (BOOL)isIdleNow {
-  return [[self grey_performBlockInCriticalSection:^id {
-    BOOL idle;
-    // Make sure that we immediately release any autoreleased internal keys.
-    @autoreleasepool {
-      // If we are tracking any elements, then the app is not idle.
-      idle = ([_elementIDs anyObject] == nil);
-    }
-    return @(idle);
-  }] boolValue];
+  return [self currentState] == kGREYIdle;
 }
 
 - (NSString *)idlingResourceName {
@@ -237,8 +243,8 @@ static pthread_mutex_t gStateLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
     [eventStateString addObject:@"Waiting for keyboard transition to finish."];
   }
   if (state & kGREYPendingDrawLayoutPass) {
-    [eventStateString addObject:@"Waiting for UIView's draw/layout pass to complete. A draw/layout "
-                                @"pass normally completes in the next runloop drain."];
+    [eventStateString addObject:@"Waiting for UIView's draw/layout pass to complete. A "
+                                @"draw/layout pass normally completes in the next runloop drain."];
   }
   GREYFatalAssertWithMessage([eventStateString count] > 0,
                              @"Did we forget to describe some states?");
@@ -255,28 +261,45 @@ static pthread_mutex_t gStateLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
   return retVal;
 }
 
-- (NSString *)grey_elementIDForElement:(id)element {
-  return [NSString stringWithFormat:@"%@:%p", NSStringFromClass([element class]), element];
+- (NSString *)grey_descriptionForObject:(id)object {
+  return [NSString stringWithFormat:@"%@:%p", NSStringFromClass([object class]), object];
 }
 
-- (NSString *)grey_changeState:(GREYAppState)state
-                    forElement:(id)element
-           orExternalElementID:(NSString *)externalElementID
-                        toBusy:(BOOL)busy {
-  // It is possible for both element and externalElementID to be nil in cases where
-  // the tracking logic tries to be overly safe and untrack elements which were never registered
-  // before.
-  if (!element && !externalElementID) {
+- (GREYAppStateTrackerObject *)grey_changeState:(GREYAppState)state
+                                 usingOperation:(GREYStateOperation)operation
+                                      forObject:(id)object
+            orInternalObjectDeallocationTracker:(GREYObjectDeallocationTracker *)internalObject
+                orExternalAppStateTrackerObject:(GREYAppStateTrackerObject *)externalObject {
+  // In some cases, the object, internalObject and externalObject are all nil. This happens when
+  // we untrack objects which were never registered before. In that scenario, we simply return.
+  // For example, setting a root view controller in the App Delegate calls the swizzled
+  // implementation, which tries to untrack the existing root view controller that doesn't exist.
+  if (!object && !externalObject && !internalObject) {
     return nil;
   }
 
-  GREYFatalAssertWithMessage((element && !externalElementID) || (!element && externalElementID),
-                             @"Provide either a valid element or a valid externalElementID, "
-                             @"not both.");
+  // Extract information to find out if it is a track call.
+  BOOL track = (operation == kGREYTrackState);
+  // When a untrack call is made then the @c object should be nil.
+  GREYFatalAssertWithMessage(track || !object, @"Object is not nil when untracking");
+
+  // When a clear state call is made then the @c state should be idle.
+  GREYFatalAssertWithMessage(operation != kGREYClearState || state == kGREYIdle,
+                             @"State is not idle when clearing state.");
+
+  GREYFatalAssertWithMessage((object && !internalObject && !externalObject) ||
+                             (!object && internalObject && !externalObject) ||
+                             (!object && !internalObject && externalObject),
+                             @"Provide either a valid object or a valid internalObject or "
+                             @"a valid externalObject, not more than one.");
   return [self grey_performBlockInCriticalSection:^id {
     // Modify State to remove ignored states from those being changed.
-    GREYAppState modifiedState = busy ? state & (~_ignoredAppState) : state;
-    NSString *elementIDToReturn;
+    GREYAppState modifiedState = track ? state & (~_ignoredAppState) : state;
+    // We return early when we try to track an object for state kGREYIdle.
+    if (track && modifiedState == kGREYIdle) {
+      return nil;
+    }
+    GREYAppStateTrackerObject *appStateTrackerObjectExternal = externalObject;
 
     // This autorelease pool makes sure we release any autoreleased objects added to the tracker
     // map. If we rely on external autorelease pools to be drained, we might delay removal of
@@ -285,93 +308,199 @@ static pthread_mutex_t gStateLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
     // drainUntilIdle never returns because it is expecting the first drainUntilIdle's autorelease
     // pool to release the object so state tracker can return to idle state)
     @autoreleasepool {
-      // We do not use the element we want to track as a key to its state. Instead, we key our map
-      // with its element ID, a string representations of the element. We strongly associate the
-      // element ID with the element and only hold weak references ourself. Since the element ID is
-      // only strongly referenced by the element we are tracking, it will be deallocated when the
-      // element we are tracking is deallocated. We leverage this and NSHashTable’s and
-      // NSMapTable’s behavior to purge deallocated keys so that we do not track deallocated
-      // elements.
-      //
-      // We use element IDs as weak keys instead of the elements themselves for two reasons:
-      // 1) Some objects, ie objects that are being deallocated, cannot be weakly referenced.
-      //    Elements may try to track and untrack themselves during dealloc.
-      // 2) We can untrack objects with an element ID instead of a reference to the object. This is
-      //    useful for objects that dispatch asynchronous untrack calls during their dealloc. These
-      //    objects cannot safely weakify/strongify themselves during their own dealloc.
-      //
-      // To ensure that our weakly held element ID keys are only ever strongly referenced by the
-      // elements we are tracking, the element ID that we return for untracking is a copy of our
-      // internal element ID. The external element ID has the same value and can be used by us to
-      // retrieve our internal key, but since the external key is different object, additional
-      // references to it are harmless.
+      // Right now, the object ownership is as follows:
+      // Object -> GREYObjectDeallocationTracker -> GREYAppStateTrackerObject
+      // ('->' indicates strong ownership); and a weak reference from GREYAppStateTrackerObject to
+      // GREYObjectDeallocationTracker.
 
-      NSString *potentialInternalElementID = externalElementID;
-      if (!potentialInternalElementID) {
-        potentialInternalElementID = [self grey_elementIDForElement:element];
-      }
+      // GREYObjectDeallocationTracker's deallocDelegate is GREYAppStateTracker. We use
+      // GREYObjectDeallocationTracker because it signals to the GREYAppStateTracker when
+      // the object gets deallocated. The GREYObjectDeallocationTracker will deallocate because
+      // only the object is holding onto it strongly.
 
-      // Get the internal element ID we store.
-      NSString *internalElementID = [_elementIDs member:potentialInternalElementID];
-
-      if (!internalElementID) {
-        if (element) {
-          // Explicit ownership.
-          internalElementID = [[NSString alloc] initWithString:potentialInternalElementID];
-          // When element deallocates, so will internalElementID causing our weak references to it
-          // to be removed and state for that element to clear up.
-          objc_setAssociatedObject(element,
-                                   @selector(currentState),
-                                   internalElementID,
-                                   // Use atomic retain here to avoid race.
-                                   OBJC_ASSOCIATION_RETAIN);
-        } else {
-          // External element id was specified and we couldn't find an internal element id
-          // associated to the external element id. This could happen if element was deallocated and
-          // we removed weak references to internal element id.
+      GREYObjectDeallocationTracker *appStateTrackerObjectInternal = internalObject;
+      if (appStateTrackerObjectInternal) {
+        appStateTrackerObjectExternal = objc_getAssociatedObject(appStateTrackerObjectInternal,
+                                                                 @selector(currentState));
+        // There is a possibility that the external object untracked itself and deallocated.
+        if (!appStateTrackerObjectExternal) {
           return nil;
         }
+      } else if (!appStateTrackerObjectExternal) {
+        appStateTrackerObjectInternal =
+            [GREYObjectDeallocationTracker deallocationTrackerRegisteredWithObject:object];
+        if (appStateTrackerObjectInternal) {
+          appStateTrackerObjectExternal = objc_getAssociatedObject(appStateTrackerObjectInternal,
+                                                                   @selector(currentState));
+        }
       }
 
-      // Always return a copy of internalElementID.
-      elementIDToReturn = [NSString stringWithFormat:@"%@", internalElementID];
-      NSNumber *originalStateNumber = [_elementIDToState objectForKey:internalElementID];
-      GREYAppState originalState =
-          originalStateNumber ? [originalStateNumber unsignedIntegerValue] : kGREYIdle;
-      GREYAppState newState =
-          busy ? (originalState | modifiedState) : (originalState & ~modifiedState);
+      // There is a possibility that the GREYAppStateTrackerObject isn't part of the map,
+      // and object doesn't exist. This is possible when object being removed has already been
+      // untracked.
+      BOOL externalObjectExistsAlready =
+          [_externalTrackerObjects containsObject:appStateTrackerObjectExternal];
+      if (!externalObjectExistsAlready && !object) {
+        return nil;
+      }
 
+      // We haven't tracked the @c object before so we track it now.
+      if (!appStateTrackerObjectExternal && !appStateTrackerObjectInternal) {
+        // We set the deallocDelegate to self to inform the GREYAppStateTracker of internal object's
+        // deallocation. The internal object can then find the external object using object
+        // association and GREYAppStateTracker will then untrack the external object.
+        appStateTrackerObjectInternal =
+            [[GREYObjectDeallocationTracker alloc] initWithObject:object delegate:self];
+      }
+
+      if (!appStateTrackerObjectExternal) {
+        // Create a weak reference from external to internal object so that we can clear the
+        // strong association from internal to external object when we are untracking the object.
+        appStateTrackerObjectExternal =
+            [[GREYAppStateTrackerObject alloc]
+                initWithDeallocationTracker:appStateTrackerObjectInternal];
+        appStateTrackerObjectExternal.objectDescription = [self grey_descriptionForObject:object];
+      }
+
+      // We need to update the state of the object being tracked or untracked.
+      GREYAppState originalState = appStateTrackerObjectExternal.state;
+      GREYAppState newState;
+      if (operation == kGREYClearState) {
+        newState = kGREYIdle;
+      } else {
+        newState = track ? (originalState | modifiedState) : (originalState & ~modifiedState);
+      }
+
+      // We update the @c _currentState so that we can provide quick information if the app is idle
+      // or not.
+      [self objectChangingFromState:originalState toState:newState];
+      appStateTrackerObjectExternal.state = newState;
+
+      // This condition signifies that the object is going to be idle, hence, we should remove
+      // the object from the map.
       if (newState == kGREYIdle) {
-        [_elementIDs removeObject:internalElementID];
-        [_elementIDToState removeObjectForKey:internalElementID];
-        [_elementIDToCallStack removeObjectForKey:internalElementID];
-        if (element) {
-          objc_setAssociatedObject(element, @selector(currentState), nil, OBJC_ASSOCIATION_ASSIGN);
+        [_externalTrackerObjects removeObject:appStateTrackerObjectExternal];
+        if (!appStateTrackerObjectInternal) {
+          appStateTrackerObjectInternal = appStateTrackerObjectExternal.object;
+        }
+        if (appStateTrackerObjectInternal) {
+          // Since object doesn't exist, we remove the strong reference from internal object
+          // to external object. This will cause the external object to deallocate.
+          objc_setAssociatedObject(appStateTrackerObjectInternal,
+                                   @selector(currentState),
+                                   nil,
+                                   OBJC_ASSOCIATION_ASSIGN);
         }
       } else {
-        // Track the element with internalElementID. When internalElementID's underlying element
-        // deallocates, we expect internalElementID to deallocate as well, causing it to be removed
-        // from _elementIDs, _elementIDToState, and _elementIDToCallStack because it is a weakly
-        // held key.
-        [_elementIDs addObject:internalElementID];
-        [_elementIDToState setObject:@(newState) forKey:internalElementID];
-        // TODO: Consider tracking callStackSymbols for all states, not just the last one.
-        [_elementIDToCallStack setObject:[NSThread callStackSymbols] forKey:internalElementID];
+        [_externalTrackerObjects addObject:appStateTrackerObjectExternal];
+        if (appStateTrackerObjectInternal) {
+          objc_setAssociatedObject(appStateTrackerObjectInternal,
+                                   @selector(currentState),
+                                   appStateTrackerObjectExternal,
+                                   OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        }
       }
     }
-    return elementIDToReturn;
+    return appStateTrackerObjectExternal;
   }];
+}
+
+- (void)objectChangingFromState:(GREYAppState)originalState toState:(GREYAppState)newState {
+  if (originalState != kGREYIdle) {
+    [self grey_adjustGlobalCountByOneForState:originalState increment:YES];
+  }
+  if (newState != kGREYIdle) {
+    [self grey_adjustGlobalCountByOneForState:newState increment:NO];
+  }
+}
+
+- (void)grey_adjustGlobalCountByOneForState:(GREYAppState)state increment:(BOOL)increment {
+  // The @c state could be a combination of multiple states, hence, we need to check against
+  // every state.
+  if (state & kGREYPendingDrawLayoutPass) {
+    [self grey_updateGlobalCountByOneInDictionaryForState:kGREYPendingDrawLayoutPass
+                                                increment:increment];
+  }
+  if (state & kGREYPendingViewsToAppear) {
+    [self grey_updateGlobalCountByOneInDictionaryForState:kGREYPendingViewsToAppear
+                                                increment:increment];
+  }
+  if (state & kGREYPendingViewsToDisappear) {
+    [self grey_updateGlobalCountByOneInDictionaryForState:kGREYPendingViewsToDisappear
+                                                increment:increment];
+  }
+  if (state & kGREYPendingKeyboardTransition) {
+    [self grey_updateGlobalCountByOneInDictionaryForState:kGREYPendingKeyboardTransition
+                                                increment:increment];
+  }
+  if (state & kGREYPendingCAAnimation) {
+    [self grey_updateGlobalCountByOneInDictionaryForState:kGREYPendingCAAnimation
+                                                increment:increment];
+  }
+  if (state & kGREYPendingUIAnimation) {
+    [self grey_updateGlobalCountByOneInDictionaryForState:kGREYPendingUIAnimation
+                                                increment:increment];
+  }
+  if (state & kGREYPendingRootViewControllerToAppear) {
+    [self grey_updateGlobalCountByOneInDictionaryForState:kGREYPendingRootViewControllerToAppear
+                                                increment:increment];
+  }
+  if (state & kGREYPendingUIWebViewAsyncRequest) {
+    [self grey_updateGlobalCountByOneInDictionaryForState:kGREYPendingUIWebViewAsyncRequest
+                                                increment:increment];
+  }
+  if (state & kGREYPendingNetworkRequest) {
+    [self grey_updateGlobalCountByOneInDictionaryForState:kGREYPendingNetworkRequest
+                                                increment:increment];
+  }
+  if (state & kGREYPendingGestureRecognition) {
+    [self grey_updateGlobalCountByOneInDictionaryForState:kGREYPendingGestureRecognition
+                                                increment:increment];
+  }
+  if (state & kGREYPendingUIScrollViewScrolling) {
+    [self grey_updateGlobalCountByOneInDictionaryForState:kGREYPendingUIScrollViewScrolling
+                                                increment:increment];
+  }
+  if (state & kGREYIgnoringSystemWideUserInteraction) {
+    [self grey_updateGlobalCountByOneInDictionaryForState:kGREYIgnoringSystemWideUserInteraction
+                                                increment:increment];
+  }
+}
+
+- (void)grey_updateGlobalCountByOneInDictionaryForState:(GREYAppState)state
+                                              increment:(BOOL)increment {
+  NSNumber *numElements = [_stateDictionary objectForKey:@(state)];
+  NSUInteger count = 1;
+  if (numElements) {
+    count = [numElements unsignedIntegerValue];
+  }
+  if (increment) {
+    count -= 1;
+    [_stateDictionary setObject:[NSNumber numberWithUnsignedInteger:count] forKey:@(state)];
+    if (count == 0) {
+      _currentState = _currentState & ~state;
+    }
+  } else {
+    if (!numElements) {
+      count = 0;
+    }
+    count += 1;
+    [_stateDictionary setObject:[NSNumber numberWithUnsignedInteger:count] forKey:@(state)];
+    if ((count == 1) && (_currentState & state) == 0) {
+      _currentState = _currentState | state;
+    }
+  }
 }
 
 #pragma mark - Methods Only For Testing
 
-- (GREYAppState)grey_lastKnownStateForElement:(id)element {
+- (GREYAppState)grey_lastKnownStateForObject:(id)object {
   return [[self grey_performBlockInCriticalSection:^id {
-    NSString *internalElementID = [self grey_elementIDForElement:element];
-    NSNumber *stateNumber = [_elementIDToState objectForKey:internalElementID];
-    GREYAppState state = stateNumber ? [stateNumber unsignedIntegerValue] : kGREYIdle;
-
-    return @(state);
+    GREYObjectDeallocationTracker *internal =
+        [GREYObjectDeallocationTracker deallocationTrackerRegisteredWithObject:object];
+    GREYAppStateTrackerObject *external =
+        objc_getAssociatedObject(internal, @selector(currentState));
+    return external ? @(external.state) : kGREYIdle;
   }] unsignedIntegerValue];
 }
 
@@ -379,11 +508,30 @@ static pthread_mutex_t gStateLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
 
 - (void)grey_clearState {
   [self grey_performBlockInCriticalSection:^id {
-    [_elementIDs removeAllObjects];
-    [_elementIDToState removeAllObjects];
-    [_elementIDToCallStack removeAllObjects];
+    _currentState = kGREYIdle;
+    [_stateDictionary removeAllObjects];
+    // We get rid of the strong reference from internal to external object so that the external
+    // object can get deallocated.
+    for (GREYAppStateTrackerObject *externalObject in _externalTrackerObjects) {
+      GREYObjectDeallocationTracker *internalObject = externalObject.object;
+      objc_setAssociatedObject(internalObject,
+                               @selector(currentState),
+                               nil,
+                               OBJC_ASSOCIATION_ASSIGN);
+    }
+    [_externalTrackerObjects removeAllObjects];
     return nil;
   }];
+}
+
+#pragma mark - GREYAppStateTrackerObjectDelegate
+
+-(void)objectTrackerDidDeallocate:(GREYObjectDeallocationTracker *)objectDeallocationTracker {
+  [self grey_changeState:kGREYIdle
+                     usingOperation:kGREYClearState
+                          forObject:nil
+orInternalObjectDeallocationTracker:objectDeallocationTracker
+    orExternalAppStateTrackerObject:nil];
 }
 
 @end

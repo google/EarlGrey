@@ -23,6 +23,7 @@
 #import "Common/GREYLogger.h"
 #import "Common/GREYSwizzler.h"
 #import "Synchronization/GREYAppStateTracker.h"
+#import "Synchronization/GREYAppStateTrackerObject.h"
 
 /**
  *  The class for UICompatibilityInputViewController which isn't tracked here since we've faced
@@ -84,14 +85,16 @@ static Class gCompatibilityVCClass;
   // Untrack state for hidden (or nil) windows. When window becomes visible, this method will be
   // called again.
   if (!window || window.hidden) {
-    NSString *elementID = objc_getAssociatedObject(self, @selector(greyswizzled_viewWillAppear:));
+    GREYAppStateTrackerObject *object =
+        objc_getAssociatedObject(self, @selector(greyswizzled_viewWillAppear:));
     GREYAppState state = kGREYPendingViewsToAppear | kGREYPendingRootViewControllerToAppear;
-    UNTRACK_STATE_FOR_ELEMENT_WITH_ID(state, elementID);
+    UNTRACK_STATE_FOR_OBJECT(state, object);
   } else if (![self grey_hasAppeared]) {
-    NSString *elementID = TRACK_STATE_FOR_ELEMENT(kGREYPendingRootViewControllerToAppear, self);
+    GREYAppStateTrackerObject *object =
+        TRACK_STATE_FOR_OBJECT(kGREYPendingRootViewControllerToAppear, self);
     objc_setAssociatedObject(self,
                              @selector(greyswizzled_viewWillAppear:),
-                             elementID,
+                             object,
                              OBJC_ASSOCIATION_RETAIN_NONATOMIC);
   }
 }
@@ -111,11 +114,12 @@ static Class gCompatibilityVCClass;
   // Untrack the UIViewController when it moves to a nil window. We must clear the state regardless
   // of |arg|, because viewDidAppear, viewWillDisappear or viewDidDisappear will not be called.
   if (!window) {
-    NSString *elementID = objc_getAssociatedObject(self, @selector(greyswizzled_viewWillAppear:));
+    GREYAppStateTrackerObject *object =
+        objc_getAssociatedObject(self, @selector(greyswizzled_viewWillAppear:));
     GREYAppState state = (kGREYPendingViewsToAppear |
                           kGREYPendingRootViewControllerToAppear |
                           kGREYPendingViewsToDisappear);
-    UNTRACK_STATE_FOR_ELEMENT_WITH_ID(state, elementID);
+    UNTRACK_STATE_FOR_OBJECT(state, object);
   }
   INVOKE_ORIGINAL_IMP2(void,
                        @selector(greyswizzled_viewDidMoveToWindow:shouldAppearOrDisappear:),
@@ -139,17 +143,18 @@ static Class gCompatibilityVCClass;
         [coordinator notifyWhenInteractionEndsUsingBlock:
          ^(id<UIViewControllerTransitionCoordinatorContext> context) {
            if ([context isCancelled]) {
-             NSString *elementID =
-             objc_getAssociatedObject(self, @selector(greyswizzled_viewWillAppear:));
-             UNTRACK_STATE_FOR_ELEMENT_WITH_ID(kGREYPendingViewsToAppear, elementID);
+             id object =
+                 objc_getAssociatedObject(self, @selector(greyswizzled_viewWillAppear:));
+             UNTRACK_STATE_FOR_OBJECT(kGREYPendingViewsToAppear, object);
            }
          }];
       }
 
-      NSString *elementID = TRACK_STATE_FOR_ELEMENT(kGREYPendingViewsToAppear, self);
+      GREYAppStateTrackerObject *object =
+          TRACK_STATE_FOR_OBJECT(kGREYPendingViewsToAppear, self);
       objc_setAssociatedObject(self,
                                @selector(greyswizzled_viewWillAppear:),
-                               elementID,
+                               object,
                                OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
   }
@@ -157,9 +162,10 @@ static Class gCompatibilityVCClass;
 }
 
 - (void)greyswizzled_viewDidAppear:(BOOL)animated {
-  NSString *elementID = objc_getAssociatedObject(self, @selector(greyswizzled_viewWillAppear:));
+  GREYAppStateTrackerObject *object =
+      objc_getAssociatedObject(self, @selector(greyswizzled_viewWillAppear:));
   GREYAppState state = kGREYPendingViewsToAppear | kGREYPendingRootViewControllerToAppear;
-  UNTRACK_STATE_FOR_ELEMENT_WITH_ID(state, elementID);
+  UNTRACK_STATE_FOR_OBJECT(state, object);
 
   [self grey_setAppeared:YES];
   INVOKE_ORIGINAL_IMP1(void, @selector(greyswizzled_viewDidAppear:), animated);
@@ -178,28 +184,30 @@ static Class gCompatibilityVCClass;
       [coordinator notifyWhenInteractionEndsUsingBlock:
           ^(id<UIViewControllerTransitionCoordinatorContext> context) {
             if ([context isCancelled]) {
-              NSString *elementID =
+              GREYAppStateTrackerObject *object =
                   objc_getAssociatedObject(self, @selector(greyswizzled_viewWillAppear:));
-              UNTRACK_STATE_FOR_ELEMENT_WITH_ID(kGREYPendingViewsToDisappear, elementID);
+              UNTRACK_STATE_FOR_OBJECT(kGREYPendingViewsToDisappear, object);
             }
           }];
     }
 
-    NSString *elementID = TRACK_STATE_FOR_ELEMENT(kGREYPendingViewsToDisappear, self);
+    GREYAppStateTrackerObject *object =
+        TRACK_STATE_FOR_OBJECT(kGREYPendingViewsToDisappear, self);
     objc_setAssociatedObject(self,
                              @selector(greyswizzled_viewWillAppear:),
-                             elementID,
+                             object,
                              OBJC_ASSOCIATION_RETAIN_NONATOMIC);
   }
   INVOKE_ORIGINAL_IMP1(void, @selector(greyswizzled_viewWillDisappear:), animated);
 }
 
 - (void)greyswizzled_viewDidDisappear:(BOOL)animated {
-  NSString *elementID = objc_getAssociatedObject(self, @selector(greyswizzled_viewWillAppear:));
+  GREYAppStateTrackerObject *object =
+      objc_getAssociatedObject(self, @selector(greyswizzled_viewWillAppear:));
   GREYAppState state = (kGREYPendingViewsToAppear |
                         kGREYPendingRootViewControllerToAppear |
                         kGREYPendingViewsToDisappear);
-  UNTRACK_STATE_FOR_ELEMENT_WITH_ID(state, elementID);
+  UNTRACK_STATE_FOR_OBJECT(state, object);
 
   [self grey_setAppeared:NO];
   INVOKE_ORIGINAL_IMP1(void, @selector(greyswizzled_viewDidDisappear:), animated);

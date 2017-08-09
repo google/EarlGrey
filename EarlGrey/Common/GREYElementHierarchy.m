@@ -62,7 +62,6 @@
  *  the @c annotationDictionary into the given @c outputString.
  *
  *  @param element The UI element to be printed.
- *  @param level The depth of the given element in the view hierarchy.
  *  @param outputString A mutable string that receives the output.
  *  @param annotationDictionary The annotations to be applied.
  *

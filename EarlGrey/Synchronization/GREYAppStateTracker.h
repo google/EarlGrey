@@ -17,6 +17,10 @@
 #import <EarlGrey/GREYIdlingResource.h>
 #import <Foundation/Foundation.h>
 
+@class GREYAppStateTrackerObject;
+
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  * @file
  * @brief App state tracker header file.
@@ -104,35 +108,36 @@ typedef NS_OPTIONS(NSUInteger, GREYAppState) {
 - (GREYAppState)currentState;
 
 /**
- *  Updates the state of the element, including the provided @c state and updating the overall state
- *  of the application. If @c element is already being tracked with for a different state, the
- *  element's state will be updated to a XOR of the current state and @c state.
+ *  Updates the state of the object, including the provided @c state and updating the overall state
+ *  of the application. If @c object is already being tracked with for a different state, the
+ *  object's state will be updated to a XOR of the current state and @c state.
  *
- *  @param state   The state that should be tracked for the element.
- *  @param element The element that should have its tracked state updated.
+ *  @param state  The state that should be tracked for the object.
+ *  @param object The object that should have its tracked state updated.
  *
- *  @return The identifier that was assigned to the element by the state tracker, or @c nil if
- *          @c element is @c nil. Future calls for the same element will return the same identifier
- *          until the element is untracked.
+ *  @return The GREYAppStateTracker that was assigned to the object by the state tracker, or @c nil
+ *          if @c object is @c nil. Future calls for the same object will return the same
+ *          identifier until the object is untracked.
  */
-- (NSString *)trackState:(GREYAppState)state forElement:(id)element;
+- (GREYAppStateTrackerObject * _Nullable)trackState:(GREYAppState)state forObject:(id)object;
 
 /**
- *  Untracks the state for the element with the specified id. For untracking, it does not matter
+ *  Untracks the state for the object with the specified id. For untracking, it does not matter
  *  if the state has been added to being ignored.
  *
- *  @param state     The state that should be untracked.
- *  @param elementID The identifer of the element which state should be untracked.
+ *  @param state  The state that should be untracked.
+ *  @param object The GREYAppStateTrackerObject associated with the object whose state should be
+ *                untracked.
  */
-- (void)untrackState:(GREYAppState)state forElementWithID:(NSString *)elementID;
+- (void)untrackState:(GREYAppState)state forObject:(GREYAppStateTrackerObject *)object;
 
 /**
  *  Ignore any state changes made to the state(s) provided. To stop ignoring a state, set this
  *  to a @c GREYAppState value that does not contain that particular state or use
  *  @c GREYAppStateTracker::clearIgnoredStates.
  *
- *  @remark This will not retroactively affect any currently tracked elements with the ignored app
- *          state(s). This only ensures that any further tracking of an element with an app state
+ *  @remark This will not retroactively affect any currently tracked objects with the ignored app
+ *          state(s). This only ensures that any further tracking of an object with an app state
  *          that is being ignored will be ignored. Untracking is not affected by this method.
  *
  *  @param state The app state that should be ignored. This can be a bitwise-OR of multiple
@@ -155,23 +160,26 @@ typedef NS_OPTIONS(NSUInteger, GREYAppState) {
 @end
 
 /**
- *  Utility macro for tracking the state of an element.
+ *  Utility macro for tracking the state of an object.
  *
- *  @param state   The state that should be tracked for the element.
- *  @param element The element that should have its tracked state updated.
+ *  @param state  The state that should be tracked for the object.
+ *  @param object The object that should have its tracked state updated.
  *
- *  @return The identifier that was assigned to the element by the state tracker, or @c nil if
- *          @c element is @c nil. Future calls for the same element will return the same identifier
- *          until the element is untracked.
+ *  @return The GREYAppStateTracker that was assigned to the object by the state tracker, or @c nil
+ *          if @c object is @c nil. Future calls for the same object will return the same
+ *          identifier until the object is untracked.
  */
-#define TRACK_STATE_FOR_ELEMENT(state_, element_) \
-  [[GREYAppStateTracker sharedInstance] trackState:(state_) forElement:(element_)]
+#define TRACK_STATE_FOR_OBJECT(state_, object_) \
+  [[GREYAppStateTracker sharedInstance] trackState:(state_) forObject:(object_)]
 
 /**
- *  Utility macro for untracking the state of an element.
+ *  Utility macro for untracking the state of an object.
  *
- *  @param state     The state that should be untracked.
- *  @param elementID The identifer of the element which state should be untracked.
+ *  @param state  The state that should be untracked.
+ *  @param object The GREYAppStateTrackerObject associated with the object whose state should be
+ *                untracked.
  */
-#define UNTRACK_STATE_FOR_ELEMENT_WITH_ID(state_, elementID_) \
-  [[GREYAppStateTracker sharedInstance] untrackState:(state_) forElementWithID:(elementID_)]
+#define UNTRACK_STATE_FOR_OBJECT(state_, object_) \
+  [[GREYAppStateTracker sharedInstance] untrackState:(state_) forObject:(object_)]
+
+NS_ASSUME_NONNULL_END

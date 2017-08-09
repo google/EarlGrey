@@ -22,6 +22,7 @@
 #import "Common/GREYFatalAsserts.h"
 #import "Common/GREYSwizzler.h"
 #import "Synchronization/GREYAppStateTracker.h"
+#import "Synchronization/GREYAppStateTrackerObject.h"
 
 @implementation UIGestureRecognizer (GREYAdditions)
 
@@ -50,16 +51,18 @@
 
 - (void)greyswizzled_setDirty {
   INVOKE_ORIGINAL_IMP(void, @selector(greyswizzled_setDirty));
-  NSString *elementID = TRACK_STATE_FOR_ELEMENT(kGREYPendingGestureRecognition, self);
+  GREYAppStateTrackerObject *object =
+      TRACK_STATE_FOR_OBJECT(kGREYPendingGestureRecognition, self);
   objc_setAssociatedObject(self,
                            @selector(greyswizzled_setState:),
-                           elementID,
+                           object,
                            OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 - (void)greyswizzled_resetGestureRecognizer {
-  NSString *elementID = objc_getAssociatedObject(self, @selector(greyswizzled_setState:));
-  UNTRACK_STATE_FOR_ELEMENT_WITH_ID(kGREYPendingGestureRecognition, elementID);
+  GREYAppStateTrackerObject *object =
+      objc_getAssociatedObject(self, @selector(greyswizzled_setState:));
+  UNTRACK_STATE_FOR_OBJECT(kGREYPendingGestureRecognition, object);
   objc_setAssociatedObject(self,
                            @selector(greyswizzled_setState:),
                            nil,
@@ -71,8 +74,9 @@
   // This is needed only for a few cases where reset isn't called on the gesture recognizer when
   // keyboard is shown. We need to manually untrack when state is set to failed.
   if (state == UIGestureRecognizerStateFailed) {
-    NSString *elementID = objc_getAssociatedObject(self, @selector(greyswizzled_setState:));
-    UNTRACK_STATE_FOR_ELEMENT_WITH_ID(kGREYPendingGestureRecognition, elementID);
+    GREYAppStateTrackerObject *object =
+        objc_getAssociatedObject(self, @selector(greyswizzled_setState:));
+    UNTRACK_STATE_FOR_OBJECT(kGREYPendingGestureRecognition, object);
     objc_setAssociatedObject(self,
                              @selector(greyswizzled_setState:),
                              nil,

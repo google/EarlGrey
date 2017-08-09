@@ -23,6 +23,7 @@
 #import "Common/GREYSwizzler.h"
 #import "Delegate/GREYUIWebViewDelegate.h"
 #import "Synchronization/GREYAppStateTracker.h"
+#import "Synchronization/GREYAppStateTrackerObject.h"
 #import "Synchronization/GREYTimedIdlingResource.h"
 
 /**
@@ -79,16 +80,18 @@ static void const *const kUIWebViewLoadingStateKey = &kUIWebViewLoadingStateKey;
 }
 
 - (void)grey_trackAJAXLoading {
-  NSString *elementID = TRACK_STATE_FOR_ELEMENT(kGREYPendingUIWebViewAsyncRequest, self);
+  GREYAppStateTrackerObject *object =
+      TRACK_STATE_FOR_OBJECT(kGREYPendingUIWebViewAsyncRequest, self);
   objc_setAssociatedObject(self,
                            @selector(grey_trackAJAXLoading),
-                           elementID,
+                           object,
                            OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 - (void)grey_untrackAJAXLoading {
-  NSString *elementID = objc_getAssociatedObject(self, @selector(grey_trackAJAXLoading));
-  UNTRACK_STATE_FOR_ELEMENT_WITH_ID(kGREYPendingUIWebViewAsyncRequest, elementID);
+  GREYAppStateTrackerObject *object =
+      objc_getAssociatedObject(self, @selector(grey_trackAJAXLoading));
+  UNTRACK_STATE_FOR_OBJECT(kGREYPendingUIWebViewAsyncRequest, object);
   objc_setAssociatedObject(self,
                            @selector(grey_trackAJAXLoading),
                            nil,

@@ -14,7 +14,6 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/GREYAppStateTracker.h>
 #import <EarlGrey/NSObject+GREYAdditions.h>
 #import <EarlGrey/UIView+GREYAdditions.h>
 #import <objc/runtime.h>
