@@ -117,6 +117,8 @@ elif [ "${TYPE}" == "CARTHAGE" ]; then
   CONFIG="Release"
   ACTION="clean build"
   execute_xcodebuild EarlGrey.xcodeproj EarlGrey
+elif [ "${TYPE}" == "PACKAGE" ]; then
+  Scripts/package.sh
 else
   echo "Unrecognized Type: ${TYPE}"
   exit 1
