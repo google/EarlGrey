@@ -7,12 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3F38EF201F20269700EBDFFC /* GREYObjectDeallocationTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = 3F38EF1E1F20269700EBDFFC /* GREYObjectDeallocationTracker.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		3F38EF211F20269700EBDFFC /* GREYObjectDeallocationTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F38EF1F1F20269700EBDFFC /* GREYObjectDeallocationTracker.m */; };
 		3F5122141EE1D37E0000CC56 /* GREYTraversal.h in Headers */ = {isa = PBXBuildFile; fileRef = 3F51220E1EE1D37E0000CC56 /* GREYTraversal.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		3F5122151EE1D37E0000CC56 /* GREYTraversal.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F51220F1EE1D37E0000CC56 /* GREYTraversal.m */; };
 		3F5122161EE1D37E0000CC56 /* GREYTraversalBFS.h in Headers */ = {isa = PBXBuildFile; fileRef = 3F5122101EE1D37E0000CC56 /* GREYTraversalBFS.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		3F5122171EE1D37E0000CC56 /* GREYTraversalBFS.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F5122111EE1D37E0000CC56 /* GREYTraversalBFS.m */; };
 		3F5122181EE1D37E0000CC56 /* GREYTraversalDFS.h in Headers */ = {isa = PBXBuildFile; fileRef = 3F5122121EE1D37E0000CC56 /* GREYTraversalDFS.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		3F5122191EE1D37E0000CC56 /* GREYTraversalDFS.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F5122131EE1D37E0000CC56 /* GREYTraversalDFS.m */; };
+		3FE259BB1F1D451200CFBB57 /* GREYAppStateTrackerObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 3FE259B91F1D451200CFBB57 /* GREYAppStateTrackerObject.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		3FE259BC1F1D451200CFBB57 /* GREYAppStateTrackerObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FE259BA1F1D451200CFBB57 /* GREYAppStateTrackerObject.m */; };
 		597E02CA1D55AC040052A8D1 /* GREYPathGestureUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001081C5B46C100B2DB0A /* GREYPathGestureUtils.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		597E02CB1D55AC180052A8D1 /* GREYScrollAction.h in Headers */ = {isa = PBXBuildFile; fileRef = FD10010C1C5B46C100B2DB0A /* GREYScrollAction.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		597E02CC1D55AC240052A8D1 /* GREYTapAction.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001181C5B46C100B2DB0A /* GREYTapAction.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -21,7 +25,6 @@
 		597E02CF1D55AC380052A8D1 /* GREYAnalyticsDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = FD94FDB31D0F68180021F107 /* GREYAnalyticsDelegate.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		597E02D21D55AC520052A8D1 /* GREYSwizzler.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001631C5B46C200B2DB0A /* GREYSwizzler.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		597E02D31D55AC580052A8D1 /* GREYVisibilityChecker.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001651C5B46C200B2DB0A /* GREYVisibilityChecker.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		597E02D41D55AC5E0052A8D1 /* GREYWeakObjectContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = FD94FDB41D0F68180021F107 /* GREYWeakObjectContainer.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		597E02D51D55AC640052A8D1 /* GREYKeyboard.h in Headers */ = {isa = PBXBuildFile; fileRef = FD10016E1C5B46C200B2DB0A /* GREYKeyboard.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		597E02D61D55AC730052A8D1 /* GREYCAAnimationDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001711C5B46C200B2DB0A /* GREYCAAnimationDelegate.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		597E02D71D55AC730052A8D1 /* GREYUIWebViewDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001771C5B46C200B2DB0A /* GREYUIWebViewDelegate.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -218,7 +221,6 @@
 		FD6D0BA71C6D494F0001EA75 /* GREYNot.m in Sources */ = {isa = PBXBuildFile; fileRef = FD6D0B9F1C6D494F0001EA75 /* GREYNot.m */; };
 		FD6D0BA91C6D494F0001EA75 /* GREYStringDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = FD6D0BA11C6D494F0001EA75 /* GREYStringDescription.m */; };
 		FD720C111CFF7E93007A0942 /* GREYRunLoopSpinner.m in Sources */ = {isa = PBXBuildFile; fileRef = FD720C0F1CFF7E93007A0942 /* GREYRunLoopSpinner.m */; };
-		FD94FDB81D0F68180021F107 /* GREYWeakObjectContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = FD94FDB51D0F68180021F107 /* GREYWeakObjectContainer.m */; };
 		FDA218ED1E450A9900693978 /* GREYErrorConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = FDA218EB1E450A9900693978 /* GREYErrorConstants.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		FDA218EE1E450A9900693978 /* GREYErrorConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = FDA218EC1E450A9900693978 /* GREYErrorConstants.m */; };
 		FDB26BA31DA467E900E7B5C0 /* GREYTestCaseInvocation.h in Headers */ = {isa = PBXBuildFile; fileRef = FDB26BA11DA467E900E7B5C0 /* GREYTestCaseInvocation.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -231,12 +233,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3F38EF1E1F20269700EBDFFC /* GREYObjectDeallocationTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYObjectDeallocationTracker.h; sourceTree = "<group>"; };
+		3F38EF1F1F20269700EBDFFC /* GREYObjectDeallocationTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYObjectDeallocationTracker.m; sourceTree = "<group>"; };
 		3F51220E1EE1D37E0000CC56 /* GREYTraversal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYTraversal.h; path = EarlGrey/Traversal/GREYTraversal.h; sourceTree = SOURCE_ROOT; };
 		3F51220F1EE1D37E0000CC56 /* GREYTraversal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYTraversal.m; path = EarlGrey/Traversal/GREYTraversal.m; sourceTree = SOURCE_ROOT; };
 		3F5122101EE1D37E0000CC56 /* GREYTraversalBFS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYTraversalBFS.h; path = EarlGrey/Traversal/GREYTraversalBFS.h; sourceTree = SOURCE_ROOT; };
 		3F5122111EE1D37E0000CC56 /* GREYTraversalBFS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYTraversalBFS.m; path = EarlGrey/Traversal/GREYTraversalBFS.m; sourceTree = SOURCE_ROOT; };
 		3F5122121EE1D37E0000CC56 /* GREYTraversalDFS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYTraversalDFS.h; path = EarlGrey/Traversal/GREYTraversalDFS.h; sourceTree = SOURCE_ROOT; };
 		3F5122131EE1D37E0000CC56 /* GREYTraversalDFS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYTraversalDFS.m; path = EarlGrey/Traversal/GREYTraversalDFS.m; sourceTree = SOURCE_ROOT; };
+		3FE259B91F1D451200CFBB57 /* GREYAppStateTrackerObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYAppStateTrackerObject.h; sourceTree = "<group>"; };
+		3FE259BA1F1D451200CFBB57 /* GREYAppStateTrackerObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYAppStateTrackerObject.m; sourceTree = "<group>"; };
 		599E31E61ED79E1D0091178D /* GREYFatalAsserts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYFatalAsserts.h; sourceTree = "<group>"; };
 		599E31F61ED7DF280091178D /* GREYThrowDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYThrowDefines.h; sourceTree = "<group>"; };
 		61156A4F1D1B2AC1000013C7 /* UIGestureRecognizer+GREYAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIGestureRecognizer+GREYAdditions.h"; sourceTree = "<group>"; };
@@ -451,8 +457,6 @@
 		FD720C0E1CFF7E93007A0942 /* GREYRunLoopSpinner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYRunLoopSpinner.h; sourceTree = "<group>"; };
 		FD720C0F1CFF7E93007A0942 /* GREYRunLoopSpinner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYRunLoopSpinner.m; sourceTree = "<group>"; };
 		FD94FDB31D0F68180021F107 /* GREYAnalyticsDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYAnalyticsDelegate.h; path = EarlGrey/Common/GREYAnalyticsDelegate.h; sourceTree = SOURCE_ROOT; };
-		FD94FDB41D0F68180021F107 /* GREYWeakObjectContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYWeakObjectContainer.h; path = EarlGrey/Common/GREYWeakObjectContainer.h; sourceTree = SOURCE_ROOT; };
-		FD94FDB51D0F68180021F107 /* GREYWeakObjectContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYWeakObjectContainer.m; path = EarlGrey/Common/GREYWeakObjectContainer.m; sourceTree = SOURCE_ROOT; };
 		FDA218EB1E450A9900693978 /* GREYErrorConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYErrorConstants.h; sourceTree = "<group>"; };
 		FDA218EC1E450A9900693978 /* GREYErrorConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYErrorConstants.m; sourceTree = "<group>"; };
 		FDB26BA11DA467E900E7B5C0 /* GREYTestCaseInvocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYTestCaseInvocation.h; sourceTree = "<group>"; };
@@ -633,8 +637,6 @@
 			isa = PBXGroup;
 			children = (
 				FD94FDB31D0F68180021F107 /* GREYAnalyticsDelegate.h */,
-				FD94FDB41D0F68180021F107 /* GREYWeakObjectContainer.h */,
-				FD94FDB51D0F68180021F107 /* GREYWeakObjectContainer.m */,
 				FD10014C1C5B46C200B2DB0A /* GREYIdlingResource.h */,
 			);
 			name = AppSupport;
@@ -817,6 +819,8 @@
 				FD720C0F1CFF7E93007A0942 /* GREYRunLoopSpinner.m */,
 				FD10019C1C5B46C200B2DB0A /* GREYAppStateTracker.h */,
 				FD10019D1C5B46C200B2DB0A /* GREYAppStateTracker.m */,
+				3FE259B91F1D451200CFBB57 /* GREYAppStateTrackerObject.h */,
+				3FE259BA1F1D451200CFBB57 /* GREYAppStateTrackerObject.m */,
 				FD1001A01C5B46C200B2DB0A /* GREYCondition.h */,
 				FD1001A11C5B46C200B2DB0A /* GREYCondition.m */,
 				FD1001A21C5B46C200B2DB0A /* GREYDispatchQueueIdlingResource.h */,
@@ -827,6 +831,8 @@
 				611BF16A1D4CD705001D9E46 /* GREYManagedObjectContextIdlingResource.m */,
 				FD1001A41C5B46C200B2DB0A /* GREYNSTimerIdlingResource.h */,
 				FD1001A51C5B46C200B2DB0A /* GREYNSTimerIdlingResource.m */,
+				3F38EF1E1F20269700EBDFFC /* GREYObjectDeallocationTracker.h */,
+				3F38EF1F1F20269700EBDFFC /* GREYObjectDeallocationTracker.m */,
 				FD1001A61C5B46C200B2DB0A /* GREYOperationQueueIdlingResource.h */,
 				FD1001A71C5B46C200B2DB0A /* GREYOperationQueueIdlingResource.m */,
 				FD1001A81C5B46C200B2DB0A /* GREYSyncAPI.h */,
@@ -936,6 +942,8 @@
 				597E02CB1D55AC180052A8D1 /* GREYScrollAction.h in Headers */,
 				597E02CD1D55AC2B0052A8D1 /* GREYSwipeAction.h in Headers */,
 				597E030B1D55B9F60052A8D1 /* GREYPickerAction.h in Headers */,
+				3F38EF201F20269700EBDFFC /* GREYObjectDeallocationTracker.h in Headers */,
+				3FE259BB1F1D451200CFBB57 /* GREYAppStateTrackerObject.h in Headers */,
 				61E4E0BF1D755A0D007F9EE6 /* GREYPinchAction.h in Headers */,
 				597E02CA1D55AC040052A8D1 /* GREYPathGestureUtils.h in Headers */,
 				597E03051D55B3120052A8D1 /* GREYChangeStepperAction.h in Headers */,
@@ -977,7 +985,6 @@
 				597E02D21D55AC520052A8D1 /* GREYSwizzler.h in Headers */,
 				7CFDF8EC1DBBD5FC00CAADB3 /* GREYObjectFormatter.h in Headers */,
 				597E02D31D55AC580052A8D1 /* GREYVisibilityChecker.h in Headers */,
-				597E02D41D55AC5E0052A8D1 /* GREYWeakObjectContainer.h in Headers */,
 				597E02D51D55AC640052A8D1 /* GREYKeyboard.h in Headers */,
 				597E03061D55B5BB0052A8D1 /* GREYInteractionDataSource.h in Headers */,
 				597E02F71D55ADBE0052A8D1 /* GREYSurrogateDelegate.h in Headers */,
@@ -1106,6 +1113,7 @@
 				FD1002341C5B46C200B2DB0A /* GREYElementMatcherBlock.m in Sources */,
 				FD1001DC1C5B46C200B2DB0A /* NSRunLoop+GREYAdditions.m in Sources */,
 				611BF1681D4CD292001D9E46 /* GREYDispatchQueueTracker.m in Sources */,
+				3F38EF211F20269700EBDFFC /* GREYObjectDeallocationTracker.m in Sources */,
 				61FC0A081CD939C30081BDAA /* GREYAutomationSetup.m in Sources */,
 				7CA546141E24133E007EA7F6 /* GREYFailureScreenshotter.m in Sources */,
 				FD1001EA1C5B46C200B2DB0A /* UIScrollView+GREYAdditions.m in Sources */,
@@ -1142,7 +1150,6 @@
 				FD1001B61C5B46C200B2DB0A /* GREYChangeStepperAction.m in Sources */,
 				FD1001E01C5B46C200B2DB0A /* NSTimer+GREYAdditions.m in Sources */,
 				FDB26BA41DA467E900E7B5C0 /* GREYTestCaseInvocation.m in Sources */,
-				FD94FDB81D0F68180021F107 /* GREYWeakObjectContainer.m in Sources */,
 				FD1001BC1C5B46C200B2DB0A /* GREYScrollAction.m in Sources */,
 				FD1001F41C5B46C200B2DB0A /* UIWebView+GREYAdditions.m in Sources */,
 				FD1001CC1C5B46C200B2DB0A /* __NSCFLocalDataTask_GREYAdditions.m in Sources */,
@@ -1151,6 +1158,7 @@
 				FD10021F1C5B46C200B2DB0A /* GREYSurrogateDelegate.m in Sources */,
 				FD6D0BA91C6D494F0001EA75 /* GREYStringDescription.m in Sources */,
 				FD1002451C5B46C200B2DB0A /* GREYCondition.m in Sources */,
+				3FE259BC1F1D451200CFBB57 /* GREYAppStateTrackerObject.m in Sources */,
 				FD1001FC1C5B46C200B2DB0A /* GREYAssertionBlock.m in Sources */,
 				FD1002151C5B46C200B2DB0A /* GREYElementInteraction.m in Sources */,
 				FD1002381C5B46C200B2DB0A /* GREYMatchers.m in Sources */,
