@@ -60,6 +60,9 @@ matrix:
         - DESTINATION="OS=10.2,name=iPhone 7 Plus" SDK=iphonesimulator10.2 TYPE="UNIT"
     - env:
       - TYPE="RUBY"
+    - osx_image: xcode8.3
+      env:
+      - TYPE="PACKAGE"
 before_install:
   - |
       echo "Checking if a CI run is needed post commit: ${TRAVIS_COMMIT_RANGE}"

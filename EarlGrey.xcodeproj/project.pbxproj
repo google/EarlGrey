@@ -6,6 +6,20 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		C88F9A2C1F39A5E000704BFF /* Release */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = C88F9A2F1F39A5E000704BFF /* Build configuration list for PBXAggregateTarget "Release" */;
+			buildPhases = (
+				C88F9A321F39A5F100704BFF /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = Release;
+			productName = Release;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		3F38EF201F20269700EBDFFC /* GREYObjectDeallocationTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = 3F38EF1E1F20269700EBDFFC /* GREYObjectDeallocationTracker.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		3F38EF211F20269700EBDFFC /* GREYObjectDeallocationTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F38EF1F1F20269700EBDFFC /* GREYObjectDeallocationTracker.m */; };
@@ -1058,11 +1072,25 @@
 			projectRoot = "";
 			targets = (
 				FD1000E81C5B466F00B2DB0A /* EarlGrey */,
+				C88F9A2C1F39A5E000704BFF /* Release */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		C88F9A321F39A5F100704BFF /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "bash Scripts/build-release.sh\n";
+		};
 		FDC5EEA01CAEEFC2006C5174 /* Setup EarlGrey Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1191,9 +1219,24 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		C88F9A2D1F39A5E000704BFF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		C88F9A2E1F39A5E000704BFF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		FD1000FB1C5B466F00B2DB0A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = "";
 				DEFINES_MODULE = YES;
@@ -1219,7 +1262,6 @@
 					"-fobjc-arc",
 					"-fobjc-arc-exceptions",
 				);
-				OTHER_CODE_SIGN_FLAGS = "";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-framework",
@@ -1239,6 +1281,7 @@
 		FD1000FC1C5B466F00B2DB0A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = "";
 				DEFINES_MODULE = YES;
@@ -1264,7 +1307,6 @@
 					"-fobjc-arc",
 					"-fobjc-arc-exceptions",
 				);
-				OTHER_CODE_SIGN_FLAGS = "";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-framework",
@@ -1381,6 +1423,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		C88F9A2F1F39A5E000704BFF /* Build configuration list for PBXAggregateTarget "Release" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C88F9A2D1F39A5E000704BFF /* Debug */,
+				C88F9A2E1F39A5E000704BFF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		FD1000FA1C5B466F00B2DB0A /* Build configuration list for PBXNativeTarget "EarlGrey" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
