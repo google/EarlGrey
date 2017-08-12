@@ -32,7 +32,7 @@
  *  Makes sure that subview @c view is always on top, even if other subviews are added in front of
  *  it. Also keeps the @c view's frame fixed to the current value so parent can't change it.
  *
- *  @param subview The view to keep as the top-most fixed subview.
+ *  @param view The view to keep as the top-most fixed subview.
  */
 - (void)grey_keepSubviewOnTopAndFrameFixed:(UIView *)view;
 

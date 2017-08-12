@@ -42,9 +42,9 @@ typedef NS_ENUM(NSInteger, GREYPinchErrorCode) {
  *  side and stops at the center. The default angle of the pinch action is 30 degrees to closely
  *  match the average pinch angle of a natural right handed pinch.
  *
- *  @param direction The direction of the pinch.
- *  @param duration  The time interval for which the pinch takes place.
- *  @param angle     Angle of the vector in radians to which the pinch direction is pointing.
+ *  @param direction  The direction of the pinch.
+ *  @param duration   The time interval for which the pinch takes place.
+ *  @param pinchAngle Angle of the vector in radians to which the pinch direction is pointing.
  *
  *  @returns An instance of @c GREYPinchAction, initialized with a provided direction and
  *           duration and angle.
