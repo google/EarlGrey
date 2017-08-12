@@ -13,11 +13,10 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
-
 #
+
 #  Build EarlGrey.framework in two SDK's: iphoneos and iphonesimulator, and 
 #  lipo into one universal framework under the BUILD_DIR folder.
-#
 
 : "${PROJECT_FILE_PATH:=$(dirname ${BASH_SOURCE[0]})/../EarlGrey.xcodeproj}"
 : "${BUILD_DIR:=build}"

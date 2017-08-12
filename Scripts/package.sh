@@ -13,11 +13,10 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
-
 #
+
 #  Build and archive EarlGrey.framework into EarlGrey.zip in the current running
 #  folder so it is ready to use for github release and cocoapods deployment.
-#
 
 SOURCE_DIR="$(dirname ${BASH_SOURCE[0]})"
 CURRENT_DIR="${PWD}"
