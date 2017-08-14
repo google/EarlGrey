@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3FBDDF9A1F3D61870055E8F9 /* FTRLayoutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FBDDF981F3D61870055E8F9 /* FTRLayoutViewController.m */; };
+		3FBDDF9B1F3D61870055E8F9 /* FTRLayoutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3FBDDF991F3D61870055E8F9 /* FTRLayoutViewController.xib */; };
 		59467DF91C9373A50089498B /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 59467D801C9373A50089498B /* LICENSE */; };
 		59467DFB1C9373A50089498B /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 59467D851C9373A50089498B /* Default-568h@2x.png */; };
 		59467DFC1C9373A50089498B /* Default-667@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 59467D861C9373A50089498B /* Default-667@2x.png */; };
@@ -195,6 +197,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3FBDDF971F3D61870055E8F9 /* FTRLayoutViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FTRLayoutViewController.h; sourceTree = "<group>"; };
+		3FBDDF981F3D61870055E8F9 /* FTRLayoutViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FTRLayoutViewController.m; sourceTree = "<group>"; };
+		3FBDDF991F3D61870055E8F9 /* FTRLayoutViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FTRLayoutViewController.xib; sourceTree = "<group>"; };
 		59467D5B1C9373A50089498B /* FTRAccessibilityTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FTRAccessibilityTest.m; sourceTree = "<group>"; };
 		59467D5C1C9373A50089498B /* FTRActionSheetTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FTRActionSheetTest.m; sourceTree = "<group>"; };
 		59467D5D1C9373A50089498B /* FTRActivityIndicatorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FTRActivityIndicatorTest.m; sourceTree = "<group>"; };
@@ -524,6 +529,9 @@
 				61E4E0B01D7559A9007F9EE6 /* FTRImageViewController.h */,
 				61E4E0B11D7559A9007F9EE6 /* FTRImageViewController.m */,
 				61E4E0B21D7559A9007F9EE6 /* FTRImageViewController.xib */,
+				3FBDDF971F3D61870055E8F9 /* FTRLayoutViewController.h */,
+				3FBDDF981F3D61870055E8F9 /* FTRLayoutViewController.m */,
+				3FBDDF991F3D61870055E8F9 /* FTRLayoutViewController.xib */,
 				59467DB21C9373A50089498B /* FTRMainViewController.h */,
 				59467DB31C9373A50089498B /* FTRMainViewController.m */,
 				59467DB41C9373A50089498B /* FTRMainViewController.xib */,
@@ -740,6 +748,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				59467E0F1C9373A50089498B /* FTRAnimationViewController.xib in Resources */,
+				3FBDDF9B1F3D61870055E8F9 /* FTRLayoutViewController.xib in Resources */,
 				59467DFC1C9373A50089498B /* Default-667@2x.png in Resources */,
 				59467E031C9373A50089498B /* ic_local_cafe_48pt@3x.png in Resources */,
 				59467E001C9373A50089498B /* Default@3x.png in Resources */,
@@ -805,6 +814,7 @@
 				61E4E0B31D7559A9007F9EE6 /* FTRImageViewController.m in Sources */,
 				59467E691C9373F00089498B /* FTRAppDelegate.m in Sources */,
 				59467E6B1C9373F00089498B /* FTRBasicViewController.m in Sources */,
+				3FBDDF9A1F3D61870055E8F9 /* FTRLayoutViewController.m in Sources */,
 				59467E6E1C9373F00089498B /* FTRCollectionViewCell.m in Sources */,
 				59467E711C9373F00089498B /* FTRCollectionViewController.m in Sources */,
 				59467E741C9373F00089498B /* FTRCollectionViewLayout.m in Sources */,
@@ -947,6 +957,7 @@
 					"-Wextra",
 					"-Wconstant-conversion",
 					"-Wconversion",
+					"-Wdocumentation",
 					"-Wenum-conversion",
 					"-Wint-conversion",
 					"-Wmissing-prototypes",
@@ -990,10 +1001,11 @@
 				WARNING_CFLAGS = (
 					"-Werror",
 					"-Wall",
-					"-Wextra",
 					"-Wconstant-conversion",
 					"-Wconversion",
+					"-Wdocumentation",
 					"-Wenum-conversion",
+					"-Wextra",
 					"-Wint-conversion",
 					"-Wmissing-prototypes",
 					"-Wno-unused-parameter",
