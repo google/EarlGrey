@@ -78,4 +78,28 @@
       assertWithMatcher:grey_descendant(grey_accessibilityLabel(@"SquareElementLabel"))];
 }
 
+- (void)testLayoutWithFloatingPoint {
+  [self openTestViewNamed:@"Layout Tests"];
+
+  // Set frame for first view.
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"topTextbox")]
+      performAction:grey_replaceText(@"{{10,164.333333333333314},{100,38.666666666666671}}")];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"button")] performAction:grey_tap()];
+
+  // Set frame for second view.
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"topTextbox")]
+      performAction:grey_replaceText(@"{{10,124.000000000000004},{100,24.333333333333336}}")];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"button")] performAction:grey_tap()];
+
+  // Layout constaint object to check the accuracy of floating point math.
+  GREYLayoutConstraint *below =
+      [GREYLayoutConstraint layoutConstraintWithAttribute:kGREYLayoutAttributeTop
+                                                relatedBy:kGREYLayoutRelationEqual
+                                     toReferenceAttribute:kGREYLayoutAttributeBottom
+                                               multiplier:1.0
+                                                 constant:16];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"elementID")]
+       assertWithMatcher:grey_layout(@[below], grey_accessibilityID(@"referenceElementID"))];
+}
+
 @end

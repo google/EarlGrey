@@ -25,6 +25,7 @@
 #import "FTRCollectionViewController.h"
 #import "FTRGestureViewController.h"
 #import "FTRImageViewController.h"
+#import "FTRLayoutViewController.h"
 #import "FTRMultiFingerSwipeGestureRecognizerViewController.h"
 #import "FTRNetworkTestViewController.h"
 #import "FTRPickerViewController.h"
@@ -63,6 +64,7 @@ static NSString *gTableViewIdentifier = @"TableViewIdentifier";
       @"Basic Views" : [FTRBasicViewController class],
       @"Collection Views": [FTRCollectionViewController class],
       @"Gesture Tests" : [FTRGestureViewController class],
+      @"Layout Tests" : [FTRLayoutViewController class],
       @"Pinch Tests" : [FTRImageViewController class],
       @"Network Test" : [FTRNetworkTestViewController class],
       @"Picker Views" : [FTRPickerViewController class],
