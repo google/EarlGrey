@@ -322,10 +322,15 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param constraints             The constraints to be matched.
  *  @param referenceElementMatcher The reference element with the correct constraints.
  *
+ *  @remark Constraints are often represented using floating point numbers. Floating point
+ *          arithmatic can often induce errors based on the way the numbers are represented in
+ *          hardware; hence, floating point comparisons use a margin value that is used for adding
+ 8          accuracy to such arithmatic.
+ *
  *  @return A matcher to verify the GREYLayoutConstraints on a UI element.
  */
 + (id<GREYMatcher>)matcherForConstraints:(NSArray *)constraints
-            toReferenceElementMatching:(id<GREYMatcher>)referenceElementMatcher;
+              toReferenceElementMatching:(id<GREYMatcher>)referenceElementMatcher;
 
 /**
  *  Matcher primarily for asserting that the element is @c nil or not found.
