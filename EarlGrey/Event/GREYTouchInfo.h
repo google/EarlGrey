@@ -54,8 +54,7 @@ typedef NS_ENUM(NSUInteger, GREYTouchInfoPhase) {
  *  Initializes this object to represent a touch at the the given @c points.
  *
  *  @param points                         The CGPoints where the touches are to be delivered.
- *  @param isLastTouch                    Specifies if this is a last touch object
- *                                        (that represents a 'touch-up')
+ *  @param phase                          The current phase of each touch point.
  *  @param timeDeltaSinceLastTouchSeconds The relative injection time from the time last
  *                                        touch point was injected. It is also used as the
  *                                        expected delivery time.
