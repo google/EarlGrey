@@ -323,9 +323,9 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param referenceElementMatcher The reference element with the correct constraints.
  *
  *  @remark Constraints are often represented using floating point numbers. Floating point
- *          arithmatic can often induce errors based on the way the numbers are represented in
- *          hardware; hence, floating point comparisons use a margin value that is used for adding
- 8          accuracy to such arithmatic.
+ *          arithmetic can often induce errors based on the way the numbers are represented in
+ *          hardware; hence, floating point comparisons use a margin value
+ *          @c kGREYAcceptableFloatDifference that is used for adding accuracy to such arithmetic.
  *
  *  @return A matcher to verify the GREYLayoutConstraints on a UI element.
  */
