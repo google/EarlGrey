@@ -16,6 +16,8 @@
 
 #import "FTRBaseIntegrationTest.h"
 
+#import "FTRNetworkProxy.h"
+
 @interface FTRNetworkTest : FTRBaseIntegrationTest
 @end
 
@@ -37,7 +39,7 @@
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
-- (void)testSynchronizationWorksWithNSURLSession {
+- (void)testSynchronizationWithNSURLSessionCompletionHandlers {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"FTRRequestCompletedLabel")]
       assertWithMatcher:grey_notVisible()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"NSURLSessionTest")]
@@ -46,6 +48,32 @@
       assertWithMatcher:grey_sufficientlyVisible()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"FTRResponseVerifiedLabel")]
       assertWithMatcher:grey_sufficientlyVisible()];
+}
+
+- (void)testSynchronizationWorksWithNSURLSessionDelegates {
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"FTRRequestCompletedLabel")]
+      assertWithMatcher:grey_notVisible()];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"NSURLSessionDelegateTest")]
+      performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"FTRRequestCompletedLabel")]
+      assertWithMatcher:grey_sufficientlyVisible()];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"FTRResponseVerifiedLabel")]
+      assertWithMatcher:grey_sufficientlyVisible()];
+}
+
+- (void)testSynchronizationWorksWithoutNetworkCallbacks {
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"FTRRequestCompletedLabel")]
+      assertWithMatcher:grey_notVisible()];
+  // Make the network requests to take longer.
+  [FTRNetworkProxy ftr_setSimulatedNetworkDelay:1.0];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"NSURLSessionNoCallbackTest")]
+      performAction:grey_tap()];
+  NSTimeInterval startTime = CACurrentMediaTime();
+  [[GREYUIThreadExecutor sharedInstance] drainUntilIdle];
+  // Verify that EarlGrey did not wait for the request.
+  GREYAssert(CACurrentMediaTime() - startTime < 1.0,
+             @"EarlGrey must not wait for the network request");
+  [FTRNetworkProxy ftr_setSimulatedNetworkDelay:0.0];
 }
 
 @end
