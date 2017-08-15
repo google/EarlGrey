@@ -88,12 +88,16 @@
 		6171EA861D9C748600FD900E /* GREYZeroToleranceTimer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6171EA841D9C748600FD900E /* GREYZeroToleranceTimer.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		6171EA871D9C748600FD900E /* GREYZeroToleranceTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6171EA851D9C748600FD900E /* GREYZeroToleranceTimer.m */; };
 		61CBDE801D4CD85200206BF7 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CBDE7F1D4CD85200206BF7 /* CoreData.framework */; };
+		61E1CA901F2A922700FE81B9 /* GREYObjcRuntime.h in Headers */ = {isa = PBXBuildFile; fileRef = 61E1CA8E1F2A922700FE81B9 /* GREYObjcRuntime.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		61E1CA911F2A922700FE81B9 /* GREYObjcRuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = 61E1CA8F1F2A922700FE81B9 /* GREYObjcRuntime.m */; };
 		61E4E0B91D7559DA007F9EE6 /* GREYTouchInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 61E4E0B51D7559DA007F9EE6 /* GREYTouchInfo.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		61E4E0BA1D7559DA007F9EE6 /* GREYTouchInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 61E4E0B61D7559DA007F9EE6 /* GREYTouchInfo.m */; };
 		61E4E0BB1D7559DA007F9EE6 /* GREYTouchInjector.h in Headers */ = {isa = PBXBuildFile; fileRef = 61E4E0B71D7559DA007F9EE6 /* GREYTouchInjector.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		61E4E0BC1D7559DA007F9EE6 /* GREYTouchInjector.m in Sources */ = {isa = PBXBuildFile; fileRef = 61E4E0B81D7559DA007F9EE6 /* GREYTouchInjector.m */; };
 		61E4E0BF1D755A0D007F9EE6 /* GREYPinchAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 61E4E0BD1D755A0D007F9EE6 /* GREYPinchAction.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		61E4E0C01D755A0D007F9EE6 /* GREYPinchAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 61E4E0BE1D755A0D007F9EE6 /* GREYPinchAction.m */; };
+		61EF44D51F070CD800CACC94 /* NSURLSession+GREYAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 61EF44D31F070CD800CACC94 /* NSURLSession+GREYAdditions.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		61EF44D61F070CD800CACC94 /* NSURLSession+GREYAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EF44D41F070CD800CACC94 /* NSURLSession+GREYAdditions.m */; };
 		61FC0A081CD939C30081BDAA /* GREYAutomationSetup.m in Sources */ = {isa = PBXBuildFile; fileRef = 61FC0A061CD939C30081BDAA /* GREYAutomationSetup.m */; };
 		7C32F6FD1E258E7200B00610 /* GREYError+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 7C32F6FC1E258E3800B00610 /* GREYError+Internal.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		7CA546131E24133E007EA7F6 /* GREYFailureScreenshotter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7CA546111E24133E007EA7F6 /* GREYFailureScreenshotter.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -268,12 +272,16 @@
 		6171EA841D9C748600FD900E /* GREYZeroToleranceTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYZeroToleranceTimer.h; sourceTree = "<group>"; };
 		6171EA851D9C748600FD900E /* GREYZeroToleranceTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYZeroToleranceTimer.m; sourceTree = "<group>"; };
 		61CBDE7F1D4CD85200206BF7 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		61E1CA8E1F2A922700FE81B9 /* GREYObjcRuntime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYObjcRuntime.h; sourceTree = "<group>"; };
+		61E1CA8F1F2A922700FE81B9 /* GREYObjcRuntime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYObjcRuntime.m; sourceTree = "<group>"; };
 		61E4E0B51D7559DA007F9EE6 /* GREYTouchInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYTouchInfo.h; sourceTree = "<group>"; };
 		61E4E0B61D7559DA007F9EE6 /* GREYTouchInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYTouchInfo.m; sourceTree = "<group>"; };
 		61E4E0B71D7559DA007F9EE6 /* GREYTouchInjector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYTouchInjector.h; sourceTree = "<group>"; };
 		61E4E0B81D7559DA007F9EE6 /* GREYTouchInjector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYTouchInjector.m; sourceTree = "<group>"; };
 		61E4E0BD1D755A0D007F9EE6 /* GREYPinchAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYPinchAction.h; sourceTree = "<group>"; };
 		61E4E0BE1D755A0D007F9EE6 /* GREYPinchAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYPinchAction.m; sourceTree = "<group>"; };
+		61EF44D31F070CD800CACC94 /* NSURLSession+GREYAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURLSession+GREYAdditions.h"; sourceTree = "<group>"; };
+		61EF44D41F070CD800CACC94 /* NSURLSession+GREYAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURLSession+GREYAdditions.m"; sourceTree = "<group>"; };
 		61FC0A051CD939C30081BDAA /* GREYAutomationSetup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYAutomationSetup.h; sourceTree = "<group>"; };
 		61FC0A061CD939C30081BDAA /* GREYAutomationSetup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYAutomationSetup.m; sourceTree = "<group>"; };
 		7C32F6FC1E258E3800B00610 /* GREYError+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GREYError+Internal.h"; sourceTree = "<group>"; };
@@ -620,6 +628,8 @@
 				FD1001341C5B46C100B2DB0A /* NSURL+GREYAdditions.m */,
 				FD1001351C5B46C100B2DB0A /* NSURLConnection+GREYAdditions.h */,
 				FD1001361C5B46C100B2DB0A /* NSURLConnection+GREYAdditions.m */,
+				61EF44D31F070CD800CACC94 /* NSURLSession+GREYAdditions.h */,
+				61EF44D41F070CD800CACC94 /* NSURLSession+GREYAdditions.m */,
 				FD1001371C5B46C100B2DB0A /* UIAnimation+GREYAdditions.h */,
 				FD1001381C5B46C100B2DB0A /* UIAnimation+GREYAdditions.m */,
 				FD1001391C5B46C100B2DB0A /* UIApplication+GREYAdditions.h */,
@@ -702,6 +712,8 @@
 				FD1001621C5B46C200B2DB0A /* GREYScreenshotUtil.m */,
 				FD1001631C5B46C200B2DB0A /* GREYSwizzler.h */,
 				FD1001641C5B46C200B2DB0A /* GREYSwizzler.m */,
+				61E1CA8E1F2A922700FE81B9 /* GREYObjcRuntime.h */,
+				61E1CA8F1F2A922700FE81B9 /* GREYObjcRuntime.m */,
 				FD1001651C5B46C200B2DB0A /* GREYVisibilityChecker.h */,
 				FD1001661C5B46C200B2DB0A /* GREYVisibilityChecker.m */,
 				7CFDF8E61DBBD5FC00CAADB3 /* GREYObjectFormatter.h */,
@@ -988,6 +1000,7 @@
 				597E03001D55AF3C0052A8D1 /* NSString+GREYAdditions.h in Headers */,
 				597E03011D55AF3C0052A8D1 /* NSTimer+GREYAdditions.h in Headers */,
 				597E02D21D55AC520052A8D1 /* GREYSwizzler.h in Headers */,
+				61E1CA901F2A922700FE81B9 /* GREYObjcRuntime.h in Headers */,
 				597E02CE1D55AC320052A8D1 /* GREYAnalytics.h in Headers */,
 				597E02CF1D55AC380052A8D1 /* GREYAnalyticsDelegate.h in Headers */,
 				7CCBEBA61DCD2F0500CC01B8 /* GREYError.h in Headers */,
@@ -1009,6 +1022,7 @@
 				61E4E0BB1D7559DA007F9EE6 /* GREYTouchInjector.h in Headers */,
 				6171EA861D9C748600FD900E /* GREYZeroToleranceTimer.h in Headers */,
 				61E4E0B91D7559DA007F9EE6 /* GREYTouchInfo.h in Headers */,
+				61EF44D51F070CD800CACC94 /* NSURLSession+GREYAdditions.h in Headers */,
 				3F5122181EE1D37E0000CC56 /* GREYTraversalDFS.h in Headers */,
 				597E02F51D55AD8B0052A8D1 /* GREYSyntheticEvents.h in Headers */,
 				597E02D81D55AD100052A8D1 /* GREYElementProvider.h in Headers */,
@@ -1170,6 +1184,7 @@
 				FD1001EC1C5B46C200B2DB0A /* UISwitch+GREYAdditions.m in Sources */,
 				FD1002321C5B46C200B2DB0A /* GREYBaseMatcher.m in Sources */,
 				FD1001C01C5B46C200B2DB0A /* GREYScrollToContentEdgeAction.m in Sources */,
+				61EF44D61F070CD800CACC94 /* NSURLSession+GREYAdditions.m in Sources */,
 				FD242E731D14B73E00046221 /* GREYTestHelper.m in Sources */,
 				FD1001F81C5B46C200B2DB0A /* XCTestCase+GREYAdditions.m in Sources */,
 				FD1002111C5B46C200B2DB0A /* GREYVisibilityChecker.m in Sources */,
@@ -1202,6 +1217,7 @@
 				61156A521D1B2AC1000013C7 /* UIGestureRecognizer+GREYAdditions.m in Sources */,
 				FD1001B21C5B46C200B2DB0A /* GREYActionBlock.m in Sources */,
 				7CFDF8EB1DBBD5FC00CAADB3 /* GREYLogger.m in Sources */,
+				61E1CA911F2A922700FE81B9 /* GREYObjcRuntime.m in Sources */,
 				FD1001CA1C5B46C200B2DB0A /* GREYTapper.m in Sources */,
 				FD1002091C5B46C200B2DB0A /* GREYElementHierarchy.m in Sources */,
 				FD1002531C5B46C200B2DB0A /* GREYUIWebViewIdlingResource.m in Sources */,
@@ -1360,6 +1376,7 @@
 					"-Wextra",
 					"-Wconstant-conversion",
 					"-Wconversion",
+					"-Wdocumentation",
 					"-Wenum-conversion",
 					"-Wint-conversion",
 					"-Wmissing-prototypes",
@@ -1407,6 +1424,7 @@
 					"-Wextra",
 					"-Wconstant-conversion",
 					"-Wconversion",
+					"-Wdocumentation",
 					"-Wenum-conversion",
 					"-Wint-conversion",
 					"-Wmissing-prototypes",

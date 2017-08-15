@@ -32,6 +32,11 @@
 + (void)ftr_setProxyEnabled:(BOOL)enabled;
 
 /**
+ *  Sets the simulated network delay that all proxied requests take to complete.
+ */
++ (void)ftr_setSimulatedNetworkDelay:(NSTimeInterval)delayInSeconds;
+
+/**
  *  Adds a proxy rule that configures the proxy to serve the given @c data for all URLs matching the
  *  @c regexString, in case of multiple matches the data associated with the last added matching
  *  regex will be used.

@@ -22,6 +22,11 @@
 static BOOL gFTRProxyEnabled;
 
 /**
+ *  Specifies the simulated delay that the proxy injects into the proxied requests.
+ */
+static NSTimeInterval gFTRProxySimulatedDelayInSeconds;
+
+/**
  *  Stores list of all URLs proxied so far.
  */
 static NSMutableArray *gFTRProxiedURLs;
@@ -61,6 +66,10 @@ static NSString *const kFTRNetworkProxyErrorDomain =
   @synchronized(self) {
     return gFTRProxyEnabled;
   }
+}
+
++ (void)ftr_setSimulatedNetworkDelay:(NSTimeInterval)delayInSeconds {
+  gFTRProxySimulatedDelayInSeconds = delayInSeconds;
 }
 
 + (void)ftr_addProxyRuleForUrlsMatchingRegexString:(NSString *)regexString
@@ -189,6 +198,11 @@ static NSString *const kFTRNetworkProxyErrorDomain =
   }
   NSString *data = [FTRNetworkProxy ftr_responseWithURLString:absoluteUrl];
   if (data) {
+    // Simulate a delay if set.
+    if (gFTRProxySimulatedDelayInSeconds > 0) {
+      [NSThread sleepForTimeInterval:gFTRProxySimulatedDelayInSeconds];
+    }
+
     // Create a HTTP response with the proxied data.
     NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc] initWithURL:self.request.URL
                                                               statusCode:200

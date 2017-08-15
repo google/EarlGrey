@@ -20,8 +20,8 @@
 
 #import "Common/GREYConfiguration.h"
 #import "Common/GREYFatalAsserts.h"
-#import "Common/GREYThrowDefines.h"
 #import "Common/GREYLogger.h"
+#import "Common/GREYThrowDefines.h"
 
 @implementation NSURL (GREYAdditions)
 
