@@ -25,6 +25,7 @@
 #import "Common/GREYConstants.h"
 #import "Common/GREYElementHierarchy.h"
 #import "Common/GREYFatalAsserts.h"
+#import "Common/GREYLogger.h"
 #import "Common/GREYSwizzler.h"
 #import "Synchronization/GREYAppStateTracker.h"
 #import "Synchronization/GREYTimedIdlingResource.h"
@@ -245,8 +246,14 @@ static Class gWebAccessibilityWrapper;
 
   // Text used for presentation.
   if ([self respondsToSelector:@selector(text)]) {
-    NSString *text = [self performSelector:@selector(text)];
-    [description appendFormat:@"; text=\'%@\'", !text ? @"" : text];
+    // The text method of private class UIWebDocumentView can throw an exception when calling its
+    // text method while loading a web page.
+    @try {
+      NSString *text = [self performSelector:@selector(text)];
+      [description appendFormat:@"; text=\'%@\'", !text ? @"" : text];
+    } @catch (NSException *exception) {
+      NSLog(@"Caught exception when calling text method on %@", self);
+    }
   }
 
   [description appendString:@">"];
