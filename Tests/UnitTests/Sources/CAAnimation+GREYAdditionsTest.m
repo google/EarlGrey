@@ -41,6 +41,16 @@ static id gDelegate;
 #endif
 @end
 
+
+/**
+ *  CAAnimationDelegate that doesn't have the animation delegate methods implemented.
+ */
+@interface CAAnimationDelegateWithoutMethodsImplemented : NSObject <CAAnimationDelegate>
+@end
+
+@implementation CAAnimationDelegateWithoutMethodsImplemented
+@end
+
 @implementation CAAnimation_GREYAdditionsTest {
   BOOL _animationDidStartCalled;
   BOOL _animationDidStopCalled;
@@ -202,6 +212,48 @@ static id gDelegate;
   XCTAssertEqual([[GREYAppStateTracker sharedInstance] currentState],
                  kGREYIdle,
                  @"Should be idle");
+}
+
+
+/**
+ *  Test for checking if re-setting the delegate of a CAAnimation with the same delegate does not
+ *  re-swizzle the delegate methods. This is checked by comparing the implementations of the
+ *  swizzled methods before / after re-setting the delegate.
+ */
+- (void)testAnimationImplementationsWithDelegate {
+  CAAnimation *animation = [CAAnimation animation];
+  [animation setDelegate:self];
+  IMP didStartMethod = [self methodForSelector:@selector(animationDidStart:)];
+  IMP didStopMethod = [self methodForSelector:@selector(animationDidStop:finished:)];
+  [animation setDelegate:self];
+  XCTAssertEqual([self methodForSelector:@selector(animationDidStart:)], didStartMethod);
+  XCTAssertEqual([self methodForSelector:@selector(animationDidStop:finished:)], didStopMethod);
+}
+
+/**
+ *  Test for checking that setting the delegate on a CAAnimation with a delegate that does not
+ *  implement the CAAnimationDelegate methods has them added to itself by EarlGrey's
+ *  GREYCAAnimationDelegate. Also checks that re-setting the delegate on the animation with the
+ *  same delegate does not cause re-swizzle the methods.
+ */
+- (void)testAnimationImplementationWithDelegateWithoutMethodsImplemented {
+  // Ensure the animation delegate methods are not implemented.
+  CAAnimationDelegateWithoutMethodsImplemented *delegate =
+      [[CAAnimationDelegateWithoutMethodsImplemented alloc] init];
+  XCTAssertFalse([delegate respondsToSelector:@selector(animationDidStart:)]);
+  XCTAssertFalse([delegate respondsToSelector:@selector(animationDidStop:finished:)]);
+  CAAnimation *animation = [CAAnimation animation];
+  // Add the animation methods to the delegate.
+  [animation setDelegate:delegate];
+  IMP didStartMethod = [delegate methodForSelector:@selector(animationDidStart:)];
+  IMP didStopMethod = [delegate methodForSelector:@selector(animationDidStop:finished:)];
+  XCTAssertTrue([delegate respondsToSelector:@selector(animationDidStart:)]);
+  XCTAssertTrue([delegate respondsToSelector:@selector(animationDidStop:finished:)]);
+  // Reset the delegate and make sure the method implementations do not change.
+  [animation setDelegate:delegate];
+  XCTAssertEqual([delegate methodForSelector:@selector(animationDidStart:)], didStartMethod);
+  XCTAssertEqual([delegate methodForSelector:@selector(animationDidStop:finished:)],
+                 didStopMethod);
 }
 
 @end
