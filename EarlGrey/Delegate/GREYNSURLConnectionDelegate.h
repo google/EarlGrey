@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/GREYSurrogateDelegate.h>
+#import "GREYSurrogateDelegate.h"
 #import <Foundation/Foundation.h>
 
 /**

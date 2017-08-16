@@ -22,9 +22,8 @@
 
 #import <EarlGrey/GREYAssertions.h>
 
-#import <EarlGrey/GREYAssertion.h>
-#import <EarlGrey/GREYError.h>
-
+@class GREYError;
+@protocol GREYAssertion;
 @protocol GREYMatcher;
 
 @interface GREYAssertions (Internal)

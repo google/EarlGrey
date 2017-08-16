@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/GREYTraversal.h>
+#import "GREYTraversal.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -15,7 +15,7 @@
 //
 
 #import <EarlGrey/GREYDefines.h>
-#import <EarlGrey/GREYTouchInfo.h>
+#import "GREYTouchInfo.h"
 
 /**
  *  The frequency at which touches will be injected per second. Currently set to 60Hz.

@@ -14,11 +14,12 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/GREYAppStateTracker.h>
-#import <EarlGrey/GREYObjectDeallocationTracker.h>
+#import "GREYAppStateTracker.h"
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
+
+@class GREYObjectDeallocationTracker;
 
 /**
  *  Class used by the GREYAppStateTracker for synchronization purposes.
