@@ -20,6 +20,31 @@
 
 #define kFTRKeyboardTypeCount 11
 
+@interface FTRCustomKeyboardTracker : UIButton
+@end
+
+@implementation FTRCustomKeyboardTracker {
+  UIView *_fakeKeyboardTracker;
+}
+
+- (BOOL)canBecomeFirstResponder {
+  return YES;
+}
+
+- (UIView *)inputAccessoryView {
+  if (!_fakeKeyboardTracker) {
+    // Create a zero size input accessory to continue receiving keyboard event.
+    // This is a common practice in iOS apps to work around
+    // https://openradar.appspot.com/15341512 We are simulating this usage here
+    // to make sure our keyboard functions would still work with this work
+    // around usage.
+    _fakeKeyboardTracker = [[UILabel alloc] initWithFrame:CGRectZero];
+  }
+  return _fakeKeyboardTracker;
+}
+
+@end
+
 @implementation FTRTypingViewController {
   UIKeyboardType _keyboardTypeArray[kFTRKeyboardTypeCount];
   UITextField *_accessoryTextField;
@@ -98,6 +123,10 @@
   self.customTextView.isAccessibilityElement = YES;
   self.customTextView.userInteractionEnabled = YES;
   self.customTextView.accessibilityIdentifier = @"CustomTextView";
+
+  [self.view sendSubviewToBack:_customKeyboardTracker];
+  self.customKeyboardTracker.isAccessibilityElement = YES;
+  self.customKeyboardTracker.accessibilityIdentifier = @"CustomKeyboardTracker";
 }
 
 - (void)buttonPressedForTyping {

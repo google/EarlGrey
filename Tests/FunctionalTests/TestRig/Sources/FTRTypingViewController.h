@@ -18,6 +18,8 @@
 
 @class FTRCustomTextView;
 
+@class FTRCustomKeyboardTracker;
+
 // View controller for the Typing section of the TestApp.
 @interface FTRTypingViewController : UIViewController <UITextFieldDelegate, UITextViewDelegate>
 
@@ -30,5 +32,6 @@
 @property(nonatomic, retain) UIBarButtonItem *dismissKeyboardButton;
 @property(nonatomic, retain) IBOutlet UIPickerView *keyboardPicker;
 @property(nonatomic, retain) NSArray *keyboardTypeStringArray;
+@property(nonatomic, retain) IBOutlet FTRCustomKeyboardTracker *customKeyboardTracker;
 
 @end
