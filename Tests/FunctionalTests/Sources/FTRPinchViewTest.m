@@ -85,6 +85,9 @@
       performAction:grey_pinchSlowInDirectionAndAngle(kGREYPinchDirectionInward,
                                                       defaultPinchAngle)];
   _imageViewFrameAfterPinch = [self ftr_imageViewFrame];
+  [self ftr_assertThatInitialSize:_imageViewFrameBeforePinch.size
+                     andFinalSize:_imageViewFrameAfterPinch.size
+                       areOrdered:NSOrderedDescending];
 }
 
 - (void)testImageViewFrameSizeOnZoomingInwardWithNegativeAngle {
@@ -94,6 +97,9 @@
       performAction:grey_pinchSlowInDirectionAndAngle(kGREYPinchDirectionInward,
                                                       defaultPinchAngle)];
   _imageViewFrameAfterPinch = [self ftr_imageViewFrame];
+  [self ftr_assertThatInitialSize:_imageViewFrameBeforePinch.size
+                     andFinalSize:_imageViewFrameAfterPinch.size
+                       areOrdered:NSOrderedDescending];
 }
 
 - (void)testImageViewFrameSizeOnZoomingInwardWithAngle {
@@ -103,6 +109,9 @@
       performAction:grey_pinchFastInDirectionAndAngle(kGREYPinchDirectionInward,
                                                       defaultPinchAngle)];
   _imageViewFrameAfterPinch = [self ftr_imageViewFrame];
+  [self ftr_assertThatInitialSize:_imageViewFrameBeforePinch.size
+                     andFinalSize:_imageViewFrameAfterPinch.size
+                       areOrdered:NSOrderedDescending];
 }
 
 - (void)testImageViewFrameSizeOnZoomingOutwardWithAngle {
@@ -112,6 +121,9 @@
       performAction:grey_pinchFastInDirectionAndAngle(kGREYPinchDirectionOutward,
                                                       defaultPinchAngle)];
   _imageViewFrameAfterPinch = [self ftr_imageViewFrame];
+  [self ftr_assertThatInitialSize:_imageViewFrameBeforePinch.size
+                     andFinalSize:_imageViewFrameAfterPinch.size
+                       areOrdered:NSOrderedAscending];
 }
 
 #pragma mark - Private
