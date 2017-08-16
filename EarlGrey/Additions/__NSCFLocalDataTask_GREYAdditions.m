@@ -36,20 +36,15 @@
     // swizzle __NSCFLocalDataTask it works on iOS 7.0 and 8.0. This is possibly because
     // __NSCFLocalDataTask is some kind of the internal class in use for iOS 7.0.
     Class class = NSClassFromString(@"__NSCFLocalDataTask");
-    BOOL success = [GREYObjcRuntime addInstanceMethodToClass:class
-                                                withSelector:@selector(grey_track)
-                                                   fromClass:self];
-    GREYFatalAssertWithMessage(success, @"Could not add grey_track to %@", class);
-
-    success = [GREYObjcRuntime addInstanceMethodToClass:class
-                                           withSelector:@selector(grey_untrack)
-                                              fromClass:self];
-    GREYFatalAssertWithMessage(success, @"Could not add grey_untrack to %@", class);
-
-    success = [GREYObjcRuntime addInstanceMethodToClass:class
-                                           withSelector:@selector(grey_neverTrack)
-                                              fromClass:self];
-    GREYFatalAssertWithMessage(success, @"Could not add grey_neverTrack to %@", class);
+    [GREYObjcRuntime addInstanceMethodToClass:class
+                                 withSelector:@selector(grey_track)
+                                    fromClass:self];
+    [GREYObjcRuntime addInstanceMethodToClass:class
+                                 withSelector:@selector(grey_untrack)
+                                    fromClass:self];
+    [GREYObjcRuntime addInstanceMethodToClass:class
+                                 withSelector:@selector(grey_neverTrack)
+                                    fromClass:self];
 
     GREYSwizzler *swizzler = [[GREYSwizzler alloc] init];
     IMP newImplementation = [self instanceMethodForSelector:@selector(greyswizzled_resume)];

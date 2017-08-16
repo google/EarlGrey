@@ -25,7 +25,7 @@
 
 @implementation GREYObjcRuntime
 
-+ (BOOL)addInstanceMethodToClass:(Class)destination
++ (void)addInstanceMethodToClass:(Class)destination
                     withSelector:(SEL)methodSelector
                        fromClass:(Class)source {
   GREYFatalAssert(destination);
@@ -47,7 +47,6 @@
                                  typeEncoding);
   GREYFatalAssertWithMessage(success, @"Failed to add method:%@ to class:%@",
                              NSStringFromSelector(methodSelector), destination);
-  return success;
 }
 
 @end
