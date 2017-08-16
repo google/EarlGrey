@@ -195,8 +195,9 @@
   }
 
   GREYTraversal *traversal = [[GREYTraversal alloc] init];
-  // We are using 'count + 1', because there are 100 cells + UITableViewWrapperView.
-  XCTAssertEqual([traversal exploreImmediateChildren:tableView].count, count+1);
+  // If before iOS 11, we use 'count + 1', because there are 100 cells + UITableViewWrapperView.
+  XCTAssertEqual([traversal exploreImmediateChildren:tableView].count,
+                 count + (iOS11_OR_ABOVE() ? 0 : 1));
 }
 
 #pragma mark - UIPickerView
