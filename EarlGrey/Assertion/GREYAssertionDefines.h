@@ -305,7 +305,7 @@ GREY_EXPORT id<GREYFailureHandler> grey_getFailureHandler();
     NSString *formattedDescription__; \
     I_GREYFormattedString(formattedDescription__, (__description), ##__VA_ARGS__); \
     I_GREYRegisterFailure(kGREYAssertionFailedException, \
-                          @"((" #__a1 ") is true) failed", \
+                          @"(" #__a1 " is true) failed", \
                           formattedDescription__); \
   } \
 })
@@ -316,7 +316,7 @@ GREY_EXPORT id<GREYFailureHandler> grey_getFailureHandler();
     NSString *formattedDescription__; \
     I_GREYFormattedString(formattedDescription__, (__description), ##__VA_ARGS__); \
     I_GREYRegisterFailure(kGREYAssertionFailedException, \
-                          @"((" #__a1 ") is false) failed", \
+                          @"(" #__a1 " is false) failed", \
                           formattedDescription__); \
   } \
 })
@@ -327,7 +327,7 @@ GREY_EXPORT id<GREYFailureHandler> grey_getFailureHandler();
     NSString *formattedDescription__; \
     I_GREYFormattedString(formattedDescription__, (__description), ##__VA_ARGS__); \
     I_GREYRegisterFailure(kGREYNotNilException, \
-                          @"((" #__a1 ") != nil) failed", \
+                          @"(" #__a1 " != nil) failed", \
                           formattedDescription__); \
   } \
 })
@@ -338,7 +338,7 @@ GREY_EXPORT id<GREYFailureHandler> grey_getFailureHandler();
     NSString *formattedDescription__; \
     I_GREYFormattedString(formattedDescription__, (__description), ##__VA_ARGS__); \
     I_GREYRegisterFailure(kGREYNilException, \
-                          @"((" #__a1 ") == nil) failed", \
+                          @"(" #__a1 " == nil) failed", \
                           formattedDescription__); \
   } \
 })
@@ -349,7 +349,7 @@ GREY_EXPORT id<GREYFailureHandler> grey_getFailureHandler();
     NSString *formattedDescription__; \
     I_GREYFormattedString(formattedDescription__, (__description), ##__VA_ARGS__); \
     I_GREYRegisterFailure(kGREYAssertionFailedException, \
-                          @"((" #__a1 ") == (" #__a2 ")) failed", \
+                          @"(" #__a1 " == (" #__a2 ")) failed", \
                           formattedDescription__); \
   } \
 })
@@ -360,7 +360,7 @@ GREY_EXPORT id<GREYFailureHandler> grey_getFailureHandler();
     NSString *formattedDescription__; \
     I_GREYFormattedString(formattedDescription__, (__description), ##__VA_ARGS__); \
     I_GREYRegisterFailure(kGREYAssertionFailedException, \
-                          @"((" #__a1 ") != (" #__a2 ")) failed", \
+                          @"(" #__a1 " != (" #__a2 ")) failed", \
                           formattedDescription__); \
     } \
 })
@@ -371,7 +371,7 @@ GREY_EXPORT id<GREYFailureHandler> grey_getFailureHandler();
     NSString *formattedDescription__; \
     I_GREYFormattedString(formattedDescription__, (__description), ##__VA_ARGS__); \
     I_GREYRegisterFailure(kGREYAssertionFailedException, \
-                          @"[(" #__a1 ") isEqual:(" #__a2 ")] failed", \
+                          @"[" #__a1 " isEqual:(" #__a2 ")] failed", \
                           formattedDescription__); \
   } \
 })
@@ -382,7 +382,7 @@ GREY_EXPORT id<GREYFailureHandler> grey_getFailureHandler();
     NSString *formattedDescription__; \
     I_GREYFormattedString(formattedDescription__, (__description), ##__VA_ARGS__); \
     I_GREYRegisterFailure(kGREYAssertionFailedException, \
-                          @"![(" #__a1 ") isEqual:(" #__a2 ")] failed", \
+                          @"![" #__a1 " isEqual:(" #__a2 ")] failed", \
                           formattedDescription__); \
   } \
 })
