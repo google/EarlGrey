@@ -75,10 +75,8 @@ static Class gCompatibilityVCClass;
   }
 }
 
-+ (void)initialize {
-  if (self == [UIViewController class]) {
-    gCompatibilityVCClass = NSClassFromString(@"UICompatibilityInputViewController");
-  }
+__attribute__((constructor)) static void initialize(void) {
+  gCompatibilityVCClass = NSClassFromString(@"UICompatibilityInputViewController");
 }
 
 - (void)grey_trackAsRootViewControllerForWindow:(UIWindow *)window {
