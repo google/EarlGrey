@@ -14,6 +14,9 @@
 // limitations under the License.
 //
 
+#import <EarlGrey/EarlGrey.h>
+#import <XCTest/XCTest.h>
+
 @interface EarlGreyContribsTests : XCTestCase
 
 @end

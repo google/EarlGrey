@@ -16,7 +16,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import <EarlGrey/GREYAnalyticsDelegate.h>
+#import "GREYAnalyticsDelegate.h"
 
 /**
  *  Provides methods for tracking EarlGrey usage using Google Analytics.
