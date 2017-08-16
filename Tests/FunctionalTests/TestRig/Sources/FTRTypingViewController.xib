@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="NO">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <development version="7000" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FTRTypingViewController">
             <connections>
+                <outlet property="customKeyboardTracker" destination="bnj-yZ-VR3" id="0ns-aw-ahE"/>
                 <outlet property="customTextView" destination="kf2-uc-vdE" id="XsY-7I-QdM"/>
                 <outlet property="inputAccessoryTextField" destination="Zla-Kl-dQS" id="XJs-DG-mGU"/>
                 <outlet property="inputButton" destination="8cM-Do-eO8" id="bVw-42-ZKa"/>
@@ -20,7 +24,7 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Input Accessory View TextField" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Zla-Kl-dQS" userLabel="Input Accessory Text Field">
@@ -41,7 +45,7 @@
                         <constraint firstAttribute="width" constant="133" id="Sle-WE-dbc"/>
                     </constraints>
                     <state key="normal" title="next returnKeyType">
-                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
                         <action selector="changeReturnKeyType:" destination="-1" eventType="touchUpInside" id="jOw-jE-AVj"/>
@@ -54,7 +58,7 @@
                 </textField>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" keyboardDismissMode="interactive" translatesAutoresizingMaskIntoConstraints="NO" id="F8N-FE-LqS">
                     <rect key="frame" x="20" y="179" width="374" height="53"/>
-                    <color key="backgroundColor" red="0.91907269021739135" green="0.91907269021739135" blue="0.91907269021739135" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" red="0.91907269021739135" green="0.91907269021739135" blue="0.91907269021739135" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="53" id="dkB-da-5H4"/>
                     </constraints>
@@ -77,15 +81,26 @@
                 </pickerView>
                 <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kf2-uc-vdE" customClass="FTRCustomTextView">
                     <rect key="frame" x="74" y="240" width="266" height="51"/>
-                    <color key="backgroundColor" red="0.72336632013320923" green="0.72336632013320923" blue="0.72336632013320923" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" red="0.72336632013320923" green="0.72336632013320923" blue="0.72336632013320923" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <accessibility key="accessibilityConfiguration" identifier="CustomTextView"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="266" id="Jks-lU-kXW"/>
                         <constraint firstAttribute="height" constant="51" id="KQW-5b-HjZ"/>
                     </constraints>
                 </view>
+                <view contentMode="bottomLeft" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bnj-yZ-VR3" customClass="FTRCustomKeyboardTracker">
+                    <rect key="frame" x="149" y="606" width="88" height="51"/>
+                    <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                    <accessibility key="accessibilityConfiguration" identifier="CustomKeyboardTracker"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="51" id="2nk-1v-V62"/>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="10" id="imr-vw-1wz"/>
+                        <constraint firstAttribute="width" constant="266" id="v44-1V-vN7"/>
+                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="10" id="vJa-7j-eqY"/>
+                    </constraints>
+                </view>
             </subviews>
-            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="ugr-WT-H7I" firstAttribute="top" secondItem="PBX-7b-uV2" secondAttribute="bottom" constant="-2" id="235-Sq-djF"/>
                 <constraint firstItem="D9d-aK-L7i" firstAttribute="top" secondItem="kf2-uc-vdE" secondAttribute="bottom" constant="22" id="89S-kl-2ip"/>
@@ -107,13 +122,14 @@
                 <constraint firstItem="D9d-aK-L7i" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="s2a-zj-xOX"/>
                 <constraint firstItem="PBX-7b-uV2" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="xxX-1T-fAt"/>
                 <constraint firstItem="HbD-2h-bQc" firstAttribute="trailing" secondItem="PBX-7b-uV2" secondAttribute="trailing" id="zCU-gO-eFg"/>
+                <constraint firstAttribute="bottom" secondItem="bnj-yZ-VR3" secondAttribute="bottom" constant="10" id="zv1-fF-81e"/>
             </constraints>
-            <point key="canvasLocation" x="24" y="52"/>
+            <point key="canvasLocation" x="-17.5" y="29.5"/>
         </view>
     </objects>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination"/>
+        <simulatedScreenMetrics key="destination" type="retina4_7.fullscreen"/>
     </simulatedMetricsContainer>
 </document>

@@ -481,6 +481,20 @@
       assertWithMatcher:grey_text(@"foo")];
 }
 
+- (void)testIsKeyboardShownWithCustomKeyboardTracker {
+  GREYActionBlock *setResponderBlock =
+  [GREYActionBlock actionWithName:@"Set First Responder"
+      performBlock:^BOOL(id element, NSError *__strong *errorOrNil) {
+          return [element becomeFirstResponder];
+      }];
+
+  GREYAssertFalse([GREYKeyboard isKeyboardShown], @"Keyboard Shouldn't be Shown");
+
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CustomKeyboardTracker")]
+      performAction:setResponderBlock];
+  GREYAssertFalse([GREYKeyboard isKeyboardShown], @"Keyboard Shouldn't be Shown");
+}
+
 - (void)testTypingAndResigningOfFirstResponder {
   GREYAssertFalse([GREYKeyboard isKeyboardShown], @"Keyboard Shouldn't be Shown");
 
@@ -499,6 +513,8 @@
 }
 
 - (void)testTypingAndResigningWithError {
+  GREYAssertFalse([GREYKeyboard isKeyboardShown], @"Keyboard Shouldn't be Shown");
+
   GREYActionBlock *setResponderBlock =
       [GREYActionBlock actionWithName:@"Set First Responder"
                          performBlock:^BOOL(id element, NSError *__strong *errorOrNil) {
@@ -507,15 +523,19 @@
                          }];
   NSError *error;
   [EarlGrey dismissKeyboardWithError:&error];
-  GREYAssertEqualObjects([error localizedDescription],
+  NSString *localizedErrorDescription = [error localizedDescription];
+  GREYAssertEqualObjects(localizedErrorDescription,
                          @"Failed to dismiss keyboard since it was not showing.",
-                         @"Cannot dismiss because keyboard was never brought up.");
+                         @"Unexpected error message for initial dismiss: %@, original error: %@",
+                         localizedErrorDescription, error);
 
   [[EarlGrey selectElementWithMatcher:grey_keyWindow()] performAction:setResponderBlock];
   [EarlGrey dismissKeyboardWithError:&error];
-  GREYAssertEqualObjects([error localizedDescription],
+  localizedErrorDescription = [error localizedDescription];
+  GREYAssertEqualObjects(localizedErrorDescription,
                          @"Failed to dismiss keyboard since it was not showing.",
-                         @"Cannot dismiss because keyboard was already dismissed.");
+                         @"Unexpected error message for second dismiss: %@, original error: %@",
+                         localizedErrorDescription, error);
 }
 
 #pragma mark - Private

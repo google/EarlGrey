@@ -109,7 +109,17 @@ static NSString *const kReturnKeyIdentifier = @"\n";
       GREYAppStateTrackerObject *object =
           objc_getAssociatedObject(keyboardObject, @selector(grey_keyboardObject));
       UNTRACK_STATE_FOR_OBJECT(kGREYPendingKeyboardTransition, object);
-      atomic_store(&gIsKeyboardShown, true);
+      // There may be a zero size inputAccessoryView to track keyboard data.
+      // This causes UIKeyboardDidShowNotification event to fire even though no keyboard is visible.
+      // So intead of relying on keyboard show/hide event to detect the keyboard visibility, it is
+      // necessary to double check on the actual frame to determine the true visibility.
+      CGRect keyboardFrame = [note.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
+      UIWindow *window = [UIApplication sharedApplication].keyWindow;
+      keyboardFrame = [window convertRect:keyboardFrame fromWindow:nil];
+      CGRect windowFrame = window.frame;
+      CGRect frameIntersection = CGRectIntersection(windowFrame, keyboardFrame);
+      bool keyboardVisible = frameIntersection.size.width > 1 && frameIntersection.size.height > 1;
+      atomic_store(&gIsKeyboardShown, keyboardVisible);
     }];
     [defaultNotificationCenter addObserverForName:UIKeyboardWillHideNotification
                                            object:nil
