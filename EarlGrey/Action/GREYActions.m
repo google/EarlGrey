@@ -236,7 +236,7 @@ static Class gAccessibilityTextFieldElementClass;
                             performBlock:^BOOL (id element, __strong NSError **errorOrNil) {
     NSString *textStr;
     if ([element grey_isWebAccessibilityElement]) {
-      [GREYActions grey_webClearText:element];
+      [GREYActions grey_setText:@"" onWebElement:element];
       return YES;
     } else if ([element isKindOfClass:gAccessibilityTextFieldElementClass]) {
       element = [element textField];
@@ -333,21 +333,12 @@ static Class gAccessibilityTextFieldElementClass;
 #pragma mark - Private
 
 /**
- *  Clears WebView input text value.
- *
- *  @param element The element to target
- */
-+ (void)grey_webClearText:(id)element {
-  [GREYActions grey_webSetText:element text:@""];
-}
-
-/**
  *  Sets WebView input text value.
  *
  *  @param element The element to target
  *  @param text The text to set
  */
-+ (void)grey_webSetText:(id)element text:(NSString *)text {
++ (void)grey_setText:(NSString *)text onWebElement:(id)element {
   // Input tags can be identified by having the 'title' attribute set, or current value.
   // Associating a <label> tag to the input tag does NOT result in an iOS accessibility element.
   if (!text) {
@@ -391,7 +382,7 @@ static Class gAccessibilityTextFieldElementClass;
                              constraints:constraints
                             performBlock:^BOOL (id element, __strong NSError **errorOrNil) {
     if ([element grey_isWebAccessibilityElement]) {
-      [GREYActions grey_webSetText:element text:text];
+      [GREYActions grey_setText:text onWebElement:element];
     } else {
       if ([element isKindOfClass:gAccessibilityTextFieldElementClass]) {
         element = [element textField];
@@ -475,74 +466,31 @@ static Class gAccessibilityTextFieldElementClass;
   // since we reset the delegate in the grey_setAutocorrectionType:forIntance:
   // withOriginalKeyboardDelegate:withKeyboardToggling method in order for the autocorrection type
   // change to take effect.
+  BOOL toggleKeyboard = iOS8_1_OR_ABOVE();
   id keyboardInstance = [UIKeyboardImpl sharedInstance];
   id originalKeyboardDelegate = [keyboardInstance delegate];
   UITextAutocorrectionType originalAutoCorrectionType =
       [originalKeyboardDelegate autocorrectionType];
   // For a copy of the keyboard's delegate, turn the autocorrection off. Set this copy back
   // as the delegate.
-  [self grey_setAutocorrectionType:UITextAutocorrectionTypeNo
-                       forInstance:keyboardInstance
-      withOriginalKeyboardDelegate:originalKeyboardDelegate
-              withKeyboardToggling:iOS8_1_OR_ABOVE()];
-
+  if (toggleKeyboard) {
+    [keyboardInstance hideKeyboard];
+  }
+  [originalKeyboardDelegate setAutocorrectionType:UITextAutocorrectionTypeNo];
+  [keyboardInstance setDelegate:originalKeyboardDelegate];
+  if (toggleKeyboard) {
+    [keyboardInstance showKeyboard];
+  }
   // Type the string in the delegate text field.
   BOOL typingResult = [GREYKeyboard typeString:text
                               inFirstResponder:firstResponder
                                          error:errorOrNil];
 
   // Reset the keyboard delegate's autocorrection back to the original one.
-  [self grey_setAutocorrectionType:originalAutoCorrectionType
-                       forInstance:keyboardInstance
-      withOriginalKeyboardDelegate:originalKeyboardDelegate
-              withKeyboardToggling:NO];
+  [originalKeyboardDelegate setAutocorrectionType:originalAutoCorrectionType];
+  [keyboardInstance setDelegate:originalKeyboardDelegate];
+
   return typingResult;
-}
-
-/**
- *  For the particular element being typed in, signified by the delegate of the keyboard instance
- *  turn off autocorrection. To provide a delay in this action, we can also hide and show the
- *  keyboard.
- *
- *  @param autoCorrectionType         The autocorrection type to set the current keyboard to.
- *  @param keyboardInstance           The active keyboard instance.
- *  @param toggleKeyboardVisibilityOn A switch to show/hide the keyboard.
- *
- */
-+ (void)grey_setAutocorrectionType:(BOOL)autoCorrectionType
-                       forInstance:(id)keyboardInstance
-      withOriginalKeyboardDelegate:(id)keyboardDelegate
-              withKeyboardToggling:(BOOL)toggleKeyboardVisibilityOn {
-  if (toggleKeyboardVisibilityOn) {
-    [keyboardInstance hideKeyboard];
-  }
-  [keyboardDelegate setAutocorrectionType:autoCorrectionType];
-  [keyboardInstance setDelegate:keyboardDelegate];
-  if (toggleKeyboardVisibilityOn) {
-    [keyboardInstance showKeyboard];
-  }
-}
-
-/**
- *  Directly perform typing without any changes in the first responder element whatsoever.
- *
- *  @param      text           The text to be typed.
- *  @param      firstResponder The element the action is to be performed on.
- *                             This must not be @c nil.
- *  @param[out] errorOrNil     Error that will be populated on failure. The implementing class
- *                             should handle the behavior when it is @c nil by, for example,
- *                             logging the error or throwing an exception.
- *
- *  @return @c YES if the action succeeded, else @c NO. If an action returns @c NO, it does not
- *          mean that the action was not performed at all but somewhere during the action execution
- *          the error occured and so the UI may be in an unrecoverable state.
- */
-+ (BOOL)grey_withAutocorrectAlreadyDisabledTypeText:(NSString *)text
-                                   inFirstResponder:firstResponder
-                                          withError:(__strong NSError **)errorOrNil {
-  // Perform typing. This requires autocorrect to be turned off. In
-  // the case of iOS8+, this is done through the Keyboard Settings bundle.
-  return [GREYKeyboard typeString:text inFirstResponder:firstResponder error:errorOrNil];
 }
 
 #pragma mark - Package Internal
@@ -606,9 +554,7 @@ static Class gAccessibilityTextFieldElementClass;
     if (iOS8_2_OR_ABOVE()) {
       // Directly perform the typing since for iOS8.2 and above, we directly turn off Autocorrect
       // and Predictive Typing from the settings.
-      retVal = [self grey_withAutocorrectAlreadyDisabledTypeText:text
-                                                inFirstResponder:firstResponder
-                                                       withError:errorOrNil];
+      retVal = [GREYKeyboard typeString:text inFirstResponder:firstResponder error:errorOrNil];
     } else {
       // Perform typing. If this is pre-iOS8.2, then we simply turn the autocorrection
       // off the current textfield being typed in.
