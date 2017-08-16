@@ -22,7 +22,7 @@
   [super viewDidLoad];
 
   UIImage *image = [UIImage imageNamed:@"Default.png"];
-  UIImageView *imageView = (UIImageView *) self.view;
+  UIImageView *imageView = (UIImageView *)self.view;
   // Add image from resource bundle to the image view.
   imageView.image = image;
   imageView.isAccessibilityElement = YES;
@@ -38,11 +38,17 @@
 
 // Scales image relative to the touch point in the screen.
 - (IBAction)scaleImage:(UIPinchGestureRecognizer *)recognizer {
-  recognizer.view.transform = CGAffineTransformScale(recognizer.view.transform,
-                                                     recognizer.scale,
-                                                     recognizer.scale);
+  if (!CGRectIsEmpty(recognizer.view.frame)) {
+    recognizer.view.transform = CGAffineTransformScale(recognizer.view.transform,
+                                                       recognizer.scale,
+                                                       recognizer.scale);
+  } else {
+    recognizer.view.transform = CGAffineTransformIdentity;
+    CGRect zeroSizeFrame = recognizer.view.frame;
+    zeroSizeFrame.size = CGSizeMake(0, 0);
+    recognizer.view.frame = zeroSizeFrame;
+  }
   recognizer.scale = 1.0;
-
 }
 
 @end
