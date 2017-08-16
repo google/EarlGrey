@@ -254,8 +254,16 @@
   [[EarlGrey selectElementWithMatcher:grey_text(@"Paste")]
       performAction:[GREYActions actionForTap]];
 
-  [[EarlGrey selectElementWithMatcher:grey_text(@"HelloFromEarlGrey")]
-      assertWithMatcher:grey_sufficientlyVisible()];
+  // Smart Inserts in Xcode 9 cause a space to appear by default after a paste. This attribute
+  // is not available on Xcode 7 and therefore cannot be used to fix the test. Therefore, we
+  // are changing the value based on the Xcode version.
+  if (iOS11_OR_ABOVE()) {
+    [[EarlGrey selectElementWithMatcher:grey_text(@"Hello FromEarlGrey")]
+        assertWithMatcher:grey_sufficientlyVisible()];
+  } else {
+    [[EarlGrey selectElementWithMatcher:grey_text(@"HelloFromEarlGrey")]
+        assertWithMatcher:grey_sufficientlyVisible()];
+  }
 }
 
 - (void)testBasicInteractionWithStepper {
