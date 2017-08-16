@@ -23,6 +23,7 @@
 #import "Common/GREYDefines.h"
 #import "Common/GREYFatalAsserts.h"
 #import "Common/GREYLogger.h"
+#import "Common/GREYObjcRuntime.h"
 #import "Common/GREYSwizzler.h"
 
 /**
@@ -62,8 +63,10 @@ static void AnimationDidStop(id self,
  *  @param originalSelector       The original selector method from CAAnimationDelegate to be
  *                                swizzled.
  *  @param swizzledSelector       The custom EarlGrey selector for the @c originalSelector.
- *  @param originalImplementation The implementation for the @c originalSelector.
- *  @param swizzledImplementation The implementation for the @c swizzledSelector.
+ *  @param selfImplementation     The implementation of the @c originalSelector in the
+ *                                GREYCAAnimationDelegate.
+ *  @param delegateImplementation The implementation for the @c originalSelector in the delegate
+ *                                passed in.
  *
  *  @return An id<CAAnimationDelegate> that has been appropriately instrumented for EarlGrey's
  *          synchronization.
@@ -72,8 +75,8 @@ static id InstrumentSurrogateDelegate(id self,
                                       id delegate,
                                       SEL originalSelector,
                                       SEL swizzledSelector,
-                                      IMP originalImplementation,
-                                      IMP swizzledImplementation);
+                                      IMP selfImplementation,
+                                      IMP delegateImplementation);
 
 @implementation GREYCAAnimationDelegate
 
@@ -89,44 +92,31 @@ static id InstrumentSurrogateDelegate(id self,
     SEL animationDidStopSEL = @selector(animationDidStop:finished:);
     SEL greyAnimationDidStopSEL = @selector(greyswizzled_animationDidStop:finished:);
     IMP animationDidStartInstance = [self instanceMethodForSelector:animationDidStartSEL];
-    IMP greyAnimationDidStartInstance = [self instanceMethodForSelector:greyAnimationDidStartSEL];
+    IMP delegateAnimationDidStartInstance = [delegate methodForSelector:animationDidStartSEL];
     IMP animationDidStopInstance = [self instanceMethodForSelector:animationDidStopSEL];
-    IMP greyAnimationDidStopInstance = [self instanceMethodForSelector:greyAnimationDidStopSEL];
+    IMP delegateAnimationDidStopInstance = [delegate methodForSelector:animationDidStopSEL];
     outDelegate = InstrumentSurrogateDelegate(self,
                                               delegate,
                                               animationDidStartSEL,
                                               greyAnimationDidStartSEL,
                                               animationDidStartInstance,
-                                              greyAnimationDidStartInstance);
+                                              delegateAnimationDidStartInstance);
     outDelegate = InstrumentSurrogateDelegate(self,
-                                              delegate,
+                                              outDelegate,
                                               animationDidStopSEL,
                                               greyAnimationDidStopSEL,
                                               animationDidStopInstance,
-                                              greyAnimationDidStopInstance);
+                                              delegateAnimationDidStopInstance);
   }
   return outDelegate;
 }
 
 - (void)animationDidStart:(CAAnimation *)animation {
   AnimationDidStart(self, _cmd, animation, NO);
-  if ([[self superclass] instancesRespondToSelector:_cmd]) {
-    struct objc_super superClassStruct = { self, [self superclass] };
-    ((void (*)(struct objc_super *, SEL, CAAnimation *))objc_msgSendSuper)(&superClassStruct,
-                                                                           _cmd,
-                                                                           animation);
-  }
 }
 
 - (void)animationDidStop:(CAAnimation *)animation finished:(BOOL)finished {
   AnimationDidStop(self, _cmd, animation, finished, NO);
-  if ([[self superclass] instancesRespondToSelector:_cmd]) {
-    struct objc_super superClassStruct = { self, [self superclass] };
-    ((void (*)(struct objc_super *, SEL, CAAnimation *, BOOL))objc_msgSendSuper)(&superClassStruct,
-                                                                                 _cmd,
-                                                                                 animation,
-                                                                                 finished);
-  }
 }
 
 #pragma mark - GREYPrivate
@@ -150,72 +140,34 @@ static id InstrumentSurrogateDelegate(id self,
   AnimationDidStop(self, _cmd, animation, finished, YES);
 }
 
-/**
- *  Adds @c methodSelector contained in @c source class to the @c destination class.
- *  No swizzling is done of the @c methodSelector after and therefore no implementation is
- *  required.
- *
- *  @param destination    The class to which @c method selector is to be added.
- *  @param methodSelector The selector, implemented in @c source to be added to @c destination.
- *  @param source         The class which currently implements @c methodSelector.
- *
- *  @return @c YES if the give method could be successfully added, @c NO otherwise.
- */
-+ (BOOL)grey_addInstanceMethodToClass:(Class)destination
-                         withSelector:(SEL)methodSelector
-                            fromClass:(Class)source {
-  GREYFatalAssert(destination);
-  GREYFatalAssert(methodSelector);
-  GREYFatalAssert(source);
-
-  Method instanceMethod = class_getInstanceMethod(source, methodSelector);
-  GREYFatalAssertWithMessage(instanceMethod,
-                             @"Instance method: %@ does not exist in the class %@.",
-                             NSStringFromSelector(methodSelector),
-                             source);
-
-  const char *typeEncoding = method_getTypeEncoding(instanceMethod);
-  if (!typeEncoding) {
-    GREYLogVerbose(@"Failed to get method description.");
-    return NO;
-  }
-  if (!class_addMethod(destination,
-                       methodSelector,
-                       method_getImplementation(instanceMethod),
-                       typeEncoding)) {
-    GREYFatalAssertWithMessage(NO, @"Failed to add class method.");
-    return NO;
-  }
-  return YES;
-}
-
 @end
 
 static id InstrumentSurrogateDelegate(id self,
                                       id delegate,
                                       SEL originalSelector,
                                       SEL swizzledSelector,
-                                      IMP originalImplementation,
-                                      IMP swizzledImplementation) {
-  Class klass = [delegate class];
+                                      IMP selfImplementation,
+                                      IMP delegateImplementation) {
   if (![delegate respondsToSelector:swizzledSelector]) {
+    Class klass = [delegate class];
     // If the delegate's class does not implement the swizzled greyswizzled_animationDidStart:
     // method, then EarlGrey needs to swizzle it.
     if (![delegate respondsToSelector:originalSelector]) {
       // If animationDidStart: is not implemented by the delegate's class then we have to first
       // add it to the delegate class.
-      BOOL addInstanceSuccess = [self grey_addInstanceMethodToClass:klass
-                                                       withSelector:originalSelector
-                                                          fromClass:self];
-      GREYFatalAssertWithMessage(addInstanceSuccess,
-                                 @"Cannot add %@", NSStringFromSelector(originalSelector));
-    } else if (originalImplementation != swizzledImplementation) {
+      [GREYObjcRuntime addInstanceMethodToClass:klass
+                                   withSelector:originalSelector
+                                      fromClass:self];
+
+      // In case a delegate is passed in that has already been swizzled by EarlGrey, it needs to be
+      // ensured that it is not re-swizzled. As a result, it is checked for the implementations of
+      // the methods to be swizzled and if they are the same as those provided by EarlGrey on
+      // swizzling.
+    } else if (selfImplementation != delegateImplementation) {
       // Add the EarlGrey-implemented method to the delegate's class and swizzle it.
-      BOOL addInstanceSuccess = [self grey_addInstanceMethodToClass:klass
-                                                       withSelector:swizzledSelector
-                                                          fromClass:self];
-      GREYFatalAssertWithMessage(addInstanceSuccess,
-                                 @"Cannot add %@", NSStringFromSelector(swizzledSelector));
+      [GREYObjcRuntime addInstanceMethodToClass:klass
+                                   withSelector:swizzledSelector
+                                      fromClass:self];
       BOOL swizzleSuccess = [[[GREYSwizzler alloc] init] swizzleClass:klass
                                                 replaceInstanceMethod:originalSelector
                                                            withMethod:swizzledSelector];

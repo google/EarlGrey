@@ -28,7 +28,7 @@
  *  @param selector    The method selector from source class that needs to be added to destination.
  *  @param source      The source class for the method to be added.
  */
-+ (BOOL)addInstanceMethodToClass:(Class)destination
++ (void)addInstanceMethodToClass:(Class)destination
                     withSelector:(SEL)selector
                        fromClass:(Class)source;
 
