@@ -36,13 +36,11 @@ static NSString *gXCTestCaseInterruptionExceptionName;
 
 + (void)initialize {
   if (self == [GREYSampleTests class]) {
-    NSOperatingSystemVersion iOS11OrAbove =
-        {.majorVersion = 11, .minorVersion = 0, .patchVersion = 0};
-    if ([[NSProcessInfo processInfo] isOperatingSystemAtLeastVersion:iOS11OrAbove]) {
-      gXCTestCaseInterruptionExceptionName = @"NSInternalInconsistencyException";
-    } else {
-      gXCTestCaseInterruptionExceptionName = @"_XCTestCaseInterruptionException";
-    }
+#if defined(__IPHONE_11_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_11_0
+    gXCTestCaseInterruptionExceptionName = @"NSInternalInconsistencyException";
+#else
+    gXCTestCaseInterruptionExceptionName = @"_XCTestCaseInterruptionException";
+#endif
   }
 }
 
@@ -398,4 +396,3 @@ static NSString *gXCTestCaseInterruptionExceptionName;
 }
 
 @end
-
