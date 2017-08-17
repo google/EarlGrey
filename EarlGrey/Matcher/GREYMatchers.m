@@ -20,6 +20,7 @@
 #import <UIKit/UIKit.h>
 #include <tgmath.h>
 
+#import "Additions/NSObject+GREYAdditions.h"
 #import "Additions/NSString+GREYAdditions.h"
 #import "Additions/UISwitch+GREYAdditions.h"
 #import "Additions/NSError+GREYAdditions.h"
@@ -29,6 +30,7 @@
 #import "Common/GREYConstants.h"
 #import "Common/GREYError.h"
 #import "Common/GREYFatalAsserts.h"
+#import "Common/GREYThrowDefines.h"
 #import "Common/GREYVisibilityChecker.h"
 #import "Core/GREYElementFinder.h"
 #import "Core/GREYElementInteraction.h"
@@ -520,29 +522,44 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
 
 + (id<GREYMatcher>)matcherForConstraints:(NSArray *)constraints
               toReferenceElementMatching:(id<GREYMatcher>)referenceElementMatcher {
+  GREYThrowOnFailedConditionWithMessage(constraints.count > 0,
+                                        @"Please provide at least one constraint.");
+  GREYThrowOnNilParameterWithMessage(referenceElementMatcher, @"Nil reference matcher provided.");
+
   MatchesBlock matches = ^BOOL(id element) {
     // TODO: This causes searching the UI hierarchy multiple times for each element, refactor the
     // design to avoid this.
     GREYElementInteraction *interaction =
         [[GREYElementInteraction alloc] initWithElementMatcher:referenceElementMatcher];
-    NSError *matcherError;
-    NSArray *referenceElements = [interaction matchedElementsWithTimeout:0 error:&matcherError];
-    if (matcherError) {
-      NSLog(@"Error finding element: %@", [GREYError grey_nestedDescriptionForError:matcherError]);
-      return NO;
-    } else if (referenceElements.count > 1) {
-      NSLog(@"More than one element matches the reference matcher.\n"
-            @"The following elements were matched: %@\n"
-            @"Provided reference matcher: %@\n",
-            referenceElements,
-            referenceElementMatcher);
-      return NO;
-    }
-
+    NSError *matchError;
+    NSArray *referenceElements = [interaction matchedElementsWithTimeout:0 error:&matchError];
     id referenceElement = [referenceElements firstObject];
     if (!referenceElement) {
-      NSLog(@"Could not find reference element.");
-      return NO;
+      NSString *reason = @"Matcher for layout constraints failed: no UI element matching reference "
+                         @"element matcher was found.";
+      I_GREYElementNotFound(reason,
+                            @"Reference element matcher: %@",
+                            referenceElementMatcher);
+    } else if (referenceElements.count > 1) {
+      NSString *reason = @"Matcher for layout constraints failed: multiple UI elements matching "
+                         @"reference element matcher were found. Use grey_allOf(...) to create a "
+                         @"more specific reference element matcher.";
+      NSMutableArray *elementDescriptions =
+          [NSMutableArray arrayWithCapacity:referenceElements.count];
+      [elementDescriptions enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [elementDescriptions addObject:[obj grey_description]];
+      }];
+      I_GREYMultipleElementsFound(reason,
+                                  @"Reference element matcher: %@\nMatched elements: %@",
+                                  referenceElementMatcher,
+                                  elementDescriptions);
+    }
+
+    // Reference element exists but still there was an error.
+    if (matchError) {
+      I_GREYFailWithDetails(@"An error occurred while trying to find the reference element.",
+                            @"Error was set even though 1 element was returned: %@",
+                            matchError);
     }
 
     for (GREYLayoutConstraint *constraint in constraints) {
@@ -552,10 +569,12 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
     }
     return YES;
   };
+
   DescribeToBlock describe = ^void(id<GREYDescription> description) {
     NSString *name =
         [NSString stringWithFormat:@"layoutWithConstraints(%@) referenceElementMatcher:(%@)",
-            referenceElementMatcher, [constraints componentsJoinedByString:@","]];
+                                   [constraints componentsJoinedByString:@","],
+                                   referenceElementMatcher];
     [description appendText:name];
   };
   // Nil elements do not have layout for matching layout constraints.
