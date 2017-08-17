@@ -116,12 +116,12 @@
       if (elements.count > 0) {
         return elements;
       } else if (!_searchAction) {
-        NSString *desc =
+        NSString *description =
             @"Interaction cannot continue because the desired element was not found.";
         GREYPopulateErrorOrLog(error,
                                kGREYInteractionErrorDomain,
                                kGREYInteractionElementNotFoundErrorCode,
-                               desc);
+                               description);
         return nil;
       } else if (searchActionError) {
         break;
@@ -168,12 +168,13 @@
   } else if (timedOut) {
     CFTimeInterval interactionTimeout =
         GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
-    NSString *desc = [NSString stringWithFormat:@"Interaction timed out after %g seconds while "
-                                                @"searching for element.", interactionTimeout];
+    NSString *description = [NSString stringWithFormat:@"Interaction timed out after %g seconds "
+                                                       @"while searching for element.",
+                                                       interactionTimeout];
 
     NSError *timeoutError = GREYErrorMake(kGREYInteractionErrorDomain,
                                           kGREYInteractionTimeoutErrorCode,
-                                          desc);
+                                          description);
 
     GREYPopulateNestedErrorOrLog(error,
                                  kGREYInteractionErrorDomain,

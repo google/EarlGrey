@@ -602,6 +602,57 @@
                  @"Element must is not be on top-right.");
 }
 
+- (void)testLayoutMatcherFailsWhenNoReferenceElementMatched {
+  // Prepare a window and add a view not matching reference element matcher to it.
+  UIWindow *window = [[UIWindow alloc] init];
+  UIView *view = [[UIView alloc] init];
+  [window addSubview:view];
+
+  // Prepare mocks for test.
+  [[[self.mockSharedApplication stub] andReturn:@[window]] windows];
+
+  // Prepare constraint.
+  NSArray *constraints = @[[GREYLayoutConstraint layoutConstraintForDirection:kGREYLayoutDirectionUp
+                                                         andMinimumSeparation:0]];
+
+  // Reference element matcher not matching any elements.
+  id referenceMatcher = grey_accessibilityID(@"does not exist");
+
+  XCTAssertThrowsSpecificNamed([[GREYMatchers matcherForConstraints:constraints
+                                         toReferenceElementMatching:referenceMatcher] matches:view],
+                               GREYFrameworkException,
+                               kGREYNoMatchingElementException,
+                               @"Matcher for layout constraints failed: no UI element matching "
+                               @"reference element matcher was found.");
+}
+
+- (void)testLayoutMatcherFailsWhenMutipleReferenceElementsMatched {
+  // Prepare a window and add 2 views matching reference element matcher to it.
+  UIWindow *window = [[UIWindow alloc] init];
+  UIView *view = [[UIView alloc] init];
+  [window addSubview:view];
+  UIView *anotherView = [[UIView alloc] init];
+  [window addSubview:anotherView];
+
+  // Prepare mocks for test.
+  [[[self.mockSharedApplication stub] andReturn:@[window]] windows];
+
+  // Prepare constraint.
+  NSArray *constraints = @[[GREYLayoutConstraint layoutConstraintForDirection:kGREYLayoutDirectionUp
+                                                        andMinimumSeparation:0]];
+
+  // Reference element matcher matching multiple elements.
+  id referenceMatcher = grey_kindOfClass([UIView class]);
+
+  XCTAssertThrowsSpecificNamed([[GREYMatchers matcherForConstraints:constraints
+                                        toReferenceElementMatching:referenceMatcher] matches:view],
+                              GREYFrameworkException,
+                              kGREYMultipleElementsFoundException,
+                              @"Matcher for layout constraints failed: multiple UI elements "
+                              @"matching reference element matcher were found. Use grey_allOf(...) "
+                              @"to create a more specific reference element matcher.");
+}
+
 - (void)testSwitchInOFFStateMatcher {
   UISwitch *uiswitch = [[UISwitch alloc] init];
   [uiswitch setOn:NO];
