@@ -213,6 +213,24 @@
   }
 }
 
+- (void)grey_recursivelyMakeOpaque {
+  objc_setAssociatedObject(self,
+                           @selector(grey_restoreOpacity),
+                           @(self.alpha),
+                           OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+  self.alpha = 1.0;
+  [self.superview grey_recursivelyMakeOpaque];
+}
+
+- (void)grey_restoreOpacity {
+  NSNumber *alpha = objc_getAssociatedObject(self, @selector(grey_restoreOpacity));
+  if (alpha) {
+    self.alpha = [alpha floatValue];
+    objc_setAssociatedObject(self, @selector(grey_restoreOpacity), nil, OBJC_ASSOCIATION_ASSIGN);
+  }
+  [self.superview grey_restoreOpacity];
+}
+
 - (void)grey_saveCurrentAlphaAndUpdateWithValue:(float)alpha {
   objc_setAssociatedObject(self,
                            @selector(grey_restoreAlpha),

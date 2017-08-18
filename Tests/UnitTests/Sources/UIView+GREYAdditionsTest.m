@@ -554,28 +554,28 @@
 }
 
 - (void)testViewIsValidForScreenshotForEmptyAXFrame {
-  UIWindow *testWindow = [self eg_windowWithSetupTestViewHierarchy];
+  UIWindow *testWindow = [self grey_windowWithSetupTestViewHierarchy];
   UIView *testView = [[testWindow subviews] firstObject];
   testView.accessibilityFrame = CGRectZero;
   XCTAssertFalse([testView grey_isVisible]);
 }
 
 - (void)testViewIsValidForScreenshotIfViewHidden {
-  UIWindow *testWindow = [self eg_windowWithSetupTestViewHierarchy];
+  UIWindow *testWindow = [self grey_windowWithSetupTestViewHierarchy];
   UIView *testView = [[[[testWindow subviews] firstObject] subviews] firstObject];
   testView.hidden = YES;
   XCTAssertFalse([testView grey_isVisible]);
 }
 
 - (void)testViewIsValidForScreenshotIfViewNotHidden {
-  UIWindow *testWindow = [self eg_windowWithSetupTestViewHierarchy];
+  UIWindow *testWindow = [self grey_windowWithSetupTestViewHierarchy];
   UIView *testView = [[[[testWindow subviews] firstObject] subviews] firstObject];
   testView.hidden = NO;
   XCTAssertTrue([testView grey_isVisible]);
 }
 
 - (void)testViewIsValidForScreenshotIfViewTranslucent {
-  UIWindow *testWindow = [self eg_windowWithSetupTestViewHierarchy];
+  UIWindow *testWindow = [self grey_windowWithSetupTestViewHierarchy];
   UIView *testSuperView = [[testWindow subviews] firstObject];
   UIView *leafView = [[testSuperView subviews] firstObject];
   leafView.alpha = 0;
@@ -583,14 +583,14 @@
 }
 
 - (void)testViewIsValidForScreenshotIfViewNotTranslucent {
-  UIWindow *testWindow = [self eg_windowWithSetupTestViewHierarchy];
+  UIWindow *testWindow = [self grey_windowWithSetupTestViewHierarchy];
   UIView *testSuperView = testWindow.rootViewController.view;
   UIView *leafView = [[testSuperView subviews] firstObject];
   XCTAssertTrue([leafView grey_isVisible]);
 }
 
 - (void)testViewIsValidForScreenshotIfViewAlphaLessThanEqualToOrGreaterThanThreshold {
-  UIWindow *testWindow = [self eg_windowWithSetupTestViewHierarchy];
+  UIWindow *testWindow = [self grey_windowWithSetupTestViewHierarchy];
   UIView *testSuperView = testWindow.rootViewController.view;
   UIView *leafView = [[testSuperView subviews] firstObject];
   leafView.alpha = kGREYMinimumVisibleAlpha - 1;
@@ -602,7 +602,7 @@
 }
 
 - (void)testViewIsValidForScreenshotIfMainWindowHidden {
-  UIWindow *testWindow = [self eg_windowWithSetupTestViewHierarchy];
+  UIWindow *testWindow = [self grey_windowWithSetupTestViewHierarchy];
   testWindow.hidden = YES;
   UIView *testView = [[[[testWindow subviews] firstObject] subviews] firstObject];
   [testWindow addSubview:testView];
@@ -610,7 +610,7 @@
 }
 
 - (void)testViewIsValidForScreenshotIfMainWindowNotHidden {
-  UIWindow *testWindow = [self eg_windowWithSetupTestViewHierarchy];
+  UIWindow *testWindow = [self grey_windowWithSetupTestViewHierarchy];
   testWindow.hidden = NO;
   UIView *testView = [[[[testWindow subviews] firstObject] subviews] firstObject];
 
@@ -618,7 +618,7 @@
 }
 
 - (void)testViewIsValidForScreenshotIfMainWindowTranslucent {
-  UIWindow *testWindow = [self eg_windowWithSetupTestViewHierarchy];
+  UIWindow *testWindow = [self grey_windowWithSetupTestViewHierarchy];
   testWindow.alpha = 0;
   UIView *testSuperView = [[testWindow subviews] firstObject];
   UIView *leafView = [[testSuperView subviews] firstObject];
@@ -626,14 +626,14 @@
 }
 
 - (void)testViewIsValidForScreenshotIfMainWindowNotTranslucent {
-  UIWindow *testWindow = [self eg_windowWithSetupTestViewHierarchy];
+  UIWindow *testWindow = [self grey_windowWithSetupTestViewHierarchy];
   UIView *testSuperView = testWindow.rootViewController.view;
   UIView *leafView = [[testSuperView subviews] firstObject];
   XCTAssertTrue([leafView grey_isVisible]);
 }
 
 - (void)testViewIsValidForScreenshotIfMainWindowAlphaLessThanEqualToOrGreaterThanThreshold {
-  UIWindow *testWindow = [self eg_windowWithSetupTestViewHierarchy];
+  UIWindow *testWindow = [self grey_windowWithSetupTestViewHierarchy];
   UIView *testSuperView = testWindow.rootViewController.view;
   UIView *leafView = [[testSuperView subviews] firstObject];
   testWindow.alpha = kGREYMinimumVisibleAlpha - 1;
@@ -645,7 +645,7 @@
 }
 
 - (void)testViewIsValidForScreenshotIfSuperViewHidden {
-  UIWindow *testWindow = [self eg_windowWithSetupTestViewHierarchy];
+  UIWindow *testWindow = [self grey_windowWithSetupTestViewHierarchy];
   UIView *testSuperView = [[testWindow subviews] firstObject];
   testSuperView.hidden = YES;
   UIView *leafView = [[testSuperView subviews] firstObject];
@@ -653,7 +653,7 @@
 }
 
 - (void)testViewIsValidForScreenshotIfSuperViewNotHidden {
-  UIWindow *testWindow = [self eg_windowWithSetupTestViewHierarchy];
+  UIWindow *testWindow = [self grey_windowWithSetupTestViewHierarchy];
   UIView *testSuperView = [[testWindow subviews] firstObject];
   testSuperView.hidden = NO;
   UIView *leafView = [[testSuperView subviews] firstObject];
@@ -661,7 +661,7 @@
 }
 
 - (void)testViewIsValidForScreenshotIfSuperViewTranslucent {
-  UIWindow *testWindow = [self eg_windowWithSetupTestViewHierarchy];
+  UIWindow *testWindow = [self grey_windowWithSetupTestViewHierarchy];
   UIView *testSuperView = [[testWindow subviews] firstObject];
   testSuperView.alpha = 0;
   UIView *leafView = [[testSuperView subviews] firstObject];
@@ -669,7 +669,7 @@
 }
 
 - (void)testViewIsValidForScreenshotIfSuperViewNotTranslucent {
-  UIWindow *testWindow = [self eg_windowWithSetupTestViewHierarchy];
+  UIWindow *testWindow = [self grey_windowWithSetupTestViewHierarchy];
   UIView *testSuperView = [[testWindow subviews] firstObject];
   testSuperView.alpha = 1;
   UIView *leafView = [[testSuperView subviews] firstObject];
@@ -677,7 +677,7 @@
 }
 
 - (void)testViewIsValidForScreenshotIfSuperViewAlphaLessThanEqualToOrGreaterThanThreshold {
-  UIWindow *testWindow = [self eg_windowWithSetupTestViewHierarchy];
+  UIWindow *testWindow = [self grey_windowWithSetupTestViewHierarchy];
   UIView *testSuperView = testWindow.rootViewController.view;
   UIView *leafView = [[testSuperView subviews] firstObject];
   testSuperView.alpha = kGREYMinimumVisibleAlpha - 1;
@@ -688,13 +688,15 @@
   XCTAssertTrue([leafView grey_isVisible]);
 }
 
+#pragma mark - Private
+
 /**
  * A test window that has one subview that acts as a branch to two leaf views.
  * None of the elements have an empty frame.
  * The window is being set as keyAndVisible since without it, none of the views have their
  * window set to the created window.
  */
-- (UIWindow *)eg_windowWithSetupTestViewHierarchy {
+- (UIWindow *)grey_windowWithSetupTestViewHierarchy {
   CGRect testRect = CGRectMake(0, 0, 10, 10);
   UIWindow *window = [[UIWindow alloc] initWithFrame:testRect];
   UIView *branchView = [[UIView alloc] initWithFrame:testRect];

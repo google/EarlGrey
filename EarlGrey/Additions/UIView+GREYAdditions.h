@@ -37,23 +37,29 @@
 - (void)grey_keepSubviewOnTopAndFrameFixed:(UIView *)view;
 
 /**
- * Sets the view's alpha value to the provided @c alpha value, storing the current value so it can
- * be restored using UIView::grey_restoreAlpha.
+ *  Makes this view and all its super view opaque. Successive calls to this method will replace
+ *  the previously stored alpha value, causing any saved value to be lost.
  *
- * @param alpha The new alpha value for the view.
+ *  @remark Each invocation will save the current alpha value which can be restored by calling
+ *          -[UIView grey_restoreOpacity]
  */
-- (void)grey_saveCurrentAlphaAndUpdateWithValue:(float)alpha;
+- (void)grey_recursivelyMakeOpaque;
 
 /**
- * Restores the view's alpha to the value it contained when
- * UIView::grey_saveCurrentAlphaAndUpdateWithValue: was last invoked.
+ *  Restores the opacity of this view and it's super views if they were made opaque by calling
+ *  -[UIView grey_recursivelyMakeOpaque]. If -[UIView grey_recursivelyMakeOpaque] was not
+ *  called before, then this method will perform a no-op on each of the view's superviews.
  */
-- (void)grey_restoreAlpha;
+- (void)grey_restoreOpacity;
 
 /**
- * Quick check to see if a view meets the basic visibility criteria of being not hidden, visible
- * with a minimum alpha and has a valid accessibility frame. It also checks to ensure if a view
- * is not a subview of another view or window that has a translucent alpha value or is hidden.
+ * Quick check to see if a view meets the basic criteria for visibility:
+ *    1) Not hidden
+ *    2) Visible with a minimum alpha
+ *    3) Valid accessibility frame.
+ *
+ *  Also checks to if a view is not a subview of another view or window that has a
+ *  translucent alpha value or is hidden.
  */
 - (BOOL)grey_isVisible;
 
