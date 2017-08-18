@@ -24,43 +24,41 @@ obtain_fishhook() {
 
   # Git Clone Fishhook. Make sure the destination folder is called “fishhook”.
   if [[ -d "${EARLGREY_DIR}/fishhook" ]]; then
-    echo "The fishhook directory is already present at $EARLGREY_DIR/fishhook.
-    If you experience issues with running EarlGrey then please remove
-    this directory and run this script again."
-
+    echo "The fishhook directory is already present at $EARLGREY_DIR/fishhook." \
+    "If you experience issues with running EarlGrey then please remove" \
+    "this directory and run this script again."
   else
     # Download the required fishhook version.
-    err_str="There was an error downloading fishhook.
-    Please check if you are having problems with your connection."
+    err_str="There was an error downloading fishhook."
+    err_str+="Please check if you are having problems with your connection."
     run_command err_str curl -LOk --fail ${FISHHOOK_URL}
 
     if [[ ! -f "${FISHHOOK_VERSION}.zip" ]]; then
-      echo "The fishhook zip file downloaded seems to have the incorrect
-      version. Please download directly from $FISHHOOK_URL and check
-      if there are any issues." >&2
+      echo "The fishhook zip file downloaded seems to have the incorrect" \
+      "version. Please download directly from $FISHHOOK_URL and check" \
+      "if there are any issues." >&2
       exit 1
     fi
 
     # Unzip the downloaded .zip file and rename the directory to fishhook/
-    err_str="There was an issue while unzipping the Fishhook zip file.
-    Please ensure if it unzips manually since it might be corrupt."
+    err_str="There was an issue while unzipping the Fishhook zip file."
+    err_str+="Please ensure if it unzips manually since it might be corrupt."
     run_command err_str unzip ${FISHHOOK_VERSION}.zip > /dev/null
 
     if [[ ! -d "fishhook-${FISHHOOK_VERSION}" ]]; then
-      echo "The correct fishhook version was not unzipped. Please check if
-      fishhook-$FISHHOOK_VERSION exists in the EarlGrey Directory."
+      echo "The correct fishhook version was not unzipped. Please check if" \
+      "fishhook-$FISHHOOK_VERSION exists in the EarlGrey Directory."
       exit 1
     fi
 
     mv fishhook-${FISHHOOK_VERSION} "${EARLGREY_DIR}/fishhook/"
     if [[ $? != 0 ]]; then
-      echo "There was an issue moving Fishhook as per
-      the EarlGrey specification." >&2
+      echo "There was an issue moving Fishhook as per" \
+      "the EarlGrey specification." >&2
       exit 1
     fi
 
     rm ${FISHHOOK_VERSION}.zip
-
     echo "Fishhook downloaded at $EARLGREY_DIR/fishhook"
   fi
 }
@@ -77,27 +75,27 @@ obtain_ochamcrest() {
 
   # Check if the required OCHamcrest.framework exists or not.
   if [[ -d "${EARLGREY_DIR}/OCHamcrest.framework" ]]; then
-    echo "The required OCHamcrest.framework directory already exists at
-    $EARLGREY_DIR/OCHamcrest.framework. If you experience issues with running
-    EarlGrey then please remove this directory and run this script
-    again."
+    echo "The required OCHamcrest.framework directory already exists at" \
+    "$EARLGREY_DIR/OCHamcrest.framework. If you experience issues with running" \
+    "EarlGrey then please remove this directory and run this script" \
+    "again."
   else
     # Download the OCHamcrestIOS framework into the EarlGrey/ directory.
-    err_str="There was an error downloading OCHamcrest.
-    Please check if you are having problems with your connection."
+    err_str="There was an error downloading OCHamcrest."
+    err_str+="Please check if you are having problems with your connection."
     run_command err_str curl -LOk ${OCHAMCREST_URL}
 
     if [[ ! -f "${OCHAMCREST_VERSION}.zip" ]]; then
-      echo "The required $OCHAMCREST_VERSION Framework was not cloned
-      correctly. Try downloading OCHamcrestIOS.framework to the EarlGrey
-      folder manually and then run ./rename-ochamcrestIOS.py" >&2
+      echo "The required $OCHAMCREST_VERSION Framework was not cloned" \
+      "correctly. Try downloading OCHamcrestIOS.framework to the EarlGrey" \
+      "folder manually and then run ./rename-ochamcrestIOS.py" >&2
       exit 1
     fi
 
     # Unzip the archive, and move the OCHamcrestIOS framework to the
     # EarlGrey/ directory, deleting the zip archive in the process.
-    err_str= "There was an issue while unzipping the OCHamcrest zip file.
-    Please ensure if it unzips manually since it might be corrupt."
+    err_str="There was an issue while unzipping the OCHamcrest zip file."
+    err_str+="Please ensure if it unzips manually since it might be corrupt."
     run_command err_str unzip ${OCHAMCREST_VERSION}.zip > /dev/null
 
     mv ${OCHAMCREST_VERSION}/OCHamcrestIOS.framework/ .
@@ -120,8 +118,8 @@ obtain_ochamcrest() {
     mv "OCHamcrest.framework/" "${EARLGREY_DIR}/."
 
     if [[ $? != 0 ]]; then
-      echo "There was an issue in cleaning the OCHamcrestIOS as per
-      the EarlGrey specification." >&2
+      echo "There was an issue in cleaning the OCHamcrestIOS as per" \
+      "the EarlGrey specification." >&2
       exit 1
     fi
   fi
@@ -139,31 +137,31 @@ obtain_ocmock() {
   echo "Obtaining the OCMock dependency."
 
   # Git Clone OCMock. Make sure the destination folder is called “ocmock”.
-if [[ -d "${OCMOCK_PATH}" ]]; then
-    echo "The ocmock directory is already present at $PWD/$OCMOCK_PATH.
-    If you experience issues with running EarlGrey then please remove
-    this directory and run this script again."
+  if [[ -d "${OCMOCK_PATH}" ]]; then
+    echo "The ocmock directory is already present at ${OCMOCK_PATH}." \
+    "If you experience issues with running EarlGrey then please remove" \
+    "this directory and run this script again."
   else
     # Download the required OCMock version.
-    err_str= "There was an error downloading OCMock.
-    Please check if you are having problems with your connection."
-    run_command err_str curl -LOk --fail ${OCMOCK_URL}
+    err_str="There was an error downloading OCMock."
+    err_str+="Please check if you are having problems with your connection."
+    run_command err_str $(curl -LOk --fail ${OCMOCK_URL})
 
     if [[ ! -f "${OCMOCK_VERSION}.zip" ]]; then
-      echo "The OCMock zip file downloaded seems to have the incorrect
-      version. Please download directly from $OCMOCK_URL and check
-      if there are any issues." >&2
+      echo "The OCMock zip file downloaded seems to have the incorrect" \
+      "version. Please download directly from $OCMOCK_URL and check" \
+      "if there are any issues." >&2
       exit 1
     fi
 
     # Unzip the downloaded .zip file and rename the directory to ocmock/
-    err_str= "There was an issue while unzipping the OCMock zip file.
-    Please ensure if it unzips manually since it might be corrupt."
+    err_str="There was an issue while unzipping the OCMock zip file. "
+    err_str+="Please ensure if it unzips manually since it might be corrupt."
     run_command err_str unzip ${OCMOCK_VERSION}.zip > /dev/null
 
     if [[ ! -d "ocmock-${OCMOCK_VERSION}" ]]; then
-      echo "The correct OCMock version was not unzipped. Please check if
-      ocmock-$OCMOCK_VERSION exists in the EarlGrey Directory."
+      echo "The correct OCMock version was not unzipped. Please check if" \
+      "ocmock-$OCMOCK_VERSION exists in the EarlGrey Directory."
       exit 1
     fi
 
