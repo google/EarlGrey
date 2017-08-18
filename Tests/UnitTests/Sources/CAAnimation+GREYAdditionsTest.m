@@ -45,7 +45,11 @@ static id gDelegate;
 /**
  *  CAAnimationDelegate that doesn't have the animation delegate methods implemented.
  */
-@interface CAAnimationDelegateWithoutMethodsImplemented : NSObject <CAAnimationDelegate>
+#if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
+@interface CAAnimationDelegateWithoutMethodsImplemented : NSObject<CAAnimationDelegate>
+#else
+@interface CAAnimationDelegateWithoutMethodsImplemented : NSObject
+#endif
 @end
 
 @implementation CAAnimationDelegateWithoutMethodsImplemented
