@@ -645,12 +645,13 @@
   id referenceMatcher = grey_kindOfClass([UIView class]);
 
   XCTAssertThrowsSpecificNamed([[GREYMatchers matcherForConstraints:constraints
-                                        toReferenceElementMatching:referenceMatcher] matches:view],
-                              GREYFrameworkException,
-                              kGREYMultipleElementsFoundException,
-                              @"Matcher for layout constraints failed: multiple UI elements "
-                              @"matching reference element matcher were found. Use grey_allOf(...) "
-                              @"to create a more specific reference element matcher.");
+                                         toReferenceElementMatching:referenceMatcher] matches:view],
+                               GREYFrameworkException,
+                               kGREYMultipleElementsFoundException,
+                               @"Matcher for layout constraints failed: multiple UI elements "
+                               @"matching reference element matcher were found. Use "
+                               @"grey_allOf(...) to create a more specific reference element "
+                               @"matcher.");
 }
 
 - (void)testSwitchInOFFStateMatcher {
