@@ -80,12 +80,11 @@ static id InstrumentSurrogateDelegate(id self,
 
 @implementation GREYCAAnimationDelegate
 
-+ (id)surrogateDelegateForDelegate:(id)delegate {
-  id outDelegate = nil;
++ (instancetype)surrogateDelegateForDelegate:(id)delegate {
+  id outDelegate;
   if (!delegate) {
-    // If the delegate is nil then wrap it in a new surrogate delegate for the CAAnimation
-    // delegate provided.
-    outDelegate = [[self alloc] initWithOriginalDelegate:delegate isWeak:NO];
+    // If the delegate is nil then return an instance of self.
+    outDelegate = [[self alloc] init];
   } else {
     SEL animationDidStartSEL = @selector(animationDidStart:);
     SEL greyAnimationDidStartSEL = @selector(greyswizzled_animationDidStart:);
@@ -201,4 +200,3 @@ static void AnimationDidStop(id self,
                          finished);
   }
 }
-
