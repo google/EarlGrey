@@ -20,6 +20,8 @@
  *  testing purposes.
  */
 
+#import <EarlGrey/GREYElementInteraction.h>
+
 @interface GREYElementInteraction (Internal)
 
 /**

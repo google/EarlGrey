@@ -17,6 +17,7 @@
 #import "GREYBaseTest.h"
 
 #import <EarlGrey/GREYConfiguration.h>
+#import <EarlGrey/GREYScreenshotUtil+Internal.h>
 #import <EarlGrey/GREYSwizzler.h>
 #import <EarlGrey/UIApplication+GREYAdditions.h>
 #import <OCMock/OCMock.h>
@@ -62,9 +63,10 @@ const CGRect kTestRect = { { 0.0f, 0.0f }, { 10.0f, 10.0f } };
   @autoreleasepool {
     Class screenshotUtilClass = [GREYScreenshotUtil class];
     GREYSwizzler *swizzler = [[GREYSwizzler alloc] init];
+    SEL fakeSelector = @selector(greyswizzled_fakeTakeScreenshotAfterScreenUpdates:);
     BOOL success = [swizzler swizzleClass:screenshotUtilClass
-                       replaceClassMethod:@selector(takeScreenshot)
-                               withMethod:@selector(greyswizzled_fakeTakeScreenshot)];
+                       replaceClassMethod:@selector(grey_takeScreenshotAfterScreenUpdates:)
+                               withMethod:fakeSelector];
     NSAssert(success, @"Couldn't swizzle GREYScreenshotUtil takeScreenshot");
 
     success =
@@ -79,7 +81,7 @@ const CGRect kTestRect = { { 0.0f, 0.0f }, { 10.0f, 10.0f } };
 
 #pragma mark - Swizzled Implementation
 
-+ (UIImage *)greyswizzled_fakeTakeScreenshot {
++ (UIImage *)greyswizzled_fakeTakeScreenshotAfterScreenUpdates:(BOOL)afterScreenUpdates {
   UIImage *image;
 
   if (gScreenShotsToReturnByGREYScreenshotUtil.count > 0) {

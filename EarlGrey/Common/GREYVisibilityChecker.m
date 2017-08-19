@@ -24,7 +24,7 @@
 #import "Common/GREYConstants.h"
 #import "Common/GREYFatalAsserts.h"
 #import "Common/GREYLogger.h"
-#import "Common/GREYScreenshotUtil.h"
+#import "Common/GREYScreenshotUtil+Internal.h"
 
 static const NSUInteger kColorChannelsPerPixel = 4;
 
@@ -542,6 +542,7 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
   GREYFatalAssert(outBeforeImage);
   GREYFatalAssert(outAfterImage);
 
+  // A quick visibility check is done here to rule out any definitely hidden views.
   if (![view grey_isVisible] || CGRectIsEmpty(searchRectInScreenCoordinates)) {
     return NO;
   }
@@ -572,8 +573,15 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
     return NO;
   }
 
-  // Take an image before doing any modification. This is image of the pristine state of view.
-  UIImage *beforeScreenshot = [GREYScreenshotUtil takeScreenshot];
+  // Take an image of what the view looks like before shifting pixel intensity.
+  // Ensures that any implicit animations that might have taken place since the last runloop
+  // run are committed to the presentation layer.
+  // @see
+  // http://optshiftk.com/2013/11/better-documentation-for-catransaction-flush/
+  [CATransaction begin];
+  [CATransaction flush];
+  [CATransaction commit];
+  UIImage *beforeScreenshot = [GREYScreenshotUtil grey_takeScreenshotAfterScreenUpdates:YES];
   CGImageRef beforeImage =
       CGImageCreateWithImageInRect(beforeScreenshot.CGImage, screenshotSearchRect_pixel);
   if (!beforeImage) {
@@ -637,56 +645,58 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
   GREYFatalAssert(shiftedView);
   GREYFatalAssert(view);
 
-  // Rasterizing induces flakiness by re-drawing the view frame by frame for any layout change and
-  // caching it for further use. This brings a delay in refreshing the layout for the shiftedView.
+  UIImage *screenshot = [self grey_prepareView:view forVisibilityCheckAndPerformBlock:^id {
+    [CATransaction begin];
+    [CATransaction setDisableActions:YES];
+    [view addSubview:shiftedView];
+    [view grey_keepSubviewOnTopAndFrameFixed:shiftedView];
+    [CATransaction flush];
+    [CATransaction commit];
+
+    UIImage *shiftedImage = [GREYScreenshotUtil grey_takeScreenshotAfterScreenUpdates:YES];
+    [shiftedView removeFromSuperview];
+    return shiftedImage;
+  }];
+  return screenshot;
+}
+
+/**
+ *  Prepares @c view for visibility check by modifying visual aspects that interfere with
+ *  pixel intensities. Then, executes block, restores view's properties and returns the result of
+ *  executing the block to the caller.
+ */
++ (id)grey_prepareView:(UIView *)view forVisibilityCheckAndPerformBlock:(id (^)(void))block {
+  BOOL disablingActions = [CATransaction disableActions];
   BOOL isRasterizingLayer = view.layer.shouldRasterize;
+
+  [CATransaction begin];
+  [CATransaction setDisableActions:YES];
+  // Rasterizing causes flakiness by re-drawing the view frame by frame for any layout change and
+  // caching it for further use. This brings a delay in refreshing the layout for the shiftedView.
   view.layer.shouldRasterize = NO;
 
+  // Views may be translucent and there have their alpha adjusted to 1.0 when taking the screenshot
+  // because the shifted view, being a child of the view, will inherit its opacity. The problem
+  // with that is that shifted view is created from a screenshot of the view with its original
+  // opacity, so if we just add the shifted view as a subview of view the opacity change will be
+  // applied once more. This may result on false negatives, specially on anti-aliased text. To make
+  // sure the opacity won't affect the screenshot, we need to apply the change to the view and all
+  // of its parents, then reset the changes when done.
+  [view grey_recursivelyMakeOpaque];
+  [CATransaction flush];
+  [CATransaction commit];
+
+  id retVal = block();
+
   [CATransaction begin];
   [CATransaction setDisableActions:YES];
-
-  // Views with non-zero opacity need to have their opacity reset to 1.0 when taking the screenshot
-  // because the shifted view, being a child of the view, will inherit its opacity. The problem with
-  // that is that shifted view is created from a screenshot of the view with its original opacity,
-  // so if we just add the shifted view as a subview of view the opacity change will be applied once
-  // more. This may result on false negatives, specially on anti-aliased text. To make sure the
-  // opacity won't affect the screenshot, we need to apply the change to the view and all of its
-  // parents, then reset the changes when done.
-  UIView *viewToChangeAlpha = view;
-  while (viewToChangeAlpha) {
-    [viewToChangeAlpha grey_saveCurrentAlphaAndUpdateWithValue:1.0];
-    viewToChangeAlpha = viewToChangeAlpha.superview;
-  }
-
-  [view addSubview:shiftedView];
-  [view grey_keepSubviewOnTopAndFrameFixed:shiftedView];
-  [view layoutIfNeeded];
-  [view.window setNeedsDisplay];
-  [CATransaction commit];
-  [CATransaction flush];
-
-  UIImage *screenshot = [GREYScreenshotUtil takeScreenshot];
-
-  // Restore view to original state.
-  [CATransaction begin];
-  [CATransaction setDisableActions:YES];
-
-  // Restore the opacity values of the view and its parents.
-  viewToChangeAlpha = view;
-  while (viewToChangeAlpha) {
-    [viewToChangeAlpha grey_restoreAlpha];
-    viewToChangeAlpha = viewToChangeAlpha.superview;
-  }
-
-  [shiftedView removeFromSuperview];
-  [view layoutIfNeeded];
-  [view.window setNeedsDisplay];
-  [CATransaction commit];
-  [CATransaction flush];
-
+  // Restore opacity back to what it was before.
+  [view grey_restoreOpacity];
   view.layer.shouldRasterize = isRasterizingLayer;
-
-  return screenshot;
+  [CATransaction setDisableActions:disablingActions];
+  [CATransaction flush];
+  [CATransaction commit];
+  return retVal;
 }
 
 /**
@@ -872,13 +882,17 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
 
   for (NSUInteger i = 0; i < height * width; i++) {
     NSUInteger currentPixelIndex = kColorChannelsPerPixel * i;
-    // We don't care about the first byte because we are dealing with XRGB format.
-    shiftedImagePixels[currentPixelIndex + 1] =
-        (shiftedImagePixels[currentPixelIndex + 1] + 128) % 256;
-    shiftedImagePixels[currentPixelIndex + 2] =
-        (shiftedImagePixels[currentPixelIndex + 2] + 128) % 256;
-    shiftedImagePixels[currentPixelIndex + 3] =
-        (shiftedImagePixels[currentPixelIndex + 3] + 128) % 256;
+    // We don't care about the [first] byte of the [X]RGB format.
+    for (unsigned char j = 1; j <= 2; j++) {
+      static const unsigned char kShiftIntensityAmount[] = {0, 10, 10, 10}; // Shift for X, R, G, B
+      unsigned char pixelIntensity = shiftedImagePixels[currentPixelIndex + j];
+      if (pixelIntensity >= kShiftIntensityAmount[j]) {
+        pixelIntensity = pixelIntensity - kShiftIntensityAmount[j];
+      } else {
+        pixelIntensity = pixelIntensity + kShiftIntensityAmount[j];
+      }
+      shiftedImagePixels[currentPixelIndex + j] = pixelIntensity;
+    }
   }
 
   CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
