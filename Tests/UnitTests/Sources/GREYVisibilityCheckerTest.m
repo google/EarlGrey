@@ -561,121 +561,27 @@ extern const NSUInteger kMinimumPointsVisibleForInteraction;
 
 }
 
-- (void)testVisibleInteractionPointForViewWithVisibleAccessibilityActivationPoint {
-  [[[self.mockSharedApplication stub] andReturnValue:@(UIInterfaceOrientationPortrait)]
-      statusBarOrientation];
+#pragma mark - Private
 
-  CGRect viewRect = CGRectMake(0, 0, 10, 10);
-
-  UIWindow *window = [[UIWindow alloc] initWithFrame:viewRect];
-  window.alpha = 1;
-  window.hidden = NO;
-
-  UIView *view = [[UIView alloc] initWithFrame:viewRect];
-  view.alpha = 1;
-  view.hidden = NO;
-  view.accessibilityFrame = UIAccessibilityConvertFrameToScreenCoordinates(view.bounds, view);
-  CGPoint accessibilityActivationPoint = CGPointMake(1, 1);
-  view.accessibilityActivationPoint = accessibilityActivationPoint;
-
-  [window addSubview:view];
-
-  UIImage *before = [self grey_imageOfSize:viewRect.size withColor:[UIColor whiteColor]];
-  CGRect visibleArea =
-      CGRectMake(accessibilityActivationPoint.x, accessibilityActivationPoint.y, 3, 3);
-  XCTAssertTrue(CGRectContainsPoint(visibleArea, view.accessibilityActivationPoint));
-
-  UIImage *after = [self grey_imageOfSize:viewRect.size
-                      withBackgroundColor:[UIColor whiteColor]
-                          withVisibleArea:visibleArea];
-
-  // For each invocation of visibleInteractionPointForElement, 2 screenshots are needed.
-  [self addToScreenshotListReturnedByScreenshotUtil:before];
-  [self addToScreenshotListReturnedByScreenshotUtil:after];
-
-  CGPoint visibleInteractionPoint = [GREYVisibilityChecker visibleInteractionPointForElement:view];
-  XCTAssertTrue(CGRectContainsPoint(view.accessibilityFrame, visibleInteractionPoint));
-  XCTAssertTrue(CGPointEqualToPoint(view.accessibilityActivationPoint, visibleInteractionPoint));
+- (UIImage *)grey_imageOfSize:(CGSize)size   withColor:(UIColor *)color {
+  return [self grey_imageOfSize:size withBackgroundColor:color withVisibleArea:CGRectZero];
 }
 
-- (void)testVisibleInteractionPointForViewWithHiddenAccessibilityActivationPointAndVisibleCenter {
-  [[[self.mockSharedApplication stub] andReturnValue:@(UIInterfaceOrientationPortrait)]
-      statusBarOrientation];
+- (UIImage *)grey_imageOfSize:(CGSize)size
+          withBackgroundColor:(UIColor *)backgroundColor
+              withVisibleArea:(CGRect)paintedArea {
+  UIGraphicsBeginImageContextWithOptions(size, YES, 0);
 
-  CGRect viewRect = CGRectMake(0, 0, 10, 10);
+  [backgroundColor setFill];
+  UIRectFill(CGRectMake(0, 0, size.width, size.height));
 
-  UIWindow *window = [[UIWindow alloc] initWithFrame:viewRect];
-  window.alpha = 1;
-  window.hidden = NO;
+  [[UIColor grayColor] setFill];
+  UIRectFill(paintedArea);
 
-  UIView *view = [[UIView alloc] initWithFrame:viewRect];
-  view.alpha = 1;
-  view.hidden = NO;
-  view.accessibilityFrame = UIAccessibilityConvertFrameToScreenCoordinates(view.bounds, view);
-  CGPoint accessibilityActivationPoint = CGPointMake(5, 5);
-  view.accessibilityActivationPoint = accessibilityActivationPoint;
+  UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+  UIGraphicsEndImageContext();
 
-  [window addSubview:view];
-
-  UIImage *before = [self grey_imageOfSize:viewRect.size withColor:[UIColor whiteColor]];
-  CGRect visibleArea = CGRectMake(0, 0, 3, 3);
-  XCTAssertFalse(CGRectContainsPoint(visibleArea, view.accessibilityActivationPoint));
-
-  UIImage *after = [self grey_imageOfSize:viewRect.size
-                      withBackgroundColor:[UIColor whiteColor]
-                          withVisibleArea:visibleArea];
-
-  // For each invocation of visibleInteractionPointForElement, 2 screenshots are needed.
-  [self addToScreenshotListReturnedByScreenshotUtil:before];
-  [self addToScreenshotListReturnedByScreenshotUtil:after];
-
-  CGPoint visibleInteractionPoint = [GREYVisibilityChecker visibleInteractionPointForElement:view];
-  CGPoint expectedVisibleInteractionPoint = CGRectCenter(visibleArea);
-  XCTAssertFalse(CGPointEqualToPoint(view.accessibilityActivationPoint, visibleInteractionPoint));
-  XCTAssertTrue(CGPointEqualToPoint(expectedVisibleInteractionPoint, visibleInteractionPoint));
-}
-
-- (void)testVisibleInteractionPointForViewWithHiddenCenterAndAccessibilityActivationPoint {
-  [[[self.mockSharedApplication stub] andReturnValue:@(UIInterfaceOrientationPortrait)]
-      statusBarOrientation];
-
-  CGRect viewRect = CGRectMake(0, 0, 10, 10);
-
-  UIWindow *window = [[UIWindow alloc] initWithFrame:viewRect];
-  window.alpha = 1;
-  window.hidden = NO;
-
-  UIView *view = [[UIView alloc] initWithFrame:viewRect];
-  view.alpha = 1;
-  view.hidden = NO;
-  view.accessibilityFrame = UIAccessibilityConvertFrameToScreenCoordinates(view.bounds, view);
-  view.accessibilityActivationPoint = CGRectCenter(view.accessibilityFrame);
-
-  [window addSubview:view];
-
-  UIImage *before = [self grey_imageOfSize:viewRect.size withColor:[UIColor whiteColor]];
-  // Neither center or activation point is visible.
-  CGRect visibleArea = CGRectMake(viewRect.origin.x, viewRect.origin.y, 3, 3);
-  XCTAssertFalse(CGRectContainsPoint(visibleArea, view.accessibilityActivationPoint));
-  XCTAssertFalse(CGRectContainsPoint(visibleArea, CGRectCenter(view.accessibilityFrame)));
-
-  UIImage *after = [self grey_imageOfSize:viewRect.size
-                      withBackgroundColor:[UIColor whiteColor]
-                          withVisibleArea:visibleArea
-     andOptionalHiddenAreaFromVisibleArea:CGRectMake(CGRectGetMidX(visibleArea) - 1,
-                                                     CGRectGetMidY(visibleArea) - 1,
-                                                     CGRectGetWidth(visibleArea) / 2,
-                                                     CGRectGetHeight(visibleArea) / 2)];
-
-  // For each invocation of visibleInteractionPointForElement, 2 screenshots are needed.
-  [self addToScreenshotListReturnedByScreenshotUtil:before];
-  [self addToScreenshotListReturnedByScreenshotUtil:after];
-
-  CGPoint visibleInteractionPoint = [GREYVisibilityChecker visibleInteractionPointForElement:view];
-  XCTAssertTrue(CGRectContainsPoint(view.accessibilityFrame, visibleInteractionPoint));
-  XCTAssertFalse(CGPointEqualToPoint(view.accessibilityActivationPoint, visibleInteractionPoint));
-  XCTAssertFalse(CGPointEqualToPoint(CGRectCenter(visibleArea), visibleInteractionPoint));
-  XCTAssertFalse(CGPointIsNull(visibleInteractionPoint));
+  return image;
 }
 
 - (void)testIsNotVisibleIsUsingCache {
@@ -1180,19 +1086,6 @@ andOptionalHiddenAreaFromVisibleArea:targetArea];
 }
 
 #pragma mark - Private
-
-- (UIImage *)grey_imageOfSize:(CGSize)size withColor:(UIColor *)color {
-  return [self grey_imageOfSize:size withBackgroundColor:color withVisibleArea:CGRectZero];
-}
-
-- (UIImage *)grey_imageOfSize:(CGSize)size
-          withBackgroundColor:(UIColor *)backgroundColor
-              withVisibleArea:(CGRect)paintedArea {
-  return [self grey_imageOfSize:size
-                     withBackgroundColor:backgroundColor
-                         withVisibleArea:paintedArea
-    andOptionalHiddenAreaFromVisibleArea:CGRectNull];
-}
 
 - (UIImage *)grey_imageOfSize:(CGSize)size
                      withBackgroundColor:(UIColor *)backgroundColor

@@ -176,13 +176,13 @@
   ]];
 }
 
-- (void)testVisibilityFailsWithHiddenActivationPoint {
-  // Verify FTRRedBar cannot be interacted with hidden activation point.
+- (void)testVisibilityFailsWhenViewIsObscured {
+  // Verify FTRRedBar cannot be interacted with when overlapped by another view.
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"FTRRedBar")]
       assertWithMatcher:grey_not(grey_interactable())];
 
   // Unhide the activation point.
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"FTRShowActivationPoint")]
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"FTRUnObscureRedBar")]
       performAction:[GREYActions actionForTurnSwitchOn:YES]];
 
   // Verify FTRRedBar can now be interacted with.
