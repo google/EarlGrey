@@ -4,8 +4,8 @@ Details changes in each release of EarlGrey. EarlGrey follows [semantic versioni
 
 ## [1.12.0](https://github.com/google/EarlGrey/tree/1.12.0) (08/22/2017)
 ```
-Baseline: [d197d19]
-+ [d197d19]: Update version for 1.12.0 release
+Baseline: [ae61a45]
++ [ae61a45]: Fix Main thread violation: UIView setHidden called from non-main thread.
 ```
 
 ### Enhancements
