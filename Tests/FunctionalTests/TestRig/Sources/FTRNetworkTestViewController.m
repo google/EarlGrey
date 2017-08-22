@@ -124,7 +124,9 @@ static NSString *const kFTRProxyRegex = @"^http://www.youtube.com";
   // Simulate some processing time to reliably test network synchronization. Without this network
   // synchronization tests will be flaky.
   [NSThread sleepForTimeInterval:1.0];
-  _requestCompletedLabel.hidden = NO;
+  dispatch_async(dispatch_get_main_queue(), ^{
+    _requestCompletedLabel.hidden = NO;
+  });
   [self verifyReceivedData:data];
 }
 
