@@ -2,6 +2,31 @@
 
 Details changes in each release of EarlGrey. EarlGrey follows [semantic versioning](http://semver.org/).
 
+## [1.12.0](https://github.com/google/EarlGrey/tree/1.12.0) (08/22/2017)
+```
+Baseline: [0e87b7a]
++ [0e87b7a]: Add Xcode 9 to compatibility list
+```
+
+### Enhancements
+* More robust synchronization with `NSURLSession`. This fixes many flakiness seen with EarlGrey not waiting for the completetion of callback methods after network response has been received.
+* Performance improvements in GREYAppStateTracker. It uses a deallocation tracker in place of NSString to free up memory sooner.
+* Fallback to EarlGrey.swift v3 when gem cannot find the correct file for the current swift version.
+* Added -Wdocumentation for all EarlGrey projects.
+* Use static constructor in place of initialize method for one-time setup.
+* Remove extra parentheses added around failed assertion expressions.
+* Updated error messages on failure of layout contraints
+* Improved Visibility checker's shifted pixel image redraw logic.
+
+### Bug Fixes
+* Fixed floating point issue in layout constraint matchers. [Issue #594](https://github.com/google/EarlGrey/issues/594)
+* Fixed an issue where an exception is thrown when `-[UIWebDocumentView text]` is called in the middle of loading.
+* Fixed a bug in `isKeyboardShown` with zero sized input accessory views.
+* Fixed `CGAffineTransformInvert: singular matrix` message that appears during Pinch tests.
+
+### Compatibility
+* EarlGrey now supports Xcode version 9.0 up to 9.0 beta 6. All EarlGrey project tests pass with these versions.
+
 ## [1.11.0](https://github.com/google/EarlGrey/tree/1.11.0) (07/21/2017)
 
 ```
