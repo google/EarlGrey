@@ -4,8 +4,8 @@ Details changes in each release of EarlGrey. EarlGrey follows [semantic versioni
 
 ## [1.12.0](https://github.com/google/EarlGrey/tree/1.12.0) (08/22/2017)
 ```
-Baseline: [0e87b7a]
-+ [0e87b7a]: Add Xcode 9 to compatibility list
+Baseline: [d197d19]
++ [d197d19]: Update version for 1.12.0 release
 ```
 
 ### Enhancements
