@@ -11,11 +11,11 @@ Baseline: [0e87b7a]
 ### Enhancements
 * More robust synchronization with `NSURLSession`. This fixes many flakiness seen with EarlGrey not waiting for the completetion of callback methods after network response has been received.
 * Performance improvements in GREYAppStateTracker. It uses a deallocation tracker in place of NSString to free up memory sooner.
-* Fallback to EarlGrey.swift v3 when gem cannot find the correct file for the current swift version.
-* Added -Wdocumentation for all EarlGrey projects.
+* Fallback to `EarlGrey.swift` v3 when gem cannot find the correct file for the current swift version.
+* Added `-Wdocumentation` for all EarlGrey projects.
 * Use static constructor in place of initialize method for one-time setup.
 * Remove extra parentheses added around failed assertion expressions.
-* Updated error messages on failure of layout contraints
+* Updated error messages on failure of layout contraints.
 * Improved Visibility checker's shifted pixel image redraw logic.
 
 ### Bug Fixes
