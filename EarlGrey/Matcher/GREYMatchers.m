@@ -439,14 +439,17 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
     }
     NSInteger row = [element selectedRowInComponent:column];
     NSString *rowLabel;
-    if ([element.delegate respondsToSelector:@selector(pickerView:attributedTitleForRow:forComponent:)]) {
-        rowLabel = [element.delegate pickerView:element
-                          attributedTitleForRow:row
-                                   forComponent:column].string;
-    } else {
-        rowLabel = [element.delegate pickerView:element
-                                    titleForRow:row
-                                   forComponent:column];
+    id delegate = element.delegate;
+    SEL attributedTitleSelector = @selector(pickerView:attributedTitleForRow:forComponent:);
+    SEL nonAttributedTitleSelector = @selector(pickerView:titleForRow:forComponent:);
+    if ([delegate respondsToSelector:attributedTitleSelector]) {
+      rowLabel = [delegate pickerView:element
+                attributedTitleForRow:row
+                         forComponent:column].string;
+    } else if ([delegate respondsToSelector:nonAttributedTitleSelector]) {
+      rowLabel = [delegate pickerView:element
+                          titleForRow:row
+                         forComponent:column];
     }
     if ([rowLabel isEqualToString:value]) {
       return YES;
