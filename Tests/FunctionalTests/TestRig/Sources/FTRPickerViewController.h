@@ -22,8 +22,17 @@
 @property(nonatomic, retain) IBOutlet UISegmentedControl *datePickerSegmentedControl;
 @property(nonatomic, retain) IBOutlet UIButton *clearLabelButton;
 @property(nonatomic, retain) IBOutlet UILabel *dateLabel;
+@property(nonatomic, retain) IBOutlet UISwitch *viewForRowDelegateSwitch;
+@property(nonatomic, retain) IBOutlet UISwitch *attributedTitleForRowDelegateSwitch;
+@property(nonatomic, retain) IBOutlet UISwitch *titleForRowDelegateSwitch;
+@property(nonatomic, retain) IBOutlet UISwitch *noDelegateMethodDefinedSwitch;
 
 @property(nonatomic, retain) NSArray *customColumn1Array;
 @property(nonatomic, retain) NSArray *customColumn2Array;
+
+@property(nonatomic, strong) id <UIPickerViewDelegate> ftrPickerViewDelegate1;
+@property(nonatomic, strong) id <UIPickerViewDelegate> ftrPickerViewDelegate2;
+@property(nonatomic, strong) id <UIPickerViewDelegate> ftrPickerViewDelegate3;
+@property(nonatomic, strong) id <UIPickerViewDelegate> ftrPickerViewDelegate4;
 
 @end

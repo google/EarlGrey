@@ -21,6 +21,11 @@
                BlueprintName = "EarlGreyFunctionalTests"
                ReferencedContainer = "container:FunctionalTests.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "FTRPickerViewInteractionTest/testNoPickerViewComponentDelegateMethodsAreDefined">
+               </Test>
+            </SkippedTests>
          </TestableReference>
       </Testables>
       <EnvironmentVariables>
