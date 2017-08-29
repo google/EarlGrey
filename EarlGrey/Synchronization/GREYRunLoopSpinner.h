@@ -17,11 +17,10 @@
 #import <Foundation/Foundation.h>
 
 /**
- *  @brief Handles spinning the main run loop in the active mode with various configurations.
- *
- *  The run loop spinnner should only be used on the main thread. You cannot make nested spin calls
- *  to the same spinner object, but it is OK to create and spin a separate spinner object
- *  within a source/timer/block invoked by another spinner.
+ *  @brief Handles spinning the current run loop in the active mode with various configurations.
+ *  Similar to dispatch_sync calls on a thread, you cannot make nested spin calls to the same
+ *  spinner object, but it is OK to create and spin a separate spinner object within a
+ *  source/timer/block invoked by another spinner.
  *
  *  The current run loop mode is the mode that a run loop is currently executing in. The active run
  *  loop mode is (more or less) the mode that the run loop would be executing if we weren't
@@ -52,14 +51,14 @@
 @property(nonatomic) CFTimeInterval timeout;
 
 /**
- *  The maximum time in seconds that the main thread will be allowed to sleep while running in the
- *  active mode that we started spinning. Default is 0.
+ *  The maximum time in seconds that the current thread will be allowed to sleep while running in
+ *  the active mode that we started spinning. Default is 0.
  *
  *  If set to 0, then the run loop will not be allowed to sleep in the active mode that it started
  *  spinning.
  *
  *  @remark Not allowing the run loop to sleep can be useful for some test scenarios but causes the
- *          main thread to use significantly more CPU.
+ *          thread to use significantly more CPU.
  */
 @property(nonatomic) CFTimeInterval maxSleepInterval;
 
@@ -79,7 +78,7 @@
 @property(copy, nonatomic) void (^conditionMetHandler)(void);
 
 /**
- *  Spins the main run loop in the active mode using the given stop condition.
+ *  Spins the current thread's run loop in the active mode using the given stop condition.
  *
  *  Will always spin the run loop for at least the minimum number of run loop drains. Will always
  *  evaluate @c stopConditionBlock at least once after draining for minimum number of drains. After
@@ -90,8 +89,8 @@
  *  @remark This method should not be invoked on the same spinner object in nested calls (e.g.
  *          sources that are serviced while it's spinning) or concurrently.
  *
- *  @param stopConditionBlock The condition block used by the spinner to determine if it should keep
- *                            spinning the active run loop.
+ *  @param stopConditionBlock The condition block used by the spinner to determine if it should
+ *                            keep spinning the active run loop.
  *
  *  @return @c YES if the spinner evaluated the @c stopConditionBlock to @c YES; @c NO otherwise.
  */
