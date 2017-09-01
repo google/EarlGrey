@@ -2,6 +2,15 @@
 
 Details changes in each release of EarlGrey. EarlGrey follows [semantic versioning](http://semver.org/).
 
+## [1.12.1](https://github.com/google/EarlGrey/tree/1.12.1) (09/01/2017)
+```
+Baseline: [405008e]
++ [405008e]: Release 1.12.1 to fix incorrect podspec release in 1.12.0.
+```
+
+### Bug Fixes
+* Correct podspec to point to the version 1.12.1
+
 ## [1.12.0](https://github.com/google/EarlGrey/tree/1.12.0) (08/22/2017)
 ```
 Baseline: [ae61a45]
