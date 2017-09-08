@@ -11,6 +11,7 @@
             <connections>
                 <outlet property="blockView" destination="nuR-Jb-FaD" id="qSh-fP-zy4"/>
                 <outlet property="bottomScrollView" destination="V9g-g7-db5" id="FeH-5p-YD4"/>
+                <outlet property="freezingScrollView" destination="ocp-2V-YZR" id="scv-CJ-J4f"/>
                 <outlet property="infiniteScrollView" destination="td9-NB-ySB" id="1hm-gw-wSx"/>
                 <outlet property="scrollview" destination="5d8-Eo-Ig8" id="uuc-2e-jvK"/>
                 <outlet property="topTextbox" destination="P3e-SN-PxX" id="sYS-qn-3Bw"/>
@@ -428,6 +429,12 @@
                     <rect key="frame" x="0.0" y="488" width="1024" height="123"/>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                 </view>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ocp-2V-YZR">
+                    <rect key="frame" x="16" y="439" width="343" height="128"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="128" id="Hzo-CS-qZL"/>
+                    </constraints>
+                </scrollView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
@@ -440,10 +447,13 @@
                 <constraint firstItem="nuR-Jb-FaD" firstAttribute="top" secondItem="V9g-g7-db5" secondAttribute="top" constant="82" id="Dqt-W9-oIC"/>
                 <constraint firstAttribute="trailing" secondItem="td9-NB-ySB" secondAttribute="trailing" id="Ekc-nI-mMv"/>
                 <constraint firstItem="nuR-Jb-FaD" firstAttribute="bottom" secondItem="V9g-g7-db5" secondAttribute="bottom" constant="5" id="JRf-4g-S0e"/>
+                <constraint firstItem="ocp-2V-YZR" firstAttribute="top" secondItem="nuR-Jb-FaD" secondAttribute="bottom" constant="31" id="MFu-Qw-cHz"/>
+                <constraint firstAttribute="trailing" secondItem="ocp-2V-YZR" secondAttribute="trailing" constant="16" id="Nvb-pq-Q0d"/>
                 <constraint firstItem="5d8-Eo-Ig8" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="PGh-w8-S6v"/>
                 <constraint firstAttribute="trailing" secondItem="td9-NB-ySB" secondAttribute="trailing" id="QIa-ig-FOJ"/>
                 <constraint firstAttribute="trailing" secondItem="V9g-g7-db5" secondAttribute="trailing" id="WyT-xF-GKs"/>
                 <constraint firstItem="Wff-P0-8YW" firstAttribute="leading" secondItem="P3e-SN-PxX" secondAttribute="trailing" constant="4" id="eIg-VY-OEN"/>
+                <constraint firstItem="ocp-2V-YZR" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="16" id="ebm-99-Amq"/>
                 <constraint firstAttribute="trailing" secondItem="5d8-Eo-Ig8" secondAttribute="trailing" id="hDZ-Ut-Hvi"/>
                 <constraint firstItem="V9g-g7-db5" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="iCv-II-YGu"/>
                 <constraint firstItem="5d8-Eo-Ig8" firstAttribute="top" secondItem="P3e-SN-PxX" secondAttribute="bottom" constant="8" symbolic="YES" id="kZZ-PF-dfv"/>

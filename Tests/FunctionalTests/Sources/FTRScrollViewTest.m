@@ -28,6 +28,11 @@
   [self openTestViewNamed:@"Scroll Views"];
 }
 
+
+- (void)DISABLED_testFreezingScrollView {
+    [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Freezing Scroll View")] performAction:grey_scrollToContentEdge(kGREYContentEdgeTop)];
+}
+
 - (void)testScrollToTopEdge {
   id<GREYMatcher> matcher = grey_allOf(grey_accessibilityLabel(@"Label 2"),
                                        grey_interactable(),
