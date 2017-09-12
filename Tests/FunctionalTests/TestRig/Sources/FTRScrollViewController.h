@@ -27,5 +27,6 @@
 @property(retain, nonatomic) IBOutlet UIView *blockView;
 @property(retain, nonatomic) IBOutlet UITextField *topTextbox;
 @property(retain, nonatomic) UIAccessibilityElement *accessibilityElement;
+@property (weak, nonatomic) IBOutlet UIScrollView *freezingScrollView;
 
 @end
