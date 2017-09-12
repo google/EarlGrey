@@ -97,7 +97,7 @@ private func GREYWaitUntilIdle() {
 }
 
 open class EarlGrey: NSObject {
-  open class func select(elementWithMatcher matcher:GREYMatcher,
+  open class func select(elementWithMatcher matcher: GREYMatcher,
                            file: StaticString = #file,
                            line: UInt = #line) -> GREYElementInteraction {
     return EarlGreyImpl.invoked(fromFile: file.description, lineNumber: line)
@@ -136,7 +136,7 @@ extension GREYInteraction {
   }
 
   @discardableResult public func assert(_ matcher: @autoclosure () -> GREYMatcher,
-                                        error:UnsafeMutablePointer<NSError?>!) -> Self {
+                                        error: UnsafeMutablePointer<NSError?>!) -> Self {
     return self.assert(with: matcher(), error: error)
   }
 
