@@ -395,14 +395,12 @@ static Class gAccessibilityTextFieldElementClass;
       if (elementIsUIControl) {
         [element sendActionsForControlEvents:UIControlEventEditingDidBegin];
       }
-
       if (elementIsUITextField) {
         NSNotification *notification =
             [NSNotification notificationWithName:UITextFieldTextDidBeginEditingNotification
                                           object:element];
         [NSNotificationCenter.defaultCenter postNotification:notification];
       }
-        
       if (elementIsUITextView) {
         NSNotification *notification =
         [NSNotification notificationWithName:UITextViewTextDidBeginEditingNotification
@@ -441,13 +439,12 @@ static Class gAccessibilityTextFieldElementClass;
                                           object:element];
         [NSNotificationCenter.defaultCenter postNotification:notification];
       }
-      if (elementIsUITextField) {
+      if (elementIsUITextView) {
         NSNotification *notification =
         [NSNotification notificationWithName:UITextViewTextDidEndEditingNotification
                                           object:element];
         [NSNotificationCenter.defaultCenter postNotification:notification];
       }
-
     }
     return YES;
   }];
