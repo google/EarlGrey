@@ -240,5 +240,57 @@
                         @"Wrong error element description.");
 }
 
-@end
+- (void)testReplaceTextOnUITextViewNotificationsPosted {
+    __block BOOL textDidBeginEditingNotificationPosted = NO;
+    __block BOOL textDidChangeNotificationPosted = NO;
+    __block BOOL textDidEndEditingNotificationPosted = NO;
+    
+    void (^textDidBeginEditingNotificationBlock)(NSNotification *textDidBeginEditingNotification) =
+        ^(NSNotification *notification) {
+            textDidBeginEditingNotificationPosted = YES;
+        };
+    void (^textDidChangeNotificationBlock)(NSNotification *textDidChangeNotification) =
+        ^(NSNotification *notification) {
+            textDidChangeNotificationPosted = YES;
+        };
+    void (^textDidEndEditingNotificationBlock)(NSNotification *textDidEndEditingNotification) =
+        ^(NSNotification *notification) {
+            textDidEndEditingNotificationPosted = YES;
+        };
+    
+    id textDidBeginEditingNotification =
+        [[NSNotificationCenter defaultCenter] addObserverForName:UITextViewTextDidBeginEditingNotification
+                                                          object:nil
+                                                           queue:nil
+                                                      usingBlock:textDidBeginEditingNotificationBlock];
+    id textDidChangeNotification =
+        [[NSNotificationCenter defaultCenter] addObserverForName:UITextViewTextDidChangeNotification
+                                                          object:nil
+                                                           queue:nil
+                                                      usingBlock:textDidChangeNotificationBlock];
+    id textDidEndEditingNotification =
+        [[NSNotificationCenter defaultCenter] addObserverForName:UITextViewTextDidEndEditingNotification
+                                                          object:nil
+                                                           queue:nil
+                                                      usingBlock:textDidEndEditingNotificationBlock];
+    
+    NSString *textToReplace = @"write a passage";
+    NSError *error;
+    
+    UITextView *textView = [[UITextView alloc] init];
 
+    id<GREYAction> replace = [GREYActions actionForReplaceText:textToReplace];
+    [replace perform:textView error:&error];
+    
+    XCTAssertNil(error);
+    XCTAssertEqualObjects(textToReplace, textView.text);
+    XCTAssertTrue(textDidBeginEditingNotificationPosted);
+    XCTAssertTrue(textDidChangeNotificationPosted);
+    XCTAssertTrue(textDidEndEditingNotificationPosted);
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:textDidBeginEditingNotification];
+    [[NSNotificationCenter defaultCenter] removeObserver:textDidChangeNotification];
+    [[NSNotificationCenter defaultCenter] removeObserver:textDidEndEditingNotification];
+}
+
+@end
