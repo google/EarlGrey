@@ -403,7 +403,7 @@ static Class gAccessibilityTextFieldElementClass;
       }
       if (elementIsUITextView) {
         NSNotification *notification =
-        [NSNotification notificationWithName:UITextViewTextDidBeginEditingNotification
+            [NSNotification notificationWithName:UITextViewTextDidBeginEditingNotification
                                       object:element];
         [NSNotificationCenter.defaultCenter postNotification:notification];
       }
@@ -423,7 +423,7 @@ static Class gAccessibilityTextFieldElementClass;
       }
       if (elementIsUITextView) {
         NSNotification *notification =
-        [NSNotification notificationWithName:UITextViewTextDidChangeNotification
+            [NSNotification notificationWithName:UITextViewTextDidChangeNotification
                                       object:element];
         [NSNotificationCenter.defaultCenter postNotification:notification];
       }
@@ -441,7 +441,7 @@ static Class gAccessibilityTextFieldElementClass;
       }
       if (elementIsUITextView) {
         NSNotification *notification =
-        [NSNotification notificationWithName:UITextViewTextDidEndEditingNotification
+            [NSNotification notificationWithName:UITextViewTextDidEndEditingNotification
                                           object:element];
         [NSNotificationCenter.defaultCenter postNotification:notification];
       }

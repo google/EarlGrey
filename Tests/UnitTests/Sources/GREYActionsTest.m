@@ -240,39 +240,39 @@
                         @"Wrong error element description.");
 }
 
-- (void)testReplaceTextSendNotificationSucceedsOnUITextView {
+- (void)testReplaceTextOnUITextViewNotificationsPosted {
     __block BOOL textDidBeginEditingNotificationPosted = NO;
     __block BOOL textDidChangeNotificationPosted = NO;
     __block BOOL textDidEndEditingNotificationPosted = NO;
     
     void (^textDidBeginEditingNotificationBlock)(NSNotification *textDidBeginEditingNotification) =
-    ^(NSNotification *notification) {
-        textDidBeginEditingNotificationPosted = YES;
-    };
+        ^(NSNotification *notification) {
+            textDidBeginEditingNotificationPosted = YES;
+        };
     void (^textDidChangeNotificationBlock)(NSNotification *textDidChangeNotification) =
-    ^(NSNotification *notification) {
-        textDidChangeNotificationPosted = YES;
-    };
+        ^(NSNotification *notification) {
+            textDidChangeNotificationPosted = YES;
+        };
     void (^textDidEndEditingNotificationBlock)(NSNotification *textDidEndEditingNotification) =
-    ^(NSNotification *notification) {
-        textDidEndEditingNotificationPosted = YES;
-    };
+        ^(NSNotification *notification) {
+            textDidEndEditingNotificationPosted = YES;
+        };
     
     id textDidBeginEditingNotification =
-    [[NSNotificationCenter defaultCenter] addObserverForName:UITextViewTextDidBeginEditingNotification
-                                                      object:nil
-                                                       queue:nil
-                                                  usingBlock:textDidBeginEditingNotificationBlock];
+        [[NSNotificationCenter defaultCenter] addObserverForName:UITextViewTextDidBeginEditingNotification
+                                                          object:nil
+                                                           queue:nil
+                                                      usingBlock:textDidBeginEditingNotificationBlock];
     id textDidChangeNotification =
-    [[NSNotificationCenter defaultCenter] addObserverForName:UITextViewTextDidChangeNotification
-                                                      object:nil
-                                                       queue:nil
-                                                  usingBlock:textDidChangeNotificationBlock];
+        [[NSNotificationCenter defaultCenter] addObserverForName:UITextViewTextDidChangeNotification
+                                                          object:nil
+                                                           queue:nil
+                                                      usingBlock:textDidChangeNotificationBlock];
     id textDidEndEditingNotification =
-    [[NSNotificationCenter defaultCenter] addObserverForName:UITextViewTextDidEndEditingNotification
-                                                      object:nil
-                                                       queue:nil
-                                                  usingBlock:textDidEndEditingNotificationBlock];
+        [[NSNotificationCenter defaultCenter] addObserverForName:UITextViewTextDidEndEditingNotification
+                                                          object:nil
+                                                           queue:nil
+                                                      usingBlock:textDidEndEditingNotificationBlock];
     
     NSString *textToReplace = @"write a passage";
     NSError *error;
