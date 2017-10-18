@@ -68,11 +68,13 @@ static NSString *const kFTRProxyRegex = @"^http://www.youtube.com";
   }
 }
 
+#if !defined(__IPHONE_9_0) || (__IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_9_0)
 - (IBAction)testNetworkClick:(id)sender {
   NSURLRequest *request =
       [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.youtube.com/"]];
   [NSURLConnection connectionWithRequest:request delegate:self];
 }
+#endif
 
 - (IBAction)userDidTapNSURLSessionDelegateTest:(id)sender {
   NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
