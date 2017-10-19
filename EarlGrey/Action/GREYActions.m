@@ -362,7 +362,7 @@ static Class gAccessibilityTextFieldElementClass;
 }
 
 /**
- *  Set the UITextField text value directly, bypassing the iOS keyboard.
+ *  Set the UITextField or UITextView text value directly, bypassing the iOS keyboard.
  *
  *  @param text The text to be typed.
  *
