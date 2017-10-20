@@ -68,13 +68,15 @@ static NSString *const kFTRProxyRegex = @"^http://www.youtube.com";
   }
 }
 
-#if !defined(__IPHONE_9_0) || (__IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_9_0)
 - (IBAction)testNetworkClick:(id)sender {
+  // connectionWithRequest is deprecated on iOS 9 and higher.
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
   NSURLRequest *request =
       [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.youtube.com/"]];
   [NSURLConnection connectionWithRequest:request delegate:self];
+#pragma clang diagnostic pop
 }
-#endif
 
 - (IBAction)userDidTapNSURLSessionDelegateTest:(id)sender {
   NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
