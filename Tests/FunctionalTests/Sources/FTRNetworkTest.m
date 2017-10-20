@@ -29,10 +29,6 @@
 }
 
 - (void)testSynchronizationWorksWithNSURLConnection {
-// This test uses APIs that don't exist when deployment target is 9.0 or greater.
-#if defined(__IPHONE_9_0) && (__IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_9_0)
-  return;
-#endif
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"FTRRequestCompletedLabel")]
       assertWithMatcher:grey_notVisible()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"NSURLConnectionTest")]
