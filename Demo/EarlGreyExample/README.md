@@ -15,7 +15,7 @@ Execute `gem install earlgrey` then `pod install --repo-update` from the directo
 the source of the example, then `open EarlGreyExample.xcworkspace` to open the example in xcode.
 Ensure that your version of CocoaPods is upgraded to the latest 1.x version since this project uses the
 [1.0.0 syntax](http://blog.cocoapods.org/CocoaPods-1.0/). You can get the latest CocoaPods release version by
-running `gem install cocoapods`.
+running `gem install cocoapods`. The `--repo-update` flag is the same as `pod repo update`. This ensures the specs repository is aware of the latest version of EarlGrey. An old repo will result in downloading an old version of EarlGrey which may fail to compile with EarlGrey.swift.
 
 Run the tests that you want to see in action.
 
