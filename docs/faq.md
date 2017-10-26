@@ -53,26 +53,24 @@ Here's an example of storing an element's text attribute.
 
 ```swift
 // Swift
-//
+
 // Must use a wrapper class to force pass by reference in Swift 3 closures.
 // inout params cannot be modified within closures. http://stackoverflow.com/a/28252105
-open class Element {
+public class Element {
   var text = ""
 }
 
-/*
- *  Example Usage:
- *
- *  let element = Element()
- *  domainField.performAction(grey_replaceText("hello.there"))
- *             .performAction(grey_getText(element))
- *
- *  GREYAssertTrue(element.text != "", reason: "get text failed")
- */
+/// Example Usage:
+///
+///     let element = Element()
+///     domainField.perform(grey_replaceText("hello.there"))
+///                .perform(grey_getText(element))
+///
+///     GREYAssertTrue(element.text != "", reason: "get text failed")
 public func grey_getText(_ elementCopy: Element) -> GREYActionBlock {
   return GREYActionBlock.action(withName: "get text",
   constraints: grey_respondsToSelector(#selector(getter: UILabel.text))) { element,
-                                                                           errorOrNil -> Bool in
+                                                                           errorOrNil in
         let elementObject = element as? NSObject
         let text = elementObject?.perform(#selector(getter: UILabel.text),
                                           with: nil)?.takeRetainedValue() as? String
@@ -163,8 +161,8 @@ By default, [EarlGrey truncates CALayer based animations](../EarlGrey/Common/GRE
 
 ```swift
 // Swift
-let kMaxAnimationInterval:CFTimeInterval = 5.0
-GREYConfiguration.sharedInstance().setValue(kMaxAnimationInterval, forConfigKey: kGREYConfigKeyCALayerMaxAnimationDuration)
+let maxAnimationInterval: CFTimeInterval = 5.0
+GREYConfiguration.sharedInstance().setValue(maxAnimationInterval, forConfigKey: kGREYConfigKeyCALayerMaxAnimationDuration)
 ```
 
 ```objc
@@ -229,7 +227,7 @@ class MyTests: XCTestCase {
     override func setUp() {
         super.setUp()
 
-        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.resetApplicationForTesting()
     }
 ```
@@ -274,7 +272,7 @@ Make sure the matchers are ordered from most specific to least. For example:
 
 ```swift
 // Swift
-grey_allOfMatchers([grey_accessibilityID("Foo"), grey_sufficientlyVisible()])
+grey_allOf([grey_accessibilityID("Foo"), grey_sufficientlyVisible()])
 ```
 
 ```objc
@@ -289,7 +287,7 @@ If we had the order wrong:
 
 ```swift
 // Swift
-grey_allOfMatchers([grey_sufficientlyVisible(), grey_accessibilityID("Foo")])
+grey_allOf([grey_sufficientlyVisible(), grey_accessibilityID("Foo")])
 ```
 
 ```objc
@@ -348,8 +346,8 @@ will then fail because the element doesn't meet tap's interactable constraint.
 
 ```swift
 // Swift
-EarlGrey.select(elementWithMatcher:matcher)
-        .using(searchAction: grey_scrollInDirection(GREYDirection.down, 200),
+EarlGrey.select(elementWithMatcher: matcher)
+        .using(searchAction: grey_scrollInDirection(.down, 200),
                onElementWithMatcher: grey_kindOfClass(UITableView.self))
         .assert(grey_notNil())
 ```
@@ -371,7 +369,7 @@ are available. The following is an example of waiting for a collection view to p
 ```swift
 // Swift
 // Wait until 5 seconds for the view.
-let populated = GREYCondition(name: "Wait for UICollectionView to populate", block: { _ in
+let populated = GREYCondition(name: "Wait for UICollectionView to populate") { _ in
     var error: NSError?
 
     // Checking if collection view exists in the UI hierarchy.
@@ -379,7 +377,7 @@ let populated = GREYCondition(name: "Wait for UICollectionView to populate", blo
             .assert(grey_notNil(), error: &error)
 
     return error == nil
-}).wait(withTimeout: 5.0, pollInterval: 0.5)
+}.wait(withTimeout: 5.0, pollInterval: 0.5)
 
 GREYAssertTrue(populated, reason: "Failed to populate UICollectionView in 5 seconds")
 ```
@@ -432,23 +430,23 @@ Settings pointing to `EarlGrey-1.0.0`. The project should run fine now.
 
 #### **How do I create a custom action in Swift?**
 
-You need to create a new object of type `GREYActionBlock` and call pass it to `performAction`. For example,
+You need to create a new object of type `GREYActionBlock` and call pass it to `perform`. For example,
 take a look at [checkHiddenBlock](../Tests/FunctionalTests/Sources/FTRSwiftTests.swift#L65) in our Functional
 Test App's Swift Tests, which creates it as:
 
 ```swift
 // Swift
-let checkHiddenBlock:GREYActionBlock =
-    GREYActionBlock.action(withName: "checkHiddenBlock") { (element, errorOrNil) -> Bool in
+let checkHiddenBlock =
+    GREYActionBlock.action(withName: "checkHiddenBlock") { element, errorOrNil in
       // Check if the found element is hidden or not.
-      let superView:UIView! = element as! UIView
+      let superView = element as! UIView
       return (superView.isHidden == false)
     }
 
 ...
 
-EarlGrey().selectElementWithMatcher(grey_accessibilityLabel("label"))
-    .performAction(checkHiddenBlock)
+EarlGrey.select(elementWithMatcher: grey_accessibilityLabel("label"))
+    .perform(checkHiddenBlock)
 
 ```
 
