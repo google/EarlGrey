@@ -9,35 +9,25 @@ duplicating the UI. When that's not possible, a workaround is to match on
 the first element.
 
 ```swift
-// Swift Custom Matcher
-/**
- *  Example Usage:
- *
- *  EarlGrey.select(elementWithMatcher:grey_allOfMatchers([
- *    grey_accessibilityID("some_id"),
- *    grey_interactable(),
- *    grey_firstElement()])).assert(grey_notNil())
- *
- *  Only intended to be used with selectElementWithMatcher.
- */
+/// Example Usage:
+///
+///     EarlGrey.select(elementWithMatcher: grey_allOf([
+///       grey_accessibilityID("some_id"),
+///       grey_interactable(),
+///       grey_firstElement(),
+///     ])).assert(grey_notNil())
+///
+/// Note: Only intended to be used with `select(elementWithMatcher:)`.
 func grey_firstElement() -> GREYMatcher {
   var firstMatch = true
-  let matches: MatchesBlock = { (element: AnyObject!) -> Bool in
+  return GREYElementMatcherBlock(matchesBlock: { element in
     if firstMatch {
       firstMatch = false
       return true
     }
-
     return false
-  }
-
-  let description: DescribeToBlock = { (description: GREYDescription!) -> Void in
-    guard let description = description else {
-      return
-    }
-    description.appendText("first match")
-  }
-
-  return GREYElementMatcherBlock.init(matchesBlock: matches, descriptionBlock: description)
+  }, descriptionBlock: { description in
+    _ = description?.appendText("first match")
+  })
 }
 ```
