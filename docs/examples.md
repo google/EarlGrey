@@ -13,8 +13,8 @@ the first element.
 ///
 ///     EarlGrey.select(elementWithMatcher: grey_allOf([
 ///       grey_accessibilityID("some_id"),
-///       grey_interactable(),
 ///       grey_firstElement(),
+///       grey_interactable(),
 ///     ])).assert(grey_notNil())
 ///
 /// Note: Only intended to be used with `select(elementWithMatcher:)`.
