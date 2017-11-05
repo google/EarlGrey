@@ -1,6 +1,6 @@
 # FAQ
 
-#### **How does EarlGrey compare to Xcode’s UI Testing?**
+<details><summary>How does EarlGrey compare to Xcode’s UI Testing?</summary>
 
 EarlGrey is a [white-box testing](https://en.wikipedia.org/wiki/White_box_testing) solution
 whereas Xcode’s UI Testing is [black-box](https://en.wikipedia.org/wiki/Black-box_testing).
@@ -17,19 +17,22 @@ Nonetheless, EarlGrey’s APIs are highly extensible and provide a way to write 
 assertions. The ability to search for elements (using search actions) makes test cases resilient to
 UI changes. For example, EarlGrey provides APIs that allow searching for elements in scrollable
 containers, regardless of the amount of scrolling required.
+</details>
 
-#### **I see lots of “XXX is implemented in both YYY and ZZZ. One of the two will be used. Which one is undefined.” in the logs**
+<details><summary>I see lots of “XXX is implemented in both YYY and ZZZ. One of the two will be used. Which one is undefined.” in the logs</summary>
 
 This usually means that EarlGrey is being linked to more than once. Ensure that only the **Test Target**
 depends on *EarlGrey.framework* and EarlGrey.framework is embedded in the app under test (i.e. *$TEST_HOST*) from the
 test target's built products via a Copy File(s) Build Phase.
+</details>
 
-#### **Why do the tests have the application scaled with borders around it? How can I get them to fit in the video frame?**
+<details><summary>Why do the tests have the application scaled with borders around it? How can I get them to fit in the video frame?</summary>
 
 For your tests to have the application properly scaled, make sure the app under test has correct launch screen images present for all supported devices (see
 [iOS Developer Library, Launch Files](https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/MobileHIG/LaunchImages.html)).
+</details>
 
-#### **Is there a way to return a specific element?**
+<details><summary>Is there a way to return a specific element?</summary>
 
 No, but there is a better alternative. Use [GREYActionBlock](../EarlGrey/Action/GREYActionBlock.h)
 to create a custom GREYAction and access any fields or invoke any selector on the element. For example, if you want to invoke a selector on an element, you can use syntax similar to the following:
@@ -79,15 +82,17 @@ public func grey_getText(_ elementCopy: Element) -> GREYActionBlock {
     }
 }
 ```
+</details>
 
-#### **I get a crash with “Could not swizzle …”**
+<details><summary>I get a crash with “Could not swizzle …”</summary>
 
 This means that EarlGrey is trying to swizzle a method that it has swizzled before. It is a result
 of EarlGrey being linked to more than once. Ensure that only the **Test Target**
 depends on *EarlGrey.framework* and EarlGrey.framework is embedded in the app under test (i.e. *$TEST_HOST*) from the
 test target's build phase.
+</details>
 
-#### **How do I check whether an element exists in the UI hierarchy?**
+<details><summary>How do I check whether an element exists in the UI hierarchy?</summary>
 
 If you are unsure whether the element exists in the UI hierarchy, pass an `NSError` to the
 interaction and check if the error domain and code indicate that the element wasn’t found:
@@ -103,8 +108,9 @@ if ([error.domain isEqual:kGREYInteractionErrorDomain] &&
   // Element doesn’t exist.
 }
 ```
+</details>
 
-#### **My app shows a splash screen. How can I make my test wait for the main screen?**
+<details><summary>My app shows a splash screen. How can I make my test wait for the main screen?</summary>
 
 Use [GREYCondition](../EarlGrey/Synchronization/GREYCondition.h) in your test's setup method to
 wait for the main screen’s view controller. Here’s an example:
@@ -126,36 +132,42 @@ wait for the main screen’s view controller. Here’s an example:
   GREYAssertTrue(success, @"Main view controller should appear within 5 seconds.");
 }
 ```
+</details>
 
-#### **Will my test fail if I have other modal dialogs showing on top of my app?**
+<details><summary>Will my test fail if I have other modal dialogs showing on top of my app?</summary>
 
 Yes, if these dialogs belong to the app process running the test and are obscuring UI elements with
 which tests are interacting.
+</details>
 
-#### **Can I use Xcode Test Navigator?**
+<details><summary>Can I use Xcode Test Navigator?</summary>
 
 Yes. EarlGrey supports **Test Navigator** out-of-the-box.
+</details>
 
-#### **Can I set debug breakpoints in the middle of a test?**
+<details><summary>Can I set debug breakpoints in the middle of a test?</summary>
 
 Yes. You can set a breakpoint on any interaction. The breakpoint will be hit before that
 interaction is executed, but after all prior interactions have been executed.
+</details>
 
-#### **Where do I find the XCTest bundle?**
+<details><summary>Where do I find the XCTest bundle?</summary>
 
 For the Example project, run the `EarlGreyExampleSwiftTests` target once then find the bundle:
 
 > cd ~/Library/Developer/Xcode/DerivedData/EarlGreyExample-*/Build/Products/Debug-iphonesimulator/EarlGreyExampleSwift.app/PlugIns/EarlGreyExampleSwiftTests.xctest/
 
 For physical device builds, replace `Debug-iphonesimulator` with `Debug-iphoneos`.
+</details>
 
-#### **How do I resolve "dyld: could not load inserted library '@executable_path/EarlGrey.framework/EarlGrey' because image not found" error?**
+<details><summary>How do I resolve "dyld: could not load inserted library '@executable_path/EarlGrey.framework/EarlGrey' because image not found" error?</summary>
 
 The error means that the dynamic loader is unable to find *EarlGrey.framework* at the specified path: `@executable_path/EarlGrey.framework/EarlGrey`
 
 Verify that *EarlGrey.framework* is embedded in the app under test bundle. Build the **Test Target** and check for EarlGrey.framework in the app under test bundle. For an app named *MyApp*, EarlGrey.framework should be at `MyApp.app/EarlGrey.framework`. If it isn't there, make sure that the **Test Target** has a `Copy to $(TEST_HOST)` script in **Build Phases**. Follow [these instructions](install-and-run.md) on how to configure it. After configuring it, rebuild and check again. If EarlGrey.framework is still not present in the app under test bundle, please [open an issue](https://github.com/google/EarlGrey/issues/new) describing your project setup and the full error in detail.
+</details>
 
-#### **How should I handle animations?**
+<details><summary>How should I handle animations?</summary>
 
 By default, [EarlGrey truncates CALayer based animations](../EarlGrey/Common/GREYConfiguration.h#L108) that exceed a threshold. The max animation duration setting is configurable:
 
@@ -202,16 +214,18 @@ GREYConfiguration.sharedInstance().setValue(false, forConfigKey: kGREYConfigKeyS
 ```
 
 Alternatively, conditionally disable the animation using `#if EARLGREY_ENV`.
+</details>
 
-#### **How do I match an element when it's duplicated in the app?**
+<details><summary>How do I match an element when it's duplicated in the app?</summary>
 
 EarlGrey requires all matchers return exactly one element.
 This is difficult to do when an element is duplicated (same label/class/location).
 
 We recommend combining the matchers [as suggested here](api.md#earlgrey-matchers) and then adding
 `grey_interactable()` or `grey_sufficientlyVisible()`.
+</details>
 
-#### **How do I reset application state before each test?**
+<details><summary>How do I reset application state before each test?</summary>
 
 In the application target's Build Settings, set **Defines Module** to **Yes**. Create a `resetApplicationForTesting()` method on the AppDelegate. The reset method will be invoked on `setUp` instead of `tearDown` because otherwise there's no guarantee the app will be in a clean state when the first test is run.
 
@@ -252,8 +266,9 @@ In the EarlGrey test target, import the application's app delegate header. In `s
     [delegate resetApplicationForTesting];
 }
 ```
+</details>
 
-#### **How do I create a matcher that matches internal UIKit classes?**
+<details><summary>How do I create a matcher that matches internal UIKit classes?</summary>
 
 Use `NSClassFromString` to match on internal classes that can't be referenced directly.
 
@@ -261,8 +276,9 @@ Use `NSClassFromString` to match on internal classes that can't be referenced di
 // Swift
 grey_kindOfClass(NSClassFromString("_UIAlertControllerView"))
 ```
+</details>
 
-#### **Why does the screen appear frozen for 30 seconds?**
+<details><summary>Why does the screen appear frozen for 30 seconds?</summary>
 
 If the tests are erroring with a timeout, then a background animation or synchronization bug may be keeping the application busy. EarlGrey will timeout interactions after 30 seconds.
 
@@ -300,8 +316,9 @@ grey_allOf(grey_sufficientlyVisible(),
 then all elements in the entire application will be checked for visibility, and finally one
 with a matching id will be selected. It's significantly faster to use the most targeted
 matchers first (typically `grey_accessibilityID` or `grey_accessibilityLabel`).
+</details>
 
-#### **How do I inspect the EarlGrey view hierarchy?**
+<details><summary>How do I inspect the EarlGrey view hierarchy?</summary>
 
 Breakpoint in any test, then paste the following into Xcode's lldb debug window:
 
@@ -312,9 +329,9 @@ Breakpoint in any test, then paste the following into Xcode's lldb debug window:
 ```objc
 > po [GREYElementHierarchy hierarchyStringForAllUIWindows]
 ```
+</details>
 
-
-#### **How can I detect if I'm running in an EarlGrey target?**
+<details><summary>How can I detect if I'm running in an EarlGrey target?</summary>
 
 Creating a [build configuration](https://developer.apple.com/library/ios/documentation/Swift/Conceptual/BuildingCocoaApps/InteractingWithCAPIs.html#//apple_ref/doc/uid/TP40014216-CH8-ID34) for EarlGrey will allow compilation:
 
@@ -333,8 +350,9 @@ Alternatively, perform a runtime check for the EarlGrey class:
 // Swift
 public static let envEarlGrey:Bool = NSClassFromString("EarlGreyImpl") != nil
 ```
+</details>
 
-#### **How do I find off screen elements?**
+<details><summary>How do I find off screen elements?</summary>
 
 EarlGrey requires elements to be visible (in the UI hierarchy) to perform automation.
 Just as a user would, scroll elements into view before interacting with them.
@@ -359,8 +377,9 @@ EarlGrey.select(elementWithMatcher: matcher)
                onElementWithMatcher:grey_kindOfClass([UITableView class])
                   assertWithMatcher:grey_notNil()];
 ```
+</details>
 
-#### **How do I wait for an element to appear?**
+<details><summary>How do I wait for an element to appear?</summary>
 
 The best way is to [setup synchronization](features.md#synchronization) so that EarlGrey automatically waits
 for elements to appear. As a work around for when that's not possible, `GREYCondition` and `waitWithTimeout`
@@ -398,8 +417,9 @@ GREYCondition *waitCondition = [GREYCondition conditionWithName:@"Wait for UICol
 BOOL populated = [waitCondition waitWithTimeout:5.0 pollInterval:0.5];
 GREYAssertTrue(populated, @"Failed to populate UICollectionView in 5 seconds");
 ```
+</details>
 
-#### **How do I match elements that are denoted with "AX=N" in the view hierarchy?**
+<details><summary>How do I match elements that are denoted with "AX=N" in the view hierarchy?</summary>
 
 EarlGrey's view hierarchy identifies non-accessible elements with `AX=N`.
 Accessibility IDs can be added to both accessible and non-accessible elements.
@@ -412,8 +432,9 @@ When searching for AX=N elements, the following accessibility matchers won't wor
 
 If the `AX=N` element can't be matched by `grey_accessibilityID`, then you'll have to use non-accessibility
 matchers to locate the element.
+</details>
 
-#### **Why does my Swift project throw compiler errors for all the shorthand matchers?**
+<details><summary>Why does my Swift project throw compiler errors for all the shorthand matchers?</summary>
 
 A few times, we've noticed Source-Kit issues with Swift projects not finding the EarlGrey C-macros
 when the project is built with CocoaPods. This seems to be caused by the naming scheme of the EarlGrey
@@ -427,8 +448,9 @@ manually changing the filename for the CocoaPods EarlGrey folder from `Pods/Earl
 `Pods/EarlGrey/EarlGrey`. Once this is done, please re-add the`EarlGrey.framework` file in the `Pods/` folder
 in your Project Navigator and also completely remove any Framework Search Paths in your target's Build
 Settings pointing to `EarlGrey-1.0.0`. The project should run fine now.
+</details>
 
-#### **How do I create a custom action in Swift?**
+<details><summary>How do I create a custom action in Swift?</summary>
 
 You need to create a new object of type `GREYActionBlock` and call pass it to `perform`. For example,
 take a look at [checkHiddenBlock](../Tests/FunctionalTests/Sources/FTRSwiftTests.swift#L65) in our Functional
@@ -449,8 +471,9 @@ EarlGrey.select(elementWithMatcher: grey_accessibilityLabel("label"))
     .perform(checkHiddenBlock)
 
 ```
+</details>
 
-#### **How do I change the directory location for where the screenshots are stored?**
+<details><summary>How do I change the directory location for where the screenshots are stored?</summary>
 
 You can change the kGREYConfigKeyArtifactsDirLocation key in GREYConfiguration to change the location.
 
@@ -459,8 +482,9 @@ You can change the kGREYConfigKeyArtifactsDirLocation key in GREYConfiguration t
 [[GREYConfiguration sharedInstance] setValue:@"screenshot_dir_path"
                                 forConfigKey:kGREYConfigKeyArtifactsDirLocation];
 ```
+</details>
 
-#### **How do I run tests against a precompiled app?**
+<details><summary>How do I run tests against a precompiled app?</summary>
 
 Xcode 8 adds two new commands for building and running tests:
 
@@ -501,13 +525,15 @@ xcodebuild \
 -derivedDataPath 'xctestrun_dd'
 test-without-building
 ```
+</details>
 
-#### **I get a compiler error `"Invalid escaped sequence in literal"` when I add the backspace escape character in a Swift string `"grey_typeText("foob\bar")"` to type "fooar". How do I use backspace to delete text in Swift?**
+<details><summary>I get a compiler error `"Invalid escaped sequence in literal"` when I add the backspace escape character in a Swift string `"grey_typeText("foob\bar")"` to type "fooar". How do I use backspace to delete text in Swift?</summary>
 
 For Swift, the backspace escape character is `\u{8}`. You need to add that in your string to be typed for
 Swift. For example, To type "fooar", you should use `grey_typeText("foob\u{8}ar")`
+</details>
 
-#### **Does EarlGrey support finding react-native elements?**
+<details><summary>Does EarlGrey support finding react-native elements?</summary>
 
 Yes. By default [all touchable elements](https://facebook.github.io/react-native/docs/accessibility.html)
 are accessible. A button with the `accessibilityLabel` prop set can be found by `grey_accessibilityLabel`.
@@ -546,3 +572,5 @@ EarlGrey.select(elementWithMatcher: grey_accessibilityLabel("automation_button_l
 EarlGrey.select(elementWithMatcher: grey_accessibilityLabel("automation_image_label")).assert(grey_sufficientlyVisible());
 EarlGrey.select(elementWithMatcher: grey_accessibilityID("automation_image_id")).assert(grey_sufficientlyVisible());
 ```
+</details>
+
