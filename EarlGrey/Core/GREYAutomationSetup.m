@@ -241,7 +241,7 @@ static GREYSignalHandler gPreviousSignalHandlers[kNumSignals];
   if ([controller respondsToSelector:@selector(setAutocorrectionEnabled:)]) {
     controller.autocorrectionEnabled = NO;
   } else {
-    [controller setValue:@NO forKey:@"KeyboardAutocorrection"];
+    [controller setValue:@NO forPreferenceKey:@"KeyboardAutocorrection"];
   }
   if ([controller respondsToSelector:@selector(setPredictionEnabled:)]) {
     controller.predictionEnabled = NO;
