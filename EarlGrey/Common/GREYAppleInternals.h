@@ -319,28 +319,24 @@ IOHIDEventRef IOHIDEventCreateDigitizerFingerEvent(CFAllocatorRef allocator,
 @end
 
 /**
- *  UI controller for the keyboard preferences pane that can be accessed from the Settings. This
- *  works only for iOS8+.
+ * Text Input preferences controller to modify the keyboard preferences for iOS 8+.
  */
-@interface KeyboardController
+@interface TIPreferencesController : NSObject
 
-/**
- *  Removes the autocorrect values from being accepted on a UIKeyboard. While the
- *  autocorrect options may be displayed, they do not affect typing.
- *
- *  @param enabled   A boolean that indicates if autocorrect is enabled or not.
- *  @param specifier Is unused can be @c nil.
- */
-- (void)setAutocorrectionPreferenceValue:(NSNumber *)enabled forSpecifier:(id)specifier;
+/** Whether the autocorrection is enabled. */
+@property BOOL autocorrectionEnabled;
 
-/**
- *  Removes the predictive text from being accepted on a UIKeyboard to stop
- *  displaying the autocorrect options when typing.
- *
- *  @param enabled   A boolean that indicates if predictive typing is enabled or not.
- *  @param specifier Is unused can be @c nil.
- */
-- (void)setPredictionPreferenceValue:(NSNumber *)enabled forSpecifier:(id)specifier;
+/** Whether the predication is enabled. */
+@property BOOL predictionEnabled;
+
+/** The shared singleton instance. */
++ (instancetype)sharedPreferencesController;
+
+/** Synchronize the change to save it on disk. */
+- (void)synchronizePreferences;
+
+/** Modify the preference @c value by @c key. */
+- (void)setValue:(NSValue *)value forPreferenceKey:(NSString *)key;
 @end
 
 /**
