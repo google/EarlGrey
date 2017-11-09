@@ -226,34 +226,31 @@ static GREYSignalHandler gPreviousSignalHandlers[kNumSignals];
 // Modifies the autocorrect and predictive typing settings to turn them off through the
 // keyboard settings bundle.
 - (void)grey_modifyKeyboardSettings {
-  static NSString *const keyboardSettingsPrefBundlePath =
-      @"/System/Library/PreferenceBundles/KeyboardSettings.bundle/KeyboardSettings";
-  static NSString *const keyboardControllerClassName = @"KeyboardController";
-  id keyboardControllerInstance =
-      [self grey_classInstanceFromBundleAtPath:keyboardSettingsPrefBundlePath
-                                 withClassName:keyboardControllerClassName];
-  [keyboardControllerInstance setAutocorrectionPreferenceValue:@(NO) forSpecifier:nil];
-  [keyboardControllerInstance setPredictionPreferenceValue:@(NO) forSpecifier:nil];
-}
-
-// For the provided bundle @c path, we use the actual @c className of the class to extract and
-// return a class instance that can be modified.
-- (id)grey_classInstanceFromBundleAtPath:(NSString *)path withClassName:(NSString *)className {
-  GREYFatalAssert(path);
-  GREYFatalAssert(className);
-
-  char const *const preferenceBundlePath = [path fileSystemRepresentation];
-  void *handle = dlopen(preferenceBundlePath, RTLD_LAZY);
+  static char const *const controllerPrefBundlePath =
+      "/System/Library/PrivateFrameworks/TextInput.framework/TextInput";
+  static NSString *const controllerClassName = @"TIPreferencesController";
+  void *handle = dlopen(controllerPrefBundlePath, RTLD_LAZY);
   GREYFatalAssertWithMessage(handle,
-                             @"dlopen couldn't open settings bundle at path bundle %@", path);
+                             @"dlopen couldn't open settings bundle at path bundle %s",
+                             controllerPrefBundlePath);
 
-  Class klass = NSClassFromString(className);
-  GREYFatalAssertWithMessage(klass, @"Couldn't find %@ class", klass);
+  Class controllerClass = NSClassFromString(controllerClassName);
+  GREYFatalAssertWithMessage(controllerClass, @"Couldn't find %@ class", controllerClassName);
 
-  id klassInstance = [[klass alloc] init];
-  GREYFatalAssertWithMessage(klassInstance, @"Couldn't initialize controller for class: %@", klass);
+  TIPreferencesController *controller = [controllerClass sharedPreferencesController];
+  if ([controller respondsToSelector:@selector(setAutocorrectionEnabled:)]) {
+    controller.autocorrectionEnabled = NO;
+  } else {
+    [controller setValue:@NO forKey:@"KeyboardAutocorrection"];
+  }
+  if ([controller respondsToSelector:@selector(setPredictionEnabled:)]) {
+    controller.predictionEnabled = NO;
+  } else {
+    [controller setValue:@NO forPreferenceKey:@"KeyboardPrediction"];
+  }
+  [controller synchronizePreferences];
 
-  return klassInstance;
+  dlclose(handle);
 }
 
 #pragma mark - Crash Handlers
