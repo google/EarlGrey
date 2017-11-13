@@ -16,7 +16,6 @@
 
 #import "EarlGrey.h"
 
-#import "Common/GREYAnalytics.h"
 #import "Common/GREYAppleInternals.h"
 #import "Common/GREYErrorConstants.h"
 #import "Common/GREYError.h"
@@ -53,7 +52,6 @@ NSString *const kGREYKeyboardDismissalErrorDomain = @"com.google.earlgrey.Keyboa
   if ([failureHandler respondsToSelector:invocationFileAndLineSEL]) {
     [failureHandler setInvocationFile:fileName andInvocationLine:lineNumber];
   }
-  [[GREYAnalytics sharedInstance] didInvokeEarlGrey];
   return instance;
 }
 
