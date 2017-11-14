@@ -248,6 +248,11 @@ static GREYSignalHandler gPreviousSignalHandlers[kNumSignals];
   } else {
     [controller setValue:@NO forPreferenceKey:@"KeyboardPrediction"];
   }
+
+  // To dismiss keyboard tutorial on iOS 11+. See https://github.com/google/EarlGrey/issues/633
+  if (iOS11_OR_ABOVE()) {
+    [controller setValue:@YES forPreferenceKey:@"DidShowGestureKeyboardIntroduction"];
+  }
   [controller synchronizePreferences];
 
   dlclose(handle);
