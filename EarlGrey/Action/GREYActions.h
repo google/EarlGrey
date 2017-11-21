@@ -17,6 +17,7 @@
 #import <EarlGrey/GREYConstants.h>
 #import <EarlGrey/GREYDefines.h>
 #import <Foundation/Foundation.h>
+#import <WebKit/WebKit.h>
 
 @protocol GREYAction;
 
@@ -376,6 +377,9 @@
 + (id<GREYAction>)actionForJavaScriptExecution:(NSString *)js
                                         output:(out __strong NSString **)outResult;
 
++ (id<GREYAction>)actionForJavaScriptWKExecution:(NSString *)js
+                                          output:(out __strong NSString **)outResult;
+
 /**
  *  Returns an action that takes a snapshot of the selected element.
  *
@@ -531,6 +535,9 @@ GREY_EXPORT id<GREYAction> grey_setPickerColumnToValue(NSInteger column, NSStrin
 
 /** Shorthand macro for GREYActions::actionForJavaScriptExecution:output:. */
 GREY_EXPORT id<GREYAction> grey_javaScriptExecution(NSString *js, __strong NSString **outResult);
+
+/** Shorthand macro for GREYActions::actionForJavaScriptWKExecution:output:. */
+GREY_EXPORT id<GREYAction> grey_javaScriptWKExecution(NSString *js, __strong NSString **outResult);
 
 /** Shorthand macro for GREYActions::actionForSnapshot:. */
 GREY_EXPORT id<GREYAction> grey_snapshot(__strong UIImage **outImage);

@@ -289,6 +289,29 @@ static Class gAccessibilityTextFieldElementClass;
   return [[GREYPickerAction alloc] initWithColumn:column value:value];
 }
 
++ (id<GREYAction>)actionForJavaScriptWKExecution:(NSString *)js
+                                        output:(out __strong NSString **)outResult {
+    // TODO: JS Errors should be propagated up.
+    id<GREYMatcher> constraints = grey_allOf(grey_not(grey_systemAlertViewShown()),
+                                             grey_kindOfClass([WKWebView class]),
+                                             nil);
+    return [[GREYActionBlock alloc] initWithName:@"Execute JavaScript"
+                                     constraints:constraints
+                                    performBlock:^BOOL (WKWebView *webView,
+                                                        __strong NSError **errorOrNil) {
+                                        if (outResult) {
+                                            [webView evaluateJavaScript:js completionHandler:^(id _Nullable result, NSError * _Nullable error) {
+                                                *outResult = result;
+                                            }];
+                                        } else {
+                                            [webView evaluateJavaScript:js completionHandler:nil];
+                                        }
+                                        // TODO: Delay should be removed once webview sync is stable.
+                                        [[GREYUIThreadExecutor sharedInstance] drainForTime:0.5];  // Wait for actions to register.
+                                        return YES;
+                                    }];
+}
+
 + (id<GREYAction>)actionForJavaScriptExecution:(NSString *)js
                                         output:(out __strong NSString **)outResult {
   // TODO: JS Errors should be propagated up.
@@ -729,6 +752,10 @@ id<GREYAction> grey_setPickerColumnToValue(NSInteger column, NSString *value) {
 
 id<GREYAction> grey_javaScriptExecution(NSString *js, __strong NSString **outResult) {
   return [GREYActions actionForJavaScriptExecution:js output:outResult];
+}
+
+id<GREYAction> grey_javaScriptWKExecution(NSString *js, __strong NSString **outResult) {
+    return [GREYActions actionForJavaScriptWKExecution:js output:outResult];
 }
 
 id<GREYAction> grey_snapshot(__strong UIImage **outImage) {
