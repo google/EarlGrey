@@ -377,9 +377,6 @@
 + (id<GREYAction>)actionForJavaScriptExecution:(NSString *)js
                                         output:(out __strong NSString **)outResult;
 
-+ (id<GREYAction>)actionForJavaScriptWKExecution:(NSString *)js
-                                          output:(out __strong NSString **)outResult;
-
 /**
  *  Returns an action that takes a snapshot of the selected element.
  *

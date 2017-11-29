@@ -112,6 +112,8 @@
 		7CFDF8ED1DBBD5FC00CAADB3 /* GREYObjectFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CFDF8E71DBBD5FC00CAADB3 /* GREYObjectFormatter.m */; };
 		D210ED8D1E6F47D100978B9E /* GREYMultiFingerSwipeAction.h in Headers */ = {isa = PBXBuildFile; fileRef = D210ED8B1E6F47D100978B9E /* GREYMultiFingerSwipeAction.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		D210ED8E1E6F47D100978B9E /* GREYMultiFingerSwipeAction.m in Sources */ = {isa = PBXBuildFile; fileRef = D210ED8C1E6F47D100978B9E /* GREYMultiFingerSwipeAction.m */; };
+		D21E7BE01FCCD50600EE9200 /* GREYJavascriptExecution.h in Headers */ = {isa = PBXBuildFile; fileRef = D21E7BDE1FCCD50600EE9200 /* GREYJavascriptExecution.h */; };
+		D21E7BE11FCCD50600EE9200 /* GREYJavascriptExecution.m in Sources */ = {isa = PBXBuildFile; fileRef = D21E7BDF1FCCD50600EE9200 /* GREYJavascriptExecution.m */; };
 		FD1001B01C5B46C200B2DB0A /* GREYAction.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001011C5B46C100B2DB0A /* GREYAction.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FD1001B11C5B46C200B2DB0A /* GREYActionBlock.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001021C5B46C100B2DB0A /* GREYActionBlock.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FD1001B21C5B46C200B2DB0A /* GREYActionBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1001031C5B46C100B2DB0A /* GREYActionBlock.m */; };
@@ -297,6 +299,8 @@
 		7CFDF8E71DBBD5FC00CAADB3 /* GREYObjectFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYObjectFormatter.m; sourceTree = "<group>"; };
 		D210ED8B1E6F47D100978B9E /* GREYMultiFingerSwipeAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYMultiFingerSwipeAction.h; sourceTree = "<group>"; };
 		D210ED8C1E6F47D100978B9E /* GREYMultiFingerSwipeAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYMultiFingerSwipeAction.m; sourceTree = "<group>"; };
+		D21E7BDE1FCCD50600EE9200 /* GREYJavascriptExecution.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GREYJavascriptExecution.h; sourceTree = "<group>"; };
+		D21E7BDF1FCCD50600EE9200 /* GREYJavascriptExecution.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GREYJavascriptExecution.m; sourceTree = "<group>"; };
 		FD06C66B1BECAD8B009032A5 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		FD06C66C1BECAD8B009032A5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		FD06C66F1BECAD9B009032A5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -596,6 +600,8 @@
 				FD10011B1C5B46C100B2DB0A /* GREYTapper.m */,
 				D210ED8B1E6F47D100978B9E /* GREYMultiFingerSwipeAction.h */,
 				D210ED8C1E6F47D100978B9E /* GREYMultiFingerSwipeAction.m */,
+				D21E7BDE1FCCD50600EE9200 /* GREYJavascriptExecution.h */,
+				D21E7BDF1FCCD50600EE9200 /* GREYJavascriptExecution.m */,
 			);
 			name = Action;
 			path = EarlGrey/Action;
@@ -956,6 +962,7 @@
 				FD1002441C5B46C200B2DB0A /* GREYCondition.h in Headers */,
 				FDA218ED1E450A9900693978 /* GREYErrorConstants.h in Headers */,
 				FDCB29821E24658E0001557E /* GREYScreenshotUtil+Internal.h in Headers */,
+				D21E7BE01FCCD50600EE9200 /* GREYJavascriptExecution.h in Headers */,
 				FD1002501C5B46C200B2DB0A /* GREYUIThreadExecutor.h in Headers */,
 				FD1002481C5B46C200B2DB0A /* GREYNSTimerIdlingResource.h in Headers */,
 				FD1002461C5B46C200B2DB0A /* GREYDispatchQueueIdlingResource.h in Headers */,
@@ -1163,6 +1170,7 @@
 				FD1001FF1C5B46C200B2DB0A /* GREYAssertions.m in Sources */,
 				61E4E0C01D755A0D007F9EE6 /* GREYPinchAction.m in Sources */,
 				FD10024F1C5B46C200B2DB0A /* GREYTimedIdlingResource.m in Sources */,
+				D21E7BE11FCCD50600EE9200 /* GREYJavascriptExecution.m in Sources */,
 				7CFDF8ED1DBBD5FC00CAADB3 /* GREYObjectFormatter.m in Sources */,
 				FD1001D41C5B46C200B2DB0A /* CALayer+GREYAdditions.m in Sources */,
 				FD1001D61C5B46C200B2DB0A /* CGGeometry+GREYAdditions.m in Sources */,
