@@ -54,7 +54,7 @@
                                           }
                                         }
                                         // TODO: Delay should be removed once webview sync is stable.
-                                        [[GREYUIThreadExecutor sharedInstance] drainForTime:0.5];  // Wait for actions to register.
+                                        [[GREYUIThreadExecutor sharedInstance] drainOnce]; // Wait for actions to register.
                                         return YES;
                                     }];
 }
