@@ -17,7 +17,6 @@
 #import <EarlGrey/GREYConstants.h>
 #import <EarlGrey/GREYDefines.h>
 #import <Foundation/Foundation.h>
-#import <WebKit/WebKit.h>
 
 @protocol GREYAction;
 
