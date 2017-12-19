@@ -532,9 +532,6 @@ GREY_EXPORT id<GREYAction> grey_setPickerColumnToValue(NSInteger column, NSStrin
 /** Shorthand macro for GREYActions::actionForJavaScriptExecution:output:. */
 GREY_EXPORT id<GREYAction> grey_javaScriptExecution(NSString *js, __strong NSString **outResult);
 
-/** Shorthand macro for GREYActions::actionForJavaScriptWKExecution:output:. */
-GREY_EXPORT id<GREYAction> grey_javaScriptWKExecution(NSString *js, __strong NSString **outResult);
-
 /** Shorthand macro for GREYActions::actionForSnapshot:. */
 GREY_EXPORT id<GREYAction> grey_snapshot(__strong UIImage **outImage);
 
