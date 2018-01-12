@@ -15,19 +15,25 @@
 
 require_relative '../configure_earlgrey'
 require_relative 'aggregate_target_extensions'
+require_relative 'earlgrey_yaml'
 
 module EarlGrey
   module AnalyzerExtension
     def analyze(*_)
       result = super
+      earlgrey_yaml = EarlGreyYaml.new(result, podfile)
       eg_targets = result.targets.select(&:is_earlgrey?).each do |target|
         target.user_targets.each do |native_target|
-          EarlGrey.copy_swift_files(target.user_project, native_target,
-                                    target.target_definition.swift_version)
+          config = earlgrey_yaml.lookup_target native_target
+
+          if config[EarlGreyYaml::ADD_SWIFT]
+            EarlGrey.copy_swift_files(target.user_project, native_target,
+                                      target.target_definition.swift_version)
+          end
 
           framework_ref = EarlGrey.add_earlgrey_product target.user_project, false
-          EarlGrey.add_earlgrey_copy_files_script native_target, framework_ref
-          EarlGrey.add_earlgrey_framework native_target, framework_ref
+          EarlGrey.add_earlgrey_copy_files_script native_target, framework_ref if config[EarlGreyYaml::ADD_BUILD_PHASE]
+          EarlGrey.add_earlgrey_framework native_target, framework_ref if config[EarlGreyYaml::ADD_FRAMEWORK]
         end
       end
 

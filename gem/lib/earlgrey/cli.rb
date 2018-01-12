@@ -14,8 +14,6 @@
 #  limitations under the License.
 require 'earlgrey/configure_earlgrey'
 require 'thor'
-
-# rubocop:disable Metrics/LineLength
 module EarlGrey
   class CLI < Thor
     package_name 'EarlGrey'

@@ -12,8 +12,10 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #
+AllCops:
+  TargetRubyVersion: 2.1
 Metrics/LineLength:
-  Max: 100
+  Max: 130
 Metrics/BlockLength:
   Enabled: false
 Style/PercentLiteralDelimiters:
