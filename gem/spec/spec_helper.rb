@@ -14,6 +14,7 @@
 #  limitations under the License.
 
 require 'earlgrey/cli'
+require 'earlgrey/extensions/earlgrey_yaml'
 require 'rspec'
 require 'tmpdir'
 require 'pry' # enables binding.pry

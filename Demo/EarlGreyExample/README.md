@@ -7,6 +7,17 @@ An example that shows several features of EarlGrey.
 `EarlGreyExampleTests` and `EarlGreyExampleSwiftTests` are test targets that exercise
 different functionalities provide by EarlGrey, written in Objective-C and Swift.
 
+`earlgrey_gem.yml` allows configuring how the EarlGrey gem behaves when `pod install` is run.
+
+```
+EarlGreyExampleSwiftTests:
+ - add_swift: true
+ - add_build_phase: true
+ - add_framework: true
+```
+
+By default, all values are set to true. You don't need a yml config unless you want to disable certain options.
+
 ## Getting Started
 
 ### CocoaPods

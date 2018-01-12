@@ -148,9 +148,11 @@ module EarlGrey
       set_defaults(project_name, test_target_name, scheme_file, opts)
 
       # Add DYLD_INSERT_LIBRARIES to the schemes
+      # rubocop:disable Performance/HashEachMethods
       modify_scheme_for_actions(user_project, [test_target]).each do |_, scheme|
         scheme.save!
       end
+      # rubocop:enable Performance/HashEachMethods
 
       # Add a Copy Files Build Phase for EarlGrey.framework to embed it into
       # the app under test.
@@ -314,9 +316,7 @@ module EarlGrey
         end
 
         settings[HEADER_SEARCH_PATHS] = Array(settings[HEADER_SEARCH_PATHS])
-        unless settings[HEADER_SEARCH_PATHS].include?(CARTHAGE_HEADERS_IOS)
-          settings[HEADER_SEARCH_PATHS] << CARTHAGE_HEADERS_IOS
-        end
+        settings[HEADER_SEARCH_PATHS] << CARTHAGE_HEADERS_IOS unless settings[HEADER_SEARCH_PATHS].include?(CARTHAGE_HEADERS_IOS)
       end
       target
     end
@@ -342,9 +342,7 @@ module EarlGrey
     #        the framework reference pointing to the EarlGrey.framework
     def add_earlgrey_framework(target, framework_ref)
       linked_frameworks = target.frameworks_build_phase.files.map(&:display_name)
-      unless linked_frameworks.include? EARLGREY_FRAMEWORK
-        target.frameworks_build_phase.add_file_reference framework_ref, true
-      end
+      target.frameworks_build_phase.add_file_reference framework_ref, true unless linked_frameworks.include? EARLGREY_FRAMEWORK
     end
 
     # Check if the target contains a swift source file
@@ -383,9 +381,7 @@ module EarlGrey
                      'Falling back to version 3.0.'
         swift_fallback = 'Swift-3.0'
         src_swift = File.join(src_root, swift_fallback, src_swift_name)
-        unless File.exist?(src_swift)
-          raise "Unable to locate #{swift_fallback} file at path #{src_swift}."
-        end
+        raise "Unable to locate #{swift_fallback} file at path #{src_swift}." unless File.exist?(src_swift)
       end
       dst_swift = File.join(dst_root, src_swift_name)
 
@@ -405,9 +401,7 @@ module EarlGrey
       unless existing_sources.include? src_swift_name
         target_files = test_target_group.files
         earlgrey_swift_file_ref = target_files.find { |f| f.display_name == src_swift_name }
-        unless earlgrey_swift_file_ref
-          raise 'EarlGrey.swift not found in testing target'
-        end
+        raise 'EarlGrey.swift not found in testing target' unless earlgrey_swift_file_ref
         target.source_build_phase.add_file_reference earlgrey_swift_file_ref, true
       end
     end

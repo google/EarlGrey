@@ -16,7 +16,7 @@
 require_relative 'lib/earlgrey/version'
 
 Gem::Specification.new do |s|
-  s.required_ruby_version = '>= 2'
+  s.required_ruby_version = '>= 2.1'
 
   s.name          = 'earlgrey'
   s.version       = EarlGrey::VERSION
@@ -28,13 +28,13 @@ Gem::Specification.new do |s|
   s.require_paths = ['lib']
 
   s.add_runtime_dependency 'colored',   '>= 1.2'
-  s.add_runtime_dependency 'xcodeproj', '>= 1.3.0'
   s.add_runtime_dependency 'thor',      '>= 0.19.1'
+  s.add_runtime_dependency 'xcodeproj', '>= 1.3.0'
 
-  s.add_development_dependency 'rspec',       '>= 3.4.0'
-  s.add_development_dependency 'rubocop',     '>= 0.39.0'
   s.add_development_dependency 'pry',         '~> 0.10.3'
   s.add_development_dependency 'rake',        '~> 11.1'
+  s.add_development_dependency 'rspec',       '>= 3.4.0'
+  s.add_development_dependency 'rubocop',     '>= 0.39.0'
 
   # everything that starts with bin/ or lib/
   s.files         = `git ls-files -z`.split("\x0").grep(%r{^(bin|lib)/})
