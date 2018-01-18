@@ -15,8 +15,10 @@
 //
 
 #import "FTRBaseIntegrationTest.h"
-
 #import "FTRFailureHandler.h"
+
+#import "Common/GREYError.h"
+#import "Common/GREYErrorConstants.h"
 
 @interface FTRErrorAPITest : FTRBaseIntegrationTest
 @end
@@ -73,6 +75,12 @@
   GREYAssertTrue([error.domain isEqualToString:kGREYInteractionErrorDomain],
                  @"domain should match");
   GREYAssertTrue(error.code == kGREYInteractionElementNotFoundErrorCode, @"code should match");
+  GREYError *greyError = (GREYError *)error;
+  GREYAssertTrue([greyError.errorInfo[kErrorDetailElementMatcherKey]
+                 isEqualToString:_matcherForNonExistingTab.description],
+                 @"description should match");
+  GREYAssertEqualObjects(greyError.errorInfo[kErrorDetailElementMatcherKey],
+                         _matcherForNonExistingTab.description, @"description should match");
 
   [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")]
       assertWithMatcher:grey_nil() error:&error];
@@ -101,6 +109,9 @@
   GREYAssertTrue([error.domain isEqualToString:kGREYInteractionErrorDomain],
                  @"domain should match");
   GREYAssertTrue(error.code == kGREYInteractionElementNotFoundErrorCode, @"code should match");
+  GREYError *greyError = (GREYError *)error;
+  GREYAssertEqualObjects(greyError.errorInfo[kErrorDetailElementMatcherKey],
+                         _matcherForNonExistingTab.description, @"description should match");
 
   // grey_type on a Tab should cause action constraints to fail.
   [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_typeText(@"")

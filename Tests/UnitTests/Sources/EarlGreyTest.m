@@ -14,7 +14,6 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/EarlGrey.h>
 #import <OCMock/OCMock.h>
 
 #import "GREYBaseTest.h"

@@ -14,6 +14,8 @@
 // limitations under the License.
 //
 
+#import <UIKit/UIKit.h>
+
 // FTRCollectionViewCell implements a button with an alphabet as text that turns into the alphabet's
 // ASCII value ('A' - 65, 'B' - 66 etc) when tapped.
 @interface FTRCollectionViewCell : UICollectionViewCell

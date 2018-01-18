@@ -16,14 +16,14 @@
 
 #import "Common/GREYLogger.h"
 
-#import "Common/GREYError.h"
+#import "Additions/NSError+GREYAdditions.h"
+#import "Additions/XCTestCase+GREYAdditions.h"
 #import "Common/GREYError+Internal.h"
-#import "Common/GREYObjectFormatter.h"
+#import "Common/GREYError.h"
 #import "Common/GREYFailureFormatter.h"
 #import "Common/GREYFailureScreenshotter.h"
+#import "Common/GREYObjectFormatter.h"
 #import "Common/GREYThrowDefines.h"
-#import "Additions/XCTestCase+GREYAdditions.h"
-#import "Additions/NSError+GREYAdditions.h"
 
 void I_GREYLogError(NSError *error,
                     NSString *filePath,

@@ -47,7 +47,7 @@ static pthread_mutex_t gStateLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
  */
 static const unsigned short kNumGREYAppStates = 12;
 
-@interface GREYAppStateTracker () <GREYObjectDeallocationTrackerDelegate>
+@interface GREYAppStateTracker() <GREYObjectDeallocationTrackerDelegate>
 
 @end
 

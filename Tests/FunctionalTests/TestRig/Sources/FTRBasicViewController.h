@@ -14,6 +14,8 @@
 // limitations under the License.
 //
 
+#import <UIKit/UIKit.h>
+
 @interface FTRBasicViewController : UIViewController <UITextFieldDelegate>
 
 @property(retain, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
@@ -31,6 +33,8 @@
 @property(retain, nonatomic) IBOutlet UITextField *textField;
 @property(retain, nonatomic) IBOutlet UIButton *sendButton;
 @property(retain, nonatomic) IBOutlet UITextView *textView;
+
+@property(retain, nonatomic) IBOutlet UIButton *disabledButton;
 
 @property(retain, nonatomic) IBOutlet UILabel *longPressLabel;
 @property(retain, nonatomic) IBOutlet UILabel *doubleTapLabel;

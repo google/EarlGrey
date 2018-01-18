@@ -17,6 +17,7 @@
 #import "FTRBaseAnalyticsTest.h"
 
 #import "FTRAssertionHandler.h"
+#import <EarlGrey/EarlGrey.h>
 
 @interface FTRAnalyticsTestHarnessTest : FTRBaseAnalyticsTest
 @end

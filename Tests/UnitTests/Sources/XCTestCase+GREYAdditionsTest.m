@@ -14,9 +14,8 @@
 // limitations under the License.
 //
 
+#import "Additions/XCTestCase+GREYAdditions.h"
 #import <EarlGrey/GREYFrameworkException.h>
-#import <EarlGrey/XCTestCase+GREYAdditions.h>
-
 #import "GREYBaseTest.h"
 
 #pragma mark - Example tests

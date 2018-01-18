@@ -14,14 +14,13 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/GREYAssertions.h>
-
-#import <EarlGrey/GREYAssertions+Internal.h>
-#import <EarlGrey/GREYAssertion.h>
-#import <EarlGrey/GREYElementFinder.h>
-#import <EarlGrey/GREYMatchers.h>
 #import <OCMock.h>
 
+#import <EarlGrey/GREYAssertion.h>
+#import "Assertion/GREYAssertions+Internal.h"
+#import <EarlGrey/GREYAssertions.h>
+#import <EarlGrey/GREYElementFinder.h>
+#import <EarlGrey/GREYMatchers.h>
 #import "GREYBaseTest.h"
 
 static NSMutableArray *gAppWindows;

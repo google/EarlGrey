@@ -14,8 +14,9 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/GREYDefines.h>
 #import <Foundation/Foundation.h>
+
+#import <EarlGrey/GREYDefines.h>
 
 /**
  *  The Error domain for a scroll error.

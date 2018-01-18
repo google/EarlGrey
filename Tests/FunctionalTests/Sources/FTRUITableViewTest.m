@@ -16,6 +16,7 @@
 
 #import "FTRBaseIntegrationTest.h"
 #import "FTRTableViewController.h"
+#import <EarlGrey/EarlGrey.h>
 
 @interface FTRUITableViewTest : FTRBaseIntegrationTest
 @end

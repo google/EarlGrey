@@ -14,8 +14,7 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/CGGeometry+GREYAdditions.h>
-
+#import "Additions/CGGeometry+GREYAdditions.h"
 #import "GREYBaseTest.h"
 
 @interface CGGeometry_GREYAdditionsTest : GREYBaseTest

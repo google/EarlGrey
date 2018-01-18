@@ -14,8 +14,9 @@
 // limitations under the License.
 //
 
-#import "GREYSurrogateDelegate.h"
 #import <Foundation/Foundation.h>
+
+#import "Delegate/GREYSurrogateDelegate.h"
 
 /**
  *  This is a proxy delegate for NSURLConnectionDelegate which allows us track status of

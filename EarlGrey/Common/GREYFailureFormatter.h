@@ -14,11 +14,12 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/GREYDefines.h>
 #import <Foundation/Foundation.h>
-#import <XCTest/XCTest.h>
+
+#import <EarlGrey/GREYDefines.h>
 
 @class GREYError;
+@class XCTestCase;
 
 /**
  *  Class to help formatting error objects for logging purposes.

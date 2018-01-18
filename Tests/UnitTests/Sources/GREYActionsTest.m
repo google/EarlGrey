@@ -14,14 +14,14 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/GREYActions.h>
-#import <EarlGrey/GREYConstants.h>
-#import <EarlGrey/GREYElementMatcherBlock.h>
-#import <EarlGrey/GREYError.h>
-#import <EarlGrey/GREYMatchers.h>
-#import <EarlGrey/NSObject+GREYAdditions.h>
 #import <OCMock/OCMock.h>
 
+#import <EarlGrey/GREYActions.h>
+#import "Additions/NSObject+GREYAdditions.h"
+#import <EarlGrey/GREYConstants.h>
+#import "Common/GREYError.h"
+#import <EarlGrey/GREYElementMatcherBlock.h>
+#import <EarlGrey/GREYMatchers.h>
 #import "GREYBaseTest.h"
 
 @interface GREYActionsTest : GREYBaseTest

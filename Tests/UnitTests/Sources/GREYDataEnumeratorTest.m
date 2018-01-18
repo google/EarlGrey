@@ -15,7 +15,6 @@
 //
 
 #import <EarlGrey/GREYDataEnumerator.h>
-
 #import "GREYBaseTest.h"
 
 @interface GREYDataEnumeratorTest : GREYBaseTest

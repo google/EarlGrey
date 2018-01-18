@@ -14,13 +14,13 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/GREYAppleInternals.h>
+#import <OCMock/OCMock.h>
+
+#import "Common/GREYAppleInternals.h"
 #import <EarlGrey/GREYElementInteraction.h>
 #import <EarlGrey/GREYMatcher.h>
 #import <EarlGrey/GREYMatchers.h>
-#import <EarlGrey/GREYStringDescription.h>
-#import <OCMock/OCMock.h>
-
+#import "Matcher/GREYStringDescription.h"
 #import "GREYBaseTest.h"
 
 #pragma mark - Test Helpers

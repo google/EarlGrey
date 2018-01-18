@@ -16,7 +16,6 @@
 
 #import <EarlGrey/GREYConstants.h>
 #import <EarlGrey/GREYLayoutConstraint.h>
-
 #import "GREYBaseTest.h"
 
 @interface GREYLayoutConstraintTest : GREYBaseTest

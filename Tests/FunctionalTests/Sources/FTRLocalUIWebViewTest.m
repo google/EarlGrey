@@ -14,9 +14,9 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/GREYAppStateTracker.h>
-
 #import "FTRBaseIntegrationTest.h"
+#import <EarlGrey/EarlGrey.h>
+#import "Synchronization/GREYAppStateTracker.h"
 
 // These web view tests are not run by default since they require network access
 // and have a possibility of flakiness.

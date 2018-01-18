@@ -16,6 +16,8 @@
 
 #import "FTRBaseAnalyticsTest.h"
 
+#import <EarlGrey/EarlGrey.h>
+
 @interface FTRAnalyticsTearDownOptOutTest : FTRBaseAnalyticsTest
 @end
 

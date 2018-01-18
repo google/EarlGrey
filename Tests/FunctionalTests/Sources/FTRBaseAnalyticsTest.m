@@ -16,11 +16,10 @@
 
 #import "FTRBaseAnalyticsTest.h"
 
-#import <EarlGrey/EarlGrey.h>
-#import <EarlGrey/GREYAnalytics.h>
-#import <EarlGrey/GREYAnalyticsDelegate.h>
-
 #import "FTRAssertionHandler.h"
+#import "Common/GREYAnalytics.h"
+#import "Common/GREYAnalyticsDelegate.h"
+#import <EarlGrey/GREYConfiguration.h>
 
 /**
  *  A constant used for asserting mismatched analytics hits, this is set to be a global to allow for

@@ -14,10 +14,9 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/GREYAssertionDefines.h>
-
 #import "FTRBaseIntegrationTest.h"
 #import "FTRImageViewController.h"
+#import <EarlGrey/EarlGrey.h>
 
 @interface FTRPinchViewTest : FTRBaseIntegrationTest
 @end

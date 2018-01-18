@@ -15,7 +15,6 @@
 //
 
 #import <EarlGrey/GREYScreenshotUtil.h>
-
 #import "GREYBaseTest.h"
 
 @interface GREYScreenshotUtilTest : GREYBaseTest

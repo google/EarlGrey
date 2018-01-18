@@ -16,6 +16,168 @@
 
 #import "FTRPickerViewController.h"
 
+@interface FTRPickerViewDelegate1 : NSObject<UIPickerViewDelegate>
+
+@property(nonatomic, retain) NSArray *customColumn1Array;
+@property(nonatomic, retain) NSArray *customColumn2Array;
+
+@end
+
+@interface FTRPickerViewDelegate2 : NSObject<UIPickerViewDelegate>
+
+@property(nonatomic, retain) NSArray *customColumn1Array;
+@property(nonatomic, retain) NSArray *customColumn2Array;
+
+@end
+
+@interface FTRPickerViewDelegate3 : NSObject<UIPickerViewDelegate>
+
+@property(nonatomic, retain) NSArray *customColumn1Array;
+@property(nonatomic, retain) NSArray *customColumn2Array;
+
+@end
+
+@interface FTRPickerViewDelegate4 : NSObject<UIPickerViewDelegate>
+@end
+
+@implementation FTRPickerViewDelegate1
+
+- (instancetype)init {
+  self = [super init];
+  if (self) {
+    self.customColumn1Array = [[NSMutableArray alloc] init];
+    self.customColumn2Array = [[NSMutableArray alloc] init];
+    self.customColumn1Array = @[ @"Red", @"Green", @"Blue", @"Hidden" ];
+    self.customColumn2Array = @[ @"1", @"2", @"3", @"4", @"5" ];
+  }
+  return self;
+}
+
+- (UIView *)pickerView:(UIPickerView *)pickerView
+            viewForRow:(NSInteger)row
+          forComponent:(NSInteger)component
+           reusingView:(UIView *)view {
+  UILabel *columnView = [[UILabel alloc]
+      initWithFrame:CGRectMake(35, 0, pickerView.frame.size.width / 2,
+                               pickerView.frame.size.height)];
+  columnView.text =
+      [self pickerView:pickerView titleForRow:row forComponent:component];
+  columnView.textAlignment = NSTextAlignmentCenter;
+
+  return columnView;
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView
+             titleForRow:(NSInteger)row
+            forComponent:(NSInteger)component {
+  switch (component) {
+    case 0:
+      return [self.customColumn1Array objectAtIndex:(NSUInteger)row];
+      break;
+    case 1:
+      return [self.customColumn2Array objectAtIndex:(NSUInteger)row];
+      break;
+  }
+  return nil;
+}
+
+@end
+
+@implementation FTRPickerViewDelegate2
+
+- (instancetype)init {
+  self = [super init];
+  if (self) {
+    self.customColumn1Array = [[NSMutableArray alloc] init];
+    self.customColumn2Array = [[NSMutableArray alloc] init];
+    self.customColumn1Array = @[ @"Red", @"Green", @"Blue", @"Hidden" ];
+    self.customColumn2Array = @[ @"1", @"2", @"3", @"4", @"5" ];
+  }
+  return self;
+}
+
+- (NSAttributedString *)pickerView:(UIPickerView *)pickerView
+             attributedTitleForRow:(NSInteger)row
+                      forComponent:(NSInteger)component {
+  NSString *rowTitle =
+      [self pickerView:pickerView titleForRow:row forComponent:component];
+  return [[NSAttributedString alloc] initWithString:rowTitle];
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView
+             titleForRow:(NSInteger)row
+            forComponent:(NSInteger)component {
+  switch (component) {
+    case 0:
+      return [self.customColumn1Array objectAtIndex:(NSUInteger)row];
+      break;
+    case 1:
+      return [self.customColumn2Array objectAtIndex:(NSUInteger)row];
+      break;
+  }
+  return nil;
+}
+
+@end
+
+@implementation FTRPickerViewDelegate3
+
+- (instancetype)init {
+  self = [super init];
+  if (self) {
+    self.customColumn1Array = [[NSMutableArray alloc] init];
+    self.customColumn2Array = [[NSMutableArray alloc] init];
+    self.customColumn1Array = @[ @"Red", @"Green", @"Blue", @"Hidden" ];
+    self.customColumn2Array = @[ @"1", @"2", @"3", @"4", @"5" ];
+  }
+  return self;
+}
+
+- (NSAttributedString *)pickerView:(UIPickerView *)pickerView
+             attributedTitleForRow:(NSInteger)row
+                      forComponent:(NSInteger)component {
+  return nil;
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView
+             titleForRow:(NSInteger)row
+            forComponent:(NSInteger)component {
+  switch (component) {
+    case 0:
+      return [self.customColumn1Array objectAtIndex:(NSUInteger)row];
+      break;
+    case 1:
+      return [self.customColumn2Array objectAtIndex:(NSUInteger)row];
+      break;
+  }
+  return nil;
+}
+
+@end
+
+@implementation FTRPickerViewDelegate4
+
+- (UIView *)pickerView:(UIPickerView *)pickerView
+            viewForRow:(NSInteger)row
+          forComponent:(NSInteger)component
+           reusingView:(UIView *)view {
+  return nil;
+}
+
+- (NSAttributedString *)pickerView:(UIPickerView *)pickerView
+             attributedTitleForRow:(NSInteger)row
+                      forComponent:(NSInteger)component {
+  return nil;
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView
+             titleForRow:(NSInteger)row
+            forComponent:(NSInteger)component {
+  return nil;
+}
+
+@end
+
 @implementation FTRPickerViewController
 
 @synthesize customPicker;
@@ -30,8 +192,8 @@
   if (self) {
     customColumn1Array = [[NSMutableArray alloc] init];
     customColumn2Array = [[NSMutableArray alloc] init];
-    customColumn1Array = @[@"Red", @"Green", @"Blue", @"Hidden"];
-    customColumn2Array = @[@"1", @"2", @"3", @"4", @"5"];
+    customColumn1Array = @[ @"Red", @"Green", @"Blue", @"Hidden" ];
+    customColumn2Array = @[ @"1", @"2", @"3", @"4", @"5" ];
   }
   return self;
 }
@@ -54,9 +216,23 @@
   self.dateLabel.accessibilityIdentifier = @"DateLabelId";
   self.clearLabelButton.accessibilityIdentifier = @"ClearDateLabelButtonId";
 
+  self.viewForRowDelegateSwitch.accessibilityIdentifier =
+      @"viewForRowDelegateSwitch";
+  self.attributedTitleForRowDelegateSwitch.accessibilityIdentifier =
+      @"attributedTitleForRowDelegateSwitch";
+  self.titleForRowDelegateSwitch.accessibilityIdentifier =
+      @"titleForRowDelegateSwitch";
+  self.noDelegateMethodDefinedSwitch.accessibilityIdentifier =
+      @"noDelegateMethodDefinedSwitch";
+
   [datePicker addTarget:self
                  action:@selector(datePickerValueChanged:)
        forControlEvents:UIControlEventValueChanged];
+
+  self.ftrPickerViewDelegate1 = [FTRPickerViewDelegate1 new];
+  self.ftrPickerViewDelegate2 = [FTRPickerViewDelegate2 new];
+  self.ftrPickerViewDelegate3 = [FTRPickerViewDelegate3 new];
+  self.ftrPickerViewDelegate4 = [FTRPickerViewDelegate4 new];
 }
 
 - (void)datePickerValueChanged:(id)sender {
@@ -100,13 +276,34 @@
   }
 }
 
+- (IBAction)viewForRowDelegateSwitchToggled:(id)sender {
+  self.customPicker.delegate = self.ftrPickerViewDelegate1;
+  [self.customPicker reloadAllComponents];
+}
+
+- (IBAction)attributedTitleForRowDelegateSwitchToggled:(id)sender {
+  self.customPicker.delegate = self.ftrPickerViewDelegate2;
+  [self.customPicker reloadAllComponents];
+}
+
+- (IBAction)titleForRowDelegateSwitchToggled:(id)sender {
+  self.customPicker.delegate = self.ftrPickerViewDelegate3;
+  [self.customPicker reloadAllComponents];
+}
+
+- (IBAction)noDelegateMethodDefinedSwitchToggled:(id)sender {
+  self.customPicker.delegate = self.ftrPickerViewDelegate4;
+  [self.customPicker reloadAllComponents];
+}
+
 #pragma mark - UIPickerViewDataSource Protocol
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
   return 2;
 }
 
-- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent :(NSInteger)component {
+- (NSInteger)pickerView:(UIPickerView *)pickerView
+    numberOfRowsInComponent:(NSInteger)component {
   switch (component) {
     case 0:
       return (NSInteger)[customColumn1Array count];
@@ -146,10 +343,9 @@
           forComponent:(NSInteger)component
            reusingView:(UIView *)view {
   UILabel *columnView =
-      [[UILabel alloc] initWithFrame:CGRectMake(35, 0, self.view.frame.size.width/3 - 35, 30)];
+      [[UILabel alloc] initWithFrame:CGRectMake(35, 0, self.view.frame.size.width / 3 - 35, 30)];
   columnView.text = [self pickerView:pickerView titleForRow:row forComponent:component];
   columnView.textAlignment = NSTextAlignmentCenter;
-
   return columnView;
 }
 

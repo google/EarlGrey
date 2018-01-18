@@ -16,6 +16,8 @@
 
 #import "FTRBaseIntegrationTest.h"
 
+#import <EarlGrey/EarlGrey.h>
+
 @interface FTRBasicInteractionTest : FTRBaseIntegrationTest
 @end
 
@@ -299,7 +301,7 @@
 
 - (void)testInteractionWithHiddenLabel {
   [[EarlGrey selectElementWithMatcher:[GREYMatchers matcherForAccessibilityLabel:@"Hidden Label"]]
-      assertWithMatcher:grey_text(@"Hidden Label Text")];
+      assertWithMatcher:grey_text(@"Hidden Label")];
 }
 
 - (void)testInteractionWithLabelWithParentWithAlphaZero {
@@ -405,6 +407,15 @@
   [[EarlGrey selectElementWithMatcher:buttonMatcher] assertWithMatcher:grey_not(grey_selected())];
   [[EarlGrey selectElementWithMatcher:buttonMatcher] performAction:grey_tap()];
   [[EarlGrey selectElementWithMatcher:buttonMatcher] assertWithMatcher:grey_selected()];
+}
+
+- (void)testTappingOnADisabledButton {
+  NSError *error;
+  [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"Disabled")]
+      performAction:grey_tap()
+      error:&error];
+  XCTAssertEqualObjects(error.domain, kGREYInteractionErrorDomain);
+  XCTAssertEqual(error.code, kGREYInteractionConstraintsFailedErrorCode);
 }
 
 #pragma mark - Private

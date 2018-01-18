@@ -14,9 +14,9 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/GREYSwipeAction.h>
 #import <OCMock/OCMock.h>
 
+#import "Action/GREYSwipeAction.h"
 #import "GREYBaseTest.h"
 
 @interface GREYSwipeActionTest : GREYBaseTest

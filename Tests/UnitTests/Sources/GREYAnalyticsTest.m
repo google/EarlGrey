@@ -14,11 +14,12 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/GREYAnalytics.h>
-#import <EarlGrey/NSString+GREYAdditions.h>
-#import <EarlGrey/XCTestCase+GREYAdditions.h>
 #import <OCMock/OCMock.h>
 
+#import "Additions/NSString+GREYAdditions.h"
+#import "Additions/XCTestCase+GREYAdditions.h"
+#import "Common/GREYAnalytics.h"
+#import "Common/GREYAnalyticsDelegate.h"
 #import "GREYBaseTest.h"
 #import "GREYExposedForTesting.h"
 

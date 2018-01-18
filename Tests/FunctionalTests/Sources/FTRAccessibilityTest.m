@@ -17,6 +17,7 @@
 #import "FTRBaseIntegrationTest.h"
 
 #import "FTRFailureHandler.h"
+#import <EarlGrey/EarlGrey.h>
 
 @interface FTRAccessibilityTest : FTRBaseIntegrationTest
 @end
@@ -124,7 +125,7 @@
         performAction:grey_tapAtPoint(CGPointMake(-51, -151))];
     GREYFail(@"Should throw an exception");
   } @catch (NSException *exception) {
-    NSRange exceptionRange = [[exception reason] rangeOfString:@"\"Action Name\" : \"Tap\""];
+    NSRange exceptionRange = [[exception reason] rangeOfString:@"\"Action Name\":  \"Tap\""];
     GREYAssertNotEqual(exceptionRange.location, NSNotFound, @"should not be equal");
   }
 }

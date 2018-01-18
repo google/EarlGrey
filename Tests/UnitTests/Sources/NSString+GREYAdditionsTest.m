@@ -14,8 +14,7 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/NSString+GREYAdditions.h>
-
+#import "Additions/NSString+GREYAdditions.h"
 #import "GREYBaseTest.h"
 
 @interface NSString_GREYAdditionsTest : GREYBaseTest

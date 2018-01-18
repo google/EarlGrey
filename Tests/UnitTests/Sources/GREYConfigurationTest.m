@@ -15,7 +15,6 @@
 //
 
 #import <EarlGrey/GREYConfiguration.h>
-
 #import "GREYBaseTest.h"
 
 @interface GREYConfigurationTest : GREYBaseTest {

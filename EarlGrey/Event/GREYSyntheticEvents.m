@@ -16,8 +16,8 @@
 
 #import "Event/GREYSyntheticEvents.h"
 
-#import "Additions/NSString+GREYAdditions.h"
 #import "Additions/NSError+GREYAdditions.h"
+#import "Additions/NSString+GREYAdditions.h"
 #import "Assertion/GREYAssertionDefines.h"
 #import "Common/GREYAppleInternals.h"
 #import "Common/GREYConstants.h"
@@ -25,7 +25,6 @@
 #import "Common/GREYFatalAsserts.h"
 #import "Common/GREYLogger.h"
 #import "Common/GREYThrowDefines.h"
-
 #import "Event/GREYTouchInjector.h"
 #import "Synchronization/GREYUIThreadExecutor.h"
 

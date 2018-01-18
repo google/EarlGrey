@@ -14,10 +14,10 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/GREYAppStateTracker.h>
-#import <EarlGrey/UIViewController+GREYAdditions.h>
 #import <OCMock/OCMock.h>
 
+#import "Additions/UIViewController+GREYAdditions.h"
+#import "Synchronization/GREYAppStateTracker.h"
 #import "GREYBaseTest.h"
 
 @interface GREYUIWindow_AdditionsTest : GREYBaseTest

@@ -14,6 +14,8 @@
 // limitations under the License.
 //
 
+#import <Foundation/Foundation.h>
+
 /**
  *  An NSURLProtocol based network proxy for proxying HTTP requests.
  */

@@ -14,8 +14,7 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/GREYTouchInjector.h>
-
+#import "Event/GREYTouchInjector.h"
 #import "GREYBaseTest.h"
 
 #pragma mark - Methods Only For Testing

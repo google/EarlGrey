@@ -100,29 +100,26 @@ NSInteger const kGREYObjectFormatIndent = 2;
   for (NSString *key in keyOrder) {
     keySet[key] = @(YES);
 
-    if ((dictionary[key] == nil) && hideEmpty) {
+    id value = dictionary[key];
+    if (!value && hideEmpty) {
       continue;
     }
 
-    NSString *formattedObject = [GREYObjectFormatter grey_formatObject:dictionary[key]
+    NSString *formattedObject = [GREYObjectFormatter grey_formatObject:value
                                                           prefixString:NO
                                                                 prefix:prefix
                                                                 indent:indent
                                                               keyOrder:keyOrder];
-    [formatted addObject:[NSString stringWithFormat:@"%@%@\"%@\" : %@",
+    [formatted addObject:[NSString stringWithFormat:@"%@%@\"%@\":%@",
                                                     prefix,
                                                     indentString,
                                                     key,
                                                     formattedObject]];
   }
 
-  // display dictionary key-values that are not in the keyOrder
+  // Display dictionary key-values that are not in the keyOrder
   for (NSString *key in [dictionary allKeys]) {
-    if (keySet[key] != nil) {
-      continue;
-    }
-
-    if ((dictionary[key] == nil) && hideEmpty) {
+    if (keySet[key]) {
       continue;
     }
 
@@ -132,7 +129,7 @@ NSInteger const kGREYObjectFormatIndent = 2;
                                                                 indent:indent
                                                               keyOrder:keyOrder];
 
-    [formatted addObject:[NSString stringWithFormat:@"%@%@\"%@\" : %@",
+    [formatted addObject:[NSString stringWithFormat:@"%@%@\"%@\":%@",
                                                     prefix,
                                                     indentString,
                                                     key,
@@ -192,7 +189,7 @@ NSInteger const kGREYObjectFormatIndent = 2;
                                         indentString,
                                         objectString];
     } else {
-      return [NSString stringWithFormat:@"\"%@\"", objectString];
+      return [NSString stringWithFormat:@"%@\"%@\"", indentString, objectString];
     }
   } else if ([object isKindOfClass:[NSNumber class]]) {
     return [object stringValue];

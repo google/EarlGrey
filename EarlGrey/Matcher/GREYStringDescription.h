@@ -14,8 +14,9 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/GREYDescription.h>
 #import <Foundation/Foundation.h>
+
+#import <EarlGrey/GREYDescription.h>
 
 /**
  *  A string based implementation of GREYDescription protocol.

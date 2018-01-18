@@ -14,14 +14,11 @@
 // limitations under the License.
 //
 
+#import "Synchronization/GREYAppStateTracker.h"
 #import "GREYBaseTest.h"
-
-#import <EarlGrey/GREYAppStateTracker.h>
-
 #import "GREYExposedForTesting.h"
 
 @interface GREYAppStateTrackerTest : GREYBaseTest
-
 @end
 
 @implementation GREYAppStateTrackerTest

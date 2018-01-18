@@ -14,8 +14,9 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/GREYIdlingResource.h>
 #import <UIKit/UIKit.h>
+
+#import <EarlGrey/GREYIdlingResource.h>
 
 /**
  *  An idling resource used for detecting when a UIWebView has loaded all the required resources,

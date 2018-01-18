@@ -14,11 +14,11 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/GREYAppStateTracker.h>
-#import <EarlGrey/GREYAppStateTrackerObject.h>
-#import <EarlGrey/GREYUIWebViewDelegate.h>
-
 #import "FTRBaseIntegrationTest.h"
+#import "Delegate/GREYUIWebViewDelegate.h"
+#import <EarlGrey/EarlGrey.h>
+#import "Synchronization/GREYAppStateTracker.h"
+#import "Synchronization/GREYAppStateTrackerObject.h"
 
 /**
  *  A constant to wait for the locally loaded HTML page.

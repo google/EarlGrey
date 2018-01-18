@@ -14,13 +14,13 @@
 // limitations under the License.
 //
 
+#import <OCMock/OCMock.h>
+#include <objc/runtime.h>
+
+#import "Additions/NSObject+GREYAdditions.h"
+#import "Additions/NSURLConnection+GREYAdditions.h"
 #import <EarlGrey/GREYCondition.h>
 #import <EarlGrey/GREYUIThreadExecutor.h>
-#import <EarlGrey/NSObject+GREYAdditions.h>
-#import <EarlGrey/NSURLConnection+GREYAdditions.h>
-#import <OCMock/OCMock.h>
-#import <objc/runtime.h>
-
 #import "GREYBaseTest.h"
 #import "GREYExposedForTesting.h"
 

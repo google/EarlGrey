@@ -21,12 +21,12 @@
 #import "Additions/NSObject+GREYAdditions.h"
 #import "Assertion/GREYAssertion.h"
 #import "Assertion/GREYAssertionDefines.h"
-#import "Assertion/GREYAssertions.h"
 #import "Assertion/GREYAssertions+Internal.h"
+#import "Assertion/GREYAssertions.h"
 #import "Common/GREYConfiguration.h"
 #import "Common/GREYDefines.h"
-#import "Common/GREYError.h"
 #import "Common/GREYError+Internal.h"
+#import "Common/GREYError.h"
 #import "Common/GREYErrorConstants.h"
 #import "Common/GREYFatalAsserts.h"
 #import "Common/GREYLogger.h"
@@ -714,10 +714,10 @@
                      [GREYError grey_nestedDescriptionForError:actionError]);
   } else {
     if ([actionError isKindOfClass:[GREYError class]]) {
-      NSMutableDictionary *errorDetails = [[NSMutableDictionary alloc] init];
-      errorDetails[kErrorDetailActionNameKey] = action.name;
+      NSMutableDictionary *errorDetails =
+          [[NSMutableDictionary alloc] initWithDictionary:((GREYError *)actionError).errorInfo];
       errorDetails[kErrorDetailElementMatcherKey] = _elementMatcher.description;
-      [(GREYError *)actionError setErrorInfo:errorDetails];
+      ((GREYError *)actionError).errorInfo = errorDetails;
     }
     *userProvidedError = actionError;
   }
@@ -896,10 +896,10 @@
                         [GREYError grey_nestedDescriptionForError:assertionError]);
   } else {
     if ([assertionError isKindOfClass:[GREYError class]]) {
-      NSMutableDictionary *errorDetails = [[NSMutableDictionary alloc] init];
-      errorDetails[kErrorDetailActionNameKey] = assertion.name;
+      NSMutableDictionary *errorDetails =
+          [[NSMutableDictionary alloc] initWithDictionary:((GREYError *)assertionError).errorInfo];
       errorDetails[kErrorDetailElementMatcherKey] = _elementMatcher.description;
-      [(GREYError *)assertionError setErrorInfo:errorDetails];
+      ((GREYError *)assertionError).errorInfo = errorDetails;
     }
     *userProvidedError = assertionError;
   }

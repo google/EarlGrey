@@ -14,11 +14,10 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/CAAnimation+GREYAdditions.h>
-#import <EarlGrey/GREYAppStateTracker.h>
-#import <EarlGrey/GREYCAAnimationDelegate.h>
-#import <EarlGrey/GREYSwizzler.h>
-
+#import "Additions/CAAnimation+GREYAdditions.h"
+#import "Common/GREYSwizzler.h"
+#import "Delegate/GREYCAAnimationDelegate.h"
+#import "Synchronization/GREYAppStateTracker.h"
 #import "GREYBaseTest.h"
 
 static id gDelegate;

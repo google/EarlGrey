@@ -15,6 +15,7 @@
 //
 
 #import "FTRBaseIntegrationTest.h"
+#import <EarlGrey/EarlGrey.h>
 
 @interface FTRScreenshotTest : FTRBaseIntegrationTest
 @end

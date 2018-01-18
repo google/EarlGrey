@@ -14,9 +14,9 @@
 // limitations under the License.
 //
 
-#import "FTRBaseIntegrationTest.h"
-
 #import "FTRAppDelegate.h"
+#import "FTRBaseIntegrationTest.h"
+#import <EarlGrey/EarlGrey.h>
 
 @interface FTRPresentedViewTest : FTRBaseIntegrationTest
 @end

@@ -14,8 +14,11 @@
 // limitations under the License.
 //
 
+#import <Foundation/Foundation.h>
+
 #import <EarlGrey/GREYDefines.h>
-#import "GREYTouchInfo.h"
+#import "Event/GREYTouchInfo.h"
+
 
 /**
  *  The frequency at which touches will be injected per second. Currently set to 60Hz.

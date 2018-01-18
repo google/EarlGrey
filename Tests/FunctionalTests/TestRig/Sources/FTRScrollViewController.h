@@ -14,6 +14,8 @@
 // limitations under the License.
 //
 
+#import <UIKit/UIKit.h>
+
 // Class that controls FTRScrollViewController.xib view. The view contains various scroll views used
 // for testing which are listed as properties below.
 @interface FTRScrollViewController : UIViewController <UIScrollViewDelegate,
@@ -27,6 +29,5 @@
 @property(retain, nonatomic) IBOutlet UIView *blockView;
 @property(retain, nonatomic) IBOutlet UITextField *topTextbox;
 @property(retain, nonatomic) UIAccessibilityElement *accessibilityElement;
-@property (weak, nonatomic) IBOutlet UIScrollView *freezingScrollView;
 
 @end

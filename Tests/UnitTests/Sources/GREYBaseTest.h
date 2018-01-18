@@ -14,8 +14,48 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/EarlGrey.h>
 #import <XCTest/XCTest.h>
+
+#import <EarlGrey/GREYAction.h>
+#import <EarlGrey/GREYActionBlock.h>
+#import <EarlGrey/GREYActions.h>
+#import <EarlGrey/GREYBaseAction.h>
+#import <EarlGrey/GREYScrollActionError.h>
+#import <EarlGrey/GREYIdlingResource.h>
+#import <EarlGrey/GREYAssertion.h>
+#import <EarlGrey/GREYAssertionBlock.h>
+#import <EarlGrey/GREYAssertionDefines.h>
+#import <EarlGrey/GREYAssertions.h>
+#import <EarlGrey/GREYConfiguration.h>
+#import <EarlGrey/GREYConstants.h>
+#import <EarlGrey/GREYDefines.h>
+#import <EarlGrey/GREYElementHierarchy.h>
+#import <EarlGrey/GREYScreenshotUtil.h>
+#import <EarlGrey/GREYTestHelper.h>
+#import <EarlGrey/EarlGreyImpl.h>
+#import <EarlGrey/GREYElementFinder.h>
+#import <EarlGrey/GREYElementInteraction.h>
+#import <EarlGrey/GREYInteraction.h>
+#import <EarlGrey/GREYFailureHandler.h>
+#import <EarlGrey/GREYFrameworkException.h>
+#import <EarlGrey/GREYAllOf.h>
+#import <EarlGrey/GREYAnyOf.h>
+#import <EarlGrey/GREYBaseMatcher.h>
+#import <EarlGrey/GREYDescription.h>
+#import <EarlGrey/GREYElementMatcherBlock.h>
+#import <EarlGrey/GREYLayoutConstraint.h>
+#import <EarlGrey/GREYMatcher.h>
+#import <EarlGrey/GREYMatchers.h>
+#import <EarlGrey/GREYNot.h>
+#import <EarlGrey/GREYDataEnumerator.h>
+#import <EarlGrey/GREYProvider.h>
+#import <EarlGrey/GREYCondition.h>
+#import <EarlGrey/GREYDispatchQueueIdlingResource.h>
+#import <EarlGrey/GREYManagedObjectContextIdlingResource.h>
+#import <EarlGrey/GREYNSTimerIdlingResource.h>
+#import <EarlGrey/GREYOperationQueueIdlingResource.h>
+#import <EarlGrey/GREYSyncAPI.h>
+#import <EarlGrey/GREYUIThreadExecutor.h>
 
 #define OCMOCK_STRUCT(atype, variable) \
   [NSValue valueWithBytes:&variable objCType:@encode(atype)]

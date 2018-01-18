@@ -14,6 +14,8 @@
 // limitations under the License.
 //
 
+#import <XCTest/XCTest.h>
+
 /**
  *  A constant used for asserting mismatched analytics hits, this is set to be a global to allow for
  *  the assertions themselves be tested.

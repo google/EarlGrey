@@ -192,6 +192,13 @@ static void AnimationDidStop(id self,
                              CAAnimation *animation,
                              BOOL finished,
                              BOOL isInvokedFromSwizzledMethod) {
+  // Starting with iOS11, calling [UIViewPropertyAnimator stopAnimation:] calls into
+  // [UIViewPropertyAnimator finalizeStoppedAnimationWithPosition:] with a block that will in turn
+  // call the CAAnimation delegate's animationDidStop:finished: method with animation parameter
+  // set to NSNull. This check is added in order to stop the unrecognized selector call.
+  if ([animation isEqual:[NSNull null]]) {
+    return;
+  }
   [animation grey_setAnimationState:kGREYAnimationStopped];
   if (isInvokedFromSwizzledMethod) {
     INVOKE_ORIGINAL_IMP2(void,

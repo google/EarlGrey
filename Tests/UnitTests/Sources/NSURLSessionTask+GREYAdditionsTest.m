@@ -14,8 +14,7 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/GREYAppStateTracker.h>
-
+#import "Synchronization/GREYAppStateTracker.h"
 #import "GREYBaseTest.h"
 
 // A global used by GREYUTURLProxyProtocol to determine whether to serve error (404) responses

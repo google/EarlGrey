@@ -14,6 +14,8 @@
 // limitations under the License.
 //
 
+#import <UIKit/UIKit.h>
+
 // A View Controller for testing UICollectionView related features on EarlGrey.
 @interface FTRCollectionViewController : UIViewController <
     UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>

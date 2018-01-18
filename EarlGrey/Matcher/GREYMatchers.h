@@ -15,9 +15,10 @@
 //
 
 #import <CoreGraphics/CoreGraphics.h>
+#import <Foundation/Foundation.h>
+
 #import <EarlGrey/GREYConstants.h>
 #import <EarlGrey/GREYDefines.h>
-#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -202,22 +203,24 @@ NS_ASSUME_NONNULL_BEGIN
 + (id<GREYMatcher>)matcherForConformsToProtocol:(Protocol *)protocol;
 
 /**
- *  Matcher that matches UI element based on the presence of an ancestor in its hierarchy.
- *  The given matcher is used to match decendants.
+ *  Matcher that matches any UI element with an ancestor matching the given @c ancestorMatcher.
  *
- *  @param ancestorMatcher The ancestor UI element whose descendants are to be matched.
+ *  @param ancestorMatcher A matcher that's run against the ancestors of the UI element being
+ *                         matched.
  *
- *  @return A matcher to check if a UI element is the descendant of another.
+ *  @return A matcher to check if a specified element has an ancestor that matches
+ *          @c ancestorMatcher.
  */
 + (id<GREYMatcher>)matcherForAncestor:(id<GREYMatcher>)ancestorMatcher;
 
 /**
- *  Matcher that matches any UI element with a descendant matching the given matcher.
+ *  Matcher that matches any UI element with a descendant matching the given @c descendantMatcher.
  *
- *  @param descendantMatcher A matcher being checked to be a descendant
- *                           of the UI element being checked.
+ *  @param descendantMatcher A matcher that's run against the descendants of the UI element being
+ *                           matched.
  *
- *  @return A matcher to check if a the specified element is in a descendant of another UI element.
+ *  @return A matcher to check if a specified element has a descendant that matches
+ *          @c descendantMatcher.
  */
 + (id<GREYMatcher>)matcherForDescendant:(id<GREYMatcher>)descendantMatcher;
 
@@ -266,16 +269,6 @@ NS_ASSUME_NONNULL_BEGIN
 + (id<GREYMatcher>)matcherForSliderValueMatcher:(id<GREYMatcher>)valueMatcher;
 
 /**
- *  Matcher that matches UIPickerView that has a column set to @c value.
- *
- *  @param column The column of the UIPickerView to be matched.
- *  @param value  The value that should be set in the column of the UIPickerView.
- *
- *  @return A matcher to check the value in a particular column of a UIPickerView.
- */
-+ (id<GREYMatcher>)matcherForPickerColumn:(NSInteger)column setToValue:(NSString *)value;
-
-/**
  *  Matcher that matches UIDatePicker that is set to @c value.
  *
  *  @param value The date value that should be present in the UIDatePicker
@@ -283,6 +276,17 @@ NS_ASSUME_NONNULL_BEGIN
  *  @return A matcher for a date in a UIDatePicker.
  */
 + (id<GREYMatcher>)matcherForDatePickerValue:(NSDate *)value;
+
+/**
+ *  Matcher that matches UIPickerView that has a column set to @c value.
+ *
+ *  @param column The column of the UIPickerView to be matched.
+ *  @param value  The value that should be set in the column of the UIPickerView.
+ *
+ *  @return A matcher to check the value in a particular column of a UIPickerView.
+ */
++ (id<GREYMatcher>)matcherForPickerColumn:(NSInteger)column
+                               setToValue:(nullable NSString *)value;
 
 /**
  *  Matcher that verifies whether an element, that is a UIControl, is enabled.
@@ -504,11 +508,12 @@ GREY_EXPORT id<GREYMatcher> grey_stepperValue(double value);
 /** Shorthand for GREYMatchers::matcherForSliderValueMatcher:. */
 GREY_EXPORT id<GREYMatcher> grey_sliderValueMatcher(id<GREYMatcher> valueMatcher);
 
-/** Shorthand for GREYMatchers::matcherForPickerColumn:setToValue:. */
-GREY_EXPORT id<GREYMatcher> grey_pickerColumnSetToValue(NSInteger column, NSString *value);
-
 /** Shorthand for GREYMatchers::matcherForDatePickerValue:. */
 GREY_EXPORT id<GREYMatcher> grey_datePickerValue(NSDate *date);
+
+/** Shorthand for GREYMatchers::matcherForPickerColumn:setToValue:. */
+GREY_EXPORT id<GREYMatcher> grey_pickerColumnSetToValue(NSInteger column,
+                                                        NSString * _Nullable value);
 
 /** Shorthand for GREYMatchers::matcherForEnabledElement. */
 GREY_EXPORT id<GREYMatcher> grey_enabled(void);

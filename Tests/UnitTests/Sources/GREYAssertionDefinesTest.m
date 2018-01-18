@@ -16,10 +16,10 @@
 
 #import <XCTest/XCTest.h>
 
-#import <EarlGrey/EarlGrey.h>
 #import <EarlGrey/GREYAssertionDefines.h>
-#import <EarlGrey/GREYAppStateTracker.h>
+#import "Synchronization/GREYAppStateTracker.h"
 #import <EarlGrey/GREYFailureHandler.h>
+#import <EarlGrey/EarlGreyImpl.h>
 
 // Failure handler for EarlGrey unit tests
 @interface GREYAssertionFailureHandler : NSObject<GREYFailureHandler>

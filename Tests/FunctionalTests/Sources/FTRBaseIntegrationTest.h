@@ -14,6 +14,9 @@
 // limitations under the License.
 //
 
+#import <Foundation/Foundation.h>
+#import <XCTest/XCTest.h>
+
 /* Define for checking if the current iOS version is 11 or above. */
 #define iOS11_OR_ABOVE() ([UIDevice currentDevice].systemVersion.intValue >= 11)
 

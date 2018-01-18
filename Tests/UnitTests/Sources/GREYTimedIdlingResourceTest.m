@@ -14,9 +14,9 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/GREYTimedIdlingResource.h>
 #import <OCMock/OCMock.h>
 
+#import "Synchronization/GREYTimedIdlingResource.h"
 #import "GREYBaseTest.h"
 
 @interface GREYTimedIdlingResourceTest : GREYBaseTest
