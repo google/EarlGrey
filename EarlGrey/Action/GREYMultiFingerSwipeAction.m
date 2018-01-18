@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "GREYMultiFingerSwipeAction.h"
+#import "Action/GREYMultiFingerSwipeAction.h"
 
 #import "Action/GREYPathGestureUtils.h"
 #import "Additions/NSError+GREYAdditions.h"

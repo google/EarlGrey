@@ -17,8 +17,8 @@
 #import "Common/GREYFailureScreenshotter.h"
 
 #import "Common/GREYConfiguration.h"
-#import "Common/GREYScreenshotUtil.h"
 #import "Common/GREYScreenshotUtil+Internal.h"
+#import "Common/GREYScreenshotUtil.h"
 #import "Common/GREYVisibilityChecker.h"
 
 NSString *const kScreenshotAtFailure = @"Screenshot At Failure";

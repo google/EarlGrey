@@ -18,7 +18,6 @@
 
 @protocol GREYAnalyticsDelegate<NSObject>
 
-@required
 /**
  *  Sent to the delegate to handle Analytics Event hit. See this for more info:
  *  https://developers.google.com/analytics/devguides/collection/protocol/v1/.

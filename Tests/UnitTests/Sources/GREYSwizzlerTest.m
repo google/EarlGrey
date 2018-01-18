@@ -14,9 +14,9 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/GREYSwizzler.h>
-#import <objc/runtime.h>
+#include <objc/runtime.h>
 
+#import "Common/GREYSwizzler.h"
 #import "GREYBaseTest.h"
 
 #pragma mark - Class A (Superclass)

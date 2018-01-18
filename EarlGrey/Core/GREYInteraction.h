@@ -14,8 +14,9 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/GREYDefines.h>
 #import <Foundation/Foundation.h>
+
+#import <EarlGrey/GREYDefines.h>
 
 @protocol GREYInteractionDataSource;
 @protocol GREYAction;
@@ -178,7 +179,7 @@ GREY_EXTERN NSString *const kGREYAssertionErrorUserInfoKey;
  *
  *  @return The provided GREYInteraction instance with an appropriate action.
  */
-- (instancetype)performAction:(id<GREYAction>)action;
+- (instancetype)performAction:(id<GREYAction>)action NS_REFINED_FOR_SWIFT;
 
 /**
  *  Performs an @c action on the selected UI element with an error set on failure.
@@ -190,7 +191,8 @@ GREY_EXTERN NSString *const kGREYAssertionErrorUserInfoKey;
  *  @return The provided GREYInteraction instance, with an action and an error that will be
  *          populated on failure.
  */
-- (instancetype)performAction:(id<GREYAction>)action error:(__strong NSError **)errorOrNil;
+- (instancetype)performAction:(id<GREYAction>)action error:(__strong NSError **)errorOrNil
+    NS_SWIFT_NOTHROW NS_REFINED_FOR_SWIFT;
 
 /**
  *  Performs an @c assertion on the selected UI element.
@@ -212,7 +214,8 @@ GREY_EXTERN NSString *const kGREYAssertionErrorUserInfoKey;
  *  @return The provided GREYInteraction instance with an assertion and an error that will be
  *          populated on failure.
  */
-- (instancetype)assert:(id<GREYAssertion>)assertion error:(__strong NSError **)errorOrNil;
+- (instancetype)assert:(id<GREYAssertion>)assertion error:(__strong NSError **)errorOrNil
+    NS_SWIFT_NOTHROW;
 
 /**
  *  Performs an assertion that evaluates @c matcher on the selected UI element.
@@ -221,7 +224,7 @@ GREY_EXTERN NSString *const kGREYAssertionErrorUserInfoKey;
  *
  *  @return The provided GREYInteraction instance with a matcher to be evaluated on an element.
  */
-- (instancetype)assertWithMatcher:(id<GREYMatcher>)matcher;
+- (instancetype)assertWithMatcher:(id<GREYMatcher>)matcher NS_REFINED_FOR_SWIFT;
 
 /**
  *  Performs an assertion that evaluates @c matcher on the selected UI element.
@@ -233,7 +236,8 @@ GREY_EXTERN NSString *const kGREYAssertionErrorUserInfoKey;
  *  @return The provided GREYInteraction instance, with a matcher to be evaluated on an element and
  *          an error that will be populated on failure.
  */
-- (instancetype)assertWithMatcher:(id<GREYMatcher>)matcher error:(__strong NSError **)errorOrNil;
+- (instancetype)assertWithMatcher:(id<GREYMatcher>)matcher error:(__strong NSError **)errorOrNil
+    NS_SWIFT_NOTHROW NS_REFINED_FOR_SWIFT;
 
 /**
  *  In case of multiple matches, selects the element at the specified index. In case of the

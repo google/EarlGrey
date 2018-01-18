@@ -14,8 +14,9 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/GREYDefines.h>
 #import <UIKit/UIKit.h>
+
+#import <EarlGrey/GREYDefines.h>
 
 /**
  *  Provides interfaces for taking screenshots of the entire screen and UI elements of the App.

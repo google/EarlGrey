@@ -14,8 +14,8 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/GREYBaseMatcher.h>
 #import <EarlGrey/GREYDefines.h>
+#import <EarlGrey/GREYBaseMatcher.h>
 
 /**
  *  A matcher to negate the result of another matcher.

@@ -14,6 +14,8 @@
 // limitations under the License.
 //
 
+#import <UIKit/UIKit.h>
+
 @interface FTRMainViewController : UIViewController
 
 @property(unsafe_unretained, nonatomic) IBOutlet UITableView *tableview;

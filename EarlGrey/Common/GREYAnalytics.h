@@ -16,7 +16,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "GREYAnalyticsDelegate.h"
+@protocol GREYAnalyticsDelegate;
 
 /**
  *  Provides methods for tracking EarlGrey usage using Google Analytics.
@@ -29,7 +29,7 @@
  *                                          forConfigKey:kGREYConfigKeyAnalyticsEnabled];
  *          @endcode
  */
-@interface GREYAnalytics : NSObject<GREYAnalyticsDelegate>
+@interface GREYAnalytics : NSObject
 
 /**
  *  @return The singleton instance.

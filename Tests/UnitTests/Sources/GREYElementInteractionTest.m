@@ -14,6 +14,8 @@
 // limitations under the License.
 //
 
+#import <OCMock/OCMock.h>
+
 #import <EarlGrey/GREYAction.h>
 #import <EarlGrey/GREYActionBlock.h>
 #import <EarlGrey/GREYActions.h>
@@ -24,8 +26,6 @@
 #import <EarlGrey/GREYFrameworkException.h>
 #import <EarlGrey/GREYMatchers.h>
 #import <EarlGrey/GREYNot.h>
-#import <OCMock/OCMock.h>
-
 #import "GREYBaseTest.h"
 #import "GREYExposedForTesting.h"
 

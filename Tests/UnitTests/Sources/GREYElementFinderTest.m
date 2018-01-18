@@ -14,12 +14,12 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/GREYElementFinder.h>
-#import <EarlGrey/GREYElementMatcherBlock.h>
-#import <EarlGrey/GREYElementProvider.h>
-#import <EarlGrey/GREYUIWindowProvider.h>
 #import <OCMock.h>
 
+#import <EarlGrey/GREYElementFinder.h>
+#import <EarlGrey/GREYElementMatcherBlock.h>
+#import "Provider/GREYElementProvider.h"
+#import "Provider/GREYUIWindowProvider.h"
 #import "GREYBaseTest.h"
 #import "GREYUTAccessibilityViewContainerView.h"
 

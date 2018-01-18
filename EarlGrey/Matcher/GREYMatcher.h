@@ -14,8 +14,9 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/GREYDescription.h>
 #import <Foundation/Foundation.h>
+
+#import <EarlGrey/GREYDescription.h>
 
 /**
  *  Matchers are another way of expressing simple or complex logical expressions. This protocol

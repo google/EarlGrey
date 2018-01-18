@@ -14,8 +14,9 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/GREYDefines.h>
 #import <Foundation/Foundation.h>
+
+#import <EarlGrey/GREYDefines.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

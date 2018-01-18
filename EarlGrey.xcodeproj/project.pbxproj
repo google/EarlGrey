@@ -110,6 +110,8 @@
 		7CFDF8EB1DBBD5FC00CAADB3 /* GREYLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CFDF8E51DBBD5FC00CAADB3 /* GREYLogger.m */; };
 		7CFDF8EC1DBBD5FC00CAADB3 /* GREYObjectFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7CFDF8E61DBBD5FC00CAADB3 /* GREYObjectFormatter.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		7CFDF8ED1DBBD5FC00CAADB3 /* GREYObjectFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CFDF8E71DBBD5FC00CAADB3 /* GREYObjectFormatter.m */; };
+		C5EFB20020117AF00010D067 /* EarlGreyImpl.h in Headers */ = {isa = PBXBuildFile; fileRef = C5EFB1FE20117AF00010D067 /* EarlGreyImpl.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C5EFB20120117AF00010D067 /* EarlGreyImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = C5EFB1FF20117AF00010D067 /* EarlGreyImpl.m */; };
 		D210ED8D1E6F47D100978B9E /* GREYMultiFingerSwipeAction.h in Headers */ = {isa = PBXBuildFile; fileRef = D210ED8B1E6F47D100978B9E /* GREYMultiFingerSwipeAction.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		D210ED8E1E6F47D100978B9E /* GREYMultiFingerSwipeAction.m in Sources */ = {isa = PBXBuildFile; fileRef = D210ED8C1E6F47D100978B9E /* GREYMultiFingerSwipeAction.m */; };
 		FD1001B01C5B46C200B2DB0A /* GREYAction.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001011C5B46C100B2DB0A /* GREYAction.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -179,7 +181,6 @@
 		FD10021D1C5B46C200B2DB0A /* GREYNSURLConnectionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1001741C5B46C200B2DB0A /* GREYNSURLConnectionDelegate.m */; };
 		FD10021F1C5B46C200B2DB0A /* GREYSurrogateDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1001761C5B46C200B2DB0A /* GREYSurrogateDelegate.m */; };
 		FD1002211C5B46C200B2DB0A /* GREYUIWebViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1001781C5B46C200B2DB0A /* GREYUIWebViewDelegate.m */; };
-		FD1002231C5B46C200B2DB0A /* EarlGrey.m in Sources */ = {isa = PBXBuildFile; fileRef = FD10017A1C5B46C200B2DB0A /* EarlGrey.m */; };
 		FD1002271C5B46C200B2DB0A /* GREYSyntheticEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = FD10017F1C5B46C200B2DB0A /* GREYSyntheticEvents.m */; };
 		FD1002291C5B46C200B2DB0A /* GREYDefaultFailureHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1001821C5B46C200B2DB0A /* GREYDefaultFailureHandler.m */; };
 		FD10022A1C5B46C200B2DB0A /* GREYFailureHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001831C5B46C200B2DB0A /* GREYFailureHandler.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -295,6 +296,8 @@
 		7CFDF8E51DBBD5FC00CAADB3 /* GREYLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYLogger.m; sourceTree = "<group>"; };
 		7CFDF8E61DBBD5FC00CAADB3 /* GREYObjectFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYObjectFormatter.h; sourceTree = "<group>"; };
 		7CFDF8E71DBBD5FC00CAADB3 /* GREYObjectFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYObjectFormatter.m; sourceTree = "<group>"; };
+		C5EFB1FE20117AF00010D067 /* EarlGreyImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EarlGreyImpl.h; sourceTree = "<group>"; };
+		C5EFB1FF20117AF00010D067 /* EarlGreyImpl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EarlGreyImpl.m; sourceTree = "<group>"; };
 		D210ED8B1E6F47D100978B9E /* GREYMultiFingerSwipeAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYMultiFingerSwipeAction.h; sourceTree = "<group>"; };
 		D210ED8C1E6F47D100978B9E /* GREYMultiFingerSwipeAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYMultiFingerSwipeAction.m; sourceTree = "<group>"; };
 		FD06C66B1BECAD8B009032A5 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
@@ -411,7 +414,6 @@
 		FD1001771C5B46C200B2DB0A /* GREYUIWebViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYUIWebViewDelegate.h; sourceTree = "<group>"; };
 		FD1001781C5B46C200B2DB0A /* GREYUIWebViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYUIWebViewDelegate.m; sourceTree = "<group>"; };
 		FD1001791C5B46C200B2DB0A /* EarlGrey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EarlGrey.h; path = EarlGrey/EarlGrey.h; sourceTree = SOURCE_ROOT; };
-		FD10017A1C5B46C200B2DB0A /* EarlGrey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EarlGrey.m; path = EarlGrey/EarlGrey.m; sourceTree = SOURCE_ROOT; };
 		FD10017E1C5B46C200B2DB0A /* GREYSyntheticEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYSyntheticEvents.h; sourceTree = "<group>"; };
 		FD10017F1C5B46C200B2DB0A /* GREYSyntheticEvents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYSyntheticEvents.m; sourceTree = "<group>"; };
 		FD1001811C5B46C200B2DB0A /* GREYDefaultFailureHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYDefaultFailureHandler.h; sourceTree = "<group>"; };
@@ -549,7 +551,6 @@
 				FD1001671C5B46C200B2DB0A /* Core */,
 				FD1001701C5B46C200B2DB0A /* Delegate */,
 				FD1001791C5B46C200B2DB0A /* EarlGrey.h */,
-				FD10017A1C5B46C200B2DB0A /* EarlGrey.m */,
 				FD10017B1C5B46C200B2DB0A /* Event */,
 				FD1001801C5B46C200B2DB0A /* Exception */,
 				FD1001861C5B46C200B2DB0A /* Matcher */,
@@ -733,6 +734,8 @@
 		FD1001671C5B46C200B2DB0A /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				C5EFB1FE20117AF00010D067 /* EarlGreyImpl.h */,
+				C5EFB1FF20117AF00010D067 /* EarlGreyImpl.m */,
 				61FC0A051CD939C30081BDAA /* GREYAutomationSetup.h */,
 				FDCB29841E2465A20001557E /* GREYElementInteraction+Internal.h */,
 				61FC0A061CD939C30081BDAA /* GREYAutomationSetup.m */,
@@ -981,6 +984,7 @@
 				597E02EA1D55AD6D0052A8D1 /* UIAnimation+GREYAdditions.h in Headers */,
 				3F5122141EE1D37E0000CC56 /* GREYTraversal.h in Headers */,
 				597E02EC1D55AD6D0052A8D1 /* UIScrollView+GREYAdditions.h in Headers */,
+				C5EFB20020117AF00010D067 /* EarlGreyImpl.h in Headers */,
 				597E02EB1D55AD6D0052A8D1 /* UIApplication+GREYAdditions.h in Headers */,
 				597E02EF1D55AD6D0052A8D1 /* UIViewController+GREYAdditions.h in Headers */,
 				597E02E91D55AD6D0052A8D1 /* NSURLConnection+GREYAdditions.h in Headers */,
@@ -1149,7 +1153,6 @@
 				FD1002131C5B46C200B2DB0A /* GREYElementFinder.m in Sources */,
 				FD1002471C5B46C200B2DB0A /* GREYDispatchQueueIdlingResource.m in Sources */,
 				FD1001D81C5B46C200B2DB0A /* NSError+GREYAdditions.m in Sources */,
-				FD1002231C5B46C200B2DB0A /* EarlGrey.m in Sources */,
 				611BF16C1D4CD705001D9E46 /* GREYManagedObjectContextIdlingResource.m in Sources */,
 				FD1002271C5B46C200B2DB0A /* GREYSyntheticEvents.m in Sources */,
 				FD1002341C5B46C200B2DB0A /* GREYElementMatcherBlock.m in Sources */,
@@ -1213,6 +1216,7 @@
 				FD10023F1C5B46C200B2DB0A /* GREYUIWindowProvider.m in Sources */,
 				FD1001C41C5B46C200B2DB0A /* GREYSlideAction.m in Sources */,
 				FD1001BA1C5B46C200B2DB0A /* GREYPickerAction.m in Sources */,
+				C5EFB20120117AF00010D067 /* EarlGreyImpl.m in Sources */,
 				FD1002291C5B46C200B2DB0A /* GREYDefaultFailureHandler.m in Sources */,
 				61156A521D1B2AC1000013C7 /* UIGestureRecognizer+GREYAdditions.m in Sources */,
 				FD1001B21C5B46C200B2DB0A /* GREYActionBlock.m in Sources */,

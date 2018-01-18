@@ -17,6 +17,8 @@
 // Class that controls FTRSliderViewController.xib view. The view contains six sliders, each of
 // which have propeties listed below. The top slider is slider1 and the bottom most slider6.
 
+#import <UIKit/UIKit.h>
+
 @interface FTRSliderViewController : UIViewController
 
 @property(weak, nonatomic) IBOutlet UISlider *slider1;

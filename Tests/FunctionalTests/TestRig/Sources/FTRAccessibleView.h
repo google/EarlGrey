@@ -14,6 +14,8 @@
 // limitations under the License.
 //
 
+#import <UIKit/UIKit.h>
+
 // A UIView that contains accessibility elements.
 @interface FTRAccessibleView : UIView
 

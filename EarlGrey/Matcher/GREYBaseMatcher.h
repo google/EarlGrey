@@ -14,8 +14,9 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/GREYMatcher.h>
 #import <Foundation/Foundation.h>
+
+#import <EarlGrey/GREYMatcher.h>
 
 /**
  *  A base class that implements the GREYMatcher protocol methods.

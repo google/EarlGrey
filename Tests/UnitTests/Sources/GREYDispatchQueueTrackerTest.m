@@ -15,8 +15,7 @@
 //
 
 #import <EarlGrey/GREYConfiguration.h>
-#import <EarlGrey/GREYDispatchQueueTracker.h>
-
+#import "Synchronization/GREYDispatchQueueTracker.h"
 #import "GREYBaseTest.h"
 
 /**

@@ -14,6 +14,8 @@
 // limitations under the License.
 //
 
+#import <UIKit/UIKit.h>
+
 // Implements a custom grid based layout for EarlGrey TestApp.
 @interface FTRCollectionViewLayout : UICollectionViewLayout
 

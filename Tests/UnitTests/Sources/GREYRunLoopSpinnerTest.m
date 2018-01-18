@@ -14,8 +14,7 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/GREYRunLoopSpinner.h>
-
+#import "Synchronization/GREYRunLoopSpinner.h"
 #import "GREYBaseTest.h"
 #import "GREYExposedForTesting.h"
 

@@ -25,9 +25,10 @@
 #import "Exception/GREYFrameworkException.h"
 
 /**
- *  Current XCTestCase being executed or @c nil if outside the context of a running test.
+ *  Stack of XCTestCase objects being being executed. This enables the tracking of different nested
+ *  tests that have been invoked. If empty, then the run is outside the context of a running test.
  */
-static XCTestCase *gCurrentExecutingTestCase;
+static NSMutableArray<XCTestCase *> *gExecutingTestCaseStack;
 
 /**
  *  Name of the exception that's thrown to interrupt current test execution.
@@ -66,11 +67,12 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
     // tracked at the earliest. Also, we turn on accessibility for the simulator since it needs to
     // be enabled before main is called.
     [[GREYAutomationSetup sharedInstance] prepareOnLoad];
+    gExecutingTestCaseStack = [[NSMutableArray alloc] init];
   }
 }
 
 + (XCTestCase *)grey_currentTestCase {
-  return gCurrentExecutingTestCase;
+  return [gExecutingTestCaseStack lastObject];
 }
 
 - (void)grey_recordFailureWithDescription:(NSString *)description
@@ -212,7 +214,7 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
         object_setClass(self.invocation, [GREYTestCaseInvocation class]);
 
     @try {
-      gCurrentExecutingTestCase = self;
+      [gExecutingTestCaseStack addObject:self];
       [self grey_setStatus:kGREYXCTestCaseStatusUnknown];
       INVOKE_ORIGINAL_IMP(void, @selector(grey_invokeTest));
 
@@ -246,7 +248,7 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
       object_setClass(self.invocation, originalInvocationClass);
       [self grey_sendNotification:kGREYXCTestCaseInstanceDidFinish];
       // We only reset the current test case after all possible notifications have been sent.
-      gCurrentExecutingTestCase = nil;
+      [gExecutingTestCaseStack removeLastObject];
     }
   }
 }

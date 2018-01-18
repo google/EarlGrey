@@ -15,6 +15,7 @@
 //
 
 #import "FTRBaseIntegrationTest.h"
+#import <EarlGrey/EarlGrey.h>
 
 @interface FTRPickerViewInteractionTest : FTRBaseIntegrationTest
 @end
@@ -159,4 +160,74 @@
       assertWithMatcher:grey_notVisible()];
 }
 
+- (void)testNoPickerViewComponentDelegateMethodsAreDefined {
+  [[EarlGrey selectElementWithMatcher:grey_text(@"Custom")] performAction:grey_tap()];
+
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"noDelegateMethodDefinedSwitch")]
+      performAction:grey_turnSwitchOn(YES)];
+
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CustomPickerId")]
+      assertWithMatcher:grey_pickerColumnSetToValue(0, nil)];
+
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CustomPickerId")]
+      assertWithMatcher:grey_pickerColumnSetToValue(1, nil)];
+}
+
+- (void)testViewForRowDefined {
+  [[EarlGrey selectElementWithMatcher:grey_text(@"Custom")] performAction:grey_tap()];
+
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"viewForRowDelegateSwitch")]
+      performAction:grey_turnSwitchOn(YES)];
+
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CustomPickerId")]
+      performAction:grey_setPickerColumnToValue(0, @"Green")];
+
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CustomPickerId")]
+      performAction:grey_setPickerColumnToValue(1, @"4")];
+
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CustomPickerId")]
+      assertWithMatcher:grey_pickerColumnSetToValue(0, @"Green")];
+
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CustomPickerId")]
+      assertWithMatcher:grey_pickerColumnSetToValue(1, @"4")];
+}
+
+- (void)testAttributedTitleForRowDefined {
+  [[EarlGrey selectElementWithMatcher:grey_text(@"Custom")] performAction:grey_tap()];
+
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"attributedTitleForRowDelegateSwitch")]
+      performAction:grey_turnSwitchOn(YES)];
+
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CustomPickerId")]
+      performAction:grey_setPickerColumnToValue(0, @"Green")];
+
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CustomPickerId")]
+      performAction:grey_setPickerColumnToValue(1, @"4")];
+
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CustomPickerId")]
+      assertWithMatcher:grey_pickerColumnSetToValue(0, @"Green")];
+
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CustomPickerId")]
+      assertWithMatcher:grey_pickerColumnSetToValue(1, @"4")];
+}
+
+- (void)testTitleForRowDefined {
+  [[EarlGrey selectElementWithMatcher:grey_text(@"Custom")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"titleForRowDelegateSwitch")]
+      performAction:grey_turnSwitchOn(YES)];
+
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CustomPickerId")]
+      performAction:grey_setPickerColumnToValue(0, @"Green")];
+
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CustomPickerId")]
+      performAction:grey_setPickerColumnToValue(1, @"4")];
+
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CustomPickerId")]
+      assertWithMatcher:grey_pickerColumnSetToValue(0, @"Green")];
+
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CustomPickerId")]
+      assertWithMatcher:grey_pickerColumnSetToValue(1, @"4")];
+}
+
 @end
+

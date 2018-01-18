@@ -14,11 +14,10 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/CGGeometry+GREYAdditions.h>
-#import <EarlGrey/GREYElementHierarchy.h>
-#import <EarlGrey/GREYVisibilityChecker.h>
-
 #import "FTRBaseIntegrationTest.h"
+#import "Additions/CGGeometry+GREYAdditions.h"
+#import "Common/GREYVisibilityChecker.h"
+#import <EarlGrey/EarlGrey.h>
 
 @interface FTRVisibilityTest : FTRBaseIntegrationTest
 @end
@@ -41,25 +40,23 @@
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"bottomScrollView")]
       performAction:grey_scrollToContentEdge(kGREYContentEdgeTop)];
 
+  BOOL (^assertionBlock)(id element, NSError *__strong *errorOrNil) =
+      ^BOOL(id element, NSError *__strong *errorOrNil) {
+        CGPoint offset = ((UIScrollView *)element).contentOffset;
+        CGPoint expectedOffset = CGPointMake(100, 100);
+        if (CGPointEqualToPoint(offset, expectedOffset)) {
+          return YES;
+        } else {
+          NSError *error =
+              [[NSError alloc] initWithDomain:kGREYInteractionErrorDomain
+                                         code:kGREYInteractionAssertionFailedErrorCode
+                                     userInfo:@{NSLocalizedDescriptionKey : @"Cover view moved."}];
+          *errorOrNil = error;
+          return NO;
+        }
+      };
   id<GREYAssertion> assertion = [GREYAssertionBlock assertionWithName:@"coverContentOffsetUnchanged"
-                                              assertionBlockWithError:
-                                 ^BOOL(id element, NSError *__strong *errorOrNil) {
-                                   CGPoint offset = ((UIScrollView*) element).contentOffset;
-                                   CGPoint expectedOffset = CGPointMake(100, 100);
-                                   if (CGPointEqualToPoint(offset, expectedOffset)) {
-                                     return YES;
-                                   } else {
-                                     NSError* error = [[NSError alloc]
-                                                       initWithDomain:kGREYInteractionErrorDomain
-                                                       code:
-                                                       kGREYInteractionAssertionFailedErrorCode
-                                                       userInfo:@{
-                                                                  NSLocalizedDescriptionKey:
-                                                                    @"Cover view moved."}];
-                                     *errorOrNil = error;
-                                     return NO;
-                                   }
-                                 }];
+                                              assertionBlockWithError:assertionBlock];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"coverScrollView")] assert:assertion];
 }
 

@@ -14,12 +14,11 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/GREYActions+Internal.h>
-#import <EarlGrey/GREYKeyboard.h>
-#import <EarlGrey/NSError+GREYAdditions.h>
-
 #import "FTRBaseIntegrationTest.h"
 #import "FTRFailureHandler.h"
+#import "Action/GREYActions+Internal.h"
+#import "Additions/NSError+GREYAdditions.h"
+#import "Core/GREYKeyboard.h"
 
 @interface FTRKeyboardKeysTest : FTRBaseIntegrationTest
 @end
@@ -137,7 +136,7 @@
     GREYFail(@"Should throw an exception");
   } @catch (NSException *exception) {
     NSRange exceptionRange =
-        [[exception reason] rangeOfString:@"\"Action Name\" : \"Type 'Should Fail'\""];
+        [[exception reason] rangeOfString:@"\"Action Name\":  \"Type 'Should Fail'\""];
     GREYAssertTrue(exceptionRange.length > 0, @"Should throw exception indicating action failure.");
   }
 }

@@ -14,7 +14,6 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/GREYDefines.h>
 #import <UIKit/UIKit.h>
 
 @class GREYZeroToleranceTimer;
@@ -25,7 +24,6 @@
  */
 @protocol GREYZeroToleranceTimerTarget <NSObject>
 
-@required
 /**
  *  Invoked by @c GREYZeroToleranceTimer object when timeout fires.
  *

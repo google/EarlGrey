@@ -29,174 +29,45 @@
  *  To learn more, check out: http://github.com/google/EarlGrey
  */
 
+#import <Foundation/Foundation.h>
+
 #import <EarlGrey/GREYAction.h>
 #import <EarlGrey/GREYActionBlock.h>
 #import <EarlGrey/GREYActions.h>
-#import <EarlGrey/GREYAllOf.h>
-#import <EarlGrey/GREYAnyOf.h>
+#import <EarlGrey/GREYBaseAction.h>
+#import <EarlGrey/GREYScrollActionError.h>
+#import <EarlGrey/GREYIdlingResource.h>
 #import <EarlGrey/GREYAssertion.h>
 #import <EarlGrey/GREYAssertionBlock.h>
 #import <EarlGrey/GREYAssertionDefines.h>
 #import <EarlGrey/GREYAssertions.h>
-#import <EarlGrey/GREYBaseAction.h>
-#import <EarlGrey/GREYBaseMatcher.h>
-#import <EarlGrey/GREYCondition.h>
 #import <EarlGrey/GREYConfiguration.h>
 #import <EarlGrey/GREYConstants.h>
-#import <EarlGrey/GREYDataEnumerator.h>
 #import <EarlGrey/GREYDefines.h>
-#import <EarlGrey/GREYDescription.h>
-#import <EarlGrey/GREYDispatchQueueIdlingResource.h>
-#import <EarlGrey/GREYElementFinder.h>
 #import <EarlGrey/GREYElementHierarchy.h>
+#import <EarlGrey/GREYScreenshotUtil.h>
+#import <EarlGrey/GREYTestHelper.h>
+#import <EarlGrey/EarlGreyImpl.h>
+#import <EarlGrey/GREYElementFinder.h>
 #import <EarlGrey/GREYElementInteraction.h>
-#import <EarlGrey/GREYElementMatcherBlock.h>
+#import <EarlGrey/GREYInteraction.h>
 #import <EarlGrey/GREYFailureHandler.h>
 #import <EarlGrey/GREYFrameworkException.h>
-#import <EarlGrey/GREYIdlingResource.h>
-#import <EarlGrey/GREYInteraction.h>
+#import <EarlGrey/GREYAllOf.h>
+#import <EarlGrey/GREYAnyOf.h>
+#import <EarlGrey/GREYBaseMatcher.h>
+#import <EarlGrey/GREYDescription.h>
+#import <EarlGrey/GREYElementMatcherBlock.h>
 #import <EarlGrey/GREYLayoutConstraint.h>
-#import <EarlGrey/GREYManagedObjectContextIdlingResource.h>
 #import <EarlGrey/GREYMatcher.h>
 #import <EarlGrey/GREYMatchers.h>
-#import <EarlGrey/GREYNSTimerIdlingResource.h>
 #import <EarlGrey/GREYNot.h>
-#import <EarlGrey/GREYOperationQueueIdlingResource.h>
+#import <EarlGrey/GREYDataEnumerator.h>
 #import <EarlGrey/GREYProvider.h>
-#import <EarlGrey/GREYScreenshotUtil.h>
-#import <EarlGrey/GREYScrollActionError.h>
+#import <EarlGrey/GREYCondition.h>
+#import <EarlGrey/GREYDispatchQueueIdlingResource.h>
+#import <EarlGrey/GREYManagedObjectContextIdlingResource.h>
+#import <EarlGrey/GREYNSTimerIdlingResource.h>
+#import <EarlGrey/GREYOperationQueueIdlingResource.h>
 #import <EarlGrey/GREYSyncAPI.h>
-#import <EarlGrey/GREYTestHelper.h>
 #import <EarlGrey/GREYUIThreadExecutor.h>
-#import <Foundation/Foundation.h>
-
-/**
- *  Key for currently set failure handler for EarlGrey in thread's local storage dictionary.
- */
-GREY_EXTERN NSString *const kGREYFailureHandlerKey;
-
-/**
- *  Error domain for keyboard dismissal.
- */
-GREY_EXTERN NSString *const kGREYKeyboardDismissalErrorDomain;
-
-/**
- *  Error code for keyboard dismissal actions.
- */
-typedef NS_ENUM(NSInteger, GREYKeyboardDismissalErrorCode) {
-  /**
-   *  The keyboard dismissal failed.
-   */
-  GREYKeyboardDismissalFailedErrorCode = 0,  // Keyboard Dismissal failed.
-};
-
-/**
- *  Convenience replacement for every EarlGrey method call with
- *  EarlGreyImpl::invokedFromFile:lineNumber: so it can get the invocation file and line to
- *  report to XCTest on failure.
- */
-#define EarlGrey [EarlGreyImpl invokedFromFile:[NSString stringWithUTF8String:__FILE__] \
-                                    lineNumber:__LINE__]
-
-/**
- *  Entrypoint to the EarlGrey framework.
- *  Use methods of this class to initiate interaction with any UI element on the screen.
- */
-@interface EarlGreyImpl : NSObject
-
-/**
- *  Provides the file name and line number of the code that is calling into EarlGrey.
- *  In case of a failure, the information is used to tell XCTest the exact line which caused
- *  the failure so it can be highlighted in the IDE.
- *
- *  @param fileName   The name of the file where the failing code exists.
- *  @param lineNumber The line number of the failing code.
- *
- *  @return An EarlGreyImpl instance, with details of the code invoking EarlGrey.
- */
-+ (instancetype)invokedFromFile:(NSString *)fileName lineNumber:(NSUInteger)lineNumber;
-
-/**
- *  @remark init is not an available initializer. Use the <b>EarlGrey</b> macro to start an
- *  interaction.
- */
-- (instancetype)init NS_UNAVAILABLE;
-
-/**
- *  Creates a pending interaction with a single UI element on the screen.
- *
- *  In this step, a matcher is supplied to EarlGrey which is later used to sift through the elements
- *  in the UI Hierarchy. This method only denotes that you have an intent to perform an action and
- *  packages a GREYElementInteraction object to do so.
- *  The interaction is *actually* started when it's performed with a @c GREYAction or
- *  @c GREYAssertion.
- *
- *  An interaction will fail when multiple elements are matched. In that case, you will have to
- *  refine the @c elementMatcher to match a single element or use GREYInteraction::atIndex: to
- *  specify the index of the element in the list of elements matched.
- *
- *  By default, EarlGrey looks at all the windows from front to back and
- *  searches for the UI element. To focus on a specific window or container, use
- *  GREYElementInteraction::inRoot: method.
- *
- *  For example, this code will match a UI element with accessibility identifier "foo"
- *  inside a custom UIWindow of type MyCustomWindow:
- *      @code
- *      [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
- *          inRoot:grey_kindOfClass([MyCustomWindow class])]
- *      @endcode
- *
- *  @param elementMatcher The matcher specifying the UI element that will be targeted by the
- *                        interaction.
- *
- *  @return A GREYElementInteraction instance, initialized with an appropriate matcher.
- */
-- (GREYElementInteraction *)selectElementWithMatcher:(id<GREYMatcher>)elementMatcher;
-
-/**
- *  Sets the global failure handler for all framework related failures.
- *
- *  A default failure handler is provided by the framework and it is @b strongly advised to use
- *  that if you don't need to customize error handling in your test. Passing in @c nil will revert
- *  the failure handler to default framework provided failure handler.
- *
- *  @param handler The failure handler to be used for all test failures.
- */
-- (void)setFailureHandler:(id<GREYFailureHandler>)handler;
-
-/**
- *  Convenience wrapper to invoke GREYFailureHandler::handleException:details: on the global
- *  failure handler.
- *
- *  @param exception The exception to be handled.
- *  @param details   Any extra details about the failure.
- */
-- (void)handleException:(GREYFrameworkException *)exception details:(NSString *)details;
-
-/**
- *  Rotate the device to a given @c deviceOrientation. All device orientations except for
- *  @c UIDeviceOrientationUnknown are supported. If a non-nil @c errorOrNil is provided, it will
- *  be populated with the failure reason if the orientation change fails, otherwise a test failure
- *  will be registered.
- *
- *  @param      deviceOrientation The desired orientation of the device.
- *  @param[out] errorOrNil        Error that will be populated on failure. If @c nil, a test
- *                                failure will be reported if the rotation attempt fails.
- *
- *  @return @c YES if the rotation was successful, @c NO otherwise.
- */
-- (BOOL)rotateDeviceToOrientation:(UIDeviceOrientation)deviceOrientation
-                       errorOrNil:(__strong NSError **)errorOrNil;
-
-/**
- *  Dismisses the keyboard by resigning the first responder, if any. Will populate the provided
- *  error if the first responder is not present or if the keyboard is not visible.
- *
- *  @param[out] errorOrNil Error that will be populated on failure. If @c nil, a test
- *                         failure will be reported if the dismissing fails.
- *
- *  @return @c YES if the dismissing of the keyboard was successful, @c NO otherwise.
- */
-- (BOOL)dismissKeyboardWithError:(__strong NSError **)errorOrNil;
-
-@end

@@ -14,8 +14,9 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/GREYProvider.h>
 #import <Foundation/Foundation.h>
+
+#import <EarlGrey/GREYProvider.h>
 
 /**
  *  A provider for UI elements.

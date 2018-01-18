@@ -21,6 +21,8 @@
  *  testing purposes.
  */
 
+#import "Common/GREYError.h"
+
 @class XCTestCase;
 
 /**

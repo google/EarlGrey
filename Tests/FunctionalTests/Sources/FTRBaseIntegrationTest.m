@@ -16,6 +16,8 @@
 
 #import "FTRBaseIntegrationTest.h"
 
+#import <EarlGrey/EarlGrey.h>
+
 @implementation FTRBaseIntegrationTest {
   // This variable holds the current failure handler before any tests sully it.
   id<GREYFailureHandler> _currentFailureHandler;

@@ -86,8 +86,8 @@ GREY_EXTERN NSInteger const kGREYObjectFormatIndent;
  *  @param dictionary The dictionary to serialize.
  *  @param prefix     A string that will be applied to each newline
  *                    of the serialized dictionary.
- *  @param indent     Number of spaces that will be applied to each element
- *                    of the serialized dictionary.
+ *  @param indent     Number of spaces that will be applied to each element (key and value)
+ *                    of the serialized dictionary
  *  @param hideEmpty  Hide the key-value pair if the value in the dictionary
  *                    when the key is empty.
  *  @param keyOrder   Output the key-value pair in the order of the keys specified

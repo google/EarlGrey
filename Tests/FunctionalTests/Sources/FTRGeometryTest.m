@@ -14,9 +14,9 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/CGGeometry+GREYAdditions.h>
-
 #import "FTRBaseIntegrationTest.h"
+#import "Additions/CGGeometry+GREYAdditions.h"
+#import <EarlGrey/EarlGrey.h>
 
 @interface FTRGeometryTest : FTRBaseIntegrationTest
 @end

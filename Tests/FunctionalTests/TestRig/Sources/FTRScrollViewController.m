@@ -132,9 +132,6 @@
   [self.scrollview addSubview:_squareView];
   self.scrollview.delegate = self;
   self.topTextbox.delegate = self;
-    
-  self.freezingScrollView.isAccessibilityElement = YES;
-  self.freezingScrollView.accessibilityLabel = @"Freezing Scroll View";
 
   // Required to disable the swipe from edge to go back gesture as it can interfere with tests.
   [self.navigationItem setHidesBackButton:YES animated:NO];

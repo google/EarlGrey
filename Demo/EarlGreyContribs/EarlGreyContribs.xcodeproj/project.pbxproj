@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C54C93A9202B8A9000A9103C /* EarlGrey.swift in Sources */ = {isa = PBXBuildFile; fileRef = C54C93A8202B8A9000A9103C /* EarlGrey.swift */; };
 		FDA14ADF1D36DEC6009F60A0 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FDA14AD61D36DEC6009F60A0 /* Default-568h@2x.png */; };
 		FDA14AE01D36DEC6009F60A0 /* Default-667@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FDA14AD71D36DEC6009F60A0 /* Default-667@2x.png */; };
 		FDA14AE11D36DEC6009F60A0 /* Default-736h@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = FDA14AD81D36DEC6009F60A0 /* Default-736h@3x.png */; };
@@ -16,7 +17,6 @@
 		FDA14AE51D36DEC6009F60A0 /* ic_local_cafe_48pt.png in Resources */ = {isa = PBXBuildFile; fileRef = FDA14ADC1D36DEC6009F60A0 /* ic_local_cafe_48pt.png */; };
 		FDA14AE61D36DEC6009F60A0 /* ic_local_cafe_48pt@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FDA14ADD1D36DEC6009F60A0 /* ic_local_cafe_48pt@2x.png */; };
 		FDA14AE71D36DEC6009F60A0 /* ic_local_cafe_48pt@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = FDA14ADE1D36DEC6009F60A0 /* ic_local_cafe_48pt@3x.png */; };
-		FDBC1BF51DC1788900D06106 /* EarlGrey.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBC1BF41DC1788900D06106 /* EarlGrey.swift */; };
 		FDFCE9471D3427D2006D9592 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FDFCE9461D3427D2006D9592 /* main.m */; };
 		FDFCE94A1D3427D2006D9592 /* EarlGreyContribsAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FDFCE9491D3427D2006D9592 /* EarlGreyContribsAppDelegate.m */; };
 		FDFCE94D1D3427D2006D9592 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDFCE94C1D3427D2006D9592 /* MainViewController.m */; };
@@ -105,6 +105,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		C54C93A8202B8A9000A9103C /* EarlGrey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EarlGrey.swift; path = "../../../gem/lib/earlgrey/files/Swift-3.0/EarlGrey.swift"; sourceTree = "<group>"; };
 		FDA14AB71D35D017009F60A0 /* EarlGreyContribsTests.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EarlGreyContribsTests.pch; sourceTree = "<group>"; };
 		FDA14AD61D36DEC6009F60A0 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../../../Tests/FunctionalTests/TestRig/Resources/Default-568h@2x.png"; sourceTree = "<group>"; };
 		FDA14AD71D36DEC6009F60A0 /* Default-667@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-667@2x.png"; path = "../../../Tests/FunctionalTests/TestRig/Resources/Default-667@2x.png"; sourceTree = "<group>"; };
@@ -115,7 +116,6 @@
 		FDA14ADC1D36DEC6009F60A0 /* ic_local_cafe_48pt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ic_local_cafe_48pt.png; path = ../../../Tests/FunctionalTests/TestRig/Resources/ic_local_cafe_48pt.png; sourceTree = "<group>"; };
 		FDA14ADD1D36DEC6009F60A0 /* ic_local_cafe_48pt@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ic_local_cafe_48pt@2x.png"; path = "../../../Tests/FunctionalTests/TestRig/Resources/ic_local_cafe_48pt@2x.png"; sourceTree = "<group>"; };
 		FDA14ADE1D36DEC6009F60A0 /* ic_local_cafe_48pt@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ic_local_cafe_48pt@3x.png"; path = "../../../Tests/FunctionalTests/TestRig/Resources/ic_local_cafe_48pt@3x.png"; sourceTree = "<group>"; };
-		FDBC1BF41DC1788900D06106 /* EarlGrey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EarlGrey.swift; path = "../../../gem/lib/earlgrey/files/Swift-2.3/EarlGrey.swift"; sourceTree = "<group>"; };
 		FDFCE9421D3427D2006D9592 /* EarlGreyContribs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EarlGreyContribs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDFCE9461D3427D2006D9592 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		FDFCE9481D3427D2006D9592 /* EarlGreyContribsAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EarlGreyContribsAppDelegate.h; sourceTree = "<group>"; };
@@ -182,7 +182,7 @@
 		FDA14AB51D35CFD4009F60A0 /* SupportingFiles */ = {
 			isa = PBXGroup;
 			children = (
-				FDBC1BF41DC1788900D06106 /* EarlGrey.swift */,
+				C54C93A8202B8A9000A9103C /* EarlGrey.swift */,
 			);
 			name = SupportingFiles;
 			sourceTree = "<group>";
@@ -478,7 +478,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FDFCE9AE1D35B0BC006D9592 /* EarlGreyContribsSwiftTests.swift in Sources */,
-				FDBC1BF51DC1788900D06106 /* EarlGrey.swift in Sources */,
+				C54C93A9202B8A9000A9103C /* EarlGrey.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -698,7 +698,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EarlGreyContribs.app/EarlGreyContribs";
 			};
 			name = Debug;
@@ -714,7 +714,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EarlGreyContribs.app/EarlGreyContribs";
 			};
 			name = Release;

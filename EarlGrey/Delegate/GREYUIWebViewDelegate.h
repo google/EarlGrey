@@ -14,8 +14,9 @@
 // limitations under the License.
 //
 
-#import "GREYSurrogateDelegate.h"
 #import <UIKit/UIKit.h>
+
+#import "Delegate/GREYSurrogateDelegate.h"
 
 /**
  *  A UIWebView delegate proxy used to intercept load requests for syncing.

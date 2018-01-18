@@ -14,9 +14,9 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/NSObject+GREYAdditions.h>
 #import <OCMock/OCMock.h>
 
+#import "Additions/NSObject+GREYAdditions.h"
 #import "GREYBaseTest.h"
 #import "GREYExposedForTesting.h"
 

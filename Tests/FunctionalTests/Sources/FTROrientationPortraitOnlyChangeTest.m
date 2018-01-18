@@ -14,9 +14,9 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/GREYSwizzler.h>
-
 #import "FTRBaseIntegrationTest.h"
+#import "Common/GREYSwizzler.h"
+#import <EarlGrey/EarlGrey.h>
 
 @implementation UIApplication (Test)
 

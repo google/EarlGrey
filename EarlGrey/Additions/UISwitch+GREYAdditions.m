@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "UISwitch+GREYAdditions.h"
+#import "Additions/UISwitch+GREYAdditions.h"
 
 @implementation UISwitch (GREYAdditions)
 

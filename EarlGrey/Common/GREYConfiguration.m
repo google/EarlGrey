@@ -16,10 +16,10 @@
 
 #import "Common/GREYConfiguration.h"
 
+#import "Additions/NSString+GREYAdditions.h"
 #import "Common/GREYFatalAsserts.h"
 #import "Common/GREYLogger.h"
 #import "Common/GREYThrowDefines.h"
-#import "Additions/NSString+GREYAdditions.h"
 
 NSString *const kGREYConfigKeyAnalyticsEnabled = @"GREYConfigKeyAnalyticsEnabled";
 NSString *const kGREYConfigKeyActionConstraintsEnabled = @"GREYConfigKeyActionConstraintsEnabled";

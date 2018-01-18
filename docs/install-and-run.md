@@ -269,7 +269,7 @@ compatible with EarlGrey.
 
       ```swift
       func testExample() {
-        EarlGrey.select(elementWithMatcher: grey_keyWindow())
+        EarlGrey.selectElement(with: grey_keyWindow())
           .assert(grey_sufficientlyVisible())
       }
       ```

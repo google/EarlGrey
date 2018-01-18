@@ -14,9 +14,9 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/GREYVisibilityChecker.h>
-
 #import "FTRBaseIntegrationTest.h"
+#import "Common/GREYVisibilityChecker.h"
+#import <EarlGrey/EarlGrey.h>
 
 @interface FTRScrollViewTest : FTRBaseIntegrationTest
 @end
@@ -26,10 +26,6 @@
 - (void)setUp {
   [super setUp];
   [self openTestViewNamed:@"Scroll Views"];
-}
-
-- (void)DISABLED_testFreezingScrollView {
-    [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Freezing Scroll View")] performAction:grey_scrollToContentEdge(kGREYContentEdgeTop)];
 }
 
 - (void)testScrollToTopEdge {

@@ -26,6 +26,8 @@
 
   self.sampleLabel.accessibilityIdentifier = @"sampleLabel";
 
+  self.disabledButton.enabled = NO;
+
   self.textField.delegate = self;
   self.textField.accessibilityIdentifier = @"foo";
 

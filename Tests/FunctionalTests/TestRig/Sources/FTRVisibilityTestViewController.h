@@ -14,6 +14,8 @@
 // limitations under the License.
 //
 
+#import <UIKit/UIKit.h>
+
 // View controller used for visibility checker tests.
 @interface FTRVisibilityTestViewController : UIViewController
 

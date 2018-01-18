@@ -14,12 +14,11 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/CALayer+GREYAdditions.h>
-
-#import <EarlGrey/GREYConfiguration.h>
-#import <EarlGrey/NSObject+GREYAdditions.h>
 #import <objc/runtime.h>
 
+#import "Additions/CALayer+GREYAdditions.h"
+#import "Additions/NSObject+GREYAdditions.h"
+#import <EarlGrey/GREYConfiguration.h>
 #import "GREYBaseTest.h"
 #import "GREYExposedForTesting.h"
 

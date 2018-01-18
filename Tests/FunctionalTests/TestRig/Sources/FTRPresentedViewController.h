@@ -14,6 +14,8 @@
 // limitations under the License.
 //
 
+#import <UIKit/UIKit.h>
+
 // View controller for testing view presentation
 @interface FTRPresentedViewController : UIViewController
 @end

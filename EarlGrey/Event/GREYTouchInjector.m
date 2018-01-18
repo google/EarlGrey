@@ -43,7 +43,7 @@ static const NSTimeInterval kGREYMaxIntervalForUIWebViewResponse = 2.0;
  */
 static const NSTimeInterval kGREYTouchInjectionInterval = 1.0 / kGREYTouchInjectionFrequency;
 
-@interface GREYTouchInjector () <GREYZeroToleranceTimerTarget>
+@interface GREYTouchInjector() <GREYZeroToleranceTimerTarget>
 @end
 
 @implementation GREYTouchInjector {

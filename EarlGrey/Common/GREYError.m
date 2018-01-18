@@ -19,8 +19,8 @@
 #import "Additions/NSError+GREYAdditions.h"
 #import "Additions/XCTestCase+GREYAdditions.h"
 #import "Common/GREYConfiguration.h"
-#import "Common/GREYError+Internal.h"
 #import "Common/GREYElementHierarchy.h"
+#import "Common/GREYError+Internal.h"
 #import "Common/GREYObjectFormatter.h"
 #import "Common/GREYScreenshotUtil.h"
 

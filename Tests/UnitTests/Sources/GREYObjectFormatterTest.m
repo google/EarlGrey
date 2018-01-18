@@ -15,8 +15,8 @@
 //
 
 #import <XCTest/XCTest.h>
-#import <EarlGrey/GREYObjectFormatter.h>
 
+#import "Common/GREYObjectFormatter.h"
 #import "GREYBaseTest.h"
 
 @interface GREYObjectFormatterTest : GREYBaseTest
@@ -225,10 +225,8 @@
                                                        indent:0
                                                     hideEmpty:NO
                                                      keyOrder:@[ @"key1", @"key2", @"key3" ]];
-  NSString *expected = @"{\n\"key1\" : \"value1\",\n\"key2\" : \"value2\",\n"
-      "\"key3\" : \"value3\"\n}";
-  XCTAssertTrue([formatted isEqualToString:expected],
-                @"Error formatting dictionary with key order");
+  NSString *expected = @"{\n\"key1\":\"value1\",\n\"key2\":\"value2\",\n\"key3\":\"value3\"\n}";
+  XCTAssertEqualObjects(formatted, expected, @"Error formatting dictionary with key order");
 }
 
 - (void)testFormatStringDictionaryWithEmptyHidden {
@@ -238,9 +236,8 @@
                                                        indent:0
                                                     hideEmpty:YES
                                                      keyOrder:@[ @"key1", @"key2", @"key3" ]];
-  NSString *expected = @"{\n\"key1\" : \"value1\",\n\"key3\" : \"value3\"\n}";
-  XCTAssertTrue([formatted isEqualToString:expected],
-                @"Error formatting with empty key hidden");
+  NSString *expected = @"{\n\"key1\":\"value1\",\n\"key3\":\"value3\"\n}";
+  XCTAssertEqualObjects(formatted, expected, @"Error formatting with empty key hidden");
 }
 
 - (void)testFormatStringDictionaryPrefix {
@@ -250,9 +247,8 @@
                                                        indent:0
                                                     hideEmpty:YES
                                                      keyOrder:@[ @"key1", @"key2", @"key3" ]];
-  NSString *expected = @"  {\n  \"key1\" : \"value1\",\n  \"key2\" : \"value2\"\n  }";
-  XCTAssertTrue([formatted isEqualToString:expected],
-                @"Error formatting prefix dictionary");
+  NSString *expected = @"  {\n  \"key1\":\"value1\",\n  \"key2\":\"value2\"\n  }";
+  XCTAssertEqualObjects(formatted, expected, @"Error formatting prefix dictionary");
 }
 
 - (void)testFormatStringDictionaryIndent {
@@ -262,9 +258,8 @@
                                                        indent:kGREYObjectFormatIndent
                                                     hideEmpty:YES
                                                      keyOrder:@[ @"key1", @"key2", @"key3" ]];
-  NSString *expected = @"{\n  \"key1\" : \"value1\",\n  \"key2\" : \"value2\"\n}";
-  XCTAssertTrue([formatted isEqualToString:expected],
-                @"Error formatting indent dictionary");
+  NSString *expected = @"{\n  \"key1\":  \"value1\",\n  \"key2\":  \"value2\"\n}";
+  XCTAssertEqualObjects(formatted, expected, @"Error formatting indent dictionary");
 }
 
 - (void)testFormatStringDictionaryPrefixAndIndent {
@@ -274,9 +269,8 @@
                                                        indent:kGREYObjectFormatIndent
                                                     hideEmpty:YES
                                                      keyOrder:@[ @"key1", @"key2", @"key3" ]];
-  NSString *expected = @"  {\n    \"key1\" : \"value1\",\n    \"key2\" : \"value2\"\n  }";
-  XCTAssertTrue([formatted isEqualToString:expected],
-                @"Error formatting prefix and indent dictionary");
+  NSString *expected = @"  {\n    \"key1\":  \"value1\",\n    \"key2\":  \"value2\"\n  }";
+  XCTAssertEqualObjects(formatted, expected, @"Error formatting prefix and indent dictionary");
 }
 
 - (void)testFormatStringDictionaryOfDictionary {
@@ -313,7 +307,7 @@
                                                   indent:0
                                                 keyOrder:@[ @"key1", @"key2" ]];
   NSString *expected = @"[\n\"item1\",\n2,\n\"item3\",\n"
-      "{\n\"key1\" : 1,\n\"key2\" : \"value2\"\n}\n]";
+                       @"{\n\"key1\":1,\n\"key2\":\"value2\"\n}\n]";
   XCTAssertTrue([formatted isEqualToString:expected],
                 @"Error formatting number/string/object mixed array");
 }

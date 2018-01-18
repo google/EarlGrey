@@ -20,13 +20,13 @@
 #import "Assertion/GREYAssertion.h"
 #import "Assertion/GREYAssertionBlock.h"
 #import "Assertion/GREYAssertionDefines.h"
+#import "Common/GREYError.h"
+#import "Common/GREYFatalAsserts.h"
+#import "Common/GREYLogger.h"
 #import "Core/GREYInteraction.h"
 #import "Matcher/GREYMatcher.h"
 #import "Matcher/GREYMatchers.h"
 #import "Matcher/GREYStringDescription.h"
-#import "Common/GREYError.h"
-#import "Common/GREYFatalAsserts.h"
-#import "Common/GREYLogger.h"
 
 @implementation GREYAssertions
 

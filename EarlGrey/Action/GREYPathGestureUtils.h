@@ -14,8 +14,9 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/GREYConstants.h>
 #import <UIKit/UIKit.h>
+
+#import <EarlGrey/GREYConstants.h>
 
 /**
  *  A utility class for creating and injecting gestures that involve touch paths, for example:

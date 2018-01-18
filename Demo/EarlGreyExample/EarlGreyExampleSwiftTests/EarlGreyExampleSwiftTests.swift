@@ -24,33 +24,33 @@ class EarlGreyExampleSwiftTests: XCTestCase {
   func testBasicSelection() {
     // Select the button with Accessibility ID "clickMe".
     // This should throw a warning for "Result of Call Unused."
-    EarlGrey.select(elementWithMatcher: grey_accessibilityID("ClickMe"))
+    EarlGrey.selectElement(with: grey_accessibilityID("ClickMe"))
   }
 
   func testBasicSelectionAndAction() {
     // Select and tap the button with Accessibility ID "clickMe".
-    EarlGrey.select(elementWithMatcher: grey_accessibilityID("ClickMe"))
+    EarlGrey.selectElement(with: grey_accessibilityID("ClickMe"))
       .perform(grey_tap())
   }
 
   func testBasicSelectionAndAssert() {
     // Select the button with Accessibility ID "clickMe" and assert it's visible.
-    EarlGrey.select(elementWithMatcher: grey_accessibilityID("ClickMe"))
-      .assert(with: grey_sufficientlyVisible())
+    EarlGrey.selectElement(with: grey_accessibilityID("ClickMe"))
+      .assert(grey_sufficientlyVisible())
   }
 
   func testBasicSelectionActionAssert() {
     // Select and tap the button with Accessibility ID "clickMe", then assert it's visible.
-    EarlGrey.select(elementWithMatcher: grey_accessibilityID("ClickMe"))
+    EarlGrey.selectElement(with: grey_accessibilityID("ClickMe"))
       .perform(grey_tap())
-      .assert(with: grey_sufficientlyVisible())
+      .assert(grey_sufficientlyVisible())
   }
 
   func testSelectionOnMultipleElements() {
     // This test will fail because both buttons are visible and match the selection.
     // We add a custom error here to prevent the Test Suite failing.
     var error: NSError?
-    EarlGrey.select(elementWithMatcher: grey_text("Non-Existent Element Text"))
+    EarlGrey.selectElement(with: grey_text("Non-Existent Element Text"))
       .perform(grey_tap(), error: &error)
 
     if let _ = error {
@@ -62,14 +62,14 @@ class EarlGreyExampleSwiftTests: XCTestCase {
     // First way to disambiguate: use collection matchers.
     let visibleSendButtonMatcher: GREYMatcher! =
         grey_allOf([grey_accessibilityID("ClickMe"), grey_sufficientlyVisible()])
-    EarlGrey.select(elementWithMatcher: visibleSendButtonMatcher)
+    EarlGrey.selectElement(with: visibleSendButtonMatcher)
       .perform(grey_doubleTap())
   }
 
   func testWithInRoot() {
     // Second way to disambiguate: use inRoot to focus on a specific window or container.
     // There are two buttons with accessibility id "Send", but only one is inside SendMessageView.
-    EarlGrey.select(elementWithMatcher: grey_accessibilityID("Send"))
+    EarlGrey.selectElement(with: grey_accessibilityID("Send"))
       .inRoot(grey_kindOfClass(SendMessageView.self))
       .perform(grey_doubleTap())
   }
@@ -102,18 +102,18 @@ class EarlGreyExampleSwiftTests: XCTestCase {
     let matcherForThursday: GREYElementMatcherBlock! =
       GREYElementMatcherBlock.init(matchesBlock: matches, descriptionBlock: describe)
     // Profit
-    EarlGrey.select(elementWithMatcher: matcherForThursday)
+    EarlGrey.selectElement(with: matcherForThursday)
       .perform(grey_doubleTap())
   }
 
   func testTableCellOutOfScreen() {
     // Go find one cell out of the screen.
-    EarlGrey.select(elementWithMatcher: grey_accessibilityID("Cell30"))
+    EarlGrey.selectElement(with: grey_accessibilityID("Cell30"))
       .usingSearch(grey_scrollInDirection(GREYDirection.down, 100),
           onElementWith: grey_accessibilityID("table"))
       .perform(grey_tap())
     // Move back to top of the table.
-    EarlGrey.select(elementWithMatcher: grey_accessibilityID("Cell1"))
+    EarlGrey.selectElement(with: grey_accessibilityID("Cell1"))
       .usingSearch(grey_scrollInDirection(GREYDirection.up, 500),
           onElementWith: grey_accessibilityID("table"))
       .perform(grey_doubleTap())
@@ -123,7 +123,7 @@ class EarlGreyExampleSwiftTests: XCTestCase {
     // TapMe doesn't exist, but the test doesn't fail because we are getting a pointer to the
     // error.
     var error: NSError?
-    EarlGrey.select(elementWithMatcher: grey_accessibilityID("TapMe"))
+    EarlGrey.selectElement(with: grey_accessibilityID("TapMe"))
       .perform(grey_tap(), error: &error)
     if let myError = error {
       print(myError)
@@ -162,7 +162,7 @@ class EarlGreyExampleSwiftTests: XCTestCase {
         fadeInAndOut(window)
         return true
       });
-    EarlGrey.select(elementWithMatcher: grey_accessibilityID("ClickMe"))
+    EarlGrey.selectElement(with: grey_accessibilityID("ClickMe"))
       .perform(tapClickMe)
   }
 
@@ -186,7 +186,7 @@ class EarlGreyExampleSwiftTests: XCTestCase {
         return view.alpha == expectedAlpha
       })
     }
-    EarlGrey.select(elementWithMatcher: grey_accessibilityID("ClickMe"))
+    EarlGrey.selectElement(with: grey_accessibilityID("ClickMe"))
       .assert(alphaEqual(1.0))
   }
 
@@ -195,7 +195,7 @@ class EarlGreyExampleSwiftTests: XCTestCase {
     // The custom handler is defined at the end of this file.
     let myHandler = SampleFailureHandler()
     EarlGrey.setFailureHandler(handler: myHandler)
-    EarlGrey.select(elementWithMatcher: grey_accessibilityID("TapMe"))
+    EarlGrey.selectElement(with: grey_accessibilityID("TapMe"))
       .perform(grey_tap())
   }
 
@@ -207,8 +207,8 @@ class EarlGreyExampleSwiftTests: XCTestCase {
                            toReferenceAttribute: GREYLayoutAttribute.right,
                            multiplier: 1.0,
                            constant: 0.0)
-    EarlGrey.select(elementWithMatcher: grey_accessibilityLabel("SendForLayoutTest"))
-      .assert(with: grey_layout([onTheRight], grey_accessibilityID("ClickMe")))
+    EarlGrey.selectElement(with: grey_accessibilityLabel("SendForLayoutTest"))
+      .assert(grey_layout([onTheRight], grey_accessibilityID("ClickMe")))
   }
 
   func testWithCondition() {
@@ -224,7 +224,7 @@ class EarlGreyExampleSwiftTests: XCTestCase {
       // Just printing for the example.
       print("Condition not met")
     } else {
-      EarlGrey.select(elementWithMatcher: grey_accessibilityID("ClickMe"))
+      EarlGrey.selectElement(with: grey_accessibilityID("ClickMe"))
         .perform(grey_tap())
     }
   }

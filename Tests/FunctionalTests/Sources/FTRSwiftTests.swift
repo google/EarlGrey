@@ -18,42 +18,39 @@ import EarlGrey
 import XCTest
 
 class TextFieldEventsRecorder {
-  private var textDidBeginEditing = false
-  private var textDidChange = false
-  private var textDidEndEditing = false
-  private var editingDidBegin = false
-  private var editingChanged = false
-  private var editingDidEndOnExit = false
-  private var editingDidEnd = false
+  var textDidBeginEditing = false
+  var textDidChange = false
+  var textDidEndEditing = false
+  var editingDidBegin = false
+  var editingChanged = false
+  var editingDidEndOnExit = false
+  var editingDidEnd = false
 
-  func registerActionBlock() -> GREYAction {
+  func registerActionBlock() -> GREYActionBlock {
     NotificationCenter.default.addObserver(self,
                                            selector: #selector(textDidBeginEditingHandler),
-                                           name: .UITextFieldTextDidBeginEditing,
+                                           name: NSNotification.Name.UITextFieldTextDidBeginEditing,
                                            object: nil)
     NotificationCenter.default.addObserver(self,
                                            selector: #selector(textDidChangeHandler),
-                                           name: .UITextFieldTextDidChange,
+                                           name: NSNotification.Name.UITextFieldTextDidChange,
                                            object: nil)
     NotificationCenter.default.addObserver(self,
                                            selector: #selector(textDidEndEditingHandler),
-                                           name: .UITextFieldTextDidEndEditing,
+                                           name: NSNotification.Name.UITextFieldTextDidEndEditing,
                                            object: nil)
     return GREYActionBlock.action(withName: "Register to editing events") {
-      (element, errorOrNil) in
-      let element = element as! UIControl
+      (element: Any?, errorOrNil: UnsafeMutablePointer<NSError?>?) -> Bool in
+      let element:UIControl = element as! UIControl
       element.addTarget(self,
-                        action: #selector(self.editingDidBeginHandler),
-                        for: .editingDidBegin)
+                        action: #selector(self.editingDidBeginHandler), for: .editingDidBegin)
       element.addTarget(self,
-                        action: #selector(self.editingChangedHandler),
-                        for: .editingChanged)
+                        action: #selector(self.editingChangedHandler), for: .editingChanged)
       element.addTarget(self,
                         action: #selector(self.editingDidEndOnExitHandler),
                         for: .editingDidEndOnExit)
       element.addTarget(self,
-                        action: #selector(self.editingDidEndHandler),
-                        for: .editingDidEnd)
+                        action: #selector(self.editingDidEndHandler), for: .editingDidEnd)
       return true
     }
   }
@@ -74,58 +71,60 @@ class TextFieldEventsRecorder {
 
 class FTRSwiftTests: XCTestCase {
 
-  var navigationController: UINavigationController? {
-    let rootVC = UIApplication.shared.delegate?.window??.rootViewController
-    return (rootVC as? UINavigationController) ?? (rootVC?.navigationController)
-  }
-
   override func tearDown() {
     super.tearDown()
-    _ = navigationController?.popToRootViewController(animated: true)
+    let delegateWindow:UIWindow! = UIApplication.shared.delegate!.window!
+    var navController:UINavigationController?
+    if ((delegateWindow.rootViewController?.isKind(of: UINavigationController.self)) != nil) {
+      navController = delegateWindow.rootViewController as? UINavigationController
+    } else {
+      navController = delegateWindow.rootViewController!.navigationController
+    }
+    _ = navController?.popToRootViewController(animated: true)
   }
 
   func testOpeningView() {
-    openTestView("Typing Views")
+    self.openTestView("Typing Views")
   }
 
   func testRotation() {
-    EarlGrey.rotateDeviceTo(orientation: .landscapeLeft, errorOrNil: nil)
-    EarlGrey.rotateDeviceTo(orientation: .portrait, errorOrNil: nil)
+    EarlGrey.rotateDeviceTo(orientation: UIDeviceOrientation.landscapeLeft, errorOrNil: nil)
+    EarlGrey.rotateDeviceTo(orientation: UIDeviceOrientation.portrait, errorOrNil: nil)
   }
 
   func testTyping() {
-    openTestView("Typing Views")
+    self.openTestView("Typing Views")
     let matcher = grey_accessibilityID("TypingTextField")
     let action = grey_typeText("Sample Swift Test")
     let assertionMatcher = grey_text("Sample Swift Test")
-    EarlGrey.select(elementWithMatcher: matcher)
+    EarlGrey.selectElement(with: matcher)
       .perform(action)
       .assert(assertionMatcher)
   }
 
   func testTypingWithError() {
-    openTestView("Typing Views")
-    EarlGrey.select(elementWithMatcher: grey_accessibilityID("TypingTextField"))
+    self.openTestView("Typing Views")
+    EarlGrey.selectElement(with: grey_accessibilityID("TypingTextField"))
       .perform(grey_typeText("Sample Swift Test"))
       .assert(grey_text("Sample Swift Test"))
 
     var error: NSError?
-    EarlGrey.select(elementWithMatcher: grey_accessibilityID("TypingTextField"))
+    EarlGrey.selectElement(with: grey_accessibilityID("TypingTextField"))
       .perform(grey_typeText(""), error: &error)
       .assert(grey_text("Sample Swift Test"), error: nil)
-    GREYAssertNotNil(error, reason: "Performance should have errored")
+    GREYAssert(error != nil, reason: "Performance should have errored")
     error = nil
-    EarlGrey.select(elementWithMatcher: grey_accessibilityID("TypingTextField"))
+    EarlGrey.selectElement(with: grey_accessibilityID("TypingTextField"))
       .perform(grey_clearText())
       .perform(grey_typeText("Sample Swift Test"), error: nil)
       .assert(grey_text("Garbage Value"), error: &error)
-    GREYAssertNotNil(error, reason: "Performance should have errored")
+    GREYAssert(error != nil, reason: "Performance should have errored")
   }
 
   func testFastTyping() {
-    openTestView("Typing Views")
+    self.openTestView("Typing Views")
     let textFieldEventsRecorder = TextFieldEventsRecorder()
-    EarlGrey.select(elementWithMatcher: grey_accessibilityID("TypingTextField"))
+    EarlGrey.selectElement(with: grey_accessibilityID("TypingTextField"))
       .perform(textFieldEventsRecorder.registerActionBlock())
       .perform(grey_replaceText("Sample Swift Test"))
       .assert(grey_text("Sample Swift Test"))
@@ -133,27 +132,27 @@ class FTRSwiftTests: XCTestCase {
   }
 
   func testTypingWithDeletion() {
-    openTestView("Typing Views")
-    EarlGrey.select(elementWithMatcher: grey_accessibilityID("TypingTextField"))
+    self.openTestView("Typing Views")
+    EarlGrey.selectElement(with: grey_accessibilityID("TypingTextField"))
       .perform(grey_typeText("Fooo\u{8}B\u{8}Bar"))
       .assert(grey_text("FooBar"))
   }
 
   func testButtonPressWithGREYAllOf() {
-    openTestView("Basic Views")
-    EarlGrey.select(elementWithMatcher: grey_text("Tab 2")).perform(grey_tap())
+    self.openTestView("Basic Views")
+    EarlGrey.selectElement(with: grey_text("Tab 2")).perform(grey_tap())
     let matcher = grey_allOf([grey_text("Long Press"), grey_sufficientlyVisible()])
-    EarlGrey.select(elementWithMatcher: matcher).perform(grey_longPressWithDuration(1.1))
+    EarlGrey.selectElement(with: matcher).perform(grey_longPressWithDuration(1.1))
       .assert(grey_notVisible())
   }
 
   func testPossibleOpeningViews() {
-    openTestView("Alert Views")
+    self.openTestView("Alert Views")
     let matcher = grey_anyOf([grey_text("FooText"),
                               grey_text("Simple Alert"),
                               grey_buttonTitle("BarTitle")])
-    EarlGrey.select(elementWithMatcher: matcher).perform(grey_tap())
-    EarlGrey.select(elementWithMatcher: grey_text("Flee"))
+    EarlGrey.selectElement(with: matcher).perform(grey_tap())
+    EarlGrey.selectElement(with: grey_text("Flee"))
       .assert(grey_sufficientlyVisible())
       .perform(grey_tap())
   }
@@ -161,70 +160,70 @@ class FTRSwiftTests: XCTestCase {
   func testSwiftCustomMatcher() {
     // Verify description in custom matcher isn't nil.
     // unexpectedly found nil while unwrapping an Optional value
-    EarlGrey.select(elementWithMatcher: grey_allOf([grey_firstElement(), grey_text("FooText")]))
+    EarlGrey.selectElement(with: grey_allOf([grey_firstElement(),
+                                                    grey_text("FooText")]))
       .assert(grey_nil())
   }
 
   func testInteractionWithALabelWithParentHidden() {
-    let checkHiddenBlock =
+    let checkHiddenBlock:GREYActionBlock =
       GREYActionBlock.action(withName: "checkHiddenBlock", perform: { element, errorOrNil in
         // Check if the found element is hidden or not.
-        let superView = element as! UIView
+        let superView:UIView! = element as! UIView
         return !superView.isHidden
       })
 
-    openTestView("Basic Views")
-    EarlGrey.select(elementWithMatcher: grey_text("Tab 2")).perform(grey_tap())
-    EarlGrey.select(elementWithMatcher: grey_accessibilityLabel("tab2Container"))
+    self.openTestView("Basic Views")
+    EarlGrey.selectElement(with: grey_text("Tab 2")).perform(grey_tap())
+    EarlGrey.selectElement(with: grey_accessibilityLabel("tab2Container"))
       .perform(checkHiddenBlock).assert(grey_sufficientlyVisible())
     var error: NSError?
-    EarlGrey.select(elementWithMatcher: grey_text("Non Existent Element"))
-      .perform(grey_tap(), error: &error)
+    EarlGrey.selectElement(with: grey_text("Non Existent Element"))
+      .perform(grey_tap(), error:&error)
     if let errorVal = error {
-      GREYAssertEqualObjects(errorVal.domain,
-                             kGREYInteractionErrorDomain,
-                             reason: "Element Not Found Error")
+      GREYAssertEqual(errorVal.domain as AnyObject?, kGREYInteractionErrorDomain as AnyObject?,
+                      reason: "Element Not Found Error")
     }
   }
 
   func testChangingDatePickerToAFutureDate() {
-    openTestView("Picker Views")
+    self.openTestView("Picker Views")
     // Have an arbitrary date created
     let dateFormatter = DateFormatter()
     dateFormatter.dateStyle = .medium
     let date = Date(timeIntervalSinceReferenceDate: 118800)
     dateFormatter.locale = Locale(identifier: "en_US")
-    EarlGrey.select(elementWithMatcher: grey_text("Date")).perform(grey_tap())
-    EarlGrey.select(elementWithMatcher: grey_accessibilityID("DatePickerId"))
+    EarlGrey.selectElement(with: grey_text("Date")).perform(grey_tap())
+    EarlGrey.selectElement(with: grey_accessibilityID("DatePickerId"))
       .perform(grey_setDate(date))
-    EarlGrey.select(elementWithMatcher: grey_accessibilityID("DatePickerId"))
+    EarlGrey.selectElement(with: grey_accessibilityID("DatePickerId"))
       .assert(grey_datePickerValue(date))
   }
 
   func testStepperActionWithCondition() {
-    openTestView("Basic Views")
+    self.openTestView("Basic Views")
     var stepperValue = 51.0
     // Without the parameter using the value of the wait action, a warning should be seen.
-    _ = GREYCondition(name: "conditionWithAction") {
+    _ = GREYCondition.init(name: "conditionWithAction", block: {
       stepperValue += 1
-      EarlGrey.select(elementWithMatcher: grey_kindOfClass(UIStepper.self))
+      EarlGrey.selectElement(with: grey_kindOfClass(UIStepper.self))
         .perform(grey_setStepperValue(stepperValue))
       return stepperValue == 55
-    }.waitWithTimeout(seconds: 10.0)
-    EarlGrey.select(elementWithMatcher: grey_kindOfClass(UIStepper.self))
-      .assert(with: grey_stepperValue(55))
+    }).waitWithTimeout(seconds: 10.0)
+    EarlGrey.selectElement(with: grey_kindOfClass(UIStepper.self))
+      .assert(grey_stepperValue(55))
   }
 
   func openTestView(_ name: String) {
-    var errorOrNil: NSError?
-    EarlGrey.select(elementWithMatcher: grey_accessibilityLabel(name))
+    var errorOrNil : NSError?
+    EarlGrey.selectElement(with: grey_accessibilityLabel(name))
       .perform(grey_tap(), error: &errorOrNil)
-    if errorOrNil == nil {
+    if ((errorOrNil == nil)) {
       return
     }
-    EarlGrey.select(elementWithMatcher: grey_kindOfClass(UITableView.self))
+    EarlGrey.selectElement(with: grey_kindOfClass(UITableView.self))
       .perform(grey_scrollToContentEdge(GREYContentEdge.top))
-    EarlGrey.select(elementWithMatcher: grey_allOf([grey_accessibilityLabel(name),
+    EarlGrey.selectElement(with: grey_allOf([grey_accessibilityLabel(name),
                                                     grey_interactable()]))
       .using(searchAction: grey_scrollInDirection(GREYDirection.down, 200),
              onElementWithMatcher: grey_kindOfClass(UITableView.self))
@@ -233,14 +232,19 @@ class FTRSwiftTests: XCTestCase {
 
   func grey_firstElement() -> GREYMatcher {
     var firstMatch = true
-    return GREYElementMatcherBlock(matchesBlock: { element in
+    let matches: MatchesBlock = { (element: Any) -> Bool in
       if firstMatch {
         firstMatch = false
         return true
       }
+
       return false
-    }, descriptionBlock: { description in
-      _ = description?.appendText("first match")
-    })
+    }
+
+    let describe: DescribeToBlock = { (description: GREYDescription?) -> Void in
+      description!.appendText("first match")
+    }
+
+    return GREYElementMatcherBlock.init(matchesBlock: matches, descriptionBlock: describe)
   }
 }

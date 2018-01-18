@@ -14,8 +14,7 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/GREYTraversalBFS.h>
-
+#import "Traversal/GREYTraversalBFS.h"
 #import "GREYBaseTest.h"
 #import "GREYExposedForTesting.h"
 

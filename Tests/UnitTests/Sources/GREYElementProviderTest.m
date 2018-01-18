@@ -14,14 +14,14 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/GREYDefines.h>
-#import <EarlGrey/GREYElementProvider.h>
-#import <EarlGrey/GREYUIWindowProvider.h>
 #import <OCMock/OCMock.h>
 
+#import <EarlGrey/GREYDefines.h>
+#import "Provider/GREYElementProvider.h"
+#import "Provider/GREYUIWindowProvider.h"
 #import "GREYBaseTest.h"
-#import "GREYUTCustomAccessibilityView.h"
 #import "GREYUTAccessibilityViewContainerView.h"
+#import "GREYUTCustomAccessibilityView.h"
 
 @interface GREYElementProviderTest : GREYBaseTest<UITableViewDataSource, UITableViewDelegate>
 @end

@@ -14,14 +14,14 @@
 // limitations under the License.
 //
 
+#include <objc/runtime.h>
+
+#import "Additions/UIView+GREYAdditions.h"
 #import <EarlGrey/GREYFrameworkException.h>
 #import <EarlGrey/GREYOperationQueueIdlingResource.h>
-#import <EarlGrey/GREYTimedIdlingResource.h>
-#import <EarlGrey/GREYUIThreadExecutor.h>
-#import <EarlGrey/GREYUIThreadExecutor+Internal.h>
-#import <EarlGrey/UIView+GREYAdditions.h>
-#import <objc/runtime.h>
-
+#import "Synchronization/GREYTimedIdlingResource.h"
+#import "Synchronization/GREYUIThreadExecutor+Internal.h"
+#import "Synchronization/GREYUIThreadExecutor+Internal.h"
 #import "GREYBaseTest.h"
 #import "GREYExposedForTesting.h"
 

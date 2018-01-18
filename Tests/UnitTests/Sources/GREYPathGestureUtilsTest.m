@@ -14,11 +14,11 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/CGGeometry+GREYAdditions.h>
-#import <EarlGrey/GREYPathGestureUtils.h>
-#import <EarlGrey/GREYVisibilityChecker.h>
 #import <OCMock/OCMock.h>
 
+#import "Action/GREYPathGestureUtils.h"
+#import "Additions/CGGeometry+GREYAdditions.h"
+#import "Common/GREYVisibilityChecker.h"
 #import "GREYBaseTest.h"
 #import "GREYExposedForTesting.h"
 

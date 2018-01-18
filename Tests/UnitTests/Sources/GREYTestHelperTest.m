@@ -14,9 +14,8 @@
 // limitations under the License.
 //
 
+#import "Provider/GREYUIWindowProvider.h"
 #import "GREYBaseTest.h"
-
-#import <EarlGrey/GREYUIWindowProvider.h>
 
 @interface GREYTestHelperTest : GREYBaseTest
 

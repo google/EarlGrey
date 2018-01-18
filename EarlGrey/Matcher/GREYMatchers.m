@@ -342,8 +342,8 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
     return NO;
   };
   DescribeToBlock describe = ^void(id<GREYDescription> description) {
-    [description appendText:[NSString stringWithFormat:@"ancestorThatMatches(%@)",
-                                ancestorMatcher]];
+    NSString *desc = [NSString stringWithFormat:@"ancestorThatMatches(%@)", ancestorMatcher];
+    [description appendText:desc];
   };
   return grey_allOf(grey_anyOf(grey_kindOfClass([UIView class]),
                                grey_respondsToSelector(@selector(accessibilityContainer)),
@@ -358,7 +358,6 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
     if (element == nil) {
       return NO;
     }
-
     GREYElementProvider *elementProvider =
         [[GREYElementProvider alloc] initWithRootElements:@[ element ]];
     NSEnumerator *elementEnumerator = [elementProvider dataEnumerator];
@@ -440,14 +439,28 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
       return NO;
     }
     NSInteger row = [element selectedRowInComponent:column];
-    NSString *rowLabel = [element.delegate pickerView:element
-                                          titleForRow:row
-                                         forComponent:column];
-    if ([rowLabel isEqualToString:value]) {
-      return YES;
-    } else {
-      return NO;
+    NSAttributedString *attributedRowLabel;
+    NSString *rowLabel;
+    id<UIPickerViewDelegate> delegate = element.delegate;
+    SEL attributedTitleSelector = @selector(pickerView:attributedTitleForRow:forComponent:);
+    SEL nonAttributedTitleSelector = @selector(pickerView:titleForRow:forComponent:);
+    if ([delegate respondsToSelector:attributedTitleSelector]) {
+      attributedRowLabel = [delegate pickerView:element
+                          attributedTitleForRow:row
+                                   forComponent:column];
+      if (attributedRowLabel == nil) {
+          rowLabel = [delegate pickerView:element
+                              titleForRow:row
+                             forComponent:column];
+      }
+    } else if ([delegate respondsToSelector:nonAttributedTitleSelector]) {
+      rowLabel = [delegate pickerView:element
+                          titleForRow:row
+                         forComponent:column];
     }
+    return rowLabel == value ||
+           [rowLabel isEqualToString:value] ||
+           [attributedRowLabel.string isEqualToString:value];
   };
   DescribeToBlock describe = ^void(id<GREYDescription> description) {
     [description appendText:[NSString stringWithFormat:@"pickerColumnAtIndex(%ld) value('%@')",
@@ -527,6 +540,9 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
   GREYThrowOnNilParameterWithMessage(referenceElementMatcher, @"Nil reference matcher provided.");
 
   MatchesBlock matches = ^BOOL(id element) {
+    if (!element) {
+      return NO;
+    }
     // TODO: This causes searching the UI hierarchy multiple times for each element, refactor the
     // design to avoid this.
     GREYElementInteraction *interaction =
@@ -578,10 +594,7 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
     [description appendText:name];
   };
   // Nil elements do not have layout for matching layout constraints.
-  return grey_allOf(grey_notNil(),
-                    [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches
-                                                         descriptionBlock:describe],
-                    nil);
+  return [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe];
 }
 
 + (id<GREYMatcher>)matcherForNil {

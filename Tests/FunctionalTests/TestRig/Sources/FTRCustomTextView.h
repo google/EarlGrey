@@ -17,6 +17,8 @@
 // Contains classes that are used for testing typing actions with views that conforms to UITextInput
 // protocol other than UITextField and UITextView.
 
+#import <UIKit/UIKit.h>
+
 /**
  *  TextPosition to be used by CustomTextView.
  */

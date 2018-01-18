@@ -16,7 +16,6 @@
 
 #import <EarlGrey/GREYSyncAPI.h>
 #import <EarlGrey/GREYUIThreadExecutor.h>
-
 #import "GREYBaseTest.h"
 
 @interface GREYSyncAPITest : GREYBaseTest

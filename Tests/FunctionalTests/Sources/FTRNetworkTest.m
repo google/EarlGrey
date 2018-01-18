@@ -15,8 +15,8 @@
 //
 
 #import "FTRBaseIntegrationTest.h"
-
 #import "FTRNetworkProxy.h"
+#import <EarlGrey/EarlGrey.h>
 
 @interface FTRNetworkTest : FTRBaseIntegrationTest
 @end

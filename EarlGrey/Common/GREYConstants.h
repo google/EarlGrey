@@ -14,8 +14,9 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/GREYDefines.h>
 #import <UIKit/UIKit.h>
+
+#import <EarlGrey/GREYDefines.h>
 
 /**
  *  Any alpha less than this value is considered hidden by Apple.

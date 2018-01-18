@@ -35,6 +35,9 @@ static NSString *const kGREYAnalyticsTrackingID = @"UA-54227235-2";
  */
 static NSString *const kTrackingEndPoint = @"https://ssl.google-analytics.com/collect";
 
+@interface GREYAnalytics() <GREYAnalyticsDelegate>
+@end
+
 @implementation GREYAnalytics {
   // Overriden GREYAnalytics delegate for custom handling of analytics.
   __weak id<GREYAnalyticsDelegate> _delegate;

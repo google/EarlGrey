@@ -20,8 +20,8 @@
 #import "Assertion/GREYAssertionDefines.h"
 #import "Common/GREYDefines.h"
 #import "Common/GREYThrowDefines.h"
-#import "Synchronization/GREYUIThreadExecutor.h"
 #import "Synchronization/GREYUIThreadExecutor+Internal.h"
+#import "Synchronization/GREYUIThreadExecutor.h"
 
 /**
  *  The maximum number of render passes to wait for before the UIWebView can be considered idle.

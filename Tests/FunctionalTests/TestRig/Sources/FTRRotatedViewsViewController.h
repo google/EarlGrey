@@ -14,6 +14,8 @@
 // limitations under the License.
 //
 
+#import <UIKit/UIKit.h>
+
 // UIViewController used for testing whether EarlGrey's basic checks and interactions behave
 // correctly after the device is rotated to different orientation.
 @interface FTRRotatedViewsViewController : UIViewController

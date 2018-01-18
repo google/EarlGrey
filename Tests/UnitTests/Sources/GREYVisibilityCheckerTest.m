@@ -16,10 +16,9 @@
 
 #import <OCMock/OCMock.h>
 
-#import <EarlGrey/CGGeometry+GREYAdditions.h>
-#import <EarlGrey/GREYVisibilityChecker.h>
-#import <EarlGrey/NSObject+GREYAdditions.h>
-
+#import "Additions/CGGeometry+GREYAdditions.h"
+#import "Additions/NSObject+GREYAdditions.h"
+#import "Common/GREYVisibilityChecker.h"
 #import "GREYBaseTest.h"
 #import "GREYExposedForTesting.h"
 

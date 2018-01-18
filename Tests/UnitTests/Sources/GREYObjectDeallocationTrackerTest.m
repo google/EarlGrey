@@ -15,7 +15,7 @@
 //
 
 #import <XCTest/XCTest.h>
-#import <EarlGrey/GREYObjectDeallocationTracker.h>
+#import "Synchronization/GREYObjectDeallocationTracker.h"
 
 @interface GREYObjectDeallocationTrackerTest : XCTestCase
 

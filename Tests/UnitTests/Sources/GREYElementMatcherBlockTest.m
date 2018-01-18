@@ -15,7 +15,6 @@
 //
 
 #import <EarlGrey/GREYElementMatcherBlock.h>
-
 #import "GREYBaseTest.h"
 
 @interface GREYElementMatcherBlockTest : GREYBaseTest

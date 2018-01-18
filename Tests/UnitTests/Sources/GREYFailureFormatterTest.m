@@ -15,10 +15,10 @@
 //
 
 #import <XCTest/XCTest.h>
-#import <EarlGrey/GREYError.h>
-#import <EarlGrey/GREYFailureFormatter.h>
-#import <EarlGrey/XCTestCase+GREYAdditions.h>
 
+#import "Additions/XCTestCase+GREYAdditions.h"
+#import "Common/GREYError.h"
+#import "Common/GREYFailureFormatter.h"
 #import "GREYBaseTest.h"
 
 @interface GREYFailureFormatterTest : GREYBaseTest

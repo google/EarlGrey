@@ -16,13 +16,13 @@
 
 #import "GREYBaseTest.h"
 
-#import <EarlGrey/GREYConfiguration.h>
-#import <EarlGrey/GREYScreenshotUtil+Internal.h>
-#import <EarlGrey/GREYSwizzler.h>
-#import <EarlGrey/UIApplication+GREYAdditions.h>
 #import <OCMock/OCMock.h>
 #import <objc/message.h>
 
+#import "Additions/UIApplication+GREYAdditions.h"
+#import <EarlGrey/GREYConfiguration.h>
+#import "Common/GREYScreenshotUtil+Internal.h"
+#import "Common/GREYSwizzler.h"
 #import "GREYExposedForTesting.h"
 
 // A list containing UIImage that are returned by each invocation of takeScreenShot of

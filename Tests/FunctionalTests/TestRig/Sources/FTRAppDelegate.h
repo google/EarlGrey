@@ -14,6 +14,8 @@
 // limitations under the License.
 //
 
+#import <UIKit/UIKit.h>
+
 @interface FTRAppDelegate : NSObject<UIApplicationDelegate>
 
 @property(nonatomic, strong) UIWindow *window;

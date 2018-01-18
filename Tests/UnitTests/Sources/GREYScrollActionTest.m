@@ -14,9 +14,9 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/GREYScrollAction.h>
 #import <OCMock/OCMock.h>
 
+#import "Action/GREYScrollAction.h"
 #import "GREYBaseTest.h"
 
 @interface GREYScrollActionTest : GREYBaseTest

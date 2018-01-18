@@ -25,7 +25,7 @@ The submitted code should adhere to the following:
 ### Do's
 
 * Keep pull requests focused on addressing one issue or feature. If multiple separate issues
-  are fixed by a pull request, prefer commiting the fixes under multiple commits, one for each
+  are fixed by a pull request, prefer committing the fixes under multiple commits, one for each
   issue.
 * A Pull Request **must** have a [Github Issue](https://github.com/google/EarlGrey/issues) filed
   for it except in the case of trivial spelling/formatting fixes. For a Pull Request without a
@@ -54,7 +54,7 @@ The submitted code should adhere to the following:
 * Refer to the [Google Objective-C style guide][objc_style] and
   [the Realm SwiftLint Style][swift_style] for our code conventions.
 
-[objc_style]: https://google.github.io/styleguide/objcguide.xml
+[objc_style]: https://github.com/google/styleguide/blob/gh-pages/objcguide.md
 [swift_style]: https://github.com/realm/SwiftLint
 
 ### Don'ts
