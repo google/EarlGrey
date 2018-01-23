@@ -115,6 +115,8 @@
 		C5EFB20120117AF00010D067 /* EarlGreyImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = C5EFB1FF20117AF00010D067 /* EarlGreyImpl.m */; };
 		D210ED8D1E6F47D100978B9E /* GREYMultiFingerSwipeAction.h in Headers */ = {isa = PBXBuildFile; fileRef = D210ED8B1E6F47D100978B9E /* GREYMultiFingerSwipeAction.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		D210ED8E1E6F47D100978B9E /* GREYMultiFingerSwipeAction.m in Sources */ = {isa = PBXBuildFile; fileRef = D210ED8C1E6F47D100978B9E /* GREYMultiFingerSwipeAction.m */; };
+		F892EDF820164F12008DB046 /* GREYPreciseSwipeAction.h in Headers */ = {isa = PBXBuildFile; fileRef = F892EDF620164F11008DB046 /* GREYPreciseSwipeAction.h */; };
+		F892EDF920164F12008DB046 /* GREYPreciseSwipeAction.m in Sources */ = {isa = PBXBuildFile; fileRef = F892EDF720164F12008DB046 /* GREYPreciseSwipeAction.m */; };
 		FD1001B01C5B46C200B2DB0A /* GREYAction.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001011C5B46C100B2DB0A /* GREYAction.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FD1001B11C5B46C200B2DB0A /* GREYActionBlock.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001021C5B46C100B2DB0A /* GREYActionBlock.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FD1001B21C5B46C200B2DB0A /* GREYActionBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1001031C5B46C100B2DB0A /* GREYActionBlock.m */; };
@@ -302,6 +304,8 @@
 		C5EFB1FF20117AF00010D067 /* EarlGreyImpl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EarlGreyImpl.m; sourceTree = "<group>"; };
 		D210ED8B1E6F47D100978B9E /* GREYMultiFingerSwipeAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYMultiFingerSwipeAction.h; sourceTree = "<group>"; };
 		D210ED8C1E6F47D100978B9E /* GREYMultiFingerSwipeAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYMultiFingerSwipeAction.m; sourceTree = "<group>"; };
+		F892EDF620164F11008DB046 /* GREYPreciseSwipeAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYPreciseSwipeAction.h; sourceTree = "<group>"; };
+		F892EDF720164F12008DB046 /* GREYPreciseSwipeAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYPreciseSwipeAction.m; sourceTree = "<group>"; };
 		FD06C66B1BECAD8B009032A5 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		FD06C66C1BECAD8B009032A5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		FD06C66F1BECAD9B009032A5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -595,6 +599,8 @@
 				FD1001151C5B46C100B2DB0A /* GREYSlideAction.m */,
 				FD1001161C5B46C100B2DB0A /* GREYSwipeAction.h */,
 				FD1001171C5B46C100B2DB0A /* GREYSwipeAction.m */,
+				F892EDF620164F11008DB046 /* GREYPreciseSwipeAction.h */,
+				F892EDF720164F12008DB046 /* GREYPreciseSwipeAction.m */,
 				FD1001181C5B46C100B2DB0A /* GREYTapAction.h */,
 				FD1001191C5B46C100B2DB0A /* GREYTapAction.m */,
 				FD10011A1C5B46C100B2DB0A /* GREYTapper.h */,
@@ -985,6 +991,7 @@
 				FDCB29941E2467F60001557E /* GREYActions+Internal.h in Headers */,
 				597E02E81D55AD6D0052A8D1 /* NSURL+GREYAdditions.h in Headers */,
 				597E02ED1D55AD6D0052A8D1 /* UITouch+GREYAdditions.h in Headers */,
+				F892EDF820164F12008DB046 /* GREYPreciseSwipeAction.h in Headers */,
 				597E02EA1D55AD6D0052A8D1 /* UIAnimation+GREYAdditions.h in Headers */,
 				3F5122141EE1D37E0000CC56 /* GREYTraversal.h in Headers */,
 				597E02EC1D55AD6D0052A8D1 /* UIScrollView+GREYAdditions.h in Headers */,
@@ -1150,6 +1157,7 @@
 				7CCBEBA71DCD2F0500CC01B8 /* GREYError.m in Sources */,
 				FD1002061C5B46C200B2DB0A /* GREYConstants.m in Sources */,
 				FD10021B1C5B46C200B2DB0A /* GREYCAAnimationDelegate.m in Sources */,
+				F892EDF920164F12008DB046 /* GREYPreciseSwipeAction.m in Sources */,
 				FD1001B41C5B46C200B2DB0A /* GREYActions.m in Sources */,
 				FD6D0B991C6D49400001EA75 /* GREYBaseAction.m in Sources */,
 				FD10025C1C5B489A00B2DB0A /* fishhook.c in Sources */,
