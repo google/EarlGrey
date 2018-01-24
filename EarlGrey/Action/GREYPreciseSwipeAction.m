@@ -74,6 +74,13 @@
   if (![self satisfiesConstraintsForElement:element error:errorOrNil]) {
     return NO;
   }
+  CGRect accessibilityFrame = [element accessibilityFrame];
+  CGPoint startPoint =
+      CGPointMake(_startPoint.x + accessibilityFrame.origin.x,
+                  _startPoint.y + accessibilityFrame.origin.y);
+  CGPoint endPoint =
+      CGPointMake(_endPoint.x + accessibilityFrame.origin.x,
+                  _endPoint.y + accessibilityFrame.origin.y);
 
   UIWindow *window = [element window];
   if (!window) {
@@ -100,8 +107,8 @@
       return NO;
     }
   }
-  NSArray *touchPath = [GREYPathGestureUtils touchPathForDragGestureWithStartPoint:_startPoint
-                                                                          endPoint:_endPoint
+  NSArray *touchPath = [GREYPathGestureUtils touchPathForDragGestureWithStartPoint:startPoint
+                                                                          endPoint:endPoint
                                                                      cancelInertia:NO];
 
   [GREYSyntheticEvents touchAlongPath:touchPath

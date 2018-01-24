@@ -36,8 +36,8 @@
 /**
  *  Performs a swipe from the given @c startPoint to the given @c endPoint.
  *
- *  @param startPoint The point where the swipe should begin.
- *  @param endPoint   The point where the swipe should end.
+ *  @param startPoint The point where the swipe should begin. Relative to the matched view's origin.
+ *  @param endPoint   The point where the swipe should end. Relative to the matched view's origin.
  *  @param duration   The time interval for which the swipe takes place.
  *
  *  @return An instance of GREYPreciseSwipeAction, initialized with the provided start point,
