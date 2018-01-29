@@ -40,27 +40,27 @@ matrix:
         - DESTINATION="OS=9.1,name=iPhone 6s" SDK=iphonesimulator9.3 TYPE="UNIT"
     - env:
         - DESTINATION="OS=9.3,name=iPhone 6s Plus" SDK=iphonesimulator9.3 TYPE="FUNCTIONAL"
-    - osx_image: xcode8.2
+    - osx_image: xcode9.2
       env:
         - DESTINATION="OS=10.2,name=iPhone 6s" SDK=iphonesimulator10.2 TYPE="CARTHAGE"
-    - osx_image: xcode8.2
+    - osx_image: xcode9.2
       env:
         - DESTINATION="OS=10.2,name=iPhone 7 Plus" SDK=iphonesimulator10.2 TYPE="EXAMPLE_PODS"
-    - osx_image: xcode8.2
+    - osx_image: xcode9.2
       env:
         - DESTINATION="OS=10.2,name=iPhone 7 Plus" SDK=iphonesimulator10.2 TYPE="EXAMPLE_PODS_SWIFT"
-    - osx_image: xcode8.2
+    - osx_image: xcode9.2
       env:
         - DESTINATION="OS=10.2,name=iPhone 7" SDK=iphonesimulator10.2 TYPE="FUNCTIONAL"
-    - osx_image: xcode8.2
+    - osx_image: xcode9.2
       env:
         - DESTINATION="OS=10.2,name=iPad Air" SDK=iphonesimulator10.2 TYPE="FUNCTIONAL_SWIFT"
-    - osx_image: xcode8.2
+    - osx_image: xcode9.2
       env:
         - DESTINATION="OS=10.2,name=iPhone 7 Plus" SDK=iphonesimulator10.2 TYPE="UNIT"
     - env:
       - TYPE="RUBY"
-    - osx_image: xcode8.3
+    - osx_image: xcode9.2
       env:
       - TYPE="PACKAGE"
 before_install:
