@@ -146,6 +146,17 @@ IOHIDEventRef IOHIDEventCreateDigitizerFingerEvent(CFAllocatorRef allocator,
  *          UITouch objects, and the relevant touch interaction state.
  */
 - (UITouchesEvent *)_touchesEvent;
+
+/**
+ *  Sends a motion began event for the specified subtype.
+ */
+- (void) _sendMotionBegan:(UIEventSubtype)subtype;
+
+/**
+ *  Sends a motion ended event for the specified subtype.
+ */
+- (void) _sendMotionEnded:(UIEventSubtype)subtype;
+
 @end
 
 @interface UIScrollView (GREYExposed)

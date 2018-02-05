@@ -112,6 +112,29 @@ static const CFTimeInterval kRotationTimeout = 10.0;
   return YES;
 }
 
++ (BOOL)shakeDeviceWithErrorOrNil:(NSError *__strong *)errorOrNil {
+  GREYFatalAssertMainThread();
+  
+  NSError *error;
+  BOOL success = [[GREYUIThreadExecutor sharedInstance] executeSyncWithTimeout:kRotationTimeout
+                                                                         block:^{
+    //This behaves exactly in the same manner that UIApplication handles the simulator "Shake Gesture" menu command.
+    [[UIApplication sharedApplication] _sendMotionBegan:UIEventSubtypeMotionShake];
+    [[UIApplication sharedApplication] _sendMotionEnded:UIEventSubtypeMotionShake];
+  } error:&error];
+  
+  if (!success) {
+    if (errorOrNil) {
+      *errorOrNil = error;
+    } else {
+      I_GREYFail(@"Failed to shake device. Error: %@",
+                 [GREYError grey_nestedDescriptionForError:error]);
+    }
+    return NO;
+  }
+  return YES;
+}
+
 + (void)touchAlongPath:(NSArray *)touchPath
       relativeToWindow:(UIWindow *)window
            forDuration:(NSTimeInterval)duration

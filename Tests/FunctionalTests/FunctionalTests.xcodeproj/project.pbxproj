@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		39175F1E2028CDC80096E2E1 /* FTRShakeTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 39175F1D2028CDC80096E2E1 /* FTRShakeTest.m */; };
 		3FBDDF9A1F3D61870055E8F9 /* FTRLayoutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FBDDF981F3D61870055E8F9 /* FTRLayoutViewController.m */; };
 		3FBDDF9B1F3D61870055E8F9 /* FTRLayoutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3FBDDF991F3D61870055E8F9 /* FTRLayoutViewController.xib */; };
 		59467DF91C9373A50089498B /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 59467D801C9373A50089498B /* LICENSE */; };
@@ -197,6 +198,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		39175F1D2028CDC80096E2E1 /* FTRShakeTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FTRShakeTest.m; sourceTree = "<group>"; };
 		3FBDDF971F3D61870055E8F9 /* FTRLayoutViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FTRLayoutViewController.h; sourceTree = "<group>"; };
 		3FBDDF981F3D61870055E8F9 /* FTRLayoutViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FTRLayoutViewController.m; sourceTree = "<group>"; };
 		3FBDDF991F3D61870055E8F9 /* FTRLayoutViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FTRLayoutViewController.xib; sourceTree = "<group>"; };
@@ -448,6 +450,7 @@
 				59467D7D1C9373A50089498B /* FTRUIWebViewTest.m */,
 				59467D7E1C9373A50089498B /* FTRVisibilityTest.m */,
 				D210ED931E72214A00978B9E /* FTRMultiFingerSwipeTest.m */,
+				39175F1D2028CDC80096E2E1 /* FTRShakeTest.m */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -868,6 +871,7 @@
 				59467E421C9373B90089498B /* FTRCollectionViewTest.m in Sources */,
 				59467E431C9373B90089498B /* FTRErrorAPITest.m in Sources */,
 				59467E451C9373B90089498B /* FTRFailureHandler.m in Sources */,
+				39175F1E2028CDC80096E2E1 /* FTRShakeTest.m in Sources */,
 				59467E461C9373B90089498B /* FTRGeometryTest.m in Sources */,
 				59467E471C9373B90089498B /* FTRGestureTest.m in Sources */,
 				59467E481C9373B90089498B /* FTRKeyboardKeysTest.m in Sources */,

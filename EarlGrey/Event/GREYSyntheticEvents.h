@@ -57,6 +57,20 @@ typedef NS_ENUM(NSInteger, GREYSyntheticEventInjectionErrorCode) {
                        errorOrNil:(__strong NSError **)errorOrNil;
 
 /**
+ *  Shakes the device. If a non-nil @c errorOrNil is provided, it will
+ *  be populated with the failure reason if the orientation change fails, otherwise a test failure
+ *  will be registered.
+ *
+ *  @param[out] errorOrNil        Error that will be populated on failure. If @c nil, the a test
+ *                                failure will be reported if the rotation attempt fails.
+ *
+ *  @throws GREYFrameworkException if the action fails and @c errorOrNil is @c nil.
+ *  @return @c YES if the shake was successful, @c NO otherwise. If @c errorOrNil is @c nil and
+ *          the operation fails, it will throw an exception.
+ */
++ (BOOL)shakeDeviceWithErrorOrNil:(__strong NSError **)errorOrNil;
+
+/**
  *  Touch along a specified path in a @c CGPoint array.
  *  This method blocks until all touches are delivered.
  *

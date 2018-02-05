@@ -92,6 +92,10 @@ NSString *const kGREYKeyboardDismissalErrorDomain = @"com.google.earlgrey.Keyboa
   return [GREYSyntheticEvents rotateDeviceToOrientation:deviceOrientation errorOrNil:errorOrNil];
 }
 
+- (BOOL)shakeDeviceWithErrorOrNil:(__strong NSError **)errorOrNil {
+  return [GREYSyntheticEvents shakeDeviceWithErrorOrNil:errorOrNil];
+}
+
 - (BOOL)dismissKeyboardWithError:(__strong NSError **)errorOrNil {
   __block NSError *executionError;
   [[GREYUIThreadExecutor sharedInstance] executeSync:^{
