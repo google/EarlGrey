@@ -28,7 +28,7 @@
 }
 
 - (void)testDeviceShake {
-  // Test rotating to landscape.
+  // Test device shake.
   [EarlGrey shakeDeviceWithErrorOrNil:nil];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"lastTapped")]
    assertWithMatcher:grey_text([NSString stringWithFormat:@"Device Was Shaken"])];
