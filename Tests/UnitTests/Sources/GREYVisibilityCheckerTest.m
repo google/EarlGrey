@@ -1,5 +1,5 @@
 //
-// Copyright 2016 Google Inc.
+// Copyright 2018 Google Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,13 +14,13 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/CGGeometry+GREYAdditions.h>
-#import <EarlGrey/GREYVisibilityChecker.h>
-#import <EarlGrey/NSObject+GREYAdditions.h>
 #import <OCMock/OCMock.h>
 
-#import "GREYBaseTest.h"
-#import "GREYExposedForTesting.h"
+#import "Additions/CGGeometry+GREYAdditions.h"
+#import "Additions/NSObject+GREYAdditions.h"
+#import "Common/GREYVisibilityChecker.h"
+#import "Tests/UnitTests/Sources/GREYBaseTest.h"
+#import "Tests/UnitTests/Sources/GREYExposedForTesting.h"
 
 extern const NSUInteger kMinimumPointsVisibleForInteraction;
 
@@ -98,12 +98,13 @@ extern const NSUInteger kMinimumPointsVisibleForInteraction;
 
   UIWindow *window = [[UIWindow alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
   window.hidden = NO;
+
   UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 5, 5)];
   view.alpha = 1;
   view.hidden = NO;
-  view.accessibilityFrame = UIAccessibilityConvertFrameToScreenCoordinates(view.bounds, view);
 
   [window addSubview:view];
+  view.accessibilityFrame = UIAccessibilityConvertFrameToScreenCoordinates(view.bounds, view);
 
   XCTAssertEqual([GREYVisibilityChecker percentVisibleAreaOfElement:view], 1.0f,
                  @"Should be 1.0 because before and after image colors are shifted exactly by 128");
@@ -128,9 +129,9 @@ extern const NSUInteger kMinimumPointsVisibleForInteraction;
   UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 5, 5)];
   view.alpha = 0.6f;
   view.hidden = NO;
-  view.accessibilityFrame = UIAccessibilityConvertFrameToScreenCoordinates(view.bounds, view);
 
   [window addSubview:view];
+  view.accessibilityFrame = UIAccessibilityConvertFrameToScreenCoordinates(view.bounds, view);
 
   XCTAssertEqual([GREYVisibilityChecker percentVisibleAreaOfElement:view], 1.0f,
                  @"percent must be 1.0 because before and after image colors are shifted exactly"
@@ -237,11 +238,11 @@ extern const NSUInteger kMinimumPointsVisibleForInteraction;
   UIWindow *window = [[UIWindow alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
   window.hidden = NO;
   UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
+
+  [window addSubview:view];
   view.accessibilityFrame = UIAccessibilityConvertFrameToScreenCoordinates(view.bounds, view);
   view.accessibilityActivationPoint = CGPointMake(CGRectGetMaxX(view.accessibilityFrame) + 1,
                                                   CGRectGetMaxY(view.accessibilityFrame) + 1);
-
-  [window addSubview:view];
 
   XCTAssertTrue([GREYVisibilityChecker isVisibleForInteraction:view],
                  @"Should succeed because part of the view is inside the screen.");
@@ -277,10 +278,9 @@ extern const NSUInteger kMinimumPointsVisibleForInteraction;
                                 size.width,
                                 size.height);
   UIView *view = [[UIView alloc] initWithFrame:frameRect];
+  [window addSubview:view];
   view.accessibilityFrame = UIAccessibilityConvertFrameToScreenCoordinates(view.bounds, view);
   view.accessibilityActivationPoint = CGRectCenter(frameRect);
-
-  [window addSubview:view];
 
   XCTAssertTrue([GREYVisibilityChecker isVisibleForInteraction:view],
                 @"Should succeed because part of the view is inside the screen.");
@@ -316,10 +316,10 @@ extern const NSUInteger kMinimumPointsVisibleForInteraction;
   UIWindow *window = [[UIWindow alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
   window.hidden = NO;
   UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 5, 5)];
-  view.accessibilityFrame = UIAccessibilityConvertFrameToScreenCoordinates(view.bounds, view);
-  view.accessibilityActivationPoint = CGRectCenter(view.accessibilityFrame);
 
   [window addSubview:view];
+  view.accessibilityFrame = UIAccessibilityConvertFrameToScreenCoordinates(view.bounds, view);
+  view.accessibilityActivationPoint = CGRectCenter(view.accessibilityFrame);
 
   XCTAssertTrue([GREYVisibilityChecker isVisibleForInteraction:view],
                 @"Should pass because before and after image colors are different.");
@@ -378,10 +378,10 @@ extern const NSUInteger kMinimumPointsVisibleForInteraction;
   UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 5, 5)];
   view.alpha = 0.6f;
   view.hidden = NO;
-  view.accessibilityFrame = UIAccessibilityConvertFrameToScreenCoordinates(view.bounds, view);
-  view.accessibilityActivationPoint = CGRectCenter(view.accessibilityFrame);
 
   [window addSubview:view];
+  view.accessibilityFrame = UIAccessibilityConvertFrameToScreenCoordinates(view.bounds, view);
+  view.accessibilityActivationPoint = CGRectCenter(view.accessibilityFrame);
 
   XCTAssertTrue([GREYVisibilityChecker isVisibleForInteraction:view],
                 @"Should pass because before and after image colors have changed.");
@@ -501,10 +501,10 @@ extern const NSUInteger kMinimumPointsVisibleForInteraction;
   UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
   view.alpha = 1;
   view.hidden = NO;
-  view.accessibilityFrame = UIAccessibilityConvertFrameToScreenCoordinates(view.bounds, view);
-  view.accessibilityActivationPoint = CGRectCenter(view.accessibilityFrame);
 
   [window addSubview:view];
+  view.accessibilityFrame = UIAccessibilityConvertFrameToScreenCoordinates(view.bounds, view);
+  view.accessibilityActivationPoint = CGRectCenter(view.accessibilityFrame);
 
   XCTAssertTrue([GREYVisibilityChecker isVisibleForInteraction:view],
                  @"Should be YES because the center of the visible area is visible.");
@@ -619,11 +619,13 @@ extern const NSUInteger kMinimumPointsVisibleForInteraction;
   UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
   view.alpha = 1;
   view.hidden = NO;
-  view.accessibilityFrame = UIAccessibilityConvertFrameToScreenCoordinates(view.bounds, view);
-  view.accessibilityActivationPoint = CGRectCenter(view.accessibilityFrame);
+
   UIWindow *window = [[UIWindow alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
   window.hidden = NO;
+
   [window addSubview:view];
+  view.accessibilityFrame = UIAccessibilityConvertFrameToScreenCoordinates(view.bounds, view);
+  view.accessibilityActivationPoint = CGRectCenter(view.accessibilityFrame);
 
   XCTAssertGreaterThan([GREYVisibilityChecker percentVisibleAreaOfElement:view], 0);
 
@@ -644,12 +646,13 @@ extern const NSUInteger kMinimumPointsVisibleForInteraction;
 
   UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
   view.hidden = NO;
-  view.accessibilityFrame = UIAccessibilityConvertFrameToScreenCoordinates(view.bounds, view);
-  view.accessibilityActivationPoint = CGRectCenter(view.accessibilityFrame);
 
   UIWindow *window = [[UIWindow alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
   window.hidden = NO;
+
   [window addSubview:view];
+  view.accessibilityFrame = UIAccessibilityConvertFrameToScreenCoordinates(view.bounds, view);
+  view.accessibilityActivationPoint = CGRectCenter(view.accessibilityFrame);
 
   BOOL isVisibleForInteraction = [GREYVisibilityChecker isVisibleForInteraction:view];
   XCTAssertTrue(isVisibleForInteraction);
@@ -981,12 +984,13 @@ andOptionalHiddenAreaFromVisibleArea:targetArea];
 
   UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
   view.hidden = NO;
-  view.accessibilityFrame = UIAccessibilityConvertFrameToScreenCoordinates(view.bounds, view);
-  view.accessibilityActivationPoint = CGRectCenter(view.accessibilityFrame);
 
   UIWindow *window = [[UIWindow alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
   window.hidden = NO;
+
   [window addSubview:view];
+  view.accessibilityFrame = UIAccessibilityConvertFrameToScreenCoordinates(view.bounds, view);
+  view.accessibilityActivationPoint = CGRectCenter(view.accessibilityFrame);
 
   CGRect visibleAreaRect = [GREYVisibilityChecker rectEnclosingVisibleAreaOfElement:view];
   XCTAssertEqual(visibleAreaRect.origin.x, 0);
@@ -1018,12 +1022,13 @@ andOptionalHiddenAreaFromVisibleArea:targetArea];
 
   UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
   view.hidden = YES;
-  view.accessibilityFrame = UIAccessibilityConvertFrameToScreenCoordinates(view.bounds, view);
-  view.accessibilityActivationPoint = CGRectCenter(view.accessibilityFrame);
 
   UIWindow *window = [[UIWindow alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
   window.hidden = NO;
+
   [window addSubview:view];
+  view.accessibilityFrame = UIAccessibilityConvertFrameToScreenCoordinates(view.bounds, view);
+  view.accessibilityActivationPoint = CGRectCenter(view.accessibilityFrame);
 
   BOOL isNotVisible = [GREYVisibilityChecker isNotVisible:view];
   XCTAssertTrue(isNotVisible);
