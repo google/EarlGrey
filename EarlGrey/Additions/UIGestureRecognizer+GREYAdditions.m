@@ -24,10 +24,13 @@
 #import "Synchronization/GREYAppStateTracker.h"
 #import "Synchronization/GREYAppStateTrackerObject.h"
 
+static Class gKeyboardPinchGestureRecognizerClass;
+
 @implementation UIGestureRecognizer (GREYAdditions)
 
 + (void)load {
   @autoreleasepool {
+    gKeyboardPinchGestureRecognizerClass = NSClassFromString(@"UIKeyboardPinchGestureRecognizer");
     GREYSwizzler *swizzler = [[GREYSwizzler alloc] init];
     BOOL swizzled = [swizzler swizzleClass:self
                      replaceInstanceMethod:NSSelectorFromString(@"_setDirty")
@@ -51,12 +54,15 @@
 
 - (void)greyswizzled_setDirty {
   INVOKE_ORIGINAL_IMP(void, @selector(greyswizzled_setDirty));
-  GREYAppStateTrackerObject *object =
-      TRACK_STATE_FOR_OBJECT(kGREYPendingGestureRecognition, self);
-  objc_setAssociatedObject(self,
-                           @selector(greyswizzled_setState:),
-                           object,
-                           OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+  if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad ||
+      ![self isKindOfClass:gKeyboardPinchGestureRecognizerClass]) {
+    GREYAppStateTrackerObject *object =
+    TRACK_STATE_FOR_OBJECT(kGREYPendingGestureRecognition, self);
+    objc_setAssociatedObject(self,
+                             @selector(greyswizzled_setState:),
+                             object,
+                             OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+  }
 }
 
 - (void)greyswizzled_resetGestureRecognizer {
@@ -86,4 +92,3 @@
 }
 
 @end
-
