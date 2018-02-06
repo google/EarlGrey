@@ -48,7 +48,7 @@ matrix:
         - DESTINATION="OS=10.2,name=iPhone 7 Plus" SDK=iphonesimulator11.2 TYPE="EXAMPLE_PODS"
     - osx_image: xcode9.2
       env:
-        - DESTINATION="OS=10.3,name=iPhone 7 Plus" SDK=iphonesimulator11.2 TYPE="EXAMPLE_PODS_SWIFT"
+        - DESTINATION="OS=10.3.1,name=iPhone 7 Plus" SDK=iphonesimulator11.2 TYPE="EXAMPLE_PODS_SWIFT"
     - osx_image: xcode9.2
       env:
         - DESTINATION="OS=11.0.1,name=iPhone 7" SDK=iphonesimulator11.2 TYPE="FUNCTIONAL"
