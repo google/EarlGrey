@@ -19,6 +19,8 @@ set -euxo pipefail
 xcodebuild -version
 xcodebuild -showsdks
 
+gem install cocoapods
+
 CONFIG="Debug"
 ACTION="test"
 
