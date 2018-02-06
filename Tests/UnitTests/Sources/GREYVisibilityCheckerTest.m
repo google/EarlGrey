@@ -16,11 +16,12 @@
 
 #import <OCMock/OCMock.h>
 
-#import "Additions/CGGeometry+GREYAdditions.h"
-#import "Additions/NSObject+GREYAdditions.h"
-#import "Common/GREYVisibilityChecker.h"
-#import "Tests/UnitTests/Sources/GREYBaseTest.h"
-#import "Tests/UnitTests/Sources/GREYExposedForTesting.h"
+#import <EarlGrey/CGGeometry+GREYAdditions.h>
+#import <EarlGrey/GREYVisibilityChecker.h>
+#import <EarlGrey/NSObject+GREYAdditions.h>
+
+#import "GREYBaseTest.h"
+#import "GREYExposedForTesting.h"
 
 extern const NSUInteger kMinimumPointsVisibleForInteraction;
 
