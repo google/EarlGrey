@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "FTRTableViewController.h"
+#import "Tests/FunctionalTests/TestRig/Sources/FTRTableViewController.h"
 
 static NSString *gTableViewIdentifier = @"TableViewCellReuseIdentifier";
 

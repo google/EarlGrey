@@ -14,12 +14,12 @@
 // limitations under the License.
 //
 
-#import "FTRBaseAnalyticsTest.h"
+#import "Tests/FunctionalTests/Sources/FTRBaseAnalyticsTest.h"
 
-#import "FTRAssertionHandler.h"
+#import "Tests/FunctionalTests/Sources/FTRAssertionHandler.h"
 #import "Common/GREYAnalytics.h"
 #import "Common/GREYAnalyticsDelegate.h"
-#import <EarlGrey/GREYConfiguration.h>
+#import "Common/GREYConfiguration.h"
 
 /**
  *  A constant used for asserting mismatched analytics hits, this is set to be a global to allow for

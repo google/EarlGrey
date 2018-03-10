@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "FTRScrollViewController.h"
+#import "Tests/FunctionalTests/TestRig/Sources/FTRScrollViewController.h"
 
 // A custom, square UIView that contains accessibility elements.
 // For testing scrolling to AX elements.

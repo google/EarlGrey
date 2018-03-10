@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "FTRAccessibleView.h"
+#import "Tests/FunctionalTests/TestRig/Sources/FTRAccessibleView.h"
 
 @implementation FTRAccessibleView {
   UIAccessibilityElement *_squareElement;

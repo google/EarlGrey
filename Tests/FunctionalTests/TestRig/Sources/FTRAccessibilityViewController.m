@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "FTRAccessibilityViewController.h"
+#import "Tests/FunctionalTests/TestRig/Sources/FTRAccessibilityViewController.h"
 
 #import <MessageUI/MessageUI.h>
 

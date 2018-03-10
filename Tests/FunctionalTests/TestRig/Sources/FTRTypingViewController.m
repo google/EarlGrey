@@ -14,9 +14,9 @@
 // limitations under the License.
 //
 
-#import "FTRTypingViewController.h"
+#import "Tests/FunctionalTests/TestRig/Sources/FTRTypingViewController.h"
 
-#import "FTRCustomTextView.h"
+#import "Tests/FunctionalTests/TestRig/Sources/FTRCustomTextView.h"
 
 #define kFTRKeyboardTypeCount 11
 

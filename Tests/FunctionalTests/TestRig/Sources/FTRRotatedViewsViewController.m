@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "FTRRotatedViewsViewController.h"
+#import "Tests/FunctionalTests/TestRig/Sources/FTRRotatedViewsViewController.h"
 
 @implementation FTRRotatedViewsViewController
 

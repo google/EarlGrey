@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "FTRAlertViewController.h"
+#import "Tests/FunctionalTests/TestRig/Sources/FTRAlertViewController.h"
 
 @interface FTRAlertViewController()
 

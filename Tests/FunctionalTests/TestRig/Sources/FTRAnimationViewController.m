@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "FTRAnimationViewController.h"
+#import "Tests/FunctionalTests/TestRig/Sources/FTRAnimationViewController.h"
 
 typedef NS_ENUM(NSUInteger, FTRAnimationStatus) {
   kFTRAnimationStopped = 0,

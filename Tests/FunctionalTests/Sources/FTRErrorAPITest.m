@@ -14,8 +14,8 @@
 // limitations under the License.
 //
 
-#import "FTRBaseIntegrationTest.h"
-#import "FTRFailureHandler.h"
+#import "Tests/FunctionalTests/Sources/FTRBaseIntegrationTest.h"
+#import "Tests/FunctionalTests/Sources/FTRFailureHandler.h"
 
 #import "Common/GREYError.h"
 #import "Common/GREYErrorConstants.h"

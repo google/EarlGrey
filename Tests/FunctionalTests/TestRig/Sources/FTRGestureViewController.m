@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "FTRGestureViewController.h"
+#import "Tests/FunctionalTests/TestRig/Sources/FTRGestureViewController.h"
 
 @implementation FTRGestureViewController
 

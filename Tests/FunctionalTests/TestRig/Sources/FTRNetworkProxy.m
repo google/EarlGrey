@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "FTRNetworkProxy.h"
+#import "Tests/FunctionalTests/TestRig/Sources/FTRNetworkProxy.h"
 
 /**
  *  Specifies if the proxy is enabled or not.

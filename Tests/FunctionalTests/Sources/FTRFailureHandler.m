@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "FTRFailureHandler.h"
+#import "Tests/FunctionalTests/Sources/FTRFailureHandler.h"
 
 @implementation FTRFailureHandler
 

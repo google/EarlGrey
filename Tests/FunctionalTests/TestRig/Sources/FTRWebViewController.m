@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "FTRWebViewController.h"
+#import "Tests/FunctionalTests/TestRig/Sources/FTRWebViewController.h"
 
 @implementation FTRWebViewController
 

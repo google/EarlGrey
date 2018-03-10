@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="NO">
     <dependencies>
         <deployment identifier="iOS"/>
-        <development version="8000" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
-        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+        <development version="7000" identifier="xcode"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FTRAnimationViewController">
@@ -23,13 +22,13 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Animation Status:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rtY-IJ-ca6">
-                    <rect key="frame" x="140" y="20" width="135" height="20.5"/>
+                    <rect key="frame" x="140" y="20" width="135" height="20.666666666666664"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Stopped" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ft7-qN-pwT">
-                    <rect key="frame" x="140" y="60.5" width="65.5" height="20"/>
+                    <rect key="frame" x="140" y="60.666666666666671" width="65.666666666666657" height="20.000000000000014"/>
                     <accessibility key="accessibilityConfiguration" label="AnimationStatus"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="highlightedColor"/>
@@ -38,7 +37,7 @@
                     <rect key="frame" x="128.66666666666669" y="166" width="157.00000000000006" height="30"/>
                     <accessibility key="accessibilityConfiguration" label="UIViewAnimationControl"/>
                     <state key="normal" title="Start UIView animation">
-                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
                     <connections>
                         <action selector="UIViewAnimationControlClicked:" destination="-1" eventType="touchUpInside" id="DFp-sL-Qt8"/>
@@ -48,7 +47,7 @@
                     <rect key="frame" x="132" y="353" width="150" height="30"/>
                     <accessibility key="accessibilityConfiguration" label="BeginIgnoringEvents"/>
                     <state key="normal" title="Begin Ignoring Events">
-                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
                     <connections>
                         <action selector="beginIgnoringEventsClicked:" destination="-1" eventType="touchUpInside" id="QVh-zi-13A"/>
@@ -62,7 +61,7 @@
                 </label>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hNU-Wb-jMc">
                     <rect key="frame" x="20" y="20" width="100" height="100"/>
-                    <color key="backgroundColor" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="backgroundColor" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="100" id="NMc-Mp-vSN"/>
                         <constraint firstAttribute="height" constant="100" id="hnA-9W-2nh"/>
@@ -72,7 +71,7 @@
                     <rect key="frame" x="125" y="128" width="164" height="30"/>
                     <accessibility key="accessibilityConfiguration" label="AnimationControl"/>
                     <state key="normal" title="Start CABasicAnimation">
-                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
                     <connections>
                         <action selector="CAAnimationControlClicked:" destination="-1" eventType="touchUpInside" id="YEU-AG-nG8"/>
@@ -86,7 +85,7 @@
                     </connections>
                 </button>
             </subviews>
-            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstItem="rtY-IJ-ca6" firstAttribute="leading" secondItem="hNU-Wb-jMc" secondAttribute="trailing" constant="20" id="3H9-uL-t44"/>
                 <constraint firstItem="Ft7-qN-pwT" firstAttribute="leading" secondItem="rtY-IJ-ca6" secondAttribute="leading" id="74o-tF-phX"/>
@@ -109,4 +108,9 @@
             <point key="canvasLocation" x="-36" y="53"/>
         </view>
     </objects>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination"/>
+    </simulatedMetricsContainer>
 </document>

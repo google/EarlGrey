@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "FTRMultiFingerSwipeGestureRecognizerViewController.h"
+#import "Tests/FunctionalTests/TestRig/Sources/FTRMultiFingerSwipeGestureRecognizerViewController.h"
 
 @interface FTRMultiFingerSwipeGestureRecognizerViewController ()
 

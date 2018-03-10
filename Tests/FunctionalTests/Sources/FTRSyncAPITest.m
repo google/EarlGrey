@@ -14,10 +14,10 @@
 // limitations under the License.
 //
 
-#import "FTRBaseIntegrationTest.h"
+#import "Tests/FunctionalTests/Sources/FTRBaseIntegrationTest.h"
 #import "Additions/UIApplication+GREYAdditions.h"
 #import "Common/GREYAppleInternals.h"
-#import <EarlGrey/EarlGrey.h>
+#import "EarlGrey.h"
 
 @interface FTRSyncAPITest : FTRBaseIntegrationTest
 

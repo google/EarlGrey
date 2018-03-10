@@ -14,10 +14,10 @@
 // limitations under the License.
 //
 
-#import "FTRBaseAnalyticsTest.h"
+#import "Tests/FunctionalTests/Sources/FTRBaseAnalyticsTest.h"
 
-#import "FTRAssertionHandler.h"
-#import <EarlGrey/EarlGrey.h>
+#import "Tests/FunctionalTests/Sources/FTRAssertionHandler.h"
+#import "EarlGrey.h"
 
 @interface FTRAnalyticsTestHarnessTest : FTRBaseAnalyticsTest
 @end

@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "FTRPresentedViewController.h"
+#import "Tests/FunctionalTests/TestRig/Sources/FTRPresentedViewController.h"
 
 @implementation FTRPresentedViewController
 

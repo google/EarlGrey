@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "FTRPickerViewController.h"
+#import "Tests/FunctionalTests/TestRig/Sources/FTRPickerViewController.h"
 
 @interface FTRPickerViewDelegate1 : NSObject<UIPickerViewDelegate>
 

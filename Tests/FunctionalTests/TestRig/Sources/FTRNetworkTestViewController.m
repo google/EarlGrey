@@ -14,8 +14,8 @@
 // limitations under the License.
 //
 
-#import "FTRNetworkTestViewController.h"
-#import "FTRNetworkProxy.h"
+#import "Tests/FunctionalTests/TestRig/Sources/FTRNetworkTestViewController.h"
+#import "Tests/FunctionalTests/TestRig/Sources/FTRNetworkProxy.h"
 
 /**
  *  Data used as response for proxied requests.

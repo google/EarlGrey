@@ -14,9 +14,9 @@
 // limitations under the License.
 //
 
-#import "FTRBaseAnalyticsTest.h"
+#import "Tests/FunctionalTests/Sources/FTRBaseAnalyticsTest.h"
 
-#import <EarlGrey/EarlGrey.h>
+#import "EarlGrey.h"
 
 @interface FTRAnalyticsTearDownOptOutTest : FTRBaseAnalyticsTest
 @end

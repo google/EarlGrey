@@ -14,9 +14,8 @@
 // limitations under the License.
 //
 
-#import "FTRBaseIntegrationTest.h"
-
-#import <EarlGrey/EarlGrey.h>
+#import "Tests/FunctionalTests/Sources/FTRBaseIntegrationTest.h"
+#import "EarlGrey.h"
 
 @interface FTRGestureTest : FTRBaseIntegrationTest
 @end

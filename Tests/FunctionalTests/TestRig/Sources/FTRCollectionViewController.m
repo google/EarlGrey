@@ -14,10 +14,10 @@
 // limitations under the License.
 //
 
-#import "FTRCollectionViewController.h"
+#import "Tests/FunctionalTests/TestRig/Sources/FTRCollectionViewController.h"
 
-#import "FTRCollectionViewCell.h"
-#import "FTRCollectionViewLayout.h"
+#import "Tests/FunctionalTests/TestRig/Sources/FTRCollectionViewCell.h"
+#import "Tests/FunctionalTests/TestRig/Sources/FTRCollectionViewLayout.h"
 
 @interface FTRCollectionViewController ()
 

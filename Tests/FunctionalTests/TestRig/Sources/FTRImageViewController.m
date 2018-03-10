@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "FTRImageViewController.h"
+#import "Tests/FunctionalTests/TestRig/Sources/FTRImageViewController.h"
 
 @implementation FTRImageViewController
 

@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "FTRAssertionHandler.h"
+#import "Tests/FunctionalTests/Sources/FTRAssertionHandler.h"
 
 @implementation FTRAssertionHandler
 

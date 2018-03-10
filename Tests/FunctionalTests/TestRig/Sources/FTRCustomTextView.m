@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "FTRCustomTextView.h"
+#import "Tests/FunctionalTests/TestRig/Sources/FTRCustomTextView.h"
 
 @implementation CustomTextPosition
 

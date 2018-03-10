@@ -15,7 +15,7 @@
 //
 
 #import "FTRBaseIntegrationTest.h"
-#import <EarlGrey/EarlGrey.h>
+#import "EarlGrey.h"
 #import "Synchronization/GREYAppStateTracker.h"
 
 // These web view tests are not run by default since they require network access

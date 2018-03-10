@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "FTRVisibilityTestViewController.h"
+#import "Tests/FunctionalTests/TestRig/Sources/FTRVisibilityTestViewController.h"
 
 @implementation FTRVisibilityTestViewController
 

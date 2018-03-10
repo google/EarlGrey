@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "FTRBasicViewController.h"
+#import "Tests/FunctionalTests/TestRig/Sources/FTRBasicViewController.h"
 
 @interface FTRBasicViewController ()
 @end

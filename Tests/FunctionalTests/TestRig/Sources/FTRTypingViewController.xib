@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="NO">
     <dependencies>
         <deployment identifier="iOS"/>
-        <development version="8000" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
-        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+        <development version="7000" identifier="xcode"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FTRTypingViewController">
@@ -31,7 +30,7 @@
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Never First Responder" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PBX-7b-uV2">
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Never First Responder" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PBX-7b-uV2">
                     <rect key="frame" x="20" y="75" width="374" height="30"/>
                     <accessibility key="accessibilityConfiguration" label=""/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -43,20 +42,20 @@
                         <constraint firstAttribute="width" constant="133" id="Sle-WE-dbc"/>
                     </constraints>
                     <state key="normal" title="next returnKeyType">
-                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
                     <connections>
                         <action selector="changeReturnKeyType:" destination="-1" eventType="touchUpInside" id="jOw-jE-AVj"/>
                     </connections>
                 </button>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Text Field" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="HbD-2h-bQc">
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Text Field" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="HbD-2h-bQc">
                     <rect key="frame" x="20" y="141" width="374" height="30"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" autocorrectionType="yes" spellCheckingType="yes"/>
                 </textField>
-                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" keyboardDismissMode="interactive" translatesAutoresizingMaskIntoConstraints="NO" id="F8N-FE-LqS">
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="interactive" translatesAutoresizingMaskIntoConstraints="NO" id="F8N-FE-LqS">
                     <rect key="frame" x="20" y="179" width="374" height="53"/>
-                    <color key="backgroundColor" red="0.91907269021739135" green="0.91907269021739135" blue="0.91907269021739135" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="backgroundColor" red="0.91907269021739135" green="0.91907269021739135" blue="0.91907269021739135" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="53" id="dkB-da-5H4"/>
                     </constraints>
@@ -67,7 +66,7 @@
                     <rect key="frame" x="226" y="31" width="46" height="30"/>
                     <state key="normal" title="Button"/>
                 </button>
-                <pickerView contentMode="scaleToFill" verticalCompressionResistancePriority="749" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="D9d-aK-L7i">
+                <pickerView contentMode="scaleToFill" verticalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="D9d-aK-L7i">
                     <rect key="frame" x="47" y="313" width="320" height="100"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="100" id="EaZ-Z7-fey"/>
@@ -77,16 +76,16 @@
                         <outlet property="delegate" destination="-1" id="iXT-ja-Und"/>
                     </connections>
                 </pickerView>
-                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kf2-uc-vdE" customClass="FTRCustomTextView">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kf2-uc-vdE" customClass="FTRCustomTextView">
                     <rect key="frame" x="74" y="240" width="266" height="51"/>
-                    <color key="backgroundColor" red="0.72336632013320923" green="0.72336632013320923" blue="0.72336632013320923" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="backgroundColor" red="0.72336632013320923" green="0.72336632013320923" blue="0.72336632013320923" alpha="1" colorSpace="calibratedRGB"/>
                     <accessibility key="accessibilityConfiguration" identifier="CustomTextView"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="266" id="Jks-lU-kXW"/>
                         <constraint firstAttribute="height" constant="51" id="KQW-5b-HjZ"/>
                     </constraints>
                 </view>
-                <view contentMode="bottomLeft" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bnj-yZ-VR3" customClass="FTRCustomKeyboardTracker">
+                <view contentMode="bottomLeft" translatesAutoresizingMaskIntoConstraints="NO" id="bnj-yZ-VR3" customClass="FTRCustomKeyboardTracker">
                     <rect key="frame" x="149" y="606" width="88" height="51"/>
                     <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                     <accessibility key="accessibilityConfiguration" identifier="CustomKeyboardTracker"/>
@@ -98,7 +97,7 @@
                     </constraints>
                 </view>
             </subviews>
-            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstItem="ugr-WT-H7I" firstAttribute="top" secondItem="PBX-7b-uV2" secondAttribute="bottom" constant="-2" id="235-Sq-djF"/>
                 <constraint firstItem="D9d-aK-L7i" firstAttribute="top" secondItem="kf2-uc-vdE" secondAttribute="bottom" constant="22" id="89S-kl-2ip"/>
@@ -125,4 +124,9 @@
             <point key="canvasLocation" x="-17.5" y="29.5"/>
         </view>
     </objects>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination"/>
+    </simulatedMetricsContainer>
 </document>

@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "FTRActivityIndicatorViewController.h"
+#import "Tests/FunctionalTests/TestRig/Sources/FTRActivityIndicatorViewController.h"
 
 @implementation FTRActivityIndicatorViewController
 
