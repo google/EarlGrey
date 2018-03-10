@@ -14,9 +14,9 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/GREYConstants.h>
-#import <EarlGrey/GREYLayoutConstraint.h>
-#import "GREYBaseTest.h"
+#import "Common/GREYConstants.h"
+#import "Matcher/GREYLayoutConstraint.h"
+#import "Tests/UnitTests/Sources/GREYBaseTest.h"
 
 @interface GREYLayoutConstraintTest : GREYBaseTest
 

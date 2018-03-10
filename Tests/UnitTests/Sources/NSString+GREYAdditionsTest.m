@@ -15,7 +15,7 @@
 //
 
 #import "Additions/NSString+GREYAdditions.h"
-#import "GREYBaseTest.h"
+#import "Tests/UnitTests/Sources/GREYBaseTest.h"
 
 @interface NSString_GREYAdditionsTest : GREYBaseTest
 @end

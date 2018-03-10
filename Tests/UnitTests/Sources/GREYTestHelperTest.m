@@ -15,7 +15,7 @@
 //
 
 #import "Provider/GREYUIWindowProvider.h"
-#import "GREYBaseTest.h"
+#import "Tests/UnitTests/Sources/GREYBaseTest.h"
 
 @interface GREYTestHelperTest : GREYBaseTest
 

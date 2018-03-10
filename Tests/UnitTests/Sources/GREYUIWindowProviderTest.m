@@ -17,11 +17,11 @@
 #import <OCMock/OCMock.h>
 
 #import "Common/GREYAppleInternals.h"
-#import <EarlGrey/GREYConfiguration.h>
-#import <EarlGrey/GREYElementMatcherBlock.h>
-#import <EarlGrey/GREYMatchers.h>
+#import "Common/GREYConfiguration.h"
+#import "Matcher/GREYElementMatcherBlock.h"
+#import "Matcher/GREYMatchers.h"
 #import "Provider/GREYUIWindowProvider.h"
-#import "GREYBaseTest.h"
+#import "Tests/UnitTests/Sources/GREYBaseTest.h"
 
 static NSMutableArray *gAppWindows;
 

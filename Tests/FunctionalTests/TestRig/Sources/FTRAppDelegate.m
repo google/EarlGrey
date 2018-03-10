@@ -14,10 +14,10 @@
 // limitations under the License.
 //
 
-#import "FTRAppDelegate.h"
+#import "Tests/FunctionalTests/TestRig/Sources/FTRAppDelegate.h"
 
-#import "FTRMainViewController.h"
-#import "FTRSplashViewController.h"
+#import "Tests/FunctionalTests/TestRig/Sources/FTRMainViewController.h"
+#import "Tests/FunctionalTests/TestRig/Sources/FTRSplashViewController.h"
 
 // This class was created to override UINavigationController's default orientation mask
 // to allow TestApp interface to rotate to all orientations including upside down.

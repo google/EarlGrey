@@ -15,7 +15,7 @@
 //
 
 #import "Matcher/GREYStringDescription.h"
-#import "GREYBaseTest.h"
+#import "Tests/UnitTests/Sources/GREYBaseTest.h"
 
 /**
  *  A string constant that the tests use as a sample description.

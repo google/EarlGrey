@@ -17,7 +17,7 @@
 #include <objc/runtime.h>
 
 #import "Common/GREYSwizzler.h"
-#import "GREYBaseTest.h"
+#import "Tests/UnitTests/Sources/GREYBaseTest.h"
 
 #pragma mark - Class A (Superclass)
 
@@ -151,13 +151,6 @@
                 @"Swizzle should succeed");
   XCTAssertEqualObjects([GREYUTClassA classMethod1], @"Class A Class Method 1");
   XCTAssertEqualObjects([GREYUTClassA classMethod2], @"Class A Class Method 2");
-}
-
-- (void)testSwizzleMethodWithNil {
-  XCTAssertFalse([_swizzler swizzleClass:[GREYUTClassA class]
-                      replaceClassMethod:@selector(classMethod1)
-                              withMethod:nil]);
-  XCTAssertEqualObjects([GREYUTClassA classMethod1], @"Class A Class Method 1");
 }
 
 - (void)testSwizzleNotFoundMethod {
@@ -379,38 +372,6 @@
                  @"Swizzle should Fail because the methods used are incorrect.");
   XCTAssertFalse([GREYUTClassD instancesRespondToSelector:swizzledSelector]);
   XCTAssertFalse([GREYUTClassD instancesRespondToSelector:fakeSelector]);
-}
-
-- (void)testSwizzleNilCheck_NilSelector {
-  BOOL swizzleSucceeded = [_swizzler swizzleClass:[GREYUTClassD class]
-                                addInstanceMethod:nil
-                               withImplementation:nil
-                     andReplaceWithInstanceMethod:@selector(classDInstanceMethod)];
-  XCTAssertFalse(swizzleSucceeded, @"Swizzling failed because the swizzle with method is nil");
-  XCTAssertEqualObjects([_objectD classDInstanceMethod], @"Class D Instance Method");
-}
-
-- (void)testSwizzleNilCheck_NilInstanceMethod {
-  SEL addSel = @selector(instanceMethod3);
-  IMP addIMP = [_objectA methodForSelector:addSel];
-  BOOL swizzleSucceeded = [_swizzler swizzleClass:[GREYUTClassD class]
-                                addInstanceMethod:addSel
-                               withImplementation:addIMP
-                     andReplaceWithInstanceMethod:nil];
-  XCTAssertFalse(swizzleSucceeded, @"Swizzling failed because the replacement method is nil");
-  XCTAssertFalse([GREYUTClassD instancesRespondToSelector:addSel]);
-  XCTAssertEqualObjects([_objectD classDInstanceMethod], @"Class D Instance Method");
-}
-
-- (void)testSwizzleNilCheck_Class {
-  SEL addSel = @selector(instanceMethod3);
-  IMP addIMP = [_objectA methodForSelector:addSel];
-  BOOL swizzleSucceeded = [_swizzler swizzleClass:nil
-                                addInstanceMethod:addSel
-                               withImplementation:addIMP
-                     andReplaceWithInstanceMethod:@selector(classDInstanceMethod)];
-  XCTAssertFalse(swizzleSucceeded, @"Swizzling failed because the class is nil");
-  XCTAssertFalse([GREYUTClassD instancesRespondToSelector:addSel]);
 }
 
 -(void)testSwizzleWithImplementation_IncorrectImplementationForInstanceMethod {

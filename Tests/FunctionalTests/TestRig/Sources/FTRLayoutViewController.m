@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "FTRLayoutViewController.h"
+#import "Tests/FunctionalTests/TestRig/Sources/FTRLayoutViewController.h"
 
 @interface FTRLayoutViewController ()
 

@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "FTRSplashViewController.h"
+#import "Tests/FunctionalTests/TestRig/Sources/FTRSplashViewController.h"
 
 @implementation FTRSplashViewController
 

@@ -18,9 +18,9 @@
 
 #import "Additions/CALayer+GREYAdditions.h"
 #import "Additions/NSObject+GREYAdditions.h"
-#import <EarlGrey/GREYConfiguration.h>
-#import "GREYBaseTest.h"
-#import "GREYExposedForTesting.h"
+#import "Common/GREYConfiguration.h"
+#import "Tests/UnitTests/Sources/GREYBaseTest.h"
+#import "Tests/UnitTests/Sources/GREYExposedForTesting.h"
 
 static const CFTimeInterval kMaxAnimationInterval = 5.0;
 

@@ -15,8 +15,8 @@
 //
 
 #import "Synchronization/GREYRunLoopSpinner.h"
-#import "GREYBaseTest.h"
-#import "GREYExposedForTesting.h"
+#import "Tests/UnitTests/Sources/GREYBaseTest.h"
+#import "Tests/UnitTests/Sources/GREYExposedForTesting.h"
 
 @interface GREYRunLoopSpinnerTest : GREYBaseTest
 @end

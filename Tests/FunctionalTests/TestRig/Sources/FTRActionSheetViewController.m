@@ -1,4 +1,4 @@
-#import "FTRActionSheetViewController.h"
+#import "Tests/FunctionalTests/TestRig/Sources/FTRActionSheetViewController.h"
 
 NSString *const kActionLabelText = @"Actions Verified Here";
 NSString *const kActionSheetTitle = @"Action Sheet";

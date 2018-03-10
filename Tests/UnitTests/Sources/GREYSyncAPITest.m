@@ -14,9 +14,9 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/GREYSyncAPI.h>
-#import <EarlGrey/GREYUIThreadExecutor.h>
-#import "GREYBaseTest.h"
+#import "Synchronization/GREYSyncAPI.h"
+#import "Synchronization/GREYUIThreadExecutor.h"
+#import "Tests/UnitTests/Sources/GREYBaseTest.h"
 
 @interface GREYSyncAPITest : GREYBaseTest
 

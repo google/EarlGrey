@@ -16,7 +16,7 @@
 
 #import <OCMock/OCMock.h>
 
-#import "GREYBaseTest.h"
+#import "Tests/UnitTests/Sources/GREYBaseTest.h"
 
 @interface EarlGreyTest : GREYBaseTest
 @end

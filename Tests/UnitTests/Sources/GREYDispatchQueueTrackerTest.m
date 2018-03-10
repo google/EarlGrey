@@ -14,9 +14,9 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/GREYConfiguration.h>
+#import "Common/GREYConfiguration.h"
 #import "Synchronization/GREYDispatchQueueTracker.h"
-#import "GREYBaseTest.h"
+#import "Tests/UnitTests/Sources/GREYBaseTest.h"
 
 /**
  *  A simple container class used to pass objects as a context to @c testFunction() through

@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "FTRCollectionViewCell.h"
+#import "Tests/FunctionalTests/TestRig/Sources/FTRCollectionViewCell.h"
 
 @implementation FTRCollectionViewCell
 

@@ -18,8 +18,8 @@
 
 #import "Additions/NSObject+GREYAdditions.h"
 #import "Additions/UIView+GREYAdditions.h"
-#import "GREYBaseTest.h"
-#import "GREYExposedForTesting.h"
+#import "Tests/UnitTests/Sources/GREYBaseTest.h"
+#import "Tests/UnitTests/Sources/GREYExposedForTesting.h"
 
 // Class that performs swizzled operations in dealloc to ensure they don't track
 @interface UIViewDealloc : UIView

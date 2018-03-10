@@ -14,9 +14,9 @@
 // limitations under the License.
 //
 
-#import "FTRBaseIntegrationTest.h"
-#import "FTRNetworkProxy.h"
-#import <EarlGrey/EarlGrey.h>
+#import "Tests/FunctionalTests/Sources/FTRBaseIntegrationTest.h"
+#import "Tests/FunctionalTests/TestRig/Sources/FTRNetworkProxy.h"
+#import "EarlGrey.h"
 
 @interface FTRNetworkTest : FTRBaseIntegrationTest
 @end

@@ -16,7 +16,7 @@
 
 #import "Common/GREYAppleInternals.h"
 #import "Synchronization/GREYAppStateTracker.h"
-#import "GREYBaseTest.h"
+#import "Tests/UnitTests/Sources/GREYBaseTest.h"
 
 
 @interface GREYUIScrollViewTest : GREYBaseTest

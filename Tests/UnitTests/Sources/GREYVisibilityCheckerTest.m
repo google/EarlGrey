@@ -1,5 +1,5 @@
 //
-// Copyright 2018 Google Inc.
+// Copyright 2016 Google Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,8 +19,8 @@
 #import "Additions/CGGeometry+GREYAdditions.h"
 #import "Additions/NSObject+GREYAdditions.h"
 #import "Common/GREYVisibilityChecker.h"
-#import "GREYBaseTest.h"
-#import "GREYExposedForTesting.h"
+#import "Tests/UnitTests/Sources/GREYBaseTest.h"
+#import "Tests/UnitTests/Sources/GREYExposedForTesting.h"
 
 extern const NSUInteger kMinimumPointsVisibleForInteraction;
 

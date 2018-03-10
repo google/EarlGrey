@@ -17,8 +17,8 @@
 #import <OCMock/OCMock.h>
 
 #import "Additions/NSObject+GREYAdditions.h"
-#import "GREYBaseTest.h"
-#import "GREYExposedForTesting.h"
+#import "Tests/UnitTests/Sources/GREYBaseTest.h"
+#import "Tests/UnitTests/Sources/GREYExposedForTesting.h"
 
 @interface NSObject_GREYAdditionsTest : GREYBaseTest
 @end

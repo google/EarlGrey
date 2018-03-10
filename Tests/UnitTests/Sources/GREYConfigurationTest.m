@@ -14,8 +14,8 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/GREYConfiguration.h>
-#import "GREYBaseTest.h"
+#import "Common/GREYConfiguration.h"
+#import "Tests/UnitTests/Sources/GREYBaseTest.h"
 
 @interface GREYConfigurationTest : GREYBaseTest {
   GREYConfiguration* _configuration;

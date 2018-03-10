@@ -14,9 +14,9 @@
 // limitations under the License.
 //
 
-#import "FTRBaseIntegrationTest.h"
+#import "Tests/FunctionalTests/Sources/FTRBaseIntegrationTest.h"
 #import "Delegate/GREYUIWebViewDelegate.h"
-#import <EarlGrey/EarlGrey.h>
+#import "EarlGrey.h"
 #import "Synchronization/GREYAppStateTracker.h"
 #import "Synchronization/GREYAppStateTrackerObject.h"
 

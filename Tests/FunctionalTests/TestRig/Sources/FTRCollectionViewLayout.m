@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "FTRCollectionViewLayout.h"
+#import "Tests/FunctionalTests/TestRig/Sources/FTRCollectionViewLayout.h"
 
 @implementation FTRCollectionViewLayout
 

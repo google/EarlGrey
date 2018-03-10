@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "FTRSliderViewController.h"
+#import "Tests/FunctionalTests/TestRig/Sources/FTRSliderViewController.h"
 
 #import <tgmath.h>
 

@@ -19,10 +19,10 @@
 
 #import "Additions/NSObject+GREYAdditions.h"
 #import "Additions/NSURLConnection+GREYAdditions.h"
-#import <EarlGrey/GREYCondition.h>
-#import <EarlGrey/GREYUIThreadExecutor.h>
-#import "GREYBaseTest.h"
-#import "GREYExposedForTesting.h"
+#import "Synchronization/GREYCondition.h"
+#import "Synchronization/GREYUIThreadExecutor.h"
+#import "Tests/UnitTests/Sources/GREYBaseTest.h"
+#import "Tests/UnitTests/Sources/GREYExposedForTesting.h"
 
 @interface NSURLConnection (NSURLConnection_GREYAdditionsTest)
 - (GREYAppStateTrackerObject *)objectForConnection;

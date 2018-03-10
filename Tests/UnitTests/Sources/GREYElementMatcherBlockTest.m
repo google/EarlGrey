@@ -14,8 +14,8 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/GREYElementMatcherBlock.h>
-#import "GREYBaseTest.h"
+#import "Matcher/GREYElementMatcherBlock.h"
+#import "Tests/UnitTests/Sources/GREYBaseTest.h"
 
 @interface GREYElementMatcherBlockTest : GREYBaseTest
 

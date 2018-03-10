@@ -14,9 +14,9 @@
 // limitations under the License.
 //
 
-#import "FTRBaseIntegrationTest.h"
+#import "Tests/FunctionalTests/Sources/FTRBaseIntegrationTest.h"
 
-#import <EarlGrey/EarlGrey.h>
+#import "EarlGrey.h"
 
 @implementation FTRBaseIntegrationTest {
   // This variable holds the current failure handler before any tests sully it.

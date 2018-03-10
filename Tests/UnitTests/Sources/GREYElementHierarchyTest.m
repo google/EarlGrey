@@ -17,11 +17,11 @@
 #import <OCMock/OCMock.h>
 
 #import "Additions/NSObject+GREYAdditions.h"
-#import <EarlGrey/GREYElementHierarchy.h>
-#import "GREYBaseTest.h"
-#import "GREYExposedForTesting.h"
-#import "GREYUTAccessibilityViewContainerView.h"
-#import "GREYUTCustomAccessibilityView.h"
+#import "Common/GREYElementHierarchy.h"
+#import "Tests/UnitTests/Sources/GREYBaseTest.h"
+#import "Tests/UnitTests/Sources/GREYExposedForTesting.h"
+#import "Tests/UnitTests/Sources/GREYUTAccessibilityViewContainerView.h"
+#import "Tests/UnitTests/Sources/GREYUTCustomAccessibilityView.h"
 
 @interface GREYElementHierarchyTest : GREYBaseTest
 
@@ -184,10 +184,6 @@
                                 outputString:[[NSMutableString alloc] init]
                      andAnnotationDictionary:nil];
   XCTAssertNotNil(test);
-}
-
-- (void)testHierarchyStringForANilView {
-  XCTAssertThrows([GREYElementHierarchy hierarchyStringForElement:nil]);
 }
 
 - (void)testHierarchyStringForSingleAccessibilityElement {

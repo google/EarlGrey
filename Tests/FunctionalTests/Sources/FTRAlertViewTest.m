@@ -14,9 +14,9 @@
 // limitations under the License.
 //
 
-#import "FTRBaseIntegrationTest.h"
+#import "Tests/FunctionalTests/Sources/FTRBaseIntegrationTest.h"
 
-#import <EarlGrey/EarlGrey.h>
+#import "EarlGrey.h"
 
 @interface FTRAlertViewTest : FTRBaseIntegrationTest
 @end
@@ -47,6 +47,8 @@
       performAction:[GREYActions actionForTap]];
   [[EarlGrey selectElementWithMatcher:grey_text(@"Multi-Option Alert")]
       assertWithMatcher:grey_sufficientlyVisible()];
+  [[EarlGrey selectElementWithMatcher:grey_text(@"Roger")]
+      assertWithMatcher:grey_notVisible()];
 }
 
 - (void)testAlertViewChain {
@@ -58,6 +60,8 @@
       performAction:[GREYActions actionForTap]];
   [[EarlGrey selectElementWithMatcher:grey_text(@"Multi-Option Alert")]
       assertWithMatcher:grey_sufficientlyVisible()];
+  [[EarlGrey selectElementWithMatcher:grey_text(@"Roger")]
+      assertWithMatcher:grey_notVisible()];
 }
 
 - (void)testStyledAlertView {

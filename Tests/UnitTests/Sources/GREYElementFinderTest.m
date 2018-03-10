@@ -16,12 +16,12 @@
 
 #import <OCMock.h>
 
-#import <EarlGrey/GREYElementFinder.h>
-#import <EarlGrey/GREYElementMatcherBlock.h>
+#import "Core/GREYElementFinder.h"
+#import "Matcher/GREYElementMatcherBlock.h"
 #import "Provider/GREYElementProvider.h"
 #import "Provider/GREYUIWindowProvider.h"
-#import "GREYBaseTest.h"
-#import "GREYUTAccessibilityViewContainerView.h"
+#import "Tests/UnitTests/Sources/GREYBaseTest.h"
+#import "Tests/UnitTests/Sources/GREYUTAccessibilityViewContainerView.h"
 
 static NSMutableArray *gAppWindows;
 
