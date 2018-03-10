@@ -15,7 +15,7 @@
 //
 
 #import "Common/GREYStopwatch.h"
-#import "GREYBaseTest.h"
+#import "Tests/UnitTests/Sources/GREYBaseTest.h"
 
 @interface GREYStopwatchTest : XCTestCase
 

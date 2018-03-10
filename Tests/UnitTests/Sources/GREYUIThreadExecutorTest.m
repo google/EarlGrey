@@ -17,13 +17,13 @@
 #include <objc/runtime.h>
 
 #import "Additions/UIView+GREYAdditions.h"
-#import <EarlGrey/GREYFrameworkException.h>
-#import <EarlGrey/GREYOperationQueueIdlingResource.h>
+#import "Exception/GREYFrameworkException.h"
+#import "Synchronization/GREYOperationQueueIdlingResource.h"
 #import "Synchronization/GREYTimedIdlingResource.h"
 #import "Synchronization/GREYUIThreadExecutor+Internal.h"
 #import "Synchronization/GREYUIThreadExecutor+Internal.h"
-#import "GREYBaseTest.h"
-#import "GREYExposedForTesting.h"
+#import "Tests/UnitTests/Sources/GREYBaseTest.h"
+#import "Tests/UnitTests/Sources/GREYExposedForTesting.h"
 
 static BOOL gAppStateTrackerIdle;
 

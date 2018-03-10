@@ -19,8 +19,8 @@
 #import "Action/GREYPathGestureUtils.h"
 #import "Additions/CGGeometry+GREYAdditions.h"
 #import "Common/GREYVisibilityChecker.h"
-#import "GREYBaseTest.h"
-#import "GREYExposedForTesting.h"
+#import "Tests/UnitTests/Sources/GREYBaseTest.h"
+#import "Tests/UnitTests/Sources/GREYExposedForTesting.h"
 
 @interface GREYPathGestureUtilsTest : GREYBaseTest
 @end

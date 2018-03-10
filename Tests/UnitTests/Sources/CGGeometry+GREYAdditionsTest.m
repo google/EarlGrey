@@ -15,7 +15,7 @@
 //
 
 #import "Additions/CGGeometry+GREYAdditions.h"
-#import "GREYBaseTest.h"
+#import "Tests/UnitTests/Sources/GREYBaseTest.h"
 
 @interface CGGeometry_GREYAdditionsTest : GREYBaseTest
 @end

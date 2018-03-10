@@ -16,12 +16,12 @@
 
 #import <OCMock/OCMock.h>
 
-#import <EarlGrey/GREYDefines.h>
+#import "Common/GREYDefines.h"
 #import "Provider/GREYElementProvider.h"
 #import "Provider/GREYUIWindowProvider.h"
-#import "GREYBaseTest.h"
-#import "GREYUTAccessibilityViewContainerView.h"
-#import "GREYUTCustomAccessibilityView.h"
+#import "Tests/UnitTests/Sources/GREYBaseTest.h"
+#import "Tests/UnitTests/Sources/GREYUTAccessibilityViewContainerView.h"
+#import "Tests/UnitTests/Sources/GREYUTCustomAccessibilityView.h"
 
 @interface GREYElementProviderTest : GREYBaseTest<UITableViewDataSource, UITableViewDelegate>
 @end

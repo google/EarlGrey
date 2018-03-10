@@ -15,7 +15,7 @@
 //
 
 #import "Traversal/GREYTraversalDFS.h"
-#import "GREYBaseTest.h"
+#import "Tests/UnitTests/Sources/GREYBaseTest.h"
 
 @interface GREYTraversalDFSTest : GREYBaseTest
 

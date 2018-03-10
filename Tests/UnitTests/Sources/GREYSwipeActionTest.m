@@ -17,7 +17,7 @@
 #import <OCMock/OCMock.h>
 
 #import "Action/GREYSwipeAction.h"
-#import "GREYBaseTest.h"
+#import "Tests/UnitTests/Sources/GREYBaseTest.h"
 
 @interface GREYSwipeActionTest : GREYBaseTest
 @end

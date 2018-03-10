@@ -14,8 +14,8 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/GREYCondition.h>
-#import "GREYBaseTest.h"
+#import "Synchronization/GREYCondition.h"
+#import "Tests/UnitTests/Sources/GREYBaseTest.h"
 
 @interface GREYConditionTest : GREYBaseTest
 @end

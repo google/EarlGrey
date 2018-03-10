@@ -16,11 +16,11 @@
 
 #import <CoreData/CoreData.h>
 
-#import <EarlGrey/GREYConfiguration.h>
-#import <EarlGrey/GREYManagedObjectContextIdlingResource.h>
+#import "Common/GREYConfiguration.h"
+#import "Synchronization/GREYManagedObjectContextIdlingResource.h"
 #import "Synchronization/GREYUIThreadExecutor+Internal.h"
-#import "GREYBaseTest.h"
-#import "GREYExposedForTesting.h"
+#import "Tests/UnitTests/Sources/GREYBaseTest.h"
+#import "Tests/UnitTests/Sources/GREYExposedForTesting.h"
 
 static const NSTimeInterval kSemaphoreTimeoutSeconds = 0.1;
 static const NSTimeInterval kExpectationTimeoutSeconds = 1.0;

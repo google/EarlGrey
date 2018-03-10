@@ -20,7 +20,7 @@
 #import "Additions/UIViewController+GREYAdditions.h"
 #import "Common/GREYAppleInternals.h"
 #import "Synchronization/GREYAppStateTracker.h"
-#import "GREYBaseTest.h"
+#import "Tests/UnitTests/Sources/GREYBaseTest.h"
 
 // A custom view controller that lets you set various hidden properties for testing purposes.
 // Use this instead of creating spy objects using ocmock.

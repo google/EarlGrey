@@ -16,8 +16,8 @@
 
 #import "Additions/NSURL+GREYAdditions.h"
 #import "Common/GREYAnalytics.h"
-#import "GREYBaseTest.h"
-#import "GREYExposedForTesting.h"
+#import "Tests/UnitTests/Sources/GREYBaseTest.h"
+#import "Tests/UnitTests/Sources/GREYExposedForTesting.h"
 
 @interface NSURL_GREYAdditionsTest : GREYBaseTest
 @end

@@ -17,7 +17,7 @@
 #import <OCMock/OCMock.h>
 
 #import "Synchronization/GREYTimedIdlingResource.h"
-#import "GREYBaseTest.h"
+#import "Tests/UnitTests/Sources/GREYBaseTest.h"
 
 @interface GREYTimedIdlingResourceTest : GREYBaseTest
 

@@ -14,9 +14,9 @@
 // limitations under the License.
 //
 
-#import "GREYBaseTest.h"
-#import "GREYExposedForTesting.h"
-#import "GREYUTCustomAccessibilityView.h"
+#import "Tests/UnitTests/Sources/GREYBaseTest.h"
+#import "Tests/UnitTests/Sources/GREYExposedForTesting.h"
+#import "Tests/UnitTests/Sources/GREYUTCustomAccessibilityView.h"
 
 @interface GREYTraversalTests : GREYBaseTest
 

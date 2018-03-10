@@ -16,18 +16,18 @@
 
 #import <OCMock/OCMock.h>
 
-#import <EarlGrey/GREYAction.h>
-#import <EarlGrey/GREYActionBlock.h>
-#import <EarlGrey/GREYActions.h>
-#import <EarlGrey/GREYAssertion.h>
-#import <EarlGrey/GREYAssertionBlock.h>
-#import <EarlGrey/GREYAssertions.h>
-#import <EarlGrey/GREYElementInteraction.h>
-#import <EarlGrey/GREYFrameworkException.h>
-#import <EarlGrey/GREYMatchers.h>
-#import <EarlGrey/GREYNot.h>
-#import "GREYBaseTest.h"
-#import "GREYExposedForTesting.h"
+#import "Action/GREYAction.h"
+#import "Action/GREYActionBlock.h"
+#import "Action/GREYActions.h"
+#import "Assertion/GREYAssertion.h"
+#import "Assertion/GREYAssertionBlock.h"
+#import "Assertion/GREYAssertions.h"
+#import "Core/GREYElementInteraction.h"
+#import "Exception/GREYFrameworkException.h"
+#import "Matcher/GREYMatchers.h"
+#import "Matcher/GREYNot.h"
+#import "Tests/UnitTests/Sources/GREYBaseTest.h"
+#import "Tests/UnitTests/Sources/GREYExposedForTesting.h"
 
 NSMutableArray *appWindows;
 
@@ -36,7 +36,7 @@ NSMutableArray *appWindows;
 @end
 
 @implementation GREYElementInteractionTest {
-  GREYElementInteraction *elementInteraction;
+  GREYElementInteraction *_elementInteraction;
 }
 
 - (void)setUp {
@@ -46,8 +46,7 @@ NSMutableArray *appWindows;
   [[[self.mockSharedApplication stub] andReturn:appWindows] windows];
 
   id viewMatcher = grey_ancestor(grey_kindOfClass([UIWindow class]));
-  elementInteraction = [[GREYElementInteraction alloc] initWithElementMatcher:viewMatcher];
-  [elementInteraction inRoot:nil];
+  _elementInteraction = [[GREYElementInteraction alloc] initWithElementMatcher:viewMatcher];
 }
 
 - (void)testPerformInSpecificRoot {
@@ -67,24 +66,24 @@ NSMutableArray *appWindows;
 
   [appWindows addObjectsFromArray:@[ window1, window2 ]];
 
-  elementInteraction =
+  _elementInteraction =
       [[GREYElementInteraction alloc] initWithElementMatcher:grey_accessibilityID(@"view1")];
-  [elementInteraction inRoot:grey_accessibilityID(@"window1")];
+  [_elementInteraction inRoot:grey_accessibilityID(@"window1")];
 
   id<GREYAction> action = [GREYActionBlock actionWithName:@"test"
                                              performBlock:^(id element,
                                                             __strong NSError **errorOrNil) {
     return YES;
   }];
-  XCTAssertNoThrow([elementInteraction performAction:action]);
+  XCTAssertNoThrow([_elementInteraction performAction:action]);
 
-  [elementInteraction inRoot:grey_accessibilityID(@"window2")];
-  XCTAssertThrows([elementInteraction performAction:action]);
+  [_elementInteraction inRoot:grey_accessibilityID(@"window2")];
+  XCTAssertThrows([_elementInteraction performAction:action]);
 
-  elementInteraction =
+  _elementInteraction =
      [[GREYElementInteraction alloc] initWithElementMatcher:grey_accessibilityID(@"view2")];
-  [elementInteraction inRoot:grey_accessibilityID(@"window2")];
-  XCTAssertNoThrow([elementInteraction performAction:action]);
+  [_elementInteraction inRoot:grey_accessibilityID(@"window2")];
+  XCTAssertNoThrow([_elementInteraction performAction:action]);
 }
 
 - (void)testPerformWithNoRootSpecified {
@@ -104,26 +103,22 @@ NSMutableArray *appWindows;
 
   [appWindows addObjectsFromArray:@[ window1, window2 ]];
 
-  elementInteraction =
+  _elementInteraction =
       [[GREYElementInteraction alloc] initWithElementMatcher:grey_accessibilityID(@"view1")];
   id<GREYAction> action = [GREYActionBlock actionWithName:@"test"
                                              performBlock:^(id element,
                                                             __strong NSError **errorOrNil) {
     return YES;
   }];
-  XCTAssertNoThrow([elementInteraction performAction:action]);
+  XCTAssertNoThrow([_elementInteraction performAction:action]);
 
-  elementInteraction =
+  _elementInteraction =
       [[GREYElementInteraction alloc] initWithElementMatcher:grey_accessibilityID(@"view2")];
-  XCTAssertNoThrow([elementInteraction performAction:action]);
-}
-
-- (void)testPerformNil {
-  XCTAssertThrows([elementInteraction performAction:nil]);
+  XCTAssertNoThrow([_elementInteraction performAction:action]);
 }
 
 - (void)testPerformWithNilView {
-  XCTAssertThrowsSpecificNamed([elementInteraction performAction:grey_tap()],
+  XCTAssertThrowsSpecificNamed([_elementInteraction performAction:grey_tap()],
                                GREYFrameworkException,
                                kGREYNoMatchingElementException,
                                @"Should throw exception if no UI elements returned");
@@ -143,7 +138,7 @@ NSMutableArray *appWindows;
     return YES;
   }];
 
-  XCTAssertThrowsSpecificNamed([elementInteraction performAction:action],
+  XCTAssertThrowsSpecificNamed([_elementInteraction performAction:action],
                                GREYFrameworkException,
                                kGREYMultipleElementsFoundException);
 }
@@ -163,7 +158,7 @@ NSMutableArray *appWindows;
   }];
 
   NSError *error;
-  [elementInteraction performAction:action error:&error];
+  [_elementInteraction performAction:action error:&error];
   XCTAssertEqual(error.code, kGREYInteractionMultipleElementsMatchedErrorCode);
   XCTAssertEqualObjects(error.domain, kGREYInteractionErrorDomain);
 }
@@ -181,7 +176,7 @@ NSMutableArray *appWindows;
     called = YES;
     return YES;
   }];
-  [elementInteraction performAction:action];
+  [_elementInteraction performAction:action];
   XCTAssertTrue(called, @"Action should be performed");
 }
 
@@ -201,7 +196,7 @@ NSMutableArray *appWindows;
   }];
 
   NSError *actualError;
-  XCTAssertNoThrow([elementInteraction performAction:action error:&actualError]);
+  XCTAssertNoThrow([_elementInteraction performAction:action error:&actualError]);
 
   XCTAssertEqualObjects(actualError, expectedError);
   XCTAssertTrue(called, @"Action block should be called.");
@@ -217,7 +212,7 @@ NSMutableArray *appWindows;
   }];
 
   NSError *actualError;
-  [elementInteraction performAction:action error:&actualError];
+  [_elementInteraction performAction:action error:&actualError];
 
   XCTAssertFalse(called, @"Action block should not be called because element wasn't found.");
   XCTAssertEqual(actualError.code, kGREYInteractionElementNotFoundErrorCode);
@@ -241,7 +236,7 @@ NSMutableArray *appWindows;
                                                code:kGREYInteractionActionFailedErrorCode
                                            userInfo:userInfo];
   NSError *actualError;
-  [elementInteraction performAction:action error:&actualError];
+  [_elementInteraction performAction:action error:&actualError];
   XCTAssertEqualObjects(actualError, expectedError);
   XCTAssertTrue(called, @"Action block should be called.");
 }
@@ -261,7 +256,7 @@ NSMutableArray *appWindows;
     return NO;
   }];
 
-  XCTAssertThrowsSpecificNamed([elementInteraction performAction:action error:nil],
+  XCTAssertThrowsSpecificNamed([_elementInteraction performAction:action error:nil],
                                GREYFrameworkException,
                                kGREYActionFailedException);
   XCTAssertTrue(called, @"Action block should be called.");
@@ -279,17 +274,9 @@ NSMutableArray *appWindows;
                                                return YES;
                                              }];
 
-  [elementInteraction performAction:action error:&expectedError];
+  [_elementInteraction performAction:action error:&expectedError];
   XCTAssertNil(expectedError);
   XCTAssertTrue(called, @"Action block should be called.");
-}
-
-- (void)testCheckNil {
-  XCTAssertThrows([elementInteraction assert:nil]);
-}
-
-- (void)testCheckNilWithNilError {
-  XCTAssertThrows([elementInteraction assert:nil error:nil]);
 }
 
 - (void)testCheckWithNilError {
@@ -303,7 +290,7 @@ NSMutableArray *appWindows;
                       return YES;
                     }];
 
-  XCTAssertNoThrow([elementInteraction assert:assertion error:nil]);
+  XCTAssertNoThrow([_elementInteraction assert:assertion error:nil]);
   XCTAssertTrue(called);
 }
 
@@ -325,7 +312,7 @@ NSMutableArray *appWindows;
                     }];
 
   NSError *actualError;
-  XCTAssertNoThrow([elementInteraction assert:assertion error:&actualError]);
+  XCTAssertNoThrow([_elementInteraction assert:assertion error:&actualError]);
   XCTAssertEqualObjects(actualError, expectedError);
   XCTAssertTrue(called);
 }
@@ -345,7 +332,7 @@ NSMutableArray *appWindows;
       }];
 
   NSError *actualError;
-  XCTAssertNoThrow([elementInteraction assert:assertion error:&actualError]);
+  XCTAssertNoThrow([_elementInteraction assert:assertion error:&actualError]);
   XCTAssertEqualObjects(actualError.domain, kGREYInteractionErrorDomain);
   XCTAssertEqual(actualError.code, kGREYInteractionElementNotFoundErrorCode);
   XCTAssertTrue(called, @"Assertion should be called even though element is nil.");
@@ -366,7 +353,7 @@ NSMutableArray *appWindows;
                                                code:kGREYInteractionAssertionFailedErrorCode
                                            userInfo:userInfo];
   NSError *actualError;
-  XCTAssertNoThrow([elementInteraction assert:assertion error:&actualError]);
+  XCTAssertNoThrow([_elementInteraction assert:assertion error:&actualError]);
   XCTAssertEqualObjects(actualError, expectedError);
   XCTAssertTrue(called, @"Assertion block should be called.");
 }
@@ -379,7 +366,7 @@ NSMutableArray *appWindows;
   [window addSubview:view2];
   [appWindows addObject:window];
 
-  XCTAssertThrowsSpecificNamed([elementInteraction assertWithMatcher:grey_anything()],
+  XCTAssertThrowsSpecificNamed([_elementInteraction assertWithMatcher:grey_anything()],
                                GREYFrameworkException,
                                kGREYMultipleElementsFoundException);
 }
@@ -393,7 +380,7 @@ NSMutableArray *appWindows;
   [appWindows addObject:window];
 
   NSError *error;
-  [elementInteraction assertWithMatcher:grey_anything() error:&error];
+  [_elementInteraction assertWithMatcher:grey_anything() error:&error];
   XCTAssertEqual(error.code, kGREYInteractionMultipleElementsMatchedErrorCode);
   XCTAssertEqualObjects(error.domain, kGREYInteractionErrorDomain);
 }
@@ -408,7 +395,7 @@ NSMutableArray *appWindows;
                       called = YES;
                       return YES;
                     }];
-  [elementInteraction assert:assertion];
+  [_elementInteraction assert:assertion];
   XCTAssertTrue(called, @"Assert should call assertion");
 }
 
@@ -417,9 +404,9 @@ NSMutableArray *appWindows;
   id<GREYMatcher> matcher = grey_anyOf(grey_accessibilityTrait(UIAccessibilityTraitAdjustable),
                                        grey_not(grey_text(@"X")),
                                        nil);
-  elementInteraction = [[GREYElementInteraction alloc] initWithElementMatcher:matcher];
+  _elementInteraction = [[GREYElementInteraction alloc] initWithElementMatcher:matcher];
   id<GREYAction> action = [GREYActions actionForTap];
-  XCTAssertThrowsSpecificNamed([elementInteraction performAction: action],
+  XCTAssertThrowsSpecificNamed([_elementInteraction performAction: action],
                                GREYFrameworkException,
                                kGREYNoMatchingElementException,
                                @"\"%@\" assertion not performed because "
@@ -453,7 +440,7 @@ NSMutableArray *appWindows;
                                                         object:nil
                                                          queue:nil
                                                     usingBlock:notificationBlock];
-  [elementInteraction assert:assertion];
+  [_elementInteraction assert:assertion];
   XCTAssertTrue(notificationPosted);
   XCTAssertEqual(assertionMade, assertion);
   XCTAssertEqual(assertedView, windowView);
@@ -487,7 +474,7 @@ NSMutableArray *appWindows;
                                                         object:nil
                                                          queue:nil
                                                     usingBlock:notificationBlock];
-  [elementInteraction assert:assertion];
+  [_elementInteraction assert:assertion];
   XCTAssertTrue(notificationPosted);
   XCTAssertEqual(assertionMade, assertion);
   XCTAssertEqual(assertedView, windowView);
@@ -528,7 +515,7 @@ NSMutableArray *appWindows;
                                                          queue:nil
                                                     usingBlock:didPerformNotificationBlock];
   NSError *error;
-  [elementInteraction assert:assertion error:&error];
+  [_elementInteraction assert:assertion error:&error];
   XCTAssertNotNil(error);
   XCTAssertEqual(error.domain, @"test");
   XCTAssertEqual(error.code, 200);
@@ -563,7 +550,7 @@ NSMutableArray *appWindows;
                                                         object:nil
                                                          queue:nil
                                                     usingBlock:notificationBlock];
-  [elementInteraction performAction:action error:nil];
+  [_elementInteraction performAction:action error:nil];
   XCTAssertTrue(notificationPosted);
   XCTAssertEqual(actionMade, action);
   XCTAssertEqual(actedUponView, windowView);
@@ -593,7 +580,7 @@ NSMutableArray *appWindows;
                                                         object:nil
                                                          queue:nil
                                                     usingBlock:notificationBlock];
-  [elementInteraction performAction:action error:nil];
+  [_elementInteraction performAction:action error:nil];
   XCTAssertTrue(notificationPosted);
   XCTAssertEqual(actionMade, action);
   XCTAssertEqual(actedUponView, windowView);
@@ -633,7 +620,7 @@ NSMutableArray *appWindows;
                                                          queue:nil
                                                     usingBlock:didPerformNotificationBlock];
   NSError *error;
-  [elementInteraction performAction:action error:&error];
+  [_elementInteraction performAction:action error:&error];
   XCTAssertNotNil(error);
   // No element found means that the error will be a no element found error and not custom error.
   XCTAssertEqualObjects(error.domain, kGREYInteractionErrorDomain);
@@ -685,7 +672,7 @@ NSMutableArray *appWindows;
                                                     usingBlock:didPerformNotificationBlock];
 
   NSError *error;
-  [elementInteraction performAction:action error:&error];
+  [_elementInteraction performAction:action error:&error];
   XCTAssertNotNil(error);
   XCTAssertNotNil(element);
   XCTAssertEqual(error, actionError);
@@ -726,7 +713,7 @@ NSMutableArray *appWindows;
                                                     usingBlock:didPerformNotificationBlock];
 
   NSError *error;
-  [elementInteraction assert:assertion error:&error];
+  [_elementInteraction assert:assertion error:&error];
   XCTAssertNotNil(error);
   XCTAssertEqual(error.domain, @"test");
   XCTAssertEqual(error.code, 200);

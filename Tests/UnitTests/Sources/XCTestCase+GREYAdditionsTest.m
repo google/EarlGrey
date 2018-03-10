@@ -15,8 +15,8 @@
 //
 
 #import "Additions/XCTestCase+GREYAdditions.h"
-#import <EarlGrey/GREYFrameworkException.h>
-#import "GREYBaseTest.h"
+#import "Exception/GREYFrameworkException.h"
+#import "Tests/UnitTests/Sources/GREYBaseTest.h"
 
 #pragma mark - Example tests
 

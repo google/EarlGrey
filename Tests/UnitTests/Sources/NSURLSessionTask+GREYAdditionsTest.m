@@ -15,7 +15,7 @@
 //
 
 #import "Synchronization/GREYAppStateTracker.h"
-#import "GREYBaseTest.h"
+#import "Tests/UnitTests/Sources/GREYBaseTest.h"
 
 // A global used by GREYUTURLProxyProtocol to determine whether to serve error (404) responses
 // or test data.

@@ -15,7 +15,7 @@
 //
 
 #import "Event/GREYTouchInjector.h"
-#import "GREYBaseTest.h"
+#import "Tests/UnitTests/Sources/GREYBaseTest.h"
 
 #pragma mark - Methods Only For Testing
 

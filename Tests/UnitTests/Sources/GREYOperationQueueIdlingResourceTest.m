@@ -14,10 +14,10 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/GREYOperationQueueIdlingResource.h>
+#import "Synchronization/GREYOperationQueueIdlingResource.h"
 #import "Synchronization/GREYUIThreadExecutor+Internal.h"
-#import "GREYBaseTest.h"
-#import "GREYExposedForTesting.h"
+#import "Tests/UnitTests/Sources/GREYBaseTest.h"
+#import "Tests/UnitTests/Sources/GREYExposedForTesting.h"
 
 @interface GREYOperationQueueIdlingResourceTest : GREYBaseTest
 @end

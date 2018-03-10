@@ -16,13 +16,13 @@
 
 #import <OCMock/OCMock.h>
 
-#import <EarlGrey/GREYActions.h>
+#import "Action/GREYActions.h"
 #import "Additions/NSObject+GREYAdditions.h"
-#import <EarlGrey/GREYConstants.h>
+#import "Common/GREYConstants.h"
 #import "Common/GREYError.h"
-#import <EarlGrey/GREYElementMatcherBlock.h>
-#import <EarlGrey/GREYMatchers.h>
-#import "GREYBaseTest.h"
+#import "Matcher/GREYElementMatcherBlock.h"
+#import "Matcher/GREYMatchers.h"
+#import "Tests/UnitTests/Sources/GREYBaseTest.h"
 
 @interface GREYActionsTest : GREYBaseTest
 @end

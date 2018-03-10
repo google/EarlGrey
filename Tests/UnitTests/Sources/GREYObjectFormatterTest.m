@@ -17,18 +17,12 @@
 #import <XCTest/XCTest.h>
 
 #import "Common/GREYObjectFormatter.h"
-#import "GREYBaseTest.h"
+#import "Tests/UnitTests/Sources/GREYBaseTest.h"
 
 @interface GREYObjectFormatterTest : GREYBaseTest
 @end
 
 @implementation GREYObjectFormatterTest
-
-- (void)testFormatNullArray {
-  NSString *formatted = [GREYObjectFormatter formatArray:nil prefix:@"" indent:0 keyOrder:nil];
-  XCTAssertTrue([formatted isEqualToString:@""],
-                @"Error formatting null array");
-}
 
 - (void)testFormatEmptyArray {
   NSArray *testArray = @[];
@@ -138,17 +132,6 @@
   }
   XCTAssertNil(formatted,
                @"Error getting unsupported error for dictionary formatting");
-}
-
-- (void)testFormatNullDictionary {
-  NSString *formatted = [GREYObjectFormatter formatDictionary:nil
-                                                       prefix:nil
-                                                       indent:0
-                                                    hideEmpty:NO
-                                                     keyOrder:nil];
-
-  XCTAssertTrue([formatted isEqualToString:@""],
-                @"Error formatting null dictionary");
 }
 
 - (void)testFormatEmptyDictionary {

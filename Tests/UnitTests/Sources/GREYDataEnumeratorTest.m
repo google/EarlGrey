@@ -14,8 +14,8 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/GREYDataEnumerator.h>
-#import "GREYBaseTest.h"
+#import "Provider/GREYDataEnumerator.h"
+#import "Tests/UnitTests/Sources/GREYBaseTest.h"
 
 @interface GREYDataEnumeratorTest : GREYBaseTest
 

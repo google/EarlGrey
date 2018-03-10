@@ -18,7 +18,7 @@
 #import "Common/GREYSwizzler.h"
 #import "Delegate/GREYCAAnimationDelegate.h"
 #import "Synchronization/GREYAppStateTracker.h"
-#import "GREYBaseTest.h"
+#import "Tests/UnitTests/Sources/GREYBaseTest.h"
 
 static id gDelegate;
 

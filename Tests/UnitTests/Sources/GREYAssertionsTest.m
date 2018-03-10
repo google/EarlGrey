@@ -16,12 +16,12 @@
 
 #import <OCMock.h>
 
-#import <EarlGrey/GREYAssertion.h>
+#import "Assertion/GREYAssertion.h"
 #import "Assertion/GREYAssertions+Internal.h"
-#import <EarlGrey/GREYAssertions.h>
-#import <EarlGrey/GREYElementFinder.h>
-#import <EarlGrey/GREYMatchers.h>
-#import "GREYBaseTest.h"
+#import "Assertion/GREYAssertions.h"
+#import "Core/GREYElementFinder.h"
+#import "Matcher/GREYMatchers.h"
+#import "Tests/UnitTests/Sources/GREYBaseTest.h"
 
 static NSMutableArray *gAppWindows;
 

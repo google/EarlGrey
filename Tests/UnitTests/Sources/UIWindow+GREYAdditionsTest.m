@@ -18,7 +18,7 @@
 
 #import "Additions/UIViewController+GREYAdditions.h"
 #import "Synchronization/GREYAppStateTracker.h"
-#import "GREYBaseTest.h"
+#import "Tests/UnitTests/Sources/GREYBaseTest.h"
 
 @interface GREYUIWindow_AdditionsTest : GREYBaseTest
 
