@@ -19,6 +19,7 @@
 #import "Action/GREYAction.h"
 #import "Action/GREYActionBlock.h"
 #import "Action/GREYChangeStepperAction.h"
+#import "Action/GREYJavascriptExecution.h"
 #import "Action/GREYMultiFingerSwipeAction.h"
 #import "Action/GREYPickerAction.h"
 #import "Action/GREYPinchAction.h"
@@ -291,23 +292,7 @@ static Class gAccessibilityTextFieldElementClass;
 
 + (id<GREYAction>)actionForJavaScriptExecution:(NSString *)js
                                         output:(out __strong NSString **)outResult {
-  // TODO: JS Errors should be propagated up.
-  id<GREYMatcher> constraints = grey_allOf(grey_not(grey_systemAlertViewShown()),
-                                           grey_kindOfClass([UIWebView class]),
-                                           nil);
-  return [[GREYActionBlock alloc] initWithName:@"Execute JavaScript"
-                                   constraints:constraints
-                                  performBlock:^BOOL (UIWebView *webView,
-                                                      __strong NSError **errorOrNil) {
-    if (outResult) {
-      *outResult = [webView stringByEvaluatingJavaScriptFromString:js];
-    } else {
-      [webView stringByEvaluatingJavaScriptFromString:js];
-    }
-    // TODO: Delay should be removed once webview sync is stable.
-    [[GREYUIThreadExecutor sharedInstance] drainForTime:0.5];  // Wait for actions to register.
-    return YES;
-  }];
+  return [GREYJavascriptExecution executeJavascript:js output:outResult];
 }
 
 + (id<GREYAction>)actionForSnapshot:(out __strong UIImage **)outImage {
