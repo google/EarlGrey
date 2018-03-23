@@ -22,10 +22,10 @@
 
 - (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event
 {
-	if(event.subtype == UIEventSubtypeMotionShake)
-	{
-		[[self lastTappedLabel] setText:@"Device Was Shaken"];
-	}
+  if(event.subtype == UIEventSubtypeMotionShake)
+  {
+    [[self lastTappedLabel] setText:@"Device Was Shaken"];
+  }
 }
 
 - (IBAction)onTopLeftTapped:(id)sender {
