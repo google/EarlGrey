@@ -134,13 +134,27 @@ typedef NS_ENUM(NSInteger, GREYKeyboardDismissalErrorCode) {
  *  will be registered.
  *
  *  @param      deviceOrientation The desired orientation of the device.
- *  @param[out] errorOrNil        Error that will be populated on failure. If @c nil, a test
- *                                failure will be reported if the rotation attempt fails.
+ *  @param[out] errorOrNil Error that will be populated on failure. If @c nil, a test
+ *                         failure will be reported if the rotation attempt fails.
  *
  *  @return @c YES if the rotation was successful, @c NO otherwise.
  */
 - (BOOL)rotateDeviceToOrientation:(UIDeviceOrientation)deviceOrientation
                        errorOrNil:(__strong NSError **)errorOrNil;
+
+/**
+ *  Shakes the device. If a non-nil @c errorOrNil is provided, it will
+ *  be populated with the failure reason if the orientation change fails, otherwise a test failure
+ *  will be registered.
+ *
+ *  @param[out] errorOrNil Error that will be populated on failure. If @c nil, the a test
+ *                         failure will be reported if the shake attempt fails.
+ *
+ *  @throws GREYFrameworkException if the action fails and @c errorOrNil is @c nil.
+ *  @return @c YES if the shake was successful, @c NO otherwise. If @c errorOrNil is @c nil and
+ *          the operation fails, it will throw an exception.
+ */
+- (BOOL)shakeDeviceWithErrorOrNil:(__strong NSError **)errorOrNil;
 
 /**
  *  Dismisses the keyboard by resigning the first responder, if any. Will populate the provided
@@ -156,4 +170,3 @@ typedef NS_ENUM(NSInteger, GREYKeyboardDismissalErrorCode) {
 @end
 
 NS_ASSUME_NONNULL_END
-
