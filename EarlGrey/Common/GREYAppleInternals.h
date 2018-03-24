@@ -150,12 +150,12 @@ IOHIDEventRef IOHIDEventCreateDigitizerFingerEvent(CFAllocatorRef allocator,
 /**
  *  Sends a motion began event for the specified subtype.
  */
-- (void) _sendMotionBegan:(UIEventSubtype)subtype;
+- (void)_sendMotionBegan:(UIEventSubtype)subtype;
 
 /**
  *  Sends a motion ended event for the specified subtype.
  */
-- (void) _sendMotionEnded:(UIEventSubtype)subtype;
+- (void)_sendMotionEnded:(UIEventSubtype)subtype;
 
 @end
 
