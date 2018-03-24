@@ -18,6 +18,8 @@
 
 @protocol GREYMatcher;
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  Block type for defining the action's 'perform' code.
  *
@@ -30,7 +32,7 @@
  *
  *  @return @c YES if the action performed succeeded, else @c NO.
  */
-typedef BOOL (^GREYPerformBlock)(id element, __strong NSError **errorOrNil);
+typedef BOOL (^GREYPerformBlock)(id element, __strong NSError *_Nullable *errorOrNil);
 
 /**
  *  A class for creating block based GREYAction.
@@ -59,7 +61,7 @@ typedef BOOL (^GREYPerformBlock)(id element, __strong NSError **errorOrNil);
  *  @return A GREYActionBlock instance with the given name and constraints.
  */
 + (instancetype)actionWithName:(NSString *)name
-                   constraints:(id<GREYMatcher>)constraints
+                   constraints:(id<GREYMatcher> _Nullable)constraints
                   performBlock:(GREYPerformBlock)block;
 
 /**
@@ -84,7 +86,9 @@ typedef BOOL (^GREYPerformBlock)(id element, __strong NSError **errorOrNil);
  *  @return A GREYActionBlock instance with the given name and constraints.
  */
 - (instancetype)initWithName:(NSString *)name
-                 constraints:(id<GREYMatcher>)constraints
+                 constraints:(id<GREYMatcher> _Nullable)constraints
                 performBlock:(GREYPerformBlock)block NS_DESIGNATED_INITIALIZER;
 
 @end
+
+NS_ASSUME_NONNULL_END

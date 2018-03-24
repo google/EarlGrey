@@ -1,5 +1,5 @@
 //
-// Copyright 2016 Google Inc.
+// Copyright 2018 Google Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -29,6 +29,8 @@
  */
 #define EarlGrey [EarlGreyImpl invokedFromFile:[NSString stringWithUTF8String:__FILE__] \
                                     lineNumber:__LINE__]
+
+NS_ASSUME_NONNULL_BEGIN
 
 /**
  *  Key for currently set failure handler for EarlGrey in thread's local storage dictionary.
@@ -114,7 +116,7 @@ typedef NS_ENUM(NSInteger, GREYKeyboardDismissalErrorCode) {
  *
  *  @param handler The failure handler to be used for all test failures.
  */
-- (void)setFailureHandler:(id<GREYFailureHandler>)handler;
+- (void)setFailureHandler:(_Nullable id<GREYFailureHandler>)handler;
 
 /**
  *  Convenience wrapper to invoke GREYFailureHandler::handleException:details: on the global
@@ -152,3 +154,6 @@ typedef NS_ENUM(NSInteger, GREYKeyboardDismissalErrorCode) {
 - (BOOL)dismissKeyboardWithError:(__strong NSError **)errorOrNil;
 
 @end
+
+NS_ASSUME_NONNULL_END
+

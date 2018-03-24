@@ -16,6 +16,8 @@
 
 #import <EarlGrey/GREYConstants.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  Modeled after NSLayoutConstraint, this class captures information related to a layout
  *  constraint: two attributes and a relation that must be satisfied between them.
@@ -100,3 +102,5 @@
  */
 @property(nonatomic, assign) CGFloat constant;
 @end
+
+NS_ASSUME_NONNULL_END

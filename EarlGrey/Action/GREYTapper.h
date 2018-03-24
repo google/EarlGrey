@@ -16,6 +16,8 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  Class containing utility methods for performing taps.
  */
@@ -72,3 +74,5 @@
                   duration:(CFTimeInterval)duration
                      error:(__strong NSError **)errorOrNil;
 @end
+
+NS_ASSUME_NONNULL_END

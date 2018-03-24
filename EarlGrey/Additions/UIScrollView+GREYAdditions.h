@@ -16,6 +16,8 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  EarlGrey specific additions for tracking UIScrollView events (like scrolling, bouncing etc).
  */
@@ -32,3 +34,5 @@
  */
 - (BOOL)grey_hasScrollResistance;
 @end
+
+NS_ASSUME_NONNULL_END

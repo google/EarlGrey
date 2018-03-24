@@ -18,6 +18,8 @@
 
 #import <EarlGrey/GREYDefines.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 #pragma mark - Error domain and codes
 
 GREY_EXTERN NSString *const kGREYSyntheticEventInjectionErrorDomain;
@@ -135,9 +137,11 @@ typedef NS_ENUM(NSInteger, GREYSyntheticEventInjectionErrorCode) {
 
 /**
  *  Ends interaction started by GREYSyntheticEvents::beginTouchAtPoint:relativeToWindow.
- *  This method will block until all the touches since the begining of the interaction have been
+ *  This method will block until all the touches since the beginning of the interaction have been
  *  delivered.
  */
 - (void)endTouch;
 
 @end
+
+NS_ASSUME_NONNULL_END

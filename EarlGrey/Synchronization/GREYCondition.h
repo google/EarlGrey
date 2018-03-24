@@ -16,6 +16,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  A class for creating boolean conditions that can be waited on until the condition is satisfied
  *  or a timeout elapses.
@@ -87,3 +89,5 @@
 - (NSString *)name;
 
 @end
+
+NS_ASSUME_NONNULL_END

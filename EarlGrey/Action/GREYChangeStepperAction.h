@@ -16,6 +16,8 @@
 
 #import <EarlGrey/GREYBaseAction.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  Actions for manipulating UIStepper.
  */
@@ -42,3 +44,6 @@
 - (instancetype)initWithValue:(double)value NS_DESIGNATED_INITIALIZER;
 
 @end
+
+NS_ASSUME_NONNULL_END
+

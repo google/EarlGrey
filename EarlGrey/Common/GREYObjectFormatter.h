@@ -23,6 +23,8 @@
  */
 GREY_EXTERN NSInteger const kGREYObjectFormatIndent;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface GREYObjectFormatter : NSObject
 
 /**
@@ -55,7 +57,7 @@ GREY_EXTERN NSInteger const kGREYObjectFormatIndent;
 + (NSString *)formatDictionary:(NSDictionary *)dictionary
                         indent:(NSInteger)indent
                      hideEmpty:(BOOL)hideEmpty
-                      keyOrder:(NSArray *)keyOrder;
+                      keyOrder:(NSArray *_Nullable)keyOrder;
 
 /**
  *  Serializes an array of objects into JSON-like string.
@@ -72,9 +74,9 @@ GREY_EXTERN NSInteger const kGREYObjectFormatIndent;
  *  @return Serialized JSON-like string of the provided @c array.
  */
 + (NSString *)formatArray:(NSArray *)array
-                   prefix:(NSString *)prefix
+                   prefix:(NSString *_Nullable)prefix
                    indent:(NSInteger)indent
-                 keyOrder:(NSArray *)keyOrder;
+                 keyOrder:(NSArray *_Nullable)keyOrder;
 
 /**
  *  Serializes a dictionary of objects into JSON-like string.
@@ -96,9 +98,11 @@ GREY_EXTERN NSInteger const kGREYObjectFormatIndent;
  *  @return Serialized string of the provided @c dictionary.
  */
 + (NSString *)formatDictionary:(NSDictionary *)dictionary
-                        prefix:(NSString *)prefix
+                        prefix:(NSString *_Nullable)prefix
                         indent:(NSInteger)indent
                      hideEmpty:(BOOL)hideEmpty
-                      keyOrder:(NSArray *)keyOrder;
+                      keyOrder:(NSArray *_Nullable)keyOrder;
 
 @end
+
+NS_ASSUME_NONNULL_END

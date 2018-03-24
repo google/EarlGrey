@@ -16,6 +16,8 @@
 
 #import <EarlGrey/GREYMatcher.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  A class to transform an OCHamcrest matcher and into a GREYMatcher instance.
  *  Since EarlGrey requires its matchers to conform to the GREYMatcher protocol, this class provides
@@ -35,3 +37,5 @@
 - (instancetype)initWithHCMatcher:(id)HCMatcher;
 
 @end
+
+NS_ASSUME_NONNULL_END

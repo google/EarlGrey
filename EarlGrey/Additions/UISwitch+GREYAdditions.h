@@ -16,6 +16,8 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  Additions for the UISwitch class.
  */
@@ -29,3 +31,5 @@
 + (NSString *)grey_stringFromOnState:(BOOL)onState;
 
 @end
+
+NS_ASSUME_NONNULL_END

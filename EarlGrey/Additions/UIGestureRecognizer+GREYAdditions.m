@@ -92,3 +92,4 @@ static Class gKeyboardPinchGestureRecognizerClass;
 }
 
 @end
+

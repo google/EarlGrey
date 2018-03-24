@@ -18,6 +18,8 @@
 
 #import <EarlGrey/GREYIdlingResource.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  An idling resource used for detecting when a UIWebView has loaded all the required resources,
  *  rendered, and generated its accessibility element tree.
@@ -39,3 +41,5 @@
 - (instancetype)init NS_UNAVAILABLE;
 
 @end
+
+NS_ASSUME_NONNULL_END

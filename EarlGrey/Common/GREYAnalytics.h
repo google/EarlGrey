@@ -18,6 +18,8 @@
 
 @protocol GREYAnalyticsDelegate;
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  Provides methods for tracking EarlGrey usage using Google Analytics.
  *
@@ -69,3 +71,5 @@
                              value:(NSString *)value;
 
 @end
+
+NS_ASSUME_NONNULL_END

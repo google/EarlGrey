@@ -25,6 +25,8 @@ typedef NS_ENUM(NSUInteger, GREYTouchInfoPhase) {
   GREYTouchInfoPhaseTouchEnded,
 };
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  An object to encapsulate essential information about a touch.
  */
@@ -76,3 +78,5 @@ typedef NS_ENUM(NSUInteger, GREYTouchInfoPhase) {
 - (instancetype)init NS_UNAVAILABLE;
 
 @end
+
+NS_ASSUME_NONNULL_END

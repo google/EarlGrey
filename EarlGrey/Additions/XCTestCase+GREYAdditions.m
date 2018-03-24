@@ -136,7 +136,7 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
         [documentPaths.firstObject stringByAppendingPathComponent:@"earlgrey-test-outputs"];
 
     NSString *testMethodDirName =
-        [NSString stringWithFormat:@"%@-%@", testClassName, testMethodName];
+        [NSString stringWithFormat:@"%@/%@", testClassName, testMethodName];
     NSString *testSpecificOutputsDir =
         [testOutputsDir stringByAppendingPathComponent:testMethodDirName];
 

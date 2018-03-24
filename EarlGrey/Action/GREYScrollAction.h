@@ -17,6 +17,8 @@
 #import <EarlGrey/GREYBaseAction.h>
 #import <EarlGrey/GREYConstants.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  A GREYAction that implements the scroll action.
  */
@@ -65,3 +67,5 @@
                startPointPercents:(CGPoint)startPointPercents NS_DESIGNATED_INITIALIZER;
 
 @end
+
+NS_ASSUME_NONNULL_END

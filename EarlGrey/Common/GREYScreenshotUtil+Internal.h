@@ -22,6 +22,8 @@
 
 #import <EarlGrey/GREYScreenshotUtil.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface GREYScreenshotUtil (Internal)
 
 /**
@@ -37,3 +39,5 @@
 + (UIImage *)grey_takeScreenshotAfterScreenUpdates:(BOOL)afterScreenUpdates;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -16,6 +16,8 @@
 
 #import "Common/GREYTestHelper.h"
 
+#import <UIKit/UIKit.h>
+
 #import "Provider/GREYUIWindowProvider.h"
 
 @implementation GREYTestHelper

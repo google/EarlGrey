@@ -23,7 +23,6 @@
 #import "Common/GREYElementHierarchy.h"
 #import "Common/GREYFailureFormatter.h"
 #import "Common/GREYFailureScreenshotter.h"
-#import "Common/GREYScreenshotUtil.h"
 #import "Common/GREYScreenshotUtil+Internal.h"
 #import "Common/GREYThrowDefines.h"
 #import "Common/GREYVisibilityChecker.h"

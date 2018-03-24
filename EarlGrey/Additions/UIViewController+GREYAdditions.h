@@ -16,6 +16,8 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface UIViewController (GREYAdditions)
 
 /**
@@ -27,6 +29,8 @@
  *
  *  @param window The window to which to associate this view controller as the root view controller.
  */
-- (void)grey_trackAsRootViewControllerForWindow:(UIWindow *)window;
+- (void)grey_trackAsRootViewControllerForWindow:(UIWindow *_Nullable)window;
 
 @end
+
+NS_ASSUME_NONNULL_END

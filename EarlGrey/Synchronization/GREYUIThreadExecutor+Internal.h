@@ -24,6 +24,8 @@
 
 @protocol GREYIdlingResource;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface GREYUIThreadExecutor (Internal)
 
 /**
@@ -47,3 +49,5 @@
 - (void)deregisterIdlingResource:(id<GREYIdlingResource>)resource;
 
 @end
+
+NS_ASSUME_NONNULL_END

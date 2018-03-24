@@ -16,6 +16,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  A protocol for actions that are performed on accessibility elements.
  */
@@ -34,7 +36,7 @@
  *          mean that the action was not performed at all but somewhere during the action execution
  *          the error occured and so the UI may be in an unrecoverable state.
  */
-- (BOOL)perform:(id)element error:(__strong NSError **)errorOrNil;
+- (BOOL)perform:(id)element error:(__strong NSError *_Nullable *)errorOrNil;
 
 /**
  *  A method to get the name of this action.
@@ -45,3 +47,5 @@
 - (NSString *)name;
 
 @end
+
+NS_ASSUME_NONNULL_END

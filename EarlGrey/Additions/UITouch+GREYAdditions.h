@@ -16,6 +16,8 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface UITouch (GREYAdditions)
 
 /**
@@ -29,3 +31,5 @@
 - (id)initAtPoint:(CGPoint)point relativeToWindow:(UIWindow *)window;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -16,6 +16,8 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  EarlGrey specific additions for traversing and manipulating UIViews.
  */
@@ -64,3 +66,5 @@
 - (BOOL)grey_isVisible;
 
 @end
+
+NS_ASSUME_NONNULL_END

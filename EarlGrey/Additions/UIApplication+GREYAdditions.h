@@ -16,6 +16,8 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  EarlGrey specific additions for tracking runloop mode changes and user interaction events.
  */
@@ -25,6 +27,8 @@
  * @return Active mode for the main runloop that was pushed by one of the push runloop methods.
  *         May return @c nil when no mode was pushed.
  */
-- (NSString *)grey_activeRunLoopMode;
+- (NSString *_Nullable)grey_activeRunLoopMode;
 
 @end
+
+NS_ASSUME_NONNULL_END

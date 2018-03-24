@@ -53,7 +53,7 @@ typedef UInt32 IOOptionBits;
  *  collection case, the child event mask field referrence by
  *  kIOHIDEventFieldDigitizerChildEventMask will detail the cumulative event state of the child
  *  digitizer events. If you append a child digitizer event to a parent digitizer event, appropriate
- *  state will be transfered on to the parent.
+ *  state will be transferred on to the parent.
  */
 typedef enum {
   /**

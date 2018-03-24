@@ -34,6 +34,8 @@ typedef NS_ENUM(NSUInteger, GREYCAAnimationState) {
   kGREYAnimationStopped,
 };
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  EarlGrey specific addition for CAAnimation to track currently running animations.
  */
@@ -66,3 +68,5 @@ typedef NS_ENUM(NSUInteger, GREYCAAnimationState) {
 - (void)grey_untrack;
 
 @end
+
+NS_ASSUME_NONNULL_END
