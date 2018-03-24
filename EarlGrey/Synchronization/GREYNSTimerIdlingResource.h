@@ -16,6 +16,8 @@
 
 #import <EarlGrey/GREYIdlingResource.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  An idling resource to track NSTimer firing events so that the framework can synchronize
  *  with them.
@@ -41,3 +43,5 @@
 + (instancetype)trackTimer:(NSTimer *)timer name:(NSString *)name removeOnIdle:(BOOL)removeOnIdle;
 
 @end
+
+NS_ASSUME_NONNULL_END

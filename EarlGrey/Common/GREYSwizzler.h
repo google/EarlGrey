@@ -16,6 +16,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  A utility class used for swizzling class and instance methods.
  */
@@ -109,6 +111,8 @@
     andReplaceWithInstanceMethod:(SEL)instanceSelector;
 
 @end
+
+NS_ASSUME_NONNULL_END
 
 # pragma mark - Original Method Invocation Macros
 

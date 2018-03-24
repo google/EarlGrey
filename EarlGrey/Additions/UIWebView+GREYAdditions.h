@@ -16,6 +16,8 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  Additions that allow EarlGrey to sync with UIWebView load requests.
  */
@@ -57,3 +59,5 @@
 - (BOOL)grey_isLoadingFrame;
 
 @end
+
+NS_ASSUME_NONNULL_END

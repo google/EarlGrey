@@ -18,6 +18,8 @@
 
 @protocol GREYMatcher;
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  A base class for all actions that incorporates commonalities between initialization
  *  parameters and constraint checking.
@@ -59,3 +61,6 @@
 - (BOOL)satisfiesConstraintsForElement:(id)element error:(__strong NSError **)errorOrNilPtr;
 
 @end
+
+NS_ASSUME_NONNULL_END
+

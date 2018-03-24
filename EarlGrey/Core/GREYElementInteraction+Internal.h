@@ -22,6 +22,8 @@
 
 #import <EarlGrey/GREYElementInteraction.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface GREYElementInteraction (Internal)
 
 /**
@@ -43,3 +45,5 @@
 - (NSArray *)matchedElementsWithTimeout:(NSTimeInterval)timeout error:(__strong NSError **)error;
 
 @end
+
+NS_ASSUME_NONNULL_END

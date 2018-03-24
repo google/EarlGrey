@@ -18,6 +18,8 @@
 
 @class GREYZeroToleranceTimer;
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  Protocol expected to be implemented by @c GREYZeroToleranceTimer's targets, the timer fire
  *  event is indicated by sending the appropriate messages of this protocol to the target.
@@ -74,3 +76,5 @@
 - (void)invalidate;
 
 @end
+
+NS_ASSUME_NONNULL_END

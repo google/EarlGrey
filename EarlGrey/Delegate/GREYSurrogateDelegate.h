@@ -16,6 +16,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  This class is used as a common base class for proxy delegates.
  *  Primarily used to hold needed message forwarding methods.
@@ -44,3 +46,5 @@
 - (id)originalDelegate;
 
 @end
+
+NS_ASSUME_NONNULL_END

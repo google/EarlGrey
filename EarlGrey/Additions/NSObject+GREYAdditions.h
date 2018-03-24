@@ -16,6 +16,8 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  Additions to NSObject for obtaining details for UI and Accessibility Elements.
  */
@@ -94,3 +96,5 @@
                              inModes:(NSArray *)modes;
 
 @end
+
+NS_ASSUME_NONNULL_END

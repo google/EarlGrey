@@ -21,6 +21,8 @@
 
 @protocol GREYAction;
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  A interface that exposes UI element actions.
  */
@@ -369,22 +371,22 @@
  *  Returns an action that executes JavaScript against a UIWebView and sets the return value to
  *  @c outResult if provided.
  *
- *  @param js        The Javascript code to be executed.
- *  @param outResult The result of the code execution.
+ *  @param js             The Javascript code to be executed.
+ *  @param[out] outResult The result of the code execution.
  *
  *  @return A GREYAction that executes JavaScript code against a UIWebView.
  */
 + (id<GREYAction>)actionForJavaScriptExecution:(NSString *)js
-                                        output:(out __strong NSString **)outResult;
+                                        output:(__strong NSString *_Nullable *_Nullable)outResult;
 
 /**
  *  Returns an action that takes a snapshot of the selected element.
  *
- *  @param outImage The UIImage where the image content is stored.
+ *  @param[out] outImage The UIImage where the image content is stored.
  *
  *  @return A GREYAction that takes a snapshot of an UI element.
  */
-+ (id<GREYAction>)actionForSnapshot:(out __strong UIImage **)outImage;
++ (id<GREYAction>)actionForSnapshot:(__strong UIImage *_Nullable *_Nullable)outImage;
 
 @end
 
@@ -531,9 +533,13 @@ GREY_EXPORT id<GREYAction> grey_setDate(NSDate *date);
 GREY_EXPORT id<GREYAction> grey_setPickerColumnToValue(NSInteger column, NSString *value);
 
 /** Shorthand macro for GREYActions::actionForJavaScriptExecution:output:. */
-GREY_EXPORT id<GREYAction> grey_javaScriptExecution(NSString *js, __strong NSString **outResult);
+GREY_EXPORT id<GREYAction> grey_javaScriptExecution(
+    NSString *js, __strong NSString *_Nullable *_Nullable outResult);
 
 /** Shorthand macro for GREYActions::actionForSnapshot:. */
-GREY_EXPORT id<GREYAction> grey_snapshot(__strong UIImage **outImage);
+GREY_EXPORT id<GREYAction> grey_snapshot(__strong UIImage *_Nullable *_Nullable outImage);
 
 #endif // GREY_DISABLE_SHORTHAND
+
+NS_ASSUME_NONNULL_END
+

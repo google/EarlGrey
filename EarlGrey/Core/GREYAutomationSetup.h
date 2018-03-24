@@ -16,6 +16,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  Class responsible for preparing the test environment for automation.
  */
@@ -58,4 +60,4 @@
 
 @end
 
-
+NS_ASSUME_NONNULL_END

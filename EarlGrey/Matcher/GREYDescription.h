@@ -16,6 +16,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  A protocol that defines the layout of an object that conforms to GREYMatcher.
  */
@@ -42,3 +44,5 @@
 - (id<GREYDescription>)appendDescriptionOf:(id)object;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -17,6 +17,8 @@
 #import <Foundation/Foundation.h>
 #import <QuartzCore/QuartzCore.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface GREYCAAnimationDelegate : NSObject
 
 /**
@@ -40,3 +42,5 @@
 - (void)animationDidStop:(CAAnimation *)animation finished:(BOOL)finished;
 
 @end
+
+NS_ASSUME_NONNULL_END

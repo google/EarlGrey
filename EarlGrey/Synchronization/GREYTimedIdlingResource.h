@@ -16,6 +16,8 @@
 
 #import <EarlGrey/GREYIdlingResource.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  An idling resource that changes to busy state for a specified amount of time.
  */
@@ -50,3 +52,5 @@
 - (void)stopMonitoring;
 
 @end
+
+NS_ASSUME_NONNULL_END

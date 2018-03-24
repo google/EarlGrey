@@ -16,6 +16,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  A protocol for resources that can potentially modify the UI and should be synchronized with
  *  before performing any interaction or verification with UI element.
@@ -46,3 +48,5 @@
 - (NSString *)idlingResourceDescription;
 
 @end
+
+NS_ASSUME_NONNULL_END

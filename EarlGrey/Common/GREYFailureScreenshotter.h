@@ -16,6 +16,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface GREYFailureScreenshotter : NSObject
 
 /**
@@ -27,7 +29,7 @@
  *  @return A dictionary of the screenshot names and their corresponding paths.
  */
 
-+ (NSDictionary *)generateAppScreenshotsWithPrefix:(NSString *)screenshotPrefix
++ (NSDictionary *)generateAppScreenshotsWithPrefix:(NSString *_Nullable)screenshotPrefix
                                            failure:(NSString *)failureName;
 
 /**
@@ -39,8 +41,10 @@
  *
  *  @return A dictionary of the screenshot names and their corresponding paths.
  */
-+ (NSDictionary *)generateAppScreenshotsWithPrefix:(NSString *)screenshotPrefix
++ (NSDictionary *)generateAppScreenshotsWithPrefix:(NSString *_Nullable)screenshotPrefix
                                            failure:(NSString *)failureName
                                      screenshotDir:(NSString *)screenshotDir;
 
 @end
+
+NS_ASSUME_NONNULL_END

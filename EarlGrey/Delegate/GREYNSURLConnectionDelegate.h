@@ -18,6 +18,8 @@
 
 #import "Delegate/GREYSurrogateDelegate.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  This is a proxy delegate for NSURLConnectionDelegate which allows us track status of
  *  the connection.
@@ -41,3 +43,5 @@
 - (instancetype)initWithOriginalNSURLConnectionDelegate:(id)originalDelegate;
 
 @end
+
+NS_ASSUME_NONNULL_END

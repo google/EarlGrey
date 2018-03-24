@@ -17,6 +17,8 @@
 #import <EarlGrey/GREYBaseAction.h>
 #import <EarlGrey/GREYConstants.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  A GREYAction that implements a scroll action that scrolls the contents of the matched
  *  UIScrollView to the given edge of its contents.
@@ -59,3 +61,5 @@
           startPointPercents:(CGPoint)startPointPercents NS_DESIGNATED_INITIALIZER;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -16,6 +16,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  Additions to NSURLSessionTask to allow EarlGrey to track status for every network request. By
  *  default EarlGrey tracks all URLs. To change this behavior, add blacklisted URL regex's to
@@ -39,3 +41,5 @@
 - (void)grey_neverTrack;
 
 @end
+
+NS_ASSUME_NONNULL_END

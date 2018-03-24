@@ -18,6 +18,8 @@
 
 #import <EarlGrey/GREYConstants.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  A GREYAction that swipes/flicks with multiple touches
  */
@@ -73,3 +75,6 @@
                     startPercents:(CGPoint)startPercents NS_DESIGNATED_INITIALIZER;
 
 @end
+
+NS_ASSUME_NONNULL_END
+

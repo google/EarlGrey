@@ -18,6 +18,8 @@
 
 @protocol GREYMatcher, GREYProvider;
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  Finds UI elements in GREYProvider that are accepted by a matcher.
  */
@@ -55,3 +57,5 @@
 - (NSArray *)elementsMatchedInProvider:(id<GREYProvider>)elementProvider;
 
 @end
+
+NS_ASSUME_NONNULL_END

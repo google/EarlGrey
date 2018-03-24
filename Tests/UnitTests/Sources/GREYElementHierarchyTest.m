@@ -186,10 +186,6 @@
   XCTAssertNotNil(test);
 }
 
-- (void)testHierarchyStringForANilView {
-  XCTAssertThrows([GREYElementHierarchy hierarchyStringForElement:nil]);
-}
-
 - (void)testHierarchyStringForSingleAccessibilityElement {
   UIView *viewA = [[UIView alloc] initWithFrame:kTestRect];
   UIAccessibilityElement *element =

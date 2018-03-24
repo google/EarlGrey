@@ -18,6 +18,8 @@
 
 #import <EarlGrey/GREYInteraction.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  Interface for creating an interaction with a UI element. If no datasource is set,
  *  a default datasource is used. The default datasource provides access to the entire UI element
@@ -40,3 +42,5 @@
 - (instancetype)initWithElementMatcher:(id<GREYMatcher>)elementMatcher;
 
 @end
+
+NS_ASSUME_NONNULL_END

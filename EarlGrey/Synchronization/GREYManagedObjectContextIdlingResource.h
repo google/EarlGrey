@@ -18,6 +18,8 @@
 
 @class NSManagedObjectContext;
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  * Idling resource that tracks core data managed object context operations.
  *
@@ -49,3 +51,5 @@
 - (instancetype)init NS_UNAVAILABLE;
 
 @end
+
+NS_ASSUME_NONNULL_END

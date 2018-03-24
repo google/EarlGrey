@@ -17,6 +17,8 @@
 #import <EarlGrey/GREYBaseAction.h>
 #import <EarlGrey/GREYConstants.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  Error domain used for pinch related NSError objects.
  */
@@ -54,3 +56,5 @@ typedef NS_ENUM(NSInteger, GREYPinchErrorCode) {
                        pinchAngle:(double)pinchAngle;
 
 @end
+
+NS_ASSUME_NONNULL_END

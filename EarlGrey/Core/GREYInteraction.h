@@ -23,6 +23,8 @@
 @protocol GREYAssertion;
 @protocol GREYMatcher;
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  Error domain for element interaction failures.
  */
@@ -146,7 +148,7 @@ GREY_EXTERN NSString *const kGREYAssertionErrorUserInfoKey;
 - (instancetype)inRoot:(id<GREYMatcher>)rootMatcher;
 
 /**
- *  Performs the @c action repeatedly on the the element matching the @c matcher until the element
+ *  Performs the @c action repeatedly on the element matching the @c matcher until the element
  *  to interact with (specified by GREYInteraction::selectElementWithMatcher:) is found or a
  *  timeout occurs. The search action is only performed when coupled with
  *  GREYInteraction::performAction:, GREYInteraction::assert:, or
@@ -191,8 +193,9 @@ GREY_EXTERN NSString *const kGREYAssertionErrorUserInfoKey;
  *  @return The provided GREYInteraction instance, with an action and an error that will be
  *          populated on failure.
  */
-- (instancetype)performAction:(id<GREYAction>)action error:(__strong NSError **)errorOrNil
-    NS_SWIFT_NOTHROW NS_REFINED_FOR_SWIFT;
+- (instancetype)performAction:(id<GREYAction>)action
+                        error:(__strong NSError *_Nullable *_Nullable)errorOrNil
+                        NS_SWIFT_NOTHROW NS_REFINED_FOR_SWIFT;
 
 /**
  *  Performs an @c assertion on the selected UI element.
@@ -214,8 +217,8 @@ GREY_EXTERN NSString *const kGREYAssertionErrorUserInfoKey;
  *  @return The provided GREYInteraction instance with an assertion and an error that will be
  *          populated on failure.
  */
-- (instancetype)assert:(id<GREYAssertion>)assertion error:(__strong NSError **)errorOrNil
-    NS_SWIFT_NOTHROW;
+- (instancetype)assert:(id<GREYAssertion>)assertion
+                 error:(__strong NSError *_Nullable *_Nullable)errorOrNil NS_SWIFT_NOTHROW;
 
 /**
  *  Performs an assertion that evaluates @c matcher on the selected UI element.
@@ -236,8 +239,9 @@ GREY_EXTERN NSString *const kGREYAssertionErrorUserInfoKey;
  *  @return The provided GREYInteraction instance, with a matcher to be evaluated on an element and
  *          an error that will be populated on failure.
  */
-- (instancetype)assertWithMatcher:(id<GREYMatcher>)matcher error:(__strong NSError **)errorOrNil
-    NS_SWIFT_NOTHROW NS_REFINED_FOR_SWIFT;
+- (instancetype)assertWithMatcher:(id<GREYMatcher>)matcher
+                            error:(__strong NSError *_Nullable *_Nullable)errorOrNil
+                            NS_SWIFT_NOTHROW NS_REFINED_FOR_SWIFT;
 
 /**
  *  In case of multiple matches, selects the element at the specified index. In case of the
@@ -260,3 +264,5 @@ GREY_EXTERN NSString *const kGREYAssertionErrorUserInfoKey;
 - (instancetype)atIndex:(NSUInteger)index;
 
 @end
+
+NS_ASSUME_NONNULL_END

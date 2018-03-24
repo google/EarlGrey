@@ -16,6 +16,8 @@
 
 #import <EarlGrey/GREYBaseAction.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  A GREYAction that changes the value on a UISlider.
  */
@@ -42,3 +44,5 @@
 - (instancetype)initWithSliderValue:(float)value NS_DESIGNATED_INITIALIZER;
 
 @end
+
+NS_ASSUME_NONNULL_END

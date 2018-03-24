@@ -20,6 +20,8 @@
  *  testing purposes.
  */
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface GREYActions (Internal)
 
 /**
@@ -40,3 +42,5 @@
 + (id<GREYAction>)grey_actionForTypeText:(NSString *)text
                         atUITextPosition:(UITextPosition *)position;
 @end
+
+NS_ASSUME_NONNULL_END

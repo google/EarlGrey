@@ -16,6 +16,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  Additions to NSError to facilitate error logging.
  */
@@ -31,3 +33,5 @@
 - (NSDictionary *)grey_descriptionDictionary;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -18,6 +18,8 @@
 
 #import <EarlGrey/GREYDescription.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  Matchers are another way of expressing simple or complex logical expressions. This protocol
  *  defines a set of methods that must be implemented by every matcher object.
@@ -31,7 +33,7 @@
  *
  *  @return @c YES if the object matched the matcher, @c NO otherwise.
  */
-- (BOOL)matches:(id)item;
+- (BOOL)matches:(_Nullable id)item;
 
 /**
  *  A method to evaluate the matcher for the provided @c item with a description for the issue
@@ -45,7 +47,7 @@
  *  @return @c YES if the object matched the matcher, @c NO otherwise. In case of a mismatch, the
  *             reason for mismatch is added to @c mismatchDescription.
  */
-- (BOOL)matches:(id)item describingMismatchTo:(id<GREYDescription>)mismatchDescription;
+- (BOOL)matches:(_Nullable id)item describingMismatchTo:(id<GREYDescription>)mismatchDescription;
 
 /**
  *  A method to generate the description containing the reason for why a matcher did not match an
@@ -58,7 +60,7 @@
  *
  *  @remark This method assumes that GREYMatcher::matches: is false, but will not check this.
  */
-- (void)describeMismatchOf:(id)item to:(id<GREYDescription>)mismatchDescription;
+- (void)describeMismatchOf:(_Nullable id)item to:(id<GREYDescription>)mismatchDescription;
 
 /**
  *  A method to generate a description of an object.
@@ -68,3 +70,5 @@
 - (void)describeTo:(id<GREYDescription>)description;
 
 @end
+
+NS_ASSUME_NONNULL_END

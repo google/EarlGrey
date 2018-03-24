@@ -290,7 +290,7 @@ static Class gAccessibilityTextFieldElementClass;
 }
 
 + (id<GREYAction>)actionForJavaScriptExecution:(NSString *)js
-                                        output:(out __strong NSString **)outResult {
+                                        output:(__strong NSString **)outResult {
   // TODO: JS Errors should be propagated up.
   id<GREYMatcher> constraints = grey_allOf(grey_not(grey_systemAlertViewShown()),
                                            grey_kindOfClass([UIWebView class]),
@@ -310,7 +310,7 @@ static Class gAccessibilityTextFieldElementClass;
   }];
 }
 
-+ (id<GREYAction>)actionForSnapshot:(out __strong UIImage **)outImage {
++ (id<GREYAction>)actionForSnapshot:(__strong UIImage **)outImage {
   GREYThrowOnNilParameter(outImage);
 
   return [[GREYActionBlock alloc] initWithName:@"Element Snapshot"

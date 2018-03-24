@@ -16,6 +16,8 @@
 
 #import <EarlGrey/GREYAssertion.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  A block that accepts an @c element, which will be invoked when an assertion is going to be
  *  performed on the element. If the assertion fails and a non-nil @c errorOrNil is provided,
@@ -26,7 +28,8 @@
  *
  *  @return @c YES if the assertion is valid for @c element, @c NO otherwise.
  */
-typedef BOOL (^GREYCheckBlockWithError)(id element, __strong NSError **errorOrNil);
+typedef BOOL (^GREYCheckBlockWithError)(_Nullable id element,
+                                        __strong NSError *_Nullable *_Nullable errorOrNil);
 
 /**
  *  An interface to create GREYAssertions from blocks.
@@ -63,3 +66,5 @@ typedef BOOL (^GREYCheckBlockWithError)(id element, __strong NSError **errorOrNi
      assertionBlockWithError:(GREYCheckBlockWithError)block NS_DESIGNATED_INITIALIZER;
 
 @end
+
+NS_ASSUME_NONNULL_END

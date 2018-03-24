@@ -16,6 +16,8 @@
 
 #import <EarlGrey/GREYBaseMatcher.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  A block for implementing GREYBaseMatcher::matches:.
  *
@@ -72,7 +74,8 @@ typedef void (^DescribeToBlock)(id<GREYDescription> description);
  *  Initializes a custom matcher.
  *
  *  @param matchBlock    A block for implementing GREYBaseMatcher::matches: method.
- *  @param describeBlock The block which will be invoked for the GREYBaseMatcher::describeTo: method.
+ *  @param describeBlock The block which will be invoked for the
+ *                       GREYBaseMatcher::describeTo: method.
  *
  *  @return A GREYElementMatcherBlock instance, initialized with the required matching
  *          condition and description.
@@ -80,3 +83,5 @@ typedef void (^DescribeToBlock)(id<GREYDescription> description);
 - (instancetype)initWithMatchesBlock:(MatchesBlock)matchBlock
                     descriptionBlock:(DescribeToBlock)describeBlock NS_DESIGNATED_INITIALIZER;
 @end
+
+NS_ASSUME_NONNULL_END

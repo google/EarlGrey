@@ -16,6 +16,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  A utility to get the string representation of the UI hierarchy.
  */
@@ -46,7 +48,7 @@
  *  @return The UI hierarchy as a string.
  */
 + (NSString *)hierarchyStringForElement:(id)element
-               withAnnotationDictionary:(NSDictionary *)annotationDictionary;
+               withAnnotationDictionary:(NSDictionary *_Nullable)annotationDictionary;
 
 /**
  *  Returns the UI hierarchy for all @c UIWindows provided by the GREYUIWindowProvider.
@@ -54,3 +56,5 @@
 + (NSString *)hierarchyStringForAllUIWindows;
 
 @end
+
+NS_ASSUME_NONNULL_END

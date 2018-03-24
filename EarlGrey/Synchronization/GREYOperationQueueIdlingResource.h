@@ -16,6 +16,8 @@
 
 #import <EarlGrey/GREYIdlingResource.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  Idling resource that monitors operation queues.
  */
@@ -40,3 +42,5 @@
 - (instancetype)init NS_UNAVAILABLE;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -18,6 +18,8 @@
 
 #import <EarlGrey/GREYDefines.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  Provides interfaces for taking screenshots of the entire screen and UI elements of the App.
  */
@@ -81,5 +83,7 @@
  *
  *  @return A new buffer that contains XRGB pixels for the provided image.
  */
-GREY_EXPORT unsigned char *grey_createImagePixelDataFromCGImageRef(CGImageRef imageRef,
-                                                                   CGContextRef *outBmpCtx);
+GREY_EXPORT unsigned char *_Nullable grey_createImagePixelDataFromCGImageRef(
+    CGImageRef imageRef, CGContextRef _Nullable *_Nullable outBmpCtx);
+
+NS_ASSUME_NONNULL_END

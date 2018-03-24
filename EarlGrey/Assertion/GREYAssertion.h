@@ -16,6 +16,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  Protocol to which EarlGrey assertion classes must conform.
  */
@@ -37,7 +39,7 @@
  *
  *  @return @c YES if the assertion holds for the specified element, @c NO otherwise.
  */
-- (BOOL)assert:(id)element error:(__strong NSError **)errorOrNil;
+- (BOOL)assert:(_Nullable id)element error:(__strong NSError *_Nullable *_Nullable)errorOrNil;
 
 /**
  *  @return The name of the assertion.
@@ -45,3 +47,5 @@
 - (NSString *)name;
 
 @end
+
+NS_ASSUME_NONNULL_END

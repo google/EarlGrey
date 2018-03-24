@@ -18,6 +18,8 @@
 
 @class GREYFrameworkException;
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  Protocol for handling failures (such as failure of actions and assertions) raised by EarlGrey.
  */
@@ -42,3 +44,5 @@
 - (void)setInvocationFile:(NSString *)fileName andInvocationLine:(NSUInteger)lineNumber;
 
 @end
+
+NS_ASSUME_NONNULL_END

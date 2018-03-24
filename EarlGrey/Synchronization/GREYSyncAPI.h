@@ -23,6 +23,8 @@
  * @brief Methods for executing sync or async blocks with EarlGrey operations.
  */
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  Executes a block containing EarlGrey statements on the main thread and waits for it to
  *  complete. @c block is retained until execution completes.
@@ -41,3 +43,5 @@ GREY_EXPORT void grey_execute_sync(void (^block)());
  *  @param block Block that will be executed.
  */
 GREY_EXPORT void grey_execute_async(void (^block)());
+
+NS_ASSUME_NONNULL_END

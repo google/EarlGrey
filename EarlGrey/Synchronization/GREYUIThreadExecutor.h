@@ -23,6 +23,8 @@
  *  @brief Header file for GREYUIThreadExecutor.
  */
 
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol GREYIdlingResource;
 
 /**
@@ -103,23 +105,24 @@ typedef void(^GREYExecBlock)(void);
  *  Invokes GREYUIThreadExecutor::executeSyncWithTimeout:block:error: with @c kGREYInfiniteTimeout,
  *  @c execBlock and @c error as the respective parameters.
  *
- *  @param execBlock The block to be executed.
- *  @param error     Reference to the error that will store the failure cause, if any.
+ *  @param execBlock      The block to be executed.
+ *  @param errorOrNil     Reference to the error that will store the failure cause, if any.
  *
  *  @return @c YES if the block was executed, @c NO otherwise, in which case @c error will be set to
  *          the failure cause.
  */
-- (BOOL)executeSync:(GREYExecBlock)execBlock error:(__strong NSError **)error;
+- (BOOL)executeSync:(GREYExecBlock)execBlock
+              error:(__strong NSError *_Nullable *_Nullable)errorOrNil;
 
 /**
  *  Executes @c execBlock on the main thread, synchronizing with all registered GREYIdlingResources
  *  and UI events. If the UI thread or idling resources are not idle until @c seconds have elapsed,
  *  @c execBlock is not executed and error (if provided) is populated.
  *
- *  @param seconds   The timeout for waiting for the resources to idle, in seconds.
- *                   A value of @c kGREYInfiniteTimeout indicates an infinite timeout.
- *  @param execBlock The block to be executed.
- *  @param error     Reference to the error that will store the failure cause, if any.
+ *  @param seconds        The timeout for waiting for the resources to idle, in seconds.
+ *                        A value of @c kGREYInfiniteTimeout indicates an infinite timeout.
+ *  @param execBlock      The block to be executed.
+ *  @param errorOrNil     Reference to the error that will store the failure cause, if any.
  *
  *  @return @c YES if the block was executed, @c NO otherwise, in which case @c error will be set to
  *          the failure cause.
@@ -128,7 +131,9 @@ typedef void(^GREYExecBlock)(void);
  *  @remark This selector must be invoked on the main thread.
  */
 - (BOOL)executeSyncWithTimeout:(CFTimeInterval)seconds
-                         block:(GREYExecBlock)execBlock
-                         error:(__strong NSError **)error;
+                         block:(_Nullable GREYExecBlock)execBlock
+                         error:(__strong NSError *_Nullable *_Nullable)errorOrNil;
 
 @end
+
+NS_ASSUME_NONNULL_END

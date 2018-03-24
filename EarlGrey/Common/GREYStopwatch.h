@@ -16,6 +16,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  A class that mimics a stopwatch for calculating code latency.
  *
@@ -69,3 +71,5 @@
 
 
 @end
+
+NS_ASSUME_NONNULL_END

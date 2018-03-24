@@ -17,6 +17,8 @@
 #import <EarlGrey/GREYDefines.h>
 #import <EarlGrey/GREYBaseMatcher.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  A matcher to negate the result of another matcher.
  */
@@ -44,3 +46,5 @@ GREY_EXPORT id<GREYMatcher> grey_not(id<GREYMatcher> matcher);
 #endif // GREY_DISABLE_SHORTHAND
 
 @end
+
+NS_ASSUME_NONNULL_END

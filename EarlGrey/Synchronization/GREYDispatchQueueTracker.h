@@ -16,6 +16,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  A dispatch queue tracker for tracking dispatch queues.
  *
@@ -70,3 +72,5 @@
 - (BOOL)isTrackingALiveQueue;
 
 @end
+
+NS_ASSUME_NONNULL_END

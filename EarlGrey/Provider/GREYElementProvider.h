@@ -18,6 +18,8 @@
 
 #import <EarlGrey/GREYProvider.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  A provider for UI elements.
  */
@@ -98,9 +100,9 @@
  *  @return A GREYElementProviderInstance, initialized with at least one of the specified
  *          parameters.
  */
-- (instancetype)initWithRootProvider:(id<GREYProvider>)rootProvider
-                      orRootElements:(NSArray *)rootElements
-                          orElements:(NSArray *)elements NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithRootProvider:(id<GREYProvider> _Nullable)rootProvider
+                      orRootElements:(NSArray *_Nullable)rootElements
+                          orElements:(NSArray *_Nullable)elements NS_DESIGNATED_INITIALIZER;
 
 #pragma mark - GREYProvider
 
@@ -110,3 +112,5 @@
 - (NSEnumerator *)dataEnumerator;
 
 @end
+
+NS_ASSUME_NONNULL_END

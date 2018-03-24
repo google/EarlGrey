@@ -17,6 +17,8 @@
 #import <EarlGrey/GREYBaseAction.h>
 #import <EarlGrey/GREYConstants.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  A GREYAction that swipes/flicks the matched element.
  */
@@ -64,3 +66,5 @@
                          duration:(CFTimeInterval)duration
                     startPercents:(CGPoint)startPercents;
 @end
+
+NS_ASSUME_NONNULL_END

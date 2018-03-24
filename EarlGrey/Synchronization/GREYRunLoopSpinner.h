@@ -16,6 +16,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  @brief Handles spinning the current run loop in the active mode with various configurations.
  *  Similar to dispatch_sync calls on a thread, you cannot make nested spin calls to the same
@@ -98,3 +100,4 @@
 
 @end
 
+NS_ASSUME_NONNULL_END
