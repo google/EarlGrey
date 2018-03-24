@@ -42,7 +42,7 @@
                                                           lineNumber:mockLineNumber
                                                         functionName:functionName
                                                           stackTrace:mockStackTrace
-                                                      appScreenshots:nil
+                                                      appScreenshots:@{}
                                                               format:@"%@", failureString];
   XCTAssertNotNil(failure, @"Error format failure.");
   NSArray *failureLines = [failure componentsSeparatedByString:@"\n"];
