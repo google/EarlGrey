@@ -61,8 +61,8 @@ typedef NS_ENUM(NSInteger, GREYSyntheticEventInjectionErrorCode) {
  *  be populated with the failure reason if the orientation change fails, otherwise a test failure
  *  will be registered.
  *
- *  @param[out] errorOrNil        Error that will be populated on failure. If @c nil, the a test
- *                                failure will be reported if the shake attempt fails.
+ *  @param[out] errorOrNil Error that will be populated on failure. If @c nil, the a test
+ *                         failure will be reported if the shake attempt fails.
  *
  *  @throws GREYFrameworkException if the action fails and @c errorOrNil is @c nil.
  *  @return @c YES if the shake was successful, @c NO otherwise. If @c errorOrNil is @c nil and
