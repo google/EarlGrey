@@ -154,7 +154,7 @@ typedef NS_ENUM(NSInteger, GREYKeyboardDismissalErrorCode) {
  *  @return @c YES if the shake was successful, @c NO otherwise. If @c errorOrNil is @c nil and
  *          the operation fails, it will throw an exception.
  */
-- (BOOL)shakeDeviceWithErrorOrNil:(__strong NSError **)errorOrNil;
+- (BOOL)shakeDeviceWithError:(__strong NSError **)errorOrNil;
 
 /**
  *  Dismisses the keyboard by resigning the first responder, if any. Will populate the provided
