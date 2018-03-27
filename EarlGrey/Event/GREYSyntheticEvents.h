@@ -68,7 +68,7 @@ typedef NS_ENUM(NSInteger, GREYSyntheticEventInjectionErrorCode) {
  *  @return @c YES if the shake was successful, @c NO otherwise. If @c errorOrNil is @c nil and
  *          the operation fails, it will throw an exception.
  */
-+ (BOOL)shakeDeviceWithErrorOrNil:(__strong NSError **)errorOrNil;
++ (BOOL)shakeDeviceWithError:(__strong NSError **)errorOrNil;
 
 /**
  *  Touch along a specified path in a @c CGPoint array.
