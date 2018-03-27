@@ -112,7 +112,7 @@ static const CFTimeInterval kRotationTimeout = 10.0;
   return YES;
 }
 
-+ (BOOL)shakeDeviceWithErrorOrNil:(NSError *__strong *)errorOrNil {
++ (BOOL)shakeDeviceWithError:(NSError *__strong *)errorOrNil {
   GREYFatalAssertMainThread();
   
   NSError *error;
