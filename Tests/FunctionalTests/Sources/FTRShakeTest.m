@@ -29,7 +29,7 @@
 
 - (void)testDeviceShake {
   // Test device shake.
-  [EarlGrey shakeDeviceWithErrorOrNil:nil];
+  [EarlGrey shakeDeviceWithError:nil];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"lastTapped")]
       assertWithMatcher:grey_text([NSString stringWithFormat:@"Device Was Shaken"])];
 }
