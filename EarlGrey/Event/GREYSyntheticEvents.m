@@ -27,6 +27,7 @@
 #import "Common/GREYThrowDefines.h"
 #import "Event/GREYTouchInjector.h"
 #import "Synchronization/GREYUIThreadExecutor.h"
+#import "Synchronization/GREYRunLoopSpinner.h"
 
 #pragma mark - Extern
 
@@ -118,9 +119,15 @@ static const CFTimeInterval kRotationTimeout = 10.0;
   NSError *error;
   BOOL success = [[GREYUIThreadExecutor sharedInstance] executeSyncWithTimeout:kRotationTimeout
                                                                          block:^{
+    //Keep previous accelerometer events enabled value and force it to YES so that the shake motion is passed to the application.
+    BOOL prevValue = [[[[UIApplication sharedApplication] _motionEvent] valueForKey:@"_motionAccelerometer"] accelerometerEventsEnabled];
+    [[[[UIApplication sharedApplication] _motionEvent] valueForKey:@"_motionAccelerometer"] setAccelerometerEventsEnabled:YES];
+    
     //This behaves exactly in the same manner that UIApplication handles the simulator "Shake Gesture" menu command.
     [[UIApplication sharedApplication] _sendMotionBegan:UIEventSubtypeMotionShake];
     [[UIApplication sharedApplication] _sendMotionEnded:UIEventSubtypeMotionShake];
+    
+    [[[[UIApplication sharedApplication] _motionEvent] valueForKey:@"_motionAccelerometer"] setAccelerometerEventsEnabled:prevValue];
   } error:&error];
   
   if (!success) {
