@@ -22,7 +22,7 @@
 @interface FTRAccessibilityTest : FTRBaseIntegrationTest
 @end
 
-// TODO: Test edge cases for UI Accessibility Element visibility as well.
+/** TODO: Test edge cases for UI Accessibility Element visibility as well. */
 @implementation FTRAccessibilityTest
 
 - (void)setUp {
@@ -30,7 +30,7 @@
   [self openTestViewNamed:@"Accessibility Views"];
 }
 
-// Test for https://github.com/google/EarlGrey/issues/108
+/** Test for https://github.com/google/EarlGrey/issues/108 */
 - (void)testAccessibilityMessageViewController {
   [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"Open MVC")] performAction:grey_tap()];
   [[[EarlGrey selectElementWithMatcher:grey_anything()] atIndex:0] assertWithMatcher:grey_notNil()];
