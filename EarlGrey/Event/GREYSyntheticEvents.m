@@ -119,11 +119,17 @@ static const CFTimeInterval kRotationTimeout = 10.0;
   NSError *error;
   BOOL success = [[GREYUIThreadExecutor sharedInstance] executeSyncWithTimeout:kRotationTimeout
                                                                          block:^{
-    //Keep previous accelerometer events enabled value and force it to YES so that the shake motion is passed to the application.
-    BOOL prevValue = [[[[UIApplication sharedApplication] _motionEvent] valueForKey:@"_motionAccelerometer"] accelerometerEventsEnabled];
-    [[[[UIApplication sharedApplication] _motionEvent] valueForKey:@"_motionAccelerometer"] setAccelerometerEventsEnabled:YES];
+    // Keep previous accelerometer events enabled value and force it to YES so that the shake
+    // motion is passed to the application.
+    UIApplication *application = [UIApplication sharedApplication];
+    BOOL prevValue =
+        [[[application _motionEvent] valueForKey:@"_motionAccelerometer"]
+            accelerometerEventsEnabled];
+    [[[[UIApplication sharedApplication] _motionEvent] valueForKey:@"_motionAccelerometer"]
+        setAccelerometerEventsEnabled:YES];
     
-    //This behaves exactly in the same manner that UIApplication handles the simulator "Shake Gesture" menu command.
+    // This behaves exactly in the same manner that UIApplication handles the simulator
+    // "Shake Gesture" menu command.
     [[UIApplication sharedApplication] _sendMotionBegan:UIEventSubtypeMotionShake];
     [[UIApplication sharedApplication] _sendMotionEnded:UIEventSubtypeMotionShake];
     

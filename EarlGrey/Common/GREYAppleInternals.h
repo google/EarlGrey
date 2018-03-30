@@ -133,11 +133,10 @@ IOHIDEventRef IOHIDEventCreateDigitizerFingerEvent(CFAllocatorRef allocator,
  *  A private class that represents motion related events. This is sent to UIApplication whenever a
  *  motion occurs.
  */
-@interface UIMotionEvent : NSObject
-{
+@interface UIMotionEvent : NSObject {
   /**
-  *  The motion accelerometer of the event.
-  */
+   *  The motion accelerometer of the event.
+   */
   BKSAccelerometer *_motionAccelerometer;
 }
 
