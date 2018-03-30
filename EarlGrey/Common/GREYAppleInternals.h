@@ -125,6 +125,9 @@ IOHIDEventRef IOHIDEventCreateDigitizerFingerEvent(CFAllocatorRef allocator,
  */
 @interface BKSAccelerometer : NSObject
 
+/**
+ *  Enable or disable accelerometer events.
+ */
 @property (nonatomic) BOOL accelerometerEventsEnabled;
 
 @end
