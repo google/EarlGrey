@@ -122,18 +122,16 @@ static const CFTimeInterval kRotationTimeout = 10.0;
     // Keep previous accelerometer events enabled value and force it to YES so that the shake
     // motion is passed to the application.
     UIApplication *application = [UIApplication sharedApplication];
-    BOOL prevValue =
-        [[[application _motionEvent] valueForKey:@"_motionAccelerometer"]
-            accelerometerEventsEnabled];
-    [[[[UIApplication sharedApplication] _motionEvent] valueForKey:@"_motionAccelerometer"]
-        setAccelerometerEventsEnabled:YES];
+    BKSAccelerometer *accelerometer = [[application _motionEvent] valueForKey:@"_motionAccelerometer"];
+    BOOL prevValue = accelerometer.accelerometerEventsEnabled;
+    accelerometer.accelerometerEventsEnabled = YES;
     
     // This behaves exactly in the same manner that UIApplication handles the simulator
     // "Shake Gesture" menu command.
-    [[UIApplication sharedApplication] _sendMotionBegan:UIEventSubtypeMotionShake];
-    [[UIApplication sharedApplication] _sendMotionEnded:UIEventSubtypeMotionShake];
+    [application _sendMotionBegan:UIEventSubtypeMotionShake];
+    [application _sendMotionEnded:UIEventSubtypeMotionShake];
     
-    [[[[UIApplication sharedApplication] _motionEvent] valueForKey:@"_motionAccelerometer"] setAccelerometerEventsEnabled:prevValue];
+    accelerometer.accelerometerEventsEnabled = prevValue;
   } error:&error];
   
   if (!success) {
