@@ -137,9 +137,7 @@ IOHIDEventRef IOHIDEventCreateDigitizerFingerEvent(CFAllocatorRef allocator,
  *  motion occurs.
  */
 @interface UIMotionEvent : NSObject {
-  /**
-   *  The motion accelerometer of the event.
-   */
+  // The motion accelerometer of the event.
   BKSAccelerometer *_motionAccelerometer;
 }
 
