@@ -616,3 +616,7 @@ You can choose from the following orientation modes (for more information, see [
   * `UIDeviceOrientationLandscapeRight`
   * `UIDeviceOrientationFaceUp`
   * `UIDeviceOrientationFaceDown`
+
+### Shake Gesture
+
+You can use `[EarlGrey shakeDeviceWithError:]` to simulate a shake gesture in a simulator.
