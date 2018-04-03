@@ -4,8 +4,8 @@ Details changes in each release of EarlGrey. EarlGrey follows [semantic versioni
 
 ## [1.13.0](https://github.com/google/EarlGrey/tree/1.13.0) (04/02/2018)
 ```
-Baseline: [bf7266d]
-+ [bf7266d]: Add Support for Device Shake API.
+Baseline: [f5739bd]
++ [f5739bd]: fix comment style
 ```
 
 ### Enhancements
