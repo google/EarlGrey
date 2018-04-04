@@ -2,10 +2,10 @@
 
 Details changes in each release of EarlGrey. EarlGrey follows [semantic versioning](http://semver.org/).
 
-## [1.13.0](https://github.com/google/EarlGrey/tree/1.13.0) (04/02/2018)
+## [1.13.0](https://github.com/google/EarlGrey/tree/1.13.0) (04/03/2018)
 ```
-Baseline: [f5739bd]
-+ [f5739bd]: fix comment style
+Baseline: [2b3939a]
++ [2b3939a]: Fix Swift file issues with the updated EarlGrey code for release 1.13.0
 ```
 
 ### Enhancements
