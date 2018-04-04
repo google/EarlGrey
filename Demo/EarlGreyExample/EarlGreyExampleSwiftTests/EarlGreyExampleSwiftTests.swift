@@ -219,8 +219,8 @@ class EarlGreyExampleSwiftTests: XCTestCase {
       return true
     })
     // Wait for my condition to be satisfied or timeout after 5 seconds.
-    let success = myCondition?.wait(withTimeout: 5)
-    if !success! {
+    let success = myCondition.wait(withTimeout: 5)
+    if !success {
       // Just printing for the example.
       print("Condition not met")
     } else {
