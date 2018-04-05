@@ -11,9 +11,9 @@ Baseline: [2b3939a]
 ### Enhancements
 * Add nullability to EarlGrey Headers. [Issue #449](https://github.com/google/EarlGrey/issues/449)
 * Remove `notNil` method and add explicit check in the matcher itself.
-* Update the Swift wrapper to used refined methods to prevent discardable result warnings.
+* Update the Swift wrapper to use refined methods to prevent discardable result warnings.
 * Update EarlGrey assert(with:) calls to assert(_:).
-* Move the GREYRunLoopSpinner to spin on the thread passed to it instead of the main thread.
+* Move `GREYRunLoopSpinner` to spin on the thread passed to it instead of the main thread.
 * Add tests for disabled buttons, fix visibility test and add iOS 11 support to tests.
 * Move `EarlGreyImpl` interface out of EarlGrey.h.
 * Add shake motion support to EarlGrey.
@@ -24,7 +24,7 @@ Baseline: [2b3939a]
 * Close MVC unconditionally to prevent erroneous scenarios where it fails to execute the completion block, leaving it resident on the screen forever.
 
 ### Compatibility
-* EarlGrey has now been tested for working till Xcode version 9.3. Any small test breakages with Xcode 9.3 are being tested.
+* EarlGrey now supports Xcode version 9.3. Any small test breakages with Xcode 9.3 are being tested.
 
 ## [1.12.1](https://github.com/google/EarlGrey/tree/1.12.1) (09/01/2017)
 ```
