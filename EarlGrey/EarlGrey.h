@@ -71,3 +71,4 @@
 #import <EarlGrey/GREYOperationQueueIdlingResource.h>
 #import <EarlGrey/GREYSyncAPI.h>
 #import <EarlGrey/GREYUIThreadExecutor.h>
+#import <EarlGrey/EarlGrey+Detox.h>
