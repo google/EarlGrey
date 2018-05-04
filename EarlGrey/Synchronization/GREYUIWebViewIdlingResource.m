@@ -141,6 +141,9 @@ static NSString *const kTrackerScriptCleanupScript =
   // view populated in UIWebView's hierarchy.
   BOOL webViewIsDisplayingPDF = ([[[_webView valueForKey:@"_internal"] valueForKey:@"pdfHandler"]
                                      valueForKey:@"pdfView"] == nil);
+  if (webViewIsDisplayingPDF) {
+    return YES;
+  }
 
   id internalWebBrowserView = [[_webView valueForKey:@"_internal"] valueForKey:@"browserView"];
   if (internalWebBrowserView) {
