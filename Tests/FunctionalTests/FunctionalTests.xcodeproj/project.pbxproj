@@ -108,6 +108,7 @@
 		61E4E0B31D7559A9007F9EE6 /* FTRImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 61E4E0B11D7559A9007F9EE6 /* FTRImageViewController.m */; };
 		61E4E0B41D7559A9007F9EE6 /* FTRImageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 61E4E0B21D7559A9007F9EE6 /* FTRImageViewController.xib */; };
 		61E4E0C31D755A9B007F9EE6 /* FTRPinchViewTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 61E4E0C11D755A5C007F9EE6 /* FTRPinchViewTest.m */; };
+		7A6EB6DC209CFCE30058411A /* bigtable.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 7A6EB6DA209CFCE30058411A /* bigtable.pdf */; };
 		D210ED941E72214A00978B9E /* FTRMultiFingerSwipeTest.m in Sources */ = {isa = PBXBuildFile; fileRef = D210ED931E72214A00978B9E /* FTRMultiFingerSwipeTest.m */; };
 		D210ED9D1E733EE400978B9E /* FTRMultiFingerSwipeGestureRecognizerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D210ED9B1E733EE400978B9E /* FTRMultiFingerSwipeGestureRecognizerViewController.m */; };
 		D210ED9E1E733EE400978B9E /* FTRMultiFingerSwipeGestureRecognizerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D210ED9C1E733EE400978B9E /* FTRMultiFingerSwipeGestureRecognizerViewController.xib */; };
@@ -333,6 +334,7 @@
 		61E4E0B11D7559A9007F9EE6 /* FTRImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FTRImageViewController.m; sourceTree = "<group>"; };
 		61E4E0B21D7559A9007F9EE6 /* FTRImageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FTRImageViewController.xib; sourceTree = "<group>"; };
 		61E4E0C11D755A5C007F9EE6 /* FTRPinchViewTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FTRPinchViewTest.m; sourceTree = "<group>"; };
+		7A6EB6DA209CFCE30058411A /* bigtable.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = bigtable.pdf; sourceTree = "<group>"; };
 		D210ED931E72214A00978B9E /* FTRMultiFingerSwipeTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FTRMultiFingerSwipeTest.m; sourceTree = "<group>"; };
 		D210ED9A1E733EE400978B9E /* FTRMultiFingerSwipeGestureRecognizerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FTRMultiFingerSwipeGestureRecognizerViewController.h; sourceTree = "<group>"; };
 		D210ED9B1E733EE400978B9E /* FTRMultiFingerSwipeGestureRecognizerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = FTRMultiFingerSwipeGestureRecognizerViewController.m; sourceTree = "<group>"; tabWidth = 2; };
@@ -486,6 +488,7 @@
 		59467D8E1C9373A50089498B /* www */ = {
 			isa = PBXGroup;
 			children = (
+				7A6EB6DA209CFCE30058411A /* bigtable.pdf */,
 				59467D8F1C9373A50089498B /* testpage.html */,
 			);
 			path = www;
@@ -781,6 +784,7 @@
 				59467DFB1C9373A50089498B /* Default-568h@2x.png in Resources */,
 				59467E1B1C9373A50089498B /* FTRMainViewController.xib in Resources */,
 				59467E2D1C9373A50089498B /* FTRTypingViewController.xib in Resources */,
+				7A6EB6DC209CFCE30058411A /* bigtable.pdf in Resources */,
 				59467E0B1C9373A50089498B /* FTRActivityIndicatorViewController.xib in Resources */,
 				59467E0D1C9373A50089498B /* FTRAlertViewController.xib in Resources */,
 				59467E021C9373A50089498B /* ic_local_cafe_48pt@2x.png in Resources */,

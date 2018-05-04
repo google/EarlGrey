@@ -108,6 +108,13 @@ static const NSTimeInterval kLocalHTMLPageLoadDelay = 10.0;
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
+- (void)testPDFIdlesCorrectly {
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"loadPDF")]
+      performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"loadLocalFile")]
+      performAction:grey_tap()];
+}
+
 /*
  * These tests are really unit tests but since we hit EXC_BAD_ACCESS initializing a UIWebView in
  * a unit test environment, we are moving these to UI test suite
