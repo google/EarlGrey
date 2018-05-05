@@ -71,7 +71,7 @@
  *  @return A dispatch_source_t pointing to the newly created timer.
  */
 + (dispatch_source_t)grey_scheduleZeroToleranceTimerWithInterval:(CFTimeInterval)interval
-                                                         handler:(void(^)())handler {
+                                                         handler:(void(^)(void))handler {
   dispatch_source_t timer =
       dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, dispatch_get_main_queue());
   GREYFatalAssertWithMessage(timer, @"Timer could not be created");
