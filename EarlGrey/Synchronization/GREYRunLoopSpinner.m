@@ -78,14 +78,14 @@ static void (^noopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef t
   }
 
   __block NSUInteger drainCount = 0;
-  void (^drainCountingBlock)() = ^{
+  void (^drainCountingBlock)(void) = ^{
     drainCount++;
     if (drainCount >= exitDrainCount) {
       CFRunLoopStop(CFRunLoopGetCurrent());
     }
   };
 
-  void (^wakeUpBlock)() = ^{
+  void (^wakeUpBlock)(void) = ^{
     // Never let the run loop sleep while we are draining it for the minimum drains.
     CFRunLoopWakeUp(CFRunLoopGetCurrent());
   };
@@ -123,14 +123,14 @@ static void (^noopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef t
  *  @return @c YES if the condition block was evaluated to YES while draining or after the active
  *          run loop finished; @c NO otherwise.
  */
-- (BOOL)grey_drainRunLoopInActiveModeAndCheckCondition:(BOOL (^)())stopConditionBlock
+- (BOOL)grey_drainRunLoopInActiveModeAndCheckCondition:(BOOL (^)(void))stopConditionBlock
                                                forTime:(CFTimeInterval)time {
   NSString *activeMode = [self grey_activeRunLoopMode];
   CFRunLoopTimerRef wakeUpTimer = [self grey_setupWakeUpTimerInMode:activeMode];
   __block BOOL conditionMet = NO;
   __weak __typeof__(self) weakSelf = self;
 
-  void (^beforeSourcesConditionCheckBlock)() = ^{
+  void (^beforeSourcesConditionCheckBlock)(void) = ^{
     __typeof__(self) strongSelf = weakSelf;
     GREYFatalAssertWithMessage(strongSelf, @"The spinner should not have been deallocated.");
 
@@ -143,7 +143,7 @@ static void (^noopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef t
     }
   };
 
-  void (^beforeWaitingConditionCheckBlock)() = ^{
+  void (^beforeWaitingConditionCheckBlock)(void) = ^{
     __typeof__(self) strongSelf = weakSelf;
     GREYFatalAssertWithMessage(strongSelf, @"The spinner should not have been deallocated.");
 
@@ -197,7 +197,7 @@ static void (^noopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef t
  *
  *  @return @c YES if the stop condition block evaluated to @YES; @c NO otherwise.
  */
-- (BOOL)grey_checkConditionInActiveMode:(BOOL (^)())stopConditionBlock  {
+- (BOOL)grey_checkConditionInActiveMode:(BOOL (^)(void))stopConditionBlock  {
   __block BOOL conditionMet = NO;
   __weak __typeof__(self) weakSelf = self;
 
@@ -238,8 +238,8 @@ static void (^noopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef t
  *  @return The registered observer.
  */
 - (CFRunLoopObserverRef)grey_setupObserverInMode:(NSString *)mode
-                          withBeforeSourcesBlock:(void (^)())beforeSourcesBlock
-                              beforeWaitingBlock:(void (^)())beforeWaitingBlock {
+                          withBeforeSourcesBlock:(void (^)(void))beforeSourcesBlock
+                              beforeWaitingBlock:(void (^)(void))beforeWaitingBlock {
   __block int numNestedRunLoopModes = 0;
 
   void (^observerBlock)(CFRunLoopObserverRef observer, CFRunLoopActivity activity) =

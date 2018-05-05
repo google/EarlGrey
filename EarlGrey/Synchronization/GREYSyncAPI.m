@@ -18,7 +18,7 @@
 
 #import "Assertion/GREYAssertionDefines.h"
 
-void grey_execute_sync(void (^block)()) {
+void grey_execute_sync(void (^block)(void)) {
   if ([NSThread isMainThread]) {
     NSLog(@"grey_execute_sync() cannot be invoked on the main thread. Aborting.");
     abort();
@@ -35,7 +35,7 @@ void grey_execute_sync(void (^block)()) {
   dispatch_semaphore_wait(waitForBlock, DISPATCH_TIME_FOREVER);
 }
 
-void grey_execute_async(void (^block)()) {
+void grey_execute_async(void (^block)(void)) {
   CFRunLoopPerformBlock(CFRunLoopGetMain(), kCFRunLoopDefaultMode, block);
   // CFRunLoopPerformBlock does not wake up the main queue.
   CFRunLoopWakeUp(CFRunLoopGetMain());
