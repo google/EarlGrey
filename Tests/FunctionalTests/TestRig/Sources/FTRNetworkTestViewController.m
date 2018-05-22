@@ -69,9 +69,13 @@ static NSString *const kFTRProxyRegex = @"^http://www.youtube.com";
 }
 
 - (IBAction)testNetworkClick:(id)sender {
+  // connectionWithRequest is deprecated on iOS 9 and higher.
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
   NSURLRequest *request =
       [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.youtube.com/"]];
   [NSURLConnection connectionWithRequest:request delegate:self];
+#pragma clang diagnostic pop
 }
 
 - (IBAction)userDidTapNSURLSessionDelegateTest:(id)sender {
