@@ -366,7 +366,7 @@ module EarlGrey
       project_test_targets = project.main_group.children
       test_target_group = recursively_find_group_with_name(project_test_targets, target.name)
 
-      raise "Test target group not found! #{test_target_group}" unless test_target_group
+      raise "Test target group not found! An Xcode group with the name #{target.name} should exist in your project" unless test_target_group
 
       swift_version ||= '3.0'
       src_root = File.join(__dir__, 'files')
@@ -411,7 +411,7 @@ module EarlGrey
       if target_group == nil
          groups.each do |group|
             if group.respond_to?(:children) && !group.children.nil?         
-             target_group = find_group_with_name(group.children, name)
+             target_group = recursively_find_group_with_name(group.children, name)
             end
             if !target_group.nil?
               break 
