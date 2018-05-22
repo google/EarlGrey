@@ -62,6 +62,10 @@ typedef void (^GREYTaskCompletionBlock)(NSData *data,
     // request need not be tracked as its completion/failure does not trigger any delegate
     // callbacks.
     if ([delegate respondsToSelector:originalSel]) {
+      // This is to solve issues where there is a proxy delegate instead of the original instance (e.g. TrustKit).
+      // It responds YES to `respondsToSelector:` but `class_getInstanceMethod` returns nil.
+      // We attempt to take the forwarding target for the selector, if it exists.
+      delegateClass = [[delegate forwardingTargetForSelector:originalSel] class] ?: delegateClass;
       Class selfClass = [self class];
       // Double-checked locking to prevent multiple swizzling attempts of the same class.
       @synchronized(selfClass) {
