@@ -34,3 +34,11 @@ target "EarlGreyExampleSwiftTests" do
   pod 'EarlGrey'
 end
 
+target "EarlGreyExampleMixedTests" do
+  project 'EarlGreyExample'
+
+  inherit! :search_paths
+  pod 'EarlGrey'
+end
+
+

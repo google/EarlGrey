@@ -3,3 +3,5 @@ Pods/
 Podfile.lock
 xcuserdata/
 *.xcworkspace/
+xctestrun
+fixtures
