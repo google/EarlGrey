@@ -409,7 +409,7 @@ module EarlGrey
     # Recursively iterate through the group tree. Will return the first group with a matching name
     #
     # @param [Array<PBXGroup>] Array of groups
-    # @param [String] the group name to look for
+    # @param [String] the group name to look for 
     def recursively_find_group_with_name(groups, name)
       target_group = groups.find { |g| g.display_name == name }
       if target_group.nil?
