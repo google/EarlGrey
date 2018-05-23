@@ -10,45 +10,42 @@
 #  - https://github.com/google/EarlGrey/tree/master/Demo/EarlGreyExample
 
 DIR=$(pwd)
-DD_PATH="$DIR/xctestrun/"
+DD_PATH="$DIR/xctestrun"
+DD_PRODUCTS="$DD_PATH/Build/Products"
 mkdir -p "$DD_PATH"
 rm -rf "$DD_PATH"
 
-echo "open $DIR/$REPO_NAME/Demo/EarlGreyExample/EarlGreyExample.xcworkspace"
+echo "open $DIR/Demo/EarlGreyExample/EarlGreyExample.xcworkspace"
 echo "Manually update with a valid Apple id."
 echo "[Press Enter to continue]"
 read
 
-xcodebuild build-for-testing \
-  -workspace EarlGreyExample.xcworkspace \
-  -scheme "EarlGreyExampleSwiftTests" \
-  -destination "generic/platform=iOS" \
-  -derivedDataPath "$DD_PATH"
+build() {
+  xcodebuild build-for-testing \
+    -workspace EarlGreyExample.xcworkspace \
+    -scheme $1 \
+    -destination "generic/platform=iOS" \
+    -derivedDataPath "$DD_PATH"
+}
 
-FIXTURES_PATH="fixtures/swift"
-mkdir -p "$FIXTURES_PATH"
-cp "$DIR/xctestrun/Build/Products/Debug-iphoneos/EarlGreyExampleSwift.app/PlugIns/EarlGreyExampleSwiftTests.xctest/EarlGreyExampleSwiftTests" \
- "$FIXTURES_PATH"
+move() {
+  DEST_PATH="$DD_PRODUCTS/$2"
+  mkdir -p $DEST_PATH
+  cp "$DD_PRODUCTS/Debug-iphoneos/EarlGreyExampleSwift.app/PlugIns/$1.xctest/$1" \
+  $DEST_PATH
+}
 
+# $1 Test Target Name
+# $2 Destination Path
+execute() {
+  build $1
+  move $1 $2
+}
 
-xcodebuild build-for-testing \
-  -workspace EarlGreyExample.xcworkspace \
-  -scheme "EarlGreyExampleMixedTests" \
-  -destination "generic/platform=iOS" \
-  -derivedDataPath "$DD_PATH"
+execute "EarlGreyExampleSwiftTests" "swift"
+execute "EarlGreyExampleMixedTests" "mixed"
+execute "EarlGreyExampleTests" "objc"
 
-FIXTURES_PATH="fixtures/mixed"
-mkdir -p "$FIXTURES_PATH"
-cp "$DIR/xctestrun/Build/Products/Debug-iphoneos/EarlGreyExampleSwift.app/PlugIns/EarlGreyExampleMixedTests.xctest/EarlGreyExampleMixedTests" \
- "$FIXTURES_PATH"
-
-xcodebuild build-for-testing \
-  -workspace EarlGreyExample.xcworkspace \
-  -scheme "EarlGreyExampleTests" \
-  -destination "generic/platform=iOS" \
-  -derivedDataPath "$DD_PATH"
-
-FIXTURES_PATH="fixtures/objc"
-mkdir -p "$FIXTURES_PATH"
-cp "$DIR/xctestrun/Build/Products/Debug-iphoneos/EarlGreyExampleSwift.app/PlugIns/EarlGreyExampleTests.xctest/EarlGreyExampleTests" \
- "$FIXTURES_PATH"
+ZIP_PATH="$DD_PRODUCTS/EarlGreyExampleTests.zip"
+cd $DD_PRODUCTS
+zip -r $ZIP_PATH *
