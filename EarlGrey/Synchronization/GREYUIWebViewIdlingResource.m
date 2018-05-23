@@ -137,6 +137,14 @@ static NSString *const kTrackerScriptCleanupScript =
     }
   }
 
+  // UIWebViews may be used to display PDFs in addition to HTML based content. Test if there's a PDF
+  // view populated in UIWebView's hierarchy.
+  BOOL webViewIsDisplayingPDF = ([[[_webView valueForKey:@"_internal"] valueForKey:@"pdfHandler"]
+                                     valueForKey:@"pdfView"] == nil);
+  if (webViewIsDisplayingPDF) {
+    return YES;
+  }
+
   id internalWebBrowserView = [[_webView valueForKey:@"_internal"] valueForKey:@"browserView"];
   if (internalWebBrowserView) {
     @autoreleasepool {
