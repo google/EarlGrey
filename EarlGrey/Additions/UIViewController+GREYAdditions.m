@@ -138,14 +138,18 @@ __attribute__((constructor)) static void initialize(void) {
       // Interactive transitions can cancel and cause imbalance of will and did calls.
       id<UIViewControllerTransitionCoordinator> coordinator = [self transitionCoordinator];
       if (coordinator && [coordinator initiallyInteractive]) {
-        [coordinator notifyWhenInteractionEndsUsingBlock:
-         ^(id<UIViewControllerTransitionCoordinatorContext> context) {
-           if ([context isCancelled]) {
-             id object =
-                 objc_getAssociatedObject(self, @selector(greyswizzled_viewWillAppear:));
-             UNTRACK_STATE_FOR_OBJECT(kGREYPendingViewsToAppear, object);
-           }
-         }];
+        void (^contextBlock)(id<UIViewControllerTransitionCoordinatorContext>) =
+        ^(id<UIViewControllerTransitionCoordinatorContext> context) {
+          if ([context isCancelled]) {
+            id object = objc_getAssociatedObject(self, @selector(greyswizzled_viewWillAppear:));
+            UNTRACK_STATE_FOR_OBJECT(kGREYPendingViewsToAppear, object);
+          }
+        };
+#if !defined(__IPHONE_10_0) || (__IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_10_0)
+        [coordinator notifyWhenInteractionEndsUsingBlock:contextBlock];
+#else
+        [coordinator notifyWhenInteractionChangesUsingBlock:contextBlock];
+#endif
       }
 
       GREYAppStateTrackerObject *object =
@@ -179,14 +183,19 @@ __attribute__((constructor)) static void initialize(void) {
     // Interactive transitions can cancel and cause imbalance of will and did calls.
     id<UIViewControllerTransitionCoordinator> coordinator = [self transitionCoordinator];
     if (coordinator && [coordinator initiallyInteractive]) {
-      [coordinator notifyWhenInteractionEndsUsingBlock:
-          ^(id<UIViewControllerTransitionCoordinatorContext> context) {
-            if ([context isCancelled]) {
-              GREYAppStateTrackerObject *object =
-                  objc_getAssociatedObject(self, @selector(greyswizzled_viewWillAppear:));
-              UNTRACK_STATE_FOR_OBJECT(kGREYPendingViewsToDisappear, object);
-            }
-          }];
+      void (^contextBlock)(id<UIViewControllerTransitionCoordinatorContext>) =
+      ^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        if ([context isCancelled]) {
+          GREYAppStateTrackerObject *object =
+              objc_getAssociatedObject(self, @selector(greyswizzled_viewWillAppear:));
+          UNTRACK_STATE_FOR_OBJECT(kGREYPendingViewsToDisappear, object);
+        }
+      };
+#if !defined(__IPHONE_10_0) || (__IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_10_0)
+      [coordinator notifyWhenInteractionEndsUsingBlock:contextBlock];
+#else
+      [coordinator notifyWhenInteractionChangesUsingBlock:contextBlock];
+#endif
     }
 
     GREYAppStateTrackerObject *object =

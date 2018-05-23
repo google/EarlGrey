@@ -144,18 +144,13 @@
 
 #if !defined(__IPHONE_9_0) || (__IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_9_0)
 - (void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
-  if (![alertView.title isEqualToString:@"Styled alert!"]) {
-    if (buttonIndex == 1) {
-      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Danger!"
-                                                      message:@"*zap*"
-                                                     delegate:nil
-                                            cancelButtonTitle:@"Roger"
-                                            otherButtonTitles:nil];
-      [alert show];
-    }
-    if (buttonIndex == 2) {
-      // Do nothing, let the alert view close.
-    }
+  if (buttonIndex == 1) {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Danger!"
+                                                    message:@"*zap*"
+                                                   delegate:nil
+                                          cancelButtonTitle:@"Roger"
+                                          otherButtonTitles:nil];
+    [alert show];
   }
 }
 #else
