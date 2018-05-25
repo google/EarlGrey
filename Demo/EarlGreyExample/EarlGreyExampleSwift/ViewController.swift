@@ -88,7 +88,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     return button
   }
 
-  func buttonAction(_ sender: UIButton!) {
+  @objc func buttonAction(_ sender: UIButton!) {
     if let id = sender.accessibilityIdentifier {
       print("Button \(id) clicked")
     }

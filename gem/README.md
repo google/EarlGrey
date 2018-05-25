@@ -18,8 +18,8 @@ Options:
       [--swift], [--no-swift]
                                      # Default: true
       [--swift-version]
-                                     # Default: 3.0
-                                     # Supported Values: 2.3, 3.0.
+                                     # Default: 4.0
+                                     # Supported Values: 3.0, 4.0.
 
 Installs EarlGrey into an Xcode unit test target
 ```

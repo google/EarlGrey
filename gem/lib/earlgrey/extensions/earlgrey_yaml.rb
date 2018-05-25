@@ -5,7 +5,7 @@ class EarlGreyYaml
 
   def initialize(analyzer, podfile)
     @analyzer         = analyzer
-    earlgrey_yml_path = File.join(File.dirname(podfile.defined_in_file), 'earlgrey_gem.yml')
+    earlgrey_yml_path = File.join(File.dirname(podfile.defined_in_file.to_s), 'earlgrey_gem.yml')
 
     @earlgrey_yml = {}
     @earlgrey_yml = YAML.safe_load(File.read(earlgrey_yml_path)) if File.exist?(earlgrey_yml_path)
