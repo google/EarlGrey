@@ -105,7 +105,7 @@ module EarlGrey
     def set_defaults(project_name, test_target_name, scheme_file, opts = {})
       @swift = opts.fetch(:swift, false)
       @carthage = opts.fetch(:carthage, false)
-      @swift_version = opts.fetch(:swift_version, '3.0')
+      @swift_version = opts.fetch(:swift_version, '4.0')
 
       puts_magenta "Checking and Updating #{project_name} for EarlGrey."
       project_file = path_for project_name, '.xcodeproj'
@@ -368,7 +368,7 @@ module EarlGrey
 
       raise "Test target group not found! #{test_target_group}" unless test_target_group
 
-      swift_version ||= '3.0'
+      swift_version ||= '4.0'
       src_root = File.join(__dir__, 'files')
       dst_root = test_target_group.real_path
       raise "Missing target folder #{dst_root}" unless File.exist? dst_root
@@ -378,8 +378,8 @@ module EarlGrey
 
       unless File.exist? src_swift
         puts_magenta "EarlGrey.swift for version #{swift_version} not found. " \
-                     'Falling back to version 3.0.'
-        swift_fallback = 'Swift-3.0'
+                     'Falling back to version 4.0.'
+        swift_fallback = 'Swift-4.0'
         src_swift = File.join(src_root, swift_fallback, src_swift_name)
         raise "Unable to locate #{swift_fallback} file at path #{src_swift}." unless File.exist?(src_swift)
       end

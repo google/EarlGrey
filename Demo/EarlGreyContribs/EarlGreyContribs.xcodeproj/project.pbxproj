@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C54C93A9202B8A9000A9103C /* EarlGrey.swift in Sources */ = {isa = PBXBuildFile; fileRef = C54C93A8202B8A9000A9103C /* EarlGrey.swift */; };
+		C542BB9D20B646CA00712AB5 /* EarlGrey.swift in Sources */ = {isa = PBXBuildFile; fileRef = C542BB9820B6447400712AB5 /* EarlGrey.swift */; };
 		FDA14ADF1D36DEC6009F60A0 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FDA14AD61D36DEC6009F60A0 /* Default-568h@2x.png */; };
 		FDA14AE01D36DEC6009F60A0 /* Default-667@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FDA14AD71D36DEC6009F60A0 /* Default-667@2x.png */; };
 		FDA14AE11D36DEC6009F60A0 /* Default-736h@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = FDA14AD81D36DEC6009F60A0 /* Default-736h@3x.png */; };
@@ -105,7 +105,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		C54C93A8202B8A9000A9103C /* EarlGrey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EarlGrey.swift; path = "../../../gem/lib/earlgrey/files/Swift-3.0/EarlGrey.swift"; sourceTree = "<group>"; };
+		C542BB9820B6447400712AB5 /* EarlGrey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EarlGrey.swift; path = "../../../gem/lib/earlgrey/files/Swift-4.0/EarlGrey.swift"; sourceTree = "<group>"; };
 		FDA14AB71D35D017009F60A0 /* EarlGreyContribsTests.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EarlGreyContribsTests.pch; sourceTree = "<group>"; };
 		FDA14AD61D36DEC6009F60A0 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../../../Tests/FunctionalTests/TestRig/Resources/Default-568h@2x.png"; sourceTree = "<group>"; };
 		FDA14AD71D36DEC6009F60A0 /* Default-667@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-667@2x.png"; path = "../../../Tests/FunctionalTests/TestRig/Resources/Default-667@2x.png"; sourceTree = "<group>"; };
@@ -182,7 +182,7 @@
 		FDA14AB51D35CFD4009F60A0 /* SupportingFiles */ = {
 			isa = PBXGroup;
 			children = (
-				C54C93A8202B8A9000A9103C /* EarlGrey.swift */,
+				C542BB9820B6447400712AB5 /* EarlGrey.swift */,
 			);
 			name = SupportingFiles;
 			sourceTree = "<group>";
@@ -477,8 +477,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C542BB9D20B646CA00712AB5 /* EarlGrey.swift in Sources */,
 				FDFCE9AE1D35B0BC006D9592 /* EarlGreyContribsSwiftTests.swift in Sources */,
-				C54C93A9202B8A9000A9103C /* EarlGrey.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
