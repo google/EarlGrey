@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return @c YES if the action succeeded, else @c NO. If an action returns @c NO, it does not
  *          mean that the action was not performed at all but somewhere during the action execution
- *          the error occured and so the UI may be in an unrecoverable state.
+ *          the error occurred and so the UI may be in an unrecoverable state.
  */
 - (BOOL)perform:(id)element error:(__strong NSError *_Nullable *)errorOrNil;
 

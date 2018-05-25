@@ -139,12 +139,12 @@ __attribute__((constructor)) static void initialize(void) {
       id<UIViewControllerTransitionCoordinator> coordinator = [self transitionCoordinator];
       if (coordinator && [coordinator initiallyInteractive]) {
         void (^contextBlock)(id<UIViewControllerTransitionCoordinatorContext>) =
-        ^(id<UIViewControllerTransitionCoordinatorContext> context) {
-          if ([context isCancelled]) {
-            id object = objc_getAssociatedObject(self, @selector(greyswizzled_viewWillAppear:));
-            UNTRACK_STATE_FOR_OBJECT(kGREYPendingViewsToAppear, object);
-          }
-        };
+            ^(id<UIViewControllerTransitionCoordinatorContext> context) {
+              if ([context isCancelled]) {
+                id object = objc_getAssociatedObject(self, @selector(greyswizzled_viewWillAppear:));
+                UNTRACK_STATE_FOR_OBJECT(kGREYPendingViewsToAppear, object);
+              }
+            };
 #if !defined(__IPHONE_10_0) || (__IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_10_0)
         [coordinator notifyWhenInteractionEndsUsingBlock:contextBlock];
 #else
@@ -184,13 +184,13 @@ __attribute__((constructor)) static void initialize(void) {
     id<UIViewControllerTransitionCoordinator> coordinator = [self transitionCoordinator];
     if (coordinator && [coordinator initiallyInteractive]) {
       void (^contextBlock)(id<UIViewControllerTransitionCoordinatorContext>) =
-      ^(id<UIViewControllerTransitionCoordinatorContext> context) {
-        if ([context isCancelled]) {
-          GREYAppStateTrackerObject *object =
-              objc_getAssociatedObject(self, @selector(greyswizzled_viewWillAppear:));
-          UNTRACK_STATE_FOR_OBJECT(kGREYPendingViewsToDisappear, object);
-        }
-      };
+          ^(id<UIViewControllerTransitionCoordinatorContext> context) {
+            if ([context isCancelled]) {
+              GREYAppStateTrackerObject *object =
+                  objc_getAssociatedObject(self, @selector(greyswizzled_viewWillAppear:));
+              UNTRACK_STATE_FOR_OBJECT(kGREYPendingViewsToDisappear, object);
+            }
+          };
 #if !defined(__IPHONE_10_0) || (__IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_10_0)
       [coordinator notifyWhenInteractionEndsUsingBlock:contextBlock];
 #else

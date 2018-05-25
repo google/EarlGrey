@@ -21,7 +21,7 @@
 #pragma mark - Event handling
 
 - (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
-  if(event.subtype == UIEventSubtypeMotionShake) {
+  if (event.subtype == UIEventSubtypeMotionShake) {
     [[self lastTappedLabel] setText:@"Device Was Shaken"];
   }
 }

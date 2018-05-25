@@ -124,12 +124,10 @@ IOHIDEventRef IOHIDEventCreateDigitizerFingerEvent(CFAllocatorRef allocator,
  *  A private class that represents backboard services accelerometer.
  */
 @interface BKSAccelerometer : NSObject
-
 /**
  *  Enable or disable accelerometer events.
  */
-@property (nonatomic) BOOL accelerometerEventsEnabled;
-
+@property(nonatomic) BOOL accelerometerEventsEnabled;
 @end
 
 /**
@@ -140,7 +138,6 @@ IOHIDEventRef IOHIDEventCreateDigitizerFingerEvent(CFAllocatorRef allocator,
   // The motion accelerometer of the event.
   BKSAccelerometer *_motionAccelerometer;
 }
-
 @end
 
 @interface UIApplication (GREYExposed)
@@ -169,9 +166,9 @@ IOHIDEventRef IOHIDEventCreateDigitizerFingerEvent(CFAllocatorRef allocator,
  *          UITouch objects, and the relevant touch interaction state.
  */
 - (UITouchesEvent *)_touchesEvent;
-
 /**
- *  @return The shared UIMotionEvent object of the application, used to force enable motion accelerometer events.
+ *  @return The shared UIMotionEvent object of the application, used to force enable motion
+ *          accelerometer events.
  */
 - (UIMotionEvent *)_motionEvent;
 
@@ -184,7 +181,6 @@ IOHIDEventRef IOHIDEventCreateDigitizerFingerEvent(CFAllocatorRef allocator,
  *  Sends a motion ended event for the specified subtype.
  */
 - (void)_sendMotionEnded:(UIEventSubtype)subtype;
-
 @end
 
 @interface UIScrollView (GREYExposed)

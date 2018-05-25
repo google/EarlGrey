@@ -42,18 +42,21 @@
 
   BOOL (^assertionBlock)(id element, NSError *__strong *errorOrNil) =
       ^BOOL(id element, NSError *__strong *errorOrNil) {
-        CGPoint offset = ((UIScrollView *)element).contentOffset;
-        CGPoint expectedOffset = CGPointMake(100, 100);
-        if (CGPointEqualToPoint(offset, expectedOffset)) {
-          return YES;
-        } else {
-          NSError *error =
-              [[NSError alloc] initWithDomain:kGREYInteractionErrorDomain
-                                         code:kGREYInteractionAssertionFailedErrorCode
-                                     userInfo:@{NSLocalizedDescriptionKey : @"Cover view moved."}];
-          *errorOrNil = error;
-          return NO;
-        }
+         CGPoint offset = ((UIScrollView*) element).contentOffset;
+         CGPoint expectedOffset = CGPointMake(100, 100);
+         if (CGPointEqualToPoint(offset, expectedOffset)) {
+           return YES;
+         } else {
+           NSError* error = [[NSError alloc]
+                             initWithDomain:kGREYInteractionErrorDomain
+                             code:
+                             kGREYInteractionAssertionFailedErrorCode
+                             userInfo:@{
+                                        NSLocalizedDescriptionKey:
+                                          @"Cover view moved."}];
+           *errorOrNil = error;
+           return NO;
+         }
       };
   id<GREYAssertion> assertion = [GREYAssertionBlock assertionWithName:@"coverContentOffsetUnchanged"
                                               assertionBlockWithError:assertionBlock];

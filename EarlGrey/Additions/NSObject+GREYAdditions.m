@@ -252,7 +252,7 @@ static Class gWebAccessibilityWrapper;
       NSString *text = [self performSelector:@selector(text)];
       [description appendFormat:@"; text=\'%@\'", !text ? @"" : text];
     } @catch (NSException *exception) {
-      NSLog(@"Caught exception when calling text method on %@", self);
+      NSLog(@"Caught exception when calling text method on %@", [self class]);
     }
   }
 
