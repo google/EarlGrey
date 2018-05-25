@@ -76,12 +76,12 @@ NSMutableArray *appWindows;
     return YES;
   }];
   XCTAssertNoThrow([_elementInteraction performAction:action]);
-  
+
   [_elementInteraction inRoot:grey_accessibilityID(@"window2")];
   XCTAssertThrows([_elementInteraction performAction:action]);
-  
+
   _elementInteraction =
-      [[GREYElementInteraction alloc] initWithElementMatcher:grey_accessibilityID(@"view2")];
+     [[GREYElementInteraction alloc] initWithElementMatcher:grey_accessibilityID(@"view2")];
   [_elementInteraction inRoot:grey_accessibilityID(@"window2")];
   XCTAssertNoThrow([_elementInteraction performAction:action]);
 }
@@ -111,7 +111,7 @@ NSMutableArray *appWindows;
     return YES;
   }];
   XCTAssertNoThrow([_elementInteraction performAction:action]);
-  
+
   _elementInteraction =
       [[GREYElementInteraction alloc] initWithElementMatcher:grey_accessibilityID(@"view2")];
   XCTAssertNoThrow([_elementInteraction performAction:action]);

@@ -27,8 +27,9 @@
  *  EarlGreyImpl::invokedFromFile:lineNumber: so it can get the invocation file and line to
  *  report to XCTest on failure.
  */
-#define EarlGrey [EarlGreyImpl invokedFromFile:[NSString stringWithUTF8String:__FILE__] \
-                                    lineNumber:__LINE__]
+#define EarlGrey                                                                            \
+  [EarlGreyImpl invokedFromFile:[NSString stringWithUTF8String:__FILE__] ?: @"UNKNOWN FILE" \
+                     lineNumber:__LINE__]
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -134,8 +135,8 @@ typedef NS_ENUM(NSInteger, GREYKeyboardDismissalErrorCode) {
  *  will be registered.
  *
  *  @param      deviceOrientation The desired orientation of the device.
- *  @param[out] errorOrNil Error that will be populated on failure. If @c nil, a test
- *                         failure will be reported if the rotation attempt fails.
+ *  @param[out] errorOrNil        Error that will be populated on failure. If @c nil, a test
+ *                                failure will be reported if the rotation attempt fails.
  *
  *  @return @c YES if the rotation was successful, @c NO otherwise.
  */

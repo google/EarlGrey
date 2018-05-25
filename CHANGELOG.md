@@ -5,7 +5,7 @@ Details changes in each release of EarlGrey. EarlGrey follows [semantic versioni
 ## [1.13.0](https://github.com/google/EarlGrey/tree/1.13.0) (04/03/2018)
 ```
 Baseline: [2b3939a]
-+ [2b3939a]: Fix Swift file issues with the updated EarlGrey code for release 1.13.0
++ [2b3939a]: Fix Swift file issues with the updated EarlGrey code for release 1.13.0.
 ```
 
 ### Enhancements
@@ -13,7 +13,7 @@ Baseline: [2b3939a]
 * Remove `notNil` method and add explicit check in the matcher itself.
 * Update the Swift wrapper to use refined methods to prevent discardable result warnings.
 * Update EarlGrey assert(with:) calls to assert(_:).
-* Move `GREYRunLoopSpinner` to spin on the thread passed to it instead of the main thread.
+* Move the GREYRunLoopSpinner to spin on the thread passed to it instead of the main thread.
 * Add tests for disabled buttons, fix visibility test and add iOS 11 support to tests.
 * Move `EarlGreyImpl` interface out of EarlGrey.h.
 * Add shake motion support to EarlGrey.
@@ -24,7 +24,7 @@ Baseline: [2b3939a]
 * Close MVC unconditionally to prevent erroneous scenarios where it fails to execute the completion block, leaving it resident on the screen forever.
 
 ### Compatibility
-* EarlGrey now supports Xcode version 9.3. Any small test breakages with Xcode 9.3 are being tested.
+* EarlGrey has now been tested for working till Xcode version 9.3. Any small test breakages with Xcode 9.3 are being tested.
 
 ## [1.12.1](https://github.com/google/EarlGrey/tree/1.12.1) (09/01/2017)
 ```
