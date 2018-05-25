@@ -66,21 +66,25 @@
       performAction:grey_tap()];
   [self ftr_waitForWebElementWithName:@"ALL" elementMatcher:grey_accessibilityLabel(@"ALL")];
 
-  // Clicking on "Next page" triggers AJAX loading.
-  id<GREYMatcher> nextPageMatcher =
-      grey_allOf(grey_accessibilityLabel(@"Next page"), grey_interactable(), nil);
+  // Clicking on "Next page" triggers AJAX loading. On some form factors, label is set to "Next"
+  // instead of "Next page".
+  id<GREYMatcher> nextLabelMatcher =
+      grey_anyOf(grey_accessibilityLabel(@"Next page"), grey_accessibilityLabel(@"Next"), nil);
+  id<GREYMatcher> nextPageMatcher = grey_allOf(nextLabelMatcher, grey_interactable(), nil);
   NSError *error;
   [[[EarlGrey selectElementWithMatcher:nextPageMatcher]
-      usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 200)
-      onElementWithMatcher:grey_kindOfClass([UIWebView class])]
-      performAction:grey_tap() error:&error];
+         usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 200)
+      onElementWithMatcher:grey_kindOfClass([UIWebView class])] performAction:grey_tap()
+                                                                        error:&error];
   if (error) {
-    // On some form factors, label is set to "Next" instead of "Next page".
-    [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Next")]
-        performAction:grey_tap()];
+    id<GREYMatcher> moreResultsMatcher = grey_accessibilityLabel(@"More results");
+    [[[EarlGrey selectElementWithMatcher:grey_allOf(moreResultsMatcher, grey_interactable(), nil)]
+           usingSearchAction:grey_scrollInDirection(kGREYDirectionUp, 200)
+        onElementWithMatcher:grey_kindOfClass([UIWebView class])] performAction:grey_tap()];
+  } else {
+    [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"IMAGES")]
+        assertWithMatcher:grey_sufficientlyVisible()];
   }
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"IMAGES")]
-      assertWithMatcher:grey_sufficientlyVisible()];
 }
 
 // Test disabled on Xcode 9 beta. http://www.openradar.me/33383174
