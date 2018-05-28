@@ -50,7 +50,7 @@
                           duration:(CFTimeInterval)duration {
 
     NSString *name =
-    [NSString stringWithFormat:@"Precise swipe from %@ to %@ for duration %g",
+        [NSString stringWithFormat:@"Precise swipe from %@ to %@ for duration %g",
                                NSStringFromCGPoint(startPoint),
                                NSStringFromCGPoint(endPoint),
                                duration];
