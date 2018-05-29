@@ -13,9 +13,9 @@
 	<key>CFBundlePackageType</key>
 	<string>FMWK</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.13.1</string>
+	<string>1.13.0</string>
 	<key>CFBundleVersion</key>
-	<string>1.13.1</string>
+	<string>1.13.0</string>
 	<key>license</key>
 	<string>
 
