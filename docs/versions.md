@@ -7,6 +7,7 @@ From 1.9.3, we updated the version number of the EarlGrey gem to be in sync with
 
 EarlGrey Release Version                                       | Corresponding EarlGrey Gem Version                            | Minimum Supported CocoaPods Version
 ---------------------------------------------------------------|---------------------------------------------------------------|---------------------------------------------------------------
+[1.13.1](https://github.com/google/EarlGrey/releases/tag/1.13.1) | [1.13.1](https://rubygems.org/gems/earlgrey/versions/1.13.1)   | 1.0.0
 [1.13.0](https://github.com/google/EarlGrey/releases/tag/1.13.0) | [1.13.0](https://rubygems.org/gems/earlgrey/versions/1.13.0)   | 1.0.0
 [1.12.1](https://github.com/google/EarlGrey/releases/tag/1.12.1) | [1.12.1](https://rubygems.org/gems/earlgrey/versions/1.12.1)   | 1.0.0
 [1.12.0](https://github.com/google/EarlGrey/releases/tag/1.12.0) | [1.12.0](https://rubygems.org/gems/earlgrey/versions/1.12.0)   | 1.0.0
