@@ -2,6 +2,27 @@
 
 Details changes in each release of EarlGrey. EarlGrey follows [semantic versioning](http://semver.org/).
 
+## [1.14.0](https://github.com/google/EarlGrey/tree/1.14.0) (05/30/2018)
+```
+Baseline: [e5843b3]
++ [e5843b3]: Update version number in docs and plist for 1.14.0.
+```
+
+### Enhancements
+* Add Swift 4 support in the gem.
+* Update block declarations to support strict prototypes.
+* Add support for PDF display for `UIWebViewIdlingResource`.
+* Remove Swift 2 in the gem since Xcode 7.x is not supported anymore.
+
+### Bug Fixes
+* Fix `FTRLocalUIWebViewTest` by updating `testAJAXLoad` to detect proper web view elements.
+
+### Compatibility
+* EarlGrey has now been tested for working till Xcode version 9.4. Any small test breakages with Xcode 9.4 are being tested.
+
+### Contributors
+Thanks to [adam-b](https://github.com/adam-b) and [keefertaylor](https://github.com/keefertaylor)!
+
 ## [1.13.0](https://github.com/google/EarlGrey/tree/1.13.0) (04/03/2018)
 ```
 Baseline: [2b3939a]
