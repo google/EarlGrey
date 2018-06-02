@@ -51,11 +51,10 @@ The submitted code should adhere to the following:
   be vetted in the EarlGreyContribs project.
 * Please use [Github's Markdown Formatting](https://help.github.com/articles/getting-started-with-writing-and-formatting-on-github/)
   for formatting your comments and issues.
-* Refer to the [Google Objective-C style guide][objc_style] and
-  [the Realm SwiftLint Style][swift_style] for our code conventions.
+* Refer to the [Google Objective-C style guide][objc_style] and the [Google Swift style guide][swift_style] for our code conventions.
 
 [objc_style]: https://github.com/google/styleguide/blob/gh-pages/objcguide.md
-[swift_style]: https://github.com/realm/SwiftLint
+[swift_style]: https://google.github.io/swift/
 
 ### Don'ts
 
