@@ -2,10 +2,10 @@
 
 Details changes in each release of EarlGrey. EarlGrey follows [semantic versioning](http://semver.org/).
 
-## [1.14.0](https://github.com/google/EarlGrey/tree/1.14.0) (05/30/2018)
+## [1.14.0](https://github.com/google/EarlGrey/tree/1.14.0) (06/04/2018)
 ```
-Baseline: [e5843b3]
-+ [e5843b3]: Update version number in docs and plist for 1.14.0.
+Baseline: [c201f58]
++ [c201f58]: Fix default Swift version in EarlGreyExampleSwiftTests xcode project
 ```
 
 ### Enhancements
