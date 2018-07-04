@@ -23,7 +23,7 @@ module EarlGrey
     method_option :project, aliases: '-p', type: :string, required: false, desc: 'Project'
     method_option :scheme,  aliases: '-s', type: :string, required: false, desc: 'EarlGreyTestTarget.xcscheme'
     method_option :swift, type: :boolean, default: true
-    method_option :swift_version, type: :string, default: '3.0', enum: %w[2.3 3.0]
+    method_option :swift_version, type: :string, default: '4.0', enum: %w[3.0 4.0]
     method_option :target, aliases: '-t', type: :string, required: true, desc: 'EarlGreyTestTarget'
 
     PROJECT  = 'project'.freeze

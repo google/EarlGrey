@@ -74,6 +74,8 @@
 
   [[EarlGrey selectElementWithMatcher:grey_text(@"Leave")]
       performAction:[GREYActions actionForTap]];
+  [[EarlGrey selectElementWithMatcher:grey_text(@"Roger")]
+      performAction:[GREYActions actionForTap]];
 }
 
 @end

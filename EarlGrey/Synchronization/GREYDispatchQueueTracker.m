@@ -18,7 +18,7 @@
 
 #include <dlfcn.h>
 #include <fishhook.h>
-#include <libkern/OSAtomic.h>
+#include <stdatomic.h>
 
 #import "Common/GREYConfiguration.h"
 #import "Common/GREYFatalAsserts.h"
@@ -198,7 +198,7 @@ static void grey_dispatch_sync_f(dispatch_queue_t queue, void *context, dispatch
 
 @implementation GREYDispatchQueueTracker {
   __weak dispatch_queue_t _dispatchQueue;
-  __block int32_t _pendingBlocks;
+  __block atomic_int _pendingBlocks;
 }
 
 + (void)load {
@@ -271,7 +271,8 @@ static void grey_dispatch_sync_f(dispatch_queue_t queue, void *context, dispatch
 
 - (BOOL)isIdleNow {
   GREYFatalAssertWithMessage(_pendingBlocks >= 0, @"_pendingBlocks must not be negative");
-  BOOL isIdle = OSAtomicCompareAndSwap32Barrier(0, 0, &_pendingBlocks);
+  int expectedCount = 0;
+  BOOL isIdle = atomic_compare_exchange_strong(&_pendingBlocks, &expectedCount, 0);
   return isIdle;
 }
 
@@ -299,10 +300,10 @@ static void grey_dispatch_sync_f(dispatch_queue_t queue, void *context, dispatch
   dispatch_time_t trackDelay = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(maxDelay * NSEC_PER_SEC));
 
   if (trackDelay >= when) {
-    OSAtomicIncrement32Barrier(&_pendingBlocks);
+    atomic_fetch_add(&_pendingBlocks, 1);
     grey_original_dispatch_after(when, _dispatchQueue, ^{
       block();
-      OSAtomicDecrement32Barrier(&_pendingBlocks);
+      atomic_fetch_sub(&_pendingBlocks, 1);
     });
   } else {
     grey_original_dispatch_after(when, _dispatchQueue, block);
@@ -310,18 +311,18 @@ static void grey_dispatch_sync_f(dispatch_queue_t queue, void *context, dispatch
 }
 
 - (void)grey_dispatchAsyncCallWithBlock:(dispatch_block_t)block {
-  OSAtomicIncrement32Barrier(&_pendingBlocks);
+  atomic_fetch_add(&_pendingBlocks, 1);
   grey_original_dispatch_async(_dispatchQueue, ^{
     block();
-    OSAtomicDecrement32Barrier(&_pendingBlocks);
+    atomic_fetch_sub(&_pendingBlocks, 1);
   });
 }
 
 - (void)grey_dispatchSyncCallWithBlock:(dispatch_block_t)block {
-  OSAtomicIncrement32Barrier(&_pendingBlocks);
+  atomic_fetch_add(&_pendingBlocks, 1);
   grey_original_dispatch_sync(_dispatchQueue, ^{
     block();
-    OSAtomicDecrement32Barrier(&_pendingBlocks);
+    atomic_fetch_sub(&_pendingBlocks, 1);
   });
 }
 
@@ -331,10 +332,10 @@ static void grey_dispatch_sync_f(dispatch_queue_t queue, void *context, dispatch
   CFTimeInterval maxDelay = GREY_CONFIG_DOUBLE(kGREYConfigKeyDispatchAfterMaxTrackableDelay);
   dispatch_time_t trackDelay = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(maxDelay * NSEC_PER_SEC));
   if (trackDelay >= when) {
-    OSAtomicIncrement32Barrier(&_pendingBlocks);
+    atomic_fetch_add(&_pendingBlocks, 1);
     grey_original_dispatch_after(when, _dispatchQueue, ^{
       work(context);
-      OSAtomicDecrement32Barrier(&_pendingBlocks);
+      atomic_fetch_sub(&_pendingBlocks, 1);
     });
   } else {
     grey_original_dispatch_after_f(when, _dispatchQueue, context, work);
@@ -342,18 +343,18 @@ static void grey_dispatch_sync_f(dispatch_queue_t queue, void *context, dispatch
 }
 
 - (void)grey_dispatchAsyncCallWithContext:(void *)context work:(dispatch_function_t)work {
-  OSAtomicIncrement32Barrier(&_pendingBlocks);
+  atomic_fetch_add(&_pendingBlocks, 1);
   grey_original_dispatch_async(_dispatchQueue, ^{
     work(context);
-    OSAtomicDecrement32Barrier(&_pendingBlocks);
+    atomic_fetch_sub(&_pendingBlocks, 1);
   });
 }
 
 - (void)grey_dispatchSyncCallWithContext:(void *)context work:(dispatch_function_t)work {
-  OSAtomicIncrement32Barrier(&_pendingBlocks);
+  atomic_fetch_add(&_pendingBlocks, 1);
   grey_original_dispatch_sync(_dispatchQueue, ^{
     work(context);
-    OSAtomicDecrement32Barrier(&_pendingBlocks);
+    atomic_fetch_sub(&_pendingBlocks, 1);
   });
 }
 

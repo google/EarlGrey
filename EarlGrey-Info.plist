@@ -13,13 +13,13 @@
 	<key>CFBundlePackageType</key>
 	<string>FMWK</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.13.0</string>
+	<string>1.14.0</string>
 	<key>CFBundleVersion</key>
-	<string>1.13.0</string>
+	<string>1.14.0</string>
 	<key>license</key>
 	<string>
 
-  Copyright 2017 Google Inc.
+  Copyright 2018 Google Inc.
 
   Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
   you may not use this file except in compliance with the License.

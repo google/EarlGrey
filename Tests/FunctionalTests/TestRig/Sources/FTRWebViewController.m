@@ -28,6 +28,13 @@
   return [[NSBundle mainBundle] URLForResource:@"testpage" withExtension:@"html"];
 }
 
+/**
+ *  Returns the url to the test a PDF file.
+ */
++ (NSURL *)urlToTestPDF {
+  return [[NSBundle mainBundle] URLForResource:@"bigtable" withExtension:@"pdf"];
+}
+
 - (instancetype)init {
   NSAssert(NO, @"Invalid Initializer");
   return nil;
@@ -75,6 +82,14 @@
                                                error:nil];
   [_webView loadHTMLString:html baseURL:[NSURL URLWithString:@"http://www.earlgrey.com"]];
   _webView.scrollView.bounces = _webViewBounceSwitch.isOn;
+}
+
+- (IBAction)userDidTapLoadPDF {
+  NSData *pdfData = [NSData dataWithContentsOfURL:[[self class] urlToTestPDF]];
+  [_webView loadData:pdfData
+              MIMEType:@"application/pdf"
+      textEncodingName:@"utf-8"
+               baseURL:[NSURL URLWithString:@"about:blank"]];
 }
 
 - (IBAction)userDidToggleBounce:(UISwitch *)sender {

@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="NO">
     <dependencies>
         <deployment identifier="iOS"/>
-        <development version="8000" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
-        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+        <development version="7000" identifier="xcode"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FTRAlertViewController">
@@ -21,7 +20,7 @@
                     <rect key="frame" x="165" y="69" width="84" height="30"/>
                     <accessibility key="accessibilityConfiguration" label="Simple Alert"/>
                     <state key="normal" title="Simple Alert">
-                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
                     <connections>
                         <action selector="showSimpleAlert:" destination="-1" eventType="touchUpInside" id="4U4-B4-S5D"/>
@@ -31,7 +30,7 @@
                     <rect key="frame" x="145" y="107" width="124" height="30"/>
                     <accessibility key="accessibilityConfiguration" label="Multi-Option Alert"/>
                     <state key="normal" title="Multi-Option Alert">
-                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
                     <connections>
                         <action selector="showMultiOptionAlert:" destination="-1" eventType="touchUpInside" id="45h-0s-fxx"/>
@@ -40,14 +39,14 @@
                 <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dbv-JZ-QhA">
                     <rect key="frame" x="167" y="145" width="81" height="30"/>
                     <state key="normal" title="Styled Alert">
-                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
                     <connections>
                         <action selector="showStyledAlert:" destination="-1" eventType="touchUpInside" id="tWg-eU-XZN"/>
                     </connections>
                 </button>
             </subviews>
-            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstItem="NPH-u8-nrt" firstAttribute="top" secondItem="1" secondAttribute="top" constant="69" id="Hfg-FW-lfh"/>
                 <constraint firstItem="Dbv-JZ-QhA" firstAttribute="top" secondItem="OuV-5g-UlK" secondAttribute="bottom" constant="8" id="Ie1-DW-4JB"/>
@@ -58,4 +57,9 @@
             </constraints>
         </view>
     </objects>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination"/>
+    </simulatedMetricsContainer>
 </document>

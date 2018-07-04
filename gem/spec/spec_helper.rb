@@ -82,8 +82,8 @@ module SpecHelper
 
         xcodeproj_1 = File.join(tmp_dir, 'Example.xcodeproj')
 
-        contains_swift_2 = command_array.include? '--swift_version=2.3'
-        diff = ProjectDiff.run(xcodeproj_1, xcodeproj_2, contains_swift_2)
+        contains_swift_3 = command_array.include? '--swift_version=3.0'
+        diff = ProjectDiff.run(xcodeproj_1, xcodeproj_2, contains_swift_3)
         if diff != NIL_YAML
           puts diff
           raise 'difference detected'

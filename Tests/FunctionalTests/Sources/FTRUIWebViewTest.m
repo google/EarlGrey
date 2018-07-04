@@ -93,7 +93,7 @@ static const NSTimeInterval kLocalHTMLPageLoadDelay = 10.0;
 
 // TODO: Temporarily disable the test due to the flakiness.
 // Link: https://github.com/google/EarlGrey/issues/181
-- (void)DISABLED_testSynchronizationWhenSwitchingBetweenLoadingMethods {
+- (void)testSynchronizationWhenSwitchingBetweenLoadingMethods {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"loadLocalFile")]
       performAction:grey_tap()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Row 1")]
@@ -106,6 +106,13 @@ static const NSTimeInterval kLocalHTMLPageLoadDelay = 10.0;
       performAction:grey_tap()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Row 1")]
       assertWithMatcher:grey_sufficientlyVisible()];
+}
+
+- (void)testPDFIdlesCorrectly {
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"loadPDF")]
+      performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"loadLocalFile")]
+      performAction:grey_tap()];
 }
 
 /*
