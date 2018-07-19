@@ -665,12 +665,17 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
  *  pixel intensities. Then, executes block, restores view's properties and returns the result of
  *  executing the block to the caller.
  */
-+ (id)grey_prepareView:(UIView *)view forVisibilityCheckAndPerformBlock:(id (^)(void))block {
++ (UIImage *)grey_prepareView:(UIView *)view forVisibilityCheckAndPerformBlock:(id (^)(void))block {
   BOOL disablingActions = [CATransaction disableActions];
   BOOL isRasterizingLayer = view.layer.shouldRasterize;
 
   [CATransaction begin];
   [CATransaction setDisableActions:YES];
+  // Set the corner radius to zero. This is added to counter cases such as avatar screens where
+  // the background in the rectangle adds noise since it's not actually being checked for
+  // visibility.
+  CGFloat originalCornerRadius = view.layer.cornerRadius;
+  view.layer.cornerRadius = 0;
   // Rasterizing causes flakiness by re-drawing the view frame by frame for any layout change and
   // caching it for further use. This brings a delay in refreshing the layout for the shiftedView.
   view.layer.shouldRasterize = NO;
@@ -692,6 +697,7 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
   [CATransaction setDisableActions:YES];
   // Restore opacity back to what it was before.
   [view grey_restoreOpacity];
+  view.layer.cornerRadius = originalCornerRadius;
   view.layer.shouldRasterize = isRasterizingLayer;
   [CATransaction setDisableActions:disablingActions];
   [CATransaction flush];
@@ -935,7 +941,7 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
  *        same without specifying the exact delta between them.
  */
 static inline bool grey_isPixelDifferent(unsigned char rgb1[], unsigned char rgb2[]) {
-  return (rgb1[0] != rgb2[0]) || (rgb1[1] != rgb2[1]) || (rgb1[2] != rgb2[2]);
+  return abs(rgb1[0] - rgb2[0]) > 2 || abs(rgb1[1] - rgb2[1]) > 2 || abs(rgb1[2] - rgb2[2]) > 2;
 }
 
 #pragma mark - Package Internal
