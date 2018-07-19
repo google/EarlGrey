@@ -217,9 +217,9 @@ static GREYSignalHandler gPreviousSignalHandlers[kNumSignals];
                              @"addObserverForName:object:queue:usingBlock:");
   // The method may not be available on older versions of XCTest/Xcode
   // This is needed on iOS 9.1 and higher
-  if ([XCAXClient respondsToSelector:@selector(loadAccessibility:)]) {
+  if ([XCAXClient respondsToSelector:@selector(_loadAccessibility:)]) {
     void *unused = 0;
-    [XCAXClient loadAccessibility:&unused];
+    [XCAXClient _loadAccessibility:&unused];
   }
 }
 
