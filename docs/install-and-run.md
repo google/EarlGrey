@@ -79,11 +79,11 @@ and that you keep your EarlGrey version synced to the latest.
 
       `brew install carthage`
 
-   2. Specify the version of EarlGrey to use in Cartfile.private.
+   2. Specify the version of EarlGrey to use in Cartfile.
 
       Note that you can also use "master" instead of a release tag.
 
-      `echo 'github "google/EarlGrey" "1.2.0"' >> Cartfile.private`
+      `echo 'github "google/EarlGrey" "1.14.0"' >> Cartfile`
 
    3. Update to latest EarlGrey revision and create Cartfile.resolved.
 
