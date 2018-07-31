@@ -115,7 +115,7 @@
 		C5EFB20120117AF00010D067 /* EarlGreyImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = C5EFB1FF20117AF00010D067 /* EarlGreyImpl.m */; };
 		D210ED8D1E6F47D100978B9E /* GREYMultiFingerSwipeAction.h in Headers */ = {isa = PBXBuildFile; fileRef = D210ED8B1E6F47D100978B9E /* GREYMultiFingerSwipeAction.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		D210ED8E1E6F47D100978B9E /* GREYMultiFingerSwipeAction.m in Sources */ = {isa = PBXBuildFile; fileRef = D210ED8C1E6F47D100978B9E /* GREYMultiFingerSwipeAction.m */; };
-		F892EDF820164F12008DB046 /* GREYPreciseSwipeAction.h in Headers */ = {isa = PBXBuildFile; fileRef = F892EDF620164F11008DB046 /* GREYPreciseSwipeAction.h */; };
+		F892EDF820164F12008DB046 /* GREYPreciseSwipeAction.h in Headers */ = {isa = PBXBuildFile; fileRef = F892EDF620164F11008DB046 /* GREYPreciseSwipeAction.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		F892EDF920164F12008DB046 /* GREYPreciseSwipeAction.m in Sources */ = {isa = PBXBuildFile; fileRef = F892EDF720164F12008DB046 /* GREYPreciseSwipeAction.m */; };
 		FD1001B01C5B46C200B2DB0A /* GREYAction.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001011C5B46C100B2DB0A /* GREYAction.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FD1001B11C5B46C200B2DB0A /* GREYActionBlock.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001021C5B46C100B2DB0A /* GREYActionBlock.h */; settings = {ATTRIBUTES = (Public, ); }; };
