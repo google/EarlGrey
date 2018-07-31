@@ -44,7 +44,7 @@
  *  end point and duration.
  */
 - (instancetype)initWithStartPoint:(CGPoint)startPoint
-                          endpoint:(CGPoint)endPoint
+                          endPoint:(CGPoint)endPoint
                           duration:(CFTimeInterval)duration;
 
 @end

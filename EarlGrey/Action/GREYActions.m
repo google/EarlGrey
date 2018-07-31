@@ -92,14 +92,14 @@ static const CFTimeInterval kJavaScriptTimeoutSeconds = 60;
 + (id<GREYAction>)actionForSwipeFastWithStartPoint:(CGPoint)startPoint
                                           endPoint:(CGPoint)endPoint {
   return [[GREYPreciseSwipeAction alloc] initWithStartPoint:startPoint
-                                                 endpoint:endPoint
+                                                 endPoint:endPoint
                                                  duration:kGREYSwipeFastDuration];
 }
 
 + (id<GREYAction>)actionForSwipeSlowWithStartPoint:(CGPoint)startPoint
                                           endPoint:(CGPoint)endPoint {
   return [[GREYPreciseSwipeAction alloc] initWithStartPoint:startPoint
-                                                 endpoint:endPoint
+                                                 endPoint:endPoint
                                                  duration:kGREYSwipeSlowDuration];
 }
 
