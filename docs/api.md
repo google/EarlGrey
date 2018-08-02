@@ -587,12 +587,12 @@ Outside of UI interaction, you can use EarlGrey to control the device and system
 The `GREYConfiguration` class lets you configure the behavior of the framework. It provides a
 means to configure synchronization, interaction timeouts, action constraints checks, logging, etc.
 As soon as a configuration is changed, it is applied globally. For instance, the following code
-enables verbose logging:
+changes the delay limit for dispatch after calls that EarlGrey tracks:
 
 
 ```objc
-[[GREYConfiguration sharedInstance] setValue:@(YES)
-                                forConfigKey:kGREYConfigKeyVerboseLogging];
+[[GREYConfiguration sharedInstance] setValue:@(5)
+                                forConfigKey:kGREYConfigKeyDispatchAfterMaxTrackableDelay];
 ```
 
 ### Controlling Device Orientation
