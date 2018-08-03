@@ -2,6 +2,23 @@
 
 Details changes in each release of EarlGrey. EarlGrey follows [semantic versioning](http://semver.org/).
 
+## [1.15.0](https://github.com/google/EarlGrey/tree/1.15.0) (08/03/2018)
+```
+Baseline: [59ce3b6c]
++ [59ce3b6c]: Fix default Swift version in EarlGreyExampleSwiftTests xcode project
+```
+
+### Enhancements
+* Added support for accessibility in iOS 12.
+* Updated the visibility checker to support keyboards in iOS 12.
+* Updated Analytics Configurations.
+* Fixed Formatting Issues.
+* Updated invalid api and compatibility docs.
+
+### Compatibility
+* EarlGrey has now been tested for working till Xcode version 10.0 beta 2.
+* Some of the internal unit tests break on Xcode 9.3+ due to change in exception name thrown by XCTest. Those are still being investigated.
+
 ## [1.14.0](https://github.com/google/EarlGrey/tree/1.14.0) (06/04/2018)
 ```
 Baseline: [c201f58]
