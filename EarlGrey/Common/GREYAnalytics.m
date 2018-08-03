@@ -28,7 +28,7 @@
 /**
  *  The Analytics tracking ID that receives EarlGrey usage data.
  */
-static NSString *const kGREYAnalyticsTrackingID = @"UA-54227235-2";
+static NSString *const kGREYAnalyticsTrackingID = @"UA-54227235-9";
 
 /**
  *  The endpoint that receives EarlGrey usage data.
