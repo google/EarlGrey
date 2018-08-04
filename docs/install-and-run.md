@@ -268,7 +268,7 @@ compatible with EarlGrey.
       For Swift Tests:
 
       ```swift
-      func testExample() {
+      func testPresenceOfKeyWindow() {
         EarlGrey.selectElement(with: grey_keyWindow())
           .assert(grey_sufficientlyVisible())
       }
