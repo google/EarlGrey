@@ -192,6 +192,65 @@
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
+- (void)testPreciseSwipe {
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
+      performAction:grey_swipeFastFromStartToEndPoint(CGPointMake(55.f, 5.f), CGPointMake(55.f, 100.f))];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"swipe down")]
+      assertWithMatcher:grey_sufficientlyVisible()];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"x:55.0 - y:5.0")]
+      assertWithMatcher:grey_sufficientlyVisible()];
+
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
+      performAction:grey_swipeFastFromStartToEndPoint(CGPointMake(2.f, 30.f), CGPointMake(80.f, 38.f))];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"swipe right")]
+      assertWithMatcher:grey_sufficientlyVisible()];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"x:2.0 - y:30.0")]
+      assertWithMatcher:grey_sufficientlyVisible()];
+
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
+      performAction:grey_swipeSlowFromStartToEndPoint(CGPointMake(150.f, 80.f), CGPointMake(50.f, 80.f))];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"swipe left")]
+      assertWithMatcher:grey_sufficientlyVisible()];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"x:150.0 - y:80.0")]
+      assertWithMatcher:grey_sufficientlyVisible()];
+
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
+      performAction:grey_swipeSlowFromStartToEndPoint(CGPointMake(40.f, 100.f), CGPointMake(40.f, 30.f))];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"swipe up")]
+      assertWithMatcher:grey_sufficientlyVisible()];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"x:40.0 - y:100.0")]
+      assertWithMatcher:grey_sufficientlyVisible()];
+
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
+      performAction:grey_swipeFastFromStartToEndPoint(CGPointMake(40.f, 100.f), CGPointMake(40.f, -50.f))];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"swipe up")]
+      assertWithMatcher:grey_sufficientlyVisible()];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"x:40.0 - y:100.0")]
+      assertWithMatcher:grey_sufficientlyVisible()];
+}
+
+- (void)testPreciseSwipeOnWindow {
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Window swipes start here")]
+      performAction:grey_swipeFastFromStartToEndPoint(CGPointMake(55.f, 5.f), CGPointMake(55.f, 100.f))];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"swipe down on window")]
+      assertWithMatcher:grey_sufficientlyVisible()];
+
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Window swipes start here")]
+      performAction:grey_swipeFastFromStartToEndPoint(CGPointMake(2.f, 30.f), CGPointMake(80.f, 38.f))];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"swipe right on window")]
+      assertWithMatcher:grey_sufficientlyVisible()];
+
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Window swipes start here")]
+      performAction:grey_swipeSlowFromStartToEndPoint(CGPointMake(150.f, 80.f), CGPointMake(50.f, 80.f))];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"swipe left on window")]
+      assertWithMatcher:grey_sufficientlyVisible()];
+
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Window swipes start here")]
+      performAction:grey_swipeSlowFromStartToEndPoint(CGPointMake(40.f, 100.f), CGPointMake(40.f, 30.f))];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"swipe up on window")]
+      assertWithMatcher:grey_sufficientlyVisible()];
+}
+
 - (void)testPinchWorksInAllDirectionsInPortraitMode {
   [self ftr_assertPinchWorksInAllDirections];
 }
