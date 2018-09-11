@@ -27,6 +27,10 @@
   [self openTestViewNamed:@"Rotated Views"];
 }
 
+/**
+ *  Shake the device using EarlGrey API and verify that the device is shaked using standard motion
+ *  detection.
+ */
 - (void)testDeviceShake {
   // Test device shake.
   [EarlGrey shakeDeviceWithError:nil];

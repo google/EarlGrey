@@ -28,22 +28,21 @@
   [[EarlGrey selectElementWithMatcher:grey_anyOf(grey_text(@"EarlGreyContribTestApp"),
                                                  grey_text(@"Back"),
                                                  nil)]
-   performAction:grey_tap()];
+      performAction:grey_tap()];
   [super tearDown];
 }
 
 - (void)testBasicViewController {
   [[[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")]
-    usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 50)
-    onElementWithMatcher:grey_kindOfClass([UITableView class])]
-   performAction:grey_tap()];
+      usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 50)
+      onElementWithMatcher:grey_kindOfClass([UITableView class])]
+      performAction:grey_tap()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"textField")]
-   performAction:grey_typeText(@"Foo")];
+      performAction:grey_typeText(@"Foo")];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"showButton")]
-   performAction:grey_tap()];
+      performAction:grey_tap()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"textLabel")]
-   assertWithMatcher:grey_text(@"Foo")];
+      assertWithMatcher:grey_text(@"Foo")];
 }
 
 @end
-

@@ -28,7 +28,7 @@
 /**
  *  The Analytics tracking ID that receives EarlGrey usage data.
  */
-static NSString *const kGREYAnalyticsTrackingID = @"UA-54227235-2";
+static NSString *const kGREYAnalyticsTrackingID = @"UA-54227235-9";
 
 /**
  *  The endpoint that receives EarlGrey usage data.
@@ -91,6 +91,19 @@ static NSString *const kTrackingEndPoint = @"https://ssl.google-analytics.com/co
   return _delegate ? _delegate : self;
 }
 
+/** Custom NSURLSession which uses fixed user agent. */
++ (NSURLSession *)analyticsURLSession {
+  static dispatch_once_t onceToken;
+  static NSURLSession *session;
+  dispatch_once(&onceToken, ^{
+    NSURLSessionConfiguration *configuration =
+        [NSURLSessionConfiguration ephemeralSessionConfiguration];
+    configuration.HTTPAdditionalHeaders = @{ @"User-Agent": @"EarlGrey" };
+    session = [NSURLSession sessionWithConfiguration:configuration];
+  });
+  return session;
+}
+
 + (void)sendEventHitWithTrackingID:(NSString *)trackingID
                           clientID:(NSString *)clientID
                           category:(NSString *)category
@@ -114,17 +127,17 @@ static NSString *const kTrackingEndPoint = @"https://ssl.google-analytics.com/co
   [components setQuery:payload];
   NSURL *url = [components URL];
 
-  [[[NSURLSession sharedSession] dataTaskWithURL:url
-                               completionHandler:^(NSData *data,
-                                                   NSURLResponse *response,
-                                                   NSError *error) {
-    if (error) {
-      // Failed to send analytics data, but since the test might be running in a sandboxed
-      // environment it's not a good idea to freeze or throw assertions, let's just log and
-      // move on.
-      GREYLogVerbose(@"Failed to send analytics data due to: %@", error);
-    }
-  }] resume];
+  [[[self analyticsURLSession] dataTaskWithURL:url
+                             completionHandler:^(NSData *data,
+                                                 NSURLResponse *response,
+                                                 NSError *error) {
+                               if (error) {
+                                 // Failed to send analytics data, but since the test might be
+                                 // running in a sandboxed environment it's not a good idea to
+                                 // freeze or throw assertions, let's just log and move on.
+                                 GREYLogVerbose(@"Failed to send analytics data due to: %@", error);
+                               }
+                             }] resume];
 }
 
 #pragma mark - GREYAnalyticsDelegate

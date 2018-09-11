@@ -9,3 +9,4 @@ iOS 8.x      | 8.0 - 8.3.3   | iPhone, iPad      | iPhone, iPad
 iOS 9.x      | 8.0 - 8.3.3   | iPhone, iPad      | iPhone, iPad
 iOS 10.3.3   | 8.0 - 8.3.3   | iPhone, iPad      | iPhone, iPad
 iOS 11.0     | 9.0 - 9.4     | iPhone, iPad      | iPhone, iPad
+iOS 12.0     | 10.0b1 - 10.0b2     | iPhone, iPad      | iPhone, iPad
