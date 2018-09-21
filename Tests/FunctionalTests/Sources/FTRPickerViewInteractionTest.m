@@ -15,7 +15,6 @@
 //
 
 #import "FTRBaseIntegrationTest.h"
-#import <EarlGrey/EarlGrey.h>
 
 @interface FTRPickerViewInteractionTest : FTRBaseIntegrationTest
 @end
@@ -36,7 +35,7 @@
       performAction:[GREYActions actionForSetPickerColumn:0 toValue:@"Green"]
               error:&error];
 
-  GREYAssertTrue(error.domain == kGREYInteractionErrorDomain, @"Error domain should match");
+  GREYAssertTrue([error.domain isEqual:kGREYInteractionErrorDomain], @"Error domain should match");
   GREYAssertTrue(error.code == kGREYInteractionConstraintsFailedErrorCode,
                  @"Error code should match");
 
@@ -89,7 +88,6 @@
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"DateLabelId")]
       assertWithMatcher:grey_text(@"")];
 }
-
 
 - (void)testTimeOnlyPicker {
   NSString *timeString = @"19:30:00";
@@ -230,4 +228,3 @@
 }
 
 @end
-

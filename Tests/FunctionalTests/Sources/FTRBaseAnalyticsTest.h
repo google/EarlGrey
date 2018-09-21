@@ -1,5 +1,5 @@
 //
-// Copyright 2016 Google Inc.
+// Copyright 2018 Google Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,11 +16,15 @@
 
 #import <XCTest/XCTest.h>
 
+#import "CommonLib/Config/GREYConfiguration.h"
+#import "TestLib/Assertion/GREYAssertionDefines.h"
+#import "TestLib/EarlGreyImpl/EarlGrey.h"
+
 /**
  *  A constant used for asserting mismatched analytics hits, this is set to be a global to allow for
  *  the assertions themselves be tested.
  */
-extern NSString *const gFTRAnalyticsHitsMisMatchedPrefix;
+extern NSString *const kFTRAnalyticsHitsMisMatchedPrefix;
 
 /**
  *  Base class for Analytics tests. Extending from this class causes the analytics config settings

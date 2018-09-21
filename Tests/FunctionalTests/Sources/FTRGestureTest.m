@@ -14,9 +14,8 @@
 // limitations under the License.
 //
 
+#import "GREYHostApplicationDistantObject+GestureTest.h"
 #import "FTRBaseIntegrationTest.h"
-
-#import <EarlGrey/EarlGrey.h>
 
 @interface FTRGestureTest : FTRBaseIntegrationTest
 @end
@@ -89,27 +88,20 @@
 }
 
 - (void)testLongPressWithDurationAtPoint {
-  // Find the bounds of the element.
-  __block CGRect targetBounds;
-  GREYActionBlock *boundsFinder =
-      [[GREYActionBlock alloc] initWithName:@"Frame finder"
-                                constraints:nil
-                               performBlock:^BOOL(UIView *view, NSError *__strong *error) {
-    targetBounds = view.bounds;
-    return YES;
-  }];
+  EDORemoteVariable<NSValue *> *remoteBounds = [[EDORemoteVariable alloc] init];
+  id<GREYAction> boundsFinder =
+      [GREYHostApplicationDistantObject.sharedInstance actionForFindingElementBounds:remoteBounds];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
       performAction:boundsFinder];
 
+  CGRect targetBounds = remoteBounds.object.CGRectValue;
   // Verify tapping outside the bounds does not cause long press.
   CGFloat midX = CGRectGetMidX(targetBounds);
   CGFloat midY = CGRectGetMidY(targetBounds);
-  CGPoint outsidePoints[4] = {
-    CGPointMake(CGRectGetMinX(targetBounds) - 1, midY),
-    CGPointMake(CGRectGetMaxX(targetBounds) + 1, midY),
-    CGPointMake(midX, CGRectGetMinY(targetBounds) - 1),
-    CGPointMake(midX, CGRectGetMaxY(targetBounds) + 1)
-  };
+  CGPoint outsidePoints[4] = {CGPointMake(CGRectGetMinX(targetBounds) - 1, midY),
+                              CGPointMake(CGRectGetMaxX(targetBounds) + 1, midY),
+                              CGPointMake(midX, CGRectGetMinY(targetBounds) - 1),
+                              CGPointMake(midX, CGRectGetMaxY(targetBounds) + 1)};
   for (NSInteger i = 0; i < 4; i++) {
     [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
         performAction:grey_longPressAtPointWithDuration(outsidePoints[i], 1.0)];
@@ -129,17 +121,17 @@
 }
 
 - (void)testSwipeWorksInAllDirectionsInUpsideDownMode {
-  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortraitUpsideDown errorOrNil:nil];
+  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortraitUpsideDown error:nil];
   [self ftr_assertSwipeWorksInAllDirections];
 }
 
 - (void)testSwipeWorksInAllDirectionsInLandscapeLeftMode {
-  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeLeft errorOrNil:nil];
+  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeLeft error:nil];
   [self ftr_assertSwipeWorksInAllDirections];
 }
 
 - (void)testSwipeWorksInAllDirectionsInLandscapeRightMode {
-  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeRight errorOrNil:nil];
+  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeRight error:nil];
   [self ftr_assertSwipeWorksInAllDirections];
 }
 
@@ -197,17 +189,17 @@
 }
 
 - (void)testPinchWorksInAllDirectionsInUpsideDownMode {
-  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortraitUpsideDown errorOrNil:nil];
+  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortraitUpsideDown error:nil];
   [self ftr_assertPinchWorksInAllDirections];
 }
 
 - (void)testPinchWorksInAllDirectionsInLandscapeLeftMode {
-  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeLeft errorOrNil:nil];
+  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeLeft error:nil];
   [self ftr_assertPinchWorksInAllDirections];
 }
 
 - (void)testPinchWorksInAllDirectionsInLandscapeRightMode {
-  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeRight errorOrNil:nil];
+  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeRight error:nil];
   [self ftr_assertPinchWorksInAllDirections];
 }
 

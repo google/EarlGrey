@@ -1,5 +1,5 @@
 //
-// Copyright 2016 Google Inc.
+// Copyright 2018 Google Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,16 +16,17 @@
 
 #import "FTRBaseAnalyticsTest.h"
 
-#import "FTRAssertionHandler.h"
-#import "Common/GREYAnalytics.h"
-#import "Common/GREYAnalyticsDelegate.h"
-#import <EarlGrey/GREYConfiguration.h>
+#import "CommonLib/Config/GREYConfiguration.h"
+#import "TestLib/Analytics/GREYAnalytics.h"
+#import "TestLib/Analytics/GREYAnalyticsDelegate.h"
+#import "TestLib/EarlGreyImpl/EarlGrey.h"
+#import "FTRBaseIntegrationTest.h"
 
 /**
  *  A constant used for asserting mismatched analytics hits, this is set to be a global to allow for
  *  the assertions themselves be tested.
  */
-NSString *const gFTRAnalyticsHitsMisMatchedPrefix = @"Mismatched Analytics Hits";
+NSString *const kFTRAnalyticsHitsMisMatchedPrefix = @"Mismatched Analytics Hits";
 
 /**
  *  Holds the original config setting for analytics that was present before the test began. We use
@@ -47,7 +48,7 @@ static id<GREYAnalyticsDelegate> gTestAnalyticsDelegate;
 /**
  *  The current total number of analytics hits recieved.
  */
-static volatile NSInteger gTotalHitsReceived;
+static NSInteger gTotalHitsReceived;
 
 /**
  *  The total number of analytics hits expected by the end of test.
@@ -61,34 +62,46 @@ static NSInteger gTotalHitsExpected;
 
 + (void)setUp {
   [super setUp];
-
   // Assert there are no leaking hits.
-  NSAssert(gTotalHitsReceived == 0,
-           @"gTotalHitsReceived must was %d, it must be 0 at the start of test, non zero values"
-           @"indicate leaking hits.", (int)gTotalHitsReceived);
+  if (gTotalHitsReceived != 0) {
+    NSLog(@"gTotalHitsReceived must was %d, it must be 0 at the start of test, non zero values"
+          @"indicate leaking hits.",
+          (int)gTotalHitsReceived);
+    abort();
+  }
 
   // Save analytics settings so that tests can modify it.
   gOriginalAnalyticsSetting = GREY_CONFIG(kGREYConfigKeyAnalyticsEnabled);
-  gOriginalAnalyticsDelegate = [[GREYAnalytics sharedInstance] delegate];
+  gOriginalAnalyticsDelegate = [[GREYAnalytics sharedAnalytics] delegate];
 
   // Set Analytics delegate to the test's delegate.
   gTestAnalyticsDelegate = [[FTRBaseAnalyticsTest alloc] init];
-  [[GREYAnalytics sharedInstance] setDelegate:gTestAnalyticsDelegate];
+  [[GREYAnalytics sharedAnalytics] setDelegate:gTestAnalyticsDelegate];
+}
+
+- (void)setUp {
+  [super setUp];
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    XCUIApplication *application = [[XCUIApplication alloc] init];
+    [application launch];
+  });
 }
 
 + (void)classSpecificTearDown {
-  // Assert that  the expected number of hits are received.
-  NSAssert(gTotalHitsExpected == gTotalHitsReceived,
-           @"%@, Received %d count, expected %d",
-           gFTRAnalyticsHitsMisMatchedPrefix,
-           (int)gTotalHitsReceived,
-           (int)gTotalHitsExpected);
+  // Assert that the expected number of hits are received.
+  if (gTotalHitsExpected != gTotalHitsReceived) {
+    NSLog(@"%@, Received %d count, expected %d", kFTRAnalyticsHitsMisMatchedPrefix,
+          (int)gTotalHitsReceived, (int)gTotalHitsExpected);
+    abort();
+  }
+
   gTotalHitsReceived = 0;
 
   // Restore analytics to its original settings.
-  [[GREYConfiguration sharedInstance] setValue:gOriginalAnalyticsSetting
-                                  forConfigKey:kGREYConfigKeyAnalyticsEnabled];
-  [[GREYAnalytics sharedInstance] setDelegate:gOriginalAnalyticsDelegate];
+  [[GREYConfiguration sharedConfiguration] setValue:gOriginalAnalyticsSetting
+                                       forConfigKey:kGREYConfigKeyAnalyticsEnabled];
+  [[GREYAnalytics sharedAnalytics] setDelegate:gOriginalAnalyticsDelegate];
   gTestAnalyticsDelegate = nil;
 }
 
@@ -108,14 +121,10 @@ static NSInteger gTotalHitsExpected;
                         category:(NSString *)category
                           action:(NSString *)action
                            value:(NSString *)value {
-  NSAssert([NSThread isMainThread], @"The tests expects that Analytics delegate is invoked on "
-                                    @"main thread.");
+  NSAssert([NSThread isMainThread],
+           @"The tests expects that Analytics delegate is invoked on "
+           @"main thread.");
   gTotalHitsReceived += 1;
-  [gOriginalAnalyticsDelegate trackEventWithTrackingID:trackingID
-                                              clientID:clientID
-                                              category:category
-                                                action:action
-                                                 value:value];
 }
 
 @end

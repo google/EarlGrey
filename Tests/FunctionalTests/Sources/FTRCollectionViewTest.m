@@ -16,8 +16,6 @@
 
 #import "FTRBaseIntegrationTest.h"
 
-#import <EarlGrey/EarlGrey.h>
-
 @interface FTRCollectionViewTest : FTRBaseIntegrationTest
 @end
 
@@ -122,9 +120,8 @@
   id<GREYAction> scrollAction = grey_scrollInDirection(direction, 50);
   id<GREYMatcher> searchActionElementMatcher = grey_accessibilityID(@"Alphabets");
   [[[EarlGrey selectElementWithMatcher:grey_allOf(charMatcher, grey_interactable(), nil)]
-      usingSearchAction:scrollAction onElementWithMatcher:searchActionElementMatcher]
-      assertWithMatcher:grey_interactable()];
+         usingSearchAction:scrollAction
+      onElementWithMatcher:searchActionElementMatcher] assertWithMatcher:grey_interactable()];
 }
 
 @end
-

@@ -14,9 +14,9 @@
 // limitations under the License.
 //
 
-#import "FTRAccessibleView.h"
 #import "FTRBaseIntegrationTest.h"
-#import <EarlGrey/EarlGrey.h>
+
+#import "CommonLib/Matcher/GREYLayoutConstraint.h"
 
 @interface FTRMatcherTest : FTRBaseIntegrationTest
 @end
@@ -28,16 +28,14 @@
 
   id<GREYMatcher> matchesAccessibleViewParentOfSimpleLabel =
       grey_allOf(grey_descendant(grey_accessibilityLabel(@"Simple Label")),
-                 grey_accessibilityLabel(@"tab2Container"),
-                 nil);
+                 grey_accessibilityLabel(@"tab2Container"), nil);
 
   [[EarlGrey selectElementWithMatcher:matchesAccessibleViewParentOfSimpleLabel]
       assertWithMatcher:grey_notNil()];
 
   id<GREYMatcher> matchesChildOfParentOfSimpleLabel =
       grey_allOf(grey_ancestor(matchesAccessibleViewParentOfSimpleLabel),
-                 grey_kindOfClass([UISwitch class]),
-                 nil);
+                 grey_kindOfClass([UISwitch class]), nil);
   [[EarlGrey selectElementWithMatcher:matchesChildOfParentOfSimpleLabel]
       assertWithMatcher:grey_accessibilityLabel(@"Switch")];
 }
@@ -60,8 +58,7 @@
 
   id<GREYMatcher> descendantRowMatcher =
       grey_allOf(grey_kindOfClass([UITableViewCell class]),
-                 grey_descendant(grey_accessibilityLabel(@"Row 1")),
-                 nil);
+                 grey_descendant(grey_accessibilityLabel(@"Row 1")), nil);
 
   [[EarlGrey selectElementWithMatcher:descendantRowMatcher] assertWithMatcher:grey_notNil()];
 }
@@ -71,8 +68,7 @@
 
   id<GREYMatcher> matchesParentOfSquare =
       grey_allOf(grey_descendant(grey_accessibilityValue(@"SquareElementValue")),
-                 grey_kindOfClass([FTRAccessibleView class]),
-                 nil);
+                 grey_kindOfClassName(@"AccessibleView"), nil);
 
   [[EarlGrey selectElementWithMatcher:matchesParentOfSquare]
       assertWithMatcher:grey_descendant(grey_accessibilityLabel(@"SquareElementLabel"))];
@@ -99,7 +95,7 @@
                                                multiplier:1.0
                                                  constant:16];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"elementID")]
-       assertWithMatcher:grey_layout(@[below], grey_accessibilityID(@"referenceElementID"))];
+      assertWithMatcher:grey_layout(@[ below ], grey_accessibilityID(@"referenceElementID"))];
 }
 
 @end

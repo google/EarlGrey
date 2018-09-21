@@ -15,14 +15,12 @@
 //
 
 #import "FTRBaseIntegrationTest.h"
-
 #import "FTRFailureHandler.h"
-#import <EarlGrey/EarlGrey.h>
 
 @interface FTRAccessibilityTest : FTRBaseIntegrationTest
 @end
 
-/** TODO: Test edge cases for UI Accessibility Element visibility as well. */
+// TODO: Test edge cases for UI Accessibility Element visibility as well.
 @implementation FTRAccessibilityTest
 
 - (void)setUp {
@@ -30,7 +28,7 @@
   [self openTestViewNamed:@"Accessibility Views"];
 }
 
-/** Test for https://github.com/google/EarlGrey/issues/108 */
+// Test for https://github.com/google/EarlGrey/issues/108
 - (void)testAccessibilityMessageViewController {
   [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"Open MVC")] performAction:grey_tap()];
   [[[EarlGrey selectElementWithMatcher:grey_anything()] atIndex:0] assertWithMatcher:grey_notNil()];
@@ -41,8 +39,8 @@
       assertWithMatcher:grey_sufficientlyVisible()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityValue(@"CircleElementValue")]
       assertWithMatcher:grey_sufficientlyVisible()];
-  [[EarlGrey selectElementWithMatcher:
-      grey_accessibilityValue(@"PartialOffScreenRectangleElementValue")]
+  [[EarlGrey
+      selectElementWithMatcher:grey_accessibilityValue(@"PartialOffScreenRectangleElementValue")]
       assertWithMatcher:grey_not(grey_sufficientlyVisible())];
 }
 
@@ -125,7 +123,7 @@
         performAction:grey_tapAtPoint(CGPointMake(-51, -151))];
     GREYFail(@"Should throw an exception");
   } @catch (NSException *exception) {
-    NSRange exceptionRange = [[exception reason] rangeOfString:@"\"Action Name\":  \"Tap\""];
+    NSRange exceptionRange = [[exception reason] rangeOfString:@"Cannot perform tap"];
     GREYAssertNotEqual(exceptionRange.location, NSNotFound, @"should not be equal");
   }
 }
@@ -140,8 +138,8 @@
 }
 
 - (void)testRectangleIsNotSufficientlyVisible {
-  [[EarlGrey selectElementWithMatcher:
-      grey_accessibilityLabel(@"PartialOffScreenRectangleElementLabel")]
+  [[EarlGrey
+      selectElementWithMatcher:grey_accessibilityLabel(@"PartialOffScreenRectangleElementLabel")]
       assertWithMatcher:grey_not(grey_sufficientlyVisible())];
 }
 

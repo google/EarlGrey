@@ -15,7 +15,6 @@
 //
 
 #import "FTRBaseIntegrationTest.h"
-#import <EarlGrey/EarlGrey.h>
 
 @interface FTRSlideTest : FTRBaseIntegrationTest
 
@@ -31,8 +30,8 @@
 - (void)testSlider1SlidesCloseToZero {
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"slider1")]
       performAction:grey_moveSliderToValue(0.125f)]
-      assertWithMatcher:grey_sliderValueMatcher(grey_closeTo(0.125f,
-                                                             kGREYAcceptableFloatDifference))];
+      assertWithMatcher:grey_sliderValueMatcher(
+                            grey_closeTo(0.125f, kGREYAcceptableFloatDifference))];
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"slider1")]
       performAction:grey_moveSliderToValue(0.0f)]
       assertWithMatcher:grey_sliderValueMatcher(grey_closeTo(0.0f, 0))];
@@ -41,12 +40,12 @@
 - (void)testSlider2SlidesToValue {
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"slider2")]
       performAction:grey_moveSliderToValue(15.74f)]
-      assertWithMatcher:grey_sliderValueMatcher(grey_closeTo(15.74f,
-                                                             kGREYAcceptableFloatDifference))];
+      assertWithMatcher:grey_sliderValueMatcher(
+                            grey_closeTo(15.74f, kGREYAcceptableFloatDifference))];
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"slider2")]
       performAction:grey_moveSliderToValue(21.03f)]
-      assertWithMatcher:grey_sliderValueMatcher(grey_closeTo(21.03f,
-                                                             kGREYAcceptableFloatDifference))];
+      assertWithMatcher:grey_sliderValueMatcher(
+                            grey_closeTo(21.03f, kGREYAcceptableFloatDifference))];
 }
 
 - (void)testSlider3SlidesToClosestValue {
@@ -55,15 +54,15 @@
       assertWithMatcher:grey_sliderValueMatcher(grey_closeTo(0, 0))];
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"slider3")]
       performAction:grey_moveSliderToValue(900.0f)]
-      assertWithMatcher:grey_sliderValueMatcher(grey_closeTo(900.0f,
-                                                             kGREYAcceptableFloatDifference))];
+      assertWithMatcher:grey_sliderValueMatcher(
+                            grey_closeTo(900.0f, kGREYAcceptableFloatDifference))];
 }
 
 - (void)testSlider4IsExactlyValue {
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"slider4")]
       performAction:grey_moveSliderToValue(500000.0f)]
-      assertWithMatcher:grey_sliderValueMatcher(grey_closeTo(500000.0f,
-                                                             kGREYAcceptableFloatDifference))];
+      assertWithMatcher:grey_sliderValueMatcher(
+                            grey_closeTo(500000.0f, kGREYAcceptableFloatDifference))];
 }
 
 - (void)testSlider5SnapsToValueWithSnapOnTouchUp {
@@ -72,20 +71,20 @@
   // See FTRSliderViewController.m for details on how my slider's tick values were calculated.
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"slider5")]
       performAction:grey_moveSliderToValue(60.0f)]
-      assertWithMatcher:grey_sliderValueMatcher(grey_closeTo(60.3f,
-                                                             kGREYAcceptableFloatDifference))];
+      assertWithMatcher:grey_sliderValueMatcher(
+                            grey_closeTo(60.3f, kGREYAcceptableFloatDifference))];
 }
 
 - (void)testSlider6SnapsToValueWithContinuousSnapping {
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"slider6")]
       performAction:grey_moveSliderToValue(37.5f)]
-      assertWithMatcher:grey_sliderValueMatcher(grey_closeTo(50.0f,
-                                                             kGREYAcceptableFloatDifference))];
+      assertWithMatcher:grey_sliderValueMatcher(
+                            grey_closeTo(50.0f, kGREYAcceptableFloatDifference))];
 
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"slider6")]
       performAction:grey_moveSliderToValue(62.5f)]
-      assertWithMatcher:grey_sliderValueMatcher(grey_closeTo(50.0f,
-                                                             kGREYAcceptableFloatDifference))];
+      assertWithMatcher:grey_sliderValueMatcher(
+                            grey_closeTo(50.0f, kGREYAcceptableFloatDifference))];
 }
 
 - (void)testSmallSliderSnapsToAllValues {

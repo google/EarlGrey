@@ -16,8 +16,6 @@
 
 #import "FTRBaseIntegrationTest.h"
 
-#import <EarlGrey/EarlGrey.h>
-
 @interface FTRAnimationsTest : FTRBaseIntegrationTest
 @end
 
@@ -30,8 +28,7 @@
 
 - (void)testUIViewAnimation {
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"UIViewAnimationControl")]
-      performAction:grey_tap()]
-      assertWithMatcher:grey_buttonTitle(@"Started")];
+      performAction:grey_tap()] assertWithMatcher:grey_buttonTitle(@"Started")];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AnimationStatus")]
       assertWithMatcher:grey_text(@"UIView animation finished")];
 }

@@ -14,8 +14,8 @@
 // limitations under the License.
 //
 
-#import <EarlGrey/EarlGrey.h>
+#import "TestLib/EarlGreyImpl/EarlGrey.h"
 
 // Test failure handler.
-@interface FTRFailureHandler : NSObject<GREYFailureHandler>
+@interface FTRFailureHandler : NSObject <GREYFailureHandler>
 @end

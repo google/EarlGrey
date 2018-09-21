@@ -1,5 +1,5 @@
 //
-// Copyright 2016 Google Inc.
+// Copyright 2018 Google Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,7 +15,6 @@
 //
 
 #import "FTRBaseIntegrationTest.h"
-#import <EarlGrey/EarlGrey.h>
 
 @interface FTRScreenshotTest : FTRBaseIntegrationTest
 @end
@@ -26,67 +25,73 @@
 
 - (void)setUp {
   [super setUp];
-  _originalOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+  _originalOrientation =
+      [[GREY_REMOTE_CLASS_IN_APP(UIApplication) sharedApplication] statusBarOrientation];
 }
 
 - (void)tearDown {
   // Undo orientation changes after test is finished.
-  [EarlGrey rotateDeviceToOrientation:(UIDeviceOrientation)_originalOrientation errorOrNil:nil];
+  [EarlGrey rotateDeviceToOrientation:(UIDeviceOrientation)_originalOrientation error:nil];
   [super tearDown];
 }
 
 - (void)testSnapshotAXElementInPortraitMode {
   [self openTestViewNamed:@"Accessibility Views"];
 
-  UIImage *snapshot;
+  EDORemoteVariable<UIImage *> *snapshot = [[EDORemoteVariable alloc] init];
   // Snapshot Accessibility Element.
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"OnScreenRectangleElementLabel")]
-      performAction:grey_snapshot(&snapshot)];
+      performAction:grey_snapshot(snapshot)];
 
-  // TODO: Verify the content of the image as well.
+  // TODO: Verify the content of the image as well. // NOLINT
   CGSize expectedSize = CGSizeMake(64, 128);
-  CGFloat expectedScale = [UIScreen mainScreen].scale;
-  GREYAssertEqual(expectedSize.width, snapshot.size.width, @"should be equal");
-  GREYAssertEqual(expectedSize.height, snapshot.size.height, @"should be equal");
-  GREYAssertEqual(expectedScale, snapshot.scale, @"should be equal");
+  CGFloat expectedScale = [GREY_REMOTE_CLASS_IN_APP(UIScreen) mainScreen].scale;
+  GREYAssertEqual(expectedSize.width, snapshot.object.size.width, @"should be equal");
+  GREYAssertEqual(expectedSize.height, snapshot.object.size.height, @"should be equal");
+  GREYAssertEqual(expectedScale, snapshot.object.scale, @"should be equal");
 
   NSError *error = nil;
   // Snapshot Accessibility Element with zero height should be an error.
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"ElementWithZeroHeight")]
-      performAction:grey_snapshot(&snapshot) error:&error];
+      performAction:grey_snapshot(snapshot)
+              error:&error];
   GREYAssertEqualObjects(kGREYInteractionErrorDomain, error.domain, @"should be equal");
 }
 
 - (void)testSnapshotAXElementInLandscapeMode {
-  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeLeft errorOrNil:nil];
+  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeLeft error:nil];
   [self openTestViewNamed:@"Accessibility Views"];
 
-  UIImage *snapshot;
+  EDORemoteVariable<UIImage *> *snapshot = [[EDORemoteVariable alloc] init];
   // Snapshot Accessibility Element.
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"OnScreenRectangleElementLabel")]
-      performAction:grey_snapshot(&snapshot)];
+      performAction:grey_snapshot(snapshot)];
 
-  // TODO: Verify the content of the image as well.
+  // TODO: Verify the content of the image as well. // NOLINT
   CGSize expectedSize = CGSizeMake(64, 128);
   if (!iOS8_0_OR_ABOVE()) {
     // Width and height are interchanged on versions before iOS 8.0
     expectedSize = CGSizeMake(expectedSize.height, expectedSize.width);
   }
-  CGFloat expectedScale = [UIScreen mainScreen].scale;
-  GREYAssertEqual(expectedSize.width, snapshot.size.width, @"should be equal");
-  GREYAssertEqual(expectedSize.height, snapshot.size.height, @"should be equal");
-  GREYAssertEqual(expectedScale, snapshot.scale, @"should be equal");
+  CGFloat expectedScale = [GREY_REMOTE_CLASS_IN_APP(UIScreen) mainScreen].scale;
+  GREYAssertEqual(expectedSize.width, snapshot.object.size.width, @"should be equal");
+  GREYAssertEqual(expectedSize.height, snapshot.object.size.height, @"should be equal");
+  GREYAssertEqual(expectedScale, snapshot.object.scale, @"should be equal");
 
   NSError *error = nil;
   // Snapshot Accessibility Element with zero height should be an error.
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"ElementWithZeroHeight")]
-      performAction:grey_snapshot(&snapshot) error:&error];
+      performAction:grey_snapshot(snapshot)
+              error:&error];
   GREYAssertEqualObjects(kGREYInteractionErrorDomain, error.domain, @"should be equal");
 }
 
+// Tests to be run only on iOS 11 since we need the new XCUIScreen API.
+#if defined(__IPHONE_11_0)
+
 - (void)testTakeScreenShotForAppStoreInPortraitMode {
-  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait errorOrNil:nil];
-  UIImage *screenshot = [GREYScreenshotUtil takeScreenshotForAppStore];
+  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait error:nil];
+  UIImage *screenshot = [XCUIScreen mainScreen].screenshot.image;
   GREYAssert(screenshot, @"Failed to take screenshot");
 
   CGRect actualRect = CGRectMake(0, 0, screenshot.size.width, screenshot.size.height);
@@ -95,9 +100,8 @@
 }
 
 - (void)testTakeScreenShotForAppStoreInPortraitUpsideDownMode {
-  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortraitUpsideDown errorOrNil:nil];
-
-  UIImage *screenshot = [GREYScreenshotUtil takeScreenshotForAppStore];
+  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortraitUpsideDown error:nil];
+  UIImage *screenshot = [XCUIScreen mainScreen].screenshot.image;
   GREYAssert(screenshot, @"Failed to take screenshot");
 
   CGRect actualRect = CGRectMake(0, 0, screenshot.size.width, screenshot.size.height);
@@ -106,9 +110,9 @@
 }
 
 - (void)testTakeScreenShotForAppStoreInLandscapeLeftMode {
-  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeLeft errorOrNil:nil];
+  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeLeft error:nil];
 
-  UIImage *screenshot = [GREYScreenshotUtil takeScreenshotForAppStore];
+  UIImage *screenshot = [XCUIScreen mainScreen].screenshot.image;
   GREYAssert(screenshot, @"Failed to take screenshot");
 
   CGRect actualRect = CGRectMake(0, 0, screenshot.size.width, screenshot.size.height);
@@ -117,9 +121,9 @@
 }
 
 - (void)testTakeScreenShotForAppStoreInLandscapeRightMode {
-  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeRight errorOrNil:nil];
+  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeRight error:nil];
 
-  UIImage *screenshot = [GREYScreenshotUtil takeScreenshotForAppStore];
+  UIImage *screenshot = [XCUIScreen mainScreen].screenshot.image;
   GREYAssert(screenshot, @"Failed to take screenshot");
 
   CGRect actualRect = CGRectMake(0, 0, screenshot.size.width, screenshot.size.height);
@@ -127,10 +131,18 @@
                  @"Screenshot isn't correct dimension");
 }
 
+- (void)testAddingTheStatusBarToTheInteraction {
+  GREYElementInteraction *interaction =
+      [EarlGrey selectElementWithMatcher:grey_kindOfClassName(@"UIStatusBarWindow")];
+  [[interaction includeStatusBar] assertWithMatcher:grey_notNil()];
+}
+
+#endif
+
 #pragma mark - Private
 
 - (CGRect)ftr_expectedImageRectForAppStore {
-  CGRect screenRect = [UIScreen mainScreen].bounds;
+  CGRect screenRect = [GREY_REMOTE_CLASS_IN_APP(UIScreen) mainScreen].bounds;
   UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
 
   BOOL isLandscape = (orientation == UIInterfaceOrientationLandscapeLeft ||

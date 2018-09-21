@@ -14,9 +14,8 @@
 // limitations under the License.
 //
 
+#import "GREYHostApplicationDistantObject+PinchViewTest.h"
 #import "FTRBaseIntegrationTest.h"
-#import "FTRImageViewController.h"
-#import <EarlGrey/EarlGrey.h>
 
 @interface FTRPinchViewTest : FTRBaseIntegrationTest
 @end
@@ -163,16 +162,8 @@
  *  Returns the image view controller frame.
  */
 - (CGRect)ftr_imageViewFrame {
-  UIWindow *delegateWindow = [UIApplication sharedApplication].delegate.window;
-  UINavigationController *rootNC = (UINavigationController *)[delegateWindow rootViewController];
-
-  FTRImageViewController *imageVC = nil;
-  for (UIViewController *controller in rootNC.viewControllers) {
-    if ([controller isKindOfClass:[FTRImageViewController class]]) {
-      imageVC = (FTRImageViewController *)controller;
-    }
-  }
-  return imageVC.view.frame;
+  GREYHostApplicationDistantObject *host = GREYHostApplicationDistantObject.sharedInstance;
+  return [host imageViewFrameForPinchView];
 }
 
 @end

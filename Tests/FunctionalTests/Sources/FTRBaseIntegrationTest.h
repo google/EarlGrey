@@ -1,5 +1,5 @@
 //
-// Copyright 2016 Google Inc.
+// Copyright 2017 Google Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,19 +14,24 @@
 // limitations under the License.
 //
 
-#import <Foundation/Foundation.h>
-#import <XCTest/XCTest.h>
+#import "TestLib/Assertion/GREYAssertionDefines.h"
+#import "TestLib/EarlGreyImpl/EarlGrey.h"
+#import "GREYHostApplicationDistantObject+RemoteTest.h"
 
-/* Define for checking if the current iOS version is 11 or above. */
-#define iOS11_OR_ABOVE() ([UIDevice currentDevice].systemVersion.intValue >= 11)
-
-// Base test class for all EarlGrey integration tests.
+/**
+ * Base class for adding any methods to be needed in the tests.
+ */
 @interface FTRBaseIntegrationTest : XCTestCase
 
+/**
+ *  The XCUIApplication being tested.
+ */
+@property(nonatomic) XCUIApplication *application;
+
+/**
+ *  Select the UITableViewCell with its text as specified by @c name from the app's main tableview.
+ *
+ *  @param name The text of the UITableViewCell being selected to open the test's view controller.
+ */
 - (void)openTestViewNamed:(NSString *)name;
-
-#pragma mark - XCTestCase
-
-- (void)tearDown;
-
 @end

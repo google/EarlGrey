@@ -14,9 +14,10 @@
 // limitations under the License.
 //
 
+#import "CommonLib/Error/GREYScrollActionError.h"
+#import "GREYHostApplicationDistantObject+ScrollViewTest.h"
 #import "FTRBaseIntegrationTest.h"
-#import "Common/GREYVisibilityChecker.h"
-#import <EarlGrey/EarlGrey.h>
+#import "UILib/GREYVisibilityChecker.h"
 
 @interface FTRScrollViewTest : FTRBaseIntegrationTest
 @end
@@ -29,10 +30,8 @@
 }
 
 - (void)testScrollToTopEdge {
-  id<GREYMatcher> matcher = grey_allOf(grey_accessibilityLabel(@"Label 2"),
-                                       grey_interactable(),
-                                       grey_sufficientlyVisible(),
-                                       nil);
+  id<GREYMatcher> matcher = grey_allOf(grey_accessibilityLabel(@"Label 2"), grey_interactable(),
+                                       grey_sufficientlyVisible(), nil);
   [[[EarlGrey selectElementWithMatcher:matcher]
          usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 50)
       onElementWithMatcher:grey_accessibilityLabel(@"Upper Scroll View")]
@@ -93,10 +92,8 @@
 
 - (void)testScrollToTopWorksWithPositiveInsets {
   // Scroll down.
-  id<GREYMatcher> matcher = grey_allOf(grey_accessibilityLabel(@"Label 2"),
-                                       grey_interactable(),
-                                       grey_sufficientlyVisible(),
-                                       nil);
+  id<GREYMatcher> matcher = grey_allOf(grey_accessibilityLabel(@"Label 2"), grey_interactable(),
+                                       grey_sufficientlyVisible(), nil);
   [[[EarlGrey selectElementWithMatcher:matcher]
          usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 50)
       onElementWithMatcher:grey_accessibilityLabel(@"Upper Scroll View")]
@@ -147,16 +144,9 @@
 }
 
 - (void)testScrollToTopWhenAlreadyAtTheTopWithoutBounce {
-  GREYActionBlock *bounceOff =
-      [[GREYActionBlock alloc] initWithName:@"toggleBounces"
-                                constraints:grey_kindOfClass([UIScrollView class])
-                               performBlock:^BOOL(UIScrollView *scrollView,
-                                                  NSError *__strong *error) {
-    GREYAssertTrue(scrollView.bounces, @"Bounce must be set or this test is same as"
-                                       @" testScrollToTopWhenAlreadyAtTheTopWithBounce");
-    scrollView.bounces = !scrollView.bounces;
-    return YES;
-  }];
+  GREYHostApplicationDistantObject *host = GREYHostApplicationDistantObject.sharedInstance;
+  id<GREYAction> bounceOff = [host actionForToggleBounces];
+
   // Verify this test with and without bounce enabled by toggling it.
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Upper Scroll View")]
       performAction:bounceOff];
@@ -175,22 +165,10 @@
 }
 
 - (void)testVisibilityOnPartiallyObscuredScrollView {
+  GREYHostApplicationDistantObject *host = GREYHostApplicationDistantObject.sharedInstance;
+  id<GREYAssertion> assertion = [host assertionWithPartiallyVisible];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Bottom Scroll View")]
-      assert:[GREYAssertionBlock assertionWithName:@"TestVisibleRectangle"
-                           assertionBlockWithError:^BOOL(id element,
-                                                         NSError *__strong *errorOrNil) {
-        GREYAssertNotNil(element, @"element must not be nil");
-        GREYAssertTrue([element isKindOfClass:[UIScrollView class]], @"should be UIScrollView");
-        UIView *view = element;
-        CGRect visibleRect = [GREYVisibilityChecker rectEnclosingVisibleAreaOfElement:view];
-        visibleRect = [view.window convertRect:visibleRect fromWindow:nil];
-        visibleRect = [view convertRect:visibleRect fromView:nil];
-        CGRect expectedVisibleRect = CGRectMake(0, 0, view.superview.bounds.size.width, 82);
-        GREYAssertTrue(CGRectEqualToRect(visibleRect, expectedVisibleRect),
-                      @"rects must be equal");
-        return YES;
-      }
-  ]];
+      assert:assertion];
 }
 
 - (void)testInfiniteScroll {
@@ -203,20 +181,23 @@
 }
 
 - (void)testScrollInDirectionCausesExactChangesToContentOffsetInPortraitUpsideDownMode {
-  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortraitUpsideDown errorOrNil:nil];
+  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortraitUpsideDown error:nil];
   [self ftr_assertScrollInDirectionCausesExactChangesToContentOffset];
 }
 
 - (void)testScrollInDirectionCausesExactChangesToContentOffsetInLandscapeLeftMode {
-  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeLeft errorOrNil:nil];
+  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeLeft error:nil];
   [self ftr_assertScrollInDirectionCausesExactChangesToContentOffset];
 }
 
 - (void)testScrollInDirectionCausesExactChangesToContentOffsetInLandscapeRightMode {
-  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeRight errorOrNil:nil];
+  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeRight error:nil];
   [self ftr_assertScrollInDirectionCausesExactChangesToContentOffset];
 }
 
+// TODO: Because the action is performed outside the main thread, the synchronization // NOLINT
+//       waits until the scrolling stops, where the scroll view's inertia causes itself
+//       to move more than needed.
 - (void)testScrollInDirectionCausesExactChangesToContentOffsetWithTinyScrollAmounts {
   // Scroll by a fixed amount and verify that the scroll offset has changed by that amount.
   // Go down to (0, 7)
@@ -274,7 +255,8 @@
       performAction:grey_scrollInDirection(kGREYDirectionDown, 100)];
   NSError *scrollError;
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Upper Scroll View")]
-      performAction:grey_scrollInDirection(kGREYDirectionUp, 200) error:&scrollError];
+      performAction:grey_scrollInDirection(kGREYDirectionUp, 200)
+              error:&scrollError];
   GREYAssertEqualObjects(scrollError.domain, kGREYScrollErrorDomain, @"should be equal");
   GREYAssertEqual(scrollError.code, kGREYScrollReachedContentEdge, @"should be equal");
 }
@@ -293,8 +275,13 @@
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
-- (void)testSetContentOffsetToSameCGPointDoesNotWait{
+- (void)testSetContentOffsetToSameCGPointDoesNotWait {
   [self ftr_setContentOffSet:CGPointZero animated:YES];
+}
+
+- (void)testContentSizeSmallerThanViewSize {
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Small Content Scroll View")]
+      performAction:grey_scrollToContentEdge(kGREYContentEdgeBottom)];
 }
 
 #pragma mark - Private
@@ -327,16 +314,8 @@
 
 // Makes a setContentOffset:animated: call on an element of type UIScrollView.
 - (void)ftr_setContentOffSet:(CGPoint)offset animated:(BOOL)animated {
-  BOOL (^actionBlock)(UIScrollView *, __strong NSError **) =
-      ^BOOL (UIScrollView *view, __strong NSError **errorOrNil) {
-          [view setContentOffset:offset animated:animated];
-          return YES;
-        };
-
-  id<GREYAction> action = [GREYActionBlock actionWithName:@"ftr_setContentOffSet"
-                                              constraints:grey_kindOfClass([UIScrollView class])
-                                             performBlock:actionBlock];
-
+  GREYHostApplicationDistantObject *host = GREYHostApplicationDistantObject.sharedInstance;
+  id<GREYAction> action = [host actionForSetScrollViewContentOffSet:offset animated:animated];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Upper Scroll View")]
       performAction:action];
 }

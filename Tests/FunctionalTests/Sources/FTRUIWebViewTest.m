@@ -14,37 +14,22 @@
 // limitations under the License.
 //
 
+#import "GREYHostApplicationDistantObject+WebViewTest.h"
 #import "FTRBaseIntegrationTest.h"
-#import "Delegate/GREYUIWebViewDelegate.h"
-#import <EarlGrey/EarlGrey.h>
-#import "Synchronization/GREYAppStateTracker.h"
-#import "Synchronization/GREYAppStateTrackerObject.h"
 
 /**
  *  A constant to wait for the locally loaded HTML page.
  */
 static const NSTimeInterval kLocalHTMLPageLoadDelay = 10.0;
 
-/**
- *  Required for testing UIWebView states.
- */
-@interface GREYAppStateTracker (FTRExposedForTesting)
-- (GREYAppState)grey_lastKnownStateForObject:(id)object;
-@end
-
-@interface UIWebView (FTRExposedForTesting)
-- (void)grey_trackAJAXLoading;
-- (GREYAppStateTrackerObject *)trackerObjectForWebView;
-@end
-
-@interface FTRUIWebViewTest : FTRBaseIntegrationTest<UIWebViewDelegate>
+@interface FTRUIWebViewTest : FTRBaseIntegrationTest <UIWebViewDelegate>
 @end
 
 @implementation FTRUIWebViewTest
 
 - (void)setUp {
   [super setUp];
-  [self openTestViewNamed:@"Web Views"];
+  [self openTestViewNamed:@"UIWebView"];
 }
 
 - (void)DISABLED_testComponentsOnLocallyLoadedRichHTMLWithBounce {
@@ -52,7 +37,7 @@ static const NSTimeInterval kLocalHTMLPageLoadDelay = 10.0;
 }
 
 - (void)DISABLED_testComponentsOnLocallyLoadedRichHTMLWithoutBounce {
-  // TODO: Temporarily disable the test due to a swipe resistance detection bug.
+  // TODO: Temporarily disable the test due to a swipe resistance detection bug. // NOLINT
   // Link: https://github.com/google/EarlGrey/issues/152
   [self ftr_verifyComponentsOnLocallyLoadedRichHTML:NO];
 }
@@ -62,37 +47,35 @@ static const NSTimeInterval kLocalHTMLPageLoadDelay = 10.0;
 }
 
 - (void)DISABLED_testLongTableOnLocallyLoadedRichHTMLWithoutBounce {
-  // TODO: Temporarily disable the test due to a swipe resistance detection bug.
+  // TODO: Temporarily disable the test due to a swipe resistance detection bug. // NOLINT
   // Link: https://github.com/google/EarlGrey/issues/152
   [self ftr_verifyLongTableOnLocallyLoadedRichHTML:NO];
 }
 
-// TODO: Temporarily disable the test due to the flakiness.
+// TODO: Temporarily disable the test due to the flakiness. // NOLINT
 // Link: https://github.com/google/EarlGrey/issues/181
 - (void)DISABLED_testScrollingOnLocallyLoadedHTMLPagesWithBounce {
   [self ftr_verifyScrollingOnLocallyLoadedHTMLPagesWithBounce:YES];
 }
 
-// TODO: Temporarily disable the test due to the flakiness.
+// TODO: Temporarily disable the test due to the flakiness. // NOLINT
 // Link: https://github.com/google/EarlGrey/issues/181
 - (void)DISABLED_testScrollingOnLocallyLoadedHTMLPagesWithoutBounce {
   [self ftr_verifyScrollingOnLocallyLoadedHTMLPagesWithBounce:NO];
 }
 
-// TODO: Temporarily disable the test due to the flakiness.
+// TODO: Temporarily disable the test due to the flakiness. // NOLINT
 // Link: https://github.com/google/EarlGrey/issues/181
 - (void)DISABLED_testScrollingOnPagesLoadedUsingLoadHTMLStringWithBounce {
   [self ftr_verifyScrollingOnPagesLoadedUsingLoadHTMLStringWithBounce:YES];
 }
 
-// TODO: Temporarily disable the test due to the flakiness.
+// TODO: Temporarily disable the test due to the flakiness. // NOLINT
 // Link: https://github.com/google/EarlGrey/issues/181
 - (void)DISABLED_testScrollingOnPagesLoadedUsingLoadHTMLStringWithoutBounce {
   [self ftr_verifyScrollingOnPagesLoadedUsingLoadHTMLStringWithBounce:NO];
 }
 
-// TODO: Temporarily disable the test due to the flakiness.
-// Link: https://github.com/google/EarlGrey/issues/181
 - (void)testSynchronizationWhenSwitchingBetweenLoadingMethods {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"loadLocalFile")]
       performAction:grey_tap()];
@@ -120,138 +103,62 @@ static const NSTimeInterval kLocalHTMLPageLoadDelay = 10.0;
  * a unit test environment, we are moving these to UI test suite
  */
 - (void)testDelegateIsProxyDelegate {
-  UIWebView *webView = [[UIWebView alloc] init];
-  GREYUIWebViewDelegate *delegate = [webView delegate];
-  XCTAssertTrue([delegate isKindOfClass:[GREYUIWebViewDelegate class]], @"%@", [delegate class]);
+  XCTAssertTrue([[GREYHostApplicationDistantObject sharedInstance] delegateIsProxyDelegate]);
 }
 
 - (void)testDelegateIsProxyDelegateAfterSettingCustomDelegate {
-  UIWebView *webView = [[UIWebView alloc] init];
-  webView.delegate = self;
-  GREYUIWebViewDelegate *delegate = [webView delegate];
-  XCTAssertTrue([delegate isKindOfClass:[GREYUIWebViewDelegate class]], @"%@", [delegate class]);
-
-  webView.delegate = self;
-  delegate = [webView delegate];
-  XCTAssertTrue([delegate isKindOfClass:[GREYUIWebViewDelegate class]], @"%@", [delegate class]);
+  XCTAssertTrue([[GREYHostApplicationDistantObject sharedInstance]
+      delegateIsProxyDelegateAfterSettingCustomDelegate]);
 }
 
 - (void)testDelegateIsNotNilAfterClearingDelegate {
-  UIWebView *webView = [[UIWebView alloc] init];
-  webView.delegate = nil;
-  GREYUIWebViewDelegate *delegate = [webView delegate];
-  XCTAssertTrue([delegate isKindOfClass:[GREYUIWebViewDelegate class]], @"%@", [delegate class]);
+  XCTAssertTrue(
+      [[GREYHostApplicationDistantObject sharedInstance] delegateIsNotNilAfterClearingDelegate]);
 }
 
 - (void)testDelegateIsNotDeallocAfterClearingDelegate {
-  UIWebView *webView = [[UIWebView alloc] init];
-  __weak GREYUIWebViewDelegate *delegate;
-  {
-    delegate = [webView delegate];
-    XCTAssertTrue([delegate isKindOfClass:[GREYUIWebViewDelegate class]], @"%@", [delegate class]);
-    [webView setDelegate:nil];
-  }
-
-  __weak GREYUIWebViewDelegate *secondDelegate;
-  {
-    secondDelegate = [webView delegate];
-    XCTAssertTrue([secondDelegate isKindOfClass:[GREYUIWebViewDelegate class]],
-                  @"%@", [delegate class]);
-    [webView setDelegate:nil];
-  }
-
-  XCTAssertNotNil(delegate, @"should not be nil");
-  XCTAssertNotNil(secondDelegate, @"should not be nil");
-  XCTAssertNotEqualObjects(delegate, secondDelegate, @"should not be equal");
+  XCTAssertTrue([[GREYHostApplicationDistantObject sharedInstance]
+      delegateIsNotDeallocAfterClearingDelegate]);
 }
 
 - (void)testWebViewDeallocClearsAllDelegates {
-  __weak GREYUIWebViewDelegate *delegate;
-  __weak GREYUIWebViewDelegate *secondDelegate;
-
-  @autoreleasepool {
-    __autoreleasing UIWebView *webView = [[UIWebView alloc] init];
-    {
-      delegate = [webView delegate];
-      [webView setDelegate:nil];
-    }
-
-    {
-      secondDelegate = [webView delegate];
-      [webView setDelegate:nil];
-    }
-    XCTAssertTrue([delegate isKindOfClass:[GREYUIWebViewDelegate class]], @"%@", [delegate class]);
-    XCTAssertTrue([secondDelegate isKindOfClass:[GREYUIWebViewDelegate class]],
-                   @"%@", [delegate class]);
-  }
-  XCTAssertNil(delegate, @"should be nil");
-  XCTAssertNil(secondDelegate, @"should be nil");
+  XCTAssertTrue(
+      [[GREYHostApplicationDistantObject sharedInstance] webViewDeallocClearsAllDelegates]);
 }
 
 - (void)testWebViewProxyDelegateClearsOutDeallocedDelegates {
-  UIWebView *webView = [[UIWebView alloc] init];
-  id<UIWebViewDelegate> delegate;
+  __autoreleasing id<UIWebViewDelegate> autoRelDelegate = [[FTRUIWebViewTest alloc] init];
+  XCTAssertTrue([[GREYHostApplicationDistantObject sharedInstance]
+      webViewProxyDelegateClearsOutDeallocedDelegates:autoRelDelegate]);
+}
 
-  @autoreleasepool {
-    __autoreleasing id<UIWebViewDelegate> autoRelDelegate = [[FTRUIWebViewTest alloc] init];
-    [webView setDelegate:autoRelDelegate];
-    delegate = [webView delegate];
-    XCTAssertTrue([delegate isKindOfClass:[GREYUIWebViewDelegate class]], @"%@", [delegate class]);
-  }
-
-  // Should not crash.
-  [delegate webViewDidFinishLoad:webView];
+- (void)testAjaxUnTrackedWhenAJAXListenerSchemeIsPending {
+  XCTAssertTrue([[GREYHostApplicationDistantObject sharedInstance]
+                    ajaxTrackedWhenAJAXListenerSchemeIsPending],
+                @"should be pending");
 }
 
 - (void)testStopLoadingClearsStateInStateTracker {
-  UIWebView *webView = [[UIWebView alloc] init];
-  [webView grey_trackAJAXLoading];
-  GREYAppState lastState =
-      [[GREYAppStateTracker sharedInstance] grey_lastKnownStateForObject:webView];
-  BOOL isAsyncRequestPending = ((lastState & kGREYPendingUIWebViewAsyncRequest) != 0);
-  XCTAssertTrue(isAsyncRequestPending, @"should be pending");
-
-  [webView stopLoading];
-  lastState = [[GREYAppStateTracker sharedInstance] grey_lastKnownStateForObject:webView];
-  isAsyncRequestPending = ((lastState & kGREYPendingUIWebViewAsyncRequest) != 0);
-  XCTAssertFalse(isAsyncRequestPending, @"should not be pending");
+  XCTAssertFalse(
+      [[GREYHostApplicationDistantObject sharedInstance] stopLoadingClearsStateInStateTracker],
+      @"should not be pending");
+  ;
 }
 
 - (void)testAjaxTrackedWhenAJAXListenerSchemeIsStarting {
-  UIWebView *webView = [[UIWebView alloc] init];
-  NSURLRequest *req =
-      [NSURLRequest requestWithURL:[NSURL URLWithString:@"greyajaxlistener://starting"]];
-  // Invoke manually since loadRequest doesn't work.
-  [[webView delegate] webView:webView
-      shouldStartLoadWithRequest:req
-                  navigationType:UIWebViewNavigationTypeOther];
-  GREYAppState lastState =
-      [[GREYAppStateTracker sharedInstance] grey_lastKnownStateForObject:webView];
-  BOOL isAsyncRequestPending = ((lastState & kGREYPendingUIWebViewAsyncRequest) != 0);
-  XCTAssertTrue(isAsyncRequestPending, @"should be pending");
+  XCTAssertTrue([[GREYHostApplicationDistantObject sharedInstance]
+                    ajaxTrackedWhenAJAXListenerSchemeIsStarting],
+                @"should be pending");
 }
 
 - (void)testAjaxUnTrackedWhenAJAXListenerSchemeIsCompleted {
-  UIWebView *webView = [[UIWebView alloc] init];
-  [webView grey_trackAJAXLoading];
-
-  GREYAppState lastState =
-      [[GREYAppStateTracker sharedInstance] grey_lastKnownStateForObject:webView];
-  BOOL isAsyncRequestPending = ((lastState & kGREYPendingUIWebViewAsyncRequest) != 0);
-  XCTAssertTrue(isAsyncRequestPending, @"should be pending");
-
-  NSURLRequest *req =
-      [NSURLRequest requestWithURL:[NSURL URLWithString:@"greyajaxlistener://completed"]];
-  // Invoke manually since loadRequest doesn't work.
-  [[webView delegate] webView:webView
-      shouldStartLoadWithRequest:req
-                  navigationType:UIWebViewNavigationTypeOther];
-  lastState = [[GREYAppStateTracker sharedInstance] grey_lastKnownStateForObject:webView];
-  isAsyncRequestPending = ((lastState & kGREYPendingUIWebViewAsyncRequest) != 0);
-  XCTAssertFalse(isAsyncRequestPending, @"should not be pending");
+  XCTAssertFalse([[GREYHostApplicationDistantObject sharedInstance]
+                     ajaxUnTrackedWhenAJAXListenerSchemeIsCompleted],
+                 @"should not be pending");
 }
 
-// TODO: Temporarily disable the test due to that it fails to dectect the UIWebView is idling.
+// TODO: Temporarily disable the test due to that it fails to detect the UIWebView // NOLINT
+// is idling.
 // Link: https://github.com/google/EarlGrey/issues/365
 - (void)DISABLED_testLongPressLinkInUIWebView {
   // Load local page first.
@@ -273,19 +180,22 @@ static const NSTimeInterval kLocalHTMLPageLoadDelay = 10.0;
 
 #pragma mark - Private
 
+// All the following private functions starting with "ftr_" are being used by
+// disabled tests.
+
 - (void)ftr_waitForElementWithAccessibilityLabelToAppear:(NSString *)axLabel {
   NSString *conditionName = [NSString stringWithFormat:@"WaitFor%@", axLabel];
-  GREYCondition *conditionForElement =
-      [GREYCondition conditionWithName:conditionName block:^BOOL {
-        NSError *error;
-        [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(axLabel)]
-            assertWithMatcher:grey_sufficientlyVisible() error:&error];
-        return (error == nil);
-      }];
+  GREYCondition *conditionForElement = [GREYCondition
+      conditionWithName:conditionName
+                  block:^BOOL {
+                    NSError *error;
+                    [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(axLabel)]
+                        assertWithMatcher:grey_sufficientlyVisible()
+                                    error:&error];
+                    return (error == nil);
+                  }];
   BOOL elementAppeared = [conditionForElement waitWithTimeout:kLocalHTMLPageLoadDelay];
-  GREYAssertTrue(elementAppeared,
-                 @"%@ failed to appear after %.2f seconds",
-                 axLabel,
+  GREYAssertTrue(elementAppeared, @"%@ failed to appear after %.2f seconds", axLabel,
                  kLocalHTMLPageLoadDelay);
 }
 
@@ -314,7 +224,8 @@ static const NSTimeInterval kLocalHTMLPageLoadDelay = 10.0;
   [self ftr_navigateToLocallyLoadedRichHTML:bounceEnabled];
   // Navigate to LongTable
   [[EarlGrey selectElementWithMatcher:grey_allOf(grey_accessibilityLabel(@"LONG TABLE"),
-      grey_accessibilityTrait(UIAccessibilityTraitLink), nil)] performAction:grey_tap()];
+                                                 grey_accessibilityTrait(UIAccessibilityTraitLink),
+                                                 nil)] performAction:grey_tap()];
   // Wait for the test text to appear.
   [self ftr_waitForElementWithAccessibilityLabelToAppear:@"R1C1"];
 }
@@ -324,7 +235,7 @@ static const NSTimeInterval kLocalHTMLPageLoadDelay = 10.0;
   // Check the initial visibility of Row1
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"R1C2")]
       assertWithMatcher:grey_sufficientlyVisible()];
-  // TODO: Tap on <input> tag will not correctly trigger the full checkbox animation.
+  // TODO: Tap on <input> tag will not correctly trigger the full checkbox animation. // NOLINT
   // We shall probably tap on the <span> tag instead to trigger all html5 effect.
   // Tap on "check all" checkbox to check all checkboxs.
   GREYElementInteraction *r0checkboxInteraction =
@@ -340,27 +251,23 @@ static const NSTimeInterval kLocalHTMLPageLoadDelay = 10.0;
   // Verify if it is checked.
   [r0checkboxInteraction assertWithMatcher:grey_accessibilityValue(@"1")];
   [r1checkboxInteraction assertWithMatcher:grey_accessibilityValue(@"1")];
-  // TODO: When using 50 rows, the search action actually gives up pre-maturally, even though the
-  // timeout is not exceeded in iOS 8.4/iPhone setting. Maybe it is due to the unstable swipe
-  // resistance detection.
+  // TODO: When using 50 rows, the search action actually gives up pre-maturally, // NOLINT
+  // even though the timeout is not exceeded in iOS 8.4/iPhone setting. Maybe it is due to
+  // the unstable swipe resistance detection.
   // Check visibility of row 30 after scrolling.
-  id<GREYMatcher> matcher = grey_allOf(grey_accessibilityLabel(@"R30C2"),
-                                       grey_interactable(),
-                                       grey_sufficientlyVisible(),
-                                       nil);
+  id<GREYMatcher> matcher = grey_allOf(grey_accessibilityLabel(@"R30C2"), grey_interactable(),
+                                       grey_sufficientlyVisible(), nil);
   [[[EarlGrey selectElementWithMatcher:matcher]
-      usingSearchAction:grey_scrollInDirectionWithStartPoint(kGREYDirectionDown, 400, 0.75, 0.75)
+         usingSearchAction:grey_scrollInDirectionWithStartPoint(kGREYDirectionDown, 400, 0.75, 0.75)
       onElementWithMatcher:grey_accessibilityID(@"FTRTestWebView")]
       assertWithMatcher:grey_sufficientlyVisible()];
   // Verify if we can scroll to the top of the web page.
   // Here, we cannot use scrollToContentEdge(kGREYContentEdgeTop) to the top. Because it will not
   // work with a float fixed navbar at the top.
-  matcher = grey_allOf(grey_accessibilityLabel(@"R1C2"),
-                       grey_interactable(),
-                       grey_sufficientlyVisible(),
-                       nil);
+  matcher = grey_allOf(grey_accessibilityLabel(@"R1C2"), grey_interactable(),
+                       grey_sufficientlyVisible(), nil);
   [[[EarlGrey selectElementWithMatcher:matcher]
-      usingSearchAction:grey_scrollInDirectionWithStartPoint(kGREYDirectionUp, 400, 0.25, 0.25)
+         usingSearchAction:grey_scrollInDirectionWithStartPoint(kGREYDirectionUp, 400, 0.25, 0.25)
       onElementWithMatcher:grey_accessibilityID(@"FTRTestWebView")]
       assertWithMatcher:grey_sufficientlyVisible()];
   // Verify if they are visible.
@@ -383,18 +290,16 @@ static const NSTimeInterval kLocalHTMLPageLoadDelay = 10.0;
         performAction:grey_turnSwitchOn(NO)];
   }
 
-  // TODO: Add an GREYCondition to wait for webpage loads, to fix EarlGrey synchronization
-  // issues with loading webpages. These issues induce flakiness in tests that have html files
-  // loaded, whether local or over the web. The GREYCondition added in this test checks if the file
-  // was loaded to mask issues in this particular set of tests, surfacing that the page load error
-  // was what caused the test flake.
+  // TODO: Add an GREYCondition to wait for webpage loads, to fix EarlGrey // NOLINT
+  // synchronization issues with loading webpages. These issues induce flakiness in tests that have
+  // html files loaded, whether local or over the web. The GREYCondition added in this test checks
+  // if the file was loaded to mask issues in this particular set of tests, surfacing that the page
+  // load error was what caused the test flake.
   [self ftr_waitForElementWithAccessibilityLabelToAppear:@"Row 1"];
 
   // Verify we can scroll to the bottom of the web page.
-  id<GREYMatcher> matcher = grey_allOf(grey_accessibilityLabel(@"Row 50"),
-                                       grey_interactable(),
-                                       grey_sufficientlyVisible(),
-                                       nil);
+  id<GREYMatcher> matcher = grey_allOf(grey_accessibilityLabel(@"Row 50"), grey_interactable(),
+                                       grey_sufficientlyVisible(), nil);
   [[[EarlGrey selectElementWithMatcher:matcher]
          usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 200)
       onElementWithMatcher:grey_accessibilityID(@"FTRTestWebView")]
@@ -417,10 +322,8 @@ static const NSTimeInterval kLocalHTMLPageLoadDelay = 10.0;
   }
 
   // Verify we can scroll to the bottom of the web page.
-  id<GREYMatcher> matcher = grey_allOf(grey_accessibilityLabel(@"Row 50"),
-                                       grey_interactable(),
-                                       grey_sufficientlyVisible(),
-                                       nil);
+  id<GREYMatcher> matcher = grey_allOf(grey_accessibilityLabel(@"Row 50"), grey_interactable(),
+                                       grey_sufficientlyVisible(), nil);
   [[[EarlGrey selectElementWithMatcher:matcher]
          usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 200)
       onElementWithMatcher:grey_accessibilityID(@"FTRTestWebView")]
@@ -436,27 +339,28 @@ static const NSTimeInterval kLocalHTMLPageLoadDelay = 10.0;
   // Navigate to Rich HTML.
   [self ftr_navigateToLocallyLoadedRichHTML:bounceEnabled];
   // Verify if the image is visible.
-  [[EarlGrey selectElementWithMatcher:grey_allOf(grey_accessibilityLabel(@"A img image."),
-      grey_accessibilityTrait(UIAccessibilityTraitImage), nil)]
+  [[EarlGrey
+      selectElementWithMatcher:grey_allOf(grey_accessibilityLabel(@"A img image."),
+                                          grey_accessibilityTrait(UIAccessibilityTraitImage), nil)]
       assertWithMatcher:grey_sufficientlyVisible()];
   // Verify if the static text is visible.
-  [[EarlGrey selectElementWithMatcher:grey_allOf(grey_accessibilityLabel(@"Static Text"),
-      grey_accessibilityTrait(UIAccessibilityTraitStaticText), nil)]
-      assertWithMatcher:grey_sufficientlyVisible()];
+  [[EarlGrey
+      selectElementWithMatcher:grey_allOf(grey_accessibilityLabel(@"Static Text"),
+                                          grey_accessibilityTrait(UIAccessibilityTraitStaticText),
+                                          nil)] assertWithMatcher:grey_sufficientlyVisible()];
   // Search until the input field is visible.
-  id<GREYMatcher> matcher = grey_allOf(grey_accessibilityLabel(@"INPUT FIELD"),
-                                       grey_interactable(),
-                                       nil);
+  id<GREYMatcher> matcher =
+      grey_allOf(grey_accessibilityLabel(@"INPUT FIELD"), grey_interactable(), nil);
   GREYElementInteraction *interaction = [[EarlGrey selectElementWithMatcher:matcher]
-      usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 200)
+         usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 200)
       onElementWithMatcher:grey_accessibilityID(@"FTRTestWebView")];
   [interaction assertWithMatcher:grey_sufficientlyVisible()];
   // Clear text in the input field.
   [interaction performAction:grey_clearText()];
   // Check if the text was successfully cleared.
   [interaction assertWithMatcher:grey_accessibilityValue(@"")];
-  // TODO: It is a temporary workaround to pass the input field test. It performs an extra
-  // tap onto the input field then type in the text.
+  // TODO: It is a temporary workaround to pass the input field test. It performs // NOLINT
+  // an extra tap onto the input field then type in the text.
   [interaction performAction:grey_tap()];
   // Type "HELLO WORLD" into the input field.
   [interaction performAction:grey_typeText(@"HELLO WORLD")];
@@ -466,12 +370,10 @@ static const NSTimeInterval kLocalHTMLPageLoadDelay = 10.0;
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"FTRTestWebView")]
       performAction:grey_javaScriptExecution(@"document.activeElement.blur();", nil)];
   // Check visibility of the button.
-  matcher = grey_allOf(grey_accessibilityLabel(@"DONT CLICK ME"),
-                       grey_interactable(),
-                       grey_accessibilityTrait(UIAccessibilityTraitButton),
-                       nil);
+  matcher = grey_allOf(grey_accessibilityLabel(@"DONT CLICK ME"), grey_interactable(),
+                       grey_accessibilityTrait(UIAccessibilityTraitButton), nil);
   interaction = [[EarlGrey selectElementWithMatcher:matcher]
-      usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 200)
+         usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 200)
       onElementWithMatcher:grey_accessibilityID(@"FTRTestWebView")];
   [interaction assertWithMatcher:grey_sufficientlyVisible()];
   // Click on the button and wait until the test text appears.

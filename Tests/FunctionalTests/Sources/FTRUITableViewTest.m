@@ -14,9 +14,8 @@
 // limitations under the License.
 //
 
+#import "GREYHostApplicationDistantObject+UITableViewTest.h"
 #import "FTRBaseIntegrationTest.h"
-#import "FTRTableViewController.h"
-#import <EarlGrey/EarlGrey.h>
 
 @interface FTRUITableViewTest : FTRBaseIntegrationTest
 @end
@@ -100,16 +99,8 @@
 }
 
 - (void)testScrollToTopWhenAlreadyAtTheTopWithoutBounce {
-  GREYActionBlock *bounceOff =
-      [[GREYActionBlock alloc] initWithName:@"toggleBounces"
-                                constraints:grey_kindOfClass([UIScrollView class])
-                               performBlock:^BOOL(UIScrollView *scrollView,
-                                                  NSError *__strong *error) {
-    GREYAssertTrue(scrollView.bounces, @"Bounce must be set or this test is same as "
-                                       @"testScrollToTopWhenAlreadyAtTheTopWithBounce");
-    scrollView.bounces = NO;
-    return YES;
-  }];
+  id<GREYAction> bounceOff =
+      [GREYHostApplicationDistantObject.sharedInstance actionForTableViewBoundOff];
 
   // Verify this test with and without bounce enabled by toggling it.
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"main_table_view")]
@@ -138,17 +129,8 @@
 }
 
 - (void)testFrameworkSynchronizesWithScrolling {
-  MatchesBlock matchesNotScrolling = ^BOOL(UIScrollView *element) {
-    return !element.dragging && !element.decelerating;
-  };
-  DescribeToBlock describe = ^void(id<GREYDescription> description) {
-    [description appendText:@"scrollViewNotScrolling"];
-  };
   id<GREYMatcher> notScrollingMatcher =
-      grey_allOf(grey_kindOfClass([UIScrollView class]),
-                 [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matchesNotScrolling
-                                                      descriptionBlock:describe],
-                 nil);
+      [GREYHostApplicationDistantObject.sharedInstance matcherForNotScrolling];
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"main_table_view")]
       performAction:grey_swipeSlowInDirection(kGREYDirectionDown)]
       assertWithMatcher:notScrollingMatcher];
@@ -168,8 +150,8 @@
   id<GREYMatcher> matcher =
       grey_allOf([self ftr_matcherForCellAtIndex:index], grey_interactable(), nil);
   return [[EarlGrey selectElementWithMatcher:matcher]
-                usingSearchAction:grey_scrollInDirection(direction, amount)
-             onElementWithMatcher:grey_kindOfClass([UITableView class])];
+         usingSearchAction:grey_scrollInDirection(direction, amount)
+      onElementWithMatcher:grey_kindOfClass([UITableView class])];
 }
 
 @end

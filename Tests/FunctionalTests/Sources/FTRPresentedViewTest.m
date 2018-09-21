@@ -14,9 +14,8 @@
 // limitations under the License.
 //
 
-#import "FTRAppDelegate.h"
 #import "FTRBaseIntegrationTest.h"
-#import <EarlGrey/EarlGrey.h>
+#import "AppDelegate.h"
 
 @interface FTRPresentedViewTest : FTRBaseIntegrationTest
 @end
@@ -29,7 +28,8 @@
 }
 
 - (void)testDismissToResetNavController {
-  FTRAppDelegate *app = (FTRAppDelegate *)[[UIApplication sharedApplication] delegate];
+  AppDelegate *app =
+      (AppDelegate *)[GREY_REMOTE_CLASS_IN_APP(UIApplication) sharedApplication].delegate;
   [app resetRootNavigationController];
 
   [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"Dismiss")] performAction:grey_tap()];

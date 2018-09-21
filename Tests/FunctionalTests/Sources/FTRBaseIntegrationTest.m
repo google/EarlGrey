@@ -1,5 +1,5 @@
 //
-// Copyright 2016 Google Inc.
+// Copyright 2017 Google Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 
 #import "FTRBaseIntegrationTest.h"
 
-#import <EarlGrey/EarlGrey.h>
+#import "GREYHostApplicationDistantObject+BaseIntegrationTest.h"
 
 @implementation FTRBaseIntegrationTest {
   // This variable holds the current failure handler before any tests sully it.
@@ -25,26 +25,14 @@
 
 - (void)setUp {
   [super setUp];
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    self.application = [[XCUIApplication alloc] init];
+    [self.application launch];
+  });
   _currentFailureHandler =
       [[[NSThread currentThread] threadDictionary] valueForKey:kGREYFailureHandlerKey];
-  // By default, make all tests assume portrait position.
-  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait errorOrNil:nil];
-}
-
-- (void)tearDown {
-  UIWindow *delegateWindow = [UIApplication sharedApplication].delegate.window;
-  UINavigationController *navController;
-  if ([delegateWindow.rootViewController isKindOfClass:[UINavigationController class]]) {
-    navController = (UINavigationController *)delegateWindow.rootViewController;
-  } else {
-    navController = delegateWindow.rootViewController.navigationController;
-  }
-  [navController popToRootViewControllerAnimated:YES];
-
-  [[GREYConfiguration sharedInstance] reset];
-  [EarlGrey setFailureHandler:_currentFailureHandler];
-
-  [super tearDown];
+  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait error:nil];
 }
 
 - (void)openTestViewNamed:(NSString *)name {
@@ -63,6 +51,14 @@
   [[[EarlGrey selectElementWithMatcher:grey_allOf(cellMatcher, grey_interactable(), nil)]
          usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 200)
       onElementWithMatcher:grey_kindOfClass([UITableView class])] performAction:grey_tap()];
+}
+
+- (void)tearDown {
+  [[GREYHostApplicationDistantObject sharedInstance] resetNavigationStack];
+  [[GREYConfiguration sharedConfiguration] reset];
+  [EarlGrey setFailureHandler:_currentFailureHandler];
+
+  [super tearDown];
 }
 
 @end

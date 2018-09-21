@@ -15,7 +15,6 @@
 //
 
 #import "FTRBaseIntegrationTest.h"
-#import <EarlGrey/EarlGrey.h>
 
 @interface FTRMultiFingerSwipeTest : FTRBaseIntegrationTest
 @end
@@ -68,7 +67,7 @@
 
 - (void)testThreeFingerSwipeRight {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"gestureRecognizerBox")]
-   performAction:grey_multiFingerSwipeFastInDirection(kGREYDirectionRight, 3)];
+      performAction:grey_multiFingerSwipeFastInDirection(kGREYDirectionRight, 3)];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Swiped with 3 fingers Right")]
       assertWithMatcher:grey_sufficientlyVisible()];
 }

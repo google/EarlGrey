@@ -16,8 +16,6 @@
 
 #import "FTRBaseIntegrationTest.h"
 
-#import <EarlGrey/EarlGrey.h>
-
 @interface FTRAlertViewTest : FTRBaseIntegrationTest
 @end
 
@@ -29,40 +27,30 @@
 }
 
 - (void)testSimpleAlertView {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Simple Alert")]
-      performAction:[GREYActions actionForTap]];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Flee")] performAction:[GREYActions actionForTap]];
+  [[EarlGrey selectElementWithMatcher:grey_text(@"Simple Alert")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:grey_text(@"Flee")] performAction:grey_tap()];
 }
 
 - (void)testMultiOptionAlertView {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Multi-Option Alert")]
-      performAction:[GREYActions actionForTap]];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Use Slingshot")]
-      performAction:[GREYActions actionForTap]];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Multi-Option Alert")]
-      performAction:[GREYActions actionForTap]];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Use Phaser")]
-      performAction:[GREYActions actionForTap]];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Roger")]
-      performAction:[GREYActions actionForTap]];
+  [[EarlGrey selectElementWithMatcher:grey_text(@"Multi-Option Alert")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:grey_text(@"Use Slingshot")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:grey_text(@"Multi-Option Alert")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:grey_text(@"Use Phaser")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:grey_text(@"Roger")] performAction:grey_tap()];
   [[EarlGrey selectElementWithMatcher:grey_text(@"Multi-Option Alert")]
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
 - (void)testAlertViewChain {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Multi-Option Alert")]
-      performAction:[GREYActions actionForTap]];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Use Phaser")]
-      performAction:[GREYActions actionForTap]];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Roger")]
-      performAction:[GREYActions actionForTap]];
+  [[EarlGrey selectElementWithMatcher:grey_text(@"Multi-Option Alert")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:grey_text(@"Use Phaser")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:grey_text(@"Roger")] performAction:grey_tap()];
   [[EarlGrey selectElementWithMatcher:grey_text(@"Multi-Option Alert")]
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
 - (void)testStyledAlertView {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Styled Alert")]
-      performAction:[GREYActions actionForTap]];
+  [[EarlGrey selectElementWithMatcher:grey_text(@"Styled Alert")] performAction:grey_tap()];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Login")]
       performAction:grey_typeText(@"test_user")];
@@ -72,10 +60,13 @@
       performAction:grey_typeText(@"test_pwd")];
   [[EarlGrey selectElementWithMatcher:grey_text(@"test_pwd")] assertWithMatcher:grey_notNil()];
 
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Leave")]
-      performAction:[GREYActions actionForTap]];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Roger")]
-      performAction:[GREYActions actionForTap]];
+  [[EarlGrey selectElementWithMatcher:grey_text(@"Leave")] performAction:grey_tap()];
+  NSError *error;
+  [[EarlGrey selectElementWithMatcher:grey_text(@"Roger")] assertWithMatcher:grey_nil()
+                                                                       error:&error];
+  if (error) {
+    [[EarlGrey selectElementWithMatcher:grey_text(@"Roger")] performAction:grey_tap()];
+  }
 }
 
 @end

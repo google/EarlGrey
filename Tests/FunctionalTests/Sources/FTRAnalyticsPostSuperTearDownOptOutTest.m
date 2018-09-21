@@ -1,5 +1,5 @@
 //
-// Copyright 2016 Google Inc.
+// Copyright 2018 Google Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,8 +15,6 @@
 //
 
 #import "FTRBaseAnalyticsTest.h"
-
-#import <EarlGrey/EarlGrey.h>
 
 @interface FTRAnalyticsPostSuperTearDownOptOutTest : FTRBaseAnalyticsTest
 @end
@@ -37,8 +35,8 @@
   [super tearDown];
 
   // OptOut of analytics after [super tearDown] call.
-  [[GREYConfiguration sharedInstance] setValue:@(NO)
-                                  forConfigKey:kGREYConfigKeyAnalyticsEnabled];
+  [[GREYConfiguration sharedConfiguration] setValue:@(NO)
+                                       forConfigKey:kGREYConfigKeyAnalyticsEnabled];
 }
 
 @end

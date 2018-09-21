@@ -16,8 +16,6 @@
 
 #import "FTRBaseIntegrationTest.h"
 
-#import <EarlGrey/EarlGrey.h>
-
 @interface FTRActivityIndicatorViewTest : FTRBaseIntegrationTest
 @end
 

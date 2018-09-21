@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13526" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina3_5" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13524"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SystemAlertsViewController">
+            <connections>
+                <outlet property="alertHandledButton" destination="O3e-Cp-AMt" id="7eK-iJ-1oD"/>
+                <outlet property="alertValueLabel" destination="gI2-jW-t9s" id="Nre-z8-Woj"/>
+                <outlet property="backgroundLocationAlertButton" destination="oUm-Zv-6QV" id="NEo-37-CF4"/>
+                <outlet property="calendarAlertButton" destination="gEc-eq-zJr" id="CVD-cp-2Wz"/>
+                <outlet property="contactsAlertButton" destination="gOu-3F-Ssj" id="nAW-ZE-etd"/>
+                <outlet property="iTunesRestorePurchasesButton" destination="LG7-93-ewg" id="ULy-8k-nQO"/>
+                <outlet property="locationAlertButton" destination="uS0-nK-1PI" id="dSi-L5-ods"/>
+                <outlet property="motionActivityAlertButton" destination="Ccg-pC-Qml" id="Puz-Mq-Csn"/>
+                <outlet property="notificationsAlertButton" destination="7dQ-zp-M26" id="ze9-7t-Qf1"/>
+                <outlet property="remindersCameraAlertButton" destination="QQm-En-U8C" id="z79-Rl-euZ"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uS0-nK-1PI">
+                    <rect key="frame" x="108" y="60" width="104" height="30"/>
+                    <state key="normal" title="Locations Alert"/>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gOu-3F-Ssj" userLabel="Contacts Alert Button">
+                    <rect key="frame" x="110.5" y="95" width="99" height="30"/>
+                    <state key="normal" title="Contacts Alert"/>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QQm-En-U8C" userLabel="Reminders &amp; Camera Button">
+                    <rect key="frame" x="69" y="130" width="182" height="30"/>
+                    <state key="normal" title="Reminders &amp; Camera Alert"/>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7dQ-zp-M26" userLabel="Notifications Alert Button">
+                    <rect key="frame" x="98" y="165" width="124" height="30"/>
+                    <state key="normal" title="Notifications Alert"/>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gEc-eq-zJr" userLabel="Calendar Alert Button">
+                    <rect key="frame" x="110.5" y="200" width="99" height="30"/>
+                    <state key="normal" title="Calendar Alert"/>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ccg-pC-Qml" userLabel="Motion Activity Alert Button">
+                    <rect key="frame" x="90" y="235" width="140" height="30"/>
+                    <state key="normal" title="Motion Activity Alert"/>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oUm-Zv-6QV">
+                    <rect key="frame" x="65" y="270" width="190" height="30"/>
+                    <state key="normal" title="Background Locations Alert"/>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LG7-93-ewg">
+                    <rect key="frame" x="47" y="305" width="227" height="30"/>
+                    <state key="normal" title="iTunes Restore Purchases Button"/>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O3e-Cp-AMt">
+                    <rect key="frame" x="109" y="430" width="102" height="30"/>
+                    <state key="normal" title="Alert Handled?">
+                        <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Alert Text" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gI2-jW-t9s" userLabel="Alert Value Label">
+                    <rect key="frame" x="101" y="361" width="119" height="41"/>
+                    <color key="backgroundColor" red="0.63464951830000005" green="1" blue="0.34803896569999998" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="119" id="3Oe-o8-Ik0"/>
+                        <constraint firstAttribute="height" constant="41" id="teO-3J-vsS"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="oUm-Zv-6QV" firstAttribute="top" secondItem="Ccg-pC-Qml" secondAttribute="bottom" constant="5" id="1I8-ZM-uDW"/>
+                <constraint firstItem="gEc-eq-zJr" firstAttribute="top" secondItem="7dQ-zp-M26" secondAttribute="bottom" constant="5" id="51K-AI-08c"/>
+                <constraint firstItem="QQm-En-U8C" firstAttribute="top" secondItem="gOu-3F-Ssj" secondAttribute="bottom" constant="5" id="EPU-iO-qey"/>
+                <constraint firstItem="LG7-93-ewg" firstAttribute="top" secondItem="oUm-Zv-6QV" secondAttribute="bottom" constant="5" id="GkI-AG-yvP"/>
+                <constraint firstItem="QQm-En-U8C" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="HJu-O5-WRm"/>
+                <constraint firstItem="7dQ-zp-M26" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Hz0-8q-vmW"/>
+                <constraint firstItem="O3e-Cp-AMt" firstAttribute="top" secondItem="gI2-jW-t9s" secondAttribute="bottom" constant="28" id="Iur-tx-Zdt"/>
+                <constraint firstItem="Ccg-pC-Qml" firstAttribute="top" secondItem="gEc-eq-zJr" secondAttribute="bottom" constant="5" id="NuO-ER-cQS"/>
+                <constraint firstItem="gOu-3F-Ssj" firstAttribute="top" secondItem="uS0-nK-1PI" secondAttribute="bottom" constant="5" id="QPX-H1-stb"/>
+                <constraint firstItem="7dQ-zp-M26" firstAttribute="top" secondItem="QQm-En-U8C" secondAttribute="bottom" constant="5" id="Xwu-Pc-AmW"/>
+                <constraint firstItem="Ccg-pC-Qml" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="cqk-t5-SLD"/>
+                <constraint firstItem="O3e-Cp-AMt" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="eyo-xU-PcC"/>
+                <constraint firstItem="gI2-jW-t9s" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="g3J-zf-ofF"/>
+                <constraint firstItem="uS0-nK-1PI" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="60" id="lj3-lu-Ops"/>
+                <constraint firstItem="uS0-nK-1PI" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="mv2-vL-1tc"/>
+                <constraint firstItem="gEc-eq-zJr" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="nYr-BQ-G7i"/>
+                <constraint firstItem="oUm-Zv-6QV" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="oJT-hs-1Ue"/>
+                <constraint firstItem="LG7-93-ewg" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="vSC-NU-pbu"/>
+                <constraint firstItem="gOu-3F-Ssj" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="yW2-vp-gJH"/>
+                <constraint firstAttribute="bottom" secondItem="O3e-Cp-AMt" secondAttribute="bottom" constant="20" id="ybz-0j-Nxp"/>
+            </constraints>
+            <point key="canvasLocation" x="33" y="54"/>
+        </view>
+    </objects>
+</document>
