@@ -23,7 +23,7 @@ components - one for the test and one for the application. On opening the
 *   **AppFramework** - A framework that contains App Component EarlGrey sources
     related to synchronization, actions, and assertions. Also contains
     DistantObject utilities for transporting errors etc. back to the test for
-    reporting. **This must be linked to the application target.**
+    reporting.
 
   These components are structured in the following way for the application component
   and the test component.
