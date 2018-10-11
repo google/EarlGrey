@@ -9,7 +9,8 @@ the Helper Bundle.
 If the Helper Bundle was set up as mentioned, on running the test, it will now
 be embedded into the application under test. Please add the `User Header Search
 Paths` of the Helper Bundle to your **Test Target** so that the headers are
-available in the test.
+available in the test. The Helper Bundle runs in the app side, so **do not add any
+TestLib or any test-specific dependencies**.
 
 <img src="images/distantObjectStructuring.png">
 

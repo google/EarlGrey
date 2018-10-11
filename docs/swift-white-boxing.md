@@ -10,9 +10,10 @@ create a protocol that will help expose them.
 
 Similar to the Bridging Header Section in the
 [Setup's Swift Section](setup.md#bridging_header), add a Bridging Header with
-any EarlGrey dependencies, or use
-[EarlGreySwiftBridgingHeader.h](../TestLib/Swift/EarlGreySwiftBridgingHeader.h) in
-your Helper Bundle component.
+imports for any EarlGrey files that you need. Refer to the [EarlGrey TestRig
+Bridging Header](../Tests/TestRig/Sources/Swift/FTRSwiftTestRigBridgingHeader.h)
+for an example. The Helper Bundle runs in the app side, so **do not add any
+TestLib or any test-specific dependencies**.
 
 ### GREYHostApplicationDistantObject (Main Thread)
 
