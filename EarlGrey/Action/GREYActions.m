@@ -16,6 +16,8 @@
 
 #import "Action/GREYActions.h"
 
+#import <WebKit/WebKit.h>
+
 #import "Action/GREYAction.h"
 #import "Action/GREYActionBlock.h"
 #import "Action/GREYChangeStepperAction.h"
@@ -48,6 +50,8 @@
 
 static Class gWebAccessibilityObjectWrapperClass;
 static Class gAccessibilityTextFieldElementClass;
+// Timeout for JavaScript execution using WKWebView.
+static const CFTimeInterval kJavaScriptTimeoutSeconds = 60;
 
 @implementation GREYActions
 
@@ -292,22 +296,46 @@ static Class gAccessibilityTextFieldElementClass;
 + (id<GREYAction>)actionForJavaScriptExecution:(NSString *)js
                                         output:(__strong NSString **)outResult {
   // TODO: JS Errors should be propagated up.
-  id<GREYMatcher> constraints = grey_allOf(grey_not(grey_systemAlertViewShown()),
-                                           grey_kindOfClass([UIWebView class]),
-                                           nil);
+  id<GREYMatcher> constraints =
+      grey_allOf(grey_not(grey_systemAlertViewShown()),
+                 grey_anyOf(grey_kindOfClass([UIWebView class]),
+                            grey_kindOfClass([WKWebView class]), nil),
+                 nil);
+  BOOL (^performBlock)(id webView, __strong NSError **errorOrNil) = ^(
+      id webView, __strong NSError **errorOrNil) {
+    if ([webView isKindOfClass:[WKWebView class]]) {
+      WKWebView *wkWebView = webView;
+      __block NSString *resultString = nil;
+      __block BOOL completionDone = NO;
+      [wkWebView evaluateJavaScript:js
+                  completionHandler:^(id result, NSError *error) {
+                    resultString = [result description];
+                    completionDone = YES;
+                  }];
+      NSDate *timeoutDate = [NSDate dateWithTimeIntervalSinceNow:kJavaScriptTimeoutSeconds];
+      while (!completionDone && timeoutDate.timeIntervalSinceNow > 0) {
+        [[GREYUIThreadExecutor sharedInstance] drainUntilIdle];
+      }
+      if (completionDone && outResult) {
+        *outResult = resultString;
+      }
+      return completionDone;
+    } else if ([webView isKindOfClass:[UIWebView class]]) {
+      UIWebView *uiWebView = webView;
+      if (outResult) {
+        *outResult = [uiWebView stringByEvaluatingJavaScriptFromString:js];
+      } else {
+        [uiWebView stringByEvaluatingJavaScriptFromString:js];
+      }
+      // TODO: Delay should be removed once webview sync is stable.
+      [[GREYUIThreadExecutor sharedInstance] drainForTime:0.5];  // Wait for actions to register.
+      return YES;
+    }
+    return NO;
+  };
   return [[GREYActionBlock alloc] initWithName:@"Execute JavaScript"
                                    constraints:constraints
-                                  performBlock:^BOOL (UIWebView *webView,
-                                                      __strong NSError **errorOrNil) {
-    if (outResult) {
-      *outResult = [webView stringByEvaluatingJavaScriptFromString:js];
-    } else {
-      [webView stringByEvaluatingJavaScriptFromString:js];
-    }
-    // TODO: Delay should be removed once webview sync is stable.
-    [[GREYUIThreadExecutor sharedInstance] drainForTime:0.5];  // Wait for actions to register.
-    return YES;
-  }];
+                                  performBlock:performBlock];
 }
 
 + (id<GREYAction>)actionForSnapshot:(__strong UIImage **)outImage {

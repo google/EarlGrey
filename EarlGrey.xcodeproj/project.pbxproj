@@ -21,6 +21,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		02559E992147133F0087CD4F /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02559E982147133F0087CD4F /* WebKit.framework */; };
 		3F38EF201F20269700EBDFFC /* GREYObjectDeallocationTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = 3F38EF1E1F20269700EBDFFC /* GREYObjectDeallocationTracker.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		3F38EF211F20269700EBDFFC /* GREYObjectDeallocationTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F38EF1F1F20269700EBDFFC /* GREYObjectDeallocationTracker.m */; };
 		3F5122141EE1D37E0000CC56 /* GREYTraversal.h in Headers */ = {isa = PBXBuildFile; fileRef = 3F51220E1EE1D37E0000CC56 /* GREYTraversal.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -252,6 +253,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		02559E982147133F0087CD4F /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		3F38EF1E1F20269700EBDFFC /* GREYObjectDeallocationTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYObjectDeallocationTracker.h; sourceTree = "<group>"; };
 		3F38EF1F1F20269700EBDFFC /* GREYObjectDeallocationTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYObjectDeallocationTracker.m; sourceTree = "<group>"; };
 		3F51220E1EE1D37E0000CC56 /* GREYTraversal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYTraversal.h; path = EarlGrey/Traversal/GREYTraversal.h; sourceTree = SOURCE_ROOT; };
@@ -497,6 +499,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				02559E992147133F0087CD4F /* WebKit.framework in Frameworks */,
 				61CBDE801D4CD85200206BF7 /* CoreData.framework in Frameworks */,
 				FD10025B1C5B473400B2DB0A /* OCHamcrest.framework in Frameworks */,
 				FD10025A1C5B472C00B2DB0A /* IOKit.framework in Frameworks */,
@@ -527,6 +530,7 @@
 		FD06C6751BECAE6A009032A5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				02559E982147133F0087CD4F /* WebKit.framework */,
 				61CBDE7F1D4CD85200206BF7 /* CoreData.framework */,
 				FD1002591C5B472C00B2DB0A /* IOKit.framework */,
 				FD6160601BF2C97800722593 /* OCHamcrest.framework */,
