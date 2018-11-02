@@ -1,6 +1,6 @@
 # EarlGrey 2 + Bitrise + Firebase Test Lab
 
-Firebase Test Lab runs EarlGrey 2 tests built on Bitrise.
+Firebase Test Lab runs EarlGrey 2 tests built on Bitrise. For an overview of how to build iOS on Bitrise, see [the official getting started guide.](https://devcenter.bitrise.io/getting-started/getting-started-with-ios-apps/)
 
 ## Local execution on a local physical device
 
