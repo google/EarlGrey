@@ -94,6 +94,9 @@
   self.textField.userInteractionEnabled = YES;
   self.textField.accessibilityIdentifier = @"TypingTextField";
   self.textField.autocorrectionType = UITextAutocorrectionTypeYes;
+  
+  self.charCounter.isAccessibilityElement = YES;
+  self.charCounter.accessibilityIdentifier = @"charCounter";
 
   self.nonTypingTextField.delegate = self;
   self.nonTypingTextField.isAccessibilityElement = YES;
@@ -156,6 +159,11 @@
 
 - (void)textViewDidBeginEditing:(UITextView *)textView {
   self.navigationItem.rightBarButtonItem = self.dismissKeyboardButton;
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView {
+  NSUInteger len = textView.text.length;
+  _charCounter.text = [NSString stringWithFormat: @"%lu", (unsigned long)len];
 }
 
 - (void)dismissKeyboard {
