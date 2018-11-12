@@ -1,7 +1,14 @@
 # Running the Functional Tests
 
 Ensure that the EarlGrey Xcode Project has been built as per the [Setup
-Guide](../../../docs/setup.md). Once the EarlGrey targets are building,
+Guide](../../docs/setup.md). Specifically, make sure the submodules
+have been correctly added to the repository:
+
+```
+git clone --recursive -b earlgrey2 https://github.com/google/EarlGrey.git
+```
+
+Once the EarlGrey targets are building,
 you should be able to open the Functional Tests Project and then **Test**
 the following targets:
 
@@ -22,7 +29,7 @@ The Project contains three main test schemes:
 
 2.  FunctionalOutOfProcessTests
 
-    Targets:
+    Related Targets:
 
     *   Functional Out-Of-Process Tests: The XCUITest target which contains
         tests that interact with System Alerts and backgrounding /
@@ -32,7 +39,7 @@ The Project contains three main test schemes:
 
 3.  FunctionalTestRigSwift
 
-    Targets:
+    Related Targets:
 
     *   Functional Swift Tests: The Swift XCUITest target which contains the
         Swift test sources (to be run in the test process).

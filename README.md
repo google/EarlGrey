@@ -3,6 +3,11 @@ coming quarters we'll add support for Xcode Projects and CocoaPods as well. Plea
 and do bring forward any issues or concerns you might have with migrating your EarlGrey 1.0 tests
 to 2.0.
 
+To use, please clone the `earlgrey2`  branch with its submodules.
+
+    // Clone EarlGrey 2.0 with all its dependencies
+    git clone --recursive -b earlgrey2 https://github.com/google/EarlGrey.git
+
 # EarlGrey 2.0
 
 EarlGrey 2.0 is a native iOS UI automation test framework that combines
