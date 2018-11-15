@@ -25,16 +25,16 @@
 @implementation GREYPreciseSwipeActionTest
 
 - (void)verifyGREYPreciseSwipeActionValidaWithStartPoint:(CGPoint)startPoint endPoint:(CGPoint)endPoint {
-    GREYPreciseSwipeAction *swipeAction = [[GREYPreciseSwipeAction alloc] initWithStartPoint:startPoint endPoint:endPoint duration:1.0];
-    XCTAssertNotNil(swipeAction);
+  GREYPreciseSwipeAction *swipeAction = [[GREYPreciseSwipeAction alloc] initWithStartPoint:startPoint endPoint:endPoint duration:1.0];
+  XCTAssertNotNil(swipeAction);
 }
 
 - (void)testValidPreciseSwipeAction {
-    [self verifyGREYPreciseSwipeActionValidaWithStartPoint:CGPointZero endPoint:CGPointZero];
-    [self verifyGREYPreciseSwipeActionValidaWithStartPoint:CGPointZero endPoint:CGPointMake(10.f, 10.f)];
-    [self verifyGREYPreciseSwipeActionValidaWithStartPoint:CGPointMake(-5.f, -10.f) endPoint:CGPointZero];
-    [self verifyGREYPreciseSwipeActionValidaWithStartPoint:CGPointMake(100.f, 100.f) endPoint:CGPointMake(50.f, 100.f)];
-    [self verifyGREYPreciseSwipeActionValidaWithStartPoint:CGPointMake(100.f, 100.f) endPoint:CGPointMake(50.f, 100.f)];
+  [self verifyGREYPreciseSwipeActionValidaWithStartPoint:CGPointZero endPoint:CGPointZero];
+  [self verifyGREYPreciseSwipeActionValidaWithStartPoint:CGPointZero endPoint:CGPointMake(10.f, 10.f)];
+  [self verifyGREYPreciseSwipeActionValidaWithStartPoint:CGPointMake(-5.f, -10.f) endPoint:CGPointZero];
+  [self verifyGREYPreciseSwipeActionValidaWithStartPoint:CGPointMake(100.f, 100.f) endPoint:CGPointMake(50.f, 100.f)];
+  [self verifyGREYPreciseSwipeActionValidaWithStartPoint:CGPointMake(100.f, 100.f) endPoint:CGPointMake(50.f, 100.f)];
 }
 
 @end

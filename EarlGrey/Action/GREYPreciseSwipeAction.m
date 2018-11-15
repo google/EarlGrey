@@ -90,7 +90,7 @@
       NSString *errorDescription =
           [NSString stringWithFormat:@"Cannot swipe on view [V], as it has no window and "
                                      @"it isn't a window itself."];
-      NSDictionary *glossary = @{ @"V" : [element grey_description]};
+      NSDictionary *glossary = @{ @"V" : [element grey_description] };
       GREYError *error;
       error = GREYErrorMake(kGREYSyntheticEventInjectionErrorDomain,
                             kGREYOrientationChangeFailedErrorCode,
@@ -103,7 +103,6 @@
                                 exceptionDetails:@""
                                        withError:error];
       }
-
       return NO;
     }
   }

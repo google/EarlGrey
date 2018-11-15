@@ -241,53 +241,53 @@
 }
 
 - (void)testPreciseSwipeActionConstraintsFailed {
-    UIView *view = [[UIView alloc] init];
-    id<GREYAction> swipe = [GREYActions actionForSwipeFastWithStartPoint:CGPointZero endPoint:CGPointMake(10.f, 10.f)];
-    @try {
-        [swipe perform:view error:nil];
-        XCTFail(@"Should have thrown an exception");
-    } @catch (NSException *exception) {
-        NSString *reason = @"Cannot perform action due to constraint(s) failure.";
-        NSString *actionName = @"Precise swipe from {0, 0} to {10, 10} for duration 0.1";
-        XCTAssertEqualObjects([exception name], kGREYActionFailedException,
-                              @"Should throw GREYActionFailException");
-        NSRange reasonRange = [exception.reason rangeOfString:reason];
-        XCTAssertNotEqual(reasonRange.location, NSNotFound,
-                          @"Did we change the exception reason?");
-        NSRange actionNameRange = [exception.reason rangeOfString:actionName];
-        XCTAssertNotEqual(actionNameRange.location, NSNotFound,
-                          @"Did we change the action name?");
-        NSRange viewDescriptionRange = [exception.reason rangeOfString:[view grey_description]];
-        XCTAssertNotEqual(viewDescriptionRange.location, NSNotFound,
-                          @"Did we change the element description?");
-    }
+  UIView *view = [[UIView alloc] init];
+  id<GREYAction> swipe = [GREYActions actionForSwipeFastWithStartPoint:CGPointZero endPoint:CGPointMake(10.f, 10.f)];
+  @try {
+    [swipe perform:view error:nil];
+    XCTFail(@"Should have thrown an exception");
+  } @catch (NSException *exception) {
+    NSString *reason = @"Cannot perform action due to constraint(s) failure.";
+    NSString *actionName = @"Precise swipe from {0, 0} to {10, 10} for duration 0.1";
+    XCTAssertEqualObjects([exception name], kGREYActionFailedException,
+                          @"Should throw GREYActionFailException");
+    NSRange reasonRange = [exception.reason rangeOfString:reason];
+    XCTAssertNotEqual(reasonRange.location, NSNotFound,
+                      @"Did we change the exception reason?");
+    NSRange actionNameRange = [exception.reason rangeOfString:actionName];
+    XCTAssertNotEqual(actionNameRange.location, NSNotFound,
+                      @"Did we change the action name?");
+    NSRange viewDescriptionRange = [exception.reason rangeOfString:[view grey_description]];
+    XCTAssertNotEqual(viewDescriptionRange.location, NSNotFound,
+                      @"Did we change the element description?");
+  }
 }
 
 - (void)testPreciseSwipeOnViewWithoutWindow {
-    // First, disable other constraint checks so the action won't fail because of them
-    [[GREYConfiguration sharedInstance] setValue:@NO
-                                    forConfigKey:kGREYConfigKeyActionConstraintsEnabled];
+  // First, disable other constraint checks so the action won't fail because of them
+  [[GREYConfiguration sharedInstance] setValue:@NO
+                                  forConfigKey:kGREYConfigKeyActionConstraintsEnabled];
 
-    UIView *view = [[UIView alloc] init];
-    [[[self.mockSharedApplication stub]
+  UIView *view = [[UIView alloc] init];
+  [[[self.mockSharedApplication stub]
       andReturnValue:@(UIDeviceOrientationPortrait)] statusBarOrientation];
-    id<GREYAction> swipe = [GREYActions actionForSwipeFastWithStartPoint:CGPointMake(5.f, 5.f) endPoint:CGPointMake(5.f, 20.f)];
+  id<GREYAction> swipe = [GREYActions actionForSwipeFastWithStartPoint:CGPointMake(5.f, 5.f) endPoint:CGPointMake(5.f, 20.f)];
 
-    @try {
-        [swipe perform:view error:nil];
-        XCTFail(@"Should have thrown an exception");
-    } @catch (NSException *exception) {
-        NSString *reason = @"Cannot swipe on view [V], as it has no window and "
-        @"it isn't a window itself.";
-        XCTAssertEqualObjects([exception name], kGREYGenericFailureException,
-                              @"Should throw GREYActionFailException");
-        NSRange reasonRange = [exception.reason rangeOfString:reason];
-        XCTAssertNotEqual(reasonRange.location, NSNotFound,
-                          @"Did we change the exception reason?");
-        NSRange viewDescriptionRange = [exception.reason rangeOfString:[view grey_description]];
-        XCTAssertNotEqual(viewDescriptionRange.location, NSNotFound,
-                          @"Did we change the element description?");
-    }
+  @try {
+    [swipe perform:view error:nil];
+    XCTFail(@"Should have thrown an exception");
+  } @catch (NSException *exception) {
+    NSString *reason = @"Cannot swipe on view [V], as it has no window and "
+    @"it isn't a window itself.";
+    XCTAssertEqualObjects([exception name], kGREYGenericFailureException,
+                          @"Should throw GREYActionFailException");
+    NSRange reasonRange = [exception.reason rangeOfString:reason];
+    XCTAssertNotEqual(reasonRange.location, NSNotFound,
+                      @"Did we change the exception reason?");
+    NSRange viewDescriptionRange = [exception.reason rangeOfString:[view grey_description]];
+    XCTAssertNotEqual(viewDescriptionRange.location, NSNotFound,
+                      @"Did we change the element description?");
+  }
 }
 
 @end
