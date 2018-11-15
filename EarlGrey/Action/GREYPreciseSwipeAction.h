@@ -17,6 +17,8 @@
 #import <EarlGrey/GREYBaseAction.h>
 #import <EarlGrey/GREYConstants.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  A GREYAction that swipes/flicks the matched element from a concrete start point to an end point.
  */
@@ -48,3 +50,5 @@
                           duration:(CFTimeInterval)duration;
 
 @end
+
+NS_ASSUME_NONNULL_END
