@@ -188,7 +188,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param startPoint The point where the swipe should begin. Relative to the matched view's origin.
  *  @param endPoint   The point where the swipe should end. Relative to the matched view's origin.
  *
- *  @return A GREYAction that performs a fast swipe through a view from a specifc start point
+ *  @return A GREYAction that performs a fast swipe through a view from a specific start point
  *          to a specific end point.
  */
 + (id<GREYAction>)actionForSwipeFastWithStartPoint:(CGPoint)startPoint
@@ -201,7 +201,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param startPoint The point where the swipe should begin.
  *  @param endPoint   The point where the swipe should end.
  *
- *  @return A GREYAction that performs a slow swipe through a view from a specifc start point
+ *  @return A GREYAction that performs a slow swipe through a view from a specific start point
  *          to a specific end point.
  */
 + (id<GREYAction>)actionForSwipeSlowWithStartPoint:(CGPoint)startPoint
