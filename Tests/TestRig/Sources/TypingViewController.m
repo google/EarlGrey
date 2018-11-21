@@ -54,9 +54,9 @@
   self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
   if (self) {
     _keyboardTypeStringArray = @[
-      @"Default", @"ASCIICapable", @"NumbersAndPunctuation", @"URL", @"NumberPad", @"PhonePad",
-      @"NamePhonePad", @"EmailAddress", @"DecimalPad", @"Twitter", @"WebSearch"
-    ];
+                                 @"Default", @"ASCIICapable", @"NumbersAndPunctuation", @"URL", @"NumberPad", @"PhonePad",
+                                 @"NamePhonePad", @"EmailAddress", @"DecimalPad", @"Twitter", @"WebSearch"
+                                 ];
     NSAssert([_keyboardTypeStringArray count] == kKeyboardTypeCount,
              @"count must be kKeyboardTypeCount");
     _keyboardTypeArray[0] = UIKeyboardTypeDefault;
@@ -76,47 +76,50 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-
+  
   self.dismissKeyboardButton =
-      [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
-                                                    target:self
-                                                    action:@selector(dismissKeyboard)];
-
+  [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+                                                target:self
+                                                action:@selector(dismissKeyboard)];
+  
   self.textField.delegate = self;
   self.textField.isAccessibilityElement = YES;
   self.textField.userInteractionEnabled = YES;
   self.textField.accessibilityIdentifier = @"TypingTextField";
   self.textField.autocorrectionType = UITextAutocorrectionTypeYes;
-
+  
+  self.charCounter.isAccessibilityElement = YES;
+  self.charCounter.accessibilityIdentifier = @"charCounter";
+  
   self.nonTypingTextField.delegate = self;
   self.nonTypingTextField.isAccessibilityElement = YES;
   self.nonTypingTextField.userInteractionEnabled = YES;
   self.nonTypingTextField.accessibilityIdentifier = @"NonTypingTextField";
-
+  
   self.textView.delegate = self;
   self.textView.isAccessibilityElement = YES;
   self.textView.userInteractionEnabled = YES;
   self.textView.accessibilityIdentifier = @"TypingTextView";
   self.textView.autocorrectionType = UITextAutocorrectionTypeYes;
-
+  
   self.inputAccessoryTextField.delegate = self;
   self.inputAccessoryTextField.isAccessibilityElement = YES;
   self.inputAccessoryTextField.userInteractionEnabled = YES;
   self.inputAccessoryTextField.accessibilityIdentifier = @"InputAccessoryTextField";
   self.inputAccessoryTextField.autocorrectionType = UITextAutocorrectionTypeYes;
   [self AddInputAccessoryViewtoKeyboard];
-
+  
   self.inputButton.accessibilityIdentifier = @"Input Button";
   [self.inputButton addTarget:self
                        action:@selector(buttonPressedForTyping)
              forControlEvents:UIControlEventTouchUpInside];
-
+  
   self.keyboardPicker.accessibilityIdentifier = @"KeyboardPicker";
-
+  
   self.customTextView.isAccessibilityElement = YES;
   self.customTextView.userInteractionEnabled = YES;
   self.customTextView.accessibilityIdentifier = @"CustomTextView";
-
+  
   [self.view sendSubviewToBack:_customKeyboardTracker];
   self.customKeyboardTracker.isAccessibilityElement = YES;
   self.customKeyboardTracker.accessibilityIdentifier = @"CustomKeyboardTracker";
@@ -149,6 +152,11 @@
 
 - (void)textViewDidBeginEditing:(UITextView *)textView {
   self.navigationItem.rightBarButtonItem = self.dismissKeyboardButton;
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView {
+  NSUInteger len = textView.text.length;
+  _charCounter.text = [NSString stringWithFormat: @"%lu", (unsigned long)len];
 }
 
 - (void)dismissKeyboard {

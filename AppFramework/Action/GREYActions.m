@@ -510,6 +510,8 @@ static Class gAccessibilityTextFieldElementClass;
             grey_execute_sync_on_main_thread(^{
               BOOL elementIsUIControl = [element isKindOfClass:[UIControl class]];
               BOOL elementIsUITextField = [element isKindOfClass:[UITextField class]];
+              BOOL elementIsUITextView = [element isKindOfClass:[UITextView class]];
+              
               // Did begin editing notifications.
               if (elementIsUIControl) {
                 [element sendActionsForControlEvents:UIControlEventEditingDidBegin];
@@ -521,6 +523,12 @@ static Class gAccessibilityTextFieldElementClass;
                                                   object:element];
                 [NSNotificationCenter.defaultCenter postNotification:notification];
               }
+              
+              if (elementIsUITextView) {
+                if ([((UITextView *)element).delegate respondsToSelector:@selector(textViewDidBeginEditing:)]) {
+                  [((UITextView *)element).delegate textViewDidBeginEditing:((UITextView *)element)];
+                }
+              }
 
               // Actually change the text.
               [element setText:text];
@@ -529,11 +537,18 @@ static Class gAccessibilityTextFieldElementClass;
               if (elementIsUIControl) {
                 [element sendActionsForControlEvents:UIControlEventEditingChanged];
               }
+              
               if (elementIsUITextField) {
                 NSNotification *notification =
                     [NSNotification notificationWithName:UITextFieldTextDidChangeNotification
                                                   object:element];
                 [NSNotificationCenter.defaultCenter postNotification:notification];
+              }
+              
+              if (elementIsUITextView) {
+                if ([((UITextView *)element).delegate respondsToSelector:@selector(textViewDidChange:)]) {
+                  [((UITextView *)element).delegate textViewDidChange:((UITextView *)element)];
+                }
               }
 
               // Did end editing notifications.
@@ -541,12 +556,20 @@ static Class gAccessibilityTextFieldElementClass;
                 [element sendActionsForControlEvents:UIControlEventEditingDidEndOnExit];
                 [element sendActionsForControlEvents:UIControlEventEditingDidEnd];
               }
+              
               if (elementIsUITextField) {
                 NSNotification *notification =
                     [NSNotification notificationWithName:UITextFieldTextDidEndEditingNotification
                                                   object:element];
                 [NSNotificationCenter.defaultCenter postNotification:notification];
               }
+              
+              if (elementIsUITextView) {
+                if ([((UITextView *)element).delegate respondsToSelector:@selector(textViewDidEndEditing:)]) {
+                  [((UITextView *)element).delegate textViewDidEndEditing:((UITextView *)element)];
+                }
+              }
+              
             });
           }
           return YES;
