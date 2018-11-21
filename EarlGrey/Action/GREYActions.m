@@ -452,8 +452,8 @@ static const CFTimeInterval kJavaScriptTimeoutSeconds = 60;
       }
       
       if (elementIsUITextView) {
-        if ([((UITextView *)element).delegate respondsToSelector:@selector(textViewDidBeginEditing:)]) {
-          [((UITextView *)element).delegate textViewDidBeginEditing:((UITextView *)element)];
+        if ([((UITextView *)element).delegate respondsToSelector:@selector(textViewDidChange:)]) {
+          [((UITextView *)element).delegate textViewDidChange:((UITextView *)element)];
         }
       }
 
