@@ -54,11 +54,13 @@ typedef NS_ENUM(NSUInteger, GREYSystemAlertDismissalErrorCode) {
  */
 typedef NS_ENUM(NSUInteger, GREYSystemAlertType) {
   /**
-   *  System Alert Type for accessing the location.
+   *  System Alert Type for accessing the location - a two button dialog without
+   *  an "Always Allow" button.
    */
   GREYSystemAlertTypeLocation,
   /**
-   *  System Alert Type for accessing the location whenever the app is in use (Background Location).
+   *  System Alert Type for accessing the location whenever the app is in use (Background Location)
+   *  - a three button dialog, with an "Always Allow" button.
    */
   GREYSystemAlertTypeBackgroundLocation,
   /**
