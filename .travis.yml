@@ -18,7 +18,7 @@ osx_image: xcode8.3
 matrix:
   global:
     rvm:
-      - 2.2.5
+      - 2.5.3
   include:
     - env:
         - DESTINATION="OS=8.1,name=iPhone 4s" SDK=iphonesimulator10.3 TYPE="FUNCTIONAL"
@@ -72,10 +72,10 @@ before_install:
         echo "Only doc files were updated, not running the CI."
         exit
       fi
-  - rvm install ruby-2.2.5
-  - rvm use 2.2.5
+  - rvm install ruby-2.5.3
+  - rvm use 2.5.3
   - gem update --system
-  - gem install xcpretty --no-rdoc --no-ri --no-document --quiet
+  - gem install xcpretty --no-document --quiet
 before_script:
   - Scripts/setup-earlgrey.sh
 script:
