@@ -75,7 +75,7 @@ before_install:
   - rvm install ruby-2.5.3
   - rvm use 2.5.3
   - gem update --system
-  - gem install xcpretty --no-rdoc --no-ri --no-document --quiet
+  - gem install xcpretty --no-ri --no-document --quiet
 before_script:
   - Scripts/setup-earlgrey.sh
 script:
