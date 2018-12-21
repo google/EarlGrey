@@ -83,7 +83,7 @@ static id InstrumentSurrogateDelegate(id self,
 + (instancetype)surrogateDelegateForDelegate:(id)delegate {
   id outDelegate;
   if (!delegate) {
-    // If the delegate is nil then return a new instance of self.
+    // Return a new instance of self to serve as the new delegate.
     outDelegate = [[self alloc] initInternal];
   } else {
     SEL animationDidStartSEL = @selector(animationDidStart:);
