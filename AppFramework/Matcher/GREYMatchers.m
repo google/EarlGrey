@@ -151,7 +151,11 @@ static Class gEDOObjectClass;
     if (element.accessibilityIdentifier == accessibilityID) {
       return YES;
     }
-    return [element.accessibilityIdentifier isEqualToString:accessibilityID];
+
+    if( [element.accessibilityIdentifier respondsToSelector:@selector(isEqualToString:)]){
+      return [element.accessibilityIdentifier isEqualToString:accessibilityID];
+    }
+    return NO;
   };
   GREYDescribeToBlock describe = ^void(id<GREYDescription> description) {
     [description appendText:[NSString stringWithFormat:@"accessibilityID('%@')", accessibilityID]];
