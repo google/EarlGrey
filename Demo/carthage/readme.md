@@ -31,6 +31,6 @@ Missing:
 
 # Debugging EarlGrey build failures
 
-- `carthage build --no-skip-current`
+- `carthage build --no-skip-current` Run from repo root. Otherwise you'll see the error `has no shared framework schemes`
 - `xcodebuild -scheme SCHEME -workspace WORKSPACE build or xcodebuild -scheme SCHEME -project PROJECT build`
 
