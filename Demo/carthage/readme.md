@@ -10,7 +10,7 @@ Create a file called [Cartfile.private](https://github.com/Carthage/Carthage/blo
 
 `github "google/EarlGrey" "earlgrey2"`
 
-Cartfile.private is used to include the dependency without forcing parent projects to take on that dependency. This is a good fit for test frameworks
+`Cartfile.private` is used to include the dependency without forcing parent projects to take on that dependency. This is a good fit for test frameworks
 that are only used during development.
 
 Run `carthage update` to update and build the dependencies. The build products will be stored in `./Carthage/Build/iOS/` 
@@ -28,3 +28,9 @@ Missing:
  - libTestLib.a
  - libUILib.a
  - libeDistantObject.a
+
+# Debugging EarlGrey build failures
+
+- `carthage build --no-skip-current`
+- `xcodebuild -scheme SCHEME -workspace WORKSPACE build or xcodebuild -scheme SCHEME -project PROJECT build`
+
