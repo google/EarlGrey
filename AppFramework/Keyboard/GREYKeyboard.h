@@ -16,6 +16,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  Provides ability to perform input actions using the iOS system keyboard and also track the
  *  current keyboard visibility.
@@ -44,8 +46,15 @@
 + (BOOL)waitForKeyboardToAppear;
 
 /**
- *  @return @c YES if the keyboard is present on the screen, @c NO otherwise.
+ *  Waits for the app to idle and checks if the keyboard is visible.
+ *
+ *  @param[out]error The error populated when the app does not idle out within the set timeout
+ *                   i.e. 10 seconds.
+ *
+ *  @return @c YES if the keyboard is visible, @c NO otherwise.
  */
-+ (BOOL)isKeyboardShown;
++ (BOOL)keyboardShownWithError:(NSError **)error;
 
 @end
+
+NS_ASSUME_NONNULL_END

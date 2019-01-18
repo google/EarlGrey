@@ -151,7 +151,7 @@ static const NSTimeInterval kTouchInjectFramerateInv = 1 / 120.0;
     }
   } else {
     // Spin the runloop if it waits on the main thread.
-    // There can be casese where the injection happens on the main thread so the code can handle
+    // There can be cases where the injection happens on the main thread so the code can handle
     // synchronization or access the UI element in a more elegant and reliable way, i.e.
     // GREYSlideAction.
     GREYRunLoopSpinner *runLoopSpinner = [[GREYRunLoopSpinner alloc] init];
@@ -171,9 +171,11 @@ static const NSTimeInterval kTouchInjectFramerateInv = 1 / 120.0;
  *  touch object and adds it to an array of ongoing touches.
  *
  *  @param touchInfo The info that is used to create the UITouch.
+ *  @param event     The UIEvent for the touches injected.
  */
 - (void)grey_updateUITouchObjectsFromTouchInfo:(GREYTouchInfo *)touchInfo
-                                ongoingTouches:(NSMutableArray<UITouch *> *)ongoingTouches {
+                                ongoingTouches:(NSMutableArray<UITouch *> *)ongoingTouches
+                                     withEvent:(UIEvent *)event {
   GREYFatalAssertMainThread();
   BOOL shouldCreateTouchObjects = (ongoingTouches.count == 0);
 
@@ -194,7 +196,8 @@ static const NSTimeInterval kTouchInjectFramerateInv = 1 / 120.0;
       if ([touch respondsToSelector:@selector(_setSenderID:)]) {
         [touch _setSenderID:0x0acefade00000002 /* value sourced from trial run on simulator */];
       }
-      [touch setView:[_window hitTest:touchPoint withEvent:nil]];
+      UIView *touchView = [_window hitTest:touchPoint withEvent:event];
+      [touch setView:touchView];
       [touch _setIsFirstTouchForView:YES];
       [ongoingTouches addObject:touch];
     } else {
@@ -220,9 +223,11 @@ static const NSTimeInterval kTouchInjectFramerateInv = 1 / 120.0;
                  exception:(NSException **)exception {
   GREYFatalAssertMainThread();
   id injectionException;
-  [self grey_updateUITouchObjectsFromTouchInfo:touchInfo ongoingTouches:ongoingTouches];
-
   UITouchesEvent *event = [[UIApplication sharedApplication] _touchesEvent];
+  [self grey_updateUITouchObjectsFromTouchInfo:touchInfo
+                                ongoingTouches:ongoingTouches
+                                     withEvent:event];
+
   [event _clearTouches];
 
   CFTimeInterval touchDeliveryTime = CACurrentMediaTime();

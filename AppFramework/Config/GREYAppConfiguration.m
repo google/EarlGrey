@@ -18,8 +18,8 @@
 
 #import "CommonLib/Config/GREYConfiguration+Private.h"
 #import "CommonLib/DistantObject/GREYHostApplicationDistantObject.h"
+#import "CommonLib/DistantObject/GREYHostBackgroundDistantObject.h"
 #import "TestLib/Config/GREYTestConfiguration.h"
-#import "Service/Sources/EDOClientService.h"
 #import "Service/Sources/NSObject+EDOValueObject.h"
 
 GREYConfiguration *GREYCreateConfiguration(void) { return [[GREYAppConfiguration alloc] init]; }
@@ -46,7 +46,11 @@ GREYConfiguration *GREYCreateConfiguration(void) { return [[GREYAppConfiguration
         dispatch_queue_create("com.google.earlgrey.ConfigurationIsolation", DISPATCH_QUEUE_SERIAL);
     _testConfiguration =
         (GREYTestConfiguration *)GREY_REMOTE_CLASS_IN_TEST(GREYConfiguration).sharedConfiguration;
-    _testConfiguration.remoteConfiguration = self;
+    dispatch_sync(GREYHostBackgroundDistantObject.sharedInstance.backgroundQueue, ^{
+      // This effectively makes the remote invocations on self running on the background queue
+      // because it will be wrapped by the host service running on the background queue.
+      self->_testConfiguration.remoteConfiguration = self;
+    });
     [self updateConfiguration:[[_testConfiguration returnByValue] mergedConfiguration]];
   }
   return self;

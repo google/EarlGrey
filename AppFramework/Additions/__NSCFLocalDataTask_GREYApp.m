@@ -43,6 +43,9 @@
   [GREYObjcRuntime addInstanceMethodToClass:class
                                withSelector:@selector(grey_neverTrack)
                                   fromClass:self];
+  [GREYObjcRuntime addInstanceMethodToClass:class
+                               withSelector:@selector(grey_stateTrackerDescription)
+                                  fromClass:self];
 
   GREYSwizzler *swizzler = [[GREYSwizzler alloc] init];
   IMP newImplementation = [self instanceMethodForSelector:@selector(greyswizzled_resume)];
@@ -79,6 +82,11 @@
   // Use atomic associated object (property) as this method can be accessed from across threads and
   // atomic will ensure that we return whole values.
   objc_setAssociatedObject(self, @selector(grey_neverTrack), @(YES), OBJC_ASSOCIATION_RETAIN);
+}
+
+- (NSString *)grey_stateTrackerDescription {
+  return [NSString stringWithFormat:@"%@:%p, URL:\"%@\"", NSStringFromClass([self class]), self,
+                                    [(id)self currentRequest].URL];
 }
 
 #pragma mark - Swizzled Implementations

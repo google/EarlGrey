@@ -352,7 +352,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (id<GREYMatcher>)matcherForNil;
 
 /**
- *  Matcher for asserting that the element exists in the UI hierarchy (i.e. not @c nil).
+ *  Matcher for asserting that the element exists in the UI hierarchy (i.e. not @c nil). If used as
+ *  an assertion, this will pass if no element was matched by the selection matcher.
  *
  *  @return A matcher to check if a specified element is not @c nil.
  */
