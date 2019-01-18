@@ -399,7 +399,6 @@
 		FD118540212DFE5D004CADC3 /* GREYHostApplicationDistantObject+FTRSwiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "GREYHostApplicationDistantObject+FTRSwiftTests.swift"; path = "HostDOCategories/Swift/GREYHostApplicationDistantObject+FTRSwiftTests.swift"; sourceTree = SOURCE_ROOT; };
 		FD118546212E004B004CADC3 /* FTRSwiftTestBridgingHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FTRSwiftTestBridgingHeader.h; sourceTree = "<group>"; };
 		FD11854C212E03D5004CADC3 /* HostDOCategoriesSwift.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HostDOCategoriesSwift.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
-		FD3A826E21F18FEE00CA3ADF /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		FD511E82211E6D8B00F19C8A /* libeDistantObject.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libeDistantObject.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD5EB4882118FD9C006F82A0 /* FTRAnimationsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FTRAnimationsTest.m; path = Sources/FTRAnimationsTest.m; sourceTree = SOURCE_ROOT; };
 		FD5EB4892118FD9D006F82A0 /* FTRBasicInteractionTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FTRBasicInteractionTest.m; path = Sources/FTRBasicInteractionTest.m; sourceTree = SOURCE_ROOT; };
@@ -941,7 +940,6 @@
 		FD623DA620FD702A00049E81 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				FD3A826E21F18FEE00CA3ADF /* XCTest.framework */,
 				FD667850211FB63F008EC4A7 /* libeDistantObject.a */,
 				FD66783B211FB222008EC4A7 /* libeDistantObject.a */,
 				FD66782F211FB109008EC4A7 /* libChannelLib.a */,
