@@ -20,7 +20,7 @@
 
 #import "AppFramework/DistantObject/GREYHostApplicationDistantObject+GREYTestHelper.h"
 #import "CommonLib/Assertion/GREYFatalAsserts.h"
-#import "CommonLib/Config/GREYConfiguration.h"
+#import "CommonLib/DistantObject/GREYTestApplicationDistantObject+Private.h"
 #import "CommonLib/DistantObject/GREYTestApplicationDistantObject.h"
 #import "CommonLib/GREYSwizzler.h"
 #import "TestLib/Analytics/GREYAnalytics.h"
@@ -49,6 +49,11 @@
   ]];
   self.launchArguments = launchArgs;
 
+  // Resets the port number before each relaunch.
+  GREYTestApplicationDistantObject *testDistantObject =
+      GREYTestApplicationDistantObject.sharedInstance;
+  testDistantObject.hostPort = 0;
+  testDistantObject.hostBackgroundPort = 0;
   INVOKE_ORIGINAL_IMP(void, @selector(grey_launch));
 }
 

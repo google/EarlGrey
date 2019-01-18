@@ -16,6 +16,8 @@
 
 #import "CommonLib/DistantObject/GREYTestApplicationDistantObject.h"
 
+#import <XCTest/XCTest.h>
+
 #import "CommonLib/DistantObject/GREYHostBackgroundDistantObject.h"
 #import "CommonLib/DistantObject/GREYTestApplicationDistantObject+Private.h"
 
@@ -51,6 +53,42 @@ uint16_t GREYPortForTestApplication = 0;
 
 - (uint16_t)servicePort {
   return self.service.port.port;
+}
+
+- (uint16_t)hostPort {
+  if (_hostPort == 0) {
+    XCTWaiterResult result = [self grey_waitForKeyPathToBeNonZero:@"hostPort"];
+    if (result != XCTWaiterResultCompleted) {
+      NSLog(@"Host port not assigned. Application under test may have failed to launch and/or does "
+            @"not link to EarlGrey's AppFramework.");
+      abort();
+    }
+  }
+  return _hostPort;
+}
+
+- (uint16_t)hostBackgroundPort {
+  if (_hostBackgroundPort == 0) {
+    XCTWaiterResult result = [self grey_waitForKeyPathToBeNonZero:@"hostBackgroundPort"];
+    if (result != XCTWaiterResultCompleted) {
+      NSLog(@"Host background port not assigned. Application under test may have failed to launch "
+            @"and/or does not link to EarlGrey's AppFramework.");
+      abort();
+    }
+  }
+  return _hostBackgroundPort;
+}
+
+#pragma mark - Private
+
+/** Waits 30 seconds until the given @c keyPath has been changed to a nonzero value. */
+- (XCTWaiterResult)grey_waitForKeyPathToBeNonZero:(NSString *)keyPath {
+  XCTKVOExpectation *expectation = [[XCTKVOExpectation alloc] initWithKeyPath:keyPath object:self];
+  expectation.handler = ^BOOL(id observedObject, NSDictionary *change) {
+    int newPort = [change[NSKeyValueChangeNewKey] intValue];
+    return newPort != 0;
+  };
+  return [XCTWaiter waitForExpectations:@[ expectation ] timeout:30];
 }
 
 @end
