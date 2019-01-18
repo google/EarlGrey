@@ -27,9 +27,7 @@ static NSString *const kTestProxyData = @"kTestProxyData";
  */
 static NSString *const kProxyRegex = @"^http://www.youtube.com";
 
-@interface NetworkTestViewController () <NSURLConnectionDelegate,
-                                         NSURLConnectionDataDelegate,
-                                         NSURLSessionDataDelegate>
+@interface NetworkTestViewController () <NSURLSessionDataDelegate>
 @property(weak, nonatomic) IBOutlet UILabel *retryIndicator;
 @property(weak, nonatomic) IBOutlet UILabel *responseVerifiedLabel;
 @property(weak, nonatomic) IBOutlet UILabel *requestCompletedLabel;
@@ -65,12 +63,6 @@ static NSString *const kProxyRegex = @"^http://www.youtube.com";
       self.responseVerifiedLabel.hidden = NO;
     });
   }
-}
-
-- (IBAction)testNetworkClick:(id)sender {
-  NSURLRequest *request =
-      [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.youtube.com/"]];
-  [NSURLConnection connectionWithRequest:request delegate:self];
 }
 
 - (IBAction)userDidTapNSURLSessionDelegateTest:(id)sender {
@@ -124,20 +116,6 @@ static NSString *const kProxyRegex = @"^http://www.youtube.com";
     self->_requestCompletedLabel.hidden = NO;
   });
   [self verifyReceivedData:data];
-}
-
-#pragma mark - NSURLConnectionDelegate
-
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
-  [self verifyReceivedData:data];
-}
-
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-  _requestCompletedLabel.hidden = NO;
-}
-
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-  _requestCompletedLabel.hidden = NO;
 }
 
 @end

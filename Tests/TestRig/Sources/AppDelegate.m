@@ -35,15 +35,9 @@ typedef void (^RestorationHandlerBlock)(NSArray *_Nullable);
 
 @implementation AllOrientationsNavigationController
 
-#if defined(__IPHONE_9_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_9_0)
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
   return UIInterfaceOrientationMaskAll;
 }
-#else
-- (NSUInteger)supportedInterfaceOrientations {
-  return UIInterfaceOrientationMaskAll;
-}
-#endif  // defined(__IPHONE_9_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_9_0)
 
 @end
 

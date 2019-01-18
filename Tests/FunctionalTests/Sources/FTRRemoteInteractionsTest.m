@@ -13,7 +13,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#import "third_party/objective_c/EarlGreyV2/Tests/FunctionalTests/Sources/FTRBaseIntegrationTest.h"
+#import "FTRBaseIntegrationTest.h"
 
 /**
  * Tests to ensure the behavior of remotely created assertion and matcher blocks.

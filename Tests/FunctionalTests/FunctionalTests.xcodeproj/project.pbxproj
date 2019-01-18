@@ -92,6 +92,8 @@
 		FD118556212E062D004CADC3 /* GREYHostApplicationDistantObject+FTRSwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD118540212DFE5D004CADC3 /* GREYHostApplicationDistantObject+FTRSwiftTests.swift */; };
 		FD118557212E07F8004CADC3 /* FTRSwiftTestsHost.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD11853F212DFE5D004CADC3 /* FTRSwiftTestsHost.swift */; };
 		FD118558212E22ED004CADC3 /* FTRSwiftTestBridgingHeader.h in Sources */ = {isa = PBXBuildFile; fileRef = FD118546212E004B004CADC3 /* FTRSwiftTestBridgingHeader.h */; };
+		FD3A827A21F26C6500CA3ADF /* FTRRemoteInteractionsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD3A827621F26C6500CA3ADF /* FTRRemoteInteractionsTest.m */; };
+		FD3A827B21F26C6500CA3ADF /* FTRDistantObjectExecutionsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD3A827921F26C6500CA3ADF /* FTRDistantObjectExecutionsTest.m */; };
 		FD4974B6214330E300625561 /* AppFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD623D2C20FD6BF900049E81 /* AppFramework.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		FD4974B72143314700625561 /* AppFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD623D2C20FD6BF900049E81 /* AppFramework.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		FD5EB4BD2118FDA4006F82A0 /* FTRAnimationsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5EB4882118FD9C006F82A0 /* FTRAnimationsTest.m */; };
@@ -399,6 +401,8 @@
 		FD118540212DFE5D004CADC3 /* GREYHostApplicationDistantObject+FTRSwiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "GREYHostApplicationDistantObject+FTRSwiftTests.swift"; path = "HostDOCategories/Swift/GREYHostApplicationDistantObject+FTRSwiftTests.swift"; sourceTree = SOURCE_ROOT; };
 		FD118546212E004B004CADC3 /* FTRSwiftTestBridgingHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FTRSwiftTestBridgingHeader.h; sourceTree = "<group>"; };
 		FD11854C212E03D5004CADC3 /* HostDOCategoriesSwift.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HostDOCategoriesSwift.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		FD3A827621F26C6500CA3ADF /* FTRRemoteInteractionsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FTRRemoteInteractionsTest.m; sourceTree = "<group>"; };
+		FD3A827921F26C6500CA3ADF /* FTRDistantObjectExecutionsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FTRDistantObjectExecutionsTest.m; sourceTree = "<group>"; };
 		FD511E82211E6D8B00F19C8A /* libeDistantObject.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libeDistantObject.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD5EB4882118FD9C006F82A0 /* FTRAnimationsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FTRAnimationsTest.m; path = Sources/FTRAnimationsTest.m; sourceTree = SOURCE_ROOT; };
 		FD5EB4892118FD9D006F82A0 /* FTRBasicInteractionTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FTRBasicInteractionTest.m; path = Sources/FTRBasicInteractionTest.m; sourceTree = SOURCE_ROOT; };
@@ -670,6 +674,8 @@
 		FD5EB4862118FD61006F82A0 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				FD3A827921F26C6500CA3ADF /* FTRDistantObjectExecutionsTest.m */,
+				FD3A827621F26C6500CA3ADF /* FTRRemoteInteractionsTest.m */,
 				FD738BA82152F162009DE0BA /* FTRAnalyticsClassTearDownOptOutTest.m */,
 				FD738BA52152F161009DE0BA /* FTRAnalyticsTestPostTearDownTest.m */,
 				FD5EB49E2118FD9E006F82A0 /* FTRAccessibilityTest.m */,
@@ -1455,6 +1461,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FD5EB4C22118FDA4006F82A0 /* FTRGestureTest.m in Sources */,
+				FD3A827B21F26C6500CA3ADF /* FTRDistantObjectExecutionsTest.m in Sources */,
 				FD5EB4DD2118FDA4006F82A0 /* FTRNetworkTest.m in Sources */,
 				FD5EB4D02118FDA4006F82A0 /* FTRAccessibilityTest.m in Sources */,
 				FD5EB4C12118FDA4006F82A0 /* FTRPresentedViewTest.m in Sources */,
@@ -1485,6 +1492,7 @@
 				FD5EB4E12118FDA4006F82A0 /* FTRBaseAnalyticsTest.m in Sources */,
 				FD5EB4DE2118FDA4006F82A0 /* FTRShakeTest.m in Sources */,
 				FD5EB4CD2118FDA4006F82A0 /* FTRCollectionViewTest.m in Sources */,
+				FD3A827A21F26C6500CA3ADF /* FTRRemoteInteractionsTest.m in Sources */,
 				FD5EB4D32118FDA4006F82A0 /* FTROrientationChangeTest.m in Sources */,
 				FD5EB4CB2118FDA4006F82A0 /* FTRConditionTest.m in Sources */,
 				FD5EB4C72118FDA4006F82A0 /* FTRAlertViewTest.m in Sources */,

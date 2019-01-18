@@ -17,8 +17,8 @@
 #import <Foundation/Foundation.h>
 #import <XCTest/XCTest.h>
 
-#import "third_party/objective_c/EarlGreyV2/AppFramework/DistantObject/GREYHostApplicationDistantObject+GREYTestHelper.h"
-#import "third_party/objective_c/EarlGreyV2/Tests/FunctionalTests/Sources/FTRBaseIntegrationTest.h"
+#import "AppFramework/DistantObject/GREYHostApplicationDistantObject+GREYTestHelper.h"
+#import "FTRBaseIntegrationTest.h"
 
 @interface FTRDistantObjectExecutionsTest : FTRBaseIntegrationTest
 
