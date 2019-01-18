@@ -17,14 +17,14 @@
 #import <Foundation/Foundation.h>
 #import <XCTest/XCTest.h>
 
-#import "AppFramework/DistantObject/GREYHostApplicationDistantObject+GREYTestHelper.h"
-#import "FTRBaseIntegrationTest.h"
+#import "third_party/objective_c/EarlGreyV2/AppFramework/DistantObject/GREYHostApplicationDistantObject+GREYTestHelper.h"
+#import "third_party/objective_c/EarlGreyV2/Tests/FunctionalTests/Sources/FTRBaseIntegrationTest.h"
 
-@interface FTRRemoteTest : FTRBaseIntegrationTest
+@interface FTRDistantObjectExecutionsTest : FTRBaseIntegrationTest
 
 @end
 
-@implementation FTRRemoteTest
+@implementation FTRDistantObjectExecutionsTest
 
 - (void)testLaunchNoError {
   // Launch and terminate w/o any errors.

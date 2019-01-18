@@ -47,6 +47,15 @@
       assertWithMatcher:grey_text(@"BarFoo")];
 }
 
+- (void)testKeyboardIsShown {
+  XCTAssertFalse([EarlGrey isKeyboardShownWithError:nil],
+                 @"Keyboard is not shown when there is no first responder");
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
+      performAction:grey_tap()];
+  XCTAssertTrue([EarlGrey isKeyboardShownWithError:nil],
+                @"Keyboard is shown when there is a first responder");
+}
+
 - (void)testTypingAtEnd {
   [[[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
       performAction:[GREYActions actionForTypeText:@"Foo"]]
@@ -437,18 +446,19 @@
 }
 
 - (void)testTypingAndResigningOfFirstResponder {
-  GREYAssertFalse([GREYKeyboard isKeyboardShown], @"Keyboard Shouldn't be Shown");
+  GREYAssertFalse([GREYKeyboard keyboardShownWithError:nil], @"Keyboard Shouldn't be Shown");
 
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
       performAction:[GREYActions actionForTypeText:@"Foo"]] assertWithMatcher:grey_text(@"Foo")];
-  GREYAssertTrue([GREYKeyboard isKeyboardShown], @"Keyboard Shouldn't be Shown");
+  GREYAssertTrue([GREYKeyboard keyboardShownWithError:nil], @"Keyboard Shouldn't be Shown");
 
   [EarlGrey dismissKeyboardInApplication:self.application error:nil];
-  GREYAssertFalse([GREYKeyboard isKeyboardShown], @"Keyboard Shouldn't be Shown as it is resigned");
+  GREYAssertFalse([GREYKeyboard keyboardShownWithError:nil],
+                  @"Keyboard Shouldn't be Shown as it is resigned");
 
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
       performAction:[GREYActions actionForTypeText:@"Foo"]] assertWithMatcher:grey_text(@"FooFoo")];
-  GREYAssertTrue([GREYKeyboard isKeyboardShown], @"Keyboard Shouldn't be Shown");
+  GREYAssertTrue([GREYKeyboard keyboardShownWithError:nil], @"Keyboard Shouldn't be Shown");
 }
 
 - (void)testTogglingShiftByChangingCase {
@@ -471,16 +481,16 @@
 }
 
 - (void)testIsKeyboardShownWithCustomKeyboardTracker {
-  GREYAssertFalse([GREYKeyboard isKeyboardShown], @"Keyboard Shouldn't be Shown");
+  GREYAssertFalse([GREYKeyboard keyboardShownWithError:nil], @"Keyboard Shouldn't be Shown");
 
   GREYHostApplicationDistantObject *host = GREYHostApplicationDistantObject.sharedInstance;
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CustomKeyboardTracker")]
       performAction:host.actionForSetFirstResponder];
-  GREYAssertFalse([GREYKeyboard isKeyboardShown], @"Keyboard Shouldn't be Shown");
+  GREYAssertFalse([GREYKeyboard keyboardShownWithError:nil], @"Keyboard Shouldn't be Shown");
 }
 
 - (void)testTypingAndResigningWithError {
-  GREYAssertFalse([GREYKeyboard isKeyboardShown], @"Keyboard Shouldn't be Shown");
+  GREYAssertFalse([GREYKeyboard keyboardShownWithError:nil], @"Keyboard Shouldn't be Shown");
 
   GREYHostApplicationDistantObject *host = GREYHostApplicationDistantObject.sharedInstance;
   NSError *error;

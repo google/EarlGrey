@@ -26,6 +26,16 @@
   [self openTestViewNamed:@"WKWebView"];
 }
 
+- (void)testScrollingWKWebViewWithEarlGrey {
+  XCUIApplication *application = [[XCUIApplication alloc] init];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"loadHTMLString")]
+      performAction:grey_tap()];
+  // Use XCUITest to ensure that the page has loaded.
+  XCTAssertTrue([[application.links elementBoundByIndex:0] waitForExistenceWithTimeout:10]);
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TestWKWebView")]
+      performAction:grey_scrollInDirection(kGREYDirectionDown, 20)];
+}
+
 - (void)testNavigationToWKWebViewTestController {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TestWKWebView")]
       assertWithMatcher:grey_notNil()];

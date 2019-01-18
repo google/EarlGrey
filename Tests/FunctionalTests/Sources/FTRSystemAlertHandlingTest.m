@@ -39,15 +39,38 @@
 }
 
 /**
- *  Automates the accepting of a system alert.
+ *  Automates the accepting of a system alert & checking it's text.
  */
-- (void)testAcceptingSystemAlert {
+- (void)testAcceptingSystemAlertAndCheckingItsText {
   [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"Locations Alert")]
       performAction:grey_tap()];
+  NSString *string = [self grey_systemAlertTextWithError:nil];
+  NSString *alertString = @"Allow “FunctionalTestRig” to access your location while you are "
+                          @"using the app?";
+  XCTAssertEqualObjects(string, alertString);
+  NSError *error;
+  string = [self grey_systemAlertTextWithError:&error];
+  XCTAssertEqualObjects(string, alertString);
+  XCTAssertNil(error);
   XCTAssertEqual([self grey_systemAlertType], GREYSystemAlertTypeLocation);
   XCTAssertTrue([self grey_acceptSystemDialogWithError:nil]);
   [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"Alert Handled?")]
       performAction:grey_tap()];
+}
+
+/**
+ *  Automates the checking of a System Alert's text when no alert exists.
+ */
+- (void)testSystemAlertTextCheckingWithoutAnyAlertPresent {
+  XCTAssertTrue([self grey_waitForAlertVisibility:NO withTimeout:3]);
+  NSString *string = [self grey_systemAlertTextWithError:nil];
+  XCTAssertNil(string);
+  NSError *error;
+  string = [self grey_systemAlertTextWithError:&error];
+  XCTAssertNil(string);
+  XCTAssertNotNil(error);
+  XCTAssertEqualObjects(error.domain, kGREYSystemAlertDismissalErrorDomain);
+  XCTAssertEqual(error.code, GREYSystemAlertNotPresent);
 }
 
 /**
