@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 // Make it readwrite, so when the app under test starts, it signals the test where to send an remote
 // invocation.
-@property(nonatomic, readwrite) uint16_t hostPort;
+@property(nonatomic) uint16_t hostPort;
 @property(nonatomic) uint16_t hostBackgroundPort;
 
 @end

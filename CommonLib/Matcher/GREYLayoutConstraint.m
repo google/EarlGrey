@@ -167,4 +167,10 @@ static NSString *const kGREYLayoutConstraintConstant = @"constant";
   }
 }
 
+#pragma mark - NSSecureCoding
+
++ (BOOL)supportsSecureCoding {
+  return YES;
+}
+
 @end

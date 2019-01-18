@@ -87,7 +87,7 @@ static Class gWebAccessibilityWrapper;
 
   // IsAccessibilityElement.
   if ([self respondsToSelector:@selector(isAccessibilityElement)]) {
-    [description appendFormat:@"; AX=%@", self.isAccessibilityElement ? @"Y" : @"N"];
+    [description appendFormat:@"; isAccessible=%@", self.isAccessibilityElement ? @"Y" : @"N"];
   }
 
   // AccessibilityIdentifier from UIAccessibilityIdentification.
