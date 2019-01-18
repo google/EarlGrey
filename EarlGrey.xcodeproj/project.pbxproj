@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 48;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -11,7 +11,15 @@
 		FD2E76EC2149E4580063EF7E /* GREYAppConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = FD2E76EA2149E4580063EF7E /* GREYAppConfiguration.m */; };
 		FD2E76ED2149E4580063EF7E /* GREYAppConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = FD2E76EB2149E4580063EF7E /* GREYAppConfiguration.h */; };
 		FD2E76F12149E4860063EF7E /* GREYTestConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = FD2E76F02149E4860063EF7E /* GREYTestConfiguration.m */; };
-		FD50490B20FB230000261CBE /* GREYActionsShorthand.m in Sources */ = {isa = PBXBuildFile; fileRef = FD50490920FB230000261CBE /* GREYActionsShorthand.m */; };
+		FD3A825121F187C800CA3ADF /* GREYAssertionBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = FD3A825021F187C800CA3ADF /* GREYAssertionBlock.m */; };
+		FD3A825621F187FD00CA3ADF /* GREYBaseMatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = FD3A825221F187FA00CA3ADF /* GREYBaseMatcher.m */; };
+		FD3A825721F187FD00CA3ADF /* GREYElementMatcherBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = FD3A825321F187FB00CA3ADF /* GREYElementMatcherBlock.m */; };
+		FD3A825B21F189BC00CA3ADF /* GREYActionsShorthand.m in Sources */ = {isa = PBXBuildFile; fileRef = FD3A825921F189BB00CA3ADF /* GREYActionsShorthand.m */; };
+		FD3A825C21F189BC00CA3ADF /* GREYActionsShorthand.m in Sources */ = {isa = PBXBuildFile; fileRef = FD3A825921F189BB00CA3ADF /* GREYActionsShorthand.m */; };
+		FD3A825D21F189BC00CA3ADF /* GREYActionsShorthand.h in Headers */ = {isa = PBXBuildFile; fileRef = FD3A825A21F189BC00CA3ADF /* GREYActionsShorthand.h */; };
+		FD3A826321F18A5900CA3ADF /* GREYTestApplicationDistantObject+GREYLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = FD3A826121F18A5800CA3ADF /* GREYTestApplicationDistantObject+GREYLogger.h */; };
+		FD3A826421F18A5900CA3ADF /* GREYTestApplicationDistantObject+GREYLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = FD3A826221F18A5800CA3ADF /* GREYTestApplicationDistantObject+GREYLogger.m */; };
+		FD3A826521F18A5900CA3ADF /* GREYTestApplicationDistantObject+GREYLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = FD3A826221F18A5800CA3ADF /* GREYTestApplicationDistantObject+GREYLogger.m */; };
 		FD50490F20FB231A00261CBE /* XCTestCase+GREYSystemAlertHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = FD50490E20FB231A00261CBE /* XCTestCase+GREYSystemAlertHandler.m */; };
 		FD50491A20FB237100261CBE /* GREYCondition.m in Sources */ = {isa = PBXBuildFile; fileRef = FD50491920FB237100261CBE /* GREYCondition.m */; };
 		FD50491E20FB238300261CBE /* GREYHostStub.m in Sources */ = {isa = PBXBuildFile; fileRef = FD50491C20FB238300261CBE /* GREYHostStub.m */; };
@@ -114,9 +122,6 @@
 		FD623ADC20F9590800049E81 /* UIAnimation+GREYApp.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623AB620F9590800049E81 /* UIAnimation+GREYApp.m */; };
 		FD623AE320F9591600049E81 /* GREYAssertions.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623ADE20F9591600049E81 /* GREYAssertions.h */; };
 		FD623AE420F9591600049E81 /* GREYAssertions.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623ADF20F9591600049E81 /* GREYAssertions.m */; };
-		FD623AE520F9591600049E81 /* GREYAssertionBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623AE020F9591600049E81 /* GREYAssertionBlock.m */; };
-		FD623AE620F9591600049E81 /* GREYAssertionBlock.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623AE120F9591600049E81 /* GREYAssertionBlock.h */; };
-		FD623AE720F9591600049E81 /* GREYAssertion.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623AE220F9591600049E81 /* GREYAssertion.h */; };
 		FD623AEB20F9592B00049E81 /* GREYAutomationSetup.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623AE920F9592B00049E81 /* GREYAutomationSetup.h */; };
 		FD623AEC20F9592B00049E81 /* GREYAutomationSetup.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623AEA20F9592B00049E81 /* GREYAutomationSetup.m */; };
 		FD623AF520F9594200049E81 /* GREYElementInteraction.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623AEE20F9594100049E81 /* GREYElementInteraction.h */; };
@@ -169,12 +174,8 @@
 		FD623B6420F95B0300049E81 /* GREYMatchers.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B5620F95B0200049E81 /* GREYMatchers.h */; };
 		FD623B6520F95B0300049E81 /* GREYNot.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B5720F95B0200049E81 /* GREYNot.h */; };
 		FD623B6620F95B0300049E81 /* GREYNot.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B5820F95B0200049E81 /* GREYNot.m */; };
-		FD623B6720F95B0300049E81 /* GREYBaseMatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B5920F95B0200049E81 /* GREYBaseMatcher.m */; };
 		FD623B6820F95B0300049E81 /* GREYAllOf.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B5A20F95B0200049E81 /* GREYAllOf.m */; };
 		FD623B6920F95B0300049E81 /* GREYMatchers.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B5B20F95B0200049E81 /* GREYMatchers.m */; };
-		FD623B6A20F95B0300049E81 /* GREYBaseMatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B5C20F95B0200049E81 /* GREYBaseMatcher.h */; };
-		FD623B6B20F95B0300049E81 /* GREYElementMatcherBlock.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B5D20F95B0200049E81 /* GREYElementMatcherBlock.h */; };
-		FD623B6C20F95B0300049E81 /* GREYElementMatcherBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B5E20F95B0200049E81 /* GREYElementMatcherBlock.m */; };
 		FD623B6D20F95B0300049E81 /* GREYAnyOf.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B5F20F95B0200049E81 /* GREYAnyOf.m */; };
 		FD623B6E20F95B0300049E81 /* GREYMatchersShorthand.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B6020F95B0200049E81 /* GREYMatchersShorthand.m */; };
 		FD623B6F20F95B0300049E81 /* GREYMatchersShorthand.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B6120F95B0300049E81 /* GREYMatchersShorthand.h */; };
@@ -220,6 +221,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		FD3A824A21F187B700CA3ADF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FD6239E420F56E6A00049E81 /* eDistantObject.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C88B8A7B21ADD3BE00DDE607;
+			remoteInfo = MeasureLib;
+		};
+		FD3A824C21F187B700CA3ADF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FD6239E420F56E6A00049E81 /* eDistantObject.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C88B8A8921ADD3FD00DDE607;
+			remoteInfo = MeasureTests;
+		};
 		FD6239EF20F56E6A00049E81 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = FD6239E420F56E6A00049E81 /* eDistantObject.xcodeproj */;
@@ -378,9 +393,19 @@
 		FD2E76EB2149E4580063EF7E /* GREYAppConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYAppConfiguration.h; path = Config/GREYAppConfiguration.h; sourceTree = "<group>"; };
 		FD2E76EF2149E4860063EF7E /* GREYTestConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYTestConfiguration.h; path = Config/GREYTestConfiguration.h; sourceTree = "<group>"; };
 		FD2E76F02149E4860063EF7E /* GREYTestConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYTestConfiguration.m; path = Config/GREYTestConfiguration.m; sourceTree = "<group>"; };
+		FD3A824E21F187C700CA3ADF /* GREYAssertion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYAssertion.h; path = CommonLib/Assertion/GREYAssertion.h; sourceTree = "<group>"; };
+		FD3A824F21F187C700CA3ADF /* GREYAssertionBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYAssertionBlock.h; path = CommonLib/Assertion/GREYAssertionBlock.h; sourceTree = "<group>"; };
+		FD3A825021F187C800CA3ADF /* GREYAssertionBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYAssertionBlock.m; path = CommonLib/Assertion/GREYAssertionBlock.m; sourceTree = "<group>"; };
+		FD3A825221F187FA00CA3ADF /* GREYBaseMatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYBaseMatcher.m; path = CommonLib/Matcher/GREYBaseMatcher.m; sourceTree = "<group>"; };
+		FD3A825321F187FB00CA3ADF /* GREYElementMatcherBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYElementMatcherBlock.m; path = CommonLib/Matcher/GREYElementMatcherBlock.m; sourceTree = "<group>"; };
+		FD3A825421F187FB00CA3ADF /* GREYElementMatcherBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYElementMatcherBlock.h; path = CommonLib/Matcher/GREYElementMatcherBlock.h; sourceTree = "<group>"; };
+		FD3A825521F187FC00CA3ADF /* GREYBaseMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYBaseMatcher.h; path = CommonLib/Matcher/GREYBaseMatcher.h; sourceTree = "<group>"; };
+		FD3A825821F1886E00CA3ADF /* GREYVisibilityChecker+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GREYVisibilityChecker+Internal.h"; sourceTree = "<group>"; };
+		FD3A825921F189BB00CA3ADF /* GREYActionsShorthand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYActionsShorthand.m; path = Action/GREYActionsShorthand.m; sourceTree = "<group>"; };
+		FD3A825A21F189BC00CA3ADF /* GREYActionsShorthand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYActionsShorthand.h; path = Action/GREYActionsShorthand.h; sourceTree = "<group>"; };
+		FD3A826121F18A5800CA3ADF /* GREYTestApplicationDistantObject+GREYLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GREYTestApplicationDistantObject+GREYLogger.h"; path = "DistantObject/GREYTestApplicationDistantObject+GREYLogger.h"; sourceTree = "<group>"; };
+		FD3A826221F18A5800CA3ADF /* GREYTestApplicationDistantObject+GREYLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "GREYTestApplicationDistantObject+GREYLogger.m"; path = "DistantObject/GREYTestApplicationDistantObject+GREYLogger.m"; sourceTree = "<group>"; };
 		FD5048F820FB225100261CBE /* libTestLib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libTestLib.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		FD50490920FB230000261CBE /* GREYActionsShorthand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYActionsShorthand.m; path = Action/GREYActionsShorthand.m; sourceTree = "<group>"; };
-		FD50490A20FB230000261CBE /* GREYActionsShorthand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYActionsShorthand.h; path = Action/GREYActionsShorthand.h; sourceTree = "<group>"; };
 		FD50490D20FB231A00261CBE /* XCTestCase+GREYSystemAlertHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "XCTestCase+GREYSystemAlertHandler.h"; path = "AlertHandling/XCTestCase+GREYSystemAlertHandler.h"; sourceTree = "<group>"; };
 		FD50490E20FB231A00261CBE /* XCTestCase+GREYSystemAlertHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "XCTestCase+GREYSystemAlertHandler.m"; path = "AlertHandling/XCTestCase+GREYSystemAlertHandler.m"; sourceTree = "<group>"; };
 		FD50491620FB235D00261CBE /* GREYAssertionDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYAssertionDefines.h; path = Assertion/GREYAssertionDefines.h; sourceTree = "<group>"; };
@@ -535,9 +560,6 @@
 		FD623AB620F9590800049E81 /* UIAnimation+GREYApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIAnimation+GREYApp.m"; path = "Additions/UIAnimation+GREYApp.m"; sourceTree = "<group>"; };
 		FD623ADE20F9591600049E81 /* GREYAssertions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYAssertions.h; path = Assertion/GREYAssertions.h; sourceTree = "<group>"; };
 		FD623ADF20F9591600049E81 /* GREYAssertions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYAssertions.m; path = Assertion/GREYAssertions.m; sourceTree = "<group>"; };
-		FD623AE020F9591600049E81 /* GREYAssertionBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYAssertionBlock.m; path = Assertion/GREYAssertionBlock.m; sourceTree = "<group>"; };
-		FD623AE120F9591600049E81 /* GREYAssertionBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYAssertionBlock.h; path = Assertion/GREYAssertionBlock.h; sourceTree = "<group>"; };
-		FD623AE220F9591600049E81 /* GREYAssertion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYAssertion.h; path = Assertion/GREYAssertion.h; sourceTree = "<group>"; };
 		FD623AE920F9592B00049E81 /* GREYAutomationSetup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYAutomationSetup.h; path = AutomationSetup/GREYAutomationSetup.h; sourceTree = "<group>"; };
 		FD623AEA20F9592B00049E81 /* GREYAutomationSetup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYAutomationSetup.m; path = AutomationSetup/GREYAutomationSetup.m; sourceTree = "<group>"; };
 		FD623AEE20F9594100049E81 /* GREYElementInteraction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYElementInteraction.h; path = Core/GREYElementInteraction.h; sourceTree = "<group>"; };
@@ -591,12 +613,8 @@
 		FD623B5620F95B0200049E81 /* GREYMatchers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYMatchers.h; path = Matcher/GREYMatchers.h; sourceTree = "<group>"; };
 		FD623B5720F95B0200049E81 /* GREYNot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYNot.h; path = Matcher/GREYNot.h; sourceTree = "<group>"; };
 		FD623B5820F95B0200049E81 /* GREYNot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYNot.m; path = Matcher/GREYNot.m; sourceTree = "<group>"; };
-		FD623B5920F95B0200049E81 /* GREYBaseMatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYBaseMatcher.m; path = Matcher/GREYBaseMatcher.m; sourceTree = "<group>"; };
 		FD623B5A20F95B0200049E81 /* GREYAllOf.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYAllOf.m; path = Matcher/GREYAllOf.m; sourceTree = "<group>"; };
 		FD623B5B20F95B0200049E81 /* GREYMatchers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYMatchers.m; path = Matcher/GREYMatchers.m; sourceTree = "<group>"; };
-		FD623B5C20F95B0200049E81 /* GREYBaseMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYBaseMatcher.h; path = Matcher/GREYBaseMatcher.h; sourceTree = "<group>"; };
-		FD623B5D20F95B0200049E81 /* GREYElementMatcherBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYElementMatcherBlock.h; path = Matcher/GREYElementMatcherBlock.h; sourceTree = "<group>"; };
-		FD623B5E20F95B0200049E81 /* GREYElementMatcherBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYElementMatcherBlock.m; path = Matcher/GREYElementMatcherBlock.m; sourceTree = "<group>"; };
 		FD623B5F20F95B0200049E81 /* GREYAnyOf.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYAnyOf.m; path = Matcher/GREYAnyOf.m; sourceTree = "<group>"; };
 		FD623B6020F95B0200049E81 /* GREYMatchersShorthand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYMatchersShorthand.m; path = Matcher/GREYMatchersShorthand.m; sourceTree = "<group>"; };
 		FD623B6120F95B0300049E81 /* GREYMatchersShorthand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYMatchersShorthand.h; path = Matcher/GREYMatchersShorthand.h; sourceTree = "<group>"; };
@@ -708,6 +726,16 @@
 			name = Config;
 			sourceTree = "<group>";
 		};
+		FD3A824121F187B600CA3ADF /* Assertion */ = {
+			isa = PBXGroup;
+			children = (
+				FD3A824E21F187C700CA3ADF /* GREYAssertion.h */,
+				FD3A824F21F187C700CA3ADF /* GREYAssertionBlock.h */,
+				FD3A825021F187C800CA3ADF /* GREYAssertionBlock.m */,
+			);
+			name = Assertion;
+			sourceTree = "<group>";
+		};
 		FD5048F920FB225100261CBE /* TestLib */ = {
 			isa = PBXGroup;
 			children = (
@@ -722,18 +750,8 @@
 				FD50491720FB236300261CBE /* Condition */,
 				FD50491520FB234E00261CBE /* Assertion */,
 				FD50490C20FB230700261CBE /* AlertHandling */,
-				FD50490820FB22EF00261CBE /* Action */,
 			);
 			path = TestLib;
-			sourceTree = "<group>";
-		};
-		FD50490820FB22EF00261CBE /* Action */ = {
-			isa = PBXGroup;
-			children = (
-				FD50490A20FB230000261CBE /* GREYActionsShorthand.h */,
-				FD50490920FB230000261CBE /* GREYActionsShorthand.m */,
-			);
-			name = Action;
 			sourceTree = "<group>";
 		};
 		FD50490C20FB230700261CBE /* AlertHandling */ = {
@@ -765,6 +783,8 @@
 		FD50491B20FB237700261CBE /* DistantObject */ = {
 			isa = PBXGroup;
 			children = (
+				FD3A826121F18A5800CA3ADF /* GREYTestApplicationDistantObject+GREYLogger.h */,
+				FD3A826221F18A5800CA3ADF /* GREYTestApplicationDistantObject+GREYLogger.m */,
 				FD50491C20FB238300261CBE /* GREYHostStub.m */,
 				FD50491D20FB238300261CBE /* GREYTestApplicationDistantObject.m */,
 			);
@@ -857,6 +877,7 @@
 				FD6239D620F56C9400049E81 /* GREYStopwatch.m */,
 				FD6239D720F56C9400049E81 /* GREYSwizzler.h */,
 				FD6239DA20F56C9400049E81 /* GREYSwizzler.m */,
+				FD3A824121F187B600CA3ADF /* Assertion */,
 				FD6239D320F56C7C00049E81 /* Provider */,
 				FD6239CA20F56C6500049E81 /* Matcher */,
 				FD6239C520F56C5300049E81 /* Exceptions */,
@@ -959,6 +980,10 @@
 		FD6239CA20F56C6500049E81 /* Matcher */ = {
 			isa = PBXGroup;
 			children = (
+				FD3A825521F187FC00CA3ADF /* GREYBaseMatcher.h */,
+				FD3A825221F187FA00CA3ADF /* GREYBaseMatcher.m */,
+				FD3A825421F187FB00CA3ADF /* GREYElementMatcherBlock.h */,
+				FD3A825321F187FB00CA3ADF /* GREYElementMatcherBlock.m */,
 				FD6239CF20F56C7100049E81 /* GREYDescription.h */,
 				FD6239D020F56C7100049E81 /* GREYLayoutConstraint.h */,
 				FD6239CC20F56C7100049E81 /* GREYLayoutConstraint.m */,
@@ -981,8 +1006,10 @@
 			isa = PBXGroup;
 			children = (
 				FD6239F020F56E6A00049E81 /* libChannelLib.a */,
+				FD3A824B21F187B700CA3ADF /* libMeasureLib.a */,
 				FD6239F220F56E6A00049E81 /* libeDistantObject.a */,
 				FD6239F420F56E6A00049E81 /* ChannelTests.xctest */,
+				FD3A824D21F187B700CA3ADF /* MeasureTests.xctest */,
 				FD6239F620F56E6A00049E81 /* TestsHost.app */,
 				FD6239F820F56E6A00049E81 /* ServiceUITests.xctest */,
 				FD6239FA20F56E6A00049E81 /* ServiceTests.xctest */,
@@ -1018,6 +1045,8 @@
 		FD623A5220F958B100049E81 /* Action */ = {
 			isa = PBXGroup;
 			children = (
+				FD3A825A21F189BC00CA3ADF /* GREYActionsShorthand.h */,
+				FD3A825921F189BB00CA3ADF /* GREYActionsShorthand.m */,
 				FD623A5620F958C000049E81 /* GREYAction.h */,
 				FD623A6020F958C100049E81 /* GREYActionBlock.h */,
 				FD623A5520F958C000049E81 /* GREYActionBlock.m */,
@@ -1100,9 +1129,6 @@
 		FD623ADD20F9590C00049E81 /* Assertion */ = {
 			isa = PBXGroup;
 			children = (
-				FD623AE220F9591600049E81 /* GREYAssertion.h */,
-				FD623AE120F9591600049E81 /* GREYAssertionBlock.h */,
-				FD623AE020F9591600049E81 /* GREYAssertionBlock.m */,
 				FD623ADE20F9591600049E81 /* GREYAssertions.h */,
 				FD623ADF20F9591600049E81 /* GREYAssertions.m */,
 			);
@@ -1229,10 +1255,6 @@
 				FD623B5A20F95B0200049E81 /* GREYAllOf.m */,
 				FD623B6320F95B0300049E81 /* GREYAnyOf.h */,
 				FD623B5F20F95B0200049E81 /* GREYAnyOf.m */,
-				FD623B5C20F95B0200049E81 /* GREYBaseMatcher.h */,
-				FD623B5920F95B0200049E81 /* GREYBaseMatcher.m */,
-				FD623B5D20F95B0200049E81 /* GREYElementMatcherBlock.h */,
-				FD623B5E20F95B0200049E81 /* GREYElementMatcherBlock.m */,
 				FD623B5620F95B0200049E81 /* GREYMatchers.h */,
 				FD623B5B20F95B0200049E81 /* GREYMatchers.m */,
 				FD623B6120F95B0300049E81 /* GREYMatchersShorthand.h */,
@@ -1304,6 +1326,7 @@
 		FDF9E03620F82D090005DCF2 /* UILib */ = {
 			isa = PBXGroup;
 			children = (
+				FD3A825821F1886E00CA3ADF /* GREYVisibilityChecker+Internal.h */,
 				FDF9E06D20F82F020005DCF2 /* GREYElementHierarchy.h */,
 				FDF9E07120F82F030005DCF2 /* GREYElementHierarchy.m */,
 				FDF9E06E20F82F020005DCF2 /* GREYElementHierarchyStub.m */,
@@ -1367,8 +1390,6 @@
 			files = (
 				FD623B1E20F95A6300049E81 /* EarlGreyApp.h in Headers */,
 				FD623B2820F95A7200049E81 /* GREYAppFailureHandler.h in Headers */,
-				FD623B6A20F95B0300049E81 /* GREYBaseMatcher.h in Headers */,
-				FD623AE720F9591600049E81 /* GREYAssertion.h in Headers */,
 				FD623AE320F9591600049E81 /* GREYAssertions.h in Headers */,
 				FD623B0620F9595300049E81 /* GREYUIWebViewDelegate.h in Headers */,
 				FD623AFB20F9594200049E81 /* GREYInteraction.h in Headers */,
@@ -1385,7 +1406,6 @@
 				FD623ABB20F9590800049E81 /* UIGestureRecognizer+GREYApp.h in Headers */,
 				FD623B5320F95AF400049E81 /* GREYKeyboard.h in Headers */,
 				FD623B0820F9595300049E81 /* GREYCAAnimationDelegate.h in Headers */,
-				FD623AE620F9591600049E81 /* GREYAssertionBlock.h in Headers */,
 				FD623B6F20F95B0300049E81 /* GREYMatchersShorthand.h in Headers */,
 				FD623AC720F9590800049E81 /* UIWindow+GREYApp.h in Headers */,
 				FD623B0920F9595300049E81 /* GREYSurrogateDelegate.h in Headers */,
@@ -1407,19 +1427,20 @@
 				FD623AB720F9590800049E81 /* CAAnimation+GREYApp.h in Headers */,
 				FD623B2620F95A7200049E81 /* GREYFailureScreenshotter.h in Headers */,
 				FD623B6420F95B0300049E81 /* GREYMatchers.h in Headers */,
+				FD3A825D21F189BC00CA3ADF /* GREYActionsShorthand.h in Headers */,
 				FD623A7220F958C200049E81 /* GREYScrollAction.h in Headers */,
 				FD623AC120F9590800049E81 /* UIApplication+GREYApp.h in Headers */,
 				FD623AC320F9590800049E81 /* NSException+GREYApp.h in Headers */,
 				FD623A7D20F958C200049E81 /* GREYPickerAction.h in Headers */,
 				FD623B8D20F95B1500049E81 /* GREYRunLoopSpinner.h in Headers */,
 				FD623B7020F95B0300049E81 /* GREYAllOf.h in Headers */,
-				FD623B6B20F95B0300049E81 /* GREYElementMatcherBlock.h in Headers */,
 				FD623B4820F95A9C00049E81 /* GREYUIWebViewIdlingResource.h in Headers */,
 				FD623B8620F95B1500049E81 /* GREYObjectDeallocationTracker.h in Headers */,
 				FD623A7620F958C200049E81 /* GREYPinchAction.h in Headers */,
 				FD623AF820F9594200049E81 /* GREYInteractionDataSource.h in Headers */,
 				FD623A8120F958C200049E81 /* GREYTapper.h in Headers */,
 				FD623B4F20F95A9C00049E81 /* GREYOperationQueueIdlingResource.h in Headers */,
+				FD3A826321F18A5900CA3ADF /* GREYTestApplicationDistantObject+GREYLogger.h in Headers */,
 				FD623A8920F958C200049E81 /* GREYActions.h in Headers */,
 				FD623AEB20F9592B00049E81 /* GREYAutomationSetup.h in Headers */,
 				FD623B3120F95A8600049E81 /* GREYIOHIDEventTypes.h in Headers */,
@@ -1582,6 +1603,20 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		FD3A824B21F187B700CA3ADF /* libMeasureLib.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libMeasureLib.a;
+			remoteRef = FD3A824A21F187B700CA3ADF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		FD3A824D21F187B700CA3ADF /* MeasureTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = MeasureTests.xctest;
+			remoteRef = FD3A824C21F187B700CA3ADF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		FD6239F020F56E6A00049E81 /* libChannelLib.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1663,7 +1698,9 @@
 				FD50491E20FB238300261CBE /* GREYHostStub.m in Sources */,
 				FD50491A20FB237100261CBE /* GREYCondition.m in Sources */,
 				FD1184D3212CEE72004CADC3 /* XCUIApplication+GREYEnvironment.m in Sources */,
+				FD3A825C21F189BC00CA3ADF /* GREYActionsShorthand.m in Sources */,
 				FD623DC020FD764500049E81 /* GREYAnalytics.m in Sources */,
+				FD3A826521F18A5900CA3ADF /* GREYTestApplicationDistantObject+GREYLogger.m in Sources */,
 				FD50493D20FB23E500261CBE /* XCTestCase+GREYTest.m in Sources */,
 				FD623DC220FD770F00049E81 /* GREYMatchersShorthand.m in Sources */,
 				FD50491F20FB238300261CBE /* GREYTestApplicationDistantObject.m in Sources */,
@@ -1675,7 +1712,6 @@
 				FD50492D20FB239900261CBE /* EarlGrey.m in Sources */,
 				FD2E76F12149E4860063EF7E /* GREYTestConfiguration.m in Sources */,
 				FD50492A20FB239900261CBE /* GREYElementInteractionProxy.m in Sources */,
-				FD50490B20FB230000261CBE /* GREYActionsShorthand.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1688,7 +1724,10 @@
 				FD6239E120F56C9500049E81 /* GREYSwizzler.m in Sources */,
 				FD62398A20F56B7600049E81 /* NSObject+GREYCommon.m in Sources */,
 				FD6239E220F56C9500049E81 /* GREYObjcRuntime.m in Sources */,
+				FD3A825121F187C800CA3ADF /* GREYAssertionBlock.m in Sources */,
+				FD3A825621F187FD00CA3ADF /* GREYBaseMatcher.m in Sources */,
 				FD6239BC20F56C3E00049E81 /* NSError+GREYCommon.m in Sources */,
+				FD3A825721F187FD00CA3ADF /* GREYElementMatcherBlock.m in Sources */,
 				FD6239A420F56BE700049E81 /* GREYConfiguration.m in Sources */,
 				FD6239BB20F56C3E00049E81 /* GREYError.m in Sources */,
 				FD6239D220F56C7100049E81 /* GREYStringDescription.m in Sources */,
@@ -1722,7 +1761,6 @@
 				FD623A7C20F958C200049E81 /* GREYPinchAction.m in Sources */,
 				FD623B4320F95A9C00049E81 /* GREYTimedIdlingResource.m in Sources */,
 				FD623B0B20F9595300049E81 /* GREYNSURLConnectionDelegate.m in Sources */,
-				FD623AE520F9591600049E81 /* GREYAssertionBlock.m in Sources */,
 				FD623AC420F9590800049E81 /* UISwitch+GREYApp.m in Sources */,
 				FD623B1920F95A5400049E81 /* GREYHostBackgroundDistantObject+GREYApp.m in Sources */,
 				FD623B4420F95A9C00049E81 /* GREYDispatchQueueIdlingResource.m in Sources */,
@@ -1734,12 +1772,12 @@
 				FD623B3020F95A8600049E81 /* GREYTouchInjector.m in Sources */,
 				FD623ABD20F9590800049E81 /* UIViewController+GREYApp.m in Sources */,
 				FD623B5420F95AF400049E81 /* GREYKeyboard.m in Sources */,
+				FD3A825B21F189BC00CA3ADF /* GREYActionsShorthand.m in Sources */,
 				FD623B2520F95A7200049E81 /* GREYAppFailureHandler.m in Sources */,
 				FD623ADC20F9590800049E81 /* UIAnimation+GREYApp.m in Sources */,
 				FD623B8520F95B1500049E81 /* GREYSyncAPI.m in Sources */,
 				FD623A8420F958C200049E81 /* GREYSlideAction.m in Sources */,
 				FD623AD420F9590800049E81 /* UIGestureRecognizer+GREYApp.m in Sources */,
-				FD623B6720F95B0300049E81 /* GREYBaseMatcher.m in Sources */,
 				FD623B0720F9595300049E81 /* GREYUIWebViewDelegate.m in Sources */,
 				FD623B8820F95B1500049E81 /* GREYAppStateTracker.m in Sources */,
 				FD623A8620F958C200049E81 /* GREYScrollAction.m in Sources */,
@@ -1753,10 +1791,10 @@
 				FD623B6E20F95B0300049E81 /* GREYMatchersShorthand.m in Sources */,
 				FD623B1520F95A5400049E81 /* GREYHostApplicationDistantObject.m in Sources */,
 				FD623A7920F958C200049E81 /* GREYSwipeAction.m in Sources */,
-				FD623B6C20F95B0300049E81 /* GREYElementMatcherBlock.m in Sources */,
 				FD623AC220F9590800049E81 /* UIWindow+GREYApp.m in Sources */,
 				FD623A8A20F958C200049E81 /* GREYChangeStepperAction.m in Sources */,
 				FD623B8320F95B1500049E81 /* GREYAppStateTrackerObject.m in Sources */,
+				FD3A826421F18A5900CA3ADF /* GREYTestApplicationDistantObject+GREYLogger.m in Sources */,
 				FD623ACA20F9590800049E81 /* NSException+GREYApp.m in Sources */,
 				FD2E76EC2149E4580063EF7E /* GREYAppConfiguration.m in Sources */,
 				FD623A7F20F958C200049E81 /* GREYBaseAction.m in Sources */,
