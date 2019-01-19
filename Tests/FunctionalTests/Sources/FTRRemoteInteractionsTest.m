@@ -18,10 +18,10 @@
 /**
  * Tests to ensure the behavior of remotely created assertion and matcher blocks.
  */
-@interface FTRRemoteInteractionsTests : FTRBaseIntegrationTest
+@interface FTRRemoteInteractionsTest : FTRBaseIntegrationTest
 @end
 
-@implementation FTRRemoteInteractionsTests
+@implementation FTRRemoteInteractionsTest
 
 - (void)testSimpleRemoteAssertionBlockInTest {
   __block BOOL foo = NO;

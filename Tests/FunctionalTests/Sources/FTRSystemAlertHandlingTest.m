@@ -54,6 +54,7 @@
   XCTAssertNil(error);
   XCTAssertEqual([self grey_systemAlertType], GREYSystemAlertTypeLocation);
   XCTAssertTrue([self grey_acceptSystemDialogWithError:nil]);
+  XCTAssertTrue([self grey_waitForAlertVisibility:NO withTimeout:1]);
   [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"Alert Handled?")]
       performAction:grey_tap()];
 }
@@ -82,6 +83,7 @@
         performAction:grey_tap()];
     XCTAssertEqual([self grey_systemAlertType], GREYSystemAlertTypeBackgroundLocation);
     XCTAssertTrue([self grey_acceptSystemDialogWithError:nil]);
+    XCTAssertTrue([self grey_waitForAlertVisibility:NO withTimeout:1]);
     [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"Alert Handled?")]
         performAction:grey_tap()];
   }
@@ -94,6 +96,7 @@
   [[EarlGrey selectElementWithMatcher:grey_text(@"Contacts Alert")] performAction:grey_tap()];
   XCTAssertEqual([self grey_systemAlertType], GREYSystemAlertTypeContacts);
   XCTAssertTrue([self grey_denySystemDialogWithError:nil]);
+  XCTAssertTrue([self grey_waitForAlertVisibility:NO withTimeout:1]);
   [[EarlGrey selectElementWithMatcher:grey_text(@"Denied")]
       assertWithMatcher:grey_sufficientlyVisible()];
   [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"Alert Handled?")]
@@ -109,6 +112,7 @@
       performAction:grey_tap()];
   XCTAssertTrue([self grey_acceptSystemDialogWithError:nil]);
   XCTAssertTrue([self grey_denySystemDialogWithError:nil]);
+  XCTAssertTrue([self grey_waitForAlertVisibility:NO withTimeout:1]);
   // The App Alert will be dismissed by the default UIInterruption Handler. However, the
   // direct calls for dismissal guarantee the order in which the dismissal is done.
   [[EarlGrey selectElementWithMatcher:grey_text(@"OK")] performAction:grey_tap()];
@@ -122,6 +126,7 @@
       performAction:grey_tap()];
   XCTAssertEqual([self grey_systemAlertType], GREYSystemAlertTypeMotionActivity);
   XCTAssertTrue([self grey_tapSystemDialogButtonWithText:@"OK" error:nil]);
+  XCTAssertTrue([self grey_waitForAlertVisibility:NO withTimeout:1]);
 }
 
 /**
@@ -136,6 +141,7 @@
   XCTAssertEqualObjects(error.domain, kGREYSystemAlertDismissalErrorDomain);
   XCTAssertEqual(error.code, GREYSystemAlertCustomButtonNotFound);
   XCTAssertTrue([self grey_tapSystemDialogButtonWithText:@"Don’t Allow" error:nil]);
+  XCTAssertTrue([self grey_waitForAlertVisibility:NO withTimeout:1]);
   [[EarlGrey selectElementWithMatcher:grey_text(@"Alert Handled?")] performAction:grey_tap()];
 }
 
