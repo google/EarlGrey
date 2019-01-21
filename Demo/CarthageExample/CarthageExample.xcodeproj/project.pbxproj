@@ -13,6 +13,9 @@
 		F94FA28921F63A8700CEBBB8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F94FA28821F63A8700CEBBB8 /* Assets.xcassets */; };
 		F94FA28C21F63A8700CEBBB8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F94FA28A21F63A8700CEBBB8 /* LaunchScreen.storyboard */; };
 		F94FA29721F63A8700CEBBB8 /* CarthageExampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F94FA29621F63A8700CEBBB8 /* CarthageExampleUITests.swift */; };
+		F94FA2C621F6401500CEBBB8 /* libTestLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F94FA2C421F63FF400CEBBB8 /* libTestLib.a */; };
+		F94FA2C821F6414600CEBBB8 /* AppFramework.framework in EarlGrey 2 */ = {isa = PBXBuildFile; fileRef = F94FA2C221F63FF400CEBBB8 /* AppFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		F94FA2CA21F6419000CEBBB8 /* EarlGrey.swift in Sources */ = {isa = PBXBuildFile; fileRef = F94FA2C921F6419000CEBBB8 /* EarlGrey.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -23,7 +26,49 @@
 			remoteGlobalIDString = F94FA27D21F63A8500CEBBB8;
 			remoteInfo = CarthageExample;
 		};
+		F94FA2BD21F63FF400CEBBB8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F94FA2B521F63FF400CEBBB8 /* EarlGrey.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = FD62395120F56A9700049E81;
+			remoteInfo = CommonLib;
+		};
+		F94FA2BF21F63FF400CEBBB8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F94FA2B521F63FF400CEBBB8 /* EarlGrey.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = FDF9E03520F82D090005DCF2;
+			remoteInfo = UILib;
+		};
+		F94FA2C121F63FF400CEBBB8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F94FA2B521F63FF400CEBBB8 /* EarlGrey.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = FD623A4920F957BE00049E81;
+			remoteInfo = AppFramework;
+		};
+		F94FA2C321F63FF400CEBBB8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F94FA2B521F63FF400CEBBB8 /* EarlGrey.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = FD5048F820FB225100261CBE;
+			remoteInfo = TestLib;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F94FA2C721F6411E00CEBBB8 /* EarlGrey 2 */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(TARGET_BUILD_DIR)/../../CarthageExample.app/Frameworks";
+			dstSubfolderSpec = 0;
+			files = (
+				F94FA2C821F6414600CEBBB8 /* AppFramework.framework in EarlGrey 2 */,
+			);
+			name = "EarlGrey 2";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		F94FA27E21F63A8500CEBBB8 /* CarthageExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CarthageExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -36,6 +81,9 @@
 		F94FA29221F63A8700CEBBB8 /* CarthageExampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CarthageExampleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F94FA29621F63A8700CEBBB8 /* CarthageExampleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarthageExampleUITests.swift; sourceTree = "<group>"; };
 		F94FA29821F63A8700CEBBB8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F94FA2B521F63FF400CEBBB8 /* EarlGrey.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = EarlGrey.xcodeproj; path = Carthage/Checkouts/EarlGrey/EarlGrey.xcodeproj; sourceTree = "<group>"; };
+		F94FA2C921F6419000CEBBB8 /* EarlGrey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarlGrey.swift; sourceTree = "<group>"; };
+		F94FA2CB21F6421100CEBBB8 /* bridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bridge.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,6 +98,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F94FA2C621F6401500CEBBB8 /* libTestLib.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,9 +108,11 @@
 		F94FA27521F63A8500CEBBB8 = {
 			isa = PBXGroup;
 			children = (
+				F94FA2B521F63FF400CEBBB8 /* EarlGrey.xcodeproj */,
 				F94FA28021F63A8500CEBBB8 /* CarthageExample */,
 				F94FA29521F63A8700CEBBB8 /* CarthageExampleUITests */,
 				F94FA27F21F63A8500CEBBB8 /* Products */,
+				F94FA2C521F6401500CEBBB8 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -92,8 +143,28 @@
 			children = (
 				F94FA29621F63A8700CEBBB8 /* CarthageExampleUITests.swift */,
 				F94FA29821F63A8700CEBBB8 /* Info.plist */,
+				F94FA2C921F6419000CEBBB8 /* EarlGrey.swift */,
+				F94FA2CB21F6421100CEBBB8 /* bridge.h */,
 			);
 			path = CarthageExampleUITests;
+			sourceTree = "<group>";
+		};
+		F94FA2B621F63FF400CEBBB8 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F94FA2BE21F63FF400CEBBB8 /* libCommonLib.a */,
+				F94FA2C021F63FF400CEBBB8 /* libUILib.a */,
+				F94FA2C221F63FF400CEBBB8 /* AppFramework.framework */,
+				F94FA2C421F63FF400CEBBB8 /* libTestLib.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F94FA2C521F6401500CEBBB8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -123,6 +194,7 @@
 				F94FA28E21F63A8700CEBBB8 /* Sources */,
 				F94FA28F21F63A8700CEBBB8 /* Frameworks */,
 				F94FA29021F63A8700CEBBB8 /* Resources */,
+				F94FA2C721F6411E00CEBBB8 /* EarlGrey 2 */,
 			);
 			buildRules = (
 			);
@@ -164,6 +236,12 @@
 			mainGroup = F94FA27521F63A8500CEBBB8;
 			productRefGroup = F94FA27F21F63A8500CEBBB8 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = F94FA2B621F63FF400CEBBB8 /* Products */;
+					ProjectRef = F94FA2B521F63FF400CEBBB8 /* EarlGrey.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				F94FA27D21F63A8500CEBBB8 /* CarthageExample */,
@@ -171,6 +249,37 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		F94FA2BE21F63FF400CEBBB8 /* libCommonLib.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libCommonLib.a;
+			remoteRef = F94FA2BD21F63FF400CEBBB8 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F94FA2C021F63FF400CEBBB8 /* libUILib.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libUILib.a;
+			remoteRef = F94FA2BF21F63FF400CEBBB8 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F94FA2C221F63FF400CEBBB8 /* AppFramework.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = AppFramework.framework;
+			remoteRef = F94FA2C121F63FF400CEBBB8 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F94FA2C421F63FF400CEBBB8 /* libTestLib.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libTestLib.a;
+			remoteRef = F94FA2C321F63FF400CEBBB8 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		F94FA27C21F63A8500CEBBB8 /* Resources */ = {
@@ -206,6 +315,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F94FA2CA21F6419000CEBBB8 /* EarlGrey.swift in Sources */,
 				F94FA29721F63A8700CEBBB8 /* CarthageExampleUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -365,6 +475,7 @@
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = example.CarthageExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -382,6 +493,7 @@
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = example.CarthageExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -401,11 +513,14 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = example.CarthageExampleUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(TARGET_NAME)/bridge.h";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = CarthageExample;
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/Carthage/Checkouts/EarlGrey/**";
 			};
 			name = Debug;
 		};
@@ -420,11 +535,14 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = example.CarthageExampleUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(TARGET_NAME)/bridge.h";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = CarthageExample;
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/Carthage/Checkouts/EarlGrey/**";
 			};
 			name = Release;
 		};

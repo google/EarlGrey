@@ -7,7 +7,47 @@ Install carthage via [brew install carthage](https://github.com/Carthage/Carthag
 # Usage
 
 - `carthage update --no-build` Download EarlGrey source via Carthage
+- Follow the setup guide https://github.com/google/EarlGrey/blob/earlgrey2/docs/setup.md
+  - Drag `Carthage/Checkouts/EarlGrey/EarlGrey.xcodeproj` into the `CarthageExample` project in Xcode.
+  - In the `Build Phases` of your test target, add `libTestLib.a` to `Link Binary With Libraries`
+  - In `Build Settings` of your test target, add `-ObjC `to `Other Linker Flags`
+  - Update `User Header Search Paths` to include:
+    - `$(SRCROOT)/Carthage/Checkouts/EarlGrey` with `recursive` selected
+  - In the `Build Phases` of your test target, add `New Copy Files Phase`
+    - Destination: `Absolute Path`
+    - Path: `$(TARGET_BUILD_DIR)/../../<YOUR_APPLICATION_TARGET_NAME.app>/Frameworks`
+    - Uncheck `Copy only when installing`
+    - Click on the (+) in the bottom and add `AppFramework.framework`. Select `Code Sign On Copy`
+  - For Swift support, add [EarlGrey.swift](https://github.com/google/EarlGrey/blob/earlgrey2/TestLib/Swift/EarlGrey.swift) to the project
+    - Add `bridge.h` to your test target. Update `Build Settings` `Objective-C Bridging Header` to `$(TARGET_NAME)/bridge.h`
+```objc
+// bridge.h
+#import "AppFramework/Action/GREYAction.h"
+#import "AppFramework/Action/GREYActionBlock.h"
+#import "AppFramework/Action/GREYActions.h"
+#import "AppFramework/Matcher/GREYElementMatcherBlock.h"
+#import "CommonLib/DistantObject/GREYHostApplicationDistantObject.h"
+#import "CommonLib/Matcher/GREYMatcher.h"
+#import "TestLib/AlertHandling/XCTestCase+GREYSystemAlertHandler.h"
+#import "TestLib/EarlGreyImpl/EarlGrey.h"
+```
+  -  Add `@loader_path/Frameworks` to your `Runpath Search Paths` for both the App and Test Component.
 
+# First test
+
+Write your first test in Swift
+
+```swift
+class MyFirstEarlGreyTest: XCTestCase {
+
+  func testExample() {
+    let application: XCUIApplication = XCUIApplication()
+    application.launch()
+    EarlGrey.selectElement(with: grey_keyWindow())
+      .perform(grey_tap())
+  }
+}
+```
 
 # Cartfile
 
