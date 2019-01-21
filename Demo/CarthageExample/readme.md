@@ -4,6 +4,11 @@
 
 Install carthage via [brew install carthage](https://github.com/Carthage/Carthage#installing-carthage) or one of the other supported [installation methods.](https://github.com/Carthage/Carthage#installing-carthage)
 
+# Usage
+
+- `carthage update --no-build` Download EarlGrey source via Carthage
+
+
 # Cartfile
 
 Create a file called [Cartfile.private](https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md) and add the EarlGrey dependency.
@@ -19,7 +24,8 @@ Run `carthage update` to update and build the dependencies. The build products w
 
 # Known Issues
 
-Currently only `AppFramework.framework` is built when building via Carthage.
+Currently only `AppFramework.framework` is built when building via Carthage. As a work around, EarlGrey is included from source.
+In the future when EarlGrey 2 is shipped as a framework, Carthage will support building EarlGrey.
 
 Missing:
 
@@ -33,4 +39,3 @@ Missing:
 
 - `carthage build --no-skip-current` Run from repo root. Otherwise you'll see the error `has no shared framework schemes`
 - `xcodebuild -scheme SCHEME -workspace WORKSPACE build or xcodebuild -scheme SCHEME -project PROJECT build`
-
