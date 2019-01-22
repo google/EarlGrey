@@ -58,6 +58,10 @@
                              @"NSObject::performSelector:withObject:afterDelay:inModes");
 }
 
+- (NSString *)grey_stateTrackerDescription {
+  return [NSString stringWithFormat:@"%@: %p", NSStringFromClass([self class]), self];
+}
+
 - (NSString *)grey_recursiveDescription {
   if ([self grey_isWebAccessibilityElement]) {
     return [GREYElementHierarchy hierarchyStringForElement:[self grey_viewContainingSelf]];

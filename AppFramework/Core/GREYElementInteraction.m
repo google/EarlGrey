@@ -18,7 +18,6 @@
 
 #import "AppFramework/Action/GREYAction.h"
 #import "AppFramework/Additions/NSObject+GREYApp.h"
-#import "AppFramework/Assertion/GREYAssertion.h"
 #import "AppFramework/Assertion/GREYAssertions.h"
 #import "AppFramework/Core/GREYElementFinder.h"
 #import "AppFramework/Core/GREYElementInteraction+Internal.h"
@@ -28,6 +27,7 @@
 #import "AppFramework/Synchronization/GREYSyncAPI.h"
 #import "AppFramework/Synchronization/GREYUIThreadExecutor.h"
 #import "CommonLib/Additions/NSObject+GREYCommon.h"
+#import "CommonLib/Assertion/GREYAssertion.h"
 #import "CommonLib/Assertion/GREYFatalAsserts.h"
 #import "CommonLib/Assertion/GREYThrowDefines.h"
 #import "CommonLib/Config/GREYConfiguration.h"
@@ -193,8 +193,8 @@
   } else if (executorError && numSearchIterations <= 0) {
     // Errors during the synchronization before the match happens.
     // TODO: Add test coverage for this error. // NOLINT
-    NSString *actionTimeoutDesc = [NSString
-        stringWithFormat:@"Failed to wait the app to be idle within %g seconds.", timeout];
+    NSString *actionTimeoutDesc =
+        [NSString stringWithFormat:@"App not idle within %g seconds.", timeout];
     error = GREYNestedErrorMake(kGREYInteractionErrorDomain, kGREYInteractionTimeoutErrorCode,
                                 actionTimeoutDesc, executorError);
   } else if (searchActionError) {
@@ -204,10 +204,9 @@
   } else if (executorError || isSearchTimedOut) {
     CFTimeInterval interactionTimeout =
         GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
-    NSString *desc = [NSString stringWithFormat:
-                                   @"Interaction timed out after %g seconds while "
-                                   @"searching for element.",
-                                   interactionTimeout];
+    NSString *desc = [NSString stringWithFormat:@"Interaction timed out after %g seconds while "
+                                                @"searching for element.",
+                                                interactionTimeout];
 
     NSError *timeoutError =
         GREYErrorMake(kGREYInteractionErrorDomain, kGREYInteractionTimeoutErrorCode, desc);
@@ -243,8 +242,6 @@
 }
 
 - (instancetype)performAction:(id<GREYAction>)action error:(NSError **)error {
-  GREYThrowOnNilParameterWithMessage(action, @"action can't be nil.");
-
   GREYLogVerbose(@"--Action started--");
   GREYLogVerbose(@"Action to perform: %@", [action name]);
 
@@ -337,8 +334,6 @@
 }
 
 - (instancetype)assert:(id<GREYAssertion>)assertion error:(NSError **)error {
-  GREYThrowOnNilParameterWithMessage(assertion, @"assertion can't be nil.");
-
   GREYLogVerbose(@"--Assertion started--");
   GREYLogVerbose(@"Assertion to perform: %@", [assertion name]);
 
@@ -352,98 +347,99 @@
     CGFloat interactionTimeout =
         (CGFloat)GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
     BOOL synchronizationRequired = GREY_CONFIG_BOOL(kGREYConfigKeySynchronizationEnabled);
-    [self
-        matchElementsWithTimeout:interactionTimeout
-                 syncBeforeMatch:synchronizationRequired
-                      matchBlock:^(NSArray *matchedElements, NSError *error) {
-                        // An error object that holds error due to element not found (if any). It is
-                        // used only when an assertion fails because element was nil. That's when we
-                        // surface this
-                        NSError *elementNotFoundError = error;
+    [self matchElementsWithTimeout:interactionTimeout
+                   syncBeforeMatch:synchronizationRequired
+                        matchBlock:^(NSArray *matchedElements, NSError *error) {
+                          // An error object that holds error due to element not found (if any). It
+                          // is used only when an assertion fails because element was nil. That's
+                          // when we surface this
+                          NSError *elementNotFoundError = error;
 
-                        // Failure to find elements due to synchronization and report it as an
-                        // error.
-                        if (elementNotFoundError.domain == kGREYInteractionErrorDomain &&
-                            elementNotFoundError.code == kGREYInteractionTimeoutErrorCode) {
-                          assertionError = elementNotFoundError;
-                        } else {
-                          id element =
-                              (matchedElements.count != 0)
-                                  ? [self grey_uniqueElementInMatchedElements:matchedElements
-                                                                     andError:&assertionError]
-                                  : nil;
+                          // Failure to find elements due to synchronization and report it as an
+                          // error.
+                          if (elementNotFoundError.domain == kGREYInteractionErrorDomain &&
+                              elementNotFoundError.code == kGREYInteractionTimeoutErrorCode) {
+                            assertionError = elementNotFoundError;
+                          } else {
+                            id element =
+                                (matchedElements.count != 0)
+                                    ? [self grey_uniqueElementInMatchedElements:matchedElements
+                                                                       andError:&assertionError]
+                                    : nil;
 
-                          // Create the user info dictionary for any notificatons and set it up with
-                          // the assertion.
-                          NSMutableDictionary *assertionUserInfo =
-                              [[NSMutableDictionary alloc] init];
-                          [assertionUserInfo setObject:assertion forKey:kGREYAssertionUserInfoKey];
+                            // Create the user info dictionary for any notificatons and set it up
+                            // with the assertion.
+                            NSMutableDictionary *assertionUserInfo =
+                                [[NSMutableDictionary alloc] init];
+                            [assertionUserInfo setObject:assertion
+                                                  forKey:kGREYAssertionUserInfoKey];
 
-                          // Post notification for the assertion to be checked on the found element.
-                          // We send the notification for an assert even if no element was found.
-                          BOOL multipleMatchesPresent = NO;
-                          if (element) {
-                            [assertionUserInfo setObject:element
-                                                  forKey:kGREYAssertionElementUserInfoKey];
-                          } else if (assertionError) {
-                            // Check for multiple matchers since we don't want the assertion to be
-                            // checked when this error surfaces.
-                            multipleMatchesPresent =
-                                (assertionError.code ==
-                                     kGREYInteractionMultipleElementsMatchedErrorCode ||
-                                 assertionError.code ==
-                                     kGREYInteractionMatchedElementIndexOutOfBoundsErrorCode);
-                            [assertionUserInfo setObject:assertionError
-                                                  forKey:kGREYAssertionErrorUserInfoKey];
-                          }
-                          [defaultNotificationCenter
-                              postNotificationName:kGREYWillPerformAssertionNotification
-                                            object:nil
-                                          userInfo:assertionUserInfo];
-                          GREYLogVerbose(
-                              @"Performing assertion: %@\n with matcher: %@\n with root matcher: "
-                              @"%@",
-                              [assertion name], self -> _elementMatcher, self -> _rootMatcher);
-
-                          // In the case of an assertion, we can have a nil element present as well.
-                          // For this purpose, we check the assertion directly and see if there was
-                          // any issue. The only case where we are completely sure we do not need to
-                          // perform the action is in the case of a multiple matcher.
-                          if (!multipleMatchesPresent) {
-                            __block BOOL assertionSucceeded = NO;
-                            assertionSucceeded = [assertion assert:element error:&assertionError];
-                            if (!assertionSucceeded) {
-                              // Set the elementNotFoundError to the assertionError since the error
-                              // has been utilized already.
-                              if ([assertionError.domain
-                                      isEqualToString:kGREYInteractionErrorDomain] &&
+                            // Post notification for the assertion to be checked on the found
+                            // element. We send the notification for an assert even if no element
+                            // was found.
+                            BOOL multipleMatchesPresent = NO;
+                            if (element) {
+                              [assertionUserInfo setObject:element
+                                                    forKey:kGREYAssertionElementUserInfoKey];
+                            } else if (assertionError) {
+                              // Check for multiple matchers since we don't want the assertion to be
+                              // checked when this error surfaces.
+                              multipleMatchesPresent =
                                   (assertionError.code ==
-                                   kGREYInteractionElementNotFoundErrorCode)) {
-                                assertionError = elementNotFoundError;
-                              }
-                              // Assertion didn't succeed yet no error was set.
-                              if (!assertionError) {
-                                assertionError = GREYErrorMake(
-                                    kGREYInteractionErrorDomain,
-                                    kGREYInteractionAssertionFailedErrorCode,
-                                    @"Reason for assertion failure was not provided.");
-                              }
-                              // Add the error obtained from the action to the user info
-                              // notification dictionary.
+                                       kGREYInteractionMultipleElementsMatchedErrorCode ||
+                                   assertionError.code ==
+                                       kGREYInteractionMatchedElementIndexOutOfBoundsErrorCode);
                               [assertionUserInfo setObject:assertionError
                                                     forKey:kGREYAssertionErrorUserInfoKey];
                             }
-                          }
+                            [defaultNotificationCenter
+                                postNotificationName:kGREYWillPerformAssertionNotification
+                                              object:nil
+                                            userInfo:assertionUserInfo];
+                            GREYLogVerbose(
+                                @"Performing assertion: %@\n with matcher: %@\n with root matcher: "
+                                @"%@",
+                                [assertion name], self -> _elementMatcher, self -> _rootMatcher);
 
-                          // Post notification for the process of an assertion's execution on the
-                          // specified element being completed. This notification does not mean that
-                          // the assertion was performed successfully.
-                          [defaultNotificationCenter
-                              postNotificationName:kGREYDidPerformAssertionNotification
-                                            object:nil
-                                          userInfo:assertionUserInfo];
-                        }
-                      }];
+                            // In the case of an assertion, we can have a nil element present as
+                            // well. For this purpose, we check the assertion directly and see if
+                            // there was any issue. The only case where we are completely sure we do
+                            // not need to perform the action is in the case of a multiple matcher.
+                            if (!multipleMatchesPresent) {
+                              __block BOOL assertionSucceeded = NO;
+                              assertionSucceeded = [assertion assert:element error:&assertionError];
+                              if (!assertionSucceeded) {
+                                // Set the elementNotFoundError to the assertionError since the
+                                // error has been utilized already.
+                                if ([assertionError.domain
+                                        isEqualToString:kGREYInteractionErrorDomain] &&
+                                    (assertionError.code ==
+                                     kGREYInteractionElementNotFoundErrorCode)) {
+                                  assertionError = elementNotFoundError;
+                                }
+                                // Assertion didn't succeed yet no error was set.
+                                if (!assertionError) {
+                                  assertionError = GREYErrorMake(
+                                      kGREYInteractionErrorDomain,
+                                      kGREYInteractionAssertionFailedErrorCode,
+                                      @"Reason for assertion failure was not provided.");
+                                }
+                                // Add the error obtained from the action to the user info
+                                // notification dictionary.
+                                [assertionUserInfo setObject:assertionError
+                                                      forKey:kGREYAssertionErrorUserInfoKey];
+                              }
+                            }
+
+                            // Post notification for the process of an assertion's execution on the
+                            // specified element being completed. This notification does not mean
+                            // that the assertion was performed successfully.
+                            [defaultNotificationCenter
+                                postNotificationName:kGREYDidPerformAssertionNotification
+                                              object:nil
+                                            userInfo:assertionUserInfo];
+                          }
+                        }];
   }
   [stopwatch stop];
 
@@ -473,9 +469,6 @@
 
 - (instancetype)usingSearchAction:(id<GREYAction>)action
              onElementWithMatcher:(id<GREYMatcher>)matcher {
-  GREYThrowOnNilParameter(action);
-  GREYThrowOnNilParameter(matcher);
-
   _searchActionElementMatcher = matcher;
   _searchAction = action;
   return self;
@@ -559,10 +552,9 @@
                                                               indent:kGREYObjectFormatIndent
                                                            hideEmpty:YES
                                                             keyOrder:keyOrder];
-      reason = [NSString stringWithFormat:
-                             @"Matching element timed out.\n"
-                             @"Exception with Action: %@\n",
-                             reasonDetail];
+      reason = [NSString stringWithFormat:@"Matching element timed out.\n"
+                                          @"Exception with Action: %@\n",
+                                          reasonDetail];
     } else if (([errorDomain isEqualToString:kGREYUIThreadExecutorErrorDomain]) &&
                (errorCode == kGREYUIThreadExecutorTimeoutErrorCode)) {
       errorDetails[kErrorDetailActionNameKey] = action.name;
@@ -573,10 +565,9 @@
                                                               indent:kGREYObjectFormatIndent
                                                            hideEmpty:YES
                                                             keyOrder:keyOrder];
-      reason = [NSString stringWithFormat:
-                             @"Timed out while waiting to perform action.\n"
-                             @"Exception with Action: %@\n",
-                             reasonDetail];
+      reason = [NSString stringWithFormat:@"Timed out while waiting to perform action.\n"
+                                          @"Exception with Action: %@\n",
+                                          reasonDetail];
 
       if ([actionError isKindOfClass:[GREYError class]]) {
         [(GREYError *)actionError setErrorInfo:errorDetails];
@@ -605,10 +596,9 @@
                                                                 indent:kGREYObjectFormatIndent
                                                              hideEmpty:YES
                                                               keyOrder:keyOrder];
-        reason = [NSString stringWithFormat:
-                               @"Cannot find UI element.\n"
-                               @"Exception with Action: %@\n",
-                               reasonDetail];
+        reason = [NSString stringWithFormat:@"Cannot find UI element.\n"
+                                            @"Exception with Action: %@\n",
+                                            reasonDetail];
 
         if ([actionError isKindOfClass:[GREYError class]]) {
           [(GREYError *)actionError setErrorInfo:errorDetails];
@@ -635,11 +625,10 @@
                                                                 indent:kGREYObjectFormatIndent
                                                              hideEmpty:YES
                                                               keyOrder:keyOrder];
-        reason = [NSString stringWithFormat:
-                               @"Multiple UI elements matched "
-                               @"for the given criteria.\n"
-                               @"Exception with Action: %@\n",
-                               reasonDetail];
+        reason = [NSString stringWithFormat:@"Multiple UI elements matched "
+                                            @"for the given criteria.\n"
+                                            @"Exception with Action: %@\n",
+                                            reasonDetail];
 
         if ([actionError isKindOfClass:[GREYError class]]) {
           [(GREYError *)actionError setErrorInfo:errorDetails];
@@ -658,11 +647,10 @@
                                                              hideEmpty:YES
                                                               keyOrder:keyOrder];
 
-        reason = [NSString stringWithFormat:
-                               @"Cannot perform action due to "
-                               @"constraint(s) failure.\n"
-                               @"Exception with Action: %@\n",
-                               reasonDetail];
+        reason = [NSString stringWithFormat:@"Cannot perform action due to "
+                                            @"constraint(s) failure.\n"
+                                            @"Exception with Action: %@\n",
+                                            reasonDetail];
         NSString *nestedError = [GREYError grey_nestedDescriptionForError:actionError];
         errorDetails[NSLocalizedFailureReasonErrorKey] = nestedError.description;
         break;
@@ -679,11 +667,10 @@
                                                             indent:kGREYObjectFormatIndent
                                                          hideEmpty:YES
                                                           keyOrder:keyOrder];
-    reason = [NSString stringWithFormat:
-                           @"An action failed. "
-                           @"Please refer to the error trace below.\n"
-                           @"Exception with Action: %@\n",
-                           reasonDetail];
+    reason = [NSString stringWithFormat:@"An action failed. "
+                                        @"Please refer to the error trace below.\n"
+                                        @"Exception with Action: %@\n",
+                                        reasonDetail];
   }
 
   // Throw an exception if the user did not provide an out error.
@@ -738,10 +725,9 @@
                                                               indent:kGREYObjectFormatIndent
                                                            hideEmpty:YES
                                                             keyOrder:keyOrder];
-      reason = [NSString stringWithFormat:
-                             @"Matching element timed out.\n"
-                             @"Exception with Assertion: %@\n",
-                             reasonDetail];
+      reason = [NSString stringWithFormat:@"Matching element timed out.\n"
+                                          @"Exception with Assertion: %@\n",
+                                          reasonDetail];
 
       if ([assertionError isKindOfClass:[GREYError class]]) {
         [(GREYError *)assertionError setErrorInfo:errorDetails];
@@ -756,10 +742,9 @@
                                                               indent:kGREYObjectFormatIndent
                                                            hideEmpty:YES
                                                             keyOrder:keyOrder];
-      reason = [NSString stringWithFormat:
-                             @"Timed out while waiting to perform assertion.\n"
-                             @"Exception with Assertion: %@\n",
-                             reasonDetail];
+      reason = [NSString stringWithFormat:@"Timed out while waiting to perform assertion.\n"
+                                          @"Exception with Assertion: %@\n",
+                                          reasonDetail];
 
       if ([assertionError isKindOfClass:[GREYError class]]) {
         [(GREYError *)assertionError setErrorInfo:errorDetails];
@@ -787,10 +772,9 @@
                                                                 indent:kGREYObjectFormatIndent
                                                              hideEmpty:YES
                                                               keyOrder:keyOrder];
-        reason = [NSString stringWithFormat:
-                               @"Cannot find UI Element.\n"
-                               @"Exception with Assertion: %@\n",
-                               reasonDetail];
+        reason = [NSString stringWithFormat:@"Cannot find UI Element.\n"
+                                            @"Exception with Assertion: %@\n",
+                                            reasonDetail];
 
         if ([assertionError isKindOfClass:[GREYError class]]) {
           [(GREYError *)assertionError setErrorInfo:errorDetails];
@@ -811,11 +795,10 @@
                                                                 indent:kGREYObjectFormatIndent
                                                              hideEmpty:YES
                                                               keyOrder:keyOrder];
-        reason = [NSString stringWithFormat:
-                               @"Multiple UI elements matched "
-                               @"for given criteria.\n"
-                               @"Exception with Assertion: %@\n",
-                               reasonDetail];
+        reason = [NSString stringWithFormat:@"Multiple UI elements matched "
+                                            @"for given criteria.\n"
+                                            @"Exception with Assertion: %@\n",
+                                            reasonDetail];
 
         if ([assertionError isKindOfClass:[GREYError class]]) {
           [(GREYError *)assertionError setErrorInfo:errorDetails];
@@ -837,10 +820,9 @@
                                                             indent:kGREYObjectFormatIndent
                                                          hideEmpty:YES
                                                           keyOrder:keyOrder];
-    reason = [NSString stringWithFormat:
-                           @"An assertion failed.\n"
-                           @"Exception with Assertion: %@\n",
-                           reasonDetail];
+    reason = [NSString stringWithFormat:@"An assertion failed.\n"
+                                        @"Exception with Assertion: %@\n",
+                                        reasonDetail];
   }
 
   NSDictionary *errorDict = @{
@@ -848,8 +830,9 @@
     NSLocalizedFailureReasonErrorKey : reason,
     kErrorDetailElementMatcherKey : _elementMatcher.description
   };
-  *error =
-      [NSError errorWithDomain:assertionError.domain code:assertionError.code userInfo:errorDict];
+  *error = [NSError errorWithDomain:assertionError.domain
+                               code:assertionError.code
+                           userInfo:errorDict];
   return NO;
 }
 
@@ -881,21 +864,20 @@
   if (outOfBounds) {
     // Populate with an error specifying that the index provided for matching the multiple elements
     // was out of bounds.
-    errorDescription = [NSString stringWithFormat:
-                                     @"Multiple elements were matched: %@ with an "
-                                     @"index that is out of bounds of the number of "
-                                     @"matched elements. Please use an element "
-                                     @"index from 0 to %tu",
-                                     elementDescriptions, ([elementDescriptions count] - 1)];
+    errorDescription =
+        [NSString stringWithFormat:@"Multiple elements were matched: %@ with an "
+                                   @"index that is out of bounds of the number of "
+                                   @"matched elements. Please use an element "
+                                   @"index from 0 to %tu",
+                                   elementDescriptions, ([elementDescriptions count] - 1)];
     errorCode = kGREYInteractionMatchedElementIndexOutOfBoundsErrorCode;
   } else {
     // Populate with an error specifying that multiple elements were matched without providing
     // an index.
-    errorDescription = [NSString stringWithFormat:
-                                     @"Multiple elements were matched: %@. Please "
-                                     @"use selection matchers to narrow the "
-                                     @"selection down to single element.",
-                                     elementDescriptions];
+    errorDescription = [NSString stringWithFormat:@"Multiple elements were matched: %@. Please "
+                                                  @"use selection matchers to narrow the "
+                                                  @"selection down to single element.",
+                                                  elementDescriptions];
     errorCode = kGREYInteractionMultipleElementsMatchedErrorCode;
   }
 

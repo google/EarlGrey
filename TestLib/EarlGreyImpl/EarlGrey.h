@@ -16,8 +16,11 @@
 
 #import <XCTest/XCTest.h>
 
+#import "AppFramework/Action/GREYAction.h"
+#import "AppFramework/Action/GREYActionsShorthand.h"
 #import "AppFramework/DistantObject/GREYHostBackgroundDistantObject+GREYApp.h"
 #import "AppFramework/Matcher/GREYMatchersShorthand.h"
+#import "CommonLib/Assertion/GREYAssertionBlock.h"
 #import "CommonLib/Config/GREYConfiguration.h"
 #import "CommonLib/DistantObject/GREYHostApplicationDistantObject.h"
 #import "CommonLib/DistantObject/GREYTestApplicationDistantObject.h"
@@ -25,8 +28,8 @@
 #import "CommonLib/Exceptions/GREYFailureHandler.h"
 #import "CommonLib/Exceptions/GREYFrameworkException.h"
 #import "CommonLib/GREYDefines.h"
+#import "CommonLib/Matcher/GREYElementMatcherBlock.h"
 #import "CommonLib/Matcher/GREYMatcher.h"
-#import "TestLib/Action/GREYActionsShorthand.h"
 #import "TestLib/AlertHandling/XCTestCase+GREYSystemAlertHandler.h"
 #import "TestLib/Assertion/GREYAssertionDefines.h"
 #import "TestLib/Condition/GREYCondition.h"
@@ -201,6 +204,14 @@ GREY_EXTERN NSString *const kGREYFailureHandlerKey;
  *          the operation fails, it will throw an exception.
  */
 - (BOOL)shakeDeviceWithError:(NSError **)errorOrNil;
+
+/**
+ *  Returns a @c BOOL that tells if the Keyboard is shown. This is not synchronous. Please ensure
+ *  that any changes
+ *
+ *  @param[out] errorOrNil Error that will be populated if the app does not idle in time.
+ */
+- (BOOL)isKeyboardShownWithError:(NSError **)errorOrNil;
 
 @end
 

@@ -44,8 +44,10 @@ GREY_EXPORT id<GREYFailureHandler> GREYGetFailureHandler(void);
   ({                                                                                             \
     id<GREYFailureHandler> failureHandler__ = GREYGetFailureHandler();                           \
     if ([failureHandler__ respondsToSelector:@selector(setInvocationFile:andInvocationLine:)]) { \
-      [failureHandler__ setInvocationFile:[NSString stringWithUTF8String:__FILE__]               \
-                        andInvocationLine:__LINE__];                                             \
+      NSString *invocationFile = [NSString stringWithUTF8String:__FILE__];                       \
+      if (invocationFile) {                                                                      \
+        [failureHandler__ setInvocationFile:invocationFile andInvocationLine:__LINE__];          \
+      }                                                                                          \
     }                                                                                            \
   })
 

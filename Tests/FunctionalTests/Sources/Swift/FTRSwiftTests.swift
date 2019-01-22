@@ -76,12 +76,21 @@ class FTRSwiftTests: XCTestCase {
 
   func testFastTyping() {
     openTestView(named: "Typing Views")
+#if swift(>=4.2)
+    let beginEditingRecorder = host.makeTextFieldNotificationRecorder(
+      for: UITextField.textDidBeginEditingNotification)
+    let didChangeRecorder = host.makeTextFieldNotificationRecorder(
+      for: UITextField.textDidChangeNotification)
+    let didEndEditingRecorder = host.makeTextFieldNotificationRecorder(
+      for: UITextField.textDidEndEditingNotification)
+#else
     let beginEditingRecorder = host.makeTextFieldNotificationRecorder(
       for: .UITextFieldTextDidBeginEditing)
     let didChangeRecorder = host.makeTextFieldNotificationRecorder(
       for: .UITextFieldTextDidChange)
     let didEndEditingRecorder = host.makeTextFieldNotificationRecorder(
       for: .UITextFieldTextDidEndEditing)
+#endif
     let editingDidBeginRecorderAction =
       host.makeTextFieldEditingEventRecorder(for: .editingDidBegin)
     let editingChangedRecorderAction =

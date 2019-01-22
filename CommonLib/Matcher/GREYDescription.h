@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  A protocol that defines the layout of an object that conforms to GREYMatcher.
  */
-@protocol GREYDescription <NSCoding, NSObject>
+@protocol GREYDescription <NSSecureCoding, NSObject>
 
 /**
  *  Appends the provided text to the GREYDescription.

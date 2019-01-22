@@ -58,10 +58,9 @@ static void (^gNoopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef 
                                                explicitRunLoopDrain:needToDrainRunLoop
                                                      checkCondition:stopConditionBlock];
   } else {
-    GREYFatalAssertWithMessage(needToDrainRunLoop,
-                               @"Minimum runloop drain should be at least one"
-                               @"if spinning from a background thread.");
-    stopConditionMet = [self grey_checkConditionInActiveMode:stopConditionBlock];
+    stopConditionMet =
+        [self grey_checkConditionInActiveModeWithExplicitRunLoopDrain:needToDrainRunLoop
+                                                   stopConditionBlock:stopConditionBlock];
   }
 
   CFTimeInterval remainingTime = [self grey_secondsUntilTime:timeoutTime];
@@ -300,18 +299,26 @@ static void (^gNoopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef 
  *  Checks the stop condition block in the active mode and invokes the condition met handler in the
  *  active mode if it was evaluated to @c YES.
  *
- *  @param stopConditionBlock The condition block that should be evaluated in the active mode.
+ *  If this is called from the main thread, it will drain the runloop so it can handle the block in
+ *  the active mode; if it is from a background thread, it will attempt to schedule the block, wake
+ *  up the main run loop to execute it and exit.
+ *
+ *  @param explicitRunLoopDrain Whether to drain the main loop explicitly.
+ *  @param stopConditionBlock   The condition block that should be evaluated in the active mode.
  *
  *  @return @c YES if the stop condition block evaluated to @YES; @c NO otherwise.
  */
-- (BOOL)grey_checkConditionInActiveMode:(BOOL (^)(void))stopConditionBlock {
-  GREYFatalAssertMainThread();
-
+- (BOOL)grey_checkConditionInActiveModeWithExplicitRunLoopDrain:(BOOL)explicitRunLoopDrain
+                                             stopConditionBlock:(BOOL (^)(void))stopConditionBlock {
   __block BOOL conditionMet = NO;
   __weak __typeof__(self) weakSelf = self;
 
+  dispatch_semaphore_t stopCondition;
+  if (!explicitRunLoopDrain) {
+    stopCondition = dispatch_semaphore_create(0L);
+  }
   NSString *activeMode = [self grey_activeRunLoopMode];
-  CFRunLoopPerformBlock(CFRunLoopGetCurrent(), (CFStringRef)activeMode, ^{
+  CFRunLoopPerformBlock(CFRunLoopGetMain(), (CFStringRef)activeMode, ^{
     __typeof__(self) strongSelf = weakSelf;
     GREYFatalAssertWithMessage(strongSelf, @"The spinner should not have been deallocated.");
 
@@ -322,10 +329,20 @@ static void (^gNoopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef 
       }
       conditionMet = YES;
     }
+    if (!explicitRunLoopDrain) {
+      dispatch_semaphore_signal(stopCondition);
+    }
   });
-  // Handles at most one souce in the active mode. All enqueued blocks are serviced before any
-  // sources are serviced.
-  CFRunLoopRunInMode((CFStringRef)activeMode, 0, true);
+
+  if (explicitRunLoopDrain) {
+    // Handles at most one source in the active mode. All enqueued blocks are served before any
+    // sources are served.
+    CFRunLoopRunInMode((CFStringRef)activeMode, 0, true);
+  } else {
+    // Wake up the main runloop in the case of that it is already in the sleep state.
+    CFRunLoopWakeUp(CFRunLoopGetMain());
+    dispatch_semaphore_wait(stopCondition, DISPATCH_TIME_FOREVER);
+  }
 
   return conditionMet;
 }

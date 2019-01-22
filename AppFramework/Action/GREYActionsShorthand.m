@@ -14,7 +14,9 @@
 // limitations under the License.
 //
 
-#import "TestLib/Action/GREYActionsShorthand.h"
+#import "AppFramework/Action/GREYActionsShorthand.h"
+
+#import "AppFramework/Action/GREYActions.h"
 
 #if !defined(GREY_DISABLE_SHORTHAND) || !(GREY_DISABLE_SHORTHAND)
 

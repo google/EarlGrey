@@ -26,6 +26,32 @@
 
 @implementation FTRBasicInteractionTest
 
+- (void)testIndependentAppSideAccessOfTestSideVariableWhenInsideTrackingInterval {
+  NSMutableArray *mutableArray = [[NSMutableArray alloc] init];
+  // Perform operation within the EarlGrey trackable interval.
+  [[GREYHostApplicationDistantObject sharedInstance] addToMutableArray:mutableArray afterTime:0.5];
+  [[EarlGrey selectElementWithMatcher:grey_keyWindow()] assertWithMatcher:grey_notNil()];
+  XCTAssertEqualObjects(mutableArray[0], @(1));
+}
+
+- (void)testIndependentAppSideAccessOfTestSideVariableWhenOutsideTrackingInterval {
+  NSMutableArray *mutableArray = [[NSMutableArray alloc] init];
+  NSTimeInterval waitTime = 3;
+  // Perform operation after the EarlGrey trackable interval.
+  [[GREYHostApplicationDistantObject sharedInstance] addToMutableArray:mutableArray
+                                                             afterTime:waitTime];
+  // EarlGrey Statement doesn't care about the dispatch_after since it's after the trackable
+  // duration. The wait time here is insufficient for the dispatch_after to be called.
+  [[EarlGrey selectElementWithMatcher:grey_keyWindow()] assertWithMatcher:grey_notNil()];
+  // Sleeping on the test's main thread will not work, since as the thread is asleep, the array
+  // cannot be obtained. Hence the value isn't added.
+  [NSThread sleepForTimeInterval:waitTime];
+  XCTAssertEqual([mutableArray count], 0);
+  // Spinning the test's runloop here will ensure that the block is called.
+  CFRunLoopRunInMode(kCFRunLoopDefaultMode, 1, NO);
+  XCTAssertEqualObjects(mutableArray[0], @(1));
+}
+
 /**
  * Performs a long press on an accessibility element in the Basic Views.
  */
@@ -670,6 +696,17 @@
   [interaction includeStatusBar];
   [interaction assertWithMatcher:grey_notNil() error:&error];
   XCTAssertNil(error);
+}
+
+/**
+ * Checks an interaction with shorthand matchers created in the app side.
+ */
+- (void)testActionAndMatcherShorthandCreatedInTheApp {
+  id<GREYAction> tapAction =
+      [[GREYHostApplicationDistantObject sharedInstance] sampleShorthandAction];
+  id<GREYMatcher> keyWindowMatcher =
+      [[GREYHostApplicationDistantObject sharedInstance] sampleShorthandMatcher];
+  [[EarlGrey selectElementWithMatcher:keyWindowMatcher] performAction:tapAction];
 }
 
 @end

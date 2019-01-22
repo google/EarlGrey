@@ -29,12 +29,12 @@
 #import "AppFramework/Action/GREYActions.h"
 
 // Assertion Headers
-#import "AppFramework/Assertion/GREYAssertionBlock.h"
 #import "AppFramework/Assertion/GREYAssertions.h"
+#import "CommonLib/Assertion/GREYAssertionBlock.h"
 
 // Matcher Headers.
-#import "AppFramework/Matcher/GREYElementMatcherBlock.h"
 #import "AppFramework/Matcher/GREYMatchers.h"
+#import "CommonLib/Matcher/GREYElementMatcherBlock.h"
 
 // Synchronization Headers.
 #import "AppFramework/Synchronization/GREYSyncAPI.h"
