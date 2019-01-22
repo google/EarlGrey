@@ -18,11 +18,8 @@
 
 @interface AlertViewController ()
 
-#if !defined(__IPHONE_9_0) || (__IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_9_0)
-@property(strong, nonatomic) UIAlertView *alertView;
-#else
 @property(strong, nonatomic) UIAlertController *alertController;
-#endif
+
 @end
 
 @implementation AlertViewController
@@ -35,26 +32,12 @@
 - (void)viewWillDisappear:(BOOL)animated {
   [super viewWillDisappear:animated];
 
-#if !defined(__IPHONE_9_0) || (__IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_9_0)
-  if (self.alertView) {
-    [self.alertView dismissWithClickedButtonIndex:[self.alertView cancelButtonIndex] animated:NO];
-  }
-#else
   if (self.alertController) {
     [self.alertController dismissViewControllerAnimated:NO completion:nil];
   }
-#endif
 }
 
 - (IBAction)showSimpleAlert:(id)sender {
-#if !defined(__IPHONE_9_0) || (__IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_9_0)
-  self.alertView = [[UIAlertView alloc] initWithTitle:@"Alert!"
-                                              message:@"Danger Will Robinson!"
-                                             delegate:nil
-                                    cancelButtonTitle:@"Flee"
-                                    otherButtonTitles:nil];
-  [self.alertView show];
-#else
   self.alertController = [UIAlertController alertControllerWithTitle:@"Alert!"
                                                              message:@"Danger Will Robinson!"
                                                       preferredStyle:UIAlertControllerStyleAlert];
@@ -62,18 +45,9 @@
       [UIAlertAction actionWithTitle:@"Flee" style:UIAlertActionStyleCancel handler:nil];
   [self.alertController addAction:cancelAction];
   [self presentViewController:self.alertController animated:YES completion:nil];
-#endif
 }
 
 - (IBAction)showMultiOptionAlert:(id)sender {
-#if !defined(__IPHONE_9_0) || (__IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_9_0)
-  self.alertView = [[UIAlertView alloc] initWithTitle:@"Alert!"
-                                              message:@"Danger Will Robinson!"
-                                             delegate:self
-                                    cancelButtonTitle:@"Flee"
-                                    otherButtonTitles:@"Use Phaser", @"Use Slingshot", nil];
-  [self.alertView show];
-#else
   self.alertController = [UIAlertController alertControllerWithTitle:@"Alert!"
                                                              message:@"Danger Will Robinson!"
                                                       preferredStyle:UIAlertControllerStyleAlert];
@@ -94,19 +68,9 @@
   [self.alertController addAction:cancelAction];
 
   [self presentViewController:self.alertController animated:YES completion:nil];
-#endif
 }
 
 - (IBAction)showStyledAlert:(id)sender {
-#if !defined(__IPHONE_9_0) || (__IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_9_0)
-  self.alertView = [[UIAlertView alloc] initWithTitle:@"Styled alert!"
-                                              message:@"Who are you?"
-                                             delegate:self
-                                    cancelButtonTitle:@"Cancel"
-                                    otherButtonTitles:@"Leave", nil];
-  self.alertView.alertViewStyle = UIAlertViewStyleLoginAndPasswordInput;
-  [self.alertView show];
-#else
   self.alertController = [UIAlertController alertControllerWithTitle:@"Styled alert!"
                                                              message:@"Who are you?"
                                                       preferredStyle:UIAlertControllerStyleAlert];
@@ -131,26 +95,8 @@
   [self.alertController addAction:cancelAction];
 
   [self presentViewController:self.alertController animated:YES completion:nil];
-#endif
 }
 
-#if !defined(__IPHONE_9_0) || (__IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_9_0)
-- (void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
-  if (![alertView.title isEqualToString:@"Styled alert!"]) {
-    if (buttonIndex == 1) {
-      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Danger!"
-                                                      message:@"*zap*"
-                                                     delegate:nil
-                                            cancelButtonTitle:@"Roger"
-                                            otherButtonTitles:nil];
-      [alert show];
-    }
-    if (buttonIndex == 2) {
-      // Do nothing, let the alert view close.
-    }
-  }
-}
-#else
 - (UIAlertController *)chainedViewController {
   UIAlertController *styledAlertController =
       [UIAlertController alertControllerWithTitle:@"Danger!"
@@ -161,6 +107,5 @@
   [styledAlertController addAction:cancelAction];
   return styledAlertController;
 }
-#endif
 
 @end

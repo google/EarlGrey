@@ -15,7 +15,7 @@
 //
 
 #import <AVFoundation/AVFoundation.h>
-#import <AddressBook/AddressBook.h>
+#import <Contacts/Contacts.h>
 #import <CoreLocation/CoreLocation.h>
 #import <CoreMotion/CoreMotion.h>
 #import <EventKit/EventKit.h>
@@ -139,10 +139,11 @@
  *  title as Granted.
  */
 - (void)contactsAlertButtonPressed {
-  ABAddressBookRequestAccessWithCompletion(ABAddressBookCreateWithOptions(NULL, nil),
-                                           ^(bool granted, CFErrorRef error) {
-                                             [self updateAlertLabelForValue:granted];
-                                           });
+  CNContactStore *contactStore = [[CNContactStore alloc] init];
+  [contactStore requestAccessForEntityType:CNEntityTypeContacts
+                         completionHandler:^(BOOL granted, NSError *_Nullable error) {
+                           [self updateAlertLabelForValue:granted];
+                         }];
   [self.alertHandledButton setHidden:NO];
 }
 
@@ -160,12 +161,15 @@
                            completionHandler:^(BOOL granted) {
                              [self updateAlertLabelForValue:granted];
                            }];
-  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Sample"
-                                                  message:@"FooBar."
-                                                 delegate:self
-                                        cancelButtonTitle:@"OK"
-                                        otherButtonTitles:nil];
-  [alert show];
+  UIAlertController *alert =
+      [UIAlertController alertControllerWithTitle:@"Sample!"
+                                          message:@"FooBar"
+                                   preferredStyle:UIAlertControllerStyleAlert];
+  UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"OK"
+                                                         style:UIAlertActionStyleCancel
+                                                       handler:nil];
+  [alert addAction:cancelAction];
+  [self presentViewController:alert animated:YES completion:nil];
   [self.alertHandledButton setHidden:NO];
 }
 

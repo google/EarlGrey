@@ -16,13 +16,19 @@
 
 #import <UIKit/UIKit.h>
 
+/**
+ *  A UIView that detects if an event sent to it is a UITouchEvent.
+ */
+@interface TouchEventView : UIView
+@end
+
 @interface GestureViewController : UIViewController
 
 @property(retain, nonatomic) IBOutlet UILabel *detectedGesture;
 // For now, the value of this label is only set when the gesture recognized is a tap or swipe.
 @property(retain, nonatomic) IBOutlet UILabel *detectedGestureCoordinate;
 @property(retain, nonatomic) IBOutlet UILabel *detectedWindowGesture;
-@property(retain, nonatomic) IBOutlet UIView *greyBox;
+@property(retain, nonatomic) IBOutlet TouchEventView *greyBox;
 @property(retain, nonatomic) IBOutlet UIButton *resetButton;
 @property(retain, nonatomic) IBOutlet UILabel *counter;
 

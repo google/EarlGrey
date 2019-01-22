@@ -19,6 +19,7 @@
 #include <objc/runtime.h>
 #include <pthread.h>
 
+#import "AppFramework/Additions/NSObject+GREYApp.h"
 #import "AppFramework/Synchronization/GREYAppStateTrackerObject.h"
 #import "AppFramework/Synchronization/GREYObjectDeallocationTracker.h"
 #import "CommonLib/Assertion/GREYFatalAsserts.h"
@@ -245,10 +246,6 @@ static const unsigned short kNumGREYAppStates = 12;
   return retVal;
 }
 
-- (NSString *)grey_descriptionForObject:(id)object {
-  return [NSString stringWithFormat:@"%@:%p", NSStringFromClass([object class]), object];
-}
-
 - (GREYAppStateTrackerObject *)grey_changeState:(GREYAppState)state
                                  usingOperation:(GREYStateOperation)operation
                                       forObject:(id)object
@@ -340,7 +337,7 @@ static const unsigned short kNumGREYAppStates = 12;
         // strong association from internal to external object when we are untracking the object.
         appStateTrackerObjectExternal = [[GREYAppStateTrackerObject alloc]
             initWithDeallocationTracker:appStateTrackerObjectInternal];
-        appStateTrackerObjectExternal.objectDescription = [self grey_descriptionForObject:object];
+        appStateTrackerObjectExternal.objectDescription = [object grey_stateTrackerDescription];
       }
 
       // We need to update the state of the object being tracked or untracked.

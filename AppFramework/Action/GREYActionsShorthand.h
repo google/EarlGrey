@@ -16,10 +16,13 @@
 
 #import <Foundation/Foundation.h>
 
-#import "AppFramework/Action/GREYActions.h"
 #import "CommonLib/GREYConstants.h"
 #import "CommonLib/GREYDefines.h"
 #import "Service/Sources/EDORemoteVariable.h"
+
+NS_ASSUME_NONNULL_BEGIN
+
+@protocol GREYAction;
 
 #if !defined(GREY_DISABLE_SHORTHAND) || !(GREY_DISABLE_SHORTHAND)
 /** Shorthand macro for GREYActions::actionForMultipleTapsWithCount: with count @c 2. */
@@ -160,10 +163,12 @@ GREY_EXPORT id<GREYAction> grey_setDate(NSDate *date);
 GREY_EXPORT id<GREYAction> grey_setPickerColumnToValue(NSInteger column, NSString *value);
 
 /** Shorthand macro for GREYActions::actionForJavaScriptExecution:output:. */
-GREY_EXPORT id<GREYAction> grey_javaScriptExecution(NSString *js,
-                                                    EDORemoteVariable<NSString *> *outResult);
+GREY_EXPORT id<GREYAction> grey_javaScriptExecution(
+    NSString *js, EDORemoteVariable<NSString *> *_Nullable outResult);
 
 /** Shorthand macro for GREYActions::actionForSnapshot:. */
 GREY_EXPORT id<GREYAction> grey_snapshot(EDORemoteVariable<UIImage *> *outImage);
 
 #endif  // GREY_DISABLE_SHORTHAND
+
+NS_ASSUME_NONNULL_END

@@ -49,7 +49,7 @@
       performAction:grey_scrollToContentEdge(kGREYContentEdgeTop)];
   // Scroll to the cell we need and tap it.
   [[[EarlGrey selectElementWithMatcher:grey_allOf(cellMatcher, grey_interactable(), nil)]
-         usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 200)
+         usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 240)
       onElementWithMatcher:grey_kindOfClass([UITableView class])] performAction:grey_tap()];
 }
 

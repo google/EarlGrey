@@ -41,12 +41,12 @@
 }
 
 - (void)testSearchActionWithTinyScrollIncrements {
-  [[self ftr_scrollToCellAtIndex:20 byScrollingInAmounts:50 InDirection:kGREYDirectionDown]
-      assertWithMatcher:grey_notNil()];
+  [[self ftr_scrollToCellAtIndex:18 byScrollingInAmounts:50
+                     InDirection:kGREYDirectionDown] assertWithMatcher:grey_notNil()];
   [[self ftr_scrollToCellAtIndex:0 byScrollingInAmounts:50 InDirection:kGREYDirectionUp]
       assertWithMatcher:grey_notNil()];
-  [[self ftr_scrollToCellAtIndex:20 byScrollingInAmounts:50 InDirection:kGREYDirectionDown]
-      assertWithMatcher:grey_notNil()];
+  [[self ftr_scrollToCellAtIndex:18 byScrollingInAmounts:50
+                     InDirection:kGREYDirectionDown] assertWithMatcher:grey_notNil()];
 }
 
 - (void)testSearchActionWithLargeScrollIncrements {

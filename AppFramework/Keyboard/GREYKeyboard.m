@@ -306,8 +306,21 @@ typedef BOOL (^ConditionBlock)(void);
        isSatisfiedWithTimeout:kKeyboardWillAppearOrDisappearTimeout];
 }
 
-+ (BOOL)isKeyboardShown {
-  return atomic_load(&gIsKeyboardShown);
++ (BOOL)keyboardShownWithError:(NSError **)error {
+  __block NSError *synchError = nil;
+  __block BOOL keyboardShown = NO;
+  BOOL success = [[GREYUIThreadExecutor sharedInstance]
+      executeSyncWithTimeout:10
+                       block:^{
+                         keyboardShown = atomic_load(&gIsKeyboardShown);
+                       }
+                       error:&synchError];
+  if (!success) {
+    *error = synchError;
+    return NO;
+  } else {
+    return keyboardShown;
+  }
 }
 
 #pragma mark - Private

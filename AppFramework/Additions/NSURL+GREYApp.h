@@ -18,7 +18,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface NSURL (GREYCommon)
+@interface NSURL (GREYApp)
 
 /**
  *  Add @c regEx to the list of framework blacklisted URLs.

@@ -32,6 +32,12 @@ NS_ASSUME_NONNULL_BEGIN
 /** The singleton of GREYHostApplicationDistantObject. */
 @property(readonly, class) GREYHostBackgroundDistantObject *sharedInstance;
 
+/**
+ *  The dispatch queue that the instance of GREYHostBackgroundDistantObject runs on in the
+ *  application process.
+ */
+@property(nonatomic, readonly) dispatch_queue_t backgroundQueue;
+
 /** Returns the port for the distant object's service. */
 - (uint16_t)servicePort;
 

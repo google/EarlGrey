@@ -22,7 +22,7 @@
  *  Modeled after NSLayoutConstraint, this class captures information related to a layout
  *  constraint: two attributes and a relation that must be satisfied between them.
  */
-@interface GREYLayoutConstraint : NSObject <NSCoding>
+@interface GREYLayoutConstraint : NSObject <NSSecureCoding>
 
 /**
  *  Creates a GREYLayoutConstraint to verify a constraint attribute on an element. The relation is

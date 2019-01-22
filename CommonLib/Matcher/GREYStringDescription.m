@@ -68,4 +68,10 @@ NSString *const kStringDescriptionKey = @"description";
   return _description ? _description : @"";
 }
 
+#pragma mark - NSSecureCoding
+
++ (BOOL)supportsSecureCoding {
+  return YES;
+}
+
 @end

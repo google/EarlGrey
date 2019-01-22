@@ -110,10 +110,18 @@ GREY_EXTERN CFTimeInterval const kSystemAlertVisibilityTimeout;
 @interface XCTestCase (GREYSystemAlertHandler)
 
 /**
+ *  @return An NSString denoting the text contained within the System Alert.
+ *
+ *  @param[out] error Error that will be populated on failure if no System Alert shows up. The
+ *                    return value will be @c NULL on error regardless if the error is passed in.
+ */
+- (NSString *)grey_systemAlertTextWithError:(NSError **)error;
+
+/**
  *  @return The GREYSystemAlertType of the alert being displayed. Will wait for any springboard
  *          animations to completed before the alert is displayed.
  *
- *  @throws NSInternalInconsistencyException if the alert type hasn't been enumerated.
+ *  @throws NSInternalInconsistencyException if the alert doesn't appear.
  */
 - (GREYSystemAlertType)grey_systemAlertType;
 

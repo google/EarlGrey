@@ -372,7 +372,8 @@ static Class gAccessibilityTextFieldElementClass;
       initWithName:@"Execute JavaScript"
        constraints:constraints
       performBlock:^BOOL(id webView, __strong NSError **errorOrNil) {
-#if !defined(__IPHONE_12_0)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         if ([webView isKindOfClass:[UIWebView class]]) {
           grey_execute_sync_on_main_thread(^{
             NSString *result = [self grey_javaScriptAction:js forUIWebView:(UIWebView *)webView];
@@ -381,7 +382,7 @@ static Class gAccessibilityTextFieldElementClass;
             }
           });
         }
-#endif
+#pragma clang diagnostic pop
         if ([webView isKindOfClass:[WKWebView class]]) {
           dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
           __block NSError *localError = nil;
@@ -507,9 +508,11 @@ static Class gAccessibilityTextFieldElementClass;
             if ([element isKindOfClass:gAccessibilityTextFieldElementClass]) {
               element = [element textField];
             }
+
+            NSNotificationCenter *defaultCenter = NSNotificationCenter.defaultCenter;
+            BOOL elementIsUIControl = [element isKindOfClass:[UIControl class]];
+            BOOL elementIsUITextField = [element isKindOfClass:[UITextField class]];
             grey_execute_sync_on_main_thread(^{
-              BOOL elementIsUIControl = [element isKindOfClass:[UIControl class]];
-              BOOL elementIsUITextField = [element isKindOfClass:[UITextField class]];
               // Did begin editing notifications.
               if (elementIsUIControl) {
                 [element sendActionsForControlEvents:UIControlEventEditingDidBegin];
@@ -519,7 +522,7 @@ static Class gAccessibilityTextFieldElementClass;
                 NSNotification *notification =
                     [NSNotification notificationWithName:UITextFieldTextDidBeginEditingNotification
                                                   object:element];
-                [NSNotificationCenter.defaultCenter postNotification:notification];
+                [defaultCenter postNotification:notification];
               }
 
               // Actually change the text.
@@ -533,7 +536,7 @@ static Class gAccessibilityTextFieldElementClass;
                 NSNotification *notification =
                     [NSNotification notificationWithName:UITextFieldTextDidChangeNotification
                                                   object:element];
-                [NSNotificationCenter.defaultCenter postNotification:notification];
+                [defaultCenter postNotification:notification];
               }
 
               // Did end editing notifications.
@@ -545,7 +548,7 @@ static Class gAccessibilityTextFieldElementClass;
                 NSNotification *notification =
                     [NSNotification notificationWithName:UITextFieldTextDidEndEditingNotification
                                                   object:element];
-                [NSNotificationCenter.defaultCenter postNotification:notification];
+                [defaultCenter postNotification:notification];
               }
             });
           }

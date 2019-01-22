@@ -20,12 +20,6 @@
 
 @interface GREYHostBackgroundDistantObject ()
 
-/**
- *  The dispatch queue that the instance of GREYHostBackgroundDistantObject runs on in the
- *  application process.
- */
-@property dispatch_queue_t backgroundQueue;
-
 @end
 
 @implementation GREYHostBackgroundDistantObject

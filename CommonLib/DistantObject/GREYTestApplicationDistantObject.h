@@ -34,8 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 // TODO: Use EDOServicePort. // NOLINT
 @property(nonatomic, readonly) uint16_t hostPort;
 
-/** The port number that the instance running in the background queue listens
- * on. */
+/** The port number that the instance running in the background queue listens on. */
 @property(nonatomic, readonly) uint16_t hostBackgroundPort;
 
 /** The @c EDOHostService the test process listens on after the test starts. */

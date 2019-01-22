@@ -48,7 +48,6 @@
   [self.containerView addSubview:self.webView];
   self.webView.navigationDelegate = self;
   self.containerView.isAccessibilityElement = NO;
-  self.webView.isAccessibilityElement = YES;
   self.webView.superview.isAccessibilityElement = NO;
   self.webView.accessibilityElementsHidden = NO;
   self.webView.userInteractionEnabled = YES;

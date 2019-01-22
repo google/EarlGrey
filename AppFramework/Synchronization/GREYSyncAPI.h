@@ -32,12 +32,3 @@
  *  @param block Block that will be executed.
  */
 GREY_EXPORT void grey_execute_sync_on_main_thread(void (^block)(void));
-
-/**
- *  Executes a block containing EarlGrey statements on the main thread without waiting for it to
- *  complete. @c block is retained until execution completes.
- *
- *  @note  Can be called from any thread.
- *  @param block Block that will be executed.
- */
-GREY_EXPORT void grey_execute_async_on_main_thread(void (^block)(void));

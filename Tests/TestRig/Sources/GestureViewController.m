@@ -16,6 +16,15 @@
 
 #import "GestureViewController.h"
 
+@implementation TouchEventView
+
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+  NSAssert(event.type == UIEventTypeTouches, @"The UIEvent's type is a Touch");
+  return [super hitTest:point withEvent:event];
+}
+
+@end
+
 @implementation GestureViewController {
   NSUInteger _counterValue;
 }

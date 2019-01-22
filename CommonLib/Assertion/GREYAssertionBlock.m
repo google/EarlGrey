@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "AppFramework/Assertion/GREYAssertionBlock.h"
+#import "CommonLib/Assertion/GREYAssertionBlock.h"
 
 #import "CommonLib/Assertion/GREYThrowDefines.h"
 

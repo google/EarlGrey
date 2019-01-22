@@ -143,6 +143,24 @@
       assertWithMatcher:grey_not(grey_sufficientlyVisible())];
 }
 
+- (void)testErrorDescriptionOfVisibilityMatchers {
+  NSError *error;
+  [[EarlGrey
+      selectElementWithMatcher:grey_accessibilityLabel(@"PartialOffScreenRectangleElementLabel")]
+      assertWithMatcher:grey_sufficientlyVisible()
+                  error:&error];
+  XCTAssertTrue([error.localizedDescription containsString:@"Expected:"]);
+  XCTAssertTrue([error.localizedDescription containsString:@"Actual:"]);
+
+  error = nil;
+  [[EarlGrey
+      selectElementWithMatcher:grey_accessibilityLabel(@"PartialOffScreenRectangleElementLabel")]
+      assertWithMatcher:grey_minimumVisiblePercent(1.0)
+                  error:&error];
+  XCTAssertTrue([error.localizedDescription containsString:@"Expected:"]);
+  XCTAssertTrue([error.localizedDescription containsString:@"Actual:"]);
+}
+
 - (void)testOffScreenAccessibilityElementIsNotVisible {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"OffScreenElementIdentifier")]
       assertWithMatcher:grey_notVisible()];
