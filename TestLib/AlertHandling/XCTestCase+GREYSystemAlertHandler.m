@@ -91,6 +91,25 @@ NSString *const kGREYSystemAlertDismissalErrorDomain = @"com.google.earlgrey.Sys
 
 @implementation XCTestCase (GREYSystemAlertHandler)
 
+- (NSString *)grey_systemAlertTextWithError:(NSError **)error {
+  XCUIApplication *springboardApp = [self grey_springboardApplication];
+  if (![self grey_ensureAlertIsVisibleInSpringboardApp:springboardApp error:error]) {
+    return nil;
+  } else {
+    XCUIElement *alertInHierarchy =
+        [[springboardApp descendantsMatchingType:XCUIElementTypeAlert] elementBoundByIndex:0];
+    if (![alertInHierarchy exists]) {
+      if (error) {
+        *error = [NSError errorWithDomain:kGREYSystemAlertDismissalErrorDomain
+                                     code:GREYSystemAlertNotPresent
+                                 userInfo:nil];
+      }
+      return nil;
+    }
+    return [alertInHierarchy label];
+  }
+}
+
 - (GREYSystemAlertType)grey_systemAlertType {
   XCUIApplication *springboardApp = [self grey_springboardApplication];
   GREYAssertTrue([self grey_waitForAlertExistenceWithTimeout:kSystemAlertVisibilityTimeout],
@@ -336,12 +355,13 @@ NSString *const kGREYSystemAlertDismissalErrorDomain = @"com.google.earlgrey.Sys
       anyAlertPresent = [anyAlertPresentQuery elementBoundByIndex:0];
       label = anyAlertPresent ? [anyAlertPresent valueForKey:@"label"] : @"";
     }
+    // Ensure that the same alert being asked for has been dismissed.
     return (![label isEqualToString:alertText]);
   };
 
   GREYCondition *alertDismissed =
       [GREYCondition conditionWithName:@"Alert Dismissed" block:alertDismissedBlock];
-  if (![alertDismissed waitWithTimeout:kSystemAlertVisibilityTimeout pollInterval:1.0]) {
+  if (![alertDismissed waitWithTimeout:kSystemAlertVisibilityTimeout pollInterval:0.5]) {
     if (error) {
       *error = [NSError errorWithDomain:kGREYSystemAlertDismissalErrorDomain
                                    code:GREYSystemAlertNotDismissed

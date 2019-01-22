@@ -40,13 +40,24 @@ import UIKit
 
 /// Class to check if a UITextField element's editing events are received.
 @objcMembers fileprivate class TextFieldEditingEventsRecorder: NSObject, TextFieldEditingEvents {
+  #if swift(>=4.2)
+  var trackedEvent: UIControl.Event!
+  #else
   var trackedEvent: UIControlEvents!
+  #endif
   public var wasEventReceived = false
 
-  init(for controlEvent: UIControlEvents) {
+  #if swift(>=4.2)
+  init(for controlEvent: UIControl.Event) {
     super.init()
     trackedEvent = controlEvent
   }
+  #else
+  init(for controlEvent: UIControlEvents) {
+  super.init()
+  trackedEvent = controlEvent
+  }
+  #endif
 
   public func name() -> String {
     return "TextField Events Recorder"
@@ -71,17 +82,25 @@ extension GREYHostApplicationDistantObject: FTRSwiftTestsHost {
 
   public func makeTextFieldNotificationRecorder(
     for notification: NSNotification.Name
-  ) -> TextFieldNotification {
-      return TextFieldNotificationRecorder(for: notification)
+    ) -> TextFieldNotification {
+    return TextFieldNotificationRecorder(for: notification)
   }
 
   /// - Returns: A TextFieldEventsRecorder object that sets up observers for text field
   ///            editing events.
+  #if swift(>=4.2)
   public func makeTextFieldEditingEventRecorder(
-    for controlEvent: UIControlEvents
-  ) -> TextFieldEditingEvents {
-      return TextFieldEditingEventsRecorder(for: controlEvent)
+    for controlEvent: UIControl.Event
+    ) -> TextFieldEditingEvents {
+    return TextFieldEditingEventsRecorder(for: controlEvent)
   }
+  #else
+  public func makeTextFieldEditingEventRecorder(
+  for controlEvent: UIControlEvents
+  ) -> TextFieldEditingEvents {
+  return TextFieldEditingEventsRecorder(for: controlEvent)
+  }
+  #endif
 
   public func makeFirstElementMatcher() -> GREYMatcher {
     var firstMatch = true

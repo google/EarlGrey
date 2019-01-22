@@ -44,14 +44,22 @@ public protocol FTRSwiftTestsHost {
   /// notifications.
   func makeTextFieldNotificationRecorder(
     for notification: NSNotification.Name
-  ) -> TextFieldNotification
+    ) -> TextFieldNotification
 
   /// Resets the navigation stack by popping view controllers till the root view controller.
   func resetNavigationStack()
 
   /// Returns a TextFieldEventsRecorder object that sets up observers for text field editing
   /// events.
+
+  #if swift(>=4.2)
   func makeTextFieldEditingEventRecorder(
-    for controlEvent: UIControlEvents
+    for controlEvent: UIControl.Event
+    ) -> TextFieldEditingEvents
+  #else
+  func makeTextFieldEditingEventRecorder(
+  for controlEvent: UIControlEvents
   ) -> TextFieldEditingEvents
+  #endif
+
 }

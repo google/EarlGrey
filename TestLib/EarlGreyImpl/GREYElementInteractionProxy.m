@@ -16,6 +16,8 @@
 
 #import "TestLib/EarlGreyImpl/GREYElementInteractionProxy.h"
 
+#include <stdatomic.h>
+
 #import "AppFramework/DistantObject/GREYHostBackgroundDistantObject+GREYApp.h"
 #import "CommonLib/Assertion/GREYAssertionDefines.h"
 #import "CommonLib/Assertion/GREYFatalAsserts.h"
@@ -23,10 +25,15 @@
 #import "CommonLib/Error/GREYErrorConstants.h"
 #import "CommonLib/Exceptions/GREYFailureHandler.h"
 #import "CommonLib/Exceptions/GREYFrameworkException.h"
+#import "Service/Sources/EDOHostService.h"
 
 @implementation GREYElementInteractionProxy {
   /** App-side interaction instance. */
   GREYElementInteraction *_remoteElementInteraction;
+  /**
+   *  A separate queue to tunnel all canonical EarlGrey interactions i.e. perform, assert etc.
+   */
+  dispatch_queue_t _interactionProxyQueue;
 }
 
 @dynamic dataSource;
@@ -38,6 +45,8 @@
   if (self) {
     _remoteElementInteraction =
         [GREYHostBackgroundDistantObject.sharedInstance interactionWithMatcher:elementMatcher];
+    _interactionProxyQueue =
+        dispatch_queue_create("com.google.earlgrey.interactionProxy", DISPATCH_QUEUE_SERIAL);
   }
   return self;
 }
@@ -47,8 +56,11 @@
 }
 
 - (id<GREYInteraction>)performAction:(id)action error:(__autoreleasing NSError **)errorOrNil {
-  __strong NSError *interactionError = nil;
-  [_remoteElementInteraction performAction:action error:&interactionError];
+  GREYThrowOnNilParameterWithMessage(action, @"Action can't be nil.");
+  __block __strong NSError *interactionError = nil;
+  [self grey_dispatchBlockInBackgroundQueue:^{
+    [self->_remoteElementInteraction performAction:action error:&interactionError];
+  }];
   [self grey_handleInteractionError:interactionError outError:errorOrNil];
   return self;
 }
@@ -59,8 +71,11 @@
 
 - (id<GREYInteraction>)assert:(id<GREYAssertion>)assertion
                         error:(__autoreleasing NSError **)errorOrNil {
-  __strong NSError *interactionError = nil;
-  [_remoteElementInteraction assert:assertion error:&interactionError];
+  GREYThrowOnNilParameterWithMessage(assertion, @"Assertion can't be nil.");
+  __block __strong NSError *interactionError = nil;
+  [self grey_dispatchBlockInBackgroundQueue:^{
+    [self->_remoteElementInteraction assert:assertion error:&interactionError];
+  }];
   [self grey_handleInteractionError:interactionError outError:errorOrNil];
   return self;
 }
@@ -71,26 +86,46 @@
 
 - (id<GREYInteraction>)assertWithMatcher:(id<GREYMatcher>)matcher
                                    error:(__autoreleasing NSError **)errorOrNil {
-  __strong NSError *interactionError = nil;
-  [_remoteElementInteraction assertWithMatcher:matcher error:&interactionError];
+  GREYThrowOnNilParameterWithMessage(matcher, @"Matcher can't be nil.");
+  __block __strong NSError *interactionError = nil;
+  [self grey_dispatchBlockInBackgroundQueue:^{
+    [self->_remoteElementInteraction assertWithMatcher:matcher error:&interactionError];
+  }];
   [self grey_handleInteractionError:interactionError outError:errorOrNil];
   return self;
 }
 
 - (id<GREYInteraction>)inRoot:(id<GREYMatcher>)rootMatcher {
-  [_remoteElementInteraction inRoot:rootMatcher];
+  GREYThrowOnNilParameterWithMessage(rootMatcher, @"Root Matcher can't be nil.");
+  [self grey_dispatchBlockInBackgroundQueue:^{
+    [self->_remoteElementInteraction inRoot:rootMatcher];
+  }];
   return self;
 }
 
 - (id<GREYInteraction>)usingSearchAction:(id<GREYAction>)action
                     onElementWithMatcher:(id<GREYMatcher>)matcher {
-  [_remoteElementInteraction usingSearchAction:action onElementWithMatcher:matcher];
+  GREYThrowOnNilParameterWithMessage(action, @"Action can't be nil.");
+  GREYThrowOnNilParameterWithMessage(matcher, @"Matcher can't be nil.");
+  [self grey_dispatchBlockInBackgroundQueue:^{
+    [self->_remoteElementInteraction usingSearchAction:action onElementWithMatcher:matcher];
+  }];
   return self;
 }
 
 - (id<GREYInteraction>)atIndex:(NSUInteger)index {
-  [_remoteElementInteraction atIndex:index];
+  [self grey_dispatchBlockInBackgroundQueue:^{
+    [self->_remoteElementInteraction atIndex:index];
+  }];
   return self;
+}
+
+- (id<GREYInteraction>)includeStatusBar {
+  __block id<GREYInteraction> includeStatusBar;
+  [self grey_dispatchBlockInBackgroundQueue:^{
+    includeStatusBar = [self->_remoteElementInteraction includeStatusBar];
+  }];
+  return includeStatusBar;
 }
 
 - (id<GREYInteractionDataSource>)dataSource {
@@ -101,11 +136,37 @@
   _remoteElementInteraction.dataSource = dataSource;
 }
 
-- (id<GREYInteraction>)includeStatusBar {
-  return [_remoteElementInteraction includeStatusBar];
-}
-
 #pragma mark - Private
+
+/**
+ *  Runs the given block in the background distant object's queue. It also takes
+ *  the current (caller) queue's runloop and spins it, in order to enable the
+ *  main queue to process messages from other queues. On completion of
+ *  the block in the background distant object's queue, it stops spinning the caller
+ *  queue and returns control to the caller queue.
+ */
+- (void)grey_dispatchBlockInBackgroundQueue:(void (^)(void))block {
+  // This dispatches the EarlGrey call onto another queue so that the test's main queue
+  // is freed up for handling any more events. Without this, deadlocks will be seen.
+  // The timeout for the interaction is set to be forever since EarlGrey's interaction
+  // should handle the interaction timeout.
+  __block BOOL blockProcessed = NO;
+  dispatch_block_t blockToStopMainRunloopSpinning =
+      dispatch_block_create(DISPATCH_BLOCK_ASSIGN_CURRENT, ^{
+        blockProcessed = YES;
+        CFRunLoopStop(CFRunLoopGetCurrent());
+      });
+  dispatch_async(_interactionProxyQueue, ^{
+    block();
+    dispatch_async(dispatch_get_main_queue(), blockToStopMainRunloopSpinning);
+  });
+
+  while (!blockProcessed) {
+    CFRunLoopRun();
+  }
+  // Cancel any future executions of the CFRunLoppStop block.
+  dispatch_block_cancel(blockToStopMainRunloopSpinning);
+}
 
 /**
  *  Handles and sets the error based on the interaction related placeholder error value.

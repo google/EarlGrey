@@ -28,17 +28,6 @@
   [self openTestViewNamed:@"Network Test"];
 }
 
-- (void)testSynchronizationWorksWithNSURLConnection {
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"RequestCompletedLabel")]
-      assertWithMatcher:grey_notVisible()];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"NSURLConnectionTest")]
-      performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"RequestCompletedLabel")]
-      assertWithMatcher:grey_sufficientlyVisible()];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"ResponseVerifiedLabel")]
-      assertWithMatcher:grey_sufficientlyVisible()];
-}
-
 - (void)testSynchronizationWithNSURLSessionCompletionHandlers {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"RequestCompletedLabel")]
       assertWithMatcher:grey_notVisible()];
@@ -48,6 +37,21 @@
       assertWithMatcher:grey_sufficientlyVisible()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"ResponseVerifiedLabel")]
       assertWithMatcher:grey_sufficientlyVisible()];
+}
+
+- (void)testURLPrintingInErrorLogsWhenNetworkRequestFails {
+  // Setting the timeout to 0.5, a lower one might trigger an issue with Animation tracking for
+  // the button press or so. The request goes on till 1.0 as set by the view controller, so this
+  // should always fail.
+  [[GREYConfiguration sharedConfiguration] setValue:@(0.5)
+                                       forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"NSURLSessionTest")]
+      performAction:grey_tap()];
+  NSError *error;
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"RequestCompletedLabel")]
+      assertWithMatcher:grey_sufficientlyVisible()
+                  error:&error];
+  XCTAssertTrue([error.localizedDescription containsString:@"URL:\"http://www.youtube.com/\""]);
 }
 
 - (void)testSynchronizationWorksWithNSURLSessionDelegates {

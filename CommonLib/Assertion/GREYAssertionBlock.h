@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "AppFramework/Assertion/GREYAssertion.h"
+#import "CommonLib/Assertion/GREYAssertion.h"
 
 /**
  *  A block that accepts an @c element, which will be invoked when an assertion is going to be

@@ -23,7 +23,7 @@
 #import "CommonLib/Config/GREYConfiguration.h"
 #import "CommonLib/GREYLogger.h"
 
-@implementation NSURL (GREYCommon)
+@implementation NSURL (GREYApp)
 
 - (BOOL)grey_shouldSynchronize {
   if ([[self scheme] isEqualToString:@"data"]) {

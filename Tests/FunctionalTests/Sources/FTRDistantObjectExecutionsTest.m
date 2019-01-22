@@ -20,11 +20,11 @@
 #import "AppFramework/DistantObject/GREYHostApplicationDistantObject+GREYTestHelper.h"
 #import "FTRBaseIntegrationTest.h"
 
-@interface FTRRemoteTest : FTRBaseIntegrationTest
+@interface FTRDistantObjectExecutionsTest : FTRBaseIntegrationTest
 
 @end
 
-@implementation FTRRemoteTest
+@implementation FTRDistantObjectExecutionsTest
 
 - (void)testLaunchNoError {
   // Launch and terminate w/o any errors.

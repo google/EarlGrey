@@ -26,13 +26,13 @@
 #import "AppFramework/Core/GREYElementInteraction.h"
 #import "AppFramework/Matcher/GREYAllOf.h"
 #import "AppFramework/Matcher/GREYAnyOf.h"
-#import "AppFramework/Matcher/GREYElementMatcherBlock.h"
 #import "AppFramework/Matcher/GREYNot.h"
 #import "CommonLib/Additions/NSString+GREYCommon.h"
 #import "CommonLib/Assertion/GREYFatalAsserts.h"
 #import "CommonLib/Assertion/GREYThrowDefines.h"
 #import "CommonLib/Error/GREYError.h"
 #import "CommonLib/GREYAppleInternals.h"
+#import "CommonLib/Matcher/GREYElementMatcherBlock.h"
 #import "CommonLib/Matcher/GREYLayoutConstraint.h"
 #import "CommonLib/Matcher/GREYMatcher.h"
 #import "UILib/GREYVisibilityChecker.h"
@@ -279,24 +279,31 @@ static Class gEDOObjectClass;
 + (id<GREYMatcher>)matcherForMinimumVisiblePercent:(CGFloat)percent {
   GREYFatalAssertWithMessage(percent >= 0.0f && percent <= 1.0f,
                              @"Percent %f must be in the range [0,1]", percent);
+  __block CGFloat visiblePercent;
   GREYMatchesBlock matches = ^BOOL(UIView *element) {
-    return [GREYVisibilityChecker percentVisibleAreaOfElement:element] > percent;
+    visiblePercent = [GREYVisibilityChecker percentVisibleAreaOfElement:element];
+    return visiblePercent > percent;
   };
   GREYDescribeToBlock describe = ^void(id<GREYDescription> description) {
-    [description
-        appendText:[NSString stringWithFormat:@"matcherForMinimumVisiblePercent(>=%f)", percent]];
+    NSString *descriptionString =
+        [NSString stringWithFormat:@"matcherForMinimumVisiblePercent(Expected: %f, Actual: %f)",
+                                   percent, visiblePercent];
+    [description appendText:descriptionString];
   };
   return [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe];
 }
 
 + (id<GREYMatcher>)matcherForSufficientlyVisible {
+  __block CGFloat visiblePercent;
   GREYMatchesBlock matches = ^BOOL(UIView *element) {
-    CGFloat percent = [GREYVisibilityChecker percentVisibleAreaOfElement:element];
-    return (percent >= kElementSufficientlyVisiblePercentage);
+    visiblePercent = [GREYVisibilityChecker percentVisibleAreaOfElement:element];
+    return (visiblePercent >= kElementSufficientlyVisiblePercentage);
   };
   GREYDescribeToBlock describe = ^void(id<GREYDescription> description) {
-    [description appendText:[NSString stringWithFormat:@"matcherForSufficientlyVisible(>=%f)",
-                                                       kElementSufficientlyVisiblePercentage]];
+    NSString *descriptionString =
+        [NSString stringWithFormat:@"matcherForSufficientlyVisible(Expected: %f, Actual: %f)",
+                                   kElementSufficientlyVisiblePercentage, visiblePercent];
+    [description appendText:descriptionString];
   };
   return [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe];
 }

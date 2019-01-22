@@ -17,6 +17,7 @@
 #import "TestLib/EarlGreyImpl/EarlGrey.h"
 
 #import "AppFramework/Event/GREYSyntheticEvents.h"
+#import "AppFramework/Keyboard/GREYKeyboard.h"
 #import "CommonLib/Assertion/GREYAssertionDefines.h"
 #import "CommonLib/Assertion/GREYFatalAsserts.h"
 #import "CommonLib/DistantObject/GREYHostBackgroundDistantObject.h"
@@ -197,6 +198,21 @@ id<GREYFailureHandler> GREYGetFailureHandler() {
     id<GREYFailureHandler> failureHandler = GREYGetFailureHandler();
     [failureHandler handleException:exception details:details];
   }
+}
+
+- (BOOL)isKeyboardShownWithError:(NSError **)errorOrNil {
+  NSError *error = nil;
+  BOOL keyboardShown = [GREYKeyboard keyboardShownWithError:&error];
+  // Handle error if any, if the app failed to idle.
+  if (error) {
+    if (errorOrNil) {
+      *errorOrNil = error;
+    } else {
+      I_GREYFail(@"The app failed to idle, preventing the check for keyboard visibility from "
+                 @"being evaluated.");
+    }
+  }
+  return keyboardShown;
 }
 
 @end

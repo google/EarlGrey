@@ -14,6 +14,8 @@
 // limitations under the License.
 //
 
+#import "AppFramework/Action/GREYActionsShorthand.h"
+#import "AppFramework/Matcher/GREYMatchersShorthand.h"
 #import "GREYHostApplicationDistantObject+BasicInteractionTest.h"
 #import "UILib/GREYElementHierarchy.h"
 
@@ -25,6 +27,13 @@
 static UIViewController *gViewController;
 
 @implementation GREYHostApplicationDistantObject (BasicInteractionTest)
+
+- (void)addToMutableArray:(NSMutableArray *)array afterTime:(NSTimeInterval)seconds {
+  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(seconds * NSEC_PER_SEC)),
+                 dispatch_get_main_queue(), ^{
+                   [array addObject:@(1)];
+                 });
+}
 
 - (NSString *)labelText {
   return objc_getAssociatedObject(self, @selector(labelText));
@@ -138,6 +147,14 @@ static UIViewController *gViewController;
                               });
                               return YES;
                             }];
+}
+
+- (id<GREYAction>)sampleShorthandAction {
+  return grey_tap();
+}
+
+- (id<GREYMatcher>)sampleShorthandMatcher {
+  return grey_keyWindow();
 }
 
 #pragma mark - Private

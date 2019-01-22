@@ -17,9 +17,7 @@
 #import <Foundation/Foundation.h>
 #import <QuartzCore/QuartzCore.h>
 
-#import "AppFramework/Delegate/GREYSurrogateDelegate.h"
-
-@interface GREYCAAnimationDelegate : GREYSurrogateDelegate
+@interface GREYCAAnimationDelegate : NSObject
 
 /**
  *  Wraps the passed in CAAnimationDelegate in a GREYSurrogateDelegate for helping in tracking

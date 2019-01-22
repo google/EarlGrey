@@ -35,6 +35,22 @@
   [super tearDown];
 }
 
+- (void)testSnapshotComparison {
+  [self openTestViewNamed:@"Accessibility Views"];
+
+  EDORemoteVariable<UIImage *> *snapshot = [[EDORemoteVariable alloc] init];
+  EDORemoteVariable<UIImage *> *snapshotCopy = [[EDORemoteVariable alloc] init];
+  // Snapshot Accessibility Element.
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"OnScreenRectangleElementLabel")]
+      performAction:grey_snapshot(snapshot)];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"OnScreenRectangleElementLabel")]
+      performAction:grey_snapshot(snapshotCopy)];
+
+  NSData *snapshotData = UIImagePNGRepresentation(snapshot.object);
+  NSData *snapshotCopyData = UIImagePNGRepresentation(snapshotCopy.object);
+  GREYAssertEqualObjects(snapshotData, snapshotCopyData, @"should be equal");
+}
+
 - (void)testSnapshotAXElementInPortraitMode {
   [self openTestViewNamed:@"Accessibility Views"];
 
