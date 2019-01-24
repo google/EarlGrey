@@ -25,7 +25,7 @@ Install carthage via [brew install carthage](https://github.com/Carthage/Carthag
 #import "AppFramework/Action/GREYAction.h"
 #import "AppFramework/Action/GREYActionBlock.h"
 #import "AppFramework/Action/GREYActions.h"
-#import "AppFramework/Matcher/GREYElementMatcherBlock.h"
+#import "CommonLib/Matcher/GREYElementMatcherBlock.h"
 #import "CommonLib/DistantObject/GREYHostApplicationDistantObject.h"
 #import "CommonLib/Matcher/GREYMatcher.h"
 #import "TestLib/AlertHandling/XCTestCase+GREYSystemAlertHandler.h"
