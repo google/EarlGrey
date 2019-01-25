@@ -15,7 +15,7 @@
 		F94FA29721F63A8700CEBBB8 /* CarthageExampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F94FA29621F63A8700CEBBB8 /* CarthageExampleUITests.swift */; };
 		F94FA2C621F6401500CEBBB8 /* libTestLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F94FA2C421F63FF400CEBBB8 /* libTestLib.a */; };
 		F94FA2C821F6414600CEBBB8 /* AppFramework.framework in EarlGrey 2 */ = {isa = PBXBuildFile; fileRef = F94FA2C221F63FF400CEBBB8 /* AppFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		F94FA2CA21F6419000CEBBB8 /* EarlGrey.swift in Sources */ = {isa = PBXBuildFile; fileRef = F94FA2C921F6419000CEBBB8 /* EarlGrey.swift */; };
+		F954B60621FB86A700F6B93F /* EarlGrey.swift in Sources */ = {isa = PBXBuildFile; fileRef = F954B60421FB86A700F6B93F /* EarlGrey.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,8 +82,8 @@
 		F94FA29621F63A8700CEBBB8 /* CarthageExampleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarthageExampleUITests.swift; sourceTree = "<group>"; };
 		F94FA29821F63A8700CEBBB8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F94FA2B521F63FF400CEBBB8 /* EarlGrey.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = EarlGrey.xcodeproj; path = Carthage/Checkouts/EarlGrey/EarlGrey.xcodeproj; sourceTree = "<group>"; };
-		F94FA2C921F6419000CEBBB8 /* EarlGrey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarlGrey.swift; sourceTree = "<group>"; };
-		F94FA2CB21F6421100CEBBB8 /* bridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bridge.h; sourceTree = "<group>"; };
+		F954B60421FB86A700F6B93F /* EarlGrey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EarlGrey.swift; path = ../../../TestLib/Swift/EarlGrey.swift; sourceTree = "<group>"; };
+		F954B60521FB86A700F6B93F /* EarlGreySwiftBridgingHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EarlGreySwiftBridgingHeader.h; path = ../../../TestLib/Swift/EarlGreySwiftBridgingHeader.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,10 +141,10 @@
 		F94FA29521F63A8700CEBBB8 /* CarthageExampleUITests */ = {
 			isa = PBXGroup;
 			children = (
+				F954B60421FB86A700F6B93F /* EarlGrey.swift */,
+				F954B60521FB86A700F6B93F /* EarlGreySwiftBridgingHeader.h */,
 				F94FA29621F63A8700CEBBB8 /* CarthageExampleUITests.swift */,
 				F94FA29821F63A8700CEBBB8 /* Info.plist */,
-				F94FA2C921F6419000CEBBB8 /* EarlGrey.swift */,
-				F94FA2CB21F6421100CEBBB8 /* bridge.h */,
 			);
 			path = CarthageExampleUITests;
 			sourceTree = "<group>";
@@ -315,7 +315,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F94FA2CA21F6419000CEBBB8 /* EarlGrey.swift in Sources */,
+				F954B60621FB86A700F6B93F /* EarlGrey.swift in Sources */,
 				F94FA29721F63A8700CEBBB8 /* CarthageExampleUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -516,7 +516,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = example.CarthageExampleUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "$(TARGET_NAME)/bridge.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/../../TestLib/Swift/EarlGreySwiftBridgingHeader.h";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = CarthageExample;
@@ -538,7 +538,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = example.CarthageExampleUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "$(TARGET_NAME)/bridge.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/../../TestLib/Swift/EarlGreySwiftBridgingHeader.h";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = CarthageExample;
