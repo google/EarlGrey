@@ -1,9 +1,12 @@
+[![Apache License](https://img.shields.io/badge/license-Apache%202-lightgrey.svg?style=flat)](https://github.com/google/EarlGrey/blob/earlgrey2/LICENSE)
+![Build Status](https://app.bitrise.io/app/0b4975da22d56e16/status.svg?token=5TrWUStkI51GjdO7PgEueQ)
+
 **Note:** EarlGrey 2.0 is currently in Alpha and doesn't support all forms of integration. In the
 coming quarters we'll add support for Xcode Projects and CocoaPods as well. Please peruse the code
 and do bring forward any issues or concerns you might have with migrating your EarlGrey 1.0 tests
 to 2.0.
 
-To use, please clone the `earlgrey2`  branch with its submodules.
+To use, please clone the `earlgrey2` branch with its submodules:
 
     // Clone EarlGrey 2.0 with all its dependencies
     git clone --recursive -b earlgrey2 https://github.com/google/EarlGrey.git

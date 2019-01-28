@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 48;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -92,6 +92,8 @@
 		FD118556212E062D004CADC3 /* GREYHostApplicationDistantObject+FTRSwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD118540212DFE5D004CADC3 /* GREYHostApplicationDistantObject+FTRSwiftTests.swift */; };
 		FD118557212E07F8004CADC3 /* FTRSwiftTestsHost.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD11853F212DFE5D004CADC3 /* FTRSwiftTestsHost.swift */; };
 		FD118558212E22ED004CADC3 /* FTRSwiftTestBridgingHeader.h in Sources */ = {isa = PBXBuildFile; fileRef = FD118546212E004B004CADC3 /* FTRSwiftTestBridgingHeader.h */; };
+		FD3A827A21F26C6500CA3ADF /* FTRRemoteInteractionsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD3A827621F26C6500CA3ADF /* FTRRemoteInteractionsTest.m */; };
+		FD3A827B21F26C6500CA3ADF /* FTRDistantObjectExecutionsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD3A827921F26C6500CA3ADF /* FTRDistantObjectExecutionsTest.m */; };
 		FD4974B6214330E300625561 /* AppFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD623D2C20FD6BF900049E81 /* AppFramework.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		FD4974B72143314700625561 /* AppFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD623D2C20FD6BF900049E81 /* AppFramework.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		FD5EB4BD2118FDA4006F82A0 /* FTRAnimationsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5EB4882118FD9C006F82A0 /* FTRAnimationsTest.m */; };
@@ -114,12 +116,10 @@
 		FD5EB4D02118FDA4006F82A0 /* FTRAccessibilityTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5EB49E2118FD9E006F82A0 /* FTRAccessibilityTest.m */; };
 		FD5EB4D32118FDA4006F82A0 /* FTROrientationChangeTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5EB4A22118FD9F006F82A0 /* FTROrientationChangeTest.m */; };
 		FD5EB4D42118FDA4006F82A0 /* FTRAnalyticsTestCaseSetupOptOutTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5EB4A32118FD9F006F82A0 /* FTRAnalyticsTestCaseSetupOptOutTest.m */; };
-		FD5EB4D52118FDA4006F82A0 /* FTRRemoteTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5EB4A42118FD9F006F82A0 /* FTRRemoteTest.m */; };
 		FD5EB4D62118FDA4006F82A0 /* FTRFailureHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5EB4A52118FD9F006F82A0 /* FTRFailureHandler.m */; };
 		FD5EB4D72118FDA4006F82A0 /* FTRActionSheetTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5EB4A62118FD9F006F82A0 /* FTRActionSheetTest.m */; };
 		FD5EB4D82118FDA4006F82A0 /* FTRPickerViewInteractionTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5EB4A72118FD9F006F82A0 /* FTRPickerViewInteractionTest.m */; };
 		FD5EB4D92118FDA4006F82A0 /* FTRAnalyticsTestMethodOptOutTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5EB4A82118FD9F006F82A0 /* FTRAnalyticsTestMethodOptOutTest.m */; };
-		FD5EB4DA2118FDA4006F82A0 /* FTRMultiProcessSyncTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5EB4A92118FDA0006F82A0 /* FTRMultiProcessSyncTest.m */; };
 		FD5EB4DB2118FDA4006F82A0 /* FTRVisibilityTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5EB4AA2118FDA0006F82A0 /* FTRVisibilityTest.m */; };
 		FD5EB4DD2118FDA4006F82A0 /* FTRNetworkTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5EB4AC2118FDA0006F82A0 /* FTRNetworkTest.m */; };
 		FD5EB4DE2118FDA4006F82A0 /* FTRShakeTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5EB4AD2118FDA0006F82A0 /* FTRShakeTest.m */; };
@@ -401,6 +401,8 @@
 		FD118540212DFE5D004CADC3 /* GREYHostApplicationDistantObject+FTRSwiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "GREYHostApplicationDistantObject+FTRSwiftTests.swift"; path = "HostDOCategories/Swift/GREYHostApplicationDistantObject+FTRSwiftTests.swift"; sourceTree = SOURCE_ROOT; };
 		FD118546212E004B004CADC3 /* FTRSwiftTestBridgingHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FTRSwiftTestBridgingHeader.h; sourceTree = "<group>"; };
 		FD11854C212E03D5004CADC3 /* HostDOCategoriesSwift.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HostDOCategoriesSwift.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		FD3A827621F26C6500CA3ADF /* FTRRemoteInteractionsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FTRRemoteInteractionsTest.m; sourceTree = "<group>"; };
+		FD3A827921F26C6500CA3ADF /* FTRDistantObjectExecutionsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FTRDistantObjectExecutionsTest.m; sourceTree = "<group>"; };
 		FD511E82211E6D8B00F19C8A /* libeDistantObject.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libeDistantObject.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD5EB4882118FD9C006F82A0 /* FTRAnimationsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FTRAnimationsTest.m; path = Sources/FTRAnimationsTest.m; sourceTree = SOURCE_ROOT; };
 		FD5EB4892118FD9D006F82A0 /* FTRBasicInteractionTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FTRBasicInteractionTest.m; path = Sources/FTRBasicInteractionTest.m; sourceTree = SOURCE_ROOT; };
@@ -426,12 +428,10 @@
 		FD5EB4A02118FD9E006F82A0 /* FTRBaseIntegrationTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FTRBaseIntegrationTest.h; path = Sources/FTRBaseIntegrationTest.h; sourceTree = SOURCE_ROOT; };
 		FD5EB4A22118FD9F006F82A0 /* FTROrientationChangeTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FTROrientationChangeTest.m; path = Sources/FTROrientationChangeTest.m; sourceTree = SOURCE_ROOT; };
 		FD5EB4A32118FD9F006F82A0 /* FTRAnalyticsTestCaseSetupOptOutTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FTRAnalyticsTestCaseSetupOptOutTest.m; path = Sources/FTRAnalyticsTestCaseSetupOptOutTest.m; sourceTree = SOURCE_ROOT; };
-		FD5EB4A42118FD9F006F82A0 /* FTRRemoteTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FTRRemoteTest.m; path = Sources/FTRRemoteTest.m; sourceTree = SOURCE_ROOT; };
 		FD5EB4A52118FD9F006F82A0 /* FTRFailureHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FTRFailureHandler.m; path = Sources/FTRFailureHandler.m; sourceTree = SOURCE_ROOT; };
 		FD5EB4A62118FD9F006F82A0 /* FTRActionSheetTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FTRActionSheetTest.m; path = Sources/FTRActionSheetTest.m; sourceTree = SOURCE_ROOT; };
 		FD5EB4A72118FD9F006F82A0 /* FTRPickerViewInteractionTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FTRPickerViewInteractionTest.m; path = Sources/FTRPickerViewInteractionTest.m; sourceTree = SOURCE_ROOT; };
 		FD5EB4A82118FD9F006F82A0 /* FTRAnalyticsTestMethodOptOutTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FTRAnalyticsTestMethodOptOutTest.m; path = Sources/FTRAnalyticsTestMethodOptOutTest.m; sourceTree = SOURCE_ROOT; };
-		FD5EB4A92118FDA0006F82A0 /* FTRMultiProcessSyncTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FTRMultiProcessSyncTest.m; path = Sources/FTRMultiProcessSyncTest.m; sourceTree = SOURCE_ROOT; };
 		FD5EB4AA2118FDA0006F82A0 /* FTRVisibilityTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FTRVisibilityTest.m; path = Sources/FTRVisibilityTest.m; sourceTree = SOURCE_ROOT; };
 		FD5EB4AC2118FDA0006F82A0 /* FTRNetworkTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FTRNetworkTest.m; path = Sources/FTRNetworkTest.m; sourceTree = SOURCE_ROOT; };
 		FD5EB4AD2118FDA0006F82A0 /* FTRShakeTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FTRShakeTest.m; path = Sources/FTRShakeTest.m; sourceTree = SOURCE_ROOT; };
@@ -674,6 +674,8 @@
 		FD5EB4862118FD61006F82A0 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				FD3A827921F26C6500CA3ADF /* FTRDistantObjectExecutionsTest.m */,
+				FD3A827621F26C6500CA3ADF /* FTRRemoteInteractionsTest.m */,
 				FD738BA82152F162009DE0BA /* FTRAnalyticsClassTearDownOptOutTest.m */,
 				FD738BA52152F161009DE0BA /* FTRAnalyticsTestPostTearDownTest.m */,
 				FD5EB49E2118FD9E006F82A0 /* FTRAccessibilityTest.m */,
@@ -705,14 +707,12 @@
 				FD5EB4B52118FDA2006F82A0 /* FTRKeyboardKeysTest.m */,
 				FD5EB48B2118FD9D006F82A0 /* FTRMatcherTest.m */,
 				FD5EB4942118FD9D006F82A0 /* FTRMultiFingerSwipeTest.m */,
-				FD5EB4A92118FDA0006F82A0 /* FTRMultiProcessSyncTest.m */,
 				FD5EB4AC2118FDA0006F82A0 /* FTRNetworkTest.m */,
 				FD5EB4A22118FD9F006F82A0 /* FTROrientationChangeTest.m */,
 				FD5EB4B22118FDA2006F82A0 /* FTROrientationPortraitOnlyChangeTest.m */,
 				FD5EB4A72118FD9F006F82A0 /* FTRPickerViewInteractionTest.m */,
 				FD5EB4AE2118FDA1006F82A0 /* FTRPinchViewTest.m */,
 				FD5EB48D2118FD9D006F82A0 /* FTRPresentedViewTest.m */,
-				FD5EB4A42118FD9F006F82A0 /* FTRRemoteTest.m */,
 				FD5EB4B12118FDA1006F82A0 /* FTRScreenshotTest.m */,
 				FD5EB4902118FD9D006F82A0 /* FTRScrollViewTest.m */,
 				FD5EB4AD2118FDA0006F82A0 /* FTRShakeTest.m */,
@@ -1461,7 +1461,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FD5EB4C22118FDA4006F82A0 /* FTRGestureTest.m in Sources */,
-				FD5EB4D52118FDA4006F82A0 /* FTRRemoteTest.m in Sources */,
+				FD3A827B21F26C6500CA3ADF /* FTRDistantObjectExecutionsTest.m in Sources */,
 				FD5EB4DD2118FDA4006F82A0 /* FTRNetworkTest.m in Sources */,
 				FD5EB4D02118FDA4006F82A0 /* FTRAccessibilityTest.m in Sources */,
 				FD5EB4C12118FDA4006F82A0 /* FTRPresentedViewTest.m in Sources */,
@@ -1492,6 +1492,7 @@
 				FD5EB4E12118FDA4006F82A0 /* FTRBaseAnalyticsTest.m in Sources */,
 				FD5EB4DE2118FDA4006F82A0 /* FTRShakeTest.m in Sources */,
 				FD5EB4CD2118FDA4006F82A0 /* FTRCollectionViewTest.m in Sources */,
+				FD3A827A21F26C6500CA3ADF /* FTRRemoteInteractionsTest.m in Sources */,
 				FD5EB4D32118FDA4006F82A0 /* FTROrientationChangeTest.m in Sources */,
 				FD5EB4CB2118FDA4006F82A0 /* FTRConditionTest.m in Sources */,
 				FD5EB4C72118FDA4006F82A0 /* FTRAlertViewTest.m in Sources */,
@@ -1500,7 +1501,6 @@
 				FD5EB4E02118FDA4006F82A0 /* FTRBaseIntegrationTest.m in Sources */,
 				FD5EB4D42118FDA4006F82A0 /* FTRAnalyticsTestCaseSetupOptOutTest.m in Sources */,
 				FD5EB4C32118FDA4006F82A0 /* FTRAnalyticsTest.m in Sources */,
-				FD5EB4DA2118FDA4006F82A0 /* FTRMultiProcessSyncTest.m in Sources */,
 				FD5EB4CF2118FDA4006F82A0 /* FTREarlGreyImplTest.m in Sources */,
 				FD5EB4C92118FDA4006F82A0 /* FTRAnalyticsTearDownOptOutTest.m in Sources */,
 			);
@@ -1955,9 +1955,11 @@
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = "";
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				LD_RUNPATH_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -1978,9 +1980,11 @@
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = "";
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				LD_RUNPATH_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_FAST_MATH = YES;
 				OTHER_LDFLAGS = "-ObjC";

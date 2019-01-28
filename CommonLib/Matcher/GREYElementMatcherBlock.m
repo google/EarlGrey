@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "AppFramework/Matcher/GREYElementMatcherBlock.h"
+#import "CommonLib/Matcher/GREYElementMatcherBlock.h"
 
 #import "CommonLib/Assertion/GREYThrowDefines.h"
 #import "CommonLib/GREYDefines.h"

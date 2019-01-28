@@ -31,9 +31,3 @@ void grey_execute_sync_on_main_thread(void (^block)(void)) {
     dispatch_semaphore_wait(waitForBlock, DISPATCH_TIME_FOREVER);
   }
 }
-
-void grey_execute_async_on_main_thread(void (^block)(void)) {
-  CFRunLoopPerformBlock(CFRunLoopGetMain(), CFRunLoopCopyCurrentMode(CFRunLoopGetMain()), block);
-  // CFRunLoopPerformBlock does not wake up the main queue.
-  CFRunLoopWakeUp(CFRunLoopGetMain());
-}

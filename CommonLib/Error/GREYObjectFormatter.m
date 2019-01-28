@@ -139,7 +139,7 @@ NSInteger const kGREYObjectFormatIndent = 2;
 
 /**
  *  Serializes an object into JSON-like string.
- *  The supported objects are: NSString, NSNumber, NSArray, NSDictionary and GREYError.
+ *  The supported objects are: NSString, NSNumber, NSArray, NSDictionary, NSError and GREYError.
  *
  *  @remark The serialized string is formatted as a JSON for presentation purposes but it doesn't
  *          have the right escaping applied for special character as it hinders readability.
@@ -197,6 +197,8 @@ NSInteger const kGREYObjectFormatIndent = 2;
                                        hideEmpty:YES
                                         keyOrder:keyOrder];
   } else if ([object isKindOfClass:[GREYError class]]) {
+    return [object description];
+  } else if ([object isKindOfClass:[NSError class]]) {
     return [object description];
   } else {
     GREYThrow(@"Unhandled output type: %@", [object class]);

@@ -38,6 +38,14 @@
 - (NSString *)grey_recursiveDescription;
 
 /**
+ *  @return An NSString in the format required by the app state tracker. The information printed
+ *          here is printed when the application is not idle and the app's state is checked. This
+ *          can be utilized for debugging since it shows which object is currently being tracked
+ *          and preventing the app from idling.
+ */
+- (NSString *)grey_stateTrackerDescription;
+
+/**
  *  Swizzle a selector with a particular object after a specified delay time interval in a
  *  specific run loop mode.
  *

@@ -194,21 +194,11 @@
     case UIReturnKeyYahoo:
       return UIReturnKeyDone;
     case UIReturnKeyDone:
-      // The Emergency Call key is no longer accessible starting from iOS 9.1. Therefore, we move
-      // to the Continue key that has to be present after iOS 9.0.
-      if (([UIDevice currentDevice].systemVersion.floatValue > 9.0)) {
-#if defined(__IPHONE_9_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_9_0)
         return UIReturnKeyContinue;
-#endif
-      } else {
-        return UIReturnKeyEmergencyCall;
-      }
     case UIReturnKeyEmergencyCall:
       return UIReturnKeyDefault;
-#if defined(__IPHONE_9_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_9_0)
     case UIReturnKeyContinue:
       return UIReturnKeyContinue;
-#endif
   }
 }
 

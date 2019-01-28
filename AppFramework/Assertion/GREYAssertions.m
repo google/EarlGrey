@@ -17,9 +17,9 @@
 #import "AppFramework/Assertion/GREYAssertions.h"
 
 #import "AppFramework/Additions/NSObject+GREYApp.h"
-#import "AppFramework/Assertion/GREYAssertionBlock.h"
 #import "AppFramework/Core/GREYInteraction.h"
 #import "CommonLib/Additions/NSObject+GREYCommon.h"
+#import "CommonLib/Assertion/GREYAssertionBlock.h"
 #import "CommonLib/Assertion/GREYAssertionDefines.h"
 #import "CommonLib/Assertion/GREYFatalAsserts.h"
 #import "CommonLib/Error/GREYError.h"

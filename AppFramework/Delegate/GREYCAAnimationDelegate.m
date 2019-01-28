@@ -77,7 +77,7 @@ static id InstrumentSurrogateDelegate(id self, id delegate, SEL originalSelector
   if (!delegate) {
     // If the delegate is nil then wrap it in a new surrogate delegate for the CAAnimation
     // delegate provided.
-    outDelegate = [[self alloc] initWithOriginalDelegate:delegate isWeak:NO];
+    outDelegate = [[self alloc] initInternal];
   } else {
     SEL animationDidStartSEL = @selector(animationDidStart:);
     SEL greyAnimationDidStartSEL = @selector(greyswizzled_animationDidStart:);
@@ -96,6 +96,14 @@ static id InstrumentSurrogateDelegate(id self, id delegate, SEL originalSelector
   }
   return outDelegate;
 }
+
+/** Internal initializer because init is marked as unavailable in the header. */
+- (instancetype)initInternal {
+  self = [super init];
+  return self;
+}
+
+#pragma mark - CAAnimationDelegate
 
 - (void)animationDidStart:(CAAnimation *)animation {
   AnimationDidStart(self, _cmd, animation, NO);

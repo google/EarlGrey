@@ -21,6 +21,14 @@
 @interface GREYHostApplicationDistantObject (BasicInteractionTest)
 
 /**
+ *  Adds a value to a mutable array after one second.
+ *
+ *  param array The NSMutableArray to add the value to.
+ *  param array The NSTimeInterval after which we add to the array.
+ */
+- (void)addToMutableArray:(NSMutableArray *)array afterTime:(NSTimeInterval)seconds;
+
+/**
  *  Returns a label's text that has been grabbed by an action.
  */
 - (NSString *)labelText;
@@ -99,5 +107,15 @@
  *  @param makeOpaque Denotes if the UIWindow should be opaque or not.
  */
 - (id<GREYAction>)actionToMakeWindowOpaque:(BOOL)makeOpaque;
+
+/**
+ *  Returns a sample shorthand action.
+ */
+- (id<GREYAction>)sampleShorthandAction;
+
+/**
+ *  Returns a sample shorthand matcher.
+ */
+- (id<GREYMatcher>)sampleShorthandMatcher;
 
 @end
