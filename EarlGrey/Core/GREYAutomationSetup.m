@@ -96,6 +96,10 @@ static GREYSignalHandler gPreviousSignalHandlers[kNumSignals];
  *  Exposing method to overwrite it with our own implementation.
  */
 - (void)_silentPressButton:(XCUIDeviceButton)buttonType;
+/**
+ *  Client for loading accessibility.
+ */
+@property id accessibilityInterface;
 @end
 
 @implementation XCUIDevice (GREYAdditions)
@@ -204,8 +208,14 @@ static GREYSignalHandler gPreviousSignalHandlers[kNumSignals];
                              @"addObserverForName:object:queue:usingBlock:");
   // Call which backgrounds the app and enables accessibility on iOS 9 and below. For iOS 10
   // another call is made below to load accessibility.
-  id XCAXClient = [XCAXClientClass sharedClient];
-  GREYFatalAssertWithMessage(XCAXClient, @"XCAXClient_iOS sharedClient doesn't exist.");
+  id XCAXClient;
+  if ([XCAXClientClass respondsToSelector:NSSelectorFromString(@"sharedClient")]) {
+    XCAXClient = [XCAXClientClass sharedClient];
+  } else {
+    XCAXClient = [[XCUIDevice sharedDevice] accessibilityInterface];
+  }
+  GREYFatalAssertWithMessage(XCAXClient,
+                             @"XCAXClient_iOS accessibility client/interface doesn't exist.");
   // Accessibility should be enabled...Reset swizzled implementations to original.
   BOOL reset = [swizzler resetInstanceMethod:@selector(_silentPressButton:)
                                        class:[XCUIDevice class]];
