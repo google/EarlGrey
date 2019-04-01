@@ -29,15 +29,15 @@ class TextFieldEventsRecorder {
   func registerActionBlock() -> GREYActionBlock {
     NotificationCenter.default.addObserver(self,
                                            selector: #selector(textDidBeginEditingHandler),
-                                           name: NSNotification.Name.UITextFieldTextDidBeginEditing,
+                                           name: UITextField.textDidBeginEditingNotification,
                                            object: nil)
     NotificationCenter.default.addObserver(self,
                                            selector: #selector(textDidChangeHandler),
-                                           name: NSNotification.Name.UITextFieldTextDidChange,
+                                           name: UITextField.textDidChangeNotification,
                                            object: nil)
     NotificationCenter.default.addObserver(self,
                                            selector: #selector(textDidEndEditingHandler),
-                                           name: NSNotification.Name.UITextFieldTextDidEndEditing,
+                                           name: UITextField.textDidEndEditingNotification,
                                            object: nil)
     return GREYActionBlock.action(withName: "Register to editing events") {
       (element: Any?, errorOrNil: UnsafeMutablePointer<NSError?>?) -> Bool in
@@ -169,7 +169,7 @@ class FTRSwiftTests: XCTestCase {
     let checkHiddenBlock:GREYActionBlock =
       GREYActionBlock.action(withName: "checkHiddenBlock", perform: { element, errorOrNil in
         // Check if the found element is hidden or not.
-        let superView:UIView! = element as! UIView
+        let superView: UIView = element as! UIView
         return !superView.isHidden
       })
 
