@@ -27,6 +27,7 @@ class TextFieldEventsRecorder {
   var editingDidEnd = false
 
   func registerActionBlock() -> GREYActionBlock {
+    #if swift(>=5.0)
     NotificationCenter.default.addObserver(self,
                                            selector: #selector(textDidBeginEditingHandler),
                                            name: UITextField.textDidBeginEditingNotification,
@@ -39,6 +40,20 @@ class TextFieldEventsRecorder {
                                            selector: #selector(textDidEndEditingHandler),
                                            name: UITextField.textDidEndEditingNotification,
                                            object: nil)
+    #else
+    NotificationCenter.default.addObserver(self,
+                                           selector: #selector(textDidBeginEditingHandler),
+                                           name: NSNotification.Name.UITextFieldTextDidBeginEditing,
+                                           object: nil)
+    NotificationCenter.default.addObserver(self,
+                                           selector: #selector(textDidChangeHandler),
+                                           name: NSNotification.Name.UITextFieldTextDidChange,
+                                           object: nil)
+    NotificationCenter.default.addObserver(self,
+                                           selector: #selector(textDidEndEditingHandler),
+                                           name: NSNotification.Name.UITextFieldTextDidEndEditing,
+                                           object: nil)
+    #endif
     return GREYActionBlock.action(withName: "Register to editing events") {
       (element: Any?, errorOrNil: UnsafeMutablePointer<NSError?>?) -> Bool in
       let element:UIControl = element as! UIControl
