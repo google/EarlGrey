@@ -21,13 +21,14 @@
 
 #import "AppFramework/Action/GREYTapAction.h"
 #import "AppFramework/Core/GREYElementInteraction.h"
+#import "AppFramework/Error/GREYAppError.h"
 #import "AppFramework/Synchronization/GREYAppStateTracker.h"
 #import "AppFramework/Synchronization/GREYAppStateTrackerObject.h"
 #import "AppFramework/Synchronization/GREYRunLoopSpinner.h"
 #import "AppFramework/Synchronization/GREYSyncAPI.h"
 #import "AppFramework/Synchronization/GREYUIThreadExecutor.h"
 #import "CommonLib/Assertion/GREYFatalAsserts.h"
-#import "CommonLib/Error/GREYError.h"
+#import "CommonLib/Error/GREYErrorConstants.h"
 #import "CommonLib/Error/NSError+GREYCommon.h"
 #import "CommonLib/GREYAppleInternals.h"
 #import "CommonLib/GREYDefines.h"
@@ -172,9 +173,9 @@ typedef BOOL (^ConditionBlock)(void);
     inFirstResponder:(id)firstResponder
                error:(__strong NSError **)errorOrNil {
   if ([string length] < 1) {
-    GREYPopulateErrorOrLog(errorOrNil, kGREYInteractionErrorDomain,
-                           kGREYInteractionActionFailedErrorCode,
-                           @"Failed to type, because the string provided was empty.");
+    I_GREYPopulateError(errorOrNil, kGREYInteractionErrorDomain,
+                        kGREYInteractionActionFailedErrorCode,
+                        @"Failed to type, because the string provided was empty.");
 
     return NO;
   } else if (!atomic_load(&gIsKeyboardShown)) {
@@ -183,8 +184,8 @@ typedef BOOL (^ConditionBlock)(void);
                                           @"keyboard was not shown on screen.",
                                           string];
 
-    GREYPopulateErrorOrLog(errorOrNil, kGREYInteractionErrorDomain,
-                           kGREYInteractionActionFailedErrorCode, description);
+    I_GREYPopulateError(errorOrNil, kGREYInteractionErrorDomain,
+                        kGREYInteractionActionFailedErrorCode, description);
 
     return NO;
   }
@@ -262,7 +263,7 @@ typedef BOOL (^ConditionBlock)(void);
     __block BOOL keyboardTypeWasChangedFromEmailType = NO;
     if (iOS9_OR_ABOVE() && [characterAsString isEqualToString:@"."]) {
       __block BOOL isEmailField = NO;
-      grey_execute_sync_on_main_thread(^{
+      grey_dispatch_sync_on_main_thread(^{
         isEmailField = [firstResponder respondsToSelector:@selector(keyboardType)] &&
                        [firstResponder keyboardType] == UIKeyboardTypeEmailAddress;
         if (isEmailField) {
@@ -323,6 +324,35 @@ typedef BOOL (^ConditionBlock)(void);
   }
 }
 
++ (BOOL)dismissKeyboardWithoutReturnKeyWithError:(NSError **)error {
+  __block GREYError *executionError = nil;
+  [[GREYUIThreadExecutor sharedInstance]
+      executeSyncWithTimeout:5
+                       block:^{
+                         // Even though this is checked previously in the caller on the test side,
+                         // check this again as the UI might have updated while the eDO call was
+                         // being made.
+                         if (!atomic_load(&gIsKeyboardShown)) {
+                           executionError = GREYErrorMakeWithHierarchy(
+                               kGREYKeyboardDismissalErrorDomain,
+                               GREYKeyboardDismissalFailedErrorCode,
+                               @"Failed to dismiss keyboard since it was not showing.");
+                         } else {
+                           [[UIApplication sharedApplication]
+                               sendAction:@selector(resignFirstResponder)
+                                       to:nil
+                                     from:nil
+                                 forEvent:nil];
+                         }
+                       }
+                       error:&executionError];
+  if (executionError) {
+    *error = executionError;
+    return NO;
+  }
+  return YES;
+}
+
 #pragma mark - Private
 
 /**
@@ -373,10 +403,9 @@ typedef BOOL (^ConditionBlock)(void);
        isSatisfiedWithTimeout:kMaxShiftKeyToggleDuration];
 
   if (!result) {
-    GREYPopulateErrorOrLog(errorOrNil, kGREYInteractionErrorDomain,
-                           kGREYInteractionTimeoutErrorCode,
-                           @"GREYKeyboard : Shift Key toggling timed out "
-                           @"since key with correct case wasn't found");
+    I_GREYPopulateError(errorOrNil, kGREYInteractionErrorDomain, kGREYInteractionTimeoutErrorCode,
+                        @"GREYKeyboard : Shift Key toggling timed out "
+                        @"since key with correct case wasn't found");
   }
   return key;
 }
@@ -397,7 +426,7 @@ typedef BOOL (^ConditionBlock)(void);
   // If we do not reset this value, we would need to wait at least 0.35 seconds after toggling
   // Shift before we could reliably toggle it again. This is likely related to the double-tap
   // gesture used for shift-lock (also called caps-lock).
-  grey_execute_sync_on_main_thread(^{
+  grey_dispatch_sync_on_main_thread(^{
     [[keyboard _layout] setValue:[NSNumber numberWithDouble:0.0] forKey:@"_shiftLockFirstTapTime"];
   });
 
@@ -409,9 +438,9 @@ typedef BOOL (^ConditionBlock)(void);
       return YES;
     }
   }
-  GREYPopulateErrorOrLog(errorOrNil, kGREYInteractionErrorDomain,
-                         kGREYInteractionActionFailedErrorCode,
-                         @"GREYKeyboard: No known SHIFT key was found in the hierarchy.");
+  I_GREYPopulateError(errorOrNil, kGREYInteractionErrorDomain,
+                      kGREYInteractionActionFailedErrorCode,
+                      @"GREYKeyboard: No known SHIFT key was found in the hierarchy.");
   return NO;
 }
 
@@ -434,7 +463,7 @@ typedef BOOL (^ConditionBlock)(void);
     // depending upon the keyboard.
     UIKeyboardImpl *currentKeyboard = [GREYKeyboard grey_keyboardObject];
     if ([character isEqualToString:kReturnKeyIdentifier]) {
-      grey_execute_sync_on_main_thread(^{
+      grey_dispatch_sync_on_main_thread(^{
         modifierKeyIdentifier = [currentKeyboard returnKeyDisplayName];
       });
     }
@@ -528,7 +557,7 @@ typedef BOOL (^ConditionBlock)(void);
   GREYFatalAssert(key);
 
   [gTapKeyAction perform:key error:errorOrNil];
-  grey_execute_sync_on_main_thread(^{
+  grey_dispatch_sync_on_main_thread(^{
     NSLog(@"Tapped on key: %@.", [key accessibilityLabel]);
     [[[GREYKeyboard grey_keyboardObject] taskQueue] waitUntilAllTasksAreFinished];
   });
@@ -554,8 +583,8 @@ typedef BOOL (^ConditionBlock)(void);
                                         @"on the keyboard.",
                                         string];
   NSDictionary *glossary = @{@"K" : [accessibilityLabel description]};
-  GREYPopulateErrorNotedOrLog(errorOrNil, kGREYInteractionErrorDomain,
-                              kGREYInteractionElementNotFoundErrorCode, description, glossary);
+  I_GREYPopulateErrorNoted(errorOrNil, kGREYInteractionErrorDomain,
+                           kGREYInteractionElementNotFoundErrorCode, description, glossary);
   return NO;
 }
 

@@ -16,6 +16,7 @@
 
 #import "AppFramework/Synchronization/GREYUIThreadExecutor.h"
 
+#import "AppFramework/Error/GREYAppError.h"
 #import "AppFramework/IdlingResources/GREYDispatchQueueIdlingResource.h"
 #import "AppFramework/IdlingResources/GREYIdlingResource.h"
 #import "AppFramework/IdlingResources/GREYOperationQueueIdlingResource.h"
@@ -24,7 +25,6 @@
 #import "CommonLib/Assertion/GREYFatalAsserts.h"
 #import "CommonLib/Assertion/GREYThrowDefines.h"
 #import "CommonLib/Config/GREYConfiguration.h"
-#import "CommonLib/Error/GREYError.h"
 #import "CommonLib/GREYConstants.h"
 #import "CommonLib/GREYDefines.h"
 #import "CommonLib/GREYLogger.h"
@@ -116,10 +116,10 @@ static const CFTimeInterval kMaximumSynchronizationSleepInterval = 0.1;
 }
 
 - (void)drainOnce {
-  // Drain the active run loop once. Do not allow the run loop to sleep.
+  // Drain the active runloop once. Do not allow the runloop to sleep.
   GREYRunLoopSpinner *runLoopSpinner = [[GREYRunLoopSpinner alloc] init];
 
-  // Spin the run loop with an always true stop condition. The spinner will only drain the run loop
+  // Spin the runloop with an always true stop condition. The spinner will only drain the runloop
   // for its minimum number of drains before checking this condition and returning.
   [runLoopSpinner spinWithStopConditionBlock:^BOOL {
     return YES;
@@ -128,28 +128,28 @@ static const CFTimeInterval kMaximumSynchronizationSleepInterval = 0.1;
 
 - (void)drainForTime:(CFTimeInterval)seconds {
   GREYThrowOnNilParameter(seconds >= 0);
-  GREYLogVerbose(@"Active Run Loop being drained for %f seconds.", seconds);
+  GREYLogVerbose(@"Active runloop being drained for %f seconds.", seconds);
 
   GREYStopwatch *stopwatch = [[GREYStopwatch alloc] init];
   [stopwatch start];
-  // Drain the active run loop for @c seconds. Allow the run loop to sleep.
+  // Drain the active runloop for @c seconds. Allow the runloop to sleep.
   GREYRunLoopSpinner *runLoopSpinner = [[GREYRunLoopSpinner alloc] init];
 
   runLoopSpinner.timeout = seconds;
   runLoopSpinner.maxSleepInterval = DBL_MAX;
   runLoopSpinner.minRunLoopDrains = 0;
 
-  // Spin the run loop with an always NO stop condition. The run loop spinner will only return after
+  // Spin the runloop with an always NO stop condition. The runloop spinner will only return after
   // it times out.
   [runLoopSpinner spinWithStopConditionBlock:^BOOL {
     return NO;
   }];
   [stopwatch stop];
-  GREYLogVerbose(@"Active Run Loop was drained for %f seconds", [stopwatch elapsedTime]);
+  GREYLogVerbose(@"Active runloop was drained for %f seconds", [stopwatch elapsedTime]);
 }
 
 - (void)drainUntilIdle {
-  GREYLogVerbose(@"Active Run Loop being drained for an infinite timeout until the app is Idle.");
+  GREYLogVerbose(@"Active runloop being drained for an infinite timeout until the app is Idle.");
   GREYStopwatch *stopwatch = [[GREYStopwatch alloc] init];
   [stopwatch start];
   [self executeSyncWithTimeout:kGREYInfiniteTimeout block:nil error:nil];
@@ -159,8 +159,7 @@ static const CFTimeInterval kMaximumSynchronizationSleepInterval = 0.1;
 
 - (BOOL)drainUntilIdleWithTimeout:(CFTimeInterval)seconds {
   NSError *ignoreError;
-  GREYLogVerbose(@"Active Run Loop being drained for an %f seconds until the app is Idle.",
-                 seconds);
+  GREYLogVerbose(@"Active runloop being drained for an %f seconds until the app is Idle.", seconds);
   GREYStopwatch *stopwatch = [[GREYStopwatch alloc] init];
   [stopwatch start];
   BOOL success = [self executeSyncWithTimeout:seconds block:nil error:&ignoreError];
@@ -168,15 +167,9 @@ static const CFTimeInterval kMaximumSynchronizationSleepInterval = 0.1;
   if (success) {
     GREYLogVerbose(@"App became idle after %f seconds", [stopwatch elapsedTime]);
   } else {
-    GREYLogVerbose(@"Run loop drain timed out after %f seconds", [stopwatch elapsedTime]);
+    GREYLogVerbose(@"runloop drain timed out after %f seconds", [stopwatch elapsedTime]);
   }
   return success;
-}
-
-- (BOOL)executeSync:(GREYExecBlock)execBlock error:(NSError **)error {
-  GREYLogVerbose(@"Execution block: %@ is being synchronized and executed on the main thread.",
-                 execBlock);
-  return [self executeSyncWithTimeout:kGREYInfiniteTimeout block:execBlock error:error];
 }
 
 - (BOOL)executeSyncWithTimeout:(CFTimeInterval)seconds
@@ -186,9 +179,9 @@ static const CFTimeInterval kMaximumSynchronizationSleepInterval = 0.1;
 
   BOOL isSynchronizationEnabled = GREY_CONFIG_BOOL(kGREYConfigKeySynchronizationEnabled);
   GREYRunLoopSpinner *runLoopSpinner = [[GREYRunLoopSpinner alloc] init];
-  // It is important that we execute @c execBlock in the active run loop mode, which is guaranteed
-  // by the run loop spinner's condition met handler. We want actions and other events to execute
-  // in the mode that they would without EarlGrey's run loop control.
+  // It is important that we execute @c execBlock in the active runloop mode, which is guaranteed
+  // by the runloop spinner's condition met handler. We want actions and other events to execute
+  // in the mode that they would without EarlGrey's runloop control.
   runLoopSpinner.conditionMetHandler = ^{
     @autoreleasepool {
       if (execBlock) {
@@ -203,7 +196,7 @@ static const CFTimeInterval kMaximumSynchronizationSleepInterval = 0.1;
       runLoopSpinner.maxSleepInterval = kMaximumSynchronizationSleepInterval;
     }
 
-    // Spin the run loop until the all of the resources are idle or until @c seconds.
+    // Spin the runloop until the all of the resources are idle or until @c seconds.
     BOOL isAppIdle = [runLoopSpinner spinWithStopConditionBlock:^BOOL {
       return [self grey_areAllResourcesIdle];
     }];
@@ -212,18 +205,18 @@ static const CFTimeInterval kMaximumSynchronizationSleepInterval = 0.1;
       NSOrderedSet *busyResources = [self grey_busyResources];
       if ([busyResources count] > 0) {
         NSString *description = @"Failed to execute block because idling resources below are busy.";
-        GREYPopulateErrorNotedOrLog(error, kGREYUIThreadExecutorErrorDomain,
-                                    kGREYUIThreadExecutorTimeoutErrorCode, description,
-                                    [self grey_errorDictionaryForBusyResources:busyResources]);
+        I_GREYPopulateErrorNoted(error, kGREYUIThreadExecutorErrorDomain,
+                                 kGREYUIThreadExecutorTimeoutErrorCode, description,
+                                 [self grey_errorDictionaryForBusyResources:busyResources]);
       } else {
-        GREYPopulateErrorOrLog(error, kGREYUIThreadExecutorErrorDomain,
-                               kGREYUIThreadExecutorTimeoutErrorCode,
-                               @"Failed to idle but all resources are idle after timeout.");
+        I_GREYPopulateError(error, kGREYUIThreadExecutorErrorDomain,
+                            kGREYUIThreadExecutorTimeoutErrorCode,
+                            @"Failed to idle but all resources are idle after timeout.");
       }
     }
     return isAppIdle;
   } else {
-    // Spin the run loop with an always true stop condition. The spinner will only drain the run
+    // Spin the runloop with an always true stop condition. The spinner will only drain the run
     // loop for its minimum number of drains before executing the conditionMetHandler in the active
     // mode and returning.
     [runLoopSpinner spinWithStopConditionBlock:^BOOL {

@@ -16,79 +16,39 @@
 
 #import "AppFramework/Error/GREYFailureScreenshotter.h"
 
+#import "AppFramework/Synchronization/GREYSyncAPI.h"
 #import "CommonLib/Config/GREYConfiguration.h"
 #import "CommonLib/Error/GREYError.h"
-#import "UILib/GREYScreenshotUtil+Internal.h"
-#import "UILib/GREYScreenshotUtil.h"
+#import "UILib/GREYScreenshotter+Internal.h"
+#import "UILib/GREYScreenshotter.h"
 #import "UILib/GREYVisibilityChecker+Internal.h"
-
-static inline NSInteger GetNextScreenshotCount() {
-  static NSInteger count = 0;
-  count++;
-  return count;
-}
 
 @implementation GREYFailureScreenshotter
 
-+ (NSDictionary *)generateAppScreenshotsWithPrefix:(NSString *)screenshotPrefix
-                                           failure:(NSString *)failureName {
-  NSString *screenshotDir = GREY_CONFIG_STRING(kGREYConfigKeyArtifactsDirLocation);
-  NSString *uniqueSubDirName = [NSString
-      stringWithFormat:@"%@-%@-%@", screenshotPrefix, failureName, [[NSUUID UUID] UUIDString]];
-  screenshotDir = [screenshotDir stringByAppendingPathComponent:uniqueSubDirName];
-  return [self generateAppScreenshotsWithPrefix:screenshotPrefix
-                                        failure:failureName
-                                  screenshotDir:screenshotDir];
-}
-
-+ (NSDictionary *)generateAppScreenshotsWithPrefix:(NSString *)screenshotPrefix
-                                           failure:(NSString *)failureName
-                                     screenshotDir:(NSString *)screenshotDir {
++ (NSDictionary *)screenshots {
   NSMutableDictionary *appScreenshots = [[NSMutableDictionary alloc] init];
+  __block UIImage *screenshot;
+  grey_dispatch_sync_on_main_thread(^{
+    screenshot = [GREYScreenshotter grey_takeScreenshotAfterScreenUpdates:NO withStatusBar:NO];
+  });
 
-  // Save and log screenshot and before and after images (if available).
-  NSString *screenshotPath;
-  NSString *fileName;
-  UIImage *screenshot;
-
-  NSString *screenshotName;
-  if (screenshotPrefix) {
-    screenshotName = screenshotPrefix;
-  } else {
-    screenshotName =
-        [NSString stringWithFormat:@"unknown_%ld", (unsigned long)GetNextScreenshotCount()];
-  }
-
-  screenshot = [GREYScreenshotUtil grey_takeScreenshotAfterScreenUpdates:NO withStatusBar:NO];
   if (screenshot) {
-    fileName = [NSString stringWithFormat:@"%@.png", screenshotName];
-    screenshotPath =
-        [GREYScreenshotUtil saveImageAsPNG:screenshot toFile:fileName inDirectory:screenshotDir];
-    appScreenshots[kGREYScreenshotAtFailure] = screenshotPath;
+    appScreenshots[kGREYScreenshotAtFailure] = screenshot;
   }
 
   screenshot = [GREYVisibilityChecker grey_lastActualBeforeImage];
   if (screenshot) {
-    fileName = [NSString stringWithFormat:@"%@_before.png", screenshotName];
-    screenshotPath =
-        [GREYScreenshotUtil saveImageAsPNG:screenshot toFile:fileName inDirectory:screenshotDir];
-    appScreenshots[kGREYScreenshotBeforeImage] = screenshotPath;
+    appScreenshots[kGREYScreenshotBeforeImage] = screenshot;
   }
 
   screenshot = [GREYVisibilityChecker grey_lastExpectedAfterImage];
   if (screenshot) {
-    fileName = [NSString stringWithFormat:@"%@_after_expected.png", screenshotName];
-    screenshotPath =
-        [GREYScreenshotUtil saveImageAsPNG:screenshot toFile:fileName inDirectory:screenshotDir];
-    appScreenshots[kGREYScreenshotExpectedAfterImage] = screenshotPath;
+    appScreenshots[kGREYScreenshotExpectedAfterImage] = screenshot;
   }
 
   screenshot = [GREYVisibilityChecker grey_lastActualAfterImage];
   if (screenshot) {
-    fileName = [NSString stringWithFormat:@"%@_after_actual.png", screenshotName];
-    screenshotPath =
-        [GREYScreenshotUtil saveImageAsPNG:screenshot toFile:fileName inDirectory:screenshotDir];
-    appScreenshots[kGREYScreenshotActualAfterImage] = screenshotPath;
+    appScreenshots[kGREYScreenshotActualAfterImage] = screenshot;
   }
 
   return appScreenshots;

@@ -28,6 +28,11 @@
    *  NSUInteger to keep track of the index that is being accessed in the @c _parsedHierarchy array.
    */
   NSUInteger _parsedHierarchyIndex;
+
+  /**
+   *  Flag to indicate whether the hierarchy should be reversed or not. Default is @c YES.
+   */
+  BOOL _isBackToFront;
 }
 
 - (instancetype)init:(id)element {
@@ -40,7 +45,7 @@
   return self;
 }
 
-+ (instancetype)hierarchyForElementWithDFSTraversal:(id)element {
++ (instancetype)frontToBackHierarchyForElementWithDFSTraversal:(id)element {
   GREYThrowOnNilParameter(element);
 
   // Wrap the @c element in the GREYTraversalDFSObject.
@@ -50,6 +55,12 @@
 
   // Create an instance of GREYTraversalDFS.
   return [[GREYTraversalDFS alloc] init:object];
+}
+
++ (instancetype)backToFrontHierarchyForElementWithDFSTraversal:(id)element {
+  GREYTraversalDFS *instance = [self frontToBackHierarchyForElementWithDFSTraversal:element];
+  instance->_isBackToFront = YES;
+  return instance;
 }
 
 - (id)nextObject {
@@ -90,7 +101,7 @@
   // Insert the GREYHierarchyObject instance into the front of the array. Here the array is used
   // as a stack, hence front insertions. We could have inserted into the back, however the logic
   // associated with @c _parsedHierarchyIndex facilitated front insertions.
-  for (id child in [children reverseObjectEnumerator]) {
+  for (id child in _isBackToFront ? children : [children reverseObjectEnumerator]) {
     GREYTraversalObject *object = [[GREYTraversalObject alloc] init];
     [object setLevel:nextObject.level + 1];
     [object setElement:child];

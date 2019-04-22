@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -47,7 +47,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Window swipes start here" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mqg-3D-a6P">
-                    <rect key="frame" x="70.5" y="290" width="234" height="55"/>
+                    <rect key="frame" x="70.5" y="283" width="234" height="55"/>
                     <color key="backgroundColor" red="0.59999999999999998" green="0.80000000000000004" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="234" id="sCz-2t-gKp"/>
@@ -57,7 +57,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fNP-mR-wvW" customClass="TouchEventView">
-                    <rect key="frame" x="79.5" y="86" width="216" height="196"/>
+                    <rect key="frame" x="79.5" y="79" width="216" height="196"/>
                     <color key="backgroundColor" red="0.86200747282608692" green="0.86200747282608692" blue="0.86200747282608692" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="196" id="3Fi-Ni-DO7"/>
@@ -65,7 +65,7 @@
                     </constraints>
                 </view>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="no window gesture recognized" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YpR-OY-1RP">
-                    <rect key="frame" x="27.5" y="353" width="320" height="21"/>
+                    <rect key="frame" x="27.5" y="346" width="320" height="21"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="320" id="hJJ-R3-fAa"/>
                     </constraints>
@@ -73,34 +73,34 @@
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AN7-lN-9kB">
-                    <rect key="frame" x="143" y="389" width="89" height="30"/>
-                    <state key="normal" title="Reset Button"/>
-                </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Counter" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M30-SQ-zgw">
-                    <rect key="frame" x="156.5" y="435" width="62" height="21"/>
+                    <rect key="frame" x="242" y="380" width="62" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AN7-lN-9kB">
+                    <rect key="frame" x="79" y="375" width="89" height="30"/>
+                    <state key="normal" title="Reset Button"/>
+                </button>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="cRM-aH-Qtf" firstAttribute="top" secondItem="yAL-Fm-r0p" secondAttribute="bottom" constant="1" id="28o-fJ-u1n"/>
                 <constraint firstItem="yAL-Fm-r0p" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="5hW-Lu-mSG"/>
-                <constraint firstItem="M30-SQ-zgw" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="CXk-2f-23F"/>
+                <constraint firstItem="M30-SQ-zgw" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" constant="85.5" id="CXk-2f-23F"/>
                 <constraint firstItem="Mqg-3D-a6P" firstAttribute="top" secondItem="fNP-mR-wvW" secondAttribute="bottom" constant="8" id="DdL-1T-9zj"/>
                 <constraint firstItem="fNP-mR-wvW" firstAttribute="centerX" secondItem="yAL-Fm-r0p" secondAttribute="centerX" id="HeQ-G8-Co2"/>
-                <constraint firstItem="fNP-mR-wvW" firstAttribute="top" secondItem="cRM-aH-Qtf" secondAttribute="bottom" constant="15" id="HrV-6X-9Rf"/>
-                <constraint firstItem="fNP-mR-wvW" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="86" id="KNz-zV-SbO"/>
-                <constraint firstItem="M30-SQ-zgw" firstAttribute="top" secondItem="AN7-lN-9kB" secondAttribute="bottom" constant="16" id="OA0-YR-Ve3"/>
-                <constraint firstItem="fNP-mR-wvW" firstAttribute="top" secondItem="cRM-aH-Qtf" secondAttribute="bottom" constant="15" id="VWU-Bs-EfS"/>
-                <constraint firstItem="AN7-lN-9kB" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="YEc-Zu-xpO"/>
+                <constraint firstItem="fNP-mR-wvW" firstAttribute="top" secondItem="cRM-aH-Qtf" secondAttribute="bottom" constant="8" id="HrV-6X-9Rf"/>
+                <constraint firstItem="fNP-mR-wvW" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="79" id="KNz-zV-SbO"/>
+                <constraint firstItem="M30-SQ-zgw" firstAttribute="top" secondItem="AN7-lN-9kB" secondAttribute="bottom" constant="-25" id="OA0-YR-Ve3"/>
+                <constraint firstItem="fNP-mR-wvW" firstAttribute="top" secondItem="cRM-aH-Qtf" secondAttribute="bottom" constant="8" id="VWU-Bs-EfS"/>
+                <constraint firstItem="AN7-lN-9kB" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" constant="-64" id="YEc-Zu-xpO"/>
                 <constraint firstItem="fNP-mR-wvW" firstAttribute="centerX" secondItem="cRM-aH-Qtf" secondAttribute="centerX" id="mvk-lI-xwP"/>
                 <constraint firstItem="fNP-mR-wvW" firstAttribute="centerX" secondItem="Mqg-3D-a6P" secondAttribute="centerX" id="nJm-76-khr"/>
                 <constraint firstItem="fNP-mR-wvW" firstAttribute="centerX" secondItem="YpR-OY-1RP" secondAttribute="centerX" id="rB6-j6-xgm"/>
                 <constraint firstItem="YpR-OY-1RP" firstAttribute="top" secondItem="Mqg-3D-a6P" secondAttribute="bottom" constant="8" id="sge-my-joC"/>
-                <constraint firstItem="AN7-lN-9kB" firstAttribute="top" secondItem="YpR-OY-1RP" secondAttribute="bottom" constant="15" id="sh8-4o-Bk0"/>
+                <constraint firstItem="AN7-lN-9kB" firstAttribute="top" secondItem="YpR-OY-1RP" secondAttribute="bottom" constant="8" id="sh8-4o-Bk0"/>
                 <constraint firstItem="YpR-OY-1RP" firstAttribute="top" secondItem="fNP-mR-wvW" secondAttribute="bottom" constant="71" id="urz-En-5hY"/>
                 <constraint firstItem="yAL-Fm-r0p" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="20" id="yRG-Xi-3ue"/>
             </constraints>

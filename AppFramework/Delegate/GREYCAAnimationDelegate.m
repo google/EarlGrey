@@ -113,7 +113,7 @@ static id InstrumentSurrogateDelegate(id self, id delegate, SEL originalSelector
   AnimationDidStop(self, _cmd, animation, finished, NO);
 }
 
-#pragma mark - GREYPrivate
+#pragma mark - Private
 
 /**
  *  Swizzled implementation of the CAAnimationDelegate::animationDidStart method.

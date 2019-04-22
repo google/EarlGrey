@@ -209,6 +209,10 @@ static Class gWebAccessibilityWrapper;
   return description;
 }
 
+- (NSString *)grey_objectDescription {
+  return [[NSString alloc] initWithFormat:@"<%@: %p>", [self class], self];
+}
+
 #pragma mark - Private
 
 - (NSString *)grey_formattedDescriptionOrEmptyStringForValue:(NSString *)value

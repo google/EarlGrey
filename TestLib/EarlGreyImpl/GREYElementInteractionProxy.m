@@ -19,12 +19,10 @@
 #include <stdatomic.h>
 
 #import "AppFramework/DistantObject/GREYHostBackgroundDistantObject+GREYApp.h"
-#import "CommonLib/Assertion/GREYAssertionDefines.h"
 #import "CommonLib/Assertion/GREYFatalAsserts.h"
 #import "CommonLib/Assertion/GREYThrowDefines.h"
-#import "CommonLib/Error/GREYErrorConstants.h"
-#import "CommonLib/Exceptions/GREYFailureHandler.h"
-#import "CommonLib/Exceptions/GREYFrameworkException.h"
+#import "CommonLib/Error/GREYError.h"
+#import "TestLib/EarlGreyImpl/GREYElementInteractionErrorHandler.h"
 #import "Service/Sources/EDOHostService.h"
 
 @implementation GREYElementInteractionProxy {
@@ -57,11 +55,11 @@
 
 - (id<GREYInteraction>)performAction:(id)action error:(__autoreleasing NSError **)errorOrNil {
   GREYThrowOnNilParameterWithMessage(action, @"Action can't be nil.");
-  __block __strong NSError *interactionError = nil;
+  __block __strong GREYError *interactionError = nil;
   [self grey_dispatchBlockInBackgroundQueue:^{
     [self->_remoteElementInteraction performAction:action error:&interactionError];
   }];
-  [self grey_handleInteractionError:interactionError outError:errorOrNil];
+  [GREYElementInteractionErrorHandler handleInteractionError:interactionError outError:errorOrNil];
   return self;
 }
 
@@ -72,11 +70,11 @@
 - (id<GREYInteraction>)assert:(id<GREYAssertion>)assertion
                         error:(__autoreleasing NSError **)errorOrNil {
   GREYThrowOnNilParameterWithMessage(assertion, @"Assertion can't be nil.");
-  __block __strong NSError *interactionError = nil;
+  __block __strong GREYError *interactionError = nil;
   [self grey_dispatchBlockInBackgroundQueue:^{
     [self->_remoteElementInteraction assert:assertion error:&interactionError];
   }];
-  [self grey_handleInteractionError:interactionError outError:errorOrNil];
+  [GREYElementInteractionErrorHandler handleInteractionError:interactionError outError:errorOrNil];
   return self;
 }
 
@@ -87,11 +85,11 @@
 - (id<GREYInteraction>)assertWithMatcher:(id<GREYMatcher>)matcher
                                    error:(__autoreleasing NSError **)errorOrNil {
   GREYThrowOnNilParameterWithMessage(matcher, @"Matcher can't be nil.");
-  __block __strong NSError *interactionError = nil;
+  __block __strong GREYError *interactionError = nil;
   [self grey_dispatchBlockInBackgroundQueue:^{
     [self->_remoteElementInteraction assertWithMatcher:matcher error:&interactionError];
   }];
-  [self grey_handleInteractionError:interactionError outError:errorOrNil];
+  [GREYElementInteractionErrorHandler handleInteractionError:interactionError outError:errorOrNil];
   return self;
 }
 
@@ -166,34 +164,6 @@
   }
   // Cancel any future executions of the CFRunLoppStop block.
   dispatch_block_cancel(blockToStopMainRunloopSpinning);
-}
-
-/**
- *  Handles and sets the error based on the interaction related placeholder error value.
- *
- *  @param interactionError Error returned from the interaction.
- *  @param errorOrNil       Error passed in by the user.
- *
- *  @return @c NO if any error is returned from the interaction, @c YES otherwise.
- */
-- (BOOL)grey_handleInteractionError:(__strong NSError *)interactionError
-                           outError:(__autoreleasing NSError **)errorOrNil {
-  if (interactionError) {
-    if (errorOrNil) {
-      *errorOrNil = interactionError;
-    } else {
-      GREYFrameworkException *exception =
-          [GREYFrameworkException exceptionWithName:[interactionError domain]
-                                             reason:[interactionError localizedDescription]
-                                           userInfo:[interactionError userInfo]];
-      id<GREYFailureHandler> failureHandler = GREYGetFailureHandler();
-      NSString *errorDetails = [[exception userInfo] valueForKey:kErrorDetailElementMatcherKey];
-      [failureHandler handleException:exception details:errorDetails];
-    }
-    return NO;
-  } else {
-    return YES;
-  }
 }
 
 @end

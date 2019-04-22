@@ -17,14 +17,23 @@
 #import "CommonLib/Error/GREYObjectFormatter.h"
 
 #import "CommonLib/Additions/NSString+GREYCommon.h"
-#import "CommonLib/Assertion/GREYFatalAsserts.h"
-#import "CommonLib/Assertion/GREYThrowDefines.h"
 #import "CommonLib/Error/GREYError.h"
 #import "CommonLib/Matcher/GREYStringDescription.h"
 
 NSInteger const kGREYObjectFormatIndent = 2;
 
+/**
+ *  Class for the EDOObject.
+ */
+static Class gEDOObjectClass;
+
 @implementation GREYObjectFormatter
+
++ (void)initialize {
+  if (self == [GREYObjectFormatter class]) {
+    gEDOObjectClass = NSClassFromString(@"EDOObject");
+  }
+}
 
 + (NSString *)formatArray:(NSArray *)array indent:(NSInteger)indent keyOrder:(NSArray *)keyOrder {
   return [self formatArray:array prefix:nil indent:indent keyOrder:keyOrder];
@@ -200,8 +209,12 @@ NSInteger const kGREYObjectFormatIndent = 2;
     return [object description];
   } else if ([object isKindOfClass:[NSError class]]) {
     return [object description];
+  } else if ([object class] == gEDOObjectClass) {
+    return [object description];
+  } else if ([object isKindOfClass:[UIImage class]]) {
+    return [object description];
   } else {
-    GREYThrow(@"Unhandled output type: %@", [object class]);
+    NSAssert(NO, @"Unhandled output type: %@", [object class]);
   }
   return nil;
 }

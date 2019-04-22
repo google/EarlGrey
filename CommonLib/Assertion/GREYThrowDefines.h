@@ -26,10 +26,7 @@
  *
  *  @note Unlike NSAssert, these are never compiled out and present in all flavors of the build
  *        until they're removed explicitly.
-
-
  */
-
 #ifndef GREY_THROW_DEFINES_H
 #define GREY_THROW_DEFINES_H
 

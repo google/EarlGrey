@@ -21,9 +21,9 @@
 #import "CommonLib/Assertion/GREYThrowDefines.h"
 #import "CommonLib/GREYAppleInternals.h"
 #import "CommonLib/GREYDefines.h"
+#import "TestLib/AppleInternals/GREYXCTestAppleInternals.h"
 #import "TestLib/Assertion/GREYAssertionDefines.h"
 #import "TestLib/Condition/GREYCondition.h"
-#import "TestLib/GREYXCTestAppleInternals.h"
 
 /**
  *  Text denoting part of the Location System Alert Label in iOS 10.
@@ -77,18 +77,6 @@ static NSString *const kSystemAlertLabelContacts = @"Contacts";
 CFTimeInterval const kSystemAlertVisibilityTimeout = 10;
 NSString *const kGREYSystemAlertDismissalErrorDomain = @"com.google.earlgrey.SystemAlertDismissal";
 
-/**
- *  Private Methods related to XCUIElement.
- */
-@interface XCUIElement (GREYExposed)
-/**
- *  Ensures that a UI Interruption is handled.
- *
- *  @param arg1 @c YES if the UI Interruption should be handle. @c NO otherwise.
- */
-- (void)resolveHandleUIInterruption:(BOOL)arg1;
-@end
-
 @implementation XCTestCase (GREYSystemAlertHandler)
 
 - (NSString *)grey_systemAlertTextWithError:(NSError **)error {
@@ -97,7 +85,7 @@ NSString *const kGREYSystemAlertDismissalErrorDomain = @"com.google.earlgrey.Sys
     return nil;
   } else {
     XCUIElement *alertInHierarchy =
-        [[springboardApp descendantsMatchingType:XCUIElementTypeAlert] elementBoundByIndex:0];
+        [[springboardApp descendantsMatchingType:XCUIElementTypeAlert] firstMatch];
     if (![alertInHierarchy exists]) {
       if (error) {
         *error = [NSError errorWithDomain:kGREYSystemAlertDismissalErrorDomain
@@ -114,10 +102,9 @@ NSString *const kGREYSystemAlertDismissalErrorDomain = @"com.google.earlgrey.Sys
   XCUIApplication *springboardApp = [self grey_springboardApplication];
   GREYAssertTrue([self grey_waitForAlertExistenceWithTimeout:kSystemAlertVisibilityTimeout],
                  @"Time out waiting for alert existing in UI hierarchy");
-  // Make sure the alert is up before checking for an alert.
 
-  XCUIElement *alert =
-      [[springboardApp descendantsMatchingType:XCUIElementTypeAlert] elementBoundByIndex:0];
+  // Make sure the alert is up before checking for an alert.
+  XCUIElement *alert = [[springboardApp descendantsMatchingType:XCUIElementTypeAlert] firstMatch];
   GREYAssertNotNil(alert, @"Alert does not exist");
   NSString *alertValue = [alert label];
   // The Alert Label for the Location Alert is different for iOS 11 and iOS 10.
@@ -158,7 +145,7 @@ NSString *const kGREYSystemAlertDismissalErrorDomain = @"com.google.earlgrey.Sys
   }
 
   XCUIElement *alertInHierarchy =
-      [[springboardApp descendantsMatchingType:XCUIElementTypeAlert] elementBoundByIndex:0];
+      [[springboardApp descendantsMatchingType:XCUIElementTypeAlert] firstMatch];
   if (![alertInHierarchy exists]) {
     if (error) {
       *error = [NSError errorWithDomain:kGREYSystemAlertDismissalErrorDomain
@@ -170,7 +157,8 @@ NSString *const kGREYSystemAlertDismissalErrorDomain = @"com.google.earlgrey.Sys
   NSString *alertText = [alertInHierarchy valueForKey:@"label"];
 
   XCUIElement *acceptButton = [[alertInHierarchy buttons] elementBoundByIndex:1];
-  I_GREYAssertTrue([acceptButton isHittable], @"accept button is not hittable");
+  NSAssert([acceptButton isHittable], @"accept button is not hittable\n%@",
+           [springboardApp debugDescription]);
 
   BOOL dismissed = NO;
   // Retry logic can solve the failure in slow animations mode.
@@ -189,7 +177,7 @@ NSString *const kGREYSystemAlertDismissalErrorDomain = @"com.google.earlgrey.Sys
   }
 
   XCUIElement *alertInHierarchy =
-      [[springboardApp descendantsMatchingType:XCUIElementTypeAlert] elementBoundByIndex:0];
+      [[springboardApp descendantsMatchingType:XCUIElementTypeAlert] firstMatch];
   if (![alertInHierarchy exists]) {
     if (error) {
       *error = [NSError errorWithDomain:kGREYSystemAlertDismissalErrorDomain
@@ -208,9 +196,10 @@ NSString *const kGREYSystemAlertDismissalErrorDomain = @"com.google.earlgrey.Sys
   } else if ([self grey_systemAlertType] == GREYSystemAlertTypeBackgroundLocation) {
     GREYThrow(@"Dismissing a Background Location System Alert once Location Alert is accepted.");
   } else {
-    denyButton = [[alertInHierarchy buttons] elementBoundByIndex:0];
+    denyButton = [[alertInHierarchy buttons] firstMatch];
   }
-  I_GREYAssertTrue([denyButton isHittable], @"deny button is not hittable");
+  NSAssert([denyButton isHittable], @"deny button is not hittable\n%@",
+           [springboardApp debugDescription]);
 
   BOOL dismissed = NO;
   // Retry logic can solve the failure in slow animations mode.
@@ -229,7 +218,7 @@ NSString *const kGREYSystemAlertDismissalErrorDomain = @"com.google.earlgrey.Sys
   }
 
   XCUIElement *firstAlertPresent =
-      [[springboardApp descendantsMatchingType:XCUIElementTypeAlert] elementBoundByIndex:0];
+      [[springboardApp descendantsMatchingType:XCUIElementTypeAlert] firstMatch];
   if (![firstAlertPresent.buttons[text] exists]) {
     if (error) {
       *error = [NSError errorWithDomain:kGREYSystemAlertDismissalErrorDomain
@@ -240,7 +229,7 @@ NSString *const kGREYSystemAlertDismissalErrorDomain = @"com.google.earlgrey.Sys
   }
   NSString *alertText = [firstAlertPresent valueForKey:@"label"];
   XCUIElement *button = firstAlertPresent.buttons[text];
-  I_GREYAssertTrue([button isHittable], @"button is not hittable");
+  NSAssert([button isHittable], @"button is not hittable\n%@", [springboardApp debugDescription]);
 
   BOOL dismissed = NO;
   // Retry logic can solve the failure in slow animations mode.
@@ -264,7 +253,7 @@ NSString *const kGREYSystemAlertDismissalErrorDomain = @"com.google.earlgrey.Sys
   }
 
   XCUIElement *firstAlertPresent =
-      [[springboardApp descendantsMatchingType:XCUIElementTypeAlert] elementBoundByIndex:0];
+      [[springboardApp descendantsMatchingType:XCUIElementTypeAlert] firstMatch];
   XCUIElement *elementToType = nil;
   if ([firstAlertPresent.textFields[placeholderText] exists]) {
     elementToType = firstAlertPresent.textFields[placeholderText];
@@ -352,7 +341,7 @@ NSString *const kGREYSystemAlertDismissalErrorDomain = @"com.google.earlgrey.Sys
         [springboardApp descendantsMatchingType:XCUIElementTypeAlert];
     NSString *label = nil;
     if ([anyAlertPresentQuery count]) {
-      anyAlertPresent = [anyAlertPresentQuery elementBoundByIndex:0];
+      anyAlertPresent = [anyAlertPresentQuery firstMatch];
       label = anyAlertPresent ? [anyAlertPresent valueForKey:@"label"] : @"";
     }
     // Ensure that the same alert being asked for has been dismissed.

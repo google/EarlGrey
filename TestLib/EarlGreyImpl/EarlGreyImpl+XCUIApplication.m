@@ -19,8 +19,8 @@
 #import "CommonLib/Assertion/GREYFatalAsserts.h"
 #import "CommonLib/Error/GREYError.h"
 #import "CommonLib/GREYDefines.h"
+#import "TestLib/AppleInternals/GREYXCTestAppleInternals.h"
 #import "TestLib/Condition/GREYCondition.h"
-#import "TestLib/GREYXCTestAppleInternals.h"
 
 /**
  *  Amount to scroll to move to the next springboard page.
@@ -91,7 +91,7 @@ static const CFTimeInterval kPollInterval = 5.0;
                       application = nil;
                       return YES;
                     }
-                    return [[application.windows elementBoundByIndex:0] exists];
+                    return [[application.windows firstMatch] exists];
                   }];
   // If we were successful in invoking to foreground the application, then wait and check if the
   // application is foregrounded within the @c kForegroundTimeout.
@@ -99,9 +99,9 @@ static const CFTimeInterval kPollInterval = 5.0;
   if (success && application) {
     return application;
   } else {
-    GREYPopulateErrorOrLog(errorOrNil, kErrorDetailsForegroundApplicationFailed,
-                           kGREYInteractionTimeoutErrorCode,
-                           @"Failed to foreground application within the timeout.");
+    *errorOrNil =
+        GREYErrorMake(kErrorDetailForegroundApplicationFailed, kGREYInteractionTimeoutErrorCode,
+                      @"Failed to foreground application within the timeout.");
     return nil;
   }
 }

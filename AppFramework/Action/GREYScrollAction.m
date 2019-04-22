@@ -21,6 +21,7 @@
 #import "AppFramework/Action/GREYPathGestureUtils.h"
 #import "AppFramework/Additions/NSObject+GREYApp.h"
 #import "AppFramework/Additions/UIScrollView+GREYApp.h"
+#import "AppFramework/Error/GREYAppError.h"
 #import "AppFramework/Event/GREYSyntheticEvents.h"
 #import "AppFramework/Matcher/GREYAllOf.h"
 #import "AppFramework/Matcher/GREYAnyOf.h"
@@ -32,7 +33,6 @@
 #import "CommonLib/Additions/NSString+GREYCommon.h"
 #import "CommonLib/Assertion/GREYFatalAsserts.h"
 #import "CommonLib/Assertion/GREYThrowDefines.h"
-#import "CommonLib/Error/GREYError.h"
 #import "CommonLib/Error/GREYScrollActionError.h"
 #import "CommonLib/Error/NSError+GREYCommon.h"
 #import "UILib/Additions/CGGeometry+GREYUI.h"
@@ -109,7 +109,7 @@ static const NSInteger kMinTouchPointsToDetectScrollResistance = 2;
 
 - (BOOL)perform:(id)element error:(__strong NSError **)errorOrNil {
   __block BOOL retVal = NO;
-  grey_execute_sync_on_main_thread(^{
+  grey_dispatch_sync_on_main_thread(^{
     // We aggressively access UI elements when performing the action, rather than having pieces
     // running on the main thread separately, the whole action will be performed on the main thread.
     retVal = [self grey_perform:element error:errorOrNil];
@@ -149,17 +149,17 @@ static const NSInteger kMinTouchPointsToDetectScrollResistance = 2;
                                                         startPointPercents:_startPointPercents
                                                         outRemainingAmount:&amountRemaining];
       if (!touchPath) {
-        GREYPopulateErrorOrLog(errorOrNil, kGREYScrollErrorDomain, kGREYScrollImpossible,
-                               @"Cannot scroll, ensure that the selected scroll view "
-                               @"is wide enough to scroll.");
+        I_GREYPopulateError(errorOrNil, kGREYScrollErrorDomain, kGREYScrollImpossible,
+                            @"Cannot scroll, ensure that the selected scroll view "
+                            @"is wide enough to scroll.");
         return NO;
       }
       success = [GREYScrollAction grey_injectTouchPath:touchPath onScrollView:element];
     }
   }
   if (!success) {
-    GREYPopulateErrorOrLog(errorOrNil, kGREYScrollErrorDomain, kGREYScrollReachedContentEdge,
-                           @"Cannot scroll, the scrollview is already at the edge.");
+    I_GREYPopulateError(errorOrNil, kGREYScrollErrorDomain, kGREYScrollReachedContentEdge,
+                        @"Cannot scroll, the scrollview is already at the edge.");
   }
   return success;
 }

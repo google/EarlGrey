@@ -18,6 +18,7 @@
 
 #import "AppFramework/Additions/NSObject+GREYApp.h"
 #import "AppFramework/Core/GREYInteraction.h"
+#import "AppFramework/Error/GREYAppError.h"
 #import "AppFramework/Error/GREYAppFailureHandler.h"
 #import "AppFramework/Synchronization/GREYSyncAPI.h"
 #import "CommonLib/Additions/NSObject+GREYCommon.h"
@@ -25,7 +26,6 @@
 #import "CommonLib/Assertion/GREYThrowDefines.h"
 #import "CommonLib/Config/GREYConfiguration.h"
 #import "CommonLib/Error/GREYError+Internal.h"
-#import "CommonLib/Error/GREYError.h"
 #import "CommonLib/Error/GREYErrorConstants.h"
 #import "CommonLib/Error/GREYObjectFormatter.h"
 #import "CommonLib/Error/NSError+GREYCommon.h"
@@ -55,7 +55,7 @@
     GREYStringDescription *mismatchDetail = [[GREYStringDescription alloc] init];
     __block BOOL constraintsMatched = NO;
     __block NSString *description;
-    grey_execute_sync_on_main_thread(^{
+    grey_dispatch_sync_on_main_thread(^{
       constraintsMatched = [self->_constraints matches:element describingMismatchTo:mismatchDetail];
       if (!constraintsMatched) {
         description = [element grey_description];
@@ -72,9 +72,9 @@
       errorDetails[kErrorDetailRecoverySuggestionKey] =
           @"Adjust element properties so that it matches the failed constraint(s).";
 
-      GREYError *error =
-          GREYErrorMake(kGREYInteractionErrorDomain, kGREYInteractionConstraintsFailedErrorCode,
-                        @"Cannot perform action due to constraint(s) failure.");
+      GREYError *error = GREYErrorMakeWithHierarchy(
+          kGREYInteractionErrorDomain, kGREYInteractionConstraintsFailedErrorCode,
+          @"Cannot perform action due to constraint(s) failure.");
       error.errorInfo = errorDetails;
 
       if (errorOrNil) {

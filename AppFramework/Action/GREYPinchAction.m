@@ -20,13 +20,13 @@
 
 #import "AppFramework/Action/GREYPathGestureUtils.h"
 #import "AppFramework/Additions/NSObject+GREYApp.h"
+#import "AppFramework/Error/GREYAppError.h"
 #import "AppFramework/Event/GREYSyntheticEvents.h"
 #import "AppFramework/Matcher/GREYAllOf.h"
 #import "AppFramework/Matcher/GREYMatchers.h"
 #import "AppFramework/Matcher/GREYNot.h"
 #import "AppFramework/Synchronization/GREYSyncAPI.h"
 #import "CommonLib/Additions/NSObject+GREYCommon.h"
-#import "CommonLib/Error/GREYError.h"
 #import "CommonLib/Error/GREYErrorConstants.h"
 #import "CommonLib/Error/GREYObjectFormatter.h"
 #import "CommonLib/Error/NSError+GREYCommon.h"
@@ -79,7 +79,7 @@ static CGFloat const kPinchScale = (CGFloat)0.8;
 - (BOOL)perform:(id)element error:(__strong NSError **)errorOrNil {
   __block UIWindow *window = nil;
   __block NSArray *touchPaths = nil;
-  grey_execute_sync_on_main_thread(^{
+  grey_dispatch_sync_on_main_thread(^{
     if (![self satisfiesConstraintsForElement:element error:errorOrNil]) {
       return;
     }
@@ -96,8 +96,8 @@ static CGFloat const kPinchScale = (CGFloat)0.8;
                                                  @"as it has no window "
                                                  @"and it isn't a window itself."];
       NSDictionary *glossary = @{@"V" : element};
-      GREYPopulateErrorNotedOrLog(errorOrNil, kGREYPinchErrorDomain, kGREYPinchFailedErrorCode,
-                                  errorDescription, glossary);
+      I_GREYPopulateErrorNoted(errorOrNil, kGREYPinchErrorDomain, kGREYPinchFailedErrorCode,
+                               errorDescription, glossary);
       return;
     }
 
@@ -140,8 +140,8 @@ static CGFloat const kPinchScale = (CGFloat)0.8;
                                      @"Exception with Action: %@\n",
                                      reasonDetail];
 
-    GREYPopulateErrorNotedOrLog(errorOrNil, kGREYPinchErrorDomain, kGREYPinchFailedErrorCode,
-                                reason, @{@"V" : view});
+    I_GREYPopulateErrorNoted(errorOrNil, kGREYPinchErrorDomain, kGREYPinchFailedErrorCode, reason,
+                             @{@"V" : view});
 
     return nil;
   }

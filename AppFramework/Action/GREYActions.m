@@ -32,6 +32,7 @@
 #import "AppFramework/Additions/NSObject+GREYApp.h"
 #import "AppFramework/Additions/UISwitch+GREYApp.h"
 #import "AppFramework/Core/GREYInteraction.h"
+#import "AppFramework/Error/GREYAppError.h"
 #import "AppFramework/IdlingResources/GREYUIWebViewIdlingResource.h"
 #import "AppFramework/Keyboard/GREYKeyboard.h"
 #import "AppFramework/Matcher/GREYAllOf.h"
@@ -45,11 +46,10 @@
 #import "CommonLib/Assertion/GREYFatalAsserts.h"
 #import "CommonLib/Assertion/GREYThrowDefines.h"
 #import "CommonLib/Config/GREYConfiguration.h"
-#import "CommonLib/Error/GREYError.h"
 #import "CommonLib/Error/NSError+GREYCommon.h"
 #import "CommonLib/GREYAppleInternals.h"
 #import "CommonLib/Matcher/GREYMatcher.h"
-#import "UILib/GREYScreenshotUtil.h"
+#import "UILib/GREYScreenshotter.h"
 #import "Service/Sources/EDORemoteVariable.h"
 
 static Class gWebAccessibilityObjectWrapperClass;
@@ -218,7 +218,7 @@ static Class gAccessibilityTextFieldElementClass;
          constraints:constraints
         performBlock:^BOOL(id switchView, __strong NSError **errorOrNil) {
           __block BOOL toggleSwitch = NO;
-          grey_execute_sync_on_main_thread(^{
+          grey_dispatch_sync_on_main_thread(^{
             toggleSwitch = ([switchView isOn] && !on) || (![switchView isOn] && on);
           });
           if (toggleSwitch) {
@@ -241,7 +241,7 @@ static Class gAccessibilityTextFieldElementClass;
       [GREYMatchers matcherForConformsToProtocol:@protocol(UITextInput)];
   GREYPerformBlock block = ^BOOL(id element, __strong NSError **errorOrNil) {
     __block UITextPosition *textPosition;
-    grey_execute_sync_on_main_thread(^{
+    grey_dispatch_sync_on_main_thread(^{
       if (position >= 0) {
         textPosition = [element positionFromPosition:[element beginningOfDocument] offset:position];
         if (!textPosition) {
@@ -290,7 +290,7 @@ static Class gAccessibilityTextFieldElementClass;
           } else if ([element isKindOfClass:gAccessibilityTextFieldElementClass]) {
             element = [element textField];
           } else {
-            grey_execute_sync_on_main_thread(^{
+            grey_dispatch_sync_on_main_thread(^{
               if ([element respondsToSelector:@selector(text)]) {
                 currentText = [element text];
               } else {
@@ -310,7 +310,7 @@ static Class gAccessibilityTextFieldElementClass;
             return YES;
           } else if ([element conformsToProtocol:@protocol(UITextInput)]) {
             __block UITextPosition *endPosition;
-            grey_execute_sync_on_main_thread(^{
+            grey_dispatch_sync_on_main_thread(^{
               endPosition = [element endOfDocument];
             });
             id<GREYAction> typeAtEnd =
@@ -334,7 +334,7 @@ static Class gAccessibilityTextFieldElementClass;
       initWithName:[NSString stringWithFormat:@"Set date to %@", date]
        constraints:constraints
       performBlock:^BOOL(UIDatePicker *datePicker, __strong NSError **errorOrNil) {
-        grey_execute_sync_on_main_thread(^{
+        grey_dispatch_sync_on_main_thread(^{
           NSDate *previousDate = [datePicker date];
           [datePicker setDate:date animated:YES];
           // Changing the data programmatically does not fire the "value changed" events,
@@ -375,7 +375,7 @@ static Class gAccessibilityTextFieldElementClass;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
         if ([webView isKindOfClass:[UIWebView class]]) {
-          grey_execute_sync_on_main_thread(^{
+          grey_dispatch_sync_on_main_thread(^{
             NSString *result = [self grey_javaScriptAction:js forUIWebView:(UIWebView *)webView];
             if (outResult && result) {
               outResult.object = result;
@@ -386,7 +386,7 @@ static Class gAccessibilityTextFieldElementClass;
         if ([webView isKindOfClass:[WKWebView class]]) {
           dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
           __block NSError *localError = nil;
-          grey_execute_sync_on_main_thread(^{
+          grey_dispatch_sync_on_main_thread(^{
             [webView evaluateJavaScript:js
                       completionHandler:^(id result, NSError *error) {
                         if (result) {
@@ -406,15 +406,15 @@ static Class gAccessibilityTextFieldElementClass;
               semaphore,
               dispatch_time(DISPATCH_TIME_NOW, (int64_t)(interactionTimeout * NSEC_PER_SEC)));
           if (evaluationTimedOut) {
-            GREYPopulateErrorOrLog(errorOrNil, kGREYInteractionErrorDomain,
-                                   kGREYWKWebViewInteractionFailedErrorCode,
-                                   @"Interaction with WKWebView failed because of timeout");
+            I_GREYPopulateError(errorOrNil, kGREYInteractionErrorDomain,
+                                kGREYWKWebViewInteractionFailedErrorCode,
+                                @"Interaction with WKWebView failed because of timeout");
             return NO;
           }
           if (localError) {
-            GREYPopulateErrorOrLog(errorOrNil, kGREYInteractionErrorDomain,
-                                   kGREYWKWebViewInteractionFailedErrorCode,
-                                   @"Interaction with WKWebView failed for an internal reason");
+            I_GREYPopulateError(errorOrNil, kGREYInteractionErrorDomain,
+                                kGREYWKWebViewInteractionFailedErrorCode,
+                                @"Interaction with WKWebView failed for an internal reason");
             return NO;
           } else {
             return YES;
@@ -432,13 +432,13 @@ static Class gAccessibilityTextFieldElementClass;
        constraints:nil
       performBlock:^BOOL(id element, __strong NSError **errorOrNil) {
         UIImage __block *snapshot = nil;
-        grey_execute_sync_on_main_thread(^{
-          snapshot = [GREYScreenshotUtil snapshotElement:element];
+        grey_dispatch_sync_on_main_thread(^{
+          snapshot = [GREYScreenshotter snapshotElement:element];
         });
         if (snapshot == nil) {
-          GREYPopulateErrorOrLog(errorOrNil, kGREYInteractionErrorDomain,
-                                 kGREYInteractionActionFailedErrorCode,
-                                 @"Failed to take snapshot. Snapshot is nil.");
+          I_GREYPopulateError(errorOrNil, kGREYInteractionErrorDomain,
+                              kGREYInteractionActionFailedErrorCode,
+                              @"Failed to take snapshot. Snapshot is nil.");
           return NO;
         } else {
           outImage.object = snapshot;
@@ -512,7 +512,7 @@ static Class gAccessibilityTextFieldElementClass;
             NSNotificationCenter *defaultCenter = NSNotificationCenter.defaultCenter;
             BOOL elementIsUIControl = [element isKindOfClass:[UIControl class]];
             BOOL elementIsUITextField = [element isKindOfClass:[UITextField class]];
-            grey_execute_sync_on_main_thread(^{
+            grey_dispatch_sync_on_main_thread(^{
               // Did begin editing notifications.
               if (elementIsUIControl) {
                 [element sendActionsForControlEvents:UIControlEventEditingDidBegin];
@@ -644,7 +644,7 @@ static Class gAccessibilityTextFieldElementClass;
         performBlock:^BOOL(id element, __strong NSError **errorOrNil) {
           __block UIView *expectedFirstResponderView;
           if (![element isKindOfClass:[UIView class]]) {
-            grey_execute_sync_on_main_thread(^{
+            grey_dispatch_sync_on_main_thread(^{
               expectedFirstResponderView = [element grey_viewContainingSelf];
             });
           } else {
@@ -654,7 +654,7 @@ static Class gAccessibilityTextFieldElementClass;
           // If expectedFirstResponderView or one of its ancestors isn't the first responder, tap
           // on it so it becomes the first responder.
           __block BOOL elementMatched = NO;
-          grey_execute_sync_on_main_thread(^{
+          grey_dispatch_sync_on_main_thread(^{
             elementMatched = [expectedFirstResponderView isFirstResponder];
             if (!elementMatched) {
               id<GREYMatcher> firstResponderMatcher = [GREYMatchers matcherForFirstResponder];
@@ -674,13 +674,13 @@ static Class gAccessibilityTextFieldElementClass;
                   @"Keyboard did not appear after tapping on element [E]. "
                   @"Are you sure that tapping on this element will bring up the keyboard?";
               __block NSString *elementDescription;
-              grey_execute_sync_on_main_thread(^{
+              grey_dispatch_sync_on_main_thread(^{
                 elementDescription = [element grey_description];
               });
               NSDictionary *glossary = @{@"E" : elementDescription};
-              GREYPopulateErrorNotedOrLog(errorOrNil, kGREYInteractionErrorDomain,
-                                          kGREYInteractionActionFailedErrorCode, description,
-                                          glossary);
+              I_GREYPopulateErrorNoted(errorOrNil, kGREYInteractionErrorDomain,
+                                       kGREYInteractionActionFailedErrorCode, description,
+                                       glossary);
               return NO;
             }
           }
@@ -688,7 +688,7 @@ static Class gAccessibilityTextFieldElementClass;
           // If a position is given, move the text cursor to that position.
           __block id firstResponder = nil;
           __block NSDictionary *errorGlossary = nil;
-          grey_execute_sync_on_main_thread(^{
+          grey_dispatch_sync_on_main_thread(^{
             firstResponder = [[expectedFirstResponderView window] firstResponder];
             if (position) {
               if ([firstResponder conformsToProtocol:@protocol(UITextInput)]) {
@@ -707,9 +707,9 @@ static Class gAccessibilityTextFieldElementClass;
           if (errorGlossary) {
             NSString *description =
                 @"First responder [F] of element [E] does not conform to @UITextInput protocol.";
-            GREYPopulateErrorNotedOrLog(errorOrNil, kGREYInteractionErrorDomain,
-                                        kGREYInteractionActionFailedErrorCode, description,
-                                        errorGlossary);
+            I_GREYPopulateErrorNoted(errorOrNil, kGREYInteractionErrorDomain,
+                                     kGREYInteractionActionFailedErrorCode, description,
+                                     errorGlossary);
             return NO;
           }
 

@@ -16,13 +16,13 @@
 
 #import "AppFramework/Event/GREYSyntheticEvents.h"
 
+#import "AppFramework/Error/GREYAppError.h"
 #import "AppFramework/Event/GREYTouchInjector.h"
 #import "AppFramework/Synchronization/GREYDispatchQueueTracker.h"
 #import "AppFramework/Synchronization/GREYUIThreadExecutor.h"
 #import "CommonLib/Assertion/GREYAssertionDefines.h"
 #import "CommonLib/Assertion/GREYFatalAsserts.h"
 #import "CommonLib/Assertion/GREYThrowDefines.h"
-#import "CommonLib/Error/GREYError.h"
 #import "CommonLib/Error/GREYErrorConstants.h"
 #import "CommonLib/Event/GREYTouchInfo.h"
 #import "CommonLib/GREYAppleInternals.h"
@@ -94,7 +94,7 @@ static const CFTimeInterval kRotationTimeout = 10.0;
 }
 
 + (BOOL)rotateDeviceToOrientation:(UIDeviceOrientation)deviceOrientation error:(NSError **)error {
-  __block NSError *executionError;
+  __block GREYError *executionError;
   __block UIDeviceOrientation initialDeviceOrientation;
   BOOL success = [[GREYUIThreadExecutor sharedInstance]
       executeSyncWithTimeout:kRotationTimeout
@@ -109,7 +109,9 @@ static const CFTimeInterval kRotationTimeout = 10.0;
                        error:&executionError];
 
   if (!success) {
-    *error = executionError;
+    if (error) {
+      *error = executionError;
+    }
     return NO;
   }
 
@@ -123,7 +125,9 @@ static const CFTimeInterval kRotationTimeout = 10.0;
                        error:&executionError];
 
   if (!success) {
-    *error = executionError;
+    if (error) {
+      *error = executionError;
+    }
     return NO;
   } else if (currentOrientation != deviceOrientation) {
     NSString *errorDescription =
@@ -133,21 +137,24 @@ static const CFTimeInterval kRotationTimeout = 10.0;
                       NSStringFromUIDeviceOrientation(initialDeviceOrientation),
                       NSStringFromUIDeviceOrientation(deviceOrientation),
                       NSStringFromUIDeviceOrientation(currentOrientation)];
-    NSError *rotationError = GREYErrorMake(kGREYSyntheticEventInjectionErrorDomain,
-                                           kGREYOrientationChangeFailedErrorCode, errorDescription);
-    *error = rotationError;
+    GREYError *rotationError =
+        GREYErrorMakeWithHierarchy(kGREYSyntheticEventInjectionErrorDomain,
+                                   kGREYOrientationChangeFailedErrorCode, errorDescription);
+    if (error) {
+      *error = rotationError;
+    }
     return NO;
   }
   return YES;
 }
 
-+ (BOOL)shakeDeviceWithError:(NSError **)errorOrNil {
-  NSError *error;
-  return [[GREYUIThreadExecutor sharedInstance]
++ (BOOL)shakeDeviceWithError:(NSError **)error {
+  GREYError *shakeError;
+  BOOL result = [[GREYUIThreadExecutor sharedInstance]
       executeSyncWithTimeout:kRotationTimeout
                        block:^{
-                         // Keep previous accelerometer events enabled value and force it to YES so
-                         // that the shake motion is passed to the application.
+                         // Keep previous accelerometer events enabled value and force it to @c YES
+                         // so that the shake motion is passed to the application.
                          UIApplication *application = [UIApplication sharedApplication];
                          BKSAccelerometer *accelerometer =
                              [[application _motionEvent] valueForKey:@"_motionAccelerometer"];
@@ -161,7 +168,11 @@ static const CFTimeInterval kRotationTimeout = 10.0;
 
                          accelerometer.accelerometerEventsEnabled = prevValue;
                        }
-                       error:&error];
+                       error:&shakeError];
+  if (error) {
+    *error = shakeError;
+  }
+  return result;
 }
 
 - (void)beginTouchAtPoint:(CGPoint)point

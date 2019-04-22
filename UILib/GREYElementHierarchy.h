@@ -16,18 +16,19 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  A utility to get the string representation of the UI hierarchy.
  */
 @interface GREYElementHierarchy : NSObject
 
 /**
- *  Returns UI hierarchy with @c element as the root. @c element can be either a UIView or an
- *  Accessibility element.
+ *  @return An NSString containing the UI hierarchy and information about any animating UIViews
+ *          with @c element as the root. @c element can be either a UIView or an Accessibility
+ *          element.
  *
  *  @param element The root element for the hierarchy.
- *
- *  @return The UI hierarchy as a string.
  */
 + (NSString *)hierarchyStringForElement:(id)element;
 
@@ -49,7 +50,10 @@
                withAnnotationDictionary:(NSDictionary *)annotationDictionary;
 
 /**
- *  Returns the UI hierarchy for all @c UIWindows provided by the GREYUIWindowProvider.
+ *  @return An NSString containing the UI hierarchy and information about any animating UIViews
+ *          for all UIWindows provided by the GREYUIWindowProvider.
  */
 + (NSString *)hierarchyString;
 @end
+
+NS_ASSUME_NONNULL_END

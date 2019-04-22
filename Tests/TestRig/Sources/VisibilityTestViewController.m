@@ -54,6 +54,14 @@
   self.rightView.accessibilityIdentifier = @"AView3";
   self.bottomScrollView.accessibilityIdentifier = @"bottomScrollView";
   self.coverScrollView.accessibilityIdentifier = @"coverScrollView";
+
+  [self.imageView setBackgroundColor:[UIColor greenColor]];
+
+  UIVisualEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+  UIVisualEffectView *visualEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+  visualEffectView.frame = self.imageView.bounds;
+  visualEffectView.accessibilityIdentifier = @"visualEffectsImageView";
+  [self.imageView addSubview:visualEffectView];
 }
 
 - (void)viewDidLayoutSubviews {

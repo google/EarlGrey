@@ -18,11 +18,11 @@
 
 #import "AppFramework/Additions/NSObject+GREYApp.h"
 #import "AppFramework/Core/GREYInteraction.h"
+#import "AppFramework/Error/GREYAppError.h"
 #import "CommonLib/Additions/NSObject+GREYCommon.h"
 #import "CommonLib/Assertion/GREYAssertionBlock.h"
 #import "CommonLib/Assertion/GREYAssertionDefines.h"
 #import "CommonLib/Assertion/GREYFatalAsserts.h"
-#import "CommonLib/Error/GREYError.h"
 #import "CommonLib/GREYLogger.h"
 #import "CommonLib/Matcher/GREYMatcher.h"
 #import "CommonLib/Matcher/GREYStringDescription.h"
@@ -46,8 +46,8 @@
             [reason appendFormat:@"Assertion with matcher [M] failed: No UI element was matched."];
             glossary[@"M"] = [matcher description];
 
-            GREYPopulateErrorNotedOrLog(errorOrNil, kGREYInteractionErrorDomain,
-                                        kGREYInteractionElementNotFoundErrorCode, reason, glossary);
+            I_GREYPopulateErrorNoted(errorOrNil, kGREYInteractionErrorDomain,
+                                     kGREYInteractionElementNotFoundErrorCode, reason, glossary);
           } else {
             [reason appendFormat:
                         @"Assertion with matcher [M] failed: UI element [E] failed to match "
@@ -56,8 +56,8 @@
             glossary[@"E"] = [element grey_description];
             glossary[@"S"] = [mismatch description];
 
-            GREYPopulateErrorNotedOrLog(errorOrNil, kGREYInteractionErrorDomain,
-                                        kGREYInteractionAssertionFailedErrorCode, reason, glossary);
+            I_GREYPopulateErrorNoted(errorOrNil, kGREYInteractionErrorDomain,
+                                     kGREYInteractionAssertionFailedErrorCode, reason, glossary);
           }
           return NO;
         }

@@ -22,6 +22,7 @@
 #import "AppFramework/Core/GREYElementFinder.h"
 #import "AppFramework/Core/GREYElementInteraction+Internal.h"
 #import "AppFramework/Core/GREYInteractionDataSource.h"
+#import "AppFramework/Error/GREYAppError.h"
 #import "AppFramework/Matcher/GREYAllOf.h"
 #import "AppFramework/Matcher/GREYMatchers.h"
 #import "AppFramework/Synchronization/GREYSyncAPI.h"
@@ -32,11 +33,8 @@
 #import "CommonLib/Assertion/GREYThrowDefines.h"
 #import "CommonLib/Config/GREYConfiguration.h"
 #import "CommonLib/Error/GREYError+Internal.h"
-#import "CommonLib/Error/GREYError.h"
 #import "CommonLib/Error/GREYErrorConstants.h"
 #import "CommonLib/Error/GREYObjectFormatter.h"
-#import "CommonLib/Error/NSError+GREYCommon.h"
-#import "CommonLib/Exceptions/GREYFrameworkException.h"
 #import "CommonLib/GREYDefines.h"
 #import "CommonLib/GREYLogger.h"
 #import "CommonLib/GREYStopwatch.h"
@@ -86,11 +84,11 @@
 #pragma mark - Package Internal
 
 - (NSArray *)matchedElementsWithTimeout:(CFTimeInterval)timeout
-                                  error:(__strong NSError **)errorOut {
+                                  error:(__strong GREYError **)errorOut {
   __block NSArray *elements;
   [self matchElementsWithTimeout:timeout
                  syncBeforeMatch:NO
-                      matchBlock:^(NSArray *matchedElements, NSError *error) {
+                      matchBlock:^(NSArray *matchedElements, GREYError *error) {
                         if (errorOut) {
                           *errorOut = error;
                         }
@@ -101,7 +99,7 @@
 
 - (void)matchElementsWithTimeout:(CFTimeInterval)timeout
                  syncBeforeMatch:(BOOL)syncBeforeMatch
-                      matchBlock:(void (^)(NSArray *, NSError *))matchBlock {
+                      matchBlock:(void (^)(NSArray *, GREYError *))matchBlock {
   GREYFatalAssert(matchBlock);
 
   GREYLogVerbose(@"Scanning for element matching: %@", _elementMatcher);
@@ -137,9 +135,9 @@
     }
   };
 
-  NSError *error;
-  NSError *searchActionError;
-  NSError *executorError;
+  GREYError *error;
+  GREYError *searchActionError;
+  GREYError *executorError;
 
   // We want the search action to be performed at least once.
   static const UInt8 kMinimumSearchAttempts = 1;
@@ -161,7 +159,7 @@
                                                               block:matchingBlock
                                                               error:&executorError];
       } else {
-        grey_execute_sync_on_main_thread(matchingBlock);
+        grey_dispatch_sync_on_main_thread(matchingBlock);
       }
 
       // Exits the loop early in case of successful matches or errors
@@ -169,8 +167,8 @@
         break;
       } else if (!_searchAction) {
         NSString *desc = @"Interaction cannot continue because the desired element was not found.";
-        error = GREYErrorMake(kGREYInteractionErrorDomain, kGREYInteractionElementNotFoundErrorCode,
-                              desc);
+        error = GREYErrorMakeWithHierarchy(kGREYInteractionErrorDomain,
+                                           kGREYInteractionElementNotFoundErrorCode, desc);
         break;
       } else if (searchActionError) {
         break;
@@ -195,11 +193,11 @@
     // TODO: Add test coverage for this error. // NOLINT
     NSString *actionTimeoutDesc =
         [NSString stringWithFormat:@"App not idle within %g seconds.", timeout];
-    error = GREYNestedErrorMake(kGREYInteractionErrorDomain, kGREYInteractionTimeoutErrorCode,
+    error = GREYErrorNestedMake(kGREYInteractionErrorDomain, kGREYInteractionTimeoutErrorCode,
                                 actionTimeoutDesc, executorError);
   } else if (searchActionError) {
     error =
-        GREYNestedErrorMake(kGREYInteractionErrorDomain, kGREYInteractionElementNotFoundErrorCode,
+        GREYErrorNestedMake(kGREYInteractionErrorDomain, kGREYInteractionElementNotFoundErrorCode,
                             @"Search action failed", searchActionError);
   } else if (executorError || isSearchTimedOut) {
     CFTimeInterval interactionTimeout =
@@ -208,15 +206,15 @@
                                                 @"searching for element.",
                                                 interactionTimeout];
 
-    NSError *timeoutError =
-        GREYErrorMake(kGREYInteractionErrorDomain, kGREYInteractionTimeoutErrorCode, desc);
+    GREYError *timeoutError = GREYErrorMakeWithHierarchy(kGREYInteractionErrorDomain,
+                                                         kGREYInteractionTimeoutErrorCode, desc);
 
-    error = GREYNestedErrorMake(kGREYInteractionErrorDomain,
+    error = GREYErrorNestedMake(kGREYInteractionErrorDomain,
                                 kGREYInteractionElementNotFoundErrorCode, @"", timeoutError);
   }
 
   GREYFatalAssertWithMessage(error != nil, @"Elements found but with an error: %@", error);
-  grey_execute_sync_on_main_thread(^{
+  grey_dispatch_sync_on_main_thread(^{
     matchBlock(nil, error);
   });
 }
@@ -248,7 +246,7 @@
   GREYStopwatch *stopwatch = [[GREYStopwatch alloc] init];
   [stopwatch start];
 
-  __block NSError *actionError = nil;
+  __block GREYError *actionError = nil;
   @autoreleasepool {
     // Create the user info dictionary for any notificatons and set it up with the action.
     NSMutableDictionary *actionUserInfo = [[NSMutableDictionary alloc] init];
@@ -263,7 +261,7 @@
     __block id element;
     [self matchElementsWithTimeout:interactionTimeout
                    syncBeforeMatch:synchronizationRequired
-                        matchBlock:^(NSArray *matchedElements, NSError *error) {
+                        matchBlock:^(NSArray *matchedElements, GREYError *error) {
                           actionError = error;
                           if (!actionError && matchedElements) {
                             // Get the uniquely matched element. If it is nil, then it means that
@@ -290,23 +288,23 @@
       if (![action perform:element error:&actionError]) {
         // Action didn't succeed yet no error was set.
         if (!actionError) {
-          actionError =
-              GREYErrorMake(kGREYInteractionErrorDomain, kGREYInteractionActionFailedErrorCode,
-                            @"Reason for action failure was not provided.");
+          actionError = GREYErrorMakeWithHierarchy(kGREYInteractionErrorDomain,
+                                                   kGREYInteractionActionFailedErrorCode,
+                                                   @"Reason for action failure was not provided.");
         }
       }
     } else if (!actionError) {
       // If no elements are found, neither the error is provided.
-      actionError =
-          GREYErrorMake(kGREYInteractionErrorDomain, kGREYInteractionActionFailedErrorCode,
-                        @"Reason for action failure was not provided.");
+      actionError = GREYErrorMakeWithHierarchy(kGREYInteractionErrorDomain,
+                                               kGREYInteractionActionFailedErrorCode,
+                                               @"Reason for action failure was not provided.");
     }
 
     if (actionError) {
       // Add the error obtained from the action to the user info notification dictionary.
       [actionUserInfo setObject:actionError forKey:kGREYActionErrorUserInfoKey];
     }
-    grey_execute_sync_on_main_thread(^{
+    grey_dispatch_sync_on_main_thread(^{
       // Post notification for the process of an action's execution being completed. This
       // notification does not mean that the action was performed successfully.
       [defaultNotificationCenter postNotificationName:kGREYDidPerformActionNotification
@@ -339,7 +337,7 @@
 
   GREYStopwatch *stopwatch = [[GREYStopwatch alloc] init];
   [stopwatch start];
-  __block NSError *assertionError = nil;
+  __block GREYError *assertionError = nil;
 
   @autoreleasepool {
     NSNotificationCenter *defaultNotificationCenter = [NSNotificationCenter defaultCenter];
@@ -349,11 +347,11 @@
     BOOL synchronizationRequired = GREY_CONFIG_BOOL(kGREYConfigKeySynchronizationEnabled);
     [self matchElementsWithTimeout:interactionTimeout
                    syncBeforeMatch:synchronizationRequired
-                        matchBlock:^(NSArray *matchedElements, NSError *error) {
+                        matchBlock:^(NSArray *matchedElements, GREYError *error) {
                           // An error object that holds error due to element not found (if any). It
                           // is used only when an assertion fails because element was nil. That's
                           // when we surface this
-                          NSError *elementNotFoundError = error;
+                          GREYError *elementNotFoundError = error;
 
                           // Failure to find elements due to synchronization and report it as an
                           // error.
@@ -419,7 +417,7 @@
                                 }
                                 // Assertion didn't succeed yet no error was set.
                                 if (!assertionError) {
-                                  assertionError = GREYErrorMake(
+                                  assertionError = GREYErrorMakeWithHierarchy(
                                       kGREYInteractionErrorDomain,
                                       kGREYInteractionAssertionFailedErrorCode,
                                       @"Reason for assertion failure was not provided.");
@@ -488,14 +486,14 @@
  *  @return A uniquely matched element, if any.
  */
 - (id)grey_uniqueElementInMatchedElements:(NSArray *)elements
-                                 andError:(__strong NSError **)interactionError {
+                                 andError:(__strong GREYError **)interactionError {
   // If we find that multiple matched elements are present, we narrow them down based on
   // any index passed or populate the passed error if the multiple matches are present and
   // an incorrect index was passed.
   if (elements.count > 1) {
     // If the number of matched elements are greater than 1 then we have to use the index for
-    // matching. We perform a bounds check on the index provided here and throw an exception if
-    // it fails.
+    // matching. We perform a bounds check on the index provided here and capture the error seen
+    // if it fails.
     if (_index == NSUIntegerMax) {
       *interactionError = [self grey_errorForMultipleMatchingElements:elements
                                   withMatchedElementsIndexOutOfBounds:NO];
@@ -514,19 +512,17 @@
 }
 
 /**
- *  Handles failure of an @c action.
+ *  Handles failure of an @c action by capturing it in an error provided.
  *
  *  @param action      The action that failed.
  *  @param actionError Contains the reason for failure.
  *  @param[out] error  The out error (or nil) provided by the user.
- *  @throws NSException to denote the failure of an action, thrown if the @c error
- *          is nil on test failure.
  *
  *  @return Junk boolean value to suppress xcode warning to have "a non-void return
  *          value to indicate an error occurred"
  */
 - (BOOL)grey_handleFailureOfAction:(id<GREYAction>)action
-                       actionError:(NSError *)actionError
+                       actionError:(GREYError *)actionError
                              error:(NSError **)error {
   GREYFatalAssert(actionError);
 
@@ -569,9 +565,7 @@
                                           @"Exception with Action: %@\n",
                                           reasonDetail];
 
-      if ([actionError isKindOfClass:[GREYError class]]) {
-        [(GREYError *)actionError setErrorInfo:errorDetails];
-      }
+      [actionError setErrorInfo:errorDetails];
     }
   }
 
@@ -600,9 +594,7 @@
                                             @"Exception with Action: %@\n",
                                             reasonDetail];
 
-        if ([actionError isKindOfClass:[GREYError class]]) {
-          [(GREYError *)actionError setErrorInfo:errorDetails];
-        }
+        [actionError setErrorInfo:errorDetails];
         break;
       }
       case kGREYInteractionMultipleElementsMatchedErrorCode: {
@@ -630,9 +622,7 @@
                                             @"Exception with Action: %@\n",
                                             reasonDetail];
 
-        if ([actionError isKindOfClass:[GREYError class]]) {
-          [(GREYError *)actionError setErrorInfo:errorDetails];
-        }
+        [actionError setErrorInfo:errorDetails];
         break;
       }
       case kGREYInteractionConstraintsFailedErrorCode: {
@@ -672,14 +662,7 @@
                                         @"Exception with Action: %@\n",
                                         reasonDetail];
   }
-
-  // Throw an exception if the user did not provide an out error.
-  NSDictionary *errorDict = @{
-    NSLocalizedDescriptionKey : actionError.description,
-    NSLocalizedFailureReasonErrorKey : reason,
-    kErrorDetailElementMatcherKey : _elementMatcher.description
-  };
-  *error = [NSError errorWithDomain:actionError.domain code:actionError.code userInfo:errorDict];
+  *error = [self grey_errorToReturnForInteractionError:actionError withReason:reason];
   return NO;
 }
 
@@ -688,16 +671,14 @@
  *
  *  @param assertion      The asserion that failed.
  *  @param assertionError Contains the reason for the failure.
- *  @param[out] error     Error (or @c nil) provided by the user. When @c nil, an exception
- *                        is thrown to halt further execution of the test case.
- *  @throws NSException to denote an assertion failure, thrown if the @c error
- *          is @c nil on test failure.
+ *  @param[out] error     Error (or @c nil) provided by the user. When @c nil, an error is created
+ *                        and sent back to be turned into an exception in the test component.
  *
  *  @return Junk boolean value to suppress xcode warning to have "a non-void return
  *          value to indicate an error occurred"
  */
 - (BOOL)grey_handleFailureOfAssertion:(id<GREYAssertion>)assertion
-                       assertionError:(NSError *)assertionError
+                       assertionError:(GREYError *)assertionError
                                 error:(NSError **)error {
   GREYFatalAssert(assertionError);
 
@@ -729,9 +710,7 @@
                                           @"Exception with Assertion: %@\n",
                                           reasonDetail];
 
-      if ([assertionError isKindOfClass:[GREYError class]]) {
-        [(GREYError *)assertionError setErrorInfo:errorDetails];
-      }
+      [assertionError setErrorInfo:errorDetails];
     } else if (([errorDomain isEqualToString:kGREYUIThreadExecutorErrorDomain]) &&
                (errorCode == kGREYUIThreadExecutorTimeoutErrorCode)) {
       errorDetails[kErrorDetailAssertCriteriaKey] = assertion.name;
@@ -746,9 +725,7 @@
                                           @"Exception with Assertion: %@\n",
                                           reasonDetail];
 
-      if ([assertionError isKindOfClass:[GREYError class]]) {
-        [(GREYError *)assertionError setErrorInfo:errorDetails];
-      }
+      [assertionError setErrorInfo:errorDetails];
     }
   }
 
@@ -776,9 +753,7 @@
                                             @"Exception with Assertion: %@\n",
                                             reasonDetail];
 
-        if ([assertionError isKindOfClass:[GREYError class]]) {
-          [(GREYError *)assertionError setErrorInfo:errorDetails];
-        }
+        [assertionError setErrorInfo:errorDetails];
         break;
       }
       case kGREYInteractionMultipleElementsMatchedErrorCode: {
@@ -800,9 +775,7 @@
                                             @"Exception with Assertion: %@\n",
                                             reasonDetail];
 
-        if ([assertionError isKindOfClass:[GREYError class]]) {
-          [(GREYError *)assertionError setErrorInfo:errorDetails];
-        }
+        [assertionError setErrorInfo:errorDetails];
         break;
       }
     }
@@ -825,22 +798,38 @@
                                         reasonDetail];
   }
 
-  NSDictionary *errorDict = @{
-    NSLocalizedDescriptionKey : assertionError.description,
-    NSLocalizedFailureReasonErrorKey : reason,
-    kErrorDetailElementMatcherKey : _elementMatcher.description
-  };
-  *error = [NSError errorWithDomain:assertionError.domain
-                               code:assertionError.code
-                           userInfo:errorDict];
+  *error = [self grey_errorToReturnForInteractionError:assertionError withReason:reason];
   return NO;
+}
+
+- (NSError *)grey_errorToReturnForInteractionError:(GREYError *)interactionError
+                                        withReason:(NSString *)reason {
+  // Obtain the hierarchy before framing the error since this can modify the error as well.
+  NSString *hierarchy = [self grey_unifyAndExtractHierarchyFromError:interactionError];
+  NSDictionary *userInfo = @{
+    NSLocalizedDescriptionKey : interactionError.description,
+    NSLocalizedFailureReasonErrorKey : reason,
+    kErrorDetailElementMatcherKey : _elementMatcher.description,
+  };
+  NSMutableDictionary *mutableUserInfo = [[NSMutableDictionary alloc] initWithDictionary:userInfo];
+  if (hierarchy) {
+    [mutableUserInfo setObject:hierarchy forKey:kErrorDetailAppUIHierarchyKey];
+  }
+  NSDictionary *appScreenshots = [self grey_appScreenshotsFromError:interactionError];
+  if (appScreenshots) {
+    [mutableUserInfo setObject:appScreenshots forKey:kErrorDetailAppScreenshotsKey];
+  }
+  userInfo = [mutableUserInfo copy];
+  return [NSError errorWithDomain:interactionError.domain
+                             code:interactionError.code
+                         userInfo:userInfo];
 }
 
 /**
  *  Provides an error with @c kGREYInteractionMultipleElementsMatchedErrorCode for multiple
  *  elements matching the specified matcher. In case we have multiple matchers and the Index
  *  provided for not matching with it is out of bounds, then we set the error code to
- *  @c kGREYInteractionMatchedElementIndexOutOfBoundsErrorCode.
+ *  @c kGREYInteractionMatchedElementIndexOutOfBoundsErrorCode.s
  *
  *  @param matchingElements A set of matching elements.
  *  @param outOfBounds      A boolean that flags if the index for finding a matching element
@@ -848,9 +837,9 @@
  *
  *  @return Error for matching multiple elements.
  */
-- (NSError *)grey_errorForMultipleMatchingElements:(NSArray *)matchingElements
-               withMatchedElementsIndexOutOfBounds:(BOOL)outOfBounds {
-  // Populate an array with the matching elements that are causing the exception.
+- (GREYError *)grey_errorForMultipleMatchingElements:(NSArray *)matchingElements
+                 withMatchedElementsIndexOutOfBounds:(BOOL)outOfBounds {
+  // Populate an array with the multiple matching elements.
   NSMutableArray *elementDescriptions =
       [[NSMutableArray alloc] initWithCapacity:matchingElements.count];
 
@@ -882,7 +871,7 @@
   }
 
   // Populate the user info for the multiple matching elements error.
-  return GREYErrorMake(kGREYInteractionErrorDomain, errorCode, errorDescription);
+  return GREYErrorMakeWithHierarchy(kGREYInteractionErrorDomain, errorCode, errorDescription);
 }
 
 /**
@@ -903,11 +892,62 @@
  *  @param[out] error The error for performing the action if any.
  *  @return @c YES if no error occurs, otherwise @c NO.
  */
-- (BOOL)grey_performSearchActionWithError:(NSError **)error {
+- (BOOL)grey_performSearchActionWithError:(GREYError **)error {
   id<GREYInteraction> interaction =
       [[GREYElementInteraction alloc] initWithElementMatcher:_searchActionElementMatcher];
   [interaction performAction:_searchAction error:error];
   return !(*error);
+}
+
+/**
+ *  For a GREYError, checks if there is a nested GREYError, extracts and nils out any hierarchy
+ *  present from the nested GREYError and sets it as the parent error's appUIHierarchy. If no
+ *  nested GREYError is present, then just returns the parent error's hierarchy.
+ *
+ *  @param error A GREYError in which the UI hierarchy information is to be unified and extracted.
+ *
+ *  @return An NSString with the extracted UI hierarchy from the provided @c error.
+ */
+- (NSString *)grey_unifyAndExtractHierarchyFromError:(GREYError *)error {
+  NSString *appUIHierarchy;
+  // A user can call the assert/perform methods on the app side for a simple interaction created
+  // and pass in a simple NSError. We do not have control over this since the GREYInteraction
+  // must be public. Added this check to ensure that.
+  // TODO: Make all entry point API's error objects implicitly turn into a GREYError object to
+  //       remove this check.
+  if ([error respondsToSelector:@selector(nestedError)]) {
+    GREYError *modifiedError = error.nestedError ?: error;
+    if ([modifiedError respondsToSelector:@selector(appUIHierarchy)]) {
+      appUIHierarchy = modifiedError.appUIHierarchy;
+      if (!appUIHierarchy) {
+        NSAssert(NO, @"No hierarchy extracted from error: %@", modifiedError);
+      }
+      modifiedError.appUIHierarchy = nil;
+    }
+  }
+  return appUIHierarchy;
+}
+
+/**
+ *  For a GREYError, checks if any screenshots are present on the error or the nested error, save
+ *  it as an NSDictionary to return to the test. Also nils out the existing screenshot.
+ *
+ *  @param error A GREYError in which the app screenshots are to be unified and extracted.
+ *
+ *  @return An NSDictionary with the extracted app screenshots from the provided @c error.
+ *          Can be @c nil if no screenshots were taken on error creation.
+ */
+- (NSDictionary *)grey_appScreenshotsFromError:(NSError *)error {
+  NSDictionary *appScreenshots;
+  if ([error isKindOfClass:[GREYError class]]) {
+    NSError *modifiedError = [(GREYError *)error nestedError] ?: error;
+    if ([modifiedError isKindOfClass:[GREYError class]]) {
+      GREYError *modifiedErrorWithScreenshots = (GREYError *)modifiedError;
+      appScreenshots = modifiedErrorWithScreenshots.appScreenshots;
+      modifiedErrorWithScreenshots.appScreenshots = nil;
+    }
+  }
+  return appScreenshots;
 }
 
 @end
