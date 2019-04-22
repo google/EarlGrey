@@ -22,7 +22,7 @@
 #import "CommonLib/Config/GREYConfiguration.h"
 #import "CommonLib/GREYLogger.h"
 #import "TestLib/Analytics/GREYAnalyticsDelegate.h"
-#import "TestLib/GREYXCTestAppleInternals.h"
+#import "TestLib/AppleInternals/GREYXCTestAppleInternals.h"
 #import "TestLib/XCTestCase/XCTestCase+GREYTest.h"
 
 /**

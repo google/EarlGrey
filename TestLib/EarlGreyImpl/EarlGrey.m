@@ -21,15 +21,17 @@
 #import "CommonLib/Assertion/GREYAssertionDefines.h"
 #import "CommonLib/Assertion/GREYFatalAsserts.h"
 #import "CommonLib/DistantObject/GREYHostBackgroundDistantObject.h"
+#import "CommonLib/DistantObject/GREYTestApplicationDistantObject.h"
 #import "CommonLib/Error/GREYError.h"
 #import "CommonLib/Error/GREYErrorConstants.h"
 #import "CommonLib/GREYAppleInternals.h"
 #import "CommonLib/GREYLogger.h"
 #import "TestLib/Analytics/GREYAnalytics.h"
+#import "TestLib/AppleInternals/GREYXCTestAppleInternals.h"
 #import "TestLib/EarlGreyImpl/EarlGreyImpl+XCUIApplication.h"
+#import "TestLib/EarlGreyImpl/GREYElementInteractionErrorHandler.h"
 #import "TestLib/EarlGreyImpl/GREYElementInteractionProxy.h"
 #import "TestLib/Exception/GREYDefaultFailureHandler.h"
-#import "TestLib/GREYXCTestAppleInternals.h"
 
 NSString *const kGREYFailureHandlerKey = @"GREYFailureHandlerKey";
 
@@ -85,47 +87,49 @@ id<GREYFailureHandler> GREYGetFailureHandler() {
   return [[GREYElementInteractionProxy alloc] initWithElementMatcher:elementMatcher];
 }
 
-- (BOOL)rotateDeviceToOrientation:(UIDeviceOrientation)deviceOrientation
-                            error:(NSError **)errorOrNil {
-  NSError *error = nil;
-  BOOL success = [GREYSyntheticEvents rotateDeviceToOrientation:deviceOrientation error:&error];
+- (BOOL)rotateDeviceToOrientation:(UIDeviceOrientation)deviceOrientation error:(NSError **)error {
+  GREYError *rotationError = nil;
+  BOOL success = [GREYSyntheticEvents rotateDeviceToOrientation:deviceOrientation
+                                                          error:&rotationError];
   if (!success) {
-    if (errorOrNil) {
-      *errorOrNil = error;
+    if (error) {
+      *error = rotationError;
     } else {
-      I_GREYFail(@"Failed to change device orientation. Error: %@",
-                 [GREYError grey_nestedDescriptionForError:error]);
+      [GREYElementInteractionErrorHandler handleInteractionError:rotationError outError:nil];
     }
   }
   return success;
 }
 
-- (BOOL)dismissKeyboardInApplication:(XCUIApplication *)application error:(NSError **)errorOrNil {
-  NSError *error = nil;
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"return")] performAction:grey_tap()
-                                                                                  error:&error];
-  if (error) {
-    NSString *errorDescription =
-        [NSString stringWithFormat:
-                      @"Failed to dismiss keyboard since it was not showing. "
-                      @"Internal Error: %@",
-                      error.description];
-    GREYError *executionError = GREYErrorMake(
-        kGREYKeyboardDismissalErrorDomain, GREYKeyboardDismissalFailedErrorCode, errorDescription);
-    if (errorOrNil) {
-      *errorOrNil = executionError;
-    } else {
-      I_GREYFail(@"%@\nError: %@", @"Dismissing keyboard errored out.",
-                 [GREYError grey_nestedDescriptionForError:executionError]);
-    }
-    return NO;
+- (BOOL)dismissKeyboardWithError:(NSError **)error {
+  GREYError *dismissalError = nil;
+  BOOL success = NO;
+  id<GREYMatcher> keyboardKeyMatcher =
+      grey_allOf(grey_accessibilityLabel(@"return"),
+                 grey_kindOfClassName(@"UIAccessibilityElementKBKey"), nil);
+  [[self selectElementWithMatcher:keyboardKeyMatcher] performAction:grey_tap()
+                                                              error:&dismissalError];
+  if ([dismissalError.domain isEqualToString:kGREYInteractionErrorDomain] &&
+      dismissalError.code == kGREYInteractionElementNotFoundErrorCode) {
+    // Try to dismiss the keyboard programmatically.
+    success = [GREYKeyboard dismissKeyboardWithoutReturnKeyWithError:&dismissalError];
+  } else {
+    success = !dismissalError;
   }
-  return YES;
+  if (!success) {
+    dismissalError = [self grey_errorForKeyboardNotPresentWithInternalError:dismissalError];
+    if (error) {
+      *error = dismissalError;
+    } else {
+      [GREYElementInteractionErrorHandler handleInteractionError:dismissalError outError:nil];
+    }
+  }
+  return success;
 }
 
 - (BOOL)openDeeplinkURL:(NSString *)URL
           inApplication:(XCUIApplication *)application
-                  error:(NSError **)errorOrNil {
+                  error:(NSError **)error {
 #if defined(__IPHONE_11_0)
   XCUIApplication *safariApp =
       [[XCUIApplication alloc] initWithBundleIdentifier:@"com.apple.mobilesafari"];
@@ -139,19 +143,19 @@ id<GREYFailureHandler> GREYGetFailureHandler() {
     [safariApp.buttons[@"URL"] tap];
     [safariApp typeText:URL];
     [safariApp.buttons[@"Go"] tap];
-  } else if (errorOrNil) {
-    *errorOrNil = GREYErrorMake(kGREYDeeplinkErrorDomain, kGREYInteractionActionFailedErrorCode,
-                                @"Deeplink open action failed since URL field not present.");
+  } else if (error) {
+    *error = GREYErrorMake(kGREYDeeplinkErrorDomain, kGREYInteractionActionFailedErrorCode,
+                           @"Deeplink open action failed since URL field not present.");
   }
 
   XCUIElement *openBtn = safariApp.buttons[@"Open"];
   if ([openBtn waitForExistenceWithTimeout:10]) {
     [safariApp.buttons[@"Open"] tap];
     return YES;
-  } else if (errorOrNil) {
-    *errorOrNil = GREYErrorMake(kGREYDeeplinkErrorDomain, kGREYInteractionActionFailedErrorCode,
-                                @"Deeplink open action failed since Open Button on the app "
-                                @"dialog for the deeplink not present.");
+  } else if (error) {
+    *error = GREYErrorMake(kGREYDeeplinkErrorDomain, kGREYInteractionActionFailedErrorCode,
+                           @"Deeplink open action failed since Open Button on the app "
+                           @"dialog for the deeplink not present.");
   }
     // this is needed otherwise failed tests will hang until failure.
     [application activate];
@@ -161,22 +165,21 @@ id<GREYFailureHandler> GREYGetFailureHandler() {
       @"Cannot open the deeplink because it is not supported with the current system version.";
   GREYError *notSupportedError =
       GREYErrorMake(kGREYDeeplinkErrorDomain, GREYDeeplinkNotSupported, errorDescription);
-  if (errorOrNil) {
-    *errorOrNil = notSupportedError;
+  if (error) {
+    *error = notSupportedError;
   } else {
-    I_GREYFail(@"%@\nError: %@", @"Unsupported os version for deeplinking.",
-               [GREYError grey_nestedDescriptionForError:notSupportedError]);
+    [GREYElementInteractionErrorHandler handleInteractionError:notSupportedError outError:nil];
   }
   return NO;
 #endif
 }
 
-- (BOOL)shakeDeviceWithError:(NSError **)errorOrNil {
-  NSError *error = nil;
-  BOOL success = [GREYSyntheticEvents shakeDeviceWithError:&error];
+- (BOOL)shakeDeviceWithError:(NSError **)error {
+  GREYError *shakeDeviceError = nil;
+  BOOL success = [GREYSyntheticEvents shakeDeviceWithError:&shakeDeviceError];
   if (!success) {
-    if (errorOrNil) {
-      *errorOrNil = error;
+    if (error) {
+      *error = shakeDeviceError;
     }
   }
   return success;
@@ -200,19 +203,40 @@ id<GREYFailureHandler> GREYGetFailureHandler() {
   }
 }
 
-- (BOOL)isKeyboardShownWithError:(NSError **)errorOrNil {
-  NSError *error = nil;
-  BOOL keyboardShown = [GREYKeyboard keyboardShownWithError:&error];
-  // Handle error if any, if the app failed to idle.
-  if (error) {
-    if (errorOrNil) {
-      *errorOrNil = error;
+- (BOOL)isKeyboardShownWithError:(NSError **)error {
+  GREYError *keyboardShownError = nil;
+  BOOL keyboardShown = [GREYKeyboard keyboardShownWithError:&keyboardShownError];
+  // Handle keyboardShownError if any, if the app failed to idle.
+  if (keyboardShownError) {
+    if (error) {
+      *error = keyboardShownError;
     } else {
-      I_GREYFail(@"The app failed to idle, preventing the check for keyboard visibility from "
-                 @"being evaluated.");
+      [GREYElementInteractionErrorHandler handleInteractionError:keyboardShownError outError:nil];
     }
   }
   return keyboardShown;
+}
+
+- (Class)remoteClassInApp:(Class)theClass {
+  uint16_t port = GREYTestApplicationDistantObject.sharedInstance.hostPort;
+  id remoteObject = [EDOClientService classObjectWithName:NSStringFromClass(theClass) port:port];
+  I_GREYAssertNotNil(remoteObject, @"Class %@ does not exist in app", theClass);
+  return remoteObject;
+}
+
+/**
+ *  @return A GREYError containing details for why the keyboard was not dismissed, containing the
+ *          description of the underlying error.
+ *
+ *  @param underlyingError The error which caused the failure in dismissing the keyboard.
+ */
+- (GREYError *)grey_errorForKeyboardNotPresentWithInternalError:(GREYError *)underlyingError {
+  NSString *errorDescription =
+      [NSString stringWithFormat:@"Failed to dismiss keyboard since it was not showing. "
+                                 @"Internal Error: %@",
+                                 underlyingError.description];
+  return GREYErrorMake(kGREYKeyboardDismissalErrorDomain, GREYKeyboardDismissalFailedErrorCode,
+                       errorDescription);
 }
 
 @end

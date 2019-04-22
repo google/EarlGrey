@@ -51,7 +51,7 @@ GREY_EXTERN NSString *const kGREYFailureHandlerKey;
                      lineNumber:__LINE__]
 
 /**
- *  Entrypoint to the EarlGrey framework.
+ *  Entry point to the EarlGrey framework.
  *  Use methods of this class to initiate interaction with any UI element on the screen.
  */
 @interface EarlGreyImpl : NSObject
@@ -127,7 +127,7 @@ GREY_EXTERN NSString *const kGREYFailureHandlerKey;
 
 /**
  *  Rotate the device to a given @c deviceOrientation. All device orientations except for
- *  @c UIDeviceOrientationUnknown are supported. If a non-nil @c errorOrNil is provided, it will
+ *  @c UIDeviceOrientationUnknown are supported. If a non-nil @c error is provided, it will
  *  be populated with the failure reason if the orientation change fails, otherwise a test failure
  *  will be registered.
  *
@@ -135,27 +135,28 @@ GREY_EXTERN NSString *const kGREYFailureHandlerKey;
  *  @param[out] error             Error that will be populated on failure. If @c nil, the a test
  *                                failure will be reported if the rotation attempt fails.
  *
- *  @throws GREYFrameworkException if the action fails and @c errorOrNil is @c nil.
- *  @return @c YES if the rotation was successful, @c NO otherwise. If @c errorOrNil is @c nil and
+ *  @throws GREYFrameworkException if the action fails and @c error is @c nil.
+ *  @return @c YES if the rotation was successful, @c NO otherwise. If @c error is @c nil and
  *          the operation fails, it will throw an exception.
  */
 - (BOOL)rotateDeviceToOrientation:(UIDeviceOrientation)deviceOrientation error:(NSError **)error;
 
 /**
- *  Dismisses the keyboard by hitting either the hide keyboard button or the return
- *  button on the keyboard. Will populate the provided error if the first responder
- *  is not present or if the keyboard is not visible.
+ *  Dismisses the keyboard by hitting the return button on the keyboard or resigning the first
+ *  responder in the application if the return key isn't present. Will populate the provided error
+ *  if any issue is raised.
  *
  *  @remark Hitting the return key can also trigger other behavior. Ensure there isn't
- *          any issue wit hitting the return key when using this method.
+ *          any issue with hitting the return key when using this method.
  *
- *  @param application The XCUIApplication the keyboard is to be dismissed in.
- *  @param[out] error  Error that will be populated on failure. If @c nil, a test
- *                     failure will be reported if the dismissing fails.
+ *  @param[out] error Error that will be populated on failure. If @c nil, a test
+ *                    failure will be reported if the dismissing fails.
+ *
+ *  @throws GREYFrameworkException if there is an issue dismissing the keyboard.
  *
  *  @return @c YES if the dismissing of the keyboard was successful, @c NO otherwise.
  */
-- (BOOL)dismissKeyboardInApplication:(XCUIApplication *)application error:(NSError **)error;
+- (BOOL)dismissKeyboardWithError:(NSError **)error;
 
 /**
  *  Open the deeplink url from Safari and simulate the user action to accept opening the app.
@@ -182,36 +183,48 @@ GREY_EXTERN NSString *const kGREYFailureHandlerKey;
  *
  *  @param URL The deeplink @c URL string that is going to be opened.
  *  @param application The XCUIApplication to use to trigger the deeplink.
- *  @param[out] errorOrNil  Error that will be populated on failure. If @c nil, a test failure will
- *                          be reported instead.
+ *  @param[out] error  Error that will be populated on failure. If @c nil, a test failure will
+ *                     be reported instead.
  *
  *  @return @c YES if the opening the deeplink was successful, @c NO otherwise.
  */
 - (BOOL)openDeeplinkURL:(NSString *)URL
           inApplication:(XCUIApplication *)application
-                  error:(NSError **)errorOrNil;
+                  error:(NSError **)error;
 
 /**
- *  Shakes the device. If a non-nil @c errorOrNil is provided, it will
+ *  Shakes the device. If a non-nil @c error is provided, it will
  *  be populated with the failure reason if the orientation change fails, otherwise a test failure
  *  will be registered.
  *
- *  @param[out] errorOrNil Error that will be populated on failure. If @c nil, the a test
- *                         failure will be reported if the shake attempt fails.
+ *  @param[out] error Error that will be populated on failure. If @c nil, the a test
+ *                    failure will be reported if the shake attempt fails.
  *
- *  @throws GREYFrameworkException if the action fails and @c errorOrNil is @c nil.
- *  @return @c YES if the shake was successful, @c NO otherwise. If @c errorOrNil is @c nil and
+ *  @throws GREYFrameworkException if the action fails and @c error is @c nil.
+ *  @return @c YES if the shake was successful, @c NO otherwise. If @c error is @c nil and
  *          the operation fails, it will throw an exception.
  */
-- (BOOL)shakeDeviceWithError:(NSError **)errorOrNil;
+- (BOOL)shakeDeviceWithError:(NSError **)error;
 
 /**
  *  Returns a @c BOOL that tells if the Keyboard is shown. This is not synchronous. Please ensure
  *  that any changes
  *
- *  @param[out] errorOrNil Error that will be populated if the app does not idle in time.
+ *  @param[out] error Error that will be populated if the app does not idle in time.
  */
-- (BOOL)isKeyboardShownWithError:(NSError **)errorOrNil;
+- (BOOL)isKeyboardShownWithError:(NSError **)error;
+
+/**
+ *  Fetches a remote class object from the app process. The caller of this method should pass
+ *  the local class object in its process as @c theClass. EarlGrey will map @c theClass to the
+ *  appropriate class object in the app process and return that.
+ *
+ *  @param theClass The class object to fetch from the app process.
+ *
+ *  @return A class object, which is the same type as @c theClass in the app process. Invocations
+ *          made to the returned Class object will be executed in app process.
+ */
+- (Class)remoteClassInApp:(Class)theClass;
 
 @end
 

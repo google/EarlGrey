@@ -51,21 +51,25 @@ class MyFirstEarlGreyTest: XCTestCase {
 
 # Cartfile
 
-Create a file called [Cartfile.private](https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md) and add the EarlGrey dependency.
+Create a file called [Cartfile.private](https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md)
+and add the EarlGrey dependency.
 
 `github "google/EarlGrey" "earlgrey2"`
 
-`Cartfile.private` is used to include the dependency without forcing parent projects to take on that dependency. This is a good fit for test frameworks
+`Cartfile.private` is used to include the dependency without forcing parent
+projects to take on that dependency. This is a good fit for test frameworks
 that are only used during development.
 
-Run `carthage update` to update and build the dependencies. The build products will be stored in `./Carthage/Build/iOS/` 
+Run `carthage update` to update and build the dependencies. The build
+products will be stored in `./Carthage/Build/iOS/`
 
 `Cartfile.resolved` contains the version of EarlGrey used in the build.
 
 # Known Issues
 
-Currently only `AppFramework.framework` is built when building via Carthage. As a work around, EarlGrey is included from source.
-In the future when EarlGrey 2 is shipped as a framework, Carthage will support building EarlGrey.
+Currently only `AppFramework.framework` is built when building via Carthage.
+As a work around, EarlGrey is included from source. In the future when
+EarlGrey 2.0 is shipped as a framework, Carthage will support building EarlGrey.
 
 Missing:
 

@@ -64,6 +64,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString *)grey_shortDescription;
 
 /**
+ *  @return A description with the class and memory address of the object.
+ */
+- (NSString *)grey_objectDescription;
+
+/**
  *  Takes a value string, which if non-empty, is returned with a prefix attached, else an empty
  *  string is returned.
  *

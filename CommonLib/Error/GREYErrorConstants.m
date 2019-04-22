@@ -45,10 +45,12 @@ NSString *const kGREYAssertionUserInfoKey = @"kGREYAssertionUserInfoKey";
 NSString *const kGREYAssertionElementUserInfoKey = @"kGREYAssertionElementUserInfoKey";
 NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKey";
 
-NSString *const kErrorDetailsForegroundApplicationFailed =
-    @"kErrorDetailsForegroundApplicationFailed";
+NSString *const kErrorDetailForegroundApplicationFailed =
+    @"kErrorDetailForegroundApplicationFailed";
 
 NSString *const kErrorDetailElementMatcherKey = @"Element Matcher";
+NSString *const kErrorDetailAppUIHierarchyKey = @"App UI Hierarchy";
+NSString *const kErrorDetailAppScreenshotsKey = @"App Screenshots";
 
 NSString *const kGREYPinchErrorDomain = @"com.google.earlgrey.PinchErrorDomain";
 

@@ -73,6 +73,16 @@ GREY_EXTERN NSString *const kGREYAssertionErrorUserInfoKey;
 GREY_EXTERN NSString *const kErrorDetailElementMatcherKey;
 
 /**
+ *  Internal variables specifying the detail keys for the app UI hierarchy.
+ */
+GREY_EXTERN NSString *const kErrorDetailAppUIHierarchyKey;
+
+/**
+ *  Internal variables specifying the detail keys for the app screenshots.
+ */
+GREY_EXTERN NSString *const kErrorDetailAppScreenshotsKey;
+
+/**
  *  The error domain for pinch action related errors.
  */
 GREY_EXTERN NSString *const kGREYPinchErrorDomain;
@@ -94,7 +104,7 @@ GREY_EXTERN NSString *const kErrorDetailStepMinValueKey;
 /**
  *  Extern variables specifying the error keys for XCUITest actions.
  */
-GREY_EXTERN NSString *const kErrorDetailsForegroundApplicationFailed;
+GREY_EXTERN NSString *const kErrorDetailForegroundApplicationFailed;
 
 /**
  *  Error code for keyboard dismissal actions.

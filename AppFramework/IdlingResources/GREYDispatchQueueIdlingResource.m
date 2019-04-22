@@ -49,7 +49,6 @@
 
 - (NSString *)idlingResourceDescription {
   return _dispatchQueueTracker.description;
-  ;
 }
 
 - (BOOL)isIdleNow {

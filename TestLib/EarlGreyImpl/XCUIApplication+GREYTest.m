@@ -45,7 +45,10 @@
     launchArgs = [[NSMutableArray alloc] init];
   }
   [launchArgs addObjectsFromArray:@[
-    @"-edoTestPort", @([GREYTestApplicationDistantObject.sharedInstance servicePort]).stringValue
+    @"-edoTestPort",
+    @([GREYTestApplicationDistantObject.sharedInstance servicePort]).stringValue,
+    @"-IsRunningEarlGreyTest",
+    @"YES",
   ]];
   self.launchArguments = launchArgs;
 

@@ -16,7 +16,6 @@
 
 #import "CommonLib/Matcher/GREYLayoutConstraint.h"
 
-#import "CommonLib/Assertion/GREYFatalAsserts.h"
 #import "CommonLib/GREYConstants.h"
 
 static NSString *const kGREYLayoutConstraintAttribute = @"attribute";
@@ -136,7 +135,7 @@ static NSString *const kGREYLayoutConstraintConstant = @"constant";
 
 // Returns the attribute value for the given element.
 + (CGFloat)grey_attribute:(GREYLayoutAttribute)attribute ofElement:(id)element {
-  GREYFatalAssert(element);
+  NSParameterAssert(element);
 
   CGRect rect = [element accessibilityFrame];
   switch (attribute) {

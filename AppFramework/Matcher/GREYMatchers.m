@@ -637,7 +637,7 @@ static Class gEDOObjectClass;
     // design to avoid this.
     GREYElementInteraction *interaction =
         [[GREYElementInteraction alloc] initWithElementMatcher:referenceElementMatcher];
-    NSError *matcherError;
+    GREYError *matcherError;
     NSArray *referenceElements = [interaction matchedElementsWithTimeout:0 error:&matcherError];
     if (matcherError) {
       NSLog(@"Error finding element: %@", [GREYError grey_nestedDescriptionForError:matcherError]);

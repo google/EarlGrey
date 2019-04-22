@@ -25,28 +25,13 @@
 
 @implementation GREYElementHierarchy
 
-+ (NSString *)hierarchyStringForElement:(id)element {
-  GREYThrowOnNilParameter(element);
-  return [self grey_hierarchyString:element
-                       outputString:[[NSMutableString alloc] init]
-            andAnnotationDictionary:nil];
-}
-
-+ (NSString *)hierarchyStringForElement:(id)element
-               withAnnotationDictionary:(NSDictionary *)annotationDictionary {
-  GREYThrowOnNilParameter(element);
-  return [self grey_hierarchyString:element
-                       outputString:[[NSMutableString alloc] init]
-            andAnnotationDictionary:annotationDictionary];
-}
-
 + (NSString *)hierarchyString {
   __block NSMutableString *log = [[NSMutableString alloc] init];
   void (^hierarchyBlock)(void) = ^(void) {
     long unsigned index = 0;
     for (UIWindow *window in [GREYUIWindowProvider allWindowsWithStatusBar:NO]) {
       if (index != 0) {
-        [log appendString:@"\n\n"];
+        [log appendString:@"\n"];
       }
       index++;
       [log appendFormat:@"========== Window %lu ==========\n\n%@", index,
@@ -63,29 +48,35 @@
   return log;
 }
 
++ (NSString *)hierarchyStringForElement:(id)element {
+  GREYThrowOnNilParameter(element);
+  return [self hierarchyStringForElement:element withAnnotationDictionary:@{}];
+}
+
 #pragma mark - Private
 
 /**
- *  Recursively prints the hierarchy from the given UI @c element along with any annotations in
- *  the @c annotationDictionary into the given @c outputString.
+ *  Creates an NSString similar to GREYElementHierarchy::hierarchyStringForElement:.
  *
  *  @param element              The UI element to be printed.
- *  @param outputString         A mutable string that receives the output.
  *  @param annotationDictionary The annotations to be applied.
  *
  *  @return A string containing the full view hierarchy from the given @c element.
  */
-+ (NSString *)grey_hierarchyString:(id)element
-                      outputString:(NSMutableString *)outputString
-           andAnnotationDictionary:(NSDictionary *)annotationDictionary {
++ (NSString *)hierarchyStringForElement:(id)element
+               withAnnotationDictionary:(NSDictionary *)annotationDictionary {
   GREYFatalAssert(element);
-  GREYFatalAssert(outputString);
+  NSMutableString *outputString = [[NSMutableString alloc] init];
+
+  NSMutableString *animationInfoString = [[NSMutableString alloc] init];
 
   // Traverse the hierarchy associated with the element.
-  GREYTraversalDFS *traversal = [GREYTraversalDFS hierarchyForElementWithDFSTraversal:element];
+  GREYTraversalDFS *traversal =
+      [GREYTraversalDFS frontToBackHierarchyForElementWithDFSTraversal:element];
 
   // Enumerate the hierarchy using block enumeration.
   [traversal enumerateUsingBlock:^(id _Nonnull element, NSUInteger level) {
+    // Obtain hierarchy Info.
     if ([outputString length] != 0) {
       [outputString appendString:@"\n"];
     }
@@ -95,8 +86,50 @@
       [outputString appendString:@" "];  // Space before annotation.
       [outputString appendString:annotation];
     }
+    // Obtain animation info.
+    [animationInfoString appendString:[self grey_animationInfoForView:element]];
   }];
+
+  if ([animationInfoString length] != 0) {
+    NSString *animationInfoWithTitle = [@"\n\n**** Currently Animating Elements: ****\n"
+        stringByAppendingString:animationInfoString];
+    [outputString appendString:animationInfoWithTitle];
+  } else {
+    [outputString appendString:@"\n\n**** No Animating Views Found. ****"];
+  }
+  [outputString appendString:@"\n"];
+
   return outputString;
+}
+
+/**
+ *  @return An NSString with info about any animation attached to the specified element's layer.
+ *
+ *  @param element An object for an accessibility element or a UIView present in the UI hierarchy.
+ */
++ (NSString *)grey_animationInfoForView:(id)element {
+  NSMutableString *animationInfoForView = [[NSMutableString alloc] init];
+  if ([element isKindOfClass:[UIView class]]) {
+    UIView *view = (UIView *)element;
+    // MDCActivityIndicators which don't add animations to layers.
+    if ([view isKindOfClass:NSClassFromString(@"MDCActivityIndicator")] &&
+        [view.accessibilityValue isEqualToString:@"In Progress"]) {
+      [animationInfoForView
+          appendFormat:@"\nAnimating MDCActivityIndicator: %@", [view grey_objectDescription]];
+    } else {
+      NSArray *animationKeys = [view.layer animationKeys];
+      if ([animationKeys count] > 0) {
+        [animationInfoForView appendFormat:@"\nUIView: %@", [view grey_objectDescription]];
+        // Obtain the animation from the animation keys and check if it is being tracked.
+        for (NSString *animationKey in animationKeys) {
+          [animationInfoForView appendFormat:@"\n    AnimationKey: %@ withAnimation: %@",
+                                             animationKey,
+                                             [view.layer animationForKey:animationKey]];
+        }
+      }
+    }
+  }
+  return animationInfoForView;
 }
 
 /**

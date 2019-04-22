@@ -20,7 +20,6 @@
 #import "CommonLib/Error/GREYError.h"
 #import "CommonLib/Error/GREYObjectFormatter.h"
 #import "TestLib/XCTestCase/XCTestCase+GREYTest.h"
-#import "UILib/GREYElementHierarchy.h"
 
 @implementation GREYFailureFormatter
 
@@ -50,17 +49,19 @@
                           functionName:(NSString *)functionName
                             stackTrace:(NSArray *)stackTrace
                         appScreenshots:(NSDictionary *)appScreenshots
+                             hierarchy:(NSString *)hierarchy
                                 format:(NSString *)format, ... {
   va_list argList;
   va_start(argList, format);
   NSString *errorDescription = [[NSString alloc] initWithFormat:format arguments:argList];
   va_end(argList);
-  GREYError *error = I_GREYErrorMake(kGREYGenericErrorDomain, kGREYGenericErrorCode, nil, filePath,
-                                     lineNumber, functionName, nil, stackTrace);
+
+  GREYError *error =
+      I_GREYErrorMake(kGREYGenericErrorDomain, kGREYGenericErrorCode, nil, filePath, lineNumber,
+                      functionName, nil, stackTrace, hierarchy, appScreenshots);
   XCTestCase *currentTestCase = [XCTestCase grey_currentTestCase];
   error.testCaseClassName = [currentTestCase grey_testClassName];
   error.testCaseMethodName = [currentTestCase grey_testMethodName];
-  error.appScreenshots = appScreenshots;
 
   NSArray *excluding = @[ kErrorFilePathKey, kErrorLineKey, kErrorDescriptionGlossaryKey ];
   return [self formatFailureForError:error
@@ -130,21 +131,32 @@
 
   // UI hierarchy and legend. Print windows from front to back, formatted for easier readability.
   if (![excluding containsObject:kErrorAppUIHierarchyKey]) {
-    [logger addObject:@"UI hierarchy (ordered by window level, front to back as rendered):\n"];
+    [logger addObject:@"UI Hierarchy (ordered by window level, front to back):\n"];
+
+    NSString *windowLegend = @"[Window 1]";
+    NSString *axLegend = @"[AX]";
+    NSString *uieLegend = @"[UIE]";
 
     NSDictionary *legendLabels = @{
-      @"[Window 1]" : @"Frontmost Window",
-      @"[AX]" : @"Accessibility",
-      @"[UIE]" : @"User Interaction Enabled"
+      windowLegend : @"Frontmost Window",
+      axLegend : @"Accessibility",
+      uieLegend : @"User Interaction Enabled"
     };
+    NSArray *keyOrder = @[ windowLegend, axLegend, uieLegend ];
+
     NSString *legendDescription = [GREYObjectFormatter formatDictionary:legendLabels
                                                                  indent:kGREYObjectFormatIndent
                                                               hideEmpty:NO
-                                                               keyOrder:nil];
+                                                               keyOrder:keyOrder];
     [logger addObject:[NSString stringWithFormat:@"%@: %@\n", @"Legend", legendDescription]];
-    // Append the hierarchy for all UI Windows in the app.
-    [logger addObject:[GREYElementHierarchy hierarchyString]];
-    [logger addObject:@"\n"];
+
+    // If a user creates a custom simple error on the test side, then the hierarchy might not exist.
+    if ([error respondsToSelector:@selector(appUIHierarchy)]) {
+      NSString *appUIHierarchy = error.appUIHierarchy;
+      if (appUIHierarchy) {
+        [logger addObject:appUIHierarchy];
+      }
+    }
   }
 
   if (![excluding containsObject:kErrorDescriptionGlossaryKey]) {

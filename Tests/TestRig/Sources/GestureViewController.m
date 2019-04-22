@@ -41,56 +41,46 @@
              forControlEvents:UIControlEventTouchUpInside];
   self.counter.accessibilityLabel = @"Counter";
   // Tap gesture recognizers.
-  for (NSUInteger touches = 1; touches < 5; ++touches) {
-    UIGestureRecognizer *previousRecognizer = nil;
-    for (NSUInteger taps = 1; taps < 5; ++taps) {
-      UITapGestureRecognizer *tapRecognizer =
-          [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(recognizeTap:)];
-      tapRecognizer.numberOfTapsRequired = taps;
-      tapRecognizer.numberOfTouchesRequired = touches;
-      [self.greyBox addGestureRecognizer:tapRecognizer];
+  UIGestureRecognizer *previousRecognizer = nil;
+  for (NSUInteger taps = 1; taps < 5; ++taps) {
+    UITapGestureRecognizer *tapRecognizer =
+        [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(recognizeTap:)];
+    tapRecognizer.numberOfTapsRequired = taps;
+    [self.greyBox addGestureRecognizer:tapRecognizer];
 
-      // We should only recognize a single tap if the double tap recognizer fails, we should only
-      // recognize a double tap if the triple tap recognizer fails, etc.
-      if (previousRecognizer) {
-        [previousRecognizer requireGestureRecognizerToFail:tapRecognizer];
-      }
-      previousRecognizer = tapRecognizer;
+    // We should only recognize a single tap if the double tap recognizer fails, we should only
+    // recognize a double tap if the triple tap recognizer fails, etc.
+    if (previousRecognizer) {
+      [previousRecognizer requireGestureRecognizerToFail:tapRecognizer];
     }
+    previousRecognizer = tapRecognizer;
   }
 
   // Long press gesture recognizers.
-  for (NSUInteger touches = 1; touches < 5; ++touches) {
-    for (NSUInteger taps = 0; taps < 4; ++taps) {
-      UILongPressGestureRecognizer *longPressRecognizer =
-          [[UILongPressGestureRecognizer alloc] initWithTarget:self
-                                                        action:@selector(recognizeLongPress:)];
-      longPressRecognizer.numberOfTapsRequired = taps;
-      longPressRecognizer.numberOfTouchesRequired = touches;
-      [self.greyBox addGestureRecognizer:longPressRecognizer];
-    }
+  for (NSUInteger taps = 0; taps < 4; ++taps) {
+    UILongPressGestureRecognizer *longPressRecognizer =
+        [[UILongPressGestureRecognizer alloc] initWithTarget:self
+                                                      action:@selector(recognizeLongPress:)];
+    longPressRecognizer.numberOfTapsRequired = taps;
+    [self.greyBox addGestureRecognizer:longPressRecognizer];
   }
 
   // Swipe gesture recognizers.
   UISwipeGestureRecognizerDirection swipeDirections[4] = {
       UISwipeGestureRecognizerDirectionLeft, UISwipeGestureRecognizerDirectionRight,
       UISwipeGestureRecognizerDirectionUp, UISwipeGestureRecognizerDirectionDown};
-  for (NSUInteger touches = 1; touches < 5; ++touches) {
-    for (NSUInteger direction = 0; direction < 4; ++direction) {
-      UISwipeGestureRecognizer *swipeRecognizer =
-          [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(recognizeSwipe:)];
-      swipeRecognizer.numberOfTouchesRequired = touches;
-      swipeRecognizer.direction = swipeDirections[direction];
-      [self.greyBox addGestureRecognizer:swipeRecognizer];
+  for (NSUInteger direction = 0; direction < 4; ++direction) {
+    UISwipeGestureRecognizer *swipeRecognizer =
+        [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(recognizeSwipe:)];
+    swipeRecognizer.direction = swipeDirections[direction];
+    [self.greyBox addGestureRecognizer:swipeRecognizer];
 
-      UISwipeGestureRecognizer *windowSwipeRecognizer =
-          [[UISwipeGestureRecognizer alloc] initWithTarget:self
-                                                    action:@selector(recognizeWindowSwipe:)];
-      windowSwipeRecognizer.numberOfTouchesRequired = touches;
-      windowSwipeRecognizer.direction = swipeDirections[direction];
-      UIWindow *window = [[[UIApplication sharedApplication] delegate] window];
-      [window addGestureRecognizer:windowSwipeRecognizer];
-    }
+    UISwipeGestureRecognizer *windowSwipeRecognizer =
+        [[UISwipeGestureRecognizer alloc] initWithTarget:self
+                                                  action:@selector(recognizeWindowSwipe:)];
+    windowSwipeRecognizer.direction = swipeDirections[direction];
+    UIWindow *window = [[[UIApplication sharedApplication] delegate] window];
+    [window addGestureRecognizer:windowSwipeRecognizer];
   }
 
   // Pan gesture recognizer.
@@ -128,9 +118,7 @@
 
 - (IBAction)recognizeSwipe:(UISwipeGestureRecognizer *)recognizer {
   self.detectedGesture.text = [NSString
-      stringWithFormat:@"%@swipe %@",
-                       [GestureViewController
-                           stringForFingerCount:recognizer.numberOfTouchesRequired],
+      stringWithFormat:@"swipe %@",
                        [GestureViewController stringFromSwipeDirection:recognizer.direction]];
   self.detectedGestureCoordinate.text =
       [GestureViewController stringForPoint:[recognizer locationInView:self.greyBox]];
@@ -146,12 +134,9 @@
 }
 
 - (IBAction)recognizeTap:(UITapGestureRecognizer *)recognizer {
-  self.detectedGesture.text =
-      [NSString stringWithFormat:@"%@%@ tap",
-                                 [GestureViewController
-                                     stringForFingerCount:recognizer.numberOfTouchesRequired],
-                                 [GestureViewController
-                                     stringForRepetitionCount:recognizer.numberOfTapsRequired]];
+  self.detectedGesture.text = [NSString
+      stringWithFormat:@"%@ tap", [GestureViewController
+                                      stringForRepetitionCount:recognizer.numberOfTapsRequired]];
 
   CGPoint tapPoint = [recognizer locationInView:self.greyBox];
   self.detectedGestureCoordinate.text = [GestureViewController stringForPoint:tapPoint];
@@ -161,9 +146,7 @@
 - (IBAction)recognizeLongPress:(UILongPressGestureRecognizer *)recognizer {
   // numberOfTapsRequired means the number of taps before the long press itself.
   self.detectedGesture.text =
-      [NSString stringWithFormat:@"%@%@ long press",
-                                 [GestureViewController
-                                     stringForFingerCount:recognizer.numberOfTouchesRequired],
+      [NSString stringWithFormat:@"%@ long press",
                                  [GestureViewController
                                      stringForRepetitionCount:recognizer.numberOfTapsRequired + 1]];
   [self incrementCounter];
@@ -171,9 +154,7 @@
 
 - (IBAction)recognizePan:(UIPanGestureRecognizer *)recognizer {
   if (recognizer.numberOfTouches >= recognizer.minimumNumberOfTouches) {
-    self.detectedGesture.text = [NSString
-        stringWithFormat:@"%@pan",
-                         [GestureViewController stringForFingerCount:recognizer.numberOfTouches]];
+    self.detectedGesture.text = @"pan";
   }
   if ([recognizer state] == UIGestureRecognizerStateBegan ||
       [recognizer state] == UIGestureRecognizerStateChanged) {
@@ -235,21 +216,6 @@
 - (void)incrementCounter {
   _counterValue++;
   self.counter.text = [NSString stringWithFormat:@"Counter: %lu", (unsigned long)_counterValue];
-}
-
-+ (NSString *)stringForFingerCount:(NSUInteger)fingers {
-  switch (fingers) {
-    case 1:
-      return @"";
-    case 2:
-      return @"two finger ";
-    case 3:
-      return @"three finger ";
-    case 4:
-      return @"four finger ";
-  }
-  NSAssert(NO, @"Invalid number of fingers");
-  return @"invalid finger count ";
 }
 
 + (NSString *)stringForRepetitionCount:(NSUInteger)repetitions {

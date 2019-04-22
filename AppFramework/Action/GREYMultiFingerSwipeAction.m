@@ -18,6 +18,7 @@
 
 #import "AppFramework/Action/GREYPathGestureUtils.h"
 #import "AppFramework/Additions/NSObject+GREYApp.h"
+#import "AppFramework/Error/GREYAppError.h"
 #import "AppFramework/Event/GREYSyntheticEvents.h"
 #import "AppFramework/Matcher/GREYAllOf.h"
 #import "AppFramework/Matcher/GREYMatchers.h"
@@ -26,7 +27,6 @@
 #import "CommonLib/Additions/NSObject+GREYCommon.h"
 #import "CommonLib/Additions/NSString+GREYCommon.h"
 #import "CommonLib/Assertion/GREYFatalAsserts.h"
-#import "CommonLib/Error/GREYError.h"
 #import "CommonLib/Error/GREYErrorConstants.h"
 #import "CommonLib/Error/NSError+GREYCommon.h"
 
@@ -97,7 +97,7 @@
 - (BOOL)perform:(id)element error:(__strong NSError **)errorOrNil {
   __block UIWindow *window = nil;
   NSMutableArray *multiTouchPaths = [[NSMutableArray alloc] init];
-  grey_execute_sync_on_main_thread(^{
+  grey_dispatch_sync_on_main_thread(^{
     if (![self satisfiesConstraintsForElement:element error:errorOrNil]) {
       return;
     }
@@ -111,9 +111,9 @@
             [NSString stringWithFormat:
                           @"Cannot perform multi-finger swipe on view [V], as it has "
                           @"no window and it isn't a window itself."];
-        GREYPopulateErrorNotedOrLog(errorOrNil, kGREYSyntheticEventInjectionErrorDomain,
-                                    kGREYOrientationChangeFailedErrorCode, errorDescription,
-                                    @{@"V" : [element grey_description]});
+        I_GREYPopulateErrorNoted(errorOrNil, kGREYSyntheticEventInjectionErrorDomain,
+                                 kGREYOrientationChangeFailedErrorCode, errorDescription,
+                                 @{@"V" : [element grey_description]});
         return;
       }
     }

@@ -21,21 +21,31 @@ NS_ASSUME_NONNULL_BEGIN
 @interface GREYTraversalDFS : GREYTraversal
 
 /**
- *  Instance method that returns the next object from the hierarchy in a Depth First Search fashion.
- *
- *  @return An instance of the UI element that is next in the hierarchy.
- */
-- (id _Nullable)nextObject;
-
-/**
- *  Class method to initialize the object. The hierarchy is unrolled in a DFS fashion and
- *  an internal represenation is created.
+ *  Class method to initialize the object. The hierarchy is unrolled from front to back in a DFS
+ *  fashion and an internal represenation is created.
  *
  *  @param element Single UI element whose UI hierarchy needs to be unrolled.
  *
  *  @return An instance of the GREYTraversalDFS class.
  */
-+ (instancetype)hierarchyForElementWithDFSTraversal:(id)element;
++ (instancetype)frontToBackHierarchyForElementWithDFSTraversal:(id)element;
+
+/**
+ *  Class method to initialize the object. The hierarchy is unrolled from back to front in a DFS
+ *  fashion and an internal represenation is created.
+ *
+ *  @param element Single UI element whose UI hierarchy needs to be unrolled.
+ *
+ *  @return An instance of the GREYTraversalDFS class.
+ */
++ (instancetype)backToFrontHierarchyForElementWithDFSTraversal:(id)element;
+
+/**
+ *  Instance method that returns the next object from the hierarchy in a Depth First Search fashion.
+ *
+ *  @return An instance of the UI element that is next in the hierarchy.
+ */
+- (id _Nullable)nextObject;
 
 /**
  *  Enumerates through the entire hierarchy and calls the @c block on each element in the hierarchy.
