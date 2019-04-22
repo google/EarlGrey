@@ -18,11 +18,11 @@
 
 #import "AppFramework/Additions/NSObject+GREYApp.h"
 #import "AppFramework/Core/GREYInteraction.h"
+#import "AppFramework/Error/GREYAppError.h"
 #import "AppFramework/Event/GREYSyntheticEvents.h"
 #import "AppFramework/Synchronization/GREYSyncAPI.h"
 #import "CommonLib/Additions/NSObject+GREYCommon.h"
 #import "CommonLib/Assertion/GREYThrowDefines.h"
-#import "CommonLib/Error/GREYError.h"
 #import "CommonLib/Error/NSError+GREYCommon.h"
 #import "CommonLib/GREYConstants.h"
 #import "UILib/Additions/CGGeometry+GREYUI.h"
@@ -37,7 +37,7 @@
 
   __block UIView *viewToTap = nil;
   __block UIWindow *window = nil;
-  grey_execute_sync_on_main_thread(^{
+  grey_dispatch_sync_on_main_thread(^{
     viewToTap =
         ([element isKindOfClass:[UIView class]] ? element : [element grey_viewContainingSelf]);
     window = [viewToTap isKindOfClass:[UIWindow class]] ? (UIWindow *)viewToTap : viewToTap.window;
@@ -76,7 +76,7 @@
   __block UIView *view =
       [element isKindOfClass:[UIView class]] ? element : [element grey_viewContainingSelf];
   __block UIWindow *window = nil;
-  grey_execute_sync_on_main_thread(^{
+  grey_dispatch_sync_on_main_thread(^{
     window = [view isKindOfClass:[UIWindow class]] ? (UIWindow *)view : view.window;
   });
   CGPoint resolvedLocation = [self grey_tapPointForElement:element relativeLocation:location];
@@ -101,7 +101,7 @@
  */
 + (CGPoint)grey_tapPointForElement:(id)element relativeLocation:(CGPoint)location {
   __block CGPoint tapPoint;
-  grey_execute_sync_on_main_thread(^{
+  grey_dispatch_sync_on_main_thread(^{
     UIView *viewToTap =
         ([element isKindOfClass:[UIView class]] ? element : [element grey_viewContainingSelf]);
     UIWindow *window =
@@ -142,7 +142,7 @@
   // Don't use frame because if transform property isn't identity matrix, the frame property is
   // undefined.
   __block NSString *windowBoundsString;
-  grey_execute_sync_on_main_thread(^{
+  grey_dispatch_sync_on_main_thread(^{
     if (!CGRectContainsPoint(window.bounds, location)) {
       windowBoundsString = NSStringFromCGRect(window.bounds);
     }
@@ -154,8 +154,8 @@
                                           @"as it is outside window's bounds %@",
                                           name, NSStringFromCGPoint(location), windowBoundsString];
 
-    GREYPopulateErrorOrLog(errorOrNil, kGREYInteractionErrorDomain,
-                           kGREYInteractionActionFailedErrorCode, description);
+    I_GREYPopulateError(errorOrNil, kGREYInteractionErrorDomain,
+                        kGREYInteractionActionFailedErrorCode, description);
 
     return NO;
   }

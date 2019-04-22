@@ -95,12 +95,15 @@
 
   _offScreenElement = [[UIAccessibilityElement alloc] initWithAccessibilityContainer:self];
   [_offScreenElement setAccessibilityIdentifier:@"OffScreenElementIdentifier"];
+  [_offScreenElement setAccessibilityLabel:@"OffScreenElementLabel"];
 
   _elementWithZeroHeight = [[UIAccessibilityElement alloc] initWithAccessibilityContainer:self];
-  [_elementWithZeroHeight setAccessibilityIdentifier:@"ElementWithZeroHeight"];
+  [_elementWithZeroHeight setAccessibilityIdentifier:@"ElementWithZeroHeightIdentifier"];
+  [_elementWithZeroHeight setAccessibilityLabel:@"ElementWithZeroHeightLabel"];
 
   _elementWithZeroWidth = [[UIAccessibilityElement alloc] initWithAccessibilityContainer:self];
-  [_elementWithZeroWidth setAccessibilityIdentifier:@"ElementWithZeroWidth"];
+  [_elementWithZeroWidth setAccessibilityIdentifier:@"ElementWithZeroWidthIdentifier"];
+  [_elementWithZeroWidth setAccessibilityLabel:@"ElementWithZeroWidthLabel"];
 
   _accessibilityElements = @[
     _squareElement, _partialOffScreenRectangleElement, _onScreenRectangleElement, _circleElement,

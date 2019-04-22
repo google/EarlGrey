@@ -204,9 +204,14 @@
 		FD623DD920FD794500049E81 /* libCommonLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD62395120F56A9700049E81 /* libCommonLib.a */; };
 		FD795B9421192FEC00F9A9E3 /* libCommonLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD62395120F56A9700049E81 /* libCommonLib.a */; };
 		FD795B952119309600F9A9E3 /* GREYElementHierarchyStub.m in Sources */ = {isa = PBXBuildFile; fileRef = FDF9E06E20F82F020005DCF2 /* GREYElementHierarchyStub.m */; };
-		FD795B962119309600F9A9E3 /* GREYScreenshotUtilStub.m in Sources */ = {isa = PBXBuildFile; fileRef = FDF9E07220F82F030005DCF2 /* GREYScreenshotUtilStub.m */; };
 		FD795B972119309600F9A9E3 /* GREYVisibilityCheckerStub.m in Sources */ = {isa = PBXBuildFile; fileRef = FDF9E07420F82F030005DCF2 /* GREYVisibilityCheckerStub.m */; };
 		FD795B98211930D300F9A9E3 /* GREYFailureScreenshotterStub.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B2420F95A7200049E81 /* GREYFailureScreenshotterStub.m */; };
+		FD98C458226C2DD1006F8D68 /* GREYScreenshotterStub.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C455226C2DCC006F8D68 /* GREYScreenshotterStub.m */; };
+		FD98C459226C2DD1006F8D68 /* GREYScreenshotter.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C456226C2DCD006F8D68 /* GREYScreenshotter.m */; };
+		FD98C45C226C2E01006F8D68 /* NSFileManager+GREYCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C45A226C2DFF006F8D68 /* NSFileManager+GREYCommon.m */; };
+		FD98C45E226C2E65006F8D68 /* GREYAppError.h in Headers */ = {isa = PBXBuildFile; fileRef = FD98C45D226C2E64006F8D68 /* GREYAppError.h */; };
+		FD98C461226C32FC006F8D68 /* GREYElementInteractionErrorHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C460226C32FB006F8D68 /* GREYElementInteractionErrorHandler.m */; };
+		FD98C464226C330A006F8D68 /* GREYFailureScreenshotSaver.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C462226C3309006F8D68 /* GREYFailureScreenshotSaver.m */; };
 		FDF9E05720F82E200005DCF2 /* GREYTraversalDFS.m in Sources */ = {isa = PBXBuildFile; fileRef = FDF9E05120F82E200005DCF2 /* GREYTraversalDFS.m */; };
 		FDF9E05820F82E200005DCF2 /* GREYTraversalBFS.m in Sources */ = {isa = PBXBuildFile; fileRef = FDF9E05220F82E200005DCF2 /* GREYTraversalBFS.m */; };
 		FDF9E05920F82E200005DCF2 /* GREYTraversal.m in Sources */ = {isa = PBXBuildFile; fileRef = FDF9E05620F82E200005DCF2 /* GREYTraversal.m */; };
@@ -215,7 +220,6 @@
 		FDF9E06320F82E340005DCF2 /* GREYDataEnumerator.m in Sources */ = {isa = PBXBuildFile; fileRef = FDF9E05E20F82E340005DCF2 /* GREYDataEnumerator.m */; };
 		FDF9E06920F82EF60005DCF2 /* CGGeometry+GREYUI.m in Sources */ = {isa = PBXBuildFile; fileRef = FDF9E06520F82EF60005DCF2 /* CGGeometry+GREYUI.m */; };
 		FDF9E06A20F82EF60005DCF2 /* NSObject+GREYUI.m in Sources */ = {isa = PBXBuildFile; fileRef = FDF9E06620F82EF60005DCF2 /* NSObject+GREYUI.m */; };
-		FDF9E07620F82F030005DCF2 /* GREYScreenshotUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = FDF9E07020F82F020005DCF2 /* GREYScreenshotUtil.m */; };
 		FDF9E07720F82F030005DCF2 /* GREYElementHierarchy.m in Sources */ = {isa = PBXBuildFile; fileRef = FDF9E07120F82F030005DCF2 /* GREYElementHierarchy.m */; };
 		FDF9E07920F82F030005DCF2 /* GREYVisibilityChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = FDF9E07320F82F030005DCF2 /* GREYVisibilityChecker.m */; };
 /* End PBXBuildFile section */
@@ -346,6 +350,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = C845026E20DD9D5D00D7350F;
 			remoteInfo = eDistantObject;
+		};
+		FD98C450226C2DC7006F8D68 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FD6239E420F56E6A00049E81 /* eDistantObject.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C52D85942220C44300E86E60;
+			remoteInfo = DeviceLib;
+		};
+		FD98C452226C2DC7006F8D68 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FD6239E420F56E6A00049E81 /* eDistantObject.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C55B85F62241AEAC00B568FA;
+			remoteInfo = DeviceUnitTests;
 		};
 		FDF9E07B20F82F290005DCF2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -642,6 +660,18 @@
 		FD623DBD20FD764400049E81 /* GREYAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYAnalytics.m; path = Analytics/GREYAnalytics.m; sourceTree = "<group>"; };
 		FD623DBE20FD764500049E81 /* GREYAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYAnalytics.h; path = Analytics/GREYAnalytics.h; sourceTree = "<group>"; };
 		FD623DBF20FD764500049E81 /* GREYAnalyticsDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYAnalyticsDelegate.h; path = Analytics/GREYAnalyticsDelegate.h; sourceTree = "<group>"; };
+		FD98C454226C2DCB006F8D68 /* GREYScreenshotter+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GREYScreenshotter+Internal.h"; sourceTree = "<group>"; };
+		FD98C455226C2DCC006F8D68 /* GREYScreenshotterStub.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYScreenshotterStub.m; sourceTree = "<group>"; };
+		FD98C456226C2DCD006F8D68 /* GREYScreenshotter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYScreenshotter.m; sourceTree = "<group>"; };
+		FD98C457226C2DCE006F8D68 /* GREYScreenshotter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYScreenshotter.h; sourceTree = "<group>"; };
+		FD98C45A226C2DFF006F8D68 /* NSFileManager+GREYCommon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSFileManager+GREYCommon.m"; path = "CommonLib/Additions/NSFileManager+GREYCommon.m"; sourceTree = "<group>"; };
+		FD98C45B226C2E00006F8D68 /* NSFileManager+GREYCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSFileManager+GREYCommon.h"; path = "CommonLib/Additions/NSFileManager+GREYCommon.h"; sourceTree = "<group>"; };
+		FD98C45D226C2E64006F8D68 /* GREYAppError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYAppError.h; path = Error/GREYAppError.h; sourceTree = "<group>"; };
+		FD98C45F226C32FA006F8D68 /* GREYElementInteractionErrorHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYElementInteractionErrorHandler.h; path = EarlGreyImpl/GREYElementInteractionErrorHandler.h; sourceTree = "<group>"; };
+		FD98C460226C32FB006F8D68 /* GREYElementInteractionErrorHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYElementInteractionErrorHandler.m; path = EarlGreyImpl/GREYElementInteractionErrorHandler.m; sourceTree = "<group>"; };
+		FD98C462226C3309006F8D68 /* GREYFailureScreenshotSaver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYFailureScreenshotSaver.m; path = Exception/GREYFailureScreenshotSaver.m; sourceTree = "<group>"; };
+		FD98C463226C3309006F8D68 /* GREYFailureScreenshotSaver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYFailureScreenshotSaver.h; path = Exception/GREYFailureScreenshotSaver.h; sourceTree = "<group>"; };
+		FD98C466226C331A006F8D68 /* GREYXCTestAppleInternals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYXCTestAppleInternals.h; path = AppleInternals/GREYXCTestAppleInternals.h; sourceTree = "<group>"; };
 		FDF9E03520F82D090005DCF2 /* libUILib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libUILib.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDF9E05120F82E200005DCF2 /* GREYTraversalDFS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYTraversalDFS.m; path = UILib/Traversal/GREYTraversalDFS.m; sourceTree = SOURCE_ROOT; };
 		FDF9E05220F82E200005DCF2 /* GREYTraversalBFS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYTraversalBFS.m; path = UILib/Traversal/GREYTraversalBFS.m; sourceTree = SOURCE_ROOT; };
@@ -660,13 +690,9 @@
 		FDF9E06720F82EF60005DCF2 /* CGGeometry+GREYUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CGGeometry+GREYUI.h"; path = "UILib/Additions/CGGeometry+GREYUI.h"; sourceTree = SOURCE_ROOT; };
 		FDF9E06820F82EF60005DCF2 /* NSObject+GREYUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+GREYUI.h"; path = "UILib/Additions/NSObject+GREYUI.h"; sourceTree = SOURCE_ROOT; };
 		FDF9E06B20F82F020005DCF2 /* GREYVisibilityChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYVisibilityChecker.h; sourceTree = "<group>"; };
-		FDF9E06C20F82F020005DCF2 /* GREYScreenshotUtil+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GREYScreenshotUtil+Internal.h"; sourceTree = "<group>"; };
 		FDF9E06D20F82F020005DCF2 /* GREYElementHierarchy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYElementHierarchy.h; sourceTree = "<group>"; };
 		FDF9E06E20F82F020005DCF2 /* GREYElementHierarchyStub.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYElementHierarchyStub.m; sourceTree = "<group>"; };
-		FDF9E06F20F82F020005DCF2 /* GREYScreenshotUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYScreenshotUtil.h; sourceTree = "<group>"; };
-		FDF9E07020F82F020005DCF2 /* GREYScreenshotUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYScreenshotUtil.m; sourceTree = "<group>"; };
 		FDF9E07120F82F030005DCF2 /* GREYElementHierarchy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYElementHierarchy.m; sourceTree = "<group>"; };
-		FDF9E07220F82F030005DCF2 /* GREYScreenshotUtilStub.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYScreenshotUtilStub.m; sourceTree = "<group>"; };
 		FDF9E07320F82F030005DCF2 /* GREYVisibilityChecker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYVisibilityChecker.m; sourceTree = "<group>"; };
 		FDF9E07420F82F030005DCF2 /* GREYVisibilityCheckerStub.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYVisibilityCheckerStub.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -739,6 +765,7 @@
 		FD5048F920FB225100261CBE /* TestLib */ = {
 			isa = PBXGroup;
 			children = (
+				FD98C465226C330E006F8D68 /* AppleInternals */,
 				FD2E76EE2149E4620063EF7E /* Config */,
 				FD623DBC20FD75D600049E81 /* Analytics */,
 				FD623DBA20FD75C000049E81 /* AppFrameworkStubs */,
@@ -794,6 +821,8 @@
 		FD50492020FB238800261CBE /* EarlGreyImpl */ = {
 			isa = PBXGroup;
 			children = (
+				FD98C45F226C32FA006F8D68 /* GREYElementInteractionErrorHandler.h */,
+				FD98C460226C32FB006F8D68 /* GREYElementInteractionErrorHandler.m */,
 				FD50492920FB239900261CBE /* EarlGrey.h */,
 				FD50492620FB239800261CBE /* EarlGrey.m */,
 				FD50492120FB239800261CBE /* EarlGreyImpl+XCUIApplication.h */,
@@ -810,6 +839,8 @@
 		FD50492E20FB239C00261CBE /* Exception */ = {
 			isa = PBXGroup;
 			children = (
+				FD98C463226C3309006F8D68 /* GREYFailureScreenshotSaver.h */,
+				FD98C462226C3309006F8D68 /* GREYFailureScreenshotSaver.m */,
 				FD50493020FB23AE00261CBE /* GREYDefaultFailureHandler.h */,
 				FD50493220FB23AE00261CBE /* GREYDefaultFailureHandler.m */,
 				FD50492F20FB23AE00261CBE /* GREYFailureFormatter.h */,
@@ -894,6 +925,8 @@
 		FD62399120F56B8800049E81 /* Additions */ = {
 			isa = PBXGroup;
 			children = (
+				FD98C45B226C2E00006F8D68 /* NSFileManager+GREYCommon.h */,
+				FD98C45A226C2DFF006F8D68 /* NSFileManager+GREYCommon.m */,
 				FD62398720F56B7600049E81 /* NSObject+GREYCommon.h */,
 				FD62398420F56B7500049E81 /* NSObject+GREYCommon.m */,
 				FD62398520F56B7600049E81 /* NSString+GREYCommon.h */,
@@ -1015,6 +1048,8 @@
 				FD6239FA20F56E6A00049E81 /* ServiceTests.xctest */,
 				FD6239FC20F56E6A00049E81 /* ServicePerfTests.xctest */,
 				FD6239FE20F56E6A00049E81 /* libTestsBundle.a */,
+				FD98C451226C2DC7006F8D68 /* libDeviceLib.a */,
+				FD98C453226C2DC7006F8D68 /* DeviceUnitTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1198,6 +1233,7 @@
 		FD623B1F20F95A6700049E81 /* Error */ = {
 			isa = PBXGroup;
 			children = (
+				FD98C45D226C2E64006F8D68 /* GREYAppError.h */,
 				FD623B2320F95A7200049E81 /* GREYAppFailureHandler.h */,
 				FD623B2020F95A7200049E81 /* GREYAppFailureHandler.m */,
 				FD623B2120F95A7200049E81 /* GREYFailureScreenshotter.h */,
@@ -1323,17 +1359,25 @@
 			name = Analytics;
 			sourceTree = "<group>";
 		};
+		FD98C465226C330E006F8D68 /* AppleInternals */ = {
+			isa = PBXGroup;
+			children = (
+				FD98C466226C331A006F8D68 /* GREYXCTestAppleInternals.h */,
+			);
+			name = AppleInternals;
+			sourceTree = "<group>";
+		};
 		FDF9E03620F82D090005DCF2 /* UILib */ = {
 			isa = PBXGroup;
 			children = (
+				FD98C457226C2DCE006F8D68 /* GREYScreenshotter.h */,
+				FD98C456226C2DCD006F8D68 /* GREYScreenshotter.m */,
+				FD98C454226C2DCB006F8D68 /* GREYScreenshotter+Internal.h */,
+				FD98C455226C2DCC006F8D68 /* GREYScreenshotterStub.m */,
 				FD3A825821F1886E00CA3ADF /* GREYVisibilityChecker+Internal.h */,
 				FDF9E06D20F82F020005DCF2 /* GREYElementHierarchy.h */,
 				FDF9E07120F82F030005DCF2 /* GREYElementHierarchy.m */,
 				FDF9E06E20F82F020005DCF2 /* GREYElementHierarchyStub.m */,
-				FDF9E06F20F82F020005DCF2 /* GREYScreenshotUtil.h */,
-				FDF9E07020F82F020005DCF2 /* GREYScreenshotUtil.m */,
-				FDF9E06C20F82F020005DCF2 /* GREYScreenshotUtil+Internal.h */,
-				FDF9E07220F82F030005DCF2 /* GREYScreenshotUtilStub.m */,
 				FDF9E06B20F82F020005DCF2 /* GREYVisibilityChecker.h */,
 				FDF9E07320F82F030005DCF2 /* GREYVisibilityChecker.m */,
 				FDF9E07420F82F030005DCF2 /* GREYVisibilityCheckerStub.m */,
@@ -1462,6 +1506,7 @@
 				FD623B3420F95A8600049E81 /* GREYSyntheticEvents.h in Headers */,
 				FD623A8020F958C200049E81 /* GREYSwipeAction.h in Headers */,
 				FD623AD320F9590800049E81 /* UIWebView+GREYApp.h in Headers */,
+				FD98C45E226C2E65006F8D68 /* GREYAppError.h in Headers */,
 				FD623A7B20F958C200049E81 /* GREYActions+Internal.h in Headers */,
 				FD623ADB20F9590800049E81 /* NSRunLoop+GREYApp.h in Headers */,
 				FD623A8820F958C200049E81 /* GREYTapAction.h in Headers */,
@@ -1673,6 +1718,20 @@
 			remoteRef = FD6239FD20F56E6A00049E81 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		FD98C451226C2DC7006F8D68 /* libDeviceLib.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libDeviceLib.a;
+			remoteRef = FD98C450226C2DC7006F8D68 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		FD98C453226C2DC7006F8D68 /* DeviceUnitTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = DeviceUnitTests.xctest;
+			remoteRef = FD98C452226C2DC7006F8D68 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -1692,14 +1751,15 @@
 			files = (
 				FD795B98211930D300F9A9E3 /* GREYFailureScreenshotterStub.m in Sources */,
 				FD795B952119309600F9A9E3 /* GREYElementHierarchyStub.m in Sources */,
-				FD795B962119309600F9A9E3 /* GREYScreenshotUtilStub.m in Sources */,
 				FD795B972119309600F9A9E3 /* GREYVisibilityCheckerStub.m in Sources */,
 				FD50492C20FB239900261CBE /* EarlGreyImpl+XCUIApplication.m in Sources */,
 				FD50491E20FB238300261CBE /* GREYHostStub.m in Sources */,
 				FD50491A20FB237100261CBE /* GREYCondition.m in Sources */,
+				FD98C461226C32FC006F8D68 /* GREYElementInteractionErrorHandler.m in Sources */,
 				FD1184D3212CEE72004CADC3 /* XCUIApplication+GREYEnvironment.m in Sources */,
 				FD3A825C21F189BC00CA3ADF /* GREYActionsShorthand.m in Sources */,
 				FD623DC020FD764500049E81 /* GREYAnalytics.m in Sources */,
+				FD98C464226C330A006F8D68 /* GREYFailureScreenshotSaver.m in Sources */,
 				FD3A826521F18A5900CA3ADF /* GREYTestApplicationDistantObject+GREYLogger.m in Sources */,
 				FD50493D20FB23E500261CBE /* XCTestCase+GREYTest.m in Sources */,
 				FD623DC220FD770F00049E81 /* GREYMatchersShorthand.m in Sources */,
@@ -1719,6 +1779,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FD98C45C226C2E01006F8D68 /* NSFileManager+GREYCommon.m in Sources */,
 				FD6239C420F56C4D00049E81 /* GREYTouchInfo.m in Sources */,
 				FD6239D120F56C7100049E81 /* GREYLayoutConstraint.m in Sources */,
 				FD6239E120F56C9500049E81 /* GREYSwizzler.m in Sources */,
@@ -1830,15 +1891,16 @@
 			files = (
 				FDF9E06320F82E340005DCF2 /* GREYDataEnumerator.m in Sources */,
 				FDF9E06120F82E340005DCF2 /* GREYElementProvider.m in Sources */,
+				FD98C459226C2DD1006F8D68 /* GREYScreenshotter.m in Sources */,
 				FDF9E07920F82F030005DCF2 /* GREYVisibilityChecker.m in Sources */,
 				FDF9E05920F82E200005DCF2 /* GREYTraversal.m in Sources */,
 				FDF9E06920F82EF60005DCF2 /* CGGeometry+GREYUI.m in Sources */,
 				FDF9E06A20F82EF60005DCF2 /* NSObject+GREYUI.m in Sources */,
-				FDF9E07620F82F030005DCF2 /* GREYScreenshotUtil.m in Sources */,
 				FDF9E05720F82E200005DCF2 /* GREYTraversalDFS.m in Sources */,
 				FDF9E07720F82F030005DCF2 /* GREYElementHierarchy.m in Sources */,
 				FDF9E06220F82E340005DCF2 /* GREYUIWindowProvider.m in Sources */,
 				FDF9E05820F82E200005DCF2 /* GREYTraversalBFS.m in Sources */,
+				FD98C458226C2DD1006F8D68 /* GREYScreenshotterStub.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2151,7 +2213,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MODULEMAP_FILE = AppFramework/AppFramework.modulemap;
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-framework",
 					IOKit,
@@ -2187,6 +2249,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MODULEMAP_FILE = AppFramework/AppFramework.modulemap;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-framework",
 					IOKit,

@@ -68,8 +68,9 @@ GREY_EXTERN GREYConfigKey const kGREYConfigKeySynchronizationEnabled;
  *  Configuration that enables synchronization for different app state. By default, EarlGrey will
  *  wait for all tracked app state resources to be idle. Set this config value to options with @c
  *  GREYAppState will skip resources with those options.
- *  Example: [GREYConfiguration.sharedConfiguration setValue:@(kGREYPendingCAAnimation)
- *                                              forConfigKey:kGREYConfigKeyIgnoreAppStates];
+ *  Example:
+ *      [GREYConfiguration.sharedConfiguration setValue:@(kGREYPendingCAAnimation)
+ *                                         forConfigKey:kGREYConfigKeyIgnoreAppStates];
  *
  *  Accepted values: NS_OPTIONS with value of @c GREYAppState that's wraaped in NSNumber.
  *  Default value: @c kGREYIdle, which indicates no state is ignored.

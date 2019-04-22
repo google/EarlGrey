@@ -16,6 +16,8 @@
 
 #import "AppFramework/Core/GREYElementInteraction.h"
 
+@class GREYError;
+
 /**
  *  @file GREYElementInteraction+Internal.h
  *  @brief Exposes GREYElementInteraction's interfaces and methods that are otherwise private for
@@ -39,6 +41,6 @@
  *
  *  @remark This is available only for internal testing purposes.
  */
-- (NSArray *)matchedElementsWithTimeout:(NSTimeInterval)timeout error:(__strong NSError **)error;
+- (NSArray *)matchedElementsWithTimeout:(NSTimeInterval)timeout error:(__strong GREYError **)error;
 
 @end

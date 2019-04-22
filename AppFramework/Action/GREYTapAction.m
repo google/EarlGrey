@@ -19,6 +19,7 @@
 #import "AppFramework/Action/GREYTapper.h"
 #import "AppFramework/Additions/NSObject+GREYApp.h"
 #import "AppFramework/Core/GREYInteraction.h"
+#import "AppFramework/Error/GREYAppError.h"
 #import "AppFramework/Matcher/GREYAllOf.h"
 #import "AppFramework/Matcher/GREYAnyOf.h"
 #import "AppFramework/Matcher/GREYMatchers.h"
@@ -28,7 +29,6 @@
 #import "CommonLib/Additions/NSObject+GREYCommon.h"
 #import "CommonLib/Assertion/GREYFatalAsserts.h"
 #import "CommonLib/Assertion/GREYThrowDefines.h"
-#import "CommonLib/Error/GREYError.h"
 #import "CommonLib/Error/NSError+GREYCommon.h"
 #import "CommonLib/GREYDefines.h"
 #import "UILib/Additions/CGGeometry+GREYUI.h"
@@ -124,7 +124,7 @@
 
 - (BOOL)perform:(id)element error:(__strong NSError **)errorOrNil {
   __block BOOL satisfiesContraints = NO;
-  grey_execute_sync_on_main_thread(^{
+  grey_dispatch_sync_on_main_thread(^{
     satisfiesContraints = [self satisfiesConstraintsForElement:element error:errorOrNil];
   });
   if (!satisfiesContraints) {
@@ -142,7 +142,7 @@
       // Retrieving the accessibility activation point for a keyboard key is tricky due to window
       // transforms. Sending the tap directly to its windows is overall simpler.
       __block UIWindow *window = nil;
-      grey_execute_sync_on_main_thread(^{
+      grey_dispatch_sync_on_main_thread(^{
         window = [element grey_viewContainingSelf].window;
       });
       if (!window) {
@@ -150,8 +150,8 @@
             [NSString stringWithFormat:@"Element [E] is not attached to a window."];
         NSDictionary *glossary = @{@"E" : [element grey_description]};
 
-        GREYPopulateErrorNotedOrLog(errorOrNil, kGREYInteractionErrorDomain,
-                                    kGREYInteractionActionFailedErrorCode, description, glossary);
+        I_GREYPopulateErrorNoted(errorOrNil, kGREYInteractionErrorDomain,
+                                 kGREYInteractionActionFailedErrorCode, description, glossary);
 
         return NO;
       }
@@ -170,8 +170,8 @@
 
   NSString *description = [NSString stringWithFormat:@"Unknown tap type: %ld", (long)_type];
 
-  GREYPopulateErrorOrLog(errorOrNil, kGREYInteractionErrorDomain,
-                         kGREYInteractionActionFailedErrorCode, description);
+  I_GREYPopulateError(errorOrNil, kGREYInteractionErrorDomain,
+                      kGREYInteractionActionFailedErrorCode, description);
 
   return NO;
 }
@@ -201,7 +201,7 @@
 - (CGPoint)grey_resolvedTapLocationForElement:(id)element {
   __block CGPoint tapPoint = _tapLocation;
   if (CGPointIsNull(_tapLocation)) {
-    grey_execute_sync_on_main_thread(^{
+    grey_dispatch_sync_on_main_thread(^{
       tapPoint = [GREYVisibilityChecker visibleInteractionPointForElement:element];
     });
   }

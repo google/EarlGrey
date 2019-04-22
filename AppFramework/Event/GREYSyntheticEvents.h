@@ -76,26 +76,23 @@ typedef NS_ENUM(NSInteger, GREYSyntheticEventInjectionErrorCode) {
  * Simulate the user action to rotate the device to a certain orientation.
  *
  * @param deviceOrientation The orientation of the device after the rotation action.
- * @param[out] error        Error populated when any failure occurs during rotation. This should
- *                          never be nil.
+ * @param[out] error        Error populated when any failure occurs during rotation. If @c nil,
+ *                          no error is reported back.
  *
  * @return @c YES if the rotation was successful, @c NO otherwise.
  */
 + (BOOL)rotateDeviceToOrientation:(UIDeviceOrientation)deviceOrientation error:(NSError **)error;
 
 /**
- *  Shakes the device. If a non-nil @c errorOrNil is provided, it will
- *  be populated with the failure reason if the orientation change fails, otherwise a test failure
- *  will be registered.
+ *  Shakes the device. If @c error is provided, it will be populated with the failure
+ *  reason if the orientation change fails.
  *
- *  @param[out] errorOrNil Error that will be populated on failure. If @c nil, the a test
- *                         failure will be reported if the shake attempt fails.
+ *  @param[out] error Error that will be populated on failure. If @c nil, the
+ *                    method will return without throwing any exception.
  *
- *  @throws GREYFrameworkException if the action fails and @c errorOrNil is @c nil.
- *  @return @c YES if the shake was successful, @c NO otherwise. If @c errorOrNil is @c nil and
- *          the operation fails, it will throw an exception.
+ *  @return @c YES if the shake was successful, @c NO otherwise.
  */
-+ (BOOL)shakeDeviceWithError:(NSError **)errorOrNil;
++ (BOOL)shakeDeviceWithError:(NSError **)error;
 
 /**
  *  Begins interaction with a new touch starting at a specified point within a specified

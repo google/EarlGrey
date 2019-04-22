@@ -87,7 +87,7 @@ static GREYDispatchQueueTracker *grey_getTrackerForQueue(dispatch_queue_t queue)
 }
 
 /**
- *  Overriden implementation of @c dispatch_after that calls into the tracker, if one is found for
+ *  Overridden implementation of @c dispatch_after that calls into the tracker, if one is found for
  *  the dispatch queue passed in.
  *
  *  @param when  Same as @c dispatch_after @c when.
@@ -105,7 +105,7 @@ static void grey_dispatch_after(dispatch_time_t when, dispatch_queue_t queue,
 }
 
 /**
- *  Overriden implementation of @c dispatch_async that calls into the tracker, if one is found for
+ *  Overridden implementation of @c dispatch_async that calls into the tracker, if one is found for
  *  the dispatch queue passed in.
  *
  *  @param queue Same as @c dispatch_async @c queue.
@@ -121,7 +121,7 @@ static void grey_dispatch_async(dispatch_queue_t queue, dispatch_block_t block) 
 }
 
 /**
- *  Overriden implementation of @c dispatch_sync that calls into the tracker, if one is found for
+ *  Overridden implementation of @c dispatch_sync that calls into the tracker, if one is found for
  *  the dispatch queue passed in.
  *
  *  @param queue Same as @c dispatch_sync @c queue.
@@ -137,7 +137,7 @@ static void grey_dispatch_sync(dispatch_queue_t queue, dispatch_block_t block) {
 }
 
 /**
- *  Overriden implementation of @c dispatch_after_f that calls into the tracker, if one is found
+ *  Overridden implementation of @c dispatch_after_f that calls into the tracker, if one is found
  *  for the dispatch queue passed in.
  *
  *  @param when    Same as @c dispatch_after_f @c when.
@@ -173,7 +173,7 @@ static void grey_dispatch_async_f(dispatch_queue_t queue, void *context, dispatc
 }
 
 /**
- *  Overriden implementation of @c dispatch_sync_f that calls into the tracker, if one is found
+ *  Overridden implementation of @c dispatch_sync_f that calls into the tracker, if one is found
  *  for the dispatch queue passed in.
  *
  *  @param queue   Same as @c dispatch_sync_f @c queue.

@@ -19,6 +19,7 @@
 #import "AppFramework/Action/GREYPathGestureUtils.h"
 #import "AppFramework/Additions/NSException+GREYApp.h"
 #import "AppFramework/Additions/NSObject+GREYApp.h"
+#import "AppFramework/Error/GREYAppError.h"
 #import "AppFramework/Error/GREYAppFailureHandler.h"
 #import "AppFramework/Event/GREYSyntheticEvents.h"
 #import "AppFramework/Matcher/GREYAllOf.h"
@@ -28,7 +29,6 @@
 #import "CommonLib/Additions/NSObject+GREYCommon.h"
 #import "CommonLib/Additions/NSString+GREYCommon.h"
 #import "CommonLib/Assertion/GREYThrowDefines.h"
-#import "CommonLib/Error/GREYError.h"
 #import "CommonLib/Error/GREYErrorConstants.h"
 #import "CommonLib/Error/NSError+GREYCommon.h"
 #import "CommonLib/Exceptions/GREYFrameworkException.h"
@@ -93,7 +93,7 @@
 - (BOOL)perform:(id)element error:(__strong NSError **)errorOrNil {
   __block NSArray *touchPath = nil;
   __block UIWindow *window = nil;
-  grey_execute_sync_on_main_thread(^{
+  grey_dispatch_sync_on_main_thread(^{
     if (![self satisfiesConstraintsForElement:element error:errorOrNil]) {
       return;
     }
@@ -108,8 +108,9 @@
                           @"Cannot swipe on view [V], as it has no window and "
                           @"it isn't a window itself."];
         NSDictionary *glossary = @{@"V" : [element grey_description]};
-        GREYError *error = GREYErrorMake(kGREYSyntheticEventInjectionErrorDomain,
-                                         kGREYOrientationChangeFailedErrorCode, errorDescription);
+        GREYError *error =
+            GREYErrorMakeWithHierarchy(kGREYSyntheticEventInjectionErrorDomain,
+                                       kGREYOrientationChangeFailedErrorCode, errorDescription);
         error.descriptionGlossary = glossary;
         if (errorOrNil) {
           *errorOrNil = error;

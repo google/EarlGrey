@@ -31,4 +31,4 @@
  *  @note  Can be called from any thread.
  *  @param block Block that will be executed.
  */
-GREY_EXPORT void grey_execute_sync_on_main_thread(void (^block)(void));
+GREY_EXPORT void grey_dispatch_sync_on_main_thread(void (^block)(void));

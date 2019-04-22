@@ -16,7 +16,6 @@
 
 #import "CommonLib/Matcher/GREYElementMatcherBlock.h"
 
-#import "CommonLib/Assertion/GREYThrowDefines.h"
 #import "CommonLib/GREYDefines.h"
 
 // Base matcher which takes block parameters that implement |matches| and |describeTo|.
@@ -30,9 +29,6 @@
 
 - (instancetype)initWithMatchesBlock:(GREYMatchesBlock)matchBlock
                     descriptionBlock:(GREYDescribeToBlock)describeBlock {
-  GREYThrowOnNilParameter(matchBlock);
-  GREYThrowOnNilParameter(describeBlock);
-
   self = [super init];
   if (self) {
     _matcherBlock = matchBlock;

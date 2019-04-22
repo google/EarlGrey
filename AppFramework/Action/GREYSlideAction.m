@@ -19,12 +19,12 @@
 #include <tgmath.h>
 
 #import "AppFramework/Core/GREYInteraction.h"
+#import "AppFramework/Error/GREYAppError.h"
 #import "AppFramework/Event/GREYSyntheticEvents.h"
 #import "AppFramework/Matcher/GREYAllOf.h"
 #import "AppFramework/Matcher/GREYMatchers.h"
 #import "AppFramework/Matcher/GREYNot.h"
 #import "AppFramework/Synchronization/GREYSyncAPI.h"
-#import "CommonLib/Error/GREYError.h"
 #import "CommonLib/Error/NSError+GREYCommon.h"
 #import "CommonLib/GREYConstants.h"
 #import "CommonLib/GREYDefines.h"
@@ -57,7 +57,7 @@
 
 - (BOOL)perform:(UISlider *)slider error:(__strong NSError **)errorOrNil {
   __block BOOL retVal = NO;
-  grey_execute_sync_on_main_thread(^{
+  grey_dispatch_sync_on_main_thread(^{
     // We aggressively access UI elements when performing the action, rather than having pieces
     // running on the main thread separately, the whole action will be performed on the main thread.
     retVal = [self grey_perform:slider error:errorOrNil];
@@ -184,8 +184,8 @@
                     @"desired value is %g",
                     reason, slider.minimumValue, slider.maximumValue, _finalValue];
 
-  GREYPopulateErrorOrLog(errorOrNil, kGREYInteractionErrorDomain,
-                         kGREYInteractionActionFailedErrorCode, description);
+  I_GREYPopulateError(errorOrNil, kGREYInteractionErrorDomain,
+                      kGREYInteractionActionFailedErrorCode, description);
 
   return NO;
 }

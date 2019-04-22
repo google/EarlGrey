@@ -152,7 +152,7 @@ static NSString *const kTrackerScriptCleanupScript =
   }
 
   __block BOOL childAccessibilityElementNotFound = NO;
-  grey_execute_sync_on_main_thread(^{
+  grey_dispatch_sync_on_main_thread(^{
     id internalWebBrowserView = [webViewInternal valueForKey:@"browserView"];
     if (internalWebBrowserView) {
       @autoreleasepool {
@@ -214,7 +214,7 @@ static NSString *const kTrackerScriptCleanupScript =
   NSString *safeJavaScript =
       [NSString stringWithFormat:safeJavaScriptTemplate, jsString, grey_errorPrefix];
   __block NSString *result;
-  grey_execute_sync_on_main_thread(^{
+  grey_dispatch_sync_on_main_thread(^{
     result = [self->_webView stringByEvaluatingJavaScriptFromString:safeJavaScript];
   });
   GREYFatalAssertWithMessage(![result hasPrefix:grey_errorPrefix],

@@ -215,7 +215,8 @@ GREY_EXTERN NSString *const kGREYAssertionErrorUserInfoKey;
  *  @return The provided GREYInteraction instance with an assertion and an error that will be
  *          populated on failure.
  */
-- (instancetype)assert:(id<GREYAssertion>)assertion error:(__autoreleasing NSError **)error;
+- (instancetype)assert:(id<GREYAssertion>)assertion
+                 error:(__autoreleasing NSError **)error NS_SWIFT_NOTHROW;
 
 /**
  *  Performs an assertion that evaluates @c matcher on the selected UI element.

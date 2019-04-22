@@ -55,6 +55,17 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (BOOL)keyboardShownWithError:(NSError **)error;
 
+/**
+ *  Dismisses the keyboard by sending a resignFirstResponder call to the application.
+ *
+ *  @param[out]error The error populated if the keyboard isn't visible or if there is a
+ *                   synchronization timeout.
+ *
+ *  @return @c YES if the keyboard is dismissed, @c NO if there was a synchronization timeout if
+ *          the keyboard wasn't being shown.
+ */
++ (BOOL)dismissKeyboardWithoutReturnKeyWithError:(NSError **)error;
+
 @end
 
 NS_ASSUME_NONNULL_END

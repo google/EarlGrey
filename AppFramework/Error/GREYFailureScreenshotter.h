@@ -15,32 +15,20 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
+/**
+ *  Takes failure screenshots. It is called from multiple places where errors can be generated.
+ */
 @interface GREYFailureScreenshotter : NSObject
 
 /**
- *  Generate app screenshot with given prefix and failure name.
- *
- *  @param screenshotPrefix  Prefix for the screenshots.
- *  @param failureName       Failure name associated with the screenshots.
- *
- *  @return A dictionary of the screenshot names and their corresponding paths.
+ *  @return An NSDictionary with the generated app screenshots.
  */
-
-+ (NSDictionary *)generateAppScreenshotsWithPrefix:(NSString *)screenshotPrefix
-                                           failure:(NSString *)failureName;
-
-/**
- *  Generate app screenshot with given prefix and failure name.
- *
- *  @param screenshotPrefix  Prefix for the screenshots.
- *  @param failureName       Failure name associated with the screenshots.
- *  @param screenshotDir     The screenshot directory where the screenshots are placed.
- *
- *  @return A dictionary of the screenshot names and their corresponding paths.
- */
-+ (NSDictionary *)generateAppScreenshotsWithPrefix:(NSString *)screenshotPrefix
-                                           failure:(NSString *)failureName
-                                     screenshotDir:(NSString *)screenshotDir;
++ (NSDictionary *)screenshots;
 
 @end
+
+NS_ASSUME_NONNULL_END

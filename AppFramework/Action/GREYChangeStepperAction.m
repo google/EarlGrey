@@ -20,11 +20,11 @@
 #import "AppFramework/Action/GREYTapper.h"
 #import "AppFramework/Additions/NSObject+GREYApp.h"
 #import "AppFramework/Core/GREYInteraction.h"
+#import "AppFramework/Error/GREYAppError.h"
 #import "AppFramework/Matcher/GREYAllOf.h"
 #import "AppFramework/Matcher/GREYMatchers.h"
 #import "AppFramework/Matcher/GREYNot.h"
 #import "AppFramework/Synchronization/GREYSyncAPI.h"
-#import "CommonLib/Error/GREYError.h"
 #import "CommonLib/Error/GREYErrorConstants.h"
 #import "CommonLib/Error/GREYObjectFormatter.h"
 #import "CommonLib/Error/NSError+GREYCommon.h"
@@ -91,7 +91,7 @@
 
 - (BOOL)perform:(UIStepper *)stepper error:(__strong NSError **)error {
   __block BOOL satisfiesContraints = NO;
-  grey_execute_sync_on_main_thread(^{
+  grey_dispatch_sync_on_main_thread(^{
     satisfiesContraints = [self satisfiesConstraintsForElement:stepper error:error];
   });
   if (!satisfiesContraints) {
@@ -99,7 +99,7 @@
   }
   // Check if the value to update the stepper to is valid or not.
   __block BOOL isStepperValueInvalid = NO;
-  grey_execute_sync_on_main_thread(^{
+  grey_dispatch_sync_on_main_thread(^{
     isStepperValueInvalid =
         (self->_value > stepper.maximumValue || self->_value < stepper.minimumValue);
   });
@@ -153,8 +153,8 @@
                                             @"Failed to exactly step to %lf "
                                             @"from current value %lf and step %lf.",
                                             value, changedValue, stepperStepValue];
-      GREYPopulateErrorOrLog(error, kGREYInteractionErrorDomain,
-                             kGREYInteractionActionFailedErrorCode, description);
+      I_GREYPopulateError(error, kGREYInteractionErrorDomain, kGREYInteractionActionFailedErrorCode,
+                          description);
       return NO;
     }
     currentValue = changedValue;
@@ -176,7 +176,7 @@
                                                 error:(__strong NSError **)error {
   __block UIButton *foundPlusButton;
   __block UIButton *foundMinusButton;
-  grey_execute_sync_on_main_thread(^{
+  grey_dispatch_sync_on_main_thread(^{
     for (UIView *view in stepper.subviews) {
       if ([view isKindOfClass:[UIButton class]]) {
         // Another way to find the buttons is to compare the images from decrementImageForState:
@@ -199,8 +199,8 @@
                                           @"in stepper [S]"];
     NSDictionary *glossary = @{@"S" : [stepper description]};
 
-    GREYPopulateErrorNotedOrLog(error, kGREYInteractionErrorDomain,
-                                kGREYInteractionActionFailedErrorCode, description, glossary);
+    I_GREYPopulateErrorNoted(error, kGREYInteractionErrorDomain,
+                             kGREYInteractionActionFailedErrorCode, description, glossary);
     return nil;
   }
   return
@@ -244,8 +244,8 @@
                                    @"invalid user input.\n"
                                    @"Exception with Action: %@\n",
                                    reasonDetail];
-  GREYPopulateErrorOrLog(error, kGREYInteractionErrorDomain, kGREYInteractionActionFailedErrorCode,
-                         reason);
+  I_GREYPopulateError(error, kGREYInteractionErrorDomain, kGREYInteractionActionFailedErrorCode,
+                      reason);
   return NO;
 }
 
@@ -258,7 +258,7 @@
  */
 - (double)grey_stepperValue:(UIStepper *)stepper {
   __block double stepperValue;
-  grey_execute_sync_on_main_thread(^{
+  grey_dispatch_sync_on_main_thread(^{
     stepperValue = stepper.value;
   });
   return stepperValue;
@@ -273,7 +273,7 @@
  */
 - (double)grey_stepperStepValue:(UIStepper *)stepper {
   __block double stepperStepValue;
-  grey_execute_sync_on_main_thread(^{
+  grey_dispatch_sync_on_main_thread(^{
     stepperStepValue = stepper.stepValue;
   });
   return stepperStepValue;

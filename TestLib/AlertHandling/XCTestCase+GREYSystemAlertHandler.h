@@ -130,22 +130,22 @@ GREY_EXTERN CFTimeInterval const kSystemAlertVisibilityTimeout;
  *  any System Alert that is brought up in the provided @c application by allowing it before
  *  proceeding to the next statement.
  *
- *  @param[out] error Error that will be populated on failure. If @c nil, the test
+ *  @param[out] error Error that will be populated on failure. If @c NULL, the test
  *                    failure will be reported.
  *
  *  @return @c YES if the alert is dismissed correctly, @c NO otherwise.
  *
- *  @throws GREYFrameworkException if the alert dismissal fails and @c error is @c nil.
+ *  @throws GREYFrameworkException if the alert dismissal fails and @c error is @c NULL.
  */
 - (BOOL)grey_acceptSystemDialogWithError:(NSError **)error NS_SWIFT_NOTHROW;
 
 /**
  *  Denies all System Alerts by clicking on the button with <b>"Don't Allow"</b> as its label.
  *  In case the denial button is something else, please use the
- *  @c GREYSystemAlertHandler:grey_tapSystemDialogButtonWithText::withButtonsPressedOrder::error
+ *  @c GREYSystemAlertHandler:grey_tapSystemDialogButtonWithText:withButtonsPressedOrder:error
  *  method.
  *
- *  @param[out] error Error that will be populated on failure. If @c nil, the test
+ *  @param[out] error Error that will be populated on failure. If @c NULL, the test
  *                    failure will be reported.
  *
  *  @return @c YES if the alert is dismissed correctly, @c NO otherwise.
@@ -156,7 +156,7 @@ GREY_EXTERN CFTimeInterval const kSystemAlertVisibilityTimeout;
  *  Taps on a System Alert Button based on the button's text.
  *
  *  @param text       The text contained in the title of the system alert button to be tapped on.
- *  @param[out] error Error that will be populated on failure. If @c nil, the test
+ *  @param[out] error Error that will be populated on failure. If @c NULL, the test
  *                    failure will be reported.
  *
  *  @return @c YES if the alert is dismissed correctly, @c NO otherwise.
@@ -172,7 +172,7 @@ GREY_EXTERN CFTimeInterval const kSystemAlertVisibilityTimeout;
  *
  *  @param textToType      The text to be typed in the textfield.
  *  @param placeholderText The text displayed in the textfield to be typed in.
- *  @param[out] error      Error that will be populated on failure. If @c nil, the test
+ *  @param[out] error      Error that will be populated on failure. If @c NULL, the test
  *                         failure will be reported.
  *
  *  @return @c YES if the alert is dismissed correctly, @c NO otherwise.

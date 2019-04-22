@@ -20,10 +20,15 @@
 
 #import "AppFramework/DistantObject/GREYHostApplicationDistantObject+GREYTestHelper.h"
 #import "AppFramework/Error/GREYFailureScreenshotter.h"
+#import "CommonLib/Additions/NSFileManager+GREYCommon.h"
 #import "CommonLib/Assertion/GREYThrowDefines.h"
+#import "CommonLib/Config/GREYConfiguration.h"
+#import "CommonLib/Error/GREYErrorConstants.h"
 #import "CommonLib/Exceptions/GREYFrameworkException.h"
 #import "TestLib/Exception/GREYFailureFormatter.h"
+#import "TestLib/Exception/GREYFailureScreenshotSaver.h"
 #import "TestLib/XCTestCase/XCTestCase+GREYTest.h"
+#import "UILib/GREYElementHierarchy.h"
 
 // Counter that is incremented each time a failure occurs in an unknown test.
 @implementation GREYDefaultFailureHandler {
@@ -65,11 +70,29 @@
   NSString *screenshotPrefix =
       [NSString stringWithFormat:@"%@_%@", [currentTestCase grey_testClassName],
                                  [currentTestCase grey_testMethodName]];
-  NSDictionary *appScreenshots =
-      [GREYFailureScreenshotter generateAppScreenshotsWithPrefix:screenshotPrefix
-                                                         failure:exception.name];
-
+  NSDictionary *appScreenshots = [exception.userInfo valueForKey:kErrorDetailAppScreenshotsKey];
+  // Re-obtain the screenshots when a user might be using GREYAsserts. Since this is from the test
+  // process, the delay here would be minimal.
+  if (!appScreenshots) {
+    appScreenshots = [GREYFailureScreenshotter screenshots];
+  }
+  NSString *uniqueSubDirName = [NSString
+      stringWithFormat:@"%@-%@-%@", screenshotPrefix, exception.name, [[NSUUID UUID] UUIDString]];
+  NSString *screenshotDir = [GREY_CONFIG_STRING(kGREYConfigKeyArtifactsDirLocation)
+      stringByAppendingPathComponent:uniqueSubDirName];
+  NSArray *screenshots =
+      [GREYFailureScreenshotSaver saveFailureScreenshotsInDictionary:appScreenshots
+                                                withScreenshotPrefix:screenshotPrefix
+                                                         toDirectory:screenshotDir];
+  NSAssert(screenshots, @"Screenshots must be present");
   NSArray *stackTrace = [NSThread callStackSymbols];
+
+  NSString *appUIHierarchy = [exception.userInfo valueForKey:kErrorDetailAppUIHierarchyKey];
+  // For calls from GREYAsserts in the test side, the hierarchy must be populated here.
+  if (!appUIHierarchy) {
+    appUIHierarchy = [GREYElementHierarchy hierarchyString];
+  }
+
   NSString *log = [GREYFailureFormatter formatFailureForTestCase:currentTestCase
                                                     failureLabel:@"Exception"
                                                      failureName:exception.name
@@ -78,6 +101,7 @@
                                                     functionName:nil
                                                       stackTrace:stackTrace
                                                   appScreenshots:appScreenshots
+                                                       hierarchy:appUIHierarchy
                                                           format:@"%@\n", logMessage];
   [currentTestCase grey_markAsFailedAtLine:_lineNumber inFile:_fileName description:log];
 }

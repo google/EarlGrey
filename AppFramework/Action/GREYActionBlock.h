@@ -38,12 +38,16 @@ typedef BOOL (^GREYPerformBlock)(id element, __strong NSError **errorOrNil);
 @interface GREYActionBlock : GREYBaseAction
 
 /**
- *  Creates a GREYAction that performs the action in the provided @c block.
+ *  Creates a GREYAction that performs the action in the provided @c block subject to the
+ *  provided @c constraints.
  *
- *  @param name  The name of the action
- *  @param block A block that contains the action to execute.
+ *  @param name        The name of the action.
+ *  @param block       A block that contains the action to execute.
  *
- *  @return A GREYActionBlock instance with the given name.
+ *  @note GREYActions are not performed by default on the main thread. The threading
+ *        behavior of the GREYAction has to be specified by the user.
+ *
+ *  @return A GREYActionBlock instance with the given name and constraints.
  */
 + (instancetype)actionWithName:(NSString *)name performBlock:(GREYPerformBlock)block;
 
@@ -51,10 +55,13 @@ typedef BOOL (^GREYPerformBlock)(id element, __strong NSError **errorOrNil);
  *  Creates a GREYAction that performs the action in the provided @c block subject to the
  *  provided @c constraints.
  *
- *  @param name         The name of the action.
- *  @param constraints  Constraints that must be satisfied before the action is performed
- *                      This is optional and can be @c nil.
- *  @param block        A block that contains the action to execute.
+ *  @param name        The name of the action.
+ *  @param constraints Constraints that must be satisfied before the action is performed
+ *                     This is optional and can be @c nil.
+ *  @param block       A block that contains the action to execute.
+ *
+ *  @note GREYActions are not performed by default on the main thread. The threading
+ *        behavior of the GREYAction has to be specified by the user.
  *
  *  @return A GREYActionBlock instance with the given name and constraints.
  */
@@ -76,10 +83,13 @@ typedef BOOL (^GREYPerformBlock)(id element, __strong NSError **errorOrNil);
 /**
  *  Designated Initializer.
  *
- *  @param name         The name of the action.
- *  @param constraints  Constraints that must be satisfied before the action is performed
- *                      This is optional and can be @c nil.
- *  @param block        A block that contains the action to execute.
+ *  @param name        The name of the action.
+ *  @param constraints Constraints that must be satisfied before the action is performed
+ *                     This is optional and can be @c nil.
+ *  @param block       A block that contains the action to execute.
+ *
+ *  @note GREYActions are not performed by default on the main thread. The threading
+ *        behavior of the GREYAction has to be specified by the user.
  *
  *  @return A GREYActionBlock instance with the given name and constraints.
  */

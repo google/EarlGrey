@@ -21,9 +21,10 @@
 @class GREYError;
 
 /**
- *  Creates a @c GREYError object with given @c domain, @c code, @c description
- *  The description is accessible by querying error's @c userInfo with
- *  @c NSLocalizedDescriptionKey.
+ *  Creates a @c GREYError object on the test side with given @c domain, @c code,
+ *  @c description. The description is accessible by querying error's @c userInfo
+ *  with @c NSLocalizedDescriptionKey. The error created here doesn't contain the
+ *  App's UI hierarchy.
  *
  *  @param domain      The error domain.
  *  @param code        The error code.
@@ -35,7 +36,7 @@
   I_GREYErrorMake((domain), (code), @{NSLocalizedDescriptionKey : (description)}, \
                   [NSString stringWithUTF8String:__FILE__], __LINE__,             \
                   [NSString stringWithUTF8String:__PRETTY_FUNCTION__], nil,       \
-                  [NSThread callStackSymbols])
+                  [NSThread callStackSymbols], nil, nil)
 
 /**
  *  Creates a @c GREYError object with given @c domain, @c code, @c description
@@ -44,6 +45,9 @@
  *  @c NSLocalizedDescriptionKey. The @c nestedError is accessible by error's
  *  @c userInfo with @c NSUnderlyingErrorKey.
  *
+ *  @note The error created does not contain a UI Hierarchy, since the nested
+ *        error should contain it.
+ *
  *  @param domain      The error domain.
  *  @param code        The error code.
  *  @param description The error's localized description.
@@ -51,88 +55,13 @@
  *
  *  @return A @c GREYError object with the given input.
  */
-#define GREYNestedErrorMake(domain, code, description, nestedError)                       \
-  I_GREYErrorMake(                                                                        \
-      (domain), (code),                                                                   \
-      @{NSLocalizedDescriptionKey : (description), NSUnderlyingErrorKey : (nestedError)}, \
-      [NSString stringWithUTF8String:__FILE__], __LINE__,                                 \
-      [NSString stringWithUTF8String:__PRETTY_FUNCTION__], nil, [NSThread callStackSymbols])
-
-/**
- *  If @c errorRef is not @c NULL, it is set to a @c GREYError object that is created with
- *  the given @c domain, @c code and @c description.
- *  The description is accessible by querying error's @c userInfo with
- *  @c NSLocalizedDescriptionKey.
- *  If @c errorRef is @c NULL, the error information is logged using NSLog.
- *
- *  @param[out] errorRef    A @c GREYError reference for retrieving the created
- *                          error object.
- *  @param      domain      The error domain.
- *  @param      code        The error code.
- *  @param      description The error's localized description.
- *
- */
-#define GREYPopulateErrorOrLog(errorRef, domain, code, description) \
-  ({                                                                \
-    GREYError *e = GREYErrorMake((domain), (code), (description));  \
-    if (errorRef) {                                                 \
-      *errorRef = e;                                                \
-    } else {                                                        \
-      NSLog(@"%@", e);                                              \
-    }                                                               \
-  })
-
-/**
- *  If @c errorRef is not @c NULL, it is set to a @c GREYError object that is created with
- *  the given @c domain, @c code, @c description and @c note.
- *  The description is accessible by querying error's @c userInfo with
- *  @c NSLocalizedDescriptionKey.
- *  If @c errorRef is @c NULL, the error information is logged using NSLog.
- *
- *  @param[out] errorRef    A @c GREYError reference for retrieving the created
- *                          error object.
- *  @param      domain      The error domain.
- *  @param      code        The error code.
- *  @param      description The error's localized description.
- *  @param      glossary    A glossary dictionary that is going to be populated with the error.
- *
- */
-#define GREYPopulateErrorNotedOrLog(errorRef, domain, code, description, glossary) \
-  ({                                                                               \
-    GREYError *e = GREYErrorMake((domain), (code), (description));                 \
-    e.descriptionGlossary = (glossary);                                            \
-    if (errorRef) {                                                                \
-      *errorRef = e;                                                               \
-    } else {                                                                       \
-      NSLog(@"%@", e);                                                             \
-    }                                                                              \
-  })
-
-/**
- *  If @c errorRef is not @c NULL, it is set to a @c GREYError object that is created
- *  with the given @c domain, @c code, @c description and @c nestedError.
- *  The description is accessible by querying error's @c userInfo with
- *  @c NSLocalizedDescriptionKey. The @c nestedError is accessible by error's
- *  @c userInfo with @c NSUnderlyingErrorKey.
- *  If @c errorRef is @c NULL, the error information is logged using NSLog.
- *
- *  @param[out] errorRef    A @c GREYError reference for retrieving the created
- *                          error object.
- *  @param      domain      The error domain.
- *  @param      code        The error code.
- *  @param      description The error's localized description.
- *  @param      nestedError An error to be nested in current error.
- *
- */
-#define GREYPopulateNestedErrorOrLog(errorRef, domain, code, description, nestedError)  \
-  ({                                                                                    \
-    GREYError *e = GREYNestedErrorMake((domain), (code), (description), (nestedError)); \
-    if (errorRef) {                                                                     \
-      *errorRef = e;                                                                    \
-    } else {                                                                            \
-      NSLog(@"%@", e);                                                                  \
-    }                                                                                   \
-  })
+#define GREYErrorNestedMake(domain, code, description, nestedError)                               \
+  I_GREYErrorMake(                                                                                \
+      (domain), (code),                                                                           \
+      @{NSLocalizedDescriptionKey : (description), NSUnderlyingErrorKey : (nestedError)},         \
+      [NSString stringWithUTF8String:__FILE__], __LINE__,                                         \
+      [NSString stringWithUTF8String:__PRETTY_FUNCTION__], nil, [NSThread callStackSymbols], nil, \
+      nil)
 
 /**
  *  Creates a @c GREYError object with given @c domain, @c code, @c userInfo,
@@ -152,7 +81,8 @@
  */
 GREY_EXTERN GREYError *I_GREYErrorMake(NSString *domain, NSInteger code, NSDictionary *userInfo,
                                        NSString *filePath, NSUInteger line, NSString *functionName,
-                                       NSDictionary *errorInfo, NSArray *stackTrace);
+                                       NSDictionary *errorInfo, NSArray *stackTrace,
+                                       NSString *appUIHierarchy, NSDictionary *appScreenshots);
 
 /**
  *  The string for a generic error in EarlGrey.
@@ -290,7 +220,7 @@ GREY_EXTERN NSString *const kGREYScreenshotActualAfterImage;
 /**
  *  Nested error within current error.
  */
-@property(nonatomic, readonly) NSError *nestedError;
+@property(nonatomic, readonly) GREYError *nestedError;
 
 /**
  *  The description glossary dictionary that is associated with the error.

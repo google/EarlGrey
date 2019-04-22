@@ -24,7 +24,7 @@
 #import "CommonLib/GREYConstants.h"
 #import "CommonLib/GREYLogger.h"
 #import "UILib/Additions/CGGeometry+GREYUI.h"
-#import "UILib/GREYScreenshotUtil+Internal.h"
+#import "UILib/GREYScreenshotter+Internal.h"
 
 static const NSUInteger kColorChannelsPerPixel = 4;
 
@@ -576,8 +576,8 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
   [CATransaction begin];
   [CATransaction flush];
   [CATransaction commit];
-  UIImage *beforeScreenshot = [GREYScreenshotUtil grey_takeScreenshotAfterScreenUpdates:YES
-                                                                          withStatusBar:YES];
+  UIImage *beforeScreenshot = [GREYScreenshotter grey_takeScreenshotAfterScreenUpdates:YES
+                                                                         withStatusBar:YES];
   CGImageRef beforeImage =
       CGImageCreateWithImageInRect(beforeScreenshot.CGImage, screenshotSearchRect_pixel);
   if (!beforeImage) {
@@ -646,13 +646,20 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
              forVisibilityCheckAndPerformBlock:^id {
                [CATransaction begin];
                [CATransaction setDisableActions:YES];
-               [view addSubview:shiftedView];
+               // Add a check for the UIVisualEffectView which requires subviews to be added only
+               // to the contentView.
+               if ([view isKindOfClass:[UIVisualEffectView class]]) {
+                 UIVisualEffectView *visualEffectView = (UIVisualEffectView *)view;
+                 [[visualEffectView contentView] addSubview:shiftedView];
+               } else {
+                 [view addSubview:shiftedView];
+               }
                [view grey_keepSubviewOnTopAndFrameFixed:shiftedView];
                [CATransaction flush];
                [CATransaction commit];
 
                UIImage *shiftedImage =
-                   [GREYScreenshotUtil grey_takeScreenshotAfterScreenUpdates:YES withStatusBar:YES];
+                   [GREYScreenshotter grey_takeScreenshotAfterScreenUpdates:YES withStatusBar:YES];
                [shiftedView removeFromSuperview];
                return shiftedImage;
              }];

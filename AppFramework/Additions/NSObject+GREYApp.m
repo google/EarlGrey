@@ -88,7 +88,7 @@
     return [(UIWindow *)view convertPoint:self.accessibilityActivationPoint fromWindow:nil];
   } else {
     __block CGPoint returnPoint = CGPointZero;
-    grey_execute_sync_on_main_thread(^{
+    grey_dispatch_sync_on_main_thread(^{
       returnPoint = [view.window convertPoint:self.accessibilityActivationPoint fromWindow:nil];
     });
     return returnPoint;

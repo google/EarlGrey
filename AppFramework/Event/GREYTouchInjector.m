@@ -197,11 +197,15 @@ static const NSTimeInterval kTouchInjectFramerateInv = 1 / 120.0;
         [touch _setSenderID:0x0acefade00000002 /* value sourced from trial run on simulator */];
       }
       UIView *touchView = [_window hitTest:touchPoint withEvent:event];
+
       [touch setView:touchView];
       [touch _setIsFirstTouchForView:YES];
       [ongoingTouches addObject:touch];
     } else {
       touch = ongoingTouches[i];
+      if (!touch.view) {
+        [touch setView:[_window hitTest:touchPoint withEvent:event]];
+      }
     }
 
     // Set phase appropriate values.
@@ -216,7 +220,7 @@ static const NSTimeInterval kTouchInjectFramerateInv = 1 / 120.0;
  *  @param touchInfo      The info that is used to create the UITouch.
  *  @param ongoingTouches The array of UITouches that are being injected.
  *  @param exception      The exception if it fails to inject.
- *  @return YES if injection succeeds, NO otherwise.
+ *  @return @c YES if injection succeeds, @c NO otherwise.
  */
 - (BOOL)grey_injectTouches:(GREYTouchInfo *)touchInfo
             ongoingTouches:(NSMutableArray<UITouch *> *)ongoingTouches

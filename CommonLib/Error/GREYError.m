@@ -67,12 +67,13 @@ NSString *const kGREYScreenshotActualAfterImage =
 @property(nonatomic, readwrite) NSArray *stackTrace;
 @property(nonatomic, readwrite) NSString *appUIHierarchy;
 @property(nonatomic, readwrite) NSDictionary *appScreenshots;
-@property(nonatomic, readwrite) NSError *nestedError;
+@property(nonatomic, readwrite) GREYError *nestedError;
 @end
 
 GREYError *I_GREYErrorMake(NSString *domain, NSInteger code, NSDictionary *userInfo,
                            NSString *filePath, NSUInteger line, NSString *functionName,
-                           NSDictionary *errorInfo, NSArray *stackTrace) {
+                           NSDictionary *errorInfo, NSArray *stackTrace, NSString *appUIHierarchy,
+                           NSDictionary *appScreenshots) {
   GREYError *error = [[GREYError alloc] initWithDomain:domain code:code userInfo:userInfo];
 
   error.filePath = filePath;
@@ -81,6 +82,8 @@ GREYError *I_GREYErrorMake(NSString *domain, NSInteger code, NSDictionary *userI
   error.bundleID = [[NSBundle mainBundle] bundleIdentifier];
   error.errorInfo = errorInfo;
   error.stackTrace = stackTrace;
+  error.appUIHierarchy = appUIHierarchy;
+  error.appScreenshots = appScreenshots;
   return error;
 }
 
@@ -99,7 +102,7 @@ GREYError *I_GREYErrorMake(NSString *domain, NSInteger code, NSDictionary *userI
 
 @dynamic nestedError;
 
-- (NSError *)nestedError {
+- (GREYError *)nestedError {
   return self.userInfo[NSUnderlyingErrorKey];
 }
 

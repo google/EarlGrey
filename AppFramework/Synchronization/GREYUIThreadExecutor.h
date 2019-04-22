@@ -85,7 +85,7 @@ typedef void (^GREYExecBlock)(void);
  *  are in idle.
  *
  *  @remark Be very careful while calling this as you could end up in state where the caller expects
- *          the callee to mark the thread as idle and callee inadvertantly calls
+ *          the callee to mark the thread as idle and callee inadvertently calls
  *          GREYUIThreadExecutor::drainUntilIdle:, in which case it will go into an infinite loop
  *          and the test will have to be force-killed by the test-runner.
  */
@@ -101,18 +101,6 @@ typedef void (^GREYExecBlock)(void);
  *  @return @c YES if idled within @c seconds, @c NO otherwise.
  */
 - (BOOL)drainUntilIdleWithTimeout:(CFTimeInterval)seconds;
-
-/**
- *  Invokes GREYUIThreadExecutor::executeSyncWithTimeout:block:error: with @c kGREYInfiniteTimeout,
- *  @c execBlock and @c error as the respective parameters.
- *
- *  @param execBlock The block to be executed in the main queue.
- *  @param error     Reference to the error that will store the failure cause, if any.
- *
- *  @return @c YES if the block was executed, @c NO otherwise, in which case @c
- *          error will be set to the failure cause.
- */
-- (BOOL)executeSync:(GREYExecBlock)execBlock error:(__autoreleasing NSError **)error;
 
 /**
  *  Executes @c execBlock on the main thread, synchronizing with all registered GREYIdlingResources
