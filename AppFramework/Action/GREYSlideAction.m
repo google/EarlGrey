@@ -55,20 +55,20 @@
 
 #pragma mark - GREYAction
 
-- (BOOL)perform:(UISlider *)slider error:(__strong NSError **)errorOrNil {
+- (BOOL)perform:(UISlider *)slider error:(__strong NSError **)error {
   __block BOOL retVal = NO;
   grey_dispatch_sync_on_main_thread(^{
     // We aggressively access UI elements when performing the action, rather than having pieces
     // running on the main thread separately, the whole action will be performed on the main thread.
-    retVal = [self grey_perform:slider error:errorOrNil];
+    retVal = [self grey_perform:slider error:error];
   });
   return retVal;
 }
 
 #pragma mark - Private
 
-- (BOOL)grey_perform:(UISlider *)slider error:(__strong NSError **)errorOrNil {
-  if (![self satisfiesConstraintsForElement:slider error:errorOrNil]) {
+- (BOOL)grey_perform:(UISlider *)slider error:(__strong NSError **)error {
+  if (![self satisfiesConstraintsForElement:slider error:error]) {
     return NO;
   }
 
@@ -76,7 +76,7 @@
     return YES;
   }
 
-  if (![self grey_checkEdgeCasesForFinalValueOfSlider:slider error:errorOrNil]) {
+  if (![self grey_checkEdgeCasesForFinalValueOfSlider:slider error:error]) {
     return NO;
   };
 
@@ -165,7 +165,7 @@
 }
 
 - (BOOL)grey_checkEdgeCasesForFinalValueOfSlider:(UISlider *)slider
-                                           error:(__strong NSError **)errorOrNil {
+                                           error:(__strong NSError **)error {
   NSString *reason;
   if (isgreater(_finalValue, slider.maximumValue)) {
     reason = @"Value to move to is larger than slider's maximum value";
@@ -184,8 +184,8 @@
                     @"desired value is %g",
                     reason, slider.minimumValue, slider.maximumValue, _finalValue];
 
-  I_GREYPopulateError(errorOrNil, kGREYInteractionErrorDomain,
-                      kGREYInteractionActionFailedErrorCode, description);
+  I_GREYPopulateError(error, kGREYInteractionErrorDomain, kGREYInteractionActionFailedErrorCode,
+                      description);
 
   return NO;
 }

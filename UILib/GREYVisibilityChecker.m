@@ -26,6 +26,11 @@
 #import "UILib/Additions/CGGeometry+GREYUI.h"
 #import "UILib/GREYScreenshotter+Internal.h"
 
+/**
+ *  The time interval taken for visibility checks.
+ */
+static CFTimeInterval gVisibilityDuration = 0;
+
 static const NSUInteger kColorChannelsPerPixel = 4;
 
 /**
@@ -135,6 +140,7 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
 }
 
 + (CGFloat)percentVisibleAreaOfElement:(id)element {
+  CFTimeInterval startTime = CACurrentMediaTime();
   if (!element) {
     return 0;
   }
@@ -148,7 +154,7 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
         @"percentVisible(%f) must be in the range [0,1]", [percentVisible floatValue]);
     [cache setVisibleAreaPercent:percentVisible];
   }
-
+  gVisibilityDuration += CACurrentMediaTime() - startTime;
   GREYLogVerbose(@"Visibility percent: %f for element: %@", [percentVisible floatValue],
                  [element grey_description]);
   return [percentVisible floatValue];
@@ -342,6 +348,12 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
   CGImageRelease(afterImage);
   [cache setVisibleInteractionPoint:[NSValue valueWithCGPoint:interactionPointInFixedPoints]];
   return interactionPointInFixedPoints;
+}
+
++ (CFTimeInterval)resetAndReturnTotalVisibilityCheckingTime {
+  CFTimeInterval visibilityTime = gVisibilityDuration;
+  gVisibilityDuration = 0;
+  return visibilityTime;
 }
 
 #pragma mark - Private

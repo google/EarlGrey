@@ -148,8 +148,10 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @remark To restore original values, call GREYConfiguration::reset.
  *
- *  @param value     The configuration value to be set. Scalars should be wrapped in @c NSValue.
- *  @param configKey Key identifying an existing or new configuration. Must be a valid @c NSString.
+ *  @param value     The configuration value to be set. Scalars should we wrapped in an NSValue.
+ *                   NSString and NSArrays can also be passed here depending on the Config Key.
+ *  @param configKey Key identifying an existing or new configuration. Must be a valid
+ *                   GREYConfigKey.
  */
 - (void)setValue:(id)value forConfigKey:(GREYConfigKey)configKey;
 
@@ -159,8 +161,10 @@ NS_ASSUME_NONNULL_BEGIN
  *  @remark Default values persist even after resetting the configuration
  *          (using GREYConfiguration::reset)
  *
- *  @param value     The configuration value to be set. Scalars should be wrapped in @c NSValue.
- *  @param configKey Key identifying an existing or new configuration. Must be a valid @c NSString.
+ *  @param value     The configuration value to be set. Scalars should be wrapped in @c NSValue or
+ * @c NSString.
+ *  @param configKey Key identifying an existing or new configuration. Must be a valid
+ * GREYConfigKey.
  */
 - (void)setDefaultValue:(id)value forConfigKey:(GREYConfigKey)configKey;
 

@@ -38,6 +38,15 @@ NS_ASSUME_NONNULL_BEGIN
                         category:(NSString *)category
                           action:(NSString *)action
                            value:(NSString *)value;
+@optional
+
+// TODO(b/131726826): Delete this code in favor of a better analytics mechanism.
+/**
+ *  Save how long it took to complete visibility checks in the duration of the testcase.
+ *
+ *  @param duration The total time it took to complete all visibility checks in the last testcase.
+ */
+- (void)trackVisibilityDuration:(NSString *)duration;
 
 @end
 

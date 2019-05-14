@@ -139,15 +139,6 @@ public struct EarlGrey {
       .handle(exception, details: details)
   }
 
-  public static func setFailureHandler(
-    _ handler: GREYFailureHandler?,
-    file: StaticString = #file,
-    line: UInt = #line
-  ) {
-    return EarlGreyImpl.invoked(fromFile: file.description, lineNumber: line)
-      .setFailureHandler(handler)
-  }
-
   public static func remoteClassInApp(
     _ classVal: AnyClass,
     file: StaticString = #file,
