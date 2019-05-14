@@ -61,8 +61,9 @@ static CGFloat const kPinchScale = (CGFloat)0.8;
   id<GREYMatcher> systemAlertShownMatcher = [GREYMatchers matcherForSystemAlertViewShown];
   NSArray *constraintMatchers = @[
     [[GREYNot alloc] initWithMatcher:systemAlertShownMatcher],
+    [GREYMatchers matcherForRespondsToSelector:@selector(accessibilityFrame)],
+    [GREYMatchers matcherForUserInteractionEnabled],
     [GREYMatchers matcherForInteractable],
-    [GREYMatchers matcherForRespondsToSelector:@selector(accessibilityFrame)]
   ];
   self =
       [super initWithName:name constraints:[[GREYAllOf alloc] initWithMatchers:constraintMatchers]];
@@ -76,11 +77,11 @@ static CGFloat const kPinchScale = (CGFloat)0.8;
 
 #pragma mark - GREYAction
 
-- (BOOL)perform:(id)element error:(__strong NSError **)errorOrNil {
+- (BOOL)perform:(id)element error:(__strong NSError **)error {
   __block UIWindow *window = nil;
   __block NSArray *touchPaths = nil;
   grey_dispatch_sync_on_main_thread(^{
-    if (![self satisfiesConstraintsForElement:element error:errorOrNil]) {
+    if (![self satisfiesConstraintsForElement:element error:error]) {
       return;
     }
 
@@ -96,12 +97,12 @@ static CGFloat const kPinchScale = (CGFloat)0.8;
                                                  @"as it has no window "
                                                  @"and it isn't a window itself."];
       NSDictionary *glossary = @{@"V" : element};
-      I_GREYPopulateErrorNoted(errorOrNil, kGREYPinchErrorDomain, kGREYPinchFailedErrorCode,
+      I_GREYPopulateErrorNoted(error, kGREYPinchErrorDomain, kGREYPinchFailedErrorCode,
                                errorDescription, glossary);
       return;
     }
 
-    touchPaths = [self calculateTouchPaths:element window:window error:errorOrNil];
+    touchPaths = [self calculateTouchPaths:element window:window error:error];
   });
 
   if (touchPaths) {
@@ -115,7 +116,7 @@ static CGFloat const kPinchScale = (CGFloat)0.8;
 
 - (NSArray *)calculateTouchPaths:(UIView *)view
                           window:(UIWindow *)window
-                           error:(__strong NSError **)errorOrNil {
+                           error:(__strong NSError **)error {
   CGRect pinchActionFrame = CGRectIntersection(view.accessibilityFrame, window.bounds);
   if (CGRectIsNull(pinchActionFrame)) {
     NSMutableDictionary *errorDetails = [[NSMutableDictionary alloc] init];
@@ -140,7 +141,7 @@ static CGFloat const kPinchScale = (CGFloat)0.8;
                                      @"Exception with Action: %@\n",
                                      reasonDetail];
 
-    I_GREYPopulateErrorNoted(errorOrNil, kGREYPinchErrorDomain, kGREYPinchFailedErrorCode, reason,
+    I_GREYPopulateErrorNoted(error, kGREYPinchErrorDomain, kGREYPinchFailedErrorCode, reason,
                              @{@"V" : view});
 
     return nil;

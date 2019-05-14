@@ -55,10 +55,13 @@
   return nextObject.element;
 }
 
-- (void)enumerateUsingBlock:(void (^)(id _Nonnull view, NSUInteger level))block {
+- (void)enumerateUsingBlock:(void (^)(id _Nonnull view, NSUInteger level, BOOL *stop))block {
+  GREYThrowOnNilParameter(block);
+
   GREYTraversalObject *object;
-  while ((object = [self grey_nextObjectBFS])) {
-    block(object.element, object.level);
+  BOOL stop = NO;
+  while (!stop && (object = [self grey_nextObjectBFS])) {
+    block(object.element, object.level, &stop);
   }
 }
 

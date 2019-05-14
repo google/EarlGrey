@@ -28,9 +28,10 @@
 GREYConfiguration *GREYCreateConfiguration(void) { return [[GREYTestConfiguration alloc] init]; }
 
 @implementation GREYTestConfiguration {
-  NSMutableDictionary *_mergedConfiguration;  // Dict for storing the merged default/overriden dicts
+  NSMutableDictionary
+      *_mergedConfiguration;  // Dict for storing the merged default/overridden dicts
   NSMutableDictionary *_defaultConfiguration;     // Dict for storing the default configurations
-  NSMutableDictionary *_overridenConfiguration;   // Dict for storing the user-defined overrides
+  NSMutableDictionary *_overriddenConfiguration;  // Dict for storing the user-defined overrides
   dispatch_queue_t _configurationIsolationQueue;  // The isolation queue to access configurations.
 }
 
@@ -39,7 +40,7 @@ GREYConfiguration *GREYCreateConfiguration(void) { return [[GREYTestConfiguratio
   if (self) {
     _mergedConfiguration = [[NSMutableDictionary alloc] init];
     _defaultConfiguration = [[NSMutableDictionary alloc] init];
-    _overridenConfiguration = [[NSMutableDictionary alloc] init];
+    _overriddenConfiguration = [[NSMutableDictionary alloc] init];
     _configurationIsolationQueue =
         dispatch_queue_create("com.google.earlgrey.TestConfiguration", DISPATCH_QUEUE_SERIAL);
     NSArray *searchPaths =
@@ -68,7 +69,7 @@ GREYConfiguration *GREYCreateConfiguration(void) { return [[GREYTestConfiguratio
     if (self.needsMerge) {
       [self->_mergedConfiguration removeAllObjects];
       [self->_mergedConfiguration addEntriesFromDictionary:self->_defaultConfiguration];
-      [self->_mergedConfiguration addEntriesFromDictionary:self->_overridenConfiguration];
+      [self->_mergedConfiguration addEntriesFromDictionary:self->_overriddenConfiguration];
       self.needsMerge = NO;
     }
     configuration = [[NSDictionary alloc] initWithDictionary:self->_mergedConfiguration];
@@ -84,12 +85,18 @@ GREYConfiguration *GREYCreateConfiguration(void) { return [[GREYTestConfiguratio
   [remoteConfiguration updateConfiguration:[self.mergedConfiguration passByValue]];
 }
 
-- (void)setValue:(id)value forConfigKey:(NSString *)configKey {
+- (void)setValue:(id)value forConfigKey:(GREYConfigKey)configKey {
   GREYThrowOnNilParameter(value);
-
-  [self grey_validateConfigKey:configKey];
+  // Config keys can only be of the type NSValue, NSString, NSPathS and NSArray. A subclass check is
+  // added for paths, which are a subclass of NSString (NSPathStore2).
+  if (![value isKindOfClass:[NSValue class]] && ![value isKindOfClass:[NSString class]] &&
+      ![value isKindOfClass:[NSArray class]] && ![value isKindOfClass:[NSDictionary class]] &&
+      ![[value class] isSubclassOfClass:[NSString class]]) {
+    [NSException raise:@"NSUnknownKeyException"
+                format:@"Config Value: %@ is not an NSValue, NSString or NSArray.", [value class]];
+  }
   dispatch_sync(_configurationIsolationQueue, ^{
-    [self->_overridenConfiguration setObject:value forKey:configKey];
+    [self->_overriddenConfiguration setObject:value forKey:configKey];
     self.needsMerge = YES;
   });
   [self updateRemoteConfiguration];
@@ -99,7 +106,6 @@ GREYConfiguration *GREYCreateConfiguration(void) { return [[GREYTestConfiguratio
 - (void)setDefaultValue:(id)value forConfigKey:(NSString *)configKey {
   GREYThrowOnNilParameter(value);
 
-  [self grey_validateConfigKey:configKey];
   dispatch_sync(_configurationIsolationQueue, ^{
     [self->_defaultConfiguration setObject:value forKey:configKey];
     self.needsMerge = YES;
@@ -110,7 +116,7 @@ GREYConfiguration *GREYCreateConfiguration(void) { return [[GREYTestConfiguratio
 
 - (void)reset {
   dispatch_sync(_configurationIsolationQueue, ^{
-    [self->_overridenConfiguration removeAllObjects];
+    [self->_overriddenConfiguration removeAllObjects];
     self.needsMerge = YES;
   });
   [self updateRemoteConfiguration];
