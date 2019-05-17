@@ -18,6 +18,7 @@
 
 #include <objc/runtime.h>
 
+#import "Additions/NSURL+GREYAdditions.h"
 #import "Additions/__NSCFLocalDataTask_GREYAdditions.h"
 #import "Additions/NSURL+GREYAdditions.h"
 #import "Common/GREYFatalAsserts.h"
@@ -28,9 +29,7 @@
 /**
  *  Type of the handlers used as NSURLSessionTask's completion blocks.
  */
-typedef void (^GREYTaskCompletionBlock)(NSData *data,
-                                        NSURLResponse *response,
-                                        NSError *error);
+typedef void (^GREYTaskCompletionBlock)(NSData *data, NSURLResponse *response, NSError *error);
 
 @implementation NSURLSession (GREYAdditions)
 
@@ -51,10 +50,12 @@ typedef void (^GREYTaskCompletionBlock)(NSData *data,
 
 - (NSURLSessionDataTask *)greyswizzled_dataTaskWithRequest:(NSURLRequest *)request
                                          completionHandler:(GREYTaskCompletionBlock)handler {
+  SEL swizzledSel = @selector(greyswizzled_URLSession:task:didCompleteWithError:);
   // Swizzle the session delegate class if not yet done.
   id delegate = self.delegate;
-  SEL swizzledSel = @selector(greyswizzled_URLSession:task:didCompleteWithError:);
-  Class delegateClass = [delegate class];
+  SEL originalSel = @selector(URLSession:task:didCompleteWithError:);
+  Class delegateClass =
+      [[delegate forwardingTargetForSelector:originalSel] class] ?: [delegate class];
 
   if (![delegateClass instancesRespondToSelector:swizzledSel]) {
     SEL originalSel = @selector(URLSession:task:didCompleteWithError:);
@@ -62,6 +63,10 @@ typedef void (^GREYTaskCompletionBlock)(NSData *data,
     // request need not be tracked as its completion/failure does not trigger any delegate
     // callbacks.
     if ([delegate respondsToSelector:originalSel]) {
+      // This is to solve issues where there is a proxy delegate instead of the original instance (e.g. TrustKit).
+      // It responds YES to `respondsToSelector:` but `class_getInstanceMethod` returns nil.
+      // We attempt to take the forwarding target for the selector, if it exists.
+      delegateClass = [[delegate forwardingTargetForSelector:originalSel] class] ?: delegateClass;
       Class selfClass = [self class];
       // Double-checked locking to prevent multiple swizzling attempts of the same class.
       @synchronized(selfClass) {
@@ -91,11 +96,9 @@ typedef void (^GREYTaskCompletionBlock)(NSData *data,
     };
   }
 
-  NSURLSessionDataTask *task =
-      INVOKE_ORIGINAL_IMP2(NSURLSessionDataTask *,
-                           @selector(greyswizzled_dataTaskWithRequest:completionHandler:),
-                           request,
-                           wrappedHandler);
+  NSURLSessionDataTask *task = INVOKE_ORIGINAL_IMP2(
+      NSURLSessionDataTask *, @selector(greyswizzled_dataTaskWithRequest:completionHandler:),
+      request, wrappedHandler);
   // Note that if neither the delegate was set nor a completion block provided, it means that the
   // app has made a network request but will not act on the result of it (passed or failed). For
   // example: analytics requests going out from the app. Neither does EarlGrey track such requests
@@ -111,11 +114,8 @@ typedef void (^GREYTaskCompletionBlock)(NSData *data,
 - (void)greyswizzled_URLSession:(NSURLSession *)session
                            task:(NSURLSessionTask *)task
            didCompleteWithError:(NSError *)error {
-  INVOKE_ORIGINAL_IMP3(void,
-                       @selector(greyswizzled_URLSession:task:didCompleteWithError:),
-                       session,
-                       task,
-                       error);
+  INVOKE_ORIGINAL_IMP3(void, @selector(greyswizzled_URLSession:task:didCompleteWithError:), session,
+                       task, error);
   // Now untrack *after* the delegate method has been invoked.
   id greyTask = task;
   if ([greyTask respondsToSelector:@selector(grey_untrack)]) {
