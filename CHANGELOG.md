@@ -2,6 +2,20 @@
 
 Details changes in each release of EarlGrey. EarlGrey follows [semantic versioning](http://semver.org/).
 
+## [1.15.1](https://github.com/google/EarlGrey/tree/1.15.1) (05/17/2019)
+```
+Baseline: [b15a131]
++ [b15a131]: Fix TrustKit swizzling issues in Earl Grey
+```
+
+### Bug Fixes
+* Accessibility fix added for device tests on 12.1.
+* Fix TrustKit swizzling with proxy delegates for NSURlSession.
+* Fixed Swift 5.0 wrappers.
+
+### Compatibility
+* EarlGrey has now been tested for working till Xcode version 10.1 and Swift 5.
+
 ## [1.15.0](https://github.com/google/EarlGrey/tree/1.15.0) (08/03/2018)
 ```
 Baseline: [59ce3b6c]
