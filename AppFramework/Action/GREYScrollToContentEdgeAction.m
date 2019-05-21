@@ -82,14 +82,14 @@
 
 #pragma mark - GREYAction
 
-- (BOOL)perform:(UIScrollView *)element error:(__strong NSError **)errorOrNil {
-  if (![self satisfiesConstraintsForElement:element error:errorOrNil]) {
+- (BOOL)perform:(UIScrollView *)element error:(__strong NSError **)error {
+  if (![self satisfiesConstraintsForElement:element error:error]) {
     return NO;
   }
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
   // TODO: Perform a scan of UIWebView usage and deprecate if possible. // NOLINT
-  // To scroll UIWebView we must use the UIScrollView in its heirarchy and scroll it.
+  // To scroll UIWebView we must use the UIScrollView in its error and scroll it.
   if ([element isKindOfClass:[UIWebView class]]) {
     element = [(UIWebView *)element scrollView];
   }
@@ -121,9 +121,7 @@
     return YES;
   } else {
     // Some other error has occurred.
-    if (errorOrNil) {
-      *errorOrNil = scrollError;
-    }
+    *error = scrollError;
     return NO;
   }
 }

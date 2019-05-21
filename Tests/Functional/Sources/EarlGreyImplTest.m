@@ -121,7 +121,8 @@
 
 - (void)testFailureHandlerIsInvokedByEarlGrey {
   GREYTestingFailureHandler *handler = [[GREYTestingFailureHandler alloc] init];
-  [EarlGrey setFailureHandler:handler];
+  [NSThread currentThread].threadDictionary[GREYFailureHandlerKey] = handler;
+
   GREYFrameworkException *exception = [GREYFrameworkException exceptionWithName:@"foo" reason:nil];
   NSUInteger lineNumber = __LINE__;
   [EarlGrey handleException:exception details:@"bar"];
@@ -136,18 +137,20 @@
   XCTAssertNotNil(failureHandler);
 }
 
-- (void)testFailureHandlerSetToNewValue {
+- (void)testFailureHandlerSetToNewValueIsNotReplaced {
   id<GREYFailureHandler> handler = [[GREYTestingFailureHandler alloc] init];
-  [EarlGrey setFailureHandler:handler];
+  [NSThread currentThread].threadDictionary[GREYFailureHandlerKey] = handler;
+  [EarlGrey isKeyboardShownWithError:nil];
   XCTAssertEqualObjects(GetCurrentFailureHandler(), handler);
 }
 
 - (void)testFailureHandlerResetsWhenSetToNil {
   id<GREYFailureHandler> handler = [[GREYTestingFailureHandler alloc] init];
-  [EarlGrey setFailureHandler:handler];
-  XCTAssertEqualObjects(GetCurrentFailureHandler(), handler);
+  [NSThread currentThread].threadDictionary[GREYFailureHandlerKey] = handler;
+  [EarlGrey isKeyboardShownWithError:nil];
 
-  [EarlGrey setFailureHandler:nil];
+  [NSThread currentThread].threadDictionary[GREYFailureHandlerKey] = nil;
+  [EarlGrey isKeyboardShownWithError:nil];
   id<GREYFailureHandler> failureHandler = GetCurrentFailureHandler();
   XCTAssertNotNil(failureHandler);
   XCTAssertNotEqualObjects(failureHandler, handler);
@@ -160,7 +163,7 @@
 }
 
 static inline id<GREYFailureHandler> GetCurrentFailureHandler() {
-  return [[[NSThread mainThread] threadDictionary] valueForKey:kGREYFailureHandlerKey];
+  return [[[NSThread mainThread] threadDictionary] valueForKey:GREYFailureHandlerKey];
 }
 
 @end
