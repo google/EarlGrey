@@ -19,11 +19,11 @@
 @class GREYError;
 
 /**
- *  @file GREYElementInteraction+Internal.h
+ *  @file GREYElementInteraction+Private.h
  *  @brief Exposes GREYElementInteraction's interfaces and methods that are otherwise private for
  *  testing purposes.
  */
-@interface GREYElementInteraction (Internal)
+@interface GREYElementInteraction (Private)
 
 /**
  *  Searches for UI elements within the root views and returns all matched UI elements. The given

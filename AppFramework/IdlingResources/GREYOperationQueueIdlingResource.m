@@ -16,7 +16,7 @@
 
 #import "AppFramework/IdlingResources/GREYOperationQueueIdlingResource.h"
 
-#import "AppFramework/Synchronization/GREYUIThreadExecutor+Internal.h"
+#import "AppFramework/Synchronization/GREYUIThreadExecutor+Private.h"
 #import "AppFramework/Synchronization/GREYUIThreadExecutor.h"
 #import "CommonLib/Assertion/GREYThrowDefines.h"
 #import "CommonLib/GREYDefines.h"
