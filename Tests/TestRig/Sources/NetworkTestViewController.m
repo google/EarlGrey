@@ -27,13 +27,62 @@ static NSString *const kTestProxyData = @"kTestProxyData";
  */
 static NSString *const kProxyRegex = @"^http://www.youtube.com";
 
+/** A dummy NSURLSessionDelegate. **/
+@interface SampleNSURLSessionDelegate : NSObject <NSURLSessionDelegate>
+@end
+
+@implementation SampleNSURLSessionDelegate
+
+#pragma mark - NSURLSessionDataDelegate
+
+- (void)URLSession:(NSURLSession *)session
+                    task:(NSURLSessionTask *)task
+    didCompleteWithError:(NSError *)error {
+  // No-op
+}
+
+@end
+
+/** A proxy that forwards url session delegate calls to another object. **/
+@interface SampleNSURLSessionDelegateProxy : NSObject
+- (instancetype)initWithSessionDelegate:(id<NSURLSessionDelegate>)delegate;
+@end
+
+@implementation SampleNSURLSessionDelegateProxy {
+  id _delegate;
+}
+
+- (instancetype)initWithSessionDelegate:(id<NSURLSessionDelegate>)delegate {
+  self = [super init];
+  if (self) {
+    _delegate = delegate;
+  }
+  return self;
+}
+
+- (id)forwardingTargetForSelector:(SEL)sel {
+  return _delegate;
+}
+
+- (BOOL)respondsToSelector:(SEL)aSelector {
+  return [_delegate respondsToSelector:aSelector];
+}
+
+@end
+
 @interface NetworkTestViewController () <NSURLSessionDataDelegate>
 @property(weak, nonatomic) IBOutlet UILabel *retryIndicator;
 @property(weak, nonatomic) IBOutlet UILabel *responseVerifiedLabel;
 @property(weak, nonatomic) IBOutlet UILabel *requestCompletedLabel;
 @end
 
-@implementation NetworkTestViewController
+@implementation NetworkTestViewController {
+  /**
+   *  Check for the infinite request. The request should be dismissed once the view controller is
+   *  removed.
+   */
+  BOOL _keepInfiniteRequestOn;
+}
 
 - (void)viewWillAppear:(BOOL)animated {
   [NetworkProxy setProxyEnabled:YES];
@@ -45,6 +94,7 @@ static NSString *const kProxyRegex = @"^http://www.youtube.com";
   [super viewDidDisappear:animated];
   [NetworkProxy removeMostRecentProxyRuleMatchingUrlRegexString:kProxyRegex];
   [NetworkProxy setProxyEnabled:NO];
+  _keepInfiniteRequestOn = NO;
 }
 
 /**
@@ -77,6 +127,22 @@ static NSString *const kProxyRegex = @"^http://www.youtube.com";
   [task resume];
 }
 
+- (IBAction)userDidTapNSURLSessionProxyDelegateTest:(id)sender {
+  NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+  config.protocolClasses =
+      [@ [[NetworkProxy class]] arrayByAddingObjectsFromArray:config.protocolClasses];
+  SampleNSURLSessionDelegate *delegate = [[SampleNSURLSessionDelegate alloc] init];
+  id delegateProxy = [[SampleNSURLSessionDelegateProxy alloc] initWithSessionDelegate:delegate];
+  NSURLSession *session = [NSURLSession sessionWithConfiguration:config
+                                                        delegate:delegateProxy
+                                                   delegateQueue:nil];
+  NSURLSessionTask *task =
+      [session dataTaskWithURL:[NSURL URLWithString:@"http://www.youtube.com/"]];
+  // Begin the fetch.
+  [task resume];
+  self->_requestCompletedLabel.hidden = NO;
+}
+
 - (IBAction)userDidTapNSURLSessionNoCallbackTest:(id)sender {
   NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
   config.protocolClasses =
@@ -101,6 +167,19 @@ static NSString *const kProxyRegex = @"^http://www.youtube.com";
                });
              }];
   // Begin the fetch.
+  [task resume];
+}
+
+- (IBAction)usedTappedOnInfiniteRequest:(id)sender {
+  NSURLSession *session = [NSURLSession sharedSession];
+  _keepInfiniteRequestOn = YES;
+  NSURLSessionTask *task =
+      [session dataTaskWithURL:[NSURL URLWithString:@"http://foo.com/"]
+             completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+               while (_keepInfiniteRequestOn) {
+                 [NSThread sleepForTimeInterval:1.0];
+               }
+             }];
   [task resume];
 }
 

@@ -15,7 +15,7 @@
 //
 
 /**
- *  @file  GREYUIThreadExecutor+Internal.h
+ *  @file  GREYUIThreadExecutor+Private.h
  *  @brief Exposes GREYUIThreadExecutor interfaces and methods that are otherwise private for
  *         testing purposes.
  */
@@ -24,7 +24,7 @@
 
 @protocol GREYIdlingResource;
 
-@interface GREYUIThreadExecutor (Internal)
+@interface GREYUIThreadExecutor (Private)
 
 /**
  *  Register the specified @c resource to be checked for idling before executing test actions.

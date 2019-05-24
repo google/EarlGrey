@@ -19,12 +19,12 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  @file GREYScreenshotter+Internal.h
+ *  @file GREYScreenshotter+Private.h
  *  @brief Exposes GREYScreenshotter interfaces and methods that are otherwise private for testing
  *  purposes.
  */
 
-@interface GREYScreenshotter (Internal)
+@interface GREYScreenshotter (Private)
 
 /**
  *  Provides a UIImage that is a screenshot, immediately or after the screen updates as specified.

@@ -18,10 +18,7 @@
 
 #import "GREYHostApplicationDistantObject+BaseIntegrationTest.h"
 
-@implementation BaseIntegrationTest {
-  // This variable holds the current failure handler before any tests sully it.
-  id<GREYFailureHandler> _currentFailureHandler;
-}
+@implementation BaseIntegrationTest
 
 - (void)setUp {
   [super setUp];
@@ -30,8 +27,6 @@
     self.application = [[XCUIApplication alloc] init];
     [self.application launch];
   });
-  _currentFailureHandler =
-      [[[NSThread currentThread] threadDictionary] valueForKey:kGREYFailureHandlerKey];
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait error:nil];
 }
 
@@ -56,7 +51,7 @@
 - (void)tearDown {
   [[GREYHostApplicationDistantObject sharedInstance] resetNavigationStack];
   [[GREYConfiguration sharedConfiguration] reset];
-  [EarlGrey setFailureHandler:_currentFailureHandler];
+  [NSThread currentThread].threadDictionary[GREYFailureHandlerKey] = nil;
 
   [super tearDown];
 }

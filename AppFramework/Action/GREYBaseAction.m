@@ -25,7 +25,7 @@
 #import "CommonLib/Assertion/GREYAssertionDefines.h"
 #import "CommonLib/Assertion/GREYThrowDefines.h"
 #import "CommonLib/Config/GREYConfiguration.h"
-#import "CommonLib/Error/GREYError+Internal.h"
+#import "CommonLib/Error/GREYError+Private.h"
 #import "CommonLib/Error/GREYErrorConstants.h"
 #import "CommonLib/Error/GREYObjectFormatter.h"
 #import "CommonLib/Error/NSError+GREYCommon.h"
@@ -48,7 +48,7 @@
   return self;
 }
 
-- (BOOL)satisfiesConstraintsForElement:(id)element error:(__strong NSError **)errorOrNil {
+- (BOOL)satisfiesConstraintsForElement:(id)element error:(__strong NSError **)error {
   if (!_constraints || !GREY_CONFIG_BOOL(kGREYConfigKeyActionConstraintsEnabled)) {
     return YES;
   } else {
@@ -72,32 +72,12 @@
       errorDetails[kErrorDetailRecoverySuggestionKey] =
           @"Adjust element properties so that it matches the failed constraint(s).";
 
-      GREYError *error = GREYErrorMakeWithHierarchy(
+      GREYError *interactionError = GREYErrorMakeWithHierarchy(
           kGREYInteractionErrorDomain, kGREYInteractionConstraintsFailedErrorCode,
           @"Cannot perform action due to constraint(s) failure.");
-      error.errorInfo = errorDetails;
+      interactionError.errorInfo = errorDetails;
 
-      if (errorOrNil) {
-        *errorOrNil = error;
-      } else {
-        NSArray *keyOrder = @[
-          kErrorDetailActionNameKey, kErrorDetailConstraintRequirementKey,
-          kErrorDetailElementDescriptionKey, kErrorDetailConstraintDetailsKey,
-          kErrorDetailRecoverySuggestionKey
-        ];
-
-        NSString *reasonDetail = [GREYObjectFormatter formatDictionary:errorDetails
-                                                                indent:2
-                                                             hideEmpty:YES
-                                                              keyOrder:keyOrder];
-
-        NSString *reason = [NSString stringWithFormat:
-                                         @"Cannot perform action due to constraint(s) failure.\n"
-                                         @"Exception with Action: %@\n",
-                                         reasonDetail];
-
-        I_GREYActionFail(reason, @"");
-      }
+      *error = interactionError;
       return NO;
     }
     return YES;
@@ -107,7 +87,7 @@
 #pragma mark - GREYAction
 
 // The perform:error: method has to be implemented by the subclass.
-- (BOOL)perform:(id)element error:(__strong NSError **)errorOrNil {
+- (BOOL)perform:(id)element error:(__strong NSError **)error {
   [self doesNotRecognizeSelector:_cmd];
   return NO;
 }

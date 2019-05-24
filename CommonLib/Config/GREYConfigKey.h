@@ -72,7 +72,7 @@ GREY_EXTERN GREYConfigKey const kGREYConfigKeySynchronizationEnabled;
  *      [GREYConfiguration.sharedConfiguration setValue:@(kGREYPendingCAAnimation)
  *                                         forConfigKey:kGREYConfigKeyIgnoreAppStates];
  *
- *  Accepted values: NS_OPTIONS with value of @c GREYAppState that's wraaped in NSNumber.
+ *  Accepted values: NS_OPTIONS with value of @c GREYAppState that's wrapped in NSNumber.
  *  Default value: @c kGREYIdle, which indicates no state is ignored.
  */
 GREY_EXTERN GREYConfigKey const kGREYConfigKeyIgnoreAppStates;
