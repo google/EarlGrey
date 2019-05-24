@@ -20,12 +20,6 @@
 
 @implementation NSString (GREYCommon)
 
-- (BOOL)grey_isNonEmptyAfterTrimming {
-  NSString *trimmed =
-      [self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-  return trimmed.length != 0;
-}
-
 - (NSString *)grey_md5String {
   // Get MD5 value of the given string.
   unsigned char md5Value[CC_MD5_DIGEST_LENGTH];

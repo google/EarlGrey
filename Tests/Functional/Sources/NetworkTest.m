@@ -65,6 +65,16 @@
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
+- (void)testSynchronizationWorksWithNSURLSessionProxyDelegate {
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"RequestCompletedLabel")]
+      assertWithMatcher:grey_notVisible()];
+  // Will cause a crash if the proxy delegate's method isn't swizzled correctly.
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"NSURLSessionProxyDelegateTest")]
+      performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"RequestCompletedLabel")]
+      assertWithMatcher:grey_sufficientlyVisible()];
+}
+
 - (void)testSynchronizationWorksWithoutNetworkCallbacks {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"RequestCompletedLabel")]
       assertWithMatcher:grey_notVisible()];

@@ -44,6 +44,7 @@ class SwiftTests: XCTestCase {
   }
 
   override func tearDown() {
+    GREYConfiguration.shared.reset()
     host.resetNavigationStack()
     super.tearDown()
   }
@@ -234,6 +235,17 @@ class SwiftTests: XCTestCase {
     let remoteView : UIView = GREYRemoteClassInApp(classVal: UIView.self).init()
     XCTAssertTrue(remoteView.description.contains("UIView"))
     XCTAssertEqual(String(describing: type(of: remoteView)), "EDOObject")
+  }
+
+  func testConfigurationChangeWithOngoingAnimation() {
+    EarlGrey.selectElement(with: grey_text("Network Test"))
+      .perform(grey_tap())
+    EarlGrey.selectElement(with: grey_text("Infinite Request"))
+      .perform(grey_tap())
+    GREYConfiguration.shared.setValue(NSNumber(value: GREYAppState.pendingNetworkRequest.rawValue),
+                                      forConfigKey: GREYConfigKey.ignoreAppStates)
+    EarlGrey.selectElement(with: grey_keyWindow())
+      .assert(grey_notNil())
   }
 
   func openTestView(named name: String) {

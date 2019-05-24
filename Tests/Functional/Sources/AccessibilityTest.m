@@ -113,7 +113,7 @@
 }
 
 - (void)testSquareTappedOutsideWindowBoundsFails {
-  [EarlGrey setFailureHandler:[[FailureHandler alloc] init]];
+  [NSThread currentThread].threadDictionary[GREYFailureHandlerKey] = [[FailureHandler alloc] init];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"SquareElementLabel")]
       assertWithMatcher:grey_sufficientlyVisible()];
 

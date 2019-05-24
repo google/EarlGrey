@@ -15,12 +15,13 @@
 //
 
 #import "CommonLib/Matcher/GREYElementMatcherBlock.h"
+#import "CommonLib/Matcher/GREYElementMatcherBlock+Private.h"
 
 #import "CommonLib/GREYDefines.h"
 
 // Base matcher which takes block parameters that implement |matches| and |describeTo|.
 @implementation GREYElementMatcherBlock
-
+@synthesize name;
 + (instancetype)matcherWithMatchesBlock:(GREYMatchesBlock)matchBlock
                        descriptionBlock:(GREYDescribeToBlock)describeBlock {
   return [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matchBlock
@@ -33,6 +34,16 @@
   if (self) {
     _matcherBlock = matchBlock;
     _descriptionBlock = describeBlock;
+  }
+  return self;
+}
+
+- (instancetype)initWithMatchesBlock:(GREYMatchesBlock)matchBlock
+                    descriptionBlock:(GREYDescribeToBlock)describeBlock
+                                name:(NSString *)name {
+  self = [self initWithMatchesBlock:matchBlock descriptionBlock:describeBlock];
+  if (self) {
+    self.name = name;
   }
   return self;
 }
