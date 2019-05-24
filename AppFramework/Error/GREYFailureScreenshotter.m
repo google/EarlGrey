@@ -19,9 +19,9 @@
 #import "AppFramework/Synchronization/GREYSyncAPI.h"
 #import "CommonLib/Config/GREYConfiguration.h"
 #import "CommonLib/Error/GREYError.h"
-#import "UILib/GREYScreenshotter+Internal.h"
+#import "UILib/GREYScreenshotter+Private.h"
 #import "UILib/GREYScreenshotter.h"
-#import "UILib/GREYVisibilityChecker+Internal.h"
+#import "UILib/GREYVisibilityChecker+Private.h"
 
 @implementation GREYFailureScreenshotter
 

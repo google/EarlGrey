@@ -19,12 +19,12 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  @file GREYVisibilityChecker+Internal.h
+ *  @file GREYVisibilityChecker+Private.h
  *  @brief Exposes GREYVisibilityChecker interfaces and methods that are otherwise private
  *  for testing purposes.
  */
 
-@interface GREYVisibilityChecker (Internal)
+@interface GREYVisibilityChecker (Private)
 
 /**
  *  Clears last stored visibility images

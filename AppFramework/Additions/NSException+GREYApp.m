@@ -20,25 +20,19 @@
 #import "CommonLib/Exceptions/GREYFailureHandler.h"
 #import "CommonLib/Exceptions/GREYFrameworkException.h"
 
-id<GREYFailureHandler> GREYGetFailureHandler(void);
-
-id<GREYFailureHandler> GREYGetFailureHandler() {
-  static NSString *const kGREYAppFailureHandlerKey = @"GREYAppFailureHandlerKey";
-
-  assert([NSThread isMainThread]);
-  NSMutableDictionary *TLSDict = [[NSThread mainThread] threadDictionary];
-  id<GREYFailureHandler> failureHandler = [TLSDict valueForKey:kGREYAppFailureHandlerKey];
-  if (!failureHandler) {
-    failureHandler = [[GREYAppFailureHandler alloc] init];
-    [TLSDict setValue:failureHandler forKey:kGREYAppFailureHandlerKey];
-  }
-  return failureHandler;
-}
+// App-side global failure handler key for the current thread object's dictionary.
+NSString *const GREYFailureHandlerKey = @"GREYAppFailureHandlerKey";
 
 @implementation NSException (GREYApp)
 
++ (void)load {
+  NSMutableDictionary *TLSDict = [[NSThread currentThread] threadDictionary];
+  [TLSDict setValue:[[GREYAppFailureHandler alloc] init] forKey:GREYFailureHandlerKey];
+}
+
 + (void)grey_raise:(NSString *)name withError:(GREYError *)error {
-  id<GREYFailureHandler> failureHandler = GREYGetFailureHandler();
+  id<GREYFailureHandler> failureHandler =
+      [NSThread currentThread].threadDictionary[GREYFailureHandlerKey];
   NSString *reason = [GREYError grey_nestedDescriptionForError:error];
   [failureHandler handleException:[GREYFrameworkException exceptionWithName:name reason:reason]
                           details:@""];

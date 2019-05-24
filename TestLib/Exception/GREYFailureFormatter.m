@@ -16,7 +16,7 @@
 
 #import "TestLib/Exception/GREYFailureFormatter.h"
 
-#import "CommonLib/Error/GREYError+Internal.h"
+#import "CommonLib/Error/GREYError+Private.h"
 #import "CommonLib/Error/GREYError.h"
 #import "CommonLib/Error/GREYObjectFormatter.h"
 #import "TestLib/XCTestCase/XCTestCase+GREYTest.h"

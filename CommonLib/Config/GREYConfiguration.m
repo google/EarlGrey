@@ -59,7 +59,6 @@
 }
 
 - (id)valueForConfigKey:(NSString *)configKey {
-  [self grey_validateConfigKey:configKey];
   id value = self.mergedConfiguration[configKey];
   if (!value) {
     [NSException raise:@"NSUnknownKeyException" format:@"Unknown configuration key: %@", configKey];
@@ -69,48 +68,35 @@
 
 - (BOOL)boolValueForConfigKey:(NSString *)configKey {
   id value = [self valueForConfigKey:configKey];
-  [self grey_validateValue:value forConfigKey:configKey isKindOfClass:[NSValue class]];
   return [value boolValue];
 }
 
 - (NSInteger)integerValueForConfigKey:(NSString *)configKey {
   id value = [self valueForConfigKey:configKey];
-  [self grey_validateValue:value forConfigKey:configKey isKindOfClass:[NSValue class]];
   return [value integerValue];
 }
 
 - (NSUInteger)unsignedIntegerValueForConfigKey:(NSString *)configKey {
   id value = [self valueForConfigKey:configKey];
-  [self grey_validateValue:value forConfigKey:configKey isKindOfClass:[NSValue class]];
   return [value unsignedIntegerValue];
 }
 
 - (double)doubleValueForConfigKey:(NSString *)configKey {
   id value = [self valueForConfigKey:configKey];
-  [self grey_validateValue:value forConfigKey:configKey isKindOfClass:[NSValue class]];
   return [value doubleValue];
 }
 
 - (NSString *)stringValueForConfigKey:(NSString *)configKey {
   NSString *value = [self valueForConfigKey:configKey];
-  [self grey_validateValue:value forConfigKey:configKey isKindOfClass:[NSString class]];
   return value;
 }
 
 - (NSArray *)arrayValueForConfigKey:(NSString *)configKey {
   NSArray *value = [self valueForConfigKey:configKey];
-  [self grey_validateValue:value forConfigKey:configKey isKindOfClass:[NSArray class]];
   return value;
 }
 
 #pragma mark - Private
-
-- (void)grey_validateConfigKey:(NSString *)configKey {
-  if (![configKey grey_isNonEmptyAfterTrimming]) {
-    [NSException raise:NSInvalidArgumentException
-                format:@"Configuration key must be a valid NSString."];
-  }
-}
 
 /**
  *  Validates that [value kindOfClass:class] holds, otherwise throws an @c NSException.

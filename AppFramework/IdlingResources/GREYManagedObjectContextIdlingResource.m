@@ -20,7 +20,7 @@
 #import <objc/runtime.h>
 
 #import "AppFramework/IdlingResources/GREYDispatchQueueIdlingResource.h"
-#import "AppFramework/Synchronization/GREYUIThreadExecutor+Internal.h"
+#import "AppFramework/Synchronization/GREYUIThreadExecutor+Private.h"
 #import "CommonLib/Assertion/GREYThrowDefines.h"
 
 @implementation GREYManagedObjectContextIdlingResource {

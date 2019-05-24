@@ -49,11 +49,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  *  Enumerates through the entire hierarchy and calls the @c block on each element in the hierarchy.
- *  This method enumerates through the hierarchy only once.
+ *  This method enumerates through the hierarchy only once. Setting @c stop to @c YES would break
+ *  out of the enumeration.
  *
  *  @param block A completion block that will be invoked on each element.
  */
-- (void)enumerateUsingBlock:(void (^)(id view, NSUInteger level))block;
+- (void)enumerateUsingBlock:(void (^)(id view, NSUInteger level, BOOL *stop))block;
 
 @end
 

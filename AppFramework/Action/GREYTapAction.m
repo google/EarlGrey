@@ -122,10 +122,10 @@
 
 #pragma mark - GREYAction protocol
 
-- (BOOL)perform:(id)element error:(__strong NSError **)errorOrNil {
+- (BOOL)perform:(id)element error:(__strong NSError **)error {
   __block BOOL satisfiesContraints = NO;
   grey_dispatch_sync_on_main_thread(^{
-    satisfiesContraints = [self satisfiesConstraintsForElement:element error:errorOrNil];
+    satisfiesContraints = [self satisfiesConstraintsForElement:element error:error];
   });
   if (!satisfiesContraints) {
     return NO;
@@ -136,7 +136,7 @@
       return [GREYTapper tapOnElement:element
                          numberOfTaps:_numberOfTaps
                              location:[self grey_resolvedTapLocationForElement:element]
-                                error:errorOrNil];
+                                error:error];
     }
     case kGREYTapTypeKBKey: {
       // Retrieving the accessibility activation point for a keyboard key is tricky due to window
@@ -150,7 +150,7 @@
             [NSString stringWithFormat:@"Element [E] is not attached to a window."];
         NSDictionary *glossary = @{@"E" : [element grey_description]};
 
-        I_GREYPopulateErrorNoted(errorOrNil, kGREYInteractionErrorDomain,
+        I_GREYPopulateErrorNoted(error, kGREYInteractionErrorDomain,
                                  kGREYInteractionActionFailedErrorCode, description, glossary);
 
         return NO;
@@ -158,20 +158,20 @@
       return [GREYTapper tapOnWindow:window
                         numberOfTaps:_numberOfTaps
                             location:[element grey_accessibilityActivationPointInWindowCoordinates]
-                               error:errorOrNil];
+                               error:error];
     }
     case kGREYTapTypeLong: {
       return [GREYTapper longPressOnElement:element
                                    location:[self grey_resolvedTapLocationForElement:element]
                                    duration:_duration
-                                      error:errorOrNil];
+                                      error:error];
     }
   }
 
   NSString *description = [NSString stringWithFormat:@"Unknown tap type: %ld", (long)_type];
 
-  I_GREYPopulateError(errorOrNil, kGREYInteractionErrorDomain,
-                      kGREYInteractionActionFailedErrorCode, description);
+  I_GREYPopulateError(error, kGREYInteractionErrorDomain, kGREYInteractionActionFailedErrorCode,
+                      description);
 
   return NO;
 }
