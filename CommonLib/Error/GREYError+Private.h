@@ -19,7 +19,7 @@
 #import "CommonLib/GREYDefines.h"
 
 /**
- *  @file GREYError+Internal.h
+ *  @file GREYError+Private.h
  *  @brief Exposes GREYError's interfaces and methods that are otherwise private for
  *  testing purposes.
  */
@@ -89,7 +89,7 @@ GREY_EXTERN NSString *const kErrorAppScreenShotsKey;
  */
 GREY_EXTERN NSString *const kErrorDescriptionGlossaryKey;
 
-@interface GREYError (Internal)
+@interface GREYError (Private)
 
 @property(nonatomic) NSString *testCaseClassName;
 @property(nonatomic) NSString *testCaseMethodName;

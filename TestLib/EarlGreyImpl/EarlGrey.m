@@ -33,30 +33,34 @@
 #import "TestLib/EarlGreyImpl/GREYElementInteractionProxy.h"
 #import "TestLib/Exception/GREYDefaultFailureHandler.h"
 
-NSString *const kGREYFailureHandlerKey = @"GREYFailureHandlerKey";
+NSString *const GREYFailureHandlerKey = @"GREYFailureHandlerKey";
 
-/** Resets the failure handler. Must be called from main thread otherwise behavior is undefined. */
-static inline void ResetFailureHandler() {
-  assert([NSThread isMainThread]);
-  NSMutableDictionary *TLSDict = [[NSThread mainThread] threadDictionary];
-  [TLSDict setValue:[[GREYDefaultFailureHandler alloc] init] forKey:kGREYFailureHandlerKey];
+/**
+ *  Sets EarlGrey provided default failure handler if there's no failure handler set for the current
+ *  thread.
+ */
+static inline void SetDefaultFailureHandler() {
+  NSMutableDictionary *TLSDict = [[NSThread currentThread] threadDictionary];
+  [TLSDict setValue:[[GREYDefaultFailureHandler alloc] init] forKey:GREYFailureHandlerKey];
 }
 
-id<GREYFailureHandler> GREYGetFailureHandler(void);
-
-/** Gets the failure handler. Must be called from main thread otherwise behavior is undefined. */
-id<GREYFailureHandler> GREYGetFailureHandler() {
-  assert([NSThread isMainThread]);
-  NSMutableDictionary *TLSDict = [[NSThread mainThread] threadDictionary];
-  return [TLSDict valueForKey:kGREYFailureHandlerKey];
+/** Returns the current failure handler. If it's @c nil, sets the default one and returns it. */
+static inline id<GREYFailureHandler> GREYGetCurrentFailureHandler() {
+  NSMutableDictionary *TLSDict = [[NSThread currentThread] threadDictionary];
+  id<GREYFailureHandler> handler = [TLSDict valueForKey:GREYFailureHandlerKey];
+  if (!handler) {
+    SetDefaultFailureHandler();
+    handler = [TLSDict valueForKey:GREYFailureHandlerKey];
+  }
+  return handler;
 }
 
 @implementation EarlGreyImpl
 
 + (void)load {
-  // These need to be set in load since someone might call GREYAssertXXX APIs without calling
-  // into EarlGrey.
-  ResetFailureHandler();
+  // This needs to be done in load as there may be calls to GREYAssert APIs that access the failure
+  // handler directy. If it's not set, they won't be able to raise an error.
+  GREYGetCurrentFailureHandler();
 }
 
 + (instancetype)invokedFromFile:(NSString *)fileName lineNumber:(NSUInteger)lineNumber {
@@ -66,10 +70,7 @@ id<GREYFailureHandler> GREYGetFailureHandler() {
     instance = [[EarlGreyImpl alloc] initOnce];
   });
 
-  id<GREYFailureHandler> failureHandler;
-  @synchronized(self) {
-    failureHandler = GREYGetFailureHandler();
-  }
+  id<GREYFailureHandler> failureHandler = GREYGetCurrentFailureHandler();
   SEL invocationFileAndLineSEL = @selector(setInvocationFile:andInvocationLine:);
   if ([failureHandler respondsToSelector:invocationFileAndLineSEL]) {
     [failureHandler setInvocationFile:fileName andInvocationLine:lineNumber];
@@ -185,22 +186,9 @@ id<GREYFailureHandler> GREYGetFailureHandler() {
   return success;
 }
 
-- (void)setFailureHandler:(id<GREYFailureHandler>)handler {
-  @synchronized([self class]) {
-    if (handler) {
-      NSMutableDictionary *TLSDict = [[NSThread mainThread] threadDictionary];
-      [TLSDict setValue:handler forKey:kGREYFailureHandlerKey];
-    } else {
-      ResetFailureHandler();
-    }
-  }
-}
-
 - (void)handleException:(GREYFrameworkException *)exception details:(NSString *)details {
-  @synchronized([self class]) {
-    id<GREYFailureHandler> failureHandler = GREYGetFailureHandler();
-    [failureHandler handleException:exception details:details];
-  }
+  id<GREYFailureHandler> failureHandler = GREYGetCurrentFailureHandler();
+  [failureHandler handleException:exception details:details];
 }
 
 - (BOOL)isKeyboardShownWithError:(NSError **)error {

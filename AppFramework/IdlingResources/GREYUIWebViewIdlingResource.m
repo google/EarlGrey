@@ -21,7 +21,7 @@
 
 #import "AppFramework/Additions/UIWebView+GREYApp.h"
 #import "AppFramework/Synchronization/GREYSyncAPI.h"
-#import "AppFramework/Synchronization/GREYUIThreadExecutor+Internal.h"
+#import "AppFramework/Synchronization/GREYUIThreadExecutor+Private.h"
 #import "AppFramework/Synchronization/GREYUIThreadExecutor.h"
 #import "CommonLib/Assertion/GREYFatalAsserts.h"
 #import "CommonLib/Assertion/GREYThrowDefines.h"

@@ -22,15 +22,6 @@
 // Indicates whether the merged configuration was invalidated due to a change
 // in the default or overridden configurations
 @property(nonatomic) BOOL needsMerge;
-
-/**
- *  Validates the given @c configKey.
- *
- *  @param configKey The config key to be validated.
- *
- *  @throws NSException If its not a valid key.
- */
-- (void)grey_validateConfigKey:(NSString *)configKey;
 @end
 
 /** Implemented in the subclass to instantiate the underlying configuration. */

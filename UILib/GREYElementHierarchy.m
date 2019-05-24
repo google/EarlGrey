@@ -75,7 +75,7 @@
       [GREYTraversalDFS frontToBackHierarchyForElementWithDFSTraversal:element];
 
   // Enumerate the hierarchy using block enumeration.
-  [traversal enumerateUsingBlock:^(id _Nonnull element, NSUInteger level) {
+  [traversal enumerateUsingBlock:^(id _Nonnull element, NSUInteger level, BOOL *stop) {
     // Obtain hierarchy Info.
     if ([outputString length] != 0) {
       [outputString appendString:@"\n"];

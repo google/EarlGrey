@@ -94,11 +94,11 @@
 
 #pragma mark - GREYAction
 
-- (BOOL)perform:(id)element error:(__strong NSError **)errorOrNil {
+- (BOOL)perform:(id)element error:(__strong NSError **)error {
   __block UIWindow *window = nil;
   NSMutableArray *multiTouchPaths = [[NSMutableArray alloc] init];
   grey_dispatch_sync_on_main_thread(^{
-    if (![self satisfiesConstraintsForElement:element error:errorOrNil]) {
+    if (![self satisfiesConstraintsForElement:element error:error]) {
       return;
     }
 
@@ -111,7 +111,7 @@
             [NSString stringWithFormat:
                           @"Cannot perform multi-finger swipe on view [V], as it has "
                           @"no window and it isn't a window itself."];
-        I_GREYPopulateErrorNoted(errorOrNil, kGREYSyntheticEventInjectionErrorDomain,
+        I_GREYPopulateErrorNoted(error, kGREYSyntheticEventInjectionErrorDomain,
                                  kGREYOrientationChangeFailedErrorCode, errorDescription,
                                  @{@"V" : [element grey_description]});
         return;

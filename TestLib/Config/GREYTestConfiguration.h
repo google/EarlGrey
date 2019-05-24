@@ -16,6 +16,8 @@
 
 #import "CommonLib/Config/GREYConfiguration.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class GREYAppConfiguration;
 
 /**
@@ -40,3 +42,5 @@
 - (void)updateRemoteConfiguration;
 
 @end
+
+NS_ASSUME_NONNULL_END
