@@ -32,12 +32,6 @@
 #import "CommonLib/GREYDefines.h"
 
 /**
- *  Exposes internal method to get the failure handler registered with EarlGrey.
- *  It must be called from main thread otherwise the behavior is undefined.
- */
-GREY_EXPORT id<GREYFailureHandler> GREYGetFailureHandler(void);
-
-/**
  *  These Macros are safe to call from anywhere within a testcase.
  */
 #pragma mark - Public Macros

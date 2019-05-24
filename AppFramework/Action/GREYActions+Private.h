@@ -17,12 +17,12 @@
 #import "AppFramework/Action/GREYActions.h"
 
 /**
- *  @file GREYActions+Internal.h
+ *  @file GREYActions+Private.h
  *  @brief Exposes GREYActions' interfaces and methods that are otherwise private for
  *  testing purposes.
  */
 
-@interface GREYActions (Internal)
+@interface GREYActions (Private)
 
 /**
  *  Use the iOS keyboard to type a string starting from the provided UITextPosition. If the

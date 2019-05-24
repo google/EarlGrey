@@ -1,5 +1,5 @@
 //
-// Copyright 2018 Google Inc.
+// Copyright 2019 Google Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,24 +14,16 @@
 // limitations under the License.
 //
 
-#import "CommonLib/Config/GREYConfiguration.h"
+#import "CommonLib/Matcher/GREYBaseMatcher.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-/**
- *  The implementation for the app under test.
- *
- *  The configuration only caches the values and forward any write to the counterpart in the test.
- *  And this merges with the configuration in the test before a read if there is a write.
- */
-@interface GREYAppConfiguration : GREYConfiguration
+/** Private category for diagnostics purpose. */
+@interface GREYBaseMatcher ()
 
-/**
- *  Update the configuration. The valid keys are defined in @c GREYConfigKey.
- *
- *  @param configuration The config dictionary.
- */
-- (void)updateConfiguration:(NSDictionary<NSString *, id> *)configuration;
+/** Identifier of GREYBaseMatcher for internal use. */
+@property(nonatomic, copy) NSString *name;
+
 @end
 
 NS_ASSUME_NONNULL_END

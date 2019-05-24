@@ -25,7 +25,7 @@
 #import "CommonLib/Assertion/GREYThrowDefines.h"
 #import "CommonLib/Error/GREYErrorConstants.h"
 #import "UILib/Additions/CGGeometry+GREYUI.h"
-#import "UILib/GREYVisibilityChecker+Internal.h"
+#import "UILib/GREYVisibilityChecker+Private.h"
 #import "UILib/GREYVisibilityChecker.h"
 
 @implementation GREYHostApplicationDistantObject (VisibilityTest)
