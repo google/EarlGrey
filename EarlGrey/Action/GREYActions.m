@@ -396,7 +396,7 @@ static const CFTimeInterval kJavaScriptTimeoutSeconds = 60;
  *
  *  @return @c YES if the action succeeded, else @c NO. If an action returns @c NO, it does not
  *          mean that the action was not performed at all but somewhere during the action execution
- *          the error occured and so the UI may be in an unrecoverable state.
+ *          the error occurred and so the UI may be in an unrecoverable state.
  */
 + (id<GREYAction>)grey_actionForReplaceText:(NSString *)text {
   SEL setTextSelector = NSSelectorFromString(@"setText:");
@@ -474,7 +474,7 @@ static const CFTimeInterval kJavaScriptTimeoutSeconds = 60;
  *
  *  @return @c YES if the action succeeded, else @c NO. If an action returns @c NO, it does not
  *          mean that the action was not performed at all but somewhere during the action execution
- *          the error occured and so the UI may be in an unrecoverable state.
+ *          the error occurred and so the UI may be in an unrecoverable state.
  */
 + (BOOL)grey_disableAutoCorrectForDelegateAndTypeText:(NSString *)text
                                      inFirstResponder:(id)firstResponder

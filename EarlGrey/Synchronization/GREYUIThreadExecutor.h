@@ -84,7 +84,7 @@ typedef void(^GREYExecBlock)(void);
  *  are in idle.
  *
  *  @remark Be very careful while calling this as you could end up in state where the caller expects
- *          the callee to mark the thread as idle and callee inadvertantly calls
+ *          the callee to mark the thread as idle and callee inadvertently calls
  *          GREYUIThreadExecutor::drainUntilIdle:, in which case it will go into an infinite loop
  *          and the test will have to be force-killed by the test-runner.
  */

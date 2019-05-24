@@ -209,7 +209,7 @@ static CGFloat kCachedScreenEdgePanDetectionLength = NAN;
     return direction;
   }
 
-  // Transform the direction assuming it exists on potrait orientation and we would like to apply
+  // Transform the direction assuming it exists on portrait orientation and we would like to apply
   // it in the current interface orientation.
   UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
   switch (orientation) {

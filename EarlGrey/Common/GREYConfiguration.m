@@ -42,9 +42,9 @@ NSString *const kGREYConfigKeyArtifactsDirLocation = @"GREYConfigKeyArtifactsDir
 @implementation GREYConfiguration {
   NSMutableDictionary *_defaultConfiguration; // Dict for storing the default configs
   NSMutableDictionary *_overridenConfiguration; // Dict for storing the user-defined overrides
-  NSMutableDictionary *_mergedConfiguration; // Dict for storing the merged default/overriden dicts
+  NSMutableDictionary *_mergedConfiguration; // Dict for storing the merged default/overridden dicts
   BOOL _needsMerge; // Indicates whether the merged configuration was invalidated due to a change
-                    // in the default or overriden configurations
+                    // in the default or overridden configurations
 }
 
 - (instancetype)init {

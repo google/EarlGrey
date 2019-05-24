@@ -75,7 +75,7 @@ execute_xcodebuild() {
 
   set +e
   # In case of failure in test's +setUp or +tearDown, Xcode doesn't exit with an error code but logs it.
-  # Add another check to make sure no unexpected failure occured.
+  # Add another check to make sure no unexpected failure occurred.
   $(grep -q -m 1 -ie ".*[1-9]\d* unexpected" xcodebuild.log)
   retval_expected_test_failures=$?
   set -e

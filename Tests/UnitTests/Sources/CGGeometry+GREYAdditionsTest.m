@@ -85,7 +85,7 @@
     {CGRectMake(5, 6, (CGFloat)0.5, (CGFloat)0.5), CGRectMake(5, 6, 0, 0)},
     {CGRectMake((CGFloat)5.99, (CGFloat)6.99, (CGFloat).49, (CGFloat).49), CGRectMake(6, 7, 0, 0)},
 
-    // inputs w/ non-shrinking-greater-than-1 widths: the compromized width can compensate itself
+    // inputs w/ non-shrinking-greater-than-1 widths: the compromised width can compensate itself
     {CGRectMake((CGFloat)5.9, (CGFloat)5.9, (CGFloat)1.1, (CGFloat)1.1), CGRectMake(6, 6, 1, 1)},
     {CGRectMake((CGFloat).95, (CGFloat)0.95, (CGFloat)10.1, (CGFloat)10.1),
       CGRectMake(1, 1, 10, 10)},

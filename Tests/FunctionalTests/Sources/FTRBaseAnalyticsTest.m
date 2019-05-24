@@ -45,7 +45,7 @@ static id<GREYAnalyticsDelegate> gOriginalAnalyticsDelegate;
 static id<GREYAnalyticsDelegate> gTestAnalyticsDelegate;
 
 /**
- *  The current total number of analytics hits recieved.
+ *  The current total number of analytics hits received.
  */
 static volatile NSInteger gTotalHitsReceived;
 

@@ -214,7 +214,7 @@
     NSError *executorError;
     __block NSError *actionError = nil;
 
-    // Create the user info dictionary for any notificatons and set it up with the action.
+    // Create the user info dictionary for any notifications and set it up with the action.
     NSMutableDictionary *actionUserInfo = [[NSMutableDictionary alloc] init];
     [actionUserInfo setObject:action forKey:kGREYActionUserInfoKey];
     NSNotificationCenter *defaultNotificationCenter = [NSNotificationCenter defaultCenter];
@@ -369,7 +369,7 @@
       id element = (elements.count != 0) ?
       [strongSelf grey_uniqueElementInMatchedElements:elements andError:&assertionError] : nil;
 
-      // Create the user info dictionary for any notificatons and set it up with the assertion.
+      // Create the user info dictionary for any notifications and set it up with the assertion.
       NSMutableDictionary *assertionUserInfo = [[NSMutableDictionary alloc] init];
       [assertionUserInfo setObject:assertion forKey:kGREYAssertionUserInfoKey];
 

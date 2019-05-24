@@ -230,9 +230,9 @@ static void (^noopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef t
  *          starts spinning the run loop in the same mode.
  *
  *  @param mode               The mode that the observer should be added to.
- *  @param beforeSourcesBlock Block that will be invoked when the added observer recieves before-
+ *  @param beforeSourcesBlock Block that will be invoked when the added observer receives before-
  *                            sources callbacks and is not nested.
- *  @param beforeWaitingBlock Block that will be invoked when the added observer recieves before-
+ *  @param beforeWaitingBlock Block that will be invoked when the added observer receives before-
  *                            waiting callbacks and is not nested.
  *
  *  @return The registered observer.

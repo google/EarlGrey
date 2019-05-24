@@ -29,7 +29,7 @@
 /**
  *  Enables (if @c enabled is @c YES) or disables the proxy.
  *
- *  @param enabled A BOOL specifing whether to enable or disable the proxy.
+ *  @param enabled A BOOL specifying whether to enable or disable the proxy.
  */
 + (void)ftr_setProxyEnabled:(BOOL)enabled;
 
@@ -58,7 +58,7 @@
 
 /**
  *  @return Returns an array of all the requests proxied since the proxy was enabled or since it
- *          was last cleared which ever happend the last.
+ *          was last cleared which ever happened the last.
  */
 + (NSArray *)ftr_requestsReceived;
 
