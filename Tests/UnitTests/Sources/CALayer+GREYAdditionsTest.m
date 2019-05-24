@@ -402,7 +402,7 @@ static const CFTimeInterval kMaxAnimationInterval = 5.0;
   XCTAssertTrue(state & kGREYPendingCAAnimation,
                 @"State should change after starting an animation.");
 
-  // Clear the state change that happend after adding animation.
+  // Clear the state change that happened after adding animation.
   [[GREYAppStateTracker sharedInstance] grey_clearState];
 
   // iOS creates immutable animation objects from added animations.

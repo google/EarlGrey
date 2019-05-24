@@ -48,7 +48,7 @@ static NSString *const kFTRNetworkProxyRuleRegexKey = @"kFTRNetworkProxyRuleRege
 static NSString *const kFTRNetworkProxyRuleResponseKey = @"kFTRNetworkProxyRuleResponseKey";
 
 /**
- *  Error domain for errors occuring in FTRNetworkProxy.
+ *  Error domain for errors occurring in FTRNetworkProxy.
  */
 static NSString *const kFTRNetworkProxyErrorDomain =
     @"com.google.earlgrey.FTRNetworkProxyErrorDomain";

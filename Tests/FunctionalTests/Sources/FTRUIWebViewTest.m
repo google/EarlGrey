@@ -251,7 +251,7 @@ static const NSTimeInterval kLocalHTMLPageLoadDelay = 10.0;
   XCTAssertFalse(isAsyncRequestPending, @"should not be pending");
 }
 
-// TODO: Temporarily disable the test due to that it fails to dectect the UIWebView is idling.
+// TODO: Temporarily disable the test due to that it fails to detect the UIWebView is idling.
 // Link: https://github.com/google/EarlGrey/issues/365
 - (void)DISABLED_testLongPressLinkInUIWebView {
   // Load local page first.

@@ -82,7 +82,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  A GREYAction that performs a long press with a given @c duration at the given @c location.
  *
  *  @param duration The duration of the long press.
- *  @param location The location of the long press relative to the element recieving the touch
+ *  @param location The location of the long press relative to the element receiving the touch
  *                  event.
  *
  *  @return An instance of GREYTapAction, initialized with the @c duration and @c location of
@@ -98,7 +98,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param tapType      The type of the tap.
  *  @param numberOfTaps Number of times the element should be tapped.
  *  @param duration     The duration of the tap event if applicable.
- *  @param tapLocation  The location of the tap relative to the element recieving the touch
+ *  @param tapLocation  The location of the tap relative to the element receiving the touch
  *                      event.
  *
  *  @return An initialized (to the given parameters) instance of GREYTapAction.

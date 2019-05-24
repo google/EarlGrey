@@ -60,8 +60,8 @@ def _ChangeFrameworkHeaderFileNames():
   script_header_dir = 'OCHamcrest.framework/Headers/*'
   script_dir = 'OCHamcrest.framework/*'
   file_glob = glob.glob(_FilePathRelativeToScriptDirectory(script_header_dir))
-  extention_glob = glob.glob(_FilePathRelativeToScriptDirectory(script_dir))
-  file_glob.extend(extention_glob)
+  extension_glob = glob.glob(_FilePathRelativeToScriptDirectory(script_dir))
+  file_glob.extend(extension_glob)
   for oc_file in file_glob:
     os.rename(oc_file, oc_file.replace('OCHamcrestIOS', 'OCHamcrest'))
 

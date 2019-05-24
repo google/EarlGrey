@@ -78,7 +78,7 @@
   if (![self satisfiesConstraintsForElement:element error:errorOrNil]) {
     return NO;
   }
-  // To scroll UIWebView we must use the UIScrollView in its heirarchy and scroll it.
+  // To scroll UIWebView we must use the UIScrollView in its hierarchy and scroll it.
   if ([element isKindOfClass:[UIWebView class]]) {
     element = [(UIWebView *)element scrollView];
   }
@@ -108,7 +108,7 @@
     // We have reached the content edge.
     return YES;
   } else {
-    // Some other error has occured.
+    // Some other error has occurred.
     if (errorOrNil) {
       *errorOrNil = scrollError;
     }

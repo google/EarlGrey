@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)providerWithWindows:(NSArray *)windows;
 
 /**
- *  Class method to get a provider with all the windows currently registed with the app.
+ *  Class method to get a provider with all the windows currently registered with the app.
  *
  *  @return A GREYUIWindowProvider instance populated by all windows currently
  *          registered with the app.

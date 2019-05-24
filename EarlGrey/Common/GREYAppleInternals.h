@@ -50,7 +50,7 @@ typedef UInt32 IOOptionBits;
 /**
  *  Event mask detailing the events being dispatched by a digitizer. It is possible for digitizer
  *  events to contain child digitizer events, effectively, behaving as collections. In the
- *  collection case, the child event mask field referrence by
+ *  collection case, the child event mask field reference by
  *  kIOHIDEventFieldDigitizerChildEventMask will detail the cumulative event state of the child
  *  digitizer events. If you append a child digitizer event to a parent digitizer event, appropriate
  *  state will be transferred on to the parent.
@@ -203,7 +203,7 @@ IOHIDEventRef IOHIDEventCreateDigitizerFingerEvent(CFAllocatorRef allocator,
  *  after user stopped dragging it. @c notify determines whether UIScrollViewDelegate will be
  *  notified that scrolling has finished.
  *
- *  @param notify An indicator specifiying if scrolling has finished.
+ *  @param notify An indicator specifying if scrolling has finished.
  */
 - (void)_stopScrollDecelerationNotify:(BOOL)notify;
 @end

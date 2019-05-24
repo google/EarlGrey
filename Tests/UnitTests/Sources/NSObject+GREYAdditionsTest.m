@@ -212,7 +212,7 @@
   UIAccessibilityElement *element =
       [[UIAccessibilityElement alloc] initWithAccessibilityContainer:container];
 
-  // Set up heirarchy: containersContainer -> container -> element
+  // Set up hierarchy: containersContainer -> container -> element
   element.accessibilityContainer = container;
   container.accessibilityContainer = containersContainer;
   XCTAssertEqualObjects([element grey_viewContainingSelf], containersContainer);
@@ -226,7 +226,7 @@
       [[UIAccessibilityElement alloc] initWithAccessibilityContainer:viewContainer];
   id webViewContainer = [OCMockObject mockForClass:NSClassFromString(@"UIWebView")];
 
-  // Set up heirarchy: webViewContainer -> viewContainer -> container -> element
+  // Set up hierarchy: webViewContainer -> viewContainer -> container -> element
   [[[element stub] andReturn:container] grey_container];
   [[[viewContainer stub] andReturn:webViewContainer] grey_container];
   [[[webViewContainer stub] andReturn:nil] grey_container];

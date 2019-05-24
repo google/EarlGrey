@@ -39,7 +39,7 @@ static NSString *const kTrackingEndPoint = @"https://ssl.google-analytics.com/co
 @end
 
 @implementation GREYAnalytics {
-  // Overriden GREYAnalytics delegate for custom handling of analytics.
+  // Overridden GREYAnalytics delegate for custom handling of analytics.
   __weak id<GREYAnalyticsDelegate> _delegate;
   // Once set, analytics will be sent on next XCTestCase tearDown.
   BOOL _earlgreyWasCalledInXCTestContext;
