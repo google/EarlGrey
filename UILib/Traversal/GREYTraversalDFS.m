@@ -68,14 +68,15 @@
   return element.element;
 }
 
-- (void)enumerateUsingBlock:(void (^)(id view, NSUInteger level))block {
+- (void)enumerateUsingBlock:(void (^)(id view, NSUInteger level, BOOL *stop))block {
   GREYThrowOnNilParameter(block);
 
   // Loop till we have explored each element in the hierarchy.
   GREYTraversalObject *object;
-  while ((object = [self grey_nextObjectDFS])) {
+  BOOL stop = NO;
+  while (!stop && (object = [self grey_nextObjectDFS])) {
     // For each element call the @c block.
-    block(object.element, object.level);
+    block(object.element, object.level, &stop);
   }
 }
 

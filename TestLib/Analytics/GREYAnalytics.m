@@ -24,6 +24,7 @@
 #import "TestLib/Analytics/GREYAnalyticsDelegate.h"
 #import "TestLib/AppleInternals/GREYXCTestAppleInternals.h"
 #import "TestLib/XCTestCase/XCTestCase+GREYTest.h"
+#import "UILib/GREYVisibilityChecker.h"
 
 /**
  *  The Analytics tracking ID that receives EarlGrey usage data.
@@ -144,6 +145,7 @@ static NSString *const kTrackingEndPoint = @"https://ssl.google-analytics.com/co
  *  category and "TestCase_{x}" as the sub-category where 'x' is the current test case count.
  */
 - (void)grey_testCaseInstanceDidTearDown {
+  // TODO(b/131726826): Delete this code in favor of a better analytics mechanism.
   if (_earlgreyWasCalledWithinXCTestContext) {
     // Reset var to track multiple test case invocations.
     _earlgreyWasCalledWithinXCTestContext = NO;
@@ -168,6 +170,14 @@ static NSString *const kTrackingEndPoint = @"https://ssl.google-analytics.com/co
                                      category:bundleIDMD5
                                        action:action
                                         value:value];
+      XCUIApplicationState state = [[[XCUIApplication alloc] init] state];
+      if ([self.delegate respondsToSelector:@selector(trackVisibilityDuration:)] &&
+          state == XCUIApplicationStateRunningForeground) {
+        CFTimeInterval visibilityDuration =
+            [GREYVisibilityChecker resetAndReturnTotalVisibilityCheckingTime];
+        [self.delegate
+            trackVisibilityDuration:[NSString stringWithFormat:@"%f", visibilityDuration]];
+      }
     }
   }
 }

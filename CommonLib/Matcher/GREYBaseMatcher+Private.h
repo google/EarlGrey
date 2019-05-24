@@ -1,5 +1,5 @@
 //
-// Copyright 2018 Google Inc.
+// Copyright 2019 Google Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,12 +14,16 @@
 // limitations under the License.
 //
 
-#import "AppFramework/Action/GREYAction.h"
-#import "AppFramework/Action/GREYActionBlock.h"
-#import "AppFramework/Action/GREYActions.h"
-#import "CommonLib/Config/GREYAppState.h"
-#import "CommonLib/Config/GREYConfiguration.h"
-#import "CommonLib/DistantObject/GREYHostApplicationDistantObject.h"
-#import "CommonLib/Matcher/GREYMatcher.h"
-#import "TestLib/AlertHandling/XCTestCase+GREYSystemAlertHandler.h"
-#import "TestLib/EarlGreyImpl/EarlGrey.h"
+#import "CommonLib/Matcher/GREYBaseMatcher.h"
+
+NS_ASSUME_NONNULL_BEGIN
+
+/** Private category for diagnostics purpose. */
+@interface GREYBaseMatcher ()
+
+/** Identifier of GREYBaseMatcher for internal use. */
+@property(nonatomic, copy) NSString *name;
+
+@end
+
+NS_ASSUME_NONNULL_END

@@ -16,6 +16,8 @@
 
 #import "CommonLib/Config/GREYConfiguration.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  The implementation for the app under test.
  *
@@ -31,3 +33,5 @@
  */
 - (void)updateConfiguration:(NSDictionary<NSString *, id> *)configuration;
 @end
+
+NS_ASSUME_NONNULL_END

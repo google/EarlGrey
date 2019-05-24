@@ -15,6 +15,7 @@
 //
 
 #import "AppFramework/Matcher/GREYAllOf.h"
+#import "AppFramework/Matcher/GREYAllOf+Private.h"
 
 #import "CommonLib/Assertion/GREYThrowDefines.h"
 #import "CommonLib/Matcher/GREYDescription.h"
@@ -23,6 +24,7 @@
 @implementation GREYAllOf {
   NSArray<id<GREYMatcher>> *_matchers;
 }
+@synthesize name;
 
 - (instancetype)initWithMatchers:(NSArray<id<GREYMatcher>> *)matchers {
   GREYThrowOnFailedCondition(matchers.count > 0);
@@ -36,6 +38,15 @@
       [matchersCopy addObject:[matchers objectAtIndex:i]];
     }
     _matchers = [NSArray arrayWithArray:matchersCopy];
+  }
+  return self;
+}
+
+- (instancetype)initWithMatchers:(NSArray<__kindof id<GREYMatcher>> *)matchers
+                            name:(NSString *)name {
+  self = [self initWithMatchers:matchers];
+  if (self) {
+    self.name = name;
   }
   return self;
 }

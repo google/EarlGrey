@@ -41,7 +41,10 @@
           [GREYFrameworkException exceptionWithName:[interactionError domain]
                                              reason:[interactionError localizedDescription]
                                            userInfo:[interactionError userInfo]];
-      id<GREYFailureHandler> failureHandler = GREYGetFailureHandler();
+
+      id<GREYFailureHandler> failureHandler =
+          [NSThread currentThread].threadDictionary[GREYFailureHandlerKey];
+
       NSString *errorDetails = [[exception userInfo] valueForKey:kErrorDetailElementMatcherKey];
       [failureHandler handleException:exception details:errorDetails];
     }

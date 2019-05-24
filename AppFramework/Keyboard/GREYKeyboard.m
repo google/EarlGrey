@@ -20,7 +20,7 @@
 #include <stdatomic.h>
 
 #import "AppFramework/Action/GREYTapAction.h"
-#import "AppFramework/Core/GREYElementInteraction.h"
+#import "AppFramework/Core/GREYInteraction.h"
 #import "AppFramework/Error/GREYAppError.h"
 #import "AppFramework/Synchronization/GREYAppStateTracker.h"
 #import "AppFramework/Synchronization/GREYAppStateTrackerObject.h"
