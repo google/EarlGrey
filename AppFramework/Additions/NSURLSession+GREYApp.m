@@ -47,10 +47,12 @@ typedef void (^GREYTaskCompletionBlock)(NSData *data, NSURLResponse *response, N
 
 - (NSURLSessionDataTask *)greyswizzled_dataTaskWithRequest:(NSURLRequest *)request
                                          completionHandler:(GREYTaskCompletionBlock)handler {
+  SEL swizzledSel = @selector(greyswizzled_URLSession:task:didCompleteWithError:);
   // Swizzle the session delegate class if not yet done.
   id delegate = self.delegate;
-  SEL swizzledSel = @selector(greyswizzled_URLSession:task:didCompleteWithError:);
-  Class delegateClass = [delegate class];
+  SEL originalSel = @selector(URLSession:task:didCompleteWithError:);
+  Class delegateClass =
+      [[delegate forwardingTargetForSelector:originalSel] class] ?: [delegate class];
 
   if (![delegateClass instancesRespondToSelector:swizzledSel]) {
     SEL originalSel = @selector(URLSession:task:didCompleteWithError:);
