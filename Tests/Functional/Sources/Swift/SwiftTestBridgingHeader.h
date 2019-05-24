@@ -17,6 +17,7 @@
 #import "AppFramework/Action/GREYAction.h"
 #import "AppFramework/Action/GREYActionBlock.h"
 #import "AppFramework/Action/GREYActions.h"
+#import "CommonLib/Config/GREYAppState.h"
 #import "CommonLib/Config/GREYConfiguration.h"
 #import "CommonLib/DistantObject/GREYHostApplicationDistantObject.h"
 #import "CommonLib/Matcher/GREYMatcher.h"
