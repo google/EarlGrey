@@ -31,18 +31,16 @@
 #import "CommonLib/Exceptions/GREYFrameworkException.h"
 #import "CommonLib/GREYDefines.h"
 
-/**
- *  Exposes internal method to get the failure handler registered with EarlGrey.
- *  It must be called from main thread otherwise the behavior is undefined.
- */
-GREY_EXPORT id<GREYFailureHandler> GREYGetFailureHandler(void);
-
 #pragma mark - Private Macros
+
+// Key used to fetch failure handler from thread object's dictionary.
+GREY_EXTERN NSString *const GREYFailureHandlerKey;
 
 // No private macro should call this.
 #define I_GREYSetCurrentAsFailable()                                                             \
   ({                                                                                             \
-    id<GREYFailureHandler> failureHandler__ = GREYGetFailureHandler();                           \
+    id<GREYFailureHandler> failureHandler__ =                                                    \
+        [NSThread currentThread].threadDictionary[GREYFailureHandlerKey];                        \
     if ([failureHandler__ respondsToSelector:@selector(setInvocationFile:andInvocationLine:)]) { \
       NSString *invocationFile = [NSString stringWithUTF8String:__FILE__];                       \
       if (invocationFile) {                                                                      \
@@ -68,7 +66,8 @@ GREY_EXPORT id<GREYFailureHandler> GREYGetFailureHandler(void);
   ({                                                                                             \
     NSString *details__;                                                                         \
     I_GREYFormattedString(details__, __details, ##__VA_ARGS__);                                  \
-    id<GREYFailureHandler> failureHandler__ = GREYGetFailureHandler();                           \
+    id<GREYFailureHandler> failureHandler__ =                                                    \
+        [NSThread currentThread].threadDictionary[GREYFailureHandlerKey];                        \
     [failureHandler__ handleException:[GREYFrameworkException exceptionWithName:__exceptionName  \
                                                                          reason:(__description)] \
                               details:(details__)];                                              \

@@ -23,16 +23,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface NSString (GREYCommon)
 
 /**
- *  Returns @c YES if the current string is @b not an empty string (length = 0) after being trimmed
- *  for whitespaces and newline characters.
- *  @remark Since it is valid to send this message to @c nil instances, we use @c isNonEmpty
- *          instead of @c isEmpty to return a valid result (@c NO).
- *
- *  @return @c NO if current string is empty, @c YES otherwise.
- */
-- (BOOL)grey_isNonEmptyAfterTrimming;
-
-/**
  *  @return A string with the MD5 hash of the given input @c string.
  */
 - (NSString *)grey_md5String;

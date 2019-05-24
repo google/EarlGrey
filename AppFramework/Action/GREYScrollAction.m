@@ -107,20 +107,20 @@ static const NSInteger kMinTouchPointsToDetectScrollResistance = 2;
 
 #pragma mark - GREYAction
 
-- (BOOL)perform:(id)element error:(__strong NSError **)errorOrNil {
+- (BOOL)perform:(id)element error:(__strong NSError **)error {
   __block BOOL retVal = NO;
   grey_dispatch_sync_on_main_thread(^{
     // We aggressively access UI elements when performing the action, rather than having pieces
     // running on the main thread separately, the whole action will be performed on the main thread.
-    retVal = [self grey_perform:element error:errorOrNil];
+    retVal = [self grey_perform:element error:error];
   });
   return retVal;
 }
 
 #pragma mark - Private
 
-- (BOOL)grey_perform:(UIScrollView *)element error:(__strong NSError **)errorOrNil {
-  if (![self satisfiesConstraintsForElement:element error:errorOrNil]) {
+- (BOOL)grey_perform:(UIScrollView *)element error:(__strong NSError **)error {
+  if (![self satisfiesConstraintsForElement:element error:error]) {
     return NO;
   }
 
@@ -149,7 +149,7 @@ static const NSInteger kMinTouchPointsToDetectScrollResistance = 2;
                                                         startPointPercents:_startPointPercents
                                                         outRemainingAmount:&amountRemaining];
       if (!touchPath) {
-        I_GREYPopulateError(errorOrNil, kGREYScrollErrorDomain, kGREYScrollImpossible,
+        I_GREYPopulateError(error, kGREYScrollErrorDomain, kGREYScrollImpossible,
                             @"Cannot scroll, ensure that the selected scroll view "
                             @"is wide enough to scroll.");
         return NO;
@@ -158,7 +158,7 @@ static const NSInteger kMinTouchPointsToDetectScrollResistance = 2;
     }
   }
   if (!success) {
-    I_GREYPopulateError(errorOrNil, kGREYScrollErrorDomain, kGREYScrollReachedContentEdge,
+    I_GREYPopulateError(error, kGREYScrollErrorDomain, kGREYScrollReachedContentEdge,
                         @"Cannot scroll, the scrollview is already at the edge.");
   }
   return success;

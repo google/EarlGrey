@@ -90,11 +90,11 @@
 
 #pragma mark - GREYAction
 
-- (BOOL)perform:(id)element error:(__strong NSError **)errorOrNil {
+- (BOOL)perform:(id)element error:(__strong NSError **)error {
   __block NSArray *touchPath = nil;
   __block UIWindow *window = nil;
   grey_dispatch_sync_on_main_thread(^{
-    if (![self satisfiesConstraintsForElement:element error:errorOrNil]) {
+    if (![self satisfiesConstraintsForElement:element error:error]) {
       return;
     }
 
@@ -108,16 +108,11 @@
                           @"Cannot swipe on view [V], as it has no window and "
                           @"it isn't a window itself."];
         NSDictionary *glossary = @{@"V" : [element grey_description]};
-        GREYError *error =
+        GREYError *injectionError =
             GREYErrorMakeWithHierarchy(kGREYSyntheticEventInjectionErrorDomain,
                                        kGREYOrientationChangeFailedErrorCode, errorDescription);
-        error.descriptionGlossary = glossary;
-        if (errorOrNil) {
-          *errorOrNil = error;
-        } else {
-          [NSException grey_raise:kGREYGenericFailureException withError:error];
-        }
-
+        injectionError.descriptionGlossary = glossary;
+        *error = injectionError;
         return;
       }
     }

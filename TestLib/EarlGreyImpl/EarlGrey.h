@@ -37,9 +37,25 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  Key for currently set failure handler for EarlGrey in thread's local storage dictionary.
+ *  Key for setting a new or retrieving the existing failure handler for EarlGrey. Each failure
+ *  handler is tied to the existing thread object's dictionary. When an EarlGrey call fails, it
+ *  calls into the currently set failure handler to handle the exception.
+ *
+ *  To set a new failure handler (for the current thread):
+ *   @code
+ *   [NSThread currentThread].threadDictionary[GREYFailureHandlerKey] = newHandler;
+ *   @endcode
+ *
+ *  To get the failure handler (for the current thread):
+ *   @code
+ *   id<GREYFailureHandler> currentHandler =
+ *       [NSThread currentThread].threadDictionary[GREYFailureHandlerKey];
+ *   @endcode
+ *
+ *  @note It's possible that the current thread does not have a handler, in which case one will be
+ *        created and assigned by EarlGrey when it's called.
  */
-GREY_EXTERN NSString *const kGREYFailureHandlerKey;
+GREY_EXTERN NSString *const GREYFailureHandlerKey;
 
 /**
  *  Convenience replacement for every EarlGrey method call with
@@ -106,19 +122,8 @@ GREY_EXTERN NSString *const kGREYFailureHandlerKey;
 - (id<GREYInteraction>)selectElementWithMatcher:(id<GREYMatcher>)elementMatcher;
 
 /**
- *  Sets the global failure handler for all framework related failures.
- *
- *  A default failure handler is provided by the framework and it is @b strongly advised to use
- *  that if you don't need to customize error handling in your test. Passing in @c nil will revert
- *  the failure handler to default framework provided failure handler.
- *
- *  @param handler The failure handler to be used for all test failures.
- */
-- (void)setFailureHandler:(nullable id<GREYFailureHandler>)handler;
-
-/**
- *  Convenience wrapper to invoke GREYFailureHandler::handleException:details: on the global
- *  failure handler.
+ *  Convenience wrapper to invoke GREYFailureHandler::handleException:details: on the failure
+ *  handler for the current thread.
  *
  *  @param exception The exception to be handled.
  *  @param details   Any extra details about the failure.

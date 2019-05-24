@@ -58,19 +58,19 @@
 
 #pragma mark - GREYAction
 
-- (BOOL)perform:(UIPickerView *)pickerView error:(__strong NSError **)errorOrNil {
+- (BOOL)perform:(UIPickerView *)pickerView error:(__strong NSError **)error {
   __block BOOL retVal = NO;
   grey_dispatch_sync_on_main_thread(^{
     // We manipulate the picker view on the main thread.
-    retVal = [self grey_perform:pickerView error:errorOrNil];
+    retVal = [self grey_perform:pickerView error:error];
   });
   return retVal;
 }
 
 #pragma mark - Private
 
-- (BOOL)grey_perform:(UIPickerView *)pickerView error:(__strong NSError **)errorOrNil {
-  if (![self satisfiesConstraintsForElement:pickerView error:errorOrNil]) {
+- (BOOL)grey_perform:(UIPickerView *)pickerView error:(__strong NSError **)error {
+  if (![self satisfiesConstraintsForElement:pickerView error:error]) {
     return NO;
   }
 
@@ -82,7 +82,7 @@
                                           @"cannot find the column %lu.",
                                           (unsigned long)_column];
     NSDictionary *glossary = @{@"P" : [pickerView description]};
-    I_GREYPopulateErrorNoted(errorOrNil, kGREYInteractionErrorDomain,
+    I_GREYPopulateErrorNoted(error, kGREYInteractionErrorDomain,
                              kGREYInteractionActionFailedErrorCode, description, glossary);
 
     return NO;
@@ -126,8 +126,7 @@
       return YES;
     }
   }
-  I_GREYPopulateError(errorOrNil, kGREYInteractionErrorDomain,
-                      kGREYInteractionActionFailedErrorCode,
+  I_GREYPopulateError(error, kGREYInteractionErrorDomain, kGREYInteractionActionFailedErrorCode,
                       @"UIPickerView does not contain desired value!");
   return NO;
 }
