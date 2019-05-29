@@ -35,7 +35,7 @@
   }
 
   NSInteger charIndex = aChar - 'A';
-  // Compute the char's position from its index. The chars are layed out in a grid of size W X H
+  // Compute the char's position from its index. The chars are laid out in a grid of size W X H
   // where W and H are itemsPerSide.
   NSInteger xIndex = charIndex % itemsPerSide;
   NSInteger yIndex = charIndex / itemsPerSide;

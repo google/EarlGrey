@@ -48,7 +48,7 @@ static NSString *const kNetworkProxyRuleRegexKey = @"kNetworkProxyRuleRegexKey";
 static NSString *const kNetworkProxyRuleResponseKey = @"kNetworkProxyRuleResponseKey";
 
 /**
- *  Error domain for errors occuring in NetworkProxy.
+ *  Error domain for errors occurring in NetworkProxy.
  */
 static NSString *const kNetworkProxyErrorDomain = @"com.google.earlgrey.NetworkProxyErrorDomain";
 

@@ -151,7 +151,7 @@
       break;
 
     default:
-      GREYAssert(NO, @"Unknown comparision result was expected %d", (int)expectedOrder);
+      GREYAssert(NO, @"Unknown comparison result was expected %d", (int)expectedOrder);
   }
 
   GREYAssert(success, @"Image sizes before pinch - %@ and after pinch - %@ must be %@.",

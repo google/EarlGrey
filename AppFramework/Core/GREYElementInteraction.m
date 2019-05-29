@@ -248,7 +248,7 @@
 
   __block GREYError *actionError = nil;
   @autoreleasepool {
-    // Create the user info dictionary for any notificatons and set it up with the action.
+    // Create the user info dictionary for any notifications and set it up with the action.
     NSMutableDictionary *actionUserInfo = [[NSMutableDictionary alloc] init];
     [actionUserInfo setObject:action forKey:kGREYActionUserInfoKey];
     NSNotificationCenter *defaultNotificationCenter = [NSNotificationCenter defaultCenter];
@@ -365,7 +365,7 @@
                                                                        andError:&assertionError]
                                     : nil;
 
-                            // Create the user info dictionary for any notificatons and set it up
+                            // Create the user info dictionary for any notifications and set it up
                             // with the assertion.
                             NSMutableDictionary *assertionUserInfo =
                                 [[NSMutableDictionary alloc] init];

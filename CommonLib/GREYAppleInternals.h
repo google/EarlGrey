@@ -114,7 +114,7 @@
  *  after user stopped dragging it. @c notify determines whether UIScrollViewDelegate will be
  *  notified that scrolling has finished.
  *
- *  @param notify An indicator specifiying if scrolling has finished.
+ *  @param notify An indicator specifying if scrolling has finished.
  */
 - (void)_stopScrollDecelerationNotify:(BOOL)notify;
 @end

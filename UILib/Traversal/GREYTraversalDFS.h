@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  *  Class method to initialize the object. The hierarchy is unrolled from front to back in a DFS
- *  fashion and an internal represenation is created.
+ *  fashion and an internal representation is created.
  *
  *  @param element Single UI element whose UI hierarchy needs to be unrolled.
  *
@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  *  Class method to initialize the object. The hierarchy is unrolled from back to front in a DFS
- *  fashion and an internal represenation is created.
+ *  fashion and an internal representation is created.
  *
  *  @param element Single UI element whose UI hierarchy needs to be unrolled.
  *
