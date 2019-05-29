@@ -170,7 +170,7 @@ GREY_EXTERN NSString *const GREYFailureHandlerKey;
  *
  *  This method only works with Xcode 9 or above.
  *
- *  Due to Apple testing framework has an implicit 5 seconds timeout for app launch during
+ *  Due to Apple testing framework having an implicit 5 seconds timeout for app launch during
  *  test case, the test case using this method could potentially fail high-loaded machines.
  *  The workaround is to warm up the Safari app in app test @c setUp().
  *
