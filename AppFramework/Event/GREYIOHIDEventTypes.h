@@ -210,7 +210,7 @@ void IOHIDEventSetIntegerValue(IOHIDEventRef hidEventRef, IOHIDEventField field,
 @end
 
 /**
- *  Exposes methods for setting propeties on UITouch for faking user interaction.
+ *  Exposes methods for setting properties on UITouch for faking user interaction.
  */
 @interface UITouch (GREYIOHIDEventTypes)
 

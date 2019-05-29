@@ -58,7 +58,7 @@
 
 /**
  *  @return Returns an array of all the requests proxied since the proxy was enabled or since it
- *          was last cleared which ever happend the last.
+ *          was last cleared which ever happened the last.
  */
 + (NSArray *)requestsReceived;
 

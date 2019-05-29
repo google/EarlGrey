@@ -190,7 +190,7 @@ typedef NS_ENUM(NSInteger, GREYLayoutAttribute) {
 };
 
 /**
- *  Layout relations for comparision of layout attributes (modelled after @c NSLayoutRelation).
+ *  Layout relations for comparison of layout attributes (modelled after @c NSLayoutRelation).
  */
 typedef NS_ENUM(NSInteger, GREYLayoutRelation) {
   /**

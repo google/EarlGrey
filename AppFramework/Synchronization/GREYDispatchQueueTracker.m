@@ -156,7 +156,7 @@ static void grey_dispatch_after_f(dispatch_time_t when, dispatch_queue_t queue, 
 }
 
 /**
- *  Overriden implementation of @c dispatch_async_f that calls into the tracker, if one is found
+ *  Overridden implementation of @c dispatch_async_f that calls into the tracker, if one is found
  *  for the dispatch queue passed in.
  *
  *  @param queue   Same as @c dispatch_async_f @c queue.

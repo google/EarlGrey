@@ -124,7 +124,7 @@ static const NSInteger kMinTouchPointsToDetectScrollResistance = 2;
     return NO;
   }
 
-  // To scroll WebViews we must use the UIScrollView in its heirarchy and scroll it.
+  // To scroll WebViews we must use the UIScrollView in its hierarchy and scroll it.
   // TODO: Add tests for WKWebView.
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"

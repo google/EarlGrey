@@ -32,7 +32,7 @@
 + (instancetype)providerWithWindows:(NSArray *)windows;
 
 /**
- *  Class method to get a provider with all the windows currently registed with the app.
+ *  Class method to get a provider with all the windows currently registered with the app.
  *
  *  @param includeStatusBar Should the status bar be included in the list of windows.
  *
