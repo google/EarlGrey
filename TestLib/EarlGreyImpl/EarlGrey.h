@@ -147,15 +147,20 @@ GREY_EXTERN NSString *const GREYFailureHandlerKey;
 - (BOOL)rotateDeviceToOrientation:(UIDeviceOrientation)deviceOrientation error:(NSError **)error;
 
 /**
- *  Dismisses the keyboard by hitting the return button on the keyboard or resigning the first
- *  responder in the application if the return key isn't present. Will populate the provided error
- *  if any issue is raised.
+ *  Dismisses the keyboard programmatically by calling resignFirstResponder on application under
+ *  test. Populates the provided error if any issue is raised.
  *
- *  @remark Hitting the return key can also trigger other behavior. Ensure there isn't
- *          any issue with hitting the return key when using this method.
+ *  This behavior can also be triggered by hitting the return key on the keyboard however we do not
+ *  do that because it can have side-effects e.g. such as inserting a new line for the Notes.app.
+ *  If the return key is intended to dismiss the keyboard then we recommend using the following
+ *  EarlGrey statement instead:
  *
- *  @param[out] error Error that will be populated on failure. If @c nil, a test
- *                    failure will be reported if the dismissing fails.
+ *   @code
+ *   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"return")]
+ *       performAction:grey_tap()];
+ *   @endcode
+ *
+ *  @param[out] error Error that will be populated on failure.
  *
  *  @throws GREYFrameworkException if there is an issue dismissing the keyboard.
  *
