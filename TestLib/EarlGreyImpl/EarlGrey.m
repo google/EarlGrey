@@ -104,21 +104,14 @@ static inline id<GREYFailureHandler> GREYGetCurrentFailureHandler() {
 
 - (BOOL)dismissKeyboardWithError:(NSError **)error {
   GREYError *dismissalError = nil;
-  BOOL success = NO;
-  id<GREYMatcher> keyboardKeyMatcher =
-      grey_allOf(grey_accessibilityLabel(@"return"),
-                 grey_kindOfClassName(@"UIAccessibilityElementKBKey"), nil);
-  [[self selectElementWithMatcher:keyboardKeyMatcher] performAction:grey_tap()
-                                                              error:&dismissalError];
-  if ([dismissalError.domain isEqualToString:kGREYInteractionErrorDomain] &&
-      dismissalError.code == kGREYInteractionElementNotFoundErrorCode) {
-    // Try to dismiss the keyboard programmatically.
-    success = [GREYKeyboard dismissKeyboardWithoutReturnKeyWithError:&dismissalError];
-  } else {
-    success = !dismissalError;
-  }
+  BOOL success = [GREYKeyboard dismissKeyboardWithoutReturnKeyWithError:&dismissalError];
   if (!success) {
-    dismissalError = [self grey_errorForKeyboardNotPresentWithInternalError:dismissalError];
+    NSString *errorDescription =
+        [NSString stringWithFormat:@"Failed to dismiss keyboard since it was not showing. "
+                                   @"Internal Error: %@",
+                                   dismissalError.description];
+    dismissalError = GREYErrorMake(kGREYKeyboardDismissalErrorDomain,
+                                   GREYKeyboardDismissalFailedErrorCode, errorDescription);
     if (error) {
       *error = dismissalError;
     } else {
@@ -210,21 +203,6 @@ static inline id<GREYFailureHandler> GREYGetCurrentFailureHandler() {
   id remoteObject = [EDOClientService classObjectWithName:NSStringFromClass(theClass) port:port];
   I_GREYAssertNotNil(remoteObject, @"Class %@ does not exist in app", theClass);
   return remoteObject;
-}
-
-/**
- *  @return A GREYError containing details for why the keyboard was not dismissed, containing the
- *          description of the underlying error.
- *
- *  @param underlyingError The error which caused the failure in dismissing the keyboard.
- */
-- (GREYError *)grey_errorForKeyboardNotPresentWithInternalError:(GREYError *)underlyingError {
-  NSString *errorDescription =
-      [NSString stringWithFormat:@"Failed to dismiss keyboard since it was not showing. "
-                                 @"Internal Error: %@",
-                                 underlyingError.description];
-  return GREYErrorMake(kGREYKeyboardDismissalErrorDomain, GREYKeyboardDismissalFailedErrorCode,
-                       errorDescription);
 }
 
 @end
