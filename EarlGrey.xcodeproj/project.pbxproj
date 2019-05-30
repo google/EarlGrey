@@ -225,6 +225,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		FD1AB753229F7E1A0026B3CB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FD6239E420F56E6A00049E81 /* eDistantObject.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C845026420DD9D2E00D7350F;
+			remoteInfo = ChannelLib;
+		};
+		FD1AB755229F7E1A0026B3CB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FD6239E420F56E6A00049E81 /* eDistantObject.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C88B8A6F21ADD3BE00DDE607;
+			remoteInfo = MeasureLib;
+		};
 		FD3A824A21F187B700CA3ADF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = FD6239E420F56E6A00049E81 /* eDistantObject.xcodeproj */;
@@ -359,36 +373,6 @@
 			remoteInfo = CommonLib;
 		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		FD5048F620FB225100261CBE /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "include/$(PRODUCT_NAME)";
-			dstSubfolderSpec = 16;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		FD62394F20F56A9700049E81 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "include/$(PRODUCT_NAME)";
-			dstSubfolderSpec = 16;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		FDF9E03320F82D090005DCF2 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "include/$(PRODUCT_NAME)";
-			dstSubfolderSpec = 16;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		FD1184CB212CEE72004CADC3 /* XCUIApplication+GREYEnvironment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "XCUIApplication+GREYEnvironment.h"; path = "XCTestCase/XCUIApplication+GREYEnvironment.h"; sourceTree = "<group>"; };
@@ -1499,7 +1483,6 @@
 			buildPhases = (
 				FD5048F420FB225100261CBE /* Sources */,
 				FD5048F520FB225100261CBE /* Frameworks */,
-				FD5048F620FB225100261CBE /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -1517,7 +1500,6 @@
 			buildPhases = (
 				FD62394D20F56A9700049E81 /* Sources */,
 				FD62394E20F56A9700049E81 /* Frameworks */,
-				FD62394F20F56A9700049E81 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -1537,11 +1519,13 @@
 				FD623A4420F957BE00049E81 /* Sources */,
 				FD623A4520F957BE00049E81 /* Frameworks */,
 				FD623A4620F957BE00049E81 /* Headers */,
-				FD623A4720F957BE00049E81 /* Resources */,
+				FD1AB752229F7DF00026B3CB /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				FD1AB754229F7E1A0026B3CB /* PBXTargetDependency */,
+				FD1AB756229F7E1A0026B3CB /* PBXTargetDependency */,
 				FD66782C211FAE3D008EC4A7 /* PBXTargetDependency */,
 				FD66782A211FAE3A008EC4A7 /* PBXTargetDependency */,
 				FD623BD920F9726300049E81 /* PBXTargetDependency */,
@@ -1557,7 +1541,6 @@
 			buildPhases = (
 				FDF9E03120F82D090005DCF2 /* Sources */,
 				FDF9E03220F82D090005DCF2 /* Frameworks */,
-				FDF9E03320F82D090005DCF2 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -1696,15 +1679,25 @@
 		};
 /* End PBXReferenceProxy section */
 
-/* Begin PBXResourcesBuildPhase section */
-		FD623A4720F957BE00049E81 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
+/* Begin PBXShellScriptBuildPhase section */
+		FD1AB752229F7DF00026B3CB /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
 			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "sh Scripts/build_universal_framework.sh\n";
 		};
-/* End PBXResourcesBuildPhase section */
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		FD5048F420FB225100261CBE /* Sources */ = {
@@ -1869,6 +1862,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		FD1AB754229F7E1A0026B3CB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ChannelLib;
+			targetProxy = FD1AB753229F7E1A0026B3CB /* PBXContainerItemProxy */;
+		};
+		FD1AB756229F7E1A0026B3CB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = MeasureLib;
+			targetProxy = FD1AB755229F7E1A0026B3CB /* PBXContainerItemProxy */;
+		};
 		FD623A0120F56E9700049E81 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = eDistantObject;
