@@ -212,6 +212,160 @@
 		FD98C45E226C2E65006F8D68 /* GREYAppError.h in Headers */ = {isa = PBXBuildFile; fileRef = FD98C45D226C2E64006F8D68 /* GREYAppError.h */; };
 		FD98C461226C32FC006F8D68 /* GREYElementInteractionErrorHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C460226C32FB006F8D68 /* GREYElementInteractionErrorHandler.m */; };
 		FD98C464226C330A006F8D68 /* GREYFailureScreenshotSaver.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C462226C3309006F8D68 /* GREYFailureScreenshotSaver.m */; };
+		FDE1303522A0CD260045149F /* NSURLConnection+GREYApp.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623A9420F9590500049E81 /* NSURLConnection+GREYApp.m */; };
+		FDE1303622A0CD260045149F /* NSRunLoop+GREYApp.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623AA520F9590700049E81 /* NSRunLoop+GREYApp.m */; };
+		FDE1303722A0CD260045149F /* GREYAnyOf.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B5F20F95B0200049E81 /* GREYAnyOf.m */; };
+		FDE1303822A0CD260045149F /* GREYObjectDeallocationTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B7320F95B1400049E81 /* GREYObjectDeallocationTracker.m */; };
+		FDE1303922A0CD260045149F /* GREYCAAnimationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B0420F9595300049E81 /* GREYCAAnimationDelegate.m */; };
+		FDE1303A22A0CD260045149F /* GREYTestStub.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B1120F95A5300049E81 /* GREYTestStub.m */; };
+		FDE1303B22A0CD260045149F /* GREYTapAction.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623A6D20F958C200049E81 /* GREYTapAction.m */; };
+		FDE1303C22A0CD260045149F /* NSTimer+GREYApp.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623A9320F9590500049E81 /* NSTimer+GREYApp.m */; };
+		FDE1303D22A0CD260045149F /* GREYNSTimerIdlingResource.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B3A20F95A9B00049E81 /* GREYNSTimerIdlingResource.m */; };
+		FDE1303E22A0CD260045149F /* GREYRunLoopSpinner.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B7C20F95B1500049E81 /* GREYRunLoopSpinner.m */; };
+		FDE1303F22A0CD260045149F /* GREYPinchAction.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623A5E20F958C100049E81 /* GREYPinchAction.m */; };
+		FDE1304022A0CD260045149F /* GREYTimedIdlingResource.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B3620F95A9B00049E81 /* GREYTimedIdlingResource.m */; };
+		FDE1304122A0CD260045149F /* GREYNSURLConnectionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B0320F9595300049E81 /* GREYNSURLConnectionDelegate.m */; };
+		FDE1304222A0CD260045149F /* UISwitch+GREYApp.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623A9E20F9590600049E81 /* UISwitch+GREYApp.m */; };
+		FDE1304322A0CD260045149F /* GREYHostBackgroundDistantObject+GREYApp.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B1220F95A5400049E81 /* GREYHostBackgroundDistantObject+GREYApp.m */; };
+		FDE1304422A0CD260045149F /* GREYDispatchQueueIdlingResource.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B3720F95A9B00049E81 /* GREYDispatchQueueIdlingResource.m */; };
+		FDE1304522A0CD260045149F /* NSObject+GREYApp.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623A9220F9590500049E81 /* NSObject+GREYApp.m */; };
+		FDE1304622A0CD260045149F /* GREYActions.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623A6520F958C100049E81 /* GREYActions.m */; };
+		FDE1304722A0CD260045149F /* GREYAutomationSetup.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623AEA20F9592B00049E81 /* GREYAutomationSetup.m */; };
+		FDE1304822A0CD260045149F /* GREYScrollToContentEdgeAction.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623A7020F958C200049E81 /* GREYScrollToContentEdgeAction.m */; };
+		FDE1304922A0CD260045149F /* GREYUIThreadExecutor.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B8120F95B1500049E81 /* GREYUIThreadExecutor.m */; };
+		FDE1304A22A0CD260045149F /* GREYTouchInjector.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B2B20F95A8600049E81 /* GREYTouchInjector.m */; };
+		FDE1304B22A0CD260045149F /* UIViewController+GREYApp.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623A9720F9590600049E81 /* UIViewController+GREYApp.m */; };
+		FDE1304C22A0CD260045149F /* GREYKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B5220F95AF400049E81 /* GREYKeyboard.m */; };
+		FDE1304D22A0CD260045149F /* GREYActionsShorthand.m in Sources */ = {isa = PBXBuildFile; fileRef = FD3A825921F189BB00CA3ADF /* GREYActionsShorthand.m */; };
+		FDE1304E22A0CD260045149F /* GREYAppFailureHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B2020F95A7200049E81 /* GREYAppFailureHandler.m */; };
+		FDE1304F22A0CD260045149F /* UIAnimation+GREYApp.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623AB620F9590800049E81 /* UIAnimation+GREYApp.m */; };
+		FDE1305022A0CD260045149F /* GREYSyncAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B7620F95B1400049E81 /* GREYSyncAPI.m */; };
+		FDE1305122A0CD260045149F /* GREYSlideAction.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623A6620F958C100049E81 /* GREYSlideAction.m */; };
+		FDE1305222A0CD260045149F /* UIGestureRecognizer+GREYApp.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623AAE20F9590700049E81 /* UIGestureRecognizer+GREYApp.m */; };
+		FDE1305322A0CD260045149F /* GREYUIWebViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623AFF20F9595300049E81 /* GREYUIWebViewDelegate.m */; };
+		FDE1305422A0CD260045149F /* GREYAppStateTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B7920F95B1500049E81 /* GREYAppStateTracker.m */; };
+		FDE1305522A0CD260045149F /* GREYScrollAction.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623A6820F958C100049E81 /* GREYScrollAction.m */; };
+		FDE1305622A0CD260045149F /* GREYUIWebViewIdlingResource.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B4020F95A9C00049E81 /* GREYUIWebViewIdlingResource.m */; };
+		FDE1305722A0CD260045149F /* UIScrollView+GREYApp.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623AA820F9590700049E81 /* UIScrollView+GREYApp.m */; };
+		FDE1305822A0CD260045149F /* GREYActionBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623A5520F958C000049E81 /* GREYActionBlock.m */; };
+		FDE1305922A0CD260045149F /* GREYDispatchQueueTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B7D20F95B1500049E81 /* GREYDispatchQueueTracker.m */; };
+		FDE1305A22A0CD260045149F /* __NSCFLocalDataTask_GREYApp.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623AB420F9590800049E81 /* __NSCFLocalDataTask_GREYApp.m */; };
+		FDE1305B22A0CD260045149F /* fishhook.c in Sources */ = {isa = PBXBuildFile; fileRef = FD623B9B20F95C8100049E81 /* fishhook.c */; };
+		FDE1305C22A0CD260045149F /* GREYPickerAction.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623A6E20F958C200049E81 /* GREYPickerAction.m */; };
+		FDE1305D22A0CD260045149F /* GREYMatchersShorthand.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B6020F95B0200049E81 /* GREYMatchersShorthand.m */; };
+		FDE1305E22A0CD260045149F /* GREYHostApplicationDistantObject.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B0E20F95A5300049E81 /* GREYHostApplicationDistantObject.m */; };
+		FDE1305F22A0CD260045149F /* GREYSwipeAction.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623A5B20F958C000049E81 /* GREYSwipeAction.m */; };
+		FDE1306022A0CD260045149F /* UIWindow+GREYApp.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623A9C20F9590600049E81 /* UIWindow+GREYApp.m */; };
+		FDE1306122A0CD260045149F /* GREYChangeStepperAction.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623A6C20F958C200049E81 /* GREYChangeStepperAction.m */; };
+		FDE1306222A0CD260045149F /* GREYAppStateTrackerObject.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B7420F95B1400049E81 /* GREYAppStateTrackerObject.m */; };
+		FDE1306322A0CD260045149F /* GREYTestApplicationDistantObject+GREYLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = FD3A826221F18A5800CA3ADF /* GREYTestApplicationDistantObject+GREYLogger.m */; };
+		FDE1306422A0CD260045149F /* NSException+GREYApp.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623AA420F9590700049E81 /* NSException+GREYApp.m */; };
+		FDE1306522A0CD260045149F /* GREYAppConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = FD2E76EA2149E4580063EF7E /* GREYAppConfiguration.m */; };
+		FDE1306622A0CD260045149F /* GREYBaseAction.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623A6120F958C100049E81 /* GREYBaseAction.m */; };
+		FDE1306722A0CD260045149F /* GREYOperationQueueIdlingResource.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B3C20F95A9B00049E81 /* GREYOperationQueueIdlingResource.m */; };
+		FDE1306822A0CD260045149F /* GREYManagedObjectContextIdlingResource.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B3F20F95A9C00049E81 /* GREYManagedObjectContextIdlingResource.m */; };
+		FDE1306922A0CD260045149F /* GREYPathGestureUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623A5720F958C000049E81 /* GREYPathGestureUtils.m */; };
+		FDE1306A22A0CD260045149F /* NSURLSession+GREYApp.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623AA720F9590700049E81 /* NSURLSession+GREYApp.m */; };
+		FDE1306B22A0CD260045149F /* NSURL+GREYApp.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623AB120F9590800049E81 /* NSURL+GREYApp.m */; };
+		FDE1306C22A0CD260045149F /* UIWebView+GREYApp.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623A9820F9590600049E81 /* UIWebView+GREYApp.m */; };
+		FDE1306D22A0CD260045149F /* CALayer+GREYApp.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623AA220F9590600049E81 /* CALayer+GREYApp.m */; };
+		FDE1306E22A0CD260045149F /* GREYMatchers.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B5B20F95B0200049E81 /* GREYMatchers.m */; };
+		FDE1306F22A0CD260045149F /* GREYMultiFingerSwipeAction.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623A6920F958C100049E81 /* GREYMultiFingerSwipeAction.m */; };
+		FDE1307022A0CD260045149F /* GREYFailureScreenshotter.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B2220F95A7200049E81 /* GREYFailureScreenshotter.m */; };
+		FDE1307122A0CD260045149F /* GREYAllOf.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B5A20F95B0200049E81 /* GREYAllOf.m */; };
+		FDE1307222A0CD260045149F /* GREYSurrogateDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B0220F9595300049E81 /* GREYSurrogateDelegate.m */; };
+		FDE1307322A0CD260045149F /* GREYHostBackgroundDistantObject.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B1420F95A5400049E81 /* GREYHostBackgroundDistantObject.m */; };
+		FDE1307422A0CD260045149F /* GREYTapper.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623A5320F958C000049E81 /* GREYTapper.m */; };
+		FDE1307522A0CD260045149F /* UIView+GREYApp.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623A9620F9590500049E81 /* UIView+GREYApp.m */; };
+		FDE1307622A0CD260045149F /* GREYElementFinder.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623AF220F9594100049E81 /* GREYElementFinder.m */; };
+		FDE1307722A0CD260045149F /* UIApplication+GREYApp.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623AB220F9590800049E81 /* UIApplication+GREYApp.m */; };
+		FDE1307822A0CD260045149F /* CAAnimation+GREYApp.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623AA320F9590700049E81 /* CAAnimation+GREYApp.m */; };
+		FDE1307922A0CD260045149F /* GREYHostApplicationDistantObject+GREYTestHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B0F20F95A5300049E81 /* GREYHostApplicationDistantObject+GREYTestHelper.m */; };
+		FDE1307A22A0CD260045149F /* GREYNot.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B5820F95B0200049E81 /* GREYNot.m */; };
+		FDE1307B22A0CD260045149F /* GREYElementInteraction.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623AF320F9594100049E81 /* GREYElementInteraction.m */; };
+		FDE1307C22A0CD260045149F /* GREYAssertions.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623ADF20F9591600049E81 /* GREYAssertions.m */; };
+		FDE1307D22A0CD260045149F /* GREYSyntheticEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B2D20F95A8600049E81 /* GREYSyntheticEvents.m */; };
+		FDE1307F22A0CD260045149F /* libUILib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FDF9E03520F82D090005DCF2 /* libUILib.a */; };
+		FDE1308022A0CD260045149F /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD623BA620F95E3900049E81 /* IOKit.framework */; };
+		FDE1308222A0CD260045149F /* EarlGreyApp.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B1D20F95A6300049E81 /* EarlGreyApp.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FDE1308322A0CD260045149F /* GREYAppFailureHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B2320F95A7200049E81 /* GREYAppFailureHandler.h */; };
+		FDE1308422A0CD260045149F /* GREYAssertions.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623ADE20F9591600049E81 /* GREYAssertions.h */; };
+		FDE1308522A0CD260045149F /* GREYUIWebViewDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623AFE20F9595200049E81 /* GREYUIWebViewDelegate.h */; };
+		FDE1308622A0CD260045149F /* GREYInteraction.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623AF420F9594100049E81 /* GREYInteraction.h */; };
+		FDE1308722A0CD260045149F /* GREYNSTimerIdlingResource.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B3920F95A9B00049E81 /* GREYNSTimerIdlingResource.h */; };
+		FDE1308822A0CD260045149F /* __NSCFLocalDataTask_GREYApp.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623AB320F9590800049E81 /* __NSCFLocalDataTask_GREYApp.h */; };
+		FDE1308922A0CD260045149F /* GREYDispatchQueueTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B8020F95B1500049E81 /* GREYDispatchQueueTracker.h */; };
+		FDE1308A22A0CD260045149F /* GREYTimedIdlingResource.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B4120F95A9C00049E81 /* GREYTimedIdlingResource.h */; };
+		FDE1308B22A0CD260045149F /* GREYAppConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = FD2E76EB2149E4580063EF7E /* GREYAppConfiguration.h */; };
+		FDE1308C22A0CD260045149F /* GREYManagedObjectContextIdlingResource.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B3820F95A9B00049E81 /* GREYManagedObjectContextIdlingResource.h */; };
+		FDE1308D22A0CD260045149F /* GREYPathGestureUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623A6F20F958C200049E81 /* GREYPathGestureUtils.h */; };
+		FDE1308E22A0CD260045149F /* GREYNot.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B5720F95B0200049E81 /* GREYNot.h */; };
+		FDE1308F22A0CD260045149F /* GREYAppStateTrackerObject.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B7F20F95B1500049E81 /* GREYAppStateTrackerObject.h */; };
+		FDE1309022A0CD260045149F /* UIGestureRecognizer+GREYApp.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623A9520F9590500049E81 /* UIGestureRecognizer+GREYApp.h */; };
+		FDE1309122A0CD260045149F /* GREYKeyboard.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B5120F95AF300049E81 /* GREYKeyboard.h */; };
+		FDE1309222A0CD260045149F /* GREYCAAnimationDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B0020F9595300049E81 /* GREYCAAnimationDelegate.h */; };
+		FDE1309322A0CD260045149F /* GREYUIThreadExecutor+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = FD76BE5622985566001E6DAA /* GREYUIThreadExecutor+Private.h */; };
+		FDE1309422A0CD260045149F /* GREYActions+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = FD76BE5A229855A0001E6DAA /* GREYActions+Private.h */; };
+		FDE1309522A0CD260045149F /* GREYMatchersShorthand.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B6120F95B0300049E81 /* GREYMatchersShorthand.h */; };
+		FDE1309622A0CD260045149F /* GREYElementInteraction+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = FD76BE5822985583001E6DAA /* GREYElementInteraction+Private.h */; };
+		FDE1309722A0CD260045149F /* UIWindow+GREYApp.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623AA120F9590600049E81 /* UIWindow+GREYApp.h */; };
+		FDE1309822A0CD260045149F /* GREYSurrogateDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B0120F9595300049E81 /* GREYSurrogateDelegate.h */; };
+		FDE1309922A0CD260045149F /* GREYIdlingResource.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B3E20F95A9C00049E81 /* GREYIdlingResource.h */; };
+		FDE1309A22A0CD260045149F /* UIViewController+GREYApp.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623AB020F9590800049E81 /* UIViewController+GREYApp.h */; };
+		FDE1309B22A0CD260045149F /* GREYHostBackgroundDistantObject+GREYApp.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B1020F95A5300049E81 /* GREYHostBackgroundDistantObject+GREYApp.h */; };
+		FDE1309C22A0CD260045149F /* GREYScrollToContentEdgeAction.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623A5920F958C000049E81 /* GREYScrollToContentEdgeAction.h */; };
+		FDE1309D22A0CD260045149F /* NSURLSession+GREYApp.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623A9A20F9590600049E81 /* NSURLSession+GREYApp.h */; };
+		FDE1309E22A0CD260045149F /* GREYChangeStepperAction.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623A6420F958C100049E81 /* GREYChangeStepperAction.h */; };
+		FDE1309F22A0CD260045149F /* GREYSlideAction.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623A5C20F958C100049E81 /* GREYSlideAction.h */; };
+		FDE130A022A0CD260045149F /* UIView+GREYApp.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623A9920F9590600049E81 /* UIView+GREYApp.h */; };
+		FDE130A122A0CD260045149F /* GREYDispatchQueueIdlingResource.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B3D20F95A9B00049E81 /* GREYDispatchQueueIdlingResource.h */; };
+		FDE130A222A0CD260045149F /* GREYSyncAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B7B20F95B1500049E81 /* GREYSyncAPI.h */; };
+		FDE130A322A0CD260045149F /* GREYAnyOf.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B6320F95B0300049E81 /* GREYAnyOf.h */; };
+		FDE130A422A0CD260045149F /* NSURL+GREYApp.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623AAC20F9590700049E81 /* NSURL+GREYApp.h */; };
+		FDE130A522A0CD260045149F /* CALayer+GREYApp.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623AA920F9590700049E81 /* CALayer+GREYApp.h */; };
+		FDE130A622A0CD260045149F /* GREYNSURLConnectionDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623AFD20F9595200049E81 /* GREYNSURLConnectionDelegate.h */; };
+		FDE130A722A0CD260045149F /* NSTimer+GREYApp.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623AAB20F9590700049E81 /* NSTimer+GREYApp.h */; };
+		FDE130A822A0CD260045149F /* CAAnimation+GREYApp.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623A9120F9590500049E81 /* CAAnimation+GREYApp.h */; };
+		FDE130A922A0CD260045149F /* GREYFailureScreenshotter.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B2120F95A7200049E81 /* GREYFailureScreenshotter.h */; };
+		FDE130AA22A0CD260045149F /* GREYMatchers.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B5620F95B0200049E81 /* GREYMatchers.h */; };
+		FDE130AB22A0CD260045149F /* GREYActionsShorthand.h in Headers */ = {isa = PBXBuildFile; fileRef = FD3A825A21F189BC00CA3ADF /* GREYActionsShorthand.h */; };
+		FDE130AC22A0CD260045149F /* GREYScrollAction.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623A5420F958C000049E81 /* GREYScrollAction.h */; };
+		FDE130AD22A0CD260045149F /* UIApplication+GREYApp.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623A9B20F9590600049E81 /* UIApplication+GREYApp.h */; };
+		FDE130AE22A0CD260045149F /* NSException+GREYApp.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623A9D20F9590600049E81 /* NSException+GREYApp.h */; };
+		FDE130AF22A0CD260045149F /* GREYPickerAction.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623A5F20F958C100049E81 /* GREYPickerAction.h */; };
+		FDE130B022A0CD260045149F /* GREYRunLoopSpinner.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B7E20F95B1500049E81 /* GREYRunLoopSpinner.h */; };
+		FDE130B122A0CD260045149F /* GREYAllOf.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B6220F95B0300049E81 /* GREYAllOf.h */; };
+		FDE130B222A0CD260045149F /* GREYUIWebViewIdlingResource.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B3B20F95A9B00049E81 /* GREYUIWebViewIdlingResource.h */; };
+		FDE130B322A0CD260045149F /* GREYObjectDeallocationTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B7720F95B1400049E81 /* GREYObjectDeallocationTracker.h */; };
+		FDE130B422A0CD260045149F /* GREYPinchAction.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623A5820F958C000049E81 /* GREYPinchAction.h */; };
+		FDE130B522A0CD260045149F /* GREYInteractionDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623AF120F9594100049E81 /* GREYInteractionDataSource.h */; };
+		FDE130B622A0CD260045149F /* GREYTapper.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623A6320F958C100049E81 /* GREYTapper.h */; };
+		FDE130B722A0CD260045149F /* GREYOperationQueueIdlingResource.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B4220F95A9C00049E81 /* GREYOperationQueueIdlingResource.h */; };
+		FDE130B822A0CD260045149F /* GREYTestApplicationDistantObject+GREYLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = FD3A826121F18A5800CA3ADF /* GREYTestApplicationDistantObject+GREYLogger.h */; };
+		FDE130B922A0CD260045149F /* GREYActions.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623A6B20F958C200049E81 /* GREYActions.h */; };
+		FDE130BA22A0CD260045149F /* GREYAutomationSetup.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623AE920F9592B00049E81 /* GREYAutomationSetup.h */; };
+		FDE130BB22A0CD260045149F /* GREYIOHIDEventTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B2C20F95A8600049E81 /* GREYIOHIDEventTypes.h */; };
+		FDE130BC22A0CD260045149F /* UISwitch+GREYApp.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623A9F20F9590600049E81 /* UISwitch+GREYApp.h */; };
+		FDE130BD22A0CD260045149F /* GREYHostApplicationDistantObject+GREYTestHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B1320F95A5400049E81 /* GREYHostApplicationDistantObject+GREYTestHelper.h */; };
+		FDE130BE22A0CD260045149F /* GREYActionBlock.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623A6020F958C100049E81 /* GREYActionBlock.h */; };
+		FDE130BF22A0CD260045149F /* GREYElementFinder.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623AEF20F9594100049E81 /* GREYElementFinder.h */; };
+		FDE130C022A0CD260045149F /* GREYBaseAction.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623A6720F958C100049E81 /* GREYBaseAction.h */; };
+		FDE130C122A0CD260045149F /* GREYMultiFingerSwipeAction.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623A5A20F958C000049E81 /* GREYMultiFingerSwipeAction.h */; };
+		FDE130C222A0CD260045149F /* UIScrollView+GREYApp.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623AAF20F9590800049E81 /* UIScrollView+GREYApp.h */; };
+		FDE130C322A0CD260045149F /* GREYTouchInjector.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B2E20F95A8600049E81 /* GREYTouchInjector.h */; };
+		FDE130C422A0CD260045149F /* NSURLConnection+GREYApp.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623AA620F9590700049E81 /* NSURLConnection+GREYApp.h */; };
+		FDE130C522A0CD260045149F /* GREYElementInteraction.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623AEE20F9594100049E81 /* GREYElementInteraction.h */; };
+		FDE130C622A0CD260045149F /* NSObject+GREYApp.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623AA020F9590600049E81 /* NSObject+GREYApp.h */; };
+		FDE130C722A0CD260045149F /* GREYAction.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623A5620F958C000049E81 /* GREYAction.h */; };
+		FDE130C822A0CD260045149F /* GREYUIThreadExecutor.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B7520F95B1400049E81 /* GREYUIThreadExecutor.h */; };
+		FDE130C922A0CD260045149F /* GREYAppStateTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B7A20F95B1500049E81 /* GREYAppStateTracker.h */; };
+		FDE130CA22A0CD260045149F /* UIAnimation+GREYApp.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623AAA20F9590700049E81 /* UIAnimation+GREYApp.h */; };
+		FDE130CB22A0CD260045149F /* GREYSyntheticEvents.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B2F20F95A8600049E81 /* GREYSyntheticEvents.h */; };
+		FDE130CC22A0CD260045149F /* GREYSwipeAction.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623A6220F958C100049E81 /* GREYSwipeAction.h */; };
+		FDE130CD22A0CD260045149F /* UIWebView+GREYApp.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623AAD20F9590700049E81 /* UIWebView+GREYApp.h */; };
+		FDE130CE22A0CD260045149F /* GREYAppError.h in Headers */ = {isa = PBXBuildFile; fileRef = FD98C45D226C2E64006F8D68 /* GREYAppError.h */; };
+		FDE130CF22A0CD260045149F /* NSRunLoop+GREYApp.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623AB520F9590800049E81 /* NSRunLoop+GREYApp.h */; };
+		FDE130D022A0CD260045149F /* GREYTapAction.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623A6A20F958C200049E81 /* GREYTapAction.h */; };
 		FDF9E05720F82E200005DCF2 /* GREYTraversalDFS.m in Sources */ = {isa = PBXBuildFile; fileRef = FDF9E05120F82E200005DCF2 /* GREYTraversalDFS.m */; };
 		FDF9E05820F82E200005DCF2 /* GREYTraversalBFS.m in Sources */ = {isa = PBXBuildFile; fileRef = FDF9E05220F82E200005DCF2 /* GREYTraversalBFS.m */; };
 		FDF9E05920F82E200005DCF2 /* GREYTraversal.m in Sources */ = {isa = PBXBuildFile; fileRef = FDF9E05620F82E200005DCF2 /* GREYTraversal.m */; };
@@ -350,6 +504,62 @@
 			proxyType = 1;
 			remoteGlobalIDString = C845026E20DD9D5D00D7350F;
 			remoteInfo = eDistantObject;
+		};
+		FDDBE61C22A0B34800BB7726 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FD6239E420F56E6A00049E81 /* eDistantObject.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C52D85942220C44300E86E60;
+			remoteInfo = DeviceLib;
+		};
+		FDDBE61E22A0B34800BB7726 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FD6239E420F56E6A00049E81 /* eDistantObject.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C55B85F62241AEAC00B568FA;
+			remoteInfo = DeviceUnitTests;
+		};
+		FDE1302922A0CD260045149F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FD6239E420F56E6A00049E81 /* eDistantObject.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C52D858C2220C44300E86E60;
+			remoteInfo = DeviceLib;
+		};
+		FDE1302B22A0CD260045149F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FD6239E420F56E6A00049E81 /* eDistantObject.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C845026420DD9D2E00D7350F;
+			remoteInfo = ChannelLib;
+		};
+		FDE1302D22A0CD260045149F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FD6239E420F56E6A00049E81 /* eDistantObject.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C88B8A6F21ADD3BE00DDE607;
+			remoteInfo = MeasureLib;
+		};
+		FDE1302F22A0CD260045149F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FD6239E420F56E6A00049E81 /* eDistantObject.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C845026E20DD9D5D00D7350F;
+			remoteInfo = eDistantObject;
+		};
+		FDE1303122A0CD260045149F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FD62390920F569D500049E81 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FD62395020F56A9700049E81;
+			remoteInfo = CommonLib;
+		};
+		FDE1303322A0CD260045149F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FD62390920F569D500049E81 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FDF9E03420F82D090005DCF2;
+			remoteInfo = UILib;
 		};
 		FDF9E07B20F82F290005DCF2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -658,6 +868,8 @@
 		FD98C462226C3309006F8D68 /* GREYFailureScreenshotSaver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYFailureScreenshotSaver.m; path = Exception/GREYFailureScreenshotSaver.m; sourceTree = "<group>"; };
 		FD98C463226C3309006F8D68 /* GREYFailureScreenshotSaver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYFailureScreenshotSaver.h; path = Exception/GREYFailureScreenshotSaver.h; sourceTree = "<group>"; };
 		FD98C466226C331A006F8D68 /* GREYXCTestAppleInternals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYXCTestAppleInternals.h; path = AppleInternals/GREYXCTestAppleInternals.h; sourceTree = "<group>"; };
+		FDE130D622A0CD260045149F /* AppFramework(Release).framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "AppFramework(Release).framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FDE130D722A0CD260045149F /* AppFramework copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "AppFramework copy-Info.plist"; path = "/Users/tirodkar/Desktop/EarlGrey/AppFramework copy-Info.plist"; sourceTree = "<absolute>"; };
 		FDF9E03520F82D090005DCF2 /* libUILib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libUILib.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDF9E05120F82E200005DCF2 /* GREYTraversalDFS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYTraversalDFS.m; path = UILib/Traversal/GREYTraversalDFS.m; sourceTree = SOURCE_ROOT; };
 		FDF9E05220F82E200005DCF2 /* GREYTraversalBFS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYTraversalBFS.m; path = UILib/Traversal/GREYTraversalBFS.m; sourceTree = SOURCE_ROOT; };
@@ -706,6 +918,15 @@
 			files = (
 				FD511E8B211E709000F19C8A /* libUILib.a in Frameworks */,
 				FD623BA720F95E3900049E81 /* IOKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FDE1307E22A0CD260045149F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FDE1307F22A0CD260045149F /* libUILib.a in Frameworks */,
+				FDE1308022A0CD260045149F /* IOKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -858,6 +1079,7 @@
 				FD5048F920FB225100261CBE /* TestLib */,
 				FD62391220F569D500049E81 /* Products */,
 				FD623BA520F95E3900049E81 /* Frameworks */,
+				FDE130D722A0CD260045149F /* AppFramework copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -868,6 +1090,7 @@
 				FDF9E03520F82D090005DCF2 /* libUILib.a */,
 				FD623A4920F957BE00049E81 /* AppFramework.framework */,
 				FD5048F820FB225100261CBE /* libTestLib.a */,
+				FDE130D622A0CD260045149F /* AppFramework(Release).framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1026,6 +1249,8 @@
 				FD6239FA20F56E6A00049E81 /* ServiceTests.xctest */,
 				FD6239FC20F56E6A00049E81 /* ServicePerfTests.xctest */,
 				FD6239FE20F56E6A00049E81 /* libTestsBundle.a */,
+				FDDBE61D22A0B34800BB7726 /* libDeviceLib.a */,
+				FDDBE61F22A0B34800BB7726 /* DeviceUnitTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1490,6 +1715,92 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FDE1308122A0CD260045149F /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FDE1308222A0CD260045149F /* EarlGreyApp.h in Headers */,
+				FDE1308322A0CD260045149F /* GREYAppFailureHandler.h in Headers */,
+				FDE1308422A0CD260045149F /* GREYAssertions.h in Headers */,
+				FDE1308522A0CD260045149F /* GREYUIWebViewDelegate.h in Headers */,
+				FDE1308622A0CD260045149F /* GREYInteraction.h in Headers */,
+				FDE1308722A0CD260045149F /* GREYNSTimerIdlingResource.h in Headers */,
+				FDE1308822A0CD260045149F /* __NSCFLocalDataTask_GREYApp.h in Headers */,
+				FDE1308922A0CD260045149F /* GREYDispatchQueueTracker.h in Headers */,
+				FDE1308A22A0CD260045149F /* GREYTimedIdlingResource.h in Headers */,
+				FDE1308B22A0CD260045149F /* GREYAppConfiguration.h in Headers */,
+				FDE1308C22A0CD260045149F /* GREYManagedObjectContextIdlingResource.h in Headers */,
+				FDE1308D22A0CD260045149F /* GREYPathGestureUtils.h in Headers */,
+				FDE1308E22A0CD260045149F /* GREYNot.h in Headers */,
+				FDE1308F22A0CD260045149F /* GREYAppStateTrackerObject.h in Headers */,
+				FDE1309022A0CD260045149F /* UIGestureRecognizer+GREYApp.h in Headers */,
+				FDE1309122A0CD260045149F /* GREYKeyboard.h in Headers */,
+				FDE1309222A0CD260045149F /* GREYCAAnimationDelegate.h in Headers */,
+				FDE1309322A0CD260045149F /* GREYUIThreadExecutor+Private.h in Headers */,
+				FDE1309422A0CD260045149F /* GREYActions+Private.h in Headers */,
+				FDE1309522A0CD260045149F /* GREYMatchersShorthand.h in Headers */,
+				FDE1309622A0CD260045149F /* GREYElementInteraction+Private.h in Headers */,
+				FDE1309722A0CD260045149F /* UIWindow+GREYApp.h in Headers */,
+				FDE1309822A0CD260045149F /* GREYSurrogateDelegate.h in Headers */,
+				FDE1309922A0CD260045149F /* GREYIdlingResource.h in Headers */,
+				FDE1309A22A0CD260045149F /* UIViewController+GREYApp.h in Headers */,
+				FDE1309B22A0CD260045149F /* GREYHostBackgroundDistantObject+GREYApp.h in Headers */,
+				FDE1309C22A0CD260045149F /* GREYScrollToContentEdgeAction.h in Headers */,
+				FDE1309D22A0CD260045149F /* NSURLSession+GREYApp.h in Headers */,
+				FDE1309E22A0CD260045149F /* GREYChangeStepperAction.h in Headers */,
+				FDE1309F22A0CD260045149F /* GREYSlideAction.h in Headers */,
+				FDE130A022A0CD260045149F /* UIView+GREYApp.h in Headers */,
+				FDE130A122A0CD260045149F /* GREYDispatchQueueIdlingResource.h in Headers */,
+				FDE130A222A0CD260045149F /* GREYSyncAPI.h in Headers */,
+				FDE130A322A0CD260045149F /* GREYAnyOf.h in Headers */,
+				FDE130A422A0CD260045149F /* NSURL+GREYApp.h in Headers */,
+				FDE130A522A0CD260045149F /* CALayer+GREYApp.h in Headers */,
+				FDE130A622A0CD260045149F /* GREYNSURLConnectionDelegate.h in Headers */,
+				FDE130A722A0CD260045149F /* NSTimer+GREYApp.h in Headers */,
+				FDE130A822A0CD260045149F /* CAAnimation+GREYApp.h in Headers */,
+				FDE130A922A0CD260045149F /* GREYFailureScreenshotter.h in Headers */,
+				FDE130AA22A0CD260045149F /* GREYMatchers.h in Headers */,
+				FDE130AB22A0CD260045149F /* GREYActionsShorthand.h in Headers */,
+				FDE130AC22A0CD260045149F /* GREYScrollAction.h in Headers */,
+				FDE130AD22A0CD260045149F /* UIApplication+GREYApp.h in Headers */,
+				FDE130AE22A0CD260045149F /* NSException+GREYApp.h in Headers */,
+				FDE130AF22A0CD260045149F /* GREYPickerAction.h in Headers */,
+				FDE130B022A0CD260045149F /* GREYRunLoopSpinner.h in Headers */,
+				FDE130B122A0CD260045149F /* GREYAllOf.h in Headers */,
+				FDE130B222A0CD260045149F /* GREYUIWebViewIdlingResource.h in Headers */,
+				FDE130B322A0CD260045149F /* GREYObjectDeallocationTracker.h in Headers */,
+				FDE130B422A0CD260045149F /* GREYPinchAction.h in Headers */,
+				FDE130B522A0CD260045149F /* GREYInteractionDataSource.h in Headers */,
+				FDE130B622A0CD260045149F /* GREYTapper.h in Headers */,
+				FDE130B722A0CD260045149F /* GREYOperationQueueIdlingResource.h in Headers */,
+				FDE130B822A0CD260045149F /* GREYTestApplicationDistantObject+GREYLogger.h in Headers */,
+				FDE130B922A0CD260045149F /* GREYActions.h in Headers */,
+				FDE130BA22A0CD260045149F /* GREYAutomationSetup.h in Headers */,
+				FDE130BB22A0CD260045149F /* GREYIOHIDEventTypes.h in Headers */,
+				FDE130BC22A0CD260045149F /* UISwitch+GREYApp.h in Headers */,
+				FDE130BD22A0CD260045149F /* GREYHostApplicationDistantObject+GREYTestHelper.h in Headers */,
+				FDE130BE22A0CD260045149F /* GREYActionBlock.h in Headers */,
+				FDE130BF22A0CD260045149F /* GREYElementFinder.h in Headers */,
+				FDE130C022A0CD260045149F /* GREYBaseAction.h in Headers */,
+				FDE130C122A0CD260045149F /* GREYMultiFingerSwipeAction.h in Headers */,
+				FDE130C222A0CD260045149F /* UIScrollView+GREYApp.h in Headers */,
+				FDE130C322A0CD260045149F /* GREYTouchInjector.h in Headers */,
+				FDE130C422A0CD260045149F /* NSURLConnection+GREYApp.h in Headers */,
+				FDE130C522A0CD260045149F /* GREYElementInteraction.h in Headers */,
+				FDE130C622A0CD260045149F /* NSObject+GREYApp.h in Headers */,
+				FDE130C722A0CD260045149F /* GREYAction.h in Headers */,
+				FDE130C822A0CD260045149F /* GREYUIThreadExecutor.h in Headers */,
+				FDE130C922A0CD260045149F /* GREYAppStateTracker.h in Headers */,
+				FDE130CA22A0CD260045149F /* UIAnimation+GREYApp.h in Headers */,
+				FDE130CB22A0CD260045149F /* GREYSyntheticEvents.h in Headers */,
+				FDE130CC22A0CD260045149F /* GREYSwipeAction.h in Headers */,
+				FDE130CD22A0CD260045149F /* UIWebView+GREYApp.h in Headers */,
+				FDE130CE22A0CD260045149F /* GREYAppError.h in Headers */,
+				FDE130CF22A0CD260045149F /* NSRunLoop+GREYApp.h in Headers */,
+				FDE130D022A0CD260045149F /* GREYTapAction.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -1551,6 +1862,31 @@
 			productReference = FD623A4920F957BE00049E81 /* AppFramework.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		FDE1302722A0CD260045149F /* AppFramework(Release) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FDE130D322A0CD260045149F /* Build configuration list for PBXNativeTarget "AppFramework(Release)" */;
+			buildPhases = (
+				FDE1303422A0CD260045149F /* Sources */,
+				FDE1307E22A0CD260045149F /* Frameworks */,
+				FDE1308122A0CD260045149F /* Headers */,
+				FDE130D122A0CD260045149F /* Resources */,
+				FDE130D222A0CD260045149F /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FDE1302822A0CD260045149F /* PBXTargetDependency */,
+				FDE1302A22A0CD260045149F /* PBXTargetDependency */,
+				FDE1302C22A0CD260045149F /* PBXTargetDependency */,
+				FDE1302E22A0CD260045149F /* PBXTargetDependency */,
+				FDE1303022A0CD260045149F /* PBXTargetDependency */,
+				FDE1303222A0CD260045149F /* PBXTargetDependency */,
+			);
+			name = "AppFramework(Release)";
+			productName = AppFramework;
+			productReference = FDE130D622A0CD260045149F /* AppFramework(Release).framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		FDF9E03420F82D090005DCF2 /* UILib */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = FDF9E04420F82D090005DCF2 /* Build configuration list for PBXNativeTarget "UILib" */;
@@ -1591,6 +1927,9 @@
 						CreatedOnToolsVersion = 9.4;
 						ProvisioningStyle = Automatic;
 					};
+					FDE1302722A0CD260045149F = {
+						ProvisioningStyle = Automatic;
+					};
 					FDF9E03420F82D090005DCF2 = {
 						CreatedOnToolsVersion = 9.3;
 						ProvisioningStyle = Automatic;
@@ -1619,6 +1958,7 @@
 				FDF9E03420F82D090005DCF2 /* UILib */,
 				FD623A4820F957BE00049E81 /* AppFramework */,
 				FD5048F720FB225100261CBE /* TestLib */,
+				FDE1302722A0CD260045149F /* AppFramework(Release) */,
 			);
 		};
 /* End PBXProject section */
@@ -1694,6 +2034,20 @@
 			remoteRef = FD6239FD20F56E6A00049E81 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		FDDBE61D22A0B34800BB7726 /* libDeviceLib.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libDeviceLib.a;
+			remoteRef = FDDBE61C22A0B34800BB7726 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		FDDBE61F22A0B34800BB7726 /* DeviceUnitTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = DeviceUnitTests.xctest;
+			remoteRef = FDDBE61E22A0B34800BB7726 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -1704,7 +2058,34 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FDE130D122A0CD260045149F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		FDE130D222A0CD260045149F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "sh Scripts/build_universal_framework.sh\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		FD5048F420FB225100261CBE /* Sources */ = {
@@ -1847,6 +2228,86 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FDE1303422A0CD260045149F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FDE1303522A0CD260045149F /* NSURLConnection+GREYApp.m in Sources */,
+				FDE1303622A0CD260045149F /* NSRunLoop+GREYApp.m in Sources */,
+				FDE1303722A0CD260045149F /* GREYAnyOf.m in Sources */,
+				FDE1303822A0CD260045149F /* GREYObjectDeallocationTracker.m in Sources */,
+				FDE1303922A0CD260045149F /* GREYCAAnimationDelegate.m in Sources */,
+				FDE1303A22A0CD260045149F /* GREYTestStub.m in Sources */,
+				FDE1303B22A0CD260045149F /* GREYTapAction.m in Sources */,
+				FDE1303C22A0CD260045149F /* NSTimer+GREYApp.m in Sources */,
+				FDE1303D22A0CD260045149F /* GREYNSTimerIdlingResource.m in Sources */,
+				FDE1303E22A0CD260045149F /* GREYRunLoopSpinner.m in Sources */,
+				FDE1303F22A0CD260045149F /* GREYPinchAction.m in Sources */,
+				FDE1304022A0CD260045149F /* GREYTimedIdlingResource.m in Sources */,
+				FDE1304122A0CD260045149F /* GREYNSURLConnectionDelegate.m in Sources */,
+				FDE1304222A0CD260045149F /* UISwitch+GREYApp.m in Sources */,
+				FDE1304322A0CD260045149F /* GREYHostBackgroundDistantObject+GREYApp.m in Sources */,
+				FDE1304422A0CD260045149F /* GREYDispatchQueueIdlingResource.m in Sources */,
+				FDE1304522A0CD260045149F /* NSObject+GREYApp.m in Sources */,
+				FDE1304622A0CD260045149F /* GREYActions.m in Sources */,
+				FDE1304722A0CD260045149F /* GREYAutomationSetup.m in Sources */,
+				FDE1304822A0CD260045149F /* GREYScrollToContentEdgeAction.m in Sources */,
+				FDE1304922A0CD260045149F /* GREYUIThreadExecutor.m in Sources */,
+				FDE1304A22A0CD260045149F /* GREYTouchInjector.m in Sources */,
+				FDE1304B22A0CD260045149F /* UIViewController+GREYApp.m in Sources */,
+				FDE1304C22A0CD260045149F /* GREYKeyboard.m in Sources */,
+				FDE1304D22A0CD260045149F /* GREYActionsShorthand.m in Sources */,
+				FDE1304E22A0CD260045149F /* GREYAppFailureHandler.m in Sources */,
+				FDE1304F22A0CD260045149F /* UIAnimation+GREYApp.m in Sources */,
+				FDE1305022A0CD260045149F /* GREYSyncAPI.m in Sources */,
+				FDE1305122A0CD260045149F /* GREYSlideAction.m in Sources */,
+				FDE1305222A0CD260045149F /* UIGestureRecognizer+GREYApp.m in Sources */,
+				FDE1305322A0CD260045149F /* GREYUIWebViewDelegate.m in Sources */,
+				FDE1305422A0CD260045149F /* GREYAppStateTracker.m in Sources */,
+				FDE1305522A0CD260045149F /* GREYScrollAction.m in Sources */,
+				FDE1305622A0CD260045149F /* GREYUIWebViewIdlingResource.m in Sources */,
+				FDE1305722A0CD260045149F /* UIScrollView+GREYApp.m in Sources */,
+				FDE1305822A0CD260045149F /* GREYActionBlock.m in Sources */,
+				FDE1305922A0CD260045149F /* GREYDispatchQueueTracker.m in Sources */,
+				FDE1305A22A0CD260045149F /* __NSCFLocalDataTask_GREYApp.m in Sources */,
+				FDE1305B22A0CD260045149F /* fishhook.c in Sources */,
+				FDE1305C22A0CD260045149F /* GREYPickerAction.m in Sources */,
+				FDE1305D22A0CD260045149F /* GREYMatchersShorthand.m in Sources */,
+				FDE1305E22A0CD260045149F /* GREYHostApplicationDistantObject.m in Sources */,
+				FDE1305F22A0CD260045149F /* GREYSwipeAction.m in Sources */,
+				FDE1306022A0CD260045149F /* UIWindow+GREYApp.m in Sources */,
+				FDE1306122A0CD260045149F /* GREYChangeStepperAction.m in Sources */,
+				FDE1306222A0CD260045149F /* GREYAppStateTrackerObject.m in Sources */,
+				FDE1306322A0CD260045149F /* GREYTestApplicationDistantObject+GREYLogger.m in Sources */,
+				FDE1306422A0CD260045149F /* NSException+GREYApp.m in Sources */,
+				FDE1306522A0CD260045149F /* GREYAppConfiguration.m in Sources */,
+				FDE1306622A0CD260045149F /* GREYBaseAction.m in Sources */,
+				FDE1306722A0CD260045149F /* GREYOperationQueueIdlingResource.m in Sources */,
+				FDE1306822A0CD260045149F /* GREYManagedObjectContextIdlingResource.m in Sources */,
+				FDE1306922A0CD260045149F /* GREYPathGestureUtils.m in Sources */,
+				FDE1306A22A0CD260045149F /* NSURLSession+GREYApp.m in Sources */,
+				FDE1306B22A0CD260045149F /* NSURL+GREYApp.m in Sources */,
+				FDE1306C22A0CD260045149F /* UIWebView+GREYApp.m in Sources */,
+				FDE1306D22A0CD260045149F /* CALayer+GREYApp.m in Sources */,
+				FDE1306E22A0CD260045149F /* GREYMatchers.m in Sources */,
+				FDE1306F22A0CD260045149F /* GREYMultiFingerSwipeAction.m in Sources */,
+				FDE1307022A0CD260045149F /* GREYFailureScreenshotter.m in Sources */,
+				FDE1307122A0CD260045149F /* GREYAllOf.m in Sources */,
+				FDE1307222A0CD260045149F /* GREYSurrogateDelegate.m in Sources */,
+				FDE1307322A0CD260045149F /* GREYHostBackgroundDistantObject.m in Sources */,
+				FDE1307422A0CD260045149F /* GREYTapper.m in Sources */,
+				FDE1307522A0CD260045149F /* UIView+GREYApp.m in Sources */,
+				FDE1307622A0CD260045149F /* GREYElementFinder.m in Sources */,
+				FDE1307722A0CD260045149F /* UIApplication+GREYApp.m in Sources */,
+				FDE1307822A0CD260045149F /* CAAnimation+GREYApp.m in Sources */,
+				FDE1307922A0CD260045149F /* GREYHostApplicationDistantObject+GREYTestHelper.m in Sources */,
+				FDE1307A22A0CD260045149F /* GREYNot.m in Sources */,
+				FDE1307B22A0CD260045149F /* GREYElementInteraction.m in Sources */,
+				FDE1307C22A0CD260045149F /* GREYAssertions.m in Sources */,
+				FDE1307D22A0CD260045149F /* GREYSyntheticEvents.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FDF9E03120F82D090005DCF2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1908,6 +2369,36 @@
 			isa = PBXTargetDependency;
 			name = eDistantObject;
 			targetProxy = FD66782B211FAE3D008EC4A7 /* PBXContainerItemProxy */;
+		};
+		FDE1302822A0CD260045149F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = DeviceLib;
+			targetProxy = FDE1302922A0CD260045149F /* PBXContainerItemProxy */;
+		};
+		FDE1302A22A0CD260045149F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ChannelLib;
+			targetProxy = FDE1302B22A0CD260045149F /* PBXContainerItemProxy */;
+		};
+		FDE1302C22A0CD260045149F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = MeasureLib;
+			targetProxy = FDE1302D22A0CD260045149F /* PBXContainerItemProxy */;
+		};
+		FDE1302E22A0CD260045149F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = eDistantObject;
+			targetProxy = FDE1302F22A0CD260045149F /* PBXContainerItemProxy */;
+		};
+		FDE1303022A0CD260045149F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FD62395020F56A9700049E81 /* CommonLib */;
+			targetProxy = FDE1303122A0CD260045149F /* PBXContainerItemProxy */;
+		};
+		FDE1303222A0CD260045149F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FDF9E03420F82D090005DCF2 /* UILib */;
+			targetProxy = FDE1303322A0CD260045149F /* PBXContainerItemProxy */;
 		};
 		FDF9E07C20F82F290005DCF2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -2227,6 +2718,78 @@
 			};
 			name = Release;
 		};
+		FDE130D422A0CD260045149F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				HEADER_SEARCH_PATHS = (
+					eDistantObject/,
+					fishhook/,
+					.,
+				);
+				INFOPLIST_FILE = AppFramework/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = AppFramework/AppFramework.modulemap;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"-framework",
+					IOKit,
+					"-ObjC",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.google.earlgrey.AppFramework;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "i386 x86_64 arm64 armv7 armv7s";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		FDE130D522A0CD260045149F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				HEADER_SEARCH_PATHS = (
+					eDistantObject/,
+					fishhook/,
+					.,
+				);
+				INFOPLIST_FILE = AppFramework/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = AppFramework/AppFramework.modulemap;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"-framework",
+					IOKit,
+					"-ObjC",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.google.earlgrey.AppFramework;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "i386 x86_64 arm64 armv7 armv7s";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 		FDF9E03B20F82D090005DCF2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2297,6 +2860,15 @@
 			buildConfigurations = (
 				FD623A4F20F957BE00049E81 /* Debug */,
 				FD623A5020F957BE00049E81 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FDE130D322A0CD260045149F /* Build configuration list for PBXNativeTarget "AppFramework(Release)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FDE130D422A0CD260045149F /* Debug */,
+				FDE130D522A0CD260045149F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
