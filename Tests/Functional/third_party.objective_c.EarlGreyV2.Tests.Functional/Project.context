@@ -1,9 +1,0 @@
-# go/mobile-heartbeat
-
-name: "eg2functionaltests"
-code_base: "//depot/google3/third_party/objective_c/EarlGreyV2/Tests/Functional"
-buganizer_comp_id: 187414
-heartbeat_target: "//third_party/objective_c/EarlGreyV2/Tests/Functional:Tests"
-test_flag: "--config=ios_x86_64"
-test_flag: "--nocache_test_results"
-test_flag: "--compilation_mode=fastbuild"
