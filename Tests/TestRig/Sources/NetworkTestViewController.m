@@ -176,7 +176,7 @@ static NSString *const kProxyRegex = @"^http://www.youtube.com";
   NSURLSessionTask *task =
       [session dataTaskWithURL:[NSURL URLWithString:@"http://foo.com/"]
              completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-               while (_keepInfiniteRequestOn) {
+               while (self->_keepInfiniteRequestOn) {
                  [NSThread sleepForTimeInterval:1.0];
                }
              }];
