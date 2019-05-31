@@ -17,7 +17,7 @@ TestLib or any test-specific dependencies**.
 
 ### GREYHostApplicationDistantObject (Main Thread)
 
-Say we wish to check the host application's `UIInterfaceOrientation`. For this,
+Say we want to check the host application's `UIInterfaceOrientation`. For this,
 we can use the main thread distant object - `GREYHostApplicationDistantObject`
 for this purpose. The first step is to setup a protocol. Let's define the method
 that we want to create.
