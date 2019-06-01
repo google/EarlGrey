@@ -11,7 +11,7 @@ create a protocol that will help expose them.
 Similar to the Bridging Header Section in the
 [Setup's Swift Section](setup.md#bridging_header), add a Bridging Header with
 imports for any EarlGrey files that you need. Refer to the [EarlGrey TestRig
-Bridging Header](../Tests/TestRig/Sources/Swift/FTRSwiftTestRigBridgingHeader.h)
+Bridging Header](../Tests/TestRig/Sources/Swift/SwiftTestRigBridgingHeader.h)
 for an example. The Helper Bundle runs in the app side, so **do not add any
 TestLib or any test-specific dependencies**.
 
@@ -58,10 +58,10 @@ this.
 private extension XCTestCase {
   /// A variable to point to the GREYHostApplicationDistantObject since casts in Swift fail on
   /// proxy types. Hence we have to perform an unsafeBitCast.
-  var host: FTRSwiftTestsHost {
+  var host: SwiftTestsHost {
     return unsafeBitCast(
       GREYHostApplicationDistantObject.sharedInstance,
-      to: FTRSwiftTestsHost.self)
+      to: SwiftTestsHost.self)
   }
 }
 ```

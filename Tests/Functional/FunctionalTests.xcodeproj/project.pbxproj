@@ -509,7 +509,7 @@
 		FD66783B211FB222008EC4A7 /* libeDistantObject.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libeDistantObject.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD667850211FB63F008EC4A7 /* libeDistantObject.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libeDistantObject.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD6678692122290B008EC4A7 /* HostDOCategories.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HostDOCategories.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
-		FD6CB1BD21474975007ADA30 /* FTRSwiftTestRigBridgingHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FTRSwiftTestRigBridgingHeader.h; path = ../TestRig/Sources/Swift/FTRSwiftTestRigBridgingHeader.h; sourceTree = "<group>"; };
+		FD6CB1BD21474975007ADA30 /* SwiftTestRigBridgingHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SwiftTestRigBridgingHeader.h; path = ../TestRig/Sources/Swift/SwiftTestRigBridgingHeader.h; sourceTree = "<group>"; };
 		FD795B89211911E800F9A9E3 /* libeDistantObject.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libeDistantObject.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD98C46B226C3517006F8D68 /* SlideTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlideTest.m; sourceTree = "<group>"; };
 		FD98C46C226C3517006F8D68 /* ErrorHandlingTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ErrorHandlingTest.m; sourceTree = "<group>"; };
@@ -966,7 +966,7 @@
 		FD6CB1BC21474957007ADA30 /* Swift */ = {
 			isa = PBXGroup;
 			children = (
-				FD6CB1BD21474975007ADA30 /* FTRSwiftTestRigBridgingHeader.h */,
+				FD6CB1BD21474975007ADA30 /* SwiftTestRigBridgingHeader.h */,
 			);
 			name = Swift;
 			sourceTree = "<group>";
@@ -1747,7 +1747,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = ../TestRig/Sources/Swift/FTRSwiftTestRigBridgingHeader.h;
+				SWIFT_OBJC_BRIDGING_HEADER = ../TestRig/Sources/Swift/SwiftTestRigBridgingHeader.h;
 				SWIFT_VERSION = 3.0;
 				USER_HEADER_SEARCH_PATHS = "../../eDistantObject ../../ HostDOCategories/Swift/ Sources/Swift/ Sources/";
 				WRAPPER_EXTENSION = bundle;
@@ -1774,7 +1774,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = ../TestRig/Sources/Swift/FTRSwiftTestRigBridgingHeader.h;
+				SWIFT_OBJC_BRIDGING_HEADER = ../TestRig/Sources/Swift/SwiftTestRigBridgingHeader.h;
 				SWIFT_VERSION = 3.0;
 				USER_HEADER_SEARCH_PATHS = "../../eDistantObject ../../ HostDOCategories/Swift/ Sources/Swift/ Sources/";
 				WRAPPER_EXTENSION = bundle;
