@@ -57,8 +57,8 @@ typedef void (^GREYTaskCompletionBlock)(NSData *data, NSURLResponse *response, N
   // This is to solve issues where there is a proxy delegate instead of the original instance (e.g. TrustKit, New Relic).
   // It responds YES to `respondsToSelector:` but `class_getInstanceMethod` returns nil.
   // We attempt to follow the forwarding targets for the selector, if any exists.
-  id nextForwardingDelegate = nil;
-  while((nextForwardingDelegate = [delegate forwardingTargetForSelector:originalSel]) != nil)
+  id nextForwardingDelegate;
+  while ((nextForwardingDelegate = [delegate forwardingTargetForSelector:originalSel]))
   {
     delegate = nextForwardingDelegate;
   }
