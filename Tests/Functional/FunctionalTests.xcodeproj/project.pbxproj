@@ -1611,7 +1611,7 @@
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = FunctionalTestRig;
-				USER_HEADER_SEARCH_PATHS = "Sources/ HostDOCategories/ ../../ ../../Submodules/eDistantObject";
+				USER_HEADER_SEARCH_PATHS = "Sources/ HostDOCategories/ ../../ ../../eDistantObject";
 			};
 			name = Debug;
 		};
@@ -1629,7 +1629,7 @@
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = FunctionalTestRig;
-				USER_HEADER_SEARCH_PATHS = "Sources/ HostDOCategories/ ../../ ../../Submodules/eDistantObject";
+				USER_HEADER_SEARCH_PATHS = "Sources/ HostDOCategories/ ../../ ../../eDistantObject";
 			};
 			name = Release;
 		};
@@ -1653,7 +1653,7 @@
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = FunctionalTestRigSwift;
-				USER_HEADER_SEARCH_PATHS = "../../Submodules/eDistantObject ../../";
+				USER_HEADER_SEARCH_PATHS = "../../eDistantObject ../../";
 			};
 			name = Debug;
 		};
@@ -1675,7 +1675,7 @@
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = FunctionalTestRigSwift;
-				USER_HEADER_SEARCH_PATHS = "../../Submodules/eDistantObject ../../";
+				USER_HEADER_SEARCH_PATHS = "../../eDistantObject ../../";
 			};
 			name = Release;
 		};
@@ -1749,7 +1749,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = ../TestRig/Sources/Swift/SwiftTestRigBridgingHeader.h;
 				SWIFT_VERSION = 3.0;
-				USER_HEADER_SEARCH_PATHS = "../../Submodules/eDistantObject ../../ HostDOCategories/Swift/ Sources/Swift/ Sources/";
+				USER_HEADER_SEARCH_PATHS = "../../eDistantObject ../../ HostDOCategories/Swift/ Sources/Swift/ Sources/";
 				WRAPPER_EXTENSION = bundle;
 			};
 			name = Debug;
@@ -1776,7 +1776,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = ../TestRig/Sources/Swift/SwiftTestRigBridgingHeader.h;
 				SWIFT_VERSION = 3.0;
-				USER_HEADER_SEARCH_PATHS = "../../Submodules/eDistantObject ../../ HostDOCategories/Swift/ Sources/Swift/ Sources/";
+				USER_HEADER_SEARCH_PATHS = "../../eDistantObject ../../ HostDOCategories/Swift/ Sources/Swift/ Sources/";
 				WRAPPER_EXTENSION = bundle;
 			};
 			name = Release;
@@ -1945,7 +1945,7 @@
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = FunctionalTestRig;
-				USER_HEADER_SEARCH_PATHS = "Sources/ HostDOCategories/ ../../ ../../Submodules/eDistantObject";
+				USER_HEADER_SEARCH_PATHS = "Sources/ HostDOCategories/ ../../ ../../eDistantObject";
 			};
 			name = Debug;
 		};
@@ -1963,7 +1963,7 @@
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = FunctionalTestRig;
-				USER_HEADER_SEARCH_PATHS = "Sources/ HostDOCategories/ ../../ ../../Submodules/eDistantObject";
+				USER_HEADER_SEARCH_PATHS = "Sources/ HostDOCategories/ ../../ ../../eDistantObject";
 			};
 			name = Release;
 		};
@@ -1986,7 +1986,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "Sources/ HostDOCategories/ ../../ ../../Submodules/eDistantObject";
+				USER_HEADER_SEARCH_PATHS = "Sources/ HostDOCategories/ ../../ ../../eDistantObject";
 				WRAPPER_EXTENSION = bundle;
 			};
 			name = Debug;
@@ -2009,7 +2009,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "Sources/ HostDOCategories/ ../../ ../../Submodules/eDistantObject";
+				USER_HEADER_SEARCH_PATHS = "Sources/ HostDOCategories/ ../../ ../../eDistantObject";
 				WRAPPER_EXTENSION = bundle;
 			};
 			name = Release;

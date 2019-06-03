@@ -197,6 +197,7 @@
 		FD623BA720F95E3900049E81 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD623BA620F95E3900049E81 /* IOKit.framework */; };
 		FD623DC020FD764500049E81 /* GREYAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623DBD20FD764400049E81 /* GREYAnalytics.m */; };
 		FD623DC220FD770F00049E81 /* GREYMatchersShorthand.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B6020F95B0200049E81 /* GREYMatchersShorthand.m */; };
+		FD623DD820FD793900049E81 /* libeDistantObject.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD6239F220F56E6A00049E81 /* libeDistantObject.a */; };
 		FD623DD920FD794500049E81 /* libCommonLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD62395120F56A9700049E81 /* libCommonLib.a */; };
 		FD76BE5722985566001E6DAA /* GREYUIThreadExecutor+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = FD76BE5622985566001E6DAA /* GREYUIThreadExecutor+Private.h */; };
 		FD76BE5922985583001E6DAA /* GREYElementInteraction+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = FD76BE5822985583001E6DAA /* GREYElementInteraction+Private.h */; };
@@ -211,7 +212,6 @@
 		FD98C45E226C2E65006F8D68 /* GREYAppError.h in Headers */ = {isa = PBXBuildFile; fileRef = FD98C45D226C2E64006F8D68 /* GREYAppError.h */; };
 		FD98C461226C32FC006F8D68 /* GREYElementInteractionErrorHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C460226C32FB006F8D68 /* GREYElementInteractionErrorHandler.m */; };
 		FD98C464226C330A006F8D68 /* GREYFailureScreenshotSaver.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C462226C3309006F8D68 /* GREYFailureScreenshotSaver.m */; };
-		FDBE851122A21FD50093062B /* libeDistantObject.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FDBE84FC22A21FBC0093062B /* libeDistantObject.a */; };
 		FDF9E05720F82E200005DCF2 /* GREYTraversalDFS.m in Sources */ = {isa = PBXBuildFile; fileRef = FDF9E05120F82E200005DCF2 /* GREYTraversalDFS.m */; };
 		FDF9E05820F82E200005DCF2 /* GREYTraversalBFS.m in Sources */ = {isa = PBXBuildFile; fileRef = FDF9E05220F82E200005DCF2 /* GREYTraversalBFS.m */; };
 		FDF9E05920F82E200005DCF2 /* GREYTraversal.m in Sources */ = {isa = PBXBuildFile; fileRef = FDF9E05620F82E200005DCF2 /* GREYTraversal.m */; };
@@ -225,6 +225,83 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		FD3A824A21F187B700CA3ADF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FD6239E420F56E6A00049E81 /* eDistantObject.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C88B8A7B21ADD3BE00DDE607;
+			remoteInfo = MeasureLib;
+		};
+		FD3A824C21F187B700CA3ADF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FD6239E420F56E6A00049E81 /* eDistantObject.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C88B8A8921ADD3FD00DDE607;
+			remoteInfo = MeasureTests;
+		};
+		FD6239EF20F56E6A00049E81 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FD6239E420F56E6A00049E81 /* eDistantObject.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C845026520DD9D2E00D7350F;
+			remoteInfo = ChannelLib;
+		};
+		FD6239F120F56E6A00049E81 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FD6239E420F56E6A00049E81 /* eDistantObject.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C845027720DD9D5D00D7350F;
+			remoteInfo = eDistantObject;
+		};
+		FD6239F320F56E6A00049E81 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FD6239E420F56E6A00049E81 /* eDistantObject.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C845033420DDA11D00D7350F;
+			remoteInfo = ChannelTests;
+		};
+		FD6239F520F56E6A00049E81 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FD6239E420F56E6A00049E81 /* eDistantObject.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C845034520DDA1E800D7350F;
+			remoteInfo = TestsHost;
+		};
+		FD6239F720F56E6A00049E81 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FD6239E420F56E6A00049E81 /* eDistantObject.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C845037820DDA40A00D7350F;
+			remoteInfo = SessionUITests;
+		};
+		FD6239F920F56E6A00049E81 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FD6239E420F56E6A00049E81 /* eDistantObject.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C84503A220DDAEF500D7350F;
+			remoteInfo = SessionTests;
+		};
+		FD6239FB20F56E6A00049E81 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FD6239E420F56E6A00049E81 /* eDistantObject.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C84503B620DDB03E00D7350F;
+			remoteInfo = SessionPerfTests;
+		};
+		FD6239FD20F56E6A00049E81 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FD6239E420F56E6A00049E81 /* eDistantObject.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C84503C620DDB07A00D7350F;
+			remoteInfo = TestsBundle;
+		};
+		FD623A0020F56E9700049E81 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FD6239E420F56E6A00049E81 /* eDistantObject.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C845026E20DD9D5D00D7350F;
+			remoteInfo = eDistantObject;
+		};
 		FD623BD820F9726300049E81 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = FD62390920F569D500049E81 /* Project object */;
@@ -239,6 +316,27 @@
 			remoteGlobalIDString = FD62395020F56A9700049E81;
 			remoteInfo = CommonLib;
 		};
+		FD623DD520FD793300049E81 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FD6239E420F56E6A00049E81 /* eDistantObject.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C845026420DD9D2E00D7350F;
+			remoteInfo = ChannelLib;
+		};
+		FD623DDC20FD794F00049E81 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FD6239E420F56E6A00049E81 /* eDistantObject.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C845026420DD9D2E00D7350F;
+			remoteInfo = ChannelLib;
+		};
+		FD623DDE20FD794F00049E81 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FD6239E420F56E6A00049E81 /* eDistantObject.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C845026E20DD9D5D00D7350F;
+			remoteInfo = eDistantObject;
+		};
 		FD667829211FAE3A008EC4A7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = FD62390920F569D500049E81 /* Project object */;
@@ -246,91 +344,7 @@
 			remoteGlobalIDString = FD62395020F56A9700049E81;
 			remoteInfo = CommonLib;
 		};
-		FDBE84F722A21FBC0093062B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = FD6239E420F56E6A00049E81 /* eDistantObject.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C845026520DD9D2E00D7350F;
-			remoteInfo = ChannelLib;
-		};
-		FDBE84F922A21FBC0093062B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = FD6239E420F56E6A00049E81 /* eDistantObject.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C88B8A7B21ADD3BE00DDE607;
-			remoteInfo = MeasureLib;
-		};
-		FDBE84FB22A21FBC0093062B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = FD6239E420F56E6A00049E81 /* eDistantObject.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C845027720DD9D5D00D7350F;
-			remoteInfo = eDistantObject;
-		};
-		FDBE84FD22A21FBC0093062B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = FD6239E420F56E6A00049E81 /* eDistantObject.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C845033420DDA11D00D7350F;
-			remoteInfo = ChannelTests;
-		};
-		FDBE84FF22A21FBC0093062B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = FD6239E420F56E6A00049E81 /* eDistantObject.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C88B8A8921ADD3FD00DDE607;
-			remoteInfo = MeasureTests;
-		};
-		FDBE850122A21FBC0093062B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = FD6239E420F56E6A00049E81 /* eDistantObject.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C845034520DDA1E800D7350F;
-			remoteInfo = TestsHost;
-		};
-		FDBE850322A21FBC0093062B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = FD6239E420F56E6A00049E81 /* eDistantObject.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C845037820DDA40A00D7350F;
-			remoteInfo = ServiceUITests;
-		};
-		FDBE850522A21FBC0093062B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = FD6239E420F56E6A00049E81 /* eDistantObject.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C84503A220DDAEF500D7350F;
-			remoteInfo = ServiceTests;
-		};
-		FDBE850722A21FBC0093062B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = FD6239E420F56E6A00049E81 /* eDistantObject.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C84503B620DDB03E00D7350F;
-			remoteInfo = ServicePerfTests;
-		};
-		FDBE850922A21FBC0093062B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = FD6239E420F56E6A00049E81 /* eDistantObject.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C84503C620DDB07A00D7350F;
-			remoteInfo = TestsBundle;
-		};
-		FDBE850B22A21FBC0093062B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = FD6239E420F56E6A00049E81 /* eDistantObject.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C52D85942220C44300E86E60;
-			remoteInfo = DeviceLib;
-		};
-		FDBE850D22A21FBC0093062B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = FD6239E420F56E6A00049E81 /* eDistantObject.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C55B85F62241AEAC00B568FA;
-			remoteInfo = DeviceUnitTests;
-		};
-		FDBE850F22A21FC20093062B /* PBXContainerItemProxy */ = {
+		FD66782B211FAE3D008EC4A7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = FD6239E420F56E6A00049E81 /* eDistantObject.xcodeproj */;
 			proxyType = 1;
@@ -475,7 +489,7 @@
 		FD6239DD20F56C9400049E81 /* GREYObjcRuntime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYObjcRuntime.h; path = CommonLib/GREYObjcRuntime.h; sourceTree = "<group>"; };
 		FD6239DE20F56C9400049E81 /* GREYConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYConstants.m; path = CommonLib/GREYConstants.m; sourceTree = "<group>"; };
 		FD6239DF20F56C9500049E81 /* GREYConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYConstants.h; path = CommonLib/GREYConstants.h; sourceTree = "<group>"; };
-		FD6239E420F56E6A00049E81 /* eDistantObject.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = eDistantObject.xcodeproj; path = Submodules/eDistantObject/eDistantObject.xcodeproj; sourceTree = "<group>"; };
+		FD6239E420F56E6A00049E81 /* eDistantObject.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = eDistantObject.xcodeproj; path = eDistantObject/eDistantObject.xcodeproj; sourceTree = "<group>"; };
 		FD623A4920F957BE00049E81 /* AppFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AppFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD623A4C20F957BE00049E81 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FD623A5320F958C000049E81 /* GREYTapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYTapper.m; path = Action/GREYTapper.m; sourceTree = "<group>"; };
@@ -620,8 +634,8 @@
 		FD623B7F20F95B1500049E81 /* GREYAppStateTrackerObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYAppStateTrackerObject.h; path = Synchronization/GREYAppStateTrackerObject.h; sourceTree = "<group>"; };
 		FD623B8020F95B1500049E81 /* GREYDispatchQueueTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYDispatchQueueTracker.h; path = Synchronization/GREYDispatchQueueTracker.h; sourceTree = "<group>"; };
 		FD623B8120F95B1500049E81 /* GREYUIThreadExecutor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYUIThreadExecutor.m; path = Synchronization/GREYUIThreadExecutor.m; sourceTree = "<group>"; };
-		FD623B9B20F95C8100049E81 /* fishhook.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = fishhook.c; path = Submodules/fishhook/fishhook.c; sourceTree = "<group>"; };
-		FD623B9C20F95C8100049E81 /* fishhook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = fishhook.h; path = Submodules/fishhook/fishhook.h; sourceTree = "<group>"; };
+		FD623B9B20F95C8100049E81 /* fishhook.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = fishhook.c; path = fishhook/fishhook.c; sourceTree = "<group>"; };
+		FD623B9C20F95C8100049E81 /* fishhook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = fishhook.h; path = fishhook/fishhook.h; sourceTree = "<group>"; };
 		FD623BA620F95E3900049E81 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = ../../../../../../../../System/Library/Frameworks/IOKit.framework; sourceTree = "<group>"; };
 		FD623DB820FD75B700049E81 /* GREYFailureScreenshotterStub.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = GREYFailureScreenshotterStub.m; path = ../AppFramework/Error/GREYFailureScreenshotterStub.m; sourceTree = "<group>"; };
 		FD623DBD20FD764400049E81 /* GREYAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYAnalytics.m; path = Analytics/GREYAnalytics.m; sourceTree = "<group>"; };
@@ -682,7 +696,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FDBE851122A21FD50093062B /* libeDistantObject.a in Frameworks */,
+				FD623DD820FD793900049E81 /* libeDistantObject.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -999,6 +1013,23 @@
 			name = Provider;
 			sourceTree = "<group>";
 		};
+		FD6239E520F56E6A00049E81 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FD6239F020F56E6A00049E81 /* libChannelLib.a */,
+				FD3A824B21F187B700CA3ADF /* libMeasureLib.a */,
+				FD6239F220F56E6A00049E81 /* libeDistantObject.a */,
+				FD6239F420F56E6A00049E81 /* ChannelTests.xctest */,
+				FD3A824D21F187B700CA3ADF /* MeasureTests.xctest */,
+				FD6239F620F56E6A00049E81 /* TestsHost.app */,
+				FD6239F820F56E6A00049E81 /* ServiceUITests.xctest */,
+				FD6239FA20F56E6A00049E81 /* ServiceTests.xctest */,
+				FD6239FC20F56E6A00049E81 /* ServicePerfTests.xctest */,
+				FD6239FE20F56E6A00049E81 /* libTestsBundle.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		FD623A4A20F957BE00049E81 /* AppFramework */ = {
 			isa = PBXGroup;
 			children = (
@@ -1312,25 +1343,6 @@
 			name = AppleInternals;
 			sourceTree = "<group>";
 		};
-		FDBE84E922A21FBC0093062B /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				FDBE84F822A21FBC0093062B /* libChannelLib.a */,
-				FDBE84FA22A21FBC0093062B /* libMeasureLib.a */,
-				FDBE84FC22A21FBC0093062B /* libeDistantObject.a */,
-				FDBE84FE22A21FBC0093062B /* ChannelTests.xctest */,
-				FDBE850022A21FBC0093062B /* MeasureTests.xctest */,
-				FDBE850222A21FBC0093062B /* TestsHost.app */,
-				FDBE850422A21FBC0093062B /* ServiceUITests.xctest */,
-				FDBE850622A21FBC0093062B /* ServiceTests.xctest */,
-				FDBE850822A21FBC0093062B /* ServicePerfTests.xctest */,
-				FDBE850A22A21FBC0093062B /* libTestsBundle.a */,
-				FDBE850C22A21FBC0093062B /* libDeviceLib.a */,
-				FDBE850E22A21FBC0093062B /* DeviceUnitTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		FDF9E03620F82D090005DCF2 /* UILib */ = {
 			isa = PBXGroup;
 			children = (
@@ -1510,7 +1522,8 @@
 			buildRules = (
 			);
 			dependencies = (
-				FDBE851022A21FC20093062B /* PBXTargetDependency */,
+				FD623DD620FD793300049E81 /* PBXTargetDependency */,
+				FD623A0120F56E9700049E81 /* PBXTargetDependency */,
 			);
 			name = CommonLib;
 			productName = CommonLib;
@@ -1529,6 +1542,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				FD66782C211FAE3D008EC4A7 /* PBXTargetDependency */,
 				FD66782A211FAE3A008EC4A7 /* PBXTargetDependency */,
 				FD623BD920F9726300049E81 /* PBXTargetDependency */,
 			);
@@ -1548,6 +1562,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				FD623DDD20FD794F00049E81 /* PBXTargetDependency */,
+				FD623DDF20FD794F00049E81 /* PBXTargetDependency */,
 				FDF9E07C20F82F290005DCF2 /* PBXTargetDependency */,
 			);
 			name = UILib;
@@ -1593,7 +1609,7 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = FDBE84E922A21FBC0093062B /* Products */;
+					ProductGroup = FD6239E520F56E6A00049E81 /* Products */;
 					ProjectRef = FD6239E420F56E6A00049E81 /* eDistantObject.xcodeproj */;
 				},
 			);
@@ -1608,88 +1624,74 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		FDBE84F822A21FBC0093062B /* libChannelLib.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libChannelLib.a;
-			remoteRef = FDBE84F722A21FBC0093062B /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		FDBE84FA22A21FBC0093062B /* libMeasureLib.a */ = {
+		FD3A824B21F187B700CA3ADF /* libMeasureLib.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libMeasureLib.a;
-			remoteRef = FDBE84F922A21FBC0093062B /* PBXContainerItemProxy */;
+			remoteRef = FD3A824A21F187B700CA3ADF /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		FDBE84FC22A21FBC0093062B /* libeDistantObject.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libeDistantObject.a;
-			remoteRef = FDBE84FB22A21FBC0093062B /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		FDBE84FE22A21FBC0093062B /* ChannelTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = ChannelTests.xctest;
-			remoteRef = FDBE84FD22A21FBC0093062B /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		FDBE850022A21FBC0093062B /* MeasureTests.xctest */ = {
+		FD3A824D21F187B700CA3ADF /* MeasureTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = MeasureTests.xctest;
-			remoteRef = FDBE84FF22A21FBC0093062B /* PBXContainerItemProxy */;
+			remoteRef = FD3A824C21F187B700CA3ADF /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		FDBE850222A21FBC0093062B /* TestsHost.app */ = {
+		FD6239F020F56E6A00049E81 /* libChannelLib.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libChannelLib.a;
+			remoteRef = FD6239EF20F56E6A00049E81 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		FD6239F220F56E6A00049E81 /* libeDistantObject.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libeDistantObject.a;
+			remoteRef = FD6239F120F56E6A00049E81 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		FD6239F420F56E6A00049E81 /* ChannelTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = ChannelTests.xctest;
+			remoteRef = FD6239F320F56E6A00049E81 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		FD6239F620F56E6A00049E81 /* TestsHost.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
 			path = TestsHost.app;
-			remoteRef = FDBE850122A21FBC0093062B /* PBXContainerItemProxy */;
+			remoteRef = FD6239F520F56E6A00049E81 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		FDBE850422A21FBC0093062B /* ServiceUITests.xctest */ = {
+		FD6239F820F56E6A00049E81 /* ServiceUITests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = ServiceUITests.xctest;
-			remoteRef = FDBE850322A21FBC0093062B /* PBXContainerItemProxy */;
+			remoteRef = FD6239F720F56E6A00049E81 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		FDBE850622A21FBC0093062B /* ServiceTests.xctest */ = {
+		FD6239FA20F56E6A00049E81 /* ServiceTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = ServiceTests.xctest;
-			remoteRef = FDBE850522A21FBC0093062B /* PBXContainerItemProxy */;
+			remoteRef = FD6239F920F56E6A00049E81 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		FDBE850822A21FBC0093062B /* ServicePerfTests.xctest */ = {
+		FD6239FC20F56E6A00049E81 /* ServicePerfTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = ServicePerfTests.xctest;
-			remoteRef = FDBE850722A21FBC0093062B /* PBXContainerItemProxy */;
+			remoteRef = FD6239FB20F56E6A00049E81 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		FDBE850A22A21FBC0093062B /* libTestsBundle.a */ = {
+		FD6239FE20F56E6A00049E81 /* libTestsBundle.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libTestsBundle.a;
-			remoteRef = FDBE850922A21FBC0093062B /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		FDBE850C22A21FBC0093062B /* libDeviceLib.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libDeviceLib.a;
-			remoteRef = FDBE850B22A21FBC0093062B /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		FDBE850E22A21FBC0093062B /* DeviceUnitTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = DeviceUnitTests.xctest;
-			remoteRef = FDBE850D22A21FBC0093062B /* PBXContainerItemProxy */;
+			remoteRef = FD6239FD20F56E6A00049E81 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -1867,6 +1869,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		FD623A0120F56E9700049E81 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = eDistantObject;
+			targetProxy = FD623A0020F56E9700049E81 /* PBXContainerItemProxy */;
+		};
 		FD623BD920F9726300049E81 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = FDF9E03420F82D090005DCF2 /* UILib */;
@@ -1877,15 +1884,30 @@
 			target = FD62395020F56A9700049E81 /* CommonLib */;
 			targetProxy = FD623DC320FD780900049E81 /* PBXContainerItemProxy */;
 		};
+		FD623DD620FD793300049E81 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ChannelLib;
+			targetProxy = FD623DD520FD793300049E81 /* PBXContainerItemProxy */;
+		};
+		FD623DDD20FD794F00049E81 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ChannelLib;
+			targetProxy = FD623DDC20FD794F00049E81 /* PBXContainerItemProxy */;
+		};
+		FD623DDF20FD794F00049E81 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = eDistantObject;
+			targetProxy = FD623DDE20FD794F00049E81 /* PBXContainerItemProxy */;
+		};
 		FD66782A211FAE3A008EC4A7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = FD62395020F56A9700049E81 /* CommonLib */;
 			targetProxy = FD667829211FAE3A008EC4A7 /* PBXContainerItemProxy */;
 		};
-		FDBE851022A21FC20093062B /* PBXTargetDependency */ = {
+		FD66782C211FAE3D008EC4A7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = eDistantObject;
-			targetProxy = FDBE850F22A21FC20093062B /* PBXContainerItemProxy */;
+			targetProxy = FD66782B211FAE3D008EC4A7 /* PBXContainerItemProxy */;
 		};
 		FDF9E07C20F82F290005DCF2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1901,7 +1923,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				FRAMEWORK_SEARCH_PATHS = "$(PLATFORM_DIR)/Developer/Library/Frameworks";
 				HEADER_SEARCH_PATHS = (
-					Submodules/eDistantObject/,
+					eDistantObject/,
 					.,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -1924,7 +1946,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				FRAMEWORK_SEARCH_PATHS = "$(PLATFORM_DIR)/Developer/Library/Frameworks";
 				HEADER_SEARCH_PATHS = (
-					Submodules/eDistantObject/,
+					eDistantObject/,
 					.,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -2102,7 +2124,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				HEADER_SEARCH_PATHS = (
-					Submodules/eDistantObject/,
+					eDistantObject/,
 					.,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -2120,7 +2142,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				HEADER_SEARCH_PATHS = (
-					Submodules/eDistantObject/,
+					eDistantObject/,
 					.,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -2144,8 +2166,8 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				HEADER_SEARCH_PATHS = (
-					Submodules/eDistantObject/,
-					Submodules/fishhook/,
+					eDistantObject/,
+					fishhook/,
 					.,
 				);
 				INFOPLIST_FILE = AppFramework/Info.plist;
@@ -2180,8 +2202,8 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				HEADER_SEARCH_PATHS = (
-					Submodules/eDistantObject/,
-					Submodules/fishhook/,
+					eDistantObject/,
+					fishhook/,
 					.,
 				);
 				INFOPLIST_FILE = AppFramework/Info.plist;
@@ -2210,7 +2232,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				HEADER_SEARCH_PATHS = (
-					Submodules/eDistantObject/,
+					eDistantObject/,
 					.,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -2228,7 +2250,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				HEADER_SEARCH_PATHS = (
-					Submodules/eDistantObject/,
+					eDistantObject/,
 					.,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
