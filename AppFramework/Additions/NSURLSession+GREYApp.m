@@ -55,8 +55,7 @@ typedef void (^GREYTaskCompletionBlock)(NSData *data, NSURLResponse *response, N
       [[delegate forwardingTargetForSelector:originalSel] class] ?: [delegate class];
 
   if (![delegateClass instancesRespondToSelector:swizzledSel]) {
-    SEL originalSel = @selector(URLSession:task:didCompleteWithError:);
-    // If delegate does not exists or delegate does not implement the delegate method, then this
+    // If delegate does not exist or if it does not implement the delegate method, then this
     // request need not be tracked as its completion/failure does not trigger any delegate
     // callbacks.
     if ([delegate respondsToSelector:originalSel]) {
@@ -79,13 +78,13 @@ typedef void (^GREYTaskCompletionBlock)(NSData *data, NSURLResponse *response, N
   }
 
   GREYTaskCompletionBlock wrappedHandler = nil;
-  __weak __block id wTask;
+  __weak __block id weakTask;
   // If a handler has been provided then wrap it as delegate methods are not invoked for tasks with
   // completion blocks.
   if (handler) {
     wrappedHandler = ^(NSData *data, NSURLResponse *response, NSError *error) {
       handler(data, response, error);
-      [wTask grey_untrack];
+      [weakTask grey_untrack];
     };
   }
 
@@ -99,7 +98,7 @@ typedef void (^GREYTaskCompletionBlock)(NSData *data, NSURLResponse *response, N
   if (!delegate && !handler) {
     [(id)task grey_neverTrack];
   } else {
-    wTask = task;
+    weakTask = task;
   }
   return task;
 }
