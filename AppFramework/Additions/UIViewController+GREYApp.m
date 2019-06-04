@@ -26,10 +26,11 @@
 #import "CommonLib/GREYSwizzler.h"
 
 /**
- *  The class for UICompatibilityInputViewController which isn't tracked here since we've faced
- *  issues with tracking it when it comes to typing on keyboards with accessory views.
+ *  The class for UICompatibilityInputViewController and UIEditingOverlayViewControllerwhich isn't
+ *  tracked here since we've faced issues with tracking it when it comes to typing on keyboards
+ *  with accessory views.
  */
-static Class gCompatibilityVCClass;
+static Class gInputAccessoryVCClass;
 
 @implementation UIViewController (GREYApp)
 
@@ -72,7 +73,11 @@ static Class gCompatibilityVCClass;
 }
 
 __attribute__((constructor)) static void initialize(void) {
-  gCompatibilityVCClass = NSClassFromString(@"UICompatibilityInputViewController");
+#if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 130000)
+  gInputAccessoryVCClass = NSClassFromString(@"UIEditingOverlayViewController");
+#else
+  gInputAccessoryVCClass = NSClassFromString(@"UICompatibilityInputViewController");
+#endif
 }
 
 - (void)grey_trackAsRootViewControllerForWindow:(UIWindow *)window {
@@ -115,9 +120,9 @@ __attribute__((constructor)) static void initialize(void) {
 }
 
 - (void)greyswizzled_viewWillAppear:(BOOL)animated {
-  // For a UICompatibilityInputViewController, do not track this state due to issues seen with
-  // untracking.
-  if (![self isKindOfClass:gCompatibilityVCClass]) {
+  // For UICompatibilityInputViewController and UIEditingOverlayViewController, which are keyboard
+  // related classes, do not track this state due to issues seen with untracking.
+  if (![self isKindOfClass:gInputAccessoryVCClass]) {
     BOOL movingToNilWindow = [self grey_isMovingToNilWindow];
     if (movingToNilWindow) {
       GREYLogVerbose(@"View is moving to nil window. Skipping viewWillAppear state tracking.");
