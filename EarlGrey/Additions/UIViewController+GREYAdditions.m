@@ -128,7 +128,7 @@ __attribute__((constructor)) static void initialize(void) {
 - (void)greyswizzled_viewWillAppear:(BOOL)animated {
   // For a UICompatibilityInputViewController, do not track this state due to issues seen with
   // untracking.
-  if (![self isKindOfClass:gCompatibilityVCClass]) {
+  if (![self isKindOfClass:gCompatibilityVCClass] && ![self isKindOfClass:NSClassFromString(@"UIEditingOverlayViewController")]) {
     BOOL movingToNilWindow = [self grey_isMovingToNilWindow];
     if (movingToNilWindow) {
       GREYLogVerbose(@"View is moving to nil window. Skipping viewWillAppear state tracking.");
