@@ -18,6 +18,8 @@
 
 #import "CommonLib/Assertion/GREYThrowDefines.h"
 
+NSString *const GREYFailureHandlerKey = @"GREYAppFailureHandlerKey";
+
 @implementation GREYAssertionBlock {
   NSString *_name;
   GREYCheckBlockWithError _checkBlockWithError;

@@ -17,10 +17,8 @@
 #import "AppFramework/Action/GREYSwipeAction.h"
 
 #import "AppFramework/Action/GREYPathGestureUtils.h"
-#import "AppFramework/Additions/NSException+GREYApp.h"
 #import "AppFramework/Additions/NSObject+GREYApp.h"
 #import "AppFramework/Error/GREYAppError.h"
-#import "AppFramework/Error/GREYAppFailureHandler.h"
 #import "AppFramework/Event/GREYSyntheticEvents.h"
 #import "AppFramework/Matcher/GREYAllOf.h"
 #import "AppFramework/Matcher/GREYMatchers.h"
@@ -31,7 +29,6 @@
 #import "CommonLib/Assertion/GREYThrowDefines.h"
 #import "CommonLib/Error/GREYErrorConstants.h"
 #import "CommonLib/Error/NSError+GREYCommon.h"
-#import "CommonLib/Exceptions/GREYFrameworkException.h"
 
 @implementation GREYSwipeAction {
   /**

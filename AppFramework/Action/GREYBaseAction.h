@@ -34,7 +34,7 @@
  *
  *  @param name        The name of the GREYAction being performed.
  *
- *  @param constraints The constraints to be satisified by the element before the
+ *  @param constraints The constraints to be satisfied by the element before the
  *                     action is performed.
  *
  *  @return An instance of GREYBaseAction, initialized with the @c constraints for it to check for.
@@ -47,15 +47,11 @@
  *  Subclasses should call this method if they want to check for constraints in their perform:error:
  *  implementation.
  *
- *  @param      element       A UI element being checked for the @c constraints.
- *  @param[out] errorOrNilPtr Error stored when an element did not satisfy the @c constraints.
- *                            If an error is set but this pointer is @c nil,
- *                            then an action failed exception is thrown.
- *
- *  @throws GREYFrameworkException if constraints fail and @c errorOrNilPtr is not provided.
+ *  @param      element A UI element being checked for the @c constraints.
+ *  @param[out] error   Error set when an element did not satisfy the @c constraints.
  *
  *  @return @c YES if the constraints are satisfied on the element. @c NO otherwise.
  */
-- (BOOL)satisfiesConstraintsForElement:(id)element error:(__strong NSError **)errorOrNilPtr;
+- (BOOL)satisfiesConstraintsForElement:(id)element error:(__strong NSError **)error;
 
 @end

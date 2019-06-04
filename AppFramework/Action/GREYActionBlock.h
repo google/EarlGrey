@@ -25,9 +25,6 @@
  *  @param[out] errorOrNil The error set on failure. The error returned can be @c nil, signifying
  *                         that the action succeeded.
  *
- *  @throws NSException when there is a failure and @c errorOrNil is not provided
- *          (i.e. it is @c nil).
- *
  *  @return @c YES if the action performed succeeded, else @c NO.
  */
 typedef BOOL (^GREYPerformBlock)(id element, __strong NSError **errorOrNil);

@@ -33,8 +33,6 @@
 #import "TestLib/EarlGreyImpl/GREYElementInteractionProxy.h"
 #import "TestLib/Exception/GREYDefaultFailureHandler.h"
 
-NSString *const GREYFailureHandlerKey = @"GREYFailureHandlerKey";
-
 /**
  *  Sets EarlGrey provided default failure handler if there's no failure handler set for the current
  *  thread.

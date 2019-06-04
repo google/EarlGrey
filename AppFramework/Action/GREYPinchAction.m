@@ -136,10 +136,8 @@ static CGFloat const kPinchScale = (CGFloat)0.8;
                                                          hideEmpty:YES
                                                           keyOrder:keyOrder];
 
-    NSString *reason = [NSString stringWithFormat:
-                                     @"Cannot apply pinch on element.\n"
-                                     @"Exception with Action: %@\n",
-                                     reasonDetail];
+    NSString *reason = [NSString
+        stringWithFormat:@"Cannot apply pinch action on the element. Error: %@\n", reasonDetail];
 
     I_GREYPopulateErrorNoted(error, kGREYPinchErrorDomain, kGREYPinchFailedErrorCode, reason,
                              @{@"V" : view});

@@ -93,14 +93,12 @@
 		FD623AC020F9590800049E81 /* NSURLSession+GREYApp.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623A9A20F9590600049E81 /* NSURLSession+GREYApp.h */; };
 		FD623AC120F9590800049E81 /* UIApplication+GREYApp.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623A9B20F9590600049E81 /* UIApplication+GREYApp.h */; };
 		FD623AC220F9590800049E81 /* UIWindow+GREYApp.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623A9C20F9590600049E81 /* UIWindow+GREYApp.m */; };
-		FD623AC320F9590800049E81 /* NSException+GREYApp.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623A9D20F9590600049E81 /* NSException+GREYApp.h */; };
 		FD623AC420F9590800049E81 /* UISwitch+GREYApp.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623A9E20F9590600049E81 /* UISwitch+GREYApp.m */; };
 		FD623AC520F9590800049E81 /* UISwitch+GREYApp.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623A9F20F9590600049E81 /* UISwitch+GREYApp.h */; };
 		FD623AC620F9590800049E81 /* NSObject+GREYApp.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623AA020F9590600049E81 /* NSObject+GREYApp.h */; };
 		FD623AC720F9590800049E81 /* UIWindow+GREYApp.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623AA120F9590600049E81 /* UIWindow+GREYApp.h */; };
 		FD623AC820F9590800049E81 /* CALayer+GREYApp.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623AA220F9590600049E81 /* CALayer+GREYApp.m */; };
 		FD623AC920F9590800049E81 /* CAAnimation+GREYApp.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623AA320F9590700049E81 /* CAAnimation+GREYApp.m */; };
-		FD623ACA20F9590800049E81 /* NSException+GREYApp.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623AA420F9590700049E81 /* NSException+GREYApp.m */; };
 		FD623ACB20F9590800049E81 /* NSRunLoop+GREYApp.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623AA520F9590700049E81 /* NSRunLoop+GREYApp.m */; };
 		FD623ACC20F9590800049E81 /* NSURLConnection+GREYApp.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623AA620F9590700049E81 /* NSURLConnection+GREYApp.h */; };
 		FD623ACD20F9590800049E81 /* NSURLSession+GREYApp.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623AA720F9590700049E81 /* NSURLSession+GREYApp.m */; };
@@ -145,10 +143,8 @@
 		FD623B1A20F95A5400049E81 /* GREYHostApplicationDistantObject+GREYTestHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B1320F95A5400049E81 /* GREYHostApplicationDistantObject+GREYTestHelper.h */; };
 		FD623B1B20F95A5400049E81 /* GREYHostBackgroundDistantObject.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B1420F95A5400049E81 /* GREYHostBackgroundDistantObject.m */; };
 		FD623B1E20F95A6300049E81 /* EarlGreyApp.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B1D20F95A6300049E81 /* EarlGreyApp.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FD623B2520F95A7200049E81 /* GREYAppFailureHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B2020F95A7200049E81 /* GREYAppFailureHandler.m */; };
 		FD623B2620F95A7200049E81 /* GREYFailureScreenshotter.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B2120F95A7200049E81 /* GREYFailureScreenshotter.h */; };
 		FD623B2720F95A7200049E81 /* GREYFailureScreenshotter.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B2220F95A7200049E81 /* GREYFailureScreenshotter.m */; };
-		FD623B2820F95A7200049E81 /* GREYAppFailureHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B2320F95A7200049E81 /* GREYAppFailureHandler.h */; };
 		FD623B3020F95A8600049E81 /* GREYTouchInjector.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B2B20F95A8600049E81 /* GREYTouchInjector.m */; };
 		FD623B3120F95A8600049E81 /* GREYIOHIDEventTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B2C20F95A8600049E81 /* GREYIOHIDEventTypes.h */; };
 		FD623B3220F95A8600049E81 /* GREYSyntheticEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B2D20F95A8600049E81 /* GREYSyntheticEvents.m */; };
@@ -533,14 +529,12 @@
 		FD623A9A20F9590600049E81 /* NSURLSession+GREYApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSURLSession+GREYApp.h"; path = "Additions/NSURLSession+GREYApp.h"; sourceTree = "<group>"; };
 		FD623A9B20F9590600049E81 /* UIApplication+GREYApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIApplication+GREYApp.h"; path = "Additions/UIApplication+GREYApp.h"; sourceTree = "<group>"; };
 		FD623A9C20F9590600049E81 /* UIWindow+GREYApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIWindow+GREYApp.m"; path = "Additions/UIWindow+GREYApp.m"; sourceTree = "<group>"; };
-		FD623A9D20F9590600049E81 /* NSException+GREYApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSException+GREYApp.h"; path = "Additions/NSException+GREYApp.h"; sourceTree = "<group>"; };
 		FD623A9E20F9590600049E81 /* UISwitch+GREYApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UISwitch+GREYApp.m"; path = "Additions/UISwitch+GREYApp.m"; sourceTree = "<group>"; };
 		FD623A9F20F9590600049E81 /* UISwitch+GREYApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UISwitch+GREYApp.h"; path = "Additions/UISwitch+GREYApp.h"; sourceTree = "<group>"; };
 		FD623AA020F9590600049E81 /* NSObject+GREYApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+GREYApp.h"; path = "Additions/NSObject+GREYApp.h"; sourceTree = "<group>"; };
 		FD623AA120F9590600049E81 /* UIWindow+GREYApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIWindow+GREYApp.h"; path = "Additions/UIWindow+GREYApp.h"; sourceTree = "<group>"; };
 		FD623AA220F9590600049E81 /* CALayer+GREYApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CALayer+GREYApp.m"; path = "Additions/CALayer+GREYApp.m"; sourceTree = "<group>"; };
 		FD623AA320F9590700049E81 /* CAAnimation+GREYApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CAAnimation+GREYApp.m"; path = "Additions/CAAnimation+GREYApp.m"; sourceTree = "<group>"; };
-		FD623AA420F9590700049E81 /* NSException+GREYApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSException+GREYApp.m"; path = "Additions/NSException+GREYApp.m"; sourceTree = "<group>"; };
 		FD623AA520F9590700049E81 /* NSRunLoop+GREYApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSRunLoop+GREYApp.m"; path = "Additions/NSRunLoop+GREYApp.m"; sourceTree = "<group>"; };
 		FD623AA620F9590700049E81 /* NSURLConnection+GREYApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSURLConnection+GREYApp.h"; path = "Additions/NSURLConnection+GREYApp.h"; sourceTree = "<group>"; };
 		FD623AA720F9590700049E81 /* NSURLSession+GREYApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSURLSession+GREYApp.m"; path = "Additions/NSURLSession+GREYApp.m"; sourceTree = "<group>"; };
@@ -585,10 +579,8 @@
 		FD623B1320F95A5400049E81 /* GREYHostApplicationDistantObject+GREYTestHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GREYHostApplicationDistantObject+GREYTestHelper.h"; path = "DistantObject/GREYHostApplicationDistantObject+GREYTestHelper.h"; sourceTree = "<group>"; };
 		FD623B1420F95A5400049E81 /* GREYHostBackgroundDistantObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYHostBackgroundDistantObject.m; path = DistantObject/GREYHostBackgroundDistantObject.m; sourceTree = "<group>"; };
 		FD623B1D20F95A6300049E81 /* EarlGreyApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EarlGreyApp.h; path = EarlGreyApp/EarlGreyApp.h; sourceTree = "<group>"; };
-		FD623B2020F95A7200049E81 /* GREYAppFailureHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYAppFailureHandler.m; path = Error/GREYAppFailureHandler.m; sourceTree = "<group>"; };
 		FD623B2120F95A7200049E81 /* GREYFailureScreenshotter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYFailureScreenshotter.h; path = Error/GREYFailureScreenshotter.h; sourceTree = "<group>"; };
 		FD623B2220F95A7200049E81 /* GREYFailureScreenshotter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYFailureScreenshotter.m; path = Error/GREYFailureScreenshotter.m; sourceTree = "<group>"; };
-		FD623B2320F95A7200049E81 /* GREYAppFailureHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYAppFailureHandler.h; path = Error/GREYAppFailureHandler.h; sourceTree = "<group>"; };
 		FD623B2420F95A7200049E81 /* GREYFailureScreenshotterStub.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYFailureScreenshotterStub.m; path = Error/GREYFailureScreenshotterStub.m; sourceTree = "<group>"; };
 		FD623B2B20F95A8600049E81 /* GREYTouchInjector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYTouchInjector.m; path = Event/GREYTouchInjector.m; sourceTree = "<group>"; };
 		FD623B2C20F95A8600049E81 /* GREYIOHIDEventTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYIOHIDEventTypes.h; path = Event/GREYIOHIDEventTypes.h; sourceTree = "<group>"; };
@@ -1101,8 +1093,6 @@
 				FD623AA320F9590700049E81 /* CAAnimation+GREYApp.m */,
 				FD623AA920F9590700049E81 /* CALayer+GREYApp.h */,
 				FD623AA220F9590600049E81 /* CALayer+GREYApp.m */,
-				FD623A9D20F9590600049E81 /* NSException+GREYApp.h */,
-				FD623AA420F9590700049E81 /* NSException+GREYApp.m */,
 				FD623AA020F9590600049E81 /* NSObject+GREYApp.h */,
 				FD623A9220F9590500049E81 /* NSObject+GREYApp.m */,
 				FD623AB520F9590800049E81 /* NSRunLoop+GREYApp.h */,
@@ -1210,8 +1200,6 @@
 			isa = PBXGroup;
 			children = (
 				FD98C45D226C2E64006F8D68 /* GREYAppError.h */,
-				FD623B2320F95A7200049E81 /* GREYAppFailureHandler.h */,
-				FD623B2020F95A7200049E81 /* GREYAppFailureHandler.m */,
 				FD623B2120F95A7200049E81 /* GREYFailureScreenshotter.h */,
 				FD623B2220F95A7200049E81 /* GREYFailureScreenshotter.m */,
 				FD623B2420F95A7200049E81 /* GREYFailureScreenshotterStub.m */,
@@ -1409,7 +1397,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				FD623B1E20F95A6300049E81 /* EarlGreyApp.h in Headers */,
-				FD623B2820F95A7200049E81 /* GREYAppFailureHandler.h in Headers */,
 				FD623AE320F9591600049E81 /* GREYAssertions.h in Headers */,
 				FD623B0620F9595300049E81 /* GREYUIWebViewDelegate.h in Headers */,
 				FD623AFB20F9594200049E81 /* GREYInteraction.h in Headers */,
@@ -1452,7 +1439,6 @@
 				FD3A825D21F189BC00CA3ADF /* GREYActionsShorthand.h in Headers */,
 				FD623A7220F958C200049E81 /* GREYScrollAction.h in Headers */,
 				FD623AC120F9590800049E81 /* UIApplication+GREYApp.h in Headers */,
-				FD623AC320F9590800049E81 /* NSException+GREYApp.h in Headers */,
 				FD623A7D20F958C200049E81 /* GREYPickerAction.h in Headers */,
 				FD623B8D20F95B1500049E81 /* GREYRunLoopSpinner.h in Headers */,
 				FD623B7020F95B0300049E81 /* GREYAllOf.h in Headers */,
@@ -1796,7 +1782,6 @@
 				FD623ABD20F9590800049E81 /* UIViewController+GREYApp.m in Sources */,
 				FD623B5420F95AF400049E81 /* GREYKeyboard.m in Sources */,
 				FD3A825B21F189BC00CA3ADF /* GREYActionsShorthand.m in Sources */,
-				FD623B2520F95A7200049E81 /* GREYAppFailureHandler.m in Sources */,
 				FD623ADC20F9590800049E81 /* UIAnimation+GREYApp.m in Sources */,
 				FD623B8520F95B1500049E81 /* GREYSyncAPI.m in Sources */,
 				FD623A8420F958C200049E81 /* GREYSlideAction.m in Sources */,
@@ -1818,7 +1803,6 @@
 				FD623A8A20F958C200049E81 /* GREYChangeStepperAction.m in Sources */,
 				FD623B8320F95B1500049E81 /* GREYAppStateTrackerObject.m in Sources */,
 				FD3A826421F18A5900CA3ADF /* GREYTestApplicationDistantObject+GREYLogger.m in Sources */,
-				FD623ACA20F9590800049E81 /* NSException+GREYApp.m in Sources */,
 				FD2E76EC2149E4580063EF7E /* GREYAppConfiguration.m in Sources */,
 				FD623A7F20F958C200049E81 /* GREYBaseAction.m in Sources */,
 				FD623B4920F95A9C00049E81 /* GREYOperationQueueIdlingResource.m in Sources */,

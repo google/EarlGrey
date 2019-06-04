@@ -167,7 +167,7 @@ static const NSTimeInterval kTouchInjectFramerateInv = 1 / 120.0;
 #pragma mark - Private Injecting touches API's
 
 /**
- *  Takes a GRYETouchInfo object and converts it into a UITouch. Also adds the newly created
+ *  Takes a GREYTouchInfo object and converts it into a UITouch. Also adds the newly created
  *  touch object and adds it to an array of ongoing touches.
  *
  *  @param touchInfo The info that is used to create the UITouch.

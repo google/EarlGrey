@@ -19,7 +19,6 @@
 #import "AppFramework/Additions/NSObject+GREYApp.h"
 #import "AppFramework/Core/GREYInteraction.h"
 #import "AppFramework/Error/GREYAppError.h"
-#import "AppFramework/Error/GREYAppFailureHandler.h"
 #import "AppFramework/Synchronization/GREYSyncAPI.h"
 #import "CommonLib/Additions/NSObject+GREYCommon.h"
 #import "CommonLib/Assertion/GREYAssertionDefines.h"
