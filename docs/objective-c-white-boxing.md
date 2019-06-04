@@ -1,6 +1,6 @@
 # How to Query / Modify the Application Under Test (White-Boxing) in Objective-C
 
-In Objective-C, using the Helper Bundle is quite straightforward. As mentioned,
+In Objective-C, using the Helper Bundle is very straightforward. As mentioned,
 you just need to have categories for the Distant Objects which proxy calls from
 the tests to the application. For Objective-C, the categories must be part of
 the application, with the headers exposed to the tests. This is achieved with
