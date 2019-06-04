@@ -54,12 +54,12 @@ typedef void (^GREYTaskCompletionBlock)(NSData *data, NSURLResponse *response, N
   // Swizzle the session delegate class if not yet done.
   id delegate = self.delegate;
   SEL originalSel = @selector(URLSession:task:didCompleteWithError:);
-  // This is to solve issues where there is a proxy delegate instead of the original instance (e.g. TrustKit, New Relic).
-  // It responds YES to `respondsToSelector:` but `class_getInstanceMethod` returns nil.
-  // We attempt to follow the forwarding targets for the selector, if any exists.
+  // This is to solve issues where there is a proxy delegate instead of the original
+  // instance (e.g. TrustKit, New Relic). It responds YES to `respondsToSelector:`
+  // but `class_getInstanceMethod` returns nil. We attempt to follow the forwarding
+  // targets for the selector, if any exists.
   id nextForwardingDelegate;
-  while ((nextForwardingDelegate = [delegate forwardingTargetForSelector:originalSel]))
-  {
+  while ((nextForwardingDelegate = [delegate forwardingTargetForSelector:originalSel])) {
     delegate = nextForwardingDelegate;
   }
   Class delegateClass = [delegate class];
