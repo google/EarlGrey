@@ -133,6 +133,11 @@ static const NSTimeInterval kTouchInjectFramerateInv = 1 / 120.0;
       }
     }
   };
+  // Move the receiveHandler block to the heap by explicitly copying before assigning it to the
+  // weak pointer as in the latest clang compiler, it's possible the weak pointer can be invalid if
+  // the block hasn't been moved to the heap in time.
+  // https://reviews.llvm.org/D58514
+  touchProcessBlock = [touchProcessBlock copy];
   weakTouchProcessBlock = touchProcessBlock;
 
   NSTimeInterval deliveryTimeDeltaSinceLastTouch =
@@ -310,7 +315,7 @@ static const NSTimeInterval kTouchInjectFramerateInv = 1 / 120.0;
 }
 
 /**
- *  @returns event mask for the provided touch phase.
+ *  @return event mask for the provided touch phase.
  */
 static inline IOHIDDigitizerEventMask grey_fingerDigitizerEventMaskFromPhase(UITouchPhase phase) {
   IOHIDDigitizerEventMask eventMask = 0;
