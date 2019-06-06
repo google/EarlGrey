@@ -1,6 +1,0 @@
-[submodule "eDistantObject"]
-	path = eDistantObject
-	url = https://github.com/google/eDistantObject.git
-[submodule "fishhook"]
-	path = fishhook
-	url = https://github.com/facebook/fishhook.git
