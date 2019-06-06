@@ -1707,7 +1707,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "git clone https://github.com/facebook/fishhook Submodules\ngit clone https://github.com/google/eDistantObject Submodules\n";
+			shellScript = "if [ -d \"Submodules\" ]; then\n    echo \"Already cloned submodules. Delete the submodules directory to re-clone submodules.\"\nelse\n    echo \"Submodules does not exist, cloning submodules.\"\n    git clone https://github.com/facebook/fishhook Submodules/fishhook\n    git clone https://github.com/google/eDistantObject Submodules/eDistantObject\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
