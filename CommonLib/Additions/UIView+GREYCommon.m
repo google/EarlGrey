@@ -73,6 +73,17 @@
   return YES;
 }
 
+- (BOOL)grey_isAncestorOfView:(UIView *)view {
+  view = view.superview;
+  while (view) {
+    if (self == view) {
+      return YES;
+    }
+    view = view.superview;
+  }
+  return NO;
+}
+
 - (void)grey_recursivelyMakeOpaque {
   objc_setAssociatedObject(self, @selector(grey_restoreOpacity), @(self.alpha),
                            OBJC_ASSOCIATION_RETAIN_NONATOMIC);

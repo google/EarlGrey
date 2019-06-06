@@ -46,6 +46,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)grey_isVisible;
 
 /**
+ * Check if the current view is an ancestor of the specified view. A view cannot be an ancestor
+ * of itself.
+ */
+- (BOOL)grey_isAncestorOfView:(UIView *)view;
+
+/**
  *  Makes sure that subview @c view is always on top, even if other subviews are added in front of
  *  it. Also keeps the @c view's frame fixed to the current value so parent can't change it.
  *
