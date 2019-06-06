@@ -34,6 +34,7 @@
 #define iOS9_OR_ABOVE() ([UIDevice currentDevice].systemVersion.intValue >= 9)
 #define iOS10_OR_ABOVE() ([UIDevice currentDevice].systemVersion.intValue >= 10)
 #define iOS11_OR_ABOVE() ([UIDevice currentDevice].systemVersion.intValue >= 11)
+#define iOS13_OR_ABOVE() ([UIDevice currentDevice].systemVersion.intValue >= 13)
 
 #pragma mark - Math
 
