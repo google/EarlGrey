@@ -1489,7 +1489,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = FD62395720F56A9700049E81 /* Build configuration list for PBXNativeTarget "CommonLib" */;
 			buildPhases = (
-				8041A7A822A96F98001741D0 /* ShellScript */,
 				FD62394D20F56A9700049E81 /* Sources */,
 				FD62394E20F56A9700049E81 /* Frameworks */,
 				FD62394F20F56A9700049E81 /* CopyFiles */,
@@ -1690,26 +1689,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		8041A7A822A96F98001741D0 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if [ -d \"Submodules\" ]; then\n    echo \"Already cloned submodules. Delete the submodules directory to re-clone submodules.\"\nelse\n    echo \"Submodules does not exist, cloning submodules.\"\n    git clone https://github.com/facebook/fishhook Submodules/fishhook\n    git clone https://github.com/google/eDistantObject Submodules/eDistantObject\nfi\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		FD5048F420FB225100261CBE /* Sources */ = {
