@@ -1,11 +1,13 @@
 # Running the Functional Tests
 
 Ensure that the EarlGrey Xcode Project has been built as per the [Setup
-Guide](../../docs/setup.md). Specifically, make sure the submodules
+Guide](../../docs/setup.md). Specifically, make sure the deps
 have been correctly added to the repository:
 
 ```
-git clone --recursive -b earlgrey2 https://github.com/google/EarlGrey.git
+git clone -b earlgrey2 https://github.com/google/EarlGrey.git
+
+sh Scripts/download_deps.sh
 ```
 
 Once the EarlGrey targets are building,
