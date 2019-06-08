@@ -105,7 +105,7 @@ static GREYSignalHandler gPreviousSignalHandlers[kNumSignals];
   [self grey_setupCrashHandlers];
   // Force software keyboard.
   [[UIKeyboardImpl sharedInstance] setAutomaticMinimizationEnabled:NO];
-  // Turn off auto correction as it interferes with typing on iOS8.2+.
+  // Turn off auto correction as it interferes with typing on iOS 8.2+.
   if (iOS8_2_OR_ABOVE()) {
     [self grey_modifyKeyboardSettings];
   }
@@ -131,11 +131,20 @@ static GREYSignalHandler gPreviousSignalHandlers[kNumSignals];
   } else {
     [controller setValue:@NO forPreferenceKey:@"KeyboardAutocorrection"];
   }
+
   if ([controller respondsToSelector:@selector(setPredictionEnabled:)]) {
     controller.predictionEnabled = NO;
   } else {
     [controller setValue:@NO forPreferenceKey:@"KeyboardPrediction"];
   }
+
+  if (iOS11_OR_ABOVE()) {
+    [controller setValue:@YES forPreferenceKey:@"DidShowGestureKeyboardIntroduction"];
+  }
+  if (iOS13_OR_ABOVE()) {
+    [controller setValue:@YES forPreferenceKey:@"DidShowContinuousPathIntroduction"];
+  }
+
   [controller synchronizePreferences];
 
   dlclose(handle);
