@@ -373,6 +373,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		80E8CD4322AF096E00CDE5C5 /* GREYBaseMatcher+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GREYBaseMatcher+Private.h"; path = "CommonLib/Matcher/GREYBaseMatcher+Private.h"; sourceTree = SOURCE_ROOT; };
+		80E8CD4422AF097000CDE5C5 /* GREYElementMatcherBlock+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GREYElementMatcherBlock+Private.h"; path = "CommonLib/Matcher/GREYElementMatcherBlock+Private.h"; sourceTree = SOURCE_ROOT; };
 		FD1184CB212CEE72004CADC3 /* XCUIApplication+GREYEnvironment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "XCUIApplication+GREYEnvironment.h"; path = "XCTestCase/XCUIApplication+GREYEnvironment.h"; sourceTree = "<group>"; };
 		FD1184D2212CEE72004CADC3 /* XCUIApplication+GREYEnvironment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "XCUIApplication+GREYEnvironment.m"; path = "XCTestCase/XCUIApplication+GREYEnvironment.m"; sourceTree = "<group>"; };
 		FD2E76EA2149E4580063EF7E /* GREYAppConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYAppConfiguration.m; path = Config/GREYAppConfiguration.m; sourceTree = "<group>"; };
@@ -1323,6 +1325,8 @@
 			isa = PBXGroup;
 			children = (
 				FD76BE542298551A001E6DAA /* GREYScreenshotter+Private.h */,
+				80E8CD4322AF096E00CDE5C5 /* GREYBaseMatcher+Private.h */,
+				80E8CD4422AF097000CDE5C5 /* GREYElementMatcherBlock+Private.h */,
 				FD76BE532298551A001E6DAA /* GREYVisibilityChecker+Private.h */,
 				FD98C457226C2DCE006F8D68 /* GREYScreenshotter.h */,
 				FD98C456226C2DCD006F8D68 /* GREYScreenshotter.m */,
