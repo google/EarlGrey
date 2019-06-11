@@ -54,8 +54,8 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param block A completion block that will be invoked on each element.
  */
-- (void)enumerateUsingBlock:(void (^)(id view, NSUInteger level, BOOL *stop))block;
-
+- (void)enumerateUsingBlock:(void (^)(id view, NSUInteger level, CGRect boundingRect,
+                                      BOOL *stop))block;
 @end
 
 NS_ASSUME_NONNULL_END

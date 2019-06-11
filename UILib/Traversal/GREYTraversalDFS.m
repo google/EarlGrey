@@ -17,6 +17,7 @@
 #import "UILib/Traversal/GREYTraversalDFS.h"
 
 #import "CommonLib/Assertion/GREYThrowDefines.h"
+#import "UILib/Additions/CGGeometry+GREYUI.h"
 
 @implementation GREYTraversalDFS {
   /**
@@ -52,6 +53,7 @@
   GREYTraversalObject *object = [[GREYTraversalObject alloc] init];
   object.level = 0;
   object.element = element;
+  object.boundingRect = CGRectNull;
 
   // Create an instance of GREYTraversalDFS.
   return [[GREYTraversalDFS alloc] init:object];
@@ -68,7 +70,8 @@
   return element.element;
 }
 
-- (void)enumerateUsingBlock:(void (^)(id view, NSUInteger level, BOOL *stop))block {
+- (void)enumerateUsingBlock:(void (^)(id view, NSUInteger level, CGRect boundingRect,
+                                      BOOL *stop))block {
   GREYThrowOnNilParameter(block);
 
   // Loop till we have explored each element in the hierarchy.
@@ -76,7 +79,7 @@
   BOOL stop = NO;
   while (!stop && (object = [self grey_nextObjectDFS])) {
     // For each element call the @c block.
-    block(object.element, object.level, &stop);
+    block(object.element, object.level, object.boundingRect, &stop);
   }
 }
 
@@ -106,6 +109,31 @@
     GREYTraversalObject *object = [[GREYTraversalObject alloc] init];
     [object setLevel:nextObject.level + 1];
     [object setElement:child];
+    [object setBoundingRect:CGRectNull];
+
+    // This updates the bounding area of each traversal object.
+    // If the parent view's clipsToBound is set to YES, update the bounding area applying
+    // the parent view's frame. Otherwise, pass down the current view's bounding area.
+    // The bounding rect should be converted to the current view's coordinate space.
+    if ([nextObject.element isKindOfClass:[UIView class]]) {
+      UIView *parent = (UIView *)nextObject.element;
+      CGRect convertedBoundingRect = [[parent superview] convertRect:nextObject.boundingRect
+                                                              toView:parent];
+      CGRect convertedParentRect = [[parent superview] convertRect:parent.frame toView:parent];
+      if (![parent superview]) {
+        object.boundingRect = CGRectNull;
+      } else if ([parent clipsToBounds]) {
+        if (CGRectEqualToRect(nextObject.boundingRect, CGRectNull)) {
+          object.boundingRect = convertedParentRect;
+        } else {
+          object.boundingRect =
+              CGRectIntersectionStrict(convertedBoundingRect, convertedParentRect);
+        }
+      } else {
+        object.boundingRect = convertedBoundingRect;
+      }
+    }
+
     [_parsedHierarchy insertObject:object atIndex:0];
   }
 
