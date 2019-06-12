@@ -61,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (id _Nullable)nextObject NS_UNAVAILABLE;
 
 /**
- *  Explores the immediate children of the @c element that is passed in.
+ *  Explores the immediate children of @c element, including accessibility elements.
  *
  *  @param element The UI element whose children are to be explored.
  *
@@ -69,7 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
  *          ordered from front to back, meaning subviews that were added first are present later
  *          in the array. If no children exist, then an empty array is returned.
  */
-- (NSArray *)exploreImmediateChildren:(id)element;
+- (NSArray<id> *)exploreImmediateChildren:(id)element;
 
 @end
 
