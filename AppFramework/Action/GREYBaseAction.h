@@ -15,6 +15,7 @@
 //
 
 #import "AppFramework/Action/GREYAction.h"
+#import "CommonLib/GREYDiagnosable.h"
 
 @protocol GREYMatcher;
 
@@ -22,7 +23,7 @@
  *  A base class for all actions that incorporates commonalities between initialization
  *  parameters and constraint checking.
  */
-@interface GREYBaseAction : NSObject <GREYAction>
+@interface GREYBaseAction : NSObject <GREYAction, GREYDiagnosable>
 
 /**
  *  @remark init is not an available initializer. Use the other initializers.

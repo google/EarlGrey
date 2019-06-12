@@ -373,6 +373,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6F9B2C1E22B18F15003132B0 /* GREYDiagnosable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYDiagnosable.h; path = CommonLib/GREYDiagnosable.h; sourceTree = "<group>"; };
 		80E8CD4322AF096E00CDE5C5 /* GREYBaseMatcher+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GREYBaseMatcher+Private.h"; path = "CommonLib/Matcher/GREYBaseMatcher+Private.h"; sourceTree = SOURCE_ROOT; };
 		80E8CD4422AF097000CDE5C5 /* GREYElementMatcherBlock+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GREYElementMatcherBlock+Private.h"; path = "CommonLib/Matcher/GREYElementMatcherBlock+Private.h"; sourceTree = SOURCE_ROOT; };
 		FD1184CB212CEE72004CADC3 /* XCUIApplication+GREYEnvironment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "XCUIApplication+GREYEnvironment.h"; path = "XCTestCase/XCUIApplication+GREYEnvironment.h"; sourceTree = "<group>"; };
@@ -855,6 +856,7 @@
 		FD62399020F56B7D00049E81 /* CommonLib */ = {
 			isa = PBXGroup;
 			children = (
+				6F9B2C1E22B18F15003132B0 /* GREYDiagnosable.h */,
 				FD6239D520F56C9400049E81 /* GREYAppleInternals.h */,
 				FD6239DF20F56C9500049E81 /* GREYConstants.h */,
 				FD6239DE20F56C9400049E81 /* GREYConstants.m */,

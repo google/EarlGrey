@@ -20,8 +20,10 @@
 #import "CommonLib/GREYDefines.h"
 
 // Base matcher which takes block parameters that implement |matches| and |describeTo|.
-@implementation GREYElementMatcherBlock
-@synthesize name;
+@implementation GREYElementMatcherBlock {
+  NSString *_diagnosticsID;
+}
+
 + (instancetype)matcherWithMatchesBlock:(GREYMatchesBlock)matchBlock
                        descriptionBlock:(GREYDescribeToBlock)describeBlock {
   return [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matchBlock
@@ -38,12 +40,12 @@
   return self;
 }
 
-- (instancetype)initWithMatchesBlock:(GREYMatchesBlock)matchBlock
-                    descriptionBlock:(GREYDescribeToBlock)describeBlock
-                                name:(NSString *)name {
+- (instancetype)initWithName:(NSString *)name
+                matchesBlock:(GREYMatchesBlock)matchBlock
+            descriptionBlock:(GREYDescribeToBlock)describeBlock {
   self = [self initWithMatchesBlock:matchBlock descriptionBlock:describeBlock];
   if (self) {
-    self.name = name;
+    _diagnosticsID = name;
   }
   return self;
 }
@@ -54,6 +56,12 @@
 
 - (void)describeTo:(id<GREYDescription>)description {
   _descriptionBlock(description);
+}
+
+#pragma mark - GREYDiagnosable
+
+- (NSString *)diagnosticsID {
+  return _diagnosticsID;
 }
 
 @end

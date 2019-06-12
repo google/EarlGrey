@@ -14,29 +14,28 @@
 // limitations under the License.
 //
 
-#import "CommonLib/Matcher/GREYBaseMatcher+Private.h"
 #import "CommonLib/Matcher/GREYElementMatcherBlock.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 /** Private category for diagnostics purpose. */
-@interface GREYElementMatcherBlock ()
+@interface GREYElementMatcherBlock (Private)
 
 /**
  *  Internal initializer for GREYElementMatcherBlock to incorporate with Diagnostics.
  *  @remark Do NOT use this externally.
  *
+ *  @param name          Identifier for internally created matcher.
  *  @param matchBlock    A block for implementing GREYBaseMatcher::matches: method.
  *  @param describeBlock The block which will be invoked for the GREYBaseMatcher::describeTo:
  *                       method.
- *  @param name          Identifier for internally created matcher.
  *
  *  @return A GREYElementMatcherBlock instance, initialized with the required matching
  *          condition, description and its name.
  */
-- (instancetype)initWithMatchesBlock:(GREYMatchesBlock)matchBlock
-                    descriptionBlock:(GREYDescribeToBlock)describeBlock
-                                name:(NSString *)name;
+- (instancetype)initWithName:(NSString *)name
+                matchesBlock:(GREYMatchesBlock)matchBlock
+            descriptionBlock:(GREYDescribeToBlock)describeBlock;
 
 @end
 

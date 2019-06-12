@@ -23,8 +23,8 @@
 
 @implementation GREYAllOf {
   NSArray<id<GREYMatcher>> *_matchers;
+  NSString *_diagnosticsID;
 }
-@synthesize name;
 
 - (instancetype)initWithMatchers:(NSArray<id<GREYMatcher>> *)matchers {
   GREYThrowOnFailedCondition(matchers.count > 0);
@@ -42,11 +42,10 @@
   return self;
 }
 
-- (instancetype)initWithMatchers:(NSArray<__kindof id<GREYMatcher>> *)matchers
-                            name:(NSString *)name {
+- (instancetype)initWithName:(NSString *)name matchers:(NSArray<id<GREYMatcher>> *)matchers {
   self = [self initWithMatchers:matchers];
   if (self) {
-    self.name = name;
+    _diagnosticsID = name;
   }
   return self;
 }
@@ -73,6 +72,12 @@
   }
   [description appendDescriptionOf:_matchers[_matchers.count - 1]];
   [description appendText:@")"];
+}
+
+#pragma mark - GREYDiagnosable
+
+- (NSString *)diagnosticsID {
+  return _diagnosticsID;
 }
 
 @end

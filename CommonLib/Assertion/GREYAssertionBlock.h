@@ -15,6 +15,7 @@
 //
 
 #import "CommonLib/Assertion/GREYAssertion.h"
+#import "CommonLib/GREYDiagnosable.h"
 
 /**
  *  A block that accepts an @c element, which will be invoked when an assertion is going to be
@@ -31,7 +32,7 @@ typedef BOOL (^GREYCheckBlockWithError)(id element, __strong NSError **errorOrNi
 /**
  *  An interface to create GREYAssertions from blocks.
  */
-@interface GREYAssertionBlock : NSObject <GREYAssertion>
+@interface GREYAssertionBlock : NSObject <GREYAssertion, GREYDiagnosable>
 
 /**
  *  Creates an assertion with the given @c name and @c block that is executed when

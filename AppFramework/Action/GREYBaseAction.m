@@ -95,4 +95,10 @@
   return _name;
 }
 
+#pragma mark - GREYDiagnosable
+
+- (NSString *)diagnosticsID {
+  return [self name];
+}
+
 @end

@@ -14,15 +14,15 @@
 // limitations under the License.
 //
 
-#import "CommonLib/Matcher/GREYBaseMatcher.h"
+#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-/** Private category for diagnostics purpose. */
-@interface GREYBaseMatcher ()
+/** Private protocol for diagnostics purpose. */
+@protocol GREYDiagnosable <NSObject>
 
-/** Identifier of GREYBaseMatcher for internal use. */
-@property(nonatomic, copy) NSString *name;
+/** Identifier of GREYMatcher for internal use. */
+- (NSString *)diagnosticsID;
 
 @end
 
