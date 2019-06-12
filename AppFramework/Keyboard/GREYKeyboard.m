@@ -93,7 +93,9 @@ typedef BOOL (^ConditionBlock)(void);
  *  Possible accessibility label values for the Shift Key.
  */
 + (NSArray *)shiftKeyLabels {
-  return @[ @"shift", @"Shift", @"SHIFT", @"more, symbols", @"more, numbers", @"more", @"MORE" ];
+  return @[
+    @"shift", @"Shift", @"SHIFT", @"more, symbols", @"more, numbers", @"numbers", @"more", @"MORE"
+  ];
 }
 
 + (void)load {
@@ -221,11 +223,13 @@ typedef BOOL (^ConditionBlock)(void);
         GREYLogVerbose(@"Detected a non-alphabetic key.");
         // Switch to numbers/symbols keyplane if we are on alphabetic keyplane.
         if ([GREYKeyboard grey_isAlphabeticKeyplaneShown]) {
-          id moreNumbersKey = [GREYKeyboard grey_waitAndfindKeyForCharacter:@"more, numbers"];
+          NSString *moreNumberKeyAxLabel = iOS13_OR_ABOVE() ? @"numbers" : @"more, numbers";
+          id moreNumbersKey = [GREYKeyboard grey_waitAndfindKeyForCharacter:moreNumberKeyAxLabel];
           if (!moreNumbersKey) {
-            return [GREYKeyboard grey_setErrorForkeyNotFoundWithAccessibilityLabel:@"more, numbers"
-                                                                   forTypingString:string
-                                                                             error:errorOrNil];
+            return
+                [GREYKeyboard grey_setErrorForkeyNotFoundWithAccessibilityLabel:moreNumberKeyAxLabel
+                                                                forTypingString:string
+                                                                          error:errorOrNil];
           }
           [GREYKeyboard grey_tapKey:moreNumbersKey error:errorOrNil];
           key = [GREYKeyboard grey_waitAndfindKeyForCharacter:characterAsString];
