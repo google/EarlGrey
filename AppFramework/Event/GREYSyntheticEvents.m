@@ -20,7 +20,6 @@
 #import "AppFramework/Event/GREYTouchInjector.h"
 #import "AppFramework/Synchronization/GREYDispatchQueueTracker.h"
 #import "AppFramework/Synchronization/GREYUIThreadExecutor.h"
-#import "CommonLib/Assertion/GREYAssertionDefines.h"
 #import "CommonLib/Assertion/GREYFatalAsserts.h"
 #import "CommonLib/Assertion/GREYThrowDefines.h"
 #import "CommonLib/Error/GREYErrorConstants.h"

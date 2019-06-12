@@ -21,7 +21,6 @@
 #import "AppFramework/Error/GREYAppError.h"
 #import "AppFramework/Synchronization/GREYSyncAPI.h"
 #import "CommonLib/Additions/NSObject+GREYCommon.h"
-#import "CommonLib/Assertion/GREYAssertionDefines.h"
 #import "CommonLib/Assertion/GREYThrowDefines.h"
 #import "CommonLib/Config/GREYConfiguration.h"
 #import "CommonLib/Error/GREYError+Private.h"

@@ -18,7 +18,7 @@
 
 #include <objc/runtime.h>
 
-#import "CommonLib/Assertion/GREYAssertionDefines.h"
+#import "CommonLib/Assertion/GREYAssertionDefinesPrivate.h"
 #import "CommonLib/Assertion/GREYFatalAsserts.h"
 #import "CommonLib/GREYConstants.h"
 #import "CommonLib/GREYDefines.h"

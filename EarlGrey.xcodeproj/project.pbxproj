@@ -428,7 +428,7 @@
 		FD62398920F56B7600049E81 /* NSString+GREYCommon.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSString+GREYCommon.m"; path = "CommonLib/Additions/NSString+GREYCommon.m"; sourceTree = "<group>"; };
 		FD62399320F56BC200049E81 /* GREYFatalAsserts.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GREYFatalAsserts.h; path = CommonLib/Assertion/GREYFatalAsserts.h; sourceTree = "<group>"; };
 		FD62399420F56BC200049E81 /* GREYThrowDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GREYThrowDefines.h; path = CommonLib/Assertion/GREYThrowDefines.h; sourceTree = "<group>"; };
-		FD62399520F56BC200049E81 /* GREYAssertionDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GREYAssertionDefines.h; path = CommonLib/Assertion/GREYAssertionDefines.h; sourceTree = "<group>"; };
+		FD62399520F56BC200049E81 /* GREYAssertionDefinesPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "GREYAssertionDefinesPrivate.h"; path = "CommonLib/Assertion/GREYAssertionDefinesPrivate.h"; sourceTree = "<group>"; };
 		FD62399A20F56BE700049E81 /* GREYConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYConfiguration.m; path = CommonLib/Config/GREYConfiguration.m; sourceTree = "<group>"; };
 		FD62399B20F56BE700049E81 /* GREYConfiguration+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GREYConfiguration+Private.h"; path = "CommonLib/Config/GREYConfiguration+Private.h"; sourceTree = "<group>"; };
 		FD62399C20F56BE700049E81 /* GREYConfigKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYConfigKey.h; path = CommonLib/Config/GREYConfigKey.h; sourceTree = "<group>"; };
@@ -900,7 +900,7 @@
 		FD62399220F56BAA00049E81 /* AssertionDefines */ = {
 			isa = PBXGroup;
 			children = (
-				FD62399520F56BC200049E81 /* GREYAssertionDefines.h */,
+				FD62399520F56BC200049E81 /* GREYAssertionDefinesPrivate.h */,
 				FD62399320F56BC200049E81 /* GREYFatalAsserts.h */,
 				FD62399420F56BC200049E81 /* GREYThrowDefines.h */,
 			);

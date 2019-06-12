@@ -21,7 +21,6 @@
 #import "AppFramework/Error/GREYAppError.h"
 #import "CommonLib/Additions/NSObject+GREYCommon.h"
 #import "CommonLib/Assertion/GREYAssertionBlock.h"
-#import "CommonLib/Assertion/GREYAssertionDefines.h"
 #import "CommonLib/Assertion/GREYFatalAsserts.h"
 #import "CommonLib/GREYLogger.h"
 #import "CommonLib/Matcher/GREYMatcher.h"

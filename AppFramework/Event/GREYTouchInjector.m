@@ -23,7 +23,6 @@
 #import "AppFramework/Event/GREYIOHIDEventTypes.h"
 #import "AppFramework/Synchronization/GREYRunLoopSpinner.h"
 #import "CommonLib/Additions/NSObject+GREYCommon.h"
-#import "CommonLib/Assertion/GREYAssertionDefines.h"
 #import "CommonLib/Assertion/GREYFatalAsserts.h"
 #import "CommonLib/Assertion/GREYThrowDefines.h"
 #import "CommonLib/Config/GREYConfiguration.h"

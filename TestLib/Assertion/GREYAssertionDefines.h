@@ -25,7 +25,7 @@
 #define GREY_ASSERTION_DEFINES_H
 
 #import "AppFramework/Synchronization/GREYUIThreadExecutor.h"
-#import "CommonLib/Assertion/GREYAssertionDefines.h"
+#import "CommonLib/Assertion/GREYAssertionDefinesPrivate.h"
 #import "CommonLib/Config/GREYConfiguration.h"
 #import "CommonLib/Exceptions/GREYFailureHandler.h"
 #import "CommonLib/Exceptions/GREYFrameworkException.h"

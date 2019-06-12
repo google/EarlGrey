@@ -18,7 +18,7 @@
 
 #import "AppFramework/Event/GREYSyntheticEvents.h"
 #import "AppFramework/Keyboard/GREYKeyboard.h"
-#import "CommonLib/Assertion/GREYAssertionDefines.h"
+#import "CommonLib/Assertion/GREYAssertionDefinesPrivate.h"
 #import "CommonLib/Assertion/GREYFatalAsserts.h"
 #import "CommonLib/DistantObject/GREYHostBackgroundDistantObject.h"
 #import "CommonLib/DistantObject/GREYTestApplicationDistantObject.h"
