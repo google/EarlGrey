@@ -200,7 +200,6 @@
 		FD795B9421192FEC00F9A9E3 /* libCommonLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD62395120F56A9700049E81 /* libCommonLib.a */; };
 		FD795B952119309600F9A9E3 /* GREYElementHierarchyStub.m in Sources */ = {isa = PBXBuildFile; fileRef = FDF9E06E20F82F020005DCF2 /* GREYElementHierarchyStub.m */; };
 		FD795B972119309600F9A9E3 /* GREYVisibilityCheckerStub.m in Sources */ = {isa = PBXBuildFile; fileRef = FDF9E07420F82F030005DCF2 /* GREYVisibilityCheckerStub.m */; };
-		FD795B98211930D300F9A9E3 /* GREYFailureScreenshotterStub.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B2420F95A7200049E81 /* GREYFailureScreenshotterStub.m */; };
 		FD98C458226C2DD1006F8D68 /* GREYScreenshotterStub.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C455226C2DCC006F8D68 /* GREYScreenshotterStub.m */; };
 		FD98C459226C2DD1006F8D68 /* GREYScreenshotter.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C456226C2DCD006F8D68 /* GREYScreenshotter.m */; };
 		FD98C45C226C2E01006F8D68 /* NSFileManager+GREYCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C45A226C2DFF006F8D68 /* NSFileManager+GREYCommon.m */; };
@@ -570,7 +569,6 @@
 		FD623B1D20F95A6300049E81 /* EarlGreyApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EarlGreyApp.h; path = EarlGreyApp/EarlGreyApp.h; sourceTree = "<group>"; };
 		FD623B2120F95A7200049E81 /* GREYFailureScreenshotter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYFailureScreenshotter.h; path = Error/GREYFailureScreenshotter.h; sourceTree = "<group>"; };
 		FD623B2220F95A7200049E81 /* GREYFailureScreenshotter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYFailureScreenshotter.m; path = Error/GREYFailureScreenshotter.m; sourceTree = "<group>"; };
-		FD623B2420F95A7200049E81 /* GREYFailureScreenshotterStub.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYFailureScreenshotterStub.m; path = Error/GREYFailureScreenshotterStub.m; sourceTree = "<group>"; };
 		FD623B2B20F95A8600049E81 /* GREYTouchInjector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYTouchInjector.m; path = Event/GREYTouchInjector.m; sourceTree = "<group>"; };
 		FD623B2C20F95A8600049E81 /* GREYIOHIDEventTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYIOHIDEventTypes.h; path = Event/GREYIOHIDEventTypes.h; sourceTree = "<group>"; };
 		FD623B2D20F95A8600049E81 /* GREYSyntheticEvents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYSyntheticEvents.m; path = Event/GREYSyntheticEvents.m; sourceTree = "<group>"; };
@@ -618,7 +616,6 @@
 		FD623B9B20F95C8100049E81 /* fishhook.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = fishhook.c; path = Submodules/fishhook/fishhook.c; sourceTree = "<group>"; };
 		FD623B9C20F95C8100049E81 /* fishhook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = fishhook.h; path = Submodules/fishhook/fishhook.h; sourceTree = "<group>"; };
 		FD623BA620F95E3900049E81 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = ../../../../../../../../System/Library/Frameworks/IOKit.framework; sourceTree = "<group>"; };
-		FD623DB820FD75B700049E81 /* GREYFailureScreenshotterStub.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = GREYFailureScreenshotterStub.m; path = ../AppFramework/Error/GREYFailureScreenshotterStub.m; sourceTree = "<group>"; };
 		FD623DBD20FD764400049E81 /* GREYAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYAnalytics.m; path = Analytics/GREYAnalytics.m; sourceTree = "<group>"; };
 		FD623DBE20FD764500049E81 /* GREYAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYAnalytics.h; path = Analytics/GREYAnalytics.h; sourceTree = "<group>"; };
 		FD623DBF20FD764500049E81 /* GREYAnalyticsDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYAnalyticsDelegate.h; path = Analytics/GREYAnalyticsDelegate.h; sourceTree = "<group>"; };
@@ -1175,7 +1172,6 @@
 				FD98C45D226C2E64006F8D68 /* GREYAppError.h */,
 				FD623B2120F95A7200049E81 /* GREYFailureScreenshotter.h */,
 				FD623B2220F95A7200049E81 /* GREYFailureScreenshotter.m */,
-				FD623B2420F95A7200049E81 /* GREYFailureScreenshotterStub.m */,
 			);
 			name = Error;
 			sourceTree = "<group>";
@@ -1276,14 +1272,6 @@
 				FD623BA620F95E3900049E81 /* IOKit.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		FD623DBA20FD75C000049E81 /* AppFrameworkStubs */ = {
-			isa = PBXGroup;
-			children = (
-				FD623DB820FD75B700049E81 /* GREYFailureScreenshotterStub.m */,
-			);
-			name = AppFrameworkStubs;
 			sourceTree = "<group>";
 		};
 		FD623DBC20FD75D600049E81 /* Analytics */ = {
@@ -1701,7 +1689,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FD795B98211930D300F9A9E3 /* GREYFailureScreenshotterStub.m in Sources */,
 				FD795B952119309600F9A9E3 /* GREYElementHierarchyStub.m in Sources */,
 				FD795B972119309600F9A9E3 /* GREYVisibilityCheckerStub.m in Sources */,
 				FD50492C20FB239900261CBE /* EarlGreyImpl+XCUIApplication.m in Sources */,

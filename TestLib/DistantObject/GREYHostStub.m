@@ -17,6 +17,7 @@
 #import <UIKit/UIKit.h>
 
 #import "AppFramework/Action/GREYActions.h"
+#import "AppFramework/Error/GREYFailureScreenshotter.h"
 #import "AppFramework/Event/GREYSyntheticEvents.h"
 #import "AppFramework/Keyboard/GREYKeyboard.h"
 #import "AppFramework/Matcher/GREYAllOf.h"
@@ -62,3 +63,7 @@ GREY_STUB_CLASS_IN_APP_BACKGROUND_QUEUE(GREYUIThreadExecutor)
 #pragma mark - Keyboard Stub
 
 GREY_STUB_CLASS_IN_APP_BACKGROUND_QUEUE(GREYKeyboard)
+
+#pragma mark - Failure Screenshots Stub
+
+GREY_STUB_CLASS_IN_APP_MAIN_QUEUE(GREYFailureScreenshotter)
