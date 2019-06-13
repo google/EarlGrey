@@ -21,7 +21,9 @@ NS_ASSUME_NONNULL_BEGIN
 /** Private protocol for diagnostics purpose. */
 @protocol GREYDiagnosable <NSObject>
 
-/** Identifier of GREYMatcher for internal use. */
+/**
+ *  Identifier with which diagnosable objects will have their diagnostics information associated.
+ */
 - (NSString *)diagnosticsID;
 
 @end
