@@ -18,6 +18,7 @@
 
 #import "Service/Sources/EDOClientService.h"
 #import "Service/Sources/EDOHostService.h"
+#import "Service/Sources/EDOServicePort.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
