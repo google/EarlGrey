@@ -29,6 +29,10 @@
 #import "CommonLib/DistantObject/GREYHostApplicationDistantObject.h"
 #import "CommonLib/DistantObject/GREYHostBackgroundDistantObject.h"
 #import "CommonLib/DistantObject/GREYTestApplicationDistantObject.h"
+#import "UILib/GREYElementHierarchy.h"
+#import "UILib/GREYScreenshotter.h"
+#import "UILib/GREYVisibilityChecker.h"
+
 #import "Service/Sources/EDOClientService.h"
 
 // Stub classes defined in the host (app under test)
@@ -67,3 +71,9 @@ GREY_STUB_CLASS_IN_APP_BACKGROUND_QUEUE(GREYKeyboard)
 #pragma mark - Failure Screenshots Stub
 
 GREY_STUB_CLASS_IN_APP_MAIN_QUEUE(GREYFailureScreenshotter)
+
+#pragma mark - UILib Stubs
+
+GREY_STUB_CLASS_IN_APP_MAIN_QUEUE(GREYElementHierarchy)
+GREY_STUB_CLASS_IN_APP_MAIN_QUEUE(GREYScreenshotter)
+GREY_STUB_CLASS_IN_APP_MAIN_QUEUE(GREYVisibilityChecker)
