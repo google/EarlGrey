@@ -424,7 +424,7 @@
 		FD62398920F56B7600049E81 /* NSString+GREYCommon.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSString+GREYCommon.m"; path = "CommonLib/Additions/NSString+GREYCommon.m"; sourceTree = "<group>"; };
 		FD62399320F56BC200049E81 /* GREYFatalAsserts.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GREYFatalAsserts.h; path = CommonLib/Assertion/GREYFatalAsserts.h; sourceTree = "<group>"; };
 		FD62399420F56BC200049E81 /* GREYThrowDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GREYThrowDefines.h; path = CommonLib/Assertion/GREYThrowDefines.h; sourceTree = "<group>"; };
-		FD62399520F56BC200049E81 /* GREYAssertionDefinesPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "GREYAssertionDefinesPrivate.h"; path = "CommonLib/Assertion/GREYAssertionDefinesPrivate.h"; sourceTree = "<group>"; };
+		FD62399520F56BC200049E81 /* GREYAssertionDefinesPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GREYAssertionDefinesPrivate.h; path = CommonLib/Assertion/GREYAssertionDefinesPrivate.h; sourceTree = "<group>"; };
 		FD62399A20F56BE700049E81 /* GREYConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYConfiguration.m; path = CommonLib/Config/GREYConfiguration.m; sourceTree = "<group>"; };
 		FD62399B20F56BE700049E81 /* GREYConfiguration+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GREYConfiguration+Private.h"; path = "CommonLib/Config/GREYConfiguration+Private.h"; sourceTree = "<group>"; };
 		FD62399C20F56BE700049E81 /* GREYConfigKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYConfigKey.h; path = CommonLib/Config/GREYConfigKey.h; sourceTree = "<group>"; };
@@ -726,7 +726,6 @@
 				FD98C465226C330E006F8D68 /* AppleInternals */,
 				FD2E76EE2149E4620063EF7E /* Config */,
 				FD623DBC20FD75D600049E81 /* Analytics */,
-				FD623DBA20FD75C000049E81 /* AppFrameworkStubs */,
 				FD50493620FB23CF00261CBE /* XCTestCase */,
 				FD50492E20FB239C00261CBE /* Exception */,
 				FD50492020FB238800261CBE /* EarlGreyImpl */,
@@ -1477,6 +1476,7 @@
 				FD62394D20F56A9700049E81 /* Sources */,
 				FD62394E20F56A9700049E81 /* Frameworks */,
 				FD62394F20F56A9700049E81 /* CopyFiles */,
+				804D3F6222B83453001D3F3A /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1674,6 +1674,26 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		804D3F6222B83453001D3F3A /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/bash\n#\n#  Copyright 2019 Google Inc.\n#\n#  Licensed under the Apache License, Version 2.0 (the \"License\");\n#  you may not use this file except in compliance with the License.\n#  You may obtain a copy of the License at\n#\n#       http://www.apache.org/licenses/LICENSE-2.0\n#\n#  Unless required by applicable law or agreed to in writing, software\n#  distributed under the License is distributed on an \"AS IS\" BASIS,\n#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n#  See the License for the specific language governing permissions and\n#  limitations under the License.\n\n# Build a Universal Dynamic Framework (i.e combines both simulator and device builds).\n# This script is supposed to be run as a build phase in Xcode. Do not run it\n# manually.\n#\n# This script comes from https://github.com/jverkoey/iOS-Framework\n\nset -e\nset +u\n\n# Avoid recursively calling this script.\nif [[ $SF_MASTER_SCRIPT_RUNNING ]]\nthen\nexit 0\nfi\nset -u\nexport SF_MASTER_SCRIPT_RUNNING=1\n\nSF_TARGET_NAME=${PRODUCT_NAME}\nSF_WRAPPER_NAME=\"${SF_TARGET_NAME}.framework\"\n\nif [ -d ${BUILT_PRODUCTS_DIR}/${SF_WRAPPER_NAME} ]\nthen\nFILE_OUTPUT=$(file \"${BUILT_PRODUCTS_DIR}/${SF_WRAPPER_NAME}/${SF_TARGET_NAME}\")\nif [[ ${FILE_OUTPUT} == *\"4 architectures\"* ]]\nthen\necho \"Fat binary already up-to-date. Skipping build.\"\nexit 0\nfi\nfi\n\n# The following conditionals come from\n# https://github.com/kstenerud/iOS-Universal-Framework\n\nif [[ \"$SDK_NAME\" =~ ([A-Za-z]+) ]]\nthen\nSF_SDK_PLATFORM=${BASH_REMATCH[1]}\nelse\necho \"Could not find platform name from SDK_NAME: $SDK_NAME\"\nexit 1\nfi\n\nif [[ \"$SDK_NAME\" =~ ([0-9]+.*$) ]]\nthen\nSF_SDK_VERSION=${BASH_REMATCH[1]}\nelse\necho \"Could not find sdk version from SDK_NAME: $SDK_NAME\"\nexit 1\nfi\n\nif [[ \"$SF_SDK_PLATFORM\" = \"iphoneos\" ]]\nthen\nSF_OTHER_PLATFORM=iphonesimulator\nelse\nSF_OTHER_PLATFORM=iphoneos\nfi\n\nif [[ \"$BUILT_PRODUCTS_DIR\" =~ (.*)$SF_SDK_PLATFORM$ ]]\nthen\nSF_OTHER_BUILT_PRODUCTS_DIR=\"${BASH_REMATCH[1]}${SF_OTHER_PLATFORM}\"\nelse\necho \"Could not find platform name from build products directory: \"\\\n\"$BUILT_PRODUCTS_DIR\"\nSF_OTHER_BUILT_PRODUCTS_DIR=\"${BUILT_PRODUCTS_DIR}-${SF_OTHER_PLATFORM}\"\nfi\n\nif [ -d ${SF_OTHER_BUILT_PRODUCTS_DIR}/${SF_WRAPPER_NAME} ]\nthen\necho \"Removing ${SF_OTHER_BUILT_PRODUCTS_DIR}/${SF_WRAPPER_NAME}\"\nrm -fr ${SF_OTHER_BUILT_PRODUCTS_DIR}/${SF_WRAPPER_NAME}\nfi\n\n# Build the other platform that hasn't been built.\nxcrun xcodebuild build -project \"${PROJECT_FILE_PATH}\" -target \\\n\"${TARGET_NAME}\" -configuration \"${CONFIGURATION}\" -sdk \\\n${SF_OTHER_PLATFORM}${SF_SDK_VERSION} BUILD_DIR=\"${BUILD_DIR}\" \\\nCODE_SIGN_IDENTITY=\"\" CODE_SIGNING_REQUIRED=NO ENTITLEMENTS_REQUIRED=NO \\\nONLY_ACTIVE_ARCH=NO OBJROOT=\"${OBJROOT}/DependentBuilds\" \\ BUILD_ROOT=\"${BUILD_ROOT}/DependentBuilds\" SYMROOT=\"${SYMROOT}\" \\\n$ACTION\n\n# Smash the two framework binaries into one fat binary.\nxcrun lipo -create \"${BUILT_PRODUCTS_DIR}/${SF_WRAPPER_NAME}/${SF_TARGET_NAME}\" \\\n\"${SF_OTHER_BUILT_PRODUCTS_DIR}/${SF_WRAPPER_NAME}/${SF_TARGET_NAME}\" -output \\\n\"${BUILT_PRODUCTS_DIR}/${SF_WRAPPER_NAME}/${SF_TARGET_NAME}\"\n\n# Copy the framework to the other architecture folder to have a complete\n# framework in both.\ncp -a \"${BUILT_PRODUCTS_DIR}/${SF_WRAPPER_NAME}\" \\\n\"${SF_OTHER_BUILT_PRODUCTS_DIR}/${SF_WRAPPER_NAME}\"\n\necho \"Generated framework is available at:\"\necho \"${BUILT_PRODUCTS_DIR}/${SF_WRAPPER_NAME}\".\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		FD5048F420FB225100261CBE /* Sources */ = {
