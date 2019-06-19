@@ -18,7 +18,8 @@
 
 #import "CommonLib/GREYConstants.h"
 #import "CommonLib/GREYDefines.h"
-#import "Service/Sources/EDORemoteVariable.h"
+
+@class EDORemoteVariable<ObjectType>;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -162,11 +163,15 @@ GREY_EXPORT id<GREYAction> grey_setDate(NSDate *date);
 /** Shorthand macro for GREYActions::actionForSetPickerColumn:toValue:. */
 GREY_EXPORT id<GREYAction> grey_setPickerColumnToValue(NSInteger column, NSString *value);
 
-/** Shorthand macro for GREYActions::actionForJavaScriptExecution:output:. */
+/** Shorthand macro for GREYActions::actionForJavaScriptExecution:output:.
+ *  Pass an EDORemoteVariable for the @c outResult.
+ */
 GREY_EXPORT id<GREYAction> grey_javaScriptExecution(
     NSString *js, EDORemoteVariable<NSString *> *_Nullable outResult);
 
-/** Shorthand macro for GREYActions::actionForSnapshot:. */
+/** Shorthand macro for GREYActions::actionForSnapshot:.
+ *  Pass an EDORemoteVariable for the @c outImage.
+ */
 GREY_EXPORT id<GREYAction> grey_snapshot(EDORemoteVariable<UIImage *> *outImage);
 
 #endif  // GREY_DISABLE_SHORTHAND
