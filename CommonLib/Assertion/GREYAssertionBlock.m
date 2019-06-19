@@ -22,6 +22,7 @@ NSString *const GREYFailureHandlerKey = @"GREYAppFailureHandlerKey";
 
 @implementation GREYAssertionBlock {
   NSString *_name;
+  NSString *_diagnosticsID;
   GREYCheckBlockWithError _checkBlockWithError;
 }
 
@@ -43,6 +44,26 @@ NSString *const GREYFailureHandlerKey = @"GREYAppFailureHandlerKey";
   return self;
 }
 
+#pragma mark - Private
+
++ (instancetype)assertionWithName:(NSString *)name
+          assertionBlockWithError:(GREYCheckBlockWithError)block
+                    diagnosticsID:(NSString *)diagnosticsID {
+  return [[GREYAssertionBlock alloc] initWithName:name
+                          assertionBlockWithError:block
+                                    diagnosticsID:diagnosticsID];
+}
+
+- (instancetype)initWithName:(NSString *)name
+     assertionBlockWithError:(GREYCheckBlockWithError)block
+               diagnosticsID:(NSString *)diagnosticsID {
+  self = [self initWithName:name assertionBlockWithError:block];
+  if (self) {
+    _diagnosticsID = diagnosticsID;
+  }
+  return self;
+}
+
 #pragma mark - GREYAssertion
 
 - (NSString *)name {
@@ -56,7 +77,7 @@ NSString *const GREYFailureHandlerKey = @"GREYAppFailureHandlerKey";
 #pragma mark - GREYDiagnosable
 
 - (NSString *)diagnosticsID {
-  return [self name];
+  return _diagnosticsID;
 }
 
 @end

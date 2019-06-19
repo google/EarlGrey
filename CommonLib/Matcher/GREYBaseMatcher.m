@@ -54,7 +54,6 @@
 #pragma mark - GREYDiagnosable
 
 - (NSString *)diagnosticsID {
-  [self doesNotRecognizeSelector:_cmd];
   return nil;
 }
 

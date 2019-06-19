@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6F8818B222B86F530006932D /* GREYAssertionBlock+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F8818B122B86F520006932D /* GREYAssertionBlock+Private.h */; };
 		FD1184D3212CEE72004CADC3 /* XCUIApplication+GREYEnvironment.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1184D2212CEE72004CADC3 /* XCUIApplication+GREYEnvironment.m */; };
 		FD2E76EC2149E4580063EF7E /* GREYAppConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = FD2E76EA2149E4580063EF7E /* GREYAppConfiguration.m */; };
 		FD2E76ED2149E4580063EF7E /* GREYAppConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = FD2E76EB2149E4580063EF7E /* GREYAppConfiguration.h */; };
@@ -390,6 +391,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6F8818B122B86F520006932D /* GREYAssertionBlock+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GREYAssertionBlock+Private.h"; path = "CommonLib/Assertion/GREYAssertionBlock+Private.h"; sourceTree = "<group>"; };
 		6F9B2C1E22B18F15003132B0 /* GREYDiagnosable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYDiagnosable.h; path = CommonLib/GREYDiagnosable.h; sourceTree = "<group>"; };
 		80E8CD4322AF096E00CDE5C5 /* GREYBaseMatcher+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GREYBaseMatcher+Private.h"; path = "CommonLib/Matcher/GREYBaseMatcher+Private.h"; sourceTree = SOURCE_ROOT; };
 		80E8CD4422AF097000CDE5C5 /* GREYElementMatcherBlock+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GREYElementMatcherBlock+Private.h"; path = "CommonLib/Matcher/GREYElementMatcherBlock+Private.h"; sourceTree = SOURCE_ROOT; };
@@ -734,6 +736,7 @@
 		FD3A824121F187B600CA3ADF /* Assertion */ = {
 			isa = PBXGroup;
 			children = (
+				6F8818B122B86F520006932D /* GREYAssertionBlock+Private.h */,
 				FD3A824E21F187C700CA3ADF /* GREYAssertion.h */,
 				FD3A824F21F187C700CA3ADF /* GREYAssertionBlock.h */,
 				FD3A825021F187C800CA3ADF /* GREYAssertionBlock.m */,
@@ -1403,6 +1406,7 @@
 				FD623B6520F95B0300049E81 /* GREYNot.h in Headers */,
 				FD623B8E20F95B1500049E81 /* GREYAppStateTrackerObject.h in Headers */,
 				FD623ABB20F9590800049E81 /* UIGestureRecognizer+GREYApp.h in Headers */,
+				6F8818B222B86F530006932D /* GREYAssertionBlock+Private.h in Headers */,
 				FD623B5320F95AF400049E81 /* GREYKeyboard.h in Headers */,
 				FD623B0820F9595300049E81 /* GREYCAAnimationDelegate.h in Headers */,
 				FD76BE5722985566001E6DAA /* GREYUIThreadExecutor+Private.h in Headers */,
