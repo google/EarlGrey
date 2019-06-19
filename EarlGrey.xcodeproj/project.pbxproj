@@ -1524,7 +1524,7 @@
 				804D3FD122B99055001D3F3A /* PBXTargetDependency */,
 				804D3FCF22B9903F001D3F3A /* PBXTargetDependency */,
 				804D3FCD22B99039001D3F3A /* PBXTargetDependency */,
-                                FD66782A211FAE3A008EC4A7 /* PBXTargetDependency */,
+				FD66782A211FAE3A008EC4A7 /* PBXTargetDependency */,
 				FD623BD920F9726300049E81 /* PBXTargetDependency */,
 			);
 			name = AppFramework;
@@ -1702,7 +1702,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		804D3FD322B99188001D3F3A /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			files = (
 			);
 			inputFileListPaths = (
@@ -1713,7 +1713,7 @@
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "sh Scripts/build_universal_framework.sh\n";
 		};
