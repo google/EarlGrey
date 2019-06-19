@@ -217,6 +217,27 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		804D3FCC22B99039001D3F3A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FD6239E420F56E6A00049E81 /* eDistantObject.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C88B8A6F21ADD3BE00DDE607;
+			remoteInfo = MeasureLib;
+		};
+		804D3FCE22B9903F001D3F3A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FD6239E420F56E6A00049E81 /* eDistantObject.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C845026420DD9D2E00D7350F;
+			remoteInfo = ChannelLib;
+		};
+		804D3FD022B99055001D3F3A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FD6239E420F56E6A00049E81 /* eDistantObject.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C52D858C2220C44300E86E60;
+			remoteInfo = DeviceLib;
+		};
 		FD623BD820F9726300049E81 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = FD62390920F569D500049E81 /* Project object */;
@@ -424,7 +445,7 @@
 		FD62398920F56B7600049E81 /* NSString+GREYCommon.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSString+GREYCommon.m"; path = "CommonLib/Additions/NSString+GREYCommon.m"; sourceTree = "<group>"; };
 		FD62399320F56BC200049E81 /* GREYFatalAsserts.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GREYFatalAsserts.h; path = CommonLib/Assertion/GREYFatalAsserts.h; sourceTree = "<group>"; };
 		FD62399420F56BC200049E81 /* GREYThrowDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GREYThrowDefines.h; path = CommonLib/Assertion/GREYThrowDefines.h; sourceTree = "<group>"; };
-		FD62399520F56BC200049E81 /* GREYAssertionDefinesPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "GREYAssertionDefinesPrivate.h"; path = "CommonLib/Assertion/GREYAssertionDefinesPrivate.h"; sourceTree = "<group>"; };
+		FD62399520F56BC200049E81 /* GREYAssertionDefinesPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GREYAssertionDefinesPrivate.h; path = CommonLib/Assertion/GREYAssertionDefinesPrivate.h; sourceTree = "<group>"; };
 		FD62399A20F56BE700049E81 /* GREYConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYConfiguration.m; path = CommonLib/Config/GREYConfiguration.m; sourceTree = "<group>"; };
 		FD62399B20F56BE700049E81 /* GREYConfiguration+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GREYConfiguration+Private.h"; path = "CommonLib/Config/GREYConfiguration+Private.h"; sourceTree = "<group>"; };
 		FD62399C20F56BE700049E81 /* GREYConfigKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYConfigKey.h; path = CommonLib/Config/GREYConfigKey.h; sourceTree = "<group>"; };
@@ -726,7 +747,6 @@
 				FD98C465226C330E006F8D68 /* AppleInternals */,
 				FD2E76EE2149E4620063EF7E /* Config */,
 				FD623DBC20FD75D600049E81 /* Analytics */,
-				FD623DBA20FD75C000049E81 /* AppFrameworkStubs */,
 				FD50493620FB23CF00261CBE /* XCTestCase */,
 				FD50492E20FB239C00261CBE /* Exception */,
 				FD50492020FB238800261CBE /* EarlGreyImpl */,
@@ -1496,11 +1516,15 @@
 				FD623A4520F957BE00049E81 /* Frameworks */,
 				FD623A4620F957BE00049E81 /* Headers */,
 				FD623A4720F957BE00049E81 /* Resources */,
+				804D3FD322B99188001D3F3A /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				FD66782A211FAE3A008EC4A7 /* PBXTargetDependency */,
+				804D3FD122B99055001D3F3A /* PBXTargetDependency */,
+				804D3FCF22B9903F001D3F3A /* PBXTargetDependency */,
+				804D3FCD22B99039001D3F3A /* PBXTargetDependency */,
+                                FD66782A211FAE3A008EC4A7 /* PBXTargetDependency */,
 				FD623BD920F9726300049E81 /* PBXTargetDependency */,
 			);
 			name = AppFramework;
@@ -1675,6 +1699,26 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		804D3FD322B99188001D3F3A /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "sh Scripts/build_universal_framework.sh\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		FD5048F420FB225100261CBE /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -1832,6 +1876,21 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		804D3FCD22B99039001D3F3A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = MeasureLib;
+			targetProxy = 804D3FCC22B99039001D3F3A /* PBXContainerItemProxy */;
+		};
+		804D3FCF22B9903F001D3F3A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ChannelLib;
+			targetProxy = 804D3FCE22B9903F001D3F3A /* PBXContainerItemProxy */;
+		};
+		804D3FD122B99055001D3F3A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = DeviceLib;
+			targetProxy = 804D3FD022B99055001D3F3A /* PBXContainerItemProxy */;
+		};
 		FD623BD920F9726300049E81 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = FDF9E03420F82D090005DCF2 /* UILib */;
@@ -1866,7 +1925,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				FRAMEWORK_SEARCH_PATHS = "$(PLATFORM_DIR)/Developer/Library/Frameworks";
 				HEADER_SEARCH_PATHS = (
-					Submodules/eDistantObject/,
+					"Submodules/eDistantObject/**",
 					.,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -1889,7 +1948,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				FRAMEWORK_SEARCH_PATHS = "$(PLATFORM_DIR)/Developer/Library/Frameworks";
 				HEADER_SEARCH_PATHS = (
-					Submodules/eDistantObject/,
+					"Submodules/eDistantObject/**",
 					.,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -2067,7 +2126,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				HEADER_SEARCH_PATHS = (
-					Submodules/eDistantObject/,
+					"Submodules/eDistantObject/**",
 					.,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -2085,7 +2144,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				HEADER_SEARCH_PATHS = (
-					Submodules/eDistantObject/,
+					"Submodules/eDistantObject/**",
 					.,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -2109,7 +2168,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				HEADER_SEARCH_PATHS = (
-					Submodules/eDistantObject/,
+					"Submodules/eDistantObject/**",
 					Submodules/fishhook/,
 					.,
 				);
@@ -2145,7 +2204,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				HEADER_SEARCH_PATHS = (
-					Submodules/eDistantObject/,
+					"Submodules/eDistantObject/**",
 					Submodules/fishhook/,
 					.,
 				);
@@ -2175,7 +2234,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				HEADER_SEARCH_PATHS = (
-					Submodules/eDistantObject/,
+					"Submodules/eDistantObject/**",
 					.,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -2193,7 +2252,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				HEADER_SEARCH_PATHS = (
-					Submodules/eDistantObject/,
+					"Submodules/eDistantObject/**",
 					.,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
