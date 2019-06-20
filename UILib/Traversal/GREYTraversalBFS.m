@@ -55,7 +55,7 @@
   return nextObject.element;
 }
 
-- (void)enumerateUsingBlock:(void (^)(id _Nonnull view, NSUInteger level, BOOL *stop))block {
+- (void)enumerateUsingBlock:(void (^)(id _Nonnull element, NSUInteger level, BOOL *stop))block {
   GREYThrowOnNilParameter(block);
 
   GREYTraversalObject *object;

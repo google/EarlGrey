@@ -70,7 +70,7 @@
   return element.element;
 }
 
-- (void)enumerateUsingBlock:(void (^)(id view, NSUInteger level, CGRect boundingRect,
+- (void)enumerateUsingBlock:(void (^)(id element, NSUInteger level, CGRect boundingRect,
                                       BOOL *stop))block {
   GREYThrowOnNilParameter(block);
 
