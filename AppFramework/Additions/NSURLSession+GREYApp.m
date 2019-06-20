@@ -51,8 +51,14 @@ typedef void (^GREYTaskCompletionBlock)(NSData *data, NSURLResponse *response, N
   // Swizzle the session delegate class if not yet done.
   id delegate = self.delegate;
   SEL originalSel = @selector(URLSession:task:didCompleteWithError:);
-  Class delegateClass =
-      [[delegate forwardingTargetForSelector:originalSel] class] ?: [delegate class];
+  // Add a check for a proxy delegate in the case it might respond @c YES to
+  // `respondsToSelector:` but `class_getInstanceMethod` returns nil. Forward
+  // the target until the right delegate object is found, if any.
+  id nextForwardingDelegate;
+  while ((nextForwardingDelegate = [delegate forwardingTargetForSelector:originalSel])) {
+    delegate = nextForwardingDelegate;
+  }
+  Class delegateClass = [delegate class];
 
   if (![delegateClass instancesRespondToSelector:swizzledSel]) {
     // If delegate does not exist or if it does not implement the delegate method, then this
