@@ -57,8 +57,29 @@ You can use the same channels as with EarlGrey 1.0 for communicating with us. Pl
 
 # Analytics
 
-Unlike [EarlGrey 1.0](https://github.com/google/EarlGrey#analytics),
-EarlGrey 2.0 does not collect or upload any analytics for its usage.
+Similar to [EarlGrey 1.0](https://github.com/google/EarlGrey#analytics),
+EarlGrey 2.0 also collects an **MD5 Hash** of the *Bundle ID, Test Class Names
+and Test Method Names*. This allows us to measure the volume of usage. You can
+take a look at
+[GREYAnalytics.m](TestLib/Analytics/GREYAnalytics.m)
+for how it's done.
+
+If you wish, you can disable analytics by adding this to your test's
+`-(void)setUp` method:
+
+In Objective-C:
+
+```objc
+// Disable analytics.
+[[GREYConfiguration sharedConfiguration] setValue:@(NO) forConfigKey:kGREYConfigKeyAnalyticsEnabled];
+```
+
+In Swift:
+
+```swift
+// Disable analytics.
+GREYConfiguration.sharedConfiguration().setValue(false, forConfigKey: kGREYConfigKeyAnalyticsEnabled)
+```
 
 # EarlGrey 2.0 Advantages over XCUITest
 

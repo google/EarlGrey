@@ -23,6 +23,7 @@
 #import "CommonLib/DistantObject/GREYTestApplicationDistantObject+Private.h"
 #import "CommonLib/DistantObject/GREYTestApplicationDistantObject.h"
 #import "CommonLib/GREYSwizzler.h"
+#import "TestLib/Analytics/GREYAnalytics.h"
 #import "TestLib/XCTestCase/XCUIApplication+GREYEnvironment.h"
 
 @implementation XCUIApplication (GREYTest)

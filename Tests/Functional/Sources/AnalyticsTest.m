@@ -18,7 +18,7 @@
 
 #import "AppFramework/DistantObject/GREYHostApplicationDistantObject+GREYTestHelper.h"
 #import "CommonLib/Additions/NSString+GREYCommon.h"
-#import "TestLib/Analytics/GREYAnalytics.g3only.h"
+#import "TestLib/Analytics/GREYAnalytics.h"
 #import "TestLib/XCTestCase/XCTestCase+GREYTest.h"
 
 @interface GREYAnalytics (GREYExposedForTesting)

@@ -16,7 +16,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "TestLib/Analytics/GREYAnalyticsDelegate.g3only.h"
+#import "TestLib/Analytics/GREYAnalyticsDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -37,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
  *          }
  *          @endcode
  */
-@interface GREYAnalytics : NSObject
+@interface GREYAnalytics : NSObject <GREYAnalyticsDelegate>
 
 /**
  *  @return The singleton instance.
@@ -70,6 +70,7 @@ NS_ASSUME_NONNULL_BEGIN
                           category:(NSString *)category
                             action:(NSString *)action
                              value:(NSString *)value;
+
 @end
 
 NS_ASSUME_NONNULL_END

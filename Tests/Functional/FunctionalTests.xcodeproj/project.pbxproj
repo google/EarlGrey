@@ -160,29 +160,40 @@
 		FD66788D212229AB008EC4A7 /* HostDOCategories.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = FD6678692122290B008EC4A7 /* HostDOCategories.bundle */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		FD98C49A226C3555006F8D68 /* SlideTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C46B226C3517006F8D68 /* SlideTest.m */; };
 		FD98C49B226C3555006F8D68 /* ErrorHandlingTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C46C226C3517006F8D68 /* ErrorHandlingTest.m */; };
+		FD98C49C226C3555006F8D68 /* AnalyticsTestCaseSetupOptOutTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C46D226C3518006F8D68 /* AnalyticsTestCaseSetupOptOutTest.m */; };
 		FD98C49D226C3555006F8D68 /* RemoteInteractionsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C46E226C3519006F8D68 /* RemoteInteractionsTest.m */; };
 		FD98C49E226C3555006F8D68 /* UITableViewTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C46F226C351A006F8D68 /* UITableViewTest.m */; };
 		FD98C49F226C3555006F8D68 /* MultiFingerSwipeTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C471226C351F006F8D68 /* MultiFingerSwipeTest.m */; };
 		FD98C4A0226C3555006F8D68 /* ScreenshotTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C472226C3520006F8D68 /* ScreenshotTest.m */; };
+		FD98C4A1226C3555006F8D68 /* AnalyticsNoEarlGreyUsageTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C473226C3521006F8D68 /* AnalyticsNoEarlGreyUsageTest.m */; };
 		FD98C4A2226C3555006F8D68 /* DistantObjectExecutionsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C474226C3522006F8D68 /* DistantObjectExecutionsTest.m */; };
 		FD98C4A3226C3555006F8D68 /* VisibilityTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C475226C3523006F8D68 /* VisibilityTest.m */; };
+		FD98C4A4226C3555006F8D68 /* AnalyticsPostSuperTearDownOptOutTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C476226C3527006F8D68 /* AnalyticsPostSuperTearDownOptOutTest.m */; };
 		FD98C4A5226C3555006F8D68 /* FailureHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C477226C3528006F8D68 /* FailureHandler.m */; };
+		FD98C4A6226C3555006F8D68 /* AnalyticsClassTearDownOptOutTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C478226C3529006F8D68 /* AnalyticsClassTearDownOptOutTest.m */; };
 		FD98C4A7226C3555006F8D68 /* GeometryTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C479226C352A006F8D68 /* GeometryTest.m */; };
 		FD98C4A8226C3555006F8D68 /* ActionSheetTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C47A226C352C006F8D68 /* ActionSheetTest.m */; };
 		FD98C4A9226C3555006F8D68 /* BaseIntegrationTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C47B226C352C006F8D68 /* BaseIntegrationTest.m */; };
 		FD98C4AA226C3555006F8D68 /* BasicInteractionTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C47C226C352D006F8D68 /* BasicInteractionTest.m */; };
 		FD98C4AB226C3555006F8D68 /* NetworkTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C47D226C3530006F8D68 /* NetworkTest.m */; };
+		FD98C4AC226C3555006F8D68 /* BaseAnalyticsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C47E226C3531006F8D68 /* BaseAnalyticsTest.m */; };
 		FD98C4AD226C3555006F8D68 /* ConditionTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C47F226C3532006F8D68 /* ConditionTest.m */; };
 		FD98C4AE226C3555006F8D68 /* EarlGreyImplTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C480226C3533006F8D68 /* EarlGreyImplTest.m */; };
 		FD98C4AF226C3555006F8D68 /* ScrollViewTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C481226C3538006F8D68 /* ScrollViewTest.m */; };
 		FD98C4B0226C3555006F8D68 /* UIWebViewTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C482226C353B006F8D68 /* UIWebViewTest.m */; };
 		FD98C4B1226C3555006F8D68 /* AccessibilityTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C483226C353C006F8D68 /* AccessibilityTest.m */; };
+		FD98C4B2226C3555006F8D68 /* AnalyticsTestMethodOptOutTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C485226C353D006F8D68 /* AnalyticsTestMethodOptOutTest.m */; };
 		FD98C4B3226C3555006F8D68 /* WKWebViewTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C486226C353D006F8D68 /* WKWebViewTest.m */; };
 		FD98C4B4226C3555006F8D68 /* CollectionViewTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C487226C3540006F8D68 /* CollectionViewTest.m */; };
+		FD98C4B5226C3555006F8D68 /* AnalyticsTestSuiteSetupOptOutTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C488226C3540006F8D68 /* AnalyticsTestSuiteSetupOptOutTest.m */; };
 		FD98C4B6226C3555006F8D68 /* AnimationsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C489226C3543006F8D68 /* AnimationsTest.m */; };
+		FD98C4B7226C3555006F8D68 /* AnalyticsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C48A226C3543006F8D68 /* AnalyticsTest.m */; };
 		FD98C4B8226C3555006F8D68 /* MatcherTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C48C226C3547006F8D68 /* MatcherTest.m */; };
+		FD98C4B9226C3555006F8D68 /* AnalyticsTearDownOptOutTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C48D226C3549006F8D68 /* AnalyticsTearDownOptOutTest.m */; };
+		FD98C4BA226C3555006F8D68 /* AnalyticsTestPostTearDownTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C48E226C354B006F8D68 /* AnalyticsTestPostTearDownTest.m */; };
 		FD98C4BB226C3555006F8D68 /* PickerViewInteractionTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C48F226C354C006F8D68 /* PickerViewInteractionTest.m */; };
 		FD98C4BC226C3555006F8D68 /* PinchViewTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C490226C354D006F8D68 /* PinchViewTest.m */; };
+		FD98C4BD226C3555006F8D68 /* BasicAnalyticsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C491226C354D006F8D68 /* BasicAnalyticsTest.m */; };
 		FD98C4BE226C3555006F8D68 /* OrientationPortraitOnlyChangeTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C492226C354E006F8D68 /* OrientationPortraitOnlyChangeTest.m */; };
 		FD98C4BF226C3555006F8D68 /* KeyboardKeysTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C493226C354F006F8D68 /* KeyboardKeysTest.m */; };
 		FD98C4C0226C3555006F8D68 /* PresentedViewTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C494226C354F006F8D68 /* PresentedViewTest.m */; };
@@ -502,31 +513,43 @@
 		FD795B89211911E800F9A9E3 /* libeDistantObject.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libeDistantObject.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD98C46B226C3517006F8D68 /* SlideTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlideTest.m; sourceTree = "<group>"; };
 		FD98C46C226C3517006F8D68 /* ErrorHandlingTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ErrorHandlingTest.m; sourceTree = "<group>"; };
+		FD98C46D226C3518006F8D68 /* AnalyticsTestCaseSetupOptOutTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnalyticsTestCaseSetupOptOutTest.m; sourceTree = "<group>"; };
 		FD98C46E226C3519006F8D68 /* RemoteInteractionsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemoteInteractionsTest.m; sourceTree = "<group>"; };
 		FD98C46F226C351A006F8D68 /* UITableViewTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UITableViewTest.m; sourceTree = "<group>"; };
+		FD98C470226C351E006F8D68 /* BaseAnalyticsTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseAnalyticsTest.h; sourceTree = "<group>"; };
 		FD98C471226C351F006F8D68 /* MultiFingerSwipeTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultiFingerSwipeTest.m; sourceTree = "<group>"; };
 		FD98C472226C3520006F8D68 /* ScreenshotTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScreenshotTest.m; sourceTree = "<group>"; };
+		FD98C473226C3521006F8D68 /* AnalyticsNoEarlGreyUsageTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnalyticsNoEarlGreyUsageTest.m; sourceTree = "<group>"; };
 		FD98C474226C3522006F8D68 /* DistantObjectExecutionsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DistantObjectExecutionsTest.m; sourceTree = "<group>"; };
 		FD98C475226C3523006F8D68 /* VisibilityTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VisibilityTest.m; sourceTree = "<group>"; };
+		FD98C476226C3527006F8D68 /* AnalyticsPostSuperTearDownOptOutTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnalyticsPostSuperTearDownOptOutTest.m; sourceTree = "<group>"; };
 		FD98C477226C3528006F8D68 /* FailureHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FailureHandler.m; sourceTree = "<group>"; };
+		FD98C478226C3529006F8D68 /* AnalyticsClassTearDownOptOutTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnalyticsClassTearDownOptOutTest.m; sourceTree = "<group>"; };
 		FD98C479226C352A006F8D68 /* GeometryTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeometryTest.m; sourceTree = "<group>"; };
 		FD98C47A226C352C006F8D68 /* ActionSheetTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionSheetTest.m; sourceTree = "<group>"; };
 		FD98C47B226C352C006F8D68 /* BaseIntegrationTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseIntegrationTest.m; sourceTree = "<group>"; };
 		FD98C47C226C352D006F8D68 /* BasicInteractionTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BasicInteractionTest.m; sourceTree = "<group>"; };
 		FD98C47D226C3530006F8D68 /* NetworkTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkTest.m; sourceTree = "<group>"; };
+		FD98C47E226C3531006F8D68 /* BaseAnalyticsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseAnalyticsTest.m; sourceTree = "<group>"; };
 		FD98C47F226C3532006F8D68 /* ConditionTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConditionTest.m; sourceTree = "<group>"; };
 		FD98C480226C3533006F8D68 /* EarlGreyImplTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EarlGreyImplTest.m; sourceTree = "<group>"; };
 		FD98C481226C3538006F8D68 /* ScrollViewTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScrollViewTest.m; sourceTree = "<group>"; };
 		FD98C482226C353B006F8D68 /* UIWebViewTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIWebViewTest.m; sourceTree = "<group>"; };
 		FD98C483226C353C006F8D68 /* AccessibilityTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccessibilityTest.m; sourceTree = "<group>"; };
 		FD98C484226C353C006F8D68 /* BaseIntegrationTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseIntegrationTest.h; sourceTree = "<group>"; };
+		FD98C485226C353D006F8D68 /* AnalyticsTestMethodOptOutTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnalyticsTestMethodOptOutTest.m; sourceTree = "<group>"; };
 		FD98C486226C353D006F8D68 /* WKWebViewTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WKWebViewTest.m; sourceTree = "<group>"; };
 		FD98C487226C3540006F8D68 /* CollectionViewTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewTest.m; sourceTree = "<group>"; };
+		FD98C488226C3540006F8D68 /* AnalyticsTestSuiteSetupOptOutTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnalyticsTestSuiteSetupOptOutTest.m; sourceTree = "<group>"; };
 		FD98C489226C3543006F8D68 /* AnimationsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnimationsTest.m; sourceTree = "<group>"; };
+		FD98C48A226C3543006F8D68 /* AnalyticsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnalyticsTest.m; sourceTree = "<group>"; };
 		FD98C48B226C3546006F8D68 /* FailureHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FailureHandler.h; sourceTree = "<group>"; };
 		FD98C48C226C3547006F8D68 /* MatcherTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MatcherTest.m; sourceTree = "<group>"; };
+		FD98C48D226C3549006F8D68 /* AnalyticsTearDownOptOutTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnalyticsTearDownOptOutTest.m; sourceTree = "<group>"; };
+		FD98C48E226C354B006F8D68 /* AnalyticsTestPostTearDownTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnalyticsTestPostTearDownTest.m; sourceTree = "<group>"; };
 		FD98C48F226C354C006F8D68 /* PickerViewInteractionTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PickerViewInteractionTest.m; sourceTree = "<group>"; };
 		FD98C490226C354D006F8D68 /* PinchViewTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PinchViewTest.m; sourceTree = "<group>"; };
+		FD98C491226C354D006F8D68 /* BasicAnalyticsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BasicAnalyticsTest.m; sourceTree = "<group>"; };
 		FD98C492226C354E006F8D68 /* OrientationPortraitOnlyChangeTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrientationPortraitOnlyChangeTest.m; sourceTree = "<group>"; };
 		FD98C493226C354F006F8D68 /* KeyboardKeysTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyboardKeysTest.m; sourceTree = "<group>"; };
 		FD98C494226C354F006F8D68 /* PresentedViewTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PresentedViewTest.m; sourceTree = "<group>"; };
@@ -661,9 +684,21 @@
 				FD98C47A226C352C006F8D68 /* ActionSheetTest.m */,
 				FD98C495226C3551006F8D68 /* ActivityIndicatorTest.m */,
 				FD98C498226C3554006F8D68 /* AlertViewTest.m */,
+				FD98C478226C3529006F8D68 /* AnalyticsClassTearDownOptOutTest.m */,
+				FD98C473226C3521006F8D68 /* AnalyticsNoEarlGreyUsageTest.m */,
+				FD98C476226C3527006F8D68 /* AnalyticsPostSuperTearDownOptOutTest.m */,
+				FD98C48D226C3549006F8D68 /* AnalyticsTearDownOptOutTest.m */,
+				FD98C48A226C3543006F8D68 /* AnalyticsTest.m */,
+				FD98C46D226C3518006F8D68 /* AnalyticsTestCaseSetupOptOutTest.m */,
+				FD98C485226C353D006F8D68 /* AnalyticsTestMethodOptOutTest.m */,
+				FD98C48E226C354B006F8D68 /* AnalyticsTestPostTearDownTest.m */,
+				FD98C488226C3540006F8D68 /* AnalyticsTestSuiteSetupOptOutTest.m */,
 				FD98C489226C3543006F8D68 /* AnimationsTest.m */,
+				FD98C470226C351E006F8D68 /* BaseAnalyticsTest.h */,
+				FD98C47E226C3531006F8D68 /* BaseAnalyticsTest.m */,
 				FD98C484226C353C006F8D68 /* BaseIntegrationTest.h */,
 				FD98C47B226C352C006F8D68 /* BaseIntegrationTest.m */,
+				FD98C491226C354D006F8D68 /* BasicAnalyticsTest.m */,
 				FD98C47C226C352D006F8D68 /* BasicInteractionTest.m */,
 				FD98C487226C3540006F8D68 /* CollectionViewTest.m */,
 				FD98C47F226C3532006F8D68 /* ConditionTest.m */,
@@ -1436,16 +1471,23 @@
 				FD98C4A5226C3555006F8D68 /* FailureHandler.m in Sources */,
 				FD98C4AB226C3555006F8D68 /* NetworkTest.m in Sources */,
 				FD98C4A3226C3555006F8D68 /* VisibilityTest.m in Sources */,
+				FD98C49C226C3555006F8D68 /* AnalyticsTestCaseSetupOptOutTest.m in Sources */,
+				FD98C4BD226C3555006F8D68 /* BasicAnalyticsTest.m in Sources */,
+				FD98C4AC226C3555006F8D68 /* BaseAnalyticsTest.m in Sources */,
 				FD98C4B1226C3555006F8D68 /* AccessibilityTest.m in Sources */,
+				FD98C4B2226C3555006F8D68 /* AnalyticsTestMethodOptOutTest.m in Sources */,
+				FD98C4B7226C3555006F8D68 /* AnalyticsTest.m in Sources */,
 				FD98C4A0226C3555006F8D68 /* ScreenshotTest.m in Sources */,
 				FD98C49D226C3555006F8D68 /* RemoteInteractionsTest.m in Sources */,
 				FD98C4AA226C3555006F8D68 /* BasicInteractionTest.m in Sources */,
 				FD98C4AD226C3555006F8D68 /* ConditionTest.m in Sources */,
 				FD98C4C3226C3555006F8D68 /* OrientationChangeTest.m in Sources */,
+				FD98C4A4226C3555006F8D68 /* AnalyticsPostSuperTearDownOptOutTest.m in Sources */,
 				FD98C49F226C3555006F8D68 /* MultiFingerSwipeTest.m in Sources */,
 				FD98C4C4226C3555006F8D68 /* AlertViewTest.m in Sources */,
 				FD98C4BF226C3555006F8D68 /* KeyboardKeysTest.m in Sources */,
 				FD98C4C0226C3555006F8D68 /* PresentedViewTest.m in Sources */,
+				FD98C4B9226C3555006F8D68 /* AnalyticsTearDownOptOutTest.m in Sources */,
 				FD98C4B0226C3555006F8D68 /* UIWebViewTest.m in Sources */,
 				FD98C4A2226C3555006F8D68 /* DistantObjectExecutionsTest.m in Sources */,
 				FD98C49B226C3555006F8D68 /* ErrorHandlingTest.m in Sources */,
@@ -1453,8 +1495,11 @@
 				FD98C4B8226C3555006F8D68 /* MatcherTest.m in Sources */,
 				FD98C4C5226C3555006F8D68 /* ShakeTest.m in Sources */,
 				FD98C4A8226C3555006F8D68 /* ActionSheetTest.m in Sources */,
+				FD98C4A1226C3555006F8D68 /* AnalyticsNoEarlGreyUsageTest.m in Sources */,
+				FD98C4B5226C3555006F8D68 /* AnalyticsTestSuiteSetupOptOutTest.m in Sources */,
 				FD98C4BC226C3555006F8D68 /* PinchViewTest.m in Sources */,
 				FD98C4C2226C3555006F8D68 /* GestureTest.m in Sources */,
+				FD98C4A6226C3555006F8D68 /* AnalyticsClassTearDownOptOutTest.m in Sources */,
 				FD98C49E226C3555006F8D68 /* UITableViewTest.m in Sources */,
 				FD98C4B6226C3555006F8D68 /* AnimationsTest.m in Sources */,
 				FD98C4A7226C3555006F8D68 /* GeometryTest.m in Sources */,
@@ -1464,6 +1509,7 @@
 				FD98C4AE226C3555006F8D68 /* EarlGreyImplTest.m in Sources */,
 				FD98C4C1226C3555006F8D68 /* ActivityIndicatorTest.m in Sources */,
 				FD98C4AF226C3555006F8D68 /* ScrollViewTest.m in Sources */,
+				FD98C4BA226C3555006F8D68 /* AnalyticsTestPostTearDownTest.m in Sources */,
 				FD98C4BE226C3555006F8D68 /* OrientationPortraitOnlyChangeTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
