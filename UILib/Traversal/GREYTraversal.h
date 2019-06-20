@@ -20,33 +20,6 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  A private wrapper used to store information that is essential for printing the UI hierarchy
- *  appropriately and in correct order.
- */
-@interface GREYTraversalObject : NSObject
-
-/**
- *  An NSUInteger representing the number of parent-child relationships from the root element
- *  to the current element.
- */
-@property(nonatomic) NSUInteger level;
-
-/**
- *  A @c CGRect representing the boundary in which the current element clips to. @c CGRectNull
- *  if there is no boundary. It is represented in the same coordinate space as the element.
- *  TODO: This is used exclusively in GREYFastVisibilityChecker. Make a generic dictionary or
- *        class that maintains metadata such as level or boundingRect and remove them from property.
- */
-@property(nonatomic) CGRect boundingRect;
-
-/**
- *  The UI element that the GREYHierarchyObject is wrapped around.
- */
-@property(nonatomic, strong) id element;
-
-@end
-
-/**
  *  Private class to traverse the UI Hierarchy.
  *  Provides helper methods to access the various elements present in the hierarchy.
  */

@@ -19,13 +19,6 @@
 #import "CommonLib/Assertion/GREYThrowDefines.h"
 #import "CommonLib/GREYConstants.h"
 
-/**
- *  An empty implementation since GREYTraversalObject is a wrapper object.
- */
-@implementation GREYTraversalObject
-
-@end
-
 @implementation GREYTraversal
 
 - (NSArray<id> *)exploreImmediateChildren:(id)element {

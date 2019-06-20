@@ -17,6 +17,7 @@
 #import "UILib/Traversal/GREYTraversalBFS.h"
 
 #import "CommonLib/Assertion/GREYThrowDefines.h"
+#import "UILib/Traversal/GREYTraversalObject.h"
 
 @implementation GREYTraversalBFS {
   /**

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6F8818B222B86F530006932D /* GREYAssertionBlock+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F8818B122B86F520006932D /* GREYAssertionBlock+Private.h */; };
+		A20847B422BC095B00DD3983 /* GREYTraversalObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A20847B322BC095A00DD3983 /* GREYTraversalObject.m */; };
 		FD1184D3212CEE72004CADC3 /* XCUIApplication+GREYEnvironment.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1184D2212CEE72004CADC3 /* XCUIApplication+GREYEnvironment.m */; };
 		FD2E76EC2149E4580063EF7E /* GREYAppConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = FD2E76EA2149E4580063EF7E /* GREYAppConfiguration.m */; };
 		FD2E76ED2149E4580063EF7E /* GREYAppConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = FD2E76EB2149E4580063EF7E /* GREYAppConfiguration.h */; };
@@ -395,6 +396,8 @@
 		6F9B2C1E22B18F15003132B0 /* GREYDiagnosable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYDiagnosable.h; path = CommonLib/GREYDiagnosable.h; sourceTree = "<group>"; };
 		80E8CD4322AF096E00CDE5C5 /* GREYBaseMatcher+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GREYBaseMatcher+Private.h"; path = "CommonLib/Matcher/GREYBaseMatcher+Private.h"; sourceTree = SOURCE_ROOT; };
 		80E8CD4422AF097000CDE5C5 /* GREYElementMatcherBlock+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GREYElementMatcherBlock+Private.h"; path = "CommonLib/Matcher/GREYElementMatcherBlock+Private.h"; sourceTree = SOURCE_ROOT; };
+		A20847AA22BC095A00DD3983 /* GREYTraversalObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYTraversalObject.h; sourceTree = "<group>"; };
+		A20847B322BC095A00DD3983 /* GREYTraversalObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYTraversalObject.m; sourceTree = "<group>"; };
 		FD1184CB212CEE72004CADC3 /* XCUIApplication+GREYEnvironment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "XCUIApplication+GREYEnvironment.h"; path = "XCTestCase/XCUIApplication+GREYEnvironment.h"; sourceTree = "<group>"; };
 		FD1184D2212CEE72004CADC3 /* XCUIApplication+GREYEnvironment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "XCUIApplication+GREYEnvironment.m"; path = "XCTestCase/XCUIApplication+GREYEnvironment.m"; sourceTree = "<group>"; };
 		FD2E76EA2149E4580063EF7E /* GREYAppConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYAppConfiguration.m; path = Config/GREYAppConfiguration.m; sourceTree = "<group>"; };
@@ -749,7 +752,6 @@
 			children = (
 				FD98C465226C330E006F8D68 /* AppleInternals */,
 				FD2E76EE2149E4620063EF7E /* Config */,
-				FD623DBC20FD75D600049E81 /* Analytics */,
 				FD50493620FB23CF00261CBE /* XCTestCase */,
 				FD50492E20FB239C00261CBE /* Exception */,
 				FD50492020FB238800261CBE /* EarlGreyImpl */,
@@ -1379,6 +1381,8 @@
 				FDF9E05620F82E200005DCF2 /* GREYTraversal.m */,
 				FDF9E05520F82E200005DCF2 /* GREYTraversalBFS.h */,
 				FDF9E05220F82E200005DCF2 /* GREYTraversalBFS.m */,
+				A20847AA22BC095A00DD3983 /* GREYTraversalObject.h */,
+				A20847B322BC095A00DD3983 /* GREYTraversalObject.m */,
 				FDF9E05320F82E200005DCF2 /* GREYTraversalDFS.h */,
 				FDF9E05120F82E200005DCF2 /* GREYTraversalDFS.m */,
 			);
@@ -1873,6 +1877,7 @@
 				FDF9E05720F82E200005DCF2 /* GREYTraversalDFS.m in Sources */,
 				FDF9E07720F82F030005DCF2 /* GREYElementHierarchy.m in Sources */,
 				FDF9E06220F82E340005DCF2 /* GREYUIWindowProvider.m in Sources */,
+				A20847B422BC095B00DD3983 /* GREYTraversalObject.m in Sources */,
 				FDF9E05820F82E200005DCF2 /* GREYTraversalBFS.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2132,6 +2137,7 @@
 				HEADER_SEARCH_PATHS = (
 					"Submodules/eDistantObject/**",
 					.,
+					../../..,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				OTHER_CFLAGS = "";
@@ -2150,6 +2156,7 @@
 				HEADER_SEARCH_PATHS = (
 					"Submodules/eDistantObject/**",
 					.,
+					../../..,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				OTHER_CFLAGS = "";
@@ -2175,6 +2182,7 @@
 					"Submodules/eDistantObject/**",
 					Submodules/fishhook/,
 					.,
+					../../..,
 				);
 				INFOPLIST_FILE = AppFramework/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -2211,6 +2219,7 @@
 					"Submodules/eDistantObject/**",
 					Submodules/fishhook/,
 					.,
+					../../..,
 				);
 				INFOPLIST_FILE = AppFramework/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -2240,6 +2249,7 @@
 				HEADER_SEARCH_PATHS = (
 					"Submodules/eDistantObject/**",
 					.,
+					../../..,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				ONLY_ACTIVE_ARCH = NO;
@@ -2258,6 +2268,7 @@
 				HEADER_SEARCH_PATHS = (
 					"Submodules/eDistantObject/**",
 					.,
+					../../..,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				OTHER_LDFLAGS = "-ObjC";

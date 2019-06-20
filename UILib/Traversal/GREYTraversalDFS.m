@@ -18,6 +18,7 @@
 
 #import "CommonLib/Assertion/GREYThrowDefines.h"
 #import "UILib/Additions/CGGeometry+GREYUI.h"
+#import "UILib/Traversal/GREYTraversalObject.h"
 
 @implementation GREYTraversalDFS {
   /**
