@@ -43,6 +43,10 @@
    *  Start point for the swipe specified as percentage of swipped element's accessibility frame.
    */
   CGPoint _startPercents;
+  /**
+   *  Identifier used for diagnostics.
+   */
+  NSString *_diagnosticsID;
 }
 
 - (instancetype)initWithDirection:(GREYDirection)direction
@@ -64,9 +68,10 @@
     [GREYMatchers matcherForKindOfClass:[UIView class]],
     [GREYMatchers matcherForRespondsToSelector:@selector(accessibilityFrame)],
   ];
-  self =
-      [super initWithName:name constraints:[[GREYAllOf alloc] initWithMatchers:constraintMatchers]];
+  self = [super initWithName:name
+                 constraints:[[GREYAllOf alloc] initWithMatchers:constraintMatchers]];
   if (self) {
+    _diagnosticsID = name;
     _direction = direction;
     _duration = duration;
     _startPercents = percents;
@@ -135,6 +140,12 @@
                                                     andDirection:_direction
                                                      andDuration:_duration
                                                         inWindow:window];
+}
+
+#pragma mark - GREYDiagnosable
+
+- (NSString *)diagnosticsID {
+  return _diagnosticsID;
 }
 
 @end

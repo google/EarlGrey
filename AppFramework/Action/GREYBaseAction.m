@@ -96,8 +96,11 @@
 
 #pragma mark - GREYDiagnosable
 
+// By default, all GREYBaseAction have no diagnosticsID. If you are subclassing GREYBaseAction and
+// want its metrics to be tracked, override this method and give it an identifier. This is for
+// INTERNAL USE only.
 - (NSString *)diagnosticsID {
-  return [self name];
+  return nil;
 }
 
 @end

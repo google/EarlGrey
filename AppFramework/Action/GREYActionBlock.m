@@ -22,6 +22,10 @@
 
 @implementation GREYActionBlock {
   GREYPerformBlock _performBlock;
+  /**
+   *  Identifier used for diagnostics.
+   */
+  NSString *_diagnosticsID;
 }
 
 + (instancetype)actionWithName:(NSString *)name performBlock:(GREYPerformBlock)block {
@@ -41,7 +45,30 @@
 
   self = [super initWithName:name constraints:constraints];
   if (self) {
-    _performBlock = block;
+    _performBlock = [block copy];
+  }
+  return self;
+}
+
+#pragma mark - Private
+
++ (instancetype)actionWithName:(NSString *)name
+                 diagnosticsID:(NSString *)diagnosticsID
+                   constraints:(id<GREYMatcher>)constraints
+                  performBlock:(GREYPerformBlock)block {
+  return [[GREYActionBlock alloc] initWithName:name
+                                 diagnosticsID:diagnosticsID
+                                   constraints:constraints
+                                  performBlock:block];
+}
+
+- (instancetype)initWithName:(NSString *)name
+               diagnosticsID:(NSString *)diagnosticsID
+                 constraints:(id<GREYMatcher>)constraints
+                performBlock:(GREYPerformBlock)block {
+  self = [self initWithName:name constraints:constraints performBlock:block];
+  if (self) {
+    _diagnosticsID = name;
   }
   return self;
 }
@@ -54,6 +81,12 @@
   }
   // Perform actual action.
   return _performBlock(element, errorOrNil);
+}
+
+#pragma mark - GREYDiagnosable
+
+- (NSString *)diagnosticsID {
+  return _diagnosticsID;
 }
 
 @end

@@ -51,6 +51,10 @@
    *  The location for the tap action to happen.
    */
   CGPoint _tapLocation;
+  /**
+   *  Identifier used for diagnostics.
+   */
+  NSString *_diagnosticsID;
 }
 
 - (instancetype)initWithType:(GREYTapType)tapType {
@@ -109,9 +113,10 @@
   if ((tapType != kGREYTapTypeKBKey)) {
     [constraintMatchers addObject:[GREYMatchers matcherForInteractable]];
   }
-  self =
-      [super initWithName:name constraints:[[GREYAllOf alloc] initWithMatchers:constraintMatchers]];
+  self = [super initWithName:name
+                 constraints:[[GREYAllOf alloc] initWithMatchers:constraintMatchers]];
   if (self) {
+    _diagnosticsID = name;
     _type = tapType;
     _numberOfTaps = numberOfTaps;
     _duration = duration;
@@ -206,6 +211,12 @@
     });
   }
   return tapPoint;
+}
+
+#pragma mark - GREYDiagnosable
+
+- (NSString *)diagnosticsID {
+  return _diagnosticsID;
 }
 
 @end

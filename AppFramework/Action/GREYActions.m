@@ -19,6 +19,7 @@
 #include <mach/mach_time.h>
 
 #import "AppFramework/Action/GREYAction.h"
+#import "AppFramework/Action/GREYActionBlock+Private.h"
 #import "AppFramework/Action/GREYActionBlock.h"
 #import "AppFramework/Action/GREYChangeStepperAction.h"
 #import "AppFramework/Action/GREYMultiFingerSwipeAction.h"
@@ -215,6 +216,7 @@ static Class gAccessibilityTextFieldElementClass;
       [NSString stringWithFormat:@"Turn switch to %@ state", [UISwitch grey_stringFromOnState:on]];
   return [GREYActionBlock
       actionWithName:actionName
+       diagnosticsID:actionName
          constraints:constraints
         performBlock:^BOOL(id switchView, __strong NSError **errorOrNil) {
           __block BOOL toggleSwitch = NO;
@@ -264,7 +266,10 @@ static Class gAccessibilityTextFieldElementClass;
     id<GREYAction> action = [GREYActions grey_actionForTypeText:text atUITextPosition:textPosition];
     return [action perform:element error:errorOrNil];
   };
-  return [GREYActionBlock actionWithName:actionName constraints:protocolMatcher performBlock:block];
+  return [GREYActionBlock actionWithName:actionName
+                           diagnosticsID:actionName
+                             constraints:protocolMatcher
+                            performBlock:block];
 }
 
 + (id<GREYAction>)actionForReplaceText:(NSString *)text {
@@ -279,8 +284,10 @@ static Class gAccessibilityTextFieldElementClass;
     [GREYMatchers matcherForConformsToProtocol:@protocol(UITextInput)]
   ];
   id<GREYMatcher> constraints = [[GREYAnyOf alloc] initWithMatchers:constraintMatchers];
+  NSString *actionName = @"Clear text";
   return [GREYActionBlock
-      actionWithName:@"Clear text"
+      actionWithName:actionName
+       diagnosticsID:actionName
          constraints:constraints
         performBlock:^BOOL(id element, __strong NSError **errorOrNil) {
           __block NSString *currentText;
@@ -313,8 +320,8 @@ static Class gAccessibilityTextFieldElementClass;
             grey_dispatch_sync_on_main_thread(^{
               endPosition = [element endOfDocument];
             });
-            id<GREYAction> typeAtEnd =
-                [GREYActions grey_actionForTypeText:deleteStr atUITextPosition:endPosition];
+            id<GREYAction> typeAtEnd = [GREYActions grey_actionForTypeText:deleteStr
+                                                          atUITextPosition:endPosition];
             return [typeAtEnd perform:element error:errorOrNil];
           } else {
             return [[GREYActions actionForTypeText:deleteStr] perform:element error:errorOrNil];
@@ -330,21 +337,23 @@ static Class gAccessibilityTextFieldElementClass;
     [GREYMatchers matcherForKindOfClass:[UIDatePicker class]]
   ];
   id<GREYMatcher> constraints = [[GREYAllOf alloc] initWithMatchers:constraintMatcher];
+  NSString *actionName = [NSString stringWithFormat:@"Set date to %@", date];
   return [[GREYActionBlock alloc]
-      initWithName:[NSString stringWithFormat:@"Set date to %@", date]
-       constraints:constraints
-      performBlock:^BOOL(UIDatePicker *datePicker, __strong NSError **errorOrNil) {
-        grey_dispatch_sync_on_main_thread(^{
-          NSDate *previousDate = [datePicker date];
-          [datePicker setDate:date animated:YES];
-          // Changing the data programmatically does not fire the "value changed" events,
-          // So we have to trigger the events manually if the value changes.
-          if (![date isEqualToDate:previousDate]) {
-            [datePicker sendActionsForControlEvents:UIControlEventValueChanged];
-          }
-        });
-        return YES;
-      }];
+       initWithName:actionName
+      diagnosticsID:actionName
+        constraints:constraints
+       performBlock:^BOOL(UIDatePicker *datePicker, __strong NSError **errorOrNil) {
+         grey_dispatch_sync_on_main_thread(^{
+           NSDate *previousDate = [datePicker date];
+           [datePicker setDate:date animated:YES];
+           // Changing the data programmatically does not fire the "value changed" events,
+           // So we have to trigger the events manually if the value changes.
+           if (![date isEqualToDate:previousDate]) {
+             [datePicker sendActionsForControlEvents:UIControlEventValueChanged];
+           }
+         });
+         return YES;
+       }];
 }
 
 + (id<GREYAction>)actionForSetPickerColumn:(NSInteger)column toValue:(NSString *)value {
@@ -367,84 +376,87 @@ static Class gAccessibilityTextFieldElementClass;
     [[GREYNot alloc] initWithMatcher:systemAlertShownMatcher],
     [[GREYAnyOf alloc] initWithMatchers:webViewMatchers]
   ];
+  NSString *actionName = @"Execute JavaScript";
   id<GREYMatcher> constraints = [[GREYAllOf alloc] initWithMatchers:constraintMatchers];
   return [[GREYActionBlock alloc]
-      initWithName:@"Execute JavaScript"
-       constraints:constraints
-      performBlock:^BOOL(id webView, __strong NSError **errorOrNil) {
+       initWithName:actionName
+      diagnosticsID:actionName
+        constraints:constraints
+       performBlock:^BOOL(id webView, __strong NSError **errorOrNil) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        if ([webView isKindOfClass:[UIWebView class]]) {
-          grey_dispatch_sync_on_main_thread(^{
-            NSString *result = [self grey_javaScriptAction:js forUIWebView:(UIWebView *)webView];
-            if (outResult && result) {
-              outResult.object = result;
-            }
-          });
-        }
+         if ([webView isKindOfClass:[UIWebView class]]) {
+           grey_dispatch_sync_on_main_thread(^{
+             NSString *result = [self grey_javaScriptAction:js forUIWebView:(UIWebView *)webView];
+             if (outResult && result) {
+               outResult.object = result;
+             }
+           });
+         }
 #pragma clang diagnostic pop
-        if ([webView isKindOfClass:[WKWebView class]]) {
-          dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
-          __block NSError *localError = nil;
-          grey_dispatch_sync_on_main_thread(^{
-            [webView evaluateJavaScript:js
-                      completionHandler:^(id result, NSError *error) {
-                        if (result) {
-                          // Populate the javascript result for the user to get back.
-                          outResult.object = [NSString stringWithFormat:@"%@", result];
-                        }
-                        if (error) {
-                          localError = error;
-                        }
-                        dispatch_semaphore_signal(semaphore);
-                      }];
-          });
-          // Wait for the interaction timeout for the semaphore to return.
-          CFTimeInterval interactionTimeout =
-              GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
-          long evaluationTimedOut = dispatch_semaphore_wait(
-              semaphore,
-              dispatch_time(DISPATCH_TIME_NOW, (int64_t)(interactionTimeout * NSEC_PER_SEC)));
-          if (evaluationTimedOut) {
-            I_GREYPopulateError(errorOrNil, kGREYInteractionErrorDomain,
-                                kGREYWKWebViewInteractionFailedErrorCode,
-                                @"Interaction with WKWebView failed because of timeout");
-            return NO;
-          }
-          if (localError) {
-            I_GREYPopulateError(errorOrNil, kGREYInteractionErrorDomain,
-                                kGREYWKWebViewInteractionFailedErrorCode,
-                                @"Interaction with WKWebView failed for an internal reason");
-            return NO;
-          } else {
-            return YES;
-          }
-        }
-        return YES;
-      }];
+         if ([webView isKindOfClass:[WKWebView class]]) {
+           dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+           __block NSError *localError = nil;
+           grey_dispatch_sync_on_main_thread(^{
+             [webView evaluateJavaScript:js
+                       completionHandler:^(id result, NSError *error) {
+                         if (result) {
+                           // Populate the javascript result for the user to get back.
+                           outResult.object = [NSString stringWithFormat:@"%@", result];
+                         }
+                         if (error) {
+                           localError = error;
+                         }
+                         dispatch_semaphore_signal(semaphore);
+                       }];
+           });
+           // Wait for the interaction timeout for the semaphore to return.
+           CFTimeInterval interactionTimeout =
+               GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
+           long evaluationTimedOut = dispatch_semaphore_wait(
+               semaphore,
+               dispatch_time(DISPATCH_TIME_NOW, (int64_t)(interactionTimeout * NSEC_PER_SEC)));
+           if (evaluationTimedOut) {
+             I_GREYPopulateError(errorOrNil, kGREYInteractionErrorDomain,
+                                 kGREYWKWebViewInteractionFailedErrorCode,
+                                 @"Interaction with WKWebView failed because of timeout");
+             return NO;
+           }
+           if (localError) {
+             I_GREYPopulateError(errorOrNil, kGREYInteractionErrorDomain,
+                                 kGREYWKWebViewInteractionFailedErrorCode,
+                                 @"Interaction with WKWebView failed for an internal reason");
+             return NO;
+           } else {
+             return YES;
+           }
+         }
+         return YES;
+       }];
 }
 
 + (id<GREYAction>)actionForSnapshot:(EDORemoteVariable<UIImage *> *)outImage {
   GREYThrowOnNilParameter(outImage);
-
+  NSString *actionName = @"Element Snapshot";
   return [[GREYActionBlock alloc]
-      initWithName:@"Element Snapshot"
-       constraints:nil
-      performBlock:^BOOL(id element, __strong NSError **errorOrNil) {
-        UIImage __block *snapshot = nil;
-        grey_dispatch_sync_on_main_thread(^{
-          snapshot = [GREYScreenshotter snapshotElement:element];
-        });
-        if (snapshot == nil) {
-          I_GREYPopulateError(errorOrNil, kGREYInteractionErrorDomain,
-                              kGREYInteractionActionFailedErrorCode,
-                              @"Failed to take snapshot. Snapshot is nil.");
-          return NO;
-        } else {
-          outImage.object = snapshot;
-          return YES;
-        }
-      }];
+       initWithName:actionName
+      diagnosticsID:actionName
+        constraints:nil
+       performBlock:^BOOL(id element, __strong NSError **errorOrNil) {
+         UIImage __block *snapshot = nil;
+         grey_dispatch_sync_on_main_thread(^{
+           snapshot = [GREYScreenshotter snapshotElement:element];
+         });
+         if (snapshot == nil) {
+           I_GREYPopulateError(errorOrNil, kGREYInteractionErrorDomain,
+                               kGREYInteractionActionFailedErrorCode,
+                               @"Failed to take snapshot. Snapshot is nil.");
+           return NO;
+         } else {
+           outImage.object = snapshot;
+           return YES;
+         }
+       }];
 }
 
 #pragma mark - Private
@@ -497,9 +509,10 @@ static Class gAccessibilityTextFieldElementClass;
     [GREYMatchers matcherForKindOfClass:gWebAccessibilityObjectWrapperClass]
   ];
   id<GREYMatcher> constraints = [[GREYAnyOf alloc] initWithMatchers:constraintMatchers];
-  NSString *replaceActionName = [NSString stringWithFormat:@"Replace with text: \"%@\"", text];
+  NSString *actionName = [NSString stringWithFormat:@"Replace with text: \"%@\"", text];
   return [GREYActionBlock
-      actionWithName:replaceActionName
+      actionWithName:actionName
+       diagnosticsID:actionName
          constraints:constraints
         performBlock:^BOOL(id element, __strong NSError **errorOrNil) {
           if ([element grey_isWebAccessibilityElement]) {
@@ -638,8 +651,10 @@ static Class gAccessibilityTextFieldElementClass;
                         atUITextPosition:(UITextPosition *)position {
   id<GREYMatcher> systemAlertShownMatcher = [GREYMatchers matcherForSystemAlertViewShown];
   id<GREYMatcher> actionBlockMatcher = [[GREYNot alloc] initWithMatcher:systemAlertShownMatcher];
+  NSString *actionName = [NSString stringWithFormat:@"Type '%@'", text];
   return [GREYActionBlock
-      actionWithName:[NSString stringWithFormat:@"Type '%@'", text]
+      actionWithName:actionName
+       diagnosticsID:actionName
          constraints:actionBlockMatcher
         performBlock:^BOOL(id element, __strong NSError **errorOrNil) {
           __block UIView *expectedFirstResponderView;
@@ -651,8 +666,8 @@ static Class gAccessibilityTextFieldElementClass;
             expectedFirstResponderView = element;
           }
 
-          // If expectedFirstResponderView or one of its ancestors isn't the first responder, tap
-          // on it so it becomes the first responder.
+          // If expectedFirstResponderView or one of its ancestors isn't the first responder,
+          // tap on it so it becomes the first responder.
           __block BOOL elementMatched = NO;
           grey_dispatch_sync_on_main_thread(^{
             elementMatched = [expectedFirstResponderView isFirstResponder];
@@ -677,7 +692,7 @@ static Class gAccessibilityTextFieldElementClass;
               grey_dispatch_sync_on_main_thread(^{
                 elementDescription = [element grey_description];
               });
-              NSDictionary *glossary = @{@"E" : elementDescription};
+              NSDictionary<NSString *, NSString *> *glossary = @{@"E" : elementDescription};
               I_GREYPopulateErrorNoted(errorOrNil, kGREYInteractionErrorDomain,
                                        kGREYInteractionActionFailedErrorCode, description,
                                        glossary);
@@ -687,13 +702,13 @@ static Class gAccessibilityTextFieldElementClass;
 
           // If a position is given, move the text cursor to that position.
           __block id firstResponder = nil;
-          __block NSDictionary *errorGlossary = nil;
+          __block NSDictionary<NSString *, NSString *> *errorGlossary = nil;
           grey_dispatch_sync_on_main_thread(^{
             firstResponder = [[expectedFirstResponderView window] firstResponder];
             if (position) {
               if ([firstResponder conformsToProtocol:@protocol(UITextInput)]) {
-                UITextRange *newRange =
-                    [firstResponder textRangeFromPosition:position toPosition:position];
+                UITextRange *newRange = [firstResponder textRangeFromPosition:position
+                                                                   toPosition:position];
                 [firstResponder setSelectedTextRange:newRange];
               } else {
                 errorGlossary = @{
@@ -705,8 +720,8 @@ static Class gAccessibilityTextFieldElementClass;
           });
 
           if (errorGlossary) {
-            NSString *description =
-                @"First responder [F] of element [E] does not conform to @UITextInput protocol.";
+            NSString *description = @"First responder [F] of element [E] does not conform to "
+                                    @"UITextInput protocol.";
             I_GREYPopulateErrorNoted(errorOrNil, kGREYInteractionErrorDomain,
                                      kGREYInteractionActionFailedErrorCode, description,
                                      errorGlossary);

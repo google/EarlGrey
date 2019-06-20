@@ -58,6 +58,10 @@ static const NSInteger kMinTouchPointsToDetectScrollResistance = 2;
    *  point will be set to achieve maximum scroll.
    */
   CGPoint _startPointPercents;
+  /**
+   *  Identifier used for diagnostics.
+   */
+  NSString *_diagnosticsID;
 }
 
 - (instancetype)initWithDirection:(GREYDirection)direction
@@ -91,9 +95,10 @@ static const NSInteger kMinTouchPointsToDetectScrollResistance = 2;
     [[GREYAnyOf alloc] initWithMatchers:classMatchers],
     [[GREYNot alloc] initWithMatcher:systemAlertShownMatcher]
   ];
-  self =
-      [super initWithName:name constraints:[[GREYAllOf alloc] initWithMatchers:constraintMatchers]];
+  self = [super initWithName:name
+                 constraints:[[GREYAllOf alloc] initWithMatchers:constraintMatchers]];
   if (self) {
+    _diagnosticsID = name;
     _direction = direction;
     _amount = amount;
     _startPointPercents = startPointPercents;
@@ -231,6 +236,12 @@ static const NSInteger kMinTouchPointsToDetectScrollResistance = 2;
   // won't change and the scroll does not take any effect.
   BOOL hasOffsetChanged = !CGPointEqualToPoint(scrollView.contentOffset, originalOffset);
   return !hasResistance && hasOffsetChanged;
+}
+
+#pragma mark - GREYDiagnosable
+
+- (NSString *)diagnosticsID {
+  return _diagnosticsID;
 }
 
 @end

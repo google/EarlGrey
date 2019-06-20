@@ -70,6 +70,10 @@
    *  The value by which the stepper should change.
    */
   double _value;
+  /**
+   *  Identifier used for diagnostics.
+   */
+  NSString *_diagnosticsID;
 }
 
 - (instancetype)initWithValue:(double)value {
@@ -79,9 +83,11 @@
     [[GREYNot alloc] initWithMatcher:systemAlertShownMatcher],
     [GREYMatchers matcherForKindOfClass:[UIStepper class]]
   ];
-  self = [super initWithName:[NSString stringWithFormat:@"Change stepper to %g", value]
+  NSString *name = [NSString stringWithFormat:@"Change stepper to %g", value];
+  self = [super initWithName:name
                  constraints:[[GREYAllOf alloc] initWithMatchers:constraintMatchers]];
   if (self) {
+    _diagnosticsID = name;
     _value = value;
   }
   return self;
@@ -277,6 +283,12 @@
     stepperStepValue = stepper.stepValue;
   });
   return stepperStepValue;
+}
+
+#pragma mark - GREYDiagnosable
+
+- (NSString *)diagnosticsID {
+  return _diagnosticsID;
 }
 
 @end

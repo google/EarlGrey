@@ -50,6 +50,10 @@ static CGFloat const kPinchScale = (CGFloat)0.8;
    *  The angle in which in the pinch direction in pointing.
    */
   double _pinchAngle;
+  /**
+   *  Identifier used for diagnostics.
+   */
+  NSString *_diagnosticsID;
 }
 
 - (instancetype)initWithDirection:(GREYPinchDirection)pinchDirection
@@ -65,9 +69,10 @@ static CGFloat const kPinchScale = (CGFloat)0.8;
     [GREYMatchers matcherForUserInteractionEnabled],
     [GREYMatchers matcherForInteractable],
   ];
-  self =
-      [super initWithName:name constraints:[[GREYAllOf alloc] initWithMatchers:constraintMatchers]];
+  self = [super initWithName:name
+                 constraints:[[GREYAllOf alloc] initWithMatchers:constraintMatchers]];
   if (self) {
+    _diagnosticsID = name;
     _pinchDirection = pinchDirection;
     _duration = duration;
     _pinchAngle = pinchAngle;
@@ -213,6 +218,12 @@ static CGFloat const kPinchScale = (CGFloat)0.8;
 - (CGPoint)grey_pointOnCircleAtAngle:(double)angle center:(CGPoint)center radius:(CGFloat)radius {
   return CGPointMake(center.x + (CGFloat)(radius * cos(angle)),
                      center.y + (CGFloat)(radius * sin(angle)));
+}
+
+#pragma mark - GREYDiagnosable
+
+- (NSString *)diagnosticsID {
+  return _diagnosticsID;
 }
 
 @end

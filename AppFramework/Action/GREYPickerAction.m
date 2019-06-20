@@ -36,6 +36,10 @@
    *  The value to modify the column of the UIPickerView.
    */
   NSString *_value;
+  /**
+   *  Identifier used for diagnostics.
+   */
+  NSString *_diagnosticsID;
 }
 
 - (instancetype)initWithColumn:(NSInteger)column value:(NSString *)value {
@@ -47,9 +51,10 @@
     [[GREYNot alloc] initWithMatcher:systemAlertNotShownMatcher],
     [GREYMatchers matcherForKindOfClass:[UIPickerView class]]
   ];
-  self =
-      [super initWithName:name constraints:[[GREYAllOf alloc] initWithMatchers:constraintMatchers]];
+  self = [super initWithName:name
+                 constraints:[[GREYAllOf alloc] initWithMatchers:constraintMatchers]];
   if (self) {
+    _diagnosticsID = name;
     _column = column;
     _value = value;
   }
@@ -129,6 +134,12 @@
   I_GREYPopulateError(error, kGREYInteractionErrorDomain, kGREYInteractionActionFailedErrorCode,
                       @"UIPickerView does not contain desired value!");
   return NO;
+}
+
+#pragma mark - GREYDiagnosable
+
+- (NSString *)diagnosticsID {
+  return _diagnosticsID;
 }
 
 @end
