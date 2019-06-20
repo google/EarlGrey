@@ -16,11 +16,11 @@
 
 /**
  *  An umbrella header that contains all of the headers required for creating
- * custom actions, matchers and assertions along with any synchronization
- * utilities.
+ *  custom actions, matchers and assertions along with any synchronization
+ *  utilities.
  *
  *  This file is to only be imported in a Helper Lib for creating custom
- * interactions that are to be run in the app process.
+ *  interactions that are to be run in the app process.
  */
 
 // Assertion Headers.
