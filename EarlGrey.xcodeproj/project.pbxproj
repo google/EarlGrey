@@ -193,7 +193,6 @@
 		FD623B9020F95B1500049E81 /* GREYUIThreadExecutor.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B8120F95B1500049E81 /* GREYUIThreadExecutor.m */; };
 		FD623B9E20F95D8000049E81 /* fishhook.c in Sources */ = {isa = PBXBuildFile; fileRef = FD623B9B20F95C8100049E81 /* fishhook.c */; };
 		FD623BA720F95E3900049E81 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD623BA620F95E3900049E81 /* IOKit.framework */; };
-		FD623DC020FD764500049E81 /* GREYAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623DBD20FD764400049E81 /* GREYAnalytics.m */; };
 		FD623DC220FD770F00049E81 /* GREYMatchersShorthand.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B6020F95B0200049E81 /* GREYMatchersShorthand.m */; };
 		FD623DD920FD794500049E81 /* libCommonLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD62395120F56A9700049E81 /* libCommonLib.a */; };
 		FD76BE5722985566001E6DAA /* GREYUIThreadExecutor+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = FD76BE5622985566001E6DAA /* GREYUIThreadExecutor+Private.h */; };
@@ -639,9 +638,6 @@
 		FD623B9B20F95C8100049E81 /* fishhook.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = fishhook.c; path = Submodules/fishhook/fishhook.c; sourceTree = "<group>"; };
 		FD623B9C20F95C8100049E81 /* fishhook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = fishhook.h; path = Submodules/fishhook/fishhook.h; sourceTree = "<group>"; };
 		FD623BA620F95E3900049E81 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = ../../../../../../../../System/Library/Frameworks/IOKit.framework; sourceTree = "<group>"; };
-		FD623DBD20FD764400049E81 /* GREYAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYAnalytics.m; path = Analytics/GREYAnalytics.m; sourceTree = "<group>"; };
-		FD623DBE20FD764500049E81 /* GREYAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYAnalytics.h; path = Analytics/GREYAnalytics.h; sourceTree = "<group>"; };
-		FD623DBF20FD764500049E81 /* GREYAnalyticsDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYAnalyticsDelegate.h; path = Analytics/GREYAnalyticsDelegate.h; sourceTree = "<group>"; };
 		FD76BE532298551A001E6DAA /* GREYVisibilityChecker+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GREYVisibilityChecker+Private.h"; sourceTree = "<group>"; };
 		FD76BE542298551A001E6DAA /* GREYScreenshotter+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GREYScreenshotter+Private.h"; sourceTree = "<group>"; };
 		FD76BE5522985538001E6DAA /* GREYError+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GREYError+Private.h"; path = "CommonLib/Error/GREYError+Private.h"; sourceTree = "<group>"; };
@@ -1293,16 +1289,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		FD623DBC20FD75D600049E81 /* Analytics */ = {
-			isa = PBXGroup;
-			children = (
-				FD623DBE20FD764500049E81 /* GREYAnalytics.h */,
-				FD623DBD20FD764400049E81 /* GREYAnalytics.m */,
-				FD623DBF20FD764500049E81 /* GREYAnalyticsDelegate.h */,
-			);
-			name = Analytics;
-			sourceTree = "<group>";
-		};
 		FD98C465226C330E006F8D68 /* AppleInternals */ = {
 			isa = PBXGroup;
 			children = (
@@ -1738,7 +1724,6 @@
 				FD98C461226C32FC006F8D68 /* GREYElementInteractionErrorHandler.m in Sources */,
 				FD1184D3212CEE72004CADC3 /* XCUIApplication+GREYEnvironment.m in Sources */,
 				FD3A825C21F189BC00CA3ADF /* GREYActionsShorthand.m in Sources */,
-				FD623DC020FD764500049E81 /* GREYAnalytics.m in Sources */,
 				FD98C464226C330A006F8D68 /* GREYFailureScreenshotSaver.m in Sources */,
 				FD3A826521F18A5900CA3ADF /* GREYTestApplicationDistantObject+GREYLogger.m in Sources */,
 				FD50493D20FB23E500261CBE /* XCTestCase+GREYTest.m in Sources */,

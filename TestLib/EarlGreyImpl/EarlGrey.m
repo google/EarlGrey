@@ -26,7 +26,7 @@
 #import "CommonLib/Error/GREYErrorConstants.h"
 #import "CommonLib/GREYAppleInternals.h"
 #import "CommonLib/GREYLogger.h"
-#import "TestLib/Analytics/GREYAnalytics.h"
+
 #import "TestLib/AppleInternals/GREYXCTestAppleInternals.h"
 #import "TestLib/EarlGreyImpl/EarlGreyImpl+XCUIApplication.h"
 #import "TestLib/EarlGreyImpl/GREYElementInteractionErrorHandler.h"
