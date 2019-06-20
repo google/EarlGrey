@@ -73,7 +73,7 @@ static inline id<GREYFailureHandler> GREYGetCurrentFailureHandler() {
   if ([failureHandler respondsToSelector:invocationFileAndLineSEL]) {
     [failureHandler setInvocationFile:fileName andInvocationLine:lineNumber];
   }
-  [[GREYAnalytics sharedAnalytics] didInvokeEarlGrey];
+  
   return instance;
 }
 
