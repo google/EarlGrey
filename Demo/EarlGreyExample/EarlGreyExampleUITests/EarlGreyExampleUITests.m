@@ -92,7 +92,7 @@
 
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"Send")]
     inRoot:grey_kindOfClassName(@"EarlGreyExampleSwift.SendMessageView")]
-   performAction:grey_doubleTap()];
+    performAction:grey_doubleTap()];
 }
 
 // Define a custom matcher for table cells that contains a date for a Thursday.
