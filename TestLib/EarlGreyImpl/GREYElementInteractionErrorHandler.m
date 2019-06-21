@@ -14,12 +14,12 @@
 // limitations under the License.
 //
 
-#import "TestLib/EarlGreyImpl/GREYElementInteractionErrorHandler.h"
+#import "GREYElementInteractionErrorHandler.h"
 
-#import "CommonLib/Assertion/GREYAssertionDefinesPrivate.h"
-#import "CommonLib/Error/GREYErrorConstants.h"
-#import "CommonLib/Exceptions/GREYFailureHandler.h"
-#import "CommonLib/Exceptions/GREYFrameworkException.h"
+#import "GREYAssertionDefinesPrivate.h"
+#import "GREYErrorConstants.h"
+#import "GREYFailureHandler.h"
+#import "GREYFrameworkException.h"
 
 @implementation GREYElementInteractionErrorHandler
 

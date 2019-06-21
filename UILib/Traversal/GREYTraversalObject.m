@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "UILib/Traversal/GREYTraversalObject.h"
+#import "GREYTraversalObject.h"
 
 /**
  *  An empty implementation since GREYTraversalObject is a wrapper object.

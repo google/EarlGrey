@@ -14,16 +14,16 @@
 // limitations under the License.
 //
 
-#import "AppFramework/Additions/UIScrollView+GREYApp.h"
+#import "UIScrollView+GREYApp.h"
 
 #include <objc/message.h>
 #include <objc/runtime.h>
 
-#import "AppFramework/Synchronization/GREYAppStateTracker.h"
-#import "AppFramework/Synchronization/GREYAppStateTrackerObject.h"
-#import "CommonLib/Assertion/GREYFatalAsserts.h"
-#import "CommonLib/GREYAppleInternals.h"
-#import "CommonLib/GREYSwizzler.h"
+#import "GREYAppStateTracker.h"
+#import "GREYAppStateTrackerObject.h"
+#import "GREYFatalAsserts.h"
+#import "GREYAppleInternals.h"
+#import "GREYSwizzler.h"
 
 @implementation UIScrollView (GREYApp)
 

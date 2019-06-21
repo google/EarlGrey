@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "AppFramework/DistantObject/GREYHostBackgroundDistantObject+GREYApp.h"
+#import "GREYHostBackgroundDistantObject+GREYApp.h"
 
 @implementation GREYHostBackgroundDistantObject (GREYApp)
 

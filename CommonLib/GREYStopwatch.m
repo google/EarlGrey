@@ -14,11 +14,11 @@
 // limitations under the License.
 //
 
-#import "CommonLib/GREYStopwatch.h"
+#import "GREYStopwatch.h"
 
 #include <mach/mach_time.h>
 
-#import "CommonLib/Assertion/GREYThrowDefines.h"
+#import "GREYThrowDefines.h"
 
 @implementation GREYStopwatch {
   /**

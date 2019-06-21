@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "CommonLib/Matcher/GREYBaseMatcher.h"
+#import "GREYBaseMatcher.h"
 
 #import <Foundation/Foundation.h>
 

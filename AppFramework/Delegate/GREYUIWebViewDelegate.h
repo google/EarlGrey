@@ -20,7 +20,7 @@
 
 #import <UIKit/UIKit.h>
 
-#import "AppFramework/Delegate/GREYSurrogateDelegate.h"
+#import "GREYSurrogateDelegate.h"
 
 /**
  *  A UIWebView delegate proxy used to intercept load requests for syncing.

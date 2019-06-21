@@ -14,21 +14,21 @@
 // limitations under the License.
 //
 
-#import "AppFramework/Action/GREYScrollToContentEdgeAction.h"
+#import "GREYScrollToContentEdgeAction.h"
 
-#import "AppFramework/Action/GREYScrollAction.h"
-#import "AppFramework/Additions/NSObject+GREYApp.h"
-#import "AppFramework/Additions/UIScrollView+GREYApp.h"
-#import "AppFramework/Matcher/GREYAllOf.h"
-#import "AppFramework/Matcher/GREYAnyOf.h"
-#import "AppFramework/Matcher/GREYMatchers.h"
-#import "AppFramework/Matcher/GREYNot.h"
-#import "CommonLib/Additions/NSString+GREYCommon.h"
-#import "CommonLib/Assertion/GREYFatalAsserts.h"
-#import "CommonLib/Error/GREYScrollActionError.h"
-#import "CommonLib/Error/NSError+GREYCommon.h"
-#import "UILib/Additions/CGGeometry+GREYUI.h"
-#import "UILib/GREYVisibilityChecker.h"
+#import "GREYScrollAction.h"
+#import "NSObject+GREYApp.h"
+#import "UIScrollView+GREYApp.h"
+#import "GREYAllOf.h"
+#import "GREYAnyOf.h"
+#import "GREYMatchers.h"
+#import "GREYNot.h"
+#import "NSString+GREYCommon.h"
+#import "GREYFatalAsserts.h"
+#import "GREYScrollActionError.h"
+#import "NSError+GREYCommon.h"
+#import "CGGeometry+GREYUI.h"
+#import "GREYVisibilityChecker.h"
 
 @implementation GREYScrollToContentEdgeAction {
   /**

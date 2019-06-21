@@ -14,9 +14,9 @@
 // limitations under the License.
 //
 
-#import "CommonLib/Matcher/GREYStringDescription.h"
+#import "GREYStringDescription.h"
 
-#import "CommonLib/Matcher/GREYMatcher.h"
+#import "GREYMatcher.h"
 
 /**
  *  The key to encode the string description with.

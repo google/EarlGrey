@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "CommonLib/Config/GREYConfigKey.h"
+#import "GREYConfigKey.h"
 
 GREYConfigKey const kGREYConfigKeyAnalyticsEnabled = @"GREYConfigKeyAnalyticsEnabled";
 GREYConfigKey const kGREYConfigKeyActionConstraintsEnabled =

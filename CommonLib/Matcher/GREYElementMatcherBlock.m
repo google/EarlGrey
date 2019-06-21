@@ -14,10 +14,10 @@
 // limitations under the License.
 //
 
-#import "CommonLib/Matcher/GREYElementMatcherBlock.h"
-#import "CommonLib/Matcher/GREYElementMatcherBlock+Private.h"
+#import "GREYElementMatcherBlock.h"
+#import "GREYElementMatcherBlock+Private.h"
 
-#import "CommonLib/GREYDefines.h"
+#import "GREYDefines.h"
 
 // Base matcher which takes block parameters that implement |matches| and |describeTo|.
 @implementation GREYElementMatcherBlock {

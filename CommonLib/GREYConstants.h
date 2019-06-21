@@ -16,7 +16,7 @@
 
 #import <UIKit/UIKit.h>
 
-#import "CommonLib/GREYDefines.h"
+#import "GREYDefines.h"
 
 /**
  *  Any alpha less than this value is considered hidden by Apple.

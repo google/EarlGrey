@@ -14,21 +14,21 @@
 // limitations under the License.
 //
 
-#import "TestLib/Exception/GREYDefaultFailureHandler.h"
+#import "GREYDefaultFailureHandler.h"
 
 #import <XCTest/XCTest.h>
 
-#import "AppFramework/DistantObject/GREYHostApplicationDistantObject+GREYTestHelper.h"
-#import "AppFramework/Error/GREYFailureScreenshotter.h"
-#import "CommonLib/Additions/NSFileManager+GREYCommon.h"
-#import "CommonLib/Assertion/GREYThrowDefines.h"
-#import "CommonLib/Config/GREYConfiguration.h"
-#import "CommonLib/Error/GREYErrorConstants.h"
-#import "CommonLib/Exceptions/GREYFrameworkException.h"
-#import "TestLib/Exception/GREYFailureFormatter.h"
-#import "TestLib/Exception/GREYFailureScreenshotSaver.h"
-#import "TestLib/XCTestCase/XCTestCase+GREYTest.h"
-#import "UILib/GREYElementHierarchy.h"
+#import "GREYHostApplicationDistantObject+GREYTestHelper.h"
+#import "GREYFailureScreenshotter.h"
+#import "NSFileManager+GREYCommon.h"
+#import "GREYThrowDefines.h"
+#import "GREYConfiguration.h"
+#import "GREYErrorConstants.h"
+#import "GREYFrameworkException.h"
+#import "GREYFailureFormatter.h"
+#import "GREYFailureScreenshotSaver.h"
+#import "XCTestCase+GREYTest.h"
+#import "GREYElementHierarchy.h"
 
 // Counter that is incremented each time a failure occurs in an unknown test.
 @implementation GREYDefaultFailureHandler {

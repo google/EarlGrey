@@ -17,7 +17,7 @@
 #include <CoreGraphics/CoreGraphics.h>
 #import <UIKit/UIKit.h>
 
-#import "CommonLib/GREYConstants.h"
+#import "GREYConstants.h"
 
 #pragma mark - Constants
 

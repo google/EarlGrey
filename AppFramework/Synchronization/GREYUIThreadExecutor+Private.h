@@ -20,7 +20,7 @@
  *         testing purposes.
  */
 
-#import "AppFramework/Synchronization/GREYUIThreadExecutor.h"
+#import "GREYUIThreadExecutor.h"
 
 @protocol GREYIdlingResource;
 

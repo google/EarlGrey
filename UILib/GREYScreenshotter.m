@@ -14,13 +14,13 @@
 // limitations under the License.
 //
 
-#import "UILib/GREYScreenshotter.h"
+#import "GREYScreenshotter.h"
 
-#import "CommonLib/Additions/NSFileManager+GREYCommon.h"
-#import "CommonLib/Additions/NSObject+GREYCommon.h"
-#import "CommonLib/Assertion/GREYFatalAsserts.h"
-#import "CommonLib/Assertion/GREYThrowDefines.h"
-#import "UILib/Provider/GREYUIWindowProvider.h"
+#import "NSFileManager+GREYCommon.h"
+#import "NSObject+GREYCommon.h"
+#import "GREYFatalAsserts.h"
+#import "GREYThrowDefines.h"
+#import "GREYUIWindowProvider.h"
 
 /**
  *  Bytes allocated per pixel for an XRGB image.

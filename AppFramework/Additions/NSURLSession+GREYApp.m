@@ -14,16 +14,16 @@
 // limitations under the License.
 //
 
-#import "AppFramework/Additions/NSURLSession+GREYApp.h"
+#import "NSURLSession+GREYApp.h"
 
 #include <objc/runtime.h>
 
-#import "AppFramework/Additions/NSURL+GREYApp.h"
-#import "AppFramework/Additions/__NSCFLocalDataTask_GREYApp.h"
-#import "AppFramework/Synchronization/GREYAppStateTracker.h"
-#import "CommonLib/Assertion/GREYFatalAsserts.h"
-#import "CommonLib/GREYObjcRuntime.h"
-#import "CommonLib/GREYSwizzler.h"
+#import "NSURL+GREYApp.h"
+#import "__NSCFLocalDataTask_GREYApp.h"
+#import "GREYAppStateTracker.h"
+#import "GREYFatalAsserts.h"
+#import "GREYObjcRuntime.h"
+#import "GREYSwizzler.h"
 
 /**
  *  Type of the handlers used as NSURLSessionTask's completion blocks.

@@ -14,16 +14,16 @@
 // limitations under the License.
 //
 
-#import "UILib/Provider/GREYElementProvider.h"
+#import "GREYElementProvider.h"
 
 #include <objc/runtime.h>
 
-#import "CommonLib/Assertion/GREYAssertionDefinesPrivate.h"
-#import "CommonLib/Assertion/GREYFatalAsserts.h"
-#import "CommonLib/GREYConstants.h"
-#import "CommonLib/GREYDefines.h"
-#import "UILib/Provider/GREYDataEnumerator.h"
-#import "UILib/Traversal/GREYTraversalBFS.h"
+#import "GREYAssertionDefinesPrivate.h"
+#import "GREYFatalAsserts.h"
+#import "GREYConstants.h"
+#import "GREYDefines.h"
+#import "GREYDataEnumerator.h"
+#import "GREYTraversalBFS.h"
 
 @implementation GREYElementProvider {
   id<GREYProvider> _rootProvider;

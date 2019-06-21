@@ -18,17 +18,17 @@
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 // TODO: Perform a scan of UIWebView usage and deprecate if possible. // NOLINT
 
-#import "AppFramework/Additions/UIWebView+GREYApp.h"
+#import "UIWebView+GREYApp.h"
 
 #import <UIKit/UIKit.h>
 #include <objc/runtime.h>
 
-#import "AppFramework/Delegate/GREYUIWebViewDelegate.h"
-#import "AppFramework/IdlingResources/GREYTimedIdlingResource.h"
-#import "AppFramework/Synchronization/GREYAppStateTracker.h"
-#import "AppFramework/Synchronization/GREYAppStateTrackerObject.h"
-#import "CommonLib/Assertion/GREYFatalAsserts.h"
-#import "CommonLib/GREYSwizzler.h"
+#import "GREYUIWebViewDelegate.h"
+#import "GREYTimedIdlingResource.h"
+#import "GREYAppStateTracker.h"
+#import "GREYAppStateTrackerObject.h"
+#import "GREYFatalAsserts.h"
+#import "GREYSwizzler.h"
 
 /**
  *  Key for tracking the web view's loading state. Used to track the web view with respect to its

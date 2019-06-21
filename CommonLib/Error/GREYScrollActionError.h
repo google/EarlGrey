@@ -16,7 +16,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "CommonLib/GREYDefines.h"
+#import "GREYDefines.h"
 
 /**
  *  The Error domain for a scroll error.

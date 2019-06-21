@@ -14,18 +14,18 @@
 // limitations under the License.
 //
 
-#import "AppFramework/Additions/CALayer+GREYApp.h"
+#import "CALayer+GREYApp.h"
 
 #include <objc/message.h>
 
-#import "AppFramework/Additions/CAAnimation+GREYApp.h"
-#import "AppFramework/Additions/NSObject+GREYApp.h"
-#import "AppFramework/Synchronization/GREYAppStateTracker.h"
-#import "AppFramework/Synchronization/GREYAppStateTrackerObject.h"
-#import "CommonLib/Assertion/GREYFatalAsserts.h"
-#import "CommonLib/Config/GREYConfiguration.h"
-#import "CommonLib/GREYLogger.h"
-#import "CommonLib/GREYSwizzler.h"
+#import "CAAnimation+GREYApp.h"
+#import "NSObject+GREYApp.h"
+#import "GREYAppStateTracker.h"
+#import "GREYAppStateTrackerObject.h"
+#import "GREYFatalAsserts.h"
+#import "GREYConfiguration.h"
+#import "GREYLogger.h"
+#import "GREYSwizzler.h"
 
 @implementation CALayer (GREYApp)
 

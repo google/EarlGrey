@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "AppFramework/IdlingResources/GREYIdlingResource.h"
+#import "GREYIdlingResource.h"
 
 /**
  *  Idling resource that tracks blocks sent to a dispatch queue.

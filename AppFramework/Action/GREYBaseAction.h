@@ -14,8 +14,8 @@
 // limitations under the License.
 //
 
-#import "AppFramework/Action/GREYAction.h"
-#import "CommonLib/GREYDiagnosable.h"
+#import "GREYAction.h"
+#import "GREYDiagnosable.h"
 
 @protocol GREYMatcher;
 

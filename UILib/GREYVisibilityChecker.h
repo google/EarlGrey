@@ -16,7 +16,7 @@
 
 #import <UIKit/UIKit.h>
 
-#import "CommonLib/GREYConstants.h"
+#import "GREYConstants.h"
 
 /**
  *  The minimum number of points that must be visible on an UI element for EarlGrey to consider it

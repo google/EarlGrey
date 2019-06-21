@@ -14,15 +14,15 @@
 // limitations under the License.
 //
 
-#import "AppFramework/Additions/UIApplication+GREYApp.h"
+#import "UIApplication+GREYApp.h"
 
 #include <objc/runtime.h>
 
-#import "AppFramework/Synchronization/GREYAppStateTracker.h"
-#import "AppFramework/Synchronization/GREYAppStateTrackerObject.h"
-#import "CommonLib/Assertion/GREYFatalAsserts.h"
-#import "CommonLib/GREYAppleInternals.h"
-#import "CommonLib/GREYSwizzler.h"
+#import "GREYAppStateTracker.h"
+#import "GREYAppStateTrackerObject.h"
+#import "GREYFatalAsserts.h"
+#import "GREYAppleInternals.h"
+#import "GREYSwizzler.h"
 
 /**
  *  List for all the runloop modes that have been pushed and unpopped using UIApplication's push/pop

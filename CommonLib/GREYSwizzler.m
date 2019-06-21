@@ -14,13 +14,13 @@
 // limitations under the License.
 //
 
-#import "CommonLib/GREYSwizzler.h"
+#import "GREYSwizzler.h"
 
 #include <dlfcn.h>
 #include <objc/runtime.h>
 
-#import "CommonLib/Assertion/GREYFatalAsserts.h"
-#import "CommonLib/GREYDefines.h"
+#import "GREYFatalAsserts.h"
+#import "GREYDefines.h"
 
 typedef NS_ENUM(NSUInteger, GREYMethodType) { GREYMethodTypeClass, GREYMethodTypeInstance };
 

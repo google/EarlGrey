@@ -14,21 +14,21 @@
 // limitations under the License.
 //
 
-#import "AppFramework/Action/GREYBaseAction.h"
+#import "GREYBaseAction.h"
 
-#import "AppFramework/Additions/NSObject+GREYApp.h"
-#import "AppFramework/Core/GREYInteraction.h"
-#import "AppFramework/Error/GREYAppError.h"
-#import "AppFramework/Synchronization/GREYSyncAPI.h"
-#import "CommonLib/Additions/NSObject+GREYCommon.h"
-#import "CommonLib/Assertion/GREYThrowDefines.h"
-#import "CommonLib/Config/GREYConfiguration.h"
-#import "CommonLib/Error/GREYError+Private.h"
-#import "CommonLib/Error/GREYErrorConstants.h"
-#import "CommonLib/Error/GREYObjectFormatter.h"
-#import "CommonLib/Error/NSError+GREYCommon.h"
-#import "CommonLib/Matcher/GREYMatcher.h"
-#import "CommonLib/Matcher/GREYStringDescription.h"
+#import "NSObject+GREYApp.h"
+#import "GREYInteraction.h"
+#import "GREYAppError.h"
+#import "GREYSyncAPI.h"
+#import "NSObject+GREYCommon.h"
+#import "GREYThrowDefines.h"
+#import "GREYConfiguration.h"
+#import "GREYError+Private.h"
+#import "GREYErrorConstants.h"
+#import "GREYObjectFormatter.h"
+#import "NSError+GREYCommon.h"
+#import "GREYMatcher.h"
+#import "GREYStringDescription.h"
 
 @implementation GREYBaseAction {
   NSString *_name;

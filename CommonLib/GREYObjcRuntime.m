@@ -14,14 +14,14 @@
 // limitations under the License.
 //
 
-#import "CommonLib/GREYObjcRuntime.h"
+#import "GREYObjcRuntime.h"
 
 #include <dlfcn.h>
 #include <objc/runtime.h>
 
-#import "CommonLib/Assertion/GREYFatalAsserts.h"
-#import "CommonLib/GREYDefines.h"
-#import "CommonLib/GREYLogger.h"
+#import "GREYFatalAsserts.h"
+#import "GREYDefines.h"
+#import "GREYLogger.h"
 
 @implementation GREYObjcRuntime
 

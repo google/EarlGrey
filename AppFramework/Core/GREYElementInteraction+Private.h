@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "AppFramework/Core/GREYElementInteraction.h"
+#import "GREYElementInteraction.h"
 
 @class GREYError;
 

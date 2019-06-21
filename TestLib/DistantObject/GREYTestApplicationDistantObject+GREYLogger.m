@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "TestLib/DistantObject/GREYTestApplicationDistantObject+GREYLogger.h"
+#import "GREYTestApplicationDistantObject+GREYLogger.h"
 
 @implementation GREYTestApplicationDistantObject (GREYLogger)
 

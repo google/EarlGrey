@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "CommonLib/Exceptions/GREYFrameworkException.h"
+#import "GREYFrameworkException.h"
 
 NSString *const kGREYActionFailedException = @"ActionFailedException";
 NSString *const kGREYAssertionFailedException = @"AssertionFailedException";

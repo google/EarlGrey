@@ -14,32 +14,32 @@
 // limitations under the License.
 //
 
-#import "AppFramework/Matcher/GREYMatchers.h"
+#import "GREYMatchers.h"
 
 #import <UIKit/UIKit.h>
 
 #include <objc/runtime.h>
 #include <tgmath.h>
 
-#import "AppFramework/Additions/UISwitch+GREYApp.h"
-#import "AppFramework/Core/GREYElementInteraction+Private.h"
-#import "AppFramework/Core/GREYElementInteraction.h"
-#import "AppFramework/Matcher/GREYAllOf+Private.h"
-#import "AppFramework/Matcher/GREYAllOf.h"
-#import "AppFramework/Matcher/GREYAnyOf.h"
-#import "AppFramework/Matcher/GREYNot.h"
-#import "CommonLib/Additions/NSString+GREYCommon.h"
-#import "CommonLib/Assertion/GREYFatalAsserts.h"
-#import "CommonLib/Assertion/GREYThrowDefines.h"
-#import "CommonLib/Error/GREYError.h"
-#import "CommonLib/GREYAppleInternals.h"
-#import "CommonLib/Matcher/GREYElementMatcherBlock+Private.h"
-#import "CommonLib/Matcher/GREYElementMatcherBlock.h"
-#import "CommonLib/Matcher/GREYLayoutConstraint.h"
-#import "CommonLib/Matcher/GREYMatcher.h"
-#import "UILib/GREYVisibilityChecker.h"
-#import "UILib/Provider/GREYElementProvider.h"
-#import "UILib/Provider/GREYUIWindowProvider.h"
+#import "UISwitch+GREYApp.h"
+#import "GREYElementInteraction+Private.h"
+#import "GREYElementInteraction.h"
+#import "GREYAllOf+Private.h"
+#import "GREYAllOf.h"
+#import "GREYAnyOf.h"
+#import "GREYNot.h"
+#import "NSString+GREYCommon.h"
+#import "GREYFatalAsserts.h"
+#import "GREYThrowDefines.h"
+#import "GREYError.h"
+#import "GREYAppleInternals.h"
+#import "GREYElementMatcherBlock+Private.h"
+#import "GREYElementMatcherBlock.h"
+#import "GREYLayoutConstraint.h"
+#import "GREYMatcher.h"
+#import "GREYVisibilityChecker.h"
+#import "GREYElementProvider.h"
+#import "GREYUIWindowProvider.h"
 
 // The minimum percentage of an element's accessibility frame that must be visible before EarlGrey
 // considers the element to be sufficiently visible.

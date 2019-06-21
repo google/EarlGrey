@@ -18,10 +18,10 @@
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 // TODO: Perform a scan of UIWebView usage and deprecate if possible. // NOLINT
 
-#import "AppFramework/Delegate/GREYUIWebViewDelegate.h"
+#import "GREYUIWebViewDelegate.h"
 
-#import "AppFramework/Additions/UIWebView+GREYApp.h"
-#import "AppFramework/IdlingResources/GREYUIWebViewIdlingResource.h"
+#import "UIWebView+GREYApp.h"
+#import "GREYUIWebViewIdlingResource.h"
 
 static NSString *const kAjaxListenerScheme = @"greyajaxlistener";
 static NSString *const kAjaxListenerScript =

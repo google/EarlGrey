@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "AppFramework/Synchronization/GREYAppStateTrackerObject.h"
+#import "GREYAppStateTrackerObject.h"
 
 @implementation GREYAppStateTrackerObject {
   NSArray<NSString *> *_callstack;

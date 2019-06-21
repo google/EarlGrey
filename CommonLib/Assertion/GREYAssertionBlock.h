@@ -14,8 +14,8 @@
 // limitations under the License.
 //
 
-#import "CommonLib/Assertion/GREYAssertion.h"
-#import "CommonLib/GREYDiagnosable.h"
+#import "GREYAssertion.h"
+#import "GREYDiagnosable.h"
 
 /**
  *  A block that accepts an @c element, which will be invoked when an assertion is going to be

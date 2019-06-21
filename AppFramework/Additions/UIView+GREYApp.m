@@ -14,18 +14,18 @@
 // limitations under the License.
 //
 
-#import "AppFramework/Additions/UIView+GREYApp.h"
+#import "UIView+GREYApp.h"
 
 #include <objc/runtime.h>
 
-#import "AppFramework/IdlingResources/GREYTimedIdlingResource.h"
-#import "AppFramework/Synchronization/GREYAppStateTracker.h"
-#import "AppFramework/Synchronization/GREYAppStateTrackerObject.h"
-#import "CommonLib/Additions/UIView+GREYCommon.h"
-#import "CommonLib/Assertion/GREYFatalAsserts.h"
-#import "CommonLib/GREYConstants.h"
-#import "CommonLib/GREYSwizzler.h"
-#import "UILib/Provider/GREYElementProvider.h"
+#import "GREYTimedIdlingResource.h"
+#import "GREYAppStateTracker.h"
+#import "GREYAppStateTrackerObject.h"
+#import "UIView+GREYCommon.h"
+#import "GREYFatalAsserts.h"
+#import "GREYConstants.h"
+#import "GREYSwizzler.h"
+#import "GREYElementProvider.h"
 
 @implementation UIView (GREYApp)
 

@@ -16,7 +16,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "CommonLib/GREYConstants.h"
+#import "GREYConstants.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

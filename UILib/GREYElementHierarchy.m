@@ -14,14 +14,14 @@
 // limitations under the License.
 //
 
-#import "UILib/GREYElementHierarchy.h"
+#import "GREYElementHierarchy.h"
 
-#import "CommonLib/Additions/NSObject+GREYCommon.h"
-#import "CommonLib/Assertion/GREYFatalAsserts.h"
-#import "CommonLib/Assertion/GREYThrowDefines.h"
-#import "CommonLib/GREYConstants.h"
-#import "UILib/Provider/GREYUIWindowProvider.h"
-#import "UILib/Traversal/GREYTraversalDFS.h"
+#import "NSObject+GREYCommon.h"
+#import "GREYFatalAsserts.h"
+#import "GREYThrowDefines.h"
+#import "GREYConstants.h"
+#import "GREYUIWindowProvider.h"
+#import "GREYTraversalDFS.h"
 
 @implementation GREYElementHierarchy
 

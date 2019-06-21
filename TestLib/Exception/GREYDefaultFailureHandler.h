@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "CommonLib/Exceptions/GREYFailureHandler.h"
+#import "GREYFailureHandler.h"
 
 /**
  *  Failure handler that prints formatted exceptions and stack traces on failure,

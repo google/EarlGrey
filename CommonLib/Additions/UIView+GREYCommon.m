@@ -14,11 +14,11 @@
 // limitations under the License.
 //
 
-#import "CommonLib/Additions/UIView+GREYCommon.h"
+#import "UIView+GREYCommon.h"
 
 #include <objc/runtime.h>
 
-#import "CommonLib/GREYConstants.h"
+#import "GREYConstants.h"
 
 @implementation UIView (GREYCommon)
 

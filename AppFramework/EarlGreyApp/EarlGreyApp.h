@@ -24,18 +24,18 @@
  */
 
 // Assertion Headers.
-#import "AppFramework/Action/GREYAction.h"
-#import "AppFramework/Action/GREYActionBlock.h"
-#import "AppFramework/Action/GREYActions.h"
+#import "GREYAction.h"
+#import "GREYActionBlock.h"
+#import "GREYActions.h"
 
 // Assertion Headers
-#import "AppFramework/Assertion/GREYAssertions.h"
-#import "CommonLib/Assertion/GREYAssertionBlock.h"
+#import "GREYAssertions.h"
+#import "GREYAssertionBlock.h"
 
 // Matcher Headers.
-#import "AppFramework/Matcher/GREYMatchers.h"
-#import "CommonLib/Matcher/GREYElementMatcherBlock.h"
+#import "GREYMatchers.h"
+#import "GREYElementMatcherBlock.h"
 
 // Synchronization Headers.
-#import "AppFramework/Synchronization/GREYSyncAPI.h"
-#import "AppFramework/Synchronization/GREYUIThreadExecutor.h"
+#import "GREYSyncAPI.h"
+#import "GREYUIThreadExecutor.h"

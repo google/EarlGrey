@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "TestLib/XCTestCase/XCUIApplication+GREYEnvironment.h"
+#import "XCUIApplication+GREYEnvironment.h"
 
 @implementation XCUIApplication (GREYEnvironment)
 

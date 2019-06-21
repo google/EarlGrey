@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "AppFramework/Synchronization/GREYSyncAPI.h"
+#import "GREYSyncAPI.h"
 
 void grey_dispatch_sync_on_main_thread(void (^block)(void)) {
   if ([NSThread isMainThread]) {
