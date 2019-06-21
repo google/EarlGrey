@@ -2121,7 +2121,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				HEADER_SEARCH_PATHS = (
 					"Submodules/eDistantObject/**",
-					.,
+					"./**",
 					../../..,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -2140,7 +2140,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				HEADER_SEARCH_PATHS = (
 					"Submodules/eDistantObject/**",
-					.,
+					"./**",
 					../../..,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -2166,7 +2166,7 @@
 				HEADER_SEARCH_PATHS = (
 					"Submodules/eDistantObject/**",
 					Submodules/fishhook/,
-					.,
+					"./**",
 					../../..,
 				);
 				INFOPLIST_FILE = AppFramework/Info.plist;
@@ -2203,7 +2203,7 @@
 				HEADER_SEARCH_PATHS = (
 					"Submodules/eDistantObject/**",
 					Submodules/fishhook/,
-					.,
+					"./**",
 					../../..,
 				);
 				INFOPLIST_FILE = AppFramework/Info.plist;
@@ -2233,7 +2233,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				HEADER_SEARCH_PATHS = (
 					"Submodules/eDistantObject/**",
-					.,
+					"./**",
 					../../..,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -2252,7 +2252,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				HEADER_SEARCH_PATHS = (
 					"Submodules/eDistantObject/**",
-					.,
+					"./**",
 					../../..,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
