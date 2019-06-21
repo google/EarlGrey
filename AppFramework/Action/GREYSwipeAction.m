@@ -14,21 +14,21 @@
 // limitations under the License.
 //
 
-#import "AppFramework/Action/GREYSwipeAction.h"
+#import "GREYSwipeAction.h"
 
-#import "AppFramework/Action/GREYPathGestureUtils.h"
-#import "AppFramework/Additions/NSObject+GREYApp.h"
-#import "AppFramework/Error/GREYAppError.h"
-#import "AppFramework/Event/GREYSyntheticEvents.h"
-#import "AppFramework/Matcher/GREYAllOf.h"
-#import "AppFramework/Matcher/GREYMatchers.h"
-#import "AppFramework/Matcher/GREYNot.h"
-#import "AppFramework/Synchronization/GREYSyncAPI.h"
-#import "CommonLib/Additions/NSObject+GREYCommon.h"
-#import "CommonLib/Additions/NSString+GREYCommon.h"
-#import "CommonLib/Assertion/GREYThrowDefines.h"
-#import "CommonLib/Error/GREYErrorConstants.h"
-#import "CommonLib/Error/NSError+GREYCommon.h"
+#import "GREYPathGestureUtils.h"
+#import "NSObject+GREYApp.h"
+#import "GREYAppError.h"
+#import "GREYSyntheticEvents.h"
+#import "GREYAllOf.h"
+#import "GREYMatchers.h"
+#import "GREYNot.h"
+#import "GREYSyncAPI.h"
+#import "NSObject+GREYCommon.h"
+#import "NSString+GREYCommon.h"
+#import "GREYThrowDefines.h"
+#import "GREYErrorConstants.h"
+#import "NSError+GREYCommon.h"
 
 @implementation GREYSwipeAction {
   /**

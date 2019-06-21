@@ -16,7 +16,7 @@
 
 #import "BaseIntegrationTest.h"
 
-#import "CommonLib/Matcher/GREYLayoutConstraint.h"
+#import "GREYLayoutConstraint.h"
 
 @interface MatcherTest : BaseIntegrationTest
 @end

@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "AppFramework/IdlingResources/GREYIdlingResource.h"
+#import "GREYIdlingResource.h"
 
 /**
  *  An idling resource that changes to busy state for a specified amount of time.

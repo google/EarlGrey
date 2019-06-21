@@ -14,12 +14,12 @@
 // limitations under the License.
 //
 
-#import "AppFramework/IdlingResources/GREYTimedIdlingResource.h"
+#import "GREYTimedIdlingResource.h"
 
-#import "AppFramework/Synchronization/GREYUIThreadExecutor+Private.h"
-#import "AppFramework/Synchronization/GREYUIThreadExecutor.h"
-#import "CommonLib/Assertion/GREYThrowDefines.h"
-#import "CommonLib/GREYDefines.h"
+#import "GREYUIThreadExecutor+Private.h"
+#import "GREYUIThreadExecutor.h"
+#import "GREYThrowDefines.h"
+#import "GREYDefines.h"
 
 @implementation GREYTimedIdlingResource {
   NSObject *_trackedObject;

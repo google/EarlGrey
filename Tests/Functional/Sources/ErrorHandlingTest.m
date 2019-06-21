@@ -16,8 +16,8 @@
 
 #import "BaseIntegrationTest.h"
 
-#import "CommonLib/Error/GREYError.h"
-#import "CommonLib/Error/GREYObjectFormatter.h"
+#import "GREYError.h"
+#import "GREYObjectFormatter.h"
 #import "GREYHostApplicationDistantObject+ErrorHandlingTest.h"
 
 @interface ErrorHandlingTest : BaseIntegrationTest

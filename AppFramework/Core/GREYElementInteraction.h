@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "AppFramework/Core/GREYInteraction.h"
+#import "GREYInteraction.h"
 
 /**
  *  Interface for creating an interaction with a UI element. If no datasource is set,

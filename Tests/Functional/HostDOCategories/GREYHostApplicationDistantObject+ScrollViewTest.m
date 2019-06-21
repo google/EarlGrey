@@ -15,7 +15,7 @@
 //
 
 #import "GREYHostApplicationDistantObject+ScrollViewTest.h"
-#import "UILib/GREYVisibilityChecker.h"
+#import "GREYVisibilityChecker.h"
 
 @implementation GREYHostApplicationDistantObject (ScrollViewTest)
 

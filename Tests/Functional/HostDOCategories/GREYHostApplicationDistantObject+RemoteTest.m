@@ -17,8 +17,8 @@
 
 #import <objc/runtime.h>
 
-#import "CommonLib/DistantObject/GREYTestApplicationDistantObject.h"
-#import "UILib/Provider/GREYUIWindowProvider.h"
+#import "GREYTestApplicationDistantObject.h"
+#import "GREYUIWindowProvider.h"
 
 @implementation GREYHostApplicationDistantObject (RemoteTest)
 

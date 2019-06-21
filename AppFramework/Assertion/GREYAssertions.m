@@ -14,17 +14,17 @@
 // limitations under the License.
 //
 
-#import "AppFramework/Assertion/GREYAssertions.h"
+#import "GREYAssertions.h"
 
-#import "AppFramework/Additions/NSObject+GREYApp.h"
-#import "AppFramework/Core/GREYInteraction.h"
-#import "AppFramework/Error/GREYAppError.h"
-#import "CommonLib/Additions/NSObject+GREYCommon.h"
-#import "CommonLib/Assertion/GREYAssertionBlock+Private.h"
-#import "CommonLib/Assertion/GREYFatalAsserts.h"
-#import "CommonLib/GREYLogger.h"
-#import "CommonLib/Matcher/GREYMatcher.h"
-#import "CommonLib/Matcher/GREYStringDescription.h"
+#import "NSObject+GREYApp.h"
+#import "GREYInteraction.h"
+#import "GREYAppError.h"
+#import "NSObject+GREYCommon.h"
+#import "GREYAssertionBlock+Private.h"
+#import "GREYFatalAsserts.h"
+#import "GREYLogger.h"
+#import "GREYMatcher.h"
+#import "GREYStringDescription.h"
 
 @implementation GREYAssertions
 

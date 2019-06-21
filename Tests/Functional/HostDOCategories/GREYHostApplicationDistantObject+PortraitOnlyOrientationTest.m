@@ -20,7 +20,7 @@
 
 #import <UIKit/UIKit.h>
 
-#import "CommonLib/GREYSwizzler.h"
+#import "GREYSwizzler.h"
 
 @implementation UIApplication (PortraitOnlyOrientationTest)
 

@@ -18,7 +18,7 @@
 #import "GREYHostApplicationDistantObject+BasicInteractionTest.h"
 #import "GREYHostBackgroundDistantObject+BasicInteractionTest.h"
 #import "BaseIntegrationTest.h"
-#import "UILib/GREYElementHierarchy.h"
+#import "GREYElementHierarchy.h"
 
 /**
  * Tests to ensure the basic functionality of EarlGrey 2.0 is intact.

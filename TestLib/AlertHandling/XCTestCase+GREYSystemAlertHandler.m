@@ -14,16 +14,16 @@
 // limitations under the License.
 //
 
-#import "TestLib/AlertHandling/XCTestCase+GREYSystemAlertHandler.h"
+#import "XCTestCase+GREYSystemAlertHandler.h"
 
 #import <objc/runtime.h>
 
-#import "CommonLib/Assertion/GREYThrowDefines.h"
-#import "CommonLib/GREYAppleInternals.h"
-#import "CommonLib/GREYDefines.h"
-#import "TestLib/AppleInternals/GREYXCTestAppleInternals.h"
-#import "TestLib/Assertion/GREYAssertionDefines.h"
-#import "TestLib/Condition/GREYCondition.h"
+#import "GREYThrowDefines.h"
+#import "GREYAppleInternals.h"
+#import "GREYDefines.h"
+#import "GREYXCTestAppleInternals.h"
+#import "GREYAssertionDefines.h"
+#import "GREYCondition.h"
 
 /**
  *  Text denoting part of the Location System Alert Label in iOS 10.

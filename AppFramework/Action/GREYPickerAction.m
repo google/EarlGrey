@@ -14,18 +14,18 @@
 // limitations under the License.
 //
 
-#import "AppFramework/Action/GREYPickerAction.h"
+#import "GREYPickerAction.h"
 
-#import "AppFramework/Additions/UIView+GREYApp.h"
-#import "AppFramework/Core/GREYInteraction.h"
-#import "AppFramework/Error/GREYAppError.h"
-#import "AppFramework/IdlingResources/GREYTimedIdlingResource.h"
-#import "AppFramework/Matcher/GREYAllOf.h"
-#import "AppFramework/Matcher/GREYMatchers.h"
-#import "AppFramework/Matcher/GREYNot.h"
-#import "AppFramework/Synchronization/GREYSyncAPI.h"
-#import "CommonLib/Error/NSError+GREYCommon.h"
-#import "CommonLib/GREYDefines.h"
+#import "UIView+GREYApp.h"
+#import "GREYInteraction.h"
+#import "GREYAppError.h"
+#import "GREYTimedIdlingResource.h"
+#import "GREYAllOf.h"
+#import "GREYMatchers.h"
+#import "GREYNot.h"
+#import "GREYSyncAPI.h"
+#import "NSError+GREYCommon.h"
+#import "GREYDefines.h"
 
 @implementation GREYPickerAction {
   /**

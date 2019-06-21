@@ -14,9 +14,9 @@
 // limitations under the License.
 //
 
-#import "CommonLib/Additions/NSFileManager+GREYCommon.h"
+#import "NSFileManager+GREYCommon.h"
 
-#import "CommonLib/GREYDefines.h"
+#import "GREYDefines.h"
 
 @implementation NSFileManager (GREYCommon)
 

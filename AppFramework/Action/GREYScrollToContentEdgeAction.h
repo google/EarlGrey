@@ -14,8 +14,8 @@
 // limitations under the License.
 //
 
-#import "AppFramework/Action/GREYBaseAction.h"
-#import "CommonLib/GREYConstants.h"
+#import "GREYBaseAction.h"
+#import "GREYConstants.h"
 
 /**
  *  A GREYAction that implements a scroll action that scrolls the contents of the matched

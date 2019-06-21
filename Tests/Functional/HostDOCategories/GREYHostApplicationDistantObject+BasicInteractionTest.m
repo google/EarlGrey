@@ -14,10 +14,10 @@
 // limitations under the License.
 //
 
-#import "AppFramework/Action/GREYActionsShorthand.h"
-#import "AppFramework/Matcher/GREYMatchersShorthand.h"
+#import "GREYActionsShorthand.h"
+#import "GREYMatchersShorthand.h"
 #import "GREYHostApplicationDistantObject+BasicInteractionTest.h"
-#import "UILib/GREYElementHierarchy.h"
+#import "GREYElementHierarchy.h"
 
 #import <objc/runtime.h>
 

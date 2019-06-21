@@ -14,18 +14,18 @@
 // limitations under the License.
 //
 
-#import "AppFramework/Event/GREYTouchInjector.h"
+#import "GREYTouchInjector.h"
 
 #import <QuartzCore/QuartzCore.h>
 #include <mach/mach_time.h>
 
-#import "AppFramework/Additions/UIWebView+GREYApp.h"
-#import "AppFramework/Event/GREYIOHIDEventTypes.h"
-#import "AppFramework/Synchronization/GREYRunLoopSpinner.h"
-#import "CommonLib/Additions/NSObject+GREYCommon.h"
-#import "CommonLib/Assertion/GREYFatalAsserts.h"
-#import "CommonLib/Assertion/GREYThrowDefines.h"
-#import "CommonLib/Config/GREYConfiguration.h"
+#import "UIWebView+GREYApp.h"
+#import "GREYIOHIDEventTypes.h"
+#import "GREYRunLoopSpinner.h"
+#import "NSObject+GREYCommon.h"
+#import "GREYFatalAsserts.h"
+#import "GREYThrowDefines.h"
+#import "GREYConfiguration.h"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"

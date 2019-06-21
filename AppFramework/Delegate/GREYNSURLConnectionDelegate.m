@@ -14,10 +14,10 @@
 // limitations under the License.
 //
 
-#import "AppFramework/Delegate/GREYNSURLConnectionDelegate.h"
+#import "GREYNSURLConnectionDelegate.h"
 
-#import "AppFramework/Additions/NSURLConnection+GREYApp.h"
-#import "CommonLib/GREYDefines.h"
+#import "NSURLConnection+GREYApp.h"
+#import "GREYDefines.h"
 
 @implementation GREYNSURLConnectionDelegate
 

@@ -16,9 +16,9 @@
 
 #import <XCTest/XCTest.h>
 
-#import "CommonLib/Config/GREYConfiguration.h"
-#import "TestLib/Assertion/GREYAssertionDefines.h"
-#import "TestLib/EarlGreyImpl/EarlGrey.h"
+#import "GREYConfiguration.h"
+#import "GREYAssertionDefines.h"
+#import "EarlGrey.h"
 
 /**
  *  A constant used for asserting mismatched analytics hits, this is set to be a global to allow for

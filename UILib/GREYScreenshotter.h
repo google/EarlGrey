@@ -16,7 +16,7 @@
 
 #import <UIKit/UIKit.h>
 
-#import "CommonLib/GREYDefines.h"
+#import "GREYDefines.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

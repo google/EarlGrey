@@ -14,10 +14,10 @@
 // limitations under the License.
 //
 
-#import "TestLib/Assertion/GREYAssertionDefines.h"
-#import "TestLib/EarlGreyImpl/EarlGrey.h"
+#import "GREYAssertionDefines.h"
+#import "EarlGrey.h"
 #import "GREYHostApplicationDistantObject+RemoteTest.h"
-#import "Service/Sources/EDORemoteVariable.h"
+#import "EDORemoteVariable.h"
 
 /**
  * Base class for adding any methods to be needed in the tests.

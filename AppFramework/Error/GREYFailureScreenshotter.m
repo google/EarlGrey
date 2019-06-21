@@ -14,14 +14,14 @@
 // limitations under the License.
 //
 
-#import "AppFramework/Error/GREYFailureScreenshotter.h"
+#import "GREYFailureScreenshotter.h"
 
-#import "AppFramework/Synchronization/GREYSyncAPI.h"
-#import "CommonLib/Config/GREYConfiguration.h"
-#import "CommonLib/Error/GREYError.h"
-#import "UILib/GREYScreenshotter+Private.h"
-#import "UILib/GREYScreenshotter.h"
-#import "UILib/GREYVisibilityChecker+Private.h"
+#import "GREYSyncAPI.h"
+#import "GREYConfiguration.h"
+#import "GREYError.h"
+#import "GREYScreenshotter+Private.h"
+#import "GREYScreenshotter.h"
+#import "GREYVisibilityChecker+Private.h"
 
 @implementation GREYFailureScreenshotter
 

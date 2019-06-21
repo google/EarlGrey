@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "AppFramework/Matcher/GREYAllOf.h"
+#import "GREYAllOf.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "AppFramework/Action/GREYActions.h"
+#import "GREYActions.h"
 
 /**
  *  @file GREYActions+Private.h

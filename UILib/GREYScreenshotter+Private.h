@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "UILib/GREYScreenshotter.h"
+#import "GREYScreenshotter.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

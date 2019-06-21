@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "CommonLib/GREYConstants.h"
+#import "GREYConstants.h"
 
 #include <math.h>
 

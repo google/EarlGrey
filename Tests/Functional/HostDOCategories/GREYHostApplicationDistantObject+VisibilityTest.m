@@ -18,15 +18,15 @@
 
 #include "objc/runtime.h"
 
-#import "AppFramework/Core/GREYInteraction.h"
-#import "AppFramework/Matcher/GREYAllOf.h"
-#import "AppFramework/Matcher/GREYMatchers.h"
-#import "CommonLib/Assertion/GREYFatalAsserts.h"
-#import "CommonLib/Assertion/GREYThrowDefines.h"
-#import "CommonLib/Error/GREYErrorConstants.h"
-#import "UILib/Additions/CGGeometry+GREYUI.h"
-#import "UILib/GREYVisibilityChecker+Private.h"
-#import "UILib/GREYVisibilityChecker.h"
+#import "GREYInteraction.h"
+#import "GREYAllOf.h"
+#import "GREYMatchers.h"
+#import "GREYFatalAsserts.h"
+#import "GREYThrowDefines.h"
+#import "GREYErrorConstants.h"
+#import "CGGeometry+GREYUI.h"
+#import "GREYVisibilityChecker+Private.h"
+#import "GREYVisibilityChecker.h"
 
 @implementation GREYHostApplicationDistantObject (VisibilityTest)
 

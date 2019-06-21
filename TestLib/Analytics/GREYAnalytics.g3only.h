@@ -16,7 +16,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "TestLib/Analytics/GREYAnalyticsDelegate.g3only.h"
+#import "GREYAnalyticsDelegate.g3only.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

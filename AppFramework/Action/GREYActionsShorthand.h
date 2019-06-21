@@ -16,8 +16,8 @@
 
 #import <Foundation/Foundation.h>
 
-#import "CommonLib/GREYConstants.h"
-#import "CommonLib/GREYDefines.h"
+#import "GREYConstants.h"
+#import "GREYDefines.h"
 
 @class EDORemoteVariable<ObjectType>;
 

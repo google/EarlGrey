@@ -14,10 +14,10 @@
 // limitations under the License.
 //
 
-#import "CommonLib/Error/GREYError.h"
+#import "GREYError.h"
 
-#import "CommonLib/Error/GREYObjectFormatter.h"
-#import "CommonLib/Error/NSError+GREYCommon.h"
+#import "GREYObjectFormatter.h"
+#import "NSError+GREYCommon.h"
 
 NSString *const kGREYGenericErrorDomain = @"com.google.earlgrey.GenericErrorDomain";
 NSInteger const kGREYGenericErrorCode = 0;

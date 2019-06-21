@@ -15,7 +15,7 @@
 //
 
 #import "GREYHostBackgroundDistantObject+BasicInteractionTest.h"
-#import "UILib/GREYElementHierarchy.h"
+#import "GREYElementHierarchy.h"
 
 #import <objc/runtime.h>
 

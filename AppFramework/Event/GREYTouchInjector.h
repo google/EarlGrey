@@ -16,8 +16,8 @@
 
 #import <Foundation/Foundation.h>
 
-#import "CommonLib/Event/GREYTouchInfo.h"
-#import "CommonLib/GREYDefines.h"
+#import "GREYTouchInfo.h"
+#import "GREYDefines.h"
 
 /**
  *  A touch injector that delivers a complete touch sequence to mimic physical user interaction

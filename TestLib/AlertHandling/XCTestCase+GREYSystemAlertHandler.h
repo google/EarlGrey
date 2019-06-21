@@ -17,7 +17,7 @@
 #import <Foundation/Foundation.h>
 #import <XCTest/XCTest.h>
 
-#import "CommonLib/GREYConstants.h"
+#import "GREYConstants.h"
 
 /**
  *  Error code for system alert dismissal actions.

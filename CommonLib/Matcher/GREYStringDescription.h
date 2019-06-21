@@ -16,7 +16,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "CommonLib/Matcher/GREYDescription.h"
+#import "GREYDescription.h"
 
 /**
  *  A string based implementation of GREYDescription protocol.

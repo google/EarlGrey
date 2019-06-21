@@ -14,10 +14,10 @@
 // limitations under the License.
 //
 
-#import "UILib/Additions/NSObject+GREYUI.h"
+#import "NSObject+GREYUI.h"
 
-#import "CommonLib/Additions/NSObject+GREYCommon.h"
-#import "UILib/GREYElementHierarchy.h"
+#import "NSObject+GREYCommon.h"
+#import "GREYElementHierarchy.h"
 
 @implementation NSObject (GREYUI)
 

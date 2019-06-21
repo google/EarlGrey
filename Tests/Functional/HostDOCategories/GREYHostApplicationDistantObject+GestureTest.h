@@ -14,9 +14,9 @@
 // limitations under the License.
 //
 
-#import "AppFramework/EarlGreyApp/EarlGreyApp.h"
-#import "CommonLib/DistantObject/GREYHostApplicationDistantObject.h"
-#import "Service/Sources/EDORemoteVariable.h"
+#import "EarlGreyApp.h"
+#import "GREYHostApplicationDistantObject.h"
+#import "EDORemoteVariable.h"
 
 /** GREYHostApplicationDistantObject extension for the gesture test. */
 @interface GREYHostApplicationDistantObject (GestureTest)

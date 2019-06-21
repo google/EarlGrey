@@ -14,9 +14,9 @@
 // limitations under the License.
 //
 
-#import "CommonLib/Assertion/GREYAssertionBlock.h"
+#import "GREYAssertionBlock.h"
 
-#import "CommonLib/Assertion/GREYThrowDefines.h"
+#import "GREYThrowDefines.h"
 
 NSString *const GREYFailureHandlerKey = @"GREYAppFailureHandlerKey";
 

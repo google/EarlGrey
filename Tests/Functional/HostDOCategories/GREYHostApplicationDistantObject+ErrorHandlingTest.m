@@ -16,7 +16,7 @@
 
 #import "GREYHostApplicationDistantObject+ErrorHandlingTest.h"
 
-#import "AppFramework/Error/GREYAppError.h"
+#import "GREYAppError.h"
 
 @implementation GREYHostApplicationDistantObject (ErrorHandlingTest)
 

@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "CommonLib/Event/GREYTouchInfo.h"
+#import "GREYTouchInfo.h"
 
 // TODO: Consider to use XCUITest injections, and may move this back to app framework. // NOLINT
 @implementation GREYTouchInfo

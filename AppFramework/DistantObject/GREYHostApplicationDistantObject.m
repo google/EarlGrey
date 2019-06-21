@@ -14,14 +14,14 @@
 // limitations under the License.
 //
 
-#import "CommonLib/DistantObject/GREYHostApplicationDistantObject.h"
+#import "GREYHostApplicationDistantObject.h"
 
 #import <UIKit/UIKit.h>
 
-#import "CommonLib/Assertion/GREYFatalAsserts.h"
-#import "CommonLib/DistantObject/GREYHostBackgroundDistantObject.h"
-#import "CommonLib/DistantObject/GREYTestApplicationDistantObject+Private.h"
-#import "CommonLib/DistantObject/GREYTestApplicationDistantObject.h"
+#import "GREYFatalAsserts.h"
+#import "GREYHostBackgroundDistantObject.h"
+#import "GREYTestApplicationDistantObject+Private.h"
+#import "GREYTestApplicationDistantObject.h"
 
 /** The port number for the app under test. */
 static uint16_t gGREYPortForTestApplication = 0;

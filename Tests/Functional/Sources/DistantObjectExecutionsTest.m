@@ -17,7 +17,7 @@
 #import <Foundation/Foundation.h>
 #import <XCTest/XCTest.h>
 
-#import "AppFramework/DistantObject/GREYHostApplicationDistantObject+GREYTestHelper.h"
+#import "GREYHostApplicationDistantObject+GREYTestHelper.h"
 #import "BaseIntegrationTest.h"
 
 @interface DistantObjectExecutionsTest : BaseIntegrationTest

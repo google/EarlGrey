@@ -18,10 +18,10 @@
 
 // Note: GREYKeyboard should not be used in test cases of EarlGrey users. We are only using it here
 // for test purpose.
-#import "AppFramework/Keyboard/GREYKeyboard.h"
+#import "GREYKeyboard.h"
 #import "GREYHostApplicationDistantObject+KeyboardKeysTest.h"
 #import "FailureHandler.h"
-#import "Service/Sources/NSObject+EDOValueObject.h"
+#import "NSObject+EDOValueObject.h"
 
 @interface KeyboardKeysTest : BaseIntegrationTest
 @end

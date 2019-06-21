@@ -16,8 +16,8 @@
 
 #import <Foundation/Foundation.h>
 
-#import "CommonLib/GREYDiagnosable.h"
-#import "CommonLib/Matcher/GREYMatcher.h"
+#import "GREYDiagnosable.h"
+#import "GREYMatcher.h"
 
 /**
  *  A base class that implements the GREYMatcher protocol methods.

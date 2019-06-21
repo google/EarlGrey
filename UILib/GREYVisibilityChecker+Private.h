@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "UILib/GREYVisibilityChecker.h"
+#import "GREYVisibilityChecker.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

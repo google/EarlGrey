@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "AppFramework/Action/GREYActionBlock.h"
+#import "GREYActionBlock.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

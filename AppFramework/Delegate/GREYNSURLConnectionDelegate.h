@@ -16,7 +16,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "AppFramework/Delegate/GREYSurrogateDelegate.h"
+#import "GREYSurrogateDelegate.h"
 
 /**
  *  This is a proxy delegate for NSURLConnectionDelegate which allows us track status of

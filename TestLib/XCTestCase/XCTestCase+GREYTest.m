@@ -14,15 +14,15 @@
 // limitations under the License.
 //
 
-#import "TestLib/XCTestCase/XCTestCase+GREYTest.h"
+#import "XCTestCase+GREYTest.h"
 
 #include <objc/runtime.h>
 
-#import "CommonLib/Assertion/GREYFatalAsserts.h"
-#import "CommonLib/DistantObject/GREYTestApplicationDistantObject.h"
-#import "CommonLib/Exceptions/GREYFrameworkException.h"
-#import "CommonLib/GREYSwizzler.h"
-#import "TestLib/XCTestCase/GREYTestCaseInvocation.h"
+#import "GREYFatalAsserts.h"
+#import "GREYTestApplicationDistantObject.h"
+#import "GREYFrameworkException.h"
+#import "GREYSwizzler.h"
+#import "GREYTestCaseInvocation.h"
 
 /**
  *  Stack of XCTestCase objects being being executed. This enables the tracking of different nested

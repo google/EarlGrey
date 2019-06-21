@@ -16,10 +16,10 @@
 
 #import "BaseIntegrationTest.h"
 
-#import "AppFramework/DistantObject/GREYHostApplicationDistantObject+GREYTestHelper.h"
-#import "CommonLib/Additions/NSString+GREYCommon.h"
-#import "TestLib/Analytics/GREYAnalytics.g3only.h"
-#import "TestLib/XCTestCase/XCTestCase+GREYTest.h"
+#import "GREYHostApplicationDistantObject+GREYTestHelper.h"
+#import "NSString+GREYCommon.h"
+#import "GREYAnalytics.g3only.h"
+#import "XCTestCase+GREYTest.h"
 
 @interface GREYAnalytics (GREYExposedForTesting)
 - (void)grey_testCaseInstanceDidTearDown;

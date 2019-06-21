@@ -16,8 +16,8 @@
 
 #import <XCTest/XCTestExpectation.h>
 
-#import "AppFramework/EarlGreyApp/EarlGreyApp.h"
-#import "CommonLib/DistantObject/GREYHostApplicationDistantObject.h"
+#import "EarlGreyApp.h"
+#import "GREYHostApplicationDistantObject.h"
 
 /** GREYHostApplicationDistantObject extension for the XCTest expectation method. */
 @interface GREYHostApplicationDistantObject (XCTestExpectationsTest)

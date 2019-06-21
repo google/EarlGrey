@@ -14,17 +14,17 @@
 // limitations under the License.
 //
 
-#import "UILib/GREYVisibilityChecker.h"
+#import "GREYVisibilityChecker.h"
 
 #include <CoreGraphics/CoreGraphics.h>
 
-#import "CommonLib/Additions/NSObject+GREYCommon.h"
-#import "CommonLib/Additions/UIView+GREYCommon.h"
-#import "CommonLib/Assertion/GREYFatalAsserts.h"
-#import "CommonLib/GREYConstants.h"
-#import "CommonLib/GREYLogger.h"
-#import "UILib/Additions/CGGeometry+GREYUI.h"
-#import "UILib/GREYScreenshotter+Private.h"
+#import "NSObject+GREYCommon.h"
+#import "UIView+GREYCommon.h"
+#import "GREYFatalAsserts.h"
+#import "GREYConstants.h"
+#import "GREYLogger.h"
+#import "CGGeometry+GREYUI.h"
+#import "GREYScreenshotter+Private.h"
 
 /**
  *  The time interval taken for visibility checks.

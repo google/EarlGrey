@@ -15,7 +15,7 @@
 //
 
 #import "BaseIntegrationTest.h"
-#import "UILib/GREYElementHierarchy.h"
+#import "GREYElementHierarchy.h"
 
 @interface AnimationsTest : BaseIntegrationTest
 @end

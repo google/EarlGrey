@@ -16,7 +16,7 @@
 
 #import <CommonCrypto/CommonDigest.h>
 
-#import "CommonLib/Additions/NSString+GREYCommon.h"
+#import "NSString+GREYCommon.h"
 
 @implementation NSString (GREYCommon)
 

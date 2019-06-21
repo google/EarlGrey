@@ -14,25 +14,25 @@
 // limitations under the License.
 //
 
-#import "AppFramework/Action/GREYTapAction.h"
+#import "GREYTapAction.h"
 
-#import "AppFramework/Action/GREYTapper.h"
-#import "AppFramework/Additions/NSObject+GREYApp.h"
-#import "AppFramework/Core/GREYInteraction.h"
-#import "AppFramework/Error/GREYAppError.h"
-#import "AppFramework/Matcher/GREYAllOf.h"
-#import "AppFramework/Matcher/GREYAnyOf.h"
-#import "AppFramework/Matcher/GREYMatchers.h"
-#import "AppFramework/Matcher/GREYNot.h"
-#import "AppFramework/Synchronization/GREYSyncAPI.h"
-#import "AppFramework/Synchronization/GREYUIThreadExecutor.h"
-#import "CommonLib/Additions/NSObject+GREYCommon.h"
-#import "CommonLib/Assertion/GREYFatalAsserts.h"
-#import "CommonLib/Assertion/GREYThrowDefines.h"
-#import "CommonLib/Error/NSError+GREYCommon.h"
-#import "CommonLib/GREYDefines.h"
-#import "UILib/Additions/CGGeometry+GREYUI.h"
-#import "UILib/GREYVisibilityChecker.h"
+#import "GREYTapper.h"
+#import "NSObject+GREYApp.h"
+#import "GREYInteraction.h"
+#import "GREYAppError.h"
+#import "GREYAllOf.h"
+#import "GREYAnyOf.h"
+#import "GREYMatchers.h"
+#import "GREYNot.h"
+#import "GREYSyncAPI.h"
+#import "GREYUIThreadExecutor.h"
+#import "NSObject+GREYCommon.h"
+#import "GREYFatalAsserts.h"
+#import "GREYThrowDefines.h"
+#import "NSError+GREYCommon.h"
+#import "GREYDefines.h"
+#import "CGGeometry+GREYUI.h"
+#import "GREYVisibilityChecker.h"
 
 @implementation GREYTapAction {
   /**

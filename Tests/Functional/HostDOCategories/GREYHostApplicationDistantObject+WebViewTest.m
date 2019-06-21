@@ -14,8 +14,8 @@
 // limitations under the License.
 //
 
-#import "AppFramework/Delegate/GREYUIWebViewDelegate.h"
-#import "AppFramework/Synchronization/GREYAppStateTracker.h"
+#import "GREYUIWebViewDelegate.h"
+#import "GREYAppStateTracker.h"
 #import "GREYHostApplicationDistantObject+WebViewTest.h"
 
 /**

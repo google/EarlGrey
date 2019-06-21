@@ -14,10 +14,10 @@
 // limitations under the License.
 //
 
-#import "CommonLib/Error/GREYScrollActionError.h"
+#import "GREYScrollActionError.h"
 #import "GREYHostApplicationDistantObject+ScrollViewTest.h"
 #import "BaseIntegrationTest.h"
-#import "UILib/GREYVisibilityChecker.h"
+#import "GREYVisibilityChecker.h"
 
 @interface ScrollViewTest : BaseIntegrationTest
 @end

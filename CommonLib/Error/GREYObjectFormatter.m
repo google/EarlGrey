@@ -14,11 +14,11 @@
 // limitations under the License.
 //
 
-#import "CommonLib/Error/GREYObjectFormatter.h"
+#import "GREYObjectFormatter.h"
 
-#import "CommonLib/Additions/NSString+GREYCommon.h"
-#import "CommonLib/Error/GREYError.h"
-#import "CommonLib/Matcher/GREYStringDescription.h"
+#import "NSString+GREYCommon.h"
+#import "GREYError.h"
+#import "GREYStringDescription.h"
 
 NSInteger const kGREYObjectFormatIndent = 2;
 

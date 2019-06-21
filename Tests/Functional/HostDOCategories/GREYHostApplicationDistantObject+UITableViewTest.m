@@ -16,8 +16,8 @@
 
 #import "GREYHostApplicationDistantObject+UITableViewTest.h"
 
-#import "AppFramework/Matcher/GREYAllOf.h"
-#import "AppFramework/Matcher/GREYMatchers.h"
+#import "GREYAllOf.h"
+#import "GREYMatchers.h"
 
 @implementation GREYHostApplicationDistantObject (UITableViewTest)
 

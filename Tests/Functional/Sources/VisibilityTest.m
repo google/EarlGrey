@@ -16,7 +16,7 @@
 
 #import "GREYHostApplicationDistantObject+VisibilityTest.h"
 #import "BaseIntegrationTest.h"
-#import "UILib/GREYElementHierarchy.h"
+#import "GREYElementHierarchy.h"
 
 @interface VisibilityTest : BaseIntegrationTest
 @end

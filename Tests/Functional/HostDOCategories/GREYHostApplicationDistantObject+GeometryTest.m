@@ -16,7 +16,7 @@
 
 #import "GREYHostApplicationDistantObject+GestureTest.h"
 
-#import "UILib/Additions/CGGeometry+GREYUI.h"
+#import "CGGeometry+GREYUI.h"
 
 @implementation GREYHostApplicationDistantObject (GeometryTest)
 

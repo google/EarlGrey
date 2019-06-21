@@ -16,7 +16,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "CommonLib/Matcher/GREYDescription.h"
+#import "GREYDescription.h"
 
 /**
  *  Matchers are another way of expressing simple or complex logical expressions. This protocol

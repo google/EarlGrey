@@ -14,9 +14,9 @@
 // limitations under the License.
 //
 
-#import "TestLib/XCTestCase/GREYTestCaseInvocation.h"
+#import "GREYTestCaseInvocation.h"
 
-#import "TestLib/XCTestCase/XCTestCase+GREYTest.h"
+#import "XCTestCase+GREYTest.h"
 
 static NSString *const kGREYTestCaseInvocationExceptionName = @"GREYTestCaseInvocationException";
 
