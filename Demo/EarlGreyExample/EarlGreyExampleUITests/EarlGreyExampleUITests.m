@@ -1,9 +1,17 @@
 //
-//  EGUITests.m
-//  EGUITests
+// Copyright 2019 Google Inc.
 //
-//  Created by Brett Fazio on 6/19/19.
-//  Copyright © 2019 Google Inc. All rights reserved.
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 //
 
 #import <XCTest/XCTest.h>
@@ -30,15 +38,10 @@
 @implementation EGUITests
 
 - (void)setUp {
-  // Put setup code here. This method is called before the invocation of each test method in the class.
-
-  // In UI tests it is usually best to stop immediately when a failure occurs.
   self.continueAfterFailure = NO;
 
   // UI tests must launch the application that they test. Doing this in setup will make sure it happens for each test method.
   [[[XCUIApplication alloc] init] launch];
-
-  // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
 }
 
 - (void)tearDown {
@@ -53,20 +56,20 @@
 - (void)testBasicSelectionAndAction {
   // Select and tap the button with Accessibility ID "clickMe".
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"ClickMe")]
-   performAction:grey_tap()];
+    performAction:grey_tap()];
 }
 
 - (void)testBasicSelectionAndAssert {
   // Select the button with Accessibility ID "clickMe" and assert it's visible.
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"ClickMe")]
-   assertWithMatcher:grey_sufficientlyVisible()];
+    assertWithMatcher:grey_sufficientlyVisible()];
 }
 
 - (void)testBasicSelectionActionAssert {
   // Select and tap the button with Accessibility ID "clickMe", then assert it's visible.
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"ClickMe")]
     performAction:grey_tap()]
-   assertWithMatcher:grey_sufficientlyVisible()];
+    assertWithMatcher:grey_sufficientlyVisible()];
 }
 
 - (void)testSelectionOnMultipleElements {
@@ -84,7 +87,7 @@
   id<GREYMatcher> visibleSendButtonMatcher =
   grey_allOf(grey_accessibilityID(@"ClickMe"), grey_sufficientlyVisible(), nil);
   [[EarlGrey selectElementWithMatcher:visibleSendButtonMatcher]
-   performAction:grey_doubleTap()];
+    performAction:grey_doubleTap()];
 }
 
 - (void)testWithInRoot {
@@ -163,7 +166,6 @@
                                         element.alpha = 1.0;}
                                       completion: nil];
                    }];
-
 }
 
 // Write a custom assertion that checks if the alpha of an element is equal to the expected value.
@@ -207,6 +209,5 @@
      performAction:grey_tap()];
   }
 }
-
 
 @end
