@@ -17,7 +17,7 @@ target 'EarlGreyExampleSwift' do
   pod 'EarlGreyApp', :podspec => "EarlGreyApp.podspec"
 end
 
-target 'EarlGreyUITests' do
+target 'EarlGreyExampleUITests' do
   #inherit! :search_paths
   pod 'EarlGreyTest', :git => 'https://github.com/brettfazio/EarlGrey.git', :branch => 'recentclone'
 end
