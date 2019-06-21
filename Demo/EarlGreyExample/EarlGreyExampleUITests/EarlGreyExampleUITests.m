@@ -77,7 +77,7 @@
   // We add a custom error here to prevent the Test Suite failing.
   NSError *error;
   [[EarlGrey selectElementWithMatcher:grey_sufficientlyVisible()]
-   performAction:grey_tap() error:&error];
+    performAction:grey_tap() error:&error];
   if (error) {
     NSLog(@"Test Failed with Error : %@", [error description]);
   }
@@ -132,20 +132,20 @@
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"Cell30")]
     usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 50)
     onElementWithMatcher:grey_accessibilityID(@"table")]
-   performAction:grey_doubleTap()];
+    performAction:grey_doubleTap()];
 
   // Move back to top of the table.
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"Cell1")]
     usingSearchAction:grey_scrollInDirection(kGREYDirectionUp, 500)
     onElementWithMatcher:grey_accessibilityID(@"table")]
-   performAction:grey_doubleTap()];
+    performAction:grey_doubleTap()];
 }
 
 - (void)testCatchErrorOnFailure {
   // TapMe doesn't exist, but the test doesn't fail because we are getting a pointer to the error.
   NSError *error;
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TapMe")]
-   performAction:grey_tap() error:&error];
+    performAction:grey_tap() error:&error];
   if (error) {
     NSLog(@"Error: %@", [error localizedDescription]);
   }
@@ -188,7 +188,7 @@
 
 - (void)testWithCustomAssertion {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"ClickMe")]
-   assert:([self alphaEqual:1.0])];
+    assert:([self alphaEqual:1.0])];
 }
 
 - (void)testWithCondition {
@@ -206,7 +206,7 @@
     NSLog(@"Condition not met");
   } else {
     [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"ClickMe")]
-     performAction:grey_tap()];
+      performAction:grey_tap()];
   }
 }
 
