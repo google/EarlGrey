@@ -14,19 +14,19 @@
 // limitations under the License.
 //
 
-#import "AppFramework/Synchronization/GREYAppStateTracker.h"
+#import "GREYAppStateTracker.h"
 
 #include <objc/runtime.h>
 #include <pthread.h>
 
-#import "AppFramework/Additions/NSObject+GREYApp.h"
-#import "AppFramework/Synchronization/GREYAppStateTrackerObject.h"
-#import "AppFramework/Synchronization/GREYObjectDeallocationTracker.h"
-#import "CommonLib/Assertion/GREYFatalAsserts.h"
-#import "CommonLib/Assertion/GREYThrowDefines.h"
-#import "CommonLib/Config/GREYConfiguration.h"
-#import "CommonLib/GREYDefines.h"
-#import "CommonLib/GREYLogger.h"
+#import "NSObject+GREYApp.h"
+#import "GREYAppStateTrackerObject.h"
+#import "GREYObjectDeallocationTracker.h"
+#import "GREYFatalAsserts.h"
+#import "GREYThrowDefines.h"
+#import "GREYConfiguration.h"
+#import "GREYDefines.h"
+#import "GREYLogger.h"
 
 /**
  *  Enum to specify the type of operation that is being performed on an object.

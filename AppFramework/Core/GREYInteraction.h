@@ -16,7 +16,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "CommonLib/GREYDefines.h"
+#import "GREYDefines.h"
 
 @protocol GREYInteractionDataSource;
 @protocol GREYAction;

@@ -14,17 +14,17 @@
 // limitations under the License.
 //
 
-#import "AppFramework/Additions/NSURLConnection+GREYApp.h"
+#import "NSURLConnection+GREYApp.h"
 
 #include <objc/runtime.h>
 
-#import "AppFramework/Additions/NSURL+GREYApp.h"
-#import "AppFramework/Delegate/GREYNSURLConnectionDelegate.h"
-#import "AppFramework/Synchronization/GREYAppStateTracker.h"
-#import "AppFramework/Synchronization/GREYAppStateTrackerObject.h"
-#import "CommonLib/Assertion/GREYFatalAsserts.h"
-#import "CommonLib/Config/GREYConfiguration.h"
-#import "CommonLib/GREYSwizzler.h"
+#import "NSURL+GREYApp.h"
+#import "GREYNSURLConnectionDelegate.h"
+#import "GREYAppStateTracker.h"
+#import "GREYAppStateTrackerObject.h"
+#import "GREYFatalAsserts.h"
+#import "GREYConfiguration.h"
+#import "GREYSwizzler.h"
 
 typedef void (^NSURLConnectionCompletionBlock)(NSURLResponse *, NSData *, NSError *);
 

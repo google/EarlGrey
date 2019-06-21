@@ -17,8 +17,8 @@
 #import <Foundation/Foundation.h>
 #import <WebKit/WebKit.h>
 
-#import "CommonLib/GREYConstants.h"
-#import "CommonLib/GREYDefines.h"
+#import "GREYConstants.h"
+#import "GREYDefines.h"
 
 @protocol GREYAction;
 @class EDORemoteVariable<ObjectType>;

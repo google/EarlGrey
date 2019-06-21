@@ -14,13 +14,13 @@
 // limitations under the License.
 //
 
-#import "CommonLib/Config/GREYConfiguration.h"
+#import "GREYConfiguration.h"
 
-#import "CommonLib/Additions/NSString+GREYCommon.h"
-#import "CommonLib/Assertion/GREYFatalAsserts.h"
-#import "CommonLib/Assertion/GREYThrowDefines.h"
-#import "CommonLib/Config/GREYConfiguration+Private.h"
-#import "CommonLib/GREYLogger.h"
+#import "NSString+GREYCommon.h"
+#import "GREYFatalAsserts.h"
+#import "GREYThrowDefines.h"
+#import "GREYConfiguration+Private.h"
+#import "GREYLogger.h"
 
 @implementation GREYConfiguration
 

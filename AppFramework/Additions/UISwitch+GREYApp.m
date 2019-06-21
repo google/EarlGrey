@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "AppFramework/Additions/UISwitch+GREYApp.h"
+#import "UISwitch+GREYApp.h"
 
 @implementation UISwitch (GREYApp)
 

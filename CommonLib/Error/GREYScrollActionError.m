@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "CommonLib/Error/GREYScrollActionError.h"
+#import "GREYScrollActionError.h"
 
 /**
  *  Error domain for scroll action errors.

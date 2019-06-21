@@ -14,12 +14,12 @@
 // limitations under the License.
 //
 
-#import "AppFramework/Additions/NSRunLoop+GREYApp.h"
+#import "NSRunLoop+GREYApp.h"
 
-#import "AppFramework/IdlingResources/GREYNSTimerIdlingResource.h"
-#import "CommonLib/Assertion/GREYFatalAsserts.h"
-#import "CommonLib/Config/GREYConfiguration.h"
-#import "CommonLib/GREYSwizzler.h"
+#import "GREYNSTimerIdlingResource.h"
+#import "GREYFatalAsserts.h"
+#import "GREYConfiguration.h"
+#import "GREYSwizzler.h"
 
 @implementation NSRunLoop (GREYApp)
 

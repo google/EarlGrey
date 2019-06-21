@@ -14,10 +14,10 @@
 // limitations under the License.
 //
 
-#import "UILib/Provider/GREYDataEnumerator.h"
+#import "GREYDataEnumerator.h"
 
-#import "CommonLib/Assertion/GREYThrowDefines.h"
-#import "CommonLib/GREYDefines.h"
+#import "GREYThrowDefines.h"
+#import "GREYDefines.h"
 
 @implementation GREYDataEnumerator {
   id (^_nextObjectBlock)(id);

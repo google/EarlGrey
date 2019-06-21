@@ -16,7 +16,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "CommonLib/DistantObject/GREYTestApplicationDistantObject.h"
+#import "GREYTestApplicationDistantObject.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

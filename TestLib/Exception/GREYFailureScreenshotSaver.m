@@ -13,11 +13,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#import "TestLib/Exception/GREYFailureScreenshotSaver.h"
+#import "GREYFailureScreenshotSaver.h"
 
-#import "CommonLib/Additions/NSFileManager+GREYCommon.h"
-#import "CommonLib/Config/GREYConfiguration.h"
-#import "CommonLib/Error/GREYError.h"
+#import "NSFileManager+GREYCommon.h"
+#import "GREYConfiguration.h"
+#import "GREYError.h"
 
 @implementation GREYFailureScreenshotSaver
 

@@ -14,9 +14,9 @@
 // limitations under the License.
 //
 
-#import "AppFramework/DistantObject/GREYHostApplicationDistantObject+GREYTestHelper.h"
+#import "GREYHostApplicationDistantObject+GREYTestHelper.h"
 
-#import "UILib/Provider/GREYUIWindowProvider.h"
+#import "GREYUIWindowProvider.h"
 
 @implementation GREYHostApplicationDistantObject (GREYTestHelper)
 

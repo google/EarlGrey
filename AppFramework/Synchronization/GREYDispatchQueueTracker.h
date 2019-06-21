@@ -16,7 +16,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "CommonLib/GREYConstants.h"
+#import "GREYConstants.h"
 
 /**
  *  A dispatch queue tracker for tracking dispatch queues.

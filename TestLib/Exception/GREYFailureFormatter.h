@@ -17,7 +17,7 @@
 #import <Foundation/Foundation.h>
 #import <XCTest/XCTest.h>
 
-#import "CommonLib/GREYDefines.h"
+#import "GREYDefines.h"
 
 @class GREYError;
 

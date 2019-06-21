@@ -14,14 +14,14 @@
 // limitations under the License.
 //
 
-#import "AppFramework/Additions/NSURL+GREYApp.h"
+#import "NSURL+GREYApp.h"
 
 #import <objc/runtime.h>
 
-#import "CommonLib/Assertion/GREYFatalAsserts.h"
-#import "CommonLib/Assertion/GREYThrowDefines.h"
-#import "CommonLib/Config/GREYConfiguration.h"
-#import "CommonLib/GREYLogger.h"
+#import "GREYFatalAsserts.h"
+#import "GREYThrowDefines.h"
+#import "GREYConfiguration.h"
+#import "GREYLogger.h"
 
 @implementation NSURL (GREYApp)
 

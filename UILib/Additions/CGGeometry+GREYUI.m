@@ -14,11 +14,11 @@
 // limitations under the License.
 //
 
-#import "UILib/Additions/CGGeometry+GREYUI.h"
+#import "CGGeometry+GREYUI.h"
 
 #include <tgmath.h>
 
-#import "CommonLib/GREYDefines.h"
+#import "GREYDefines.h"
 
 #pragma mark - Constants
 

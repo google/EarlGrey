@@ -14,16 +14,16 @@
 // limitations under the License.
 //
 
-#import "TestLib/EarlGreyImpl/GREYElementInteractionProxy.h"
+#import "GREYElementInteractionProxy.h"
 
 #include <stdatomic.h>
 
-#import "AppFramework/DistantObject/GREYHostBackgroundDistantObject+GREYApp.h"
-#import "CommonLib/Assertion/GREYFatalAsserts.h"
-#import "CommonLib/Assertion/GREYThrowDefines.h"
-#import "CommonLib/Error/GREYError.h"
-#import "TestLib/EarlGreyImpl/GREYElementInteractionErrorHandler.h"
-#import "Service/Sources/EDOHostService.h"
+#import "GREYHostBackgroundDistantObject+GREYApp.h"
+#import "GREYFatalAsserts.h"
+#import "GREYThrowDefines.h"
+#import "GREYError.h"
+#import "GREYElementInteractionErrorHandler.h"
+#import "EDOHostService.h"
 
 @implementation GREYElementInteractionProxy {
   /** App-side interaction instance. */

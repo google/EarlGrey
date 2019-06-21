@@ -14,17 +14,17 @@
 // limitations under the License.
 //
 
-#import "TestLib/EarlGreyImpl/XCUIApplication+GREYTest.h"
+#import "XCUIApplication+GREYTest.h"
 
 #include <objc/runtime.h>
 
-#import "AppFramework/DistantObject/GREYHostApplicationDistantObject+GREYTestHelper.h"
-#import "CommonLib/Assertion/GREYFatalAsserts.h"
-#import "CommonLib/DistantObject/GREYTestApplicationDistantObject+Private.h"
-#import "CommonLib/DistantObject/GREYTestApplicationDistantObject.h"
-#import "CommonLib/GREYSwizzler.h"
-#import "TestLib/Analytics/GREYAnalytics.h"
-#import "TestLib/XCTestCase/XCUIApplication+GREYEnvironment.h"
+#import "GREYHostApplicationDistantObject+GREYTestHelper.h"
+#import "GREYFatalAsserts.h"
+#import "GREYTestApplicationDistantObject+Private.h"
+#import "GREYTestApplicationDistantObject.h"
+#import "GREYSwizzler.h"
+#import "GREYAnalytics.h"
+#import "XCUIApplication+GREYEnvironment.h"
 
 @implementation XCUIApplication (GREYTest)
 

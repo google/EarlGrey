@@ -16,9 +16,9 @@
 
 #import <Foundation/Foundation.h>
 
-#import "AppFramework/IdlingResources/GREYIdlingResource.h"
+#import "GREYIdlingResource.h"
 
-#import "CommonLib/Config/GREYAppState.h"
+#import "GREYAppState.h"
 
 @class GREYAppStateTrackerObject;
 

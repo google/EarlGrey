@@ -14,11 +14,11 @@
 // limitations under the License.
 //
 
-#import "UILib/Provider/GREYUIWindowProvider.h"
+#import "GREYUIWindowProvider.h"
 
-#import "CommonLib/Assertion/GREYFatalAsserts.h"
-#import "CommonLib/GREYAppleInternals.h"
-#import "CommonLib/GREYDefines.h"
+#import "GREYFatalAsserts.h"
+#import "GREYAppleInternals.h"
+#import "GREYDefines.h"
 
 @implementation GREYUIWindowProvider {
   NSArray *_windows;

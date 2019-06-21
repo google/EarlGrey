@@ -25,8 +25,8 @@
 
 // GREYConfiguration's Configuration Key Strings are indirectly exposed through here, to prevent
 // users from having to import the Configuration Strings directly.
-#import "CommonLib/Config/GREYConfigKey.h"
-#import "CommonLib/GREYDefines.h"
+#import "GREYConfigKey.h"
+#import "GREYDefines.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

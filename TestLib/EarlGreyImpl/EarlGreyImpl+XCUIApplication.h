@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "TestLib/EarlGreyImpl/EarlGrey.h"
+#import "EarlGrey.h"
 
 #import <XCTest/XCTest.h>
 

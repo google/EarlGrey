@@ -19,7 +19,7 @@
 
 #import <UIKit/UIKit.h>
 
-#import "AppFramework/IdlingResources/GREYIdlingResource.h"
+#import "GREYIdlingResource.h"
 
 /**
  *  An idling resource used for detecting when a UIWebView has loaded all the required resources,

@@ -15,8 +15,8 @@
 // limitations under the License.
 //
 
-#import "CommonLib/Error/GREYError.h"
-#import "CommonLib/GREYDefines.h"
+#import "GREYError.h"
+#import "GREYDefines.h"
 
 /**
  *  @file GREYError+Private.h

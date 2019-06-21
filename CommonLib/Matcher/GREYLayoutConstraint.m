@@ -14,9 +14,9 @@
 // limitations under the License.
 //
 
-#import "CommonLib/Matcher/GREYLayoutConstraint.h"
+#import "GREYLayoutConstraint.h"
 
-#import "CommonLib/GREYConstants.h"
+#import "GREYConstants.h"
 
 static NSString *const kGREYLayoutConstraintAttribute = @"attribute";
 static NSString *const kGREYLayoutConstraintRelation = @"relation";

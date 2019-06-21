@@ -14,13 +14,13 @@
 // limitations under the License.
 //
 
-#import "AppFramework/Config/GREYAppConfiguration.h"
+#import "GREYAppConfiguration.h"
 
-#import "CommonLib/Config/GREYConfiguration+Private.h"
-#import "CommonLib/DistantObject/GREYHostApplicationDistantObject.h"
-#import "CommonLib/DistantObject/GREYHostBackgroundDistantObject.h"
-#import "TestLib/Config/GREYTestConfiguration.h"
-#import "Service/Sources/NSObject+EDOValueObject.h"
+#import "GREYConfiguration+Private.h"
+#import "GREYHostApplicationDistantObject.h"
+#import "GREYHostBackgroundDistantObject.h"
+#import "GREYTestConfiguration.h"
+#import "NSObject+EDOValueObject.h"
 
 GREYConfiguration *GREYCreateConfiguration(void) { return [[GREYAppConfiguration alloc] init]; }
 

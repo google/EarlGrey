@@ -14,17 +14,17 @@
 // limitations under the License.
 //
 
-#import "AppFramework/Additions/CAAnimation+GREYApp.h"
+#import "CAAnimation+GREYApp.h"
 
 #include <objc/runtime.h>
 
-#import "AppFramework/Additions/NSObject+GREYApp.h"
-#import "AppFramework/Delegate/GREYCAAnimationDelegate.h"
-#import "AppFramework/Synchronization/GREYAppStateTracker.h"
-#import "AppFramework/Synchronization/GREYAppStateTrackerObject.h"
-#import "CommonLib/Assertion/GREYFatalAsserts.h"
-#import "CommonLib/GREYDefines.h"
-#import "CommonLib/GREYSwizzler.h"
+#import "NSObject+GREYApp.h"
+#import "GREYCAAnimationDelegate.h"
+#import "GREYAppStateTracker.h"
+#import "GREYAppStateTrackerObject.h"
+#import "GREYFatalAsserts.h"
+#import "GREYDefines.h"
+#import "GREYSwizzler.h"
 
 @implementation CAAnimation (GREYApp)
 

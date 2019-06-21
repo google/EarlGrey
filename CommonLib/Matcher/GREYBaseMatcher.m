@@ -14,9 +14,9 @@
 // limitations under the License.
 //
 
-#import "CommonLib/Matcher/GREYBaseMatcher.h"
+#import "GREYBaseMatcher.h"
 
-#import "CommonLib/Matcher/GREYStringDescription.h"
+#import "GREYStringDescription.h"
 
 @implementation GREYBaseMatcher
 

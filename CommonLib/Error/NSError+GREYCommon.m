@@ -14,10 +14,10 @@
 // limitations under the License.
 //
 
-#import "CommonLib/Error/NSError+GREYCommon.h"
+#import "NSError+GREYCommon.h"
 
-#import "CommonLib/Error/GREYError.h"
-#import "CommonLib/Error/GREYErrorConstants.h"
+#import "GREYError.h"
+#import "GREYErrorConstants.h"
 
 @implementation NSError (GREYCommon)
 

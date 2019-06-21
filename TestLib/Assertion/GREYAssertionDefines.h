@@ -24,12 +24,12 @@
 #ifndef GREY_ASSERTION_DEFINES_H
 #define GREY_ASSERTION_DEFINES_H
 
-#import "AppFramework/Synchronization/GREYUIThreadExecutor.h"
-#import "CommonLib/Assertion/GREYAssertionDefinesPrivate.h"
-#import "CommonLib/Config/GREYConfiguration.h"
-#import "CommonLib/Exceptions/GREYFailureHandler.h"
-#import "CommonLib/Exceptions/GREYFrameworkException.h"
-#import "CommonLib/GREYDefines.h"
+#import "GREYUIThreadExecutor.h"
+#import "GREYAssertionDefinesPrivate.h"
+#import "GREYConfiguration.h"
+#import "GREYFailureHandler.h"
+#import "GREYFrameworkException.h"
+#import "GREYDefines.h"
 
 /**
  *  These Macros are safe to call from anywhere within a testcase.

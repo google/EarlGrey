@@ -14,11 +14,11 @@
 // limitations under the License.
 //
 
-#import "AppFramework/Synchronization/GREYObjectDeallocationTracker.h"
+#import "GREYObjectDeallocationTracker.h"
 
 #import <objc/runtime.h>
 
-#import "CommonLib/Assertion/GREYThrowDefines.h"
+#import "GREYThrowDefines.h"
 
 @interface GREYObjectDeallocationTracker ()
 

@@ -14,12 +14,12 @@
 // limitations under the License.
 //
 
-#import "CommonLib/DistantObject/GREYTestApplicationDistantObject.h"
+#import "GREYTestApplicationDistantObject.h"
 
 #import <XCTest/XCTest.h>
 
-#import "CommonLib/DistantObject/GREYHostBackgroundDistantObject.h"
-#import "CommonLib/DistantObject/GREYTestApplicationDistantObject+Private.h"
+#import "GREYHostBackgroundDistantObject.h"
+#import "GREYTestApplicationDistantObject+Private.h"
 
 /** The port number for the test process. */
 uint16_t GREYPortForTestApplication = 0;

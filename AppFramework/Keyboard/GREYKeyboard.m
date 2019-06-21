@@ -14,25 +14,25 @@
 // limitations under the License.
 //
 
-#import "AppFramework/Keyboard/GREYKeyboard.h"
+#import "GREYKeyboard.h"
 
 #include <objc/runtime.h>
 #include <stdatomic.h>
 
-#import "AppFramework/Action/GREYTapAction.h"
-#import "AppFramework/Core/GREYInteraction.h"
-#import "AppFramework/Error/GREYAppError.h"
-#import "AppFramework/Synchronization/GREYAppStateTracker.h"
-#import "AppFramework/Synchronization/GREYAppStateTrackerObject.h"
-#import "AppFramework/Synchronization/GREYRunLoopSpinner.h"
-#import "AppFramework/Synchronization/GREYSyncAPI.h"
-#import "AppFramework/Synchronization/GREYUIThreadExecutor.h"
-#import "CommonLib/Assertion/GREYFatalAsserts.h"
-#import "CommonLib/Error/GREYErrorConstants.h"
-#import "CommonLib/Error/NSError+GREYCommon.h"
-#import "CommonLib/GREYAppleInternals.h"
-#import "CommonLib/GREYDefines.h"
-#import "CommonLib/GREYLogger.h"
+#import "GREYTapAction.h"
+#import "GREYInteraction.h"
+#import "GREYAppError.h"
+#import "GREYAppStateTracker.h"
+#import "GREYAppStateTrackerObject.h"
+#import "GREYRunLoopSpinner.h"
+#import "GREYSyncAPI.h"
+#import "GREYUIThreadExecutor.h"
+#import "GREYFatalAsserts.h"
+#import "GREYErrorConstants.h"
+#import "NSError+GREYCommon.h"
+#import "GREYAppleInternals.h"
+#import "GREYDefines.h"
+#import "GREYLogger.h"
 
 /**
  *  Action for tapping a keyboard key.

@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "CommonLib/Config/GREYConfiguration.h"
+#import "GREYConfiguration.h"
 
 @interface GREYConfiguration ()
 // Access the merged configuration.

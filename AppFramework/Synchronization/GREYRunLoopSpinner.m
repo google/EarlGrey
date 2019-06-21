@@ -13,10 +13,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#import "AppFramework/Synchronization/GREYRunLoopSpinner.h"
+#import "GREYRunLoopSpinner.h"
 
-#import "AppFramework/Additions/UIApplication+GREYApp.h"
-#import "CommonLib/Assertion/GREYFatalAsserts.h"
+#import "UIApplication+GREYApp.h"
+#import "GREYFatalAsserts.h"
 
 /**
  *  The default minimum number of runloop drains. The default is 2 because, as per the CFRunLoop

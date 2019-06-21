@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "AppFramework/Synchronization/GREYAppStateTracker.h"
+#import "GREYAppStateTracker.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

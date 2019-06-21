@@ -16,24 +16,24 @@
 
 #import <UIKit/UIKit.h>
 
-#import "AppFramework/Action/GREYActions.h"
-#import "AppFramework/Error/GREYFailureScreenshotter.h"
-#import "AppFramework/Event/GREYSyntheticEvents.h"
-#import "AppFramework/Keyboard/GREYKeyboard.h"
-#import "AppFramework/Matcher/GREYAllOf.h"
-#import "AppFramework/Matcher/GREYAnyOf.h"
-#import "AppFramework/Matcher/GREYMatchers.h"
-#import "AppFramework/Matcher/GREYNot.h"
-#import "AppFramework/Synchronization/GREYUIThreadExecutor.h"
-#import "CommonLib/Config/GREYConfiguration.h"
-#import "CommonLib/DistantObject/GREYHostApplicationDistantObject.h"
-#import "CommonLib/DistantObject/GREYHostBackgroundDistantObject.h"
-#import "CommonLib/DistantObject/GREYTestApplicationDistantObject.h"
-#import "UILib/GREYElementHierarchy.h"
-#import "UILib/GREYScreenshotter.h"
-#import "UILib/GREYVisibilityChecker.h"
+#import "GREYActions.h"
+#import "GREYFailureScreenshotter.h"
+#import "GREYSyntheticEvents.h"
+#import "GREYKeyboard.h"
+#import "GREYAllOf.h"
+#import "GREYAnyOf.h"
+#import "GREYMatchers.h"
+#import "GREYNot.h"
+#import "GREYUIThreadExecutor.h"
+#import "GREYConfiguration.h"
+#import "GREYHostApplicationDistantObject.h"
+#import "GREYHostBackgroundDistantObject.h"
+#import "GREYTestApplicationDistantObject.h"
+#import "GREYElementHierarchy.h"
+#import "GREYScreenshotter.h"
+#import "GREYVisibilityChecker.h"
 
-#import "Service/Sources/EDOClientService.h"
+#import "EDOClientService.h"
 
 // Stub classes defined in the host (app under test)
 

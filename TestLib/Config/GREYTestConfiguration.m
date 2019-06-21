@@ -14,16 +14,16 @@
 // limitations under the License.
 //
 
-#import "TestLib/Config/GREYTestConfiguration.h"
+#import "GREYTestConfiguration.h"
 
-#import "AppFramework/Config/GREYAppConfiguration.h"
-#import "CommonLib/Assertion/GREYFatalAsserts.h"
-#import "CommonLib/Assertion/GREYThrowDefines.h"
-#import "CommonLib/Config/GREYAppState.h"
-#import "CommonLib/Config/GREYConfigKey.h"
-#import "CommonLib/Config/GREYConfiguration+Private.h"
-#import "CommonLib/GREYLogger.h"
-#import "Service/Sources/NSObject+EDOValueObject.h"
+#import "GREYAppConfiguration.h"
+#import "GREYFatalAsserts.h"
+#import "GREYThrowDefines.h"
+#import "GREYAppState.h"
+#import "GREYConfigKey.h"
+#import "GREYConfiguration+Private.h"
+#import "GREYLogger.h"
+#import "/NSObject+EDOValueObject.h"
 
 GREYConfiguration *GREYCreateConfiguration(void) { return [[GREYTestConfiguration alloc] init]; }
 

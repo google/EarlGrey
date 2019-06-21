@@ -14,8 +14,8 @@
 // limitations under the License.
 //
 
-#import "CommonLib/Additions/NSObject+GREYCommon.h"
-#import "CommonLib/GREYConstants.h"
+#import "NSObject+GREYCommon.h"
+#import "GREYConstants.h"
 
 /**
  *  Class that all Web Accessibility Elements have to be a kind of.

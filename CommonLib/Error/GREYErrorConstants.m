@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "CommonLib/Error/GREYErrorConstants.h"
+#import "GREYErrorConstants.h"
 
 NSString *const kErrorDetailStepperKey = @"Stepper";
 NSString *const kErrorDetailUserValueKey = @"UserValue";
