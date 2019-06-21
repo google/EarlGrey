@@ -18,8 +18,6 @@
 
 #import <EarlGreyTest/EarlGrey.h>
 
-#import "EarlGreyExampleSwift-Swift.h"
-
 @interface PrintOnlyHandler : NSObject<GREYFailureHandler>
 @end
 
