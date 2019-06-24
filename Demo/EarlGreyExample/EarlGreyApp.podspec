@@ -15,7 +15,5 @@ Pod::Spec.new do |s|
   s.pod_target_xcconfig = { "FRAMEWORK_SEARCH_PATHS" =>"$(inherited) $(PLATFORM_DIR)/Developer/Library/Frameworks",
                               "ENABLE_BITCODE" => "NO" }
 
-  #s.frameworks = [ "CoreData", "CoreFoundation", "CoreGraphics", "Foundation", "IOKit", "QuartzCore", "UIKit", "XCTest"]
-
   s.platform = :ios, '10.0'
 end
