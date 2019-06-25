@@ -16,7 +16,7 @@
 
 #import "EarlGreyApp.h"
 #import "GREYHostApplicationDistantObject.h"
-#import "EDORemoteVariable.h"
+#import <EDORemoteVariable.h>
 
 /** GREYHostApplicationDistantObject extension for the geometry test. */
 @interface GREYHostApplicationDistantObject (GeometryTest)
