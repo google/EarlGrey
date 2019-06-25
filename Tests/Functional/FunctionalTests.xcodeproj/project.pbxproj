@@ -1556,7 +1556,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
-				HEADER_SEARCH_PATHS = ../../Submodules/eDistantObject;
+				HEADER_SEARCH_PATHS = "../../Submodules/eDistantObject/**";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.com.Functional;
@@ -1565,7 +1565,7 @@
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = FunctionalTestRig;
-				USER_HEADER_SEARCH_PATHS = "Sources/ HostDOCategories/ ../../** ../../Submodules/eDistantObject/**";
+				USER_HEADER_SEARCH_PATHS = "Sources/ HostDOCategories/ ../../**";
 			};
 			name = Debug;
 		};
@@ -1575,7 +1575,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
-				HEADER_SEARCH_PATHS = ../../Submodules/eDistantObject;
+				HEADER_SEARCH_PATHS = "../../Submodules/eDistantObject/**";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.com.Functional;
@@ -1583,7 +1583,7 @@
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = FunctionalTestRig;
-				USER_HEADER_SEARCH_PATHS = "Sources/ HostDOCategories/ ../../** ../../Submodules/eDistantObject/**";
+				USER_HEADER_SEARCH_PATHS = "Sources/ HostDOCategories/ ../../**";
 			};
 			name = Release;
 		};
@@ -1592,7 +1592,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
-				HEADER_SEARCH_PATHS = ../../Submodules/eDistantObject;
+				HEADER_SEARCH_PATHS = "../../Submodules/eDistantObject/**";
 				INFOPLIST_FILE = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -1607,7 +1607,7 @@
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = FunctionalTestRigSwift;
-				USER_HEADER_SEARCH_PATHS = "../../Submodules/eDistantObject/** ../../**";
+				USER_HEADER_SEARCH_PATHS = "../../**";
 			};
 			name = Debug;
 		};
@@ -1616,7 +1616,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
-				HEADER_SEARCH_PATHS = ../../Submodules/eDistantObject;
+				HEADER_SEARCH_PATHS = "../../Submodules/eDistantObject/**";
 				INFOPLIST_FILE = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -1629,7 +1629,7 @@
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = FunctionalTestRigSwift;
-				USER_HEADER_SEARCH_PATHS = "../../Submodules/eDistantObject/** ../../**";
+				USER_HEADER_SEARCH_PATHS = "../../**";
 			};
 			name = Release;
 		};
@@ -1689,7 +1689,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = "";
-				HEADER_SEARCH_PATHS = ../../Submodules/eDistantObject;
+				HEADER_SEARCH_PATHS = "../../Submodules/eDistantObject/**";
 				INFOPLIST_FILE = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/Frameworks";
@@ -1703,7 +1703,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = ../TestRig/Sources/Swift/SwiftTestRigBridgingHeader.h;
 				SWIFT_VERSION = 3.0;
-				USER_HEADER_SEARCH_PATHS = "../../Submodules/eDistantObject/** ../../** HostDOCategories/Swift/ Sources/Swift/ Sources/";
+				USER_HEADER_SEARCH_PATHS = "../../** HostDOCategories/Swift/ Sources/Swift/ Sources/";
 				WRAPPER_EXTENSION = bundle;
 			};
 			name = Debug;
@@ -1717,7 +1717,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = "";
-				HEADER_SEARCH_PATHS = ../../Submodules/eDistantObject;
+				HEADER_SEARCH_PATHS = "../../Submodules/eDistantObject/**";
 				INFOPLIST_FILE = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/Frameworks";
@@ -1730,7 +1730,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = ../TestRig/Sources/Swift/SwiftTestRigBridgingHeader.h;
 				SWIFT_VERSION = 3.0;
-				USER_HEADER_SEARCH_PATHS = "../../Submodules/eDistantObject/** ../../** HostDOCategories/Swift/ Sources/Swift/ Sources/";
+				USER_HEADER_SEARCH_PATHS = "../../** HostDOCategories/Swift/ Sources/Swift/ Sources/";
 				WRAPPER_EXTENSION = bundle;
 			};
 			name = Release;
@@ -1890,7 +1890,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
-				HEADER_SEARCH_PATHS = ../../Submodules/eDistantObject;
+				HEADER_SEARCH_PATHS = "../../Submodules/eDistantObject/**";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.com.Functional;
@@ -1909,7 +1909,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
-				HEADER_SEARCH_PATHS = ../../Submodules/eDistantObject;
+				HEADER_SEARCH_PATHS = "../../Submodules/eDistantObject/**";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.com.Functional;
@@ -1929,7 +1929,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = "";
-				HEADER_SEARCH_PATHS = ../../Submodules/eDistantObject;
+				HEADER_SEARCH_PATHS = "../../Submodules/eDistantObject/**";
 				INFOPLIST_FILE = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
@@ -1940,7 +1940,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "Sources/ HostDOCategories/ ../../** ../../Submodules/eDistantObject/**";
+				USER_HEADER_SEARCH_PATHS = "Sources/ HostDOCategories/ ../../**";
 				WRAPPER_EXTENSION = bundle;
 			};
 			name = Debug;
@@ -1953,7 +1953,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = "";
-				HEADER_SEARCH_PATHS = ../../Submodules/eDistantObject;
+				HEADER_SEARCH_PATHS = "../../Submodules/eDistantObject/**";
 				INFOPLIST_FILE = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
@@ -1963,7 +1963,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "Sources/ HostDOCategories/ ../../** ../../Submodules/eDistantObject/**";
+				USER_HEADER_SEARCH_PATHS = "Sources/ HostDOCategories/ ../../**";
 				WRAPPER_EXTENSION = bundle;
 			};
 			name = Release;
