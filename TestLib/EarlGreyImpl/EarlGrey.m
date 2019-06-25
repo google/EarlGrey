@@ -32,6 +32,7 @@
 #import "GREYElementInteractionErrorHandler.h"
 #import "GREYElementInteractionProxy.h"
 #import "GREYDefaultFailureHandler.h"
+#import "EDOClientService.h"
 
 /**
  *  Sets EarlGrey provided default failure handler if there's no failure handler set for the current

@@ -22,6 +22,9 @@
 #import "GREYHostBackgroundDistantObject.h"
 #import "GREYTestApplicationDistantObject+Private.h"
 #import "GREYTestApplicationDistantObject.h"
+#import "EDOClientService.h"
+#import "EDOHostService.h"
+#import "EDOServicePort.h"
 
 /** The port number for the app under test. */
 static uint16_t gGREYPortForTestApplication = 0;
