@@ -20,7 +20,7 @@ Pod::Spec.new do |s|
   # header imports (reduced). Right now earlgrey2 does not have those.
   # Use this line as it has the proper changes:
   # s.source = { :git => "https://github.com/brettfazio/EarlGrey.git", :branch => "recentclone" }
-  s.source = { :git => "https://github.com/google/EarlGrey.git", :branch => "testangles" }
+  s.source = { :git => "https://github.com/google/EarlGrey.git", :branch => "edoimporttest" }
 
   s.dependency "eDistantObject"
 
