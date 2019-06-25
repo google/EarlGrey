@@ -24,7 +24,7 @@ Pod::Spec.new do |s|
 
   s.dependency "eDistantObject"
 
-  s.pod_target_xcconfig = { 'HEADER_SEARCH_PATHS' => '"${PODS_ROOT}/EarlGreyTest/**" "${PODS_ROOT}"', 'HEADER_SEARCH_PATHS' => '"${PODS_ROOT}"' }
+  s.pod_target_xcconfig = { 'HEADER_SEARCH_PATHS' => '"${PODS_ROOT}/EarlGreyTest/**" "${PODS_ROOT}"', 'USER_HEADER_SEARCH_PATHS' => '"${PODS_ROOT}"' }
 
   test_sources = Dir.glob("{TestLib,CommonLib}/**/*.{m,h}") +
                 Dir.glob("{AppFramework,UILib}/**/*.h") +
