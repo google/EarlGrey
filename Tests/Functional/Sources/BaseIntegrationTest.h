@@ -17,7 +17,7 @@
 #import "GREYAssertionDefines.h"
 #import "EarlGrey.h"
 #import "GREYHostApplicationDistantObject+RemoteTest.h"
-#import <EDORemoteVariable.h>
+#import <eDistantObject/Service/Sources/EDORemoteVariable.h>
 
 /**
  * Base class for adding any methods to be needed in the tests.

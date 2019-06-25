@@ -51,7 +51,7 @@
 #import "GREYAppleInternals.h"
 #import "GREYMatcher.h"
 #import "GREYScreenshotter.h"
-#import <EDORemoteVariable.h>
+#import <eDistantObject/Service/Sources/EDORemoteVariable.h>
 
 static Class gWebAccessibilityObjectWrapperClass;
 static Class gAccessibilityTextFieldElementClass;

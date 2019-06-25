@@ -16,7 +16,7 @@
 
 #import "EarlGreyApp.h"
 #import "GREYHostApplicationDistantObject.h"
-#import <EDORemoteVariable.h>
+#import <eDistantObject/Service/Sources/EDORemoteVariable.h>
 
 /** GREYHostApplicationDistantObject extension for the gesture test. */
 @interface GREYHostApplicationDistantObject (GestureTest)

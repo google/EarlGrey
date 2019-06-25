@@ -33,7 +33,7 @@
 #import "GREYScreenshotter.h"
 #import "GREYVisibilityChecker.h"
 
-#import <EDOClientService.h>
+#import <eDistantObject/Service/Sources/EDOClientService.h>
 
 // Stub classes defined in the host (app under test)
 

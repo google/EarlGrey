@@ -23,7 +23,7 @@
 #import "GREYThrowDefines.h"
 #import "GREYError.h"
 #import "GREYElementInteractionErrorHandler.h"
-#import <EDOHostService.h>
+#import <eDistantObject/Service/Sources/EDOHostService.h>
 
 @implementation GREYElementInteractionProxy {
   /** App-side interaction instance. */

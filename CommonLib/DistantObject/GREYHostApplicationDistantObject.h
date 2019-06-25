@@ -16,9 +16,9 @@
 
 #import <Foundation/Foundation.h>
 
-#import <EDOClientService.h>
-#import <EDOHostService.h>
-#import <EDOServicePort.h>
+#import <eDistantObject/Service/Sources/EDOClientService.h>
+#import <eDistantObject/Service/Sources/EDOHostService.h>
+#import <eDistantObject/Service/Sources/EDOServicePort.h>
 
 
 NS_ASSUME_NONNULL_BEGIN
