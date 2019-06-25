@@ -16,7 +16,7 @@
 
 #import "GREYHostApplicationDistantObject.h"
 #import "GREYTestApplicationDistantObject.h"
-#import "EDOClientService.h"
+#import <EDOClientService.h>
 
 /// Stub classes defined in the test.
 GREY_STUB_CLASS_IN_TEST_MAIN_QUEUE(GREYTestApplicationDistantObject)
