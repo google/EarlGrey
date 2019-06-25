@@ -1918,7 +1918,10 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				FRAMEWORK_SEARCH_PATHS = "$(PLATFORM_DIR)/Developer/Library/Frameworks";
-				HEADER_SEARCH_PATHS = .;
+				HEADER_SEARCH_PATHS = (
+					.,
+					"Submodules/eDistantObject/**",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -1929,7 +1932,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				USER_HEADER_SEARCH_PATHS = "Submodules/eDistantObject/**";
+				USER_HEADER_SEARCH_PATHS = "";
 				VALID_ARCHS = "i386 x86_64 arm64 armv7 armv7s";
 			};
 			name = Debug;
@@ -1939,7 +1942,10 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				FRAMEWORK_SEARCH_PATHS = "$(PLATFORM_DIR)/Developer/Library/Frameworks";
-				HEADER_SEARCH_PATHS = .;
+				HEADER_SEARCH_PATHS = (
+					.,
+					"Submodules/eDistantObject/**",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -1950,7 +1956,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				USER_HEADER_SEARCH_PATHS = "Submodules/eDistantObject/**";
+				USER_HEADER_SEARCH_PATHS = "";
 				VALID_ARCHS = "i386 x86_64 arm64 armv7 armv7s";
 			};
 			name = Release;
@@ -2118,6 +2124,7 @@
 				HEADER_SEARCH_PATHS = (
 					.,
 					../../..,
+					"Submodules/eDistantObject/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				OTHER_CFLAGS = "";
@@ -2125,7 +2132,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				USER_HEADER_SEARCH_PATHS = "Submodules/eDistantObject/**";
+				USER_HEADER_SEARCH_PATHS = "";
 				VALID_ARCHS = "i386 x86_64 arm64 armv7 armv7s";
 			};
 			name = Debug;
@@ -2137,6 +2144,7 @@
 				HEADER_SEARCH_PATHS = (
 					.,
 					../../..,
+					"Submodules/eDistantObject/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				OTHER_CFLAGS = "";
@@ -2144,7 +2152,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				USER_HEADER_SEARCH_PATHS = "Submodules/eDistantObject/**";
+				USER_HEADER_SEARCH_PATHS = "";
 				VALID_ARCHS = "i386 x86_64 arm64 armv7 armv7s";
 			};
 			name = Release;
@@ -2163,6 +2171,7 @@
 					Submodules/fishhook/,
 					.,
 					../../..,
+					"Submodules/eDistantObject/**",
 				);
 				INFOPLIST_FILE = AppFramework/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -2179,7 +2188,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				USER_HEADER_SEARCH_PATHS = "Submodules/eDistantObject/**";
+				USER_HEADER_SEARCH_PATHS = "";
 				VALID_ARCHS = "i386 x86_64 arm64 armv7 armv7s";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -2200,6 +2209,7 @@
 					Submodules/fishhook/,
 					.,
 					../../..,
+					"Submodules/eDistantObject/**",
 				);
 				INFOPLIST_FILE = AppFramework/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -2216,7 +2226,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				USER_HEADER_SEARCH_PATHS = "Submodules/eDistantObject/**";
+				USER_HEADER_SEARCH_PATHS = "";
 				VALID_ARCHS = "i386 x86_64 arm64 armv7 armv7s";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -2230,6 +2240,7 @@
 				HEADER_SEARCH_PATHS = (
 					.,
 					../../..,
+					"Submodules/eDistantObject/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				ONLY_ACTIVE_ARCH = NO;
@@ -2237,7 +2248,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				USER_HEADER_SEARCH_PATHS = "Submodules/eDistantObject/**";
+				USER_HEADER_SEARCH_PATHS = "";
 				VALID_ARCHS = "i386 x86_64 arm64 armv7 armv7s";
 			};
 			name = Debug;
@@ -2249,13 +2260,14 @@
 				HEADER_SEARCH_PATHS = (
 					.,
 					../../..,
+					"Submodules/eDistantObject/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				USER_HEADER_SEARCH_PATHS = "Submodules/eDistantObject/**";
+				USER_HEADER_SEARCH_PATHS = "";
 				VALID_ARCHS = "i386 x86_64 arm64 armv7 armv7s";
 			};
 			name = Release;
