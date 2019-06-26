@@ -24,8 +24,8 @@ information on using pull requests.
 
 The submitted code should adhere to the following:
 
-* Refer to the [Google Objective-C style guide][https://github.com/google/styleguide/blob/gh-pages/objcguide.md]
-  and [the Realm SwiftLint Style][https://github.com/realm/SwiftLint] for our code conventions.
+* Refer to the [Google Objective-C style guide](https://github.com/google/styleguide/blob/gh-pages/objcguide.md)
+  and [the Realm SwiftLint Style](https://github.com/realm/SwiftLint) for our code conventions.
 
 ## Community Guidelines
 
