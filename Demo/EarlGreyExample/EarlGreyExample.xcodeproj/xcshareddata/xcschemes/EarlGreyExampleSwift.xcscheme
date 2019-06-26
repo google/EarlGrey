@@ -38,6 +38,16 @@
                ReferencedContainer = "container:EarlGreyExample.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "80C1CFAE22C40BB200F62426"
+               BuildableName = "EarlGreyExampleSwiftUITests.xctest"
+               BlueprintName = "EarlGreyExampleSwiftUITests"
+               ReferencedContainer = "container:EarlGreyExample.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference

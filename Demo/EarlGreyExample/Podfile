@@ -21,3 +21,8 @@ target 'EarlGreyExampleUITests' do
   #inherit! :search_paths
   pod 'EarlGreyTest', :git => 'https://github.com/google/EarlGrey.git', :branch => 'earlgrey2pod'
 end
+
+target 'EarlGreyExampleSwiftUITests' do
+  #inherit! :search_paths
+  pod 'EarlGreyTest', :git => 'https://github.com/google/EarlGrey.git', :branch => 'earlgrey2pod'
+end

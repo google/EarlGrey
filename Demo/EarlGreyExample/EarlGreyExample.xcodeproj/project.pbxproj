@@ -13,10 +13,19 @@
 		5F5A537E1ADE67D500F81DF0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5A537D1ADE67D500F81DF0 /* AppDelegate.swift */; };
 		5F99610B1AE0CF4F0034F503 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5F9961061AE0CF4F0034F503 /* Images.xcassets */; };
 		80C1749B22BC08CE00394461 /* EarlGreyExampleUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 80C1749A22BC08CE00394461 /* EarlGreyExampleUITests.m */; };
+		80C1CFB222C40BB300F62426 /* EarlGreyExampleSwiftUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C1CFB122C40BB300F62426 /* EarlGreyExampleSwiftUITests.swift */; };
+		80C1CFC322C4254400F62426 /* EarlGrey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C1CFC222C4254300F62426 /* EarlGrey.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
 		80C1749D22BC08CE00394461 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5F5A53441ADE670C00F81DF0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5F5A53781ADE67D500F81DF0;
+			remoteInfo = EarlGreyExampleSwift;
+		};
+		80C1CFB422C40BB300F62426 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 5F5A53441ADE670C00F81DF0 /* Project object */;
 			proxyType = 1;
@@ -36,6 +45,11 @@
 		80C1749822BC08CE00394461 /* EarlGreyExampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EarlGreyExampleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		80C1749A22BC08CE00394461 /* EarlGreyExampleUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EarlGreyExampleUITests.m; sourceTree = "<group>"; };
 		80C1749C22BC08CE00394461 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		80C1CFAF22C40BB200F62426 /* EarlGreyExampleSwiftUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EarlGreyExampleSwiftUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		80C1CFB122C40BB300F62426 /* EarlGreyExampleSwiftUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarlGreyExampleSwiftUITests.swift; sourceTree = "<group>"; };
+		80C1CFB322C40BB300F62426 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		80C1CFBF22C4146100F62426 /* EarlGreySwiftBridgingHeader-Pods.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "EarlGreySwiftBridgingHeader-Pods.h"; sourceTree = SOURCE_ROOT; };
+		80C1CFC222C4254300F62426 /* EarlGrey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EarlGrey.swift; path = ../../../TestLib/Swift/EarlGrey.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +67,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		80C1CFAC22C40BB200F62426 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -61,6 +82,7 @@
 			children = (
 				5F5A537A1ADE67D500F81DF0 /* EarlGreyExampleSwift */,
 				80C1749922BC08CE00394461 /* EarlGreyExampleUITests */,
+				80C1CFB022C40BB200F62426 /* EarlGreyExampleSwiftUITests */,
 				5F5A534D1ADE670C00F81DF0 /* Products */,
 				5F9961041AE0CF4F0034F503 /* Shared */,
 			);
@@ -72,6 +94,7 @@
 			children = (
 				5F5A53791ADE67D500F81DF0 /* EarlGreyExampleSwift.app */,
 				80C1749822BC08CE00394461 /* EarlGreyExampleUITests.xctest */,
+				80C1CFAF22C40BB200F62426 /* EarlGreyExampleSwiftUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -114,6 +137,17 @@
 			path = EarlGreyExampleUITests;
 			sourceTree = "<group>";
 		};
+		80C1CFB022C40BB200F62426 /* EarlGreyExampleSwiftUITests */ = {
+			isa = PBXGroup;
+			children = (
+				80C1CFC222C4254300F62426 /* EarlGrey.swift */,
+				80C1CFB122C40BB300F62426 /* EarlGreyExampleSwiftUITests.swift */,
+				80C1CFB322C40BB300F62426 /* Info.plist */,
+				80C1CFBF22C4146100F62426 /* EarlGreySwiftBridgingHeader-Pods.h */,
+			);
+			path = EarlGreyExampleSwiftUITests;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -152,13 +186,31 @@
 			productReference = 80C1749822BC08CE00394461 /* EarlGreyExampleUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		80C1CFAE22C40BB200F62426 /* EarlGreyExampleSwiftUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 80C1CFB822C40BB300F62426 /* Build configuration list for PBXNativeTarget "EarlGreyExampleSwiftUITests" */;
+			buildPhases = (
+				80C1CFAB22C40BB200F62426 /* Sources */,
+				80C1CFAC22C40BB200F62426 /* Frameworks */,
+				80C1CFAD22C40BB200F62426 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				80C1CFB522C40BB300F62426 /* PBXTargetDependency */,
+			);
+			name = EarlGreyExampleSwiftUITests;
+			productName = EarlGreyExampleSwiftUITests;
+			productReference = 80C1CFAF22C40BB200F62426 /* EarlGreyExampleSwiftUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		5F5A53441ADE670C00F81DF0 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0720;
+				LastSwiftUpdateCheck = 1020;
 				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = "Google Inc.";
 				TargetAttributes = {
@@ -167,6 +219,11 @@
 						LastSwiftMigration = 0800;
 					};
 					80C1749722BC08CE00394461 = {
+						CreatedOnToolsVersion = 10.2.1;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 5F5A53781ADE67D500F81DF0;
+					};
+					80C1CFAE22C40BB200F62426 = {
 						CreatedOnToolsVersion = 10.2.1;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 5F5A53781ADE67D500F81DF0;
@@ -189,6 +246,7 @@
 			targets = (
 				5F5A53781ADE67D500F81DF0 /* EarlGreyExampleSwift */,
 				80C1749722BC08CE00394461 /* EarlGreyExampleUITests */,
+				80C1CFAE22C40BB200F62426 /* EarlGreyExampleSwiftUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -205,6 +263,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		80C1749622BC08CE00394461 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		80C1CFAD22C40BB200F62426 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -231,6 +296,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		80C1CFAB22C40BB200F62426 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				80C1CFC322C4254400F62426 /* EarlGrey.swift in Sources */,
+				80C1CFB222C40BB300F62426 /* EarlGreyExampleSwiftUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -238,6 +312,11 @@
 			isa = PBXTargetDependency;
 			target = 5F5A53781ADE67D500F81DF0 /* EarlGreyExampleSwift */;
 			targetProxy = 80C1749D22BC08CE00394461 /* PBXContainerItemProxy */;
+		};
+		80C1CFB522C40BB300F62426 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5F5A53781ADE67D500F81DF0 /* EarlGreyExampleSwift */;
+			targetProxy = 80C1CFB422C40BB300F62426 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -458,6 +537,83 @@
 			};
 			name = Release;
 		};
+		80C1CFB622C40BB300F62426 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = EarlGreyExampleSwiftUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.google.EarlGreyExampleSwiftUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OBJC_BRIDGING_HEADER = "./EarlGreySwiftBridgingHeader-Pods.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = EarlGreyExampleSwift;
+			};
+			name = Debug;
+		};
+		80C1CFB722C40BB300F62426 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = EarlGreyExampleSwiftUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.google.EarlGreyExampleSwiftUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "./EarlGreySwiftBridgingHeader-Pods.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = EarlGreyExampleSwift;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -484,6 +640,15 @@
 			buildConfigurations = (
 				80C174A022BC08CE00394461 /* Debug */,
 				80C174A122BC08CE00394461 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		80C1CFB822C40BB300F62426 /* Build configuration list for PBXNativeTarget "EarlGreyExampleSwiftUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				80C1CFB622C40BB300F62426 /* Debug */,
+				80C1CFB722C40BB300F62426 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
