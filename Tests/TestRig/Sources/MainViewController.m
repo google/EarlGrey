@@ -39,11 +39,6 @@
 #import "TypingViewController.h"
 #import "VisibilityTestViewController.h"
 #import "WKWebViewController.h"
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-// TODO: Perform a scan of UIWebView usage and deprecate if possible. // NOLINT
-#import "WebViewController.h"
-#pragma clang diagnostic pop
 #import "ZoomingScrollViewController.h"
 
 static NSString *gTableViewIdentifier = @"TableViewIdentifier";
@@ -83,11 +78,6 @@ static NSString *gTableViewIdentifier = @"TableViewIdentifier";
       @"Table Views" : [TableViewController class],
       @"Typing Views" : [TypingViewController class],
       @"Visibility Tests" : [VisibilityTestViewController class],
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-      // TODO: Perform a scan of UIWebView usage and deprecate if possible. // NOLINT
-      @"UIWebView" : [WebViewController class],
-#pragma clang diagnostic pop
       @"Multi finger swipe gestures" : [MultiFingerSwipeGestureRecognizerViewController class],
       @"Zooming Scroll View" : [ZoomingScrollViewController class],
       @"WKWebView" : [WKWebViewController class],
