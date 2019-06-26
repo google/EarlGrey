@@ -99,9 +99,11 @@ static const CFTimeInterval kPollInterval = 5.0;
   if (success && application) {
     return application;
   } else {
-    *errorOrNil =
-        GREYErrorMake(kErrorDetailForegroundApplicationFailed, kGREYInteractionTimeoutErrorCode,
-                      @"Failed to foreground application within the timeout.");
+    if (errorOrNil) {
+      *errorOrNil =
+          GREYErrorMake(kErrorDetailForegroundApplicationFailed, kGREYInteractionTimeoutErrorCode,
+                        @"Failed to foreground application within the timeout.");
+    }
     return nil;
   }
 }
