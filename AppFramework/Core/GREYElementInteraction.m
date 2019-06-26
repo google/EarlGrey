@@ -88,19 +88,19 @@
   __block NSArray *elements;
   [self matchElementsWithTimeout:timeout
                  syncBeforeMatch:NO
-                      matchBlock:^(NSArray *matchedElements, GREYError *error) {
-                        if (errorOut) {
-                          *errorOut = error;
-                        }
-                        elements = matchedElements;
-                      }];
+                 completionBlock:^(NSArray<id> *matchedElements, GREYError *error) {
+                   if (errorOut) {
+                     *errorOut = error;
+                   }
+                   elements = matchedElements;
+                 }];
   return elements;
 }
 
 - (void)matchElementsWithTimeout:(CFTimeInterval)timeout
                  syncBeforeMatch:(BOOL)syncBeforeMatch
-                      matchBlock:(void (^)(NSArray *, GREYError *))matchBlock {
-  GREYFatalAssert(matchBlock);
+                 completionBlock:(void (^)(NSArray<id> *, GREYError *))completionBlock {
+  GREYFatalAssert(completionBlock);
 
   GREYLogVerbose(@"Scanning for element matching: %@", _elementMatcher);
   id<GREYInteractionDataSource> strongDataSource = [self dataSource];
@@ -131,7 +131,7 @@
 
     elementsFound = (elements.count > 0);
     if (elementsFound) {
-      matchBlock(elements, nil);
+      completionBlock(elements, nil);
     }
   };
 
@@ -215,7 +215,7 @@
 
   GREYFatalAssertWithMessage(error != nil, @"Elements found but with an error: %@", error);
   grey_dispatch_sync_on_main_thread(^{
-    matchBlock(nil, error);
+    completionBlock(nil, error);
   });
 }
 
@@ -261,26 +261,26 @@
     __block id element;
     [self matchElementsWithTimeout:interactionTimeout
                    syncBeforeMatch:synchronizationRequired
-                        matchBlock:^(NSArray *matchedElements, GREYError *error) {
-                          actionError = error;
-                          if (!actionError && matchedElements) {
-                            // Get the uniquely matched element. If it is nil, then it means that
-                            // there has been an error in finding a unique element, such as multiple
-                            // matcher error.
-                            element = [self grey_uniqueElementInMatchedElements:matchedElements
-                                                                       andError:&actionError];
-                          }
+                   completionBlock:^(NSArray<id> *matchedElements, GREYError *error) {
+                     actionError = error;
+                     if (!actionError && matchedElements) {
+                       // Get the uniquely matched element. If it is nil, then it means that
+                       // there has been an error in finding a unique element, such as multiple
+                       // matcher error.
+                       element = [self grey_uniqueElementInMatchedElements:matchedElements
+                                                                  andError:&actionError];
+                     }
 
-                          if (element) {
-                            [actionUserInfo setObject:element forKey:kGREYActionElementUserInfoKey];
-                          }
-                          // Post notification in the main thread that the action is to be performed
-                          // on the found element.
-                          [defaultNotificationCenter
-                              postNotificationName:kGREYWillPerformActionNotification
-                                            object:nil
-                                          userInfo:actionUserInfo];
-                        }];
+                     if (element) {
+                       [actionUserInfo setObject:element forKey:kGREYActionElementUserInfoKey];
+                     }
+                     // Post notification in the main thread that the action is to be performed
+                     // on the found element.
+                     [defaultNotificationCenter
+                         postNotificationName:kGREYWillPerformActionNotification
+                                       object:nil
+                                     userInfo:actionUserInfo];
+                   }];
 
     if (element) {
       GREYLogVerbose(@"Performing action: %@\n with matcher: %@\n with root matcher: %@",
@@ -345,99 +345,96 @@
     CGFloat interactionTimeout =
         (CGFloat)GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
     BOOL synchronizationRequired = GREY_CONFIG_BOOL(kGREYConfigKeySynchronizationEnabled);
-    [self matchElementsWithTimeout:interactionTimeout
-                   syncBeforeMatch:synchronizationRequired
-                        matchBlock:^(NSArray *matchedElements, GREYError *error) {
-                          // An error object that holds error due to element not found (if any). It
-                          // is used only when an assertion fails because element was nil. That's
-                          // when we surface this
-                          GREYError *elementNotFoundError = error;
+    [self
+        matchElementsWithTimeout:interactionTimeout
+                 syncBeforeMatch:synchronizationRequired
+                 completionBlock:^(NSArray<id> *matchedElements, GREYError *error) {
+                   // An error object that holds error due to element not found (if any). It
+                   // is used only when an assertion fails because element was nil. That's
+                   // when we surface this
+                   GREYError *elementNotFoundError = error;
 
-                          // Failure to find elements due to synchronization and report it as an
-                          // error.
-                          if (elementNotFoundError.domain == kGREYInteractionErrorDomain &&
-                              elementNotFoundError.code == kGREYInteractionTimeoutErrorCode) {
-                            assertionError = elementNotFoundError;
-                          } else {
-                            id element =
-                                (matchedElements.count != 0)
-                                    ? [self grey_uniqueElementInMatchedElements:matchedElements
-                                                                       andError:&assertionError]
-                                    : nil;
+                   // Failure to find elements due to synchronization and report it as an
+                   // error.
+                   if (elementNotFoundError.domain == kGREYInteractionErrorDomain &&
+                       elementNotFoundError.code == kGREYInteractionTimeoutErrorCode) {
+                     assertionError = elementNotFoundError;
+                   } else {
+                     id element = (matchedElements.count != 0)
+                                      ? [self grey_uniqueElementInMatchedElements:matchedElements
+                                                                         andError:&assertionError]
+                                      : nil;
 
-                            // Create the user info dictionary for any notifications and set it up
-                            // with the assertion.
-                            NSMutableDictionary *assertionUserInfo =
-                                [[NSMutableDictionary alloc] init];
-                            [assertionUserInfo setObject:assertion
-                                                  forKey:kGREYAssertionUserInfoKey];
+                     // Create the user info dictionary for any notifications and set it up
+                     // with the assertion.
+                     NSMutableDictionary<NSString *, id> *assertionUserInfo =
+                         [[NSMutableDictionary alloc] init];
+                     [assertionUserInfo setObject:assertion forKey:kGREYAssertionUserInfoKey];
 
-                            // Post notification for the assertion to be checked on the found
-                            // element. We send the notification for an assert even if no element
-                            // was found.
-                            BOOL multipleMatchesPresent = NO;
-                            if (element) {
-                              [assertionUserInfo setObject:element
-                                                    forKey:kGREYAssertionElementUserInfoKey];
-                            } else if (assertionError) {
-                              // Check for multiple matchers since we don't want the assertion to be
-                              // checked when this error surfaces.
-                              multipleMatchesPresent =
-                                  (assertionError.code ==
-                                       kGREYInteractionMultipleElementsMatchedErrorCode ||
-                                   assertionError.code ==
-                                       kGREYInteractionMatchedElementIndexOutOfBoundsErrorCode);
-                              [assertionUserInfo setObject:assertionError
-                                                    forKey:kGREYAssertionErrorUserInfoKey];
-                            }
-                            [defaultNotificationCenter
-                                postNotificationName:kGREYWillPerformAssertionNotification
-                                              object:nil
-                                            userInfo:assertionUserInfo];
-                            GREYLogVerbose(
-                                @"Performing assertion: %@\n with matcher: %@\n with root matcher: "
-                                @"%@",
-                                [assertion name], self -> _elementMatcher, self -> _rootMatcher);
+                     // Post notification for the assertion to be checked on the found
+                     // element. We send the notification for an assert even if no element
+                     // was found.
+                     BOOL multipleMatchesPresent = NO;
+                     if (element) {
+                       [assertionUserInfo setObject:element
+                                             forKey:kGREYAssertionElementUserInfoKey];
+                     } else if (assertionError) {
+                       // Check for multiple matchers since we don't want the assertion to be
+                       // checked when this error surfaces.
+                       multipleMatchesPresent =
+                           (assertionError.code ==
+                                kGREYInteractionMultipleElementsMatchedErrorCode ||
+                            assertionError.code ==
+                                kGREYInteractionMatchedElementIndexOutOfBoundsErrorCode);
+                       [assertionUserInfo setObject:assertionError
+                                             forKey:kGREYAssertionErrorUserInfoKey];
+                     }
+                     [defaultNotificationCenter
+                         postNotificationName:kGREYWillPerformAssertionNotification
+                                       object:nil
+                                     userInfo:assertionUserInfo];
+                     GREYLogVerbose(
+                         @"Performing assertion: %@\n with matcher: %@\n with root matcher: "
+                         @"%@",
+                         [assertion name], self -> _elementMatcher, self -> _rootMatcher);
 
-                            // In the case of an assertion, we can have a nil element present as
-                            // well. For this purpose, we check the assertion directly and see if
-                            // there was any issue. The only case where we are completely sure we do
-                            // not need to perform the action is in the case of a multiple matcher.
-                            if (!multipleMatchesPresent) {
-                              __block BOOL assertionSucceeded = NO;
-                              assertionSucceeded = [assertion assert:element error:&assertionError];
-                              if (!assertionSucceeded) {
-                                // Set the elementNotFoundError to the assertionError since the
-                                // error has been utilized already.
-                                if ([assertionError.domain
-                                        isEqualToString:kGREYInteractionErrorDomain] &&
-                                    (assertionError.code ==
-                                     kGREYInteractionElementNotFoundErrorCode)) {
-                                  assertionError = elementNotFoundError;
-                                }
-                                // Assertion didn't succeed yet no error was set.
-                                if (!assertionError) {
-                                  assertionError = GREYErrorMakeWithHierarchy(
-                                      kGREYInteractionErrorDomain,
-                                      kGREYInteractionAssertionFailedErrorCode,
-                                      @"Reason for assertion failure was not provided.");
-                                }
-                                // Add the error obtained from the action to the user info
-                                // notification dictionary.
-                                [assertionUserInfo setObject:assertionError
-                                                      forKey:kGREYAssertionErrorUserInfoKey];
-                              }
-                            }
+                     // In the case of an assertion, we can have a nil element present as
+                     // well. For this purpose, we check the assertion directly and see if
+                     // there was any issue. The only case where we are completely sure we do
+                     // not need to perform the action is in the case of a multiple matcher.
+                     if (!multipleMatchesPresent) {
+                       __block BOOL assertionSucceeded = NO;
+                       assertionSucceeded = [assertion assert:element error:&assertionError];
+                       if (!assertionSucceeded) {
+                         // Set the elementNotFoundError to the assertionError since the
+                         // error has been utilized already.
+                         if ([assertionError.domain isEqualToString:kGREYInteractionErrorDomain] &&
+                             (assertionError.code == kGREYInteractionElementNotFoundErrorCode)) {
+                           assertionError = elementNotFoundError;
+                         }
+                         // Assertion didn't succeed yet no error was set.
+                         if (!assertionError) {
+                           assertionError = GREYErrorMakeWithHierarchy(
+                               kGREYInteractionErrorDomain,
+                               kGREYInteractionAssertionFailedErrorCode,
+                               @"Reason for assertion failure was not provided.");
+                         }
+                         // Add the error obtained from the action to the user info
+                         // notification dictionary.
+                         [assertionUserInfo setObject:assertionError
+                                               forKey:kGREYAssertionErrorUserInfoKey];
+                       }
+                     }
 
-                            // Post notification for the process of an assertion's execution on the
-                            // specified element being completed. This notification does not mean
-                            // that the assertion was performed successfully.
-                            [defaultNotificationCenter
-                                postNotificationName:kGREYDidPerformAssertionNotification
-                                              object:nil
-                                            userInfo:assertionUserInfo];
-                          }
-                        }];
+                     // Post notification for the process of an assertion's execution on the
+                     // specified element being completed. This notification does not mean
+                     // that the assertion was performed successfully.
+                     [defaultNotificationCenter
+                         postNotificationName:kGREYDidPerformAssertionNotification
+                                       object:nil
+                                     userInfo:assertionUserInfo];
+                   }
+                 }];
   }
   [stopwatch stop];
 
