@@ -20,8 +20,19 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  Private class to traverse the UI Hierarchy.
- *  Provides helper methods to access the various elements present in the hierarchy.
+ *  Explores the immediate children of @c element, including accessibility elements.
+ *
+ *  @param element The UI element whose children are to be explored.
+ *
+ *  @return Creates a new NSArray* that contains the immediate children of @c element. The children
+ *  are ordered from front to back, meaning subviews that were added first are present later in the
+ *  array. If no children exist, then an empty array is returned.
+ */
+NSArray<id> *GREYTraversalExploreImmediateChildren(id element);
+
+/**
+ * Private class to traverse the UI Hierarchy.
+ * Provides helper methods to access the various elements present in the hierarchy.
  */
 @interface GREYTraversal : NSObject
 
@@ -32,17 +43,6 @@ NS_ASSUME_NONNULL_BEGIN
  *  @return An instance of the UI element that is next in the hierarchy.
  */
 - (id _Nullable)nextObject NS_UNAVAILABLE;
-
-/**
- *  Explores the immediate children of @c element, including accessibility elements.
- *
- *  @param element The UI element whose children are to be explored.
- *
- *  @return Creates a new array that contains the immediate children of @c element. The children are
- *          ordered from front to back, meaning subviews that were added first are present later
- *          in the array. If no children exist, then an empty array is returned.
- */
-- (NSArray<id> *)exploreImmediateChildren:(id)element;
 
 @end
 

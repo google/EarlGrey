@@ -54,8 +54,8 @@
  *  @note @c NSAssertionHandler is used to raise the exception.
  *
  *  @param parameter Argument to check for validity.
- *  @param message   Message to print when @c parameter is invalid.
- *  @param ...       Variable args for @c message if it is a format string.
+ *  @param message Message to print when @c parameter is invalid.
+ *  @param ... Variable args for @c message if it is a format string.
  */
 #define GREYThrowOnNilParameterWithMessage(parameter, message, ...) \
   ({                                                                \
@@ -86,8 +86,8 @@
  *  @note @c NSAssertionHandler is used to raise the exception.
  *
  *  @param condition The condition to evaluate.
- *  @param message   Message to print when @c condition evaluates to false.
- *  @param ...       Variable args for @c message if it is a format string.
+ *  @param message Message to print when @c condition evaluates to false.
+ *  @param ... Variable args for @c message if it is a format string.
  */
 #define GREYThrowOnFailedConditionWithMessage(condition, message, ...) \
   ({                                                                   \
@@ -101,8 +101,8 @@
  *
  *  @note @c NSAssertionHandler is used to raise the exception.
  *
- *  @param message   Message to print
- *  @param ...       Variable args for @c message if it is a format string.
+ *  @param message Message to print
+ *  @param ... Variable args for @c message if it is a format string.
  */
 #define GREYThrow(message, ...)                                                           \
   ({                                                                                      \
@@ -111,6 +111,37 @@
                                                           file:@(__FILE__)                \
                                                     lineNumber:__LINE__                   \
                                                    description:(message), ##__VA_ARGS__]; \
+  })
+
+/**
+ *  Throws an @c NSInternalInconsistencyException in the function if @c parameter is nil or NULL.
+
+ *
+ *  @note @c NSAssertionHandler used to raise the exception.
+ *
+ *  @param parameter Argument to check for validity.
+ */
+#define GREYThrowInFunctionOnNilParameter(parameter)            \
+  ({                                                            \
+    if (!(parameter)) {                                         \
+      GREYThrowInFunction(@"Parameter cannot be nil or NULL."); \
+    }                                                           \
+  })
+
+/**
+ *  Throws an @c NSInternalInconsistencyException in the function with the provided @c message.
+ *
+ *  @note @c NSAssertionHandler used to raise the exception.
+ *
+ *  @param message Message to print
+ *  @param ... Variable args for @c message if it is a format string.
+ */
+#define GREYThrowInFunction(message, ...)                                                   \
+  ({                                                                                        \
+    [[NSAssertionHandler currentHandler] handleFailureInFunction:@(__PRETTY_FUNCTION__)     \
+                                                            file:@(__FILE__)                \
+                                                      lineNumber:__LINE__                   \
+                                                     description:(message), ##__VA_ARGS__]; \
   })
 
 #endif  // GREY_THROW_DEFINES_H

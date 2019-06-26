@@ -101,7 +101,7 @@
 
   // For the DFS algorithm, we will add to the @c _parsedHierarchy array in a specified order,
   // and we also need to wrap the UI elements into GREYHierarchyObject instance.
-  NSArray *children = [self exploreImmediateChildren:nextObject.element];
+  NSArray<id> *children = GREYTraversalExploreImmediateChildren(nextObject.element);
 
   // Insert the GREYHierarchyObject instance into the front of the array. Here the array is used
   // as a stack, hence front insertions. We could have inserted into the back, however the logic

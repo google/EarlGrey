@@ -19,10 +19,10 @@
 #import "GREYThrowDefines.h"
 #import "GREYConstants.h"
 
-@implementation GREYTraversal
+NS_ASSUME_NONNULL_BEGIN
 
-- (NSArray<id> *)exploreImmediateChildren:(id)element {
-  GREYThrowOnNilParameter(element);
+NSArray<id> *GREYTraversalExploreImmediateChildren(id element) {
+  GREYThrowInFunctionOnNilParameter(element);
 
   NSMutableOrderedSet<id> *immediateChildren = [[NSMutableOrderedSet alloc] init];
 
@@ -95,4 +95,7 @@
   return [immediateChildren array];
 }
 
+@implementation GREYTraversal
 @end
+
+NS_ASSUME_NONNULL_END
