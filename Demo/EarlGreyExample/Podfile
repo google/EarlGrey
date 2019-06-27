@@ -14,15 +14,15 @@
 #  limitations under the License.
 
 target 'EarlGreyExampleSwift' do
-  pod 'EarlGreyApp', :podspec => "EarlGreyApp.podspec"
+  pod 'EarlGreyApp'
 end
 
 target 'EarlGreyExampleUITests' do
   #inherit! :search_paths
-  pod 'EarlGreyTest', :git => 'https://github.com/google/EarlGrey.git', :branch => 'earlgrey2pod'
+  pod 'EarlGreyTest'
 end
 
 target 'EarlGreyExampleSwiftUITests' do
   #inherit! :search_paths
-  pod 'EarlGreyTest', :git => 'https://github.com/google/EarlGrey.git', :branch => 'earlgrey2pod'
+  pod 'EarlGreyTest'
 end
