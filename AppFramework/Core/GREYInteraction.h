@@ -18,6 +18,8 @@
 
 #import "GREYDefines.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol GREYInteractionDataSource;
 @protocol GREYAction;
 @protocol GREYAssertion;
@@ -261,3 +263,5 @@ GREY_EXTERN NSString *const kGREYAssertionErrorUserInfoKey;
 - (instancetype)atIndex:(NSUInteger)index;
 
 @end
+
+NS_ASSUME_NONNULL_END

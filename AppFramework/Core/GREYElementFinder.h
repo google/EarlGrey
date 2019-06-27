@@ -16,6 +16,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol GREYMatcher
 , GREYProvider;
 
@@ -53,6 +55,8 @@
  *  @return An array of matched elements. If no matching element is found, then it is empty.
  *          The relative order of the elements is preserved when returned.
  */
-- (NSArray *)elementsMatchedInProvider:(id<GREYProvider>)elementProvider;
+- (NSArray<id> *)elementsMatchedInProvider:(id<GREYProvider>)elementProvider;
 
 @end
+
+NS_ASSUME_NONNULL_END

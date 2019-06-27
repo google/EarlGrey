@@ -16,6 +16,8 @@
 
 @protocol GREYProvider;
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  Provides data to a GREYInteraction.
  */
@@ -30,3 +32,5 @@
 - (id<GREYProvider>)rootElementProvider;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -33,11 +33,11 @@
   return self;
 }
 
-- (NSArray *)elementsMatchedInProvider:(id<GREYProvider>)elementProvider {
+- (NSArray<id> *)elementsMatchedInProvider:(id<GREYProvider>)elementProvider {
   GREYThrowOnNilParameter(elementProvider);
   GREYFatalAssertMainThread();
 
-  NSMutableOrderedSet *matchingElements = [[NSMutableOrderedSet alloc] init];
+  NSMutableOrderedSet<id> *matchingElements = [[NSMutableOrderedSet alloc] init];
   for (id element in [elementProvider dataEnumerator]) {
     @autoreleasepool {
       if ([_matcher matches:element]) {

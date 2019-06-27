@@ -16,6 +16,8 @@
 
 #import "GREYElementInteraction.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class GREYError;
 
 /**
@@ -44,3 +46,5 @@
 - (NSArray *)matchedElementsWithTimeout:(NSTimeInterval)timeout error:(__strong GREYError **)error;
 
 @end
+
+NS_ASSUME_NONNULL_END

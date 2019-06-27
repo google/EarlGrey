@@ -100,22 +100,25 @@
     [[EarlGrey selectElementWithMatcher:grey_keyWindow()]
         assertWithMatcher:grey_sufficientlyVisible()];
   }));
-  XCTAssertThrows(({ [[EarlGrey selectElementWithMatcher:grey_keyWindow()] performAction:nil]; }));
+  id<GREYAction> nilAction = nil;
+  id<GREYMatcher> nilMatcher = nil;
   XCTAssertThrows(
-      ({ [[EarlGrey selectElementWithMatcher:grey_keyWindow()] assertWithMatcher:nil]; }));
+      ({ [[EarlGrey selectElementWithMatcher:grey_keyWindow()] performAction:nilAction]; }));
+  XCTAssertThrows(
+      ({ [[EarlGrey selectElementWithMatcher:grey_keyWindow()] assertWithMatcher:nilMatcher]; }));
   XCTAssertThrows(({
     [[[EarlGrey selectElementWithMatcher:grey_keyWindow()] performAction:grey_tap()]
-           usingSearchAction:nil
+           usingSearchAction:nilAction
         onElementWithMatcher:grey_keyWindow()];
   }));
   XCTAssertThrows(({
     [[[EarlGrey selectElementWithMatcher:grey_keyWindow()] performAction:grey_tap()]
            usingSearchAction:grey_tap()
-        onElementWithMatcher:nil];
+        onElementWithMatcher:nilMatcher];
   }));
   XCTAssertThrows(({
     [[[EarlGrey selectElementWithMatcher:grey_keyWindow()] assertWithMatcher:grey_notNil()]
-        inRoot:nil];
+        inRoot:nilMatcher];
   }));
 }
 
