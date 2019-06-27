@@ -384,7 +384,6 @@
 		FD623C4020FD197C00049E81 /* FunctionalTestRig.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FunctionalTestRig.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD623C5720FD1A5E00049E81 /* BasicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BasicViewController.m; path = ../TestRig/Sources/BasicViewController.m; sourceTree = "<group>"; };
 		FD623C5820FD1A5E00049E81 /* SplashViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SplashViewController.h; path = ../TestRig/Sources/SplashViewController.h; sourceTree = "<group>"; };
-		FD623C5920FD1A5E00049E81 /* WebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WebViewController.xib; path = ../TestRig/Sources/WebViewController.xib; sourceTree = "<group>"; };
 		FD623C5A20FD1A5E00049E81 /* ZoomingScrollViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZoomingScrollViewController.m; path = ../TestRig/Sources/ZoomingScrollViewController.m; sourceTree = "<group>"; };
 		FD623C5B20FD1A5E00049E81 /* AnimationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AnimationViewController.m; path = ../TestRig/Sources/AnimationViewController.m; sourceTree = "<group>"; };
 		FD623C5C20FD1A5E00049E81 /* TableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TableViewController.h; path = ../TestRig/Sources/TableViewController.h; sourceTree = "<group>"; };
@@ -403,7 +402,6 @@
 		FD623C6A20FD1A5F00049E81 /* CollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CollectionViewCell.xib; path = ../TestRig/Sources/CollectionViewCell.xib; sourceTree = "<group>"; };
 		FD623C6B20FD1A5F00049E81 /* CollectionViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CollectionViewLayout.h; path = ../TestRig/Sources/CollectionViewLayout.h; sourceTree = "<group>"; };
 		FD623C6C20FD1A5F00049E81 /* ImageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ImageViewController.xib; path = ../TestRig/Sources/ImageViewController.xib; sourceTree = "<group>"; };
-		FD623C6D20FD1A5F00049E81 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WebViewController.h; path = ../TestRig/Sources/WebViewController.h; sourceTree = "<group>"; };
 		FD623C6E20FD1A6000049E81 /* WKWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WKWebViewController.m; path = ../TestRig/Sources/WKWebViewController.m; sourceTree = "<group>"; };
 		FD623C6F20FD1A6000049E81 /* NetworkProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkProxy.h; path = ../TestRig/Sources/NetworkProxy.h; sourceTree = "<group>"; };
 		FD623C7020FD1A6000049E81 /* GestureViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GestureViewController.xib; path = ../TestRig/Sources/GestureViewController.xib; sourceTree = "<group>"; };
@@ -416,7 +414,6 @@
 		FD623C7720FD1A6100049E81 /* LayoutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LayoutViewController.h; path = ../TestRig/Sources/LayoutViewController.h; sourceTree = "<group>"; };
 		FD623C7820FD1A6100049E81 /* SliderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SliderViewController.m; path = ../TestRig/Sources/SliderViewController.m; sourceTree = "<group>"; };
 		FD623C7920FD1A6100049E81 /* ZoomingScrollViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZoomingScrollViewController.h; path = ../TestRig/Sources/ZoomingScrollViewController.h; sourceTree = "<group>"; };
-		FD623C7A20FD1A6100049E81 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WebViewController.m; path = ../TestRig/Sources/WebViewController.m; sourceTree = "<group>"; };
 		FD623C7B20FD1A6100049E81 /* ActionSheetViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ActionSheetViewController.xib; path = ../TestRig/Sources/ActionSheetViewController.xib; sourceTree = "<group>"; };
 		FD623C7C20FD1A6100049E81 /* TableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TableViewController.m; path = ../TestRig/Sources/TableViewController.m; sourceTree = "<group>"; };
 		FD623C7D20FD1A6100049E81 /* NetworkTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkTestViewController.h; path = ../TestRig/Sources/NetworkTestViewController.h; sourceTree = "<group>"; };
@@ -510,7 +507,6 @@
 		FD98C47F226C3532006F8D68 /* ConditionTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConditionTest.m; sourceTree = "<group>"; };
 		FD98C480226C3533006F8D68 /* EarlGreyImplTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EarlGreyImplTest.m; sourceTree = "<group>"; };
 		FD98C481226C3538006F8D68 /* ScrollViewTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScrollViewTest.m; sourceTree = "<group>"; };
-		FD98C482226C353B006F8D68 /* UIWebViewTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIWebViewTest.m; sourceTree = "<group>"; };
 		FD98C483226C353C006F8D68 /* AccessibilityTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccessibilityTest.m; sourceTree = "<group>"; };
 		FD98C484226C353C006F8D68 /* BaseIntegrationTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseIntegrationTest.h; sourceTree = "<group>"; };
 		FD98C486226C353D006F8D68 /* WKWebViewTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WKWebViewTest.m; sourceTree = "<group>"; };
@@ -538,7 +534,6 @@
 		FD98C4D2226C3BD8006F8D68 /* SwiftTestBridgingHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwiftTestBridgingHeader.h; sourceTree = "<group>"; };
 		FDD065C9212CEAD5002CFE3B /* GREYHostApplicationDistantObject+BasicInteractionTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "GREYHostApplicationDistantObject+BasicInteractionTest.m"; sourceTree = "<group>"; };
 		FDD065CA212CEAD5002CFE3B /* GREYHostApplicationDistantObject+VisibilityTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GREYHostApplicationDistantObject+VisibilityTest.h"; sourceTree = "<group>"; };
-		FDD065CB212CEAD6002CFE3B /* GREYHostApplicationDistantObject+WebViewTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GREYHostApplicationDistantObject+WebViewTest.h"; sourceTree = "<group>"; };
 		FDD065CC212CEAD6002CFE3B /* GREYHostApplicationDistantObject+PortraitOnlyOrientationTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GREYHostApplicationDistantObject+PortraitOnlyOrientationTest.h"; sourceTree = "<group>"; };
 		FDD065CD212CEAD6002CFE3B /* GREYHostApplicationDistantObject+GeometryTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "GREYHostApplicationDistantObject+GeometryTest.m"; sourceTree = "<group>"; };
 		FDD065CE212CEAD6002CFE3B /* GREYHostApplicationDistantObject+ScrollViewTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "GREYHostApplicationDistantObject+ScrollViewTest.m"; sourceTree = "<group>"; };
@@ -548,7 +543,6 @@
 		FDDE2F83212CEB0A00EB40F7 /* GREYHostApplicationDistantObject+PortraitOnlyOrientationTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GREYHostApplicationDistantObject+PortraitOnlyOrientationTest.m"; sourceTree = "<group>"; };
 		FDDE2F84212CEB0A00EB40F7 /* GREYHostApplicationDistantObject+VisibilityTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GREYHostApplicationDistantObject+VisibilityTest.m"; sourceTree = "<group>"; };
 		FDDE2F85212CEB0A00EB40F7 /* GREYHostBackgroundDistantObject+BasicInteractionTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GREYHostBackgroundDistantObject+BasicInteractionTest.m"; sourceTree = "<group>"; };
-		FDDE2F86212CEB0B00EB40F7 /* GREYHostApplicationDistantObject+WebViewTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GREYHostApplicationDistantObject+WebViewTest.m"; sourceTree = "<group>"; };
 		FDDE2F87212CEB0B00EB40F7 /* GREYHostApplicationDistantObject+PinchViewTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GREYHostApplicationDistantObject+PinchViewTest.m"; sourceTree = "<group>"; };
 		FDDE2F88212CEB0B00EB40F7 /* GREYHostApplicationDistantObject+UITableViewTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GREYHostApplicationDistantObject+UITableViewTest.m"; sourceTree = "<group>"; };
 		FDDE2F89212CEB0B00EB40F7 /* GREYHostApplicationDistantObject+ScrollViewTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GREYHostApplicationDistantObject+ScrollViewTest.h"; sourceTree = "<group>"; };
@@ -682,7 +676,6 @@
 				FD98C499226C3554006F8D68 /* ShakeTest.m */,
 				FD98C46B226C3517006F8D68 /* SlideTest.m */,
 				FD98C46F226C351A006F8D68 /* UITableViewTest.m */,
-				FD98C482226C353B006F8D68 /* UIWebViewTest.m */,
 				FD98C475226C3523006F8D68 /* VisibilityTest.m */,
 				FD98C486226C353D006F8D68 /* WKWebViewTest.m */,
 			);
@@ -712,7 +705,6 @@
 				FDDE2F8A212CEB0B00EB40F7 /* GREYHostApplicationDistantObject+UITableViewTest.h */,
 				FDDE2F88212CEB0B00EB40F7 /* GREYHostApplicationDistantObject+UITableViewTest.m */,
 				FDDE2F84212CEB0A00EB40F7 /* GREYHostApplicationDistantObject+VisibilityTest.m */,
-				FDDE2F86212CEB0B00EB40F7 /* GREYHostApplicationDistantObject+WebViewTest.m */,
 				FDDE2F92212CEB0B00EB40F7 /* GREYHostBackgroundDistantObject+BasicInteractionTest.h */,
 				FDDE2F85212CEB0A00EB40F7 /* GREYHostBackgroundDistantObject+BasicInteractionTest.m */,
 				FDD065CF212CEAD7002CFE3B /* GREYHostApplicationDistantObject+BasicInteractionTest.h */,
@@ -722,7 +714,6 @@
 				FDD065CC212CEAD6002CFE3B /* GREYHostApplicationDistantObject+PortraitOnlyOrientationTest.h */,
 				FDD065CE212CEAD6002CFE3B /* GREYHostApplicationDistantObject+ScrollViewTest.m */,
 				FDD065CA212CEAD5002CFE3B /* GREYHostApplicationDistantObject+VisibilityTest.h */,
-				FDD065CB212CEAD6002CFE3B /* GREYHostApplicationDistantObject+WebViewTest.h */,
 			);
 			path = HostDOCategories;
 			sourceTree = "<group>";
@@ -853,9 +844,6 @@
 				FD623CB420FD1A6D00049E81 /* VisibilityTestViewController.h */,
 				FD623C6620FD1A5F00049E81 /* VisibilityTestViewController.m */,
 				FD623CAC20FD1A6C00049E81 /* VisibilityTestViewController.xib */,
-				FD623C6D20FD1A5F00049E81 /* WebViewController.h */,
-				FD623C7A20FD1A6100049E81 /* WebViewController.m */,
-				FD623C5920FD1A5E00049E81 /* WebViewController.xib */,
 				FD623C8520FD1A6200049E81 /* WKWebViewController.h */,
 				FD623C6E20FD1A6000049E81 /* WKWebViewController.m */,
 				FD623C9B20FD1A6700049E81 /* WKWebViewController.xib */,
@@ -1841,7 +1829,7 @@
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
-				HEADER_SEARCH_PATHS = "";
+				HEADER_SEARCH_PATHS = ../../../../../;
 				INFOPLIST_FILE = "FunctionalTestRig-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1859,7 +1847,7 @@
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
-				HEADER_SEARCH_PATHS = "";
+				HEADER_SEARCH_PATHS = ../../../../../;
 				INFOPLIST_FILE = "FunctionalTestRig-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1876,7 +1864,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
-				HEADER_SEARCH_PATHS = "";
+				HEADER_SEARCH_PATHS = ../../../../../;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.com.Functional;
@@ -1895,7 +1883,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
-				HEADER_SEARCH_PATHS = "";
+				HEADER_SEARCH_PATHS = ../../../../../;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.com.Functional;
@@ -1915,7 +1903,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = "";
-				HEADER_SEARCH_PATHS = "";
+				HEADER_SEARCH_PATHS = ../../../../../;
 				INFOPLIST_FILE = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
@@ -1939,7 +1927,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = "";
-				HEADER_SEARCH_PATHS = "";
+				HEADER_SEARCH_PATHS = ../../../../../;
 				INFOPLIST_FILE = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
