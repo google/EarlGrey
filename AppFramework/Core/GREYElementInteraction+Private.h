@@ -43,7 +43,8 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @remark This is available only for internal testing purposes.
  */
-- (NSArray *)matchedElementsWithTimeout:(NSTimeInterval)timeout error:(__strong GREYError **)error;
+- (NSArray<id> *)matchedElementsWithTimeout:(NSTimeInterval)timeout
+                                      error:(__strong GREYError *_Nullable *_Nonnull)error;
 
 @end
 
