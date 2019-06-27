@@ -18,6 +18,7 @@
 
 #import "GREYThrowDefines.h"
 #import "CGGeometry+GREYUI.h"
+#import "GREYTraversalFunctions.h"
 #import "GREYTraversalObject.h"
 
 @implementation GREYTraversalDFS {

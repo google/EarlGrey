@@ -14,7 +14,9 @@
 // limitations under the License.
 //
 
-#import "GREYTraversal.h"
+#import "GREYTraversalFunctions.h"
+
+#import <UIKit/UIKit.h>
 
 #import "GREYThrowDefines.h"
 #import "GREYConstants.h"
@@ -94,8 +96,5 @@ NSArray<id> *GREYTraversalExploreImmediateChildren(id element) {
 
   return [immediateChildren array];
 }
-
-@implementation GREYTraversal
-@end
 
 NS_ASSUME_NONNULL_END

@@ -15,7 +15,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -29,21 +28,5 @@ NS_ASSUME_NONNULL_BEGIN
  *  array. If no children exist, then an empty array is returned.
  */
 NSArray<id> *GREYTraversalExploreImmediateChildren(id element);
-
-/**
- * Private class to traverse the UI Hierarchy.
- * Provides helper methods to access the various elements present in the hierarchy.
- */
-@interface GREYTraversal : NSObject
-
-/**
- *  Instance method that returns the next object from the hierarchy. Needs to be implemented by
- *  subclasses. This class provides an empty implementation.
- *
- *  @return An instance of the UI element that is next in the hierarchy.
- */
-- (id _Nullable)nextObject NS_UNAVAILABLE;
-
-@end
 
 NS_ASSUME_NONNULL_END

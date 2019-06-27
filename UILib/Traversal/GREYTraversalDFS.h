@@ -14,11 +14,11 @@
 // limitations under the License.
 //
 
-#import "GREYTraversal.h"
+#import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface GREYTraversalDFS : GREYTraversal
+@interface GREYTraversalDFS : NSObject
 
 /**
  *  Class method to initialize the object. The hierarchy is unrolled from front to back in a DFS
