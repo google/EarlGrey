@@ -40,7 +40,6 @@
 		FD118507212DFE24004CADC3 /* SliderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623C7820FD1A6100049E81 /* SliderViewController.m */; };
 		FD118508212DFE24004CADC3 /* ActivityIndicatorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623CA920FD1A6B00049E81 /* ActivityIndicatorViewController.m */; };
 		FD118509212DFE24004CADC3 /* NetworkProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623CA520FD1A6900049E81 /* NetworkProxy.m */; };
-		FD11850A212DFE24004CADC3 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623C7A20FD1A6100049E81 /* WebViewController.m */; };
 		FD11850B212DFE24004CADC3 /* PickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623C9E20FD1A6800049E81 /* PickerViewController.m */; };
 		FD11850C212DFE24004CADC3 /* NetworkTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623C6320FD1A5F00049E81 /* NetworkTestViewController.m */; };
 		FD11850D212DFE24004CADC3 /* CollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623C8D20FD1A6400049E81 /* CollectionViewController.m */; };
@@ -49,7 +48,6 @@
 		FD118510212DFE24004CADC3 /* AlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623C5E20FD1A5E00049E81 /* AlertViewController.m */; };
 		FD118513212DFE24004CADC3 /* FunctionalTestRig-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FD623D3D20FD6E6D00049E81 /* FunctionalTestRig-Info.plist */; };
 		FD118514212DFE24004CADC3 /* ActivityIndicatorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FD623CA120FD1A6800049E81 /* ActivityIndicatorViewController.xib */; };
-		FD118515212DFE24004CADC3 /* WebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FD623C5920FD1A5E00049E81 /* WebViewController.xib */; };
 		FD118516212DFE24004CADC3 /* MultiFingerSwipeGestureRecognizerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FD623CA420FD1A6900049E81 /* MultiFingerSwipeGestureRecognizerViewController.xib */; };
 		FD118517212DFE24004CADC3 /* ScrollViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FD623C7F20FD1A6200049E81 /* ScrollViewController.xib */; };
 		FD118518212DFE24004CADC3 /* eg_mov.gif in Resources */ = {isa = PBXBuildFile; fileRef = FD623D1420FD1D6000049E81 /* eg_mov.gif */; };
@@ -87,7 +85,6 @@
 		FD4974B6214330E300625561 /* AppFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD623D2C20FD6BF900049E81 /* AppFramework.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		FD4974B72143314700625561 /* AppFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD623D2C20FD6BF900049E81 /* AppFramework.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		FD623CB520FD1A6E00049E81 /* BasicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623C5720FD1A5E00049E81 /* BasicViewController.m */; };
-		FD623CB620FD1A6E00049E81 /* WebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FD623C5920FD1A5E00049E81 /* WebViewController.xib */; };
 		FD623CB720FD1A6E00049E81 /* ZoomingScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623C5A20FD1A5E00049E81 /* ZoomingScrollViewController.m */; };
 		FD623CB820FD1A6E00049E81 /* AnimationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623C5B20FD1A5E00049E81 /* AnimationViewController.m */; };
 		FD623CB920FD1A6E00049E81 /* AccessibilityViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FD623C5D20FD1A5E00049E81 /* AccessibilityViewController.xib */; };
@@ -108,7 +105,6 @@
 		FD623CC920FD1A6E00049E81 /* CustomTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623C7420FD1A6000049E81 /* CustomTextView.m */; };
 		FD623CCA20FD1A6E00049E81 /* CollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623C7620FD1A6000049E81 /* CollectionViewLayout.m */; };
 		FD623CCB20FD1A6E00049E81 /* SliderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623C7820FD1A6100049E81 /* SliderViewController.m */; };
-		FD623CCC20FD1A6E00049E81 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623C7A20FD1A6100049E81 /* WebViewController.m */; };
 		FD623CCD20FD1A6E00049E81 /* ActionSheetViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FD623C7B20FD1A6100049E81 /* ActionSheetViewController.xib */; };
 		FD623CCE20FD1A6E00049E81 /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623C7C20FD1A6100049E81 /* TableViewController.m */; };
 		FD623CCF20FD1A6E00049E81 /* RotatedViewsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FD623C7E20FD1A6100049E81 /* RotatedViewsViewController.xib */; };
@@ -175,7 +171,6 @@
 		FD98C4AD226C3555006F8D68 /* ConditionTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C47F226C3532006F8D68 /* ConditionTest.m */; };
 		FD98C4AE226C3555006F8D68 /* EarlGreyImplTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C480226C3533006F8D68 /* EarlGreyImplTest.m */; };
 		FD98C4AF226C3555006F8D68 /* ScrollViewTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C481226C3538006F8D68 /* ScrollViewTest.m */; };
-		FD98C4B0226C3555006F8D68 /* UIWebViewTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C482226C353B006F8D68 /* UIWebViewTest.m */; };
 		FD98C4B1226C3555006F8D68 /* AccessibilityTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C483226C353C006F8D68 /* AccessibilityTest.m */; };
 		FD98C4B3226C3555006F8D68 /* WKWebViewTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C486226C353D006F8D68 /* WKWebViewTest.m */; };
 		FD98C4B4226C3555006F8D68 /* CollectionViewTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C487226C3540006F8D68 /* CollectionViewTest.m */; };
@@ -208,7 +203,6 @@
 		FDDE2FA7212CEC1600EB40F7 /* GREYHostApplicationDistantObject+RemoteTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FDDE2F8E212CEB0B00EB40F7 /* GREYHostApplicationDistantObject+RemoteTest.m */; };
 		FDDE2FA8212CEC1A00EB40F7 /* GREYHostApplicationDistantObject+UITableViewTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FDDE2F88212CEB0B00EB40F7 /* GREYHostApplicationDistantObject+UITableViewTest.m */; };
 		FDDE2FA9212CEC1E00EB40F7 /* GREYHostApplicationDistantObject+VisibilityTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FDDE2F84212CEB0A00EB40F7 /* GREYHostApplicationDistantObject+VisibilityTest.m */; };
-		FDDE2FAA212CEC2200EB40F7 /* GREYHostApplicationDistantObject+WebViewTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FDDE2F86212CEB0B00EB40F7 /* GREYHostApplicationDistantObject+WebViewTest.m */; };
 		FDDE2FAB212CEC2600EB40F7 /* GREYHostBackgroundDistantObject+BasicInteractionTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FDDE2F85212CEB0A00EB40F7 /* GREYHostBackgroundDistantObject+BasicInteractionTest.m */; };
 		FDDE2FAC212CEC2A00EB40F7 /* GREYHostApplicationDistantObject+BasicInteractionTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD065C9212CEAD5002CFE3B /* GREYHostApplicationDistantObject+BasicInteractionTest.m */; };
 		FDDE2FAE212CEC3200EB40F7 /* GREYHostApplicationDistantObject+GeometryTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD065CD212CEAD6002CFE3B /* GREYHostApplicationDistantObject+GeometryTest.m */; };
@@ -226,7 +220,6 @@
 		FDDE2FBC212CEC8C00EB40F7 /* GREYHostApplicationDistantObject+KeyboardKeysTest.h in Sources */ = {isa = PBXBuildFile; fileRef = FDD065D0212CEAD7002CFE3B /* GREYHostApplicationDistantObject+KeyboardKeysTest.h */; };
 		FDDE2FBD212CEC8C00EB40F7 /* GREYHostApplicationDistantObject+PortraitOnlyOrientationTest.h in Sources */ = {isa = PBXBuildFile; fileRef = FDD065CC212CEAD6002CFE3B /* GREYHostApplicationDistantObject+PortraitOnlyOrientationTest.h */; };
 		FDDE2FBE212CEC8C00EB40F7 /* GREYHostApplicationDistantObject+VisibilityTest.h in Sources */ = {isa = PBXBuildFile; fileRef = FDD065CA212CEAD5002CFE3B /* GREYHostApplicationDistantObject+VisibilityTest.h */; };
-		FDDE2FBF212CEC8C00EB40F7 /* GREYHostApplicationDistantObject+WebViewTest.h in Sources */ = {isa = PBXBuildFile; fileRef = FDD065CB212CEAD6002CFE3B /* GREYHostApplicationDistantObject+WebViewTest.h */; };
 		FDDE2FC1212CECAF00EB40F7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FDDE2FC0212CECAF00EB40F7 /* main.m */; };
 /* End PBXBuildFile section */
 
@@ -1197,7 +1190,6 @@
 			files = (
 				FD118513212DFE24004CADC3 /* FunctionalTestRig-Info.plist in Resources */,
 				FD118514212DFE24004CADC3 /* ActivityIndicatorViewController.xib in Resources */,
-				FD118515212DFE24004CADC3 /* WebViewController.xib in Resources */,
 				FD118516212DFE24004CADC3 /* MultiFingerSwipeGestureRecognizerViewController.xib in Resources */,
 				FD118517212DFE24004CADC3 /* ScrollViewController.xib in Resources */,
 				FD118518212DFE24004CADC3 /* eg_mov.gif in Resources */,
@@ -1247,7 +1239,6 @@
 			files = (
 				FD623D3E20FD6E6D00049E81 /* FunctionalTestRig-Info.plist in Resources */,
 				FD623CE420FD1A6E00049E81 /* ActivityIndicatorViewController.xib in Resources */,
-				FD623CB620FD1A6E00049E81 /* WebViewController.xib in Resources */,
 				FD623CE620FD1A6E00049E81 /* MultiFingerSwipeGestureRecognizerViewController.xib in Resources */,
 				FD623CD020FD1A6E00049E81 /* ScrollViewController.xib in Resources */,
 				FD623D1B20FD1D6000049E81 /* eg_mov.gif in Resources */,
@@ -1368,7 +1359,6 @@
 				FD118507212DFE24004CADC3 /* SliderViewController.m in Sources */,
 				FD118508212DFE24004CADC3 /* ActivityIndicatorViewController.m in Sources */,
 				FD118509212DFE24004CADC3 /* NetworkProxy.m in Sources */,
-				FD11850A212DFE24004CADC3 /* WebViewController.m in Sources */,
 				FD11850B212DFE24004CADC3 /* PickerViewController.m in Sources */,
 				FD11850C212DFE24004CADC3 /* NetworkTestViewController.m in Sources */,
 				FD11850D212DFE24004CADC3 /* CollectionViewController.m in Sources */,
@@ -1418,7 +1408,6 @@
 				FD623CCB20FD1A6E00049E81 /* SliderViewController.m in Sources */,
 				FD623CEB20FD1A6E00049E81 /* ActivityIndicatorViewController.m in Sources */,
 				FD623CE720FD1A6E00049E81 /* NetworkProxy.m in Sources */,
-				FD623CCC20FD1A6E00049E81 /* WebViewController.m in Sources */,
 				FD623CE220FD1A6E00049E81 /* PickerViewController.m in Sources */,
 				FD623CBD20FD1A6E00049E81 /* NetworkTestViewController.m in Sources */,
 				FD623CD420FD1A6E00049E81 /* CollectionViewController.m in Sources */,
@@ -1446,7 +1435,6 @@
 				FD98C4C4226C3555006F8D68 /* AlertViewTest.m in Sources */,
 				FD98C4BF226C3555006F8D68 /* KeyboardKeysTest.m in Sources */,
 				FD98C4C0226C3555006F8D68 /* PresentedViewTest.m in Sources */,
-				FD98C4B0226C3555006F8D68 /* UIWebViewTest.m in Sources */,
 				FD98C4A2226C3555006F8D68 /* DistantObjectExecutionsTest.m in Sources */,
 				FD98C49B226C3555006F8D68 /* ErrorHandlingTest.m in Sources */,
 				FD98C4B3226C3555006F8D68 /* WKWebViewTest.m in Sources */,
@@ -1485,7 +1473,6 @@
 				FDDE2FBC212CEC8C00EB40F7 /* GREYHostApplicationDistantObject+KeyboardKeysTest.h in Sources */,
 				FDDE2FBD212CEC8C00EB40F7 /* GREYHostApplicationDistantObject+PortraitOnlyOrientationTest.h in Sources */,
 				FDDE2FBE212CEC8C00EB40F7 /* GREYHostApplicationDistantObject+VisibilityTest.h in Sources */,
-				FDDE2FBF212CEC8C00EB40F7 /* GREYHostApplicationDistantObject+WebViewTest.h in Sources */,
 				FDDE2FA8212CEC1A00EB40F7 /* GREYHostApplicationDistantObject+UITableViewTest.m in Sources */,
 				FDDE2FAB212CEC2600EB40F7 /* GREYHostBackgroundDistantObject+BasicInteractionTest.m in Sources */,
 				FDDE2FA3212CEBFE00EB40F7 /* GREYHostApplicationDistantObject+KeyboardKeysTest.m in Sources */,
@@ -1499,7 +1486,6 @@
 				FDDE2FA4212CEC0B00EB40F7 /* GREYHostApplicationDistantObject+NetworkTest.m in Sources */,
 				FDDE2FA2212CEBFA00EB40F7 /* GREYHostApplicationDistantObject+GestureTest.m in Sources */,
 				FDDE2FA7212CEC1600EB40F7 /* GREYHostApplicationDistantObject+RemoteTest.m in Sources */,
-				FDDE2FAA212CEC2200EB40F7 /* GREYHostApplicationDistantObject+WebViewTest.m in Sources */,
 				FDDE2FA1212CEBF400EB40F7 /* GREYHostApplicationDistantObject+BaseIntegrationTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
