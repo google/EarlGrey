@@ -48,9 +48,7 @@ static Class gUIModalItemHostingWindowClass;
   GREYFatalAssertWithMessage(CGBitmapContextGetBitmapInfo(bitmapContextRef) != 0,
                              @"The context ref must point to a CGBitmapContext.");
   UIScreen *mainScreen = [UIScreen mainScreen];
-  CGRect screenRect = [self grey_rectRotatedToStatusBarOrientation:mainScreen.bounds];
-
-  UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+  CGRect screenRect = mainScreen.bounds;
 
   // The bitmap context width and height are scaled, so we need to undo the scale adjustment.
   CGFloat contextWidth = CGBitmapContextGetWidth(bitmapContextRef) / mainScreen.scale;
@@ -74,22 +72,6 @@ static Class gUIModalItemHostingWindowClass;
     CGContextConcatCTM(bitmapContextRef, window.transform);
     CGContextTranslateCTM(bitmapContextRef, -CGRectGetWidth(windowRect) * windowAnchor.x,
                           -CGRectGetHeight(windowRect) * windowAnchor.y);
-    if (!iOS8_0_OR_ABOVE()) {
-      if (orientation == UIInterfaceOrientationLandscapeLeft) {
-        // Rotate pi/2
-        CGContextConcatCTM(bitmapContextRef, CGAffineTransformMake(0, 1, -1, 0, 0, 0));
-        CGContextTranslateCTM(bitmapContextRef, 0, -CGRectGetWidth(screenRect));
-      } else if (orientation == UIInterfaceOrientationLandscapeRight) {
-        // Rotate -pi/2
-        CGContextConcatCTM(bitmapContextRef, CGAffineTransformMake(0, -1, 1, 0, 0, 0));
-        CGContextTranslateCTM(bitmapContextRef, -CGRectGetHeight(screenRect), 0);
-      } else if (orientation == UIInterfaceOrientationPortraitUpsideDown) {
-        // Rotate pi
-        CGContextConcatCTM(bitmapContextRef, CGAffineTransformMake(-1, 0, 0, -1, 0, 0));
-        CGContextTranslateCTM(bitmapContextRef, -CGRectGetWidth(screenRect),
-                              -CGRectGetHeight(screenRect));
-      }
-    }
 
     // This special case is for Alert-Views that for some reason do not render correctly.
     if ([window isKindOfClass:gUIAlertControllerShimPresenterWindowClass] ||
@@ -155,7 +137,7 @@ static Class gUIModalItemHostingWindowClass;
 + (UIImage *)grey_takeScreenshotAfterScreenUpdates:(BOOL)afterScreenUpdates
                                      withStatusBar:(BOOL)included {
   UIScreen *mainScreen = [UIScreen mainScreen];
-  CGRect screenRect = [self grey_rectRotatedToStatusBarOrientation:mainScreen.bounds];
+  CGRect screenRect = mainScreen.bounds;
   UIGraphicsBeginImageContextWithOptions(screenRect.size, YES, mainScreen.scale);
   [self drawScreenInContext:UIGraphicsGetCurrentContext()
          afterScreenUpdates:afterScreenUpdates
@@ -167,16 +149,6 @@ static Class gUIModalItemHostingWindowClass;
 }
 
 #pragma mark - Private
-
-+ (CGRect)grey_rectRotatedToStatusBarOrientation:(CGRect)rect {
-  UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
-  if (!iOS8_0_OR_ABOVE() && UIInterfaceOrientationIsLandscape(orientation)) {
-    CGAffineTransform rotationTransform = CGAffineTransformMake(0, 1, 1, 0, 0, 0);
-    return CGRectApplyAffineTransform(rect, rotationTransform);
-  }
-
-  return rect;
-}
 
 /**
  *  @return An image with the given @c image redrawn in the orientation defined by its

@@ -85,10 +85,7 @@
 
   // TODO: Verify the content of the image as well. // NOLINT
   CGSize expectedSize = CGSizeMake(64, 128);
-  if (!iOS8_0_OR_ABOVE()) {
-    // Width and height are interchanged on versions before iOS 8.0
-    expectedSize = CGSizeMake(expectedSize.height, expectedSize.width);
-  }
+
   CGFloat expectedScale = [GREY_REMOTE_CLASS_IN_APP(UIScreen) mainScreen].scale;
   GREYAssertEqual(expectedSize.width, snapshot.object.size.width, @"should be equal");
   GREYAssertEqual(expectedSize.height, snapshot.object.size.height, @"should be equal");

@@ -176,28 +176,13 @@
 
 - (void)testElementsInHierarchyDump {
   NSString *hierarchyDump = [GREYElementHierarchy hierarchyString];
-  NSArray *stringTargetHierarchy_iOS10Later = @[
+  NSArray<NSString *> *stringTargetHierarchy = @[
     @"========== Window 1 ==========", @"<UIWindow:", @"  |--<UILayoutContainerView:",
     @"  |  |--<UINavigationTransitionView:", @"  |  |  |--<UIViewControllerWrapperView:",
     @"  |  |  |  |--<UIView", @"  |  |  |  |  |--<UIView:"
   ];
-  NSArray *stringTargetHierarchy_iOS9Earlier = @[
-    @"========== Window 1 ==========", @"========== Window 2 ==========", @"<UITextEffectsWindow",
-    @"  |--<UIInputSetContainerView:", @"  |  |--<UIInputSetHostView:", @"<UIWindow:",
-    @"  |--<UILayoutContainerView:", @"  |  |--<UINavigationTransitionView:",
-    @"  |  |  |--<UIViewControllerWrapperView:", @"  |  |  |  |--<UIView",
-    @"  |  |  |  |  |--<UIView:"
-  ];
-  if (iOS10_OR_ABOVE()) {
-    for (NSString *targetString in stringTargetHierarchy_iOS10Later) {
-      XCTAssertNotEqual([hierarchyDump rangeOfString:targetString].location,
-                        (NSUInteger)NSNotFound);
-    }
-  } else {
-    for (NSString *targetString in stringTargetHierarchy_iOS9Earlier) {
-      XCTAssertNotEqual([hierarchyDump rangeOfString:targetString].location,
-                        (NSUInteger)NSNotFound);
-    }
+  for (NSString *targetString in stringTargetHierarchy) {
+    XCTAssertNotEqual([hierarchyDump rangeOfString:targetString].location, (NSUInteger)NSNotFound);
   }
 }
 

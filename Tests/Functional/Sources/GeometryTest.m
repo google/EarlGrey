@@ -52,28 +52,26 @@
   GREYHostApplicationDistantObject *hostDistantObject =
       [GREYHostApplicationDistantObject sharedInstance];
   // Bottom left => Top left
-  CGRect rectInFixed = CGRectMake(0, (iOS8_0_OR_ABOVE() ? width : height) - 20, 10, 20);
+  CGRect rectInFixed = CGRectMake(0, width - 20, 10, 20);
   CGRect actualRect = [hostDistantObject variableCoordinateRectFromRect:rectInFixed];
   CGRect expectedRect = CGRectMake(0, 0, 20, 10);
   GREYAssertTrue(CGRectEqualToRect(actualRect, expectedRect), @"should be true");
 
   // Bottom right => Bottom left
-  rectInFixed = CGRectMake((iOS8_0_OR_ABOVE() ? height : width) - 10,
-                           (iOS8_0_OR_ABOVE() ? width : height) - 20, 10, 20);
+  rectInFixed = CGRectMake(height - 10, width - 20, 10, 20);
   actualRect = [hostDistantObject variableCoordinateRectFromRect:rectInFixed];
-  expectedRect = CGRectMake(0, (iOS8_0_OR_ABOVE() ? height : width) - 10, 20, 10);
+  expectedRect = CGRectMake(0, height - 10, 20, 10);
   GREYAssertTrue(CGRectEqualToRect(actualRect, expectedRect), @"should be true");
 
   // Top left => Top right
   actualRect = [hostDistantObject variableCoordinateRectFromRect:CGRectMake(0, 0, 10, 20)];
-  expectedRect = CGRectMake((iOS8_0_OR_ABOVE() ? width : height) - 20, 0, 20, 10);
+  expectedRect = CGRectMake(width - 20, 0, 20, 10);
   GREYAssertTrue(CGRectEqualToRect(actualRect, expectedRect), @"should be true");
 
   // Top right => bottom right
-  rectInFixed = CGRectMake((iOS8_0_OR_ABOVE() ? height : width) - 10, 0, 10, 20);
+  rectInFixed = CGRectMake(height - 10, 0, 10, 20);
   actualRect = [hostDistantObject variableCoordinateRectFromRect:rectInFixed];
-  expectedRect = CGRectMake((iOS8_0_OR_ABOVE() ? width : height) - 20,
-                            (iOS8_0_OR_ABOVE() ? height : width) - 10, 20, 10);
+  expectedRect = CGRectMake(width - 20, height - 10, 20, 10);
   GREYAssertTrue(CGRectEqualToRect(actualRect, expectedRect), @"should be true");
 }
 
@@ -83,7 +81,7 @@
   CGRect screenBounds = [GREY_REMOTE_CLASS_IN_APP(UIScreen) mainScreen].bounds;
   CGFloat width = CGRectGetWidth(screenBounds);
   CGFloat height = CGRectGetHeight(screenBounds);
-  CGRect rectInFixed = CGRectMake((iOS8_0_OR_ABOVE() ? height : width) - 120, 50, 120, 100);
+  CGRect rectInFixed = CGRectMake(height - 120, 50, 120, 100);
   CGRect actualRect = [[GREYHostApplicationDistantObject sharedInstance]
       variableCoordinateRectFromRect:rectInFixed];
   CGRect expectedRect = CGRectMake(50, 0, 100, 120);
@@ -91,10 +89,9 @@
 
   GREYHostApplicationDistantObject *hostDistantObject =
       [GREYHostApplicationDistantObject sharedInstance];
-  rectInFixed = CGRectMake(0, (iOS8_0_OR_ABOVE() ? width : height), 0, 0);
+  rectInFixed = CGRectMake(0, width, 0, 0);
   actualRect = [hostDistantObject variableCoordinateRectFromRect:rectInFixed];
-  expectedRect =
-      CGRectMake((iOS8_0_OR_ABOVE() ? width : height), (iOS8_0_OR_ABOVE() ? height : width), 0, 0);
+  expectedRect = CGRectMake(width, height, 0, 0);
   GREYAssertTrue(CGRectEqualToRect(actualRect, expectedRect), @"should be true");
 }
 
@@ -125,11 +122,10 @@
 
   CGRect screenBounds = [GREY_REMOTE_CLASS_IN_APP(UIScreen) mainScreen].bounds;
   CGFloat width = CGRectGetWidth(screenBounds);
-  CGFloat height = CGRectGetHeight(screenBounds);
   GREYHostApplicationDistantObject *hostDistantObject =
       [GREYHostApplicationDistantObject sharedInstance];
   CGRect actualRect = [hostDistantObject fixedCoordinateRectFromRect:CGRectMake(0, 0, 0, 0)];
-  CGRect expectedRect = CGRectMake(0, (iOS8_0_OR_ABOVE() ? width : height), 0, 0);
+  CGRect expectedRect = CGRectMake(0, width, 0, 0);
   GREYAssertTrue(CGRectEqualToRect(actualRect, expectedRect), @"should be true");
 }
 
@@ -142,13 +138,12 @@
   GREYHostApplicationDistantObject *hostDistantObject =
       [GREYHostApplicationDistantObject sharedInstance];
   CGRect actualRect = [hostDistantObject fixedCoordinateRectFromRect:CGRectMake(50, 0, 100, 120)];
-  CGRect expectedRect = CGRectMake((iOS8_0_OR_ABOVE() ? height : width) - 120, 50, 120, 100);
+  CGRect expectedRect = CGRectMake(height - 120, 50, 120, 100);
   GREYAssertTrue(CGRectEqualToRect(actualRect, expectedRect), @"should be true");
 
-  CGRect rectInVariable =
-      CGRectMake((iOS8_0_OR_ABOVE() ? width : height), (iOS8_0_OR_ABOVE() ? height : width), 0, 0);
+  CGRect rectInVariable = CGRectMake(width, height, 0, 0);
   actualRect = [hostDistantObject fixedCoordinateRectFromRect:rectInVariable];
-  expectedRect = CGRectMake(0, (iOS8_0_OR_ABOVE() ? width : height), 0, 0);
+  expectedRect = CGRectMake(0, width, 0, 0);
   GREYAssertTrue(CGRectEqualToRect(actualRect, expectedRect), @"should be true");
 }
 

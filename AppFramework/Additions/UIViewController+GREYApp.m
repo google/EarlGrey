@@ -139,11 +139,7 @@ __attribute__((constructor)) static void initialize(void) {
                 UNTRACK_STATE_FOR_OBJECT(kGREYPendingViewsToAppear, object);
               }
             };
-#if !defined(__IPHONE_10_0) || (__IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_10_0)
         [coordinator notifyWhenInteractionEndsUsingBlock:contextBlock];
-#else
-        [coordinator notifyWhenInteractionChangesUsingBlock:contextBlock];
-#endif
       }
 
       GREYAppStateTrackerObject *object = TRACK_STATE_FOR_OBJECT(kGREYPendingViewsToAppear, self);
@@ -182,11 +178,7 @@ __attribute__((constructor)) static void initialize(void) {
               UNTRACK_STATE_FOR_OBJECT(kGREYPendingViewsToDisappear, object);
             }
           };
-#if !defined(__IPHONE_10_0) || (__IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_10_0)
       [coordinator notifyWhenInteractionEndsUsingBlock:contextBlock];
-#else
-      [coordinator notifyWhenInteractionChangesUsingBlock:contextBlock];
-#endif
     }
 
     GREYAppStateTrackerObject *object = TRACK_STATE_FOR_OBJECT(kGREYPendingViewsToDisappear, self);

@@ -50,14 +50,12 @@ static CGFloat kCachedScreenEdgePanDetectionLength = NAN;
                                   andDirection:(GREYDirection)direction
                                    andDuration:(CFTimeInterval)duration
                                       inWindow:(UIWindow *)window {
-  GREYDirection interfaceTransformedDirection =
-      [self grey_relativeDirectionForCurrentOrientationWithDirection:direction];
   // Find an endpoint for gesture in window coordinates that gives us the longest path.
   CGPoint endPointInWindowCoords =
-      [self grey_pointOnEdge:[GREYConstants edgeInDirectionFromCenter:interfaceTransformedDirection]
+      [self grey_pointOnEdge:[GREYConstants edgeInDirectionFromCenter:direction]
                       ofRect:[window convertRect:[UIScreen mainScreen].bounds fromWindow:nil]];
   // Align the end point and create a touch path.
-  if ([self grey_isVerticalDirection:interfaceTransformedDirection]) {
+  if ([self grey_isVerticalDirection:direction]) {
     endPointInWindowCoords.x = startPointInWindowCoords.x;
   } else {
     endPointInWindowCoords.y = startPointInWindowCoords.y;
@@ -93,9 +91,6 @@ static CGFloat kCachedScreenEdgePanDetectionLength = NAN;
   GREYThrowOnFailedConditionWithMessage(length > 0,
                                         @"Scroll length must be positive and greater than zero.");
 
-  GREYDirection interfaceTransformedDirection =
-      [self grey_relativeDirectionForCurrentOrientationWithDirection:direction];
-
   // Pick a startPoint from the visible area of the given view.
   CGRect visibleArea = [GREYVisibilityChecker rectEnclosingVisibleAreaOfElement:view];
   visibleArea = [view.window convertRect:visibleArea fromWindow:nil];
@@ -108,8 +103,8 @@ static CGFloat kCachedScreenEdgePanDetectionLength = NAN;
   }
   UIEdgeInsets edgeInset = UIEdgeInsetsMake(0.0f, [self grey_edgePanDetectionLength], 0.0f,
                                             [self grey_edgePanDetectionLength]);
-  safeScreenBounds =
-      [GREYPathGestureUtils grey_rectByAddingEdgeInsets:edgeInset toRect:safeScreenBounds];
+  safeScreenBounds = [GREYPathGestureUtils grey_rectByAddingEdgeInsets:edgeInset
+                                                                toRect:safeScreenBounds];
   // In addition choose a rect that lies completely inside the visible area not on the edges.
   CGRect safeStartPointRect = [GREYPathGestureUtils
       grey_rectByAddingEdgeInsets:UIEdgeInsetsMake(1, 1, 1, 1)
@@ -117,7 +112,7 @@ static CGFloat kCachedScreenEdgePanDetectionLength = NAN;
   if (CGRectIsEmpty(safeStartPointRect)) {
     return nil;
   }
-  GREYDirection reverseDirection = [GREYConstants reverseOfDirection:interfaceTransformedDirection];
+  GREYDirection reverseDirection = [GREYConstants reverseOfDirection:direction];
   GREYContentEdge edgeInReverseDirection =
       [GREYConstants edgeInDirectionFromCenter:reverseDirection];
   CGPoint startPoint = [self grey_pointOnEdge:edgeInReverseDirection ofRect:safeStartPointRect];
@@ -132,11 +127,10 @@ static CGFloat kCachedScreenEdgePanDetectionLength = NAN;
   }
 
   // Pick an end point that gives us maximum path length and align as per the direction.
-  GREYContentEdge edgeClosestToEndPoint =
-      [GREYConstants edgeInDirectionFromCenter:interfaceTransformedDirection];
+  GREYContentEdge edgeClosestToEndPoint = [GREYConstants edgeInDirectionFromCenter:direction];
   CGPoint endPoint = [self grey_pointOnEdge:edgeClosestToEndPoint ofRect:safeScreenBounds];
   CGFloat scrollAmountPossible;
-  if ([self grey_isVerticalDirection:interfaceTransformedDirection]) {
+  if ([self grey_isVerticalDirection:direction]) {
     scrollAmountPossible = (CGFloat)fabs(endPoint.y - startPoint.y);
   } else {
     scrollAmountPossible = (CGFloat)fabs(endPoint.x - startPoint.x);
@@ -149,7 +143,7 @@ static CGFloat kCachedScreenEdgePanDetectionLength = NAN;
 
   CGFloat amountWillScroll = 0;
   CGFloat remainingAmount = 0;
-  CGVector delta = [GREYConstants normalizedVectorFromDirection:interfaceTransformedDirection];
+  CGVector delta = [GREYConstants normalizedVectorFromDirection:direction];
   if (scrollAmountPossible > length) {
     // We have enough space to get the given amount of scroll by a single touch path.
     amountWillScroll = length;
@@ -190,39 +184,6 @@ static CGFloat kCachedScreenEdgePanDetectionLength = NAN;
       return kGREYDirectionLeft;
     case kGREYDirectionLeft:
       return kGREYDirectionUp;
-  }
-}
-
-/**
- *  The relative path direction required to achieve a touch path in the given direction for
- *  the current interface orientation. This method is a no-op on iOS 8.0 and above because
- *  the OS uses variable coordinate system and touch path direction need not be transformed.
- *
- *  @param direction The direction of the current orientation.
- *
- *  @return The relative direction required for the touch path.
- */
-+ (GREYDirection)grey_relativeDirectionForCurrentOrientationWithDirection:(GREYDirection)direction {
-  if (iOS8_0_OR_ABOVE()) {
-    return direction;
-  }
-
-  // Transform the direction assuming it exists on portrait orientation and we would like to apply
-  // it in the current interface orientation.
-  UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
-  switch (orientation) {
-    case UIInterfaceOrientationPortrait:
-      return direction;
-    case UIInterfaceOrientationPortraitUpsideDown:
-      return [GREYConstants reverseOfDirection:direction];
-    case UIInterfaceOrientationLandscapeRight:
-      return [self grey_directionByClockwiseRotationOfDirection:direction];
-    case UIInterfaceOrientationLandscapeLeft:
-      return [GREYConstants
-          reverseOfDirection:[self grey_directionByClockwiseRotationOfDirection:direction]];
-    case UIInterfaceOrientationUnknown:
-      GREYFatalAssertWithMessage(NO, @"Unknown orientation, cannot transform direction.");
-      return 0;
   }
 }
 

@@ -202,9 +202,6 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
     // convert it to points coordinates.
     visibleAreaRect = CGRectOffset(visibleAreaRect, origin.x, origin.y);
     visibleAreaRect = CGRectPixelToPoint(visibleAreaRect);
-    if (!iOS8_0_OR_ABOVE()) {
-      visibleAreaRect = CGRectVariableToFixedScreenCoordinates(visibleAreaRect);
-    }
   }
   // Cache result before returning.
   [cache setRectEnclosingVisibleArea:[NSValue valueWithCGRect:visibleAreaRect]];
@@ -280,9 +277,6 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
 
       if (CGRectContainsPoint([[UIScreen mainScreen] bounds], activationPoint)) {
         CGPoint activationPointInVariablePixels = activationPoint;
-        if (!iOS8_0_OR_ABOVE()) {
-          activationPointInVariablePixels = CGPointFixedToVariable(activationPoint);
-        }
         activationPointInVariablePixels = CGPointToPixel(activationPointInVariablePixels);
 
         CGPoint relativeActivationPointInVariablePixels =
@@ -323,9 +317,6 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
         // At this point the interaction point is in variable screen coordinates, but the expected
         // output is in fixed view coordinates so it needs to be converted.
         interactionPointInFixedPoints = CGPixelToPoint(interactionPointInVariablePixels);
-        if (!iOS8_0_OR_ABOVE()) {
-          interactionPointInFixedPoints = CGPointVariableToFixed(interactionPointInFixedPoints);
-        }
         interactionPointInFixedPoints = [view.window convertPoint:interactionPointInFixedPoints
                                                        fromWindow:nil];
         interactionPointInFixedPoints = [view convertPoint:interactionPointInFixedPoints
@@ -564,10 +555,7 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
   }
 
   // Calculate the search rectangle for screenshot.
-  CGRect screenshotSearchRect_pixel =
-      iOS8_0_OR_ABOVE()
-          ? searchRectOnScreenInViewInScreenCoordinates
-          : CGRectFixedToVariableScreenCoordinates(searchRectOnScreenInViewInScreenCoordinates);
+  CGRect screenshotSearchRect_pixel = searchRectOnScreenInViewInScreenCoordinates;
   screenshotSearchRect_pixel = CGRectPointToPixel(screenshotSearchRect_pixel);
   screenshotSearchRect_pixel = CGRectIntegralInside(screenshotSearchRect_pixel);
 
@@ -615,9 +603,7 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
   CGRect rectAfterPixelAlignment = CGRectPixelToPoint(screenshotSearchRect_pixel);
   // Offset must be in variable screen coordinates.
   CGRect searchRectOnScreenInViewInVariableScreenCoordinates =
-      iOS8_0_OR_ABOVE()
-          ? searchRectOnScreenInViewInScreenCoordinates
-          : CGRectFixedToVariableScreenCoordinates(searchRectOnScreenInViewInScreenCoordinates);
+      searchRectOnScreenInViewInScreenCoordinates;
   CGFloat xPixelAlignmentDiff = CGRectGetMinX(rectAfterPixelAlignment) -
                                 CGRectGetMinX(searchRectOnScreenInViewInVariableScreenCoordinates);
   CGFloat yPixelAlignmentDiff = CGRectGetMinY(rectAfterPixelAlignment) -

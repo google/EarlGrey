@@ -174,8 +174,9 @@ static Class gAccessibilityTextFieldElementClass;
 }
 
 + (id<GREYAction>)actionForMultipleTapsWithCount:(NSUInteger)count atPoint:(CGPoint)point {
-  return
-      [[GREYTapAction alloc] initWithType:kGREYTapTypeMultiple numberOfTaps:count location:point];
+  return [[GREYTapAction alloc] initWithType:kGREYTapTypeMultiple
+                                numberOfTaps:count
+                                    location:point];
 }
 
 // The |amount| is in points
@@ -482,9 +483,8 @@ static Class gAccessibilityTextFieldElementClass;
   NSString *xPathForTitle =
       [NSString stringWithFormat:@"//input[@title=\"%@\" or @value=\"%@\"]",
                                  [element accessibilityLabel], [element accessibilityLabel]];
-  NSString *format =
-      @"document.evaluate('%@', document, null, %@, null).singleNodeValue.value"
-      @"= '%@';";
+  NSString *format = @"document.evaluate('%@', document, null, %@, null).singleNodeValue.value"
+                     @"= '%@';";
   NSString *jsForTitle =
       [[NSString alloc] initWithFormat:format, xPathForTitle, xPathResultType, text];
   UIWebView *parentWebView = (UIWebView *)[element grey_viewContainingSelf];
@@ -567,63 +567,6 @@ static Class gAccessibilityTextFieldElementClass;
           }
           return YES;
         }];
-}
-
-/**
- *  Performs typing in the provided element by turning off autocorrect. In case of OS versions
- *  that provide an easy API to turn off autocorrect from the settings, we do that, else we obtain
- *  the element being typed in, and turn off autocorrect for that element while being typed on.
- *
- *  @param      text           The text to be typed.
- *  @param      firstResponder The element the action is to be performed on.
- *                             This must not be @c nil.
- *  @param[out] errorOrNil     Error that will be populated on failure. The implementing class
- *                             should handle the behavior when it is @c nil by, for example,
- *                             logging the error or throwing an exception.
- *
- *  @return @c YES if the action succeeded, else @c NO. If an action returns @c NO, it does not
- *          mean that the action was not performed at all but somewhere during the action execution
- *          the error occurred and so the UI may be in an unrecoverable state.
- */
-+ (BOOL)grey_disableAutoCorrectForDelegateAndTypeText:(NSString *)text
-                                     inFirstResponder:(id)firstResponder
-                                            withError:(__strong NSError **)errorOrNil {
-  // If you're clearing the text label or if the first responder does not have an
-  // autocorrectionType option then you do not need to have the autocorrect turned off.
-  NSCharacterSet *set = [NSCharacterSet characterSetWithCharactersInString:@"\b"];
-  if ([text stringByTrimmingCharactersInSet:set].length == 0 ||
-      ![firstResponder respondsToSelector:@selector(autocorrectionType)]) {
-    return [GREYKeyboard typeString:text inFirstResponder:firstResponder error:errorOrNil];
-  }
-
-  // Obtain the current delegate from the keyboard. This can only be called when the keyboard is
-  // up. The original delegate has to be passed here in order to change the autocorrection type
-  // since we reset the delegate in the grey_setAutocorrectionType:forIntance:
-  // withOriginalKeyboardDelegate:withKeyboardToggling method in order for the autocorrection type
-  // change to take effect.
-  BOOL toggleKeyboard = iOS8_1_OR_ABOVE();
-  id keyboardInstance = [UIKeyboardImpl sharedInstance];
-  id originalKeyboardDelegate = [keyboardInstance delegate];
-  UITextAutocorrectionType originalAutoCorrectionType =
-      [originalKeyboardDelegate autocorrectionType];
-  // For a copy of the keyboard's delegate, turn the autocorrection off. Set this copy back
-  // as the delegate.
-  if (toggleKeyboard) {
-    [keyboardInstance hideKeyboard];
-  }
-  [originalKeyboardDelegate setAutocorrectionType:UITextAutocorrectionTypeNo];
-  [keyboardInstance setDelegate:originalKeyboardDelegate];
-  if (toggleKeyboard) {
-    [keyboardInstance showKeyboard];
-  }
-  // Type the string in the delegate text field.
-  BOOL typingResult =
-      [GREYKeyboard typeString:text inFirstResponder:firstResponder error:errorOrNil];
-
-  // Reset the keyboard delegate's autocorrection back to the original one.
-  [originalKeyboardDelegate setAutocorrectionType:originalAutoCorrectionType];
-  [keyboardInstance setDelegate:originalKeyboardDelegate];
-  return typingResult;
 }
 
 #pragma clang diagnostic push
@@ -728,17 +671,7 @@ static Class gAccessibilityTextFieldElementClass;
             return NO;
           }
 
-          if (iOS8_2_OR_ABOVE()) {
-            // Directly perform the typing since for iOS8.2 and above, we directly turn off
-            // Autocorrect and Predictive Typing from the settings.
-            return [GREYKeyboard typeString:text inFirstResponder:firstResponder error:errorOrNil];
-          } else {
-            // Perform typing. If this is pre-iOS8.2, then we simply turn the autocorrection
-            // off the current textfield being typed in.
-            return [self grey_disableAutoCorrectForDelegateAndTypeText:text
-                                                      inFirstResponder:firstResponder
-                                                             withError:errorOrNil];
-          }
+          return [GREYKeyboard typeString:text inFirstResponder:firstResponder error:errorOrNil];
         }];
 }
 

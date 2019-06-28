@@ -265,7 +265,7 @@ typedef BOOL (^ConditionBlock)(void);
     // A period key for an email UITextField on iOS9 and above types the email domain (.com, .org)
     // by default. That is not the desired behavior so check below disables it.
     __block BOOL keyboardTypeWasChangedFromEmailType = NO;
-    if (iOS9_OR_ABOVE() && [characterAsString isEqualToString:@"."]) {
+    if ([characterAsString isEqualToString:@"."]) {
       __block BOOL isEmailField = NO;
       grey_dispatch_sync_on_main_thread(^{
         isEmailField = [firstResponder respondsToSelector:@selector(keyboardType)] &&
@@ -476,7 +476,7 @@ typedef BOOL (^ConditionBlock)(void);
   }
 
   // iOS 9 changes & to ampersand.
-  if ([character isEqualToString:@"&"] && iOS9_OR_ABOVE()) {
+  if ([character isEqualToString:@"&"]) {
     character = @"ampersand";
   }
 
