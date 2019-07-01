@@ -22,3 +22,15 @@ end
 
 EarlGreyExample also uses CocoaPods to install EarlGrey 2.0 in its
 [Podfile](https://github.com/google/EarlGrey/blob/earlgrey2/Demo/EarlGreyExample/Podfile).
+
+For pre-release testing, please point the Podfile to the release candidate
+EarlGrey CocoaPods version:
+
+```
+target 'App' do
+  pod 'EarlGreyApp', '2.0.0-rc'
+end
+target 'AppUITests' do
+  pod 'EarlGreyTest', '2.0.0-rc'
+end
+```
