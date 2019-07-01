@@ -73,11 +73,11 @@ static Class gInputAccessoryVCClass;
 }
 
 __attribute__((constructor)) static void initialize(void) {
-#if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 130000)
-  gInputAccessoryVCClass = NSClassFromString(@"UIEditingOverlayViewController");
-#else
-  gInputAccessoryVCClass = NSClassFromString(@"UICompatibilityInputViewController");
-#endif
+  if (iOS13_OR_ABOVE()) {
+    gInputAccessoryVCClass = NSClassFromString(@"UIEditingOverlayViewController");
+  } else {
+    gInputAccessoryVCClass = NSClassFromString(@"UICompatibilityInputViewController");
+  }
 }
 
 - (void)grey_trackAsRootViewControllerForWindow:(UIWindow *)window {
