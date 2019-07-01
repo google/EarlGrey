@@ -49,11 +49,12 @@
   return self;
 }
 
-- (id<GREYInteraction>)performAction:(id)action {
+- (id<GREYInteraction>)performAction:(id<GREYAction>)action {
   return [self performAction:action error:nil];
 }
 
-- (id<GREYInteraction>)performAction:(id)action error:(__autoreleasing NSError **)errorOrNil {
+- (id<GREYInteraction>)performAction:(id<GREYAction>)action
+                               error:(__autoreleasing NSError **)errorOrNil {
   GREYThrowOnNilParameterWithMessage(action, @"Action can't be nil.");
   __block __strong GREYError *interactionError = nil;
   [self grey_dispatchBlockInBackgroundQueue:^{
