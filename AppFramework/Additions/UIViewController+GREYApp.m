@@ -139,7 +139,7 @@ __attribute__((constructor)) static void initialize(void) {
                 UNTRACK_STATE_FOR_OBJECT(kGREYPendingViewsToAppear, object);
               }
             };
-        [coordinator notifyWhenInteractionEndsUsingBlock:contextBlock];
+        [coordinator notifyWhenInteractionChangesUsingBlock:contextBlock];
       }
 
       GREYAppStateTrackerObject *object = TRACK_STATE_FOR_OBJECT(kGREYPendingViewsToAppear, self);
@@ -178,7 +178,7 @@ __attribute__((constructor)) static void initialize(void) {
               UNTRACK_STATE_FOR_OBJECT(kGREYPendingViewsToDisappear, object);
             }
           };
-      [coordinator notifyWhenInteractionEndsUsingBlock:contextBlock];
+      [coordinator notifyWhenInteractionChangesUsingBlock:contextBlock];
     }
 
     GREYAppStateTrackerObject *object = TRACK_STATE_FOR_OBJECT(kGREYPendingViewsToDisappear, self);
