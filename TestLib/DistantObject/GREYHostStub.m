@@ -17,6 +17,7 @@
 #import <UIKit/UIKit.h>
 
 #import "GREYActions.h"
+#import "GREYAppDiagnostics.g3only.h"
 #import "GREYFailureScreenshotter.h"
 #import "GREYSyntheticEvents.h"
 #import "GREYKeyboard.h"
@@ -77,3 +78,7 @@ GREY_STUB_CLASS_IN_APP_MAIN_QUEUE(GREYFailureScreenshotter)
 GREY_STUB_CLASS_IN_APP_MAIN_QUEUE(GREYElementHierarchy)
 GREY_STUB_CLASS_IN_APP_MAIN_QUEUE(GREYScreenshotter)
 GREY_STUB_CLASS_IN_APP_MAIN_QUEUE(GREYVisibilityChecker)
+
+#pragma mark - Diagnostics Stubs
+
+GREY_STUB_CLASS_IN_APP_BACKGROUND_QUEUE(GREYAppDiagnostics)
