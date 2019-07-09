@@ -17,7 +17,7 @@
 #import <UIKit/UIKit.h>
 
 #import "GREYActions.h"
-#import "GREYAppDiagnostics.g3only.h"
+
 #import "GREYFailureScreenshotter.h"
 #import "GREYSyntheticEvents.h"
 #import "GREYKeyboard.h"
