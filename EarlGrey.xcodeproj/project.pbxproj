@@ -169,8 +169,6 @@
 		FD623B5320F95AF400049E81 /* GREYKeyboard.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B5120F95AF300049E81 /* GREYKeyboard.h */; };
 		FD623B5420F95AF400049E81 /* GREYKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B5220F95AF400049E81 /* GREYKeyboard.m */; };
 		FD623B6420F95B0300049E81 /* GREYMatchers.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B5620F95B0200049E81 /* GREYMatchers.h */; };
-		FD623B6520F95B0300049E81 /* GREYNot.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B5720F95B0200049E81 /* GREYNot.h */; };
-		FD623B6620F95B0300049E81 /* GREYNot.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B5820F95B0200049E81 /* GREYNot.m */; };
 		FD623B6820F95B0300049E81 /* GREYAllOf.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B5A20F95B0200049E81 /* GREYAllOf.m */; };
 		FD623B6920F95B0300049E81 /* GREYMatchers.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B5B20F95B0200049E81 /* GREYMatchers.m */; };
 		FD623B6D20F95B0300049E81 /* GREYAnyOf.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B5F20F95B0200049E81 /* GREYAnyOf.m */; };
@@ -613,8 +611,6 @@
 		FD623B5120F95AF300049E81 /* GREYKeyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYKeyboard.h; path = Keyboard/GREYKeyboard.h; sourceTree = "<group>"; };
 		FD623B5220F95AF400049E81 /* GREYKeyboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYKeyboard.m; path = Keyboard/GREYKeyboard.m; sourceTree = "<group>"; };
 		FD623B5620F95B0200049E81 /* GREYMatchers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYMatchers.h; path = Matcher/GREYMatchers.h; sourceTree = "<group>"; };
-		FD623B5720F95B0200049E81 /* GREYNot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYNot.h; path = Matcher/GREYNot.h; sourceTree = "<group>"; };
-		FD623B5820F95B0200049E81 /* GREYNot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYNot.m; path = Matcher/GREYNot.m; sourceTree = "<group>"; };
 		FD623B5A20F95B0200049E81 /* GREYAllOf.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYAllOf.m; path = Matcher/GREYAllOf.m; sourceTree = "<group>"; };
 		FD623B5B20F95B0200049E81 /* GREYMatchers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYMatchers.m; path = Matcher/GREYMatchers.m; sourceTree = "<group>"; };
 		FD623B5F20F95B0200049E81 /* GREYAnyOf.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYAnyOf.m; path = Matcher/GREYAnyOf.m; sourceTree = "<group>"; };
@@ -1242,8 +1238,6 @@
 				FD623B5B20F95B0200049E81 /* GREYMatchers.m */,
 				FD623B6120F95B0300049E81 /* GREYMatchersShorthand.h */,
 				FD623B6020F95B0200049E81 /* GREYMatchersShorthand.m */,
-				FD623B5720F95B0200049E81 /* GREYNot.h */,
-				FD623B5820F95B0200049E81 /* GREYNot.m */,
 			);
 			name = Matcher;
 			sourceTree = "<group>";
@@ -1391,7 +1385,6 @@
 				FD2E76ED2149E4580063EF7E /* GREYAppConfiguration.h in Headers */,
 				FD623B4520F95A9C00049E81 /* GREYManagedObjectContextIdlingResource.h in Headers */,
 				FD623A8D20F958C200049E81 /* GREYPathGestureUtils.h in Headers */,
-				FD623B6520F95B0300049E81 /* GREYNot.h in Headers */,
 				FD623B8E20F95B1500049E81 /* GREYAppStateTrackerObject.h in Headers */,
 				FD623ABB20F9590800049E81 /* UIGestureRecognizer+GREYApp.h in Headers */,
 				6F8818B222B86F530006932D /* GREYAssertionBlock+Private.h in Headers */,
@@ -1839,7 +1832,6 @@
 				FD623AD820F9590800049E81 /* UIApplication+GREYApp.m in Sources */,
 				FD623AC920F9590800049E81 /* CAAnimation+GREYApp.m in Sources */,
 				FD623B1620F95A5400049E81 /* GREYHostApplicationDistantObject+GREYTestHelper.m in Sources */,
-				FD623B6620F95B0300049E81 /* GREYNot.m in Sources */,
 				FD623AFA20F9594200049E81 /* GREYElementInteraction.m in Sources */,
 				FD623AE420F9591600049E81 /* GREYAssertions.m in Sources */,
 				FD623B3220F95A8600049E81 /* GREYSyntheticEvents.m in Sources */,
