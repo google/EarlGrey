@@ -79,4 +79,4 @@ GREY_STUB_CLASS_IN_APP_MAIN_QUEUE(GREYVisibilityChecker)
 
 #pragma mark - Diagnostics Stubs
 
-GREY_STUB_CLASS_IN_APP_BACKGROUND_QUEUE(GREYAppDiagnostics)
+
