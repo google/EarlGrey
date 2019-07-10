@@ -24,7 +24,6 @@
 #import "GREYAllOf.h"
 #import "GREYAnyOf.h"
 #import "GREYMatchers.h"
-#import "GREYNot.h"
 #import "GREYUIThreadExecutor.h"
 #import "GREYConfiguration.h"
 #import "GREYHostApplicationDistantObject.h"
@@ -51,7 +50,6 @@ GREY_STUB_CLASS_IN_APP_BACKGROUND_QUEUE(GREYActions)
 GREY_STUB_CLASS_IN_APP_BACKGROUND_QUEUE(GREYAllOf)
 GREY_STUB_CLASS_IN_APP_BACKGROUND_QUEUE(GREYAnyOf)
 GREY_STUB_CLASS_IN_APP_BACKGROUND_QUEUE(GREYMatchers)
-GREY_STUB_CLASS_IN_APP_BACKGROUND_QUEUE(GREYNot)
 
 #pragma mark - Host Background Stubs
 

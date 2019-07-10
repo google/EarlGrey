@@ -23,7 +23,6 @@
 #import "GREYSyntheticEvents.h"
 #import "GREYAllOf.h"
 #import "GREYMatchers.h"
-#import "GREYNot.h"
 #import "GREYSyncAPI.h"
 #import "NSError+GREYCommon.h"
 #import "GREYConstants.h"
@@ -46,7 +45,7 @@
   id<GREYMatcher> systemAlertShownMatcher = [GREYMatchers matcherForSystemAlertViewShown];
   NSArray *constraintMatchers = @[
     [GREYMatchers matcherForInteractable],
-    [[GREYNot alloc] initWithMatcher:systemAlertShownMatcher],
+    [GREYMatchers matcherForNegation:systemAlertShownMatcher],
     [GREYMatchers matcherForKindOfClass:[UISlider class]]
   ];
   NSString *name = [NSString stringWithFormat:@"Slide to value: %g", value];

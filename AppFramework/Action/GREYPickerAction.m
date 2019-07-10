@@ -22,7 +22,6 @@
 #import "GREYTimedIdlingResource.h"
 #import "GREYAllOf.h"
 #import "GREYMatchers.h"
-#import "GREYNot.h"
 #import "GREYSyncAPI.h"
 #import "NSError+GREYCommon.h"
 #import "GREYDefines.h"
@@ -48,7 +47,7 @@
   id<GREYMatcher> systemAlertNotShownMatcher = [GREYMatchers matcherForSystemAlertViewShown];
   NSArray *constraintMatchers = @[
     [GREYMatchers matcherForInteractable], [GREYMatchers matcherForUserInteractionEnabled],
-    [[GREYNot alloc] initWithMatcher:systemAlertNotShownMatcher],
+    [GREYMatchers matcherForNegation:systemAlertNotShownMatcher],
     [GREYMatchers matcherForKindOfClass:[UIPickerView class]]
   ];
   self = [super initWithName:name

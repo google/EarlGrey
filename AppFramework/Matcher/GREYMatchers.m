@@ -27,7 +27,6 @@
 #import "GREYAllOf+Private.h"
 #import "GREYAllOf.h"
 #import "GREYAnyOf.h"
-#import "GREYNot.h"
 #import "NSString+GREYCommon.h"
 #import "GREYFatalAsserts.h"
 #import "GREYThrowDefines.h"
@@ -646,10 +645,10 @@ static Class gEDOObjectClass;
       [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe];
   // We also check that we don't have any disabled ancestors because checking for enabled ancestor
   // will return the first enabled ancestor even through there might be disabled ancestors.
-  id<GREYMatcher> notEnabledElementMatcher = [[GREYNot alloc] initWithMatcher:isEnabledMatcher];
+  id<GREYMatcher> notEnabledElementMatcher = [GREYMatchers matcherForNegation:isEnabledMatcher];
   id<GREYMatcher> ancestorMatcher = [GREYMatchers matcherForAncestor:notEnabledElementMatcher];
   id<GREYMatcher> notAncestorOfEnabledElementMatcher =
-      [[GREYNot alloc] initWithMatcher:ancestorMatcher];
+      [GREYMatchers matcherForNegation:ancestorMatcher];
   return [[GREYAllOf alloc] initWithName:prefix
                                 matchers:@[ notAncestorOfEnabledElementMatcher, isEnabledMatcher ]];
 }
@@ -748,6 +747,22 @@ static Class gEDOObjectClass;
   GREYDescribeToBlock describe = ^void(id<GREYDescription> description) {
     [description appendText:prefix];
   };
+  return [[GREYElementMatcherBlock alloc] initWithName:prefix
+                                          matchesBlock:matches
+                                      descriptionBlock:describe];
+}
+
++ (id<GREYMatcher>)matcherForNegation:(id<GREYMatcher>)matcher {
+  NSString *prefix = nil;
+  GREYMatchesBlock matches = ^BOOL(id element) {
+    return ![matcher matches:element];
+  };
+  GREYDescribeToBlock describe = ^void(id<GREYDescription> description) {
+    [[[description appendText:@"!("] appendDescriptionOf:matcher] appendText:@")"];
+  };
+  if ([matcher conformsToProtocol:@protocol(GREYDiagnosable)]) {
+    prefix = [(id<GREYDiagnosable>)matcher diagnosticsID];
+  }
   return [[GREYElementMatcherBlock alloc] initWithName:prefix
                                           matchesBlock:matches
                                       descriptionBlock:describe];

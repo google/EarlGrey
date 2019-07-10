@@ -22,7 +22,6 @@
 #import "GREYAllOf.h"
 #import "GREYAnyOf.h"
 #import "GREYMatchers.h"
-#import "GREYNot.h"
 #import "NSString+GREYCommon.h"
 #import "GREYFatalAsserts.h"
 #import "GREYScrollActionError.h"
@@ -69,7 +68,7 @@
   id<GREYMatcher> systemAlertShownMatcher = [GREYMatchers matcherForSystemAlertViewShown];
   NSArray *constraintMatchers = @[
     [[GREYAnyOf alloc] initWithMatchers:classMatchers],
-    [[GREYNot alloc] initWithMatcher:systemAlertShownMatcher]
+    [GREYMatchers matcherForNegation:systemAlertShownMatcher]
   ];
   self = [super initWithName:name
                  constraints:[[GREYAllOf alloc] initWithMatchers:constraintMatchers]];

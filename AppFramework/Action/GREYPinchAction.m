@@ -24,7 +24,6 @@
 #import "GREYSyntheticEvents.h"
 #import "GREYAllOf.h"
 #import "GREYMatchers.h"
-#import "GREYNot.h"
 #import "GREYSyncAPI.h"
 #import "NSObject+GREYCommon.h"
 #import "GREYErrorConstants.h"
@@ -64,7 +63,7 @@ static CGFloat const kPinchScale = (CGFloat)0.8;
                                               (pinchAngle * 180.0 / M_PI)];
   id<GREYMatcher> systemAlertShownMatcher = [GREYMatchers matcherForSystemAlertViewShown];
   NSArray *constraintMatchers = @[
-    [[GREYNot alloc] initWithMatcher:systemAlertShownMatcher],
+    [GREYMatchers matcherForNegation:systemAlertShownMatcher],
     [GREYMatchers matcherForRespondsToSelector:@selector(accessibilityFrame)],
     [GREYMatchers matcherForUserInteractionEnabled],
     [GREYMatchers matcherForInteractable],

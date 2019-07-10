@@ -150,7 +150,7 @@ GREY_EXPORT id<GREYMatcher> grey_greaterThan(id value);
 /** Shorthand for GREYMatchers::matcherForScrolledToContentEdge:. */
 GREY_EXPORT id<GREYMatcher> grey_scrolledToContentEdge(GREYContentEdge edge);
 
-/** Shorthand macro for GREYNot::initWithMatcher:. */
+/** Shorthand for GREYMatchers::matcherForNegation:. */
 GREY_EXPORT id<GREYMatcher> grey_not(id<GREYMatcher> matcher);
 
 /** Shorthand for GREYMatchers::matcherForTextFieldValue:. */

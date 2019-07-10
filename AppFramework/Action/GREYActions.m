@@ -39,7 +39,6 @@
 #import "GREYAllOf.h"
 #import "GREYAnyOf.h"
 #import "GREYMatchers.h"
-#import "GREYNot.h"
 #import "GREYSyncAPI.h"
 #import "GREYUIThreadExecutor.h"
 #import "NSObject+GREYCommon.h"
@@ -209,7 +208,7 @@ static Class gAccessibilityTextFieldElementClass;
 + (id<GREYAction>)actionForTurnSwitchOn:(BOOL)on {
   id<GREYMatcher> systemAlertShownMatcher = [GREYMatchers matcherForSystemAlertViewShown];
   NSArray *constraintMatchers = @[
-    [[GREYNot alloc] initWithMatcher:systemAlertShownMatcher],
+    [GREYMatchers matcherForNegation:systemAlertShownMatcher],
     [GREYMatchers matcherForRespondsToSelector:@selector(isOn)]
   ];
   id<GREYMatcher> constraints = [[GREYAllOf alloc] initWithMatchers:constraintMatchers];
@@ -334,7 +333,7 @@ static Class gAccessibilityTextFieldElementClass;
   id<GREYMatcher> systemAlertShownMatcher = [GREYMatchers matcherForSystemAlertViewShown];
   NSArray *constraintMatcher = @[
     [GREYMatchers matcherForInteractable],
-    [[GREYNot alloc] initWithMatcher:systemAlertShownMatcher],
+    [GREYMatchers matcherForNegation:systemAlertShownMatcher],
     [GREYMatchers matcherForKindOfClass:[UIDatePicker class]]
   ];
   id<GREYMatcher> constraints = [[GREYAllOf alloc] initWithMatchers:constraintMatcher];
@@ -374,7 +373,7 @@ static Class gAccessibilityTextFieldElementClass;
     [GREYMatchers matcherForKindOfClass:[WKWebView class]]
   ];
   NSArray *constraintMatchers = @[
-    [[GREYNot alloc] initWithMatcher:systemAlertShownMatcher],
+    [GREYMatchers matcherForNegation:systemAlertShownMatcher],
     [[GREYAnyOf alloc] initWithMatchers:webViewMatchers]
   ];
   NSString *actionName = @"Execute JavaScript";
@@ -593,7 +592,7 @@ static Class gAccessibilityTextFieldElementClass;
 + (id<GREYAction>)grey_actionForTypeText:(NSString *)text
                         atUITextPosition:(UITextPosition *)position {
   id<GREYMatcher> systemAlertShownMatcher = [GREYMatchers matcherForSystemAlertViewShown];
-  id<GREYMatcher> actionBlockMatcher = [[GREYNot alloc] initWithMatcher:systemAlertShownMatcher];
+  id<GREYMatcher> actionBlockMatcher = [GREYMatchers matcherForNegation:systemAlertShownMatcher];
   NSString *actionName = [NSString stringWithFormat:@"Type '%@'", text];
   return [GREYActionBlock
       actionWithName:actionName

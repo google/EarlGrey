@@ -19,7 +19,6 @@
 #import "GREYAllOf.h"
 #import "GREYAnyOf.h"
 #import "GREYMatchers.h"
-#import "GREYNot.h"
 #import "GREYMatcher.h"
 
 #if !defined(GREY_DISABLE_SHORTHAND) || !(GREY_DISABLE_SHORTHAND)
@@ -202,7 +201,7 @@ id<GREYMatcher> grey_allOfMatchers(NSArray<GREYMatcher> *matchers) {
 }
 
 id<GREYMatcher> grey_not(id<GREYMatcher> matcher) {
-  return [[GREYNot alloc] initWithMatcher:matcher];
+  return [GREYMatchers matcherForNegation:matcher];
 }
 
 #endif  // GREY_DISABLE_SHORTHAND

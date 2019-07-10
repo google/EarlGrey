@@ -23,7 +23,6 @@
 #import "GREYAllOf.h"
 #import "GREYAnyOf.h"
 #import "GREYMatchers.h"
-#import "GREYNot.h"
 #import "GREYSyncAPI.h"
 #import "GREYUIThreadExecutor.h"
 #import "NSObject+GREYCommon.h"
@@ -104,7 +103,7 @@
   ];
   id<GREYMatcher> systemAlertShownMatcher = [GREYMatchers matcherForSystemAlertViewShown];
   id<GREYMatcher> systemAlertNotShownMatcher =
-      [[GREYNot alloc] initWithMatcher:systemAlertShownMatcher];
+      [GREYMatchers matcherForNegation:systemAlertShownMatcher];
   NSArray *matchersArray = @[
     systemAlertNotShownMatcher, [[GREYAnyOf alloc] initWithMatchers:anyOfMatchers],
     [GREYMatchers matcherForEnabledElement]

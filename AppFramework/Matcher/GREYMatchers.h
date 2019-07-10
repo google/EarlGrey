@@ -440,6 +440,15 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (id<GREYMatcher>)matcherForTextFieldValue:(NSString *)value;
 
+/**
+ *  A matcher to check the negation of the result of @c matcher.
+ *
+ *  @param matcher A matcher whose result will be negated.
+ *
+ *  @return An matcher that negates the result of @c matcher.
+ */
++ (id<GREYMatcher>)matcherForNegation:(id<GREYMatcher>)matcher;
+
 @end
 
 NS_ASSUME_NONNULL_END

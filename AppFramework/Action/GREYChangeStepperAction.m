@@ -23,7 +23,6 @@
 #import "GREYAppError.h"
 #import "GREYAllOf.h"
 #import "GREYMatchers.h"
-#import "GREYNot.h"
 #import "GREYSyncAPI.h"
 #import "GREYErrorConstants.h"
 #import "GREYObjectFormatter.h"
@@ -80,7 +79,7 @@
   id<GREYMatcher> systemAlertShownMatcher = [GREYMatchers matcherForSystemAlertViewShown];
   NSArray *constraintMatchers = @[
     [GREYMatchers matcherForInteractable],
-    [[GREYNot alloc] initWithMatcher:systemAlertShownMatcher],
+    [GREYMatchers matcherForNegation:systemAlertShownMatcher],
     [GREYMatchers matcherForKindOfClass:[UIStepper class]]
   ];
   NSString *name = [NSString stringWithFormat:@"Change stepper to %g", value];
