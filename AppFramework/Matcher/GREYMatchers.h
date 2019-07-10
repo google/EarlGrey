@@ -116,6 +116,10 @@ NS_ASSUME_NONNULL_BEGIN
  *  Matcher for UI element whose percent visible area (of its accessibility frame) exceeds the
  *  given @c percent.
  *
+ *  @note This is an expensive check (can take around 250ms for a simple 100 x 100 pt view). Do not
+ *        use it in your selectElementWithMatcher statement for matching an element but use it to
+ *        assert on a matched element's state.
+ *
  *  @param percent The percent visible area that the UI element being matched has to be visible.
  *                 Allowed values for @c percent are [0,1] inclusive.
  *
@@ -129,6 +133,10 @@ NS_ASSUME_NONNULL_BEGIN
  *  that are more than @c kElementSufficientlyVisiblePercentage (75 %) visible areawise to be
  *  sufficiently visible.
  *
+ *  @note This is an expensive check (can take around 250ms for a simple 100 x 100 pt view). Do not
+ *        use it in your selectElementWithMatcher statement for matching an element but use it to
+ *        assert on a matched element's state.
+ *
  *  @return A matcher intialized with a visibility percentage that confirms an element is
  *          sufficiently visible.
  */
@@ -136,6 +144,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  *  Matcher for UI element that is not visible to the user at all i.e. it has a zero visible area.
+ *
+ *  @note This is an expensive check (can take around 250ms for a simple 100 x 100 pt view). Do not
+ *        use it in your selectElementWithMatcher statement for matching an element but use it to
+ *        assert on a matched element's state.
  *
  *  @return A matcher for verifying if an element is not visible.
  */
