@@ -20,6 +20,7 @@
 #import <CoreMotion/CoreMotion.h>
 #import <EventKit/EventKit.h>
 #import <StoreKit/StoreKit.h>
+#import <UserNotifications/UserNotifications.h>
 
 #import "SystemAlertsViewController.h"
 
@@ -180,11 +181,12 @@
   [self.alertHandledButton setHidden:NO];
 
   UIApplication *shared = [UIApplication sharedApplication];
-  UIUserNotificationType types =
-      (UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert);
-  UIUserNotificationSettings *settings;
-  settings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
-  [shared registerUserNotificationSettings:settings];
+  UNAuthorizationOptions options =
+      (UNAuthorizationOptionBadge | UNAuthorizationOptionSound | UNAuthorizationOptionAlert);
+  UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+  [center requestAuthorizationWithOptions:options
+                        completionHandler:^(BOOL granted, NSError *_Nullable error){
+                        }];
   [shared registerForRemoteNotifications];
 }
 
