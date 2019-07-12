@@ -29,6 +29,32 @@
   [[EarlGrey selectElementWithMatcher:grey_text(@"Picker Views")] performAction:grey_tap()];
 }
 
+- (void)tearDown {
+  NSError *rotateError;
+  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait error:&rotateError];
+  XCTAssertNil(rotateError);
+  [super tearDown];
+}
+
+- (void)testBottomDockInIPadInPortrait {
+  if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+    [self openBottomDockInLandscape:NO];
+    [self closeBottomDockInLandscape:NO];
+  }
+}
+
+- (void)testBottomDockInIPadInLandscape {
+  if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+    // Rotate to Landscape Left orientation.
+    NSError *rotateError;
+    [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeLeft error:&rotateError];
+    XCTAssertNil(rotateError);
+
+    [self openBottomDockInLandscape:YES];
+    [self closeBottomDockInLandscape:YES];
+  }
+}
+
 - (void)testBackgroundingAndForegrounding {
   BOOL success = [EarlGrey backgroundApplication];
   XCTAssertTrue(success);
@@ -50,6 +76,34 @@
   [_application activate];
   [[EarlGrey selectElementWithMatcher:grey_keyWindow()]
       assertWithMatcher:grey_sufficientlyVisible()];
+}
+
+- (void)openBottomDockInLandscape:(BOOL)isLandscape {
+  XCUIApplication *springboardApplication =
+      [[XCUIApplication alloc] initWithBundleIdentifier:@"com.apple.springboard"];
+  CGVector startVector = isLandscape ? CGVectorMake(0.0, 0.5) : CGVectorMake(0.5, 1.0);
+  XCUICoordinate *startCoordinate =
+      [[springboardApplication.windows firstMatch] coordinateWithNormalizedOffset:startVector];
+  CGVector endVector = isLandscape ? CGVectorMake(200.0f, 0.5f) : CGVectorMake(0.5f, -200.0f);
+  XCUICoordinate *endCoordinate = [startCoordinate coordinateWithOffset:endVector];
+  [startCoordinate pressForDuration:0 thenDragToCoordinate:endCoordinate];
+
+  XCTAssertTrue([springboardApplication.otherElements[@"Dock"] isHittable]);
+  [[EarlGrey selectElementWithMatcher:grey_keyWindow()] performAction:grey_tap()];
+}
+
+- (void)closeBottomDockInLandscape:(BOOL)isLandscape {
+  XCUIApplication *springboardApplication =
+      [[XCUIApplication alloc] initWithBundleIdentifier:@"com.apple.springboard"];
+  CGVector startReverseVector = isLandscape ? CGVectorMake(0.20, 0.5) : CGVectorMake(0.5, 0.85);
+  XCUICoordinate *startReverseCoordinate = [[springboardApplication.windows firstMatch]
+      coordinateWithNormalizedOffset:startReverseVector];
+  CGVector endReverseVector =
+      isLandscape ? CGVectorMake(-200.0f, 0.5f) : CGVectorMake(0.5f, 200.0f);
+  XCUICoordinate *endReverseCoordinate =
+      [startReverseCoordinate coordinateWithOffset:endReverseVector];
+  [startReverseCoordinate pressForDuration:0 thenDragToCoordinate:endReverseCoordinate];
+  XCTAssertFalse([springboardApplication.otherElements[@"Dock"] exists]);
 }
 
 @end
