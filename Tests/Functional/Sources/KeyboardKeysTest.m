@@ -27,8 +27,8 @@
 @end
 
 @interface GREYKeyboard (ExposedForTesting)
-// expose shiftKeyLabels property for testing.
-@property(class, readonly) NSArray *shiftKeyLabels;
+// Expose shiftKeyIdentifyingCharacters property for testing.
+@property(class, readonly) NSArray *shiftKeyIdentifyingCharacters;
 @end
 
 // TODO: 3 tests are not ported since GREYActionBlock is not supported by eDO // // NOLINT
@@ -469,7 +469,7 @@
         performAction:grey_typeText(currentCharacter)]
         assertWithMatcher:grey_text([multiCaseString substringToIndex:i + 1])];
     id keyboardClass = GREY_REMOTE_CLASS_IN_APP(GREYKeyboard);
-    for (NSString *axLabel in [[keyboardClass returnByValue] shiftKeyLabels]) {
+    for (NSString *axLabel in [[keyboardClass returnByValue] shiftKeyIdentifyingCharacters]) {
       NSError *error;
       [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(axLabel)] performAction:grey_tap()
                                                                                     error:&error];

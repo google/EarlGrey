@@ -50,7 +50,7 @@ static atomic_bool gIsKeyboardShown = false;
 static NSMutableCharacterSet *gAlphabeticKeyplaneCharacters;
 
 /**
- *  Accessibility labels for text modification keys, like shift, delete etc.
+ *  Character identifiers for text modification keys, like shift, delete etc.
  */
 static NSDictionary *gModifierKeyIdentifierMapping;
 
@@ -90,12 +90,10 @@ typedef BOOL (^ConditionBlock)(void);
 @implementation GREYKeyboard : NSObject
 
 /**
- *  Possible accessibility label values for the Shift Key.
+ *  Possible character identifying strings values for the Shift Key.
  */
-+ (NSArray *)shiftKeyLabels {
-  return @[
-    @"shift", @"Shift", @"SHIFT", @"more, symbols", @"more, numbers", @"numbers", @"more", @"MORE"
-  ];
++ (NSArray *)shiftKeyIdentifyingCharacters {
+  return @[ @"shift", @"Shift", @"SHIFT" ];
 }
 
 + (void)load {
@@ -122,7 +120,7 @@ typedef BOOL (^ConditionBlock)(void);
                 UNTRACK_STATE_FOR_OBJECT(kGREYPendingKeyboardTransition, object);
                 // There may be a zero size inputAccessoryView to track keyboard data.
                 // This causes UIKeyboardDidShowNotification event to fire even though no keyboard
-                // is visible. So intead of relying on keyboard show/hide event to detect the
+                // is visible. So instead of relying on keyboard show/hide event to detect the
                 // keyboard visibility, it is necessary to double check on the actual frame to
                 // determine the true visibility.
                 CGRect keyboardFrame = [note.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
@@ -181,10 +179,9 @@ typedef BOOL (^ConditionBlock)(void);
 
     return NO;
   } else if (!atomic_load(&gIsKeyboardShown)) {
-    NSString *description = [NSString stringWithFormat:
-                                          @"Failed to type string '%@', because "
-                                          @"keyboard was not shown on screen.",
-                                          string];
+    NSString *description = [NSString stringWithFormat:@"Failed to type string '%@', because "
+                                                       @"keyboard was not shown on screen.",
+                                                       string];
 
     I_GREYPopulateError(errorOrNil, kGREYInteractionErrorDomain,
                         kGREYInteractionActionFailedErrorCode, description);
@@ -204,32 +201,34 @@ typedef BOOL (^ConditionBlock)(void);
       if ([gAlphabeticKeyplaneCharacters characterIsMember:currentCharacter]) {
         GREYLogVerbose(@"Detected an alphabetic key.");
         // Switch to alphabetic keyplane if we are on numbers/symbols keyplane.
+        NSString *moreSymbolsKeyAxIdentifier = @"more";
         if (![GREYKeyboard grey_isAlphabeticKeyplaneShown]) {
-          id moreLettersKey = [GREYKeyboard grey_waitAndfindKeyForCharacter:@"more, letters"];
+          id moreLettersKey =
+              [GREYKeyboard grey_waitAndfindKeyForCharacter:moreSymbolsKeyAxIdentifier];
           if (!moreLettersKey) {
-            return [GREYKeyboard grey_setErrorForkeyNotFoundWithAccessibilityLabel:@"more, letters"
-                                                                   forTypingString:string
-                                                                             error:errorOrNil];
+            return [GREYKeyboard grey_setErrorForkeyNotFoundWithCharacter:moreSymbolsKeyAxIdentifier
+                                                          forTypingString:string
+                                                                    error:errorOrNil];
           }
           [GREYKeyboard grey_tapKey:moreLettersKey error:errorOrNil];
           key = [GREYKeyboard grey_waitAndfindKeyForCharacter:characterAsString];
         }
         // If key is not on the current keyplane, use shift to switch to the other one.
         if (!key) {
-          key = [GREYKeyboard grey_toggleShiftAndFindKeyWithAccessibilityLabel:characterAsString
-                                                                     withError:errorOrNil];
+          key = [GREYKeyboard grey_toggleShiftAndFindKeyWithCharacter:characterAsString
+                                                            withError:errorOrNil];
         }
       } else {
         GREYLogVerbose(@"Detected a non-alphabetic key.");
         // Switch to numbers/symbols keyplane if we are on alphabetic keyplane.
         if ([GREYKeyboard grey_isAlphabeticKeyplaneShown]) {
-          NSString *moreNumberKeyAxLabel = iOS13_OR_ABOVE() ? @"numbers" : @"more, numbers";
-          id moreNumbersKey = [GREYKeyboard grey_waitAndfindKeyForCharacter:moreNumberKeyAxLabel];
+          NSString *moreNumberKeyAxIdentifier = @"more";
+          id moreNumbersKey =
+              [GREYKeyboard grey_waitAndfindKeyForCharacter:moreNumberKeyAxIdentifier];
           if (!moreNumbersKey) {
-            return
-                [GREYKeyboard grey_setErrorForkeyNotFoundWithAccessibilityLabel:moreNumberKeyAxLabel
-                                                                forTypingString:string
-                                                                          error:errorOrNil];
+            return [GREYKeyboard grey_setErrorForkeyNotFoundWithCharacter:moreNumberKeyAxIdentifier
+                                                          forTypingString:string
+                                                                    error:errorOrNil];
           }
           [GREYKeyboard grey_tapKey:moreNumbersKey error:errorOrNil];
           key = [GREYKeyboard grey_waitAndfindKeyForCharacter:characterAsString];
@@ -244,12 +243,14 @@ typedef BOOL (^ConditionBlock)(void);
         }
         // If key is not on either number or symbols keyplane, it could be on alphabetic keyplane.
         // This is the case for @ _ - on UIKeyboardTypeEmailAddress on iPad.
+        NSString *moreNumbersKeyAxIdentifier = @"more";
         if (!key) {
-          id moreLettersKey = [GREYKeyboard grey_waitAndfindKeyForCharacter:@"more, letters"];
+          id moreLettersKey =
+              [GREYKeyboard grey_waitAndfindKeyForCharacter:moreNumbersKeyAxIdentifier];
           if (!moreLettersKey) {
-            return [GREYKeyboard grey_setErrorForkeyNotFoundWithAccessibilityLabel:@"more, letters"
-                                                                   forTypingString:string
-                                                                             error:errorOrNil];
+            return [GREYKeyboard grey_setErrorForkeyNotFoundWithCharacter:moreNumbersKeyAxIdentifier
+                                                          forTypingString:string
+                                                                    error:errorOrNil];
           }
           [GREYKeyboard grey_tapKey:moreLettersKey error:errorOrNil];
           key = [GREYKeyboard grey_waitAndfindKeyForCharacter:characterAsString];
@@ -257,9 +258,9 @@ typedef BOOL (^ConditionBlock)(void);
       }
       // If key is still not shown on screen, show error message.
       if (!key) {
-        return [GREYKeyboard grey_setErrorForkeyNotFoundWithAccessibilityLabel:characterAsString
-                                                               forTypingString:string
-                                                                         error:errorOrNil];
+        return [GREYKeyboard grey_setErrorForkeyNotFoundWithCharacter:characterAsString
+                                                      forTypingString:string
+                                                                error:errorOrNil];
       }
     }
     // A period key for an email UITextField on iOS9 and above types the email domain (.com, .org)
@@ -388,20 +389,20 @@ typedef BOOL (^ConditionBlock)(void);
  *  A utility method to continuously toggle the shift key on an alphabet keyplane until
  *  the correct character case is found.
  *
- *  @param      accessibilityLabel The accessibility label of the key for which
- *                                 the case is being changed.
- *  @param[out] errorOrNil         Error populated on failure.
+ *  @param      character  The character which could be an accessibility label, identifier or text
+ *                         of the key for which the case is being changed.
+ *  @param[out] errorOrNil Error populated on failure.
  *
- *  @return The case toggled key for the accessibility label, or @c nil if it isn't found.
+ *  @return The case toggled key for the @c character, or @c nil if it isn't found.
  */
-+ (id)grey_toggleShiftAndFindKeyWithAccessibilityLabel:(NSString *)accessibilityLabel
-                                             withError:(__strong NSError **)errorOrNil {
++ (id)grey_toggleShiftAndFindKeyWithCharacter:(NSString *)character
+                                    withError:(__strong NSError **)errorOrNil {
   __block id key = nil;
   __block NSError *error;
   BOOL result = [GREYKeyboard
       grey_waitUntilCondition:^BOOL {
         [GREYKeyboard grey_toggleShiftKeyWithError:&error];
-        key = [GREYKeyboard grey_waitAndfindKeyForCharacter:accessibilityLabel];
+        key = [GREYKeyboard grey_waitAndfindKeyForCharacter:character];
         return (key == nil) && (error == nil);
       }
        isSatisfiedWithTimeout:kMaxShiftKeyToggleDuration];
@@ -434,8 +435,8 @@ typedef BOOL (^ConditionBlock)(void);
     [[keyboard _layout] setValue:[NSNumber numberWithDouble:0.0] forKey:@"_shiftLockFirstTapTime"];
   });
 
-  for (NSString *shiftKeyLabel in self.shiftKeyLabels) {
-    id key = [GREYKeyboard grey_waitAndfindKeyForCharacter:shiftKeyLabel];
+  for (NSString *shiftKeyCharacter in self.shiftKeyIdentifyingCharacters) {
+    id key = [GREYKeyboard grey_waitAndfindKeyForCharacter:shiftKeyCharacter];
     if (key) {
       // Shift key was found; this action should always succeed.
       [GREYKeyboard grey_tapKey:key error:errorOrNil];
@@ -460,11 +461,11 @@ typedef BOOL (^ConditionBlock)(void);
 
   BOOL ignoreCase = NO;
   // If the key is a modifier key then we need to do a case-insensitive comparison and change the
-  // accessibility label to the corresponding modifier key accessibility label.
+  // character to identify the key to the corresponding modifier key character.
   __block NSString *modifierKeyIdentifier = [gModifierKeyIdentifierMapping objectForKey:character];
   if (modifierKeyIdentifier) {
-    // Check for the return key since we can have a different accessibility label
-    // depending upon the keyboard.
+    // Check for the return key since we can have a different character value depending upon the
+    // keyboard.
     UIKeyboardImpl *currentKeyboard = [GREYKeyboard grey_keyboardObject];
     if ([character isEqualToString:kReturnKeyIdentifier]) {
       grey_dispatch_sync_on_main_thread(^{
@@ -485,8 +486,8 @@ typedef BOOL (^ConditionBlock)(void);
   runLoopSpinner.timeout = 0.1;
   runLoopSpinner.maxSleepInterval = DBL_MAX;
   [runLoopSpinner spinWithStopConditionBlock:^BOOL {
-    result =
-        [self grey_keyForCharacterValue:character inKeyboardLayoutWithCaseSensitivity:ignoreCase];
+    result = [self grey_keyForCharacterValue:character
+         inKeyboardLayoutWithCaseSensitivity:ignoreCase];
     return result != nil;
   }];
 
@@ -494,14 +495,14 @@ typedef BOOL (^ConditionBlock)(void);
 }
 
 /**
- *  Get the key on the keyboard for the given accessibility label.
+ *  Get the key on the keyboard for the given @c character.
  *
  *  @param character  The character to be searched.
  *  @param ignoreCase A Boolean that is @c YES if searching for the key requires ignoring
  *                    the case. This is seen in the case of modifier keys that have
  *                    differing cases across iOS versions.
  *
- *  @return A key that has the given accessibility label.
+ *  @return A key that has the given character.
  */
 + (id)grey_keyForCharacterValue:(NSString *)character
     inKeyboardLayoutWithCaseSensitivity:(BOOL)ignoreCase {
@@ -513,14 +514,13 @@ typedef BOOL (^ConditionBlock)(void);
   if ([layout accessibilityElementCount] != NSNotFound) {
     for (NSInteger i = 0; i < [layout accessibilityElementCount]; ++i) {
       id key = [layout accessibilityElementAtIndex:i];
-      if ((ignoreCase &&
-           [[key accessibilityLabel] caseInsensitiveCompare:character] == NSOrderedSame) ||
-          (!ignoreCase && [[key accessibilityLabel] isEqualToString:character])) {
+      NSString *axLabel = [key accessibilityLabel];
+      if ((ignoreCase && [axLabel caseInsensitiveCompare:character] == NSOrderedSame) ||
+          (!ignoreCase && [axLabel isEqualToString:character])) {
         return key;
       }
-
-      if ([key accessibilityIdentifier] &&
-          [[key accessibilityIdentifier] isEqualToString:character]) {
+      NSString *axID = [key accessibilityIdentifier];
+      if (axID && [axID isEqualToString:character]) {
         return key;
       }
     }
@@ -568,25 +568,25 @@ typedef BOOL (^ConditionBlock)(void);
 }
 
 /**
- *  Populates or prints an error whenever a key with an accessibility label isn't found during
+ *  Populates or prints an error whenever a key with a specified @c character isn't found during
  *  typing a string.
  *
- *  @param accessibilityLabel The accessibility label of the key
- *  @param string             The string being typed when the key was not found
- *  @param[out] errorOrNil    The error to be populated. If this is @c nil,
- *                            then an error message is logged.
+ *  @param character       A character denoting the accessibility label, identifier or text of the
+ *                         key
+ *  @param string          The string being typed when the key was not found
+ *  @param[out] errorOrNil The error to be populated. If this is @c nil, then an error message is
+ *                         logged.
  *
  *  @return NO every time since entering the method means an error has happened.
  */
-+ (BOOL)grey_setErrorForkeyNotFoundWithAccessibilityLabel:(NSString *)accessibilityLabel
-                                          forTypingString:(NSString *)string
-                                                    error:(__strong NSError **)errorOrNil {
-  NSString *description = [NSString stringWithFormat:
-                                        @"Failed to type string '%@', "
-                                        @"because key [K] could not be found "
-                                        @"on the keyboard.",
-                                        string];
-  NSDictionary *glossary = @{@"K" : [accessibilityLabel description]};
++ (BOOL)grey_setErrorForkeyNotFoundWithCharacter:(NSString *)character
+                                 forTypingString:(NSString *)string
+                                           error:(__strong NSError **)errorOrNil {
+  NSString *description = [NSString stringWithFormat:@"Failed to type string '%@', "
+                                                     @"because key [K] could not be found "
+                                                     @"on the keyboard.",
+                                                     string];
+  NSDictionary<NSString *, NSString *> *glossary = @{@"K" : [character description]};
   I_GREYPopulateErrorNoted(errorOrNil, kGREYInteractionErrorDomain,
                            kGREYInteractionElementNotFoundErrorCode, description, glossary);
   return NO;
