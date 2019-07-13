@@ -16,12 +16,14 @@
 
 #import <Foundation/Foundation.h>
 
+#import "GREYDiagnosable.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 /**
  *  A protocol for actions that are performed on accessibility elements.
  */
-@protocol GREYAction <NSObject>
+@protocol GREYAction <GREYDiagnosable>
 
 /**
  *  Perform the action specified by the GREYAction object on an @c element if and only if the

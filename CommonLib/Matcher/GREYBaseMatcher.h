@@ -16,7 +16,6 @@
 
 #import <Foundation/Foundation.h>
 
-#import "GREYDiagnosable.h"
 #import "GREYMatcher.h"
 
 /**
@@ -25,7 +24,7 @@
  *  Every subclass must override and provide its own implementation for GREYBaseMatcher::matches:
  *  and GREYBaseMatcher::describeTo: methods.
  */
-@interface GREYBaseMatcher : NSObject <GREYMatcher, GREYDiagnosable, NSCopying>
+@interface GREYBaseMatcher : NSObject <GREYMatcher, NSCopying>
 
 /**
  *  @see GREYMatcher::matches:

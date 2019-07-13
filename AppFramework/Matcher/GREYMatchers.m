@@ -760,8 +760,8 @@ static Class gEDOObjectClass;
   GREYDescribeToBlock describe = ^void(id<GREYDescription> description) {
     [[[description appendText:@"!("] appendDescriptionOf:matcher] appendText:@")"];
   };
-  if ([matcher conformsToProtocol:@protocol(GREYDiagnosable)]) {
-    prefix = [(id<GREYDiagnosable>)matcher diagnosticsID];
+  if ([matcher respondsToSelector:@selector(diagnosticsID)]) {
+    prefix = [matcher diagnosticsID];
   }
   return [[GREYElementMatcherBlock alloc] initWithName:prefix
                                           matchesBlock:matches

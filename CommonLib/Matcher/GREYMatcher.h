@@ -16,13 +16,14 @@
 
 #import <Foundation/Foundation.h>
 
+#import "GREYDiagnosable.h"
 #import "GREYDescription.h"
 
 /**
  *  Matchers are another way of expressing simple or complex logical expressions. This protocol
  *  defines a set of methods that must be implemented by every matcher object.
  */
-@protocol GREYMatcher <NSObject>
+@protocol GREYMatcher <GREYDiagnosable>
 
 /**
  *  A method to evaluate the matcher for the provided @c item.

@@ -21,8 +21,10 @@ NS_ASSUME_NONNULL_BEGIN
 /** Private protocol for diagnostics purpose. */
 @protocol GREYDiagnosable <NSObject>
 
+@optional
 /**
  *  Identifier with which diagnosable objects will have their diagnostics information associated.
+ *  This is for internal use only. Please Do NOT override this externally.
  */
 - (NSString *)diagnosticsID;
 

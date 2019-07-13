@@ -59,8 +59,8 @@
     return YES;
   };
 
-  if ([matcher conformsToProtocol:@protocol(GREYDiagnosable)]) {
-    NSString *matcherDiagnosticsID = [(id<GREYDiagnosable>)matcher diagnosticsID];
+  if ([matcher respondsToSelector:@selector(diagnosticsID)]) {
+    NSString *matcherDiagnosticsID = [matcher diagnosticsID];
     if (matcherDiagnosticsID) {
       NSString *assertionDiagnosticsID =
           [NSString stringWithFormat:@"assertWithMatcher:%@", matcherDiagnosticsID];
