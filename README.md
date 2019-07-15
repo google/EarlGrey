@@ -8,8 +8,8 @@ to 2.0.
 
 To use, please clone the `earlgrey2` branch with its submodules:
 
-    // Clone EarlGrey 2.0 with all its dependencies
-    git clone --recursive -b earlgrey2 https://github.com/google/EarlGrey.git
+    // Clone EarlGrey 2.0
+    git clone -b earlgrey2 https://github.com/google/EarlGrey.git
 
 # EarlGrey 2.0
 
