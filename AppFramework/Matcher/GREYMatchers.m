@@ -306,7 +306,7 @@ static Class gEDOObjectClass;
 + (id<GREYMatcher>)matcherForMinimumVisiblePercent:(CGFloat)percent {
   GREYFatalAssertWithMessage(percent >= 0.0f && percent <= 1.0f,
                              @"Percent %f must be in the range [0,1]", percent);
-  NSString *prefix = @"matcherForMinimumVisiblePercent";
+  NSString *prefix = @"minimumVisiblePercent";
   __block CGFloat visiblePercent;
   GREYMatchesBlock matches = ^BOOL(UIView *element) {
     visiblePercent = [GREYVisibilityChecker percentVisibleAreaOfElement:element];
@@ -323,7 +323,7 @@ static Class gEDOObjectClass;
 }
 
 + (id<GREYMatcher>)matcherForSufficientlyVisible {
-  NSString *prefix = @"matcherForSufficientlyVisible";
+  NSString *prefix = @"sufficientlyVisible";
   __block CGFloat visiblePercent;
   GREYMatchesBlock matches = ^BOOL(UIView *element) {
     visiblePercent = [GREYVisibilityChecker percentVisibleAreaOfElement:element];
