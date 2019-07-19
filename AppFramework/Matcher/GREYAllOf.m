@@ -38,6 +38,7 @@
       [matchersCopy addObject:[matchers objectAtIndex:i]];
     }
     _matchers = [NSArray arrayWithArray:matchersCopy];
+    _diagnosticsID = @"allOf";
   }
   return self;
 }
