@@ -100,8 +100,7 @@ GREY_EXTERN NSString *const GREYFailureHandlerKey;
  *  @c GREYAssertion.
  *
  *  An interaction will fail when multiple elements are matched. In that case, you will have to
- *  refine the @c elementMatcher to match a single element or use GREYInteraction::atIndex: to
- *  specify the index of the element in the list of elements matched.
+ *  refine the @c elementMatcher to match a single element.
  *
  *  By default, EarlGrey looks at all the windows from front to back and
  *  searches for the UI element. To focus on a specific window or container, use
