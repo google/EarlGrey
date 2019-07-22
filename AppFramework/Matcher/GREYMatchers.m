@@ -75,7 +75,8 @@ static Class gEDOObjectClass;
     [GREYMatchers matcherForKindOfClass:[UIWindow class]],
     [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe],
   ];
-  return [[GREYAllOf alloc] initWithName:prefix matchers:matchersArray];
+  return [[GREYAllOf alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
+                                matchers:matchersArray];
 }
 
 + (id<GREYMatcher>)matcherForCloseTo:(double)value delta:(double)delta {
@@ -86,7 +87,7 @@ static Class gEDOObjectClass;
   GREYDescribeToBlock describe = ^void(id<GREYDescription> description) {
     [description appendText:[NSString stringWithFormat:@"%@(%lf) by (%lf)", prefix, value, delta]];
   };
-  return [[GREYElementMatcherBlock alloc] initWithName:prefix
+  return [[GREYElementMatcherBlock alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
                                           matchesBlock:matches
                                       descriptionBlock:describe];
 }
@@ -99,7 +100,7 @@ static Class gEDOObjectClass;
   GREYDescribeToBlock describe = ^void(id<GREYDescription> description) {
     [description appendText:prefix];
   };
-  return [[GREYElementMatcherBlock alloc] initWithName:prefix
+  return [[GREYElementMatcherBlock alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
                                           matchesBlock:matches
                                       descriptionBlock:describe];
 }
@@ -116,7 +117,7 @@ static Class gEDOObjectClass;
   GREYDescribeToBlock describe = ^void(id<GREYDescription> description) {
     [description appendText:[NSString stringWithFormat:@"%@(%@)", prefix, value]];
   };
-  return [[GREYElementMatcherBlock alloc] initWithName:prefix
+  return [[GREYElementMatcherBlock alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
                                           matchesBlock:matches
                                       descriptionBlock:describe];
 }
@@ -129,7 +130,7 @@ static Class gEDOObjectClass;
   GREYDescribeToBlock describe = ^void(id<GREYDescription> description) {
     [description appendText:[NSString stringWithFormat:@"%@(%@)", prefix, value]];
   };
-  return [[GREYElementMatcherBlock alloc] initWithName:prefix
+  return [[GREYElementMatcherBlock alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
                                           matchesBlock:matches
                                       descriptionBlock:describe];
 }
@@ -142,7 +143,7 @@ static Class gEDOObjectClass;
   GREYDescribeToBlock describe = ^void(id<GREYDescription> description) {
     [description appendText:[NSString stringWithFormat:@"%@(%@)", prefix, value]];
   };
-  return [[GREYElementMatcherBlock alloc] initWithName:prefix
+  return [[GREYElementMatcherBlock alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
                                           matchesBlock:matches
                                       descriptionBlock:describe];
 }
@@ -160,7 +161,8 @@ static Class gEDOObjectClass;
     [GREYMatchers matcherForAccessibilityElement],
     [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe],
   ];
-  return [[GREYAllOf alloc] initWithName:prefix matchers:matchersArray];
+  return [[GREYAllOf alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
+                                matchers:matchersArray];
 }
 
 + (id<GREYMatcher>)matcherForAccessibilityID:(NSString *)accessibilityID {
@@ -178,7 +180,8 @@ static Class gEDOObjectClass;
     [GREYMatchers matcherForRespondsToSelector:@selector(accessibilityIdentifier)],
     [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe],
   ];
-  return [[GREYAllOf alloc] initWithName:prefix matchers:matchersArray];
+  return [[GREYAllOf alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
+                                matchers:matchersArray];
 }
 
 + (id<GREYMatcher>)matcherForAccessibilityValue:(NSString *)value {
@@ -197,7 +200,8 @@ static Class gEDOObjectClass;
     [GREYMatchers matcherForAccessibilityElement],
     [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe],
   ];
-  return [[GREYAllOf alloc] initWithName:prefix matchers:matchersArray];
+  return [[GREYAllOf alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
+                                matchers:matchersArray];
 }
 
 + (id<GREYMatcher>)matcherForAccessibilityTraits:(UIAccessibilityTraits)traits {
@@ -213,7 +217,8 @@ static Class gEDOObjectClass;
     [GREYMatchers matcherForAccessibilityElement],
     [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe],
   ];
-  return [[GREYAllOf alloc] initWithName:prefix matchers:matchersArray];
+  return [[GREYAllOf alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
+                                matchers:matchersArray];
 }
 
 + (id<GREYMatcher>)matcherForAccessibilityHint:(id)hint {
@@ -232,7 +237,8 @@ static Class gEDOObjectClass;
     [GREYMatchers matcherForAccessibilityElement],
     [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe],
   ];
-  return [[GREYAllOf alloc] initWithName:prefix matchers:matchersArray];
+  return [[GREYAllOf alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
+                                matchers:matchersArray];
 }
 
 + (id<GREYMatcher>)matcherForAccessibilityElementIsFocused {
@@ -243,13 +249,14 @@ static Class gEDOObjectClass;
   GREYDescribeToBlock describe = ^void(id<GREYDescription> description) {
     [description appendText:prefix];
   };
-  id<GREYMatcher> matcher =
-      [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe];
+  id<GREYMatcher> matcher = [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches
+                                                                 descriptionBlock:describe];
   NSArray *matchersArray = @[
     [GREYMatchers matcherForRespondsToSelector:@selector(accessibilityElementIsFocused)],
     matcher,
   ];
-  return [[GREYAllOf alloc] initWithName:prefix matchers:matchersArray];
+  return [[GREYAllOf alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
+                                matchers:matchersArray];
 }
 
 + (id<GREYMatcher>)matcherForText:(NSString *)text {
@@ -260,8 +267,8 @@ static Class gEDOObjectClass;
   GREYDescribeToBlock describe = ^void(id<GREYDescription> description) {
     [description appendText:[NSString stringWithFormat:@"%@('%@')", prefix, text]];
   };
-  id<GREYMatcher> matcher =
-      [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe];
+  id<GREYMatcher> matcher = [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches
+                                                                 descriptionBlock:describe];
   NSArray *anyOfmatchersArray = @[
     [GREYMatchers matcherForKindOfClass:[UILabel class]],
     [GREYMatchers matcherForKindOfClass:[UITextField class]],
@@ -271,7 +278,8 @@ static Class gEDOObjectClass;
     [[GREYAnyOf alloc] initWithMatchers:anyOfmatchersArray],
     matcher,
   ];
-  return [[GREYAllOf alloc] initWithName:prefix matchers:matchersArray];
+  return [[GREYAllOf alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
+                                matchers:matchersArray];
 }
 
 + (id<GREYMatcher>)matcherForFirstResponder {
@@ -286,7 +294,8 @@ static Class gEDOObjectClass;
     [GREYMatchers matcherForKindOfClass:[UIResponder class]],
     [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe],
   ];
-  return [[GREYAllOf alloc] initWithName:prefix matchers:matchersArray];
+  return [[GREYAllOf alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
+                                matchers:matchersArray];
 }
 
 + (id<GREYMatcher>)matcherForSystemAlertViewShown {
@@ -298,7 +307,7 @@ static Class gEDOObjectClass;
   GREYDescribeToBlock describe = ^void(id<GREYDescription> description) {
     [description appendText:prefix];
   };
-  return [[GREYElementMatcherBlock alloc] initWithName:prefix
+  return [[GREYElementMatcherBlock alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
                                           matchesBlock:matches
                                       descriptionBlock:describe];
 }
@@ -317,7 +326,7 @@ static Class gEDOObjectClass;
         stringWithFormat:@"%@(Expected: %f, Actual: %f)", prefix, percent, visiblePercent];
     [description appendText:descriptionString];
   };
-  return [[GREYElementMatcherBlock alloc] initWithName:prefix
+  return [[GREYElementMatcherBlock alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
                                           matchesBlock:matches
                                       descriptionBlock:describe];
 }
@@ -335,7 +344,7 @@ static Class gEDOObjectClass;
                                    kElementSufficientlyVisiblePercentage, visiblePercent];
     [description appendText:descriptionString];
   };
-  return [[GREYElementMatcherBlock alloc] initWithName:prefix
+  return [[GREYElementMatcherBlock alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
                                           matchesBlock:matches
                                       descriptionBlock:describe];
 }
@@ -349,7 +358,7 @@ static Class gEDOObjectClass;
   GREYDescribeToBlock describe = ^void(id<GREYDescription> description) {
     [description appendText:prefix];
   };
-  return [[GREYElementMatcherBlock alloc] initWithName:prefix
+  return [[GREYElementMatcherBlock alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
                                           matchesBlock:matches
                                       descriptionBlock:describe];
 }
@@ -362,7 +371,7 @@ static Class gEDOObjectClass;
   GREYDescribeToBlock describe = ^void(id<GREYDescription> description) {
     [description appendText:prefix];
   };
-  return [[GREYElementMatcherBlock alloc] initWithName:prefix
+  return [[GREYElementMatcherBlock alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
                                           matchesBlock:matches
                                       descriptionBlock:describe];
 }
@@ -379,7 +388,8 @@ static Class gEDOObjectClass;
     [GREYMatchers matcherForRespondsToSelector:@selector(isAccessibilityElement)],
     [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe],
   ];
-  return [[GREYAllOf alloc] initWithName:prefix matchers:matchersArray];
+  return [[GREYAllOf alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
+                                matchers:matchersArray];
 }
 
 + (id<GREYMatcher>)matcherForKindOfClass:(Class)klass {
@@ -401,7 +411,7 @@ static Class gEDOObjectClass;
   GREYDescribeToBlock describe = ^void(id<GREYDescription> description) {
     [description appendText:[NSString stringWithFormat:@"%@('%@')", prefix, className]];
   };
-  return [[GREYElementMatcherBlock alloc] initWithName:prefix
+  return [[GREYElementMatcherBlock alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
                                           matchesBlock:matches
                                       descriptionBlock:describe];
 }
@@ -424,7 +434,8 @@ static Class gEDOObjectClass;
     [GREYMatchers matcherForKindOfClass:[UIProgressView class]],
     [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe],
   ];
-  return [[GREYAllOf alloc] initWithName:prefix matchers:matchersArray];
+  return [[GREYAllOf alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
+                                matchers:matchersArray];
 }
 
 + (id<GREYMatcher>)matcherForRespondsToSelector:(SEL)sel {
@@ -436,7 +447,7 @@ static Class gEDOObjectClass;
     [description
         appendText:[NSString stringWithFormat:@"%@(%@)", prefix, NSStringFromSelector(sel)]];
   };
-  return [[GREYElementMatcherBlock alloc] initWithName:prefix
+  return [[GREYElementMatcherBlock alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
                                           matchesBlock:matches
                                       descriptionBlock:describe];
 }
@@ -450,7 +461,7 @@ static Class gEDOObjectClass;
     [description
         appendText:[NSString stringWithFormat:@"%@(%@)", prefix, NSStringFromProtocol(protocol)]];
   };
-  return [[GREYElementMatcherBlock alloc] initWithName:prefix
+  return [[GREYElementMatcherBlock alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
                                           matchesBlock:matches
                                       descriptionBlock:describe];
 }
@@ -482,7 +493,8 @@ static Class gEDOObjectClass;
     [[GREYAnyOf alloc] initWithMatchers:anyOfMatchers],
     [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe]
   ];
-  return [[GREYAllOf alloc] initWithName:prefix matchers:matchersArray];
+  return [[GREYAllOf alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
+                                matchers:matchersArray];
 }
 
 + (id<GREYMatcher>)matcherForDescendant:(id<GREYMatcher>)descendantMatcher {
@@ -506,7 +518,7 @@ static Class gEDOObjectClass;
   GREYDescribeToBlock describe = ^void(id<GREYDescription> description) {
     [description appendText:[NSString stringWithFormat:@"%@(%@)", prefix, descendantMatcher]];
   };
-  return [[GREYElementMatcherBlock alloc] initWithName:prefix
+  return [[GREYElementMatcherBlock alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
                                           matchesBlock:matches
                                       descriptionBlock:describe];
 }
@@ -526,7 +538,8 @@ static Class gEDOObjectClass;
     [GREYMatchers matcherForKindOfClass:[UIButton class]],
     [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe],
   ];
-  return [[GREYAllOf alloc] initWithName:prefix matchers:matchersArray];
+  return [[GREYAllOf alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
+                                matchers:matchersArray];
 }
 
 + (id<GREYMatcher>)matcherForScrollViewContentOffset:(CGPoint)offset {
@@ -542,7 +555,8 @@ static Class gEDOObjectClass;
     [GREYMatchers matcherForKindOfClass:[UIScrollView class]],
     [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe],
   ];
-  return [[GREYAllOf alloc] initWithName:prefix matchers:matchersArray];
+  return [[GREYAllOf alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
+                                matchers:matchersArray];
 }
 
 + (id<GREYMatcher>)matcherForSliderValueMatcher:(id<GREYMatcher>)valueMatcher {
@@ -557,7 +571,8 @@ static Class gEDOObjectClass;
     [GREYMatchers matcherForKindOfClass:[UISlider class]],
     [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe],
   ];
-  return [[GREYAllOf alloc] initWithName:prefix matchers:matchersArray];
+  return [[GREYAllOf alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
+                                matchers:matchersArray];
 }
 
 + (id<GREYMatcher>)matcherForStepperValue:(double)value {
@@ -572,7 +587,8 @@ static Class gEDOObjectClass;
     [GREYMatchers matcherForKindOfClass:[UIStepper class]],
     [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe],
   ];
-  return [[GREYAllOf alloc] initWithName:prefix matchers:matchersArray];
+  return [[GREYAllOf alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
+                                matchers:matchersArray];
 }
 
 + (id<GREYMatcher>)matcherForPickerColumn:(NSInteger)column setToValue:(NSString *)value {
@@ -588,8 +604,9 @@ static Class gEDOObjectClass;
     SEL attributedTitleSelector = @selector(pickerView:attributedTitleForRow:forComponent:);
     SEL nonAttributedTitleSelector = @selector(pickerView:titleForRow:forComponent:);
     if ([delegate respondsToSelector:attributedTitleSelector]) {
-      attributedRowLabel =
-          [delegate pickerView:element attributedTitleForRow:row forComponent:column];
+      attributedRowLabel = [delegate pickerView:element
+                          attributedTitleForRow:row
+                                   forComponent:column];
       if (attributedRowLabel == nil) {
         rowLabel = [delegate pickerView:element titleForRow:row forComponent:column];
       }
@@ -607,7 +624,8 @@ static Class gEDOObjectClass;
     [GREYMatchers matcherForKindOfClass:[UIPickerView class]],
     [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe],
   ];
-  return [[GREYAllOf alloc] initWithName:prefix matchers:matchersArray];
+  return [[GREYAllOf alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
+                                matchers:matchersArray];
 }
 
 + (id<GREYMatcher>)matcherForDatePickerValue:(NSDate *)value {
@@ -625,7 +643,8 @@ static Class gEDOObjectClass;
     [GREYMatchers matcherForKindOfClass:[UIDatePicker class]],
     [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe],
   ];
-  return [[GREYAllOf alloc] initWithName:prefix matchers:matchersArray];
+  return [[GREYAllOf alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
+                                matchers:matchersArray];
 }
 
 + (id<GREYMatcher>)matcherForEnabledElement {
@@ -649,7 +668,7 @@ static Class gEDOObjectClass;
   id<GREYMatcher> ancestorMatcher = [GREYMatchers matcherForAncestor:notEnabledElementMatcher];
   id<GREYMatcher> notAncestorOfEnabledElementMatcher =
       [GREYMatchers matcherForNegation:ancestorMatcher];
-  return [[GREYAllOf alloc] initWithName:prefix
+  return [[GREYAllOf alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
                                 matchers:@[ notAncestorOfEnabledElementMatcher, isEnabledMatcher ]];
 }
 
@@ -665,7 +684,8 @@ static Class gEDOObjectClass;
     [GREYMatchers matcherForKindOfClass:[[UIControl class] class]],
     [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe],
   ];
-  return [[GREYAllOf alloc] initWithName:prefix matchers:matchersArray];
+  return [[GREYAllOf alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
+                                matchers:matchersArray];
 }
 
 + (id<GREYMatcher>)matcherForUserInteractionEnabled {
@@ -680,7 +700,8 @@ static Class gEDOObjectClass;
     [GREYMatchers matcherForKindOfClass:[[UIView class] class]],
     [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe],
   ];
-  return [[GREYAllOf alloc] initWithName:prefix matchers:matchersArray];
+  return [[GREYAllOf alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
+                                matchers:matchersArray];
 }
 
 + (id<GREYMatcher>)matcherForConstraints:(NSArray *)constraints
@@ -704,11 +725,10 @@ static Class gEDOObjectClass;
       NSLog(@"Error finding element: %@", [GREYError grey_nestedDescriptionForError:matcherError]);
       return NO;
     } else if (referenceElements.count > 1) {
-      NSLog(
-          @"More than one element matches the reference matcher.\n"
-          @"The following elements were matched: %@\n"
-          @"Provided reference matcher: %@\n",
-          referenceElements, referenceElementMatcher);
+      NSLog(@"More than one element matches the reference matcher.\n"
+            @"The following elements were matched: %@\n"
+            @"Provided reference matcher: %@\n",
+            referenceElements, referenceElementMatcher);
       return NO;
     }
 
@@ -736,7 +756,8 @@ static Class gEDOObjectClass;
     [GREYMatchers matcherForNotNil],
     [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe],
   ];
-  return [[GREYAllOf alloc] initWithName:prefix matchers:matchersArray];
+  return [[GREYAllOf alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
+                                matchers:matchersArray];
 }
 
 + (id<GREYMatcher>)matcherForNil {
@@ -747,7 +768,7 @@ static Class gEDOObjectClass;
   GREYDescribeToBlock describe = ^void(id<GREYDescription> description) {
     [description appendText:prefix];
   };
-  return [[GREYElementMatcherBlock alloc] initWithName:prefix
+  return [[GREYElementMatcherBlock alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
                                           matchesBlock:matches
                                       descriptionBlock:describe];
 }
@@ -776,7 +797,7 @@ static Class gEDOObjectClass;
   GREYDescribeToBlock describe = ^void(id<GREYDescription> description) {
     [description appendText:prefix];
   };
-  return [[GREYElementMatcherBlock alloc] initWithName:prefix
+  return [[GREYElementMatcherBlock alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
                                           matchesBlock:matches
                                       descriptionBlock:describe];
 }
@@ -795,7 +816,8 @@ static Class gEDOObjectClass;
     [GREYMatchers matcherForRespondsToSelector:@selector(isOn)],
     [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe],
   ];
-  return [[GREYAllOf alloc] initWithName:prefix matchers:matchersArray];
+  return [[GREYAllOf alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
+                                matchers:matchersArray];
 }
 
 + (id<GREYMatcher>)matcherForScrolledToContentEdge:(GREYContentEdge)edge {
@@ -824,7 +846,8 @@ static Class gEDOObjectClass;
     [GREYMatchers matcherForKindOfClass:[UIScrollView class]],
     [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe],
   ];
-  return [[GREYAllOf alloc] initWithName:prefix matchers:matchersArray];
+  return [[GREYAllOf alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
+                                matchers:matchersArray];
 }
 
 + (id<GREYMatcher>)matcherForTextFieldValue:(NSString *)value {
@@ -839,7 +862,8 @@ static Class gEDOObjectClass;
     [GREYMatchers matcherForKindOfClass:[UITextField class]],
     [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe],
   ];
-  return [[GREYAllOf alloc] initWithName:prefix matchers:matchersArray];
+  return [[GREYAllOf alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
+                                matchers:matchersArray];
 }
 
 #pragma mark - Private
