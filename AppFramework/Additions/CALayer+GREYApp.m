@@ -74,21 +74,27 @@
 
   CFTimeInterval maxAllowableAnimationDuration =
       (CFTimeInterval)GREY_CONFIG_DOUBLE(kGREYConfigKeyCALayerMaxAnimationDuration);
-  if ([animation duration] > maxAllowableAnimationDuration) {
+  CFTimeInterval animationDuration = animation.duration;
+  if (animationDuration > maxAllowableAnimationDuration) {
     GREYLogVerbose(@"Adjusting repeatCount and repeatDuration to 0 for animation %@", animation);
     GREYLogVerbose(@"Adjusting duration to %f for animation %@", maxAllowableAnimationDuration,
                    animation);
     animation.duration = maxAllowableAnimationDuration;
+    animation.repeatCount = 0;
+    animation.repeatDuration = 0;
+    return;
   }
-  if (animation.duration != 0) {
-    CFTimeInterval allowableRepeatDuration = maxAllowableAnimationDuration - animation.duration;
-    float allowableRepeatCount = (float)(allowableRepeatDuration / animation.duration);
+
+  if (animationDuration != 0) {
+    CFTimeInterval allowableRepeatDuration = maxAllowableAnimationDuration - animationDuration;
+    float allowableRepeatCount = (float)(maxAllowableAnimationDuration / animationDuration);
     // Either repeatCount or repeatDuration is specified, not both.
     if (animation.repeatDuration > allowableRepeatDuration) {
       GREYLogVerbose(@"Adjusting repeatDuration to %f for animation %@", allowableRepeatDuration,
                      animation);
       animation.repeatDuration = allowableRepeatDuration;
-    } else if (animation.repeatCount > allowableRepeatCount) {
+    }
+    if (animation.repeatCount > allowableRepeatCount) {
       GREYLogVerbose(@"Adjusting repeatCount to %f for animation %@", allowableRepeatCount,
                      animation);
       animation.repeatCount = allowableRepeatCount;
