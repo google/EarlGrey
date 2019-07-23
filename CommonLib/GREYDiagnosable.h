@@ -19,7 +19,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  @return Prefixed diagnosticsID for "core" matcher, action, and assertion.
+ *  @return Prefixed @c diagnosticsID for "core" matcher, action, and assertion.
  */
 NSString *GREYCorePrefixedDiagnosticsID(NSString *diagnosticsID);
 
