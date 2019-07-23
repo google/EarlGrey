@@ -204,7 +204,7 @@ static const CFTimeInterval kMaximumSynchronizationSleepInterval = 0.1;
     if (!isAppIdle) {
       NSOrderedSet *busyResources = [self grey_busyResources];
       if ([busyResources count] > 0) {
-        NSString *description = @"Failed to execute block because idling resources below are busy.";
+        NSString *description = @"Failed to execute block because idling resources are busy.";
         I_GREYPopulateErrorNoted(error, kGREYUIThreadExecutorErrorDomain,
                                  kGREYUIThreadExecutorTimeoutErrorCode, description,
                                  [self grey_errorDictionaryForBusyResources:busyResources]);
