@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6F49FDBD22E69D4E00CCE813 /* GREYDiagnosable.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F49FDBC22E69D4C00CCE813 /* GREYDiagnosable.m */; };
 		6F8818B222B86F530006932D /* GREYAssertionBlock+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F8818B122B86F520006932D /* GREYAssertionBlock+Private.h */; };
 		A20847B422BC095B00DD3983 /* GREYTraversalObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A20847B322BC095A00DD3983 /* GREYTraversalObject.m */; };
 		FD1184D3212CEE72004CADC3 /* XCUIApplication+GREYEnvironment.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1184D2212CEE72004CADC3 /* XCUIApplication+GREYEnvironment.m */; };
@@ -390,6 +391,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6F49FDBC22E69D4C00CCE813 /* GREYDiagnosable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYDiagnosable.m; path = CommonLib/GREYDiagnosable.m; sourceTree = "<group>"; };
 		6F8818B122B86F520006932D /* GREYAssertionBlock+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GREYAssertionBlock+Private.h"; path = "CommonLib/Assertion/GREYAssertionBlock+Private.h"; sourceTree = "<group>"; };
 		6F9B2C1E22B18F15003132B0 /* GREYDiagnosable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYDiagnosable.h; path = CommonLib/GREYDiagnosable.h; sourceTree = "<group>"; };
 		80E8CD4422AF097000CDE5C5 /* GREYElementMatcherBlock+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GREYElementMatcherBlock+Private.h"; path = "CommonLib/Matcher/GREYElementMatcherBlock+Private.h"; sourceTree = SOURCE_ROOT; };
@@ -869,6 +871,7 @@
 			isa = PBXGroup;
 			children = (
 				6F9B2C1E22B18F15003132B0 /* GREYDiagnosable.h */,
+				6F49FDBC22E69D4C00CCE813 /* GREYDiagnosable.m */,
 				FD6239D520F56C9400049E81 /* GREYAppleInternals.h */,
 				FD6239DF20F56C9500049E81 /* GREYConstants.h */,
 				FD6239DE20F56C9400049E81 /* GREYConstants.m */,
@@ -1761,6 +1764,7 @@
 				FD62398E20F56B7600049E81 /* UIView+GREYCommon.m in Sources */,
 				FD6239C920F56C5E00049E81 /* GREYFrameworkException.m in Sources */,
 				FD6239BD20F56C3E00049E81 /* GREYErrorConstants.m in Sources */,
+				6F49FDBD22E69D4E00CCE813 /* GREYDiagnosable.m in Sources */,
 				FD6239E320F56C9500049E81 /* GREYConstants.m in Sources */,
 				FD62398F20F56B7600049E81 /* NSString+GREYCommon.m in Sources */,
 				FD6239BF20F56C3E00049E81 /* GREYScrollActionError.m in Sources */,
