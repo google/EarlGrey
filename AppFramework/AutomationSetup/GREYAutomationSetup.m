@@ -106,9 +106,7 @@ static GREYSignalHandler gPreviousSignalHandlers[kNumSignals];
   // Force software keyboard.
   [[UIKeyboardImpl sharedInstance] setAutomaticMinimizationEnabled:NO];
   // Turn off auto correction as it interferes with typing on iOS 8.2+.
-  if (iOS11_OR_ABOVE()) {
-    [self grey_modifyKeyboardSettings];
-  }
+  [self grey_modifyKeyboardSettings];
 }
 
 #pragma mark - Accessibility
