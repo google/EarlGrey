@@ -22,7 +22,6 @@
 #import "GREYElementFinder.h"
 #import "GREYElementInteraction+Private.h"
 #import "GREYInteractionDataSource.h"
-#import "GREYAppDiagnosticsAPI.g3only.h"
 #import "GREYAppError.h"
 #import "GREYAllOf.h"
 #import "GREYMatchers.h"
@@ -121,13 +120,10 @@
   // Find the element in the current UI hierarchy.
   __block BOOL elementsFound = NO;
   void (^matchingBlock)(void) = ^{
-    
     GREYFatalAssertMainThread();
 
     [elementFinderStopwatch start];
-    
     NSArray *elements = [elementFinder elementsMatchedInProvider:entireRootHierarchyProvider];
-    
     [elementFinderStopwatch stop];
 
     GREYLogVerbose(@"Finished scanning hierarchy for match %@ in %f seconds.",
@@ -244,7 +240,6 @@
 }
 
 - (instancetype)performAction:(id<GREYAction>)action error:(NSError **)error {
-  
   GREYLogVerbose(@"--Action started--");
   GREYLogVerbose(@"Action to perform: %@", [action name]);
 
@@ -264,7 +259,6 @@
     // Obtain all elements from the hierarchy and populate the passed error in case of
     // an element not being found.
     __block id element;
-    
     [self matchElementsWithTimeout:interactionTimeout
                    syncBeforeMatch:synchronizationRequired
                    completionBlock:^(NSArray<id> *matchedElements, GREYError *error) {
@@ -291,10 +285,7 @@
     if (element) {
       GREYLogVerbose(@"Performing action: %@\n with matcher: %@\n with root matcher: %@",
                      [action name], _elementMatcher, _rootMatcher);
-      
-      BOOL success = [action perform:element error:&actionError];
-      
-      if (!success) {
+      if (![action perform:element error:&actionError]) {
         // Action didn't succeed yet no error was set.
         if (!actionError) {
           actionError = GREYErrorMakeWithHierarchy(kGREYInteractionErrorDomain,
@@ -333,7 +324,6 @@
   }
 
   GREYLogVerbose(@"--Action finished--");
-  
   return self;
 }
 
@@ -342,7 +332,6 @@
 }
 
 - (instancetype)assert:(id<GREYAssertion>)assertion error:(NSError **)error {
-  
   GREYLogVerbose(@"--Assertion started--");
   GREYLogVerbose(@"Assertion to perform: %@", [assertion name]);
 
@@ -356,7 +345,6 @@
     CGFloat interactionTimeout =
         (CGFloat)GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
     BOOL synchronizationRequired = GREY_CONFIG_BOOL(kGREYConfigKeySynchronizationEnabled);
-    
     [self
         matchElementsWithTimeout:interactionTimeout
                  syncBeforeMatch:synchronizationRequired
@@ -416,9 +404,7 @@
                      // not need to perform the action is in the case of a multiple matcher.
                      if (!multipleMatchesPresent) {
                        __block BOOL assertionSucceeded = NO;
-                       
                        assertionSucceeded = [assertion assert:element error:&assertionError];
-                       
                        if (!assertionSucceeded) {
                          // Set the elementNotFoundError to the assertionError since the
                          // error has been utilized already.
@@ -464,7 +450,6 @@
   }
 
   GREYLogVerbose(@"--Assertion finished--");
-  
   return self;
 }
 
