@@ -99,9 +99,6 @@
   GREYAssertEqualObjects(kGREYInteractionErrorDomain, error.domain, @"should be equal");
 }
 
-// Tests to be run only on iOS 11 since we need the new XCUIScreen API.
-#if defined(__IPHONE_11_0)
-
 - (void)testTakeScreenShotForAppStoreInPortraitMode {
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait error:nil];
   UIImage *screenshot = [XCUIScreen mainScreen].screenshot.image;
@@ -149,8 +146,6 @@
       [EarlGrey selectElementWithMatcher:grey_kindOfClassName(@"UIStatusBarWindow")];
   [[interaction includeStatusBar] assertWithMatcher:grey_notNil()];
 }
-
-#endif
 
 #pragma mark - Private
 

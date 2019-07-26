@@ -22,11 +22,7 @@ NSString *const kActionSheetSimpleButtonText = @"Simple Button";
 NSString *const kActionSheetHideButtonText = @"Hide Button";
 NSString *const kActionSheetCancelButtonText = @"Cancel";
 
-#if !defined(__IPHONE_8_3) || (__IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_3)
-@interface ActionSheetViewController () <UIActionSheetDelegate>
-#else
 @interface ActionSheetViewController ()
-#endif
 
 @property(strong, nonatomic) IBOutlet UIButton *simpleActionSheetButton;
 @property(strong, nonatomic) IBOutlet UIButton *multipleButtonActionSheetButton;
@@ -52,15 +48,6 @@ NSString *const kActionSheetCancelButtonText = @"Cancel";
 }
 
 - (void)setupSimpleActionSheet {
-#if !defined(__IPHONE_8_3) || (__IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_3)
-  UIActionSheet *actionSheet =
-      [[UIActionSheet alloc] initWithTitle:kActionSheetTitle
-                                  delegate:self
-                         cancelButtonTitle:kActionSheetCancelButtonText
-                    destructiveButtonTitle:nil
-                         otherButtonTitles:kActionSheetSimpleButtonText, nil];
-  [actionSheet showInView:self.view];
-#else
   UIAlertController *alertController =
       [UIAlertController alertControllerWithTitle:kActionSheetTitle
                                           message:nil
@@ -86,19 +73,9 @@ NSString *const kActionSheetCancelButtonText = @"Cancel";
   alertController.popoverPresentationController.sourceView = self.view;
 
   [self presentViewController:alertController animated:YES completion:nil];
-#endif
 }
 
 - (void)setupMultipleButtonActionSheet {
-#if !defined(__IPHONE_8_3) || (__IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_3)
-  UIActionSheet *actionSheet =
-      [[UIActionSheet alloc] initWithTitle:kActionSheetTitle
-                                  delegate:self
-                         cancelButtonTitle:kActionSheetCancelButtonText
-                    destructiveButtonTitle:kActionSheetHideButtonText
-                         otherButtonTitles:kActionSheetSimpleButtonText, nil];
-  [actionSheet showInView:self.view];
-#else
   UIAlertController *alertController =
       [UIAlertController alertControllerWithTitle:kActionSheetTitle
                                           message:nil
@@ -132,26 +109,6 @@ NSString *const kActionSheetCancelButtonText = @"Cancel";
   alertController.popoverPresentationController.sourceView = self.view;
 
   [self presentViewController:alertController animated:YES completion:nil];
-#endif
 }
-
-#if !defined(__IPHONE_8_3) || (__IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_3)
-
-#pragma mark - UIActionSheetDelegate
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-  if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:kActionSheetSimpleButtonText]) {
-    self.actionLabel.text = @"Action Sheet Button Pressed";
-  } else if ([[actionSheet buttonTitleAtIndex:buttonIndex]
-                 isEqualToString:kActionSheetCancelButtonText]) {
-    self.actionLabel.text = kActionLabelText;
-  } else if ([[actionSheet buttonTitleAtIndex:buttonIndex]
-                 isEqualToString:kActionSheetHideButtonText]) {
-    self.actionLabel.text = @"";
-    self.multipleButtonActionSheetButton.hidden = YES;
-  }
-}
-
-#endif
 
 @end
