@@ -20,6 +20,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class GREYLayoutConstraint;
+
 @protocol GREYMatcher;
 
 /**
@@ -338,8 +340,8 @@ NS_ASSUME_NONNULL_BEGIN
  *  @code
  *  GREYLayoutConstraint *constraint1 = [GREYLayoutConstraint layoutConstraintWithAttribute ... ];
  *  GREYLayoutConstraint *constraint2 = [GREYLayoutConstraint layoutConstraintForDirection ... ];
- *  id<GREYMatcher> *matcher = [GREYMatcher matcherForConstraints:@[ constraint1, constraint2 ]
- *                                toReferenceElementMatching:aReferenceElementMatcher];
+ *  id<GREYMatcher> *matcher = [GREYMatcher matcherForLayoutConstraints:@[ constraint1, constraint2]
+ *                                           toReferenceElementMatching:aReferenceElementMatcher];
  *  [EarlGrey selectElementWithMatcher ...] assertWithMatcher:matcher];
  *  @endcode
  *
@@ -353,8 +355,8 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @return A matcher to verify the GREYLayoutConstraints on a UI element.
  */
-+ (id<GREYMatcher>)matcherForConstraints:(NSArray *)constraints
-              toReferenceElementMatching:(id<GREYMatcher>)referenceElementMatcher;
++ (id<GREYMatcher>)matcherForLayoutConstraints:(NSArray<GREYLayoutConstraint *> *)constraints
+                    toReferenceElementMatching:(id<GREYMatcher>)referenceElementMatcher;
 
 /**
  *  Matcher primarily for asserting that the element is @c nil or not found.

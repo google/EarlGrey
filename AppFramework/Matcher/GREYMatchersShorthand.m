@@ -132,8 +132,8 @@ id<GREYMatcher> grey_userInteractionEnabled(void) {
 }
 
 id<GREYMatcher> grey_layout(NSArray *constraints, id<GREYMatcher> referenceElementMatcher) {
-  return [GREYMatchers matcherForConstraints:constraints
-                  toReferenceElementMatching:referenceElementMatcher];
+  return [GREYMatchers matcherForLayoutConstraints:constraints
+                        toReferenceElementMatching:referenceElementMatcher];
 }
 
 id<GREYMatcher> grey_nil(void) { return [GREYMatchers matcherForNil]; }

@@ -20,7 +20,6 @@
 #import "NSObject+GREYApp.h"
 #import "GREYAssertions.h"
 #import "GREYElementFinder.h"
-#import "GREYElementInteraction+Private.h"
 #import "GREYInteractionDataSource.h"
 #import "GREYAppError.h"
 #import "GREYAllOf.h"
@@ -82,20 +81,6 @@
 }
 
 #pragma mark - Package Internal
-
-- (NSArray *)matchedElementsWithTimeout:(CFTimeInterval)timeout
-                                  error:(__strong GREYError **)errorOut {
-  __block NSArray *elements;
-  [self matchElementsWithTimeout:timeout
-                 syncBeforeMatch:NO
-                 completionBlock:^(NSArray<id> *matchedElements, GREYError *error) {
-                   if (errorOut) {
-                     *errorOut = error;
-                   }
-                   elements = matchedElements;
-                 }];
-  return elements;
-}
 
 - (void)matchElementsWithTimeout:(CFTimeInterval)timeout
                  syncBeforeMatch:(BOOL)syncBeforeMatch

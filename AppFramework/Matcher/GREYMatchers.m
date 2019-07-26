@@ -22,11 +22,11 @@
 #include <tgmath.h>
 
 #import "UISwitch+GREYApp.h"
-#import "GREYElementInteraction+Private.h"
-#import "GREYElementInteraction.h"
+#import "GREYElementFinder.h"
 #import "GREYAllOf+Private.h"
 #import "GREYAllOf.h"
 #import "GREYAnyOf.h"
+#import "GREYSyncAPI.h"
 #import "NSString+GREYCommon.h"
 #import "GREYFatalAsserts.h"
 #import "GREYThrowDefines.h"
@@ -704,10 +704,10 @@ static Class gEDOObjectClass;
                                 matchers:matchersArray];
 }
 
-+ (id<GREYMatcher>)matcherForConstraints:(NSArray *)constraints
-              toReferenceElementMatching:(id<GREYMatcher>)referenceElementMatcher {
++ (id<GREYMatcher>)matcherForLayoutConstraints:(NSArray<GREYLayoutConstraint *> *)constraints
+                    toReferenceElementMatching:(id<GREYMatcher>)referenceElementMatcher {
   NSString *prefix = @"layoutWithConstraints";
-  NSMutableArray *localConstraints = [[NSMutableArray alloc] init];
+  NSMutableArray<GREYLayoutConstraint *> *localConstraints = [[NSMutableArray alloc] init];
   NSEnumerator<GREYLayoutConstraint *> *constraintEnumerator = [constraints objectEnumerator];
   GREYLayoutConstraint *constraint;
   while ((constraint = constraintEnumerator.nextObject)) {
@@ -717,14 +717,17 @@ static Class gEDOObjectClass;
   GREYMatchesBlock matches = ^BOOL(id element) {
     // TODO: This causes searching the UI hierarchy multiple times for each element, refactor the
     // design to avoid this.
-    GREYElementInteraction *interaction =
-        [[GREYElementInteraction alloc] initWithElementMatcher:referenceElementMatcher];
-    GREYError *matcherError;
-    NSArray *referenceElements = [interaction matchedElementsWithTimeout:0 error:&matcherError];
-    if (matcherError) {
-      NSLog(@"Error finding element: %@", [GREYError grey_nestedDescriptionForError:matcherError]);
-      return NO;
-    } else if (referenceElements.count > 1) {
+    GREYUIWindowProvider *windowProvider =
+        [GREYUIWindowProvider providerWithAllWindowsWithStatusBar:YES];
+    GREYElementProvider *entireRootHierarchyProvider =
+        [GREYElementProvider providerWithRootProvider:windowProvider];
+    GREYElementFinder *finder = [[GREYElementFinder alloc] initWithMatcher:referenceElementMatcher];
+    __block NSArray<id> *referenceElements;
+    grey_dispatch_sync_on_main_thread(^{
+      referenceElements = [finder elementsMatchedInProvider:entireRootHierarchyProvider];
+    });
+
+    if (referenceElements.count > 1) {
       NSLog(@"More than one element matches the reference matcher.\n"
             @"The following elements were matched: %@\n"
             @"Provided reference matcher: %@\n",

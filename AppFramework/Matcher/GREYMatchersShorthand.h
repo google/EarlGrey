@@ -119,7 +119,7 @@ GREY_EXPORT id<GREYMatcher> grey_selected(void);
 /** Shorthand for GREYMatchers::matcherForUserInteractionEnabled. */
 GREY_EXPORT id<GREYMatcher> grey_userInteractionEnabled(void);
 
-/** Shorthand for GREYMatchers::matcherForConstraints:toReferenceElementMatching:. */
+/** Shorthand for GREYMatchers::matcherForLayoutConstraints:toReferenceElementMatching:. */
 GREY_EXPORT id<GREYMatcher> grey_layout(NSArray *constraints,
                                         id<GREYMatcher> referenceElementMatcher);
 

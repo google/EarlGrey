@@ -196,7 +196,6 @@
 		FD623DC220FD770F00049E81 /* GREYMatchersShorthand.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B6020F95B0200049E81 /* GREYMatchersShorthand.m */; };
 		FD623DD920FD794500049E81 /* libCommonLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD62395120F56A9700049E81 /* libCommonLib.a */; };
 		FD76BE5722985566001E6DAA /* GREYUIThreadExecutor+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = FD76BE5622985566001E6DAA /* GREYUIThreadExecutor+Private.h */; };
-		FD76BE5922985583001E6DAA /* GREYElementInteraction+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = FD76BE5822985583001E6DAA /* GREYElementInteraction+Private.h */; };
 		FD76BE5B229855A0001E6DAA /* GREYActions+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = FD76BE5A229855A0001E6DAA /* GREYActions+Private.h */; };
 		FD795B9421192FEC00F9A9E3 /* libCommonLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD62395120F56A9700049E81 /* libCommonLib.a */; };
 		FD98C459226C2DD1006F8D68 /* GREYScreenshotter.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C456226C2DCD006F8D68 /* GREYScreenshotter.m */; };
@@ -642,7 +641,6 @@
 		FD76BE542298551A001E6DAA /* GREYScreenshotter+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GREYScreenshotter+Private.h"; sourceTree = "<group>"; };
 		FD76BE5522985538001E6DAA /* GREYError+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GREYError+Private.h"; path = "CommonLib/Error/GREYError+Private.h"; sourceTree = "<group>"; };
 		FD76BE5622985566001E6DAA /* GREYUIThreadExecutor+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GREYUIThreadExecutor+Private.h"; path = "Synchronization/GREYUIThreadExecutor+Private.h"; sourceTree = "<group>"; };
-		FD76BE5822985583001E6DAA /* GREYElementInteraction+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GREYElementInteraction+Private.h"; path = "Core/GREYElementInteraction+Private.h"; sourceTree = "<group>"; };
 		FD76BE5A229855A0001E6DAA /* GREYActions+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GREYActions+Private.h"; path = "Action/GREYActions+Private.h"; sourceTree = "<group>"; };
 		FD98C456226C2DCD006F8D68 /* GREYScreenshotter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYScreenshotter.m; sourceTree = "<group>"; };
 		FD98C457226C2DCE006F8D68 /* GREYScreenshotter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYScreenshotter.h; sourceTree = "<group>"; };
@@ -1136,7 +1134,6 @@
 		FD623AED20F9593300049E81 /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				FD76BE5822985583001E6DAA /* GREYElementInteraction+Private.h */,
 				FD623AEF20F9594100049E81 /* GREYElementFinder.h */,
 				FD623AF220F9594100049E81 /* GREYElementFinder.m */,
 				FD623AEE20F9594100049E81 /* GREYElementInteraction.h */,
@@ -1401,7 +1398,6 @@
 				FD76BE5722985566001E6DAA /* GREYUIThreadExecutor+Private.h in Headers */,
 				FD76BE5B229855A0001E6DAA /* GREYActions+Private.h in Headers */,
 				FD623B6F20F95B0300049E81 /* GREYMatchersShorthand.h in Headers */,
-				FD76BE5922985583001E6DAA /* GREYElementInteraction+Private.h in Headers */,
 				FD623AC720F9590800049E81 /* UIWindow+GREYApp.h in Headers */,
 				FD623B0920F9595300049E81 /* GREYSurrogateDelegate.h in Headers */,
 				FD623B4B20F95A9C00049E81 /* GREYIdlingResource.h in Headers */,
