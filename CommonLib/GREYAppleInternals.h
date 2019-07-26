@@ -50,6 +50,17 @@
 }
 @end
 
+#if defined(__IPHONE_13_0)
+
+@interface UIStatusBarManager (GREYExposed)
+/**
+ *  A private method to create a single status bar for the window.
+ */
+- (id)createLocalStatusBar;
+@end
+
+#endif
+
 @interface UIApplication (GREYExposed)
 /**
  *  @return @c YES if a system alert is being shown, @c NO otherwise.

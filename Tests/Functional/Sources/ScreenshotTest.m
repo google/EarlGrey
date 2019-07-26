@@ -16,6 +16,8 @@
 
 #import "BaseIntegrationTest.h"
 
+#import "GREYDefines.h"
+
 @interface ScreenshotTest : BaseIntegrationTest
 @end
 
@@ -142,9 +144,11 @@
 }
 
 - (void)testAddingTheStatusBarToTheInteraction {
-  GREYElementInteraction *interaction =
-      [EarlGrey selectElementWithMatcher:grey_kindOfClassName(@"UIStatusBarWindow")];
-  [[interaction includeStatusBar] assertWithMatcher:grey_notNil()];
+  if (iOS13_OR_ABOVE()) {
+    GREYElementInteraction *interaction =
+        [EarlGrey selectElementWithMatcher:grey_kindOfClassName(@"UIStatusBarWindow")];
+    [[interaction includeStatusBar] assertWithMatcher:grey_notNil()];
+  }
 }
 
 #pragma mark - Private

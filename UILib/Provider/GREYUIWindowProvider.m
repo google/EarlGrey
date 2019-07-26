@@ -71,10 +71,27 @@
     [windows addObject:sharedApp.keyWindow];
   }
 
-  // Add the status bar if asked for.
-  UIWindow *statusBarWindow = sharedApp.statusBarWindow;
-  if (includeStatusBar && statusBarWindow) {
-    [windows addObject:statusBarWindow];
+  if (includeStatusBar) {
+    UIWindow *statusBarWindow;
+    // Add the status bar if asked for.
+    if (@available(iOS 13.0, *)) {
+#if defined(__IPHONE_13_0)
+      UIStatusBarManager *manager =
+          [[[[UIApplication sharedApplication] keyWindow] windowScene] statusBarManager];
+      id localStatusBar = [manager createLocalStatusBar];
+      UIView *statusBar = [localStatusBar statusBar];
+      statusBarWindow = [[UIWindow alloc] initWithFrame:statusBar.frame];
+      [statusBarWindow addSubview:statusBar];
+      [statusBarWindow setHidden:NO];
+      statusBarWindow.windowLevel = UIWindowLevelStatusBar;
+#endif
+    } else {
+      statusBarWindow = sharedApp.statusBarWindow;
+    }
+
+    if (statusBarWindow) {
+      [windows addObject:statusBarWindow];
+    }
   }
 
   // After sorting, reverse the windows because they need to appear from top-most to bottom-most.
