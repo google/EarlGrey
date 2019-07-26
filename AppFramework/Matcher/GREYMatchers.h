@@ -137,7 +137,7 @@ NS_ASSUME_NONNULL_BEGIN
  *        use it in your selectElementWithMatcher statement for matching an element but use it to
  *        assert on a matched element's state.
  *
- *  @return A matcher intialized with a visibility percentage that confirms an element is
+ *  @return A matcher initialized with a visibility percentage that confirms an element is
  *          sufficiently visible.
  */
 + (id<GREYMatcher>)matcherForSufficientlyVisible;
