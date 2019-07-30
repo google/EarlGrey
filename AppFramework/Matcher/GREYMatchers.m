@@ -319,7 +319,7 @@ static Class gEDOObjectClass;
   __block CGFloat visiblePercent;
   GREYMatchesBlock matches = ^BOOL(UIView *element) {
     visiblePercent = [GREYVisibilityChecker percentVisibleAreaOfElement:element];
-    return visiblePercent > percent;
+    return visiblePercent >= percent;
   };
   GREYDescribeToBlock describe = ^void(id<GREYDescription> description) {
     NSString *descriptionString = [NSString
