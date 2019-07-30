@@ -49,6 +49,10 @@ static NSString *const kSystemAlertLabelBGLocationNotUsingTheApp =
  */
 static NSString *const kSystemAlertLabelCamera = @"Camera";
 /**
+ *  Text denoting part of the Photos System Alert.
+ */
+static NSString *const kSystemAlertLabelPhotos = @"Photos";
+/**
  *  Text denoting part of the Microphone System Alert.
  *  TODO: Add functional tests for this. // NOLINT
  */
@@ -121,6 +125,8 @@ NSString *const kGREYSystemAlertDismissalErrorDomain = @"com.google.earlgrey.Sys
     return GREYSystemAlertTypeLocation;
   } else if ([alertValue rangeOfString:kSystemAlertLabelCamera].location != NSNotFound) {
     return GREYSystemAlertTypeCamera;
+  } else if ([alertValue rangeOfString:kSystemAlertLabelPhotos].location != NSNotFound) {
+    return GREYSystemAlertTypePhotos;
   } else if ([alertValue rangeOfString:kSystemAlertLabelMicrophone].location != NSNotFound) {
     return GREYSystemAlertTypeMicrophone;
   } else if ([alertValue rangeOfString:kSystemAlertLabelCalendar].location != NSNotFound) {

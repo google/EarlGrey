@@ -72,6 +72,10 @@ typedef NS_ENUM(NSUInteger, GREYSystemAlertType) {
    */
   GREYSystemAlertTypeCamera,
   /**
+   *  System Alert Type for Photos.
+   */
+  GREYSystemAlertTypePhotos,
+  /**
    *  System Alert Type for Microphone.
    */
   GREYSystemAlertTypeMicrophone,
