@@ -39,9 +39,9 @@
 #import "GREYLogger.h"
 #import "GREYStopwatch.h"
 #import "GREYMatcher.h"
-#import "GREYVisibilityChecker+Private.h"
 #import "GREYElementProvider.h"
 #import "GREYUIWindowProvider.h"
+#import "GREYVisibilityChecker+Private.h"
 
 @interface GREYElementInteraction () <GREYInteractionDataSource>
 @end

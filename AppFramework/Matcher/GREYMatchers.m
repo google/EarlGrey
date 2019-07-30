@@ -36,9 +36,9 @@
 #import "GREYElementMatcherBlock.h"
 #import "GREYLayoutConstraint.h"
 #import "GREYMatcher.h"
-#import "GREYVisibilityChecker.h"
 #import "GREYElementProvider.h"
 #import "GREYUIWindowProvider.h"
+#import "GREYVisibilityChecker.h"
 
 // The minimum percentage of an element's accessibility frame that must be visible before EarlGrey
 // considers the element to be sufficiently visible.
