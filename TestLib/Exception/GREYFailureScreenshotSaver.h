@@ -28,13 +28,11 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param screenshotsDict  An NSDictionary containing the image type and the screenshots
  *                          themselves.
- *  @param screenshotPrefix A prefix to add to the screenshots as they are saved.
  *  @param screenshotDir    The directory path to save the screenshots in.
  *
  *  @return An NSArray containing the paths of the images saved to disk.
  */
 + (NSArray *)saveFailureScreenshotsInDictionary:(NSDictionary *)screenshotsDict
-                           withScreenshotPrefix:(NSString *)screenshotPrefix
                                     toDirectory:(NSString *)screenshotDir;
 @end
 

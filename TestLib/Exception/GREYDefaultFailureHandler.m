@@ -67,22 +67,19 @@
   }
 
   NSString *logMessage = [logger componentsJoinedByString:@"\n"];
-  NSString *screenshotPrefix =
-      [NSString stringWithFormat:@"%@_%@", [currentTestCase grey_testClassName],
-                                 [currentTestCase grey_testMethodName]];
   NSDictionary *appScreenshots = [exception.userInfo valueForKey:kErrorDetailAppScreenshotsKey];
   // Re-obtain the screenshots when a user might be using GREYAsserts. Since this is from the test
   // process, the delay here would be minimal.
   if (!appScreenshots) {
     appScreenshots = [GREYFailureScreenshotter screenshots];
   }
-  NSString *uniqueSubDirName = [NSString
-      stringWithFormat:@"%@-%@-%@", screenshotPrefix, exception.name, [[NSUUID UUID] UUIDString]];
+
+  NSString *uniqueSubDirName =
+      [NSString stringWithFormat:@"%@-%@", exception.name, [[NSUUID UUID] UUIDString]];
   NSString *screenshotDir = [GREY_CONFIG_STRING(kGREYConfigKeyArtifactsDirLocation)
       stringByAppendingPathComponent:uniqueSubDirName];
   NSArray *screenshots =
       [GREYFailureScreenshotSaver saveFailureScreenshotsInDictionary:appScreenshots
-                                                withScreenshotPrefix:screenshotPrefix
                                                          toDirectory:screenshotDir];
   NSAssert(screenshots, @"Screenshots must be present");
   NSArray *stackTrace = [NSThread callStackSymbols];

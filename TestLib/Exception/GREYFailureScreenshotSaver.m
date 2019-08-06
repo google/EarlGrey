@@ -22,44 +22,36 @@
 @implementation GREYFailureScreenshotSaver
 
 + (NSArray *)saveFailureScreenshotsInDictionary:(NSDictionary *)screenshotsDict
-                           withScreenshotPrefix:(NSString *)screenshotPrefix
                                     toDirectory:(NSString *)screenshotDir {
-  NSMutableArray *screenshotPaths = [[NSMutableArray alloc] init];
+  NSMutableArray<NSString *> *screenshotPaths = [[NSMutableArray alloc] init];
 
-  // Save and log screenshot and before and after images (if available).
+  // Save and log screenshot, before and after images (if available).
   UIImage *screenshot = screenshotsDict[kGREYScreenshotAtFailure];
   if (screenshot) {
-    [screenshotPaths
-        addObject:[NSFileManager
-                      grey_saveImageAsPNG:screenshot
-                                   toFile:[NSString stringWithFormat:@"%@.png", screenshotPrefix]
-                              inDirectory:screenshotDir]];
+    [screenshotPaths addObject:[NSFileManager grey_saveImageAsPNG:screenshot
+                                                           toFile:@"screenshot.png"
+                                                      inDirectory:screenshotDir]];
   }
+
   screenshot = screenshotsDict[kGREYScreenshotBeforeImage];
   if (screenshot) {
-    [screenshotPaths
-        addObject:[NSFileManager grey_saveImageAsPNG:screenshot
-                                              toFile:[NSString stringWithFormat:@"%@_before.png",
-                                                                                screenshotPrefix]
-                                         inDirectory:screenshotDir]];
+    [screenshotPaths addObject:[NSFileManager grey_saveImageAsPNG:screenshot
+                                                           toFile:@"visibility_before.png"
+                                                      inDirectory:screenshotDir]];
   }
+
   screenshot = screenshotsDict[kGREYScreenshotExpectedAfterImage];
   if (screenshot) {
-    [screenshotPaths
-        addObject:[NSFileManager
-                      grey_saveImageAsPNG:screenshot
-                                   toFile:[NSString stringWithFormat:@"%@_after_expected.png",
-                                                                     screenshotPrefix]
-                              inDirectory:screenshotDir]];
+    [screenshotPaths addObject:[NSFileManager grey_saveImageAsPNG:screenshot
+                                                           toFile:@"visibility_after_expected.png"
+                                                      inDirectory:screenshotDir]];
   }
+
   screenshot = screenshotsDict[kGREYScreenshotActualAfterImage];
   if (screenshot) {
-    [screenshotPaths
-        addObject:[NSFileManager
-                      grey_saveImageAsPNG:screenshot
-                                   toFile:[NSString stringWithFormat:@"%@_after_actual.png",
-                                                                     screenshotPrefix]
-                              inDirectory:screenshotDir]];
+    [screenshotPaths addObject:[NSFileManager grey_saveImageAsPNG:screenshot
+                                                           toFile:@"visibility_after_actual.png"
+                                                      inDirectory:screenshotDir]];
   }
   return [screenshotPaths copy];
 }
