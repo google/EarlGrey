@@ -107,12 +107,6 @@ typedef struct GREYVisiblePixelData {
 + (CGFloat)percentVisibleAreaOfElement:(id)element;
 
 /**
- *  @return @c YES if at least 10 (@c kMinimumPointsVisibleForInteraction) points are visible @b and
- *          the activation point of the given element is also visible, @c NO otherwise.
- */
-+ (BOOL)isVisibleForInteraction:(id)element;
-
-/**
  *  @return A visible point where a user can tap to interact with specified @c element, or
  *          @c GREYCGPointNull if there's no such point.
  *  @remark The returned point is relative to @c element's bound.

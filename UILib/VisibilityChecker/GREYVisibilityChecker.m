@@ -16,7 +16,7 @@
 
 #import "GREYVisibilityChecker.h"
 
-#include <CoreGraphics/CoreGraphics.h>
+#import <CoreGraphics/CoreGraphics.h>
 
 #import "NSObject+GREYCommon.h"
 #import "UIView+GREYCommon.h"
@@ -158,11 +158,6 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
   GREYLogVerbose(@"Visibility percent: %f for element: %@", [percentVisible floatValue],
                  [element grey_description]);
   return [percentVisible floatValue];
-}
-
-+ (BOOL)isVisibleForInteraction:(id)element {
-  CGPoint interactionPoint = [self visibleInteractionPointForElement:element];
-  return !CGPointIsNull(interactionPoint);
 }
 
 + (CGRect)rectEnclosingVisibleAreaOfElement:(id)element {

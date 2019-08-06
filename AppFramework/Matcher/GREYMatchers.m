@@ -16,6 +16,7 @@
 
 #import "GREYMatchers.h"
 
+#import <CoreGraphics/CoreGraphics.h>
 #import <UIKit/UIKit.h>
 
 #include <objc/runtime.h>
@@ -36,6 +37,7 @@
 #import "GREYElementMatcherBlock.h"
 #import "GREYLayoutConstraint.h"
 #import "GREYMatcher.h"
+#import "CGGeometry+GREYUI.h"
 #import "GREYElementProvider.h"
 #import "GREYUIWindowProvider.h"
 #import "GREYVisibilityChecker.h"
@@ -349,14 +351,17 @@ static Class gEDOObjectClass;
                                       descriptionBlock:describe];
 }
 
-// TODO(b/131787078): Check if matcherForUserInteractionEnabled can be added inside this.
 + (id<GREYMatcher>)matcherForInteractable {
   NSString *prefix = @"interactable";
+  __block CGPoint interactionPoint;
   GREYMatchesBlock matches = ^BOOL(UIView *element) {
-    return [GREYVisibilityChecker isVisibleForInteraction:element];
+    interactionPoint = [GREYVisibilityChecker visibleInteractionPointForElement:element];
+    return !CGPointIsNull(interactionPoint);
   };
   GREYDescribeToBlock describe = ^void(id<GREYDescription> description) {
-    [description appendText:prefix];
+    NSString *interactionPointDescription =
+        [NSString stringWithFormat:@"%@ Point:%@", prefix, NSStringFromCGPoint(interactionPoint)];
+    [description appendText:interactionPointDescription];
   };
   return [[GREYElementMatcherBlock alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
                                           matchesBlock:matches

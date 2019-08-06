@@ -103,6 +103,14 @@
       assert:[GREYHostApplicationDistantObject.sharedInstance visibleRectangleAssertion]];
 }
 
+- (void)testInteractablityFailureDescription {
+  NSError *error;
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"RedBar")]
+      assertWithMatcher:grey_interactable()
+                  error:&error];
+  XCTAssertTrue([error.description containsString:@"interactable Point:{nan, nan}"]);
+}
+
 - (void)testVisibilityFailsWhenViewIsObscured {
   // Verify RedBar cannot be interacted with when overlapped by another view.
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"RedBar")]

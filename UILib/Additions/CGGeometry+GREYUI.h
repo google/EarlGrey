@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#include <CoreGraphics/CoreGraphics.h>
+#import <CoreGraphics/CoreGraphics.h>
 #import <UIKit/UIKit.h>
 
 #import "GREYConstants.h"
