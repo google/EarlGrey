@@ -108,4 +108,14 @@
       .allObjects;
 }
 
+#pragma mark - Private
+
+/**
+ *  A dummy method to resolve the statusBar call.
+ */
+- (UIView *)statusBar {
+  [self doesNotRecognizeSelector:_cmd];
+  return nil;
+}
+
 @end
