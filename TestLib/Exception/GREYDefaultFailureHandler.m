@@ -76,7 +76,7 @@
 
   NSString *uniqueSubDirName =
       [NSString stringWithFormat:@"%@-%@", exception.name, [[NSUUID UUID] UUIDString]];
-  NSString *screenshotDir = [GREY_CONFIG_STRING(kGREYConfigKeyArtifactsDirLocation)
+  __unused NSString *screenshotDir = [GREY_CONFIG_STRING(kGREYConfigKeyArtifactsDirLocation)
       stringByAppendingPathComponent:uniqueSubDirName];
   NSArray *screenshots =
       [GREYFailureScreenshotSaver saveFailureScreenshotsInDictionary:appScreenshots
