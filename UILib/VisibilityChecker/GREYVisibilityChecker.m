@@ -161,6 +161,7 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
 }
 
 + (CGRect)rectEnclosingVisibleAreaOfElement:(id)element {
+  CFTimeInterval startTime = CACurrentMediaTime();
   // TODO: Add support for accessibility elements, if needed.
   GREYFatalAssertWithMessage([element isKindOfClass:[UIView class]],
                              @"Only elements of kind UIView are supported by this method.");
@@ -200,10 +201,12 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
   }
   // Cache result before returning.
   [cache setRectEnclosingVisibleArea:[NSValue valueWithCGRect:visibleAreaRect]];
+  gVisibilityDuration += CACurrentMediaTime() - startTime;
   return visibleAreaRect;
 }
 
 + (CGPoint)visibleInteractionPointForElement:(id)element {
+  CFTimeInterval startTime = CACurrentMediaTime();
   if (!element) {
     // Nil elements are not considered visible for interaction.
     return GREYCGPointNull;
@@ -333,6 +336,7 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
   CGImageRelease(beforeImage);
   CGImageRelease(afterImage);
   [cache setVisibleInteractionPoint:[NSValue valueWithCGPoint:interactionPointInFixedPoints]];
+  gVisibilityDuration += CACurrentMediaTime() - startTime;
   return interactionPointInFixedPoints;
 }
 
