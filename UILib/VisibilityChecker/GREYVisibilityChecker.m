@@ -476,9 +476,6 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
  */
 + (double)grey_percentViewVisibleOnScreen:(UIView *)view
                                withinRect:(CGRect)searchRectInScreenCoordinates {
-  if (view.hidden || (view.alpha == 0)) {
-    return 0;
-  }
   CGImageRef beforeImage = NULL;
   CGImageRef afterImage = NULL;
   BOOL viewIntersectsScreen =
