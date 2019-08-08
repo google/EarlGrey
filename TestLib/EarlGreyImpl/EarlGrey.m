@@ -40,13 +40,13 @@
  *  thread.
  */
 static inline void SetDefaultFailureHandler() {
-  NSMutableDictionary *TLSDict = [[NSThread currentThread] threadDictionary];
+  NSDictionary<NSString *, id> *TLSDict = [[NSThread mainThread] threadDictionary];
   [TLSDict setValue:[[GREYDefaultFailureHandler alloc] init] forKey:GREYFailureHandlerKey];
 }
 
 /** Returns the current failure handler. If it's @c nil, sets the default one and returns it. */
 static inline id<GREYFailureHandler> GREYGetCurrentFailureHandler() {
-  NSMutableDictionary *TLSDict = [[NSThread currentThread] threadDictionary];
+  NSDictionary<NSString *, id> *TLSDict = [[NSThread mainThread] threadDictionary];
   id<GREYFailureHandler> handler = [TLSDict valueForKey:GREYFailureHandlerKey];
   if (!handler) {
     SetDefaultFailureHandler();

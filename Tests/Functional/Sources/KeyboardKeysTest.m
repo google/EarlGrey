@@ -142,7 +142,7 @@
 }
 
 - (void)testNonTypingTextField {
-  [NSThread currentThread].threadDictionary[GREYFailureHandlerKey] = [[FailureHandler alloc] init];
+  [NSThread mainThread].threadDictionary[GREYFailureHandlerKey] = [[FailureHandler alloc] init];
 
   @try {
     [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"NonTypingTextField")]

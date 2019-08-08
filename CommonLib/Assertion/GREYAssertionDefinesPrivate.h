@@ -40,7 +40,7 @@ GREY_EXTERN NSString *const GREYFailureHandlerKey;
 #define I_GREYSetCurrentAsFailable()                                                             \
   ({                                                                                             \
     id<GREYFailureHandler> failureHandler__ =                                                    \
-        [NSThread currentThread].threadDictionary[GREYFailureHandlerKey];                        \
+        [NSThread mainThread].threadDictionary[GREYFailureHandlerKey];                           \
     if ([failureHandler__ respondsToSelector:@selector(setInvocationFile:andInvocationLine:)]) { \
       NSString *invocationFile = [NSString stringWithUTF8String:__FILE__];                       \
       if (invocationFile) {                                                                      \
@@ -67,7 +67,7 @@ GREY_EXTERN NSString *const GREYFailureHandlerKey;
     NSString *details__;                                                                         \
     I_GREYFormattedString(details__, __details, ##__VA_ARGS__);                                  \
     id<GREYFailureHandler> failureHandler__ =                                                    \
-        [NSThread currentThread].threadDictionary[GREYFailureHandlerKey];                        \
+        [NSThread mainThread].threadDictionary[GREYFailureHandlerKey];                           \
     [failureHandler__ handleException:[GREYFrameworkException exceptionWithName:__exceptionName  \
                                                                          reason:(__description)] \
                               details:(details__)];                                              \

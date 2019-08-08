@@ -38,22 +38,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  *  Key for setting a new or retrieving the existing failure handler for EarlGrey. Each failure
- *  handler is tied to the existing thread object's dictionary. When an EarlGrey call fails, it
+ *  handler is tied to the main thread object's dictionary. When an EarlGrey call fails, it
  *  calls into the currently set failure handler to handle the exception.
  *
- *  To set a new failure handler (for the current thread):
+ *  To set a new failure handler (for any thread):
  *   @code
- *   [NSThread currentThread].threadDictionary[GREYFailureHandlerKey] = newHandler;
+ *   [NSThread mainThread].threadDictionary[GREYFailureHandlerKey] = newHandler;
  *   @endcode
  *
- *  To get the failure handler (for the current thread):
+ *  To get the failure handler:
  *   @code
  *   id<GREYFailureHandler> currentHandler =
- *       [NSThread currentThread].threadDictionary[GREYFailureHandlerKey];
+ *       [NSThread mainThread].threadDictionary[GREYFailureHandlerKey];
  *   @endcode
  *
- *  @note It's possible that the current thread does not have a handler, in which case one will be
- *        created and assigned by EarlGrey when it's called.
+ *  @note It's possible that the main thread might not have a handler set at the time of the call,
+ *        in which case one will be created and assigned by EarlGrey when it's called.
  */
 GREY_EXTERN NSString *const GREYFailureHandlerKey;
 

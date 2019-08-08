@@ -43,7 +43,7 @@
                                            userInfo:[interactionError userInfo]];
 
       id<GREYFailureHandler> failureHandler =
-          [NSThread currentThread].threadDictionary[GREYFailureHandlerKey];
+          [NSThread mainThread].threadDictionary[GREYFailureHandlerKey];
 
       NSString *errorDetails = [[exception userInfo] valueForKey:kErrorDetailElementMatcherKey];
       [failureHandler handleException:exception details:errorDetails];

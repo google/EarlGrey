@@ -67,7 +67,13 @@ GREY_EXTERN NSString *const kGREYConstraintFailedException;
 /**
  *  Exception raised by the framework which results in a test failure.
  *  To catch such exceptions, install a custom failure handler
- *  using EarlGrey::setFailureHandler:. A default failure handler is provided by the framework.
+ *  using:
+ *
+ *  @code
+ *    [NSThread mainThread].threadDictionary[GREYFailureHandlerKey] = handler;
+ *  @endcode
+ *
+ * . A default failure handler is provided by the framework.
  */
 @interface GREYFrameworkException : NSException
 
