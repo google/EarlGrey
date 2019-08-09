@@ -39,23 +39,15 @@ void GREYExecuteSyncBlockInBackgroundQueue(void (^block)(void)) {
         blockProcessed = YES;
         CFRunLoopStop(CFRunLoopGetCurrent());
       });
-  __block NSException *blockException;
   dispatch_async(appProxyQueue, ^{
-    @try {
-      block();
-    } @catch (NSException *exception) {
-      blockException = exception;
-    }
+    block();
     dispatch_async(dispatch_get_main_queue(), blockToStopMainRunloopSpinning);
   });
 
   while (!blockProcessed) {
     CFRunLoopRun();
   }
-  GREYFatalAssertWithMessage(
-      !blockException,
-      @"Exception occurred when processing background queue request in EarlGrey: %@",
-      blockException.description);
+
   // Cancel any future executions of the CFRunLoopStop block.
   dispatch_block_cancel(blockToStopMainRunloopSpinning);
 }
