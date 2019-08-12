@@ -575,14 +575,10 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
   [CATransaction begin];
   [CATransaction flush];
   [CATransaction commit];
-  // For the searchRect used in screenshotting, use screenshotSearchRect_point instead of
-  // searchRectOnScreenInViewInScreenCoordinates as the former is pixel aligned points.
-  CGRect screenshotSearchRect_point = CGRectPixelToPoint(screenshotSearchRect_pixel);
-  UIImage *beforeScreenshot =
-      [GREYScreenshotter grey_takeScreenshotAfterScreenUpdates:YES
-                                                  inScreenRect:screenshotSearchRect_point
-                                                 withStatusBar:YES];
-  CGImageRef beforeImage = CGImageCreateCopy(beforeScreenshot.CGImage);
+  UIImage *beforeScreenshot = [GREYScreenshotter grey_takeScreenshotAfterScreenUpdates:YES
+                                                                         withStatusBar:YES];
+  CGImageRef beforeImage =
+      CGImageCreateWithImageInRect(beforeScreenshot.CGImage, screenshotSearchRect_pixel);
   if (!beforeImage) {
     return NO;
   }
@@ -622,10 +618,9 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
       [self grey_imageViewWithShiftedColorOfImage:beforeImage
                                       frameOffset:searchRectOffset
                                       orientation:beforeScreenshot.imageOrientation];
-  UIImage *afterScreenshot = [self grey_imageAfterAddingSubview:shiftedView
-                                                         toView:view
-                                                     searchRect:screenshotSearchRect_point];
-  CGImageRef afterImage = CGImageCreateCopy(afterScreenshot.CGImage);
+  UIImage *afterScreenshot = [self grey_imageAfterAddingSubview:shiftedView toView:view];
+  CGImageRef afterImage =
+      CGImageCreateWithImageInRect(afterScreenshot.CGImage, screenshotSearchRect_pixel);
   if (!afterImage) {
     GREYFatalAssertWithMessage(NO, @"afterImage should not be null");
     CGImageRelease(beforeImage);
@@ -640,9 +635,7 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
   return YES;
 }
 
-+ (UIImage *)grey_imageAfterAddingSubview:(UIView *)shiftedView
-                                   toView:(UIView *)view
-                               searchRect:(CGRect)searchRect {
++ (UIImage *)grey_imageAfterAddingSubview:(UIView *)shiftedView toView:(UIView *)view {
   GREYFatalAssert(shiftedView);
   GREYFatalAssert(view);
 
@@ -663,9 +656,7 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
                [CATransaction commit];
 
                UIImage *shiftedImage =
-                   [GREYScreenshotter grey_takeScreenshotAfterScreenUpdates:YES
-                                                               inScreenRect:searchRect
-                                                              withStatusBar:YES];
+                   [GREYScreenshotter grey_takeScreenshotAfterScreenUpdates:YES withStatusBar:YES];
                [shiftedView removeFromSuperview];
                return shiftedImage;
              }];

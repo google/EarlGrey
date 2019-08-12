@@ -35,11 +35,11 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param bitmapContextRef Target bitmap context for rendering.
  *  @param afterUpdates     Boolean indicating whether to render before (@c NO) or after (@c YES)
  *                          screen updates.
- *  @param includeStatusBar Include Status Bar in the drawn screen.
+ *  @param included         Include Status Bar in the drawn screen.
  */
 + (void)drawScreenInContext:(CGContextRef)bitmapContextRef
          afterScreenUpdates:(BOOL)afterUpdates
-              withStatusBar:(BOOL)includeStatusBar;
+              withStatusBar:(BOOL)included;
 
 /**
  *  @return An image of the current app's screen frame buffer. This method waits for any pending

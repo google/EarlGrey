@@ -31,29 +31,14 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param afterScreenUpdates A Boolean specifying if the screenshot is to be taken immediately or
  *                            after a screen update.
- *  @param includeStatusBar   Include status bar in the screenshot.
+ *  @param included           Include status bar in the screenshot.
  *
  *  @return A UIImage containing a screenshot.
  *
  *  @remark This is available only for internal testing purposes.
  */
 + (UIImage *)grey_takeScreenshotAfterScreenUpdates:(BOOL)afterScreenUpdates
-                                     withStatusBar:(BOOL)includeStatusBar;
-
-/**
- *  @return A UIImage that is a screenshot of the specified bounds in the screen,
- *          immediately or after the screen updates as specified.
- *
- *  @param afterScreenUpdates A BOOL specifying if the screenshot is to be taken immediately or
- *                            after a screen update.
- *  @param screenRect         Frame in screen coordinate to capture in the screenshot.
- *  @param includeStatusBar   Include status bar in the screenshot.
- *
- *  @remark This is available only for internal testing purposes.
- */
-+ (UIImage *)grey_takeScreenshotAfterScreenUpdates:(BOOL)afterScreenUpdates
-                                      inScreenRect:(CGRect)screenRect
-                                     withStatusBar:(BOOL)includeStatusBar;
+                                     withStatusBar:(BOOL)included;
 @end
 
 NS_ASSUME_NONNULL_END
