@@ -30,7 +30,7 @@ xcrun xcodebuild build -project "${PROJECT_FILE_PATH}" -target "EarlGrey" \
   CODE_SIGNING_REQUIRED=NO ENTITLEMENTS_REQUIRED=NO ONLY_ACTIVE_ARCH=NO \
   CONFIGURATION_BUILD_DIR="${OUTPUT_DIR}/iphoneos"
 
-xcrun xcodebuild build \ -project "${PROJECT_FILE_PATH}" -target "EarlGrey" \
+xcrun xcodebuild build -project "${PROJECT_FILE_PATH}" -target "EarlGrey" \
   -configuration "${CONFIGURATION_NAME}" -sdk iphonesimulator CODE_SIGN_IDENTITY="" \
   CODE_SIGNING_REQUIRED=NO ENTITLEMENTS_REQUIRED=NO ONLY_ACTIVE_ARCH=NO \
   CONFIGURATION_BUILD_DIR="${OUTPUT_DIR}/iphonesimulator"
