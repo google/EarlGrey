@@ -129,6 +129,13 @@ public struct EarlGrey {
       .rotateDevice(to: orientation)
   }
 
+  public static func shakeDevice(
+    file: StaticString = #file,
+    line: UInt = #line
+  ) throws {
+    return try EarlGreyImpl.invoked(fromFile: file.description, lineNumber: line).shakeDevice()
+  }
+
   public static func handle(
     _ exception: GREYFrameworkException,
     details: String,

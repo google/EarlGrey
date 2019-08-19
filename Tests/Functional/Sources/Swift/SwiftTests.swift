@@ -248,6 +248,13 @@ class SwiftTests: XCTestCase {
       .assert(grey_notNil())
   }
 
+  func testShake() throws {
+    openTestView(named: "Rotated Views")
+    try EarlGrey.shakeDevice()
+    EarlGrey.selectElement(with: grey_accessibilityID("lastTapped"))
+      .assert(grey_text("Device Was Shaken"))
+  }
+
   func openTestView(named name: String) {
     var error: NSError?
     EarlGrey.selectElement(with: grey_accessibilityLabel(name))
