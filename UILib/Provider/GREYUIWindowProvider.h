@@ -16,6 +16,10 @@
 
 #import "GREYProvider.h"
 
+@class UIWindow;
+
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  *  A provider for UIApplication windows. By default, all application windows are returned unless
  *  this provider is initialized with custom windows.
@@ -29,7 +33,7 @@
  *
  *  @return A GREYUIWindowProvider instance populated with the UIApplication windows in @c windows.
  */
-+ (instancetype)providerWithWindows:(NSArray *)windows;
++ (instancetype)providerWithWindows:(NSArray<UIWindow *> *)windows;
 
 /**
  *  Class method to get a provider with all the windows currently registered with the app.
@@ -51,15 +55,12 @@
 /**
  *  Designated Initializer.
  *
- *  @param windows          UIApplication windows to populate the provider with. If @c windows is
- *                          @c nil, it will initialize this provider with all windows currently
- *                          registered with the app. Use initWithAllWindowsWithStatusBar
- *                          constructor instead to make your intention explicit.
+ *  @param windows          UIWindows to populate the provider with.
  *  @param includeStatusBar Should the status bar be included in the list of windows.
  *
  *  @return A GREYUIWindowProvider instance, populated with the specified windows.
  */
-- (instancetype)initWithWindows:(NSArray *)windows
+- (instancetype)initWithWindows:(NSArray<UIWindow *> *)windows
                   withStatusBar:(BOOL)includeStatusBar NS_DESIGNATED_INITIALIZER;
 
 /**
@@ -93,3 +94,5 @@
 - (NSEnumerator *)dataEnumerator;
 
 @end
+
+NS_ASSUME_NONNULL_END

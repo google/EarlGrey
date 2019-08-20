@@ -21,11 +21,11 @@
 #import "GREYDefines.h"
 
 @implementation GREYUIWindowProvider {
-  NSArray *_windows;
+  NSArray<UIWindow *> *_windows;
   BOOL _includeStatusBar;
 }
 
-+ (instancetype)providerWithWindows:(NSArray *)windows {
++ (instancetype)providerWithWindows:(NSArray<UIWindow *> *)windows {
   return [[GREYUIWindowProvider alloc] initWithWindows:windows withStatusBar:NO];
 }
 
@@ -33,7 +33,8 @@
   return [[GREYUIWindowProvider alloc] initWithAllWindowsWithStatusBar:includeStatusBar];
 }
 
-- (instancetype)initWithWindows:(NSArray *)windows withStatusBar:(BOOL)includeStatusBar {
+- (instancetype)initWithWindows:(NSArray<UIWindow *> *)windows
+                  withStatusBar:(BOOL)includeStatusBar {
   self = [super init];
   if (self) {
     _windows = [windows copy];
@@ -43,12 +44,16 @@
 }
 
 - (instancetype)initWithAllWindowsWithStatusBar:(BOOL)includeStatusBar {
-  return [self initWithWindows:nil withStatusBar:includeStatusBar];
+  self = [self initWithWindows:@[] withStatusBar:includeStatusBar];
+  if (self) {
+    // Cannot pass in nil to the designated initializer.
+    _windows = nil;
+  }
+  return self;
 }
 
 - (NSEnumerator *)dataEnumerator {
   GREYFatalAssertMainThread();
-
   if (_windows) {
     return [_windows objectEnumerator];
   } else {
@@ -56,9 +61,9 @@
   }
 }
 
-+ (NSArray *)allWindowsWithStatusBar:(BOOL)includeStatusBar {
++ (NSArray<UIWindow *> *)allWindowsWithStatusBar:(BOOL)includeStatusBar {
   UIApplication *sharedApp = UIApplication.sharedApplication;
-  NSMutableOrderedSet *windows = [[NSMutableOrderedSet alloc] init];
+  NSMutableOrderedSet<UIWindow *> *windows = [[NSMutableOrderedSet alloc] init];
   if (sharedApp.windows) {
     [windows addObjectsFromArray:sharedApp.windows];
   }
