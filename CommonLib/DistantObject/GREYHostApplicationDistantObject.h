@@ -39,7 +39,10 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface GREYHostApplicationDistantObject : NSObject
 
-/** The port number that the test process listens on. */
+/**
+ *  The port number that the eDO service on the test's main queue listens on. Created when the
+ *  TestApplicationDistantObject is created on the application being launched.
+ */
 // TODO: Use EDOServicePort. // NOLINT
 @property(nonatomic, readonly, class) uint16_t testPort;
 
