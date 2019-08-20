@@ -31,23 +31,24 @@
 @end
 
 /**
- *  A private class that represents backboard services accelerometer.
- */
-@interface BKSAccelerometer : NSObject
-/**
- *  Enable or disable accelerometer events.
- */
-@property(nonatomic) BOOL accelerometerEventsEnabled;
-@end
-
-/**
  *  A private class that represents motion related events. This is sent to UIApplication whenever a
  *  motion occurs.
  */
-@interface UIMotionEvent : NSObject {
-  // The motion accelerometer of the event.
-  BKSAccelerometer *_motionAccelerometer;
-}
+@interface UIMotionEvent : UIEvent
+
+/**
+ *  Modify the _shakeState ivar inside motion event.
+ *
+ *  shakeState Set as true for 1 being passed. All other values set to false.
+ */
+- (void)setShakeState:(int)shakeState;
+
+/**
+ *  Sets the subtype for the motion event.
+ *
+ *  eventSubType The UIEventSubtype for the motion event.
+ */
+- (void)_setSubtype:(int)eventSubType;
 @end
 
 #if defined(__IPHONE_13_0)
@@ -93,16 +94,6 @@
  *          accelerometer events.
  */
 - (UIMotionEvent *)_motionEvent;
-
-/**
- *  Sends a motion began event for the specified subtype.
- */
-- (void)_sendMotionBegan:(UIEventSubtype)subtype;
-
-/**
- *  Sends a motion ended event for the specified subtype.
- */
-- (void)_sendMotionEnded:(UIEventSubtype)subtype;
 @end
 
 @interface UIScrollView (GREYExposed)

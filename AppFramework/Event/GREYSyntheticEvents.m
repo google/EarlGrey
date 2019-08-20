@@ -31,10 +31,9 @@
 #pragma mark - Implementation
 
 /**
- *  Timeout for waiting for rotation to start and then again waiting for app to idle after it
- *  completes.
+ *  Timeout for the app to idle on performing non-tactile events such as rotation or shaking.
  */
-static const CFTimeInterval kRotationTimeout = 10.0;
+static const CFTimeInterval kNonTactileEventTimeout = 10.0;
 
 @implementation GREYSyntheticEvents {
   /**
@@ -93,10 +92,10 @@ static const CFTimeInterval kRotationTimeout = 10.0;
 }
 
 + (BOOL)rotateDeviceToOrientation:(UIDeviceOrientation)deviceOrientation error:(NSError **)error {
-  __block GREYError *executionError;
+  __block GREYError *synchronizationError;
   __block UIDeviceOrientation initialDeviceOrientation;
   BOOL success = [[GREYUIThreadExecutor sharedInstance]
-      executeSyncWithTimeout:kRotationTimeout
+      executeSyncWithTimeout:kNonTactileEventTimeout
                        block:^{
                          initialDeviceOrientation = [[UIDevice currentDevice] orientation];
                          GREYLogVerbose(
@@ -105,11 +104,11 @@ static const CFTimeInterval kRotationTimeout = 10.0;
                              NSStringFromUIDeviceOrientation(deviceOrientation));
                          [[UIDevice currentDevice] setOrientation:deviceOrientation animated:YES];
                        }
-                       error:&executionError];
+                       error:&synchronizationError];
 
   if (!success) {
     if (error) {
-      *error = executionError;
+      *error = synchronizationError;
     }
     return NO;
   }
@@ -117,25 +116,24 @@ static const CFTimeInterval kRotationTimeout = 10.0;
   // Verify that the device orientation actually changed to the requested orientation.
   __block UIDeviceOrientation currentOrientation = UIDeviceOrientationUnknown;
   success = [[GREYUIThreadExecutor sharedInstance]
-      executeSyncWithTimeout:kRotationTimeout
+      executeSyncWithTimeout:kNonTactileEventTimeout
                        block:^{
                          currentOrientation = [[UIDevice currentDevice] orientation];
                        }
-                       error:&executionError];
+                       error:&synchronizationError];
 
   if (!success) {
     if (error) {
-      *error = executionError;
+      *error = synchronizationError;
     }
     return NO;
   } else if (currentOrientation != deviceOrientation) {
     NSString *errorDescription =
-        [NSString stringWithFormat:
-                      @"Device orientation mismatch. "
-                      @"Before: %@. After Expected: %@. \nAfter Actual: %@.",
-                      NSStringFromUIDeviceOrientation(initialDeviceOrientation),
-                      NSStringFromUIDeviceOrientation(deviceOrientation),
-                      NSStringFromUIDeviceOrientation(currentOrientation)];
+        [NSString stringWithFormat:@"Device orientation mismatch. "
+                                   @"Before: %@. After Expected: %@. \nAfter Actual: %@.",
+                                   NSStringFromUIDeviceOrientation(initialDeviceOrientation),
+                                   NSStringFromUIDeviceOrientation(deviceOrientation),
+                                   NSStringFromUIDeviceOrientation(currentOrientation)];
     GREYError *rotationError =
         GREYErrorMakeWithHierarchy(kGREYSyntheticEventInjectionErrorDomain,
                                    kGREYOrientationChangeFailedErrorCode, errorDescription);
@@ -148,28 +146,24 @@ static const CFTimeInterval kRotationTimeout = 10.0;
 }
 
 + (BOOL)shakeDeviceWithError:(NSError **)error {
-  GREYError *shakeError;
-  BOOL result = [[GREYUIThreadExecutor sharedInstance]
-      executeSyncWithTimeout:kRotationTimeout
-                       block:^{
-                         // Keep previous accelerometer events enabled value and force it to @c YES
-                         // so that the shake motion is passed to the application.
-                         UIApplication *application = [UIApplication sharedApplication];
-                         BKSAccelerometer *accelerometer =
-                             [[application _motionEvent] valueForKey:@"_motionAccelerometer"];
-                         BOOL prevValue = accelerometer.accelerometerEventsEnabled;
-                         accelerometer.accelerometerEventsEnabled = YES;
+  GREYError *synchronizationError;
+  void (^shakeBlock)(void) = ^{
+    UIApplication *application = [UIApplication sharedApplication];
+    UIWindow *keyWindow = [application keyWindow];
+    UIMotionEvent *motionEvent = [application _motionEvent];
 
-                         // This behaves exactly in the same manner that UIApplication handles the
-                         // simulator "Shake Gesture" menu command.
-                         [application _sendMotionBegan:UIEventSubtypeMotionShake];
-                         [application _sendMotionEnded:UIEventSubtypeMotionShake];
-
-                         accelerometer.accelerometerEventsEnabled = prevValue;
-                       }
-                       error:&shakeError];
+    [motionEvent setShakeState:1];
+    [motionEvent _setSubtype:UIEventSubtypeMotionShake];
+    [application sendEvent:motionEvent];
+    [keyWindow motionBegan:UIEventSubtypeMotionShake withEvent:motionEvent];
+    [keyWindow motionEnded:UIEventSubtypeMotionShake withEvent:motionEvent];
+  };
+  BOOL result =
+      [[GREYUIThreadExecutor sharedInstance] executeSyncWithTimeout:kNonTactileEventTimeout
+                                                              block:shakeBlock
+                                                              error:&synchronizationError];
   if (error) {
-    *error = shakeError;
+    *error = synchronizationError;
   }
   return result;
 }
@@ -246,7 +240,7 @@ static const CFTimeInterval kRotationTimeout = 10.0;
  *
  *  @param points     Multiple points at which the touches are to be made.
  *  @param seconds    An interval to wait after the every last touch event.
- *  @param immediate  if @c YES, this method blocks until touches are delivered, otherwise it is
+ *  @param immediate  If @c YES, this method blocks until touches are delivered, otherwise it is
  *                    enqueued for delivery the next time runloop drains.
  */
 - (void)grey_continueTouchAtPoints:(NSArray *)points
