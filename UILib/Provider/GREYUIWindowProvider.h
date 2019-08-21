@@ -48,6 +48,29 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)providerWithAllWindowsWithStatusBar:(BOOL)includeStatusBar;
 
 /**
+ *  @param includeStatusBar Include the status bar in the window hierarchy.
+ *
+ *  @remark Will create a local status bar if iOS 13+.
+ *
+ *  @return A set of all application windows ordered by window-level from front to back.
+ */
++ (NSArray<UIWindow *> *)allWindowsWithStatusBar:(BOOL)includeStatusBar;
+
+/**
+ *  Returns all application windows in front of @c window, including itself, ordered by
+ *  window-level from front to back.
+ *
+ *  @param window           Window to start collecting from.
+ *  @param includeStatusBar Include the status bar in the window hierarchy.
+ *
+ *  @remark Will create a local status bar if iOS 13+.
+ *
+ *  @return A set of all application windows ordered by window-level from back to front.
+ */
++ (NSArray<UIWindow *> *)windowsFromLevelOfWindow:(UIWindow *)window
+                                    withStatusBar:(BOOL)includeStatusBar;
+
+/**
  *  @remark init is not an available initializer. Use the other initializers.
  */
 - (instancetype)init NS_UNAVAILABLE;
@@ -56,7 +79,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  Designated Initializer.
  *
  *  @param windows          UIWindows to populate the provider with.
- *  @param includeStatusBar Should the status bar be included in the list of windows.
+ *  @param includeStatusBar Should the status bar window be included in the list of windows.
  *
  *  @return A GREYUIWindowProvider instance, populated with the specified windows.
  */
@@ -74,17 +97,6 @@ NS_ASSUME_NONNULL_BEGIN
  *          registered with the app.
  */
 - (instancetype)initWithAllWindowsWithStatusBar:(BOOL)includeStatusBar;
-
-/**
- *  Returns all application windows ordered by window-level from back to front.
- *
- *  @param includeStatusBar Include the status bar in the window hierarchy.
- *
- *  @remark Will create a local status bar if iOS 13+.
- *
- *  @return A set of all application windows ordered by window-level from back to front.
- */
-+ (NSArray *)allWindowsWithStatusBar:(BOOL)includeStatusBar;
 
 #pragma mark - GREYProvider
 

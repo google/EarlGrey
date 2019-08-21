@@ -61,6 +61,13 @@
   }
 }
 
++ (NSArray *)windowsFromLevelOfWindow:(UIWindow *)window withStatusBar:(BOOL)includeStatusBar {
+  NSArray<UIWindow *> *windows = [self allWindowsWithStatusBar:includeStatusBar];
+  NSUInteger index = [windows indexOfObject:window];
+  NSRange range = NSMakeRange(0, index + 1);
+  return [windows subarrayWithRange:range];
+}
+
 + (NSArray<UIWindow *> *)allWindowsWithStatusBar:(BOOL)includeStatusBar {
   UIApplication *sharedApp = UIApplication.sharedApplication;
   NSMutableOrderedSet<UIWindow *> *windows = [[NSMutableOrderedSet alloc] init];
