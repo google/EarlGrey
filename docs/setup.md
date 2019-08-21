@@ -38,9 +38,10 @@ quarters.
 Clone the EarlGrey project to your workspace.
 
 ```
-// Clone EarlGrey 2.0 with all its dependencies
+// Clone EarlGrey 2.0
 git clone -b earlgrey2 https://github.com/google/EarlGrey.git
 
+// Download any dependencies
 sh Scripts/download_deps.sh
 ```
 
