@@ -77,40 +77,47 @@ static NSString *const kSystemAlertLabelMotionActivity = @"Motion & Fitness Acti
  *  Text denoting part of the Contacts System Alert.
  */
 static NSString *const kSystemAlertLabelContacts = @"Contacts";
+/**
+ *  The springboard's application controlled by XCUITest.
+ */
+static XCUIApplication *gSpringBoardApplication;
 
 CFTimeInterval const kSystemAlertVisibilityTimeout = 10;
+
 NSString *const kGREYSystemAlertDismissalErrorDomain = @"com.google.earlgrey.SystemAlertDismissal";
+
+/**
+ *  @return The Springboard's XCUIApplication.
+ */
+static XCUIApplication *GREYSpringboardApplication() {
+  static dispatch_once_t token = 0;
+  dispatch_once(&token, ^{
+    gSpringBoardApplication =
+        [[XCUIApplication alloc] initWithBundleIdentifier:@"com.apple.springboard"];
+  });
+  return gSpringBoardApplication;
+}
 
 @implementation XCTestCase (GREYSystemAlertHandler)
 
 - (NSString *)grey_systemAlertTextWithError:(NSError **)error {
-  XCUIApplication *springboardApp = [self grey_springboardApplication];
-  if (![self grey_ensureAlertIsVisibleInSpringboardApp:springboardApp error:error]) {
+  XCUIElement *topMostAlert = [self grey_topMostAlertWithError:error];
+  if (!topMostAlert) {
+    if (error) {
+      *error = [NSError errorWithDomain:kGREYSystemAlertDismissalErrorDomain
+                                   code:GREYSystemAlertNotPresent
+                               userInfo:nil];
+    }
     return nil;
   } else {
-    XCUIElement *alertInHierarchy =
-        [[springboardApp descendantsMatchingType:XCUIElementTypeAlert] firstMatch];
-    if (![alertInHierarchy exists]) {
-      if (error) {
-        *error = [NSError errorWithDomain:kGREYSystemAlertDismissalErrorDomain
-                                     code:GREYSystemAlertNotPresent
-                                 userInfo:nil];
-      }
-      return nil;
-    }
-    return [alertInHierarchy label];
+    return [topMostAlert label];
   }
 }
 
 - (GREYSystemAlertType)grey_systemAlertType {
-  XCUIApplication *springboardApp = [self grey_springboardApplication];
-  GREYAssertTrue([self grey_waitForAlertExistenceWithTimeout:kSystemAlertVisibilityTimeout],
-                 @"Time out waiting for alert existing in UI hierarchy");
-
-  // Make sure the alert is up before checking for an alert.
-  XCUIElement *alert = [[springboardApp descendantsMatchingType:XCUIElementTypeAlert] firstMatch];
-  GREYAssertNotNil(alert, @"Alert does not exist");
-  NSString *alertValue = [alert label];
+  XCUIElement *topMostAlert = [self grey_topMostAlertWithError:nil];
+  GREYAssertNotNil(topMostAlert, @"Alert does not exist");
+  NSString *alertValue = [topMostAlert label];
   // The Alert Label for the Location Alert is different for iOS 11 and iOS 10.
   NSString *locationAlertLabelString =
       iOS11_OR_ABOVE() ? kSystemAlertLabelLocationIOS11 : kSystemAlertLabelLocationIOS10;
@@ -145,14 +152,8 @@ NSString *const kGREYSystemAlertDismissalErrorDomain = @"com.google.earlgrey.Sys
 }
 
 - (BOOL)grey_acceptSystemDialogWithError:(NSError **)error {
-  XCUIApplication *springboardApp = [self grey_springboardApplication];
-  if (![self grey_ensureAlertIsVisibleInSpringboardApp:springboardApp error:error]) {
-    return NO;
-  }
-
-  XCUIElement *alertInHierarchy =
-      [[springboardApp descendantsMatchingType:XCUIElementTypeAlert] firstMatch];
-  if (![alertInHierarchy exists]) {
+  XCUIElement *alertInHierarchy = [self grey_topMostAlertWithError:error];
+  if (!alertInHierarchy) {
     if (error) {
       *error = [NSError errorWithDomain:kGREYSystemAlertDismissalErrorDomain
                                    code:GREYSystemAlertAcceptButtonNotFound
@@ -164,27 +165,18 @@ NSString *const kGREYSystemAlertDismissalErrorDomain = @"com.google.earlgrey.Sys
 
   XCUIElement *acceptButton = [[alertInHierarchy buttons] elementBoundByIndex:1];
   NSAssert([acceptButton isHittable], @"accept button is not hittable\n%@",
-           [springboardApp debugDescription]);
+           [GREYSpringboardApplication() debugDescription]);
 
   BOOL dismissed = NO;
   // Retry logic can solve the failure in slow animations mode.
   [acceptButton tap];
-  dismissed = [self grey_ensureAlertDismissalInSpringboardApp:springboardApp
-                                       withDismissedAlertText:alertText
-                                                        error:error];
-
+  dismissed = [self grey_ensureAlertDismissalOfAlertWithText:alertText error:error];
   return dismissed;
 }
 
 - (BOOL)grey_denySystemDialogWithError:(NSError **)error {
-  XCUIApplication *springboardApp = [self grey_springboardApplication];
-  if (![self grey_ensureAlertIsVisibleInSpringboardApp:springboardApp error:error]) {
-    return NO;
-  }
-
-  XCUIElement *alertInHierarchy =
-      [[springboardApp descendantsMatchingType:XCUIElementTypeAlert] firstMatch];
-  if (![alertInHierarchy exists]) {
+  XCUIElement *alertInHierarchy = [self grey_topMostAlertWithError:error];
+  if (!alertInHierarchy) {
     if (error) {
       *error = [NSError errorWithDomain:kGREYSystemAlertDismissalErrorDomain
                                    code:GREYSystemAlertDenialButtonNotFound
@@ -205,26 +197,17 @@ NSString *const kGREYSystemAlertDismissalErrorDomain = @"com.google.earlgrey.Sys
     denyButton = [[alertInHierarchy buttons] firstMatch];
   }
   NSAssert([denyButton isHittable], @"deny button is not hittable\n%@",
-           [springboardApp debugDescription]);
+           [GREYSpringboardApplication() debugDescription]);
 
   BOOL dismissed = NO;
   // Retry logic can solve the failure in slow animations mode.
   [denyButton tap];
-  dismissed = [self grey_ensureAlertDismissalInSpringboardApp:springboardApp
-                                       withDismissedAlertText:alertText
-                                                        error:error];
-
+  dismissed = [self grey_ensureAlertDismissalOfAlertWithText:alertText error:error];
   return dismissed;
 }
 
 - (BOOL)grey_tapSystemDialogButtonWithText:(NSString *)text error:(NSError **)error {
-  XCUIApplication *springboardApp = [self grey_springboardApplication];
-  if (![self grey_ensureAlertIsVisibleInSpringboardApp:springboardApp error:error]) {
-    return NO;
-  }
-
-  XCUIElement *firstAlertPresent =
-      [[springboardApp descendantsMatchingType:XCUIElementTypeAlert] firstMatch];
+  XCUIElement *firstAlertPresent = [self grey_topMostAlertWithError:error];
   if (![firstAlertPresent.buttons[text] exists]) {
     if (error) {
       *error = [NSError errorWithDomain:kGREYSystemAlertDismissalErrorDomain
@@ -235,15 +218,13 @@ NSString *const kGREYSystemAlertDismissalErrorDomain = @"com.google.earlgrey.Sys
   }
   NSString *alertText = [firstAlertPresent valueForKey:@"label"];
   XCUIElement *button = firstAlertPresent.buttons[text];
-  NSAssert([button isHittable], @"button is not hittable\n%@", [springboardApp debugDescription]);
+  NSAssert([button isHittable], @"button is not hittable\n%@",
+           [GREYSpringboardApplication() debugDescription]);
 
   BOOL dismissed = NO;
   // Retry logic can solve the failure in slow animations mode.
   [button tap];
-  dismissed = [self grey_ensureAlertDismissalInSpringboardApp:springboardApp
-                                       withDismissedAlertText:alertText
-                                                        error:error];
-
+  dismissed = [self grey_ensureAlertDismissalOfAlertWithText:alertText error:error];
   return dismissed;
 }
 
@@ -253,26 +234,22 @@ NSString *const kGREYSystemAlertDismissalErrorDomain = @"com.google.earlgrey.Sys
   GREYThrowOnNilParameterWithMessage(textToType, @"textToType cannot be nil.");
   GREYThrowOnNilParameterWithMessage(placeholderText, @"placeholderText cannot be nil.");
   GREYThrowOnNilParameterWithMessage(placeholderText.length, @"placeholderText cannot be empty.");
-  XCUIApplication *springboardApp = [self grey_springboardApplication];
-  if (![self grey_ensureAlertIsVisibleInSpringboardApp:springboardApp error:error]) {
-    return NO;
-  }
-
-  XCUIElement *firstAlertPresent =
-      [[springboardApp descendantsMatchingType:XCUIElementTypeAlert] firstMatch];
+  XCUIElement *firstAlertPresent = [self grey_topMostAlertWithError:error];
   XCUIElement *elementToType = nil;
-  if ([firstAlertPresent.textFields[placeholderText] exists]) {
-    elementToType = firstAlertPresent.textFields[placeholderText];
-    [firstAlertPresent.textFields[placeholderText] tap];
-    [firstAlertPresent.textFields[placeholderText] typeText:textToType];
-  } else if ([firstAlertPresent.secureTextFields[placeholderText] exists]) {
-    elementToType = firstAlertPresent.secureTextFields[placeholderText];
-    [firstAlertPresent.secureTextFields[placeholderText] tap];
-    [firstAlertPresent.secureTextFields[placeholderText] typeText:textToType];
-  } else if ([firstAlertPresent.searchFields[placeholderText] exists]) {
-    elementToType = firstAlertPresent.searchFields[placeholderText];
-    [firstAlertPresent.secureTextFields[placeholderText] tap];
-    [firstAlertPresent.secureTextFields[placeholderText] typeText:textToType];
+  if (firstAlertPresent) {
+    if ([firstAlertPresent.textFields[placeholderText] exists]) {
+      elementToType = firstAlertPresent.textFields[placeholderText];
+      [firstAlertPresent.textFields[placeholderText] tap];
+      [firstAlertPresent.textFields[placeholderText] typeText:textToType];
+    } else if ([firstAlertPresent.secureTextFields[placeholderText] exists]) {
+      elementToType = firstAlertPresent.secureTextFields[placeholderText];
+      [firstAlertPresent.secureTextFields[placeholderText] tap];
+      [firstAlertPresent.secureTextFields[placeholderText] typeText:textToType];
+    } else if ([firstAlertPresent.searchFields[placeholderText] exists]) {
+      elementToType = firstAlertPresent.searchFields[placeholderText];
+      [firstAlertPresent.secureTextFields[placeholderText] tap];
+      [firstAlertPresent.secureTextFields[placeholderText] typeText:textToType];
+    }
   }
 
   if (![elementToType exists]) {
@@ -301,78 +278,61 @@ NSString *const kGREYSystemAlertDismissalErrorDomain = @"com.google.earlgrey.Sys
   return [condition waitWithTimeout:seconds];
 }
 
-- (BOOL)grey_waitForAlertExistenceWithTimeout:(CFTimeInterval)seconds {
-  GREYThrowOnFailedConditionWithMessage(seconds >= 0, @"timeout must be >= 0.");
-  XCUIApplication *springboardApp = [self grey_springboardApplication];
-  XCUIElement *alert = [[springboardApp descendantsMatchingType:XCUIElementTypeAlert] firstMatch];
-  return [alert waitForExistenceWithTimeout:seconds];
-}
-
-#pragma mark - Private
-
 /**
- *  Ensures that a system alert is visible in the UI.
+ *  @return The topmost alert view's XCUIElement, if present. @c nil otherwise.
  *
- *  @param springboardApp The springboard application displaying the alerts.
- *  @param[out] error     An NSError that will be populated in case there is any issue.
+ *  @param[out] error An NSError that will be populated if the alert is not visible.
  */
-- (BOOL)grey_ensureAlertIsVisibleInSpringboardApp:(XCUIApplication *)springboardApp
-                                            error:(NSError **)error {
-  if (![self grey_waitForAlertExistenceWithTimeout:kSystemAlertVisibilityTimeout]) {
+- (XCUIElement *)grey_topMostAlertWithError:(NSError **)error {
+  XCUIApplication *springboardApp = GREYSpringboardApplication();
+  XCUIElement *alert = [[springboardApp descendantsMatchingType:XCUIElementTypeAlert] firstMatch];
+  if (![alert waitForExistenceWithTimeout:kSystemAlertVisibilityTimeout]) {
     if (error) {
       *error = [NSError errorWithDomain:kGREYSystemAlertDismissalErrorDomain
                                    code:GREYSystemAlertNotPresent
                                userInfo:nil];
-      ;
     }
-    return NO;
+    return nil;
   }
-  return YES;
+  return alert;
 }
 
 /**
- *  Ensures that the alert has been dismissed by checking the XCUITest Element Hierarchy for any
- *  alerts, and checking if it is the same alert that was just dismissed.
+ *  Ensures that the alert has been dismissed by checking the XCUITest Element Hierarchy for an
+ *  alert with the same label text.
  *
- *  @param springboardApp The springboard application displaying the alerts.
- *  @param alertText      The text of the alert that was just dismissed.
- *  @param[out] error     An NSError that will be populated in case there is any issue.
+ *  @param alertText  The text of the alert that was just dismissed.
+ *  @param[out] error An NSError that will be populated in case there is any issue.
  */
-- (BOOL)grey_ensureAlertDismissalInSpringboardApp:(XCUIApplication *)springboardApp
-                           withDismissedAlertText:(NSString *)alertText
-                                            error:(NSError **)error {
+- (BOOL)grey_ensureAlertDismissalOfAlertWithText:(NSString *)alertText error:(NSError **)error {
   BOOL (^alertDismissedBlock)(void) = ^BOOL(void) {
-    XCUIElement *anyAlertPresent = nil;
+    XCUIApplication *springboardApp = GREYSpringboardApplication();
     XCUIElementQuery *anyAlertPresentQuery =
         [springboardApp descendantsMatchingType:XCUIElementTypeAlert];
     NSString *label = nil;
     if ([anyAlertPresentQuery count]) {
-      anyAlertPresent = [anyAlertPresentQuery firstMatch];
-      label = anyAlertPresent ? [anyAlertPresent valueForKey:@"label"] : @"";
+      for (NSUInteger index = 0; index < [anyAlertPresentQuery count]; index++) {
+        XCUIElement *anyAlertPresent = [anyAlertPresentQuery elementBoundByIndex:index];
+        label = anyAlertPresent ? [anyAlertPresent valueForKey:@"label"] : @"";
+        if ([label isEqualToString:alertText]) {
+          return NO;
+        }
+      }
     }
-    // Ensure that the same alert being asked for has been dismissed.
-    return (![label isEqualToString:alertText]);
+    return YES;
   };
 
-  GREYCondition *alertDismissed =
-      [GREYCondition conditionWithName:@"Alert Dismissed" block:alertDismissedBlock];
+  GREYCondition *alertDismissed = [GREYCondition conditionWithName:@"Alert Dismissed"
+                                                             block:alertDismissedBlock];
   if (![alertDismissed waitWithTimeout:kSystemAlertVisibilityTimeout pollInterval:0.5]) {
     if (error) {
       *error = [NSError errorWithDomain:kGREYSystemAlertDismissalErrorDomain
                                    code:GREYSystemAlertNotDismissed
                                userInfo:nil];
-      ;
     }
     return NO;
   }
   return YES;
-}
-
-/**
- *  @return The Springboard's XCUIApplication.
- */
-- (XCUIApplication *)grey_springboardApplication {
-  return [[XCUIApplication alloc] initPrivateWithPath:nil bundleID:@"com.apple.springboard"];
 }
 
 @end

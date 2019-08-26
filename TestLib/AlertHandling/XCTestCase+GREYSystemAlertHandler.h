@@ -107,7 +107,7 @@ typedef NS_ENUM(NSUInteger, GREYSystemAlertType) {
 GREY_EXTERN NSString *const kGREYSystemAlertDismissalErrorDomain;
 
 /**
- *  Timeout for a system alert to be present.
+ *  Timeout for system alerts to be present by checking if they are present in XCUITest's hierarchy.
  */
 GREY_EXTERN CFTimeInterval const kSystemAlertVisibilityTimeout;
 

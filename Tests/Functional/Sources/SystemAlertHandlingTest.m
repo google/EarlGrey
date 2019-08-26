@@ -195,7 +195,7 @@
   NSError *error = nil;
   XCTAssertFalse([self grey_acceptSystemDialogWithError:&error]);
   XCTAssertEqualObjects(error.domain, kGREYSystemAlertDismissalErrorDomain);
-  XCTAssertEqual(error.code, GREYSystemAlertNotPresent);
+  XCTAssertEqual(error.code, GREYSystemAlertAcceptButtonNotFound);
 }
 
 /**
@@ -205,7 +205,7 @@
   NSError *error = nil;
   XCTAssertFalse([self grey_denySystemDialogWithError:&error]);
   XCTAssertEqualObjects(error.domain, kGREYSystemAlertDismissalErrorDomain);
-  XCTAssertEqual(error.code, GREYSystemAlertNotPresent);
+  XCTAssertEqual(error.code, GREYSystemAlertDenialButtonNotFound);
 }
 
 /**
@@ -216,7 +216,7 @@
   NSError *error = nil;
   XCTAssertFalse([self grey_tapSystemDialogButtonWithText:@"Foo" error:&error]);
   XCTAssertEqualObjects(error.domain, kGREYSystemAlertDismissalErrorDomain);
-  XCTAssertEqual(error.code, GREYSystemAlertNotPresent);
+  XCTAssertEqual(error.code, GREYSystemAlertCustomButtonNotFound);
 }
 
 /**
@@ -230,7 +230,7 @@
   NSError *error = nil;
   XCTAssertFalse([self grey_typeSystemAlertText:@"Foo" forPlaceholderText:@"Foo" error:&error]);
   XCTAssertEqualObjects(error.domain, kGREYSystemAlertDismissalErrorDomain);
-  XCTAssertEqual(error.code, GREYSystemAlertNotPresent);
+  XCTAssertEqual(error.code, GREYSystemAlertTextNotTypedCorrectly);
 }
 
 @end
