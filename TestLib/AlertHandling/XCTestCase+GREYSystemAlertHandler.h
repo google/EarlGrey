@@ -194,6 +194,7 @@ GREY_EXTERN CFTimeInterval const kSystemAlertVisibilityTimeout;
  *                 use "kSystemAlertVisibilityTimeout" for its default value, and only use a custom
  *                 value shorter than "kSystemAlertVisibilityTimeout" when system alerts are very
  *                 unlikely to appear in your tests.
+ *  @note Uses the same check as EarlGrey's grey_systemAlertViewShown.
  */
 - (BOOL)grey_waitForAlertVisibility:(BOOL)visible withTimeout:(CFTimeInterval)seconds;
 

@@ -19,6 +19,7 @@
 #import <objc/runtime.h>
 
 #import "GREYThrowDefines.h"
+#import "GREYTestApplicationDistantObject.h"
 #import "GREYAppleInternals.h"
 #import "GREYDefines.h"
 #import "GREYXCTestAppleInternals.h"
@@ -77,6 +78,12 @@ static NSString *const kSystemAlertLabelMotionActivity = @"Motion & Fitness Acti
  *  Text denoting part of the Contacts System Alert.
  */
 static NSString *const kSystemAlertLabelContacts = @"Contacts";
+/**
+ *  Timeout for system alerts to be present using the same check as that used by EarlGrey's app
+ *  component.
+ */
+CFTimeInterval const kSystemAlertEarlGreyVisibilityTimeout = 5;
+
 /**
  *  The springboard's application controlled by XCUITest.
  */
@@ -171,6 +178,7 @@ static XCUIApplication *GREYSpringboardApplication() {
   // Retry logic can solve the failure in slow animations mode.
   [acceptButton tap];
   dismissed = [self grey_ensureAlertDismissalOfAlertWithText:alertText error:error];
+  [self grey_waitForAlertVisibility:NO withTimeout:kSystemAlertEarlGreyVisibilityTimeout];
   return dismissed;
 }
 
@@ -203,6 +211,7 @@ static XCUIApplication *GREYSpringboardApplication() {
   // Retry logic can solve the failure in slow animations mode.
   [denyButton tap];
   dismissed = [self grey_ensureAlertDismissalOfAlertWithText:alertText error:error];
+  [self grey_waitForAlertVisibility:NO withTimeout:kSystemAlertEarlGreyVisibilityTimeout];
   return dismissed;
 }
 
@@ -225,6 +234,7 @@ static XCUIApplication *GREYSpringboardApplication() {
   // Retry logic can solve the failure in slow animations mode.
   [button tap];
   dismissed = [self grey_ensureAlertDismissalOfAlertWithText:alertText error:error];
+  [self grey_waitForAlertVisibility:NO withTimeout:kSystemAlertEarlGreyVisibilityTimeout];
   return dismissed;
 }
 
@@ -268,14 +278,27 @@ static XCUIApplication *GREYSpringboardApplication() {
 - (BOOL)grey_waitForAlertVisibility:(BOOL)visible withTimeout:(CFTimeInterval)seconds {
   GREYThrowOnFailedConditionWithMessage(seconds >= 0, @"timeout must be >= 0.");
   BOOL (^alertShown)(void) = ^BOOL(void) {
-    return [[UIApplication sharedApplication] _isSpringBoardShowingAnAlert];
+    return [self grey_springboardShowingAnAlert];
   };
   BOOL (^alertNotShown)(void) = ^BOOL(void) {
-    return ![[UIApplication sharedApplication] _isSpringBoardShowingAnAlert];
+    return ![self grey_springboardShowingAnAlert];
   };
   GREYCondition *condition =
-      [GREYCondition conditionWithName:@"WaitForAlert" block:visible ? alertShown : alertNotShown];
+      [GREYCondition conditionWithName:@"WaitForAlert"
+                                 block:(visible ? alertShown : alertNotShown)];
   return [condition waitWithTimeout:seconds];
+}
+
+#pragma mark - Private
+
+/**
+ *  @return A BOOL denoting if the application under test is reporting a system alert being present.
+ */
+- (BOOL)grey_springboardShowingAnAlert {
+  return
+      [[GREY_REMOTE_CLASS_IN_APP(UIApplication) sharedApplication] _isSpringBoardShowingAnAlert] &&
+      ![[[GREY_REMOTE_CLASS_IN_APP(NSBundle) mainBundle] bundleIdentifier]
+          isEqualToString:@"com.apple.springboard"];
 }
 
 /**
