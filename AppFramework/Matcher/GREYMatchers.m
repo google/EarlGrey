@@ -303,8 +303,7 @@ static Class gEDOObjectClass;
 + (id<GREYMatcher>)matcherForSystemAlertViewShown {
   NSString *prefix = @"isSystemAlertViewShown";
   GREYMatchesBlock matches = ^BOOL(id element) {
-    return ([[UIApplication sharedApplication] _isSpringBoardShowingAnAlert] &&
-            ![[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.springboard"]);
+    return [[UIApplication sharedApplication] _isSpringBoardShowingAnAlert];
   };
   GREYDescribeToBlock describe = ^void(id<GREYDescription> description) {
     [description appendText:prefix];

@@ -19,7 +19,6 @@
 #import <objc/runtime.h>
 
 #import "GREYThrowDefines.h"
-#import "GREYTestApplicationDistantObject.h"
 #import "GREYAppleInternals.h"
 #import "GREYDefines.h"
 #import "GREYXCTestAppleInternals.h"
@@ -295,10 +294,7 @@ static XCUIApplication *GREYSpringboardApplication() {
  *  @return A BOOL denoting if the application under test is reporting a system alert being present.
  */
 - (BOOL)grey_springboardShowingAnAlert {
-  return
-      [[GREY_REMOTE_CLASS_IN_APP(UIApplication) sharedApplication] _isSpringBoardShowingAnAlert] &&
-      ![[[GREY_REMOTE_CLASS_IN_APP(NSBundle) mainBundle] bundleIdentifier]
-          isEqualToString:@"com.apple.springboard"];
+  return [[UIApplication sharedApplication] _isSpringBoardShowingAnAlert];
 }
 
 /**
