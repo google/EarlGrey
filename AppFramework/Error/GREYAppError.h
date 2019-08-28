@@ -41,6 +41,31 @@
                   [GREYFailureScreenshotter screenshots])
 
 /**
+ *  Creates a @c GREYError object with given @c domain, @c code, @c description
+ *  and @c nestedError.
+ *  The description is accessible by querying error's @c userInfo with
+ *  @c NSLocalizedDescriptionKey. The @c nestedError is accessible by error's
+ *  @c userInfo with @c NSUnderlyingErrorKey.
+ *
+ *  @note The error created does not contain a UI Hierarchy, since the nested
+ *        error should contain it.
+ *
+ *  @param domain      The error domain.
+ *  @param code        The error code.
+ *  @param description The error's localized description.
+ *  @param nestedError An error to be nested in current error.
+ *
+ *  @return A @c GREYError object with the given input.
+ */
+#define GREYErrorNestedMake(domain, code, description, nestedError)                               \
+  I_GREYErrorMake(                                                                                \
+      (domain), (code),                                                                           \
+      @{NSLocalizedDescriptionKey : (description), NSUnderlyingErrorKey : (nestedError)},         \
+      [NSString stringWithUTF8String:__FILE__], __LINE__,                                         \
+      [NSString stringWithUTF8String:__PRETTY_FUNCTION__], nil, [NSThread callStackSymbols], nil, \
+      nil)
+
+/**
  *  If @c errorRef is not @c NULL, it is set to a @c GREYError object that is created with
  *  the given @c domain, @c code and @c description.
  *  The description is accessible by querying error's @c userInfo with

@@ -43,4 +43,11 @@
                              errorWithHierarchy);
 }
 
+- (NSError *)simpleNestedError {
+  NSError *nestedError =
+      GREYErrorMake(kGREYGenericErrorDomain, kGREYGenericErrorCode, @"Generic Nested Error");
+  return GREYErrorNestedMake(kGREYGenericErrorDomain, kGREYGenericErrorCode, @"Generic Error",
+                             nestedError);
+}
+
 @end

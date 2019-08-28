@@ -75,10 +75,7 @@
 }
 
 - (void)testNestedErrorCreatedWithASimpleErrorDoesNotContainHierarchy {
-  NSError *nestedError =
-      GREYErrorMake(kGREYGenericErrorDomain, kGREYGenericErrorCode, @"Generic Nexted Error");
-  NSError *error = GREYErrorNestedMake(kGREYGenericErrorDomain, kGREYGenericErrorCode,
-                                       @"Generic Error", nestedError);
+  NSError *error = [[GREYHostApplicationDistantObject sharedInstance] simpleNestedError];
 
   XCTAssertFalse([error.description containsString:@""]);
 }
