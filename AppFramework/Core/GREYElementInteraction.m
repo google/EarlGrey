@@ -242,7 +242,7 @@
     // Create the user info dictionary for any notifications and set it up with the action.
     NSMutableDictionary *actionUserInfo = [[NSMutableDictionary alloc] init];
     [actionUserInfo setObject:action forKey:kGREYActionUserInfoKey];
-    NSNotificationCenter *defaultNotificationCenter = [NSNotificationCenter defaultCenter];
+    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
 
     CFTimeInterval interactionTimeout =
         GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
@@ -268,10 +268,9 @@
                      }
                      // Post notification in the main thread that the action is to be performed
                      // on the found element.
-                     [defaultNotificationCenter
-                         postNotificationName:kGREYWillPerformActionNotification
-                                       object:nil
-                                     userInfo:actionUserInfo];
+                     [notificationCenter postNotificationName:kGREYWillPerformActionNotification
+                                                       object:nil
+                                                     userInfo:actionUserInfo];
                    }];
 
     if (element) {
@@ -302,9 +301,9 @@
     grey_dispatch_sync_on_main_thread(^{
       // Post notification for the process of an action's execution being completed. This
       // notification does not mean that the action was performed successfully.
-      [defaultNotificationCenter postNotificationName:kGREYDidPerformActionNotification
-                                               object:nil
-                                             userInfo:actionUserInfo];
+      [notificationCenter postNotificationName:kGREYDidPerformActionNotification
+                                        object:nil
+                                      userInfo:actionUserInfo];
     });
   }
   [stopwatch stop];
@@ -336,7 +335,7 @@
   GREYStopwatch *stopwatch = [[GREYStopwatch alloc] init];
   [stopwatch start];
   __block GREYError *assertionError;
-  NSNotificationCenter *defaultNotificationCenter = [NSNotificationCenter defaultCenter];
+  NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
 
   void (^completionBlock)(NSArray<id> *, GREYError *) = ^(NSArray<id> *matchedElements,
                                                           GREYError *error) {
@@ -371,9 +370,9 @@
              assertionError.code == kGREYInteractionMatchedElementIndexOutOfBoundsErrorCode);
         [assertionUserInfo setObject:assertionError forKey:kGREYAssertionErrorUserInfoKey];
       }
-      [defaultNotificationCenter postNotificationName:kGREYWillPerformAssertionNotification
-                                               object:nil
-                                             userInfo:assertionUserInfo];
+      [notificationCenter postNotificationName:kGREYWillPerformAssertionNotification
+                                        object:nil
+                                      userInfo:assertionUserInfo];
       GREYLogVerbose(@"Performing assertion: %@\n with matcher: %@\n with root matcher: "
                      @"%@",
                      [assertion name], self -> _elementMatcher, self -> _rootMatcher);
@@ -407,9 +406,9 @@
       // Post notification for the process of an assertion's execution on the specified element
       // being completed. This notification does not mean that the assertion was performed
       // successfully.
-      [defaultNotificationCenter postNotificationName:kGREYDidPerformAssertionNotification
-                                               object:nil
-                                             userInfo:assertionUserInfo];
+      [notificationCenter postNotificationName:kGREYDidPerformAssertionNotification
+                                        object:nil
+                                      userInfo:assertionUserInfo];
     }
   };
 
@@ -564,8 +563,8 @@
         errorDetails[kErrorDetailActionNameKey] = action.name;
         errorDetails[kErrorDetailElementMatcherKey] = _elementMatcher.description;
         errorDetails[kErrorDetailRecoverySuggestionKey] =
-            @"Check if the element exists in the UI hierarchy printed below. If it exists, "
-            @"adjust the matcher so that it accurately matches element.";
+            @"Check if the element exists in the UI hierarchy printed below. If it exists, adjust "
+            @"the matcher so that it accurately matches element.";
         errorDetails[kErrorDetailSearchActionInfoKey] = searchAPIInfo;
 
         NSArray *keyOrder = @[
