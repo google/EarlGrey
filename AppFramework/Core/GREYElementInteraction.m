@@ -172,7 +172,9 @@
 
       // Don't fail if this interaction error's out. It might still have revealed the element
       // we're looking for.
-      [self grey_performSearchActionWithError:&searchActionError];
+      id<GREYInteraction> interaction =
+          [[GREYElementInteraction alloc] initWithElementMatcher:_searchActionElementMatcher];
+      [interaction performAction:_searchAction error:&searchActionError];
     }
   }
 
@@ -869,19 +871,6 @@
   } else {
     return @"";
   }
-}
-
-/**
- *  Performs the @c _searchAction with the @c _searchActionElementMatcher.
- *
- *  @param[out] error The error for performing the action if any.
- *  @return @c YES if no error occurs, otherwise @c NO.
- */
-- (BOOL)grey_performSearchActionWithError:(GREYError **)error {
-  id<GREYInteraction> interaction =
-      [[GREYElementInteraction alloc] initWithElementMatcher:_searchActionElementMatcher];
-  [interaction performAction:_searchAction error:error];
-  return !(*error);
 }
 
 /**
