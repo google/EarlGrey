@@ -109,7 +109,7 @@ GREYError *I_GREYErrorMake(NSString *domain, NSInteger code, NSDictionary *userI
 + (instancetype)errorWithDomain:(NSString *)domain
                            code:(NSInteger)code
                        userInfo:(NSDictionary *)dict {
-  return [self errorWithDomain:domain code:code userInfo:dict];
+  return [super errorWithDomain:domain code:code userInfo:dict];
 }
 
 - (NSString *)description {

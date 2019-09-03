@@ -168,6 +168,11 @@ GREY_EXTERN NSString *const kGREYScreenshotActualAfterImage;
 @property(nonatomic, readonly) NSString *functionName;
 
 /**
+ *  The description set in the userInfo from the error creation macros.
+ */
+@property(nonatomic, readwrite) NSString *underlyingErrorDescription;
+
+/**
  *  The error information dictionary that is associated with the error.
  */
 @property(nonatomic, readonly) NSDictionary *errorInfo;

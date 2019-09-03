@@ -108,3 +108,26 @@
       *errorRef = e;                                                            \
     }                                                                           \
   })
+
+/**
+ *  If @c errorRef is not @c NULL, it is set to a @c GREYError object that is created
+ *  with the given @c domain, @c code, @c description and @c nestedError.
+ *  The description is accessible by querying error's @c userInfo with
+ *  @c NSLocalizedDescriptionKey. The @c nestedError is accessible by error's
+ *  @c userInfo with @c NSUnderlyingErrorKey.
+ *
+ *  @param[out] errorRef    A @c GREYError reference for retrieving the created
+ *                          error object.
+ *  @param      domain      The error domain.
+ *  @param      code        The error code.
+ *  @param      description The error's localized description.
+ *  @param      nestedError An error to be nested in current error.
+ *
+ */
+#define I_GREYPopulateNestedError(errorRef, domain, code, description, nestedError)     \
+  ({                                                                                    \
+    GREYError *e = GREYErrorNestedMake((domain), (code), (description), (nestedError)); \
+    if (errorRef) {                                                                     \
+      *errorRef = e;                                                                    \
+    }                                                                                   \
+  })

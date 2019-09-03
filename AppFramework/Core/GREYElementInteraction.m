@@ -185,24 +185,24 @@
     // TODO: Add test coverage for this error. // NOLINT
     NSString *actionTimeoutDesc =
         [NSString stringWithFormat:@"App not idle within %g seconds.", timeout];
-    error = GREYErrorNestedMake(kGREYInteractionErrorDomain, kGREYInteractionTimeoutErrorCode,
-                                actionTimeoutDesc, executorError);
+    I_GREYPopulateNestedError(&error, kGREYInteractionErrorDomain, kGREYInteractionTimeoutErrorCode,
+                              actionTimeoutDesc, executorError);
   } else if (searchActionError) {
-    error =
-        GREYErrorNestedMake(kGREYInteractionErrorDomain, kGREYInteractionElementNotFoundErrorCode,
-                            @"Search action failed", searchActionError);
+    NSString *desc = [NSString stringWithFormat:@"Search action failed: %@Underlying error: %@",
+                                                searchActionError.localizedFailureReason,
+                                                searchActionError.underlyingErrorDescription];
+    I_GREYPopulateError(&error, kGREYInteractionErrorDomain,
+                        kGREYInteractionElementNotFoundErrorCode, desc);
   } else if (executorError || isSearchTimedOut) {
     CFTimeInterval interactionTimeout =
         GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
     NSString *desc = [NSString stringWithFormat:@"Interaction timed out after %g seconds while "
                                                 @"searching for element.",
                                                 interactionTimeout];
-
     GREYError *timeoutError = GREYErrorMakeWithHierarchy(kGREYInteractionErrorDomain,
                                                          kGREYInteractionTimeoutErrorCode, desc);
-
-    error = GREYErrorNestedMake(kGREYInteractionErrorDomain,
-                                kGREYInteractionElementNotFoundErrorCode, @"", timeoutError);
+    I_GREYPopulateNestedError(&error, kGREYInteractionErrorDomain,
+                              kGREYInteractionElementNotFoundErrorCode, @"", timeoutError);
   }
 
   GREYFatalAssertWithMessage(error != nil, @"Elements found but with an error: %@", error);
@@ -807,9 +807,11 @@
     [mutableUserInfo setObject:appScreenshots forKey:kErrorDetailAppScreenshotsKey];
   }
   userInfo = [mutableUserInfo copy];
-  return [NSError errorWithDomain:interactionError.domain
-                             code:interactionError.code
-                         userInfo:userInfo];
+  GREYError *wrappedError = [GREYError errorWithDomain:interactionError.domain
+                                                  code:interactionError.code
+                                              userInfo:userInfo];
+  wrappedError.underlyingErrorDescription = interactionError.localizedDescription;
+  return wrappedError;
 }
 
 /**
