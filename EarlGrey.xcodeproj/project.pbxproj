@@ -205,7 +205,6 @@
 		FD98C461226C32FC006F8D68 /* GREYElementInteractionErrorHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C460226C32FB006F8D68 /* GREYElementInteractionErrorHandler.m */; };
 		FD98C464226C330A006F8D68 /* GREYFailureScreenshotSaver.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C462226C3309006F8D68 /* GREYFailureScreenshotSaver.m */; };
 		FDBE851122A21FD50093062B /* libeDistantObject.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FDBE84FC22A21FBC0093062B /* libeDistantObject.a */; };
-		FDC0468B22DFFFCB00B49502 /* GREYRemoteExecutor.m in Sources */ = {isa = PBXBuildFile; fileRef = FDC0468922DFFFC700B49502 /* GREYRemoteExecutor.m */; };
 		FDE871982322D9F7007C5A5C /* GREYRemoteExecutor.m in Sources */ = {isa = PBXBuildFile; fileRef = FDE871962322D9F6007C5A5C /* GREYRemoteExecutor.m */; };
 		FDF9E05720F82E200005DCF2 /* GREYTraversalDFS.m in Sources */ = {isa = PBXBuildFile; fileRef = FDF9E05120F82E200005DCF2 /* GREYTraversalDFS.m */; };
 		FDF9E05820F82E200005DCF2 /* GREYTraversalBFS.m in Sources */ = {isa = PBXBuildFile; fileRef = FDF9E05220F82E200005DCF2 /* GREYTraversalBFS.m */; };
@@ -656,8 +655,6 @@
 		FD98C462226C3309006F8D68 /* GREYFailureScreenshotSaver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYFailureScreenshotSaver.m; path = Exception/GREYFailureScreenshotSaver.m; sourceTree = "<group>"; };
 		FD98C463226C3309006F8D68 /* GREYFailureScreenshotSaver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYFailureScreenshotSaver.h; path = Exception/GREYFailureScreenshotSaver.h; sourceTree = "<group>"; };
 		FD98C466226C331A006F8D68 /* GREYXCTestAppleInternals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYXCTestAppleInternals.h; path = AppleInternals/GREYXCTestAppleInternals.h; sourceTree = "<group>"; };
-		FDC0468922DFFFC700B49502 /* GREYRemoteExecutor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYRemoteExecutor.m; path = EarlGreyImpl/GREYRemoteExecutor.m; sourceTree = "<group>"; };
-		FDC0468A22DFFFCA00B49502 /* GREYRemoteExecutor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYRemoteExecutor.h; path = EarlGreyImpl/GREYRemoteExecutor.h; sourceTree = "<group>"; };
 		FDE871962322D9F6007C5A5C /* GREYRemoteExecutor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYRemoteExecutor.m; path = Execution/GREYRemoteExecutor.m; sourceTree = "<group>"; };
 		FDE871972322D9F7007C5A5C /* GREYRemoteExecutor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYRemoteExecutor.h; path = Execution/GREYRemoteExecutor.h; sourceTree = "<group>"; };
 		FDF9E03520F82D090005DCF2 /* libUILib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libUILib.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -813,8 +810,6 @@
 		FD50492020FB238800261CBE /* EarlGreyImpl */ = {
 			isa = PBXGroup;
 			children = (
-				FDC0468A22DFFFCA00B49502 /* GREYRemoteExecutor.h */,
-				FDC0468922DFFFC700B49502 /* GREYRemoteExecutor.m */,
 				FD98C45F226C32FA006F8D68 /* GREYElementInteractionErrorHandler.h */,
 				FD98C460226C32FB006F8D68 /* GREYElementInteractionErrorHandler.m */,
 				FD50492920FB239900261CBE /* EarlGrey.h */,
@@ -1737,7 +1732,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				FD50492C20FB239900261CBE /* EarlGreyImpl+XCUIApplication.m in Sources */,
-				FDC0468B22DFFFCB00B49502 /* GREYRemoteExecutor.m in Sources */,
 				FD50491E20FB238300261CBE /* GREYHostStub.m in Sources */,
 				FD50491A20FB237100261CBE /* GREYCondition.m in Sources */,
 				FD98C461226C32FC006F8D68 /* GREYElementInteractionErrorHandler.m in Sources */,
