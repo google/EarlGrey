@@ -206,6 +206,7 @@
 		FD98C464226C330A006F8D68 /* GREYFailureScreenshotSaver.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C462226C3309006F8D68 /* GREYFailureScreenshotSaver.m */; };
 		FDBE851122A21FD50093062B /* libeDistantObject.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FDBE84FC22A21FBC0093062B /* libeDistantObject.a */; };
 		FDC0468B22DFFFCB00B49502 /* GREYRemoteExecutor.m in Sources */ = {isa = PBXBuildFile; fileRef = FDC0468922DFFFC700B49502 /* GREYRemoteExecutor.m */; };
+		FDE871982322D9F7007C5A5C /* GREYRemoteExecutor.m in Sources */ = {isa = PBXBuildFile; fileRef = FDE871962322D9F6007C5A5C /* GREYRemoteExecutor.m */; };
 		FDF9E05720F82E200005DCF2 /* GREYTraversalDFS.m in Sources */ = {isa = PBXBuildFile; fileRef = FDF9E05120F82E200005DCF2 /* GREYTraversalDFS.m */; };
 		FDF9E05820F82E200005DCF2 /* GREYTraversalBFS.m in Sources */ = {isa = PBXBuildFile; fileRef = FDF9E05220F82E200005DCF2 /* GREYTraversalBFS.m */; };
 		FDF9E06120F82E340005DCF2 /* GREYElementProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = FDF9E05B20F82E340005DCF2 /* GREYElementProvider.m */; };
@@ -657,6 +658,8 @@
 		FD98C466226C331A006F8D68 /* GREYXCTestAppleInternals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYXCTestAppleInternals.h; path = AppleInternals/GREYXCTestAppleInternals.h; sourceTree = "<group>"; };
 		FDC0468922DFFFC700B49502 /* GREYRemoteExecutor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYRemoteExecutor.m; path = EarlGreyImpl/GREYRemoteExecutor.m; sourceTree = "<group>"; };
 		FDC0468A22DFFFCA00B49502 /* GREYRemoteExecutor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYRemoteExecutor.h; path = EarlGreyImpl/GREYRemoteExecutor.h; sourceTree = "<group>"; };
+		FDE871962322D9F6007C5A5C /* GREYRemoteExecutor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYRemoteExecutor.m; path = Execution/GREYRemoteExecutor.m; sourceTree = "<group>"; };
+		FDE871972322D9F7007C5A5C /* GREYRemoteExecutor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYRemoteExecutor.h; path = Execution/GREYRemoteExecutor.h; sourceTree = "<group>"; };
 		FDF9E03520F82D090005DCF2 /* libUILib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libUILib.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDF9E05120F82E200005DCF2 /* GREYTraversalDFS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYTraversalDFS.m; path = UILib/Traversal/GREYTraversalDFS.m; sourceTree = SOURCE_ROOT; };
 		FDF9E05220F82E200005DCF2 /* GREYTraversalBFS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYTraversalBFS.m; path = UILib/Traversal/GREYTraversalBFS.m; sourceTree = SOURCE_ROOT; };
@@ -756,6 +759,7 @@
 		FD5048F920FB225100261CBE /* TestLib */ = {
 			isa = PBXGroup;
 			children = (
+				FDE871952322D9DD007C5A5C /* Execution */,
 				FD98C465226C330E006F8D68 /* AppleInternals */,
 				FD2E76EE2149E4620063EF7E /* Config */,
 				FD50493620FB23CF00261CBE /* XCTestCase */,
@@ -1326,6 +1330,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		FDE871952322D9DD007C5A5C /* Execution */ = {
+			isa = PBXGroup;
+			children = (
+				FDE871972322D9F7007C5A5C /* GREYRemoteExecutor.h */,
+				FDE871962322D9F6007C5A5C /* GREYRemoteExecutor.m */,
+			);
+			name = Execution;
+			sourceTree = "<group>";
+		};
 		FDF9E03620F82D090005DCF2 /* UILib */ = {
 			isa = PBXGroup;
 			children = (
@@ -1732,6 +1745,7 @@
 				FD3A825C21F189BC00CA3ADF /* GREYActionsShorthand.m in Sources */,
 				FD98C464226C330A006F8D68 /* GREYFailureScreenshotSaver.m in Sources */,
 				FD3A826521F18A5900CA3ADF /* GREYTestApplicationDistantObject+GREYLogger.m in Sources */,
+				FDE871982322D9F7007C5A5C /* GREYRemoteExecutor.m in Sources */,
 				FD50493D20FB23E500261CBE /* XCTestCase+GREYTest.m in Sources */,
 				FD623DC220FD770F00049E81 /* GREYMatchersShorthand.m in Sources */,
 				FD50491F20FB238300261CBE /* GREYTestApplicationDistantObject.m in Sources */,
