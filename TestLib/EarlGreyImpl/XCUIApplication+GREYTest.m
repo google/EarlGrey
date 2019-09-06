@@ -16,14 +16,39 @@
 
 #import "XCUIApplication+GREYTest.h"
 
-#include <objc/runtime.h>
+#include <dlfcn.h>
 
 #import "GREYHostApplicationDistantObject+GREYTestHelper.h"
 #import "GREYFatalAsserts.h"
 #import "GREYTestApplicationDistantObject+Private.h"
 #import "GREYTestApplicationDistantObject.h"
+#import "GREYAppleInternals.h"
+#import "GREYDefines.h"
 #import "GREYSwizzler.h"
 #import "XCUIApplication+GREYEnvironment.h"
+
+#if !(TARGET_IPHONE_SIMULATOR)
+/**
+ * Text Input preferences controller to modify the keyboard preferences on device for iOS 8+.
+ */
+@interface TIPreferencesController : NSObject
+
+/** Whether the autocorrection is enabled. */
+@property BOOL autocorrectionEnabled;
+
+/** Whether the predication is enabled. */
+@property BOOL predictionEnabled;
+
+/** The shared singleton instance. */
++ (instancetype)sharedPreferencesController;
+
+/** Synchronize the change to save it on disk. */
+- (void)synchronizePreferences;
+
+/** Modify the preference @c value by @c key. */
+- (void)setValue:(NSValue *)value forPreferenceKey:(NSString *)key;
+@end
+#endif
 
 @implementation XCUIApplication (GREYTest)
 
@@ -36,6 +61,8 @@
 }
 
 - (void)grey_launch {
+  [self modifyKeyboardSettings];
+
   // Setup the Launch Environments.
   [self grey_configureApplicationForLaunch];
   // Setup the Launch Arguments for eDO.
@@ -57,6 +84,69 @@
   testDistantObject.hostPort = 0;
   testDistantObject.hostBackgroundPort = 0;
   INVOKE_ORIGINAL_IMP(void, @selector(grey_launch));
+}
+
+// Modifies the autocorrect and predictive typing settings to turn them off through the keyboard
+// settings bundle.
+- (void)modifyKeyboardSettings {
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+#if TARGET_IPHONE_SIMULATOR
+    // Set the preferences values directly on simulator for the keyboard modifiers. For persisting
+    // these values, CFPreferencesSynchronize must be called after.
+    CFStringRef app = CFSTR("com.apple.Preferences");
+    CFPreferencesSetValue(CFSTR("KeyboardAutocorrection"), kCFBooleanFalse, app,
+                          kCFPreferencesAnyUser, kCFPreferencesAnyHost);
+    CFPreferencesSetValue(CFSTR("KeyboardPrediction"), kCFBooleanFalse, app, kCFPreferencesAnyUser,
+                          kCFPreferencesAnyHost);
+    if (iOS13_OR_ABOVE()) {
+      CFPreferencesSetValue(CFSTR("DidShowContinuousPathIntroduction"), kCFBooleanTrue, app,
+                            kCFPreferencesAnyUser, kCFPreferencesAnyHost);
+    } else if (iOS11_OR_ABOVE()) {
+      CFPreferencesSetValue(CFSTR("DidShowGestureKeyboardIntroduction"), kCFBooleanTrue, app,
+                            kCFPreferencesAnyUser, kCFPreferencesAnyHost);
+    }
+    CFPreferencesSynchronize(kCFPreferencesAnyApplication, kCFPreferencesAnyUser,
+                             kCFPreferencesAnyHost);
+#else
+  // Setting the global keyboard preferences does not work on devices as this needs to be done on
+  // the preferences application, which is sandboxed. We have to use the TextInput framework to
+  // turn off the keyboard settings on device.
+  static char const *const controllerPrefBundlePath =
+      "/System/Library/PrivateFrameworks/TextInput.framework/TextInput";
+  static NSString *const controllerClassName = @"TIPreferencesController";
+  void *handle = dlopen(controllerPrefBundlePath, RTLD_LAZY);
+  GREYFatalAssertWithMessage(handle, @"dlopen couldn't open settings bundle at path bundle %s",
+                             controllerPrefBundlePath);
+
+  Class controllerClass = NSClassFromString(controllerClassName);
+  GREYFatalAssertWithMessage(controllerClass, @"Couldn't find %@ class", controllerClassName);
+
+  TIPreferencesController *controller = [controllerClass sharedPreferencesController];
+  if ([controller respondsToSelector:@selector(setAutocorrectionEnabled:)]) {
+    controller.autocorrectionEnabled = NO;
+  } else {
+    [controller setValue:@NO forPreferenceKey:@"KeyboardAutocorrection"];
+  }
+
+  if ([controller respondsToSelector:@selector(setPredictionEnabled:)]) {
+    controller.predictionEnabled = NO;
+  } else {
+    [controller setValue:@NO forPreferenceKey:@"KeyboardPrediction"];
+  }
+
+  if (iOS11_OR_ABOVE()) {
+    [controller setValue:@YES forPreferenceKey:@"DidShowGestureKeyboardIntroduction"];
+  }
+  if (iOS13_OR_ABOVE()) {
+    [controller setValue:@YES forPreferenceKey:@"DidShowContinuousPathIntroduction"];
+  }
+
+  [controller synchronizePreferences];
+
+  dlclose(handle);
+#endif
+  });
 }
 
 @end

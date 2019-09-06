@@ -16,9 +16,7 @@
 
 #import "GREYAutomationSetup.h"
 
-#include <dlfcn.h>
 #include <execinfo.h>
-#include <objc/runtime.h>
 #include <signal.h>
 
 #import "GREYFatalAsserts.h"
@@ -105,47 +103,6 @@ static GREYSignalHandler gPreviousSignalHandlers[kNumSignals];
   [self grey_setupCrashHandlers];
   // Force software keyboard.
   [[UIKeyboardImpl sharedInstance] setAutomaticMinimizationEnabled:NO];
-  // Turn off auto correction as it interferes with typing on iOS 8.2+.
-  [self grey_modifyKeyboardSettings];
-}
-
-#pragma mark - Accessibility
-// Modifies the autocorrect and predictive typing settings to turn them off through the
-// keyboard settings bundle.
-- (void)grey_modifyKeyboardSettings {
-  static char const *const controllerPrefBundlePath =
-      "/System/Library/PrivateFrameworks/TextInput.framework/TextInput";
-  static NSString *const controllerClassName = @"TIPreferencesController";
-  void *handle = dlopen(controllerPrefBundlePath, RTLD_LAZY);
-  GREYFatalAssertWithMessage(handle, @"dlopen couldn't open settings bundle at path bundle %s",
-                             controllerPrefBundlePath);
-
-  Class controllerClass = NSClassFromString(controllerClassName);
-  GREYFatalAssertWithMessage(controllerClass, @"Couldn't find %@ class", controllerClassName);
-
-  TIPreferencesController *controller = [controllerClass sharedPreferencesController];
-  if ([controller respondsToSelector:@selector(setAutocorrectionEnabled:)]) {
-    controller.autocorrectionEnabled = NO;
-  } else {
-    [controller setValue:@NO forPreferenceKey:@"KeyboardAutocorrection"];
-  }
-
-  if ([controller respondsToSelector:@selector(setPredictionEnabled:)]) {
-    controller.predictionEnabled = NO;
-  } else {
-    [controller setValue:@NO forPreferenceKey:@"KeyboardPrediction"];
-  }
-
-  if (iOS11_OR_ABOVE()) {
-    [controller setValue:@YES forPreferenceKey:@"DidShowGestureKeyboardIntroduction"];
-  }
-  if (iOS13_OR_ABOVE()) {
-    [controller setValue:@YES forPreferenceKey:@"DidShowContinuousPathIntroduction"];
-  }
-
-  [controller synchronizePreferences];
-
-  dlclose(handle);
 }
 
 #pragma mark - Crash Handlers
