@@ -720,4 +720,30 @@
   [[EarlGrey selectElementWithMatcher:keyWindowMatcher] performAction:tapAction];
 }
 
+- (void)testAssertionForAppIdling {
+  [self openTestViewNamed:@"Animations"];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AnimationControl")]
+      performAction:grey_tap()];
+  GREYWaitForAppToIdle(@"Wait for Animations");
+  [[GREYConfiguration sharedConfiguration] setValue:@(NO)
+                                       forConfigKey:kGREYConfigKeySynchronizationEnabled];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AnimationStatus")]
+      assertWithMatcher:grey_text(@"Paused")];
+  [[GREYConfiguration sharedConfiguration] setValue:@(YES)
+                                       forConfigKey:kGREYConfigKeySynchronizationEnabled];
+}
+
+- (void)testAssertionForAppIdlingWithTimeout {
+  [self openTestViewNamed:@"Animations"];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AnimationControl")]
+      performAction:grey_tap()];
+  GREYWaitForAppToIdleWithTimeout(5, @"Wait for Animations");
+  [[GREYConfiguration sharedConfiguration] setValue:@(NO)
+                                       forConfigKey:kGREYConfigKeySynchronizationEnabled];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AnimationStatus")]
+      assertWithMatcher:grey_text(@"Paused")];
+  [[GREYConfiguration sharedConfiguration] setValue:@(YES)
+                                       forConfigKey:kGREYConfigKeySynchronizationEnabled];
+}
+
 @end

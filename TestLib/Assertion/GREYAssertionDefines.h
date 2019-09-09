@@ -24,12 +24,13 @@
 #ifndef GREY_ASSERTION_DEFINES_H
 #define GREY_ASSERTION_DEFINES_H
 
-#import "GREYUIThreadExecutor.h"
 #import "GREYAssertionDefinesPrivate.h"
-#import "GREYConfiguration.h"
+
+#import "GREYUIThreadExecutor.h"
 #import "GREYFailureHandler.h"
 #import "GREYFrameworkException.h"
 #import "GREYDefines.h"
+#import "GREYWaitFunctions.h"
 
 /**
  *  These Macros are safe to call from anywhere within a testcase.
@@ -80,7 +81,7 @@
   ({                                                                          \
     I_GREYSetCurrentAsFailable();                                             \
     NSString *timeoutString__ = @"Couldn't assert that (" #__a1 ") is true."; \
-    I_GREYWaitForIdle(timeoutString__);                                       \
+    GREYWaitForAppToIdle(timeoutString__);                                    \
     I_GREYAssertTrue((__a1), (__description), ##__VA_ARGS__);                 \
   })
 
@@ -99,7 +100,7 @@
   ({                                                                          \
     I_GREYSetCurrentAsFailable();                                             \
     NSString *timeoutString__ = @"Couldn't assert that (" #__a1 ") is true."; \
-    I_GREYWaitForIdle(timeoutString__);                                       \
+    GREYWaitForAppToIdle(timeoutString__);                                    \
     I_GREYAssertTrue((__a1), (__description), ##__VA_ARGS__);                 \
   })
 
@@ -118,7 +119,7 @@
   ({                                                                           \
     I_GREYSetCurrentAsFailable();                                              \
     NSString *timeoutString__ = @"Couldn't assert that (" #__a1 ") is false."; \
-    I_GREYWaitForIdle(timeoutString__);                                        \
+    GREYWaitForAppToIdle(timeoutString__);                                     \
     I_GREYAssertFalse((__a1), (__description), ##__VA_ARGS__);                 \
   })
 
@@ -136,7 +137,7 @@
   ({                                                                             \
     I_GREYSetCurrentAsFailable();                                                \
     NSString *timeoutString__ = @"Couldn't assert that (" #__a1 ") is not nil."; \
-    I_GREYWaitForIdle(timeoutString__);                                          \
+    GREYWaitForAppToIdle(timeoutString__);                                       \
     I_GREYAssertNotNil((__a1), (__description), ##__VA_ARGS__);                  \
   })
 
@@ -155,7 +156,7 @@
   ({                                                                         \
     I_GREYSetCurrentAsFailable();                                            \
     NSString *timeoutString__ = @"Couldn't assert that (" #__a1 ") is nil."; \
-    I_GREYWaitForIdle(timeoutString__);                                      \
+    GREYWaitForAppToIdle(timeoutString__);                                   \
     I_GREYAssertNil((__a1), (__description), ##__VA_ARGS__);                 \
   })
 
@@ -175,7 +176,7 @@
   ({                                                                                            \
     I_GREYSetCurrentAsFailable();                                                               \
     NSString *timeoutString__ = @"Couldn't assert that (" #__a1 ") and (" #__a2 ") are equal."; \
-    I_GREYWaitForIdle(timeoutString__);                                                         \
+    GREYWaitForAppToIdle(timeoutString__);                                                      \
     I_GREYAssertEqual((__a1), (__a2), (__description), ##__VA_ARGS__);                          \
   })
 
@@ -198,7 +199,7 @@
     I_GREYSetCurrentAsFailable();                                           \
     NSString *timeoutString__ =                                             \
         @"Couldn't assert that (" #__a1 ") and (" #__a2 ") are not equal."; \
-    I_GREYWaitForIdle(timeoutString__);                                     \
+    GREYWaitForAppToIdle(timeoutString__);                                  \
     I_GREYAssertNotEqual((__a1), (__a2), (__description), ##__VA_ARGS__);   \
   })
 
@@ -220,7 +221,7 @@
     I_GREYSetCurrentAsFailable();                                               \
     NSString *timeoutString__ =                                                 \
         @"Couldn't assert that (" #__a1 ") and (" #__a2 ") are equal objects."; \
-    I_GREYWaitForIdle(timeoutString__);                                         \
+    GREYWaitForAppToIdle(timeoutString__);                                      \
     I_GREYAssertEqualObjects((__a1), (__a2), __description, ##__VA_ARGS__);     \
   })
 
@@ -243,34 +244,40 @@
     I_GREYSetCurrentAsFailable();                                                   \
     NSString *timeoutString__ =                                                     \
         @"Couldn't assert that (" #__a1 ") and (" #__a2 ") are not equal objects."; \
-    I_GREYWaitForIdle(timeoutString__);                                             \
+    GREYWaitForAppToIdle(timeoutString__);                                          \
     I_GREYAssertNotEqualObjects((__a1), (__a2), (__description), ##__VA_ARGS__);    \
   })
 
-#pragma mark - Private Macros
-
 /**
- *  THESE ARE METHODS TO BE CALLED BY THE FRAMEWORK ONLY.
- *  DO NOT CALL OUTSIDE FRAMEWORK
+ *  Waits for the application to idle without blocking the test's main thread.
+ *
+ *  @param __timeoutDescription The description to print if the idling errors out.
  */
-
-/// @cond INTERNAL
-
-// No private macro should call this.
-#define I_GREYWaitForIdle(__timeoutDescription)                                               \
+#define GREYWaitForAppToIdle(__timeoutDescription)                                            \
   ({                                                                                          \
-    CFTimeInterval interactionTimeout__ =                                                     \
-        GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);                         \
     NSError *error__;                                                                         \
-    BOOL success__ =                                                                          \
-        [[GREYUIThreadExecutor sharedInstance] executeSyncWithTimeout:interactionTimeout__    \
-                                                                block:nil                     \
-                                                                error:&error__];              \
+    BOOL success__ = GREYWaitForAppToIdleWithError(&error__);                                 \
     if (!success__) {                                                                         \
       I_GREYTimeout(__timeoutDescription, @"Timed out waiting for app to idle. %@", error__); \
     }                                                                                         \
   })
 
-/// @endcond
+/**
+ *  Waits for the application to idle without blocking the test's main thread within the specified
+ *  timeout.
+ *
+ *  @param __timeout            The seconds for which the application will be waited on to be idle.
+ *  @param __timeoutDescription The description to print if the idling errors out.
+ */
+#define GREYWaitForAppToIdleWithTimeout(__timeout, __timeoutDescription)                   \
+  ({                                                                                       \
+    NSError *error__;                                                                      \
+    BOOL success__ = GREYWaitForAppToIdleWithTimeout(__timeout, &error__);                 \
+    if (!success__) {                                                                      \
+      I_GREYTimeout(__timeoutDescription,                                                  \
+                    @"Timed out waiting for app to idle within %d seconds: %@", __timeout, \
+                    error__);                                                              \
+    }                                                                                      \
+  })
 
 #endif  // GREY_ASSERTION_DEFINES_H
