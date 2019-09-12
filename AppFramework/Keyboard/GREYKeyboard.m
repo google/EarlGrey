@@ -529,9 +529,9 @@ typedef BOOL (^ConditionBlock)(void);
 }
 
 /**
- *  A flag to check if the alphabetic keyplan is currently visible on the keyboard.
+ *  A flag to check if the alphabetic keyplane is currently visible on the keyboard.
  *
- *  @return @c YES if the alphabetic keyplan is being shown on the keyboard, else @c NO.
+ *  @return @c YES if the alphabetic keyplane is being shown on the keyboard, else @c NO.
  */
 + (BOOL)grey_isAlphabeticKeyplaneShown {
   // Arbitrarily choose e/E as the key to look for to determine if alphabetic keyplane is shown.
