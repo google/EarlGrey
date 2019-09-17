@@ -2,8 +2,8 @@
 ![Build Status](https://app.bitrise.io/app/0b4975da22d56e16/status.svg?token=5TrWUStkI51GjdO7PgEueQ)
 
 **Note:** EarlGrey 2.0 currently supports Xcode Projects and building from source for both white
-and black box testing. CocoaPods support is present for black-box testing. Contributions are welcome
-for CocoaPods white-box testing and other package managers.
+and black box testing. CocoaPods support is present for black-box testing. Contributions are
+welcome for CocoaPods white-box testing and other package managers.
 
 To use, please clone the `earlgrey2` branch with its submodules:
 
@@ -42,8 +42,9 @@ to allow these white-box interactions.
 
 # Using EarlGrey 2.0
 
-Currently, only the source code is available, with Xcode Project integration. To integrate with
-EarlGrey 2.0, please take a look at our [Setup Guide](docs/setup.md).
+To integrate with EarlGrey 2.0 using Xcode Projects, please take a look at our
+[Setup Guide](docs/setup.md). For CocoaPods, please look at the
+[CocoaPods Setup Guide](docs/cocoapods-setup.md).
 
 For a quick sample project, take a look at our
 [FunctionalTests](Tests/FunctionalTests/FunctionalTests.xcodeproj)
