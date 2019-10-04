@@ -96,17 +96,4 @@
   return value;
 }
 
-#pragma mark - Private
-
-/**
- *  Validates that [value kindOfClass:class] holds, otherwise throws an @c NSException.
- */
-- (void)grey_validateValue:(id)value forConfigKey:(NSString *)key isKindOfClass:(Class)class {
-  if (![value isKindOfClass:class]) {
-    NSString *fmt =
-        @"Expected class type:%@, actual class type:%@ for value with configuration key:%@";
-    [NSException raise:NSInternalInconsistencyException format:fmt, class, [value class], key];
-  }
-}
-
 @end

@@ -87,14 +87,7 @@ GREYConfiguration *GREYCreateConfiguration(void) { return [[GREYTestConfiguratio
 
 - (void)setValue:(id)value forConfigKey:(GREYConfigKey)configKey {
   GREYThrowOnNilParameter(value);
-  // Config keys can only be of the type NSValue, NSString, NSPathS and NSArray. A subclass check is
-  // added for paths, which are a subclass of NSString (NSPathStore2).
-  if (![value isKindOfClass:[NSValue class]] && ![value isKindOfClass:[NSString class]] &&
-      ![value isKindOfClass:[NSArray class]] && ![value isKindOfClass:[NSDictionary class]] &&
-      ![[value class] isSubclassOfClass:[NSString class]]) {
-    [NSException raise:@"NSUnknownKeyException"
-                format:@"Config Value: %@ is not an NSValue, NSString or NSArray.", [value class]];
-  }
+  GREYValidateValueType(value);
   dispatch_sync(_configurationIsolationQueue, ^{
     [self->_overriddenConfiguration setObject:value forKey:configKey];
     self.needsMerge = YES;
@@ -105,7 +98,7 @@ GREYConfiguration *GREYCreateConfiguration(void) { return [[GREYTestConfiguratio
 
 - (void)setDefaultValue:(id)value forConfigKey:(NSString *)configKey {
   GREYThrowOnNilParameter(value);
-
+  GREYValidateValueType(value);
   dispatch_sync(_configurationIsolationQueue, ^{
     [self->_defaultConfiguration setObject:value forKey:configKey];
     self.needsMerge = YES;
@@ -122,4 +115,18 @@ GREYConfiguration *GREYCreateConfiguration(void) { return [[GREYTestConfiguratio
   [self updateRemoteConfiguration];
 }
 
+/**
+ *  Validates if the configuration value is of type NSValue, NSString, NSPathS, NSDictionary or
+ *  NSArray.
+ *
+ *  @param value An id specifying the config value to be validated.
+ */
+static void GREYValidateValueType(id value) {
+  if (![value isKindOfClass:[NSValue class]] && ![value isKindOfClass:[NSString class]] &&
+      ![value isKindOfClass:[NSArray class]] && ![value isKindOfClass:[NSDictionary class]]) {
+    [NSException raise:@"NSUnknownKeyException"
+                format:@"Config Value: %@ is not an NSValue, NSString, NSDictionary or NSArray.",
+                       [value class]];
+  }
+}
 @end
