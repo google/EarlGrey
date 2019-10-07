@@ -23,8 +23,8 @@
 
 #import <Foundation/Foundation.h>
 
-// GREYConfiguration's Configuration Key Strings are indirectly exposed through here, to prevent
-// users from having to import the Configuration Strings directly.
+// GREYConfiguration's configuration keys are indirectly exposed through here, to avoid users from
+// having to import the headers directly.
 #import "GREYConfigKey.h"
 #import "GREYDefines.h"
 
@@ -162,9 +162,9 @@ NS_ASSUME_NONNULL_BEGIN
  *          (using GREYConfiguration::reset)
  *
  *  @param value     The configuration value to be set. Scalars should be wrapped in @c NSValue or
- * @c NSString.
+ *                   @c NSString.
  *  @param configKey Key identifying an existing or new configuration. Must be a valid
- * GREYConfigKey.
+ *                   @c GREYConfigKey.
  */
 - (void)setDefaultValue:(id)value forConfigKey:(GREYConfigKey)configKey;
 
