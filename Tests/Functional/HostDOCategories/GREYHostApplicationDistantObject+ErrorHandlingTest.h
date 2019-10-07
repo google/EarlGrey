@@ -44,4 +44,10 @@
  *  @c returns A simple error nested error with no UI hierarchy.
  */
 - (NSError *)simpleNestedError;
+
+/**
+ *  Dispatches a sleep on the main thread of the application for the non-tactile timeout
+ *  (10 seconds). Used for errors with non-GREYInteraction based APIs.
+ */
+- (void)induceNonTactileActionTimeoutInTheApp;
 @end

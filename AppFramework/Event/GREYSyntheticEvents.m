@@ -30,11 +30,6 @@
 
 #pragma mark - Implementation
 
-/**
- *  Timeout for the app to idle on performing non-tactile events such as rotation or shaking.
- */
-static const CFTimeInterval kNonTactileEventTimeout = 10.0;
-
 @implementation GREYSyntheticEvents {
   /**
    *  The touch injector that completes the touch sequence for an event.

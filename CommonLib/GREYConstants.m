@@ -18,6 +18,7 @@
 
 #include <math.h>
 
+const CFTimeInterval kNonTactileEventTimeout = 10.0;
 const CGFloat kGREYMinimumVisibleAlpha = 0.01f;
 const CFTimeInterval kGREYSwipeFastDuration = 0.1;
 const CFTimeInterval kGREYSwipeSlowDuration = 1.0;

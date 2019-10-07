@@ -37,9 +37,15 @@
     if (errorOrNil) {
       *errorOrNil = interactionError;
     } else {
+      NSMutableString *reason = [[interactionError localizedDescription] mutableCopy];
+      NSString *descriptionGlossary = [[interactionError descriptionGlossary] description];
+      if (descriptionGlossary) {
+        [reason appendFormat:@"\nDescription Glossary: \n%@", descriptionGlossary];
+      }
+
       GREYFrameworkException *exception =
           [GREYFrameworkException exceptionWithName:[interactionError domain]
-                                             reason:[interactionError localizedDescription]
+                                             reason:reason
                                            userInfo:[interactionError userInfo]];
 
       id<GREYFailureHandler> failureHandler =

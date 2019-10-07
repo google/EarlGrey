@@ -25,6 +25,17 @@
 
 @implementation ErrorHandlingTest
 
+- (void)testRotationDescriptionGlossary {
+  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeLeft error:nil];
+  [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
+  [[GREYConfiguration sharedConfiguration] setValue:@(0.0)
+                                       forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
+  [[GREYHostApplicationDistantObject sharedInstance] induceNonTactileActionTimeoutInTheApp];
+  NSError *error;
+  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait error:&error];
+  XCTAssertTrue([error.description containsString:@"\"Description Glossary\" :"]);
+}
+
 - (void)testActionErrorContainsHierarchyForFailures {
   NSError *error;
   [[EarlGrey selectElementWithMatcher:grey_keyWindow()]

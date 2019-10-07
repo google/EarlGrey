@@ -17,6 +17,7 @@
 #import "GREYHostApplicationDistantObject+ErrorHandlingTest.h"
 
 #import "GREYAppError.h"
+#import "GREYConstants.h"
 
 @implementation GREYHostApplicationDistantObject (ErrorHandlingTest)
 
@@ -48,6 +49,16 @@
       GREYErrorMake(kGREYGenericErrorDomain, kGREYGenericErrorCode, @"Generic Nested Error");
   return GREYErrorNestedMake(kGREYGenericErrorDomain, kGREYGenericErrorCode, @"Generic Error",
                              nestedError);
+}
+
+- (void)induceNonTactileActionTimeoutInTheApp {
+  // This is done in a dispatch_after as calling sleep() directly or in a dispatch async will block
+  // any further interaction with the app until the sleep finishes. Non-tactile actions such as
+  // rotation will wait for this to complete before timing out.
+  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)),
+                 dispatch_get_main_queue(), ^{
+                   sleep(kNonTactileEventTimeout);
+                 });
 }
 
 @end
