@@ -16,34 +16,36 @@
 
 #import <Foundation/Foundation.h>
 
+#import "GREYDefines.h"
+
 /**
  *  Utilities for waiting for the app to synchronize. Used only from within
- * existing Assertion Defines. Should be used instead of GREYUIThreadExecutor
- * calls in the test as this synchronizes correctly using a background execution
- * queue in the test.
+ *  existing assertion defines. Should be used instead of GREYUIThreadExecutor
+ *  calls in the test as this synchronizes correctly using a background
+ *  execution queue in the test.
  */
 
 /**
  *  Waits for the application under test to idle. Similar to
- * GREYUIThreadExecutor:drainUntilIdleWithTimeout if the timeout was the default
- * interaction duration.
+ *  GREYUIThreadExecutor:drainUntilIdleWithTimeout if the timeout was the
+ *  default interaction duration.
  *
  *  @param[out] waitError An error populated if the application has idled.
  *
  *  @return @c YES if the application idled successfully. @c NO otherwise.
  */
-BOOL GREYWaitForAppToIdleWithError(NSError **waitError);
+GREY_EXTERN BOOL GREYWaitForAppToIdleWithError(NSError **waitError);
 
 /**
  *  Waits for the application under test to idle before the specified timeout.
  *
  *  @param      timeoutInSeconds A CFTimeInterval in seconds specifying by when
- * the application should idle.
+ *                               the application should idle.
  *  @param[out] waitError        An error populated if the application has
- * idled.
+ *                               idled.
  *
- *  @return @c YES if the application idled successfully before the timeout. @c
- * NO otherwise.
+ *  @return @c YES if the application idled successfully before the timeout.
+ *  @c NO otherwise.
  */
-BOOL GREYWaitForAppToIdleWithTimeout(CFTimeInterval timeoutInSeconds,
-                                     NSError **waitError);
+GREY_EXTERN BOOL GREYWaitForAppToIdleWithTimeout(
+    CFTimeInterval timeoutInSeconds, NSError **waitError);
