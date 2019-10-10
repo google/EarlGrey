@@ -19,6 +19,7 @@
 #import "GREYBaseAction.h"
 #import "GREYTapper.h"
 #import "NSObject+GREYApp.h"
+#import "GREYElementFinder.h"
 #import "GREYInteraction.h"
 #import "GREYAppError.h"
 #import "GREYAllOf.h"
@@ -29,6 +30,7 @@
 #import "NSError+GREYCommon.h"
 #import "GREYConstants.h"
 #import "GREYDefines.h"
+#import "GREYElementProvider.h"
 
 /**
  *  Helper Class containing the increment and decrement buttons on the stepper.
@@ -182,22 +184,16 @@
   __block UIButton *foundPlusButton;
   __block UIButton *foundMinusButton;
   grey_dispatch_sync_on_main_thread(^{
-    for (UIView *view in stepper.subviews) {
-      if ([view isKindOfClass:[UIButton class]]) {
-        // Another way to find the buttons is to compare the images from decrementImageForState:
-        // and incrementImageForState:, but for now we just consider minus button on the left,
-        // plus button of the right.
-        if (CGRectGetMidX(view.frame) < CGRectGetMidX(stepper.bounds)) {
-          foundMinusButton = (UIButton *)view;
-        } else {
-          foundPlusButton = (UIButton *)view;
-        }
-        if (foundMinusButton && foundPlusButton) {
-          break;
-        }
-      }
-    }
+    GREYElementProvider *stepperProvider =
+        [GREYElementProvider providerWithRootElements:@[ stepper ]];
+    GREYElementFinder *buttonFinder = [[GREYElementFinder alloc]
+        initWithMatcher:[GREYMatchers matcherForAccessibilityLabel:@"Increment"]];
+    foundPlusButton = [buttonFinder elementsMatchedInProvider:stepperProvider].firstObject;
+    buttonFinder = [[GREYElementFinder alloc]
+        initWithMatcher:[GREYMatchers matcherForAccessibilityLabel:@"Decrement"]];
+    foundMinusButton = [buttonFinder elementsMatchedInProvider:stepperProvider].firstObject;
   });
+
   if (!(foundMinusButton && foundPlusButton)) {
     NSString *description = [NSString stringWithFormat:
                                           @"Failed to find stepper buttons "
