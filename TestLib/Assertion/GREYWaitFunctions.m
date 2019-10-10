@@ -22,10 +22,10 @@
 
 BOOL GREYWaitForAppToIdleWithError(NSError **waitError) {
   CFTimeInterval interactionTimeout = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
-  return GREYWaitForAppToIdleWithTimeout(interactionTimeout, waitError);
+  return GREYWaitForAppToIdleWithTimeoutAndError(interactionTimeout, waitError);
 }
 
-BOOL GREYWaitForAppToIdleWithTimeout(CFTimeInterval timeoutInSeconds, NSError **waitError) {
+BOOL GREYWaitForAppToIdleWithTimeoutAndError(CFTimeInterval timeoutInSeconds, NSError **waitError) {
   __block BOOL success = NO;
   __block NSError *error;
   GREYExecuteSyncBlockInBackgroundQueue(^{

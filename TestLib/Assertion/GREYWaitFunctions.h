@@ -45,7 +45,7 @@ GREY_EXTERN BOOL GREYWaitForAppToIdleWithError(NSError **waitError);
  *                               idled.
  *
  *  @return @c YES if the application idled successfully before the timeout.
- *  @c NO otherwise.
+ *          @c NO otherwise.
  */
-GREY_EXTERN BOOL GREYWaitForAppToIdleWithTimeout(
+GREY_EXTERN BOOL GREYWaitForAppToIdleWithTimeoutAndError(
     CFTimeInterval timeoutInSeconds, NSError **waitError);
