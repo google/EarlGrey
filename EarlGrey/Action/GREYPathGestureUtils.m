@@ -250,7 +250,7 @@ static CGFloat kCachedScreenEdgePanDetectionLength = NAN;
 + (CGPoint)grey_pointOnEdge:(GREYContentEdge)edge ofRect:(CGRect)rect {
   CGVector vector =
       [GREYConstants normalizedVectorFromDirection:[GREYConstants directionFromCenterForEdge:edge]];
-  return CGPointMake(CGRectCenter(rect).x + vector.dx * (rect.size.width / 2),
+  return CGPointMake(CGRectCenter(rect).x + vector.dx * (rect.size.width / 3),
                      CGRectCenter(rect).y + vector.dy * (rect.size.height / 2));
 }
 
