@@ -52,7 +52,11 @@ static Class gKeyboardPinchGestureRecognizerClass;
 
 - (void)greyswizzled_setDirty {
   INVOKE_ORIGINAL_IMP(void, @selector(greyswizzled_setDirty));
+#if defined(__IPHONE_13_0)
+  if ([[UIDevice currentDevice] userInterfaceIdiom] != UIUserInterfaceIdiomPad ||
+#else
   if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad ||
+#endif
       ![self isKindOfClass:gKeyboardPinchGestureRecognizerClass]) {
     GREYAppStateTrackerObject *object =
         TRACK_STATE_FOR_OBJECT(kGREYPendingGestureRecognition, self);
