@@ -37,22 +37,14 @@
 }
 
 - (void)testBottomDockInIPadInPortrait {
-#if defined(__IPHONE_13_0)
   if ([[UIDevice currentDevice] userInterfaceIdiom] != UIUserInterfaceIdiomPad) {
-#else
-  if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-#endif
     [self openBottomDockInLandscape:NO];
     [self closeBottomDockInLandscape:NO];
   }
 }
 
 - (void)testBottomDockInIPadInLandscape {
-#if defined(__IPHONE_13_0)
   if ([[UIDevice currentDevice] userInterfaceIdiom] != UIUserInterfaceIdiomPad) {
-#else
-  if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-#endif
     // Rotate to Landscape Left orientation.
     NSError *rotateError;
     [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeLeft error:&rotateError];
