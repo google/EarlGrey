@@ -17,7 +17,6 @@
 #import "GREYScrollActionError.h"
 #import "GREYHostApplicationDistantObject+ScrollViewTest.h"
 #import "BaseIntegrationTest.h"
-#import "GREYVisibilityChecker.h"
 
 @interface ScrollViewTest : BaseIntegrationTest
 @end

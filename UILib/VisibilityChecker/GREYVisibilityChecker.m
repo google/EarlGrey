@@ -25,6 +25,7 @@
 #import "GREYLogger.h"
 #import "CGGeometry+GREYUI.h"
 #import "GREYScreenshotter+Private.h"
+#import "GREYVisibilityCheckerDuration.h"
 
 /**
  *  The time interval taken for visibility checks.
@@ -338,12 +339,6 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
   [cache setVisibleInteractionPoint:[NSValue valueWithCGPoint:interactionPointInFixedPoints]];
   gVisibilityDuration += CACurrentMediaTime() - startTime;
   return interactionPointInFixedPoints;
-}
-
-+ (CFTimeInterval)resetAndReturnTotalVisibilityCheckingTime {
-  CFTimeInterval visibilityTime = gVisibilityDuration;
-  gVisibilityDuration = 0;
-  return visibilityTime;
 }
 
 #pragma mark - Private
@@ -977,6 +972,16 @@ static inline bool grey_isPixelDifferent(unsigned char rgb1[], unsigned char rgb
 
 + (UIImage *)grey_lastExpectedAfterImage {
   return gLastExceptedAfterImage;
+}
+
+@end
+
+@implementation GREYVisibilityCheckerDuration
+
++ (CFTimeInterval)resetAndReturnTotalVisibilityCheckingTime {
+  CFTimeInterval visibilityTime = gVisibilityDuration;
+  gVisibilityDuration = 0;
+  return visibilityTime;
 }
 
 @end

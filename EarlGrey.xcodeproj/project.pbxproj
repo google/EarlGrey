@@ -394,6 +394,7 @@
 		6F1F5B9A22EFC86C004A1778 /* BUILD */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = BUILD; sourceTree = "<group>"; };
 		6F1F5B9B22EFC86C004A1778 /* GREYVisibilityChecker+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GREYVisibilityChecker+Private.h"; sourceTree = "<group>"; };
 		6F1F5B9C22EFC86C004A1778 /* GREYVisibilityChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYVisibilityChecker.h; sourceTree = "<group>"; };
+		6F1F5B9C22EFC86C004A1778 /* GREYVisibilityCheckerDuration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYVisibilityCheckerDuration.h; sourceTree = "<group>"; };
 		6F1F5B9D22EFC86C004A1778 /* GREYVisibilityChecker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYVisibilityChecker.m; sourceTree = "<group>"; };
 		6F49FDBC22E69D4C00CCE813 /* GREYDiagnosable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYDiagnosable.m; path = CommonLib/GREYDiagnosable.m; sourceTree = "<group>"; };
 		6F8818B122B86F520006932D /* GREYAssertionBlock+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GREYAssertionBlock+Private.h"; path = "CommonLib/Assertion/GREYAssertionBlock+Private.h"; sourceTree = "<group>"; };
@@ -722,6 +723,7 @@
 				6F1F5B9A22EFC86C004A1778 /* BUILD */,
 				6F1F5B9B22EFC86C004A1778 /* GREYVisibilityChecker+Private.h */,
 				6F1F5B9C22EFC86C004A1778 /* GREYVisibilityChecker.h */,
+				6F1F5B9C22EFC86C004A1778 /* GREYVisibilityCheckerDuration.h */,
 				6F1F5B9D22EFC86C004A1778 /* GREYVisibilityChecker.m */,
 			);
 			path = VisibilityChecker;

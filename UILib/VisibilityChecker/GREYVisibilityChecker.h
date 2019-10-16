@@ -120,11 +120,4 @@ typedef struct GREYVisiblePixelData {
  */
 + (CGRect)rectEnclosingVisibleAreaOfElement:(id)element;
 
-// TODO(b/131726826): Delete this code in favor of a better analytics mechanism.
-/**
- * @return The total time taken for checking visibility from the last time this method was called
- *         or the start of a test.
- */
-+ (CFTimeInterval)resetAndReturnTotalVisibilityCheckingTime;
-
 @end
