@@ -170,8 +170,18 @@ static XCUIApplication *GREYSpringboardApplication() {
   NSString *alertText = [alertInHierarchy valueForKey:@"label"];
 
   XCUIElement *acceptButton = [[alertInHierarchy buttons] elementBoundByIndex:1];
-  NSAssert([acceptButton isHittable], @"accept button is not hittable\n%@",
-           [GREYSpringboardApplication() debugDescription]);
+  XCUIScreenshot *screenshot = [[XCUIScreen mainScreen] screenshot];
+  NSData *png = screenshot.PNGRepresentation;
+  NSString *file = [NSProcessInfo processInfo].environment[@"TEST_UNDECLARED_OUTPUTS_DIR"];
+  file = [file stringByAppendingPathComponent:@"screenshot.png"];
+  BOOL saved = [png writeToFile:file atomically:YES];
+  if (!saved) {
+    NSLog(@"Failed to save");
+  }
+
+  if (!acceptButton.isHittable) {
+    abort();
+  }
 
   BOOL dismissed = NO;
   // Retry logic can solve the failure in slow animations mode.
