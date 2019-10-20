@@ -1,3 +1,5 @@
+Deprecation: EarlGrey 1.0 is deprecated in favor of EarlGrey 2.0 which integrates it with XCUITest. Please look at the [earlgrey2](https://github.com/google/EarlGrey/tree/earlgrey2) branch. EarlGrey 1.0 is not being maintained internally with iOS 13.
+
 # EarlGrey
 [![Apache License](https://img.shields.io/badge/license-Apache%202-lightgrey.svg?style=flat)](https://github.com/google/EarlGrey/blob/master/LICENSE)
 [![CC-BY 4.0 License](https://img.shields.io/badge/license-CC%20BY%204.0-lightgrey.svg)](https://github.com/google/EarlGrey/blob/master/LICENSE)
