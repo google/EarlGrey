@@ -49,7 +49,8 @@
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
-- (void)testStyledAlertView {
+// TODO(b/142827897): Re-enable once test is deflaked.
+- (void)DISABLED_testStyledAlertView {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Styled Alert")] performAction:grey_tap()];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Login")]
