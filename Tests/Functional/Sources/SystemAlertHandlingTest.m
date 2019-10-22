@@ -46,8 +46,13 @@
   [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"Locations Alert")]
       performAction:grey_tap()];
   NSString *string = [self grey_systemAlertTextWithError:nil];
-  NSString *alertString = @"Allow “FunctionalTestRig” to access your location while you are "
-                          @"using the app?";
+  NSString *alertString;
+  if (iOS13_OR_ABOVE()) {
+    alertString = @"Allow “FunctionalTestRig” to access your location?";
+  } else {
+    alertString = @"Allow “FunctionalTestRig” to access your location while you are "
+                  @"using the app?";
+  }
   XCTAssertEqualObjects(string, alertString);
   NSError *error;
   string = [self grey_systemAlertTextWithError:&error];
@@ -82,7 +87,11 @@
   if (iOS11_OR_ABOVE()) {
     [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"Background Locations Alert")]
         performAction:grey_tap()];
-    XCTAssertEqual([self grey_systemAlertType], GREYSystemAlertTypeBackgroundLocation);
+    if (iOS13_OR_ABOVE()) {
+      XCTAssertEqual([self grey_systemAlertType], GREYSystemAlertTypeLocation);
+    } else {
+      XCTAssertEqual([self grey_systemAlertType], GREYSystemAlertTypeBackgroundLocation);
+    }
     XCTAssertTrue([self grey_acceptSystemDialogWithError:nil]);
     XCTAssertTrue([self grey_waitForAlertVisibility:NO withTimeout:1]);
     [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"Alert Handled?")]

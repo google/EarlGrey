@@ -131,12 +131,7 @@ static XCUIApplication *GREYSpringboardApplication() {
   // the case that the location alert is not accepted, which means that a third value with a
   // "Use Once" option will be shown. If the location alert has already been shown, then the
   // denial alert button is not shown.
-  if ([alertValue rangeOfString:kSystemAlertLabelBGLocationAlways].location != NSNotFound ||
-      [alertValue rangeOfString:kSystemAlertLabelBGLocationNotUsingTheApp].location != NSNotFound) {
-    return GREYSystemAlertTypeBackgroundLocation;
-  } else if ([alertValue rangeOfString:locationAlertLabelString].location != NSNotFound) {
-    return GREYSystemAlertTypeLocation;
-  } else if ([alertValue rangeOfString:kSystemAlertLabelCamera].location != NSNotFound) {
+  if ([alertValue rangeOfString:kSystemAlertLabelCamera].location != NSNotFound) {
     return GREYSystemAlertTypeCamera;
   } else if ([alertValue rangeOfString:kSystemAlertLabelPhotos].location != NSNotFound) {
     return GREYSystemAlertTypePhotos;
@@ -152,7 +147,20 @@ static XCUIApplication *GREYSpringboardApplication() {
     return GREYSystemAlertTypeMotionActivity;
   } else if ([alertValue rangeOfString:kSystemAlertLabelContacts].location != NSNotFound) {
     return GREYSystemAlertTypeContacts;
+  } else if (iOS13_OR_ABOVE()) {
+    NSString *iOS13locationString = @"access your location?";
+    if ([alertValue rangeOfString:iOS13locationString].location != NSNotFound) {
+      return GREYSystemAlertTypeLocation;
+    }
+  } else if ([alertValue rangeOfString:kSystemAlertLabelBGLocationAlways].location != NSNotFound) {
+    return GREYSystemAlertTypeBackgroundLocation;
+  } else if ([alertValue rangeOfString:kSystemAlertLabelBGLocationNotUsingTheApp].location !=
+             NSNotFound) {
+    return GREYSystemAlertTypeBackgroundLocation;
+  } else if ([alertValue rangeOfString:locationAlertLabelString].location != NSNotFound) {
+    return GREYSystemAlertTypeLocation;
   }
+
   GREYThrow(@"Invalid System Alert. Please add support for this value. Label is: %@", alertValue);
   return GREYSystemAlertTypeUnknown;
 }
@@ -170,8 +178,10 @@ static XCUIApplication *GREYSpringboardApplication() {
   NSString *alertText = [alertInHierarchy valueForKey:@"label"];
 
   XCUIElement *acceptButton = [[alertInHierarchy buttons] elementBoundByIndex:1];
-  NSAssert([acceptButton isHittable], @"accept button is not hittable\n%@",
-           [GREYSpringboardApplication() debugDescription]);
+  if (![acceptButton exists]) {
+    NSLog(@"Accept button is not hittable\n%@", [GREYSpringboardApplication() debugDescription]);
+    return NO;
+  }
 
   BOOL dismissed = NO;
   // Retry logic can solve the failure in slow animations mode.
@@ -203,8 +213,10 @@ static XCUIApplication *GREYSpringboardApplication() {
   } else {
     denyButton = [[alertInHierarchy buttons] firstMatch];
   }
-  NSAssert([denyButton isHittable], @"deny button is not hittable\n%@",
-           [GREYSpringboardApplication() debugDescription]);
+  if (![denyButton exists]) {
+    NSLog(@"Deny button is not hittable\n%@", [GREYSpringboardApplication() debugDescription]);
+    return NO;
+  }
 
   BOOL dismissed = NO;
   // Retry logic can solve the failure in slow animations mode.
@@ -226,8 +238,11 @@ static XCUIApplication *GREYSpringboardApplication() {
   }
   NSString *alertText = [firstAlertPresent valueForKey:@"label"];
   XCUIElement *button = firstAlertPresent.buttons[text];
-  NSAssert([button isHittable], @"button is not hittable\n%@",
-           [GREYSpringboardApplication() debugDescription]);
+  if (![button exists]) {
+    NSLog(@"System Alert button is not hittable\n%@",
+          [GREYSpringboardApplication() debugDescription]);
+    return NO;
+  }
 
   BOOL dismissed = NO;
   // Retry logic can solve the failure in slow animations mode.
