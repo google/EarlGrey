@@ -86,60 +86,6 @@
   }
 }
 
-+ (BOOL)rotateDeviceToOrientation:(UIDeviceOrientation)deviceOrientation error:(NSError **)error {
-  __block GREYError *synchronizationError;
-  __block UIDeviceOrientation initialDeviceOrientation;
-  BOOL success = [[GREYUIThreadExecutor sharedInstance]
-      executeSyncWithTimeout:kNonTactileEventTimeout
-                       block:^{
-                         initialDeviceOrientation = [[UIDevice currentDevice] orientation];
-                         GREYLogVerbose(
-                             @"The current device's orientation is being rotated from %@ to: %@",
-                             NSStringFromUIDeviceOrientation(initialDeviceOrientation),
-                             NSStringFromUIDeviceOrientation(deviceOrientation));
-                         [[UIDevice currentDevice] setOrientation:deviceOrientation animated:YES];
-                       }
-                       error:&synchronizationError];
-
-  if (!success) {
-    if (error) {
-      *error = synchronizationError;
-    }
-    return NO;
-  }
-
-  // Verify that the device orientation actually changed to the requested orientation.
-  __block UIDeviceOrientation currentOrientation = UIDeviceOrientationUnknown;
-  success = [[GREYUIThreadExecutor sharedInstance]
-      executeSyncWithTimeout:kNonTactileEventTimeout
-                       block:^{
-                         currentOrientation = [[UIDevice currentDevice] orientation];
-                       }
-                       error:&synchronizationError];
-
-  if (!success) {
-    if (error) {
-      *error = synchronizationError;
-    }
-    return NO;
-  } else if (currentOrientation != deviceOrientation) {
-    NSString *errorDescription =
-        [NSString stringWithFormat:@"Device orientation mismatch. "
-                                   @"Before: %@. After Expected: %@. \nAfter Actual: %@.",
-                                   NSStringFromUIDeviceOrientation(initialDeviceOrientation),
-                                   NSStringFromUIDeviceOrientation(deviceOrientation),
-                                   NSStringFromUIDeviceOrientation(currentOrientation)];
-    GREYError *rotationError =
-        GREYErrorMakeWithHierarchy(kGREYSyntheticEventInjectionErrorDomain,
-                                   kGREYOrientationChangeFailedErrorCode, errorDescription);
-    if (error) {
-      *error = rotationError;
-    }
-    return NO;
-  }
-  return YES;
-}
-
 + (BOOL)shakeDeviceWithError:(NSError **)error {
   GREYError *synchronizationError;
   void (^shakeBlock)(void) = ^{

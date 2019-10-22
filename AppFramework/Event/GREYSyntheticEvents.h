@@ -39,14 +39,14 @@ typedef NS_ENUM(NSInteger, GREYSyntheticEventInjectionErrorCode) {
  *  Touch along a specified path in a @c CGPoint array.
  *  This method blocks until all touches are delivered.
  *
- *  @param touchPath  An array of @c CGPoints. The first point in @c touchPath is the point where
-                      touch begins, and the last point in @c touchPath is the final touch point
-                      where touch ends. Points in @c touchPath must be in @c window coordinates.
- *  @param window     The UIWindow that contains the points in the @c touchPath where
- *                    the touches are performed. Interaction will begin on the view inside
- *                    @c window which passes the hit-test for the first point in @c touchPath.
- *  @param duration   The time interval over which to space the touches evenly. If 0, all
- *                    touches will be sent one after the other without any delay in-between them.
+ *  @param touchPath An array of @c CGPoints. The first point in @c touchPath is the point where
+                     touch begins, and the last point in @c touchPath is the final touch point
+                     where touch ends. Points in @c touchPath must be in @c window coordinates.
+ *  @param window    The UIWindow that contains the points in the @c touchPath where
+ *                   the touches are performed. Interaction will begin on the view inside
+ *                   @c window which passes the hit-test for the first point in @c touchPath.
+ *  @param duration  The time interval over which to space the touches evenly. If 0, all
+ *                   touches will be sent one after the other without any delay in-between them.
  */
 + (void)touchAlongPath:(NSArray *)touchPath
       relativeToWindow:(UIWindow *)window
@@ -71,17 +71,6 @@ typedef NS_ENUM(NSInteger, GREYSyntheticEventInjectionErrorCode) {
 + (void)touchAlongMultiplePaths:(NSArray *)touchPaths
                relativeToWindow:(UIWindow *)window
                     forDuration:(NSTimeInterval)duration;
-
-/**
- * Simulate the user action to rotate the device to a certain orientation.
- *
- * @param deviceOrientation The orientation of the device after the rotation action.
- * @param[out] error        Error populated when any failure occurs during rotation. If @c nil,
- *                          no error is reported back.
- *
- * @return @c YES if the rotation was successful, @c NO otherwise.
- */
-+ (BOOL)rotateDeviceToOrientation:(UIDeviceOrientation)deviceOrientation error:(NSError **)error;
 
 /**
  *  Shakes the device. If @c error is provided, it will be populated with the failure
@@ -113,9 +102,9 @@ typedef NS_ENUM(NSInteger, GREYSyntheticEventInjectionErrorCode) {
  *  they may be buffered and during delivery if there are multiple stale touch points that
  *  are time sensitive some of them may be dropped.
  *
- *  @param point      The point to move the touch to.
- *  @param immediate  If @c YES, this method blocks until touch is delivered, otherwise the touch is
- *                    enqueued for delivery the next time runloop drains.
+ *  @param point     The point to move the touch to.
+ *  @param immediate If @c YES, this method blocks until touch is delivered, otherwise the touch is
+ *                   enqueued for delivery the next time runloop drains.
  */
 - (void)continueTouchAtPoint:(CGPoint)point immediateDelivery:(BOOL)immediate;
 
