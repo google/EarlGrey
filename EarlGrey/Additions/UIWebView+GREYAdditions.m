@@ -16,6 +16,8 @@
 
 #import "Additions/UIWebView+GREYAdditions.h"
 
+#if !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
+
 #import <UIKit/UIKit.h>
 #include <objc/runtime.h>
 
@@ -170,3 +172,5 @@ static void const *const kUIWebViewLoadingStateKey = &kUIWebViewLoadingStateKey;
 }
 
 @end
+
+#endif  // !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0

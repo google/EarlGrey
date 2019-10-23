@@ -16,6 +16,8 @@
 
 #import "Delegate/GREYUIWebViewDelegate.h"
 
+#if !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
+
 #import "Additions/UIWebView+GREYAdditions.h"
 
 #import "Synchronization/GREYAppStateTracker.h"
@@ -148,3 +150,5 @@ static NSString *const kAjaxListenerScript =
 }
 
 @end
+
+#endif  // !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0

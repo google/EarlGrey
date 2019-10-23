@@ -16,6 +16,8 @@
 
 #import <UIKit/UIKit.h>
 
+#if !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
+
 #import <EarlGrey/GREYIdlingResource.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -43,3 +45,5 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
+
+#endif  // !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0

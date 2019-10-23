@@ -33,15 +33,17 @@
 const NSTimeInterval kGREYTouchInjectionFrequency = 60.0;
 
 /**
+ *  The time interval in seconds between each touch injection.
+ */
+static const NSTimeInterval kGREYTouchInjectionInterval = 1.0 / kGREYTouchInjectionFrequency;
+
+#if !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
+/**
  *  Maximum time to wait for UIWebView delegates to get called after the
  *  last touch (i.e. @c isLastTouch is @c YES).
  */
 static const NSTimeInterval kGREYMaxIntervalForUIWebViewResponse = 2.0;
-
-/**
- *  The time interval in seconds between each touch injection.
- */
-static const NSTimeInterval kGREYTouchInjectionInterval = 1.0 / kGREYTouchInjectionFrequency;
+#endif  // !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
 
 @interface GREYTouchInjector() <GREYZeroToleranceTimerTarget>
 @end
@@ -282,6 +284,7 @@ static const NSTimeInterval kGREYTouchInjectionInterval = 1.0 / kGREYTouchInject
           touchViewContainsWKWebView = YES;
         }
         if (touchInfo.phase == GREYTouchInfoPhaseTouchEnded) {
+#if !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
           UIWebView *touchWebView = nil;
           if ([currentTouchView isKindOfClass:[UIWebView class]]) {
             touchWebView = (UIWebView *)currentTouchView;
@@ -293,6 +296,7 @@ static const NSTimeInterval kGREYTouchInjectionInterval = 1.0 / kGREYTouchInject
             }
           }
           [touchWebView grey_pendingInteractionForTime:kGREYMaxIntervalForUIWebViewResponse];
+#endif  // !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
         }
       }
     } @catch (NSException *e) {

@@ -16,6 +16,8 @@
 
 #import "Synchronization/GREYUIWebViewIdlingResource.h"
 
+#if !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
+
 #import "Additions/UIWebView+GREYAdditions.h"
 #import "Assertion/GREYAssertionDefines.h"
 #import "Common/GREYDefines.h"
@@ -209,3 +211,5 @@ static NSString *const kTrackerScriptCleanupScript =
 }
 
 @end
+
+#endif  // !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
