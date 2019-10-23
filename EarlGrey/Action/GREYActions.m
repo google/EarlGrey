@@ -240,8 +240,12 @@ static const CFTimeInterval kJavaScriptTimeoutSeconds = 60;
                             performBlock:^BOOL (id element, __strong NSError **errorOrNil) {
     NSString *textStr;
     if ([element grey_isWebAccessibilityElement]) {
+#if !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
       [GREYActions grey_setText:@"" onWebElement:element];
       return YES;
+#else
+      return NO;
+#endif  // !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
     } else if ([element isKindOfClass:gAccessibilityTextFieldElementClass]) {
       element = [element textField];
     } else if ([element respondsToSelector:@selector(text)]) {
@@ -298,8 +302,13 @@ static const CFTimeInterval kJavaScriptTimeoutSeconds = 60;
   // TODO: JS Errors should be propagated up.
   id<GREYMatcher> constraints =
       grey_allOf(grey_not(grey_systemAlertViewShown()),
-                 grey_anyOf(grey_kindOfClass([UIWebView class]),
-                            grey_kindOfClass([WKWebView class]), nil),
+#if !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
+                 grey_anyOf(
+                     grey_kindOfClass([UIWebView class]),
+                     grey_kindOfClass([WKWebView class]), nil),
+#else
+                 grey_kindOfClass([WKWebView class]),
+#endif  // !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
                  nil);
   BOOL (^performBlock)(id webView, __strong NSError **errorOrNil) = ^(
       id webView, __strong NSError **errorOrNil) {
@@ -320,7 +329,9 @@ static const CFTimeInterval kJavaScriptTimeoutSeconds = 60;
         *outResult = resultString;
       }
       return completionDone;
-    } else if ([webView isKindOfClass:[UIWebView class]]) {
+    }
+#if !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
+    else if ([webView isKindOfClass:[UIWebView class]]) {
       UIWebView *uiWebView = webView;
       if (outResult) {
         *outResult = [uiWebView stringByEvaluatingJavaScriptFromString:js];
@@ -331,6 +342,7 @@ static const CFTimeInterval kJavaScriptTimeoutSeconds = 60;
       [[GREYUIThreadExecutor sharedInstance] drainForTime:0.5];  // Wait for actions to register.
       return YES;
     }
+#endif  // !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
     return NO;
   };
   return [[GREYActionBlock alloc] initWithName:@"Execute JavaScript"
@@ -360,6 +372,7 @@ static const CFTimeInterval kJavaScriptTimeoutSeconds = 60;
 
 #pragma mark - Private
 
+#if !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
 /**
  *  Sets WebView input text value.
  *
@@ -388,6 +401,7 @@ static const CFTimeInterval kJavaScriptTimeoutSeconds = 60;
   UIWebView *parentWebView = (UIWebView *)[element grey_viewContainingSelf];
   [parentWebView stringByEvaluatingJavaScriptFromString:jsForTitle];
 }
+#endif  // !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
 
 /**
  *  Set the UITextField text value directly, bypassing the iOS keyboard.
@@ -410,7 +424,9 @@ static const CFTimeInterval kJavaScriptTimeoutSeconds = 60;
                              constraints:constraints
                             performBlock:^BOOL (id element, __strong NSError **errorOrNil) {
     if ([element grey_isWebAccessibilityElement]) {
+#if !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
       [GREYActions grey_setText:text onWebElement:element];
+#endif  // !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
     } else {
       if ([element isKindOfClass:gAccessibilityTextFieldElementClass]) {
         element = [element textField];

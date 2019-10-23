@@ -87,7 +87,10 @@ static Class gWebAccessibilityWrapper;
 
 - (UIView *)grey_viewContainingSelf {
   if ([self grey_isWebAccessibilityElement]) {
+#if !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
     return [[self grey_containersAssignableFromClass:[UIWebView class]] firstObject];
+#endif  // !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
+    return nil;
   } else if ([self isKindOfClass:[UIView class]]) {
     return [self grey_container];
   } else if ([self respondsToSelector:@selector(accessibilityContainer)]) {

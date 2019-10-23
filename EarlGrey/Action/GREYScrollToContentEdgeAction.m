@@ -56,11 +56,16 @@
   NSString *name =
       [NSString stringWithFormat:@"Scroll To %@ content edge", NSStringFromGREYContentEdge(edge)];
   self = [super initWithName:name
-                 constraints:grey_allOf(grey_anyOf(grey_kindOfClass([UIScrollView class]),
-                                                   grey_kindOfClass([UIWebView class]),
-                                                   nil),
-                                        grey_not(grey_systemAlertViewShown()),
-                                        nil)];
+                 constraints:grey_allOf(
+#if !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
+                     grey_anyOf(grey_kindOfClass([UIScrollView class]),
+                                grey_kindOfClass([UIWebView class]),
+                                nil),
+#else
+                     grey_kindOfClass([UIScrollView class]),
+#endif  // !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
+                     grey_not(grey_systemAlertViewShown()),
+                     nil)];
   if (self) {
     _edge = edge;
     _startPointPercents = startPointPercents;
@@ -78,10 +83,12 @@
   if (![self satisfiesConstraintsForElement:element error:errorOrNil]) {
     return NO;
   }
+#if !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
   // To scroll UIWebView we must use the UIScrollView in its hierarchy and scroll it.
   if ([element isKindOfClass:[UIWebView class]]) {
     element = [(UIWebView *)element scrollView];
   }
+#endif  // !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
 
   // Get the maximum scrollable amount in any direction and keep applying it until the edge
   // is reached.
