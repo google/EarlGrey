@@ -69,7 +69,7 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
     success = block();
   });
   return success;
-};
+}
 
 + (void)load {
   // This needs to be done in load as there may be calls to GREYAssert APIs that access the failure
