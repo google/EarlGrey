@@ -36,10 +36,6 @@ static uint16_t gGREYPortForTestApplication = 0;
 
 @end
 
-@implementation GREYHostApplicationDistantObject
-
-__attribute__((constructor)) static void InitHostApplication() { InitiateCommunicationWithTest(); }
-
 static void InitiateCommunicationWithTest() {
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
@@ -50,7 +46,7 @@ static void InitiateCommunicationWithTest() {
     NSArray *bundlePaths = [mainBundle pathsForResourcesOfType:@"bundle"
                                                    inDirectory:@"EarlGreyHelperBundles"];
     BOOL success = NO;
-    NSError *error = nil;
+    NSError *error;
     for (NSString *bundlePath in bundlePaths) {
       NSBundle *bundle = [NSBundle bundleWithPath:bundlePath];
       success = [bundle loadAndReturnError:&error];
@@ -68,12 +64,18 @@ static void InitiateCommunicationWithTest() {
       return;
     }
 
-    GREYTestApplicationDistantObject.sharedInstance.hostPort =
+    GREYTestApplicationDistantObject *testApplicationDistantObject =
+        GREYTestApplicationDistantObject.sharedInstance;
+    testApplicationDistantObject.hostPort =
         GREYHostApplicationDistantObject.sharedInstance.service.port.port;
-    GREYTestApplicationDistantObject.sharedInstance.hostBackgroundPort =
+    testApplicationDistantObject.hostBackgroundPort =
         [GREYHostBackgroundDistantObject.sharedInstance servicePort];
   });
 }
+
+__attribute__((constructor)) static void InitHostApplication() { InitiateCommunicationWithTest(); }
+
+@implementation GREYHostApplicationDistantObject
 
 + (instancetype)sharedInstance {
   static dispatch_once_t onceToken;
