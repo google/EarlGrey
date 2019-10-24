@@ -13,11 +13,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-// TODO: Perform a scan of UIWebView usage and deprecate if possible. // NOLINT
 
 #import <UIKit/UIKit.h>
+
+#if !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
+// TODO: Perform a scan of UIWebView usage and deprecate if possible. // NOLINT
 
 #import "GREYIdlingResource.h"
 
@@ -42,5 +42,4 @@
 - (instancetype)init NS_UNAVAILABLE;
 
 @end
-
-#pragma clang diagnostic pop
+#endif

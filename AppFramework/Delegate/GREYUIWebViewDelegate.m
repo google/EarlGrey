@@ -14,12 +14,10 @@
 // limitations under the License.
 //
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-// TODO: Perform a scan of UIWebView usage and deprecate if possible. // NOLINT
-
 #import "GREYUIWebViewDelegate.h"
 
+#if !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
+// TODO: Perform a scan of UIWebView usage and deprecate if possible. // NOLINT
 #import "UIWebView+GREYApp.h"
 #import "GREYUIWebViewIdlingResource.h"
 
@@ -150,4 +148,4 @@ static NSString *const kAjaxListenerScript =
 
 @end
 
-#pragma clang diagnostic pop
+#endif

@@ -13,12 +13,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-// TODO: Perform a scan of UIWebView usage and deprecate if possible. // NOLINT
 
 #import "GREYUIWebViewIdlingResource.h"
 
+#if !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
+// TODO: Perform a scan of UIWebView usage and deprecate if possible. // NOLINT
 #import "UIWebView+GREYApp.h"
 #import "GREYSyncAPI.h"
 #import "GREYUIThreadExecutor+Private.h"
@@ -225,4 +224,4 @@ static NSString *const kTrackerScriptCleanupScript =
 
 @end
 
-#pragma clang diagnostic pop
+#endif

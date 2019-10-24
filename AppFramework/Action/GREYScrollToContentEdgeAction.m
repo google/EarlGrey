@@ -59,11 +59,10 @@
 
   NSArray *classMatchers = @[
     [GREYMatchers matcherForKindOfClass:[UIScrollView class]],
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#if !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
     // TODO: Perform a scan of UIWebView usage and deprecate if possible. // NOLINT
     [GREYMatchers matcherForKindOfClass:[UIWebView class]],
-#pragma clang diagnostic pop
+#endif
   ];
   id<GREYMatcher> systemAlertShownMatcher = [GREYMatchers matcherForSystemAlertViewShown];
   NSArray *constraintMatchers = @[
@@ -90,14 +89,13 @@
   if (![self satisfiesConstraintsForElement:element error:error]) {
     return NO;
   }
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#if !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
   // TODO: Perform a scan of UIWebView usage and deprecate if possible. // NOLINT
   // To scroll UIWebView we must use the UIScrollView in its error and scroll it.
   if ([element isKindOfClass:[UIWebView class]]) {
     element = [(UIWebView *)element scrollView];
   }
-#pragma clang diagnostic pop
+#endif
 
   // Get the maximum scrollable amount in any direction and keep applying it until the edge
   // is reached.

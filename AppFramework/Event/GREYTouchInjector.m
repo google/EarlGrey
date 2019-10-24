@@ -27,15 +27,14 @@
 #import "GREYThrowDefines.h"
 #import "GREYConfiguration.h"
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#if !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
 // TODO: Perform a scan of UIWebView usage and deprecate if possible. // NOLINT
 /**
  *  Maximum time to wait for UIWebView delegates to get called after the
  *  last touch (i.e. @c isLastTouch is @c YES).
  */
 static const NSTimeInterval kGREYMaxIntervalForUIWebViewResponse = 2.0;
-#pragma clang diagnostic pop
+#endif
 
 /**
  *  The time interval in seconds between each touch injection.
@@ -288,8 +287,7 @@ static const NSTimeInterval kTouchInjectFramerateInv = 1 / 120.0;
     @autoreleasepool {
       [[UIApplication sharedApplication] sendEvent:event];
     }
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#if !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
     // TODO: Perform a scan of UIWebView usage and deprecate if possible. // NOLINT
     if (touchInfo.phase == UITouchPhaseEnded) {
       UIWebView *touchWebView = nil;
@@ -304,7 +302,7 @@ static const NSTimeInterval kTouchInjectFramerateInv = 1 / 120.0;
       }
       [touchWebView grey_pendingInteractionForTime:kGREYMaxIntervalForUIWebViewResponse];
     }
-#pragma clang diagnostic pop
+#endif
   } @catch (id exception) {
     injectionException = exception;
   } @finally {

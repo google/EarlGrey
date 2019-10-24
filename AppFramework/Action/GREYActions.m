@@ -365,11 +365,10 @@ static Class gAccessibilityTextFieldElementClass;
   // TODO: JS Errors should be propagated up.
   id<GREYMatcher> systemAlertShownMatcher = [GREYMatchers matcherForSystemAlertViewShown];
   NSArray *webViewMatchers = @[
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#if !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
     // TODO: Perform a scan of UIWebView usage and deprecate if possible. // NOLINT
     [GREYMatchers matcherForKindOfClass:[UIWebView class]],
-#pragma clang diagnostic pop
+#endif
     [GREYMatchers matcherForKindOfClass:[WKWebView class]]
   ];
   NSArray *constraintMatchers = @[
@@ -383,8 +382,7 @@ static Class gAccessibilityTextFieldElementClass;
       diagnosticsID:actionName
         constraints:constraints
        performBlock:^BOOL(id webView, __strong NSError **errorOrNil) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#if !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
          if ([webView isKindOfClass:[UIWebView class]]) {
            grey_dispatch_sync_on_main_thread(^{
              NSString *result = [self grey_javaScriptAction:js forUIWebView:(UIWebView *)webView];
@@ -393,7 +391,7 @@ static Class gAccessibilityTextFieldElementClass;
              }
            });
          }
-#pragma clang diagnostic pop
+#endif
          if ([webView isKindOfClass:[WKWebView class]]) {
            dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
            __block NSError *localError = nil;
@@ -475,8 +473,7 @@ static Class gAccessibilityTextFieldElementClass;
   }
   // Must escape ' or the JS will be invalid.
   text = [text stringByReplacingOccurrencesOfString:@"\'" withString:@"\\\'"];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#if !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
   // TODO: Perform a scan of UIWebView usage and deprecate if possible. // NOLINT
   NSString *xPathResultType = @"XPathResult.FIRST_ORDERED_NODE_TYPE";
   NSString *xPathForTitle =
@@ -488,7 +485,7 @@ static Class gAccessibilityTextFieldElementClass;
       [[NSString alloc] initWithFormat:format, xPathForTitle, xPathResultType, text];
   UIWebView *parentWebView = (UIWebView *)[element grey_viewContainingSelf];
   [parentWebView stringByEvaluatingJavaScriptFromString:jsForTitle];
-#pragma clang diagnostic pop
+#endif
 }
 
 /**
@@ -568,8 +565,7 @@ static Class gAccessibilityTextFieldElementClass;
         }];
 }
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#if !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
 // TODO: Perform a scan of UIWebView usage and deprecate if possible. // NOLINT
 /**
  *  Injects javascript into a UIWebView and then returns the result back.
@@ -585,7 +581,7 @@ static Class gAccessibilityTextFieldElementClass;
   [[GREYUIThreadExecutor sharedInstance] drainForTime:0.5];  // Wait for actions to register.
   return result;
 }
-#pragma clang diagnostic pop
+#endif
 
 #pragma mark - Package Internal
 

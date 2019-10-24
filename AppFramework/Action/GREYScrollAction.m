@@ -82,11 +82,10 @@ static const NSInteger kMinTouchPointsToDetectScrollResistance = 2;
 
   NSArray *classMatchers = @[
     [GREYMatchers matcherForKindOfClass:[UIScrollView class]],
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#if !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
     // TODO: Perform a scan of UIWebView usage and deprecate if possible. // NOLINT
     [GREYMatchers matcherForKindOfClass:[UIWebView class]],
-#pragma clang diagnostic pop
+#endif
     [GREYMatchers matcherForKindOfClass:[WKWebView class]],
   ];
   id<GREYMatcher> systemAlertShownMatcher = [GREYMatchers matcherForSystemAlertViewShown];
@@ -130,13 +129,12 @@ static const NSInteger kMinTouchPointsToDetectScrollResistance = 2;
 
   // To scroll WebViews we must use the UIScrollView in its hierarchy and scroll it.
   // TODO: Add tests for WKWebView.
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#if !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
   // TODO: Perform a scan of UIWebView usage and deprecate if possible. // NOLINT
   if ([element isKindOfClass:[UIWebView class]]) {
     element = [(UIWebView *)element scrollView];
   }
-#pragma clang diagnostic pop
+#endif
   if ([element isKindOfClass:[WKWebView class]]) {
     element = [(WKWebView *)element scrollView];
   }

@@ -14,13 +14,10 @@
 // limitations under the License.
 //
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#import "UIWebView+GREYApp.h"
+#if !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
 // TODO: Perform a scan of UIWebView usage and deprecate if possible. // NOLINT
 
-#import "UIWebView+GREYApp.h"
-
-#import <UIKit/UIKit.h>
 #include <objc/runtime.h>
 
 #import "GREYUIWebViewDelegate.h"
@@ -160,4 +157,4 @@ static void const *const kUIWebViewLoadingStateKey = &kUIWebViewLoadingStateKey;
 
 @end
 
-#pragma clang diagnostic pop
+#endif

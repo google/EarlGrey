@@ -30,11 +30,10 @@ static Class gWebAccessibilityWrapper;
 
 - (UIView *)grey_viewContainingSelf {
   if ([self grey_isWebAccessibilityElement]) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#if !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
     // TODO: Perform a scan of UIWebView usage and deprecate if possible. // NOLINT
     return [[self grey_containersAssignableFromClass:[UIWebView class]] firstObject];
-#pragma clang diagnostic pop
+#endif
   } else if ([self isKindOfClass:[UIView class]]) {
     return [self grey_container];
   } else if ([self respondsToSelector:@selector(accessibilityContainer)]) {
