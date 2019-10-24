@@ -20,9 +20,7 @@
 #include <signal.h>
 
 #import "GREYFatalAsserts.h"
-#import "GREYAppleInternals.h"
 #import "GREYDefines.h"
-#import "GREYTestApplicationDistantObject+GREYLogger.h"
 
 // Exception handler that was previously installed before we replaced it with our own.
 static NSUncaughtExceptionHandler *gPreviousUncaughtExceptionHandler;
@@ -31,7 +29,7 @@ static NSUncaughtExceptionHandler *gPreviousUncaughtExceptionHandler;
 typedef void (*SignalHandler)(int signum);
 
 // When SA_SIGINFO is set, it is an extended signal handler.
-typedef void (*SignalHandlerEX)(int signum, struct __siginfo *siginfo, void *context);
+typedef void (*SignalHandlerExtended)(int signum, struct __siginfo *siginfo, void *context);
 
 // All signals that we want to handle.
 static const int gSignals[] = {
@@ -44,7 +42,7 @@ static const int kNumSignals = sizeof(gSignals) / sizeof(gSignals[0]);
 // A union of normal and extended signal handler.
 typedef union GREYSignalHandlerUnion {
   SignalHandler signalHandler;
-  SignalHandlerEX signalHandlerExtended;
+  SignalHandlerExtended signalHandlerExtended;
 } GREYSignalHandlerUnion;
 
 // Saved signal handler with a bit indicating extended or normal handler signature.
@@ -70,44 +68,13 @@ static GREYSignalHandler gPreviousSignalHandlers[kNumSignals];
   [UIWebView class];
 #endif
 
-  [[NSNotificationCenter defaultCenter] addObserver:self
-                                           selector:@selector(setupOnAppLaunch)
-                                               name:UIApplicationDidFinishLaunchingNotification
-                                             object:nil];
-}
-
-/**
- *  Setup any prerequisites for EarlGrey such as changing preference bundles or setting crash
- *  handlers.
- */
-+ (void)setupOnAppLaunch {
-  [[GREYAutomationSetup sharedInstance] prepare];
-}
-
-+ (instancetype)sharedInstance {
-  static GREYAutomationSetup *sharedInstance = nil;
-  static dispatch_once_t token = 0;
-  dispatch_once(&token, ^{
-    sharedInstance = [[GREYAutomationSetup alloc] initOnce];
-  });
-  return sharedInstance;
-}
-
-- (instancetype)initOnce {
-  self = [super init];
-  return self;
-}
-
-- (void)prepare {
-  [self grey_setupCrashHandlers];
-  // Force software keyboard.
-  [[UIKeyboardImpl sharedInstance] setAutomaticMinimizationEnabled:NO];
+  GREYSetupCrashHandlers();
 }
 
 #pragma mark - Crash Handlers
 
 // Installs the default handler and raises the specified @c signum.
-static void grey_installDefaultHandlerAndRaise(int signum) {
+static void GREYInstallDefaultHandlerAndRaise(int signum) {
   // Install default and re-raise the signal.
   struct sigaction defaultSignalAction;
   memset(&defaultSignalAction, 0, sizeof(defaultSignalAction));
@@ -129,7 +96,7 @@ static void grey_installDefaultHandlerAndRaise(int signum) {
 // Learn more:
 // NOLINTNEXTLINE
 // https://www.securecoding.cert.org/confluence/display/c/SIG00-C.+Mask+signals+handled+by+noninterruptible+signal+handlers
-static void grey_signalHandler(int signum) {
+static void GREYSetSigactionHandler(int signum) {
   char *signalCaught = "Signal caught: ";
   char *signalString = strsignal(signum);
   write(STDERR_FILENO, signalCaught, strlen(signalCaught));
@@ -158,11 +125,11 @@ static void grey_signalHandler(int signum) {
   GREYSignalHandler previousSignalHandler = gPreviousSignalHandlers[signalIndex];
   if (previousSignalHandler.extended) {
     // We don't handle these yet, simply re-raise with default handler.
-    grey_installDefaultHandlerAndRaise(signum);
+    GREYInstallDefaultHandlerAndRaise(signum);
   } else {
     SignalHandler signalHandler = previousSignalHandler.handler.signalHandler;
     if (signalHandler == SIG_DFL) {
-      grey_installDefaultHandlerAndRaise(signum);
+      GREYInstallDefaultHandlerAndRaise(signum);
     } else if (signalHandler == SIG_IGN) {
       // Ignore.
     } else {
@@ -171,11 +138,7 @@ static void grey_signalHandler(int signum) {
   }
 }
 
-static void grey_uncaughtExceptionHandler(NSException *exception) {
-  NSString *formatString = @"Uncaught exception in Application: %@\n%@";
-  NSString *callStackSymbols = [exception.callStackSymbols componentsJoinedByString:@"\n"];
-  NSString *exceptionString = [NSString stringWithFormat:formatString, exception, callStackSymbols];
-  [[GREYTestApplicationDistantObject sharedInstance] printLogInTest:exceptionString];
+static void GREYUncaughtExceptionHandler(NSException *exception) {
   if (gPreviousUncaughtExceptionHandler) {
     gPreviousUncaughtExceptionHandler(exception);
   } else {
@@ -183,7 +146,7 @@ static void grey_uncaughtExceptionHandler(NSException *exception) {
   }
 }
 
-- (void)grey_setupCrashHandlers {
+static void GREYSetupCrashHandlers() {
   NSLog(@"Crash handler setup started.");
 
   struct sigaction signalAction;
@@ -193,7 +156,7 @@ static void grey_uncaughtExceptionHandler(NSException *exception) {
     NSLog(@"Unable to empty sa_mask. Return value:%d", result);
     exit(EXIT_FAILURE);
   }
-  signalAction.sa_handler = &grey_signalHandler;
+  signalAction.sa_handler = &GREYSetSigactionHandler;
 
   for (size_t i = 0; i < kNumSignals; i++) {
     int signum = gSignals[i];
@@ -219,7 +182,7 @@ static void grey_uncaughtExceptionHandler(NSException *exception) {
   }
   // Register the handler for uncaught exceptions.
   gPreviousUncaughtExceptionHandler = NSGetUncaughtExceptionHandler();
-  NSSetUncaughtExceptionHandler(&grey_uncaughtExceptionHandler);
+  NSSetUncaughtExceptionHandler(&GREYUncaughtExceptionHandler);
 
   NSLog(@"Crash handler setup completed.");
 }

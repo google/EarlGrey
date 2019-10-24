@@ -18,7 +18,6 @@
 
 #import "GREYAppError.h"
 #import "GREYTouchInjector.h"
-#import "GREYDispatchQueueTracker.h"
 #import "GREYUIThreadExecutor.h"
 #import "GREYFatalAsserts.h"
 #import "GREYThrowDefines.h"

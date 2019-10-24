@@ -91,6 +91,8 @@
 - (void)modifyKeyboardSettings {
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
+    // Force software keyboard.
+    [[UIKeyboardImpl sharedInstance] setAutomaticMinimizationEnabled:NO];
 #if TARGET_IPHONE_SIMULATOR
     // Set the preferences values directly on simulator for the keyboard modifiers. For persisting
     // these values, CFPreferencesSynchronize must be called after.

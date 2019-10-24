@@ -20,25 +20,9 @@
  *  Class responsible for preparing the test environment for automation.
  */
 @interface GREYAutomationSetup : NSObject
-
-/**
- *  @return The singleton instance.
- */
-+ (instancetype)sharedInstance;
-
 /**
  *  @remark init is not an available initializer. Use singleton instance.
  */
 - (instancetype)init NS_UNAVAILABLE;
-
-/**
- * Prepare the device for automation by doing one-time setup:
- * * Turn on accessibility
- * * Install crash handlers
- * * Turn off autocorrect on software keyboard
- *
- * @remark Must be called during XCTestCase invocation, otherwise the behavior is undefined.
- */
-- (void)prepare;
 
 @end
