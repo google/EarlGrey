@@ -4,8 +4,8 @@ Details changes in each release of EarlGrey. EarlGrey follows [semantic versioni
 
 ## [1.16.0](https://github.com/google/EarlGrey/tree/1.16.0) (10/26/2019)
 ```
-Baseline: [39521fe]
-+ [39521fe]: Update iOS 13 fix for tutorial on iPads
+Baseline: [09f4abc]
++ [09f4abc]: Fix steppers
 ```
 
 ### Enhancements
