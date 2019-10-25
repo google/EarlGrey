@@ -18,10 +18,20 @@
 
 #import "GREYFatalAsserts.h"
 #import "GREYThrowDefines.h"
+#import "GREYConstants.h"
 #import "GREYMatcher.h"
 #import "GREYProvider.h"
 
+/** Internal class for checking textfields. */
+static Class gAccessibilityTextFieldElementClass;
+
 @implementation GREYElementFinder
+
++ (void)initialize {
+  if (self == [GREYElementFinder self]) {
+    gAccessibilityTextFieldElementClass = NSClassFromString(kTextFieldAXElementClassName);
+  }
+}
 
 - (instancetype)initWithMatcher:(id<GREYMatcher>)matcher {
   GREYThrowOnNilParameter(matcher);
@@ -40,7 +50,8 @@
   NSMutableOrderedSet<id> *matchingElements = [[NSMutableOrderedSet alloc] init];
   for (id element in [elementProvider dataEnumerator]) {
     @autoreleasepool {
-      if ([_matcher matches:element]) {
+      if ([_matcher matches:element] &&
+          ![element isKindOfClass:gAccessibilityTextFieldElementClass]) {
         [matchingElements addObject:element];
       }
     }

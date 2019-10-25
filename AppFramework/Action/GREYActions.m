@@ -53,14 +53,12 @@
 #import "EDORemoteVariable.h"
 
 static Class gWebAccessibilityObjectWrapperClass;
-static Class gAccessibilityTextFieldElementClass;
 
 @implementation GREYActions
 
 + (void)initialize {
-  if (self == [GREYActions class]) {
+  if (self == [GREYActions self]) {
     gWebAccessibilityObjectWrapperClass = NSClassFromString(@"WebAccessibilityObjectWrapper");
-    gAccessibilityTextFieldElementClass = NSClassFromString(@"UIAccessibilityTextFieldElement");
   }
 }
 
@@ -279,7 +277,6 @@ static Class gAccessibilityTextFieldElementClass;
 + (id<GREYAction>)actionForClearText {
   NSArray *constraintMatchers = @[
     [GREYMatchers matcherForRespondsToSelector:@selector(text)],
-    [GREYMatchers matcherForKindOfClass:gAccessibilityTextFieldElementClass],
     [GREYMatchers matcherForKindOfClass:gWebAccessibilityObjectWrapperClass],
     [GREYMatchers matcherForConformsToProtocol:@protocol(UITextInput)]
   ];
@@ -294,8 +291,6 @@ static Class gAccessibilityTextFieldElementClass;
           if ([element grey_isWebAccessibilityElement]) {
             [GREYActions grey_setText:@"" onWebElement:element];
             return YES;
-          } else if ([element isKindOfClass:gAccessibilityTextFieldElementClass]) {
-            element = [element textField];
           } else {
             grey_dispatch_sync_on_main_thread(^{
               if ([element respondsToSelector:@selector(text)]) {
@@ -501,7 +496,6 @@ static Class gAccessibilityTextFieldElementClass;
   SEL setTextSelector = NSSelectorFromString(@"setText:");
   NSArray *constraintMatchers = @[
     [GREYMatchers matcherForRespondsToSelector:setTextSelector],
-    [GREYMatchers matcherForKindOfClass:gAccessibilityTextFieldElementClass],
     [GREYMatchers matcherForKindOfClass:gWebAccessibilityObjectWrapperClass]
   ];
   id<GREYMatcher> constraints = [[GREYAnyOf alloc] initWithMatchers:constraintMatchers];
@@ -514,10 +508,6 @@ static Class gAccessibilityTextFieldElementClass;
           if ([element grey_isWebAccessibilityElement]) {
             [GREYActions grey_setText:text onWebElement:element];
           } else {
-            if ([element isKindOfClass:gAccessibilityTextFieldElementClass]) {
-              element = [element textField];
-            }
-
             NSNotificationCenter *defaultCenter = NSNotificationCenter.defaultCenter;
             BOOL elementIsUIControl = [element isKindOfClass:[UIControl class]];
             BOOL elementIsUITextField = [element isKindOfClass:[UITextField class]];

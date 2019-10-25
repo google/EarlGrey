@@ -19,6 +19,7 @@
 // Note: GREYKeyboard should not be used in test cases of EarlGrey users. We are only using it here
 // for test purpose.
 #import "GREYKeyboard.h"
+#import "GREYConstants.h"
 #import "GREYHostApplicationDistantObject+KeyboardKeysTest.h"
 #import "FailureHandler.h"
 #import "NSObject+EDOValueObject.h"
@@ -435,14 +436,24 @@
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"Input Button")]
       performAction:grey_tap()];
 
-  NSString *accessibilityTextFieldElemClassName = @"UIAccessibilityTextFieldElement";
-  id<GREYMatcher> elementMatcher =
-      grey_allOf(grey_accessibilityValue(@"Text Field"),
-                 grey_kindOfClassName(accessibilityTextFieldElemClassName), nil);
-  [[[EarlGrey selectElementWithMatcher:elementMatcher] performAction:grey_clearText()]
-      performAction:grey_replaceText(@"foo")];
+  [[[EarlGrey selectElementWithMatcher:grey_accessibilityValue(@"Text Field")]
+      performAction:grey_clearText()] performAction:grey_replaceText(@"foo")];
 
   [[EarlGrey selectElementWithMatcher:grey_textFieldValue(@"foo")] assertWithMatcher:grey_notNil()];
+}
+
+- (void)testMatchingFailsWithUIAccessibilityTextFieldElement {
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"Input Button")]
+      performAction:grey_tap()];
+
+  id<GREYMatcher> elementMatcher =
+      grey_allOf(grey_accessibilityValue(@"Text Field"),
+                 grey_kindOfClassName(kTextFieldAXElementClassName), nil);
+  [[EarlGrey selectElementWithMatcher:elementMatcher] assertWithMatcher:grey_nil()];
+  NSError *error;
+  [[EarlGrey selectElementWithMatcher:elementMatcher] performAction:grey_clearText() error:&error];
+  XCTAssertEqualObjects(error.domain, kGREYInteractionErrorDomain);
+  XCTAssertEqual(error.code, kGREYInteractionElementNotFoundErrorCode);
 }
 
 - (void)testTypingAndResigningOfFirstResponder {

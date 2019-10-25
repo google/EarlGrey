@@ -29,6 +29,7 @@ const CFTimeInterval kGREYLongPressDefaultDuration = 0.7;
 const CGFloat kGREYAcceptableFloatDifference = 0.00001f;
 const NSInteger kUIPickerViewMaxAccessibilityViews = 500;
 NSString *const kGREYAllowVerboseLogging = @"kGREYAllowVerboseLogging";
+NSString *const kTextFieldAXElementClassName = @"UIAccessibilityTextFieldElement";
 const double kGREYPinchAngleDefault = (30.0 * M_PI / 180.0);
 
 NSString *NSStringFromUIDeviceOrientation(UIDeviceOrientation deviceOrientation) {
