@@ -263,7 +263,7 @@ static GREYSignalHandler gPreviousSignalHandlers[kNumSignals];
   if (iOS11_OR_ABOVE()) {
     [controller setValue:@YES forPreferenceKey:@"DidShowGestureKeyboardIntroduction"];
   }
-  if (iOS13_OR_ABOVE()) {
+  if (iOS13_OR_ABOVE() && UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
     [controller setValue:@YES forPreferenceKey:@"DidShowContinuousPathIntroduction"];
   }
   [controller synchronizePreferences];
