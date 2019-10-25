@@ -20,6 +20,7 @@
 #include <signal.h>
 
 #import "GREYFatalAsserts.h"
+#import "GREYAppleInternals.h"
 #import "GREYDefines.h"
 
 // Exception handler that was previously installed before we replaced it with our own.
@@ -69,6 +70,8 @@ static GREYSignalHandler gPreviousSignalHandlers[kNumSignals];
 #endif
 
   GREYSetupCrashHandlers();
+  // Force software keyboard.
+  [[UIKeyboardImpl sharedInstance] setAutomaticMinimizationEnabled:NO];
 }
 
 #pragma mark - Crash Handlers
