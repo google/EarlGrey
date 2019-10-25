@@ -79,11 +79,6 @@ GREY_EXTERN const CGFloat kGREYAcceptableFloatDifference;
 GREY_EXTERN NSString* _Nonnull const kGREYAllowVerboseLogging;
 
 /**
- *  Class name for the accessibility element inside a UITextField.
- */
-GREY_EXTERN NSString* _Nonnull const kTextFieldAXElementClassName;
-
-/**
  *  The default pinch angle for the pinch action, specified by an approximate angle for a right
  *  handed two finger pinch.
  */
