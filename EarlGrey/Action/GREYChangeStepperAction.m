@@ -28,6 +28,8 @@
 #import "Matcher/GREYAllOf.h"
 #import "Matcher/GREYMatchers.h"
 #import "Matcher/GREYNot.h"
+#import "Core/GREYElementFinder.h"
+#import "Provider/GREYElementProvider.h"
 
 @implementation GREYChangeStepperAction {
   /**
@@ -94,21 +96,14 @@
 
   UIButton *minusButton;
   UIButton *plusButton;
-  for (UIView *view in stepper.subviews) {
-    if ([view isKindOfClass:[UIButton class]]) {
-      // Another way to find the buttons is to compare the images from decrementImageForState:
-      // and incrementImageForState:, but for now we just consider minus button on the left,
-      // plus button of the right.
-      if (CGRectGetMidX(view.frame) < CGRectGetMidX(stepper.bounds)) {
-        minusButton = (UIButton *)view;
-      } else {
-        plusButton = (UIButton *)view;
-      }
-      if (minusButton && plusButton) {
-        break;
-      }
-    }
-  }
+  GREYElementProvider *stepperProvider =
+      [GREYElementProvider providerWithRootElements:@[ stepper ]];
+  GREYElementFinder *buttonFinder = [[GREYElementFinder alloc]
+      initWithMatcher:[GREYMatchers matcherForAccessibilityLabel:@"Increment"]];
+  plusButton = [buttonFinder elementsMatchedInProvider:stepperProvider].firstObject;
+  buttonFinder = [[GREYElementFinder alloc]
+        initWithMatcher:[GREYMatchers matcherForAccessibilityLabel:@"Decrement"]];
+  minusButton = [buttonFinder elementsMatchedInProvider:stepperProvider].firstObject;
 
   if (!(minusButton && plusButton)) {
     NSString *description = [NSString stringWithFormat:@"Failed to find stepper buttons "
