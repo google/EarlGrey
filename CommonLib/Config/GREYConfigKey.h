@@ -23,16 +23,6 @@ NS_ASSUME_NONNULL_BEGIN
 typedef NSString *GREYConfigKey NS_STRING_ENUM;
 
 /**
- *  Configuration that enables or disables usage tracking for the framework.
- *
- *  Accepted values: @c BOOL (i.e. @c YES or @c NO)
- *  Default value: @c YES
- *  @remark Set this value right after the XCUIApplication is launched to ensure the change works
- *          for all analytics calls.
- */
-GREY_EXTERN GREYConfigKey const kGREYConfigKeyAnalyticsEnabled;
-
-/**
  *  Configuration that enables or disables constraint checks before performing an action.
  *
  *  Accepted values: @c BOOL (i.e. @c YES or @c NO)

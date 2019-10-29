@@ -16,7 +16,6 @@
 
 #import "GREYConfigKey.h"
 
-GREYConfigKey const kGREYConfigKeyAnalyticsEnabled = @"GREYConfigKeyAnalyticsEnabled";
 GREYConfigKey const kGREYConfigKeyActionConstraintsEnabled =
     @"GREYConfigKeyActionConstraintsEnabled";
 GREYConfigKey const kGREYConfigKeyInteractionTimeoutDuration =

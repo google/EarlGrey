@@ -47,7 +47,6 @@ GREYConfiguration *GREYCreateConfiguration(void) { return [[GREYTestConfiguratio
         NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     GREYFatalAssertWithMessage(searchPaths.count > 0, @"Couldn't find a valid documents directory");
     [self setDefaultValue:searchPaths.firstObject forConfigKey:kGREYConfigKeyArtifactsDirLocation];
-    [self setDefaultValue:@YES forConfigKey:kGREYConfigKeyAnalyticsEnabled];
     [self setDefaultValue:@YES forConfigKey:kGREYConfigKeyActionConstraintsEnabled];
     [self setDefaultValue:@(30) forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
     [self setDefaultValue:@(10) forConfigKey:kGREYConfigKeyCALayerMaxAnimationDuration];
