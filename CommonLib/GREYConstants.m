@@ -18,18 +18,30 @@
 
 #include <math.h>
 
+/** Timeouts */
 const CFTimeInterval kNonTactileEventTimeout = 10.0;
+const CFTimeInterval kGREYInfiniteTimeout = DBL_MAX;
+
+/** Visibility related constants */
 const CGFloat kGREYMinimumVisibleAlpha = 0.01f;
+
+/** Action related constants */
 const CFTimeInterval kGREYSwipeFastDuration = 0.1;
 const CFTimeInterval kGREYSwipeSlowDuration = 1.0;
+
 const CFTimeInterval kGREYPinchFastDuration = 0.1;
 const CFTimeInterval kGREYPinchSlowDuration = 1.0;
-const CFTimeInterval kGREYInfiniteTimeout = DBL_MAX;
-const CFTimeInterval kGREYLongPressDefaultDuration = 0.7;
-const CGFloat kGREYAcceptableFloatDifference = 0.00001f;
-const NSInteger kUIPickerViewMaxAccessibilityViews = 500;
-NSString *const kGREYAllowVerboseLogging = @"kGREYAllowVerboseLogging";
 const double kGREYPinchAngleDefault = (30.0 * M_PI / 180.0);
+
+const CFTimeInterval kGREYLongPressDefaultDuration = 0.7;
+
+const CGFloat kGREYAcceptableFloatDifference = 0.00001f;
+
+const NSInteger kUIPickerViewMaxAccessibilityViews = 500;
+
+/** String constants for names. */
+NSString *const kGREYAllowVerboseLogging = @"kGREYAllowVerboseLogging";
+NSString *const kTextFieldAXElementClassName = @"UIAccessibilityTextFieldElement";
 
 NSString *NSStringFromUIDeviceOrientation(UIDeviceOrientation deviceOrientation) {
   switch (deviceOrientation) {

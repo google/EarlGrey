@@ -48,6 +48,8 @@
 #import "GREYConfiguration.h"
 #import "NSError+GREYCommon.h"
 #import "GREYAppleInternals.h"
+#import "GREYConstants.h"
+#import "GREYDefines.h"
 #import "GREYMatcher.h"
 #import "GREYScreenshotter.h"
 #import "EDORemoteVariable.h"
@@ -58,9 +60,9 @@ static Class gAccessibilityTextFieldElementClass;
 @implementation GREYActions
 
 + (void)initialize {
-  if (self == [GREYActions class]) {
+  if (self == [GREYActions self]) {
     gWebAccessibilityObjectWrapperClass = NSClassFromString(@"WebAccessibilityObjectWrapper");
-    gAccessibilityTextFieldElementClass = NSClassFromString(@"UIAccessibilityTextFieldElement");
+    gAccessibilityTextFieldElementClass = NSClassFromString(kTextFieldAXElementClassName);
   }
 }
 
@@ -294,7 +296,8 @@ static Class gAccessibilityTextFieldElementClass;
           if ([element grey_isWebAccessibilityElement]) {
             [GREYActions grey_setText:@"" onWebElement:element];
             return YES;
-          } else if ([element isKindOfClass:gAccessibilityTextFieldElementClass]) {
+          } else if ([element isKindOfClass:gAccessibilityTextFieldElementClass] &&
+                     !iOS13_OR_ABOVE()) {
             element = [element textField];
           } else {
             grey_dispatch_sync_on_main_thread(^{
@@ -514,7 +517,7 @@ static Class gAccessibilityTextFieldElementClass;
           if ([element grey_isWebAccessibilityElement]) {
             [GREYActions grey_setText:text onWebElement:element];
           } else {
-            if ([element isKindOfClass:gAccessibilityTextFieldElementClass]) {
+            if ([element isKindOfClass:gAccessibilityTextFieldElementClass] && !iOS13_OR_ABOVE()) {
               element = [element textField];
             }
 
