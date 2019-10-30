@@ -42,7 +42,6 @@
 #import "GREYSyncAPI.h"
 #import "GREYUIThreadExecutor.h"
 #import "NSObject+GREYCommon.h"
-#import "NSString+GREYCommon.h"
 #import "GREYFatalAsserts.h"
 #import "GREYThrowDefines.h"
 #import "GREYConfiguration.h"

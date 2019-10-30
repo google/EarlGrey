@@ -16,7 +16,6 @@
 
 #import "GREYConfiguration.h"
 
-#import "NSString+GREYCommon.h"
 #import "GREYFatalAsserts.h"
 #import "GREYThrowDefines.h"
 #import "GREYConfiguration+Private.h"

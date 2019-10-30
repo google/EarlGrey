@@ -29,7 +29,6 @@
 #import "GREYAppStateTracker.h"
 #import "GREYSyncAPI.h"
 #import "GREYUIThreadExecutor.h"
-#import "NSString+GREYCommon.h"
 #import "GREYFatalAsserts.h"
 #import "GREYThrowDefines.h"
 #import "GREYScrollActionError.h"

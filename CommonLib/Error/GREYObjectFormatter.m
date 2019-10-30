@@ -16,7 +16,6 @@
 
 #import "GREYObjectFormatter.h"
 
-#import "NSString+GREYCommon.h"
 #import "GREYError.h"
 #import "GREYStringDescription.h"
 

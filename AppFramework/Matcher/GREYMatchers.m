@@ -28,7 +28,6 @@
 #import "GREYAllOf.h"
 #import "GREYAnyOf.h"
 #import "GREYSyncAPI.h"
-#import "NSString+GREYCommon.h"
 #import "GREYFatalAsserts.h"
 #import "GREYThrowDefines.h"
 #import "GREYError.h"

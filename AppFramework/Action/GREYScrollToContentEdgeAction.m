@@ -22,7 +22,6 @@
 #import "GREYAllOf.h"
 #import "GREYAnyOf.h"
 #import "GREYMatchers.h"
-#import "NSString+GREYCommon.h"
 #import "GREYFatalAsserts.h"
 #import "GREYScrollActionError.h"
 #import "NSError+GREYCommon.h"
