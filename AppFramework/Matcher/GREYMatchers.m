@@ -57,7 +57,7 @@ static Class gEDOObjectClass;
 @implementation GREYMatchers
 
 + (void)initialize {
-  if (self == [GREYMatchers class]) {
+  if (self == [GREYMatchers self]) {
     gEDOObjectClass = NSClassFromString(@"EDOObject");
   }
 }

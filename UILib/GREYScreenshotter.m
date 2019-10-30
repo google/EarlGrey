@@ -35,7 +35,7 @@ static Class gUIModalItemHostingWindowClass;
 @implementation GREYScreenshotter
 
 + (void)initialize {
-  if (self == [GREYScreenshotter class]) {
+  if (self == [GREYScreenshotter self]) {
     gUIAlertControllerShimPresenterWindowClass =
         NSClassFromString(@"_UIAlertControllerShimPresenterWindow");
     gUIModalItemHostingWindowClass = NSClassFromString(@"_UIModalItemHostingWindow");

@@ -30,7 +30,7 @@ static Class gEDOObjectClass;
 @implementation GREYObjectFormatter
 
 + (void)initialize {
-  if (self == [GREYObjectFormatter class]) {
+  if (self == [GREYObjectFormatter self]) {
     gEDOObjectClass = NSClassFromString(@"EDOObject");
   }
 }

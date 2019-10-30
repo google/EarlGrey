@@ -155,7 +155,7 @@ typedef BOOL (^ConditionBlock)(void);
 }
 
 + (void)initialize {
-  if (self == [GREYKeyboard class]) {
+  if (self == [GREYKeyboard self]) {
     gTapKeyAction = [[GREYTapAction alloc] initWithType:kGREYTapTypeKBKey];
     NSCharacterSet *lowerCaseSet = [NSCharacterSet lowercaseLetterCharacterSet];
     gAlphabeticKeyplaneCharacters = [NSMutableCharacterSet uppercaseLetterCharacterSet];
