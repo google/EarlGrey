@@ -212,7 +212,7 @@
   [[EarlGrey selectElementWithMatcher:grey_keyWindow()]
       assertWithMatcher:grey_sufficientlyVisible()];
   XCTAssertTrue([host visibilityImagesAreAbsent]);
-  // Images are still nil on a non-visbility failure.
+  // Images are still nil on a non-visibility failure.
   error = nil;
   [[EarlGrey selectElementWithMatcher:grey_text(@"Garbage Value")] assertWithMatcher:grey_notNil()
                                                                                error:&error];

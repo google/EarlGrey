@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  A @c CGRect representing the boundary in which the current element clips to. @c CGRectNull
  *  if there is no boundary. It is represented in the same coordinate space as the element.
- *  TODO: This is used exclusively in GREYFastVisibilityChecker. Make a generic dictionary or
+ *  TODO: This is used exclusively in GREYQuickVisibilityChecker. Make a generic dictionary or
  *        class that maintains metadata such as level or boundingRect and remove them from property.
  */
 @property(nonatomic) CGRect boundingRect;
