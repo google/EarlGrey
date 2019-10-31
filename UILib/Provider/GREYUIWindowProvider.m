@@ -142,7 +142,7 @@ UIWindow *GREYGetApplicationKeyWindow(UIApplication *application) {
       }];
   NSArray<UIWindow *> *keyWindows = [windows filteredArrayUsingPredicate:windowFilter];
   GREYFatalAssertWithMessage(keyWindows.count <= 1, @"Expected 0 or 1 keywindow but found %lu",
-                             keyWindows.count);
+                             (unsigned long)keyWindows.count);
   return keyWindows.firstObject;
 #else
   return [application keyWindow];

@@ -40,7 +40,6 @@
 		FD511E8B211E709000F19C8A /* libUILib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FDF9E03520F82D090005DCF2 /* libUILib.a */; };
 		FD62398A20F56B7600049E81 /* NSObject+GREYCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = FD62398420F56B7500049E81 /* NSObject+GREYCommon.m */; };
 		FD62398E20F56B7600049E81 /* UIView+GREYCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = FD62398820F56B7600049E81 /* UIView+GREYCommon.m */; };
-		FD62398F20F56B7600049E81 /* NSString+GREYCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = FD62398920F56B7600049E81 /* NSString+GREYCommon.m */; };
 		FD6239A420F56BE700049E81 /* GREYConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = FD62399A20F56BE700049E81 /* GREYConfiguration.m */; };
 		FD6239A620F56BE700049E81 /* GREYConfigKey.m in Sources */ = {isa = PBXBuildFile; fileRef = FD62399F20F56BE700049E81 /* GREYConfigKey.m */; };
 		FD6239AE20F56C2500049E81 /* GREYValueType.m in Sources */ = {isa = PBXBuildFile; fileRef = FD6239A920F56C2500049E81 /* GREYValueType.m */; };
@@ -449,11 +448,9 @@
 		FD50493E20FB25BC00261CBE /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		FD62395120F56A9700049E81 /* libCommonLib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libCommonLib.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD62398420F56B7500049E81 /* NSObject+GREYCommon.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSObject+GREYCommon.m"; path = "CommonLib/Additions/NSObject+GREYCommon.m"; sourceTree = "<group>"; };
-		FD62398520F56B7600049E81 /* NSString+GREYCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NSString+GREYCommon.h"; path = "CommonLib/Additions/NSString+GREYCommon.h"; sourceTree = "<group>"; };
 		FD62398620F56B7600049E81 /* UIView+GREYCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "UIView+GREYCommon.h"; path = "CommonLib/Additions/UIView+GREYCommon.h"; sourceTree = "<group>"; };
 		FD62398720F56B7600049E81 /* NSObject+GREYCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NSObject+GREYCommon.h"; path = "CommonLib/Additions/NSObject+GREYCommon.h"; sourceTree = "<group>"; };
 		FD62398820F56B7600049E81 /* UIView+GREYCommon.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "UIView+GREYCommon.m"; path = "CommonLib/Additions/UIView+GREYCommon.m"; sourceTree = "<group>"; };
-		FD62398920F56B7600049E81 /* NSString+GREYCommon.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSString+GREYCommon.m"; path = "CommonLib/Additions/NSString+GREYCommon.m"; sourceTree = "<group>"; };
 		FD62399320F56BC200049E81 /* GREYFatalAsserts.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GREYFatalAsserts.h; path = CommonLib/Assertion/GREYFatalAsserts.h; sourceTree = "<group>"; };
 		FD62399420F56BC200049E81 /* GREYThrowDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GREYThrowDefines.h; path = CommonLib/Assertion/GREYThrowDefines.h; sourceTree = "<group>"; };
 		FD62399520F56BC200049E81 /* GREYAssertionDefinesPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GREYAssertionDefinesPrivate.h; path = CommonLib/Assertion/GREYAssertionDefinesPrivate.h; sourceTree = "<group>"; };
@@ -920,8 +917,6 @@
 				FD98C45A226C2DFF006F8D68 /* NSFileManager+GREYCommon.m */,
 				FD62398720F56B7600049E81 /* NSObject+GREYCommon.h */,
 				FD62398420F56B7500049E81 /* NSObject+GREYCommon.m */,
-				FD62398520F56B7600049E81 /* NSString+GREYCommon.h */,
-				FD62398920F56B7600049E81 /* NSString+GREYCommon.m */,
 				FD62398620F56B7600049E81 /* UIView+GREYCommon.h */,
 				FD62398820F56B7600049E81 /* UIView+GREYCommon.m */,
 			);
@@ -1788,7 +1783,6 @@
 				FD6239BD20F56C3E00049E81 /* GREYErrorConstants.m in Sources */,
 				6F49FDBD22E69D4E00CCE813 /* GREYDiagnosable.m in Sources */,
 				FD6239E320F56C9500049E81 /* GREYConstants.m in Sources */,
-				FD62398F20F56B7600049E81 /* NSString+GREYCommon.m in Sources */,
 				FD6239BF20F56C3E00049E81 /* GREYScrollActionError.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
