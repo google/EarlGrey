@@ -79,8 +79,9 @@
     [windows addObject:sharedApp.delegate.window];
   }
 
-  if (sharedApp.keyWindow) {
-    [windows addObject:sharedApp.keyWindow];
+  UIWindow *keyWindow = GREYGetApplicationKeyWindow(sharedApp);
+  if (keyWindow) {
+    [windows addObject:keyWindow];
   }
 
   if (includeStatusBar) {
@@ -88,8 +89,7 @@
     // Add the status bar if asked for.
     if (@available(iOS 13.0, *)) {
 #if defined(__IPHONE_13_0)
-      UIStatusBarManager *manager =
-          [[[[UIApplication sharedApplication] keyWindow] windowScene] statusBarManager];
+      UIStatusBarManager *manager = [[keyWindow windowScene] statusBarManager];
       id localStatusBar = [manager createLocalStatusBar];
       UIView *statusBar = [localStatusBar statusBar];
       statusBarWindow = [[UIWindow alloc] initWithFrame:statusBar.frame];
@@ -131,3 +131,20 @@
 }
 
 @end
+
+UIWindow *GREYGetApplicationKeyWindow(UIApplication *application) {
+#if defined(__IPHONE_13_0)
+  NSArray<UIWindow *> *windows = application.windows;
+  NSPredicate *windowFilter =
+      [NSPredicate predicateWithBlock:^BOOL(id _Nullable evaluatedObject,
+                                            NSDictionary<NSString *, id> *_Nullable bindings) {
+        return ((UIWindow *)evaluatedObject).isKeyWindow;
+      }];
+  NSArray<UIWindow *> *keyWindows = [windows filteredArrayUsingPredicate:windowFilter];
+  GREYFatalAssertWithMessage(keyWindows.count <= 1, @"Expected 0 or 1 keywindow but found %lu",
+                             keyWindows.count);
+  return keyWindows.firstObject;
+#else
+  return [application keyWindow];
+#endif
+}

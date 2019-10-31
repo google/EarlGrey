@@ -33,6 +33,7 @@
 #import "GREYAppleInternals.h"
 #import "GREYDefines.h"
 #import "GREYLogger.h"
+#import "GREYUIWindowProvider.h"
 
 /**
  *  Action for tapping a keyboard key.
@@ -124,7 +125,7 @@ typedef BOOL (^ConditionBlock)(void);
                 // keyboard visibility, it is necessary to double check on the actual frame to
                 // determine the true visibility.
                 CGRect keyboardFrame = [note.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
-                UIWindow *window = [UIApplication sharedApplication].keyWindow;
+                UIWindow *window = GREYGetApplicationKeyWindow([UIApplication sharedApplication]);
                 keyboardFrame = [window convertRect:keyboardFrame fromWindow:nil];
                 CGRect windowFrame = window.frame;
                 CGRect frameIntersection = CGRectIntersection(windowFrame, keyboardFrame);

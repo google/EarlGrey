@@ -26,6 +26,7 @@
 #import "GREYAppleInternals.h"
 #import "GREYConstants.h"
 #import "GREYLogger.h"
+#import "GREYUIWindowProvider.h"
 
 #pragma mark - Implementation
 
@@ -89,7 +90,7 @@
   GREYError *synchronizationError;
   void (^shakeBlock)(void) = ^{
     UIApplication *application = [UIApplication sharedApplication];
-    UIWindow *keyWindow = [application keyWindow];
+    UIWindow *keyWindow = GREYGetApplicationKeyWindow(application);
     UIMotionEvent *motionEvent = [application _motionEvent];
 
     [motionEvent setShakeState:1];
