@@ -290,7 +290,7 @@ typedef BOOL (^ConditionBlock)(void);
     if ([characterAsString isEqualToString:kSpaceKeyIdentifier] ||
         [characterAsString isEqualToString:kDeleteKeyIdentifier] ||
         [[NSCharacterSet uppercaseLetterCharacterSet] characterIsMember:character]) {
-      [GREYKeyboard grey_waitAndfindKeyForCharacter:@"e"];
+      [GREYKeyboard grey_waitAndfindKeyForCharacter:@"q"];
     }
 
     if (keyboardTypeWasChangedFromEmailType) {
@@ -535,9 +535,10 @@ typedef BOOL (^ConditionBlock)(void);
  *  @return @c YES if the alphabetic keyplane is being shown on the keyboard, else @c NO.
  */
 + (BOOL)grey_isAlphabeticKeyplaneShown {
-  // Arbitrarily choose e/E as the key to look for to determine if alphabetic keyplane is shown.
-  return [GREYKeyboard grey_waitAndfindKeyForCharacter:@"e"] != nil ||
-         [GREYKeyboard grey_waitAndfindKeyForCharacter:@"E"] != nil;
+  // Chose q/Q as the key to look for to determine if alphabetic keyplane is shown because q/Q
+  // comes first when iterating keys in UIKeyboardImpl.
+  return [GREYKeyboard grey_waitAndfindKeyForCharacter:@"q"] != nil ||
+         [GREYKeyboard grey_waitAndfindKeyForCharacter:@"Q"] != nil;
 }
 
 /**
