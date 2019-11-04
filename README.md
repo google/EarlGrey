@@ -47,7 +47,7 @@ To integrate with EarlGrey 2.0 using Xcode Projects, please take a look at our
 [CocoaPods Setup Guide](docs/cocoapods-setup.md).
 
 For a quick sample project, take a look at our
-[FunctionalTests](Tests/FunctionalTests/FunctionalTests.xcodeproj)
+[FunctionalTests](Tests/Functional/FunctionalTests.xcodeproj)
 project.
 
 # Getting Help
@@ -65,15 +65,15 @@ You can use the same channels as with EarlGrey 1.0 for communicating with us. Pl
 Unlike [EarlGrey 1.0](https://github.com/google/EarlGrey#analytics),
 EarlGrey 2.0 does not collect or upload any analytics for its usage.
 
-# EarlGrey 2.0 Advantages over XCUITest
+# EarlGrey 2.0 advantages over XCUITest
 
-*   Automatic synchronization with Animations, Dispatch Queues, Network Requests as enumerated [here](https://github.com/google/EarlGrey/blob/master/docs/features.md#synchronization).
+*   Automatic synchronization with Animations, Dispatch Queues, and Network Requests as enumerated [here](https://github.com/google/EarlGrey/blob/master/docs/features.md#synchronization).
 *   In-built White-Box Testing Support with RMI.
 *   Better Support for Flakiness Issues.
 *   Better Control of tests. EarlGrey has a much larger set of matchers.
 *   EarlGrey performs a pixel-by-pixel check for the visibility of an element.
 
-# EarlGrey 2.0 Advantages over EarlGrey 1.0
+# EarlGrey 2.0 advantages over EarlGrey 1.0
 
 *   Out of Process Testing using XCUITest. So System Alerts, Inter-app
     interactions etc. are supported
