@@ -62,13 +62,13 @@ UIWindow *GREYGetApplicationKeyWindow(UIApplication *application);
  *
  *  @remark Will create a local status bar if iOS 13+.
  *
- *  @return A set of all application windows ordered by window-level from front to back.
+ *  @return A set of all application windows ordered by window-level from back to front.
  */
 + (NSArray<UIWindow *> *)allWindowsWithStatusBar:(BOOL)includeStatusBar;
 
 /**
  *  Returns all application windows in front of @c window, including itself, ordered by
- *  window-level from front to back.
+ *  window-level from back to front.
  *
  *  @param window           Window to start collecting from.
  *  @param includeStatusBar Include the status bar in the window hierarchy.

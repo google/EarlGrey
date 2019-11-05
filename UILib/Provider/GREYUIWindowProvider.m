@@ -64,7 +64,7 @@
 + (NSArray *)windowsFromLevelOfWindow:(UIWindow *)window withStatusBar:(BOOL)includeStatusBar {
   NSArray<UIWindow *> *windows = [self allWindowsWithStatusBar:includeStatusBar];
   NSUInteger index = [windows indexOfObject:window];
-  NSRange range = NSMakeRange(0, index + 1);
+  NSRange range = NSMakeRange(index, windows.count - index);
   return [windows subarrayWithRange:range];
 }
 
@@ -106,18 +106,16 @@
     }
   }
 
-  // After sorting, reverse the windows because they need to appear from top-most to bottom-most.
-  return [[windows sortedArrayWithOptions:NSSortStable
-                          usingComparator:^NSComparisonResult(id obj1, id obj2) {
-                            if ([obj1 windowLevel] < [obj2 windowLevel]) {
-                              return -1;
-                            } else if ([obj1 windowLevel] == [obj2 windowLevel]) {
-                              return 0;
-                            } else {
-                              return 1;
-                            }
-                          }] reverseObjectEnumerator]
-      .allObjects;
+  return [windows sortedArrayWithOptions:NSSortStable
+                         usingComparator:^NSComparisonResult(id obj1, id obj2) {
+                           if ([obj1 windowLevel] < [obj2 windowLevel]) {
+                             return -1;
+                           } else if ([obj1 windowLevel] == [obj2 windowLevel]) {
+                             return 0;
+                           } else {
+                             return 1;
+                           }
+                         }];
 }
 
 #pragma mark - Private

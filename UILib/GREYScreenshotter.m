@@ -141,9 +141,9 @@ static Class gUIModalItemHostingWindowClass;
   CGFloat yOffset = (contextHeight - screenSize.height) / 2;
 
   // The bitmap context width and height are scaled, so we need to undo the scale adjustment.
-  NSEnumerator *allWindowsInReverse =
-      [[GREYUIWindowProvider allWindowsWithStatusBar:includeStatusBar] reverseObjectEnumerator];
-  for (UIWindow *window in allWindowsInReverse) {
+  NSEnumerator *allWindows =
+      [[GREYUIWindowProvider allWindowsWithStatusBar:includeStatusBar] objectEnumerator];
+  for (UIWindow *window in allWindows) {
     if (window.hidden || window.alpha == 0) {
       continue;
     }
