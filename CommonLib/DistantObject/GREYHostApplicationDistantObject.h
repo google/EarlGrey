@@ -16,17 +16,9 @@
 
 #import <Foundation/Foundation.h>
 
-// Use modular imports for CocoaPods release.
-/*
- #import <eDistantObject/EDOClientService.h>
- #import <eDistantObject/EDOHostService.h>
- #import <eDistantObject/EDOServicePort.h>
-*/
-// End CocoaPods modular imports
-
-#import "EDOClientService.h"
-#import "EDOHostService.h"
-#import "EDOServicePort.h"
+#import <eDistantObject/EDOClientService.h>
+#import <eDistantObject/EDOHostService.h>
+#import <eDistantObject/EDOServicePort.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
