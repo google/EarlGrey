@@ -1,5 +1,5 @@
 //
-// Copyright 2017 Google Inc.
+// Copyright 2019 Google Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,81 +14,10 @@
 // limitations under the License.
 //
 
-#import <UIKit/UIKit.h>
+#import <CoreGraphics/CoreGraphics.h>
+#import <Foundation/Foundation.h>
 
-#import "GREYConstants.h"
-
-/**
- *  The minimum number of points that must be visible on an UI element for EarlGrey to consider it
- *  as visible to the user.
- */
-GREY_EXTERN const NSUInteger kMinimumPointsVisibleForInteraction;
-
-#pragma mark - GREYVisibilityDiffBuffer
-
-/**
- *  Data structure that holds a buffer representing the visible pixels of a visibility check diff.
- */
-typedef struct GREYVisibilityDiffBuffer {
-  BOOL *data;
-  size_t width;
-  size_t height;
-} GREYVisibilityDiffBuffer;
-
-/**
- *  Creates a diff buffer with the specified width and height. This method allocates a buffer of
- *  size: width * height, which must be released with GREYVisibilityDiffBufferRelease after being
- *  used.
- *
- *  @param width  The width of the diff buffer.
- *  @param height The height of the diff buffer.
- */
-GREYVisibilityDiffBuffer GREYVisibilityDiffBufferCreate(size_t width, size_t height);
-
-/**
- *  Releases the underlying storage for the diff buffer.
- *
- *  @param buffer The buffer whose storage is to be released.
- */
-void GREYVisibilityDiffBufferRelease(GREYVisibilityDiffBuffer buffer);
-
-/**
- *  Returns the visibility status for the point at the given x and y coordinates. Returns @c YES if
- *  the point is visible, or @c NO if the point isn't visible or lies outside the buffer's bounds.
- *
- *  @param buffer The buffer that is to be queried.
- *  @param x      The x coordinate of the search point.
- *  @param y      The y coordinate of the search point.
- */
-BOOL GREYVisibilityDiffBufferIsVisible(GREYVisibilityDiffBuffer buffer, size_t x, size_t y);
-
-/**
- *  Changes the visibility value for the {@c x, @c y} position. If @c isVisible is @c YES the point
- *  is marked as visible else it is marked as not visible.
- *
- *  @param buffer    The buffer whose visibility is to be updated.
- *  @param x         The x coordinate of the target point.
- *  @param y         The y coordinate of the target point.
- *  @param isVisible A boolean that indicates the new visibility status (@c YES for visible,
-                     @c NO otherwise) for the target point.
- */
-void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffer, size_t x, size_t y,
-                                           BOOL isVisible);
-
-#pragma mark - GREYVisibilityChecker
-
-/**
- *  Data structure to hold information about visible pixels.
- */
-typedef struct GREYVisiblePixelData {
-  /** The number of visible pixels. */
-  NSUInteger visiblePixelCount;
-  /**
-   *  A default pixel that's visible.
-   *  If no pixel is visible -- i.e. the visiblePixelCount = 0, then this is set to CGPointNull.
-   */
-  CGPoint visiblePixel;
-} GREYVisiblePixelData;
+NS_ASSUME_NONNULL_BEGIN
 
 /**
  *  Checker for assessing the visibility of elements on screen as they appear to the user.
@@ -96,28 +25,46 @@ typedef struct GREYVisiblePixelData {
 @interface GREYVisibilityChecker : NSObject
 
 /**
- *  @return @c YES if no part of the @c element is visible to the user.
+ *  Check if the @c element is completely obscured.
+ *
+ *  @param element The UI element whose visibility is to be checked.
+ *
+ *  @return @c YES if no part of the @c element is visible to the user. @c NO otherwise.
  */
-+ (BOOL)isNotVisible:(id)element;
++ (BOOL)isNotVisible:(nullable id)element;
 
 /**
+ *  Calculates the percentage visible of the element in the screen.
+ *
+ *  @param element The UI element whose visibility is to be checked.
+ *
  *  @return The percentage ([0,1] inclusive) of the area visible on the screen compared to @c
  *          element's accessibility frame.
  */
-+ (CGFloat)percentVisibleAreaOfElement:(id)element;
++ (CGFloat)percentVisibleAreaOfElement:(nullable id)element;
 
 /**
+ *  Calculates the visible point where a user can tap to interact with.
+ *
+ *  @param element The UI element whose visibility is to be checked.
+ *
  *  @return A visible point where a user can tap to interact with specified @c element, or
  *          @c GREYCGPointNull if there's no such point.
  *  @remark The returned point is relative to @c element's bound.
  */
-+ (CGPoint)visibleInteractionPointForElement:(id)element;
++ (CGPoint)visibleInteractionPointForElement:(nullable id)element;
 
 /**
+ *  Calculates the smallest rectangle enclosing the entire visible area of the element.
+ *
+ *  @param element The UI element whose visibility is to be checked.
+ *
  *  @return The smallest rectangle enclosing the entire visible area of @c element in screen
- *          coordinates. If no part of the element is visible, CGRectZero will be returned. The
+ *          coordinates. If no part of the element is visible, @c CGRectZero will be returned. The
  *          returned rect is always in points.
  */
 + (CGRect)rectEnclosingVisibleAreaOfElement:(id)element;
 
 @end
+
+NS_ASSUME_NONNULL_END
