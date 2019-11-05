@@ -20,10 +20,6 @@
 #import <eDistantObject/EDOHostService.h>
 #import <eDistantObject/EDOServicePort.h>
 
-#import "EDOClientService.h"
-#import "EDOHostService.h"
-#import "EDOServicePort.h"
-
 NS_ASSUME_NONNULL_BEGIN
 
 /**
