@@ -508,7 +508,15 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
                [view grey_keepSubviewOnTopAndFrameFixed:shiftedView];
                [CATransaction flush];
                [CATransaction commit];
-
+#ifdef EARLGREY_EXPERIMENT
+               // For some special cases (b/138174761), the visibility checker would not commit @c
+               // shiftedView to the view hierarchy before it starts drawing to the graphics
+               // context. As a result, the visibility checker would give a false positive
+               // visibility status. This is a temporary fix that would make sure that the shifted
+               // view is added to the screenshot. This will have flickering effect on the view
+               // that is being checked for visibility.
+               CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0, NO);
+#endif
                UIImage *shiftedImage =
                    [GREYScreenshotter grey_takeScreenshotAfterScreenUpdates:YES
                                                                inScreenRect:searchRect
