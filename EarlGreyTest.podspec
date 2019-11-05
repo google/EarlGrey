@@ -2,7 +2,7 @@
 Pod::Spec.new do |s|
 
   s.name = "EarlGreyTest"
-  s.version = "2.0.0"
+  s.version = "2.1.0"
   s.summary = "iOS UI Automation Test Framework"
   s.homepage = "https://github.com/google/EarlGrey"
   s.author = "Google LLC."
@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
                 ' Test Navigator so you can run tests directly from Xcode or the command line (using xcodebuild).'
   s.license = { :type => "Apache 2.0", :file => "LICENSE" }
 
-  s.source = { :git => "https://github.com/google/EarlGrey.git", :tag => "2.0.0" }
+  s.source = { :git => "https://github.com/google/EarlGrey.git", :tag => "2.1.0" }
 
   s.dependency "eDistantObject"
 
