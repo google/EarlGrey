@@ -19,6 +19,8 @@
 
 #import "GREYHostApplicationDistantObject+GREYTestHelper.h"
 #import "BaseIntegrationTest.h"
+#import "EDOHostService.h"
+#import "EDOServicePort.h"
 
 @interface DistantObjectExecutionsTest : BaseIntegrationTest
 
