@@ -129,16 +129,16 @@
     [logger addObject:[NSString stringWithFormat:@"Screenshots: %@\n", screenshots]];
   }
 
-  // UI hierarchy and legend. Print windows from back to front.
+  // UI hierarchy and legend. Print windows from front to back, formatted for easier readability.
   if (![excluding containsObject:kErrorAppUIHierarchyKey]) {
-    [logger addObject:@"UI Hierarchy (ordered by window level, back to front):\n"];
+    [logger addObject:@"UI Hierarchy (ordered by window level, front to back):\n"];
 
     NSString *windowLegend = @"[Window 1]";
     NSString *axLegend = @"[AX]";
     NSString *uieLegend = @"[UIE]";
 
     NSDictionary *legendLabels = @{
-      windowLegend : @"Back-Most Window",
+      windowLegend : @"Frontmost Window",
       axLegend : @"Accessibility",
       uieLegend : @"User Interaction Enabled"
     };
@@ -164,9 +164,8 @@
                                                         indent:kGREYObjectFormatIndent
                                                      hideEmpty:YES
                                                       keyOrder:nil];
-    NSString *glossaryWithKey =
-        [NSString stringWithFormat:@"%@: %@\n", kErrorDescriptionGlossaryKey, glossary];
-    [logger addObject:glossaryWithKey];
+    [logger
+        addObject:[NSString stringWithFormat:@"%@: %@\n", kErrorDescriptionGlossaryKey, glossary]];
   }
 
   return [logger componentsJoinedByString:@"\n"];

@@ -70,10 +70,9 @@
 
   NSMutableString *animationInfoString = [[NSMutableString alloc] init];
 
-  // Traverse the hierarchy associated with the element from back to front as per the
-  // UIView::subviews: z-ordering.
+  // Traverse the hierarchy associated with the element.
   GREYTraversalDFS *traversal =
-      [GREYTraversalDFS backToFrontHierarchyForElementWithDFSTraversal:element];
+      [GREYTraversalDFS frontToBackHierarchyForElementWithDFSTraversal:element];
 
   // Enumerate the hierarchy using block enumeration.
   [traversal enumerateUsingBlock:^(id _Nonnull element, NSUInteger level, CGRect boundingRect,
