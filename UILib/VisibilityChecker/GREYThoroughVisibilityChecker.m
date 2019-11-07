@@ -98,7 +98,7 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
 @implementation GREYThoroughVisibilityChecker
 
 + (CGFloat)percentVisibleAreaOfElement:(id)element {
-  CGFloat percentVisible = [self grey_percentElementVisibleOnScreen:element];
+  CGFloat percentVisible = (CGFloat)[self grey_percentElementVisibleOnScreen:element];
   GREYFatalAssertWithMessage(percentVisible >= 0.0f && percentVisible <= 1.0f,
                              @"percentVisible(%f) must be in the range [0,1]", percentVisible);
 

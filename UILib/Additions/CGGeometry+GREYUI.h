@@ -130,7 +130,7 @@ CGFloat CGFloatAfterRemovingFractionalPixels(CGFloat floatInPoints);
 /**
  *  @return The area of the given @c rect.
  */
-double CGRectArea(CGRect rect);
+CGFloat CGRectArea(CGRect rect);
 
 /**
  *  Scales the given rectangle @c inRect, by a factor of the given @c amount and then translates

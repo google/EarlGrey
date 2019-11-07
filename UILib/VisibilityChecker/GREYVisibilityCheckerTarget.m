@@ -176,7 +176,7 @@ static CGRect ConvertToBitVectorRect(CGRect rect);
  */
 - (void)calculateBitsForIntersectionsInParallel {
   dispatch_apply(_intersections.count, DISPATCH_APPLY_AUTO, ^(size_t idx) {
-    CGRect intersection = [_intersections[idx] CGRectValue];
+    CGRect intersection = [self->_intersections[idx] CGRectValue];
     [self setBitsInRect:intersection];
   });
 }

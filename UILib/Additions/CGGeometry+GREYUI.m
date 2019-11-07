@@ -113,9 +113,7 @@ CGFloat CGFloatAfterRemovingFractionalPixels(CGFloat floatInPoints) {
 
 CGPoint CGRectCenter(CGRect rect) { return CGPointMake(CGRectGetMidX(rect), CGRectGetMidY(rect)); }
 
-double CGRectArea(CGRect rect) {
-  return (double)CGRectGetHeight(rect) * (double)CGRectGetWidth(rect);
-}
+CGFloat CGRectArea(CGRect rect) { return CGRectGetHeight(rect) * CGRectGetWidth(rect); }
 
 CGRect CGRectScaleAndTranslate(CGRect inRect, double amount) {
   return CGRectMake((CGFloat)(inRect.origin.x * amount), (CGFloat)(inRect.origin.y * amount),

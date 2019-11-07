@@ -61,7 +61,7 @@ static GREYVisibilityCheckerTarget *ResultingTarget(id element, BOOL *performFal
 // does not check each sublayers for that case, there could be false positive result.
 + (CGFloat)percentVisibleAreaOfElement:(id)element performFallback:(BOOL *)performFallback {
   GREYVisibilityCheckerTarget *target = ResultingTarget(element, performFallback);
-  return *performFallback ? nan(NULL) : [target percentageVisible];
+  return *performFallback ? nanf(NULL) : [target percentageVisible];
 }
 
 #pragma mark - Private
