@@ -2,7 +2,7 @@
 Pod::Spec.new do |s|
 
   s.name = "EarlGreyTest"
-  s.version = "2.0.0"
+  s.version = "2.1.0"
   s.summary = "iOS UI Automation Test Framework"
   s.homepage = "https://github.com/google/EarlGrey"
   s.author = "Google LLC."
@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
                 ' Test Navigator so you can run tests directly from Xcode or the command line (using xcodebuild).'
   s.license = { :type => "Apache 2.0", :file => "LICENSE" }
 
-  s.source = { :git => "https://github.com/google/EarlGrey.git", :tag => "2.0.0" }
+  s.source = { :git => "https://github.com/google/EarlGrey.git", :tag => "2.1.0" }
 
   s.dependency "eDistantObject"
 
@@ -26,50 +26,49 @@ Pod::Spec.new do |s|
                 Dir.glob("{TestLib,CommonLib,UILib}/**/*Stub.m") +
                 Dir.glob("{TestLib,CommonLib,AppFramework,UILib}/**/*Shorthand.m")
 
-  test_headers = ["AppFramework/Action/GREYAction.h",
+  public_header_files = ["AppFramework/Action/GREYAction.h",
                   "AppFramework/Action/GREYActionsShorthand.h",
-                  "AppFramework/DistantObject/GREYHostBackgroundDistantObject+GREYApp.h",
-                  "AppFramework/Matcher/GREYMatchersShorthand.h",
-                  "CommonLib/Assertion/GREYAssertionBlock.h",
-                  "CommonLib/Config/GREYConfiguration.h",
-                  "CommonLib/DistantObject/GREYHostApplicationDistantObject.h",
-                  "CommonLib/DistantObject/GREYTestApplicationDistantObject.h",
-                  "CommonLib/Error/GREYErrorConstants.h",
-                  "CommonLib/Exceptions/GREYFailureHandler.h",
-                  "CommonLib/Exceptions/GREYFrameworkException.h",
-                  "CommonLib/GREYDefines.h",
-                  "CommonLib/Matcher/GREYElementMatcherBlock.h",
-                  "CommonLib/Matcher/GREYMatcher.h",
-                  "TestLib/AlertHandling/XCTestCase+GREYSystemAlertHandler.h",
-                  "TestLib/Assertion/GREYAssertionDefines.h",
-                  "TestLib/Condition/GREYCondition.h",
-                  "TestLib/EarlGreyImpl/EarlGrey.h",
                   "AppFramework/Core/GREYElementInteraction.h",
                   "AppFramework/Core/GREYInteraction.h",
                   "AppFramework/Core/GREYInteractionDataSource.h",
+                  "AppFramework/DistantObject/GREYHostBackgroundDistantObject+GREYApp.h",
+                  "AppFramework/IdlingResources/GREYIdlingResource.h"
                   "AppFramework/Matcher/GREYAllOf.h",
                   "AppFramework/Matcher/GREYAnyOf.h",
                   "AppFramework/Matcher/GREYMatchers.h",
-                  "AppFramework/Matcher/GREYNot.h",
+                  "AppFramework/Matcher/GREYMatchersShorthand.h",
                   "AppFramework/Synchronization/GREYAppStateTracker.h",
                   "AppFramework/Synchronization/GREYAppStateTrackerObject.h",
                   "AppFramework/Synchronization/GREYSyncAPI.h",
                   "AppFramework/Synchronization/GREYUIThreadExecutor.h",
-                  "CommonLib/GREYConstants.h",
-                  "AppFramework/Core/GREYElementInteraction.h",
                   "CommonLib/Assertion/GREYAssertion.h",
-                  "CommonLib/Config/GREYConfigKey.h",
-                  "CommonLib/Matcher/GREYBaseMatcher.h",
-                  "CommonLib/Matcher/GREYDescription.h",
-                  "CommonLib/DistantObject/GREYHostBackgroundDistantObject.h",
+                  "CommonLib/Assertion/GREYAssertionBlock.h",
                   "CommonLib/Assertion/GREYAssertionDefinesPrivate.h",
                   "CommonLib/Config/GREYAppState.h",
+                  "CommonLib/Config/GREYConfigKey.h",
+                  "CommonLib/Config/GREYConfiguration.h",
+                  "CommonLib/DistantObject/GREYHostApplicationDistantObject.h",
+                  "CommonLib/DistantObject/GREYHostBackgroundDistantObject.h",
+                  "CommonLib/DistantObject/GREYTestApplicationDistantObject.h",
+                  "CommonLib/Error/GREYErrorConstants.h",
+                  "CommonLib/Exceptions/GREYFailureHandler.h",
+                  "CommonLib/Exceptions/GREYFrameworkException.h",
+                  "CommonLib/GREYConstants.h",
+                  "CommonLib/GREYDefines.h",
                   "CommonLib/GREYDiagnosable.h",
-                  "AppFramework/IdlingResources/GREYIdlingResource.h"
+                  "CommonLib/Matcher/GREYBaseMatcher.h",
+                  "CommonLib/Matcher/GREYDescription.h",
+                  "CommonLib/Matcher/GREYElementMatcherBlock.h",
+                  "CommonLib/Matcher/GREYMatcher.h",
+                  "TestLib/AlertHandling/XCTestCase+GREYSystemAlertHandler.h",
+                  "TestLib/Assertion/GREYAssertionDefines.h",
+                  "TestLib/Assertion/GREYWaitFunctions.h",
+                  "TestLib/Condition/GREYCondition.h",
+                  "TestLib/EarlGreyImpl/EarlGrey.h",
         ]
 
   s.source_files = test_sources
-  s.public_header_files = test_headers
+  s.public_header_files = public_header_files
 
   s.frameworks = "XCTest"
 
