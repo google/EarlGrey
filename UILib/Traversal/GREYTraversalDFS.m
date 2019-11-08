@@ -126,16 +126,24 @@
         object.boundingRect = CGRectNull;
       } else if ([parent clipsToBounds]) {
         if (CGRectEqualToRect(nextObject.boundingRect, CGRectNull)) {
+          // If there's currently no boundingRect, update it to parent's frame.
           object.boundingRect = convertedParentRect;
         } else {
-          object.boundingRect =
+          CGRect intersectionRect =
               CGRectIntersectionStrict(convertedBoundingRect, convertedParentRect);
+          if (CGRectIsNull(intersectionRect)) {
+            // If the boundingRect does not intersect with parent's frame, boundingRect stays the
+            // same as parent view would be clipped in the boundingRect.
+            object.boundingRect = convertedBoundingRect;
+          } else {
+            object.boundingRect = intersectionRect;
+          }
         }
       } else {
+        // If parent does not clip, pass down boundingRect.
         object.boundingRect = convertedBoundingRect;
       }
     }
-
     [_parsedHierarchy insertObject:object atIndex:0];
   }
 
