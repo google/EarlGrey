@@ -86,28 +86,24 @@
     enumerator = [_elements objectEnumerator];
   }
 
-  NSObject *userInfo = [[NSObject alloc] init];
-  return [[GREYDataEnumerator alloc]
-      initWithUserInfo:userInfo
-                 block:^id(NSObject *userinfo) {
-                   GREYTraversalBFS *traversal =
-                       objc_getAssociatedObject(userInfo, @selector(dataEnumerator));
-                   id objToReturn = [traversal nextObject];
-                   if (!objToReturn) {
-                     id nextElement = [enumerator nextObject];
-                     if (nextElement) {
-                       // The GREYTraversalBFS object does all the hierarchy unrolling. In other
-                       // words, the element provider relies on the GREYTraversalBFS object for its
-                       // needs.
-                       traversal =
-                           [GREYTraversalBFS hierarchyForElementWithBFSTraversal:nextElement];
-                       objc_setAssociatedObject(userInfo, @selector(dataEnumerator), traversal,
-                                                OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-                       objToReturn = [traversal nextObject];
-                     }
-                   }
-                   return objToReturn;
-                 }];
+  id (^enumeratorBlock)(NSObject *) = ^id(NSObject *userInfo) {
+    GREYTraversalBFS *traversal = objc_getAssociatedObject(userInfo, @selector(dataEnumerator));
+    id objToReturn = [traversal nextObject];
+    if (!objToReturn) {
+      id nextElement = [enumerator nextObject];
+      if (nextElement) {
+        // The GREYTraversalBFS object does all the hierarchy unrolling. In other words, the element
+        // provider relies on the GREYTraversalBFS object for its needs.
+        traversal = [GREYTraversalBFS hierarchyForElementWithBFSTraversal:nextElement];
+        objc_setAssociatedObject(userInfo, @selector(dataEnumerator), traversal,
+                                 OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        objToReturn = [traversal nextObject];
+      }
+    }
+    return objToReturn;
+  };
+  NSObject *userInfoObject = [[NSObject alloc] init];
+  return [[GREYDataEnumerator alloc] initWithUserInfo:userInfoObject block:enumeratorBlock];
 }
 
 @end
