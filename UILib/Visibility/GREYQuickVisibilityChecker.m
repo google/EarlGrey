@@ -79,6 +79,7 @@ static BOOL PerformThoroughVisibilityCheckerForElement(id element) {
 static GREYVisibilityCheckerTarget *ResultingTarget(id element, BOOL *performFallback) {
   __block GREYVisibilityCheckerTarget *target;
   __block BOOL stopWindowTraversal = NO;
+  *performFallback = NO;
   UIWindow *containerWindow;
   // Get window that contains element.
   if ([element isKindOfClass:[UIWindow class]]) {
