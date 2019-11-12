@@ -82,7 +82,7 @@
   ++_parsedHierarchyIndex;
 
   // Ask GREYTraversal i.e. parent class for the immediate children of @c nextObject.
-  NSArray<id> *children = GREYTraversalExploreImmediateChildren(nextObject.element);
+  NSArray<id> *children = GREYTraversalExploreImmediateChildren(nextObject.element, NO);
   for (id child in children) {
     GREYTraversalObject *object = [[GREYTraversalObject alloc] init];
     [object setLevel:nextObject.level + 1];

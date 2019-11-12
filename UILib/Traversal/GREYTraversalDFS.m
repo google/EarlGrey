@@ -36,6 +36,12 @@
    *  Flag to indicate whether the hierarchy should be reversed or not. Default is @c YES.
    */
   BOOL _isBackToFront;
+
+  /**
+   *  Flag to indicate whether the hierarchy should be ordered by @c zPosition amongst sibling
+   *  views.
+   */
+  BOOL _zOrdering;
 }
 
 - (instancetype)init:(id)element {
@@ -61,9 +67,11 @@
   return [[GREYTraversalDFS alloc] init:object];
 }
 
-+ (instancetype)backToFrontHierarchyForElementWithDFSTraversal:(id)element {
++ (instancetype)backToFrontHierarchyForElementWithDFSTraversal:(id)element
+                                                     zOrdering:(BOOL)zOrdering {
   GREYTraversalDFS *instance = [self frontToBackHierarchyForElementWithDFSTraversal:element];
   instance->_isBackToFront = YES;
+  instance->_zOrdering = zOrdering;
   return instance;
 }
 
@@ -102,7 +110,7 @@
 
   // For the DFS algorithm, we will add to the @c _parsedHierarchy array in a specified order,
   // and we also need to wrap the UI elements into GREYHierarchyObject instance.
-  NSArray<id> *children = GREYTraversalExploreImmediateChildren(nextObject.element);
+  NSArray<id> *children = GREYTraversalExploreImmediateChildren(nextObject.element, _zOrdering);
 
   // Insert the GREYHierarchyObject instance into the front of the array. Here the array is used
   // as a stack, hence front insertions. We could have inserted into the back, however the logic

@@ -50,6 +50,8 @@ static BOOL PerformThoroughVisibilityCheckerForElement(id element);
  *  @param element         Target element to check the visibility status of.
  *  @param performFallback An out parameter that indicates whether or not a more accurate visibility
  *                         checking is required. Use GREYThoroughVisibilityChecker instead.
+ *  @return GREYVisibilityCheckerTarget instance populated with the view hierarchy. @c nil if
+ *          element is not visible.
  */
 static GREYVisibilityCheckerTarget *ResultingTarget(id element, BOOL *performFallback);
 
@@ -76,10 +78,10 @@ static BOOL PerformThoroughVisibilityCheckerForElement(id element) {
   return NO;
 }
 
-static GREYVisibilityCheckerTarget *ResultingTarget(id element, BOOL *performFallback) {
-  __block GREYVisibilityCheckerTarget *target;
-  __block BOOL stopWindowTraversal = NO;
-  *performFallback = NO;
+/**
+ *  @return UIWindow that contains @c element.
+ */
+static UIWindow *WindowContainingElement(id element) {
   UIWindow *containerWindow;
   // Get window that contains element.
   if ([element isKindOfClass:[UIWindow class]]) {
@@ -94,6 +96,18 @@ static GREYVisibilityCheckerTarget *ResultingTarget(id element, BOOL *performFal
       containerWindow = container.window;
     }
   }
+  return containerWindow;
+}
+
+static GREYVisibilityCheckerTarget *ResultingTarget(id element, BOOL *performFallback) {
+  __block GREYVisibilityCheckerTarget *target;
+  __block BOOL stopWindowTraversal = NO;
+  *performFallback = NO;
+  UIWindow *containerWindow = WindowContainingElement(element);
+  // Element is not visible because it does not have a parent view.
+  if (!containerWindow) {
+    return nil;
+  }
   NSEnumerator<UIWindow *> *windowsBackToFrontEnumerator =
       [GREYUIWindowProvider windowsFromLevelOfWindow:containerWindow withStatusBar:NO]
           .reverseObjectEnumerator;
@@ -107,7 +121,7 @@ static GREYVisibilityCheckerTarget *ResultingTarget(id element, BOOL *performFal
       continue;
     }
     GREYTraversalDFS *traversal =
-        [GREYTraversalDFS backToFrontHierarchyForElementWithDFSTraversal:window];
+        [GREYTraversalDFS backToFrontHierarchyForElementWithDFSTraversal:window zOrdering:YES];
     __block NSUInteger targetLevel = 0;
     __block BOOL isTargetChild = YES;
     // Traverse the hierarchy until the target element is found.

@@ -21,24 +21,28 @@ NS_ASSUME_NONNULL_BEGIN
 @interface GREYTraversalDFS : NSObject
 
 /**
- *  Class method to initialize the object. The hierarchy is unrolled from front to back in a DFS
+ *  Class method to initialize the object. The hierarchy is traversed from front to back in a DFS
  *  fashion and an internal representation is created.
  *
- *  @param element Single UI element whose UI hierarchy needs to be unrolled.
+ *  @param element Single UI element whose UI hierarchy needs to be traversed.
  *
  *  @return An instance of the GREYTraversalDFS class.
  */
 + (instancetype)frontToBackHierarchyForElementWithDFSTraversal:(id)element;
 
 /**
- *  Class method to initialize the object. The hierarchy is unrolled from back to front in a DFS
+ *  Class method to initialize the object. The hierarchy is traversed from back to front in a DFS
  *  fashion and an internal representation is created.
  *
- *  @param element Single UI element whose UI hierarchy needs to be unrolled.
+ *  @param element   Single UI element whose UI hierarchy needs to be traversed.
+ *  @param zOrdering Whether sibling views should be sorted by their @c zPosition. This is useful
+ *                   in quick visibility checker to iterate through the view hierarchy from back to
+ *                   front just as it is rendered on screen.
  *
  *  @return An instance of the GREYTraversalDFS class.
  */
-+ (instancetype)backToFrontHierarchyForElementWithDFSTraversal:(id)element;
++ (instancetype)backToFrontHierarchyForElementWithDFSTraversal:(id)element
+                                                     zOrdering:(BOOL)zOrdering;
 
 /**
  *  Instance method that returns the next object from the hierarchy in a Depth First Search fashion.

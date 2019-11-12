@@ -21,12 +21,16 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Explores the immediate children of @c element, including accessibility elements.
  *
- *  @param element The UI element whose children are to be explored.
+ *  @param element         The UI element whose children are to be explored.
+ *  @param sortByZPosition Whether or not to sort immediate children by @c zPosition of the
+ *                         respective views. This is used mainly in visibility checker to
+ *                         iterate the view hierarchy back to front just as it is rendered on
+ *                         screen.
  *
  *  @return Creates a new NSArray* that contains the immediate children of @c element. The children
  *  are ordered from front to back, meaning subviews that were added first are present later in the
  *  array. If no children exist, then an empty array is returned.
  */
-NSArray<id> *GREYTraversalExploreImmediateChildren(id element);
+NSArray<id> *GREYTraversalExploreImmediateChildren(id element, BOOL sortByZPosition);
 
 NS_ASSUME_NONNULL_END

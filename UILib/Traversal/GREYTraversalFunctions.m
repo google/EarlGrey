@@ -23,7 +23,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-NSArray<id> *GREYTraversalExploreImmediateChildren(id element) {
+NSArray<id> *GREYTraversalExploreImmediateChildren(id element, BOOL sortByZPosition) {
   GREYThrowInFunctionOnNilParameter(element);
 
   NSMutableOrderedSet<id> *immediateChildren = [[NSMutableOrderedSet alloc] init];
@@ -37,6 +37,22 @@ NSArray<id> *GREYTraversalExploreImmediateChildren(id element) {
         [immediateChildren addObject:subview];
       }
     }
+  }
+
+  // Accessibility elements of the current element (if any) need not be sorted due to the following
+  // reasons:
+  // (1) If any of the accessibility elements were a UIView, it would have been added to the
+  // immediateChildren already (thus subject to sorting.)
+  // (2) If it were a UIView that is not anyone's subview, zPosition would not matter because it's
+  // not visible to the user anyway.
+  // (3) If it were an accessibility element (not a UIView), it does not have a zPosition property.
+  if (sortByZPosition) {
+    // Must be stable sort because the views should maintain order when zPosition is same. Note that
+    // the set only contains UIView instances at this point.
+    [immediateChildren sortWithOptions:NSSortStable
+                       usingComparator:^NSComparisonResult(UIView *view1, UIView *view2) {
+                         return [@(view2.layer.zPosition) compare:@(view1.layer.zPosition)];
+                       }];
   }
 
   // If we encounter an accessibility container, grab all the contained accessibility elements.
