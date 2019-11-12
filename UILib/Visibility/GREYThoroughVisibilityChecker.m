@@ -335,8 +335,8 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
   if (viewIntersectsScreen) {
     // Count number of whole pixels in entire search area, including areas off screen or outside
     // view.
-    CGRect searchRect_pixels = CGRectPointToPixel(searchRectInScreenCoordinates);
-    double countTotalSearchRectPixels = CGRectArea(CGRectIntegralInside(searchRect_pixels));
+    CGRect searchRect_pixels = CGRectPointToPixelAligned(searchRectInScreenCoordinates);
+    double countTotalSearchRectPixels = CGRectArea(searchRect_pixels);
     GREYFatalAssertWithMessage(countTotalSearchRectPixels >= 1,
                                @"countTotalSearchRectPixels should be at least 1");
     GREYVisiblePixelData visiblePixelData = [self grey_countPixelsInImage:afterImage
@@ -402,8 +402,7 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
 
   // Calculate the search rectangle for screenshot.
   CGRect screenshotSearchRect_pixel = searchRectOnScreenInViewInScreenCoordinates;
-  screenshotSearchRect_pixel = CGRectPointToPixel(screenshotSearchRect_pixel);
-  screenshotSearchRect_pixel = CGRectIntegralInside(screenshotSearchRect_pixel);
+  screenshotSearchRect_pixel = CGRectPointToPixelAligned(screenshotSearchRect_pixel);
 
   // Set screenshot origin point.
   if (outIntersectionOriginOrNull) {
@@ -573,72 +572,6 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
 }
 
 /**
- *  Given a list of values representing a histogram (values are the heights of the bars), this
- *  method returns the largest contiguous rectangle in that histogram.
- *
- *  @param histogram The array of values representing the histogram.
- *  @param length    The number of values in the histogram.
- *
- *  @return A CGRect of the largest rectangle in the given histogram.
- */
-+ (CGRect)grey_largestRectInHistogram:(uint16_t *)histogram length:(uint16_t)length {
-  uint16_t *leftNeighbors = malloc(sizeof(uint16_t) * length);
-  uint16_t *rightNeighbors = malloc(sizeof(uint16_t) * length);
-  uint16_t *leftStack = malloc(sizeof(uint16_t) * length);
-  uint16_t *rightStack = malloc(sizeof(uint16_t) * length);
-  // Index of the last element on the stack.
-  NSInteger leftStackIdx = -1;
-  NSInteger rightStackIdx = -1;
-  CGRect largestRect = CGRectZero;
-  CGFloat largestArea = 0;
-  // We make two passes at once, one from left to right and one from right to left.
-  for (uint16_t idx = 0; idx < length; idx++) {
-    uint16_t tailIdx = (length - 1) - idx;
-    // Find nearest column shorter than this one on either side.
-    while (leftStackIdx >= 0 && histogram[leftStack[leftStackIdx]] >= histogram[idx]) {
-      leftStackIdx--;
-    }
-    while (rightStackIdx >= 0 && histogram[rightStack[rightStackIdx]] >= histogram[tailIdx]) {
-      rightStackIdx--;
-    }
-    // Set the number of columns at least as tall as this one on either side.
-    if (leftStackIdx < 0) {
-      leftNeighbors[idx] = idx;
-    } else {
-      leftNeighbors[idx] = idx - leftStack[leftStackIdx] - 1;
-    }
-    if (rightStackIdx < 0) {
-      rightNeighbors[tailIdx] = length - tailIdx - 1;
-    } else {
-      rightNeighbors[tailIdx] = rightStack[rightStackIdx] - tailIdx - 1;
-    }
-    // Add the current index to the stack
-    leftStack[++leftStackIdx] = idx;
-    rightStack[++rightStackIdx] = tailIdx;
-  }
-  // Now we have the number of histogram bars immediately left and right of each bar that are at
-  // least as tall as the given bar. Now we can compute areas easily.
-  for (NSUInteger idx = 0; idx < length; idx++) {
-    CGFloat area = (leftNeighbors[idx] + rightNeighbors[idx] + 1) * histogram[idx];
-    if (area > largestArea) {
-      largestArea = area;
-      largestRect.origin.x = idx - leftNeighbors[idx];
-      largestRect.size.width = leftNeighbors[idx] + rightNeighbors[idx] + 1;
-      largestRect.size.height = histogram[idx];
-    }
-  }
-  free(leftStack);
-  leftStack = NULL;
-  free(rightStack);
-  rightStack = NULL;
-  free(leftNeighbors);
-  leftNeighbors = NULL;
-  free(rightNeighbors);
-  rightNeighbors = NULL;
-  return largestRect;
-}
-
-/**
  *  Calculates the number of pixel in @c afterImage that have different pixel intensity in
  *  @c beforeImage.
  *  If @c visiblePixelRect is not NULL, stores the smallest rectangle enclosing all shifted pixels
@@ -709,9 +642,7 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
   if (outVisiblePixelRect) {
     CGRect largestRect = CGRectZero;
     for (NSUInteger idx = 0; idx < height; idx++) {
-      CGRect thisLargest =
-          [GREYThoroughVisibilityChecker grey_largestRectInHistogram:&histograms[idx * width]
-                                                              length:(uint16_t)width];
+      CGRect thisLargest = CGRectLargestRectInHistogram(&histograms[idx * width], (uint16_t)width);
       if (CGRectArea(thisLargest) > CGRectArea(largestRect)) {
         // Because our histograms point up, not down.
         thisLargest.origin.y = idx - thisLargest.size.height + 1;
