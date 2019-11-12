@@ -45,8 +45,6 @@
 - (instancetype)init {
   self = [super init];
   if (self) {
-    self.customColumn1Array = [[NSMutableArray alloc] init];
-    self.customColumn2Array = [[NSMutableArray alloc] init];
     self.customColumn1Array = @[ @"Red", @"Green", @"Blue", @"Hidden" ];
     self.customColumn2Array = @[ @"1", @"2", @"3", @"4", @"5" ];
   }
@@ -71,10 +69,10 @@
             forComponent:(NSInteger)component {
   switch (component) {
     case 0:
-      return [self.customColumn1Array objectAtIndex:(NSUInteger)row];
+      return self.customColumn1Array[(NSUInteger)row];
       break;
     case 1:
-      return [self.customColumn2Array objectAtIndex:(NSUInteger)row];
+      return self.customColumn2Array[(NSUInteger)row];
       break;
   }
   return nil;
@@ -87,8 +85,6 @@
 - (instancetype)init {
   self = [super init];
   if (self) {
-    self.customColumn1Array = [[NSMutableArray alloc] init];
-    self.customColumn2Array = [[NSMutableArray alloc] init];
     self.customColumn1Array = @[ @"Red", @"Green", @"Blue", @"Hidden" ];
     self.customColumn2Array = @[ @"1", @"2", @"3", @"4", @"5" ];
   }
@@ -107,10 +103,10 @@
             forComponent:(NSInteger)component {
   switch (component) {
     case 0:
-      return [self.customColumn1Array objectAtIndex:(NSUInteger)row];
+      return self.customColumn1Array[(NSUInteger)row];
       break;
     case 1:
-      return [self.customColumn2Array objectAtIndex:(NSUInteger)row];
+      return self.customColumn2Array[(NSUInteger)row];
       break;
   }
   return nil;
@@ -123,8 +119,6 @@
 - (instancetype)init {
   self = [super init];
   if (self) {
-    self.customColumn1Array = [[NSMutableArray alloc] init];
-    self.customColumn2Array = [[NSMutableArray alloc] init];
     self.customColumn1Array = @[ @"Red", @"Green", @"Blue", @"Hidden" ];
     self.customColumn2Array = @[ @"1", @"2", @"3", @"4", @"5" ];
   }
@@ -142,10 +136,10 @@
             forComponent:(NSInteger)component {
   switch (component) {
     case 0:
-      return [self.customColumn1Array objectAtIndex:(NSUInteger)row];
+      return self.customColumn1Array[(NSUInteger)row];
       break;
     case 1:
-      return [self.customColumn2Array objectAtIndex:(NSUInteger)row];
+      return self.customColumn2Array[(NSUInteger)row];
       break;
   }
   return nil;
@@ -178,20 +172,11 @@
 
 @implementation PickerViewController
 
-@synthesize customPicker;
-@synthesize datePicker;
-@synthesize interactionDisabledPicker;
-@synthesize datePickerSegmentedControl;
-@synthesize customColumn1Array;
-@synthesize customColumn2Array;
-
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
   self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
   if (self) {
-    customColumn1Array = [[NSMutableArray alloc] init];
-    customColumn2Array = [[NSMutableArray alloc] init];
-    customColumn1Array = @[ @"Red", @"Green", @"Blue", @"Hidden" ];
-    customColumn2Array = @[ @"1", @"2", @"3", @"4", @"5" ];
+    self.customColumn1Array = @[ @"Red", @"Green", @"Blue", @"Hidden" ];
+    self.customColumn2Array = @[ @"1", @"2", @"3", @"4", @"5" ];
   }
   return self;
 }
@@ -220,9 +205,9 @@
   self.titleForRowDelegateSwitch.accessibilityIdentifier = @"titleForRowDelegateSwitch";
   self.noDelegateMethodDefinedSwitch.accessibilityIdentifier = @"noDelegateMethodDefinedSwitch";
 
-  [datePicker addTarget:self
-                 action:@selector(datePickerValueChanged:)
-       forControlEvents:UIControlEventValueChanged];
+  [self.datePicker addTarget:self
+                      action:@selector(datePickerValueChanged:)
+            forControlEvents:UIControlEventValueChanged];
 
   self.pickerViewDelegate1 = [PickerViewDelegate1 new];
   self.pickerViewDelegate2 = [PickerViewDelegate2 new];
@@ -233,7 +218,7 @@
 - (void)datePickerValueChanged:(id)sender {
   NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
   dateFormatter.dateFormat = @"YYYY/MM/dd";
-  self.dateLabel.text = [dateFormatter stringFromDate:datePicker.date];
+  self.dateLabel.text = [dateFormatter stringFromDate:self.datePicker.date];
 }
 
 - (IBAction)clearDateLabelButtonTapped:(id)sender {
@@ -241,33 +226,33 @@
 }
 
 - (IBAction)valueChanged:(id)sender {
-  [datePicker setHidden:YES];
-  [customPicker setHidden:YES];
-  [interactionDisabledPicker setHidden:YES];
-  NSInteger selectedSegment = datePickerSegmentedControl.selectedSegmentIndex;
+  [self.datePicker setHidden:YES];
+  [self.customPicker setHidden:YES];
+  [self.interactionDisabledPicker setHidden:YES];
+  NSInteger selectedSegment = self.datePickerSegmentedControl.selectedSegmentIndex;
 
   switch (selectedSegment) {
     case 0:
-      datePicker.datePickerMode = UIDatePickerModeDate;
-      [datePicker setHidden:NO];
+      self.datePicker.datePickerMode = UIDatePickerModeDate;
+      [self.datePicker setHidden:NO];
       break;
     case 1:
-      datePicker.datePickerMode = UIDatePickerModeTime;
-      [datePicker setHidden:NO];
+      self.datePicker.datePickerMode = UIDatePickerModeTime;
+      [self.datePicker setHidden:NO];
       break;
     case 2:
-      datePicker.datePickerMode = UIDatePickerModeDateAndTime;
-      [datePicker setHidden:NO];
+      self.datePicker.datePickerMode = UIDatePickerModeDateAndTime;
+      [self.datePicker setHidden:NO];
       break;
     case 3:
-      datePicker.datePickerMode = UIDatePickerModeCountDownTimer;
-      [datePicker setHidden:NO];
+      self.datePicker.datePickerMode = UIDatePickerModeCountDownTimer;
+      [self.datePicker setHidden:NO];
       break;
     case 4:
-      [customPicker setHidden:NO];
+      [self.customPicker setHidden:NO];
       break;
     case 5:
-      [interactionDisabledPicker setHidden:NO];
+      [self.interactionDisabledPicker setHidden:NO];
   }
 }
 
@@ -300,13 +285,13 @@
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
   switch (component) {
     case 0:
-      return (NSInteger)[customColumn1Array count];
+      return (NSInteger)[self.customColumn1Array count];
       break;
     case 1:
-      return (NSInteger)[customColumn2Array count];
+      return (NSInteger)[self.customColumn2Array count];
       break;
     default:
-      NSAssert(NO, @"shouldn't be here");
+      NSAssert(NO, @"Invalid Picker column.");
       break;
   }
   return 0;
@@ -319,10 +304,13 @@
             forComponent:(NSInteger)component {
   switch (component) {
     case 0:
-      return [customColumn1Array objectAtIndex:(NSUInteger)row];
+      return self.customColumn1Array[(NSUInteger)row];
       break;
     case 1:
-      return [customColumn2Array objectAtIndex:(NSUInteger)row];
+      return self.customColumn2Array[(NSUInteger)row];
+      break;
+    default:
+      NSAssert(NO, @"Invalid Picker column object to obtain a title.");
       break;
   }
   return nil;
@@ -347,8 +335,8 @@
       didSelectRow:(NSInteger)row
        inComponent:(NSInteger)component {
   // If Hidden is selected, hide picker.
-  if (component == 0 && [customColumn1Array[(NSUInteger)row] isEqualToString:@"Hidden"]) {
-    [customPicker setHidden:YES];
+  if (component == 0 && [self.customColumn1Array[(NSUInteger)row] isEqualToString:@"Hidden"]) {
+    [self.customPicker setHidden:YES];
   }
 }
 
