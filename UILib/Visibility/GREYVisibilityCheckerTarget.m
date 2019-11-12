@@ -215,14 +215,8 @@ static CGRect ConvertToBitVectorRect(CGRect rect);
  *  the following conditions should be opted out from the calculation.
  *
  *  (1) Transparent views: View that is hidden, or has no background color.
- *  (2) Any subviews of the target element: Subviews of the target element are considered part of
- *      the view, so they are not obscuring the target element even though they are drawn on top of
- *      it.
- *  (3) Any Accessibility Element that is not a UIView instance: An accessibility element that is
+ *  (2) Any Accessibility Element that is not a UIView instance: An accessibility element that is
  *      not a UIView cannot obscure a view since it's not a visual element.
- *  (4) Any view whose @c zPosition is lower than that of @c _target: A view with a lower @c
- *      zPosition is always rendered behind of views with higher @c zPosition if they are in the
- *      same level in the view hierarchy.
  */
 - (BOOL)couldBeObscuredByElement:(id)element {
   BOOL elementIsView = [element isKindOfClass:[UIView class]];
@@ -258,11 +252,6 @@ static CGRect ConvertToBitVectorRect(CGRect rect);
   if ([viewBackgroundColor isEqual:UIColor.clearColor] || !viewBackgroundColor) {
     return NO;
   } else if ((success && alpha < 1) || (view.alpha < 1)) {
-    return NO;
-  } else if (_isView && [_target superview] == [view superview] &&
-             ((UIView *)_target).layer.zPosition > view.layer.zPosition) {
-    // A view with a lower @c zPosition is always rendered behind of views with higher @c zPosition
-    // if they are in the same level in the view hierarchy.
     return NO;
   } else if (![view grey_isVisible]) {
     return NO;
