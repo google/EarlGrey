@@ -585,12 +585,11 @@ typedef BOOL (^ConditionBlock)(void);
                                  forTypingString:(NSString *)string
                                            error:(__strong NSError **)errorOrNil {
   NSString *description = [NSString stringWithFormat:@"Failed to type string '%@', "
-                                                     @"because key [K] could not be found "
+                                                     @"because key '%@' could not be found "
                                                      @"on the keyboard.",
-                                                     string];
-  NSDictionary<NSString *, NSString *> *glossary = @{@"K" : [character description]};
-  I_GREYPopulateErrorNoted(errorOrNil, kGREYInteractionErrorDomain,
-                           kGREYInteractionElementNotFoundErrorCode, description, glossary);
+                                                     string, [character description]];
+  I_GREYPopulateError(errorOrNil, kGREYInteractionErrorDomain,
+                      kGREYInteractionElementNotFoundErrorCode, description);
   return NO;
 }
 
