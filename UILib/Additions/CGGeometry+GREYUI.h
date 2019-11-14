@@ -151,6 +151,12 @@ CGRect CGRectScaleAndTranslate(CGRect inRect, double amount);
 CGRect CGRectPointToPixel(CGRect rectInPoints);
 
 /**
+ *  @return The rect obtained by converting the given @c rectInPoints from points to pixels as per
+ *          the screen scale and aligning in pixel-boundary.
+ */
+CGRect CGRectPointToPixelAligned(CGRect rectInPoints);
+
+/**
  *  @return The rect obtained by converting the given @c rectInPoints from pixels to points as
  *          per the screen scale.
  */
@@ -207,6 +213,28 @@ CGRect CGRectIntersectionStrict(CGRect rect1, CGRect rect2);
  *  @return The normalized rect.
  */
 CGRect CGRectIntegralInside(CGRect rectInPixels);
+
+/**
+ *  Given a list of values representing a histogram (values are the heights of the bars), this
+ *  method returns the largest contiguous rectangle in that histogram. Examples are discussed below.
+ *
+ *  @code
+ *  histogram = [1, 3, 3, 1] ==>  [ 0, 1, 1, 0 ]
+ *                                [ 0, 1, 1, 0 ]
+ *                                [ 1, 1, 1, 1 ]
+ *
+ *  histogram = [3, 3, 3, 2, 3] ==>  [ 1, 1, 1, 0, 1 ]
+ *                                   [ 1, 1, 1, 1, 1 ]
+ *                                   [ 1, 1, 1, 1, 1 ]
+ *  @endcode
+ *  Largest rects in the above examples would be {(1, 0), (2, 3)} and {(0,1), (5, 2)}, respectively.
+ *
+ *  @param histogram The one-dimensional array of values representing the histogram.
+ *  @param length    The number of values in the histogram.
+ *
+ *  @return A CGRect of the largest rectangle in the given histogram.
+ */
+CGRect CGRectLargestRectInHistogram(uint16_t *histogram, uint16_t length);
 
 #pragma mark - CGAffineTransform
 

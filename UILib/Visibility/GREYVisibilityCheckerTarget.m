@@ -44,16 +44,6 @@ static CGRect VisibleRectOnScreen(id element, CGRect boundingRect);
  */
 static CGRect ConvertToScreenCoordinate(id element);
 
-/**
- *  Converts rect in points to pixels as per the screen scale and align the pixels. All rects must
- *  be converted as such before interacting with @c _bitVector.
- *
- *  @param rect A rect in point coordinates.
- *
- *  @return A rect that is pixel-aligned in pixel coordinate.
- */
-static CGRect ConvertToBitVectorRect(CGRect rect);
-
 @implementation GREYVisibilityCheckerTarget {
   /**
    *  Internal target element.
@@ -81,7 +71,8 @@ static CGRect ConvertToBitVectorRect(CGRect rect);
   CGRect _bitVectorRect;
   /**
    *  Binary bitmap representing the visible portion of @c _target in pixel coordinate. Each pixel
-   *  contains either 0 or 1. 0 indicating the pixel is visible, 1 if not.
+   *  contains either 0 or 1. 0 indicating the pixel is visible, 1 if not. All rects must be
+   *  converted to pixel and aligned before interacting with @c _bitVector.
    */
   CFMutableBitVectorRef _bitVector;
   /**
@@ -95,7 +86,7 @@ static CGRect ConvertToBitVectorRect(CGRect rect);
   UIView *containerView = [target grey_viewContainingSelf];
   BOOL isView = [target isKindOfClass:[UIView class]];
   CGRect targetRect = VisibleRectOnScreen(target, boundingRect);
-  CGRect bitVectorRect = ConvertToBitVectorRect(targetRect);
+  CGRect bitVectorRect = CGRectPointToPixelAligned(targetRect);
   if (isView && ![target grey_isVisible]) {
     // Check if target is visible.
     return nil;
@@ -142,7 +133,7 @@ static CGRect ConvertToBitVectorRect(CGRect rect);
   NSInteger numberOfVisiblePixels =
       (NSInteger)CFBitVectorGetCountOfBit(_bitVector, CFRangeMake(0, (CFIndex)bitVectorSize), 0);
   CGRect frame = _isView ? [_target frame] : [_target accessibilityFrame];
-  CGRect targetOriginalPixelRect = ConvertToBitVectorRect(frame);
+  CGRect targetOriginalPixelRect = CGRectPointToPixelAligned(frame);
   return numberOfVisiblePixels / CGRectArea(targetOriginalPixelRect);
 }
 
@@ -188,7 +179,7 @@ static CGRect ConvertToBitVectorRect(CGRect rect);
  *  @param rect The frame of the pixels to set the bits in @c _bitVector. Must be in points.
  */
 - (void)setBitsInRect:(CGRect)rect {
-  rect = ConvertToBitVectorRect(rect);
+  rect = CGRectPointToPixelAligned(rect);
   // _targetRect is indirectly translated to (0,0) since bitVector starts from (0, 0). Therefore,
   // the rect needs to be translated as much as _bitVectorRect did towards the origin.
   CGRect translatedRect = CGRectMake(CGRectGetMinX(rect) - CGRectGetMinX(_bitVectorRect),
@@ -297,12 +288,6 @@ static CGRect ConvertToScreenCoordinate(id element) {
   } else {
     return [element accessibilityFrame];
   }
-}
-
-static CGRect ConvertToBitVectorRect(CGRect rect) {
-  rect = CGRectPointToPixel(rect);
-  rect = CGRectIntegralInside(rect);
-  return rect;
 }
 
 - (void)dealloc {

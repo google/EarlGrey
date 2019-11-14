@@ -124,6 +124,12 @@ CGRect CGRectPointToPixel(CGRect rectInPoints) {
   return CGRectScaleAndTranslate(rectInPoints, [UIScreen mainScreen].scale);
 }
 
+CGRect CGRectPointToPixelAligned(CGRect rectInPoints) {
+  rectInPoints = CGRectPointToPixel(rectInPoints);
+  rectInPoints = CGRectIntegralInside(rectInPoints);
+  return rectInPoints;
+}
+
 CGRect CGRectPixelToPoint(CGRect rectInPixel) {
   return CGRectScaleAndTranslate(rectInPixel, 1.0 / [UIScreen mainScreen].scale);
 }
@@ -192,6 +198,63 @@ CGRect CGRectIntegralInside(CGRect rectInPixels) {
   rectInPixels.origin.y = newIntegralY;
 
   return rectInPixels;
+}
+
+CGRect CGRectLargestRectInHistogram(uint16_t *histogram, uint16_t length) {
+  uint16_t *leftNeighbors = malloc(sizeof(uint16_t) * length);
+  uint16_t *rightNeighbors = malloc(sizeof(uint16_t) * length);
+  uint16_t *leftStack = malloc(sizeof(uint16_t) * length);
+  uint16_t *rightStack = malloc(sizeof(uint16_t) * length);
+  // Index of the last element on the stack.
+  NSInteger leftStackIdx = -1;
+  NSInteger rightStackIdx = -1;
+  CGRect largestRect = CGRectZero;
+  CGFloat largestArea = 0;
+  // We make two passes at once, one from left to right and one from right to left.
+  for (uint16_t idx = 0; idx < length; idx++) {
+    uint16_t tailIdx = (length - 1) - idx;
+    // Find nearest column shorter than this one on either side.
+    while (leftStackIdx >= 0 && histogram[leftStack[leftStackIdx]] >= histogram[idx]) {
+      leftStackIdx--;
+    }
+    while (rightStackIdx >= 0 && histogram[rightStack[rightStackIdx]] >= histogram[tailIdx]) {
+      rightStackIdx--;
+    }
+    // Set the number of columns at least as tall as this one on either side.
+    if (leftStackIdx < 0) {
+      leftNeighbors[idx] = idx;
+    } else {
+      leftNeighbors[idx] = idx - leftStack[leftStackIdx] - 1;
+    }
+    if (rightStackIdx < 0) {
+      rightNeighbors[tailIdx] = length - tailIdx - 1;
+    } else {
+      rightNeighbors[tailIdx] = rightStack[rightStackIdx] - tailIdx - 1;
+    }
+    // Add the current index to the stack
+    leftStack[++leftStackIdx] = idx;
+    rightStack[++rightStackIdx] = tailIdx;
+  }
+  // Now we have the number of histogram bars immediately left and right of each bar that are at
+  // least as tall as the given bar. Now we can compute areas easily.
+  for (NSUInteger idx = 0; idx < length; idx++) {
+    CGFloat area = (leftNeighbors[idx] + rightNeighbors[idx] + 1) * histogram[idx];
+    if (area > largestArea) {
+      largestArea = area;
+      largestRect.origin.x = idx - leftNeighbors[idx];
+      largestRect.size.width = leftNeighbors[idx] + rightNeighbors[idx] + 1;
+      largestRect.size.height = histogram[idx];
+    }
+  }
+  free(leftStack);
+  leftStack = NULL;
+  free(rightStack);
+  rightStack = NULL;
+  free(leftNeighbors);
+  leftNeighbors = NULL;
+  free(rightNeighbors);
+  rightNeighbors = NULL;
+  return largestRect;
 }
 
 #pragma mark - CGAffineTransform
