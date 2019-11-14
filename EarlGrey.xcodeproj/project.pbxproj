@@ -7,12 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6F1F5B9E22EFC86C004A1778 /* GREYVisibilityChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F1F5B9D22EFC86C004A1778 /* GREYVisibilityChecker.m */; };
 		6F49FDBD22E69D4E00CCE813 /* GREYDiagnosable.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F49FDBC22E69D4C00CCE813 /* GREYDiagnosable.m */; };
-		6F4D6215236B6C3100506525 /* GREYVisibilityCheckerTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F4D620F236B6C2700506525 /* GREYVisibilityCheckerTarget.m */; };
-		6F4D6216236B6C3100506525 /* GREYQuickVisibilityChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F4D6210236B6C2700506525 /* GREYQuickVisibilityChecker.m */; };
-		6F4D6217236B6C3100506525 /* GREYThoroughVisibilityChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F4D6211236B6C2900506525 /* GREYThoroughVisibilityChecker.m */; };
-		6F4D6218236B6C3100506525 /* GREYVisibilityCheckerCacheEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F4D6214236B6C2F00506525 /* GREYVisibilityCheckerCacheEntry.m */; };
 		6F8818B222B86F530006932D /* GREYAssertionBlock+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F8818B122B86F520006932D /* GREYAssertionBlock+Private.h */; };
 		A20847B422BC095B00DD3983 /* GREYTraversalObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A20847B322BC095A00DD3983 /* GREYTraversalObject.m */; };
 		FD1184D3212CEE72004CADC3 /* XCUIApplication+GREYEnvironment.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1184D2212CEE72004CADC3 /* XCUIApplication+GREYEnvironment.m */; };
@@ -207,6 +202,11 @@
 		FD98C45E226C2E65006F8D68 /* GREYAppError.h in Headers */ = {isa = PBXBuildFile; fileRef = FD98C45D226C2E64006F8D68 /* GREYAppError.h */; };
 		FD98C461226C32FC006F8D68 /* GREYElementInteractionErrorHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C460226C32FB006F8D68 /* GREYElementInteractionErrorHandler.m */; };
 		FD98C464226C330A006F8D68 /* GREYFailureScreenshotSaver.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C462226C3309006F8D68 /* GREYFailureScreenshotSaver.m */; };
+		FDB4AB64237CD95F00E6847D /* GREYVisibilityCheckerTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = FDB4AB5B237CD95F00E6847D /* GREYVisibilityCheckerTarget.m */; };
+		FDB4AB65237CD95F00E6847D /* GREYVisibilityChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = FDB4AB5E237CD95F00E6847D /* GREYVisibilityChecker.m */; };
+		FDB4AB66237CD95F00E6847D /* GREYVisibilityCheckerCacheEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = FDB4AB60237CD95F00E6847D /* GREYVisibilityCheckerCacheEntry.m */; };
+		FDB4AB67237CD95F00E6847D /* GREYQuickVisibilityChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = FDB4AB61237CD95F00E6847D /* GREYQuickVisibilityChecker.m */; };
+		FDB4AB68237CD95F00E6847D /* GREYThoroughVisibilityChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = FDB4AB62237CD95F00E6847D /* GREYThoroughVisibilityChecker.m */; };
 		FDBE851122A21FD50093062B /* libeDistantObject.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FDBE84FC22A21FBC0093062B /* libeDistantObject.a */; };
 		FDE871982322D9F7007C5A5C /* GREYRemoteExecutor.m in Sources */ = {isa = PBXBuildFile; fileRef = FDE871962322D9F6007C5A5C /* GREYRemoteExecutor.m */; };
 		FDE8719C23241567007C5A5C /* GREYWaitFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = FDE8719A23241566007C5A5C /* GREYWaitFunctions.m */; };
@@ -394,19 +394,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		6F1F5B9A22EFC86C004A1778 /* BUILD */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = BUILD; sourceTree = "<group>"; };
-		6F1F5B9B22EFC86C004A1778 /* GREYVisibilityChecker+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GREYVisibilityChecker+Private.h"; sourceTree = "<group>"; };
-		6F1F5B9C22EFC86C004A1778 /* GREYVisibilityCheckerDuration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYVisibilityCheckerDuration.h; sourceTree = "<group>"; };
-		6F1F5B9D22EFC86C004A1778 /* GREYVisibilityChecker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYVisibilityChecker.m; sourceTree = "<group>"; };
 		6F49FDBC22E69D4C00CCE813 /* GREYDiagnosable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYDiagnosable.m; path = CommonLib/GREYDiagnosable.m; sourceTree = "<group>"; };
-		6F4D620D236B6C2400506525 /* GREYVisibilityCheckerTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYVisibilityCheckerTarget.h; sourceTree = "<group>"; };
-		6F4D620E236B6C2600506525 /* GREYVisibilityCheckerCacheEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYVisibilityCheckerCacheEntry.h; sourceTree = "<group>"; };
-		6F4D620F236B6C2700506525 /* GREYVisibilityCheckerTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYVisibilityCheckerTarget.m; sourceTree = "<group>"; };
-		6F4D6210236B6C2700506525 /* GREYQuickVisibilityChecker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYQuickVisibilityChecker.m; sourceTree = "<group>"; };
-		6F4D6211236B6C2900506525 /* GREYThoroughVisibilityChecker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYThoroughVisibilityChecker.m; sourceTree = "<group>"; };
-		6F4D6212236B6C2C00506525 /* GREYThoroughVisibilityChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYThoroughVisibilityChecker.h; sourceTree = "<group>"; };
-		6F4D6213236B6C2D00506525 /* GREYQuickVisibilityChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYQuickVisibilityChecker.h; sourceTree = "<group>"; };
-		6F4D6214236B6C2F00506525 /* GREYVisibilityCheckerCacheEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYVisibilityCheckerCacheEntry.m; sourceTree = "<group>"; };
 		6F8818B122B86F520006932D /* GREYAssertionBlock+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GREYAssertionBlock+Private.h"; path = "CommonLib/Assertion/GREYAssertionBlock+Private.h"; sourceTree = "<group>"; };
 		6F9B2C1E22B18F15003132B0 /* GREYDiagnosable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYDiagnosable.h; path = CommonLib/GREYDiagnosable.h; sourceTree = "<group>"; };
 		80E8CD4422AF097000CDE5C5 /* GREYElementMatcherBlock+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GREYElementMatcherBlock+Private.h"; path = "CommonLib/Matcher/GREYElementMatcherBlock+Private.h"; sourceTree = SOURCE_ROOT; };
@@ -429,7 +417,6 @@
 		FD3A825A21F189BC00CA3ADF /* GREYActionsShorthand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYActionsShorthand.h; path = Action/GREYActionsShorthand.h; sourceTree = "<group>"; };
 		FD3A826121F18A5800CA3ADF /* GREYTestApplicationDistantObject+GREYLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GREYTestApplicationDistantObject+GREYLogger.h"; path = "DistantObject/GREYTestApplicationDistantObject+GREYLogger.h"; sourceTree = "<group>"; };
 		FD3A826221F18A5800CA3ADF /* GREYTestApplicationDistantObject+GREYLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "GREYTestApplicationDistantObject+GREYLogger.m"; path = "DistantObject/GREYTestApplicationDistantObject+GREYLogger.m"; sourceTree = "<group>"; };
-		FD403F17235E7B1A000F9A47 /* GREYVisibilityChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYVisibilityChecker.h; sourceTree = "<group>"; };
 		FD44C48222C679050044199E /* GREYTraversalFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYTraversalFunctions.m; sourceTree = "<group>"; };
 		FD44C48B22C679050044199E /* GREYTraversalFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYTraversalFunctions.h; sourceTree = "<group>"; };
 		FD5048F820FB225100261CBE /* libTestLib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libTestLib.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -666,6 +653,18 @@
 		FD98C462226C3309006F8D68 /* GREYFailureScreenshotSaver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYFailureScreenshotSaver.m; path = Exception/GREYFailureScreenshotSaver.m; sourceTree = "<group>"; };
 		FD98C463226C3309006F8D68 /* GREYFailureScreenshotSaver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYFailureScreenshotSaver.h; path = Exception/GREYFailureScreenshotSaver.h; sourceTree = "<group>"; };
 		FD98C466226C331A006F8D68 /* GREYXCTestAppleInternals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYXCTestAppleInternals.h; path = AppleInternals/GREYXCTestAppleInternals.h; sourceTree = "<group>"; };
+		FDB4AB58237CD95F00E6847D /* GREYVisibilityCheckerCacheEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYVisibilityCheckerCacheEntry.h; path = Visibility/GREYVisibilityCheckerCacheEntry.h; sourceTree = "<group>"; };
+		FDB4AB59237CD95F00E6847D /* GREYQuickVisibilityChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYQuickVisibilityChecker.h; path = Visibility/GREYQuickVisibilityChecker.h; sourceTree = "<group>"; };
+		FDB4AB5A237CD95F00E6847D /* GREYVisibilityChecker+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GREYVisibilityChecker+Private.h"; path = "Visibility/GREYVisibilityChecker+Private.h"; sourceTree = "<group>"; };
+		FDB4AB5B237CD95F00E6847D /* GREYVisibilityCheckerTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYVisibilityCheckerTarget.m; path = Visibility/GREYVisibilityCheckerTarget.m; sourceTree = "<group>"; };
+		FDB4AB5C237CD95F00E6847D /* GREYThoroughVisibilityChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYThoroughVisibilityChecker.h; path = Visibility/GREYThoroughVisibilityChecker.h; sourceTree = "<group>"; };
+		FDB4AB5D237CD95F00E6847D /* GREYVisibilityChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYVisibilityChecker.h; path = Visibility/GREYVisibilityChecker.h; sourceTree = "<group>"; };
+		FDB4AB5E237CD95F00E6847D /* GREYVisibilityChecker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYVisibilityChecker.m; path = Visibility/GREYVisibilityChecker.m; sourceTree = "<group>"; };
+		FDB4AB5F237CD95F00E6847D /* GREYVisibilityCheckerDuration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYVisibilityCheckerDuration.h; path = Visibility/GREYVisibilityCheckerDuration.h; sourceTree = "<group>"; };
+		FDB4AB60237CD95F00E6847D /* GREYVisibilityCheckerCacheEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYVisibilityCheckerCacheEntry.m; path = Visibility/GREYVisibilityCheckerCacheEntry.m; sourceTree = "<group>"; };
+		FDB4AB61237CD95F00E6847D /* GREYQuickVisibilityChecker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYQuickVisibilityChecker.m; path = Visibility/GREYQuickVisibilityChecker.m; sourceTree = "<group>"; };
+		FDB4AB62237CD95F00E6847D /* GREYThoroughVisibilityChecker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYThoroughVisibilityChecker.m; path = Visibility/GREYThoroughVisibilityChecker.m; sourceTree = "<group>"; };
+		FDB4AB63237CD95F00E6847D /* GREYVisibilityCheckerTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYVisibilityCheckerTarget.h; path = Visibility/GREYVisibilityCheckerTarget.h; sourceTree = "<group>"; };
 		FDE871962322D9F6007C5A5C /* GREYRemoteExecutor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYRemoteExecutor.m; path = Execution/GREYRemoteExecutor.m; sourceTree = "<group>"; };
 		FDE871972322D9F7007C5A5C /* GREYRemoteExecutor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYRemoteExecutor.h; path = Execution/GREYRemoteExecutor.h; sourceTree = "<group>"; };
 		FDE8719A23241566007C5A5C /* GREYWaitFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYWaitFunctions.m; path = Assertion/GREYWaitFunctions.m; sourceTree = "<group>"; };
@@ -726,26 +725,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		6F1F5B9922EFC86C004A1778 /* VisibilityChecker */ = {
-			isa = PBXGroup;
-			children = (
-				6F4D6213236B6C2D00506525 /* GREYQuickVisibilityChecker.h */,
-				6F4D6210236B6C2700506525 /* GREYQuickVisibilityChecker.m */,
-				6F4D6212236B6C2C00506525 /* GREYThoroughVisibilityChecker.h */,
-				6F4D6211236B6C2900506525 /* GREYThoroughVisibilityChecker.m */,
-				6F4D620E236B6C2600506525 /* GREYVisibilityCheckerCacheEntry.h */,
-				6F4D6214236B6C2F00506525 /* GREYVisibilityCheckerCacheEntry.m */,
-				6F4D620D236B6C2400506525 /* GREYVisibilityCheckerTarget.h */,
-				6F4D620F236B6C2700506525 /* GREYVisibilityCheckerTarget.m */,
-				FD403F17235E7B1A000F9A47 /* GREYVisibilityChecker.h */,
-				6F1F5B9D22EFC86C004A1778 /* GREYVisibilityChecker.m */,
-				6F1F5B9A22EFC86C004A1778 /* BUILD */,
-				6F1F5B9B22EFC86C004A1778 /* GREYVisibilityChecker+Private.h */,
-				6F1F5B9C22EFC86C004A1778 /* GREYVisibilityCheckerDuration.h */,
-			);
-			path = VisibilityChecker;
-			sourceTree = "<group>";
-		};
 		FD2E76E92149E4450063EF7E /* Config */ = {
 			isa = PBXGroup;
 			children = (
@@ -1328,6 +1307,25 @@
 			name = AppleInternals;
 			sourceTree = "<group>";
 		};
+		FDB4AB57237CD95300E6847D /* Visibility */ = {
+			isa = PBXGroup;
+			children = (
+				FDB4AB59237CD95F00E6847D /* GREYQuickVisibilityChecker.h */,
+				FDB4AB61237CD95F00E6847D /* GREYQuickVisibilityChecker.m */,
+				FDB4AB5C237CD95F00E6847D /* GREYThoroughVisibilityChecker.h */,
+				FDB4AB62237CD95F00E6847D /* GREYThoroughVisibilityChecker.m */,
+				FDB4AB5D237CD95F00E6847D /* GREYVisibilityChecker.h */,
+				FDB4AB5E237CD95F00E6847D /* GREYVisibilityChecker.m */,
+				FDB4AB5A237CD95F00E6847D /* GREYVisibilityChecker+Private.h */,
+				FDB4AB58237CD95F00E6847D /* GREYVisibilityCheckerCacheEntry.h */,
+				FDB4AB60237CD95F00E6847D /* GREYVisibilityCheckerCacheEntry.m */,
+				FDB4AB5F237CD95F00E6847D /* GREYVisibilityCheckerDuration.h */,
+				FDB4AB63237CD95F00E6847D /* GREYVisibilityCheckerTarget.h */,
+				FDB4AB5B237CD95F00E6847D /* GREYVisibilityCheckerTarget.m */,
+			);
+			name = Visibility;
+			sourceTree = "<group>";
+		};
 		FDBE84E922A21FBC0093062B /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -1365,7 +1363,7 @@
 				FD98C456226C2DCD006F8D68 /* GREYScreenshotter.m */,
 				FDF9E06D20F82F020005DCF2 /* GREYElementHierarchy.h */,
 				FDF9E07120F82F030005DCF2 /* GREYElementHierarchy.m */,
-				6F1F5B9922EFC86C004A1778 /* VisibilityChecker */,
+				FDB4AB57237CD95300E6847D /* Visibility */,
 				FDF9E04720F82DCA0005DCF2 /* Traversal */,
 				FDF9E04620F82DC00005DCF2 /* Provider */,
 				FDF9E04520F82DA80005DCF2 /* Additions */,
@@ -1890,19 +1888,19 @@
 			files = (
 				FDF9E06320F82E340005DCF2 /* GREYDataEnumerator.m in Sources */,
 				FDF9E06120F82E340005DCF2 /* GREYElementProvider.m in Sources */,
-				6F4D6218236B6C3100506525 /* GREYVisibilityCheckerCacheEntry.m in Sources */,
-				6F4D6217236B6C3100506525 /* GREYThoroughVisibilityChecker.m in Sources */,
 				FD98C459226C2DD1006F8D68 /* GREYScreenshotter.m in Sources */,
+				FDB4AB64237CD95F00E6847D /* GREYVisibilityCheckerTarget.m in Sources */,
 				FD44C48C22C679050044199E /* GREYTraversalFunctions.m in Sources */,
-				6F4D6215236B6C3100506525 /* GREYVisibilityCheckerTarget.m in Sources */,
 				FDF9E06920F82EF60005DCF2 /* CGGeometry+GREYUI.m in Sources */,
 				FDF9E06A20F82EF60005DCF2 /* NSObject+GREYUI.m in Sources */,
+				FDB4AB65237CD95F00E6847D /* GREYVisibilityChecker.m in Sources */,
+				FDB4AB66237CD95F00E6847D /* GREYVisibilityCheckerCacheEntry.m in Sources */,
 				FDF9E05720F82E200005DCF2 /* GREYTraversalDFS.m in Sources */,
 				FDF9E07720F82F030005DCF2 /* GREYElementHierarchy.m in Sources */,
 				FDF9E06220F82E340005DCF2 /* GREYUIWindowProvider.m in Sources */,
 				A20847B422BC095B00DD3983 /* GREYTraversalObject.m in Sources */,
-				6F1F5B9E22EFC86C004A1778 /* GREYVisibilityChecker.m in Sources */,
-				6F4D6216236B6C3100506525 /* GREYQuickVisibilityChecker.m in Sources */,
+				FDB4AB67237CD95F00E6847D /* GREYQuickVisibilityChecker.m in Sources */,
+				FDB4AB68237CD95F00E6847D /* GREYThoroughVisibilityChecker.m in Sources */,
 				FDF9E05820F82E200005DCF2 /* GREYTraversalBFS.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
