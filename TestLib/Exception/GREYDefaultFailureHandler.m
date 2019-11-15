@@ -78,7 +78,7 @@
       [NSString stringWithFormat:@"%@-%@", exception.name, [[NSUUID UUID] UUIDString]];
   __unused NSString *screenshotDir = [GREY_CONFIG_STRING(kGREYConfigKeyArtifactsDirLocation)
       stringByAppendingPathComponent:uniqueSubDirName];
-  NSArray *screenshots =
+  __unused NSArray<NSString *> *screenshots =
       [GREYFailureScreenshotSaver saveFailureScreenshotsInDictionary:appScreenshots
                                                          toDirectory:screenshotDir];
   NSAssert(screenshots, @"Screenshots must be present");
