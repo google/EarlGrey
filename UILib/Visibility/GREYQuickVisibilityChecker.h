@@ -30,12 +30,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Calculates the amount (in percent) @c element is visible on the screen.
  *
- *  @param element         The UI element whose visibility is to be checked.
- *  @param performFallback An out parameter indicating whether or not a fallback should occur
- *                         because the quick visibility checker has low confidence in the accuracy
- *                         of the calculation. Use GREYThoroughVisibilityChecker instead to
- *                         calculate the visible percentage area. You MUST check for @c
- *                         performFallback before using the return value.
+ *  @param      element         The UI element whose visibility is to be checked.
+ *  @param[out] performFallback An out parameter indicating whether or not a fallback should occur
+ *                              because the quick visibility checker has low confidence in the
+ *                              accuracy of the calculation. Use GREYThoroughVisibilityChecker
+ *                              instead to calculate the visible percentage area. You MUST check for
+ *                              @c performFallback before using the return value.
  *
  *  @return The percentage ([0,1] inclusive) of the area visible on the screen compared to @c
  *          element's accessibility frame. Returned value is invalid if @c performFallback is

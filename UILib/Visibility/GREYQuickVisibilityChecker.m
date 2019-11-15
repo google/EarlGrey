@@ -23,6 +23,19 @@
 #import "GREYTraversalDFS.h"
 #import "GREYVisibilityCheckerTarget.h"
 
+@implementation GREYQuickVisibilityChecker
+
+// TODO(b/135684391): Traverse each sublayers of the view (if it exists), and check if
+// it obscures the target. Note: There might be cases where a view's layer has sublayer(s) that
+// extends out from the view's boundary and obscure other views. Since the quick visibility checker
+// does not check each sublayers for that case, there could be false positive result.
++ (CGFloat)percentVisibleAreaOfElement:(id)element performFallback:(BOOL *)performFallback {
+  GREYVisibilityCheckerTarget *target = ResultingTarget(element, performFallback, NO);
+  return *performFallback ? nanf(NULL) : [target percentageVisible];
+}
+
+#pragma mark - Private
+
 /**
  *  Determines whether or not the current target is eligible for quick visibility check by checking
  *  certain criteria. If the following criteria is met, a fallback needs to be performed as the
@@ -35,39 +48,6 @@
  *
  *  @return Whether or not a fallback is required.
  */
-static BOOL PerformThoroughVisibilityCheckerForElement(id element);
-
-/**
- *  Traverses the view hierarchy to determine the visibility of the target element. It traverses the
- *  view hierarchy from back to front until it finds the target element whose visible percentage is
- *  being calculated. Once the target element is found, each subsequent elements' frames are
- *  compared and intersected with the target element's frame to see how much they obscure the target
- *  by. At the end of the iteration, we will have the the information to check the visibility status
- *  of the target element populated in GREYVisibilityCheckerTarget. Note that we are only interested
- *  in the elements that are drawn after target element because any elements behind the target
- *  element would not affect its visibility.
- *
- *  @param element         Target element to check the visibility status of.
- *  @param performFallback An out parameter that indicates whether or not a more accurate visibility
- *                         checking is required. Use GREYThoroughVisibilityChecker instead.
- *  @return GREYVisibilityCheckerTarget instance populated with the view hierarchy. @c nil if
- *          element is not visible.
- */
-static GREYVisibilityCheckerTarget *ResultingTarget(id element, BOOL *performFallback);
-
-@implementation GREYQuickVisibilityChecker
-
-// TODO(b/135684391): Traverse each sublayers of the view (if it exists), and check if
-// it obscures the target. Note: There might be cases where a view's layer has sublayer(s) that
-// extends out from the view's boundary and obscure other views. Since the quick visibility checker
-// does not check each sublayers for that case, there could be false positive result.
-+ (CGFloat)percentVisibleAreaOfElement:(id)element performFallback:(BOOL *)performFallback {
-  GREYVisibilityCheckerTarget *target = ResultingTarget(element, performFallback);
-  return *performFallback ? nanf(NULL) : [target percentageVisible];
-}
-
-#pragma mark - Private
-
 static BOOL PerformThoroughVisibilityCheckerForElement(id element) {
   if ([element isKindOfClass:[UIView class]]) {
     UIView *view = (UIView *)element;
@@ -99,7 +79,28 @@ static UIWindow *WindowContainingElement(id element) {
   return containerWindow;
 }
 
-static GREYVisibilityCheckerTarget *ResultingTarget(id element, BOOL *performFallback) {
+/**
+ *  Traverses the view hierarchy to determine the visibility of the target element. It traverses the
+ *  view hierarchy from back to front until it finds the target element whose visible percentage is
+ *  being calculated. Once the target element is found, each subsequent elements' frames are
+ *  compared and intersected with the target element's frame to see how much they obscure the target
+ *  by. At the end of the iteration, we will have the the information to check the visibility status
+ *  of the target element populated in GREYVisibilityCheckerTarget. Note that we are only interested
+ *  in the elements that are drawn after target element because any elements behind the target
+ *  element would not affect its visibility.
+ *
+ *  @param      element         Target element to check the visibility status of.
+ *  @param[out] performFallback An out parameter that indicates whether or not a more accurate
+ *                              visibility checking is required. Use GREYThoroughVisibilityChecker
+ *                              instead.
+ *  @param      interactability Whether or not the resulting target should take interactability into
+ *                              consideration when obscuring the target.
+ *
+ *  @return GREYVisibilityCheckerTarget instance populated with the view hierarchy. @c nil if
+ *          element is not visible.
+ */
+static GREYVisibilityCheckerTarget *ResultingTarget(id element, BOOL *performFallback,
+                                                    BOOL interactability) {
   __block GREYVisibilityCheckerTarget *target;
   __block BOOL stopWindowTraversal = NO;
   *performFallback = NO;
@@ -117,7 +118,9 @@ static GREYVisibilityCheckerTarget *ResultingTarget(id element, BOOL *performFal
     }
     // If you are looking for the visibility of a UIWindow, skip all its subviews.
     if (window == element) {
-      target = [[GREYVisibilityCheckerTarget alloc] initWithTarget:element boundingRect:CGRectNull];
+      target = [[GREYVisibilityCheckerTarget alloc] initWithTarget:element
+                                                      boundingRect:CGRectNull
+                                                   interactability:interactability];
       continue;
     }
     GREYTraversalDFS *traversal =
@@ -161,7 +164,8 @@ static GREYVisibilityCheckerTarget *ResultingTarget(id element, BOOL *performFal
         }
       } else if (traversingElement == element) {
         target = [[GREYVisibilityCheckerTarget alloc] initWithTarget:element
-                                                        boundingRect:boundingRect];
+                                                        boundingRect:boundingRect
+                                                     interactability:interactability];
         targetLevel = level;
         // Target is not visible on screen. No need to traverse further.
         if (!target) {

@@ -21,29 +21,6 @@
 #import "CGGeometry+GREYUI.h"
 #import "GREYScreenshotter.h"
 
-/**
- *  Intersects with the screen bounds and element's bounding area to cut off any portion of the
- *  element that is not visible on screen.
- *
- *  @param element Element to check for the visible rect in screen.
- *  @param boundingRect Area that the view is confined to. Any portion of the view that is outside
- *                      this @c boundingRect would be cropped. It is represented in same coordinate
- *                      space as @c element. @c CGRectNull if it doesn't exist.
- *  @return Frame of the element that is visible on screen in screen coordinate. @c CGRectNull if it
- * is not visible at all.
- */
-static CGRect VisibleRectOnScreen(id element, CGRect boundingRect);
-
-/**
- *  Converts @c element's frame to screen coordinate. Before the views are intersected with the @c
- *  _target, they should be converted to the screen coordinate.
- *
- *  @param element The element whose frame will be converted.
- *
- *  @return @c element's frame converted to screen coordinate.
- */
-static CGRect ConvertToScreenCoordinate(id element);
-
 @implementation GREYVisibilityCheckerTarget {
   /**
    *  Internal target element.
@@ -62,10 +39,6 @@ static CGRect ConvertToScreenCoordinate(id element);
    */
   CGRect _targetRect;
   /**
-   *  Visible surface area of the @c _target element.
-   */
-  CGFloat _visibleSurfaceArea;
-  /**
    *  CGRect representation of @c _bitVector.
    */
   CGRect _bitVectorRect;
@@ -80,9 +53,17 @@ static CGRect ConvertToScreenCoordinate(id element);
    *  will be subtracted from the @c _bitVector when the traversal is finished.
    */
   NSMutableArray<NSValue *> *_intersections;
+  /**
+   *  Whether or not the @c _target should consider interactability into account when being obscured
+   *  by elements. If it should be interactable, @c _bitVector would only show portion of the @c
+   *  _target not only visible, but also interactable by the user.
+   */
+  BOOL _interactability;
 }
 
-- (instancetype)initWithTarget:(id)target boundingRect:(CGRect)boundingRect {
+- (instancetype)initWithTarget:(id)target
+                  boundingRect:(CGRect)boundingRect
+               interactability:(BOOL)interactability {
   UIView *containerView = [target grey_viewContainingSelf];
   BOOL isView = [target isKindOfClass:[UIView class]];
   CGRect targetRect = VisibleRectOnScreen(target, boundingRect);
@@ -112,7 +93,7 @@ static CGRect ConvertToScreenCoordinate(id element);
     // bit vector is initialized with 0 by default.
     _bitVector = CFBitVectorCreateMutable(kCFAllocatorDefault, 0);
     CFBitVectorSetCount(_bitVector, (CFIndex)bitVectorSize);
-    _visibleSurfaceArea = bitVectorSize;
+    _interactability = interactability;
   }
   return self;
 }
@@ -139,6 +120,8 @@ static CGRect ConvertToScreenCoordinate(id element);
 
 - (GREYVisibilityCheckerTargetObscureResult)obscureResultByOverlappingElement:(id)element
                                                                  boundingRect:(CGRect)boundingRect {
+  // TODO(b/144581036): Remove assertion once we support interactable target.
+  NSAssert(!_interactability, @"Please do not set _interactability as it's not supported yet.");
   if (![self couldBeObscuredByElement:element]) {
     return GREYVisibilityCheckerTargetObscureResultNone;
   }
@@ -202,12 +185,13 @@ static CGRect ConvertToScreenCoordinate(id element);
 }
 
 /**
- *  Evaluates whether or not an element could potentially obscure the target element. Elements with
- *  the following conditions should be opted out from the calculation.
+ *  Evaluates whether or not an element could potentially obscure the target element. Accessibility
+ *  element that is not a UIView cannot obscure the @c _target because it's not a visual element.
  *
- *  (1) Transparent views: View that is hidden, or has no background color.
- *  (2) Any Accessibility Element that is not a UIView instance: An accessibility element that is
- *      not a UIView cannot obscure a view since it's not a visual element.
+ *  @param element The element to evaluate if it can potentially obscure the @c _target. It could be
+ *                 either a view or an accessibility element (non view).
+ *
+ *  @return A BOOL whether or not @c element can potentially obscure the @c _target.
  */
 - (BOOL)couldBeObscuredByElement:(id)element {
   BOOL elementIsView = [element isKindOfClass:[UIView class]];
@@ -226,7 +210,17 @@ static CGRect ConvertToScreenCoordinate(id element);
   return [self couldBeObscuredByView:(UIView *)element];
 }
 
-// Evaluates whether or not a view can obscure the target.
+/**
+ *  A target is cannot be obscured if the other view drawn on top of the target has the following
+ *  conditions:
+ *  (1) Its backgroundColor has an alpha less than 1.
+ *  (2) Its alpha is less than 1.
+ *  (3) It is hidden or any of its ancestor is hidden.
+ *
+ *  @param view The view to evaluate.
+ *
+ *  @return A BOOL whether or not @c view can potentially obscure @c _target.
+ */
 - (BOOL)couldBeObscuredByView:(UIView *)view {
   CGFloat white;
   CGFloat alpha;
@@ -234,12 +228,11 @@ static CGRect ConvertToScreenCoordinate(id element);
   BOOL success = [viewBackgroundColor getWhite:&white alpha:&alpha];
   if ([NSStringFromClass([view class]) isEqualToString:@"UIKBInputBackdropView"]) {
     // UIKBInputBackdropView is a view that contains iOS input views including both system and
-    // custom keyboard. Since this view is translucent, it needs to be checked manually. Otherwise,
-    // it will consider as a non-obscuring view. This condition should be checked before checking
-    // the translucency of the view.
+    // custom keyboard. Since this view is translucent, it needs to be checked manually.
+    // Otherwise, it will consider as a non-obscuring view. This condition should be checked
+    // before checking the translucency of the view.
     return YES;
   }
-
   if ([viewBackgroundColor isEqual:UIColor.clearColor] || !viewBackgroundColor) {
     return NO;
   } else if ((success && alpha < 1) || (view.alpha < 1)) {
@@ -251,6 +244,17 @@ static CGRect ConvertToScreenCoordinate(id element);
   }
 }
 
+/**
+ *  Intersects with the screen bounds and element's bounding area to cut off any portion of the
+ *  element that is not visible on screen.
+ *
+ *  @param element      Element to check for the visible rect in screen.
+ *  @param boundingRect Area that the view is confined to. Any portion of the view that is outside
+ *                      this @c boundingRect would be cropped. It is represented in the same
+ *                      coordinate space as @c element. Pass in @c CGRectNull if it doesn't exist.
+ *  @return CGRect specifying the frame of the element that is visible on screen in screen
+ *          coordinate. @c CGRectNull if it is not visible at all.
+ */
 static CGRect VisibleRectOnScreen(id element, CGRect boundingRect) {
   UIView *container = [element grey_viewContainingSelf];
   CGRect containerRect = ConvertToScreenCoordinate(container);
@@ -276,6 +280,14 @@ static CGRect VisibleRectOnScreen(id element, CGRect boundingRect) {
   return elementRect;
 }
 
+/**
+ *  Converts @c element's frame to screen coordinate. This is needed before intersecting views with
+ *  the @c _target.
+ *
+ *  @param element The element whose frame will be converted.
+ *
+ *  @return @c element's frame converted to screen coordinate.
+ */
 static CGRect ConvertToScreenCoordinate(id element) {
   if ([element isKindOfClass:[UIView class]]) {
     UIView *container = [element grey_viewContainingSelf];

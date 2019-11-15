@@ -53,18 +53,21 @@ typedef NS_ENUM(NSInteger, GREYVisibilityCheckerTargetObscureResult) {
 /**
  *  Initiates an instance with the specified target element and @c boundingRect.
  *
- *  @param target       The target element interested in calculating the visible percentage of.
- *                      It could be either an object that conforms to UIAccessibility informal
- *                      protocol or a UIView instance.
- *  @param boundingRect Area that the view is confined to. Any portion of the view that is outside
- *                      this @c boundingRect would be excluded from visibility. It is represented in
- *                      same coordinate space as the view. Pass in @c CGRectNull if there is no
- *                      bounding rect.
+ *  @param target          The target element interested in calculating the visible percentage of.
+ *                         It could be either an object that conforms to UIAccessibility informal
+ *                         protocol or a UIView instance.
+ *  @param boundingRect    Area that the view is confined to. Any portion of the view that is
+ *                         outside this @c boundingRect would be excluded from visibility. It is
+ *                         represented in same coordinate space as the view. Pass in @c CGRectNull
+ *                         if there is no bounding rect.
+ *  @param interactability The boolean to specify if the target is checked for its interactability.
  *
  *  @return An instance of GREYVisibilityCheckerTarget, initialized with the specified information.
  *          Returns @c nil if the target is not visible.
  */
-- (instancetype)initWithTarget:(id)target boundingRect:(CGRect)boundingRect;
+- (instancetype)initWithTarget:(id)target
+                  boundingRect:(CGRect)boundingRect
+               interactability:(BOOL)interactability;
 
 /**
  *  Compares and intersects the element's frame to the @c _target's frame and calculates how much of
