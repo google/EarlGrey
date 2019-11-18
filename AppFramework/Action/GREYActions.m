@@ -626,13 +626,13 @@ static Class gAccessibilityTextFieldElementClass;
             // Wait for keyboard to show up and any other UI changes to take effect.
             if (![GREYKeyboard waitForKeyboardToAppear]) {
               NSString *description =
-                  @"Keyboard did not appear after tapping on element [E]. "
+                  @"Keyboard did not appear after tapping on [Element]. "
                   @"Are you sure that tapping on this element will bring up the keyboard?";
               __block NSString *elementDescription;
               grey_dispatch_sync_on_main_thread(^{
                 elementDescription = [element grey_description];
               });
-              NSDictionary<NSString *, NSString *> *glossary = @{@"E" : elementDescription};
+              NSDictionary<NSString *, NSString *> *glossary = @{@"Element" : elementDescription};
               I_GREYPopulateErrorNoted(errorOrNil, kGREYInteractionErrorDomain,
                                        kGREYInteractionActionFailedErrorCode, description,
                                        glossary);
@@ -652,15 +652,15 @@ static Class gAccessibilityTextFieldElementClass;
                 [firstResponder setSelectedTextRange:newRange];
               } else {
                 errorGlossary = @{
-                  @"F" : [firstResponder description],
-                  @"E" : [expectedFirstResponderView description]
+                  @"First Responder" : [firstResponder description],
+                  @"Element" : [expectedFirstResponderView description]
                 };
               }
             }
           });
 
           if (errorGlossary) {
-            NSString *description = @"First responder [F] of element [E] does not conform to "
+            NSString *description = @"[First Responder] of [Element] does not conform to "
                                     @"UITextInput protocol.";
             I_GREYPopulateErrorNoted(errorOrNil, kGREYInteractionErrorDomain,
                                      kGREYInteractionActionFailedErrorCode, description,

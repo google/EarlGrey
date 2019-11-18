@@ -151,8 +151,8 @@
       });
       if (!window) {
         NSString *description =
-            [NSString stringWithFormat:@"Element [E] is not attached to a window."];
-        NSDictionary *glossary = @{@"E" : [element grey_description]};
+            [NSString stringWithFormat:@"[Element] is not attached to a window."];
+        NSDictionary<NSString *, NSString *> *glossary = @{@"Element" : [element grey_description]};
 
         I_GREYPopulateErrorNoted(error, kGREYInteractionErrorDomain,
                                  kGREYInteractionActionFailedErrorCode, description, glossary);

@@ -195,10 +195,9 @@
   });
 
   if (!(foundMinusButton && foundPlusButton)) {
-    NSString *description = [NSString stringWithFormat:
-                                          @"Failed to find stepper buttons "
-                                          @"in stepper [S]"];
-    NSDictionary *glossary = @{@"S" : [stepper description]};
+    NSString *description = [NSString stringWithFormat:@"Failed to find stepper buttons "
+                                                       @"in [Stepper]"];
+    NSDictionary<NSString *, NSString *> *glossary = @{@"[Stepper]" : [stepper description]};
 
     I_GREYPopulateErrorNoted(error, kGREYInteractionErrorDomain,
                              kGREYInteractionActionFailedErrorCode, description, glossary);

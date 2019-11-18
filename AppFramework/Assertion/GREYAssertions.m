@@ -39,17 +39,17 @@
       NSMutableString *reason = [[NSMutableString alloc] init];
       NSMutableDictionary<NSString *, NSString *> *glossary = [[NSMutableDictionary alloc] init];
       if (!element) {
-        [reason appendFormat:@"Assertion with matcher [M] failed: No UI element was matched."];
-        glossary[@"M"] = [matcher description];
+        [reason appendFormat:@"Assertion with [Matcher] failed: No UI element was matched."];
+        glossary[@"Matcher"] = [matcher description];
 
         I_GREYPopulateErrorNoted(errorOrNil, kGREYInteractionErrorDomain,
                                  kGREYInteractionElementNotFoundErrorCode, reason, glossary);
       } else {
-        [reason appendFormat:@"Assertion with matcher [M] failed: UI element [E] failed to match "
-                             @"the following matcher(s): [S]"];
-        glossary[@"M"] = [matcher description];
-        glossary[@"E"] = [element grey_description];
-        glossary[@"S"] = [mismatch description];
+        [reason appendFormat:@"Assertion with [Matcher] failed: UI [Element] failed to match "
+                             @"the following matcher(s): [Mismatch]"];
+        glossary[@"Matcher"] = [matcher description];
+        glossary[@"Element"] = [element grey_description];
+        glossary[@"Mismatch"] = [mismatch description];
 
         I_GREYPopulateErrorNoted(errorOrNil, kGREYInteractionErrorDomain,
                                  kGREYInteractionAssertionFailedErrorCode, reason, glossary);
