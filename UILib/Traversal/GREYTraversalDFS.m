@@ -17,7 +17,6 @@
 #import "GREYTraversalDFS.h"
 
 #import "GREYThrowDefines.h"
-#import "CGGeometry+GREYUI.h"
 #import "GREYTraversalFunctions.h"
 #import "GREYTraversalObject.h"
 
@@ -56,12 +55,11 @@
 
 + (instancetype)frontToBackHierarchyForElementWithDFSTraversal:(id)element {
   GREYThrowOnNilParameter(element);
-
   // Wrap the @c element in the GREYTraversalDFSObject.
   GREYTraversalObject *object = [[GREYTraversalObject alloc] init];
-  object.level = 0;
   object.element = element;
-  object.boundingRect = CGRectNull;
+  object.level = 0;
+  object.properties = GREYTraversalPropertiesForElement(element);
 
   // Create an instance of GREYTraversalDFS.
   return [[GREYTraversalDFS alloc] init:object];
@@ -80,8 +78,8 @@
   return element.element;
 }
 
-- (void)enumerateUsingBlock:(void (^)(id element, NSUInteger level, CGRect boundingRect,
-                                      BOOL *stop))block {
+- (void)enumerateUsingBlock:(void (^)(id element, NSUInteger level,
+                                      GREYTraversalViewProperties *properties, BOOL *stop))block {
   GREYThrowOnNilParameter(block);
 
   // Loop till we have explored each element in the hierarchy.
@@ -89,7 +87,7 @@
   BOOL stop = NO;
   while (!stop && (object = [self grey_nextObjectDFS])) {
     // For each element call the @c block.
-    block(object.element, object.level, object.boundingRect, &stop);
+    block(object.element, object.level, object.properties, &stop);
   }
 }
 
@@ -117,41 +115,10 @@
   // associated with @c _parsedHierarchyIndex facilitated front insertions.
   for (id child in _isBackToFront ? children : [children reverseObjectEnumerator]) {
     GREYTraversalObject *object = [[GREYTraversalObject alloc] init];
-    [object setLevel:nextObject.level + 1];
-    [object setElement:child];
-    [object setBoundingRect:CGRectNull];
-
-    // This updates the bounding area of each traversal object.
-    // If the parent view's clipsToBound is set to YES, update the bounding area applying
-    // the parent view's frame. Otherwise, pass down the current view's bounding area.
-    // The bounding rect should be converted to the current view's coordinate space.
-    if ([nextObject.element isKindOfClass:[UIView class]]) {
-      UIView *parent = (UIView *)nextObject.element;
-      CGRect convertedBoundingRect = [[parent superview] convertRect:nextObject.boundingRect
-                                                              toView:parent];
-      CGRect convertedParentRect = [[parent superview] convertRect:parent.frame toView:parent];
-      if (![parent superview]) {
-        object.boundingRect = CGRectNull;
-      } else if ([parent clipsToBounds]) {
-        if (CGRectEqualToRect(nextObject.boundingRect, CGRectNull)) {
-          // If there's currently no boundingRect, update it to parent's frame.
-          object.boundingRect = convertedParentRect;
-        } else {
-          CGRect intersectionRect =
-              CGRectIntersectionStrict(convertedBoundingRect, convertedParentRect);
-          if (CGRectIsNull(intersectionRect)) {
-            // If the boundingRect does not intersect with parent's frame, boundingRect stays the
-            // same as parent view would be clipped in the boundingRect.
-            object.boundingRect = convertedBoundingRect;
-          } else {
-            object.boundingRect = intersectionRect;
-          }
-        }
-      } else {
-        // If parent does not clip, pass down boundingRect.
-        object.boundingRect = convertedBoundingRect;
-      }
-    }
+    object.element = child;
+    object.level = nextObject.level + 1;
+    object.properties =
+        GREYTraversalPassDownProperties(nextObject.properties, nextObject.element, child);
     [_parsedHierarchy insertObject:object atIndex:0];
   }
 

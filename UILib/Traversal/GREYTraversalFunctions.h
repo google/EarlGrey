@@ -16,6 +16,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "GREYTraversalViewProperties.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 /**
@@ -32,5 +34,36 @@ NS_ASSUME_NONNULL_BEGIN
  *  array. If no children exist, then an empty array is returned.
  */
 NSArray<id> *GREYTraversalExploreImmediateChildren(id element, BOOL sortByZPosition);
+
+/**
+ *  UIView properties that an element inherited from its ancestors in the view hierarchy.
+ *
+ *  @param element The element to get the properties of.
+ *
+ *  @return View properties that the @c element mimics. @c nil if @c element is a non-UIView.
+ */
+GREYTraversalViewProperties *GREYTraversalPropertiesForElement(id element);
+
+/**
+ *  Pass down the values of the parent's UIView properties to its child to help determining the
+ *  behavior of each view.
+ *
+ *  UIView property values are not inherited to its children in the view hierarchy, although they
+ *  mimic the behavior of their parent views. So it's not possible to determine how a view
+ *  might behave just alone with its own property values. You would have to investigate all of its
+ *  ancestors to do so. For instance, a view is not interactable by the user if any of its ancestors
+ *  are either hidden or user interaction disabled, regardless of what its own properties are set
+ *  to. To keep track of these absolute properties of each views, the values are inherited to its
+ *  children appropriately during the traversal.
+ *
+ *  @param parentProperties Properties that are being passed down.
+ *  @param parentElement UI element whose properties are being passed down.
+ *  @param childElement UI element to pass down the properties to.
+ *
+ *  @return Child's traversal properties that are inherited by @c parentObject's properties. @c nil
+ *          if either @c childElement or @c parentElement is not a UIView.
+ */
+GREYTraversalViewProperties *GREYTraversalPassDownProperties(
+    GREYTraversalViewProperties *parentProperties, id parentElement, id childElement);
 
 NS_ASSUME_NONNULL_END

@@ -39,8 +39,8 @@
     _parsedHierarchyIndex = 0;
 
     GREYTraversalObject *object = [[GREYTraversalObject alloc] init];
-    [object setLevel:0];
-    [object setElement:element];
+    object.element = element;
+    object.level = 0;
     [_parsedHierarchy addObject:object];
   }
   return self;
@@ -85,8 +85,8 @@
   NSArray<id> *children = GREYTraversalExploreImmediateChildren(nextObject.element, NO);
   for (id child in children) {
     GREYTraversalObject *object = [[GREYTraversalObject alloc] init];
-    [object setLevel:nextObject.level + 1];
-    [object setElement:child];
+    object.element = child;
+    object.level = nextObject.level + 1;
     [_parsedHierarchy addObject:object];
   }
   return nextObject;

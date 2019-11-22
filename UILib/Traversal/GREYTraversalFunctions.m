@@ -20,6 +20,7 @@
 
 #import "GREYThrowDefines.h"
 #import "GREYConstants.h"
+#import "CGGeometry+GREYUI.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -111,6 +112,91 @@ NSArray<id> *GREYTraversalExploreImmediateChildren(id element, BOOL sortByZPosit
   }
 
   return [immediateChildren array];
+}
+
+GREYTraversalViewProperties *GREYTraversalPropertiesForElement(id element) {
+  if (![element isKindOfClass:[UIView class]]) {
+    return nil;
+  }
+  UIView *view = (UIView *)element;
+  NSMutableArray<UIView *> *viewPath = [[NSMutableArray alloc] init];
+  // Traverse to the root, and store ancestors of the element, except the root element.
+  while (view.superview) {
+    [viewPath insertObject:view atIndex:0];
+    view = view.superview;
+  }
+  // View is at the root.
+  GREYTraversalViewProperties *properties =
+      [[GREYTraversalViewProperties alloc] initWithBoundingRect:CGRectNull
+                                                         hidden:view.hidden
+                                         userInteractionEnabled:view.userInteractionEnabled
+                                                    lowestAlpha:view.alpha];
+  UIView *parentView = view;
+  // Pass down the properties to the original element.
+  for (NSUInteger i = 0; i < viewPath.count; i++) {
+    UIView *childView = viewPath[i];
+    properties = GREYTraversalPassDownProperties(properties, parentView, childView);
+    parentView = childView;
+  }
+  return properties;
+}
+
+GREYTraversalViewProperties *GREYTraversalPassDownProperties(
+    GREYTraversalViewProperties *parentProperties, id parentElement, id childElement) {
+  if (![childElement isKindOfClass:[UIView class]] ||
+      ![parentElement isKindOfClass:[UIView class]]) {
+    return nil;
+  }
+  UIView *parentView = (UIView *)parentElement;
+  UIView *childView = (UIView *)childElement;
+
+  // If parent view hidden, its children are hidden too, regardless of their hidden properties.
+  BOOL hidden = parentProperties.hidden || childView.hidden;
+  // If parent view disables user interaction, its children are disabled too, regardless of their
+  // userInteractionEnabled properties.
+  BOOL userInteractionEnabled =
+      parentProperties.userInteractionEnabled && childView.userInteractionEnabled;
+  // View mimics the behavior of the lowest alpha among its ancestors.
+  CGFloat alpha = MIN(parentProperties.lowestAlpha, childView.alpha);
+  CGRect boundingRect;
+  {
+    // This updates the bounding area of each traversal object. If the parent view's clipsToBound is
+    // set to YES, update the bounding area applying the parent view's frame. Otherwise, pass down
+    // the current view's bounding area. The bounding rect should be converted to the current view's
+    // coordinate space.
+    CGRect convertedBoundingRect = [[parentView superview] convertRect:parentProperties.boundingRect
+                                                                toView:parentView];
+    CGRect convertedParentRect = [[parentView superview] convertRect:parentView.frame
+                                                              toView:parentView];
+    if (![parentView superview]) {
+      boundingRect = CGRectNull;
+    } else if ([parentView clipsToBounds]) {
+      if (CGRectEqualToRect(parentProperties.boundingRect, CGRectNull)) {
+        // If there's currently no boundingRect, update it to parent's frame.
+        boundingRect = convertedParentRect;
+      } else {
+        CGRect intersectionRect =
+            CGRectIntersectionStrict(convertedBoundingRect, convertedParentRect);
+        if (CGRectIsNull(intersectionRect)) {
+          // If the boundingRect does not intersect with parent's frame, boundingRect stays the same
+          // as parent view would be clipped in the boundingRect.
+          boundingRect = convertedBoundingRect;
+        } else {
+          boundingRect = intersectionRect;
+        }
+      }
+    } else {
+      // If parent does not clip, pass down boundingRect.
+      boundingRect = convertedBoundingRect;
+    }
+  }
+
+  GREYTraversalViewProperties *properties =
+      [[GREYTraversalViewProperties alloc] initWithBoundingRect:boundingRect
+                                                         hidden:hidden
+                                         userInteractionEnabled:userInteractionEnabled
+                                                    lowestAlpha:alpha];
+  return properties;
 }
 
 NS_ASSUME_NONNULL_END
