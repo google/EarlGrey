@@ -56,10 +56,6 @@ static const NSInteger kMinTouchPointsToDetectScrollResistance = 2;
    *  point will be set to achieve maximum scroll.
    */
   CGPoint _startPointPercents;
-  /**
-   *  Identifier used for diagnostics.
-   */
-  NSString *_diagnosticsID;
 }
 
 - (instancetype)initWithDirection:(GREYDirection)direction
@@ -95,7 +91,6 @@ static const NSInteger kMinTouchPointsToDetectScrollResistance = 2;
   self = [super initWithName:name
                  constraints:[[GREYAllOf alloc] initWithMatchers:constraintMatchers]];
   if (self) {
-    _diagnosticsID = name;
     _direction = direction;
     _amount = amount;
     _startPointPercents = startPointPercents;
@@ -237,7 +232,7 @@ static const NSInteger kMinTouchPointsToDetectScrollResistance = 2;
 #pragma mark - GREYDiagnosable
 
 - (NSString *)diagnosticsID {
-  return _diagnosticsID;
+  return GREYCorePrefixedDiagnosticsID(@"scroll");
 }
 
 @end

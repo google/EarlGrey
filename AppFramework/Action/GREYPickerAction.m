@@ -35,10 +35,6 @@
    *  The value to modify the column of the UIPickerView.
    */
   NSString *_value;
-  /**
-   *  Identifier used for diagnostics.
-   */
-  NSString *_diagnosticsID;
 }
 
 - (instancetype)initWithColumn:(NSInteger)column value:(NSString *)value {
@@ -53,7 +49,6 @@
   self = [super initWithName:name
                  constraints:[[GREYAllOf alloc] initWithMatchers:constraintMatchers]];
   if (self) {
-    _diagnosticsID = name;
     _column = column;
     _value = value;
   }
@@ -137,7 +132,7 @@
 #pragma mark - GREYDiagnosable
 
 - (NSString *)diagnosticsID {
-  return _diagnosticsID;
+  return GREYCorePrefixedDiagnosticsID(@"picker");
 }
 
 @end

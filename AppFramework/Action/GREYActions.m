@@ -207,6 +207,7 @@ static Class gAccessibilityTextFieldElementClass;
 }
 
 + (id<GREYAction>)actionForTurnSwitchOn:(BOOL)on {
+  NSString *diagnosticsID = GREYCorePrefixedDiagnosticsID(@"toggleSwitch");
   id<GREYMatcher> systemAlertShownMatcher = [GREYMatchers matcherForSystemAlertViewShown];
   NSArray *constraintMatchers = @[
     [GREYMatchers matcherForNegation:systemAlertShownMatcher],
@@ -217,7 +218,7 @@ static Class gAccessibilityTextFieldElementClass;
       [NSString stringWithFormat:@"Turn switch to %@ state", [UISwitch grey_stringFromOnState:on]];
   return [GREYActionBlock
       actionWithName:actionName
-       diagnosticsID:actionName
+       diagnosticsID:diagnosticsID
          constraints:constraints
         performBlock:^BOOL(id switchView, __strong NSError **errorOrNil) {
           __block BOOL toggleSwitch = NO;
@@ -238,6 +239,7 @@ static Class gAccessibilityTextFieldElementClass;
 }
 
 + (id<GREYAction>)actionForTypeText:(NSString *)text atPosition:(NSInteger)position {
+  NSString *diagnosticsID = GREYCorePrefixedDiagnosticsID(@"typeText");
   NSString *actionName =
       [NSString stringWithFormat:@"Action to type \"%@\" at position %ld", text, (long)position];
   id<GREYMatcher> protocolMatcher =
@@ -268,7 +270,7 @@ static Class gAccessibilityTextFieldElementClass;
     return [action perform:element error:errorOrNil];
   };
   return [GREYActionBlock actionWithName:actionName
-                           diagnosticsID:actionName
+                           diagnosticsID:diagnosticsID
                              constraints:protocolMatcher
                             performBlock:block];
 }
@@ -278,6 +280,7 @@ static Class gAccessibilityTextFieldElementClass;
 }
 
 + (id<GREYAction>)actionForClearText {
+  NSString *diagnosticsID = GREYCorePrefixedDiagnosticsID(@"clearText");
   NSArray *constraintMatchers = @[
     [GREYMatchers matcherForRespondsToSelector:@selector(text)],
     [GREYMatchers matcherForKindOfClass:gAccessibilityTextFieldElementClass],
@@ -288,7 +291,7 @@ static Class gAccessibilityTextFieldElementClass;
   NSString *actionName = @"Clear text";
   return [GREYActionBlock
       actionWithName:actionName
-       diagnosticsID:actionName
+       diagnosticsID:diagnosticsID
          constraints:constraints
         performBlock:^BOOL(id element, __strong NSError **errorOrNil) {
           __block NSString *currentText;
@@ -332,6 +335,7 @@ static Class gAccessibilityTextFieldElementClass;
 }
 
 + (id<GREYAction>)actionForSetDate:(NSDate *)date {
+  NSString *diagnosticsID = GREYCorePrefixedDiagnosticsID(@"setDate");
   id<GREYMatcher> systemAlertShownMatcher = [GREYMatchers matcherForSystemAlertViewShown];
   NSArray *constraintMatcher = @[
     [GREYMatchers matcherForInteractable],
@@ -342,7 +346,7 @@ static Class gAccessibilityTextFieldElementClass;
   NSString *actionName = [NSString stringWithFormat:@"Set date to %@", date];
   return [[GREYActionBlock alloc]
        initWithName:actionName
-      diagnosticsID:actionName
+      diagnosticsID:diagnosticsID
         constraints:constraints
        performBlock:^BOOL(UIDatePicker *datePicker, __strong NSError **errorOrNil) {
          grey_dispatch_sync_on_main_thread(^{
@@ -364,6 +368,7 @@ static Class gAccessibilityTextFieldElementClass;
 
 + (id<GREYAction>)actionForJavaScriptExecution:(NSString *)js
                                         output:(EDORemoteVariable<NSString *> *)outResult {
+  NSString *diagnosticsID = GREYCorePrefixedDiagnosticsID(@"executeJavaScript");
   // TODO: JS Errors should be propagated up.
   id<GREYMatcher> systemAlertShownMatcher = [GREYMatchers matcherForSystemAlertViewShown];
   NSArray *webViewMatchers = @[
@@ -381,7 +386,7 @@ static Class gAccessibilityTextFieldElementClass;
   id<GREYMatcher> constraints = [[GREYAllOf alloc] initWithMatchers:constraintMatchers];
   return [[GREYActionBlock alloc]
        initWithName:actionName
-      diagnosticsID:actionName
+      diagnosticsID:diagnosticsID
         constraints:constraints
        performBlock:^BOOL(id webView, __strong NSError **errorOrNil) {
 #if !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
@@ -436,11 +441,12 @@ static Class gAccessibilityTextFieldElementClass;
 }
 
 + (id<GREYAction>)actionForSnapshot:(EDORemoteVariable<UIImage *> *)outImage {
+  NSString *diagnosticsID = GREYCorePrefixedDiagnosticsID(@"snapshot");
   GREYThrowOnNilParameter(outImage);
   NSString *actionName = @"Element Snapshot";
   return [[GREYActionBlock alloc]
        initWithName:actionName
-      diagnosticsID:actionName
+      diagnosticsID:diagnosticsID
         constraints:nil
        performBlock:^BOOL(id element, __strong NSError **errorOrNil) {
          UIImage __block *snapshot = nil;
@@ -508,9 +514,10 @@ static Class gAccessibilityTextFieldElementClass;
   ];
   id<GREYMatcher> constraints = [[GREYAnyOf alloc] initWithMatchers:constraintMatchers];
   NSString *actionName = [NSString stringWithFormat:@"Replace with text: \"%@\"", text];
+  NSString *diagnosticsID = GREYCorePrefixedDiagnosticsID(@"replaceText");
   return [GREYActionBlock
       actionWithName:actionName
-       diagnosticsID:actionName
+       diagnosticsID:diagnosticsID
          constraints:constraints
         performBlock:^BOOL(id element, __strong NSError **errorOrNil) {
           if ([element grey_isWebAccessibilityElement]) {
@@ -592,9 +599,10 @@ static Class gAccessibilityTextFieldElementClass;
   id<GREYMatcher> systemAlertShownMatcher = [GREYMatchers matcherForSystemAlertViewShown];
   id<GREYMatcher> actionBlockMatcher = [GREYMatchers matcherForNegation:systemAlertShownMatcher];
   NSString *actionName = [NSString stringWithFormat:@"Type '%@'", text];
+  NSString *diagnosticsID = GREYCorePrefixedDiagnosticsID(@"typeText");
   return [GREYActionBlock
       actionWithName:actionName
-       diagnosticsID:actionName
+       diagnosticsID:diagnosticsID
          constraints:actionBlockMatcher
         performBlock:^BOOL(id element, __strong NSError **errorOrNil) {
           __block UIView *expectedFirstResponderView;

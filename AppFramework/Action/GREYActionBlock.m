@@ -68,7 +68,7 @@
                 performBlock:(GREYPerformBlock)block {
   self = [self initWithName:name constraints:constraints performBlock:block];
   if (self) {
-    _diagnosticsID = name;
+    _diagnosticsID = diagnosticsID;
   }
   return self;
 }

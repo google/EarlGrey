@@ -71,10 +71,6 @@
    *  The value by which the stepper should change.
    */
   double _value;
-  /**
-   *  Identifier used for diagnostics.
-   */
-  NSString *_diagnosticsID;
 }
 
 - (instancetype)initWithValue:(double)value {
@@ -88,7 +84,6 @@
   self = [super initWithName:name
                  constraints:[[GREYAllOf alloc] initWithMatchers:constraintMatchers]];
   if (self) {
-    _diagnosticsID = name;
     _value = value;
   }
   return self;
@@ -282,7 +277,7 @@
 #pragma mark - GREYDiagnosable
 
 - (NSString *)diagnosticsID {
-  return _diagnosticsID;
+  return GREYCorePrefixedDiagnosticsID(@"changeStepper");
 }
 
 @end

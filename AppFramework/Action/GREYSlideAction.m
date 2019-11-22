@@ -35,10 +35,6 @@
    *  The final value that the slider should be moved to.
    */
   float _finalValue;
-  /**
-   *  Identifier used for diagnostics.
-   */
-  NSString *_diagnosticsID;
 }
 
 - (instancetype)initWithSliderValue:(float)value {
@@ -52,7 +48,6 @@
   self = [super initWithName:name
                  constraints:[[GREYAllOf alloc] initWithMatchers:constraintMatchers]];
   if (self) {
-    _diagnosticsID = name;
     _finalValue = value;
   }
   return self;
@@ -198,7 +193,7 @@
 #pragma mark - GREYDiagnosable
 
 - (NSString *)diagnosticsID {
-  return _diagnosticsID;
+  return GREYCorePrefixedDiagnosticsID(@"slide");
 }
 
 @end

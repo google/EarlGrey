@@ -46,10 +46,6 @@
    *  Number of parallel swipes.
    */
   NSUInteger _numberOfFingers;
-  /**
-   *  Identifier used for diagnostics.
-   */
-  NSString *_diagnosticsID;
 }
 
 - (instancetype)initWithDirection:(GREYDirection)direction
@@ -86,7 +82,6 @@
   self = [super initWithName:name
                  constraints:[[GREYAllOf alloc] initWithMatchers:constraintMatchers]];
   if (self) {
-    _diagnosticsID = name;
     _direction = direction;
     _duration = duration;
     _numberOfFingers = numberOfFingers;
@@ -164,7 +159,7 @@
 #pragma mark - GREYDiagnosable
 
 - (NSString *)diagnosticsID {
-  return _diagnosticsID;
+  return GREYCorePrefixedDiagnosticsID(@"multiFingerSwipe");
 }
 
 @end

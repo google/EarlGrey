@@ -49,10 +49,6 @@ static CGFloat const kPinchScale = (CGFloat)0.8;
    *  The angle in which in the pinch direction in pointing.
    */
   double _pinchAngle;
-  /**
-   *  Identifier used for diagnostics.
-   */
-  NSString *_diagnosticsID;
 }
 
 - (instancetype)initWithDirection:(GREYPinchDirection)pinchDirection
@@ -71,7 +67,6 @@ static CGFloat const kPinchScale = (CGFloat)0.8;
   self = [super initWithName:name
                  constraints:[[GREYAllOf alloc] initWithMatchers:constraintMatchers]];
   if (self) {
-    _diagnosticsID = name;
     _pinchDirection = pinchDirection;
     _duration = duration;
     _pinchAngle = pinchAngle;
@@ -221,7 +216,7 @@ static CGFloat const kPinchScale = (CGFloat)0.8;
 #pragma mark - GREYDiagnosable
 
 - (NSString *)diagnosticsID {
-  return _diagnosticsID;
+  return GREYCorePrefixedDiagnosticsID(@"pinch");
 }
 
 @end

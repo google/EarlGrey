@@ -39,10 +39,6 @@
    *  the scroll start point will be set to achieve maximum scroll.
    */
   CGPoint _startPointPercents;
-  /**
-   *  Identifier used for diagnostics.
-   */
-  NSString *_diagnosticsID;
 }
 
 - (instancetype)initWithEdge:(GREYContentEdge)edge startPointPercents:(CGPoint)startPointPercents {
@@ -71,7 +67,6 @@
   self = [super initWithName:name
                  constraints:[[GREYAllOf alloc] initWithMatchers:constraintMatchers]];
   if (self) {
-    _diagnosticsID = name;
     _edge = edge;
     _startPointPercents = startPointPercents;
   }
@@ -130,7 +125,7 @@
 #pragma mark - GREYDiagnosable
 
 - (NSString *)diagnosticsID {
-  return _diagnosticsID;
+  return GREYCorePrefixedDiagnosticsID(@"scrollToContentEdge");
 }
 
 @end
