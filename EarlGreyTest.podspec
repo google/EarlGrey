@@ -32,7 +32,7 @@ Pod::Spec.new do |s|
                   "AppFramework/Core/GREYInteraction.h",
                   "AppFramework/Core/GREYInteractionDataSource.h",
                   "AppFramework/DistantObject/GREYHostBackgroundDistantObject+GREYApp.h",
-                  "AppFramework/IdlingResources/GREYIdlingResource.h"
+                  "AppFramework/IdlingResources/GREYIdlingResource.h",
                   "AppFramework/Matcher/GREYAllOf.h",
                   "AppFramework/Matcher/GREYAnyOf.h",
                   "AppFramework/Matcher/GREYMatchers.h",
