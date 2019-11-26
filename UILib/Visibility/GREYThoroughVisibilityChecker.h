@@ -20,12 +20,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/**
- *  The minimum number of points that must be visible on an UI element for EarlGrey to consider it
- *  as visible to the user.
- */
-GREY_EXTERN const NSUInteger kMinimumPointsVisibleForInteraction;
-
 #pragma mark - GREYVisibilityDiffBuffer
 
 /**

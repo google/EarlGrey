@@ -43,6 +43,22 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (CGFloat)percentVisibleAreaOfElement:(id)element performFallback:(BOOL *)performFallback;
 
+/**
+ *  Calculates the visible point where a user can tap to interact with.
+ *
+ *  @param element              The UI element whose visibility is to be checked.
+ *  @param[out] performFallback An out parameter indicating whether or not a fallback should occur
+ *                              because the quick visibility checker has low confidence in the
+ *                              accuracy of the calculation. Use GREYThoroughVisibilityChecker
+ *                              instead to calculate the visible percentage area. You MUST check for
+ *                              @c performFallback before using the return value.
+ *
+ *  @return A visible point where a user can tap to interact with specified @c element, or
+ *          @c GREYCGPointNull if there's no such point.
+ *  @remark The returned point is relative to @c element's bound.
+ */
++ (CGPoint)visibleInteractionPointForElement:(id)element performFallback:(BOOL *)performFallback;
+
 @end
 
 NS_ASSUME_NONNULL_END

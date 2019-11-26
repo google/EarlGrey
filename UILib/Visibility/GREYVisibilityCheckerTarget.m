@@ -20,10 +20,12 @@
 #import "UIView+GREYCommon.h"
 #import "CGGeometry+GREYUI.h"
 #import "GREYScreenshotter.h"
+#import "GREYVisibilityChecker.h"
 
 @implementation GREYVisibilityCheckerTarget {
   /**
-   *  Internal target element.
+   *  Internal target element. Target is an accessibility element that could be either a UIView or a
+   *  non-UIView instance.
    */
   id _target;
   /**
@@ -74,7 +76,7 @@
   } else if (!isView && containerView && ![containerView grey_isVisible]) {
     // Check if target's container is visible in case target is an AXE.
     return nil;
-  } else if (CGRectIsNull(targetRect)) {
+  } else if (CGRectIsEmpty(targetRect)) {
     // Check if target is visible on screen.
     return nil;
   } else if (CGRectGetWidth(bitVectorRect) < 1 || CGRectGetHeight(bitVectorRect) < 1) {
@@ -120,8 +122,6 @@
 
 - (GREYVisibilityCheckerTargetObscureResult)obscureResultByOverlappingElement:(id)element
                                                                  boundingRect:(CGRect)boundingRect {
-  // TODO(b/144581036): Remove assertion once we support interactable target.
-  NSAssert(!_interactability, @"Please do not set _interactability as it's not supported yet.");
   if (![self couldBeObscuredByElement:element]) {
     return GREYVisibilityCheckerTargetObscureResultNone;
   }
@@ -140,6 +140,55 @@
   return CGRectEqualToRect(intersection, _targetRect)
              ? GREYVisibilityCheckerTargetObscureResultFull
              : GREYVisibilityCheckerTargetObscureResultPartial;
+}
+
+/**
+ *  There are few points within the @c _target we want to check for interaction points.
+ *  (1) accessibilityActivationPoint
+ *  (2) Center points of each quadrant of @c _targetRect.
+ *  (3) Center point of the largest interactable rect. You want to check this last since it's most
+ *      expensive.
+ *  The points are checked in numerical order.
+ *
+ *  @return Point in @c _target that is interactable by the user. If none of the above points are
+ *          interactable, @c GREYCGPointNull is returned.
+ */
+- (CGPoint)interactionPoint {
+  // Check if the _target is at least @c kMinimumPointsVisibleForInteraction large.
+  size_t widthInPoints = (size_t)CGRectGetWidth(_targetRect);
+  size_t heightInPoints = (size_t)CGRectGetHeight(_targetRect);
+  if ((widthInPoints * heightInPoints) < kMinimumPointsVisibleForInteraction) {
+    return GREYCGPointNull;
+  }
+
+  [self calculateBitsForIntersectionsInParallel];
+
+  // Check for accessibilityActivationPoint.
+  CGPoint accessibilityActivationPoint = [_target accessibilityActivationPoint];
+  if ([self isInteractableAtPointInScreenCoordinate:accessibilityActivationPoint]) {
+    return [self localInteractionPointFromScreenCoordinate:accessibilityActivationPoint];
+  }
+
+  // Check for center points of each quadrants of targetRect, and return whichever is interactable.
+  for (NSValue *pointInValue in [self centersOfTargetRectQuadrants]) {
+    CGPoint interactionPoint = [pointInValue CGPointValue];
+    if ([self isInteractableAtPointInScreenCoordinate:interactionPoint]) {
+      return [self localInteractionPointFromScreenCoordinate:interactionPoint];
+    }
+  }
+
+  // If all previous interaction points are not interactable, look for the center of largest
+  // interactable area of the target. This should always return a valid interactable point unless
+  // the largestRect is less than the kMinimumPointsVisibleForInteraction.
+  CGRect largestRect = [self largestInteractableRect];
+  if (CGRectArea(largestRect) < kMinimumPointsVisibleForInteraction) {
+    return GREYCGPointNull;
+  }
+  CGPoint center = CGPointMake(CGRectGetMidX(largestRect), CGRectGetMidY(largestRect));
+  CGPoint centerInScreenCoordinate =
+      CGPointMake(center.x + CGRectGetMinX(_targetRect), center.y + CGRectGetMinY(_targetRect));
+  // We assume that centerInScreenCoordinate is already interactable.
+  return [self localInteractionPointFromScreenCoordinate:centerInScreenCoordinate];
 }
 
 #pragma mark - Private
@@ -245,6 +294,64 @@
 }
 
 /**
+ *  Provides an array of possible interaction points obtained from the centers of each quadrant of
+ *  @c _targetRect. This is not necessarily the same as the centers of each quadrant of @c _target's
+ *  bounds because, as noted above, @c _targetRect represents the frame that is visible on
+ *  screen. The following points are added to the array:
+ *
+ *  (1) center of the @c _targetRect's first quadrant.
+ *  (2) center of the @c _targetRect's second quadrant.
+ *  (3) center of the @c _targetRect's third quadrant.
+ *  (4) center of the @c _targetRect's forth quadrant.
+ *
+ *  @return An array of center points in each quadrant of the @c _targetRect in screen coordinate.
+ */
+- (NSArray<NSValue *> *)centersOfTargetRectQuadrants {
+  CGFloat minX = CGRectGetMinX(_targetRect);
+  CGFloat minY = CGRectGetMinY(_targetRect);
+  CGFloat maxX = CGRectGetMaxX(_targetRect);
+  CGFloat maxY = CGRectGetMaxY(_targetRect);
+  CGFloat numeratorConstant = 3.0f;
+  CGFloat denominatorConstant = 4.0f;
+  CGFloat xLeftQuadrant = (numeratorConstant * minX + maxX) / denominatorConstant;
+  CGFloat xRightQuardrant = (minX + numeratorConstant * maxX) / denominatorConstant;
+  CGFloat yTopQuardrant = (numeratorConstant * minY + maxY) / denominatorConstant;
+  CGFloat yBottomQuardrant = (minY + numeratorConstant * maxY) / denominatorConstant;
+  CGPoint centerOfFirstQuadrant = CGPointMake(xRightQuardrant, yTopQuardrant);
+  CGPoint centerOfSecondQuadrant = CGPointMake(xLeftQuadrant, yTopQuardrant);
+  CGPoint centerOfThirdQuadrant = CGPointMake(xLeftQuadrant, yBottomQuardrant);
+  CGPoint centerOfForthQuadrant = CGPointMake(xRightQuardrant, yBottomQuardrant);
+  NSArray<NSValue *> *possibleInteractionPoints = @[
+    [NSValue valueWithCGPoint:centerOfFirstQuadrant],
+    [NSValue valueWithCGPoint:centerOfSecondQuadrant],
+    [NSValue valueWithCGPoint:centerOfThirdQuadrant],
+    [NSValue valueWithCGPoint:centerOfForthQuadrant]
+  ];
+  return possibleInteractionPoints;
+}
+
+/**
+ *  Converts an interaction point in screen coordinate to local coordinate in @c _target's bounds.
+ *
+ *  @return CGPoint specifying the interaction point in @c _target's bounds.
+ */
+- (CGPoint)localInteractionPointFromScreenCoordinate:(CGPoint)pointInScreenCoordinate {
+  CGRect accessibilityFrame = [_target accessibilityFrame];
+  CGPoint localInteractionPoint;
+  if (_isView) {
+    UIView *view = (UIView *)_target;
+    pointInScreenCoordinate = [view.window convertPoint:pointInScreenCoordinate fromWindow:nil];
+    localInteractionPoint = [view convertPoint:pointInScreenCoordinate fromView:nil];
+  } else {
+    // target is not a view
+    localInteractionPoint =
+        CGPointMake(pointInScreenCoordinate.x - CGRectGetMinX(accessibilityFrame),
+                    pointInScreenCoordinate.y - CGRectGetMinY(accessibilityFrame));
+  }
+  return localInteractionPoint;
+}
+
+/**
  *  Intersects with the screen bounds and element's bounding area to cut off any portion of the
  *  element that is not visible on screen.
  *
@@ -252,6 +359,7 @@
  *  @param boundingRect Area that the view is confined to. Any portion of the view that is outside
  *                      this @c boundingRect would be cropped. It is represented in the same
  *                      coordinate space as @c element. Pass in @c CGRectNull if it doesn't exist.
+ *
  *  @return CGRect specifying the frame of the element that is visible on screen in screen
  *          coordinate. @c CGRectNull if it is not visible at all.
  */
@@ -300,6 +408,74 @@ static CGRect ConvertToScreenCoordinate(id element) {
   } else {
     return [element accessibilityFrame];
   }
+}
+
+/**
+ *  @return A BOOL indicating whether or not the @c pointInScreenCoordinate is interactable by the
+ *          user. @c pointInScreenCoordinate must be in screen coordinate system.
+ */
+- (BOOL)isInteractableAtPointInScreenCoordinate:(CGPoint)pointInScreenCoordinate {
+  // Check if this point lies in the screen bounds.
+  CGRect screenBounds = [UIScreen mainScreen].bounds;
+  if (!CGRectContainsPoint(screenBounds, pointInScreenCoordinate)) {
+    return NO;
+  }
+  // Convert the point in screen coordinate to the coordinate in _targetRect
+  CGPoint pointInTargetRectCoordinate =
+      CGPointMake(pointInScreenCoordinate.x - CGRectGetMinX(_targetRect),
+                  pointInScreenCoordinate.y - CGRectGetMinY(_targetRect));
+
+  // Out of range
+  if (pointInTargetRectCoordinate.x < 0 ||
+      pointInTargetRectCoordinate.x >= CGRectGetWidth(_targetRect)) {
+    return NO;
+  }
+  if (pointInTargetRectCoordinate.y < 0 ||
+      pointInTargetRectCoordinate.y >= CGRectGetHeight(_targetRect)) {
+    return NO;
+  }
+
+  // Convert point to bitvector index
+  CGPoint pixelCoordinate = CGPointToPixel(pointInTargetRectCoordinate);
+
+  NSUInteger index =
+      (NSUInteger)(pixelCoordinate.y * CGRectGetWidth(_bitVectorRect) + pixelCoordinate.x);
+  return (BOOL)!CFBitVectorGetBitAtIndex(_bitVector, (CFIndex)index);
+}
+
+/**
+ *  @return The largest interactable area of @c _target in points.
+ */
+- (CGRect)largestInteractableRect {
+  NSInteger width = (NSInteger)CGRectGetWidth(_bitVectorRect);
+  NSInteger height = (NSInteger)CGRectGetHeight(_bitVectorRect);
+  uint16_t *histograms = calloc((size_t)(width * height), sizeof(uint16_t));
+
+  for (NSInteger y = 0; y < height; y++) {
+    for (NSInteger x = 0; x < width; x++) {
+      NSInteger currentPixelIndex = y * width + x;
+      BOOL pixelIsVisible = !CFBitVectorGetBitAtIndex(_bitVector, (CFIndex)currentPixelIndex);
+      // We don't care about the first byte because we are dealing with XRGB format.
+      if (y == 0) {
+        histograms[x] = pixelIsVisible ? 1 : 0;
+      } else {
+        histograms[y * width + x] = pixelIsVisible ? (histograms[(y - 1) * width + x] + 1) : 0;
+      }
+    }
+  }
+
+  CGRect largestRect = CGRectZero;
+  for (NSInteger idx = 0; idx < height; idx++) {
+    CGRect thisLargest = CGRectLargestRectInHistogram(&histograms[idx * width], (uint16_t)width);
+    if (CGRectArea(thisLargest) > CGRectArea(largestRect)) {
+      // Because our histograms point up, not down.
+      thisLargest.origin.y = idx - thisLargest.size.height + 1;
+      largestRect = thisLargest;
+    }
+  }
+
+  free(histograms);
+  return CGRectPixelToPoint(largestRect);
 }
 
 - (void)dealloc {

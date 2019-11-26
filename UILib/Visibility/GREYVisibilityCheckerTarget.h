@@ -96,6 +96,11 @@ typedef NS_ENUM(NSInteger, GREYVisibilityCheckerTargetObscureResult) {
  */
 - (CGFloat)percentageVisible;
 
+/**
+ *  @return The point in element that is interactable where a user can tap to interact with.
+ */
+- (CGPoint)interactionPoint;
+
 @end
 
 NS_ASSUME_NONNULL_END

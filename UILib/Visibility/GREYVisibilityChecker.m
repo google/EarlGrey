@@ -32,6 +32,12 @@
 static CFTimeInterval gVisibilityDuration = 0;
 
 /**
+ *  The minimum number of points that must be visible along with the activation point to consider an
+ *  element visible. It is non-static to make it visible in tests.
+ */
+const NSUInteger kMinimumPointsVisibleForInteraction = 10;
+
+/**
  *  Cache for storing recent visibility checks. This cache is invalidated on every runloop spin.
  */
 static NSMapTable<NSString *, GREYVisibilityCheckerCacheEntry *> *gCache;

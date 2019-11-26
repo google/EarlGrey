@@ -30,12 +30,6 @@
 static const NSUInteger kColorChannelsPerPixel = 4;
 
 /**
- *  The minimum number of points that must be visible along with the activation point to consider an
- *  element visible. It is non-static to make it visible in tests.
- */
-const NSUInteger kMinimumPointsVisibleForInteraction = 10;
-
-/**
  *  Last known original image used by the visibility checker is saved in this global for debugging
  *  purposes.
  */

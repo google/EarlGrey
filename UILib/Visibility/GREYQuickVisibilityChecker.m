@@ -19,6 +19,7 @@
 #import <UIKit/UIKit.h>
 
 #import "NSObject+GREYCommon.h"
+#import "CGGeometry+GREYUI.h"
 #import "GREYUIWindowProvider.h"
 #import "GREYTraversalDFS.h"
 #import "GREYVisibilityCheckerTarget.h"
@@ -32,6 +33,11 @@
 + (CGFloat)percentVisibleAreaOfElement:(id)element performFallback:(BOOL *)performFallback {
   GREYVisibilityCheckerTarget *target = ResultingTarget(element, performFallback, NO);
   return *performFallback ? nanf(NULL) : [target percentageVisible];
+}
+
++ (CGPoint)visibleInteractionPointForElement:(id)element performFallback:(BOOL *)performFallback {
+  GREYVisibilityCheckerTarget *target = ResultingTarget(element, performFallback, YES);
+  return target ? [target interactionPoint] : GREYCGPointNull;
 }
 
 #pragma mark - Private
@@ -131,7 +137,7 @@ static GREYVisibilityCheckerTarget *ResultingTarget(id element, BOOL *performFal
     [traversal enumerateUsingBlock:^(id traversingElement, NSUInteger level,
                                      GREYTraversalViewProperties *properties,
                                      BOOL *stopElementTraversal) {
-      CGRect boundingRect = properties.boundingRect;
+      CGRect boundingRect = properties ? properties.boundingRect : CGRectNull;
       // If the target is seen and the current level is smaller or equal to target's level, this
       // implies that target's children have been traversed already.
       if (target && level <= targetLevel) {
