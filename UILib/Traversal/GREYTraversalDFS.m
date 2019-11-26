@@ -79,7 +79,7 @@
 }
 
 - (void)enumerateUsingBlock:(void (^)(id element, NSUInteger level,
-                                      GREYTraversalProperties *properties, BOOL *stop))block {
+                                      GREYTraversalViewProperties *properties, BOOL *stop))block {
   GREYThrowOnNilParameter(block);
 
   // Loop till we have explored each element in the hierarchy.

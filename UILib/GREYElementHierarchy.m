@@ -76,7 +76,7 @@
 
   // Enumerate the hierarchy using block enumeration.
   [traversal enumerateUsingBlock:^(id _Nonnull element, NSUInteger level,
-                                   GREYTraversalProperties *properties, BOOL *stop) {
+                                   GREYTraversalViewProperties *properties, BOOL *stop) {
     // Obtain hierarchy Info.
     if ([outputString length] != 0) {
       [outputString appendString:@"\n"];

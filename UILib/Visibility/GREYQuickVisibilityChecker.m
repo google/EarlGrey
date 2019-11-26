@@ -135,9 +135,9 @@ static GREYVisibilityCheckerTarget *ResultingTarget(id element, BOOL *performFal
     __block BOOL isTargetChild = YES;
     // Traverse the hierarchy until the target element is found.
     [traversal enumerateUsingBlock:^(id traversingElement, NSUInteger level,
-                                     GREYTraversalProperties *properties,
+                                     GREYTraversalViewProperties *properties,
                                      BOOL *stopElementTraversal) {
-      CGRect boundingRect = properties.boundingRect;
+      CGRect boundingRect = properties ? properties.boundingRect : CGRectNull;
       // If the target is seen and the current level is smaller or equal to target's level, this
       // implies that target's children have been traversed already.
       if (target && level <= targetLevel) {

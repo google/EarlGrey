@@ -14,9 +14,9 @@
 // limitations under the License.
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
-#import "GREYTraversalProperties.h"
+#import "GREYTraversalViewProperties.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -42,29 +42,28 @@ NSArray<id> *GREYTraversalExploreImmediateChildren(id element, BOOL sortByZPosit
  *
  *  @return View properties that the @c element mimics. @c nil if @c element is a non-UIView.
  */
-GREYTraversalProperties *GREYTraversalPropertiesForElement(id element);
+GREYTraversalViewProperties *GREYTraversalPropertiesForElement(id element);
 
 /**
  *  Pass down the values of the parent's UIView properties to its child to help determining the
- *  behavior of each element.
+ *  behavior of each view.
  *
  *  UIView property values are not inherited to its children in the view hierarchy, although they
  *  mimic the behavior of their parent views. So it's not possible to determine how a view
  *  might behave just alone with its own property values. You would have to investigate all of its
- *  ancestors to do so. For instance, a view is not visible by the user if any of its ancestors
- *  are either hidden or has an alpha equal to zero, regardless of what its own properties are set
+ *  ancestors to do so. For instance, a view is not interactable by the user if any of its ancestors
+ *  are either hidden or user interaction disabled, regardless of what its own properties are set
  *  to. To keep track of these absolute properties of each views, the values are inherited to its
  *  children appropriately during the traversal.
  *
  *  @param parentProperties Properties that are being passed down.
- *  @param parentView       UI element whose properties are being passed down. This should always be
- *                          a UIView.
- *  @param childElement     UI element to pass down the properties to. This can be either a UIView
- *                          or an accessibility element.
+ *  @param parentElement UI element whose properties are being passed down.
+ *  @param childElement UI element to pass down the properties to.
  *
- *  @return Child's traversal properties that are inherited by @c parentObject's properties.
+ *  @return Child's traversal properties that are inherited by @c parentObject's properties. @c nil
+ *          if either @c childElement or @c parentElement is not a UIView.
  */
-GREYTraversalProperties *GREYTraversalPassDownProperties(GREYTraversalProperties *parentProperties,
-                                                         UIView *parentView, id childElement);
+GREYTraversalViewProperties *GREYTraversalPassDownProperties(
+    GREYTraversalViewProperties *parentProperties, id parentElement, id childElement);
 
 NS_ASSUME_NONNULL_END
