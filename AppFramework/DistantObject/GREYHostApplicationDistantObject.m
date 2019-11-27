@@ -67,9 +67,9 @@ static void InitiateCommunicationWithTest() {
     GREYTestApplicationDistantObject *testApplicationDistantObject =
         GREYTestApplicationDistantObject.sharedInstance;
     testApplicationDistantObject.hostPort =
-        GREYHostApplicationDistantObject.sharedInstance.service.port.port;
+        GREYHostApplicationDistantObject.sharedInstance.servicePort;
     testApplicationDistantObject.hostBackgroundPort =
-        [GREYHostBackgroundDistantObject.sharedInstance servicePort];
+        GREYHostBackgroundDistantObject.sharedInstance.servicePort;
   });
 }
 
