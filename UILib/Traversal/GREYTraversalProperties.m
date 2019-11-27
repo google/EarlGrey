@@ -14,19 +14,17 @@
 // limitations under the License.
 //
 
-#import "GREYTraversalViewProperties.h"
+#import "GREYTraversalProperties.h"
 
-@implementation GREYTraversalViewProperties
+@implementation GREYTraversalProperties
 
 - (instancetype)initWithBoundingRect:(CGRect)boundingRect
                               hidden:(BOOL)hidden
-              userInteractionEnabled:(BOOL)userInteractionEnabled
                          lowestAlpha:(CGFloat)lowestAlpha {
   self = [super init];
   if (self) {
     _boundingRect = boundingRect;
     _hidden = hidden;
-    _userInteractionEnabled = userInteractionEnabled;
     _lowestAlpha = lowestAlpha;
   }
   return self;

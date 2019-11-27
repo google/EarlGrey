@@ -20,9 +20,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  Class that holds useful information about the view in the hierarchy traversal.
+ *  Class that holds useful information about the UI element in the hierarchy traversal.
  */
-@interface GREYTraversalViewProperties : NSObject
+@interface GREYTraversalProperties : NSObject
 
 /**
  *  A @c CGRect representing the boundary in which the current element clips to. @c CGRectNull
@@ -39,18 +39,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, readonly) BOOL hidden;
 
 /**
- *  A @c BOOL specifying whether the traversing element is enabled for user interaction or not
- *  (either by itself or its ancestors' property). This is different from the UIView's @c
- *  userInteractionEnabled property as UIView's property does not propagate down through the
- *  hierarchy. This property is inherited to the children by performing an AND operation with its
- *  children's property.
- */
-@property(nonatomic, readonly) BOOL userInteractionEnabled;
-
-/**
- *  A @c CGFloat indicating the alpha value of the traversing element. This is different from the
- *  UIView's @c alpha property as UIView's property does not propagate through the hierarchy. This
- *  property is inherited to the children by performing an MIN operation with its children's alpha.
+ *  A @c CGFloat indicating the lowest alpha value in the hierarchy above the traversing element.
+ *  This is different from the UIView's @c alpha property as UIView's property does not propagate
+ *  through the hierarchy. This property is inherited to the children by performing an MIN operation
+ *  with its children's alpha.
  */
 @property(nonatomic, readonly) CGFloat lowestAlpha;
 
@@ -64,7 +56,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithBoundingRect:(CGRect)boundingRect
                               hidden:(BOOL)hidden
-              userInteractionEnabled:(BOOL)userInteractionEnabled
                          lowestAlpha:(CGFloat)lowestAlpha NS_DESIGNATED_INITIALIZER;
 
 @end

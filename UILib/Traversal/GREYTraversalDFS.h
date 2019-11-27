@@ -16,7 +16,7 @@
 
 #import <UIKit/UIKit.h>
 
-#import "GREYTraversalViewProperties.h"
+#import "GREYTraversalProperties.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -61,8 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param block A completion block that will be invoked on each element.
  */
 - (void)enumerateUsingBlock:(void (^)(id element, NSUInteger level,
-                                      GREYTraversalViewProperties *_Nullable properties,
-                                      BOOL *stop))block;
+                                      GREYTraversalProperties *properties, BOOL *stop))block;
 
 @end
 

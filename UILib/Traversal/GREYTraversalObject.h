@@ -16,7 +16,7 @@
 
 #import <UIKit/UIKit.h>
 
-#import "GREYTraversalViewProperties.h"
+#import "GREYTraversalProperties.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -38,10 +38,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic) NSUInteger level;
 
 /**
- *  Class that carries useful information about the traversing view. @c nil if
- *  the @c element is a non-UIView.
+ *  Class that carries useful information about the traversing UI element.
  */
-@property(nonatomic, strong, nullable) GREYTraversalViewProperties *properties;
+@property(nonatomic, strong) GREYTraversalProperties *properties;
 
 @end
 
