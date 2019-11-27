@@ -56,8 +56,8 @@ static NSMutableCharacterSet *gAlphabeticKeyplaneCharacters;
 static NSDictionary *gModifierKeyIdentifierMapping;
 
 /**
- *  A retry time interval in which we re-tap the shift key to ensure
- *  the alphabetic keyplane changed.
+ *  A retry time interval in which we re-tap the shift key to ensure the alphabetic keyplane
+ *  changed.
  */
 static const NSTimeInterval kMaxShiftKeyToggleDuration = 3.0;
 
@@ -88,6 +88,68 @@ static NSString *const kReturnKeyIdentifier = @"\n";
  */
 typedef BOOL (^ConditionBlock)(void);
 
+/** Register notification for keyboard display lifecycle events. */
+__attribute__((constructor)) static void RegisterKeyboardLifecycleHooks() {
+  NSObject *keyboardObject = [[NSObject alloc] init];
+  static void *objectKey = &objectKey;
+  NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
+  // Hook for keyboard will show event.
+  [defaultCenter addObserverForName:UIKeyboardWillShowNotification
+                             object:nil
+                              queue:nil
+                         usingBlock:^(NSNotification *note) {
+                           GREYAppStateTrackerObject *object = TRACK_STATE_FOR_OBJECT(
+                               kGREYPendingKeyboardTransition, keyboardObject);
+                           objc_setAssociatedObject(keyboardObject, objectKey, object,
+                                                    OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+                         }];
+  // Hook for keyboard did show event.
+  [defaultCenter addObserverForName:UIKeyboardDidShowNotification
+                             object:nil
+                              queue:nil
+                         usingBlock:^(NSNotification *note) {
+                           GREYAppStateTrackerObject *object =
+                               objc_getAssociatedObject(keyboardObject, objectKey);
+                           UNTRACK_STATE_FOR_OBJECT(kGREYPendingKeyboardTransition, object);
+                           // There may be a zero size inputAccessoryView to track keyboard data.
+                           // This causes UIKeyboardDidShowNotification event to fire even though no
+                           // keyboard is visible. So instead of relying on keyboard show/hide event
+                           // to detect the keyboard visibility, it is necessary to double check on
+                           // the actual frame to determine the true visibility.
+                           NSValue *rectValue = note.userInfo[UIKeyboardFrameEndUserInfoKey];
+                           CGRect keyboardFrame = rectValue.CGRectValue;
+                           UIApplication *sharedApp = UIApplication.sharedApplication;
+                           UIWindow *window = GREYGetApplicationKeyWindow(sharedApp);
+                           keyboardFrame = [window convertRect:keyboardFrame fromWindow:nil];
+                           CGRect windowFrame = window.frame;
+                           CGRect frameIntersection =
+                               CGRectIntersection(windowFrame, keyboardFrame);
+                           bool keyboardVisible = frameIntersection.size.width > 1 &&
+                                                  frameIntersection.size.height > 1;
+                           atomic_store(&gIsKeyboardShown, keyboardVisible);
+                         }];
+  // Hook for keyboard will hide event.
+  [defaultCenter addObserverForName:UIKeyboardWillHideNotification
+                             object:nil
+                              queue:nil
+                         usingBlock:^(NSNotification *note) {
+                           atomic_store(&gIsKeyboardShown, false);
+                           GREYAppStateTrackerObject *object = TRACK_STATE_FOR_OBJECT(
+                               kGREYPendingKeyboardTransition, keyboardObject);
+                           objc_setAssociatedObject(keyboardObject, objectKey, object,
+                                                    OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+                         }];
+  // Hook for keyboard did hide event.
+  [defaultCenter addObserverForName:UIKeyboardDidHideNotification
+                             object:nil
+                              queue:nil
+                         usingBlock:^(NSNotification *note) {
+                           GREYAppStateTrackerObject *object =
+                               objc_getAssociatedObject(keyboardObject, objectKey);
+                           UNTRACK_STATE_FOR_OBJECT(kGREYPendingKeyboardTransition, object);
+                         }];
+}
+
 @implementation GREYKeyboard : NSObject
 
 /**
@@ -95,64 +157,6 @@ typedef BOOL (^ConditionBlock)(void);
  */
 + (NSArray *)shiftKeyIdentifyingCharacters {
   return @[ @"shift", @"Shift", @"SHIFT" ];
-}
-
-+ (void)load {
-  NSObject *keyboardObject = [[NSObject alloc] init];
-  // Hooks to keyboard lifecycle notification.
-  NSNotificationCenter *defaultNotificationCenter = [NSNotificationCenter defaultCenter];
-  [defaultNotificationCenter
-      addObserverForName:UIKeyboardWillShowNotification
-                  object:nil
-                   queue:nil
-              usingBlock:^(NSNotification *note) {
-                GREYAppStateTrackerObject *object =
-                    TRACK_STATE_FOR_OBJECT(kGREYPendingKeyboardTransition, keyboardObject);
-                objc_setAssociatedObject(keyboardObject, @selector(grey_keyboardObject), object,
-                                         OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-              }];
-  [defaultNotificationCenter
-      addObserverForName:UIKeyboardDidShowNotification
-                  object:nil
-                   queue:nil
-              usingBlock:^(NSNotification *note) {
-                GREYAppStateTrackerObject *object =
-                    objc_getAssociatedObject(keyboardObject, @selector(grey_keyboardObject));
-                UNTRACK_STATE_FOR_OBJECT(kGREYPendingKeyboardTransition, object);
-                // There may be a zero size inputAccessoryView to track keyboard data.
-                // This causes UIKeyboardDidShowNotification event to fire even though no keyboard
-                // is visible. So instead of relying on keyboard show/hide event to detect the
-                // keyboard visibility, it is necessary to double check on the actual frame to
-                // determine the true visibility.
-                CGRect keyboardFrame = [note.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
-                UIWindow *window = GREYGetApplicationKeyWindow([UIApplication sharedApplication]);
-                keyboardFrame = [window convertRect:keyboardFrame fromWindow:nil];
-                CGRect windowFrame = window.frame;
-                CGRect frameIntersection = CGRectIntersection(windowFrame, keyboardFrame);
-                bool keyboardVisible =
-                    frameIntersection.size.width > 1 && frameIntersection.size.height > 1;
-                atomic_store(&gIsKeyboardShown, keyboardVisible);
-              }];
-  [defaultNotificationCenter
-      addObserverForName:UIKeyboardWillHideNotification
-                  object:nil
-                   queue:nil
-              usingBlock:^(NSNotification *note) {
-                atomic_store(&gIsKeyboardShown, false);
-                GREYAppStateTrackerObject *object =
-                    TRACK_STATE_FOR_OBJECT(kGREYPendingKeyboardTransition, keyboardObject);
-                objc_setAssociatedObject(keyboardObject, @selector(grey_keyboardObject), object,
-                                         OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-              }];
-  [defaultNotificationCenter
-      addObserverForName:UIKeyboardDidHideNotification
-                  object:nil
-                   queue:nil
-              usingBlock:^(NSNotification *note) {
-                GREYAppStateTrackerObject *object =
-                    objc_getAssociatedObject(keyboardObject, @selector(grey_keyboardObject));
-                UNTRACK_STATE_FOR_OBJECT(kGREYPendingKeyboardTransition, object);
-              }];
 }
 
 + (void)initialize {
@@ -173,17 +177,16 @@ typedef BOOL (^ConditionBlock)(void);
 + (BOOL)typeString:(NSString *)string
     inFirstResponder:(id)firstResponder
                error:(__strong NSError **)errorOrNil {
-  if ([string length] < 1) {
+  if (string.length == 0) {
     I_GREYPopulateError(errorOrNil, kGREYInteractionErrorDomain,
                         kGREYInteractionActionFailedErrorCode,
-                        @"Failed to type, because the string provided was empty.");
+                        @"Failed to type because the provided string was empty.");
 
     return NO;
   } else if (!atomic_load(&gIsKeyboardShown)) {
-    NSString *description = [NSString stringWithFormat:@"Failed to type string '%@', because "
-                                                       @"keyboard was not shown on screen.",
+    NSString *description = [NSString stringWithFormat:@"Failed to type '%@' because keyboard was "
+                                                       @"not shown on screen.",
                                                        string];
-
     I_GREYPopulateError(errorOrNil, kGREYInteractionErrorDomain,
                         kGREYInteractionActionFailedErrorCode, description);
 
@@ -195,7 +198,7 @@ typedef BOOL (^ConditionBlock)(void);
     NSString *characterAsString = [NSString stringWithFormat:@"%C", [string characterAtIndex:i]];
     NSLog(@"Attempting to type key %@.", characterAsString);
 
-    id key = [GREYKeyboard grey_waitAndfindKeyForCharacter:characterAsString];
+    id key = [GREYKeyboard waitAndfindKeyForCharacter:characterAsString];
     // If key is not on the screen, try looking for it on another keyplane.
     if (!key) {
       unichar currentCharacter = [characterAsString characterAtIndex:0];
@@ -203,65 +206,62 @@ typedef BOOL (^ConditionBlock)(void);
         GREYLogVerbose(@"Detected an alphabetic key.");
         // Switch to alphabetic keyplane if we are on numbers/symbols keyplane.
         NSString *moreSymbolsKeyAxIdentifier = @"more";
-        if (![GREYKeyboard grey_isAlphabeticKeyplaneShown]) {
-          id moreLettersKey =
-              [GREYKeyboard grey_waitAndfindKeyForCharacter:moreSymbolsKeyAxIdentifier];
+        if (![GREYKeyboard isAlphabeticKeyplaneShown]) {
+          id moreLettersKey = [GREYKeyboard waitAndfindKeyForCharacter:moreSymbolsKeyAxIdentifier];
           if (!moreLettersKey) {
-            return [GREYKeyboard grey_setErrorForkeyNotFoundWithCharacter:moreSymbolsKeyAxIdentifier
-                                                          forTypingString:string
-                                                                    error:errorOrNil];
+            return [GREYKeyboard setErrorForkeyNotFoundWithCharacter:moreSymbolsKeyAxIdentifier
+                                                     forTypingString:string
+                                                               error:errorOrNil];
           }
-          [GREYKeyboard grey_tapKey:moreLettersKey error:errorOrNil];
-          key = [GREYKeyboard grey_waitAndfindKeyForCharacter:characterAsString];
+          [GREYKeyboard tapKey:moreLettersKey error:errorOrNil];
+          key = [GREYKeyboard waitAndfindKeyForCharacter:characterAsString];
         }
         // If key is not on the current keyplane, use shift to switch to the other one.
         if (!key) {
-          key = [GREYKeyboard grey_toggleShiftAndFindKeyWithCharacter:characterAsString
-                                                            withError:errorOrNil];
+          key = [GREYKeyboard toggleShiftAndFindKeyWithCharacter:characterAsString
+                                                           error:errorOrNil];
         }
       } else {
         GREYLogVerbose(@"Detected a non-alphabetic key.");
         // Switch to numbers/symbols keyplane if we are on alphabetic keyplane.
-        if ([GREYKeyboard grey_isAlphabeticKeyplaneShown]) {
+        if ([GREYKeyboard isAlphabeticKeyplaneShown]) {
           NSString *moreNumberKeyAxIdentifier = @"more";
-          id moreNumbersKey =
-              [GREYKeyboard grey_waitAndfindKeyForCharacter:moreNumberKeyAxIdentifier];
+          id moreNumbersKey = [GREYKeyboard waitAndfindKeyForCharacter:moreNumberKeyAxIdentifier];
           if (!moreNumbersKey) {
-            return [GREYKeyboard grey_setErrorForkeyNotFoundWithCharacter:moreNumberKeyAxIdentifier
-                                                          forTypingString:string
-                                                                    error:errorOrNil];
+            return [GREYKeyboard setErrorForkeyNotFoundWithCharacter:moreNumberKeyAxIdentifier
+                                                     forTypingString:string
+                                                               error:errorOrNil];
           }
-          [GREYKeyboard grey_tapKey:moreNumbersKey error:errorOrNil];
-          key = [GREYKeyboard grey_waitAndfindKeyForCharacter:characterAsString];
+          [GREYKeyboard tapKey:moreNumbersKey error:errorOrNil];
+          key = [GREYKeyboard waitAndfindKeyForCharacter:characterAsString];
         }
         // If key is not on the current keyplane, use shift to switch to the other one.
         if (!key) {
-          if (![GREYKeyboard grey_toggleShiftKeyWithError:errorOrNil]) {
+          if (![GREYKeyboard toggleShiftKeyWithError:errorOrNil]) {
             success = NO;
             break;
           }
-          key = [GREYKeyboard grey_waitAndfindKeyForCharacter:characterAsString];
+          key = [GREYKeyboard waitAndfindKeyForCharacter:characterAsString];
         }
         // If key is not on either number or symbols keyplane, it could be on alphabetic keyplane.
         // This is the case for @ _ - on UIKeyboardTypeEmailAddress on iPad.
         NSString *moreNumbersKeyAxIdentifier = @"more";
         if (!key) {
-          id moreLettersKey =
-              [GREYKeyboard grey_waitAndfindKeyForCharacter:moreNumbersKeyAxIdentifier];
+          id moreLettersKey = [GREYKeyboard waitAndfindKeyForCharacter:moreNumbersKeyAxIdentifier];
           if (!moreLettersKey) {
-            return [GREYKeyboard grey_setErrorForkeyNotFoundWithCharacter:moreNumbersKeyAxIdentifier
-                                                          forTypingString:string
-                                                                    error:errorOrNil];
+            return [GREYKeyboard setErrorForkeyNotFoundWithCharacter:moreNumbersKeyAxIdentifier
+                                                     forTypingString:string
+                                                               error:errorOrNil];
           }
-          [GREYKeyboard grey_tapKey:moreLettersKey error:errorOrNil];
-          key = [GREYKeyboard grey_waitAndfindKeyForCharacter:characterAsString];
+          [GREYKeyboard tapKey:moreLettersKey error:errorOrNil];
+          key = [GREYKeyboard waitAndfindKeyForCharacter:characterAsString];
         }
       }
       // If key is still not shown on screen, show error message.
       if (!key) {
-        return [GREYKeyboard grey_setErrorForkeyNotFoundWithCharacter:characterAsString
-                                                      forTypingString:string
-                                                                error:errorOrNil];
+        return [GREYKeyboard setErrorForkeyNotFoundWithCharacter:characterAsString
+                                                 forTypingString:string
+                                                           error:errorOrNil];
       }
     }
     // A period key for an email UITextField on iOS9 and above types the email domain (.com, .org)
@@ -280,7 +280,7 @@ typedef BOOL (^ConditionBlock)(void);
     }
 
     // Keyboard was found; this action should always succeed.
-    [GREYKeyboard grey_tapKey:key error:errorOrNil];
+    [GREYKeyboard tapKey:key error:errorOrNil];
 
     // When space, delete or uppercase letter is typed, the keyboard will automatically change to
     // lower alphabet keyplane.
@@ -290,7 +290,7 @@ typedef BOOL (^ConditionBlock)(void);
     if ([characterAsString isEqualToString:kSpaceKeyIdentifier] ||
         [characterAsString isEqualToString:kDeleteKeyIdentifier] ||
         [[NSCharacterSet uppercaseLetterCharacterSet] characterIsMember:character]) {
-      [GREYKeyboard grey_waitAndfindKeyForCharacter:@"q"];
+      [GREYKeyboard waitAndfindKeyForCharacter:@"q"];
     }
 
     if (keyboardTypeWasChangedFromEmailType) {
@@ -306,22 +306,21 @@ typedef BOOL (^ConditionBlock)(void);
   if (atomic_load(&gIsKeyboardShown)) {
     return YES;
   }
-  return [GREYKeyboard
-      grey_waitUntilCondition:^BOOL {
-        return (!atomic_load(&gIsKeyboardShown));
-      }
-       isSatisfiedWithTimeout:kKeyboardWillAppearOrDisappearTimeout];
+  return [GREYKeyboard waitUntilTimeout:kKeyboardWillAppearOrDisappearTimeout
+                        forConditionMet:^BOOL {
+                          return (!atomic_load(&gIsKeyboardShown));
+                        }];
 }
 
 + (BOOL)keyboardShownWithError:(NSError **)error {
   __block NSError *synchError = nil;
   __block BOOL keyboardShown = NO;
-  BOOL success = [[GREYUIThreadExecutor sharedInstance]
-      executeSyncWithTimeout:10
-                       block:^{
-                         keyboardShown = atomic_load(&gIsKeyboardShown);
-                       }
-                       error:&synchError];
+  GREYUIThreadExecutor *sharedExecutor = [GREYUIThreadExecutor sharedInstance];
+  BOOL success = [sharedExecutor executeSyncWithTimeout:10
+                                                  block:^{
+                                                    keyboardShown = atomic_load(&gIsKeyboardShown);
+                                                  }
+                                                  error:&synchError];
   if (!success) {
     *error = synchError;
     return NO;
@@ -332,26 +331,26 @@ typedef BOOL (^ConditionBlock)(void);
 
 + (BOOL)dismissKeyboardWithoutReturnKeyWithError:(NSError **)error {
   __block GREYError *executionError = nil;
-  [[GREYUIThreadExecutor sharedInstance]
-      executeSyncWithTimeout:5
-                       block:^{
-                         // Even though this is checked previously in the caller on the test side,
-                         // check this again as the UI might have updated while the eDO call was
-                         // being made.
-                         if (!atomic_load(&gIsKeyboardShown)) {
-                           executionError = GREYErrorMakeWithHierarchy(
-                               kGREYKeyboardDismissalErrorDomain,
-                               GREYKeyboardDismissalFailedErrorCode,
-                               @"Failed to dismiss keyboard since it was not showing.");
-                         } else {
-                           [[UIApplication sharedApplication]
-                               sendAction:@selector(resignFirstResponder)
-                                       to:nil
-                                     from:nil
-                                 forEvent:nil];
-                         }
-                       }
-                       error:&executionError];
+  GREYUIThreadExecutor *sharedExecutor = [GREYUIThreadExecutor sharedInstance];
+  [sharedExecutor executeSyncWithTimeout:5
+                                   block:^{
+                                     // Even though this is checked previously in the caller
+                                     // on the test side, check this again as the UI might
+                                     // have updated while the eDO call was being made.
+                                     if (!atomic_load(&gIsKeyboardShown)) {
+                                       executionError = GREYErrorMakeWithHierarchy(
+                                           kGREYKeyboardDismissalErrorDomain,
+                                           GREYKeyboardDismissalFailedErrorCode,
+                                           @"Failed to dismiss keyboard as it was not shown.");
+                                     } else {
+                                       UIApplication *sharedApp = UIApplication.sharedApplication;
+                                       [sharedApp sendAction:@selector(resignFirstResponder)
+                                                          to:nil
+                                                        from:nil
+                                                    forEvent:nil];
+                                     }
+                                   }
+                                   error:&executionError];
   if (executionError) {
     *error = executionError;
     return NO;
@@ -372,8 +371,7 @@ typedef BOOL (^ConditionBlock)(void);
  *  @return @c YES if the condition specified in the ConditionBlock was satisfied before the
  *          timeout. @c NO otherwise.
  */
-+ (BOOL)grey_waitUntilCondition:(ConditionBlock)condition
-         isSatisfiedWithTimeout:(NSTimeInterval)timeInterval {
++ (BOOL)waitUntilTimeout:(NSTimeInterval)timeInterval forConditionMet:(ConditionBlock)condition {
   GREYFatalAssertWithMessage(condition != nil, @"Condition Block must not be nil.");
   GREYFatalAssertWithMessage(timeInterval > 0, @"Time interval has to be greater than zero.");
   CFTimeInterval startTime = CACurrentMediaTime();
@@ -396,17 +394,16 @@ typedef BOOL (^ConditionBlock)(void);
  *
  *  @return The case toggled key for the @c character, or @c nil if it isn't found.
  */
-+ (id)grey_toggleShiftAndFindKeyWithCharacter:(NSString *)character
-                                    withError:(__strong NSError **)errorOrNil {
++ (id)toggleShiftAndFindKeyWithCharacter:(NSString *)character
+                                   error:(__strong NSError **)errorOrNil {
   __block id key = nil;
   __block NSError *error;
-  BOOL result = [GREYKeyboard
-      grey_waitUntilCondition:^BOOL {
-        [GREYKeyboard grey_toggleShiftKeyWithError:&error];
-        key = [GREYKeyboard grey_waitAndfindKeyForCharacter:character];
-        return (key == nil) && (error == nil);
-      }
-       isSatisfiedWithTimeout:kMaxShiftKeyToggleDuration];
+  BOOL result = [GREYKeyboard waitUntilTimeout:kMaxShiftKeyToggleDuration
+                               forConditionMet:^BOOL {
+                                 [GREYKeyboard toggleShiftKeyWithError:&error];
+                                 key = [GREYKeyboard waitAndfindKeyForCharacter:character];
+                                 return (key == nil) && (error == nil);
+                               }];
 
   if (!result) {
     I_GREYPopulateError(errorOrNil, kGREYInteractionErrorDomain, kGREYInteractionTimeoutErrorCode,
@@ -425,9 +422,9 @@ typedef BOOL (^ConditionBlock)(void);
  *
  *  @return YES if the shift toggle succeeded, else NO.
  */
-+ (BOOL)grey_toggleShiftKeyWithError:(__strong NSError **)errorOrNil {
++ (BOOL)toggleShiftKeyWithError:(__strong NSError **)errorOrNil {
   GREYLogVerbose(@"Tapping on Shift key.");
-  UIKeyboardImpl *keyboard = [GREYKeyboard grey_keyboardObject];
+  UIKeyboardImpl *keyboard = [GREYKeyboard keyboardObject];
   // Clear time Shift key was pressed last to make sure the keyboard will not ignore this event.
   // If we do not reset this value, we would need to wait at least 0.35 seconds after toggling
   // Shift before we could reliably toggle it again. This is likely related to the double-tap
@@ -437,10 +434,10 @@ typedef BOOL (^ConditionBlock)(void);
   });
 
   for (NSString *shiftKeyCharacter in self.shiftKeyIdentifyingCharacters) {
-    id key = [GREYKeyboard grey_waitAndfindKeyForCharacter:shiftKeyCharacter];
+    id key = [GREYKeyboard waitAndfindKeyForCharacter:shiftKeyCharacter];
     if (key) {
       // Shift key was found; this action should always succeed.
-      [GREYKeyboard grey_tapKey:key error:errorOrNil];
+      [GREYKeyboard tapKey:key error:errorOrNil];
       return YES;
     }
   }
@@ -457,7 +454,7 @@ typedef BOOL (^ConditionBlock)(void);
  *
  *  @return A UI element that signifies the key to be tapped for typing action.
  */
-+ (id)grey_waitAndfindKeyForCharacter:(NSString *)character {
++ (id)waitAndfindKeyForCharacter:(NSString *)character {
   GREYFatalAssert(character);
 
   BOOL ignoreCase = NO;
@@ -467,7 +464,7 @@ typedef BOOL (^ConditionBlock)(void);
   if (modifierKeyIdentifier) {
     // Check for the return key since we can have a different character value depending upon the
     // keyboard.
-    UIKeyboardImpl *currentKeyboard = [GREYKeyboard grey_keyboardObject];
+    UIKeyboardImpl *currentKeyboard = [GREYKeyboard keyboardObject];
     if ([character isEqualToString:kReturnKeyIdentifier]) {
       grey_dispatch_sync_on_main_thread(^{
         modifierKeyIdentifier = [currentKeyboard returnKeyDisplayName];
@@ -487,8 +484,7 @@ typedef BOOL (^ConditionBlock)(void);
   runLoopSpinner.timeout = 0.1;
   runLoopSpinner.maxSleepInterval = DBL_MAX;
   [runLoopSpinner spinWithStopConditionBlock:^BOOL {
-    result = [self grey_keyForCharacterValue:character
-         inKeyboardLayoutWithCaseSensitivity:ignoreCase];
+    result = [self keyForCharacterValue:character inKeyboardLayoutWithCaseSensitivity:ignoreCase];
     return result != nil;
   }];
 
@@ -505,9 +501,9 @@ typedef BOOL (^ConditionBlock)(void);
  *
  *  @return A key that has the given character.
  */
-+ (id)grey_keyForCharacterValue:(NSString *)character
++ (id)keyForCharacterValue:(NSString *)character
     inKeyboardLayoutWithCaseSensitivity:(BOOL)ignoreCase {
-  UIKeyboardImpl *keyboard = [GREYKeyboard grey_keyboardObject];
+  UIKeyboardImpl *keyboard = [GREYKeyboard keyboardObject];
   // Type of layout is private class UIKeyboardLayoutStar, which implements UIAccessibilityContainer
   // Protocol and contains accessibility elements for keyboard keys that it shows on the screen.
   id layout = [keyboard _layout];
@@ -534,11 +530,11 @@ typedef BOOL (^ConditionBlock)(void);
  *
  *  @return @c YES if the alphabetic keyplane is being shown on the keyboard, else @c NO.
  */
-+ (BOOL)grey_isAlphabeticKeyplaneShown {
++ (BOOL)isAlphabeticKeyplaneShown {
   // Chose q/Q as the key to look for to determine if alphabetic keyplane is shown because q/Q
   // comes first when iterating keys in UIKeyboardImpl.
-  return [GREYKeyboard grey_waitAndfindKeyForCharacter:@"q"] != nil ||
-         [GREYKeyboard grey_waitAndfindKeyForCharacter:@"Q"] != nil;
+  return [GREYKeyboard waitAndfindKeyForCharacter:@"q"] != nil ||
+         [GREYKeyboard waitAndfindKeyForCharacter:@"Q"] != nil;
 }
 
 /**
@@ -546,7 +542,7 @@ typedef BOOL (^ConditionBlock)(void);
  *
  *  @return The active UIKeyboardImpl instance.
  */
-+ (UIKeyboardImpl *)grey_keyboardObject {
++ (UIKeyboardImpl *)keyboardObject {
   UIKeyboardImpl *keyboard = [UIKeyboardImpl activeInstance];
   GREYFatalAssertWithMessage(keyboard, @"Keyboard instance must not be nil");
   return keyboard;
@@ -559,13 +555,13 @@ typedef BOOL (^ConditionBlock)(void);
  *  *param[out] errorOrNil    The error to be populated. If this is @c nil,
  *                            then an error message is logged.
  */
-+ (void)grey_tapKey:(id)key error:(__strong NSError **)errorOrNil {
++ (void)tapKey:(id)key error:(__strong NSError **)errorOrNil {
   GREYFatalAssert(key);
 
   [gTapKeyAction perform:key error:errorOrNil];
   grey_dispatch_sync_on_main_thread(^{
     NSLog(@"Tapped on key: %@.", [key accessibilityLabel]);
-    [[[GREYKeyboard grey_keyboardObject] taskQueue] waitUntilAllTasksAreFinished];
+    [[[GREYKeyboard keyboardObject] taskQueue] waitUntilAllTasksAreFinished];
   });
 }
 
@@ -581,9 +577,9 @@ typedef BOOL (^ConditionBlock)(void);
  *
  *  @return NO every time since entering the method means an error has happened.
  */
-+ (BOOL)grey_setErrorForkeyNotFoundWithCharacter:(NSString *)character
-                                 forTypingString:(NSString *)string
-                                           error:(__strong NSError **)errorOrNil {
++ (BOOL)setErrorForkeyNotFoundWithCharacter:(NSString *)character
+                            forTypingString:(NSString *)string
+                                      error:(__strong NSError **)errorOrNil {
   NSString *description = [NSString stringWithFormat:@"Failed to type string '%@', "
                                                      @"because key '%@' could not be found "
                                                      @"on the keyboard.",
