@@ -64,17 +64,14 @@
 }
 
 - (instancetype)initWithTarget:(id)target
-                  boundingRect:(CGRect)boundingRect
+                    properties:(GREYTraversalProperties *)properties
                interactability:(BOOL)interactability {
   UIView *containerView = [target grey_viewContainingSelf];
   BOOL isView = [target isKindOfClass:[UIView class]];
-  CGRect targetRect = VisibleRectOnScreen(target, boundingRect);
+  CGRect targetRect = VisibleRectOnScreen(target, properties.boundingRect);
   CGRect bitVectorRect = CGRectPointToPixelAligned(targetRect);
-  if (isView && ![target grey_isVisible]) {
-    // Check if target is visible.
-    return nil;
-  } else if (!isView && containerView && ![containerView grey_isVisible]) {
-    // Check if target's container is visible in case target is an AXE.
+  if (!IsElementVisible(properties)) {
+    // Check if target is visible or not.
     return nil;
   } else if (CGRectIsEmpty(targetRect)) {
     // Check if target is visible on screen.
@@ -120,12 +117,13 @@
   return numberOfVisiblePixels / CGRectArea(targetOriginalPixelRect);
 }
 
-- (GREYVisibilityCheckerTargetObscureResult)obscureResultByOverlappingElement:(id)element
-                                                                 boundingRect:(CGRect)boundingRect {
-  if (![self couldBeObscuredByElement:element]) {
+- (GREYVisibilityCheckerTargetObscureResult)
+    obscureResultByOverlappingElement:(id)element
+                           properties:(GREYTraversalProperties *)properties {
+  if (![self couldBeObscuredByElement:element properties:properties]) {
     return GREYVisibilityCheckerTargetObscureResultNone;
   }
-  CGRect viewRect = VisibleRectOnScreen(element, boundingRect);
+  CGRect viewRect = VisibleRectOnScreen(element, properties.boundingRect);
   if (CGRectIsNull(viewRect)) {
     return GREYVisibilityCheckerTargetObscureResultNone;
   }
@@ -237,12 +235,13 @@
  *  Evaluates whether or not an element could potentially obscure the target element. Accessibility
  *  element that is not a UIView cannot obscure the @c _target because it's not a visual element.
  *
- *  @param element The element to evaluate if it can potentially obscure the @c _target. It could be
- *                 either a view or an accessibility element (non view).
+ *  @param element    The element to evaluate if it can potentially obscure the @c _target. It could
+ *                    be either a view or an accessibility element (non view).
+ *  @param properties The properties that @c element inherited from its ancestors.
  *
  *  @return A BOOL whether or not @c element can potentially obscure the @c _target.
  */
-- (BOOL)couldBeObscuredByElement:(id)element {
+- (BOOL)couldBeObscuredByElement:(id)element properties:(GREYTraversalProperties *)properties {
   BOOL elementIsView = [element isKindOfClass:[UIView class]];
   if (!_isView && [_target isAccessibilityElement]) {
     // If the target element is an accessibility element, it cannot be obscured by
@@ -256,7 +255,8 @@
     // If element is not a UIView, it should not obscure the target.
     return NO;
   }
-  return [self couldBeObscuredByView:(UIView *)element];
+  // element is a view.
+  return [self couldBeObscuredByView:(UIView *)element properties:properties];
 }
 
 /**
@@ -266,11 +266,12 @@
  *  (2) Its alpha is less than 1.
  *  (3) It is hidden or any of its ancestor is hidden.
  *
- *  @param view The view to evaluate.
+ *  @param view       View to evaluate.
+ *  @param properties The properties that @c view inherited from its ancestors.
  *
  *  @return A BOOL whether or not @c view can potentially obscure @c _target.
  */
-- (BOOL)couldBeObscuredByView:(UIView *)view {
+- (BOOL)couldBeObscuredByView:(UIView *)view properties:(GREYTraversalProperties *)properties {
   CGFloat white;
   CGFloat alpha;
   UIColor *viewBackgroundColor = view.backgroundColor;
@@ -286,7 +287,7 @@
     return NO;
   } else if ((success && alpha < 1) || (view.alpha < 1)) {
     return NO;
-  } else if (![view grey_isVisible]) {
+  } else if (!IsElementVisible(properties)) {
     return NO;
   } else {
     return YES;
@@ -408,6 +409,14 @@ static CGRect ConvertToScreenCoordinate(id element) {
   } else {
     return [element accessibilityFrame];
   }
+}
+
+/**
+ *  @return A @c BOOL if the element with @c properties is visible or not. Travesal properties are
+ *          inherited from the element's ancestors during traversal.
+ */
+static BOOL IsElementVisible(GREYTraversalProperties *properties) {
+  return !(properties.hidden || properties.lowestAlpha < kGREYMinimumVisibleAlpha);
 }
 
 /**

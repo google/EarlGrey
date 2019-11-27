@@ -22,6 +22,7 @@
 #import "CGGeometry+GREYUI.h"
 #import "GREYUIWindowProvider.h"
 #import "GREYTraversalDFS.h"
+#import "GREYTraversalFunctions.h"
 #import "GREYVisibilityCheckerTarget.h"
 
 @implementation GREYQuickVisibilityChecker
@@ -54,7 +55,7 @@
  *
  *  @return Whether or not a fallback is required.
  */
-static BOOL PerformThoroughVisibilityCheckerForElement(id element) {
+static BOOL ShouldPerformThoroughVisibilityCheckForElement(id element) {
   if ([element isKindOfClass:[UIView class]]) {
     UIView *view = (UIView *)element;
     if (!CGAffineTransformEqualToTransform(CGAffineTransformIdentity, [view transform])) {
@@ -124,8 +125,9 @@ static GREYVisibilityCheckerTarget *ResultingTarget(id element, BOOL *performFal
     }
     // If you are looking for the visibility of a UIWindow, skip all its subviews.
     if (window == element) {
+      GREYTraversalProperties *properties = GREYTraversalPropertiesForElement(window);
       target = [[GREYVisibilityCheckerTarget alloc] initWithTarget:element
-                                                      boundingRect:CGRectNull
+                                                        properties:properties
                                                    interactability:interactability];
       continue;
     }
@@ -137,7 +139,6 @@ static GREYVisibilityCheckerTarget *ResultingTarget(id element, BOOL *performFal
     [traversal enumerateUsingBlock:^(id traversingElement, NSUInteger level,
                                      GREYTraversalProperties *properties,
                                      BOOL *stopElementTraversal) {
-      CGRect boundingRect = properties.boundingRect;
       // If the target is seen and the current level is smaller or equal to target's level, this
       // implies that target's children have been traversed already.
       if (target && level <= targetLevel) {
@@ -145,14 +146,14 @@ static GREYVisibilityCheckerTarget *ResultingTarget(id element, BOOL *performFal
       }
       if (target && !isTargetChild) {
         GREYVisibilityCheckerTargetObscureResult result =
-            [target obscureResultByOverlappingElement:traversingElement boundingRect:boundingRect];
+            [target obscureResultByOverlappingElement:traversingElement properties:properties];
         switch (result) {
           case GREYVisibilityCheckerTargetObscureResultFull: {
             // If the target is fully obscured, stop traversing.
             *stopElementTraversal = YES;
             stopWindowTraversal = YES;
 
-            if (PerformThoroughVisibilityCheckerForElement(traversingElement)) {
+            if (ShouldPerformThoroughVisibilityCheckForElement(traversingElement)) {
               *performFallback = YES;
             }
             break;
@@ -160,7 +161,7 @@ static GREYVisibilityCheckerTarget *ResultingTarget(id element, BOOL *performFal
           case GREYVisibilityCheckerTargetObscureResultPartial: {
             // If the target was partially obscured by the element, check if the traversing element
             // requires thorough check.
-            if (PerformThoroughVisibilityCheckerForElement(traversingElement)) {
+            if (ShouldPerformThoroughVisibilityCheckForElement(traversingElement)) {
               *stopElementTraversal = YES;
               stopWindowTraversal = YES;
               *performFallback = YES;
@@ -172,7 +173,7 @@ static GREYVisibilityCheckerTarget *ResultingTarget(id element, BOOL *performFal
         }
       } else if (traversingElement == element) {
         target = [[GREYVisibilityCheckerTarget alloc] initWithTarget:element
-                                                        boundingRect:boundingRect
+                                                          properties:properties
                                                      interactability:interactability];
         targetLevel = level;
         // Target is not visible on screen. No need to traverse further.

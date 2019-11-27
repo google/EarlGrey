@@ -16,6 +16,8 @@
 
 #import <UIKit/UIKit.h>
 
+#import "GREYTraversalProperties.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 /**
@@ -56,17 +58,14 @@ typedef NS_ENUM(NSInteger, GREYVisibilityCheckerTargetObscureResult) {
  *  @param target          The target element interested in calculating the visible percentage of.
  *                         It could be either an object that conforms to UIAccessibility informal
  *                         protocol or a UIView instance.
- *  @param boundingRect    Area that the view is confined to. Any portion of the view that is
- *                         outside this @c boundingRect would be excluded from visibility. It is
- *                         represented in same coordinate space as the view. Pass in @c CGRectNull
- *                         if there is no bounding rect.
+ *  @param properties      Properties that @c target inherited from its ancestors during traversal.
  *  @param interactability The boolean to specify if the target is checked for its interactability.
  *
  *  @return An instance of GREYVisibilityCheckerTarget, initialized with the specified information.
  *          Returns @c nil if the target is not visible.
  */
 - (instancetype)initWithTarget:(id)target
-                  boundingRect:(CGRect)boundingRect
+                    properties:(GREYTraversalProperties *)properties
                interactability:(BOOL)interactability;
 
 /**
@@ -75,18 +74,15 @@ typedef NS_ENUM(NSInteger, GREYVisibilityCheckerTargetObscureResult) {
  *  obscured by the element. The intersection rects are later subtracted from the @c _target's frame
  *  to calculate how much of the @c _target's frame has been obscured.
  *
- *  @param element      The element whose frame is being compared with target element.
- *  @param boundingRect Area that the view is confined to. Any portion of the view that is outside
- *                      this @c boundingRect would be excluded from visibility. It is represented in
- *                      same coordinate space as the view. Pass in @c CGRectNull if there is no
- *                      bounding rect.
+ *  @param element    The element whose frame is being compared with target element.
+ *  @param properties Properties that @c element inherited from its ancestors during traversal.
  *
  *  @return A @c GREYVisibilityCheckerTargetObscureResult that indicates how much of the @c _target
  *          element obscured.
  */
-- (GREYVisibilityCheckerTargetObscureResult)obscureResultByOverlappingElement:(id)element
-                                                                 boundingRect:(CGRect)boundingRect;
-
+- (GREYVisibilityCheckerTargetObscureResult)
+    obscureResultByOverlappingElement:(id)element
+                           properties:(GREYTraversalProperties *)properties;
 /**
  *  Percentage of the target element that is visible on the screen. This lazily calculates the
  *  visible percentage using the overlapping elements. Invoke this with caution as this is an
