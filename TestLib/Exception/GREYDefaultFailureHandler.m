@@ -44,10 +44,6 @@
   _lineNumber = lineNumber;
 }
 
-- (void)setCurrentTestCase:(id)testCase {
-  _currentTestCase = testCase;
-}
-
 - (void)handleException:(GREYFrameworkException *)exception details:(NSString *)details {
   GREYThrowOnNilParameter(exception);
   id currentTestCase = [XCTestCase grey_currentTestCase];

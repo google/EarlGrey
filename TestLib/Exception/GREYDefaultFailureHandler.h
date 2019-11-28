@@ -23,6 +23,4 @@
  */
 @interface GREYDefaultFailureHandler : NSObject <GREYFailureHandler>
 
-- (void)setCurrentTestCase:(id)testCase;
-
 @end
