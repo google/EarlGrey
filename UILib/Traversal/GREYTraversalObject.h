@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface GREYTraversalObject : NSObject
 
 /**
- *  The UI element that the GREYHierarchyObject is wrapped around.
+ *  The UI element that the GREYTraversalObject is wrapped around.
  */
 @property(nonatomic, strong) id element;
 
