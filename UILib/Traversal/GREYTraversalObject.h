@@ -29,18 +29,36 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  The UI element that the GREYTraversalObject is wrapped around.
  */
-@property(nonatomic, strong) id element;
+@property(nonatomic, strong, readonly) id element;
 
 /**
  *  An NSUInteger representing the number of parent-child relationships from the root element
  *  to the current element.
  */
-@property(nonatomic) NSUInteger level;
+@property(nonatomic, readonly) NSUInteger level;
 
 /**
- *  Class that carries useful information about the traversing UI element.
+ *  Dictionary class to store information about the @c element's visibility.
  */
-@property(nonatomic, strong) GREYTraversalProperties *properties;
+@property(nonatomic, strong, readonly, nullable) GREYTraversalProperties *properties;
+
+/**
+ *  @remark init is not an available initializer. Use the other initializers.
+ */
+- (instancetype)init NS_UNAVAILABLE;
+
+/**
+ *  Convenience initializer if @c properties is not used.
+ */
+- (instancetype)initWithElement:(id)element level:(NSUInteger)level;
+
+/**
+ *  Designated initializer for the class.
+ */
+- (instancetype)initWithElement:(id)element
+                          level:(NSUInteger)level
+                     properties:(nullable GREYTraversalProperties *)properties
+    NS_DESIGNATED_INITIALIZER;
 
 @end
 

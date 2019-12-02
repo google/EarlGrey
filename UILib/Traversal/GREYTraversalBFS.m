@@ -32,15 +32,13 @@
   NSUInteger _parsedHierarchyIndex;
 }
 
-- (instancetype)init:(id)element {
+- (instancetype)initWithElement:(id)element {
   self = [super init];
   if (self) {
     _parsedHierarchy = [[NSMutableArray alloc] init];
     _parsedHierarchyIndex = 0;
 
-    GREYTraversalObject *object = [[GREYTraversalObject alloc] init];
-    object.element = element;
-    object.level = 0;
+    GREYTraversalObject *object = [[GREYTraversalObject alloc] initWithElement:element level:0];
     [_parsedHierarchy addObject:object];
   }
   return self;
@@ -49,7 +47,7 @@
 + (instancetype)hierarchyForElementWithBFSTraversal:(id)element {
   GREYThrowOnNilParameter(element);
   // Create an instance of GREYTraversalBFS object.
-  return [[GREYTraversalBFS alloc] init:element];
+  return [[GREYTraversalBFS alloc] initWithElement:element];
 }
 
 - (id)nextObject {
@@ -84,9 +82,8 @@
   // Ask GREYTraversal i.e. parent class for the immediate children of @c nextObject.
   NSArray<id> *children = GREYTraversalExploreImmediateChildren(nextObject.element, NO);
   for (id child in children) {
-    GREYTraversalObject *object = [[GREYTraversalObject alloc] init];
-    object.element = child;
-    object.level = nextObject.level + 1;
+    GREYTraversalObject *object =
+        [[GREYTraversalObject alloc] initWithElement:child level:nextObject.level + 1];
     [_parsedHierarchy addObject:object];
   }
   return nextObject;

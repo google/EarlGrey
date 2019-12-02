@@ -20,7 +20,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  Class that holds useful information about the UI element in the hierarchy traversal.
+ *  Class that holds visibility information about the UI element in the hierarchy traversal.
  */
 @interface GREYTraversalProperties : NSObject
 

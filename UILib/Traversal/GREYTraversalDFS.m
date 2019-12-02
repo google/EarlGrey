@@ -43,7 +43,7 @@
   BOOL _zOrdering;
 }
 
-- (instancetype)init:(id)element {
+- (instancetype)initWithElement:(id)element {
   self = [super init];
   if (self) {
     _parsedHierarchy = [[NSMutableArray alloc] init];
@@ -56,13 +56,13 @@
 + (instancetype)frontToBackHierarchyForElementWithDFSTraversal:(id)element {
   GREYThrowOnNilParameter(element);
   // Wrap the @c element in the GREYTraversalDFSObject.
-  GREYTraversalObject *object = [[GREYTraversalObject alloc] init];
-  object.element = element;
-  object.level = 0;
-  object.properties = GREYTraversalPropertiesForElement(element);
+  GREYTraversalProperties *properties = GREYTraversalPropertiesForElement(element);
+  GREYTraversalObject *object = [[GREYTraversalObject alloc] initWithElement:element
+                                                                       level:0
+                                                                  properties:properties];
 
   // Create an instance of GREYTraversalDFS.
-  return [[GREYTraversalDFS alloc] init:object];
+  return [[GREYTraversalDFS alloc] initWithElement:object];
 }
 
 + (instancetype)backToFrontHierarchyForElementWithDFSTraversal:(id)element
@@ -114,11 +114,11 @@
   // as a stack, hence front insertions. We could have inserted into the back, however the logic
   // associated with @c _parsedHierarchyIndex facilitated front insertions.
   for (id child in _isBackToFront ? children : [children reverseObjectEnumerator]) {
-    GREYTraversalObject *object = [[GREYTraversalObject alloc] init];
-    object.element = child;
-    object.level = nextObject.level + 1;
-    object.properties =
+    GREYTraversalProperties *properties =
         GREYTraversalPassDownProperties(nextObject.properties, nextObject.element, child);
+    GREYTraversalObject *object = [[GREYTraversalObject alloc] initWithElement:child
+                                                                         level:nextObject.level + 1
+                                                                    properties:properties];
     [_parsedHierarchy insertObject:object atIndex:0];
   }
 

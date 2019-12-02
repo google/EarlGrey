@@ -21,4 +21,20 @@
  */
 @implementation GREYTraversalObject
 
+- (instancetype)initWithElement:(id)element level:(NSUInteger)level {
+  return [self initWithElement:element level:level properties:nil];
+}
+
+- (instancetype)initWithElement:(id)element
+                          level:(NSUInteger)level
+                     properties:(GREYTraversalProperties *)properties {
+  self = [super init];
+  if (self) {
+    _element = element;
+    _level = level;
+    _properties = properties;
+  }
+  return self;
+}
+
 @end
