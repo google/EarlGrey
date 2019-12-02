@@ -276,18 +276,19 @@
   CGFloat alpha;
   UIColor *viewBackgroundColor = view.backgroundColor;
   BOOL success = [viewBackgroundColor getWhite:&white alpha:&alpha];
-  if ([NSStringFromClass([view class]) isEqualToString:@"UIKBInputBackdropView"]) {
+  if (!IsElementVisible(properties)) {
+    // Check if view is hidden or has alpha less than 0.01.
+    return NO;
+  } else if ([NSStringFromClass([view class]) isEqualToString:@"UIKBInputBackdropView"]) {
     // UIKBInputBackdropView is a view that contains iOS input views including both system and
-    // custom keyboard. Since this view is translucent, it needs to be checked manually.
-    // Otherwise, it will consider as a non-obscuring view. This condition should be checked
-    // before checking the translucency of the view.
+    // custom keyboard. Since this view is translucent, it needs to be checked manually. Otherwise,
+    // it will be considered as a non-obscuring view. This condition should be checked before
+    // checking the translucency of the view.
     return YES;
   }
   if ([viewBackgroundColor isEqual:UIColor.clearColor] || !viewBackgroundColor) {
     return NO;
   } else if ((success && alpha < 1) || (view.alpha < 1)) {
-    return NO;
-  } else if (!IsElementVisible(properties)) {
     return NO;
   } else {
     return YES;
@@ -412,8 +413,9 @@ static CGRect ConvertToScreenCoordinate(id element) {
 }
 
 /**
- *  @return A @c BOOL if the element with @c properties is visible or not. Travesal properties are
- *          inherited from the element's ancestors during traversal.
+ *  @return A @c BOOL if the element with @c properties is visible or not. This is different from
+ *          checking @c hidden and @c alpha property from UIView as @c properties are derived from
+ *          the element's ancestors during traversal.
  */
 static BOOL IsElementVisible(GREYTraversalProperties *properties) {
   return !(properties.hidden || properties.lowestAlpha < kGREYMinimumVisibleAlpha);
