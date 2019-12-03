@@ -18,6 +18,8 @@
 #import <XCTest/XCTest.h>
 
 #import "GREYHostApplicationDistantObject+GREYTestHelper.h"
+#import "GREYFrameworkException.h"
+#import "GREYHostApplicationDistantObject+IntentionalCrash.h"
 #import "BaseIntegrationTest.h"
 #import "EDOHostService.h"
 #import "EDOServicePort.h"
@@ -64,6 +66,14 @@
   UIView *remoteView;
   XCTAssertNoThrow(remoteView = [GREY_ALLOC_REMOTE_CLASS_IN_APP(UIView) init]);
   XCTAssertTrue([remoteView isKindOfClass:GREY_REMOTE_CLASS_IN_APP(UIView)]);
+}
+
+- (void)testCustomHandlerRevealsAppCrash {
+  [[GREYHostApplicationDistantObject sharedInstance] delayedExceptionWithTime:1.f];
+  CFRunLoopRunInMode(kCFRunLoopDefaultMode, 1.1f, NO);
+  XCTAssertThrowsSpecific([GREY_ALLOC_REMOTE_CLASS_IN_APP(UIView) init], GREYFrameworkException);
+  self.application = [[XCUIApplication alloc] init];
+  [self.application launch];
 }
 
 @end

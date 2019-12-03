@@ -20,30 +20,64 @@
 
 #import "GREYHostBackgroundDistantObject.h"
 #import "GREYTestApplicationDistantObject+Private.h"
+#import "GREYFrameworkException.h"
+#import "EDOHostPort.h"
 #import "EDOClientService.h"
 #import "EDOHostService.h"
+#import "EDOServiceError.h"
+#import "EDOServiceException.h"
 #import "EDOServicePort.h"
-
-/** The port number for the test process. */
-uint16_t GREYPortForTestApplication = 0;
 
 @interface GREYTestApplicationDistantObject ()
 /** @see GREYTestApplicationDistantObject.hostPort, make this readwrite. */
 @property(nonatomic) uint16_t hostPort;
 /** @see GREYTestApplicationDistantObject.hostBackgroundPort, make this readwrite. */
 @property(nonatomic) uint16_t hostBackgroundPort;
-/** @see GREYTestApplicationDistantObject.session, make this readwrite. */
+/** @see GREYTestApplicationDistantObject.service, make this readwrite. */
 @property EDOHostService *service;
+
+/**
+ *  Checks if @c port is a permanent eDO host port that is listening by the test host. A permanent
+ *  eDO host runs throughout the app's life cycle. This declaration is required by the constructor
+ *  C function.
+ *
+ *  @param port The port number to check.
+ *
+ *  @return @c YES if @c port is the port number that is listened by any eDO host running in the
+ *          test host; @c NO otherwise.
+ */
+- (BOOL)isPermanentAppHostPort:(uint16_t)port;
 @end
 
-@implementation GREYTestApplicationDistantObject
+/** Intializes test-side distant object and failure handler. */;
+__attribute__((constructor)) static void SetupTestDistantObject() {
+  GREYTestApplicationDistantObject *testDistantObject =
+      GREYTestApplicationDistantObject.sharedInstance;
+  testDistantObject.service = [EDOHostService serviceWithPort:0
+                                                   rootObject:testDistantObject
+                                                        queue:dispatch_get_main_queue()];
 
-+ (void)load {
-  self.sharedInstance.service = [EDOHostService serviceWithPort:0
-                                                     rootObject:self.sharedInstance
-                                                          queue:dispatch_get_main_queue()];
-  GREYPortForTestApplication = [self.sharedInstance servicePort];
+  // Registers custom handler of EDO connection failure and translates the error message to UI
+  // testing scenarios to users. The custom handler will fall back to use EDO's default error
+  // handler if the state of the test doesn't conform to any pattern of the UI testing failure.
+  void (^defaultHandler)(NSError *) = EDOClientService.errorHandler;
+  EDOClientService.errorHandler = ^(NSError *error) {
+    if (error.code == EDOServiceErrorCannotConnect) {
+      EDOHostPort *hostPort = error.userInfo[EDOErrorPortKey];
+      if ([testDistantObject isPermanentAppHostPort:hostPort.port]) {
+        NSString *errorInfo =
+            @"App-under-test crashed and disconnected. Unless your tests explicitly relaunch the "
+            @"app, the app won't be restarted and thus any requests from test to app side will "
+            @"fail. To troubleshoot app's crash, please refer to app.log.";
+        [[GREYFrameworkException exceptionWithName:kGREYGenericFailureException
+                                            reason:errorInfo] raise];
+      }
+    }
+    defaultHandler(error);
+  };
 }
+
+@implementation GREYTestApplicationDistantObject
 
 + (instancetype)sharedInstance {
   static dispatch_once_t onceToken;
@@ -80,6 +114,10 @@ uint16_t GREYPortForTestApplication = 0;
     }
   }
   return _hostBackgroundPort;
+}
+
+- (BOOL)isPermanentAppHostPort:(uint16_t)port {
+  return port != 0 && (port == _hostPort || port == _hostBackgroundPort);
 }
 
 #pragma mark - Private
