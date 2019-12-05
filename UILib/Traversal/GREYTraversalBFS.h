@@ -16,6 +16,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "GREYTraversalObject.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface GREYTraversalBFS : NSObject
@@ -45,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param block A completion block that will be invoked on each element.
  */
-- (void)enumerateUsingBlock:(void (^)(id element, NSUInteger level, BOOL *stop))block;
+- (void)enumerateUsingBlock:(void (^)(GREYTraversalObject *object, BOOL *stop))block;
 
 @end
 

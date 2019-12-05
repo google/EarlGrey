@@ -75,13 +75,13 @@
       [GREYTraversalDFS frontToBackHierarchyForElementWithDFSTraversal:element];
 
   // Enumerate the hierarchy using block enumeration.
-  [traversal enumerateUsingBlock:^(id _Nonnull element, NSUInteger level,
-                                   GREYTraversalProperties *properties, BOOL *stop) {
+  [traversal enumerateUsingBlock:^(GREYTraversalObject *object, BOOL *stop) {
     // Obtain hierarchy Info.
+    id element = object.element;
     if ([outputString length] != 0) {
       [outputString appendString:@"\n"];
     }
-    [outputString appendString:[self grey_printDescriptionForElement:element atLevel:level]];
+    [outputString appendString:[self grey_printDescriptionForElement:element atLevel:object.level]];
     NSString *annotation = annotationDictionary[[NSValue valueWithNonretainedObject:element]];
     if (annotation) {
       [outputString appendString:@" "];  // Space before annotation.

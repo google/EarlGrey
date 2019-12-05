@@ -126,8 +126,10 @@ static GREYVisibilityCheckerTarget *ResultingTarget(id element, BOOL *performFal
     // If you are looking for the visibility of a UIWindow, skip all its subviews.
     if (window == element) {
       GREYTraversalProperties *properties = GREYTraversalPropertiesForElement(window);
-      target = [[GREYVisibilityCheckerTarget alloc] initWithTarget:element
-                                                        properties:properties
+      GREYTraversalObject *object = [[GREYTraversalObject alloc] initWithElement:element
+                                                                           level:0
+                                                                      properties:properties];
+      target = [[GREYVisibilityCheckerTarget alloc] initWithObject:object
                                                    interactability:interactability];
       continue;
     }
@@ -136,24 +138,23 @@ static GREYVisibilityCheckerTarget *ResultingTarget(id element, BOOL *performFal
     __block NSUInteger targetLevel = 0;
     __block BOOL isTargetChild = YES;
     // Traverse the hierarchy until the target element is found.
-    [traversal enumerateUsingBlock:^(id traversingElement, NSUInteger level,
-                                     GREYTraversalProperties *properties,
-                                     BOOL *stopElementTraversal) {
+    [traversal enumerateUsingBlock:^(GREYTraversalObject *object, BOOL *stopElementTraversal) {
+      id currentElement = object.element;
       // If the target is seen and the current level is smaller or equal to target's level, this
       // implies that target's children have been traversed already.
-      if (target && level <= targetLevel) {
+      if (target && object.level <= targetLevel) {
         isTargetChild = NO;
       }
       if (target && !isTargetChild) {
         GREYVisibilityCheckerTargetObscureResult result =
-            [target obscureResultByOverlappingElement:traversingElement properties:properties];
+            [target obscureResultByOverlappingObject:object];
         switch (result) {
           case GREYVisibilityCheckerTargetObscureResultFull: {
             // If the target is fully obscured, stop traversing.
             *stopElementTraversal = YES;
             stopWindowTraversal = YES;
 
-            if (ShouldPerformThoroughVisibilityCheckForElement(traversingElement)) {
+            if (ShouldPerformThoroughVisibilityCheckForElement(currentElement)) {
               *performFallback = YES;
             }
             break;
@@ -161,7 +162,7 @@ static GREYVisibilityCheckerTarget *ResultingTarget(id element, BOOL *performFal
           case GREYVisibilityCheckerTargetObscureResultPartial: {
             // If the target was partially obscured by the element, check if the traversing element
             // requires thorough check.
-            if (ShouldPerformThoroughVisibilityCheckForElement(traversingElement)) {
+            if (ShouldPerformThoroughVisibilityCheckForElement(currentElement)) {
               *stopElementTraversal = YES;
               stopWindowTraversal = YES;
               *performFallback = YES;
@@ -171,11 +172,10 @@ static GREYVisibilityCheckerTarget *ResultingTarget(id element, BOOL *performFal
           default:
             break;
         }
-      } else if (traversingElement == element) {
-        target = [[GREYVisibilityCheckerTarget alloc] initWithTarget:element
-                                                          properties:properties
+      } else if (currentElement == element) {
+        target = [[GREYVisibilityCheckerTarget alloc] initWithObject:object
                                                      interactability:interactability];
-        targetLevel = level;
+        targetLevel = object.level;
         // Target is not visible on screen. No need to traverse further.
         if (!target) {
           *stopElementTraversal = YES;

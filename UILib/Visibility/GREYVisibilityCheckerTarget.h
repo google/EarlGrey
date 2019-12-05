@@ -16,7 +16,7 @@
 
 #import <UIKit/UIKit.h>
 
-#import "GREYTraversalProperties.h"
+#import "GREYTraversalObject.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -53,47 +53,43 @@ typedef NS_ENUM(NSInteger, GREYVisibilityCheckerTargetObscureResult) {
 - (instancetype)init NS_UNAVAILABLE;
 
 /**
- *  Initiates an instance with the specified target element and @c boundingRect.
+ *  Initiates an instance with the specified target object and @c boundingRect.
  *
- *  @param target          The target element interested in calculating the visible percentage of.
- *                         It could be either an object that conforms to UIAccessibility informal
- *                         protocol or a UIView instance.
- *  @param properties      Properties that @c target inherited from its ancestors during traversal.
+ *  @param object          The target object the visible percentage is being calculated of.
+ *                         The wrapped element could be either an NSObject that conforms to
+ *                         UIAccessibility informal protocol or a UIView instance.
  *  @param interactability The boolean to specify if the target is checked for its interactability.
  *
  *  @return An instance of GREYVisibilityCheckerTarget, initialized with the specified information.
  *          Returns @c nil if the target is not visible.
  */
-- (instancetype)initWithTarget:(id)target
-                    properties:(GREYTraversalProperties *)properties
-               interactability:(BOOL)interactability;
+- (instancetype)initWithObject:(GREYTraversalObject *)object interactability:(BOOL)interactability;
 
 /**
- *  Compares and intersects the element's frame to the @c _target's frame and calculates how much of
- *  @c _target is intersected with the element. The intersected area is where the @c _target is
- *  obscured by the element. The intersection rects are later subtracted from the @c _target's frame
- *  to calculate how much of the @c _target's frame has been obscured.
+ *  Compares and intersects the object's frame to the target's frame and calculates how much of
+ *  target is intersected with the object. The intersected area is where the target is obscured by
+ *  the element. The intersection rects are later subtracted from the target's frame to calculate
+ *  how much of the target's frame has been obscured.
  *
- *  @param element    The element whose frame is being compared with target element.
- *  @param properties Properties that @c element inherited from its ancestors during traversal.
+ *  @param object The traversing object whose frame is being compared with target element.
  *
- *  @return A @c GREYVisibilityCheckerTargetObscureResult that indicates how much of the @c _target
+ *  @return A @c GREYVisibilityCheckerTargetObscureResult that indicates how much of the target
  *          element obscured.
  */
-- (GREYVisibilityCheckerTargetObscureResult)
-    obscureResultByOverlappingElement:(id)element
-                           properties:(GREYTraversalProperties *)properties;
+- (GREYVisibilityCheckerTargetObscureResult)obscureResultByOverlappingObject:
+    (GREYTraversalObject *)object;
+
 /**
- *  Percentage of the target element that is visible on the screen. This lazily calculates the
- *  visible percentage using the overlapping elements. Invoke this with caution as this is an
- *  expensive operation.
- *
- *  @return A double value indicating the percentage visible.
+ *  @return A double value indicating the percentage visible of the target that is visible on
+ *          screen. This lazily calculates the remaining visible area using the intersecting rects,
+ *          so invoke this with caution.
  */
 - (CGFloat)percentageVisible;
 
 /**
- *  @return The point in element that is interactable where a user can tap to interact with.
+ *  @return The point in element that is interactable where a user can tap to interact with. This
+ *          lazily calculates the remaining visible area using the intersecting rects, so invoke
+ *          this with caution.
  */
 - (CGPoint)interactionPoint;
 
