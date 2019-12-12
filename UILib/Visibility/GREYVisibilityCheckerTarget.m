@@ -269,11 +269,13 @@
   if (!IsElementVisible(object)) {
     // Check if view is hidden or has alpha less than 0.01.
     return NO;
-  } else if ([NSStringFromClass([view class]) isEqualToString:@"UIKBInputBackdropView"]) {
-    // UIKBInputBackdropView is a view that contains iOS input views including both system and
-    // custom keyboard. Since this view is translucent, it needs to be checked manually. Otherwise,
-    // it will be considered as a non-obscuring view. This condition should be checked before
-    // checking the translucency of the view.
+  } else if ([NSStringFromClass([view class]) isEqualToString:@"_UIVisualEffectBackdropView"]) {
+    // _UIVisualEffectBackdropView is an iOS internal view that is used for blurred view. This
+    // includes, but not limited to, system navigation bar, system keyboard, etc. Elements behind
+    // this view should not be considered visible. Custom drawn view as this does not have any
+    // distinguishable traits in the UIView property that could rule it as an "obscuring view" from
+    // the current algorithm.
+    // TODO(b/146083877): Add support for custom drawn views.
     return YES;
   }
   if ([viewBackgroundColor isEqual:UIColor.clearColor] || !viewBackgroundColor) {
