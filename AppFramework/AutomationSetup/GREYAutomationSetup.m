@@ -144,8 +144,6 @@ static void GREYSetSigactionHandler(int signum) {
 static void GREYUncaughtExceptionHandler(NSException *exception) {
   if (gPreviousUncaughtExceptionHandler) {
     gPreviousUncaughtExceptionHandler(exception);
-  } else {
-    exit(EXIT_FAILURE);
   }
 }
 

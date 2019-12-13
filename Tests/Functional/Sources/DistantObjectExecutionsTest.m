@@ -25,7 +25,6 @@
 #import "EDOServicePort.h"
 
 @interface DistantObjectExecutionsTest : BaseIntegrationTest
-
 @end
 
 @implementation DistantObjectExecutionsTest
@@ -69,8 +68,7 @@
 }
 
 - (void)testCustomHandlerRevealsAppCrash {
-  [[GREYHostApplicationDistantObject sharedInstance] delayedExceptionWithTime:1.f];
-  CFRunLoopRunInMode(kCFRunLoopDefaultMode, 1.1f, NO);
+  [self.application terminate];
   XCTAssertThrowsSpecific([GREY_ALLOC_REMOTE_CLASS_IN_APP(UIView) init], GREYFrameworkException);
   self.application = [[XCUIApplication alloc] init];
   [self.application launch];
