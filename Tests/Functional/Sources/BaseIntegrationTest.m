@@ -22,9 +22,10 @@
 
 - (void)setUp {
   [super setUp];
+  self.application = [[XCUIApplication alloc] init];
+
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
-    self.application = [[XCUIApplication alloc] init];
     [self.application launch];
   });
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait error:nil];
