@@ -6,6 +6,8 @@
 [![CocoaPods](https://img.shields.io/cocoapods/v/EarlGrey.svg?maxAge=2592000)](https://cocoapods.org/pods/EarlGrey)
 [![Gem Version](https://badge.fury.io/rb/earlgrey.svg)](https://rubygems.org/gems/earlgrey)
 
+**For EarlGrey 2, please go to [earlgrey2 branch](https://github.com/google/EarlGrey/tree/earlgrey2).**
+
 EarlGrey is a native iOS UI automation test framework that enables you to write
 clear, concise tests.
 
