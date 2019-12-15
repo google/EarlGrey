@@ -24,10 +24,10 @@
 #import "EDOHostService.h"
 #import "EDOServicePort.h"
 
-@interface DistantObjectExecutionsTest : BaseIntegrationTest
+@interface DistantObjectExecutionTest : BaseIntegrationTest
 @end
 
-@implementation DistantObjectExecutionsTest
+@implementation DistantObjectExecutionTest
 
 - (void)testLaunchNoError {
   // Launch and terminate w/o any errors.

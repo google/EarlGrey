@@ -161,7 +161,7 @@
 		FD98C49E226C3555006F8D68 /* UITableViewTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C46F226C351A006F8D68 /* UITableViewTest.m */; };
 		FD98C49F226C3555006F8D68 /* MultiFingerSwipeTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C471226C351F006F8D68 /* MultiFingerSwipeTest.m */; };
 		FD98C4A0226C3555006F8D68 /* ScreenshotTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C472226C3520006F8D68 /* ScreenshotTest.m */; };
-		FD98C4A2226C3555006F8D68 /* DistantObjectExecutionsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C474226C3522006F8D68 /* DistantObjectExecutionsTest.m */; };
+		FD98C4A2226C3555006F8D68 /* DistantObjectExecutionTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C474226C3522006F8D68 /* DistantObjectExecutionTest.m */; };
 		FD98C4A3226C3555006F8D68 /* VisibilityTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C475226C3523006F8D68 /* VisibilityTest.m */; };
 		FD98C4A5226C3555006F8D68 /* FailureHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C477226C3528006F8D68 /* FailureHandler.m */; };
 		FD98C4A7226C3555006F8D68 /* GeometryTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C479226C352A006F8D68 /* GeometryTest.m */; };
@@ -499,7 +499,7 @@
 		FD98C46F226C351A006F8D68 /* UITableViewTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UITableViewTest.m; sourceTree = "<group>"; };
 		FD98C471226C351F006F8D68 /* MultiFingerSwipeTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultiFingerSwipeTest.m; sourceTree = "<group>"; };
 		FD98C472226C3520006F8D68 /* ScreenshotTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScreenshotTest.m; sourceTree = "<group>"; };
-		FD98C474226C3522006F8D68 /* DistantObjectExecutionsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DistantObjectExecutionsTest.m; sourceTree = "<group>"; };
+		FD98C474226C3522006F8D68 /* DistantObjectExecutionTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DistantObjectExecutionTest.m; sourceTree = "<group>"; };
 		FD98C475226C3523006F8D68 /* VisibilityTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VisibilityTest.m; sourceTree = "<group>"; };
 		FD98C477226C3528006F8D68 /* FailureHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FailureHandler.m; sourceTree = "<group>"; };
 		FD98C479226C352A006F8D68 /* GeometryTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeometryTest.m; sourceTree = "<group>"; };
@@ -657,7 +657,7 @@
 				FD98C47C226C352D006F8D68 /* BasicInteractionTest.m */,
 				FD98C487226C3540006F8D68 /* CollectionViewTest.m */,
 				FD98C47F226C3532006F8D68 /* ConditionTest.m */,
-				FD98C474226C3522006F8D68 /* DistantObjectExecutionsTest.m */,
+				FD98C474226C3522006F8D68 /* DistantObjectExecutionTest.m */,
 				FD98C480226C3533006F8D68 /* EarlGreyImplTest.m */,
 				FD98C46C226C3517006F8D68 /* ErrorHandlingTest.m */,
 				FD98C48B226C3546006F8D68 /* FailureHandler.h */,
@@ -1428,7 +1428,7 @@
 				FD98C4C4226C3555006F8D68 /* AlertViewTest.m in Sources */,
 				FD98C4BF226C3555006F8D68 /* KeyboardKeysTest.m in Sources */,
 				FD98C4C0226C3555006F8D68 /* PresentedViewTest.m in Sources */,
-				FD98C4A2226C3555006F8D68 /* DistantObjectExecutionsTest.m in Sources */,
+				FD98C4A2226C3555006F8D68 /* DistantObjectExecutionTest.m in Sources */,
 				FD98C49B226C3555006F8D68 /* ErrorHandlingTest.m in Sources */,
 				FD98C4B3226C3555006F8D68 /* WKWebViewTest.m in Sources */,
 				FD98C4B8226C3555006F8D68 /* MatcherTest.m in Sources */,
