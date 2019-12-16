@@ -65,10 +65,12 @@ __attribute__((constructor)) static void SetupTestDistantObject() {
     if (error.code == EDOServiceErrorCannotConnect) {
       EDOHostPort *hostPort = error.userInfo[EDOErrorPortKey];
       if ([testDistantObject isPermanentAppHostPort:hostPort.port]) {
-        NSString *errorInfo =
+        NSString *errorInfo;
+        errorInfo =
             @"App-under-test crashed and disconnected. Unless your tests explicitly relaunch the "
             @"app, the app won't be restarted and thus any requests from test to app side will "
-            @"fail. To troubleshoot app's crash, please refer to app.log.";
+            @"fail. To troubleshoot the app's crash, check if any crash log was generated in the "
+            @"application's process.";
         [[GREYFrameworkException exceptionWithName:kGREYGenericFailureException
                                             reason:errorInfo] raise];
       }
