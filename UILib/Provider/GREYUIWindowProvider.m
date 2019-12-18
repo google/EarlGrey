@@ -20,6 +20,23 @@
 #import "GREYAppleInternals.h"
 #import "GREYDefines.h"
 
+UIWindow *GREYGetApplicationKeyWindow(UIApplication *application) {
+#if defined(__IPHONE_13_0)
+  NSArray<UIWindow *> *windows = application.windows;
+  NSPredicate *windowFilter =
+      [NSPredicate predicateWithBlock:^BOOL(id _Nullable evaluatedObject,
+                                            NSDictionary<NSString *, id> *_Nullable bindings) {
+        return ((UIWindow *)evaluatedObject).isKeyWindow;
+      }];
+  NSArray<UIWindow *> *keyWindows = [windows filteredArrayUsingPredicate:windowFilter];
+  GREYFatalAssertWithMessage(keyWindows.count <= 1, @"Expected 0 or 1 keywindow but found %lu",
+                             (unsigned long)keyWindows.count);
+  return keyWindows.firstObject;
+#else
+  return [application keyWindow];
+#endif
+}
+
 @implementation GREYUIWindowProvider {
   NSArray<UIWindow *> *_windows;
   BOOL _includeStatusBar;
@@ -89,13 +106,23 @@
     // Add the status bar if asked for.
     if (@available(iOS 13.0, *)) {
 #if defined(__IPHONE_13_0)
-      UIStatusBarManager *manager = [[keyWindow windowScene] statusBarManager];
-      id localStatusBar = [manager createLocalStatusBar];
-      UIView *statusBar = [localStatusBar statusBar];
-      statusBarWindow = [[UIWindow alloc] initWithFrame:statusBar.frame];
-      [statusBarWindow addSubview:statusBar];
-      [statusBarWindow setHidden:NO];
-      statusBarWindow.windowLevel = UIWindowLevelStatusBar;
+      // Check if any status bar is already present in the application's views.
+      BOOL statusBarPresent = NO;
+      for (UIWindow *window in windows) {
+        if (window.windowLevel == UIWindowLevelStatusBar) {
+          statusBarPresent = YES;
+          break;
+        }
+      }
+      // Create a local status bar and add it to the windows array for iteration.
+      if (!statusBarPresent) {
+        UIStatusBarManager *manager = [[keyWindow windowScene] statusBarManager];
+        UIView *localStatusBar = (UIView *)[manager createLocalStatusBar];
+        statusBarWindow = [[UIWindow alloc] initWithFrame:localStatusBar.frame];
+        [statusBarWindow addSubview:localStatusBar];
+        [statusBarWindow setHidden:NO];
+        statusBarWindow.windowLevel = UIWindowLevelStatusBar;
+      }
 #endif
     } else {
       statusBarWindow = sharedApp.statusBarWindow;
@@ -120,31 +147,4 @@
       .allObjects;
 }
 
-#pragma mark - Private
-
-/**
- *  A dummy method to resolve the statusBar call.
- */
-- (UIView *)statusBar {
-  [self doesNotRecognizeSelector:_cmd];
-  return nil;
-}
-
 @end
-
-UIWindow *GREYGetApplicationKeyWindow(UIApplication *application) {
-#if defined(__IPHONE_13_0)
-  NSArray<UIWindow *> *windows = application.windows;
-  NSPredicate *windowFilter =
-      [NSPredicate predicateWithBlock:^BOOL(id _Nullable evaluatedObject,
-                                            NSDictionary<NSString *, id> *_Nullable bindings) {
-        return ((UIWindow *)evaluatedObject).isKeyWindow;
-      }];
-  NSArray<UIWindow *> *keyWindows = [windows filteredArrayUsingPredicate:windowFilter];
-  GREYFatalAssertWithMessage(keyWindows.count <= 1, @"Expected 0 or 1 keywindow but found %lu",
-                             (unsigned long)keyWindows.count);
-  return keyWindows.firstObject;
-#else
-  return [application keyWindow];
-#endif
-}
