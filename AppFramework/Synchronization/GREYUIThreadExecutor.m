@@ -33,7 +33,6 @@
 // Extern.
 NSString *const kGREYUIThreadExecutorErrorDomain =
     @"com.google.earlgrey.GREYUIThreadExecutorErrorDomain";
-NSString *const kGREYXCTestCaseInstanceDidTearDown = @"GREYXCTestCaseInstanceDidTearDown";
 
 /**
  *  The number of times idling resources are queried for idleness to be considered "really" idle.
