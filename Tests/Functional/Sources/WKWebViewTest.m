@@ -40,38 +40,6 @@
       performAction:grey_scrollInDirection(kGREYDirectionDown, 20)];
 }
 
-- (void)testScrollingToContentEdgeWithWKWebViewWithEarlGrey {
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"loadHTMLString")]
-      performAction:grey_tap()];
-  // TODO(b/145806611): Remove the delay after adding idling resource for WKWebView.
-  [[GREYUIThreadExecutor sharedInstance] drainForTime:1.0];  // Wait for the web view to load.
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TestWKWebView")]
-      performAction:grey_scrollToContentEdge(kGREYContentEdgeBottom)];
-
-  // Check if the scroll view reached the bottom.
-  GREYMatchesBlock matches = ^BOOL(WKWebView *webView) {
-    UIScrollView *scrollView = webView.scrollView;
-    return scrollView.contentOffset.y + scrollView.frame.size.height >=
-           scrollView.contentSize.height;
-  };
-  GREYDescribeToBlock describe = ^void(id<GREYDescription> description) {
-    [description appendText:@"scroll is at bottom"];
-  };
-  id<GREYMatcher> scrollToBottomMatcher = grey_allOf(
-      grey_kindOfClassName(@"WKWebView"),
-      [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe],
-      nil);
-  BOOL (^conditionBlock)(void) = ^BOOL() {
-    NSError *error;
-    [[EarlGrey selectElementWithMatcher:scrollToBottomMatcher] assertWithMatcher:grey_notNil()
-                                                                           error:&error];
-    return error == nil;
-  };
-  GREYCondition *condition = [GREYCondition conditionWithName:@"Scroll view reached bottom"
-                                                        block:conditionBlock];
-  XCTAssertTrue([condition waitWithTimeout:3.0]);
-}
-
 - (void)testNavigationToWKWebViewTestController {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TestWKWebView")]
       assertWithMatcher:grey_notNil()];

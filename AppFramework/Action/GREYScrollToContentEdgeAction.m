@@ -14,8 +14,6 @@
 // limitations under the License.
 //
 
-#import <WebKit/WebKit.h>
-
 #import "GREYScrollToContentEdgeAction.h"
 
 #import "GREYScrollAction.h"
@@ -24,7 +22,7 @@
 #import "GREYAllOf.h"
 #import "GREYAnyOf.h"
 #import "GREYMatchers.h"
-#import "GREYThrowDefines.h"
+#import "GREYFatalAsserts.h"
 #import "GREYScrollActionError.h"
 #import "NSError+GREYCommon.h"
 #import "CGGeometry+GREYUI.h"
@@ -44,10 +42,10 @@
 }
 
 - (instancetype)initWithEdge:(GREYContentEdge)edge startPointPercents:(CGPoint)startPointPercents {
-  GREYThrowOnFailedConditionWithMessage(
+  GREYFatalAssertWithMessage(
       isnan(startPointPercents.x) || (startPointPercents.x > 0 && startPointPercents.x < 1),
       @"startPointPercents must be NAN or in the range (0, 1) exclusive");
-  GREYThrowOnFailedConditionWithMessage(
+  GREYFatalAssertWithMessage(
       isnan(startPointPercents.y) || (startPointPercents.y > 0 && startPointPercents.y < 1),
       @"startPointPercents must be NAN or in the range (0, 1) exclusive");
 
@@ -60,7 +58,6 @@
     // TODO: Perform a scan of UIWebView usage and deprecate if possible. // NOLINT
     [GREYMatchers matcherForKindOfClass:[UIWebView class]],
 #endif
-    [GREYMatchers matcherForKindOfClass:[WKWebView class]],
   ];
   id<GREYMatcher> systemAlertShownMatcher = [GREYMatchers matcherForSystemAlertViewShown];
   NSArray *constraintMatchers = @[
@@ -93,9 +90,6 @@
     element = [(UIWebView *)element scrollView];
   }
 #endif
-  if ([element isKindOfClass:[WKWebView class]]) {
-    element = [(WKWebView *)element scrollView];
-  }
 
   // Get the maximum scrollable amount in any direction and keep applying it until the edge
   // is reached.
