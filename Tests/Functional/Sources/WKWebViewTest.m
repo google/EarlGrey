@@ -79,7 +79,7 @@
   NSError *error = nil;
   CFTimeInterval originalInteractionTimeout =
       GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
-  [[GREYConfiguration sharedConfiguration] setValue:@(1)
+  [[GREYConfiguration sharedConfiguration] setValue:@(1.5)
                                        forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
   EDORemoteVariable<NSString *> *javaScriptResult = [[EDORemoteVariable alloc] init];
   NSString *jsStringEqualTimeout =
