@@ -67,6 +67,18 @@ static const NSTimeInterval kMaxShiftKeyToggleDuration = 3.0;
 static const NSTimeInterval kKeyboardWillAppearOrDisappearTimeout = 10.0;
 
 /**
+ * Time to wait for a key in the keyplane.
+ */
+static const CFTimeInterval kRegularKeyplaneUpdateDuration = 0.1f;
+
+/**
+ * Time to wait for the keyboard to change automatically when spacebar, delete, or uppercase letter
+ * is pressed. In many cases, it takes a while for the keyboard layout to change after one of those
+ * letters are typed. Less than 0.7(s) might cause flakiness.
+ */
+static const CFTimeInterval kAutomaticKeyplaneUpdateDuration = 0.7f;
+
+/**
  *  Identifier for characters that signify a space key.
  */
 static NSString *const kSpaceKeyIdentifier = @" ";
@@ -198,7 +210,8 @@ __attribute__((constructor)) static void RegisterKeyboardLifecycleHooks() {
     NSString *characterAsString = [NSString stringWithFormat:@"%C", [string characterAtIndex:i]];
     NSLog(@"Attempting to type key %@.", characterAsString);
 
-    id key = [GREYKeyboard waitAndfindKeyForCharacter:characterAsString];
+    id key = [GREYKeyboard waitAndFindKeyForCharacter:characterAsString
+                                              timeout:kRegularKeyplaneUpdateDuration];
     // If key is not on the screen, try looking for it on another keyplane.
     if (!key) {
       unichar currentCharacter = [characterAsString characterAtIndex:0];
@@ -207,14 +220,17 @@ __attribute__((constructor)) static void RegisterKeyboardLifecycleHooks() {
         // Switch to alphabetic keyplane if we are on numbers/symbols keyplane.
         NSString *moreSymbolsKeyAxIdentifier = @"more";
         if (![GREYKeyboard isAlphabeticKeyplaneShown]) {
-          id moreLettersKey = [GREYKeyboard waitAndfindKeyForCharacter:moreSymbolsKeyAxIdentifier];
+          id moreLettersKey =
+              [GREYKeyboard waitAndFindKeyForCharacter:moreSymbolsKeyAxIdentifier
+                                               timeout:kRegularKeyplaneUpdateDuration];
           if (!moreLettersKey) {
             return [GREYKeyboard setErrorForkeyNotFoundWithCharacter:moreSymbolsKeyAxIdentifier
                                                      forTypingString:string
                                                                error:errorOrNil];
           }
           [GREYKeyboard tapKey:moreLettersKey error:errorOrNil];
-          key = [GREYKeyboard waitAndfindKeyForCharacter:characterAsString];
+          key = [GREYKeyboard waitAndFindKeyForCharacter:characterAsString
+                                                 timeout:kRegularKeyplaneUpdateDuration];
         }
         // If key is not on the current keyplane, use shift to switch to the other one.
         if (!key) {
@@ -226,14 +242,17 @@ __attribute__((constructor)) static void RegisterKeyboardLifecycleHooks() {
         // Switch to numbers/symbols keyplane if we are on alphabetic keyplane.
         if ([GREYKeyboard isAlphabeticKeyplaneShown]) {
           NSString *moreNumberKeyAxIdentifier = @"more";
-          id moreNumbersKey = [GREYKeyboard waitAndfindKeyForCharacter:moreNumberKeyAxIdentifier];
+          id moreNumbersKey =
+              [GREYKeyboard waitAndFindKeyForCharacter:moreNumberKeyAxIdentifier
+                                               timeout:kRegularKeyplaneUpdateDuration];
           if (!moreNumbersKey) {
             return [GREYKeyboard setErrorForkeyNotFoundWithCharacter:moreNumberKeyAxIdentifier
                                                      forTypingString:string
                                                                error:errorOrNil];
           }
           [GREYKeyboard tapKey:moreNumbersKey error:errorOrNil];
-          key = [GREYKeyboard waitAndfindKeyForCharacter:characterAsString];
+          key = [GREYKeyboard waitAndFindKeyForCharacter:characterAsString
+                                                 timeout:kRegularKeyplaneUpdateDuration];
         }
         // If key is not on the current keyplane, use shift to switch to the other one.
         if (!key) {
@@ -241,20 +260,24 @@ __attribute__((constructor)) static void RegisterKeyboardLifecycleHooks() {
             success = NO;
             break;
           }
-          key = [GREYKeyboard waitAndfindKeyForCharacter:characterAsString];
+          key = [GREYKeyboard waitAndFindKeyForCharacter:characterAsString
+                                                 timeout:kRegularKeyplaneUpdateDuration];
         }
         // If key is not on either number or symbols keyplane, it could be on alphabetic keyplane.
         // This is the case for @ _ - on UIKeyboardTypeEmailAddress on iPad.
         NSString *moreNumbersKeyAxIdentifier = @"more";
         if (!key) {
-          id moreLettersKey = [GREYKeyboard waitAndfindKeyForCharacter:moreNumbersKeyAxIdentifier];
+          id moreLettersKey =
+              [GREYKeyboard waitAndFindKeyForCharacter:moreNumbersKeyAxIdentifier
+                                               timeout:kRegularKeyplaneUpdateDuration];
           if (!moreLettersKey) {
             return [GREYKeyboard setErrorForkeyNotFoundWithCharacter:moreNumbersKeyAxIdentifier
                                                      forTypingString:string
                                                                error:errorOrNil];
           }
           [GREYKeyboard tapKey:moreLettersKey error:errorOrNil];
-          key = [GREYKeyboard waitAndfindKeyForCharacter:characterAsString];
+          key = [GREYKeyboard waitAndFindKeyForCharacter:characterAsString
+                                                 timeout:kRegularKeyplaneUpdateDuration];
         }
       }
       // If key is still not shown on screen, show error message.
@@ -281,16 +304,18 @@ __attribute__((constructor)) static void RegisterKeyboardLifecycleHooks() {
 
     // Keyboard was found; this action should always succeed.
     [GREYKeyboard tapKey:key error:errorOrNil];
-
     // When space, delete or uppercase letter is typed, the keyboard will automatically change to
-    // lower alphabet keyplane.
-    // On iPad the layout changes faster than accessibility, so we need to wait for
-    // accessibility change.
+    // lower alphabet keyplane. In many cases, it takes some time for the keyboard to update its
+    // keyplane to lower alphabet keyplane. So you would have to extend the period of time for
+    // waiting for the letter 'q'. Otherwise, a wrong key will be tapped as EarlGrey would think the
+    // key is already updated on screen.
+    // On iPad, the layout changes faster than accessibility, so we need to wait for accessibility
+    // change.
     unichar character = [characterAsString characterAtIndex:0];
     if ([characterAsString isEqualToString:kSpaceKeyIdentifier] ||
         [characterAsString isEqualToString:kDeleteKeyIdentifier] ||
         [[NSCharacterSet uppercaseLetterCharacterSet] characterIsMember:character]) {
-      [GREYKeyboard waitAndfindKeyForCharacter:@"q"];
+      [GREYKeyboard waitAndFindKeyForCharacter:@"q" timeout:kAutomaticKeyplaneUpdateDuration];
     }
 
     if (keyboardTypeWasChangedFromEmailType) {
@@ -397,13 +422,18 @@ __attribute__((constructor)) static void RegisterKeyboardLifecycleHooks() {
 + (id)toggleShiftAndFindKeyWithCharacter:(NSString *)character
                                    error:(__strong NSError **)errorOrNil {
   __block id key = nil;
-  __block NSError *error;
+  BOOL (^conditionBlock)(void) = ^BOOL {
+    NSError *error;
+    [GREYKeyboard toggleShiftKeyWithError:&error];
+    if (!error) {
+      key = [GREYKeyboard waitAndFindKeyForCharacter:character
+                                             timeout:kRegularKeyplaneUpdateDuration];
+    }
+    return key == nil;
+  };
+
   BOOL result = [GREYKeyboard waitUntilTimeout:kMaxShiftKeyToggleDuration
-                               forConditionMet:^BOOL {
-                                 [GREYKeyboard toggleShiftKeyWithError:&error];
-                                 key = [GREYKeyboard waitAndfindKeyForCharacter:character];
-                                 return (key == nil) && (error == nil);
-                               }];
+                               forConditionMet:conditionBlock];
 
   if (!result) {
     I_GREYPopulateError(errorOrNil, kGREYInteractionErrorDomain, kGREYInteractionTimeoutErrorCode,
@@ -434,7 +464,8 @@ __attribute__((constructor)) static void RegisterKeyboardLifecycleHooks() {
   });
 
   for (NSString *shiftKeyCharacter in self.shiftKeyIdentifyingCharacters) {
-    id key = [GREYKeyboard waitAndfindKeyForCharacter:shiftKeyCharacter];
+    id key = [GREYKeyboard waitAndFindKeyForCharacter:shiftKeyCharacter
+                                              timeout:kRegularKeyplaneUpdateDuration];
     if (key) {
       // Shift key was found; this action should always succeed.
       [GREYKeyboard tapKey:key error:errorOrNil];
@@ -451,10 +482,11 @@ __attribute__((constructor)) static void RegisterKeyboardLifecycleHooks() {
  *  Get the key on the keyboard for a character to be typed.
  *
  *  @param character The character that needs to be typed.
+ *  @param timeout   Amount of time to wait for the character until it times out.
  *
  *  @return A UI element that signifies the key to be tapped for typing action.
  */
-+ (id)waitAndfindKeyForCharacter:(NSString *)character {
++ (id)waitAndFindKeyForCharacter:(NSString *)character timeout:(CFTimeInterval)timeout {
   GREYFatalAssert(character);
 
   BOOL ignoreCase = NO;
@@ -481,13 +513,13 @@ __attribute__((constructor)) static void RegisterKeyboardLifecycleHooks() {
 
   __block id result = nil;
   GREYRunLoopSpinner *runLoopSpinner = [[GREYRunLoopSpinner alloc] init];
-  runLoopSpinner.timeout = 0.1;
+  runLoopSpinner.timeout = timeout;
   runLoopSpinner.maxSleepInterval = DBL_MAX;
+  // TODO(b/146386258): Use grey_dispatch_sync instead of runloop spinner.
   [runLoopSpinner spinWithStopConditionBlock:^BOOL {
     result = [self keyForCharacterValue:character inKeyboardLayoutWithCaseSensitivity:ignoreCase];
     return result != nil;
   }];
-
   return result;
 }
 
@@ -533,8 +565,10 @@ __attribute__((constructor)) static void RegisterKeyboardLifecycleHooks() {
 + (BOOL)isAlphabeticKeyplaneShown {
   // Chose q/Q as the key to look for to determine if alphabetic keyplane is shown because q/Q
   // comes first when iterating keys in UIKeyboardImpl.
-  return [GREYKeyboard waitAndfindKeyForCharacter:@"q"] != nil ||
-         [GREYKeyboard waitAndfindKeyForCharacter:@"Q"] != nil;
+  return [GREYKeyboard waitAndFindKeyForCharacter:@"q"
+                                          timeout:kRegularKeyplaneUpdateDuration] != nil ||
+         [GREYKeyboard waitAndFindKeyForCharacter:@"Q"
+                                          timeout:kRegularKeyplaneUpdateDuration] != nil;
 }
 
 /**

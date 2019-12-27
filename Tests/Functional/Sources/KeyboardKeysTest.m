@@ -219,6 +219,11 @@
   [self ftr_typeString:string andVerifyOutput:string];
 }
 
+- (void)testSymbolsAndNumbersWithSpacesTyping {
+  NSString *string = @": A $ 1 = a 0 ^ 8 ;";
+  [self ftr_typeString:string andVerifyOutput:string];
+}
+
 - (void)testSpaceKey {
   NSString *string = @"a b";
   [self ftr_typeString:string andVerifyOutput:string];
@@ -424,6 +429,29 @@
       assertWithMatcher:grey_accessibilityLabel(@"")]
       performAction:[GREYActions actionForTypeText:@"Foo"]]
       assertWithMatcher:grey_accessibilityLabel(@"Foo")];
+}
+
+- (void)testKeyplaneChangeInCustomTextView {
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CustomTextView")]
+      performAction:grey_typeText(@"AAAAA")];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CustomTextView")]
+      performAction:grey_typeText(@"\b")];
+  // Keyplane should change to uppercase keyplane with backspace.
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Q")]
+      assertWithMatcher:grey_sufficientlyVisible()];
+}
+
+- (void)testKeyplaneChangeInTextField {
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
+      performAction:grey_typeText(@"AAAAA")];
+  // Keyplane should change to lowercase keyplane when capital letter typed.
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"q")]
+      assertWithMatcher:grey_sufficientlyVisible()];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
+      performAction:grey_typeText(@"\b")];
+  // Check if backspace changes the keyboard to lowercase keyplane.
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"q")]
+      assertWithMatcher:grey_sufficientlyVisible()];
 }
 
 - (void)testTypingOnTextFieldInUIInputAccessory {
