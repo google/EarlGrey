@@ -19,11 +19,6 @@
 #import "GREYDefines.h"
 
 /**
- *  Timeout for the app to idle on performing non-tactile events such as rotation or shaking.
- */
-GREY_EXTERN const CFTimeInterval kNonTactileEventTimeout;
-
-/**
  *  Any alpha less than this value is considered hidden by Apple.
  *  @see
  *  https://developer.apple.com/reference/uikit/uiview/1622469-hittest?language=objc

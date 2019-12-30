@@ -21,10 +21,10 @@
 #import "GREYUIThreadExecutor.h"
 #import "GREYFatalAsserts.h"
 #import "GREYThrowDefines.h"
+#import "GREYConfiguration.h"
 #import "GREYErrorConstants.h"
 #import "GREYTouchInfo.h"
 #import "GREYAppleInternals.h"
-#import "GREYConstants.h"
 #import "GREYLogger.h"
 #import "GREYUIWindowProvider.h"
 
@@ -99,8 +99,9 @@
     [keyWindow motionBegan:UIEventSubtypeMotionShake withEvent:motionEvent];
     [keyWindow motionEnded:UIEventSubtypeMotionShake withEvent:motionEvent];
   };
+  CFTimeInterval interactionTimeout = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
   BOOL result =
-      [[GREYUIThreadExecutor sharedInstance] executeSyncWithTimeout:kNonTactileEventTimeout
+      [[GREYUIThreadExecutor sharedInstance] executeSyncWithTimeout:interactionTimeout
                                                               block:shakeBlock
                                                               error:&synchronizationError];
   if (error) {

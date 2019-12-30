@@ -17,6 +17,7 @@
 #import "GREYHostApplicationDistantObject+ErrorHandlingTest.h"
 
 #import "GREYAppError.h"
+#import "GREYConfiguration.h"
 #import "GREYConstants.h"
 
 @implementation GREYHostApplicationDistantObject (ErrorHandlingTest)
@@ -57,7 +58,7 @@
   // rotation will wait for this to complete before timing out.
   dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)),
                  dispatch_get_main_queue(), ^{
-                   [NSThread sleepForTimeInterval:kNonTactileEventTimeout];
+                   [NSThread sleepForTimeInterval:10];
                  });
 }
 

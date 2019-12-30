@@ -495,9 +495,8 @@
   } else {
     [[[EarlGrey selectElementWithMatcher:elementMatcher] performAction:grey_clearText()]
         performAction:grey_replaceText(@"foo")];
-
-    [[EarlGrey selectElementWithMatcher:grey_textFieldValue(@"foo")]
-        assertWithMatcher:grey_notNil()];
+    // Ensure the element exists by tapping on it. This also removes the cursor.
+    [[EarlGrey selectElementWithMatcher:grey_textFieldValue(@"foo")] performAction:grey_tap()];
   }
 }
 

@@ -46,8 +46,8 @@
 - (NSError *)simpleNestedError;
 
 /**
- *  Dispatches a sleep on the main thread of the application for the non-tactile timeout
- *  (10 seconds). Used for errors with non-GREYInteraction based APIs.
+ *  Dispatches a sleep on the main thread of the application for 10 seconds. Used for errors with
+ *  non-GREYInteraction based APIs.
  */
 - (void)induceNonTactileActionTimeoutInTheApp;
 @end

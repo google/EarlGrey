@@ -19,7 +19,6 @@
 #include <math.h>
 
 /** Timeouts */
-const CFTimeInterval kNonTactileEventTimeout = 10.0;
 const CFTimeInterval kGREYInfiniteTimeout = DBL_MAX;
 
 /** Visibility related constants */

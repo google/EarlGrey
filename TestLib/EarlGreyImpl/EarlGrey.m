@@ -25,7 +25,6 @@
 #import "GREYError.h"
 #import "GREYErrorConstants.h"
 #import "GREYAppleInternals.h"
-#import "GREYConstants.h"
 #import "GREYLogger.h"
 
 #import "GREYXCTestAppleInternals.h"
@@ -108,13 +107,16 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
   BOOL success = NO;
   XCUIDevice *sharedDevice = [XCUIDevice sharedDevice];
   UIDevice *currentDevice = [GREY_REMOTE_CLASS_IN_APP(UIDevice) currentDevice];
-  GREYWaitForAppToIdleWithTimeoutAndError(kNonTactileEventTimeout, &syncErrorBeforeRotation);
+  CFTimeInterval interactionTimeout = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
 
-  if (!syncErrorBeforeRotation) {
+  BOOL syncSuccessBeforeRotation =
+      GREYWaitForAppToIdleWithTimeoutAndError(interactionTimeout, &syncErrorBeforeRotation);
+  if (syncSuccessBeforeRotation) {
     [sharedDevice setOrientation:deviceOrientation];
     [currentDevice setOrientation:deviceOrientation animated:NO];
-    GREYWaitForAppToIdleWithTimeoutAndError(kNonTactileEventTimeout, &syncErrorAfterRotation);
-    if (!syncErrorAfterRotation) {
+    BOOL syncSuccessAfterRotation =
+        GREYWaitForAppToIdleWithTimeoutAndError(interactionTimeout, &syncErrorAfterRotation);
+    if (syncSuccessAfterRotation) {
       success = currentDevice.orientation == deviceOrientation;
     }
   }
@@ -127,7 +129,7 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
     } else if (syncErrorAfterRotation) {
       NSString *errorReason =
           @"Application did not idle after rotating and before verifying the rotation.\n%@";
-      errorDescription = [NSString stringWithFormat:errorReason, syncErrorBeforeRotation];
+      errorDescription = [NSString stringWithFormat:errorReason, syncErrorAfterRotation];
     } else if (!syncErrorBeforeRotation && !syncErrorAfterRotation) {
       NSString *errorReason = @"Could not rotate application to orientation: %tu. XCUIDevice "
                               @"Orientation: %tu UIDevice Orientation: %tu. UIDevice is the "

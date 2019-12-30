@@ -28,12 +28,18 @@
 - (void)testRotationDescriptionGlossary {
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeLeft error:nil];
   [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
+  CFTimeInterval originalInteractionTimeout =
+      GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
   [[GREYConfiguration sharedConfiguration] setValue:@(0.0)
                                        forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
   [[GREYHostApplicationDistantObject sharedInstance] induceNonTactileActionTimeoutInTheApp];
   NSError *error;
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait error:&error];
   XCTAssertTrue([error.description containsString:@"\"Description Glossary\" :"]);
+  [[GREYConfiguration sharedConfiguration] setValue:@(originalInteractionTimeout)
+                                       forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
+  // Ensure that the application has idled.
+  GREYWaitForAppToIdle(@"Wait for app to idle");
 }
 
 - (void)testActionErrorContainsHierarchyForFailures {
