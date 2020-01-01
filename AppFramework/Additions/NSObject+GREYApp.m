@@ -25,7 +25,6 @@
 #import "GREYConfiguration.h"
 #import "GREYConstants.h"
 #import "GREYSwizzler.h"
-#import "GREYElementHierarchy.h"
 
 @implementation NSObject (GREYApp)
 
@@ -60,21 +59,6 @@
 
 - (NSString *)grey_stateTrackerDescription {
   return [NSString stringWithFormat:@"%@: %p", NSStringFromClass([self class]), self];
-}
-
-- (NSString *)grey_recursiveDescription {
-  if ([self grey_isWebAccessibilityElement]) {
-    return [GREYElementHierarchy hierarchyStringForElement:[self grey_viewContainingSelf]];
-  } else if ([self isKindOfClass:[UIView class]] ||
-             [self respondsToSelector:@selector(accessibilityContainer)]) {
-    return [GREYElementHierarchy hierarchyStringForElement:self];
-  } else {
-    GREYFatalAssertWithMessage(NO,
-                               @"grey_recursiveDescription made on an element that is not a valid "
-                               @"UI element: %@",
-                               self);
-    return nil;
-  }
 }
 
 - (CGPoint)grey_accessibilityActivationPointInWindowCoordinates {

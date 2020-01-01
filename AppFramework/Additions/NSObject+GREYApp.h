@@ -32,12 +32,6 @@
 - (CGPoint)grey_accessibilityActivationPointRelativeToFrame;
 
 /**
- *  @return The recursive description of the UI hierarchy for the current element. This should be
- *          used only with objects that are UIViews or UIAccessibilityElements.
- */
-- (NSString *)grey_recursiveDescription;
-
-/**
  *  @return An NSString in the format required by the app state tracker. The information printed
  *          here is printed when the application is not idle and the app's state is checked. This
  *          can be utilized for debugging since it shows which object is currently being tracked
