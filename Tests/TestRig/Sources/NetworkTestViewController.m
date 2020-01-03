@@ -125,6 +125,7 @@ static NSString *const kProxyRegex = @"^http://www.youtube.com";
       [session dataTaskWithURL:[NSURL URLWithString:@"http://www.youtube.com/"]];
   // Begin the fetch.
   [task resume];
+  [session finishTasksAndInvalidate];
 }
 
 - (IBAction)userDidTapNSURLSessionProxyDelegateTest:(id)sender {
@@ -140,6 +141,7 @@ static NSString *const kProxyRegex = @"^http://www.youtube.com";
       [session dataTaskWithURL:[NSURL URLWithString:@"http://www.youtube.com/"]];
   // Begin the fetch.
   [task resume];
+  [session finishTasksAndInvalidate];
   self->_requestCompletedLabel.hidden = NO;
 }
 
@@ -153,6 +155,7 @@ static NSString *const kProxyRegex = @"^http://www.youtube.com";
       [session dataTaskWithURL:[NSURL URLWithString:@"http://www.youtube.com/"]];
   // Begin the fetch.
   [task resume];
+  [session finishTasksAndInvalidate];
 }
 
 - (IBAction)userDidTapNSURLSessionTest:(id)sender {
@@ -168,6 +171,7 @@ static NSString *const kProxyRegex = @"^http://www.youtube.com";
              }];
   // Begin the fetch.
   [task resume];
+  [session finishTasksAndInvalidate];
 }
 
 - (IBAction)usedTappedOnInfiniteRequest:(id)sender {
@@ -181,6 +185,7 @@ static NSString *const kProxyRegex = @"^http://www.youtube.com";
                }
              }];
   [task resume];
+  [session finishTasksAndInvalidate];
 }
 
 #pragma mark - NSURLSessionDataDelegate
