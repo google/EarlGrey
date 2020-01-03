@@ -217,7 +217,6 @@
 		FDF9E06220F82E340005DCF2 /* GREYUIWindowProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = FDF9E05C20F82E340005DCF2 /* GREYUIWindowProvider.m */; };
 		FDF9E06320F82E340005DCF2 /* GREYDataEnumerator.m in Sources */ = {isa = PBXBuildFile; fileRef = FDF9E05E20F82E340005DCF2 /* GREYDataEnumerator.m */; };
 		FDF9E06920F82EF60005DCF2 /* CGGeometry+GREYUI.m in Sources */ = {isa = PBXBuildFile; fileRef = FDF9E06520F82EF60005DCF2 /* CGGeometry+GREYUI.m */; };
-		FDF9E06A20F82EF60005DCF2 /* NSObject+GREYUI.m in Sources */ = {isa = PBXBuildFile; fileRef = FDF9E06620F82EF60005DCF2 /* NSObject+GREYUI.m */; };
 		FDF9E07720F82F030005DCF2 /* GREYElementHierarchy.m in Sources */ = {isa = PBXBuildFile; fileRef = FDF9E07120F82F030005DCF2 /* GREYElementHierarchy.m */; };
 /* End PBXBuildFile section */
 
@@ -684,9 +683,7 @@
 		FDF9E05E20F82E340005DCF2 /* GREYDataEnumerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYDataEnumerator.m; path = UILib/Provider/GREYDataEnumerator.m; sourceTree = SOURCE_ROOT; };
 		FDF9E05F20F82E340005DCF2 /* GREYElementProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYElementProvider.h; path = UILib/Provider/GREYElementProvider.h; sourceTree = SOURCE_ROOT; };
 		FDF9E06520F82EF60005DCF2 /* CGGeometry+GREYUI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CGGeometry+GREYUI.m"; path = "UILib/Additions/CGGeometry+GREYUI.m"; sourceTree = SOURCE_ROOT; };
-		FDF9E06620F82EF60005DCF2 /* NSObject+GREYUI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+GREYUI.m"; path = "UILib/Additions/NSObject+GREYUI.m"; sourceTree = SOURCE_ROOT; };
 		FDF9E06720F82EF60005DCF2 /* CGGeometry+GREYUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CGGeometry+GREYUI.h"; path = "UILib/Additions/CGGeometry+GREYUI.h"; sourceTree = SOURCE_ROOT; };
-		FDF9E06820F82EF60005DCF2 /* NSObject+GREYUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+GREYUI.h"; path = "UILib/Additions/NSObject+GREYUI.h"; sourceTree = SOURCE_ROOT; };
 		FDF9E06D20F82F020005DCF2 /* GREYElementHierarchy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYElementHierarchy.h; sourceTree = "<group>"; };
 		FDF9E07120F82F030005DCF2 /* GREYElementHierarchy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYElementHierarchy.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1379,8 +1376,6 @@
 			children = (
 				FDF9E06720F82EF60005DCF2 /* CGGeometry+GREYUI.h */,
 				FDF9E06520F82EF60005DCF2 /* CGGeometry+GREYUI.m */,
-				FDF9E06820F82EF60005DCF2 /* NSObject+GREYUI.h */,
-				FDF9E06620F82EF60005DCF2 /* NSObject+GREYUI.m */,
 			);
 			path = Additions;
 			sourceTree = "<group>";
@@ -1897,7 +1892,6 @@
 				FDB4AB64237CD95F00E6847D /* GREYVisibilityCheckerTarget.m in Sources */,
 				FD44C48C22C679050044199E /* GREYTraversalFunctions.m in Sources */,
 				FDF9E06920F82EF60005DCF2 /* CGGeometry+GREYUI.m in Sources */,
-				FDF9E06A20F82EF60005DCF2 /* NSObject+GREYUI.m in Sources */,
 				FDB4AB65237CD95F00E6847D /* GREYVisibilityChecker.m in Sources */,
 				FDB4AB66237CD95F00E6847D /* GREYVisibilityCheckerCacheEntry.m in Sources */,
 				FDF9E05720F82E200005DCF2 /* GREYTraversalDFS.m in Sources */,
