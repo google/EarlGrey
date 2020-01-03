@@ -51,7 +51,7 @@
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"RequestCompletedLabel")]
       assertWithMatcher:grey_sufficientlyVisible()
                   error:&error];
-  XCTAssertTrue([error.description containsString:@"URL:\"http://www.youtube.com/\""]);
+  XCTAssertTrue([error.localizedDescription containsString:@"URL:\"http://www.youtube.com/\""]);
 }
 
 - (void)testSynchronizationWorksWithNSURLSessionDelegates {

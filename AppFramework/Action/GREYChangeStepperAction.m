@@ -234,10 +234,11 @@
                                                           indent:kGREYObjectFormatIndent
                                                        hideEmpty:YES
                                                         keyOrder:keyOrder];
-  NSString *reason = [NSString stringWithFormat:@"Cannot set stepper value due to "
-                                                @"invalid user input.\n"
-                                                @"Exception with Action: %@",
-                                                reasonDetail];
+  NSString *reason = [NSString stringWithFormat:
+                                   @"Cannot set stepper value due to "
+                                   @"invalid user input.\n"
+                                   @"Exception with Action: %@\n",
+                                   reasonDetail];
   I_GREYPopulateError(error, kGREYInteractionErrorDomain, kGREYInteractionActionFailedErrorCode,
                       reason);
   return NO;

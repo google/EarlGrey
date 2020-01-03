@@ -48,25 +48,22 @@
   GREYThrowOnNilParameter(exception);
   id currentTestCase = [XCTestCase grey_currentTestCase];
 
-  NSMutableString *logMessage = [[NSMutableString alloc] init];
+  NSMutableArray *logger = [[NSMutableArray alloc] init];
   NSString *reason = exception.reason;
 
   if (reason.length == 0) {
     reason = @"exception.reason was not provided";
   }
 
-  NSString *logName = [NSString stringWithFormat:@"%@: %@", @"Exception Name", exception.name];
-  [logMessage appendString:logName];
-  NSString *logReason = [NSString stringWithFormat:@"\n%@: %@", @"Exception Reason", reason];
-  [logMessage appendString:logReason];
+  [logger addObject:[NSString stringWithFormat:@"%@: %@", @"Exception Name", exception.name]];
+  [logger addObject:[NSString stringWithFormat:@"%@: %@", @"Exception Reason", reason]];
 
   if (details.length > 0) {
-    NSString *logDetails = [NSString stringWithFormat:@"\n%@: %@", @"Element Matcher", details];
-    [logMessage appendString:logDetails];
+    [logger addObject:[NSString stringWithFormat:@"%@: %@", @"Exception Details", details]];
   }
 
-  NSDictionary<NSString *, UIImage *> *appScreenshots =
-      [exception.userInfo valueForKey:kErrorDetailAppScreenshotsKey];
+  NSString *logMessage = [logger componentsJoinedByString:@"\n"];
+  NSDictionary *appScreenshots = [exception.userInfo valueForKey:kErrorDetailAppScreenshotsKey];
   // Re-obtain the screenshots when a user might be using GREYAsserts. Since this is from the test
   // process, the delay here would be minimal.
   if (!appScreenshots) {
@@ -98,7 +95,7 @@
                                                       stackTrace:stackTrace
                                                   appScreenshots:appScreenshots
                                                        hierarchy:appUIHierarchy
-                                                          format:@"%@", logMessage];
+                                                          format:@"%@\n", logMessage];
   [currentTestCase grey_markAsFailedAtLine:_lineNumber inFile:_fileName description:log];
 }
 

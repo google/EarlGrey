@@ -156,10 +156,9 @@
       if (elementsFound || !syncSuccess) {
         break;
       } else if (!_searchAction) {
-        NSString *description =
-            @"Interaction cannot continue because the desired element was not found.";
+        NSString *desc = @"Interaction cannot continue because the desired element was not found.";
         error = GREYErrorMakeWithHierarchy(kGREYInteractionErrorDomain,
-                                           kGREYInteractionElementNotFoundErrorCode, description);
+                                           kGREYInteractionElementNotFoundErrorCode, desc);
         break;
       } else if (searchActionError) {
         break;
@@ -183,27 +182,27 @@
     return;
   } else if (executorError && numSearchIterations <= 0) {
     // Errors during the synchronization before the match happens.
-    NSString *actionTimeoutDescription =
+    // TODO: Add test coverage for this error. // NOLINT
+    NSString *actionTimeoutDesc =
         [NSString stringWithFormat:@"App not idle within %g seconds.", timeout];
     I_GREYPopulateNestedError(&error, kGREYInteractionErrorDomain, kGREYInteractionTimeoutErrorCode,
-                              actionTimeoutDescription, executorError);
+                              actionTimeoutDesc, executorError);
   } else if (searchActionError) {
-    NSString *searchActionDescription = searchActionError.localizedDescription;
-    NSString *description =
-        [NSString stringWithFormat:@"Search action failed: %@\n", searchActionDescription];
+    NSString *desc = [NSString stringWithFormat:@"Search action failed: %@Underlying error: %@",
+                                                searchActionError.localizedFailureReason,
+                                                searchActionError.underlyingErrorDescription];
     I_GREYPopulateError(&error, kGREYInteractionErrorDomain,
-                        kGREYInteractionElementNotFoundErrorCode, description);
+                        kGREYInteractionElementNotFoundErrorCode, desc);
   } else if (executorError || isSearchTimedOut) {
     CFTimeInterval interactionTimeout =
         GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
-    NSString *description =
-        [NSString stringWithFormat:@"Interaction timed out after %g seconds while "
-                                   @"searching for element.",
-                                   interactionTimeout];
-    GREYError *timeoutError = GREYErrorMakeWithHierarchy(
-        kGREYInteractionErrorDomain, kGREYInteractionTimeoutErrorCode, description);
-    I_GREYPopulateError(&error, kGREYInteractionErrorDomain,
-                        kGREYInteractionElementNotFoundErrorCode, timeoutError);
+    NSString *desc = [NSString stringWithFormat:@"Interaction timed out after %g seconds while "
+                                                @"searching for element.",
+                                                interactionTimeout];
+    GREYError *timeoutError = GREYErrorMakeWithHierarchy(kGREYInteractionErrorDomain,
+                                                         kGREYInteractionTimeoutErrorCode, desc);
+    I_GREYPopulateNestedError(&error, kGREYInteractionErrorDomain,
+                              kGREYInteractionElementNotFoundErrorCode, @"", timeoutError);
   }
 
   GREYFatalAssertWithMessage(error != nil, @"Elements found but with an error: %@", error);
@@ -537,7 +536,7 @@
                                                            hideEmpty:YES
                                                             keyOrder:keyOrder];
       reason = [NSString stringWithFormat:@"Matching element timed out.\n"
-                                          @"Exception with Action: %@",
+                                          @"Exception with Action: %@\n",
                                           reasonDetail];
     } else if (([errorDomain isEqualToString:kGREYUIThreadExecutorErrorDomain]) &&
                (errorCode == kGREYUIThreadExecutorTimeoutErrorCode)) {
@@ -550,7 +549,7 @@
                                                            hideEmpty:YES
                                                             keyOrder:keyOrder];
       reason = [NSString stringWithFormat:@"Timed out while waiting to perform action.\n"
-                                          @"Exception with Action: %@",
+                                          @"Exception with Action: %@\n",
                                           reasonDetail];
 
       [actionError setErrorInfo:errorDetails];
@@ -568,9 +567,7 @@
         errorDetails[kErrorDetailRecoverySuggestionKey] =
             @"Check if the element exists in the UI hierarchy printed below. If it exists, adjust "
             @"the matcher so that it accurately matches element.";
-        if (searchAPIInfo) {
-          // errorDetails[kErrorDetailSearchActionInfoKey] = searchAPIInfo;
-        }
+        errorDetails[kErrorDetailSearchActionInfoKey] = searchAPIInfo;
 
         NSArray *keyOrder = @[
           kErrorDetailActionNameKey, kErrorDetailElementMatcherKey,
@@ -581,7 +578,7 @@
                                                              hideEmpty:YES
                                                               keyOrder:keyOrder];
         reason = [NSString stringWithFormat:@"Cannot find UI element.\n"
-                                            @"Exception with Action: %@",
+                                            @"Exception with Action: %@\n",
                                             reasonDetail];
 
         [actionError setErrorInfo:errorDetails];
@@ -597,9 +594,7 @@
             @"arranged may change, making your test brittle. If you are matching "
             @"on a UIButton, please use  grey_buttonTitle() with the accessibility "
             @"label instead. For UITextField, please use grey_textFieldValue().";
-        if (searchAPIInfo) {
-          errorDetails[kErrorDetailSearchActionInfoKey] = searchAPIInfo;
-        }
+        errorDetails[kErrorDetailSearchActionInfoKey] = searchAPIInfo;
 
         NSArray *keyOrder = @[
           kErrorDetailActionNameKey, kErrorDetailElementMatcherKey,
@@ -611,7 +606,7 @@
                                                               keyOrder:keyOrder];
         reason = [NSString stringWithFormat:@"Multiple UI elements matched "
                                             @"for the given criteria.\n"
-                                            @"Exception with Action: %@",
+                                            @"Exception with Action: %@\n",
                                             reasonDetail];
 
         [actionError setErrorInfo:errorDetails];
@@ -631,7 +626,7 @@
 
         reason = [NSString stringWithFormat:@"Cannot perform action due to "
                                             @"constraint(s) failure.\n"
-                                            @"Exception with Action: %@",
+                                            @"Exception with Action: %@\n",
                                             reasonDetail];
         NSString *nestedError = [GREYError grey_nestedDescriptionForError:actionError];
         errorDetails[NSLocalizedFailureReasonErrorKey] = nestedError.description;
@@ -651,7 +646,7 @@
                                                           keyOrder:keyOrder];
     reason = [NSString stringWithFormat:@"An action failed. "
                                         @"Please refer to the error trace below.\n"
-                                        @"Exception with Action: %@",
+                                        @"Exception with Action: %@\n",
                                         reasonDetail];
   }
   *error = [self grey_errorToReturnForInteractionError:actionError withReason:reason];
@@ -699,7 +694,7 @@
                                                            hideEmpty:YES
                                                             keyOrder:keyOrder];
       reason = [NSString stringWithFormat:@"Matching element timed out.\n"
-                                          @"Exception with Assertion: %@",
+                                          @"Exception with Assertion: %@\n",
                                           reasonDetail];
 
       [assertionError setErrorInfo:errorDetails];
@@ -714,7 +709,7 @@
                                                            hideEmpty:YES
                                                             keyOrder:keyOrder];
       reason = [NSString stringWithFormat:@"Timed out while waiting to perform assertion.\n"
-                                          @"Exception with Assertion: %@",
+                                          @"Exception with Assertion: %@\n",
                                           reasonDetail];
 
       [assertionError setErrorInfo:errorDetails];
@@ -732,9 +727,7 @@
         errorDetails[kErrorDetailRecoverySuggestionKey] =
             @"Check if the element exists in the UI hierarchy printed below. If it exists, "
             @"adjust the matcher so that it accurately matches element.";
-        if (searchAPIInfo) {
-          errorDetails[kErrorDetailSearchActionInfoKey] = searchAPIInfo;
-        }
+        errorDetails[kErrorDetailSearchActionInfoKey] = searchAPIInfo;
         NSArray *keyOrder = @[
           kErrorDetailAssertCriteriaKey, kErrorDetailElementMatcherKey,
           kErrorDetailRecoverySuggestionKey
@@ -744,7 +737,7 @@
                                                              hideEmpty:YES
                                                               keyOrder:keyOrder];
         reason = [NSString stringWithFormat:@"Cannot find UI Element.\n"
-                                            @"Exception with Assertion: %@",
+                                            @"Exception with Assertion: %@\n",
                                             reasonDetail];
 
         [assertionError setErrorInfo:errorDetails];
@@ -755,9 +748,7 @@
         errorDetails[kErrorDetailElementMatcherKey] = _elementMatcher.description;
         errorDetails[kErrorDetailRecoverySuggestionKey] =
             @"Create a more specific matcher to narrow matched element";
-        if (searchAPIInfo) {
-          errorDetails[kErrorDetailSearchActionInfoKey] = searchAPIInfo;
-        }
+        errorDetails[kErrorDetailSearchActionInfoKey] = searchAPIInfo;
         NSArray *keyOrder = @[
           kErrorDetailAssertCriteriaKey, kErrorDetailElementMatcherKey,
           kErrorDetailRecoverySuggestionKey
@@ -768,7 +759,7 @@
                                                               keyOrder:keyOrder];
         reason = [NSString stringWithFormat:@"Multiple UI elements matched "
                                             @"for given criteria.\n"
-                                            @"Exception with Assertion: %@",
+                                            @"Exception with Assertion: %@\n",
                                             reasonDetail];
 
         [assertionError setErrorInfo:errorDetails];
@@ -790,7 +781,7 @@
                                                          hideEmpty:YES
                                                           keyOrder:keyOrder];
     reason = [NSString stringWithFormat:@"An assertion failed.\n"
-                                        @"Exception with Assertion: %@",
+                                        @"Exception with Assertion: %@\n",
                                         reasonDetail];
   }
 
@@ -802,27 +793,24 @@
                                         withReason:(NSString *)reason {
   // Obtain the hierarchy before framing the error since this can modify the error as well.
   NSString *hierarchy = [self grey_unifyAndExtractHierarchyFromError:interactionError];
-
-  // Add information such as element matcher and any nested error info.
-  NSMutableDictionary<NSString *, id> *userInfo = [[NSMutableDictionary alloc] init];
-  [userInfo setValue:interactionError.localizedDescription forKey:NSLocalizedDescriptionKey];
-  [userInfo setValue:reason forKey:NSLocalizedFailureReasonErrorKey];
-  // Nested errors contain extra information such as stack traces, error codes that aren't useful.
-  // We only need the description glossary for printing in the error.
-  // TODO(b/147072566): Ensure formatting of synchronization (idling resources) happens correctly.
-  if ([interactionError respondsToSelector:@selector(nestedError)]) {
-    [userInfo setValue:interactionError.nestedError forKey:NSUnderlyingErrorKey];
+  NSDictionary *userInfo = @{
+    NSLocalizedDescriptionKey : interactionError.description,
+    NSLocalizedFailureReasonErrorKey : reason,
+    kErrorDetailElementMatcherKey : _elementMatcher.description,
+  };
+  NSMutableDictionary *mutableUserInfo = [[NSMutableDictionary alloc] initWithDictionary:userInfo];
+  if (hierarchy) {
+    [mutableUserInfo setObject:hierarchy forKey:kErrorDetailAppUIHierarchyKey];
   }
-  [userInfo setValue:_elementMatcher.description forKey:kErrorDetailElementMatcherKey];
-
-  NSDictionary<NSString *, UIImage *> *appScreenshots =
-      [self grey_appScreenshotsFromError:interactionError];
-
-  // Create a new error from the compiled information.
-  GREYError *wrappedError = I_GREYErrorMake(
-      interactionError.domain, interactionError.code, userInfo, interactionError.filePath,
-      interactionError.line, interactionError.functionName, interactionError.descriptionGlossary,
-      interactionError.stackTrace, hierarchy, appScreenshots);
+  NSDictionary *appScreenshots = [self grey_appScreenshotsFromError:interactionError];
+  if (appScreenshots) {
+    [mutableUserInfo setObject:appScreenshots forKey:kErrorDetailAppScreenshotsKey];
+  }
+  userInfo = [mutableUserInfo copy];
+  GREYError *wrappedError = [GREYError errorWithDomain:interactionError.domain
+                                                  code:interactionError.code
+                                              userInfo:userInfo];
+  wrappedError.underlyingErrorDescription = interactionError.localizedDescription;
   return wrappedError;
 }
 
@@ -880,10 +868,10 @@
  */
 - (NSString *)grey_searchActionDescription {
   if (_searchAction) {
-    return [NSString stringWithFormat:@"Search action: %@. \nSearch action element matcher: %@.",
+    return [NSString stringWithFormat:@"Search action: %@. \nSearch action element matcher: %@.\n",
                                       _searchAction, _searchActionElementMatcher];
   } else {
-    return nil;
+    return @"";
   }
 }
 
@@ -925,8 +913,8 @@
  *  @return An NSDictionary with the extracted app screenshots from the provided @c error.
  *          Can be @c nil if no screenshots were taken on error creation.
  */
-- (NSDictionary<NSString *, UIImage *> *)grey_appScreenshotsFromError:(NSError *)error {
-  NSDictionary<NSString *, UIImage *> *appScreenshots;
+- (NSDictionary *)grey_appScreenshotsFromError:(NSError *)error {
+  NSDictionary *appScreenshots;
   if ([error isKindOfClass:[GREYError class]]) {
     NSError *modifiedError = [(GREYError *)error nestedError] ?: error;
     if ([modifiedError isKindOfClass:[GREYError class]]) {
