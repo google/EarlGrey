@@ -22,6 +22,26 @@
 
 @implementation GREYHostApplicationDistantObject (ErrorHandlingTest)
 
+- (id<GREYAssertion>)failingAssertion {
+  return [GREYAssertionBlock assertionWithName:@"Failing Assertion"
+                       assertionBlockWithError:^BOOL(id element, NSError *__strong *errorOrNil) {
+                         *errorOrNil = [[NSError alloc] initWithDomain:@"Generic Error"
+                                                                  code:1
+                                                              userInfo:nil];
+                         return NO;
+                       }];
+}
+
+- (id<GREYAction>)failingAction {
+  return [GREYActionBlock actionWithName:@"Failing Action"
+                            performBlock:^BOOL(id element, NSError *__strong *errorOrNil) {
+                              *errorOrNil = [[NSError alloc] initWithDomain:@"Generic Error"
+                                                                       code:1
+                                                                   userInfo:nil];
+                              return NO;
+                            }];
+}
+
 - (NSError *)errorPopulatedInTheApp {
   NSError *error;
   I_GREYPopulateError(&error, kGREYGenericErrorDomain, kGREYGenericErrorCode, @"Foo");

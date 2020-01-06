@@ -36,12 +36,12 @@
 - (NSError *)errorCreatedInTheApp;
 
 /**
- *  @c returns A simple error nested with a GREYError containing the UI Hierarchy.
+ *  @return A simple error nested with a GREYError containing the UI Hierarchy.
  */
 - (NSError *)nestedErrorWithHierarchyCreatedInTheApp;
 
 /**
- *  @c returns A simple error nested error with no UI hierarchy.
+ *  @return A simple error nested error with no UI hierarchy.
  */
 - (NSError *)simpleNestedError;
 
@@ -50,4 +50,14 @@
  *  non-GREYInteraction based APIs.
  */
 - (void)induceNonTactileActionTimeoutInTheApp;
+
+/**
+ *  @return An assertion that always fails and sets a generic error.
+ */
+- (id<GREYAssertion>)failingAssertion;
+
+/**
+ *  @return An action that always fails and sets a generic error.
+ */
+- (id<GREYAction>)failingAction;
 @end

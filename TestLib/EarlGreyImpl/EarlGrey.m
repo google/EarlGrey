@@ -24,6 +24,7 @@
 #import "GREYTestApplicationDistantObject.h"
 #import "GREYError.h"
 #import "GREYErrorConstants.h"
+#import "GREYObjectFormatter.h"
 #import "GREYAppleInternals.h"
 #import "GREYLogger.h"
 
@@ -124,12 +125,27 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
   if (!success) {
     NSString *errorDescription;
     if (syncErrorBeforeRotation) {
-      NSString *errorReason = @"Application did not idle before rotating.\n%@";
-      errorDescription = [NSString stringWithFormat:errorReason, syncErrorBeforeRotation];
+      NSString *errorReason = @"Application did not idle before rotating.\n%@\n%@";
+      // TODO(b/147072566): Provide an error API to format description glossary on the test side.
+      NSString *descriptionGlossary =
+          [GREYObjectFormatter formatDictionary:syncErrorBeforeRotation.descriptionGlossary
+                                         indent:kGREYObjectFormatIndent
+                                      hideEmpty:YES
+                                       keyOrder:nil];
+      errorDescription =
+          [NSString stringWithFormat:errorReason, syncErrorBeforeRotation.localizedDescription,
+                                     descriptionGlossary];
     } else if (syncErrorAfterRotation) {
       NSString *errorReason =
-          @"Application did not idle after rotating and before verifying the rotation.\n%@";
-      errorDescription = [NSString stringWithFormat:errorReason, syncErrorAfterRotation];
+          @"Application did not idle after rotating and before verifying the rotation.\n%@@\n%@";
+      NSString *descriptionGlossary =
+          [GREYObjectFormatter formatDictionary:syncErrorBeforeRotation.descriptionGlossary
+                                         indent:kGREYObjectFormatIndent
+                                      hideEmpty:YES
+                                       keyOrder:nil];
+      errorDescription =
+          [NSString stringWithFormat:errorReason, syncErrorAfterRotation.localizedDescription,
+                                     descriptionGlossary];
     } else if (!syncErrorBeforeRotation && !syncErrorAfterRotation) {
       NSString *errorReason = @"Could not rotate application to orientation: %tu. XCUIDevice "
                               @"Orientation: %tu UIDevice Orientation: %tu. UIDevice is the "
@@ -157,7 +173,7 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
     NSString *errorDescription =
         [NSString stringWithFormat:@"Failed to dismiss keyboard since it was not showing. "
                                    @"Internal Error: %@",
-                                   dismissalError.description];
+                                   dismissalError.localizedDescription];
     dismissalError = GREYErrorMake(kGREYKeyboardDismissalErrorDomain,
                                    GREYKeyboardDismissalFailedErrorCode, errorDescription);
     if (error) {

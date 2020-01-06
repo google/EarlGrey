@@ -124,7 +124,7 @@
     GREYFail(@"Should throw an exception");
   } @catch (NSException *exception) {
     NSRange exceptionRange = [[exception reason] rangeOfString:@"Cannot perform tap"];
-    GREYAssertNotEqual(exceptionRange.location, NSNotFound, @"should not be equal");
+    GREYAssertNotEqual(exceptionRange.location, NSNotFound, @"Action error should be present.");
   }
 }
 
@@ -149,16 +149,16 @@
       selectElementWithMatcher:grey_accessibilityLabel(@"PartialOffScreenRectangleElementLabel")]
       assertWithMatcher:grey_sufficientlyVisible()
                   error:&error];
-  XCTAssertTrue([error.localizedDescription containsString:@"Expected:"]);
-  XCTAssertTrue([error.localizedDescription containsString:@"Actual:"]);
+  XCTAssertTrue([error.description containsString:@"Expected:"]);
+  XCTAssertTrue([error.description containsString:@"Actual:"]);
 
   error = nil;
   [[EarlGrey
       selectElementWithMatcher:grey_accessibilityLabel(@"PartialOffScreenRectangleElementLabel")]
       assertWithMatcher:grey_minimumVisiblePercent(1.0)
                   error:&error];
-  XCTAssertTrue([error.localizedDescription containsString:@"Expected:"]);
-  XCTAssertTrue([error.localizedDescription containsString:@"Actual:"]);
+  XCTAssertTrue([error.description containsString:@"Expected:"]);
+  XCTAssertTrue([error.description containsString:@"Actual:"]);
 }
 
 - (void)testOffScreenAccessibilityElementIsNotVisible {

@@ -17,6 +17,7 @@
 #import "GREYElementInteractionErrorHandler.h"
 
 #import "GREYAssertionDefinesPrivate.h"
+#import "GREYError+Private.h"
 #import "GREYErrorConstants.h"
 #import "GREYFailureHandler.h"
 #import "GREYFrameworkException.h"
@@ -37,22 +38,23 @@
     if (errorOrNil) {
       *errorOrNil = interactionError;
     } else {
+      NSMutableString *matcherDetails;
+      NSDictionary<NSString *, id> *userInfo = interactionError.userInfo;
+      NSString *localizedFailureReason = userInfo[NSLocalizedFailureReasonErrorKey];
       NSMutableString *reason = [[interactionError localizedDescription] mutableCopy];
-      NSString *descriptionGlossary = [[interactionError descriptionGlossary] description];
-      if (descriptionGlossary) {
-        [reason appendFormat:@"\nDescription Glossary: \n%@", descriptionGlossary];
+      matcherDetails = [NSMutableString stringWithFormat:@"%@\n", localizedFailureReason];
+      if (interactionError.nestedError) {
+        [matcherDetails appendFormat:@"\nUnderlying Error: \n%@", interactionError.nestedError];
       }
-
       GREYFrameworkException *exception =
-          [GREYFrameworkException exceptionWithName:[interactionError domain]
+          [GREYFrameworkException exceptionWithName:interactionError.domain
                                              reason:reason
-                                           userInfo:[interactionError userInfo]];
+                                           userInfo:userInfo];
 
       id<GREYFailureHandler> failureHandler =
           [NSThread mainThread].threadDictionary[GREYFailureHandlerKey];
-
-      NSString *errorDetails = [[exception userInfo] valueForKey:kErrorDetailElementMatcherKey];
-      [failureHandler handleException:exception details:errorDetails];
+      // TODO(b/147072566): Will show up a (null) in rotation.
+      [failureHandler handleException:exception details:matcherDetails];
     }
     return NO;
   } else {
