@@ -15,8 +15,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
+
+typedef NSDictionary<NSString *, NSString *> GREYFailureScreenshots;
 
 /**
  *  Saves screenshot images in a provided dictionary to disk.
@@ -26,14 +29,16 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Saves the screenshots in the @c screenshotsDict to the path specified in @c screenshotDir.
  *
- *  @param screenshotsDict  An NSDictionary containing the image type and the screenshots
- *                          themselves.
- *  @param screenshotDir    The directory path to save the screenshots in.
+ *  @param screenshotsDict A NSDictionary containing the image type and the screenshots
+ *                         themselves.
+ *  @param screenshotDir   The directory path to save the screenshots in.
  *
- *  @return An NSArray containing the paths of the images saved to disk.
+ *  @return A NSDictionary containing the paths of the images saved to disk with the keys as the
+ *          titles of the images.
  */
-+ (NSArray *)saveFailureScreenshotsInDictionary:(NSDictionary *)screenshotsDict
-                                    toDirectory:(NSString *)screenshotDir;
++ (GREYFailureScreenshots *)saveFailureScreenshotsInDictionary:
+                                (NSDictionary<NSString *, UIImage *> *)screenshotsDict
+                                                   toDirectory:(NSString *)screenshotDir;
 @end
 
 NS_ASSUME_NONNULL_END

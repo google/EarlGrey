@@ -75,12 +75,12 @@
 
   NSString *uniqueSubDirName =
       [NSString stringWithFormat:@"%@-%@", exception.name, [[NSUUID UUID] UUIDString]];
-  __unused NSString *screenshotDir = [GREY_CONFIG_STRING(kGREYConfigKeyArtifactsDirLocation)
+  NSString *screenshotDir = [GREY_CONFIG_STRING(kGREYConfigKeyArtifactsDirLocation)
       stringByAppendingPathComponent:uniqueSubDirName];
-  __unused NSArray<NSString *> *screenshots =
+  GREYFailureScreenshots *screenshotPaths =
       [GREYFailureScreenshotSaver saveFailureScreenshotsInDictionary:appScreenshots
                                                          toDirectory:screenshotDir];
-  NSAssert(screenshots, @"Screenshots must be present");
+  NSAssert(screenshotPaths, @"Screenshots must be present");
   NSArray *stackTrace = [NSThread callStackSymbols];
 
   NSString *appUIHierarchy = [exception.userInfo valueForKey:kErrorDetailAppUIHierarchyKey];
@@ -96,7 +96,7 @@
                                                       lineNumber:_lineNumber
                                                     functionName:nil
                                                       stackTrace:stackTrace
-                                                  appScreenshots:appScreenshots
+                                                  appScreenshots:screenshotPaths
                                                        hierarchy:appUIHierarchy
                                                           format:@"%@", logMessage];
   [currentTestCase grey_markAsFailedAtLine:_lineNumber inFile:_fileName description:log];

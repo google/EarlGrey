@@ -21,37 +21,45 @@
 
 @implementation GREYFailureScreenshotSaver
 
-+ (NSArray *)saveFailureScreenshotsInDictionary:(NSDictionary *)screenshotsDict
-                                    toDirectory:(NSString *)screenshotDir {
-  NSMutableArray<NSString *> *screenshotPaths = [[NSMutableArray alloc] init];
++ (GREYFailureScreenshots *)saveFailureScreenshotsInDictionary:
+                                (NSDictionary<NSString *, UIImage *> *)screenshotsDict
+                                                   toDirectory:(NSString *)screenshotDir {
+  NSMutableDictionary<NSString *, NSString *> *screenshotPaths = [[NSMutableDictionary alloc] init];
 
   // Save and log screenshot, before and after images (if available).
   UIImage *screenshot = screenshotsDict[kGREYScreenshotAtFailure];
   if (screenshot) {
-    [screenshotPaths addObject:[NSFileManager grey_saveImageAsPNG:screenshot
-                                                           toFile:@"screenshot.png"
-                                                      inDirectory:screenshotDir]];
+    NSString *screenshotSuffix = @"screenshot.png";
+    screenshotPaths[kGREYScreenshotAtFailure] = [NSFileManager grey_saveImageAsPNG:screenshot
+                                                                            toFile:screenshotSuffix
+                                                                       inDirectory:screenshotDir];
   }
 
   screenshot = screenshotsDict[kGREYScreenshotBeforeImage];
   if (screenshot) {
-    [screenshotPaths addObject:[NSFileManager grey_saveImageAsPNG:screenshot
-                                                           toFile:@"visibility_before.png"
-                                                      inDirectory:screenshotDir]];
+    NSString *beforeScreenshotSuffix = @"visibility_before.png";
+    screenshotPaths[kGREYScreenshotBeforeImage] =
+        [NSFileManager grey_saveImageAsPNG:screenshot
+                                    toFile:beforeScreenshotSuffix
+                               inDirectory:screenshotDir];
   }
 
   screenshot = screenshotsDict[kGREYScreenshotExpectedAfterImage];
   if (screenshot) {
-    [screenshotPaths addObject:[NSFileManager grey_saveImageAsPNG:screenshot
-                                                           toFile:@"visibility_after_expected.png"
-                                                      inDirectory:screenshotDir]];
+    NSString *afterExpectedScreenshotSuffix = @"visibility_after_expected.png";
+    screenshotPaths[kGREYScreenshotExpectedAfterImage] =
+        [NSFileManager grey_saveImageAsPNG:screenshot
+                                    toFile:afterExpectedScreenshotSuffix
+                               inDirectory:screenshotDir];
   }
 
   screenshot = screenshotsDict[kGREYScreenshotActualAfterImage];
   if (screenshot) {
-    [screenshotPaths addObject:[NSFileManager grey_saveImageAsPNG:screenshot
-                                                           toFile:@"visibility_after_actual.png"
-                                                      inDirectory:screenshotDir]];
+    NSString *afterActualScreenshotSuffix = @"visibility_after_actual.png";
+    screenshotPaths[kGREYScreenshotActualAfterImage] =
+        [NSFileManager grey_saveImageAsPNG:screenshot
+                                    toFile:afterActualScreenshotSuffix
+                               inDirectory:screenshotDir];
   }
   return [screenshotPaths copy];
 }

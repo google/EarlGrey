@@ -108,7 +108,6 @@
     [logger addObject:[NSString stringWithFormat:@"Stack Trace: %@\n", error.stackTrace]];
   }
 
-  // TODO(b/144787819): Fix screenshot paths in the error.
   // Add screenshots.
   if (![excluding containsObject:kErrorAppScreenShotsKey]) {
     NSArray *keyOrder = @[
