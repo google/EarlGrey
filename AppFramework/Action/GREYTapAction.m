@@ -100,14 +100,10 @@
   id<GREYMatcher> systemAlertShownMatcher = [GREYMatchers matcherForSystemAlertViewShown];
   id<GREYMatcher> systemAlertNotShownMatcher =
       [GREYMatchers matcherForNegation:systemAlertShownMatcher];
-  NSArray *matchersArray = @[
+  NSArray<id<GREYMatcher>> *constraintMatchers = @[
     systemAlertNotShownMatcher, [[GREYAnyOf alloc] initWithMatchers:anyOfMatchers],
     [GREYMatchers matcherForEnabledElement]
   ];
-  NSMutableArray *constraintMatchers = [NSMutableArray arrayWithArray:matchersArray];
-  if ((tapType != kGREYTapTypeKBKey)) {
-    [constraintMatchers addObject:[GREYMatchers matcherForInteractable]];
-  }
   self = [super initWithName:name
                  constraints:[[GREYAllOf alloc] initWithMatchers:constraintMatchers]];
   if (self) {
