@@ -78,12 +78,13 @@
   ]];
   self.launchArguments = launchArgs;
 
-  // Resets the port number before each relaunch.
+  // Reset the port number for the app under test before every -[XCUIApplication launch] call.
   GREYTestApplicationDistantObject *testDistantObject =
       GREYTestApplicationDistantObject.sharedInstance;
   testDistantObject.hostPort = 0;
   testDistantObject.hostBackgroundPort = 0;
   INVOKE_ORIGINAL_IMP(void, @selector(grey_launch));
+  NSLog(@"Application Launch Completed. UI Test with EarlGrey Starting");
 }
 
 // Modifies the autocorrect and predictive typing settings to turn them off through the keyboard
