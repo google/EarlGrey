@@ -14,6 +14,8 @@
 // limitations under the License.
 //
 
+#import <WebKit/WebKit.h>
+
 #import "BaseIntegrationTest.h"
 
 @interface WKWebViewTest : BaseIntegrationTest
@@ -26,18 +28,34 @@
   [self openTestViewNamed:@"WKWebView"];
 }
 
+/** Tests scrolling down on a web view. */
 - (void)testScrollingWKWebViewWithEarlGrey {
-  XCUIApplication *application = [[XCUIApplication alloc] init];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"loadHTMLString")]
       performAction:grey_tap()];
-  // Use XCUITest to ensure that the page has loaded.
-#if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 120000)
-  XCTAssertTrue([[application.links firstMatch] waitForExistenceWithTimeout:10]);
-#else
-  XCTAssertTrue([[application.links elementBoundByIndex:0] waitForExistenceWithTimeout:10]);
-#endif
+  [self waitForWebViewToLoad];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TestWKWebView")]
       performAction:grey_scrollInDirection(kGREYDirectionDown, 20)];
+}
+
+/** Tests scrolling to the bottom edge on a web view. */
+- (void)testScrollingToContentEdgeWithWKWebViewWithEarlGrey {
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"loadHTMLString")]
+      performAction:grey_tap()];
+  [self waitForWebViewToLoad];
+
+  id<GREYInteraction> webViewInteraction =
+      [EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TestWKWebView")];
+  [webViewInteraction performAction:grey_scrollToContentEdge(kGREYContentEdgeBottom)];
+
+  // Check if the scroll view reached the bottom.
+  GREYAssertionBlock *scrollToBottomAssertion =
+      [GREYAssertionBlock assertionWithName:@"Did scroll to bottom"
+                    assertionBlockWithError:^BOOL(WKWebView *webView, NSError *__strong *error) {
+                      UIScrollView *scrollView = webView.scrollView;
+                      return scrollView.contentOffset.y + scrollView.frame.size.height >=
+                             scrollView.contentSize.height;
+                    }];
+  [webViewInteraction assert:scrollToBottomAssertion];
 }
 
 - (void)testNavigationToWKWebViewTestController {
@@ -103,6 +121,20 @@
                                                                                       error:&error];
   XCTAssertEqualObjects(error.domain, kGREYInteractionErrorDomain);
   XCTAssertEqual(error.code, kGREYWKWebViewInteractionFailedErrorCode);
+}
+
+#pragma mark - Private
+
+/** Waits for the web view contents to load. */
+- (void)waitForWebViewToLoad {
+  // TODO(b/145806611): Remove the delay after adding idling resource for WKWebView.
+  // Use XCUITest to ensure that the page has loaded.
+  XCUIApplication *application = [[XCUIApplication alloc] init];
+#if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 120000)
+  XCTAssertTrue([[application.links firstMatch] waitForExistenceWithTimeout:1.0]);
+#else
+  XCTAssertTrue([[application.links elementBoundByIndex:0] waitForExistenceWithTimeout:1.0]);
+#endif
 }
 
 @end
