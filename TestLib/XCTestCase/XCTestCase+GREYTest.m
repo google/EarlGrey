@@ -19,7 +19,7 @@
 #include <objc/runtime.h>
 
 #import "GREYFatalAsserts.h"
-#import "GREYTestApplicationDistantObject.h"
+#import "GREYTestApplicationDistantObject+Private.h"
 #import "GREYFrameworkException.h"
 #import "GREYSwizzler.h"
 #import "GREYTestCaseInvocation.h"
@@ -29,6 +29,12 @@
  *  tests that have been invoked. If empty, then the run is outside the context of a running test.
  */
 static NSMutableArray<XCTestCase *> *gExecutingTestCaseStack;
+
+/** Block which will be called when EarlGrey detects that the app-under-test has crashed. */
+static void (^gHostApplicationCrashHandler)(void);
+
+/** The port number of the last app-under-test which has crashed. */
+static uint16_t gHostApplicationPortForLastCrash;
 
 /**
  *  Name of the exception that's thrown to interrupt current test execution.
@@ -44,6 +50,13 @@ NSString *const kGREYXCTestCaseInstanceDidPass = @"GREYXCTestCaseInstanceDidPass
 NSString *const kGREYXCTestCaseInstanceDidFail = @"GREYXCTestCaseInstanceDidFail";
 NSString *const kGREYXCTestCaseInstanceDidFinish = @"GREYXCTestCaseInstanceDidFinish";
 NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey";
+
+/**
+ *  Checks if GREYTestApplicationDistantObject reports that app-under-test has crashed. If it's the
+ *  case, it invokes @c gHostApplicationCrashHandler. For each launching of app-under-test, @c
+ *  gHostApplicationCrashHandler is called at most once.
+ */
+static void InvokeHostApplicationCrashHandlerIfNeeded(void);
 
 @implementation XCTestCase (GREYTest)
 
@@ -63,6 +76,10 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
                              @"Cannot swizzle "
                              @"XCTestCase::recordFailureWithDescription:inFile:atLine:expected:");
   gExecutingTestCaseStack = [[NSMutableArray alloc] init];
+}
+
++ (void)grey_setHostApplicationCrashHandler:(nullable void (^)(void))hostApplicationCrashHandler {
+  gHostApplicationCrashHandler = hostApplicationCrashHandler;
 }
 
 + (XCTestCase *)grey_currentTestCase {
@@ -207,6 +224,7 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
  */
 - (void)grey_setUp {
   [self grey_sendNotification:kGREYXCTestCaseInstanceWillSetUp];
+  InvokeHostApplicationCrashHandlerIfNeeded();
   INVOKE_ORIGINAL_IMP(void, @selector(grey_setUp));
   [self grey_sendNotification:kGREYXCTestCaseInstanceDidSetUp];
 }
@@ -219,6 +237,7 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
  */
 - (void)grey_tearDown {
   [self grey_sendNotification:kGREYXCTestCaseInstanceWillTearDown];
+  InvokeHostApplicationCrashHandlerIfNeeded();
   INVOKE_ORIGINAL_IMP(void, @selector(grey_tearDown));
   [self grey_sendNotification:kGREYXCTestCaseInstanceDidTearDown];
 }
@@ -244,3 +263,16 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
 }
 
 @end
+
+static void InvokeHostApplicationCrashHandlerIfNeeded(void) {
+  GREYTestApplicationDistantObject *testDistantObject =
+      GREYTestApplicationDistantObject.sharedInstance;
+  if (testDistantObject.hostApplicationTerminated && gHostApplicationCrashHandler) {
+    // testDistantObject.hostPort won't be 0 if testDistantObject.hostApplicationTerminated is true.
+    uint16_t currentHostPort = testDistantObject.hostPort;
+    if (currentHostPort != gHostApplicationPortForLastCrash) {
+      gHostApplicationPortForLastCrash = currentHostPort;
+      gHostApplicationCrashHandler();
+    }
+  }
+}

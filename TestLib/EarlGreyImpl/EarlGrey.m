@@ -34,6 +34,7 @@
 #import "GREYElementInteractionProxy.h"
 #import "GREYDefaultFailureHandler.h"
 #import "GREYRemoteExecutor.h"
+#import "XCTestCase+GREYTest.h"
 #import "EDOClientService.h"
 
 /**
@@ -269,6 +270,10 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
   id remoteObject = [EDOClientService classObjectWithName:NSStringFromClass(theClass) port:port];
   I_GREYAssertNotNil(remoteObject, @"Class %@ does not exist in app", theClass);
   return remoteObject;
+}
+
+- (void)setHostApplicationCrashHandler:(nullable GREYHostApplicationCrashHandler)handler {
+  [XCTestCase grey_setHostApplicationCrashHandler:handler];
 }
 
 @end

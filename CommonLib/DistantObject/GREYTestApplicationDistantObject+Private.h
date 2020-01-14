@@ -27,6 +27,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic) uint16_t hostPort;
 @property(nonatomic) uint16_t hostBackgroundPort;
 
+/** BOOL to indicate if app-under-test is terminated. */
+@property(readonly, getter=isHostApplicationTerminated) BOOL hostApplicationTerminated;
+
+/** Resets host ports and availability status. */
+- (void)resetHostArguments;
+
 @end
 
 NS_ASSUME_NONNULL_END

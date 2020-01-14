@@ -35,6 +35,8 @@
 @property(nonatomic) uint16_t hostBackgroundPort;
 /** @see GREYTestApplicationDistantObject.service, make this readwrite. */
 @property EDOHostService *service;
+/** @see GREYTestApplicationDistantObject.hostApplicationDead in private header. */
+@property(getter=isHostApplicationTerminated) BOOL hostApplicationTerminated;
 
 /**
  *  Checks if @c port is a permanent eDO host port that is listening by the test host. A permanent
@@ -65,12 +67,15 @@ __attribute__((constructor)) static void SetupTestDistantObject() {
     if (error.code == EDOServiceErrorCannotConnect) {
       EDOHostPort *hostPort = error.userInfo[EDOErrorPortKey];
       if ([testDistantObject isPermanentAppHostPort:hostPort.port]) {
+        testDistantObject.hostApplicationTerminated = YES;
         NSString *errorInfo;
         errorInfo =
             @"App-under-test crashed and disconnected. Unless your tests explicitly relaunch the "
             @"app, the app won't be restarted and thus any requests from test to app side will "
-            @"fail. To troubleshoot the app's crash, check if any crash log was generated in the "
-            @"application's process.";
+            @"fail. You can register "
+            @"GREYTestApplicationDistantObject.hostApplicationRelaunchHandler to relaunch your app "
+            @"and clean up your test-side remote objects. To troubleshoot the app's crash, check "
+            @"if any crash log was generated in the application's process.";
         [[GREYFrameworkException exceptionWithName:kGREYGenericFailureException
                                             reason:errorInfo] raise];
       }
@@ -118,8 +123,10 @@ __attribute__((constructor)) static void SetupTestDistantObject() {
   return _hostBackgroundPort;
 }
 
-- (BOOL)isPermanentAppHostPort:(uint16_t)port {
-  return port != 0 && (port == _hostPort || port == _hostBackgroundPort);
+- (void)resetHostArguments {
+  self.hostPort = 0;
+  self.hostBackgroundPort = 0;
+  self.hostApplicationTerminated = NO;
 }
 
 #pragma mark - Private
@@ -132,6 +139,10 @@ __attribute__((constructor)) static void SetupTestDistantObject() {
     return newPort != 0;
   };
   return [XCTWaiter waitForExpectations:@[ expectation ] timeout:30];
+}
+
+- (BOOL)isPermanentAppHostPort:(uint16_t)port {
+  return port != 0 && (port == _hostPort || port == _hostBackgroundPort);
 }
 
 @end

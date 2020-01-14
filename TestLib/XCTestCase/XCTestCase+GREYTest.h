@@ -88,6 +88,16 @@ typedef NS_ENUM(NSUInteger, GREYXCTestCaseStatus) {
  */
 + (XCTestCase *)grey_currentTestCase;
 
+// TODO(b/147431902): Make XCTestCase+GREYTest private. This was the alternative before
+// XCTestCaseObserver.
+/**
+ *  Sets the crash handler of app-under-test. Use EarlGrey::setHostApplicationCrashHandler instead.
+ *
+ *  @param hostApplicationCrashHandler The crash handler which will be called once when
+ *                                     app-under-test is crashed.
+ */
++ (void)grey_setHostApplicationCrashHandler:(nullable void (^)(void))hostApplicationCrashHandler;
+
 /**
  *  @return The name of the current test method being executed or @c nil if called outside the
  *          context of a test method.

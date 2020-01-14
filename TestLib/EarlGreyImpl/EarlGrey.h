@@ -66,6 +66,9 @@ GREY_EXTERN NSString *const GREYFailureHandlerKey;
   [EarlGreyImpl invokedFromFile:[NSString stringWithUTF8String:__FILE__] ?: @"UNKNOWN FILE" \
                      lineNumber:__LINE__]
 
+/** The type of handlers to be used by EarlGrey when app-under-test crashes. */
+typedef void (^GREYHostApplicationCrashHandler)(void);
+
 /**
  *  Entry point to the EarlGrey framework.
  *  Use methods of this class to initiate interaction with any UI element on the screen.
@@ -234,6 +237,18 @@ GREY_EXTERN NSString *const GREYFailureHandlerKey;
  *          made to the returned Class object will be executed in app process.
  */
 - (Class)remoteClassInApp:(Class)theClass;
+
+/**
+ *  Sets the handler block which will be called when EarlGrey detects that the app-under-test has
+ *  crashed. Before each test case's -setUp() and -tearDown(), EarlGrey checks if the app-under-test
+ *  has crashed. If it has, EarlGrey calls this block. Tests can set a handler to restart the
+ *  app-under-test and configure its state as necessary.
+ *
+ *  @param handler The handler block that will be invoked before XCTestCase::setUp or
+ *                 XCTestCase::tearDown (depending on which happens next) if the app-under-test
+ *                 crashes.
+ */
+- (void)setHostApplicationCrashHandler:(nullable GREYHostApplicationCrashHandler)handler;
 
 @end
 

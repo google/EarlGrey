@@ -27,7 +27,20 @@
 @interface DistantObjectExecutionTest : BaseIntegrationTest
 @end
 
-@implementation DistantObjectExecutionTest
+@implementation DistantObjectExecutionTest {
+  BOOL _applicationAlive;
+}
+
+- (void)setUp {
+  [super setUp];
+  _applicationAlive = YES;
+}
+
+- (void)tearDown {
+  [EarlGrey setHostApplicationCrashHandler:nil];
+  XCTAssertTrue(_applicationAlive);
+  [super tearDown];
+}
 
 - (void)testLaunchNoError {
   // Launch and terminate w/o any errors.
@@ -69,9 +82,13 @@
 
 - (void)testCustomHandlerRevealsAppCrash {
   [self.application terminate];
+  _applicationAlive = NO;
+  [EarlGrey setHostApplicationCrashHandler:^{
+    self.application = [[XCUIApplication alloc] init];
+    [self.application launch];
+    _applicationAlive = YES;
+  }];
   XCTAssertThrowsSpecific([GREY_ALLOC_REMOTE_CLASS_IN_APP(UIView) init], GREYFrameworkException);
-  self.application = [[XCUIApplication alloc] init];
-  [self.application launch];
 }
 
 @end
