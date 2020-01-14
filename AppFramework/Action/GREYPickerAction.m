@@ -90,6 +90,7 @@
       [pickerView.dataSource pickerView:pickerView numberOfRowsInComponent:_column];
 
   SEL titleForRowSelector = @selector(pickerView:titleForRow:forComponent:);
+  SEL attributedTitleForRowSelector = @selector(pickerView:attributedTitleForRow:forComponent:);
   SEL viewForRowSelector = @selector(pickerView:viewForRow:forComponent:reusingView:);
 
   for (NSInteger rowIndex = 0; rowIndex < columnRowCount; rowIndex++) {
@@ -97,6 +98,11 @@
     if ([pickerView.delegate respondsToSelector:titleForRowSelector]) {
       rowTitle =
           [pickerView.delegate pickerView:pickerView titleForRow:rowIndex forComponent:_column];
+    } else if ([pickerView.delegate respondsToSelector:attributedTitleForRowSelector]) {
+      NSAttributedString *attributedTitle = [pickerView.delegate pickerView:pickerView
+                                                      attributedTitleForRow:rowIndex
+                                                               forComponent:_column];
+      rowTitle = attributedTitle.string;
     } else if ([pickerView.delegate respondsToSelector:viewForRowSelector]) {
       UIView *rowView = [pickerView.delegate pickerView:pickerView
                                              viewForRow:rowIndex
