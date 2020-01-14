@@ -73,7 +73,8 @@
     return NO;
   }
 
-  NSInteger componentCount = [pickerView.dataSource numberOfComponentsInPickerView:pickerView];
+  id<UIPickerViewDataSource> dataSource = pickerView.dataSource;
+  NSInteger componentCount = [dataSource numberOfComponentsInPickerView:pickerView];
 
   if (componentCount < _column) {
     NSString *description = [NSString stringWithFormat:@"Invalid column on [Picker] "
@@ -86,8 +87,7 @@
     return NO;
   }
 
-  NSInteger columnRowCount =
-      [pickerView.dataSource pickerView:pickerView numberOfRowsInComponent:_column];
+  NSInteger columnRowCount = [dataSource pickerView:pickerView numberOfRowsInComponent:_column];
 
   SEL titleForRowSelector = @selector(pickerView:titleForRow:forComponent:);
   SEL attributedTitleForRowSelector = @selector(pickerView:attributedTitleForRow:forComponent:);
@@ -95,19 +95,19 @@
 
   for (NSInteger rowIndex = 0; rowIndex < columnRowCount; rowIndex++) {
     NSString *rowTitle;
-    if ([pickerView.delegate respondsToSelector:titleForRowSelector]) {
-      rowTitle =
-          [pickerView.delegate pickerView:pickerView titleForRow:rowIndex forComponent:_column];
-    } else if ([pickerView.delegate respondsToSelector:attributedTitleForRowSelector]) {
-      NSAttributedString *attributedTitle = [pickerView.delegate pickerView:pickerView
-                                                      attributedTitleForRow:rowIndex
-                                                               forComponent:_column];
+    id<UIPickerViewDelegate> delegate = pickerView.delegate;
+    if ([delegate respondsToSelector:titleForRowSelector]) {
+      rowTitle = [delegate pickerView:pickerView titleForRow:rowIndex forComponent:_column];
+    } else if ([delegate respondsToSelector:attributedTitleForRowSelector]) {
+      NSAttributedString *attributedTitle = [delegate pickerView:pickerView
+                                           attributedTitleForRow:rowIndex
+                                                    forComponent:_column];
       rowTitle = attributedTitle.string;
-    } else if ([pickerView.delegate respondsToSelector:viewForRowSelector]) {
-      UIView *rowView = [pickerView.delegate pickerView:pickerView
-                                             viewForRow:rowIndex
-                                           forComponent:_column
-                                            reusingView:nil];
+    } else if ([delegate respondsToSelector:viewForRowSelector]) {
+      UIView *rowView = [delegate pickerView:pickerView
+                                  viewForRow:rowIndex
+                                forComponent:_column
+                                 reusingView:nil];
       if (![rowView isKindOfClass:[UILabel class]]) {
         NSArray *labels = [rowView grey_childrenAssignableFromClass:[UILabel class]];
         UILabel *label = (labels.count > 0 ? labels[0] : nil);
@@ -118,12 +118,11 @@
     }
     if ([rowTitle isEqualToString:_value]) {
       [pickerView selectRow:rowIndex inComponent:_column animated:YES];
-      if ([pickerView.delegate
-              respondsToSelector:@selector(pickerView:didSelectRow:inComponent:)]) {
-        [pickerView.delegate pickerView:pickerView didSelectRow:rowIndex inComponent:_column];
+      if ([delegate respondsToSelector:@selector(pickerView:didSelectRow:inComponent:)]) {
+        [delegate pickerView:pickerView didSelectRow:rowIndex inComponent:_column];
       }
-      // UIPickerView does a delayed animation. We don't track delayed animations, therefore
-      // we have to track it manually
+      // UIPickerView does a delayed animation. We don't track delayed animations, therefore we have
+      // to track it manually
       [GREYTimedIdlingResource resourceForObject:pickerView
                            thatIsBusyForDuration:0.5
                                             name:@"UIPickerView"];
