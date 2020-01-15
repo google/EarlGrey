@@ -240,7 +240,7 @@ typedef void (^GREYHostApplicationCrashHandler)(void);
 
 /**
  *  Sets the handler block which will be called when EarlGrey detects that the app-under-test has
- *  crashed. Before each test case's -setUp() and -tearDown(), EarlGrey checks if the app-under-test
+ *  crashed. Before each test case's -setUp and -tearDown, EarlGrey checks if the app-under-test
  *  has crashed. If it has, EarlGrey calls this block. Tests can set a handler to restart the
  *  app-under-test and configure its state as necessary.
  *

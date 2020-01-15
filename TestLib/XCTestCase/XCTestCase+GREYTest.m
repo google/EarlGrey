@@ -53,8 +53,8 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
 
 /**
  *  Checks if GREYTestApplicationDistantObject reports that app-under-test has crashed. If it's the
- *  case, it invokes @c gHostApplicationCrashHandler. For each launching of app-under-test, @c
- *  gHostApplicationCrashHandler is called at most once.
+ *  case, it invokes @c gHostApplicationCrashHandler. @c gHostApplicationCrashHandler is called at
+ *  most once for each app-under-test launch.
  */
 static void InvokeHostApplicationCrashHandlerIfNeeded(void);
 
