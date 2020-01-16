@@ -23,7 +23,7 @@
   NSString *insertionKey = @"DYLD_INSERT_LIBRARIES";
   NSString *insertionValue = @"@executable_path/Frameworks/AppFramework.framework/AppFramework";
   NSString *alreadyExistingValue = [mutableEnv valueForKey:insertionKey];
-  if (alreadyExistingValue) {
+  if (alreadyExistingValue && ![alreadyExistingValue containsString:insertionValue]) {
     insertionValue = [NSString stringWithFormat:@"%@,%@", alreadyExistingValue, insertionValue];
   }
   [mutableEnv setObject:insertionValue forKey:insertionKey];
