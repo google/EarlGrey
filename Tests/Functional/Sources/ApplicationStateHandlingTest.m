@@ -78,6 +78,25 @@
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
+- (void)testApplicationRestartOnce {
+  [_application terminate];
+  [_application launch];
+  [[EarlGrey selectElementWithMatcher:grey_keyWindow()]
+      assertWithMatcher:grey_sufficientlyVisible()];
+}
+
+- (void)testApplicationRestartTwice {
+  [_application terminate];
+  [_application launch];
+  [[EarlGrey selectElementWithMatcher:grey_keyWindow()]
+      assertWithMatcher:grey_sufficientlyVisible()];
+    
+  [_application terminate];
+  [_application launch];
+  [[EarlGrey selectElementWithMatcher:grey_keyWindow()]
+      assertWithMatcher:grey_sufficientlyVisible()];
+}
+
 - (void)openBottomDockInLandscape:(BOOL)isLandscape {
   XCUIApplication *springboardApplication =
       [[XCUIApplication alloc] initWithBundleIdentifier:@"com.apple.springboard"];
