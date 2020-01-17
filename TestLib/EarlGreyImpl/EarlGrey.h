@@ -244,6 +244,9 @@ typedef void (^GREYHostApplicationCrashHandler)(void);
  *  has crashed. If it has, EarlGrey calls this block. Tests can set a handler to restart the
  *  app-under-test and configure its state as necessary.
  *
+ *  @note The @c handler will be invoked if and only if your tests don't override the default
+ *        implementation of EDOClientService::errorHandler.
+ *
  *  @param handler The handler block that will be invoked before XCTestCase::setUp or
  *                 XCTestCase::tearDown (depending on which happens next) if the app-under-test
  *                 crashes.

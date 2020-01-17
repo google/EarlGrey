@@ -18,6 +18,7 @@
 
 #import "GREYFrameworkException.h"
 #import "BaseIntegrationTest.h"
+#import "EDOClientService.h"
 
 /**
  * The dummy test case which will be used by DistantObjectCrashHandlerTest to mimic the lifecycle of
@@ -131,6 +132,34 @@
   [dummyTest tearDown];
 
   XCTAssertEqual(handlerInvocationCount, 2);
+}
+
+/**
+ *  Tests EarlGrey's host application crash handler is not called if EDOClientService::errorHandler
+ *  is overridden.
+ */
+- (void)testCrashHandlerIsNotInvokedWhenOverrideEDOErrorHandler {
+  EDOClientErrorHandler defaultErrorHandler = EDOClientService.errorHandler;
+  __block BOOL isErrorHandlerCalled = NO;
+  EDOClientService.errorHandler = ^(NSError *error) {
+    isErrorHandlerCalled = YES;
+  };
+  [self addTeardownBlock:^{
+    EDOClientService.errorHandler = defaultErrorHandler;
+  }];
+
+  DistantObjectCrashHandlerDummyTest *dummyTest = [[DistantObjectCrashHandlerDummyTest alloc] init];
+  [dummyTest setUp];
+
+  __block BOOL isCrashHandlerCalled = NO;
+  [EarlGrey setHostApplicationCrashHandler:^{
+    isCrashHandlerCalled = YES;
+  }];
+  XCTAssertNil(GREY_ALLOC_REMOTE_CLASS_IN_APP(UIView));
+
+  [dummyTest tearDown];
+  XCTAssertTrue(isErrorHandlerCalled);
+  XCTAssertFalse(isCrashHandlerCalled);
 }
 
 @end
