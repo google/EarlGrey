@@ -79,8 +79,10 @@
 }
 
 #pragma mark - Test app relaunch
-// Test lauching app post termination without causing issues in loading
-// the `AppFramework` library injected using DYLD_INSERT_LIBRARIES.
+/**
+ * Test lauching app post termination without causing issues in loading
+ * the `AppFramework` library injected using DYLD_INSERT_LIBRARIES.
+ */
 - (void)testApplicationRestartOnce {
   [_application terminate];
   [_application launch];
@@ -88,7 +90,9 @@
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
-//Test by relaunching twice.
+/**
+ * Test by relaunching twice.
+ */
 - (void)testApplicationRestartTwice {
   [_application terminate];
   [_application launch];
