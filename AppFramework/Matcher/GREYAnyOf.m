@@ -16,6 +16,7 @@
 
 #import "GREYAnyOf.h"
 
+
 #import "GREYThrowDefines.h"
 #import "GREYStringDescription.h"
 
@@ -49,7 +50,10 @@
   GREYStringDescription *failedSoFarDescription = [[GREYStringDescription alloc] init];
   for (NSUInteger i = 0; i < _matchers.count; i++) {
     id<GREYMatcher> matcher = _matchers[i];
-    if ([matcher matches:item describingMismatchTo:failedSoFarDescription]) {
+    
+    BOOL success = [matcher matches:item describingMismatchTo:mismatchDescription];
+    
+    if (success) {
       return YES;
     }
     if (i < _matchers.count - 1) {
