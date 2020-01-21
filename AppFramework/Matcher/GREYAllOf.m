@@ -17,7 +17,6 @@
 #import "GREYAllOf.h"
 #import "GREYAllOf+Private.h"
 
-
 #import "GREYThrowDefines.h"
 #import "GREYDescription.h"
 #import "GREYStringDescription.h"
@@ -39,6 +38,7 @@
       [matchersCopy addObject:[matchers objectAtIndex:i]];
     }
     _matchers = [NSArray arrayWithArray:matchersCopy];
+    _diagnosticsID = @"allOf";
   }
   return self;
 }
@@ -59,10 +59,7 @@
 
 - (BOOL)matches:(id)item describingMismatchTo:(id<GREYDescription>)mismatchDescription {
   for (id<GREYMatcher> matcher in _matchers) {
-    
-    BOOL success = [matcher matches:item describingMismatchTo:mismatchDescription];
-    
-    if (!success) {
+    if (![matcher matches:item describingMismatchTo:mismatchDescription]) {
       return NO;
     }
   }

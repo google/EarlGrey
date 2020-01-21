@@ -78,36 +78,6 @@
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
-#pragma mark - Test app relaunch
-
-/**
- *  Test launching app post termination without causing issues in loading
- *  the `AppFramework` library injected using DYLD_INSERT_LIBRARIES.
- */
-- (void)testApplicationRestartOnce {
-  [_application terminate];
-  [_application launch];
-  [[EarlGrey selectElementWithMatcher:grey_keyWindow()]
-      assertWithMatcher:grey_sufficientlyVisible()];
-}
-
-/**
- *  Test by relaunching twice.
- */
-- (void)testApplicationRestartTwice {
-  [_application terminate];
-  [_application launch];
-  [[EarlGrey selectElementWithMatcher:grey_keyWindow()]
-      assertWithMatcher:grey_sufficientlyVisible()];
-    
-  [_application terminate];
-  [_application launch];
-  [[EarlGrey selectElementWithMatcher:grey_keyWindow()]
-      assertWithMatcher:grey_sufficientlyVisible()];
-}
-
-#pragma mark - End Test app relaunch
-
 - (void)openBottomDockInLandscape:(BOOL)isLandscape {
   XCUIApplication *springboardApplication =
       [[XCUIApplication alloc] initWithBundleIdentifier:@"com.apple.springboard"];
