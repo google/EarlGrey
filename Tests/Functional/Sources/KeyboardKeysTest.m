@@ -20,7 +20,6 @@
 // for test purpose.
 #import "GREYKeyboard.h"
 #import "GREYConstants.h"
-#import "GREYDefines.h"
 #import "GREYHostApplicationDistantObject+KeyboardKeysTest.h"
 #import "FailureHandler.h"
 #import "NSObject+EDOValueObject.h"
