@@ -18,8 +18,6 @@
 #import <XCTest/XCTest.h>
 
 #import "GREYHostApplicationDistantObject+GREYTestHelper.h"
-#import "GREYFrameworkException.h"
-#import "GREYHostApplicationDistantObject+IntentionalCrash.h"
 #import "BaseIntegrationTest.h"
 #import "EDOHostService.h"
 #import "EDOServicePort.h"

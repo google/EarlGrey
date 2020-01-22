@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		76480F8F23CEA04100D6047B /* DistantObjectCrashHandlerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 76480F8C23CEA04100D6047B /* DistantObjectCrashHandlerTest.m */; };
-		7650D6A2238CA0180001DFC6 /* GREYHostApplicationDistantObject+IntentionalCrash.m in Sources */ = {isa = PBXBuildFile; fileRef = 7650D69E238CA0160001DFC6 /* GREYHostApplicationDistantObject+IntentionalCrash.m */; };
 		FD0200A1212E4455007585B2 /* libTestLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD623D2E20FD6BF900049E81 /* libTestLib.a */; };
 		FD0200A4212E4455007585B2 /* AppFramework.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = FD623D2C20FD6BF900049E81 /* AppFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		FD0200A6212E4455007585B2 /* HostDOCategories.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = FD6678692122290B008EC4A7 /* HostDOCategories.bundle */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -378,8 +377,6 @@
 
 /* Begin PBXFileReference section */
 		76480F8C23CEA04100D6047B /* DistantObjectCrashHandlerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DistantObjectCrashHandlerTest.m; sourceTree = "<group>"; };
-		7650D69E238CA0160001DFC6 /* GREYHostApplicationDistantObject+IntentionalCrash.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GREYHostApplicationDistantObject+IntentionalCrash.m"; sourceTree = "<group>"; };
-		7650D6A1238CA0170001DFC6 /* GREYHostApplicationDistantObject+IntentionalCrash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GREYHostApplicationDistantObject+IntentionalCrash.h"; sourceTree = "<group>"; };
 		FD0200AA212E4455007585B2 /* FunctionalOutOfProcessTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FunctionalOutOfProcessTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD1184D8212CEFAA004CADC3 /* FunctionalSwiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FunctionalSwiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD1184E4212CEFF8004CADC3 /* EarlGrey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EarlGrey.swift; path = ../../../../TestLib/Swift/EarlGrey.swift; sourceTree = "<group>"; };
@@ -691,8 +688,6 @@
 		FD5EB4F32118FEDB006F82A0 /* HostDOCategories */ = {
 			isa = PBXGroup;
 			children = (
-				7650D6A1238CA0170001DFC6 /* GREYHostApplicationDistantObject+IntentionalCrash.h */,
-				7650D69E238CA0160001DFC6 /* GREYHostApplicationDistantObject+IntentionalCrash.m */,
 				FD11853E212DFE44004CADC3 /* Swift */,
 				FD98C4CA226C3ABF006F8D68 /* GREYHostApplicationDistantObject+ErrorHandlingTest.h */,
 				FD98C4CB226C3AC0006F8D68 /* GREYHostApplicationDistantObject+ErrorHandlingTest.m */,
@@ -1463,7 +1458,6 @@
 				FDDE2FB5212CEC8C00EB40F7 /* GREYHostApplicationDistantObject+NetworkTest.h in Sources */,
 				FDDE2FB6212CEC8C00EB40F7 /* GREYHostApplicationDistantObject+PinchViewTest.h in Sources */,
 				FDDE2FB7212CEC8C00EB40F7 /* GREYHostApplicationDistantObject+RemoteTest.h in Sources */,
-				7650D6A2238CA0180001DFC6 /* GREYHostApplicationDistantObject+IntentionalCrash.m in Sources */,
 				FDDE2FB8212CEC8C00EB40F7 /* GREYHostApplicationDistantObject+ScrollViewTest.h in Sources */,
 				FDDE2FB9212CEC8C00EB40F7 /* GREYHostApplicationDistantObject+UITableViewTest.h in Sources */,
 				FDDE2FBA212CEC8C00EB40F7 /* GREYHostBackgroundDistantObject+BasicInteractionTest.h in Sources */,
