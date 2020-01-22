@@ -93,6 +93,15 @@ typedef NS_ENUM(NSInteger, GREYVisibilityCheckerTargetObscureResult) {
  */
 - (CGPoint)interactionPoint;
 
+/**
+ *  TODO(b/146083877): Add support for custom drawn views.
+ *  @return A @c BOOL if the traversing view is MDCBottomAppBarView. Since quick visibility checker
+ *          doesn't support custom drawn views yet, it cannot accurately obtain the visibility of an
+ *          element obscured by a custom drawn view such as MDCBottomAppBarView. This check should
+ *          be removed once quick visibility checker supports custom drawn views.
+ */
+BOOL GREYIsMDCBottomAppBarView(UIView *view);
+
 @end
 
 NS_ASSUME_NONNULL_END

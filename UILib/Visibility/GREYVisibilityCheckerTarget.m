@@ -278,7 +278,9 @@
     // TODO(b/146083877): Add support for custom drawn views.
     return YES;
   }
-  if ([viewBackgroundColor isEqual:UIColor.clearColor] || !viewBackgroundColor) {
+  if (GREYIsMDCBottomAppBarView(view)) {
+    return YES;
+  } else if ([viewBackgroundColor isEqual:UIColor.clearColor] || !viewBackgroundColor) {
     return NO;
   } else if ((success && alpha < 1) || (view.alpha < 1)) {
     return NO;
@@ -412,9 +414,13 @@ static BOOL IsElementVisible(GREYTraversalObject *object) {
   return !(object.properties.hidden || object.properties.lowestAlpha < kGREYMinimumVisibleAlpha);
 }
 
+BOOL GREYIsMDCBottomAppBarView(UIView *view) {
+  return [NSStringFromClass([view class]) isEqualToString:@"MDCBottomAppBarView"];
+}
+
 /**
- *  @return A BOOL indicating whether or not the @c pointInScreenCoordinate is interactable by the
- *          user. @c pointInScreenCoordinate must be in screen coordinate system.
+ *  @return A @c BOOL indicating whether or not the @c pointInScreenCoordinate is interactable by
+ *          the user. @c pointInScreenCoordinate must be in screen coordinate system.
  */
 - (BOOL)isInteractableAtPointInScreenCoordinate:(CGPoint)pointInScreenCoordinate {
   // Check if this point lies in the screen bounds.
