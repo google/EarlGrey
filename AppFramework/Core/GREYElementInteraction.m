@@ -19,6 +19,7 @@
 #import "GREYAction.h"
 #import "NSObject+GREYApp.h"
 #import "GREYAssertions.h"
+#import "GREYElementFilter.h"
 #import "GREYElementFinder.h"
 #import "GREYInteractionDataSource.h"
 
@@ -111,7 +112,8 @@
 
     [elementFinderStopwatch start];
     
-    NSArray *elements = [elementFinder elementsMatchedInProvider:entireRootHierarchyProvider];
+    NSArray<id> *elements = [elementFinder elementsMatchedInProvider:entireRootHierarchyProvider];
+    elements = [GREYElementFilter dedupedTextFieldFromElements:elements];
     
     [elementFinderStopwatch stop];
 
@@ -868,7 +870,7 @@
                                    @"index that is out of bounds of the number of "
                                    @"matched elements. Please use an element "
                                    @"index from 0 to %tu",
-                                   elementDescriptions, ([elementDescriptions count] - 1)];
+                                   elementDescriptions, (elementDescriptions.count - 1)];
     errorCode = kGREYInteractionMatchedElementIndexOutOfBoundsErrorCode;
   } else {
     // Populate with an error specifying that multiple elements were matched without providing
