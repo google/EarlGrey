@@ -24,6 +24,8 @@
 		FD3A826321F18A5900CA3ADF /* GREYTestApplicationDistantObject+GREYLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = FD3A826121F18A5800CA3ADF /* GREYTestApplicationDistantObject+GREYLogger.h */; };
 		FD3A826421F18A5900CA3ADF /* GREYTestApplicationDistantObject+GREYLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = FD3A826221F18A5800CA3ADF /* GREYTestApplicationDistantObject+GREYLogger.m */; };
 		FD3A826521F18A5900CA3ADF /* GREYTestApplicationDistantObject+GREYLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = FD3A826221F18A5800CA3ADF /* GREYTestApplicationDistantObject+GREYLogger.m */; };
+		FD41291623D97C230042A585 /* GREYElementFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = FD41290C23D97C220042A585 /* GREYElementFilter.h */; };
+		FD41291723D97C230042A585 /* GREYElementFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = FD41291523D97C230042A585 /* GREYElementFilter.m */; };
 		FD44C48C22C679050044199E /* GREYTraversalFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = FD44C48222C679050044199E /* GREYTraversalFunctions.m */; };
 		FD50490F20FB231A00261CBE /* XCTestCase+GREYSystemAlertHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = FD50490E20FB231A00261CBE /* XCTestCase+GREYSystemAlertHandler.m */; };
 		FD50491A20FB237100261CBE /* GREYCondition.m in Sources */ = {isa = PBXBuildFile; fileRef = FD50491920FB237100261CBE /* GREYCondition.m */; };
@@ -419,6 +421,8 @@
 		FD3A825A21F189BC00CA3ADF /* GREYActionsShorthand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYActionsShorthand.h; path = Action/GREYActionsShorthand.h; sourceTree = "<group>"; };
 		FD3A826121F18A5800CA3ADF /* GREYTestApplicationDistantObject+GREYLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GREYTestApplicationDistantObject+GREYLogger.h"; path = "DistantObject/GREYTestApplicationDistantObject+GREYLogger.h"; sourceTree = "<group>"; };
 		FD3A826221F18A5800CA3ADF /* GREYTestApplicationDistantObject+GREYLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "GREYTestApplicationDistantObject+GREYLogger.m"; path = "DistantObject/GREYTestApplicationDistantObject+GREYLogger.m"; sourceTree = "<group>"; };
+		FD41290C23D97C220042A585 /* GREYElementFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYElementFilter.h; path = Core/GREYElementFilter.h; sourceTree = "<group>"; };
+		FD41291523D97C230042A585 /* GREYElementFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYElementFilter.m; path = Core/GREYElementFilter.m; sourceTree = "<group>"; };
 		FD44C48222C679050044199E /* GREYTraversalFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYTraversalFunctions.m; sourceTree = "<group>"; };
 		FD44C48B22C679050044199E /* GREYTraversalFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYTraversalFunctions.h; sourceTree = "<group>"; };
 		FD5048F820FB225100261CBE /* libTestLib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libTestLib.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1146,6 +1150,8 @@
 		FD623AED20F9593300049E81 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				FD41290C23D97C220042A585 /* GREYElementFilter.h */,
+				FD41291523D97C230042A585 /* GREYElementFilter.m */,
 				FD623AEF20F9594100049E81 /* GREYElementFinder.h */,
 				FD623AF220F9594100049E81 /* GREYElementFinder.m */,
 				FD623AEE20F9594100049E81 /* GREYElementInteraction.h */,
@@ -1424,6 +1430,7 @@
 				FD623B4620F95A9C00049E81 /* GREYNSTimerIdlingResource.h in Headers */,
 				FD623AD920F9590800049E81 /* __NSCFLocalDataTask_GREYApp.h in Headers */,
 				FD623B8F20F95B1500049E81 /* GREYDispatchQueueTracker.h in Headers */,
+				FD41291623D97C230042A585 /* GREYElementFilter.h in Headers */,
 				FD623B4E20F95A9C00049E81 /* GREYTimedIdlingResource.h in Headers */,
 				FD2E76ED2149E4580063EF7E /* GREYAppConfiguration.h in Headers */,
 				FD623B4520F95A9C00049E81 /* GREYManagedObjectContextIdlingResource.h in Headers */,
@@ -1818,6 +1825,7 @@
 				FD623A8B20F958C200049E81 /* GREYTapAction.m in Sources */,
 				FD623AB920F9590800049E81 /* NSTimer+GREYApp.m in Sources */,
 				FD623B4720F95A9C00049E81 /* GREYNSTimerIdlingResource.m in Sources */,
+				FD41291723D97C230042A585 /* GREYElementFilter.m in Sources */,
 				FD623B8B20F95B1500049E81 /* GREYRunLoopSpinner.m in Sources */,
 				FD623A7C20F958C200049E81 /* GREYPinchAction.m in Sources */,
 				FD623B4320F95A9C00049E81 /* GREYTimedIdlingResource.m in Sources */,

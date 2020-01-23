@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		76480F8F23CEA04100D6047B /* DistantObjectCrashHandlerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 76480F8C23CEA04100D6047B /* DistantObjectCrashHandlerTest.m */; };
 		FD0200A1212E4455007585B2 /* libTestLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD623D2E20FD6BF900049E81 /* libTestLib.a */; };
 		FD0200A4212E4455007585B2 /* AppFramework.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = FD623D2C20FD6BF900049E81 /* AppFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		FD0200A6212E4455007585B2 /* HostDOCategories.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = FD6678692122290B008EC4A7 /* HostDOCategories.bundle */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -83,6 +82,7 @@
 		FD118535212DFE24004CADC3 /* AlertViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FD623C9920FD1A6700049E81 /* AlertViewController.xib */; };
 		FD118536212DFE24004CADC3 /* logo_earlgrey_launchscreen_color.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD623D1D20FD1E4E00049E81 /* logo_earlgrey_launchscreen_color.xcassets */; };
 		FD118555212E050B004CADC3 /* HostDOCategoriesSwift.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = FD11854C212E03D5004CADC3 /* HostDOCategoriesSwift.bundle */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		FD41291C23D97C710042A585 /* DistantObjectCrashHandlerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 76480F8C23CEA04100D6047B /* DistantObjectCrashHandlerTest.m */; };
 		FD4974B6214330E300625561 /* AppFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD623D2C20FD6BF900049E81 /* AppFramework.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		FD4974B72143314700625561 /* AppFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD623D2C20FD6BF900049E81 /* AppFramework.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		FD623CB520FD1A6E00049E81 /* BasicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623C5720FD1A5E00049E81 /* BasicViewController.m */; };
@@ -1383,7 +1383,6 @@
 				FD623CEA20FD1A6E00049E81 /* SystemAlertsViewController.m in Sources */,
 				FD623CDC20FD1A6E00049E81 /* MainViewController.m in Sources */,
 				FD623CBB20FD1A6E00049E81 /* LayoutViewController.m in Sources */,
-				76480F8F23CEA04100D6047B /* DistantObjectCrashHandlerTest.m in Sources */,
 				FD623CE520FD1A6E00049E81 /* CollectionViewCell.m in Sources */,
 				FD623CC820FD1A6E00049E81 /* AccessibilityViewController.m in Sources */,
 				FD623CD120FD1A6E00049E81 /* SplashViewController.m in Sources */,
@@ -1425,6 +1424,7 @@
 				FD98C4C3226C3555006F8D68 /* OrientationChangeTest.m in Sources */,
 				FD98C49F226C3555006F8D68 /* MultiFingerSwipeTest.m in Sources */,
 				FD98C4C4226C3555006F8D68 /* AlertViewTest.m in Sources */,
+				FD41291C23D97C710042A585 /* DistantObjectCrashHandlerTest.m in Sources */,
 				FD98C4BF226C3555006F8D68 /* KeyboardKeysTest.m in Sources */,
 				FD98C4C0226C3555006F8D68 /* PresentedViewTest.m in Sources */,
 				FD98C4A2226C3555006F8D68 /* DistantObjectExecutionTest.m in Sources */,
