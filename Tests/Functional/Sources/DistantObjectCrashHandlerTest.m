@@ -47,12 +47,14 @@
 }
 
 - (void)setUp {
+  [super setUp];
   [self.application terminate];
 }
 
 - (void)tearDown {
-  [EarlGrey setHostApplicationCrashHandler:nil];
+  [EarlGrey setHostApplicationCrashHandler:[self defaultCrashHandler]];
   [self.application launch];
+  [super tearDown];
 }
 
 /**

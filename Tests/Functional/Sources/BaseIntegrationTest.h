@@ -35,4 +35,7 @@
  *  @param name The text of the UITableViewCell being selected to open the test's view controller.
  */
 - (void)openTestViewNamed:(NSString *)name;
+
+/** A default crash handler that relaunches the app-under-test if it crashes. */
+- (GREYHostApplicationCrashHandler)defaultCrashHandler;
 @end

@@ -26,6 +26,7 @@
 
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
+    [EarlGrey setHostApplicationCrashHandler:[self defaultCrashHandler]];
     [self.application launch];
   });
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait error:nil];
@@ -55,6 +56,19 @@
   [NSThread currentThread].threadDictionary[GREYFailureHandlerKey] = nil;
 
   [super tearDown];
+}
+
+- (GREYHostApplicationCrashHandler)defaultCrashHandler {
+  static GREYHostApplicationCrashHandler defaultCrashHandler;
+  static dispatch_once_t once_token;
+  dispatch_once(&once_token, ^{
+    defaultCrashHandler = ^{
+      NSLog(@"Test triggers app crash handler! App-under-test will be relaunched.");
+      XCUIApplication *application = [[XCUIApplication alloc] init];
+      [application launch];
+    };
+  });
+  return defaultCrashHandler;
 }
 
 @end
