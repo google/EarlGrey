@@ -195,7 +195,10 @@
 }
 
 /**
- * Checks the values of the Visibility Checker's saved images.
+ *  Checks the values of the Visibility Checker's saved images. You have to make sure the thorough
+ *  visibility checker is used because only thorough visibility checker will generate an image. This
+ *  is done by checking the visibility of the orange view that is under a rotated view (which will
+ *  cause a fallback to thorough visibility checker).
  */
 - (void)testVisibilityCheckerImages {
   GREYHostApplicationDistantObject *host = [GREYHostApplicationDistantObject sharedInstance];
@@ -203,7 +206,7 @@
   XCTAssertTrue([host visibilityImagesAreAbsent]);
   // On a visibility failure, the images must be generated.
   NSError *error;
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"RedSquare")]
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"orangeView")]
       assertWithMatcher:grey_sufficientlyVisible()
                   error:&error];
   XCTAssertNotNil(error);

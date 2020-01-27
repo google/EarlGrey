@@ -62,6 +62,11 @@
   visualEffectView.frame = self.imageView.bounds;
   visualEffectView.accessibilityIdentifier = @"visualEffectsImageView";
   [self.imageView addSubview:visualEffectView];
+  // Check visibility of orangeView to invoke thorough visibility checker.
+  self.orangeView.accessibilityIdentifier = @"orangeView";
+  // Purple view is drawn on top of orange view, and purple view is transformed so that the quick
+  // visibility checker will fallback to use thorough visibility checker for orangeView.
+  self.purpleView.transform = CGAffineTransformMakeRotation(M_PI_4);
 }
 
 - (void)viewDidLayoutSubviews {

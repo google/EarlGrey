@@ -29,5 +29,6 @@
 @property(retain, nonatomic) IBOutlet UIView *centerView;
 @property(retain, nonatomic) IBOutlet UIView *rightView;
 @property(retain, nonatomic) IBOutlet UIImageView *imageView;
-
+@property(retain, nonatomic) IBOutlet UIView *orangeView;
+@property(retain, nonatomic) IBOutlet UIView *purpleView;
 @end

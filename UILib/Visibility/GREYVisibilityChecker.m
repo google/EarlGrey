@@ -24,6 +24,7 @@
 #import "GREYConstants.h"
 #import "GREYLogger.h"
 #import "CGGeometry+GREYUI.h"
+#import "GREYScreenshotter.h"
 #import "GREYQuickVisibilityChecker.h"
 #import "GREYThoroughVisibilityChecker.h"
 #import "GREYVisibilityCheckerCacheEntry.h"
@@ -42,9 +43,21 @@ const NSUInteger kMinimumPointsVisibleForInteraction = 10;
  */
 static NSMapTable<NSString *, GREYVisibilityCheckerCacheEntry *> *gCache;
 
+// TODO(b/148309356): Remove the flags for fast_visibility check for phased rollout of quick
+// visibility checker;
+/** Flag for testing purpose. */
+static BOOL gUseFastVisibilityChecker;
+
 #pragma mark - GREYVisibilityChecker
 
 @implementation GREYVisibilityChecker
+
++ (void)initialize {
+  if (self == [GREYVisibilityChecker class]) {
+    gUseFastVisibilityChecker =
+        [NSProcessInfo.processInfo.environment[@"fast_visibility"] isEqualToString:@"true"];
+  }
+}
 
 + (BOOL)isNotVisible:(id)element {
   return [self percentVisibleAreaOfElement:element] == 0;
@@ -62,7 +75,20 @@ static NSMapTable<NSString *, GREYVisibilityCheckerCacheEntry *> *gCache;
   }
 
   CFTimeInterval startTime = CACurrentMediaTime();
-  CGFloat result = [GREYThoroughVisibilityChecker percentVisibleAreaOfElement:element];
+  // Fallback set to YES means we should use the slow visibility checker.
+  BOOL fallback = NO;
+  CGFloat result = 0.0f;
+
+  if (gUseFastVisibilityChecker) {
+    result = [GREYQuickVisibilityChecker percentVisibleAreaOfElement:element
+                                                     performFallback:&fallback];
+  } else {
+    fallback = YES;
+  }
+
+  if (fallback) {
+    result = [GREYThoroughVisibilityChecker percentVisibleAreaOfElement:element];
+  }
   gVisibilityDuration += CACurrentMediaTime() - startTime;
   cache.visibleAreaPercent = @(result);
   return result;
@@ -80,7 +106,19 @@ static NSMapTable<NSString *, GREYVisibilityCheckerCacheEntry *> *gCache;
   if (cachedPointValue) {
     return [cachedPointValue CGPointValue];
   }
-  CGPoint result = [GREYThoroughVisibilityChecker visibleInteractionPointForElement:element];
+  // Fallback set to YES means we should use the slow visibility checker.
+  BOOL fallback = NO;
+  CGPoint result;
+  if (gUseFastVisibilityChecker) {
+    result = [GREYQuickVisibilityChecker visibleInteractionPointForElement:element
+                                                           performFallback:&fallback];
+  } else {
+    fallback = YES;
+  }
+
+  if (fallback) {
+    result = [GREYThoroughVisibilityChecker visibleInteractionPointForElement:element];
+  }
   cache.visibleInteractionPoint = [NSValue valueWithCGPoint:result];
   gVisibilityDuration += CACurrentMediaTime() - startTime;
   return result;
