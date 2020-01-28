@@ -154,7 +154,7 @@
       nullLocationReason =
           @"The {nan, nan} point means that the element's frame does not have a point within "
           @"itself that a touch can be injected in as it is obscured. Consider adding the "
-          @"grey_interactable() matcher to the selection matcher.";
+          @"grey_interactable() matcher to the selection matcher";
     }
     NSString *description =
         [NSString stringWithFormat:@"Cannot perform %@ at %@ as it is outside window's bounds %@. "
