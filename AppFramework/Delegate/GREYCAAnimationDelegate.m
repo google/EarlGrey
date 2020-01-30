@@ -73,10 +73,9 @@ static id InstrumentSurrogateDelegate(id self, id delegate, SEL originalSelector
 @implementation GREYCAAnimationDelegate
 
 + (id)surrogateDelegateForDelegate:(id)delegate {
-  id outDelegate = nil;
+  id outDelegate;
   if (!delegate) {
-    // If the delegate is nil then wrap it in a new surrogate delegate for the CAAnimation
-    // delegate provided.
+    // If the delegate is nil then create and return a new delegate.
     outDelegate = [[self alloc] initInternal];
   } else {
     SEL animationDidStartSEL = @selector(animationDidStart:);

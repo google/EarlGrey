@@ -122,14 +122,14 @@ static const unsigned short kNumGREYAppStates = 12;
 
   [self grey_performBlockInCriticalSection:^id {
     GREYAppState state = [self currentState];
-    [description appendString:[self grey_stringFromState:state]];
+    [description appendString:StringFromAppState(state)];
 
     if (state != kGREYIdle) {
       [description appendString:@"\n\n"];
       [description appendString:@"Full state transition call stack for all objects:\n"];
       for (GREYAppStateTrackerObject *object in self->_externalTrackerObjects) {
         [description appendFormat:@"<%@> => %@\n", object.objectDescription,
-                                  [self grey_stringFromState:object.state]];
+                                  StringFromAppState(object.state)];
         [description appendFormat:@"%@\n", [object stateAssignmentCallStack]];
       }
     }
@@ -156,12 +156,15 @@ static const unsigned short kNumGREYAppStates = 12;
 
 #pragma mark - Private
 
-- (NSString *)grey_stringFromState:(GREYAppState)state {
-  NSMutableArray *eventStateString = [[NSMutableArray alloc] init];
+/**
+ *  @return A concatenated string describing each state that @c state represents.
+ */
+static NSString *StringFromAppState(GREYAppState state) {
   if (state == kGREYIdle) {
     return @"Idle";
   }
 
+  NSMutableArray *eventStateString = [[NSMutableArray alloc] init];
   if (state & kGREYPendingViewsToAppear) {
     [eventStateString addObject:
                           @"Waiting for viewDidAppear: call on the view controller. Please "
