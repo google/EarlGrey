@@ -108,7 +108,7 @@ static BOOL gUseFastVisibilityChecker;
   }
   // Fallback set to YES means we should use the slow visibility checker.
   BOOL fallback = NO;
-  CGPoint result;
+  CGPoint result = CGPointZero;
   if (gUseFastVisibilityChecker) {
     result = [GREYQuickVisibilityChecker visibleInteractionPointForElement:element
                                                            performFallback:&fallback];
