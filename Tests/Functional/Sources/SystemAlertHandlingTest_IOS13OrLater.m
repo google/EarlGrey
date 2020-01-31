@@ -18,10 +18,10 @@
 #import "GREYDefines.h"
 
 // TODO: Refactor the handler code to remove the waits after System Alert Acceptance / Denial.
-@interface SystemAlertHandlingTest : BaseIntegrationTest
+@interface SystemAlertHandlingTest_IOS13OrLater : BaseIntegrationTest
 @end
 
-@implementation SystemAlertHandlingTest
+@implementation SystemAlertHandlingTest_IOS13OrLater
 
 /**
  *  Custom setup to set up an XCUIApplication and move to the System Alerts screen.
@@ -45,14 +45,9 @@
 - (void)testAcceptingSystemAlertAndCheckingItsText {
   [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"Locations Alert")]
       performAction:grey_tap()];
+  XCTAssertTrue([self grey_waitForAlertVisibility:YES withTimeout:1]);
   NSString *string = [self grey_systemAlertTextWithError:nil];
-  NSString *alertString;
-  if (iOS13_OR_ABOVE()) {
-    alertString = @"Allow “FunctionalTestRig” to access your location?";
-  } else {
-    alertString = @"Allow “FunctionalTestRig” to access your location while you are "
-                  @"using the app?";
-  }
+  NSString *alertString = @"Allow “FunctionalTestRig” to access your location?";
   XCTAssertEqualObjects(string, alertString);
   NSError *error;
   string = [self grey_systemAlertTextWithError:&error];
@@ -81,29 +76,11 @@
 }
 
 /**
- *  Automates the acceptance of a system alert with buttons that each have their own row.
- */
-- (void)testAcceptingSystemAlertWithButtonsInEachRow {
-  if (iOS11_OR_ABOVE()) {
-    [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"Background Locations Alert")]
-        performAction:grey_tap()];
-    if (iOS13_OR_ABOVE()) {
-      XCTAssertEqual([self grey_systemAlertType], GREYSystemAlertTypeLocation);
-    } else {
-      XCTAssertEqual([self grey_systemAlertType], GREYSystemAlertTypeBackgroundLocation);
-    }
-    XCTAssertTrue([self grey_acceptSystemDialogWithError:nil]);
-    XCTAssertTrue([self grey_waitForAlertVisibility:NO withTimeout:1]);
-    [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"Alert Handled?")]
-        performAction:grey_tap()];
-  }
-}
-
-/**
  *  Automates the denying of a system alert.
  */
 - (void)testDenyingSystemAlert {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Contacts Alert")] performAction:grey_tap()];
+  XCTAssertTrue([self grey_waitForAlertVisibility:YES withTimeout:1]);
   XCTAssertEqual([self grey_systemAlertType], GREYSystemAlertTypeContacts);
   XCTAssertTrue([self grey_denySystemDialogWithError:nil]);
   XCTAssertTrue([self grey_waitForAlertVisibility:NO withTimeout:1]);
@@ -120,6 +97,7 @@
 - (void)testCustomHandlingMultipleAlerts {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Reminders & Camera Alert")]
       performAction:grey_tap()];
+  XCTAssertTrue([self grey_waitForAlertVisibility:YES withTimeout:1]);
   XCTAssertTrue([self grey_acceptSystemDialogWithError:nil]);
   XCTAssertTrue([self grey_denySystemDialogWithError:nil]);
   XCTAssertTrue([self grey_waitForAlertVisibility:NO withTimeout:1]);
@@ -134,6 +112,7 @@
 - (void)testCustomButtonTapping {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Motion Activity Alert")]
       performAction:grey_tap()];
+  XCTAssertTrue([self grey_waitForAlertVisibility:YES withTimeout:1]);
   XCTAssertEqual([self grey_systemAlertType], GREYSystemAlertTypeMotionActivity);
   XCTAssertTrue([self grey_tapSystemDialogButtonWithText:@"OK" error:nil]);
   XCTAssertTrue([self grey_waitForAlertVisibility:NO withTimeout:1]);
@@ -145,6 +124,7 @@
  */
 - (void)testCustomButtonTappingWithError {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Calendar Alert")] performAction:grey_tap()];
+  XCTAssertTrue([self grey_waitForAlertVisibility:YES withTimeout:1]);
   XCTAssertEqual([self grey_systemAlertType], GREYSystemAlertTypeCalendar);
   NSError *error;
   XCTAssertFalse([self grey_tapSystemDialogButtonWithText:@"Garbage Value" error:&error]);
@@ -163,16 +143,11 @@
   // have network access.
   [[EarlGrey selectElementWithMatcher:grey_text(@"iTunes Restore Purchases Button")]
       performAction:grey_tap()];
+  XCTAssertTrue([self grey_waitForAlertVisibility:YES withTimeout:1]);
   XCTAssertTrue([self grey_tapSystemDialogButtonWithText:@"Use Existing Apple ID" error:nil]);
-  if (iOS11_OR_ABOVE()) {
-    XCTAssertTrue([self grey_typeSystemAlertText:@"foo@bar.com"
-                              forPlaceholderText:@"Apple ID"
-                                           error:nil]);
-  } else {
-    XCTAssertTrue([self grey_typeSystemAlertText:@"foo@bar.com"
-                              forPlaceholderText:@"example@icloud.com"
-                                           error:nil]);
-  }
+  XCTAssertTrue([self grey_typeSystemAlertText:@"foo@bar.com"
+                            forPlaceholderText:@"Apple ID"
+                                         error:nil]);
   XCTAssertTrue([self grey_typeSystemAlertText:@"foobarbaz"
                             forPlaceholderText:@"Password"
                                          error:nil]);

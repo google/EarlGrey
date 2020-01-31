@@ -19,6 +19,7 @@
 #import <objc/runtime.h>
 
 #import "GREYThrowDefines.h"
+#import "GREYTestApplicationDistantObject.h"
 #import "GREYAppleInternals.h"
 #import "GREYDefines.h"
 #import "GREYXCTestAppleInternals.h"
@@ -102,6 +103,15 @@ static XCUIApplication *GREYSpringboardApplication() {
         [[XCUIApplication alloc] initWithBundleIdentifier:@"com.apple.springboard"];
   });
   return gSpringBoardApplication;
+}
+
+/**
+ *  @return UIApplication under test by making an eDO call to the app-side.
+ */
+static UIApplication *GetApplicationUnderTest() {
+  // TODO(b/148556743): Create a global instance for AUT in EarlGrey so we don't make an eDO call
+  // each time.
+  return [GREY_REMOTE_CLASS_IN_APP(UIApplication) sharedApplication];
 }
 
 @implementation XCTestCase (GREYSystemAlertHandler)
@@ -291,11 +301,12 @@ static XCUIApplication *GREYSpringboardApplication() {
 
 - (BOOL)grey_waitForAlertVisibility:(BOOL)visible withTimeout:(CFTimeInterval)seconds {
   GREYThrowOnFailedConditionWithMessage(seconds >= 0, @"timeout must be >= 0.");
+  UIApplication *appUnderTest = GetApplicationUnderTest();
   BOOL (^alertShown)(void) = ^BOOL(void) {
-    return [self grey_springboardShowingAnAlert];
+    return [self springboardShowingAnAlertForApplication:appUnderTest];
   };
   BOOL (^alertNotShown)(void) = ^BOOL(void) {
-    return ![self grey_springboardShowingAnAlert];
+    return ![self springboardShowingAnAlertForApplication:appUnderTest];
   };
   GREYCondition *condition =
       [GREYCondition conditionWithName:@"WaitForAlert"
@@ -308,8 +319,12 @@ static XCUIApplication *GREYSpringboardApplication() {
 /**
  *  @return A BOOL denoting if the application under test is reporting a system alert being present.
  */
-- (BOOL)grey_springboardShowingAnAlert {
-  return [[UIApplication sharedApplication] _isSpringBoardShowingAnAlert];
+- (BOOL)springboardShowingAnAlertForApplication:(UIApplication *)application {
+  // Before iOS 13, calling [[UIApplication sharedApplication] _isSpringBoardShowingAnAlert] from
+  // any process returned the correct value. However, in iOS 13, you may only call
+  // [[UIApplication sharedApplication] _isSpringBoardShowingAnAlert] from the application that
+  // invoked it. If it's called in a different process (i.e. test runner), it always returns NO.
+  return [application _isSpringBoardShowingAnAlert];
 }
 
 /**
