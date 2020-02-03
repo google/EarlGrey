@@ -737,7 +737,7 @@
   [self openTestViewNamed:@"Animations"];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AnimationControl")]
       performAction:grey_tap()];
-  GREYWaitForAppToIdleWithTimeout(5, @"Wait for Animations");
+  GREYWaitForAppToIdleWithTimeout(5.0, @"Wait for Animations");
   [[GREYConfiguration sharedConfiguration] setValue:@(NO)
                                        forConfigKey:kGREYConfigKeySynchronizationEnabled];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AnimationStatus")]

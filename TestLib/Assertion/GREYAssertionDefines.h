@@ -275,7 +275,7 @@
     BOOL success__ = GREYWaitForAppToIdleWithTimeoutAndError(__timeout, &error__);         \
     if (!success__) {                                                                      \
       I_GREYTimeout(__timeoutDescription,                                                  \
-                    @"Timed out waiting for app to idle within %d seconds: %@", __timeout, \
+                    @"Timed out waiting for app to idle within %f seconds: %@", __timeout, \
                     error__);                                                              \
     }                                                                                      \
   })
