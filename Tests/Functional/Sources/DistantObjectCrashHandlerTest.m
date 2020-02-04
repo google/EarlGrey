@@ -37,17 +37,18 @@
 @interface DistantObjectCrashHandlerTest : BaseIntegrationTest
 @end
 
-@implementation DistantObjectCrashHandlerTest
-
-+ (void)setUp {
-  [super setUp];
-  // Trigger EG2's swizzling on DistantObjectCrashHandlerDummyTest's -setUp and -tearDown method.
-  DistantObjectCrashHandlerDummyTest *dummyTest = [[DistantObjectCrashHandlerDummyTest alloc] init];
-  [dummyTest invokeTest];
+@implementation DistantObjectCrashHandlerTest {
+  DistantObjectCrashHandlerDummyTest *_dummyTest;
 }
 
 - (void)setUp {
   [super setUp];
+  _dummyTest = [[DistantObjectCrashHandlerDummyTest alloc] init];
+  static dispatch_once_t once_token;
+  dispatch_once(&once_token, ^{
+    // Trigger EG2's swizzling on DistantObjectCrashHandlerDummyTest's -setUp and -tearDown method.
+    [_dummyTest invokeTest];
+  });
   [self.application terminate];
 }
 
@@ -77,8 +78,7 @@
  *  app-under-test at the -tearDown of the same test case.
  */
 - (void)testInvokesCrashHandlerAtTearDown {
-  DistantObjectCrashHandlerDummyTest *dummyTest = [[DistantObjectCrashHandlerDummyTest alloc] init];
-  [dummyTest setUp];
+  [_dummyTest setUp];
 
   __block BOOL isHandlerCalled = NO;
   [EarlGrey setHostApplicationCrashHandler:^{
@@ -86,7 +86,7 @@
   }];
   XCTAssertThrows(GREY_ALLOC_REMOTE_CLASS_IN_APP(UIView));
 
-  [dummyTest tearDown];
+  [_dummyTest tearDown];
   XCTAssertTrue(isHandlerCalled);
 }
 
@@ -95,9 +95,8 @@
  *  app-under-test at the -setUp of the next test case.
  */
 - (void)testInvokesCrashHandlerAtSetUp {
-  DistantObjectCrashHandlerDummyTest *dummyTest = [[DistantObjectCrashHandlerDummyTest alloc] init];
-  [dummyTest setUp];
-  [dummyTest tearDown];
+  [_dummyTest setUp];
+  [_dummyTest tearDown];
 
   __block BOOL isHandlerCalled = NO;
   [EarlGrey setHostApplicationCrashHandler:^{
@@ -105,7 +104,7 @@
   }];
   XCTAssertThrows(GREY_ALLOC_REMOTE_CLASS_IN_APP(UIView));
 
-  [dummyTest setUp];
+  [_dummyTest setUp];
   XCTAssertTrue(isHandlerCalled);
 }
 /**
@@ -113,8 +112,7 @@
  *  app-under-test.
  */
 - (void)testInvokesCrashHandlerOncePerLaunch {
-  DistantObjectCrashHandlerDummyTest *dummyTest = [[DistantObjectCrashHandlerDummyTest alloc] init];
-  [dummyTest setUp];
+  [_dummyTest setUp];
 
   __block NSUInteger handlerInvocationCount = 0;
   [EarlGrey setHostApplicationCrashHandler:^{
@@ -122,16 +120,16 @@
   }];
   XCTAssertThrows(GREY_ALLOC_REMOTE_CLASS_IN_APP(UIView));
 
-  [dummyTest tearDown];
-  [dummyTest setUp];
-  [dummyTest tearDown];
+  [_dummyTest tearDown];
+  [_dummyTest setUp];
+  [_dummyTest tearDown];
   XCTAssertEqual(handlerInvocationCount, 1);
 
   [self.application launch];
   [self.application terminate];
   XCTAssertThrows(GREY_ALLOC_REMOTE_CLASS_IN_APP(UIView));
-  [dummyTest setUp];
-  [dummyTest tearDown];
+  [_dummyTest setUp];
+  [_dummyTest tearDown];
 
   XCTAssertEqual(handlerInvocationCount, 2);
 }
@@ -150,8 +148,7 @@
     EDOClientService.errorHandler = defaultErrorHandler;
   }];
 
-  DistantObjectCrashHandlerDummyTest *dummyTest = [[DistantObjectCrashHandlerDummyTest alloc] init];
-  [dummyTest setUp];
+  [_dummyTest setUp];
 
   __block BOOL isCrashHandlerCalled = NO;
   [EarlGrey setHostApplicationCrashHandler:^{
@@ -159,7 +156,7 @@
   }];
   XCTAssertNil(GREY_ALLOC_REMOTE_CLASS_IN_APP(UIView));
 
-  [dummyTest tearDown];
+  [_dummyTest tearDown];
   XCTAssertTrue(isErrorHandlerCalled);
   XCTAssertFalse(isCrashHandlerCalled);
 }
