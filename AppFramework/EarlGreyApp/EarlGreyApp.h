@@ -23,7 +23,7 @@
  *  interactions that are to be run in the app process.
  */
 
-// Assertion Headers.
+// Action Headers.
 #import "GREYAction.h"
 #import "GREYActionBlock.h"
 #import "GREYActions.h"
