@@ -267,12 +267,14 @@ static void InvokeHostApplicationCrashHandlerIfNeeded(void);
 static void InvokeHostApplicationCrashHandlerIfNeeded(void) {
   GREYTestApplicationDistantObject *testDistantObject =
       GREYTestApplicationDistantObject.sharedInstance;
-  if (testDistantObject.hostApplicationTerminated && gHostApplicationCrashHandler) {
+  if (testDistantObject.hostApplicationTerminated) {
     // testDistantObject.hostPort won't be 0 if testDistantObject.hostApplicationTerminated is true.
     uint16_t currentHostPort = testDistantObject.hostPort;
     if (currentHostPort != gHostApplicationPortForLastCrash) {
       gHostApplicationPortForLastCrash = currentHostPort;
-      gHostApplicationCrashHandler();
+      if (gHostApplicationCrashHandler) {
+        gHostApplicationCrashHandler();
+      }
     }
   }
 }

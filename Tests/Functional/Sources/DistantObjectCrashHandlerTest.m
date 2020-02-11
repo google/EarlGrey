@@ -107,6 +107,25 @@
   [_dummyTest setUp];
   XCTAssertTrue(isHandlerCalled);
 }
+
+/** Tests crash handler is not called when it is set after EarlGrey first detected app's crash. */
+- (void)testCrashHandlerNotInvokedIfSetAfterCrash {
+  [EarlGrey setHostApplicationCrashHandler:nil];
+  DistantObjectCrashHandlerDummyTest *dummyTest = [[DistantObjectCrashHandlerDummyTest alloc] init];
+  [dummyTest setUp];
+
+  __block BOOL isHandlerCalled = NO;
+  XCTAssertThrows(GREY_ALLOC_REMOTE_CLASS_IN_APP(UIView));
+
+  [dummyTest tearDown];
+  [EarlGrey setHostApplicationCrashHandler:^{
+    isHandlerCalled = YES;
+  }];
+  [dummyTest setUp];
+  [dummyTest tearDown];
+  XCTAssertFalse(isHandlerCalled);
+}
+
 /**
  *  Tests EarlGrey's host application crash handler is called once for each launch of
  *  app-under-test.
