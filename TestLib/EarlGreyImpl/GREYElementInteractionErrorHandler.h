@@ -19,14 +19,15 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  Test-side class for directing calls to GREYElementInteraction in the app process. Must be
- *  called after establishing a valid connection with app process.
+ *  Handles or sets the interaction error based on the placeholder error value.
+ *  It throws an interaction related exception on behalf of the application
+ *  process unless the user passes in the
+ *  @c outError parameter from the test.
+ *
+ *  @param      interactionError Error returned from the interaction.
+ *  @param[out] outError         Error passed in by the user.
  */
-@interface GREYElementInteractionErrorHandler : NSObject
-
-+ (BOOL)handleInteractionError:(__strong GREYError *)interactionError
-                      outError:(__autoreleasing NSError **)errorOrNil;
-
-@end
+void GREYHandleInteractionError(__strong GREYError *interactionError,
+                                __autoreleasing NSError **outError);
 
 NS_ASSUME_NONNULL_END

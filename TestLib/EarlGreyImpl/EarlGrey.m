@@ -160,7 +160,7 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
         GREYErrorMake(kGREYSyntheticEventInjectionErrorDomain,
                       kGREYOrientationChangeFailedErrorCode, errorDescription);
 
-    [GREYElementInteractionErrorHandler handleInteractionError:rotationError outError:error];
+    GREYHandleInteractionError(rotationError, error);
   }
   return success;
 }
@@ -180,7 +180,7 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
     if (error) {
       *error = dismissalError;
     } else {
-      [GREYElementInteractionErrorHandler handleInteractionError:dismissalError outError:nil];
+      GREYHandleInteractionError(dismissalError, nil);
     }
   }
   return success;
@@ -259,7 +259,7 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
     if (error) {
       *error = keyboardShownError;
     } else {
-      [GREYElementInteractionErrorHandler handleInteractionError:keyboardShownError outError:nil];
+      GREYHandleInteractionError(keyboardShownError, nil);
     }
   }
   return keyboardShown;

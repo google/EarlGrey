@@ -55,7 +55,7 @@
   GREYExecuteSyncBlockInBackgroundQueue(^{
     [self->_remoteElementInteraction performAction:action error:&interactionError];
   });
-  [GREYElementInteractionErrorHandler handleInteractionError:interactionError outError:errorOrNil];
+  GREYHandleInteractionError(interactionError, errorOrNil);
   return self;
 }
 
@@ -70,7 +70,7 @@
   GREYExecuteSyncBlockInBackgroundQueue(^{
     [self->_remoteElementInteraction assert:assertion error:&interactionError];
   });
-  [GREYElementInteractionErrorHandler handleInteractionError:interactionError outError:errorOrNil];
+  GREYHandleInteractionError(interactionError, errorOrNil);
   return self;
 }
 
@@ -85,7 +85,7 @@
   GREYExecuteSyncBlockInBackgroundQueue(^{
     [self->_remoteElementInteraction assertWithMatcher:matcher error:&interactionError];
   });
-  [GREYElementInteractionErrorHandler handleInteractionError:interactionError outError:errorOrNil];
+  GREYHandleInteractionError(interactionError, errorOrNil);
   return self;
 }
 

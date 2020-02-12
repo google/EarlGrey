@@ -22,24 +22,25 @@
 #import "GREYFailureHandler.h"
 #import "GREYFrameworkException.h"
 
-@implementation GREYElementInteractionErrorHandler
-
-/**
- *  Handles and sets the error based on the interaction related placeholder error value.
- *
- *  @param interactionError Error returned from the interaction.
- *  @param errorOrNil       Error passed in by the user.
- *
- *  @return @c NO if any error is returned from the interaction, @c YES otherwise.
- */
-+ (BOOL)handleInteractionError:(__strong GREYError *)interactionError
-                      outError:(__autoreleasing NSError **)errorOrNil {
+void GREYHandleInteractionError(__strong GREYError *interactionError,
+                                __autoreleasing NSError **outError) {
   if (interactionError) {
-    if (errorOrNil) {
-      *errorOrNil = interactionError;
+    if (outError) {
+      *outError = interactionError;
     } else {
       NSMutableString *matcherDetails;
       NSDictionary<NSString *, id> *userInfo = interactionError.userInfo;
+
+      // Add Screenshots and UI Hierarchy.
+      NSMutableDictionary<NSString *, id> *mutableUserInfo = [userInfo mutableCopy];
+      NSDictionary<NSString *, UIImage *> *screenshots = interactionError.appScreenshots;
+      NSString *hierarchy = interactionError.appUIHierarchy;
+      if (screenshots) {
+        mutableUserInfo[kErrorDetailAppScreenshotsKey] = screenshots;
+      }
+      if (hierarchy) {
+        mutableUserInfo[kErrorDetailAppUIHierarchyKey] = hierarchy;
+      }
       NSString *localizedFailureReason = userInfo[NSLocalizedFailureReasonErrorKey];
       NSMutableString *reason = [[interactionError localizedDescription] mutableCopy];
       matcherDetails = [NSMutableString stringWithFormat:@"%@\n", localizedFailureReason];
@@ -49,17 +50,12 @@
       GREYFrameworkException *exception =
           [GREYFrameworkException exceptionWithName:interactionError.domain
                                              reason:reason
-                                           userInfo:userInfo];
+                                           userInfo:[mutableUserInfo copy]];
 
       id<GREYFailureHandler> failureHandler =
           [NSThread mainThread].threadDictionary[GREYFailureHandlerKey];
       // TODO(b/147072566): Will show up a (null) in rotation.
       [failureHandler handleException:exception details:matcherDetails];
     }
-    return NO;
-  } else {
-    return YES;
   }
 }
-
-@end
