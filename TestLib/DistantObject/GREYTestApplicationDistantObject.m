@@ -27,6 +27,7 @@
 #import "EDOServiceError.h"
 #import "EDOServiceException.h"
 #import "EDOServicePort.h"
+#import "NSObject+EDOBlacklistedType.h"
 
 @interface GREYTestApplicationDistantObject ()
 /** @see GREYTestApplicationDistantObject.hostPort, make this readwrite. */
@@ -91,6 +92,9 @@ __attribute__((constructor)) static void SetupTestDistantObject() {
   static GREYTestApplicationDistantObject *application;
   dispatch_once(&onceToken, ^{
     application = [[self alloc] init];
+    [UIView edo_disallowRemoteInvocation];
+    [UIViewController edo_disallowRemoteInvocation];
+    [UIWindow edo_disallowRemoteInvocation];
   });
   return application;
 }
