@@ -11,15 +11,12 @@ using EarlGrey 2.0 with.
 Here is an extremely simple Podfile demonstrating integrating an app called
 `App` with EarlGrey 2.0.
 
-__Note:__ You must pin the transitive dependency `eDistantObject` at 0.9.0.
-
 ```
 target 'App' do
   pod 'EarlGreyApp'
 end
 target 'AppUITests' do
   pod 'EarlGreyTest'
-  pod 'eDistantObject', '0.9.0'
 end
 ```
 
