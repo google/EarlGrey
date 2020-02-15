@@ -52,11 +52,14 @@ NSString *const kGREYXCTestCaseInstanceDidFinish = @"GREYXCTestCaseInstanceDidFi
 NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey";
 
 /**
- *  Checks if GREYTestApplicationDistantObject reports that app-under-test has crashed. If it's the
- *  case, it invokes @c gHostApplicationCrashHandler. @c gHostApplicationCrashHandler is called at
- *  most once for each app-under-test launch.
+ *  Checks if there's an app-under-test crash which hasn't been handled yet. If that's the case,
+ *  @c handler will be invoked. @c handler can indicate that the crash has been handled by returning
+ *  @c YES. If @c NO is returned by @c handler, the next invocation to this method will again invoke
+ *  the passed in @c handler to handle the crash.
+ *
+ *  @param handler The block that will be invoked when there is an unhandled app-under-test crash.
  */
-static void InvokeHostApplicationCrashHandlerIfNeeded(void);
+static void CheckUnhandledHostApplicationCrashWithHandler(BOOL (^handler)(void));
 
 @implementation XCTestCase (GREYTest)
 
@@ -79,6 +82,13 @@ static void InvokeHostApplicationCrashHandlerIfNeeded(void);
 }
 
 + (void)grey_setHostApplicationCrashHandler:(nullable void (^)(void))hostApplicationCrashHandler {
+  GREYFatalAssertWithMessage([NSThread isMainThread],
+                             @"You must set the crash handler on main thread.");
+  CheckUnhandledHostApplicationCrashWithHandler(^{
+    NSLog(@"WARNING: The crash handler is overriden right after the crash of app-under-test. This "
+          @"may cause the crash being handled in an unexpected way.");
+    return NO;
+  });
   gHostApplicationCrashHandler = hostApplicationCrashHandler;
 }
 
@@ -224,7 +234,12 @@ static void InvokeHostApplicationCrashHandlerIfNeeded(void);
  */
 - (void)grey_setUp {
   [self grey_sendNotification:kGREYXCTestCaseInstanceWillSetUp];
-  InvokeHostApplicationCrashHandlerIfNeeded();
+  CheckUnhandledHostApplicationCrashWithHandler(^{
+    if (gHostApplicationCrashHandler) {
+      gHostApplicationCrashHandler();
+    }
+    return YES;
+  });
   INVOKE_ORIGINAL_IMP(void, @selector(grey_setUp));
   [self grey_sendNotification:kGREYXCTestCaseInstanceDidSetUp];
 }
@@ -237,7 +252,12 @@ static void InvokeHostApplicationCrashHandlerIfNeeded(void);
  */
 - (void)grey_tearDown {
   [self grey_sendNotification:kGREYXCTestCaseInstanceWillTearDown];
-  InvokeHostApplicationCrashHandlerIfNeeded();
+  CheckUnhandledHostApplicationCrashWithHandler(^{
+    if (gHostApplicationCrashHandler) {
+      gHostApplicationCrashHandler();
+    }
+    return YES;
+  });
   INVOKE_ORIGINAL_IMP(void, @selector(grey_tearDown));
   [self grey_sendNotification:kGREYXCTestCaseInstanceDidTearDown];
 }
@@ -264,16 +284,17 @@ static void InvokeHostApplicationCrashHandlerIfNeeded(void);
 
 @end
 
-static void InvokeHostApplicationCrashHandlerIfNeeded(void) {
+static void CheckUnhandledHostApplicationCrashWithHandler(BOOL (^handler)(void)) {
+  GREYFatalAssertWithMessage([NSThread isMainThread],
+                             @"application crash should be checked on main thread.");
   GREYTestApplicationDistantObject *testDistantObject =
       GREYTestApplicationDistantObject.sharedInstance;
   if (testDistantObject.hostApplicationTerminated) {
     // testDistantObject.hostPort won't be 0 if testDistantObject.hostApplicationTerminated is true.
     uint16_t currentHostPort = testDistantObject.hostPort;
     if (currentHostPort != gHostApplicationPortForLastCrash) {
-      gHostApplicationPortForLastCrash = currentHostPort;
-      if (gHostApplicationCrashHandler) {
-        gHostApplicationCrashHandler();
+      if (handler()) {
+        gHostApplicationPortForLastCrash = currentHostPort;
       }
     }
   }
