@@ -95,12 +95,12 @@ typedef NS_ENUM(NSInteger, GREYVisibilityCheckerTargetObscureResult) {
 
 /**
  *  TODO(b/146083877): Add support for custom drawn views.
- *  @return A @c BOOL if the traversing view is MDCBottomAppBarView. Since quick visibility checker
+ *  @return A @c BOOL if the traversing view has a CAShapeLayer. Since quick visibility checker
  *          doesn't support custom drawn views yet, it cannot accurately obtain the visibility of an
- *          element obscured by a custom drawn view such as MDCBottomAppBarView. This check should
- *          be removed once quick visibility checker supports custom drawn views.
+ *          element obscured by a custom drawn view with CAShapeLayer. This check should be removed
+ *          once quick visibility checker supports custom drawn views.
  */
-BOOL GREYIsMDCBottomAppBarView(UIView *view);
+BOOL GREYViewContainsCAShapeLayer(UIView *view);
 
 @end
 

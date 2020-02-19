@@ -60,7 +60,7 @@ static BOOL ShouldPerformThoroughVisibilityCheckForElement(id element) {
     UIView *view = (UIView *)element;
     if (!CGAffineTransformEqualToTransform(CGAffineTransformIdentity, [view transform])) {
       return YES;
-    } else if (GREYIsMDCBottomAppBarView(view)) {
+    } else if (GREYViewContainsCAShapeLayer(view)) {
       return YES;
     }
   }
