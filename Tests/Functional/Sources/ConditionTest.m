@@ -30,7 +30,8 @@
 }
 
 - (void)tearDown {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"EarlGrey TestApp")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"EarlGrey TestApp")]
+      performAction:grey_tap()];
   [super tearDown];
 }
 

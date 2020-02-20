@@ -35,7 +35,8 @@
  *  Custom teardown method returns the UI to the starting table view controller.
  */
 - (void)tearDown {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"EarlGrey TestApp")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"EarlGrey TestApp")]
+      performAction:grey_tap()];
   [super tearDown];
 }
 

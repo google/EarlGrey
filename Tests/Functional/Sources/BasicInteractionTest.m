@@ -69,7 +69,8 @@
 - (void)testLongPressOnAccessibilityElement {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
   [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_longPress()];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"EarlGrey TestApp")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"EarlGrey TestApp")]
+      performAction:grey_tap()];
 }
 
 /**
@@ -99,7 +100,8 @@
                                                       kGREYPinchAngleDefault)];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"ZoomingScrollView")]
       performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"EarlGrey TestApp")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"EarlGrey TestApp")]
+      performAction:grey_tap()];
 }
 
 /**
@@ -112,7 +114,8 @@
                                                       kGREYPinchAngleDefault)];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"ZoomingScrollView")]
       performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"EarlGrey TestApp")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"EarlGrey TestApp")]
+      performAction:grey_tap()];
 }
 
 /**
@@ -180,7 +183,8 @@
       performAction:grey_typeText(@"hi")];
   [[EarlGrey selectElementWithMatcher:grey_text(@"hi")]
       assertWithMatcher:grey_sufficientlyVisible()];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"EarlGrey TestApp")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"EarlGrey TestApp")]
+      performAction:grey_tap()];
 }
 
 /**
@@ -194,7 +198,8 @@
       performAction:grey_typeText(@"Sam01le SWiFt TeSt")];
   [[EarlGrey selectElementWithMatcher:grey_text(@"Sam01le SWiFt TeSt")]
       assertWithMatcher:grey_sufficientlyVisible()];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"EarlGrey TestApp")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"EarlGrey TestApp")]
+      performAction:grey_tap()];
 }
 
 /**
@@ -236,7 +241,8 @@
   [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
   [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")]
       assertWithMatcher:grey_sufficientlyVisible()];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"EarlGrey TestApp")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"EarlGrey TestApp")]
+      performAction:grey_tap()];
 }
 
 /**

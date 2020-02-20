@@ -32,7 +32,8 @@
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait error:nil];
   XCTAssertEqual([GREY_REMOTE_CLASS_IN_APP(UIDevice) currentDevice].orientation,
                  UIInterfaceOrientationPortrait, @"Interface orientation should now be portrait");
-  [[EarlGrey selectElementWithMatcher:grey_text(@"EarlGrey TestApp")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"EarlGrey TestApp")]
+      performAction:grey_tap()];
   [super tearDown];
 }
 
