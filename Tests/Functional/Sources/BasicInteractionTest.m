@@ -501,7 +501,7 @@
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"return")] performAction:grey_tap()];
 
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Send")]
+  [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"Send")]
       performAction:grey_tapAtPoint(CGPointMake(5, 5))];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Simple Label")]
