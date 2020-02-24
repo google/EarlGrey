@@ -103,6 +103,7 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
   return [[GREYElementInteractionProxy alloc] initWithElementMatcher:elementMatcher];
 }
 
+#if TARGET_OS_IOS
 - (BOOL)rotateDeviceToOrientation:(UIDeviceOrientation)deviceOrientation error:(NSError **)error {
   GREYError *syncErrorBeforeRotation;
   GREYError *syncErrorAfterRotation;
@@ -164,6 +165,7 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
   }
   return success;
 }
+#endif  // TARGET_OS_IOS
 
 - (BOOL)dismissKeyboardWithError:(NSError **)error {
   __block GREYError *dismissalError = nil;
@@ -199,9 +201,11 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
   // As Safari loads up for the first time, the URL is not clickable and we have to wait for the
   // app to be hittable for it.
   if (safariApp.hittable) {
+#if TARGET_OS_IOS
     [safariApp.buttons[@"URL"] tap];
     [safariApp typeText:URL];
     [safariApp.buttons[@"Go"] tap];
+#endif  // TARGET_OS_IOS
   } else if (error) {
     *error = GREYErrorMake(kGREYDeeplinkErrorDomain, kGREYInteractionActionFailedErrorCode,
                            @"Deeplink open action failed since URL field not present.");
@@ -209,7 +213,9 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
 
   XCUIElement *openBtn = safariApp.buttons[@"Open"];
   if ([openBtn waitForExistenceWithTimeout:10]) {
+#if TARGET_OS_IOS
     [safariApp.buttons[@"Open"] tap];
+#endif  // TARGET_OS_IOS
     return YES;
   } else if (error) {
     *error = GREYErrorMake(kGREYDeeplinkErrorDomain, kGREYInteractionActionFailedErrorCode,
@@ -230,7 +236,7 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
     [GREYElementInteractionErrorHandler handleInteractionError:notSupportedError outError:nil];
   }
   return NO;
-#endif
+#endif  // defined(__IPHONE_11_0)
 }
 
 - (BOOL)shakeDeviceWithError:(NSError **)error {

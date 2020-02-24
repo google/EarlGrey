@@ -122,7 +122,9 @@
 @end
 
 @interface UIDevice (GREYExposed)
+#if TARGET_OS_IOS
 - (void)setOrientation:(UIDeviceOrientation)orientation animated:(BOOL)animated;
+#endif  // TARGET_OS_IOS
 @end
 
 @interface UIKeyboardTaskQueue

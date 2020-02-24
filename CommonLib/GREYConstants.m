@@ -42,6 +42,7 @@ const NSInteger kUIPickerViewMaxAccessibilityViews = 500;
 NSString *const kGREYAllowVerboseLogging = @"kGREYAllowVerboseLogging";
 NSString *const kTextFieldAXElementClassName = @"UIAccessibilityTextFieldElement";
 
+#if TARGET_OS_IOS
 NSString *NSStringFromUIDeviceOrientation(UIDeviceOrientation deviceOrientation) {
   switch (deviceOrientation) {
     case UIDeviceOrientationUnknown:
@@ -60,6 +61,7 @@ NSString *NSStringFromUIDeviceOrientation(UIDeviceOrientation deviceOrientation)
       return @"UIDeviceOrientationFaceDown";
   }
 }
+#endif  // TARGET_OS_IOS
 
 NSString *NSStringFromGREYDirection(GREYDirection direction) {
   switch (direction) {

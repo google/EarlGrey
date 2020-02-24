@@ -146,7 +146,9 @@ typedef void (^GREYHostApplicationCrashHandler)(void);
  *  @return @c YES if the rotation was successful, @c NO otherwise. If @c error is @c nil and
  *          the operation fails, it will throw an exception.
  */
+#if TARGET_OS_IOS
 - (BOOL)rotateDeviceToOrientation:(UIDeviceOrientation)deviceOrientation error:(NSError **)error;
+#endif  // TARGET_OS_IOS
 
 /**
  *  Dismisses the keyboard programmatically by calling resignFirstResponder on application under

@@ -16,6 +16,9 @@
 
 #import "GREYActions.h"
 
+#if TARGET_OS_IOS
+#import <WebKit/WebKit.h>
+#endif  // TARGET_OS_IOS
 #include <mach/mach_time.h>
 
 #import "GREYAction.h"

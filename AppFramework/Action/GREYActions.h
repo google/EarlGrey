@@ -15,7 +15,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <WebKit/WebKit.h>
 
 #import "GREYConstants.h"
 #import "GREYDefines.h"

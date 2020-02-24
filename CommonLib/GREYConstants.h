@@ -237,7 +237,9 @@ typedef NS_ENUM(NSInteger, GREYTapType) {
 /**
  *  @return A string representation of the given @c deviceOrientation.
  */
+#if TARGET_OS_IOS
 NSString* _Nonnull NSStringFromUIDeviceOrientation(UIDeviceOrientation deviceOrientation);
+#endif  // TARGET_OS_IOS
 
 /**
  *  @return A string representation of the given @c direction.
