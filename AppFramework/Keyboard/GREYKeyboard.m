@@ -94,6 +94,12 @@ static NSString *const kDeleteKeyIdentifier = @"\b";
 static NSString *const kReturnKeyIdentifier = @"\n";
 
 /**
+ *  Accessibility identifier for the key for switching planes between alphabetic keyplane and
+ *  numeric/symbolic keyplane.
+ */
+static NSString *const kMoreKeyIdentifier = @"more";
+
+/**
  *  A block to hold a condition to be waited and checked for.
  *
  *  @return @c YES if condition was satisfied @c NO otherwise.
@@ -218,13 +224,12 @@ __attribute__((constructor)) static void RegisterKeyboardLifecycleHooks() {
       if ([gAlphabeticKeyplaneCharacters characterIsMember:currentCharacter]) {
         GREYLogVerbose(@"Detected an alphabetic key.");
         // Switch to alphabetic keyplane if we are on numbers/symbols keyplane.
-        NSString *moreSymbolsKeyAxIdentifier = @"more";
         if (![GREYKeyboard isAlphabeticKeyplaneShown]) {
           id moreLettersKey =
-              [GREYKeyboard waitAndFindKeyForCharacter:moreSymbolsKeyAxIdentifier
+              [GREYKeyboard waitAndFindKeyForCharacter:kMoreKeyIdentifier
                                                timeout:kRegularKeyplaneUpdateDuration];
           if (!moreLettersKey) {
-            return [GREYKeyboard setErrorForkeyNotFoundWithCharacter:moreSymbolsKeyAxIdentifier
+            return [GREYKeyboard setErrorForkeyNotFoundWithCharacter:kMoreKeyIdentifier
                                                      forTypingString:string
                                                                error:errorOrNil];
           }
@@ -241,12 +246,11 @@ __attribute__((constructor)) static void RegisterKeyboardLifecycleHooks() {
         GREYLogVerbose(@"Detected a non-alphabetic key.");
         // Switch to numbers/symbols keyplane if we are on alphabetic keyplane.
         if ([GREYKeyboard isAlphabeticKeyplaneShown]) {
-          NSString *moreNumberKeyAxIdentifier = @"more";
           id moreNumbersKey =
-              [GREYKeyboard waitAndFindKeyForCharacter:moreNumberKeyAxIdentifier
+              [GREYKeyboard waitAndFindKeyForCharacter:kMoreKeyIdentifier
                                                timeout:kRegularKeyplaneUpdateDuration];
           if (!moreNumbersKey) {
-            return [GREYKeyboard setErrorForkeyNotFoundWithCharacter:moreNumberKeyAxIdentifier
+            return [GREYKeyboard setErrorForkeyNotFoundWithCharacter:kMoreKeyIdentifier
                                                      forTypingString:string
                                                                error:errorOrNil];
           }
@@ -265,13 +269,12 @@ __attribute__((constructor)) static void RegisterKeyboardLifecycleHooks() {
         }
         // If key is not on either number or symbols keyplane, it could be on alphabetic keyplane.
         // This is the case for @ _ - on UIKeyboardTypeEmailAddress on iPad.
-        NSString *moreNumbersKeyAxIdentifier = @"more";
         if (!key) {
           id moreLettersKey =
-              [GREYKeyboard waitAndFindKeyForCharacter:moreNumbersKeyAxIdentifier
+              [GREYKeyboard waitAndFindKeyForCharacter:kMoreKeyIdentifier
                                                timeout:kRegularKeyplaneUpdateDuration];
           if (!moreLettersKey) {
-            return [GREYKeyboard setErrorForkeyNotFoundWithCharacter:moreNumbersKeyAxIdentifier
+            return [GREYKeyboard setErrorForkeyNotFoundWithCharacter:kMoreKeyIdentifier
                                                      forTypingString:string
                                                                error:errorOrNil];
           }
