@@ -278,7 +278,7 @@
     // TODO(b/146083877): Add support for custom drawn views.
     return YES;
   }
-  if (GREYIsMDCBottomAppBarView(view)) {
+  if (GREYIsInvalidView(view)) {
     return YES;
   } else if ([viewBackgroundColor isEqual:UIColor.clearColor] || !viewBackgroundColor) {
     return NO;
@@ -414,8 +414,24 @@ static BOOL IsElementVisible(GREYTraversalObject *object) {
   return !(object.properties.hidden || object.properties.lowestAlpha < kGREYMinimumVisibleAlpha);
 }
 
-BOOL GREYIsMDCBottomAppBarView(UIView *view) {
-  return [NSStringFromClass([view class]) isEqualToString:@"MDCBottomAppBarView"];
+BOOL GREYIsInvalidView(UIView *view) {
+  UIColor *backgroundColor = view.backgroundColor;
+  if (!backgroundColor || [backgroundColor isEqual:UIColor.clearColor]) {
+    CALayer *backingLayer = view.layer;
+    static Class shapeLayerClass = nil;
+    if (!shapeLayerClass) {
+      shapeLayerClass = [CAShapeLayer class];
+    }
+    if ([backingLayer isKindOfClass:shapeLayerClass]) {
+      return YES;
+    }
+    for (CALayer *layer in backingLayer.sublayers) {
+      if ([layer isKindOfClass:shapeLayerClass]) {
+        return YES;
+      }
+    }
+  }
+  return NO;
 }
 
 /**
