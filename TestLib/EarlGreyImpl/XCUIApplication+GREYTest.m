@@ -54,7 +54,7 @@
 
 + (void)load {
   GREYSwizzler *swizzler = [[GREYSwizzler alloc] init];
-  BOOL swizzleSuccess = [swizzler swizzleClass:[XCUIApplication class]
+  BOOL swizzleSuccess = [swizzler swizzleClass:[self class]
                          replaceInstanceMethod:@selector(launch)
                                     withMethod:@selector(grey_launch)];
   GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle XCUIApplication launch");
@@ -70,17 +70,17 @@
   if (!launchArgs) {
     launchArgs = [[NSMutableArray alloc] init];
   }
+  GREYTestApplicationDistantObject *testDistantObject =
+      GREYTestApplicationDistantObject.sharedInstance;
   [launchArgs addObjectsFromArray:@[
     @"-edoTestPort",
-    @([GREYTestApplicationDistantObject.sharedInstance servicePort]).stringValue,
+    @(testDistantObject.servicePort).stringValue,
     @"-IsRunningEarlGreyTest",
     @"YES",
   ]];
   self.launchArguments = launchArgs;
 
   // Reset the port number for the app under test before every -[XCUIApplication launch] call.
-  GREYTestApplicationDistantObject *testDistantObject =
-      GREYTestApplicationDistantObject.sharedInstance;
   [testDistantObject resetHostArguments];
   INVOKE_ORIGINAL_IMP(void, @selector(grey_launch));
   NSLog(@"Application Launch Completed. UI Test with EarlGrey Starting");

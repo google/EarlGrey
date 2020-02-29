@@ -26,9 +26,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface GREYHostBackgroundDistantObject : NSObject
 
-/** The EDOHostService the application process listens on. */
-@property(nonatomic, readonly) EDOHostService *service;
-
 /** The singleton of GREYHostApplicationDistantObject. */
 @property(readonly, class) GREYHostBackgroundDistantObject *sharedInstance;
 
@@ -38,8 +35,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(nonatomic, readonly) dispatch_queue_t backgroundQueue;
 
+/** The EDOHostService the application process listens on. */
+@property(nonatomic, readonly) EDOHostService *service;
+
 /** Returns the port for the distant object's service. */
-- (uint16_t)servicePort;
+@property(nonatomic, readonly) uint16_t servicePort;
 
 @end
 

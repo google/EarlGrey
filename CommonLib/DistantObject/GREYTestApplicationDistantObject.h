@@ -35,6 +35,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface GREYTestApplicationDistantObject : NSObject
 
+/** The singleton of GREYTestApplicationDistantObject. */
+@property(readonly, class) GREYTestApplicationDistantObject *sharedInstance;
+
 /**
  *  The port number that the eDO service on the app-under-test's main queue listens on. Set on
  *  HostApplicationDistantObject creation when the application makes its first call to the test.
@@ -49,13 +52,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, readonly) uint16_t hostBackgroundPort;
 
 /** The @c EDOHostService the test process listens on after the test starts. */
-@property(readonly) EDOHostService *service;
-
-/** The singleton of GREYTestApplicationDistantObject. */
-@property(readonly, class) GREYTestApplicationDistantObject *sharedInstance;
+@property(nonatomic, readonly) EDOHostService *service;
 
 /** Returns the port for the distant object's service. */
-- (uint16_t)servicePort;
+@property(nonatomic, readonly) uint16_t servicePort;
 
 @end
 
