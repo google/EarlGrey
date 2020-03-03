@@ -118,7 +118,7 @@
 
 - (GREYVisibilityCheckerTargetObscureResult)obscureResultByOverlappingObject:
     (GREYTraversalObject *)object {
-  if (![self couldBeObscuredByObject:object]) {
+  if ([self shouldSkipObject:object]) {
     return GREYVisibilityCheckerTargetObscureResultNone;
   }
   CGRect viewRect = VisibleRectOnScreen(object);
@@ -230,9 +230,9 @@
 }
 
 /**
- *  Evaluates whether or not a traversing object could potentially obscure the target element. A
- *  target cannot be obscured if the other view drawn on top of the target has the following
- *  conditions:
+ *  Evaluates whether or not we should skip @c object from calculation because it cannot obscure the
+ *  target due to its visual property. A target cannot be obscured if the other view drawn on top of
+ *  the target has the following conditions:
  *  (1) Accessibility element that is not a UIView. It cannot obscure the @c _target because it's
  *      not a visual element.
  *  (2) Its backgroundColor has an alpha less than 1.
@@ -244,7 +244,7 @@
  *
  *  @return A BOOL whether or not @c object can potentially obscure the @c _target.
  */
-- (BOOL)couldBeObscuredByObject:(GREYTraversalObject *)object {
+- (BOOL)shouldSkipObject:(GREYTraversalObject *)object {
   id element = object.element;
   BOOL elementIsView = [element isKindOfClass:[UIView class]];
   if (!_isView && [_target isAccessibilityElement]) {
@@ -252,19 +252,19 @@
     // any of its accessibility container's subviews.
     UIView *view = elementIsView ? element : [element grey_viewContainingSelf];
     if ([_targetContainerView grey_isAncestorOfView:view]) {
-      return NO;
+      return YES;
     }
   }
   if (!elementIsView) {
     // If element is not a UIView, it should not obscure the target.
-    return NO;
+    return YES;
   }
 
   // element is a view.
   UIView *view = (UIView *)element;
   if (!IsElementVisible(object)) {
     // Check if view is hidden or has alpha less than 0.01.
-    return NO;
+    return YES;
   } else if ([NSStringFromClass([view class]) isEqualToString:@"_UIVisualEffectBackdropView"]) {
     // _UIVisualEffectBackdropView is an iOS internal view that is used for blurred view. This
     // includes, but not limited to, system navigation bar, system keyboard, etc. Elements behind
@@ -272,15 +272,15 @@
     // distinguishable traits in the UIView property that could rule it as an "obscuring view" from
     // the current algorithm.
     // TODO(b/146083877): Add support for custom drawn views.
-    return YES;
+    return NO;
   } else if (GREYIsInvalidView(view)) {
-    return YES;
+    return NO;
   } else if (IsBackgroundColorTranslucent(view.backgroundColor)) {
-    return NO;
-  } else if (view.alpha < 1) {
-    return NO;
-  } else {
     return YES;
+  } else if (view.alpha < 1) {
+    return YES;
+  } else {
+    return NO;
   }
 }
 
