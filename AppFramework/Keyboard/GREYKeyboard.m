@@ -24,7 +24,6 @@
 #import "GREYAppError.h"
 #import "GREYAppStateTracker.h"
 #import "GREYAppStateTrackerObject.h"
-#import "GREYRunLoopSpinner.h"
 #import "GREYSyncAPI.h"
 #import "GREYUIThreadExecutor.h"
 #import "GREYFatalAsserts.h"
@@ -515,14 +514,14 @@ __attribute__((constructor)) static void RegisterKeyboardLifecycleHooks() {
   }
 
   __block id result = nil;
-  GREYRunLoopSpinner *runLoopSpinner = [[GREYRunLoopSpinner alloc] init];
-  runLoopSpinner.timeout = timeout;
-  runLoopSpinner.maxSleepInterval = DBL_MAX;
-  // TODO(b/146386258): Use grey_dispatch_sync instead of runloop spinner.
-  [runLoopSpinner spinWithStopConditionBlock:^BOOL {
-    result = [self keyForCharacterValue:character inKeyboardLayoutWithCaseSensitivity:ignoreCase];
-    return result != nil;
-  }];
+  GREYFatalAssertNonMainThread();
+  grey_dispatch_sync_on_main_thread(^{
+    CFTimeInterval startTime = CACurrentMediaTime();
+    while (!result && (CACurrentMediaTime() - startTime) < timeout) {
+      CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0, NO);
+      result = [self keyForCharacterValue:character inKeyboardLayoutWithCaseSensitivity:ignoreCase];
+    }
+  });
   return result;
 }
 

@@ -62,6 +62,13 @@
 /**
  *  Asserts that the current thread is the main thread otherwise aborts the program.
  */
+#define GREYFatalAssertNonMainThread()                                                         \
+  GREYFatalAssertWithMessage(![NSThread isMainThread], @"Execution must happen on a non-main " \
+                                                       @"thread!");
+
+/**
+ *  Asserts that the current thread is the main thread otherwise aborts the program.
+ */
 #define GREYFatalAssertMainThread()                                                         \
   GREYFatalAssertWithMessage([NSThread isMainThread], @"Execution must happen on the main " \
                                                       @"thread!");
