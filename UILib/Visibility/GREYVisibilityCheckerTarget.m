@@ -262,10 +262,6 @@
 
   // element is a view.
   UIView *view = (UIView *)element;
-  CGFloat white;
-  CGFloat alpha;
-  UIColor *viewBackgroundColor = view.backgroundColor;
-  BOOL success = [viewBackgroundColor getWhite:&white alpha:&alpha];
   if (!IsElementVisible(object)) {
     // Check if view is hidden or has alpha less than 0.01.
     return NO;
@@ -277,12 +273,11 @@
     // the current algorithm.
     // TODO(b/146083877): Add support for custom drawn views.
     return YES;
-  }
-  if (GREYIsInvalidView(view)) {
+  } else if (GREYIsInvalidView(view)) {
     return YES;
-  } else if ([viewBackgroundColor isEqual:UIColor.clearColor] || !viewBackgroundColor) {
+  } else if (IsBackgroundColorTranslucent(view.backgroundColor)) {
     return NO;
-  } else if ((success && alpha < 1) || (view.alpha < 1)) {
+  } else if (view.alpha < 1) {
     return NO;
   } else {
     return YES;
@@ -415,8 +410,7 @@ static BOOL IsElementVisible(GREYTraversalObject *object) {
 }
 
 BOOL GREYIsInvalidView(UIView *view) {
-  UIColor *backgroundColor = view.backgroundColor;
-  if (!backgroundColor || [backgroundColor isEqual:UIColor.clearColor]) {
+  if (IsBackgroundColorTranslucent(view.backgroundColor)) {
     CALayer *backingLayer = view.layer;
     static Class shapeLayerClass = nil;
     if (!shapeLayerClass) {
@@ -432,6 +426,22 @@ BOOL GREYIsInvalidView(UIView *view) {
     }
   }
   return NO;
+}
+
+/**
+ *  @param backgroundColor Color to check for translucency.
+ *
+ *  @return A @c BOOL indicating whether or not you can see through the @c backgroundColor.
+ */
+static BOOL IsBackgroundColorTranslucent(UIColor *backgroundColor) {
+  if (!backgroundColor || [backgroundColor isEqual:UIColor.clearColor]) {
+    return YES;
+  } else {
+    CGFloat white;
+    CGFloat alpha;
+    BOOL success = [backgroundColor getWhite:&white alpha:&alpha];
+    return success && (alpha < 1);
+  }
 }
 
 /**
