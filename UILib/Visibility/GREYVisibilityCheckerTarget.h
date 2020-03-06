@@ -71,13 +71,19 @@ typedef NS_ENUM(NSInteger, GREYVisibilityCheckerTargetObscureResult) {
  *  the element. The intersection rects are later subtracted from the target's frame to calculate
  *  how much of the target's frame has been obscured.
  *
- *  @param object The traversing object whose frame is being compared with target element.
+ *  @param object               The traversing object whose frame is being compared with target
+ *                              element.
+ *  @param[out] performFallback An out parameter indicating whether or not a fallback should occur
+ *                              because the quick visibility checker has low confidence in the
+ *                              accuracy of the calculation. Use GREYThoroughVisibilityChecker
+ *                              instead to calculate the visible percentage area. You MUST check for
+ *                              @c performFallback before using the return value.
  *
  *  @return A @c GREYVisibilityCheckerTargetObscureResult that indicates how much of the target
  *          element obscured.
  */
-- (GREYVisibilityCheckerTargetObscureResult)obscureResultByOverlappingObject:
-    (GREYTraversalObject *)object;
+- (GREYVisibilityCheckerTargetObscureResult)overlapResultWithObject:(GREYTraversalObject *)object
+                                                           fallback:(BOOL *)fallback;
 
 /**
  *  @return A double value indicating the percentage visible of the target that is visible on
@@ -92,17 +98,6 @@ typedef NS_ENUM(NSInteger, GREYVisibilityCheckerTargetObscureResult) {
  *          this with caution.
  */
 - (CGPoint)interactionPoint;
-
-/**
- *  TODO(b/146083877): Add support for custom drawn views. This check should be removed once quick
- *  visibility checker supports custom drawn views.
- *
- *  @return A @c BOOL if the traversing view has a CAShapeLayer and its @c backgroundColor is clear.
- *          Since quick visibility checker doesn't support custom drawn views yet, it cannot
- *          accurately obtain the visibility of an element obscured by a custom drawn view with
- *          CAShapeLayer.
- */
-BOOL GREYIsInvalidView(UIView *view);
 
 @end
 

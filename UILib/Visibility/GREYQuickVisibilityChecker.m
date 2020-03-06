@@ -44,30 +44,6 @@
 #pragma mark - Private
 
 /**
- *  Determines whether or not the current target is eligible for quick visibility check by checking
- *  certain criteria. If the following criteria is met, a fallback needs to be performed as the
- *  quick visibility checker can no longer provide an accurate answer. Invoke this method for each
- *  element that's drawn after the target element in the view hierarchy. Perform fallback if the @c
- *  element is transformed. Because quick visibility checker performs a frame by frame comparison,
- *  it cannot accurately determine the visibility of the target under a transformed view.
- *
- *  @param element Element that is drawn on top of target in the view hierarchy.
- *
- *  @return Whether or not a fallback is required.
- */
-static BOOL ShouldPerformThoroughVisibilityCheckForElement(id element) {
-  if ([element isKindOfClass:[UIView class]]) {
-    UIView *view = (UIView *)element;
-    if (!CGAffineTransformEqualToTransform(CGAffineTransformIdentity, [view transform])) {
-      return YES;
-    } else if (GREYIsInvalidView(view)) {
-      return YES;
-    }
-  }
-  return NO;
-}
-
-/**
  *  @return UIWindow that contains @c element.
  */
 static UIWindow *WindowContainingElement(id element) {
@@ -141,6 +117,10 @@ static GREYVisibilityCheckerTarget *ResultingTarget(id element, BOOL *performFal
     __block BOOL isTargetChild = YES;
     // Traverse the hierarchy until the target element is found.
     [traversal enumerateUsingBlock:^(GREYTraversalObject *object, BOOL *stopElementTraversal) {
+      void (^stopTraversal)(void) = ^{
+        *stopElementTraversal = YES;
+        stopWindowTraversal = YES;
+      };
       id currentElement = object.element;
       // If the target is seen and the current level is smaller or equal to target's level, this
       // implies that target's children have been traversed already.
@@ -149,30 +129,9 @@ static GREYVisibilityCheckerTarget *ResultingTarget(id element, BOOL *performFal
       }
       if (target && !isTargetChild) {
         GREYVisibilityCheckerTargetObscureResult result =
-            [target obscureResultByOverlappingObject:object];
-        switch (result) {
-          case GREYVisibilityCheckerTargetObscureResultFull: {
-            // If the target is fully obscured, stop traversing.
-            *stopElementTraversal = YES;
-            stopWindowTraversal = YES;
-
-            if (ShouldPerformThoroughVisibilityCheckForElement(currentElement)) {
-              *performFallback = YES;
-            }
-            break;
-          }
-          case GREYVisibilityCheckerTargetObscureResultPartial: {
-            // If the target was partially obscured by the element, check if the traversing element
-            // requires thorough check.
-            if (ShouldPerformThoroughVisibilityCheckForElement(currentElement)) {
-              *stopElementTraversal = YES;
-              stopWindowTraversal = YES;
-              *performFallback = YES;
-            }
-            break;
-          }
-          default:
-            break;
+            [target overlapResultWithObject:object fallback:performFallback];
+        if (*performFallback || result == GREYVisibilityCheckerTargetObscureResultFull) {
+          stopTraversal();
         }
       } else if (currentElement == element) {
         target = [[GREYVisibilityCheckerTarget alloc] initWithObject:object
@@ -180,8 +139,7 @@ static GREYVisibilityCheckerTarget *ResultingTarget(id element, BOOL *performFal
         targetLevel = object.level;
         // Target is not visible on screen. No need to traverse further.
         if (!target) {
-          *stopElementTraversal = YES;
-          stopWindowTraversal = YES;
+          stopTraversal();
         }
       }
     }];

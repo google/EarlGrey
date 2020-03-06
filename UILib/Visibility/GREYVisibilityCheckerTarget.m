@@ -56,6 +56,11 @@
    */
   NSMutableArray<NSValue *> *_intersections;
   /**
+   *  Temp variable that checks if an element meets the condition to fall back to the through
+   *  visibility checker.
+   */
+  BOOL _currentElementMeetsFallbackCondition;
+  /**
    *  Whether or not the @c _target should consider interactability into account when being obscured
    *  by elements. If it should be interactable, @c _bitVector would only show portion of the @c
    *  _target not only visible, but also interactable by the user.
@@ -116,8 +121,8 @@
   return numberOfVisiblePixels / CGRectArea(targetOriginalPixelRect);
 }
 
-- (GREYVisibilityCheckerTargetObscureResult)obscureResultByOverlappingObject:
-    (GREYTraversalObject *)object {
+- (GREYVisibilityCheckerTargetObscureResult)overlapResultWithObject:(GREYTraversalObject *)object
+                                                           fallback:(BOOL *)fallback {
   if ([self shouldSkipObject:object]) {
     return GREYVisibilityCheckerTargetObscureResultNone;
   }
@@ -129,6 +134,8 @@
   if (CGRectIsNull(intersection)) {
     return GREYVisibilityCheckerTargetObscureResultNone;
   }
+  // Since the target intersects with the current element, set the fallback flag.
+  *fallback = _currentElementMeetsFallbackCondition;
   NSValue *rectValue = [NSValue valueWithCGRect:intersection];
   [_intersections addObject:rectValue];
   // If intersection and _targetRect is the same, it means _targetRect is completely obscured, and
@@ -247,6 +254,7 @@
 - (BOOL)shouldSkipObject:(GREYTraversalObject *)object {
   id element = object.element;
   BOOL elementIsView = [element isKindOfClass:[UIView class]];
+  _currentElementMeetsFallbackCondition = NO;
   if (!_isView && [_target isAccessibilityElement]) {
     // If the target element is an accessibility element, it cannot be obscured by
     // any of its accessibility container's subviews.
@@ -273,7 +281,10 @@
     // the current algorithm.
     // TODO(b/146083877): Add support for custom drawn views.
     return NO;
-  } else if (GREYIsInvalidView(view)) {
+  } else if (MeetsFallbackCondition(view)) {
+    // This doesn't necessarily mean you should perform a fallback. It doesn't have to fallback if
+    // view doesn't intersect with the target view.
+    _currentElementMeetsFallbackCondition = YES;
     return NO;
   } else if (IsBackgroundColorTranslucent(view.backgroundColor)) {
     return YES;
@@ -409,8 +420,29 @@ static BOOL IsElementVisible(GREYTraversalObject *object) {
   return !(object.properties.hidden || object.properties.lowestAlpha < kGREYMinimumVisibleAlpha);
 }
 
-BOOL GREYIsInvalidView(UIView *view) {
-  if (IsBackgroundColorTranslucent(view.backgroundColor)) {
+/**
+ *  If the following criteria is met, a fallback should be performed depending on the position of
+ *  the @c view as the quick visibility checker can no longer provide an accurate answer. If the
+ *  view does not intersect with the target, fallback does not have to be performed.
+ *
+ *  Assuming @c view intersects with @c _target, perform fallback if:
+ *  (1) @c view is transformed: Because quick visibility checker performs a frame by frame
+ *      comparison, it cannot accurately determine the visibility of the target under a transformed
+ *      view.
+ *  (2) @c view contains @c CAShapeLayer: Since quick visibility checker doesn't support custom
+ *      drawn views yet, it cannot accurately obtain the visibility of an element obscured by a
+ *      custom drawn view with CAShapeLayer.
+ *
+ *  @param view @c UIView that is drawn on top of target in the view hierarchy.
+ *
+ *  @return Whether or not the @c view meets the fallback condition.
+ */
+static BOOL MeetsFallbackCondition(UIView *view) {
+  if (!CGAffineTransformEqualToTransform(CGAffineTransformIdentity, [view transform])) {
+    return YES;
+  } else if (IsBackgroundColorTranslucent(view.backgroundColor)) {
+    // TODO(b/146083877): Add support for custom drawn views. This check should be removed once
+    // quick visibility checker supports custom drawn views.
     CALayer *backingLayer = view.layer;
     static Class shapeLayerClass = nil;
     if (!shapeLayerClass) {
