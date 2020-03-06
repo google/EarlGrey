@@ -456,6 +456,13 @@ static BOOL MeetsFallbackCondition(UIView *view) {
         return YES;
       }
     }
+    static Class imageViewClass = nil;
+    if (!imageViewClass) {
+      imageViewClass = [UIImageView class];
+    }
+    if ([view isKindOfClass:imageViewClass] && ((UIImageView *)view).image) {
+      return YES;
+    }
   }
   return NO;
 }
