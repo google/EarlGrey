@@ -22,14 +22,12 @@
 #import "GREYFailureHandler.h"
 #import "GREYFrameworkException.h"
 
-
 void GREYHandleInteractionError(__strong GREYError *interactionError,
                                 __autoreleasing NSError **outError) {
   if (interactionError) {
     if (outError) {
       *outError = interactionError;
     } else {
-      
       NSMutableString *matcherDetails;
       NSDictionary<NSString *, id> *userInfo = interactionError.userInfo;
 
