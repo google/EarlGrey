@@ -94,10 +94,9 @@ static GREYVisibilityCheckerTarget *ResultingTarget(id element, BOOL *performFal
   if (!containerWindow) {
     return nil;
   }
-  NSEnumerator<UIWindow *> *windowsBackToFrontEnumerator =
-      [GREYUIWindowProvider windowsFromLevelOfWindow:containerWindow withStatusBar:NO]
-          .reverseObjectEnumerator;
-  for (UIWindow *window in windowsBackToFrontEnumerator) {
+  NSArray<UIWindow *> *windows = [GREYUIWindowProvider windowsFromLevelOfWindow:containerWindow
+                                                                  withStatusBar:NO];
+  for (UIWindow *window in windows.reverseObjectEnumerator) {
     if (stopWindowTraversal) {
       break;
     }
@@ -117,10 +116,6 @@ static GREYVisibilityCheckerTarget *ResultingTarget(id element, BOOL *performFal
     __block BOOL isTargetChild = YES;
     // Traverse the hierarchy until the target element is found.
     [traversal enumerateUsingBlock:^(GREYTraversalObject *object, BOOL *stopElementTraversal) {
-      void (^stopTraversal)(void) = ^{
-        *stopElementTraversal = YES;
-        stopWindowTraversal = YES;
-      };
       id currentElement = object.element;
       // If the target is seen and the current level is smaller or equal to target's level, this
       // implies that target's children have been traversed already.
@@ -131,7 +126,7 @@ static GREYVisibilityCheckerTarget *ResultingTarget(id element, BOOL *performFal
         GREYVisibilityCheckerTargetObscureResult result =
             [target overlapResultWithObject:object fallback:performFallback];
         if (*performFallback || result == GREYVisibilityCheckerTargetObscureResultFull) {
-          stopTraversal();
+          *stopElementTraversal = YES;
         }
       } else if (currentElement == element) {
         target = [[GREYVisibilityCheckerTarget alloc] initWithObject:object
@@ -139,9 +134,10 @@ static GREYVisibilityCheckerTarget *ResultingTarget(id element, BOOL *performFal
         targetLevel = object.level;
         // Target is not visible on screen. No need to traverse further.
         if (!target) {
-          stopTraversal();
+          *stopElementTraversal = YES;
         }
       }
+      stopWindowTraversal = *stopElementTraversal;
     }];
   }
   return target;
