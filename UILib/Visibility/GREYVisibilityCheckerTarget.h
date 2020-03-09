@@ -71,13 +71,13 @@ typedef NS_ENUM(NSInteger, GREYVisibilityCheckerTargetObscureResult) {
  *  the element. The intersection rects are later subtracted from the target's frame to calculate
  *  how much of the target's frame has been obscured.
  *
- *  @param object               The traversing object whose frame is being compared with target
- *                              element.
- *  @param[out] performFallback An out parameter indicating whether or not a fallback should occur
- *                              because the quick visibility checker has low confidence in the
- *                              accuracy of the calculation. Use GREYThoroughVisibilityChecker
- *                              instead to calculate the visible percentage area. You MUST check for
- *                              @c performFallback before using the return value.
+ *  @param object        The traversing object whose frame is being compared with target
+ *                       element.
+ *  @param[out] fallback An out parameter indicating whether or not a fallback should occur
+ *                       because the quick visibility checker has low confidence in the
+ *                       accuracy of the calculation. Use GREYThoroughVisibilityChecker
+ *                       instead to calculate the visible percentage area. You MUST check for
+ *                       @c performFallback before using the return value.
  *
  *  @return A @c GREYVisibilityCheckerTargetObscureResult that indicates how much of the target
  *          element obscured.
