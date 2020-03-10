@@ -26,6 +26,32 @@
 @implementation ErrorHandlingTest
 
 /**
+ *  Checks the error information for a timeout when a search action fails.
+ */
+- (void)testDescriptionForSearchActionTimeout {
+  [self openTestViewNamed:@"Scroll Views"];
+  id<GREYMatcher> matcher = grey_allOf(grey_accessibilityLabel(@"Label 2"), grey_interactable(),
+                                       grey_sufficientlyVisible(), nil);
+  CFTimeInterval interactionTimeout = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
+  [[GREYConfiguration sharedConfiguration] setValue:@(1)
+                                       forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
+  NSError *error;
+  [[[EarlGrey selectElementWithMatcher:matcher]
+         usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 50)
+      onElementWithMatcher:grey_accessibilityLabel(@"Upper Scroll View")]
+      assertWithMatcher:grey_sufficientlyVisible()
+                  error:&error];
+  [[GREYConfiguration sharedConfiguration] setValue:@(interactionTimeout)
+                                       forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
+  XCTAssertNotNil(error);
+  NSString *timeoutText = @"Interaction timed out after 1 seconds while searching for element.";
+  XCTAssertTrue(
+      [error.description containsString:timeoutText],
+      @"Error's description: %@ for a search action timing out did not contain timeout info: %@.",
+      error.description, timeoutText);
+}
+
+/**
  *  Check that the correct error description is printed when an error is returned from a custom
  *  action.
  */

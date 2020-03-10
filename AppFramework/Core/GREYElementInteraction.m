@@ -202,10 +202,8 @@
         [NSString stringWithFormat:@"Interaction timed out after %g seconds while "
                                    @"searching for element.",
                                    interactionTimeout];
-    GREYError *timeoutError = GREYErrorMakeWithHierarchy(
-        kGREYInteractionErrorDomain, kGREYInteractionTimeoutErrorCode, description);
-    I_GREYPopulateError(&error, kGREYInteractionErrorDomain,
-                        kGREYInteractionElementNotFoundErrorCode, timeoutError);
+    I_GREYPopulateError(&error, kGREYInteractionErrorDomain, kGREYInteractionTimeoutErrorCode,
+                        description);
   }
 
   GREYFatalAssertWithMessage(error != nil, @"Elements found but with an error: %@", error);
