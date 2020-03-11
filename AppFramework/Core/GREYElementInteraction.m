@@ -591,12 +591,13 @@
         errorDetails[kErrorDetailActionNameKey] = action.name;
         errorDetails[kErrorDetailElementMatcherKey] = _elementMatcher.description;
         errorDetails[kErrorDetailRecoverySuggestionKey] =
-            @"Create a more specific matcher to uniquely match an element. If that's not "
+            @"Create a more specific matcher to uniquely match an element.\n\nIn general, prefer "
+            @"using accessibility ID before accessibility label or other attributes. If you are "
+            @"matching on a UIButton, please use grey_buttonTitle() with the accessibility label "
+            @"instead. For UITextField, please use grey_textFieldValue().\n\nIf that's not "
             @"possible then use atIndex: to select from one of the matched elements. Keep "
             @"in mind when using atIndex: that the order in which elements are "
-            @"arranged may change, making your test brittle. If you are matching "
-            @"on a UIButton, please use  grey_buttonTitle() with the accessibility "
-            @"label instead. For UITextField, please use grey_textFieldValue().";
+            @"arranged may change, making your test brittle.";
         if (searchAPIInfo) {
           errorDetails[kErrorDetailSearchActionInfoKey] = searchAPIInfo;
         }

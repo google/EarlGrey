@@ -52,6 +52,28 @@
 }
 
 /**
+ *  Check error for multiple matchers.
+ */
+- (void)testMultipleMatcherError {
+  NSError *error;
+  [[EarlGrey selectElementWithMatcher:grey_kindOfClass([UITableViewCell class])]
+      performAction:grey_tap()
+              error:&error];
+  XCTAssertNotNil(error, @"Multiple Matchers error for the main VC is nil.");
+  NSString *suggestion =
+      @"Create a more specific matcher to uniquely match an element.\n\nIn general, prefer "
+      @"using accessibility ID before accessibility label or other attributes. If you are "
+      @"matching on a UIButton, please use grey_buttonTitle() with the accessibility label "
+      @"instead. For UITextField, please use grey_textFieldValue().\n\nIf that's not "
+      @"possible then use atIndex: to select from one of the matched elements. Keep "
+      @"in mind when using atIndex: that the order in which elements are "
+      @"arranged may change, making your test brittle.";
+  XCTAssertTrue([error.description containsString:suggestion],
+                @"Multiple Matcher Error: %@ doesn't contain the fixing-suggestion: %@",
+                error.description, suggestion);
+}
+
+/**
  *  Check that the correct error description is printed when an error is returned from a custom
  *  action.
  */
