@@ -119,7 +119,7 @@
   GREYExecuteSyncBlockInBackgroundQueue(^{
     includeStatusBar = [self->_remoteElementInteraction includeStatusBar];
   });
-  return includeStatusBar;
+  return self;
 }
 
 - (id<GREYInteractionDataSource>)dataSource {

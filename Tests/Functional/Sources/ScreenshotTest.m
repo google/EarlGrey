@@ -143,10 +143,18 @@
                  @"Screenshot isn't correct dimension");
 }
 
-- (void)testAddingTheStatusBarToTheInteraction {
+- (void)testUIStatusBarWindowNotPresentOnIOS13 {
   if (iOS13_OR_ABOVE()) {
     GREYElementInteraction *interaction =
         [EarlGrey selectElementWithMatcher:grey_kindOfClassName(@"UIStatusBarWindow")];
+    [[interaction includeStatusBar] assertWithMatcher:grey_nil()];
+  }
+}
+
+- (void)testAddingTheStatusBarToAnInteraction {
+  if (iOS13_OR_ABOVE()) {
+    GREYElementInteraction *interaction =
+        [EarlGrey selectElementWithMatcher:grey_kindOfClassName(@"UIStatusBar_Modern")];
     [[interaction includeStatusBar] assertWithMatcher:grey_notNil()];
   }
 }
