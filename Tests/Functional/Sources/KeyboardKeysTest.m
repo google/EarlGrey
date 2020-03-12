@@ -462,35 +462,29 @@
 
 - (void)testMatchingFailsWithUIAccessibilityTextFieldElement {
   if (iOS13_OR_ABOVE()) {
-    [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"Input Button")]
-        performAction:grey_tap()];
-
     id<GREYMatcher> elementMatcher =
         grey_allOf(grey_accessibilityValue(@"Text Field"),
                    grey_kindOfClassName(kTextFieldAXElementClassName), nil);
-    [[EarlGrey selectElementWithMatcher:elementMatcher] assertWithMatcher:grey_nil()];
+    [[EarlGrey selectElementWithMatcher:elementMatcher] assertWithMatcher:grey_notNil()];
     NSError *error;
     [[EarlGrey selectElementWithMatcher:elementMatcher] performAction:grey_clearText()
                                                                 error:&error];
-    XCTAssertEqualObjects(error.domain, kGREYInteractionErrorDomain);
-    XCTAssertEqual(error.code, kGREYInteractionElementNotFoundErrorCode);
+    XCTAssertNil(error, @"Typing on a UIAccessibilityElement has an error: %@", error);
+    [[EarlGrey selectElementWithMatcher:elementMatcher] performAction:grey_typeText(@"a")];
   }
 }
 
 - (void)testClearAndReplaceWorksWithUIAccessibilityTextFieldElement {
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"Input Button")]
-      performAction:grey_tap()];
-
   id<GREYMatcher> elementMatcher =
       grey_allOf(grey_accessibilityValue(@"Text Field"),
                  grey_kindOfClassName(kTextFieldAXElementClassName), nil);
   if (iOS13_OR_ABOVE()) {
-    [[EarlGrey selectElementWithMatcher:elementMatcher] assertWithMatcher:grey_nil()];
+    [[EarlGrey selectElementWithMatcher:elementMatcher] assertWithMatcher:grey_notNil()];
     NSError *error;
     [[EarlGrey selectElementWithMatcher:elementMatcher] performAction:grey_clearText()
                                                                 error:&error];
-    XCTAssertEqualObjects(error.domain, kGREYInteractionErrorDomain);
-    XCTAssertEqual(error.code, kGREYInteractionElementNotFoundErrorCode);
+    XCTAssertNil(error, @"Typing on a UIAccessibilityElement has an error: %@", error);
+    [[EarlGrey selectElementWithMatcher:elementMatcher] performAction:grey_typeText(@"a")];
   } else {
     [[[EarlGrey selectElementWithMatcher:elementMatcher] performAction:grey_clearText()]
         performAction:grey_replaceText(@"foo")];

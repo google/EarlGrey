@@ -58,6 +58,9 @@
 
 static Class gWebAccessibilityObjectWrapperClass;
 static Class gAccessibilityTextFieldElementClass;
+static SEL gTextSelector;
+static SEL gBeginningOfDocumentSelector;
+static Protocol *gTextInputProtocol;
 
 @implementation GREYActions
 
@@ -65,6 +68,9 @@ static Class gAccessibilityTextFieldElementClass;
   if (self == [GREYActions self]) {
     gWebAccessibilityObjectWrapperClass = NSClassFromString(@"WebAccessibilityObjectWrapper");
     gAccessibilityTextFieldElementClass = NSClassFromString(kTextFieldAXElementClassName);
+    gTextSelector = @selector(text);
+    gBeginningOfDocumentSelector = @selector(beginningOfDocument);
+    gTextInputProtocol = @protocol(UITextInput);
   }
 }
 
@@ -245,8 +251,7 @@ static Class gAccessibilityTextFieldElementClass;
   NSString *diagnosticsID = GREYCorePrefixedDiagnosticsID(@"typeText");
   NSString *actionName =
       [NSString stringWithFormat:@"Action to type \"%@\" at position %ld", text, (long)position];
-  id<GREYMatcher> protocolMatcher =
-      [GREYMatchers matcherForConformsToProtocol:@protocol(UITextInput)];
+  id<GREYMatcher> protocolMatcher = [GREYMatchers matcherForConformsToProtocol:gTextInputProtocol];
   GREYPerformBlock block = ^BOOL(id element, __strong NSError **errorOrNil) {
     __block UITextPosition *textPosition;
     grey_dispatch_sync_on_main_thread(^{
@@ -285,10 +290,10 @@ static Class gAccessibilityTextFieldElementClass;
 + (id<GREYAction>)actionForClearText {
   NSString *diagnosticsID = GREYCorePrefixedDiagnosticsID(@"clearText");
   NSArray *constraintMatchers = @[
-    [GREYMatchers matcherForRespondsToSelector:@selector(text)],
+    [GREYMatchers matcherForRespondsToSelector:gTextSelector],
     [GREYMatchers matcherForKindOfClass:gAccessibilityTextFieldElementClass],
     [GREYMatchers matcherForKindOfClass:gWebAccessibilityObjectWrapperClass],
-    [GREYMatchers matcherForConformsToProtocol:@protocol(UITextInput)]
+    [GREYMatchers matcherForConformsToProtocol:gTextInputProtocol]
   ];
   id<GREYMatcher> constraints = [[GREYAnyOf alloc] initWithMatchers:constraintMatchers];
   NSString *actionName = @"Clear text";
@@ -306,9 +311,9 @@ static Class gAccessibilityTextFieldElementClass;
             element = [element textField];
           } else {
             grey_dispatch_sync_on_main_thread(^{
-              if ([element respondsToSelector:@selector(text)]) {
+              if ([element respondsToSelector:gTextSelector]) {
                 currentText = [element text];
-              } else {
+              } else if ([element respondsToSelector:gBeginningOfDocumentSelector]) {
                 UITextRange *range = [element textRangeFromPosition:[element beginningOfDocument]
                                                          toPosition:[element endOfDocument]];
                 currentText = [element textInRange:range];
@@ -323,7 +328,7 @@ static Class gAccessibilityTextFieldElementClass;
 
           if (deleteStr.length == 0) {
             return YES;
-          } else if ([element conformsToProtocol:@protocol(UITextInput)]) {
+          } else if ([element conformsToProtocol:gTextInputProtocol]) {
             __block UITextPosition *endPosition;
             grey_dispatch_sync_on_main_thread(^{
               endPosition = [element endOfDocument];
@@ -657,7 +662,7 @@ static Class gAccessibilityTextFieldElementClass;
           grey_dispatch_sync_on_main_thread(^{
             firstResponder = [[expectedFirstResponderView window] firstResponder];
             if (position) {
-              if ([firstResponder conformsToProtocol:@protocol(UITextInput)]) {
+              if ([firstResponder conformsToProtocol:gTextInputProtocol]) {
                 UITextRange *newRange = [firstResponder textRangeFromPosition:position
                                                                    toPosition:position];
                 [firstResponder setSelectedTextRange:newRange];
