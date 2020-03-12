@@ -24,6 +24,7 @@
 #import "GREYAllOf.h"
 #import "GREYAnyOf.h"
 #import "GREYMatchers.h"
+#import "GREYSyncAPI.h"
 #import "GREYThrowDefines.h"
 #import "GREYScrollActionError.h"
 #import "NSError+GREYCommon.h"
@@ -94,7 +95,11 @@
   }
 #endif
   if ([element isKindOfClass:[WKWebView class]]) {
-    element = [(WKWebView *)element scrollView];
+    __block UIScrollView *webScrollView;
+    grey_dispatch_sync_on_main_thread(^{
+      webScrollView = [(WKWebView *)element scrollView];
+    });
+    element = webScrollView;
   }
 
   // Get the maximum scrollable amount in any direction and keep applying it until the edge
