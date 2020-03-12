@@ -76,15 +76,19 @@
 }
 
 - (void)testSlider6SnapsToValueWithContinuousSnapping {
+  id<GREYMatcher> firstQuadrantSliderValueMatcher =
+      grey_sliderValueMatcher(grey_closeTo(25.0f, kGREYAcceptableFloatDifference));
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"slider6")]
-      performAction:grey_moveSliderToValue(37.5f)]
-      assertWithMatcher:grey_sliderValueMatcher(
-                            grey_closeTo(50.0f, kGREYAcceptableFloatDifference))];
+      performAction:grey_moveSliderToValue(30.0f)]
+      assertWithMatcher:firstQuadrantSliderValueMatcher];
+
+  id<GREYMatcher> middleSliderValueMatcher =
+      grey_sliderValueMatcher(grey_closeTo(50.0f, kGREYAcceptableFloatDifference));
+  [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"slider6")]
+      performAction:grey_moveSliderToValue(40.0f)] assertWithMatcher:middleSliderValueMatcher];
 
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"slider6")]
-      performAction:grey_moveSliderToValue(62.5f)]
-      assertWithMatcher:grey_sliderValueMatcher(
-                            grey_closeTo(50.0f, kGREYAcceptableFloatDifference))];
+      performAction:grey_moveSliderToValue(62.5f)] assertWithMatcher:middleSliderValueMatcher];
 }
 
 - (void)testSmallSliderSnapsToAllValues {
