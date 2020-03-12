@@ -188,10 +188,10 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
   return success;
 }
 
+#if defined(__IPHONE_11_0)
 - (BOOL)openDeeplinkURL:(NSString *)URL
           inApplication:(XCUIApplication *)application
                   error:(NSError **)error {
-#if defined(__IPHONE_11_0)
   XCUIApplication *safariApp =
       [[XCUIApplication alloc] initWithBundleIdentifier:@"com.apple.mobilesafari"];
   [safariApp activate];
@@ -202,7 +202,9 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
   // app to be hittable for it.
   if (safariApp.hittable) {
 #if TARGET_OS_IOS
-    [safariApp.buttons[@"URL"] tap];
+    if (![safariApp.textFields[@"URL"] exists]) {
+      [safariApp.buttons[@"URL"] tap];
+    }
     [safariApp typeText:URL];
     [safariApp.buttons[@"Go"] tap];
 #endif  // TARGET_OS_IOS
@@ -225,19 +227,8 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
   // this is needed otherwise failed tests will hang until failure.
   [application activate];
   return NO;
-#else
-  NSString *errorDescription =
-      @"Cannot open the deeplink because it is not supported with the current system version.";
-  GREYError *notSupportedError =
-      GREYErrorMake(kGREYDeeplinkErrorDomain, GREYDeeplinkNotSupported, errorDescription);
-  if (error) {
-    *error = notSupportedError;
-  } else {
-    [GREYElementInteractionErrorHandler handleInteractionError:notSupportedError outError:nil];
-  }
-  return NO;
-#endif  // defined(__IPHONE_11_0)
 }
+#endif  // defined(__IPHONE_11_0)
 
 - (BOOL)shakeDeviceWithError:(NSError **)error {
   __block GREYError *shakeDeviceError = nil;

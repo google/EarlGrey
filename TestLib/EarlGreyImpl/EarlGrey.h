@@ -172,6 +172,7 @@ typedef void (^GREYHostApplicationCrashHandler)(void);
  */
 - (BOOL)dismissKeyboardWithError:(NSError **)error;
 
+#if defined(__IPHONE_11_0)
 /**
  *  Open the deeplink url from Safari and simulate the user action to accept opening the app.
  *  As a result any foregrounded application will be implicitly backgrounded. On failure, Safari
@@ -205,6 +206,7 @@ typedef void (^GREYHostApplicationCrashHandler)(void);
 - (BOOL)openDeeplinkURL:(NSString *)URL
           inApplication:(XCUIApplication *)application
                   error:(NSError **)error;
+#endif  // defined(__IPHONE_11_0)
 
 /**
  *  Shakes the device. If a non-nil @c error is provided, it will
