@@ -137,7 +137,8 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @note This is an expensive check (can take around 250ms for a simple 100 x 100 pt view). Do not
  *        use it in your selectElementWithMatcher statement for matching an element but use it to
- *        assert on a matched element's state.
+ *        assert on a matched element's state. Also, an element is considered not visible if it is
+ *        obscured by another view with an @c alpha greater than or equal to 0.95.
  *
  *  @return A matcher initialized with a visibility percentage that confirms an element is
  *          sufficiently visible.

@@ -22,6 +22,14 @@
 #import "GREYScreenshotter.h"
 #import "GREYVisibilityChecker.h"
 
+/**
+ *  Minimum alpha value for a view to be considered obscuring. If an element is covered by a view
+ *  that has an alpha close to 1, we assume that the user does not intend to match or interact with
+ *  the element. For instance, if a view with alpha 0.95 covers @c _target, @c _target is deemed not
+ *  visible.
+ */
+const double kMinimumAlphaToConsiderAsObscuring = 0.95f;
+
 @implementation GREYVisibilityCheckerTarget {
   /**
    *  Internal target element. Target is an accessibility element that could be either a UIView or a
@@ -242,8 +250,8 @@
  *  the target has the following conditions:
  *  (1) Accessibility element that is not a UIView. It cannot obscure the @c _target because it's
  *      not a visual element.
- *  (2) Its backgroundColor has an alpha less than 1.
- *  (3) Its alpha is less than 1.
+ *  (2) Its backgroundColor has an alpha less than 0.95.
+ *  (3) Its alpha is less than 0.95.
  *  (4) It is hidden or any of its ancestor is hidden.
  *
  *  @param object The object to evaluate if it can potentially obscure the @c _target. It could be
@@ -288,7 +296,7 @@
     return NO;
   } else if (IsBackgroundColorTranslucent(view.backgroundColor)) {
     return YES;
-  } else if (view.alpha < 1) {
+  } else if (view.alpha < kMinimumAlphaToConsiderAsObscuring) {
     return YES;
   } else {
     return NO;
@@ -479,7 +487,7 @@ static BOOL IsBackgroundColorTranslucent(UIColor *backgroundColor) {
     CGFloat white;
     CGFloat alpha;
     BOOL success = [backgroundColor getWhite:&white alpha:&alpha];
-    return success && (alpha < 1);
+    return success && (alpha < kMinimumAlphaToConsiderAsObscuring);
   }
 }
 
