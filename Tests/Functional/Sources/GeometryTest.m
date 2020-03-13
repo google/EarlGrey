@@ -39,8 +39,18 @@
   CGRect testRect = CGRectMake(40, 50, 100, 120);
   CGRect actualRect =
       [[GREYHostApplicationDistantObject sharedInstance] fixedCoordinateRectFromRect:testRect];
-  CGRect expectedRect = CGRectMake(width - 40 - 100, height - 50 - 120, 100, 120);
-  GREYAssertTrue(CGRectEqualToRect(actualRect, expectedRect), @"should be true");
+  CGRect expectedRect;
+  // Ensure the expected rect is different for iPhone X/XS/XR/11/Max. Check this based on the screen
+  // bounds. Screen bounds are (0, 0, 414, 736) for non-notched devices. (0, 0, 414, 896) for
+  // notched devices.
+  if (screenBounds.size.height == 896) {
+    expectedRect = CGRectMake(40, 50, 100, 120);
+  } else {
+    expectedRect = CGRectMake(width - 40 - 100, height - 50 - 120, 100, 120);
+  }
+  GREYAssertTrue(CGRectEqualToRect(actualRect, expectedRect),
+                 @"Actual Rect: %@ does not match Expected Rect: %@",
+                 NSStringFromCGRect(actualRect), NSStringFromCGRect(expectedRect));
 }
 
 - (void)testCGRectFixedToVariableScreenCoordinates_landscapeRight {
@@ -113,8 +123,18 @@
   GREYHostApplicationDistantObject *hostDistantObject =
       [GREYHostApplicationDistantObject sharedInstance];
   CGRect actualRect = [hostDistantObject fixedCoordinateRectFromRect:CGRectMake(40, 50, 100, 120)];
-  CGRect expectedRect = CGRectMake(width - 40 - 100, height - 50 - 120, 100, 120);
-  GREYAssertTrue(CGRectEqualToRect(actualRect, expectedRect), @"should be true");
+  CGRect expectedRect;
+  // Ensure the expected rect is different for iPhone X/XS/XR/11/Max. Check this based on the screen
+  // bounds. Screen bounds are (0, 0, 414, 736) for non-notched devices. (0, 0, 414, 896) for
+  // notched devices.
+  if (screenBounds.size.height == 896) {
+    expectedRect = CGRectMake(40, 50, 100, 120);
+  } else {
+    expectedRect = CGRectMake(width - 40 - 100, height - 50 - 120, 100, 120);
+  }
+  GREYAssertTrue(CGRectEqualToRect(actualRect, expectedRect),
+                 @"Actual Rect: %@ does not match Expected Rect: %@",
+                 NSStringFromCGRect(actualRect), NSStringFromCGRect(expectedRect));
 }
 
 - (void)testCGRectVariableToFixedScreenCoordinates_landscapeRight {
