@@ -17,7 +17,7 @@
 #import <UIKit/UIKit.h>
 
 /**
- *  View Controller for testing System Alert Handling with EarlGrey 2.0. Contains buttons which
+ *  View Controller for testing System Alert Handling with EarlGrey. Contains buttons which
  *  trigger flows that bring up System Alerts. Each System Alert also bring up a button and a
  *  label which has to be interacted with after the dismissal of the alert.
  */
