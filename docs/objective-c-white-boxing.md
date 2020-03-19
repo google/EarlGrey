@@ -116,3 +116,21 @@ You can now use this in your tests as:
 }
 
 ```
+
+### Using the remote class macro
+
+You can also use `GREY_REMOTE_CLASS_IN_APP` to obtain a remote EDOObject of
+a class in your application. The class interface must be exposed to the test
+process for doing this.
+
+```objectivec
+
+// Import only the header of the class for creating a remote object. The header should
+// be exposed as explained in your Header Search Paths.
+#import "FooClass.h"
+
+  // EDOObject that wraps around a real FooClass object.
+  Class remoteClass = GREY_REMOTE_CLASS_IN_APP(FooClass);
+  // EDOObject of a FooClass instance.
+  FooClass *remoteUIView = [[remoteClass alloc] init];
+```
