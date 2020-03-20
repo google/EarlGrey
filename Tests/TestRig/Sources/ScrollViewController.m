@@ -134,6 +134,10 @@
   self.infiniteScrollView.accessibilityLabel = @"Infinite Scroll View";
   self.infiniteScrollView.backgroundColor = [UIColor lightGrayColor];
   self.infiniteScrollView.delegate = self;
+  if (@available(iOS 13.0, *)) {
+    self.infiniteScrollView.contentInsetAdjustmentBehavior =
+        UIScrollViewContentInsetAdjustmentNever;
+  }
 
   _squareView = [[SquareAccessibleView alloc] initWithFrame:CGRectMake(10, 160, 20, 20)];
   [self.scrollview addSubview:_squareView];
@@ -161,7 +165,9 @@
 #pragma mark - UIScrollViewDelegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-  self.topTextbox.text = NSStringFromCGPoint(scrollView.contentOffset);
+  CGPoint scrollViewOffset = scrollView.contentOffset;
+  CGPoint roundedOffset = CGPointMake(round(scrollViewOffset.x), round(scrollViewOffset.y));
+  self.topTextbox.text = NSStringFromCGPoint(roundedOffset);
   [_squareView setNeedsLayout];
 }
 

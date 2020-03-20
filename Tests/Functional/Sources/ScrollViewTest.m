@@ -164,10 +164,12 @@
 }
 
 - (void)testVisibilityOnPartiallyObscuredScrollView {
-  GREYHostApplicationDistantObject *host = GREYHostApplicationDistantObject.sharedInstance;
-  id<GREYAssertion> assertion = [host assertionWithPartiallyVisible];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Bottom Scroll View")]
-      assert:assertion];
+  if (iOS13_OR_ABOVE()) {
+    GREYHostApplicationDistantObject *host = GREYHostApplicationDistantObject.sharedInstance;
+    id<GREYAssertion> assertion = [host assertionWithPartiallyVisible];
+    [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Bottom Scroll View")]
+        assert:assertion];
+  }
 }
 
 - (void)testInfiniteScroll {
@@ -198,8 +200,6 @@
 //       waits until the scrolling stops, where the scroll view's inertia causes itself
 //       to move more than needed.
 - (void)testScrollInDirectionCausesExactChangesToContentOffsetWithTinyScrollAmounts {
-  // Scroll by a fixed amount and verify that the scroll offset has changed by that amount.
-  // Go down to (0, 7)
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Infinite Scroll View")]
       performAction:grey_scrollInDirection(kGREYDirectionDown, 7)];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"topTextbox")]
@@ -235,13 +235,13 @@
 }
 
 - (void)testScrollToTopWithNonZeroXOffset {
-  // Scroll to (50, 400)
+  // Scroll to (50, 370) as going higher might cause bouncing because of iOS 13+ autoresizing.
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Infinite Scroll View")]
-      performAction:grey_scrollInDirection(kGREYDirectionDown, 400)];
+      performAction:grey_scrollInDirection(kGREYDirectionDown, 370)];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Infinite Scroll View")]
       performAction:grey_scrollInDirection(kGREYDirectionRight, 50)];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"topTextbox")]
-      assertWithMatcher:grey_text(NSStringFromCGPoint(CGPointMake(50, 400)))];
+      assertWithMatcher:grey_text(NSStringFromCGPoint(CGPointMake(50, 370)))];
   // Scroll up using grey_scrollToContentEdge(...) and verify scroll offset is back at 0.
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Infinite Scroll View")]
       performAction:grey_scrollToContentEdge(kGREYContentEdgeTop)];
@@ -292,6 +292,7 @@
   // Go down to (0, 99)
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Infinite Scroll View")]
       performAction:grey_scrollInDirection(kGREYDirectionDown, 99)];
+
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"topTextbox")]
       assertWithMatcher:grey_text(NSStringFromCGPoint(CGPointMake(0, 99)))];
   // Go right to (77, 99)

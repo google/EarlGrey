@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="retina3_5" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -22,11 +20,11 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="1">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Info / Insets {top,left,bottom,right}" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="P3e-SN-PxX">
-                    <rect key="frame" x="16" y="10" width="243" height="30"/>
+                    <rect key="frame" x="20" y="10" width="333" height="34"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
                     <userDefinedRuntimeAttributes>
@@ -34,7 +32,7 @@
                     </userDefinedRuntimeAttributes>
                 </textField>
                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Wff-P0-8YW">
-                    <rect key="frame" x="263" y="10" width="51" height="31"/>
+                    <rect key="frame" x="357" y="10" width="51" height="31"/>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="insets toggle"/>
                     </userDefinedRuntimeAttributes>
@@ -43,10 +41,10 @@
                     </connections>
                 </switch>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5d8-Eo-Ig8">
-                    <rect key="frame" x="0.0" y="48" width="320" height="114"/>
+                    <rect key="frame" x="0.0" y="52" width="414" height="114"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="plb-tr-BSQ" userLabel="Content Holder">
-                            <rect key="frame" x="0.0" y="0.0" width="320" height="1300"/>
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="1300"/>
                             <subviews>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Some Text 1" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aD1-Do-vfB">
                                     <rect key="frame" x="20" y="0.0" width="93" height="21"/>
@@ -115,14 +113,15 @@
                         </mask>
                     </variation>
                 </scrollView>
-                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dqg-2R-1iT" userLabel="Small Content Scroll View">
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dqg-2R-1iT" userLabel="Small Content Scroll View">
                     <rect key="frame" x="0.0" y="166" width="320" height="50"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="rgR-Un-aNY"/>
                     </constraints>
                 </scrollView>
-                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="td9-NB-ySB">
-                    <rect key="frame" x="0.0" y="220" width="320" height="56"/>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="td9-NB-ySB">
+                    <rect key="frame" x="0.0" y="224" width="414" height="147"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iml-d3-kAr" userLabel="Content Holder">
                             <rect key="frame" x="0.0" y="0.0" width="607.5" height="500"/>
@@ -225,7 +224,6 @@
                         <constraint firstAttribute="trailing" secondItem="x0g-Hz-mQA" secondAttribute="trailing" constant="440.33333333333348" id="h4s-qi-J9M">
                             <variation key="heightClass=regular-widthClass=regular" constant="-100"/>
                         </constraint>
-                        <constraint firstAttribute="height" constant="56" id="n7p-o9-9ce"/>
                         <constraint firstAttribute="height" constant="100" id="oxy-Mb-6io">
                             <variation key="heightClass=regular-widthClass=regular" constant="150"/>
                         </constraint>
@@ -235,7 +233,6 @@
                     <variation key="default">
                         <mask key="constraints">
                             <exclude reference="CA3-ua-J95"/>
-                            <exclude reference="n7p-o9-9ce"/>
                             <exclude reference="oxy-Mb-6io"/>
                             <exclude reference="GaY-6H-mvs"/>
                             <exclude reference="Rk3-DN-6zk"/>
@@ -251,11 +248,6 @@
                         <mask key="constraints">
                             <include reference="CA3-ua-J95"/>
                             <include reference="e03-S5-eMk"/>
-                        </mask>
-                    </variation>
-                    <variation key="heightClass=regular-widthClass=compact">
-                        <mask key="constraints">
-                            <include reference="n7p-o9-9ce"/>
                         </mask>
                     </variation>
                     <variation key="heightClass=regular-widthClass=regular">
@@ -276,10 +268,10 @@
                     </variation>
                 </scrollView>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V9g-g7-db5">
-                    <rect key="frame" x="0.0" y="280" width="320" height="177"/>
+                    <rect key="frame" x="0.0" y="375" width="414" height="177"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bSp-nf-XzL" userLabel="Content Holder">
-                            <rect key="frame" x="0.0" y="0.0" width="370" height="500"/>
+                            <rect key="frame" x="0.0" y="0.0" width="464" height="500"/>
                             <subviews>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Top Left" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M1Q-V0-qNX">
                                     <rect key="frame" x="0.0" y="0.0" width="63" height="21"/>
@@ -289,7 +281,7 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bottom Right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iwN-05-afG">
-                                    <rect key="frame" x="269.5" y="155" width="100.5" height="21"/>
+                                    <rect key="frame" x="363.5" y="155" width="100.5" height="21"/>
                                     <accessibility key="accessibilityConfiguration" label="Bottom Right"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <nil key="highlightedColor"/>
@@ -434,7 +426,7 @@
                     </variation>
                 </scrollView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nuR-Jb-FaD">
-                    <rect key="frame" x="0.0" y="362" width="320" height="100"/>
+                    <rect key="frame" x="0.0" y="457" width="414" height="100"/>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 </view>
             </subviews>
