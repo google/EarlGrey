@@ -18,9 +18,11 @@
 
 #import <XCTest/XCTest.h>
 
+#import "GREYFatalAsserts.h"
 #import "GREYHostBackgroundDistantObject.h"
 #import "GREYTestApplicationDistantObject+Private.h"
 #import "GREYFrameworkException.h"
+#import "GREYRemoteExecutor.h"
 #import "EDOHostPort.h"
 #import "EDOClientService.h"
 #import "EDOHostService.h"
@@ -29,11 +31,10 @@
 #import "EDOServicePort.h"
 #import "NSObject+EDOBlacklistedType.h"
 
+/** The maximum time to wait for the eDO host ports of app-under-test. */
+static const int64_t kPortAllocationWaitTime = 30 * NSEC_PER_SEC;
+
 @interface GREYTestApplicationDistantObject ()
-/** @see GREYTestApplicationDistantObject.hostPort, make this readwrite. */
-@property(nonatomic) uint16_t hostPort;
-/** @see GREYTestApplicationDistantObject.hostBackgroundPort, make this readwrite. */
-@property(nonatomic) uint16_t hostBackgroundPort;
 /** @see GREYTestApplicationDistantObject.service, make this readwrite. */
 @property EDOHostService *service;
 /** @see GREYTestApplicationDistantObject.hostApplicationDead in private header. */
@@ -85,7 +86,22 @@ __attribute__((constructor)) static void SetupTestDistantObject() {
   };
 }
 
-@implementation GREYTestApplicationDistantObject
+@implementation GREYTestApplicationDistantObject {
+  /** @see GREYTestApplicationDistantObject::hostPort. This is the underlying ivar. */
+  uint16_t _hostPort;
+  /**
+   *  The dispatch group for the task of fetching main-queue eDO port of app-under-test. The valid
+   *  port number of @c _hostPort is always assigned within the group.
+   */
+  dispatch_group_t _hostPortAllocationGroup;
+  /** @see GREYTestApplicationDistantObject::hostBackgroundPort. This is the underlying ivar. */
+  uint16_t _hostBackgroundPort;
+  /**
+   *  The dispatch_group for the task of fetching background-queue eDO port of app-under-test. The
+   *  valid port number of @c _hostBackgroundPort is always assigned within the group.
+   */
+  dispatch_group_t _hostBackgroundPortAllocationGroup;
+}
 
 + (instancetype)sharedInstance {
   static dispatch_once_t onceToken;
@@ -99,32 +115,78 @@ __attribute__((constructor)) static void SetupTestDistantObject() {
   return application;
 }
 
+- (instancetype)init {
+  self = [super init];
+  if (self) {
+    _hostPortAllocationGroup = dispatch_group_create();
+    dispatch_group_enter(_hostPortAllocationGroup);
+    _hostBackgroundPortAllocationGroup = dispatch_group_create();
+    dispatch_group_enter(_hostBackgroundPortAllocationGroup);
+  }
+  return self;
+}
+
 - (uint16_t)servicePort {
   return self.service.port.port;
 }
 
 - (uint16_t)hostPort {
   if (_hostPort == 0) {
-    XCTWaiterResult result = [self grey_waitForKeyPathToBeNonZero:@"hostPort"];
-    if (result != XCTWaiterResultCompleted) {
-      NSLog(@"Host port not assigned. Application under test may have failed to launch and/or does "
-            @"not link to EarlGrey's AppFramework.");
-      abort();
+    // Waits up to 30 seconds until @c _hostPort has been changed to a nonzero value.
+    dispatch_time_t timeout = dispatch_time(DISPATCH_TIME_NOW, kPortAllocationWaitTime);
+    if ([NSThread isMainThread]) {
+      GREYExecuteSyncBlockInBackgroundQueue(^{
+        dispatch_group_wait(_hostPortAllocationGroup, timeout);
+      });
+    } else {
+      dispatch_group_wait(_hostPortAllocationGroup, timeout);
     }
+    GREYFatalAssertWithMessage(_hostPort != 0,
+                               @"Host port not assigned. Application under test may have failed "
+                               @"to launch and/or does not link to EarlGrey's AppFramework.");
   }
   return _hostPort;
 }
 
+- (void)setHostPort:(uint16_t)hostPort {
+  GREYFatalAssertMainThread();
+  uint16_t currentPort = _hostPort;
+  _hostPort = hostPort;
+  if (currentPort != 0 && hostPort == 0) {
+    dispatch_group_enter(_hostPortAllocationGroup);
+  } else if (currentPort == 0 && hostPort != 0) {
+    dispatch_group_leave(_hostPortAllocationGroup);
+  }
+}
+
 - (uint16_t)hostBackgroundPort {
   if (_hostBackgroundPort == 0) {
-    XCTWaiterResult result = [self grey_waitForKeyPathToBeNonZero:@"hostBackgroundPort"];
-    if (result != XCTWaiterResultCompleted) {
-      NSLog(@"Host background port not assigned. Application under test may have failed to launch "
-            @"and/or does not link to EarlGrey's AppFramework.");
-      abort();
+    // Waits up to 30 seconds until @c _hostBackgroundPort has been changed to a nonzero value.
+    dispatch_time_t timeout = dispatch_time(DISPATCH_TIME_NOW, kPortAllocationWaitTime);
+    if ([NSThread isMainThread]) {
+      GREYExecuteSyncBlockInBackgroundQueue(^{
+        dispatch_group_wait(_hostBackgroundPortAllocationGroup, timeout);
+      });
+    } else {
+      dispatch_group_wait(_hostBackgroundPortAllocationGroup, timeout);
     }
+    GREYFatalAssertWithMessage(_hostBackgroundPort != 0,
+                               @"Host background port not assigned. Application under test may "
+                               @"have failed to launch and/or "
+                               @"does not link to EarlGrey's AppFramework.");
   }
   return _hostBackgroundPort;
+}
+
+- (void)setHostBackgroundPort:(uint16_t)hostBackgroundPort {
+  GREYFatalAssertMainThread();
+  uint16_t currentPort = _hostBackgroundPort;
+  _hostBackgroundPort = hostBackgroundPort;
+  if (currentPort != 0 && hostBackgroundPort == 0) {
+    dispatch_group_enter(_hostBackgroundPortAllocationGroup);
+  } else if (currentPort == 0 && hostBackgroundPort != 0) {
+    dispatch_group_leave(_hostBackgroundPortAllocationGroup);
+  }
 }
 
 - (void)resetHostArguments {
@@ -134,16 +196,6 @@ __attribute__((constructor)) static void SetupTestDistantObject() {
 }
 
 #pragma mark - Private
-
-/** Waits 30 seconds until the given @c keyPath has been changed to a nonzero value. */
-- (XCTWaiterResult)grey_waitForKeyPathToBeNonZero:(NSString *)keyPath {
-  XCTKVOExpectation *expectation = [[XCTKVOExpectation alloc] initWithKeyPath:keyPath object:self];
-  expectation.handler = ^BOOL(id observedObject, NSDictionary *change) {
-    int newPort = [change[NSKeyValueChangeNewKey] intValue];
-    return newPort != 0;
-  };
-  return [XCTWaiter waitForExpectations:@[ expectation ] timeout:30];
-}
 
 - (BOOL)isPermanentAppHostPort:(uint16_t)port {
   return port != 0 && (port == _hostPort || port == _hostBackgroundPort);

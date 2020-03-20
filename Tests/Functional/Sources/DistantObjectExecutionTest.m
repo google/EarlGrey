@@ -18,6 +18,7 @@
 #import <XCTest/XCTest.h>
 
 #import "GREYHostApplicationDistantObject+GREYTestHelper.h"
+#import "GREYTestApplicationDistantObject+Private.h"
 #import "BaseIntegrationTest.h"
 #import "EDOHostService.h"
 #import "EDOServicePort.h"
@@ -27,6 +28,7 @@
 
 @implementation DistantObjectExecutionTest
 
+/** Checks if the successful launch of app-under-test initializes the distant object variables. */
 - (void)testLaunchNoError {
   // Launch and terminate w/o any errors.
   XCTAssertNotNil(GREYHostApplicationDistantObject.sharedInstance);
@@ -40,6 +42,7 @@
   XCTAssertEqual(GREYHostApplicationDistantObject.testPort, testService.port.port);
 }
 
+/** Verifies that the host distant object can execute code at app-under-test side. */
 - (void)testHostApplicationInstanceExtension {
   GREYHostApplicationDistantObject *host = GREYHostApplicationDistantObject.sharedInstance;
   XCTAssertEqualObjects([host makeAString:@"string"], @"stringmake");
@@ -47,6 +50,7 @@
                  GREYTestApplicationDistantObject.sharedInstance.hostPort);
 }
 
+/** Verifies that the host distant object can configure animation speed of app-under-test. */
 - (void)testAnimationSpeed {
   [[GREYHostApplicationDistantObject sharedInstance] enableFastAnimation];
   BOOL enableFastAnimationWorked =
@@ -59,10 +63,61 @@
   XCTAssertTrue(disableFastAnimationWorked, @"All Window Layer Animations are Equal to One");
 }
 
+/** Checks if test can create a UIView instance in app-under-test. */
 - (void)testRemoteClassAlloc {
   UIView *remoteView;
   XCTAssertNoThrow(remoteView = [GREY_ALLOC_REMOTE_CLASS_IN_APP(UIView) init]);
   XCTAssertTrue([remoteView isKindOfClass:GREY_REMOTE_CLASS_IN_APP(UIView)]);
+}
+
+/**
+ * Checks if test distant object will wait for eDO host ports of app-under-test to be assgiend when
+ * its getter is called.
+ */
+- (void)testAppEDOPortsGetterWaitingForPortsToBeAssigned {
+  GREYTestApplicationDistantObject *distantObject = GREYTestApplicationDistantObject.sharedInstance;
+  __block CFTimeInterval getterWaitingTime;
+  __block uint16_t hostPort;
+  __block uint16_t backgroundPort;
+  id appPortsFetchingBlock = ^{
+    CFTimeInterval startTime = CACurrentMediaTime();
+    hostPort = distantObject.hostPort;
+    backgroundPort = distantObject.hostBackgroundPort;
+    getterWaitingTime = CACurrentMediaTime() - startTime;
+  };
+  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.f * NSEC_PER_SEC),
+                 dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
+                 appPortsFetchingBlock);
+  [self.application launch];
+  XCTAssertGreaterThan(hostPort, 0);
+  XCTAssertGreaterThan(backgroundPort, 0);
+  // Verifies the getter actually waits for the assignment.
+  XCTAssertGreaterThan(getterWaitingTime, 1.f);
+}
+
+/**
+ * Verifies that EarlGrey performs successful applcation launch and eDO ports assignment when the
+ * previous app launch failed.
+ */
+- (void)testAppEDOPortsCanBeResetTwice {
+  GREYTestApplicationDistantObject *distantObject = GREYTestApplicationDistantObject.sharedInstance;
+  // Mimics the first-time launch failure by resetting host eDO ports to 0.
+  [distantObject resetHostArguments];
+  [self.application launch];
+  XCTAssertGreaterThan(distantObject.hostPort, 0);
+  XCTAssertGreaterThan(distantObject.hostBackgroundPort, 0);
+}
+
+/** Checks if eDO ports assignment of XCUIApplication::activate is successful. */
+- (void)testAppEDOPortsCanBeAssignedTwice {
+  GREYTestApplicationDistantObject *distantObject = GREYTestApplicationDistantObject.sharedInstance;
+  [self.application launch];
+  uint16_t currentHostPort = distantObject.hostPort;
+  uint16_t currentBackgroundPort = distantObject.hostBackgroundPort;
+  [self.application terminate];
+  [self.application activate];
+  XCTAssertNotEqual(distantObject.hostPort, currentHostPort);
+  XCTAssertNotEqual(distantObject.hostBackgroundPort, currentBackgroundPort);
 }
 
 @end
