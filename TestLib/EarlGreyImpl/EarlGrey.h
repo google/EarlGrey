@@ -38,12 +38,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  *  Key for setting a new or retrieving the existing failure handler for EarlGrey. Each failure
- *  handler is tied to the main thread object's dictionary. When an EarlGrey call fails, it
- *  calls into the currently set failure handler to handle the exception.
+ *  handler is tied to the main thread object's dictionary. When an EarlGrey call fails, it calls
+ *  into the currently set failure handler to handle the exception.
  *
  *  To set a new failure handler (for any thread):
  *   @code
- *   [NSThread mainThread].threadDictionary[GREYFailureHandlerKey] = newHandler;
+ *   [NSThread mainThread].threadDictionary[GREYFailureHandlerKey] = newFailureHandler;
  *   @endcode
  *
  *  To get the failure handler:
@@ -66,7 +66,7 @@ GREY_EXTERN NSString *const GREYFailureHandlerKey;
   [EarlGreyImpl invokedFromFile:[NSString stringWithUTF8String:__FILE__] ?: @"UNKNOWN FILE" \
                      lineNumber:__LINE__]
 
-/** The type of handlers to be used by EarlGrey when app-under-test crashes. */
+/** Crash handler block type definiton used for handling app-side crashes. */
 typedef void (^GREYHostApplicationCrashHandler)(void);
 
 /**
@@ -123,15 +123,7 @@ typedef void (^GREYHostApplicationCrashHandler)(void);
  */
 - (id<GREYInteraction>)selectElementWithMatcher:(id<GREYMatcher>)elementMatcher;
 
-/**
- *  Convenience wrapper to invoke GREYFailureHandler::handleException:details: on the failure
- *  handler for the current thread.
- *
- *  @param exception The exception to be handled.
- *  @param details   Any extra details about the failure.
- */
-- (void)handleException:(GREYFrameworkException *)exception details:(NSString *)details;
-
+#if TARGET_OS_IOS
 /**
  *  Rotate the device to a given @c deviceOrientation. All device orientations except for
  *  @c UIDeviceOrientationUnknown are supported. If a non-nil @c error is provided, it will
@@ -146,7 +138,6 @@ typedef void (^GREYHostApplicationCrashHandler)(void);
  *  @return @c YES if the rotation was successful, @c NO otherwise. If @c error is @c nil and
  *          the operation fails, it will throw an exception.
  */
-#if TARGET_OS_IOS
 - (BOOL)rotateDeviceToOrientation:(UIDeviceOrientation)deviceOrientation error:(NSError **)error;
 #endif  // TARGET_OS_IOS
 
@@ -257,6 +248,15 @@ typedef void (^GREYHostApplicationCrashHandler)(void);
  *                 crashes.
  */
 - (void)setHostApplicationCrashHandler:(nullable GREYHostApplicationCrashHandler)handler;
+
+/**
+ *  Convenience wrapper to invoke GREYFailureHandler::handleException:details: on the failure
+ *  handler for the current thread.
+ *
+ *  @param exception The exception to be handled.
+ *  @param details   Any extra details about the failure.
+ */
+- (void)handleException:(GREYFrameworkException *)exception details:(NSString *)details;
 
 @end
 
