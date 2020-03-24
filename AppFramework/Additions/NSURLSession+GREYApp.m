@@ -22,6 +22,7 @@
 #import "__NSCFLocalDataTask_GREYApp.h"
 #import "GREYAppStateTracker.h"
 #import "GREYFatalAsserts.h"
+#import "GREYDefines.h"
 #import "GREYObjcRuntime.h"
 #import "GREYSwizzler.h"
 
@@ -41,52 +42,84 @@ typedef void (^GREYTaskCompletionBlock)(NSData *data, NSURLResponse *response, N
                                     withMethod:swizzledSelector];
   GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle -[NSURLSession %@]",
                              NSStringFromSelector(originalSelector));
+  if (iOS13_OR_ABOVE()) {
+    originalSelector = @selector(dataTaskWithRequest:);
+    swizzledSelector = @selector(greyswizzled_dataTaskWithRequest:);
+    swizzleSuccess = [swizzler swizzleClass:self
+                      replaceInstanceMethod:originalSelector
+                                 withMethod:swizzledSelector];
+    GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle -[NSURLSession %@]",
+                               NSStringFromSelector(originalSelector));
+
+    originalSelector = @selector(dataTaskWithURL:completionHandler:);
+    swizzledSelector = @selector(greyswizzled_dataTaskWithURL:completionHandler:);
+    swizzleSuccess = [swizzler swizzleClass:self
+                      replaceInstanceMethod:originalSelector
+                                 withMethod:swizzledSelector];
+    GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle -[NSURLSession %@]",
+                               NSStringFromSelector(originalSelector));
+
+    originalSelector = @selector(dataTaskWithURL:);
+    swizzledSelector = @selector(greyswizzled_dataTaskWithURL:);
+    swizzleSuccess = [swizzler swizzleClass:self
+                      replaceInstanceMethod:originalSelector
+                                 withMethod:swizzledSelector];
+    GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle -[NSURLSession %@]",
+                               NSStringFromSelector(originalSelector));
+  }
 }
 
 #pragma mark - Swizzled Implementation
 
+- (NSURLSessionDataTask *)greyswizzled_dataTaskWithURL:(NSURL *)url {
+  SwizzleDelegateForSession(self);
+  NSURLSessionDataTask *task =
+      INVOKE_ORIGINAL_IMP1(NSURLSessionDataTask *, @selector(greyswizzled_dataTaskWithURL:), url);
+  if (!self.delegate) {
+    [(id)task grey_neverTrack];
+  }
+  return task;
+}
+
+- (NSURLSessionDataTask *)greyswizzled_dataTaskWithURL:(NSURL *)url
+                                     completionHandler:(GREYTaskCompletionBlock)completionHandler {
+  SwizzleDelegateForSession(self);
+  __weak __block id weakTask;
+  GREYTaskCompletionBlock wrappedHandler = nil;
+  if (completionHandler) {
+    wrappedHandler = ^(NSData *data, NSURLResponse *response, NSError *error) {
+      completionHandler(data, response, error);
+      [weakTask grey_untrack];
+    };
+  }
+
+  NSURLSessionDataTask *task = INVOKE_ORIGINAL_IMP2(
+      NSURLSessionDataTask *, @selector(greyswizzled_dataTaskWithURL:completionHandler:), url,
+      wrappedHandler);
+
+  if (!self.delegate && !completionHandler) {
+    [(id)task grey_neverTrack];
+  } else {
+    weakTask = task;
+  }
+  return task;
+}
+
+- (NSURLSessionDataTask *)greyswizzled_dataTaskWithRequest:(NSURLRequest *)request {
+  SwizzleDelegateForSession(self);
+  NSURLSessionDataTask *task = INVOKE_ORIGINAL_IMP1(
+      NSURLSessionDataTask *, @selector(greyswizzled_dataTaskWithRequest:), request);
+  if (!self.delegate) {
+    [(id)task grey_neverTrack];
+  }
+  return task;
+}
+
 - (NSURLSessionDataTask *)greyswizzled_dataTaskWithRequest:(NSURLRequest *)request
                                          completionHandler:(GREYTaskCompletionBlock)handler {
-  SEL swizzledSel = @selector(greyswizzled_URLSession:task:didCompleteWithError:);
-  // Swizzle the session delegate class if not yet done.
-  id delegate = self.delegate;
-  SEL originalSel = @selector(URLSession:task:didCompleteWithError:);
-  // Add a check for a proxy delegate in the case it might respond @c YES to
-  // `respondsToSelector:` but `class_getInstanceMethod` returns nil. Forward
-  // the target until the right delegate object is found, if any.
-  id nextForwardingDelegate;
-  while ((nextForwardingDelegate = [delegate forwardingTargetForSelector:originalSel])) {
-    delegate = nextForwardingDelegate;
-  }
-  Class delegateClass = [delegate class];
-
-  if (![delegateClass instancesRespondToSelector:swizzledSel]) {
-    // If delegate does not exist or if it does not implement the delegate method, then this
-    // request need not be tracked as its completion/failure does not trigger any delegate
-    // callbacks.
-    if ([delegate respondsToSelector:originalSel]) {
-      Class selfClass = [self class];
-      // Double-checked locking to prevent multiple swizzling attempts of the same class.
-      @synchronized(selfClass) {
-        if (![delegateClass instancesRespondToSelector:swizzledSel]) {
-          [GREYObjcRuntime addInstanceMethodToClass:delegateClass
-                                       withSelector:swizzledSel
-                                          fromClass:selfClass];
-          GREYSwizzler *swizzler = [[GREYSwizzler alloc] init];
-          BOOL swizzleSuccess = [swizzler swizzleClass:delegateClass
-                                 replaceInstanceMethod:originalSel
-                                            withMethod:swizzledSel];
-          GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle -[%@ %@] in %@",
-                                     delegateClass, NSStringFromSelector(originalSel), delegate);
-        }
-      }
-    }
-  }
-
-  GREYTaskCompletionBlock wrappedHandler = nil;
+  SwizzleDelegateForSession(self);
   __weak __block id weakTask;
-  // If a handler has been provided then wrap it as delegate methods are not invoked for tasks with
-  // completion blocks.
+  GREYTaskCompletionBlock wrappedHandler = nil;
   if (handler) {
     wrappedHandler = ^(NSData *data, NSURLResponse *response, NSError *error) {
       handler(data, response, error);
@@ -97,11 +130,8 @@ typedef void (^GREYTaskCompletionBlock)(NSData *data, NSURLResponse *response, N
   NSURLSessionDataTask *task = INVOKE_ORIGINAL_IMP2(
       NSURLSessionDataTask *, @selector(greyswizzled_dataTaskWithRequest:completionHandler:),
       request, wrappedHandler);
-  // Note that if neither the delegate was set nor a completion block provided, it means that the
-  // app has made a network request but will not act on the result of it (passed or failed). For
-  // example: analytics requests going out from the app. Neither does EarlGrey track such requests
-  // as they are not UI altering.
-  if (!delegate && !handler) {
+
+  if (!self.delegate && !handler) {
     [(id)task grey_neverTrack];
   } else {
     weakTask = task;
@@ -118,6 +148,52 @@ typedef void (^GREYTaskCompletionBlock)(NSData *data, NSURLResponse *response, N
   id greyTask = task;
   if ([greyTask respondsToSelector:@selector(grey_untrack)]) {
     [greyTask grey_untrack];
+  }
+}
+
+/**
+ *  Swizzles the URLSession:task:didCompleteWithError: method of the delegate in order to track the
+ *  delegate callbacks.
+ *
+ *  @param session The NSURLSession that is to be tracked.
+ */
+static void SwizzleDelegateForSession(NSURLSession *session) {
+  // Swizzle the session delegate class if not yet done.
+  id delegate = session.delegate;
+  if (!delegate) {
+    return;
+  }
+  SEL swizzledSel = @selector(greyswizzled_URLSession:task:didCompleteWithError:);
+  SEL originalSel = @selector(URLSession:task:didCompleteWithError:);
+  // Add a check for a proxy delegate in the case it might respond @c YES to `respondsToSelector:`
+  // but `class_getInstanceMethod` returns nil. Forward the target until the right delegate object
+  // is found, if any.
+  id nextForwardingDelegate;
+  while ((nextForwardingDelegate = [delegate forwardingTargetForSelector:originalSel])) {
+    delegate = nextForwardingDelegate;
+  }
+  Class delegateClass = [delegate class];
+
+  if (![delegateClass instancesRespondToSelector:swizzledSel]) {
+    // If delegate does not exist or if it does not implement the delegate method, then this request
+    // need not be tracked as its completion/failure does not trigger any delegate callbacks.
+    if ([delegate respondsToSelector:originalSel]) {
+      Class selfClass = [session class];
+      // Double-checked locking to prevent multiple swizzling attempts of the same class.
+      @synchronized(selfClass) {
+        if (![delegateClass instancesRespondToSelector:swizzledSel]) {
+          [GREYObjcRuntime addInstanceMethodToClass:delegateClass
+                                       withSelector:swizzledSel
+                                          fromClass:selfClass];
+          GREYSwizzler *swizzler = [[GREYSwizzler alloc] init];
+          BOOL swizzleSuccess = [swizzler swizzleClass:delegateClass
+                                 replaceInstanceMethod:originalSel
+                                            withMethod:swizzledSel];
+          GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle -[%@ %@] in %@",
+                                     delegateClass, NSStringFromSelector(originalSel), delegate);
+        }
+      }
+    }
   }
 }
 

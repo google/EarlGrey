@@ -75,6 +75,10 @@
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
+/**
+ *  Ensure that if EarlGrey already waits for a request with a drain, then subsequent GREYAsserts
+ *  do not wait again.
+ */
 - (void)testSynchronizationWorksWithoutNetworkCallbacks {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"RequestCompletedLabel")]
       assertWithMatcher:grey_notVisible()];
@@ -82,13 +86,14 @@
   [GREYHostApplicationDistantObject.sharedInstance setNetworkRequestDelayTime:1.0];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"NSURLSessionNoCallbackTest")]
       performAction:grey_tap()];
-  NSTimeInterval startTime = CACurrentMediaTime();
+  CFTimeInterval startTime = CACurrentMediaTime();
   // GREYUIThreadExecutor::drainUntilIdle will be called on the background thread here since we
   // stub it in EarlGrey's TestLib.
   [[GREYUIThreadExecutor sharedInstance] drainUntilIdle];
-  NSTimeInterval idlingTime = CACurrentMediaTime() - startTime;
+  CFTimeInterval idlingTime = CACurrentMediaTime() - startTime;
   // Verify that EarlGrey did not wait for the request.
-  GREYAssert(idlingTime < 1.0, @"EarlGrey must not wait for the network request");
+  GREYAssert(idlingTime < 1.0, @"EarlGrey must not wait for the network request: Timeout %f",
+             idlingTime);
   [GREYHostApplicationDistantObject.sharedInstance setNetworkRequestDelayTime:0.0];
 }
 

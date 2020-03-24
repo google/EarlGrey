@@ -137,10 +137,14 @@ static NSString *const kProxyRegex = @"^http://www.youtube.com";
   NSURLSession *session = [NSURLSession sessionWithConfiguration:config
                                                         delegate:delegateProxy
                                                    delegateQueue:nil];
-  NSURLSessionTask *task =
-      [session dataTaskWithURL:[NSURL URLWithString:@"http://www.youtube.com/"]];
+  NSURL *URL = [NSURL URLWithString:@"http://www.youtube.com/"];
+  NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+  NSURLSessionTask *URLTask = [session dataTaskWithURL:URL];
+  NSURLSessionTask *requestTask = [session dataTaskWithRequest:request];
   // Begin the fetch.
-  [task resume];
+  [URLTask resume];
+  [requestTask resume];
+
   [session finishTasksAndInvalidate];
   self->_requestCompletedLabel.hidden = NO;
 }
