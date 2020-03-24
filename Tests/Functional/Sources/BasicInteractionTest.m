@@ -219,31 +219,16 @@
 - (void)testReplaceTextInTextField {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
   [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_tap()];
-
-  id<GREYAssertion> emptyPlaceholderAssert =
-      [GREYAssertionBlock assertionWithName:@"Empty Placeholder"
-                    assertionBlockWithError:^BOOL(id element, NSError *__strong *errorOrNil) {
-                      return [element respondsToSelector:@selector(placeholder)] &&
-                             [[element placeholder] isEqualToString:@""];
-                    }];
-
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
       performAction:grey_replaceText(@"donec.metus+spam@google.com")];
-
-  id<GREYMatcher> dedupedTextFieldMatcher = grey_allOf(grey_text(@"donec.metus+spam@google.com"),
-                                                       grey_kindOfClass([UITextField class]), nil);
-  [[EarlGrey selectElementWithMatcher:dedupedTextFieldMatcher]
+  [[EarlGrey selectElementWithMatcher:grey_allOf(grey_text(@"donec.metus+spam@google.com"),
+                                                 grey_kindOfClass([UITextField class]), nil)]
       assertWithMatcher:grey_sufficientlyVisible()];
-  [[EarlGrey selectElementWithMatcher:dedupedTextFieldMatcher] assert:emptyPlaceholderAssert];
-
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
       performAction:grey_replaceText(@"aA1a1A1aA1AaAa1A1a")];
-
-  dedupedTextFieldMatcher =
-      grey_allOf(grey_text(@"aA1a1A1aA1AaAa1A1a"), grey_kindOfClass([UITextField class]), nil);
-  [[EarlGrey selectElementWithMatcher:dedupedTextFieldMatcher]
+  [[EarlGrey selectElementWithMatcher:grey_allOf(grey_text(@"aA1a1A1aA1AaAa1A1a"),
+                                                 grey_kindOfClass([UITextField class]), nil)]
       assertWithMatcher:grey_sufficientlyVisible()];
-  [[EarlGrey selectElementWithMatcher:dedupedTextFieldMatcher] assert:emptyPlaceholderAssert];
 }
 
 /**
