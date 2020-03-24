@@ -553,6 +553,7 @@ static Protocol *gTextInputProtocol;
 
               // Actually change the text.
               [element setText:text];
+              [element setPlaceholder:@""];
 
               // Did change editing notifications.
               if (elementIsUIControl) {
