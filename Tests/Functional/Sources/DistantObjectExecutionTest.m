@@ -120,4 +120,14 @@
   XCTAssertNotEqual(distantObject.hostBackgroundPort, currentBackgroundPort);
 }
 
+/** Verifies expectation is fulfilled through a callback triggered by the app-under-test. */
+- (void)testExpectationThatIsFulfilledThroughCallback {
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Test Expectation"];
+  id callback = ^{
+    [expectation fulfill];
+  };
+  [[GREYHostApplicationDistantObject sharedInstance] invokeRemoteBlock:callback withDelay:1];
+  [self waitForExpectations:@[ expectation ] timeout:2];
+}
+
 @end

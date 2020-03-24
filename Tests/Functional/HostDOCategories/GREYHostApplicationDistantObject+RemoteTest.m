@@ -120,6 +120,11 @@
   return [[UIApplication sharedApplication] statusBarOrientation];
 }
 
+- (void)invokeRemoteBlock:(void (^)(void))block withDelay:(NSUInteger)delay {
+  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay * NSEC_PER_SEC), dispatch_get_main_queue(),
+                 block);
+}
+
 #pragma mark - private
 
 /**

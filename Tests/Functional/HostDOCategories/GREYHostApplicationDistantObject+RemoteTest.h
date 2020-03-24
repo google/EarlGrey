@@ -83,4 +83,12 @@
  */
 - (UIInterfaceOrientation)appOrientation;
 
+/**
+ *  Invokes @c remoteBlock after @c delay seconds.
+ *
+ *  @param remoteBlock The block to be called.
+ *  @param delay       The seconds to wait before calling back.
+ */
+- (void)invokeRemoteBlock:(void (^)(void))block withDelay:(NSUInteger)delay;
+
 @end
