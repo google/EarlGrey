@@ -137,4 +137,9 @@ public func makeTextFieldEditingEventRecorder(
     }
     _ = navController?.popToRootViewController(animated: true)
   }
+
+  public func invoke(remoteClosure:@escaping ()->Void, delay: TimeInterval) {
+    let queue = DispatchQueue.main
+    queue.asyncAfter(deadline: DispatchTime.now() + delay, execute:remoteClosure)
+  }
 }

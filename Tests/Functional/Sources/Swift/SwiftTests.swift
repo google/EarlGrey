@@ -255,6 +255,15 @@ class SwiftTests: XCTestCase {
       .assert(grey_text("Device Was Shaken"))
   }
 
+  func testFulfillExpectationInCallback() throws {
+    let expectation = self.expectation(description: "Test Expectation")
+    let callback = {
+      expectation.fulfill()
+    }
+    host.invoke(remoteClosure:callback, delay: 1)
+    self.waitForExpectations(timeout: 2)
+  }
+
   func openTestView(named name: String) {
     var error: NSError?
     EarlGrey.selectElement(with: grey_accessibilityLabel(name))

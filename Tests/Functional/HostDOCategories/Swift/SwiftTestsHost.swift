@@ -60,4 +60,9 @@ public protocol SwiftTestsHost {
   ) -> TextFieldEditingEvents
 #endif
 
+  /// Executes a remote block after delay.
+  /// - Parameters:
+  ///   - remoteClosure: The closure to be called.
+  ///   - delay: The time to wait before calling back.
+  func invoke(remoteClosure:@escaping ()->Void, delay: TimeInterval)
 }
