@@ -81,7 +81,7 @@ __attribute__((constructor)) static void InitHostApplication() { InitiateCommuni
   static dispatch_once_t onceToken;
   static GREYHostApplicationDistantObject *application;
   dispatch_once(&onceToken, ^{
-    application = [[self alloc] init];
+    application = [[self alloc] initOnce];
   });
   return application;
 }
@@ -100,7 +100,7 @@ __attribute__((constructor)) static void InitHostApplication() { InitiateCommuni
   return gGREYPortForTestApplication;
 }
 
-- (instancetype)init {
+- (instancetype)initOnce {
   self = [super init];
   if (self) {
     _service = [EDOHostService serviceWithPort:0 rootObject:self queue:dispatch_get_main_queue()];

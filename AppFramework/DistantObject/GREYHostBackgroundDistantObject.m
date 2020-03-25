@@ -29,12 +29,12 @@
   static dispatch_once_t onceToken;
   static GREYHostBackgroundDistantObject *instance;
   dispatch_once(&onceToken, ^{
-    instance = [[self alloc] init];
+    instance = [[self alloc] initOnce];
   });
   return instance;
 }
 
-- (instancetype)init {
+- (instancetype)initOnce {
   self = [super init];
   if (self) {
     _backgroundQueue =

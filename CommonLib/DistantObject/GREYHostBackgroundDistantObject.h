@@ -41,6 +41,9 @@ NS_ASSUME_NONNULL_BEGIN
 /** Returns the port for the distant object's service. */
 @property(nonatomic, readonly) uint16_t servicePort;
 
+/** @remark init is not an available initializer. Use sharedInstace instead. */
+- (instancetype)init NS_UNAVAILABLE;
+
 @end
 
 NS_ASSUME_NONNULL_END

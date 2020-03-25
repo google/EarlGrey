@@ -107,7 +107,7 @@ __attribute__((constructor)) static void SetupTestDistantObject() {
   static dispatch_once_t onceToken;
   static GREYTestApplicationDistantObject *application;
   dispatch_once(&onceToken, ^{
-    application = [[self alloc] init];
+    application = [[self alloc] initOnce];
     [UIView edo_disallowRemoteInvocation];
     [UIViewController edo_disallowRemoteInvocation];
     [UIWindow edo_disallowRemoteInvocation];
@@ -115,7 +115,7 @@ __attribute__((constructor)) static void SetupTestDistantObject() {
   return application;
 }
 
-- (instancetype)init {
+- (instancetype)initOnce {
   self = [super init];
   if (self) {
     _hostPortAllocationGroup = dispatch_group_create();
