@@ -28,6 +28,10 @@
   [self openTestViewNamed:@"Network Test"];
 }
 
+/**
+ *  Ensure EarlGrey waits till an NSURLSession::dataTaskWithURL:completionHandler: waits for the
+ *  completion handler to be called.
+ */
 - (void)testSynchronizationWithNSURLSessionCompletionHandlers {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"RequestCompletedLabel")]
       assertWithMatcher:grey_notVisible()];
@@ -39,6 +43,10 @@
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
+/**
+ *  Check that the URL is printed as part of the error when a network request is ongoing when
+ *  EarlGrey's interaction timeout is hit.
+ */
 - (void)testURLPrintingInErrorLogsWhenNetworkRequestFails {
   // Setting the timeout to 0.5, a lower one might trigger an issue with Animation tracking for
   // the button press or so. The request goes on till 1.0 as set by the view controller, so this
@@ -54,6 +62,10 @@
   XCTAssertTrue([error.description containsString:@"URL:\"http://www.youtube.com/\""]);
 }
 
+/**
+ *  Ensure EarlGrey waits till an NSURLSession::dataTaskWithURL: call finishes by waiting for the
+ *  delegate callback.
+ */
 - (void)testSynchronizationWorksWithNSURLSessionDelegates {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"RequestCompletedLabel")]
       assertWithMatcher:grey_notVisible()];
@@ -65,7 +77,41 @@
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
-- (void)testSynchronizationWorksWithNSURLSessionProxyDelegate {
+/**
+ *  Ensure EarlGrey waits till an NSURLSession::dataTaskWithRequest: call finishes by waiting for
+ *  the delegate callback.
+ */
+- (void)testSynchronizationWorksWithNSURLSessionDataRequest {
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"RequestCompletedLabel")]
+      assertWithMatcher:grey_notVisible()];
+  [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"Data Request Without Handler")]
+      performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"RequestCompletedLabel")]
+      assertWithMatcher:grey_sufficientlyVisible()];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"ResponseVerifiedLabel")]
+      assertWithMatcher:grey_sufficientlyVisible()];
+}
+
+/**
+ *  Ensure EarlGrey waits till an NSURLSession::dataTaskWithRequest:completionHandler: waits for the
+ *  completion handler to be called.
+ */
+- (void)testSynchronizationWorksWithNSURLSessionDataRequestWithHandler {
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"RequestCompletedLabel")]
+      assertWithMatcher:grey_notVisible()];
+  [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"Data Request With Handler")]
+      performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"RequestCompletedLabel")]
+      assertWithMatcher:grey_sufficientlyVisible()];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"ResponseVerifiedLabel")]
+      assertWithMatcher:grey_sufficientlyVisible()];
+}
+
+/**
+ *  Ensure EarlGrey waits till an NSURLSession::dataTaskWithURL: waits for the delegate callback in
+ *  a custom delegate.
+ */
+- (void)testSynchronizationWorksWithNSURLSessionDataRequestProxyDelegate {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"RequestCompletedLabel")]
       assertWithMatcher:grey_notVisible()];
   // Will cause a crash if the proxy delegate's method isn't swizzled correctly.

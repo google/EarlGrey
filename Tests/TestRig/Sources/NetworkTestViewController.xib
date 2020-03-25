@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -18,17 +17,17 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Retry Detected" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nG6-bQ-LiZ">
-                    <rect key="frame" x="129.5" y="573" width="116" height="21"/>
+                    <rect key="frame" x="149" y="808" width="116" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Request completed" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5ew-SP-2TH">
-                    <rect key="frame" x="113" y="621" width="149" height="21"/>
+                    <rect key="frame" x="132.5" y="850" width="149" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
@@ -37,7 +36,7 @@
                     </userDefinedRuntimeAttributes>
                 </label>
                 <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Response Verified" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JrE-Fn-4nL">
-                    <rect key="frame" x="118" y="537" width="139" height="21"/>
+                    <rect key="frame" x="137.5" y="766" width="139" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
@@ -46,7 +45,7 @@
                     </userDefinedRuntimeAttributes>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DLm-KL-uJZ">
-                    <rect key="frame" x="136" y="161" width="103" height="30"/>
+                    <rect key="frame" x="155.5" y="161" width="103" height="30"/>
                     <state key="normal" title="NSURLSession">
                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
@@ -58,7 +57,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K1j-Ud-aT7">
-                    <rect key="frame" x="93" y="199" width="189" height="30"/>
+                    <rect key="frame" x="112.5" y="199" width="189" height="30"/>
                     <state key="normal" title="NSURLSession + Delegates">
                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
@@ -66,11 +65,11 @@
                         <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="NSURLSessionDelegateTest"/>
                     </userDefinedRuntimeAttributes>
                     <connections>
-                        <action selector="userDidTapNSURLSessionDelegateTest:" destination="-1" eventType="touchUpInside" id="xkq-0o-fXe"/>
+                        <action selector="userDidTapNSURLSessionDelegate:" destination="-1" eventType="touchUpInside" id="xkq-0o-fXe"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RT5-ns-7Ck">
-                    <rect key="frame" x="86.5" y="237" width="202" height="30"/>
+                    <rect key="frame" x="106" y="237" width="202" height="30"/>
                     <state key="normal" title="NSURLSession + No Callback">
                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
@@ -81,15 +80,8 @@
                         <action selector="userDidTapNSURLSessionNoCallbackTest:" destination="-1" eventType="touchUpInside" id="l9e-BD-m7k"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jH9-zl-ehm">
-                    <rect key="frame" x="134" y="282" width="107" height="30"/>
-                    <state key="normal" title="Infinite Request"/>
-                    <connections>
-                        <action selector="usedTappedOnInfiniteRequest:" destination="-1" eventType="touchUpInside" id="pAc-q6-Q8C"/>
-                    </connections>
-                </button>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LEV-Xm-UxS">
-                    <rect key="frame" x="78" y="320" width="220" height="30"/>
+                    <rect key="frame" x="97" y="313" width="220" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <state key="normal" title="NSURLSession + ProxyDelegate">
                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -98,8 +90,31 @@
                         <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="NSURLSessionProxyDelegateTest"/>
                     </userDefinedRuntimeAttributes>
                     <connections>
-                        <action selector="userDidTapNSURLSessionDelegateTest:" destination="-1" eventType="touchUpInside" id="OJx-cE-Pfb"/>
-                        <action selector="userDidTapNSURLSessionProxyDelegateTest:" destination="-1" eventType="touchUpInside" id="cC4-Cl-MvW"/>
+                        <action selector="userDidTapNSURLSessionDelegate:" destination="-1" eventType="touchUpInside" id="OJx-cE-Pfb"/>
+                        <action selector="userDidTapNSURLSessionURLRequestProxyDelegate:" destination="-1" eventType="touchUpInside" id="oJe-Np-L8u"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="z29-dS-pv9" userLabel="Data Request With Handler">
+                    <rect key="frame" x="114" y="351" width="186" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" title="Data Request With Handler"/>
+                    <connections>
+                        <action selector="userDidTapNSURLSessionDataRequestWithHandler:" destination="-1" eventType="touchUpInside" id="RSH-vo-u3d"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="duN-qu-KTt" userLabel="Data Request Without Handler">
+                    <rect key="frame" x="103" y="433" width="208" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" title="Data Request Without Handler"/>
+                    <connections>
+                        <action selector="userDidTapNSURLSessionDataRequest:" destination="-1" eventType="touchUpInside" id="q4h-EL-CKz"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jH9-zl-ehm">
+                    <rect key="frame" x="153.5" y="275" width="107" height="30"/>
+                    <state key="normal" title="Infinite Request"/>
+                    <connections>
+                        <action selector="usedTappedOnInfiniteRequest:" destination="-1" eventType="touchUpInside" id="pAc-q6-Q8C"/>
                     </connections>
                 </button>
             </subviews>
@@ -108,18 +123,19 @@
                 <constraint firstItem="RT5-ns-7Ck" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="1Ai-zp-maS"/>
                 <constraint firstItem="K1j-Ud-aT7" firstAttribute="top" secondItem="DLm-KL-uJZ" secondAttribute="bottom" constant="8" id="1Tp-vV-8PX"/>
                 <constraint firstAttribute="bottom" secondItem="5ew-SP-2TH" secondAttribute="bottom" constant="25" id="1d5-Nx-YXb"/>
-                <constraint firstItem="nG6-bQ-LiZ" firstAttribute="top" secondItem="JrE-Fn-4nL" secondAttribute="bottom" constant="15" id="Ahj-bh-fMV"/>
+                <constraint firstItem="nG6-bQ-LiZ" firstAttribute="top" secondItem="JrE-Fn-4nL" secondAttribute="bottom" constant="21" id="Ahj-bh-fMV"/>
                 <constraint firstAttribute="centerX" secondItem="5ew-SP-2TH" secondAttribute="centerX" id="IUr-p0-WPV"/>
                 <constraint firstItem="jH9-zl-ehm" firstAttribute="centerX" secondItem="RT5-ns-7Ck" secondAttribute="centerX" id="KHw-EO-Mat"/>
                 <constraint firstItem="RT5-ns-7Ck" firstAttribute="top" secondItem="K1j-Ud-aT7" secondAttribute="bottom" constant="8" id="Q6R-po-bdF"/>
-                <constraint firstItem="jH9-zl-ehm" firstAttribute="top" secondItem="RT5-ns-7Ck" secondAttribute="bottom" constant="15" id="WHG-Jf-Nxd"/>
+                <constraint firstItem="jH9-zl-ehm" firstAttribute="top" secondItem="RT5-ns-7Ck" secondAttribute="bottom" constant="8" id="WHG-Jf-Nxd"/>
                 <constraint firstItem="DLm-KL-uJZ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="161" id="WpV-3O-Wp8"/>
-                <constraint firstItem="5ew-SP-2TH" firstAttribute="top" secondItem="nG6-bQ-LiZ" secondAttribute="bottom" constant="27" id="fRg-ie-AON"/>
+                <constraint firstItem="5ew-SP-2TH" firstAttribute="top" secondItem="nG6-bQ-LiZ" secondAttribute="bottom" constant="21" id="fRg-ie-AON"/>
                 <constraint firstAttribute="centerX" secondItem="JrE-Fn-4nL" secondAttribute="centerX" id="ft2-fA-F1V"/>
                 <constraint firstItem="K1j-Ud-aT7" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="g6a-oN-fNU"/>
                 <constraint firstAttribute="centerX" secondItem="nG6-bQ-LiZ" secondAttribute="centerX" id="hLl-iO-q2F"/>
                 <constraint firstAttribute="centerX" secondItem="DLm-KL-uJZ" secondAttribute="centerX" id="wHX-5C-XgP"/>
             </constraints>
+            <point key="canvasLocation" x="138" y="153"/>
         </view>
     </objects>
 </document>

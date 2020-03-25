@@ -115,7 +115,7 @@ static NSString *const kProxyRegex = @"^http://www.youtube.com";
   }
 }
 
-- (IBAction)userDidTapNSURLSessionDelegateTest:(id)sender {
+- (IBAction)userDidTapNSURLSessionDelegate:(id)sender {
   NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
   config.protocolClasses =
       [@ [[NetworkProxy class]] arrayByAddingObjectsFromArray:config.protocolClasses];
@@ -128,7 +128,7 @@ static NSString *const kProxyRegex = @"^http://www.youtube.com";
   [session finishTasksAndInvalidate];
 }
 
-- (IBAction)userDidTapNSURLSessionProxyDelegateTest:(id)sender {
+- (IBAction)userDidTapNSURLSessionURLRequestProxyDelegate:(id)sender {
   NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
   config.protocolClasses =
       [@ [[NetworkProxy class]] arrayByAddingObjectsFromArray:config.protocolClasses];
@@ -138,15 +138,54 @@ static NSString *const kProxyRegex = @"^http://www.youtube.com";
                                                         delegate:delegateProxy
                                                    delegateQueue:nil];
   NSURL *URL = [NSURL URLWithString:@"http://www.youtube.com/"];
-  NSURLRequest *request = [NSURLRequest requestWithURL:URL];
   NSURLSessionTask *URLTask = [session dataTaskWithURL:URL];
-  NSURLSessionTask *requestTask = [session dataTaskWithRequest:request];
   // Begin the fetch.
   [URLTask resume];
+
+  [session finishTasksAndInvalidate];
+  self->_requestCompletedLabel.hidden = NO;
+}
+
+- (IBAction)userDidTapNSURLSessionDataRequest:(id)sender {
+  NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+  config.protocolClasses =
+      [@[ [NetworkProxy class] ] arrayByAddingObjectsFromArray:config.protocolClasses];
+  NSURLSession *session = [NSURLSession sessionWithConfiguration:config
+                                                        delegate:self
+                                                   delegateQueue:nil];
+  NSURL *URL = [NSURL URLWithString:@"http://www.youtube.com/"];
+  NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+  NSURLSessionTask *requestTask = [session dataTaskWithRequest:request];
+  // Begin the fetch.
   [requestTask resume];
 
   [session finishTasksAndInvalidate];
   self->_requestCompletedLabel.hidden = NO;
+}
+
+- (IBAction)userDidTapNSURLSessionDataRequestWithHandler:(id)sender {
+  NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+  config.protocolClasses =
+      [@[ [NetworkProxy class] ] arrayByAddingObjectsFromArray:config.protocolClasses];
+  NSURLSession *session = [NSURLSession sessionWithConfiguration:config
+                                                        delegate:nil
+                                                   delegateQueue:nil];
+  NSURL *URL = [NSURL URLWithString:@"http://www.youtube.com/"];
+  NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+  NSURLSessionTask *requestTask =
+      [session dataTaskWithRequest:request
+                 completionHandler:^(NSData *_Nullable data, NSURLResponse *_Nullable response,
+                                     NSError *_Nullable error) {
+                   [NSThread sleepForTimeInterval:1.0];
+                   [self verifyReceivedData:data];
+                   dispatch_async(dispatch_get_main_queue(), ^{
+                     self->_requestCompletedLabel.hidden = NO;
+                   });
+                 }];
+  // Begin the fetch.
+  [requestTask resume];
+
+  [session finishTasksAndInvalidate];
 }
 
 - (IBAction)userDidTapNSURLSessionNoCallbackTest:(id)sender {
