@@ -136,7 +136,7 @@ __attribute__((constructor)) static void SetupTestDistantObject() {
     dispatch_time_t timeout = dispatch_time(DISPATCH_TIME_NOW, kPortAllocationWaitTime);
     if ([NSThread isMainThread]) {
       GREYExecuteSyncBlockInBackgroundQueue(^{
-        dispatch_group_wait(_hostPortAllocationGroup, timeout);
+        dispatch_group_wait(self->_hostPortAllocationGroup, timeout);
       });
     } else {
       dispatch_group_wait(_hostPortAllocationGroup, timeout);
@@ -165,7 +165,7 @@ __attribute__((constructor)) static void SetupTestDistantObject() {
     dispatch_time_t timeout = dispatch_time(DISPATCH_TIME_NOW, kPortAllocationWaitTime);
     if ([NSThread isMainThread]) {
       GREYExecuteSyncBlockInBackgroundQueue(^{
-        dispatch_group_wait(_hostBackgroundPortAllocationGroup, timeout);
+        dispatch_group_wait(self->_hostBackgroundPortAllocationGroup, timeout);
       });
     } else {
       dispatch_group_wait(_hostBackgroundPortAllocationGroup, timeout);
