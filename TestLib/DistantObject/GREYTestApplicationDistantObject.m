@@ -18,6 +18,8 @@
 
 #import <XCTest/XCTest.h>
 
+#include <stddef.h>
+
 #import "GREYFatalAsserts.h"
 #import "GREYHostBackgroundDistantObject.h"
 #import "GREYTestApplicationDistantObject+Private.h"
@@ -33,6 +35,9 @@
 
 /** The maximum time to wait for the eDO host ports of app-under-test. */
 static const int64_t kPortAllocationWaitTime = 30 * NSEC_PER_SEC;
+
+/** The context key to verify test host's executing queue. */
+static const void *gGREYTestExecutingQueueKey = &gGREYTestExecutingQueueKey;
 
 @interface GREYTestApplicationDistantObject ()
 /** @see GREYTestApplicationDistantObject.service, make this readwrite. */
@@ -57,10 +62,12 @@ static const int64_t kPortAllocationWaitTime = 30 * NSEC_PER_SEC;
 __attribute__((constructor)) static void SetupTestDistantObject() {
   GREYTestApplicationDistantObject *testDistantObject =
       GREYTestApplicationDistantObject.sharedInstance;
-  testDistantObject.service = [EDOHostService serviceWithPort:0
-                                                   rootObject:testDistantObject
-                                                        queue:dispatch_get_main_queue()];
-
+  EDOHostService *service = [EDOHostService serviceWithPort:0
+                                                 rootObject:testDistantObject
+                                                      queue:dispatch_get_main_queue()];
+  testDistantObject.service = service;
+  dispatch_queue_set_specific(service.executingQueue, &gGREYTestExecutingQueueKey,
+                              (void *)gGREYTestExecutingQueueKey, NULL);
   // Registers custom handler of EDO connection failure and translates the error message to UI
   // testing scenarios to users. The custom handler will fall back to use EDO's default error
   // handler if the state of the test doesn't conform to any pattern of the UI testing failure.
@@ -149,7 +156,9 @@ __attribute__((constructor)) static void SetupTestDistantObject() {
 }
 
 - (void)setHostPort:(uint16_t)hostPort {
-  GREYFatalAssertMainThread();
+  GREYFatalAssertWithMessage(dispatch_get_specific(&gGREYTestExecutingQueueKey),
+                             @"Host port should be set on the queue that handles app-under-test "
+                             @"side remote call.");
   uint16_t currentPort = _hostPort;
   _hostPort = hostPort;
   if (currentPort != 0 && hostPort == 0) {
@@ -179,7 +188,9 @@ __attribute__((constructor)) static void SetupTestDistantObject() {
 }
 
 - (void)setHostBackgroundPort:(uint16_t)hostBackgroundPort {
-  GREYFatalAssertMainThread();
+  GREYFatalAssertWithMessage(dispatch_get_specific(&gGREYTestExecutingQueueKey),
+                             @"Host background port should be set on the queue that handles "
+                             @"app-under-test side remote call.");
   uint16_t currentPort = _hostBackgroundPort;
   _hostBackgroundPort = hostBackgroundPort;
   if (currentPort != 0 && hostBackgroundPort == 0) {
