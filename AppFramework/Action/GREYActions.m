@@ -576,6 +576,11 @@ static Protocol *gTextInputProtocol;
                                                   object:element];
                 [defaultCenter postNotification:notification];
               }
+
+              // For a UITextView, call the textViewDidChange: delegate.
+              if ([element isKindOfClass:[UITextView class]]) {
+                [((UITextView *)element).delegate textViewDidChange:element];
+              }
             });
           }
           return YES;

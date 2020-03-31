@@ -577,6 +577,15 @@
   GREYAssertFalse([GREYKeyboard keyboardShownWithError:nil], @"Keyboard shouldn't be shown");
 }
 
+- (void)testTextViewDidChangeCalled {
+  [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextView")]
+      performAction:grey_typeText(@"Check Delegate")]
+      assertWithMatcher:grey_text(@"textViewDidChange Called")];
+  [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextView")]
+      performAction:grey_replaceText(@"Check Delegate")]
+      assertWithMatcher:grey_text(@"textViewDidChange Called")];
+}
+
 #pragma mark - Private
 
 - (void)ftr_typeString:(NSString *)string andVerifyOutput:(NSString *)verificationString {

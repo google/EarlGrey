@@ -151,6 +151,12 @@
   self.navigationItem.rightBarButtonItem = self.dismissKeyboardButton;
 }
 
+- (void)textViewDidChange:(UITextView *)textView {
+  if ([textView.text isEqualToString:@"Check Delegate"]) {
+    textView.text = @"textViewDidChange Called";
+  }
+}
+
 - (void)dismissKeyboard {
   [self.textView resignFirstResponder];
   self.navigationItem.rightBarButtonItem = nil;
