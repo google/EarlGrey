@@ -315,40 +315,48 @@ __attribute__((constructor)) static void RegisterKeyboardLifecycleHooks() {
 #pragma mark - Private
 
 /**
- * Searches for the key @c characterString in the system keyboard.
+ *  Searches for @c characterString key in the system keyboard, retrying upto 3 times until it's
+ *  found. It could fail when tapping "more" or "shift" fails for any reason.
+ *  TODO(b/152765896): It also fails when keyplane automatically changes back to lower keyplane
+ *  sometime after pressing space bar.
  *
- * @param characterString The character to look for in the keyboard.
- * @param[out] errorOrNil Error populated on failure.
+ *  @param characterString The character to look for in the keyboard.
+ *  @param[out] errorOrNil Error populated on failure.
  *
- * @return Key corresponding to the requested @c characterString. @c nil if wasn't populated with an
- *         @c errorOrNil.
+ *  @return Key corresponding to the requested @c characterString or @c nil if it wasn't found.
  */
 static id SearchKeyWithCharacter(NSString *characterString, __strong NSError **errorOrNil) {
-  id key = WaitAndFindKeyForCharacter(characterString, kRegularKeyplaneUpdateDuration);
-  if (key) {
-    return key;
-  }
+  id key;
+  int attempts = 0;
+  NSError *error;
+  while (!key && attempts++ < 3) {
+    key = WaitAndFindKeyForCharacter(characterString, kRegularKeyplaneUpdateDuration);
+    if (key) {
+      break;
+    }
 
-  unichar currentCharacter = [characterString characterAtIndex:0];
-  BOOL isKeyplaneAlphabetic = IsAlphabeticKeyplaneShown();
-  BOOL success = NO;
-  if ([gAlphabeticKeyplaneCharacters characterIsMember:currentCharacter]) {
-    success =
-        isKeyplaneAlphabetic ? ToggleShiftKeyWithError(errorOrNil) : TapOnMoreKeyplane(errorOrNil);
-  } else if (!isKeyplaneAlphabetic) {
-    success = ToggleShiftKeyWithError(errorOrNil);
-  } else {
-    success = TapOnMoreKeyplane(errorOrNil);
-  }
-  if (!success) {
-    return nil;
-  }
-  // We should be on the correct keyplane. Either on alphabetic or symbolic/numeric.
-  key = WaitAndFindKeyForCharacter(characterString, kRegularKeyplaneUpdateDuration);
-  if (!key) {
-    if (ToggleShiftKeyWithError(errorOrNil)) {
+    unichar currentCharacter = [characterString characterAtIndex:0];
+    BOOL isKeyplaneAlphabetic = IsAlphabeticKeyplaneShown();
+    BOOL success = NO;
+    if ([gAlphabeticKeyplaneCharacters characterIsMember:currentCharacter]) {
+      success = isKeyplaneAlphabetic ? ToggleShiftKeyWithError(&error) : TapOnMoreKeyplane(&error);
+    } else if (!isKeyplaneAlphabetic) {
+      success = ToggleShiftKeyWithError(&error);
+    } else {
+      success = TapOnMoreKeyplane(&error);
+    }
+    if (!success) {
+      continue;
+    }
+    // We should be on the correct keyplane. Either on alphabetic or symbolic/numeric.
+    key = WaitAndFindKeyForCharacter(characterString, kRegularKeyplaneUpdateDuration);
+    if (!key && ToggleShiftKeyWithError(&error)) {
       key = WaitAndFindKeyForCharacter(characterString, kRegularKeyplaneUpdateDuration);
     }
+  }
+
+  if (!key && error) {
+    *errorOrNil = error;
   }
   return key;
 }
