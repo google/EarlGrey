@@ -16,23 +16,24 @@
 
 #import <XCTest/XCTest.h>
 
-#import "GREYAction.h"
-#import "GREYActionsShorthand.h"
-#import "GREYHostBackgroundDistantObject+GREYApp.h"
-#import "GREYMatchersShorthand.h"
-#import "GREYAssertionBlock.h"
-#import "GREYConfiguration.h"
-#import "GREYHostApplicationDistantObject.h"
-#import "GREYTestApplicationDistantObject.h"
-#import "GREYErrorConstants.h"
-#import "GREYFailureHandler.h"
-#import "GREYFrameworkException.h"
-#import "GREYDefines.h"
-#import "GREYElementMatcherBlock.h"
-#import "GREYMatcher.h"
-#import "XCTestCase+GREYSystemAlertHandler.h"
-#import "GREYAssertionDefines.h"
-#import "GREYCondition.h"
+#import " IWYU pragma: export
+#import " IWYU pragma: export
+#import " IWYU pragma: export
+#import " IWYU pragma: export
+#import " IWYU pragma: export
+#import " IWYU pragma: export
+#import " IWYU pragma: export
+#import " IWYU pragma: export
+#import " IWYU pragma: export
+#import " IWYU pragma: export
+#import " IWYU pragma: export
+#import " IWYU pragma: export
+#import " IWYU pragma: export
+#import " IWYU pragma: export
+#import " IWYU pragma: export
+#import " IWYU pragma: export
+#import " IWYU pragma: export
+#import " IWYU pragma: export
 
 NS_ASSUME_NONNULL_BEGIN
 
