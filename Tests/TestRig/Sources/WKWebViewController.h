@@ -17,7 +17,7 @@
 #import <UIKit/UIKit.h>
 #import <WebKit/WebKit.h>
 
-// View controller for the UIWebView section of the TestApp.
+// View controller for the WKWebView section of the TestApp.
 @interface WKWebViewController : UIViewController <WKNavigationDelegate>
 
 @property(nonatomic, strong) IBOutlet UIActivityIndicatorView *activityIndicator;

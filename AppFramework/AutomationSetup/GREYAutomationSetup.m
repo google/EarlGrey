@@ -60,6 +60,7 @@ static GREYSignalHandler gPreviousSignalHandlers[kNumSignals];
 @implementation GREYAutomationSetup
 
 + (void)load {
+// TODO(b/135635949): Remove this after fixing failing test.
 #if !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
   // TODO: Perform a scan of UIWebView usage and deprecate if possible. // NOLINT
   // It seems that in +[UIWebView initialize], it performs something that needs to be done on the

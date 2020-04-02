@@ -57,10 +57,6 @@
 
   NSArray *classMatchers = @[
     [GREYMatchers matcherForKindOfClass:[UIScrollView class]],
-#if !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
-    // TODO: Perform a scan of UIWebView usage and deprecate if possible. // NOLINT
-    [GREYMatchers matcherForKindOfClass:[UIWebView class]],
-#endif
     [GREYMatchers matcherForKindOfClass:[WKWebView class]],
   ];
   id<GREYMatcher> systemAlertShownMatcher = [GREYMatchers matcherForSystemAlertViewShown];
@@ -87,13 +83,6 @@
   if (![self satisfiesConstraintsForElement:element error:error]) {
     return NO;
   }
-#if !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
-  // TODO: Perform a scan of UIWebView usage and deprecate if possible. // NOLINT
-  // To scroll UIWebView we must use the UIScrollView in its error and scroll it.
-  if ([element isKindOfClass:[UIWebView class]]) {
-    element = [(UIWebView *)element scrollView];
-  }
-#endif
   if ([element isKindOfClass:[WKWebView class]]) {
     __block UIScrollView *webScrollView;
     grey_dispatch_sync_on_main_thread(^{

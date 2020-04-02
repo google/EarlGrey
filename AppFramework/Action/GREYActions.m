@@ -37,7 +37,6 @@
 #import "UISwitch+GREYApp.h"
 #import "GREYInteraction.h"
 #import "GREYAppError.h"
-#import "GREYUIWebViewIdlingResource.h"
 #import "GREYKeyboard.h"
 #import "GREYAllOf.h"
 #import "GREYAnyOf.h"
@@ -56,7 +55,6 @@
 #import "GREYScreenshotter.h"
 #import "EDORemoteVariable.h"
 
-static Class gWebAccessibilityObjectWrapperClass;
 static Class gAccessibilityTextFieldElementClass;
 static SEL gTextSelector;
 static SEL gBeginningOfDocumentSelector;
@@ -66,7 +64,6 @@ static Protocol *gTextInputProtocol;
 
 + (void)initialize {
   if (self == [GREYActions self]) {
-    gWebAccessibilityObjectWrapperClass = NSClassFromString(@"WebAccessibilityObjectWrapper");
     gAccessibilityTextFieldElementClass = NSClassFromString(kTextFieldAXElementClassName);
     gTextSelector = @selector(text);
     gBeginningOfDocumentSelector = @selector(beginningOfDocument);
@@ -292,7 +289,6 @@ static Protocol *gTextInputProtocol;
   NSArray *constraintMatchers = @[
     [GREYMatchers matcherForRespondsToSelector:gTextSelector],
     [GREYMatchers matcherForKindOfClass:gAccessibilityTextFieldElementClass],
-    [GREYMatchers matcherForKindOfClass:gWebAccessibilityObjectWrapperClass],
     [GREYMatchers matcherForConformsToProtocol:gTextInputProtocol]
   ];
   id<GREYMatcher> constraints = [[GREYAnyOf alloc] initWithMatchers:constraintMatchers];
@@ -303,11 +299,7 @@ static Protocol *gTextInputProtocol;
          constraints:constraints
         performBlock:^BOOL(id element, __strong NSError **errorOrNil) {
           __block NSString *currentText;
-          if ([element grey_isWebAccessibilityElement]) {
-            [GREYActions grey_setText:@"" onWebElement:element];
-            return YES;
-          } else if ([element isKindOfClass:gAccessibilityTextFieldElementClass] &&
-                     !iOS13_OR_ABOVE()) {
+          if ([element isKindOfClass:gAccessibilityTextFieldElementClass] && !iOS13_OR_ABOVE()) {
             element = [element textField];
           } else {
             grey_dispatch_sync_on_main_thread(^{
@@ -380,10 +372,6 @@ static Protocol *gTextInputProtocol;
   // TODO: JS Errors should be propagated up.
   id<GREYMatcher> systemAlertShownMatcher = [GREYMatchers matcherForSystemAlertViewShown];
   NSArray *webViewMatchers = @[
-#if !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
-    // TODO: Perform a scan of UIWebView usage and deprecate if possible. // NOLINT
-    [GREYMatchers matcherForKindOfClass:[UIWebView class]],
-#endif
     [GREYMatchers matcherForKindOfClass:[WKWebView class]]
   ];
   NSArray *constraintMatchers = @[
@@ -397,17 +385,6 @@ static Protocol *gTextInputProtocol;
       diagnosticsID:diagnosticsID
         constraints:constraints
        performBlock:^BOOL(id webView, __strong NSError **errorOrNil) {
-#if !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
-         if ([webView isKindOfClass:[UIWebView class]]) {
-           grey_dispatch_sync_on_main_thread(^{
-             NSString *result = [self grey_javaScriptAction:js forUIWebView:(UIWebView *)webView];
-             if (outResult && result) {
-               outResult.object = result;
-             }
-           });
-         }
-#endif
-         if ([webView isKindOfClass:[WKWebView class]]) {
            dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
            __block NSError *localError = nil;
            grey_dispatch_sync_on_main_thread(^{
@@ -443,8 +420,6 @@ static Protocol *gTextInputProtocol;
            } else {
              return YES;
            }
-         }
-         return YES;
        }];
 }
 
@@ -476,35 +451,6 @@ static Protocol *gTextInputProtocol;
 #pragma mark - Private
 
 /**
- *  Sets WebView input text value.
- *
- *  @param element The element to target
- *  @param text The text to set
- */
-+ (void)grey_setText:(NSString *)text onWebElement:(id)element {
-  // Input tags can be identified by having the 'title' attribute set, or current value.
-  // Associating a <label> tag to the input tag does NOT result in an iOS accessibility element.
-  if (!text) {
-    text = @"";
-  }
-  // Must escape ' or the JS will be invalid.
-  text = [text stringByReplacingOccurrencesOfString:@"\'" withString:@"\\\'"];
-#if !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
-  // TODO: Perform a scan of UIWebView usage and deprecate if possible. // NOLINT
-  NSString *xPathResultType = @"XPathResult.FIRST_ORDERED_NODE_TYPE";
-  NSString *xPathForTitle =
-      [NSString stringWithFormat:@"//input[@title=\"%@\" or @value=\"%@\"]",
-                                 [element accessibilityLabel], [element accessibilityLabel]];
-  NSString *format = @"document.evaluate('%@', document, null, %@, null).singleNodeValue.value"
-                     @"= '%@';";
-  NSString *jsForTitle =
-      [[NSString alloc] initWithFormat:format, xPathForTitle, xPathResultType, text];
-  UIWebView *parentWebView = (UIWebView *)[element grey_viewContainingSelf];
-  [parentWebView stringByEvaluatingJavaScriptFromString:jsForTitle];
-#endif
-}
-
-/**
  *  Set the UITextField text value directly, bypassing the iOS keyboard.
  *
  *  @param text The text to be typed.
@@ -518,7 +464,6 @@ static Protocol *gTextInputProtocol;
   NSArray *constraintMatchers = @[
     [GREYMatchers matcherForRespondsToSelector:setTextSelector],
     [GREYMatchers matcherForKindOfClass:gAccessibilityTextFieldElementClass],
-    [GREYMatchers matcherForKindOfClass:gWebAccessibilityObjectWrapperClass]
   ];
   id<GREYMatcher> constraints = [[GREYAnyOf alloc] initWithMatchers:constraintMatchers];
   NSString *actionName = [NSString stringWithFormat:@"Replace with text: \"%@\"", text];
@@ -528,82 +473,60 @@ static Protocol *gTextInputProtocol;
        diagnosticsID:diagnosticsID
          constraints:constraints
         performBlock:^BOOL(id element, __strong NSError **errorOrNil) {
-          if ([element grey_isWebAccessibilityElement]) {
-            [GREYActions grey_setText:text onWebElement:element];
-          } else {
-            if ([element isKindOfClass:gAccessibilityTextFieldElementClass] && !iOS13_OR_ABOVE()) {
-              element = [element textField];
+          if ([element isKindOfClass:gAccessibilityTextFieldElementClass] && !iOS13_OR_ABOVE()) {
+            element = [element textField];
+          }
+
+          NSNotificationCenter *defaultCenter = NSNotificationCenter.defaultCenter;
+          BOOL elementIsUIControl = [element isKindOfClass:[UIControl class]];
+          BOOL elementIsUITextField = [element isKindOfClass:[UITextField class]];
+          grey_dispatch_sync_on_main_thread(^{
+            // Did begin editing notifications.
+            if (elementIsUIControl) {
+              [element sendActionsForControlEvents:UIControlEventEditingDidBegin];
             }
 
-            NSNotificationCenter *defaultCenter = NSNotificationCenter.defaultCenter;
-            BOOL elementIsUIControl = [element isKindOfClass:[UIControl class]];
-            BOOL elementIsUITextField = [element isKindOfClass:[UITextField class]];
-            grey_dispatch_sync_on_main_thread(^{
-              // Did begin editing notifications.
-              if (elementIsUIControl) {
-                [element sendActionsForControlEvents:UIControlEventEditingDidBegin];
-              }
+            if (elementIsUITextField) {
+              NSNotification *notification =
+                  [NSNotification notificationWithName:UITextFieldTextDidBeginEditingNotification
+                                                object:element];
+              [defaultCenter postNotification:notification];
+            }
 
-              if (elementIsUITextField) {
-                NSNotification *notification =
-                    [NSNotification notificationWithName:UITextFieldTextDidBeginEditingNotification
-                                                  object:element];
-                [defaultCenter postNotification:notification];
-              }
+            // Actually change the text.
+            [element setText:text];
 
-              // Actually change the text.
-              [element setText:text];
+            // Did change editing notifications.
+            if (elementIsUIControl) {
+              [element sendActionsForControlEvents:UIControlEventEditingChanged];
+            }
+            if (elementIsUITextField) {
+              NSNotification *notification =
+                  [NSNotification notificationWithName:UITextFieldTextDidChangeNotification
+                                                object:element];
+              [defaultCenter postNotification:notification];
+            }
 
-              // Did change editing notifications.
-              if (elementIsUIControl) {
-                [element sendActionsForControlEvents:UIControlEventEditingChanged];
-              }
-              if (elementIsUITextField) {
-                NSNotification *notification =
-                    [NSNotification notificationWithName:UITextFieldTextDidChangeNotification
-                                                  object:element];
-                [defaultCenter postNotification:notification];
-              }
+            // Did end editing notifications.
+            if (elementIsUIControl) {
+              [element sendActionsForControlEvents:UIControlEventEditingDidEndOnExit];
+              [element sendActionsForControlEvents:UIControlEventEditingDidEnd];
+            }
+            if (elementIsUITextField) {
+              NSNotification *notification =
+                  [NSNotification notificationWithName:UITextFieldTextDidEndEditingNotification
+                                                object:element];
+              [defaultCenter postNotification:notification];
+            }
 
-              // Did end editing notifications.
-              if (elementIsUIControl) {
-                [element sendActionsForControlEvents:UIControlEventEditingDidEndOnExit];
-                [element sendActionsForControlEvents:UIControlEventEditingDidEnd];
-              }
-              if (elementIsUITextField) {
-                NSNotification *notification =
-                    [NSNotification notificationWithName:UITextFieldTextDidEndEditingNotification
-                                                  object:element];
-                [defaultCenter postNotification:notification];
-              }
-
-              // For a UITextView, call the textViewDidChange: delegate.
-              if ([element isKindOfClass:[UITextView class]]) {
-                [((UITextView *)element).delegate textViewDidChange:element];
-              }
-            });
-          }
+            // For a UITextView, call the textViewDidChange: delegate.
+            if ([element isKindOfClass:[UITextView class]]) {
+              [((UITextView *)element).delegate textViewDidChange:element];
+            }
+          });
           return YES;
         }];
 }
-
-#if !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
-// TODO: Perform a scan of UIWebView usage and deprecate if possible. // NOLINT
-/**
- *  Injects javascript into a UIWebView and then returns the result back.
- *
- *  js      An NSString for the javascript to be injected.
- *  webView The UIWebView to be interacted with.
- */
-+ (NSString *)grey_javaScriptAction:(NSString *)js forUIWebView:(UIWebView *)webView {
-  NSString *result;
-  UIWebView *uiWebView = webView;
-  result = [uiWebView stringByEvaluatingJavaScriptFromString:js];
-  // TODO: Delay should be removed once webview sync is stable. // NOLINT
-  [[GREYUIThreadExecutor sharedInstance] drainForTime:0.5];  // Wait for actions to register.
-  return result;
-}
-#endif
 
 #pragma mark - Package Internal
 

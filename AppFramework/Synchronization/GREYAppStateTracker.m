@@ -207,9 +207,6 @@ static NSString *StringFromAppState(GREYAppState state) {
                           @"Waiting for UIScrollView to finish scrolling and come to "
                           @"standstill."];
   }
-  if (state & kGREYPendingUIWebViewAsyncRequest) {
-    [eventStateString addObject:@"Waiting for UIWebView to finish loading asynchronous request."];
-  }
   if (state & kGREYPendingUIAnimation) {
     [eventStateString addObject:
                           @"Waiting for UIAnimation to complete. This internal animation was "
@@ -421,10 +418,6 @@ static NSString *StringFromAppState(GREYAppState state) {
   }
   if (state & kGREYPendingRootViewControllerToAppear) {
     [self grey_updateGlobalCountByOneInDictionaryForState:kGREYPendingRootViewControllerToAppear
-                                                increment:increment];
-  }
-  if (state & kGREYPendingUIWebViewAsyncRequest) {
-    [self grey_updateGlobalCountByOneInDictionaryForState:kGREYPendingUIWebViewAsyncRequest
                                                 increment:increment];
   }
   if (state & kGREYPendingNetworkRequest) {

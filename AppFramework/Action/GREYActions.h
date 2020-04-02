@@ -382,13 +382,13 @@
 + (id<GREYAction>)actionForSetPickerColumn:(NSInteger)column toValue:(NSString *)value;
 
 /**
- *  Returns an action that executes JavaScript against a UIWebView / WKWebView and sets the return
+ *  Returns an action that executes JavaScript against a WKWebView and sets the return
  *  value to @c outResult if provided.
  *
  *  @param js        The Javascript code to be executed.
  *  @param outResult The result of the code execution, wrapped in an EDORemoteVariable.
  *
- *  @return A GREYAction that executes JavaScript code against a UIWebView / WKWebView.
+ *  @return A GREYAction that executes JavaScript code against a WKWebView.
  */
 + (id<GREYAction>)actionForJavaScriptExecution:(NSString *)js
                                         output:(EDORemoteVariable<NSString *> *)outResult;

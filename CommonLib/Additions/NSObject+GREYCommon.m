@@ -17,25 +17,10 @@
 #import "NSObject+GREYCommon.h"
 #import "GREYConstants.h"
 
-/**
- *  Class that all Web Accessibility Elements have to be a kind of.
- */
-static Class gWebAccessibilityWrapper;
-
 @implementation NSObject (GREYCommon)
 
-+ (void)load {
-  gWebAccessibilityWrapper = NSClassFromString(@"WebAccessibilityObjectWrapper");
-}
-
 - (UIView *)grey_viewContainingSelf {
-  if ([self grey_isWebAccessibilityElement]) {
-#if (TARGET_OS_IOS && (!defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0))
-    // TODO: Perform a scan of UIWebView usage and deprecate if possible. // NOLINT
-    return [[self grey_containersAssignableFromClass:[UIWebView class]] firstObject];
-#endif  // TARGET_OS_IOS && (!defined(__IPHONE_12_0) ||
-        //    __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0)
-  } else if ([self isKindOfClass:[UIView class]]) {
+  if ([self isKindOfClass:[UIView class]]) {
     return [self grey_container];
   } else if ([self respondsToSelector:@selector(accessibilityContainer)]) {
     id container = [self grey_container];
@@ -69,13 +54,6 @@ static Class gWebAccessibilityWrapper;
   } while (container);
 
   return containers;
-}
-
-/**
- *  @return @c YES if @c self is an accessibility element within a UIWebView, @c NO otherwise.
- */
-- (BOOL)grey_isWebAccessibilityElement {
-  return [self isKindOfClass:gWebAccessibilityWrapper];
 }
 
 - (NSString *)grey_description {

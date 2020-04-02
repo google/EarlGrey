@@ -58,26 +58,22 @@ typedef NS_OPTIONS(NSUInteger, GREYAppState) {
    */
   kGREYPendingRootViewControllerToAppear = (1UL << 6),
   /**
-   *  Pending a UIWebView async load request
-   */
-  kGREYPendingUIWebViewAsyncRequest = (1UL << 7),
-  /**
    *  Pending a network request completion.
    */
-  kGREYPendingNetworkRequest = (1UL << 8),
+  kGREYPendingNetworkRequest = (1UL << 7),
   /**
    *  Pending gesture recognition.
    */
-  kGREYPendingGestureRecognition = (1UL << 9),
+  kGREYPendingGestureRecognition = (1UL << 8),
   /**
    *  Waiting for UIScrollView to finish scrolling.
    */
-  kGREYPendingUIScrollViewScrolling = (1UL << 10),
+  kGREYPendingUIScrollViewScrolling = (1UL << 9),
   /**
    *  [UIApplication beginIgnoringInteractionEvents] was called and all interaction events are
    *  being ignored.
    */
-  kGREYIgnoringSystemWideUserInteraction = (1UL << 11),
+  kGREYIgnoringSystemWideUserInteraction = (1UL << 10),
 };
 
 #endif /* GREY_APP_STATE_H */

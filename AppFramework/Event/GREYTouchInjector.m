@@ -19,22 +19,12 @@
 #import <QuartzCore/QuartzCore.h>
 #include <mach/mach_time.h>
 
-#import "UIWebView+GREYApp.h"
 #import "GREYIOHIDEventTypes.h"
 #import "GREYRunLoopSpinner.h"
 #import "NSObject+GREYCommon.h"
 #import "GREYFatalAsserts.h"
 #import "GREYThrowDefines.h"
 #import "GREYConfiguration.h"
-
-#if !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
-// TODO: Perform a scan of UIWebView usage and deprecate if possible. // NOLINT
-/**
- *  Maximum time to wait for UIWebView delegates to get called after the
- *  last touch (i.e. @c isLastTouch is @c YES).
- */
-static const NSTimeInterval kGREYMaxIntervalForUIWebViewResponse = 2.0;
-#endif
 
 /**
  *  The time interval in seconds between each touch injection.
@@ -287,22 +277,6 @@ static const NSTimeInterval kTouchInjectFramerateInv = 1 / 120.0;
     @autoreleasepool {
       [[UIApplication sharedApplication] sendEvent:event];
     }
-#if !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
-    // TODO: Perform a scan of UIWebView usage and deprecate if possible. // NOLINT
-    if (touchInfo.phase == UITouchPhaseEnded) {
-      UIWebView *touchWebView = nil;
-      if ([touchView isKindOfClass:[UIWebView class]]) {
-        touchWebView = (UIWebView *)touchView;
-      } else {
-        NSArray *webViewContainers =
-            [touchView grey_containersAssignableFromClass:[UIWebView class]];
-        if (webViewContainers.count > 0) {
-          touchWebView = (UIWebView *)[webViewContainers firstObject];
-        }
-      }
-      [touchWebView grey_pendingInteractionForTime:kGREYMaxIntervalForUIWebViewResponse];
-    }
-#endif
   } @catch (id exception) {
     injectionException = exception;
   } @finally {

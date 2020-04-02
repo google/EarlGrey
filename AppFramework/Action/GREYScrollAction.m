@@ -77,10 +77,6 @@ static const NSInteger kMinTouchPointsToDetectScrollResistance = 2;
 
   NSArray *classMatchers = @[
     [GREYMatchers matcherForKindOfClass:[UIScrollView class]],
-#if !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
-    // TODO: Perform a scan of UIWebView usage and deprecate if possible. // NOLINT
-    [GREYMatchers matcherForKindOfClass:[UIWebView class]],
-#endif
     [GREYMatchers matcherForKindOfClass:[WKWebView class]],
   ];
   id<GREYMatcher> systemAlertShownMatcher = [GREYMatchers matcherForSystemAlertViewShown];
@@ -122,13 +118,6 @@ static const NSInteger kMinTouchPointsToDetectScrollResistance = 2;
   }
 
   // To scroll WebViews we must use the UIScrollView in its hierarchy and scroll it.
-  // TODO: Add tests for WKWebView.
-#if !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
-  // TODO: Perform a scan of UIWebView usage and deprecate if possible. // NOLINT
-  if ([element isKindOfClass:[UIWebView class]]) {
-    element = [(UIWebView *)element scrollView];
-  }
-#endif
   if ([element isKindOfClass:[WKWebView class]]) {
     element = [(WKWebView *)element scrollView];
   }
