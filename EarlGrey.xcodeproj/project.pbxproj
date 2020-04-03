@@ -94,7 +94,6 @@
 		FD623ABB20F9590800049E81 /* UIGestureRecognizer+GREYApp.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623A9520F9590500049E81 /* UIGestureRecognizer+GREYApp.h */; };
 		FD623ABC20F9590800049E81 /* UIView+GREYApp.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623A9620F9590500049E81 /* UIView+GREYApp.m */; };
 		FD623ABD20F9590800049E81 /* UIViewController+GREYApp.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623A9720F9590600049E81 /* UIViewController+GREYApp.m */; };
-		FD623ABE20F9590800049E81 /* UIWebView+GREYApp.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623A9820F9590600049E81 /* UIWebView+GREYApp.m */; };
 		FD623ABF20F9590800049E81 /* UIView+GREYApp.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623A9920F9590600049E81 /* UIView+GREYApp.h */; };
 		FD623AC020F9590800049E81 /* NSURLSession+GREYApp.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623A9A20F9590600049E81 /* NSURLSession+GREYApp.h */; };
 		FD623AC120F9590800049E81 /* UIApplication+GREYApp.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623A9B20F9590600049E81 /* UIApplication+GREYApp.h */; };
@@ -113,7 +112,6 @@
 		FD623AD020F9590800049E81 /* UIAnimation+GREYApp.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623AAA20F9590700049E81 /* UIAnimation+GREYApp.h */; };
 		FD623AD120F9590800049E81 /* NSTimer+GREYApp.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623AAB20F9590700049E81 /* NSTimer+GREYApp.h */; };
 		FD623AD220F9590800049E81 /* NSURL+GREYApp.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623AAC20F9590700049E81 /* NSURL+GREYApp.h */; };
-		FD623AD320F9590800049E81 /* UIWebView+GREYApp.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623AAD20F9590700049E81 /* UIWebView+GREYApp.h */; };
 		FD623AD420F9590800049E81 /* UIGestureRecognizer+GREYApp.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623AAE20F9590700049E81 /* UIGestureRecognizer+GREYApp.m */; };
 		FD623AD520F9590800049E81 /* UIScrollView+GREYApp.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623AAF20F9590800049E81 /* UIScrollView+GREYApp.h */; };
 		FD623AD620F9590800049E81 /* UIViewController+GREYApp.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623AB020F9590800049E81 /* UIViewController+GREYApp.h */; };
@@ -134,8 +132,6 @@
 		FD623AFA20F9594200049E81 /* GREYElementInteraction.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623AF320F9594100049E81 /* GREYElementInteraction.m */; };
 		FD623AFB20F9594200049E81 /* GREYInteraction.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623AF420F9594100049E81 /* GREYInteraction.h */; };
 		FD623B0520F9595300049E81 /* GREYNSURLConnectionDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623AFD20F9595200049E81 /* GREYNSURLConnectionDelegate.h */; };
-		FD623B0620F9595300049E81 /* GREYUIWebViewDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623AFE20F9595200049E81 /* GREYUIWebViewDelegate.h */; };
-		FD623B0720F9595300049E81 /* GREYUIWebViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623AFF20F9595300049E81 /* GREYUIWebViewDelegate.m */; };
 		FD623B0820F9595300049E81 /* GREYCAAnimationDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B0020F9595300049E81 /* GREYCAAnimationDelegate.h */; };
 		FD623B0920F9595300049E81 /* GREYSurrogateDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B0120F9595300049E81 /* GREYSurrogateDelegate.h */; };
 		FD623B0A20F9595300049E81 /* GREYSurrogateDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B0220F9595300049E81 /* GREYSurrogateDelegate.m */; };
@@ -161,12 +157,10 @@
 		FD623B4520F95A9C00049E81 /* GREYManagedObjectContextIdlingResource.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B3820F95A9B00049E81 /* GREYManagedObjectContextIdlingResource.h */; };
 		FD623B4620F95A9C00049E81 /* GREYNSTimerIdlingResource.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B3920F95A9B00049E81 /* GREYNSTimerIdlingResource.h */; };
 		FD623B4720F95A9C00049E81 /* GREYNSTimerIdlingResource.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B3A20F95A9B00049E81 /* GREYNSTimerIdlingResource.m */; };
-		FD623B4820F95A9C00049E81 /* GREYUIWebViewIdlingResource.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B3B20F95A9B00049E81 /* GREYUIWebViewIdlingResource.h */; };
 		FD623B4920F95A9C00049E81 /* GREYOperationQueueIdlingResource.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B3C20F95A9B00049E81 /* GREYOperationQueueIdlingResource.m */; };
 		FD623B4A20F95A9C00049E81 /* GREYDispatchQueueIdlingResource.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B3D20F95A9B00049E81 /* GREYDispatchQueueIdlingResource.h */; };
 		FD623B4B20F95A9C00049E81 /* GREYIdlingResource.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B3E20F95A9C00049E81 /* GREYIdlingResource.h */; };
 		FD623B4C20F95A9C00049E81 /* GREYManagedObjectContextIdlingResource.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B3F20F95A9C00049E81 /* GREYManagedObjectContextIdlingResource.m */; };
-		FD623B4D20F95A9C00049E81 /* GREYUIWebViewIdlingResource.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B4020F95A9C00049E81 /* GREYUIWebViewIdlingResource.m */; };
 		FD623B4E20F95A9C00049E81 /* GREYTimedIdlingResource.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B4120F95A9C00049E81 /* GREYTimedIdlingResource.h */; };
 		FD623B4F20F95A9C00049E81 /* GREYOperationQueueIdlingResource.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B4220F95A9C00049E81 /* GREYOperationQueueIdlingResource.h */; };
 		FD623B5320F95AF400049E81 /* GREYKeyboard.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B5120F95AF300049E81 /* GREYKeyboard.h */; };
@@ -543,7 +537,6 @@
 		FD623A9520F9590500049E81 /* UIGestureRecognizer+GREYApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIGestureRecognizer+GREYApp.h"; path = "Additions/UIGestureRecognizer+GREYApp.h"; sourceTree = "<group>"; };
 		FD623A9620F9590500049E81 /* UIView+GREYApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+GREYApp.m"; path = "Additions/UIView+GREYApp.m"; sourceTree = "<group>"; };
 		FD623A9720F9590600049E81 /* UIViewController+GREYApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIViewController+GREYApp.m"; path = "Additions/UIViewController+GREYApp.m"; sourceTree = "<group>"; };
-		FD623A9820F9590600049E81 /* UIWebView+GREYApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIWebView+GREYApp.m"; path = "Additions/UIWebView+GREYApp.m"; sourceTree = "<group>"; };
 		FD623A9920F9590600049E81 /* UIView+GREYApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+GREYApp.h"; path = "Additions/UIView+GREYApp.h"; sourceTree = "<group>"; };
 		FD623A9A20F9590600049E81 /* NSURLSession+GREYApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSURLSession+GREYApp.h"; path = "Additions/NSURLSession+GREYApp.h"; sourceTree = "<group>"; };
 		FD623A9B20F9590600049E81 /* UIApplication+GREYApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIApplication+GREYApp.h"; path = "Additions/UIApplication+GREYApp.h"; sourceTree = "<group>"; };
@@ -562,7 +555,6 @@
 		FD623AAA20F9590700049E81 /* UIAnimation+GREYApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIAnimation+GREYApp.h"; path = "Additions/UIAnimation+GREYApp.h"; sourceTree = "<group>"; };
 		FD623AAB20F9590700049E81 /* NSTimer+GREYApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSTimer+GREYApp.h"; path = "Additions/NSTimer+GREYApp.h"; sourceTree = "<group>"; };
 		FD623AAC20F9590700049E81 /* NSURL+GREYApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSURL+GREYApp.h"; path = "Additions/NSURL+GREYApp.h"; sourceTree = "<group>"; };
-		FD623AAD20F9590700049E81 /* UIWebView+GREYApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIWebView+GREYApp.h"; path = "Additions/UIWebView+GREYApp.h"; sourceTree = "<group>"; };
 		FD623AAE20F9590700049E81 /* UIGestureRecognizer+GREYApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIGestureRecognizer+GREYApp.m"; path = "Additions/UIGestureRecognizer+GREYApp.m"; sourceTree = "<group>"; };
 		FD623AAF20F9590800049E81 /* UIScrollView+GREYApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIScrollView+GREYApp.h"; path = "Additions/UIScrollView+GREYApp.h"; sourceTree = "<group>"; };
 		FD623AB020F9590800049E81 /* UIViewController+GREYApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIViewController+GREYApp.h"; path = "Additions/UIViewController+GREYApp.h"; sourceTree = "<group>"; };
@@ -583,8 +575,6 @@
 		FD623AF320F9594100049E81 /* GREYElementInteraction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYElementInteraction.m; path = Core/GREYElementInteraction.m; sourceTree = "<group>"; };
 		FD623AF420F9594100049E81 /* GREYInteraction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYInteraction.h; path = Core/GREYInteraction.h; sourceTree = "<group>"; };
 		FD623AFD20F9595200049E81 /* GREYNSURLConnectionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYNSURLConnectionDelegate.h; path = Delegate/GREYNSURLConnectionDelegate.h; sourceTree = "<group>"; };
-		FD623AFE20F9595200049E81 /* GREYUIWebViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYUIWebViewDelegate.h; path = Delegate/GREYUIWebViewDelegate.h; sourceTree = "<group>"; };
-		FD623AFF20F9595300049E81 /* GREYUIWebViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYUIWebViewDelegate.m; path = Delegate/GREYUIWebViewDelegate.m; sourceTree = "<group>"; };
 		FD623B0020F9595300049E81 /* GREYCAAnimationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYCAAnimationDelegate.h; path = Delegate/GREYCAAnimationDelegate.h; sourceTree = "<group>"; };
 		FD623B0120F9595300049E81 /* GREYSurrogateDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYSurrogateDelegate.h; path = Delegate/GREYSurrogateDelegate.h; sourceTree = "<group>"; };
 		FD623B0220F9595300049E81 /* GREYSurrogateDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYSurrogateDelegate.m; path = Delegate/GREYSurrogateDelegate.m; sourceTree = "<group>"; };
@@ -610,12 +600,10 @@
 		FD623B3820F95A9B00049E81 /* GREYManagedObjectContextIdlingResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYManagedObjectContextIdlingResource.h; path = IdlingResources/GREYManagedObjectContextIdlingResource.h; sourceTree = "<group>"; };
 		FD623B3920F95A9B00049E81 /* GREYNSTimerIdlingResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYNSTimerIdlingResource.h; path = IdlingResources/GREYNSTimerIdlingResource.h; sourceTree = "<group>"; };
 		FD623B3A20F95A9B00049E81 /* GREYNSTimerIdlingResource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYNSTimerIdlingResource.m; path = IdlingResources/GREYNSTimerIdlingResource.m; sourceTree = "<group>"; };
-		FD623B3B20F95A9B00049E81 /* GREYUIWebViewIdlingResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYUIWebViewIdlingResource.h; path = IdlingResources/GREYUIWebViewIdlingResource.h; sourceTree = "<group>"; };
 		FD623B3C20F95A9B00049E81 /* GREYOperationQueueIdlingResource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYOperationQueueIdlingResource.m; path = IdlingResources/GREYOperationQueueIdlingResource.m; sourceTree = "<group>"; };
 		FD623B3D20F95A9B00049E81 /* GREYDispatchQueueIdlingResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYDispatchQueueIdlingResource.h; path = IdlingResources/GREYDispatchQueueIdlingResource.h; sourceTree = "<group>"; };
 		FD623B3E20F95A9C00049E81 /* GREYIdlingResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYIdlingResource.h; path = IdlingResources/GREYIdlingResource.h; sourceTree = "<group>"; };
 		FD623B3F20F95A9C00049E81 /* GREYManagedObjectContextIdlingResource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYManagedObjectContextIdlingResource.m; path = IdlingResources/GREYManagedObjectContextIdlingResource.m; sourceTree = "<group>"; };
-		FD623B4020F95A9C00049E81 /* GREYUIWebViewIdlingResource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYUIWebViewIdlingResource.m; path = IdlingResources/GREYUIWebViewIdlingResource.m; sourceTree = "<group>"; };
 		FD623B4120F95A9C00049E81 /* GREYTimedIdlingResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYTimedIdlingResource.h; path = IdlingResources/GREYTimedIdlingResource.h; sourceTree = "<group>"; };
 		FD623B4220F95A9C00049E81 /* GREYOperationQueueIdlingResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYOperationQueueIdlingResource.h; path = IdlingResources/GREYOperationQueueIdlingResource.h; sourceTree = "<group>"; };
 		FD623B5120F95AF300049E81 /* GREYKeyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYKeyboard.h; path = Keyboard/GREYKeyboard.h; sourceTree = "<group>"; };
@@ -1121,8 +1109,6 @@
 				FD623A9620F9590500049E81 /* UIView+GREYApp.m */,
 				FD623AB020F9590800049E81 /* UIViewController+GREYApp.h */,
 				FD623A9720F9590600049E81 /* UIViewController+GREYApp.m */,
-				FD623AAD20F9590700049E81 /* UIWebView+GREYApp.h */,
-				FD623A9820F9590600049E81 /* UIWebView+GREYApp.m */,
 				FD623AA120F9590600049E81 /* UIWindow+GREYApp.h */,
 				FD623A9C20F9590600049E81 /* UIWindow+GREYApp.m */,
 			);
@@ -1171,8 +1157,6 @@
 				FD623B0320F9595300049E81 /* GREYNSURLConnectionDelegate.m */,
 				FD623B0120F9595300049E81 /* GREYSurrogateDelegate.h */,
 				FD623B0220F9595300049E81 /* GREYSurrogateDelegate.m */,
-				FD623AFE20F9595200049E81 /* GREYUIWebViewDelegate.h */,
-				FD623AFF20F9595300049E81 /* GREYUIWebViewDelegate.m */,
 			);
 			name = Delegate;
 			sourceTree = "<group>";
@@ -1235,8 +1219,6 @@
 				FD623B3C20F95A9B00049E81 /* GREYOperationQueueIdlingResource.m */,
 				FD623B4120F95A9C00049E81 /* GREYTimedIdlingResource.h */,
 				FD623B3620F95A9B00049E81 /* GREYTimedIdlingResource.m */,
-				FD623B3B20F95A9B00049E81 /* GREYUIWebViewIdlingResource.h */,
-				FD623B4020F95A9C00049E81 /* GREYUIWebViewIdlingResource.m */,
 			);
 			name = IdlingResources;
 			sourceTree = "<group>";
@@ -1425,7 +1407,6 @@
 			files = (
 				FD623B1E20F95A6300049E81 /* EarlGreyApp.h in Headers */,
 				FD623AE320F9591600049E81 /* GREYAssertions.h in Headers */,
-				FD623B0620F9595300049E81 /* GREYUIWebViewDelegate.h in Headers */,
 				FD623AFB20F9594200049E81 /* GREYInteraction.h in Headers */,
 				FD623B4620F95A9C00049E81 /* GREYNSTimerIdlingResource.h in Headers */,
 				FD623AD920F9590800049E81 /* __NSCFLocalDataTask_GREYApp.h in Headers */,
@@ -1469,7 +1450,6 @@
 				FD623A7D20F958C200049E81 /* GREYPickerAction.h in Headers */,
 				FD623B8D20F95B1500049E81 /* GREYRunLoopSpinner.h in Headers */,
 				FD623B7020F95B0300049E81 /* GREYAllOf.h in Headers */,
-				FD623B4820F95A9C00049E81 /* GREYUIWebViewIdlingResource.h in Headers */,
 				FD623B8620F95B1500049E81 /* GREYObjectDeallocationTracker.h in Headers */,
 				FD623A7620F958C200049E81 /* GREYPinchAction.h in Headers */,
 				FD623AF820F9594200049E81 /* GREYInteractionDataSource.h in Headers */,
@@ -1496,7 +1476,6 @@
 				FD623AD020F9590800049E81 /* UIAnimation+GREYApp.h in Headers */,
 				FD623B3420F95A8600049E81 /* GREYSyntheticEvents.h in Headers */,
 				FD623A8020F958C200049E81 /* GREYSwipeAction.h in Headers */,
-				FD623AD320F9590800049E81 /* UIWebView+GREYApp.h in Headers */,
 				FD98C45E226C2E65006F8D68 /* GREYAppError.h in Headers */,
 				FD623ADB20F9590800049E81 /* NSRunLoop+GREYApp.h in Headers */,
 				FD623A8820F958C200049E81 /* GREYTapAction.h in Headers */,
@@ -1846,10 +1825,8 @@
 				FD623B8520F95B1500049E81 /* GREYSyncAPI.m in Sources */,
 				FD623A8420F958C200049E81 /* GREYSlideAction.m in Sources */,
 				FD623AD420F9590800049E81 /* UIGestureRecognizer+GREYApp.m in Sources */,
-				FD623B0720F9595300049E81 /* GREYUIWebViewDelegate.m in Sources */,
 				FD623B8820F95B1500049E81 /* GREYAppStateTracker.m in Sources */,
 				FD623A8620F958C200049E81 /* GREYScrollAction.m in Sources */,
-				FD623B4D20F95A9C00049E81 /* GREYUIWebViewIdlingResource.m in Sources */,
 				FD623ACE20F9590800049E81 /* UIScrollView+GREYApp.m in Sources */,
 				FD623A7320F958C200049E81 /* GREYActionBlock.m in Sources */,
 				FD623B8C20F95B1500049E81 /* GREYDispatchQueueTracker.m in Sources */,
@@ -1870,7 +1847,6 @@
 				FD623A7520F958C200049E81 /* GREYPathGestureUtils.m in Sources */,
 				FD623ACD20F9590800049E81 /* NSURLSession+GREYApp.m in Sources */,
 				FD623AD720F9590800049E81 /* NSURL+GREYApp.m in Sources */,
-				FD623ABE20F9590800049E81 /* UIWebView+GREYApp.m in Sources */,
 				FD623AC820F9590800049E81 /* CALayer+GREYApp.m in Sources */,
 				FD623B6920F95B0300049E81 /* GREYMatchers.m in Sources */,
 				FD623A8720F958C200049E81 /* GREYMultiFingerSwipeAction.m in Sources */,
