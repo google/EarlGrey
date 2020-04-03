@@ -31,7 +31,6 @@
 #import "GREYTestApplicationDistantObject.h"
 #import "GREYElementHierarchy.h"
 #import "GREYScreenshotter.h"
-#import "GREYVisibilityCheckerDuration.h"
 
 #import "EDOClientService.h"
 
@@ -75,8 +74,6 @@ GREY_STUB_CLASS_IN_APP_MAIN_QUEUE(GREYFailureScreenshotter)
 
 GREY_STUB_CLASS_IN_APP_MAIN_QUEUE(GREYElementHierarchy)
 GREY_STUB_CLASS_IN_APP_MAIN_QUEUE(GREYScreenshotter)
-/** The Visibility stub is in the background as it does not manipulate any UI. */
-GREY_STUB_CLASS_IN_APP_BACKGROUND_QUEUE(GREYVisibilityCheckerDuration)
 
 #pragma mark - Diagnostics Stubs
 

@@ -28,9 +28,6 @@
 #import "GREYQuickVisibilityChecker.h"
 #import "GREYThoroughVisibilityChecker.h"
 #import "GREYVisibilityCheckerCacheEntry.h"
-#import "GREYVisibilityCheckerDuration.h"
-
-static CFTimeInterval gVisibilityDuration = 0;
 
 /**
  *  The minimum number of points that must be visible along with the activation point to consider an
@@ -74,7 +71,6 @@ static BOOL gUseFastVisibilityChecker;
     return [percentVisible floatValue];
   }
 
-  CFTimeInterval startTime = CACurrentMediaTime();
   // Fallback set to YES means we should use the slow visibility checker.
   BOOL fallback = NO;
   CGFloat result = 0.0f;
@@ -89,13 +85,11 @@ static BOOL gUseFastVisibilityChecker;
   if (fallback) {
     result = [GREYThoroughVisibilityChecker percentVisibleAreaOfElement:element];
   }
-  gVisibilityDuration += CACurrentMediaTime() - startTime;
   cache.visibleAreaPercent = @(result);
   return result;
 }
 
 + (CGPoint)visibleInteractionPointForElement:(id)element {
-  CFTimeInterval startTime = CACurrentMediaTime();
   if (!element) {
     // Nil elements are not considered visible for interaction.
     return GREYCGPointNull;
@@ -120,12 +114,10 @@ static BOOL gUseFastVisibilityChecker;
     result = [GREYThoroughVisibilityChecker visibleInteractionPointForElement:element];
   }
   cache.visibleInteractionPoint = [NSValue valueWithCGPoint:result];
-  gVisibilityDuration += CACurrentMediaTime() - startTime;
   return result;
 }
 
 + (CGRect)rectEnclosingVisibleAreaOfElement:(id)element {
-  CFTimeInterval startTime = CACurrentMediaTime();
   GREYVisibilityCheckerCacheEntry *cache = [self grey_cacheForElementCreateIfNonExistent:element];
   NSValue *rectValue = [cache rectEnclosingVisibleArea];
   if (rectValue) {
@@ -134,7 +126,6 @@ static BOOL gUseFastVisibilityChecker;
   CGRect visibleAreaRect =
       [GREYThoroughVisibilityChecker rectEnclosingVisibleAreaOfElement:element];
   cache.rectEnclosingVisibleArea = [NSValue valueWithCGRect:visibleAreaRect];
-  gVisibilityDuration += CACurrentMediaTime() - startTime;
   return visibleAreaRect;
 }
 
@@ -222,16 +213,6 @@ static BOOL gUseFastVisibilityChecker;
 
 + (UIImage *)grey_lastExpectedAfterImage {
   return [GREYThoroughVisibilityChecker lastExpectedAfterImage];
-}
-
-@end
-
-@implementation GREYVisibilityCheckerDuration
-
-+ (CFTimeInterval)resetAndReturnTotalVisibilityCheckingTime {
-  CFTimeInterval visibilityTime = gVisibilityDuration;
-  gVisibilityDuration = 0;
-  return visibilityTime;
 }
 
 @end
