@@ -586,6 +586,14 @@
       assertWithMatcher:grey_text(@"textViewDidChange Called")];
 }
 
+- (void)testReplaceTextTypingForAnEmoji {
+  NSString *emoji = @"😒";
+  [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
+      performAction:grey_replaceText(emoji)] assertWithMatcher:grey_text(emoji)];
+  [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextView")]
+      performAction:grey_replaceText(emoji)] assertWithMatcher:grey_text(emoji)];
+}
+
 #pragma mark - Private
 
 - (void)ftr_typeString:(NSString *)string andVerifyOutput:(NSString *)verificationString {
