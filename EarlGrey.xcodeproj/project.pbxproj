@@ -1125,7 +1125,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd ${PROJECT_DIR}\n./Scripts/setup-earlgrey.sh";
+			shellScript = "cd \"${PROJECT_DIR}\"\n./Scripts/setup-earlgrey.sh\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
