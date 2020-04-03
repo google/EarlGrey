@@ -18,6 +18,7 @@
 
 #import "GREYAction.h"
 #import "GREYActionsShorthand.h"
+#import "GREYInteraction.h"
 #import "GREYHostBackgroundDistantObject+GREYApp.h"
 #import "GREYMatchersShorthand.h"
 #import "GREYAssertionBlock.h"
