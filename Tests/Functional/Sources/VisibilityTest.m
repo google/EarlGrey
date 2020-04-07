@@ -118,7 +118,7 @@
 
   // Unhide the activation point.
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"UnObscureRedBar")]
-      performAction:[GREYActions actionForTurnSwitchOn:YES]];
+      performAction:grey_turnSwitchOn(YES)];
 
   // Verify RedBar can now be interacted with.
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"RedBar")]

@@ -32,7 +32,7 @@
   NSError *error;
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"InteractionDisabledPickerId")]
-      performAction:[GREYActions actionForSetPickerColumn:0 toValue:@"Green"]
+      performAction:grey_setPickerColumnToValue(0, @"Green")
               error:&error];
 
   GREYAssertTrue([error.domain isEqual:kGREYInteractionErrorDomain], @"Error domain should match");
@@ -52,7 +52,7 @@
   [[EarlGrey selectElementWithMatcher:grey_text(@"Date")] performAction:grey_tap()];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"DatePickerId")]
-      performAction:[GREYActions actionForSetDate:desiredDate]];
+      performAction:grey_setDate(desiredDate)];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"DatePickerId")]
       assertWithMatcher:grey_datePickerValue(desiredDate)];
@@ -71,7 +71,7 @@
 
   // Changing the date must change the label.
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"DatePickerId")]
-      performAction:[GREYActions actionForSetDate:desiredDate]];
+      performAction:grey_setDate(desiredDate)];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"DatePickerId")]
       assertWithMatcher:grey_datePickerValue(desiredDate)];
 
@@ -84,7 +84,7 @@
   // Executing the change date action with the same value should not change the value, thus not
   // invoking the update callback.
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"DatePickerId")]
-      performAction:[GREYActions actionForSetDate:desiredDate]];
+      performAction:grey_setDate(desiredDate)];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"DateLabelId")]
       assertWithMatcher:grey_text(@"")];
 }
@@ -138,10 +138,10 @@
   [[EarlGrey selectElementWithMatcher:grey_text(@"Custom")] performAction:grey_tap()];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CustomPickerId")]
-      performAction:[GREYActions actionForSetPickerColumn:0 toValue:@"Blue"]];
+      performAction:grey_setPickerColumnToValue(0, @"Blue")];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CustomPickerId")]
-      performAction:[GREYActions actionForSetPickerColumn:1 toValue:@"5"]];
+      performAction:grey_setPickerColumnToValue(1, @"5")];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CustomPickerId")]
       assertWithMatcher:grey_pickerColumnSetToValue(0, @"Blue")];
@@ -154,8 +154,7 @@
   [[EarlGrey selectElementWithMatcher:grey_text(@"Custom")] performAction:grey_tap()];
 
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CustomPickerId")]
-      performAction:[GREYActions actionForSetPickerColumn:0 toValue:@"Hidden"]]
-      assertWithMatcher:grey_notVisible()];
+      performAction:grey_setPickerColumnToValue(0, @"Hidden")] assertWithMatcher:grey_notVisible()];
 }
 
 - (void)testNoPickerViewComponentDelegateMethodsAreDefined {

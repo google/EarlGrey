@@ -18,6 +18,7 @@
 
 // Note: GREYKeyboard should not be used in test cases of EarlGrey users. We are only using it here
 // for test purpose.
+#import "GREYActions.h"
 #import "GREYKeyboard.h"
 #import "GREYConstants.h"
 #import "GREYHostApplicationDistantObject+KeyboardKeysTest.h"
@@ -43,9 +44,9 @@
 
 - (void)testTypingAtBeginning {
   [[[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
-      performAction:[GREYActions actionForTypeText:@"Foo"]]
-      performAction:[GREYActions actionForTypeText:@"Bar"
-                                        atPosition:0]] assertWithMatcher:grey_text(@"BarFoo")];
+      performAction:grey_typeText(@"Foo")] performAction:[GREYActions actionForTypeText:@"Bar"
+                                                                             atPosition:0]]
+      assertWithMatcher:grey_text(@"BarFoo")];
 }
 
 - (void)testKeyboardIsShown {
@@ -59,21 +60,21 @@
 
 - (void)testTypingAtEnd {
   [[[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
-      performAction:[GREYActions actionForTypeText:@"Foo"]]
-      performAction:[GREYActions actionForTypeText:@"Bar"
-                                        atPosition:-1]] assertWithMatcher:grey_text(@"FooBar")];
+      performAction:grey_typeText(@"Foo")] performAction:[GREYActions actionForTypeText:@"Bar"
+                                                                             atPosition:-1]]
+      assertWithMatcher:grey_text(@"FooBar")];
 }
 
 - (void)testTypingInMiddle {
   [[[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
-      performAction:[GREYActions actionForTypeText:@"Foo"]]
-      performAction:[GREYActions actionForTypeText:@"Bar"
-                                        atPosition:2]] assertWithMatcher:grey_text(@"FoBaro")];
+      performAction:grey_typeText(@"Foo")] performAction:[GREYActions actionForTypeText:@"Bar"
+                                                                             atPosition:2]]
+      assertWithMatcher:grey_text(@"FoBaro")];
 }
 
 - (void)testTypingInMiddleOfBigString {
   id<GREYAction> typeLongTextAction =
-      [GREYActions actionForTypeText:@"This string is a little too long for this text field!"];
+      grey_typeText(@"This string is a little too long for this text field!");
   [[[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
       performAction:typeLongTextAction] performAction:[GREYActions actionForTypeText:@"Foo"
                                                                           atPosition:1]]
@@ -82,64 +83,58 @@
 
 - (void)testTypingAfterTappingOnTextField {
   [[[[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
-      performAction:[GREYActions actionForTap]]
-      performAction:[GREYActions actionForTypeText:@"foo"]]
-      performAction:[GREYActions actionForClearText]] assertWithMatcher:grey_text(@"")];
+      performAction:grey_tap()] performAction:grey_typeText(@"foo")] performAction:grey_clearText()]
+      assertWithMatcher:grey_text(@"")];
 }
 
 - (void)testClearAfterTyping {
   [[[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
-      performAction:[GREYActions actionForTypeText:@"Foo"]]
-      performAction:[GREYActions actionForClearText]] assertWithMatcher:grey_text(@"")];
+      performAction:grey_typeText(@"Foo")] performAction:grey_clearText()]
+      assertWithMatcher:grey_text(@"")];
 }
 
 - (void)testClearAfterClearing {
   [[[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
-      performAction:[GREYActions actionForClearText]]
-      performAction:[GREYActions actionForClearText]] assertWithMatcher:grey_text(@"")];
+      performAction:grey_clearText()] performAction:grey_clearText()]
+      assertWithMatcher:grey_text(@"")];
 }
 
 - (void)testClearAndType_TypeShort {
   [[[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
-      performAction:[GREYActions actionForClearText]]
-      performAction:[GREYActions actionForTypeText:@"Foo"]] assertWithMatcher:grey_text(@"Foo")];
+      performAction:grey_clearText()] performAction:grey_typeText(@"Foo")]
+      assertWithMatcher:grey_text(@"Foo")];
 }
 
 - (void)testTypeAfterClearing_ClearThenType {
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
-      performAction:[GREYActions actionForTypeText:@"f"]] assertWithMatcher:grey_text(@"f")];
+      performAction:grey_typeText(@"f")] assertWithMatcher:grey_text(@"f")];
 
   [[[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
-      performAction:[GREYActions actionForClearText]]
-      performAction:[GREYActions actionForTypeText:@"g"]] assertWithMatcher:grey_text(@"g")];
+      performAction:grey_clearText()] performAction:grey_typeText(@"g")]
+      assertWithMatcher:grey_text(@"g")];
 }
 
 - (void)testTypeAfterClearing_TypeLong {
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
-      performAction:[GREYActions actionForTypeText:@"This is a long string"]]
+      performAction:grey_typeText(@"This is a long string")]
       assertWithMatcher:grey_text(@"This is a long string")];
 
   [[[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
-      performAction:[GREYActions actionForClearText]]
-      performAction:[GREYActions actionForTypeText:@"short string"]]
+      performAction:grey_clearText()] performAction:grey_typeText(@"short string")]
       assertWithMatcher:grey_text(@"short string")];
 }
 
 - (void)testNonTypistKeyboardInteraction {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
-      performAction:[GREYActions actionForTap]];
+      performAction:grey_tap()];
 
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"a")]
-      performAction:[GREYActions actionForTap]];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"a")] performAction:grey_tap()];
 
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"b")]
-      performAction:[GREYActions actionForTap]];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"b")] performAction:grey_tap()];
 
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"c")]
-      performAction:[GREYActions actionForTap]];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"c")] performAction:grey_tap()];
 
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"return")]
-      performAction:[GREYActions actionForTap]];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"return")] performAction:grey_tap()];
 }
 
 - (void)testNonTypingTextField {
@@ -147,7 +142,7 @@
 
   @try {
     [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"NonTypingTextField")]
-        performAction:[GREYActions actionForTypeText:@"Should Fail"]];
+        performAction:grey_typeText(@"Should Fail")];
     GREYFail(@"Should throw an exception");
   } @catch (NSException *exception) {
     NSRange exceptionRange =
@@ -290,7 +285,7 @@
 
 - (void)testUIKeyboardTypeDefault {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"KeyboardPicker")]
-      performAction:[GREYActions actionForSetPickerColumn:0 toValue:@"Default"]];
+      performAction:grey_setPickerColumnToValue(0, @"Default")];
 
   NSString *string = @":$a8. {T<b@CC";
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
@@ -299,7 +294,7 @@
 
 - (void)testUIKeyboardTypeASCIICapable {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"KeyboardPicker")]
-      performAction:[GREYActions actionForSetPickerColumn:0 toValue:@"ASCIICapable"]];
+      performAction:grey_setPickerColumnToValue(0, @"ASCIICapable")];
 
   NSString *string = @":$a8. {T<b@CC";
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
@@ -308,7 +303,7 @@
 
 - (void)testUIKeyboardTypeNumbersAndPunctuation {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"KeyboardPicker")]
-      performAction:[GREYActions actionForSetPickerColumn:0 toValue:@"NumbersAndPunctuation"]];
+      performAction:grey_setPickerColumnToValue(0, @"NumbersAndPunctuation")];
 
   NSString *string = @":$a8. {T<b@CC";
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
@@ -317,7 +312,7 @@
 
 - (void)testUIKeyboardTypeURL {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"KeyboardPicker")]
-      performAction:[GREYActions actionForSetPickerColumn:0 toValue:@"URL"]];
+      performAction:grey_setPickerColumnToValue(0, @"URL")];
 
   NSString *string = @"http://www.google.com/@*s$&T+t?[]#testLabel%foo;";
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
@@ -326,7 +321,7 @@
 
 - (void)testUIKeyboardTypeNumberPad {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"KeyboardPicker")]
-      performAction:[GREYActions actionForSetPickerColumn:0 toValue:@"NumberPad"]];
+      performAction:grey_setPickerColumnToValue(0, @"NumberPad")];
 
   NSString *string = @"\b0123456\b789\b\b";
   NSString *verificationString = @"0123457";
@@ -336,7 +331,7 @@
 
 - (void)testUIKeyboardTypePhonePad {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"KeyboardPicker")]
-      performAction:[GREYActions actionForSetPickerColumn:0 toValue:@"PhonePad"]];
+      performAction:grey_setPickerColumnToValue(0, @"PhonePad")];
 
   NSString *string = @"01*23\b\b+45#67,89;";
   NSString *verificationString = @"01*+45#67,89;";
@@ -346,7 +341,7 @@
 
 - (void)testUIKeyboardTypeEmailAddress {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"KeyboardPicker")]
-      performAction:[GREYActions actionForSetPickerColumn:0 toValue:@"EmailAddress"]];
+      performAction:grey_setPickerColumnToValue(0, @"EmailAddress")];
 
   NSString *string = @"l0rem.ipsum+42@google.com#$_T*-";
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
@@ -355,7 +350,7 @@
 
 - (void)testUIKeyboardTypeDecimalPad {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"KeyboardPicker")]
-      performAction:[GREYActions actionForSetPickerColumn:0 toValue:@"DecimalPad"]];
+      performAction:grey_setPickerColumnToValue(0, @"DecimalPad")];
 
   NSString *string = @"\b0123.456\b78..9\b\b";
   NSString *verificationString = @"0123.4578.";
@@ -365,7 +360,7 @@
 
 - (void)testUIKeyboardTypeTwitter {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"KeyboardPicker")]
-      performAction:[GREYActions actionForSetPickerColumn:0 toValue:@"Twitter"]];
+      performAction:grey_setPickerColumnToValue(0, @"Twitter")];
 
   NSString *string = @"@earlgrey Your framework is #awesome!!!1$:,eG%g\n";
   NSString *verificationString = @"@earlgrey Your framework is #awesome!!!1$:,eG%g";
@@ -375,7 +370,7 @@
 
 - (void)testUIKeyboardTypeWebSearch {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"KeyboardPicker")]
-      performAction:[GREYActions actionForSetPickerColumn:0 toValue:@"WebSearch"]];
+      performAction:grey_setPickerColumnToValue(0, @"WebSearch")];
 
   NSString *string = @":$a8. {T<b@CC";
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
@@ -408,26 +403,20 @@
 
 - (void)testClearAfterTypingInCustomTextView {
   [[[[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CustomTextView")]
-      performAction:[GREYActions actionForTypeText:@"Foo"]]
-      assertWithMatcher:grey_accessibilityLabel(@"Foo")]
-      performAction:[GREYActions actionForClearText]]
-      assertWithMatcher:grey_accessibilityLabel(@"")];
+      performAction:grey_typeText(@"Foo")] assertWithMatcher:grey_accessibilityLabel(@"Foo")]
+      performAction:grey_clearText()] assertWithMatcher:grey_accessibilityLabel(@"")];
 }
 
 - (void)testClearAfterClearingInCustomTextView {
   [[[[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CustomTextView")]
-      performAction:[GREYActions actionForClearText]]
-      assertWithMatcher:grey_accessibilityLabel(@"")]
-      performAction:[GREYActions actionForClearText]]
-      assertWithMatcher:grey_accessibilityLabel(@"")];
+      performAction:grey_clearText()] assertWithMatcher:grey_accessibilityLabel(@"")]
+      performAction:grey_clearText()] assertWithMatcher:grey_accessibilityLabel(@"")];
 }
 
 - (void)testTypeAfterClearingInCustomTextView {
   [[[[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CustomTextView")]
-      performAction:[GREYActions actionForClearText]]
-      assertWithMatcher:grey_accessibilityLabel(@"")]
-      performAction:[GREYActions actionForTypeText:@"Foo"]]
-      assertWithMatcher:grey_accessibilityLabel(@"Foo")];
+      performAction:grey_clearText()] assertWithMatcher:grey_accessibilityLabel(@"")]
+      performAction:grey_typeText(@"Foo")] assertWithMatcher:grey_accessibilityLabel(@"Foo")];
 }
 
 - (void)testKeyplaneChangeInCustomTextView {
@@ -497,7 +486,7 @@
   GREYAssertFalse([GREYKeyboard keyboardShownWithError:nil], @"Keyboard shouldn't be shown");
 
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
-      performAction:[GREYActions actionForTypeText:@"Foo"]] assertWithMatcher:grey_text(@"Foo")];
+      performAction:grey_typeText(@"Foo")] assertWithMatcher:grey_text(@"Foo")];
   GREYAssertTrue([GREYKeyboard keyboardShownWithError:nil], @"Keyboard shouldn't be shown");
 
   XCTAssertTrue([EarlGrey dismissKeyboardWithError:nil]);
@@ -505,7 +494,7 @@
                   @"Keyboard shouldn't be shown as it is resigned");
 
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
-      performAction:[GREYActions actionForTypeText:@"Foo"]] assertWithMatcher:grey_text(@"FooFoo")];
+      performAction:grey_typeText(@"Foo")] assertWithMatcher:grey_text(@"FooFoo")];
   GREYAssertTrue([GREYKeyboard keyboardShownWithError:nil], @"Keyboard shouldn't be shown");
 }
 
@@ -562,7 +551,7 @@
 
 - (void)testDismissingKeyboardWhenReturnIsNotPresent {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"KeyboardPicker")]
-      performAction:[GREYActions actionForSetPickerColumn:0 toValue:@"PhonePad"]];
+      performAction:grey_setPickerColumnToValue(0, @"PhonePad")];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
       performAction:grey_tap()];
   XCTAssertTrue([EarlGrey dismissKeyboardWithError:nil]);

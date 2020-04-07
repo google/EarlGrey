@@ -46,11 +46,11 @@
 
 - (void)testAccessibilityElementTappedSuccessfullyWithTapAtPoint {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"SquareElementLabel")]
-      performAction:[GREYActions actionForTapAtPoint:CGPointMake(1, 1)]];
+      performAction:grey_tapAtPoint(CGPointMake(1, 1))];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AccessibilityElementStatus")]
       assertWithMatcher:grey_text(@"Square Tapped")];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"CircleElementLabel")]
-      performAction:[GREYActions actionForTapAtPoint:CGPointMake(49, 49)]];
+      performAction:grey_tapAtPoint(CGPointMake(49, 49))];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AccessibilityElementStatus")]
       assertWithMatcher:grey_text(@"Circle Tapped")];
 }
@@ -59,7 +59,7 @@
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"SquareElementLabel")]
       assertWithMatcher:grey_sufficientlyVisible()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"SquareElementLabel")]
-      performAction:[GREYActions actionForTap]];
+      performAction:grey_tap()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AccessibilityElementStatus")]
       assertWithMatcher:grey_text(@"Square Tapped")];
 }
@@ -69,7 +69,7 @@
       assertWithMatcher:grey_sufficientlyVisible()];
   // Square element rect is {50, 150, 100, 100}
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"SquareElementLabel")]
-      performAction:[GREYActions actionForTapAtPoint:CGPointMake(0, 0)]];
+      performAction:grey_tapAtPoint(CGPointMake(0, 0))];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AccessibilityElementStatus")]
       assertWithMatcher:grey_text(@"Square Tapped")];
 }
@@ -132,7 +132,7 @@
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CircleElementIdentifier")]
       assertWithMatcher:grey_sufficientlyVisible()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CircleElementIdentifier")]
-      performAction:[GREYActions actionForTap]];
+      performAction:grey_tap()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AccessibilityElementStatus")]
       assertWithMatcher:grey_text(@"Circle Tapped")];
 }

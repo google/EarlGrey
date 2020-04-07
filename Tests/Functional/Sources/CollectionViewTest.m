@@ -28,7 +28,7 @@
 
 - (void)testSearchActionWithCollectionViewHorizontalLayout {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"layoutPicker")]
-      performAction:[GREYActions actionForSetPickerColumn:0 toValue:@"Horizontal Layout"]];
+      performAction:grey_setPickerColumnToValue(0, @"Horizontal Layout")];
   // For reference this is how A, B, C, X, Y and Z are laid out using the horizontal layout:
   // A ... X
   // B ... Y
@@ -51,7 +51,7 @@
 
 - (void)testSearchActionWithCollectionViewVerticalLayout {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"layoutPicker")]
-      performAction:[GREYActions actionForSetPickerColumn:0 toValue:@"Vertical Layout"]];
+      performAction:grey_setPickerColumnToValue(0, @"Vertical Layout")];
   // For reference this is how A, B, C, X, Y and Z are laid out using the vertical layout:
   // A B C .
   // . . . .
@@ -75,7 +75,7 @@
 
 - (void)testSearchActionWithCollectionViewCustomLayout {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"layoutPicker")]
-      performAction:[GREYActions actionForSetPickerColumn:0 toValue:@"Custom Layout"]];
+      performAction:grey_setPickerColumnToValue(0, @"Vertical Layout")];
 
   // For reference this is how A, B, C, X, Y and Z are laid out using the custom layout:
   // A B C ...
