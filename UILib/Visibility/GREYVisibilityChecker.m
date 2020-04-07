@@ -43,7 +43,7 @@ static NSMapTable<NSString *, GREYVisibilityCheckerCacheEntry *> *gCache;
 // TODO(b/148309356): Remove the flags for fast_visibility check for phased rollout of quick
 // visibility checker;
 /** Flag for testing purpose. */
-static BOOL gUseFastVisibilityChecker;
+static BOOL gUseThoroughVisibilityChecker;
 
 #pragma mark - GREYVisibilityChecker
 
@@ -51,8 +51,8 @@ static BOOL gUseFastVisibilityChecker;
 
 + (void)initialize {
   if (self == [GREYVisibilityChecker class]) {
-    gUseFastVisibilityChecker =
-        [NSProcessInfo.processInfo.environment[@"fast_visibility"] isEqualToString:@"true"];
+    gUseThoroughVisibilityChecker =
+        [NSProcessInfo.processInfo.environment[@"thorough_visibility"] isEqualToString:@"true"];
   }
 }
 
@@ -75,7 +75,7 @@ static BOOL gUseFastVisibilityChecker;
   BOOL fallback = NO;
   CGFloat result = 0.0f;
 
-  if (gUseFastVisibilityChecker) {
+  if (!gUseThoroughVisibilityChecker) {
     result = [GREYQuickVisibilityChecker percentVisibleAreaOfElement:element
                                                      performFallback:&fallback];
   } else {
@@ -103,7 +103,7 @@ static BOOL gUseFastVisibilityChecker;
   // Fallback set to YES means we should use the slow visibility checker.
   BOOL fallback = NO;
   CGPoint result = CGPointZero;
-  if (gUseFastVisibilityChecker) {
+  if (!gUseThoroughVisibilityChecker) {
     result = [GREYQuickVisibilityChecker visibleInteractionPointForElement:element
                                                            performFallback:&fallback];
   } else {
