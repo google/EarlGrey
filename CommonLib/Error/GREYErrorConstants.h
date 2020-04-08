@@ -115,3 +115,12 @@ typedef NS_ENUM(NSInteger, GREYKeyboardDismissalErrorCode) {
    */
   GREYKeyboardDismissalFailedErrorCode = 1,
 };
+
+/** Extern variables specifying the error domain for UI test intialization. */
+GREY_EXTERN NSString *const kGREYIntializationErrorDomain;
+
+/** Error code for UI test intializations. */
+typedef NS_ENUM(NSInteger, GREYIntializationErrorCode) {
+  /** The error code for failures caused by the eDO service already existing. */
+  GREYIntializationServiceAlreadyExistError = 1,
+};

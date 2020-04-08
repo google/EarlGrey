@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		76DAC13E242EE51200557F3C /* DistantObjectBackgroundExecutionTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DAC13D242EE51100557F3C /* DistantObjectBackgroundExecutionTest.m */; };
+		76DAC16B242EE77E00557F3C /* libTestLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD623D2E20FD6BF900049E81 /* libTestLib.a */; };
+		76DAC16E242EE77E00557F3C /* AppFramework.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = FD623D2C20FD6BF900049E81 /* AppFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		76DAC170242EE77E00557F3C /* HostDOCategories.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = FD6678692122290B008EC4A7 /* HostDOCategories.bundle */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		76DAC175242EE79A00557F3C /* DistantObjectBackgroundExecutionTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DAC13D242EE51100557F3C /* DistantObjectBackgroundExecutionTest.m */; };
 		FD0200A1212E4455007585B2 /* libTestLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD623D2E20FD6BF900049E81 /* libTestLib.a */; };
 		FD0200A4212E4455007585B2 /* AppFramework.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = FD623D2C20FD6BF900049E81 /* AppFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		FD0200A6212E4455007585B2 /* HostDOCategories.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = FD6678692122290B008EC4A7 /* HostDOCategories.bundle */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -225,6 +230,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		76DAC146242EE77E00557F3C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FD623C1B20FD194800049E81 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FD623C3F20FD197C00049E81;
+			remoteInfo = FunctionalTestRig;
+		};
 		FD02006C212E4455007585B2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = FD623D1F20FD6BF900049E81 /* EarlGrey.xcodeproj */;
@@ -312,6 +324,26 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		76DAC16D242EE77E00557F3C /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(TARGET_BUILD_DIR)/../../FunctionalTestRig.app/Frameworks";
+			dstSubfolderSpec = 0;
+			files = (
+				76DAC16E242EE77E00557F3C /* AppFramework.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		76DAC16F242EE77E00557F3C /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(TARGET_BUILD_DIR)/../../FunctionalTestRig.app/EarlGreyHelperBundles";
+			dstSubfolderSpec = 0;
+			files = (
+				76DAC170242EE77E00557F3C /* HostDOCategories.bundle in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FD0200A3212E4455007585B2 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -377,6 +409,8 @@
 
 /* Begin PBXFileReference section */
 		76480F8C23CEA04100D6047B /* DistantObjectCrashHandlerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DistantObjectCrashHandlerTest.m; sourceTree = "<group>"; };
+		76DAC13D242EE51100557F3C /* DistantObjectBackgroundExecutionTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DistantObjectBackgroundExecutionTest.m; sourceTree = "<group>"; };
+		76DAC174242EE77E00557F3C /* FunctionalBackgroundRemoteCallTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FunctionalBackgroundRemoteCallTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD0200AA212E4455007585B2 /* FunctionalOutOfProcessTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FunctionalOutOfProcessTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD1184D8212CEFAA004CADC3 /* FunctionalSwiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FunctionalSwiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD1184E4212CEFF8004CADC3 /* EarlGrey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EarlGrey.swift; path = ../../../../TestLib/Swift/EarlGrey.swift; sourceTree = "<group>"; };
@@ -564,6 +598,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		76DAC16A242EE77E00557F3C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				76DAC16B242EE77E00557F3C /* libTestLib.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FD0200A0212E4455007585B2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -644,6 +686,7 @@
 		FD5EB4862118FD61006F82A0 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				76DAC13D242EE51100557F3C /* DistantObjectBackgroundExecutionTest.m */,
 				76480F8C23CEA04100D6047B /* DistantObjectCrashHandlerTest.m */,
 				FD98C4C7226C3570006F8D68 /* ApplicationStateHandlingTest.m */,
 				FD98C4C6226C3570006F8D68 /* SystemAlertHandlingTest.m */,
@@ -744,6 +787,7 @@
 				FD11853A212DFE24004CADC3 /* FunctionalTestRigSwift.app */,
 				FD11854C212E03D5004CADC3 /* HostDOCategoriesSwift.bundle */,
 				FD0200AA212E4455007585B2 /* FunctionalOutOfProcessTests.xctest */,
+				76DAC174242EE77E00557F3C /* FunctionalBackgroundRemoteCallTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -923,6 +967,27 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		76DAC144242EE77E00557F3C /* FunctionalBackgroundRemoteCallTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 76DAC171242EE77E00557F3C /* Build configuration list for PBXNativeTarget "FunctionalBackgroundRemoteCallTests" */;
+			buildPhases = (
+				76DAC147242EE77E00557F3C /* ShellScript */,
+				76DAC148242EE77E00557F3C /* Sources */,
+				76DAC16A242EE77E00557F3C /* Frameworks */,
+				76DAC16C242EE77E00557F3C /* Resources */,
+				76DAC16D242EE77E00557F3C /* CopyFiles */,
+				76DAC16F242EE77E00557F3C /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				76DAC145242EE77E00557F3C /* PBXTargetDependency */,
+			);
+			name = FunctionalBackgroundRemoteCallTests;
+			productName = Functional;
+			productReference = 76DAC174242EE77E00557F3C /* FunctionalBackgroundRemoteCallTests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		FD02006A212E4455007585B2 /* FunctionalOutOfProcessTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = FD0200A7212E4455007585B2 /* Build configuration list for PBXNativeTarget "FunctionalOutOfProcessTests" */;
@@ -1066,6 +1131,9 @@
 				LastSwiftUpdateCheck = 1000;
 				LastUpgradeCheck = 0940;
 				TargetAttributes = {
+					76DAC144242EE77E00557F3C = {
+						ProvisioningStyle = Automatic;
+					};
 					FD02006A212E4455007585B2 = {
 						ProvisioningStyle = Automatic;
 						TestTargetID = FD623C3F20FD197C00049E81;
@@ -1125,6 +1193,7 @@
 				FD6678682122290B008EC4A7 /* HostDOCategories */,
 				FD11854B212E03D5004CADC3 /* HostDOCategoriesSwift */,
 				FD02006A212E4455007585B2 /* FunctionalOutOfProcessTests */,
+				76DAC144242EE77E00557F3C /* FunctionalBackgroundRemoteCallTests */,
 			);
 		};
 /* End PBXProject section */
@@ -1161,6 +1230,13 @@
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
+		76DAC16C242EE77E00557F3C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FD0200A2212E4455007585B2 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1283,6 +1359,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		76DAC147242EE77E00557F3C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = export;
+		};
 		FD7C2FE4211E336800274A59 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1299,6 +1388,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		76DAC148242EE77E00557F3C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				76DAC175242EE79A00557F3C /* DistantObjectBackgroundExecutionTest.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FD020070212E4455007585B2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1375,6 +1472,7 @@
 				FD623CED20FD1A6E00049E81 /* ImageViewController.m in Sources */,
 				FD623CBF20FD1A6E00049E81 /* VisibilityTestViewController.m in Sources */,
 				FD623CE920FD1A6E00049E81 /* ScrollViewController.m in Sources */,
+				76DAC13E242EE51200557F3C /* DistantObjectBackgroundExecutionTest.m in Sources */,
 				FD623CB820FD1A6E00049E81 /* AnimationViewController.m in Sources */,
 				FD623CDD20FD1A6E00049E81 /* ActionSheetViewController.m in Sources */,
 				FDDE2FC1212CECAF00EB40F7 /* main.m in Sources */,
@@ -1485,6 +1583,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		76DAC145242EE77E00557F3C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FD623C3F20FD197C00049E81 /* FunctionalTestRig */;
+			targetProxy = 76DAC146242EE77E00557F3C /* PBXContainerItemProxy */;
+		};
 		FD02006B212E4455007585B2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = TestLib;
@@ -1528,6 +1631,43 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		76DAC172242EE77E00557F3C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				HEADER_SEARCH_PATHS = ../../../../../;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = com.google.com.Functional;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = FunctionalTestRig;
+				USER_HEADER_SEARCH_PATHS = "Sources/ HostDOCategories/ ../../** ../../Submodules/eDistantObject/**";
+			};
+			name = Debug;
+		};
+		76DAC173242EE77E00557F3C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				HEADER_SEARCH_PATHS = ../../../../../;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = com.google.com.Functional;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = FunctionalTestRig;
+				USER_HEADER_SEARCH_PATHS = "Sources/ HostDOCategories/ ../../** ../../Submodules/eDistantObject/**";
+			};
+			name = Release;
+		};
 		FD0200A8212E4455007585B2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1953,6 +2093,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		76DAC171242EE77E00557F3C /* Build configuration list for PBXNativeTarget "FunctionalBackgroundRemoteCallTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				76DAC172242EE77E00557F3C /* Debug */,
+				76DAC173242EE77E00557F3C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		FD0200A7212E4455007585B2 /* Build configuration list for PBXNativeTarget "FunctionalOutOfProcessTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

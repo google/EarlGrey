@@ -27,6 +27,15 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "FD623C3F20FD197C00049E81"
+            BuildableName = "FunctionalTestRig.app"
+            BlueprintName = "FunctionalTestRig"
+            ReferencedContainer = "container:FunctionalTests.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <Testables>
          <TestableReference
             skipped = "NO">
@@ -38,18 +47,17 @@
                ReferencedContainer = "container:FunctionalTests.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "76DAC12F242EE47F00557F3C"
+               BuildableName = "FunctionalBackgroundRemoteExecutionTests.xctest"
+               BlueprintName = "FunctionalBackgroundRemoteExecutionTests"
+               ReferencedContainer = "container:FunctionalTests.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "FD623C3F20FD197C00049E81"
-            BuildableName = "FunctionalTestRig.app"
-            BlueprintName = "FunctionalTestRig"
-            ReferencedContainer = "container:FunctionalTests.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
-      <AdditionalOptions>
-      </AdditionalOptions>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
@@ -71,8 +79,6 @@
             ReferencedContainer = "container:FunctionalTests.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
-      <AdditionalOptions>
-      </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"

@@ -27,6 +27,17 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
+ *  An enumeration that defines if the execution of a remote invocation on the distant object will
+ *  take place on the main queue or a background queue.
+ */
+typedef NS_ENUM(NSUInteger, GREYRemoteExecutionsDispatchPolicy) {
+  /** The policy that dispatches remote executions to the main queue. */
+  GREYRemoteExecutionsDispatchPolicyMain = 0,
+  /** The policy that dispatches remote executions to the background queue. */
+  GREYRemoteExecutionsDispatchPolicyBackground,
+};
+
+/**
  *  The test application running in the test's process.
  *
  *  @note The class is also stubbed in the app process so it's available in the test. Users can
@@ -50,6 +61,9 @@ NS_ASSUME_NONNULL_BEGIN
  *  HostApplicationDistantObject creation when the application makes its first call to the test.
  */
 @property(nonatomic, readonly) uint16_t hostBackgroundPort;
+
+/** The remote execution dispatch policy of the eDO service, which is held by this class. */
+@property(nonatomic, readonly) GREYRemoteExecutionsDispatchPolicy dispatchPolicy;
 
 /** The @c EDOHostService the test process listens on after the test starts. */
 @property(nonatomic, readonly) EDOHostService *service;

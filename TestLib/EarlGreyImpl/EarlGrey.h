@@ -259,6 +259,26 @@ typedef void (^GREYHostApplicationCrashHandler)(void);
  */
 - (void)handleException:(GREYFrameworkException *)exception details:(NSString *)details;
 
+/**
+ *  Sets the dispatch policy of all remote calls from app-under-test to the test process. The
+ *  default value is @c GREYRemoteExecutionsDispatchPolicyMain.
+ *
+ *  By default, the remote call to this class and its descendant objects, i.e. the objects being
+ *  sent to app-under-test from test's main queue, is executed on test's main queue, and is blocked
+ *  by the running testcase until its main runloop is spun.
+ *
+ *  By setting it to @c GREYRemoteExecutionsDispatchPolicyBackground, this configuration will make
+ *  such kind of remote calls execute on a different thread, without the need to spin the main
+ *  runloop.
+ *
+ *  @note It is an error to change the remote executions dispatch policy after the remote service
+ *        connection is established, which happens when the app-under-test is launched. Doing so
+ *        would result in an exception being thrown.
+ *
+ *  @param dispatchPolicy The new dispatch policy to apply.
+ */
+- (void)setRemoteExecutionsDispatchPolicy:(GREYRemoteExecutionsDispatchPolicy)dispatchPolicy;
+
 @end
 
 NS_ASSUME_NONNULL_END

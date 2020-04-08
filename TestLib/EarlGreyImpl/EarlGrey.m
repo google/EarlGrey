@@ -21,6 +21,7 @@
 #import "GREYAssertionDefinesPrivate.h"
 #import "GREYFatalAsserts.h"
 #import "GREYHostBackgroundDistantObject.h"
+#import "GREYTestApplicationDistantObject+Private.h"
 #import "GREYTestApplicationDistantObject.h"
 #import "GREYError.h"
 #import "GREYErrorConstants.h"
@@ -271,6 +272,14 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
 
 - (void)setHostApplicationCrashHandler:(nullable GREYHostApplicationCrashHandler)handler {
   [XCTestCase grey_setHostApplicationCrashHandler:handler];
+}
+
+- (void)setRemoteExecutionsDispatchPolicy:(GREYRemoteExecutionsDispatchPolicy)dispatchPolicy {
+  GREYError *setPolicyError;
+  GREYTestApplicationDistantObject *distantObject = GREYTestApplicationDistantObject.sharedInstance;
+  if (![distantObject setDispatchPolicy:dispatchPolicy error:&setPolicyError]) {
+    GREYHandleInteractionError(setPolicyError, nil);
+  }
 }
 
 @end

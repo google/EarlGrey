@@ -18,11 +18,14 @@
 
 #import <XCTest/XCTest.h>
 
+#include <stdatomic.h>
 #include <stddef.h>
 
 #import "GREYFatalAsserts.h"
 #import "GREYHostBackgroundDistantObject.h"
 #import "GREYTestApplicationDistantObject+Private.h"
+#import "GREYError.h"
+#import "GREYErrorConstants.h"
 #import "GREYFrameworkException.h"
 #import "GREYRemoteExecutor.h"
 #import "EDOHostPort.h"
@@ -33,6 +36,11 @@
 #import "EDOServicePort.h"
 #import "NSObject+EDOBlacklistedType.h"
 
+/** Checks if main queue has eDO host service. */
+static BOOL IsEDOServiceHostedOnMainQueue(void) {
+  return [EDOHostService serviceForOriginatingQueue:dispatch_get_main_queue()] != nil;
+}
+
 /** The maximum time to wait for the eDO host ports of app-under-test. */
 static const int64_t kPortAllocationWaitTime = 30 * NSEC_PER_SEC;
 
@@ -40,10 +48,12 @@ static const int64_t kPortAllocationWaitTime = 30 * NSEC_PER_SEC;
 static const void *gGREYTestExecutingQueueKey = &gGREYTestExecutingQueueKey;
 
 @interface GREYTestApplicationDistantObject ()
-/** @see GREYTestApplicationDistantObject.service, make this readwrite. */
-@property EDOHostService *service;
+
 /** @see GREYTestApplicationDistantObject.hostApplicationDead in private header. */
 @property(getter=isHostApplicationTerminated) BOOL hostApplicationTerminated;
+
+/** @see GREYTestApplicationDistantObject::dispatchPolicy. Make this readwrite. */
+@property(nonatomic) GREYRemoteExecutionsDispatchPolicy dispatchPolicy;
 
 /**
  *  Checks if @c port is a permanent eDO host port that is listening by the test host. A permanent
@@ -60,19 +70,13 @@ static const void *gGREYTestExecutingQueueKey = &gGREYTestExecutingQueueKey;
 
 /** Intializes test-side distant object and failure handler. */;
 __attribute__((constructor)) static void SetupTestDistantObject() {
-  GREYTestApplicationDistantObject *testDistantObject =
-      GREYTestApplicationDistantObject.sharedInstance;
-  EDOHostService *service = [EDOHostService serviceWithPort:0
-                                                 rootObject:testDistantObject
-                                                      queue:dispatch_get_main_queue()];
-  testDistantObject.service = service;
-  dispatch_queue_set_specific(service.executingQueue, &gGREYTestExecutingQueueKey,
-                              (void *)gGREYTestExecutingQueueKey, NULL);
   // Registers custom handler of EDO connection failure and translates the error message to UI
   // testing scenarios to users. The custom handler will fall back to use EDO's default error
   // handler if the state of the test doesn't conform to any pattern of the UI testing failure.
   void (^defaultHandler)(NSError *) = EDOClientService.errorHandler;
   EDOClientService.errorHandler = ^(NSError *error) {
+    GREYTestApplicationDistantObject *testDistantObject =
+        GREYTestApplicationDistantObject.sharedInstance;
     if (error.code == EDOServiceErrorCannotConnect) {
       EDOHostPort *hostPort = error.userInfo[EDOErrorPortKey];
       if ([testDistantObject isPermanentAppHostPort:hostPort.port]) {
@@ -94,6 +98,14 @@ __attribute__((constructor)) static void SetupTestDistantObject() {
 }
 
 @implementation GREYTestApplicationDistantObject {
+  /**
+   *  The queue to execute the all the remote calls from app-under-test to the test side. It is
+   *  either the main queue or a background queue, determined by
+   *  GREYTestApplicationDistantObject::dispatchPolicy.
+   */
+  dispatch_queue_t _executingQueue;
+  /** @see GREYTestApplicationDistantObject::service. This is the underlying ivar. */
+  EDOHostService *_service;
   /** @see GREYTestApplicationDistantObject::hostPort. This is the underlying ivar. */
   uint16_t _hostPort;
   /**
@@ -104,10 +116,20 @@ __attribute__((constructor)) static void SetupTestDistantObject() {
   /** @see GREYTestApplicationDistantObject::hostBackgroundPort. This is the underlying ivar. */
   uint16_t _hostBackgroundPort;
   /**
-   *  The dispatch_group for the task of fetching background-queue eDO port of app-under-test. The
+   *  The dispatch group for the task of fetching background-queue eDO port of app-under-test. The
    *  valid port number of @c _hostBackgroundPort is always assigned within the group.
    */
   dispatch_group_t _hostBackgroundPortAllocationGroup;
+  /**
+   *  The atomic flag for executing the initialization of GREYTestApplicationDistantObject::Service
+   *  once.
+   */
+  atomic_flag _serviceOneTimeInitializationFlag;
+  /**
+   *  The dispatch group for the task of initializing GREYTestApplicationDistantObject::Service.
+   *  The service is always instantiated within the group.
+   */
+  dispatch_group_t _serviceInitializationGroup;
 }
 
 + (instancetype)sharedInstance {
@@ -125,12 +147,38 @@ __attribute__((constructor)) static void SetupTestDistantObject() {
 - (instancetype)initOnce {
   self = [super init];
   if (self) {
+    _dispatchPolicy = GREYRemoteExecutionsDispatchPolicyMain;
     _hostPortAllocationGroup = dispatch_group_create();
     dispatch_group_enter(_hostPortAllocationGroup);
     _hostBackgroundPortAllocationGroup = dispatch_group_create();
     dispatch_group_enter(_hostBackgroundPortAllocationGroup);
+    _serviceInitializationGroup = dispatch_group_create();
+    dispatch_group_enter(_serviceInitializationGroup);
   }
   return self;
+}
+
+- (EDOHostService *)service {
+  if (!atomic_flag_test_and_set(&_serviceOneTimeInitializationFlag)) {
+    GREYFatalAssertWithMessage(!IsEDOServiceHostedOnMainQueue(),
+                               @"Unable to register EarlGrey's eDO service on the main thread as "
+                               @"there's one already running.");
+    dispatch_queue_t mainQueue = dispatch_get_main_queue();
+    GREYRemoteExecutionsDispatchPolicy dispatchPolicy = self.dispatchPolicy;
+    if (dispatchPolicy == GREYRemoteExecutionsDispatchPolicyMain) {
+      _executingQueue = mainQueue;
+      _service = [EDOHostService serviceWithPort:0 rootObject:self queue:_executingQueue];
+    } else {
+      _executingQueue = dispatch_queue_create("com.google.earlgrey.TestDO", DISPATCH_QUEUE_SERIAL);
+      _service = [EDOHostService serviceWithPort:0 rootObject:self queue:_executingQueue];
+      _service.originatingQueues = @[ mainQueue ];
+    }
+    dispatch_queue_set_specific(_executingQueue, &gGREYTestExecutingQueueKey,
+                                (void *)gGREYTestExecutingQueueKey, NULL);
+    dispatch_group_leave(_serviceInitializationGroup);
+  }
+  dispatch_group_wait(_serviceInitializationGroup, DISPATCH_TIME_FOREVER);
+  return _service;
 }
 
 - (uint16_t)servicePort {
@@ -200,7 +248,39 @@ __attribute__((constructor)) static void SetupTestDistantObject() {
   }
 }
 
+- (BOOL)setDispatchPolicy:(GREYRemoteExecutionsDispatchPolicy)dispatchPolicy
+                    error:(NSError **)error {
+  GREYFatalAssertWithMessage(dispatchPolicy == GREYRemoteExecutionsDispatchPolicyMain ||
+                                 dispatchPolicy == GREYRemoteExecutionsDispatchPolicyBackground,
+                             @"Received unexpected policy: %lu", (unsigned long)dispatchPolicy);
+  // Checks if there's already an EDOHostService serving test's main queue. If that's the case,
+  // this class already created the EDOHostService to serve remote invocations from the app side.
+  // We cannot override the existing EDOHostService or reset the executing queue, otherwise
+  // app-under-test will crash when it calls the stale EDOObject.
+  if (!IsEDOServiceHostedOnMainQueue()) {
+    _dispatchPolicy = dispatchPolicy;
+  } else {
+    if (error) {
+      *error = GREYErrorMake(
+          kGREYIntializationErrorDomain, GREYIntializationServiceAlreadyExistError,
+          @"Failed to set dispatch policy of remote execution. You cannot set dispatch policy "
+          @"after XCUIApplication::launch. Move it before the launch or inside an attribute "
+          @"constructor before your tests launch the app");
+    }
+    return NO;
+  }
+  return YES;
+}
+
 - (void)resetHostArguments {
+  // Checks if the method is called on @c _executingQueue. If it's not, it dispatches the resetting
+  // procedure to that queue.
+  if (!dispatch_get_specific(&gGREYTestExecutingQueueKey)) {
+    dispatch_sync(_executingQueue, ^{
+      [self resetHostArguments];
+    });
+    return;
+  }
   self.hostPort = 0;
   self.hostBackgroundPort = 0;
   self.hostApplicationTerminated = NO;

@@ -38,6 +38,8 @@ NSString *const kGREYKeyboardDismissalErrorDomain = @"com.google.earlgrey.Keyboa
 
 NSString *const kGREYDeeplinkErrorDomain = @"com.google.earlgrey.kGREYDeeplinkErrorDomain";
 
+NSString *const kGREYIntializationErrorDomain = @"com.google.earlgrey.InitializationErrorDomain";
+
 NSString *const kGREYActionUserInfoKey = @"kGREYActionUserInfoKey";
 NSString *const kGREYActionElementUserInfoKey = @"kGREYActionElementUserInfoKey";
 NSString *const kGREYActionErrorUserInfoKey = @"kGREYActionErrorUserInfoKey";
