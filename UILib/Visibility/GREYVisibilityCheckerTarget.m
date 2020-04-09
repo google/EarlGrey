@@ -139,8 +139,7 @@ const double kMinimumAlphaToConsiderAsObscuring = 0.95f;
     return GREYVisibilityCheckerTargetObscureResultNone;
   }
   CGRect intersection = CGRectIntersectionStrict(_targetRect, viewRect);
-  // Check if intersection area is zero in case the _targetRect and viewRect overlap in the border.
-  if (CGRectIsNull(intersection) || CGRectArea(intersection) == 0) {
+  if (CGRectIsNull(intersection)) {
     return GREYVisibilityCheckerTargetObscureResultNone;
   }
   // Since the target intersects with the current element, set the fallback flag.
