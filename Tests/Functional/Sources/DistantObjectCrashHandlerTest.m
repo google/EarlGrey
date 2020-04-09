@@ -17,6 +17,7 @@
 #import <XCTest/XCTest.h>
 
 #import "GREYFrameworkException.h"
+#import "EarlGrey.h"
 #import "BaseIntegrationTest.h"
 #import "EDOClientService.h"
 
@@ -70,7 +71,7 @@
     exception = capturedException;
   }
   XCTAssertEqualObjects(exception.name, @"GenericFailureException");
-  XCTAssertTrue([exception.reason containsString:@"App-under-test crashed and disconnected."]);
+  XCTAssertTrue([exception.reason containsString:@"App crashed and disconnected."]);
 }
 
 /**

@@ -83,12 +83,12 @@ __attribute__((constructor)) static void SetupTestDistantObject() {
         testDistantObject.hostApplicationTerminated = YES;
         NSString *errorInfo;
         errorInfo =
-            @"App-under-test crashed and disconnected. Unless your tests explicitly relaunch the "
-            @"app, the app won't be restarted and thus any requests from test to app side will "
-            @"fail. You can register "
-            @"GREYTestApplicationDistantObject.hostApplicationRelaunchHandler to relaunch your app "
-            @"and clean up your test-side remote objects. To troubleshoot the app's crash, check "
-            @"if any crash log was generated in the application's process.";
+            @"App crashed and disconnected. Unless your tests explicitly relaunch the app, it "
+            @"won't be restarted. Any requests from the test to the app side will fail. Use "
+            @"GREYTestApplicationDistantObject.hostApplicationRelaunchHandler to register a "
+            @"callback that will be invoked when your app crashes. In this callback you can "
+            @"clean up your test-side remote objects and relaunch your app. To troubleshoot more, "
+            @"take a look at crash files in ~/Library/Logs/DiagnosticReports";
         [[GREYFrameworkException exceptionWithName:kGREYGenericFailureException
                                             reason:errorInfo] raise];
       }
