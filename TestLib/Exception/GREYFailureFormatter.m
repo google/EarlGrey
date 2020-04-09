@@ -111,8 +111,8 @@
   // Add screenshots.
   if (![excluding containsObject:kErrorAppScreenShotsKey]) {
     NSArray *keyOrder = @[
-      kGREYScreenshotAtFailure, kGREYScreenshotBeforeImage, kGREYScreenshotExpectedAfterImage,
-      kGREYScreenshotActualAfterImage
+      kGREYAppScreenshotAtFailure, kGREYTestScreenshotAtFailure, kGREYScreenshotBeforeImage,
+      kGREYScreenshotExpectedAfterImage, kGREYScreenshotActualAfterImage
     ];
     NSMutableDictionary *appScreenshots =
         error.appScreenshots ? [NSMutableDictionary dictionaryWithCapacity:keyOrder.count] : nil;
@@ -164,8 +164,9 @@
                                                         indent:kGREYObjectFormatIndent
                                                      hideEmpty:YES
                                                       keyOrder:nil];
-    [logger
-        addObject:[NSString stringWithFormat:@"%@: %@\n", kErrorDescriptionGlossaryKey, glossary]];
+    NSString *glossaryString =
+        [NSString stringWithFormat:@"%@: %@\n", kErrorDescriptionGlossaryKey, glossary];
+    [logger addObject:glossaryString];
   }
 
   return [logger componentsJoinedByString:@"\n"];

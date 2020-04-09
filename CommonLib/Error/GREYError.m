@@ -46,7 +46,8 @@ NSString *const kErrorAppUIHierarchyKey = @"App UI Hierarchy";
 NSString *const kErrorAppScreenShotsKey = @"App Screenshots";
 NSString *const kErrorDescriptionGlossaryKey = @"Description Glossary";
 
-NSString *const kGREYScreenshotAtFailure = @"Screenshot At Failure";
+NSString *const kGREYAppScreenshotAtFailure = @"App-side Screenshot at Point-of-Failure";
+NSString *const kGREYTestScreenshotAtFailure = @"Test-side Screenshot at Failure";
 NSString *const kGREYScreenshotBeforeImage = @"Visibility Checker Most Recent Before Image";
 NSString *const kGREYScreenshotExpectedAfterImage =
     @"Visibility Checker Most Recent Expected After Image";

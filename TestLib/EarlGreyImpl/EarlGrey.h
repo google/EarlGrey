@@ -22,6 +22,7 @@
 #import "GREYHostBackgroundDistantObject+GREYApp.h"
 #import "GREYMatchersShorthand.h"
 #import "GREYAssertionBlock.h"
+#import "GREYAssertionDefinesPrivate.h"
 #import "GREYConfiguration.h"
 #import "GREYHostApplicationDistantObject.h"
 #import "GREYTestApplicationDistantObject.h"

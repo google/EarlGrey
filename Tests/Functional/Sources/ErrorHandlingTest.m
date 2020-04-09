@@ -18,7 +18,9 @@
 
 #import "GREYError.h"
 #import "GREYObjectFormatter.h"
+#import "EarlGrey.h"
 #import "GREYHostApplicationDistantObject+ErrorHandlingTest.h"
+#import "FailureHandler.h"
 
 @interface ErrorHandlingTest : BaseIntegrationTest
 @end
@@ -224,6 +226,50 @@
   NSError *error = [[GREYHostApplicationDistantObject sharedInstance] errorCreatedInTheApp];
   XCTAssertNoThrow([GREYError grey_nestedDescriptionForError:error],
                    @"Failing on an error from the app did not throw an exception");
+}
+
+/**
+ *  Checks if an exception thrown by EarlGrey for a matching failure contains the right screenshots,
+ *  hierarchy and element matcher information.
+ */
+- (void)testExceptionDetailsForAMatcherFailure {
+  [NSThread mainThread].threadDictionary[GREYFailureHandlerKey] = [[FailureHandler alloc] init];
+  @try {
+    [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")] performAction:grey_tap()];
+    GREYFail(@"Should throw an exception before this point.");
+  } @catch (NSException *exception) {
+    NSDictionary<NSString *, id> *userInfo = exception.userInfo;
+    NSDictionary<NSString *, UIImage *> *screenshots = userInfo[kErrorDetailAppScreenshotsKey];
+    XCTAssertEqual(screenshots.count, 2);
+    XCTAssertNotNil(screenshots[kGREYAppScreenshotAtFailure]);
+    XCTAssertNotNil(screenshots[kGREYTestScreenshotAtFailure]);
+    XCTAssertNotNil(userInfo[kErrorDetailAppUIHierarchyKey]);
+    XCTAssertNotNil(userInfo[kErrorDetailElementMatcherKey]);
+  }
+}
+
+/**
+ *  Checks if a visibility related exception thrown by EarlGrey contains the right screenshots.
+ */
+- (void)testExceptionDetails {
+  [NSThread mainThread].threadDictionary[GREYFailureHandlerKey] = [[FailureHandler alloc] init];
+  [self openTestViewNamed:@"Visibility Tests"];
+  @try {
+    [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"orangeView")]
+        assertWithMatcher:grey_sufficientlyVisible()];
+    GREYFail(@"Should throw an exception before this point.");
+  } @catch (NSException *exception) {
+    NSDictionary<NSString *, id> *userInfo = exception.userInfo;
+    NSDictionary<NSString *, UIImage *> *screenshots = userInfo[kErrorDetailAppScreenshotsKey];
+    XCTAssertEqual(screenshots.count, 5);
+    XCTAssertNotNil(screenshots[kGREYAppScreenshotAtFailure]);
+    XCTAssertNotNil(screenshots[kGREYTestScreenshotAtFailure]);
+    XCTAssertNotNil(screenshots[kGREYScreenshotBeforeImage]);
+    XCTAssertNotNil(screenshots[kGREYScreenshotExpectedAfterImage]);
+    XCTAssertNotNil(screenshots[kGREYScreenshotActualAfterImage]);
+    XCTAssertNotNil(userInfo[kErrorDetailAppUIHierarchyKey]);
+    XCTAssertNotNil(userInfo[kErrorDetailElementMatcherKey]);
+  }
 }
 
 #pragma mark - Private

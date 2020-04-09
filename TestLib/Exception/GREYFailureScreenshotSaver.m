@@ -19,20 +19,31 @@
 #import "GREYConfiguration.h"
 #import "GREYError.h"
 
+typedef NSDictionary<NSString *, UIImage *> *GREYScreenshotImages;
+
 @implementation GREYFailureScreenshotSaver
 
-+ (GREYFailureScreenshots *)saveFailureScreenshotsInDictionary:
-                                (NSDictionary<NSString *, UIImage *> *)screenshotsDict
++ (GREYFailureScreenshots *)saveFailureScreenshotsInDictionary:(GREYScreenshotImages)screenshotsDict
                                                    toDirectory:(NSString *)screenshotDir {
   NSMutableDictionary<NSString *, NSString *> *screenshotPaths = [[NSMutableDictionary alloc] init];
 
   // Save and log screenshot, before and after images (if available).
-  UIImage *screenshot = screenshotsDict[kGREYScreenshotAtFailure];
+  UIImage *screenshot = screenshotsDict[kGREYAppScreenshotAtFailure];
   if (screenshot) {
-    NSString *screenshotSuffix = @"screenshot.png";
-    screenshotPaths[kGREYScreenshotAtFailure] = [NSFileManager grey_saveImageAsPNG:screenshot
-                                                                            toFile:screenshotSuffix
-                                                                       inDirectory:screenshotDir];
+    NSString *screenshotSuffix = @"app_screenshot.png";
+    screenshotPaths[kGREYAppScreenshotAtFailure] =
+        [NSFileManager grey_saveImageAsPNG:screenshot
+                                    toFile:screenshotSuffix
+                               inDirectory:screenshotDir];
+  }
+
+  screenshot = screenshotsDict[kGREYTestScreenshotAtFailure];
+  if (screenshot) {
+    NSString *screenshotSuffix = @"test_screenshot.png";
+    screenshotPaths[kGREYTestScreenshotAtFailure] =
+        [NSFileManager grey_saveImageAsPNG:screenshot
+                                    toFile:screenshotSuffix
+                               inDirectory:screenshotDir];
   }
 
   screenshot = screenshotsDict[kGREYScreenshotBeforeImage];

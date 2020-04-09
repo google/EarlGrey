@@ -16,12 +16,33 @@
 
 #import "GREYElementInteractionErrorHandler.h"
 
+#import <XCTest/XCTest.h>
+
 #import "GREYAssertionDefinesPrivate.h"
 #import "GREYError+Private.h"
+#import "GREYError.h"
 #import "GREYErrorConstants.h"
 #import "GREYFailureHandler.h"
 #import "GREYFrameworkException.h"
 
+
+/**
+ * @return An NSDictionary containing screenshots obtained from the application on failure along
+ *         with an XCUITest screenshot of the app (containing any system alerts) if the application
+ *         is still running.
+ *
+ * @param error The error containing the screenshots.
+ */
+static NSDictionary<NSString *, UIImage *> *GetScreenshotsFromError(GREYError *error) {
+  NSMutableDictionary<NSString *, UIImage *> *mutableScreenshots =
+      [error.appScreenshots mutableCopy];
+  XCUIApplication *application = [[XCUIApplication alloc] init];
+  if (application.state == XCUIApplicationStateRunningForeground) {
+    XCUIScreenshot *screenshot = [application screenshot];
+    [mutableScreenshots setObject:screenshot.image forKey:kGREYTestScreenshotAtFailure];
+  }
+  return [mutableScreenshots copy];
+}
 
 void GREYHandleInteractionError(__strong GREYError *interactionError,
                                 __autoreleasing NSError **outError) {
@@ -35,8 +56,8 @@ void GREYHandleInteractionError(__strong GREYError *interactionError,
 
       // Add Screenshots and UI Hierarchy.
       NSMutableDictionary<NSString *, id> *mutableUserInfo = [userInfo mutableCopy];
-      NSDictionary<NSString *, UIImage *> *screenshots = interactionError.appScreenshots;
       NSString *hierarchy = interactionError.appUIHierarchy;
+      NSDictionary<NSString *, UIImage *> *screenshots = GetScreenshotsFromError(interactionError);
       if (screenshots) {
         mutableUserInfo[kErrorDetailAppScreenshotsKey] = screenshots;
       }

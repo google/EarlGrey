@@ -33,7 +33,7 @@
   });
 
   if (screenshot) {
-    appScreenshots[kGREYScreenshotAtFailure] = screenshot;
+    appScreenshots[kGREYAppScreenshotAtFailure] = screenshot;
   }
 
   screenshot = [GREYVisibilityChecker grey_lastActualBeforeImage];

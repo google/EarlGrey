@@ -115,9 +115,15 @@ GREY_EXTERN NSString *const kErrorDescriptionKey;
 GREY_EXTERN NSString *const kErrorFailureReasonKey;
 
 /**
- *  Key used to retrieve the screenshot at failure from an error object's app screenshots.
+ *  Key used to retrieve the screenshot at the point-of-failure in the application.
  */
-GREY_EXTERN NSString *const kGREYScreenshotAtFailure;
+GREY_EXTERN NSString *const kGREYAppScreenshotAtFailure;
+
+/**
+ *  Key used to retrieve a screenshot of the whole system, including system alerts, notifications
+ *  etc. in the test at the point the exception is raised.
+ */
+GREY_EXTERN NSString *const kGREYTestScreenshotAtFailure;
 
 /**
  *  Key used to retrieve the visibility checker's most recent screenshot before failure
