@@ -167,14 +167,17 @@ typedef void (^GREYHostApplicationCrashHandler)(void);
 
 #if defined(__IPHONE_11_0)
 /**
- *  Open a deeplink URL from Safari and simulate the user action to accept opening the app.
+ *  Open the deeplink url from Safari and simulate the user action to accept opening the app.
  *  As a result any foregrounded application will be implicitly backgrounded. On failure, Safari
- *  application will remain in the foreground. Use XCUITest APIs to dismiss it.
+ *  application will remain in the foreground.
  *
- *  Due to Apple testing framework having an implicit 5 seconds timeout for app launches, the test
- *  case may fail if it takes longer than that to launch Safari. The workaround is to warm up the
- *  Safari app in test case's @c -setUp method using the snippet below:
+ *  This method only works with Xcode 9 or above.
  *
+ *  Due to Apple testing framework having an implicit 5 seconds timeout for app launch during
+ *  test case, the test case using this method could potentially fail high-loaded machines.
+ *  The workaround is to warm up the Safari app in app test @c setUp().
+ *
+ *  For example:
  *  @code
  *  XCUIApplication *safariApp =
  *      [[XCUIApplication alloc] initWithBundleIdentifier:@"com.apple.mobilesafari"];
@@ -184,16 +187,17 @@ typedef void (^GREYHostApplicationCrashHandler)(void);
  *  }
  *  @endcode
  *
+ *  The code above should be put in your test's @c setUp() method.
+ *
  *  @param URL The deeplink @c URL string that is going to be opened.
  *  @param application The XCUIApplication to use to trigger the deeplink.
- *  @param[out] error  Error that will be populated on failure. If @c nil, a test failure will be
- *                     reported instead.
+ *  @param[out] error  Error that will be populated on failure. If @c nil, a test failure will
+ *                     be reported instead.
  *
  *  @return @c YES if the opening the deeplink was successful, @c NO otherwise.
- *
  */
 - (BOOL)openDeeplinkURL:(NSString *)URL
-        withApplication:(XCUIApplication *)application
+          inApplication:(XCUIApplication *)application
                   error:(NSError **)error;
 #endif  // defined(__IPHONE_11_0)
 

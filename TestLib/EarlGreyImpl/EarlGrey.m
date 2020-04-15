@@ -191,7 +191,7 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
 
 #if defined(__IPHONE_11_0)
 - (BOOL)openDeeplinkURL:(NSString *)URL
-        withApplication:(XCUIApplication *)application
+          inApplication:(XCUIApplication *)application
                   error:(NSError **)error {
   XCUIApplication *safariApp =
       [[XCUIApplication alloc] initWithBundleIdentifier:@"com.apple.mobilesafari"];
@@ -199,8 +199,8 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
   BOOL success = [safariApp waitForState:XCUIApplicationStateRunningForeground timeout:30];
   I_GREYAssertTrue(success, @"Safari did not launch successfully.");
 
-  // As Safari loads up for the first time, the URL is not clickable and we have to wait for the app
-  // to be hittable for it.
+  // As Safari loads up for the first time, the URL is not clickable and we have to wait for the
+  // app to be hittable for it.
   if (safariApp.hittable) {
 #if TARGET_OS_IOS
     if (![safariApp.textFields[@"URL"] exists]) {
@@ -222,10 +222,10 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
     return YES;
   } else if (error) {
     *error = GREYErrorMake(kGREYDeeplinkErrorDomain, kGREYInteractionActionFailedErrorCode,
-                           @"Deeplink open action failed since Open Button on the app dialog for "
-                           @"the deeplink not present.");
+                           @"Deeplink open action failed since Open Button on the app "
+                           @"dialog for the deeplink not present.");
   }
-  // This is needed otherwise failed tests will stall until failure.
+  // this is needed otherwise failed tests will hang until failure.
   [application activate];
   return NO;
 }
