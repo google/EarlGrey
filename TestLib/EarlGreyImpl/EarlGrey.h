@@ -40,29 +40,28 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  *  Key for setting a new or retrieving the existing failure handler for EarlGrey. Each failure
- *  handler is tied to the main thread object's dictionary. When an EarlGrey call fails, it calls
+ *  handler is tied to the main thread's `threadDictionary`. When an EarlGrey call fails, it calls
  *  into the currently set failure handler to handle the exception.
  *
- *  To set a new failure handler (for any thread):
- *   @code
- *   [NSThread mainThread].threadDictionary[GREYFailureHandlerKey] = newFailureHandler;
- *   @endcode
+ *  To set a new failure handler:
+ *      @code
+ *      [NSThread mainThread].threadDictionary[GREYFailureHandlerKey] = newFailureHandler;
+ *      @endcode
  *
  *  To get the failure handler:
- *   @code
- *   id<GREYFailureHandler> currentHandler =
- *       [NSThread mainThread].threadDictionary[GREYFailureHandlerKey];
- *   @endcode
+ *      @code
+ *      id<GREYFailureHandler> currentHandler =
+ *           [NSThread mainThread].threadDictionary[GREYFailureHandlerKey];
+ *      @endcode
  *
- *  @note It's possible that the main thread might not have a handler set at the time of the call,
- *        in which case one will be created and assigned by EarlGrey when it's called.
+ *  @note If a handler is not set, one will be created and assigned by EarlGrey.
  */
 GREY_EXTERN NSString *const GREYFailureHandlerKey;
 
 /**
  *  Convenience replacement for every EarlGrey method call with
- *  EarlGreyImpl::invokedFromFile:lineNumber: so it can get the invocation file and line to
- *  report to XCTest on failure.
+ *  EarlGreyImpl::invokedFromFile:lineNumber: so it can get the invocation file and line to report
+ *  to XCTest on failure.
  */
 #define EarlGrey                                                                            \
   [EarlGreyImpl invokedFromFile:[NSString stringWithUTF8String:__FILE__] ?: @"UNKNOWN FILE" \
@@ -79,8 +78,8 @@ typedef void (^GREYHostApplicationCrashHandler)(void);
 
 /**
  *  Provides the file name and line number of the code that is calling into EarlGrey.
- *  In case of a failure, the information is used to tell XCTest the exact line which caused
- *  the failure so it can be highlighted in the IDE.
+ *  In case of a failure, the information is used to tell XCTest the exact line which caused the
+ *  failure so it can be highlighted in the IDE.
  *
  *  @param fileName   The name of the file where the failing code exists.
  *  @param lineNumber The line number of the failing code.
@@ -151,11 +150,10 @@ typedef void (^GREYHostApplicationCrashHandler)(void);
  *  do that because it can have side-effects e.g. such as inserting a new line for the Notes.app.
  *  If the return key is intended to dismiss the keyboard then we recommend using the following
  *  EarlGrey statement instead:
- *
- *   @code
- *   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"return")]
- *       performAction:grey_tap()];
- *   @endcode
+ *      @code
+ *      [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"return")]
+ *          performAction:grey_tap()];
+ *      @endcode
  *
  *  @param[out] error Error that will be populated on failure.
  *
@@ -167,37 +165,33 @@ typedef void (^GREYHostApplicationCrashHandler)(void);
 
 #if defined(__IPHONE_11_0)
 /**
- *  Open the deeplink url from Safari and simulate the user action to accept opening the app.
- *  As a result any foregrounded application will be implicitly backgrounded. On failure, Safari
- *  application will remain in the foreground.
+ *  Open a deeplink URL from Safari and simulate the user action to accept opening the app.
+ *  As a result, any foregrounded application will be implicitly backgrounded. On failure, Safari
+ *  application will remain in the foreground. Use XCUITest APIs to dismiss it.
  *
- *  This method only works with Xcode 9 or above.
+ *  Due to Apple's testing framework having an implicit 5 seconds timeout for app launches, the test
+ *  case may fail if it takes longer than that to launch Safari. The workaround is to warm up the
+ *  Safari app in test's @c -setUp method using the snippet below:
  *
- *  Due to Apple testing framework having an implicit 5 seconds timeout for app launch during
- *  test case, the test case using this method could potentially fail high-loaded machines.
- *  The workaround is to warm up the Safari app in app test @c setUp().
+ *      @code
+ *      XCUIApplication *safariApp =
+ *          [[XCUIApplication alloc] initWithBundleIdentifier:@"com.apple.mobilesafari"];
+ *      if ([safariApp state] == XCUIApplicationStateNotRunning ||
+ *        [safariApp state] == XCUIApplicationStateUnknown) {
+ *        [safariApp activate];
+ *      }
+ *      @endcode
  *
- *  For example:
- *  @code
- *  XCUIApplication *safariApp =
- *      [[XCUIApplication alloc] initWithBundleIdentifier:@"com.apple.mobilesafari"];
- *  if ([safariApp state] == XCUIApplicationStateNotRunning ||
- *    [safariApp state] == XCUIApplicationStateUnknown) {
- *    [safariApp activate];
- *  }
- *  @endcode
- *
- *  The code above should be put in your test's @c setUp() method.
- *
- *  @param URL The deeplink @c URL string that is going to be opened.
- *  @param application The XCUIApplication to use to trigger the deeplink.
- *  @param[out] error  Error that will be populated on failure. If @c nil, a test failure will
- *                     be reported instead.
+ *  @param URL         The deeplink @c URL string that is going to be opened.
+ *  @param application The XCUIApplication to use to trigger the deep link.
+ *  @param[out] error  Error that will be populated on failure. If @c nil, a test failure will be
+ *                     reported instead.
  *
  *  @return @c YES if the opening the deeplink was successful, @c NO otherwise.
+ *
  */
-- (BOOL)openDeeplinkURL:(NSString *)URL
-          inApplication:(XCUIApplication *)application
+- (BOOL)openDeepLinkURL:(NSString *)URL
+        withApplication:(XCUIApplication *)application
                   error:(NSError **)error;
 #endif  // defined(__IPHONE_11_0)
 
@@ -206,8 +200,8 @@ typedef void (^GREYHostApplicationCrashHandler)(void);
  *  be populated with the failure reason if the orientation change fails, otherwise a test failure
  *  will be registered.
  *
- *  @param[out] error Error that will be populated on failure. If @c nil, the a test
- *                    failure will be reported if the shake attempt fails.
+ *  @param[out] error Error that will be populated on failure. If @c nil, the a test failure will be
+ *                    reported if the shake attempt fails.
  *
  *  @throws GREYFrameworkException if the action fails and @c error is @c nil.
  *  @return @c YES if the shake was successful, @c NO otherwise. If @c error is @c nil and
