@@ -133,7 +133,7 @@ UIWindow *GREYGetApplicationKeyWindow(UIApplication *application) {
     }
   }
 
-  // After sorting, reverse the windows because they need to appear from top-most to bottom-most.
+  // After sorting, reverse the windows because they need to appear from front to back.
   return [[windows sortedArrayWithOptions:NSSortStable
                           usingComparator:^NSComparisonResult(id obj1, id obj2) {
                             if ([obj1 windowLevel] < [obj2 windowLevel]) {
