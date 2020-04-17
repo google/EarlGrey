@@ -207,7 +207,7 @@ class MyFirstEarlGreyTest: XCTestCase {
 ### More Details
 
 For more details about the setup, take a look at the EarlGrey 2.0
-[FunctionalTests](../Tests/FunctionalTests/docs/setup.md) Project. To get
+[FunctionalTests](../Tests/Functional/README.md) Project. To get
 started with making white-box calls, take a look at this doc:
 
 *   [White-Boxing Pre-requisites](white-boxing-setup-guide.md)
