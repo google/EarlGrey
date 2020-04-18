@@ -155,17 +155,16 @@
 }
 
 /**
- *  Tests EarlGrey's host application crash handler is not called if EDOClientService::errorHandler
- *  is overridden.
+ *  Tests EarlGrey's host application crash handler is not called if EarlGrey's
+ *  EDOClientErrorHandler is overridden.
  */
 - (void)testCrashHandlerIsNotInvokedWhenOverrideEDOErrorHandler {
-  EDOClientErrorHandler defaultErrorHandler = EDOClientService.errorHandler;
   __block BOOL isErrorHandlerCalled = NO;
-  EDOClientService.errorHandler = ^(NSError *error) {
+  EDOClientErrorHandler greyErrorHandler = EDOSetClientErrorHandler(^(NSError *error) {
     isErrorHandlerCalled = YES;
-  };
+  });
   [self addTeardownBlock:^{
-    EDOClientService.errorHandler = defaultErrorHandler;
+    EDOSetClientErrorHandler(greyErrorHandler);
   }];
 
   [_dummyTest setUp];
