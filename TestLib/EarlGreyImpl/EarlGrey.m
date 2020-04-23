@@ -274,7 +274,7 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
   [XCTestCase grey_setHostApplicationCrashHandler:handler];
 }
 
-- (void)setRemoteExecutionsDispatchPolicy:(GREYRemoteExecutionsDispatchPolicy)dispatchPolicy {
+- (void)setRemoteExecutionDispatchPolicy:(GREYRemoteExecutionDispatchPolicy)dispatchPolicy {
   GREYError *setPolicyError;
   GREYTestApplicationDistantObject *distantObject = GREYTestApplicationDistantObject.sharedInstance;
   if (![distantObject setDispatchPolicy:dispatchPolicy error:&setPolicyError]) {

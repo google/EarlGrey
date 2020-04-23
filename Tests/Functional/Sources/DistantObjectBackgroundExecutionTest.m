@@ -20,7 +20,7 @@
   [super setUp];
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
-    [EarlGrey setRemoteExecutionsDispatchPolicy:GREYRemoteExecutionsDispatchPolicyBackground];
+    [EarlGrey setRemoteExecutionDispatchPolicy:GREYRemoteExecutionDispatchPolicyBackground];
     XCUIApplication *application = [[XCUIApplication alloc] init];
     [application launch];
   });
@@ -54,9 +54,10 @@
 /** Verifies dispatch policy cannot be overridden after app-under-test launch. */
 - (void)testFailedToChangeDispatchPolicyAfterAppLaunch {
   BackgroundExecutionFailureHandler *handler = [self setUpFakeHandler];
-  [EarlGrey setRemoteExecutionsDispatchPolicy:GREYRemoteExecutionsDispatchPolicyMain];
+  [EarlGrey setRemoteExecutionDispatchPolicy:GREYRemoteExecutionDispatchPolicyMain];
   XCTAssertEqualObjects(handler.exception.name, @"com.google.earlgrey.InitializationErrorDomain");
-  XCTAssertTrue([handler.exception.reason containsString:@"service was already started"]);
+  XCTAssertTrue([handler.exception.reason
+      containsString:@"You cannot set dispatch policy after XCUIApplication::launch."]);
 }
 
 /** Verifies dispatch policy cannot be overridden after app-under-test is terminated. */
@@ -64,10 +65,11 @@
   BackgroundExecutionFailureHandler *handler = [self setUpFakeHandler];
   XCUIApplication *application = [[XCUIApplication alloc] init];
   [application terminate];
-  [EarlGrey setRemoteExecutionsDispatchPolicy:GREYRemoteExecutionsDispatchPolicyMain];
+  [EarlGrey setRemoteExecutionDispatchPolicy:GREYRemoteExecutionDispatchPolicyMain];
   [application launch];
   XCTAssertEqualObjects(handler.exception.name, @"com.google.earlgrey.InitializationErrorDomain");
-  XCTAssertTrue([handler.exception.reason containsString:@"service was already started"]);
+  XCTAssertTrue([handler.exception.reason
+      containsString:@"You cannot set dispatch policy after XCUIApplication::launch."]);
 }
 
 #pragma mark - private

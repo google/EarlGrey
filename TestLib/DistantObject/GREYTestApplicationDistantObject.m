@@ -53,7 +53,7 @@ static const void *gGREYTestExecutingQueueKey = &gGREYTestExecutingQueueKey;
 @property(getter=isHostApplicationTerminated) BOOL hostApplicationTerminated;
 
 /** @see GREYTestApplicationDistantObject::dispatchPolicy. Make this readwrite. */
-@property(nonatomic) GREYRemoteExecutionsDispatchPolicy dispatchPolicy;
+@property(nonatomic) GREYRemoteExecutionDispatchPolicy dispatchPolicy;
 
 /**
  *  Checks if @c port is a permanent eDO host port that is listening by the test host. A permanent
@@ -147,7 +147,7 @@ __attribute__((constructor)) static void SetupTestDistantObject() {
 - (instancetype)initOnce {
   self = [super init];
   if (self) {
-    _dispatchPolicy = GREYRemoteExecutionsDispatchPolicyMain;
+    _dispatchPolicy = GREYRemoteExecutionDispatchPolicyMain;
     _hostPortAllocationGroup = dispatch_group_create();
     dispatch_group_enter(_hostPortAllocationGroup);
     _hostBackgroundPortAllocationGroup = dispatch_group_create();
@@ -164,8 +164,8 @@ __attribute__((constructor)) static void SetupTestDistantObject() {
                                @"Unable to register EarlGrey's eDO service on the main thread as "
                                @"there's one already running.");
     dispatch_queue_t mainQueue = dispatch_get_main_queue();
-    GREYRemoteExecutionsDispatchPolicy dispatchPolicy = self.dispatchPolicy;
-    if (dispatchPolicy == GREYRemoteExecutionsDispatchPolicyMain) {
+    GREYRemoteExecutionDispatchPolicy dispatchPolicy = self.dispatchPolicy;
+    if (dispatchPolicy == GREYRemoteExecutionDispatchPolicyMain) {
       _executingQueue = mainQueue;
       _service = [EDOHostService serviceWithPort:0 rootObject:self queue:_executingQueue];
     } else {
@@ -248,10 +248,10 @@ __attribute__((constructor)) static void SetupTestDistantObject() {
   }
 }
 
-- (BOOL)setDispatchPolicy:(GREYRemoteExecutionsDispatchPolicy)dispatchPolicy
+- (BOOL)setDispatchPolicy:(GREYRemoteExecutionDispatchPolicy)dispatchPolicy
                     error:(NSError **)error {
-  GREYFatalAssertWithMessage(dispatchPolicy == GREYRemoteExecutionsDispatchPolicyMain ||
-                                 dispatchPolicy == GREYRemoteExecutionsDispatchPolicyBackground,
+  GREYFatalAssertWithMessage(dispatchPolicy == GREYRemoteExecutionDispatchPolicyMain ||
+                                 dispatchPolicy == GREYRemoteExecutionDispatchPolicyBackground,
                              @"Received unexpected policy: %lu", (unsigned long)dispatchPolicy);
   // Checks if there's already an EDOHostService serving test's main queue. If that's the case,
   // this class already created the EDOHostService to serve remote invocations from the app side.
