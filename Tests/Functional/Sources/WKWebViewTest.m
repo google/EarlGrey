@@ -97,7 +97,7 @@
   NSError *error = nil;
   CFTimeInterval originalInteractionTimeout =
       GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
-  [[GREYConfiguration sharedConfiguration] setValue:@(1.5)
+  [[GREYConfiguration sharedConfiguration] setValue:@(5)
                                        forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
   EDORemoteVariable<NSString *> *javaScriptResult = [[EDORemoteVariable alloc] init];
   NSString *jsStringEqualTimeout =
@@ -131,9 +131,9 @@
   // Use XCUITest to ensure that the page has loaded.
   XCUIApplication *application = [[XCUIApplication alloc] init];
 #if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 120000)
-  XCTAssertTrue([[application.links firstMatch] waitForExistenceWithTimeout:2.0]);
+  XCTAssertTrue([[application.links firstMatch] waitForExistenceWithTimeout:4.0]);
 #else
-  XCTAssertTrue([[application.links elementBoundByIndex:0] waitForExistenceWithTimeout:1.0]);
+  XCTAssertTrue([[application.links elementBoundByIndex:0] waitForExistenceWithTimeout:4.0]);
 #endif
 }
 
