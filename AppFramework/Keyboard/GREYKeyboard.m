@@ -233,7 +233,9 @@ __attribute__((constructor)) static void RegisterKeyboardLifecycleHooks() {
       });
     }
 
-    TapKey(key, errorOrNil);
+    if (!TapKey(key, errorOrNil)) {
+      return NO;
+    }
 
     if (keyboardTypeWasChangedFromEmailType) {
       // Set the keyboard type back to the Email Type.
