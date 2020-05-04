@@ -29,7 +29,8 @@
   __block NSMutableString *log = [[NSMutableString alloc] init];
   void (^hierarchyBlock)(void) = ^(void) {
     long unsigned index = 0;
-    for (UIWindow *window in [GREYUIWindowProvider allWindowsWithStatusBar:NO]) {
+    NSArray<UIWindow *> *windows = [GREYUIWindowProvider allWindowsWithStatusBar:NO];
+    for (UIWindow *window in windows.reverseObjectEnumerator) {
       if (index != 0) {
         [log appendString:@"\n"];
       }
@@ -70,9 +71,10 @@
 
   NSMutableString *animationInfoString = [[NSMutableString alloc] init];
 
-  // Traverse the hierarchy associated with the element.
+  // Traverse the hierarchy associated with the element from back to front as per the
+  // UIView::subviews order.
   GREYTraversalDFS *traversal =
-      [GREYTraversalDFS frontToBackHierarchyForElementWithDFSTraversal:element];
+      [GREYTraversalDFS backToFrontHierarchyForElementWithDFSTraversal:element zOrdering:NO];
 
   // Enumerate the hierarchy using block enumeration.
   [traversal enumerateUsingBlock:^(GREYTraversalObject *object, BOOL *stop) {
