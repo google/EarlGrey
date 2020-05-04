@@ -203,7 +203,6 @@ __attribute__((constructor)) static void RegisterKeyboardLifecycleHooks() {
 
     return NO;
   }
-
   for (NSUInteger index = 0; index < string.length; index++) {
     NSString *characterAsString =
         [NSString stringWithFormat:@"%C", [string characterAtIndex:index]];
@@ -253,6 +252,16 @@ __attribute__((constructor)) static void RegisterKeyboardLifecycleHooks() {
         [characterAsString isEqualToString:kDeleteKeyIdentifier] ||
         [[NSCharacterSet uppercaseLetterCharacterSet] characterIsMember:character]) {
       WaitAndFindKeyForCharacter(@"q", kAutomaticKeyplaneUpdateDuration);
+      // For some reason, in iOS 12, when the automatic keyplane change happens after typing space,
+      // delete key, or typing uppercase character, within the following second, keyboard
+      // occasionally snaps back to lower keyplane again. This led to multiple bugs where EarlGrey
+      // was tapping on a different key or it was failing the tap action because the element
+      // disappeared from the screen. This check makes sure it gives enough time for the keyboard
+      // to change back before we move on to the next character.
+      // TODO(b/149326665): Figure out how to fix this properly without explicitly waiting.
+      if (!iOS13_OR_ABOVE()) {
+        [[GREYUIThreadExecutor sharedInstance] drainForTime:0.5f];
+      }
     }
   }
 
