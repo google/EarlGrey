@@ -38,6 +38,9 @@
 #import "XCTestCase+GREYTest.h"
 #import "EDOClientService.h"
 
+/** Timeout for XCUITest actions that need the waiting API. */
+static const CFTimeInterval kWaitForExistenceTimeout = 10;
+
 /**
  *  Sets EarlGrey provided default failure handler if there's no failure handler set for the current
  *  thread.
@@ -193,6 +196,7 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
 - (BOOL)openDeepLinkURL:(NSString *)URL
         withApplication:(XCUIApplication *)application
                   error:(NSError **)error {
+#if TARGET_OS_IOS
   XCUIApplication *safariApp =
       [[XCUIApplication alloc] initWithBundleIdentifier:@"com.apple.mobilesafari"];
   [safariApp activate];
@@ -201,32 +205,30 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
 
   // As Safari loads up for the first time, the URL is not clickable and we have to wait for the app
   // to be hittable for it.
-  if (safariApp.hittable) {
-#if TARGET_OS_IOS
-    if (![safariApp.textFields[@"URL"] exists]) {
-      [safariApp.buttons[@"URL"] tap];
-    }
-    [safariApp typeText:URL];
+  XCUIElement *safariURLBarButton = safariApp.buttons[@"URL"];
+  if ([safariURLBarButton waitForExistenceWithTimeout:kWaitForExistenceTimeout] &&
+      safariApp.hittable) {
+    [safariURLBarButton tap];
+    [safariApp.textFields[@"URL"] typeText:URL];
     [safariApp.buttons[@"Go"] tap];
-#endif  // TARGET_OS_IOS
   } else if (error) {
     *error = GREYErrorMake(kGREYDeeplinkErrorDomain, kGREYInteractionActionFailedErrorCode,
                            @"Deeplink open action failed since URL field not present.");
   }
-
-  XCUIElement *openBtn = safariApp.buttons[@"Open"];
-  if ([openBtn waitForExistenceWithTimeout:10]) {
-#if TARGET_OS_IOS
+  XCUIElement *openButton = safariApp.buttons[@"Open"];
+  if ([openButton waitForExistenceWithTimeout:kWaitForExistenceTimeout]) {
     [safariApp.buttons[@"Open"] tap];
-#endif  // TARGET_OS_IOS
     return YES;
   } else if (error) {
     *error = GREYErrorMake(kGREYDeeplinkErrorDomain, kGREYInteractionActionFailedErrorCode,
                            @"Deeplink open action failed since Open Button on the app dialog for "
                            @"the deeplink not present.");
+    // Reset Safari.
+    [safariApp terminate];
   }
   // This is needed otherwise failed tests will stall until failure.
   [application activate];
+#endif  // TARGET_OS_IOS
   return NO;
 }
 #endif  // defined(__IPHONE_11_0)
