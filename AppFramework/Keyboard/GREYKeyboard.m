@@ -248,18 +248,20 @@ __attribute__((constructor)) static void RegisterKeyboardLifecycleHooks() {
     // think the key is already updated on screen. On iPad, the layout changes faster than
     // accessibility, so we need to wait for accessibility change.
     unichar character = [characterAsString characterAtIndex:0];
-    if ([characterAsString isEqualToString:kSpaceKeyIdentifier] ||
-        [characterAsString isEqualToString:kDeleteKeyIdentifier] ||
-        [[NSCharacterSet uppercaseLetterCharacterSet] characterIsMember:character]) {
+    BOOL isSpaceKey = [characterAsString isEqualToString:kSpaceKeyIdentifier];
+    BOOL isDeleteKey = [characterAsString isEqualToString:kDeleteKeyIdentifier];
+    BOOL isUppercase = [[NSCharacterSet uppercaseLetterCharacterSet] characterIsMember:character];
+    if (isSpaceKey || isUppercase || isDeleteKey) {
       WaitAndFindKeyForCharacter(@"q", kAutomaticKeyplaneUpdateDuration);
       // For some reason, in iOS 12, when the automatic keyplane change happens after typing space,
       // delete key, or typing uppercase character, within the following second, keyboard
       // occasionally snaps back to lower keyplane again. This led to multiple bugs where EarlGrey
       // was tapping on a different key or it was failing the tap action because the element
       // disappeared from the screen. This check makes sure it gives enough time for the keyboard
-      // to change back before we move on to the next character.
+      // to change back before we move on to the next character. Skipping when this happens for back
+      // space as it would be uncommon and will significantly slow down the clearText: action.
       // TODO(b/149326665): Figure out how to fix this properly without explicitly waiting.
-      if (!iOS13_OR_ABOVE()) {
+      if (!isDeleteKey || !iOS13_OR_ABOVE()) {
         [[GREYUIThreadExecutor sharedInstance] drainForTime:0.5f];
       }
     }
