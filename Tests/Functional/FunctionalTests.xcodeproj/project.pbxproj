@@ -1722,7 +1722,7 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OBJC_BRIDGING_HEADER = Sources/Swift/SwiftTestBridgingHeader.h;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = FunctionalTestRigSwift;
 				USER_HEADER_SEARCH_PATHS = "../../Submodules/eDistantObject/** ../../**";
@@ -1744,7 +1744,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = Sources/Swift/SwiftTestBridgingHeader.h;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = FunctionalTestRigSwift;
 				USER_HEADER_SEARCH_PATHS = "../../Submodules/eDistantObject/** ../../**";
@@ -1770,7 +1770,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = "";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1793,7 +1793,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.com.FunctionalTestRig;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
-				SWIFT_VERSION = "";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -1821,7 +1821,7 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = ../TestRig/Sources/Swift/SwiftTestRigBridgingHeader.h;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 5.0;
 				USER_HEADER_SEARCH_PATHS = "../../Submodules/eDistantObject/** ../../** HostDOCategories/Swift/ Sources/Swift/ Sources/";
 				WRAPPER_EXTENSION = bundle;
 			};
@@ -1849,7 +1849,7 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = ../TestRig/Sources/Swift/SwiftTestRigBridgingHeader.h;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 5.0;
 				USER_HEADER_SEARCH_PATHS = "../../Submodules/eDistantObject/** ../../** HostDOCategories/Swift/ Sources/Swift/ Sources/";
 				WRAPPER_EXTENSION = bundle;
 			};
