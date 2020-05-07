@@ -301,6 +301,13 @@
       // Add the error obtained from the action to the user info notification dictionary.
       [actionUserInfo setObject:actionError forKey:kGREYActionErrorUserInfoKey];
     }
+    grey_dispatch_sync_on_main_thread(^{
+      // Post notification for the process of an action's execution being completed. This
+      // notification does not mean that the action was performed successfully.
+      [notificationCenter postNotificationName:kGREYDidPerformActionNotification
+                                        object:nil
+                                      userInfo:actionUserInfo];
+    });
   }
   [stopwatch stop];
 
@@ -398,6 +405,13 @@
           [assertionUserInfo setObject:assertionError forKey:kGREYAssertionErrorUserInfoKey];
         }
       }
+
+      // Post notification for the process of an assertion's execution on the specified element
+      // being completed. This notification does not mean that the assertion was performed
+      // successfully.
+      [notificationCenter postNotificationName:kGREYDidPerformAssertionNotification
+                                        object:nil
+                                      userInfo:assertionUserInfo];
     }
   };
 
