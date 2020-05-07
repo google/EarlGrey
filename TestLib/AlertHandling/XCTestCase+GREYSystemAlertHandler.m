@@ -84,11 +84,6 @@ static NSString *const kSystemAlertLabelContacts = @"Contacts";
  */
 CFTimeInterval const kSystemAlertEarlGreyVisibilityTimeout = 5;
 
-/**
- *  The springboard's application controlled by XCUITest.
- */
-static XCUIApplication *gSpringBoardApplication;
-
 CFTimeInterval const kSystemAlertVisibilityTimeout = 10;
 
 NSString *const kGREYSystemAlertDismissalErrorDomain = @"com.google.earlgrey.SystemAlertDismissal";
@@ -97,6 +92,7 @@ NSString *const kGREYSystemAlertDismissalErrorDomain = @"com.google.earlgrey.Sys
  *  @return The Springboard's XCUIApplication.
  */
 static XCUIApplication *GREYSpringboardApplication() {
+  static XCUIApplication *gSpringBoardApplication;
   static dispatch_once_t token = 0;
   dispatch_once(&token, ^{
     gSpringBoardApplication =
