@@ -1472,7 +1472,6 @@
 				FD623CED20FD1A6E00049E81 /* ImageViewController.m in Sources */,
 				FD623CBF20FD1A6E00049E81 /* VisibilityTestViewController.m in Sources */,
 				FD623CE920FD1A6E00049E81 /* ScrollViewController.m in Sources */,
-				76DAC13E242EE51200557F3C /* DistantObjectBackgroundExecutionTest.m in Sources */,
 				FD623CB820FD1A6E00049E81 /* AnimationViewController.m in Sources */,
 				FD623CDD20FD1A6E00049E81 /* ActionSheetViewController.m in Sources */,
 				FDDE2FC1212CECAF00EB40F7 /* main.m in Sources */,
