@@ -16,7 +16,7 @@
 
 #import "XCTestCase+GREYSystemAlertHandler.h"
 
-#import <objc/runtime.h>
+#include <objc/runtime.h>
 
 #import "GREYThrowDefines.h"
 #import "GREYTestApplicationDistantObject.h"
