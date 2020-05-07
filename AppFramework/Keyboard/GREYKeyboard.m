@@ -261,7 +261,7 @@ __attribute__((constructor)) static void RegisterKeyboardLifecycleHooks() {
       // to change back before we move on to the next character. Skipping when this happens for back
       // space as it would be uncommon and will significantly slow down the clearText: action.
       // TODO(b/149326665): Figure out how to fix this properly without explicitly waiting.
-      if (!isDeleteKey || !iOS13_OR_ABOVE()) {
+      if (!isDeleteKey && !iOS13_OR_ABOVE()) {
         [[GREYUIThreadExecutor sharedInstance] drainForTime:0.5f];
       }
     }
