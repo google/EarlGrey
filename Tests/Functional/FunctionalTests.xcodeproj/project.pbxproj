@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		76DAC13E242EE51200557F3C /* DistantObjectBackgroundExecutionTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DAC13D242EE51100557F3C /* DistantObjectBackgroundExecutionTest.m */; };
 		76DAC16B242EE77E00557F3C /* libTestLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD623D2E20FD6BF900049E81 /* libTestLib.a */; };
 		76DAC16E242EE77E00557F3C /* AppFramework.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = FD623D2C20FD6BF900049E81 /* AppFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		76DAC170242EE77E00557F3C /* HostDOCategories.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = FD6678692122290B008EC4A7 /* HostDOCategories.bundle */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -1472,7 +1471,6 @@
 				FD623CED20FD1A6E00049E81 /* ImageViewController.m in Sources */,
 				FD623CBF20FD1A6E00049E81 /* VisibilityTestViewController.m in Sources */,
 				FD623CE920FD1A6E00049E81 /* ScrollViewController.m in Sources */,
-				76DAC13E242EE51200557F3C /* DistantObjectBackgroundExecutionTest.m in Sources */,
 				FD623CB820FD1A6E00049E81 /* AnimationViewController.m in Sources */,
 				FD623CDD20FD1A6E00049E81 /* ActionSheetViewController.m in Sources */,
 				FDDE2FC1212CECAF00EB40F7 /* main.m in Sources */,
@@ -1722,7 +1720,7 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OBJC_BRIDGING_HEADER = Sources/Swift/SwiftTestBridgingHeader.h;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = FunctionalTestRigSwift;
 				USER_HEADER_SEARCH_PATHS = "../../Submodules/eDistantObject/** ../../**";
@@ -1744,7 +1742,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = Sources/Swift/SwiftTestBridgingHeader.h;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = FunctionalTestRigSwift;
 				USER_HEADER_SEARCH_PATHS = "../../Submodules/eDistantObject/** ../../**";
@@ -1770,7 +1768,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1793,7 +1791,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.com.FunctionalTestRig;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -1821,7 +1819,7 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = ../TestRig/Sources/Swift/SwiftTestRigBridgingHeader.h;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 4.2;
 				USER_HEADER_SEARCH_PATHS = "../../Submodules/eDistantObject/** ../../** HostDOCategories/Swift/ Sources/Swift/ Sources/";
 				WRAPPER_EXTENSION = bundle;
 			};
@@ -1849,7 +1847,7 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = ../TestRig/Sources/Swift/SwiftTestRigBridgingHeader.h;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 4.2;
 				USER_HEADER_SEARCH_PATHS = "../../Submodules/eDistantObject/** ../../** HostDOCategories/Swift/ Sources/Swift/ Sources/";
 				WRAPPER_EXTENSION = bundle;
 			};
