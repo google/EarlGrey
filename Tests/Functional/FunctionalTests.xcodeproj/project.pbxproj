@@ -191,7 +191,6 @@
 		FD98C4C3226C3555006F8D68 /* OrientationChangeTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C497226C3553006F8D68 /* OrientationChangeTest.m */; };
 		FD98C4C4226C3555006F8D68 /* AlertViewTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C498226C3554006F8D68 /* AlertViewTest.m */; };
 		FD98C4C5226C3555006F8D68 /* ShakeTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C499226C3554006F8D68 /* ShakeTest.m */; };
-		FD98C4C8226C3571006F8D68 /* SystemAlertHandlingTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C4C6226C3570006F8D68 /* SystemAlertHandlingTest.m */; };
 		FD98C4C9226C3571006F8D68 /* ApplicationStateHandlingTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C4C7226C3570006F8D68 /* ApplicationStateHandlingTest.m */; };
 		FD98C4CC226C3AC1006F8D68 /* GREYHostApplicationDistantObject+ErrorHandlingTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C4CB226C3AC0006F8D68 /* GREYHostApplicationDistantObject+ErrorHandlingTest.m */; };
 		FD98C4D0226C3B91006F8D68 /* GREYHostApplicationDistantObject+SwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD98C4CE226C3B90006F8D68 /* GREYHostApplicationDistantObject+SwiftTests.swift */; };
@@ -559,7 +558,6 @@
 		FD98C497226C3553006F8D68 /* OrientationChangeTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrientationChangeTest.m; sourceTree = "<group>"; };
 		FD98C498226C3554006F8D68 /* AlertViewTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlertViewTest.m; sourceTree = "<group>"; };
 		FD98C499226C3554006F8D68 /* ShakeTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShakeTest.m; sourceTree = "<group>"; };
-		FD98C4C6226C3570006F8D68 /* SystemAlertHandlingTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemAlertHandlingTest.m; sourceTree = "<group>"; };
 		FD98C4C7226C3570006F8D68 /* ApplicationStateHandlingTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplicationStateHandlingTest.m; sourceTree = "<group>"; };
 		FD98C4CA226C3ABF006F8D68 /* GREYHostApplicationDistantObject+ErrorHandlingTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GREYHostApplicationDistantObject+ErrorHandlingTest.h"; sourceTree = "<group>"; };
 		FD98C4CB226C3AC0006F8D68 /* GREYHostApplicationDistantObject+ErrorHandlingTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GREYHostApplicationDistantObject+ErrorHandlingTest.m"; sourceTree = "<group>"; };
@@ -688,7 +686,6 @@
 				76DAC13D242EE51100557F3C /* DistantObjectBackgroundExecutionTest.m */,
 				76480F8C23CEA04100D6047B /* DistantObjectCrashHandlerTest.m */,
 				FD98C4C7226C3570006F8D68 /* ApplicationStateHandlingTest.m */,
-				FD98C4C6226C3570006F8D68 /* SystemAlertHandlingTest.m */,
 				FD98C483226C353C006F8D68 /* AccessibilityTest.m */,
 				FD98C47A226C352C006F8D68 /* ActionSheetTest.m */,
 				FD98C495226C3551006F8D68 /* ActivityIndicatorTest.m */,
@@ -1399,7 +1396,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FD98C4C8226C3571006F8D68 /* SystemAlertHandlingTest.m in Sources */,
 				FD98C4C9226C3571006F8D68 /* ApplicationStateHandlingTest.m in Sources */,
 				FD98C4D9226C3E03006F8D68 /* BaseIntegrationTest.m in Sources */,
 			);
