@@ -77,25 +77,11 @@ typedef NS_ENUM(NSInteger, GREYInteractionErrorCode) {
 GREY_EXTERN NSString *const kGREYWillPerformActionNotification;
 
 /**
- *  Notification name for when an action has been performed. The action itself is contained in the
- *  @c userInfo object from the @c notification and can be obtained using the key
- *  @c kGREYActionUserInfoKey.
- */
-GREY_EXTERN NSString *const kGREYDidPerformActionNotification;
-
-/**
  *  Notification name for when an assertion will be checked. The assertion itself is contained in
  *  the @c userInfo object from the @c notification and can be obtained using the key
  *  @c kGREYAssertionUserInfoKey.
  */
 GREY_EXTERN NSString *const kGREYWillPerformAssertionNotification;
-
-/**
- *  Notification name for when an assertion has been performed. The assertion itself is contained
- *  in the @c userInfo object from the @c notification and can be obtained using the key
- *  @c kGREYAssertionUserInfoKey.
- */
-GREY_EXTERN NSString *const kGREYDidPerformAssertionNotification;
 
 /**
  *  User Info dictionary key for the action performed.

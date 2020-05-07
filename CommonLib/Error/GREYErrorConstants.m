@@ -27,9 +27,7 @@ NSString *const kErrorDetailConstraintDetailsKey = @"All Constraint(s)";
 
 NSString *const kGREYInteractionErrorDomain = @"com.google.earlgrey.ElementInteractionErrorDomain";
 NSString *const kGREYWillPerformActionNotification = @"GREYWillPerformActionNotification";
-NSString *const kGREYDidPerformActionNotification = @"GREYDidPerformActionNotification";
 NSString *const kGREYWillPerformAssertionNotification = @"GREYWillPerformAssertionNotification";
-NSString *const kGREYDidPerformAssertionNotification = @"GREYDidPerformAssertionNotification";
 
 NSString *const kGREYSyntheticEventInjectionErrorDomain =
     @"com.google.earlgrey.SyntheticEventInjectionErrorDomain";

@@ -28,9 +28,7 @@ GREY_EXTERN NSString *const kErrorDetailConstraintDetailsKey;
  */
 GREY_EXTERN NSString *const kGREYInteractionErrorDomain;
 GREY_EXTERN NSString *const kGREYWillPerformActionNotification;
-GREY_EXTERN NSString *const kGREYDidPerformActionNotification;
 GREY_EXTERN NSString *const kGREYWillPerformAssertionNotification;
-GREY_EXTERN NSString *const kGREYDidPerformAssertionNotification;
 
 /**
  *  Error domain for synthetic event injection failures.
