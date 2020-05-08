@@ -15,9 +15,10 @@
 //
 
 #import "GREYHostBackgroundDistantObject+BasicInteractionTest.h"
-#import "GREYElementHierarchy.h"
 
-#import <objc/runtime.h>
+#include <objc/runtime.h>
+
+#import "GREYElementHierarchy.h"
 
 @implementation GREYHostBackgroundDistantObject (BasicInteractionTest)
 

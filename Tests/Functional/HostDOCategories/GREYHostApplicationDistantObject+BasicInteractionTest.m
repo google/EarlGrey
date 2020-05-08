@@ -14,12 +14,13 @@
 // limitations under the License.
 //
 
+#import "GREYHostApplicationDistantObject+BasicInteractionTest.h"
+
+#include <objc/runtime.h>
+
 #import "GREYActionsShorthand.h"
 #import "GREYMatchersShorthand.h"
-#import "GREYHostApplicationDistantObject+BasicInteractionTest.h"
 #import "GREYElementHierarchy.h"
-
-#import <objc/runtime.h>
 
 /**
  *  A sample view controller that's set as the root for testing purposes.

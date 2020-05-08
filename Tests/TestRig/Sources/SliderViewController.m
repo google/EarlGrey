@@ -16,7 +16,7 @@
 
 #import "SliderViewController.h"
 
-#import <tgmath.h>
+#include <tgmath.h>
 
 @implementation SliderViewController
 

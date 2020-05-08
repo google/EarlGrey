@@ -16,7 +16,7 @@
 
 #import "GREYHostApplicationDistantObject+VisibilityTest.h"
 
-#include "objc/runtime.h"
+#include <objc/runtime.h>
 
 #import "GREYInteraction.h"
 #import "GREYAllOf.h"

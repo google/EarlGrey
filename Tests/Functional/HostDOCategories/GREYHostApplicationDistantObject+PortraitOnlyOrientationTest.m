@@ -16,9 +16,9 @@
 
 #import "GREYHostApplicationDistantObject+PortraitOnlyOrientationTest.h"
 
-#include "objc/runtime.h"
-
 #import <UIKit/UIKit.h>
+
+#include <objc/runtime.h>
 
 #import "GREYSwizzler.h"
 

@@ -16,7 +16,7 @@
 
 #import "NSURL+GREYApp.h"
 
-#import <objc/runtime.h>
+#include <objc/runtime.h>
 
 #import "GREYFatalAsserts.h"
 #import "GREYThrowDefines.h"

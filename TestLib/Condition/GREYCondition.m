@@ -17,7 +17,8 @@
 #import "GREYCondition.h"
 
 #import <QuartzCore/QuartzCore.h>
-#import <mach/mach_time.h>
+
+#include <mach/mach_time.h>
 
 #import "GREYFatalAsserts.h"
 #import "GREYThrowDefines.h"

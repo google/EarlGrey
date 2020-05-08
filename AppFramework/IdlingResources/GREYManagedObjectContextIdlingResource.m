@@ -17,7 +17,8 @@
 #import "GREYManagedObjectContextIdlingResource.h"
 
 #import <CoreData/CoreData.h>
-#import <objc/runtime.h>
+
+#include <objc/runtime.h>
 
 #import "GREYDispatchQueueIdlingResource.h"
 #import "GREYUIThreadExecutor+Private.h"

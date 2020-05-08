@@ -16,7 +16,7 @@
 
 #import "GREYObjectDeallocationTracker.h"
 
-#import <objc/runtime.h>
+#include <objc/runtime.h>
 
 #import "GREYThrowDefines.h"
 

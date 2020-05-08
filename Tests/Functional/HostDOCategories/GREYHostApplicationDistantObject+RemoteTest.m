@@ -15,7 +15,7 @@
 //
 #import "GREYHostApplicationDistantObject+RemoteTest.h"
 
-#import <objc/runtime.h>
+#include <objc/runtime.h>
 
 #import "GREYTestApplicationDistantObject.h"
 #import "GREYUIWindowProvider.h"
