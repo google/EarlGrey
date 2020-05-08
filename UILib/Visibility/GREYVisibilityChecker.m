@@ -40,21 +40,9 @@ const NSUInteger kMinimumPointsVisibleForInteraction = 10;
  */
 static NSMapTable<NSString *, GREYVisibilityCheckerCacheEntry *> *gCache;
 
-// TODO(b/148309356): Remove the flags for fast_visibility check for phased rollout of quick
-// visibility checker;
-/** Flag for testing purpose. */
-static BOOL gUseThoroughVisibilityChecker;
-
 #pragma mark - GREYVisibilityChecker
 
 @implementation GREYVisibilityChecker
-
-+ (void)initialize {
-  if (self == [GREYVisibilityChecker class]) {
-    gUseThoroughVisibilityChecker =
-        [NSProcessInfo.processInfo.environment[@"thorough_visibility"] isEqualToString:@"true"];
-  }
-}
 
 + (BOOL)isNotVisible:(id)element {
   return [self percentVisibleAreaOfElement:element] == 0;
@@ -73,14 +61,8 @@ static BOOL gUseThoroughVisibilityChecker;
 
   // Fallback set to YES means we should use the slow visibility checker.
   BOOL fallback = NO;
-  CGFloat result = 0.0f;
-
-  if (!gUseThoroughVisibilityChecker) {
-    result = [GREYQuickVisibilityChecker percentVisibleAreaOfElement:element
-                                                     performFallback:&fallback];
-  } else {
-    fallback = YES;
-  }
+  CGFloat result = [GREYQuickVisibilityChecker percentVisibleAreaOfElement:element
+                                                           performFallback:&fallback];
 
   if (fallback) {
     result = [GREYThoroughVisibilityChecker percentVisibleAreaOfElement:element];
@@ -102,14 +84,8 @@ static BOOL gUseThoroughVisibilityChecker;
   }
   // Fallback set to YES means we should use the slow visibility checker.
   BOOL fallback = NO;
-  CGPoint result = CGPointZero;
-  if (!gUseThoroughVisibilityChecker) {
-    result = [GREYQuickVisibilityChecker visibleInteractionPointForElement:element
-                                                           performFallback:&fallback];
-  } else {
-    fallback = YES;
-  }
-
+  CGPoint result = [GREYQuickVisibilityChecker visibleInteractionPointForElement:element
+                                                                 performFallback:&fallback];
   if (fallback) {
     result = [GREYThoroughVisibilityChecker visibleInteractionPointForElement:element];
   }
