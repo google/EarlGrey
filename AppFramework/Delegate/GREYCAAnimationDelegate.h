@@ -20,33 +20,33 @@
 @interface GREYCAAnimationDelegate : NSObject
 
 /**
- *  Wraps the passed in CAAnimationDelegate in a GREYSurrogateDelegate for helping in tracking
- *  the delegate's animation start and stop events for better synchronization.
+ * Wraps the passed in CAAnimationDelegate in a GREYSurrogateDelegate for helping in tracking
+ * the delegate's animation start and stop events for better synchronization.
  *
- *  @param delegate The CAAnimationDelegate animation delegate that is to be swizzled.
+ * @param delegate The CAAnimationDelegate animation delegate that is to be swizzled.
  *
- *  @return An NSObject conforming to CAAnimationDelegate.
+ * @return An NSObject conforming to CAAnimationDelegate.
  */
 + (id<CAAnimationDelegate>)surrogateDelegateForDelegate:(id<CAAnimationDelegate>)delegate;
 
 /**
- *  @remark init is not an available initializer. Use surrogateDelegateForDelegate.
+ * @remark init is not an available initializer. Use surrogateDelegateForDelegate.
  */
 - (instancetype)init NS_UNAVAILABLE;
 
 /**
- *  Called when the animation begins its active duration.
+ * Called when the animation begins its active duration.
  *
- *  @param animation The animation that has started.
+ * @param animation The animation that has started.
  */
 - (void)animationDidStart:(CAAnimation *)animation;
 
 /**
- *  Called when the animation completes its active duration or is removed from the object it is
- *  attached to.
+ * Called when the animation completes its active duration or is removed from the object it is
+ * attached to.
  *
- *  @param animation The animation that has stopped.
- *  @param finished  @c YES if the animation has finished, @c NO if it stopped for other reasons.
+ * @param animation The animation that has stopped.
+ * @param finished  @c YES if the animation has finished, @c NO if it stopped for other reasons.
  */
 - (void)animationDidStop:(CAAnimation *)animation finished:(BOOL)finished;
 

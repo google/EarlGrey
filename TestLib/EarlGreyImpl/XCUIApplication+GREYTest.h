@@ -19,8 +19,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  Class for extending XCUIApplication for EarlGrey in order to inject launch arguments required
- *  for starting eDO sessions for performing RMI calls.
+ * Class for extending XCUIApplication for EarlGrey in order to inject launch arguments required
+ * for starting eDO sessions for performing RMI calls.
  */
 @interface XCUIApplication (GREYTest)
 

@@ -31,22 +31,22 @@
 #import "NSError+GREYCommon.h"
 
 /**
- *  Reduce the magnitude of vector in the direction of pinch action to make sure that it is minimum
- *  of either height or width of the view.
+ * Reduce the magnitude of vector in the direction of pinch action to make sure that it is minimum
+ * of either height or width of the view.
  */
 static CGFloat const kPinchScale = (CGFloat)0.8;
 
 @implementation GREYPinchAction {
   /**
-   *  Pinch direction.
+   * Pinch direction.
    */
   GREYPinchDirection _pinchDirection;
   /**
-   *  The duration within which the pinch action must be completed.
+   * The duration within which the pinch action must be completed.
    */
   CFTimeInterval _duration;
   /**
-   *  The angle in which in the pinch direction in pointing.
+   * The angle in which in the pinch direction in pointing.
    */
   double _pinchAngle;
 }
@@ -202,11 +202,11 @@ static CGFloat const kPinchScale = (CGFloat)0.8;
 #pragma mark - private
 
 /**
- *  Returns a point at an @c angle on a circle having @c center and @c radius.
+ * Returns a point at an @c angle on a circle having @c center and @c radius.
  *
- *  @param angle   Angle to which a point is to be located on the given circle.
- *  @param center  Center of the circle.
- *  @param radius  Radius of the circle.
+ * @param angle   Angle to which a point is to be located on the given circle.
+ * @param center  Center of the circle.
+ * @param radius  Radius of the circle.
  */
 - (CGPoint)grey_pointOnCircleAtAngle:(double)angle center:(CGPoint)center radius:(CGFloat)radius {
   return CGPointMake(center.x + (CGFloat)(radius * cos(angle)),

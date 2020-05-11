@@ -25,8 +25,8 @@
 #import "GREYSwizzler.h"
 
 /**
- *  List for all the runloop modes that have been pushed and unpopped using UIApplication's push/pop
- *  runloop mode methods. The most recently pushed runloop mode is at the end of the list.
+ * List for all the runloop modes that have been pushed and unpopped using UIApplication's push/pop
+ * runloop mode methods. The most recently pushed runloop mode is at the end of the list.
  */
 static NSMutableArray *gRunLoopModes;
 

@@ -17,14 +17,14 @@
 #import <UIKit/UIKit.h>
 
 /**
- *  Additions for the UISwitch class.
+ * Additions for the UISwitch class.
  */
 @interface UISwitch (GREYApp)
 
 /**
- *  @param onState The specified switch state.
+ * @param onState The specified switch state.
  *
- *  @return A string representation of the specified switch state.
+ * @return A string representation of the specified switch state.
  */
 + (NSString *)grey_stringFromOnState:(BOOL)onState;
 

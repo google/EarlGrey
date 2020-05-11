@@ -23,7 +23,7 @@
 @interface GREYObjectDeallocationTracker ()
 
 /**
- *  Weakly held delegate property to convey the message that the object is being deallocated.
+ * Weakly held delegate property to convey the message that the object is being deallocated.
  */
 @property(nonatomic, weak) id<GREYObjectDeallocationTrackerDelegate> deallocDelegate;
 

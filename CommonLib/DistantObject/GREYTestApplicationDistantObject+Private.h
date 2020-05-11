@@ -31,14 +31,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property(readonly, getter=isHostApplicationTerminated) BOOL hostApplicationTerminated;
 
 /**
- *  Changes the remote execution dispatch policy of the eDO service, which is held by this class.
- *  @see GREYRemoteExecutionDispatchPolicy for more details about the behavior of each policy.
+ * Changes the remote execution dispatch policy of the eDO service, which is held by this class.
+ * @see GREYRemoteExecutionDispatchPolicy for more details about the behavior of each policy.
  *
- *  @param dispatchPolicy The new dispatch policy to apply.
- *  @param[out] error     Error that will be populated if @c dispatchPolicy cannot be applied.
+ * @param dispatchPolicy The new dispatch policy to apply.
+ * @param[out] error     Error that will be populated if @c dispatchPolicy cannot be applied.
  *
- *  @return @c YES if @c dispatchPolicy is applied; @c NO otherwise, in which case the reason is
- *          populated through @c error.
+ * @return @c YES if @c dispatchPolicy is applied; @c NO otherwise, in which case the reason is
+ *         populated through @c error.
  */
 - (BOOL)setDispatchPolicy:(GREYRemoteExecutionDispatchPolicy)dispatchPolicy error:(NSError **)error;
 

@@ -17,11 +17,11 @@
 #import <Foundation/Foundation.h>
 
 /**
- *  Class responsible for preparing the test environment for automation.
+ * Class responsible for preparing the test environment for automation.
  */
 @interface GREYAutomationSetup : NSObject
 /**
- *  @remark init is not an available initializer. Use singleton instance.
+ * @remark init is not an available initializer. Use singleton instance.
  */
 - (instancetype)init NS_UNAVAILABLE;
 

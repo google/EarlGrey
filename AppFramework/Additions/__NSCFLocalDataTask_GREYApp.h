@@ -17,24 +17,24 @@
 #import <Foundation/Foundation.h>
 
 /**
- *  Additions to NSURLSessionTask to allow EarlGrey to track status for every network request. By
- *  default EarlGrey tracks all URLs. To change this behavior, add blacklisted URL regex's to
- *  @c GREYConfiguration with key @c kGREYConfigKeyURLBlacklistRegex.
+ * Additions to NSURLSessionTask to allow EarlGrey to track status for every network request. By
+ * default EarlGrey tracks all URLs. To change this behavior, add blacklisted URL regex's to
+ * @c GREYConfiguration with key @c kGREYConfigKeyURLBlacklistRegex.
  */
 @interface __NSCFLocalDataTask_GREYApp : NSObject
 
 /**
- *  Tracks the network task so that EarlGrey waits for its completion.
+ * Tracks the network task so that EarlGrey waits for its completion.
  */
 - (void)grey_track;
 
 /**
- *  Un-tracks the network task so that EarlGrey does not wait for it anymore.
+ * Un-tracks the network task so that EarlGrey does not wait for it anymore.
  */
 - (void)grey_untrack;
 
 /**
- *  Marks the network task as an ignored request so that EarlGrey does not wait on it.
+ * Marks the network task as an ignored request so that EarlGrey does not wait on it.
  */
 - (void)grey_neverTrack;
 

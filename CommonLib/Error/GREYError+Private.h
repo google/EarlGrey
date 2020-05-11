@@ -19,73 +19,73 @@
 #import "GREYDefines.h"
 
 /**
- *  @file GREYError+Private.h
- *  @brief Exposes GREYError's interfaces and methods that are otherwise private for
- *  testing purposes.
+ * @file GREYError+Private.h
+ * @brief Exposes GREYError's interfaces and methods that are otherwise private for
+ * testing purposes.
  */
 
 /**
- *  Key used to retrieve the error test case class name from an error object dictionary.
+ * Key used to retrieve the error test case class name from an error object dictionary.
  */
 GREY_EXTERN NSString *const kErrorTestCaseClassNameKey;
 
 /**
- *  Key used to retrieve the test case method name from an error object dictionary.
+ * Key used to retrieve the test case method name from an error object dictionary.
  */
 GREY_EXTERN NSString *const kErrorTestCaseMethodNameKey;
 
 /**
- *  Key used to retrieve the file path from an error object dictionary.
+ * Key used to retrieve the file path from an error object dictionary.
  */
 GREY_EXTERN NSString *const kErrorFilePathKey;
 
 /**
- *  Key used to retrieve the file name from an error object dictionary.
+ * Key used to retrieve the file name from an error object dictionary.
  */
 GREY_EXTERN NSString *const kErrorFileNameKey;
 
 /**
- *  Key used to retrieve the line from an error object dictionary.
+ * Key used to retrieve the line from an error object dictionary.
  */
 GREY_EXTERN NSString *const kErrorLineKey;
 
 /**
- *  Key used to retrieve the function name from an error object dictionary.
+ * Key used to retrieve the function name from an error object dictionary.
  */
 GREY_EXTERN NSString *const kErrorFunctionNameKey;
 
 /**
- *  Key used to retrieve the user info from an error object dictionary.
+ * Key used to retrieve the user info from an error object dictionary.
  */
 GREY_EXTERN NSString *const kErrorUserInfoKey;
 
 /**
- *  Key used to retrieve the error info from an error object dictionary.
+ * Key used to retrieve the error info from an error object dictionary.
  */
 GREY_EXTERN NSString *const kErrorErrorInfoKey;
 
 /**
- *  Key used to retrieve the bundle ID from an error object dictionary.
+ * Key used to retrieve the bundle ID from an error object dictionary.
  */
 GREY_EXTERN NSString *const kErrorBundleIDKey;
 
 /**
- *  Key used to retrieve the stack trace from an error object dictionary.
+ * Key used to retrieve the stack trace from an error object dictionary.
  */
 GREY_EXTERN NSString *const kErrorStackTraceKey;
 
 /**
- *  Key used to retrieve the app UI hierarchy from an error object dictionary.
+ * Key used to retrieve the app UI hierarchy from an error object dictionary.
  */
 GREY_EXTERN NSString *const kErrorAppUIHierarchyKey;
 
 /**
- *  Key used to retrieve the app screenshots from an error object dictionary.
+ * Key used to retrieve the app screenshots from an error object dictionary.
  */
 GREY_EXTERN NSString *const kErrorAppScreenShotsKey;
 
 /**
- *  Key used to retrieve the description glossary from an error object dictionary.
+ * Key used to retrieve the description glossary from an error object dictionary.
  */
 GREY_EXTERN NSString *const kErrorDescriptionGlossaryKey;
 

@@ -17,7 +17,7 @@
 #import <UIKit/UIKit.h>
 
 /**
- *  Additions that allow EarlGrey to synchronize with UIGestureRecognizers.
+ * Additions that allow EarlGrey to synchronize with UIGestureRecognizers.
  */
 @interface UIGestureRecognizer (GREYApp)
 @end

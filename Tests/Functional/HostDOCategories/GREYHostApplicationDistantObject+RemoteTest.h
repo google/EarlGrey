@@ -23,71 +23,71 @@
 @interface GREYHostApplicationDistantObject (RemoteTest)
 
 /**
- *  Create a string by appending a string "make".
+ * Create a string by appending a string "make".
  *
- *  @param  str The string to append.
- *  @return The new string appending "make".
+ * @param  str The string to append.
+ * @return The new string appending "make".
  */
 - (NSString *)makeAString:(NSString *)str;
 
 /**
- *  Call back to the test process to ask for its saved host port number.
+ * Call back to the test process to ask for its saved host port number.
  *
- *  @return The port number for the test process.
+ * @return The port number for the test process.
  */
 - (uint16_t)testHostPortNumber;
 
 /**
- *  @return If the layers for all the app's windows have their speed greater than one.
+ * @return If the layers for all the app's windows have their speed greater than one.
  */
 - (BOOL)allWindowsLayerSpeedIsGreaterThanOne;
 
 /**
- *  @return If the layers for all the app's windows have their speed equal to one.
+ * @return If the layers for all the app's windows have their speed equal to one.
  */
 - (BOOL)allWindowsLayerSpeedIsEqualToOne;
 
 /**
- *  @return A GREYMatcher that returns the first matched element.
+ * @return A GREYMatcher that returns the first matched element.
  */
 - (id<GREYMatcher>)matcherForFirstElement;
 
 /**
- *  @return A GREYAction that taps on a matched element if it has an accessibility ID.
+ * @return A GREYAction that taps on a matched element if it has an accessibility ID.
  */
 - (id<GREYAction>)actionForTapOnAccessibleElement;
 
 /**
- *  @return A GREYAction that returns the text of an element.
+ * @return A GREYAction that returns the text of an element.
  */
 - (id<GREYAction>)actionForGettingTextFromMatchedElement;
 
 /**
- *  @return A GREYAssertion that taps on a matched element if it has an alpha value greater than 0.
+ * @return A GREYAssertion that taps on a matched element if it has an alpha value greater than 0.
  */
 - (id<GREYAssertion>)assertionThatAlphaIsGreaterThanZero;
 
 /**
- *  Setup an observer for listening to UITextField notifications.
+ * Setup an observer for listening to UITextField notifications.
  */
 - (void)setUpObserverForReplaceText;
 
 /**
- *  @return @c YES, if a UITextFieldTextDidBeginEditingNotification is fired on the main thread in
- *          the app, @c NO otherwise.
+ * @return @c YES, if a UITextFieldTextDidBeginEditingNotification is fired on the main thread in
+ *         the app, @c NO otherwise.
  */
 - (BOOL)textFieldTextDidBeginEditingNotificationFiredOnMainThread;
 
 /**
- *  @return The UIInterfaceOrientation of the app under test.
+ * @return The UIInterfaceOrientation of the app under test.
  */
 - (UIInterfaceOrientation)appOrientation;
 
 /**
- *  Invokes @c remoteBlock after @c delay seconds.
+ * Invokes @c remoteBlock after @c delay seconds.
  *
- *  @param block The block to be called.
- *  @param delay The seconds to wait before calling back.
+ * @param block The block to be called.
+ * @param delay The seconds to wait before calling back.
  */
 - (void)invokeRemoteBlock:(void (^)(void))block withDelay:(NSUInteger)delay;
 

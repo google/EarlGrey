@@ -32,12 +32,12 @@
 
 @implementation GREYSyntheticEvents {
   /**
-   *  The touch injector that completes the touch sequence for an event.
+   * The touch injector that completes the touch sequence for an event.
    */
   GREYTouchInjector *_touchInjector;
 
   /**
-   *  The last injected touch point.
+   * The last injected touch point.
    */
   NSValue *_lastInjectedTouchPoint;
 }
@@ -152,13 +152,13 @@
 }
 
 /**
- *  Begins interaction with new touches starting at multiple @c points. Touch will be delivered to
- *  the hit test view in @c window under point and will not end until @c endTouch is called.
+ * Begins interaction with new touches starting at multiple @c points. Touch will be delivered to
+ * the hit test view in @c window under point and will not end until @c endTouch is called.
  *
- *  @param points    Multiple points where touches should start.
- *  @param window    The window that contains the coordinates of the touch points.
- *  @param immediate If @c YES, this method blocks until touch is delivered, otherwise the touch is
- *                   enqueued for delivery the next time runloop drains.
+ * @param points    Multiple points where touches should start.
+ * @param window    The window that contains the coordinates of the touch points.
+ * @param immediate If @c YES, this method blocks until touch is delivered, otherwise the touch is
+ *                  enqueued for delivery the next time runloop drains.
  */
 - (void)grey_beginTouchesAtPoints:(NSArray *)points
                  relativeToWindow:(UIWindow *)window
@@ -178,12 +178,12 @@
 }
 
 /**
- *  Enqueues the next touch to be delivered.
+ * Enqueues the next touch to be delivered.
  *
- *  @param points     Multiple points at which the touches are to be made.
- *  @param seconds    An interval to wait after the every last touch event.
- *  @param immediate  If @c YES, this method blocks until touches are delivered, otherwise it is
- *                    enqueued for delivery the next time runloop drains.
+ * @param points     Multiple points at which the touches are to be made.
+ * @param seconds    An interval to wait after the every last touch event.
+ * @param immediate  If @c YES, this method blocks until touches are delivered, otherwise it is
+ *                   enqueued for delivery the next time runloop drains.
  */
 - (void)grey_continueTouchAtPoints:(NSArray *)points
     afterTimeElapsedSinceLastTouchDelivery:(NSTimeInterval)seconds
@@ -198,10 +198,10 @@
 }
 
 /**
- *  Enqueues the final touch in a touch sequence to be delivered.
+ * Enqueues the final touch in a touch sequence to be delivered.
  *
- *  @param points  Multiple points at which the touches are to be made.
- *  @param seconds An interval to wait after the every last touch event.
+ * @param points  Multiple points at which the touches are to be made.
+ * @param seconds An interval to wait after the every last touch event.
  */
 - (void)grey_endTouchesAtPoints:(NSArray *)points
     timeElapsedSinceLastTouchDelivery:(NSTimeInterval)seconds {

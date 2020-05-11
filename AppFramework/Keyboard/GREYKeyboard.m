@@ -35,22 +35,22 @@
 #import "GREYUIWindowProvider.h"
 
 /**
- *  Action for tapping a keyboard key.
+ * Action for tapping a keyboard key.
  */
 static GREYTapAction *gTapKeyAction;
 
 /**
- *  Flag set to @c true when the keyboard is shown, @c false when keyboard is hidden.
+ * Flag set to @c true when the keyboard is shown, @c false when keyboard is hidden.
  */
 static atomic_bool gIsKeyboardShown = false;
 
 /**
- *  A character set for all alphabets present on a keyboard.
+ * A character set for all alphabets present on a keyboard.
  */
 static NSMutableCharacterSet *gAlphabeticKeyplaneCharacters;
 
 /**
- *  Character identifiers for text modification keys, like shift, delete etc.
+ * Character identifiers for text modification keys, like shift, delete etc.
  */
 static NSDictionary *gModifierKeyIdentifierMapping;
 
@@ -72,30 +72,30 @@ static const CFTimeInterval kRegularKeyplaneUpdateDuration = 0.1f;
 static const CFTimeInterval kAutomaticKeyplaneUpdateDuration = 0.7f;
 
 /**
- *  Identifier for characters that signify a space key.
+ * Identifier for characters that signify a space key.
  */
 static NSString *const kSpaceKeyIdentifier = @" ";
 
 /**
- *  Identifier for characters that signify a delete key.
+ * Identifier for characters that signify a delete key.
  */
 static NSString *const kDeleteKeyIdentifier = @"\b";
 
 /**
- *  Identifier for characters that signify a return key.
+ * Identifier for characters that signify a return key.
  */
 static NSString *const kReturnKeyIdentifier = @"\n";
 
 /**
- *  Accessibility identifier for the key for switching planes between alphabetic keyplane and
- *  numeric/symbolic keyplane.
+ * Accessibility identifier for the key for switching planes between alphabetic keyplane and
+ * numeric/symbolic keyplane.
  */
 static NSString *const kMoreKeyIdentifier = @"more";
 
 /**
- *  A block to hold a condition to be waited and checked for.
+ * A block to hold a condition to be waited and checked for.
  *
- *  @return @c YES if condition was satisfied @c NO otherwise.
+ * @return @c YES if condition was satisfied @c NO otherwise.
  */
 typedef BOOL (^ConditionBlock)(void);
 
@@ -164,7 +164,7 @@ __attribute__((constructor)) static void RegisterKeyboardLifecycleHooks() {
 @implementation GREYKeyboard : NSObject
 
 /**
- *  Possible character identifying strings values for the Shift Key.
+ * Possible character identifying strings values for the Shift Key.
  */
 + (NSArray *)shiftKeyIdentifyingCharacters {
   return @[ @"shift", @"Shift", @"SHIFT" ];
@@ -328,15 +328,15 @@ __attribute__((constructor)) static void RegisterKeyboardLifecycleHooks() {
 #pragma mark - Private
 
 /**
- *  Searches for @c characterString key in the system keyboard, retrying upto 3 times until it's
- *  found. It could fail when tapping "more" or "shift" fails for any reason.
- *  TODO(b/152765896): It also fails when keyplane automatically changes back to lower keyplane
- *  sometime after pressing space bar.
+ * Searches for @c characterString key in the system keyboard, retrying upto 3 times until it's
+ * found. It could fail when tapping "more" or "shift" fails for any reason.
+ * TODO(b/152765896): It also fails when keyplane automatically changes back to lower keyplane
+ * sometime after pressing space bar.
  *
- *  @param characterString The character to look for in the keyboard.
- *  @param[out] errorOrNil Error populated on failure.
+ * @param characterString The character to look for in the keyboard.
+ * @param[out] errorOrNil Error populated on failure.
  *
- *  @return Key corresponding to the requested @c characterString or @c nil if it wasn't found.
+ * @return Key corresponding to the requested @c characterString or @c nil if it wasn't found.
  */
 static id SearchKeyWithCharacter(NSString *characterString, __strong NSError **errorOrNil) {
   id key;
@@ -394,15 +394,15 @@ static BOOL TapOnMoreKeyplane(__strong NSError **errorOrNil) {
 }
 
 /**
- *  A utility method to wait for a particular condition to be satisfied. If a condition is not
- *  met then the current thread's run loop is run and the condition is checked again, an activity
- *  that is repeated until the timeout provided expires.
+ * A utility method to wait for a particular condition to be satisfied. If a condition is not
+ * met then the current thread's run loop is run and the condition is checked again, an activity
+ * that is repeated until the timeout provided expires.
  *
- *  @param condition The ConditionBlock to be checked.
- *  @param timeInterval The timeout interval to check for the condition.
+ * @param condition The ConditionBlock to be checked.
+ * @param timeInterval The timeout interval to check for the condition.
  *
- *  @return @c YES if the condition specified in the ConditionBlock was satisfied before the
- *          timeout. @c NO otherwise.
+ * @return @c YES if the condition specified in the ConditionBlock was satisfied before the
+ *         timeout. @c NO otherwise.
  */
 static BOOL WaitConditionUntilTimeout(NSTimeInterval timeInterval, ConditionBlock condition) {
   GREYFatalAssertWithMessage(condition != nil, @"Condition Block must not be nil.");
@@ -418,13 +418,13 @@ static BOOL WaitConditionUntilTimeout(NSTimeInterval timeInterval, ConditionBloc
 }
 
 /**
- *  Private API to toggle shift, because tapping on the key was flaky and required a 0.35 second
- *  wait due to accidental touch detection. The 0.35 seconds is the value within which, if a second
- *  tap occurs, then a double tap is registered.
+ * Private API to toggle shift, because tapping on the key was flaky and required a 0.35 second
+ * wait due to accidental touch detection. The 0.35 seconds is the value within which, if a second
+ * tap occurs, then a double tap is registered.
  *
- *  @param[out] errorOrNil Error populated on failure.
+ * @param[out] errorOrNil Error populated on failure.
  *
- *  @return YES if the shift toggle succeeded, else NO.
+ * @return YES if the shift toggle succeeded, else NO.
  */
 static BOOL ToggleShiftKeyWithError(__strong NSError **errorOrNil) {
   GREYLogVerbose(@"Tapping on Shift key.");
@@ -452,12 +452,12 @@ static BOOL ToggleShiftKeyWithError(__strong NSError **errorOrNil) {
 }
 
 /**
- *  Get the key on the keyboard for a character to be typed.
+ * Get the key on the keyboard for a character to be typed.
  *
- *  @param character The character that needs to be typed.
- *  @param timeout   Amount of time to wait for the character until it times out.
+ * @param character The character that needs to be typed.
+ * @param timeout   Amount of time to wait for the character until it times out.
  *
- *  @return A UI element that signifies the key to be tapped for typing action.
+ * @return A UI element that signifies the key to be tapped for typing action.
  */
 static id WaitAndFindKeyForCharacter(NSString *character, CFTimeInterval timeout) {
   GREYFatalAssert(character);
@@ -497,14 +497,14 @@ static id WaitAndFindKeyForCharacter(NSString *character, CFTimeInterval timeout
 }
 
 /**
- *  Get the key on the keyboard for the given @c character.
+ * Get the key on the keyboard for the given @c character.
  *
- *  @param character  The character to be searched.
- *  @param ignoreCase A Boolean that is @c YES if searching for the key requires ignoring
- *                    the case. This is seen in the case of modifier keys that have
- *                    differing cases across iOS versions.
+ * @param character  The character to be searched.
+ * @param ignoreCase A Boolean that is @c YES if searching for the key requires ignoring
+ *                   the case. This is seen in the case of modifier keys that have
+ *                   differing cases across iOS versions.
  *
- *  @return A key that has the given character.
+ * @return A key that has the given character.
  */
 static id GetKeyForCharacterValueInKeyboardLayout(NSString *character, BOOL ignoreCase) {
   UIKeyboardImpl *keyboard = GetKeyboardObject();
@@ -530,9 +530,9 @@ static id GetKeyForCharacterValueInKeyboardLayout(NSString *character, BOOL igno
 }
 
 /**
- *  A flag to check if the alphabetic keyplane is currently visible on the keyboard.
+ * A flag to check if the alphabetic keyplane is currently visible on the keyboard.
  *
- *  @return @c YES if the alphabetic keyplane is being shown on the keyboard, else @c NO.
+ * @return @c YES if the alphabetic keyplane is being shown on the keyboard, else @c NO.
  */
 static BOOL IsAlphabeticKeyplaneShown() {
   // Chose q/Q as the key to look for to determine if alphabetic keyplane is shown because q/Q
@@ -542,9 +542,9 @@ static BOOL IsAlphabeticKeyplaneShown() {
 }
 
 /**
- *  Provides the active keyboard instance.
+ * Provides the active keyboard instance.
  *
- *  @return The active UIKeyboardImpl instance.
+ * @return The active UIKeyboardImpl instance.
  */
 static UIKeyboardImpl *GetKeyboardObject() {
   UIKeyboardImpl *keyboard = [UIKeyboardImpl activeInstance];
@@ -553,11 +553,11 @@ static UIKeyboardImpl *GetKeyboardObject() {
 }
 
 /**
- *  Utility method to tap on a key on the keyboard.
+ * Utility method to tap on a key on the keyboard.
  *
- *  @param      key           The key to be tapped.
- *  *param[out] errorOrNil    The error to be populated. If this is @c nil,
- *                            then an error message is logged.
+ * @param      key           The key to be tapped.
+ * *param[out] errorOrNil    The error to be populated. If this is @c nil,
+ *                           then an error message is logged.
  */
 static BOOL TapKey(id key, __strong NSError **errorOrNil) {
   GREYFatalAssert(key);
@@ -574,16 +574,16 @@ static BOOL TapKey(id key, __strong NSError **errorOrNil) {
 }
 
 /**
- *  Populates or prints an error whenever a key with a specified @c character isn't found during
- *  typing a string.
+ * Populates or prints an error whenever a key with a specified @c character isn't found during
+ * typing a string.
  *
- *  @param character       A character denoting the accessibility label, identifier or text of the
- *                         key
- *  @param typingString    The string being typed when the key was not found
- *  @param[out] errorOrNil The error to be populated. If this is @c nil, then an error message is
- *                         logged.
+ * @param character       A character denoting the accessibility label, identifier or text of the
+ *                        key
+ * @param typingString    The string being typed when the key was not found
+ * @param[out] errorOrNil The error to be populated. If this is @c nil, then an error message is
+ *                        logged.
  *
- *  @return NO every time since entering the method means an error has happened.
+ * @return NO every time since entering the method means an error has happened.
  */
 static BOOL SetErrorForKeyNotFound(NSString *character, NSString *typingString,
                                    __strong NSError **errorOrNil) {

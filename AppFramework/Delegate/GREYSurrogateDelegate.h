@@ -17,29 +17,29 @@
 #import <Foundation/Foundation.h>
 
 /**
- *  This class is used as a common base class for proxy delegates.
- *  Primarily used to hold needed message forwarding methods.
+ * This class is used as a common base class for proxy delegates.
+ * Primarily used to hold needed message forwarding methods.
  */
 @interface GREYSurrogateDelegate : NSObject
 
 /**
- *  @remark init is not an available initializer. Use the other initializers.
+ * @remark init is not an available initializer. Use the other initializers.
  */
 - (instancetype)init NS_UNAVAILABLE;
 
 /**
- *  Initializer that takes the original delegate and provides a surrogate backed by the original.
+ * Initializer that takes the original delegate and provides a surrogate backed by the original.
  *
- *  @param originalDelegate The original delegate being proxied. This can be @c nil.
- *  @param shouldBeWeak     Specifies whether the delegate should be weak or strong.
+ * @param originalDelegate The original delegate being proxied. This can be @c nil.
+ * @param shouldBeWeak     Specifies whether the delegate should be weak or strong.
  *
- *  @return an instance of GREYSurrogateDelegate backed by the provided delegate.
+ * @return an instance of GREYSurrogateDelegate backed by the provided delegate.
  */
 - (instancetype)initWithOriginalDelegate:(id)originalDelegate
                                   isWeak:(BOOL)shouldBeWeak NS_DESIGNATED_INITIALIZER;
 
 /**
- *  @return The original delegate that's being proxied.
+ * @return The original delegate that's being proxied.
  */
 - (id)originalDelegate;
 

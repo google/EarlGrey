@@ -19,30 +19,30 @@
 #import "GREYDiagnosable.h"
 
 /**
- *  Protocol to which EarlGrey assertion classes must conform.
+ * Protocol to which EarlGrey assertion classes must conform.
  */
 @protocol GREYAssertion <GREYDiagnosable>
 
 /**
- *  Checks whether the assertion is valid for the provided @c element, throwing an exception if the
- *  if the assertion fails and the @c errorOrNil parameter is @c nil. If a non-nil @c errorOrNil is
- *  provided, it will be set to error that represents the assertion failure cause.
- *  If the assertion does not accept @c nil elements, the error domain should be
- *  @c kGREYInteractionErrorDomain and the error code @c kGREYInteractionElementNotFoundErrorCode.
- *  GREYAssertionDefines.h defines macros for throwing common exception types.
+ * Checks whether the assertion is valid for the provided @c element, throwing an exception if the
+ * if the assertion fails and the @c errorOrNil parameter is @c nil. If a non-nil @c errorOrNil is
+ * provided, it will be set to error that represents the assertion failure cause.
+ * If the assertion does not accept @c nil elements, the error domain should be
+ * @c kGREYInteractionErrorDomain and the error code @c kGREYInteractionElementNotFoundErrorCode.
+ * GREYAssertionDefines.h defines macros for throwing common exception types.
  *
- *  @param      element    Element on which the assertion should be checked.
- *  @param[out] errorOrNil If non-nil, set to the cause of the assertion failure.
+ * @param      element    Element on which the assertion should be checked.
+ * @param[out] errorOrNil If non-nil, set to the cause of the assertion failure.
  *
- *  @throws NSException If the assertion fails and the provided @c errorOrNil is @c nil.
- *                      The specific type depends on the implementation.
+ * @throws NSException If the assertion fails and the provided @c errorOrNil is @c nil.
+ *                     The specific type depends on the implementation.
  *
- *  @return @c YES if the assertion holds for the specified element, @c NO otherwise.
+ * @return @c YES if the assertion holds for the specified element, @c NO otherwise.
  */
 - (BOOL)assert:(id)element error:(__strong NSError **)errorOrNil;
 
 /**
- *  @return The name of the assertion.
+ * @return The name of the assertion.
  */
 - (NSString *)name;
 

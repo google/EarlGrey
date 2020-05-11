@@ -30,20 +30,20 @@
 static const NSUInteger kColorChannelsPerPixel = 4;
 
 /**
- *  Last known original image used by the visibility checker is saved in this global for debugging
- *  purposes.
+ * Last known original image used by the visibility checker is saved in this global for debugging
+ * purposes.
  */
 static UIImage *gLastActualBeforeImage;
 
 /**
- *  Last known color shifted image created by the visibility checker is saved in this global for
- *  debugging purposes.
+ * Last known color shifted image created by the visibility checker is saved in this global for
+ * debugging purposes.
  */
 static UIImage *gLastExceptedAfterImage;
 
 /**
- *  Last known actual color shifted image used by visibility checker is saved in this global for
- *  debugging purposes.
+ * Last known actual color shifted image used by visibility checker is saved in this global for
+ * debugging purposes.
  */
 static UIImage *gLastActualAfterImage;
 
@@ -256,18 +256,18 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
 #pragma mark - Private
 
 /**
- *  Returns fraction of the total area of @c element that is visible to the user. Any part of the
- *  element that is obscured or off-screen is considered not visible. Return value of 0 means that
- *  no part of the element is visible on screen. That might mean that element is off-screen, or it
- *  could be on-screen, but covered by another element. Return value of 1 means that the entire
- *  element is visible on screen, which means that the entire frame of the element is on-screen, and
- *  no part of the element is obscured by another element. If any part of the element is off-screen,
- *  the return value will be less than 1, even if this element is covering the entire screen and no
- *  part of it is obscured by another element.
+ * Returns fraction of the total area of @c element that is visible to the user. Any part of the
+ * element that is obscured or off-screen is considered not visible. Return value of 0 means that
+ * no part of the element is visible on screen. That might mean that element is off-screen, or it
+ * could be on-screen, but covered by another element. Return value of 1 means that the entire
+ * element is visible on screen, which means that the entire frame of the element is on-screen, and
+ * no part of the element is obscured by another element. If any part of the element is off-screen,
+ * the return value will be less than 1, even if this element is covering the entire screen and no
+ * part of it is obscured by another element.
  *
- *  @param element The element whose percent area is being queried.
+ * @param element The element whose percent area is being queried.
  *
- *  @return The percent area in range [0,1], of the @c element that is visible on the screen.
+ * @return The percent area in range [0,1], of the @c element that is visible on the screen.
  */
 + (double)grey_percentElementVisibleOnScreen:(id)element {
   UIView *view = [self grey_containingViewIfNonView:element];
@@ -275,18 +275,18 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
 }
 
 /**
- *  Returns fraction of the total area of @c element that is visible to the user. Any part of the
- *  element that is obscured or off-screen is considered not visible. Return value of 0 means that
- *  no part of the element is visible on screen. That might mean that element is off-screen, or it
- *  could be on-screen, but covered by another element. Return value of 1 means that the entire
- *  element is visible on screen, which means that the entire frame of the element is on-screen, and
- *  no part of the element is obscured by another element. If any part of the element is off-screen,
- *  the return value will be less than 1, even if this element is covering the entire screen and no
- *  part of it is obscured by another element.
+ * Returns fraction of the total area of @c element that is visible to the user. Any part of the
+ * element that is obscured or off-screen is considered not visible. Return value of 0 means that
+ * no part of the element is visible on screen. That might mean that element is off-screen, or it
+ * could be on-screen, but covered by another element. Return value of 1 means that the entire
+ * element is visible on screen, which means that the entire frame of the element is on-screen, and
+ * no part of the element is obscured by another element. If any part of the element is off-screen,
+ * the return value will be less than 1, even if this element is covering the entire screen and no
+ * part of it is obscured by another element.
  *
- *  @param element The non-view element whose percent area is being queried.
+ * @param element The non-view element whose percent area is being queried.
  *
- *  @return The percent area in range [0,1], of the @c element that is visible on the screen.
+ * @return The percent area in range [0,1], of the @c element that is visible on the screen.
  */
 + (double)grey_percentNonViewVisibleOnScreen:(id)element {
   GREYFatalAssert(![element isKindOfClass:[UIView class]]);
@@ -301,19 +301,19 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
 }
 
 /**
- *  The logic behind the implementation is that it takes 2 screenshots, one before any modification
- *  and one after. The latter contains modification to UIView by adding an inverted image to it that
- *  is visible on top all subviews. The actual visibility check calculates how many pixels changed
- *  before and after the modification, and returns fraction of area of the element that changed out
- *  of the entire area of the element. This check is restricted to only consider a certain rectangle
- *  inside a view, in screen coordinates. This may naturally be set to the entire view.
+ * The logic behind the implementation is that it takes 2 screenshots, one before any modification
+ * and one after. The latter contains modification to UIView by adding an inverted image to it that
+ * is visible on top all subviews. The actual visibility check calculates how many pixels changed
+ * before and after the modification, and returns fraction of area of the element that changed out
+ * of the entire area of the element. This check is restricted to only consider a certain rectangle
+ * inside a view, in screen coordinates. This may naturally be set to the entire view.
  *
- *  @param view                          The view whose percent visible area is being queried.
- *  @param searchRectInScreenCoordinates A rect in screen coordinates within which the visibility
- *                                       check is to be performed.
+ * @param view                          The view whose percent visible area is being queried.
+ * @param searchRectInScreenCoordinates A rect in screen coordinates within which the visibility
+ *                                      check is to be performed.
  *
- *  @return The percent area in range [0,1], of the @c element that is visible within the search
- *          rect.
+ * @return The percent area in range [0,1], of the @c element that is visible within the search
+ *         rect.
  */
 + (double)grey_percentViewVisibleOnScreen:(UIView *)view
                                withinRect:(CGRect)searchRectInScreenCoordinates {
@@ -354,23 +354,23 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
 }
 
 /**
- *  Captures the visibility check's before and after image for the given @c view and loads the pixel
- *  data into the given @c beforeImage and @c afterImage and returns @c YES if at least one pixel
- *  from the view intersects with the given @c searchRectInScreenCoordinates, @c NO otherwise.
- *  Optionally the method also stores the intersection point of the screen, view and search rect
- *  (in pixels) at @c outIntersectionOriginOrNull. The caller must release @c beforeImage and
- *  @c afterImage using CGImageRelease once done using them.
+ * Captures the visibility check's before and after image for the given @c view and loads the pixel
+ * data into the given @c beforeImage and @c afterImage and returns @c YES if at least one pixel
+ * from the view intersects with the given @c searchRectInScreenCoordinates, @c NO otherwise.
+ * Optionally the method also stores the intersection point of the screen, view and search rect
+ * (in pixels) at @c outIntersectionOriginOrNull. The caller must release @c beforeImage and
+ * @c afterImage using CGImageRelease once done using them.
  *
- *  @param[out] outBeforeImage                A reference to receive the before-check image.
- *  @param[out] outAfterImage                 A reference to receive the after-check image.
- *  @param[out] outIntersectionOriginOrNull   A reference to receive the origin of the view in
- *                                            the given search rect.
- *  @param      view                          The view whose visibility check is being performed.
- *  @param      searchRectInScreenCoordinates A rect in screen coordinates within which the
- *                                            visibility check is to be performed.
+ * @param[out] outBeforeImage                A reference to receive the before-check image.
+ * @param[out] outAfterImage                 A reference to receive the after-check image.
+ * @param[out] outIntersectionOriginOrNull   A reference to receive the origin of the view in
+ *                                           the given search rect.
+ * @param      view                          The view whose visibility check is being performed.
+ * @param      searchRectInScreenCoordinates A rect in screen coordinates within which the
+ *                                           visibility check is to be performed.
  *
- *  @return @c YES if at least one pixel from the view intersects with the given
- *          @c searchRectInScreenCoordinates, @c NO otherwise.
+ * @return @c YES if at least one pixel from the view intersects with the given
+ *         @c searchRectInScreenCoordinates, @c NO otherwise.
  */
 + (BOOL)grey_captureBeforeImage:(CGImageRef *)outBeforeImage
                   andAfterImage:(CGImageRef *)outAfterImage
@@ -521,9 +521,9 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
 }
 
 /**
- *  Prepares @c view for visibility check by modifying visual aspects that interfere with
- *  pixel intensities. Then, executes block, restores view's properties and returns the result of
- *  executing the block to the caller.
+ * Prepares @c view for visibility check by modifying visual aspects that interfere with
+ * pixel intensities. Then, executes block, restores view's properties and returns the result of
+ * executing the block to the caller.
  */
 + (UIImage *)grey_prepareView:(UIView *)view forVisibilityCheckAndPerformBlock:(id (^)(void))block {
   BOOL disablingActions = [CATransaction disableActions];
@@ -566,22 +566,22 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
 }
 
 /**
- *  Calculates the number of pixel in @c afterImage that have different pixel intensity in
- *  @c beforeImage.
- *  If @c visiblePixelRect is not NULL, stores the smallest rectangle enclosing all shifted pixels
- *  in @c visiblePixelRect. If no shifted pixels are found, @c visiblePixelRect will be CGRectZero.
- *  @todo Use a better image comparison library/tool for this stuff. For now, pixel-by-pixel
- *        comparison it is.
+ * Calculates the number of pixel in @c afterImage that have different pixel intensity in
+ * @c beforeImage.
+ * If @c visiblePixelRect is not NULL, stores the smallest rectangle enclosing all shifted pixels
+ * in @c visiblePixelRect. If no shifted pixels are found, @c visiblePixelRect will be CGRectZero.
+ * @todo Use a better image comparison library/tool for this stuff. For now, pixel-by-pixel
+ *       comparison it is.
  *
- *  @param      afterImage          The image containing view with shifted colors.
- *  @param      beforeImage         The original image of the view.
- *  @param[out] outVisiblePixelRect A reference for getting the largest
- *                                  rectangle enclosing only visible points in the view.
- *  @param[out] outDiffBufferOrNULL A reference for getting the GREYVisibilityDiffBuffer that was
- *                                  created to detect image diff.
+ * @param      afterImage          The image containing view with shifted colors.
+ * @param      beforeImage         The original image of the view.
+ * @param[out] outVisiblePixelRect A reference for getting the largest
+ *                                 rectangle enclosing only visible points in the view.
+ * @param[out] outDiffBufferOrNULL A reference for getting the GREYVisibilityDiffBuffer that was
+ *                                 created to detect image diff.
  *
- *  @return The number of pixels and a default pixel in @c afterImage that are shifted
- *          intensity of @c beforeImage.
+ * @return The number of pixels and a default pixel in @c afterImage that are shifted
+ *         intensity of @c beforeImage.
  */
 + (GREYVisiblePixelData)grey_countPixelsInImage:(CGImageRef)afterImage
                     thatAreShiftedPixelsOfImage:(CGImageRef)beforeImage
@@ -655,17 +655,17 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
 }
 
 /**
- *  Creates a UIImageView and adds a shifted color image of @c imageRef to it, in addition
- *  view.frame is offset by @c offset and image orientation set to @c orientation. There are 256
- *  possible values for a color component, from 0 to 255. Each color component will be shifted by
- *  exactly 128, examples: 0 => 128, 64 => 192, 128 => 0, 255 => 127.
+ * Creates a UIImageView and adds a shifted color image of @c imageRef to it, in addition
+ * view.frame is offset by @c offset and image orientation set to @c orientation. There are 256
+ * possible values for a color component, from 0 to 255. Each color component will be shifted by
+ * exactly 128, examples: 0 => 128, 64 => 192, 128 => 0, 255 => 127.
  *
- *  @param imageRef The image whose colors are to be shifted.
- *  @param offset The frame offset to be applied to resulting view.
- *  @param orientation The target orientation of the image added to the resulting view.
+ * @param imageRef The image whose colors are to be shifted.
+ * @param offset The frame offset to be applied to resulting view.
+ * @param orientation The target orientation of the image added to the resulting view.
  *
- *  @return A view containing shifted color image of @c imageRef with view.frame offset by
- *          @c offset and orientation set to @c orientation.
+ * @return A view containing shifted color image of @c imageRef with view.frame offset by
+ *         @c offset and orientation set to @c orientation.
  */
 + (UIView *)grey_imageViewWithShiftedColorOfImage:(CGImageRef)imageRef
                                       frameOffset:(CGPoint)offset
@@ -718,14 +718,14 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
 }
 
 /**
- *  @return @c true if the encoded rgb1[R, G, B] color values are different from rbg2[R, G, B]
- *          values, @c false otherwise.
- *  @todo Ideally, we should be testing that pixel colors are shifted by a certain amount instead of
- *        checking if they are simply different. However, the naive check for shifted colors doesn't
- *        work if pixels are overlapped by a translucent mask or have special layer effects applied
- *        to it. Because they are still visible to user and we want to avoid false-negatives that
- *        would cause the test to fail, we resort to a naive check that rbg1 and rgb2 are not the
- *        same without specifying the exact delta between them.
+ * @return @c true if the encoded rgb1[R, G, B] color values are different from rbg2[R, G, B]
+ *         values, @c false otherwise.
+ * @todo Ideally, we should be testing that pixel colors are shifted by a certain amount instead of
+ *       checking if they are simply different. However, the naive check for shifted colors doesn't
+ *       work if pixels are overlapped by a translucent mask or have special layer effects applied
+ *       to it. Because they are still visible to user and we want to avoid false-negatives that
+ *       would cause the test to fail, we resort to a naive check that rbg1 and rgb2 are not the
+ *       same without specifying the exact delta between them.
  */
 static inline bool IsPixelDifferent(unsigned char rgb1[], unsigned char rgb2[]) {
   return abs(rgb1[0] - rgb2[0]) > 2 || abs(rgb1[1] - rgb2[1]) > 2 || abs(rgb1[2] - rgb2[2]) > 2;

@@ -17,14 +17,14 @@
 #import <UIKit/UIKit.h>
 
 /**
- *  EarlGrey specific additions for traversing and manipulating UIViews.
+ * EarlGrey specific additions for traversing and manipulating UIViews.
  */
 @interface UIView (GREYApp)
 
 /**
- *  @param klass The target class of subviews.
+ * @param klass The target class of subviews.
  *
- *  @return A breadth-first / level ordered array of subviews that can be safely casted to @c klass.
+ * @return A breadth-first / level ordered array of subviews that can be safely casted to @c klass.
  */
 - (NSArray *)grey_childrenAssignableFromClass:(Class)klass;
 

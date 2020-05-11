@@ -20,19 +20,19 @@
 #import "GREYMatcher.h"
 
 /**
- *  GREYHostBackgroundDistantObject extension in the EarlGrey AppFramework. This file should
- *  contain categories on classes that are to be called in the tests. Similar to
- *  GREYHostApplicationDistantObject categories, these create distant objects between the
- *  application and the test on a background queue, rather than on the main queue as is done in the
- *  GREYHostApplicationDistantObject categories.
+ * GREYHostBackgroundDistantObject extension in the EarlGrey AppFramework. This file should
+ * contain categories on classes that are to be called in the tests. Similar to
+ * GREYHostApplicationDistantObject categories, these create distant objects between the
+ * application and the test on a background queue, rather than on the main queue as is done in the
+ * GREYHostApplicationDistantObject categories.
  */
 @interface GREYHostBackgroundDistantObject (GREYApp)
 
 /**
- *  Create a remote element interaction for a passed in GREYMatcher.
+ * Create a remote element interaction for a passed in GREYMatcher.
  *
- *  @param  elementMatcher The GREYMatcher to be passed to the element interaction.
- *  @return A remote object that is connected to an object of class GREYElementInteraction.
+ * @param  elementMatcher The GREYMatcher to be passed to the element interaction.
+ * @return A remote object that is connected to an object of class GREYElementInteraction.
  */
 - (GREYElementInteraction *)interactionWithMatcher:(id<GREYMatcher>)elementMatcher;
 

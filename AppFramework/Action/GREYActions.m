@@ -451,13 +451,13 @@ static Protocol *gTextInputProtocol;
 #pragma mark - Private
 
 /**
- *  Set the UITextField text value directly, bypassing the iOS keyboard.
+ * Set the UITextField text value directly, bypassing the iOS keyboard.
  *
- *  @param text The text to be typed.
+ * @param text The text to be typed.
  *
- *  @return @c YES if the action succeeded, else @c NO. If an action returns @c NO, it does not
- *          mean that the action was not performed at all but somewhere during the action execution
- *          the error occurred and so the UI may be in an unrecoverable state.
+ * @return @c YES if the action succeeded, else @c NO. If an action returns @c NO, it does not
+ *         mean that the action was not performed at all but somewhere during the action execution
+ *         the error occurred and so the UI may be in an unrecoverable state.
  */
 + (id<GREYAction>)grey_actionForReplaceText:(NSString *)text {
   SEL setTextSelector = NSSelectorFromString(@"setText:");

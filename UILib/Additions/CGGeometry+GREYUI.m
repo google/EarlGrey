@@ -87,9 +87,9 @@ BOOL CGPointIsNull(CGPoint point) { return isnan(point.x) || isnan(point.y); }
 #pragma mark - CGFloat
 
 /**
- *  @todo Update this for touch events on iPhone 6 Plus where it does not produce the intended
- *        result because the touch grid is the same as the native screen resolution of 1080x1920,
- *        while UI rendering is done at 1242x2208, and downsampled to 1080x1920.
+ * @todo Update this for touch events on iPhone 6 Plus where it does not produce the intended
+ *       result because the touch grid is the same as the native screen resolution of 1080x1920,
+ *       while UI rendering is done at 1242x2208, and downsampled to 1080x1920.
  */
 CGFloat CGFloatAfterRemovingFractionalPixels(CGFloat floatInPoints) {
   double pointToPixelScale = [[UIScreen mainScreen] scale];

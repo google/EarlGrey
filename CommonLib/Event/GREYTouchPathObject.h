@@ -17,26 +17,26 @@
 #import <UIKit/UIKit.h>
 
 /**
- *  A struct to encapsulate essential information about a touch path.
+ * A struct to encapsulate essential information about a touch path.
  */
 typedef struct GREYTouchPathObject {
   /**
-   *  NSValue wrapping CGPoint for the start point of a touch gesture.
+   * NSValue wrapping CGPoint for the start point of a touch gesture.
    */
   CGPoint startPoint;
 
   /**
-   *  NSValue wrapping CGPoint for the end point of a touch gesture.
+   * NSValue wrapping CGPoint for the end point of a touch gesture.
    */
   CGPoint endPoint;
 
   /**
-   *  CFTimeInterval denoting the duration of an action.
+   * CFTimeInterval denoting the duration of an action.
    */
   CFTimeInterval duration;
 
   /**
-   *  A BOOL check to nullify the inertia in the touch path.
+   * A BOOL check to nullify the inertia in the touch path.
    */
   BOOL cancelInertia;
 } GREYTouchPathObject;

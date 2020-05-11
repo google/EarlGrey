@@ -20,40 +20,40 @@
 #import "GREYDefines.h"
 
 /**
- *  A touch injector that delivers a complete touch sequence to mimic physical user interaction
- *  with the app under test. Buffers all touch events until @c start is called.
+ * A touch injector that delivers a complete touch sequence to mimic physical user interaction
+ * with the app under test. Buffers all touch events until @c start is called.
  */
 @interface GREYTouchInjector : NSObject
 
 /**
- *  @remark init is not an available initializer. Use the other initializers.
+ * @remark init is not an available initializer. Use the other initializers.
  */
 - (instancetype)init NS_UNAVAILABLE;
 
 /**
- *  Initializes with the @c window to which touches will be delivered.
+ * Initializes with the @c window to which touches will be delivered.
  *
- *  @param window The window that receives the touches.
+ * @param window The window that receives the touches.
  *
- *  @return An instance of GREYTouchInjector.
+ * @return An instance of GREYTouchInjector.
  */
 - (instancetype)initWithWindow:(UIWindow *)window NS_DESIGNATED_INITIALIZER;
 
 /**
- *  Enqueues @c touchInfo that will be materialized into a UITouch and delivered to application.
+ * Enqueues @c touchInfo that will be materialized into a UITouch and delivered to application.
  *
- *  @param touchInfo The info that is used to create the UITouch. If it represents a last touch
- *                   in a sequence, the specified @c point value is ignored and injector
- *                   automatically picks the previous point where touch occurred to deliver
- *                   the last touch.
+ * @param touchInfo The info that is used to create the UITouch. If it represents a last touch
+ *                  in a sequence, the specified @c point value is ignored and injector
+ *                  automatically picks the previous point where touch occurred to deliver
+ *                  the last touch.
  */
 - (void)enqueueTouchInfoForDelivery:(GREYTouchInfo *)touchInfo;
 
 /**
- *  Waits for all enqueued touches to be injected into the system.
+ * Waits for all enqueued touches to be injected into the system.
  *
- *  This is a synchronous call and can be made on any thread but the actual
- *  touch will be delivered on the main thread, as expected.
+ * This is a synchronous call and can be made on any thread but the actual
+ * touch will be delivered on the main thread, as expected.
  */
 - (void)waitUntilAllTouchesAreDelivered;
 

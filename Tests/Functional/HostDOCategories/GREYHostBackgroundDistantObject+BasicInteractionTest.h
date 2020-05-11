@@ -21,7 +21,7 @@
 @interface GREYHostBackgroundDistantObject (BasicInteractionTest)
 
 /**
- *  Returns an NSString with the element UI hierarchy asked for from the main thread.
+ * Returns an NSString with the element UI hierarchy asked for from the main thread.
  */
 - (NSString *)elementHierarchyString;
 

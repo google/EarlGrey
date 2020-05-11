@@ -19,18 +19,18 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  Private category for diagnostics purpose.
+ * Private category for diagnostics purpose.
  */
 @interface GREYAssertionBlock (Private)
 
 /**
- *  Internal initializer for GREYAssertionBlock to incorporate with Diagnostics.
- *  @remark Do NOT use this externally.
+ * Internal initializer for GREYAssertionBlock to incorporate with Diagnostics.
+ * @remark Do NOT use this externally.
  *
- *  @param name  The assertion name.
- *  @param block The block that will be invoked to perform the assertion.
+ * @param name  The assertion name.
+ * @param block The block that will be invoked to perform the assertion.
  *
- *  @return A new block-based assertion object.
+ * @return A new block-based assertion object.
  */
 + (instancetype)assertionWithName:(NSString *)name
           assertionBlockWithError:(GREYCheckBlockWithError)block

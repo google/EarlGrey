@@ -23,7 +23,7 @@
 #import "GREYUIWindowProvider.h"
 
 /**
- *  Bytes allocated per pixel for an XRGB image.
+ * Bytes allocated per pixel for an XRGB image.
  */
 static const NSUInteger kBytesPerPixel = 4;
 
@@ -185,8 +185,8 @@ static Class gUIModalItemHostingWindowClass;
 }
 
 /**
- *  @return An image with the given @c image redrawn in the orientation defined by its
- *          imageOrientation property.
+ * @return An image with the given @c image redrawn in the orientation defined by its
+ *         imageOrientation property.
  */
 + (UIImage *)grey_imageAfterApplyingOrientation:(UIImage *)image {
   if (image.imageOrientation == UIImageOrientationUp) {

@@ -19,19 +19,19 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  Categpry on NSFileManager Provides interfaces for saving screenshots.
+ * Categpry on NSFileManager Provides interfaces for saving screenshots.
  */
 @interface NSFileManager (GREYCommon)
 
 /**
- *  Saves the provided @c image as a PNG to the given @c filename under the given @c directoryPath.
- *  If the given directory path doesn't exist, it will be created.
+ * Saves the provided @c image as a PNG to the given @c filename under the given @c directoryPath.
+ * If the given directory path doesn't exist, it will be created.
  *
- *  @param image         The source image.
- *  @param filename      The target file name.
- *  @param directoryPath The path to the directory where the image must be saved.
+ * @param image         The source image.
+ * @param filename      The target file name.
+ * @param directoryPath The path to the directory where the image must be saved.
  *
- *  @return The complete filepath and name of the saved image or @c nil on failure.
+ * @return The complete filepath and name of the saved image or @c nil on failure.
  */
 + (NSString *)grey_saveImageAsPNG:(UIImage *)image
                            toFile:(NSString *)filename

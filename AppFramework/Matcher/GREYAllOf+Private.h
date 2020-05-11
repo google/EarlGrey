@@ -22,14 +22,14 @@ NS_ASSUME_NONNULL_BEGIN
 @interface GREYAllOf (Private)
 
 /**
- *  Internal initializer for GREYAllOf to incorporate with Diagnostics.
- *  @remark Do NOT use this externally.
+ * Internal initializer for GREYAllOf to incorporate with Diagnostics.
+ * @remark Do NOT use this externally.
  *
- *  @param name       Identifier for an internally created matcher.
- *  @param matchers   Matchers that conform to GREYMatcher and will be combined together with
- *                    a logical AND in the order they are passed in.
+ * @param name       Identifier for an internally created matcher.
+ * @param matchers   Matchers that conform to GREYMatcher and will be combined together with
+ *                   a logical AND in the order they are passed in.
  *
- *  @return An instance of GREYAllOf, initialized with the provided @c matchers and name.
+ * @return An instance of GREYAllOf, initialized with the provided @c matchers and name.
  */
 - (instancetype)initWithName:(NSString *)name matchers:(NSArray<id<GREYMatcher>> *)matchers;
 

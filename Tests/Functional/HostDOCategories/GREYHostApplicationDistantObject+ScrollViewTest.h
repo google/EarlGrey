@@ -23,18 +23,18 @@
 @interface GREYHostApplicationDistantObject (ScrollViewTest)
 
 /**
- *  @return A GREYAction that makes a setContentOffset:animated: call on an element of type
- *          UIScrollView.
+ * @return A GREYAction that makes a setContentOffset:animated: call on an element of type
+ *         UIScrollView.
  */
 - (id<GREYAction>)actionForSetScrollViewContentOffSet:(CGPoint)offset animated:(BOOL)animated;
 
 /**
- *  @return A GREYAction that toggles UIScrollView.bounces.
+ * @return A GREYAction that toggles UIScrollView.bounces.
  */
 - (id<GREYAction>)actionForToggleBounces;
 
 /**
- *  @return A GREYAssertion that the scroll view is partially visible.
+ * @return A GREYAssertion that the scroll view is partially visible.
  */
 - (id<GREYAssertion>)assertionWithPartiallyVisible;
 

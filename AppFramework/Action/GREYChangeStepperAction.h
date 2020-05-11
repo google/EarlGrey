@@ -17,27 +17,27 @@
 #import "GREYBaseAction.h"
 
 /**
- *  Actions for manipulating UIStepper.
+ * Actions for manipulating UIStepper.
  */
 @interface GREYChangeStepperAction : GREYBaseAction
 
 /**
- *  @remark init is not an available initializer. Use the other initializers.
+ * @remark init is not an available initializer. Use the other initializers.
  */
 - (instancetype)init NS_UNAVAILABLE;
 
 /**
- *  @remark initWithName::constraints: is overridden from its superclass.
+ * @remark initWithName::constraints: is overridden from its superclass.
  */
 - (instancetype)initWithName:(NSString *)name
                  constraints:(id<GREYMatcher>)constraints NS_UNAVAILABLE;
 
 /**
- *  Initializes with the expected value by which to change the stepper.
+ * Initializes with the expected value by which to change the stepper.
  *
- *  @param value The amount by which the stepper should change.
+ * @param value The amount by which the stepper should change.
  *
- *  @return An instance of GREYChangeStepperAction.
+ * @return An instance of GREYChangeStepperAction.
  */
 - (instancetype)initWithValue:(double)value NS_DESIGNATED_INITIALIZER;
 

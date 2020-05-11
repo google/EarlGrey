@@ -28,8 +28,8 @@
 
 /**
  * @return An NSDictionary containing screenshots obtained from the application on failure along
- *         with an XCUITest screenshot of the app (containing any system alerts) if the application
- *         is still running.
+ *        with an XCUITest screenshot of the app (containing any system alerts) if the application
+ *        is still running.
  *
  * @param error The error containing the screenshots.
  */

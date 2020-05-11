@@ -22,7 +22,7 @@
 @interface GREYHostApplicationDistantObject (PinchViewTest)
 
 /**
- *  Returns the image view controller frame.
+ * Returns the image view controller frame.
  */
 - (CGRect)imageViewFrameForPinchView;
 

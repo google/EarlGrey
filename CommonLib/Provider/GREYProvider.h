@@ -17,12 +17,12 @@
 #import <Foundation/Foundation.h>
 
 /**
- *  A protocol for providing arbitrary data as an enumeration.
+ * A protocol for providing arbitrary data as an enumeration.
  */
 @protocol GREYProvider <NSObject>
 
 /**
- *  @return A new enumerator that can be used to enumerate data backed by this provider.
+ * @return A new enumerator that can be used to enumerate data backed by this provider.
  */
 - (NSEnumerator *)dataEnumerator;
 

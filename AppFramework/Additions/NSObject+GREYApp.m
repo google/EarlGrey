@@ -152,13 +152,13 @@
 #pragma mark - Private
 
 /**
- *  A custom performSelector that peforms the selector specified in @c arguments on itself.
- *  @c arguments[0] must be the selector to forward to the call to. If a non @c nil object was
- *  passed to NSObject::performSelector:withObject: @c arguments[2] must point to it.
+ * A custom performSelector that peforms the selector specified in @c arguments on itself.
+ * @c arguments[0] must be the selector to forward to the call to. If a non @c nil object was
+ * passed to NSObject::performSelector:withObject: @c arguments[2] must point to it.
  *
- *  @param arguments An array of arguments that include a selector, an object (on which to invoke
- *                   the selector) optionally followed by the arguments to be passed to the
- *                   selector.
+ * @param arguments An array of arguments that include a selector, an object (on which to invoke
+ *                  the selector) optionally followed by the arguments to be passed to the
+ *                  selector.
  */
 - (void)grey_customPerformSelectorWithParameters:(NSArray *)arguments {
   GREYFatalAssertWithMessage(arguments.count >= 1,
@@ -179,26 +179,26 @@
 }
 
 /**
- *  Returns an array containing @c target, @c selector and @c argumentOrNil combination. Always use
- *  this when adding an entry to the dictionary for consistent key hashing.
+ * Returns an array containing @c target, @c selector and @c argumentOrNil combination. Always use
+ * this when adding an entry to the dictionary for consistent key hashing.
  *
- *  @param selector      Selector to be added to the array.
- *  @param argumentOrNil Argument to be added to the array.
+ * @param selector      Selector to be added to the array.
+ * @param argumentOrNil Argument to be added to the array.
  *
- *  @return Array containing @c target, @c selector and @c argumentOrNil combination.
+ * @return Array containing @c target, @c selector and @c argumentOrNil combination.
  */
 - (NSArray *)grey_arrayWithSelector:(SEL)selector argument:(id)argumentOrNil {
   return [NSArray arrayWithObjects:[NSValue valueWithPointer:selector], argumentOrNil, nil];
 }
 
 /**
- *  Creates an entry in the global dictionary with (@c arguments, @c tracker) pair to track a single
- *  NSObject::performSelector:withObject:afterDelay:inModes: call.
+ * Creates an entry in the global dictionary with (@c arguments, @c tracker) pair to track a single
+ * NSObject::performSelector:withObject:afterDelay:inModes: call.
  *
- *  @param arguments The arguments that were originally passed to
- *                   NSObject::performSelector:withObject:afterDelay:inModes: call.
- *  @param tracker   The idling resource that is tracking the
- *                   NSObject::performSelector:withObject:afterDelay:inModes: call.
+ * @param arguments The arguments that were originally passed to
+ *                  NSObject::performSelector:withObject:afterDelay:inModes: call.
+ * @param tracker   The idling resource that is tracking the
+ *                  NSObject::performSelector:withObject:afterDelay:inModes: call.
  */
 - (void)grey_mapPerformSelectorArguments:(NSArray *)arguments
                                toTracker:(GREYTimedIdlingResource *)tracker {
@@ -214,10 +214,10 @@
 }
 
 /**
- *  Removes a single tracker associated with the
- *  NSObject::performSelector:withObject:afterDelay:inModes: call having the given @c arguments.
+ * Removes a single tracker associated with the
+ * NSObject::performSelector:withObject:afterDelay:inModes: call having the given @c arguments.
  *
- *  @param arguments The arguments that whose tracker is to be removed.
+ * @param arguments The arguments that whose tracker is to be removed.
  */
 - (void)grey_unmapSingleTrackerForPerformSelectorArguments:(NSArray *)arguments {
   @synchronized(self) {
@@ -234,10 +234,10 @@
 }
 
 /**
- *  Removes all trackers associated with the
- *  NSObject::performSelector:withObject:afterDelay:inModes: call having the given @c arguments.
+ * Removes all trackers associated with the
+ * NSObject::performSelector:withObject:afterDelay:inModes: call having the given @c arguments.
  *
- *  @param arguments The arguments that whose tracker is to be removed.
+ * @param arguments The arguments that whose tracker is to be removed.
  */
 - (void)grey_unmapAllTrackersForPerformSelectorArguments:(NSArray *)arguments {
   @synchronized(self) {
@@ -252,7 +252,7 @@
 }
 
 /**
- *  Clears all the performSelector entries tracked for self.
+ * Clears all the performSelector entries tracked for self.
  */
 - (void)grey_unmapAllTrackersForAllPerformSelectorArguments {
   @synchronized(self) {
@@ -266,7 +266,7 @@
 }
 
 /**
- *  @return A mutable dictionary for storing all tracked performSelector calls.
+ * @return A mutable dictionary for storing all tracked performSelector calls.
  */
 - (NSMutableDictionary *)grey_performSelectorArgumentsToTrackerMap {
   @synchronized(self) {

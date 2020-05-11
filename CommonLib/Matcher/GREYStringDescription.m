@@ -19,7 +19,7 @@
 #import "GREYMatcher.h"
 
 /**
- *  The key to encode the string description with.
+ * The key to encode the string description with.
  */
 NSString *const kStringDescriptionKey = @"description";
 

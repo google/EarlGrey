@@ -32,8 +32,8 @@
 @end
 
 /**
- *  Test cases for checking that EarlGrey throws exception and calls crash handler when
- *  app-under-test has crashed.
+ * Test cases for checking that EarlGrey throws exception and calls crash handler when
+ * app-under-test has crashed.
  */
 @interface DistantObjectCrashHandlerTest : BaseIntegrationTest
 @end
@@ -60,8 +60,8 @@
 }
 
 /**
- *  Tests GREYTestApplicationDistantObject throws an exception when test makes eDO call but the
- *  app-under-test is not active.
+ * Tests GREYTestApplicationDistantObject throws an exception when test makes eDO call but the
+ * app-under-test is not active.
  */
 - (void)testDistantObjectThrowsException {
   GREYFrameworkException *exception;
@@ -75,8 +75,8 @@
 }
 
 /**
- *  Tests EarlGrey's host application crash handler is called when EarlGrey detects the crash of the
- *  app-under-test at the -tearDown of the same test case.
+ * Tests EarlGrey's host application crash handler is called when EarlGrey detects the crash of the
+ * app-under-test at the -tearDown of the same test case.
  */
 - (void)testInvokesCrashHandlerAtTearDown {
   [_dummyTest setUp];
@@ -92,8 +92,8 @@
 }
 
 /**
- *  Tests EarlGrey's host application crash handler is called when EarlGrey detects the crash of the
- *  app-under-test at the -setUp of the next test case.
+ * Tests EarlGrey's host application crash handler is called when EarlGrey detects the crash of the
+ * app-under-test at the -setUp of the next test case.
  */
 - (void)testInvokesCrashHandlerAtSetUp {
   [_dummyTest setUp];
@@ -128,8 +128,8 @@
 }
 
 /**
- *  Tests EarlGrey's host application crash handler is called once for each launch of
- *  app-under-test.
+ * Tests EarlGrey's host application crash handler is called once for each launch of
+ * app-under-test.
  */
 - (void)testInvokesCrashHandlerOncePerLaunch {
   [_dummyTest setUp];
@@ -155,8 +155,8 @@
 }
 
 /**
- *  Tests EarlGrey's host application crash handler is not called if EarlGrey's
- *  EDOClientErrorHandler is overridden.
+ * Tests EarlGrey's host application crash handler is not called if EarlGrey's
+ * EDOClientErrorHandler is overridden.
  */
 - (void)testCrashHandlerIsNotInvokedWhenOverrideEDOErrorHandler {
   __block BOOL isErrorHandlerCalled = NO;

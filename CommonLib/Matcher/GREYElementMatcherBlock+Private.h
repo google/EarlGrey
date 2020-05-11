@@ -22,16 +22,16 @@ NS_ASSUME_NONNULL_BEGIN
 @interface GREYElementMatcherBlock (Private)
 
 /**
- *  Internal initializer for GREYElementMatcherBlock to incorporate with Diagnostics.
- *  @remark Do NOT use this externally.
+ * Internal initializer for GREYElementMatcherBlock to incorporate with Diagnostics.
+ * @remark Do NOT use this externally.
  *
- *  @param name          Identifier for internally created matcher.
- *  @param matchBlock    A block for implementing GREYBaseMatcher::matches: method.
- *  @param describeBlock The block which will be invoked for the GREYBaseMatcher::describeTo:
- *                       method.
+ * @param name          Identifier for internally created matcher.
+ * @param matchBlock    A block for implementing GREYBaseMatcher::matches: method.
+ * @param describeBlock The block which will be invoked for the GREYBaseMatcher::describeTo:
+ *                      method.
  *
- *  @return A GREYElementMatcherBlock instance, initialized with the required matching
- *          condition, description and its name.
+ * @return A GREYElementMatcherBlock instance, initialized with the required matching
+ *         condition, description and its name.
  */
 - (instancetype)initWithName:(NSString *)name
                 matchesBlock:(GREYMatchesBlock)matchBlock

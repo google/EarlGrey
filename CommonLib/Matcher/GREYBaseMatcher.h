@@ -19,24 +19,24 @@
 #import "GREYMatcher.h"
 
 /**
- *  A base class that implements the GREYMatcher protocol methods.
- *  Prefer subclassing this class over creating your own matchers.
- *  Every subclass must override and provide its own implementation for GREYBaseMatcher::matches:
- *  and GREYBaseMatcher::describeTo: methods.
+ * A base class that implements the GREYMatcher protocol methods.
+ * Prefer subclassing this class over creating your own matchers.
+ * Every subclass must override and provide its own implementation for GREYBaseMatcher::matches:
+ * and GREYBaseMatcher::describeTo: methods.
  */
 @interface GREYBaseMatcher : NSObject <GREYMatcher, NSCopying>
 
 /**
- *  @see GREYMatcher::matches:
+ * @see GREYMatcher::matches:
  *
- *  @remark This method is required to be implemented in the subclass.
+ * @remark This method is required to be implemented in the subclass.
  */
 - (BOOL)matches:(id)item;
 
 /**
- *  @see GREYMatcher::describeTo:
+ * @see GREYMatcher::describeTo:
  *
- *  @remark This method is required to be implemented in the subclass.
+ * @remark This method is required to be implemented in the subclass.
  */
 - (void)describeTo:(id<GREYDescription>)description;
 

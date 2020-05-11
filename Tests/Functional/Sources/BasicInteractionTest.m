@@ -21,7 +21,7 @@
 #import "GREYElementHierarchy.h"
 
 /**
- *  Tests to ensure the basic functionality of EarlGrey is intact.
+ * Tests to ensure the basic functionality of EarlGrey is intact.
  */
 @interface BasicInteractionTest : BaseIntegrationTest
 @end
@@ -29,8 +29,8 @@
 @implementation BasicInteractionTest
 
 /**
- *  Check if launch environment variables are present in user defaults and process info of the
- *  application under test.
+ * Check if launch environment variables are present in user defaults and process info of the
+ * application under test.
  */
 - (void)testLaunchEnvironmentsPresent {
   XCTAssertFalse([[NSUserDefaults standardUserDefaults] boolForKey:@"-IsRunningEarlGreyTest"]);
@@ -42,7 +42,7 @@
 }
 
 /**
- *  Ensure operations within the trackable EarlGrey interval are synchronized with.
+ * Ensure operations within the trackable EarlGrey interval are synchronized with.
  */
 - (void)testIndependentAppSideAccessOfTestSideVariableWhenInsideTrackingInterval {
   NSMutableArray *mutableArray = [[NSMutableArray alloc] init];
@@ -53,8 +53,8 @@
 }
 
 /**
- *  Ensure operations outside the trackable EarlGrey interval are not synchronized with and need
- *  separate waiting logic in the text.
+ * Ensure operations outside the trackable EarlGrey interval are not synchronized with and need
+ * separate waiting logic in the text.
  */
 - (void)testIndependentAppSideAccessOfTestSideVariableWhenOutsideTrackingInterval {
   NSMutableArray *mutableArray = [[NSMutableArray alloc] init];
@@ -75,7 +75,7 @@
 }
 
 /**
- *  Performs a long press on an accessibility element in the Basic Views.
+ * Performs a long press on an accessibility element in the Basic Views.
  */
 - (void)testLongPressOnAccessibilityElement {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
@@ -85,7 +85,7 @@
 }
 
 /**
- *  Checks if hierarchy printing can work using different distant object mechanisms.
+ * Checks if hierarchy printing can work using different distant object mechanisms.
  */
 - (void)testHierarchyPrinting {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] assertWithMatcher:grey_notNil()];
@@ -102,7 +102,7 @@
 }
 
 /**
- *  Check zooming outward from a scroll view.
+ * Check zooming outward from a scroll view.
  */
 - (void)testZoomingOutwardFromScrollView {
   [self openTestViewNamed:@"Zooming Scroll View"];
@@ -116,7 +116,7 @@
 }
 
 /**
- *  Check zooming into a scroll view.
+ * Check zooming into a scroll view.
  */
 - (void)testZoomingIntoScrollView {
   [self openTestViewNamed:@"Zooming Scroll View"];
@@ -130,8 +130,8 @@
 }
 
 /**
- *  Tap on a button five times and ensure that it went through by checking a label that is changed
- *  on a button press.
+ * Tap on a button five times and ensure that it went through by checking a label that is changed
+ * on a button press.
  */
 - (void)testTappingOnSimpleTapView {
   [self openTestViewNamed:@"Simple Tap View"];
@@ -144,7 +144,7 @@
 }
 
 /**
- *  Ensure that any assertion on an unmatched element throws an exception.
+ * Ensure that any assertion on an unmatched element throws an exception.
  */
 - (void)testNotNilCallOnUnmatchedElementThrowsException {
   XCTAssertThrows([[[EarlGrey selectElementWithMatcher:grey_kindOfClassName(@"GarbageValue")]
@@ -152,7 +152,7 @@
 }
 
 /**
- *  Ensure that a not-nil assertion on a matched element does not throw an exception.
+ * Ensure that a not-nil assertion on a matched element does not throw an exception.
  */
 - (void)testNotNilCheckOnMatchedElementDoesNotThrowException {
   GREYElementInteraction *interaction =
@@ -161,7 +161,7 @@
 }
 
 /**
- *  Checks for error handling using EarlGrey's Error API.
+ * Checks for error handling using EarlGrey's Error API.
  */
 - (void)testErrorHandling {
   NSError *error;
@@ -185,7 +185,7 @@
 }
 
 /**
- *  Perform typing in a text field and assert the typed value.
+ * Perform typing in a text field and assert the typed value.
  */
 - (void)testTypingRandomValueInTextFields {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
@@ -199,8 +199,8 @@
 }
 
 /**
- *  Perform typing a longer string with spaces and capital text in a text field and assert the
- *  typed value.
+ * Perform typing a longer string with spaces and capital text in a text field and assert the
+ * typed value.
  */
 - (void)testTypingLongStringInTextField {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
@@ -214,7 +214,7 @@
 }
 
 /**
- *  Perform replace-text in a text field and assert the typed value.
+ * Perform replace-text in a text field and assert the typed value.
  */
 - (void)testReplaceTextInTextField {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
@@ -232,7 +232,7 @@
 }
 
 /**
- *  Check notifications are fired on the main thread for the replace text action in a UITextField.
+ * Check notifications are fired on the main thread for the replace text action in a UITextField.
  */
 - (void)testReplaceTextFiredNotifications {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
@@ -246,7 +246,7 @@
 }
 
 /**
- *  Check for basic visibility checking in the Basic Views.
+ * Check for basic visibility checking in the Basic Views.
  */
 - (void)testAssertionsInBasicViews {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
@@ -257,8 +257,8 @@
 }
 
 /**
- *  Use a GREYCondition to check if an element is visible on the screen. Toggle a Switch for the
- *  element to be visible.
+ * Use a GREYCondition to check if an element is visible on the screen. Toggle a Switch for the
+ * element to be visible.
  */
 - (void)testEarlGreyInvocationInsideConditionUsingWaitWithTimeout {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
@@ -284,8 +284,8 @@
 }
 
 /**
- *  Use a GREYCondition to check if an element is visible on the screen. Change a stepper value for
- *  the element to be visible.
+ * Use a GREYCondition to check if an element is visible on the screen. Change a stepper value for
+ * the element to be visible.
  */
 - (void)testEarlGreyInvocationInsideConditionUsingWaitWithLargeTimeout {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
@@ -305,7 +305,7 @@
 }
 
 /**
- *  Ensure basic interaction with a stepper.
+ * Ensure basic interaction with a stepper.
  */
 - (void)testBasicInteractionWithStepper {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
@@ -338,7 +338,7 @@
 }
 
 /**
- *  Ensure basic interaction with a hidden label.
+ * Ensure basic interaction with a hidden label.
  */
 - (void)testInteractionWithHiddenLabel {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
@@ -347,7 +347,7 @@
 }
 
 /**
- *  Ensure basic interaction with a view who's parent has alpha set to zero.
+ * Ensure basic interaction with a view who's parent has alpha set to zero.
  */
 - (void)testInteractionWithLabelWithParentWithAlphaZero {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
@@ -356,7 +356,7 @@
 }
 
 /**
- *  Ensure basic interaction using a remote matcher.
+ * Ensure basic interaction using a remote matcher.
  */
 - (void)testEarlGreyRemoteMatcher {
   id<GREYMatcher> matcher =
@@ -371,7 +371,7 @@
 }
 
 /**
- *  Ensure basic interaction using a remote action.
+ * Ensure basic interaction using a remote action.
  */
 - (void)testEarlGreyRemoteAction {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
@@ -382,7 +382,7 @@
 }
 
 /**
- *  Ensure basic interaction using a remote assertion.
+ * Ensure basic interaction using a remote assertion.
  */
 - (void)testEarlGreyRemoteAssertion {
   id<GREYAssertion> assertion =
@@ -391,7 +391,7 @@
 }
 
 /**
- *  Ensure tapping on a disabled UIControl fails.
+ * Ensure tapping on a disabled UIControl fails.
  */
 - (void)testTappingOnADisabledButton {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
@@ -403,7 +403,7 @@
 }
 
 /**
- *  Checks the working of a condition with a large timeout.
+ * Checks the working of a condition with a large timeout.
  */
 - (void)testEarlGreyInvocationInsideGREYConditionUsingWaitWithLargeTimeout {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
@@ -422,7 +422,7 @@
 }
 
 /**
- *  Checks the working of a condition with a normal timeout.
+ * Checks the working of a condition with a normal timeout.
  */
 - (void)testEarlGreyInvocationInsideGREYConditionUsingWaitWithTimeout {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
@@ -446,7 +446,7 @@
 }
 
 /**
- *  Check tapping on a new custom window that covers the whole screen.
+ * Check tapping on a new custom window that covers the whole screen.
  */
 - (void)testTapOnWindow {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
@@ -463,7 +463,7 @@
 }
 
 /**
- *  Check setting of the root view controller multiple times in the main window.
+ * Check setting of the root view controller multiple times in the main window.
  */
 - (void)testRootViewControllerSetMultipleTimesOnMainWindow {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
@@ -478,7 +478,7 @@
 }
 
 /**
- *  Check setting of the root view controller in different windows.
+ * Check setting of the root view controller in different windows.
  */
 - (void)testRootViewControllerSetOnMultipleWindows {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
@@ -493,7 +493,7 @@
 }
 
 /**
- *  Ensures basic interactions with views.
+ * Ensures basic interactions with views.
  */
 - (void)testBasicInteractionWithViews {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
@@ -532,7 +532,7 @@
 }
 
 /**
- *  Checks a custom action.
+ * Checks a custom action.
  */
 - (void)testEarlGreyInvocationInsideCustomAction {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
@@ -550,7 +550,7 @@
 }
 
 /**
- *  Checks a custom assertion.
+ * Checks a custom assertion.
  */
 - (void)testEarlGreyInvocationInsideCustomAssertion {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
@@ -568,7 +568,7 @@
 }
 
 /**
- *  Verifies a long press at a point.
+ * Verifies a long press at a point.
  */
 - (void)testLongPressAtPointOnAccessibilityElement {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
@@ -580,7 +580,7 @@
 }
 
 /**
- *  Checks long press on a text field.
+ * Checks long press on a text field.
  */
 - (void)testLongPressOnTextField {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
@@ -593,7 +593,7 @@
 }
 
 /**
- *  Check long pressing followed by selecting a menu option.
+ * Check long pressing followed by selecting a menu option.
  */
 - (void)testLongPressFollowedBySelectingMenuOption {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
@@ -630,7 +630,7 @@
 }
 
 /**
- *  Check interaction with a view that has its parent view hidden and unhidden.
+ * Check interaction with a view that has its parent view hidden and unhidden.
  */
 - (void)testInteractionWithLabelWithParentHiddenAndUnhidden {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
@@ -650,7 +650,7 @@
 }
 
 /**
- *  Check interaction with a view that has its parent view opaque and translucent.
+ * Check interaction with a view that has its parent view opaque and translucent.
  */
 - (void)testInteractionWithLabelWithParentTranslucentAndOpaque {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
@@ -671,10 +671,10 @@
 }
 
 /**
- *  Check interaction with a view that has its window opaque and translucent.
+ * Check interaction with a view that has its window opaque and translucent.
  *
- *  @remark No test is provided for the key window since changing its hidden value will
- *          cause other tests to fail since the keyWindow is modified.
+ * @remark No test is provided for the key window since changing its hidden value will
+ *         cause other tests to fail since the keyWindow is modified.
  */
 - (void)testInteractionWithLabelWithWindowTranslucentAndOpaque {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
@@ -695,7 +695,7 @@
 }
 
 /**
- *  Checks the state of a UIButton.
+ * Checks the state of a UIButton.
  */
 - (void)testButtonSelectedState {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
@@ -708,7 +708,7 @@
 }
 
 /**
- *  Checks the removal and addition of the status bar.
+ * Checks the removal and addition of the status bar.
  */
 - (void)testStatusBarRemoval {
   // By default, the status bar should not be included.
@@ -726,7 +726,7 @@
 }
 
 /**
- *  Checks an interaction with shorthand matchers created in the app side.
+ * Checks an interaction with shorthand matchers created in the app side.
  */
 - (void)testActionAndMatcherShorthandCreatedInTheApp {
   id<GREYAction> tapAction =
@@ -737,7 +737,7 @@
 }
 
 /**
- *  Checks that using the EarlGrey Wait function synchronizes correctly.
+ * Checks that using the EarlGrey Wait function synchronizes correctly.
  */
 - (void)testAssertionForAppIdling {
   [self openTestViewNamed:@"Animations"];
@@ -753,7 +753,7 @@
 }
 
 /**
- *  Checks that using the EarlGrey Wait function with a sufficient timeout synchronizes correctly.
+ * Checks that using the EarlGrey Wait function with a sufficient timeout synchronizes correctly.
  */
 - (void)testAssertionForAppIdlingWithTimeout {
   [self openTestViewNamed:@"Animations"];

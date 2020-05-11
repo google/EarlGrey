@@ -24,7 +24,7 @@
 @implementation SystemAlertHandlingTest_IOS13OrLater
 
 /**
- *  Custom setup to set up an XCUIApplication and move to the System Alerts screen.
+ * Custom setup to set up an XCUIApplication and move to the System Alerts screen.
  */
 - (void)setUp {
   [super setUp];
@@ -32,7 +32,7 @@
 }
 
 /**
- *  Custom teardown method returns the UI to the starting table view controller.
+ * Custom teardown method returns the UI to the starting table view controller.
  */
 - (void)tearDown {
   [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"EarlGrey TestApp")]
@@ -41,7 +41,7 @@
 }
 
 /**
- *  Automates the accepting of a system alert & checking it's text.
+ * Automates the accepting of a system alert & checking it's text.
  */
 - (void)testAcceptingSystemAlertAndCheckingItsText {
   [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"Locations Alert")]
@@ -62,7 +62,7 @@
 }
 
 /**
- *  Automates the checking of a System Alert's text when no alert exists.
+ * Automates the checking of a System Alert's text when no alert exists.
  */
 - (void)testSystemAlertTextCheckingWithoutAnyAlertPresent {
   XCTAssertTrue([self grey_waitForAlertVisibility:NO withTimeout:3]);
@@ -77,7 +77,7 @@
 }
 
 /**
- *  Automates the denying of a system alert.
+ * Automates the denying of a system alert.
  */
 - (void)testDenyingSystemAlert {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Contacts Alert")] performAction:grey_tap()];
@@ -92,8 +92,8 @@
 }
 
 /**
- *  Checks the case when a non-system alert is displayed along with system alerts, with the
- *  expected behavior for the system alerts to be handled as the user wishes.
+ * Checks the case when a non-system alert is displayed along with system alerts, with the
+ * expected behavior for the system alerts to be handled as the user wishes.
  */
 - (void)testCustomHandlingMultipleAlerts {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Reminders & Camera Alert")]
@@ -108,7 +108,7 @@
 }
 
 /**
- *  Checks tapping on a System Alert by hitting the OK button.
+ * Checks tapping on a System Alert by hitting the OK button.
  */
 - (void)testCustomButtonTapping {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Motion Activity Alert")]
@@ -120,8 +120,8 @@
 }
 
 /**
- *  Checks tapping on a System Alert by hitting the Don’t Allow button. Also checks the error
- *  value.
+ * Checks tapping on a System Alert by hitting the Don’t Allow button. Also checks the error
+ * value.
  */
 - (void)testCustomButtonTappingWithError {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Calendar Alert")] performAction:grey_tap()];
@@ -137,7 +137,7 @@
 }
 
 /**
- *  Checks the typing of text and password values into System Alerts.
+ * Checks the typing of text and password values into System Alerts.
  */
 - (void)DISABLED_testTypingInSystemAlertTextFields {
   // TODO: This test requires network access for the iTunes Prompt. Re-enable once we // NOLINT
@@ -156,8 +156,8 @@
 }
 
 /**
- *  Checks the return value from the system alert handling methods when no error is passed and no
- *  alert is to be accepted.
+ * Checks the return value from the system alert handling methods when no error is passed and no
+ * alert is to be accepted.
  */
 - (void)testAcceptFailureWhenAlertIsNotPresent {
   XCTAssertTrue([self grey_waitForAlertVisibility:NO withTimeout:kSystemAlertVisibilityTimeout]);
@@ -165,8 +165,8 @@
 }
 
 /**
- *  Checks the return value from the system alert handling methods when no error is passed and no
- *  alert is to be denied.
+ * Checks the return value from the system alert handling methods when no error is passed and no
+ * alert is to be denied.
  */
 - (void)testDeniedFailureWhenAlertIsNotPresent {
   XCTAssertTrue([self grey_waitForAlertVisibility:NO withTimeout:kSystemAlertVisibilityTimeout]);
@@ -174,7 +174,7 @@
 }
 
 /**
- *  Checks the value of a passed-in error when no alert is brought up to be accepted.
+ * Checks the value of a passed-in error when no alert is brought up to be accepted.
  */
 - (void)testPassedErrorForAcceptFailure {
   NSError *error = nil;
@@ -184,7 +184,7 @@
 }
 
 /**
- *  Checks the value of a passed-in error when no alert is brought up to be denied.
+ * Checks the value of a passed-in error when no alert is brought up to be denied.
  */
 - (void)testPassedErrorForDenialFailure {
   NSError *error = nil;
@@ -194,8 +194,8 @@
 }
 
 /**
- *  Checks the value of a passed-in error when no alert is brought up to be handled with a custom
- *  tap.
+ * Checks the value of a passed-in error when no alert is brought up to be handled with a custom
+ * tap.
  */
 - (void)testPassedErrorForCustomButtonTapFailure {
   NSError *error = nil;
@@ -205,8 +205,8 @@
 }
 
 /**
- *  Checks error handling with and without any error passed in for typing in a System Alert Text
- *  Field.
+ * Checks error handling with and without any error passed in for typing in a System Alert Text
+ * Field.
  */
 - (void)testErrorsForTypingFailure {
   XCTAssertThrows([self grey_typeSystemAlertText:@"foo" forPlaceholderText:@"" error:nil]);

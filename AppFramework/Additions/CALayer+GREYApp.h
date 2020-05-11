@@ -17,7 +17,7 @@
 #import <QuartzCore/QuartzCore.h>
 
 /**
- *  EarlGrey specific additions to CALayer to track animations.
+ * EarlGrey specific additions to CALayer to track animations.
  */
 @interface CALayer (GREYApp)
 @end

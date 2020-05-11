@@ -19,28 +19,28 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  Interface for creating an interaction with a UI element. If no datasource is set,
- *  a default datasource is used. The default datasource provides access to the entire UI element
- *  hierarchy of all the windows in the application.
+ * Interface for creating an interaction with a UI element. If no datasource is set,
+ * a default datasource is used. The default datasource provides access to the entire UI element
+ * hierarchy of all the windows in the application.
  */
 @interface GREYElementInteraction : NSObject <GREYInteraction>
 
 /**
- *  @remark init is not an available initializer. Use the other initializers.
+ * @remark init is not an available initializer. Use the other initializers.
  */
 - (instancetype)init NS_UNAVAILABLE;
 
 /**
- *  Initializes the interaction with a single UI element matching @c elementMatcher.
+ * Initializes the interaction with a single UI element matching @c elementMatcher.
  *
- *  @param elementMatcher Matcher for selecting UI element to interact with.
+ * @param elementMatcher Matcher for selecting UI element to interact with.
  *
- *  @return An instance of GREYElementInteraction, initialized with a specified matcher.
+ * @return An instance of GREYElementInteraction, initialized with a specified matcher.
  */
 - (instancetype)initWithElementMatcher:(id<GREYMatcher>)elementMatcher;
 
 /**
- *  Include status bar's window in the interaction.
+ * Include status bar's window in the interaction.
  */
 - (id<GREYInteraction>)includeStatusBar;
 

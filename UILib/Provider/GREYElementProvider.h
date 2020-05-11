@@ -19,84 +19,84 @@
 #import <Foundation/Foundation.h>
 
 /**
- *  A provider for UI elements.
+ * A provider for UI elements.
  */
 @interface GREYElementProvider : NSObject <GREYProvider>
 
 /**
- *  Class method to initialize this provider with the specified @c elements.
+ * Class method to initialize this provider with the specified @c elements.
  *
- *  @param elements An array of elements that the provider is populated with.
+ * @param elements An array of elements that the provider is populated with.
  *
- *  @return An instance of GREYElementProvider populated with @c elements.
+ * @return An instance of GREYElementProvider populated with @c elements.
  */
 + (instancetype)providerWithElements:(NSArray *)elements;
 
 /**
- *  Class method to initialize this provider with the specified @c rootElements.
+ * Class method to initialize this provider with the specified @c rootElements.
  *
- *  @param rootElements An array of root elements whose entire hierarchy will populate the provider.
+ * @param rootElements An array of root elements whose entire hierarchy will populate the provider.
  *
- *  @return An instance of GREYElementProvider with root elements set to @c rootElements.
+ * @return An instance of GREYElementProvider with root elements set to @c rootElements.
  */
 + (instancetype)providerWithRootElements:(NSArray *)rootElements;
 
 /**
- *  Class method to initialize this provider with the specified @c rootProvider.
+ * Class method to initialize this provider with the specified @c rootProvider.
  *
- *  @param rootProvider A provider for root elements. The root elements and their entire hierarchy
- *                      will populate the current provider.
+ * @param rootProvider A provider for root elements. The root elements and their entire hierarchy
+ *                     will populate the current provider.
  *
- *  @return An instance of GREYElementProvider with root elements set root elements in the root
- *          provider and their entire hierarchy.
+ * @return An instance of GREYElementProvider with root elements set root elements in the root
+ *         provider and their entire hierarchy.
  */
 + (instancetype)providerWithRootProvider:(id<GREYProvider>)rootProvider;
 
 /**
- *  @remark init is not an available initializer. Use the other initializers.
+ * @remark init is not an available initializer. Use the other initializers.
  */
 - (instancetype)init NS_UNAVAILABLE;
 
 /**
- *  Initializes this provider with the specified @c elements.
+ * Initializes this provider with the specified @c elements.
  *
- *  @param elements Elements to populate the provider with.
+ * @param elements Elements to populate the provider with.
  *
- *  @return An instance of GREYElementProvider populated with @c elements.
+ * @return An instance of GREYElementProvider populated with @c elements.
  */
 - (instancetype)initWithElements:(NSArray *)elements;
 
 /**
- *  Initializes this provider with the specified @c rootElements.
+ * Initializes this provider with the specified @c rootElements.
  *
- *  @param rootElements An array of root elements whose entire hierarchy will populate the provider.
+ * @param rootElements An array of root elements whose entire hierarchy will populate the provider.
  *
- *  @return An instance of GREYElementProvider with root elements set to @c rootElements.
+ * @return An instance of GREYElementProvider with root elements set to @c rootElements.
  */
 - (instancetype)initWithRootElements:(NSArray *)rootElements;
 
 /**
- *  Initializes this provider with the specified @c rootProvider.
+ * Initializes this provider with the specified @c rootProvider.
  *
- *  @param rootProvider A provider for root elements. The root elements and their entire hierarchy
- *                      will populate the current provider.
+ * @param rootProvider A provider for root elements. The root elements and their entire hierarchy
+ *                     will populate the current provider.
  *
- *  @return An instance of GREYElementProvider with root elements set root elements in the root
- *          provider and their entire hierarchy.
+ * @return An instance of GREYElementProvider with root elements set root elements in the root
+ *         provider and their entire hierarchy.
  */
 - (instancetype)initWithRootProvider:(id<GREYProvider>)rootProvider;
 
 /**
- *  Designated Initializer. Must provide exactly one @c non-nil parameter out of
- *  all the accepted parameters.
+ * Designated Initializer. Must provide exactly one @c non-nil parameter out of
+ * all the accepted parameters.
  *
- *  @param rootProvider A provider for root elements. The root elements and their entire hierarchy
- *                      will populate the current provider.
- *  @param rootElements An array of root elements whose entire hierarchy will populate the provider.
- *  @param elements     An array of elements that will populate the provider.
+ * @param rootProvider A provider for root elements. The root elements and their entire hierarchy
+ *                     will populate the current provider.
+ * @param rootElements An array of root elements whose entire hierarchy will populate the provider.
+ * @param elements     An array of elements that will populate the provider.
  *
- *  @return A GREYElementProviderInstance, initialized with at least one of the specified
- *          parameters.
+ * @return A GREYElementProviderInstance, initialized with at least one of the specified
+ *         parameters.
  */
 - (instancetype)initWithRootProvider:(id<GREYProvider>)rootProvider
                       orRootElements:(NSArray *)rootElements
@@ -105,7 +105,7 @@
 #pragma mark - GREYProvider
 
 /**
- *  @return An enumerator for the elements in the provider.
+ * @return An enumerator for the elements in the provider.
  */
 - (NSEnumerator *)dataEnumerator;
 

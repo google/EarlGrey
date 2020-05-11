@@ -23,29 +23,29 @@ NS_ASSUME_NONNULL_BEGIN
 @interface GREYTraversalBFS : NSObject
 
 /**
- *  Instance method that returns the next object from the hierarchy in a Breadth First Search
- *  fashion.
+ * Instance method that returns the next object from the hierarchy in a Breadth First Search
+ * fashion.
  *
- *  @return An instance of the UI element that is next in the hierarchy.
+ * @return An instance of the UI element that is next in the hierarchy.
  */
 - (id _Nullable)nextObject;
 
 /**
- *  Class method to initialize the object. The hierarchy is unrolled in a BFS fashion and
- *  an internal representation is created.
+ * Class method to initialize the object. The hierarchy is unrolled in a BFS fashion and
+ * an internal representation is created.
  *
- *  @param element Single UI element whose UI hierarchy is to be parsed.
+ * @param element Single UI element whose UI hierarchy is to be parsed.
  *
- *  @return An instance of GREYTraversalBFS.
+ * @return An instance of GREYTraversalBFS.
  */
 + (instancetype)hierarchyForElementWithBFSTraversal:(id)element;
 
 /**
- *  Enumerates through the entire hierarchy and calls the @c block on each element in the hierarchy.
- *  This method enumerates through the hierarchy only once. Setting @c stop to @c YES would break
- *  out of the enumeration.
+ * Enumerates through the entire hierarchy and calls the @c block on each element in the hierarchy.
+ * This method enumerates through the hierarchy only once. Setting @c stop to @c YES would break
+ * out of the enumeration.
  *
- *  @param block A completion block that will be invoked on each element.
+ * @param block A completion block that will be invoked on each element.
  */
 - (void)enumerateUsingBlock:(void (^)(GREYTraversalObject *object, BOOL *stop))block;
 

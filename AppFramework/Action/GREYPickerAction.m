@@ -28,11 +28,11 @@
 
 @implementation GREYPickerAction {
   /**
-   *  The column being modified of the UIPickerView.
+   * The column being modified of the UIPickerView.
    */
   NSInteger _column;
   /**
-   *  The value to modify the column of the UIPickerView.
+   * The value to modify the column of the UIPickerView.
    */
   NSString *_value;
 }

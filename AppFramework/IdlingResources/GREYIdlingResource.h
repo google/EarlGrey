@@ -17,31 +17,31 @@
 #import <Foundation/Foundation.h>
 
 /**
- *  A protocol for resources that can potentially modify the UI and should be synchronized with
- *  before performing any interaction or verification with UI element.
+ * A protocol for resources that can potentially modify the UI and should be synchronized with
+ * before performing any interaction or verification with UI element.
  */
 @protocol GREYIdlingResource <NSObject>
 
 /**
- *  A method to query idleness of this resource.
+ * A method to query idleness of this resource.
  *
- *  Note: This method is called on the main thread and polled continuously until this resource goes
- *  into idle state or a test timeout occurs. It is discouraged to perform any heavy tasks in this
- *  method.
+ * Note: This method is called on the main thread and polled continuously until this resource goes
+ * into idle state or a test timeout occurs. It is discouraged to perform any heavy tasks in this
+ * method.
  *
- *  @return @c YES if the resource is currently idle; @c NO otherwise.
+ * @return @c YES if the resource is currently idle; @c NO otherwise.
  */
 - (BOOL)isIdleNow;
 
 /**
- *  @return A user friendly name that will be printed if this resource fails to idle leading to a
- *          test timeout.
+ * @return A user friendly name that will be printed if this resource fails to idle leading to a
+ *         test timeout.
  */
 - (NSString *)idlingResourceName;
 
 /**
- *  @return Information that will be printed alongside the name if this resource fails to idle in
- *          the given timeout.
+ * @return Information that will be printed alongside the name if this resource fails to idle in
+ *         the given timeout.
  */
 - (NSString *)idlingResourceDescription;
 

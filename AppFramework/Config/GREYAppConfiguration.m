@@ -26,15 +26,15 @@ GREYConfiguration *GREYCreateConfiguration(void) { return [[GREYAppConfiguration
 
 @implementation GREYAppConfiguration {
   /**
-   *  The remote test configuration that contains the source of truth data.
+   * The remote test configuration that contains the source of truth data.
    */
   GREYTestConfiguration *_testConfiguration;
   /**
-   *  The merged configuration dictionary containing the most updated configuration values.
+   * The merged configuration dictionary containing the most updated configuration values.
    */
   NSDictionary *_mergedConfiguration;
   /**
-   *  The isolation queue to access _mergedConfiguration.
+   * The isolation queue to access _mergedConfiguration.
    */
   dispatch_queue_t _configurationIsolationQueue;
 }

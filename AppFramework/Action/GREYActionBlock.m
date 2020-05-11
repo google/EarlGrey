@@ -23,7 +23,7 @@
 @implementation GREYActionBlock {
   GREYPerformBlock _performBlock;
   /**
-   *  Identifier used for diagnostics.
+   * Identifier used for diagnostics.
    */
   NSString *_diagnosticsID;
 }

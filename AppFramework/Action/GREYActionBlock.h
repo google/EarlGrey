@@ -19,76 +19,76 @@
 @protocol GREYMatcher;
 
 /**
- *  Block type for defining the action's 'perform' code.
+ * Block type for defining the action's 'perform' code.
  *
- *  @param      element    The element on which the block is going to be performed.
- *  @param[out] errorOrNil The error set on failure. The error returned can be @c nil, signifying
- *                         that the action succeeded.
+ * @param      element    The element on which the block is going to be performed.
+ * @param[out] errorOrNil The error set on failure. The error returned can be @c nil, signifying
+ *                        that the action succeeded.
  *
- *  @return @c YES if the action performed succeeded, else @c NO.
+ * @return @c YES if the action performed succeeded, else @c NO.
  */
 typedef BOOL (^GREYPerformBlock)(id element, __strong NSError **errorOrNil);
 
 /**
- *  A class for creating block based GREYAction.
+ * A class for creating block based GREYAction.
  */
 @interface GREYActionBlock : GREYBaseAction
 
 /**
- *  Creates a GREYAction that performs the action in the provided @c block subject to the
- *  provided @c constraints.
+ * Creates a GREYAction that performs the action in the provided @c block subject to the
+ * provided @c constraints.
  *
- *  @param name        The name of the action.
- *  @param block       A block that contains the action to execute.
+ * @param name        The name of the action.
+ * @param block       A block that contains the action to execute.
  *
- *  @note GREYActions are not performed by default on the main thread. The threading
- *        behavior of the GREYAction has to be specified by the user.
+ * @note GREYActions are not performed by default on the main thread. The threading
+ *       behavior of the GREYAction has to be specified by the user.
  *
- *  @return A GREYActionBlock instance with the given name and constraints.
+ * @return A GREYActionBlock instance with the given name and constraints.
  */
 + (instancetype)actionWithName:(NSString *)name performBlock:(GREYPerformBlock)block;
 
 /**
- *  Creates a GREYAction that performs the action in the provided @c block subject to the
- *  provided @c constraints.
+ * Creates a GREYAction that performs the action in the provided @c block subject to the
+ * provided @c constraints.
  *
- *  @param name        The name of the action.
- *  @param constraints Constraints that must be satisfied before the action is performed
- *                     This is optional and can be @c nil.
- *  @param block       A block that contains the action to execute.
+ * @param name        The name of the action.
+ * @param constraints Constraints that must be satisfied before the action is performed
+ *                    This is optional and can be @c nil.
+ * @param block       A block that contains the action to execute.
  *
- *  @note GREYActions are not performed by default on the main thread. The threading
- *        behavior of the GREYAction has to be specified by the user.
+ * @note GREYActions are not performed by default on the main thread. The threading
+ *       behavior of the GREYAction has to be specified by the user.
  *
- *  @return A GREYActionBlock instance with the given name and constraints.
+ * @return A GREYActionBlock instance with the given name and constraints.
  */
 + (instancetype)actionWithName:(NSString *)name
                    constraints:(id<GREYMatcher>)constraints
                   performBlock:(GREYPerformBlock)block;
 
 /**
- *  @remark init is not an available initializer. Use the other initializers.
+ * @remark init is not an available initializer. Use the other initializers.
  */
 - (instancetype)init NS_UNAVAILABLE;
 
 /**
- *  @remark initWithName::constraints: is overridden from its superclass.
+ * @remark initWithName::constraints: is overridden from its superclass.
  */
 - (instancetype)initWithName:(NSString *)name
                  constraints:(id<GREYMatcher>)constraints NS_UNAVAILABLE;
 
 /**
- *  Designated Initializer.
+ * Designated Initializer.
  *
- *  @param name        The name of the action.
- *  @param constraints Constraints that must be satisfied before the action is performed
- *                     This is optional and can be @c nil.
- *  @param block       A block that contains the action to execute.
+ * @param name        The name of the action.
+ * @param constraints Constraints that must be satisfied before the action is performed
+ *                    This is optional and can be @c nil.
+ * @param block       A block that contains the action to execute.
  *
- *  @note GREYActions are not performed by default on the main thread. The threading
- *        behavior of the GREYAction has to be specified by the user.
+ * @note GREYActions are not performed by default on the main thread. The threading
+ *       behavior of the GREYAction has to be specified by the user.
  *
- *  @return A GREYActionBlock instance with the given name and constraints.
+ * @return A GREYActionBlock instance with the given name and constraints.
  */
 - (instancetype)initWithName:(NSString *)name
                  constraints:(id<GREYMatcher>)constraints

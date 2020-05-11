@@ -18,42 +18,42 @@
 #import "GREYConstants.h"
 
 /**
- *  A GREYAction that implements a scroll action that scrolls the contents of the matched
- *  UIScrollView to the given edge of its contents.
+ * A GREYAction that implements a scroll action that scrolls the contents of the matched
+ * UIScrollView to the given edge of its contents.
  */
 @interface GREYScrollToContentEdgeAction : GREYBaseAction
 
 /**
- *  @remark init is not an available initializer. Use the other initializers.
+ * @remark init is not an available initializer. Use the other initializers.
  */
 - (instancetype)init NS_UNAVAILABLE;
 
 /**
- *  @remark initWithName::constraints: is overridden from its superclass.
+ * @remark initWithName::constraints: is overridden from its superclass.
  */
 - (instancetype)initWithName:(NSString *)name
                  constraints:(id<GREYMatcher>)constraints NS_UNAVAILABLE;
 
 /**
- *  Creates a scroll action that scrolls to the given @c edge of the contents in the selected
- *  scroll view.
+ * Creates a scroll action that scrolls to the given @c edge of the contents in the selected
+ * scroll view.
  *
- *  @param edge The edge of the UIScrollView to scroll the contents.
+ * @param edge The edge of the UIScrollView to scroll the contents.
  *
- *  @return An instance of GREYScrollToContentEdgeAction, initialized with the provided @c edge.
+ * @return An instance of GREYScrollToContentEdgeAction, initialized with the provided @c edge.
  */
 - (instancetype)initWithEdge:(GREYContentEdge)edge;
 
 /**
- *  Creates a scroll action that scrolls to the given @c edge of the contents in the selected
- *  scroll view with the start point specified by @c startPointPercents.
+ * Creates a scroll action that scrolls to the given @c edge of the contents in the selected
+ * scroll view with the start point specified by @c startPointPercents.
  *
- *  @param edge               The edge of the UIScrollView to scroll the contents.
- *  @param startPointPercents The start point of the scroll specified as percents (0, 1) exclusive,
- *                            in the visible area of the scroll view or as @c NAN to pick a point
- *                            that provides maximum scroll length.
+ * @param edge               The edge of the UIScrollView to scroll the contents.
+ * @param startPointPercents The start point of the scroll specified as percents (0, 1) exclusive,
+ *                           in the visible area of the scroll view or as @c NAN to pick a point
+ *                           that provides maximum scroll length.
  *
- *  @return An instance of GREYScrollToContentEdgeAction, initialized with the provided @c edge.
+ * @return An instance of GREYScrollToContentEdgeAction, initialized with the provided @c edge.
  */
 - (instancetype)initWithEdge:(GREYContentEdge)edge
           startPointPercents:(CGPoint)startPointPercents NS_DESIGNATED_INITIALIZER;

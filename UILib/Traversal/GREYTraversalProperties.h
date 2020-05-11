@@ -20,39 +20,39 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  Class that holds visibility information about the UI element in the hierarchy traversal.
+ * Class that holds visibility information about the UI element in the hierarchy traversal.
  */
 @interface GREYTraversalProperties : NSObject
 
 /**
- *  A @c CGRect representing the boundary in which the current element clips to. @c CGRectNull
- *  if there is no boundary. It is represented relative to its parent element.
+ * A @c CGRect representing the boundary in which the current element clips to. @c CGRectNull
+ * if there is no boundary. It is represented relative to its parent element.
  */
 @property(nonatomic, readonly) CGRect boundingRect;
 
 /**
- *  A @c BOOL specifying whether the traversing element is hidden or not (either by itself or its
- *  ancestors' property). This is different from the UIView's @c hidden property as UIView's
- *  property does not propagate down through the hierarchy. This property is inherited to the
- *  children by performing an OR operation with its children's property.
+ * A @c BOOL specifying whether the traversing element is hidden or not (either by itself or its
+ * ancestors' property). This is different from the UIView's @c hidden property as UIView's
+ * property does not propagate down through the hierarchy. This property is inherited to the
+ * children by performing an OR operation with its children's property.
  */
 @property(nonatomic, readonly) BOOL hidden;
 
 /**
- *  A @c CGFloat indicating the lowest alpha value in the hierarchy above the traversing element.
- *  This is different from the UIView's @c alpha property as UIView's property does not propagate
- *  through the hierarchy. This property is inherited to the children by performing an MIN operation
- *  with its children's alpha.
+ * A @c CGFloat indicating the lowest alpha value in the hierarchy above the traversing element.
+ * This is different from the UIView's @c alpha property as UIView's property does not propagate
+ * through the hierarchy. This property is inherited to the children by performing an MIN operation
+ * with its children's alpha.
  */
 @property(nonatomic, readonly) CGFloat lowestAlpha;
 
 /**
- *  @remark init is not an available initializer. Use the other initializers.
+ * @remark init is not an available initializer. Use the other initializers.
  */
 - (instancetype)init NS_UNAVAILABLE;
 
 /**
- *  Initializer for the class.
+ * Initializer for the class.
  */
 - (instancetype)initWithBoundingRect:(CGRect)boundingRect
                               hidden:(BOOL)hidden

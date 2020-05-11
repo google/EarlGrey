@@ -27,24 +27,24 @@
 @interface GREYManagedObjectContextIdlingResource : NSObject <GREYIdlingResource>
 
 /**
- *  Creates an idling resource tracking @c managedObjectContext.
+ * Creates an idling resource tracking @c managedObjectContext.
  *
- *  A weak reference is held to @c managedObjectContext. If @c managedObjectContext is deallocated,
- *  then the idling resource will deregister itself from the thread executor.
+ * A weak reference is held to @c managedObjectContext. If @c managedObjectContext is deallocated,
+ * then the idling resource will deregister itself from the thread executor.
  *
- *  @param managedObjectContext The managed object context to be tracked by the resource.
- *  @param trackPendingChanges  If @c YES, then the idling resource will report that it is busy
- *                              when the managed object context has pending changes.
- *  @param name                 A descriptive name for the idling resource.
+ * @param managedObjectContext The managed object context to be tracked by the resource.
+ * @param trackPendingChanges  If @c YES, then the idling resource will report that it is busy
+ *                             when the managed object context has pending changes.
+ * @param name                 A descriptive name for the idling resource.
  *
- *  @return An idling resource tracking @c managedObjectContext.
+ * @return An idling resource tracking @c managedObjectContext.
  */
 + (instancetype)resourceWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext
                              trackPendingChanges:(BOOL)trackPendingChanges
                                             name:(NSString *)name;
 
 /**
- *  @remark init is not an available initializer. Use the other initializers.
+ * @remark init is not an available initializer. Use the other initializers.
  */
 - (instancetype)init NS_UNAVAILABLE;
 

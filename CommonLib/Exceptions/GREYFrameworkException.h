@@ -21,86 +21,86 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  Generic framework failure.
+ * Generic framework failure.
  */
 GREY_EXTERN NSString *const kGREYGenericFailureException;
 /**
- *  Thrown on action failure.
+ * Thrown on action failure.
  */
 GREY_EXTERN NSString *const kGREYActionFailedException;
 /**
- *  Thrown on assertion failure.
+ * Thrown on assertion failure.
  */
 GREY_EXTERN NSString *const kGREYAssertionFailedException;
 /**
- *  Thrown when assertion failed due to an unexpected @c nil parameter.
+ * Thrown when assertion failed due to an unexpected @c nil parameter.
  */
 GREY_EXTERN NSString *const kGREYNilException;
 /**
- *  Thrown when assertion failed due to an unexpected non-nil parameter.
+ * Thrown when assertion failed due to an unexpected non-nil parameter.
  */
 GREY_EXTERN NSString *const kGREYNotNilException;
 
 /**
- *  Thrown by the selection API when no UI element matches the selection matcher.
+ * Thrown by the selection API when no UI element matches the selection matcher.
  */
 GREY_EXTERN NSString *const kGREYNoMatchingElementException;
 
 /**
- *  Thrown by the interaction API when either an action or assertion matcher matches multiple
- *  elements in the UI hierarchy.
+ * Thrown by the interaction API when either an action or assertion matcher matches multiple
+ * elements in the UI hierarchy.
  */
 GREY_EXTERN NSString *const kGREYMultipleElementsFoundException;
 
 /**
- *  Thrown by the interaction API when either an action or assertion times out waiting for the
- *  app to become idle.
+ * Thrown by the interaction API when either an action or assertion times out waiting for the
+ * app to become idle.
  */
 GREY_EXTERN NSString *const kGREYTimeoutException;
 
 /**
- *  Thrown by the action API when the constraints required for performing the action are not
- *  satisfied.
+ * Thrown by the action API when the constraints required for performing the action are not
+ * satisfied.
  */
 GREY_EXTERN NSString *const kGREYConstraintFailedException;
 
 /**
- *  Exception raised by the framework which results in a test failure.
- *  To catch such exceptions, install a custom failure handler
- *  using:
+ * Exception raised by the framework which results in a test failure.
+ * To catch such exceptions, install a custom failure handler
+ * using:
  *
- *  @code
- *    [NSThread mainThread].threadDictionary[GREYFailureHandlerKey] = handler;
- *  @endcode
+ * @code
+ *   [NSThread mainThread].threadDictionary[GREYFailureHandlerKey] = handler;
+ * @endcode
  *
  * . A default failure handler is provided by the framework.
  */
 @interface GREYFrameworkException : NSException
 
 /**
- *  @remark init is not an available initializer. Use the other initializers.
+ * @remark init is not an available initializer. Use the other initializers.
  */
 - (instancetype)init NS_UNAVAILABLE;
 
 /**
- *  Creates a new exception instance.
+ * Creates a new exception instance.
  *
- *  @param name   The name of the exception.
- *  @param reason The reason for the exception.
+ * @param name   The name of the exception.
+ * @param reason The reason for the exception.
  *
- *  @return A GREYFrameworkException instance, initialized with a @c name and @c reason.
+ * @return A GREYFrameworkException instance, initialized with a @c name and @c reason.
  */
 + (instancetype)exceptionWithName:(NSString *)name reason:(nullable NSString *)reason;
 
 /**
- *  Creates a new exception instance.
+ * Creates a new exception instance.
  *
- *  @param name     The name of the exception.
- *  @param reason   The reason for the exception.
- *  @param userInfo userInfo as used by @c NSException.
- *                  EarlGrey doesn't use this param so it's safe to pass nil.
+ * @param name     The name of the exception.
+ * @param reason   The reason for the exception.
+ * @param userInfo userInfo as used by @c NSException.
+ *                 EarlGrey doesn't use this param so it's safe to pass nil.
  *
- *  @return A GREYFrameworkException instance, initialized with a @c name and @c reason.
+ * @return A GREYFrameworkException instance, initialized with a @c name and @c reason.
  */
 + (instancetype)exceptionWithName:(NSString *)name
                            reason:(nullable NSString *)reason

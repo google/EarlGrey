@@ -15,10 +15,10 @@
 //
 
 /**
- *  @file
- *  @brief Helper macros for performing assertions and throwing assertion failure exceptions.
- *  On failure, these macros take screenshots and log full view hierarchy. They wait for app to idle
- *  before performing the assertion.
+ * @file
+ * @brief Helper macros for performing assertions and throwing assertion failure exceptions.
+ * On failure, these macros take screenshots and log full view hierarchy. They wait for app to idle
+ * before performing the assertion.
  */
 
 #ifndef GREY_ASSERTION_DEFINES_H
@@ -33,16 +33,16 @@
 #import "GREYWaitFunctions.h"
 
 /**
- *  These Macros are safe to call from anywhere within a testcase.
+ * These Macros are safe to call from anywhere within a testcase.
  */
 #pragma mark - Public Macros
 
 /**
- *  Generates a failure unconditionally, with the provided @c __description.
+ * Generates a failure unconditionally, with the provided @c __description.
  *
- *  @param __description Description to print. May be a format string, in which case the variable
- *                       args will be required.
- *  @param ...           Variable args for @c __description if it is a format string.
+ * @param __description Description to print. May be a format string, in which case the variable
+ *                      args will be required.
+ * @param ...           Variable args for @c __description if it is a format string.
  */
 #define GREYFail(__description, ...)            \
   ({                                            \
@@ -51,14 +51,14 @@
   })
 
 /**
- *  Generates a failure unconditionally, with the provided @c __description and @c __details.
+ * Generates a failure unconditionally, with the provided @c __description and @c __details.
 
 
  *
- *  @param __description  Description to print.
- *  @param __details      The failure details. May be a format string, in which case the variable
- *                        args will be required.
- *  @param ...            Variable args for @c __description if it is a format string.
+ * @param __description  Description to print.
+ * @param __details      The failure details. May be a format string, in which case the variable
+ *                       args will be required.
+ * @param ...            Variable args for @c __description if it is a format string.
  */
 #define GREYFailWithDetails(__description, __details, ...)              \
   ({                                                                    \
@@ -67,15 +67,15 @@
   })
 
 /**
- *  Generates a failure with the provided @c __description if the expression @c __a1 evaluates to
+ * Generates a failure with the provided @c __description if the expression @c __a1 evaluates to
 
 
- *  @c NO.
+ * @c NO.
  *
- *  @param __a1          The expression that should be evaluated.
- *  @param __description Description to print if @c __a1 evaluates to @c NO. May be a format
- *                       string, in which case the variable args will be required.
- *  @param ...           Variable args for @c __description if it is a format string.
+ * @param __a1          The expression that should be evaluated.
+ * @param __description Description to print if @c __a1 evaluates to @c NO. May be a format
+ *                      string, in which case the variable args will be required.
+ * @param ...           Variable args for @c __description if it is a format string.
  */
 #define GREYAssert(__a1, __description, ...)                                  \
   ({                                                                          \
@@ -86,15 +86,15 @@
   })
 
 /**
- *  Generates a failure with the provided @c __description if the expression @c __a1 evaluates to
+ * Generates a failure with the provided @c __description if the expression @c __a1 evaluates to
 
 
- *  @c NO.
+ * @c NO.
  *
- *  @param __a1          The expression that should be evaluated.
- *  @param __description Description to print if @c __a1 evaluates to @c NO. May be a format
- *                       string, in which case the variable args will be required.
- *  @param ...           Variable args for @c __description if it is a format string.
+ * @param __a1          The expression that should be evaluated.
+ * @param __description Description to print if @c __a1 evaluates to @c NO. May be a format
+ *                      string, in which case the variable args will be required.
+ * @param ...           Variable args for @c __description if it is a format string.
  */
 #define GREYAssertTrue(__a1, __description, ...)                              \
   ({                                                                          \
@@ -105,15 +105,15 @@
   })
 
 /**
- *  Generates a failure with the provided @c __description if the expression @c __a1 evaluates to
+ * Generates a failure with the provided @c __description if the expression @c __a1 evaluates to
 
 
- *  @c YES.
+ * @c YES.
  *
- *  @param __a1          The expression that should be evaluated.
- *  @param __description Description to print if @c __a1 evaluates to @c NO. May be a format
- *                       string, in which case the variable args will be required.
- *  @param ...           Variable args for @c __description if it is a format string.
+ * @param __a1          The expression that should be evaluated.
+ * @param __description Description to print if @c __a1 evaluates to @c NO. May be a format
+ *                      string, in which case the variable args will be required.
+ * @param ...           Variable args for @c __description if it is a format string.
  */
 #define GREYAssertFalse(__a1, __description, ...)                              \
   ({                                                                           \
@@ -124,14 +124,14 @@
   })
 
 /**
- *  Generates a failure with the provided @c __description if the expression @c __a1 is @c nil.
+ * Generates a failure with the provided @c __description if the expression @c __a1 is @c nil.
 
 
  *
- *  @param __a1          The expression that should be evaluated.
- *  @param __description Description to print if @c __a1 is @c nil. May be a format
- *                       string, in which case the variable args will be required.
- *  @param ...           Variable args for @c __description if it is a format string.
+ * @param __a1          The expression that should be evaluated.
+ * @param __description Description to print if @c __a1 is @c nil. May be a format
+ *                      string, in which case the variable args will be required.
+ * @param ...           Variable args for @c __description if it is a format string.
  */
 #define GREYAssertNotNil(__a1, __description, ...)                               \
   ({                                                                             \
@@ -142,15 +142,15 @@
   })
 
 /**
- *  Generates a failure with the provided @c __description if the expression @c __a1 is not @c nil.
+ * Generates a failure with the provided @c __description if the expression @c __a1 is not @c nil.
 
 
 
  *
- *  @param __a1          The expression that should be evaluated.
- *  @param __description Description to print if @c __a1 is not @c nil. May be a format
- *                       string, in which case the variable args will be required.
- *  @param ...           Variable args for @c __description if it is a format string.
+ * @param __a1          The expression that should be evaluated.
+ * @param __description Description to print if @c __a1 is not @c nil. May be a format
+ *                      string, in which case the variable args will be required.
+ * @param ...           Variable args for @c __description if it is a format string.
  */
 #define GREYAssertNil(__a1, __description, ...)                              \
   ({                                                                         \
@@ -161,16 +161,16 @@
   })
 
 /**
- *  Generates a failure with the provided @c __description if the expression @c __a1 and
- *  the expression @c __a2 are not equal.
+ * Generates a failure with the provided @c __description if the expression @c __a1 and
+ * the expression @c __a2 are not equal.
 
- *  @c __a1 and @c __a2 must be scalar types.
+ * @c __a1 and @c __a2 must be scalar types.
  *
- *  @param __a1          The left hand scalar value on the equality operation.
- *  @param __a2          The right hand scalar value on the equality operation.
- *  @param __description Description to print if @c __a1 and @c __a2 are not equal. May be a format
- *                       string, in which case the variable args will be required.
- *  @param ...           Variable args for @c __description if it is a format string.
+ * @param __a1          The left hand scalar value on the equality operation.
+ * @param __a2          The right hand scalar value on the equality operation.
+ * @param __description Description to print if @c __a1 and @c __a2 are not equal. May be a format
+ *                      string, in which case the variable args will be required.
+ * @param ...           Variable args for @c __description if it is a format string.
  */
 #define GREYAssertEqual(__a1, __a2, __description, ...)                                         \
   ({                                                                                            \
@@ -181,18 +181,18 @@
   })
 
 /**
- *  Generates a failure with the provided @c __description if the expression @c __a1 and
- *  the expression @c __a2 are equal.
+ * Generates a failure with the provided @c __description if the expression @c __a1 and
+ * the expression @c __a2 are equal.
 
 
 
- *  @c __a1 and @c __a2 must be scalar types.
+ * @c __a1 and @c __a2 must be scalar types.
  *
- *  @param __a1          The left hand scalar value on the equality operation.
- *  @param __a2          The right hand scalar value on the equality operation.
- *  @param __description Description to print if @c __a1 and @c __a2 are equal. May be a format
- *                       string, in which case the variable args will be required.
- *  @param ...           Variable args for @c __description if it is a format string.
+ * @param __a1          The left hand scalar value on the equality operation.
+ * @param __a2          The right hand scalar value on the equality operation.
+ * @param __description Description to print if @c __a1 and @c __a2 are equal. May be a format
+ *                      string, in which case the variable args will be required.
+ * @param ...           Variable args for @c __description if it is a format string.
  */
 #define GREYAssertNotEqual(__a1, __a2, __description, ...)                  \
   ({                                                                        \
@@ -204,17 +204,17 @@
   })
 
 /**
- *  Generates a failure with the provided @c __description if the expression @c __a1 and
- *  the expression @c __a2 are not equal.
- *  @c __a1 and @c __a2 must be descendants of NSObject and will be compared with method isEqual.
+ * Generates a failure with the provided @c __description if the expression @c __a1 and
+ * the expression @c __a2 are not equal.
+ * @c __a1 and @c __a2 must be descendants of NSObject and will be compared with method isEqual.
 
 
  *
- *  @param __a1          The left hand object on the equality operation.
- *  @param __a2          The right hand object on the equality operation.
- *  @param __description Description to print if @c __a1 and @c __a2 are not equal. May be a format
- *                       string, in which case the variable args will be required.
- *  @param ...           Variable args for @c __description if it is a format string.
+ * @param __a1          The left hand object on the equality operation.
+ * @param __a2          The right hand object on the equality operation.
+ * @param __description Description to print if @c __a1 and @c __a2 are not equal. May be a format
+ *                      string, in which case the variable args will be required.
+ * @param ...           Variable args for @c __description if it is a format string.
  */
 #define GREYAssertEqualObjects(__a1, __a2, __description, ...)                  \
   ({                                                                            \
@@ -226,18 +226,18 @@
   })
 
 /**
- *  Generates a failure with the provided @c __description if the expression @c __a1 and
- *  the expression @c __a2 are equal.
- *  @c __a1 and @c __a2 must be descendants of NSObject and will be compared with method isEqual.
+ * Generates a failure with the provided @c __description if the expression @c __a1 and
+ * the expression @c __a2 are equal.
+ * @c __a1 and @c __a2 must be descendants of NSObject and will be compared with method isEqual.
 
 
 
  *
- *  @param __a1          The left hand object on the equality operation.
- *  @param __a2          The right hand object on the equality operation.
- *  @param __description Description to print if @c __a1 and @c __a2 are equal. May be a format
- *                       string, in which case the variable args will be required.
- *  @param ...           Variable args for @c __description if it is a format string.
+ * @param __a1          The left hand object on the equality operation.
+ * @param __a2          The right hand object on the equality operation.
+ * @param __description Description to print if @c __a1 and @c __a2 are equal. May be a format
+ *                      string, in which case the variable args will be required.
+ * @param ...           Variable args for @c __description if it is a format string.
  */
 #define GREYAssertNotEqualObjects(__a1, __a2, __description, ...)                   \
   ({                                                                                \
@@ -249,9 +249,9 @@
   })
 
 /**
- *  Waits for the application to idle without blocking the test's main thread.
+ * Waits for the application to idle without blocking the test's main thread.
  *
- *  @param __timeoutDescription The description to print if the idling errors out.
+ * @param __timeoutDescription The description to print if the idling errors out.
  */
 #define GREYWaitForAppToIdle(__timeoutDescription)                                            \
   ({                                                                                          \
@@ -263,11 +263,11 @@
   })
 
 /**
- *  Waits for the application to idle without blocking the test's main thread within the specified
- *  timeout.
+ * Waits for the application to idle without blocking the test's main thread within the specified
+ * timeout.
  *
- *  @param __timeout            The seconds for which the application will be waited on to be idle.
- *  @param __timeoutDescription The description to print if the idling errors out.
+ * @param __timeout            The seconds for which the application will be waited on to be idle.
+ * @param __timeoutDescription The description to print if the idling errors out.
  */
 #define GREYWaitForAppToIdleWithTimeout(__timeout, __timeoutDescription)                   \
   ({                                                                                       \

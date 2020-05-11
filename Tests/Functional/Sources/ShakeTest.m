@@ -28,8 +28,8 @@
 }
 
 /**
- *  Shake the device using EarlGrey API and verify that the device is shaked using standard motion
- *  detection.
+ * Shake the device using EarlGrey API and verify that the device is shaked using standard motion
+ * detection.
  */
 - (void)testDeviceShake {
   // Test device shake.

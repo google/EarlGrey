@@ -27,44 +27,44 @@
 #import "GREYSwizzler.h"
 
 /**
- *  Intercepts the CAAnimationDelegate::animationDidStart: call and directs it to the correct
- *  implementation depending on the swizzled context.
+ * Intercepts the CAAnimationDelegate::animationDidStart: call and directs it to the correct
+ * implementation depending on the swizzled context.
  *
- *  @param animation                   The animation the current class is the delegate off.
- *  @param isInvokedFromSwizzledMethod @c YES if called from a swizzled method, @c NO otherwise.
+ * @param animation                   The animation the current class is the delegate off.
+ * @param isInvokedFromSwizzledMethod @c YES if called from a swizzled method, @c NO otherwise.
  */
 static void AnimationDidStart(id self, SEL _cmd, CAAnimation *animation,
                               BOOL isInvokedFromSwizzledMethod);
 
 /**
- *  Intercepts the CAAnimationDelegate::animationDidStop:finished: call and directs it to the
- *  correct implementation depending on the swizzled context.
+ * Intercepts the CAAnimationDelegate::animationDidStop:finished: call and directs it to the
+ * correct implementation depending on the swizzled context.
  *
- *  @param animation                   The animation the current class is the delegate off.
- *  @param finished                    @c YES if the animation has finished, @c NO if it stopped
- *                                     for other reasons.
- *  @param isInvokedFromSwizzledMethod @c YES if called from a swizzled method, @c NO otherwise.
+ * @param animation                   The animation the current class is the delegate off.
+ * @param finished                    @c YES if the animation has finished, @c NO if it stopped
+ *                                    for other reasons.
+ * @param isInvokedFromSwizzledMethod @c YES if called from a swizzled method, @c NO otherwise.
  */
 static void AnimationDidStop(id self, SEL _cmd, CAAnimation *animation, BOOL finished,
                              BOOL isInvokedFromSwizzledMethod);
 
 /**
- *  Adds the @c originalSelector to the delegate's class if it does not respond to it.
- *  If present, adds the @c swizzledSelector to the @c delegates's class and swizzles the
- *  @originalSelector with the @c swizzledSelector for better tracking with EarlGrey
- *  synchronization.
+ * Adds the @c originalSelector to the delegate's class if it does not respond to it.
+ * If present, adds the @c swizzledSelector to the @c delegates's class and swizzles the
+ * @originalSelector with the @c swizzledSelector for better tracking with EarlGrey
+ * synchronization.
  *
- *  @param delegate               The CAAnimationDelegate being swizzled.
- *  @param originalSelector       The original selector method from CAAnimationDelegate to be
- *                                swizzled.
- *  @param swizzledSelector       The custom EarlGrey selector for the @c originalSelector.
- *  @param selfImplementation     The implementation of the @c originalSelector in the
- *                                GREYCAAnimationDelegate.
- *  @param delegateImplementation The implementation for the @c originalSelector in the delegate
- *                                passed in.
+ * @param delegate               The CAAnimationDelegate being swizzled.
+ * @param originalSelector       The original selector method from CAAnimationDelegate to be
+ *                               swizzled.
+ * @param swizzledSelector       The custom EarlGrey selector for the @c originalSelector.
+ * @param selfImplementation     The implementation of the @c originalSelector in the
+ *                               GREYCAAnimationDelegate.
+ * @param delegateImplementation The implementation for the @c originalSelector in the delegate
+ *                               passed in.
  *
- *  @return An id<CAAnimationDelegate> that has been appropriately instrumented for EarlGrey's
- *          synchronization.
+ * @return An id<CAAnimationDelegate> that has been appropriately instrumented for EarlGrey's
+ *         synchronization.
  */
 static id InstrumentSurrogateDelegate(id self, id delegate, SEL originalSelector,
                                       SEL swizzledSelector, IMP selfImplementation,
@@ -115,19 +115,19 @@ static id InstrumentSurrogateDelegate(id self, id delegate, SEL originalSelector
 #pragma mark - Private
 
 /**
- *  Swizzled implementation of the CAAnimationDelegate::animationDidStart method.
+ * Swizzled implementation of the CAAnimationDelegate::animationDidStart method.
  *
- *  @param animation The animation the current class is the delegate off.
+ * @param animation The animation the current class is the delegate off.
  */
 - (void)greyswizzled_animationDidStart:(CAAnimation *)animation {
   AnimationDidStart(self, _cmd, animation, YES);
 }
 
 /**
- *  Swizzled implementation of the CAAnimationDelegate::animationDidStop:finished: method.
+ * Swizzled implementation of the CAAnimationDelegate::animationDidStop:finished: method.
  *
- *  @param animation The animation the current class is the delegate off.
- *  @param finished  @c YES if the animation has finished, @c NO if it stopped for other reasons.s
+ * @param animation The animation the current class is the delegate off.
+ * @param finished  @c YES if the animation has finished, @c NO if it stopped for other reasons.s
  */
 - (void)greyswizzled_animationDidStop:(CAAnimation *)animation finished:(BOOL)finished {
   AnimationDidStop(self, _cmd, animation, finished, YES);

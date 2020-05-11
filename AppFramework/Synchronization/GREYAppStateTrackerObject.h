@@ -21,42 +21,42 @@ NS_ASSUME_NONNULL_BEGIN
 @class GREYObjectDeallocationTracker;
 
 /**
- *  Class used by the GREYAppStateTracker for synchronization purposes.
+ * Class used by the GREYAppStateTracker for synchronization purposes.
  */
 @interface GREYAppStateTrackerObject : NSObject
 
 /**
- *  Initializing the GREYAppStateTrackerObject.
+ * Initializing the GREYAppStateTrackerObject.
  *
- *  @param deallocationTracker The object that will be pointed to using a weak reference.
+ * @param deallocationTracker The object that will be pointed to using a weak reference.
  *
- *  @return An instance of GREYAppStateTrackerObject.
+ * @return An instance of GREYAppStateTrackerObject.
  */
 - (instancetype)initWithDeallocationTracker:(GREYObjectDeallocationTracker *)deallocationTracker;
 
 /**
- *  @remark init is not an available initializer. Use the other initializer.
+ * @remark init is not an available initializer. Use the other initializer.
  */
 - (instancetype)init NS_UNAVAILABLE;
 
 /**
- *  @c object is an instance of GREYObjectDeallocatingTracker aka the internal object. The
- *  GREYAppStateTrackerObject holds weakly to the GREYObjectDeallocatingTracker object.
+ * @c object is an instance of GREYObjectDeallocatingTracker aka the internal object. The
+ * GREYAppStateTrackerObject holds weakly to the GREYObjectDeallocatingTracker object.
  */
 @property(nonatomic, readonly, weak) GREYObjectDeallocationTracker *object;
 
 /**
- *  The state that this object is tracking.
+ * The state that this object is tracking.
  */
 @property(nonatomic, assign) GREYAppState state;
 
 /**
- *  The description of the object that is being represented by GREYAppStateTrackerObject.
+ * The description of the object that is being represented by GREYAppStateTrackerObject.
  */
 @property(nonatomic, strong) NSString *objectDescription;
 
 /**
- *  @return The callstack that was set when a new state @c state was set.
+ * @return The callstack that was set when a new state @c state was set.
  */
 - (NSArray<NSString *> *)stateAssignmentCallStack;
 

@@ -59,9 +59,9 @@
 }
 
 /**
- *  Test to type a word in a text field. However, on typing each letter in the word, a keyboard
- *  dismissal is done and the next letter is typed independently. Once all letters are typed, the
- *  word is finally asserted for being present in the text field.
+ * Test to type a word in a text field. However, on typing each letter in the word, a keyboard
+ * dismissal is done and the next letter is typed independently. Once all letters are typed, the
+ * word is finally asserted for being present in the text field.
  */
 - (void)testDismissingKeyboard {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
@@ -79,7 +79,7 @@
 }
 
 /**
- *  Test to check if the error returned on failure is the same as the keyboard dismissal one.
+ * Test to check if the error returned on failure is the same as the keyboard dismissal one.
  */
 - (void)testDismissingKeyboardError {
   NSError *error;
@@ -89,7 +89,7 @@
 }
 
 /**
- *  Sanity check for RMI calls for matcher and action shorthand calls.
+ * Sanity check for RMI calls for matcher and action shorthand calls.
  */
 - (void)testSelectElementWithMatcherWithRMICall {
   XCTAssertNoThrow(grey_anyOf(grey_interactable(), grey_firstResponder(), nil));

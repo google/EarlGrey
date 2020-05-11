@@ -21,39 +21,39 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  A private wrapper used to store information that is essential for printing the UI hierarchy
- *  appropriately and in correct order.
+ * A private wrapper used to store information that is essential for printing the UI hierarchy
+ * appropriately and in correct order.
  */
 @interface GREYTraversalObject : NSObject
 
 /**
- *  The UI element that the GREYTraversalObject is wrapped around.
+ * The UI element that the GREYTraversalObject is wrapped around.
  */
 @property(nonatomic, strong, readonly) id element;
 
 /**
- *  An NSUInteger representing the number of parent-child relationships from the root element
- *  to the current element.
+ * An NSUInteger representing the number of parent-child relationships from the root element
+ * to the current element.
  */
 @property(nonatomic, readonly) NSUInteger level;
 
 /**
- *  Dictionary class to store information about the @c element's visibility.
+ * Dictionary class to store information about the @c element's visibility.
  */
 @property(nonatomic, strong, readonly, nullable) GREYTraversalProperties *properties;
 
 /**
- *  @remark init is not an available initializer. Use the other initializers.
+ * @remark init is not an available initializer. Use the other initializers.
  */
 - (instancetype)init NS_UNAVAILABLE;
 
 /**
- *  Convenience initializer if @c properties is not used.
+ * Convenience initializer if @c properties is not used.
  */
 - (instancetype)initWithElement:(id)element level:(NSUInteger)level;
 
 /**
- *  Designated initializer for the class.
+ * Designated initializer for the class.
  */
 - (instancetype)initWithElement:(id)element
                           level:(NSUInteger)level

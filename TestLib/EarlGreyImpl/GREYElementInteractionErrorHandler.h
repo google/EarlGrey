@@ -19,13 +19,13 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  Handles or sets the interaction error based on the placeholder error value.
- *  It throws an interaction related exception on behalf of the application
- *  process unless the user passes in the
- *  @c outError parameter from the test.
+ * Handles or sets the interaction error based on the placeholder error value.
+ * It throws an interaction related exception on behalf of the application
+ * process unless the user passes in the
+ * @c outError parameter from the test.
  *
- *  @param      interactionError Error returned from the interaction.
- *  @param[out] outError         Error passed in by the user.
+ * @param      interactionError Error returned from the interaction.
+ * @param[out] outError         Error passed in by the user.
  */
 void GREYHandleInteractionError(__strong GREYError *interactionError,
                                 __autoreleasing NSError **outError);

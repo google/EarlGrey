@@ -29,7 +29,7 @@
 #import "GREYLogger.h"
 
 /**
- *  Enum to specify the type of operation that is being performed on an object.
+ * Enum to specify the type of operation that is being performed on an object.
  */
 typedef NS_ENUM(NSUInteger, GREYStateOperation) {
   kGREYTrackState,
@@ -38,12 +38,12 @@ typedef NS_ENUM(NSUInteger, GREYStateOperation) {
 };
 
 /**
- *  Lock protecting object state map.
+ * Lock protecting object state map.
  */
 static pthread_mutex_t gStateLock = PTHREAD_RECURSIVE_MUTEX_INITIALIZER;
 
 /**
- *  The number of app states that exist. Used as a hint in creating @c _stateDictionary.
+ * The number of app states that exist. Used as a hint in creating @c _stateDictionary.
  */
 static const unsigned short kNumGREYAppStates = 12;
 
@@ -53,16 +53,16 @@ static const unsigned short kNumGREYAppStates = 12;
 
 @implementation GREYAppStateTracker {
   /**
-   *  Stores the GREYAppStateTrackerObjects that are being used to track objects.
+   * Stores the GREYAppStateTrackerObjects that are being used to track objects.
    */
   NSMutableSet<GREYAppStateTrackerObject *> *_externalTrackerObjects;
   /**
-   *  The current state of the app. Access should be guarded by @c gStateLock lock.
+   * The current state of the app. Access should be guarded by @c gStateLock lock.
    */
   GREYAppState _currentState;
   /**
-   *  A dictionary that maps the state to the number of objects that are currently in that state.
-   *  Access should be guarded by @c gStateLock lock.
+   * A dictionary that maps the state to the number of objects that are currently in that state.
+   * Access should be guarded by @c gStateLock lock.
    */
   NSMutableDictionary<NSNumber *, NSNumber *> *_stateDictionary;
 }
@@ -77,10 +77,10 @@ static const unsigned short kNumGREYAppStates = 12;
 }
 
 /**
- *  Initializes the state tracker. Not thread-safe. Must be invoked under a race-free synchronized
- *  environment by the caller.
+ * Initializes the state tracker. Not thread-safe. Must be invoked under a race-free synchronized
+ * environment by the caller.
  *
- *  @return The initialized instance.
+ * @return The initialized instance.
  */
 - (instancetype)initOnce {
   self = [super init];
@@ -115,7 +115,7 @@ static const unsigned short kNumGREYAppStates = 12;
 }
 
 /**
- *  @return A string description of current pending UI event state.
+ * @return A string description of current pending UI event state.
  */
 - (NSString *)description {
   NSMutableString *description = [[NSMutableString alloc] init];
@@ -157,7 +157,7 @@ static const unsigned short kNumGREYAppStates = 12;
 #pragma mark - Private
 
 /**
- *  @return A concatenated string describing each state that @c state represents.
+ * @return A concatenated string describing each state that @c state represents.
  */
 static NSString *StringFromAppState(GREYAppState state) {
   if (state == kGREYIdle) {

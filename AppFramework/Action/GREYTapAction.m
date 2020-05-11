@@ -35,19 +35,19 @@
 
 @implementation GREYTapAction {
   /**
-   *  The type of tap action being performed.
+   * The type of tap action being performed.
    */
   GREYTapType _type;
   /**
-   *  The number of taps constituting the action.
+   * The number of taps constituting the action.
    */
   NSUInteger _numberOfTaps;
   /**
-   *  The duration of the tap action.
+   * The duration of the tap action.
    */
   CFTimeInterval _duration;
   /**
-   *  The location for the tap action to happen.
+   * The location for the tap action to happen.
    */
   CGPoint _tapLocation;
 }
@@ -191,7 +191,7 @@
 }
 
 /**
- *  @return A tappable location as usable by this action for the given @c element.
+ * @return A tappable location as usable by this action for the given @c element.
  */
 - (CGPoint)grey_resolvedTapLocationForElement:(id)element {
   __block CGPoint tapPoint = _tapLocation;

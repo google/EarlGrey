@@ -17,28 +17,28 @@
 #import "GREYBaseAction.h"
 
 /**
- *  Actions for manipulating a UIPickerView.
+ * Actions for manipulating a UIPickerView.
  */
 @interface GREYPickerAction : GREYBaseAction
 
 /**
- *  @remark init is not an available initializer. Use the other initializers.
+ * @remark init is not an available initializer. Use the other initializers.
  */
 - (instancetype)init NS_UNAVAILABLE;
 
 /**
- *  @remark initWithName::constraints: is overridden from its superclass.
+ * @remark initWithName::constraints: is overridden from its superclass.
  */
 - (instancetype)initWithName:(NSString *)name
                  constraints:(id<GREYMatcher>)constraints NS_UNAVAILABLE;
 
 /**
- *  Selects a value in a given column of a UIPickerView.
+ * Selects a value in a given column of a UIPickerView.
  *
- *  @param column Column of the UIPickerView to change.
- *  @param value  The value to set in the UIPickerView column.
+ * @param column Column of the UIPickerView to change.
+ * @param value  The value to set in the UIPickerView column.
  *
- *  @return An instance of UIPickerAction, initialized with the @c column and @c value.
+ * @return An instance of UIPickerAction, initialized with the @c column and @c value.
  */
 - (instancetype)initWithColumn:(NSInteger)column value:(NSString *)value NS_DESIGNATED_INITIALIZER;
 

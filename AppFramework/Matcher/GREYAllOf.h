@@ -21,25 +21,25 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  A matcher for combining multiple matchers with a logical @c AND operator, so that a match
- *  only occurs when all combined matchers match the element. The invocation of the matchers
- *  is in the same order in which they are passed. As soon as one matcher fails, the
- *  rest of the matchers are not invoked.
+ * A matcher for combining multiple matchers with a logical @c AND operator, so that a match
+ * only occurs when all combined matchers match the element. The invocation of the matchers
+ * is in the same order in which they are passed. As soon as one matcher fails, the
+ * rest of the matchers are not invoked.
  */
 @interface GREYAllOf : GREYBaseMatcher
 
 /**
- *  @remark init is not an available initializer. Use the other initializers.
+ * @remark init is not an available initializer. Use the other initializers.
  */
 - (instancetype)init NS_UNAVAILABLE;
 
 /**
- *  Designated initializer that adds the different matchers to be combined.
+ * Designated initializer that adds the different matchers to be combined.
  *
- *  @param matchers Matchers that conform to GREYMatcher and will be combined together with
- *                  a logical AND in the order they are passed in.
+ * @param matchers Matchers that conform to GREYMatcher and will be combined together with
+ *                 a logical AND in the order they are passed in.
  *
- *  @return An instance of GREYAllOf, initialized with the provided @c matchers.
+ * @return An instance of GREYAllOf, initialized with the provided @c matchers.
  */
 - (instancetype)initWithMatchers:(NSArray<__kindof id<GREYMatcher>> *)matchers
     NS_DESIGNATED_INITIALIZER;

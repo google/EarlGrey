@@ -23,42 +23,42 @@ NS_ASSUME_NONNULL_BEGIN
 @interface GREYTraversalDFS : NSObject
 
 /**
- *  Class method to initialize the object. The hierarchy is traversed from front to back in a DFS
- *  fashion and an internal representation is created.
+ * Class method to initialize the object. The hierarchy is traversed from front to back in a DFS
+ * fashion and an internal representation is created.
  *
- *  @param element Single UI element whose UI hierarchy needs to be traversed.
+ * @param element Single UI element whose UI hierarchy needs to be traversed.
  *
- *  @return An instance of the GREYTraversalDFS class.
+ * @return An instance of the GREYTraversalDFS class.
  */
 + (instancetype)frontToBackHierarchyForElementWithDFSTraversal:(id)element;
 
 /**
- *  Class method to initialize the object. The hierarchy is traversed from back to front in a DFS
- *  fashion and an internal representation is created.
+ * Class method to initialize the object. The hierarchy is traversed from back to front in a DFS
+ * fashion and an internal representation is created.
  *
- *  @param element   Single UI element whose UI hierarchy needs to be traversed.
- *  @param zOrdering Whether sibling views should be sorted by their @c zPosition. This is useful
- *                   in quick visibility checker to iterate through the view hierarchy from back to
- *                   front just as it is rendered on screen.
+ * @param element   Single UI element whose UI hierarchy needs to be traversed.
+ * @param zOrdering Whether sibling views should be sorted by their @c zPosition. This is useful
+ *                  in quick visibility checker to iterate through the view hierarchy from back to
+ *                  front just as it is rendered on screen.
  *
- *  @return An instance of the GREYTraversalDFS class.
+ * @return An instance of the GREYTraversalDFS class.
  */
 + (instancetype)backToFrontHierarchyForElementWithDFSTraversal:(id)element
                                                      zOrdering:(BOOL)zOrdering;
 
 /**
- *  Instance method that returns the next object from the hierarchy in a Depth First Search fashion.
+ * Instance method that returns the next object from the hierarchy in a Depth First Search fashion.
  *
- *  @return An instance of the UI element that is next in the hierarchy.
+ * @return An instance of the UI element that is next in the hierarchy.
  */
 - (id _Nullable)nextObject;
 
 /**
- *  Enumerates through the entire hierarchy and calls the @c block on each element in the hierarchy.
- *  This method enumerates through the hierarchy only once. Setting @c stop to @c YES would break
- *  out of the enumeration.
+ * Enumerates through the entire hierarchy and calls the @c block on each element in the hierarchy.
+ * This method enumerates through the hierarchy only once. Setting @c stop to @c YES would break
+ * out of the enumeration.
  *
- *  @param block A completion block that will be invoked on each element.
+ * @param block A completion block that will be invoked on each element.
  */
 - (void)enumerateUsingBlock:(void (^)(GREYTraversalObject *object, BOOL *stop))block;
 

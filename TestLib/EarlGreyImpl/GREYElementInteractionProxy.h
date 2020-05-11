@@ -20,24 +20,24 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  Test-side class for directing calls to GREYElementInteraction in the app process. Must be
- *  called after establishing a valid connection with app process.
+ * Test-side class for directing calls to GREYElementInteraction in the app process. Must be
+ * called after establishing a valid connection with app process.
  */
 @interface GREYElementInteractionProxy : NSObject <GREYInteraction>
 
 - (instancetype)init NS_UNAVAILABLE;
 
 /**
- *  Initializes the element interaction with the provided matcher.
+ * Initializes the element interaction with the provided matcher.
  *
- *  @param elementMatcher The matcher to used by the interaction for finding the element.
+ * @param elementMatcher The matcher to used by the interaction for finding the element.
  *
- *  @return An NSObject that conforms to GREYInteraction.
+ * @return An NSObject that conforms to GREYInteraction.
  */
 - (instancetype)initWithElementMatcher:(id<GREYMatcher>)elementMatcher;
 
 /**
- *  Include status bar's window in the interaction.
+ * Include status bar's window in the interaction.
  */
 - (id<GREYInteraction>)includeStatusBar;
 

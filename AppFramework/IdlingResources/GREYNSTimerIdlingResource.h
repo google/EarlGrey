@@ -17,26 +17,26 @@
 #import "GREYIdlingResource.h"
 
 /**
- *  An idling resource to track NSTimer firing events so that the framework can synchronize
- *  with them.
+ * An idling resource to track NSTimer firing events so that the framework can synchronize
+ * with them.
  */
 @interface GREYNSTimerIdlingResource : NSObject <GREYIdlingResource>
 
 /**
- *  @remark init is not an available initializer. Use the other initializers.
+ * @remark init is not an available initializer. Use the other initializers.
  */
 - (instancetype)init NS_UNAVAILABLE;
 
 /**
- *  Creates an idling resource that tracks the specified @c timer, causing actions to wait until
- *  the timer is fired or invalidated. If @c removeOnIdle is @c YES, the idling resource will
- *  automatically remove itself from the list of registered idling resources when it becomes idle.
+ * Creates an idling resource that tracks the specified @c timer, causing actions to wait until
+ * the timer is fired or invalidated. If @c removeOnIdle is @c YES, the idling resource will
+ * automatically remove itself from the list of registered idling resources when it becomes idle.
  *
- *  @param timer        The timer that will be tracked by the idling resource.
- *  @param name         A descriptive name for the idling resource.
- *  @param removeOnIdle Defines whether the resource should unregister itself when it becomes idle.
+ * @param timer        The timer that will be tracked by the idling resource.
+ * @param name         A descriptive name for the idling resource.
+ * @param removeOnIdle Defines whether the resource should unregister itself when it becomes idle.
  *
- *  @return A new and initialized GREYNSTimerIdlingResource instance.
+ * @return A new and initialized GREYNSTimerIdlingResource instance.
  */
 + (instancetype)trackTimer:(NSTimer *)timer name:(NSString *)name removeOnIdle:(BOOL)removeOnIdle;
 

@@ -22,30 +22,30 @@ The Project contains three main test schemes:
 
     Related Targets:
 
-    *   Functional Tests: The XCUITest target which contains the canonical
+    * Functional Tests: The XCUITest target which contains the canonical
         EarlGrey test sources (to be run in the test process).
-    *   FunctionalTestRig: The Application under test with all its resources (to
+    * FunctionalTestRig: The Application under test with all its resources (to
         be run in the app process).
-    *   HostDOCategories: Distant Object Categories (to be run in the app
+    * HostDOCategories: Distant Object Categories (to be run in the app
         process, with headers exposed to the test process).
 
 2.  FunctionalOutOfProcessTests
 
     Related Targets:
 
-    *   Functional Out-Of-Process Tests: The XCUITest target which contains
+    * Functional Out-Of-Process Tests: The XCUITest target which contains
         tests that interact with System Alerts and backgrounding /
         foregrounding.
-    *   FunctionalTestRig: The Application under test with all its resources (to
+    * FunctionalTestRig: The Application under test with all its resources (to
         be run in the app process).
 
 3.  FunctionalTestRigSwift
 
     Related Targets:
 
-    *   Functional Swift Tests: The Swift XCUITest target which contains the
+    * Functional Swift Tests: The Swift XCUITest target which contains the
         Swift test sources (to be run in the test process).
-    *   FunctionalTestRigSwift: The Application under test with all its
+    * FunctionalTestRigSwift: The Application under test with all its
         resources (to be run in the app process) for running Swift Tests.
-    *   HostDOCategoriesSwift: Distant Object Extensions in Swift (to be run in
+    * HostDOCategoriesSwift: Distant Object Extensions in Swift (to be run in
         the app process, with headers exposed to the test process).

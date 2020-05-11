@@ -20,19 +20,19 @@
 #import "GREYMatcher.h"
 
 /**
- *  An interface that exposes UI element assertions.
+ * An interface that exposes UI element assertions.
  */
 @interface GREYAssertions : NSObject
 
 /**
- *  Create a @c GREYAssertion with the provided @c matcher to check assertions on elements.
+ * Create a @c GREYAssertion with the provided @c matcher to check assertions on elements.
  *
- *  @param matcher The @c GREYMatcher object to be matched by the assertion.
+ * @param matcher The @c GREYMatcher object to be matched by the assertion.
  *
- *  @return A @c GREYAssertion object that can be used to match an object with the provided @c
- *          matcher.
+ * @return A @c GREYAssertion object that can be used to match an object with the provided @c
+ *         matcher.
  *
- *  @remark This is available only for internal testing purposes.
+ * @remark This is available only for internal testing purposes.
  */
 + (id<GREYAssertion>)assertionWithMatcher:(id<GREYMatcher>)matcher;
 

@@ -55,7 +55,7 @@ NSString *const kGREYScreenshotActualAfterImage =
     @"Visibility Checker Most Recent Actual After Image";
 
 /**
- *  Redefinition of the GREYError class to make properties readwrite.
+ * Redefinition of the GREYError class to make properties readwrite.
  */
 @interface GREYError ()
 @property(nonatomic, readwrite) NSString *testCaseClassName;

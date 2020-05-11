@@ -17,25 +17,25 @@
 #import "GREYIdlingResource.h"
 
 /**
- *  Idling resource that monitors operation queues.
+ * Idling resource that monitors operation queues.
  */
 @interface GREYOperationQueueIdlingResource : NSObject <GREYIdlingResource>
 
 /**
- *  Creates an idling resource for monitoring @c queue for idleness.
- *  A queue is considered idle when it has no pending operations.
- *  A weak reference is held to @c queue. If @c queue is deallocated, then the idling resource will
- *  deregister itself from the UI thread executor.
+ * Creates an idling resource for monitoring @c queue for idleness.
+ * A queue is considered idle when it has no pending operations.
+ * A weak reference is held to @c queue. If @c queue is deallocated, then the idling resource will
+ * deregister itself from the UI thread executor.
  *
- *  @param queue The queue that will be tracked by the resource.
- *  @param name  A descriptive name for the idling resource.
+ * @param queue The queue that will be tracked by the resource.
+ * @param name  A descriptive name for the idling resource.
  *
- *  @return Returns an idling resource for the specified NSOperationQueue.
+ * @return Returns an idling resource for the specified NSOperationQueue.
  */
 + (instancetype)resourceWithNSOperationQueue:(NSOperationQueue *)queue name:(NSString *)name;
 
 /**
- *  @remark init is not an available initializer. Use the other initializers.
+ * @remark init is not an available initializer. Use the other initializers.
  */
 - (instancetype)init NS_UNAVAILABLE;
 

@@ -15,8 +15,8 @@
 //
 
 /**
- *  @file GREYDefines.h
- *  @brief Miscellaneous defines and macros for EarlGrey.
+ * @file GREYDefines.h
+ * @brief Miscellaneous defines and macros for EarlGrey.
  */
 
 #ifndef GREY_DEFINES_H
@@ -34,16 +34,16 @@
 #pragma mark - Math
 
 /**
- *  @return The smallest @c int following the @c double @c x. This macro is needed to avoid
- *          rounding errors when "modules" project setting is enabled causing math functions to
- *          map from tgmath.h to math.h.
+ * @return The smallest @c int following the @c double @c x. This macro is needed to avoid
+ *         rounding errors when "modules" project setting is enabled causing math functions to
+ *         map from tgmath.h to math.h.
  */
 #define grey_ceil(x) ((CGFloat)ceil(x))
 
 /**
- *  @return The largest @c int less than the @c double @c x. This macro is needed to avoid
- *          rounding errors when "modules" project setting is enabled causing math functions to
- *          map from tgmath.h to math.h.
+ * @return The largest @c int less than the @c double @c x. This macro is needed to avoid
+ *         rounding errors when "modules" project setting is enabled causing math functions to
+ *         map from tgmath.h to math.h.
  */
 #define grey_floor(x) ((CGFloat)floor(x))
 

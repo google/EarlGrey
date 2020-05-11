@@ -35,27 +35,27 @@ NSString *const kGREYUIThreadExecutorErrorDomain =
     @"com.google.earlgrey.GREYUIThreadExecutorErrorDomain";
 
 /**
- *  The number of times idling resources are queried for idleness to be considered "really" idle.
- *  The value used here has worked in practice and has negligible impact on performance.
+ * The number of times idling resources are queried for idleness to be considered "really" idle.
+ * The value used here has worked in practice and has negligible impact on performance.
  */
 static const int kConsecutiveTimesIdlingResourcesMustBeIdle = 3;
 
 /**
- *  The maximum amount of time to wait for the UI and idling resources to become idle in
- *  grey_forcedStateTrackerCleanUp before forcefully clearing the state of GREYAppStateTracker.
+ * The maximum amount of time to wait for the UI and idling resources to become idle in
+ * grey_forcedStateTrackerCleanUp before forcefully clearing the state of GREYAppStateTracker.
  */
 static const CFTimeInterval kDrainTimeoutSecondsBeforeForcedStateTrackerCleanup = 10;
 
 /**
- *  The default maximum time that the main thread is allowed to sleep while the thread executor is
- *  attempting to synchronize.
+ * The default maximum time that the main thread is allowed to sleep while the thread executor is
+ * attempting to synchronize.
  */
 static const CFTimeInterval kMaximumSynchronizationSleepInterval = 0.1;
 
 @interface GREYUIThreadExecutor ()
 
 /**
- *  Property added for unit tests to keep the main thread awake while synchronizing.
+ * Property added for unit tests to keep the main thread awake while synchronizing.
  */
 @property(nonatomic, assign) BOOL forceBusyPolling;
 
@@ -63,14 +63,14 @@ static const CFTimeInterval kMaximumSynchronizationSleepInterval = 0.1;
 
 @implementation GREYUIThreadExecutor {
   /**
-   *  All idling resources that are registered with the framework using registerIdlingResource:.
-   *  This list excludes the idling resources that are monitored by default and do not require
-   *  registration.
+   * All idling resources that are registered with the framework using registerIdlingResource:.
+   * This list excludes the idling resources that are monitored by default and do not require
+   * registration.
    */
   NSMutableOrderedSet *_registeredIdlingResources;
 
   /**
-   *  Idling resources that are monitored by default and cannot be deregistered.
+   * Idling resources that are monitored by default and cannot be deregistered.
    */
   NSOrderedSet *_defaultIdlingResources;
 }
@@ -85,10 +85,10 @@ static const CFTimeInterval kMaximumSynchronizationSleepInterval = 0.1;
 }
 
 /**
- *  Initializes the thread executor. Not thread-safe. Must be invoked under a race-free synchronized
- *  environment by the caller.
+ * Initializes the thread executor. Not thread-safe. Must be invoked under a race-free synchronized
+ * environment by the caller.
  *
- *  @return The initialized instance.
+ * @return The initialized instance.
  */
 - (instancetype)initOnce {
   self = [super init];
@@ -246,9 +246,9 @@ static const CFTimeInterval kMaximumSynchronizationSleepInterval = 0.1;
 #pragma mark - Internal Methods Exposed For Testing
 
 /**
- *  @return @c YES when all idling resources are idle, @c NO otherwise.
+ * @return @c YES when all idling resources are idle, @c NO otherwise.
  *
- *  @remark More efficient than calling grey_busyResources.
+ * @remark More efficient than calling grey_busyResources.
  */
 - (BOOL)grey_areAllResourcesIdle {
   return [[self grey_busyResourcesReturnEarly:YES] count] == 0;
@@ -257,7 +257,7 @@ static const CFTimeInterval kMaximumSynchronizationSleepInterval = 0.1;
 #pragma mark - Methods Only For Testing
 
 /**
- *  Deregisters all non-default idling resources from the thread executor.
+ * Deregisters all non-default idling resources from the thread executor.
  */
 - (void)grey_resetIdlingResources {
   @synchronized(_registeredIdlingResources) {
@@ -266,7 +266,7 @@ static const CFTimeInterval kMaximumSynchronizationSleepInterval = 0.1;
 }
 
 /**
- *  @return @c YES if the thread executor is currently tracking @c idlingResource, @c NO otherwise.
+ * @return @c YES if the thread executor is currently tracking @c idlingResource, @c NO otherwise.
  */
 - (BOOL)grey_isTrackingIdlingResource:(id<GREYIdlingResource>)idlingResource {
   @synchronized(_registeredIdlingResources) {
@@ -278,17 +278,17 @@ static const CFTimeInterval kMaximumSynchronizationSleepInterval = 0.1;
 #pragma mark - Private
 
 /**
- *  @return An ordered set the registered and default idling resources that are currently busy.
+ * @return An ordered set the registered and default idling resources that are currently busy.
  */
 - (NSOrderedSet *)grey_busyResources {
   return [self grey_busyResourcesReturnEarly:NO];
 }
 
 /**
- *  @param returnEarly A boolean flag to determine if this method should return
- *                     immediately after finding one busy resource.
+ * @param returnEarly A boolean flag to determine if this method should return
+ *                    immediately after finding one busy resource.
  *
- *  @return An ordered set the registered and default idling resources that are currently busy.
+ * @return An ordered set the registered and default idling resources that are currently busy.
  */
 - (NSOrderedSet *)grey_busyResourcesReturnEarly:(BOOL)returnEarly {
   @synchronized(_registeredIdlingResources) {
@@ -320,7 +320,7 @@ static const CFTimeInterval kMaximumSynchronizationSleepInterval = 0.1;
 }
 
 /**
- *  @return An error description string for all of the resources in @c busyResources.
+ * @return An error description string for all of the resources in @c busyResources.
  */
 - (NSDictionary *)grey_errorDictionaryForBusyResources:(NSOrderedSet *)busyResources {
   NSMutableDictionary *busyResourcesNameToDesc = [[NSMutableDictionary alloc] init];

@@ -19,14 +19,14 @@
 #import "GREYFatalAsserts.h"
 
 /**
- *  The default minimum number of runloop drains. The default is 2 because, as per the CFRunLoop
- *  implementation, some ports (specifically the dispatch port) will only be serviced every other
- *  runloop drain.
+ * The default minimum number of runloop drains. The default is 2 because, as per the CFRunLoop
+ * implementation, some ports (specifically the dispatch port) will only be serviced every other
+ * runloop drain.
  */
 static const NSUInteger kDefaultMinRunLoopDrains = 2;
 
 /**
- *  No-op timer handler block.
+ * No-op timer handler block.
  */
 static void (^gNoopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef timer) {
 };
@@ -80,16 +80,16 @@ static void (^gNoopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef 
 #pragma mark - Private
 
 /**
- *  Spins the runloop in the active mode for @c exitDrainCount drains and check the condition
+ * Spins the runloop in the active mode for @c exitDrainCount drains and check the condition
  *
  *
- *  @param drainCount           The number of times to drain the active runloop.
- *  @param explicitRunLoopDrain Whether to drain the main runloop explicitly.
- *  @param stopConditionBlock   The condition block that should be checked to determine if we should
- *                              stop initiating drains in the active mode.
+ * @param drainCount           The number of times to drain the active runloop.
+ * @param explicitRunLoopDrain Whether to drain the main runloop explicitly.
+ * @param stopConditionBlock   The condition block that should be checked to determine if we should
+ *                             stop initiating drains in the active mode.
  *
- *  @return @c YES if the condition block was evaluated to @c YES while draining or after the active
- *          runloop finished; @c NO otherwise.
+ * @return @c YES if the condition block was evaluated to @c YES while draining or after the active
+ *         runloop finished; @c NO otherwise.
  */
 - (BOOL)grey_drainRunLoopInActiveModeForDrains:(NSUInteger)drainCount
                           explicitRunLoopDrain:(BOOL)explicitRunLoopDrain
@@ -176,23 +176,23 @@ static void (^gNoopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef 
 }
 
 /**
- *  Makes the runloop wait in the active mode till one of three conditions are hit:
+ * Makes the runloop wait in the active mode till one of three conditions are hit:
  *
- *  1. The stop condition has been met.
- *  2. We have timed out.
- *  3. The runloop finishes.
- *  4. The runloop is stopped by someone else.
+ * 1. The stop condition has been met.
+ * 2. We have timed out.
+ * 3. The runloop finishes.
+ * 4. The runloop is stopped by someone else.
  *
- *  The stop condition is checked at least once per runloop drain.
+ * The stop condition is checked at least once per runloop drain.
  *
- *  @param stopConditionBlock   The condition block that should be checked to determine if we should
- *                              stop initiating drains in the active mode.
- *  @param explicitRunLoopDrain Whether to drain the main loop explicitly.
- *  @param time                 The timeout time after which we should stop initiating drains.
+ * @param stopConditionBlock   The condition block that should be checked to determine if we should
+ *                             stop initiating drains in the active mode.
+ * @param explicitRunLoopDrain Whether to drain the main loop explicitly.
+ * @param time                 The timeout time after which we should stop initiating drains.
  *
- *  @return @c YES if the condition block was evaluated to @c YES while draining or after the active
- *          runloop finished; @c NO otherwise.
- *  @note   We only explicitly drain the main runloop on the main thread.
+ * @return @c YES if the condition block was evaluated to @c YES while draining or after the active
+ *         runloop finished; @c NO otherwise.
+ * @note   We only explicitly drain the main runloop on the main thread.
  */
 - (BOOL)grey_drainRunLoopInActiveModeAndCheckCondition:(BOOL (^)(void))stopConditionBlock
                                   explicitRunLoopDrain:(BOOL)explicitRunLoopDrain
@@ -300,17 +300,17 @@ static void (^gNoopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef 
 }
 
 /**
- *  Checks the stop condition block in the active mode and invokes the condition met handler in the
- *  active mode if it was evaluated to @c YES.
+ * Checks the stop condition block in the active mode and invokes the condition met handler in the
+ * active mode if it was evaluated to @c YES.
  *
- *  If this is called from the main thread, it will drain the runloop so it can handle the block in
- *  the active mode; if it is from a background thread, it will attempt to schedule the block, wake
- *  up the main runloop to execute it and exit.
+ * If this is called from the main thread, it will drain the runloop so it can handle the block in
+ * the active mode; if it is from a background thread, it will attempt to schedule the block, wake
+ * up the main runloop to execute it and exit.
  *
- *  @param explicitRunLoopDrain Whether to drain the main loop explicitly.
- *  @param stopConditionBlock   The condition block that should be evaluated in the active mode.
+ * @param explicitRunLoopDrain Whether to drain the main loop explicitly.
+ * @param stopConditionBlock   The condition block that should be evaluated in the active mode.
  *
- *  @return @c YES if the stop condition block evaluated to @YES; @c NO otherwise.
+ * @return @c YES if the stop condition block evaluated to @YES; @c NO otherwise.
  */
 - (BOOL)grey_checkConditionInActiveModeWithExplicitRunLoopDrain:(BOOL)explicitRunLoopDrain
                                              stopConditionBlock:(BOOL (^)(void))stopConditionBlock {
@@ -352,21 +352,21 @@ static void (^gNoopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef 
 }
 
 /**
- *  Setup an observer in @c mode that will invoke the provided blocks when the on the appropriate
- *  observer events if and only if the runloop is running in @c mode and the mode has not been
- *  nested.
+ * Setup an observer in @c mode that will invoke the provided blocks when the on the appropriate
+ * observer events if and only if the runloop is running in @c mode and the mode has not been
+ * nested.
  *
- *  @remark We consider a mode "nested" if a source handled while we are spinning the runloop
- *          starts spinning the runloop in the same mode.
+ * @remark We consider a mode "nested" if a source handled while we are spinning the runloop
+ *         starts spinning the runloop in the same mode.
  *
- *  @param mode                 The mode that the observer should be added to.
- *  @param beforeSourcesBlock   Block that will be invoked when the added observer receives before-
- *                              sources callbacks and is not nested.
- *  @param beforeWaitingBlock   Block that will be invoked when the added observer receives before-
- *                              waiting callbacks and is not nested.
- *  @param explicitRunLoopDrain Whether the main runloop will be drained explicitly.
+ * @param mode                 The mode that the observer should be added to.
+ * @param beforeSourcesBlock   Block that will be invoked when the added observer receives before-
+ *                             sources callbacks and is not nested.
+ * @param beforeWaitingBlock   Block that will be invoked when the added observer receives before-
+ *                             waiting callbacks and is not nested.
+ * @param explicitRunLoopDrain Whether the main runloop will be drained explicitly.
  *
- *  @return The registered observer.
+ * @return The registered observer.
  */
 - (CFRunLoopObserverRef)grey_setupObserverInMode:(NSString *)mode
                           withBeforeSourcesBlock:(void (^)(void))beforeSourcesBlock
@@ -435,13 +435,13 @@ static void (^gNoopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef 
 }
 
 /**
- *  Create and return a wake up timer in @c mode. Will not add a timer if @c maxSleepInterval
- *  is 0. The wake up timer will fire every @c maxSleepInterval to keep the runloop from sleeping
- *  more than @c maxSleepInterval while running in @c mode.
+ * Create and return a wake up timer in @c mode. Will not add a timer if @c maxSleepInterval
+ * is 0. The wake up timer will fire every @c maxSleepInterval to keep the runloop from sleeping
+ * more than @c maxSleepInterval while running in @c mode.
  *
- *  @param mode The mode that the timer should be added to.
+ * @param mode The mode that the timer should be added to.
  *
- *  @return The registered timer or @c nil if no timer was added to @c mode.
+ * @return The registered timer or @c nil if no timer was added to @c mode.
  */
 - (CFRunLoopTimerRef)grey_setupWakeUpTimerInMode:(NSString *)mode {
   if (_maxSleepInterval > 0) {
@@ -456,10 +456,10 @@ static void (^gNoopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef 
 }
 
 /**
- *  Remove @c observer from @c mode and then release it.
+ * Remove @c observer from @c mode and then release it.
  *
- *  @param observer The observer to be removed and released.
- *  @param mode     The mode from which the observer should be removed.
+ * @param observer The observer to be removed and released.
+ * @param mode     The mode from which the observer should be removed.
  */
 - (void)grey_teardownObserver:(CFRunLoopObserverRef)observer inMode:(NSString *)mode {
   if (observer) {
@@ -469,10 +469,10 @@ static void (^gNoopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef 
 }
 
 /**
- *  Remove @c timer from @c mode and then release it.
+ * Remove @c timer from @c mode and then release it.
  *
- *  @param timer The time to be removed and released.
- *  @param mode  The mode from which the timer should be removed.
+ * @param timer The time to be removed and released.
+ * @param mode  The mode from which the timer should be removed.
  */
 - (void)grey_teardownTimer:(CFRunLoopTimerRef)timer inMode:(NSString *)mode {
   if (timer) {
@@ -482,16 +482,16 @@ static void (^gNoopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef 
 }
 
 /**
- *  @param time The point in time to measure against.
+ * @param time The point in time to measure against.
  *
- *  @return The time in seconds from now until @c time.
+ * @return The time in seconds from now until @c time.
  */
 - (CFTimeInterval)grey_secondsUntilTime:(CFTimeInterval)time {
   return time - CACurrentMediaTime();
 }
 
 /**
- *  @return The active mode for the main runloop.
+ * @return The active mode for the main runloop.
  */
 - (NSString *)grey_activeRunLoopMode {
   NSString *activeRunLoopMode = [[UIApplication sharedApplication] grey_activeRunLoopMode];

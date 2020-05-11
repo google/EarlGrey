@@ -17,38 +17,38 @@
 #import <UIKit/UIKit.h>
 
 /**
- *  Additions to NSObject for obtaining details for UI and Accessibility Elements.
+ * Additions to NSObject for obtaining details for UI and Accessibility Elements.
  */
 @interface NSObject (GREYApp)
 
 /**
- *  @return The element's accessibilityActivationPoint converted to window coordinates.
+ * @return The element's accessibilityActivationPoint converted to window coordinates.
  */
 - (CGPoint)grey_accessibilityActivationPointInWindowCoordinates;
 
 /**
- *  @return The element's accessibility point relative to its accessibility frame's origin.
+ * @return The element's accessibility point relative to its accessibility frame's origin.
  */
 - (CGPoint)grey_accessibilityActivationPointRelativeToFrame;
 
 /**
- *  @return An NSString in the format required by the app state tracker. The information printed
- *          here is printed when the application is not idle and the app's state is checked. This
- *          can be utilized for debugging since it shows which object is currently being tracked
- *          and preventing the app from idling.
+ * @return An NSString in the format required by the app state tracker. The information printed
+ *         here is printed when the application is not idle and the app's state is checked. This
+ *         can be utilized for debugging since it shows which object is currently being tracked
+ *         and preventing the app from idling.
  */
 - (NSString *)grey_stateTrackerDescription;
 
 /**
- *  Swizzle a selector with a particular object after a specified delay time interval in a
- *  specific run loop mode.
+ * Swizzle a selector with a particular object after a specified delay time interval in a
+ * specific run loop mode.
  *
- *  @param aSelector  The selector to be swizzled.
- *  @param anArgument The object to swizzle the selector with.
- *  @param delay      The NSTimeInterval after which the swizzling is to be done.
- *  @param modes      The run loop mode to perform the swizzling in.
+ * @param aSelector  The selector to be swizzled.
+ * @param anArgument The object to swizzle the selector with.
+ * @param delay      The NSTimeInterval after which the swizzling is to be done.
+ * @param modes      The run loop mode to perform the swizzling in.
  *
- *  @remark This is available only for internal testing purposes.
+ * @remark This is available only for internal testing purposes.
  */
 - (void)greyswizzled_performSelector:(SEL)aSelector
                           withObject:(id)anArgument

@@ -21,43 +21,43 @@
 @interface GREYHostApplicationDistantObject (ErrorHandlingTest)
 
 /**
- *  @c returns An error populated by GREYError with the UI Hierarchy.
+ * @c returns An error populated by GREYError with the UI Hierarchy.
  */
 - (NSError *)errorPopulatedInTheApp;
 
 /**
- *  @c returns A noted error populated by GREYError with the UI Hierarchy.
+ * @c returns A noted error populated by GREYError with the UI Hierarchy.
  */
 - (NSError *)notedErrorPopulatedInTheApp;
 
 /**
- *  @c returns A simple error created with the UI Hierarchy.
+ * @c returns A simple error created with the UI Hierarchy.
  */
 - (NSError *)errorCreatedInTheApp;
 
 /**
- *  @return A simple error nested with a GREYError containing the UI Hierarchy.
+ * @return A simple error nested with a GREYError containing the UI Hierarchy.
  */
 - (NSError *)nestedErrorWithHierarchyCreatedInTheApp;
 
 /**
- *  @return A simple error nested error with no UI hierarchy.
+ * @return A simple error nested error with no UI hierarchy.
  */
 - (NSError *)simpleNestedError;
 
 /**
- *  Dispatches a sleep on the main thread of the application for 10 seconds. Used for errors with
- *  non-GREYInteraction based APIs.
+ * Dispatches a sleep on the main thread of the application for 10 seconds. Used for errors with
+ * non-GREYInteraction based APIs.
  */
 - (void)induceNonTactileActionTimeoutInTheApp;
 
 /**
- *  @return An assertion that always fails and sets a generic error.
+ * @return An assertion that always fails and sets a generic error.
  */
 - (id<GREYAssertion>)failingAssertion;
 
 /**
- *  @return An action that always fails and sets a generic error.
+ * @return An action that always fails and sets a generic error.
  */
 - (id<GREYAction>)failingAction;
 @end

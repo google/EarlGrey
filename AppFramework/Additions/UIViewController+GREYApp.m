@@ -26,9 +26,9 @@
 #import "GREYSwizzler.h"
 
 /**
- *  The class for UICompatibilityInputViewController and UIEditingOverlayViewControllerwhich isn't
- *  tracked here since we've faced issues with tracking it when it comes to typing on keyboards
- *  with accessory views.
+ * The class for UICompatibilityInputViewController and UIEditingOverlayViewControllerwhich isn't
+ * tracked here since we've faced issues with tracking it when it comes to typing on keyboards
+ * with accessory views.
  */
 static Class gInputAccessoryVCClass;
 
@@ -202,18 +202,18 @@ __attribute__((constructor)) static void initialize(void) {
 #pragma mark - Private
 
 /**
- *  @return @c YES if the view backed by this view controller has UIViewController::viewDidAppear:
- *          callback called and no other disappearance methods have been invoked.
+ * @return @c YES if the view backed by this view controller has UIViewController::viewDidAppear:
+ *         callback called and no other disappearance methods have been invoked.
  */
 - (BOOL)grey_hasAppeared {
   return [objc_getAssociatedObject(self, @selector(grey_hasAppeared)) boolValue];
 }
 
 /**
- *  Sets the appearance state of the view backed by this view controller to value of @c appeared.
- *  Use UIViewController::grey_hasAppeared to query this value.
+ * Sets the appearance state of the view backed by this view controller to value of @c appeared.
+ * Use UIViewController::grey_hasAppeared to query this value.
  *
- *  @param appeared A @c BOOL indicating if the view backed by this view controller has appeared.
+ * @param appeared A @c BOOL indicating if the view backed by this view controller has appeared.
  */
 - (void)grey_setAppeared:(BOOL)appeared {
   objc_setAssociatedObject(self, @selector(grey_hasAppeared), @(appeared),
@@ -221,7 +221,7 @@ __attribute__((constructor)) static void initialize(void) {
 }
 
 /**
- *  @return @c YES if self or any ancestor of the view controller is moving to a @c nil window.
+ * @return @c YES if self or any ancestor of the view controller is moving to a @c nil window.
  */
 - (BOOL)grey_isMovingToNilWindow {
   UIViewController *parent = self;

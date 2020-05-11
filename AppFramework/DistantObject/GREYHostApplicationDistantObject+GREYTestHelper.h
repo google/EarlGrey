@@ -19,24 +19,24 @@
 #import "GREYHostApplicationDistantObject.h"
 
 /**
- *  GREYHostApplicationDistantObject extension in the EarlGrey AppFramework. This file should
- *  contain categories on classes that are to be called in the tests on the main thread.
+ * GREYHostApplicationDistantObject extension in the EarlGrey AppFramework. This file should
+ * contain categories on classes that are to be called in the tests on the main thread.
  */
 @interface GREYHostApplicationDistantObject (GREYTestHelper)
 
 /**
- *  Enables fast animation. Invoke in the XCTest setUp method to increase
- *  the speed of your tests by not having to wait on slow animations.
+ * Enables fast animation. Invoke in the XCTest setUp method to increase
+ * the speed of your tests by not having to wait on slow animations.
  */
 - (void)enableFastAnimation;
 
 /**
- *  Disables fast animation.
+ * Disables fast animation.
  */
 - (void)disableFastAnimation;
 
 /**
- *  @return The bundle ID of the application under test.
+ * @return The bundle ID of the application under test.
  */
 - (NSString *)appBundleID;
 

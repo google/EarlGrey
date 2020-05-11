@@ -21,23 +21,23 @@ NS_ASSUME_NONNULL_BEGIN
 @class GREYAppConfiguration;
 
 /**
- *  The implementation for the test.
+ * The implementation for the test.
  *
- *  The configuration in the test is the source of truth. Each write will signal the counterpart
- *  in the app to do a merge next time when there is a read in the app.
+ * The configuration in the test is the source of truth. Each write will signal the counterpart
+ * in the app to do a merge next time when there is a read in the app.
  */
 @interface GREYTestConfiguration : GREYConfiguration
 // The remote configuration this will push and synchronize with.
 @property(nonatomic) GREYAppConfiguration *remoteConfiguration;
 
 /**
- *  @return An NSData version of [self mergedConfiguration] using
- *          NSKeyedArchiver.
+ * @return An NSData version of [self mergedConfiguration] using
+ *         NSKeyedArchiver.
  */
 - (NSDictionary<NSString *, id> *)mergedConfiguration;
 
 /**
- *  Push the configuration to the remote application process.
+ * Push the configuration to the remote application process.
  */
 - (void)updateRemoteConfiguration;
 

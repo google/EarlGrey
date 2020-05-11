@@ -23,15 +23,15 @@
 #import "GREYElementHierarchy.h"
 
 /**
- *  Creates a @c GREYError object on the app side with given @c domain, @c code and
- *  @c description. The description is accessible by querying
- *  error's @c userInfo with @c NSLocalizedDescriptionKey.
+ * Creates a @c GREYError object on the app side with given @c domain, @c code and
+ * @c description. The description is accessible by querying
+ * error's @c userInfo with @c NSLocalizedDescriptionKey.
  *
- *  @param domain      The error domain.
- *  @param code        The error code.
- *  @param description The error's localized description.
+ * @param domain      The error domain.
+ * @param code        The error code.
+ * @param description The error's localized description.
  *
- *  @return A @c GREYError object with the given input.
+ * @return A @c GREYError object with the given input.
  */
 #define GREYErrorMakeWithHierarchy(domain, code, description)                          \
   I_GREYErrorMake((domain), (code), @{NSLocalizedDescriptionKey : (description)},      \
@@ -41,21 +41,21 @@
                   [GREYFailureScreenshotter screenshots])
 
 /**
- *  Creates a @c GREYError object with given @c domain, @c code, @c description
- *  and @c nestedError.
- *  The description is accessible by querying error's @c userInfo with
- *  @c NSLocalizedDescriptionKey. The @c nestedError is accessible by error's
- *  @c userInfo with @c NSUnderlyingErrorKey.
+ * Creates a @c GREYError object with given @c domain, @c code, @c description
+ * and @c nestedError.
+ * The description is accessible by querying error's @c userInfo with
+ * @c NSLocalizedDescriptionKey. The @c nestedError is accessible by error's
+ * @c userInfo with @c NSUnderlyingErrorKey.
  *
- *  @note The error created does not contain a UI Hierarchy, since the nested
- *        error should contain it.
+ * @note The error created does not contain a UI Hierarchy, since the nested
+ *       error should contain it.
  *
- *  @param domain      The error domain.
- *  @param code        The error code.
- *  @param description The error's localized description.
- *  @param nestedError An error to be nested in current error.
+ * @param domain      The error domain.
+ * @param code        The error code.
+ * @param description The error's localized description.
+ * @param nestedError An error to be nested in current error.
  *
- *  @return A @c GREYError object with the given input.
+ * @return A @c GREYError object with the given input.
  */
 #define GREYErrorNestedMake(domain, code, description, nestedError)                               \
   I_GREYErrorMake(                                                                                \
@@ -66,16 +66,16 @@
       nil)
 
 /**
- *  If @c errorRef is not @c NULL, it is set to a @c GREYError object that is created with
- *  the given @c domain, @c code and @c description.
- *  The description is accessible by querying error's @c userInfo with
- *  @c NSLocalizedDescriptionKey.
+ * If @c errorRef is not @c NULL, it is set to a @c GREYError object that is created with
+ * the given @c domain, @c code and @c description.
+ * The description is accessible by querying error's @c userInfo with
+ * @c NSLocalizedDescriptionKey.
  *
- *  @param[out] errorRef    A @c GREYError reference for retrieving the created
- *                          error object.
- *  @param      domain      The error domain.
- *  @param      code        The error code.
- *  @param      description The error's localized description.
+ * @param[out] errorRef    A @c GREYError reference for retrieving the created
+ *                         error object.
+ * @param      domain      The error domain.
+ * @param      code        The error code.
+ * @param      description The error's localized description.
  *
  */
 #define I_GREYPopulateError(errorRef, domain, code, description)                \
@@ -87,17 +87,17 @@
   })
 
 /**
- *  If @c errorRef is not @c NULL, it is set to a @c GREYError object that is created with
- *  the given @c domain, @c code, @c description and @c note.
- *  The description is accessible by querying error's @c userInfo with
- *  @c NSLocalizedDescriptionKey.
+ * If @c errorRef is not @c NULL, it is set to a @c GREYError object that is created with
+ * the given @c domain, @c code, @c description and @c note.
+ * The description is accessible by querying error's @c userInfo with
+ * @c NSLocalizedDescriptionKey.
  *
- *  @param[out] errorRef    A @c GREYError reference for retrieving the created
- *                          error object.
- *  @param      domain      The error domain.
- *  @param      code        The error code.
- *  @param      description The error's localized description.
- *  @param      glossary    A glossary dictionary that is going to be populated with the error.
+ * @param[out] errorRef    A @c GREYError reference for retrieving the created
+ *                         error object.
+ * @param      domain      The error domain.
+ * @param      code        The error code.
+ * @param      description The error's localized description.
+ * @param      glossary    A glossary dictionary that is going to be populated with the error.
  *
  */
 #define I_GREYPopulateErrorNoted(errorRef, domain, code, description, glossary) \
@@ -110,18 +110,18 @@
   })
 
 /**
- *  If @c errorRef is not @c NULL, it is set to a @c GREYError object that is created
- *  with the given @c domain, @c code, @c description and @c nestedError.
- *  The description is accessible by querying error's @c userInfo with
- *  @c NSLocalizedDescriptionKey. The @c nestedError is accessible by error's
- *  @c userInfo with @c NSUnderlyingErrorKey.
+ * If @c errorRef is not @c NULL, it is set to a @c GREYError object that is created
+ * with the given @c domain, @c code, @c description and @c nestedError.
+ * The description is accessible by querying error's @c userInfo with
+ * @c NSLocalizedDescriptionKey. The @c nestedError is accessible by error's
+ * @c userInfo with @c NSUnderlyingErrorKey.
  *
- *  @param[out] errorRef    A @c GREYError reference for retrieving the created
- *                          error object.
- *  @param      domain      The error domain.
- *  @param      code        The error code.
- *  @param      description The error's localized description.
- *  @param      nestedError An error to be nested in current error.
+ * @param[out] errorRef    A @c GREYError reference for retrieving the created
+ *                         error object.
+ * @param      domain      The error domain.
+ * @param      code        The error code.
+ * @param      description The error's localized description.
+ * @param      nestedError An error to be nested in current error.
  *
  */
 #define I_GREYPopulateNestedError(errorRef, domain, code, description, nestedError)     \

@@ -17,8 +17,8 @@
 #import <UIKit/UIKit.h>
 
 /**
- *  Class that controls ImageViewController.xib view. The view contains an image view used
- *  for testing pinch action.
+ * Class that controls ImageViewController.xib view. The view contains an image view used
+ * for testing pinch action.
  */
 @interface ImageViewController : UIViewController
 @end

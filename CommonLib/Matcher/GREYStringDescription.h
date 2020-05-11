@@ -19,7 +19,7 @@
 #import "GREYDescription.h"
 
 /**
- *  A string based implementation of GREYDescription protocol.
+ * A string based implementation of GREYDescription protocol.
  */
 @interface GREYStringDescription : NSObject <GREYDescription>
 @end

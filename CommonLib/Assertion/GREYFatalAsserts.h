@@ -15,17 +15,17 @@
 //
 
 /**
- *  @file GREYFatalAsserts.h
+ * @file GREYFatalAsserts.h
  *
- *  @brief Assertion macros for checking internal program state.
+ * @brief Assertion macros for checking internal program state.
  *
- *  These macros resemble NSAssertion macros but they are meant to be used in places where a
- *  failure would indicate a serious bug in the code or invalid state of the program.
- *  The program cannot continue as it would corrupt the state even more and recovering from such a
- *  state is not feasible. On failure, the assertion macro aborts the program.
+ * These macros resemble NSAssertion macros but they are meant to be used in places where a
+ * failure would indicate a serious bug in the code or invalid state of the program.
+ * The program cannot continue as it would corrupt the state even more and recovering from such a
+ * state is not feasible. On failure, the assertion macro aborts the program.
  *
- *  @note Unlike NSAssert, these are never compiled out and present in all flavors of the build
- *        until they're removed explicitly.
+ * @note Unlike NSAssert, these are never compiled out and present in all flavors of the build
+ *       until they're removed explicitly.
  */
 
 #ifndef GREY_FATAL_ASSERTS_H
@@ -34,20 +34,20 @@
 #import <Foundation/Foundation.h>
 
 /**
- *  Asserts that @c condition is @c true otherwise aborts the program.
+ * Asserts that @c condition is @c true otherwise aborts the program.
  *
- *  @param condition The condition to evaluate.
+ * @param condition The condition to evaluate.
  */
 #define GREYFatalAssert(condition) \
   GREYFatalAssertWithMessage(condition, @"Fatal condition failure");
 
 /**
- *  Asserts that @c condition is @c true otherwise aborts the program after logging the provided
- *  @c message.
+ * Asserts that @c condition is @c true otherwise aborts the program after logging the provided
+ * @c message.
  *
- *  @param condition The condition to evaluate.
- *  @param message   Message to print when @c condition evaluates to false.
- *  @param ...       Variable args for @c message if it is a format string.
+ * @param condition The condition to evaluate.
+ * @param message   Message to print when @c condition evaluates to false.
+ * @param ...       Variable args for @c message if it is a format string.
  */
 #define GREYFatalAssertWithMessage(condition, message, ...)                     \
   ({                                                                            \
@@ -60,14 +60,14 @@
   })
 
 /**
- *  Asserts that the current thread is the main thread otherwise aborts the program.
+ * Asserts that the current thread is the main thread otherwise aborts the program.
  */
 #define GREYFatalAssertNonMainThread()                                                         \
   GREYFatalAssertWithMessage(![NSThread isMainThread], @"Execution must happen on a non-main " \
                                                        @"thread!");
 
 /**
- *  Asserts that the current thread is the main thread otherwise aborts the program.
+ * Asserts that the current thread is the main thread otherwise aborts the program.
  */
 #define GREYFatalAssertMainThread()                                                         \
   GREYFatalAssertWithMessage([NSThread isMainThread], @"Execution must happen on the main " \

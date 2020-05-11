@@ -19,39 +19,39 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  A utility to get the string representation of the UI hierarchy.
+ * A utility to get the string representation of the UI hierarchy.
  */
 @interface GREYElementHierarchy : NSObject
 
 /**
- *  @return An NSString containing the UI hierarchy and information about any animating UIViews
- *          with @c element as the root. @c element can be either a UIView or an Accessibility
- *          element.
+ * @return An NSString containing the UI hierarchy and information about any animating UIViews
+ *         with @c element as the root. @c element can be either a UIView or an Accessibility
+ *         element.
  *
- *  @param element The root element for the hierarchy.
+ * @param element The root element for the hierarchy.
  */
 + (NSString *)hierarchyStringForElement:(id)element;
 
 /**
- *  Similar to hierarchyStringForElement: with additional parameters for providing annotations
- *  for printed views. @c annotationDictionary is a dictionary of type
- *  @code @{[NSValue valueWithNonretainedObject:id]:NSString} @endcode with UI elements that
- *  require special formatting i.e. special text to be appended to the description. For example,
- *  @code @{viewA : @"This is a special view"} @endcode or
- *  @code @{elementA : @"This is a special view"} @endcode will have it's description as:
- *  @"<DESCRIPTION> This is a special view".
+ * Similar to hierarchyStringForElement: with additional parameters for providing annotations
+ * for printed views. @c annotationDictionary is a dictionary of type
+ * @code @{[NSValue valueWithNonretainedObject:id]:NSString} @endcode with UI elements that
+ * require special formatting i.e. special text to be appended to the description. For example,
+ * @code @{viewA : @"This is a special view"} @endcode or
+ * @code @{elementA : @"This is a special view"} @endcode will have it's description as:
+ * @"<DESCRIPTION> This is a special view".
  *
- *  @param element              The root element for the hierarchy.
- *  @param annotationDictionary A dictionary of annotations.
+ * @param element              The root element for the hierarchy.
+ * @param annotationDictionary A dictionary of annotations.
  *
- *  @return The UI hierarchy as a string.
+ * @return The UI hierarchy as a string.
  */
 + (NSString *)hierarchyStringForElement:(id)element
                withAnnotationDictionary:(NSDictionary *)annotationDictionary;
 
 /**
- *  @return An NSString containing the UI hierarchy and information about any animating UIViews
- *          for all UIWindows provided by the GREYUIWindowProvider.
+ * @return An NSString containing the UI hierarchy and information about any animating UIViews
+ *         for all UIWindows provided by the GREYUIWindowProvider.
  */
 + (NSString *)hierarchyString;
 @end

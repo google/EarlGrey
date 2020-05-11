@@ -33,13 +33,13 @@
 
 @implementation GREYScrollToContentEdgeAction {
   /**
-   *  The specified edge of the content to be scrolled to.
+   * The specified edge of the content to be scrolled to.
    */
   GREYContentEdge _edge;
   /**
-   *  The point specified as percentage referencing visible scrollable area to be used for fixing
-   *  scroll start point. If any of the coordinates are set to NAN the corresponding coordinates of
-   *  the scroll start point will be set to achieve maximum scroll.
+   * The point specified as percentage referencing visible scrollable area to be used for fixing
+   * scroll start point. If any of the coordinates are set to NAN the corresponding coordinates of
+   * the scroll start point will be set to achieve maximum scroll.
    */
   CGPoint _startPointPercents;
 }

@@ -115,10 +115,10 @@ GREYConfiguration *GREYCreateConfiguration(void) { return [[GREYTestConfiguratio
 }
 
 /**
- *  Validates if the configuration value is of type NSValue, NSString, NSPathS, NSDictionary or
- *  NSArray.
+ * Validates if the configuration value is of type NSValue, NSString, NSPathS, NSDictionary or
+ * NSArray.
  *
- *  @param value An id specifying the config value to be validated.
+ * @param value An id specifying the config value to be validated.
  */
 static void GREYValidateValueType(id value) {
   if (![value isKindOfClass:[NSValue class]] && ![value isKindOfClass:[NSString class]] &&

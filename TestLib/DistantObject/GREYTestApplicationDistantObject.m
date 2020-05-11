@@ -56,14 +56,14 @@ static const void *gGREYTestExecutingQueueKey = &gGREYTestExecutingQueueKey;
 @property(nonatomic) GREYRemoteExecutionDispatchPolicy dispatchPolicy;
 
 /**
- *  Checks if @c port is a permanent eDO host port that is listening by the test host. A permanent
- *  eDO host runs throughout the app's life cycle. This declaration is required by the constructor
- *  C function.
+ * Checks if @c port is a permanent eDO host port that is listening by the test host. A permanent
+ * eDO host runs throughout the app's life cycle. This declaration is required by the constructor
+ * C function.
  *
- *  @param port The port number to check.
+ * @param port The port number to check.
  *
- *  @return @c YES if @c port is the port number that is listened by any eDO host running in the
- *          test host; @c NO otherwise.
+ * @return @c YES if @c port is the port number that is listened by any eDO host running in the
+ *         test host; @c NO otherwise.
  */
 - (BOOL)isPermanentAppHostPort:(uint16_t)port;
 @end
@@ -99,9 +99,9 @@ __attribute__((constructor)) static void SetupTestDistantObject() {
 
 @implementation GREYTestApplicationDistantObject {
   /**
-   *  The queue to execute the all the remote calls from app-under-test to the test side. It is
-   *  either the main queue or a background queue, determined by
-   *  GREYTestApplicationDistantObject::dispatchPolicy.
+   * The queue to execute the all the remote calls from app-under-test to the test side. It is
+   * either the main queue or a background queue, determined by
+   * GREYTestApplicationDistantObject::dispatchPolicy.
    */
   dispatch_queue_t _executingQueue;
   /** @see GREYTestApplicationDistantObject::service. This is the underlying ivar. */
@@ -109,25 +109,25 @@ __attribute__((constructor)) static void SetupTestDistantObject() {
   /** @see GREYTestApplicationDistantObject::hostPort. This is the underlying ivar. */
   uint16_t _hostPort;
   /**
-   *  The dispatch group for the task of fetching main-queue eDO port of app-under-test. The valid
-   *  port number of @c _hostPort is always assigned within the group.
+   * The dispatch group for the task of fetching main-queue eDO port of app-under-test. The valid
+   * port number of @c _hostPort is always assigned within the group.
    */
   dispatch_group_t _hostPortAllocationGroup;
   /** @see GREYTestApplicationDistantObject::hostBackgroundPort. This is the underlying ivar. */
   uint16_t _hostBackgroundPort;
   /**
-   *  The dispatch group for the task of fetching background-queue eDO port of app-under-test. The
-   *  valid port number of @c _hostBackgroundPort is always assigned within the group.
+   * The dispatch group for the task of fetching background-queue eDO port of app-under-test. The
+   * valid port number of @c _hostBackgroundPort is always assigned within the group.
    */
   dispatch_group_t _hostBackgroundPortAllocationGroup;
   /**
-   *  The atomic flag for executing the initialization of GREYTestApplicationDistantObject::Service
-   *  once.
+   * The atomic flag for executing the initialization of GREYTestApplicationDistantObject::Service
+   * once.
    */
   atomic_flag _serviceOneTimeInitializationFlag;
   /**
-   *  The dispatch group for the task of initializing GREYTestApplicationDistantObject::Service.
-   *  The service is always instantiated within the group.
+   * The dispatch group for the task of initializing GREYTestApplicationDistantObject::Service.
+   * The service is always instantiated within the group.
    */
   dispatch_group_t _serviceInitializationGroup;
 }

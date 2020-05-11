@@ -32,7 +32,7 @@ File: GREYHostApplicationDistantObject+AppOrientation.h
 @interface GREYHostApplicationDistantObject (AppOrientation)
 
 /**
- *  @return The UIInterfaceOrientation of the app under test.
+ * @return The UIInterfaceOrientation of the app under test.
  */
 - (UIInterfaceOrientation)appOrientation;
 
@@ -86,7 +86,7 @@ File: GREYHostBackgroundDistantObject+UpdateValue.h
 @interface GREYHostBackgroundDistantObject (UpdateValue)
 
 /**
- *  Increments an integer value by 1 and returns it.
+ * Increments an integer value by 1 and returns it.
  */
 - (int)incrementValue:(int)value;
 

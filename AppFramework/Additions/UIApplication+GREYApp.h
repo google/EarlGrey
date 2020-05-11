@@ -17,13 +17,13 @@
 #import <UIKit/UIKit.h>
 
 /**
- *  EarlGrey specific additions for tracking runloop mode changes and user interaction events.
+ * EarlGrey specific additions for tracking runloop mode changes and user interaction events.
  */
 @interface UIApplication (GREYApp)
 
 /**
  * @return Active mode for the main runloop that was pushed by one of the push runloop methods.
- *         May return @c nil when no mode was pushed.
+ *        May return @c nil when no mode was pushed.
  */
 - (NSString *)grey_activeRunLoopMode;
 

@@ -17,7 +17,7 @@
 #import <UIKit/UIKit.h>
 
 /**
- *  A UIView that detects if an event sent to it is a UITouchEvent.
+ * A UIView that detects if an event sent to it is a UITouchEvent.
  */
 @interface TouchEventView : UIView
 @end

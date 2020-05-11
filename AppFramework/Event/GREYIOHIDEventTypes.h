@@ -15,13 +15,13 @@
 //
 
 /**
- *  @file GREYExposed.h
- *  @brief Exposes all IOHID event and private APIs required to create synthetic touches.
- *  Source for IOHID event types:
- *  https://opensource.apple.com/source/IOHIDFamily/IOHIDFamily-1035.41.2/IOHIDFamily/IOHIDEventTypes.h.auto.html
+ * @file GREYExposed.h
+ * @brief Exposes all IOHID event and private APIs required to create synthetic touches.
+ * Source for IOHID event types:
+ * https://opensource.apple.com/source/IOHIDFamily/IOHIDFamily-1035.41.2/IOHIDFamily/IOHIDEventTypes.h.auto.html
  *
- *  @remark Most of the code here is undocumented. Refer to the open sourced headers above for
- *  complete documentation.
+ * @remark Most of the code here is undocumented. Refer to the open sourced headers above for
+ * complete documentation.
  */
 
 #import <CoreFoundation/CoreFoundation.h>
@@ -184,8 +184,8 @@ void IOHIDEventSetIntegerValue(IOHIDEventRef hidEventRef, IOHIDEventField field,
 #pragma mark - Other Touch Injection APIs
 
 /**
- *  A private class that represents touch related events. This is sent to UIApplication whenever a
- *  touch occurs.
+ * A private class that represents touch related events. This is sent to UIApplication whenever a
+ * touch occurs.
  */
 @interface UITouchesEvent : UIEvent
 
@@ -198,19 +198,19 @@ void IOHIDEventSetIntegerValue(IOHIDEventRef hidEventRef, IOHIDEventField field,
 @end
 
 /**
- *  Exposes methods for fetching touch object container that can be sent to
- *  -[UIApplication sendEvent:]
+ * Exposes methods for fetching touch object container that can be sent to
+ * -[UIApplication sendEvent:]
  */
 @interface UIApplication (GREYIOHIDEventTypes)
 /**
- *  @return The shared UITouchesEvent object of the application, which is used to keep track of
- *          UITouch objects, and the relevant touch interaction state.
+ * @return The shared UITouchesEvent object of the application, which is used to keep track of
+ *         UITouch objects, and the relevant touch interaction state.
  */
 - (UITouchesEvent *)_touchesEvent;
 @end
 
 /**
- *  Exposes methods for setting properties on UITouch for faking user interaction.
+ * Exposes methods for setting properties on UITouch for faking user interaction.
  */
 @interface UITouch (GREYIOHIDEventTypes)
 

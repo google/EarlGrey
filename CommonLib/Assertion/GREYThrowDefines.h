@@ -15,17 +15,17 @@
 //
 
 /**
- *  @file GREYThrowDefines.h
+ * @file GREYThrowDefines.h
  *
- *  @brief Macros for checking and throwing exception to the callers of public interfaces.
+ * @brief Macros for checking and throwing exception to the callers of public interfaces.
  *
- *  These macros use the assertion handler to raise exceptions for invalid inputs or state in the
- *  public interface. Exception raised are catchable so callers *may* choose to ignore these
- *  exceptions thats why it's important that a program can recover from these exceptions. If you
- *  need a stricter check, consider using fatal asserts defined in GREYFatalAsserts.h.
+ * These macros use the assertion handler to raise exceptions for invalid inputs or state in the
+ * public interface. Exception raised are catchable so callers *may* choose to ignore these
+ * exceptions thats why it's important that a program can recover from these exceptions. If you
+ * need a stricter check, consider using fatal asserts defined in GREYFatalAsserts.h.
  *
- *  @note Unlike NSAssert, these are never compiled out and present in all flavors of the build
- *        until they're removed explicitly.
+ * @note Unlike NSAssert, these are never compiled out and present in all flavors of the build
+ *       until they're removed explicitly.
  */
 #ifndef GREY_THROW_DEFINES_H
 #define GREY_THROW_DEFINES_H
@@ -33,12 +33,12 @@
 #import <Foundation/Foundation.h>
 
 /**
- *  Throws an @c NSInternalInconsistencyException if @c parameter is nil or NULL.
+ * Throws an @c NSInternalInconsistencyException if @c parameter is nil or NULL.
 
  *
- *  @note @c NSAssertionHandler is used to raise the exception.
+ * @note @c NSAssertionHandler is used to raise the exception.
  *
- *  @param parameter Argument to check for validity.
+ * @param parameter Argument to check for validity.
  */
 #define GREYThrowOnNilParameter(parameter)            \
   ({                                                  \
@@ -48,14 +48,14 @@
   })
 
 /**
- *  Throws an @c NSInternalInconsistencyException with the provided @c message if @c parameter
- *  is nil or NULL.
+ * Throws an @c NSInternalInconsistencyException with the provided @c message if @c parameter
+ * is nil or NULL.
  *
- *  @note @c NSAssertionHandler is used to raise the exception.
+ * @note @c NSAssertionHandler is used to raise the exception.
  *
- *  @param parameter Argument to check for validity.
- *  @param message Message to print when @c parameter is invalid.
- *  @param ... Variable args for @c message if it is a format string.
+ * @param parameter Argument to check for validity.
+ * @param message Message to print when @c parameter is invalid.
+ * @param ... Variable args for @c message if it is a format string.
  */
 #define GREYThrowOnNilParameterWithMessage(parameter, message, ...) \
   ({                                                                \
@@ -65,12 +65,12 @@
   })
 
 /**
- *  Throws an @c NSInternalInconsistencyException if @c condition evaluates to false.
+ * Throws an @c NSInternalInconsistencyException if @c condition evaluates to false.
 
  *
- *  @note @c NSAssertionHandler is used to raise the exception.
+ * @note @c NSAssertionHandler is used to raise the exception.
  *
- *  @param condition The condition to evaluate.
+ * @param condition The condition to evaluate.
  */
 #define GREYThrowOnFailedCondition(condition)     \
   ({                                              \
@@ -80,14 +80,14 @@
   })
 
 /**
- *  Throws an @c NSInternalInconsistencyException with the provided @c message if @c condition
- *  evaluates to false.
+ * Throws an @c NSInternalInconsistencyException with the provided @c message if @c condition
+ * evaluates to false.
  *
- *  @note @c NSAssertionHandler is used to raise the exception.
+ * @note @c NSAssertionHandler is used to raise the exception.
  *
- *  @param condition The condition to evaluate.
- *  @param message Message to print when @c condition evaluates to false.
- *  @param ... Variable args for @c message if it is a format string.
+ * @param condition The condition to evaluate.
+ * @param message Message to print when @c condition evaluates to false.
+ * @param ... Variable args for @c message if it is a format string.
  */
 #define GREYThrowOnFailedConditionWithMessage(condition, message, ...) \
   ({                                                                   \
@@ -97,12 +97,12 @@
   })
 
 /**
- *  Throws an @c NSInternalInconsistencyException with the provided @c message.
+ * Throws an @c NSInternalInconsistencyException with the provided @c message.
  *
- *  @note @c NSAssertionHandler is used to raise the exception.
+ * @note @c NSAssertionHandler is used to raise the exception.
  *
- *  @param message Message to print
- *  @param ... Variable args for @c message if it is a format string.
+ * @param message Message to print
+ * @param ... Variable args for @c message if it is a format string.
  */
 #define GREYThrow(message, ...)                                                           \
   ({                                                                                      \
@@ -114,12 +114,12 @@
   })
 
 /**
- *  Throws an @c NSInternalInconsistencyException in the function if @c parameter is nil or NULL.
+ * Throws an @c NSInternalInconsistencyException in the function if @c parameter is nil or NULL.
 
  *
- *  @note @c NSAssertionHandler used to raise the exception.
+ * @note @c NSAssertionHandler used to raise the exception.
  *
- *  @param parameter Argument to check for validity.
+ * @param parameter Argument to check for validity.
  */
 #define GREYThrowInFunctionOnNilParameter(parameter)            \
   ({                                                            \
@@ -129,12 +129,12 @@
   })
 
 /**
- *  Throws an @c NSInternalInconsistencyException in the function with the provided @c message.
+ * Throws an @c NSInternalInconsistencyException in the function with the provided @c message.
  *
- *  @note @c NSAssertionHandler used to raise the exception.
+ * @note @c NSAssertionHandler used to raise the exception.
  *
- *  @param message Message to print
- *  @param ... Variable args for @c message if it is a format string.
+ * @param message Message to print
+ * @param ... Variable args for @c message if it is a format string.
  */
 #define GREYThrowInFunction(message, ...)                                                   \
   ({                                                                                        \

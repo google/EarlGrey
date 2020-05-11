@@ -17,9 +17,9 @@
 #import "GREYFailureHandler.h"
 
 /**
- *  Failure handler that prints formatted exceptions and stack traces on failure,
- *  including paths to the application's screenshots and saving them. It also prints
- *  the UI hierarchy at the point of failure.
+ * Failure handler that prints formatted exceptions and stack traces on failure,
+ * including paths to the application's screenshots and saving them. It also prints
+ * the UI hierarchy at the point of failure.
  */
 @interface GREYDefaultFailureHandler : NSObject <GREYFailureHandler>
 

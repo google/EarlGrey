@@ -42,8 +42,8 @@
 static const CFTimeInterval kWaitForExistenceTimeout = 10;
 
 /**
- *  Sets EarlGrey provided default failure handler if there's no failure handler set for the current
- *  thread.
+ * Sets EarlGrey provided default failure handler if there's no failure handler set for the current
+ * thread.
  */
 static inline void SetDefaultFailureHandler() {
   NSDictionary<NSString *, id> *TLSDict = [[NSThread mainThread] threadDictionary];
@@ -64,9 +64,9 @@ static inline id<GREYFailureHandler> GREYGetCurrentFailureHandler() {
 @implementation EarlGreyImpl
 
 /**
- *  Executes the specified @block in a remote executor background queue.
+ * Executes the specified @block in a remote executor background queue.
  *
- *  @param block The block to run in aremote executor background queue.
+ * @param block The block to run in aremote executor background queue.
  */
 static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
   __block BOOL success;

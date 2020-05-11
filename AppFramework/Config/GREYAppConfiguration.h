@@ -19,17 +19,17 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  The implementation for the app under test.
+ * The implementation for the app under test.
  *
- *  The configuration only caches the values and forward any write to the counterpart in the test.
- *  And this merges with the configuration in the test before a read if there is a write.
+ * The configuration only caches the values and forward any write to the counterpart in the test.
+ * And this merges with the configuration in the test before a read if there is a write.
  */
 @interface GREYAppConfiguration : GREYConfiguration
 
 /**
- *  Update the configuration. The valid keys are defined in @c GREYConfigKey.
+ * Update the configuration. The valid keys are defined in @c GREYConfigKey.
  *
- *  @param configuration The config dictionary.
+ * @param configuration The config dictionary.
  */
 - (void)updateConfiguration:(NSDictionary<NSString *, id> *)configuration;
 @end

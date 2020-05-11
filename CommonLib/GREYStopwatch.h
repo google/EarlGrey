@@ -18,53 +18,53 @@
 
 NS_ASSUME_NONNULL_BEGIN
 /**
- *  A class that mimics a stopwatch for calculating code latency.
+ * A class that mimics a stopwatch for calculating code latency.
  *
- *  Usage example:
- *  @code
- *  GREYStopwatch *stopwatch = [[GREYStopwatch alloc] init];
- *  [stopwatch start];
- *  -------code block-------
- *  [stopwatch stop];
- *  NSLog(@"Time it took to execute codeblock %f", [stopwatch elapsedTime]);
- *  @endcode
+ * Usage example:
+ * @code
+ * GREYStopwatch *stopwatch = [[GREYStopwatch alloc] init];
+ * [stopwatch start];
+ * -------code block-------
+ * [stopwatch stop];
+ * NSLog(@"Time it took to execute codeblock %f", [stopwatch elapsedTime]);
+ * @endcode
  *
  */
 @interface GREYStopwatch : NSObject
 
 /**
- *  Set the start time of the stopwatch to the current time as obtained by @c mach_absolute_time().
- *  Calling this multiple times will result in the start time being reset every single time. This
- *  is the only way to set the start time of the stop watch.
+ * Set the start time of the stopwatch to the current time as obtained by @c mach_absolute_time().
+ * Calling this multiple times will result in the start time being reset every single time. This
+ * is the only way to set the start time of the stop watch.
  */
 - (void)start;
 
 /**
- *  Set the stop time of the stopwatch to the current time as obtained by @c mach_absolute_time().
- *  This also prevents subsequent calls to @c GREYStopwatch::lapAndReturnTime from being performed.
- *  This does not affect the stopwatch's saved start time or lap time. Calling stop without first
- *  calling @c GREYStopwatch::start will throw an exception.
+ * Set the stop time of the stopwatch to the current time as obtained by @c mach_absolute_time().
+ * This also prevents subsequent calls to @c GREYStopwatch::lapAndReturnTime from being performed.
+ * This does not affect the stopwatch's saved start time or lap time. Calling stop without first
+ * calling @c GREYStopwatch::start will throw an exception.
  */
 - (void)stop;
 
 /**
- *  Returns the time obtained by subtracting the time the stopwatch was last stopped and last
- *  started. If the stopwatch is never started/stopped then it will throw an exception. This does
- *  not cumulatively add up the times the stopwatch was started/stopped. If the user wants the
- *  cumulative value of all start/stops, then the user will have to save the times and add them up.
+ * Returns the time obtained by subtracting the time the stopwatch was last stopped and last
+ * started. If the stopwatch is never started/stopped then it will throw an exception. This does
+ * not cumulatively add up the times the stopwatch was started/stopped. If the user wants the
+ * cumulative value of all start/stops, then the user will have to save the times and add them up.
  *
- *  @return an NSTimeInterval with the interval from the time the stopwatch was started.
+ * @return an NSTimeInterval with the interval from the time the stopwatch was started.
  */
 - (NSTimeInterval)elapsedTime;
 
 /**
- *  Obtain the time interval from subtracting the current time as obtained by
- *  @c mach_absolute_time() from the reference time that @c GREYStopwatch::lapAndReturnTime was
- *  last called at. In case @c GREYStopwatch::lapAndReturnTime was never called, then this will
- *  return the interval from the start time. Similar to @c GREYStopwatch::elapsedTime, this will
- *  throw an exception if the stopwatch was never started.
+ * Obtain the time interval from subtracting the current time as obtained by
+ * @c mach_absolute_time() from the reference time that @c GREYStopwatch::lapAndReturnTime was
+ * last called at. In case @c GREYStopwatch::lapAndReturnTime was never called, then this will
+ * return the interval from the start time. Similar to @c GREYStopwatch::elapsedTime, this will
+ * throw an exception if the stopwatch was never started.
  *
- *  @return an NSTimeInterval with the interval from the time the stopwatch was started.
+ * @return an NSTimeInterval with the interval from the time the stopwatch was started.
  */
 - (NSTimeInterval)lapAndReturnTime;
 

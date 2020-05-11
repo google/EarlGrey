@@ -19,13 +19,13 @@
 @interface UIViewController (GREYApp)
 
 /**
- *  Tracks this view controller as the root view controller of @c window, setting up the desired
- *  states so that EarlGrey can decide when to wait for this view controller to appear. This method
- *  should be called each time window's @c hidden property changes. Passing @c nil for @c window
- *  indicates this view controller is no longer a root view controller.
- *  @todo Use KVO for the hidden property.
+ * Tracks this view controller as the root view controller of @c window, setting up the desired
+ * states so that EarlGrey can decide when to wait for this view controller to appear. This method
+ * should be called each time window's @c hidden property changes. Passing @c nil for @c window
+ * indicates this view controller is no longer a root view controller.
+ * @todo Use KVO for the hidden property.
  *
- *  @param window The window to which to associate this view controller as the root view controller.
+ * @param window The window to which to associate this view controller as the root view controller.
  */
 - (void)grey_trackAsRootViewControllerForWindow:(UIWindow *)window;
 

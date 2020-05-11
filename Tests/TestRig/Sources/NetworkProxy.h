@@ -17,53 +17,53 @@
 #import <Foundation/Foundation.h>
 
 /**
- *  An NSURLProtocol based network proxy for proxying HTTP requests.
+ * An NSURLProtocol based network proxy for proxying HTTP requests.
  */
 @interface NetworkProxy : NSURLProtocol
 
 /**
- *  @return @c YES if proxy is enabled, @c NO otherwise.
+ * @return @c YES if proxy is enabled, @c NO otherwise.
  */
 + (BOOL)isProxyEnabled;
 
 /**
- *  Enables (if @c enabled is @c YES) or disables the proxy.
+ * Enables (if @c enabled is @c YES) or disables the proxy.
  *
- *  @param enabled A BOOL specifing whether to enable or disable the proxy.
+ * @param enabled A BOOL specifing whether to enable or disable the proxy.
  */
 + (void)setProxyEnabled:(BOOL)enabled;
 
 /**
- *  Sets the simulated network delay that all proxied requests take to complete.
+ * Sets the simulated network delay that all proxied requests take to complete.
  */
 + (void)setSimulatedNetworkDelay:(NSTimeInterval)delayInSeconds;
 
 /**
- *  Adds a proxy rule that configures the proxy to serve the given @c data for all URLs matching the
- *  @c regexString, in case of multiple matches the data associated with the last added matching
- *  regex will be used.
+ * Adds a proxy rule that configures the proxy to serve the given @c data for all URLs matching the
+ * @c regexString, in case of multiple matches the data associated with the last added matching
+ * regex will be used.
  *
- *  @param data        The data to be served for the proxied request.
- *  @param regexString The regex to match URLs on.
+ * @param data        The data to be served for the proxied request.
+ * @param regexString The regex to match URLs on.
  */
 + (void)addProxyRuleForUrlsMatchingRegexString:(NSString *)regexString
                                 responseString:(NSString *)data;
 
 /**
- *  Removes the last added proxy rule that matches the given @c regexString.
+ * Removes the last added proxy rule that matches the given @c regexString.
  *
- *  @param regexString The regex to match URLs on.
+ * @param regexString The regex to match URLs on.
  */
 + (void)removeMostRecentProxyRuleMatchingUrlRegexString:(NSString *)regexString;
 
 /**
- *  @return Returns an array of all the requests proxied since the proxy was enabled or since it
- *          was last cleared which ever happened the last.
+ * @return Returns an array of all the requests proxied since the proxy was enabled or since it
+ *         was last cleared which ever happened the last.
  */
 + (NSArray *)requestsReceived;
 
 /**
- *  Clears the array that is used to save all the requests proxied so far.
+ * Clears the array that is used to save all the requests proxied so far.
  */
 + (void)clearRequestsReceived;
 

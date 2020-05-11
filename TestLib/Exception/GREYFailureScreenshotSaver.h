@@ -22,19 +22,19 @@ NS_ASSUME_NONNULL_BEGIN
 typedef NSDictionary<NSString *, NSString *> GREYFailureScreenshots;
 
 /**
- *  Saves screenshot images in a provided dictionary to disk.
+ * Saves screenshot images in a provided dictionary to disk.
  */
 @interface GREYFailureScreenshotSaver : NSObject
 
 /**
- *  Saves the screenshots in the @c screenshotsDict to the path specified in @c screenshotDir.
+ * Saves the screenshots in the @c screenshotsDict to the path specified in @c screenshotDir.
  *
- *  @param screenshotsDict A NSDictionary containing the image type and the screenshots
- *                         themselves.
- *  @param screenshotDir   The directory path to save the screenshots in.
+ * @param screenshotsDict A NSDictionary containing the image type and the screenshots
+ *                        themselves.
+ * @param screenshotDir   The directory path to save the screenshots in.
  *
- *  @return A NSDictionary containing the paths of the images saved to disk with the keys as the
- *          titles of the images.
+ * @return A NSDictionary containing the paths of the images saved to disk with the keys as the
+ *         titles of the images.
  */
 + (GREYFailureScreenshots *)saveFailureScreenshotsInDictionary:
                                 (NSDictionary<NSString *, UIImage *> *)screenshotsDict

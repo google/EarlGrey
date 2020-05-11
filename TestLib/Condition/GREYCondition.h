@@ -17,73 +17,73 @@
 #import <Foundation/Foundation.h>
 
 /**
- *  A class for creating boolean conditions that can be waited on until the condition is satisfied
- *  or a timeout elapses.
+ * A class for creating boolean conditions that can be waited on until the condition is satisfied
+ * or a timeout elapses.
  *
- *  Conditions are specified in the form of a block that returns a @c BOOL value indicating whether
- *  the condition is met.
+ * Conditions are specified in the form of a block that returns a @c BOOL value indicating whether
+ * the condition is met.
  */
 @interface GREYCondition : NSObject
 
 /**
- *  Creates a condition with a block that should return @c YES when the condition is met.
+ * Creates a condition with a block that should return @c YES when the condition is met.
  *
- *  @param name           A descriptive name for the condition
- *  @param conditionBlock The block that will be used to evaluate the condition.
+ * @param name           A descriptive name for the condition
+ * @param conditionBlock The block that will be used to evaluate the condition.
  *
- *  @return A new initialized GREYCondition instance.
+ * @return A new initialized GREYCondition instance.
  */
 + (instancetype)conditionWithName:(NSString *)name block:(BOOL (^)(void))conditionBlock;
 
 /**
- *  @remark init is not an available initializer. Use the other initializers.
+ * @remark init is not an available initializer. Use the other initializers.
  */
 - (instancetype)init NS_UNAVAILABLE;
 
 /**
- *  Initializes a condition with a block that should return @c YES when the condition is met.
+ * Initializes a condition with a block that should return @c YES when the condition is met.
  *
- *  @param name           A descriptive name for the condition
- *  @param conditionBlock The block that will be used to evaluate the condition.
+ * @param name           A descriptive name for the condition
+ * @param conditionBlock The block that will be used to evaluate the condition.
  *
- *  @return The initialized instance.
+ * @return The initialized instance.
  */
 - (instancetype)initWithName:(NSString *)name
                        block:(BOOL (^)(void))conditionBlock NS_DESIGNATED_INITIALIZER;
 
 /**
- *  Waits for the condition to be met until the specified @c seconds have elapsed.
+ * Waits for the condition to be met until the specified @c seconds have elapsed.
  *
- *  Will poll the condition as often as possible on the main thread while still giving a fair chance
- *  for other sources and handlers to be serviced.
+ * Will poll the condition as often as possible on the main thread while still giving a fair chance
+ * for other sources and handlers to be serviced.
  *
- *  @remark Waiting on conditions with this method is very CPU intensive on the main thread. If
- *          you do not need to return immediately after the condition is met, the consider using
- *          GREYCondition::waitWithTimeout:pollInterval:
+ * @remark Waiting on conditions with this method is very CPU intensive on the main thread. If
+ *         you do not need to return immediately after the condition is met, the consider using
+ *         GREYCondition::waitWithTimeout:pollInterval:
  *
- *  @param seconds Amount of time to wait for the condition to be met, in seconds.
+ * @param seconds Amount of time to wait for the condition to be met, in seconds.
  *
- *  @return @c YES if the condition was met before the timeout, @c NO otherwise.
+ * @return @c YES if the condition was met before the timeout, @c NO otherwise.
  */
 - (BOOL)waitWithTimeout:(CFTimeInterval)seconds __attribute__((warn_unused_result));
 
 /**
- *  Waits for the condition to be met until the specified @c seconds have elapsed. Will poll the
- *  condition immediately and then no more than once every @c interval seconds. Will attempt to poll
- *  the condition as close as possible to every @c interval seconds.
+ * Waits for the condition to be met until the specified @c seconds have elapsed. Will poll the
+ * condition immediately and then no more than once every @c interval seconds. Will attempt to poll
+ * the condition as close as possible to every @c interval seconds.
  *
- *  @remark Will allow the main thread to sleep instead of busily checking the condition.
+ * @remark Will allow the main thread to sleep instead of busily checking the condition.
  *
- *  @param seconds  Amount of time to wait for the condition to be met, in seconds.
- *  @param interval The minimum time that should elapse between checking the condition.
+ * @param seconds  Amount of time to wait for the condition to be met, in seconds.
+ * @param interval The minimum time that should elapse between checking the condition.
  *
- *  @return @c YES if the condition was met before the timeout, @c NO otherwise.
+ * @return @c YES if the condition was met before the timeout, @c NO otherwise.
  */
 - (BOOL)waitWithTimeout:(CFTimeInterval)seconds
            pollInterval:(CFTimeInterval)interval __attribute__((warn_unused_result));
 
 /**
- *  @return Name of the condition.
+ * @return Name of the condition.
  */
 - (NSString *)name;
 

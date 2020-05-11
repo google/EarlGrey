@@ -17,14 +17,14 @@
 #import "GREYDefines.h"
 
 /**
- *  Extern variables specifying the error keys for a base action.
+ * Extern variables specifying the error keys for a base action.
  */
 GREY_EXTERN NSString *const kErrorDetailElementDescriptionKey;
 GREY_EXTERN NSString *const kErrorDetailConstraintRequirementKey;
 GREY_EXTERN NSString *const kErrorDetailConstraintDetailsKey;
 
 /**
- *  Extern variables specifying the error domain for GREYElementInteraction.
+ * Extern variables specifying the error domain for GREYElementInteraction.
  */
 GREY_EXTERN NSString *const kGREYInteractionErrorDomain;
 GREY_EXTERN NSString *const kGREYWillPerformActionNotification;
@@ -33,7 +33,7 @@ GREY_EXTERN NSString *const kGREYWillPerformAssertionNotification;
 GREY_EXTERN NSString *const kGREYDidPerformAssertionNotification;
 
 /**
- *  Error domain for synthetic event injection failures.
+ * Error domain for synthetic event injection failures.
  */
 GREY_EXTERN NSString *const kGREYSyntheticEventInjectionErrorDomain;
 
@@ -48,17 +48,17 @@ GREY_EXTERN NSString *const kGREYKeyboardDismissalErrorDomain;
 GREY_EXTERN NSString *const kGREYDeeplinkErrorDomain;
 
 /**
- *  Error code for deeplink open actions.
+ * Error code for deeplink open actions.
  */
 typedef NS_ENUM(NSInteger, GREYDeeplinkTestErrorCode) {
   /**
-   *  The deeplink is not supported.
+   * The deeplink is not supported.
    */
   GREYDeeplinkNotSupported = 1,
 };
 
 /**
- *  Extern variables specifying the user info keys for any notifications.
+ * Extern variables specifying the user info keys for any notifications.
  */
 GREY_EXTERN NSString *const kGREYActionUserInfoKey;
 GREY_EXTERN NSString *const kGREYActionElementUserInfoKey;
@@ -68,33 +68,33 @@ GREY_EXTERN NSString *const kGREYAssertionElementUserInfoKey;
 GREY_EXTERN NSString *const kGREYAssertionErrorUserInfoKey;
 
 /**
- *  Internal variables specifying the detail keys for error details.
+ * Internal variables specifying the detail keys for error details.
  */
 GREY_EXTERN NSString *const kErrorDetailElementMatcherKey;
 
 /**
- *  Internal variables specifying the detail keys for the app UI hierarchy.
+ * Internal variables specifying the detail keys for the app UI hierarchy.
  */
 GREY_EXTERN NSString *const kErrorDetailAppUIHierarchyKey;
 
 /**
- *  Internal variables specifying the detail keys for the app screenshots.
+ * Internal variables specifying the detail keys for the app screenshots.
  */
 GREY_EXTERN NSString *const kErrorDetailAppScreenshotsKey;
 
 /**
- *  The error domain for pinch action related errors.
+ * The error domain for pinch action related errors.
  */
 GREY_EXTERN NSString *const kGREYPinchErrorDomain;
 
 /**
- *  Extern variables specifying the user info keys for a pinch action.
+ * Extern variables specifying the user info keys for a pinch action.
  */
 GREY_EXTERN NSString *const kErrorDetailElementKey;
 GREY_EXTERN NSString *const kErrorDetailWindowKey;
 
 /**
- *  Extern variables specifying the error keys for a change stepper action.
+ * Extern variables specifying the error keys for a change stepper action.
  */
 GREY_EXTERN NSString *const kErrorDetailStepperKey;
 GREY_EXTERN NSString *const kErrorDetailUserValueKey;
@@ -102,16 +102,16 @@ GREY_EXTERN NSString *const kErrorDetailStepMaxValueKey;
 GREY_EXTERN NSString *const kErrorDetailStepMinValueKey;
 
 /**
- *  Extern variables specifying the error keys for XCUITest actions.
+ * Extern variables specifying the error keys for XCUITest actions.
  */
 GREY_EXTERN NSString *const kErrorDetailForegroundApplicationFailed;
 
 /**
- *  Error code for keyboard dismissal actions.
+ * Error code for keyboard dismissal actions.
  */
 typedef NS_ENUM(NSInteger, GREYKeyboardDismissalErrorCode) {
   /**
-   *  The keyboard dismissal failed.
+   * The keyboard dismissal failed.
    */
   GREYKeyboardDismissalFailedErrorCode = 1,
 };

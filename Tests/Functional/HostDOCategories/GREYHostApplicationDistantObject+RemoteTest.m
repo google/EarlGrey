@@ -128,8 +128,8 @@
 #pragma mark - private
 
 /**
- *  Selector fired when a UITextFieldTextDidBeginEditingNotification notification is fired. Checks
- *  if the call is made on the main thread.
+ * Selector fired when a UITextFieldTextDidBeginEditingNotification notification is fired. Checks
+ * if the call is made on the main thread.
  */
 - (void)grey_textFieldNotificationFiredOnMainThread {
   if ([NSThread isMainThread]) {

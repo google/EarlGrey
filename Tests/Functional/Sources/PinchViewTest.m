@@ -127,7 +127,7 @@
 #pragma mark - Private
 
 /**
- *  Asserts that the given initial size and final size are in the given order.
+ * Asserts that the given initial size and final size are in the given order.
  */
 - (void)ftr_assertThatInitialSize:(CGSize)initialSize
                      andFinalSize:(CGSize)finalSize
@@ -159,7 +159,7 @@
 }
 
 /**
- *  Returns the image view controller frame.
+ * Returns the image view controller frame.
  */
 - (CGRect)ftr_imageViewFrame {
   GREYHostApplicationDistantObject *host = GREYHostApplicationDistantObject.sharedInstance;

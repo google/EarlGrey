@@ -44,7 +44,7 @@
 #pragma mark - Private
 
 /**
- *  @return UIWindow that contains @c element.
+ * @return UIWindow that contains @c element.
  */
 static UIWindow *WindowContainingElement(id element) {
   UIWindow *containerWindow;
@@ -65,24 +65,24 @@ static UIWindow *WindowContainingElement(id element) {
 }
 
 /**
- *  Traverses the view hierarchy to determine the visibility of the target element. It traverses the
- *  view hierarchy from back to front until it finds the target element whose visible percentage is
- *  being calculated. Once the target element is found, each subsequent elements' frames are
- *  compared and intersected with the target element's frame to see how much they obscure the target
- *  by. At the end of the iteration, we will have the the information to check the visibility status
- *  of the target element populated in GREYVisibilityCheckerTarget. Note that we are only interested
- *  in the elements that are drawn after target element because any elements behind the target
- *  element would not affect its visibility.
+ * Traverses the view hierarchy to determine the visibility of the target element. It traverses the
+ * view hierarchy from back to front until it finds the target element whose visible percentage is
+ * being calculated. Once the target element is found, each subsequent elements' frames are
+ * compared and intersected with the target element's frame to see how much they obscure the target
+ * by. At the end of the iteration, we will have the the information to check the visibility status
+ * of the target element populated in GREYVisibilityCheckerTarget. Note that we are only interested
+ * in the elements that are drawn after target element because any elements behind the target
+ * element would not affect its visibility.
  *
- *  @param      element         Target element to check the visibility status of.
- *  @param[out] performFallback An out parameter that indicates whether or not a more accurate
- *                              visibility checking is required. Use GREYThoroughVisibilityChecker
- *                              instead.
- *  @param      interactability Whether or not the resulting target should take interactability into
- *                              consideration when obscuring the target.
+ * @param      element         Target element to check the visibility status of.
+ * @param[out] performFallback An out parameter that indicates whether or not a more accurate
+ *                             visibility checking is required. Use GREYThoroughVisibilityChecker
+ *                             instead.
+ * @param      interactability Whether or not the resulting target should take interactability into
+ *                             consideration when obscuring the target.
  *
- *  @return GREYVisibilityCheckerTarget instance populated with the view hierarchy. @c nil if
- *          element is not visible.
+ * @return GREYVisibilityCheckerTarget instance populated with the view hierarchy. @c nil if
+ *         element is not visible.
  */
 static GREYVisibilityCheckerTarget *ResultingTarget(id element, BOOL *performFallback,
                                                     BOOL interactability) {

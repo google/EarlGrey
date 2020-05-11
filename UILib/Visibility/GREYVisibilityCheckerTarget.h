@@ -21,81 +21,81 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  Enum for indicating how much of the target element is covered by the element in
- *  GREYVisibilityCheckerTarget::obscureWithElement:boundingRect:
+ * Enum for indicating how much of the target element is covered by the element in
+ * GREYVisibilityCheckerTarget::obscureWithElement:boundingRect:
  */
 typedef NS_ENUM(NSInteger, GREYVisibilityCheckerTargetObscureResult) {
   /**
-   *  Target was not obscured by the element, i. e. element does not intersect
-   *  with the target element.
+   * Target was not obscured by the element, i. e. element does not intersect
+   * with the target element.
    */
   GREYVisibilityCheckerTargetObscureResultNone,
   /**
-   *  Target was obscured partially, i.e., element intersects, but not fully, with the target
-   *  element.
+   * Target was obscured partially, i.e., element intersects, but not fully, with the target
+   * element.
    */
   GREYVisibilityCheckerTargetObscureResultPartial,
   /**
-   *  Target was completely obscured by the element, i.e., the intersection is the same as the
-   *  target's rect.
+   * Target was completely obscured by the element, i.e., the intersection is the same as the
+   * target's rect.
    */
   GREYVisibilityCheckerTargetObscureResultFull,
 };
 
 /**
- *  A representation of the target element used for checking visiblility status.
+ * A representation of the target element used for checking visiblility status.
  */
 @interface GREYVisibilityCheckerTarget : NSObject
 
 /**
- *  @remark init is not an available initializer. Use the other initializers.
+ * @remark init is not an available initializer. Use the other initializers.
  */
 - (instancetype)init NS_UNAVAILABLE;
 
 /**
- *  Initiates an instance with the specified target object and @c boundingRect.
+ * Initiates an instance with the specified target object and @c boundingRect.
  *
- *  @param object          The target object the visible percentage is being calculated of.
- *                         The wrapped element could be either an NSObject that conforms to
- *                         UIAccessibility informal protocol or a UIView instance.
- *  @param interactability The boolean to specify if the target is checked for its interactability.
+ * @param object          The target object the visible percentage is being calculated of.
+ *                        The wrapped element could be either an NSObject that conforms to
+ *                        UIAccessibility informal protocol or a UIView instance.
+ * @param interactability The boolean to specify if the target is checked for its interactability.
  *
- *  @return An instance of GREYVisibilityCheckerTarget, initialized with the specified information.
- *          Returns @c nil if the target is not visible.
+ * @return An instance of GREYVisibilityCheckerTarget, initialized with the specified information.
+ *         Returns @c nil if the target is not visible.
  */
 - (instancetype)initWithObject:(GREYTraversalObject *)object interactability:(BOOL)interactability;
 
 /**
- *  Compares and intersects the object's frame to the target's frame and calculates how much of
- *  target is intersected with the object. The intersected area is where the target is obscured by
- *  the element. The intersection rects are later subtracted from the target's frame to calculate
- *  how much of the target's frame has been obscured.
+ * Compares and intersects the object's frame to the target's frame and calculates how much of
+ * target is intersected with the object. The intersected area is where the target is obscured by
+ * the element. The intersection rects are later subtracted from the target's frame to calculate
+ * how much of the target's frame has been obscured.
  *
- *  @param object        The traversing object whose frame is being compared with target
- *                       element.
- *  @param[out] fallback An out parameter indicating whether or not a fallback should occur
- *                       because the quick visibility checker has low confidence in the
- *                       accuracy of the calculation. Use GREYThoroughVisibilityChecker
- *                       instead to calculate the visible percentage area. You MUST check for
- *                       @c performFallback before using the return value.
+ * @param object        The traversing object whose frame is being compared with target
+ *                      element.
+ * @param[out] fallback An out parameter indicating whether or not a fallback should occur
+ *                      because the quick visibility checker has low confidence in the
+ *                      accuracy of the calculation. Use GREYThoroughVisibilityChecker
+ *                      instead to calculate the visible percentage area. You MUST check for
+ *                      @c performFallback before using the return value.
  *
- *  @return A @c GREYVisibilityCheckerTargetObscureResult that indicates how much of the target
- *          element obscured.
+ * @return A @c GREYVisibilityCheckerTargetObscureResult that indicates how much of the target
+ *         element obscured.
  */
 - (GREYVisibilityCheckerTargetObscureResult)overlapResultWithObject:(GREYTraversalObject *)object
                                                            fallback:(BOOL *)fallback;
 
 /**
- *  @return A double value indicating the percentage visible of the target that is visible on
- *          screen. This lazily calculates the remaining visible area using the intersecting rects,
- *          so invoke this with caution.
+ * @return A double value indicating the percentage visible of the target that is visible on
+ *         screen. This lazily calculates the remaining visible area using the intersecting rects,
+ *         so invoke this with caution.
  */
 - (CGFloat)percentageVisible;
 
 /**
- *  @return The point in element that is interactable where a user can tap to interact with. This
- *          lazily calculates the remaining visible area using the intersecting rects, so invoke
- *          this with caution.
+ * @return The point in element that is interactable where a user can tap to interact with. This
+ *         lazily calculates the remaining visible area using the intersecting rects, so invoke
+ *         this with caution.
  */
 - (CGPoint)interactionPoint;
 

@@ -19,27 +19,27 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  A protocol that defines the layout of an object that conforms to GREYMatcher.
+ * A protocol that defines the layout of an object that conforms to GREYMatcher.
  */
 @protocol GREYDescription <NSSecureCoding, NSObject>
 
 /**
- *  Appends the provided text to the GREYDescription.
+ * Appends the provided text to the GREYDescription.
  *
- *  @param text The text to be appended to the GREYDescription.
+ * @param text The text to be appended to the GREYDescription.
  *
- *  @return An instance of an object conforming to GREYDescription with the provided
- *          @c text appended to it.
+ * @return An instance of an object conforming to GREYDescription with the provided
+ *         @c text appended to it.
  */
 - (id<GREYDescription>)appendText:(NSString *)text;
 
 /**
- *  Appends the description of the provided object to the GREYDescription.
+ * Appends the description of the provided object to the GREYDescription.
  *
- *  @param object The object whose description is to be appended to the GREYDescription.
+ * @param object The object whose description is to be appended to the GREYDescription.
  *
- *  @return An instance of an object conforming to GREYDescription with the provided
- *          object's description appended to it.
+ * @return An instance of an object conforming to GREYDescription with the provided
+ *         object's description appended to it.
  */
 - (id<GREYDescription>)appendDescriptionOf:(id)object;
 

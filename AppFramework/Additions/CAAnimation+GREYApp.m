@@ -95,8 +95,8 @@
 }
 
 /**
- *  @return The Swizzled EarlGrey animation delegate. When called, a surrogate is returned which
- *          has delegate methods swizzled for EarlGrey synchronization.
+ * @return The Swizzled EarlGrey animation delegate. When called, a surrogate is returned which
+ *         has delegate methods swizzled for EarlGrey synchronization.
  */
 - (id)greyswizzled_delegate {
   id delegate = INVOKE_ORIGINAL_IMP(id, @selector(greyswizzled_delegate));

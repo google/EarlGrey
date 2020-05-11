@@ -21,25 +21,25 @@ NS_ASSUME_NONNULL_BEGIN
 @class GREYFrameworkException;
 
 /**
- *  Protocol for handling failures (such as failure of actions and assertions) raised by EarlGrey.
+ * Protocol for handling failures (such as failure of actions and assertions) raised by EarlGrey.
  */
 @protocol GREYFailureHandler <NSObject>
 
 /**
- *  Called by the framework to raise an exception.
+ * Called by the framework to raise an exception.
  *
- *  @param exception The exception to be handled.
- *  @param details   Extra information about the failure.
+ * @param exception The exception to be handled.
+ * @param details   Extra information about the failure.
  */
 - (void)handleException:(GREYFrameworkException *)exception details:(NSString *)details;
 
 @optional
 
 /**
- *  Sets the file name and line number of operation that caused the failure.
+ * Sets the file name and line number of operation that caused the failure.
  *
- *  @param fileName   The name of the file where the error happened.
- *  @param lineNumber The line number in the file that caused the error.
+ * @param fileName   The name of the file where the error happened.
+ * @param lineNumber The line number in the file that caused the error.
  */
 - (void)setInvocationFile:(NSString *)fileName andInvocationLine:(NSUInteger)lineNumber;
 

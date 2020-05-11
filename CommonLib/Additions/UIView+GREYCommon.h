@@ -20,7 +20,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  EarlGrey specific common additions to UIView.
+ * EarlGrey specific common additions to UIView.
  */
 @interface UIView (GREYCommon)
 
@@ -52,31 +52,31 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)grey_isAncestorOfView:(UIView *)view;
 
 /**
- *  Makes sure that subview @c view is always on top, even if other subviews are added in front of
- *  it. Also keeps the @c view's frame fixed to the current value so parent can't change it.
+ * Makes sure that subview @c view is always on top, even if other subviews are added in front of
+ * it. Also keeps the @c view's frame fixed to the current value so parent can't change it.
  *
- *  @param view The view to keep as the top-most fixed subview.
+ * @param view The view to keep as the top-most fixed subview.
  */
 - (void)grey_keepSubviewOnTopAndFrameFixed:(UIView *)view;
 
 /**
- *  Makes this view and all its super view opaque. Successive calls to this method will replace
- *  the previously stored alpha value, causing any saved value to be lost.
+ * Makes this view and all its super view opaque. Successive calls to this method will replace
+ * the previously stored alpha value, causing any saved value to be lost.
  *
- *  @remark Each invocation will save the current alpha value which can be restored by calling
- *          -[UIView grey_restoreOpacity]
+ * @remark Each invocation will save the current alpha value which can be restored by calling
+ *         -[UIView grey_restoreOpacity]
  */
 - (void)grey_recursivelyMakeOpaque;
 
 /**
- *  Restores the opacity of this view and it's super views if they were made opaque by calling
- *  -[UIView grey_recursivelyMakeOpaque]. If -[UIView grey_recursivelyMakeOpaque] was not
- *  called before, then this method will perform a no-op on each of the view's superviews.
+ * Restores the opacity of this view and it's super views if they were made opaque by calling
+ * -[UIView grey_recursivelyMakeOpaque]. If -[UIView grey_recursivelyMakeOpaque] was not
+ * called before, then this method will perform a no-op on each of the view's superviews.
  */
 - (void)grey_restoreOpacity;
 
 /**
- *  Makes sure that subview @c view is always on top is added to the front of all other subviews.
+ * Makes sure that subview @c view is always on top is added to the front of all other subviews.
  */
 - (void)grey_bringAlwaysTopSubviewToFront;
 

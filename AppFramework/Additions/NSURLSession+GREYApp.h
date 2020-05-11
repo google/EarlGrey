@@ -17,8 +17,8 @@
 #import <Foundation/Foundation.h>
 
 /**
- *  Additions to NSURLSession to enable EarlGrey to synchronize with NSURLSessionTasks that execute
- *  network requests.
+ * Additions to NSURLSession to enable EarlGrey to synchronize with NSURLSessionTasks that execute
+ * network requests.
  */
 @interface NSURLSession (GREYAdditions)
 @end

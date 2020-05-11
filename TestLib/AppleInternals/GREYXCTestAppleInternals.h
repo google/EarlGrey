@@ -17,13 +17,13 @@
 #import <XCTest/XCTest.h>
 
 /**
- *  @file GREYXCTestAppleInternals.h
- *  @brief Exposes interfaces that are otherwise private.
+ * @file GREYXCTestAppleInternals.h
+ * @brief Exposes interfaces that are otherwise private.
  */
 
 /**
- *  Category for using private methods on XCUIApplication needed for backgrounding and foregrounding
- *  an application.
+ * Category for using private methods on XCUIApplication needed for backgrounding and foregrounding
+ * an application.
  */
 @interface XCUIApplication (Private)
 
@@ -31,44 +31,44 @@
 @property(readonly, copy, nonnull) NSString *bundleID;
 
 /**
- *  Returns a proxy for an application associated with the specified bundle identifier.
+ * Returns a proxy for an application associated with the specified bundle identifier.
  *
- *  @note Expose this signature in the older Xcode versions.
- *  @param bundleID Bundle ID of application.
- *  @return Reference to application.
+ * @note Expose this signature in the older Xcode versions.
+ * @param bundleID Bundle ID of application.
+ * @return Reference to application.
  */
 - (nullable instancetype)initWithBundleIdentifier:(nonnull NSString *)bundleID;
 
 /**
- *  Obtain a reference to an application on the device under test.
+ * Obtain a reference to an application on the device under test.
  *
- *  @param path Path to application. Optional.
- *  @param bundleID Bundle ID of application.
+ * @param path Path to application. Optional.
+ * @param bundleID Bundle ID of application.
  *
- *  @return Reference to application.
+ * @return Reference to application.
  */
 - (nullable instancetype)initPrivateWithPath:(nullable NSString *)path
                                     bundleID:(nonnull NSString *)bundleID;
 
 /**
- *  Resolve the XCUIApplication instance that was retrieved from initPrivateWithPath:bundleID:
+ * Resolve the XCUIApplication instance that was retrieved from initPrivateWithPath:bundleID:
  */
 - (void)resolve;
 
 /**
- *  Foregrounds the application that is being tested by the test target.
+ * Foregrounds the application that is being tested by the test target.
  */
 - (void)activate;
 
 @end
 
 /**
- *  Used for enabling accessibility on device.
+ * Used for enabling accessibility on device.
  */
 @interface XCAXClient_iOS
 
 /**
- *  Singleton shared instance when initialized will try to background the current process.
+ * Singleton shared instance when initialized will try to background the current process.
  */
 + (nullable id)sharedClient;
 

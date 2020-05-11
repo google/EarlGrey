@@ -20,58 +20,58 @@
 #import <Foundation/Foundation.h>
 
 /**
- *  Non-idle states that the App can be at any given point in time.
- *  These states are not mutually exclusive and can be combined together using Bitwise-OR to
- *  represent multiple states.
+ * Non-idle states that the App can be at any given point in time.
+ * These states are not mutually exclusive and can be combined together using Bitwise-OR to
+ * represent multiple states.
  */
 typedef NS_OPTIONS(NSUInteger, GREYAppState) {
   /**
-   *  Idle state implies App is not undergoing any state changes and it is OK to interact with it.
+   * Idle state implies App is not undergoing any state changes and it is OK to interact with it.
    */
   kGREYIdle = 0,
   /**
-   *  View is pending draw or layout pass.
+   * View is pending draw or layout pass.
    */
   kGREYPendingDrawLayoutPass = (1UL << 0),
   /**
-   *  Waiting for viewDidAppear: method invocation.
+   * Waiting for viewDidAppear: method invocation.
    */
   kGREYPendingViewsToAppear = (1UL << 1),
   /**
-   *  Waiting for viewDidDisappear: method invocation.
+   * Waiting for viewDidDisappear: method invocation.
    */
   kGREYPendingViewsToDisappear = (1UL << 2),
   /**
-   *  Pending keyboard transition.
+   * Pending keyboard transition.
    */
   kGREYPendingKeyboardTransition = (1UL << 3),
   /**
-   *  Waiting for CA animation to complete.
+   * Waiting for CA animation to complete.
    */
   kGREYPendingCAAnimation = (1UL << 4),
   /**
-   *  Waiting for a UIAnimation to be marked as stopped.
+   * Waiting for a UIAnimation to be marked as stopped.
    */
   kGREYPendingUIAnimation = (1UL << 5),
   /**
-   *  Pending root view controller to be set.
+   * Pending root view controller to be set.
    */
   kGREYPendingRootViewControllerToAppear = (1UL << 6),
   /**
-   *  Pending a network request completion.
+   * Pending a network request completion.
    */
   kGREYPendingNetworkRequest = (1UL << 7),
   /**
-   *  Pending gesture recognition.
+   * Pending gesture recognition.
    */
   kGREYPendingGestureRecognition = (1UL << 8),
   /**
-   *  Waiting for UIScrollView to finish scrolling.
+   * Waiting for UIScrollView to finish scrolling.
    */
   kGREYPendingUIScrollViewScrolling = (1UL << 9),
   /**
-   *  [UIApplication beginIgnoringInteractionEvents] was called and all interaction events are
-   *  being ignored.
+   * [UIApplication beginIgnoringInteractionEvents] was called and all interaction events are
+   * being ignored.
    */
   kGREYIgnoringSystemWideUserInteraction = (1UL << 10),
 };

@@ -15,25 +15,25 @@
 //
 
 /**
- *  @file GREYLogger.h
- *  @brief Macro for printing more logs for aiding in debugging.
+ * @file GREYLogger.h
+ * @brief Macro for printing more logs for aiding in debugging.
  */
 
 #import "GREYConstants.h"
 
 /**
- *  Prints a log statement if @c kGREYAllowVerboseLogging is present and turned to @c YES in
- *  NSUserDefaults. You can pass it in the command line arguments as shown below.
- *  To turn on, set @c kGREYAllowVerboseLogging key in NSUserDefaults to @c YES.
- *  @code
- *    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kGREYAllowVerboseLogging];
- *  @endcode
+ * Prints a log statement if @c kGREYAllowVerboseLogging is present and turned to @c YES in
+ * NSUserDefaults. You can pass it in the command line arguments as shown below.
+ * To turn on, set @c kGREYAllowVerboseLogging key in NSUserDefaults to @c YES.
+ * @code
+ *   [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kGREYAllowVerboseLogging];
+ * @endcode
  *
- *  @remark Once you set this, as with any NSUserDefaults, you need to
- *          explicitly turn it off or delete and re-install the app under test.
+ * @remark Once you set this, as with any NSUserDefaults, you need to
+ *         explicitly turn it off or delete and re-install the app under test.
  *
- *  @param format The string format to be printed.
- *  @param ...    The parameters to be added to the string format.
+ * @param format The string format to be printed.
+ * @param ...    The parameters to be added to the string format.
  */
 #define GREYLogVerbose(format, ...)                                                    \
   ({                                                                                   \

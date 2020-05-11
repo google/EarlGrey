@@ -114,10 +114,10 @@ class EarlGreyExampleSwiftUITests: XCTestCase {
 
 class SampleFailureHandler : NSObject, GREYFailureHandler {
   /**
-   *  Called by the framework to raise an exception.
+   * Called by the framework to raise an exception.
    *
-   *  @param exception The exception to be handled.
-   *  @param details   Extra information about the failure.
+   * @param exception The exception to be handled.
+   * @param details   Extra information about the failure.
    */
   public func handle(_ exception: GREYFrameworkException!, details: String!) {
     print("Test Failed With Reason : \(exception.reason!) and details \(details)")

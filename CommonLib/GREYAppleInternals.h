@@ -15,8 +15,8 @@
 //
 
 /**
- *  @file GREYAppleInternals.h
- *  @brief Exposes interfaces, structs and methods that are otherwise private.
+ * @file GREYAppleInternals.h
+ * @brief Exposes interfaces, structs and methods that are otherwise private.
  */
 
 #import <UIKit/UIKit.h>
@@ -31,22 +31,22 @@
 @end
 
 /**
- *  A private class that represents motion related events. This is sent to UIApplication whenever a
- *  motion occurs.
+ * A private class that represents motion related events. This is sent to UIApplication whenever a
+ * motion occurs.
  */
 @interface UIMotionEvent : UIEvent
 
 /**
- *  Modify the _shakeState ivar inside motion event.
+ * Modify the _shakeState ivar inside motion event.
  *
- *  shakeState Set as true for 1 being passed. All other values set to false.
+ * shakeState Set as true for 1 being passed. All other values set to false.
  */
 - (void)setShakeState:(int)shakeState;
 
 /**
- *  Sets the subtype for the motion event.
+ * Sets the subtype for the motion event.
  *
- *  eventSubType The UIEventSubtype for the motion event.
+ * eventSubType The UIEventSubtype for the motion event.
  */
 - (void)_setSubtype:(int)eventSubType;
 @end
@@ -55,7 +55,7 @@
 
 @interface UIStatusBarManager (GREYExposed)
 /**
- *  A private method to create a single status bar for the window.
+ * A private method to create a single status bar for the window.
  */
 - (id)createLocalStatusBar;
 @end
@@ -64,59 +64,59 @@
 
 @interface UIApplication (GREYExposed)
 /**
- *  @return @c YES if a system alert is being shown, @c NO otherwise.
+ * @return @c YES if a system alert is being shown, @c NO otherwise.
  */
 - (BOOL)_isSpringBoardShowingAnAlert;
 /**
- *  @return The UIWindow for the status bar.
+ * @return The UIWindow for the status bar.
  */
 - (UIWindow *)statusBarWindow;
 /**
- *  Changes the main runloop to run in the specified mode, pushing it to the top of the stack of
- *  current modes.
+ * Changes the main runloop to run in the specified mode, pushing it to the top of the stack of
+ * current modes.
  */
 - (void)pushRunLoopMode:(NSString *)mode;
 /**
- *  Changes the main runloop to run in the specified mode, pushing it to the top of the stack of
- *  current modes.
+ * Changes the main runloop to run in the specified mode, pushing it to the top of the stack of
+ * current modes.
  */
 - (void)pushRunLoopMode:(NSString *)mode requester:(id)requester;
 /**
- *  Pops topmost mode from the runloop mode stack.
+ * Pops topmost mode from the runloop mode stack.
  */
 - (void)popRunLoopMode:(NSString *)mode;
 /**
- *  Pops topmost mode from the runloop mode stack.
+ * Pops topmost mode from the runloop mode stack.
  */
 - (void)popRunLoopMode:(NSString *)mode requester:(id)requester;
 /**
- *  @return The shared UIMotionEvent object of the application, used to force enable motion
- *          accelerometer events.
+ * @return The shared UIMotionEvent object of the application, used to force enable motion
+ *         accelerometer events.
  */
 - (UIMotionEvent *)_motionEvent;
 @end
 
 @interface UIScrollView (GREYExposed)
 /**
- *  Called when user finishes scrolling the content. @c deceleration is @c YES if scrolling movement
- *  will continue, but decelerate, after user stopped dragging the content. If @c deceleration is
- *  @c NO, scrolling stops immediately.
+ * Called when user finishes scrolling the content. @c deceleration is @c YES if scrolling movement
+ * will continue, but decelerate, after user stopped dragging the content. If @c deceleration is
+ * @c NO, scrolling stops immediately.
  *
- *  @param deceleration Indicating if scrollview was experiencing deceleration.
+ * @param deceleration Indicating if scrollview was experiencing deceleration.
  */
 - (void)_scrollViewDidEndDraggingWithDeceleration:(BOOL)deceleration;
 
 /**
- *  Called when user is about to begin scrolling the content.
+ * Called when user is about to begin scrolling the content.
  */
 - (void)_scrollViewWillBeginDragging;
 
 /**
- *  Called when scrolling of content has finished, if content continued scrolling with deceleration
- *  after user stopped dragging it. @c notify determines whether UIScrollViewDelegate will be
- *  notified that scrolling has finished.
+ * Called when scrolling of content has finished, if content continued scrolling with deceleration
+ * after user stopped dragging it. @c notify determines whether UIScrollViewDelegate will be
+ * notified that scrolling has finished.
  *
- *  @param notify An indicator specifying if scrolling has finished.
+ * @param notify An indicator specifying if scrolling has finished.
  */
 - (void)_stopScrollDecelerationNotify:(BOOL)notify;
 @end
@@ -129,73 +129,73 @@
 
 @interface UIKeyboardTaskQueue
 /**
- *  Completes all pending or ongoing tasks in the task queue before returning. Must be called from
- *  the main thread.
+ * Completes all pending or ongoing tasks in the task queue before returning. Must be called from
+ * the main thread.
  */
 - (void)waitUntilAllTasksAreFinished;
 @end
 
 @interface UIKeyboardImpl
 /**
- *  @return Shared instance of UIKeyboardImpl. It may be different from the active instance.
+ * @return Shared instance of UIKeyboardImpl. It may be different from the active instance.
  */
 + (instancetype)sharedInstance;
 
 /**
- *  @return The Active instance of UIKeyboardImpl, if one exists; otherwise returns @c nil. Active
- *          instance could exist even if the keyboard is not shown on the screen.
+ * @return The Active instance of UIKeyboardImpl, if one exists; otherwise returns @c nil. Active
+ *         instance could exist even if the keyboard is not shown on the screen.
  */
 + (instancetype)activeInstance;
 
 /**
- *  @return The current keyboard layout view, which contains accessibility elements for keyboard
- *          keys that are shown on the keyboard.
+ * @return The current keyboard layout view, which contains accessibility elements for keyboard
+ *         keys that are shown on the keyboard.
  */
 - (UIView *)_layout;
 
 /**
- *  @return The string shown on the return key on the keyboard.
+ * @return The string shown on the return key on the keyboard.
  */
 - (NSString *)returnKeyDisplayName;
 
 /**
- *  @return The task queue keyboard is using to manage asynchronous tasks.
+ * @return The task queue keyboard is using to manage asynchronous tasks.
  */
 - (UIKeyboardTaskQueue *)taskQueue;
 
 /**
- *  Automatically hides the software keyboard if @c enabled is set to @c YES and hardware keyboard
- *  is available. Setting @c enabled to @c NO will always show software keyboard. This setting is
- *  global and applies to all instances of UIKeyboardImpl.
+ * Automatically hides the software keyboard if @c enabled is set to @c YES and hardware keyboard
+ * is available. Setting @c enabled to @c NO will always show software keyboard. This setting is
+ * global and applies to all instances of UIKeyboardImpl.
  *
- *  @param enabled A boolean that indicates automatic minimization (hiding) of the keyboard.
+ * @param enabled A boolean that indicates automatic minimization (hiding) of the keyboard.
  */
 - (void)setAutomaticMinimizationEnabled:(BOOL)enabled;
 
 /**
- *  @return The delegate that the UIKeyboard is typing on.
+ * @return The delegate that the UIKeyboard is typing on.
  */
 - (id)delegate;
 
 /**
- *  Sets the current UIKeyboard's delegate.
+ * Sets the current UIKeyboard's delegate.
  *
- *  @param delegate The element to set the UIKeyboard's delegate to.
+ * @param delegate The element to set the UIKeyboard's delegate to.
  */
 - (void)setDelegate:(id)delegate;
 /**
- *  A method to hide the keyboard without resigning the first responder. This is used only
- *  in iOS 8.1 where we found that turning off the autocorrection type on the first responder
- *  using setAutomaticMinimizationEnabled: without toggling the keyboard caused keyboard touches
- *  to be ignored.
+ * A method to hide the keyboard without resigning the first responder. This is used only
+ * in iOS 8.1 where we found that turning off the autocorrection type on the first responder
+ * using setAutomaticMinimizationEnabled: without toggling the keyboard caused keyboard touches
+ * to be ignored.
  */
 - (void)hideKeyboard;
 
 /**
- *  A method to show the keyboard without resigning the first responder. This is used only
- *  in iOS 8.1 where we found that turning off the autocorrection type on the first responder
- *  using setAutomaticMinimizationEnabled: without toggling the keyboard caused keyboard touches
- *  to be ignored.
+ * A method to show the keyboard without resigning the first responder. This is used only
+ * in iOS 8.1 where we found that turning off the autocorrection type on the first responder
+ * using setAutomaticMinimizationEnabled: without toggling the keyboard caused keyboard touches
+ * to be ignored.
  */
 - (void)showKeyboard;
 @end
@@ -203,7 +203,7 @@
 @interface UIAccessibilityTextFieldElement
 
 /**
- *  @return The UITextField that contains the accessibility text field element.
+ * @return The UITextField that contains the accessibility text field element.
  */
 - (UITextField *)textField;
 

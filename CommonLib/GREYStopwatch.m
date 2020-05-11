@@ -22,20 +22,20 @@
 
 @implementation GREYStopwatch {
   /**
-   *  The last time GREYStopwatch::start was called on the stopwatch.
+   * The last time GREYStopwatch::start was called on the stopwatch.
    */
   uint64_t _startTime;
   /**
-   *  The last time GREYStopwatch::stop was called on the stopwatch.
+   * The last time GREYStopwatch::stop was called on the stopwatch.
    */
   uint64_t _stopTime;
   /**
-   *  The last time GREYStopwatch::lapAndReturnTime was called on the stopwatch.
+   * The last time GREYStopwatch::lapAndReturnTime was called on the stopwatch.
    */
   uint64_t _lastLapTime;
   /**
-   *  A Boolean to check if GREYStopwatch::start was called without a corresponding
-   *  GREYStopwatch::stop.
+   * A Boolean to check if GREYStopwatch::start was called without a corresponding
+   * GREYStopwatch::stop.
    */
   BOOL _isRunning;
 }
@@ -76,15 +76,15 @@
 #pragma mark - private
 
 /**
- *  Obtain the difference in seconds between two provided times (each in terms of the Mach absolute
- *  time unit).
+ * Obtain the difference in seconds between two provided times (each in terms of the Mach absolute
+ * time unit).
  *
- *  @param startTime The lesser of the two times to be measured between in terms of the Mach
- *                   absolute time unit.
- *  @param endTime   The greater of the two times being measured between in terms of the Mach
- *                   absolute time unit.
+ * @param startTime The lesser of the two times to be measured between in terms of the Mach
+ *                  absolute time unit.
+ * @param endTime   The greater of the two times being measured between in terms of the Mach
+ *                  absolute time unit.
  *
- *  @return an NSTimeInterval with the interval in seconds between @c startTime and @c endTime.
+ * @return an NSTimeInterval with the interval in seconds between @c startTime and @c endTime.
  */
 static inline NSTimeInterval grey_timeIntervalBetween(uint64_t startTime, uint64_t endTime) {
   static mach_timebase_info_data_t info;

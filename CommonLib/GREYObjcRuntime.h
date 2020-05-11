@@ -17,16 +17,16 @@
 #import <Foundation/Foundation.h>
 
 /**
- *  A utility class used for common runtime related operations.
+ * A utility class used for common runtime related operations.
  */
 @interface GREYObjcRuntime : NSObject
 
 /**
- *  Adds the given method from the given class into the destination class.
+ * Adds the given method from the given class into the destination class.
  *
- *  @param destination The destination class.
- *  @param selector    The method selector from source class that needs to be added to destination.
- *  @param source      The source class for the method to be added.
+ * @param destination The destination class.
+ * @param selector    The method selector from source class that needs to be added to destination.
+ * @param source      The source class for the method to be added.
  */
 + (void)addInstanceMethodToClass:(Class)destination
                     withSelector:(SEL)selector

@@ -22,7 +22,7 @@
 @interface GREYHostApplicationDistantObject (NetworkTest)
 
 /**
- *  Set the delay to be added to network requests.
+ * Set the delay to be added to network requests.
  */
 - (void)setNetworkRequestDelayTime:(NSTimeInterval)delay;
 

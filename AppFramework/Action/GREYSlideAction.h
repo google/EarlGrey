@@ -17,27 +17,27 @@
 #import "GREYBaseAction.h"
 
 /**
- *  A GREYAction that changes the value on a UISlider.
+ * A GREYAction that changes the value on a UISlider.
  */
 @interface GREYSlideAction : GREYBaseAction
 
 /**
- *  @remark init is not an available initializer. Use the other initializers.
+ * @remark init is not an available initializer. Use the other initializers.
  */
 - (instancetype)init NS_UNAVAILABLE;
 
 /**
- *  @remark initWithName::constraints: is overridden from its superclass.
+ * @remark initWithName::constraints: is overridden from its superclass.
  */
 - (instancetype)initWithName:(NSString *)name
                  constraints:(id<GREYMatcher>)constraints NS_UNAVAILABLE;
 
 /**
- *  Action for instances of UISlider that allow the thumb to be moved to a specific @c value.
+ * Action for instances of UISlider that allow the thumb to be moved to a specific @c value.
  *
- *  @param value Value to set on the Slider.
+ * @param value Value to set on the Slider.
  *
- *  @return An instance of GREYSlideAction, initialized with the provided slider value.
+ * @return An instance of GREYSlideAction, initialized with the provided slider value.
  */
 - (instancetype)initWithSliderValue:(float)value NS_DESIGNATED_INITIALIZER;
 

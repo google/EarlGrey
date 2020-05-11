@@ -19,24 +19,24 @@
 #import "GREYDefines.h"
 
 /**
- *  The Error domain for a scroll error.
+ * The Error domain for a scroll error.
  */
 GREY_EXTERN NSString *const kGREYScrollErrorDomain;
 
 /**
- *  Error codes for scrolling related errors.
+ * Error codes for scrolling related errors.
  */
 typedef NS_ENUM(NSInteger, GREYScrollErrorCode) {
   /**
-   *  Reached content edge before the entire scroll action was complete.
+   * Reached content edge before the entire scroll action was complete.
    */
   kGREYScrollReachedContentEdge,
   /**
-   *  It is not possible to scroll.
+   * It is not possible to scroll.
    */
   kGREYScrollImpossible,
   /**
-   *  Could not scroll to the element we are looking for.
+   * Could not scroll to the element we are looking for.
    */
   kGREYScrollToElementFailed,
 };

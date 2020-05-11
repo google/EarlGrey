@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface XCUIApplication (GREYEnvironment)
 
 /**
- *  Sets up the launch environment for EarlGrey's integration with XCUITest.
+ * Sets up the launch environment for EarlGrey's integration with XCUITest.
  */
 - (void)grey_configureApplicationForLaunch;
 

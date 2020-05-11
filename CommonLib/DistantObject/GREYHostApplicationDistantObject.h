@@ -27,11 +27,11 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  The application instance running in the app-under-test's process.
+ * The application instance running in the app-under-test's process.
  *
- *  @note The class is also stubbed in the test process so it's available in the test. Users can
- *        extend the class in the category and make direct calls, which will become a remote call
- *        automatically invoked in the main thread.
+ * @note The class is also stubbed in the test process so it's available in the test. Users can
+ *       extend the class in the category and make direct calls, which will become a remote call
+ *       automatically invoked in the main thread.
  */
 @interface GREYHostApplicationDistantObject : NSObject
 
@@ -39,8 +39,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(readonly, class) GREYHostApplicationDistantObject *sharedInstance;
 
 /**
- *  The port number that the eDO service on the test's main queue listens on. Created when the
- *  TestApplicationDistantObject is created on the application being launched.
+ * The port number that the eDO service on the test's main queue listens on. Created when the
+ * TestApplicationDistantObject is created on the application being launched.
  */
 // TODO: Use EDOServicePort. // NOLINT
 @property(nonatomic, readonly, class) uint16_t testPort;

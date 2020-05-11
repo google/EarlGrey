@@ -19,19 +19,19 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  Filter found elements from an element finder based on patterns seen in iOS improvements.
+ * Filter found elements from an element finder based on patterns seen in iOS improvements.
  */
 @interface GREYElementFilter : NSObject
 
 /**
- *  De-dupes the list of elements by removing any accessibility element that has its parent
- *  UITextField present. If no such combination exists, or if elements array does not contain
- *  exactly two elements, it is returned as is.
+ * De-dupes the list of elements by removing any accessibility element that has its parent
+ * UITextField present. If no such combination exists, or if elements array does not contain
+ * exactly two elements, it is returned as is.
  *
- *  @param elements An NSArray of elements found from an element matcher.
+ * @param elements An NSArray of elements found from an element matcher.
  *
- *  @return A UITextField if the matched elements were a UITextfield and its accessibility element,
- *          else the matched element(s).
+ * @return A UITextField if the matched elements were a UITextfield and its accessibility element,
+ *         else the matched element(s).
  */
 + (NSArray<id> *)dedupedTextFieldFromElements:(NSArray<id> *)elements;
 

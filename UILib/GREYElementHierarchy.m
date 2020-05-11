@@ -57,12 +57,12 @@
 #pragma mark - Private
 
 /**
- *  Creates an NSString similar to GREYElementHierarchy::hierarchyStringForElement:.
+ * Creates an NSString similar to GREYElementHierarchy::hierarchyStringForElement:.
  *
- *  @param element              The UI element to be printed.
- *  @param annotationDictionary The annotations to be applied.
+ * @param element              The UI element to be printed.
+ * @param annotationDictionary The annotations to be applied.
  *
- *  @return A string containing the full view hierarchy from the given @c element.
+ * @return A string containing the full view hierarchy from the given @c element.
  */
 + (NSString *)hierarchyStringForElement:(id)element
                withAnnotationDictionary:(NSDictionary *)annotationDictionary {
@@ -106,9 +106,9 @@
 }
 
 /**
- *  @return An NSString with info about any animation attached to the specified element's layer.
+ * @return An NSString with info about any animation attached to the specified element's layer.
  *
- *  @param element An object for an accessibility element or a UIView present in the UI hierarchy.
+ * @param element An object for an accessibility element or a UIView present in the UI hierarchy.
  */
 + (NSString *)grey_animationInfoForView:(id)element {
   NSMutableString *animationInfoForView = [[NSMutableString alloc] init];
@@ -136,13 +136,13 @@
 }
 
 /**
- *  Creates and outputs the description in the correct format for the @c element at a particular @c
- *  level (depth of the element in the view hierarchy).
+ * Creates and outputs the description in the correct format for the @c element at a particular @c
+ * level (depth of the element in the view hierarchy).
  *
- *  @param element The element whose description is to be printed.
- *  @param level   The depth of the element in the view hierarchy.
+ * @param element The element whose description is to be printed.
+ * @param level   The depth of the element in the view hierarchy.
  *
- *  @return A string with the description of the given @c element.
+ * @return A string with the description of the given @c element.
  */
 + (NSString *)grey_printDescriptionForElement:(id)element atLevel:(NSUInteger)level {
   GREYFatalAssert(element);

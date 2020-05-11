@@ -30,15 +30,15 @@
 
 @implementation GREYSwipeAction {
   /**
-   *  The direction in which the content must be scrolled.
+   * The direction in which the content must be scrolled.
    */
   GREYDirection _direction;
   /**
-   *  The duration within which the swipe action must be complete.
+   * The duration within which the swipe action must be complete.
    */
   CFTimeInterval _duration;
   /**
-   *  Start point for the swipe specified as percentage of swipped element's accessibility frame.
+   * Start point for the swipe specified as percentage of swipped element's accessibility frame.
    */
   CGPoint _startPercents;
 }

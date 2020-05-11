@@ -29,14 +29,14 @@
   NSString *_name;
 
   /**
-   *  The managed object context being tracked by this idling resource. The managed object context
-   *  is held weakly so that it can be deallocated normally.
+   * The managed object context being tracked by this idling resource. The managed object context
+   * is held weakly so that it can be deallocated normally.
    */
   __weak NSManagedObjectContext *_managedObjectContext;
 
   /**
-   *  A dispatch queue idling resource used by this idling resource to track the managed object
-   *  context's internal dispatch queue.
+   * A dispatch queue idling resource used by this idling resource to track the managed object
+   * context's internal dispatch queue.
    */
   GREYDispatchQueueIdlingResource *_dispatchQueueIdlingResource;
 }
@@ -98,7 +98,7 @@
 #pragma mark - Internal Methods Exposed For Testing
 
 /**
- *  @return The private dispatch queue for this idling resource's tracked managed object context.
+ * @return The private dispatch queue for this idling resource's tracked managed object context.
  */
 - (dispatch_queue_t)managedObjectContextDispatchQueue {
   Ivar queueIvar = class_getInstanceVariable([NSManagedObjectContext class], "_dispatchQueue");

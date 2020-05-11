@@ -27,60 +27,60 @@
 #import "GREYCondition.h"
 
 /**
- *  Text denoting part of the Location System Alert Label in iOS 10.
+ * Text denoting part of the Location System Alert Label in iOS 10.
  */
 static NSString *const kSystemAlertLabelLocationIOS10 = @"location while you use the app";
 /**
- *  Text denoting part of the Location System Alert Label in iOS 11.
+ * Text denoting part of the Location System Alert Label in iOS 11.
  */
 static NSString *const kSystemAlertLabelLocationIOS11 = @"location while you are using the app";
 /**
- *  Text denoting part of the Background Location System Alert Label when the location alert has
- *  not been accepted.
+ * Text denoting part of the Background Location System Alert Label when the location alert has
+ * not been accepted.
  */
 static NSString *const kSystemAlertLabelBGLocationAlways = @"access your location?";
 /**
- *  Text denoting part of the Background Location System Alert Label when the location alert has
- *  been accepted.
+ * Text denoting part of the Background Location System Alert Label when the location alert has
+ * been accepted.
  */
 static NSString *const kSystemAlertLabelBGLocationNotUsingTheApp =
     @"location even when you are not using the app?";
 /**
- *  Text denoting part of the Camera System Alert.
+ * Text denoting part of the Camera System Alert.
  */
 static NSString *const kSystemAlertLabelCamera = @"Camera";
 /**
- *  Text denoting part of the Photos System Alert.
+ * Text denoting part of the Photos System Alert.
  */
 static NSString *const kSystemAlertLabelPhotos = @"Photos";
 /**
- *  Text denoting part of the Microphone System Alert.
- *  TODO: Add functional tests for this. // NOLINT
+ * Text denoting part of the Microphone System Alert.
+ * TODO: Add functional tests for this. // NOLINT
  */
 static NSString *const kSystemAlertLabelMicrophone = @"Microphone";
 /**
- *  Text denoting part of the Reminders System Alert.
+ * Text denoting part of the Reminders System Alert.
  */
 static NSString *const kSystemAlertLabelReminders = @"Reminders";
 /**
- *  Text denoting part of the Calendar System Alert.
+ * Text denoting part of the Calendar System Alert.
  */
 static NSString *const kSystemAlertLabelCalendar = @"Calendar";
 /**
- *  Text denoting part of the Notifications (APNS) System Alert.
+ * Text denoting part of the Notifications (APNS) System Alert.
  */
 static NSString *const kSystemAlertLabelNotifications = @"Notifications";
 /**
- *  Text denoting part of the Motion Activity System Alert.
+ * Text denoting part of the Motion Activity System Alert.
  */
 static NSString *const kSystemAlertLabelMotionActivity = @"Motion & Fitness Activity";
 /**
- *  Text denoting part of the Contacts System Alert.
+ * Text denoting part of the Contacts System Alert.
  */
 static NSString *const kSystemAlertLabelContacts = @"Contacts";
 /**
- *  Timeout for system alerts to be present using the same check as that used by EarlGrey's app
- *  component.
+ * Timeout for system alerts to be present using the same check as that used by EarlGrey's app
+ * component.
  */
 CFTimeInterval const kSystemAlertEarlGreyVisibilityTimeout = 5;
 
@@ -89,7 +89,7 @@ CFTimeInterval const kSystemAlertVisibilityTimeout = 10;
 NSString *const kGREYSystemAlertDismissalErrorDomain = @"com.google.earlgrey.SystemAlertDismissal";
 
 /**
- *  @return The Springboard's XCUIApplication.
+ * @return The Springboard's XCUIApplication.
  */
 static XCUIApplication *GREYSpringboardApplication() {
   static XCUIApplication *gSpringBoardApplication;
@@ -102,7 +102,7 @@ static XCUIApplication *GREYSpringboardApplication() {
 }
 
 /**
- *  @return UIApplication under test by making an eDO call to the app-side.
+ * @return UIApplication under test by making an eDO call to the app-side.
  */
 static UIApplication *GetApplicationUnderTest() {
   // TODO(b/148556743): Create a global instance for AUT in EarlGrey so we don't make an eDO call
@@ -313,7 +313,7 @@ static UIApplication *GetApplicationUnderTest() {
 #pragma mark - Private
 
 /**
- *  @return A BOOL denoting if the application under test is reporting a system alert being present.
+ * @return A BOOL denoting if the application under test is reporting a system alert being present.
  */
 - (BOOL)springboardShowingAnAlertForApplication:(UIApplication *)application {
   // Before iOS 13, calling [[UIApplication sharedApplication] _isSpringBoardShowingAnAlert] from
@@ -324,9 +324,9 @@ static UIApplication *GetApplicationUnderTest() {
 }
 
 /**
- *  @return The topmost alert view's XCUIElement, if present. @c nil otherwise.
+ * @return The topmost alert view's XCUIElement, if present. @c nil otherwise.
  *
- *  @param[out] error An NSError that will be populated if the alert is not visible.
+ * @param[out] error An NSError that will be populated if the alert is not visible.
  */
 - (XCUIElement *)grey_topMostAlertWithError:(NSError **)error {
   XCUIApplication *springboardApp = GREYSpringboardApplication();
@@ -343,11 +343,11 @@ static UIApplication *GetApplicationUnderTest() {
 }
 
 /**
- *  Ensures that the alert has been dismissed by checking the XCUITest Element Hierarchy for an
- *  alert with the same label text.
+ * Ensures that the alert has been dismissed by checking the XCUITest Element Hierarchy for an
+ * alert with the same label text.
  *
- *  @param alertText  The text of the alert that was just dismissed.
- *  @param[out] error An NSError that will be populated in case there is any issue.
+ * @param alertText  The text of the alert that was just dismissed.
+ * @param[out] error An NSError that will be populated in case there is any issue.
  */
 - (BOOL)grey_ensureAlertDismissalOfAlertWithText:(NSString *)alertText error:(NSError **)error {
   BOOL (^alertDismissedBlock)(void) = ^BOOL(void) {

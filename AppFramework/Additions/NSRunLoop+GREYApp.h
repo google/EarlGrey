@@ -17,7 +17,7 @@
 #import <Foundation/Foundation.h>
 
 /**
- *  EarlGrey specific additions to NSRunLoop to track run loop timers.
+ * EarlGrey specific additions to NSRunLoop to track run loop timers.
  */
 @interface NSRunLoop (GREYApp)
 @end

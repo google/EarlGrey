@@ -29,52 +29,52 @@
                                           UIImagePickerControllerDelegate>
 
 /**
- *  UIButton which on being pressed brings up a Locations Alert.
+ * UIButton which on being pressed brings up a Locations Alert.
  */
 @property(weak, nonatomic) IBOutlet UIButton *locationAlertButton;
 /**
- *  UIButton which on being pressed brings up a Contacts Alert.
+ * UIButton which on being pressed brings up a Contacts Alert.
  */
 @property(weak, nonatomic) IBOutlet UIButton *contactsAlertButton;
 /**
- *  UIButton which on being pressed brings up a reminders and camera Alert in succession.
+ * UIButton which on being pressed brings up a reminders and camera Alert in succession.
  */
 @property(weak, nonatomic) IBOutlet UIButton *remindersCameraAlertButton;
 /**
- *  UIButton which on being pressed brings up a Notifications Alert.
+ * UIButton which on being pressed brings up a Notifications Alert.
  */
 @property(weak, nonatomic) IBOutlet UIButton *notificationsAlertButton;
 /**
- *  UIButton which on being pressed brings up a Calendar Alert.
+ * UIButton which on being pressed brings up a Calendar Alert.
  */
 @property(weak, nonatomic) IBOutlet UIButton *calendarAlertButton;
 /**
- *  UIButton which on being pressed brings up a Motion Activity Alert.
+ * UIButton which on being pressed brings up a Motion Activity Alert.
  */
 @property(weak, nonatomic) IBOutlet UIButton *motionActivityAlertButton;
 /**
- *  UIButton which on being pressed brings up a Background Location Alert.
+ * UIButton which on being pressed brings up a Background Location Alert.
  */
 @property(weak, nonatomic) IBOutlet UIButton *backgroundLocationAlertButton;
 /**
- *  UIButton which on being pressed brings up an alert for entering iTunes credentials.
+ * UIButton which on being pressed brings up an alert for entering iTunes credentials.
  */
 @property(weak, nonatomic) IBOutlet UIButton *iTunesRestorePurchasesButton;
 /**
- *  UIButton which is displayed only when a button triggering a System Alert is displayed. On
- *  being pressed, also dismisses the @c alertValuelabel.
+ * UIButton which is displayed only when a button triggering a System Alert is displayed. On
+ * being pressed, also dismisses the @c alertValuelabel.
  */
 @property(weak, nonatomic) IBOutlet UIButton *alertHandledButton;
 
 /**
- *  UILabel which is displayed only when a button triggering a System Alert is displayed along
- *  with the expected result i.e. Granted / Denied as its title.
+ * UILabel which is displayed only when a button triggering a System Alert is displayed along
+ * with the expected result i.e. Granted / Denied as its title.
  */
 @property(weak, nonatomic) IBOutlet UILabel *alertValueLabel;
 
 /**
- *  Location Manager for the test app, which on asking for re-authorization triggers the
- *  Locations Alert.
+ * Location Manager for the test app, which on asking for re-authorization triggers the
+ * Locations Alert.
  */
 @property(strong, nonatomic) CLLocationManager *locationManager;
 
@@ -116,8 +116,8 @@
 }
 
 /**
- *  Brings up a location alert by asking for authorization for updating the location of the test
- *  app and unhides the alert handler button.
+ * Brings up a location alert by asking for authorization for updating the location of the test
+ * app and unhides the alert handler button.
  */
 - (void)locationAlertButtonPressed {
   [self.alertHandledButton setHidden:NO];
@@ -136,8 +136,8 @@
 }
 
 /**
- *  Brings up a contacts alert and unhides the alert handler button and the alert label with the
- *  title as Granted.
+ * Brings up a contacts alert and unhides the alert handler button and the alert label with the
+ * title as Granted.
  */
 - (void)contactsAlertButtonPressed {
   CNContactStore *contactStore = [[CNContactStore alloc] init];
@@ -149,9 +149,9 @@
 }
 
 /**
- *  Brings up the Reminders and Camera Alert, unhides the alert handler button and the alert label
- *  with the title as Granted. Also brings up an app alert that can be dismissed by the app's
- *  default UIInterruption Handler or by looking at alert views in the app.
+ * Brings up the Reminders and Camera Alert, unhides the alert handler button and the alert label
+ * with the title as Granted. Also brings up an app alert that can be dismissed by the app's
+ * default UIInterruption Handler or by looking at alert views in the app.
  */
 - (void)cameraRemindersAlertsButtonPressed {
   [[[EKEventStore alloc] init] requestAccessToEntityType:EKEntityTypeReminder
@@ -175,7 +175,7 @@
 }
 
 /**
- *  Brings up a notifications (APNS) alert and unhides the alert handler button.
+ * Brings up a notifications (APNS) alert and unhides the alert handler button.
  */
 - (void)notificationsAlertButtonPressed {
   [self.alertHandledButton setHidden:NO];
@@ -191,7 +191,7 @@
 }
 
 /**
- *  Brings up a calendar alert, similar to the Reminders alert and unhides the alert handler button.
+ * Brings up a calendar alert, similar to the Reminders alert and unhides the alert handler button.
  */
 - (void)calendarAlertButtonPressed {
   [self.alertHandledButton setHidden:NO];
@@ -201,7 +201,7 @@
 }
 
 /**
- *  Brings up a motion activity alert and unhides the alert handler button.
+ * Brings up a motion activity alert and unhides the alert handler button.
  */
 - (void)motionActivityAlertButtonPressed {
   [self.alertHandledButton setHidden:NO];
@@ -214,7 +214,7 @@
 }
 
 /**
- *  Brings up a background location alert and unhides the alert handler button.
+ * Brings up a background location alert and unhides the alert handler button.
  */
 - (void)backgroundLocationAlertButtonPressed {
   [self.alertHandledButton setHidden:NO];
@@ -225,15 +225,15 @@
 }
 
 /**
- *  Tries to restore any completed App Store transactions (there are none since the app isn't
- *  registered). This causes the iTunes user credentials System Alert to pop up for interaction.
+ * Tries to restore any completed App Store transactions (there are none since the app isn't
+ * registered). This causes the iTunes user credentials System Alert to pop up for interaction.
  */
 - (void)iTunesRestorePurchasesButtonPressed {
   [[SKPaymentQueue defaultQueue] restoreCompletedTransactions];
 }
 
 /**
- *  Hides the alert value label and the alert handled button.
+ * Hides the alert value label and the alert handled button.
  */
 - (void)alertHandledButtonPressed {
   [self.alertValueLabel setHidden:YES];
@@ -241,9 +241,9 @@
 }
 
 /**
- *  Updates the alert label with the provided text.
+ * Updates the alert label with the provided text.
  *
- *  @param granted @c BOOL determining if the alert is to be accepted or denied.
+ * @param granted @c BOOL determining if the alert is to be accepted or denied.
  */
 - (void)updateAlertLabelForValue:(BOOL)granted {
   dispatch_async(dispatch_get_main_queue(), ^{

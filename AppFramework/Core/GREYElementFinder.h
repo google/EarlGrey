@@ -22,38 +22,38 @@ NS_ASSUME_NONNULL_BEGIN
 , GREYProvider;
 
 /**
- *  Finds UI elements in GREYProvider that are accepted by a matcher.
+ * Finds UI elements in GREYProvider that are accepted by a matcher.
  */
 @interface GREYElementFinder : NSObject
 
 /**
- *  The matcher the element finder is initialized with. Objects returned from this class
- *  must match this matcher.
+ * The matcher the element finder is initialized with. Objects returned from this class
+ * must match this matcher.
  */
 @property(nonatomic, readonly) id<GREYMatcher> matcher;
 
 /**
- *  @remark init is not an available initializer. Use the other initializers.
+ * @remark init is not an available initializer. Use the other initializers.
  */
 - (instancetype)init NS_UNAVAILABLE;
 
 /**
- *  Initializes the finder with a given @c matcher.
+ * Initializes the finder with a given @c matcher.
  *
- *  @param matcher Matcher that defines what elements the finder should search for.
+ * @param matcher Matcher that defines what elements the finder should search for.
  *
- *  @return An instance of GREYElementFinder, initialized with a matcher.
+ * @return An instance of GREYElementFinder, initialized with a matcher.
  */
 - (instancetype)initWithMatcher:(id<GREYMatcher>)matcher NS_DESIGNATED_INITIALIZER;
 
 /**
- *  Performs a search on elements provided by @c elementProvider and returns all the elements
- *  that are accepted by the matcher this object is initialized with.
+ * Performs a search on elements provided by @c elementProvider and returns all the elements
+ * that are accepted by the matcher this object is initialized with.
  *
- *  @param elementProvider Provides elements to run through the matcher.
+ * @param elementProvider Provides elements to run through the matcher.
  *
- *  @return An array of matched elements. If no matching element is found, then it is empty.
- *          The relative order of the elements is preserved when returned.
+ * @return An array of matched elements. If no matching element is found, then it is empty.
+ *         The relative order of the elements is preserved when returned.
  */
 - (NSArray<id> *)elementsMatchedInProvider:(id<GREYProvider>)elementProvider;
 

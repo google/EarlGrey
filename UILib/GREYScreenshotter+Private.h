@@ -19,33 +19,33 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  @file GREYScreenshotter+Private.h
- *  @brief Exposes GREYScreenshotter interfaces and methods that are otherwise private for testing
- *  purposes.
+ * @file GREYScreenshotter+Private.h
+ * @brief Exposes GREYScreenshotter interfaces and methods that are otherwise private for testing
+ * purposes.
  */
 
 @interface GREYScreenshotter (Private)
 
 /**
- *  Provides a UIImage that is a screenshot, immediately or after the screen updates as specified.
+ * Provides a UIImage that is a screenshot, immediately or after the screen updates as specified.
  *
- *  @param afterScreenUpdates A Boolean specifying if the screenshot is to be taken immediately or
- *                            after a screen update.
- *  @param includeStatusBar   Include status bar in the screenshot.
+ * @param afterScreenUpdates A Boolean specifying if the screenshot is to be taken immediately or
+ *                           after a screen update.
+ * @param includeStatusBar   Include status bar in the screenshot.
  *
- *  @return A UIImage containing a screenshot.
+ * @return A UIImage containing a screenshot.
  */
 + (UIImage *)grey_takeScreenshotAfterScreenUpdates:(BOOL)afterScreenUpdates
                                      withStatusBar:(BOOL)includeStatusBar;
 
 /**
- *  @return A UIImage that is a screenshot of the specified bounds in the screen,
- *          immediately or after the screen updates as specified.
+ * @return A UIImage that is a screenshot of the specified bounds in the screen,
+ *         immediately or after the screen updates as specified.
  *
- *  @param afterScreenUpdates A BOOL specifying if the screenshot is to be taken immediately or
- *                            after a screen update.
- *  @param screenRect         Frame in screen coordinate to capture in the screenshot.
- *  @param includeStatusBar   Include status bar in the screenshot.
+ * @param afterScreenUpdates A BOOL specifying if the screenshot is to be taken immediately or
+ *                           after a screen update.
+ * @param screenRect         Frame in screen coordinate to capture in the screenshot.
+ * @param includeStatusBar   Include status bar in the screenshot.
  */
 + (UIImage *)grey_takeScreenshotAfterScreenUpdates:(BOOL)afterScreenUpdates
                                       inScreenRect:(CGRect)screenRect

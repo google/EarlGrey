@@ -17,7 +17,7 @@
 #import <Foundation/Foundation.h>
 
 /**
- *  EarlGrey specific additions to NSTimer to track timer events.
+ * EarlGrey specific additions to NSTimer to track timer events.
  */
 @interface NSTimer (GREYApp)
 @end

@@ -25,8 +25,8 @@
 #import "GREYTestCaseInvocation.h"
 
 /**
- *  Stack of XCTestCase objects being being executed. This enables the tracking of different nested
- *  tests that have been invoked. If empty, then the run is outside the context of a running test.
+ * Stack of XCTestCase objects being being executed. This enables the tracking of different nested
+ * tests that have been invoked. If empty, then the run is outside the context of a running test.
  */
 static NSMutableArray<XCTestCase *> *gExecutingTestCaseStack;
 
@@ -37,7 +37,7 @@ static void (^gHostApplicationCrashHandler)(void);
 static uint16_t gHostApplicationPortForLastCrash;
 
 /**
- *  Name of the exception that's thrown to interrupt current test execution.
+ * Name of the exception that's thrown to interrupt current test execution.
  */
 static NSString *const kInternalTestInterruptException = @"EarlGreyInternalTestInterruptException";
 
@@ -52,12 +52,12 @@ NSString *const kGREYXCTestCaseInstanceDidFinish = @"GREYXCTestCaseInstanceDidFi
 NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey";
 
 /**
- *  Checks if there's an app-under-test crash which hasn't been handled yet. If that's the case,
- *  @c handler will be invoked. @c handler can indicate that the crash has been handled by returning
- *  @c YES. If @c NO is returned by @c handler, the next invocation to this method will again invoke
- *  the passed in @c handler to handle the crash.
+ * Checks if there's an app-under-test crash which hasn't been handled yet. If that's the case,
+ * @c handler will be invoked. @c handler can indicate that the crash has been handled by returning
+ * @c YES. If @c NO is returned by @c handler, the next invocation to this method will again invoke
+ * the passed in @c handler to handle the crash.
  *
- *  @param handler The block that will be invoked when there is an unhandled app-under-test crash.
+ * @param handler The block that will be invoked when there is an unhandled app-under-test crash.
  */
 static void CheckUnhandledHostApplicationCrashWithHandler(BOOL (^handler)(void));
 
@@ -227,10 +227,10 @@ static void CheckUnhandledHostApplicationCrashWithHandler(BOOL (^handler)(void))
 }
 
 /**
- *  A swizzled implementation for XCTestCase::setUp.
+ * A swizzled implementation for XCTestCase::setUp.
  *
- *  @remark These methods need to be added to each instance of XCTestCase because we don't expect
- *          test to invoke <tt> [super setUp] </tt>.
+ * @remark These methods need to be added to each instance of XCTestCase because we don't expect
+ *         test to invoke <tt> [super setUp] </tt>.
  */
 - (void)grey_setUp {
   [self grey_sendNotification:kGREYXCTestCaseInstanceWillSetUp];
@@ -245,10 +245,10 @@ static void CheckUnhandledHostApplicationCrashWithHandler(BOOL (^handler)(void))
 }
 
 /**
- *  A swizzled implementation for XCTestCase::tearDown.
+ * A swizzled implementation for XCTestCase::tearDown.
  *
- *  @remark These methods need to be added to each instance of XCTestCase because we don't expect
- *          tests to invoke <tt> [super tearDown] </tt>.
+ * @remark These methods need to be added to each instance of XCTestCase because we don't expect
+ *         tests to invoke <tt> [super tearDown] </tt>.
  */
 - (void)grey_tearDown {
   [self grey_sendNotification:kGREYXCTestCaseInstanceWillTearDown];
@@ -263,10 +263,10 @@ static void CheckUnhandledHostApplicationCrashWithHandler(BOOL (^handler)(void))
 }
 
 /**
- *  Posts a notification with the specified @c notificationName using the default
- *  NSNotificationCenter and with the @c userInfo containing the current test case.
+ * Posts a notification with the specified @c notificationName using the default
+ * NSNotificationCenter and with the @c userInfo containing the current test case.
  *
- *  @param notificationName Name of the notification to be posted.
+ * @param notificationName Name of the notification to be posted.
  */
 - (void)grey_sendNotification:(NSString *)notificationName {
   NSDictionary *userInfo = @{kGREYXCTestCaseNotificationKey : self};

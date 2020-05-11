@@ -22,23 +22,23 @@
 
 @implementation GREYTraversalDFS {
   /**
-   *  An array that contains the unrolled hierarchy.
+   * An array that contains the unrolled hierarchy.
    */
   NSMutableArray *_parsedHierarchy;
 
   /**
-   *  NSUInteger to keep track of the index that is being accessed in the @c _parsedHierarchy array.
+   * NSUInteger to keep track of the index that is being accessed in the @c _parsedHierarchy array.
    */
   NSUInteger _parsedHierarchyIndex;
 
   /**
-   *  Flag to indicate whether the hierarchy should be reversed or not. Default is @c YES.
+   * Flag to indicate whether the hierarchy should be reversed or not. Default is @c YES.
    */
   BOOL _isBackToFront;
 
   /**
-   *  Flag to indicate whether the hierarchy should be ordered by @c zPosition amongst sibling
-   *  views.
+   * Flag to indicate whether the hierarchy should be ordered by @c zPosition amongst sibling
+   * views.
    */
   BOOL _zOrdering;
 }
@@ -93,9 +93,9 @@
 #pragma mark - Private
 
 /**
- *  The method retrieves the next object in the hierarchy.
+ * The method retrieves the next object in the hierarchy.
  *
- *  @return Returns an instance of GREYTraversalDFSObject.
+ * @return Returns an instance of GREYTraversalDFSObject.
  */
 - (GREYTraversalObject *)grey_nextObjectDFS {
   // If we have explored all elements.

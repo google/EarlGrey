@@ -21,30 +21,30 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  A protocol for actions that are performed on accessibility elements.
+ * A protocol for actions that are performed on accessibility elements.
  */
 @protocol GREYAction <GREYDiagnosable>
 
 /**
- *  Perform the action specified by the GREYAction object on an @c element if and only if the
- *  @c element matches the constraints of the action.
+ * Perform the action specified by the GREYAction object on an @c element if and only if the
+ * @c element matches the constraints of the action.
  *
- *  @param      element    The element the action is to be performed on. This must not be @c nil.
- *  @param[out] errorOrNil Error that will be populated on failure. The implementing class should
- *                         handle the behavior when it is @c nil by, for example, logging the error
- *                         or throwing an exception.
+ * @param      element    The element the action is to be performed on. This must not be @c nil.
+ * @param[out] errorOrNil Error that will be populated on failure. The implementing class should
+ *                        handle the behavior when it is @c nil by, for example, logging the error
+ *                        or throwing an exception.
  *
- *  @return @c YES if the action succeeded, else @c NO. If an action returns @c NO, it does not
- *          mean that the action was not performed at all but somewhere during the action execution
- *          the error occurred and so the UI may be in an unrecoverable state.
+ * @return @c YES if the action succeeded, else @c NO. If an action returns @c NO, it does not
+ *         mean that the action was not performed at all but somewhere during the action execution
+ *         the error occurred and so the UI may be in an unrecoverable state.
  */
 - (BOOL)perform:(id)element error:(__strong NSError **)errorOrNil;
 
 /**
- *  A method to get the name of this action.
+ * A method to get the name of this action.
  *
- *  @return The name of the action. If the action fails, then the name is printed along with all
- *          other relevant information.
+ * @return The name of the action. If the action fails, then the name is printed along with all
+ *         other relevant information.
  */
 - (NSString *)name;
 

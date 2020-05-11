@@ -17,18 +17,18 @@
 #import <UIKit/UIKit.h>
 
 /**
- *  EarlGrey specific additions for tracking UIScrollView events (like scrolling, bouncing etc).
+ * EarlGrey specific additions for tracking UIScrollView events (like scrolling, bouncing etc).
  */
 @interface UIScrollView (GREYApp)
 
 /**
- *  Returns @c YES if the scroll view is exerting resistance to scroll, since scroll views that do
- *  not have bounce enabled cannot detect resistance unless some scroll is applied, the output of
- *  this method only makes sense in the middle of a scroll action.
- *  @remark This method has limited accuracy when used with scroll views having bounce disabled,
- *          please see the implementation for more details.
+ * Returns @c YES if the scroll view is exerting resistance to scroll, since scroll views that do
+ * not have bounce enabled cannot detect resistance unless some scroll is applied, the output of
+ * this method only makes sense in the middle of a scroll action.
+ * @remark This method has limited accuracy when used with scroll views having bounce disabled,
+ *         please see the implementation for more details.
  *
- *  @return @c YES if the scroll view is exerting resistance to scroll, @c NO otherwise.
+ * @return @c YES if the scroll view is exerting resistance to scroll, @c NO otherwise.
  */
 - (BOOL)grey_hasScrollResistance;
 @end

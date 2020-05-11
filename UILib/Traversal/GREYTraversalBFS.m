@@ -22,12 +22,12 @@
 
 @implementation GREYTraversalBFS {
   /**
-   *  An array that contains the unrolled hierarchy.
+   * An array that contains the unrolled hierarchy.
    */
   NSMutableArray *_parsedHierarchy;
 
   /**
-   *  NSUInteger to keep track of the index that is being accessed in the @c _parsedHierarchy array.
+   * NSUInteger to keep track of the index that is being accessed in the @c _parsedHierarchy array.
    */
   NSUInteger _parsedHierarchyIndex;
 }
@@ -66,9 +66,9 @@
 }
 
 /**
- *  The method retrieves the next object in the hierarchy.
+ * The method retrieves the next object in the hierarchy.
  *
- *  @return Returns an instance of GREYTraversalObject.
+ * @return Returns an instance of GREYTraversalObject.
  */
 - (GREYTraversalObject *)grey_nextObjectBFS {
   // If we have explored all elements, then we return nil.

@@ -17,35 +17,35 @@
 #import "GREYIdlingResource.h"
 
 /**
- *  An idling resource that changes to busy state for a specified amount of time.
+ * An idling resource that changes to busy state for a specified amount of time.
  */
 @interface GREYTimedIdlingResource : NSObject <GREYIdlingResource>
 
 /**
- *  An idling resouce for any @c object whose idleness is time-dependent. The resource reports
- *  busy until @c seconds has elapsed.
+ * An idling resouce for any @c object whose idleness is time-dependent. The resource reports
+ * busy until @c seconds has elapsed.
  *
- *  This idling resource self-registers with GREYUIThreadExecutor on creation and deregisters when
- *  it idles or is forcefully stopped using GREYTimedIdlingResource::stopMonitoring.
+ * This idling resource self-registers with GREYUIThreadExecutor on creation and deregisters when
+ * it idles or is forcefully stopped using GREYTimedIdlingResource::stopMonitoring.
  *
- *  @param object  The object to monitor.
- *  @param seconds The amount of time after which object will be in idle state.
- *  @param name    A descriptive name for the idling resource.
+ * @param object  The object to monitor.
+ * @param seconds The amount of time after which object will be in idle state.
+ * @param name    A descriptive name for the idling resource.
  *
- *  @return A new idling resource instance for @c object.
+ * @return A new idling resource instance for @c object.
  */
 + (instancetype)resourceForObject:(NSObject *)object
             thatIsBusyForDuration:(CFTimeInterval)seconds
                              name:(NSString *)name;
 
 /**
- *  @remark init is not an available initializer. Use the other initializers.
+ * @remark init is not an available initializer. Use the other initializers.
  */
 - (instancetype)init NS_UNAVAILABLE;
 
 /**
- *  Forcefully stops monitoring.
- *  Subsequent invocations to GREYIdlingResource::isIdleNow return @c YES.
+ * Forcefully stops monitoring.
+ * Subsequent invocations to GREYIdlingResource::isIdleNow return @c YES.
  */
 - (void)stopMonitoring;
 

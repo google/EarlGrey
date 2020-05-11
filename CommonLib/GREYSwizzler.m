@@ -27,27 +27,27 @@ typedef NS_ENUM(NSUInteger, GREYMethodType) { GREYMethodTypeClass, GREYMethodTyp
 #pragma mark - GREYResetter
 
 /**
- *  Utility class to hold original implementation of a method of a class for the purpose of
- *  resetting.
+ * Utility class to hold original implementation of a method of a class for the purpose of
+ * resetting.
  */
 @interface GREYResetter : NSObject
 
 /**
- *  @remark init is not an available initializer. Use the other initializers.
+ * @remark init is not an available initializer. Use the other initializers.
  */
 - (instancetype)init NS_UNAVAILABLE;
 
 /**
- *  Designated initializer.
+ * Designated initializer.
  *
- *  @param originalMethod Method being swizzled
- *  @param originalIMP    Implementation of the method being swizzled
+ * @param originalMethod Method being swizzled
+ * @param originalIMP    Implementation of the method being swizzled
  */
 - (instancetype)initWithOriginalMethod:(Method)originalMethod
                 originalImplementation:(IMP)originalIMP;
 
 /**
- *  Reset the original method selector to its unmodified/vanilla implementations.
+ * Reset the original method selector to its unmodified/vanilla implementations.
  */
 - (void)reset;
 

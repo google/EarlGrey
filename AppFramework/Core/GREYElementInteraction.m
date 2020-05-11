@@ -220,7 +220,7 @@
 #pragma mark - GREYInteractionDataSource
 
 /**
- *  Default data source for this interaction if no datasource is set explicitly.
+ * Default data source for this interaction if no datasource is set explicitly.
  */
 - (id<GREYProvider>)rootElementProvider {
   return [GREYUIWindowProvider providerWithAllWindowsWithStatusBar:_includeStatusBar];
@@ -463,15 +463,15 @@
 #pragma mark - Private
 
 /**
- *  From the set of matched elements, obtain one unique element for the provided matcher. In case
- *  there are multiple elements matched, then the one selected by the _@c index provided is chosen
- *  else the provided @c interactionError is populated.
+ * From the set of matched elements, obtain one unique element for the provided matcher. In case
+ * there are multiple elements matched, then the one selected by the _@c index provided is chosen
+ * else the provided @c interactionError is populated.
  *
- *  @param[out] interactionError A passed error for populating if multiple elements are found.
- *                               If this is nil then cases like multiple matchers cannot be checked
- *                               for.
+ * @param[out] interactionError A passed error for populating if multiple elements are found.
+ *                              If this is nil then cases like multiple matchers cannot be checked
+ *                              for.
  *
- *  @return A uniquely matched element, if any.
+ * @return A uniquely matched element, if any.
  */
 - (id)grey_uniqueElementInMatchedElements:(NSArray *)elements
                                  andError:(__strong GREYError **)interactionError {
@@ -500,14 +500,14 @@
 }
 
 /**
- *  Handles failure of an @c action by capturing it in an error provided.
+ * Handles failure of an @c action by capturing it in an error provided.
  *
- *  @param action      The action that failed.
- *  @param actionError Contains the reason for failure.
- *  @param[out] error  The out error (or nil) provided by the user.
+ * @param action      The action that failed.
+ * @param actionError Contains the reason for failure.
+ * @param[out] error  The out error (or nil) provided by the user.
  *
- *  @return Junk boolean value to suppress xcode warning to have "a non-void return
- *          value to indicate an error occurred"
+ * @return Junk boolean value to suppress xcode warning to have "a non-void return
+ *         value to indicate an error occurred"
  */
 - (BOOL)grey_handleFailureOfAction:(id<GREYAction>)action
                        actionError:(GREYError *)actionError
@@ -660,15 +660,15 @@
 }
 
 /**
- *  Handles failure of an @c assertion.
+ * Handles failure of an @c assertion.
  *
- *  @param assertion      The asserion that failed.
- *  @param assertionError Contains the reason for the failure.
- *  @param[out] error     Error (or @c nil) provided by the user. When @c nil, an error is created
- *                        and sent back to be turned into an exception in the test component.
+ * @param assertion      The asserion that failed.
+ * @param assertionError Contains the reason for the failure.
+ * @param[out] error     Error (or @c nil) provided by the user. When @c nil, an error is created
+ *                       and sent back to be turned into an exception in the test component.
  *
- *  @return Junk boolean value to suppress xcode warning to have "a non-void return
- *          value to indicate an error occurred"
+ * @return Junk boolean value to suppress xcode warning to have "a non-void return
+ *         value to indicate an error occurred"
  */
 - (BOOL)grey_handleFailureOfAssertion:(id<GREYAssertion>)assertion
                        assertionError:(GREYError *)assertionError
@@ -837,16 +837,16 @@
 }
 
 /**
- *  Provides an error with @c kGREYInteractionMultipleElementsMatchedErrorCode for multiple
- *  elements matching the specified matcher. In case we have multiple matchers and the Index
- *  provided for not matching with it is out of bounds, then we set the error code to
- *  @c kGREYInteractionMatchedElementIndexOutOfBoundsErrorCode.s
+ * Provides an error with @c kGREYInteractionMultipleElementsMatchedErrorCode for multiple
+ * elements matching the specified matcher. In case we have multiple matchers and the Index
+ * provided for not matching with it is out of bounds, then we set the error code to
+ * @c kGREYInteractionMatchedElementIndexOutOfBoundsErrorCode.s
  *
- *  @param matchingElements A set of matching elements.
- *  @param outOfBounds      A boolean that flags if the index for finding a matching element
- *                          is out of bounds.
+ * @param matchingElements A set of matching elements.
+ * @param outOfBounds      A boolean that flags if the index for finding a matching element
+ *                         is out of bounds.
  *
- *  @return Error for matching multiple elements.
+ * @return Error for matching multiple elements.
  */
 - (GREYError *)grey_errorForMultipleMatchingElements:(NSArray *)matchingElements
                  withMatchedElementsIndexOutOfBounds:(BOOL)outOfBounds {
@@ -886,7 +886,7 @@
 }
 
 /**
- *  @return A String description of the current search action.
+ * @return A String description of the current search action.
  */
 - (NSString *)grey_searchActionDescription {
   if (_searchAction) {
@@ -898,13 +898,13 @@
 }
 
 /**
- *  For a GREYError, checks if there is a nested GREYError, extracts and nils out any hierarchy
- *  present from the nested GREYError and sets it as the parent error's appUIHierarchy. If no
- *  nested GREYError is present, then just returns the parent error's hierarchy.
+ * For a GREYError, checks if there is a nested GREYError, extracts and nils out any hierarchy
+ * present from the nested GREYError and sets it as the parent error's appUIHierarchy. If no
+ * nested GREYError is present, then just returns the parent error's hierarchy.
  *
- *  @param error A GREYError in which the UI hierarchy information is to be unified and extracted.
+ * @param error A GREYError in which the UI hierarchy information is to be unified and extracted.
  *
- *  @return An NSString with the extracted UI hierarchy from the provided @c error.
+ * @return An NSString with the extracted UI hierarchy from the provided @c error.
  */
 - (NSString *)grey_unifyAndExtractHierarchyFromError:(GREYError *)error {
   NSString *appUIHierarchy;
@@ -927,13 +927,13 @@
 }
 
 /**
- *  For a GREYError, checks if any screenshots are present on the error or the nested error, save
- *  it as an NSDictionary to return to the test. Also nils out the existing screenshot.
+ * For a GREYError, checks if any screenshots are present on the error or the nested error, save
+ * it as an NSDictionary to return to the test. Also nils out the existing screenshot.
  *
- *  @param error A GREYError in which the app screenshots are to be unified and extracted.
+ * @param error A GREYError in which the app screenshots are to be unified and extracted.
  *
- *  @return An NSDictionary with the extracted app screenshots from the provided @c error.
- *          Can be @c nil if no screenshots were taken on error creation.
+ * @return An NSDictionary with the extracted app screenshots from the provided @c error.
+ *         Can be @c nil if no screenshots were taken on error creation.
  */
 - (NSDictionary<NSString *, UIImage *> *)grey_appScreenshotsFromError:(NSError *)error {
   NSDictionary<NSString *, UIImage *> *appScreenshots;

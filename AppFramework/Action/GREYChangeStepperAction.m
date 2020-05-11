@@ -33,27 +33,27 @@
 #import "GREYElementProvider.h"
 
 /**
- *  Helper Class containing the increment and decrement buttons on the stepper.
+ * Helper Class containing the increment and decrement buttons on the stepper.
  */
 @interface GREYStepperButtons : NSObject
 /**
- *  A UIButton signifying the increment button on a UIStepper.
+ * A UIButton signifying the increment button on a UIStepper.
  */
 @property(nonatomic, nonnull) UIButton *plusButton;
 /**
- *  A UIButton signifying the decrement button on a UIStepper.
+ * A UIButton signifying the decrement button on a UIStepper.
  */
 @property(nonatomic, nonnull) UIButton *minusButton;
 @end
 
 @implementation GREYStepperButtons
 /**
- *  Custom initializer for the class.
+ * Custom initializer for the class.
  *
- *  @param plusButton  A UIButton signifying the increment button on the stepper.
- *  @param minusButton A UIButton signifying the decrement button on the stepper.
+ * @param plusButton  A UIButton signifying the increment button on the stepper.
+ * @param minusButton A UIButton signifying the decrement button on the stepper.
  *
- *  @return A GREYStepperButtons object with the increment and decrement buttons set.
+ * @return A GREYStepperButtons object with the increment and decrement buttons set.
  *
  */
 - (instancetype)initWithPlusButton:(UIButton *)plusButton minusButton:(UIButton *)minusButton {
@@ -68,7 +68,7 @@
 
 @implementation GREYChangeStepperAction {
   /**
-   *  The value by which the stepper should change.
+   * The value by which the stepper should change.
    */
   double _value;
 }
@@ -118,11 +118,11 @@
 #pragma mark - Private
 
 /**
- *  Calculates the stepper's current value and updates it to the value it is to be changed to.
- *  @param      stepper The UIStepper to be queried.
- *  @param[out] error   Error that will be populated on failure.
+ * Calculates the stepper's current value and updates it to the value it is to be changed to.
+ * @param      stepper The UIStepper to be queried.
+ * @param[out] error   Error that will be populated on failure.
  *
- *  @return @c YES if the @c stepper was updated correctly.
+ * @return @c YES if the @c stepper was updated correctly.
  */
 - (BOOL)grey_setValue:(double)value
            forStepper:(UIStepper *)stepper
@@ -165,14 +165,14 @@
 }
 
 /**
- *  Checks the current UIStepper's value and the value required to find out the correct increment /
- *  decrement buttons on the UIStepper.
+ * Checks the current UIStepper's value and the value required to find out the correct increment /
+ * decrement buttons on the UIStepper.
  *
- *  @param      stepper The UIStepper to be queried.
- *  @param[out] error   Error that will be populated on failure.
+ * @param      stepper The UIStepper to be queried.
+ * @param[out] error   Error that will be populated on failure.
  *
- *  @return A GREYStepperButtons object with both the plusButton and minusButton property set,
- *          @c nil if there is any error.
+ * @return A GREYStepperButtons object with both the plusButton and minusButton property set,
+ *         @c nil if there is any error.
  */
 - (GREYStepperButtons *)grey_stepperButtonsForStepper:(UIStepper *)stepper
                                                 error:(__strong NSError **)error {
@@ -203,13 +203,13 @@
 }
 
 /**
- *  Sets the provided error value or logs it if no error provided for setting the value for the
- *  provided @c stepper.
+ * Sets the provided error value or logs it if no error provided for setting the value for the
+ * provided @c stepper.
  *
- *  @param[out] error Error that will be populated on failure.
- *  @param      stepper    A UIStepper to be queried.
+ * @param[out] error Error that will be populated on failure.
+ * @param      stepper    A UIStepper to be queried.
  *
- *  @return @c NO indicating that an error has been set.
+ * @return @c NO indicating that an error has been set.
  */
 - (BOOL)grey_getError:(__strong NSError **)error forStepper:(UIStepper *)stepper {
   NSMutableDictionary *errorDetails = [[NSMutableDictionary alloc] init];
@@ -244,11 +244,11 @@
 }
 
 /**
- *  Gets the value of the provided stepper.
+ * Gets the value of the provided stepper.
  *
- *  @param stepper A UIStepper to be queried.
+ * @param stepper A UIStepper to be queried.
  *
- *  @return A double specifying the value of the stepper.
+ * @return A double specifying the value of the stepper.
  */
 - (double)grey_stepperValue:(UIStepper *)stepper {
   __block double stepperValue;
@@ -259,11 +259,11 @@
 }
 
 /**
- *  Gets the stepValue of the provided stepper.
+ * Gets the stepValue of the provided stepper.
  *
- *  @param stepper A UIStepper to be queried.
+ * @param stepper A UIStepper to be queried.
  *
- *  @return A double specifying the stepValue of the stepper.
+ * @return A double specifying the stepValue of the stepper.
  */
 - (double)grey_stepperStepValue:(UIStepper *)stepper {
   __block double stepperStepValue;

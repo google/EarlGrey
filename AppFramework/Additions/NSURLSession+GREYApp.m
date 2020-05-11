@@ -27,7 +27,7 @@
 #import "GREYSwizzler.h"
 
 /**
- *  Type of the handlers used as NSURLSessionTask's completion blocks.
+ * Type of the handlers used as NSURLSessionTask's completion blocks.
  */
 typedef void (^GREYTaskCompletionBlock)(NSData *data, NSURLResponse *response, NSError *error);
 
@@ -152,10 +152,10 @@ typedef void (^GREYTaskCompletionBlock)(NSData *data, NSURLResponse *response, N
 }
 
 /**
- *  Swizzles the URLSession:task:didCompleteWithError: method of the delegate in order to track the
- *  delegate callbacks.
+ * Swizzles the URLSession:task:didCompleteWithError: method of the delegate in order to track the
+ * delegate callbacks.
  *
- *  @param session The NSURLSession that is to be tracked.
+ * @param session The NSURLSession that is to be tracked.
  */
 static void SwizzleDelegateForSession(NSURLSession *session) {
   // Swizzle the session delegate class if not yet done.

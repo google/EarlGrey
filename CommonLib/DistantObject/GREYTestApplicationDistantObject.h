@@ -27,8 +27,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  An enumeration that defines if the execution of a remote invocation on the distant object will
- *  take place on the main queue or a background queue.
+ * An enumeration that defines if the execution of a remote invocation on the distant object will
+ * take place on the main queue or a background queue.
  */
 typedef NS_ENUM(NSUInteger, GREYRemoteExecutionDispatchPolicy) {
   /** The policy that dispatches a remote execution to the main queue. */
@@ -38,11 +38,11 @@ typedef NS_ENUM(NSUInteger, GREYRemoteExecutionDispatchPolicy) {
 };
 
 /**
- *  The test application running in the test's process.
+ * The test application running in the test's process.
  *
- *  @note The class is also stubbed in the app process so it's available in the test. Users can
- *        extend the class in the category and make direct calls, which will become a remote call
- *        automatically invoked in the main thread.
+ * @note The class is also stubbed in the app process so it's available in the test. Users can
+ *       extend the class in the category and make direct calls, which will become a remote call
+ *       automatically invoked in the main thread.
  */
 @interface GREYTestApplicationDistantObject : NSObject
 
@@ -50,15 +50,15 @@ typedef NS_ENUM(NSUInteger, GREYRemoteExecutionDispatchPolicy) {
 @property(readonly, class) GREYTestApplicationDistantObject *sharedInstance;
 
 /**
- *  The port number that the eDO service on the app-under-test's main queue listens on. Set on
- *  HostApplicationDistantObject creation when the application makes its first call to the test.
+ * The port number that the eDO service on the app-under-test's main queue listens on. Set on
+ * HostApplicationDistantObject creation when the application makes its first call to the test.
  */
 // TODO: Use EDOServicePort. // NOLINT
 @property(nonatomic, readonly) uint16_t hostPort;
 
 /**
- *  The port number that the eDO service on the app-under-test's background queue listens on. Set on
- *  HostApplicationDistantObject creation when the application makes its first call to the test.
+ * The port number that the eDO service on the app-under-test's background queue listens on. Set on
+ * HostApplicationDistantObject creation when the application makes its first call to the test.
  */
 @property(nonatomic, readonly) uint16_t hostBackgroundPort;
 
@@ -90,10 +90,10 @@ typedef NS_ENUM(NSUInteger, GREYRemoteExecutionDispatchPolicy) {
       [EDO_REMOTE_CLASS(__class, GREYTestApplicationDistantObject.sharedInstance.hostPort) alloc])
 
 /**
- *  Stub the class defined in the app under test to the test.
+ * Stub the class defined in the app under test to the test.
  *
- *  @remark The method sent to this class will be executed in the background
- *          queue.
+ * @remark The method sent to this class will be executed in the background
+ *         queue.
  */
 #define GREY_STUB_CLASS_IN_APP_BACKGROUND_QUEUE(__class) \
   EDO_STUB_CLASS(__class, GREYTestApplicationDistantObject.sharedInstance.hostBackgroundPort)

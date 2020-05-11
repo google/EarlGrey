@@ -19,7 +19,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  @return Prefixed @c diagnosticsID for "core" matcher, action, and assertion.
+ * @return Prefixed @c diagnosticsID for "core" matcher, action, and assertion.
  */
 NSString *GREYCorePrefixedDiagnosticsID(NSString *diagnosticsID);
 
@@ -28,8 +28,8 @@ NSString *GREYCorePrefixedDiagnosticsID(NSString *diagnosticsID);
 
 @optional
 /**
- *  Identifier with which diagnosable objects will have their diagnostics information associated.
- *  This is for internal use only. Please Do NOT override this externally.
+ * Identifier with which diagnosable objects will have their diagnostics information associated.
+ * This is for internal use only. Please Do NOT override this externally.
  */
 - (NSString *)diagnosticsID;
 

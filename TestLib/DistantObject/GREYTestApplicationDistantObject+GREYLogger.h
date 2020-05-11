@@ -17,11 +17,11 @@
 #import "GREYTestApplicationDistantObject.h"
 
 /**
- *  Prints a log statement in the format provided in the Test Logs.
+ * Prints a log statement in the format provided in the Test Logs.
  *
- *  @param logStatement The NSString to be printed using NSLog in the Test Process.
- *  @remark Use this macro for logging any app statements from the test since the underlying
- *          implementation might be changed.
+ * @param logStatement The NSString to be printed using NSLog in the Test Process.
+ * @remark Use this macro for logging any app statements from the test since the underlying
+ *         implementation might be changed.
  */
 #define NSLogInTest(__format, ...)                                                   \
   ({                                                                                 \
@@ -33,10 +33,10 @@
 @interface GREYTestApplicationDistantObject (GREYLogger)
 
 /**
- *  Prints the provided statement using NSLog.
+ * Prints the provided statement using NSLog.
  *
- *  @param logStatement The NSString to print in the test process.
- *  @remark Do not use this method, but instead use the NSLogTest macro.
+ * @param logStatement The NSString to print in the test process.
+ * @remark Do not use this method, but instead use the NSLogTest macro.
  */
 - (void)printLogInTest:(NSString *)logStatement;
 

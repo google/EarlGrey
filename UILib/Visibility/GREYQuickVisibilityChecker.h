@@ -20,42 +20,42 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  Performs frame comparison between views in the hierarchy to figure out the visibility of an
- *  element. Because this check compares frames, it can potentially yield inaccurate result if the
- *  views obscuring the target view are transformed in some way. In such cases, it should fallback
- *  to using the GREYThoroughVisibilityChecker as it gives more accurate result in these cases.
+ * Performs frame comparison between views in the hierarchy to figure out the visibility of an
+ * element. Because this check compares frames, it can potentially yield inaccurate result if the
+ * views obscuring the target view are transformed in some way. In such cases, it should fallback
+ * to using the GREYThoroughVisibilityChecker as it gives more accurate result in these cases.
  */
 @interface GREYQuickVisibilityChecker : NSObject
 
 /**
- *  Calculates the amount (in percent) @c element is visible on the screen.
+ * Calculates the amount (in percent) @c element is visible on the screen.
  *
- *  @param      element         The UI element whose visibility is to be checked.
- *  @param[out] performFallback An out parameter indicating whether or not a fallback should occur
- *                              because the quick visibility checker has low confidence in the
- *                              accuracy of the calculation. Use GREYThoroughVisibilityChecker
- *                              instead to calculate the visible percentage area. You MUST check for
- *                              @c performFallback before using the return value.
+ * @param      element         The UI element whose visibility is to be checked.
+ * @param[out] performFallback An out parameter indicating whether or not a fallback should occur
+ *                             because the quick visibility checker has low confidence in the
+ *                             accuracy of the calculation. Use GREYThoroughVisibilityChecker
+ *                             instead to calculate the visible percentage area. You MUST check for
+ *                             @c performFallback before using the return value.
  *
- *  @return The percentage ([0,1] inclusive) of the area visible on the screen compared to @c
- *          element's accessibility frame. Returned value is invalid if @c performFallback is
- *          set to @c YES. Returns NaN if @c performFallback is set to @c YES.
+ * @return The percentage ([0,1] inclusive) of the area visible on the screen compared to @c
+ *         element's accessibility frame. Returned value is invalid if @c performFallback is
+ *         set to @c YES. Returns NaN if @c performFallback is set to @c YES.
  */
 + (CGFloat)percentVisibleAreaOfElement:(id)element performFallback:(BOOL *)performFallback;
 
 /**
- *  Calculates the visible point where a user can tap to interact with.
+ * Calculates the visible point where a user can tap to interact with.
  *
- *  @param element              The UI element whose visibility is to be checked.
- *  @param[out] performFallback An out parameter indicating whether or not a fallback should occur
- *                              because the quick visibility checker has low confidence in the
- *                              accuracy of the calculation. Use GREYThoroughVisibilityChecker
- *                              instead to calculate the visible percentage area. You MUST check for
- *                              @c performFallback before using the return value.
+ * @param element              The UI element whose visibility is to be checked.
+ * @param[out] performFallback An out parameter indicating whether or not a fallback should occur
+ *                             because the quick visibility checker has low confidence in the
+ *                             accuracy of the calculation. Use GREYThoroughVisibilityChecker
+ *                             instead to calculate the visible percentage area. You MUST check for
+ *                             @c performFallback before using the return value.
  *
- *  @return A visible point where a user can tap to interact with specified @c element, or
- *          @c GREYCGPointNull if there's no such point.
- *  @remark The returned point is relative to @c element's bound.
+ * @return A visible point where a user can tap to interact with specified @c element, or
+ *         @c GREYCGPointNull if there's no such point.
+ * @remark The returned point is relative to @c element's bound.
  */
 + (CGPoint)visibleInteractionPointForElement:(id)element performFallback:(BOOL *)performFallback;
 

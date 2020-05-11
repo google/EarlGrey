@@ -157,49 +157,49 @@ GREY_EXPORT id<GREYMatcher> grey_not(id<GREYMatcher> matcher);
 GREY_EXPORT id<GREYMatcher> grey_textFieldValue(NSString *value);
 
 /**
- *  A shorthand matcher that is a logical AND of all the matchers passed in as variable arguments.
+ * A shorthand matcher that is a logical AND of all the matchers passed in as variable arguments.
  *
- *  @param matcher The first matcher in the list of matchers.
- *  @param ...     Any more matchers to be added. Matchers are invoked in the order they are
- *                 specified and only if the preceding matcher passes. This va-arg must be
- *                 terminated with a @c nil value.
+ * @param matcher The first matcher in the list of matchers.
+ * @param ...     Any more matchers to be added. Matchers are invoked in the order they are
+ *                specified and only if the preceding matcher passes. This va-arg must be
+ *                terminated with a @c nil value.
  *
- *  @return An object conforming to GREYMatcher, initialized with the required matchers.
+ * @return An object conforming to GREYMatcher, initialized with the required matchers.
  */
 GREY_EXPORT id<GREYMatcher> grey_allOf(id<GREYMatcher> _Nullable matcher, ...)
     NS_SWIFT_UNAVAILABLE("Use grey_allOf(_:) instead") NS_REQUIRES_NIL_TERMINATION;
 
 /**
- *  A shorthand matcher that is a logical AND of all the matchers passed in within an NSArray.
+ * A shorthand matcher that is a logical AND of all the matchers passed in within an NSArray.
  *
- *  @param matchers An NSArray of one or more matchers to be added. Matchers are invoked in the
- *                  order they are specified and only if the preceding matcher passes.
+ * @param matchers An NSArray of one or more matchers to be added. Matchers are invoked in the
+ *                 order they are specified and only if the preceding matcher passes.
  *
- *  @return An object conforming to GREYMatcher, initialized with the required matchers.
+ * @return An object conforming to GREYMatcher, initialized with the required matchers.
  */
 GREY_EXPORT id<GREYMatcher> grey_allOfMatchers(NSArray<__kindof id<GREYMatcher>> *matchers)
     NS_SWIFT_NAME(grey_allOf(_:));
 
 /**
- *  A matcher that is a logical OR of all the matchers passed in as variable arguments.
+ * A matcher that is a logical OR of all the matchers passed in as variable arguments.
  *
- *  @param match The first matcher in the list of matchers.
- *  @param ...   Any more matchers to be added. Matchers are invoked in the order they are
- *               specified and only if the preceding matcher fails.
- *               This va-arg must be terminated with a @c nil value.
+ * @param match The first matcher in the list of matchers.
+ * @param ...   Any more matchers to be added. Matchers are invoked in the order they are
+ *              specified and only if the preceding matcher fails.
+ *              This va-arg must be terminated with a @c nil value.
  *
- *  @return An object conforming to GREYMatcher, initialized with the required matchers.
+ * @return An object conforming to GREYMatcher, initialized with the required matchers.
  */
 GREY_EXPORT id<GREYMatcher> grey_anyOf(id<GREYMatcher> match, ...)
     NS_SWIFT_UNAVAILABLE("Use grey_anyOf(_:) instead") NS_REQUIRES_NIL_TERMINATION;
 
 /**
- *  A matcher that is a logical OR of all the matchers passed in within an NSArray.
+ * A matcher that is a logical OR of all the matchers passed in within an NSArray.
  *
- *  @param matchers An array of one more matchers to be added. Matchers are invoked in the order
- *                  they are specified and only if the preceding matcher fails.
+ * @param matchers An array of one more matchers to be added. Matchers are invoked in the order
+ *                 they are specified and only if the preceding matcher fails.
  *
- *  @return An object conforming to GREYMatcher, initialized with the required matchers.
+ * @return An object conforming to GREYMatcher, initialized with the required matchers.
  */
 GREY_EXPORT id<GREYMatcher> grey_anyOfMatchers(NSArray<__kindof id<GREYMatcher>> *matchers)
     NS_SWIFT_NAME(grey_anyOf(_:));

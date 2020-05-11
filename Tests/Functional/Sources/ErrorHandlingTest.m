@@ -28,7 +28,7 @@
 @implementation ErrorHandlingTest
 
 /**
- *  Checks the error information for a timeout when a search action fails.
+ * Checks the error information for a timeout when a search action fails.
  */
 - (void)testDescriptionForSearchActionTimeout {
   [self openTestViewNamed:@"Scroll Views"];
@@ -54,7 +54,7 @@
 }
 
 /**
- *  Check error for multiple matchers.
+ * Check error for multiple matchers.
  */
 - (void)testMultipleMatcherError {
   NSError *error;
@@ -76,8 +76,8 @@
 }
 
 /**
- *  Check that the correct error description is printed when an error is returned from a custom
- *  action.
+ * Check that the correct error description is printed when an error is returned from a custom
+ * action.
  */
 - (void)testCustomNSErrorInAction {
   id<GREYAction> failingAction = [[GREYHostApplicationDistantObject sharedInstance] failingAction];
@@ -88,8 +88,8 @@
 }
 
 /**
- *  Check that the correct error description is printed when an error is returned from a custom
- *  assertion.
+ * Check that the correct error description is printed when an error is returned from a custom
+ * assertion.
  */
 - (void)testCustomNSErrorInAssertion {
   id<GREYAssertion> failingAssertion =
@@ -229,8 +229,8 @@
 }
 
 /**
- *  Checks if an exception thrown by EarlGrey for a matching failure contains the right screenshots,
- *  hierarchy and element matcher information.
+ * Checks if an exception thrown by EarlGrey for a matching failure contains the right screenshots,
+ * hierarchy and element matcher information.
  */
 - (void)testExceptionDetailsForAMatcherFailure {
   [NSThread mainThread].threadDictionary[GREYFailureHandlerKey] = [[FailureHandler alloc] init];
@@ -249,7 +249,7 @@
 }
 
 /**
- *  Checks if a visibility related exception thrown by EarlGrey contains the right screenshots.
+ * Checks if a visibility related exception thrown by EarlGrey contains the right screenshots.
  */
 - (void)testExceptionDetails {
   [NSThread mainThread].threadDictionary[GREYFailureHandlerKey] = [[FailureHandler alloc] init];
@@ -275,10 +275,10 @@
 #pragma mark - Private
 
 /**
- *  @c returns A NSUInteger for the number of times the UI hierarchy is present in the provided
- *             error description.
+ * @c returns A NSUInteger for the number of times the UI hierarchy is present in the provided
+ *            error description.
  *
- *  @param description An NSString specifying an NSError's description.
+ * @param description An NSString specifying an NSError's description.
  */
 - (NSUInteger)grey_hierarchyOccurrencesInErrorDescription:(NSString *)description {
   NSRegularExpression *regex =

@@ -32,7 +32,7 @@
 
 @implementation GREYSlideAction {
   /**
-   *  The final value that the slider should be moved to.
+   * The final value that the slider should be moved to.
    */
   float _finalValue;
 }

@@ -17,15 +17,15 @@
 #import <Foundation/Foundation.h>
 
 /**
- *  Additions to NSError to facilitate error logging.
+ * Additions to NSError to facilitate error logging.
  */
 @interface NSError (GREYCommon)
 
 /**
- *  For a given error, create a description dictionary of the error.
- *  The description includes error's domain, error code and error description.
+ * For a given error, create a description dictionary of the error.
+ * The description includes error's domain, error code and error description.
  *
- *  @return A description dictionary for the given @c error.
+ * @return A description dictionary for the given @c error.
  */
 
 - (NSDictionary *)grey_descriptionDictionary;

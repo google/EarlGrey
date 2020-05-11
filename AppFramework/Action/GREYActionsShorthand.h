@@ -30,8 +30,8 @@ NS_ASSUME_NONNULL_BEGIN
 GREY_EXPORT id<GREYAction> grey_doubleTap(void);
 
 /**
- *  Shorthand macro for
- *  GREYActions::actionForMultipleTapsWithCount: with count @c 2 and @c point.
+ * Shorthand macro for
+ * GREYActions::actionForMultipleTapsWithCount: with count @c 2 and @c point.
  */
 GREY_EXPORT id<GREYAction> grey_doubleTapAtPoint(CGPoint point);
 
@@ -52,8 +52,8 @@ GREY_EXPORT id<GREYAction> grey_longPressAtPointWithDuration(CGPoint point,
 GREY_EXPORT id<GREYAction> grey_scrollInDirection(GREYDirection direction, CGFloat amount);
 
 /**
- *  Shorthand macro for
- *  GREYActions::actionForScrollInDirection:amount:xOriginStartPercentage:yOriginStartPercentage:.
+ * Shorthand macro for
+ * GREYActions::actionForScrollInDirection:amount:xOriginStartPercentage:yOriginStartPercentage:.
  */
 GREY_EXPORT id<GREYAction> grey_scrollInDirectionWithStartPoint(GREYDirection direction,
                                                                 CGFloat amount,
@@ -64,8 +64,8 @@ GREY_EXPORT id<GREYAction> grey_scrollInDirectionWithStartPoint(GREYDirection di
 GREY_EXPORT id<GREYAction> grey_scrollToContentEdge(GREYContentEdge edge);
 
 /**
- *  Shorthand macro for
- *  GREYActions::actionForScrollToContentEdge:xOriginStartPercentage:yOriginStartPercentage:.
+ * Shorthand macro for
+ * GREYActions::actionForScrollToContentEdge:xOriginStartPercentage:yOriginStartPercentage:.
  */
 GREY_EXPORT id<GREYAction> grey_scrollToContentEdgeWithStartPoint(GREYContentEdge edge,
                                                                   CGFloat xOriginStartPercentage,
@@ -78,48 +78,48 @@ GREY_EXPORT id<GREYAction> grey_swipeFastInDirection(GREYDirection direction);
 GREY_EXPORT id<GREYAction> grey_swipeSlowInDirection(GREYDirection direction);
 
 /**
- *  Shorthand macro for
- *  GREYActions::actionForSwipeFastInDirection:xOriginStartPercentage:yOriginStartPercentage:.
+ * Shorthand macro for
+ * GREYActions::actionForSwipeFastInDirection:xOriginStartPercentage:yOriginStartPercentage:.
  */
 GREY_EXPORT id<GREYAction> grey_swipeFastInDirectionWithStartPoint(GREYDirection direction,
                                                                    CGFloat xOriginStartPercentage,
                                                                    CGFloat yOriginStartPercentage);
 
 /**
- *  Shorthand macro for
- *  GREYActions::actionForSwipeSlowInDirection:xOriginStartPercentage:yOriginStartPercentage:.
+ * Shorthand macro for
+ * GREYActions::actionForSwipeSlowInDirection:xOriginStartPercentage:yOriginStartPercentage:.
  */
 GREY_EXPORT id<GREYAction> grey_swipeSlowInDirectionWithStartPoint(GREYDirection direction,
                                                                    CGFloat xOriginStartPercentage,
                                                                    CGFloat yOriginStartPercentage);
 
 /**
- *  Shorthand macro for
- *  GREYActions::actionForMultiFingerSwipeSlowInDirection:numberOfFingers:.
+ * Shorthand macro for
+ * GREYActions::actionForMultiFingerSwipeSlowInDirection:numberOfFingers:.
  */
 GREY_EXPORT id<GREYAction> grey_multiFingerSwipeSlowInDirection(GREYDirection direction,
                                                                 NSUInteger numberOfFingers);
 
 /**
- *  Shorthand macro for
- *  GREYActions::actionForMultiFingerSwipeFastInDirection:numberOfFingers:.
+ * Shorthand macro for
+ * GREYActions::actionForMultiFingerSwipeFastInDirection:numberOfFingers:.
  */
 GREY_EXPORT id<GREYAction> grey_multiFingerSwipeFastInDirection(GREYDirection direction,
                                                                 NSUInteger numberOfFingers);
 
 /**
- *  Shorthand macro for
- *  GREYActions::actionForMultiFingerSwipeSlowInDirection:numberOfFingers:xOriginStartPercentage:
- *  yOriginStartPercentage:.
+ * Shorthand macro for
+ * GREYActions::actionForMultiFingerSwipeSlowInDirection:numberOfFingers:xOriginStartPercentage:
+ * yOriginStartPercentage:.
  */
 GREY_EXPORT id<GREYAction> grey_multiFingerSwipeSlowInDirectionWithStartPoint(
     GREYDirection direction, NSUInteger numberOfFingers, CGFloat xOriginStartPercentage,
     CGFloat yOriginStartPercentage);
 
 /**
- *  Shorthand macro for
- *  GREYActions::actionForMultiFingerSwipeFastInDirection:numberOfFingers:xOriginStartPercentage:
- *  yOriginStartPercentage:.
+ * Shorthand macro for
+ * GREYActions::actionForMultiFingerSwipeFastInDirection:numberOfFingers:xOriginStartPercentage:
+ * yOriginStartPercentage:.
  */
 GREY_EXPORT id<GREYAction> grey_multiFingerSwipeFastInDirectionWithStartPoint(
     GREYDirection direction, NSUInteger numberOfFingers, CGFloat xOriginStartPercentage,
@@ -164,13 +164,13 @@ GREY_EXPORT id<GREYAction> grey_setDate(NSDate *date);
 GREY_EXPORT id<GREYAction> grey_setPickerColumnToValue(NSInteger column, NSString *value);
 
 /** Shorthand macro for GREYActions::actionForJavaScriptExecution:output:.
- *  Pass an EDORemoteVariable for the @c outResult.
+ * Pass an EDORemoteVariable for the @c outResult.
  */
 GREY_EXPORT id<GREYAction> grey_javaScriptExecution(
     NSString *js, EDORemoteVariable<NSString *> *_Nullable outResult);
 
 /** Shorthand macro for GREYActions::actionForSnapshot:.
- *  Pass an EDORemoteVariable for the @c outImage.
+ * Pass an EDORemoteVariable for the @c outImage.
  */
 GREY_EXPORT id<GREYAction> grey_snapshot(EDORemoteVariable<UIImage *> *outImage);
 

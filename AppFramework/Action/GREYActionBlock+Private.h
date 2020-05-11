@@ -19,24 +19,24 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  Private category for diagnostics purpose.
+ * Private category for diagnostics purpose.
  */
 @interface GREYActionBlock (Private)
 
 /**
- *  Internal initializer for GREYActionBlock to incorporate with Diagnostics. All EarlGrey actions
- *  should be initialized with this initializer in order to be tracked with Diagnostics.
- *  See GREYActionBlock.h for full documentation.
+ * Internal initializer for GREYActionBlock to incorporate with Diagnostics. All EarlGrey actions
+ * should be initialized with this initializer in order to be tracked with Diagnostics.
+ * See GREYActionBlock.h for full documentation.
  *
- *  @remark Do NOT use this externally.
+ * @remark Do NOT use this externally.
  *
- *  @param name          The name of the action.
- *  @param diagnosticsID Identifier of the action for diagnostics purpose.
- *  @param constraints   Constraints that must be satisfied before the action is performed
- *                       This is optional and can be @c nil.
- *  @param block         A block that contains the action to execute.
+ * @param name          The name of the action.
+ * @param diagnosticsID Identifier of the action for diagnostics purpose.
+ * @param constraints   Constraints that must be satisfied before the action is performed
+ *                      This is optional and can be @c nil.
+ * @param block         A block that contains the action to execute.
  *
- *  @return A GREYActionBlock instance with the given name and constraints.
+ * @return A GREYActionBlock instance with the given name and constraints.
  */
 + (instancetype)actionWithName:(NSString *)name
                  diagnosticsID:(NSString *)diagnosticsID
@@ -44,22 +44,22 @@ NS_ASSUME_NONNULL_BEGIN
                   performBlock:(GREYPerformBlock)block;
 
 /**
- *  Counterpart internal initializer of the designated internal initializer for GREYActionBlock to
- *  incorporate with Diagnostics. All EarlGrey actions should be initialized with this initializer
- *  in order to be tracked with Diagnostics. See GREYActionBlock.h for full documentation.
+ * Counterpart internal initializer of the designated internal initializer for GREYActionBlock to
+ * incorporate with Diagnostics. All EarlGrey actions should be initialized with this initializer
+ * in order to be tracked with Diagnostics. See GREYActionBlock.h for full documentation.
  *
- *  @remark Do NOT use this externally.
+ * @remark Do NOT use this externally.
  *
- *  @param name          The name of the action.
- *  @param diagnosticsID Identifier of the action for diagnostics purpose.
- *  @param constraints   Constraints that must be satisfied before the action is performed.
- *                       This is optional and can be @c nil.
- *  @param block         A block that contains the action to execute.
+ * @param name          The name of the action.
+ * @param diagnosticsID Identifier of the action for diagnostics purpose.
+ * @param constraints   Constraints that must be satisfied before the action is performed.
+ *                      This is optional and can be @c nil.
+ * @param block         A block that contains the action to execute.
  *
- *  @note GREYActions are not performed by default on the main thread. The threading
- *        behavior of the GREYAction has to be specified by the user.
+ * @note GREYActions are not performed by default on the main thread. The threading
+ *       behavior of the GREYAction has to be specified by the user.
  *
- *  @return A GREYActionBlock instance with the given @c name and @c constraints.
+ * @return A GREYActionBlock instance with the given @c name and @c constraints.
  */
 - (instancetype)initWithName:(NSString *)name
                diagnosticsID:(NSString *)diagnosticsID

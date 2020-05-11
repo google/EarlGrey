@@ -22,231 +22,231 @@
 #pragma mark - Constants
 
 /**
- *  Value used to denote a null CGPoint.
+ * Value used to denote a null CGPoint.
  */
 GREY_EXTERN const CGPoint GREYCGPointNull;
 
 #pragma mark - CGVector
 
 /**
- *  @return The scalar length of @c vector.
+ * @return The scalar length of @c vector.
  */
 CGFloat CGVectorLength(CGVector vector) NS_SWIFT_NAME(length(self:));
 
 /**
- *  @return The vector obtained by scaling the given @c vector by the given @c scale amount.
+ * @return The vector obtained by scaling the given @c vector by the given @c scale amount.
  */
 CGVector CGVectorScale(CGVector vector, CGFloat scale) NS_SWIFT_NAME(scale(self:scale:));
 
 // NS_SWIFT_NAME(CGVector.scale(self:_))
 
 /**
- *  Creates a vector with the given end points and optionally normalizes it if @c normalize is
- *  @c YES.
+ * Creates a vector with the given end points and optionally normalizes it if @c normalize is
+ * @c YES.
  *
- *  @param startPoint Start point for the vector.
- *  @param endPoint   End point for the vector.
- *  @param normalize  A @c BOOL indicating whether to normalize (@c YES) or not (@c NO).
+ * @param startPoint Start point for the vector.
+ * @param endPoint   End point for the vector.
+ * @param normalize  A @c BOOL indicating whether to normalize (@c YES) or not (@c NO).
  *
- *  @return A vector with the given end points and optionally normalized if @c normalize is
- *          @c YES.
+ * @return A vector with the given end points and optionally normalized if @c normalize is
+ *         @c YES.
  */
 CGVector CGVectorFromEndPoints(CGPoint startPoint, CGPoint endPoint, BOOL normalize);
 
 #pragma mark - CGPoint
 
 /**
- *  Adds the corresponding coordinates of the given @c vector and @c point and returns the result as
- *  a CGPoint.
+ * Adds the corresponding coordinates of the given @c vector and @c point and returns the result as
+ * a CGPoint.
  *
- *  @param point  The point to add.
- *  @param vector The vector to add.
+ * @param point  The point to add.
+ * @param vector The vector to add.
  *
- *  @return A point with corresponding coordinates of the given @c point and @c vector added.
+ * @return A point with corresponding coordinates of the given @c point and @c vector added.
  */
 CGPoint CGPointAddVector(CGPoint point, CGVector vector);
 
 /**
- *  @return The center of the provided @c rect.
+ * @return The center of the provided @c rect.
  */
 CGPoint CGRectCenter(CGRect rect);
 
 /**
- *  Multiplies both the coordinates of the given @c inPoint by the given @c amount and returns
- *  the resulting point.
+ * Multiplies both the coordinates of the given @c inPoint by the given @c amount and returns
+ * the resulting point.
  *
- *  @param inPoint The input point to multiply.
- *  @param amount  The amount to multiply with.
+ * @param inPoint The input point to multiply.
+ * @param amount  The amount to multiply with.
  *
- *  @return The point obtained by multiplying the given @c inPoint and the given @c amount.
+ * @return The point obtained by multiplying the given @c inPoint and the given @c amount.
  */
 CGPoint CGPointMultiply(CGPoint inPoint, double amount);
 
 /**
- *  @return The point obtained by converting @c pointToConvertToPixel from points to pixels as per
- *          the screen scale.
+ * @return The point obtained by converting @c pointToConvertToPixel from points to pixels as per
+ *         the screen scale.
  */
 CGPoint CGPointToPixel(CGPoint positionInPoints);
 
 /**
- *  @return The point obtained by converting @c pixelToConvertToPoint from pixels to points as per
- *          the screen scale.
+ * @return The point obtained by converting @c pixelToConvertToPoint from pixels to points as per
+ *         the screen scale.
  */
 CGPoint CGPixelToPoint(CGPoint positionInPixels);
 
 /**
- *  @return The point obtained after rounding the coordinates of the given @c cgpointInPoints to
- *          the nearest whole pixel and then to points.
+ * @return The point obtained after rounding the coordinates of the given @c cgpointInPoints to
+ *         the nearest whole pixel and then to points.
  */
 CGPoint CGPointAfterRemovingFractionalPixels(CGPoint cgpointInPoints);
 
 /**
- *  @return The point obtained by converting the given @c pointInFixed from fixed to variable
- *          coordinate system.
+ * @return The point obtained by converting the given @c pointInFixed from fixed to variable
+ *         coordinate system.
  */
 CGPoint CGPointFixedToVariable(CGPoint pointInFixed);
 
 /**
- *  @return The point obtained by converting the given @c pointInVariable from variable to fixed
- *          coordinate system.
+ * @return The point obtained by converting the given @c pointInVariable from variable to fixed
+ *         coordinate system.
  */
 CGPoint CGPointVariableToFixed(CGPoint pointInVariable);
 
 /**
- *  @return @c YES if the given @c point represents an null point, @c NO otherwise.
+ * @return @c YES if the given @c point represents an null point, @c NO otherwise.
  */
 BOOL CGPointIsNull(CGPoint point);
 
 #pragma mark - CGFloat
 
 /**
- *  @return The value obtained by rounding the given @c floatInPoints to the nearest whole pixel
- *          and converting it to points as per the screen scale.
+ * @return The value obtained by rounding the given @c floatInPoints to the nearest whole pixel
+ *         and converting it to points as per the screen scale.
  */
 CGFloat CGFloatAfterRemovingFractionalPixels(CGFloat floatInPoints);
 
 #pragma mark - CGRect
 
 /**
- *  @return The area of the given @c rect.
+ * @return The area of the given @c rect.
  */
 CGFloat CGRectArea(CGRect rect);
 
 /**
- *  Scales the given rectangle @c inRect, by a factor of the given @c amount and then translates
- *  the origin by a factor of @c amount. This is same as multiplying x, y, width and height of the
- *  given rectangle by the given @c amount.
+ * Scales the given rectangle @c inRect, by a factor of the given @c amount and then translates
+ * the origin by a factor of @c amount. This is same as multiplying x, y, width and height of the
+ * given rectangle by the given @c amount.
  *
- *  @param inRect The rectangle to be scaled and translated.
- *  @param amount The amount by which to scale (and the factor by which to translate).
+ * @param inRect The rectangle to be scaled and translated.
+ * @param amount The amount by which to scale (and the factor by which to translate).
  *
- *  @return The scaled and translated rectangle.
+ * @return The scaled and translated rectangle.
  */
 CGRect CGRectScaleAndTranslate(CGRect inRect, double amount);
 
 /**
- *  @return The rect obtained by converting the given @c rectInPoints from points to pixels as per
- *          the screen scale.
+ * @return The rect obtained by converting the given @c rectInPoints from points to pixels as per
+ *         the screen scale.
  */
 CGRect CGRectPointToPixel(CGRect rectInPoints);
 
 /**
- *  @return The rect obtained by converting the given @c rectInPoints from points to pixels as per
- *          the screen scale and aligning in pixel-boundary.
+ * @return The rect obtained by converting the given @c rectInPoints from points to pixels as per
+ *         the screen scale and aligning in pixel-boundary.
  */
 CGRect CGRectPointToPixelAligned(CGRect rectInPoints);
 
 /**
- *  @return The rect obtained by converting the given @c rectInPoints from pixels to points as
- *          per the screen scale.
+ * @return The rect obtained by converting the given @c rectInPoints from pixels to points as
+ *         per the screen scale.
  */
 CGRect CGRectPixelToPoint(CGRect rectInPixel);
 
 /**
- *  Starting with iOS 8.0 window and screen coordinates rotates with the app's interface
- *  orientation. This method converts the given rect in fixed coordinate space to an oriented rect
- *  matching the current app orientation.
+ * Starting with iOS 8.0 window and screen coordinates rotates with the app's interface
+ * orientation. This method converts the given rect in fixed coordinate space to an oriented rect
+ * matching the current app orientation.
  *
- *  @param rectInFixedCoordinates The rect in fixed coordinates to be transformed to variable
- *                                coordinates.
+ * @param rectInFixedCoordinates The rect in fixed coordinates to be transformed to variable
+ *                               coordinates.
  *
- *  @return The rect obtained by converting the given @c rectInFixedCoordinates from fixed screen
- *          coordinates to variable screen coordinates.
+ * @return The rect obtained by converting the given @c rectInFixedCoordinates from fixed screen
+ *         coordinates to variable screen coordinates.
  */
 CGRect CGRectFixedToVariableScreenCoordinates(CGRect rectInFixedCoordinates);
 
 /**
- *  Starting with iOS 8.0 window and screen coordinates rotates with the app's interface
- *  orientation. This method converts the given rect in variable coordinate space to fixed
- *  coordinates.
+ * Starting with iOS 8.0 window and screen coordinates rotates with the app's interface
+ * orientation. This method converts the given rect in variable coordinate space to fixed
+ * coordinates.
  *
- *  @param rectInVariableCoordinates The rect in variable coordinates to be transformed to fixed
- *                                   coordinates.
+ * @param rectInVariableCoordinates The rect in variable coordinates to be transformed to fixed
+ *                                  coordinates.
  *
- *  @return The rect obtained by converting the given @c rectInVariableCoordinates from variable
- *          screen coordinates to fixed screen coordinates.
+ * @return The rect obtained by converting the given @c rectInVariableCoordinates from variable
+ *         screen coordinates to fixed screen coordinates.
  */
 CGRect CGRectVariableToFixedScreenCoordinates(CGRect rectInVariableCoordinates);
 
 /**
- *  Return the intersection of @c rect1 and @c rect2. The built-in function can produce floating
- *  errors on 32-bit platform (i.e. iphone 5), which results in a bigger rectangle than both
- *  sources. This will remove the errors by forcing the resulting rectangle to be no greater than
- *  the sources.
+ * Return the intersection of @c rect1 and @c rect2. The built-in function can produce floating
+ * errors on 32-bit platform (i.e. iphone 5), which results in a bigger rectangle than both
+ * sources. This will remove the errors by forcing the resulting rectangle to be no greater than
+ * the sources.
  *
- *  @param rect1 The first source rectangle.
- *  @param rect2 The second source rectangle.
+ * @param rect1 The first source rectangle.
+ * @param rect2 The second source rectangle.
  *
- *  @return A rectangle that represents the intersection of the two specified rectangles. If the two
- *          rectangles do not intersect, returns the null rectangle. To check for this condition,
- *          use CGRectIsNull.
+ * @return A rectangle that represents the intersection of the two specified rectangles. If the two
+ *         rectangles do not intersect, returns the null rectangle. To check for this condition,
+ *         use CGRectIsNull.
  */
 CGRect CGRectIntersectionStrict(CGRect rect1, CGRect rect2);
 
 /**
- *  Normalizes @c rectInPixels to the largest rectangle that is within rectInPixels and
- *  pixel-boundary aligned. If the fractional part of height or width are > 0.5, they are rounded up
- *  otherwise rounded down.
+ * Normalizes @c rectInPixels to the largest rectangle that is within rectInPixels and
+ * pixel-boundary aligned. If the fractional part of height or width are > 0.5, they are rounded up
+ * otherwise rounded down.
  *
- *  @param rectInPixels A rect in pixel coordinates.
+ * @param rectInPixels A rect in pixel coordinates.
  *
- *  @return The normalized rect.
+ * @return The normalized rect.
  */
 CGRect CGRectIntegralInside(CGRect rectInPixels);
 
 /**
- *  Given a list of values representing a histogram (values are the heights of the bars), this
- *  method returns the largest contiguous rectangle in that histogram. Examples are discussed below.
+ * Given a list of values representing a histogram (values are the heights of the bars), this
+ * method returns the largest contiguous rectangle in that histogram. Examples are discussed below.
  *
- *  @code
- *  histogram = [1, 3, 3, 1] ==>  [ 0, 1, 1, 0 ]
- *                                [ 0, 1, 1, 0 ]
- *                                [ 1, 1, 1, 1 ]
+ * @code
+ * histogram = [1, 3, 3, 1] ==>  [ 0, 1, 1, 0 ]
+ *                               [ 0, 1, 1, 0 ]
+ *                               [ 1, 1, 1, 1 ]
  *
- *  histogram = [3, 3, 3, 2, 3] ==>  [ 1, 1, 1, 0, 1 ]
- *                                   [ 1, 1, 1, 1, 1 ]
- *                                   [ 1, 1, 1, 1, 1 ]
- *  @endcode
- *  Largest rects in the above examples would be {(1, 0), (2, 3)} and {(0,1), (5, 2)}, respectively.
+ * histogram = [3, 3, 3, 2, 3] ==>  [ 1, 1, 1, 0, 1 ]
+ *                                  [ 1, 1, 1, 1, 1 ]
+ *                                  [ 1, 1, 1, 1, 1 ]
+ * @endcode
+ * Largest rects in the above examples would be {(1, 0), (2, 3)} and {(0,1), (5, 2)}, respectively.
  *
- *  @param histogram The one-dimensional array of values representing the histogram.
- *  @param length    The number of values in the histogram.
+ * @param histogram The one-dimensional array of values representing the histogram.
+ * @param length    The number of values in the histogram.
  *
- *  @return A CGRect of the largest rectangle in the given histogram.
+ * @return A CGRect of the largest rectangle in the given histogram.
  */
 CGRect CGRectLargestRectInHistogram(uint16_t *histogram, uint16_t length);
 
 #pragma mark - CGAffineTransform
 
 /**
- *  Returns the transform required for transforming from fixed coordinate system (iOS 7 and below)
- *  to variable coordinate system.
+ * Returns the transform required for transforming from fixed coordinate system (iOS 7 and below)
+ * to variable coordinate system.
  *
- *  @remark This method is only applicable on iOS 7 and below as the later OSes use variable
- *          coordinate system by default.
+ * @remark This method is only applicable on iOS 7 and below as the later OSes use variable
+ *         coordinate system by default.
  *
- *  @param statusBarOrientation A status bar orientation in fixed coordinate system.
+ * @param statusBarOrientation A status bar orientation in fixed coordinate system.
  *
- *  @return The transformed status bar orientation for variable coordinate system.
+ * @return The transformed status bar orientation for variable coordinate system.
  */
 CGAffineTransform CGAffineTransformForFixedToVariable(UIInterfaceOrientation statusBarOrientation);

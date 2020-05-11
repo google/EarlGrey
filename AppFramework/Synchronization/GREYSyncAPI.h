@@ -21,14 +21,14 @@
 /**
  * @file
  * @brief Alternative methods for dispatch_sync and dispatch_async that should be used in places
- *        where dispatch_async and sync lead to unnecessary tracking.
+ *       where dispatch_async and sync lead to unnecessary tracking.
  */
 
 /**
- *  Executes a block containing EarlGrey statements on the main thread and waits for it to
- *  complete. @c block is retained until execution completes.
+ * Executes a block containing EarlGrey statements on the main thread and waits for it to
+ * complete. @c block is retained until execution completes.
  *
- *  @note  Can be called from any thread.
- *  @param block Block that will be executed.
+ * @note  Can be called from any thread.
+ * @param block Block that will be executed.
  */
 GREY_EXPORT void grey_dispatch_sync_on_main_thread(void (^block)(void));

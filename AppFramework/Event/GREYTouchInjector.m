@@ -27,7 +27,7 @@
 #import "GREYConfiguration.h"
 
 /**
- *  The time interval in seconds between each touch injection.
+ * The time interval in seconds between each touch injection.
  */
 static const NSTimeInterval kTouchInjectFramerateInv = 1 / 120.0;
 
@@ -160,11 +160,11 @@ static const NSTimeInterval kTouchInjectFramerateInv = 1 / 120.0;
 #pragma mark - Private Injecting touches API's
 
 /**
- *  Takes a GREYTouchInfo object and converts it into a UITouch. Also adds the newly created
- *  touch object and adds it to an array of ongoing touches.
+ * Takes a GREYTouchInfo object and converts it into a UITouch. Also adds the newly created
+ * touch object and adds it to an array of ongoing touches.
  *
- *  @param touchInfo The info that is used to create the UITouch.
- *  @param event     The UIEvent for the touches injected.
+ * @param touchInfo The info that is used to create the UITouch.
+ * @param event     The UIEvent for the touches injected.
  */
 - (void)grey_updateUITouchObjectsFromTouchInfo:(GREYTouchInfo *)touchInfo
                                 ongoingTouches:(NSMutableArray<UITouch *> *)ongoingTouches
@@ -208,12 +208,12 @@ static const NSTimeInterval kTouchInjectFramerateInv = 1 / 120.0;
 }
 
 /**
- *  Inject touches to the application.
+ * Inject touches to the application.
  *
- *  @param touchInfo      The info that is used to create the UITouch.
- *  @param ongoingTouches The array of UITouches that are being injected.
- *  @param exception      The exception if it fails to inject.
- *  @return @c YES if injection succeeds, @c NO otherwise.
+ * @param touchInfo      The info that is used to create the UITouch.
+ * @param ongoingTouches The array of UITouches that are being injected.
+ * @param exception      The exception if it fails to inject.
+ * @return @c YES if injection succeeds, @c NO otherwise.
  */
 - (BOOL)grey_injectTouches:(GREYTouchInfo *)touchInfo
             ongoingTouches:(NSMutableArray<UITouch *> *)ongoingTouches
@@ -286,7 +286,7 @@ static const NSTimeInterval kTouchInjectFramerateInv = 1 / 120.0;
 }
 
 /**
- *  @return event mask for the provided touch phase.
+ * @return event mask for the provided touch phase.
  */
 static inline IOHIDDigitizerEventMask grey_fingerDigitizerEventMaskFromPhase(UITouchPhase phase) {
   IOHIDDigitizerEventMask eventMask = 0;
@@ -304,7 +304,7 @@ static inline IOHIDDigitizerEventMask grey_fingerDigitizerEventMaskFromPhase(UIT
 }
 
 /**
- *  @return Converts @c seconds to mach-o time type.
+ * @return Converts @c seconds to mach-o time type.
  */
 inline static uint64_t getMachOTimeFromSeconds(CFTimeInterval seconds) {
   mach_timebase_info_data_t info;

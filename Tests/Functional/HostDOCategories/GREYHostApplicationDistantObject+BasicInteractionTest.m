@@ -23,7 +23,7 @@
 #import "GREYElementHierarchy.h"
 
 /**
- *  A sample view controller that's set as the root for testing purposes.
+ * A sample view controller that's set as the root for testing purposes.
  */
 static UIViewController *gViewController;
 

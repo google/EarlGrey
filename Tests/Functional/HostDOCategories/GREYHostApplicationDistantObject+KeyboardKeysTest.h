@@ -22,8 +22,8 @@
 @interface GREYHostApplicationDistantObject (KeyboardKeysTest)
 
 /**
- *  @return A GREYAction that makes a becomeFirstResponder: call on a matched element to make
- *          element the first responder.
+ * @return A GREYAction that makes a becomeFirstResponder: call on a matched element to make
+ *         element the first responder.
  */
 - (id<GREYAction>)actionForSetFirstResponder;
 

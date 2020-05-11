@@ -17,38 +17,38 @@
 #import "NetworkProxy.h"
 
 /**
- *  Specifies if the proxy is enabled or not.
+ * Specifies if the proxy is enabled or not.
  */
 static BOOL gProxyEnabled;
 
 /**
- *  Specifies the simulated delay that the proxy injects into the proxied requests.
+ * Specifies the simulated delay that the proxy injects into the proxied requests.
  */
 static NSTimeInterval gProxySimulatedDelayInSeconds;
 
 /**
- *  Stores list of all URLs proxied so far.
+ * Stores list of all URLs proxied so far.
  */
 static NSMutableArray *gProxiedURLs;
 
 /**
- *  An array of dictionaries with regex and the response string to be served for URLs matching that
- *  regex.
+ * An array of dictionaries with regex and the response string to be served for URLs matching that
+ * regex.
  */
 static NSMutableArray *gProxyRules;
 
 /**
- *  Key to proxy rule's regex string value.
+ * Key to proxy rule's regex string value.
  */
 static NSString *const kNetworkProxyRuleRegexKey = @"kNetworkProxyRuleRegexKey";
 
 /**
- *  Key to proxy rule's response string value.
+ * Key to proxy rule's response string value.
  */
 static NSString *const kNetworkProxyRuleResponseKey = @"kNetworkProxyRuleResponseKey";
 
 /**
- *  Error domain for errors occurring in NetworkProxy.
+ * Error domain for errors occurring in NetworkProxy.
  */
 static NSString *const kNetworkProxyErrorDomain = @"com.google.earlgrey.NetworkProxyErrorDomain";
 
@@ -120,7 +120,7 @@ static NSString *const kNetworkProxyErrorDomain = @"com.google.earlgrey.NetworkP
 #pragma mark - Private
 
 /**
- *  @return @c YES if the proxy is setup to proxy the URL specified in @c urlString.
+ * @return @c YES if the proxy is setup to proxy the URL specified in @c urlString.
  */
 + (BOOL)isRequestProxiedWithURLString:(NSString *)urlString {
   @synchronized(self) {
@@ -145,8 +145,8 @@ static NSString *const kNetworkProxyErrorDomain = @"com.google.earlgrey.NetworkP
 }
 
 /**
- *  @return The response string to be served by the proxy for the URL specified in @c urlString,
- *          or @c nil if the URL is not to be proxied.
+ * @return The response string to be served by the proxy for the URL specified in @c urlString,
+ *         or @c nil if the URL is not to be proxied.
  */
 + (NSString *)responseWithURLString:(NSString *)urlString {
   @synchronized(self) {
@@ -173,9 +173,9 @@ static NSString *const kNetworkProxyErrorDomain = @"com.google.earlgrey.NetworkP
 }
 
 /**
- *  @remark This is a required overidden method.
+ * @remark This is a required overidden method.
  *
- *  @return A canonical version of the specified @c request.
+ * @return A canonical version of the specified @c request.
  */
 + (NSURLRequest *)canonicalRequestForRequest:(NSURLRequest *)request {
   return request;

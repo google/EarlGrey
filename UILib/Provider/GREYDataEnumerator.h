@@ -17,23 +17,23 @@
 #import <Foundation/Foundation.h>
 
 /**
- *  An block-based enumerator that repeatedly invokes the block to return the next object.
+ * An block-based enumerator that repeatedly invokes the block to return the next object.
  */
 @interface GREYDataEnumerator : NSEnumerator
 
 /**
- *  @remark init is not an available initializer. Use the other initializers.
+ * @remark init is not an available initializer. Use the other initializers.
  */
 - (instancetype)init NS_UNAVAILABLE;
 
 /**
- *  Instantiates the enumerator with custom information and a block to return the next object.
+ * Instantiates the enumerator with custom information and a block to return the next object.
  *
- *  @param userInfo        Custom object that is passed into the block. Use this for passing any
- *                         additional information required by the block.
- *  @param nextObjectBlock A block that is invoked to return the next object in the enumerator.
+ * @param userInfo        Custom object that is passed into the block. Use this for passing any
+ *                        additional information required by the block.
+ * @param nextObjectBlock A block that is invoked to return the next object in the enumerator.
  *
- *  @return An instance of GREYDataEnumerator, initialized with the specified information.
+ * @return An instance of GREYDataEnumerator, initialized with the specified information.
  */
 - (instancetype)initWithUserInfo:(id)userInfo
                            block:(id (^)(id))nextObjectBlock NS_DESIGNATED_INITIALIZER;
@@ -41,11 +41,11 @@
 #pragma mark - NSEnumerator
 
 /**
- *  @return The next object in the enumerator returned by the @nextObjectBlock. Can also be @c nil.
+ * @return The next object in the enumerator returned by the @nextObjectBlock. Can also be @c nil.
  */
 - (id)nextObject;
 /**
- *  @return An array of all the objects in the enumerator.
+ * @return An array of all the objects in the enumerator.
  */
 - (NSArray *)allObjects;
 

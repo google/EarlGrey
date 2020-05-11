@@ -20,18 +20,18 @@
 
 @interface GREYSurrogateDelegate ()
 /**
- *  Original delegate being proxied.
+ * Original delegate being proxied.
  */
 @property(weak, nonatomic, readwrite) id weakOriginalDelegate;
 /**
- *  Strong Original delegate being proxied.
+ * Strong Original delegate being proxied.
  */
 @property(nonatomic, readwrite) id strongOriginalDelegate;
 @end
 
 @implementation GREYSurrogateDelegate {
   /**
-   *  Indicates whether the original delegate is held weakly or strongly.
+   * Indicates whether the original delegate is held weakly or strongly.
    */
   BOOL _isWeak;
 }

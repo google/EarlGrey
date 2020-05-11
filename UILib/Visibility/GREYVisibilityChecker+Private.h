@@ -19,34 +19,34 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  @file GREYVisibilityChecker+Private.h
- *  @brief Exposes GREYVisibilityChecker interfaces and methods that are otherwise private
- *  for testing purposes.
+ * @file GREYVisibilityChecker+Private.h
+ * @brief Exposes GREYVisibilityChecker interfaces and methods that are otherwise private
+ * for testing purposes.
  */
 
 @interface GREYVisibilityChecker (Private)
 
 /**
- *  Clears last stored visibility images
+ * Clears last stored visibility images
  */
 + (void)resetVisibilityImages;
 
 /**
- *  @return The last known original image used by the visibility checker.
+ * @return The last known original image used by the visibility checker.
  *
- *  @remark This is available only for internal testing purposes.
+ * @remark This is available only for internal testing purposes.
  */
 + (UIImage *)grey_lastActualBeforeImage;
 /**
- *  @return The last known actual color shifted image used by visibility checker.
+ * @return The last known actual color shifted image used by visibility checker.
  *
- *  @remark This is available only for internal testing purposes.
+ * @remark This is available only for internal testing purposes.
  */
 + (UIImage *)grey_lastActualAfterImage;
 /**
- *  @return The last known actual color shifted image used by visibility checker.
+ * @return The last known actual color shifted image used by visibility checker.
  *
- *  @remark This is available only for internal testing purposes.
+ * @remark This is available only for internal testing purposes.
  */
 + (UIImage *)grey_lastExpectedAfterImage;
 

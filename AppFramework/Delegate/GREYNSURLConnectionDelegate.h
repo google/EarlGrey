@@ -19,24 +19,24 @@
 #import "GREYSurrogateDelegate.h"
 
 /**
- *  This is a proxy delegate for NSURLConnectionDelegate which allows us track status of
- *  the connection.
+ * This is a proxy delegate for NSURLConnectionDelegate which allows us track status of
+ * the connection.
  *
- *  @todo Support NSURLConnectionDownloadDelegate.
+ * @todo Support NSURLConnectionDownloadDelegate.
  */
 @interface GREYNSURLConnectionDelegate
     : GREYSurrogateDelegate <NSURLConnectionDelegate, NSURLConnectionDataDelegate>
 
 /**
- *  @remark init is not an available initializer. Use the other initializers.
+ * @remark init is not an available initializer. Use the other initializers.
  */
 - (instancetype)init NS_UNAVAILABLE;
 
 /**
- *  Creates an instance of GREYNSURLConnectionDelegate backed by the provided delegate.
+ * Creates an instance of GREYNSURLConnectionDelegate backed by the provided delegate.
  *
- *  @param originalDelegate The original delegate being proxied.
- *  @return an instance of GREYNSURLConnectionDelegate backed by the original delegate.
+ * @param originalDelegate The original delegate being proxied.
+ * @return an instance of GREYNSURLConnectionDelegate backed by the original delegate.
  */
 - (instancetype)initWithOriginalNSURLConnectionDelegate:(id)originalDelegate;
 

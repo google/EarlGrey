@@ -19,66 +19,66 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  A block for implementing GREYBaseMatcher::matches:.
+ * A block for implementing GREYBaseMatcher::matches:.
  *
- *  @param element The element passed to the block for matching.
+ * @param element The element passed to the block for matching.
  *
- *  @return @c YES if the matcher's specified condition was matched by the element, else @c NO.
+ * @return @c YES if the matcher's specified condition was matched by the element, else @c NO.
  */
 typedef BOOL (^GREYMatchesBlock)(id element);
 
 /**
- *  A block for implementing GREYBaseMatcher::describeTo:.
+ * A block for implementing GREYBaseMatcher::describeTo:.
  *
- *  @param description The description for the matcher.
+ * @param description The description for the matcher.
  */
 typedef void (^GREYDescribeToBlock)(id<GREYDescription> description);
 
 @protocol GREYDescription;
 
 /**
- *  A block based implementation of GREYBaseMatcher. Enables custom implementation of protocol
- *  method using blocks.
+ * A block based implementation of GREYBaseMatcher. Enables custom implementation of protocol
+ * method using blocks.
  */
 @interface GREYElementMatcherBlock : GREYBaseMatcher
 
 /**
- *  The block which will be invoked for the GREYBaseMatcher::matches: method.
+ * The block which will be invoked for the GREYBaseMatcher::matches: method.
  */
 @property(nonatomic, copy) GREYMatchesBlock matcherBlock;
 
 /**
- *  The block which will be invoked for the GREYBaseMatcher::describeTo: method.
+ * The block which will be invoked for the GREYBaseMatcher::describeTo: method.
  */
 @property(nonatomic, copy) GREYDescribeToBlock descriptionBlock;
 
 /**
- *  Class method to instantiate a custom matcher.
+ * Class method to instantiate a custom matcher.
  *
- *  @param matchBlock    A block for implementing GREYBaseMatcher::matches: method.
- *  @param describeBlock The block which will be invoked for the GREYBaseMatcher::describeTo:
- *                       method.
+ * @param matchBlock    A block for implementing GREYBaseMatcher::matches: method.
+ * @param describeBlock The block which will be invoked for the GREYBaseMatcher::describeTo:
+ *                      method.
  *
- *  @return A GREYElementMatcherBlock instance, initialized with the required matching
- *          condition and description.
+ * @return A GREYElementMatcherBlock instance, initialized with the required matching
+ *         condition and description.
  */
 + (instancetype)matcherWithMatchesBlock:(GREYMatchesBlock)matchBlock
                        descriptionBlock:(GREYDescribeToBlock)describeBlock;
 
 /**
- *  @remark init is not an available initializer. Use the other initializers.
+ * @remark init is not an available initializer. Use the other initializers.
  */
 - (instancetype)init NS_UNAVAILABLE;
 
 /**
- *  Initializes a custom matcher.
+ * Initializes a custom matcher.
  *
- *  @param matchBlock    A block for implementing GREYBaseMatcher::matches: method.
- *  @param describeBlock The block which will be invoked for the GREYBaseMatcher::describeTo:
- *                       method.
+ * @param matchBlock    A block for implementing GREYBaseMatcher::matches: method.
+ * @param describeBlock The block which will be invoked for the GREYBaseMatcher::describeTo:
+ *                      method.
  *
- *  @return A GREYElementMatcherBlock instance, initialized with the required matching
- *          condition and description.
+ * @return A GREYElementMatcherBlock instance, initialized with the required matching
+ *         condition and description.
  */
 - (instancetype)initWithMatchesBlock:(GREYMatchesBlock)matchBlock
                     descriptionBlock:(GREYDescribeToBlock)describeBlock NS_DESIGNATED_INITIALIZER;

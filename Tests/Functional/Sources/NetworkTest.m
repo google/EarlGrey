@@ -29,8 +29,8 @@
 }
 
 /**
- *  Ensure EarlGrey waits till an NSURLSession::dataTaskWithURL:completionHandler: waits for the
- *  completion handler to be called.
+ * Ensure EarlGrey waits till an NSURLSession::dataTaskWithURL:completionHandler: waits for the
+ * completion handler to be called.
  */
 - (void)testSynchronizationWithNSURLSessionCompletionHandlers {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"RequestCompletedLabel")]
@@ -44,8 +44,8 @@
 }
 
 /**
- *  Check that the URL is printed as part of the error when a network request is ongoing when
- *  EarlGrey's interaction timeout is hit.
+ * Check that the URL is printed as part of the error when a network request is ongoing when
+ * EarlGrey's interaction timeout is hit.
  */
 - (void)testURLPrintingInErrorLogsWhenNetworkRequestFails {
   // Setting the timeout to 0.5, a lower one might trigger an issue with Animation tracking for
@@ -63,8 +63,8 @@
 }
 
 /**
- *  Ensure EarlGrey waits till an NSURLSession::dataTaskWithURL: call finishes by waiting for the
- *  delegate callback.
+ * Ensure EarlGrey waits till an NSURLSession::dataTaskWithURL: call finishes by waiting for the
+ * delegate callback.
  */
 - (void)testSynchronizationWorksWithNSURLSessionDelegates {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"RequestCompletedLabel")]
@@ -78,8 +78,8 @@
 }
 
 /**
- *  Ensure EarlGrey waits till an NSURLSession::dataTaskWithRequest: call finishes by waiting for
- *  the delegate callback.
+ * Ensure EarlGrey waits till an NSURLSession::dataTaskWithRequest: call finishes by waiting for
+ * the delegate callback.
  */
 - (void)testSynchronizationWorksWithNSURLSessionDataRequest {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"RequestCompletedLabel")]
@@ -93,8 +93,8 @@
 }
 
 /**
- *  Ensure EarlGrey waits till an NSURLSession::dataTaskWithRequest:completionHandler: waits for the
- *  completion handler to be called.
+ * Ensure EarlGrey waits till an NSURLSession::dataTaskWithRequest:completionHandler: waits for the
+ * completion handler to be called.
  */
 - (void)testSynchronizationWorksWithNSURLSessionDataRequestWithHandler {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"RequestCompletedLabel")]
@@ -108,8 +108,8 @@
 }
 
 /**
- *  Ensure EarlGrey waits till an NSURLSession::dataTaskWithURL: waits for the delegate callback in
- *  a custom delegate.
+ * Ensure EarlGrey waits till an NSURLSession::dataTaskWithURL: waits for the delegate callback in
+ * a custom delegate.
  */
 - (void)testSynchronizationWorksWithNSURLSessionDataRequestProxyDelegate {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"RequestCompletedLabel")]
@@ -122,8 +122,8 @@
 }
 
 /**
- *  Ensure that if EarlGrey already waits for a request with a drain, then subsequent GREYAsserts
- *  do not wait again.
+ * Ensure that if EarlGrey already waits for a request with a drain, then subsequent GREYAsserts
+ * do not wait again.
  */
 - (void)testSynchronizationWorksWithoutNetworkCallbacks {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"RequestCompletedLabel")]

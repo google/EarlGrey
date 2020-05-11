@@ -20,12 +20,12 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  Takes failure screenshots. It is called from multiple places where errors can be generated.
+ * Takes failure screenshots. It is called from multiple places where errors can be generated.
  */
 @interface GREYFailureScreenshotter : NSObject
 
 /**
- *  @return An NSDictionary with the generated app screenshots.
+ * @return An NSDictionary with the generated app screenshots.
  */
 + (NSDictionary *)screenshots;
 

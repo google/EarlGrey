@@ -21,25 +21,25 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  Matcher for combining multiple matchers with a logical @c OR operator, so that a match occurs
- *  when any of the matchers match the element. The invocation of the matchers is in the same
- *  order in which they are passed. As soon as one of the matchers succeeds, the rest are
- *  not invoked.
+ * Matcher for combining multiple matchers with a logical @c OR operator, so that a match occurs
+ * when any of the matchers match the element. The invocation of the matchers is in the same
+ * order in which they are passed. As soon as one of the matchers succeeds, the rest are
+ * not invoked.
  */
 @interface GREYAnyOf : GREYBaseMatcher
 
 /**
- *  @remark init is not an available initializer. Use the other initializers.
+ * @remark init is not an available initializer. Use the other initializers.
  */
 - (instancetype)init NS_UNAVAILABLE;
 
 /**
- *  Designated initializer to add all the matchers to be checked.
+ * Designated initializer to add all the matchers to be checked.
  *
- *  @param matchers The matchers, one of which is required to be matched by the matcher.
- *                  They are invoked in the order that they are passed in.
+ * @param matchers The matchers, one of which is required to be matched by the matcher.
+ *                 They are invoked in the order that they are passed in.
  *
- *  @return An instance of GREYAnyOf, initialized with the provided matchers.
+ * @return An instance of GREYAnyOf, initialized with the provided matchers.
  */
 - (instancetype)initWithMatchers:(NSArray<__kindof id<GREYMatcher>> *)matchers
     NS_DESIGNATED_INITIALIZER;

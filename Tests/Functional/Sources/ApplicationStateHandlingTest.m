@@ -81,8 +81,8 @@
 #pragma mark - Test app relaunch
 
 /**
- *  Test launching app post termination without causing issues in loading the `AppFramework` library
- *  injected using DYLD_INSERT_LIBRARIES.
+ * Test launching app post termination without causing issues in loading the `AppFramework` library
+ * injected using DYLD_INSERT_LIBRARIES.
  */
 - (void)testApplicationRestartOnce {
   [_application terminate];

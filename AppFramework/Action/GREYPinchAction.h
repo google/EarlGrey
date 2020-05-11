@@ -18,36 +18,36 @@
 #import "GREYConstants.h"
 
 /**
- *  Error domain used for pinch related NSError objects.
+ * Error domain used for pinch related NSError objects.
  */
 GREY_EXTERN NSString *const kGREYPinchErrorDomain;
 
 /**
- *  Error codes for pinch related failures.
+ * Error codes for pinch related failures.
  */
 typedef NS_ENUM(NSInteger, GREYPinchErrorCode) {
   kGREYPinchFailedErrorCode = 0,
 };
 
 /**
- *  A @c GREYAction that performs the pinch gesture on the view on which it is called.
+ * A @c GREYAction that performs the pinch gesture on the view on which it is called.
  */
 @interface GREYPinchAction : GREYBaseAction
 
 /**
- *  Performs a pinch action in the given @c direction for the @c duration. The start of outward
- *  pinch is from the center of the view and stops before 20% margin of the view's bounding rect.
+ * Performs a pinch action in the given @c direction for the @c duration. The start of outward
+ * pinch is from the center of the view and stops before 20% margin of the view's bounding rect.
  *
- *  For an inward pinch the start point is at a 20% margin of the view's bounding rect on either
- *  side and stops at the center. The default angle of the pinch action is 30 degrees to closely
- *  match the average pinch angle of a natural right handed pinch.
+ * For an inward pinch the start point is at a 20% margin of the view's bounding rect on either
+ * side and stops at the center. The default angle of the pinch action is 30 degrees to closely
+ * match the average pinch angle of a natural right handed pinch.
  *
- *  @param direction  The direction of the pinch.
- *  @param duration   The time interval for which the pinch takes place.
- *  @param pinchAngle Angle of the vector in radians to which the pinch direction is pointing.
+ * @param direction  The direction of the pinch.
+ * @param duration   The time interval for which the pinch takes place.
+ * @param pinchAngle Angle of the vector in radians to which the pinch direction is pointing.
  *
- *  @returns An instance of @c GREYPinchAction, initialized with a provided direction and
- *           duration and angle.
+ * @returns An instance of @c GREYPinchAction, initialized with a provided direction and
+ *          duration and angle.
  */
 - (instancetype)initWithDirection:(GREYPinchDirection)direction
                          duration:(CFTimeInterval)duration

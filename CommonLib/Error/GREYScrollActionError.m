@@ -17,6 +17,6 @@
 #import "GREYScrollActionError.h"
 
 /**
- *  Error domain for scroll action errors.
+ * Error domain for scroll action errors.
  */
 NSString *const kGREYScrollErrorDomain = @"com.google.earlgrey.ScrollErrorDomain";

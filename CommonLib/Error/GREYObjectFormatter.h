@@ -19,38 +19,38 @@
 #import <Foundation/Foundation.h>
 
 /**
- *  Indent when perform object formation.
+ * Indent when perform object formation.
  */
 GREY_EXTERN NSInteger const kGREYObjectFormatIndent;
 
 @interface GREYObjectFormatter : NSObject
 
 /**
- *  Serializes an array of objects into JSON string.
- *  The supported objects are: NSString, NSNumber, NSArray, NSDictionary and GREYError.
+ * Serializes an array of objects into JSON string.
+ * The supported objects are: NSString, NSNumber, NSArray, NSDictionary and GREYError.
  *
- *  @param array  The array to serialize.
- *  @param indent The spaces that will be applied to each element of the serialized array.
- *  @param keyOrder   Output the key-value pair in the order of the keys specified
- *                    in the keyOrder array.
+ * @param array  The array to serialize.
+ * @param indent The spaces that will be applied to each element of the serialized array.
+ * @param keyOrder   Output the key-value pair in the order of the keys specified
+ *                   in the keyOrder array.
  *
- *  @return JSON-ified string of the provided @c array.
+ * @return JSON-ified string of the provided @c array.
  */
 + (NSString *)formatArray:(NSArray *)array indent:(NSInteger)indent keyOrder:(NSArray *)keyOrder;
 
 /**
- *  Serializes a dictionary of objects into JSON string.
- *  The supported objects are: NSString, NSNumber, NSArray, NSDictionary and GREYError.
+ * Serializes a dictionary of objects into JSON string.
+ * The supported objects are: NSString, NSNumber, NSArray, NSDictionary and GREYError.
  *
- *  @param dictionary The dictionary to serialize.
- *  @param indent     Number of spaces that will be applied to each element
- *                    of the serialized dictionary.
- *  @param hideEmpty  Hide the key-value pair if the value in the dictionary
- *                    when the key is empty.
- *  @param keyOrder   Output the key-value pair in the order of the keys specified
- *                    in the keyOrder array.
+ * @param dictionary The dictionary to serialize.
+ * @param indent     Number of spaces that will be applied to each element
+ *                   of the serialized dictionary.
+ * @param hideEmpty  Hide the key-value pair if the value in the dictionary
+ *                   when the key is empty.
+ * @param keyOrder   Output the key-value pair in the order of the keys specified
+ *                   in the keyOrder array.
  *
- *  @return JSON-ified string of the provided @c dictionary.
+ * @return JSON-ified string of the provided @c dictionary.
  */
 + (NSString *)formatDictionary:(NSDictionary *)dictionary
                         indent:(NSInteger)indent
@@ -58,18 +58,18 @@ GREY_EXTERN NSInteger const kGREYObjectFormatIndent;
                       keyOrder:(NSArray *)keyOrder;
 
 /**
- *  Serializes an array of objects into JSON-like string.
- *  The supported objects are: NSString, NSNumber, NSArray, NSDictionary.
+ * Serializes an array of objects into JSON-like string.
+ * The supported objects are: NSString, NSNumber, NSArray, NSDictionary.
  *
- *  @remark The serialized string is formatted as a JSON for presentation purposes but it doesn't
- *          have the right escaping applied for special character as it hinders readability.
+ * @remark The serialized string is formatted as a JSON for presentation purposes but it doesn't
+ *         have the right escaping applied for special character as it hinders readability.
  *
- *  @param array    The array to serialize.
- *  @param prefix   A string that will be applied to each newline of the serialized array.
- *  @param indent   The spaces that will be applied to each element of the serialized array.
- *  @param keyOrder Output the key-value pair in the order of the keys specified
- *                  in the keyOrder array.
- *  @return Serialized JSON-like string of the provided @c array.
+ * @param array    The array to serialize.
+ * @param prefix   A string that will be applied to each newline of the serialized array.
+ * @param indent   The spaces that will be applied to each element of the serialized array.
+ * @param keyOrder Output the key-value pair in the order of the keys specified
+ *                 in the keyOrder array.
+ * @return Serialized JSON-like string of the provided @c array.
  */
 + (NSString *)formatArray:(NSArray *)array
                    prefix:(NSString *)prefix
@@ -77,23 +77,23 @@ GREY_EXTERN NSInteger const kGREYObjectFormatIndent;
                  keyOrder:(NSArray *)keyOrder;
 
 /**
- *  Serializes a dictionary of objects into JSON-like string.
- *  The supported objects are: NSString, NSNumber, NSArray, NSDictionary.
+ * Serializes a dictionary of objects into JSON-like string.
+ * The supported objects are: NSString, NSNumber, NSArray, NSDictionary.
  *
- *  @remark The serialized string is formatted as a JSON for presentation purposes but it doesn't
- *          have the right escaping applied for special character as it hinders readability.
+ * @remark The serialized string is formatted as a JSON for presentation purposes but it doesn't
+ *         have the right escaping applied for special character as it hinders readability.
  *
- *  @param dictionary The dictionary to serialize.
- *  @param prefix     A string that will be applied to each newline
- *                    of the serialized dictionary.
- *  @param indent     Number of spaces that will be applied to each element
- *                    of the serialized dictionary.
- *  @param hideEmpty  Hide the key-value pair if the value in the dictionary
- *                    when the key is empty.
- *  @param keyOrder   Output the key-value pair in the order of the keys specified
- *                    in the keyOrder array.
+ * @param dictionary The dictionary to serialize.
+ * @param prefix     A string that will be applied to each newline
+ *                   of the serialized dictionary.
+ * @param indent     Number of spaces that will be applied to each element
+ *                   of the serialized dictionary.
+ * @param hideEmpty  Hide the key-value pair if the value in the dictionary
+ *                   when the key is empty.
+ * @param keyOrder   Output the key-value pair in the order of the keys specified
+ *                   in the keyOrder array.
  *
- *  @return Serialized string of the provided @c dictionary.
+ * @return Serialized string of the provided @c dictionary.
  */
 + (NSString *)formatDictionary:(NSDictionary *)dictionary
                         prefix:(NSString *)prefix

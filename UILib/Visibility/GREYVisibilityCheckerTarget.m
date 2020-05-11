@@ -23,55 +23,55 @@
 #import "GREYVisibilityChecker.h"
 
 /**
- *  Minimum alpha value for a view to be considered obscuring. If an element is covered by a view
- *  that has an alpha close to 1, we assume that the user does not intend to match or interact with
- *  the element. For instance, if a view with alpha 0.95 covers @c _target, @c _target is deemed not
- *  visible.
+ * Minimum alpha value for a view to be considered obscuring. If an element is covered by a view
+ * that has an alpha close to 1, we assume that the user does not intend to match or interact with
+ * the element. For instance, if a view with alpha 0.95 covers @c _target, @c _target is deemed not
+ * visible.
  */
 const double kMinimumAlphaToConsiderAsObscuring = 0.95f;
 
 @implementation GREYVisibilityCheckerTarget {
   /**
-   *  Internal target element. Target is an accessibility element that could be either a UIView or a
-   *  non-UIView instance.
+   * Internal target element. Target is an accessibility element that could be either a UIView or a
+   * non-UIView instance.
    */
   id _target;
   /**
-   *  View that contains @c _target.
+   * View that contains @c _target.
    */
   UIView *_targetContainerView;
   /**
-   *  Boolean whether or not @c _target is a UIView.
+   * Boolean whether or not @c _target is a UIView.
    */
   BOOL _isView;
   /**
-   *  Visible frame of the @c _target in screen coordinate.
+   * Visible frame of the @c _target in screen coordinate.
    */
   CGRect _targetRect;
   /**
-   *  CGRect representation of @c _bitVector.
+   * CGRect representation of @c _bitVector.
    */
   CGRect _bitVectorRect;
   /**
-   *  Binary bitmap representing the visible portion of @c _target in pixel coordinate. Each pixel
-   *  contains either 0 or 1. 0 indicating the pixel is visible, 1 if not. All rects must be
-   *  converted to pixel and aligned before interacting with @c _bitVector.
+   * Binary bitmap representing the visible portion of @c _target in pixel coordinate. Each pixel
+   * contains either 0 or 1. 0 indicating the pixel is visible, 1 if not. All rects must be
+   * converted to pixel and aligned before interacting with @c _bitVector.
    */
   CFMutableBitVectorRef _bitVector;
   /**
-   *  Intersections between the views and the @c _target in pixel coordinate. These intersections
-   *  will be subtracted from the @c _bitVector when the traversal is finished.
+   * Intersections between the views and the @c _target in pixel coordinate. These intersections
+   * will be subtracted from the @c _bitVector when the traversal is finished.
    */
   NSMutableArray<NSValue *> *_intersections;
   /**
-   *  Temp variable that checks if an element meets the condition to fall back to the through
-   *  visibility checker.
+   * Temp variable that checks if an element meets the condition to fall back to the through
+   * visibility checker.
    */
   BOOL _currentElementMeetsFallbackCondition;
   /**
-   *  Whether or not the @c _target should consider interactability into account when being obscured
-   *  by elements. If it should be interactable, @c _bitVector would only show portion of the @c
-   *  _target not only visible, but also interactable by the user.
+   * Whether or not the @c _target should consider interactability into account when being obscured
+   * by elements. If it should be interactable, @c _bitVector would only show portion of the @c
+   * _target not only visible, but also interactable by the user.
    */
   BOOL _interactability;
 }
@@ -110,14 +110,14 @@ const double kMinimumAlphaToConsiderAsObscuring = 0.95f;
 }
 
 /**
- *  To calculate the percentage visible from the target view, we maintain a bit matrix that keeps
- *  track of the pixels that are obscured by other views, represented as 1. Once we gather all
- *  intersections between the target and other views, we go through each intersections and set the
- *  bits from the bit matrix that falls into that intersection rect. After we are done setting all
- *  bits, we could calculate the visible percentage of the target as we can count how many pixels
- *  are visible in the bit matrix (by counting 0's).
+ * To calculate the percentage visible from the target view, we maintain a bit matrix that keeps
+ * track of the pixels that are obscured by other views, represented as 1. Once we gather all
+ * intersections between the target and other views, we go through each intersections and set the
+ * bits from the bit matrix that falls into that intersection rect. After we are done setting all
+ * bits, we could calculate the visible percentage of the target as we can count how many pixels
+ * are visible in the bit matrix (by counting 0's).
  *
- *  @return percentage visible from the target element.
+ * @return percentage visible from the target element.
  */
 - (CGFloat)percentageVisible {
   [self calculateBitsForIntersectionsInParallel];
@@ -155,15 +155,15 @@ const double kMinimumAlphaToConsiderAsObscuring = 0.95f;
 }
 
 /**
- *  There are few points within the @c _target we want to check for interaction points.
- *  (1) accessibilityActivationPoint
- *  (2) Center points of each quadrant of @c _targetRect.
- *  (3) Center point of the largest interactable rect. You want to check this last since it's most
- *      expensive.
- *  The points are checked in numerical order.
+ * There are few points within the @c _target we want to check for interaction points.
+ * (1) accessibilityActivationPoint
+ * (2) Center points of each quadrant of @c _targetRect.
+ * (3) Center point of the largest interactable rect. You want to check this last since it's most
+ *     expensive.
+ * The points are checked in numerical order.
  *
- *  @return Point in @c _target that is interactable by the user. If none of the above points are
- *          interactable, @c GREYCGPointNull is returned.
+ * @return Point in @c _target that is interactable by the user. If none of the above points are
+ *         interactable, @c GREYCGPointNull is returned.
  */
 - (CGPoint)interactionPoint {
   // Check if the _target is at least @c kMinimumPointsVisibleForInteraction large.
@@ -206,8 +206,8 @@ const double kMinimumAlphaToConsiderAsObscuring = 0.95f;
 #pragma mark - Private
 
 /**
- *  Dispatches each intersections to set bits in each intersection rect from @c _bitVector. Only
- *  call this method when there's no more intersection that is obscuring @c _targetRect.
+ * Dispatches each intersections to set bits in each intersection rect from @c _bitVector. Only
+ * call this method when there's no more intersection that is obscuring @c _targetRect.
  */
 - (void)calculateBitsForIntersectionsInParallel {
   dispatch_apply(_intersections.count, DISPATCH_APPLY_AUTO, ^(size_t idx) {
@@ -217,10 +217,10 @@ const double kMinimumAlphaToConsiderAsObscuring = 0.95f;
 }
 
 /**
- *  Sets all bits inside @c rect from @c _bitVector. The @c rect is converted to pixels as per
- *  screen scale before setting the bits. This is performed in parallel across multiple threads.
+ * Sets all bits inside @c rect from @c _bitVector. The @c rect is converted to pixels as per
+ * screen scale before setting the bits. This is performed in parallel across multiple threads.
  *
- *  @param rect The frame of the pixels to set the bits in @c _bitVector. Must be in points.
+ * @param rect The frame of the pixels to set the bits in @c _bitVector. Must be in points.
  */
 - (void)setBitsInRect:(CGRect)rect {
   rect = CGRectPointToPixelAligned(rect);
@@ -246,19 +246,19 @@ const double kMinimumAlphaToConsiderAsObscuring = 0.95f;
 }
 
 /**
- *  Evaluates whether or not we should skip @c object from calculation because it cannot obscure the
- *  target due to its visual property. A target cannot be obscured if the other view drawn on top of
- *  the target has the following conditions:
- *  (1) Accessibility element that is not a UIView. It cannot obscure the @c _target because it's
- *      not a visual element.
- *  (2) Its backgroundColor has an alpha less than 0.95.
- *  (3) Its alpha is less than 0.95.
- *  (4) It is hidden or any of its ancestor is hidden.
+ * Evaluates whether or not we should skip @c object from calculation because it cannot obscure the
+ * target due to its visual property. A target cannot be obscured if the other view drawn on top of
+ * the target has the following conditions:
+ * (1) Accessibility element that is not a UIView. It cannot obscure the @c _target because it's
+ *     not a visual element.
+ * (2) Its backgroundColor has an alpha less than 0.95.
+ * (3) Its alpha is less than 0.95.
+ * (4) It is hidden or any of its ancestor is hidden.
  *
- *  @param object The object to evaluate if it can potentially obscure the @c _target. It could be
- *                either a view or an accessibility element (non view).
+ * @param object The object to evaluate if it can potentially obscure the @c _target. It could be
+ *               either a view or an accessibility element (non view).
  *
- *  @return A BOOL whether or not @c object can potentially obscure the @c _target.
+ * @return A BOOL whether or not @c object can potentially obscure the @c _target.
  */
 - (BOOL)shouldSkipObject:(GREYTraversalObject *)object {
   id element = object.element;
@@ -305,17 +305,17 @@ const double kMinimumAlphaToConsiderAsObscuring = 0.95f;
 }
 
 /**
- *  Provides an array of possible interaction points obtained from the centers of each quadrant of
- *  @c _targetRect. This is not necessarily the same as the centers of each quadrant of @c _target's
- *  bounds because, as noted above, @c _targetRect represents the frame that is visible on
- *  screen. The following points are added to the array:
+ * Provides an array of possible interaction points obtained from the centers of each quadrant of
+ * @c _targetRect. This is not necessarily the same as the centers of each quadrant of @c _target's
+ * bounds because, as noted above, @c _targetRect represents the frame that is visible on
+ * screen. The following points are added to the array:
  *
- *  (1) center of the @c _targetRect's first quadrant.
- *  (2) center of the @c _targetRect's second quadrant.
- *  (3) center of the @c _targetRect's third quadrant.
- *  (4) center of the @c _targetRect's forth quadrant.
+ * (1) center of the @c _targetRect's first quadrant.
+ * (2) center of the @c _targetRect's second quadrant.
+ * (3) center of the @c _targetRect's third quadrant.
+ * (4) center of the @c _targetRect's forth quadrant.
  *
- *  @return An array of center points in each quadrant of the @c _targetRect in screen coordinate.
+ * @return An array of center points in each quadrant of the @c _targetRect in screen coordinate.
  */
 - (NSArray<NSValue *> *)centersOfTargetRectQuadrants {
   CGFloat minX = CGRectGetMinX(_targetRect);
@@ -342,9 +342,9 @@ const double kMinimumAlphaToConsiderAsObscuring = 0.95f;
 }
 
 /**
- *  Converts an interaction point in screen coordinate to local coordinate in @c _target's bounds.
+ * Converts an interaction point in screen coordinate to local coordinate in @c _target's bounds.
  *
- *  @return CGPoint specifying the interaction point in @c _target's bounds.
+ * @return CGPoint specifying the interaction point in @c _target's bounds.
  */
 - (CGPoint)localInteractionPointFromScreenCoordinate:(CGPoint)pointInScreenCoordinate {
   CGRect accessibilityFrame = [_target accessibilityFrame];
@@ -363,13 +363,13 @@ const double kMinimumAlphaToConsiderAsObscuring = 0.95f;
 }
 
 /**
- *  Intersects with the screen bounds and element's bounding area to cut off any portion of the
- *  element that is not visible on screen.
+ * Intersects with the screen bounds and element's bounding area to cut off any portion of the
+ * element that is not visible on screen.
  *
- *  @param object Traversing object to check for the visible rect in screen.
+ * @param object Traversing object to check for the visible rect in screen.
  *
- *  @return CGRect specifying the frame of the element that is visible on screen in screen
- *          coordinate. @c CGRectNull if it is not visible at all.
+ * @return CGRect specifying the frame of the element that is visible on screen in screen
+ *         coordinate. @c CGRectNull if it is not visible at all.
  */
 static CGRect VisibleRectOnScreen(GREYTraversalObject *object) {
   id element = object.element;
@@ -399,12 +399,12 @@ static CGRect VisibleRectOnScreen(GREYTraversalObject *object) {
 }
 
 /**
- *  Converts @c element's frame to screen coordinate. This is needed before intersecting views with
- *  the @c _target.
+ * Converts @c element's frame to screen coordinate. This is needed before intersecting views with
+ * the @c _target.
  *
- *  @param element The element whose frame will be converted.
+ * @param element The element whose frame will be converted.
  *
- *  @return @c element's frame converted to screen coordinate.
+ * @return @c element's frame converted to screen coordinate.
  */
 static CGRect ConvertToScreenCoordinate(id element) {
   if ([element isKindOfClass:[UIView class]]) {
@@ -421,30 +421,30 @@ static CGRect ConvertToScreenCoordinate(id element) {
 }
 
 /**
- *  @return A @c BOOL if the traversal object is visible or not. This is different from
- *          checking @c hidden and @c alpha property from UIView as @c properties are derived from
- *          the element's ancestors during traversal.
+ * @return A @c BOOL if the traversal object is visible or not. This is different from
+ *         checking @c hidden and @c alpha property from UIView as @c properties are derived from
+ *         the element's ancestors during traversal.
  */
 static BOOL IsElementVisible(GREYTraversalObject *object) {
   return !(object.properties.hidden || object.properties.lowestAlpha < kGREYMinimumVisibleAlpha);
 }
 
 /**
- *  If the following criteria is met, a fallback should be performed depending on the position of
- *  the @c view as the quick visibility checker can no longer provide an accurate answer. If the
- *  view does not intersect with the target, fallback does not have to be performed.
+ * If the following criteria is met, a fallback should be performed depending on the position of
+ * the @c view as the quick visibility checker can no longer provide an accurate answer. If the
+ * view does not intersect with the target, fallback does not have to be performed.
  *
- *  Assuming @c view intersects with @c _target, perform fallback if:
- *  (1) @c view is transformed: Because quick visibility checker performs a frame by frame
- *      comparison, it cannot accurately determine the visibility of the target under a transformed
- *      view.
- *  (2) @c view contains @c CAShapeLayer: Since quick visibility checker doesn't support custom
- *      drawn views yet, it cannot accurately obtain the visibility of an element obscured by a
- *      custom drawn view with CAShapeLayer.
+ * Assuming @c view intersects with @c _target, perform fallback if:
+ * (1) @c view is transformed: Because quick visibility checker performs a frame by frame
+ *     comparison, it cannot accurately determine the visibility of the target under a transformed
+ *     view.
+ * (2) @c view contains @c CAShapeLayer: Since quick visibility checker doesn't support custom
+ *     drawn views yet, it cannot accurately obtain the visibility of an element obscured by a
+ *     custom drawn view with CAShapeLayer.
  *
- *  @param view @c UIView that is drawn on top of target in the view hierarchy.
+ * @param view @c UIView that is drawn on top of target in the view hierarchy.
  *
- *  @return Whether or not the @c view meets the fallback condition.
+ * @return Whether or not the @c view meets the fallback condition.
  */
 static BOOL MeetsFallbackCondition(UIView *view) {
   if (!CGAffineTransformEqualToTransform(CGAffineTransformIdentity, [view transform])) {
@@ -477,9 +477,9 @@ static BOOL MeetsFallbackCondition(UIView *view) {
 }
 
 /**
- *  @param backgroundColor Color to check for translucency.
+ * @param backgroundColor Color to check for translucency.
  *
- *  @return A @c BOOL indicating whether or not you can see through the @c backgroundColor.
+ * @return A @c BOOL indicating whether or not you can see through the @c backgroundColor.
  */
 static BOOL IsBackgroundColorTranslucent(UIColor *backgroundColor) {
   if (!backgroundColor || [backgroundColor isEqual:UIColor.clearColor]) {
@@ -493,8 +493,8 @@ static BOOL IsBackgroundColorTranslucent(UIColor *backgroundColor) {
 }
 
 /**
- *  @return A @c BOOL indicating whether or not the @c pointInScreenCoordinate is interactable by
- *          the user. @c pointInScreenCoordinate must be in screen coordinate system.
+ * @return A @c BOOL indicating whether or not the @c pointInScreenCoordinate is interactable by
+ *         the user. @c pointInScreenCoordinate must be in screen coordinate system.
  */
 - (BOOL)isInteractableAtPointInScreenCoordinate:(CGPoint)pointInScreenCoordinate {
   // Check if this point lies in the screen bounds.
@@ -526,7 +526,7 @@ static BOOL IsBackgroundColorTranslucent(UIColor *backgroundColor) {
 }
 
 /**
- *  @return The largest interactable area of @c _target in points.
+ * @return The largest interactable area of @c _target in points.
  */
 - (CGRect)largestInteractableRect {
   NSInteger width = (NSInteger)CGRectGetWidth(_bitVectorRect);

@@ -25,14 +25,14 @@
 @interface BaseIntegrationTest : XCTestCase
 
 /**
- *  The XCUIApplication being tested.
+ * The XCUIApplication being tested.
  */
 @property(nonatomic) XCUIApplication *application;
 
 /**
- *  Select the UITableViewCell with its text as specified by @c name from the app's main tableview.
+ * Select the UITableViewCell with its text as specified by @c name from the app's main tableview.
  *
- *  @param name The text of the UITableViewCell being selected to open the test's view controller.
+ * @param name The text of the UITableViewCell being selected to open the test's view controller.
  */
 - (void)openTestViewNamed:(NSString *)name;
 

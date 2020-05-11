@@ -23,17 +23,17 @@
 #import "GREYCondition.h"
 
 /**
- *  Amount to scroll to move to the next springboard page.
+ * Amount to scroll to move to the next springboard page.
  */
 static const NSInteger kSpringboardPageScrollAmount = 500.0;
 
 /**
- *  Timeout for foregrounding the application.
+ * Timeout for foregrounding the application.
  */
 static const CFTimeInterval kForegroundTimeout = 10.0;
 
 /**
- *  Time interval to poll the backgrounding/foregrounding events.
+ * Time interval to poll the backgrounding/foregrounding events.
  */
 static const CFTimeInterval kPollInterval = 5.0;
 
@@ -110,15 +110,15 @@ static const CFTimeInterval kPollInterval = 5.0;
 
 #pragma mark - Private Methods
 /**
- *  Performs a horizontal XCUITest Swipe across a provided XCUIElement.
+ * Performs a horizontal XCUITest Swipe across a provided XCUIElement.
  *
- *  @remark Before iOS 10, the direction of the swipe action was based on the direction of the
- *          keyplane moving. After iOS 10, this was changed to the direction of the finger
- *          movement.
+ * @remark Before iOS 10, the direction of the swipe action was based on the direction of the
+ *         keyplane moving. After iOS 10, this was changed to the direction of the finger
+ *         movement.
  *
- *  @param element An XCUIElement element to be swiped on.
- *  @param isRight BOOL specifying if the direction of the swipe element is the right
- *                 direction.
+ * @param element An XCUIElement element to be swiped on.
+ * @param isRight BOOL specifying if the direction of the swipe element is the right
+ *                direction.
  */
 - (void)grey_swipeHorizontallyInElement:(XCUIElement *)element
                 withTheDirectionAsRight:(BOOL)isRight {

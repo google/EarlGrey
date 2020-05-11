@@ -36,24 +36,24 @@
 #import "CGGeometry+GREYUI.h"
 
 /**
- *  Scroll views under web views take at least (depending on speed of execution environment) two
- *  touch points to accurately determine scroll resistance.
+ * Scroll views under web views take at least (depending on speed of execution environment) two
+ * touch points to accurately determine scroll resistance.
  */
 static const NSInteger kMinTouchPointsToDetectScrollResistance = 2;
 
 @implementation GREYScrollAction {
   /**
-   *  The direction in which the content must be scrolled.
+   * The direction in which the content must be scrolled.
    */
   GREYDirection _direction;
   /**
-   *  The amount of scroll (in the units of scrollView's coordinate system) to be applied.
+   * The amount of scroll (in the units of scrollView's coordinate system) to be applied.
    */
   CGFloat _amount;
   /**
-   *  The start point of the scroll defined as percentages of the visible area's width and height.
-   *  If any of the coordinate is set to @c NAN the corresponding coordinate of the scroll start
-   *  point will be set to achieve maximum scroll.
+   * The start point of the scroll defined as percentages of the visible area's width and height.
+   * If any of the coordinate is set to @c NAN the corresponding coordinate of the scroll start
+   * point will be set to achieve maximum scroll.
    */
   CGPoint _startPointPercents;
 }
@@ -150,12 +150,12 @@ static const NSInteger kMinTouchPointsToDetectScrollResistance = 2;
 }
 
 /**
- *  Injects the touch path into the given @c scrollView until the content edge could be reached.
+ * Injects the touch path into the given @c scrollView until the content edge could be reached.
  *
- *  @param touchPath  The touch path to be injected.
- *  @param scrollView The UIScrollView for the injection.
+ * @param touchPath  The touch path to be injected.
+ * @param scrollView The UIScrollView for the injection.
  *
- *  @return @c YES if entire touchPath was injected, else @c NO.
+ * @return @c YES if entire touchPath was injected, else @c NO.
  */
 + (BOOL)grey_injectTouchPath:(NSArray<NSValue *> *)touchPath
                 onScrollView:(UIScrollView *)scrollView {

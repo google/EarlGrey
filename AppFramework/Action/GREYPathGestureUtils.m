@@ -27,20 +27,20 @@
 #import "GREYVisibilityChecker.h"
 
 /**
- *  Refers to the minimum 10 points of scroll that is required for any scroll to be detected.
- *  It is non-static to make it accessible to unit tests.
+ * Refers to the minimum 10 points of scroll that is required for any scroll to be detected.
+ * It is non-static to make it accessible to unit tests.
  */
 const NSInteger kGREYScrollDetectionLength = 10;
 
 /**
- *  The minimum distance between any 2 adjacent points in the touch path.
- *  In practice, this value seems to yield the best results by triggering the gestures more
- *  accurately, even on slower machines.
+ * The minimum distance between any 2 adjacent points in the touch path.
+ * In practice, this value seems to yield the best results by triggering the gestures more
+ * accurately, even on slower machines.
  */
 static const CGFloat kGREYDistanceBetweenTwoAdjacentPoints = 10.0f;
 
 /**
- *  Cached screen edge pan detection length for the current device.
+ * Cached screen edge pan detection length for the current device.
  */
 static CGFloat kCachedScreenEdgePanDetectionLength = NAN;
 
@@ -168,11 +168,11 @@ static CGFloat kCachedScreenEdgePanDetectionLength = NAN;
 #pragma mark - Private
 
 /**
- *  Gives the direction obtained from clockwise rotation of the given @c direction.
+ * Gives the direction obtained from clockwise rotation of the given @c direction.
  *
- *  @param direction Direction of the rotation.
+ * @param direction Direction of the rotation.
  *
- *  @return The direction after the rotation.
+ * @return The direction after the rotation.
  */
 + (GREYDirection)grey_directionByClockwiseRotationOfDirection:(GREYDirection)direction {
   switch (direction) {
@@ -188,23 +188,23 @@ static CGFloat kCachedScreenEdgePanDetectionLength = NAN;
 }
 
 /**
- *  Returns whether the current direction is vertical or not.
+ * Returns whether the current direction is vertical or not.
  *
- *  @param direction Current direction to be checked for verticalness.
+ * @param direction Current direction to be checked for verticalness.
  *
- *  @return @c YES if the current direction is vertical, else @c NO.
+ * @return @c YES if the current direction is vertical, else @c NO.
  */
 + (BOOL)grey_isVerticalDirection:(GREYDirection)direction {
   return direction == kGREYDirectionUp || direction == kGREYDirectionDown;
 }
 
 /**
- *  Returns a point on the @c edge of the given @c rect.
+ * Returns a point on the @c edge of the given @c rect.
  *
- *  @param edge The edge of the given @c rect to get the point for.
- *  @param rect The @c rect from which the point is being returned.
+ * @param edge The edge of the given @c rect to get the point for.
+ * @param rect The @c rect from which the point is being returned.
  *
- *  @return A CGPoint on the chosen edge of the given @c rect.
+ * @return A CGPoint on the chosen edge of the given @c rect.
  */
 + (CGPoint)grey_pointOnEdge:(GREYContentEdge)edge ofRect:(CGRect)rect {
   CGVector vector =
@@ -214,14 +214,14 @@ static CGFloat kCachedScreenEdgePanDetectionLength = NAN;
 }
 
 /**
- *  Standardizes the given @c rect and shrinks (or expands if inset is negative) the given @c rect
- *  by the given @c insets. Note that if width/height is less than the required insets they are
- *  set to zero.
+ * Standardizes the given @c rect and shrinks (or expands if inset is negative) the given @c rect
+ * by the given @c insets. Note that if width/height is less than the required insets they are
+ * set to zero.
  *
- *  @param insets The insets to standardize the given @c rect.
- *  @param rect   The rect to be standardized.
+ * @param insets The insets to standardize the given @c rect.
+ * @param rect   The rect to be standardized.
  *
- *  @return The rect after being standardized.
+ * @return The rect after being standardized.
  */
 + (CGRect)grey_rectByAddingEdgeInsets:(UIEdgeInsets)insets toRect:(CGRect)rect {
   rect = CGRectStandardize(rect);
@@ -243,15 +243,15 @@ static CGFloat kCachedScreenEdgePanDetectionLength = NAN;
 }
 
 /**
- *  Touch path between the given points with the option to cancel the inertia.
+ * Touch path between the given points with the option to cancel the inertia.
  *
- *  @param startPoint    The start point of the touch path.
- *  @param endPoint      The end point of the touch path.
- *  @param duration      How long the gesture should last.
- *                       Can be NAN to indicate that path lengths of fixed magnitude should be used.
- *  @param cancelInertia A check to nullify the inertia in the touch path.
+ * @param startPoint    The start point of the touch path.
+ * @param endPoint      The end point of the touch path.
+ * @param duration      How long the gesture should last.
+ *                      Can be NAN to indicate that path lengths of fixed magnitude should be used.
+ * @param cancelInertia A check to nullify the inertia in the touch path.
  *
- *  @return A touch path between the two points.
+ * @return A touch path between the two points.
  */
 + (NSArray *)grey_touchPathWithStartPoint:(CGPoint)startPoint
                                  endPoint:(CGPoint)endPoint
@@ -361,8 +361,8 @@ static CGFloat kCachedScreenEdgePanDetectionLength = NAN;
 }
 
 /**
- *  @return The maximum distance in points from the left edge of the screen that can trigger
- *          "screen edge pan" gesture.
+ * @return The maximum distance in points from the left edge of the screen that can trigger
+ *         "screen edge pan" gesture.
  */
 + (CGFloat)grey_edgePanDetectionLength {
   if (isnan(kCachedScreenEdgePanDetectionLength)) {

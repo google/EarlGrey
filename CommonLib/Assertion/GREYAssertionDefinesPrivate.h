@@ -15,13 +15,13 @@
 //
 
 /**
- *  @file
- *  @brief Private helper macros for performing assertions and throwing assertion failure
- *  exceptions. On failure, these macros delegate the tasks such as printing failure details,
- *  taking screenshots and logging the full view hierarchy to the provided failure handler.
- *  Barring the marked public macros here, these should only be called privately, from within
- *  the framework. The public version of these macros, which waits for the app to idle is
- *  provided in the GREYAssertionDefines file.
+ * @file
+ * @brief Private helper macros for performing assertions and throwing assertion failure
+ * exceptions. On failure, these macros delegate the tasks such as printing failure details,
+ * taking screenshots and logging the full view hierarchy to the provided failure handler.
+ * Barring the marked public macros here, these should only be called privately, from within
+ * the framework. The public version of these macros, which waits for the app to idle is
+ * provided in the GREYAssertionDefines file.
  */
 
 #ifndef COMMON_GREY_ASSERTION_DEFINES_H

@@ -20,7 +20,7 @@
 // protocol other than UITextField and UITextView.
 
 /**
- *  TextPosition to be used by CustomTextView.
+ * TextPosition to be used by CustomTextView.
  */
 @interface CustomTextPosition : UITextPosition
 
@@ -31,7 +31,7 @@
 @end
 
 /**
- *  TextRange to be used by CustomTextView.
+ * TextRange to be used by CustomTextView.
  */
 @interface CustomTextRange : UITextRange <NSCopying>
 

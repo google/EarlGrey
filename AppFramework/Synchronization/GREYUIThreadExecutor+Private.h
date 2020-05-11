@@ -15,9 +15,9 @@
 //
 
 /**
- *  @file  GREYUIThreadExecutor+Private.h
- *  @brief Exposes GREYUIThreadExecutor interfaces and methods that are otherwise private for
- *         testing purposes.
+ * @file  GREYUIThreadExecutor+Private.h
+ * @brief Exposes GREYUIThreadExecutor interfaces and methods that are otherwise private for
+ *        testing purposes.
  */
 
 #import "GREYUIThreadExecutor.h"
@@ -27,22 +27,22 @@
 @interface GREYUIThreadExecutor (Private)
 
 /**
- *  Register the specified @c resource to be checked for idling before executing test actions.
- *  A strong reference is held to @c resource until it is deregistered using
- *  @c deregisterIdlingResource. It is safe to call this from any thread.
+ * Register the specified @c resource to be checked for idling before executing test actions.
+ * A strong reference is held to @c resource until it is deregistered using
+ * @c deregisterIdlingResource. It is safe to call this from any thread.
  *
- *  @param resource The idling resource to register.
+ * @param resource The idling resource to register.
  *
- *  @remark This is available only for internal testing purposes.
+ * @remark This is available only for internal testing purposes.
  */
 - (void)registerIdlingResource:(id<GREYIdlingResource>)resource;
 
 /**
- *  Unregisters a previously registered @c resource. It is safe to call this from any thread.
+ * Unregisters a previously registered @c resource. It is safe to call this from any thread.
  *
- *  @param resource The resource to unregistered.
+ * @param resource The resource to unregistered.
  *
- *  @remark This is available only for internal testing purposes.
+ * @remark This is available only for internal testing purposes.
  */
 - (void)deregisterIdlingResource:(id<GREYIdlingResource>)resource;
 

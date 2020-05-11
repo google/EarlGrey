@@ -21,8 +21,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  The instance running in a non-main dispatch queue in the app-under-test's
- *  process.
+ * The instance running in a non-main dispatch queue in the app-under-test's
+ * process.
  */
 @interface GREYHostBackgroundDistantObject : NSObject
 
@@ -30,8 +30,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(readonly, class) GREYHostBackgroundDistantObject *sharedInstance;
 
 /**
- *  The dispatch queue that the instance of GREYHostBackgroundDistantObject runs on in the
- *  application process.
+ * The dispatch queue that the instance of GREYHostBackgroundDistantObject runs on in the
+ * application process.
  */
 @property(nonatomic, readonly) dispatch_queue_t backgroundQueue;
 

@@ -17,8 +17,8 @@
 #import <Foundation/Foundation.h>
 
 /**
- *  EarlGrey additions for UIAnimation, UIKit's internal representation of animations used by some
- *  of its components, such as UIScrollView.
+ * EarlGrey additions for UIAnimation, UIKit's internal representation of animations used by some
+ * of its components, such as UIScrollView.
  */
 @interface UIAnimation_GREYApp : NSObject
 @end

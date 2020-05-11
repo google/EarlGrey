@@ -21,54 +21,54 @@
 @interface GREYHostApplicationDistantObject (VisibilityTest)
 
 /**
- *  @return An object conforming to GREYAssertion that checks if the content offset has changed.
+ * @return An object conforming to GREYAssertion that checks if the content offset has changed.
  */
 - (id<GREYAssertion>)coverContentOffsetChangedAssertion;
 
 /**
- *  @return An object conforming to GREYAssertion that checks if a translucent overlapping
- *          area is present.
+ * @return An object conforming to GREYAssertion that checks if a translucent overlapping
+ *         area is present.
  */
 - (id<GREYAssertion>)translucentOverlappingViewVisibleAreaAssertion;
 
 /**
- *  @return An object conforming to GREYAssertion that checks if a matched element is visible
- *          and adds it to a provided set.
+ * @return An object conforming to GREYAssertion that checks if a matched element is visible
+ *         and adds it to a provided set.
  */
 - (GREYAssertionBlock *)ftr_assertOnIDSet:(NSMutableSet *)idSet;
 
 /**
- *  @return An object conforming to GREYAssertion that checks if a rectangle is visible.
+ * @return An object conforming to GREYAssertion that checks if a rectangle is visible.
  */
 - (id<GREYAssertion>)visibleRectangleAssertion;
 
 /**
- *  @return An object conforming to GREYAssertion that checks if a rectangle is 100% visible.
+ * @return An object conforming to GREYAssertion that checks if a rectangle is 100% visible.
  */
 - (id<GREYAssertion>)entireRectangleVisibleAssertion;
 
 /**
- *  Set up an outer view and add it to the current main window for checking rasterization.
+ * Set up an outer view and add it to the current main window for checking rasterization.
  */
 - (void)setupOuterView;
 
 /**
- *  Remove the outer view added for checking rasterization.
+ * Remove the outer view added for checking rasterization.
  */
 - (void)removeOuterView;
 
 /**
- *  @return An object conforming to GREYAssertion that checks the size of a rectangle.
+ * @return An object conforming to GREYAssertion that checks the size of a rectangle.
  */
 - (id<GREYAssertion>)visibleRectangleSizeAssertion;
 
 /**
- *  Returns a BOOL checking if the images created by the visibility checker are present.
+ * Returns a BOOL checking if the images created by the visibility checker are present.
  */
 - (BOOL)visibilityImagesArePresent;
 
 /**
- *  Returns a BOOL checking if the images created by the visibility checker are absent.
+ * Returns a BOOL checking if the images created by the visibility checker are absent.
  */
 - (BOOL)visibilityImagesAreAbsent;
 

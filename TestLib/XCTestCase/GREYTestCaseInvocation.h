@@ -19,7 +19,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  Class used for invoking a test case method and updating the status of the test case
+ * Class used for invoking a test case method and updating the status of the test case
  */
 @interface GREYTestCaseInvocation : NSInvocation
 @end

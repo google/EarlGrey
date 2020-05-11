@@ -21,25 +21,25 @@
 @interface EarlGreyImpl (XCUIApplication)
 
 /**
- *  Backgrounds the current open application.
+ * Backgrounds the current open application.
  *
- *  @remark This is only supported for iOS 11 or above.
+ * @remark This is only supported for iOS 11 or above.
  *
- *  @return A BOOL indicating if the background was successful or not.
+ * @return A BOOL indicating if the background was successful or not.
  */
 - (BOOL)backgroundApplication;
 
 /**
- *  Foregrounds the application specified by the bundle ID provided.
+ * Foregrounds the application specified by the bundle ID provided.
  *
- *  @remark This method will preserve the state of the application only if used with iOS 11 or
- *          higher. Else, the app being foregrounded will be re-launched from scratch, erasing any
- *          interactions already done.
+ * @remark This method will preserve the state of the application only if used with iOS 11 or
+ *         higher. Else, the app being foregrounded will be re-launched from scratch, erasing any
+ *         interactions already done.
  *
- *  @param      bundleID   The bundle ID of the application to be tested.
- *  @param[out] errorOrNil Error that will be populated on failure.
+ * @param      bundleID   The bundle ID of the application to be tested.
+ * @param[out] errorOrNil Error that will be populated on failure.
  *
- *  @return The XCUIApplication foregrounded if successful, @c nil otherwise.
+ * @return The XCUIApplication foregrounded if successful, @c nil otherwise.
  */
 - (XCUIApplication *)foregroundApplicationWithBundleID:(NSString *)bundleID
                                                  error:(NSError **)errorOrNil;

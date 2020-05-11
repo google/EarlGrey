@@ -46,10 +46,10 @@
 #pragma mark - Swizzled Implementation
 
 /**
- *  Invoked by UIKit on the start of an animation. This is invoked, for example, when a user invokes
- *  UIScrollView::setContentEnd:finished:.
+ * Invoked by UIKit on the start of an animation. This is invoked, for example, when a user invokes
+ * UIScrollView::setContentEnd:finished:.
  *
- *  @param startTime The start time for the animation.
+ * @param startTime The start time for the animation.
  */
 - (void)greyswizzled_markStart:(double)startTime {
   GREYAppStateTrackerObject *object = TRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, self);
@@ -59,8 +59,8 @@
 }
 
 /**
- *  Invoked by UIKit on the end of an animation. This is invoked, for example, after the animation
- *  triggered by a UIScrollView::setContentEnd:finished: is finished.
+ * Invoked by UIKit on the end of an animation. This is invoked, for example, after the animation
+ * triggered by a UIScrollView::setContentEnd:finished: is finished.
  */
 - (void)greyswizzled_markStop {
   GREYAppStateTrackerObject *object =

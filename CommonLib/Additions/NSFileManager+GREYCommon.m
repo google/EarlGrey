@@ -54,8 +54,8 @@
 #pragma mark - Private
 
 /**
- *  @return An image with the given @c image redrawn in the orientation defined by its
- *          imageOrientation property.
+ * @return An image with the given @c image redrawn in the orientation defined by its
+ *         imageOrientation property.
  */
 + (UIImage *)grey_imageAfterApplyingOrientation:(UIImage *)image {
   if (image.imageOrientation == UIImageOrientationUp) {

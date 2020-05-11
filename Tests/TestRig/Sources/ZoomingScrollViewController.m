@@ -19,7 +19,7 @@
 @interface ZoomingScrollViewController ()
 
 /**
- *  The Scroll View containing the image view to zoom into.
+ * The Scroll View containing the image view to zoom into.
  */
 @property(nonatomic, weak) IBOutlet UIScrollView *scrollView;
 

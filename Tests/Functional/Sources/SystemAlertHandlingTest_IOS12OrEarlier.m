@@ -24,7 +24,7 @@
 @implementation SystemAlertHandlingTest_IOS12OrEarlier
 
 /**
- *  Custom setup to set up an XCUIApplication and move to the System Alerts screen.
+ * Custom setup to set up an XCUIApplication and move to the System Alerts screen.
  */
 - (void)setUp {
   [super setUp];
@@ -32,7 +32,7 @@
 }
 
 /**
- *  Custom teardown method returns the UI to the starting table view controller.
+ * Custom teardown method returns the UI to the starting table view controller.
  */
 - (void)tearDown {
   [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"EarlGrey TestApp")]
@@ -41,7 +41,7 @@
 }
 
 /**
- *  Automates the accepting of a system alert & checking it's text.
+ * Automates the accepting of a system alert & checking it's text.
  */
 - (void)testAcceptingSystemAlertAndCheckingItsText {
   [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"Locations Alert")]
@@ -63,7 +63,7 @@
 }
 
 /**
- *  Automates the acceptance of a system alert with buttons that each have their own row.
+ * Automates the acceptance of a system alert with buttons that each have their own row.
  */
 - (void)testAcceptingSystemAlertWithButtonsInEachRow {
   [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"Background Locations Alert")]

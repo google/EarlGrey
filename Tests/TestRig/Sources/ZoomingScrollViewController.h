@@ -17,7 +17,7 @@
 #import <UIKit/UIKit.h>
 
 /**
- *  A view controller to test the zooming of a scroll view.
+ * A view controller to test the zooming of a scroll view.
  */
 @interface ZoomingScrollViewController : UIViewController <UIScrollViewDelegate>
 

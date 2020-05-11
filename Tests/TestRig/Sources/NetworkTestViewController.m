@@ -18,12 +18,12 @@
 #import "NetworkProxy.h"
 
 /**
- *  Data used as response for proxied requests.
+ * Data used as response for proxied requests.
  */
 static NSString *const kTestProxyData = @"kTestProxyData";
 
 /**
- *  Regex matching all YouTube urls.
+ * Regex matching all YouTube urls.
  */
 static NSString *const kProxyRegex = @"^http://www.youtube.com";
 
@@ -78,8 +78,8 @@ static NSString *const kProxyRegex = @"^http://www.youtube.com";
 
 @implementation NetworkTestViewController {
   /**
-   *  Check for the infinite request. The request should be dismissed once the view controller is
-   *  removed.
+   * Check for the infinite request. The request should be dismissed once the view controller is
+   * removed.
    */
   BOOL _keepInfiniteRequestOn;
 }
@@ -98,10 +98,10 @@ static NSString *const kProxyRegex = @"^http://www.youtube.com";
 }
 
 /**
- *  Verifies the received @c data by matching it with what is expected via proxy, in case of match
- *  UI is updated by setting @c responseVerifiedLabel to be visible.
+ * Verifies the received @c data by matching it with what is expected via proxy, in case of match
+ * UI is updated by setting @c responseVerifiedLabel to be visible.
  *
- *  @param data The data that was received.
+ * @param data The data that was received.
  */
 - (void)verifyReceivedData:(NSData *)data {
   // Note: although functionally similar, [NSString stringWithUTF8String:] has been flaky

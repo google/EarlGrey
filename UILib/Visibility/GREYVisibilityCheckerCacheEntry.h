@@ -17,20 +17,20 @@
 #import <Foundation/Foundation.h>
 
 /**
- *  Cache to store information about element that has been evaluated by visibility checker.
+ * Cache to store information about element that has been evaluated by visibility checker.
  */
 @interface GREYVisibilityCheckerCacheEntry : NSObject
 
 /**
- *  Cached value for percent visible area if it exists, @c nil otherwise.
+ * Cached value for percent visible area if it exists, @c nil otherwise.
  */
 @property(nonatomic, strong, nullable) NSNumber *visibleAreaPercent;
 /**
- *  Cached value for visible for interaction check if it exists, @c nil otherwise.
+ * Cached value for visible for interaction check if it exists, @c nil otherwise.
  */
 @property(nonatomic, strong, nullable) NSValue *visibleInteractionPoint;
 /**
- *  Cached value for visible area check if it exists, @c nil otherwise.
+ * Cached value for visible area check if it exists, @c nil otherwise.
  */
 @property(nonatomic, strong, nullable) NSValue *rectEnclosingVisibleArea;
 

@@ -26,38 +26,38 @@
 #import "GREYConfiguration.h"
 
 /**
- *  A pointer to the original implementation of @c dispatch_after.
+ * A pointer to the original implementation of @c dispatch_after.
  */
 static void (*grey_original_dispatch_after)(dispatch_time_t when, dispatch_queue_t queue,
                                             dispatch_block_t block);
 /**
- *  A pointer to the original implementation of @c dispatch_async.
+ * A pointer to the original implementation of @c dispatch_async.
  */
 static void (*grey_original_dispatch_async)(dispatch_queue_t queue, dispatch_block_t block);
 /**
- *  A pointer to the original implementation of @c dispatch_sync.
+ * A pointer to the original implementation of @c dispatch_sync.
  */
 static void (*grey_original_dispatch_sync)(dispatch_queue_t queue, dispatch_block_t block);
 
 /**
- *  A pointer to the original implementation of @c dispatch_after_f.
+ * A pointer to the original implementation of @c dispatch_after_f.
  */
 static void (*grey_original_dispatch_after_f)(dispatch_time_t when, dispatch_queue_t queue,
                                               void *context, dispatch_function_t work);
 /**
- *  A pointer to the original implementation of @c dispatch_async_f.
+ * A pointer to the original implementation of @c dispatch_async_f.
  */
 static void (*grey_original_dispatch_async_f)(dispatch_queue_t queue, void *context,
                                               dispatch_function_t work);
 /**
- *  A pointer to the original implementation of @c dispatch_sync_f.
+ * A pointer to the original implementation of @c dispatch_sync_f.
  */
 static void (*grey_original_dispatch_sync_f)(dispatch_queue_t queue, void *context,
                                              dispatch_function_t work);
 
 /**
- *  Used to find the @c GREYDispatchQueueTracker instance corresponding to a dispatch queue, if
- *  one exists.
+ * Used to find the @c GREYDispatchQueueTracker instance corresponding to a dispatch queue, if
+ * one exists.
  */
 static NSMapTable *gDispatchQueueToTracker;
 
@@ -87,12 +87,12 @@ static GREYDispatchQueueTracker *grey_getTrackerForQueue(dispatch_queue_t queue)
 }
 
 /**
- *  Overridden implementation of @c dispatch_after that calls into the tracker, if one is found for
- *  the dispatch queue passed in.
+ * Overridden implementation of @c dispatch_after that calls into the tracker, if one is found for
+ * the dispatch queue passed in.
  *
- *  @param when  Same as @c dispatch_after @c when.
- *  @param queue Same as @c dispatch_after @c queue.
- *  @param block Same as @c dispatch_after @c block.
+ * @param when  Same as @c dispatch_after @c when.
+ * @param queue Same as @c dispatch_after @c queue.
+ * @param block Same as @c dispatch_after @c block.
  */
 static void grey_dispatch_after(dispatch_time_t when, dispatch_queue_t queue,
                                 dispatch_block_t block) {
@@ -105,11 +105,11 @@ static void grey_dispatch_after(dispatch_time_t when, dispatch_queue_t queue,
 }
 
 /**
- *  Overridden implementation of @c dispatch_async that calls into the tracker, if one is found for
- *  the dispatch queue passed in.
+ * Overridden implementation of @c dispatch_async that calls into the tracker, if one is found for
+ * the dispatch queue passed in.
  *
- *  @param queue Same as @c dispatch_async @c queue.
- *  @param block Same as @c dispatch_async @c block.
+ * @param queue Same as @c dispatch_async @c queue.
+ * @param block Same as @c dispatch_async @c block.
  */
 static void grey_dispatch_async(dispatch_queue_t queue, dispatch_block_t block) {
   GREYDispatchQueueTracker *tracker = grey_getTrackerForQueue(queue);
@@ -121,11 +121,11 @@ static void grey_dispatch_async(dispatch_queue_t queue, dispatch_block_t block) 
 }
 
 /**
- *  Overridden implementation of @c dispatch_sync that calls into the tracker, if one is found for
- *  the dispatch queue passed in.
+ * Overridden implementation of @c dispatch_sync that calls into the tracker, if one is found for
+ * the dispatch queue passed in.
  *
- *  @param queue Same as @c dispatch_sync @c queue.
- *  @param block Same as @c dispatch_sync @c block.
+ * @param queue Same as @c dispatch_sync @c queue.
+ * @param block Same as @c dispatch_sync @c block.
  */
 static void grey_dispatch_sync(dispatch_queue_t queue, dispatch_block_t block) {
   GREYDispatchQueueTracker *tracker = grey_getTrackerForQueue(queue);
@@ -137,13 +137,13 @@ static void grey_dispatch_sync(dispatch_queue_t queue, dispatch_block_t block) {
 }
 
 /**
- *  Overridden implementation of @c dispatch_after_f that calls into the tracker, if one is found
- *  for the dispatch queue passed in.
+ * Overridden implementation of @c dispatch_after_f that calls into the tracker, if one is found
+ * for the dispatch queue passed in.
  *
- *  @param when    Same as @c dispatch_after_f @c when.
- *  @param queue   Same as @c dispatch_after_f @c queue.
- *  @param context Same as @c dispatch_after_f @c context.
- *  @param work    Same as @c dispatch_after_f @c work.
+ * @param when    Same as @c dispatch_after_f @c when.
+ * @param queue   Same as @c dispatch_after_f @c queue.
+ * @param context Same as @c dispatch_after_f @c context.
+ * @param work    Same as @c dispatch_after_f @c work.
  */
 static void grey_dispatch_after_f(dispatch_time_t when, dispatch_queue_t queue, void *context,
                                   dispatch_function_t work) {
@@ -156,12 +156,12 @@ static void grey_dispatch_after_f(dispatch_time_t when, dispatch_queue_t queue, 
 }
 
 /**
- *  Overridden implementation of @c dispatch_async_f that calls into the tracker, if one is found
- *  for the dispatch queue passed in.
+ * Overridden implementation of @c dispatch_async_f that calls into the tracker, if one is found
+ * for the dispatch queue passed in.
  *
- *  @param queue   Same as @c dispatch_async_f @c queue.
- *  @param context Same as @c dispatch_async_f @c context.
- *  @param work    Same as @c dispatch_async_f @c work.
+ * @param queue   Same as @c dispatch_async_f @c queue.
+ * @param context Same as @c dispatch_async_f @c context.
+ * @param work    Same as @c dispatch_async_f @c work.
  */
 static void grey_dispatch_async_f(dispatch_queue_t queue, void *context, dispatch_function_t work) {
   GREYDispatchQueueTracker *tracker = grey_getTrackerForQueue(queue);
@@ -173,12 +173,12 @@ static void grey_dispatch_async_f(dispatch_queue_t queue, void *context, dispatc
 }
 
 /**
- *  Overridden implementation of @c dispatch_sync_f that calls into the tracker, if one is found
- *  for the dispatch queue passed in.
+ * Overridden implementation of @c dispatch_sync_f that calls into the tracker, if one is found
+ * for the dispatch queue passed in.
  *
- *  @param queue   Same as @c dispatch_sync_f @c queue.
- *  @param context Same as @c dispatch_sync_f @c context.
- *  @param work    Same as @c dispatch_sync_f @c work.
+ * @param queue   Same as @c dispatch_sync_f @c queue.
+ * @param context Same as @c dispatch_sync_f @c context.
+ * @param work    Same as @c dispatch_sync_f @c work.
  */
 static void grey_dispatch_sync_f(dispatch_queue_t queue, void *context, dispatch_function_t work) {
   GREYDispatchQueueTracker *tracker = grey_getTrackerForQueue(queue);

@@ -30,13 +30,13 @@
 #import "GREYVisibilityCheckerCacheEntry.h"
 
 /**
- *  The minimum number of points that must be visible along with the activation point to consider an
- *  element visible. It is non-static to make it visible in tests.
+ * The minimum number of points that must be visible along with the activation point to consider an
+ * element visible. It is non-static to make it visible in tests.
  */
 const NSUInteger kMinimumPointsVisibleForInteraction = 10;
 
 /**
- *  Cache for storing recent visibility checks. This cache is invalidated on every runloop spin.
+ * Cache for storing recent visibility checks. This cache is invalidated on every runloop spin.
  */
 static NSMapTable<NSString *, GREYVisibilityCheckerCacheEntry *> *gCache;
 
@@ -108,17 +108,17 @@ static NSMapTable<NSString *, GREYVisibilityCheckerCacheEntry *> *gCache;
 #pragma mark - Private
 
 /**
- *  @return The cached key for an @c element.
+ * @return The cached key for an @c element.
  */
 + (NSString *)grey_keyForElement:(id)element {
   return [NSString stringWithFormat:@"%p", element];
 }
 
 /**
- *  Saves a cache @c entry for an @c element and adds it for invalidation on the next runloop drain.
+ * Saves a cache @c entry for an @c element and adds it for invalidation on the next runloop drain.
  *
- *  @param entry   The cache entry to be saved.
- *  @param element The element to which the entry is associated.
+ * @param entry   The cache entry to be saved.
+ * @param element The element to which the entry is associated.
  */
 + (void)grey_addCache:(GREYVisibilityCheckerCacheEntry *)entry forElement:(id)element {
   if (!gCache) {
@@ -141,13 +141,13 @@ static NSMapTable<NSString *, GREYVisibilityCheckerCacheEntry *> *gCache;
 }
 
 /**
- *  Returns cached value for an @c element. Modifying the returned cache also modifies it in the
- *  backing store so any changes are visible next time cache is fetched for the same @c element,
- *  provided the cache is still valid.
+ * Returns cached value for an @c element. Modifying the returned cache also modifies it in the
+ * backing store so any changes are visible next time cache is fetched for the same @c element,
+ * provided the cache is still valid.
  *
- *  @param element The element whose cache is being queried.
+ * @param element The element whose cache is being queried.
  *
- *  @return The cached stored under the given @c element.
+ * @return The cached stored under the given @c element.
  */
 + (GREYVisibilityCheckerCacheEntry *)grey_cacheForElementCreateIfNonExistent:(id)element {
   if (!element) {
@@ -167,7 +167,7 @@ static NSMapTable<NSString *, GREYVisibilityCheckerCacheEntry *> *gCache;
 }
 
 /**
- *  Invalidates the global cache of visibility checks.
+ * Invalidates the global cache of visibility checks.
  */
 + (void)grey_invalidateCache {
   [gCache removeAllObjects];
