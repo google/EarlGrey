@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		76DAC13E242EE51200557F3C /* DistantObjectBackgroundExecutionTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DAC13D242EE51100557F3C /* DistantObjectBackgroundExecutionTest.m */; };
 		76DAC16B242EE77E00557F3C /* libTestLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD623D2E20FD6BF900049E81 /* libTestLib.a */; };
 		76DAC16E242EE77E00557F3C /* AppFramework.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = FD623D2C20FD6BF900049E81 /* AppFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		76DAC170242EE77E00557F3C /* HostDOCategories.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = FD6678692122290B008EC4A7 /* HostDOCategories.bundle */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -192,7 +191,6 @@
 		FD98C4C3226C3555006F8D68 /* OrientationChangeTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C497226C3553006F8D68 /* OrientationChangeTest.m */; };
 		FD98C4C4226C3555006F8D68 /* AlertViewTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C498226C3554006F8D68 /* AlertViewTest.m */; };
 		FD98C4C5226C3555006F8D68 /* ShakeTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C499226C3554006F8D68 /* ShakeTest.m */; };
-		FD98C4C8226C3571006F8D68 /* SystemAlertHandlingTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C4C6226C3570006F8D68 /* SystemAlertHandlingTest.m */; };
 		FD98C4C9226C3571006F8D68 /* ApplicationStateHandlingTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C4C7226C3570006F8D68 /* ApplicationStateHandlingTest.m */; };
 		FD98C4CC226C3AC1006F8D68 /* GREYHostApplicationDistantObject+ErrorHandlingTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C4CB226C3AC0006F8D68 /* GREYHostApplicationDistantObject+ErrorHandlingTest.m */; };
 		FD98C4D0226C3B91006F8D68 /* GREYHostApplicationDistantObject+SwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD98C4CE226C3B90006F8D68 /* GREYHostApplicationDistantObject+SwiftTests.swift */; };
@@ -560,7 +558,6 @@
 		FD98C497226C3553006F8D68 /* OrientationChangeTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrientationChangeTest.m; sourceTree = "<group>"; };
 		FD98C498226C3554006F8D68 /* AlertViewTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlertViewTest.m; sourceTree = "<group>"; };
 		FD98C499226C3554006F8D68 /* ShakeTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShakeTest.m; sourceTree = "<group>"; };
-		FD98C4C6226C3570006F8D68 /* SystemAlertHandlingTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemAlertHandlingTest.m; sourceTree = "<group>"; };
 		FD98C4C7226C3570006F8D68 /* ApplicationStateHandlingTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplicationStateHandlingTest.m; sourceTree = "<group>"; };
 		FD98C4CA226C3ABF006F8D68 /* GREYHostApplicationDistantObject+ErrorHandlingTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GREYHostApplicationDistantObject+ErrorHandlingTest.h"; sourceTree = "<group>"; };
 		FD98C4CB226C3AC0006F8D68 /* GREYHostApplicationDistantObject+ErrorHandlingTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GREYHostApplicationDistantObject+ErrorHandlingTest.m"; sourceTree = "<group>"; };
@@ -689,7 +686,6 @@
 				76DAC13D242EE51100557F3C /* DistantObjectBackgroundExecutionTest.m */,
 				76480F8C23CEA04100D6047B /* DistantObjectCrashHandlerTest.m */,
 				FD98C4C7226C3570006F8D68 /* ApplicationStateHandlingTest.m */,
-				FD98C4C6226C3570006F8D68 /* SystemAlertHandlingTest.m */,
 				FD98C483226C353C006F8D68 /* AccessibilityTest.m */,
 				FD98C47A226C352C006F8D68 /* ActionSheetTest.m */,
 				FD98C495226C3551006F8D68 /* ActivityIndicatorTest.m */,
@@ -1400,7 +1396,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FD98C4C8226C3571006F8D68 /* SystemAlertHandlingTest.m in Sources */,
 				FD98C4C9226C3571006F8D68 /* ApplicationStateHandlingTest.m in Sources */,
 				FD98C4D9226C3E03006F8D68 /* BaseIntegrationTest.m in Sources */,
 			);
@@ -1721,7 +1716,7 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OBJC_BRIDGING_HEADER = Sources/Swift/SwiftTestBridgingHeader.h;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = FunctionalTestRigSwift;
 				USER_HEADER_SEARCH_PATHS = "../../Submodules/eDistantObject/** ../../**";
@@ -1743,7 +1738,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = Sources/Swift/SwiftTestBridgingHeader.h;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = FunctionalTestRigSwift;
 				USER_HEADER_SEARCH_PATHS = "../../Submodules/eDistantObject/** ../../**";
@@ -1769,7 +1764,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = "";
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1792,7 +1787,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.com.FunctionalTestRig;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
-				SWIFT_VERSION = "";
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -1820,7 +1815,7 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = ../TestRig/Sources/Swift/SwiftTestRigBridgingHeader.h;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.2;
 				USER_HEADER_SEARCH_PATHS = "../../Submodules/eDistantObject/** ../../** HostDOCategories/Swift/ Sources/Swift/ Sources/";
 				WRAPPER_EXTENSION = bundle;
 			};
@@ -1848,7 +1843,7 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = ../TestRig/Sources/Swift/SwiftTestRigBridgingHeader.h;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.2;
 				USER_HEADER_SEARCH_PATHS = "../../Submodules/eDistantObject/** ../../** HostDOCategories/Swift/ Sources/Swift/ Sources/";
 				WRAPPER_EXTENSION = bundle;
 			};

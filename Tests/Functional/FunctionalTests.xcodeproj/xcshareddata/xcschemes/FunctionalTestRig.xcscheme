@@ -20,6 +20,20 @@
                ReferencedContainer = "container:FunctionalTests.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "76DAC144242EE77E00557F3C"
+               BuildableName = "FunctionalBackgroundRemoteCallTests.xctest"
+               BlueprintName = "FunctionalBackgroundRemoteCallTests"
+               ReferencedContainer = "container:FunctionalTests.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -51,9 +65,19 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "76DAC12F242EE47F00557F3C"
-               BuildableName = "FunctionalBackgroundRemoteExecutionTests.xctest"
-               BlueprintName = "FunctionalBackgroundRemoteExecutionTests"
+               BlueprintIdentifier = "76DAC144242EE77E00557F3C"
+               BuildableName = "FunctionalBackgroundRemoteCallTests.xctest"
+               BlueprintName = "FunctionalBackgroundRemoteCallTests"
+               ReferencedContainer = "container:FunctionalTests.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "FD02006A212E4455007585B2"
+               BuildableName = "FunctionalOutOfProcessTests.xctest"
+               BlueprintName = "FunctionalOutOfProcessTests"
                ReferencedContainer = "container:FunctionalTests.xcodeproj">
             </BuildableReference>
          </TestableReference>
