@@ -240,7 +240,9 @@
   } @catch (NSException *exception) {
     NSDictionary<NSString *, id> *userInfo = exception.userInfo;
     NSDictionary<NSString *, UIImage *> *screenshots = userInfo[kErrorDetailAppScreenshotsKey];
-    XCTAssertEqual(screenshots.count, 2);
+    // TODO(b/156299938): This fails in open source project because the count method of the
+    // screenshots EDOObject is giving the wrong value unless explicitly casted to an integer.
+    XCTAssertEqual((int)screenshots.count, 2);
     XCTAssertNotNil(screenshots[kGREYAppScreenshotAtFailure]);
     XCTAssertNotNil(screenshots[kGREYTestScreenshotAtFailure]);
     XCTAssertNotNil(userInfo[kErrorDetailAppUIHierarchyKey]);
