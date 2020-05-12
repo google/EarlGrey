@@ -127,9 +127,9 @@
  * specified action, the mthod will return @c NO and if @ errorOrNil is provided, it is populated
  * with appropriate error information. Otherwise @c YES is returned.
  *
- * @param      location   The location of the touch.
- * @param      window     The window in which the action is being performed.
- * @param      name       The name of the action causing the touch.
+ * @param location        The location of the touch.
+ * @param window          The window in which the action is being performed.
+ * @param name            The name of the action causing the touch.
  * @param[out] errorOrNil The error set on failure. The error returned can be @c nil, signifying
  *                        success.
  *

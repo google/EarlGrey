@@ -74,11 +74,11 @@ static UIWindow *WindowContainingElement(id element) {
  * in the elements that are drawn after target element because any elements behind the target
  * element would not affect its visibility.
  *
- * @param      element         Target element to check the visibility status of.
+ * @param element              Target element to check the visibility status of.
  * @param[out] performFallback An out parameter that indicates whether or not a more accurate
  *                             visibility checking is required. Use GREYThoroughVisibilityChecker
  *                             instead.
- * @param      interactability Whether or not the resulting target should take interactability into
+ * @param interactability      Whether or not the resulting target should take interactability into
  *                             consideration when obscuring the target.
  *
  * @return GREYVisibilityCheckerTarget instance populated with the view hierarchy. @c nil if

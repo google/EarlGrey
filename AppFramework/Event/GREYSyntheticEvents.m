@@ -180,10 +180,10 @@
 /**
  * Enqueues the next touch to be delivered.
  *
- * @param points     Multiple points at which the touches are to be made.
- * @param seconds    An interval to wait after the every last touch event.
- * @param immediate  If @c YES, this method blocks until touches are delivered, otherwise it is
- *                   enqueued for delivery the next time runloop drains.
+ * @param points    Multiple points at which the touches are to be made.
+ * @param seconds   An interval to wait after the every last touch event.
+ * @param immediate If @c YES, this method blocks until touches are delivered, otherwise it is
+ *                  enqueued for delivery the next time runloop drains.
  */
 - (void)grey_continueTouchAtPoints:(NSArray *)points
     afterTimeElapsedSinceLastTouchDelivery:(NSTimeInterval)seconds

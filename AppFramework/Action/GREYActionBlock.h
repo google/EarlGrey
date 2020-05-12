@@ -38,8 +38,8 @@ typedef BOOL (^GREYPerformBlock)(id element, __strong NSError **errorOrNil);
  * Creates a GREYAction that performs the action in the provided @c block subject to the
  * provided @c constraints.
  *
- * @param name        The name of the action.
- * @param block       A block that contains the action to execute.
+ * @param name  The name of the action.
+ * @param block A block that contains the action to execute.
  *
  * @note GREYActions are not performed by default on the main thread. The threading
  *       behavior of the GREYAction has to be specified by the user.

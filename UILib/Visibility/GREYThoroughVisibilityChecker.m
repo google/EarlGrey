@@ -357,20 +357,20 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
  * Captures the visibility check's before and after image for the given @c view and loads the pixel
  * data into the given @c beforeImage and @c afterImage and returns @c YES if at least one pixel
  * from the view intersects with the given @c searchRectInScreenCoordinates, @c NO otherwise.
- * Optionally the method also stores the intersection point of the screen, view and search rect
- * (in pixels) at @c outIntersectionOriginOrNull. The caller must release @c beforeImage and
- * @c afterImage using CGImageRelease once done using them.
+ * Optionally the method also stores the intersection point of the screen, view and search rect (in
+ * pixels) at @c outIntersectionOriginOrNull. The caller must release @c beforeImage and @c
+ * afterImage using CGImageRelease once done using them.
  *
- * @param[out] outBeforeImage                A reference to receive the before-check image.
- * @param[out] outAfterImage                 A reference to receive the after-check image.
- * @param[out] outIntersectionOriginOrNull   A reference to receive the origin of the view in
- *                                           the given search rect.
- * @param      view                          The view whose visibility check is being performed.
- * @param      searchRectInScreenCoordinates A rect in screen coordinates within which the
- *                                           visibility check is to be performed.
+ * @param[out] outBeforeImage              A reference to receive the before-check image.
+ * @param[out] outAfterImage               A reference to receive the after-check image.
+ * @param[out] outIntersectionOriginOrNull A reference to receive the origin of the view in the
+ *                                         given search rect.
+ * @param view                             The view whose visibility check is being performed.
+ * @param searchRectInScreenCoordinates    A rect in screen coordinates within which the visibility
+ *                                         check is to be performed.
  *
- * @return @c YES if at least one pixel from the view intersects with the given
- *         @c searchRectInScreenCoordinates, @c NO otherwise.
+ * @return @c YES if at least one pixel from the view intersects with the given @c
+ *         searchRectInScreenCoordinates, @c NO otherwise.
  */
 + (BOOL)grey_captureBeforeImage:(CGImageRef *)outBeforeImage
                   andAfterImage:(CGImageRef *)outAfterImage
@@ -573,8 +573,8 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
  * @todo Use a better image comparison library/tool for this stuff. For now, pixel-by-pixel
  *       comparison it is.
  *
- * @param      afterImage          The image containing view with shifted colors.
- * @param      beforeImage         The original image of the view.
+ * @param afterImage               The image containing view with shifted colors.
+ * @param beforeImage              The original image of the view.
  * @param[out] outVisiblePixelRect A reference for getting the largest
  *                                 rectangle enclosing only visible points in the view.
  * @param[out] outDiffBufferOrNULL A reference for getting the GREYVisibilityDiffBuffer that was

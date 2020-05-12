@@ -31,7 +31,8 @@
 /**
  * Create a remote element interaction for a passed in GREYMatcher.
  *
- * @param  elementMatcher The GREYMatcher to be passed to the element interaction.
+ * @param elementMatcher The GREYMatcher to be passed to the element interaction.
+ *
  * @return A remote object that is connected to an object of class GREYElementInteraction.
  */
 - (GREYElementInteraction *)interactionWithMatcher:(id<GREYMatcher>)elementMatcher;

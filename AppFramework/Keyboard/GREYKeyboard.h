@@ -41,6 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * Waits until the keyboard is visible on the screen.
+ *
  * @return @c YES if the keyboard did appear after the wait, @c NO otherwise.
  */
 + (BOOL)waitForKeyboardToAppear;

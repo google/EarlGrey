@@ -30,7 +30,7 @@
  * @param queue The queue that will be tracked by the resource.
  * @param name  A descriptive name for the idling resource.
  *
- * @return Returns an idling resource for the specified NSOperationQueue.
+ * @return An idling resource for the specified NSOperationQueue.
  */
 + (instancetype)resourceWithNSOperationQueue:(NSOperationQueue *)queue name:(NSString *)name;
 

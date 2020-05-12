@@ -40,8 +40,8 @@ typedef NS_ENUM(NSInteger, GREYSyntheticEventInjectionErrorCode) {
  * This method blocks until all touches are delivered.
  *
  * @param touchPath An array of @c CGPoints. The first point in @c touchPath is the point where
-                     touch begins, and the last point in @c touchPath is the final touch point
-                     where touch ends. Points in @c touchPath must be in @c window coordinates.
+                    touch begins, and the last point in @c touchPath is the final touch point
+                    where touch ends. Points in @c touchPath must be in @c window coordinates.
  * @param window    The UIWindow that contains the points in the @c touchPath where
  *                  the touches are performed. Interaction will begin on the view inside
  *                  @c window which passes the hit-test for the first point in @c touchPath.

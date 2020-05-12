@@ -152,13 +152,12 @@ static Class gEDOObjectClass;
  * @remark The serialized string is formatted as a JSON for presentation purposes but it doesn't
  *         have the right escaping applied for special character as it hinders readability.
  *
- * @param object        The object to serialize.
- * @param prefixString  Whether a prefix string should be applied to each newline
- *                      of the serialized dictionary.
- * @param prefix        A string that will be applied to each newline
- *                      of the serialized dictionary.
- * @param indent        Number of spaces that will be applied to each element
- *                      of the serialized dictionary.
+ * @param object       The object to serialize.
+ * @param prefixString Whether a prefix string should be applied to each newline of the serialized
+ *                     dictionary.
+ * @param prefix       A string that will be applied to each newline of the serialized dictionary.
+ * @param indent       Number of spaces that will be applied to each element of the serialized
+ *                     dictionary.
  *
  * @return Serialized string of the provided @c object.
  */

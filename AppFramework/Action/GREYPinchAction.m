@@ -204,9 +204,9 @@ static CGFloat const kPinchScale = (CGFloat)0.8;
 /**
  * Returns a point at an @c angle on a circle having @c center and @c radius.
  *
- * @param angle   Angle to which a point is to be located on the given circle.
- * @param center  Center of the circle.
- * @param radius  Radius of the circle.
+ * @param angle  Angle to which a point is to be located on the given circle.
+ * @param center Center of the circle.
+ * @param radius Radius of the circle.
  */
 - (CGPoint)grey_pointOnCircleAtAngle:(double)angle center:(CGPoint)center radius:(CGFloat)radius {
   return CGPointMake(center.x + (CGFloat)(radius * cos(angle)),

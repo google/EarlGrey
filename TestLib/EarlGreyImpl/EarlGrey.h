@@ -136,6 +136,7 @@ typedef void (^GREYHostApplicationCrashHandler)(void);
  *                               failure will be reported if the rotation attempt fails.
  *
  * @throws GREYFrameworkException if the action fails and @c error is @c nil.
+ *
  * @return @c YES if the rotation was successful, @c NO otherwise. If @c error is @c nil and
  *         the operation fails, it will throw an exception.
  */
@@ -204,6 +205,7 @@ typedef void (^GREYHostApplicationCrashHandler)(void);
  *                   reported if the shake attempt fails.
  *
  * @throws GREYFrameworkException if the action fails and @c error is @c nil.
+ *
  * @return @c YES if the shake was successful, @c NO otherwise. If @c error is @c nil and
  *         the operation fails, it will throw an exception.
  */

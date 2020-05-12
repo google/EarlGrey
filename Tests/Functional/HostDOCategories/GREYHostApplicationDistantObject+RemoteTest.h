@@ -26,6 +26,7 @@
  * Create a string by appending a string "make".
  *
  * @param  str The string to append.
+ *
  * @return The new string appending "make".
  */
 - (NSString *)makeAString:(NSString *)str;

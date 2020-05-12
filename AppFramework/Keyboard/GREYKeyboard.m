@@ -555,8 +555,8 @@ static UIKeyboardImpl *GetKeyboardObject() {
 /**
  * Utility method to tap on a key on the keyboard.
  *
- * @param      key           The key to be tapped.
- * *param[out] errorOrNil    The error to be populated. If this is @c nil,
+ * @param key             The key to be tapped.
+ * @param[out] errorOrNil The error to be populated. If this is @c nil,
  *                           then an error message is logged.
  */
 static BOOL TapKey(id key, __strong NSError **errorOrNil) {
