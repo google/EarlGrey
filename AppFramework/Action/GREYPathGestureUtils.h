@@ -49,13 +49,13 @@
  * (0, 1) exclusive and the x and y axis are always the bottom and the left edge respectively of
  * the visible rect.
  *
- * @param      view                     The view from which the touch path originates.
- * @param      direction                The direction of the touch.
- * @param      length                   The length of the touch path. The length of the touch path
+ * @param view                          The view from which the touch path originates.
+ * @param direction                     The direction of the touch.
+ * @param length                        The length of the touch path. The length of the touch path
  *                                      is restricted by the screen dimensions, position of the
  *                                      view and the minimum scroll detection length (10 points as
  *                                      of iOS 8.0).
- * @param      startPointPercents       The start point of the touch path specified as percents in
+ * @param startPointPercents            The start point of the touch path specified as percents in
  *                                      the visible area of the @c view. Must be (0, 1) exclusive.
  * @param[out] outRemainingAmountOrNull The difference of the length and the amount,
  *                                      if the length falls short.

@@ -35,6 +35,7 @@
  *
  * @note Expose this signature in the older Xcode versions.
  * @param bundleID Bundle ID of application.
+ *
  * @return Reference to application.
  */
 - (nullable instancetype)initWithBundleIdentifier:(nonnull NSString *)bundleID;

@@ -69,6 +69,7 @@ GREY_EXTERN NSInteger const kGREYObjectFormatIndent;
  * @param indent   The spaces that will be applied to each element of the serialized array.
  * @param keyOrder Output the key-value pair in the order of the keys specified
  *                 in the keyOrder array.
+ *
  * @return Serialized JSON-like string of the provided @c array.
  */
 + (NSString *)formatArray:(NSArray *)array

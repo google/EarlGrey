@@ -213,6 +213,7 @@ static const NSTimeInterval kTouchInjectFramerateInv = 1 / 120.0;
  * @param touchInfo      The info that is used to create the UITouch.
  * @param ongoingTouches The array of UITouches that are being injected.
  * @param exception      The exception if it fails to inject.
+ *
  * @return @c YES if injection succeeds, @c NO otherwise.
  */
 - (BOOL)grey_injectTouches:(GREYTouchInfo *)touchInfo

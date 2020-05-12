@@ -119,8 +119,8 @@
 
 /**
  * Calculates the stepper's current value and updates it to the value it is to be changed to.
- * @param      stepper The UIStepper to be queried.
- * @param[out] error   Error that will be populated on failure.
+ * @param stepper    The UIStepper to be queried.
+ * @param[out] error Error that will be populated on failure.
  *
  * @return @c YES if the @c stepper was updated correctly.
  */
@@ -168,8 +168,8 @@
  * Checks the current UIStepper's value and the value required to find out the correct increment /
  * decrement buttons on the UIStepper.
  *
- * @param      stepper The UIStepper to be queried.
- * @param[out] error   Error that will be populated on failure.
+ * @param stepper    The UIStepper to be queried.
+ * @param[out] error Error that will be populated on failure.
  *
  * @return A GREYStepperButtons object with both the plusButton and minusButton property set,
  *         @c nil if there is any error.
@@ -207,7 +207,7 @@
  * provided @c stepper.
  *
  * @param[out] error Error that will be populated on failure.
- * @param      stepper    A UIStepper to be queried.
+ * @param stepper    A UIStepper to be queried.
  *
  * @return @c NO indicating that an error has been set.
  */
