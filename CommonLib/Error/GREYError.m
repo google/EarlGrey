@@ -40,7 +40,6 @@ NSString *const kErrorLineKey = @"Line";
 NSString *const kErrorFunctionNameKey = @"Function Name";
 NSString *const kErrorUserInfoKey = @"User Info";
 NSString *const kErrorErrorInfoKey = @"Error Info";
-NSString *const kErrorBundleIDKey = @"Bundle ID";
 NSString *const kErrorStackTraceKey = @"Stack Trace";
 NSString *const kErrorAppUIHierarchyKey = @"App UI Hierarchy";
 NSString *const kErrorAppScreenShotsKey = @"App Screenshots";
@@ -64,7 +63,6 @@ NSString *const kGREYScreenshotActualAfterImage =
 @property(nonatomic, readwrite) NSUInteger line;
 @property(nonatomic, readwrite) NSString *functionName;
 @property(nonatomic, readwrite) NSDictionary *errorInfo;
-@property(nonatomic, readwrite) NSString *bundleID;
 @property(nonatomic, readwrite) NSArray *stackTrace;
 @property(nonatomic, readwrite) NSString *appUIHierarchy;
 @property(nonatomic, readwrite) NSDictionary *appScreenshots;
@@ -80,7 +78,6 @@ GREYError *I_GREYErrorMake(NSString *domain, NSInteger code, NSDictionary *userI
   error.filePath = filePath;
   error.line = line;
   error.functionName = functionName;
-  error.bundleID = [[NSBundle mainBundle] bundleIdentifier];
   error.errorInfo = errorInfo;
   error.stackTrace = stackTrace;
   error.appUIHierarchy = appUIHierarchy;
@@ -95,7 +92,6 @@ GREYError *I_GREYErrorMake(NSString *domain, NSInteger code, NSDictionary *userI
   NSUInteger _line;
   NSString *_functionName;
   NSDictionary *_errorInfo;
-  NSString *_bundleID;
   NSArray *_stackTrace;
   NSString *_appUIHierarchy;
   NSDictionary *_appScreenshots;
@@ -134,7 +130,6 @@ GREYError *I_GREYErrorMake(NSString *domain, NSInteger code, NSDictionary *userI
   descriptionDictionary[kErrorFunctionNameKey] = _functionName;
   descriptionDictionary[kErrorUserInfoKey] = self.userInfo;
   descriptionDictionary[kErrorErrorInfoKey] = _errorInfo;
-  descriptionDictionary[kErrorBundleIDKey] = _bundleID;
   descriptionDictionary[kErrorStackTraceKey] = _stackTrace;
   descriptionDictionary[kErrorAppUIHierarchyKey] = _appUIHierarchy;
   descriptionDictionary[kErrorAppScreenShotsKey] = _appScreenshots;
@@ -162,7 +157,6 @@ GREYError *I_GREYErrorMake(NSString *domain, NSInteger code, NSDictionary *userI
 
     [mutableDescriptions removeObjectForKey:kErrorUserInfoKey];
     [mutableDescriptions removeObjectForKey:kErrorErrorInfoKey];
-    [mutableDescriptions removeObjectForKey:kErrorBundleIDKey];
     [mutableDescriptions removeObjectForKey:kErrorStackTraceKey];
     [mutableDescriptions removeObjectForKey:kErrorAppUIHierarchyKey];
     [mutableDescriptions removeObjectForKey:kErrorAppScreenShotsKey];

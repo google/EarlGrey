@@ -184,11 +184,6 @@ GREY_EXTERN NSString *const kGREYScreenshotActualAfterImage;
 @property(nonatomic, readonly) NSDictionary *errorInfo;
 
 /**
- * The bundle identifier where the error is generated in.
- */
-@property(nonatomic, readonly) NSString *bundleID;
-
-/**
  * The stack trace when the error is generated.
  */
 @property(nonatomic, readonly) NSArray *stackTrace;
