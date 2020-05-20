@@ -54,7 +54,8 @@ static const CFTimeInterval kPollInterval = 5.0;
   return [condition waitWithTimeout:10.0 pollInterval:kPollInterval];
 #else
   NSString *errorDescription =
-      @"Cannot perform backgrounding because it is not supported with the current system version.\nUse at least iOS 11.";
+      @"Cannot perform backgrounding because it is not supported with the current system version."
+      @"Use at least iOS 11.0";
   GREYError *notSupportedError =
       GREYErrorMake(kGREYDeeplinkErrorDomain, GREYDeeplinkNotSupported, errorDescription);
   I_GREYFail(@"%@\nError: %@", @"Unsupported system for backgrounding.",
