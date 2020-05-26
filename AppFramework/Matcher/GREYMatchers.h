@@ -46,6 +46,16 @@ NS_ASSUME_NONNULL_BEGIN
 + (id<GREYMatcher>)matcherForAccessibilityLabel:(NSString *)label;
 
 /**
+ *  Matcher for UI element with the provided accessibility @c label.
+ *
+ *  @param labelSubString The accessibility label to be matched.
+ *  @param ignoreCase ignore case while comparision.
+ *
+ *  @return A matcher for the accessibility label of an accessible element.
+ */
++ (id<GREYMatcher>)matcherForAccessibilityLabelContains:(NSString *) labelSubString ignoreCase:(BOOL) ignoreCase;
+
+/**
  * Matcher for UI element with the provided accessibility ID @c accessibilityID.
  *
  * @param accessibilityID The accessibility ID to be matched.

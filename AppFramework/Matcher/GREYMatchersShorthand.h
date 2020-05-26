@@ -31,6 +31,9 @@ GREY_EXPORT id<GREYMatcher> grey_keyWindow(void);
 /** Shorthand for GREYMatchers::matcherForAccessibilityLabel:. */
 GREY_EXPORT id<GREYMatcher> grey_accessibilityLabel(NSString *label);
 
+/** Shorthand for GREYMatchers::matcherForAccessibilityLabelContains:. */
+GREY_EXPORT id<GREYMatcher> grey_accessibilityLabelContains(NSString *labelSubString, BOOL ignoreCase);
+
 /** Shorthand for GREYMatchers::matcherForAccessibilityID:. */
 GREY_EXPORT id<GREYMatcher> grey_accessibilityID(NSString *accessibilityID);
 

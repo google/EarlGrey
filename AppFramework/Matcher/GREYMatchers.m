@@ -167,6 +167,27 @@ static Class gEDOObjectClass;
                                 matchers:matchersArray];
 }
 
++ (id<GREYMatcher>)matcherForAccessibilityLabelContains:(NSString *) labelSubString ignoreCase:(BOOL) ignoreCase {
+  NSString *prefix = @"accessibilityLabel contains";
+  GREYMatchesBlock matches = ^BOOL(NSObject *element) {
+      NSString *accessibilityLabelString = [self grey_convertToString:element.accessibilityLabel];
+      if(ignoreCase) {
+          return accessibilityLabelString && [accessibilityLabelString localizedCaseInsensitiveContainsString:labelSubString];
+      } else {
+          return accessibilityLabelString && [accessibilityLabelString containsString:labelSubString];
+      }
+  };
+  GREYDescribeToBlock describe = ^void(id<GREYDescription> description) {
+    [description appendText:[NSString stringWithFormat:@"%@('%@') with case ignorance ('%@')", prefix, labelSubString, ignoreCase? @"TRUE" : @"FALSE"]];
+  };
+  NSArray *matchersArray = @[
+    [GREYMatchers matcherForAccessibilityElement],
+    [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe],
+  ];
+  return [[GREYAllOf alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
+                                matchers:matchersArray];
+}
+
 + (id<GREYMatcher>)matcherForAccessibilityID:(NSString *)accessibilityID {
   NSString *prefix = @"accessibilityID";
   GREYMatchesBlock matches = ^BOOL(id<UIAccessibilityIdentification> element) {
@@ -907,6 +928,20 @@ static Class gEDOObjectClass;
   }
 
   return [firstStringValue isEqualToString:secondStringValue];
+}
+
++ (NSString *) grey_convertToString:(id) stringId {
+  // Beginning in iOS 7, accessibility strings, including accessibilityLabel, accessibilityHint,
+  // and accessibilityValue, may be instances of NSAttributedString.  This allows the application
+  // developer to control aspects of the spoken output such as pitch and language.
+  // NSAttributedString, however, does not inherit from NSString, so a check needs to be performed
+  // so the underlying NSString value can be extracted for comparison.
+  if ([stringId isKindOfClass:[NSString class]]) {
+    return stringId;
+  } else if ([stringId isKindOfClass:[NSAttributedString class]]) {
+    return [stringId string];
+  }
+    return nil;
 }
 
 @end

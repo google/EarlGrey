@@ -29,6 +29,10 @@ id<GREYMatcher> grey_accessibilityLabel(NSString *label) {
   return [GREYMatchers matcherForAccessibilityLabel:label];
 }
 
+id<GREYMatcher> grey_accessibilityLabelContains(NSString *labelSubString, BOOL ignoreCase) {
+    return [GREYMatchers matcherForAccessibilityLabelContains:labelSubString ignoreCase:ignoreCase];
+}
+
 id<GREYMatcher> grey_accessibilityID(NSString *accessibilityID) {
   return [GREYMatchers matcherForAccessibilityID:accessibilityID];
 }
