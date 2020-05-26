@@ -73,17 +73,15 @@ static void InitiateCommunicationWithTest() {
   });
 }
 
-__attribute__((constructor)) static void InitHostApplication() { InitiateCommunicationWithTest(); }
-
 @implementation GREYHostApplicationDistantObject
 
 + (instancetype)sharedInstance {
   static dispatch_once_t onceToken;
-  static GREYHostApplicationDistantObject *application;
+  static GREYHostApplicationDistantObject *appDistantObject;
   dispatch_once(&onceToken, ^{
-    application = [[self alloc] initOnce];
+    appDistantObject = [[self alloc] initOnce];
   });
-  return application;
+  return appDistantObject;
 }
 
 + (uint16_t)testPort {
