@@ -60,11 +60,6 @@ GREY_EXTERN NSString *const kErrorFunctionNameKey;
 GREY_EXTERN NSString *const kErrorUserInfoKey;
 
 /**
- * Key used to retrieve the error info from an error object dictionary.
- */
-GREY_EXTERN NSString *const kErrorErrorInfoKey;
-
-/**
  * Key used to retrieve the bundle ID from an error object dictionary.
  */
 GREY_EXTERN NSString *const kErrorBundleIDKey;
@@ -97,7 +92,6 @@ GREY_EXTERN NSString *const kErrorDescriptionGlossaryKey;
 @property(nonatomic) NSUInteger line;
 @property(nonatomic) NSString *functionName;
 @property(nonatomic) NSDictionary *errorInfo;
-@property(nonatomic) NSString *bundleID;
 @property(nonatomic) NSArray *stackTrace;
 @property(nonatomic) NSString *appUIHierarchy;
 @property(nonatomic) NSDictionary *appScreenshots;

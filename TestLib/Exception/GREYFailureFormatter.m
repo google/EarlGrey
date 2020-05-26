@@ -101,9 +101,6 @@
   }
 
   // additional info to format
-  if (![excluding containsObject:kErrorDescriptionKey]) {
-    [logger addObject:[NSString stringWithFormat:@"Bundle ID: %@\n", error.bundleID]];
-  }
   if (![excluding containsObject:kErrorStackTraceKey]) {
     [logger addObject:[NSString stringWithFormat:@"Stack Trace: %@\n", error.stackTrace]];
   }
