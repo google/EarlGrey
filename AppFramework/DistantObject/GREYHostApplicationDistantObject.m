@@ -85,8 +85,9 @@ static void InitiateCommunicationWithTest() {
 }
 
 + (uint16_t)testPort {
-  // It's possible that +testPort is called before +load, in which case, the class loaders are
-  // accessing the test process, so we initialize the port number here.
+  // The testPort is lazily initialized as EarlGrey's synchronization requires properties
+  // from the test component's GREYConfiguration before any initialization in an attribute
+  // constructor can be done.
   if (gGREYPortForTestApplication == 0) {
     InitiateCommunicationWithTest();
     GREYFatalAssertWithMessage(gGREYPortForTestApplication != 0,
