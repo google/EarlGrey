@@ -391,15 +391,14 @@
 }
 
 /**
- * Ensure tapping on a disabled UIControl fails.
+ * Disabled UIControl should still be tapped if requested.
  */
 - (void)testTappingOnADisabledButton {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
   NSError *error;
   [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"Disabled")] performAction:grey_tap()
                                                                              error:&error];
-  XCTAssertEqualObjects(error.domain, kGREYInteractionErrorDomain);
-  XCTAssertEqual(error.code, kGREYInteractionConstraintsFailedErrorCode);
+  XCTAssertNil(error);
 }
 
 /**
