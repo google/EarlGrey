@@ -91,7 +91,7 @@ static CGFloat const kPinchScale = (CGFloat)0.8;
         [viewToPinch isKindOfClass:[UIWindow class]] ? (UIWindow *)viewToPinch : viewToPinch.window;
 
     if (!window) {
-      NSString *errorDescription = [NSString stringWithFormat:@"Cannot pinch on this view"
+      NSString *errorDescription = [NSString stringWithFormat:@"Cannot pinch on this view "
                                                               @"as it has no window "
                                                               @"and it isn't a window itself:"
                                                               @"\n%@", element];
@@ -125,7 +125,7 @@ static CGFloat const kPinchScale = (CGFloat)0.8;
                                @"Make sure the element lies in the window"];
     NSString *reason = [NSString
         stringWithFormat:@"Cannot apply pinch action on the element."
-                         @"Error Details: %@", errorDetails];
+                         @"\nError Details: %@", errorDetails];
     I_GREYPopulateError(error, kGREYPinchErrorDomain, kGREYPinchFailedErrorCode, reason);
     return nil;
   }

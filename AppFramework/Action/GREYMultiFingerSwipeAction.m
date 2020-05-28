@@ -108,7 +108,7 @@
         NSString *errorDescription =
             [NSString stringWithFormat:
                           @"Cannot perform multi-finger swipe on the following view, as it has "
-                          @"no window and it isn't a window itself:"
+                          @"no window and it isn't a window itself:\n"
                           @"%@", [element grey_description]];
         I_GREYPopulateError(error, kGREYSyntheticEventInjectionErrorDomain,
                                  kGREYOrientationChangeFailedErrorCode, errorDescription);

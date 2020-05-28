@@ -142,7 +142,7 @@
       if (!window) {
         NSString *description =
             [NSString stringWithFormat:@"Element is not attached to a window:"
-                                       @"%@", [element grey_description]];
+                                       @"\n%@", [element grey_description]];
         I_GREYPopulateError(error, kGREYInteractionErrorDomain,
                             kGREYInteractionActionFailedErrorCode, description);
         return NO;

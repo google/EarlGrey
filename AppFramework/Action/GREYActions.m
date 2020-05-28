@@ -577,10 +577,11 @@ static Protocol *gTextInputProtocol;
               grey_dispatch_sync_on_main_thread(^{
                 elementDescription = [element grey_description];
               });
-              NSString *description = [NSString stringWithFormat:
-                                       @"Keyboard did not appear after tapping on an element."
-                                       @"Are you sure that tapping on this element will bring up the keyboard?"
-                                       @"\nElement: %@", element];
+              NSString *description
+                  = [NSString stringWithFormat:
+                      @"Keyboard did not appear after tapping on an element. "
+                      @"\nAre you sure that tapping on this element will bring up the keyboard?"
+                      @"\nElement: \n%@", element];
               I_GREYPopulateError(errorOrNil, kGREYInteractionErrorDomain,
                                   kGREYInteractionActionFailedErrorCode, description);
               return NO;
@@ -589,7 +590,7 @@ static Protocol *gTextInputProtocol;
 
           // If a position is given, move the text cursor to that position.
           __block id firstResponder = nil;
-          __block NSMutableString *description = nil;
+          __block NSString *description = nil;
           grey_dispatch_sync_on_main_thread(^{
             firstResponder = [[expectedFirstResponderView window] firstResponder];
             if (position) {
@@ -598,9 +599,11 @@ static Protocol *gTextInputProtocol;
                                                                    toPosition:position];
                 [firstResponder setSelectedTextRange:newRange];
               } else {
-                [description appendFormat:@"First Responder of Element does not conform to UITextInput protocol."];
-                [description appendFormat:@"\nFirst Responder: %@", [firstResponder description]];
-                [description appendFormat:@"\nElement: %@", [expectedFirstResponderView description]];
+                description
+                    = [NSString stringWithFormat:
+                        @"First Responder of Element does not conform to UITextInput protocol."
+                        @"\nFirst Responder: %@ \nElement: %@", [firstResponder description],
+                        [expectedFirstResponderView description]];
               }
             }
           });
