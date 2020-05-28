@@ -15,7 +15,6 @@
 //
 
 import Foundation
-
 public func GREYAssert(
   _ expression: @autoclosure () -> Bool,
   _ reason: @autoclosure () -> String = "Assert on expression Failed"
@@ -38,7 +37,7 @@ public func GREYAssertFalse(
 }
 
 public func GREYAssertNotNil(
-  _ expression: @autoclosure ()-> Any?,
+  _ expression: @autoclosure () -> Any?,
   _ reason: @autoclosure () -> String = "Expression is nil"
 ) {
   GREYAssert(expression() != nil, reason(), "Expected expression to be not nil")
@@ -62,7 +61,7 @@ public func GREYAssertEqual<T: Equatable>(
 public func GREYAssertNotEqual<T: Equatable>(
   _ left: @autoclosure () -> T?,
   _ right: @autoclosure () -> T?,
-  _ reason: @autoclosure () -> String  = "Expression's compared values are equal"
+  _ reason: @autoclosure () -> String = "Expression's compared values are equal"
 ) {
   GREYAssert(
     left() != right(),
@@ -146,6 +145,17 @@ public struct EarlGrey {
       .handle(exception, details: details)
   }
 
+  @available(iOS 11.0, *)
+  public static func openDeepLinkURL(
+    _ url: String,
+    with application: XCUIApplication,
+    file: StaticString = #file,
+    line: UInt = #line
+  ) throws {
+    try EarlGreyImpl.invoked(fromFile: file.description, lineNumber: line)
+      .openDeepLinkURL(url, with: application)
+  }
+
   public static func remoteClassInApp(
     _ classVal: AnyClass,
     file: StaticString = #file,
@@ -179,7 +189,6 @@ extension GREYInteraction {
     return self.__perform(action, error: error)
   }
 
-
   @discardableResult public func usingSearch(
     action: GREYAction,
     onElementWith matcher: GREYMatcher
@@ -187,4 +196,3 @@ extension GREYInteraction {
     return self.__usingSearch(action, onElementWith: matcher)
   }
 }
-
