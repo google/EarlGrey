@@ -102,7 +102,6 @@
       [GREYMatchers matcherForNegation:systemAlertShownMatcher];
   NSArray<id<GREYMatcher>> *constraintMatchers = @[
     systemAlertNotShownMatcher, [[GREYAnyOf alloc] initWithMatchers:anyOfMatchers],
-    [GREYMatchers matcherForEnabledElement]
   ];
   self = [super initWithName:name
                  constraints:[[GREYAllOf alloc] initWithMatchers:constraintMatchers]];

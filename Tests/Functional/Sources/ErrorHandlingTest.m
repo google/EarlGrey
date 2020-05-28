@@ -21,11 +21,21 @@
 #import "EarlGrey.h"
 #import "GREYHostApplicationDistantObject+ErrorHandlingTest.h"
 #import "FailureHandler.h"
+#import "GREYVisibilityChecker+Private.h"
+#import "GREYVisibilityChecker.h"
+#import "EDOClientService.h"
 
 @interface ErrorHandlingTest : BaseIntegrationTest
 @end
 
 @implementation ErrorHandlingTest
+
+- (void)tearDown {
+  // Make sure to reset the images so it doesn't affect the screenshot checks on the preceding test
+  // methods. This is necessary for some of the tests because it's try catching exception.
+  [GREY_REMOTE_CLASS_IN_APP(GREYVisibilityChecker) resetVisibilityImages];
+  [super tearDown];
+}
 
 /**
  * Checks the error information for a timeout when a search action fails.
@@ -234,9 +244,7 @@
   } @catch (NSException *exception) {
     NSDictionary<NSString *, id> *userInfo = exception.userInfo;
     NSDictionary<NSString *, UIImage *> *screenshots = userInfo[kErrorDetailAppScreenshotsKey];
-    // TODO(b/156299938): This fails in open source project because the count method of the
-    // screenshots EDOObject is giving the wrong value unless explicitly casted to an integer.
-    XCTAssertEqual((int)screenshots.count, 2);
+    XCTAssertEqual(screenshots.count, 2);
     XCTAssertNotNil(screenshots[kGREYAppScreenshotAtFailure]);
     XCTAssertNotNil(screenshots[kGREYTestScreenshotAtFailure]);
     XCTAssertNotNil(userInfo[kErrorDetailAppUIHierarchyKey]);
