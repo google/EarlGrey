@@ -37,22 +37,15 @@
     GREYStringDescription *mismatch = [[GREYStringDescription alloc] init];
     if (![matcher matches:element describingMismatchTo:mismatch]) {
       NSMutableString *reason = [[NSMutableString alloc] init];
-      NSMutableDictionary<NSString *, NSString *> *glossary = [[NSMutableDictionary alloc] init];
       if (!element) {
-        [reason appendFormat:@"Assertion with [Matcher] failed: No UI element was matched."];
-        glossary[@"Matcher"] = [matcher description];
-
-        I_GREYPopulateErrorNoted(errorOrNil, kGREYInteractionErrorDomain,
-                                 kGREYInteractionElementNotFoundErrorCode, reason, glossary);
+        [reason appendFormat:@"Assertion with Matcher failed: No UI element was matched."];
+        [reason appendFormat:@"Matcher: %@", [matcher description]];
+        I_GREYPopulateError(errorOrNil, kGREYInteractionErrorDomain,
+                            kGREYInteractionElementNotFoundErrorCode, reason);
       } else {
-        [reason appendFormat:@"Assertion with [Matcher] failed: UI [Element] failed to match "
-                             @"the following matcher(s): [Mismatch]"];
-        glossary[@"Matcher"] = [matcher description];
-        glossary[@"Element"] = [element grey_description];
-        glossary[@"Mismatch"] = [mismatch description];
-
-        I_GREYPopulateErrorNoted(errorOrNil, kGREYInteractionErrorDomain,
-                                 kGREYInteractionAssertionFailedErrorCode, reason, glossary);
+        [reason appendFormat:@"An assertion failed."];
+        I_GREYPopulateError(errorOrNil, kGREYInteractionErrorDomain,
+                            kGREYInteractionAssertionFailedErrorCode, reason);
       }
       return NO;
     }
