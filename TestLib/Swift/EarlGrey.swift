@@ -153,7 +153,7 @@ public struct EarlGrey {
     line: UInt = #line
   ) throws {
     try EarlGreyImpl.invoked(fromFile: file.description, lineNumber: line)
-      .openDeepLinkURL(url, with: application)
+      .openDeeplinkURL(url, in: application)
   }
 
   public static func remoteClassInApp(
