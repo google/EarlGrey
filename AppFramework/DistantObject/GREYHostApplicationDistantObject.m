@@ -22,8 +22,12 @@
 #import "GREYHostBackgroundDistantObject.h"
 #import "GREYTestApplicationDistantObject+Private.h"
 #import "GREYTestApplicationDistantObject.h"
+#import "GREYFrameworkException.h"
+#import "EDOHostPort.h"
 #import "EDOClientService.h"
 #import "EDOHostService.h"
+#import "EDOServiceError.h"
+#import "EDOServiceException.h"
 #import "EDOServicePort.h"
 
 /** The port number for the app under test. */
@@ -57,6 +61,27 @@ static void InitiateCommunicationWithTest() {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     // Init with the port number so we can make a remote call after.
     gGREYPortForTestApplication = (uint16_t)[userDefaults integerForKey:@"edoTestPort"];
+
+    // Registers custom handler of EDO connection failure and translates the error message to UI
+    // testing scenarios to users. The custom handler will fall back to use EDO's default error
+    // handler if the state of the test doesn't conform to any pattern of the UI testing failure.
+    __block EDOClientErrorHandler previousErrorHandler;
+    previousErrorHandler = EDOSetClientErrorHandler(^(NSError *error) {
+      if (error.code == EDOServiceErrorCannotConnect) {
+        EDOHostPort *hostPort = error.userInfo[EDOErrorPortKey];
+        if (gGREYPortForTestApplication == hostPort.port) {
+          NSString *errorInfo =
+              @"App-under-test is unable to connect to the test process. Here are the reasons that "
+              @"may have caused it:\n"
+              @"    1. Your test doesn't link to EarlGrey's TestLib.\n"
+              @"    2. You launched the app-under-test directly and not through a test."
+              @"    3. You overrode the 'edoTestPort' launch arg when launching the app-under-test";
+          [[GREYFrameworkException exceptionWithName:kGREYGenericFailureException
+                                              reason:errorInfo] raise];
+        }
+      }
+      previousErrorHandler(error);
+    });
 
     // If the app is launched without the port assigned, we silently ignore the error and only
     // report it when the code is attempting to access the test process.
