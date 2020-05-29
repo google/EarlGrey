@@ -548,7 +548,7 @@
       @"Unexpected error message for second dismiss: %@, original error: %@",
       localizedErrorDescription, error);
 }
- 
+
 - (void)testDismissingKeyboardWhenReturnIsNotPresent {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"KeyboardPicker")]
       performAction:grey_setPickerColumnToValue(0, @"PhonePad")];
