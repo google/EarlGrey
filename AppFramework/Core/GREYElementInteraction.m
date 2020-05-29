@@ -567,7 +567,7 @@
         errorDetails[kErrorDetailElementMatcherKey] = _elementMatcher.description;
         errorDetails[kErrorDetailRecoverySuggestionKey] =
             @"Check if the element exists in the UI hierarchy printed below. If it exists, adjust "
-            @"the matcher so that it accurately matches element.";
+            @"the matcher so that it accurately matches the element.";
         if (searchAPIInfo) {
           // errorDetails[kErrorDetailSearchActionInfoKey] = searchAPIInfo;
         }
@@ -732,7 +732,7 @@
         errorDetails[kErrorDetailElementMatcherKey] = _elementMatcher.description;
         errorDetails[kErrorDetailRecoverySuggestionKey] =
             @"Check if the element exists in the UI hierarchy printed below. If it exists, "
-            @"adjust the matcher so that it accurately matches element.";
+            @"adjust the matcher so that it accurately matches the element.";
         if (searchAPIInfo) {
           errorDetails[kErrorDetailSearchActionInfoKey] = searchAPIInfo;
         }
@@ -876,7 +876,7 @@
     // an index.
     errorDescription = [NSString stringWithFormat:@"Multiple elements were matched: %@. Please "
                                                   @"use selection matchers to narrow the "
-                                                  @"selection down to single element.",
+                                                  @"selection down to a single element.",
                                                   elementDescriptions];
     errorCode = kGREYInteractionMultipleElementsMatchedErrorCode;
   }
