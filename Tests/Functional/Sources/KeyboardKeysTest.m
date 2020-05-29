@@ -534,7 +534,7 @@
   XCTAssertFalse([EarlGrey dismissKeyboardWithError:&error]);
   NSString *localizedErrorDescription = [error localizedDescription];
   GREYAssertTrue(
-      [localizedErrorDescription hasPrefix:@"Failed to dismiss keyboard since it was not showing."],
+      [localizedErrorDescription hasPrefix:@"Failed to dismiss keyboard."],
       @"Unexpected error message for initial dismiss: %@, original error: %@",
       localizedErrorDescription, error);
 
@@ -544,7 +544,7 @@
   XCTAssertFalse([EarlGrey dismissKeyboardWithError:&error]);
   localizedErrorDescription = [error localizedDescription];
   GREYAssertTrue(
-      [localizedErrorDescription hasPrefix:@"Failed to dismiss keyboard since it was not showing."],
+      [localizedErrorDescription hasPrefix:@"Failed to dismiss keyboard."],
       @"Unexpected error message for second dismiss: %@, original error: %@",
       localizedErrorDescription, error);
 }
