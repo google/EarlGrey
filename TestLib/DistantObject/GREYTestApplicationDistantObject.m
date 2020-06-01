@@ -36,6 +36,7 @@
 #import "EDOServicePort.h"
 #import "NSObject+EDOBlacklistedType.h"
 
+
 /** Checks if main queue has eDO host service. */
 static BOOL IsEDOServiceHostedOnMainQueue(void) {
   return [EDOHostService serviceForOriginatingQueue:dispatch_get_main_queue()] != nil;
@@ -68,6 +69,19 @@ static const void *gGREYTestExecutingQueueKey = &gGREYTestExecutingQueueKey;
 - (BOOL)isPermanentAppHostPort:(uint16_t)port;
 @end
 
+/** Constructs error recovery suggestion message. */
+static NSString *GetErrorRecoverySuggestion() {
+  NSString *recoverySuggestion =
+      @"Unless your tests explicitly relaunch the app, it won't be restarted. Any requests from "
+      @"the test to the app side will fail. Use "
+      @"GREYTestApplicationDistantObject.hostApplicationRelaunchHandler to register a callback "
+      @"that will be invoked when your app crashes. In this callback you can clean up your "
+      @"test-side remote objects and relaunch your app.";
+  NSString *troubleShootInfo =
+      @" To troubleshoot more, take a look at crash files in ~/Library/Logs/DiagnosticReports";
+  return [NSString stringWithFormat:@"%@%@", recoverySuggestion, troubleShootInfo];
+}
+
 /** Intializes test-side distant object and failure handler. */;
 __attribute__((constructor)) static void SetupTestDistantObject() {
   // Registers custom handler of EDO connection failure and translates the error message to UI
@@ -82,13 +96,12 @@ __attribute__((constructor)) static void SetupTestDistantObject() {
       if ([testDistantObject isPermanentAppHostPort:hostPort.port]) {
         testDistantObject.hostApplicationTerminated = YES;
         NSString *errorInfo;
+        NSString *exceptionReason = @"App crashed and disconnected.";
+        NSString *recoverySuggestion = GetErrorRecoverySuggestion();
+        // END-GOOGLE-INTERNAL
         errorInfo =
-            @"App crashed and disconnected. Unless your tests explicitly relaunch the app, it "
-            @"won't be restarted. Any requests from the test to the app side will fail. Use "
-            @"GREYTestApplicationDistantObject.hostApplicationRelaunchHandler to register a "
-            @"callback that will be invoked when your app crashes. In this callback you can "
-            @"clean up your test-side remote objects and relaunch your app. To troubleshoot more, "
-            @"take a look at crash files in ~/Library/Logs/DiagnosticReports";
+            [NSString stringWithFormat:@"\n\nException Reason:\n%@\n\nRecovery Suggestion:\n%@",
+                                       exceptionReason, recoverySuggestion];
         [[GREYFrameworkException exceptionWithName:kGREYGenericFailureException
                                             reason:errorInfo] raise];
       }
