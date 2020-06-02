@@ -18,6 +18,7 @@
 
 #import "GREYError.h"
 #import "GREYObjectFormatter.h"
+#import "GREYConstants.h"
 #import "EarlGrey.h"
 #import "GREYHostApplicationDistantObject+ErrorHandlingTest.h"
 #import "FailureHandler.h"
@@ -110,7 +111,11 @@
   XCTAssertTrue([error.description containsString:errorDescription]);
 }
 
-- (void)testDescriptionForSearchAction {
+/**
+ * Ensures that on failures in a search action with an EarlGrey assertion, the API, matcher and
+ * failure are printed.
+ **/
+- (void)testDescriptionForSearchActionWithAssertion {
   [self openTestViewNamed:@"Scroll Views"];
   id<GREYMatcher> matcher = grey_allOf(grey_accessibilityLabel(@"Label 2"), grey_interactable(),
                                        grey_sufficientlyVisible(), nil);
@@ -120,10 +125,89 @@
       onElementWithMatcher:grey_accessibilityLabel(@"Invalid Scroll View")]
       assertWithMatcher:grey_sufficientlyVisible()
                   error:&error];
+  NSString *searchAPIDescription = @"\"Search API Info\" : \"Search Action:";
+  NSString *searchAPIMatcherDescription = @"                    \"Search Matcher";
   NSString *searchActionDescription = @"Search action failed: Interaction cannot continue";
   NSString *elementMatcherDescription = @"Element Matcher\" : \"(((respondsToSelector";
-  XCTAssertTrue([error.description containsString:searchActionDescription]);
-  XCTAssertTrue([error.description containsString:elementMatcherDescription]);
+  XCTAssertTrue([error.description containsString:searchAPIDescription],
+                @"Search API Prefix and Action info: %@ not present in Error Description: %@",
+                searchAPIDescription, error.description);
+  XCTAssertTrue([error.description containsString:searchAPIMatcherDescription],
+                @"Search API Matcher info: %@ not present in Error Description: %@",
+                searchAPIMatcherDescription, error.description);
+  XCTAssertTrue([error.description containsString:searchActionDescription],
+                @"Search Action Failure Description: %@ not present in Error Description: %@",
+                searchActionDescription, error.description);
+  XCTAssertTrue([error.description containsString:elementMatcherDescription],
+                @"Element Matcher Info: %@ not present in Error Description: %@",
+                elementMatcherDescription, error.description);
+
+  [[[EarlGrey selectElementWithMatcher:matcher]
+         usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 50)
+      onElementWithMatcher:grey_kindOfClass([UIView class])]
+      assertWithMatcher:grey_sufficientlyVisible()
+                  error:&error];
+  searchActionDescription = @"Search action failed: Multiple elements were matched:";
+  XCTAssertTrue([error.description containsString:searchAPIDescription],
+                @"Search API Prefix and Action info: %@ not present in Error Description: %@",
+                searchAPIDescription, error.description);
+  XCTAssertTrue([error.description containsString:searchAPIMatcherDescription],
+                @"Search API Matcher info: %@ not present in Error Description: %@",
+                searchAPIMatcherDescription, error.description);
+  XCTAssertTrue([error.description containsString:searchActionDescription],
+                @"Search Action Failure Description: %@ not present in Error Description: %@",
+                searchActionDescription, error.description);
+  XCTAssertTrue([error.description containsString:elementMatcherDescription],
+                @"Element Matcher Info: %@ not present in Error Description: %@",
+                elementMatcherDescription, error.description);
+}
+
+/**
+ * Ensures that on failures in a search action with an EarlGrey action, the API, matcher and
+ * failure are printed.
+ **/
+- (void)testDescriptionForSearchActionWithAction {
+  [self openTestViewNamed:@"Scroll Views"];
+  id<GREYMatcher> matcher = grey_allOf(grey_accessibilityLabel(@"Label 2"), grey_interactable(),
+                                       grey_sufficientlyVisible(), nil);
+  NSError *error;
+  [[[EarlGrey selectElementWithMatcher:matcher]
+         usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 50)
+      onElementWithMatcher:grey_accessibilityLabel(@"Invalid Scroll View")] performAction:grey_tap()
+                                                                                    error:&error];
+  NSString *searchAPIDescription = @"\"Search API Info\" : \"Search Action:";
+  NSString *searchAPIMatcherDescription = @"                    \"Search Matcher";
+  NSString *searchActionDescription = @"Search action failed: Interaction cannot continue";
+  NSString *elementMatcherDescription = @"Element Matcher\" : \"(((respondsToSelector";
+  XCTAssertTrue([error.description containsString:searchAPIDescription],
+                @"Search API Prefix and Action info: %@ not present in Error Description: %@",
+                searchAPIDescription, error.description);
+  XCTAssertTrue([error.description containsString:searchAPIMatcherDescription],
+                @"Search API Matcher info: %@ not present in Error Description: %@",
+                searchAPIMatcherDescription, error.description);
+  XCTAssertTrue([error.description containsString:searchActionDescription],
+                @"Search Action Failure Description: %@ not present in Error Description: %@",
+                searchActionDescription, error.description);
+  XCTAssertTrue([error.description containsString:elementMatcherDescription],
+                @"Element Matcher Info: %@ not present in Error Description: %@",
+                elementMatcherDescription, error.description);
+
+  [[[EarlGrey selectElementWithMatcher:matcher]
+         usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 50)
+      onElementWithMatcher:grey_kindOfClass([UIView class])] performAction:grey_tap() error:&error];
+  searchActionDescription = @"Search action failed: Multiple elements were matched:";
+  XCTAssertTrue([error.description containsString:searchAPIDescription],
+                @"Search API Prefix and Action info: %@ not present in Error Description: %@",
+                searchAPIDescription, error.description);
+  XCTAssertTrue([error.description containsString:searchAPIMatcherDescription],
+                @"Search API Matcher info: %@ not present in Error Description: %@",
+                searchAPIMatcherDescription, error.description);
+  XCTAssertTrue([error.description containsString:searchActionDescription],
+                @"Search Action Failure Description: %@ not present in Error Description: %@",
+                searchActionDescription, error.description);
+  XCTAssertTrue([error.description containsString:elementMatcherDescription],
+                @"Element Matcher Info: %@ not present in Error Description: %@",
+                elementMatcherDescription, error.description);
 }
 
 - (void)testRotationDescriptionGlossary {

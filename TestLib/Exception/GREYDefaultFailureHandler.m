@@ -57,11 +57,11 @@
 
   NSString *logName = [NSString stringWithFormat:@"%@: %@", @"Exception Name", exception.name];
   [logMessage appendString:logName];
-  NSString *logReason = [NSString stringWithFormat:@"\n%@: %@", @"Exception Reason", reason];
+  NSString *logReason = [NSString stringWithFormat:@"\n%@: %@\n", @"Exception Reason", reason];
   [logMessage appendString:logReason];
 
   if (details.length > 0) {
-    NSString *logDetails = [NSString stringWithFormat:@"\n%@: %@", @"Element Matcher", details];
+    NSString *logDetails = [NSString stringWithFormat:@"Exception Details: %@", details];
     [logMessage appendString:logDetails];
   }
 

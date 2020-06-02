@@ -34,6 +34,7 @@
 #import "GREYThrowDefines.h"
 #import "GREYConfiguration.h"
 #import "GREYError+Private.h"
+#import "GREYError.h"
 #import "GREYErrorConstants.h"
 #import "GREYObjectFormatter.h"
 #import "GREYDefines.h"
@@ -569,7 +570,7 @@
             @"Check if the element exists in the UI hierarchy printed below. If it exists, adjust "
             @"the matcher so that it accurately matches the element.";
         if (searchAPIInfo) {
-          // errorDetails[kErrorDetailSearchActionInfoKey] = searchAPIInfo;
+          errorDetails[kErrorDetailSearchActionInfoKey] = searchAPIInfo;
         }
 
         NSArray *keyOrder = @[
@@ -889,9 +890,17 @@
  * @return A String description of the current search action.
  */
 - (NSString *)grey_searchActionDescription {
+  // TODO(b/157709448): This custom check must be removed and replaced with GREYObjectFormatter or
+  // used directly as a string in the error.
   if (_searchAction) {
-    return [NSString stringWithFormat:@"Search action: %@. \nSearch action element matcher: %@.",
-                                      _searchAction, _searchActionElementMatcher];
+    // Indent this by the length of the ""Search API Info" : " key to ensure proper formatting.
+    // 7 is the length of padding for the whitespaces, quotes and the colon.
+    NSUInteger paddingLength = kErrorDetailSearchActionInfoKey.length + 7;
+    NSString *indentForSearchMatcher = [@"" stringByPaddingToLength:paddingLength
+                                                         withString:@" "
+                                                    startingAtIndex:0];
+    return [NSString stringWithFormat:@"Search Action: %@\n%@\"Search Matcher: %@", _searchAction,
+                                      indentForSearchMatcher, _searchActionElementMatcher];
   } else {
     return nil;
   }
