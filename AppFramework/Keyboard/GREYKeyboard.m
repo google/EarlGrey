@@ -308,7 +308,7 @@ __attribute__((constructor)) static void RegisterKeyboardLifecycleHooks() {
                                        executionError = GREYErrorMakeWithHierarchy(
                                            kGREYKeyboardDismissalErrorDomain,
                                            GREYKeyboardDismissalFailedErrorCode,
-                                           @"Failed to dismiss keyboard as it was not shown.");
+                                           @"The keyboard was not showing.");
                                      } else {
                                        UIApplication *sharedApp = UIApplication.sharedApplication;
                                        [sharedApp sendAction:@selector(resignFirstResponder)

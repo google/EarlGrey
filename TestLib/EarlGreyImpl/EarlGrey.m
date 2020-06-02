@@ -164,10 +164,9 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
     return [GREYKeyboard dismissKeyboardWithoutReturnKeyWithError:&dismissalError];
   });
   if (!success) {
-    NSString *errorDescription =
-        [NSString stringWithFormat:@"Failed to dismiss keyboard since it was not showing. "
-                                   @"Internal Error: %@",
-                                   dismissalError.localizedDescription];
+    NSString *errorDescription = [NSString stringWithFormat:@"Failed to dismiss keyboard.\n"
+                                                            @"Internal Keyboard Error: %@",
+                                                            dismissalError.localizedDescription];
     dismissalError = GREYErrorMake(kGREYKeyboardDismissalErrorDomain,
                                    GREYKeyboardDismissalFailedErrorCode, errorDescription);
     if (error) {

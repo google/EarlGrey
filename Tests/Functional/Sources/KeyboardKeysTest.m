@@ -21,6 +21,7 @@
 #import "GREYActions.h"
 #import "GREYKeyboard.h"
 #import "GREYConstants.h"
+#import "GREYWaitFunctions.h"
 #import "GREYHostApplicationDistantObject+KeyboardKeysTest.h"
 #import "FailureHandler.h"
 #import "NSObject+EDOValueObject.h"
@@ -526,6 +527,9 @@
   GREYAssertFalse([GREYKeyboard keyboardShownWithError:nil], @"Keyboard shouldn't be shown");
 }
 
+/**
+ *  Verifies error details for dismissing a keyboard when the keyboard is not present.
+ */
 - (void)testTypingAndResigningWithError {
   GREYAssertFalse([GREYKeyboard keyboardShownWithError:nil], @"Keyboard shouldn't be shown");
 
@@ -533,20 +537,19 @@
   NSError *error;
   XCTAssertFalse([EarlGrey dismissKeyboardWithError:&error]);
   NSString *localizedErrorDescription = [error localizedDescription];
-  GREYAssertTrue(
-      [localizedErrorDescription hasPrefix:@"Failed to dismiss keyboard since it was not showing."],
-      @"Unexpected error message for initial dismiss: %@, original error: %@",
-      localizedErrorDescription, error);
+  NSString *prefix = @"Failed to dismiss keyboard.";
+  GREYAssertTrue([localizedErrorDescription hasPrefix:prefix],
+                 @"Unexpected error message for initial dismiss: %@, Original error: %@",
+                 localizedErrorDescription, error);
 
   [[EarlGrey selectElementWithMatcher:grey_keyWindow()]
       performAction:host.actionForSetFirstResponder
               error:&error];
   XCTAssertFalse([EarlGrey dismissKeyboardWithError:&error]);
   localizedErrorDescription = [error localizedDescription];
-  GREYAssertTrue(
-      [localizedErrorDescription hasPrefix:@"Failed to dismiss keyboard since it was not showing."],
-      @"Unexpected error message for second dismiss: %@, original error: %@",
-      localizedErrorDescription, error);
+  GREYAssertTrue([localizedErrorDescription hasPrefix:prefix],
+                 @"Unexpected error message for second dismiss: %@, Original error: %@",
+                 localizedErrorDescription, error);
 }
 
 - (void)testDismissingKeyboardWhenReturnIsNotPresent {
