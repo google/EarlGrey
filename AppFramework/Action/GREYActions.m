@@ -573,24 +573,24 @@ static Protocol *gTextInputProtocol;
             }
             // Wait for keyboard to show up and any other UI changes to take effect.
             if (![GREYKeyboard waitForKeyboardToAppear]) {
-              NSString *description =
-                  @"Keyboard did not appear after tapping on [Element]. "
-                  @"Are you sure that tapping on this element will bring up the keyboard?";
               __block NSString *elementDescription;
               grey_dispatch_sync_on_main_thread(^{
                 elementDescription = [element grey_description];
               });
-              NSDictionary<NSString *, NSString *> *glossary = @{@"Element" : elementDescription};
-              I_GREYPopulateErrorNoted(errorOrNil, kGREYInteractionErrorDomain,
-                                       kGREYInteractionActionFailedErrorCode, description,
-                                       glossary);
+              NSString *description
+                  = [NSString stringWithFormat:
+                      @"Keyboard did not appear after tapping on an element. "
+                      @"\nAre you sure that tapping on this element will bring up the keyboard?"
+                      @"\nElement: \n%@", element];
+              I_GREYPopulateError(errorOrNil, kGREYInteractionErrorDomain,
+                                  kGREYInteractionActionFailedErrorCode, description);
               return NO;
             }
           }
 
           // If a position is given, move the text cursor to that position.
           __block id firstResponder = nil;
-          __block NSDictionary<NSString *, NSString *> *errorGlossary = nil;
+          __block NSString *description = nil;
           grey_dispatch_sync_on_main_thread(^{
             firstResponder = [[expectedFirstResponderView window] firstResponder];
             if (position) {
@@ -599,20 +599,18 @@ static Protocol *gTextInputProtocol;
                                                                    toPosition:position];
                 [firstResponder setSelectedTextRange:newRange];
               } else {
-                errorGlossary = @{
-                  @"First Responder" : [firstResponder description],
-                  @"Element" : [expectedFirstResponderView description]
-                };
+                description
+                    = [NSString stringWithFormat:
+                        @"First Responder of Element does not conform to UITextInput protocol."
+                        @"\nFirst Responder: %@ \nElement: %@", [firstResponder description],
+                        [expectedFirstResponderView description]];
               }
             }
           });
 
-          if (errorGlossary) {
-            NSString *description = @"[First Responder] of [Element] does not conform to "
-                                    @"UITextInput protocol.";
-            I_GREYPopulateErrorNoted(errorOrNil, kGREYInteractionErrorDomain,
-                                     kGREYInteractionActionFailedErrorCode, description,
-                                     errorGlossary);
+          if (description) {
+            I_GREYPopulateError(errorOrNil, kGREYInteractionErrorDomain,
+                                kGREYInteractionActionFailedErrorCode, description);
             return NO;
           }
 

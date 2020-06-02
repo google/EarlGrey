@@ -91,12 +91,12 @@ static CGFloat const kPinchScale = (CGFloat)0.8;
         [viewToPinch isKindOfClass:[UIWindow class]] ? (UIWindow *)viewToPinch : viewToPinch.window;
 
     if (!window) {
-      NSString *errorDescription = [NSString stringWithFormat:@"Cannot pinch on [View], "
+      NSString *errorDescription = [NSString stringWithFormat:@"Cannot pinch on this view "
                                                               @"as it has no window "
-                                                              @"and it isn't a window itself."];
-      NSDictionary<NSString *, NSString *> *glossary = @{@"View" : element};
-      I_GREYPopulateErrorNoted(error, kGREYPinchErrorDomain, kGREYPinchFailedErrorCode,
-                               errorDescription, glossary);
+                                                              @"and it isn't a window itself:"
+                                                              @"\n%@", element];
+      I_GREYPopulateError(error, kGREYPinchErrorDomain,
+                          kGREYPinchFailedErrorCode, errorDescription);
       return;
     }
 
@@ -117,29 +117,16 @@ static CGFloat const kPinchScale = (CGFloat)0.8;
                            error:(__strong NSError **)error {
   CGRect pinchActionFrame = CGRectIntersection(view.accessibilityFrame, window.bounds);
   if (CGRectIsNull(pinchActionFrame)) {
-    NSMutableDictionary *errorDetails = [[NSMutableDictionary alloc] init];
-
-    errorDetails[kErrorDetailActionNameKey] = self.name;
-    errorDetails[kErrorDetailElementKey] = [view grey_description];
-    errorDetails[kErrorDetailWindowKey] = window.description;
-    errorDetails[kErrorDetailRecoverySuggestionKey] = @"Make sure the element lies in the window";
-
-    NSArray *keyOrder = @[
-      kErrorDetailActionNameKey, kErrorDetailElementKey, kErrorDetailWindowKey,
-      kErrorDetailRecoverySuggestionKey
-    ];
-
-    NSString *reasonDetail = [GREYObjectFormatter formatDictionary:errorDetails
-                                                            indent:2
-                                                         hideEmpty:YES
-                                                          keyOrder:keyOrder];
-
+    NSMutableString *errorDetails;
+    [errorDetails appendFormat:@"\n%@: %@", kErrorDetailActionNameKey, self.name];
+    [errorDetails appendFormat:@"\n%@: %@", kErrorDetailElementKey, [view grey_description]];
+    [errorDetails appendFormat:@"\n%@: %@", kErrorDetailWindowKey, window.description];
+    [errorDetails appendFormat:@"\n%@: %@", kErrorDetailRecoverySuggestionKey,
+                               @"Make sure the element lies in the window"];
     NSString *reason = [NSString
-        stringWithFormat:@"Cannot apply pinch action on the element. Error: %@\n", reasonDetail];
-
-    I_GREYPopulateErrorNoted(error, kGREYPinchErrorDomain, kGREYPinchFailedErrorCode, reason,
-                             @{@"V" : view});
-
+        stringWithFormat:@"Cannot apply pinch action on the element."
+                         @"\nError Details: %@", errorDetails];
+    I_GREYPopulateError(error, kGREYPinchErrorDomain, kGREYPinchFailedErrorCode, reason);
     return nil;
   }
 

@@ -34,6 +34,7 @@
 #import "GREYThrowDefines.h"
 #import "GREYConfiguration.h"
 #import "GREYError+Private.h"
+#import "GREYError.h"
 #import "GREYErrorConstants.h"
 #import "GREYObjectFormatter.h"
 #import "GREYDefines.h"
@@ -192,7 +193,7 @@
   } else if (searchActionError) {
     NSString *searchActionDescription = searchActionError.localizedDescription;
     NSString *description =
-        [NSString stringWithFormat:@"Search action failed: %@\n", searchActionDescription];
+        [NSString stringWithFormat:@"Search action failed: %@", searchActionDescription];
     I_GREYPopulateError(&error, kGREYInteractionErrorDomain,
                         kGREYInteractionElementNotFoundErrorCode, description);
   } else if (executorError || isSearchTimedOut) {
@@ -567,9 +568,9 @@
         errorDetails[kErrorDetailElementMatcherKey] = _elementMatcher.description;
         errorDetails[kErrorDetailRecoverySuggestionKey] =
             @"Check if the element exists in the UI hierarchy printed below. If it exists, adjust "
-            @"the matcher so that it accurately matches element.";
+            @"the matcher so that it accurately matches the element.";
         if (searchAPIInfo) {
-          // errorDetails[kErrorDetailSearchActionInfoKey] = searchAPIInfo;
+          errorDetails[kErrorDetailSearchActionInfoKey] = searchAPIInfo;
         }
 
         NSArray *keyOrder = @[
@@ -732,7 +733,7 @@
         errorDetails[kErrorDetailElementMatcherKey] = _elementMatcher.description;
         errorDetails[kErrorDetailRecoverySuggestionKey] =
             @"Check if the element exists in the UI hierarchy printed below. If it exists, "
-            @"adjust the matcher so that it accurately matches element.";
+            @"adjust the matcher so that it accurately matches the element.";
         if (searchAPIInfo) {
           errorDetails[kErrorDetailSearchActionInfoKey] = searchAPIInfo;
         }
@@ -747,7 +748,6 @@
         reason = [NSString stringWithFormat:@"Cannot find UI Element.\n"
                                             @"Exception with Assertion: %@",
                                             reasonDetail];
-
         [assertionError setErrorInfo:errorDetails];
         break;
       }
@@ -805,7 +805,9 @@
   NSString *hierarchy = [self grey_unifyAndExtractHierarchyFromError:interactionError];
 
   // Add information such as element matcher and any nested error info.
-  NSMutableDictionary<NSString *, id> *userInfo = [[NSMutableDictionary alloc] init];
+  // Copy over the matcher details from the error info dictionary.
+  NSMutableDictionary<NSString *, id> *userInfo
+      = [[NSMutableDictionary alloc] initWithDictionary:interactionError.errorInfo copyItems:YES];
   [userInfo setValue:interactionError.localizedDescription forKey:NSLocalizedDescriptionKey];
   [userInfo setValue:reason forKey:NSLocalizedFailureReasonErrorKey];
   // Nested errors contain extra information such as stack traces, error codes that aren't useful.
@@ -824,7 +826,7 @@
   if ([interactionError isKindOfClass:[GREYError class]]) {
     wrappedError = I_GREYErrorMake(
         interactionError.domain, interactionError.code, userInfo, interactionError.filePath,
-        interactionError.line, interactionError.functionName, interactionError.descriptionGlossary,
+        interactionError.line, interactionError.functionName,
         interactionError.stackTrace, hierarchy, appScreenshots);
   } else {
     // In case the error is an internal error from a custom matcher or assertion, just convert it
@@ -876,7 +878,7 @@
     // an index.
     errorDescription = [NSString stringWithFormat:@"Multiple elements were matched: %@. Please "
                                                   @"use selection matchers to narrow the "
-                                                  @"selection down to single element.",
+                                                  @"selection down to a single element.",
                                                   elementDescriptions];
     errorCode = kGREYInteractionMultipleElementsMatchedErrorCode;
   }
@@ -889,9 +891,17 @@
  * @return A String description of the current search action.
  */
 - (NSString *)grey_searchActionDescription {
+  // TODO(b/157709448): This custom check must be removed and replaced with GREYObjectFormatter or
+  // used directly as a string in the error.
   if (_searchAction) {
-    return [NSString stringWithFormat:@"Search action: %@. \nSearch action element matcher: %@.",
-                                      _searchAction, _searchActionElementMatcher];
+    // Indent this by the length of the ""Search API Info" : " key to ensure proper formatting.
+    // 7 is the length of padding for the whitespaces, quotes and the colon.
+    NSUInteger paddingLength = kErrorDetailSearchActionInfoKey.length + 7;
+    NSString *indentForSearchMatcher = [@"" stringByPaddingToLength:paddingLength
+                                                         withString:@" "
+                                                    startingAtIndex:0];
+    return [NSString stringWithFormat:@"Search Action: %@\n%@\"Search Matcher: %@", _searchAction,
+                                      indentForSearchMatcher, _searchActionElementMatcher];
   } else {
     return nil;
   }

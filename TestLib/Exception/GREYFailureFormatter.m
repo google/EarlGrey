@@ -23,47 +23,24 @@
 
 @implementation GREYFailureFormatter
 
-+ (NSString *)formatFailureForError:(GREYError *)error
-                          excluding:(NSArray *)excluding
-                       failureLabel:(NSString *)failureLabel
-                        failureName:(NSString *)failureName
-                             format:(NSString *)format, ... {
-  NSString *errorDescription;
-  va_list argList;
-  va_start(argList, format);
-  errorDescription = [[NSString alloc] initWithFormat:format arguments:argList];
-  va_end(argList);
-
-  return [self formatFailureForError:error
-                           excluding:excluding
-                        failureLabel:failureLabel
-                         failureName:failureName
-                    errorDescription:errorDescription];
-}
-
 + (NSString *)formatFailureForTestCase:(XCTestCase *)testCase
-                          failureLabel:(NSString *)failureLabel
-                           failureName:(NSString *)failureName
-                              filePath:(NSString *)filePath
-                            lineNumber:(NSUInteger)lineNumber
-                          functionName:(NSString *)functionName
-                            stackTrace:(NSArray *)stackTrace
-                        appScreenshots:(NSDictionary *)appScreenshots
-                             hierarchy:(NSString *)hierarchy
-                                format:(NSString *)format, ... {
-  va_list argList;
-  va_start(argList, format);
-  NSString *errorDescription = [[NSString alloc] initWithFormat:format arguments:argList];
-  va_end(argList);
-
+                           failureLabel:(NSString *)failureLabel
+                            failureName:(NSString *)failureName
+                               filePath:(NSString *)filePath
+                             lineNumber:(NSUInteger)lineNumber
+                           functionName:(NSString *)functionName
+                             stackTrace:(NSArray *)stackTrace
+                         appScreenshots:(NSDictionary *)appScreenshots
+                              hierarchy:(NSString *)hierarchy
+                       errorDescription:(NSString *)errorDescription {
   GREYError *error =
       I_GREYErrorMake(kGREYGenericErrorDomain, kGREYGenericErrorCode, nil, filePath, lineNumber,
-                      functionName, nil, stackTrace, hierarchy, appScreenshots);
+                      functionName, stackTrace, hierarchy, appScreenshots);
   XCTestCase *currentTestCase = [XCTestCase grey_currentTestCase];
   error.testCaseClassName = [currentTestCase grey_testClassName];
   error.testCaseMethodName = [currentTestCase grey_testMethodName];
 
-  NSArray *excluding = @[ kErrorFilePathKey, kErrorLineKey, kErrorDescriptionGlossaryKey ];
+  NSArray *excluding = @[ kErrorFilePathKey, kErrorLineKey ];
   return [self formatFailureForError:error
                            excluding:excluding
                         failureLabel:failureLabel
@@ -155,17 +132,7 @@
       }
     }
   }
-
-  if (![excluding containsObject:kErrorDescriptionGlossaryKey]) {
-    NSString *glossary = [GREYObjectFormatter formatDictionary:error.descriptionGlossary
-                                                        indent:kGREYObjectFormatIndent
-                                                     hideEmpty:YES
-                                                      keyOrder:nil];
-    NSString *glossaryString =
-        [NSString stringWithFormat:@"%@: %@\n", kErrorDescriptionGlossaryKey, glossary];
-    [logger addObject:glossaryString];
-  }
-
+  
   return [logger componentsJoinedByString:@"\n"];
 }
 

@@ -79,11 +79,6 @@ GREY_EXTERN NSString *const kErrorAppUIHierarchyKey;
  */
 GREY_EXTERN NSString *const kErrorAppScreenShotsKey;
 
-/**
- * Key used to retrieve the description glossary from an error object dictionary.
- */
-GREY_EXTERN NSString *const kErrorDescriptionGlossaryKey;
-
 @interface GREYError (Private)
 
 @property(nonatomic) NSString *testCaseClassName;

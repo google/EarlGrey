@@ -107,11 +107,11 @@
       } else {
         NSString *errorDescription =
             [NSString stringWithFormat:
-                          @"Cannot perform multi-finger swipe on view [V], as it has "
-                          @"no window and it isn't a window itself."];
-        I_GREYPopulateErrorNoted(error, kGREYSyntheticEventInjectionErrorDomain,
-                                 kGREYOrientationChangeFailedErrorCode, errorDescription,
-                                 @{@"V" : [element grey_description]});
+                          @"Cannot perform multi-finger swipe on the following view, as it has "
+                          @"no window and it isn't a window itself:\n"
+                          @"%@", [element grey_description]];
+        I_GREYPopulateError(error, kGREYSyntheticEventInjectionErrorDomain,
+                                 kGREYOrientationChangeFailedErrorCode, errorDescription);
         return;
       }
     }

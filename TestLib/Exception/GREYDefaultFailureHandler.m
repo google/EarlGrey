@@ -47,59 +47,9 @@
 - (void)handleException:(GREYFrameworkException *)exception details:(NSString *)details {
   GREYThrowOnNilParameter(exception);
   id currentTestCase = [XCTestCase grey_currentTestCase];
-
-  NSMutableString *logMessage = [[NSMutableString alloc] init];
-  NSString *reason = exception.reason;
-
-  if (reason.length == 0) {
-    reason = @"exception.reason was not provided";
-  }
-
-  NSString *logName = [NSString stringWithFormat:@"%@: %@", @"Exception Name", exception.name];
-  [logMessage appendString:logName];
-  NSString *logReason = [NSString stringWithFormat:@"\n%@: %@", @"Exception Reason", reason];
-  [logMessage appendString:logReason];
-
-  if (details.length > 0) {
-    NSString *logDetails = [NSString stringWithFormat:@"\n%@: %@", @"Element Matcher", details];
-    [logMessage appendString:logDetails];
-  }
-
-  NSDictionary<NSString *, UIImage *> *appScreenshots =
-      [exception.userInfo valueForKey:kErrorDetailAppScreenshotsKey];
-  // Re-obtain the screenshots when a user might be using GREYAsserts. Since this is from the test
-  // process, the delay here would be minimal.
-  if (!appScreenshots) {
-    appScreenshots = [GREYFailureScreenshotter screenshots];
-  }
-
-  NSString *uniqueSubDirName =
-      [NSString stringWithFormat:@"%@-%@", exception.name, [[NSUUID UUID] UUIDString]];
-  NSString *screenshotDir = [GREY_CONFIG_STRING(kGREYConfigKeyArtifactsDirLocation)
-      stringByAppendingPathComponent:uniqueSubDirName];
-  GREYFailureScreenshots *screenshotPaths =
-      [GREYFailureScreenshotSaver saveFailureScreenshotsInDictionary:appScreenshots
-                                                         toDirectory:screenshotDir];
-  NSAssert(screenshotPaths, @"Screenshots must be present");
-  NSArray *stackTrace = [NSThread callStackSymbols];
-
-  NSString *appUIHierarchy = [exception.userInfo valueForKey:kErrorDetailAppUIHierarchyKey];
-  // For calls from GREYAsserts in the test side, the hierarchy must be populated here.
-  if (!appUIHierarchy) {
-    appUIHierarchy = [GREYElementHierarchy hierarchyString];
-  }
-
-  NSString *log = [GREYFailureFormatter formatFailureForTestCase:currentTestCase
-                                                    failureLabel:@"Exception"
-                                                     failureName:exception.name
-                                                        filePath:_fileName
-                                                      lineNumber:_lineNumber
-                                                    functionName:nil
-                                                      stackTrace:stackTrace
-                                                  appScreenshots:screenshotPaths
-                                                       hierarchy:appUIHierarchy
-                                                          format:@"%@", logMessage];
-  [currentTestCase grey_markAsFailedAtLine:_lineNumber inFile:_fileName description:log];
+  [currentTestCase grey_markAsFailedAtLine:_lineNumber
+                                    inFile:_fileName
+                               description:details];
 }
 
 @end
