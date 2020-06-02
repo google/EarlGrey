@@ -231,8 +231,8 @@
 - (void)testKeyboardDismissalError {
   NSError *error;
   [EarlGrey dismissKeyboardWithError:&error];
-  NSString *keyboardErrorString = @"Failed to dismiss keyboard.\nInternal "
-                                  @"Error: The keyboard was not showing.";
+  NSString *keyboardErrorString = @"Failed to dismiss keyboard since it was not showing. Internal "
+                                  @"Error: Failed to dismiss keyboard as it was not shown.";
   XCTAssertTrue([error.description containsString:keyboardErrorString]);
 }
 
