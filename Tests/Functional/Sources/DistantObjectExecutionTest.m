@@ -19,6 +19,7 @@
 
 #import "GREYHostApplicationDistantObject+GREYTestHelper.h"
 #import "GREYTestApplicationDistantObject+Private.h"
+#import "EarlGrey.h"
 #import "BaseIntegrationTest.h"
 #import "EDOHostService.h"
 #import "EDOServicePort.h"
@@ -76,23 +77,19 @@
  */
 - (void)testAppEDOPortsGetterWaitingForPortsToBeAssigned {
   GREYTestApplicationDistantObject *distantObject = GREYTestApplicationDistantObject.sharedInstance;
-  __block CFTimeInterval getterWaitingTime;
-  __block uint16_t hostPort;
-  __block uint16_t backgroundPort;
-  id appPortsFetchingBlock = ^{
-    CFTimeInterval startTime = CACurrentMediaTime();
-    hostPort = distantObject.hostPort;
-    backgroundPort = distantObject.hostBackgroundPort;
-    getterWaitingTime = CACurrentMediaTime() - startTime;
+  uint16_t hostPort = distantObject.hostPort;
+  uint16_t backgroundHostPort = distantObject.hostBackgroundPort;
+  // Mimics the first-time launch failure by resetting host eDO ports to 0.
+  [distantObject resetHostArguments];
+  id appPortsSettingBlock = ^{
+    distantObject.hostPort = hostPort;
+    distantObject.hostBackgroundPort = backgroundHostPort;
   };
-  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.f * NSEC_PER_SEC),
-                 dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
-                 appPortsFetchingBlock);
-  [self.application launch];
-  XCTAssertGreaterThan(hostPort, 0);
-  XCTAssertGreaterThan(backgroundPort, 0);
-  // Verifies the getter actually waits for the assignment.
-  XCTAssertGreaterThan(getterWaitingTime, 1.f);
+  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.f * NSEC_PER_SEC), dispatch_get_main_queue(),
+                 appPortsSettingBlock);
+
+  XCTAssertEqual(distantObject.hostPort, hostPort);
+  XCTAssertEqual(distantObject.hostBackgroundPort, backgroundHostPort);
 }
 
 /**
