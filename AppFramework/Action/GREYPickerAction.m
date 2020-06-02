@@ -19,12 +19,15 @@
 #import "UIView+GREYApp.h"
 #import "GREYInteraction.h"
 #import "GREYAppError.h"
+#import "GREYFailureScreenshotter.h"
 #import "GREYTimedIdlingResource.h"
 #import "GREYAllOf.h"
 #import "GREYMatchers.h"
 #import "GREYSyncAPI.h"
+#import "GREYError.h"
 #import "NSError+GREYCommon.h"
 #import "GREYDefines.h"
+#import "GREYElementHierarchy.h"
 
 @implementation GREYPickerAction {
   /**
@@ -77,13 +80,12 @@
   NSInteger componentCount = [dataSource numberOfComponentsInPickerView:pickerView];
 
   if (componentCount < _column) {
-    NSString *description = [NSString stringWithFormat:@"Invalid column on [Picker] "
-                                                       @"cannot find the column %lu.",
-                                                       (unsigned long)_column];
-    NSDictionary<NSString *, NSString *> *glossary = @{@"Picker" : [pickerView description]};
-    I_GREYPopulateErrorNoted(error, kGREYInteractionErrorDomain,
-                             kGREYInteractionActionFailedErrorCode, description, glossary);
-
+    NSMutableString *description =
+        [NSMutableString stringWithFormat:@"Failed to find Picker Column."];
+    [description appendFormat:@"\n\nColumn: %lu", (unsigned long)_column];
+    [description appendFormat:@"\n\nPicker: %@\n", [pickerView description]];
+    I_GREYPopulateError(error, kGREYInteractionErrorDomain, kGREYInteractionActionFailedErrorCode,
+                        description);
     return NO;
   }
 

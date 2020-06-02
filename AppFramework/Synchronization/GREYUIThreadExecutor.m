@@ -17,6 +17,7 @@
 #import "GREYUIThreadExecutor.h"
 
 #import "GREYAppError.h"
+#import "GREYFailureScreenshotter.h"
 #import "GREYDispatchQueueIdlingResource.h"
 #import "GREYIdlingResource.h"
 #import "GREYOperationQueueIdlingResource.h"
@@ -25,10 +26,13 @@
 #import "GREYFatalAsserts.h"
 #import "GREYThrowDefines.h"
 #import "GREYConfiguration.h"
+#import "GREYError.h"
+#import "GREYObjectFormatter.h"
 #import "GREYConstants.h"
 #import "GREYDefines.h"
 #import "GREYLogger.h"
 #import "GREYStopwatch.h"
+#import "GREYElementHierarchy.h"
 
 // Extern.
 NSString *const kGREYUIThreadExecutorErrorDomain =
@@ -203,10 +207,17 @@ static const CFTimeInterval kMaximumSynchronizationSleepInterval = 0.1;
     if (!isAppIdle) {
       NSOrderedSet *busyResources = [self grey_busyResources];
       if ([busyResources count] > 0) {
-        NSString *description = @"Failed to execute block because idling resources are busy.";
-        I_GREYPopulateErrorNoted(error, kGREYUIThreadExecutorErrorDomain,
-                                 kGREYUIThreadExecutorTimeoutErrorCode, description,
-                                 [self grey_errorDictionaryForBusyResources:busyResources]);
+        NSDictionary<NSString *, NSString *> *errorDictionary =
+            [self grey_errorDictionaryForBusyResources:busyResources];
+        NSString *busyResources = [GREYObjectFormatter formatDictionary:errorDictionary
+                                                                 indent:2
+                                                              hideEmpty:YES
+                                                               keyOrder:errorDictionary.allKeys];
+        NSString *description = [NSString
+            stringWithFormat:@"Failed to execute block because idling resources are busy.\n%@",
+                             busyResources];
+        I_GREYPopulateError(error, kGREYUIThreadExecutorErrorDomain,
+                            kGREYUIThreadExecutorTimeoutErrorCode, description);
       } else {
         I_GREYPopulateError(error, kGREYUIThreadExecutorErrorDomain,
                             kGREYUIThreadExecutorTimeoutErrorCode,

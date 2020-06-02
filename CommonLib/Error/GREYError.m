@@ -43,7 +43,6 @@ NSString *const kErrorErrorInfoKey = @"Error Info";
 NSString *const kErrorStackTraceKey = @"Stack Trace";
 NSString *const kErrorAppUIHierarchyKey = @"App UI Hierarchy";
 NSString *const kErrorAppScreenShotsKey = @"App Screenshots";
-NSString *const kErrorDescriptionGlossaryKey = @"Description Glossary";
 
 NSString *const kGREYAppScreenshotAtFailure = @"App-side Screenshot at Point-of-Failure";
 NSString *const kGREYTestScreenshotAtFailure = @"Test-side Screenshot at Failure";
@@ -71,14 +70,13 @@ NSString *const kGREYScreenshotActualAfterImage =
 
 GREYError *I_GREYErrorMake(NSString *domain, NSInteger code, NSDictionary *userInfo,
                            NSString *filePath, NSUInteger line, NSString *functionName,
-                           NSDictionary *errorInfo, NSArray *stackTrace, NSString *appUIHierarchy,
+                           NSArray<NSString *> *stackTrace, NSString *appUIHierarchy,
                            NSDictionary *appScreenshots) {
   GREYError *error = [[GREYError alloc] initWithDomain:domain code:code userInfo:userInfo];
 
   error.filePath = filePath;
   error.line = line;
   error.functionName = functionName;
-  error.errorInfo = errorInfo;
   error.stackTrace = stackTrace;
   error.appUIHierarchy = appUIHierarchy;
   error.appScreenshots = appScreenshots;
@@ -133,7 +131,6 @@ GREYError *I_GREYErrorMake(NSString *domain, NSInteger code, NSDictionary *userI
   descriptionDictionary[kErrorStackTraceKey] = _stackTrace;
   descriptionDictionary[kErrorAppUIHierarchyKey] = _appUIHierarchy;
   descriptionDictionary[kErrorAppScreenShotsKey] = _appScreenshots;
-  descriptionDictionary[kErrorDescriptionGlossaryKey] = _descriptionGlossary;
 
   return descriptionDictionary;
 }
@@ -174,9 +171,8 @@ GREYError *I_GREYErrorMake(NSString *domain, NSInteger code, NSDictionary *userI
   }
 
   NSArray *keyOrder = @[
-    kErrorDescriptionKey, kErrorDescriptionGlossaryKey, kErrorDomainKey, kErrorCodeKey,
-    kErrorFileNameKey, kErrorFunctionNameKey, kErrorLineKey, kErrorTestCaseClassNameKey,
-    kErrorTestCaseMethodNameKey
+    kErrorDescriptionKey, kErrorDomainKey, kErrorCodeKey, kErrorFileNameKey, kErrorFunctionNameKey,
+    kErrorLineKey, kErrorTestCaseClassNameKey, kErrorTestCaseMethodNameKey
   ];
 
   return [GREYObjectFormatter formatArray:descriptions

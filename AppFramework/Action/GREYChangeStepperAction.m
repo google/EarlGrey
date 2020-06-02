@@ -22,14 +22,17 @@
 #import "GREYElementFinder.h"
 #import "GREYInteraction.h"
 #import "GREYAppError.h"
+#import "GREYFailureScreenshotter.h"
 #import "GREYAllOf.h"
 #import "GREYMatchers.h"
 #import "GREYSyncAPI.h"
+#import "GREYError.h"
 #import "GREYErrorConstants.h"
 #import "GREYObjectFormatter.h"
 #import "NSError+GREYCommon.h"
 #import "GREYConstants.h"
 #import "GREYDefines.h"
+#import "GREYElementHierarchy.h"
 #import "GREYElementProvider.h"
 
 /**
@@ -190,12 +193,12 @@
   });
 
   if (!(foundMinusButton && foundPlusButton)) {
-    NSString *description = [NSString stringWithFormat:@"Failed to find stepper buttons "
-                                                       @"in [Stepper]"];
-    NSDictionary<NSString *, NSString *> *glossary = @{@"[Stepper]" : [stepper description]};
-
-    I_GREYPopulateErrorNoted(error, kGREYInteractionErrorDomain,
-                             kGREYInteractionActionFailedErrorCode, description, glossary);
+    NSString *description =
+        [NSString stringWithFormat:@"Failed to find stepper buttons in Stepper:\n"
+                                   @"%@",
+                                   [stepper description]];
+    I_GREYPopulateError(error, kGREYInteractionErrorDomain, kGREYInteractionActionFailedErrorCode,
+                        description);
     return nil;
   }
   return

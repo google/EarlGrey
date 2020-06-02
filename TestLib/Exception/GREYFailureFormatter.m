@@ -58,12 +58,12 @@
 
   GREYError *error =
       I_GREYErrorMake(kGREYGenericErrorDomain, kGREYGenericErrorCode, nil, filePath, lineNumber,
-                      functionName, nil, stackTrace, hierarchy, appScreenshots);
+                      functionName, stackTrace, hierarchy, appScreenshots);
   XCTestCase *currentTestCase = [XCTestCase grey_currentTestCase];
   error.testCaseClassName = [currentTestCase grey_testClassName];
   error.testCaseMethodName = [currentTestCase grey_testMethodName];
 
-  NSArray *excluding = @[ kErrorFilePathKey, kErrorLineKey, kErrorDescriptionGlossaryKey ];
+  NSArray<NSString *> *excluding = @[ kErrorFilePathKey, kErrorLineKey ];
   return [self formatFailureForError:error
                            excluding:excluding
                         failureLabel:failureLabel
@@ -154,16 +154,6 @@
         [logger addObject:appUIHierarchy];
       }
     }
-  }
-
-  if (![excluding containsObject:kErrorDescriptionGlossaryKey]) {
-    NSString *glossary = [GREYObjectFormatter formatDictionary:error.descriptionGlossary
-                                                        indent:kGREYObjectFormatIndent
-                                                     hideEmpty:YES
-                                                      keyOrder:nil];
-    NSString *glossaryString =
-        [NSString stringWithFormat:@"%@: %@\n", kErrorDescriptionGlossaryKey, glossary];
-    [logger addObject:glossaryString];
   }
 
   return [logger componentsJoinedByString:@"\n"];

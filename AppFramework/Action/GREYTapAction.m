@@ -20,6 +20,7 @@
 #import "NSObject+GREYApp.h"
 #import "GREYInteraction.h"
 #import "GREYAppError.h"
+#import "GREYFailureScreenshotter.h"
 #import "GREYAllOf.h"
 #import "GREYAnyOf.h"
 #import "GREYMatchers.h"
@@ -28,9 +29,11 @@
 #import "NSObject+GREYCommon.h"
 #import "GREYFatalAsserts.h"
 #import "GREYThrowDefines.h"
+#import "GREYError.h"
 #import "NSError+GREYCommon.h"
 #import "GREYDefines.h"
 #import "CGGeometry+GREYUI.h"
+#import "GREYElementHierarchy.h"
 #import "GREYVisibilityChecker.h"
 
 @implementation GREYTapAction {
@@ -141,12 +144,10 @@
       });
       if (!window) {
         NSString *description =
-            [NSString stringWithFormat:@"[Element] is not attached to a window."];
-        NSDictionary<NSString *, NSString *> *glossary = @{@"Element" : [element grey_description]};
-
-        I_GREYPopulateErrorNoted(error, kGREYInteractionErrorDomain,
-                                 kGREYInteractionActionFailedErrorCode, description, glossary);
-
+            [NSString stringWithFormat:@"Element is not attached to a window:\n%@",
+                                       [element grey_description]];
+        I_GREYPopulateError(error, kGREYInteractionErrorDomain,
+                            kGREYInteractionActionFailedErrorCode, description);
         return NO;
       }
       return [GREYTapper tapOnWindow:window

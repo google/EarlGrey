@@ -48,12 +48,6 @@
   return error;
 }
 
-- (NSError *)notedErrorPopulatedInTheApp {
-  NSError *error;
-  I_GREYPopulateErrorNoted(&error, kGREYGenericErrorDomain, kGREYGenericErrorCode, @"Foo", @{});
-  return error;
-}
-
 - (NSError *)errorCreatedInTheApp {
   return GREYErrorMakeWithHierarchy(kGREYGenericErrorDomain, kGREYGenericErrorCode, @"Foo");
 }

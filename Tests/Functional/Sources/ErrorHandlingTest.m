@@ -297,12 +297,6 @@
                  (NSUInteger)1);
 }
 
-- (void)testNestedErrorPopulatedInTheAppContainsOneHierarchy {
-  NSError *error = [[GREYHostApplicationDistantObject sharedInstance] notedErrorPopulatedInTheApp];
-  XCTAssertEqual([self grey_hierarchyOccurrencesInErrorDescription:error.description],
-                 (NSUInteger)1);
-}
-
 - (void)testErrorCreatedInTheAppContainsOneHierarchy {
   NSError *error = [[GREYHostApplicationDistantObject sharedInstance] errorPopulatedInTheApp];
   XCTAssertEqual([self grey_hierarchyOccurrencesInErrorDescription:error.description],

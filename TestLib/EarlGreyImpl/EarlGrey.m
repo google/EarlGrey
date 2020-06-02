@@ -131,27 +131,14 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
   if (!success) {
     NSString *errorDescription;
     if (syncErrorBeforeRotation) {
-      NSString *errorReason = @"Application did not idle before rotating.\n%@\n%@";
-      // TODO(b/147072566): Provide an error API to format description glossary on the test side.
-      NSString *descriptionGlossary =
-          [GREYObjectFormatter formatDictionary:syncErrorBeforeRotation.descriptionGlossary
-                                         indent:kGREYObjectFormatIndent
-                                      hideEmpty:YES
-                                       keyOrder:nil];
+      NSString *errorReason = @"Application did not idle before rotating.\n%@";
       errorDescription =
-          [NSString stringWithFormat:errorReason, syncErrorBeforeRotation.localizedDescription,
-                                     descriptionGlossary];
+          [NSString stringWithFormat:errorReason, syncErrorBeforeRotation.localizedDescription];
     } else if (syncErrorAfterRotation) {
       NSString *errorReason =
-          @"Application did not idle after rotating and before verifying the rotation.\n%@@\n%@";
-      NSString *descriptionGlossary =
-          [GREYObjectFormatter formatDictionary:syncErrorBeforeRotation.descriptionGlossary
-                                         indent:kGREYObjectFormatIndent
-                                      hideEmpty:YES
-                                       keyOrder:nil];
+          @"Application did not idle after rotating and before verifying the rotation.\n%@";
       errorDescription =
-          [NSString stringWithFormat:errorReason, syncErrorAfterRotation.localizedDescription,
-                                     descriptionGlossary];
+          [NSString stringWithFormat:errorReason, syncErrorAfterRotation.localizedDescription];
     } else if (!syncErrorBeforeRotation && !syncErrorAfterRotation) {
       NSString *errorReason = @"Could not rotate application to orientation: %tu. XCUIDevice "
                               @"Orientation: %tu UIDevice Orientation: %tu. UIDevice is the "

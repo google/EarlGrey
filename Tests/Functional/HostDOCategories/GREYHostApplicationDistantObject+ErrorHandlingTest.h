@@ -26,11 +26,6 @@
 - (NSError *)errorPopulatedInTheApp;
 
 /**
- * @c returns A noted error populated by GREYError with the UI Hierarchy.
- */
-- (NSError *)notedErrorPopulatedInTheApp;
-
-/**
  * @c returns A simple error created with the UI Hierarchy.
  */
 - (NSError *)errorCreatedInTheApp;
