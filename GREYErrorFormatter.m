@@ -42,37 +42,29 @@
 
 #pragma mark - Private Methods
 
-- (NSString *)_appUIHierarchy {
-  NSMutableArray *logger = [[NSMutableArray alloc] init];
-  
-  [logger addObject:@"UI Hierarchy (ordered by window level, back to front):\n"];
+- (NSString *)_formattedHierarchy:(nonnull NSString *)hierarchy {
+    NSMutableArray *logger = [[NSMutableArray alloc] init];
+    
+    [logger addObject:@"UI Hierarchy (ordered by window level, back to front):\n"];
 
-  NSString *windowLegend = @"[Window 1]";
-  NSString *axLegend = @"[AX]";
-  NSString *uieLegend = @"[UIE]";
+    NSString *windowLegend = @"[Window 1]";
+    NSString *axLegend = @"[AX]";
+    NSString *uieLegend = @"[UIE]";
 
-  NSDictionary *legendLabels = @{
-    windowLegend : @"Back-Most Window",
-    axLegend : @"Accessibility",
-    uieLegend : @"User Interaction Enabled"
-  };
-  NSArray *keyOrder = @[ windowLegend, axLegend, uieLegend ];
+    NSDictionary *legendLabels = @{
+      windowLegend : @"Back-Most Window",
+      axLegend : @"Accessibility",
+      uieLegend : @"User Interaction Enabled"
+    };
+    NSArray *keyOrder = @[ windowLegend, axLegend, uieLegend ];
 
-  NSString *legendDescription = [GREYObjectFormatter formatDictionary:legendLabels
-                                                               indent:kGREYObjectFormatIndent
-                                                            hideEmpty:NO
-                                                             keyOrder:keyOrder];
-  [logger addObject:[NSString stringWithFormat:@"%@: %@\n", @"Legend", legendDescription]];
-
-  // If a user creates a custom simple error on the test side, then the hierarchy might not exist.
-  if ([self respondsToSelector:@selector(appUIHierarchy)]) {
-    NSString *appUIHierarchy = _error.appUIHierarchy;
-    if (appUIHierarchy) {
-      [logger addObject:appUIHierarchy];
-    }
-  }
-  
-  return [logger componentsJoinedByString:@"\n"];
+    NSString *legendDescription = [GREYObjectFormatter formatDictionary:legendLabels
+                                                                 indent:kGREYObjectFormatIndent
+                                                              hideEmpty:NO
+                                                               keyOrder:keyOrder];
+    [logger addObject:[NSString stringWithFormat:@"%@: %@\n", @"Legend", legendDescription]];
+    [logger addObject:_error.appUIHierarchy];
+    return [logger componentsJoinedByString:@"\n"];
 }
 
 - (NSString *)_elementNotFoundDescription {
@@ -111,7 +103,9 @@
   }
   
   // UI hierarchy
-  [logger addObject:[self _appUIHierarchy]];
+  if (_error.appUIHierarchy) {
+    [logger addObject:[self _formattedHierarchy:_error.appUIHierarchy]];
+  }
 
   // stack trace
   [logger addObject:[NSString stringWithFormat:@"Stack Trace: %@\n", _error.stackTrace]];
