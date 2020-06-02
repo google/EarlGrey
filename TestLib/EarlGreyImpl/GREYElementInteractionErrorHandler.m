@@ -50,7 +50,10 @@ void GREYHandleInteractionError(__strong GREYError *interactionError,
     if (outError) {
       *outError = interactionError;
     } else {
+<<<<<<< HEAD
       NSMutableString *matcherDetails;
+=======
+>>>>>>> 6191072... [WIP] elementNotFound
       NSDictionary<NSString *, id> *userInfo = interactionError.userInfo;
 
       // Add Screenshots and UI Hierarchy.
@@ -63,12 +66,7 @@ void GREYHandleInteractionError(__strong GREYError *interactionError,
       if (hierarchy) {
         mutableUserInfo[kErrorDetailAppUIHierarchyKey] = hierarchy;
       }
-      NSString *localizedFailureReason = userInfo[NSLocalizedFailureReasonErrorKey];
       NSMutableString *reason = [[interactionError localizedDescription] mutableCopy];
-      matcherDetails = [NSMutableString stringWithFormat:@"%@\n", localizedFailureReason];
-      if (interactionError.nestedError) {
-        [matcherDetails appendFormat:@"\nUnderlying Error: \n%@", interactionError.nestedError];
-      }
       GREYFrameworkException *exception =
           [GREYFrameworkException exceptionWithName:interactionError.domain
                                              reason:reason

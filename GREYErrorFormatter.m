@@ -40,6 +40,7 @@
   GREYFatalAssertWithMessage(false, @"Exception type not supported for formatting");
 }
 
+<<<<<<< HEAD
 // called from handleException
 + (NSString *)appendScreenshots:(NSDictionary *)screenshots
                    andHierarchy:(NSString *)hierarchy
@@ -72,6 +73,41 @@
     [logger addObject:[NSString stringWithFormat:@"%@: %@\n", @"Legend", legendDescription]];
     [logger addObject:_error.appUIHierarchy];
     return [logger componentsJoinedByString:@"\n"];
+=======
+#pragma mark - Private Methods
+
+- (NSString *)_appUIHierarchy {
+  NSMutableArray *logger = [[NSMutableArray alloc] init];
+  
+  [logger addObject:@"UI Hierarchy (ordered by window level, back to front):\n"];
+
+  NSString *windowLegend = @"[Window 1]";
+  NSString *axLegend = @"[AX]";
+  NSString *uieLegend = @"[UIE]";
+
+  NSDictionary *legendLabels = @{
+    windowLegend : @"Back-Most Window",
+    axLegend : @"Accessibility",
+    uieLegend : @"User Interaction Enabled"
+  };
+  NSArray *keyOrder = @[ windowLegend, axLegend, uieLegend ];
+
+  NSString *legendDescription = [GREYObjectFormatter formatDictionary:legendLabels
+                                                               indent:kGREYObjectFormatIndent
+                                                            hideEmpty:NO
+                                                             keyOrder:keyOrder];
+  [logger addObject:[NSString stringWithFormat:@"%@: %@\n", @"Legend", legendDescription]];
+
+  // If a user creates a custom simple error on the test side, then the hierarchy might not exist.
+  if ([self respondsToSelector:@selector(appUIHierarchy)]) {
+    NSString *appUIHierarchy = _error.appUIHierarchy;
+    if (appUIHierarchy) {
+      [logger addObject:appUIHierarchy];
+    }
+  }
+  
+  return [logger componentsJoinedByString:@"\n"];
+>>>>>>> 6191072... [WIP] elementNotFound
 }
 
 - (NSString *)_elementNotFoundDescription {
@@ -81,6 +117,7 @@
   [logger addObject:[NSString stringWithFormat:@"\n%@\n", _error.localizedDescription]];
 
   // recovery suggestion
+<<<<<<< HEAD
   if (_error.userInfo[kErrorDetailRecoverySuggestionKey]) {
     [logger addObject:[NSString stringWithFormat:@"%@\n",
                        _error.userInfo[kErrorDetailRecoverySuggestionKey]]];
@@ -101,6 +138,23 @@
   // screenshots
   for (NSString *key in _error.appScreenshots.allKeys) {
     [logger addObject:[NSString stringWithFormat:@"%@: %@\n", key, _error.appScreenshots[key]]];
+=======
+  if (_error.userInfo[@"Recovery Suggestion"]) {
+    [logger addObject:[NSString stringWithFormat:@"%@\n",
+                       _error.userInfo[@"Recovery Suggestion"]]]; // use constants!!!
+  }
+  
+  // element matcher
+  if (_error.userInfo[@"Element Matcher:"]) {
+    [logger addObject:[NSString stringWithFormat:@"Element Matcher: \n%@\n",
+                       _error.userInfo[@"Element Matcher"]]];
+  }
+
+  // search api info, pretty printed (if it was a search)
+  if (_error.userInfo[@"Search API Info"]) {
+    [logger addObject:[NSString stringWithFormat:@"Search API Info \n%@\n",
+                       _error.userInfo[@"Search API Info"]]];
+>>>>>>> 6191072... [WIP] elementNotFound
   }
   
   // nested error
@@ -109,6 +163,7 @@
                        _error.nestedError.description]];
   }
   
+<<<<<<< HEAD
   // UI hierarchy
   if (_error.appUIHierarchy) {
     [logger addObject:[self _formattedHierarchy:_error.appUIHierarchy]];
@@ -118,6 +173,18 @@
   if (_error.stackTrace) {
     [logger addObject:[NSString stringWithFormat:@"Stack Trace: %@\n", _error.stackTrace]];
   }
+=======
+  // screenshots
+  for (NSString *key in _error.appScreenshots.allKeys) {
+    [logger addObject:[NSString stringWithFormat:@"%@: %@\n", key, _error.appScreenshots[key]]];
+  }
+  
+  // UI hierarchy
+  [logger addObject:[self _appUIHierarchy]];
+
+  // stack trace
+  [logger addObject:[NSString stringWithFormat:@"Stack Trace: %@\n", _error.stackTrace]];
+>>>>>>> 6191072... [WIP] elementNotFound
   
   return [logger componentsJoinedByString:@"\n"];
 }

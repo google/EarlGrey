@@ -19,7 +19,10 @@
 #import "GREYObjectFormatter.h"
 #import "NSError+GREYCommon.h"
 #import "GREYErrorFormatter.h"
+<<<<<<< HEAD
 #import "GREYInteraction.h"
+=======
+>>>>>>> 6191072... [WIP] elementNotFound
 
 NSString *const kGREYGenericErrorDomain = @"com.google.earlgrey.GenericErrorDomain";
 NSInteger const kGREYGenericErrorCode = 0;
