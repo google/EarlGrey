@@ -10,6 +10,7 @@
 #import "GREYObjectFormatter.h"
 #import "GREYInteraction.h"
 #import "GREYFatalAsserts.h"
+#import "GREYErrorConstants.h"
 
 @interface GREYErrorFormatter ()
 
@@ -81,32 +82,32 @@
   [logger addObject:[NSString stringWithFormat:@"\n%@\n", _error.localizedDescription]];
 
   // recovery suggestion
-  if (_error.userInfo[@"Recovery Suggestion"]) {
+  if (_error.userInfo[kErrorDetailRecoverySuggestionKey]) {
     [logger addObject:[NSString stringWithFormat:@"%@\n",
-                       _error.userInfo[@"Recovery Suggestion"]]]; // use constants!!!
+                       _error.userInfo[kErrorDetailRecoverySuggestionKey]]];
   }
   
   // element matcher
-  if (_error.userInfo[@"Element Matcher:"]) {
+  if (_error.userInfo[kErrorDetailElementMatcherKey]) {
     [logger addObject:[NSString stringWithFormat:@"Element Matcher: \n%@\n",
-                       _error.userInfo[@"Element Matcher"]]];
+                       _error.userInfo[kErrorDetailElementMatcherKey]]];
   }
 
   // search api info, pretty printed (if it was a search)
-  if (_error.userInfo[@"Search API Info"]) {
-    [logger addObject:[NSString stringWithFormat:@"Search API Info \n%@\n",
-                       _error.userInfo[@"Search API Info"]]];
+  if (_error.userInfo[kErrorDetailSearchActionInfoKey]) {
+    [logger addObject:[NSString stringWithFormat:@"Search Action Info \n%@\n",
+                       _error.userInfo[kErrorDetailSearchActionInfoKey]]];
+  }
+  
+  // screenshots
+  for (NSString *key in _error.appScreenshots.allKeys) {
+    [logger addObject:[NSString stringWithFormat:@"%@: %@\n", key, _error.appScreenshots[key]]];
   }
   
   // nested error
   if (_error.nestedError) {
     [logger addObject:[NSString stringWithFormat:@"Underlying Error: \n%@\n",
                        _error.nestedError.description]];
-  }
-  
-  // screenshots
-  for (NSString *key in _error.appScreenshots.allKeys) {
-    [logger addObject:[NSString stringWithFormat:@"%@: %@\n", key, _error.appScreenshots[key]]];
   }
   
   // UI hierarchy
