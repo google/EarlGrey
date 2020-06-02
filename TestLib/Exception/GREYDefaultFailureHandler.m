@@ -29,6 +29,7 @@
 #import "GREYFailureScreenshotSaver.h"
 #import "XCTestCase+GREYTest.h"
 #import "GREYElementHierarchy.h"
+#import "GREYErrorFormatter.h"
 
 // Counter that is incremented each time a failure occurs in an unknown test.
 @implementation GREYDefaultFailureHandler {
@@ -90,10 +91,19 @@
   }
 
   if ([exception.reason containsString:@"the desired element was not found"]) {
-    
-    /// TODO append screenshots/hierarchy to details if they didnt exist
-    
-    
+    /// Eventually this check will not be needed, and will be run for every exception.
+    NSMutableString *formattedOutput = [details mutableCopy];
+    /// Appends screenshots and ui hierarchy to the console output if they didn't already exist.
+    if (!exception.userInfo[kErrorDetailAppScreenshotsKey]) {
+      for (NSString *key in screenshotPaths.allKeys) {
+        [formattedOutput appendString:[NSString stringWithFormat:@"\n%@: %@\n",
+                                       key, screenshotPaths[key]]];
+      }
+    }
+    if (!exception.userInfo[kErrorDetailAppUIHierarchyKey]) {
+    [formattedOutput appendString:[NSString stringWithFormat:@"\n%@\n",
+                                    [GREYErrorFormatter FormattedHierarchy:appUIHierarchy]]];
+    }
     [currentTestCase grey_markAsFailedAtLine:_lineNumber
                                       inFile:_fileName
                                  description:details];

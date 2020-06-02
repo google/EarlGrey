@@ -19,10 +19,7 @@
 #import "GREYObjectFormatter.h"
 #import "NSError+GREYCommon.h"
 #import "GREYErrorFormatter.h"
-<<<<<<< HEAD
 #import "GREYInteraction.h"
-=======
->>>>>>> 6191072... [WIP] elementNotFound
 
 NSString *const kGREYGenericErrorDomain = @"com.google.earlgrey.GenericErrorDomain";
 NSInteger const kGREYGenericErrorCode = 0;
@@ -115,7 +112,8 @@ GREYError *I_GREYErrorMake(NSString *domain, NSInteger code, NSDictionary *userI
 - (NSString *)description {
   if (self.domain == kGREYInteractionErrorDomain &&
       self.code == kGREYInteractionElementNotFoundErrorCode) {
-    return [[[GREYErrorFormatter alloc] initWithError:self] humanReadableDescription];
+    /// Eventually this check will not be needed, and will be run for every error.
+    return [[[GREYErrorFormatter alloc] initWithError:self] formattedDescription];
   }
   return [GREYObjectFormatter formatDictionary:[self grey_descriptionDictionary]
                                         indent:kGREYObjectFormatIndent

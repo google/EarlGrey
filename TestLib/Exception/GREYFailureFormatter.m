@@ -24,15 +24,15 @@
 @implementation GREYFailureFormatter
 
 + (NSString *)formatFailureForTestCase:(XCTestCase *)testCase
-                           failureLabel:(NSString *)failureLabel
-                            failureName:(NSString *)failureName
-                               filePath:(NSString *)filePath
-                             lineNumber:(NSUInteger)lineNumber
-                           functionName:(NSString *)functionName
-                             stackTrace:(NSArray *)stackTrace
-                         appScreenshots:(NSDictionary *)appScreenshots
-                              hierarchy:(NSString *)hierarchy
-                       errorDescription:(NSString *)errorDescription {
+                          failureLabel:(NSString *)failureLabel
+                           failureName:(NSString *)failureName
+                              filePath:(NSString *)filePath
+                            lineNumber:(NSUInteger)lineNumber
+                          functionName:(NSString *)functionName
+                            stackTrace:(NSArray *)stackTrace
+                        appScreenshots:(NSDictionary *)appScreenshots
+                             hierarchy:(NSString *)hierarchy
+                      errorDescription:(NSString *)errorDescription {
   GREYError *error =
       I_GREYErrorMake(kGREYGenericErrorDomain, kGREYGenericErrorCode, nil, filePath, lineNumber,
                       functionName, stackTrace, hierarchy, appScreenshots);
