@@ -19,6 +19,7 @@
 #import "GREYObjectFormatter.h"
 #import "NSError+GREYCommon.h"
 #import "GREYErrorFormatter.h"
+#import "GREYInteraction.h"
 
 NSString *const kGREYGenericErrorDomain = @"com.google.earlgrey.GenericErrorDomain";
 NSInteger const kGREYGenericErrorCode = 0;
@@ -109,7 +110,14 @@ GREYError *I_GREYErrorMake(NSString *domain, NSInteger code, NSDictionary *userI
 }
 
 - (NSString *)description {
-  return [[[GREYErrorFormatter alloc] initWithError:self] humanReadableDescription];
+  if (self.domain == kGREYInteractionErrorDomain &&
+      self.code == kGREYInteractionElementNotFoundErrorCode) {
+    return [[[GREYErrorFormatter alloc] initWithError:self] humanReadableDescription];
+  }
+  return [GREYObjectFormatter formatDictionary:[self grey_descriptionDictionary]
+                                        indent:kGREYObjectFormatIndent
+                                     hideEmpty:YES
+                                      keyOrder:nil];
 }
 
 - (NSDictionary *)grey_descriptionDictionary {

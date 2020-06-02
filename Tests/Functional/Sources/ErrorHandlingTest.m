@@ -38,6 +38,23 @@
   [super tearDown];
 }
 
+/// kGREYInteractionElementNotFoundErrorCode
+- (void)testSearchNotFoundInteractionError {
+    @try {
+        [self openTestViewNamed:@"Scroll Views"];
+        id<GREYMatcher> matcher = grey_allOf(grey_accessibilityLabel(@"Label 2"), grey_interactable(),
+                                             grey_sufficientlyVisible(), nil);
+        [[[EarlGrey selectElementWithMatcher:matcher]
+               usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 50)
+            onElementWithMatcher:grey_accessibilityLabel(@"Invalid Scroll View")]
+            assertWithMatcher:grey_sufficientlyVisible()
+                        error:nil];
+        GREYFail(@"Should throw an exception before this point.");
+    } @catch (NSException *e) {
+        NSLog(@"%@", e.userInfo);
+    }
+}
+
 /**
  * Checks the error information for a timeout when a search action fails.
  */

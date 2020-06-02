@@ -40,6 +40,13 @@
   GREYFatalAssertWithMessage(false, @"Exception type not supported for formatting");
 }
 
+// called from handleException
++ (NSString *)appendScreenshots:(NSDictionary *)screenshots
+                   andHierarchy:(NSString *)hierarchy
+                      toDetails:(NSString *)details {
+  return nil;
+}
+
 #pragma mark - Private Methods
 
 - (NSString *)_formattedHierarchy:(nonnull NSString *)hierarchy {
@@ -108,7 +115,9 @@
   }
 
   // stack trace
-  [logger addObject:[NSString stringWithFormat:@"Stack Trace: %@\n", _error.stackTrace]];
+  if (_error.stackTrace) {
+    [logger addObject:[NSString stringWithFormat:@"Stack Trace: %@\n", _error.stackTrace]];
+  }
   
   return [logger componentsJoinedByString:@"\n"];
 }
