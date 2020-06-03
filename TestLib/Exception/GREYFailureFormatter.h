@@ -55,15 +55,15 @@ NS_ASSUME_NONNULL_BEGIN
  * @return Formatted error message string.
  */
 + (NSString *)formatFailureForTestCase:(XCTestCase *)testCase
-                           failureLabel:(NSString *)failureLabel
-                            failureName:(NSString *)failureName
-                               filePath:(NSString *)filePath
-                             lineNumber:(NSUInteger)lineNumber
-                           functionName:(NSString *_Nullable)functionName
-                             stackTrace:(NSArray *)stackTrace
-                         appScreenshots:(NSDictionary *)appScreenshots
-                              hierarchy:(NSString *)hierarchy
-                       errorDescription:(NSString *)errorDescription;
+                          failureLabel:(NSString *)failureLabel
+                           failureName:(NSString *)failureName
+                              filePath:(NSString *)filePath
+                            lineNumber:(NSUInteger)lineNumber
+                          functionName:(NSString *_Nullable)functionName
+                            stackTrace:(NSArray *)stackTrace
+                        appScreenshots:(NSDictionary *)appScreenshots
+                             hierarchy:(NSString *)hierarchy
+                      errorDescription:(NSString *)errorDescription;
 @end
 
 NS_ASSUME_NONNULL_END

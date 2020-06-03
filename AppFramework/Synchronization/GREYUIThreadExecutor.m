@@ -32,7 +32,6 @@
 #import "GREYDefines.h"
 #import "GREYLogger.h"
 #import "GREYStopwatch.h"
-#import "GREYObjectFormatter.h"
 #import "GREYElementHierarchy.h"
 
 // Extern.

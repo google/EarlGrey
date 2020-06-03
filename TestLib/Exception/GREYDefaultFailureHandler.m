@@ -104,9 +104,7 @@
     [formattedOutput appendString:[NSString stringWithFormat:@"\n%@\n",
                                     [GREYErrorFormatter FormattedHierarchy:appUIHierarchy]]];
     }
-    [currentTestCase grey_markAsFailedAtLine:_lineNumber
-                                      inFile:_fileName
-                                 description:details];
+    [currentTestCase grey_markAsFailedAtLine:_lineNumber inFile:_fileName description:details];
   } else {
     NSString *log = [GREYFailureFormatter formatFailureForTestCase:currentTestCase
                                                       failureLabel:@"Exception"

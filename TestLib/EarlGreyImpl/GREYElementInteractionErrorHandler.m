@@ -50,6 +50,7 @@ void GREYHandleInteractionError(__strong GREYError *interactionError,
     if (outError) {
       *outError = interactionError;
     } else {
+      
       NSMutableString *matcherDetails;
       NSDictionary<NSString *, id> *userInfo = interactionError.userInfo;
 
@@ -77,7 +78,6 @@ void GREYHandleInteractionError(__strong GREYError *interactionError,
       id<GREYFailureHandler> failureHandler =
           [NSThread mainThread].threadDictionary[GREYFailureHandlerKey];
       // TODO(b/147072566): Will show up a (null) in rotation.
-      
       if ([reason containsString:@"the desired element was not found"]) {
         /// Eventually this check will not be needed, and will be run for every exception.
         [failureHandler handleException:exception details:interactionError.description];

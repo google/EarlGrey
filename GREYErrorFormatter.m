@@ -62,14 +62,14 @@
 - (NSString *)formattedDescription {
   if (_error.domain == kGREYInteractionErrorDomain &&
       _error.code == kGREYInteractionElementNotFoundErrorCode) {
-    return [self _elementNotFoundDescription];
+    return [self elementNotFoundDescription];
   }
-  GREYFatalAssertWithMessage(false, @"Exception type not supported for formatting");
+  GREYFatalAssertWithMessage(false, @"Error code not supported for formatting");
 }
 
 #pragma mark - Private Methods
 
-- (NSString *)_elementNotFoundDescription {
+- (NSString *)elementNotFoundDescription {
   NSMutableArray *logger = [[NSMutableArray alloc] init];
   
   // exception reason
