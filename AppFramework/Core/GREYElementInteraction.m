@@ -748,7 +748,7 @@
         reason = [NSString stringWithFormat:@"Cannot find UI Element.\n"
                                             @"Exception with Assertion: %@",
                                             reasonDetail];
-        
+
         [assertionError setErrorInfo:errorDetails];
         break;
       }
