@@ -37,6 +37,7 @@
 #import "UISwitch+GREYApp.h"
 #import "GREYInteraction.h"
 #import "GREYAppError.h"
+#import "GREYFailureScreenshotter.h"
 #import "GREYKeyboard.h"
 #import "GREYAllOf.h"
 #import "GREYAnyOf.h"
@@ -47,11 +48,13 @@
 #import "GREYFatalAsserts.h"
 #import "GREYThrowDefines.h"
 #import "GREYConfiguration.h"
+#import "GREYError.h"
 #import "NSError+GREYCommon.h"
 #import "GREYAppleInternals.h"
 #import "GREYConstants.h"
 #import "GREYDefines.h"
 #import "GREYMatcher.h"
+#import "GREYElementHierarchy.h"
 #import "GREYScreenshotter.h"
 #import "EDORemoteVariable.h"
 
@@ -577,11 +580,12 @@ static Protocol *gTextInputProtocol;
               grey_dispatch_sync_on_main_thread(^{
                 elementDescription = [element grey_description];
               });
-              NSString *description
-                  = [NSString stringWithFormat:
+              NSString *description = [NSString
+                  stringWithFormat:
                       @"Keyboard did not appear after tapping on an element. "
                       @"\nAre you sure that tapping on this element will bring up the keyboard?"
-                      @"\nElement: \n%@", element];
+                      @"\nElement: \n%@",
+                      element];
               I_GREYPopulateError(errorOrNil, kGREYInteractionErrorDomain,
                                   kGREYInteractionActionFailedErrorCode, description);
               return NO;
@@ -599,11 +603,11 @@ static Protocol *gTextInputProtocol;
                                                                    toPosition:position];
                 [firstResponder setSelectedTextRange:newRange];
               } else {
-                description
-                    = [NSString stringWithFormat:
+                description = [NSString
+                    stringWithFormat:
                         @"First Responder of Element does not conform to UITextInput protocol."
-                        @"\nFirst Responder: %@ \nElement: %@", [firstResponder description],
-                        [expectedFirstResponderView description]];
+                        @"\nFirst Responder: %@ \nElement: %@",
+                        [firstResponder description], [expectedFirstResponderView description]];
               }
             }
           });

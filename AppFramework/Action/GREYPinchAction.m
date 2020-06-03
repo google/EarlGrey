@@ -21,14 +21,17 @@
 #import "GREYPathGestureUtils.h"
 #import "NSObject+GREYApp.h"
 #import "GREYAppError.h"
+#import "GREYFailureScreenshotter.h"
 #import "GREYSyntheticEvents.h"
 #import "GREYAllOf.h"
 #import "GREYMatchers.h"
 #import "GREYSyncAPI.h"
 #import "NSObject+GREYCommon.h"
+#import "GREYError.h"
 #import "GREYErrorConstants.h"
 #import "GREYObjectFormatter.h"
 #import "NSError+GREYCommon.h"
+#import "GREYElementHierarchy.h"
 
 /**
  * Reduce the magnitude of vector in the direction of pinch action to make sure that it is minimum
@@ -91,12 +94,12 @@ static CGFloat const kPinchScale = (CGFloat)0.8;
         [viewToPinch isKindOfClass:[UIWindow class]] ? (UIWindow *)viewToPinch : viewToPinch.window;
 
     if (!window) {
-      NSString *errorDescription = [NSString stringWithFormat:@"Cannot pinch on this view "
-                                                              @"as it has no window "
-                                                              @"and it isn't a window itself:"
-                                                              @"\n%@", element];
-      I_GREYPopulateError(error, kGREYPinchErrorDomain,
-                          kGREYPinchFailedErrorCode, errorDescription);
+      NSString *errorDescription =
+          [NSString stringWithFormat:@"Cannot pinch on this view as it has no window "
+                                     @"and it isn't a window itself:\n%@",
+                                     element];
+      I_GREYPopulateError(error, kGREYPinchErrorDomain, kGREYPinchFailedErrorCode,
+                          errorDescription);
       return;
     }
 
@@ -123,10 +126,12 @@ static CGFloat const kPinchScale = (CGFloat)0.8;
     [errorDetails appendFormat:@"\n%@: %@", kErrorDetailWindowKey, window.description];
     [errorDetails appendFormat:@"\n%@: %@", kErrorDetailRecoverySuggestionKey,
                                @"Make sure the element lies in the window"];
-    NSString *reason = [NSString
-        stringWithFormat:@"Cannot apply pinch action on the element."
-                         @"\nError Details: %@", errorDetails];
+
+    NSString *reason =
+        [NSString stringWithFormat:@"Cannot apply pinch action on the element.\nError Details: %@",
+                                   errorDetails];
     I_GREYPopulateError(error, kGREYPinchErrorDomain, kGREYPinchFailedErrorCode, reason);
+
     return nil;
   }
 

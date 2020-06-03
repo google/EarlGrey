@@ -40,7 +40,7 @@
   error.testCaseClassName = [currentTestCase grey_testClassName];
   error.testCaseMethodName = [currentTestCase grey_testMethodName];
 
-  NSArray *excluding = @[ kErrorFilePathKey, kErrorLineKey ];
+  NSArray<NSString *> *excluding = @[ kErrorFilePathKey, kErrorLineKey ];
   return [self formatFailureForError:error
                            excluding:excluding
                         failureLabel:failureLabel
@@ -132,7 +132,7 @@
       }
     }
   }
-  
+
   return [logger componentsJoinedByString:@"\n"];
 }
 

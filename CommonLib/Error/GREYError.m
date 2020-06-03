@@ -72,7 +72,7 @@ NSString *const kGREYScreenshotActualAfterImage =
 
 GREYError *I_GREYErrorMake(NSString *domain, NSInteger code, NSDictionary *userInfo,
                            NSString *filePath, NSUInteger line, NSString *functionName,
-                           NSArray *stackTrace, NSString *appUIHierarchy,
+                           NSArray<NSString *> *stackTrace, NSString *appUIHierarchy,
                            NSDictionary *appScreenshots) {
   GREYError *error = [[GREYError alloc] initWithDomain:domain code:code userInfo:userInfo];
 
@@ -178,9 +178,8 @@ GREYError *I_GREYErrorMake(NSString *domain, NSInteger code, NSDictionary *userI
   }
 
   NSArray *keyOrder = @[
-    kErrorDescriptionKey, kErrorDomainKey, kErrorCodeKey,
-    kErrorFileNameKey, kErrorFunctionNameKey, kErrorLineKey, kErrorTestCaseClassNameKey,
-    kErrorTestCaseMethodNameKey
+    kErrorDescriptionKey, kErrorDomainKey, kErrorCodeKey, kErrorFileNameKey, kErrorFunctionNameKey,
+    kErrorLineKey, kErrorTestCaseClassNameKey, kErrorTestCaseMethodNameKey
   ];
 
   return [GREYObjectFormatter formatArray:descriptions

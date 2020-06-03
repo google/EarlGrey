@@ -19,14 +19,17 @@
 #import "GREYPathGestureUtils.h"
 #import "NSObject+GREYApp.h"
 #import "GREYAppError.h"
+#import "GREYFailureScreenshotter.h"
 #import "GREYSyntheticEvents.h"
 #import "GREYAllOf.h"
 #import "GREYMatchers.h"
 #import "GREYSyncAPI.h"
 #import "NSObject+GREYCommon.h"
 #import "GREYFatalAsserts.h"
+#import "GREYError.h"
 #import "GREYErrorConstants.h"
 #import "NSError+GREYCommon.h"
+#import "GREYElementHierarchy.h"
 
 @implementation GREYMultiFingerSwipeAction {
   /**
@@ -105,13 +108,12 @@
       if ([element isKindOfClass:[UIWindow class]]) {
         window = (UIWindow *)element;
       } else {
-        NSString *errorDescription =
-            [NSString stringWithFormat:
-                          @"Cannot perform multi-finger swipe on the following view, as it has "
-                          @"no window and it isn't a window itself:\n"
-                          @"%@", [element grey_description]];
+        NSString *errorDescription = [NSString
+            stringWithFormat:@"Cannot perform multi-finger swipe on the following view, as it has "
+                             @"no window and it isn't a window itself:\n%@",
+                             [element grey_description]];
         I_GREYPopulateError(error, kGREYSyntheticEventInjectionErrorDomain,
-                                 kGREYOrientationChangeFailedErrorCode, errorDescription);
+                            kGREYOrientationChangeFailedErrorCode, errorDescription);
         return;
       }
     }

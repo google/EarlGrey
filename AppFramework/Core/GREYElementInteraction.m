@@ -824,10 +824,10 @@
   // Create a new error from the compiled information.
   GREYError *wrappedError;
   if ([interactionError isKindOfClass:[GREYError class]]) {
-    wrappedError = I_GREYErrorMake(
-        interactionError.domain, interactionError.code, userInfo, interactionError.filePath,
-        interactionError.line, interactionError.functionName,
-        interactionError.stackTrace, hierarchy, appScreenshots);
+    wrappedError = I_GREYErrorMake(interactionError.domain, interactionError.code, userInfo,
+                                   interactionError.filePath, interactionError.line,
+                                   interactionError.functionName, interactionError.stackTrace,
+                                   hierarchy, appScreenshots);
   } else {
     // In case the error is an internal error from a custom matcher or assertion, just convert it
     // into a simple GREYError.

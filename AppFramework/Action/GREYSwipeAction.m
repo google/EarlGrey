@@ -100,11 +100,11 @@
       } else {
         NSString *errorDescription =
             [NSString stringWithFormat:@"Cannot swipe on this view as it has no window and "
-                                       @"isn't a window itself:"
-                                       @"\n%@", [element grey_description]];
-        *error = GREYErrorMakeWithHierarchy(kGREYSyntheticEventInjectionErrorDomain,
-                                            kGREYOrientationChangeFailedErrorCode,
-                                            errorDescription);
+                                       @"isn't a window itself:\n%@",
+                                       [element grey_description]];
+        *error =
+            GREYErrorMakeWithHierarchy(kGREYSyntheticEventInjectionErrorDomain,
+                                       kGREYOrientationChangeFailedErrorCode, errorDescription);
         return;
       }
     }
