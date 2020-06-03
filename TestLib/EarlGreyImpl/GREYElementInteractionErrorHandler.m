@@ -79,7 +79,7 @@ void GREYHandleInteractionError(__strong GREYError *interactionError,
           [NSThread mainThread].threadDictionary[GREYFailureHandlerKey];
       // TODO(b/147072566): Will show up a (null) in rotation.
       if ([reason containsString:@"the desired element was not found"]) {
-        /// Eventually this check will not be needed, and will be run for every exception.
+        /// Eventually this check will not be needed, and the error's description will be used for every error reason
         [failureHandler handleException:exception details:interactionError.description];
       } else {
         [failureHandler handleException:exception details:matcherDetails];

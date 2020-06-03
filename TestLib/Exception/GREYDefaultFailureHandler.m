@@ -102,7 +102,7 @@
     }
     if (!exception.userInfo[kErrorDetailAppUIHierarchyKey]) {
     [formattedOutput appendString:[NSString stringWithFormat:@"\n%@\n",
-                                    [GREYErrorFormatter FormattedHierarchy:appUIHierarchy]]];
+                                    [GREYErrorFormatter formattedHierarchy:appUIHierarchy]]];
     }
     [currentTestCase grey_markAsFailedAtLine:_lineNumber inFile:_fileName description:details];
   } else {

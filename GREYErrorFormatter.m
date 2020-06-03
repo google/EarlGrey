@@ -22,8 +22,8 @@
 
 #pragma mark - Class Methods
 
-+ (NSString *)FormattedHierarchy:(nonnull NSString *)hierarchy {
-    NSMutableArray *logger = [[NSMutableArray alloc] init];
++ (NSString *)formattedHierarchy:(nonnull NSString *)hierarchy {
+    NSMutableArray<NSString*> *logger = [[NSMutableArray alloc] init];
     
     [logger addObject:@"UI Hierarchy (ordered by window level, back to front):\n"];
 
@@ -31,12 +31,12 @@
     NSString *axLegend = @"[AX]";
     NSString *uieLegend = @"[UIE]";
 
-    NSDictionary *legendLabels = @{
+    NSDictionary<NSString *, NSString *> *legendLabels = @{
       windowLegend : @"Back-Most Window",
       axLegend : @"Accessibility",
       uieLegend : @"User Interaction Enabled"
     };
-    NSArray *keyOrder = @[ windowLegend, axLegend, uieLegend ];
+    NSArray<NSString *> *keyOrder = @[ windowLegend, axLegend, uieLegend ];
 
     NSString *legendDescription = [GREYObjectFormatter formatDictionary:legendLabels
                                                                  indent:kGREYObjectFormatIndent
@@ -60,7 +60,7 @@
 #pragma mark - Public Methods
 
 - (NSString *)formattedDescription {
-  if (_error.domain == kGREYInteractionErrorDomain &&
+  if ([_error.domain isEqualToString:kGREYInteractionErrorDomain] &&
       _error.code == kGREYInteractionElementNotFoundErrorCode) {
     return [self elementNotFoundDescription];
   }
@@ -70,7 +70,7 @@
 #pragma mark - Private Methods
 
 - (NSString *)elementNotFoundDescription {
-  NSMutableArray *logger = [[NSMutableArray alloc] init];
+  NSMutableArray<NSString *> *logger = [[NSMutableArray alloc] init];
   
   // exception reason
   [logger addObject:[NSString stringWithFormat:@"\n%@\n", _error.localizedDescription]];
@@ -106,7 +106,7 @@
   
   // UI hierarchy
   if (_error.appUIHierarchy) {
-    [logger addObject:[GREYErrorFormatter FormattedHierarchy:_error.appUIHierarchy]];
+    [logger addObject:[GREYErrorFormatter formattedHierarchy:_error.appUIHierarchy]];
   }
 
   // stack trace
