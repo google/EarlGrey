@@ -807,8 +807,12 @@
 
   // Add information such as element matcher and any nested error info.
   // Copy over the matcher details from the error info dictionary.
-  NSMutableDictionary<NSString *, id> *userInfo
-      = [[NSMutableDictionary alloc] initWithDictionary:interactionError.errorInfo copyItems:YES];
+  NSMutableDictionary<NSString *, id> *userInfo = [[NSMutableDictionary alloc] init];
+  if ([interactionError isKindOfClass:[GREYError class]]) {
+    for (NSString *key in interactionError.errorInfo) {
+      userInfo[key] = interactionError.errorInfo[key];
+    }
+  }
   [userInfo setValue:interactionError.localizedDescription forKey:NSLocalizedDescriptionKey];
   [userInfo setValue:reason forKey:NSLocalizedFailureReasonErrorKey];
   // Nested errors contain extra information such as stack traces, error codes that aren't useful.

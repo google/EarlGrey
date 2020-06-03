@@ -83,13 +83,13 @@
   
   // element matcher
   if (_error.userInfo[kErrorDetailElementMatcherKey]) {
-    [logger addObject:[NSString stringWithFormat:@"Element Matcher: \n%@\n",
+    [logger addObject:[NSString stringWithFormat:@"Element Matcher:\n%@\n",
                        _error.userInfo[kErrorDetailElementMatcherKey]]];
   }
 
   // search api info, pretty printed (if it was a search)
   if (_error.userInfo[kErrorDetailSearchActionInfoKey]) {
-    [logger addObject:[NSString stringWithFormat:@"Search Action Info \n%@\n",
+    [logger addObject:[NSString stringWithFormat:@"Search Action Info\n%@\n",
                        _error.userInfo[kErrorDetailSearchActionInfoKey]]];
   }
   
