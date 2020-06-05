@@ -57,46 +57,42 @@
 - (NSString *)elementNotFoundDescription {
   NSMutableArray<NSString *> *logger = [[NSMutableArray alloc] init];
   
-  // exception reason
-  [logger addObject:[NSString stringWithFormat:@"\n%@\n", _error.localizedDescription]];
+  NSString *exceptionReason = _error.localizedDescription;
+  [logger addObject:[NSString stringWithFormat:@"\n%@\n", exceptionReason]];
   
-  // recovery suggestion
-  if (_error.userInfo[kErrorDetailRecoverySuggestionKey]) {
-    [logger addObject:[NSString stringWithFormat:@"%@\n",
-                       _error.userInfo[kErrorDetailRecoverySuggestionKey]]];
+  NSString *recoverySuggestion = _error.userInfo[kErrorDetailRecoverySuggestionKey];
+  if (recoverySuggestion) {
+    [logger addObject:[NSString stringWithFormat:@"%@\n", recoverySuggestion]];
   }
   
-  // element matcher
-  if (_error.userInfo[kErrorDetailElementMatcherKey]) {
-    [logger addObject:[NSString stringWithFormat:@"Element Matcher:\n%@\n",
-                       _error.userInfo[kErrorDetailElementMatcherKey]]];
+  NSString *elementMatcher = _error.userInfo[kErrorDetailElementMatcherKey];
+  if (elementMatcher) {
+    [logger addObject:[NSString stringWithFormat:@"Element Matcher:\n%@\n", elementMatcher]];
   }
   
-  // search api info, pretty printed (if it was a search)
-  if (_error.userInfo[kErrorDetailSearchActionInfoKey]) {
-    [logger addObject:[NSString stringWithFormat:@"Search Action Info\n%@\n",
-                       _error.userInfo[kErrorDetailSearchActionInfoKey]]];
+  NSString *searchActionInfo = _error.userInfo[kErrorDetailSearchActionInfoKey];
+  if (searchActionInfo) {
+    [logger addObject:[NSString stringWithFormat:@"Search Action Info\n%@\n", searchActionInfo]];
   }
   
-  // screenshots
   for (NSString *key in _error.appScreenshots.allKeys) {
-    [logger addObject:[NSString stringWithFormat:@"%@: %@\n", key, _error.appScreenshots[key]]];
+    NSString *screenshotPath = _error.appScreenshots[key];
+    [logger addObject:[NSString stringWithFormat:@"%@: %@\n", key, screenshotPath]];
   }
   
-  // nested error
-  if (_error.nestedError) {
-    [logger addObject:[NSString stringWithFormat:@"Underlying Error: \n%@\n",
-                       _error.nestedError.description]];
+  NSString *nestedError = _error.nestedError.description;
+  if (nestedError) {
+    [logger addObject:[NSString stringWithFormat:@"Underlying Error: \n%@\n", nestedError]];
   }
   
-  // UI hierarchy
-  if (_error.appUIHierarchy) {
-    [logger addObject:GREYFormattedHierarchy(_error.appUIHierarchy)];
+  NSString *UIHierarchy = GREYFormattedHierarchy(_error.appUIHierarchy);
+  if (UIHierarchy) {
+    [logger addObject:UIHierarchy];
   }
   
-  // stack trace
-  if (_error.stackTrace) {
-    [logger addObject:[NSString stringWithFormat:@"Stack Trace: %@\n", _error.stackTrace]];
+  NSArray<NSString *> *stackTrace = _error.stackTrace;
+  if (stackTrace) {
+    [logger addObject:[NSString stringWithFormat:@"Stack Trace: %@\n", stackTrace]];
   }
   
   return [logger componentsJoinedByString:@"\n"];
@@ -105,6 +101,9 @@
 #pragma mark - Static Functions
 
 NSString *GREYFormattedHierarchy(NSString * hierarchy) {
+  if (!hierarchy) {
+    return nil;
+  }
   NSMutableArray<NSString*> *logger = [[NSMutableArray alloc] init];
   
   [logger addObject:@"UI Hierarchy (ordered by window level, back to front):\n"];

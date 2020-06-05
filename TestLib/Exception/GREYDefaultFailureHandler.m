@@ -84,7 +84,7 @@
   if (!appScreenshots) {
     appScreenshots = [GREYFailureScreenshotter screenshots];
   }
-  
+
   NSString *uniqueSubDirName =
       [NSString stringWithFormat:@"%@-%@", exception.name, [[NSUUID UUID] UUIDString]];
   NSString *screenshotDir = [GREY_CONFIG_STRING(kGREYConfigKeyArtifactsDirLocation)
