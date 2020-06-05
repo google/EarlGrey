@@ -45,10 +45,8 @@
   _lineNumber = lineNumber;
 }
 
-- (void)handleException:(GREYFrameworkException *)exception details:(NSString *)details {
-  GREYThrowOnNilParameter(exception);
-  id currentTestCase = [XCTestCase grey_currentTestCase];
-
+- (NSString *)errorDescriptionForException:(GREYFrameworkException *)exception
+                                   details:(NSString *)details {
   NSMutableString *logMessage = [[NSMutableString alloc] init];
   NSString *reason = exception.reason;
 
@@ -65,7 +63,20 @@
     NSString *logDetails = [NSString stringWithFormat:@"Exception Details: %@", details];
     [logMessage appendString:logDetails];
   }
+  
+  return logMessage;
+}
 
+- (NSString *)appUIHierarchyForException:(GREYFrameworkException *)exception {
+  NSString *appUIHierarchy = [exception.userInfo valueForKey:kErrorDetailAppUIHierarchyKey];
+  // For calls from GREYAsserts in the test side, the hierarchy must be populated here.
+  if (!appUIHierarchy) {
+    appUIHierarchy = [GREYElementHierarchy hierarchyString];
+  }
+  return appUIHierarchy;
+}
+
+- (GREYFailureScreenshots *)screenshotPathsForException:(GREYFrameworkException *)exception {
   NSDictionary<NSString *, UIImage *> *appScreenshots =
       [exception.userInfo valueForKey:kErrorDetailAppScreenshotsKey];
   // Re-obtain the screenshots when a user might be using GREYAsserts. Since this is from the test
@@ -73,7 +84,7 @@
   if (!appScreenshots) {
     appScreenshots = [GREYFailureScreenshotter screenshots];
   }
-
+  
   NSString *uniqueSubDirName =
       [NSString stringWithFormat:@"%@-%@", exception.name, [[NSUUID UUID] UUIDString]];
   NSString *screenshotDir = [GREY_CONFIG_STRING(kGREYConfigKeyArtifactsDirLocation)
@@ -82,16 +93,18 @@
       [GREYFailureScreenshotSaver saveFailureScreenshotsInDictionary:appScreenshots
                                                          toDirectory:screenshotDir];
   NSAssert(screenshotPaths, @"Screenshots must be present");
-  NSArray *stackTrace = [NSThread callStackSymbols];
+  return screenshotPaths;
+}
 
-  NSString *appUIHierarchy = [exception.userInfo valueForKey:kErrorDetailAppUIHierarchyKey];
-  // For calls from GREYAsserts in the test side, the hierarchy must be populated here.
-  if (!appUIHierarchy) {
-    appUIHierarchy = [GREYElementHierarchy hierarchyString];
-  }
-
+- (NSString *)consoleLogForException:(GREYFrameworkException *)exception
+                             details:(NSString *)details
+                     screenshotPaths:(GREYFailureScreenshots *)screenshotPaths
+                      appUIhierarchy:(NSString *)appUIHierarchy
+                     currentTestCase:(id)currentTestCase
+                          stackTrace:(NSArray *)stackTrace {
   if ([exception.reason containsString:@"the desired element was not found"]) {
-    /// Eventually this check will not be needed, and will be run for every exception.
+    /// As GREYErrorFormatter adds support for more error codes,
+    /// this check will not be needed, and this formatted output will be used for every log
     NSMutableString *formattedOutput = [details mutableCopy];
     /// Appends screenshots and ui hierarchy to the console output if they didn't already exist.
     if (!exception.userInfo[kErrorDetailAppScreenshotsKey]) {
@@ -104,20 +117,34 @@
     [formattedOutput appendString:[NSString stringWithFormat:@"\n%@\n",
                                     [GREYErrorFormatter formattedHierarchy:appUIHierarchy]]];
     }
-    [currentTestCase grey_markAsFailedAtLine:_lineNumber inFile:_fileName description:details];
-  } else {
-    NSString *log = [GREYFailureFormatter formatFailureForTestCase:currentTestCase
-                                                      failureLabel:@"Exception"
-                                                       failureName:exception.name
-                                                          filePath:_fileName
-                                                        lineNumber:_lineNumber
-                                                      functionName:nil
-                                                        stackTrace:stackTrace
-                                                    appScreenshots:screenshotPaths
-                                                         hierarchy:appUIHierarchy
-                                                  errorDescription:logMessage];
-    [currentTestCase grey_markAsFailedAtLine:_lineNumber inFile:_fileName description:log];
+    return formattedOutput;
   }
+  NSString *errorDescription = [self errorDescriptionForException:exception details:details];
+  return [GREYFailureFormatter formatFailureForTestCase:currentTestCase
+                                           failureLabel:@"Exception"
+                                            failureName:exception.name
+                                               filePath:_fileName
+                                             lineNumber:_lineNumber
+                                           functionName:nil
+                                             stackTrace:stackTrace
+                                         appScreenshots:screenshotPaths
+                                              hierarchy:appUIHierarchy
+                                       errorDescription:errorDescription];
+}
+
+- (void)handleException:(GREYFrameworkException *)exception details:(NSString *)details {
+  GREYThrowOnNilParameter(exception);
+  id currentTestCase = [XCTestCase grey_currentTestCase];
+  GREYFailureScreenshots *screenshotPaths = [self screenshotPathsForException:exception];
+  NSArray *stackTrace = [NSThread callStackSymbols];
+  NSString *appUIHierarchy = [self appUIHierarchyForException:exception];
+  NSString *log = [self consoleLogForException:exception
+                                       details:details
+                               screenshotPaths:screenshotPaths
+                                appUIhierarchy:appUIHierarchy
+                               currentTestCase:currentTestCase
+                                    stackTrace:stackTrace];
+  [currentTestCase grey_markAsFailedAtLine:_lineNumber inFile:_fileName description:log];
 }
 
 @end

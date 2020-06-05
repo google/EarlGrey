@@ -24,7 +24,7 @@
 #import "GREYErrorConstants.h"
 #import "GREYFailureHandler.h"
 #import "GREYFrameworkException.h"
-
+#import "GREYInteraction.h"
 
 /**
  * @return An NSDictionary containing screenshots obtained from the application on failure along
@@ -78,8 +78,9 @@ void GREYHandleInteractionError(__strong GREYError *interactionError,
       id<GREYFailureHandler> failureHandler =
           [NSThread mainThread].threadDictionary[GREYFailureHandlerKey];
       // TODO(b/147072566): Will show up a (null) in rotation.
-      if ([reason containsString:@"the desired element was not found"]) {
-        /// Eventually this check will not be needed, and the error's description will be used for every error reason
+      if ([interactionError.domain isEqualToString:kGREYInteractionErrorDomain] &&
+          interactionError.code == kGREYInteractionElementNotFoundErrorCode) {
+        /// Eventually this check will not be needed, and the error's description will always be passed as the `details`
         [failureHandler handleException:exception details:interactionError.description];
       } else {
         [failureHandler handleException:exception details:matcherDetails];

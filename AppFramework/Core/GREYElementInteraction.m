@@ -37,6 +37,7 @@
 #import "GREYError.h"
 #import "GREYErrorConstants.h"
 #import "GREYObjectFormatter.h"
+#import "GREYErrorFormatter.h"
 #import "GREYDefines.h"
 #import "GREYLogger.h"
 #import "GREYStopwatch.h"
@@ -517,7 +518,7 @@
 
   // First check errors that can happen at the inner most level such as timeouts.
   NSDictionary *errorDescriptions =
-      [[GREYError grey_nestedErrorDictionariesForError:actionError] objectAtIndex:0];
+      [[GREYErrorFormatter grey_nestedErrorDictionariesForError:actionError] objectAtIndex:0];
   NSMutableDictionary *errorDetails = [[NSMutableDictionary alloc] init];
 
   NSString *reason = nil;
@@ -635,7 +636,7 @@
                                             @"constraint(s) failure.\n"
                                             @"Exception with Action: %@",
                                             reasonDetail];
-        NSString *nestedError = [GREYError grey_nestedDescriptionForError:actionError];
+        NSString *nestedError = [GREYErrorFormatter grey_nestedDescriptionForError:actionError];
         errorDetails[NSLocalizedFailureReasonErrorKey] = nestedError.description;
         break;
       }
@@ -679,7 +680,7 @@
   // First check errors that can happens at the inner most level
   // for example: executor error
   NSDictionary *errorDescriptions =
-      [[GREYError grey_nestedErrorDictionariesForError:assertionError] objectAtIndex:0];
+      [[GREYErrorFormatter grey_nestedErrorDictionariesForError:assertionError] objectAtIndex:0];
   NSMutableDictionary *errorDetails = [[NSMutableDictionary alloc] init];
   NSString *reason = nil;
 
@@ -806,15 +807,18 @@
   NSString *hierarchy = [self grey_unifyAndExtractHierarchyFromError:interactionError];
 
   // Add information such as element matcher and any nested error info.
-  // Copy over the matcher details from the error info dictionary.
   NSMutableDictionary<NSString *, id> *userInfo = [[NSMutableDictionary alloc] init];
+  [userInfo setValue:interactionError.localizedDescription forKey:NSLocalizedDescriptionKey];
+  [userInfo setValue:reason forKey:NSLocalizedFailureReasonErrorKey];
+  
+  // Copy over the matcher details from the error info dictionary if the error is a GREYError;
+  // else, passing in an NSError will crash here
   if ([interactionError isKindOfClass:[GREYError class]]) {
     for (NSString *key in interactionError.errorInfo) {
       userInfo[key] = interactionError.errorInfo[key];
     }
   }
-  [userInfo setValue:interactionError.localizedDescription forKey:NSLocalizedDescriptionKey];
-  [userInfo setValue:reason forKey:NSLocalizedFailureReasonErrorKey];
+  
   // Nested errors contain extra information such as stack traces, error codes that aren't useful.
   // We only need the description glossary for printing in the error.
   // TODO(b/147072566): Ensure formatting of synchronization (idling resources) happens correctly.

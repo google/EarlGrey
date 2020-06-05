@@ -59,7 +59,7 @@ static const CFTimeInterval kPollInterval = 5.0;
   GREYError *notSupportedError =
       GREYErrorMake(kGREYDeeplinkErrorDomain, GREYDeeplinkNotSupported, errorDescription);
   I_GREYFail(@"%@\nError: %@", @"Unsupported system for backgrounding.",
-             [GREYError grey_nestedDescriptionForError:notSupportedError]);
+             [GREYErrorFormatter grey_nestedDescriptionForError:notSupportedError]);
   return NO;
 #endif
 }

@@ -202,20 +202,5 @@ GREY_EXTERN NSString *const kGREYScreenshotActualAfterImage;
  */
 - (instancetype)init NS_UNAVAILABLE;
 
-/**
- * For a given @c error, creates an array of error dictionaries with its nested error.
- *
- * @return An array of error dictionaries for the given @c error.
- *         If the given error does not contain nested error, an empty array will be returned.
- */
-+ (NSArray *)grey_nestedErrorDictionariesForError:(NSError *)error;
-
-/**
- * For a given @c error, creates a JSON-formatted description of the error and its nested error.
- *
- * @return The description of the error including its nested errors,
- *         if error object was created and set. Otherwise, return @c NULL.
- */
-+ (NSString *)grey_nestedDescriptionForError:(NSError *)error;
 
 @end

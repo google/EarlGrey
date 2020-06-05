@@ -25,6 +25,7 @@
 #import "GREYVisibilityChecker+Private.h"
 #import "GREYVisibilityChecker.h"
 #import "EDOClientService.h"
+#import "GREYErrorFormatter.h"
 
 @interface ErrorHandlingTest : BaseIntegrationTest
 @end
@@ -312,7 +313,7 @@
 
 - (void)testFormattingOfErrorCreatedInTheApp {
   NSError *error = [[GREYHostApplicationDistantObject sharedInstance] errorCreatedInTheApp];
-  XCTAssertNoThrow([GREYError grey_nestedDescriptionForError:error],
+  XCTAssertNoThrow([GREYErrorFormatter grey_nestedDescriptionForError:error],
                    @"Failing on an error from the app did not throw an exception");
 }
 
