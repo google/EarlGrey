@@ -518,7 +518,7 @@
 
   // First check errors that can happen at the inner most level such as timeouts.
   NSDictionary *errorDescriptions =
-      [[GREYErrorFormatter grey_nestedErrorDictionariesForError:actionError] objectAtIndex:0];
+      [[GREYError grey_nestedErrorDictionariesForError:actionError] objectAtIndex:0];
   NSMutableDictionary *errorDetails = [[NSMutableDictionary alloc] init];
 
   NSString *reason = nil;
@@ -636,7 +636,7 @@
                                             @"constraint(s) failure.\n"
                                             @"Exception with Action: %@",
                                             reasonDetail];
-        NSString *nestedError = [GREYErrorFormatter grey_nestedDescriptionForError:actionError];
+        NSString *nestedError = [GREYError grey_nestedDescriptionForError:actionError];
         errorDetails[NSLocalizedFailureReasonErrorKey] = nestedError.description;
         break;
       }
@@ -680,7 +680,7 @@
   // First check errors that can happens at the inner most level
   // for example: executor error
   NSDictionary *errorDescriptions =
-      [[GREYErrorFormatter grey_nestedErrorDictionariesForError:assertionError] objectAtIndex:0];
+      [[GREYError grey_nestedErrorDictionariesForError:assertionError] objectAtIndex:0];
   NSMutableDictionary *errorDetails = [[NSMutableDictionary alloc] init];
   NSString *reason = nil;
 

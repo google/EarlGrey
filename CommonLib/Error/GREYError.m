@@ -17,6 +17,8 @@
 #import "GREYError.h"
 
 #import "GREYErrorFormatter.h"
+#import "GREYObjectFormatter.h"
+#import "NSError+GREYCommon.h"
 
 NSString *const kGREYGenericErrorDomain = @"com.google.earlgrey.GenericErrorDomain";
 NSInteger const kGREYGenericErrorCode = 0;
@@ -108,6 +110,72 @@ GREYError *I_GREYErrorMake(NSString *domain, NSInteger code, NSDictionary *userI
 
 - (NSString *)description {
   return [[[GREYErrorFormatter alloc] initWithError:self] formattedDescription];
+}
+
+- (NSDictionary *)grey_descriptionDictionary {
+  NSMutableDictionary *descriptionDictionary = [[super grey_descriptionDictionary] mutableCopy];
+
+  if (!descriptionDictionary) {
+    return nil;
+  }
+
+  descriptionDictionary[kErrorTestCaseClassNameKey] = _testCaseClassName;
+  descriptionDictionary[kErrorTestCaseMethodNameKey] = _testCaseMethodName;
+  descriptionDictionary[kErrorFileNameKey] = [_filePath lastPathComponent];
+  descriptionDictionary[kErrorLineKey] = [NSString stringWithFormat:@"%ld", (unsigned long)_line];
+  descriptionDictionary[kErrorFunctionNameKey] = _functionName;
+  descriptionDictionary[kErrorUserInfoKey] = self.userInfo;
+  descriptionDictionary[kErrorErrorInfoKey] = _errorInfo;
+  descriptionDictionary[kErrorStackTraceKey] = _stackTrace;
+  descriptionDictionary[kErrorAppUIHierarchyKey] = _appUIHierarchy;
+  descriptionDictionary[kErrorAppScreenShotsKey] = _appScreenshots;
+
+  return descriptionDictionary;
+}
+
++ (NSArray *)grey_nestedErrorDictionariesForError:(NSError *)error {
+  if (!error) {
+    return nil;
+  }
+
+  NSMutableArray *errorStack = [[NSMutableArray alloc] init];
+  NSError *underlyingError = error.userInfo[NSUnderlyingErrorKey];
+  if (underlyingError) {
+    NSArray *errorDescriptions = [GREYError grey_nestedErrorDictionariesForError:underlyingError];
+    [errorStack addObjectsFromArray:errorDescriptions];
+  }
+
+  NSDictionary *descriptions = [error grey_descriptionDictionary];
+  // For GREYError, we need to remove some of the fields.
+  if ([error isKindOfClass:[GREYError class]]) {
+    NSMutableDictionary *mutableDescriptions = [descriptions mutableCopy];
+
+    [mutableDescriptions removeObjectForKey:kErrorUserInfoKey];
+    [mutableDescriptions removeObjectForKey:kErrorErrorInfoKey];
+    [mutableDescriptions removeObjectForKey:kErrorStackTraceKey];
+    [mutableDescriptions removeObjectForKey:kErrorAppUIHierarchyKey];
+    [mutableDescriptions removeObjectForKey:kErrorAppScreenShotsKey];
+    descriptions = mutableDescriptions;
+  }
+  [errorStack addObject:descriptions];
+
+  return errorStack;
+}
+
++ (NSString *)grey_nestedDescriptionForError:(NSError *)error {
+  NSArray *descriptions = [GREYError grey_nestedErrorDictionariesForError:error];
+  if (descriptions.count == 0) {
+    return @"";
+  }
+
+  NSArray *keyOrder = @[
+    kErrorDescriptionKey, kErrorDomainKey, kErrorCodeKey, kErrorFileNameKey, kErrorFunctionNameKey,
+    kErrorLineKey, kErrorTestCaseClassNameKey, kErrorTestCaseMethodNameKey
+  ];
+
+  return [GREYObjectFormatter formatArray:descriptions
+                                   indent:kGREYObjectFormatIndent
+                                 keyOrder:keyOrder];
 }
 
 @end

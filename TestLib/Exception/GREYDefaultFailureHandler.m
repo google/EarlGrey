@@ -115,7 +115,7 @@
     }
     if (!exception.userInfo[kErrorDetailAppUIHierarchyKey]) {
     [formattedOutput appendString:[NSString stringWithFormat:@"\n%@\n",
-                                    [GREYErrorFormatter formattedHierarchy:appUIHierarchy]]];
+                                    GREYFormattedHierarchy(appUIHierarchy)]];
     }
     return formattedOutput;
   }
@@ -136,7 +136,7 @@
   GREYThrowOnNilParameter(exception);
   id currentTestCase = [XCTestCase grey_currentTestCase];
   GREYFailureScreenshots *screenshotPaths = [self screenshotPathsForException:exception];
-  NSArray *stackTrace = [NSThread callStackSymbols];
+  NSArray<NSString *> *stackTrace = [NSThread callStackSymbols];
   NSString *appUIHierarchy = [self appUIHierarchyForException:exception];
   NSString *log = [self consoleLogForException:exception
                                        details:details

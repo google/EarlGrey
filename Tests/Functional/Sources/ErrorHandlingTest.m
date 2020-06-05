@@ -313,7 +313,7 @@
 
 - (void)testFormattingOfErrorCreatedInTheApp {
   NSError *error = [[GREYHostApplicationDistantObject sharedInstance] errorCreatedInTheApp];
-  XCTAssertNoThrow([GREYErrorFormatter grey_nestedDescriptionForError:error],
+  XCTAssertNoThrow([GREYError grey_nestedDescriptionForError:error],
                    @"Failing on an error from the app did not throw an exception");
 }
 

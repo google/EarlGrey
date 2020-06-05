@@ -14,21 +14,13 @@
 // limitations under the License.
 //
 
-#import "GREYError.h"
+#import <Foundation/Foundation.h>
+
+@class GREYError;
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface GREYErrorFormatter: NSObject
-
-/**
- * For a given @c hierarchy, create a human-readable hierarchy
- * including the legend.
- *
- * @param hierarchy The string representation of the App UI Hierarchy
- *
- * @return The formatted hierarchy and legend to be printed on the console
-*/
-+ (NSString *)formattedHierarchy:(nonnull NSString *)hierarchy;
 
 /**
  * For a given @c error, create a GREYErrorFormatter to provide a formattedDescription.
@@ -36,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param error The GREYError used to format the description
  *
  * @return An instance of GREYErrorFormatter
-*/
+ */
 - (instancetype)initWithError:(GREYError *)error;
 
 /**
@@ -45,24 +37,29 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return The full description of the error including its nested errors
  *          suitable for output to the user.
-*/
+ */
 - (NSString *)formattedDescription;
 
 /**
- * For a given @c error, creates an array of error dictionaries with its nested error.
+ * For a given @c hierarchy, create a human-readable hierarchy
+ * including the legend.
  *
- * @return An array of error dictionaries for the given @c error.
- *         If the given error does not contain nested error, an empty array will be returned.
+ * @param hierarchy The string representation of the App UI Hierarchy
+ *
+ * @return The formatted hierarchy and legend to be printed on the console
  */
-+ (NSArray *)grey_nestedErrorDictionariesForError:(NSError *)error;
+//+ (NSString *)formattedHierarchy:(nonnull NSString *)hierarchy;
+NSString *GREYFormattedHierarchy(NSString *hierarchy);
 
 /**
- * For a given @c error, creates a JSON-formatted description of the error and its nested error.
+ * Determine whether this error's code and domain are supported
+ * by the new GREYErrorFormatter formattedDescription.
+ * If NO, then default to using the existing dictionary object formatting.
  *
- * @return The description of the error including its nested errors,
- *         if error object was created and set. Otherwise, return @c NULL.
+ * @return YES if the new formatting should be used for this error
  */
-+ (NSString *)grey_nestedDescriptionForError:(NSError *)error;
+//+ (BOOL)shouldUseErrorFormatterForError:(GREYError *)error;
+BOOL GREYShouldUseErrorFormatterForError(GREYError *error);
 
 @end
 
