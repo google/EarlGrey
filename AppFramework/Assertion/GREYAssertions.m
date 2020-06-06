@@ -57,7 +57,7 @@
     }
     return YES;
   };
-  
+
   if ([matcher respondsToSelector:@selector(diagnosticsID)]) {
     NSString *matcherDiagnosticsID = [matcher diagnosticsID];
     if (matcherDiagnosticsID) {
