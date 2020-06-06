@@ -17,7 +17,7 @@
 #import "EarlGreyApp.h"
 #import "GREYHostApplicationDistantObject.h"
 
-/** GREYHostApplicationDistantObject extension for the base test method. */
+/** GREYHostApplicationDistantObject extension for the base test class. */
 @interface GREYHostApplicationDistantObject (BaseIntegrationTest)
 
 /**

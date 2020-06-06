@@ -23,23 +23,23 @@
 /**
  * Adds a value to a mutable array after one second.
  *
- * param array The NSMutableArray to add the value to.
- * param array The NSTimeInterval after which we add to the array.
+ * @param array   The NSMutableArray to add the value to.
+ * @param seconds The NSTimeInterval after which we add to the array.
  */
 - (void)addToMutableArray:(NSMutableArray *)array afterTime:(NSTimeInterval)seconds;
 
 /**
- * Returns a label's text that has been grabbed by an action.
+ * @return A label's text that has been grabbed by an action.
  */
 - (NSString *)labelText;
 
 /**
- * Returns an NSString with the element UI hierarchy asked for from the main thread.
+ * @return An NSString with the element UI hierarchy asked for from the main thread.
  */
 - (NSString *)elementHierarchyString;
 
 /**
- * Returns an action that grabs a label and returns its text.
+ * @return An action that grabs a label and returns its text.
  */
 - (id<GREYAction>)actionToGetLabelText;
 
@@ -51,7 +51,7 @@
 - (UIWindow *)setupGestureRecognizer;
 
 /**
- * Set a new View Controller as the root and return the original.
+ * @return A new View Controller as the root and return the original.
  */
 - (UIViewController *)originalVCAfterSettingNewVCAsRoot;
 
@@ -78,43 +78,43 @@
 - (void)setRootViewController:(UIViewController *)viewController inWindow:(UIWindow *)window;
 
 /**
- * Returns an action that checks if an element is hidden.
+ * @return An action that checks if an element is hidden.
  */
 - (id<GREYAction>)actionForCheckingIfElementHidden;
 
 /**
- * Returns an assertion that checks if an element is present.
+ * @return An assertion that checks if an element is present.
  */
 - (id<GREYAssertion>)assertionForCheckingIfElementPresent;
 
 /**
- * Returns an action to hide or unhide Tab 2 in the Basic View Controller.
+ * @return An action to hide or unhide Tab 2 in the BasicViewController.
  *
  * @param hide Denotes if to hide or unhide the tab.
  */
 - (id<GREYAction>)actionToHideOrUnhideBlock:(BOOL)hide;
 
 /**
- * Returns an action to make an element opaque or transparent.
+ * @return An action to make an element opaque or transparent.
  *
  * @param makeOpaque Denotes if the element should be opaque or not.
  */
 - (id<GREYAction>)actionToMakeOpaque:(BOOL)makeOpaque;
 
 /**
- * Returns an action to make a UIWindow opaque or transparent.
+ * @return An action to make a UIWindow opaque or transparent.
  *
  * @param makeOpaque Denotes if the UIWindow should be opaque or not.
  */
 - (id<GREYAction>)actionToMakeWindowOpaque:(BOOL)makeOpaque;
 
 /**
- * Returns a sample shorthand action.
+ * @return A sample shorthand action.
  */
 - (id<GREYAction>)sampleShorthandAction;
 
 /**
- * Returns a sample shorthand matcher.
+ * @return A sample shorthand matcher.
  */
 - (id<GREYMatcher>)sampleShorthandMatcher;
 

@@ -20,9 +20,9 @@
 /** GREYHostApplicationDistantObject extension for the UITableView test. */
 @interface GREYHostApplicationDistantObject (UITableViewTest)
 
-/** Matcher for the scroll view that doesn't scroll. */
+/** @return A GREYMatcher for a scroll view that doesn't scroll. */
 - (id<GREYMatcher>)matcherForNotScrolling;
 
-/** Action to turn off scrollView.bounces. */
+/** @return An GREYAction to turn off scrollView.bounces. */
 - (id<GREYAction>)actionForTableViewBoundOff;
 @end
