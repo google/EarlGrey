@@ -46,8 +46,8 @@
         I_GREYPopulateError(errorOrNil, kGREYInteractionErrorDomain,
                             kGREYInteractionElementNotFoundErrorCode, reason);
       } else {
-        NSString *reason = [NSString stringWithFormat:@"The following elements do not match "
-                              @"the element matcher: %@ \n  1. %@ \n  2. %@ \n",
+        NSString *reason = [NSString stringWithFormat:@"Element does not fulfill "
+                              @"assertion criteria: %@ \nElement: %@ \nMismatch: %@ \n",
                               [matcher description], [element grey_description],
                               [mismatch description]];
         I_GREYPopulateError(errorOrNil, kGREYInteractionErrorDomain,
