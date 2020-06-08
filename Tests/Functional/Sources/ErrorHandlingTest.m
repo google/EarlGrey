@@ -236,6 +236,15 @@
   XCTAssertTrue([error.description containsString:keyboardErrorString]);
 }
 
+/// kGREYInteractionAssertionFailedErrorCode
+- (void)testAssertionInteractionError {
+  GREYError *error;
+  NSString *assertionFailureString = @"Element does not fulfill assertion criteria: isNil \n"
+                                     @"Element:";
+  [[EarlGrey selectElementWithMatcher:grey_keyWindow()] assertWithMatcher:grey_nil() error:&error];
+  XCTAssertTrue([error.description containsString:assertionFailureString]);
+}
+
 - (void)testActionErrorContainsHierarchyForFailures {
   NSError *error;
   [[EarlGrey selectElementWithMatcher:grey_keyWindow()]
