@@ -46,10 +46,10 @@
         I_GREYPopulateError(errorOrNil, kGREYInteractionErrorDomain,
                             kGREYInteractionElementNotFoundErrorCode, reason);
       } else {
-        NSString *reason = [NSString stringWithFormat:@"\nMatched UI Element: %@\n"
-                            @"Did not match: %@\nIn assertion matcher: %@",
-                            [element grey_description], [mismatch description],
-                            [matcher description]];
+        NSString *reason = [NSString stringWithFormat:@"The following elements do not match "
+                              @"the element matcher: %@ \n  1. %@ \n  2. %@ \n",
+                              [matcher description], [element grey_description],
+                              [mismatch description]];
         I_GREYPopulateError(errorOrNil, kGREYInteractionErrorDomain,
                             kGREYInteractionAssertionFailedErrorCode, reason);
       }
@@ -62,7 +62,7 @@
     NSString *matcherDiagnosticsID = [matcher diagnosticsID];
     if (matcherDiagnosticsID) {
       NSString *assertionDiagnosticsID =
-      [NSString stringWithFormat:@"assertWithMatcher:%@", matcherDiagnosticsID];
+          [NSString stringWithFormat:@"assertWithMatcher:%@", matcherDiagnosticsID];
       return [GREYAssertionBlock assertionWithName:assertionName
                            assertionBlockWithError:assertionBlock
                                      diagnosticsID:assertionDiagnosticsID];
