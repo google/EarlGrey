@@ -236,8 +236,10 @@
   XCTAssertTrue([error.description containsString:keyboardErrorString]);
 }
 
-/// kGREYInteractionAssertionFailedErrorCode
-- (void)testAssertionInteractionError {
+/**
+ * Verifies the printed information for a GREYError found for an assertion failure.
+ */
+- (void)testAssertionFailureDescription {
   GREYError *error;
   NSString *assertionFailureString = @"Element does not fulfill assertion criteria: isNil \n"
                                      @"Element:";
