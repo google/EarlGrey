@@ -126,7 +126,7 @@
       onElementWithMatcher:grey_accessibilityLabel(@"Invalid Scroll View")]
       assertWithMatcher:grey_sufficientlyVisible()
                   error:&error];
-  NSString *searchAPIDescription = @"Search Action Info\nSearch Action:";
+  NSString *searchAPIDescription = @"Search API Info\nSearch Action:";
   NSString *searchAPIMatcherDescription = @"                    \"Search Matcher";
   NSString *searchActionDescription = @"Search action failed: Interaction cannot continue";
   NSString *elementMatcherDescription = @"Element Matcher:\n(((respondsToSelector";
@@ -176,7 +176,7 @@
          usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 50)
       onElementWithMatcher:grey_accessibilityLabel(@"Invalid Scroll View")] performAction:grey_tap()
                                                                                     error:&error];
-  NSString *searchAPIDescription = @"Search Action Info\nSearch Action:";
+  NSString *searchAPIDescription = @"Search API Info\nSearch Action:";
   NSString *searchAPIMatcherDescription = @"                    \"Search Matcher";
   NSString *searchActionDescription = @"Search action failed: Interaction cannot continue";
   NSString *elementMatcherDescription = @"Element Matcher:\n(((respondsToSelector";
