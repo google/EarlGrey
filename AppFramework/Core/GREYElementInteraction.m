@@ -803,6 +803,7 @@
 
 - (NSError *)grey_errorToReturnForInteractionError:(GREYError *)interactionError
                                         withReason:(NSString *)reason {
+  // TODO: @wsaid remove the `reason` parameter and replace it with the errorDetails dict
   // Obtain the hierarchy before framing the error since this can modify the error as well.
   NSString *hierarchy = [self grey_unifyAndExtractHierarchyFromError:interactionError];
 

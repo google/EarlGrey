@@ -21,10 +21,25 @@
 #import "GREYErrorConstants.h"
 #import "NSError+GREYCommon.h"
 #import "GREYError+Private.h"
+#import "GREYFatalAsserts.h"
 
 #pragma mark - String Constants
 
-static NSString *const kUnderlyingErrorKey                       = @"Underlying Error";
+/**
+ * All keys that can be added to the description logger in GREYErrorFormatter.
+ */
+static NSString *const kErrorFormatterExceptionReasonKey    = @"Exception Reason";
+static NSString *const kErrorFormatterRecoverySuggestionKey = @"Recovery Suggestion";
+static NSString *const kErrorFormatterElementMatcherKey     = @"Element Matcher";
+static NSString *const kErrorFormatterSearchActionInfoKey   = @"Search Action Info";
+static NSString *const kErrorFormatterScreenshotPathsKey    = @"Screenshot Paths";
+static NSString *const kErrorFormatterUnderlyingErrorKey    = @"Underlying Error";
+static NSString *const kErrorFormatterUIHierarchyKey        = @"UI Hierarchy";
+static NSString *const kErrorFormatterStackTraceKey         = @"Stack Trace";
+
+/**
+ * Keys used for logging the UI Hierarchy
+ */
 static NSString *const kHierarchyWindowLegendKey                 = @"[Window 1]";
 static NSString *const kHierarchyAcessibilityLegendKey           = @"[AX]";
 static NSString *const kHierarchyUserInteractionEnabledLegendKey = @"[UIE]";
@@ -57,7 +72,7 @@ static NSString *const kHierarchyHeaderKey                       = @"UI Hierarch
 
 - (NSString *)formattedDescription {
   if (GREYShouldUseErrorFormatterForError(_error)) {
-    return [self elementNotFoundDescription];
+    return [self loggerDescriptionForKeys:[self loggerKeys]];
   }
   return [GREYObjectFormatter formatDictionary:[_error grey_descriptionDictionary]
                                         indent:kGREYObjectFormatIndent
@@ -67,47 +82,79 @@ static NSString *const kHierarchyHeaderKey                       = @"UI Hierarch
 
 #pragma mark - Private Methods
 
-- (NSString *)elementNotFoundDescription {
+- (NSSet<NSString *> *)loggerKeys {
+  if ([_error.domain isEqualToString:kGREYInteractionErrorDomain] &&
+       _error.code == kGREYInteractionElementNotFoundErrorCode) {
+    return [[NSSet alloc] initWithArray:@[kErrorFormatterExceptionReasonKey,
+                                          kErrorFormatterRecoverySuggestionKey,
+                                          kErrorFormatterElementMatcherKey,
+                                          kErrorFormatterSearchActionInfoKey,
+                                          kErrorFormatterScreenshotPathsKey,
+                                          kErrorFormatterUnderlyingErrorKey,
+                                          kErrorFormatterUIHierarchyKey,
+                                          kErrorFormatterStackTraceKey]];
+  }
+  GREYFatalAssertWithMessage(false, @"Error Domain and Code Not Yet Supported");
+}
+
+- (NSString *)loggerDescriptionForKeys:(NSSet<NSString *> *)keys {
   NSMutableArray<NSString *> *logger = [[NSMutableArray alloc] init];
   
-  NSString *exceptionReason = _error.localizedDescription;
-  [logger addObject:[NSString stringWithFormat:@"\n%@\n", exceptionReason]];
-  
-  NSString *recoverySuggestion = _error.userInfo[kErrorDetailRecoverySuggestionKey];
-  if (recoverySuggestion) {
-    [logger addObject:[NSString stringWithFormat:@"%@\n", recoverySuggestion]];
+  if ([keys containsObject:kErrorFormatterExceptionReasonKey]) {
+    NSString *exceptionReason = _error.localizedDescription;
+    [logger addObject:[NSString stringWithFormat:@"\n%@\n", exceptionReason]];
   }
   
-  NSString *elementMatcher = _error.userInfo[kErrorDetailElementMatcherKey];
-  if (elementMatcher) {
-    [logger addObject:[NSString stringWithFormat:@"%@:\n%@\n", kErrorDetailElementMatcherKey,
-                       elementMatcher]];
+  if ([keys containsObject:kErrorFormatterRecoverySuggestionKey]) {
+    NSString *recoverySuggestion = _error.userInfo[kErrorDetailRecoverySuggestionKey];
+    if (recoverySuggestion) {
+      [logger addObject:[NSString stringWithFormat:@"%@\n", recoverySuggestion]];
+    }
   }
   
-  NSString *searchActionInfo = _error.userInfo[kErrorDetailSearchActionInfoKey];
-  if (searchActionInfo) {
-    [logger addObject:[NSString stringWithFormat:@"%@\n%@\n", kErrorDetailSearchActionInfoKey,
-                       searchActionInfo]];
+  if ([keys containsObject:kErrorFormatterElementMatcherKey]) {
+    NSString *elementMatcher = _error.userInfo[kErrorDetailElementMatcherKey];
+    if (elementMatcher) {
+      [logger addObject:[NSString stringWithFormat:@"%@:\n%@\n", kErrorDetailElementMatcherKey,
+                         elementMatcher]];
+    }
   }
   
-  for (NSString *key in _error.appScreenshots.allKeys) {
-    NSString *screenshotPath = _error.appScreenshots[key];
-    [logger addObject:[NSString stringWithFormat:@"%@: %@\n", key, screenshotPath]];
+  if ([keys containsObject:kErrorFormatterSearchActionInfoKey]) {
+    NSString *searchActionInfo = _error.userInfo[kErrorDetailSearchActionInfoKey];
+    if (searchActionInfo) {
+      [logger addObject:[NSString stringWithFormat:@"%@\n%@\n", kErrorDetailSearchActionInfoKey,
+                         searchActionInfo]];
+    }
   }
   
-  NSString *nestedError = _error.nestedError.description;
-  if (nestedError) {
-    [logger addObject:[NSString stringWithFormat:@"%@: \n%@\n", kUnderlyingErrorKey, nestedError]];
+  if ([keys containsObject:kErrorFormatterScreenshotPathsKey]) {
+    for (NSString *key in _error.appScreenshots.allKeys) {
+      NSString *screenshotPath = _error.appScreenshots[key];
+      [logger addObject:[NSString stringWithFormat:@"%@: %@\n", key, screenshotPath]];
+    }
   }
   
-  NSString *UIHierarchy = GREYFormattedHierarchy(_error.appUIHierarchy);
-  if (UIHierarchy) {
-    [logger addObject:UIHierarchy];
+  if ([keys containsObject:kErrorFormatterUnderlyingErrorKey]) {
+    NSString *nestedError = _error.nestedError.description;
+    if (nestedError) {
+      [logger addObject:[NSString stringWithFormat:@"%@: \n%@\n", kErrorFormatterUnderlyingErrorKey,
+                         nestedError]];
+    }
   }
   
-  NSArray<NSString *> *stackTrace = _error.stackTrace;
-  if (stackTrace) {
-    [logger addObject:[NSString stringWithFormat:@"%@: %@\n", kErrorStackTraceKey, stackTrace]];
+  if ([keys containsObject:kErrorFormatterUIHierarchyKey]) {
+    NSString *UIHierarchy = GREYFormattedHierarchy(_error.appUIHierarchy);
+    if (UIHierarchy) {
+      [logger addObject:UIHierarchy];
+    }
+  }
+  
+  if ([keys containsObject:kErrorFormatterStackTraceKey]) {
+    NSArray<NSString *> *stackTrace = _error.stackTrace;
+    if (stackTrace) {
+      [logger addObject:[NSString stringWithFormat:@"%@: %@\n", kErrorStackTraceKey, stackTrace]];
+    }
   }
   
   return [logger componentsJoinedByString:@"\n"];
@@ -121,9 +168,9 @@ NSString *GREYFormattedHierarchy(NSString * hierarchy) {
   }
   NSMutableArray<NSString*> *logger = [[NSMutableArray alloc] init];
   [logger addObject:kHierarchyHeaderKey];
-  NSString *windowLegend = kHierarchyWindow1Key;
-  NSString *axLegend = kHierarchyAcessibilityShortKey;
-  NSString *uieLegend = kHierarchyUserInteractionEnabledShortKey;
+  NSString *windowLegend = kHierarchyWindowLegendKey;
+  NSString *axLegend = kHierarchyAcessibilityLegendKey;
+  NSString *uieLegend = kHierarchyUserInteractionEnabledLegendKey;
   NSDictionary<NSString *, NSString *> *legendLabels = @{
     windowLegend : kHierarchyBackWindowKey,
     axLegend : kHierarchyAccessibilityKey,
