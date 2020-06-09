@@ -241,7 +241,7 @@
  */
 - (void)testAssertionFailureDescription {
   GREYError *error;
-  NSString *assertionFailureString = @"Element does not fulfill assertion criteria: isNil \n"
+  NSString *assertionFailureString = @"Element does not meet assertion criteria: isNil \n"
                                      @"Element:";
   [[EarlGrey selectElementWithMatcher:grey_keyWindow()] assertWithMatcher:grey_nil() error:&error];
   XCTAssertTrue([error.description containsString:assertionFailureString]);
