@@ -46,10 +46,9 @@
         I_GREYPopulateError(errorOrNil, kGREYInteractionErrorDomain,
                             kGREYInteractionElementNotFoundErrorCode, reason);
       } else {
-        NSString *reason = [NSString stringWithFormat:@"Element does not fulfill "
-                              @"assertion criteria: %@ \nElement: %@ \nMismatch: %@ \n",
-                              [matcher description], [element grey_description],
-                              [mismatch description]];
+        NSString *reason = [NSString stringWithFormat:@"Element does not meet assertion criteria: "
+                           @"%@ \nElement: %@ \nMismatch: %@ \n", [matcher description],
+                           [element grey_description], [mismatch description]];
         I_GREYPopulateError(errorOrNil, kGREYInteractionErrorDomain,
                             kGREYInteractionAssertionFailedErrorCode, reason);
       }
