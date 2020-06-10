@@ -22,6 +22,7 @@
 #import "GREYConstants.h"
 #import "GREYUIWindowProvider.h"
 #import "GREYTraversalDFS.h"
+#import "GREYTraversalObject.h"
 
 @implementation GREYElementHierarchy
 
@@ -69,7 +70,8 @@
   GREYFatalAssert(element);
   NSMutableString *outputString = [[NSMutableString alloc] init];
 
-  NSMutableString *animationInfoString = [[NSMutableString alloc] init];
+  NSMutableDictionary<NSString *, NSString *> *animationInfoDict =
+      [[NSMutableDictionary alloc] init];
 
   // Traverse the hierarchy associated with the element from back to front as per the
   // UIView::subviews order.
@@ -83,19 +85,25 @@
     if ([outputString length] != 0) {
       [outputString appendString:@"\n"];
     }
-    [outputString appendString:[self grey_printDescriptionForElement:element atLevel:object.level]];
+    NSString *description = [GREYElementHierarchy grey_printDescriptionForElement:element
+                                                                          atLevel:object.level];
+    [outputString appendString:description];
     NSString *annotation = annotationDictionary[[NSValue valueWithNonretainedObject:element]];
     if (annotation) {
       [outputString appendString:@" "];  // Space before annotation.
       [outputString appendString:annotation];
     }
     // Obtain animation info.
-    [animationInfoString appendString:[self grey_animationInfoForView:element]];
+    DedupeAndAppendAnimationInfoForView(element, animationInfoDict);
   }];
 
-  if ([animationInfoString length] != 0) {
-    NSString *animationInfoWithTitle = [@"\n\n**** Currently Animating Elements: ****\n"
-        stringByAppendingString:animationInfoString];
+  if ([animationInfoDict count] != 0) {
+    NSMutableString *animations = [[NSMutableString alloc] init];
+    for (NSString *animation in [animationInfoDict allKeys]) {
+      [animations appendString:animationInfoDict[animation]];
+    }
+    NSString *animationInfoWithTitle =
+        [@"\n\n**** Currently Animating Elements: ****\n" stringByAppendingString:animations];
     [outputString appendString:animationInfoWithTitle];
   } else {
     [outputString appendString:@"\n\n**** No Animating Views Found. ****"];
@@ -106,37 +114,63 @@
 }
 
 /**
- * @return An NSString with info about any animation attached to the specified element's layer.
+ * Adds any info about any animation attached to the layer and sublayers of the @c
+ * element.
  *
- * @param element An object for an accessibility element or a UIView present in the UI hierarchy.
+ * @remark To ensure no duplicate animation are seen, a dictionary is passed in which ensures that
+ *         animations are deduped to the last view whose sublayer they were added to.
+ *
+ * @param element             An object for an accessibility element or a UIView present in the UI
+ *                            hierarchy.
+ * @param animationDictionary The NSMutableDictionary to add the animation and its info to. This
+ *                            ensures no duplicate information is added.
  */
-+ (NSString *)grey_animationInfoForView:(id)element {
-  NSMutableString *animationInfoForView = [[NSMutableString alloc] init];
+static void DedupeAndAppendAnimationInfoForView(
+    id element, NSMutableDictionary<NSString *, NSString *> *animationDictionary) {
   if ([element isKindOfClass:[UIView class]]) {
     UIView *view = (UIView *)element;
     // MDCActivityIndicators which don't add animations to layers.
     if ([view isKindOfClass:NSClassFromString(@"MDCActivityIndicator")] &&
         [view.accessibilityValue isEqualToString:@"In Progress"]) {
-      [animationInfoForView
-          appendFormat:@"\nAnimating MDCActivityIndicator: %@", [view grey_objectDescription]];
+      NSString *activityIndicatorInfo = [NSString
+          stringWithFormat:@"\nAnimating MDCActivityIndicator: %@", [view grey_objectDescription]];
+      [animationDictionary setValue:activityIndicatorInfo forKey:@"In-progress Activity Indicator"];
     } else {
-      NSArray *animationKeys = [view.layer animationKeys];
-      if ([animationKeys count] > 0) {
-        [animationInfoForView appendFormat:@"\nUIView: %@", [view grey_objectDescription]];
-        // Obtain the animation from the animation keys and check if it is being tracked.
-        for (NSString *animationKey in animationKeys) {
-          [animationInfoForView appendFormat:@"\n    AnimationKey: %@ withAnimation: %@",
-                                             animationKey,
-                                             [view.layer animationForKey:animationKey]];
-        }
+      NSMutableArray<CALayer *> *layers = [[NSMutableArray alloc] initWithObjects:view.layer, nil];
+      while ([layers count] > 0) {
+        CALayer *firstLayer = [layers firstObject];
+        DedupeAndAppendAnimationInfoForLayerOfView(firstLayer, view, animationDictionary);
+        [layers addObjectsFromArray:[firstLayer sublayers]];
+        [layers removeObjectAtIndex:0];
       }
     }
   }
-  return animationInfoForView;
 }
 
 /**
- * Creates and outputs the description in the correct format for the @c element at a particular @c
+ * Adds any info about any animation attached to the specified @c layer obtained from the @c view to
+ * the @c animationDictionary.
+ *
+ * @param layer               The CALayer being checked for animations.
+ * @param view                The UIView for which the animation information is to be obtained.
+ *                            Passed for adding a key for the animation.
+ * @param animationDictionary The NSMutableDictionary to add the animation and its info to. This
+ *                            ensures no duplicate information is added.
+ */
+static void DedupeAndAppendAnimationInfoForLayerOfView(
+    CALayer *layer, UIView *view,
+    NSMutableDictionary<NSString *, NSString *> *animationDictionary) {
+  for (NSString *animationKey in layer.animationKeys) {
+    CAAnimation *animation = [layer animationForKey:animationKey];
+    NSString *animationInfo =
+        [NSString stringWithFormat:@"\nUIView: %@\n    AnimationKey: %@ withAnimation: %@",
+                                   [view grey_objectDescription], animationKey, animation];
+    [animationDictionary setObject:animationInfo forKey:animation.description];
+  }
+}
+
+/**
+ * Creates the description in the correct format for the @c element at a particular @c
  * level (depth of the element in the view hierarchy).
  *
  * @param element The element whose description is to be printed.

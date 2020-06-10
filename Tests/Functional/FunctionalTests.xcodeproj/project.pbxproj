@@ -159,6 +159,7 @@
 		FD623DAC20FD705B00049E81 /* libTestLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD623D2E20FD6BF900049E81 /* libTestLib.a */; };
 		FD66785621221FC1008EC4A7 /* AppFramework.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = FD623D2C20FD6BF900049E81 /* AppFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		FD66788D212229AB008EC4A7 /* HostDOCategories.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = FD6678692122290B008EC4A7 /* HostDOCategories.bundle */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		FD6F11AA248A1AB000ADF6C2 /* GREYHostApplicationDistantObject+AnimationsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD6F11A9248A1AB000ADF6C2 /* GREYHostApplicationDistantObject+AnimationsTest.m */; };
 		FD98C49A226C3555006F8D68 /* SlideTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C46B226C3517006F8D68 /* SlideTest.m */; };
 		FD98C49B226C3555006F8D68 /* ErrorHandlingTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C46C226C3517006F8D68 /* ErrorHandlingTest.m */; };
 		FD98C49D226C3555006F8D68 /* RemoteInteractionsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C46E226C3519006F8D68 /* RemoteInteractionsTest.m */; };
@@ -523,6 +524,8 @@
 		FD667850211FB63F008EC4A7 /* libeDistantObject.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libeDistantObject.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD6678692122290B008EC4A7 /* HostDOCategories.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HostDOCategories.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD6CB1BD21474975007ADA30 /* SwiftTestRigBridgingHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SwiftTestRigBridgingHeader.h; path = ../TestRig/Sources/Swift/SwiftTestRigBridgingHeader.h; sourceTree = "<group>"; };
+		FD6F11A6248A1AAF00ADF6C2 /* GREYHostApplicationDistantObject+AnimationsTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GREYHostApplicationDistantObject+AnimationsTest.h"; sourceTree = "<group>"; };
+		FD6F11A9248A1AB000ADF6C2 /* GREYHostApplicationDistantObject+AnimationsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GREYHostApplicationDistantObject+AnimationsTest.m"; sourceTree = "<group>"; };
 		FD795B89211911E800F9A9E3 /* libeDistantObject.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libeDistantObject.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD98C46B226C3517006F8D68 /* SlideTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlideTest.m; sourceTree = "<group>"; };
 		FD98C46C226C3517006F8D68 /* ErrorHandlingTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ErrorHandlingTest.m; sourceTree = "<group>"; };
@@ -729,7 +732,9 @@
 			children = (
 				FD11853E212DFE44004CADC3 /* Swift */,
 				FD98C4CA226C3ABF006F8D68 /* GREYHostApplicationDistantObject+ErrorHandlingTest.h */,
+				FD6F11A9248A1AB000ADF6C2 /* GREYHostApplicationDistantObject+AnimationsTest.m */,
 				FD98C4CB226C3AC0006F8D68 /* GREYHostApplicationDistantObject+ErrorHandlingTest.m */,
+				FD6F11A6248A1AAF00ADF6C2 /* GREYHostApplicationDistantObject+AnimationsTest.h */,
 				FDDE2F82212CEB0A00EB40F7 /* GREYHostApplicationDistantObject+BaseIntegrationTest.h */,
 				FDDE2F95212CEB0B00EB40F7 /* GREYHostApplicationDistantObject+BaseIntegrationTest.m */,
 				FDDE2F91212CEB0B00EB40F7 /* GREYHostApplicationDistantObject+GeometryTest.h */,
@@ -1561,6 +1566,7 @@
 				FDDE2FAB212CEC2600EB40F7 /* GREYHostBackgroundDistantObject+BasicInteractionTest.m in Sources */,
 				FDDE2FA3212CEBFE00EB40F7 /* GREYHostApplicationDistantObject+KeyboardKeysTest.m in Sources */,
 				FDDE2FA5212CEC0E00EB40F7 /* GREYHostApplicationDistantObject+PinchViewTest.m in Sources */,
+				FD6F11AA248A1AB000ADF6C2 /* GREYHostApplicationDistantObject+AnimationsTest.m in Sources */,
 				FDDE2FB0212CEC3800EB40F7 /* GREYHostApplicationDistantObject+ScrollViewTest.m in Sources */,
 				FDDE2FA9212CEC1E00EB40F7 /* GREYHostApplicationDistantObject+VisibilityTest.m in Sources */,
 				FDDE2FAE212CEC3200EB40F7 /* GREYHostApplicationDistantObject+GeometryTest.m in Sources */,
