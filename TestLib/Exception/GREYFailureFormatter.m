@@ -100,9 +100,10 @@
     [logger addObject:errorDescription];
   }
 
+  NSArray<NSString *> *stackTrace = error.stackTrace;
   // additional info to format
-  if (![excluding containsObject:kErrorStackTraceKey]) {
-    [logger addObject:[NSString stringWithFormat:@"Stack Trace: %@\n", error.stackTrace]];
+  if (![excluding containsObject:kErrorStackTraceKey] && stackTrace) {
+    [logger addObject:[NSString stringWithFormat:@"Stack Trace: %@\n", stackTrace]];
   }
 
   // Add screenshots.

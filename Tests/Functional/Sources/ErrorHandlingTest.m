@@ -62,6 +62,7 @@
       [error.description containsString:timeoutText],
       @"Error's description: %@ for a search action timing out did not contain timeout info: %@.",
       error.description, timeoutText);
+  XCTAssertFalse([error.description containsString:@"Stack Trace:"]);
 }
 
 /**
@@ -222,6 +223,7 @@
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait error:&error];
   NSString *idlingResourceString = @"Failed to execute block because idling resources are busy";
   XCTAssertTrue([error.description containsString:idlingResourceString]);
+  XCTAssertFalse([error.description containsString:@"Stack Trace:"]);
   [[GREYConfiguration sharedConfiguration] setValue:@(originalInteractionTimeout)
                                        forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
   // Ensure that the application has idled.
@@ -253,12 +255,14 @@
       performAction:grey_scrollInDirection(kGREYDirectionUp, 10)
               error:&error];
   XCTAssertTrue([error.description containsString:@"|--<"]);
+  XCTAssertFalse([error.description containsString:@"Stack Trace:"]);
 }
 
 - (void)testAssertionErrorContainsHierarchyForFailures {
   NSError *error;
   [[EarlGrey selectElementWithMatcher:grey_keyWindow()] assertWithMatcher:grey_nil() error:&error];
   XCTAssertTrue([error.description containsString:@"|--<"]);
+  XCTAssertFalse([error.description containsString:@"Stack Trace:"]);
 }
 
 - (void)testMatcherErrorContainsHierarchyForFailures {

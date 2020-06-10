@@ -86,7 +86,7 @@ NS_ASSUME_NONNULL_BEGIN
                               filePath:(NSString *)filePath
                             lineNumber:(NSUInteger)lineNumber
                           functionName:(NSString *_Nullable)functionName
-                            stackTrace:(NSArray *)stackTrace
+                            stackTrace:(NSArray *_Nullable)stackTrace
                         appScreenshots:(NSDictionary *)appScreenshots
                              hierarchy:(NSString *)hierarchy
                                 format:(NSString *)format, ... NS_FORMAT_FUNCTION(10, 11);

@@ -81,7 +81,6 @@
       [GREYFailureScreenshotSaver saveFailureScreenshotsInDictionary:appScreenshots
                                                          toDirectory:screenshotDir];
   NSAssert(screenshotPaths, @"Screenshots must be present");
-  NSArray *stackTrace = [NSThread callStackSymbols];
 
   NSString *appUIHierarchy = [exception.userInfo valueForKey:kErrorDetailAppUIHierarchyKey];
   // For calls from GREYAsserts in the test side, the hierarchy must be populated here.
@@ -95,7 +94,7 @@
                                                         filePath:_fileName
                                                       lineNumber:_lineNumber
                                                     functionName:nil
-                                                      stackTrace:stackTrace
+                                                      stackTrace:nil
                                                   appScreenshots:screenshotPaths
                                                        hierarchy:appUIHierarchy
                                                           format:@"%@", logMessage];
