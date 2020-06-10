@@ -236,6 +236,17 @@
   XCTAssertTrue([error.description containsString:keyboardErrorString]);
 }
 
+/**
+ * Verifies the printed information for a GREYError found for an assertion failure.
+ */
+- (void)testAssertionFailureDescription {
+  GREYError *error;
+  NSString *assertionFailureString = @"Element does not meet assertion criteria: isNil \n"
+                                     @"Element:";
+  [[EarlGrey selectElementWithMatcher:grey_keyWindow()] assertWithMatcher:grey_nil() error:&error];
+  XCTAssertTrue([error.description containsString:assertionFailureString]);
+}
+
 - (void)testActionErrorContainsHierarchyForFailures {
   NSError *error;
   [[EarlGrey selectElementWithMatcher:grey_keyWindow()]
