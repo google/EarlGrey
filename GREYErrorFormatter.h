@@ -40,6 +40,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithError:(GREYError *)error NS_DESIGNATED_INITIALIZER;
 
 /**
+ * @note This is the formatted description of the GREYError itself,
+ * so it does not include the hierarchy, screenshots, or stack trace -
+ * those are populated on the test side, typically in the failure handler.
+ *
  * @return The full description of the error including its nested errors
  *         suitable for output to the user, depending on the error's code and domain
  */
@@ -65,6 +69,15 @@ NSString *GREYFormattedHierarchy(NSString *hierarchy);
  * @return @c YES if the new formatting based on the code and domain should be used for this error
  */
 BOOL GREYShouldUseErrorFormatterForError(GREYError *error);
+
+/**
+ * Determines whether this excpeption should use the new GREYErrorFormatter::formattedDescription.
+ *
+ * This is temporary until all errors are using GREYErrorFormatter.
+ *
+ * @return @c YES if the new formatting should be used for this exception reason
+ */
+BOOL GREYShouldUseErrorFormatterForExceptionReason(NSString *reason);
 
 @end
 

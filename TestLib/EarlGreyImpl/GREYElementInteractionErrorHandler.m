@@ -80,7 +80,8 @@ void GREYHandleInteractionError(__strong GREYError *interactionError,
           [NSThread mainThread].threadDictionary[GREYFailureHandlerKey];
       // TODO(b/147072566): Will show up a (null) in rotation.
       if (GREYShouldUseErrorFormatterForError(interactionError)) {
-        /// Eventually this check will not be needed, and the error's description will always be passed as the `details`
+        // Eventually this check will not be needed, and the error's description will
+        // always be passed as the `details`
         [failureHandler handleException:exception details:interactionError.description];
       } else {
         [failureHandler handleException:exception details:matcherDetails];

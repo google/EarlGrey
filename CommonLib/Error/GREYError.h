@@ -188,7 +188,7 @@ GREY_EXTERN NSString *const kGREYScreenshotActualAfterImage;
 @property(nonatomic, readonly) NSString *appUIHierarchy;
 
 /**
- * The screenshots for tha app when the error is generated;
+ * The screenshots for the app when the error is generated.
  */
 @property(nonatomic, readonly) NSDictionary *appScreenshots;
 

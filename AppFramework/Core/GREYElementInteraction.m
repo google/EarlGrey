@@ -803,7 +803,7 @@
 
 - (NSError *)grey_errorToReturnForInteractionError:(GREYError *)interactionError
                                         withReason:(NSString *)reason {
-  // TODO: @wsaid remove the `reason` parameter and replace it with the errorDetails dict
+  // TODO(wsaid): Remove the reason parameter and replace with the errorDetails dictionary.
   // Obtain the hierarchy before framing the error since this can modify the error as well.
   NSString *hierarchy = [self grey_unifyAndExtractHierarchyFromError:interactionError];
 
@@ -815,9 +815,7 @@
   // Copy over the matcher details from the error info dictionary if the error is a GREYError;
   // else, passing in an NSError will crash here
   if ([interactionError isKindOfClass:[GREYError class]]) {
-    for (NSString *key in interactionError.errorInfo) {
-      userInfo[key] = interactionError.errorInfo[key];
-    }
+    [userInfo addEntriesFromDictionary:interactionError.errorInfo];
   }
   
   // Nested errors contain extra information such as stack traces, error codes that aren't useful.

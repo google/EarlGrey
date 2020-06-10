@@ -71,23 +71,17 @@
                     assertWithMatcher:grey_notNil()
                                 error:nil];
   
-  NSString *expectedDetails1 = @"Interaction cannot continue because the desired element was not "
-                               @"found.\n"
-                               @"\n"
-                               @"Check if the element exists in the UI hierarchy printed below. If "
-                               @"it exists, adjust the matcher so that it accurately matches "
-                               @"the element.\n"
-                               @"\n"
-                               @"Element Matcher:\n"
-                               @"((kindOfClass('UILabel') || kindOfClass('UITextField') || "
-                               @"kindOfClass('UITextView')) && hasText('Basic Views'))\n"
-                               @"\n"
-                               @"App-side Screenshot at Point-of-Failure:";
-  XCTAssertTrue([handler.details containsString:expectedDetails1]);
-  NSString *expectedDetails2 = @"UI Hierarchy (ordered by window level, back to front):";
-  XCTAssertTrue([handler.details containsString:expectedDetails2]);
-  NSString *expectedDetails3 = @"Stack Trace: (";
-  XCTAssertTrue([handler.details containsString:expectedDetails3]);
+  NSString *expectedDetails = @"Interaction cannot continue because the desired element was not "
+                              @"found.\n"
+                              @"\n"
+                              @"Check if the element exists in the UI hierarchy printed below. If "
+                              @"it exists, adjust the matcher so that it accurately matches "
+                              @"the element.\n"
+                              @"\n"
+                              @"Element Matcher:\n"
+                              @"((kindOfClass('UILabel') || kindOfClass('UITextField') || "
+                              @"kindOfClass('UITextView')) && hasText('Basic Views'))";
+  XCTAssertTrue([handler.details containsString:expectedDetails]);
 }
 
 - (void)testSearchNotFoundErrorDescription {
@@ -103,28 +97,22 @@
                      assertWithMatcher:grey_sufficientlyVisible()
                                  error:nil];
 
-  NSString *expectedDetails1 = @"Search action failed: Interaction cannot continue because the "
-                               @"desired element was not found.\n"
-                               @"\n"
-                               @"Check if the element exists in the UI hierarchy printed below. If "
-                               @"it exists, adjust the matcher so that it accurately matches "
-                               @"the element.\n"
-                               @"\n"
-                               @"Element Matcher:\n"
-                               @"(((respondsToSelector(isAccessibilityElement) && "
-                               @"isAccessibilityElement) && accessibilityLabel('Label 2')) && "
-                               @"interactable Point:{nan, nan} && sufficientlyVisible(Expected: "
-                               @"0.750000, Actual: 0.000000))\n"
-                               @"\n"
-                               @"Search API Info\n"
-                               @"Search Action: ";
-  XCTAssertTrue([handler.details containsString:expectedDetails1]);
-  NSString *expectedDetails2 = @"App-side Screenshot at Point-of-Failure:";
-  XCTAssertTrue([handler.details containsString:expectedDetails2]);
-  NSString *expectedDetails3 = @"UI Hierarchy (ordered by window level, back to front):";
-  XCTAssertTrue([handler.details containsString:expectedDetails3]);
-  NSString *expectedDetails4 = @"Stack Trace: (";
-  XCTAssertTrue([handler.details containsString:expectedDetails4]);
+  NSString *expectedDetails = @"Search action failed: Interaction cannot continue because the "
+                              @"desired element was not found.\n"
+                              @"\n"
+                              @"Check if the element exists in the UI hierarchy printed below. If "
+                              @"it exists, adjust the matcher so that it accurately matches "
+                              @"the element.\n"
+                              @"\n"
+                              @"Element Matcher:\n"
+                              @"(((respondsToSelector(isAccessibilityElement) && "
+                              @"isAccessibilityElement) && accessibilityLabel('Label 2')) && "
+                              @"interactable Point:{nan, nan} && sufficientlyVisible(Expected: "
+                              @"0.750000, Actual: 0.000000))\n"
+                              @"\n"
+                              @"Search API Info\n"
+                              @"Search Action: ";
+  XCTAssertTrue([handler.details containsString:expectedDetails]);
 }
 
 @end
