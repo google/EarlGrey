@@ -60,6 +60,8 @@ NSString *GREYFormattedHierarchy(NSString *hierarchy);
  * by the new GREYErrorFormatter::formattedDescription.
  * If @c NO, then default to using the existing dictionary object formatting.
  *
+ * This is temporary until all errors are using GREYErrorFormatter.
+ *
  * @return @c YES if the new formatting based on the code and domain should be used for this error
  */
 BOOL GREYShouldUseErrorFormatterForError(GREYError *error);

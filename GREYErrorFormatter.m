@@ -102,44 +102,71 @@ static NSString *const kHierarchyHeaderKey                       = @"UI Hierarch
   
   if ([keys containsObject:kErrorFormatterExceptionReasonKey]) {
     NSString *exceptionReason = _error.localizedDescription;
-    [logger addObject:[NSString stringWithFormat:@"\n%@\n", exceptionReason]];
+    [logger addObject:[self errorLogEntryWithNewlineBefore:YES
+                                                     entry:exceptionReason
+                                                     colon:NO
+                                                     space:NO
+                                             secondNewLine:NO
+                                               secondEntry:nil]];
   }
   
   if ([keys containsObject:kErrorFormatterRecoverySuggestionKey]) {
     NSString *recoverySuggestion = _error.userInfo[kErrorDetailRecoverySuggestionKey];
     if (recoverySuggestion) {
-      [logger addObject:[NSString stringWithFormat:@"%@\n", recoverySuggestion]];
+      [logger addObject:[self errorLogEntryWithNewlineBefore:NO
+                                                       entry:recoverySuggestion
+                                                       colon:NO
+                                                       space:NO
+                                               secondNewLine:NO
+                                                 secondEntry:nil]];
     }
   }
   
   if ([keys containsObject:kErrorFormatterElementMatcherKey]) {
     NSString *elementMatcher = _error.userInfo[kErrorDetailElementMatcherKey];
     if (elementMatcher) {
-      [logger addObject:[NSString stringWithFormat:@"%@:\n%@\n", kErrorDetailElementMatcherKey,
-                         elementMatcher]];
+      [logger addObject:[self errorLogEntryWithNewlineBefore:NO
+                                                       entry:kErrorDetailElementMatcherKey
+                                                       colon:YES
+                                                       space:NO
+                                               secondNewLine:YES
+                                                 secondEntry:elementMatcher]];
     }
   }
   
   if ([keys containsObject:kErrorFormatterSearchActionInfoKey]) {
     NSString *searchActionInfo = _error.userInfo[kErrorDetailSearchActionInfoKey];
     if (searchActionInfo) {
-      [logger addObject:[NSString stringWithFormat:@"%@\n%@\n", kErrorDetailSearchActionInfoKey,
-                         searchActionInfo]];
+      [logger addObject:[self errorLogEntryWithNewlineBefore:NO
+                                                       entry:kErrorDetailSearchActionInfoKey
+                                                       colon:NO
+                                                       space:NO
+                                               secondNewLine:YES
+                                                 secondEntry:searchActionInfo]];
     }
   }
   
   if ([keys containsObject:kErrorFormatterScreenshotPathsKey]) {
     for (NSString *key in _error.appScreenshots.allKeys) {
-      NSString *screenshotPath = _error.appScreenshots[key];
-      [logger addObject:[NSString stringWithFormat:@"%@: %@\n", key, screenshotPath]];
+      NSString *screenshotPath = [NSString stringWithFormat:@"%@", _error.appScreenshots[key]];
+      [logger addObject:[self errorLogEntryWithNewlineBefore:NO
+                                                       entry:key
+                                                       colon:YES
+                                                       space:YES
+                                               secondNewLine:NO
+                                                 secondEntry:screenshotPath]];
     }
   }
   
   if ([keys containsObject:kErrorFormatterUnderlyingErrorKey]) {
     NSString *nestedError = _error.nestedError.description;
     if (nestedError) {
-      [logger addObject:[NSString stringWithFormat:@"%@: \n%@\n", kErrorFormatterUnderlyingErrorKey,
-                         nestedError]];
+      [logger addObject:[self errorLogEntryWithNewlineBefore:NO
+                                                       entry:kErrorFormatterUnderlyingErrorKey
+                                                       colon:YES
+                                                       space:NO
+                                               secondNewLine:YES
+                                                 secondEntry:nestedError]];
     }
   }
   
@@ -153,14 +180,51 @@ static NSString *const kHierarchyHeaderKey                       = @"UI Hierarch
   if ([keys containsObject:kErrorFormatterStackTraceKey]) {
     NSArray<NSString *> *stackTrace = _error.stackTrace;
     if (stackTrace) {
-      [logger addObject:[NSString stringWithFormat:@"%@: %@\n", kErrorStackTraceKey, stackTrace]];
+      [logger addObject:[self errorLogEntryWithNewlineBefore:NO
+                                                       entry:kErrorStackTraceKey
+                                                       colon:YES
+                                                       space:YES
+                                               secondNewLine:NO
+                                                 secondEntry:stackTrace.description]];
     }
   }
   
   return [logger componentsJoinedByString:@"\n"];
 }
 
-#pragma mark - Static Functions
+// Example: errorLogEntryWithNewlineBefore:NO entry:@"1" colon:YES space:YES
+// secondNewLine:YES secondEntry:@"2" -> @"1: \n2\n"
+// Notice it always adds a \n to the end, so there is no need to supply that as a parameter.
+- (NSString *)errorLogEntryWithNewlineBefore:(BOOL)lineBefore
+                                       entry:(NSString *)entry
+                                       colon:(BOOL)colon
+                                       space:(BOOL)space
+                               secondNewLine:(BOOL)secondNewLine
+                                 secondEntry:(NSString *)secondEntry {
+  NSMutableString *log = [[NSMutableString alloc] init];
+  if (lineBefore) {
+    [log appendString: @"\n"];
+  }
+  if (entry) {
+    [log appendString:entry];
+  }
+  if (colon) {
+    [log appendString: @":"];
+  }
+  if (space) {
+    [log appendString: @" "];
+  }
+  if (secondNewLine) {
+    [log appendString: @"\n"];
+  }
+  if (secondEntry) {
+    [log appendString: secondEntry];
+  }
+  [log appendString: @"\n"];
+  return log;
+}
+
+#pragma mark - Functions
 
 NSString *GREYFormattedHierarchy(NSString * hierarchy) {
   if (!hierarchy) {

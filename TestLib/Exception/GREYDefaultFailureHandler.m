@@ -103,19 +103,17 @@
                      currentTestCase:(id)currentTestCase
                           stackTrace:(NSArray *)stackTrace {
   if ([exception.reason containsString:@"the desired element was not found"]) {
-    /// As GREYErrorFormatter adds support for more error codes,
-    /// this check will not be needed, and this formatted output will be used for every log
+    // As GREYErrorFormatter adds support for more error codes,
+    // This check will not be needed, and this formatted output will be used for every log
     NSMutableString *formattedOutput = [details mutableCopy];
-    /// Appends screenshots and ui hierarchy to the console output if they didn't already exist.
+    // Appends screenshots and ui hierarchy to the console output if they didn't already exist.
     if (!exception.userInfo[kErrorDetailAppScreenshotsKey]) {
       for (NSString *key in screenshotPaths.allKeys) {
-        [formattedOutput appendString:[NSString stringWithFormat:@"\n%@: %@\n",
-                                       key, screenshotPaths[key]]];
+        [formattedOutput appendFormat:@"\n%@: %@\n", key, screenshotPaths[key]];
       }
     }
     if (!exception.userInfo[kErrorDetailAppUIHierarchyKey]) {
-    [formattedOutput appendString:[NSString stringWithFormat:@"\n%@\n",
-                                    GREYFormattedHierarchy(appUIHierarchy)]];
+      [formattedOutput appendFormat:@"\n%@\n", GREYFormattedHierarchy(appUIHierarchy)];
     }
     return formattedOutput;
   }

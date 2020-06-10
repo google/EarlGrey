@@ -83,11 +83,11 @@
                                @"kindOfClass('UITextView')) && hasText('Basic Views'))\n"
                                @"\n"
                                @"App-side Screenshot at Point-of-Failure:";
+  XCTAssertTrue([handler.details containsString:expectedDetails1]);
   NSString *expectedDetails2 = @"UI Hierarchy (ordered by window level, back to front):";
+  XCTAssertTrue([handler.details containsString:expectedDetails2]);
   NSString *expectedDetails3 = @"Stack Trace: (";
-  for (NSString *expectation in @[expectedDetails1, expectedDetails2, expectedDetails3]) {
-    XCTAssertTrue([handler.details containsString:expectation]);
-  }
+  XCTAssertTrue([handler.details containsString:expectedDetails3]);
 }
 
 - (void)testSearchNotFoundErrorDescription {
@@ -118,13 +118,13 @@
                                @"\n"
                                @"Search API Info\n"
                                @"Search Action: ";
+  XCTAssertTrue([handler.details containsString:expectedDetails1]);
   NSString *expectedDetails2 = @"App-side Screenshot at Point-of-Failure:";
+  XCTAssertTrue([handler.details containsString:expectedDetails2]);
   NSString *expectedDetails3 = @"UI Hierarchy (ordered by window level, back to front):";
+  XCTAssertTrue([handler.details containsString:expectedDetails3]);
   NSString *expectedDetails4 = @"Stack Trace: (";
-  for (NSString *expectation in @[expectedDetails1, expectedDetails2, expectedDetails3,
-                                  expectedDetails4]) {
-    XCTAssertTrue([handler.details containsString:expectation]);
-  }
+  XCTAssertTrue([handler.details containsString:expectedDetails4]);
 }
 
 @end
