@@ -28,11 +28,12 @@
 /**
  * All keys that can be added to the description logger in GREYErrorFormatter.
  */
-static NSString *const kErrorFormatterExceptionReasonKey    = @"Exception Reason";
-static NSString *const kErrorFormatterRecoverySuggestionKey = @"Recovery Suggestion";
-static NSString *const kErrorFormatterElementMatcherKey     = @"Element Matcher";
-static NSString *const kErrorFormatterSearchActionInfoKey   = @"Search Action Info";
-static NSString *const kErrorFormatterUnderlyingErrorKey    = @"Underlying Error";
+static NSString *const kErrorFormatterExceptionReasonKey     = @"Exception Reason";
+static NSString *const kErrorFormatterRecoverySuggestionKey  = @"Recovery Suggestion";
+static NSString *const kErrorFormatterElementMatcherKey      = @"Element Matcher";
+static NSString *const kErrorFormatterSearchActionInfoKey    = @"Search Action Info";
+static NSString *const kErrorFormatterAssertionCriteriaKey   = @"Assertion Criteria";
+static NSString *const kErrorFormatterUnderlyingErrorKey     = @"Underlying Error";
 
 #pragma mark - Private Variables
 
@@ -73,6 +74,7 @@ static NSString *const kErrorFormatterUnderlyingErrorKey    = @"Underlying Error
     return [[NSSet alloc] initWithArray:@[kErrorFormatterExceptionReasonKey,
                                           kErrorFormatterRecoverySuggestionKey,
                                           kErrorFormatterElementMatcherKey,
+                                          kErrorFormatterAssertionCriteriaKey,
                                           kErrorFormatterSearchActionInfoKey,
                                           kErrorFormatterUnderlyingErrorKey]];
   }
@@ -99,6 +101,14 @@ static NSString *const kErrorFormatterUnderlyingErrorKey    = @"Underlying Error
     if (elementMatcher) {
       [logger addObject:[NSString stringWithFormat:@"%@:\n%@", kErrorDetailElementMatcherKey,
                          elementMatcher]];
+    }
+  }
+  
+  if ([keys containsObject:kErrorFormatterAssertionCriteriaKey]) {
+    NSString *assertionCriteria = _error.userInfo[kErrorFormatterAssertionCriteriaKey];
+    if (assertionCriteria) {
+      [logger addObject:[NSString stringWithFormat:@"%@: %@", kErrorFormatterAssertionCriteriaKey,
+                         assertionCriteria]];
     }
   }
   
