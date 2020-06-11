@@ -32,7 +32,7 @@ static NSString *const kErrorFormatterExceptionReasonKey     = @"Exception Reaso
 static NSString *const kErrorFormatterRecoverySuggestionKey  = @"Recovery Suggestion";
 static NSString *const kErrorFormatterElementMatcherKey      = @"Element Matcher";
 static NSString *const kErrorFormatterSearchActionInfoKey    = @"Search Action Info";
-static NSString *const kErrorFormatterAssertionCriteriaKey   = @"Assertion Criteria";
+static NSString *const kErrorFormatterCriteriaKey            = @"Criteria";
 static NSString *const kErrorFormatterUnderlyingErrorKey     = @"Underlying Error";
 
 #pragma mark - Private Variables
@@ -74,7 +74,7 @@ static NSString *const kErrorFormatterUnderlyingErrorKey     = @"Underlying Erro
     return [[NSSet alloc] initWithArray:@[kErrorFormatterExceptionReasonKey,
                                           kErrorFormatterRecoverySuggestionKey,
                                           kErrorFormatterElementMatcherKey,
-                                          kErrorFormatterAssertionCriteriaKey,
+                                          kErrorFormatterCriteriaKey,
                                           kErrorFormatterSearchActionInfoKey,
                                           kErrorFormatterUnderlyingErrorKey]];
   }
@@ -104,11 +104,16 @@ static NSString *const kErrorFormatterUnderlyingErrorKey     = @"Underlying Erro
     }
   }
   
-  if ([keys containsObject:kErrorFormatterAssertionCriteriaKey]) {
-    NSString *assertionCriteria = _error.userInfo[kErrorFormatterAssertionCriteriaKey];
+  if ([keys containsObject:kErrorFormatterCriteriaKey]) {
+    NSString *assertionCriteria = _error.userInfo[kErrorDetailAssertCriteriaKey];
     if (assertionCriteria) {
-      [logger addObject:[NSString stringWithFormat:@"%@: %@", kErrorFormatterAssertionCriteriaKey,
+      [logger addObject:[NSString stringWithFormat:@"%@: %@", kErrorDetailAssertCriteriaKey,
                          assertionCriteria]];
+    }
+    NSString *actionCriteria = _error.userInfo[kErrorDetailActionNameKey];
+    if (actionCriteria) {
+      [logger addObject:[NSString stringWithFormat:@"%@: %@", kErrorDetailActionNameKey,
+                         actionCriteria]];
     }
   }
   
@@ -127,8 +132,8 @@ static NSString *const kErrorFormatterUnderlyingErrorKey     = @"Underlying Erro
                          nestedError]];
     }
   }
-  
-  return [logger componentsJoinedByString:@"\n\n"];
+
+  return [NSString stringWithFormat:@"%@\n", [logger componentsJoinedByString:@"\n\n"]];
 }
 
 #pragma mark - Functions

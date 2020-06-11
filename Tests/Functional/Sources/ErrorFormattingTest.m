@@ -53,15 +53,20 @@
  * Tests that the user-facing console output follows expectations.
  */
 @interface ErrorFormattingTest : BaseIntegrationTest
-
+@property(readonly, nonatomic) ErrorFormatTestingFailureHandler *handler;
 @end
 
 @implementation ErrorFormattingTest
 
-- (void)testElementNotFoundErrorDescription {
-  ErrorFormatTestingFailureHandler *handler = [[ErrorFormatTestingFailureHandler alloc] init];
-  [NSThread mainThread].threadDictionary[GREYFailureHandlerKey] = handler;
-  
+- (void)setUp {
+  [super setUp];
+  _handler = [[ErrorFormatTestingFailureHandler alloc] init];
+  [NSThread mainThread].threadDictionary[GREYFailureHandlerKey] = _handler;
+}
+
+/// Tests the Element Not Found formatting for kGREYInteractionElementNotFoundErrorCode
+/// that does not originate from a search action failure
+- (void)testNotFoundAssertionErrorDescription {
   id<GREYMatcher> matcher =
       [[GREYHostApplicationDistantObject sharedInstance] matcherForFirstElement];
   [[EarlGrey selectElementWithMatcher:grey_allOf(grey_kindOfClass([UITableViewCell class]),
@@ -83,13 +88,12 @@
                               @"kindOfClass('UITextView')) && hasText('Basic Views'))\n"
                               @"\n"
                               @"Assertion Criteria: assertWithMatcher:isNotNil";
-  XCTAssertTrue([handler.details containsString:expectedDetails]);
+  XCTAssertTrue([_handler.details containsString:expectedDetails]);
 }
 
-- (void)testSearchNotFoundErrorDescription {
-  ErrorFormatTestingFailureHandler *handler = [[ErrorFormatTestingFailureHandler alloc] init];
-  [NSThread mainThread].threadDictionary[GREYFailureHandlerKey] = handler;
-
+/// Tests the Element Not Found formatting for kGREYInteractionElementNotFoundErrorCode
+/// that originates from a search action failure
+- (void)testSearchNotFoundAssertionErrorDescription {
   [self openTestViewNamed:@"Scroll Views"];
   id<GREYMatcher> matcher = grey_allOf(grey_accessibilityLabel(@"Label 2"), grey_interactable(),
                                        grey_sufficientlyVisible(), nil);
@@ -117,7 +121,36 @@
                               @"\n"
                               @"Search API Info\n"
                               @"Search Action: ";
-  XCTAssertTrue([handler.details containsString:expectedDetails]);
+  XCTAssertTrue([_handler.details containsString:expectedDetails]);
+}
+
+/// Tests the Element Not Found formatting for an Action failure
+- (void)testNotFoundActionErrorDescription {
+  CFTimeInterval originalInteractionTimeout =
+      GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
+  [[GREYConfiguration sharedConfiguration] setValue:@(1)
+                                       forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
+  NSString *jsStringAboveTimeout =
+      @"start = new Date().getTime(); while (new Date().getTime() < start + 3000);";
+  // JS action timeout greater than the threshold.
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TestWKWebView")]
+      performAction:grey_javaScriptExecution(jsStringAboveTimeout, nil)
+              error:nil];
+  [[GREYConfiguration sharedConfiguration] setValue:@(originalInteractionTimeout)
+                                       forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
+  NSString *expectedDetails = @"Interaction cannot continue because the "
+                              @"desired element was not found.\n"
+                              @"\n"
+                              @"Check if the element exists in the UI hierarchy printed below. If "
+                              @"it exists, adjust the matcher so that it accurately matches "
+                              @"the element.\n"
+                              @"\n"
+                              @"Element Matcher:\n"
+                              @"(respondsToSelector(accessibilityIdentifier) && "
+                              @"accessibilityID('TestWKWebView'))\n"
+                              @"\n"
+                              @"Action Name: Execute JavaScript";
+  XCTAssertTrue([_handler.details containsString:expectedDetails]);
 }
 
 @end
