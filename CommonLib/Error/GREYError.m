@@ -109,7 +109,7 @@ GREYError *I_GREYErrorMake(NSString *domain, NSInteger code, NSDictionary *userI
 }
 
 - (NSString *)description {
-  return [[[GREYErrorFormatter alloc] initWithError:self] formattedDescription];
+  return [GREYErrorFormatter formattedDescriptionForError:self];
 }
 
 - (NSDictionary *)grey_descriptionDictionary {

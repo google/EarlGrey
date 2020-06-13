@@ -26,20 +26,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface GREYErrorFormatter: NSObject
 
 /**
- * @remark init is not an available initializer. Use the other initializers.
- */
-- (instancetype)init NS_UNAVAILABLE;
-
-/**
- * For a given @c error, Creates a GREYErrorFormatter for formatting the description of a GREYError.
- *
- * @param error The GREYError used to format the description
- *
- * @return An instance of GREYErrorFormatter
- */
-- (instancetype)initWithError:(GREYError *)error NS_DESIGNATED_INITIALIZER;
-
-/**
  * @note This is the formatted description of the GREYError itself,
  * so it does not include the hierarchy, screenshots, or stack trace -
  * those are populated on the test side, typically in the failure handler.
@@ -47,17 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @return The full description of the error including its nested errors
  *         suitable for output to the user, depending on the error's code and domain
  */
-- (NSString *)formattedDescription;
-
-/**
- * For a given @c hierarchy, creates a human-readable hierarchy
- * including the legend.
- *
- * @param hierarchy The string representation of the App UI Hierarchy
- *
- * @return The formatted hierarchy and legend to be printed on the console
- */
-NSString *GREYFormattedHierarchy(NSString *hierarchy);
++ (NSString *)formattedDescriptionForError:(GREYError *)error;
 
 /**
  * Determines whether this error's code and domain are supported

@@ -23,7 +23,7 @@
 #import "GREYError+Private.h"
 #import "GREYFatalAsserts.h"
 
-#pragma mark - GREYErrorFormatterKeys
+#pragma mark - GREYErrorFormatterFlag
 
 /**
  * Keys used by GREYErrorFormatter to format a GREYError's userInfo properties.
@@ -48,112 +48,23 @@ typedef NS_OPTIONS(NSUInteger, GREYErrorFormatterFlag) {
   GREYErrorFormatterFlagUnderlyingError = 1 << 5,
 };
 
-#pragma mark - Private Variables
-
-@interface GREYErrorFormatter ()
-@property(readonly, nonatomic) GREYError *error;
-@property(readonly, nonatomic) NSUInteger keys;
-@end
+#pragma mark - GREYErrorFormatter
 
 @implementation GREYErrorFormatter
 
-#pragma mark - Init
-
-- (instancetype)initWithError:(GREYError *)error {
-  self = [super init];
-  if (self) {
-    _error = error;
-  }
-  return self;
-}
-
 #pragma mark - Public Methods
 
-- (NSString *)formattedDescription {
-  if (GREYShouldUseErrorFormatterForError(_error)) {
-    return [self loggerDescriptionForKeys:[self loggerKeys]];
++ (NSString *)formattedDescriptionForError:(GREYError *)error {
+  if (GREYShouldUseErrorFormatterForError(error)) {
+    return loggerDescription(error);
   }
-  return [GREYObjectFormatter formatDictionary:[_error grey_descriptionDictionary]
+  return [GREYObjectFormatter formatDictionary:[error grey_descriptionDictionary]
                                         indent:kGREYObjectFormatIndent
                                      hideEmpty:YES
                                       keyOrder:nil];
 }
 
-#pragma mark - Private Methods
-
-// The keys whose values should be supplied in the formatted error output.
-- (NSUInteger)loggerKeys {
-  if (_keys) {
-    return _keys;
-  }
-  if ([_error.domain isEqualToString:kGREYInteractionErrorDomain] &&
-       _error.code == kGREYInteractionElementNotFoundErrorCode) {
-     _keys = GREYErrorFormatterFlagExceptionReason |
-             GREYErrorFormatterFlagRecoverySuggestion |
-             GREYErrorFormatterFlagElementMatcher |
-             GREYErrorFormatterFlagCriteria |
-             GREYErrorFormatterFlagSearchActionInfo |
-             GREYErrorFormatterFlagUnderlyingError;
-    return _keys;
-  }
-  GREYFatalAssertWithMessage(false, @"Error Domain and Code Not Yet Supported");
-}
-
-- (NSString *)loggerDescriptionForKeys:(NSUInteger)keys {
-  NSMutableArray<NSString *> *logger = [[NSMutableArray alloc] init];
-  
-  if (keys & GREYErrorFormatterFlagExceptionReason) {
-    NSString *exceptionReason = _error.localizedDescription;
-    [logger addObject:[NSString stringWithFormat:@"\n%@", exceptionReason]];
-  }
-  
-  if (keys & GREYErrorFormatterFlagRecoverySuggestion) {
-    NSString *recoverySuggestion = _error.userInfo[kErrorDetailRecoverySuggestionKey];
-    if (recoverySuggestion) {
-      [logger addObject:recoverySuggestion];
-    }
-  }
-  
-  if (keys & GREYErrorFormatterFlagElementMatcher) {
-    NSString *elementMatcher = _error.userInfo[kErrorDetailElementMatcherKey];
-    if (elementMatcher) {
-      [logger addObject:[NSString stringWithFormat:@"%@:\n%@", kErrorDetailElementMatcherKey,
-                         elementMatcher]];
-    }
-  }
-  
-  if (keys & GREYErrorFormatterFlagCriteria) {
-    NSString *assertionCriteria = _error.userInfo[kErrorDetailAssertCriteriaKey];
-    if (assertionCriteria) {
-      [logger addObject:[NSString stringWithFormat:@"%@: %@", kErrorDetailAssertCriteriaKey,
-                         assertionCriteria]];
-    }
-    NSString *actionCriteria = _error.userInfo[kErrorDetailActionNameKey];
-    if (actionCriteria) {
-      [logger addObject:[NSString stringWithFormat:@"%@: %@", kErrorDetailActionNameKey,
-                         actionCriteria]];
-    }
-  }
-  
-  if (keys & GREYErrorFormatterFlagSearchActionInfo) {
-    NSString *searchActionInfo = _error.userInfo[kErrorDetailSearchActionInfoKey];
-    if (searchActionInfo) {
-      [logger addObject:[NSString stringWithFormat:@"%@\n%@", kErrorDetailSearchActionInfoKey,
-                         searchActionInfo]];
-    }
-  }
-  
-  if (keys & GREYErrorFormatterFlagUnderlyingError) {
-    NSString *nestedError = _error.nestedError.description;
-    if (nestedError) {
-      [logger addObject:[NSString stringWithFormat:@"Underlying Error:\n%@", nestedError]];
-    }
-  }
-
-  return [NSString stringWithFormat:@"%@\n", [logger componentsJoinedByString:@"\n\n"]];
-}
-
-#pragma mark - Functions
+#pragma mark - Public Functions
 
 BOOL GREYShouldUseErrorFormatterForError(GREYError *error) {
   return [error.domain isEqualToString:kGREYInteractionErrorDomain] &&
@@ -162,6 +73,78 @@ BOOL GREYShouldUseErrorFormatterForError(GREYError *error) {
 
 BOOL GREYShouldUseErrorFormatterForExceptionReason(NSString *reason) {
   return [reason containsString:@"the desired element was not found"];
+}
+
+#pragma mark - Static Functions
+
+// The keys whose values should be supplied in the formatted error output.
+static NSUInteger loggerKeys(GREYError *error) {
+  if ([error.domain isEqualToString:kGREYInteractionErrorDomain] &&
+       error.code == kGREYInteractionElementNotFoundErrorCode) {
+     return GREYErrorFormatterFlagExceptionReason |
+            GREYErrorFormatterFlagRecoverySuggestion |
+            GREYErrorFormatterFlagElementMatcher |
+            GREYErrorFormatterFlagCriteria |
+            GREYErrorFormatterFlagSearchActionInfo |
+            GREYErrorFormatterFlagUnderlyingError;
+  }
+  GREYFatalAssertWithMessage(false, @"Error Domain and Code Not Yet Supported");
+}
+
+static NSString *loggerDescription(GREYError *error) {
+  NSUInteger keys = loggerKeys(error);
+  
+  NSMutableArray<NSString *> *logger = [[NSMutableArray alloc] init];
+  
+  if (keys & GREYErrorFormatterFlagExceptionReason) {
+    NSString *exceptionReason = error.localizedDescription;
+    [logger addObject:[NSString stringWithFormat:@"\n%@", exceptionReason]];
+  }
+  
+  if (keys & GREYErrorFormatterFlagRecoverySuggestion) {
+    NSString *recoverySuggestion = error.userInfo[kErrorDetailRecoverySuggestionKey];
+    if (recoverySuggestion) {
+      [logger addObject:recoverySuggestion];
+    }
+  }
+  
+  if (keys & GREYErrorFormatterFlagElementMatcher) {
+    NSString *elementMatcher = error.userInfo[kErrorDetailElementMatcherKey];
+    if (elementMatcher) {
+      [logger addObject:[NSString stringWithFormat:@"%@:\n%@", kErrorDetailElementMatcherKey,
+                         elementMatcher]];
+    }
+  }
+  
+  if (keys & GREYErrorFormatterFlagCriteria) {
+    NSString *assertionCriteria = error.userInfo[kErrorDetailAssertCriteriaKey];
+    if (assertionCriteria) {
+      [logger addObject:[NSString stringWithFormat:@"%@: %@", kErrorDetailAssertCriteriaKey,
+                         assertionCriteria]];
+    }
+    NSString *actionCriteria = error.userInfo[kErrorDetailActionNameKey];
+    if (actionCriteria) {
+      [logger addObject:[NSString stringWithFormat:@"%@: %@", kErrorDetailActionNameKey,
+                         actionCriteria]];
+    }
+  }
+  
+  if (keys & GREYErrorFormatterFlagSearchActionInfo) {
+    NSString *searchActionInfo = error.userInfo[kErrorDetailSearchActionInfoKey];
+    if (searchActionInfo) {
+      [logger addObject:[NSString stringWithFormat:@"%@\n%@", kErrorDetailSearchActionInfoKey,
+                         searchActionInfo]];
+    }
+  }
+  
+  if (keys & GREYErrorFormatterFlagUnderlyingError) {
+    NSString *nestedError = error.nestedError.description;
+    if (nestedError) {
+      [logger addObject:[NSString stringWithFormat:@"Underlying Error:\n%@", nestedError]];
+    }
+  }
+
+  return [NSString stringWithFormat:@"%@\n", [logger componentsJoinedByString:@"\n\n"]];
 }
 
 @end
