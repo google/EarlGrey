@@ -32,30 +32,19 @@
  * If more than 32 options exists, change the bitshifted values to UL.
  */
 typedef NS_OPTIONS(NSUInteger, GREYErrorFormatterFlag) {
+  /** Empty Error Description  */
   GREYErrorFormatterNone = 0,
-  /**
-   * Exception Reason
-   */
+  /** Exception Reason */
   GREYErrorFormatterFlagExceptionReason = 1 << 0,
-  /**
-   * Recovery Suggestion
-   */
+  /** Recovery Suggestion */
   GREYErrorFormatterFlagRecoverySuggestion = 1 << 1,
-  /**
-   * Element Matcher
-   */
+  /** Element Matcher */
   GREYErrorFormatterFlagElementMatcher = 1 << 2,
-  /**
-   * Search API Info
-   */
+  /** Search API Info  */
   GREYErrorFormatterFlagSearchActionInfo = 1 << 3,
-  /**
-   * Assertion Criteria, or Action Name
-   */
+  /** Assertion Criteria, or Action Name */
   GREYErrorFormatterFlagCriteria = 1 << 4,
-  /**
-   * Underlying ("Nested") Error
-   */
+  /** Underlying ("Nested") Error */
   GREYErrorFormatterFlagUnderlyingError = 1 << 5,
 };
 
