@@ -17,12 +17,15 @@
 #import "EarlGreyApp.h"
 #import "GREYHostApplicationDistantObject.h"
 
-/** GREYHostApplicationDistantObject extension for the base test class. */
-@interface GREYHostApplicationDistantObject (BaseIntegrationTest)
+/** GREYHostApplicationDistantObject extension for the animations tests. */
+@interface GREYHostApplicationDistantObject (AnimationsTest)
 
 /**
- * Pops all view controllers in the current stack and returns to the root view controller.
+ * @return An added UIView in the center of the screen whose layer has two nested sublayers with the
+ *         last one animated.
+ *
+ * @param view    The View to which an animation is going to be added.
+ * @param keyPath The keyPath for the added CAAnimation.
  */
-- (void)resetNavigationStack;
-
+- (UIView *)viewWithAnimatingSublayerAddedToView:(UIView *)view forKeyPath:(NSString *)keyPath;
 @end

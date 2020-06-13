@@ -21,12 +21,12 @@
 @interface GREYHostApplicationDistantObject (ErrorHandlingTest)
 
 /**
- * @c returns An error populated by GREYError with the UI Hierarchy.
+ * @return An error populated by GREYError with the UI Hierarchy.
  */
 - (NSError *)errorPopulatedInTheApp;
 
 /**
- * @c returns A simple error created with the UI Hierarchy.
+ * @return A simple error created with the UI Hierarchy.
  */
 - (NSError *)errorCreatedInTheApp;
 

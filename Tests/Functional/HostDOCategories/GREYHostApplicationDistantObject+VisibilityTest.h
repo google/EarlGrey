@@ -63,12 +63,12 @@
 - (id<GREYAssertion>)visibleRectangleSizeAssertion;
 
 /**
- * Returns a BOOL checking if the images created by the visibility checker are present.
+ * @return A BOOL checking if the images created by the visibility checker are present.
  */
 - (BOOL)visibilityImagesArePresent;
 
 /**
- * Returns a BOOL checking if the images created by the visibility checker are absent.
+ * @return A BOOL checking if the images created by the visibility checker are absent.
  */
 - (BOOL)visibilityImagesAreAbsent;
 

@@ -22,7 +22,7 @@
 @interface GREYHostApplicationDistantObject (GestureTest)
 
 /**
- * Find the bounds of the element.
+ * @return The bounds of the element.
  */
 - (id<GREYAction>)actionForFindingElementBounds:(EDORemoteVariable<NSValue *> *)targetBounds;
 

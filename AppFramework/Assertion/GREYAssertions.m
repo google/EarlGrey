@@ -39,14 +39,19 @@
   GREYCheckBlockWithError assertionBlock = ^BOOL(id element, __strong NSError **errorOrNil) {
     GREYStringDescription *mismatch = [[GREYStringDescription alloc] init];
     if (![matcher matches:element describingMismatchTo:mismatch]) {
-      NSMutableString *reason = [[NSMutableString alloc] init];
       if (!element) {
-        [reason appendFormat:@"Assertion with Matcher failed: No UI element was matched.\n"];
-        [reason appendFormat:@"Matcher: \n%@", [matcher description]];
+        NSString *reason =
+            [NSString stringWithFormat:@"Assertion with Matcher failed: No element was matched.\n"
+                                       @"Matcher: \n%@",
+                                       [matcher description]];
         I_GREYPopulateError(errorOrNil, kGREYInteractionErrorDomain,
                             kGREYInteractionElementNotFoundErrorCode, reason);
       } else {
-        [reason appendFormat:@"An assertion failed."];
+        NSString *reason =
+            [NSString stringWithFormat:@"Element does not meet assertion criteria: "
+                                       @"%@ \nElement: %@ \nMismatch: %@ \n",
+                                       [matcher description], [element grey_description],
+                                       [mismatch description]];
         I_GREYPopulateError(errorOrNil, kGREYInteractionErrorDomain,
                             kGREYInteractionAssertionFailedErrorCode, reason);
       }

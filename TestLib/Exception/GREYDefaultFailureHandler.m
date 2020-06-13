@@ -139,7 +139,7 @@ static NSString *const kHierarchyHeaderKey                       = @"UI Hierarch
                              details:(NSString *)details
                      screenshotPaths:(GREYFailureScreenshots *)screenshotPaths
                       appUIhierarchy:(NSString *)appUIHierarchy
-                     currentTestCase:(id)currentTestCase
+                     currentTestCase:(XCTestCase *)currentTestCase
                           stackTrace:(NSArray *)stackTrace {
   if (GREYShouldUseErrorFormatterForExceptionReason(exception.reason)) {
     NSMutableString *output = [details mutableCopy];
@@ -164,7 +164,7 @@ static NSString *const kHierarchyHeaderKey                       = @"UI Hierarch
 
 - (void)handleException:(GREYFrameworkException *)exception details:(NSString *)details {
   GREYThrowOnNilParameter(exception);
-  id currentTestCase = [XCTestCase grey_currentTestCase];
+  XCTestCase *currentTestCase = [XCTestCase grey_currentTestCase];
   GREYFailureScreenshots *screenshotPaths = [self screenshotPathsForException:exception];
   NSArray<NSString *> *stackTrace = [NSThread callStackSymbols];
   NSString *appUIHierarchy = [self appUIHierarchyForException:exception];
