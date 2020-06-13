@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		60B4F1BA2486233B00ACE965 /* GREYErrorFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B4F1B92486233B00ACE965 /* GREYErrorFormatter.m */; };
+		60EFBBC52494679B0096B8BC /* GREYErrorFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 60EFBBC42494679B0096B8BC /* GREYErrorFormatter.m */; };
 		6F49FDBD22E69D4E00CCE813 /* GREYDiagnosable.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F49FDBC22E69D4C00CCE813 /* GREYDiagnosable.m */; };
 		6F8818B222B86F530006932D /* GREYAssertionBlock+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F8818B122B86F520006932D /* GREYAssertionBlock+Private.h */; };
 		A20847B422BC095B00DD3983 /* GREYTraversalObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A20847B322BC095A00DD3983 /* GREYTraversalObject.m */; };
@@ -391,8 +391,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		60B4F1B82486232700ACE965 /* GREYErrorFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GREYErrorFormatter.h; sourceTree = "<group>"; };
-		60B4F1B92486233B00ACE965 /* GREYErrorFormatter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GREYErrorFormatter.m; sourceTree = "<group>"; };
+		60EFBBC32494679B0096B8BC /* GREYErrorFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYErrorFormatter.h; path = CommonLib/Error/GREYErrorFormatter.h; sourceTree = "<group>"; };
+		60EFBBC42494679B0096B8BC /* GREYErrorFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYErrorFormatter.m; path = CommonLib/Error/GREYErrorFormatter.m; sourceTree = "<group>"; };
 		6F49FDBC22E69D4C00CCE813 /* GREYDiagnosable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYDiagnosable.m; path = CommonLib/GREYDiagnosable.m; sourceTree = "<group>"; };
 		6F8818B122B86F520006932D /* GREYAssertionBlock+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GREYAssertionBlock+Private.h"; path = "CommonLib/Assertion/GREYAssertionBlock+Private.h"; sourceTree = "<group>"; };
 		6F9B2C1E22B18F15003132B0 /* GREYDiagnosable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYDiagnosable.h; path = CommonLib/GREYDiagnosable.h; sourceTree = "<group>"; };
@@ -966,8 +966,8 @@
 				FD6239BA20F56C3E00049E81 /* GREYScrollActionError.m */,
 				FD6239B620F56C3D00049E81 /* NSError+GREYCommon.h */,
 				FD6239B220F56C3D00049E81 /* NSError+GREYCommon.m */,
-				60B4F1B82486232700ACE965 /* GREYErrorFormatter.h */,
-				60B4F1B92486233B00ACE965 /* GREYErrorFormatter.m */,
+				60EFBBC32494679B0096B8BC /* GREYErrorFormatter.h */,
+				60EFBBC42494679B0096B8BC /* GREYErrorFormatter.m */,
 			);
 			name = Error;
 			sourceTree = "<group>";
@@ -1782,7 +1782,7 @@
 				FD3A825721F187FD00CA3ADF /* GREYElementMatcherBlock.m in Sources */,
 				FD6239A420F56BE700049E81 /* GREYConfiguration.m in Sources */,
 				FD6239BB20F56C3E00049E81 /* GREYError.m in Sources */,
-				60B4F1BA2486233B00ACE965 /* GREYErrorFormatter.m in Sources */,
+				60EFBBC52494679B0096B8BC /* GREYErrorFormatter.m in Sources */,
 				FD6239D220F56C7100049E81 /* GREYStringDescription.m in Sources */,
 				FD6239E020F56C9500049E81 /* GREYStopwatch.m in Sources */,
 				FD6239A620F56BE700049E81 /* GREYConfigKey.m in Sources */,
