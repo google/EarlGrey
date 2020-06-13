@@ -166,14 +166,13 @@ static NSString *const kHierarchyHeaderKey                       = @"UI Hierarch
   GREYThrowOnNilParameter(exception);
   XCTestCase *currentTestCase = [XCTestCase grey_currentTestCase];
   GREYFailureScreenshots *screenshotPaths = [self screenshotPathsForException:exception];
-  NSArray<NSString *> *stackTrace = [NSThread callStackSymbols];
   NSString *appUIHierarchy = [self appUIHierarchyForException:exception];
   NSString *log = [self consoleLogForException:exception
                                        details:details
                                screenshotPaths:screenshotPaths
                                 appUIhierarchy:appUIHierarchy
                                currentTestCase:currentTestCase
-                                    stackTrace:stackTrace];
+                                    stackTrace:nil];
   [currentTestCase grey_markAsFailedAtLine:_lineNumber inFile:_fileName description:log];
 }
 
