@@ -18,6 +18,7 @@
 
 #import "GREYNSTimerIdlingResource.h"
 #import "GREYFatalAsserts.h"
+#import "GREYConfigKey.h"
 #import "GREYConfiguration.h"
 #import "GREYSwizzler.h"
 
@@ -41,9 +42,35 @@
       [swizzler swizzleClass:self replaceClassMethod:originalSel withMethod:swizzledSel];
   GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle NSTimer's %@",
                              NSStringFromSelector(originalSel));
+
+  originalSel = @selector(scheduledTimerWithTimeInterval:repeats:block:);
+  swizzledSel = @selector(greyswizzled_scheduledTimerWithTimeInterval:repeats:block:);
+  swizzleSuccess = [swizzler swizzleClass:self
+                       replaceClassMethod:originalSel
+                               withMethod:swizzledSel];
+  GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle NSTimer's %@",
+                             NSStringFromSelector(originalSel));
 }
 
 #pragma mark - Swizzled Implementation
+
+/** Timer method added after iOS 10.0*/
++ (NSTimer *)greyswizzled_scheduledTimerWithTimeInterval:(NSTimeInterval)interval
+                                                 repeats:(BOOL)repeats
+                                                   block:(void (^)(NSTimer *))block {
+  NSTimer *timer = INVOKE_ORIGINAL_IMP3(
+      NSTimer *, @selector(greyswizzled_scheduledTimerWithTimeInterval:repeats:block:), interval,
+      repeats, block);
+
+  // We do not track the block, similar to how we do not track the invocation, but instead just the
+  // time interval.
+  if (!repeats && GREY_CONFIG_DOUBLE(kGREYConfigKeyNSTimerMaxTrackableInterval) >= interval) {
+    [GREYNSTimerIdlingResource trackTimer:timer
+                                     name:[NSString stringWithFormat:@"Tracking Timer %@", timer]
+                             removeOnIdle:YES];
+  }
+  return timer;
+}
 
 + (NSTimer *)greyswizzled_scheduledTimerWithTimeInterval:(NSTimeInterval)interval
                                               invocation:(NSInvocation *)invocation
