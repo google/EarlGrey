@@ -32,19 +32,6 @@
 #import "GREYErrorFormatter.h"
 #import "GREYObjectFormatter.h"
 
-/**
- * Keys used for logging the UI Hierarchy
- */
-static NSString *const kHierarchyWindowLegendKey                 = @"[Window 1]";
-static NSString *const kHierarchyAcessibilityLegendKey           = @"[AX]";
-static NSString *const kHierarchyUserInteractionEnabledLegendKey = @"[UIE]";
-static NSString *const kHierarchyBackWindowKey                   = @"Back-Most Window";
-static NSString *const kHierarchyAccessibilityKey                = @"Accessibility";
-static NSString *const kHierarchyUserInteractionEnabledKey       = @"User Interaction Enabled";
-static NSString *const kHierarchyLegendKey                       = @"Legend";
-static NSString *const kHierarchyHeaderKey                       = @"UI Hierarchy (ordered by wind"
-                                                                   @"ow level, back to front):\n";
-
 // Counter that is incremented each time a failure occurs in an unknown test.
 @implementation GREYDefaultFailureHandler {
   NSString *_fileName;
@@ -79,31 +66,6 @@ static NSString *const kHierarchyHeaderKey                       = @"UI Hierarch
   }
   
   return logMessage;
-}
-
-- (NSString *)formattedHierarchy:(NSString *)hierarchy {
-  if (!hierarchy) {
-    return nil;
-  }
-  NSMutableArray<NSString*> *logger = [[NSMutableArray alloc] init];
-  [logger addObject:kHierarchyHeaderKey];
-  NSString *windowLegend = kHierarchyWindowLegendKey;
-  NSString *axLegend = kHierarchyAcessibilityLegendKey;
-  NSString *uieLegend = kHierarchyUserInteractionEnabledLegendKey;
-  NSDictionary<NSString *, NSString *> *legendLabels = @{
-    windowLegend : kHierarchyBackWindowKey,
-    axLegend : kHierarchyAccessibilityKey,
-    uieLegend : kHierarchyUserInteractionEnabledKey
-  };
-  NSArray<NSString *> *keyOrder = @[ windowLegend, axLegend, uieLegend ];
-  NSString *legendDescription = [GREYObjectFormatter formatDictionary:legendLabels
-                                                               indent:kGREYObjectFormatIndent
-                                                            hideEmpty:NO
-                                                             keyOrder:keyOrder];
-  [logger addObject:[NSString stringWithFormat:@"%@: %@\n", kHierarchyLegendKey,
-                     legendDescription]];
-  [logger addObject:hierarchy];
-  return [logger componentsJoinedByString:@"\n"];
 }
 
 - (NSString *)appUIHierarchyForException:(GREYFrameworkException *)exception {
@@ -146,7 +108,6 @@ static NSString *const kHierarchyHeaderKey                       = @"UI Hierarch
     for (NSString *key in screenshotPaths.allKeys) {
       [output appendFormat:@"\n%@: %@\n", key, screenshotPaths[key]];
     }
-    [output appendFormat:@"\n%@", [self formattedHierarchy:appUIHierarchy]];
     return output;
   }
   NSString *errorDescription = [self errorDescriptionForException:exception details:details];

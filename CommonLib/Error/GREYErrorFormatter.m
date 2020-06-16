@@ -23,6 +23,18 @@
 #import "GREYError+Private.h"
 #import "GREYFatalAsserts.h"
 
+#pragma mark - UI Hierarchy Keys
+
+static NSString *const kHierarchyWindowLegendKey                 = @"[Window 1]";
+static NSString *const kHierarchyAcessibilityLegendKey           = @"[AX]";
+static NSString *const kHierarchyUserInteractionEnabledLegendKey = @"[UIE]";
+static NSString *const kHierarchyBackWindowKey                   = @"Back-Most Window";
+static NSString *const kHierarchyAccessibilityKey                = @"Accessibility";
+static NSString *const kHierarchyUserInteractionEnabledKey       = @"User Interaction Enabled";
+static NSString *const kHierarchyLegendKey                       = @"Legend";
+static NSString *const kHierarchyHeaderKey                       = @"UI Hierarchy (ordered by wind"
+                                                                   @"ow level, back to front):\n";
+
 #pragma mark - GREYErrorFormatterFlag
 
 /**
@@ -46,6 +58,8 @@ typedef NS_OPTIONS(NSUInteger, GREYErrorFormatterFlag) {
   GREYErrorFormatterFlagCriteria = 1 << 4,
   /** Underlying ("Nested") Error */
   GREYErrorFormatterFlagUnderlyingError = 1 << 5,
+  /** App UI Hierarchy */
+  GREYErrorFormatterFlagUIHierarchy = 1 << 6,
 };
 
 #pragma mark - GREYErrorFormatter
@@ -86,9 +100,35 @@ static NSUInteger loggerKeys(GREYError *error) {
             GREYErrorFormatterFlagElementMatcher |
             GREYErrorFormatterFlagCriteria |
             GREYErrorFormatterFlagSearchActionInfo |
-            GREYErrorFormatterFlagUnderlyingError;
+            GREYErrorFormatterFlagUnderlyingError |
+            GREYErrorFormatterFlagUIHierarchy;
   }
   GREYFatalAssertWithMessage(false, @"Error Domain and Code Not Yet Supported");
+}
+
+static NSString *formattedHierarchy(NSString *hierarchy) {
+  if (!hierarchy) {
+    return nil;
+  }
+  NSMutableArray<NSString*> *logger = [[NSMutableArray alloc] init];
+  [logger addObject:kHierarchyHeaderKey];
+  NSString *windowLegend = kHierarchyWindowLegendKey;
+  NSString *axLegend = kHierarchyAcessibilityLegendKey;
+  NSString *uieLegend = kHierarchyUserInteractionEnabledLegendKey;
+  NSDictionary<NSString *, NSString *> *legendLabels = @{
+    windowLegend : kHierarchyBackWindowKey,
+    axLegend : kHierarchyAccessibilityKey,
+    uieLegend : kHierarchyUserInteractionEnabledKey
+  };
+  NSArray<NSString *> *keyOrder = @[ windowLegend, axLegend, uieLegend ];
+  NSString *legendDescription = [GREYObjectFormatter formatDictionary:legendLabels
+                                                               indent:kGREYObjectFormatIndent
+                                                            hideEmpty:NO
+                                                             keyOrder:keyOrder];
+  [logger addObject:[NSString stringWithFormat:@"%@: %@\n", kHierarchyLegendKey,
+                     legendDescription]];
+  [logger addObject:hierarchy];
+  return [logger componentsJoinedByString:@"\n"];
 }
 
 static NSString *loggerDescription(GREYError *error) {
@@ -143,7 +183,14 @@ static NSString *loggerDescription(GREYError *error) {
       [logger addObject:[NSString stringWithFormat:@"Underlying Error:\n%@", nestedError]];
     }
   }
-
+  
+  if (keys & GREYErrorFormatterFlagUIHierarchy) {
+    NSString *UIHierarchy = formattedHierarchy(error.appUIHierarchy);
+    if (UIHierarchy) {
+      [logger addObject:UIHierarchy];
+    }
+  }
+  
   return [NSString stringWithFormat:@"%@\n", [logger componentsJoinedByString:@"\n\n"]];
 }
 
