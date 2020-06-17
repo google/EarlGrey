@@ -29,32 +29,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface GREYFailureFormatter : NSObject
 
 /**
- * Format a given error object to a string for logging.
- * The formatted failure message will follow this order:
- *
- * FailureLabel: FailureName
- * Source File
- * Source Line
- * Bundle ID
- * Stack Trace
- * Screenshot
- * Window Hierarchy
- *
- * @param error        The error object to be formatted.
- * @param excluding    An array to exclude parts of the error from the output.
- *                     The key
- * @param failureLabel The label to be associated with the error.
- * @param failureName  The name to be associated with the error.
- * @param format       Extra message to be included in the message.
- *
- * @return Formatted error message string.
- */
-+ (NSString *)formatFailureForError:(GREYError *)error
-                          excluding:(NSArray *_Nullable)excluding
-                       failureLabel:(NSString *)failureLabel
-                        failureName:(NSString *)failureName
-                             format:(NSString *)format, ... NS_FORMAT_FUNCTION(5, 6);
-/**
  * Format a failure happened in a given test case for logging.
  *
  * The formatted failure message will follow this order:
@@ -67,16 +41,16 @@ NS_ASSUME_NONNULL_BEGIN
  * Screenshot
  * Window Hierarchy
  *
- * @param testCase       The test case where the failure happens.
- * @param failureLabel   The label to be associated with the error.
- * @param failureName    The name to be associated with the error.
- * @param functionName   The name of the function where the error is generated.
- * @param filePath       The path to the source code file where the error happens.
- * @param lineNumber     The line number of the source code file when the error happens.
- * @param stackTrace     The stack trace of the executable when the error happens.
- * @param appScreenshots The dictionary of app screenshot names and image paths
- *                       when the error happens.
- * @param format         Extra message to be included in the message.
+ * @param testCase         The test case where the failure happens.
+ * @param failureLabel     The label to be associated with the error.
+ * @param failureName      The name to be associated with the error.
+ * @param functionName     The name of the function where the error is generated.
+ * @param filePath         The path to the source code file where the error happens.
+ * @param lineNumber       The line number of the source code file when the error happens.
+ * @param stackTrace       The stack trace of the executable when the error happens.
+ * @param appScreenshots   The dictionary of app screenshot names and image paths
+ *                         when the error happens.
+ * @param errorDescription Extra message to be included in the message.
  *
  * @return Formatted error message string.
  */
@@ -89,7 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
                             stackTrace:(NSArray *_Nullable)stackTrace
                         appScreenshots:(NSDictionary *)appScreenshots
                              hierarchy:(NSString *)hierarchy
-                                format:(NSString *)format, ... NS_FORMAT_FUNCTION(10, 11);
+                      errorDescription:(NSString *)errorDescription;
 @end
 
 NS_ASSUME_NONNULL_END

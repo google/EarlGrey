@@ -97,7 +97,7 @@
                                                       stackTrace:nil
                                                   appScreenshots:screenshotPaths
                                                        hierarchy:appUIHierarchy
-                                                          format:@"%@", logMessage];
+                                                errorDescription:logMessage];
   [currentTestCase grey_markAsFailedAtLine:_lineNumber inFile:_fileName description:log];
 }
 

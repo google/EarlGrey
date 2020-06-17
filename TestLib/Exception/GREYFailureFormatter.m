@@ -23,24 +23,6 @@
 
 @implementation GREYFailureFormatter
 
-+ (NSString *)formatFailureForError:(GREYError *)error
-                          excluding:(NSArray *)excluding
-                       failureLabel:(NSString *)failureLabel
-                        failureName:(NSString *)failureName
-                             format:(NSString *)format, ... {
-  NSString *errorDescription;
-  va_list argList;
-  va_start(argList, format);
-  errorDescription = [[NSString alloc] initWithFormat:format arguments:argList];
-  va_end(argList);
-
-  return [self formatFailureForError:error
-                           excluding:excluding
-                        failureLabel:failureLabel
-                         failureName:failureName
-                    errorDescription:errorDescription];
-}
-
 + (NSString *)formatFailureForTestCase:(XCTestCase *)testCase
                           failureLabel:(NSString *)failureLabel
                            failureName:(NSString *)failureName
@@ -50,12 +32,7 @@
                             stackTrace:(NSArray *)stackTrace
                         appScreenshots:(NSDictionary *)appScreenshots
                              hierarchy:(NSString *)hierarchy
-                                format:(NSString *)format, ... {
-  va_list argList;
-  va_start(argList, format);
-  NSString *errorDescription = [[NSString alloc] initWithFormat:format arguments:argList];
-  va_end(argList);
-
+                      errorDescription:(NSString *)errorDescription {
   GREYError *error =
       I_GREYErrorMake(kGREYGenericErrorDomain, kGREYGenericErrorCode, nil, filePath, lineNumber,
                       functionName, stackTrace, hierarchy, appScreenshots);
