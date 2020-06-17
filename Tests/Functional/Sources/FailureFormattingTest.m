@@ -20,20 +20,19 @@
 #import "EarlGrey.h"
 #import "FailureHandler.h"
 
-# pragma mark - GREYErrorFormatTestingFailureHandler
+# pragma mark - GREYFailureFormatTestingFailureHandler
 
 /**
- * Failure handler used for testing for correct formatting of errors
- * made with GREYErrorFormatter
+ * Failure handler used for testing the console output of failures
  */
-@interface ErrorFormatTestingFailureHandler : NSObject <GREYFailureHandler>
+@interface FailureFormatTestingFailureHandler : NSObject <GREYFailureHandler>
 @property NSString *fileName;
 @property(assign) NSUInteger lineNumber;
 @property GREYFrameworkException *exception;
 @property NSString *details;
 @end
 
-@implementation ErrorFormatTestingFailureHandler
+@implementation FailureFormatTestingFailureHandler
 
 - (void)handleException:(GREYFrameworkException *)exception details:(NSString *)details {
   self.exception = exception;
@@ -47,20 +46,20 @@
 
 @end
 
-# pragma mark - ErrorFormattingTest
+# pragma mark - FailureFormattingTest
 
 /**
  * Tests that the user-facing console output follows expectations.
  */
-@interface ErrorFormattingTest : BaseIntegrationTest
-@property(readonly, nonatomic) ErrorFormatTestingFailureHandler *handler;
+@interface FailureFormattingTest : BaseIntegrationTest
+@property(readonly, nonatomic) FailureFormatTestingFailureHandler *handler;
 @end
 
-@implementation ErrorFormattingTest
+@implementation FailureFormattingTest
 
 - (void)setUp {
   [super setUp];
-  _handler = [[ErrorFormatTestingFailureHandler alloc] init];
+  _handler = [[FailureFormatTestingFailureHandler alloc] init];
   [NSThread mainThread].threadDictionary[GREYFailureHandlerKey] = _handler;
 }
 
