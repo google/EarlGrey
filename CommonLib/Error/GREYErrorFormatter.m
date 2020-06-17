@@ -46,20 +46,16 @@ static NSString *const kHierarchyHeaderKey                       = @"UI Hierarch
 typedef NS_OPTIONS(NSUInteger, GREYErrorFormatterFlag) {
   /** Empty Error Description  */
   GREYErrorFormatterNone = 0,
-  /** Exception Reason */
-  GREYErrorFormatterFlagExceptionReason = 1 << 0,
   /** Recovery Suggestion */
-  GREYErrorFormatterFlagRecoverySuggestion = 1 << 1,
+  GREYErrorFormatterFlagRecoverySuggestion = 1 << 0,
   /** Element Matcher */
-  GREYErrorFormatterFlagElementMatcher = 1 << 2,
+  GREYErrorFormatterFlagElementMatcher = 1 << 1,
   /** Search API Info  */
-  GREYErrorFormatterFlagSearchActionInfo = 1 << 3,
+  GREYErrorFormatterFlagSearchActionInfo = 1 << 2,
   /** Assertion Criteria, or Action Name */
-  GREYErrorFormatterFlagCriteria = 1 << 4,
-  /** Underlying ("Nested") Error */
-  GREYErrorFormatterFlagUnderlyingError = 1 << 5,
+  GREYErrorFormatterFlagCriteria = 1 << 3,
   /** App UI Hierarchy */
-  GREYErrorFormatterFlagUIHierarchy = 1 << 6,
+  GREYErrorFormatterFlagUIHierarchy = 1 << 4,
 };
 
 #pragma mark - GREYErrorFormatter
@@ -70,7 +66,7 @@ typedef NS_OPTIONS(NSUInteger, GREYErrorFormatterFlag) {
 
 + (NSString *)formattedDescriptionForError:(GREYError *)error {
   if (GREYShouldUseErrorFormatterForError(error)) {
-    return loggerDescription(error);
+    return LoggerDescription(error);
   }
   return [GREYObjectFormatter formatDictionary:[error grey_descriptionDictionary]
                                         indent:kGREYObjectFormatIndent
@@ -92,21 +88,19 @@ BOOL GREYShouldUseErrorFormatterForExceptionReason(NSString *reason) {
 #pragma mark - Static Functions
 
 // The keys whose values should be supplied in the formatted error output.
-static NSUInteger loggerKeys(GREYError *error) {
+static NSUInteger LoggerKeys(GREYError *error) {
   if ([error.domain isEqualToString:kGREYInteractionErrorDomain] &&
        error.code == kGREYInteractionElementNotFoundErrorCode) {
-     return GREYErrorFormatterFlagExceptionReason |
-            GREYErrorFormatterFlagRecoverySuggestion |
+     return GREYErrorFormatterFlagRecoverySuggestion |
             GREYErrorFormatterFlagElementMatcher |
             GREYErrorFormatterFlagCriteria |
             GREYErrorFormatterFlagSearchActionInfo |
-            GREYErrorFormatterFlagUnderlyingError |
             GREYErrorFormatterFlagUIHierarchy;
   }
   GREYFatalAssertWithMessage(false, @"Error Domain and Code Not Yet Supported");
 }
 
-static NSString *formattedHierarchy(NSString *hierarchy) {
+static NSString *FormattedHierarchy(NSString *hierarchy) {
   if (!hierarchy) {
     return nil;
   }
@@ -131,13 +125,13 @@ static NSString *formattedHierarchy(NSString *hierarchy) {
   return [logger componentsJoinedByString:@"\n"];
 }
 
-static NSString *loggerDescription(GREYError *error) {
-  NSUInteger keys = loggerKeys(error);
+static NSString *LoggerDescription(GREYError *error) {
+  NSUInteger keys = LoggerKeys(error);
   
   NSMutableArray<NSString *> *logger = [[NSMutableArray alloc] init];
   
-  if (keys & GREYErrorFormatterFlagExceptionReason) {
-    NSString *exceptionReason = error.localizedDescription;
+  NSString *exceptionReason = error.localizedDescription;
+  if (exceptionReason) {
     [logger addObject:[NSString stringWithFormat:@"\n%@", exceptionReason]];
   }
   
@@ -177,15 +171,13 @@ static NSString *loggerDescription(GREYError *error) {
     }
   }
   
-  if (keys & GREYErrorFormatterFlagUnderlyingError) {
-    NSString *nestedError = error.nestedError.description;
-    if (nestedError) {
-      [logger addObject:[NSString stringWithFormat:@"Underlying Error:\n%@", nestedError]];
-    }
+  NSString *nestedError = error.nestedError.description;
+  if (nestedError) {
+    [logger addObject:[NSString stringWithFormat:@"Underlying Error:\n%@", nestedError]];
   }
   
   if (keys & GREYErrorFormatterFlagUIHierarchy) {
-    NSString *UIHierarchy = formattedHierarchy(error.appUIHierarchy);
+    NSString *UIHierarchy = FormattedHierarchy(error.appUIHierarchy);
     if (UIHierarchy) {
       [logger addObject:UIHierarchy];
     }

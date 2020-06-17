@@ -60,11 +60,6 @@ GREY_EXTERN NSString *const kErrorFunctionNameKey;
 GREY_EXTERN NSString *const kErrorUserInfoKey;
 
 /**
- * Key used to retrieve the error info dictionary from an error object dictionary.
- */
-GREY_EXTERN NSString *const kErrorErrorInfoKey;
-
-/**
  * Key used to retrieve the stack trace from an error object dictionary.
  */
 GREY_EXTERN NSString *const kErrorStackTraceKey;
