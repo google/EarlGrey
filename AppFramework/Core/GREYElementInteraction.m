@@ -37,7 +37,6 @@
 #import "GREYError.h"
 #import "GREYErrorConstants.h"
 #import "GREYObjectFormatter.h"
-#import "GREYErrorFormatter.h"
 #import "GREYDefines.h"
 #import "GREYLogger.h"
 #import "GREYStopwatch.h"
