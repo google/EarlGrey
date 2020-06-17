@@ -289,31 +289,35 @@
 
 /** Verifies that the NSTimer and animation for making the scroll bar disappear is called. */
 - (void)testScrollIndicatorRemovalImmediatelyAfterAnAction {
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Infinite Scroll View")]
+  id<GREYMatcher> infiniteScrollViewMatcher = grey_accessibilityLabel(@"Infinite Scroll View");
+  [[EarlGrey selectElementWithMatcher:infiniteScrollViewMatcher]
       performAction:grey_scrollInDirection(kGREYDirectionDown, 99)];
-  id<GREYMatcher> axValueMatcher = InfiniteScrollViewIndicatorMatcher();
+  id<GREYMatcher> axValueMatcher = grey_allOf(grey_ancestor(infiniteScrollViewMatcher),
+                                              InfiniteScrollViewIndicatorMatcher(), nil);
   [GREYConfiguration.sharedConfiguration setValue:@(NO)
                                      forConfigKey:kGREYConfigKeySynchronizationEnabled];
   [[EarlGrey selectElementWithMatcher:axValueMatcher] assertWithMatcher:grey_sufficientlyVisible()];
   [GREYConfiguration.sharedConfiguration setValue:@(YES)
                                      forConfigKey:kGREYConfigKeySynchronizationEnabled];
 
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Infinite Scroll View")]
+  [[EarlGrey selectElementWithMatcher:infiniteScrollViewMatcher]
       performAction:grey_scrollInDirection(kGREYDirectionUp, 99)];
   [[EarlGrey selectElementWithMatcher:axValueMatcher] assertWithMatcher:grey_notVisible()];
 }
 
 /** Scroll Indicators should be tracked post a scroll action being done. */
 - (void)testScrollIndicatorRemovalAfterTurningOffSynchronizationAndPerformingAScrollAction {
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Infinite Scroll View")]
+  id<GREYMatcher> infiniteScrollViewMatcher = grey_accessibilityLabel(@"Infinite Scroll View");
+  [[EarlGrey selectElementWithMatcher:infiniteScrollViewMatcher]
       performAction:grey_scrollInDirection(kGREYDirectionDown, 99)];
   [[GREYConfiguration sharedConfiguration] setValue:@(NO)
                                        forConfigKey:kGREYConfigKeySynchronizationEnabled];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Infinite Scroll View")]
+  [[EarlGrey selectElementWithMatcher:infiniteScrollViewMatcher]
       performAction:grey_scrollInDirection(kGREYDirectionDown, 99)];
   [[GREYConfiguration sharedConfiguration] setValue:@(YES)
                                        forConfigKey:kGREYConfigKeySynchronizationEnabled];
-  id<GREYMatcher> axValueMatcher = InfiniteScrollViewIndicatorMatcher();
+  id<GREYMatcher> axValueMatcher = grey_allOf(grey_ancestor(infiniteScrollViewMatcher),
+                                              InfiniteScrollViewIndicatorMatcher(), nil);
   [[EarlGrey selectElementWithMatcher:axValueMatcher] assertWithMatcher:grey_notVisible()];
 }
 
@@ -325,13 +329,12 @@
 static id<GREYMatcher> InfiniteScrollViewIndicatorMatcher() {
   return [GREYElementMatcherBlock
       matcherWithMatchesBlock:^BOOL(NSObject *element) {
-        return [element.accessibilityLabel isEqualToString:@"Vertical scroll bar, 4 pages"];
+        return [element.accessibilityLabel containsString:@"Vertical scroll bar"];
       }
       descriptionBlock:^(id<GREYDescription> _Nonnull description) {
         [description appendText:@"Indicator not present"];
       }];
 }
-
 // Asserts that the scroll actions work accurately in all four directions by verifying the content
 // offset changes caused by them.
 - (void)ftr_assertScrollInDirectionCausesExactChangesToContentOffset {
