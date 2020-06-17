@@ -810,13 +810,13 @@
   NSMutableDictionary<NSString *, id> *userInfo = [[NSMutableDictionary alloc] init];
   [userInfo setValue:interactionError.localizedDescription forKey:NSLocalizedDescriptionKey];
   [userInfo setValue:reason forKey:NSLocalizedFailureReasonErrorKey];
-  
-  // Copy over the matcher details from the error info dictionary if the error is a GREYError;
-  // else, passing in an NSError will crash here
+
+  // Copy over the matcher details from the error info dictionary if the error is a GREYError else
+  // there will be a crash.
   if ([interactionError isKindOfClass:[GREYError class]]) {
     [userInfo addEntriesFromDictionary:interactionError.errorInfo];
   }
-  
+
   // Nested errors contain extra information such as stack traces, error codes that aren't useful.
   // We only need the description glossary for printing in the error.
   // TODO(b/147072566): Ensure formatting of synchronization (idling resources) happens correctly.
