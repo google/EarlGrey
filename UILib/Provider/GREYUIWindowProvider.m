@@ -107,6 +107,7 @@ UIWindow *GREYGetApplicationKeyWindow(UIApplication *application) {
     if (@available(iOS 13.0, *)) {
 #if defined(__IPHONE_13_0)
       // Check if any status bar is already present in the application's views.
+#if TARGET_OS_IOS
       BOOL statusBarPresent = NO;
       for (UIWindow *window in windows) {
         if (window.windowLevel == UIWindowLevelStatusBar) {
@@ -123,6 +124,7 @@ UIWindow *GREYGetApplicationKeyWindow(UIApplication *application) {
         [statusBarWindow setHidden:NO];
         statusBarWindow.windowLevel = UIWindowLevelStatusBar;
       }
+#endif
 #endif
     } else {
       statusBarWindow = sharedApp.statusBarWindow;

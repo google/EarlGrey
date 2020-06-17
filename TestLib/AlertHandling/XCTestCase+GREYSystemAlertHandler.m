@@ -191,7 +191,9 @@ static UIApplication *GetApplicationUnderTest() {
 
   BOOL dismissed = NO;
   // Retry logic can solve the failure in slow animations mode.
+#if TARGET_OS_IOS
   [acceptButton tap];
+#endif
   dismissed = [self grey_ensureAlertDismissalOfAlertWithText:alertText error:error];
   [self grey_waitForAlertVisibility:NO withTimeout:kSystemAlertEarlGreyVisibilityTimeout];
   return dismissed;
@@ -226,7 +228,9 @@ static UIApplication *GetApplicationUnderTest() {
 
   BOOL dismissed = NO;
   // Retry logic can solve the failure in slow animations mode.
+#if TARGET_OS_IOS
   [denyButton tap];
+#endif
   dismissed = [self grey_ensureAlertDismissalOfAlertWithText:alertText error:error];
   [self grey_waitForAlertVisibility:NO withTimeout:kSystemAlertEarlGreyVisibilityTimeout];
   return dismissed;
@@ -252,7 +256,9 @@ static UIApplication *GetApplicationUnderTest() {
 
   BOOL dismissed = NO;
   // Retry logic can solve the failure in slow animations mode.
+#if TARGET_OS_IOS
   [button tap];
+#endif
   dismissed = [self grey_ensureAlertDismissalOfAlertWithText:alertText error:error];
   [self grey_waitForAlertVisibility:NO withTimeout:kSystemAlertEarlGreyVisibilityTimeout];
   return dismissed;
@@ -269,15 +275,21 @@ static UIApplication *GetApplicationUnderTest() {
   if (firstAlertPresent) {
     if ([firstAlertPresent.textFields[placeholderText] exists]) {
       elementToType = firstAlertPresent.textFields[placeholderText];
+#if TARGET_OS_IOS
       [firstAlertPresent.textFields[placeholderText] tap];
+#endif
       [firstAlertPresent.textFields[placeholderText] typeText:textToType];
     } else if ([firstAlertPresent.secureTextFields[placeholderText] exists]) {
       elementToType = firstAlertPresent.secureTextFields[placeholderText];
+#if TARGET_OS_IOS
       [firstAlertPresent.secureTextFields[placeholderText] tap];
+#endif
       [firstAlertPresent.secureTextFields[placeholderText] typeText:textToType];
     } else if ([firstAlertPresent.searchFields[placeholderText] exists]) {
       elementToType = firstAlertPresent.searchFields[placeholderText];
+#if TARGET_OS_IOS
       [firstAlertPresent.secureTextFields[placeholderText] tap];
+#endif
       [firstAlertPresent.secureTextFields[placeholderText] typeText:textToType];
     }
   }
