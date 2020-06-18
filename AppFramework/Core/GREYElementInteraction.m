@@ -193,7 +193,7 @@
   } else if (searchActionError) {
     NSString *searchActionDescription = searchActionError.localizedDescription;
     NSString *description =
-        [NSString stringWithFormat:@"Search action failed: %@\n", searchActionDescription];
+        [NSString stringWithFormat:@"Search action failed: %@", searchActionDescription];
     I_GREYPopulateError(&error, kGREYInteractionErrorDomain,
                         kGREYInteractionElementNotFoundErrorCode, description);
   } else if (executorError || isSearchTimedOut) {
