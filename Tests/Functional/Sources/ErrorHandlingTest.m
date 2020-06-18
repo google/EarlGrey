@@ -25,6 +25,7 @@
 #import "GREYVisibilityChecker+Private.h"
 #import "GREYVisibilityChecker.h"
 #import "EDOClientService.h"
+#import "GREYErrorFormatter.h"
 
 @interface ErrorHandlingTest : BaseIntegrationTest
 @end
@@ -126,10 +127,10 @@
       onElementWithMatcher:grey_accessibilityLabel(@"Invalid Scroll View")]
       assertWithMatcher:grey_sufficientlyVisible()
                   error:&error];
-  NSString *searchAPIDescription = @"\"Search API Info\" : \"Search Action:";
+  NSString *searchAPIDescription = @"Search API Info\nSearch Action:";
   NSString *searchAPIMatcherDescription = @"                    \"Search Matcher";
   NSString *searchActionDescription = @"Search action failed: Interaction cannot continue";
-  NSString *elementMatcherDescription = @"Element Matcher\" : \"(((respondsToSelector";
+  NSString *elementMatcherDescription = @"Element Matcher:\n(((respondsToSelector";
   XCTAssertTrue([error.description containsString:searchAPIDescription],
                 @"Search API Prefix and Action info: %@ not present in Error Description: %@",
                 searchAPIDescription, error.description);
@@ -176,10 +177,10 @@
          usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 50)
       onElementWithMatcher:grey_accessibilityLabel(@"Invalid Scroll View")] performAction:grey_tap()
                                                                                     error:&error];
-  NSString *searchAPIDescription = @"\"Search API Info\" : \"Search Action:";
+  NSString *searchAPIDescription = @"Search API Info\nSearch Action:";
   NSString *searchAPIMatcherDescription = @"                    \"Search Matcher";
   NSString *searchActionDescription = @"Search action failed: Interaction cannot continue";
-  NSString *elementMatcherDescription = @"Element Matcher\" : \"(((respondsToSelector";
+  NSString *elementMatcherDescription = @"Element Matcher:\n(((respondsToSelector";
   XCTAssertTrue([error.description containsString:searchAPIDescription],
                 @"Search API Prefix and Action info: %@ not present in Error Description: %@",
                 searchAPIDescription, error.description);

@@ -29,6 +29,8 @@
 #import "GREYFailureScreenshotSaver.h"
 #import "XCTestCase+GREYTest.h"
 #import "GREYElementHierarchy.h"
+#import "GREYErrorFormatter.h"
+#import "GREYObjectFormatter.h"
 
 // Counter that is incremented each time a failure occurs in an unknown test.
 @implementation GREYDefaultFailureHandler {
@@ -44,10 +46,8 @@
   _lineNumber = lineNumber;
 }
 
-- (void)handleException:(GREYFrameworkException *)exception details:(NSString *)details {
-  GREYThrowOnNilParameter(exception);
-  id currentTestCase = [XCTestCase grey_currentTestCase];
-
+- (NSString *)errorDescriptionForException:(GREYFrameworkException *)exception
+                                   details:(NSString *)details {
   NSMutableString *logMessage = [[NSMutableString alloc] init];
   NSString *reason = exception.reason;
 
@@ -64,7 +64,20 @@
     NSString *logDetails = [NSString stringWithFormat:@"Exception Details: %@", details];
     [logMessage appendString:logDetails];
   }
+  
+  return logMessage;
+}
 
+- (NSString *)appUIHierarchyForException:(GREYFrameworkException *)exception {
+  NSString *appUIHierarchy = [exception.userInfo valueForKey:kErrorDetailAppUIHierarchyKey];
+  // For calls from GREYAsserts in the test side, the hierarchy must be populated here.
+  if (!appUIHierarchy) {
+    appUIHierarchy = [GREYElementHierarchy hierarchyString];
+  }
+  return appUIHierarchy;
+}
+
+- (GREYFailureScreenshots *)screenshotPathsForException:(GREYFrameworkException *)exception {
   NSDictionary<NSString *, UIImage *> *appScreenshots =
       [exception.userInfo valueForKey:kErrorDetailAppScreenshotsKey];
   // Re-obtain the screenshots when a user might be using GREYAsserts. Since this is from the test
@@ -81,23 +94,46 @@
       [GREYFailureScreenshotSaver saveFailureScreenshotsInDictionary:appScreenshots
                                                          toDirectory:screenshotDir];
   NSAssert(screenshotPaths, @"Screenshots must be present");
+  return screenshotPaths;
+}
 
-  NSString *appUIHierarchy = [exception.userInfo valueForKey:kErrorDetailAppUIHierarchyKey];
-  // For calls from GREYAsserts in the test side, the hierarchy must be populated here.
-  if (!appUIHierarchy) {
-    appUIHierarchy = [GREYElementHierarchy hierarchyString];
+- (NSString *)consoleLogForException:(GREYFrameworkException *)exception
+                             details:(NSString *)details
+                     screenshotPaths:(GREYFailureScreenshots *)screenshotPaths
+                      appUIhierarchy:(NSString *)appUIHierarchy
+                     currentTestCase:(XCTestCase *)currentTestCase
+                          stackTrace:(NSArray *)stackTrace {
+  if (GREYShouldUseErrorFormatterForExceptionReason(exception.reason)) {
+    NSMutableString *output = [details mutableCopy];
+    for (NSString *key in screenshotPaths.allKeys) {
+      [output appendFormat:@"\n%@: %@\n", key, screenshotPaths[key]];
+    }
+    return output;
   }
+  NSString *errorDescription = [self errorDescriptionForException:exception details:details];
+  return [GREYFailureFormatter formatFailureForTestCase:currentTestCase
+                                           failureLabel:@"Exception"
+                                            failureName:exception.name
+                                               filePath:_fileName
+                                             lineNumber:_lineNumber
+                                           functionName:nil
+                                             stackTrace:stackTrace
+                                         appScreenshots:screenshotPaths
+                                              hierarchy:appUIHierarchy
+                                       errorDescription:errorDescription];
+}
 
-  NSString *log = [GREYFailureFormatter formatFailureForTestCase:currentTestCase
-                                                    failureLabel:@"Exception"
-                                                     failureName:exception.name
-                                                        filePath:_fileName
-                                                      lineNumber:_lineNumber
-                                                    functionName:nil
-                                                      stackTrace:nil
-                                                  appScreenshots:screenshotPaths
-                                                       hierarchy:appUIHierarchy
-                                                errorDescription:logMessage];
+- (void)handleException:(GREYFrameworkException *)exception details:(NSString *)details {
+  GREYThrowOnNilParameter(exception);
+  XCTestCase *currentTestCase = [XCTestCase grey_currentTestCase];
+  GREYFailureScreenshots *screenshotPaths = [self screenshotPathsForException:exception];
+  NSString *appUIHierarchy = [self appUIHierarchyForException:exception];
+  NSString *log = [self consoleLogForException:exception
+                                       details:details
+                               screenshotPaths:screenshotPaths
+                                appUIhierarchy:appUIHierarchy
+                               currentTestCase:currentTestCase
+                                    stackTrace:nil];
   [currentTestCase grey_markAsFailedAtLine:_lineNumber inFile:_fileName description:log];
 }
 

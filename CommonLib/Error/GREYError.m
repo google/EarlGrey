@@ -16,6 +16,7 @@
 
 #import "GREYError.h"
 
+#import "GREYErrorFormatter.h"
 #import "GREYObjectFormatter.h"
 #import "NSError+GREYCommon.h"
 
@@ -107,11 +108,9 @@ GREYError *I_GREYErrorMake(NSString *domain, NSInteger code, NSDictionary *userI
   return [super errorWithDomain:domain code:code userInfo:dict];
 }
 
+// TODO(wsaid): override localized description as well, for the reason and suggestion.
 - (NSString *)description {
-  return [GREYObjectFormatter formatDictionary:[self grey_descriptionDictionary]
-                                        indent:kGREYObjectFormatIndent
-                                     hideEmpty:YES
-                                      keyOrder:nil];
+  return [GREYErrorFormatter formattedDescriptionForError:self];
 }
 
 - (NSDictionary *)grey_descriptionDictionary {

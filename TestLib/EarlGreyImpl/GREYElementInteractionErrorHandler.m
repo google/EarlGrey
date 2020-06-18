@@ -24,7 +24,8 @@
 #import "GREYErrorConstants.h"
 #import "GREYFailureHandler.h"
 #import "GREYFrameworkException.h"
-
+#import "GREYInteraction.h"
+#import "GREYErrorFormatter.h"
 
 /**
  * @return An NSDictionary containing screenshots obtained from the application on failure along
@@ -50,35 +51,42 @@ void GREYHandleInteractionError(__strong GREYError *interactionError,
     if (outError) {
       *outError = interactionError;
     } else {
-      
-      NSMutableString *matcherDetails;
       NSDictionary<NSString *, id> *userInfo = interactionError.userInfo;
-
-      // Add Screenshots and UI Hierarchy.
       NSMutableDictionary<NSString *, id> *mutableUserInfo = [userInfo mutableCopy];
-      NSString *hierarchy = interactionError.appUIHierarchy;
+      
       NSDictionary<NSString *, UIImage *> *screenshots = GetScreenshotsFromError(interactionError);
       if (screenshots) {
         mutableUserInfo[kErrorDetailAppScreenshotsKey] = screenshots;
       }
+      
+      NSString *hierarchy = interactionError.appUIHierarchy;
       if (hierarchy) {
         mutableUserInfo[kErrorDetailAppUIHierarchyKey] = hierarchy;
       }
-      NSString *localizedFailureReason = userInfo[NSLocalizedFailureReasonErrorKey];
-      NSMutableString *reason = [[interactionError localizedDescription] mutableCopy];
-      matcherDetails = [NSMutableString stringWithFormat:@"%@\n", localizedFailureReason];
-      if (interactionError.nestedError) {
-        [matcherDetails appendFormat:@"\nUnderlying Error: \n%@", interactionError.nestedError];
-      }
+      
       GREYFrameworkException *exception =
           [GREYFrameworkException exceptionWithName:interactionError.domain
-                                             reason:reason
+                                             reason:[interactionError localizedDescription]
                                            userInfo:[mutableUserInfo copy]];
-
+      
       id<GREYFailureHandler> failureHandler =
           [NSThread mainThread].threadDictionary[GREYFailureHandlerKey];
-      // TODO(b/147072566): Will show up a (null) in rotation.
-      [failureHandler handleException:exception details:matcherDetails];
+      
+      if (GREYShouldUseErrorFormatterForError(interactionError)) {
+        // Eventually this check will not be needed, and the error's description will
+        // always be passed as the `details`
+        [failureHandler handleException:exception details:interactionError.description];
+      } else {
+        NSString *localizedFailureReason = userInfo[NSLocalizedFailureReasonErrorKey];
+        NSMutableString *matcherDetails = [NSMutableString stringWithFormat:@"%@\n",
+                                           localizedFailureReason];
+        if (interactionError.nestedError) {
+          [matcherDetails appendFormat:@"\nUnderlying Error: \n%@", interactionError.nestedError];
+        }
+        
+        // TODO(b/147072566): Will show up a (null) in rotation.
+        [failureHandler handleException:exception details:matcherDetails];
+      }
     }
   }
 }
