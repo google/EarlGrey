@@ -47,13 +47,14 @@ NS_ASSUME_NONNULL_BEGIN
 BOOL GREYShouldUseErrorFormatterForError(GREYError *error);
 
 /**
- * Determines whether this excpeption should use the new GREYErrorFormatter::formattedDescription.
+ * Determines whether a failure handler's details should use the new GREYErrorFormatter::formattedDescriptionForError(:).
  *
  * This is temporary until all errors are using GREYErrorFormatter.
  *
- * @return @c YES if the new formatting should be used for this exception reason
+ * @return the formatted error string if the new formatting should be used for this exception reason, else @c nil
  */
-BOOL GREYShouldUseErrorFormatterForExceptionReason(NSString *reason);
+NSString *GREYErrorFormatted(NSString *failureHandlerDetails,
+                             NSDictionary<NSString *, NSString *> *screenshotPaths);
 
 @end
 

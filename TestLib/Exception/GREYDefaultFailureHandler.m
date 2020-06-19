@@ -103,12 +103,9 @@
                       appUIhierarchy:(NSString *)appUIHierarchy
                      currentTestCase:(XCTestCase *)currentTestCase
                           stackTrace:(NSArray *)stackTrace {
-  if (GREYShouldUseErrorFormatterForExceptionReason(exception.reason)) {
-    NSMutableString *output = [details mutableCopy];
-    for (NSString *key in screenshotPaths.allKeys) {
-      [output appendFormat:@"\n%@: %@\n", key, screenshotPaths[key]];
-    }
-    return output;
+  NSString *formattedError = GREYErrorFormatted(details, screenshotPaths);
+  if (formattedError) {
+    return formattedError;
   }
   NSString *errorDescription = [self errorDescriptionForException:exception details:details];
   return [GREYFailureFormatter formatFailureForTestCase:currentTestCase
