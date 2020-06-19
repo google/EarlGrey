@@ -110,13 +110,11 @@ static NSString *LoggerDescription(GREYError *error) {
   
   NSString *assertionCriteria = error.userInfo[kErrorDetailAssertCriteriaKey];
   if (assertionCriteria) {
-    [logger addObject:[NSString stringWithFormat:@"%@: %@", kErrorDetailAssertCriteriaKey,
-                       assertionCriteria]];
+    [logger addObject:[NSString stringWithFormat:@"Failed Assertion: %@", assertionCriteria]];
   }
   NSString *actionCriteria = error.userInfo[kErrorDetailActionNameKey];
   if (actionCriteria) {
-    [logger addObject:[NSString stringWithFormat:@"%@: %@", kErrorDetailActionNameKey,
-                       actionCriteria]];
+    [logger addObject:[NSString stringWithFormat:@"Failed Action: %@", actionCriteria]];
   }
   
   NSString *searchActionInfo = error.userInfo[kErrorDetailSearchActionInfoKey];
