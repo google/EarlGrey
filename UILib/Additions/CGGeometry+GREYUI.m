@@ -69,6 +69,7 @@ CGPoint CGPointAfterRemovingFractionalPixels(CGPoint cgpointInPoints) {
                      CGFloatAfterRemovingFractionalPixels(cgpointInPoints.y));
 }
 
+#if TARGET_OS_IOS
 CGPoint CGPointFixedToVariable(CGPoint pointInFixed) {
   CGAffineTransform transformToVariable =
       CGAffineTransformForFixedToVariable([UIApplication sharedApplication].statusBarOrientation);
@@ -81,6 +82,7 @@ CGPoint CGPointVariableToFixed(CGPoint pointInVariable) {
   CGAffineTransform transformToFixed = CGAffineTransformInvert(transformToVariable);
   return CGPointApplyAffineTransform(pointInVariable, transformToFixed);
 }
+#endif
 
 BOOL CGPointIsNull(CGPoint point) { return isnan(point.x) || isnan(point.y); }
 
@@ -142,9 +144,11 @@ CGRect CGRectFixedToVariableScreenCoordinates(CGRect rectInFixedCoordinates) {
     rectInVariableCoordinates = [screen.fixedCoordinateSpace convertRect:rectInFixedCoordinates
                                                        toCoordinateSpace:screen.coordinateSpace];
   } else {  // Pre-iOS 8.
+#if TARGET_OS_IOS
     CGAffineTransform transform =
         CGAffineTransformForFixedToVariable([UIApplication sharedApplication].statusBarOrientation);
     rectInVariableCoordinates = CGRectApplyAffineTransform(rectInFixedCoordinates, transform);
+#endif
   }
   return rectInVariableCoordinates;
 }
@@ -157,11 +161,13 @@ CGRect CGRectVariableToFixedScreenCoordinates(CGRect rectInVariableCoordinates) 
     rectInFixedCoordinates = [screen.fixedCoordinateSpace convertRect:rectInVariableCoordinates
                                                   fromCoordinateSpace:screen.coordinateSpace];
   } else {  // Pre-iOS 8.
+#if TARGET_OS_IOS
     CGAffineTransform transform =
         CGAffineTransformForFixedToVariable([UIApplication sharedApplication].statusBarOrientation);
     // Invert so these transformation to go from fixed->variable to variable->fixed.
     transform = CGAffineTransformInvert(transform);
     rectInFixedCoordinates = CGRectApplyAffineTransform(rectInVariableCoordinates, transform);
+#endif
   }
   return rectInFixedCoordinates;
 }
@@ -259,6 +265,7 @@ CGRect CGRectLargestRectInHistogram(uint16_t *histogram, uint16_t length) {
 
 #pragma mark - CGAffineTransform
 
+#if TARGET_OS_IOS
 CGAffineTransform CGAffineTransformForFixedToVariable(UIInterfaceOrientation orientation) {
   UIScreen *screen = [UIScreen mainScreen];
   CGAffineTransform transform = CGAffineTransformIdentity;
@@ -282,3 +289,4 @@ CGAffineTransform CGAffineTransformForFixedToVariable(UIInterfaceOrientation ori
   }
   return transform;
 }
+#endif

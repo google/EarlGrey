@@ -22,10 +22,12 @@
 #import "GREYXCTestAppleInternals.h"
 #import "GREYCondition.h"
 
+#if TARGET_OS_IOS
 /**
  * Amount to scroll to move to the next springboard page.
  */
 static const NSInteger kSpringboardPageScrollAmount = 500.0;
+#endif
 
 /**
  * Timeout for foregrounding the application.
@@ -123,6 +125,7 @@ static const CFTimeInterval kPollInterval = 5.0;
  */
 - (void)grey_swipeHorizontallyInElement:(XCUIElement *)element
                 withTheDirectionAsRight:(BOOL)isRight {
+#if TARGET_OS_IOS
   XCUICoordinate *startPoint = [element coordinateWithNormalizedOffset:CGVectorMake(0.0, 0.5)];
   XCUICoordinate *endPoint;
   if (isRight) {
@@ -135,6 +138,7 @@ static const CFTimeInterval kPollInterval = 5.0;
     endPoint = [startPoint coordinateWithOffset:leftScrollVector];
   }
   [startPoint pressForDuration:0.1 thenDragToCoordinate:endPoint];
+#endif
 }
 
 @end

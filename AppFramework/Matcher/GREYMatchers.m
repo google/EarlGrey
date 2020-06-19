@@ -565,6 +565,7 @@ static Class gEDOObjectClass;
 
 + (id<GREYMatcher>)matcherForSliderValueMatcher:(id<GREYMatcher>)valueMatcher {
   NSString *prefix = @"sliderValueMatches";
+#if TARGET_OS_IOS
   GREYMatchesBlock matches = ^BOOL(UISlider *element) {
     return [valueMatcher matches:@(element.value)];
   };
@@ -575,12 +576,16 @@ static Class gEDOObjectClass;
     [GREYMatchers matcherForKindOfClass:[UISlider class]],
     [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe],
   ];
+#else
+  NSArray *matchersArray = nil;
+#endif
   return [[GREYAllOf alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
                                 matchers:matchersArray];
 }
 
 + (id<GREYMatcher>)matcherForStepperValue:(double)value {
   NSString *prefix = @"stepperValue";
+#if TARGET_OS_IOS
   GREYMatchesBlock matches = ^BOOL(UIStepper *element) {
     return element.value == value;
   };
@@ -591,12 +596,16 @@ static Class gEDOObjectClass;
     [GREYMatchers matcherForKindOfClass:[UIStepper class]],
     [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe],
   ];
+#else
+  NSArray *matchersArray = nil;
+#endif
   return [[GREYAllOf alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
                                 matchers:matchersArray];
 }
 
 + (id<GREYMatcher>)matcherForPickerColumn:(NSInteger)column setToValue:(NSString *)value {
   NSString *prefix = @"pickerColumnAtIndex";
+#if TARGET_OS_IOS
   GREYMatchesBlock matches = ^BOOL(UIPickerView *element) {
     if ([element numberOfComponents] < column) {
       return NO;
@@ -628,12 +637,16 @@ static Class gEDOObjectClass;
     [GREYMatchers matcherForKindOfClass:[UIPickerView class]],
     [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe],
   ];
+#else
+  NSArray *matchersArray = nil;
+#endif
   return [[GREYAllOf alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
                                 matchers:matchersArray];
 }
 
 + (id<GREYMatcher>)matcherForDatePickerValue:(NSDate *)value {
   NSString *prefix = @"datePickerWithValue";
+#if TARGET_OS_IOS
   GREYMatchesBlock matches = ^BOOL(UIDatePicker *element) {
     if (element.date == value) {
       return YES;
@@ -647,6 +660,9 @@ static Class gEDOObjectClass;
     [GREYMatchers matcherForKindOfClass:[UIDatePicker class]],
     [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe],
   ];
+#else
+  NSArray *matchersArray = nil;
+#endif
   return [[GREYAllOf alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
                                 matchers:matchersArray];
 }
@@ -811,6 +827,7 @@ static Class gEDOObjectClass;
 
 + (id<GREYMatcher>)matcherForSwitchWithOnState:(BOOL)on {
   NSString *prefix = @"switchInState";
+#if TARGET_OS_IOS
   GREYMatchesBlock matches = ^BOOL(id element) {
     return ([element isOn] && on) || (![element isOn] && !on);
   };
@@ -823,6 +840,9 @@ static Class gEDOObjectClass;
     [GREYMatchers matcherForRespondsToSelector:@selector(isOn)],
     [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe],
   ];
+#else
+  NSArray *matchersArray = nil;
+#endif
   return [[GREYAllOf alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
                                 matchers:matchersArray];
 }

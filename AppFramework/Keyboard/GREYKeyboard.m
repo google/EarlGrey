@@ -101,6 +101,7 @@ typedef BOOL (^ConditionBlock)(void);
 
 /** Register notification for keyboard display lifecycle events. */
 __attribute__((constructor)) static void RegisterKeyboardLifecycleHooks() {
+#if TARGET_OS_IOS
   NSObject *keyboardObject = [[NSObject alloc] init];
   static void *objectKey = &objectKey;
   NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
@@ -159,6 +160,7 @@ __attribute__((constructor)) static void RegisterKeyboardLifecycleHooks() {
                                objc_getAssociatedObject(keyboardObject, objectKey);
                            UNTRACK_STATE_FOR_OBJECT(kGREYPendingKeyboardTransition, object);
                          }];
+#endif
 }
 
 @implementation GREYKeyboard : NSObject

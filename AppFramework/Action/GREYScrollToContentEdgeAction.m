@@ -13,10 +13,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-
-#import <WebKit/WebKit.h>
-
 #import "GREYScrollToContentEdgeAction.h"
+
+#if TARGET_OS_IOS
+#import <WebKit/WebKit.h>
+#endif  // !TARGET_OS_IOS
 
 #import "GREYScrollAction.h"
 #import "NSObject+GREYApp.h"
@@ -57,7 +58,9 @@
 
   NSArray *classMatchers = @[
     [GREYMatchers matcherForKindOfClass:[UIScrollView class]],
+#if TARGET_OS_IOS
     [GREYMatchers matcherForKindOfClass:[WKWebView class]],
+#endif
   ];
   id<GREYMatcher> systemAlertShownMatcher = [GREYMatchers matcherForSystemAlertViewShown];
   NSArray *constraintMatchers = @[
@@ -83,6 +86,7 @@
   if (![self satisfiesConstraintsForElement:element error:error]) {
     return NO;
   }
+#if TARGET_OS_IOS
   if ([element isKindOfClass:[WKWebView class]]) {
     __block UIScrollView *webScrollView;
     grey_dispatch_sync_on_main_thread(^{
@@ -90,6 +94,7 @@
     });
     element = webScrollView;
   }
+#endif
 
   // Get the maximum scrollable amount in any direction and keep applying it until the edge
   // is reached.

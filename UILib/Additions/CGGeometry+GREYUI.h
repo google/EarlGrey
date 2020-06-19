@@ -249,4 +249,6 @@ CGRect CGRectLargestRectInHistogram(uint16_t *histogram, uint16_t length);
  *
  * @return The transformed status bar orientation for variable coordinate system.
  */
+#if TARGET_OS_IOS
 CGAffineTransform CGAffineTransformForFixedToVariable(UIInterfaceOrientation statusBarOrientation);
+#endif

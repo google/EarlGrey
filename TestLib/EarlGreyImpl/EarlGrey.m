@@ -39,7 +39,9 @@
 #import "EDOClientService.h"
 
 /** Timeout for XCUITest actions that need the waiting API. */
+#if TARGET_OS_IOS
 static const CFTimeInterval kWaitForExistenceTimeout = 10;
+#endif
 
 /**
  * Sets EarlGrey provided default failure handler if there's no failure handler set for the current

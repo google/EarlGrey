@@ -366,6 +366,7 @@ static CGFloat kCachedScreenEdgePanDetectionLength = NAN;
  */
 + (CGFloat)grey_edgePanDetectionLength {
   if (isnan(kCachedScreenEdgePanDetectionLength)) {
+#if TARGET_OS_IOS
     // Use _edgeRegionSize property of UIScreenEdgePanGestureRecognizer on the default
     // UINavigationController object to determine edge pan detection length.
     UIViewController *viewController = [[UIViewController alloc] initWithNibName:nil bundle:nil];
@@ -380,6 +381,7 @@ static CGFloat kCachedScreenEdgePanDetectionLength = NAN;
       kCachedScreenEdgePanDetectionLength =
           edgeRegionSizeIMP(popGestureRecognizer, edgeRegionSizeSelector);
     }
+#endif
   }
   return kCachedScreenEdgePanDetectionLength;
 }

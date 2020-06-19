@@ -223,8 +223,12 @@ static Protocol *gTextInputProtocol;
     [GREYMatchers matcherForRespondsToSelector:@selector(isOn)]
   ];
   id<GREYMatcher> constraints = [[GREYAllOf alloc] initWithMatchers:constraintMatchers];
+#if TARGET_OS_IOS
   NSString *actionName =
       [NSString stringWithFormat:@"Turn switch to %@ state", [UISwitch grey_stringFromOnState:on]];
+#else
+  NSString *actionName = @"";
+#endif
   return [GREYActionBlock
       actionWithName:actionName
        diagnosticsID:diagnosticsID
@@ -343,26 +347,32 @@ static Protocol *gTextInputProtocol;
   NSArray *constraintMatcher = @[
     [GREYMatchers matcherForInteractable],
     [GREYMatchers matcherForNegation:systemAlertShownMatcher],
+#if TARGET_OS_IOS
     [GREYMatchers matcherForKindOfClass:[UIDatePicker class]]
+#endif
   ];
   id<GREYMatcher> constraints = [[GREYAllOf alloc] initWithMatchers:constraintMatcher];
   NSString *actionName = [NSString stringWithFormat:@"Set date to %@", date];
-  return [[GREYActionBlock alloc]
-       initWithName:actionName
-      diagnosticsID:diagnosticsID
-        constraints:constraints
-       performBlock:^BOOL(UIDatePicker *datePicker, __strong NSError **errorOrNil) {
-         grey_dispatch_sync_on_main_thread(^{
-           NSDate *previousDate = [datePicker date];
-           [datePicker setDate:date animated:YES];
-           // Changing the data programmatically does not fire the "value changed" events,
-           // So we have to trigger the events manually if the value changes.
-           if (![date isEqualToDate:previousDate]) {
-             [datePicker sendActionsForControlEvents:UIControlEventValueChanged];
-           }
-         });
-         return YES;
-       }];
+#if TARGET_OS_IOS
+  GREYPerformBlock block = ^BOOL(UIDatePicker *datePicker, __strong NSError **errorOrNil) {
+    grey_dispatch_sync_on_main_thread(^{
+      NSDate *previousDate = [datePicker date];
+      [datePicker setDate:date animated:YES];
+      // Changing the data programmatically does not fire the "value changed" events,
+      // So we have to trigger the events manually if the value changes.
+      if (![date isEqualToDate:previousDate]) {
+        [datePicker sendActionsForControlEvents:UIControlEventValueChanged];
+      }
+    });
+    return YES;
+  };
+#else
+  GREYPerformBlock block = nil;
+#endif
+  return [[GREYActionBlock alloc] initWithName:actionName
+                                 diagnosticsID:diagnosticsID
+                                   constraints:constraints
+                                  performBlock:block];
 }
 
 + (id<GREYAction>)actionForSetPickerColumn:(NSInteger)column toValue:(NSString *)value {
@@ -374,9 +384,13 @@ static Protocol *gTextInputProtocol;
   NSString *diagnosticsID = GREYCorePrefixedDiagnosticsID(@"executeJavaScript");
   // TODO: JS Errors should be propagated up.
   id<GREYMatcher> systemAlertShownMatcher = [GREYMatchers matcherForSystemAlertViewShown];
+#if TARGET_OS_IOS
   NSArray *webViewMatchers = @[
     [GREYMatchers matcherForKindOfClass:[WKWebView class]]
   ];
+#else
+  NSArray *webViewMatchers = nil;
+#endif
   NSArray *constraintMatchers = @[
     [GREYMatchers matcherForNegation:systemAlertShownMatcher],
     [[GREYAnyOf alloc] initWithMatchers:webViewMatchers]
@@ -390,6 +404,7 @@ static Protocol *gTextInputProtocol;
        performBlock:^BOOL(id webView, __strong NSError **errorOrNil) {
            dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
            __block NSError *localError = nil;
+#if TARGET_OS_IOS
            grey_dispatch_sync_on_main_thread(^{
              [webView evaluateJavaScript:js
                        completionHandler:^(id result, NSError *error) {
@@ -403,6 +418,7 @@ static Protocol *gTextInputProtocol;
                          dispatch_semaphore_signal(semaphore);
                        }];
            });
+#endif
            // Wait for the interaction timeout for the semaphore to return.
            CFTimeInterval interactionTimeout =
                GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);

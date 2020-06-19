@@ -81,7 +81,9 @@
   NSArray *constraintMatchers = @[
     [GREYMatchers matcherForInteractable],
     [GREYMatchers matcherForNegation:systemAlertShownMatcher],
+#if TARGET_OS_IOS
     [GREYMatchers matcherForKindOfClass:[UIStepper class]]
+#endif
   ];
   NSString *name = [NSString stringWithFormat:@"Change stepper to %g", value];
   self = [super initWithName:name
@@ -94,6 +96,7 @@
 
 #pragma mark - GREYAction
 
+#if TARGET_OS_IOS
 - (BOOL)perform:(UIStepper *)stepper error:(__strong NSError **)error {
   __block BOOL satisfiesContraints = NO;
   grey_dispatch_sync_on_main_thread(^{
@@ -275,6 +278,7 @@
   });
   return stepperStepValue;
 }
+#endif
 
 #pragma mark - GREYDiagnosable
 
