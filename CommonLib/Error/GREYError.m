@@ -22,9 +22,9 @@
 NSString *const kGREYGenericErrorDomain = @"com.google.earlgrey.GenericErrorDomain";
 NSInteger const kGREYGenericErrorCode = 0;
 NSString *const kErrorDetailFailureNameKey = @"Failure Name";
-NSString *const kErrorDetailActionNameKey = @"Action Name";
+NSString *const kErrorDetailActionNameKey = @"Failed Action";
 NSString *const kErrorDetailSearchActionInfoKey = @"Search API Info";
-NSString *const kErrorDetailAssertCriteriaKey = @"Assertion Criteria";
+NSString *const kErrorDetailAssertCriteriaKey = @"Failed Assertion";
 NSString *const kErrorDetailRecoverySuggestionKey = @"Recovery Suggestion";
 
 NSString *const kErrorDomainKey = @"Error Domain";

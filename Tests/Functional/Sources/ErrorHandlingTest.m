@@ -14,6 +14,7 @@
 // limitations under the License.
 //
 
+#include "third_party/objective_c/EarlGreyV2/AppFramework/Matcher/GREYMatchersShorthand.h"
 #import "BaseIntegrationTest.h"
 
 #import "GREYError.h"
@@ -36,6 +37,24 @@
   // methods. This is necessary for some of the tests because it's try catching exception.
   [GREY_REMOTE_CLASS_IN_APP(GREYVisibilityChecker) resetVisibilityImages];
   [super tearDown];
+}
+
+/** Ensures the right action name is present in the error. */
+- (void)testActionNameInError {
+  NSError *error;
+  [[EarlGrey selectElementWithMatcher:grey_text(@"Invalid")] performAction:grey_tap() error:&error];
+  XCTAssertTrue([error.description containsString:kErrorDetailActionNameKey],
+                @"Action name: %@ not present in error: %@", kErrorDetailActionNameKey, error);
+}
+
+/** Ensures the right action name is present in the error. */
+- (void)testAssertionCriteriaInError {
+  NSError *error;
+  [[EarlGrey selectElementWithMatcher:grey_text(@"Invalid")] assertWithMatcher:grey_notNil()
+                                                                         error:&error];
+  XCTAssertTrue([error.description containsString:kErrorDetailAssertCriteriaKey],
+                @"Assertion criteria: %@ not present in error: %@", kErrorDetailActionNameKey,
+                error);
 }
 
 /**
