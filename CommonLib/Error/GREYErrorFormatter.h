@@ -51,10 +51,9 @@ BOOL GREYShouldUseErrorFormatterForError(GREYError *error);
  *
  * This is temporary until all errors are using GREYErrorFormatter.
  *
- * @return the formatted error string if the new formatting should be used for this exception reason, else @c nil
+ * @return @c YES if the new formatting should be used for the failure handler, else @c nil
  */
-NSString *GREYErrorFormatted(NSString *failureHandlerDetails,
-                             NSDictionary<NSString *, NSString *> *screenshotPaths);
+BOOL GREYShouldUseErrorFormatterForDetails(NSString *failureHandlerDetails);
 
 @end
 

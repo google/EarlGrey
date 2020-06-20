@@ -59,16 +59,8 @@ BOOL GREYShouldUseErrorFormatterForError(GREYError *error) {
           error.code == kGREYInteractionElementNotFoundErrorCode;
 }
 
-NSString *GREYErrorFormatted(NSString *failureHandlerDetails,
-                             NSDictionary<NSString *, NSString *> *screenshotPaths) {
-  if ([failureHandlerDetails hasPrefix:kErrorPrefix]) {
-    NSMutableString *output = [failureHandlerDetails mutableCopy];
-    for (NSString *key in screenshotPaths.allKeys) {
-      [output appendFormat:@"\n%@: %@\n", key, screenshotPaths[key]];
-    }
-    return output;
-  }
-  return nil;
+BOOL GREYShouldUseErrorFormatterForDetails(NSString *failureHandlerDetails) {
+  return [failureHandlerDetails hasPrefix:kErrorPrefix];
 }
 
 #pragma mark - Static Functions

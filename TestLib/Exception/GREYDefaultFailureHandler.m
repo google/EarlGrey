@@ -124,9 +124,12 @@
                              details:(NSString *)details
                      currentTestCase:(XCTestCase *)currentTestCase {
   GREYFailureScreenshots *screenshotPaths = [self screenshotPathsForException:exception];
-  NSString *formattedError = GREYErrorFormatted(details, screenshotPaths);
-  if (formattedError) {
-    return formattedError;
+  if (GREYShouldUseErrorFormatterForDetails(details)) {
+    NSMutableString *output = [details mutableCopy];
+    for (NSString *key in screenshotPaths.allKeys) {
+      [output appendFormat:@"\n%@: %@\n", key, screenshotPaths[key]];
+    }
+    return output;
   }
   NSString *errorDescription = [self errorDescriptionForException:exception details:details];
   return [GREYFailureFormatter formatFailureForTestCase:currentTestCase
