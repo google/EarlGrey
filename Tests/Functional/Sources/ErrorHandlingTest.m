@@ -14,9 +14,9 @@
 // limitations under the License.
 //
 
-#include "third_party/objective_c/EarlGreyV2/AppFramework/Matcher/GREYMatchersShorthand.h"
 #import "BaseIntegrationTest.h"
 
+#import "GREYMatchersShorthand.h"
 #import "GREYError.h"
 #import "GREYObjectFormatter.h"
 #import "GREYConstants.h"
