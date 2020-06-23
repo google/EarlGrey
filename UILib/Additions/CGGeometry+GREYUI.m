@@ -56,30 +56,17 @@ CGPoint CGPointMultiply(CGPoint inPoint, double amount) {
   return CGPointMake((CGFloat)(inPoint.x * amount), (CGFloat)(inPoint.y * amount));
 }
 
-CGPoint CGPointToPixel(CGPoint positionInPixels) {
-  return CGPointMultiply(positionInPixels, [UIScreen mainScreen].scale);
+CGPoint CGPointToPixel(CGPoint positionInPoints) {
+  return CGPointMultiply(positionInPoints, [UIScreen mainScreen].scale);
 }
 
-CGPoint CGPixelToPoint(CGPoint positionInPoints) {
-  return CGPointMultiply(positionInPoints, 1.0 / [UIScreen mainScreen].scale);
+CGPoint CGPixelToPoint(CGPoint positionInPixels) {
+  return CGPointMultiply(positionInPixels, 1.0 / [UIScreen mainScreen].scale);
 }
 
 CGPoint CGPointAfterRemovingFractionalPixels(CGPoint cgpointInPoints) {
   return CGPointMake(CGFloatAfterRemovingFractionalPixels(cgpointInPoints.x),
                      CGFloatAfterRemovingFractionalPixels(cgpointInPoints.y));
-}
-
-CGPoint CGPointFixedToVariable(CGPoint pointInFixed) {
-  CGAffineTransform transformToVariable =
-      CGAffineTransformForFixedToVariable([UIApplication sharedApplication].statusBarOrientation);
-  return CGPointApplyAffineTransform(pointInFixed, transformToVariable);
-}
-
-CGPoint CGPointVariableToFixed(CGPoint pointInVariable) {
-  CGAffineTransform transformToVariable =
-      CGAffineTransformForFixedToVariable([UIApplication sharedApplication].statusBarOrientation);
-  CGAffineTransform transformToFixed = CGAffineTransformInvert(transformToVariable);
-  return CGPointApplyAffineTransform(pointInVariable, transformToFixed);
 }
 
 BOOL CGPointIsNull(CGPoint point) { return isnan(point.x) || isnan(point.y); }
@@ -141,10 +128,6 @@ CGRect CGRectFixedToVariableScreenCoordinates(CGRect rectInFixedCoordinates) {
       [screen respondsToSelector:@selector(fixedCoordinateSpace)]) {
     rectInVariableCoordinates = [screen.fixedCoordinateSpace convertRect:rectInFixedCoordinates
                                                        toCoordinateSpace:screen.coordinateSpace];
-  } else {  // Pre-iOS 8.
-    CGAffineTransform transform =
-        CGAffineTransformForFixedToVariable([UIApplication sharedApplication].statusBarOrientation);
-    rectInVariableCoordinates = CGRectApplyAffineTransform(rectInFixedCoordinates, transform);
   }
   return rectInVariableCoordinates;
 }
@@ -156,12 +139,6 @@ CGRect CGRectVariableToFixedScreenCoordinates(CGRect rectInVariableCoordinates) 
       [screen respondsToSelector:@selector(fixedCoordinateSpace)]) {
     rectInFixedCoordinates = [screen.fixedCoordinateSpace convertRect:rectInVariableCoordinates
                                                   fromCoordinateSpace:screen.coordinateSpace];
-  } else {  // Pre-iOS 8.
-    CGAffineTransform transform =
-        CGAffineTransformForFixedToVariable([UIApplication sharedApplication].statusBarOrientation);
-    // Invert so these transformation to go from fixed->variable to variable->fixed.
-    transform = CGAffineTransformInvert(transform);
-    rectInFixedCoordinates = CGRectApplyAffineTransform(rectInVariableCoordinates, transform);
   }
   return rectInFixedCoordinates;
 }

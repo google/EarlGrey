@@ -101,18 +101,6 @@ CGPoint CGPixelToPoint(CGPoint positionInPixels);
 CGPoint CGPointAfterRemovingFractionalPixels(CGPoint cgpointInPoints);
 
 /**
- * @return The point obtained by converting the given @c pointInFixed from fixed to variable
- *         coordinate system.
- */
-CGPoint CGPointFixedToVariable(CGPoint pointInFixed);
-
-/**
- * @return The point obtained by converting the given @c pointInVariable from variable to fixed
- *         coordinate system.
- */
-CGPoint CGPointVariableToFixed(CGPoint pointInVariable);
-
-/**
  * @return @c YES if the given @c point represents an null point, @c NO otherwise.
  */
 BOOL CGPointIsNull(CGPoint point);
