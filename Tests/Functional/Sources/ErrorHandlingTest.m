@@ -39,24 +39,6 @@
   [super tearDown];
 }
 
-/** Ensures the right action name is present in the error. */
-- (void)testActionNameInError {
-  NSError *error;
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Invalid")] performAction:grey_tap() error:&error];
-  XCTAssertTrue([error.description containsString:kErrorDetailActionNameKey],
-                @"Action name: %@ not present in error: %@", kErrorDetailActionNameKey, error);
-}
-
-/** Ensures the right action name is present in the error. */
-- (void)testAssertionCriteriaInError {
-  NSError *error;
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Invalid")] assertWithMatcher:grey_notNil()
-                                                                         error:&error];
-  XCTAssertTrue([error.description containsString:kErrorDetailAssertCriteriaKey],
-                @"Assertion criteria: %@ not present in error: %@", kErrorDetailActionNameKey,
-                error);
-}
-
 /**
  * Checks the error information for a timeout when a search action fails.
  */
@@ -145,10 +127,10 @@
       onElementWithMatcher:grey_accessibilityLabel(@"Invalid Scroll View")]
       assertWithMatcher:grey_sufficientlyVisible()
                   error:&error];
-  NSString *searchAPIDescription = @"\"Search API Info\" : \"Search Action:";
+  NSString *searchAPIDescription = @"Search API Info\nSearch Action:";
   NSString *searchAPIMatcherDescription = @"                    \"Search Matcher";
   NSString *searchActionDescription = @"Search action failed: Interaction cannot continue";
-  NSString *elementMatcherDescription = @"Element Matcher\" : \"(((respondsToSelector";
+  NSString *elementMatcherDescription = @"Element Matcher:\n(((respondsToSelector";
   XCTAssertTrue([error.description containsString:searchAPIDescription],
                 @"Search API Prefix and Action info: %@ not present in Error Description: %@",
                 searchAPIDescription, error.description);
@@ -195,10 +177,10 @@
          usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 50)
       onElementWithMatcher:grey_accessibilityLabel(@"Invalid Scroll View")] performAction:grey_tap()
                                                                                     error:&error];
-  NSString *searchAPIDescription = @"\"Search API Info\" : \"Search Action:";
+  NSString *searchAPIDescription = @"Search API Info\nSearch Action:";
   NSString *searchAPIMatcherDescription = @"                    \"Search Matcher";
   NSString *searchActionDescription = @"Search action failed: Interaction cannot continue";
-  NSString *elementMatcherDescription = @"Element Matcher\" : \"(((respondsToSelector";
+  NSString *elementMatcherDescription = @"Element Matcher:\n(((respondsToSelector";
   XCTAssertTrue([error.description containsString:searchAPIDescription],
                 @"Search API Prefix and Action info: %@ not present in Error Description: %@",
                 searchAPIDescription, error.description);

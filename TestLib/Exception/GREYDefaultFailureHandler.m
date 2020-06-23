@@ -24,17 +24,18 @@
 #import "GREYThrowDefines.h"
 #import "GREYConfiguration.h"
 #import "GREYErrorConstants.h"
+#import "GREYErrorFormatter.h"
+#import "GREYObjectFormatter.h"
 #import "GREYFrameworkException.h"
 #import "GREYFailureFormatter.h"
+#import "GREYFailureHandlerHelpers.h"
 #import "GREYFailureScreenshotSaver.h"
 #import "XCTestCase+GREYTest.h"
-#import "GREYElementHierarchy.h"
 
-// Counter that is incremented each time a failure occurs in an unknown test.
+/** Counter that is incremented each time a failure occurs in an unknown test. */
 @implementation GREYDefaultFailureHandler {
   NSString *_fileName;
   NSUInteger _lineNumber;
-  id _currentTestCase;
 }
 
 #pragma mark - GREYFailureHandler
@@ -46,8 +47,21 @@
 
 - (void)handleException:(GREYFrameworkException *)exception details:(NSString *)details {
   GREYThrowOnNilParameter(exception);
-  id currentTestCase = [XCTestCase grey_currentTestCase];
+  XCTestCase *currentTestCase = [XCTestCase grey_currentTestCase];
+  NSString *log = [self logForException:exception details:details currentTestCase:currentTestCase];
+  [currentTestCase grey_markAsFailedAtLine:_lineNumber inFile:_fileName description:log];
+}
 
+/**
+ * @return The error description string built from the exception name, exception reason, and any
+ *         other passed in details
+ *
+ * @param exception The exception causing the failure.
+ * @param details   The detail string passed into the failure handler, which can be the GREYError
+ *                  description.
+ */
+- (NSString *)errorDescriptionForException:(GREYFrameworkException *)exception
+                                   details:(NSString *)details {
   NSMutableString *logMessage = [[NSMutableString alloc] init];
   NSString *reason = exception.reason;
 
@@ -65,6 +79,15 @@
     [logMessage appendString:logDetails];
   }
 
+  return logMessage;
+}
+
+/**
+ * @return A dictionary of the app side and test side screenshot paths.
+ *
+ * @param exception The exception containing the screenshot images in its user info dictionary.
+ */
+- (GREYFailureScreenshots *)screenshotPathsForException:(GREYFrameworkException *)exception {
   NSDictionary<NSString *, UIImage *> *appScreenshots =
       [exception.userInfo valueForKey:kErrorDetailAppScreenshotsKey];
   // Re-obtain the screenshots when a user might be using GREYAsserts. Since this is from the test
@@ -81,24 +104,40 @@
       [GREYFailureScreenshotSaver saveFailureScreenshotsInDictionary:appScreenshots
                                                          toDirectory:screenshotDir];
   NSAssert(screenshotPaths, @"Screenshots must be present");
+  return screenshotPaths;
+}
 
-  NSString *appUIHierarchy = [exception.userInfo valueForKey:kErrorDetailAppUIHierarchyKey];
-  // For calls from GREYAsserts in the test side, the hierarchy must be populated here.
-  if (!appUIHierarchy) {
-    appUIHierarchy = [GREYElementHierarchy hierarchyString];
+/**
+ * @return The console log that should be outputted.
+ *
+ * @param exception       The exception causing the failure.
+ * @param details         The detail string passed into the failure handler, which can be the
+ *                        GREYError description.
+ * @param currentTestCase The test case that has failed.
+ */
+- (NSString *)logForException:(GREYFrameworkException *)exception
+                      details:(NSString *)details
+              currentTestCase:(XCTestCase *)currentTestCase {
+  GREYFailureScreenshots *screenshotPaths = [self screenshotPathsForException:exception];
+  if (GREYShouldUseErrorFormatterForDetails(details)) {
+    NSMutableString *output = [details mutableCopy];
+    for (NSString *key in screenshotPaths.allKeys) {
+      [output appendFormat:@"\n%@: %@\n", key, screenshotPaths[key]];
+    }
+    return output;
+  } else {
+    NSString *errorDescription = [self errorDescriptionForException:exception details:details];
+    return [GREYFailureFormatter formatFailureForTestCase:currentTestCase
+                                             failureLabel:@"Exception"
+                                              failureName:exception.name
+                                                 filePath:_fileName
+                                               lineNumber:_lineNumber
+                                             functionName:nil
+                                               stackTrace:nil
+                                           appScreenshots:screenshotPaths
+                                                hierarchy:GREYAppUIHierarchyFromException(exception)
+                                         errorDescription:errorDescription];
   }
-
-  NSString *log = [GREYFailureFormatter formatFailureForTestCase:currentTestCase
-                                                    failureLabel:@"Exception"
-                                                     failureName:exception.name
-                                                        filePath:_fileName
-                                                      lineNumber:_lineNumber
-                                                    functionName:nil
-                                                      stackTrace:nil
-                                                  appScreenshots:screenshotPaths
-                                                       hierarchy:appUIHierarchy
-                                                errorDescription:logMessage];
-  [currentTestCase grey_markAsFailedAtLine:_lineNumber inFile:_fileName description:log];
 }
 
 @end

@@ -16,6 +16,7 @@
 
 #import "GREYError.h"
 
+#import "GREYErrorFormatter.h"
 #import "GREYObjectFormatter.h"
 #import "NSError+GREYCommon.h"
 
@@ -68,10 +69,10 @@ NSString *const kGREYScreenshotActualAfterImage =
 @property(nonatomic, readwrite) GREYError *nestedError;
 @end
 
-GREYError *I_GREYErrorMake(NSString *domain, NSInteger code, NSDictionary *userInfo,
+GREYError *I_GREYErrorMake(NSString *domain, NSInteger code, NSDictionary<NSString *, id> *userInfo,
                            NSString *filePath, NSUInteger line, NSString *functionName,
                            NSArray<NSString *> *stackTrace, NSString *appUIHierarchy,
-                           NSDictionary *appScreenshots) {
+                           NSDictionary<NSString *, UIImage *> *appScreenshots) {
   GREYError *error = [[GREYError alloc] initWithDomain:domain code:code userInfo:userInfo];
 
   error.filePath = filePath;
@@ -89,10 +90,10 @@ GREYError *I_GREYErrorMake(NSString *domain, NSInteger code, NSDictionary *userI
   NSString *_filePath;
   NSUInteger _line;
   NSString *_functionName;
-  NSDictionary *_errorInfo;
-  NSArray *_stackTrace;
+  NSDictionary<NSString *, id> *_errorInfo;
+  NSArray<NSString *> *_stackTrace;
   NSString *_appUIHierarchy;
-  NSDictionary *_appScreenshots;
+  NSDictionary<NSString *, UIImage *> *_appScreenshots;
 }
 
 @dynamic nestedError;
@@ -103,19 +104,18 @@ GREYError *I_GREYErrorMake(NSString *domain, NSInteger code, NSDictionary *userI
 
 + (instancetype)errorWithDomain:(NSString *)domain
                            code:(NSInteger)code
-                       userInfo:(NSDictionary *)dict {
-  return [super errorWithDomain:domain code:code userInfo:dict];
+                       userInfo:(NSDictionary<NSString *, id> *)userInfo {
+  return [super errorWithDomain:domain code:code userInfo:userInfo];
 }
 
+// TODO(wsaid): Override localizedDescription as well, for the reason and suggestion.
 - (NSString *)description {
-  return [GREYObjectFormatter formatDictionary:[self grey_descriptionDictionary]
-                                        indent:kGREYObjectFormatIndent
-                                     hideEmpty:YES
-                                      keyOrder:nil];
+  return [GREYErrorFormatter formattedDescriptionForError:self];
 }
 
 - (NSDictionary *)grey_descriptionDictionary {
-  NSMutableDictionary *descriptionDictionary = [[super grey_descriptionDictionary] mutableCopy];
+  NSMutableDictionary<NSString *, id> *descriptionDictionary =
+      [[super grey_descriptionDictionary] mutableCopy];
 
   if (!descriptionDictionary) {
     return nil;
