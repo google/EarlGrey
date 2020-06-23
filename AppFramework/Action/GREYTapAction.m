@@ -30,6 +30,7 @@
 #import "GREYFatalAsserts.h"
 #import "GREYThrowDefines.h"
 #import "GREYError.h"
+#import "GREYErrorConstants.h"
 #import "NSError+GREYCommon.h"
 #import "GREYDefines.h"
 #import "CGGeometry+GREYUI.h"
@@ -96,7 +97,7 @@
   NSString *name = [GREYTapAction grey_actionNameWithTapType:tapType
                                                     duration:duration
                                                 numberOfTaps:numberOfTaps];
-  NSArray *anyOfMatchers = @[
+  NSArray<id<GREYMatcher>> *anyOfMatchers = @[
     [GREYMatchers matcherForAccessibilityElement],
     [GREYMatchers matcherForKindOfClass:[UIView class]],
   ];

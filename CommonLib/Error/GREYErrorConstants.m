@@ -25,12 +25,13 @@ NSString *const kErrorDetailElementDescriptionKey = @"Element Description";
 NSString *const kErrorDetailConstraintRequirementKey = @"Failed Constraint(s)";
 NSString *const kErrorDetailConstraintDetailsKey = @"All Constraint(s)";
 
-NSString *const kGREYInteractionErrorDomain = @"com.google.earlgrey.ElementInteractionErrorDomain";
 NSString *const kGREYWillPerformActionNotification = @"GREYWillPerformActionNotification";
 NSString *const kGREYDidPerformActionNotification = @"GREYDidPerformActionNotification";
 NSString *const kGREYWillPerformAssertionNotification = @"GREYWillPerformAssertionNotification";
 NSString *const kGREYDidPerformAssertionNotification = @"GREYDidPerformAssertionNotification";
 
+NSString *const kGREYInteractionErrorDomain = @"com.google.earlgrey.ElementInteractionErrorDomain";
+NSString *const kGREYPinchErrorDomain = @"com.google.earlgrey.PinchErrorDomain";
 NSString *const kGREYSyntheticEventInjectionErrorDomain =
     @"com.google.earlgrey.SyntheticEventInjectionErrorDomain";
 
@@ -53,8 +54,6 @@ NSString *const kErrorDetailForegroundApplicationFailed =
 NSString *const kErrorDetailElementMatcherKey = @"Element Matcher";
 NSString *const kErrorDetailAppUIHierarchyKey = @"App UI Hierarchy";
 NSString *const kErrorDetailAppScreenshotsKey = @"App Screenshots";
-
-NSString *const kGREYPinchErrorDomain = @"com.google.earlgrey.PinchErrorDomain";
 
 NSString *const kErrorDetailElementKey = @"Element";
 NSString *const kErrorDetailWindowKey = @"Window";

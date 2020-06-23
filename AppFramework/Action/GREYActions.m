@@ -49,6 +49,7 @@
 #import "GREYThrowDefines.h"
 #import "GREYConfiguration.h"
 #import "GREYError.h"
+#import "GREYErrorConstants.h"
 #import "NSError+GREYCommon.h"
 #import "GREYAppleInternals.h"
 #import "GREYConstants.h"
@@ -218,7 +219,7 @@ static Protocol *gTextInputProtocol;
 + (id<GREYAction>)actionForTurnSwitchOn:(BOOL)on {
   NSString *diagnosticsID = GREYCorePrefixedDiagnosticsID(@"toggleSwitch");
   id<GREYMatcher> systemAlertShownMatcher = [GREYMatchers matcherForSystemAlertViewShown];
-  NSArray *constraintMatchers = @[
+  NSArray<id<GREYMatcher>> *constraintMatchers = @[
     [GREYMatchers matcherForNegation:systemAlertShownMatcher],
     [GREYMatchers matcherForRespondsToSelector:@selector(isOn)]
   ];
@@ -289,7 +290,7 @@ static Protocol *gTextInputProtocol;
 
 + (id<GREYAction>)actionForClearText {
   NSString *diagnosticsID = GREYCorePrefixedDiagnosticsID(@"clearText");
-  NSArray *constraintMatchers = @[
+  NSArray<id<GREYMatcher>> *constraintMatchers = @[
     [GREYMatchers matcherForRespondsToSelector:gTextSelector],
     [GREYMatchers matcherForKindOfClass:gAccessibilityTextFieldElementClass],
     [GREYMatchers matcherForConformsToProtocol:gTextInputProtocol]
@@ -340,12 +341,12 @@ static Protocol *gTextInputProtocol;
 + (id<GREYAction>)actionForSetDate:(NSDate *)date {
   NSString *diagnosticsID = GREYCorePrefixedDiagnosticsID(@"setDate");
   id<GREYMatcher> systemAlertShownMatcher = [GREYMatchers matcherForSystemAlertViewShown];
-  NSArray *constraintMatcher = @[
+  NSArray<id<GREYMatcher>> *constraintMatchers = @[
     [GREYMatchers matcherForInteractable],
     [GREYMatchers matcherForNegation:systemAlertShownMatcher],
     [GREYMatchers matcherForKindOfClass:[UIDatePicker class]]
   ];
-  id<GREYMatcher> constraints = [[GREYAllOf alloc] initWithMatchers:constraintMatcher];
+  id<GREYMatcher> constraints = [[GREYAllOf alloc] initWithMatchers:constraintMatchers];
   NSString *actionName = [NSString stringWithFormat:@"Set date to %@", date];
   return [[GREYActionBlock alloc]
        initWithName:actionName
@@ -374,10 +375,9 @@ static Protocol *gTextInputProtocol;
   NSString *diagnosticsID = GREYCorePrefixedDiagnosticsID(@"executeJavaScript");
   // TODO: JS Errors should be propagated up.
   id<GREYMatcher> systemAlertShownMatcher = [GREYMatchers matcherForSystemAlertViewShown];
-  NSArray *webViewMatchers = @[
-    [GREYMatchers matcherForKindOfClass:[WKWebView class]]
-  ];
-  NSArray *constraintMatchers = @[
+  NSArray<id<GREYMatcher>> *webViewMatchers =
+      @[ [GREYMatchers matcherForKindOfClass:[WKWebView class]] ];
+  NSArray<id<GREYMatcher>> *constraintMatchers = @[
     [GREYMatchers matcherForNegation:systemAlertShownMatcher],
     [[GREYAnyOf alloc] initWithMatchers:webViewMatchers]
   ];
@@ -464,7 +464,7 @@ static Protocol *gTextInputProtocol;
  */
 + (id<GREYAction>)grey_actionForReplaceText:(NSString *)text {
   SEL setTextSelector = NSSelectorFromString(@"setText:");
-  NSArray *constraintMatchers = @[
+  NSArray<id<GREYMatcher>> *constraintMatchers = @[
     [GREYMatchers matcherForRespondsToSelector:setTextSelector],
     [GREYMatchers matcherForKindOfClass:gAccessibilityTextFieldElementClass],
   ];

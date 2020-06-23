@@ -25,6 +25,7 @@
 #import "GREYMatchers.h"
 #import "GREYSyncAPI.h"
 #import "GREYError.h"
+#import "GREYErrorConstants.h"
 #import "NSError+GREYCommon.h"
 #import "GREYDefines.h"
 #import "GREYElementHierarchy.h"
@@ -111,7 +112,7 @@
                                 forComponent:_column
                                  reusingView:nil];
       if (![rowView isKindOfClass:[UILabel class]]) {
-        NSArray *labels = [rowView grey_childrenAssignableFromClass:[UILabel class]];
+        NSArray<UILabel *> *labels = [rowView grey_childrenAssignableFromClass:[UILabel class]];
         UILabel *label = (labels.count > 0 ? labels[0] : nil);
         rowTitle = label.text;
       } else {

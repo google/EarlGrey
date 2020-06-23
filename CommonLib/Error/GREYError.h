@@ -16,6 +16,7 @@
 
 #import <Foundation/Foundation.h>
 
+#import "GREYErrorConstants.h"
 #import "GREYDefines.h"
 
 @class GREYError;
@@ -53,10 +54,11 @@
  *
  * @return A @c GREYError object with the given input.
  */
-GREY_EXTERN GREYError *I_GREYErrorMake(NSString *domain, NSInteger code, NSDictionary *userInfo,
-                                       NSString *filePath, NSUInteger line, NSString *functionName,
-                                       NSArray *stackTrace, NSString *appUIHierarchy,
-                                       NSDictionary *appScreenshots);
+GREY_EXTERN GREYError *I_GREYErrorMake(NSString *domain, NSInteger code,
+                                       NSDictionary<NSString *, id> *userInfo, NSString *filePath,
+                                       NSUInteger line, NSString *functionName,
+                                       NSArray<NSString *> *stackTrace, NSString *appUIHierarchy,
+                                       NSDictionary<NSString *, UIImage *> *appScreenshots);
 
 /**
  * The string for a generic error in EarlGrey.

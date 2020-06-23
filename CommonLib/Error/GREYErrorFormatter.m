@@ -16,7 +16,6 @@
 
 #import "GREYErrorFormatter.h"
 
-#import "GREYInteraction.h"
 #import "GREYFatalAsserts.h"
 #import "GREYError+Private.h"
 #import "GREYError.h"
@@ -46,11 +45,12 @@ static NSString *const kErrorPrefix = @"EarlGrey Encountered an Error:";
 + (NSString *)formattedDescriptionForError:(GREYError *)error {
   if (GREYShouldUseErrorFormatterForError(error)) {
     return LoggerDescription(error);
+  } else {
+    return [GREYObjectFormatter formatDictionary:[error grey_descriptionDictionary]
+                                          indent:kGREYObjectFormatIndent
+                                       hideEmpty:YES
+                                        keyOrder:nil];
   }
-  return [GREYObjectFormatter formatDictionary:[error grey_descriptionDictionary]
-                                        indent:kGREYObjectFormatIndent
-                                     hideEmpty:YES
-                                      keyOrder:nil];
 }
 
 #pragma mark - Public Functions

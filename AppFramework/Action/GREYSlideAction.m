@@ -24,6 +24,7 @@
 #import "GREYAllOf.h"
 #import "GREYMatchers.h"
 #import "GREYSyncAPI.h"
+#import "GREYErrorConstants.h"
 #import "NSError+GREYCommon.h"
 #import "GREYConstants.h"
 #import "GREYDefines.h"

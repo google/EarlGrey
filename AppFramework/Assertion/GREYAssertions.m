@@ -24,6 +24,7 @@
 #import "GREYAssertionBlock+Private.h"
 #import "GREYFatalAsserts.h"
 #import "GREYError.h"
+#import "GREYErrorConstants.h"
 #import "GREYLogger.h"
 #import "GREYMatcher.h"
 #import "GREYStringDescription.h"

@@ -23,6 +23,7 @@
 #import "GREYSyncAPI.h"
 #import "NSObject+GREYCommon.h"
 #import "GREYThrowDefines.h"
+#import "GREYErrorConstants.h"
 #import "NSError+GREYCommon.h"
 #import "GREYConstants.h"
 #import "CGGeometry+GREYUI.h"
@@ -88,7 +89,7 @@
     return NO;
   }
 
-  NSArray *touchPath = @[ [NSValue valueWithCGPoint:resolvedLocation] ];
+  NSArray<NSValue *> *touchPath = @[ [NSValue valueWithCGPoint:resolvedLocation] ];
   [GREYSyntheticEvents touchAlongPath:touchPath relativeToWindow:window forDuration:duration];
   return YES;
 }

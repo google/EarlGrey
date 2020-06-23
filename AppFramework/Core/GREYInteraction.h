@@ -25,49 +25,6 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol GREYAssertion;
 @protocol GREYMatcher;
 
-/**
- * Error domain for element interaction failures.
- */
-GREY_EXTERN NSString *const kGREYInteractionErrorDomain;
-
-/**
- * Error codes for element interaction failures.
- */
-typedef NS_ENUM(NSInteger, GREYInteractionErrorCode) {
-  /**
-   * Element search has failed.
-   */
-  kGREYInteractionElementNotFoundErrorCode = 0,
-  /**
-   * Constraints failed for performing an interaction.
-   */
-  kGREYInteractionConstraintsFailedErrorCode,
-  /**
-   * Action execution has failed.
-   */
-  kGREYInteractionActionFailedErrorCode,
-  /**
-   * Assertion execution has failed.
-   */
-  kGREYInteractionAssertionFailedErrorCode,
-  /**
-   * Timeout reached before interaction could be performed.
-   */
-  kGREYInteractionTimeoutErrorCode,
-  /**
-   * Single element search found multiple elements.
-   */
-  kGREYInteractionMultipleElementsMatchedErrorCode,
-  /**
-   * Index provided for matching an element from multiple elements was over the number of elements
-   * found.
-   */
-  kGREYInteractionMatchedElementIndexOutOfBoundsErrorCode,
-  /**
-   * Index provided for an error with a WKWebView interaction.
-   */
-  kGREYWKWebViewInteractionFailedErrorCode,
-};
 
 /**
  * Notification name for when an action will be performed. The action itself is contained in the
