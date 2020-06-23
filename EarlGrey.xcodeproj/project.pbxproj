@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6F418746249D8B6E00FF8E72 /* GREYErrorFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F418744249D8B6E00FF8E72 /* GREYErrorFormatter.m */; };
+		6F418747249D8B6E00FF8E72 /* GREYErrorFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F418745249D8B6E00FF8E72 /* GREYErrorFormatter.h */; };
 		6F49FDBD22E69D4E00CCE813 /* GREYDiagnosable.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F49FDBC22E69D4C00CCE813 /* GREYDiagnosable.m */; };
 		6F8818B222B86F530006932D /* GREYAssertionBlock+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F8818B122B86F520006932D /* GREYAssertionBlock+Private.h */; };
 		A20847B422BC095B00DD3983 /* GREYTraversalObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A20847B322BC095A00DD3983 /* GREYTraversalObject.m */; };
@@ -390,6 +392,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6F418744249D8B6E00FF8E72 /* GREYErrorFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYErrorFormatter.m; path = Error/GREYErrorFormatter.m; sourceTree = "<group>"; };
+		6F418745249D8B6E00FF8E72 /* GREYErrorFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYErrorFormatter.h; path = Error/GREYErrorFormatter.h; sourceTree = "<group>"; };
 		6F49FDBC22E69D4C00CCE813 /* GREYDiagnosable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYDiagnosable.m; path = CommonLib/GREYDiagnosable.m; sourceTree = "<group>"; };
 		6F8818B122B86F520006932D /* GREYAssertionBlock+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GREYAssertionBlock+Private.h"; path = "CommonLib/Assertion/GREYAssertionBlock+Private.h"; sourceTree = "<group>"; };
 		6F9B2C1E22B18F15003132B0 /* GREYDiagnosable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYDiagnosable.h; path = CommonLib/GREYDiagnosable.h; sourceTree = "<group>"; };
@@ -1187,6 +1191,8 @@
 			isa = PBXGroup;
 			children = (
 				FD98C45D226C2E64006F8D68 /* GREYAppError.h */,
+				6F418745249D8B6E00FF8E72 /* GREYErrorFormatter.h */,
+				6F418744249D8B6E00FF8E72 /* GREYErrorFormatter.m */,
 				FD623B2120F95A7200049E81 /* GREYFailureScreenshotter.h */,
 				FD623B2220F95A7200049E81 /* GREYFailureScreenshotter.m */,
 			);
@@ -1452,6 +1458,7 @@
 				FD623B7020F95B0300049E81 /* GREYAllOf.h in Headers */,
 				FD623B8620F95B1500049E81 /* GREYObjectDeallocationTracker.h in Headers */,
 				FD623A7620F958C200049E81 /* GREYPinchAction.h in Headers */,
+				6F418747249D8B6E00FF8E72 /* GREYErrorFormatter.h in Headers */,
 				FD623AF820F9594200049E81 /* GREYInteractionDataSource.h in Headers */,
 				FD623A8120F958C200049E81 /* GREYTapper.h in Headers */,
 				FD623B4F20F95A9C00049E81 /* GREYOperationQueueIdlingResource.h in Headers */,
@@ -1804,6 +1811,7 @@
 				FD623A8B20F958C200049E81 /* GREYTapAction.m in Sources */,
 				FD623AB920F9590800049E81 /* NSTimer+GREYApp.m in Sources */,
 				FD623B4720F95A9C00049E81 /* GREYNSTimerIdlingResource.m in Sources */,
+				6F418746249D8B6E00FF8E72 /* GREYErrorFormatter.m in Sources */,
 				FD41291723D97C230042A585 /* GREYElementFilter.m in Sources */,
 				FD623B8B20F95B1500049E81 /* GREYRunLoopSpinner.m in Sources */,
 				FD623A7C20F958C200049E81 /* GREYPinchAction.m in Sources */,
