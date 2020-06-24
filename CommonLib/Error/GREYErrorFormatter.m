@@ -114,12 +114,12 @@ static NSString *LoggerDescription(GREYError *error) {
 
   NSString *failedConstraints = error.userInfo[kErrorDetailConstraintRequirementKey];
   if (failedConstraints) {
-    [logger appendFormat:@"%@:\n%@", kErrorDetailConstraintRequirementKey, failedConstraints];
+    [logger appendFormat:@"\n\n%@:\n%@", kErrorDetailConstraintRequirementKey, failedConstraints];
   }
   
   NSString *elementDescription = error.userInfo[kErrorDetailElementDescriptionKey];
   if (elementDescription) {
-    [logger appendFormat:@"%@:\n%@", kErrorDetailElementDescriptionKey, elementDescription];
+    [logger appendFormat:@"\n\n%@:\n%@", kErrorDetailElementDescriptionKey, elementDescription];
   }
   
   NSString *assertionCriteria = error.userInfo[kErrorDetailAssertCriteriaKey];
