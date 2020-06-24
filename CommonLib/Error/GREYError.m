@@ -27,6 +27,7 @@ NSString *const kErrorDetailActionNameKey = @"Failed Action";
 NSString *const kErrorDetailSearchActionInfoKey = @"Search API Info";
 NSString *const kErrorDetailAssertCriteriaKey = @"Failed Assertion";
 NSString *const kErrorDetailRecoverySuggestionKey = @"Recovery Suggestion";
+NSString *const kErrorDetailElementsMatchedKey = @"Elements Matched";
 
 NSString *const kErrorDomainKey = @"Error Domain";
 NSString *const kErrorCodeKey = @"Error Code";
@@ -63,6 +64,7 @@ NSString *const kGREYScreenshotActualAfterImage =
 @property(nonatomic, readwrite) NSUInteger line;
 @property(nonatomic, readwrite) NSString *functionName;
 @property(nonatomic, readwrite) NSDictionary *errorInfo;
+@property(nonatomic, readwrite) NSArray<NSString *> *multipleElementsMatched;
 @property(nonatomic, readwrite) NSArray *stackTrace;
 @property(nonatomic, readwrite) NSString *appUIHierarchy;
 @property(nonatomic, readwrite) NSDictionary *appScreenshots;
@@ -91,6 +93,7 @@ GREYError *I_GREYErrorMake(NSString *domain, NSInteger code, NSDictionary<NSStri
   NSUInteger _line;
   NSString *_functionName;
   NSDictionary<NSString *, id> *_errorInfo;
+  NSArray<NSString *> *_multipleElementsMatched;
   NSArray<NSString *> *_stackTrace;
   NSString *_appUIHierarchy;
   NSDictionary<NSString *, UIImage *> *_appScreenshots;

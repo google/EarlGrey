@@ -82,6 +82,7 @@ GREY_EXTERN NSString *const kErrorAppScreenShotsKey;
 @property(nonatomic) NSUInteger line;
 @property(nonatomic) NSString *functionName;
 @property(nonatomic) NSDictionary *errorInfo;
+@property(nonatomic) NSArray<NSString *> *multipleElementsMatched;
 @property(nonatomic) NSArray *stackTrace;
 @property(nonatomic) NSString *appUIHierarchy;
 @property(nonatomic) NSDictionary *appScreenshots;
