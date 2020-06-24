@@ -485,11 +485,11 @@
     // if it fails.
     if (_index == NSUIntegerMax) {
       *interactionError = [self grey_errorForMultipleMatchingElements:elements
-                                  withMatchedElementsIndexOutOfBounds:NO];
+                                   withMatchedElementOutOfBoundsIndex:nil];
       return nil;
     } else if (_index >= elements.count) {
       *interactionError = [self grey_errorForMultipleMatchingElements:elements
-                                  withMatchedElementsIndexOutOfBounds:YES];
+                                   withMatchedElementOutOfBoundsIndex:&_index];
       return nil;
     } else {
       return [elements objectAtIndex:_index];
@@ -852,13 +852,13 @@
  * @c kGREYInteractionMatchedElementIndexOutOfBoundsErrorCode.s
  *
  * @param matchingElements A set of matching elements.
- * @param outOfBounds      A boolean that flags if the index for finding a matching element
- *                         is out of bounds.
+ * @param outOfBoundsIndex The out of bounds index, if the index for finding a matching element
+ *                         is out of bounds. Else, pass nil.
  *
  * @return Error for matching multiple elements.
  */
 - (GREYError *)grey_errorForMultipleMatchingElements:(NSArray *)matchingElements
-                 withMatchedElementsIndexOutOfBounds:(BOOL)outOfBounds {
+                  withMatchedElementOutOfBoundsIndex:(NSUInteger *)outOfBoundsIndex {
   // Populate an array with the multiple matching elements.
   NSMutableArray *elementDescriptions =
       [[NSMutableArray alloc] initWithCapacity:matchingElements.count];
@@ -870,15 +870,13 @@
   // Populate the multiple matching elements error.
   NSString *errorDescription;
   NSInteger errorCode;
-  if (outOfBounds) {
+  if (outOfBoundsIndex) {
     // Populate with an error specifying that the index provided for matching the multiple elements
     // was out of bounds.
-    errorDescription =
-        [NSString stringWithFormat:@"Multiple elements were matched: %@ with an "
-                                   @"index that is out of bounds of the number of "
-                                   @"matched elements. Please use an element "
-                                   @"index from 0 to %tu",
-                                   elementDescriptions, (elementDescriptions.count - 1)];
+    errorDescription = [NSString stringWithFormat:@"There were %tu matched elements yet the "
+                         @"element at index %lu was requested.\n\nPlease use an element index from "
+                         @"0 to %tu.", elementDescriptions.count, (unsigned long)*outOfBoundsIndex,
+                         (elementDescriptions.count - 1)];
     errorCode = kGREYInteractionMatchedElementIndexOutOfBoundsErrorCode;
   } else {
     // Populate with an error specifying that multiple elements were matched without providing
