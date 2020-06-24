@@ -66,7 +66,6 @@
       errorDetails[kErrorDetailActionNameKey] = _name;
       errorDetails[kErrorDetailElementDescriptionKey] = description;
       errorDetails[kErrorDetailConstraintRequirementKey] = mismatchDetail;
-      errorDetails[kErrorDetailConstraintDetailsKey] = [_constraints description];
       errorDetails[kErrorDetailRecoverySuggestionKey] =
           @"Adjust element properties so that it matches the failed constraint(s).";
 

@@ -823,8 +823,10 @@
   if ([interactionError respondsToSelector:@selector(nestedError)]) {
     [userInfo setValue:interactionError.nestedError forKey:NSUnderlyingErrorKey];
   }
-  [userInfo setValue:_elementMatcher.description forKey:kErrorDetailElementMatcherKey];
-
+  if ([interactionError isKindOfClass:[GREYError class]] &&
+      interactionError.code != kGREYInteractionConstraintsFailedErrorCode) {
+    [userInfo setValue:_elementMatcher.description forKey:kErrorDetailElementMatcherKey];
+  }
   NSDictionary<NSString *, UIImage *> *appScreenshots =
       [self grey_appScreenshotsFromError:interactionError];
 

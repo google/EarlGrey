@@ -57,7 +57,8 @@ static NSString *const kErrorPrefix = @"EarlGrey Encountered an Error:";
 
 BOOL GREYShouldUseErrorFormatterForError(GREYError *error) {
   return [error.domain isEqualToString:kGREYInteractionErrorDomain] &&
-         error.code == kGREYInteractionElementNotFoundErrorCode;
+         (error.code == kGREYInteractionElementNotFoundErrorCode ||
+          error.code == kGREYInteractionConstraintsFailedErrorCode);
 }
 
 BOOL GREYShouldUseErrorFormatterForDetails(NSString *failureHandlerDetails) {
@@ -111,10 +112,21 @@ static NSString *LoggerDescription(GREYError *error) {
     [logger appendFormat:@"\n\n%@:\n%@", kErrorDetailElementMatcherKey, elementMatcher];
   }
 
+  NSString *failedConstraints = error.userInfo[kErrorDetailConstraintRequirementKey];
+  if (failedConstraints) {
+    [logger appendFormat:@"%@:\n%@", kErrorDetailConstraintRequirementKey, failedConstraints];
+  }
+  
+  NSString *elementDescription = error.userInfo[kErrorDetailElementDescriptionKey];
+  if (elementDescription) {
+    [logger appendFormat:@"%@:\n%@", kErrorDetailElementDescriptionKey, elementDescription];
+  }
+  
   NSString *assertionCriteria = error.userInfo[kErrorDetailAssertCriteriaKey];
   if (assertionCriteria) {
     [logger appendFormat:@"\n\n%@: %@", kErrorDetailAssertCriteriaKey, assertionCriteria];
   }
+  
   NSString *actionCriteria = error.userInfo[kErrorDetailActionNameKey];
   if (actionCriteria) {
     [logger appendFormat:@"\n\n%@: %@", kErrorDetailActionNameKey, actionCriteria];
