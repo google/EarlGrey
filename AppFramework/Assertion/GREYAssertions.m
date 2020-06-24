@@ -50,7 +50,7 @@
       } else {
         NSString *reason =
             [NSString stringWithFormat:@"Element does not meet assertion criteria: "
-                                       @"%@ \nElement: %@ \nMismatch: %@ \n",
+                                       @"%@\n\nElement: %@\n\nMismatch: %@",
                                        [matcher description], [element grey_description],
                                        [mismatch description]];
         I_GREYPopulateError(errorOrNil, kGREYInteractionErrorDomain,
