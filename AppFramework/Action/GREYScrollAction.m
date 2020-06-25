@@ -14,9 +14,9 @@
 // limitations under the License.
 //
 
-#import <WebKit/WebKit.h>
-
 #import "GREYScrollAction.h"
+
+#import <WebKit/WebKit.h>
 
 #import "GREYPathGestureUtils.h"
 #import "NSObject+GREYApp.h"
