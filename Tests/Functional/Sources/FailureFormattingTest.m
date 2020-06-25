@@ -86,12 +86,8 @@
  * action failure.
  */
 - (void)testNotFoundAssertionErrorDescription {
-  id<GREYMatcher> matcher =
-      [[GREYHostApplicationDistantObject sharedInstance] matcherForFirstElement];
-  [[EarlGrey selectElementWithMatcher:grey_allOf(grey_kindOfClass([UITableViewCell class]), matcher,
-                                                 nil)] performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] assertWithMatcher:grey_notNil()
-                                                                             error:nil];
+  [self openTestViewNamed:@"Animations"];
+  [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] assertWithMatcher:grey_notNil()];
 
   NSString *expectedDetails = @"Interaction cannot continue because the desired element was not "
                               @"found.\n"
@@ -123,8 +119,7 @@
   [[[EarlGrey selectElementWithMatcher:matcher]
          usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 50)
       onElementWithMatcher:grey_accessibilityLabel(@"Invalid Scroll View")]
-      assertWithMatcher:grey_sufficientlyVisible()
-                  error:nil];
+      assertWithMatcher:grey_sufficientlyVisible()];
 
   NSString *expectedDetails = @"Search action failed: Interaction cannot continue because the "
                               @"desired element was not found.\n"
@@ -164,8 +159,7 @@
       @"start = new Date().getTime(); while (new Date().getTime() < start + 3000);";
   // JS action timeout greater than the threshold.
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TestWKWebView")]
-      performAction:grey_javaScriptExecution(jsStringAboveTimeout, nil)
-              error:nil];
+      performAction:grey_javaScriptExecution(jsStringAboveTimeout, nil)];
   [[GREYConfiguration sharedConfiguration] setValue:@(originalInteractionTimeout)
                                        forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
   NSString *expectedDetails = @"Interaction cannot continue because the "
