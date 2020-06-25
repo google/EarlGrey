@@ -181,6 +181,37 @@
                 expectedDetails, _handler.details);
 }
 
+/**
+ * Checks the formatting of logs for timeout error.
+ */
+- (void)testTimeoutErrorDescription {
+  [self openTestViewNamed:@"Scroll Views"];
+  id<GREYMatcher> matcher = grey_allOf(grey_accessibilityLabel(@"Label 2"), grey_interactable(),
+                                       grey_sufficientlyVisible(), nil);
+  [[GREYConfiguration sharedConfiguration] setValue:@(1)
+                                       forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
+  [[[EarlGrey selectElementWithMatcher:matcher]
+         usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 50)
+      onElementWithMatcher:grey_accessibilityLabel(@"Upper Scroll View")]
+      assertWithMatcher:grey_sufficientlyVisible()];
+  NSString *expectedDetails = @"Interaction timed out after 1 seconds while searching "
+                              @"for element.\n"
+                              @"\n"
+                              @"Increase timeout for matching element.\n"
+                              @"\n"
+                              @"Element Matcher:\n"
+                              @"(((respondsToSelector(isAccessibilityElement) && "
+                              @"isAccessibilityElement) && accessibilityLabel('Label 2')) && "
+                              @"interactable Point:{nan, nan} && sufficientlyVisible(Expected: "
+                              @"0.750000, Actual: 0.000000))\n"
+                              @"\n"
+                              @"Failed Assertion: assertWithMatcher:sufficientlyVisible(E"
+                              @"xpected: 0.750000, Actual: 0.000000)\n"
+                              @"\n"
+                              @"UI Hierarchy";
+  XCTAssertTrue([_handler.details containsString:expectedDetails]);
+}
+
 // TODO(wsaid): Add formatting test for actions with search action error.
 
 @end
