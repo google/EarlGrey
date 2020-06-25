@@ -214,4 +214,23 @@
 
 // TODO(wsaid): Add formatting test for actions with search action error.
 
+/**
+ * Checks the formatting for a type interaction failing.
+ */
+- (void)testActionInteractionErrorDescription {
+  [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
+      performAction:grey_typeText(@"")];
+
+  NSString *expectedDetails =
+      @"Failed to type because the provided string was empty.\n"
+      @"\n"
+      @"Element Matcher:\n"
+      @"(respondsToSelector(accessibilityIdentifier) && accessibilityID('foo'))\n"
+      @"\n"
+      @"UI Hierarchy";
+  XCTAssertTrue([_handler.details containsString:expectedDetails]);
+}
+
 @end
