@@ -233,4 +233,19 @@
   XCTAssertTrue([_handler.details containsString:expectedDetails]);
 }
 
+- (void)testMatchedElementOutOfBoundsDescription {
+  [self openTestViewNamed:@"Visibility Tests"];
+  [[[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AView")] atIndex:999]
+   assertWithMatcher:grey_sufficientlyVisible()
+   error:nil];
+
+  NSString *expectedDetails = @"There were 3 matched elements yet the element at index 999 was requested.\n"
+                              @"\n"
+                              @"Please use an element index from 0 to 2.\n"
+                              @"\n"
+                              @"Element Matcher:\n"
+                              @"((respondsToSelector(isAccessibilityElement) && isAccessibilityElement) && accessibilityLabel('AView'))";
+  XCTAssertTrue([_handler.details containsString:expectedDetails]);
+}
+
 @end
