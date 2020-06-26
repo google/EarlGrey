@@ -226,6 +226,8 @@
 		FDDE2FBD212CEC8C00EB40F7 /* GREYHostApplicationDistantObject+PortraitOnlyOrientationTest.h in Sources */ = {isa = PBXBuildFile; fileRef = FDD065CC212CEAD6002CFE3B /* GREYHostApplicationDistantObject+PortraitOnlyOrientationTest.h */; };
 		FDDE2FBE212CEC8C00EB40F7 /* GREYHostApplicationDistantObject+VisibilityTest.h in Sources */ = {isa = PBXBuildFile; fileRef = FDD065CA212CEAD5002CFE3B /* GREYHostApplicationDistantObject+VisibilityTest.h */; };
 		FDDE2FC1212CECAF00EB40F7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FDDE2FC0212CECAF00EB40F7 /* main.m */; };
+		FDEA646624A3EC79009AB79E /* ErrorAPITest.m in Sources */ = {isa = PBXBuildFile; fileRef = FDEA646224A3EC79009AB79E /* ErrorAPITest.m */; };
+		FDEA646724A3EC79009AB79E /* FailureFormattingTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FDEA646524A3EC79009AB79E /* FailureFormattingTest.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -595,6 +597,8 @@
 		FDDE2F94212CEB0B00EB40F7 /* GREYHostApplicationDistantObject+GestureTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GREYHostApplicationDistantObject+GestureTest.h"; sourceTree = "<group>"; };
 		FDDE2F95212CEB0B00EB40F7 /* GREYHostApplicationDistantObject+BaseIntegrationTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GREYHostApplicationDistantObject+BaseIntegrationTest.m"; sourceTree = "<group>"; };
 		FDDE2FC0212CECAF00EB40F7 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ../TestRig/Sources/main.m; sourceTree = "<group>"; };
+		FDEA646224A3EC79009AB79E /* ErrorAPITest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ErrorAPITest.m; sourceTree = "<group>"; };
+		FDEA646524A3EC79009AB79E /* FailureFormattingTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FailureFormattingTest.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -686,6 +690,8 @@
 		FD5EB4862118FD61006F82A0 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				FDEA646224A3EC79009AB79E /* ErrorAPITest.m */,
+				FDEA646524A3EC79009AB79E /* FailureFormattingTest.m */,
 				76DAC13D242EE51100557F3C /* DistantObjectBackgroundExecutionTest.m */,
 				76480F8C23CEA04100D6047B /* DistantObjectCrashHandlerTest.m */,
 				FD98C4C7226C3570006F8D68 /* ApplicationStateHandlingTest.m */,
@@ -1509,6 +1515,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FDEA646724A3EC79009AB79E /* FailureFormattingTest.m in Sources */,
 				FD98C49A226C3555006F8D68 /* SlideTest.m in Sources */,
 				FD98C4A5226C3555006F8D68 /* FailureHandler.m in Sources */,
 				FD98C4AB226C3555006F8D68 /* NetworkTest.m in Sources */,
@@ -1520,6 +1527,7 @@
 				FD98C4AD226C3555006F8D68 /* ConditionTest.m in Sources */,
 				FD98C4C3226C3555006F8D68 /* OrientationChangeTest.m in Sources */,
 				FD98C49F226C3555006F8D68 /* MultiFingerSwipeTest.m in Sources */,
+				FDEA646624A3EC79009AB79E /* ErrorAPITest.m in Sources */,
 				FD98C4C4226C3555006F8D68 /* AlertViewTest.m in Sources */,
 				FD41291C23D97C710042A585 /* DistantObjectCrashHandlerTest.m in Sources */,
 				FD98C4BF226C3555006F8D68 /* KeyboardKeysTest.m in Sources */,
