@@ -180,7 +180,7 @@
                 @"Search API Prefix and Action info: %@ not present in Error Description: %@",
                 searchAPIDescription, error.description);
   XCTAssertTrue([error.description containsString:searchAPIMatcherDescription],
-                @"Search API MatchertestMultipleMatcherError info: %@ not present in Error Description: %@",
+                @"Search API info: %@ not present in Error Description: %@",
                 searchAPIMatcherDescription, error.description);
   XCTAssertTrue([error.description containsString:searchActionDescription],
                 @"Search Action Failure Description: %@ not present in Error Description: %@",
