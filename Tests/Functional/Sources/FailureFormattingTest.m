@@ -233,4 +233,29 @@
   XCTAssertTrue([_handler.details containsString:expectedDetails]);
 }
 
+- (void)testMultipleMatchedErrorDescription {
+  [[EarlGrey selectElementWithMatcher:grey_kindOfClass([UITableViewCell class])]
+                        performAction:grey_tap()
+                                error:nil];
+
+  NSString *expectedDetails = @"Multiple elements were matched. Please use selection matchers "
+                              @"to narrow the selection down to a single element.\n"
+                              @"\n"
+                              @"Create a more specific matcher to uniquely match the element.\n"
+                              @"In general, prefer using accessibility ID before accessibility "
+                              @"label or other attributes.\n"
+                              @"Use atIndex: to select from one of the matched elements.\n"
+                              @"Keep in mind when using atIndex: that the order in which "
+                              @"elements are arranged may change, making your test brittle.\n"
+                              @"\n"
+                              @"Element Matcher:\n"
+                              @"kindOfClass('UITableViewCell')\n"
+                              @"\n"
+                              @"Elements Matched:\n"
+                              @"\n"
+                              @"1.";
+  XCTAssertTrue([_handler.details containsString:expectedDetails]);
+  XCTAssertTrue([_handler.details containsString:@"UI Hierarchy"]);
+}
+
 @end
