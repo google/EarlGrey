@@ -14,9 +14,11 @@
 // limitations under the License.
 //
 
+#include "third_party/objective_c/EarlGreyV2/AppFramework/Matcher/GREYMatchersShorthand.h"
 #import "BaseIntegrationTest.h"
 
 #import "GREYError.h"
+#import "GREYConstants.h"
 #import "EarlGrey.h"
 #import "FailureHandler.h"
 
@@ -150,6 +152,42 @@
  * Checks the formatting of logs for an element not found error for an action without a search
  * action failure.
  */
+- (void)testSearchNotFoundActionErrorDescription {
+  [self openTestViewNamed:@"Scroll Views"];
+  id<GREYMatcher> matcher = grey_allOf(grey_accessibilityLabel(@"Label 2"), grey_interactable(),
+                                       grey_sufficientlyVisible(), nil);
+  [[[EarlGrey selectElementWithMatcher:matcher]
+         usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 50)
+      onElementWithMatcher:grey_accessibilityLabel(@"Invalid Scroll View")]
+      performAction:grey_tap()];
+
+  NSString *expectedDetails = @"Search action failed: Interaction cannot continue because the "
+                              @"desired element was not found.\n"
+                              @"\n"
+                              @"Check if the element exists in the UI hierarchy printed below. If "
+                              @"it exists, adjust the matcher so that it accurately matches "
+                              @"the element.\n"
+                              @"\n"
+                              @"Element Matcher:\n"
+                              @"(((respondsToSelector(isAccessibilityElement) && "
+                              @"isAccessibilityElement) && accessibilityLabel('Label 2')) && "
+                              @"interactable Point:{nan, nan} && sufficientlyVisible(Expected: "
+                              @"0.750000, Actual: 0.000000))\n"
+                              @"\n"
+                              @"Failed Action: Tap\n\n"
+                              @"Search API Info\n"
+                              @"Search Action: ";
+  XCTAssertTrue([_handler.details containsString:expectedDetails],
+                @"Expected info does not appear in the actual exception details:\n\n"
+                @"========== expected info ===========\n%@\n\n"
+                @"========== actual exception details ==========\n%@",
+                expectedDetails, _handler.details);
+}
+
+/**
+ * Checks the formatting of logs for an element not found error for an action without a search
+ * action failure.
+ */
 - (void)testNotFoundActionErrorDescription {
   CFTimeInterval originalInteractionTimeout =
       GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
@@ -212,8 +250,6 @@
   XCTAssertTrue([_handler.details containsString:expectedDetails]);
 }
 
-// TODO(wsaid): Add formatting test for actions with search action error.
-
 /**
  * Checks the formatting for a type interaction failing.
  */
@@ -231,6 +267,27 @@
       @"\n"
       @"UI Hierarchy";
   XCTAssertTrue([_handler.details containsString:expectedDetails]);
+}
+
+/**
+ * Checks the formatting for an assertion failure.
+ */
+- (void)testAssertionInteractionErrorDescription {
+  [[EarlGrey selectElementWithMatcher:grey_keyWindow()] assertWithMatcher:grey_nil()];
+  NSString *expectedDetailsTillElement = @"Element does not meet assertion criteria: isNil \n"
+                                          "Element: <UIWindow:";
+  NSString *expectedDetailsForMatcher = @"\n\nMismatch: isNil.\n\nElement Matcher:\n"
+                                        @"(kindOfClass('UIWindow') && keyWindow)\n\nUI Hierarchy";
+  XCTAssertTrue([_handler.details containsString:expectedDetailsTillElement],
+                @"Expected info does not appear in the actual exception details:\n\n"
+                @"========== expected info ===========\n%@\n\n"
+                @"========== actual exception details ==========\n%@",
+                expectedDetailsTillElement, _handler.details);
+  XCTAssertTrue([_handler.details containsString:expectedDetailsForMatcher],
+                @"Expected info does not appear in the actual exception details:\n\n"
+                @"========== expected info ===========\n%@\n\n"
+                @"========== actual exception details ==========\n%@",
+                expectedDetailsForMatcher, _handler.details);
 }
 
 @end

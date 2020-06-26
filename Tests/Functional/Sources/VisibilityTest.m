@@ -108,7 +108,7 @@
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"RedBar")]
       assertWithMatcher:grey_interactable()
                   error:&error];
-  XCTAssertTrue([error.description containsString:@"interactable Point:{0, 0}"]);
+  XCTAssertTrue([error.description containsString:@"interactable Point:{nan, nan}"]);
 }
 
 - (void)testVisibilityFailsWhenViewIsObscured {

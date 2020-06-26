@@ -41,16 +41,14 @@
     GREYStringDescription *mismatch = [[GREYStringDescription alloc] init];
     if (![matcher matches:element describingMismatchTo:mismatch]) {
       if (!element) {
-        NSString *reason =
-            [NSString stringWithFormat:@"Assertion with Matcher failed: No element was matched.\n"
-                                       @"Matcher: \n%@",
-                                       [matcher description]];
+        // For an assertion where an element is not found matching the criteria, we default to the
+        // error handling for an interaction not found error. This can therefore be set to nil.
         I_GREYPopulateError(errorOrNil, kGREYInteractionErrorDomain,
-                            kGREYInteractionElementNotFoundErrorCode, reason);
+                            kGREYInteractionElementNotFoundErrorCode, @"");
       } else {
         NSString *reason =
             [NSString stringWithFormat:@"Element does not meet assertion criteria: "
-                                       @"%@ \nElement: %@ \nMismatch: %@ \n",
+                                       @"%@ \nElement: %@ \n\nMismatch: %@.",
                                        [matcher description], [element grey_description],
                                        [mismatch description]];
         I_GREYPopulateError(errorOrNil, kGREYInteractionErrorDomain,
