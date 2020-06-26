@@ -527,7 +527,7 @@
     if (([errorDomain isEqualToString:kGREYInteractionErrorDomain]) &&
         (errorCode == kGREYInteractionTimeoutErrorCode)) {
       errorDetails[kErrorDetailActionNameKey] = action.name;
-      errorDetails[kErrorDetailRecoverySuggestionKey] = @"Increase timeout for matching element";
+      errorDetails[kErrorDetailRecoverySuggestionKey] = @"Increase timeout for matching element.";
       errorDetails[kErrorDetailElementMatcherKey] = _elementMatcher.description;
       NSArray *keyOrder = @[
         kErrorDetailActionNameKey, kErrorDetailElementMatcherKey, kErrorDetailRecoverySuggestionKey
@@ -689,7 +689,7 @@
     if (([errorDomain isEqualToString:kGREYInteractionErrorDomain]) &&
         (errorCode == kGREYInteractionTimeoutErrorCode)) {
       errorDetails[kErrorDetailAssertCriteriaKey] = assertion.name;
-      errorDetails[kErrorDetailRecoverySuggestionKey] = @"Increase timeout for matching element";
+      errorDetails[kErrorDetailRecoverySuggestionKey] = @"Increase timeout for matching element.";
       errorDetails[kErrorDetailElementMatcherKey] = _elementMatcher.description;
       NSArray *keyOrder = @[
         kErrorDetailAssertCriteriaKey, kErrorDetailElementMatcherKey,

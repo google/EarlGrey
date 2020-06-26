@@ -59,6 +59,8 @@ BOOL GREYShouldUseErrorFormatterForError(GREYError *error) {
   return [error.domain isEqualToString:kGREYInteractionErrorDomain] &&
          (error.code == kGREYInteractionElementNotFoundErrorCode ||
           error.code == kGREYInteractionMatchedElementIndexOutOfBoundsErrorCode);
+          error.code == kGREYInteractionActionFailedErrorCode ||
+          error.code == kGREYInteractionTimeoutErrorCode);
 }
 
 BOOL GREYShouldUseErrorFormatterForDetails(NSString *failureHandlerDetails) {
