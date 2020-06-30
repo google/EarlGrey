@@ -54,19 +54,21 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
                            replaceInstanceMethod:@selector(invokeTest)
                                       withMethod:@selector(grey_invokeTest)];
     GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle XCTestCase::invokeTest");
-
-    SEL recordFailSEL = @selector(recordFailureWithDescription:inFile:atLine:expected:);
-    SEL grey_recordFailSEL = @selector(grey_recordFailureWithDescription:inFile:atLine:expected:);
+    SEL recordFailureSelector;
+    SEL swizzledRecordFailureSelector;
+  #if defined(__IPHONE_14_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_14_0
+    recordFailureSelector = @selector(recordIssue:);
+    swizzledRecordFailureSelector = @selector(grey_recordIssue:);
+  #else
+    recordFailureSelector = @selector(recordFailureWithDescription:inFile:atLine:expected:);
+    swizzledRecordFailureSelector = @selector(grey_recordFailureWithDescription:
+                                                                         inFile:atLine:expected:);
+  #endif
     swizzleSuccess = [swizzler swizzleClass:self
-                      replaceInstanceMethod:recordFailSEL
-                                 withMethod:grey_recordFailSEL];
-    GREYFatalAssertWithMessage(swizzleSuccess,
-                               @"Cannot swizzle "
-                               @"XCTestCase::recordFailureWithDescription:inFile:atLine:expected:");
-    // As soon as XCTest is loaded, we setup the EarlGrey crash handlers so that any issue is
-    // tracked at the earliest. Also, we turn on accessibility for the simulator since it needs to
-    // be enabled before main is called.
-    [[GREYAutomationSetup sharedInstance] prepareOnLoad];
+                      replaceInstanceMethod:recordFailureSelector
+                                 withMethod:swizzledRecordFailureSelector];
+    GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle XCTestCase::%@",
+                               NSStringFromSelector(recordFailureSelector));
     gExecutingTestCaseStack = [[NSMutableArray alloc] init];
   }
 }
@@ -75,6 +77,12 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
   return [gExecutingTestCaseStack lastObject];
 }
 
+#if defined(__IPHONE_14_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_14_0
+- (void)grey_recordIssue:(XCTIssue *)issue {
+  [self grey_setStatus:kGREYXCTestCaseStatusFailed];
+  INVOKE_ORIGINAL_IMP1(void, @selector(grey_recordIssue:), issue);
+}
+#else
 - (void)grey_recordFailureWithDescription:(NSString *)description
                                    inFile:(NSString *)filePath
                                    atLine:(NSUInteger)lineNumber
@@ -87,6 +95,7 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
                        lineNumber,
                        expected);
 }
+#endif
 
 - (NSString *)grey_testMethodName {
   // XCTest.name is represented as "-[<testClassName> <testMethodName>]"
@@ -96,7 +105,7 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
   // Resulting string after stripping: <testClassName> <testMethodName>
   NSString *strippedName = [self.name stringByTrimmingCharactersInSet:charsetToStrip];
   // Split string by whitespace.
-  NSArray *testClassAndTestMethods =
+  NSArray<NSString *> *testClassAndTestMethods =
       [strippedName componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 
   // Test method name will be 2nd item in the array.
@@ -155,8 +164,8 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
                          inFile:(NSString *)file
                     description:(NSString *)description {
   self.continueAfterFailure = NO;
-  [self recordFailureWithDescription:description inFile:file atLine:line expected:NO];
-  // If the test fails outside of the main thread in a nested runloop it will not be interrupted
+  [self grey_recordFailure:file line:line description:description];
+  // If the test fails outside of the main thread in a nested runloop, it will not be interrupted
   // until it's back in the outer most runloop. Raise an exception to interrupt the test immediately
   [[GREYFrameworkException exceptionWithName:kInternalTestInterruptException
                                       reason:@"Immediately halt execution of testcase"] raise];
@@ -239,10 +248,9 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
           break;
         case kGREYXCTestCaseStatusUnknown:
           self.continueAfterFailure = YES;
-          [self recordFailureWithDescription:@"Test has finished with unknown status."
-                                      inFile:@__FILE__
-                                      atLine:__LINE__
-                                    expected:NO];
+          [self grey_recordFailure:@__FILE__
+                              line:__LINE__
+                       description:@"Test has finished with unknown status."];
           break;
       }
       object_setClass(self.invocation, originalInvocationClass);
@@ -284,7 +292,7 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
  *  @param notificationName Name of the notification to be posted.
  */
 - (void)grey_sendNotification:(NSString *)notificationName {
-  NSDictionary *userInfo = @{ kGREYXCTestCaseNotificationKey : self };
+  NSDictionary<NSString *, id> *userInfo = @{kGREYXCTestCaseNotificationKey : self};
   [[NSNotificationCenter defaultCenter] postNotificationName:notificationName
                                                       object:self
                                                     userInfo:userInfo];
@@ -297,6 +305,32 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
                            @selector(grey_status),
                            @(status),
                            OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+/**
+ * Calls the XCTest record methods for recording a failure in the execution of a test.
+ *
+ * @param filePath    Name of the file which contains the failure.
+ * @param line        Line number in the @c filePath where the failure occurred.
+ * @param description Full description of the failure. Utilized as compactDescription in iOS 14+.
+ */
+- (void)grey_recordFailure:(NSString *)filePath
+                      line:(NSUInteger)line
+               description:(NSString *)description {
+#if defined(__IPHONE_14_0)
+  XCTSourceCodeLocation *location =
+      [[XCTSourceCodeLocation alloc] initWithFilePath:filePath lineNumber:(NSInteger)line];
+  XCTSourceCodeContext *context = [[XCTSourceCodeContext alloc] initWithLocation:location];
+  XCTIssue *issue = [[XCTIssue alloc] initWithType:XCTIssueTypeUncaughtException
+                                compactDescription:description
+                               detailedDescription:nil
+                                 sourceCodeContext:context
+                                   associatedError:nil
+                                       attachments:@[]];
+  [self recordIssue:issue];
+#else
+  [self recordFailureWithDescription:description inFile:filePath atLine:line expected:NO];
+#endif
 }
 
 @end
