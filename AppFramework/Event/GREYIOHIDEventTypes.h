@@ -219,16 +219,14 @@ void IOHIDEventSetIntegerValue(IOHIDEventRef hidEventRef, IOHIDEventField field,
 
 - (void)setPhase:(UITouchPhase)phase;
 
-// Must be set to YES for new touches.
+// Must be set to @c YES for new touches.
+#if defined(__IPHONE_14_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_14_0
+- (void)_setIsTapToClick:(BOOL)isTap;
+#endif
 - (void)setIsTap:(BOOL)isTap;
 
 - (void)setIsDelayed:(BOOL)delayed;
-
 - (void)setTapCount:(NSUInteger)tapCount;
-
-// Must be set to YES for new touches.
-- (void)_setIsFirstTouchForView:(BOOL)first;
-
 - (void)setTimestamp:(NSTimeInterval)timestamp;
 - (void)setView:(UIView *)view;
 - (void)setWindow:(UIWindow *)window;
@@ -241,3 +239,19 @@ void IOHIDEventSetIntegerValue(IOHIDEventRef hidEventRef, IOHIDEventField field,
 - (void)_setSenderID:(uint64_t)senderID;
 
 @end
+
+/**
+ * Struct for UITouchFlags set on a UITouch object. Utilized in iOS 14+.
+ * @see https://developer.limneos.net/?ios=13.1.3&framework=UIKitCore.framework&header=UITouch.h
+ **/
+typedef struct {
+  unsigned _firstTouchForView : 1;
+  unsigned _isTap : 1;
+  unsigned _isDelayed : 1;
+  unsigned _sentTouchesEnded : 1;
+  unsigned _abandonForwardingRecord : 1;
+  unsigned _deliversUpdatesInTouchesMovedIsValid : 1;
+  unsigned _deliversUpdatesInTouchesMoved : 1;
+  unsigned _isPredictedTouch : 1;
+  unsigned _didDispatchAsEnded : 1;
+} UITouchFlags;

@@ -18,6 +18,7 @@
 
 #import <QuartzCore/QuartzCore.h>
 #include <mach/mach_time.h>
+#include <objc/runtime.h>
 
 #import "GREYIOHIDEventTypes.h"
 #import "GREYRunLoopSpinner.h"
@@ -25,6 +26,7 @@
 #import "GREYFatalAsserts.h"
 #import "GREYThrowDefines.h"
 #import "GREYConfiguration.h"
+#import "GREYTouchInfo.h"
 
 /**
  * The time interval in seconds between each touch injection.
@@ -181,7 +183,13 @@ static const NSTimeInterval kTouchInjectFramerateInv = 1 / 120.0;
       // and inspecting the values of the touch object that's created.
       touch = [[UITouch alloc] init];
       [touch setWindow:_window];
-      [touch setIsTap:YES];
+      if (@available(iOS 14.0, *)) {
+#if defined(__IPHONE_14_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_14_0
+        [touch _setIsTapToClick:YES];
+#endif
+      } else {
+        [touch setIsTap:YES];
+      }
       [touch setTapCount:1];
       [touch setIsDelayed:NO];
       [touch _setPathIndex:1];
@@ -190,9 +198,8 @@ static const NSTimeInterval kTouchInjectFramerateInv = 1 / 120.0;
         [touch _setSenderID:0x0acefade00000002 /* value sourced from trial run on simulator */];
       }
       UIView *touchView = [_window hitTest:touchPoint withEvent:event];
-
       [touch setView:touchView];
-      [touch _setIsFirstTouchForView:YES];
+      SetTouchFlagPropertyInUITouch(touch);
       [ongoingTouches addObject:touch];
     } else {
       touch = ongoingTouches[i];
@@ -229,9 +236,9 @@ static const NSTimeInterval kTouchInjectFramerateInv = 1 / 120.0;
   [event _clearTouches];
 
   CFTimeInterval touchDeliveryTime = CACurrentMediaTime();
-  uint64_t deliveryTime = getMachOTimeFromSeconds(touchDeliveryTime);
+  uint64_t deliveryTime = GetMachOTimeFromSeconds(touchDeliveryTime);
 
-  IOHIDDigitizerEventMask fingerEventMask = grey_fingerDigitizerEventMaskFromPhase(touchInfo.phase);
+  IOHIDDigitizerEventMask fingerEventMask = FingerDigitizerEventMaskFromPhase(touchInfo.phase);
   // touch is 1 if finger is touching the screen.
   boolean_t isTouch =
       (touchInfo.phase != UITouchPhaseEnded) && (touchInfo.phase != UITouchPhaseCancelled) ? 1 : 0;
@@ -289,7 +296,7 @@ static const NSTimeInterval kTouchInjectFramerateInv = 1 / 120.0;
 /**
  * @return event mask for the provided touch phase.
  */
-static inline IOHIDDigitizerEventMask grey_fingerDigitizerEventMaskFromPhase(UITouchPhase phase) {
+static inline IOHIDDigitizerEventMask FingerDigitizerEventMaskFromPhase(UITouchPhase phase) {
   IOHIDDigitizerEventMask eventMask = 0;
   if (phase != UITouchPhaseCancelled && phase != UITouchPhaseBegan && phase != UITouchPhaseEnded &&
       phase != UITouchPhaseStationary) {
@@ -307,7 +314,7 @@ static inline IOHIDDigitizerEventMask grey_fingerDigitizerEventMaskFromPhase(UIT
 /**
  * @return Converts @c seconds to mach-o time type.
  */
-inline static uint64_t getMachOTimeFromSeconds(CFTimeInterval seconds) {
+static inline uint64_t GetMachOTimeFromSeconds(CFTimeInterval seconds) {
   mach_timebase_info_data_t info;
   kern_return_t retVal = mach_timebase_info(&info);
   if (retVal != KERN_SUCCESS) {
@@ -316,6 +323,25 @@ inline static uint64_t getMachOTimeFromSeconds(CFTimeInterval seconds) {
   uint64_t nanosecs = (uint64_t)(seconds * NSEC_PER_SEC);
   uint64_t time = (nanosecs / info.numer) * info.denom;
   return time;
+}
+
+/**
+ * For iOS 14+, sets on the first _firstTouchForView property on the touchFlags struct of a UITouch.
+ *
+ * @param touch The UITouch being updated.
+ */
+static inline void SetTouchFlagPropertyInUITouch(UITouch *touch) {
+  typedef UITouchFlags (*UITouchFlagsGetVariableFunction)(id object, Ivar ivar);
+  UITouchFlagsGetVariableFunction getTouchFlagsFunction =
+      (UITouchFlagsGetVariableFunction)object_getIvar;
+  Ivar touchflags = class_getInstanceVariable([UITouch class], "_touchFlags");
+
+  UITouchFlags flags = getTouchFlagsFunction(touch, touchflags);
+  flags._firstTouchForView = 1;
+
+  typedef void (*UITouchSetVariableFunction)(id object, Ivar ivar, UITouchFlags flags);
+  UITouchSetVariableFunction setTouchFlagsFunction = (UITouchSetVariableFunction)object_setIvar;
+  setTouchFlagsFunction(touch, touchflags, flags);
 }
 
 @end
