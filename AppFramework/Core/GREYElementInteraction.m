@@ -244,7 +244,7 @@
   __block GREYError *actionError = nil;
   @autoreleasepool {
     // Create the user info dictionary for any notifications and set it up with the action.
-    NSMutableDictionary *actionUserInfo = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary<NSString *, id> *actionUserInfo = [[NSMutableDictionary alloc] init];
     [actionUserInfo setObject:action forKey:kGREYActionUserInfoKey];
     NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
 
@@ -474,7 +474,7 @@
  *
  * @return A uniquely matched element, if any.
  */
-- (id)grey_uniqueElementInMatchedElements:(NSArray *)elements
+- (id)grey_uniqueElementInMatchedElements:(NSArray<id> *)elements
                                  andError:(__strong GREYError **)interactionError {
   // If we find that multiple matched elements are present, we narrow them down based on
   // any index passed or populate the passed error if the multiple matches are present and
@@ -516,9 +516,9 @@
   GREYFatalAssert(actionError);
 
   // First check errors that can happen at the inner most level such as timeouts.
-  NSDictionary *errorDescriptions =
+  NSDictionary<NSString *, id> *errorDescriptions =
       [[GREYError grey_nestedErrorDictionariesForError:actionError] objectAtIndex:0];
-  NSMutableDictionary *errorDetails = [[NSMutableDictionary alloc] init];
+  NSMutableDictionary<NSString *, id> *errorDetails = [[NSMutableDictionary alloc] init];
 
   NSString *reason = nil;
   if (errorDescriptions != nil) {
@@ -529,7 +529,7 @@
       errorDetails[kErrorDetailActionNameKey] = action.name;
       errorDetails[kErrorDetailRecoverySuggestionKey] = @"Increase timeout for matching element.";
       errorDetails[kErrorDetailElementMatcherKey] = _elementMatcher.description;
-      NSArray *keyOrder = @[
+      NSArray<NSString *> *keyOrder = @[
         kErrorDetailActionNameKey, kErrorDetailElementMatcherKey, kErrorDetailRecoverySuggestionKey
       ];
 
@@ -545,7 +545,7 @@
       errorDetails[kErrorDetailActionNameKey] = action.name;
       errorDetails[kErrorDetailElementMatcherKey] = _elementMatcher.description;
 
-      NSArray *keyOrder = @[ kErrorDetailActionNameKey, kErrorDetailElementMatcherKey ];
+      NSArray<NSString *> *keyOrder = @[ kErrorDetailActionNameKey, kErrorDetailElementMatcherKey ];
       NSString *reasonDetail = [GREYObjectFormatter formatDictionary:errorDetails
                                                               indent:kGREYObjectFormatIndent
                                                            hideEmpty:YES
@@ -573,7 +573,7 @@
           errorDetails[kErrorDetailSearchActionInfoKey] = searchAPIInfo;
         }
 
-        NSArray *keyOrder = @[
+        NSArray<NSString *> *keyOrder = @[
           kErrorDetailActionNameKey, kErrorDetailElementMatcherKey,
           kErrorDetailRecoverySuggestionKey
         ];
@@ -603,7 +603,7 @@
           errorDetails[kErrorDetailSearchActionInfoKey] = searchAPIInfo;
         }
 
-        NSArray *keyOrder = @[
+        NSArray<NSString *> *keyOrder = @[
           kErrorDetailActionNameKey, kErrorDetailElementMatcherKey,
           kErrorDetailRecoverySuggestionKey
         ];
@@ -620,12 +620,12 @@
         break;
       }
       case kGREYInteractionConstraintsFailedErrorCode: {
-        NSArray *keyOrder = @[
+        NSArray<NSString *> *keyOrder = @[
           kErrorDetailActionNameKey, kErrorDetailElementDescriptionKey,
           kErrorDetailConstraintRequirementKey, kErrorDetailConstraintDetailsKey,
           kErrorDetailRecoverySuggestionKey
         ];
-        NSDictionary *errorInfo = [(GREYError *)actionError errorInfo];
+        NSDictionary<NSString *, id> *errorInfo = [actionError errorInfo];
         NSString *reasonDetail = [GREYObjectFormatter formatDictionary:errorInfo
                                                                 indent:kGREYObjectFormatIndent
                                                              hideEmpty:YES
@@ -646,7 +646,7 @@
     errorDetails[kErrorDetailActionNameKey] = action.name;
     errorDetails[kErrorDetailElementMatcherKey] = _elementMatcher.description;
 
-    NSArray *keyOrder = @[ kErrorDetailActionNameKey, kErrorDetailElementMatcherKey ];
+    NSArray<NSString *> *keyOrder = @[ kErrorDetailActionNameKey, kErrorDetailElementMatcherKey ];
     NSString *reasonDetail = [GREYObjectFormatter formatDictionary:errorDetails
                                                             indent:kGREYObjectFormatIndent
                                                          hideEmpty:YES
@@ -678,9 +678,9 @@
 
   // First check errors that can happens at the inner most level
   // for example: executor error
-  NSDictionary *errorDescriptions =
+  NSDictionary<NSString *, id> *errorDescriptions =
       [[GREYError grey_nestedErrorDictionariesForError:assertionError] objectAtIndex:0];
-  NSMutableDictionary *errorDetails = [[NSMutableDictionary alloc] init];
+  NSMutableDictionary<NSString *, id> *errorDetails = [[NSMutableDictionary alloc] init];
   NSString *reason = nil;
 
   if (errorDescriptions != nil) {
@@ -691,7 +691,7 @@
       errorDetails[kErrorDetailAssertCriteriaKey] = assertion.name;
       errorDetails[kErrorDetailRecoverySuggestionKey] = @"Increase timeout for matching element.";
       errorDetails[kErrorDetailElementMatcherKey] = _elementMatcher.description;
-      NSArray *keyOrder = @[
+      NSArray<NSString *> *keyOrder = @[
         kErrorDetailAssertCriteriaKey, kErrorDetailElementMatcherKey,
         kErrorDetailRecoverySuggestionKey
       ];
@@ -710,7 +710,8 @@
       errorDetails[kErrorDetailAssertCriteriaKey] = assertion.name;
       errorDetails[kErrorDetailElementMatcherKey] = _elementMatcher.description;
 
-      NSArray *keyOrder = @[ kErrorDetailAssertCriteriaKey, kErrorDetailElementMatcherKey ];
+      NSArray<NSString *> *keyOrder =
+          @[ kErrorDetailAssertCriteriaKey, kErrorDetailElementMatcherKey ];
       NSString *reasonDetail = [GREYObjectFormatter formatDictionary:errorDetails
                                                               indent:kGREYObjectFormatIndent
                                                            hideEmpty:YES
@@ -737,7 +738,7 @@
         if (searchAPIInfo) {
           errorDetails[kErrorDetailSearchActionInfoKey] = searchAPIInfo;
         }
-        NSArray *keyOrder = @[
+        NSArray<NSString *> *keyOrder = @[
           kErrorDetailAssertCriteriaKey, kErrorDetailElementMatcherKey,
           kErrorDetailRecoverySuggestionKey
         ];
@@ -760,7 +761,7 @@
         if (searchAPIInfo) {
           errorDetails[kErrorDetailSearchActionInfoKey] = searchAPIInfo;
         }
-        NSArray *keyOrder = @[
+        NSArray<NSString *> *keyOrder = @[
           kErrorDetailAssertCriteriaKey, kErrorDetailElementMatcherKey,
           kErrorDetailRecoverySuggestionKey
         ];
@@ -781,12 +782,13 @@
 
   if (reason.length == 0) {
     // Add unique failure messages for failure with unknown reason
-    NSMutableDictionary *errorDetails = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary<NSString *, id> *errorDetails = [[NSMutableDictionary alloc] init];
 
     errorDetails[kErrorDetailAssertCriteriaKey] = assertion.name;
     errorDetails[kErrorDetailElementMatcherKey] = _elementMatcher.description;
 
-    NSArray *keyOrder = @[ kErrorDetailAssertCriteriaKey, kErrorDetailElementMatcherKey ];
+    NSArray<NSString *> *keyOrder =
+        @[ kErrorDetailAssertCriteriaKey, kErrorDetailElementMatcherKey ];
     NSString *reasonDetail = [GREYObjectFormatter formatDictionary:errorDetails
                                                             indent:kGREYObjectFormatIndent
                                                          hideEmpty:YES
@@ -857,10 +859,10 @@
  *
  * @return Error for matching multiple elements.
  */
-- (GREYError *)grey_errorForMultipleMatchingElements:(NSArray *)matchingElements
+- (GREYError *)grey_errorForMultipleMatchingElements:(NSArray<id<GREYMatcher>> *)matchingElements
                  withMatchedElementsIndexOutOfBounds:(BOOL)outOfBounds {
   // Populate an array with the multiple matching elements.
-  NSMutableArray *elementDescriptions =
+  NSMutableArray<NSString *> *elementDescriptions =
       [[NSMutableArray alloc] initWithCapacity:matchingElements.count];
 
   [matchingElements enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
@@ -874,11 +876,10 @@
     // Populate with an error specifying that the index provided for matching the multiple elements
     // was out of bounds.
     errorDescription =
-        [NSString stringWithFormat:@"Multiple elements were matched: %@ with an "
-                                   @"index that is out of bounds of the number of "
-                                   @"matched elements. Please use an element "
-                                   @"index from 0 to %tu",
-                                   elementDescriptions, (elementDescriptions.count - 1)];
+        [NSString stringWithFormat:@"%tu elements were matched, but element at index %lu was "
+                                   @"requested.\n\nPlease use an element index from 0 to %tu.",
+                                   elementDescriptions.count, (unsigned long)_index,
+                                   (elementDescriptions.count - 1)];
     errorCode = kGREYInteractionMatchedElementIndexOutOfBoundsErrorCode;
   } else {
     // Populate with an error specifying that multiple elements were matched without providing

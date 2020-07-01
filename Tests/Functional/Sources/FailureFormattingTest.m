@@ -290,4 +290,24 @@
                 expectedDetailsForMatcher, _handler.details);
 }
 
+/**
+ * Checks the formatting for the failure seen when the index passed in is more than the total number
+ * of elements.
+ */
+- (void)testMatchedElementOutOfBoundsDescription {
+  [[[EarlGrey selectElementWithMatcher:grey_kindOfClass([UITableViewCell class])] atIndex:999]
+      assertWithMatcher:grey_notNil()];
+
+  NSString *expectedDetails =
+      @"19 elements were matched, but element at index 999 was requested.\n\n"
+      @"Please use an element index from 0 to 18.\n\n"
+      @"Element Matcher:\n"
+      @"kindOfClass('UITableViewCell')";
+  XCTAssertTrue([_handler.details containsString:expectedDetails],
+                @"Expected info does not appear in the actual exception details:\n\n"
+                @"========== expected info ===========\n%@\n\n"
+                @"========== actual exception details ==========\n%@",
+                expectedDetails, _handler.details);
+}
+
 @end
