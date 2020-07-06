@@ -207,6 +207,7 @@
 		FDB4AB67237CD95F00E6847D /* GREYQuickVisibilityChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = FDB4AB61237CD95F00E6847D /* GREYQuickVisibilityChecker.m */; };
 		FDB4AB68237CD95F00E6847D /* GREYThoroughVisibilityChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = FDB4AB62237CD95F00E6847D /* GREYThoroughVisibilityChecker.m */; };
 		FDBE851122A21FD50093062B /* libeDistantObject.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FDBE84FC22A21FBC0093062B /* libeDistantObject.a */; };
+		FDE6770924B2E7050058EA28 /* GREYDescribeVariable.m in Sources */ = {isa = PBXBuildFile; fileRef = FDE6770724B2E7050058EA28 /* GREYDescribeVariable.m */; };
 		FDE871982322D9F7007C5A5C /* GREYRemoteExecutor.m in Sources */ = {isa = PBXBuildFile; fileRef = FDE871962322D9F6007C5A5C /* GREYRemoteExecutor.m */; };
 		FDE8719C23241567007C5A5C /* GREYWaitFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = FDE8719A23241566007C5A5C /* GREYWaitFunctions.m */; };
 		FDF9E05720F82E200005DCF2 /* GREYTraversalDFS.m in Sources */ = {isa = PBXBuildFile; fileRef = FDF9E05120F82E200005DCF2 /* GREYTraversalDFS.m */; };
@@ -665,6 +666,8 @@
 		FDB4AB61237CD95F00E6847D /* GREYQuickVisibilityChecker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYQuickVisibilityChecker.m; path = Visibility/GREYQuickVisibilityChecker.m; sourceTree = "<group>"; };
 		FDB4AB62237CD95F00E6847D /* GREYThoroughVisibilityChecker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYThoroughVisibilityChecker.m; path = Visibility/GREYThoroughVisibilityChecker.m; sourceTree = "<group>"; };
 		FDB4AB63237CD95F00E6847D /* GREYVisibilityCheckerTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYVisibilityCheckerTarget.h; path = Visibility/GREYVisibilityCheckerTarget.h; sourceTree = "<group>"; };
+		FDE6770724B2E7050058EA28 /* GREYDescribeVariable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYDescribeVariable.m; path = Assertion/GREYDescribeVariable.m; sourceTree = "<group>"; };
+		FDE6770824B2E7050058EA28 /* GREYDescribeVariable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYDescribeVariable.h; path = Assertion/GREYDescribeVariable.h; sourceTree = "<group>"; };
 		FDE871962322D9F6007C5A5C /* GREYRemoteExecutor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYRemoteExecutor.m; path = Execution/GREYRemoteExecutor.m; sourceTree = "<group>"; };
 		FDE871972322D9F7007C5A5C /* GREYRemoteExecutor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYRemoteExecutor.h; path = Execution/GREYRemoteExecutor.h; sourceTree = "<group>"; };
 		FDE8719A23241566007C5A5C /* GREYWaitFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYWaitFunctions.m; path = Assertion/GREYWaitFunctions.m; sourceTree = "<group>"; };
@@ -781,6 +784,8 @@
 		FD50491520FB234E00261CBE /* Assertion */ = {
 			isa = PBXGroup;
 			children = (
+				FDE6770824B2E7050058EA28 /* GREYDescribeVariable.h */,
+				FDE6770724B2E7050058EA28 /* GREYDescribeVariable.m */,
 				FDE8719B23241567007C5A5C /* GREYWaitFunctions.h */,
 				FDE8719A23241566007C5A5C /* GREYWaitFunctions.m */,
 				FD50491620FB235D00261CBE /* GREYAssertionDefines.h */,
@@ -1766,6 +1771,7 @@
 				6FDFAF5324A2D0B2008B59DF /* GREYFailureHandlerHelpers.m in Sources */,
 				FD50492B20FB239900261CBE /* XCUIApplication+GREYTest.m in Sources */,
 				FD50493C20FB23E500261CBE /* GREYTestCaseInvocation.m in Sources */,
+				FDE6770924B2E7050058EA28 /* GREYDescribeVariable.m in Sources */,
 				FD50492D20FB239900261CBE /* EarlGrey.m in Sources */,
 				FD2E76F12149E4860063EF7E /* GREYTestConfiguration.m in Sources */,
 				FD50492A20FB239900261CBE /* GREYElementInteractionProxy.m in Sources */,
