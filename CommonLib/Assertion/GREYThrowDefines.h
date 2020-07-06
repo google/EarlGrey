@@ -115,17 +115,32 @@
 
 /**
  * Throws an @c NSInternalInconsistencyException in the function if @c parameter is nil or NULL.
+ *
+ * @note @c NSAssertionHandler used to raise the exception.
+ *
+ * @param value Argument to check for validity.
+ */
+#define GREYThrowInFunctionOnNilParameter(value)                \
+  ({                                                            \
+    if (!(value)) {                                             \
+      GREYThrowInFunction(@ #value @" cannot be nil or NULL."); \
+    }                                                           \
+  })
 
+/**
+ * Throws an @c NSInternalInconsistencyException in the function if @c parameter is nil or NULL.
  *
  * @note @c NSAssertionHandler used to raise the exception.
  *
  * @param parameter Argument to check for validity.
+ * @param message   Message to print
+ * @param ...       Variable args for @c message if it is a format string.
  */
-#define GREYThrowInFunctionOnNilParameter(parameter)            \
-  ({                                                            \
-    if (!(parameter)) {                                         \
-      GREYThrowInFunction(@"Parameter cannot be nil or NULL."); \
-    }                                                           \
+#define GREYThrowInFunctionOnNilParameterWithMessage(parameter, message, ...) \
+  ({                                                                          \
+    if (!(parameter)) {                                                       \
+      GREYThrowInFunction(message, ##__VA_ARGS__);                            \
+    }                                                                         \
   })
 
 /**

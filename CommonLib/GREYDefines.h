@@ -31,6 +31,17 @@
 #define iOS11_OR_ABOVE() ([UIDevice currentDevice].systemVersion.intValue >= 11)
 #define iOS13_OR_ABOVE() ([UIDevice currentDevice].systemVersion.intValue >= 13)
 
+/** A macro for declaring intentional fallthrough in switch statements. */
+#if defined(__clang__)
+#if __has_attribute(fallthrough)
+#define GREY_FALLTHROUGH_INTENDED __attribute__((fallthrough))
+#else  // No attribute is available.
+#define GREY_FALLTHROUGH_INTENDED
+#endif
+#else  // defined(__clang__)
+#define GREY_FALLTHROUGH_INTENDED
+#endif  // defined(__clang__)
+
 #pragma mark - Math
 
 /**
