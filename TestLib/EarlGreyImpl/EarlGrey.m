@@ -30,6 +30,7 @@
 #import "GREYLogger.h"
 
 #import "GREYXCTestAppleInternals.h"
+
 #import "EarlGreyImpl+XCUIApplication.h"
 #import "GREYElementInteractionErrorHandler.h"
 #import "GREYElementInteractionProxy.h"
@@ -94,6 +95,7 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
   if ([failureHandler respondsToSelector:invocationFileAndLineSEL]) {
     [failureHandler setInvocationFile:fileName andInvocationLine:lineNumber];
   }
+  
   
   return instance;
 }
