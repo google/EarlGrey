@@ -388,41 +388,45 @@ static Protocol *gTextInputProtocol;
       diagnosticsID:diagnosticsID
         constraints:constraints
        performBlock:^BOOL(id webView, __strong NSError **errorOrNil) {
-           dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
-           __block NSError *localError = nil;
-           grey_dispatch_sync_on_main_thread(^{
-             [webView evaluateJavaScript:js
-                       completionHandler:^(id result, NSError *error) {
-                         if (result) {
-                           // Populate the javascript result for the user to get back.
-                           outResult.object = [NSString stringWithFormat:@"%@", result];
-                         }
-                         if (error) {
-                           localError = error;
-                         }
-                         dispatch_semaphore_signal(semaphore);
-                       }];
-           });
-           // Wait for the interaction timeout for the semaphore to return.
-           CFTimeInterval interactionTimeout =
-               GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
-           long evaluationTimedOut = dispatch_semaphore_wait(
-               semaphore,
-               dispatch_time(DISPATCH_TIME_NOW, (int64_t)(interactionTimeout * NSEC_PER_SEC)));
-           if (evaluationTimedOut) {
-             I_GREYPopulateError(errorOrNil, kGREYInteractionErrorDomain,
-                                 kGREYWKWebViewInteractionFailedErrorCode,
-                                 @"Interaction with WKWebView failed because of timeout");
-             return NO;
+         dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+         __block NSError *localError = nil;
+         grey_dispatch_sync_on_main_thread(^{
+           [webView evaluateJavaScript:js
+                     completionHandler:^(id result, NSError *error) {
+                       if (result) {
+                         // Populate the javascript result for the user to get back.
+                         outResult.object = [NSString stringWithFormat:@"%@", result];
+                       }
+                       if (error) {
+                         localError = error;
+                       }
+                       dispatch_semaphore_signal(semaphore);
+                     }];
+         });
+         // Wait for the interaction timeout for the semaphore to return.
+         CFTimeInterval interactionTimeout =
+             GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
+         long evaluationTimedOut = dispatch_semaphore_wait(
+             semaphore,
+             dispatch_time(DISPATCH_TIME_NOW, (int64_t)(interactionTimeout * NSEC_PER_SEC)));
+         if (evaluationTimedOut) {
+           I_GREYPopulateError(errorOrNil, kGREYInteractionErrorDomain,
+                               kGREYWKWebViewInteractionFailedErrorCode,
+                               @"Interaction with WKWebView failed because of timeout");
+           return NO;
+         }
+         if (localError) {
+           NSString *description = [localError userInfo][@"WKJavaScriptExceptionMessage"];
+           if (!description) {
+             description = localError.localizedDescription
+                               ?: @"Interaction with WKWebView failed for an internal reason";
            }
-           if (localError) {
-             I_GREYPopulateError(errorOrNil, kGREYInteractionErrorDomain,
-                                 kGREYWKWebViewInteractionFailedErrorCode,
-                                 @"Interaction with WKWebView failed for an internal reason");
-             return NO;
-           } else {
-             return YES;
-           }
+           I_GREYPopulateError(errorOrNil, kGREYInteractionErrorDomain,
+                               kGREYWKWebViewInteractionFailedErrorCode, description);
+           return NO;
+         } else {
+           return YES;
+         }
        }];
 }
 

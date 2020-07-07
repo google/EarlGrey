@@ -66,6 +66,20 @@
       assertWithMatcher:grey_notNil()];
 }
 
+/**
+ * Tests executing invalid JavaScript to verify the JavaScript error is propagated to the NSError
+ * description.
+ */
+- (void)testJavascriptEvaluationWithJavascriptError {
+  NSError *error = nil;
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TestWKWebView")]
+      performAction:grey_javaScriptExecution(@"var foo; foo.bar();", nil)
+              error:&error];
+  XCTAssertEqual(error.code, kGREYWKWebViewInteractionFailedErrorCode);
+  NSString *errorString = @"TypeError: undefined is not an object (evaluating 'foo.bar')";
+  XCTAssertNotEqual([error.localizedDescription rangeOfString:errorString].location, NSNotFound);
+}
+
 - (void)testJavascriptEvaluationWithAReturnValue {
   EDORemoteVariable<NSString *> *javaScriptResult = [[EDORemoteVariable alloc] init];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TestWKWebView")]
