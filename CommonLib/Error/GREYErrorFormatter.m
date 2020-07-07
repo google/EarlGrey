@@ -61,7 +61,8 @@ BOOL GREYShouldUseErrorFormatterForError(GREYError *error) {
           error.code == kGREYInteractionActionFailedErrorCode ||
           error.code == kGREYInteractionAssertionFailedErrorCode ||
           error.code == kGREYInteractionMatchedElementIndexOutOfBoundsErrorCode ||
-          error.code == kGREYInteractionTimeoutErrorCode);
+          error.code == kGREYInteractionTimeoutErrorCode ||
+          error.code == kGREYWKWebViewInteractionFailedErrorCode);
 }
 
 BOOL GREYShouldUseErrorFormatterForDetails(NSString *failureHandlerDetails) {

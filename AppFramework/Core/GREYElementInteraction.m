@@ -639,6 +639,11 @@
         errorDetails[NSLocalizedFailureReasonErrorKey] = nestedError.description;
         break;
       }
+      case kGREYWKWebViewInteractionFailedErrorCode: {
+        errorDetails[kErrorDetailActionNameKey] = action.name;
+        [actionError setErrorInfo:errorDetails];
+        break;
+      }
     }
   }
 

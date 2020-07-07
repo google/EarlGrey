@@ -310,4 +310,24 @@
                 expectedDetails, _handler.details);
 }
 
+/**
+ * Checks that the element matcher and UI hierarchy are present in the WKWebView error.
+ */
+- (void)testWKWebViewFormatting {
+  [self openTestViewNamed:@"WKWebView"];
+  id<GREYAction> jsAction = grey_javaScriptExecution(@"var foo; foo.bar();", nil);
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TestWKWebView")] performAction:jsAction
+                                                                                      error:nil];
+  NSString *jsErrorDetails = @"TypeError: undefined is not an object (evaluating 'foo.bar')";
+  XCTAssertTrue([_handler.details containsString:jsErrorDetails],
+                @"Exception:%@ doesn't have the JS Error Details:%@", _handler.details,
+                jsErrorDetails);
+  XCTAssertTrue([_handler.details containsString:@"Element Matcher:"],
+                @"Exception:%@ doesn't have the Element Matcher:", _handler.details);
+  XCTAssertTrue([_handler.details containsString:@"UI Hierarchy"],
+                @"Exception:%@ doesn't have the UI Hierarchy:", _handler.details);
+  XCTAssertTrue([_handler.details containsString:@"Failed Action: Execute JavaScript"],
+                @"Exception:%@ doesn't have the JavaScript Action Name:", _handler.details);
+}
+
 @end
