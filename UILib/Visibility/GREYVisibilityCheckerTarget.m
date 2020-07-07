@@ -407,9 +407,19 @@ static CGRect VisibleRectOnScreen(GREYTraversalObject *object) {
  * @return @c element's frame converted to screen coordinate.
  */
 static CGRect ConvertToScreenCoordinate(id element) {
+  // Although UIView's accessibilityFrame, by default, is in screen-coordinate, we should be using
+  // -[UIView convertRect:toView:] as the accessibilityFrame can be changed to any value by the
+  // user. So, the frame could be different from where the actual element is located.
   if ([element isKindOfClass:[UIView class]]) {
     UIView *container = [element grey_viewContainingSelf];
     if (container) {
+      // TODO(b/160199305): For iOS 13+, when a UITableViewCell is in delete mode, the element's y
+      // position is shifted by 44 than the actual position of the element, resulting in a wrong
+      // screen coordinate. Since element's accessibilityFrame has the correct frame, this should be
+      // a workaround until Apple fixes this bug.
+      if ([container isKindOfClass:NSClassFromString(@"_UITableViewCellSwipeContainerView")]) {
+        return [element accessibilityFrame];
+      }
       return [container convertRect:[element frame] toView:nil];
     } else {
       // For top-level UIWindows

@@ -40,6 +40,18 @@
   }
 }
 
+/** Tests the visibility of a table view cell when the above cell is in delete mode. */
+- (void)testVisibilityOfTheBelowRowInDeleteMode {
+  for (int i = 0; i < 5; i++) {
+    NSString *labelForRowToDelete = [NSString stringWithFormat:@"Row %d", i];
+    NSString *labelForNextRow = [NSString stringWithFormat:@"Row %d", i + 1];
+    [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(labelForRowToDelete)]
+        performAction:grey_swipeSlowInDirection(kGREYDirectionLeft)];
+    [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(labelForNextRow)]
+        assertWithMatcher:grey_sufficientlyVisible()];
+  }
+}
+
 - (void)testSearchActionWithTinyScrollIncrements {
   [[self ftr_scrollToCellAtIndex:18 byScrollingInAmounts:50
                      InDirection:kGREYDirectionDown] assertWithMatcher:grey_notNil()];
