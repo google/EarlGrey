@@ -247,7 +247,11 @@
                               @"xpected: 0.750000, Actual: 0.000000)\n"
                               @"\n"
                               @"UI Hierarchy";
-  XCTAssertTrue([_handler.details containsString:expectedDetails]);
+  XCTAssertTrue([_handler.details containsString:expectedDetails],
+                @"Expected info does not appear in the actual exception details:\n\n"
+                @"========== expected info ===========\n%@\n\n"
+                @"========== actual exception details ==========\n%@",
+                expectedDetails, _handler.details);
 }
 
 /**
@@ -266,7 +270,45 @@
       @"(respondsToSelector(accessibilityIdentifier) && accessibilityID('foo'))\n"
       @"\n"
       @"UI Hierarchy";
-  XCTAssertTrue([_handler.details containsString:expectedDetails]);
+  XCTAssertTrue([_handler.details containsString:expectedDetails],
+                @"Expected info does not appear in the actual exception details:\n\n"
+                @"========== expected info ===========\n%@\n\n"
+                @"========== actual exception details ==========\n%@",
+                expectedDetails, _handler.details);
+}
+
+- (void)testMultipleMatchedErrorDescription {
+  [[EarlGrey selectElementWithMatcher:grey_kindOfClass([UITableViewCell class])]
+      performAction:grey_tap()
+              error:nil];
+
+  NSString *expectedDetails = @"Multiple elements were matched. Please use selection matchers "
+                              @"to narrow the selection down to a single element.\n"
+                              @"\n"
+                              @"Create a more specific matcher to uniquely match the element. "
+                              @"In general, prefer using accessibility ID before accessibility "
+                              @"label or other attributes.\n"
+                              @"Use atIndex: to select from one of the matched elements. "
+                              @"Keep in mind when using atIndex: that the order in which "
+                              @"elements are arranged may change, making your test brittle.\n"
+                              @"\n"
+                              @"Element Matcher:\n"
+                              @"kindOfClass('UITableViewCell')\n"
+                              @"\n"
+                              @"Failed Action: Tap\n"
+                              @"\n"
+                              @"Elements Matched:\n"
+                              @"\n"
+                              @"\t1.";
+  XCTAssertTrue([_handler.details containsString:expectedDetails],
+                @"Expected info does not appear in the actual exception details:\n\n"
+                @"========== expected info ===========\n%@\n\n"
+                @"========== actual exception details ==========\n%@",
+                expectedDetails, _handler.details);
+  XCTAssertTrue([_handler.details containsString:@"UI Hierarchy"],
+                @"\"UI Hierarchy\" does not appear in the actual exception details:\n\n"
+                @"========== exception details ==========\n%@",
+                _handler.details);
 }
 
 /**
@@ -295,14 +337,15 @@
  * of elements.
  */
 - (void)testMatchedElementOutOfBoundsDescription {
-  [[[EarlGrey selectElementWithMatcher:grey_kindOfClass([UITableViewCell class])] atIndex:999]
+  [self openTestViewNamed:@"Typing Views"];
+  [[[EarlGrey selectElementWithMatcher:grey_kindOfClass([UITextField class])] atIndex:999]
       assertWithMatcher:grey_notNil()];
 
   NSString *expectedDetails =
-      @"19 elements were matched, but element at index 999 was requested.\n\n"
-      @"Please use an element index from 0 to 18.\n\n"
+      @"3 elements were matched, but element at index 999 was requested.\n\n"
+      @"Please use an element index from 0 to 2.\n\n"
       @"Element Matcher:\n"
-      @"kindOfClass('UITableViewCell')";
+      @"kindOfClass('UITextField')";
   XCTAssertTrue([_handler.details containsString:expectedDetails],
                 @"Expected info does not appear in the actual exception details:\n\n"
                 @"========== expected info ===========\n%@\n\n"

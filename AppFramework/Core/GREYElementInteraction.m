@@ -24,6 +24,7 @@
 #import "GREYInteractionDataSource.h"
 
 #import "GREYAppError.h"
+#import "GREYFailureScreenshotter.h"
 #import "GREYAllOf.h"
 #import "GREYMatchers.h"
 #import "GREYSyncAPI.h"
@@ -41,6 +42,7 @@
 #import "GREYLogger.h"
 #import "GREYStopwatch.h"
 #import "GREYMatcher.h"
+#import "GREYElementHierarchy.h"
 #import "GREYElementProvider.h"
 #import "GREYUIWindowProvider.h"
 #import "GREYVisibilityChecker+Private.h"
@@ -501,6 +503,29 @@
 }
 
 /**
+ * @param matcherDescription Description of the current matcher so it could provide a better
+ *                           recovery suggestion depending on what element was trying to be matched.
+ * @return Recovery suggestion string for multiple elements matched error.
+ */
+static NSString *RecoverySuggestionForMultipleElementMatchedError(NSString *matcherDescription) {
+  NSString *recoverySuggestion1 = @"Create a more specific matcher to uniquely match the "
+                                  @"element. In general, prefer using accessibility ID "
+                                  @"before accessibility label or other attributes.";
+  NSString *recoverySuggestion2;
+  if ([matcherDescription containsString:@"UIButton"]) {
+    recoverySuggestion2 = @"Use grey_buttonTitle() with the accessibility label for "
+                          @"a UIButton.";
+  } else if ([matcherDescription containsString:@"UITextField"]) {
+    recoverySuggestion2 = @"Use grey_textFieldValue() for a UITextField.";
+  } else {
+    recoverySuggestion2 = @"Use atIndex: to select from one of the matched elements. "
+                          @"Keep in mind when using atIndex: that the order in which "
+                          @"elements are arranged may change, making your test brittle.";
+  }
+  return [NSString stringWithFormat:@"%@\n%@", recoverySuggestion1, recoverySuggestion2];
+}
+
+/**
  * Handles failure of an @c action by capturing it in an error provided.
  *
  * @param action      The action that failed.
@@ -592,13 +617,8 @@
         errorDetails[kErrorDetailActionNameKey] = action.name;
         errorDetails[kErrorDetailElementMatcherKey] = _elementMatcher.description;
         errorDetails[kErrorDetailRecoverySuggestionKey] =
-            @"Create a more specific matcher to uniquely match an element.\n\nIn general, prefer "
-            @"using accessibility ID before accessibility label or other attributes. If you are "
-            @"matching on a UIButton, please use grey_buttonTitle() with the accessibility label "
-            @"instead. For UITextField, please use grey_textFieldValue().\n\nIf that's not "
-            @"possible then use atIndex: to select from one of the matched elements. Keep "
-            @"in mind when using atIndex: that the order in which elements are "
-            @"arranged may change, making your test brittle.";
+            RecoverySuggestionForMultipleElementMatchedError(_elementMatcher.description);
+
         if (searchAPIInfo) {
           errorDetails[kErrorDetailSearchActionInfoKey] = searchAPIInfo;
         }
@@ -762,7 +782,8 @@
         errorDetails[kErrorDetailAssertCriteriaKey] = assertion.name;
         errorDetails[kErrorDetailElementMatcherKey] = _elementMatcher.description;
         errorDetails[kErrorDetailRecoverySuggestionKey] =
-            @"Create a more specific matcher to narrow matched element";
+            RecoverySuggestionForMultipleElementMatchedError(_elementMatcher.description);
+
         if (searchAPIInfo) {
           errorDetails[kErrorDetailSearchActionInfoKey] = searchAPIInfo;
         }
@@ -849,6 +870,9 @@
                                          code:interactionError.code
                                      userInfo:userInfo];
   }
+  if ([interactionError isKindOfClass:[GREYError class]]) {
+    wrappedError.multipleElementsMatched = interactionError.multipleElementsMatched;
+  }
   return wrappedError;
 }
 
@@ -889,15 +913,17 @@
   } else {
     // Populate with an error specifying that multiple elements were matched without providing
     // an index.
-    errorDescription = [NSString stringWithFormat:@"Multiple elements were matched: %@. Please "
+    errorDescription = [NSString stringWithFormat:@"Multiple elements were matched. Please "
                                                   @"use selection matchers to narrow the "
-                                                  @"selection down to a single element.",
-                                                  elementDescriptions];
+                                                  @"selection down to a single element."];
     errorCode = kGREYInteractionMultipleElementsMatchedErrorCode;
   }
 
   // Populate the user info for the multiple matching elements error.
-  return GREYErrorMakeWithHierarchy(kGREYInteractionErrorDomain, errorCode, errorDescription);
+  GREYError *error =
+      GREYErrorMakeWithHierarchy(kGREYInteractionErrorDomain, errorCode, errorDescription);
+  error.multipleElementsMatched = elementDescriptions;
+  return error;
 }
 
 /**
