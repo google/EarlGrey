@@ -133,12 +133,12 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
   if (!success) {
     NSString *errorDescription;
     if (syncErrorBeforeRotation) {
-      NSString *errorReason = @"Application did not idle before rotating.\n%@";
+      NSString *errorReason = @"Application did not idle before rotating.\n\n%@";
       errorDescription =
           [NSString stringWithFormat:errorReason, syncErrorBeforeRotation.localizedDescription];
     } else if (syncErrorAfterRotation) {
       NSString *errorReason =
-          @"Application did not idle after rotating and before verifying the rotation.\n%@";
+          @"Application did not idle after rotating and before verifying the rotation.\n\n%@";
       errorDescription =
           [NSString stringWithFormat:errorReason, syncErrorAfterRotation.localizedDescription];
     } else if (!syncErrorBeforeRotation && !syncErrorAfterRotation) {

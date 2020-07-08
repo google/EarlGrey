@@ -18,15 +18,6 @@
 
 #import <UIKit/UIKit.h>
 
-#pragma mark - Error domain and codes
-
-/**
- * Error codes for synthetic event injection failures.
- */
-typedef NS_ENUM(NSInteger, GREYSyntheticEventInjectionErrorCode) {
-  kGREYOrientationChangeFailedErrorCode = 0,  // Device orientation change has failed.
-};
-
 #pragma mark - Interface
 
 /**

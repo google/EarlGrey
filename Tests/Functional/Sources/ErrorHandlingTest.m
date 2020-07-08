@@ -200,7 +200,7 @@
   [[GREYHostApplicationDistantObject sharedInstance] induceNonTactileActionTimeoutInTheApp];
   NSError *error;
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait error:&error];
-  NSString *idlingResourceString = @"Failed to execute block because idling resources are busy";
+  NSString *idlingResourceString = @"The following idling resources are busy.";
   XCTAssertTrue([error.description containsString:idlingResourceString]);
   XCTAssertFalse([error.description containsString:@"Stack Trace:"]);
   [[GREYConfiguration sharedConfiguration] setValue:@(originalInteractionTimeout)

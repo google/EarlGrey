@@ -34,10 +34,6 @@
 #import "GREYStopwatch.h"
 #import "GREYElementHierarchy.h"
 
-// Extern.
-NSString *const kGREYUIThreadExecutorErrorDomain =
-    @"com.google.earlgrey.GREYUIThreadExecutorErrorDomain";
-
 /**
  * The number of times idling resources are queried for idleness to be considered "really" idle.
  * The value used here has worked in practice and has negligible impact on performance.
@@ -71,12 +67,12 @@ static const CFTimeInterval kMaximumSynchronizationSleepInterval = 0.1;
    * This list excludes the idling resources that are monitored by default and do not require
    * registration.
    */
-  NSMutableOrderedSet *_registeredIdlingResources;
+  NSMutableOrderedSet<id<GREYIdlingResource>> *_registeredIdlingResources;
 
   /**
    * Idling resources that are monitored by default and cannot be deregistered.
    */
-  NSOrderedSet *_defaultIdlingResources;
+  NSOrderedSet<id<GREYIdlingResource>> *_defaultIdlingResources;
 }
 
 + (instancetype)sharedInstance {
@@ -205,17 +201,11 @@ static const CFTimeInterval kMaximumSynchronizationSleepInterval = 0.1;
     }];
 
     if (!isAppIdle) {
-      NSOrderedSet *busyResources = [self grey_busyResources];
+      NSOrderedSet<id<GREYIdlingResource>> *busyResources = [self grey_busyResources];
       if ([busyResources count] > 0) {
-        NSDictionary<NSString *, NSString *> *errorDictionary =
-            [self grey_errorDictionaryForBusyResources:busyResources];
-        NSString *busyResources = [GREYObjectFormatter formatDictionary:errorDictionary
-                                                                 indent:2
-                                                              hideEmpty:YES
-                                                               keyOrder:errorDictionary.allKeys];
+        NSString *errorDictionary = [self grey_errorStringForBusyResources:busyResources];
         NSString *description = [NSString
-            stringWithFormat:@"Failed to execute block because idling resources are busy.\n%@",
-                             busyResources];
+            stringWithFormat:@"The following idling resources are busy.\n%@", errorDictionary];
         I_GREYPopulateError(error, kGREYUIThreadExecutorErrorDomain,
                             kGREYUIThreadExecutorTimeoutErrorCode, description);
       } else {
@@ -303,7 +293,7 @@ static const CFTimeInterval kMaximumSynchronizationSleepInterval = 0.1;
  */
 - (NSOrderedSet *)grey_busyResourcesReturnEarly:(BOOL)returnEarly {
   @synchronized(_registeredIdlingResources) {
-    NSMutableOrderedSet *busyResources = [[NSMutableOrderedSet alloc] init];
+    NSMutableOrderedSet<id<GREYIdlingResource>> *busyResources = [[NSMutableOrderedSet alloc] init];
     // Loop over all of the idling resources three times. isIdleNow calls may trigger the state
     // of other idling resources.
     for (int i = 0; i < kConsecutiveTimesIdlingResourcesMustBeIdle; ++i) {
@@ -333,13 +323,16 @@ static const CFTimeInterval kMaximumSynchronizationSleepInterval = 0.1;
 /**
  * @return An error description string for all of the resources in @c busyResources.
  */
-- (NSDictionary *)grey_errorDictionaryForBusyResources:(NSOrderedSet *)busyResources {
-  NSMutableDictionary *busyResourcesNameToDesc = [[NSMutableDictionary alloc] init];
+- (NSString *)grey_errorStringForBusyResources:
+    (NSOrderedSet<id<GREYIdlingResource>> *)busyResources {
+  NSMutableString *description = [[NSMutableString alloc] init];
 
-  for (id<GREYIdlingResource> resource in busyResources) {
-    busyResourcesNameToDesc[resource.idlingResourceName] = [resource idlingResourceDescription];
+  for (NSUInteger resourceIndex = 0; resourceIndex < [busyResources count]; resourceIndex++) {
+    id<GREYIdlingResource> resource = busyResources[resourceIndex];
+    [description appendFormat:@"\n%tu. %@:\n%@\n", resourceIndex + 1, resource.idlingResourceName,
+                              [resource idlingResourceDescription]];
   }
-  return busyResourcesNameToDesc;
+  return description;
 }
 
 - (void)grey_forcedStateTrackerCleanUp {

@@ -32,8 +32,8 @@ static NSString *const kHierarchyBackWindowKey = @"Back-Most Window";
 static NSString *const kHierarchyAccessibilityKey = @"Accessibility";
 static NSString *const kHierarchyUserInteractionEnabledKey = @"User Interaction Enabled";
 static NSString *const kHierarchyLegendKey = @"Legend";
-static NSString *const kHierarchyHeaderKey = @"UI Hierarchy (ordered by wind"
-                                             @"ow level, back to front):\n";
+static NSString *const kHierarchyHeaderKey = @"UI Hierarchy (ordered by window level, back to front"
+                                             @"):\n";
 static NSString *const kErrorPrefix = @"EarlGrey Encountered an Error:";
 
 #pragma mark - GREYErrorFormatter
@@ -56,14 +56,16 @@ static NSString *const kErrorPrefix = @"EarlGrey Encountered an Error:";
 #pragma mark - Public Functions
 
 BOOL GREYShouldUseErrorFormatterForError(GREYError *error) {
-  return [error.domain isEqualToString:kGREYInteractionErrorDomain] &&
-         (error.code == kGREYInteractionElementNotFoundErrorCode ||
-          error.code == kGREYInteractionMultipleElementsMatchedErrorCode ||
-          error.code == kGREYInteractionActionFailedErrorCode ||
-          error.code == kGREYInteractionAssertionFailedErrorCode ||
-          error.code == kGREYInteractionMatchedElementIndexOutOfBoundsErrorCode ||
-          error.code == kGREYInteractionTimeoutErrorCode ||
-          error.code == kGREYWKWebViewInteractionFailedErrorCode);
+  return ([error.domain isEqualToString:kGREYInteractionErrorDomain] &&
+          (error.code == kGREYInteractionElementNotFoundErrorCode ||
+           error.code == kGREYInteractionMultipleElementsMatchedErrorCode ||
+           error.code == kGREYInteractionActionFailedErrorCode ||
+           error.code == kGREYInteractionAssertionFailedErrorCode ||
+           error.code == kGREYInteractionMatchedElementIndexOutOfBoundsErrorCode ||
+           error.code == kGREYInteractionTimeoutErrorCode ||
+           error.code == kGREYWKWebViewInteractionFailedErrorCode)) ||
+         [error.domain isEqualToString:kGREYSyntheticEventInjectionErrorDomain] ||
+         [error.domain isEqualToString:kGREYUIThreadExecutorErrorDomain];
 }
 
 BOOL GREYShouldUseErrorFormatterForDetails(NSString *failureHandlerDetails) {

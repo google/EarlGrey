@@ -34,6 +34,8 @@ NSString *const kGREYInteractionErrorDomain = @"com.google.earlgrey.ElementInter
 NSString *const kGREYPinchErrorDomain = @"com.google.earlgrey.PinchErrorDomain";
 NSString *const kGREYSyntheticEventInjectionErrorDomain =
     @"com.google.earlgrey.SyntheticEventInjectionErrorDomain";
+NSString *const kGREYUIThreadExecutorErrorDomain =
+    @"com.google.earlgrey.GREYUIThreadExecutorErrorDomain";
 
 NSString *const kGREYKeyboardDismissalErrorDomain = @"com.google.earlgrey.KeyboardDismissalDomain";
 

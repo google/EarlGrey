@@ -26,21 +26,6 @@
 @protocol GREYIdlingResource;
 
 /**
- * Error domain for thread executor failures.
- */
-GREY_EXTERN NSString *const kGREYUIThreadExecutorErrorDomain;
-
-/**
- * Error codes for thread executor failures.
- */
-typedef NS_ENUM(NSInteger, GREYUIThreadExecutorErrorCode) {
-  /**
-   * Timeout reached before block could be executed.
-   */
-  kGREYUIThreadExecutorTimeoutErrorCode,
-};
-
-/**
  * Typedef for blocks that can be executed by the GREYUIThreadExecutor.
  */
 typedef void (^GREYExecBlock)(void);

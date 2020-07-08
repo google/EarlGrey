@@ -13,13 +13,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-
-#include "third_party/objective_c/EarlGreyV2/AppFramework/Matcher/GREYMatchersShorthand.h"
-#import "BaseIntegrationTest.h"
-
+#import "GREYMatchersShorthand.h"
+#import "GREYConfigKey.h"
 #import "GREYError.h"
 #import "GREYConstants.h"
+#import "GREYWaitFunctions.h"
 #import "EarlGrey.h"
+#import "GREYHostApplicationDistantObject+ErrorHandlingTest.h"
+#import "BaseIntegrationTest.h"
 #import "FailureHandler.h"
 
 #pragma mark - Failure Handler
@@ -373,4 +374,44 @@
                 @"Exception:%@ doesn't have the JavaScript Action Name:", _handler.details);
 }
 
+/**
+ * Ensures that the matcher, interaction and idling resources are present with an interaction
+ * timeout.
+ */
+- (void)testTimeoutForSynchronizationFailure {
+  [self openTestViewNamed:@"Animations"];
+  [[GREYConfiguration sharedConfiguration] setValue:@(1)
+                                       forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AnimationControl")]
+      performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AnimationStatus")]
+      assertWithMatcher:grey_text(@"Paused")];
+  NSString *idlingResourceInfo = @"The following idling resources are busy.\n\n1.";
+  XCTAssertTrue([_handler.details containsString:idlingResourceInfo],
+                @"Expected info does not appear in the actual exception details:\n\n"
+                @"========== expected info ===========\n%@\n\n"
+                @"========== actual exception details ==========\n%@",
+                idlingResourceInfo, _handler.details);
+  XCTAssertTrue([_handler.details containsString:@"Element Matcher:"],
+                @"Details: %@ does not contain the Element Matcher", _handler.details);
+  XCTAssertTrue([_handler.details containsString:@"Failed Assertion:"],
+                @"Details: %@ does not contain the Failed Assertion", _handler.details);
+}
+
+/** Ensures that the right description is printed when a synthetic event like rotation fails. */
+- (void)testSyntheticEventTimeout {
+  [[GREYConfiguration sharedConfiguration] setValue:@(0.0)
+                                       forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
+  [[GREYHostApplicationDistantObject sharedInstance] induceNonTactileActionTimeoutInTheApp];
+  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait error:nil];
+  NSString *exceptionDetails = @"Application did not idle before rotating.\n\n"
+                               @"The following idling resources are busy.\n\n1. ";
+  XCTAssertTrue([_handler.details containsString:exceptionDetails],
+                @"Expected info does not appear in the actual exception details:\n\n"
+                @"========== expected info ===========\n%@\n\n"
+                @"========== actual exception details ==========\n%@",
+                exceptionDetails, _handler.details);
+  // Ensure that the application has idled.
+  GREYWaitForAppToIdle(@"Wait for app to idle");
+}
 @end

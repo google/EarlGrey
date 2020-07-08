@@ -17,6 +17,21 @@
 #import "GREYDefines.h"
 
 /**
+ * Error domain for thread executor failures.
+ */
+GREY_EXTERN NSString *const kGREYUIThreadExecutorErrorDomain;
+
+/**
+ * Error codes for thread executor failures.
+ */
+typedef NS_ENUM(NSInteger, GREYUIThreadExecutorErrorCode) {
+  /**
+   * Timeout reached before block could be executed.
+   */
+  kGREYUIThreadExecutorTimeoutErrorCode,
+};
+
+/**
  * Error domain for element interaction failures.
  */
 GREY_EXTERN NSString *const kGREYInteractionErrorDomain;
@@ -80,6 +95,13 @@ GREY_EXTERN NSString *const kGREYDidPerformAssertionNotification;
  * Error domain for synthetic event injection failures.
  */
 GREY_EXTERN NSString *const kGREYSyntheticEventInjectionErrorDomain;
+
+/**
+ * Error codes for synthetic event injection failures.
+ */
+typedef NS_ENUM(NSInteger, GREYSyntheticEventInjectionErrorCode) {
+  kGREYOrientationChangeFailedErrorCode = 0,  // Device orientation change has failed.
+};
 
 /**
  * Extern variables specifying the error domain for Keyboard interactions

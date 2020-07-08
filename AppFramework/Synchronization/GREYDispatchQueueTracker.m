@@ -272,16 +272,11 @@ static void grey_dispatch_sync_f(dispatch_queue_t queue, void *context, dispatch
 }
 
 - (NSString *)description {
-  NSMutableString *description =
-      [[NSMutableString alloc] initWithFormat:@"Tracking dispatch queue: %@", _dispatchQueue];
-  [description appendString:@" and the following methods used on the queue:"];
-  [description appendString:@" dispatch_sync"];
-  [description appendString:@", dispatch_sync_f"];
-  [description appendString:@", dispatch_async"];
-  [description appendString:@", dispatch_async_f"];
-  [description appendString:@", dispatch_after"];
-  [description appendString:@", dispatch_after_f"];
-  return description;
+  return [NSString stringWithFormat:@"Calls are still being tracked (unfulfilled) on the dispatch"
+                                    @"queue: %@.\n"
+                                    @"dispatch_sync, dispatch_sync_f, dispatch_async, "
+                                    @"dispatch_async_f, dispatch_after, dispatch_after_f",
+                                    _dispatchQueue];
 }
 
 #pragma mark - Private
