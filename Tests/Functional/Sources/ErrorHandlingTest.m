@@ -209,11 +209,12 @@
   GREYWaitForAppToIdle(@"Wait for app to idle");
 }
 
+/** Checks the description for an error from a keyboard dismissal. */
 - (void)testKeyboardDismissalError {
   NSError *error;
   [EarlGrey dismissKeyboardWithError:&error];
-  NSString *keyboardErrorString = @"Failed to dismiss keyboard.\nInternal Keyboard Error: The "
-                                  @"keyboard was not showing.";
+  NSString *keyboardErrorString =
+      @"Failed to dismiss keyboard: The keyboard is not showing, so it cannot be dismissed.";
   XCTAssertTrue([error.description containsString:keyboardErrorString]);
 }
 

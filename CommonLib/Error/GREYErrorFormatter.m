@@ -66,7 +66,8 @@ BOOL GREYShouldUseErrorFormatterForError(GREYError *error) {
            error.code == kGREYInteractionTimeoutErrorCode ||
            error.code == kGREYWKWebViewInteractionFailedErrorCode)) ||
          [error.domain isEqualToString:kGREYSyntheticEventInjectionErrorDomain] ||
-         [error.domain isEqualToString:kGREYUIThreadExecutorErrorDomain];
+         [error.domain isEqualToString:kGREYUIThreadExecutorErrorDomain] ||
+         [error.domain isEqualToString:kGREYKeyboardDismissalErrorDomain];
 }
 
 BOOL GREYShouldUseErrorFormatterForDetails(NSString *failureHandlerDetails) {

@@ -537,7 +537,7 @@
   NSError *error;
   XCTAssertFalse([EarlGrey dismissKeyboardWithError:&error]);
   NSString *localizedErrorDescription = [error localizedDescription];
-  NSString *prefix = @"Failed to dismiss keyboard.";
+  NSString *prefix = @"Failed to dismiss keyboard:";
   GREYAssertTrue([localizedErrorDescription hasPrefix:prefix],
                  @"Unexpected error message for initial dismiss: %@, Original error: %@",
                  localizedErrorDescription, error);

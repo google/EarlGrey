@@ -283,7 +283,7 @@ __attribute__((constructor)) static void RegisterKeyboardLifecycleHooks() {
   __block NSError *synchError = nil;
   __block BOOL keyboardShown = NO;
   GREYUIThreadExecutor *sharedExecutor = [GREYUIThreadExecutor sharedInstance];
-  BOOL success = [sharedExecutor executeSyncWithTimeout:10
+  BOOL success = [sharedExecutor executeSyncWithTimeout:kKeyboardWillAppearOrDisappearTimeout
                                                   block:^{
                                                     keyboardShown = atomic_load(&gIsKeyboardShown);
                                                   }
@@ -299,16 +299,19 @@ __attribute__((constructor)) static void RegisterKeyboardLifecycleHooks() {
 + (BOOL)dismissKeyboardWithoutReturnKeyWithError:(NSError **)error {
   __block GREYError *executionError = nil;
   GREYUIThreadExecutor *sharedExecutor = [GREYUIThreadExecutor sharedInstance];
+  // We do not check if the entire application has become idle but just enough for any minor UI
+  // update to have finished. Hence the return value is not checked here.
   [sharedExecutor executeSyncWithTimeout:5
                                    block:^{
                                      // Even though this is checked previously in the caller
                                      // on the test side, check this again as the UI might
                                      // have updated while the eDO call was being made.
+                                     NSString *errorReason =
+                                         @"The keyboard is not showing, so it cannot be dismissed.";
                                      if (!atomic_load(&gIsKeyboardShown)) {
                                        executionError = GREYErrorMakeWithHierarchy(
                                            kGREYKeyboardDismissalErrorDomain,
-                                           GREYKeyboardDismissalFailedErrorCode,
-                                           @"The keyboard was not showing.");
+                                           GREYKeyboardDismissalFailedErrorCode, errorReason);
                                      } else {
                                        UIApplication *sharedApp = UIApplication.sharedApplication;
                                        [sharedApp sendAction:@selector(resignFirstResponder)
