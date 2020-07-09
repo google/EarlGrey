@@ -61,6 +61,7 @@ BOOL GREYShouldUseErrorFormatterForError(GREYError *error) {
            error.code == kGREYInteractionMultipleElementsMatchedErrorCode ||
            error.code == kGREYInteractionActionFailedErrorCode ||
            error.code == kGREYInteractionAssertionFailedErrorCode ||
+           error.code == kGREYInteractionConstraintsFailedErrorCode ||
            error.code == kGREYInteractionMatchedElementIndexOutOfBoundsErrorCode ||
            error.code == kGREYInteractionTimeoutErrorCode ||
            error.code == kGREYWKWebViewInteractionFailedErrorCode)) ||
@@ -117,6 +118,16 @@ static NSString *LoggerDescription(GREYError *error) {
   NSString *elementMatcher = error.userInfo[kErrorDetailElementMatcherKey];
   if (elementMatcher) {
     [logger appendFormat:@"\n\n%@:\n%@", kErrorDetailElementMatcherKey, elementMatcher];
+  }
+
+  NSString *failedConstraints = error.userInfo[kErrorDetailConstraintRequirementKey];
+  if (failedConstraints) {
+    [logger appendFormat:@"\n\n%@:\n%@", kErrorDetailConstraintRequirementKey, failedConstraints];
+  }
+
+  NSString *elementDescription = error.userInfo[kErrorDetailElementDescriptionKey];
+  if (elementDescription) {
+    [logger appendFormat:@"\n\n%@:\n%@", kErrorDetailElementDescriptionKey, elementDescription];
   }
 
   NSString *assertionCriteria = error.userInfo[kErrorDetailAssertCriteriaKey];
