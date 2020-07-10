@@ -423,7 +423,7 @@ static CGRect ConvertToScreenCoordinate(id element) {
       return [container convertRect:[element frame] toView:nil];
     } else {
       // For top-level UIWindows
-      return [element bounds];
+      return [element frame];
     }
   } else {
     return [element accessibilityFrame];
