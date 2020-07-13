@@ -524,6 +524,7 @@ static Protocol *gTextInputProtocol;
                   [NSNotification notificationWithName:UITextFieldTextDidEndEditingNotification
                                                 object:element];
               [defaultCenter postNotification:notification];
+              [element sendActionsForControlEvents:UIControlEventValueChanged];
             }
 
             // For a UITextView, call the textViewDidChange: delegate.
