@@ -29,7 +29,9 @@
 #define GREY_UNUSED_VARIABLE __attribute__((unused))
 
 #define iOS11_OR_ABOVE() ([UIDevice currentDevice].systemVersion.intValue >= 11)
+#define iOS13() ([UIDevice currentDevice].systemVersion.intValue == 13)
 #define iOS13_OR_ABOVE() ([UIDevice currentDevice].systemVersion.intValue >= 13)
+#define iOS14_OR_ABOVE() ([UIDevice currentDevice].systemVersion.intValue >= 14)
 
 /** A macro for declaring intentional fallthrough in switch statements. */
 #if defined(__clang__)

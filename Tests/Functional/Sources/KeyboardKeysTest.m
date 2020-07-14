@@ -451,7 +451,7 @@
 }
 
 - (void)testMatchingFailsWithUIAccessibilityTextFieldElement {
-  if (iOS13_OR_ABOVE()) {
+  if (iOS13()) {
     id<GREYMatcher> elementMatcher =
         grey_allOf(grey_accessibilityValue(@"Text Field"),
                    grey_kindOfClassName(kTextFieldAXElementClassName), nil);
@@ -465,6 +465,7 @@
 }
 
 - (void)testClearAndReplaceWorksWithUIAccessibilityTextFieldElement {
+  XCTSkipIf(iOS14_OR_ABOVE());
   id<GREYMatcher> elementMatcher =
       grey_allOf(grey_accessibilityValue(@"Text Field"),
                  grey_kindOfClassName(kTextFieldAXElementClassName), nil);
@@ -482,7 +483,6 @@
     [[EarlGrey selectElementWithMatcher:grey_textFieldValue(@"foo")] performAction:grey_tap()];
   }
 }
-
 - (void)testTypingAndResigningOfFirstResponder {
   GREYAssertFalse([GREYKeyboard keyboardShownWithError:nil], @"Keyboard shouldn't be shown");
 

@@ -33,6 +33,14 @@ static Class gAccessibilityTextFieldElementClass;
 }
 
 + (NSArray<id> *)dedupedTextFieldFromElements:(NSArray<id> *)elements {
+  // In iOS 13, a UITextField contained an accessibility element inside it with the same
+  // accessibility id, label etc. leading to multiple elements being matched. This was removed in
+  // iOS 14 so we return all the elements.
+  if (@available(iOS 14.0, *)) {
+    return elements;
+  }
+  // Pre-iOS 14, if two element are matched and one of them is the text field element, then return
+  // the text field, else return both the elements.
   if (elements.count != 2) {
     return elements;
   } else {
