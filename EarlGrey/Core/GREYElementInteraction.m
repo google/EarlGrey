@@ -510,8 +510,10 @@
   // any index passed or populate the passed error if the multiple matches are present and
   // an incorrect index was passed.
   if (elements.count > 1) {
-    if (iOS13_OR_ABOVE()) {
-      // Temporary fix for Xcode 11 beta 1.
+    // In iOS 13, a UITextField contained an accessibility element inside it with the same
+    // accessibility id, label etc. leading to multiple elements being matched. This was removed in
+    // iOS 14.
+    if (iOS13()) {
       if (elements.count == 2 &&
           [[elements[0] accessibilityIdentifier]
               isEqualToString:[elements[1] accessibilityIdentifier]] &&

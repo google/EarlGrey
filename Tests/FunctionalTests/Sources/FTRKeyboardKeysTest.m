@@ -465,6 +465,10 @@
 }
 
 - (void)testClearAndReplaceWorksWithUIAccessibilityTextFieldElement {
+  if iOS14_OR_ABOVE() {
+    return;
+  }
+
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"Input Button")]
       performAction:grey_tap()];
 
