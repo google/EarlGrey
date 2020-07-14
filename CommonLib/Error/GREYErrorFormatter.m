@@ -25,15 +25,7 @@
 
 #pragma mark - UI Hierarchy Keys
 
-static NSString *const kHierarchyWindowLegendKey = @"[Window 1]";
-static NSString *const kHierarchyAcessibilityLegendKey = @"[AX]";
-static NSString *const kHierarchyUserInteractionEnabledLegendKey = @"[UIE]";
-static NSString *const kHierarchyBackWindowKey = @"Back-Most Window";
-static NSString *const kHierarchyAccessibilityKey = @"Accessibility";
-static NSString *const kHierarchyUserInteractionEnabledKey = @"User Interaction Enabled";
-static NSString *const kHierarchyLegendKey = @"Legend";
-static NSString *const kHierarchyHeaderKey = @"UI Hierarchy (ordered by window level, back to front"
-                                             @"):\n";
+static NSString *const kHierarchyHeaderKey = @"UI Hierarchy (Back to front):\n";
 static NSString *const kErrorPrefix = @"EarlGrey Encountered an Error:";
 
 #pragma mark - GREYErrorFormatter
@@ -76,31 +68,6 @@ BOOL GREYShouldUseErrorFormatterForDetails(NSString *failureHandlerDetails) {
 }
 
 #pragma mark - Static Functions
-
-static NSString *FormattedHierarchy(NSString *hierarchy) {
-  if (!hierarchy) {
-    return nil;
-  }
-  NSMutableArray<NSString *> *logger = [[NSMutableArray alloc] init];
-  [logger addObject:kHierarchyHeaderKey];
-  NSString *windowLegend = kHierarchyWindowLegendKey;
-  NSString *axLegend = kHierarchyAcessibilityLegendKey;
-  NSString *uieLegend = kHierarchyUserInteractionEnabledLegendKey;
-  NSDictionary<NSString *, NSString *> *legendLabels = @{
-    windowLegend : kHierarchyBackWindowKey,
-    axLegend : kHierarchyAccessibilityKey,
-    uieLegend : kHierarchyUserInteractionEnabledKey
-  };
-  NSArray<NSString *> *keyOrder = @[ windowLegend, axLegend, uieLegend ];
-  NSString *legendDescription = [GREYObjectFormatter formatDictionary:legendLabels
-                                                               indent:kGREYObjectFormatIndent
-                                                            hideEmpty:NO
-                                                             keyOrder:keyOrder];
-  [logger
-      addObject:[NSString stringWithFormat:@"%@: %@\n", kHierarchyLegendKey, legendDescription]];
-  [logger addObject:hierarchy];
-  return [logger componentsJoinedByString:@"\n"];
-}
 
 static NSString *LoggerDescription(GREYError *error) {
   NSMutableString *logger = [[NSMutableString alloc] init];
@@ -161,9 +128,9 @@ static NSString *LoggerDescription(GREYError *error) {
     [logger appendFormat:@"\n\nUnderlying Error:\n%@", nestedError];
   }
 
-  NSString *hierarchy = FormattedHierarchy(error.appUIHierarchy);
+  NSString *hierarchy = error.appUIHierarchy;
   if (hierarchy) {
-    [logger appendFormat:@"\n\n%@", hierarchy];
+    [logger appendFormat:@"\n\n%@\n%@", kHierarchyHeaderKey, hierarchy];
   }
 
   return [NSString stringWithFormat:@"%@\n", logger];
