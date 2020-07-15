@@ -189,12 +189,16 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
   [safariApp activate];
   BOOL success = [safariApp waitForState:XCUIApplicationStateRunningForeground timeout:30];
   I_GREYAssertTrue(success, @"Safari did not launch successfully.");
-
   // As Safari loads up for the first time, the URL is not clickable and we have to wait for the app
   // to be hittable for it.
   XCUIElement *safariURLBarButton = safariApp.buttons[@"URL"];
-  if ([safariURLBarButton waitForExistenceWithTimeout:kWaitForExistenceTimeout] &&
-      safariApp.hittable) {
+  // Safari XCUIElement with accessibilityID 'URL' is a text field if it's the first responder,
+  // otherwise it's a button.
+  if ([safariApp.textFields[@"URL"] exists]) {
+    [safariApp.textFields[@"URL"] typeText:URL];
+    [safariApp.buttons[@"Go"] tap];
+  } else if ([safariURLBarButton waitForExistenceWithTimeout:kWaitForExistenceTimeout] &&
+             safariApp.hittable) {
     [safariURLBarButton tap];
     [safariApp.textFields[@"URL"] typeText:URL];
     [safariApp.buttons[@"Go"] tap];
