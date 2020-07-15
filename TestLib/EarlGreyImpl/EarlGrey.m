@@ -203,7 +203,7 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
     [safariApp.textFields[@"URL"] typeText:URL];
     [safariApp.buttons[@"Go"] tap];
   } else if (error) {
-    *error = GREYErrorMake(kGREYDeeplinkErrorDomain, kGREYInteractionActionFailedErrorCode,
+    *error = GREYErrorMake(kGREYDeeplinkErrorDomain, GREYDeeplinkActionFailedError,
                            @"Deeplink open action failed since URL field not present.");
   }
   XCUIElement *openButton = safariApp.buttons[@"Open"];
@@ -211,7 +211,7 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
     [safariApp.buttons[@"Open"] tap];
     return YES;
   } else if (error) {
-    *error = GREYErrorMake(kGREYDeeplinkErrorDomain, kGREYInteractionActionFailedErrorCode,
+    *error = GREYErrorMake(kGREYDeeplinkErrorDomain, GREYDeeplinkActionFailedError,
                            @"Deeplink open action failed since Open Button on the app dialog for "
                            @"the deeplink not present.");
     // Reset Safari.

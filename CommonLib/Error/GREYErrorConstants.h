@@ -121,6 +121,10 @@ typedef NS_ENUM(NSInteger, GREYDeeplinkTestErrorCode) {
    * The deeplink is not supported.
    */
   GREYDeeplinkNotSupported = 1,
+  /**
+   * Action failed while performing deeplink.
+   */
+  GREYDeeplinkActionFailedError = 2,
 };
 
 /**
