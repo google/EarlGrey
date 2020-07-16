@@ -40,7 +40,6 @@ static const CFTimeInterval kPollInterval = 5.0;
 @implementation EarlGreyImpl (XCUIApplication)
 
 - (BOOL)backgroundApplication {
-#if defined(__IPHONE_11_0)
   XCUIApplication *currentApplication = [[XCUIApplication alloc] init];
   // Tell the system to background the app.
   [[XCUIDevice sharedDevice] pressButton:XCUIDeviceButtonHome];
@@ -52,16 +51,6 @@ static const CFTimeInterval kPollInterval = 5.0;
   GREYCondition *condition =
       [GREYCondition conditionWithName:@"check if backgrounded" block:conditionBlock];
   return [condition waitWithTimeout:10.0 pollInterval:kPollInterval];
-#else
-  NSString *errorDescription =
-      @"Cannot perform backgrounding because it is not supported with the current system version."
-      @" Use at least iOS 11.0.";
-  GREYError *notSupportedError =
-      GREYErrorMake(kGREYDeeplinkErrorDomain, GREYDeeplinkNotSupported, errorDescription);
-  I_GREYFail(@"%@\nError: %@", @"Unsupported system for backgrounding.",
-             [GREYError grey_nestedDescriptionForError:notSupportedError]);
-  return NO;
-#endif
 }
 
 - (XCUIApplication *)foregroundApplicationWithBundleID:(NSString *)bundleID
