@@ -60,16 +60,6 @@ static GREYSignalHandler gPreviousSignalHandlers[kNumSignals];
 @implementation GREYAutomationSetup
 
 + (void)load {
-// TODO(b/135635949): Remove this after fixing failing test.
-#if !defined(__IPHONE_12_0) || __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
-  // TODO: Perform a scan of UIWebView usage and deprecate if possible. // NOLINT
-  // It seems that in +[UIWebView initialize], it performs something that needs to be done on the
-  // thread; this causes crashes when we try to fetch +[UIWebView class] from a background thread,
-  // where our actions are being performed. We proactively load the class and trigger the message
-  // +initialize to be sent on UIWebView on the main thread here.
-  [UIWebView class];
-#endif
-
   GREYSetupCrashHandlers();
   // Force software keyboard.
   [[UIKeyboardImpl sharedInstance] setAutomaticMinimizationEnabled:NO];
