@@ -102,7 +102,7 @@ NSString *_Nonnull GREYDescribeValue(const char *_Nonnull encoding, void *_Nonnu
       char *equalsSign = strchr(encoding, '=');
       if (equalsSign) {  // Docs claim there will always be a equals sign, but being paranoid.
         name = [[NSString alloc] initWithBytes:encoding + 1
-                                        length:equalsSign - (encoding + 1)
+                                        length:(NSUInteger)(equalsSign - (encoding + 1))
                                       encoding:NSASCIIStringEncoding];
       }
       return [NSString stringWithFormat:@"%@%@%@", typeString, name ? @" " : @"", name];

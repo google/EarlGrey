@@ -24,13 +24,13 @@ NS_ASSUME_NONNULL_BEGIN
  * Returns a human-readable string displaying the value of the data.
  * Only intended for use with the macro below.
  *
- * @param     encoding     The Objective-C @encode value for the data.
+ * @param     encoding     The Objective-C @c encode value for the data.
  * @param[in] valuePointer A pointer to the data.
  *
  * This function must be used on data stored in a variable (not an expression). Typical
  * usage would be:
  *      int64_t sum = CalculateSum();
- *      NSLog(@"%@", GREYDescribeValue(@encode(int64_t), &sum);
+ *      NSLog(@"%@", GREYDescribeValue(@c encode(int64_t), &sum);
  *
  * In practice the only reason this function is needed is so values can be printed
  * from macros, where the type of the parameters is unknown. See the

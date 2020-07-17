@@ -61,7 +61,7 @@
     });
 
     if (!constraintsMatched) {
-      NSMutableDictionary *errorDetails = [[NSMutableDictionary alloc] init];
+      NSMutableDictionary<NSString *, id> *errorDetails = [[NSMutableDictionary alloc] init];
 
       errorDetails[kErrorDetailActionNameKey] = _name;
       errorDetails[kErrorDetailElementDescriptionKey] = description;
