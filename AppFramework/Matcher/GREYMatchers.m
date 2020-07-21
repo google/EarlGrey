@@ -564,6 +564,7 @@ static Class gEDOObjectClass;
 }
 
 + (id<GREYMatcher>)matcherForSliderValueMatcher:(id<GREYMatcher>)valueMatcher {
+#if TARGET_OS_IOS
   NSString *prefix = @"sliderValueMatches";
   GREYMatchesBlock matches = ^BOOL(UISlider *element) {
     return [valueMatcher matches:@(element.value)];
@@ -577,9 +578,14 @@ static Class gEDOObjectClass;
   ];
   return [[GREYAllOf alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
                                 matchers:matchersArray];
+#else
+#error "UISlider is not available for tvOS."
+  return nil;
+#endif  // TARGET_OS_IOS
 }
 
 + (id<GREYMatcher>)matcherForStepperValue:(double)value {
+#if TARGET_OS_IOS
   NSString *prefix = @"stepperValue";
   GREYMatchesBlock matches = ^BOOL(UIStepper *element) {
     return element.value == value;
@@ -593,9 +599,14 @@ static Class gEDOObjectClass;
   ];
   return [[GREYAllOf alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
                                 matchers:matchersArray];
+#else
+#error "UIStepper is not available for tvOS."
+  return nil;
+#endif  // TARGET_OS_IOS
 }
 
 + (id<GREYMatcher>)matcherForPickerColumn:(NSInteger)column setToValue:(NSString *)value {
+#if TARGET_OS_IOS
   NSString *prefix = @"pickerColumnAtIndex";
   GREYMatchesBlock matches = ^BOOL(UIPickerView *element) {
     if ([element numberOfComponents] < column) {
@@ -630,9 +641,14 @@ static Class gEDOObjectClass;
   ];
   return [[GREYAllOf alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
                                 matchers:matchersArray];
+#else
+#error "UIPickerView is not available for tvOS."
+  return nil;
+#endif  // TARGET_OS_IOS
 }
 
 + (id<GREYMatcher>)matcherForDatePickerValue:(NSDate *)value {
+#if TARGET_OS_IOS
   NSString *prefix = @"datePickerWithValue";
   GREYMatchesBlock matches = ^BOOL(UIDatePicker *element) {
     if (element.date == value) {
@@ -649,6 +665,10 @@ static Class gEDOObjectClass;
   ];
   return [[GREYAllOf alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
                                 matchers:matchersArray];
+#else
+#error "UIDatePicker is not available for tvOS."
+  return nil;
+#endif  // TARGET_OS_IOS
 }
 
 + (id<GREYMatcher>)matcherForEnabledElement {
@@ -810,6 +830,7 @@ static Class gEDOObjectClass;
 }
 
 + (id<GREYMatcher>)matcherForSwitchWithOnState:(BOOL)on {
+#if TARGET_OS_IOS
   NSString *prefix = @"switchInState";
   GREYMatchesBlock matches = ^BOOL(id element) {
     return ([element isOn] && on) || (![element isOn] && !on);
@@ -825,6 +846,10 @@ static Class gEDOObjectClass;
   ];
   return [[GREYAllOf alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
                                 matchers:matchersArray];
+#else
+#error "UISwitch is not available for tvOS."
+  return nil;
+#endif  // TARGET_OS_IOS
 }
 
 + (id<GREYMatcher>)matcherForScrolledToContentEdge:(GREYContentEdge)edge {

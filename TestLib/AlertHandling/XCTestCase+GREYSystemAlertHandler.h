@@ -113,6 +113,7 @@ GREY_EXTERN CFTimeInterval const kSystemAlertVisibilityTimeout;
 
 @interface XCTestCase (GREYSystemAlertHandler)
 
+#if TARGET_OS_IOS
 /**
  * @return An NSString denoting the text contained within the System Alert.
  *
@@ -197,5 +198,6 @@ GREY_EXTERN CFTimeInterval const kSystemAlertVisibilityTimeout;
  * @note Uses the same check as EarlGrey's grey_systemAlertViewShown.
  */
 - (BOOL)grey_waitForAlertVisibility:(BOOL)visible withTimeout:(CFTimeInterval)seconds;
+#endif  // TARGET_OS_IOS
 
 @end

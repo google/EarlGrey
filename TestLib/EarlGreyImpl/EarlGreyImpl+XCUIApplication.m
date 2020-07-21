@@ -22,10 +22,13 @@
 #import "GREYXCTestAppleInternals.h"
 #import "GREYCondition.h"
 
+// In tvOS, this var becomes unused.
+#if TARGET_OS_IOS
 /**
  * Amount to scroll to move to the next springboard page.
  */
 static const NSInteger kSpringboardPageScrollAmount = 500.0;
+#endif  // TARGET_OS_IOS
 
 /**
  * Timeout for foregrounding the application.
@@ -70,7 +73,7 @@ static const CFTimeInterval kPollInterval = 5.0;
                     if (application.state == XCUIApplicationStateRunningForeground) {
                       return YES;
                     }
-#endif
+#endif  // defined(__IPHONE_11_0)
                     if ([application respondsToSelector:@selector(activate)]) {
                       [application activate];
                     } else {
@@ -112,6 +115,7 @@ static const CFTimeInterval kPollInterval = 5.0;
  */
 - (void)grey_swipeHorizontallyInElement:(XCUIElement *)element
                 withTheDirectionAsRight:(BOOL)isRight {
+#if TARGET_OS_IOS
   XCUICoordinate *startPoint = [element coordinateWithNormalizedOffset:CGVectorMake(0.0, 0.5)];
   XCUICoordinate *endPoint;
   if (isRight) {
@@ -124,6 +128,7 @@ static const CFTimeInterval kPollInterval = 5.0;
     endPoint = [startPoint coordinateWithOffset:leftScrollVector];
   }
   [startPoint pressForDuration:0.1 thenDragToCoordinate:endPoint];
+#endif  // TARGET_OS_IOS
 }
 
 @end

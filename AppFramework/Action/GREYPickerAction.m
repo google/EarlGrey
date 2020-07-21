@@ -48,7 +48,9 @@
   NSArray *constraintMatchers = @[
     [GREYMatchers matcherForInteractable], [GREYMatchers matcherForUserInteractionEnabled],
     [GREYMatchers matcherForNegation:systemAlertNotShownMatcher],
+#if TARGET_OS_IOS
     [GREYMatchers matcherForKindOfClass:[UIPickerView class]]
+#endif  // TARGET_OS_IOS
   ];
   self = [super initWithName:name
                  constraints:[[GREYAllOf alloc] initWithMatchers:constraintMatchers]];
@@ -61,6 +63,7 @@
 
 #pragma mark - GREYAction
 
+#if TARGET_OS_IOS
 - (BOOL)perform:(UIPickerView *)pickerView error:(__strong NSError **)error {
   __block BOOL retVal = NO;
   grey_dispatch_sync_on_main_thread(^{
@@ -69,9 +72,11 @@
   });
   return retVal;
 }
+#endif  // TARGET_OS_IOS
 
 #pragma mark - Private
 
+#if TARGET_OS_IOS
 - (BOOL)grey_perform:(UIPickerView *)pickerView error:(__strong NSError **)error {
   if (![self satisfiesConstraintsForElement:pickerView error:error]) {
     return NO;
@@ -136,6 +141,7 @@
                       @"UIPickerView does not contain desired value!");
   return NO;
 }
+#endif  // TARGET_OS_IOS
 
 #pragma mark - GREYDiagnosable
 

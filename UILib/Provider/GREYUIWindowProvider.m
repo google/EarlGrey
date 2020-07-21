@@ -34,7 +34,7 @@ UIWindow *GREYGetApplicationKeyWindow(UIApplication *application) {
   return keyWindows.firstObject;
 #else
   return [application keyWindow];
-#endif
+#endif  // defined(__IPHONE_13_0)
 }
 
 @implementation GREYUIWindowProvider {
@@ -105,7 +105,7 @@ UIWindow *GREYGetApplicationKeyWindow(UIApplication *application) {
     UIWindow *statusBarWindow;
     // Add the status bar if asked for.
     if (@available(iOS 13.0, *)) {
-#if defined(__IPHONE_13_0)
+#if TARGET_OS_IOS && defined(__IPHONE_13_0)
       // Check if any status bar is already present in the application's views.
       BOOL statusBarPresent = NO;
       for (UIWindow *window in windows) {
@@ -123,7 +123,7 @@ UIWindow *GREYGetApplicationKeyWindow(UIApplication *application) {
         [statusBarWindow setHidden:NO];
         statusBarWindow.windowLevel = UIWindowLevelStatusBar;
       }
-#endif
+#endif  // TARGET_OS_IOS && defined(__IPHONE_13_0)
     } else {
       statusBarWindow = sharedApp.statusBarWindow;
     }

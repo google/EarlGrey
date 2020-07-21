@@ -226,6 +226,7 @@ CGRect CGRectLargestRectInHistogram(uint16_t *histogram, uint16_t length);
 
 #pragma mark - CGAffineTransform
 
+#if TARGET_OS_IOS
 /**
  * Returns the transform required for transforming from fixed coordinate system (iOS 7 and below)
  * to variable coordinate system.
@@ -238,3 +239,4 @@ CGRect CGRectLargestRectInHistogram(uint16_t *histogram, uint16_t length);
  * @return The transformed status bar orientation for variable coordinate system.
  */
 CGAffineTransform CGAffineTransformForFixedToVariable(UIInterfaceOrientation statusBarOrientation);
+#endif  // TARGET_OS_IOS

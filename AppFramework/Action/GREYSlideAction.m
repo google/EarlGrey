@@ -43,7 +43,9 @@
   NSArray *constraintMatchers = @[
     [GREYMatchers matcherForInteractable],
     [GREYMatchers matcherForNegation:systemAlertShownMatcher],
+#if TARGET_OS_IOS
     [GREYMatchers matcherForKindOfClass:[UISlider class]]
+#endif  // TARGET_OS_IOS
   ];
   NSString *name = [NSString stringWithFormat:@"Slide to value: %g", value];
   self = [super initWithName:name
@@ -56,6 +58,7 @@
 
 #pragma mark - GREYAction
 
+#if TARGET_OS_IOS
 - (BOOL)perform:(UISlider *)slider error:(__strong NSError **)error {
   __block BOOL retVal = NO;
   grey_dispatch_sync_on_main_thread(^{
@@ -65,9 +68,11 @@
   });
   return retVal;
 }
+#endif  // TARGET_OS_IOS
 
 #pragma mark - Private
 
+#if TARGET_OS_IOS
 - (BOOL)grey_perform:(UISlider *)slider error:(__strong NSError **)error {
   if (![self satisfiesConstraintsForElement:slider error:error]) {
     return NO;
@@ -190,6 +195,7 @@
 
   return NO;
 }
+#endif  // TARGET_OS_IOS
 
 #pragma mark - GREYDiagnosable
 

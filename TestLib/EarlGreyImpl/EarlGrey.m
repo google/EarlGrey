@@ -39,8 +39,11 @@
 #import "XCTestCase+GREYTest.h"
 #import "EDOClientService.h"
 
+// In tvOS, this var becomes unused.
+#if TARGET_OS_IOS
 /** Timeout for XCUITest actions that need the waiting API. */
 static const CFTimeInterval kWaitForExistenceTimeout = 10;
+#endif  // TARGET_OS_IOS
 
 /**
  * Sets EarlGrey provided default failure handler if there's no failure handler set for the current

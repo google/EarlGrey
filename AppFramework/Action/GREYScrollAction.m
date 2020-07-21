@@ -16,7 +16,9 @@
 
 #import "GREYScrollAction.h"
 
+#if TARGET_OS_IOS
 #import <WebKit/WebKit.h>
+#endif  // TARGET_OS_IOS
 
 #import "GREYPathGestureUtils.h"
 #import "NSObject+GREYApp.h"
@@ -77,7 +79,9 @@ static const NSInteger kMinTouchPointsToDetectScrollResistance = 2;
 
   NSArray *classMatchers = @[
     [GREYMatchers matcherForKindOfClass:[UIScrollView class]],
+#if TARGET_OS_IOS
     [GREYMatchers matcherForKindOfClass:[WKWebView class]],
+#endif  // TARGET_OS_IOS
   ];
   id<GREYMatcher> systemAlertShownMatcher = [GREYMatchers matcherForSystemAlertViewShown];
   NSArray *constraintMatchers = @[
@@ -118,9 +122,11 @@ static const NSInteger kMinTouchPointsToDetectScrollResistance = 2;
   }
 
   // To scroll WebViews we must use the UIScrollView in its hierarchy and scroll it.
+#if TARGET_OS_IOS
   if ([element isKindOfClass:[WKWebView class]]) {
     element = [(WKWebView *)element scrollView];
   }
+#endif  // TARGET_OS_IOS
 
   CGFloat amountRemaining = _amount;
   BOOL success = YES;

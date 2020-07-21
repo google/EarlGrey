@@ -217,6 +217,7 @@ static Protocol *gTextInputProtocol;
 }
 
 + (id<GREYAction>)actionForTurnSwitchOn:(BOOL)on {
+#if TARGET_OS_IOS
   NSString *diagnosticsID = GREYCorePrefixedDiagnosticsID(@"toggleSwitch");
   id<GREYMatcher> systemAlertShownMatcher = [GREYMatchers matcherForSystemAlertViewShown];
   NSArray<id<GREYMatcher>> *constraintMatchers = @[
@@ -242,6 +243,10 @@ static Protocol *gTextInputProtocol;
           }
           return YES;
         }];
+#else
+#error "UISwitch is not available for tvOS."
+  return nil;
+#endif  // TARGET_OS_IOS
 }
 
 + (id<GREYAction>)actionForTypeText:(NSString *)text {
@@ -339,6 +344,7 @@ static Protocol *gTextInputProtocol;
 }
 
 + (id<GREYAction>)actionForSetDate:(NSDate *)date {
+#if TARGET_OS_IOS
   NSString *diagnosticsID = GREYCorePrefixedDiagnosticsID(@"setDate");
   id<GREYMatcher> systemAlertShownMatcher = [GREYMatchers matcherForSystemAlertViewShown];
   NSArray<id<GREYMatcher>> *constraintMatchers = @[
@@ -364,6 +370,10 @@ static Protocol *gTextInputProtocol;
          });
          return YES;
        }];
+#else
+#error "UIDatePicker is not available for tvOS."
+  return nil;
+#endif  // TARGET_OS_IOS
 }
 
 + (id<GREYAction>)actionForSetPickerColumn:(NSInteger)column toValue:(NSString *)value {
@@ -372,6 +382,7 @@ static Protocol *gTextInputProtocol;
 
 + (id<GREYAction>)actionForJavaScriptExecution:(NSString *)js
                                         output:(EDORemoteVariable<NSString *> *)outResult {
+#if TARGET_OS_IOS
   NSString *diagnosticsID = GREYCorePrefixedDiagnosticsID(@"executeJavaScript");
   // TODO: JS Errors should be propagated up.
   id<GREYMatcher> systemAlertShownMatcher = [GREYMatchers matcherForSystemAlertViewShown];
@@ -428,6 +439,10 @@ static Protocol *gTextInputProtocol;
            return YES;
          }
        }];
+#else
+#error "WKWebView is not available for tvOS."
+  return nil;
+#endif  // TARGET_OS_IOS
 }
 
 + (id<GREYAction>)actionForSnapshot:(EDORemoteVariable<UIImage *> *)outImage {

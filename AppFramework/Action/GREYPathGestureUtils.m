@@ -366,6 +366,8 @@ static CGFloat kCachedScreenEdgePanDetectionLength = NAN;
  */
 + (CGFloat)grey_edgePanDetectionLength {
   if (isnan(kCachedScreenEdgePanDetectionLength)) {
+    // UIScreenEdgePanGestureRecognizer and scrolling are not supported on tvOS.
+#if TARGET_OS_IOS
     // Use _edgeRegionSize property of UIScreenEdgePanGestureRecognizer on the default
     // UINavigationController object to determine edge pan detection length.
     UIViewController *viewController = [[UIViewController alloc] initWithNibName:nil bundle:nil];
@@ -380,6 +382,7 @@ static CGFloat kCachedScreenEdgePanDetectionLength = NAN;
       kCachedScreenEdgePanDetectionLength =
           edgeRegionSizeIMP(popGestureRecognizer, edgeRegionSizeSelector);
     }
+#endif  // TARGET_OS_IOS
   }
   return kCachedScreenEdgePanDetectionLength;
 }

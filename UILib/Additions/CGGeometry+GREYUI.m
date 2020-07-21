@@ -151,7 +151,7 @@ CGRect CGRectIntersectionStrict(CGRect rect1, CGRect rect2) {
   rect.size.width = MIN(CGRectGetWidth(rect), MIN(CGRectGetWidth(rect1), CGRectGetWidth(rect2)));
   rect.size.height =
       MIN(CGRectGetHeight(rect), MIN(CGRectGetHeight(rect1), CGRectGetHeight(rect2)));
-#endif
+#endif  // !CGFLOAT_IS_DOUBLE
   return rect;
 }
 
@@ -236,6 +236,7 @@ CGRect CGRectLargestRectInHistogram(uint16_t *histogram, uint16_t length) {
 
 #pragma mark - CGAffineTransform
 
+#if TARGET_OS_IOS
 CGAffineTransform CGAffineTransformForFixedToVariable(UIInterfaceOrientation orientation) {
   UIScreen *screen = [UIScreen mainScreen];
   CGAffineTransform transform = CGAffineTransformIdentity;
@@ -259,3 +260,4 @@ CGAffineTransform CGAffineTransformForFixedToVariable(UIInterfaceOrientation ori
   }
   return transform;
 }
+#endif  // TARGET_OS_IOS

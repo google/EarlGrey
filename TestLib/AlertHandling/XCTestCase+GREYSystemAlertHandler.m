@@ -88,6 +88,7 @@ CFTimeInterval const kSystemAlertVisibilityTimeout = 10;
 
 NSString *const kGREYSystemAlertDismissalErrorDomain = @"com.google.earlgrey.SystemAlertDismissal";
 
+#if TARGET_OS_IOS
 /**
  * @return The Springboard's XCUIApplication.
  */
@@ -109,9 +110,11 @@ static UIApplication *GetApplicationUnderTest() {
   // each time.
   return [GREY_REMOTE_CLASS_IN_APP(UIApplication) sharedApplication];
 }
+#endif  // TARGET_OS_IOS
 
 @implementation XCTestCase (GREYSystemAlertHandler)
 
+#if TARGET_OS_IOS
 - (NSString *)grey_systemAlertTextWithError:(NSError **)error {
   XCUIElement *topMostAlert = [self grey_topMostAlertWithError:error];
   if (!topMostAlert) {
@@ -379,5 +382,6 @@ static UIApplication *GetApplicationUnderTest() {
   }
   return YES;
 }
+#endif  // TARGET_OS_IOS
 
 @end
