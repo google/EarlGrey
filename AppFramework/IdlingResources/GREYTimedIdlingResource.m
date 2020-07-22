@@ -71,8 +71,7 @@
 }
 
 - (BOOL)isIdleNow {
-  CFTimeInterval currentTime = CACurrentMediaTime();
-  if (currentTime > _endTrackingTime) {
+  if (CACurrentMediaTime() > _endTrackingTime) {
     [self stopMonitoring];
     return YES;
   }
