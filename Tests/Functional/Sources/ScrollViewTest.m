@@ -15,7 +15,7 @@
 //
 
 #import "GREYConfigKey.h"
-#import "GREYScrollActionError.h"
+#import "GREYErrorConstants.h"
 #import "GREYConstants.h"
 #import "GREYDescription.h"
 #import "EarlGrey.h"

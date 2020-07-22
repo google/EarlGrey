@@ -60,7 +60,8 @@ BOOL GREYShouldUseErrorFormatterForError(GREYError *error) {
          [error.domain isEqualToString:kGREYSyntheticEventInjectionErrorDomain] ||
          [error.domain isEqualToString:kGREYUIThreadExecutorErrorDomain] ||
          [error.domain isEqualToString:kGREYKeyboardDismissalErrorDomain] ||
-         [error.domain isEqualToString:kGREYIntializationErrorDomain];
+         [error.domain isEqualToString:kGREYIntializationErrorDomain] ||
+         [error.domain isEqualToString:kGREYScrollErrorDomain];
 }
 
 BOOL GREYShouldUseErrorFormatterForDetails(NSString *failureHandlerDetails) {
@@ -79,9 +80,12 @@ static NSString *LoggerDescription(GREYError *error) {
     [logger appendFormat:@"\n\n%@", exceptionReason];
   }
 
-  NSString *recoverySuggestion = error.userInfo[kErrorDetailRecoverySuggestionKey];
-  if (recoverySuggestion) {
-    [logger appendFormat:@"\n\n%@", recoverySuggestion];
+  // There shouldn't be a recovery suggestion for a wrappeed error of an underlying error.
+  if (!error.nestedError) {
+    NSString *recoverySuggestion = error.userInfo[kErrorDetailRecoverySuggestionKey];
+    if (recoverySuggestion) {
+      [logger appendFormat:@"\n\n%@", recoverySuggestion];
+    }
   }
 
   NSString *elementMatcher = error.userInfo[kErrorDetailElementMatcherKey];
@@ -101,11 +105,11 @@ static NSString *LoggerDescription(GREYError *error) {
 
   NSString *assertionCriteria = error.userInfo[kErrorDetailAssertCriteriaKey];
   if (assertionCriteria) {
-    [logger appendFormat:@"\n\n%@: %@", kErrorDetailAssertCriteriaKey, assertionCriteria];
+    [logger appendFormat:@"\n\n%@:\n%@", kErrorDetailAssertCriteriaKey, assertionCriteria];
   }
   NSString *actionCriteria = error.userInfo[kErrorDetailActionNameKey];
   if (actionCriteria) {
-    [logger appendFormat:@"\n\n%@: %@", kErrorDetailActionNameKey, actionCriteria];
+    [logger appendFormat:@"\n\n%@:\n%@", kErrorDetailActionNameKey, actionCriteria];
   }
 
   NSArray<NSString *> *multipleElementsMatched = error.multipleElementsMatched;
@@ -120,12 +124,12 @@ static NSString *LoggerDescription(GREYError *error) {
 
   NSString *searchActionInfo = error.userInfo[kErrorDetailSearchActionInfoKey];
   if (searchActionInfo) {
-    [logger appendFormat:@"\n\n%@\n%@", kErrorDetailSearchActionInfoKey, searchActionInfo];
+    [logger appendFormat:@"\n\n%@", searchActionInfo];
   }
 
   NSString *nestedError = error.nestedError.description;
   if (nestedError) {
-    [logger appendFormat:@"\n\nUnderlying Error:\n%@", nestedError];
+    [logger appendFormat:@"\n\n*********** Underlying Error ***********:\n%@", nestedError];
   }
 
   NSString *hierarchy = error.appUIHierarchy;

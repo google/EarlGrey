@@ -193,11 +193,11 @@
     I_GREYPopulateNestedError(&error, kGREYInteractionErrorDomain, kGREYInteractionTimeoutErrorCode,
                               actionTimeoutDescription, executorError);
   } else if (searchActionError) {
-    NSString *searchActionDescription = searchActionError.localizedDescription;
     NSString *description =
-        [NSString stringWithFormat:@"Search action failed: %@", searchActionDescription];
-    I_GREYPopulateError(&error, kGREYInteractionErrorDomain,
-                        kGREYInteractionElementNotFoundErrorCode, description);
+        [NSString stringWithFormat:@"Search action failed. Look at the underlying error."];
+    I_GREYPopulateNestedError(&error, kGREYInteractionErrorDomain,
+                              kGREYInteractionElementNotFoundErrorCode, description,
+                              searchActionError);
   } else if (executorError || isSearchTimedOut) {
     CFTimeInterval interactionTimeout =
         GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
@@ -930,17 +930,9 @@ static NSString *RecoverySuggestionForMultipleElementMatchedError(NSString *matc
  * @return A String description of the current search action.
  */
 - (NSString *)grey_searchActionDescription {
-  // TODO(b/157709448): This custom check must be removed and replaced with GREYObjectFormatter or
-  // used directly as a string in the error.
   if (_searchAction) {
-    // Indent this by the length of the ""Search API Info" : " key to ensure proper formatting.
-    // 7 is the length of padding for the whitespaces, quotes and the colon.
-    NSUInteger paddingLength = kErrorDetailSearchActionInfoKey.length + 7;
-    NSString *indentForSearchMatcher = [@"" stringByPaddingToLength:paddingLength
-                                                         withString:@" "
-                                                    startingAtIndex:0];
-    return [NSString stringWithFormat:@"Search Action: %@\n%@\"Search Matcher: %@", _searchAction,
-                                      indentForSearchMatcher, _searchActionElementMatcher];
+    return [NSString stringWithFormat:@"Search Action:\n%@\n\nSearch Matcher:\n%@\n", _searchAction,
+                                      _searchActionElementMatcher];
   } else {
     return nil;
   }

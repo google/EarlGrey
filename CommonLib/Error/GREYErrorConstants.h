@@ -194,3 +194,26 @@ typedef NS_ENUM(NSInteger, GREYIntializationErrorCode) {
   /** The error code for failures caused by the eDO service already existing. */
   GREYIntializationServiceAlreadyExistError = 1,
 };
+
+/**
+ * The Error domain for a scroll error.
+ */
+GREY_EXTERN NSString *const kGREYScrollErrorDomain;
+
+/**
+ * Error codes for scrolling related errors.
+ */
+typedef NS_ENUM(NSInteger, GREYScrollErrorCode) {
+  /**
+   * Reached content edge before the entire scroll action was complete.
+   */
+  kGREYScrollReachedContentEdge,
+  /**
+   * It is not possible to scroll.
+   */
+  kGREYScrollImpossible,
+  /**
+   * Could not scroll to the element we are looking for.
+   */
+  kGREYScrollToElementFailed,
+};

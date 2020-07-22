@@ -33,7 +33,7 @@
 #import "GREYUIThreadExecutor.h"
 #import "GREYFatalAsserts.h"
 #import "GREYThrowDefines.h"
-#import "GREYScrollActionError.h"
+#import "GREYErrorConstants.h"
 #import "NSError+GREYCommon.h"
 #import "CGGeometry+GREYUI.h"
 

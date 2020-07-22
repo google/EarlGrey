@@ -105,9 +105,9 @@
       onElementWithMatcher:grey_accessibilityLabel(@"Invalid Scroll View")]
       assertWithMatcher:grey_sufficientlyVisible()
                   error:&error];
-  NSString *searchAPIDescription = @"Search API Info\nSearch Action:";
-  NSString *searchAPIMatcherDescription = @"                    \"Search Matcher";
-  NSString *searchActionDescription = @"Search action failed: Interaction cannot continue";
+  NSString *searchAPIDescription = @"Search Action:";
+  NSString *searchAPIMatcherDescription = @"Search Matcher:";
+  NSString *searchActionDescription = @"Search action failed. Look at the underlying error.";
   NSString *elementMatcherDescription = @"Element Matcher:\n(((respondsToSelector";
   XCTAssertTrue([error.description containsString:searchAPIDescription],
                 @"Search API Prefix and Action info: %@ not present in Error Description: %@",
@@ -127,7 +127,6 @@
       onElementWithMatcher:grey_kindOfClass([UIView class])]
       assertWithMatcher:grey_sufficientlyVisible()
                   error:&error];
-  searchActionDescription = @"Search action failed: Multiple elements were matched";
   XCTAssertTrue([error.description containsString:searchAPIDescription],
                 @"Search API Prefix and Action info: %@ not present in Error Description: %@",
                 searchAPIDescription, error.description);
@@ -155,9 +154,9 @@
          usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 50)
       onElementWithMatcher:grey_accessibilityLabel(@"Invalid Scroll View")] performAction:grey_tap()
                                                                                     error:&error];
-  NSString *searchAPIDescription = @"Search API Info\nSearch Action:";
-  NSString *searchAPIMatcherDescription = @"                    \"Search Matcher";
-  NSString *searchActionDescription = @"Search action failed: Interaction cannot continue";
+  NSString *searchAPIDescription = @"Search Action:";
+  NSString *searchAPIMatcherDescription = @"Search Matcher:";
+  NSString *searchActionDescription = @"Search action failed. Look at the underlying error.";
   NSString *elementMatcherDescription = @"Element Matcher:\n(((respondsToSelector";
   XCTAssertTrue([error.description containsString:searchAPIDescription],
                 @"Search API Prefix and Action info: %@ not present in Error Description: %@",
@@ -175,7 +174,7 @@
   [[[EarlGrey selectElementWithMatcher:matcher]
          usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 50)
       onElementWithMatcher:grey_kindOfClass([UIView class])] performAction:grey_tap() error:&error];
-  searchActionDescription = @"Search action failed: Multiple elements were matched";
+  searchActionDescription = @"Search action failed. Look at the underlying error.";
   XCTAssertTrue([error.description containsString:searchAPIDescription],
                 @"Search API Prefix and Action info: %@ not present in Error Description: %@",
                 searchAPIDescription, error.description);

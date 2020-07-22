@@ -43,6 +43,8 @@ NSString *const kGREYDeeplinkErrorDomain = @"com.google.earlgrey.kGREYDeeplinkEr
 
 NSString *const kGREYIntializationErrorDomain = @"com.google.earlgrey.InitializationErrorDomain";
 
+NSString *const kGREYScrollErrorDomain = @"com.google.earlgrey.ScrollErrorDomain";
+
 NSString *const kGREYActionUserInfoKey = @"kGREYActionUserInfoKey";
 NSString *const kGREYActionElementUserInfoKey = @"kGREYActionElementUserInfoKey";
 NSString *const kGREYActionErrorUserInfoKey = @"kGREYActionErrorUserInfoKey";

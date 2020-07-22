@@ -103,7 +103,8 @@
                               @"((kindOfClass('UILabel') || kindOfClass('UITextField') || "
                               @"kindOfClass('UITextView')) && hasText('Basic Views'))\n"
                               @"\n"
-                              @"Failed Assertion: assertWithMatcher:isNotNil";
+                              @"Failed Assertion:\n"
+                              @"assertWithMatcher:isNotNil";
   XCTAssertTrue([_handler.details containsString:expectedDetails],
                 @"Expected info does not appear in the actual exception details:\n\n"
                 @"========== expected info ===========\n%@\n\n"
@@ -124,24 +125,19 @@
       onElementWithMatcher:grey_accessibilityLabel(@"Invalid Scroll View")]
       assertWithMatcher:grey_sufficientlyVisible()];
 
-  NSString *expectedDetails = @"Search action failed: Interaction cannot continue because the "
-                              @"desired element was not found.\n"
-                              @"\n"
-                              @"Check if the element exists in the UI hierarchy printed below. If "
-                              @"it exists, adjust the matcher so that it accurately matches "
-                              @"the element.\n"
-                              @"\n"
-                              @"Element Matcher:\n"
-                              @"(((respondsToSelector(isAccessibilityElement) && "
-                              @"isAccessibilityElement) && accessibilityLabel('Label 2')) && "
-                              @"interactable Point:{nan, nan} && sufficientlyVisible(Expected: "
-                              @"0.750000, Actual: 0.000000))\n"
-                              @"\n"
-                              @"Failed Assertion: assertWithMatcher:sufficientlyVisible(Expe"
-                              @"cted: 0.750000, Actual: 0.000000)\n"
-                              @"\n"
-                              @"Search API Info\n"
-                              @"Search Action: ";
+  NSString *expectedDetails =
+      @"Search action failed. Look at the underlying error.\n"
+      @"\n"
+      @"Element Matcher:\n"
+      @"(((respondsToSelector(isAccessibilityElement) && "
+      @"isAccessibilityElement) && accessibilityLabel('Label 2')) && "
+      @"interactable Point:{nan, nan} && sufficientlyVisible(Expected: "
+      @"0.750000, Actual: 0.000000))\n"
+      @"\n"
+      @"Failed Assertion:\n"
+      @"assertWithMatcher:sufficientlyVisible(Expected: 0.750000, Actual: 0.000000)\n"
+      @"\n"
+      @"Search Action:";
   XCTAssertTrue([_handler.details containsString:expectedDetails],
                 @"Expected info does not appear in the actual exception details:\n\n"
                 @"========== expected info ===========\n%@\n\n"
@@ -162,12 +158,7 @@
       onElementWithMatcher:grey_accessibilityLabel(@"Invalid Scroll View")]
       performAction:grey_tap()];
 
-  NSString *expectedDetails = @"Search action failed: Interaction cannot continue because the "
-                              @"desired element was not found.\n"
-                              @"\n"
-                              @"Check if the element exists in the UI hierarchy printed below. If "
-                              @"it exists, adjust the matcher so that it accurately matches "
-                              @"the element.\n"
+  NSString *expectedDetails = @"Search action failed. Look at the underlying error.\n"
                               @"\n"
                               @"Element Matcher:\n"
                               @"(((respondsToSelector(isAccessibilityElement) && "
@@ -175,9 +166,9 @@
                               @"interactable Point:{nan, nan} && sufficientlyVisible(Expected: "
                               @"0.750000, Actual: 0.000000))\n"
                               @"\n"
-                              @"Failed Action: Tap\n\n"
-                              @"Search API Info\n"
-                              @"Search Action: ";
+                              @"Failed Action:\nTap\n"
+                              @"\n"
+                              @"Search Action:";
   XCTAssertTrue([_handler.details containsString:expectedDetails],
                 @"Expected info does not appear in the actual exception details:\n\n"
                 @"========== expected info ===========\n%@\n\n"
@@ -212,7 +203,8 @@
                               @"(respondsToSelector(accessibilityIdentifier) && "
                               @"accessibilityID('TestWKWebView'))\n"
                               @"\n"
-                              @"Failed Action: Execute JavaScript";
+                              @"Failed Action:\n"
+                              @"Execute JavaScript";
   XCTAssertTrue([_handler.details containsString:expectedDetails],
                 @"Expected info does not appear in the actual exception details:\n\n"
                 @"========== expected info ===========\n%@\n\n"
@@ -233,21 +225,22 @@
          usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 50)
       onElementWithMatcher:grey_accessibilityLabel(@"Upper Scroll View")]
       assertWithMatcher:grey_sufficientlyVisible()];
-  NSString *expectedDetails = @"Interaction timed out after 1 seconds while searching "
-                              @"for element.\n"
-                              @"\n"
-                              @"Increase timeout for matching element.\n"
-                              @"\n"
-                              @"Element Matcher:\n"
-                              @"(((respondsToSelector(isAccessibilityElement) && "
-                              @"isAccessibilityElement) && accessibilityLabel('Label 2')) && "
-                              @"interactable Point:{nan, nan} && sufficientlyVisible(Expected: "
-                              @"0.750000, Actual: 0.000000))\n"
-                              @"\n"
-                              @"Failed Assertion: assertWithMatcher:sufficientlyVisible(E"
-                              @"xpected: 0.750000, Actual: 0.000000)\n"
-                              @"\n"
-                              @"UI Hierarchy";
+  NSString *expectedDetails =
+      @"Interaction timed out after 1 seconds while searching "
+      @"for element.\n"
+      @"\n"
+      @"Increase timeout for matching element.\n"
+      @"\n"
+      @"Element Matcher:\n"
+      @"(((respondsToSelector(isAccessibilityElement) && "
+      @"isAccessibilityElement) && accessibilityLabel('Label 2')) && "
+      @"interactable Point:{nan, nan} && sufficientlyVisible(Expected: "
+      @"0.750000, Actual: 0.000000))\n"
+      @"\n"
+      @"Failed Assertion:\n"
+      @"assertWithMatcher:sufficientlyVisible(Expected: 0.750000, Actual: 0.000000)\n"
+      @"\n"
+      @"UI Hierarchy";
   XCTAssertTrue([_handler.details containsString:expectedDetails],
                 @"Expected info does not appear in the actual exception details:\n\n"
                 @"========== expected info ===========\n%@\n\n"
@@ -296,7 +289,8 @@
                               @"Element Matcher:\n"
                               @"kindOfClass('UITableViewCell')\n"
                               @"\n"
-                              @"Failed Action: Tap\n"
+                              @"Failed Action:\n"
+                              @"Tap\n"
                               @"\n"
                               @"Elements Matched:\n"
                               @"\n"
@@ -330,7 +324,8 @@
                                @"\n"
                                @"Element Description:\n"
                                @"<UIButton:";
-  NSString *expectedDetails2 = @"Failed Action: Scroll Up for 20\n"
+  NSString *expectedDetails2 = @"Failed Action:\n"
+                               @"Scroll Up for 20\n"
                                @"\n"
                                @"UI Hierarchy";
   XCTAssertTrue([_handler.details containsString:expectedDetails1],
@@ -404,7 +399,7 @@
                 @"Exception:%@ doesn't have the Element Matcher:", _handler.details);
   XCTAssertTrue([_handler.details containsString:@"UI Hierarchy"],
                 @"Exception:%@ doesn't have the UI Hierarchy:", _handler.details);
-  XCTAssertTrue([_handler.details containsString:@"Failed Action: Execute JavaScript"],
+  XCTAssertTrue([_handler.details containsString:@"Failed Action:\nExecute JavaScript\n"],
                 @"Exception:%@ doesn't have the JavaScript Action Name:", _handler.details);
 }
 
@@ -448,4 +443,43 @@
   // Ensure that the application has idled.
   GREYWaitForAppToIdle(@"Wait for app to idle");
 }
+
+/* Ensures that the search action error prints out both wrapped error and underlying error. */
+- (void)testSearchActionConstraints {
+  [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"Invalid")]
+         usingSearchAction:grey_scrollInDirection(kGREYDirectionRight, 100)
+      onElementWithMatcher:grey_keyWindow()] assertWithMatcher:grey_notNil() error:nil];
+  NSString *expectedDetailWrappedError =
+      @"Search action failed. Look at the underlying error.\n"
+      @"\n"
+      @"Element Matcher:\n"
+      @"(respondsToSelector(accessibilityIdentifier) && accessibilityID('Invalid'))\n"
+      @"\n"
+      @"Failed Assertion:\n"
+      @"assertWithMatcher:isNotNil\n"
+      @"\n"
+      @"Search Action:";
+  NSString *expectedDetailUnderlyingError =
+      @"Cannot perform action due to constraint(s) failure.\n"
+      @"\n"
+      @"Adjust element properties so that it matches the failed constraint(s).\n"
+      @"\n"
+      @"Element Matcher:\n"
+      @"(kindOfClass('UIWindow') && keyWindow)\n"
+      @"\n"
+      @"Failed Constraint(s):\n"
+      @"kindOfClass('UIScrollView')kindOfClass('WKWebView'),";
+  XCTAssertTrue([_handler.details containsString:expectedDetailWrappedError],
+                @"Expected info does not appear in the actual exception details:\n\n"
+                @"========== expected info ===========\n%@\n\n"
+                @"========== actual exception details ==========\n%@",
+                expectedDetailWrappedError, _handler.details);
+  XCTAssertTrue([_handler.details containsString:@"*********** Underlying Error ***********"]);
+  XCTAssertTrue([_handler.details containsString:expectedDetailUnderlyingError],
+                @"Expected info does not appear in the actual exception details:\n\n"
+                @"========== expected info ===========\n%@\n\n"
+                @"========== actual exception details ==========\n%@",
+                expectedDetailUnderlyingError, _handler.details);
+}
+
 @end
