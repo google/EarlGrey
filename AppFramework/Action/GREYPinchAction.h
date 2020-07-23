@@ -18,18 +18,6 @@
 #import "GREYConstants.h"
 
 /**
- * Error domain used for pinch related NSError objects.
- */
-GREY_EXTERN NSString *const kGREYPinchErrorDomain;
-
-/**
- * Error codes for pinch related failures.
- */
-typedef NS_ENUM(NSInteger, GREYPinchErrorCode) {
-  kGREYPinchFailedErrorCode = 0,
-};
-
-/**
  * A @c GREYAction that performs the pinch gesture on the view on which it is called.
  */
 @interface GREYPinchAction : GREYBaseAction

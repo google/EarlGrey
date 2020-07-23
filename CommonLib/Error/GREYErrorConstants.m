@@ -45,6 +45,8 @@ NSString *const kGREYIntializationErrorDomain = @"com.google.earlgrey.Initializa
 
 NSString *const kGREYScrollErrorDomain = @"com.google.earlgrey.ScrollErrorDomain";
 
+NSString *const kGREYSystemAlertDismissalErrorDomain = @"com.google.earlgrey.SystemAlertDismissal";
+
 NSString *const kGREYActionUserInfoKey = @"kGREYActionUserInfoKey";
 NSString *const kGREYActionElementUserInfoKey = @"kGREYActionElementUserInfoKey";
 NSString *const kGREYActionErrorUserInfoKey = @"kGREYActionErrorUserInfoKey";

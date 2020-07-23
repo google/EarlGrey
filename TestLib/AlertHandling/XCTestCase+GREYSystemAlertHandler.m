@@ -20,6 +20,7 @@
 
 #import "GREYThrowDefines.h"
 #import "GREYTestApplicationDistantObject.h"
+#import "GREYErrorConstants.h"
 #import "GREYAppleInternals.h"
 #import "GREYDefines.h"
 #import "GREYXCTestAppleInternals.h"
@@ -85,8 +86,6 @@ static NSString *const kSystemAlertLabelContacts = @"Contacts";
 CFTimeInterval const kSystemAlertEarlGreyVisibilityTimeout = 5;
 
 CFTimeInterval const kSystemAlertVisibilityTimeout = 10;
-
-NSString *const kGREYSystemAlertDismissalErrorDomain = @"com.google.earlgrey.SystemAlertDismissal";
 
 #if TARGET_OS_IOS
 /**

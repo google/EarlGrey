@@ -217,3 +217,50 @@ typedef NS_ENUM(NSInteger, GREYScrollErrorCode) {
    */
   kGREYScrollToElementFailed,
 };
+
+/**
+ * Error domain used for pinch related NSError objects.
+ */
+GREY_EXTERN NSString *const kGREYPinchErrorDomain;
+
+/**
+ * Error codes for pinch related failures.
+ */
+typedef NS_ENUM(NSInteger, GREYPinchErrorCode) {
+  kGREYPinchFailedErrorCode = 0,
+};
+
+/**
+ * Error dismissal domain for the system alert dismissal actions.
+ */
+GREY_EXTERN NSString *const kGREYSystemAlertDismissalErrorDomain;
+
+/**
+ * Error code for system alert dismissal actions.
+ */
+typedef NS_ENUM(NSUInteger, GREYSystemAlertDismissalErrorCode) {
+  /**
+   * System alert accept button not found.
+   */
+  GREYSystemAlertAcceptButtonNotFound,
+  /**
+   * System alert denial button not found.
+   */
+  GREYSystemAlertDenialButtonNotFound,
+  /**
+   * System alert custom button Not found.
+   */
+  GREYSystemAlertCustomButtonNotFound,
+  /**
+   * System alert text was not correctly typed.
+   */
+  GREYSystemAlertTextNotTypedCorrectly,
+  /**
+   * System alert was not visible.
+   */
+  GREYSystemAlertNotPresent,
+  /**
+   * System alert was not dismissed.
+   */
+  GREYSystemAlertNotDismissed,
+};

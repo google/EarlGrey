@@ -20,36 +20,6 @@
 #import "GREYConstants.h"
 
 /**
- * Error code for system alert dismissal actions.
- */
-typedef NS_ENUM(NSUInteger, GREYSystemAlertDismissalErrorCode) {
-  /**
-   * System alert accept button not found.
-   */
-  GREYSystemAlertAcceptButtonNotFound,
-  /**
-   * System alert denial button not found.
-   */
-  GREYSystemAlertDenialButtonNotFound,
-  /**
-   * System alert custom button Not found.
-   */
-  GREYSystemAlertCustomButtonNotFound,
-  /**
-   * System alert text was not correctly typed.
-   */
-  GREYSystemAlertTextNotTypedCorrectly,
-  /**
-   * System alert was not visible.
-   */
-  GREYSystemAlertNotPresent,
-  /**
-   * System alert was not dismissed.
-   */
-  GREYSystemAlertNotDismissed,
-};
-
-/**
  * Enum for specifying the type of System Alert Present
  */
 typedef NS_ENUM(NSUInteger, GREYSystemAlertType) {
@@ -100,11 +70,6 @@ typedef NS_ENUM(NSUInteger, GREYSystemAlertType) {
    */
   GREYSystemAlertTypeUnknown,
 };
-
-/**
- * Error dismissal domain for the system alert dismissal actions.
- */
-GREY_EXTERN NSString *const kGREYSystemAlertDismissalErrorDomain;
 
 /**
  * Timeout for system alerts to be present by checking if they are present in XCUITest's hierarchy.
