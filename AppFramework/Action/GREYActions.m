@@ -244,7 +244,6 @@ static Protocol *gTextInputProtocol;
           return YES;
         }];
 #else
-#error "UISwitch is not available for tvOS."
   return nil;
 #endif  // TARGET_OS_IOS
 }
@@ -371,7 +370,6 @@ static Protocol *gTextInputProtocol;
          return YES;
        }];
 #else
-#error "UIDatePicker is not available for tvOS."
   return nil;
 #endif  // TARGET_OS_IOS
 }
@@ -440,7 +438,6 @@ static Protocol *gTextInputProtocol;
          }
        }];
 #else
-#error "WKWebView is not available for tvOS."
   return nil;
 #endif  // TARGET_OS_IOS
 }

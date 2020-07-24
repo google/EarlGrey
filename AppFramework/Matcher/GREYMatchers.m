@@ -579,7 +579,6 @@ static Class gEDOObjectClass;
   return [[GREYAllOf alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
                                 matchers:matchersArray];
 #else
-#error "UISlider is not available for tvOS."
   return nil;
 #endif  // TARGET_OS_IOS
 }
@@ -600,7 +599,6 @@ static Class gEDOObjectClass;
   return [[GREYAllOf alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
                                 matchers:matchersArray];
 #else
-#error "UIStepper is not available for tvOS."
   return nil;
 #endif  // TARGET_OS_IOS
 }
@@ -642,7 +640,6 @@ static Class gEDOObjectClass;
   return [[GREYAllOf alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
                                 matchers:matchersArray];
 #else
-#error "UIPickerView is not available for tvOS."
   return nil;
 #endif  // TARGET_OS_IOS
 }
@@ -666,7 +663,6 @@ static Class gEDOObjectClass;
   return [[GREYAllOf alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
                                 matchers:matchersArray];
 #else
-#error "UIDatePicker is not available for tvOS."
   return nil;
 #endif  // TARGET_OS_IOS
 }
@@ -847,7 +843,6 @@ static Class gEDOObjectClass;
   return [[GREYAllOf alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
                                 matchers:matchersArray];
 #else
-#error "UISwitch is not available for tvOS."
   return nil;
 #endif  // TARGET_OS_IOS
 }
