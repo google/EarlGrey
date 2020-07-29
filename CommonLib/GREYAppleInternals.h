@@ -208,3 +208,20 @@
 - (UITextField *)textField;
 
 @end
+
+/**
+ * The selection view for a view for text input - textfields, textviews, keyboard-related objects,
+ * webview text input etc.
+ */
+@interface UITextSelectionView
+
+/**
+ * Enable or disable the animation for the caret blinking started after the text is input.
+ *
+ * @param enabled A BOOL specifying the behavior of the caret's blinking animation.
+ *
+ * @return Was the animation enabled or disabled.
+ */
+- (BOOL)_setCaretBlinkAnimationEnabled:(BOOL)enabled;
+
+@end

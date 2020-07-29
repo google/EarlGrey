@@ -20,8 +20,11 @@
 // for test purpose.
 #import "GREYActions.h"
 #import "GREYKeyboard.h"
+#import "GREYConfigKey.h"
+#import "GREYConfiguration.h"
 #import "GREYConstants.h"
 #import "GREYWaitFunctions.h"
+#import "EarlGrey.h"
 #import "GREYHostApplicationDistantObject+KeyboardKeysTest.h"
 #import "FailureHandler.h"
 #import "NSObject+EDOValueObject.h"
@@ -41,6 +44,11 @@
 - (void)setUp {
   [super setUp];
   [self openTestViewNamed:@"Typing Views"];
+}
+
+- (void)tearDown {
+  [[GREYConfiguration sharedConfiguration] reset];
+  [super tearDown];
 }
 
 - (void)testTypingAtBeginning {
@@ -584,6 +592,23 @@
       performAction:grey_replaceText(emoji)] assertWithMatcher:grey_text(emoji)];
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextView")]
       performAction:grey_replaceText(emoji)] assertWithMatcher:grey_text(emoji)];
+}
+
+/**
+ * Ensures that EarlGrey doesn't wait any longer after a typing action for the keyboard's Caret
+ * animation to be be tracked.
+ */
+- (void)testCaretBlinkingAnimationNotTracked {
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
+      performAction:grey_typeText(@"Foo")];
+  GREYConfiguration *config = [GREYConfiguration sharedConfiguration];
+  [config setValue:@(3) forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
+  NSError *error;
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
+      performAction:grey_clearText()
+              error:&error];
+  XCTAssertFalse([error.description containsString:@"UITextSelectionViewCaretBlinkAnimation"],
+                 @"Caret blinking animation should not be present");
 }
 
 #pragma mark - Private

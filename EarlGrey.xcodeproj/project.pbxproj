@@ -207,6 +207,8 @@
 		FDB4AB67237CD95F00E6847D /* GREYQuickVisibilityChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = FDB4AB61237CD95F00E6847D /* GREYQuickVisibilityChecker.m */; };
 		FDB4AB68237CD95F00E6847D /* GREYThoroughVisibilityChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = FDB4AB62237CD95F00E6847D /* GREYThoroughVisibilityChecker.m */; };
 		FDBE851122A21FD50093062B /* libeDistantObject.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FDBE84FC22A21FBC0093062B /* libeDistantObject.a */; };
+		FDC5870724D0F710003BBE15 /* UITextSelectionView+GREYApp.h in Headers */ = {isa = PBXBuildFile; fileRef = FDC5870524D0F710003BBE15 /* UITextSelectionView+GREYApp.h */; };
+		FDC5870824D0F710003BBE15 /* UITextSelectionView+GREYApp.m in Sources */ = {isa = PBXBuildFile; fileRef = FDC5870624D0F710003BBE15 /* UITextSelectionView+GREYApp.m */; };
 		FDE6770924B2E7050058EA28 /* GREYDescribeVariable.m in Sources */ = {isa = PBXBuildFile; fileRef = FDE6770724B2E7050058EA28 /* GREYDescribeVariable.m */; };
 		FDE871982322D9F7007C5A5C /* GREYRemoteExecutor.m in Sources */ = {isa = PBXBuildFile; fileRef = FDE871962322D9F6007C5A5C /* GREYRemoteExecutor.m */; };
 		FDE8719C23241567007C5A5C /* GREYWaitFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = FDE8719A23241566007C5A5C /* GREYWaitFunctions.m */; };
@@ -666,6 +668,8 @@
 		FDB4AB61237CD95F00E6847D /* GREYQuickVisibilityChecker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYQuickVisibilityChecker.m; path = Visibility/GREYQuickVisibilityChecker.m; sourceTree = "<group>"; };
 		FDB4AB62237CD95F00E6847D /* GREYThoroughVisibilityChecker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYThoroughVisibilityChecker.m; path = Visibility/GREYThoroughVisibilityChecker.m; sourceTree = "<group>"; };
 		FDB4AB63237CD95F00E6847D /* GREYVisibilityCheckerTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYVisibilityCheckerTarget.h; path = Visibility/GREYVisibilityCheckerTarget.h; sourceTree = "<group>"; };
+		FDC5870524D0F710003BBE15 /* UITextSelectionView+GREYApp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UITextSelectionView+GREYApp.h"; sourceTree = "<group>"; };
+		FDC5870624D0F710003BBE15 /* UITextSelectionView+GREYApp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UITextSelectionView+GREYApp.m"; sourceTree = "<group>"; };
 		FDE6770724B2E7050058EA28 /* GREYDescribeVariable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYDescribeVariable.m; path = Assertion/GREYDescribeVariable.m; sourceTree = "<group>"; };
 		FDE6770824B2E7050058EA28 /* GREYDescribeVariable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYDescribeVariable.h; path = Assertion/GREYDescribeVariable.h; sourceTree = "<group>"; };
 		FDE871962322D9F6007C5A5C /* GREYRemoteExecutor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYRemoteExecutor.m; path = Execution/GREYRemoteExecutor.m; sourceTree = "<group>"; };
@@ -1126,6 +1130,8 @@
 				FD623A9720F9590600049E81 /* UIViewController+GREYApp.m */,
 				FD623AA120F9590600049E81 /* UIWindow+GREYApp.h */,
 				FD623A9C20F9590600049E81 /* UIWindow+GREYApp.m */,
+				FDC5870524D0F710003BBE15 /* UITextSelectionView+GREYApp.h */,
+				FDC5870624D0F710003BBE15 /* UITextSelectionView+GREYApp.m */,
 			);
 			name = Additions;
 			sourceTree = "<group>";
@@ -1467,6 +1473,7 @@
 				FD623B7020F95B0300049E81 /* GREYAllOf.h in Headers */,
 				FD623B8620F95B1500049E81 /* GREYObjectDeallocationTracker.h in Headers */,
 				FD623A7620F958C200049E81 /* GREYPinchAction.h in Headers */,
+				FDC5870724D0F710003BBE15 /* UITextSelectionView+GREYApp.h in Headers */,
 				FD623AF820F9594200049E81 /* GREYInteractionDataSource.h in Headers */,
 				FD623A8120F958C200049E81 /* GREYTapper.h in Headers */,
 				FD623B4F20F95A9C00049E81 /* GREYOperationQueueIdlingResource.h in Headers */,
@@ -1830,6 +1837,7 @@
 				FD623AC420F9590800049E81 /* UISwitch+GREYApp.m in Sources */,
 				FD623B1920F95A5400049E81 /* GREYHostBackgroundDistantObject+GREYApp.m in Sources */,
 				FD623B4420F95A9C00049E81 /* GREYDispatchQueueIdlingResource.m in Sources */,
+				FDC5870824D0F710003BBE15 /* UITextSelectionView+GREYApp.m in Sources */,
 				FD623AB820F9590800049E81 /* NSObject+GREYApp.m in Sources */,
 				FD623A8320F958C200049E81 /* GREYActions.m in Sources */,
 				FD623AEC20F9592B00049E81 /* GREYAutomationSetup.m in Sources */,
