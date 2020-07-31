@@ -199,9 +199,11 @@
   [[GREYHostApplicationDistantObject sharedInstance] induceNonTactileActionTimeoutInTheApp];
   NSError *error;
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait error:&error];
+
   NSString *idlingResourceString = @"The following idling resources are busy.";
   XCTAssertTrue([error.description containsString:idlingResourceString]);
   XCTAssertFalse([error.description containsString:@"Stack Trace:"]);
+  XCTAssertFalse([error.localizedDescription containsString:@"idlingResourceString"]);
   [[GREYConfiguration sharedConfiguration] setValue:@(originalInteractionTimeout)
                                        forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
   // Ensure that the application has idled.

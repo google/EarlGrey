@@ -22,10 +22,10 @@
 @class GREYError;
 
 /**
- * Creates a @c GREYError object on the test side with given @c domain, @c code,
- * @c description. The description is accessible by querying error's @c userInfo
- * with @c NSLocalizedDescriptionKey. The error created here doesn't contain the
- * App's UI hierarchy.
+ * Creates a @c GREYError object for a given @c domain, @c code and @c description. The description
+ * is added to the userInfo for @c NSLocalizedDescriptionKey.
+ *
+ * @note No app side artifacts - screenshots or hierarchy are present here.
  *
  * @param domain      The error domain.
  * @param code        The error code.
@@ -38,6 +38,31 @@
                   [NSString stringWithUTF8String:__FILE__], __LINE__,             \
                   [NSString stringWithUTF8String:__PRETTY_FUNCTION__],            \
                   [NSThread callStackSymbols], nil, nil)
+
+/**
+ * Creates a @c GREYError object similar to @c GREYErrorMake with a @c userInfo dictionary. This
+ * @c userInfo can contain additional information such as the recovery key. Both the @c userInfo and
+ * @c description are combined together.
+ *
+ * @note No app side artifacts - screenshots or hierarchy are present here.
+ *
+ * @param domain      The error domain.
+ * @param code        The error code.
+ * @param description The error's localized description.
+ * @param userInfi.    The error's userInfo.
+ *
+ * @return A @c GREYError object with the given input.
+ */
+#define GREYErrorMakeWithUserInfo(domain, code, description, userInfo)   \
+  ({                                                                     \
+    NSMutableDictionary *userInfoWithDescription =                       \
+        [@{NSLocalizedDescriptionKey : (description)} mutableCopy];      \
+    [userInfoWithDescription addEntriesFromDictionary:userInfo];         \
+    I_GREYErrorMake((domain), (code), userInfoWithDescription,           \
+                    [NSString stringWithUTF8String:__FILE__], __LINE__,  \
+                    [NSString stringWithUTF8String:__PRETTY_FUNCTION__], \
+                    [NSThread callStackSymbols], nil, nil);              \
+  })
 
 /**
  * Creates a @c GREYError object with given @c domain, @c code, @c userInfo,

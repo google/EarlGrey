@@ -23,6 +23,7 @@
 #import "GREYHostBackgroundDistantObject.h"
 #import "GREYTestApplicationDistantObject+Private.h"
 #import "GREYTestApplicationDistantObject.h"
+#import "GREYError+Private.h"
 #import "GREYError.h"
 #import "GREYErrorConstants.h"
 #import "GREYObjectFormatter.h"
@@ -135,15 +136,15 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
 
   if (!success) {
     NSString *errorDescription;
+    NSMutableDictionary<NSString *, id> *errorDetails = [[NSMutableDictionary alloc] init];
     if (syncErrorBeforeRotation) {
-      NSString *errorReason = @"Application did not idle before rotating.\n\n%@";
-      errorDescription =
-          [NSString stringWithFormat:errorReason, syncErrorBeforeRotation.localizedDescription];
+      errorDetails[kErrorDetailRecoverySuggestionKey] =
+          syncErrorBeforeRotation.localizedDescription;
+      errorDescription = @"Application did not idle before rotating.";
     } else if (syncErrorAfterRotation) {
-      NSString *errorReason =
-          @"Application did not idle after rotating and before verifying the rotation.\n\n%@";
+      errorDetails[kErrorDetailRecoverySuggestionKey] = syncErrorAfterRotation.localizedDescription;
       errorDescription =
-          [NSString stringWithFormat:errorReason, syncErrorAfterRotation.localizedDescription];
+          @"Application did not idle after rotating and before verifying the rotation.";
     } else if (!syncErrorBeforeRotation && !syncErrorAfterRotation) {
       NSString *errorReason = @"Could not rotate application to orientation: %tu. XCUIDevice "
                               @"Orientation: %tu UIDevice Orientation: %tu. UIDevice is the "
@@ -153,10 +154,9 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
                                      currentDevice.orientation];
     }
 
-    GREYError *rotationError =
-        GREYErrorMake(kGREYSyntheticEventInjectionErrorDomain,
-                      kGREYOrientationChangeFailedErrorCode, errorDescription);
-
+    GREYError *rotationError = GREYErrorMakeWithUserInfo(kGREYSyntheticEventInjectionErrorDomain,
+                                                         kGREYOrientationChangeFailedErrorCode,
+                                                         errorDescription, errorDetails);
     GREYHandleInteractionError(rotationError, error);
   }
   return success;
