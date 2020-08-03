@@ -37,7 +37,6 @@
 		FD50492B20FB239900261CBE /* XCUIApplication+GREYTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD50492420FB239800261CBE /* XCUIApplication+GREYTest.m */; };
 		FD50492C20FB239900261CBE /* EarlGreyImpl+XCUIApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = FD50492520FB239800261CBE /* EarlGreyImpl+XCUIApplication.m */; };
 		FD50492D20FB239900261CBE /* EarlGrey.m in Sources */ = {isa = PBXBuildFile; fileRef = FD50492620FB239800261CBE /* EarlGrey.m */; };
-		FD50493320FB23AE00261CBE /* GREYFailureFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = FD50493120FB23AE00261CBE /* GREYFailureFormatter.m */; };
 		FD50493420FB23AE00261CBE /* GREYDefaultFailureHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = FD50493220FB23AE00261CBE /* GREYDefaultFailureHandler.m */; };
 		FD50493C20FB23E500261CBE /* GREYTestCaseInvocation.m in Sources */ = {isa = PBXBuildFile; fileRef = FD50493820FB23E500261CBE /* GREYTestCaseInvocation.m */; };
 		FD50493D20FB23E500261CBE /* XCTestCase+GREYTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD50493920FB23E500261CBE /* XCTestCase+GREYTest.m */; };
@@ -445,9 +444,7 @@
 		FD50492720FB239800261CBE /* GREYElementInteractionProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYElementInteractionProxy.h; path = EarlGreyImpl/GREYElementInteractionProxy.h; sourceTree = "<group>"; };
 		FD50492820FB239800261CBE /* XCUIApplication+GREYTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "XCUIApplication+GREYTest.h"; path = "EarlGreyImpl/XCUIApplication+GREYTest.h"; sourceTree = "<group>"; };
 		FD50492920FB239900261CBE /* EarlGrey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EarlGrey.h; path = EarlGreyImpl/EarlGrey.h; sourceTree = "<group>"; };
-		FD50492F20FB23AE00261CBE /* GREYFailureFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYFailureFormatter.h; path = Exception/GREYFailureFormatter.h; sourceTree = "<group>"; };
 		FD50493020FB23AE00261CBE /* GREYDefaultFailureHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYDefaultFailureHandler.h; path = Exception/GREYDefaultFailureHandler.h; sourceTree = "<group>"; };
-		FD50493120FB23AE00261CBE /* GREYFailureFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYFailureFormatter.m; path = Exception/GREYFailureFormatter.m; sourceTree = "<group>"; };
 		FD50493220FB23AE00261CBE /* GREYDefaultFailureHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYDefaultFailureHandler.m; path = Exception/GREYDefaultFailureHandler.m; sourceTree = "<group>"; };
 		FD50493820FB23E500261CBE /* GREYTestCaseInvocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYTestCaseInvocation.m; path = XCTestCase/GREYTestCaseInvocation.m; sourceTree = "<group>"; };
 		FD50493920FB23E500261CBE /* XCTestCase+GREYTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "XCTestCase+GREYTest.m"; path = "XCTestCase/XCTestCase+GREYTest.m"; sourceTree = "<group>"; };
@@ -844,8 +841,6 @@
 				FD98C462226C3309006F8D68 /* GREYFailureScreenshotSaver.m */,
 				FD50493020FB23AE00261CBE /* GREYDefaultFailureHandler.h */,
 				FD50493220FB23AE00261CBE /* GREYDefaultFailureHandler.m */,
-				FD50492F20FB23AE00261CBE /* GREYFailureFormatter.h */,
-				FD50493120FB23AE00261CBE /* GREYFailureFormatter.m */,
 			);
 			name = Exception;
 			sourceTree = "<group>";
@@ -1774,7 +1769,6 @@
 				FD50491F20FB238300261CBE /* GREYTestApplicationDistantObject.m in Sources */,
 				FD50493420FB23AE00261CBE /* GREYDefaultFailureHandler.m in Sources */,
 				FD50490F20FB231A00261CBE /* XCTestCase+GREYSystemAlertHandler.m in Sources */,
-				FD50493320FB23AE00261CBE /* GREYFailureFormatter.m in Sources */,
 				6FDFAF5324A2D0B2008B59DF /* GREYFailureHandlerHelpers.m in Sources */,
 				FD50492B20FB239900261CBE /* XCUIApplication+GREYTest.m in Sources */,
 				FD50493C20FB23E500261CBE /* GREYTestCaseInvocation.m in Sources */,

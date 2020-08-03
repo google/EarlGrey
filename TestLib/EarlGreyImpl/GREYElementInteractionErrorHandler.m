@@ -72,22 +72,7 @@ void GREYHandleInteractionError(__strong GREYError *interactionError,
 
       id<GREYFailureHandler> failureHandler =
           [NSThread mainThread].threadDictionary[GREYFailureHandlerKey];
-
-      if (GREYShouldUseErrorFormatterForError(interactionError)) {
-        // Eventually this check will not be needed, and the error's description will
-        // always be passed as the `details`
         [failureHandler handleException:exception details:interactionError.description];
-      } else {
-        NSString *localizedFailureReason = userInfo[NSLocalizedFailureReasonErrorKey];
-        NSMutableString *matcherDetails =
-            [NSMutableString stringWithFormat:@"%@\n", localizedFailureReason];
-        if (interactionError.nestedError) {
-          [matcherDetails appendFormat:@"\nUnderlying Error: \n%@", interactionError.nestedError];
-        }
-
-        // TODO(b/147072566): Will show up a (null) in rotation.
-        [failureHandler handleException:exception details:matcherDetails];
-      }
     }
   }
 }

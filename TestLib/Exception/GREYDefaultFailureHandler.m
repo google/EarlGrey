@@ -27,7 +27,6 @@
 #import "GREYErrorFormatter.h"
 #import "GREYObjectFormatter.h"
 #import "GREYFrameworkException.h"
-#import "GREYFailureFormatter.h"
 #import "GREYFailureHandlerHelpers.h"
 #import "GREYFailureScreenshotSaver.h"
 #import "XCTestCase+GREYTest.h"
@@ -119,25 +118,11 @@
                       details:(NSString *)details
               currentTestCase:(XCTestCase *)currentTestCase {
   GREYFailureScreenshots *screenshotPaths = [self screenshotPathsForException:exception];
-  if (GREYShouldUseErrorFormatterForDetails(details)) {
     NSMutableString *output = [details mutableCopy];
     for (NSString *key in screenshotPaths.allKeys) {
       [output appendFormat:@"\n%@: %@\n", key, screenshotPaths[key]];
     }
     return output;
-  } else {
-    NSString *errorDescription = [self errorDescriptionForException:exception details:details];
-    return [GREYFailureFormatter formatFailureForTestCase:currentTestCase
-                                             failureLabel:@"Exception"
-                                              failureName:exception.name
-                                                 filePath:_fileName
-                                               lineNumber:_lineNumber
-                                             functionName:nil
-                                               stackTrace:nil
-                                           appScreenshots:screenshotPaths
-                                                hierarchy:GREYAppUIHierarchyFromException(exception)
-                                         errorDescription:errorDescription];
-  }
 }
 
 @end

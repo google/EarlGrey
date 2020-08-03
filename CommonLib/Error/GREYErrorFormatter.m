@@ -35,49 +35,10 @@ static NSString *const kErrorPrefix = @"EarlGrey Encountered an Error:";
 #pragma mark - Public Methods
 
 + (NSString *)formattedDescriptionForError:(GREYError *)error {
-  if (GREYShouldUseErrorFormatterForError(error)) {
-    return LoggerDescription(error);
-  } else {
-    return [GREYObjectFormatter formatDictionary:[error grey_descriptionDictionary]
-                                          indent:kGREYObjectFormatIndent
-                                       hideEmpty:YES
-                                        keyOrder:nil];
-  }
-}
-
-#pragma mark - Public Functions
-
-BOOL GREYShouldUseErrorFormatterForError(GREYError *error) {
-  return ([error.domain isEqualToString:kGREYInteractionErrorDomain] &&
-          (error.code == kGREYInteractionElementNotFoundErrorCode ||
-           error.code == kGREYInteractionMultipleElementsMatchedErrorCode ||
-           error.code == kGREYInteractionActionFailedErrorCode ||
-           error.code == kGREYInteractionAssertionFailedErrorCode ||
-           error.code == kGREYInteractionConstraintsFailedErrorCode ||
-           error.code == kGREYInteractionMatchedElementIndexOutOfBoundsErrorCode ||
-           error.code == kGREYInteractionTimeoutErrorCode ||
-           error.code == kGREYWKWebViewInteractionFailedErrorCode)) ||
-         [error.domain isEqualToString:kGREYSyntheticEventInjectionErrorDomain] ||
-         [error.domain isEqualToString:kGREYUIThreadExecutorErrorDomain] ||
-         [error.domain isEqualToString:kGREYKeyboardDismissalErrorDomain] ||
-         [error.domain isEqualToString:kGREYIntializationErrorDomain] ||
-         [error.domain isEqualToString:kGREYScrollErrorDomain];
-}
-
-BOOL GREYShouldUseErrorFormatterForDetails(NSString *failureHandlerDetails) {
-  return [failureHandlerDetails hasPrefix:kErrorPrefix];
-}
-
-#pragma mark - Static Functions
-
-static NSString *LoggerDescription(GREYError *error) {
   NSMutableString *logger = [[NSMutableString alloc] init];
-  // Flag checked by GREYErrorFormatted(details, screenshotPaths).
-  // TODO(wsaid): remove this when the GREYErrorFormatted(details, screenshotPaths) is removed
-  [logger appendString:kErrorPrefix];
   NSString *exceptionReason = error.localizedDescription;
   if (exceptionReason) {
-    [logger appendFormat:@"\n\n%@", exceptionReason];
+    [logger appendFormat:@"\n%@", exceptionReason];
   }
 
   // There shouldn't be a recovery suggestion for a wrappeed error of an underlying error.
