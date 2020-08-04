@@ -50,7 +50,6 @@
 		FD6239BC20F56C3E00049E81 /* NSError+GREYCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = FD6239B220F56C3D00049E81 /* NSError+GREYCommon.m */; };
 		FD6239BD20F56C3E00049E81 /* GREYErrorConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = FD6239B820F56C3D00049E81 /* GREYErrorConstants.m */; };
 		FD6239BE20F56C3E00049E81 /* GREYObjectFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = FD6239B920F56C3E00049E81 /* GREYObjectFormatter.m */; };
-		FD6239BF20F56C3E00049E81 /* GREYScrollActionError.m in Sources */ = {isa = PBXBuildFile; fileRef = FD6239BA20F56C3E00049E81 /* GREYScrollActionError.m */; };
 		FD6239C420F56C4D00049E81 /* GREYTouchInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = FD6239C320F56C4D00049E81 /* GREYTouchInfo.m */; };
 		FD6239C920F56C5E00049E81 /* GREYFrameworkException.m in Sources */ = {isa = PBXBuildFile; fileRef = FD6239C620F56C5E00049E81 /* GREYFrameworkException.m */; };
 		FD6239D120F56C7100049E81 /* GREYLayoutConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = FD6239CC20F56C7100049E81 /* GREYLayoutConstraint.m */; };
@@ -476,10 +475,8 @@
 		FD6239B320F56C3D00049E81 /* GREYObjectFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYObjectFormatter.h; path = CommonLib/Error/GREYObjectFormatter.h; sourceTree = "<group>"; };
 		FD6239B520F56C3D00049E81 /* GREYError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYError.h; path = CommonLib/Error/GREYError.h; sourceTree = "<group>"; };
 		FD6239B620F56C3D00049E81 /* NSError+GREYCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSError+GREYCommon.h"; path = "CommonLib/Error/NSError+GREYCommon.h"; sourceTree = "<group>"; };
-		FD6239B720F56C3D00049E81 /* GREYScrollActionError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYScrollActionError.h; path = CommonLib/Error/GREYScrollActionError.h; sourceTree = "<group>"; };
 		FD6239B820F56C3D00049E81 /* GREYErrorConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYErrorConstants.m; path = CommonLib/Error/GREYErrorConstants.m; sourceTree = "<group>"; };
 		FD6239B920F56C3E00049E81 /* GREYObjectFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYObjectFormatter.m; path = CommonLib/Error/GREYObjectFormatter.m; sourceTree = "<group>"; };
-		FD6239BA20F56C3E00049E81 /* GREYScrollActionError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYScrollActionError.m; path = CommonLib/Error/GREYScrollActionError.m; sourceTree = "<group>"; };
 		FD6239C120F56C4D00049E81 /* GREYTouchInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYTouchInfo.h; path = CommonLib/Event/GREYTouchInfo.h; sourceTree = "<group>"; };
 		FD6239C220F56C4D00049E81 /* GREYTouchPathObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYTouchPathObject.h; path = CommonLib/Event/GREYTouchPathObject.h; sourceTree = "<group>"; };
 		FD6239C320F56C4D00049E81 /* GREYTouchInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYTouchInfo.m; path = CommonLib/Event/GREYTouchInfo.m; sourceTree = "<group>"; };
@@ -973,8 +970,6 @@
 				FD6239B820F56C3D00049E81 /* GREYErrorConstants.m */,
 				FD6239B320F56C3D00049E81 /* GREYObjectFormatter.h */,
 				FD6239B920F56C3E00049E81 /* GREYObjectFormatter.m */,
-				FD6239B720F56C3D00049E81 /* GREYScrollActionError.h */,
-				FD6239BA20F56C3E00049E81 /* GREYScrollActionError.m */,
 				FD6239B620F56C3D00049E81 /* NSError+GREYCommon.h */,
 				FD6239B220F56C3D00049E81 /* NSError+GREYCommon.m */,
 			);
@@ -1806,7 +1801,6 @@
 				FD6239BD20F56C3E00049E81 /* GREYErrorConstants.m in Sources */,
 				6F49FDBD22E69D4E00CCE813 /* GREYDiagnosable.m in Sources */,
 				FD6239E320F56C9500049E81 /* GREYConstants.m in Sources */,
-				FD6239BF20F56C3E00049E81 /* GREYScrollActionError.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
