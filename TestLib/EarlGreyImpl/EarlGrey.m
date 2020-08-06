@@ -139,10 +139,11 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
     NSMutableDictionary<NSString *, id> *errorDetails = [[NSMutableDictionary alloc] init];
     if (syncErrorBeforeRotation) {
       errorDetails[kErrorDetailRecoverySuggestionKey] =
-          syncErrorBeforeRotation.localizedDescription;
+          syncErrorBeforeRotation.userInfo[kErrorFailureReasonKey];
       errorDescription = @"Application did not idle before rotating.";
     } else if (syncErrorAfterRotation) {
-      errorDetails[kErrorDetailRecoverySuggestionKey] = syncErrorAfterRotation.localizedDescription;
+      errorDetails[kErrorDetailRecoverySuggestionKey] =
+          syncErrorAfterRotation.userInfo[kErrorFailureReasonKey];
       errorDescription =
           @"Application did not idle after rotating and before verifying the rotation.";
     } else if (!syncErrorBeforeRotation && !syncErrorAfterRotation) {
@@ -169,8 +170,9 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
     return [GREYKeyboard dismissKeyboardWithoutReturnKeyWithError:&dismissalError];
   });
   if (!success) {
-    NSString *errorDescription = [NSString
-        stringWithFormat:@"Failed to dismiss keyboard: %@", dismissalError.localizedDescription];
+    NSString *errorDescription =
+        [NSString stringWithFormat:@"Failed to dismiss keyboard: %@",
+                                   dismissalError.userInfo[kErrorFailureReasonKey]];
     dismissalError = GREYErrorMake(kGREYKeyboardDismissalErrorDomain,
                                    GREYKeyboardDismissalFailedErrorCode, errorDescription);
     if (error) {

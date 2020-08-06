@@ -84,6 +84,19 @@
   [super tearDown];
 }
 
+/** Tests localized description returns the whole error description not just the error reason. */
+- (void)testLocalizedDescription {
+  NSError *error;
+  [[EarlGrey selectElementWithMatcher:grey_kindOfClass([UITableViewCell class])]
+      performAction:grey_tap()
+              error:&error];
+  XCTAssertTrue([error.localizedDescription
+      containsString:@"Multiple elements were matched. Please use selection matchers to narrow the "
+                     @"selection down to a single element."]);
+  XCTAssertTrue([error.localizedDescription containsString:@"Elements Matched:"]);
+  XCTAssertTrue([error.localizedDescription containsString:@"UI Hierarchy (Back to front):"]);
+}
+
 /**
  * Checks the formatting of logs for an element not found error for an assertion without a search
  * action failure.

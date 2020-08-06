@@ -26,7 +26,7 @@
 
   descriptionObject[kErrorDomainKey] = self.domain;
   descriptionObject[kErrorCodeKey] = [NSString stringWithFormat:@"%ld", (long)self.code];
-  descriptionObject[kErrorDescriptionKey] = self.localizedDescription;
+  descriptionObject[kErrorDescriptionKey] = self.userInfo[kErrorFailureReasonKey];
   descriptionObject[kErrorFailureReasonKey] = self.localizedFailureReason;
   descriptionObject[kErrorDetailRecoverySuggestionKey] = self.localizedRecoverySuggestion;
 

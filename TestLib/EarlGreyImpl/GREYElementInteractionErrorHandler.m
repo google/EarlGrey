@@ -65,10 +65,10 @@ void GREYHandleInteractionError(__strong GREYError *interactionError,
         mutableUserInfo[kErrorDetailAppUIHierarchyKey] = hierarchy;
       }
 
-      GREYFrameworkException *exception =
-          [GREYFrameworkException exceptionWithName:interactionError.domain
-                                             reason:[interactionError localizedDescription]
-                                           userInfo:[mutableUserInfo copy]];
+      GREYFrameworkException *exception = [GREYFrameworkException
+          exceptionWithName:interactionError.domain
+                     reason:interactionError.userInfo[kErrorFailureReasonKey]
+                   userInfo:[mutableUserInfo copy]];
 
       id<GREYFailureHandler> failureHandler =
           [NSThread mainThread].threadDictionary[GREYFailureHandlerKey];

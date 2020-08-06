@@ -427,7 +427,7 @@ static Protocol *gTextInputProtocol;
          if (localError) {
            NSString *description = [localError userInfo][@"WKJavaScriptExceptionMessage"];
            if (!description) {
-             description = localError.localizedDescription
+             description = localError.userInfo[kErrorFailureReasonKey]
                                ?: @"Interaction with WKWebView failed for an internal reason";
            }
            I_GREYPopulateError(errorOrNil, kGREYInteractionErrorDomain,

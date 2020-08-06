@@ -836,13 +836,20 @@ static NSString *RecoverySuggestionForMultipleElementMatchedError(NSString *matc
 
   // Add information such as element matcher and any nested error info.
   NSMutableDictionary<NSString *, id> *userInfo = [[NSMutableDictionary alloc] init];
-  [userInfo setValue:interactionError.localizedDescription forKey:NSLocalizedDescriptionKey];
   [userInfo setValue:reason forKey:NSLocalizedFailureReasonErrorKey];
 
   // Copy over the matcher details from the error info dictionary if the error is a GREYError else
   // there will be a crash.
   if ([interactionError isKindOfClass:[GREYError class]]) {
+    // Copy over error reason to the new userInfo.
+    [userInfo setValue:interactionError.userInfo[kErrorFailureReasonKey]
+                forKey:kErrorFailureReasonKey];
     [userInfo addEntriesFromDictionary:interactionError.errorInfo];
+  } else {
+    // If it's an NSError from custom assertion/action, make sure to copy the localizedDescription
+    // over to kErrorFailureReasonKey as we will wrap it with GREYError, which overrides
+    // localizedDescription.
+    [userInfo setValue:interactionError.localizedDescription forKey:kErrorFailureReasonKey];
   }
 
   // Nested errors contain extra information such as stack traces, error codes that aren't useful.

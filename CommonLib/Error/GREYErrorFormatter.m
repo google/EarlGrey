@@ -36,7 +36,7 @@ static NSString *const kErrorPrefix = @"EarlGrey Encountered an Error:";
 
 + (NSString *)formattedDescriptionForError:(GREYError *)error {
   NSMutableString *logger = [[NSMutableString alloc] init];
-  NSString *exceptionReason = error.localizedDescription;
+  NSString *exceptionReason = error.userInfo[kErrorFailureReasonKey];
   if (exceptionReason) {
     [logger appendFormat:@"\n%@", exceptionReason];
   }

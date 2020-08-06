@@ -111,9 +111,12 @@ GREYError *I_GREYErrorMake(NSString *domain, NSInteger code, NSDictionary<NSStri
   return [super errorWithDomain:domain code:code userInfo:userInfo];
 }
 
-// TODO(wsaid): Override localizedDescription as well, for the reason and suggestion.
 - (NSString *)description {
   return [GREYErrorFormatter formattedDescriptionForError:self];
+}
+
+- (NSString *)localizedDescription {
+  return [self description];
 }
 
 - (NSDictionary *)grey_descriptionDictionary {

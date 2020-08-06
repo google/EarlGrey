@@ -34,7 +34,7 @@
  * @return A @c GREYError object with the given input.
  */
 #define GREYErrorMakeWithHierarchy(domain, code, description)                          \
-  I_GREYErrorMake((domain), (code), @{NSLocalizedDescriptionKey : (description)},      \
+  I_GREYErrorMake((domain), (code), @{kErrorFailureReasonKey : (description)},         \
                   [NSString stringWithUTF8String:__FILE__], __LINE__,                  \
                   [NSString stringWithUTF8String:__PRETTY_FUNCTION__],                 \
                   [NSThread callStackSymbols], [GREYElementHierarchy hierarchyString], \
@@ -57,12 +57,12 @@
  *
  * @return A @c GREYError object with the given input.
  */
-#define GREYErrorNestedMake(domain, code, description, nestedError)                       \
-  I_GREYErrorMake(                                                                        \
-      (domain), (code),                                                                   \
-      @{NSLocalizedDescriptionKey : (description), NSUnderlyingErrorKey : (nestedError)}, \
-      [NSString stringWithUTF8String:__FILE__], __LINE__,                                 \
-      [NSString stringWithUTF8String:__PRETTY_FUNCTION__], [NSThread callStackSymbols], nil, nil)
+#define GREYErrorNestedMake(domain, code, description, nestedError)                                \
+  I_GREYErrorMake((domain), (code),                                                                \
+                  @{kErrorFailureReasonKey : (description), NSUnderlyingErrorKey : (nestedError)}, \
+                  [NSString stringWithUTF8String:__FILE__], __LINE__,                              \
+                  [NSString stringWithUTF8String:__PRETTY_FUNCTION__],                             \
+                  [NSThread callStackSymbols], nil, nil)
 
 /**
  * If @c errorRef is not @c NULL, it is set to a @c GREYError object that is created with

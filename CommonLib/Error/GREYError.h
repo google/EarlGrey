@@ -33,10 +33,10 @@
  *
  * @return A @c GREYError object with the given input.
  */
-#define GREYErrorMake(domain, code, description)                                  \
-  I_GREYErrorMake((domain), (code), @{NSLocalizedDescriptionKey : (description)}, \
-                  [NSString stringWithUTF8String:__FILE__], __LINE__,             \
-                  [NSString stringWithUTF8String:__PRETTY_FUNCTION__],            \
+#define GREYErrorMake(domain, code, description)                               \
+  I_GREYErrorMake((domain), (code), @{kErrorFailureReasonKey : (description)}, \
+                  [NSString stringWithUTF8String:__FILE__], __LINE__,          \
+                  [NSString stringWithUTF8String:__PRETTY_FUNCTION__],         \
                   [NSThread callStackSymbols], nil, nil)
 
 /**
@@ -56,7 +56,7 @@
 #define GREYErrorMakeWithUserInfo(domain, code, description, userInfo)   \
   ({                                                                     \
     NSMutableDictionary *userInfoWithDescription =                       \
-        [@{NSLocalizedDescriptionKey : (description)} mutableCopy];      \
+        [@{kErrorFailureReasonKey : (description)} mutableCopy];         \
     [userInfoWithDescription addEntriesFromDictionary:userInfo];         \
     I_GREYErrorMake((domain), (code), userInfoWithDescription,           \
                     [NSString stringWithUTF8String:__FILE__], __LINE__,  \
@@ -141,7 +141,8 @@ GREY_EXTERN NSString *const kErrorCodeKey;
 GREY_EXTERN NSString *const kErrorDescriptionKey;
 
 /**
- * Key used to retrieve the failure reason from an error object.
+ * Key used to retrieve the failure reason from an error object. It's also used to store failure
+ * reason in @c userInfo dictionary.
  */
 GREY_EXTERN NSString *const kErrorFailureReasonKey;
 
