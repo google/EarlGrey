@@ -274,18 +274,16 @@ __attribute__((constructor)) static void SetupTestDistantObject() {
     _dispatchPolicy = dispatchPolicy;
   } else {
     if (error) {
+      NSString *reason = @"Failed to set dispatch policy of remote execution. You cannot set "
+                         @"dispatch policy after XCUIApplication::launch.";
       NSString *recoverySuggestion =
           @"Move it before the launch or inside an attribute constructor before your tests launch "
           @"the app";
-      GREYError *composedError = GREYErrorMake(
-          kGREYIntializationErrorDomain, GREYIntializationServiceAlreadyExistError,
-          @"Failed to set dispatch policy of remote execution. You cannot set dispatch policy "
-          @"after XCUIApplication::launch.");
-      NSMutableDictionary<NSString *, NSString *> *userInfo = [composedError.userInfo mutableCopy];
-      userInfo[kErrorDetailRecoverySuggestionKey] = recoverySuggestion;
-      *error = I_GREYErrorMake(composedError.domain, composedError.code, userInfo,
-                               composedError.filePath, composedError.line,
-                               composedError.functionName, composedError.stackTrace, nil, nil);
+      NSDictionary<NSString *, NSString *> *userInfo =
+          @{kErrorDetailRecoverySuggestionKey : recoverySuggestion};
+      *error =
+          GREYErrorMakeWithUserInfo(kGREYIntializationErrorDomain,
+                                    GREYIntializationServiceAlreadyExistError, reason, userInfo);
     }
     return NO;
   }
