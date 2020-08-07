@@ -359,9 +359,9 @@
  */
 - (void)testAssertionInteractionErrorDescription {
   [[EarlGrey selectElementWithMatcher:grey_keyWindow()] assertWithMatcher:grey_nil()];
-  NSString *expectedDetailsTillElement = @"Element does not meet assertion criteria: isNil \n"
-                                          "Element: <UIWindow:";
-  NSString *expectedDetailsForMatcher = @"\n\nMismatch: isNil.\n\nElement Matcher:\n"
+  NSString *expectedDetailsTillElement = @"Element does not meet assertion criteria:\nisNil\n\n"
+                                          "Element:\n<UIWindow:";
+  NSString *expectedDetailsForMatcher = @"\n\nMismatch:\nisNil\n\nElement Matcher:\n"
                                         @"(kindOfClass('UIWindow') && keyWindow)\n\nUI Hierarchy";
   XCTAssertTrue([_handler.details containsString:expectedDetailsTillElement],
                 @"Expected info does not appear in the actual exception details:\n\n"
