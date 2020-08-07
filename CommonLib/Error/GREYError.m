@@ -63,11 +63,11 @@ NSString *const kGREYScreenshotActualAfterImage =
 @property(nonatomic, readwrite) NSString *filePath;
 @property(nonatomic, readwrite) NSUInteger line;
 @property(nonatomic, readwrite) NSString *functionName;
-@property(nonatomic, readwrite) NSDictionary *errorInfo;
+@property(nonatomic, readwrite) NSDictionary<NSString *, id> *errorInfo;
 @property(nonatomic, readwrite) NSArray<NSString *> *multipleElementsMatched;
-@property(nonatomic, readwrite) NSArray *stackTrace;
+@property(nonatomic, readwrite) NSArray<NSString *> *stackTrace;
 @property(nonatomic, readwrite) NSString *appUIHierarchy;
-@property(nonatomic, readwrite) NSDictionary *appScreenshots;
+@property(nonatomic, readwrite) NSDictionary<NSString *, UIImage *> *appScreenshots;
 @property(nonatomic, readwrite) GREYError *nestedError;
 @end
 
@@ -118,72 +118,4 @@ GREYError *I_GREYErrorMake(NSString *domain, NSInteger code, NSDictionary<NSStri
 - (NSString *)localizedDescription {
   return [self description];
 }
-
-- (NSDictionary *)grey_descriptionDictionary {
-  NSMutableDictionary<NSString *, id> *descriptionDictionary =
-      [[super grey_descriptionDictionary] mutableCopy];
-
-  if (!descriptionDictionary) {
-    return nil;
-  }
-
-  descriptionDictionary[kErrorTestCaseClassNameKey] = _testCaseClassName;
-  descriptionDictionary[kErrorTestCaseMethodNameKey] = _testCaseMethodName;
-  descriptionDictionary[kErrorFileNameKey] = [_filePath lastPathComponent];
-  descriptionDictionary[kErrorLineKey] = [NSString stringWithFormat:@"%ld", (unsigned long)_line];
-  descriptionDictionary[kErrorFunctionNameKey] = _functionName;
-  descriptionDictionary[kErrorUserInfoKey] = self.userInfo;
-  descriptionDictionary[kErrorErrorInfoKey] = _errorInfo;
-  descriptionDictionary[kErrorStackTraceKey] = _stackTrace;
-  descriptionDictionary[kErrorAppUIHierarchyKey] = _appUIHierarchy;
-  descriptionDictionary[kErrorAppScreenShotsKey] = _appScreenshots;
-
-  return descriptionDictionary;
-}
-
-+ (NSArray *)grey_nestedErrorDictionariesForError:(NSError *)error {
-  if (!error) {
-    return nil;
-  }
-
-  NSMutableArray *errorStack = [[NSMutableArray alloc] init];
-  NSError *underlyingError = error.userInfo[NSUnderlyingErrorKey];
-  if (underlyingError) {
-    NSArray *errorDescriptions = [GREYError grey_nestedErrorDictionariesForError:underlyingError];
-    [errorStack addObjectsFromArray:errorDescriptions];
-  }
-
-  NSDictionary *descriptions = [error grey_descriptionDictionary];
-  // For GREYError, we need to remove some of the fields.
-  if ([error isKindOfClass:[GREYError class]]) {
-    NSMutableDictionary *mutableDescriptions = [descriptions mutableCopy];
-
-    [mutableDescriptions removeObjectForKey:kErrorUserInfoKey];
-    [mutableDescriptions removeObjectForKey:kErrorErrorInfoKey];
-    [mutableDescriptions removeObjectForKey:kErrorStackTraceKey];
-    [mutableDescriptions removeObjectForKey:kErrorAppUIHierarchyKey];
-    [mutableDescriptions removeObjectForKey:kErrorAppScreenShotsKey];
-    descriptions = mutableDescriptions;
-  }
-  [errorStack addObject:descriptions];
-
-  return errorStack;
-}
-
-+ (NSString *)grey_nestedDescriptionForError:(NSError *)error {
-  NSArray *descriptions = [GREYError grey_nestedErrorDictionariesForError:error];
-  if (descriptions.count == 0) {
-    return @"";
-  }
-
-  NSArray *keyOrder = @[
-    kErrorDescriptionKey, kErrorDomainKey, kErrorCodeKey, kErrorFileNameKey, kErrorFunctionNameKey,
-    kErrorLineKey, kErrorTestCaseClassNameKey, kErrorTestCaseMethodNameKey
-  ];
-
-  return [GREYObjectFormatter formatArray:descriptions
-                                   indent:kGREYObjectFormatIndent
-                                 keyOrder:keyOrder];
-}
-
 @end

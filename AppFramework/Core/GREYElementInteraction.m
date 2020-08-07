@@ -541,14 +541,19 @@ static NSString *RecoverySuggestionForMultipleElementMatchedError(NSString *matc
   GREYFatalAssert(actionError);
 
   // First check errors that can happen at the inner most level such as timeouts.
-  NSDictionary<NSString *, id> *errorDescriptions =
-      [[GREYError grey_nestedErrorDictionariesForError:actionError] objectAtIndex:0];
   NSMutableDictionary<NSString *, id> *errorDetails = [[NSMutableDictionary alloc] init];
 
   NSString *reason = nil;
-  if (errorDescriptions != nil) {
-    NSString *errorDomain = errorDescriptions[kErrorDomainKey];
-    NSInteger errorCode = [errorDescriptions[kErrorCodeKey] integerValue];
+  if ([actionError isKindOfClass:[GREYError class]]) {
+    NSString *errorDomain;
+    NSInteger errorCode;
+    if (actionError.nestedError) {
+      errorDomain = actionError.nestedError.domain;
+      errorCode = actionError.nestedError.code;
+    } else {
+      errorDomain = actionError.domain;
+      errorCode = actionError.code;
+    }
     if (([errorDomain isEqualToString:kGREYInteractionErrorDomain]) &&
         (errorCode == kGREYInteractionTimeoutErrorCode)) {
       errorDetails[kErrorDetailActionNameKey] = action.name;
@@ -655,8 +660,7 @@ static NSString *RecoverySuggestionForMultipleElementMatchedError(NSString *matc
                                             @"constraint(s) failure.\n"
                                             @"Exception with Action: %@",
                                             reasonDetail];
-        NSString *nestedError = [GREYError grey_nestedDescriptionForError:actionError];
-        errorDetails[NSLocalizedFailureReasonErrorKey] = nestedError.description;
+        errorDetails[NSLocalizedFailureReasonErrorKey] = actionError.nestedError.description;
         break;
       }
       case kGREYWKWebViewInteractionFailedErrorCode: {
@@ -688,7 +692,7 @@ static NSString *RecoverySuggestionForMultipleElementMatchedError(NSString *matc
 /**
  * Handles failure of an @c assertion.
  *
- * @param assertion      The asserion that failed.
+ * @param assertion      The assertion that failed.
  * @param assertionError Contains the reason for the failure.
  * @param[out] error     Error (or @c nil) provided by the user. When @c nil, an error is created
  *                       and sent back to be turned into an exception in the test component.
@@ -701,16 +705,19 @@ static NSString *RecoverySuggestionForMultipleElementMatchedError(NSString *matc
                                 error:(NSError **)error {
   GREYFatalAssert(assertionError);
 
-  // First check errors that can happens at the inner most level
-  // for example: executor error
-  NSDictionary<NSString *, id> *errorDescriptions =
-      [[GREYError grey_nestedErrorDictionariesForError:assertionError] objectAtIndex:0];
   NSMutableDictionary<NSString *, id> *errorDetails = [[NSMutableDictionary alloc] init];
   NSString *reason = nil;
 
-  if (errorDescriptions != nil) {
-    NSString *errorDomain = errorDescriptions[kErrorDomainKey];
-    NSInteger errorCode = [errorDescriptions[kErrorCodeKey] integerValue];
+  if ([assertionError isKindOfClass:[GREYError class]]) {
+    NSString *errorDomain;
+    NSInteger errorCode;
+    if (assertionError.nestedError) {
+      errorDomain = assertionError.nestedError.domain;
+      errorCode = assertionError.nestedError.code;
+    } else {
+      errorDomain = assertionError.domain;
+      errorCode = assertionError.code;
+    }
     if (([errorDomain isEqualToString:kGREYInteractionErrorDomain]) &&
         (errorCode == kGREYInteractionTimeoutErrorCode)) {
       errorDetails[kErrorDetailAssertCriteriaKey] = assertion.name;
