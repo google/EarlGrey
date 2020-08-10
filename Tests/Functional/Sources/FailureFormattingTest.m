@@ -16,6 +16,7 @@
 #import "GREYMatchersShorthand.h"
 #import "GREYConfigKey.h"
 #import "GREYError.h"
+#import "GREYErrorConstants.h"
 #import "GREYConstants.h"
 #import "GREYWaitFunctions.h"
 #import "EarlGrey.h"
@@ -123,6 +124,20 @@
                 @"========== expected info ===========\n%@\n\n"
                 @"========== actual exception details ==========\n%@",
                 expectedDetails, _handler.details);
+}
+
+/**
+ * Ensures that an assertion define prints the right description.
+ */
+- (void)testAssertionDefinesContainHierarchyAndScreenshots {
+  NSString *assertDescription = @"Assertion Description";
+  GREYAssertTrue(NO, assertDescription);
+
+  XCTAssertTrue([_handler.details containsString:assertDescription],
+                @"Expected info does not appear in the actual exception details:\n\n"
+                @"========== expected info ===========\n%@\n\n"
+                @"========== actual exception details ==========\n%@",
+                assertDescription, _handler.details);
 }
 
 /**

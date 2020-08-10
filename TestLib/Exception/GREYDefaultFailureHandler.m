@@ -118,11 +118,12 @@
                       details:(NSString *)details
               currentTestCase:(XCTestCase *)currentTestCase {
   GREYFailureScreenshots *screenshotPaths = [self screenshotPathsForException:exception];
-    NSMutableString *output = [details mutableCopy];
-    for (NSString *key in screenshotPaths.allKeys) {
-      [output appendFormat:@"\n%@: %@\n", key, screenshotPaths[key]];
-    }
-    return output;
+  NSMutableString *output = [details mutableCopy];
+  for (NSString *key in screenshotPaths.allKeys) {
+    [output appendFormat:@"\n%@: %@\n", key, screenshotPaths[key]];
+  }
+  [output appendString:GREYAppUIHierarchyFromException(exception)];
+  return output;
 }
 
 @end
