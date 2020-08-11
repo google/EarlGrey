@@ -38,6 +38,7 @@
 #import "GREYError.h"
 #import "GREYErrorConstants.h"
 #import "GREYObjectFormatter.h"
+#import "GREYConstants.h"
 #import "GREYDefines.h"
 #import "GREYLogger.h"
 #import "GREYStopwatch.h"
@@ -280,8 +281,9 @@
                    }];
 
     if (element) {
-      GREYLogVerbose(@"Performing action: %@\n with matcher: %@\n with root matcher: %@",
-                     [action name], _elementMatcher, _rootMatcher);
+      GREYLogVerbose(
+          @"Performing action: %@\n on element: %@\n with matcher: %@\n with root matcher: %@",
+          [action name], element, _elementMatcher, _rootMatcher);
       
       BOOL success = [action perform:element error:&actionError];
       
@@ -379,9 +381,10 @@
       [notificationCenter postNotificationName:kGREYWillPerformAssertionNotification
                                         object:nil
                                       userInfo:assertionUserInfo];
-      GREYLogVerbose(@"Performing assertion: %@\n with matcher: %@\n with root matcher: "
-                     @"%@",
-                     [assertion name], self -> _elementMatcher, self -> _rootMatcher);
+      GREYLogVerbose(
+          @"Performing assertion: %@\n on element: %@\n with matcher: %@\n with root matcher: "
+          @"%@",
+          [assertion name], element, self -> _elementMatcher, self -> _rootMatcher);
 
       // In the case of an assertion, we can have a nil element present as well. For this purpose,
       // we check the assertion directly and see if there was any issue. The only case where we are
