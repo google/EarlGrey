@@ -328,6 +328,13 @@ static inline uint64_t GetMachOTimeFromSeconds(CFTimeInterval seconds) {
 /**
  * For iOS 14+, sets on the first _firstTouchForView property on the touchFlags struct of a UITouch.
  *
+ * @note We are trying to modify a value in the UITouchFlags struct over here. If we try to obtain
+ *       the entire struct and get / set it, then we run the chance of setting over the size of the
+ *       struct, leading to corruption in the memory beyond the after the struct's memory. If this
+ *       happens, then we get a crash on dealloc when the memory is deallocated with the
+ *       objc.cxx_descruct call. Hence, only the minimum amount required, a 1 byte char is set in
+ *       the UITouchFlags struct denoting the _firstTouchForView property which we need.
+ *
  * @param touch The UITouch being updated.
  */
 static inline void SetTouchFlagPropertyInUITouch(UITouch *touch) {

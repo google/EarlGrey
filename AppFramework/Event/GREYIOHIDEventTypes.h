@@ -243,15 +243,21 @@ void IOHIDEventSetIntegerValue(IOHIDEventRef hidEventRef, IOHIDEventField field,
 /**
  * Struct for UITouchFlags set on a UITouch object. Utilized in iOS 14+.
  * @see https://developer.limneos.net/?ios=13.1.3&framework=UIKitCore.framework&header=UITouch.h
+ *
+ * @note If modifying this code, ensure it is tested on devices as it is extremely
+ *       fragile.
+ *
+ *       Pre-iOS 14, _firstTouchForView could be set via a setter on UITouch. This was made private
+ *       in iOS 14, so we have to now set this on the actual @c _touchFlags ivar of the UITouch.
+ *       Doing so requires an object_getIvar call on UITouch which will return the entire struct for
+ *       the _touchFlags ivar. This struct is modified and object_setIvar is used to reset it back
+ *       on the UITouch object.
+ *
+ *       Since we only care about _firstTouchForView, we must only set the first bit as cannot be
+ *       sure of the layout of the rest of the struct. Modifying the rest of the struct can lead to
+ *       memory corruptions as the bits can overflow when we write back the struct.
  **/
 typedef struct {
-  unsigned _firstTouchForView : 1;
-  unsigned _isTap : 1;
-  unsigned _isDelayed : 1;
-  unsigned _sentTouchesEnded : 1;
-  unsigned _abandonForwardingRecord : 1;
-  unsigned _deliversUpdatesInTouchesMovedIsValid : 1;
-  unsigned _deliversUpdatesInTouchesMoved : 1;
-  unsigned _isPredictedTouch : 1;
-  unsigned _didDispatchAsEnded : 1;
+  /** Internal flag required for touch injection. */
+  char _firstTouchForView : 1;
 } UITouchFlags;
