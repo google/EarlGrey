@@ -75,20 +75,28 @@
  * Changes the main runloop to run in the specified mode, pushing it to the top of the stack of
  * current modes.
  */
-- (void)pushRunLoopMode:(NSString *)mode;
-/**
- * Changes the main runloop to run in the specified mode, pushing it to the top of the stack of
- * current modes.
- */
 - (void)pushRunLoopMode:(NSString *)mode requester:(id)requester;
 /**
  * Pops topmost mode from the runloop mode stack.
  */
-- (void)popRunLoopMode:(NSString *)mode;
-/**
- * Pops topmost mode from the runloop mode stack.
- */
 - (void)popRunLoopMode:(NSString *)mode requester:(id)requester;
+/**
+ * Pushes the specified runloop mode for the particular @c requester and @c reason onto the runloop
+ * stack.
+ *
+ * @param mode      The CFRunloopMode being added to the top of the runloop stack.
+ * @param requester The object that is pushing the runloop mode.
+ * @param reason    An NSString specifying the reason for the mode change.
+ */
+- (void)_pushRunLoopMode:(NSString *)mode requester:(id)requester reason:(NSString *)reason;
+/**
+ * Pops the topmost runloop mode from the top of the runloop stack.
+ *
+ * @param mode      The CFRunloopMode being added to the top of the runloop stack.
+ * @param requester The object that is pushing the runloop mode.
+ * @param reason    An NSString specifying the reason for the mode change.
+ */
+- (void)_popRunLoopMode:(NSString *)mode requester:(id)requester reason:(NSString *)reason;
 /**
  * @return The shared UIMotionEvent object of the application, used to force enable motion
  *         accelerometer events.

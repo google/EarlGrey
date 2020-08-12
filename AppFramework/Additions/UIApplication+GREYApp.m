@@ -22,13 +22,14 @@
 #import "GREYAppStateTrackerObject.h"
 #import "GREYFatalAsserts.h"
 #import "GREYAppleInternals.h"
+#import "GREYDefines.h"
 #import "GREYSwizzler.h"
 
 /**
  * List for all the runloop modes that have been pushed and unpopped using UIApplication's push/pop
  * runloop mode methods. The most recently pushed runloop mode is at the end of the list.
  */
-static NSMutableArray *gRunLoopModes;
+static NSMutableArray<NSString *> *gRunLoopModes;
 
 @implementation UIApplication (GREYApp)
 
@@ -36,35 +37,47 @@ static NSMutableArray *gRunLoopModes;
   gRunLoopModes = [[NSMutableArray alloc] init];
 
   GREYSwizzler *swizzler = [[GREYSwizzler alloc] init];
-  SEL originalSel = @selector(beginIgnoringInteractionEvents);
-  SEL swizzledSel = @selector(greyswizzled_beginIgnoringInteractionEvents);
-  BOOL swizzleSuccess =
-      [swizzler swizzleClass:self replaceInstanceMethod:originalSel withMethod:swizzledSel];
-  GREYFatalAssertWithMessage(swizzleSuccess,
-                             @"Cannot swizzle UIApplication beginIgnoringInteractionEvents");
-  swizzleSuccess = [swizzler swizzleClass:self
-                    replaceInstanceMethod:@selector(endIgnoringInteractionEvents)
-                               withMethod:@selector(greyswizzled_endIgnoringInteractionEvents)];
+  SEL originalSel = @selector(endIgnoringInteractionEvents);
+  SEL swizzledSel = @selector(greyswizzled_endIgnoringInteractionEvents);
+  BOOL swizzleSuccess = [swizzler swizzleClass:self
+                         replaceInstanceMethod:originalSel
+                                    withMethod:swizzledSel];
   GREYFatalAssertWithMessage(swizzleSuccess,
                              @"Cannot swizzle UIApplication endIgnoringInteractionEvents");
+  originalSel = @selector(beginIgnoringInteractionEvents);
+  swizzledSel = @selector(greyswizzled_beginIgnoringInteractionEvents);
   swizzleSuccess = [swizzler swizzleClass:self
-                    replaceInstanceMethod:@selector(pushRunLoopMode:)
-                               withMethod:@selector(greyswizzled_pushRunLoopMode:)];
-  GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle UIApplication pushRunLoopMode:");
-  swizzleSuccess = [swizzler swizzleClass:self
-                    replaceInstanceMethod:@selector(pushRunLoopMode:requester:)
-                               withMethod:@selector(greyswizzled_pushRunLoopMode:requester:)];
+                    replaceInstanceMethod:originalSel
+                               withMethod:swizzledSel];
   GREYFatalAssertWithMessage(swizzleSuccess,
-                             @"Cannot swizzle UIApplication pushRunLoopMode:requester:");
-  swizzleSuccess = [swizzler swizzleClass:self
-                    replaceInstanceMethod:@selector(popRunLoopMode:)
-                               withMethod:@selector(greyswizzled_popRunLoopMode:)];
-  GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle UIApplication popRunLoopMode:");
-  swizzleSuccess = [swizzler swizzleClass:self
-                    replaceInstanceMethod:@selector(popRunLoopMode:requester:)
-                               withMethod:@selector(greyswizzled_popRunLoopMode:requester:)];
-  GREYFatalAssertWithMessage(swizzleSuccess,
-                             @"Cannot swizzle UIApplication popRunLoopMode:requester:");
+                             @"Cannot swizzle UIApplication beginIgnoringInteractionEvents");
+  if (iOS12_OR_ABOVE()) {
+    originalSel = @selector(_pushRunLoopMode:requester:reason:);
+    swizzledSel = @selector(greyswizzled_pushRunLoopMode:requester:reason:);
+    swizzleSuccess = [swizzler swizzleClass:self
+                      replaceInstanceMethod:originalSel
+                                 withMethod:swizzledSel];
+    GREYFatalAssertWithMessage(swizzleSuccess,
+                               @"Cannot swizzle UIApplication _pushRunLoopMode:requester:reason:");
+    originalSel = @selector(_popRunLoopMode:requester:reason:);
+    swizzledSel = @selector(greyswizzled_popRunLoopMode:requester:reason:);
+    swizzleSuccess = [swizzler swizzleClass:self
+                      replaceInstanceMethod:originalSel
+                                 withMethod:swizzledSel];
+    GREYFatalAssertWithMessage(swizzleSuccess,
+                               @"Cannot swizzle UIApplication _pushRunLoopMode:requester:reason:");
+  } else {
+    swizzleSuccess = [swizzler swizzleClass:self
+                      replaceInstanceMethod:@selector(pushRunLoopMode:requester:)
+                                 withMethod:@selector(greyswizzled_pushRunLoopMode:requester:)];
+    GREYFatalAssertWithMessage(swizzleSuccess,
+                               @"Cannot swizzle UIApplication pushRunLoopMode:requester:");
+    swizzleSuccess = [swizzler swizzleClass:self
+                      replaceInstanceMethod:@selector(popRunLoopMode:requester:)
+                                 withMethod:@selector(greyswizzled_popRunLoopMode:requester:)];
+    GREYFatalAssertWithMessage(swizzleSuccess,
+                               @"Cannot swizzle UIApplication popRunLoopMode:requester:");
+  }
 }
 
 - (NSString *)grey_activeRunLoopMode {
@@ -114,6 +127,24 @@ static NSMutableArray *gRunLoopModes;
 - (void)greyswizzled_popRunLoopMode:(NSString *)mode requester:(id)requester {
   [self grey_popRunLoopMode:mode];
   INVOKE_ORIGINAL_IMP2(void, @selector(greyswizzled_popRunLoopMode:requester:), mode, requester);
+}
+
+/** Internal push runloop method added post iOS 12.*/
+- (void)greyswizzled_pushRunLoopMode:(NSString *)mode
+                           requester:(id)requester
+                              reason:(NSString *)reason {
+  [self grey_pushRunLoopMode:mode];
+  INVOKE_ORIGINAL_IMP3(void, @selector(greyswizzled_pushRunLoopMode:requester:reason:), mode,
+                       requester, reason);
+}
+
+/** Internal pop runloop method added post iOS 12.*/
+- (void)greyswizzled_popRunLoopMode:(NSString *)mode
+                          requester:(id)requester
+                             reason:(NSString *)reason {
+  [self grey_popRunLoopMode:mode];
+  INVOKE_ORIGINAL_IMP3(void, @selector(greyswizzled_popRunLoopMode:requester:reason:), mode,
+                       requester, reason);
 }
 
 #pragma mark - Private
