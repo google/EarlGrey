@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		278BF2B124C53D780005ECE1 /* GREYAssert.m in Sources */ = {isa = PBXBuildFile; fileRef = 278BF2AD24C53D780005ECE1 /* GREYAssert.m */; };
+		278BF2B224C53D780005ECE1 /* GREYAssertDefaultConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 278BF2AF24C53D780005ECE1 /* GREYAssertDefaultConfiguration.m */; };
 		6F49FDBD22E69D4E00CCE813 /* GREYDiagnosable.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F49FDBC22E69D4C00CCE813 /* GREYDiagnosable.m */; };
 		6F8818B222B86F530006932D /* GREYAssertionBlock+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F8818B122B86F520006932D /* GREYAssertionBlock+Private.h */; };
 		6FDFAF5324A2D0B2008B59DF /* GREYFailureHandlerHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FDFAF5124A2D0B2008B59DF /* GREYFailureHandlerHelpers.m */; };
@@ -393,6 +395,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		278BF2AC24C53D780005ECE1 /* GREYAssert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYAssert.h; path = Assertion/GREYAssert.h; sourceTree = "<group>"; };
+		278BF2AD24C53D780005ECE1 /* GREYAssert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYAssert.m; path = Assertion/GREYAssert.m; sourceTree = "<group>"; };
+		278BF2AE24C53D780005ECE1 /* GREYAssertDefaultConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYAssertDefaultConfiguration.h; path = Assertion/GREYAssertDefaultConfiguration.h; sourceTree = "<group>"; };
+		278BF2AF24C53D780005ECE1 /* GREYAssertDefaultConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYAssertDefaultConfiguration.m; path = Assertion/GREYAssertDefaultConfiguration.m; sourceTree = "<group>"; };
+		278BF2B024C53D780005ECE1 /* GREYAssert+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GREYAssert+Private.h"; path = "Assertion/GREYAssert+Private.h"; sourceTree = "<group>"; };
 		6F49FDBC22E69D4C00CCE813 /* GREYDiagnosable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYDiagnosable.m; path = CommonLib/GREYDiagnosable.m; sourceTree = "<group>"; };
 		6F8818B122B86F520006932D /* GREYAssertionBlock+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GREYAssertionBlock+Private.h"; path = "CommonLib/Assertion/GREYAssertionBlock+Private.h"; sourceTree = "<group>"; };
 		6F9B2C1E22B18F15003132B0 /* GREYDiagnosable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYDiagnosable.h; path = CommonLib/GREYDiagnosable.h; sourceTree = "<group>"; };
@@ -782,11 +789,16 @@
 		FD50491520FB234E00261CBE /* Assertion */ = {
 			isa = PBXGroup;
 			children = (
+				278BF2AC24C53D780005ECE1 /* GREYAssert.h */,
+				278BF2AD24C53D780005ECE1 /* GREYAssert.m */,
+				278BF2B024C53D780005ECE1 /* GREYAssert+Private.h */,
+				278BF2AE24C53D780005ECE1 /* GREYAssertDefaultConfiguration.h */,
+				278BF2AF24C53D780005ECE1 /* GREYAssertDefaultConfiguration.m */,
+				FD50491620FB235D00261CBE /* GREYAssertionDefines.h */,
 				FDE6770824B2E7050058EA28 /* GREYDescribeVariable.h */,
 				FDE6770724B2E7050058EA28 /* GREYDescribeVariable.m */,
 				FDE8719B23241567007C5A5C /* GREYWaitFunctions.h */,
 				FDE8719A23241566007C5A5C /* GREYWaitFunctions.m */,
-				FD50491620FB235D00261CBE /* GREYAssertionDefines.h */,
 			);
 			name = Assertion;
 			sourceTree = "<group>";
@@ -1754,6 +1766,7 @@
 				FD50491E20FB238300261CBE /* GREYHostStub.m in Sources */,
 				FD50491A20FB237100261CBE /* GREYCondition.m in Sources */,
 				FD98C461226C32FC006F8D68 /* GREYElementInteractionErrorHandler.m in Sources */,
+				278BF2B224C53D780005ECE1 /* GREYAssertDefaultConfiguration.m in Sources */,
 				FD1184D3212CEE72004CADC3 /* XCUIApplication+GREYEnvironment.m in Sources */,
 				FD3A825C21F189BC00CA3ADF /* GREYActionsShorthand.m in Sources */,
 				FD98C464226C330A006F8D68 /* GREYFailureScreenshotSaver.m in Sources */,
@@ -1764,6 +1777,7 @@
 				FD50491F20FB238300261CBE /* GREYTestApplicationDistantObject.m in Sources */,
 				FD50493420FB23AE00261CBE /* GREYDefaultFailureHandler.m in Sources */,
 				FD50490F20FB231A00261CBE /* XCTestCase+GREYSystemAlertHandler.m in Sources */,
+				278BF2B124C53D780005ECE1 /* GREYAssert.m in Sources */,
 				6FDFAF5324A2D0B2008B59DF /* GREYFailureHandlerHelpers.m in Sources */,
 				FD50492B20FB239900261CBE /* XCUIApplication+GREYTest.m in Sources */,
 				FD50493C20FB23E500261CBE /* GREYTestCaseInvocation.m in Sources */,

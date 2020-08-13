@@ -33,6 +33,13 @@
 #import "GREYWaitFunctions.h"
 
 /**
+ * These macros will be replaced by new EG assert macros found in GREYAssert.h.
+ * In order to support the tranition period, the preprocessor symbol GREY_MESSAGE_OPTIONAL_ASSERTS
+ * can be defined in order to use the new, message-optional asserts and hide these macros.
+ */
+#ifndef GREY_MESSAGE_OPTIONAL_ASSERTS
+
+/**
  * These Macros are safe to call from anywhere within a testcase.
  */
 #pragma mark - Public Macros
@@ -247,6 +254,8 @@
     GREYWaitForAppToIdle(timeoutString__);                                          \
     I_GREYAssertNotEqualObjects((__a1), (__a2), (__description), ##__VA_ARGS__);    \
   })
+
+#endif  // GREY_MESSAGE_OPTIONAL_ASSERTS
 
 /**
  * Waits for the application to idle without blocking the test's main thread.

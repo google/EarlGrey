@@ -45,6 +45,13 @@
 #define GREY_FALLTHROUGH_INTENDED
 #endif  // defined(__clang__)
 
+/**
+ * A macro for marking entry points that have increased visibility only for the sake
+ * of internal unit tests. These entry points should not be used by tests written against
+ * EarlGrey.
+ */
+#define GREY_VISIBLE_FOR_INTERNAL_TESTING
+
 #pragma mark - Math
 
 /**
