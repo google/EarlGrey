@@ -54,16 +54,18 @@ static void (^gNoopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef 
   BOOL needToDrainRunLoop = (CFRunLoopGetCurrent() == CFRunLoopGetMain());
 
   if (_minRunLoopDrains > 0) {
+    // Drain _minRunLoopDrains times.
     stopConditionMet = [self grey_drainRunLoopInActiveModeForDrains:_minRunLoopDrains
                                                explicitRunLoopDrain:needToDrainRunLoop
                                                      checkCondition:stopConditionBlock];
   } else {
-    stopConditionMet =
-        [self grey_checkConditionInActiveModeWithExplicitRunLoopDrain:needToDrainRunLoop
-                                                   stopConditionBlock:stopConditionBlock];
+    // Drain once.
+    stopConditionMet = [self grey_drainOnceInActiveModeWithExplicitRunLoopDrain:needToDrainRunLoop
+                                                                 checkCondition:stopConditionBlock];
   }
 
   CFTimeInterval remainingTime = [self grey_secondsUntilTime:timeoutTime];
+  // Drain for remaining time.
   while (!stopConditionMet && remainingTime > 0) {
     @autoreleasepool {
       stopConditionMet = [self grey_drainRunLoopInActiveModeAndCheckCondition:stopConditionBlock
@@ -312,8 +314,8 @@ static void (^gNoopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef 
  *
  * @return @c YES if the stop condition block evaluated to @YES; @c NO otherwise.
  */
-- (BOOL)grey_checkConditionInActiveModeWithExplicitRunLoopDrain:(BOOL)explicitRunLoopDrain
-                                             stopConditionBlock:(BOOL (^)(void))stopConditionBlock {
+- (BOOL)grey_drainOnceInActiveModeWithExplicitRunLoopDrain:(BOOL)explicitRunLoopDrain
+                                            checkCondition:(BOOL (^)(void))stopConditionBlock {
   __block BOOL conditionMet = NO;
   __weak __typeof__(self) weakSelf = self;
 
