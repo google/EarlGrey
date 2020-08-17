@@ -16,6 +16,7 @@
 
 #import "GREYTapAction.h"
 
+#import "GREYBaseAction.h"
 #import "GREYTapper.h"
 #import "NSObject+GREYApp.h"
 #import "GREYInteraction.h"
@@ -119,6 +120,20 @@
 }
 
 #pragma mark - GREYAction protocol
+
+#if TARGET_OS_IOS
+- (BOOL)satisfiesConstraintsForElement:(id)element error:(__strong NSError **)error {
+  if (![super satisfiesConstraintsForElement:element error:error]) {
+    return NO;
+  }
+
+  if ([element isKindOfClass:[UISwitch class]]) {
+    NSLog(@"Warning: Use grey_turnSwitchOn(BOOL) to enable/disable UISwitch instead of grey_tap(). "
+          @"Using grey_tap() on UISwitch could lead to flaky result.");
+  }
+  return YES;
+}
+#endif
 
 - (BOOL)perform:(id)element error:(__strong NSError **)error {
   __block BOOL satisfiesContraints = NO;
