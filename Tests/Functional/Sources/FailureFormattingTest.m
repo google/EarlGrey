@@ -510,4 +510,18 @@
                 expectedDetailUnderlyingError, _handler.details);
 }
 
+/**
+ * Checks printed information for failures with GREYAsserts containing both description and details.
+ **/
+- (void)testAssertionDefines {
+  GREYFail(@"Foo");
+  XCTAssertEqualObjects(_handler.details, @"Foo");
+  GREYFail(@"Foo: %@", @"Bar");
+  XCTAssertEqualObjects(_handler.details, @"Foo: Bar");
+  GREYFailWithDetails(@"Foo", @"Bar");
+  XCTAssertEqualObjects(_handler.details, @"Foo\nBar");
+  GREYFailWithDetails(@"Foo", @"Bar: %@", @"Baz");
+  XCTAssertEqualObjects(_handler.details, @"Foo\nBar: Baz");
+}
+
 @end

@@ -62,15 +62,22 @@ GREY_EXTERN NSString *const GREYFailureHandlerKey;
   })
 // clang-format on
 
-#define I_GREYRegisterFailure(__exceptionName, __description, __details, ...)                    \
-  ({                                                                                             \
-    NSString *details__;                                                                         \
-    I_GREYFormattedString(details__, __details, ##__VA_ARGS__);                                  \
-    id<GREYFailureHandler> failureHandler__ =                                                    \
-        [NSThread mainThread].threadDictionary[GREYFailureHandlerKey];                           \
-    [failureHandler__ handleException:[GREYFrameworkException exceptionWithName:__exceptionName  \
-                                                                         reason:(__description)] \
-                              details:(details__)];                                              \
+#define I_GREYRegisterFailure(__exceptionName, __description, __details, ...)                   \
+  ({                                                                                            \
+    NSString *details__;                                                                        \
+    I_GREYFormattedString(details__, __details, ##__VA_ARGS__);                                 \
+    NSString *descriptionWithDetails__;                                                         \
+    if ([details__ length] > 0) {                                                               \
+      descriptionWithDetails__ =                                                                \
+          [NSString stringWithFormat:@"%@\n\n%@", __description, details__];                    \
+    } else {                                                                                    \
+      descriptionWithDetails__ = [NSString stringWithFormat:@"%@\n", __description];            \
+    }                                                                                           \
+    id<GREYFailureHandler> failureHandler__ =                                                   \
+        [NSThread mainThread].threadDictionary[GREYFailureHandlerKey];                          \
+    [failureHandler__ handleException:[GREYFrameworkException exceptionWithName:__exceptionName \
+                                                                         reason:__description]  \
+                              details:(descriptionWithDetails__)];                              \
   })
 
 #define I_GREYAssertTrue(__a1, __description, ...)                                          \

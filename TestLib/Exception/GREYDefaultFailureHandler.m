@@ -52,36 +52,6 @@
 }
 
 /**
- * @return The error description string built from the exception name, exception reason, and any
- *         other passed in details
- *
- * @param exception The exception causing the failure.
- * @param details   The detail string passed into the failure handler, which can be the GREYError
- *                  description.
- */
-- (NSString *)errorDescriptionForException:(GREYFrameworkException *)exception
-                                   details:(NSString *)details {
-  NSMutableString *logMessage = [[NSMutableString alloc] init];
-  NSString *reason = exception.reason;
-
-  if (reason.length == 0) {
-    reason = @"exception.reason was not provided";
-  }
-
-  NSString *logName = [NSString stringWithFormat:@"%@: %@", @"Exception Name", exception.name];
-  [logMessage appendString:logName];
-  NSString *logReason = [NSString stringWithFormat:@"\n%@: %@\n", @"Exception Reason", reason];
-  [logMessage appendString:logReason];
-
-  if (details.length > 0) {
-    NSString *logDetails = [NSString stringWithFormat:@"Exception Details: %@", details];
-    [logMessage appendString:logDetails];
-  }
-
-  return logMessage;
-}
-
-/**
  * @return A dictionary of the app side and test side screenshot paths.
  *
  * @param exception The exception containing the screenshot images in its user info dictionary.
