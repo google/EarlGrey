@@ -586,6 +586,19 @@ static Protocol *gTextInputProtocol;
               elementMatched = [ancestorMatcher matches:expectedFirstResponderView];
             }
           });
+          // A period key for an email UITextField on iOS9 and above types the email domain (.com,
+          // .org) by default. That is not the desired behavior so check below disables it.
+          __block BOOL keyboardTypeWasChangedFromEmailType = NO;
+          if ([text containsString:@"."] && [element respondsToSelector:@selector(keyboardType)] &&
+              [element keyboardType] == UIKeyboardTypeEmailAddress) {
+            grey_dispatch_sync_on_main_thread(^{
+              [element setKeyboardType:UIKeyboardTypeDefault];
+              // reloadInputViews must be called so that the keyboardType change becomes effective.
+              [element reloadInputViews];
+              keyboardTypeWasChangedFromEmailType = YES;
+            });
+          }
+
           if (!elementMatched) {
             // Tap on the element to make expectedFirstResponderView a first responder.
             if (![[GREYActions actionForTap] perform:element error:errorOrNil]) {
@@ -635,7 +648,14 @@ static Protocol *gTextInputProtocol;
             return NO;
           }
 
-          return [GREYKeyboard typeString:text inFirstResponder:firstResponder error:errorOrNil];
+          BOOL result = [GREYKeyboard typeString:text
+                                inFirstResponder:firstResponder
+                                           error:errorOrNil];
+          if (keyboardTypeWasChangedFromEmailType) {
+            // Set the keyboard type back to the Email Type.
+            [firstResponder setKeyboardType:UIKeyboardTypeEmailAddress];
+          }
+          return result;
         }];
 }
 

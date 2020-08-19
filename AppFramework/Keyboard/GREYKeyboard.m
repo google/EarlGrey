@@ -219,28 +219,8 @@ __attribute__((constructor)) static void RegisterKeyboardLifecycleHooks() {
       return SetErrorForKeyNotFound(characterAsString, string, errorOrNil);
     }
 
-    __block BOOL keyboardTypeWasChangedFromEmailType = NO;
-    // A period key for an email UITextField on iOS9 and above types the email domain (.com, .org)
-    // by default. That is not the desired behavior so check below disables it.
-    if ([characterAsString isEqualToString:@"."]) {
-      __block BOOL isEmailField = NO;
-      grey_dispatch_sync_on_main_thread(^{
-        isEmailField = [firstResponder respondsToSelector:@selector(keyboardType)] &&
-                       [firstResponder keyboardType] == UIKeyboardTypeEmailAddress;
-        if (isEmailField) {
-          [firstResponder setKeyboardType:UIKeyboardTypeDefault];
-          keyboardTypeWasChangedFromEmailType = YES;
-        }
-      });
-    }
-
     if (!TapKey(key, errorOrNil)) {
       return NO;
-    }
-
-    if (keyboardTypeWasChangedFromEmailType) {
-      // Set the keyboard type back to the Email Type.
-      [firstResponder setKeyboardType:UIKeyboardTypeEmailAddress];
     }
 
     // When space, delete or uppercase letter is typed, the keyboard will automatically change
@@ -566,14 +546,14 @@ static UIKeyboardImpl *GetKeyboardObject() {
  */
 static BOOL TapKey(id key, __strong NSError **errorOrNil) {
   GREYFatalAssert(key);
-
+  NSLog(@"Tap began on key: %@.", [key accessibilityLabel]);
   BOOL success = [gTapKeyAction perform:key error:errorOrNil];
   if (!success) {
     return NO;
   }
   grey_dispatch_sync_on_main_thread(^{
-    NSLog(@"Tapped on key: %@.", [key accessibilityLabel]);
     [[GetKeyboardObject() taskQueue] waitUntilAllTasksAreFinished];
+    NSLog(@"Tap ended on key: %@.", [key accessibilityLabel]);
   });
   return YES;
 }
