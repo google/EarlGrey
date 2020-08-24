@@ -129,7 +129,7 @@
 
   GREYElementMatcherBlock *anyOfMatcherBlock = [GREYElementMatcherBlock
       matcherWithMatchesBlock:^BOOL(id _Nonnull element) {
-        return [element isKindOfClass:[UITableView class]];
+        return [element isKindOfClass:GREY_REMOTE_CLASS_IN_APP(UITableView)];
       }
       descriptionBlock:^(id<GREYDescription> _Nonnull description) {
         [description appendText:@"Test"];
