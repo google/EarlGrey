@@ -513,15 +513,15 @@
 /**
  * Checks printed information for failures with GREYAsserts containing both description and details.
  **/
-- (void)testAssertionDefines {
+- (void)testAssertionDefineMacros {
   GREYFail(@"Foo");
-  XCTAssertEqualObjects(_handler.details, @"Foo");
+  XCTAssertEqualObjects(_handler.details, @"Foo\n");
   GREYFail(@"Foo: %@", @"Bar");
-  XCTAssertEqualObjects(_handler.details, @"Foo: Bar");
+  XCTAssertEqualObjects(_handler.details, @"Foo: Bar\n");
   GREYFailWithDetails(@"Foo", @"Bar");
-  XCTAssertEqualObjects(_handler.details, @"Foo\nBar");
+  XCTAssertEqualObjects(_handler.details, @"Foo\n\nBar");
   GREYFailWithDetails(@"Foo", @"Bar: %@", @"Baz");
-  XCTAssertEqualObjects(_handler.details, @"Foo\nBar: Baz");
+  XCTAssertEqualObjects(_handler.details, @"Foo\n\nBar: Baz");
 }
 
 @end
