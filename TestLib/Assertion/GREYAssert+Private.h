@@ -57,8 +57,8 @@ typedef NS_ENUM(int32_t, GREYIAssertionType) {
  *
  * @param assertionType The type of assertion macro this was called from. This determines the
  *                      format of the timeout message that will be printed if the app does not idle.
- * @param variadic The type and number of these arguments must match the format string in the
- *                 implementation.
+ * @param ...           The type and number of these arguments must match the format string in the
+ *                      implementation.
  */
 GREY_EXTERN void GREYIWaitForAppToIdle(GREYIAssertionType assertionType, ...);
 
@@ -66,16 +66,17 @@ GREY_EXTERN void GREYIWaitForAppToIdle(GREYIAssertionType assertionType, ...);
  * Returns a description of a failed assertion.
  *
  * @param assertionType The type of assertion that has failed.
- * @param variadic The arguments relevant to the assertion type.  For the either one or two items
- *                 involved in the assertion, this contains first the NSStrings describing the
- *                 value, then a const char * with the source code of the argument.
+ * @param ...           The arguments relevant to the assertion type.  For the either one or two
+ *                      items involved in the assertion, this contains first the NSStrings
+ *                      describing the value, then a const char * with the source code of the
+ *                      argument.
  */
 GREY_EXTERN NSString *_Nonnull GREYIFailureDescription(GREYIAssertionType assertionType, ...);
 
 /**
  * Sets the current invocation location to the given file and line number.
  *
- * @param filename   The file where the invocation which might fail occurs.
+ * @param fileName   The file where the invocation which might fail occurs.
  * @param lineNumber The line number within that file where the invocation occurs.
  */
 GREY_EXTERN void GREYISetFileLineAsFailable(const char *_Nonnull fileName, NSUInteger lineNumber);
