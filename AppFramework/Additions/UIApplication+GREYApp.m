@@ -109,19 +109,9 @@ static NSMutableArray<NSString *> *gRunLoopModes;
   }
 }
 
-- (void)greyswizzled_pushRunLoopMode:(NSString *)mode {
-  [self grey_pushRunLoopMode:mode];
-  INVOKE_ORIGINAL_IMP1(void, @selector(greyswizzled_pushRunLoopMode:), mode);
-}
-
 - (void)greyswizzled_pushRunLoopMode:(NSString *)mode requester:(id)requester {
   [self grey_pushRunLoopMode:mode];
   INVOKE_ORIGINAL_IMP2(void, @selector(greyswizzled_pushRunLoopMode:requester:), mode, requester);
-}
-
-- (void)greyswizzled_popRunLoopMode:(NSString *)mode {
-  [self grey_popRunLoopMode:mode];
-  INVOKE_ORIGINAL_IMP1(void, @selector(greyswizzled_popRunLoopMode:), mode);
 }
 
 - (void)greyswizzled_popRunLoopMode:(NSString *)mode requester:(id)requester {
