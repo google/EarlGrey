@@ -51,26 +51,28 @@ static void (^gNoopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef 
   _spinning = YES;
   CFTimeInterval timeoutTime = CACurrentMediaTime() + _timeout;
   BOOL stopConditionMet = NO;
-  BOOL needToDrainRunLoop = (CFRunLoopGetCurrent() == CFRunLoopGetMain());
+  BOOL explicitDrainInMainRunLoop = (CFRunLoopGetCurrent() == CFRunLoopGetMain());
 
   if (_minRunLoopDrains > 0) {
     // Drain _minRunLoopDrains times.
     stopConditionMet = [self grey_drainRunLoopInActiveModeForDrains:_minRunLoopDrains
-                                               explicitRunLoopDrain:needToDrainRunLoop
+                                         explicitDrainInMainRunLoop:explicitDrainInMainRunLoop
                                                      checkCondition:stopConditionBlock];
   } else {
     // Drain once.
-    stopConditionMet = [self grey_drainOnceInActiveModeWithExplicitRunLoopDrain:needToDrainRunLoop
-                                                                 checkCondition:stopConditionBlock];
+    stopConditionMet =
+        [self grey_drainOnceInActiveModeWithExplicitDrainInMainRunLoop:explicitDrainInMainRunLoop
+                                                        checkCondition:stopConditionBlock];
   }
 
   CFTimeInterval remainingTime = [self grey_secondsUntilTime:timeoutTime];
   // Drain for remaining time.
   while (!stopConditionMet && remainingTime > 0) {
     @autoreleasepool {
-      stopConditionMet = [self grey_drainRunLoopInActiveModeAndCheckCondition:stopConditionBlock
-                                                         explicitRunLoopDrain:needToDrainRunLoop
-                                                                      forTime:remainingTime];
+      stopConditionMet =
+          [self grey_drainRunLoopInActiveModeAndCheckCondition:stopConditionBlock
+                                    explicitDrainInMainRunLoop:explicitDrainInMainRunLoop
+                                                       forTime:remainingTime];
       remainingTime = [self grey_secondsUntilTime:timeoutTime];
     }
   }
@@ -85,16 +87,16 @@ static void (^gNoopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef 
  * Spins the runloop in the active mode for @c exitDrainCount drains and check the condition
  *
  *
- * @param drainCount           The number of times to drain the active runloop.
- * @param explicitRunLoopDrain Whether to drain the main runloop explicitly.
- * @param stopConditionBlock   The condition block that should be checked to determine if we should
- *                             stop initiating drains in the active mode.
+ * @param drainCount                 The number of times to drain the active runloop.
+ * @param explicitDrainInMainRunLoop Whether to drain the main runloop explicitly.
+ * @param stopConditionBlock         The condition block that should be checked to determine if we
+ *                                   should stop initiating drains in the active mode.
  *
  * @return @c YES if the condition block was evaluated to @c YES while draining or after the active
  *         runloop finished; @c NO otherwise.
  */
 - (BOOL)grey_drainRunLoopInActiveModeForDrains:(NSUInteger)drainCount
-                          explicitRunLoopDrain:(BOOL)explicitRunLoopDrain
+                    explicitDrainInMainRunLoop:(BOOL)explicitDrainInMainRunLoop
                                 checkCondition:(BOOL (^)(void))stopConditionBlock {
   GREYFatalAssertWithMessage(drainCount > 0, @"Requires at least one drain to execute the block");
 
@@ -126,7 +128,7 @@ static void (^gNoopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef 
     // the main thread doesn't yield just yet. We set a flag here to avoid subsequent entrances
     // into the runloop after the condition has been checked once.
     conditionChecked = YES;
-    if (explicitRunLoopDrain) {
+    if (explicitDrainInMainRunLoop) {
       CFRunLoopStop(CFRunLoopGetMain());
     } else {
       dispatch_semaphore_signal(stopCondition);
@@ -147,8 +149,8 @@ static void (^gNoopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef 
           [self grey_setupObserverInMode:activeMode
                   withBeforeSourcesBlock:drainCountingBlock
                       beforeWaitingBlock:wakeUpBlock
-                    explicitRunLoopDrain:explicitRunLoopDrain];
-      if (explicitRunLoopDrain) {
+              explicitDrainInMainRunLoop:explicitDrainInMainRunLoop];
+      if (explicitDrainInMainRunLoop) {
         CFRunLoopRunResult result = CFRunLoopRunInMode((CFStringRef)activeMode, DBL_MAX, NO);
 
         // In case that no sources are attached to the current runloop where the function returns
@@ -187,17 +189,17 @@ static void (^gNoopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef 
  *
  * The stop condition is checked at least once per runloop drain.
  *
- * @param stopConditionBlock   The condition block that should be checked to determine if we should
- *                             stop initiating drains in the active mode.
- * @param explicitRunLoopDrain Whether to drain the main loop explicitly.
- * @param time                 The timeout time after which we should stop initiating drains.
+ * @param stopConditionBlock         The condition block that should be checked to determine if we
+ *                                   should stop initiating drains in the active mode.
+ * @param explicitDrainInMainRunLoop Whether to drain the main loop explicitly.
+ * @param time                       The timeout time after which we should stop initiating drains.
  *
  * @return @c YES if the condition block was evaluated to @c YES while draining or after the active
  *         runloop finished; @c NO otherwise.
  * @note   We only explicitly drain the main runloop on the main thread.
  */
 - (BOOL)grey_drainRunLoopInActiveModeAndCheckCondition:(BOOL (^)(void))stopConditionBlock
-                                  explicitRunLoopDrain:(BOOL)explicitRunLoopDrain
+                            explicitDrainInMainRunLoop:(BOOL)explicitDrainInMainRunLoop
                                                forTime:(CFTimeInterval)time {
   NSString *activeMode = [self grey_activeRunLoopMode];
   CFRunLoopTimerRef wakeUpTimer = [self grey_setupWakeUpTimerInMode:activeMode];
@@ -219,7 +221,7 @@ static void (^gNoopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef 
         [strongSelf conditionMetHandler]();
       }
       conditionMet = YES;
-      if (explicitRunLoopDrain) {
+      if (explicitDrainInMainRunLoop) {
         CFRunLoopStop(CFRunLoopGetMain());
       } else {
         dispatch_semaphore_signal(stopCondition);
@@ -251,7 +253,7 @@ static void (^gNoopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef 
         [strongSelf conditionMetHandler]();
       }
       conditionMet = YES;
-      if (explicitRunLoopDrain) {
+      if (explicitDrainInMainRunLoop) {
         CFRunLoopStop(CFRunLoopGetMain());
       } else {
         dispatch_semaphore_signal(stopCondition);
@@ -263,8 +265,8 @@ static void (^gNoopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef 
       [self grey_setupObserverInMode:activeMode
               withBeforeSourcesBlock:beforeSourcesConditionCheckBlock
                   beforeWaitingBlock:beforeWaitingConditionCheckBlock
-                explicitRunLoopDrain:explicitRunLoopDrain];
-  if (explicitRunLoopDrain) {
+          explicitDrainInMainRunLoop:explicitDrainInMainRunLoop];
+  if (explicitDrainInMainRunLoop) {
     // Only drains the main runloop.
     GREYFatalAssertMainThread();
 
@@ -309,18 +311,19 @@ static void (^gNoopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef 
  * the active mode; if it is from a background thread, it will attempt to schedule the block, wake
  * up the main runloop to execute it and exit.
  *
- * @param explicitRunLoopDrain Whether to drain the main loop explicitly.
- * @param stopConditionBlock   The condition block that should be evaluated in the active mode.
+ * @param explicitDrainInMainRunLoop Whether to drain the main loop explicitly.
+ * @param stopConditionBlock         The condition that should be evaluated in the active mode.
  *
  * @return @c YES if the stop condition block evaluated to @YES; @c NO otherwise.
  */
-- (BOOL)grey_drainOnceInActiveModeWithExplicitRunLoopDrain:(BOOL)explicitRunLoopDrain
-                                            checkCondition:(BOOL (^)(void))stopConditionBlock {
+- (BOOL)grey_drainOnceInActiveModeWithExplicitDrainInMainRunLoop:(BOOL)explicitDrainInMainRunLoop
+                                                  checkCondition:
+                                                      (BOOL (^)(void))stopConditionBlock {
   __block BOOL conditionMet = NO;
   __weak __typeof__(self) weakSelf = self;
 
   dispatch_semaphore_t stopCondition;
-  if (!explicitRunLoopDrain) {
+  if (!explicitDrainInMainRunLoop) {
     stopCondition = dispatch_semaphore_create(0L);
   }
   NSString *activeMode = [self grey_activeRunLoopMode];
@@ -335,12 +338,12 @@ static void (^gNoopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef 
       }
       conditionMet = YES;
     }
-    if (!explicitRunLoopDrain) {
+    if (!explicitDrainInMainRunLoop) {
       dispatch_semaphore_signal(stopCondition);
     }
   });
 
-  if (explicitRunLoopDrain) {
+  if (explicitDrainInMainRunLoop) {
     // Handles at most one source in the active mode. All enqueued blocks are served before any
     // sources are served.
     CFRunLoopRunInMode((CFStringRef)activeMode, 0, true);
@@ -361,23 +364,23 @@ static void (^gNoopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef 
  * @remark We consider a mode "nested" if a source handled while we are spinning the runloop
  *         starts spinning the runloop in the same mode.
  *
- * @param mode                 The mode that the observer should be added to.
- * @param beforeSourcesBlock   Block that will be invoked when the added observer receives before-
- *                             sources callbacks and is not nested.
- * @param beforeWaitingBlock   Block that will be invoked when the added observer receives before-
- *                             waiting callbacks and is not nested.
- * @param explicitRunLoopDrain Whether the main runloop will be drained explicitly.
+ * @param mode                       The mode that the observer should be added to.
+ * @param beforeSourcesBlock         Block that will be invoked when the added observer receives
+ *                                   before-sources callbacks and is not nested.
+ * @param beforeWaitingBlock         Block that will be invoked when the added observer receives
+ *                                   before-waiting callbacks and is not nested.
+ * @param explicitDrainInMainRunLoop Whether the main runloop will be drained explicitly.
  *
  * @return The registered observer.
  */
 - (CFRunLoopObserverRef)grey_setupObserverInMode:(NSString *)mode
                           withBeforeSourcesBlock:(void (^)(void))beforeSourcesBlock
                               beforeWaitingBlock:(void (^)(void))beforeWaitingBlock
-                            explicitRunLoopDrain:(BOOL)explicitRunLoopDrain {
+                      explicitDrainInMainRunLoop:(BOOL)explicitDrainInMainRunLoop {
   void (^observerBlock)(CFRunLoopObserverRef observer, CFRunLoopActivity activity);
   CFOptionFlags observerFlags = 0L;
 
-  if (explicitRunLoopDrain) {
+  if (explicitDrainInMainRunLoop) {
     observerFlags = kCFRunLoopEntry | kCFRunLoopExit;
     __block int numNestedRunLoopModes = 0;
     observerBlock = ^(CFRunLoopObserverRef observer, CFRunLoopActivity activity) {
