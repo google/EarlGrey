@@ -26,7 +26,7 @@ GREYConfigKey const kGREYConfigKeyNSTimerMaxTrackableInterval =
 GREYConfigKey const kGREYConfigKeyCALayerModifyAnimations = @"GREYConfigKeyCALayerModifyAnimations";
 GREYConfigKey const kGREYConfigKeyCALayerMaxAnimationDuration =
     @"GREYConfigKeyCALayerMaxAnimationDuration";
-GREYConfigKey const kGREYConfigKeyURLBlacklistRegex = @"GREYConfigKeyURLBlacklistRegex";
+GREYConfigKey const kGREYConfigKeyBlockedURLRegex = @"GREYConfigKeyblockedURLRegex";
 GREYConfigKey const kGREYConfigKeyDispatchAfterMaxTrackableDelay =
     @"GREYConfigKeyDispatchAfterMaxTrackableDelay";
 GREYConfigKey const kGREYConfigKeyDelayedPerformMaxTrackableDuration =

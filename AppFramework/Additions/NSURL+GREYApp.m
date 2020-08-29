@@ -20,7 +20,9 @@
 
 #import "GREYFatalAsserts.h"
 #import "GREYThrowDefines.h"
+#import "GREYConfigKey.h"
 #import "GREYConfiguration.h"
+#import "GREYConstants.h"
 #import "GREYLogger.h"
 
 @implementation NSURL (GREYApp)
@@ -31,14 +33,14 @@
     return NO;
   }
 
-  NSArray *blacklistRegExs = [[self class] grey_blacklistRegEx];
-  if (blacklistRegExs.count == 0) {
+  NSArray<NSString *> *blockedRegExs = [[self class] grey_blockedRegEx];
+  if (blockedRegExs.count == 0) {
     return YES;
   }
 
   NSString *stringURL = [self absoluteString];
   NSError *error;
-  for (NSString *regexStr in blacklistRegExs) {
+  for (NSString *regexStr in blockedRegExs) {
     NSRegularExpression *regex =
         [NSRegularExpression regularExpressionWithPattern:regexStr options:0 error:&error];
     GREYFatalAssertWithMessage(!error, @"Invalid regex:\"%@\". See error: %@", regex, error);
@@ -46,7 +48,7 @@
                                                   options:0
                                                     range:NSMakeRange(0, [stringURL length])];
     if (firstMatch.location != NSNotFound) {
-      GREYLogVerbose(@"Matched a blacklisted URL: %@", stringURL);
+      GREYLogVerbose(@"Matched a blocked URL: %@", stringURL);
       return NO;
     }
   }
@@ -55,30 +57,33 @@
 
 // Returns an @c NSArray of @c NSString representing regexs of URLs that shouldn't be synchronized
 // with.
-+ (NSArray *)grey_blacklistRegEx {
-  // Get user blacklisted URLs.
-  NSMutableArray *blacklist = GREY_CONFIG_ARRAY(kGREYConfigKeyURLBlacklistRegex).mutableCopy;
++ (NSArray<NSString *> *)grey_blockedRegEx {
+  // Get user blocked URLs.
+  NSMutableArray<NSString *> *blocked =
+      GREY_CONFIG_ARRAY(kGREYConfigKeyBlockedURLRegex).mutableCopy;
   @synchronized(self) {
-    // Merge with framework blacklisted URLs.
-    NSArray *frameworkBlacklist = objc_getAssociatedObject(self, @selector(grey_blacklistRegEx));
-    if (frameworkBlacklist) {
-      [blacklist addObjectsFromArray:frameworkBlacklist];
+    // Merge with framework blocked URLs.
+    NSArray<NSString *> *frameworkBlocked =
+        objc_getAssociatedObject(self, @selector(grey_blockedRegEx));
+    if (frameworkBlocked) {
+      [blocked addObjectsFromArray:frameworkBlocked];
     }
   }
-  return blacklist;
+  return blocked;
 }
 
-+ (void)grey_addBlacklistRegEx:(NSString *)URLRegEx {
++ (void)grey_addBlockedRegEx:(NSString *)URLRegEx {
   GREYThrowOnNilParameter(URLRegEx);
 
   @synchronized(self) {
-    NSMutableArray *blacklist = objc_getAssociatedObject(self, @selector(grey_blacklistRegEx));
-    if (!blacklist) {
-      blacklist = [[NSMutableArray alloc] init];
-      objc_setAssociatedObject(self, @selector(grey_blacklistRegEx), blacklist,
+    NSMutableArray<NSString *> *blocked =
+        objc_getAssociatedObject(self, @selector(grey_blockedRegEx));
+    if (!blocked) {
+      blocked = [[NSMutableArray alloc] init];
+      objc_setAssociatedObject(self, @selector(grey_blockedRegEx), blocked,
                                OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
-    [blacklist addObject:URLRegEx];
+    [blocked addObject:URLRegEx];
   }
 }
 

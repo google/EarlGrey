@@ -58,7 +58,7 @@ GREYConfiguration *GREYCreateConfiguration(void) { return [[GREYTestConfiguratio
     [self setDefaultValue:@YES forConfigKey:kGREYConfigKeyCALayerModifyAnimations];
     [self setDefaultValue:@(1.5) forConfigKey:kGREYConfigKeyDispatchAfterMaxTrackableDelay];
     [self setDefaultValue:@(1.5) forConfigKey:kGREYConfigKeyDelayedPerformMaxTrackableDuration];
-    [self setDefaultValue:@[] forConfigKey:kGREYConfigKeyURLBlacklistRegex];
+    [self setDefaultValue:@[] forConfigKey:kGREYConfigKeyBlockedURLRegex];
     [self setDefaultValue:@(kGREYIdle) forConfigKey:kGREYConfigKeyIgnoreAppStates];
   }
   return self;

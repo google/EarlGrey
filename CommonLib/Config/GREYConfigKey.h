@@ -120,9 +120,9 @@ GREY_EXTERN GREYConfigKey const kGREYConfigKeyCALayerModifyAnimations;
 GREY_EXTERN GREYConfigKey const kGREYConfigKeyCALayerMaxAnimationDuration;
 
 /**
- * Configuration that holds regular expressions for URLs that are blacklisted from synchronization.
- * EarlGrey will not wait for any network request with URLs matching the blacklisted regular
- * expressions to complete. Most frequently blacklisted URLs include those used for sending
+ * Configuration that holds regular expressions for URLs that are blocked from synchronization.
+ * EarlGrey will not wait for any network request with URLs matching the blocked regular
+ * expressions to complete. Most frequently blocked URLs include those used for sending
  * analytics, pingbacks, and background network tasks that don't interfere with testing.
  *
  * @remark By default, EarlGrey will not synchronize with any URLs with "data" scheme.
@@ -131,7 +131,7 @@ GREY_EXTERN GREYConfigKey const kGREYConfigKeyCALayerMaxAnimationDuration;
  *                  The strings must be accepted by @c NSRegularExpression.
  * Default value: an empty @c NSArray
  */
-GREY_EXTERN GREYConfigKey const kGREYConfigKeyURLBlacklistRegex;
+GREY_EXTERN GREYConfigKey const kGREYConfigKeyBlockedURLRegex;
 
 /**
  * Configuration for setting a directory location where any test artifacts such as screenshots,

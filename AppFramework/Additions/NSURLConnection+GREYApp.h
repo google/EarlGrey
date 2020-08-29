@@ -19,7 +19,7 @@
 /**
  * Additions to NSURLConnection to allow EarlGrey to track status for every connection. By
  * default, EarlGrey tracks all NSURLConnection's, to change this behavior update GREYConfiguration
- * setting with @c kGREYConfigKeyURLBlacklistRegex key.
+ * setting with @c kGREYConfigKeyBlockedURLRegex key.
  */
 @interface NSURLConnection (GREYApp)
 

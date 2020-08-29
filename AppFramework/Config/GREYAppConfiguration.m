@@ -124,7 +124,7 @@ static NSDictionary *GetFakeLocalTestingAppConfig() {
       kGREYConfigKeyCALayerModifyAnimations : @YES,
       kGREYConfigKeyDispatchAfterMaxTrackableDelay : @(1.5),
       kGREYConfigKeyDelayedPerformMaxTrackableDuration : @(1.5),
-      kGREYConfigKeyURLBlacklistRegex : @[],
+      kGREYConfigKeyBlockedURLRegex : @[],
       kGREYConfigKeyIgnoreAppStates : @(kGREYIdle),
     };
   });

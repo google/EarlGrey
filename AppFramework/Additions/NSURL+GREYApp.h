@@ -21,11 +21,11 @@ NS_ASSUME_NONNULL_BEGIN
 @interface NSURL (GREYApp)
 
 /**
- * Add @c regEx to the list of framework blacklisted URLs.
+ * Add @c regEx to the list of framework blocked URLs.
  *
- * @param regEx A regular expression representing a URL to blacklist from the tracking system.
+ * @param regEx A regular expression representing a URL to blocked from the tracking system.
  */
-+ (void)grey_addBlacklistRegEx:(NSString *)regEx;
++ (void)grey_addBlockedRegEx:(NSString *)regEx;
 
 /**
  * @return @c YES if EarlGrey must synchronize with this url, @c NO otherwise.
