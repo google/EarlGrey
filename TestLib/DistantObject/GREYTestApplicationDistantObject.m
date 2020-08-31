@@ -34,7 +34,7 @@
 #import "EDOServiceError.h"
 #import "EDOServiceException.h"
 #import "EDOServicePort.h"
-#import "NSObject+EDOBlacklistedType.h"
+#import "NSObject+EDOBlockedType.h"
 
 
 /** Checks if main queue has eDO host service. */
