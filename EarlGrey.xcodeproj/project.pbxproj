@@ -562,8 +562,7 @@
 				FD10019B1C5B46C200B2DB0A /* Synchronization */,
 				3F5122091EE1CF2B0000CC56 /* Traversal */,
 			);
-			name = EarlGrey;
-			path = EGFramework;
+			path = EarlGrey;
 			sourceTree = "<group>";
 		};
 		FD1001001C5B46C100B2DB0A /* Action */ = {
