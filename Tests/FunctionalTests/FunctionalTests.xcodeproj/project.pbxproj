@@ -605,7 +605,9 @@
 				FD193F2D1BBDDA4F00153959 /* Products */,
 				4C0731EECC191DBA6FF23E1E /* Frameworks */,
 			);
+			indentWidth = 2;
 			sourceTree = "<group>";
+			tabWidth = 2;
 		};
 		FD193F2D1BBDDA4F00153959 /* Products */ = {
 			isa = PBXGroup;
@@ -714,6 +716,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);

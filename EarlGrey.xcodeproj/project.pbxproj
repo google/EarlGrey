@@ -905,7 +905,9 @@
 				FDE401021BE83859001C172E /* Dependencies */,
 				FDE4FFAA1BE831AA001C172E /* Products */,
 			);
+			indentWidth = 2;
 			sourceTree = "<group>";
+			tabWidth = 2;
 		};
 		FDE4FFAA1BE831AA001C172E /* Products */ = {
 			isa = PBXGroup;
