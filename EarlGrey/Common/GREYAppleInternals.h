@@ -221,6 +221,11 @@ IOHIDEventRef IOHIDEventCreateDigitizerFingerEvent(CFAllocatorRef allocator,
 - (void)_setIsFirstTouchForView:(BOOL)first;
 
 /**
+ * Must be set to @c YES for new touches on iOS 14.
+ */
+- (void)_setIsTapToClick:(BOOL)isTap;
+
+/**
  *  Sets flag marking this touch as a tap.
  *
  *  @param isTap A boolean to indicate that this is a tap.
