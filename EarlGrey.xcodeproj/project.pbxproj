@@ -1081,10 +1081,11 @@
 			};
 			buildConfigurationList = FDE4FFA41BE831AA001C172E /* Build configuration list for PBXProject "EarlGrey" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = FDE4FFA01BE831AA001C172E;
 			productRefGroup = FDE4FFAA1BE831AA001C172E /* Products */;
