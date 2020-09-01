@@ -30,6 +30,11 @@
   [self openTestViewNamed:@"Typing Views"];
 }
 
+- (void)tearDown {
+  [[GREYConfiguration sharedInstance] reset];
+  [super tearDown];
+}
+
 - (void)testTypingAtBeginning {
   [[[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
       performAction:[GREYActions actionForTypeText:@"Foo"]]
@@ -539,6 +544,23 @@
                          @"Failed to dismiss keyboard since it was not showing.",
                          @"Unexpected error message for second dismiss: %@, original error: %@",
                          localizedErrorDescription, error);
+}
+
+/**
+ * Ensures that EarlGrey doesn't wait any longer after a typing action for the keyboard's Caret
+ * animation to be be tracked.
+ */
+- (void)testCaretBlinkingAnimationNotTracked {
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
+      performAction:grey_typeText(@"Foo")];
+  GREYConfiguration *config = [GREYConfiguration sharedInstance];
+  [config setValue:@(3) forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
+  NSError *error;
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
+      performAction:grey_clearText()
+              error:&error];
+  XCTAssertFalse([error.description containsString:@"UITextSelectionViewCaretBlinkAnimation"],
+                 @"Caret blinking animation should not be present");
 }
 
 #pragma mark - Private

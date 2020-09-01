@@ -32,6 +32,8 @@
 		3F5122191EE1D37E0000CC56 /* GREYTraversalDFS.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F5122131EE1D37E0000CC56 /* GREYTraversalDFS.m */; };
 		3FE259BB1F1D451200CFBB57 /* GREYAppStateTrackerObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 3FE259B91F1D451200CFBB57 /* GREYAppStateTrackerObject.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		3FE259BC1F1D451200CFBB57 /* GREYAppStateTrackerObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FE259BA1F1D451200CFBB57 /* GREYAppStateTrackerObject.m */; };
+		47E029C924FE99F800473024 /* UITextSelectionView+GREYAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 47E029C724FE99F800473024 /* UITextSelectionView+GREYAdditions.h */; };
+		47E029CA24FE99F800473024 /* UITextSelectionView+GREYAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 47E029C824FE99F800473024 /* UITextSelectionView+GREYAdditions.m */; };
 		597E02CA1D55AC040052A8D1 /* GREYPathGestureUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001081C5B46C100B2DB0A /* GREYPathGestureUtils.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		597E02CB1D55AC180052A8D1 /* GREYScrollAction.h in Headers */ = {isa = PBXBuildFile; fileRef = FD10010C1C5B46C100B2DB0A /* GREYScrollAction.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		597E02CC1D55AC240052A8D1 /* GREYTapAction.h in Headers */ = {isa = PBXBuildFile; fileRef = FD1001181C5B46C100B2DB0A /* GREYTapAction.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -264,6 +266,8 @@
 		3F5122131EE1D37E0000CC56 /* GREYTraversalDFS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYTraversalDFS.m; path = EarlGrey/Traversal/GREYTraversalDFS.m; sourceTree = SOURCE_ROOT; };
 		3FE259B91F1D451200CFBB57 /* GREYAppStateTrackerObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYAppStateTrackerObject.h; sourceTree = "<group>"; };
 		3FE259BA1F1D451200CFBB57 /* GREYAppStateTrackerObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYAppStateTrackerObject.m; sourceTree = "<group>"; };
+		47E029C724FE99F800473024 /* UITextSelectionView+GREYAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UITextSelectionView+GREYAdditions.h"; sourceTree = "<group>"; };
+		47E029C824FE99F800473024 /* UITextSelectionView+GREYAdditions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UITextSelectionView+GREYAdditions.m"; sourceTree = "<group>"; };
 		599E31E61ED79E1D0091178D /* GREYFatalAsserts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYFatalAsserts.h; sourceTree = "<group>"; };
 		599E31F61ED7DF280091178D /* GREYThrowDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYThrowDefines.h; sourceTree = "<group>"; };
 		61156A4F1D1B2AC1000013C7 /* UIGestureRecognizer+GREYAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIGestureRecognizer+GREYAdditions.h"; sourceTree = "<group>"; };
@@ -642,6 +646,8 @@
 				FD10013C1C5B46C100B2DB0A /* UIScrollView+GREYAdditions.m */,
 				FD10013D1C5B46C100B2DB0A /* UISwitch+GREYAdditions.h */,
 				FD10013E1C5B46C100B2DB0A /* UISwitch+GREYAdditions.m */,
+				47E029C724FE99F800473024 /* UITextSelectionView+GREYAdditions.h */,
+				47E029C824FE99F800473024 /* UITextSelectionView+GREYAdditions.m */,
 				FD10013F1C5B46C100B2DB0A /* UITouch+GREYAdditions.h */,
 				FD1001401C5B46C100B2DB0A /* UITouch+GREYAdditions.m */,
 				FD1001411C5B46C100B2DB0A /* UIView+GREYAdditions.h */,
@@ -929,6 +935,7 @@
 				FD1001B31C5B46C200B2DB0A /* GREYActions.h in Headers */,
 				FD6D0B981C6D49400001EA75 /* GREYBaseAction.h in Headers */,
 				FD1001B11C5B46C200B2DB0A /* GREYActionBlock.h in Headers */,
+				47E029C924FE99F800473024 /* UITextSelectionView+GREYAdditions.h in Headers */,
 				FD1001BD1C5B46C200B2DB0A /* GREYScrollActionError.h in Headers */,
 				FD1001F91C5B46C200B2DB0A /* GREYIdlingResource.h in Headers */,
 				FD1001FA1C5B46C200B2DB0A /* GREYAssertion.h in Headers */,
@@ -1209,6 +1216,7 @@
 				FD1002451C5B46C200B2DB0A /* GREYCondition.m in Sources */,
 				3FE259BC1F1D451200CFBB57 /* GREYAppStateTrackerObject.m in Sources */,
 				FD1001FC1C5B46C200B2DB0A /* GREYAssertionBlock.m in Sources */,
+				47E029CA24FE99F800473024 /* UITextSelectionView+GREYAdditions.m in Sources */,
 				FD1002151C5B46C200B2DB0A /* GREYElementInteraction.m in Sources */,
 				FD1002381C5B46C200B2DB0A /* GREYMatchers.m in Sources */,
 				FD1001C61C5B46C200B2DB0A /* GREYSwipeAction.m in Sources */,
