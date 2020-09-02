@@ -16,6 +16,7 @@
 
 #import <Foundation/Foundation.h>
 
+#import "GREYFatalAsserts.h"
 #import "GREYDefines.h"
 
 /**
@@ -32,3 +33,18 @@
  * @param block Block that will be executed.
  */
 GREY_EXPORT void grey_dispatch_sync_on_main_thread(void (^block)(void));
+
+/**
+ * A utility method to wait for a particular condition to be satisfied. If a condition is not
+ * met, the current thread's run loop is drained once and the condition is checked again. This
+ * activity is repeated until the timeout provided expires.
+ *
+ * @note  Always call this on the main thread.
+ * @param checkConditionBlock Block that checks condition.
+ * @param timeout             The timeout time to check the condition.
+ *
+ * @return @c YES if the condition specified in the condition block was satisfied before the
+ *         timeout. @c NO otherwise.
+ */
+GREY_EXPORT BOOL grey_check_condition_until_timeout(BOOL (^checkConditionBlock)(void),
+                                                    double timeout);

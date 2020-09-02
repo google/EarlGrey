@@ -472,11 +472,12 @@ static id WaitAndFindKeyForCharacter(NSString *character, CFTimeInterval timeout
   __block id result = nil;
   GREYFatalAssertNonMainThread();
   grey_dispatch_sync_on_main_thread(^{
-    CFTimeInterval startTime = CACurrentMediaTime();
-    while (!result && (CACurrentMediaTime() - startTime) < timeout) {
-      CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0, NO);
-      result = GetKeyForCharacterValueInKeyboardLayout(character, ignoreCase);
-    }
+    grey_check_condition_until_timeout(
+        ^BOOL(void) {
+          result = GetKeyForCharacterValueInKeyboardLayout(character, ignoreCase);
+          return result != nil;
+        },
+        timeout);
   });
   return result;
 }

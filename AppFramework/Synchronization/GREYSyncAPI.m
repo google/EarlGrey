@@ -31,3 +31,15 @@ void grey_dispatch_sync_on_main_thread(void (^block)(void)) {
     dispatch_semaphore_wait(waitForBlock, DISPATCH_TIME_FOREVER);
   }
 }
+
+BOOL grey_check_condition_until_timeout(BOOL (^checkConditionBlock)(void), double timeout) {
+  GREYFatalAssertWithMessage(checkConditionBlock != nil, @"Condition Block must not be nil.");
+  GREYFatalAssertWithMessage(timeout > 0, @"Timeout has to be greater than zero.");
+  CFTimeInterval startTime = CACurrentMediaTime();
+  BOOL success = NO;
+  while (!success && (CACurrentMediaTime() - startTime) < timeout) {
+    CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0, NO);
+    success = checkConditionBlock();
+  }
+  return success;
+}

@@ -415,10 +415,14 @@ static Protocol *gTextInputProtocol;
          // Wait for the interaction timeout for the semaphore to return.
          CFTimeInterval interactionTimeout =
              GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
-         long evaluationTimedOut = dispatch_semaphore_wait(
-             semaphore,
-             dispatch_time(DISPATCH_TIME_NOW, (int64_t)(interactionTimeout * NSEC_PER_SEC)));
-         if (evaluationTimedOut) {
+
+         BOOL success = grey_check_condition_until_timeout(
+             ^BOOL(void) {
+               return dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW) == 0;
+             },
+             interactionTimeout);
+
+         if (!success) {
            I_GREYPopulateError(errorOrNil, kGREYInteractionErrorDomain,
                                kGREYWKWebViewInteractionFailedErrorCode,
                                @"Interaction with WKWebView failed because of timeout");
