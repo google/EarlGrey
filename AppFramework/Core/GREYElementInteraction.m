@@ -281,9 +281,8 @@
                    }];
 
     if (element) {
-      GREYLogVerbose(
-          @"Performing action: %@\n on element: %@\n with matcher: %@\n with root matcher: %@",
-          [action name], element, _elementMatcher, _rootMatcher);
+      GREYLogVerbose(@"Performing action: %@\n with matcher: %@\n with root matcher: %@",
+                     [action name], _elementMatcher, _rootMatcher);
       
       BOOL success = [action perform:element error:&actionError];
       
