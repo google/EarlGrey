@@ -118,11 +118,11 @@
 - (void)testScrollToTopWorksWithNegativeInsets {
   // Scroll down.
   id<GREYMatcher> matcher =
-      grey_allOf(grey_accessibilityLabel(@"Label 2"), grey_interactable(), nil);
+      grey_allOf(grey_accessibilityLabel(@"Label 2"), grey_sufficientlyVisible(), nil);
   [[[EarlGrey selectElementWithMatcher:matcher]
          usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 50)
       onElementWithMatcher:grey_accessibilityLabel(@"Upper Scroll View")]
-      assertWithMatcher:grey_sufficientlyVisible()];
+      assertWithMatcher:grey_notNil()];
 
   // Add positive insets using this format {top,left,bottom,right}
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"topTextbox")]
