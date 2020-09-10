@@ -144,9 +144,6 @@
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"c")] performAction:grey_tap()];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"return")] performAction:grey_tap()];
-
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
-      assertWithMatcher:grey_text(@"abc")];
 }
 
 - (void)testNonTypingTextField {
@@ -431,30 +428,13 @@
       performAction:grey_typeText(@"Foo")] assertWithMatcher:grey_accessibilityLabel(@"Foo")];
 }
 
-/**
- * In UITextField, backspace would trigger the keyboard to change its keyplane to what value you set
- * for @c autoCapitalizationType. If it's on, it will switch to the uppercase keyplane. Otherwise,
- * it will change to lowercase keyplane. EarlGrey turns off Auto Capitalization for the Keyboard
- * when a test suite starts.
- */
-- (void)testAutoCapitalizationIsOff {
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
-      performAction:grey_typeText(@"AAAAA")];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
-      performAction:grey_typeText(@"\b")];
-  // Keyplane should change to lowercase keyplane with backspace.
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"q")]
-      assertWithMatcher:grey_sufficientlyVisible()];
-}
-
 - (void)testKeyplaneChangeInCustomTextView {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CustomTextView")]
       performAction:grey_typeText(@"AAAAA")];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CustomTextView")]
       performAction:grey_typeText(@"\b")];
-  // Keyplane should change to lowercase keyplane with backspace since EarlGrey turns off auto
-  // capitalization.
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"q")]
+  // Keyplane should change to uppercase keyplane with backspace.
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Q")]
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 

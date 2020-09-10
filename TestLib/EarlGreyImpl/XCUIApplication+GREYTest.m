@@ -95,9 +95,6 @@
     // Set the preferences values directly on simulator for the keyboard modifiers. For persisting
     // these values, CFPreferencesSynchronize must be called after.
     CFStringRef app = CFSTR("com.apple.Preferences");
-    // TODO(b/168083437): Disable auto capitalization for device as well.
-    CFPreferencesSetValue(CFSTR("KeyboardAutocapitalization"), kCFBooleanFalse, app,
-                          kCFPreferencesAnyUser, kCFPreferencesAnyHost);
     CFPreferencesSetValue(CFSTR("KeyboardAutocorrection"), kCFBooleanFalse, app,
                           kCFPreferencesAnyUser, kCFPreferencesAnyHost);
     CFPreferencesSetValue(CFSTR("KeyboardPrediction"), kCFBooleanFalse, app, kCFPreferencesAnyUser,
