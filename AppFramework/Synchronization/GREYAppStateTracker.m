@@ -24,7 +24,9 @@
 #import "GREYObjectDeallocationTracker.h"
 #import "GREYFatalAsserts.h"
 #import "GREYThrowDefines.h"
+#import "GREYAppState.h"
 #import "GREYConfiguration.h"
+#import "GREYConstants.h"
 #import "GREYDefines.h"
 #import "GREYLogger.h"
 
@@ -65,6 +67,10 @@ static const unsigned short kNumGREYAppStates = 12;
    * Access should be guarded by @c gStateLock lock.
    */
   NSMutableDictionary<NSNumber *, NSNumber *> *_stateDictionary;
+  /**
+   * A BOOL denoting if the verbose logs for the app state tracker should be printed.
+   */
+  BOOL _printAppStateTrackerLogs;
 }
 
 + (instancetype)sharedInstance {
@@ -88,6 +94,9 @@ static const unsigned short kNumGREYAppStates = 12;
     _currentState = kGREYIdle;
     _externalTrackerObjects = [[NSMutableSet alloc] init];
     _stateDictionary = [[NSMutableDictionary alloc] initWithCapacity:kNumGREYAppStates];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:kGREYAllowVerboseAppStateLogging]) {
+      _printAppStateTrackerLogs = YES;
+    }
   }
   return self;
 }
@@ -349,6 +358,11 @@ static NSString *StringFromAppState(GREYAppState state) {
 
       // We update the @c _currentState so that we can provide quick information if the app is idle
       // or not.
+      if (_printAppStateTrackerLogs) {
+        GREYLogVerbose(@"Updating state-tracking for object: %@ to state: %@",
+                       appStateTrackerObjectExternal.objectDescription,
+                       GREYKeyForAppState(newState));
+      }
       [self objectChangingFromState:originalState toState:newState];
       appStateTrackerObjectExternal.state = newState;
 

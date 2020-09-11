@@ -40,6 +40,7 @@ const NSInteger kUIPickerViewMaxAccessibilityViews = 500;
 
 /** String constants for names. */
 NSString *const kGREYAllowVerboseLogging = @"kGREYAllowVerboseLogging";
+NSString *const kGREYAllowVerboseAppStateLogging = @"kGREYAllowVerboseAppStateLogging";
 NSString *const kTextFieldAXElementClassName = @"UIAccessibilityTextFieldElement";
 
 #if TARGET_OS_IOS

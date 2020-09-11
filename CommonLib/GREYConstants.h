@@ -74,6 +74,12 @@ GREY_EXTERN const CGFloat kGREYAcceptableFloatDifference;
 GREY_EXTERN NSString* _Nonnull const kGREYAllowVerboseLogging;
 
 /**
+ * NSUserDefaults key for checking if verbose logging with information for App State Tracking is
+ * turned on. (i.e. logs with GREYLogVerbose in the GREYAppStateTracker are printed.)
+ */
+GREY_EXTERN NSString* _Nonnull const kGREYAllowVerboseAppStateLogging;
+
+/**
  * Class name for the accessibility element inside a UITextField.
  */
 GREY_EXTERN NSString* _Nonnull const kTextFieldAXElementClassName;

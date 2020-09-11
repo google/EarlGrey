@@ -18,16 +18,26 @@
  * @file GREYLogger.h
  * @brief Macro for printing more logs for aiding in debugging.
  */
-
 #import "GREYConstants.h"
 
 /**
- * Prints a log statement if @c kGREYAllowVerboseLogging is present and turned to @c YES in
- * NSUserDefaults. You can pass it in the command line arguments as shown below.
- * To turn on, set @c kGREYAllowVerboseLogging key in NSUserDefaults to @c YES.
+ * Prints a log statement if any of the following keys are present in NSUserDefaults at the start
+ * of the launch of the application process:
+ *
+ * 1. @c kGREYAllowVerboseLogging which prints interaction related logs.
+ * 2. @c kGREYAllowVerboseAppStateLogging which prints interaction and App-state related logs.
+ *
+ * To turn on for a test run - pass in @c kGREYAllowVerboseLogging or
+ * @c kGREYAllowVerboseAppStateLogging key in -[XCUIApplication launchArguments] to @c YES.
  * @code
- *   [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kGREYAllowVerboseLogging];
+ *   NSMutableArray<NSString *> *launchArguments = [[NSMutableArray alloc] init];
+ *   [launchArguments addObject:[@"-" stringByAppendingString:kGREYAllowVerboseAppStateLogging]];
+ *   [launchArguments addObject:@"1"];
+ *   self.application.launchArguments = launchArguments;
+ *   [self.application launch];
  * @endcode
+ *
+ * In the App side, you can also pass it in the scheme's Environment Variables.
  *
  * @remark Once you set this, as with any NSUserDefaults, you need to
  *         explicitly turn it off or delete and re-install the app under test.
@@ -35,9 +45,4 @@
  * @param format The string format to be printed.
  * @param ...    The parameters to be added to the string format.
  */
-#define GREYLogVerbose(format, ...)                                                    \
-  ({                                                                                   \
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:kGREYAllowVerboseLogging]) { \
-      NSLog((format), ##__VA_ARGS__);                                                  \
-    }                                                                                  \
-  })
+void GREYLogVerbose(NSString* format, ...);

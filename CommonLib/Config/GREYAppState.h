@@ -25,6 +25,7 @@
  * represent multiple states.
  */
 typedef NS_OPTIONS(NSUInteger, GREYAppState) {
+  // LINT.IfChange
   /**
    * Idle state implies App is not undergoing any state changes and it is OK to interact with it.
    */
@@ -74,6 +75,15 @@ typedef NS_OPTIONS(NSUInteger, GREYAppState) {
    * being ignored.
    */
   kGREYIgnoringSystemWideUserInteraction = (1UL << 10),
+  // LINT.ThenChange(
+  //     //depot/google3/third_party/objective_c/EarlGreyV2/CommonLib/Config/GREYAppState.m)
 };
+
+/**
+ * @return A string value for the app state's based on its key name.
+ *
+ * @param state The GREYAppState for which a key is to be obtained.
+ **/
+NSString *GREYKeyForAppState(GREYAppState state);
 
 #endif /* GREY_APP_STATE_H */
