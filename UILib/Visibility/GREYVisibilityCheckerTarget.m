@@ -20,6 +20,7 @@
 #import "UIView+GREYCommon.h"
 #import "CGGeometry+GREYUI.h"
 #import "GREYScreenshotter.h"
+#import "GREYTraversalObject.h"
 #import "GREYVisibilityChecker.h"
 
 /**
@@ -74,6 +75,16 @@ const double kMinimumAlphaToConsiderAsObscuring = 0.95f;
    * _target not only visible, but also interactable by the user.
    */
   BOOL _interactability;
+
+  /**
+   * The UIWindowScene of the @c _target's window, needed for multi-window support.
+   */
+  id _targetWindowScene;
+  /**
+   * The UIWindowScene's coordinate space of the @c _target's window, needed for multi-window
+   * support.
+   */
+  id<UICoordinateSpace> _targetCoordinateSpace;
 }
 
 - (instancetype)initWithObject:(GREYTraversalObject *)object interactability:(BOOL)interactability {
@@ -105,6 +116,13 @@ const double kMinimumAlphaToConsiderAsObscuring = 0.95f;
     _bitVector = CFBitVectorCreateMutable(kCFAllocatorDefault, 0);
     CFBitVectorSetCount(_bitVector, (CFIndex)bitVectorSize);
     _interactability = interactability;
+
+    if (@available(iOS 13.0, *)) {
+      if ([_target respondsToSelector:@selector(window)]) {
+        _targetWindowScene = [[_target window] windowScene];
+        _targetCoordinateSpace = [_targetWindowScene coordinateSpace];
+      }
+    }
   }
   return self;
 }
@@ -135,9 +153,24 @@ const double kMinimumAlphaToConsiderAsObscuring = 0.95f;
     return GREYVisibilityCheckerTargetObscureResultNone;
   }
   CGRect viewRect = VisibleRectOnScreen(object);
-  if (CGRectIsNull(viewRect)) {
+  if (CGRectIsEmpty(viewRect)) {
     return GREYVisibilityCheckerTargetObscureResultNone;
   }
+  // With iOS 13 and a new scene added, the rect obtained for the view will be in the same
+  // coordinate space as the view's window. We need to therefore ensure that if the target and
+  // the view are in different windows, then the frames are converted across their coordinate
+  // spaces.
+  if (@available(iOS 13.0, *)) {
+    if (_targetWindowScene && [object.element respondsToSelector:@selector(window)]) {
+      UIWindowScene *objectWindowScene = [[object.element window] windowScene];
+      if (objectWindowScene && _targetWindowScene != objectWindowScene) {
+        id<UICoordinateSpace> objectCoordinateSpace = [objectWindowScene coordinateSpace];
+        viewRect = [_targetCoordinateSpace convertRect:viewRect
+                                   fromCoordinateSpace:objectCoordinateSpace];
+      }
+    }
+  }
+
   CGRect intersection = CGRectIntersectionStrict(_targetRect, viewRect);
   // Check if intersection area is zero in case the _targetRect and viewRect overlap in the border.
   if (CGRectIsNull(intersection) || CGRectArea(intersection) == 0) {
