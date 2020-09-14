@@ -14,6 +14,8 @@
 // limitations under the License.
 //
 
+#import "GREYConfigKey.h"
+#import "EarlGrey.h"
 #import "GREYHostApplicationDistantObject+BaseIntegrationTest.h"
 #import "GREYHostApplicationDistantObject+BasicInteractionTest.h"
 #import "GREYHostBackgroundDistantObject+BasicInteractionTest.h"
@@ -82,6 +84,27 @@
   [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_longPress()];
   [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"EarlGrey TestApp")]
       performAction:grey_tap()];
+}
+
+/**
+ * Verify that matching time is not part of the interaction timeout time. Interaction timeout time
+ * should be the time until the application is becomes idle.
+ */
+- (void)testMatcherThatTakesALongTime {
+  GREYConfiguration *config = [GREYConfiguration sharedConfiguration];
+  NSNumber *originalTimeout = [config valueForConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
+  [config setValue:@(5) forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
+  [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
+  // This matcher should at least 10(s) to match.
+  id<GREYMatcher> matcher =
+      [[GREYHostApplicationDistantObject sharedInstance] matcherThatTakesTime:10];
+  NSError *error;
+  [[EarlGrey selectElementWithMatcher:grey_allOf(grey_keyWindow(), matcher, NULL)]
+      assertWithMatcher:grey_notNil()
+                  error:&error];
+  XCTAssertNil(error, @"Interaction should finish successfully although matching takes longer than "
+                      @"interaction time out time which is 5(s).");
+  [config setValue:originalTimeout forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
 }
 
 /**

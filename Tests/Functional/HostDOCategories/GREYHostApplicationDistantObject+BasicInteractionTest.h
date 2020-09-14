@@ -118,4 +118,9 @@
  */
 - (id<GREYMatcher>)sampleShorthandMatcher;
 
+/**
+ * @return A matcher that takes @c seconds to match.
+ */
+- (id<GREYMatcher>)matcherThatTakesTime:(double)seconds;
+
 @end

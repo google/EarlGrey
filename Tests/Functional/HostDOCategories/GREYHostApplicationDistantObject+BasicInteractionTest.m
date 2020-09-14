@@ -20,6 +20,8 @@
 
 #import "GREYActionsShorthand.h"
 #import "GREYMatchersShorthand.h"
+#import "GREYDescription.h"
+#import "GREYElementMatcherBlock.h"
 #import "GREYElementHierarchy.h"
 
 /**
@@ -148,6 +150,18 @@ static UIViewController *gViewController;
                               });
                               return YES;
                             }];
+}
+
+- (id<GREYMatcher>)matcherThatTakesTime:(double)seconds {
+  BOOL (^matchBlock)(id) = ^BOOL(id _Nonnull element) {
+    sleep(seconds);
+    return YES;
+  };
+  void (^descriptionBlock)(id) = ^(id<GREYDescription> description) {
+    [description appendText:[NSString stringWithFormat:@"Matcher Consuming %f (s)", seconds]];
+  };
+  return [GREYElementMatcherBlock matcherWithMatchesBlock:matchBlock
+                                         descriptionBlock:descriptionBlock];
 }
 
 - (id<GREYAction>)sampleShorthandAction {

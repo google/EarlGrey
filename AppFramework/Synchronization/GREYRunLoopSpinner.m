@@ -206,7 +206,10 @@ static void (^gNoopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef 
   __block BOOL conditionMet = NO;
   __weak __typeof__(self) weakSelf = self;
 
-  dispatch_semaphore_t stopCondition = dispatch_semaphore_create(0L);
+  // Semaphore to wait for stopConditionBlock to finish.
+  dispatch_semaphore_t waitForCondition = dispatch_semaphore_create(0L);
+  // Semaphore to wait for conditionMetHandler to finish.
+  dispatch_semaphore_t waitForConditionMetHandler = dispatch_semaphore_create(0L);
   void (^beforeSourcesConditionCheckBlock)(void) = ^{
     __typeof__(self) strongSelf = weakSelf;
     // It's possible that this block is still invoked while strongSelf is released if the observer
@@ -217,14 +220,19 @@ static void (^gNoopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef 
     }
 
     if (!conditionMet && stopConditionBlock()) {
-      if ([strongSelf conditionMetHandler]) {
-        [strongSelf conditionMetHandler]();
+      // If the semaphore is used, signal that the conidition is met.
+      if (!explicitDrainInMainRunLoop) {
+        dispatch_semaphore_signal(waitForCondition);
       }
       conditionMet = YES;
+      void (^conditionMetHandler)(void) = [strongSelf conditionMetHandler];
+      if (conditionMetHandler) {
+        conditionMetHandler();
+      }
       if (explicitDrainInMainRunLoop) {
         CFRunLoopStop(CFRunLoopGetMain());
       } else {
-        dispatch_semaphore_signal(stopCondition);
+        dispatch_semaphore_signal(waitForConditionMetHandler);
       }
     }
   };
@@ -249,14 +257,19 @@ static void (^gNoopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef 
     // stopped the runloop in the beforeSourcesConditionCheckBlock() handler. In this case, we do
     // not want to check the stop condition again.
     if (!conditionMet && stopConditionBlock()) {
-      if ([strongSelf conditionMetHandler]) {
-        [strongSelf conditionMetHandler]();
+      // If the semaphore is used, signal that the conidition is met.
+      if (!explicitDrainInMainRunLoop) {
+        dispatch_semaphore_signal(waitForCondition);
       }
       conditionMet = YES;
+      void (^conditionMetHandler)(void) = [strongSelf conditionMetHandler];
+      if (conditionMetHandler) {
+        conditionMetHandler();
+      }
       if (explicitDrainInMainRunLoop) {
         CFRunLoopStop(CFRunLoopGetMain());
       } else {
-        dispatch_semaphore_signal(stopCondition);
+        dispatch_semaphore_signal(waitForConditionMetHandler);
       }
     }
   };
@@ -295,7 +308,13 @@ static void (^gNoopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef 
     CFTimeInterval nanoTime = time * NSEC_PER_SEC;
     dispatch_time_t timeout = isinf(nanoTime) ? DISPATCH_TIME_FOREVER
                                               : dispatch_time(DISPATCH_TIME_NOW, (int64_t)nanoTime);
-    dispatch_semaphore_wait(stopCondition, timeout);
+    BOOL success = dispatch_semaphore_wait(waitForCondition, timeout) == 0;
+    if (success) {
+      // After condition was met, make sure to wait forever until the condition met handler are
+      // finished. Otherwise, it could cause unexpected behavior as executor thread will move onto
+      // the next interaction without fully waiting for the task to finish.
+      dispatch_semaphore_wait(waitForConditionMetHandler, DISPATCH_TIME_FOREVER);
+    }
   }
   [self grey_teardownObserver:conditionCheckingObserver inMode:activeMode];
   [self grey_teardownTimer:wakeUpTimer inMode:activeMode];
