@@ -624,6 +624,12 @@
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
       performAction:grey_typeText(@"Hello")];
 
+  // For iOS 14, on doing a long press, the caret goes into a selection mode. To bring up the menu
+  // a tap is required at the point of selection.
+  if (iOS14_OR_ABOVE()) {
+    [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
+        performAction:grey_tapAtPoint(CGPointMake(1, 1))];
+  }
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
       performAction:grey_longPressAtPointWithDuration(CGPointMake(1, 1), 1.0f)];
 
@@ -634,15 +640,21 @@
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
       performAction:grey_typeText(@"FromEarlGrey")];
 
+  // For iOS 14, on doing a long press, the caret goes into a selection mode. To bring up the menu
+  // a tap is required at the point of selection.
+  if (iOS14_OR_ABOVE()) {
+    [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
+        performAction:grey_tapAtPoint(CGPointMake(1, 1))];
+  }
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
       performAction:grey_longPressAtPointWithDuration(CGPointMake(1, 1), 1.0f)];
 
   [[EarlGrey selectElementWithMatcher:grey_text(@"Paste")] performAction:grey_tap()];
 
-  // Smart Inserts in Xcode 9 cause a space to appear by default after a paste. Post-iOS 13,
+  // Smart Inserts in Xcode 9 cause a space to appear by default after a paste. With iOS 13,
   // the text is selected entirely on doing a long press, so the above paste will remove any
   // existing text in the textfield.
-  if (iOS13_OR_ABOVE()) {
+  if (iOS13()) {
     [[EarlGrey selectElementWithMatcher:grey_text(@"Hello")]
         assertWithMatcher:grey_sufficientlyVisible()];
   } else {
