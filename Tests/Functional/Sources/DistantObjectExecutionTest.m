@@ -18,9 +18,12 @@
 #import <XCTest/XCTest.h>
 
 #import "GREYHostApplicationDistantObject+GREYTestHelper.h"
+#import "GREYDistantObjectUtils.h"
 #import "GREYTestApplicationDistantObject+Private.h"
 #import "EarlGrey.h"
+#import "GREYHostApplicationDistantObject+RemoteTest.h"
 #import "BaseIntegrationTest.h"
+#import "EDOClientService.h"
 #import "EDOHostService.h"
 #import "EDOServicePort.h"
 
@@ -125,6 +128,31 @@
   };
   [[GREYHostApplicationDistantObject sharedInstance] invokeRemoteBlock:callback withDelay:1];
   [self waitForExpectations:@[ expectation ] timeout:2];
+}
+
+/** Verifies array can be shallow copied across processes with EarlGrey helper C function. */
+- (void)testTransferArraysHostingProcess {
+  GREYHostApplicationDistantObject *distantObject = GREYHostApplicationDistantObject.sharedInstance;
+
+  NSArray<NSObject *> *localArray = @[ [[NSObject alloc] init], [[NSObject alloc] init] ];
+  NSMutableArray<NSObject *> *remoteArray = [GREY_REMOTE_CLASS_IN_APP(NSMutableArray) array];
+  for (NSObject *element in localArray) {
+    [remoteArray addObject:element];
+  }
+  XCTAssertNotEqualObjects(localArray, remoteArray);
+
+  XCTAssertEqualObjects(GREYGetRemoteArrayShallowCopy(localArray), remoteArray);
+  XCTAssertEqualObjects(GREYGetRemoteArrayShallowCopy(remoteArray), remoteArray);
+  XCTAssertEqualObjects(GREYGetLocalArrayShallowCopy(remoteArray), localArray);
+  XCTAssertEqualObjects(GREYGetLocalArrayShallowCopy(localArray), localArray);
+  XCTAssertEqualObjects([distantObject invokeGetLocalArrayFromAppWithArray:localArray],
+                        remoteArray);
+  XCTAssertEqualObjects([distantObject invokeGetLocalArrayFromAppWithArray:remoteArray],
+                        remoteArray);
+  XCTAssertEqualObjects([distantObject invokeGetRemoteArrayFromAppWithArray:remoteArray],
+                        localArray);
+  XCTAssertEqualObjects([distantObject invokeGetRemoteArrayFromAppWithArray:localArray],
+                        localArray);
 }
 
 @end

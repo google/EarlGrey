@@ -47,6 +47,7 @@ Pod::Spec.new do |s|
                   "CommonLib/Config/GREYAppState.h",
                   "CommonLib/Config/GREYConfigKey.h",
                   "CommonLib/Config/GREYConfiguration.h",
+                  "CommonLib/DistantObject/GREYDistantObjectUtils.h",
                   "CommonLib/DistantObject/GREYHostApplicationDistantObject.h",
                   "CommonLib/DistantObject/GREYHostBackgroundDistantObject.h",
                   "CommonLib/DistantObject/GREYTestApplicationDistantObject.h",

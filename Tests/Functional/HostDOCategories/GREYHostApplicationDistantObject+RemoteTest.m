@@ -17,6 +17,7 @@
 
 #include <objc/runtime.h>
 
+#import "GREYDistantObjectUtils.h"
 #import "GREYTestApplicationDistantObject.h"
 #import "GREYUIWindowProvider.h"
 
@@ -123,6 +124,14 @@
 - (void)invokeRemoteBlock:(void (^)(void))block withDelay:(NSUInteger)delay {
   dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay * NSEC_PER_SEC), dispatch_get_main_queue(),
                  block);
+}
+
+- (NSArray<id> *)invokeGetLocalArrayFromAppWithArray:(NSArray<id> *)remoteArray {
+  return GREYGetLocalArrayShallowCopy(remoteArray);
+}
+
+- (NSArray<id> *)invokeGetRemoteArrayFromAppWithArray:(NSArray<id> *)localArray {
+  return GREYGetRemoteArrayShallowCopy(localArray);
 }
 
 #pragma mark - private
