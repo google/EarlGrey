@@ -34,6 +34,7 @@
 
   self.greyBox.isAccessibilityElement = YES;
   self.greyBox.accessibilityLabel = @"Grey Box";
+  self.greyBox.accessibilityIdentifier = @"Grey Box";
   self.detectedGestureCoordinate.text = nil;
   self.resetButton.titleLabel.text = @"Reset Button";
   [self.resetButton addTarget:self
@@ -117,9 +118,11 @@
 }
 
 - (IBAction)recognizeSwipe:(UISwipeGestureRecognizer *)recognizer {
-  self.detectedGesture.text = [NSString
-      stringWithFormat:@"swipe %@",
-                       [GestureViewController stringFromSwipeDirection:recognizer.direction]];
+  NSString *swipeDirectionString =
+      [GestureViewController stringFromSwipeDirection:recognizer.direction];
+  NSString *recognitionInfo = [NSString stringWithFormat:@"swipe %@", swipeDirectionString];
+  self.detectedGesture.text = recognitionInfo;
+  self.detectedGesture.accessibilityLabel = recognitionInfo;
   self.detectedGestureCoordinate.text =
       [GestureViewController stringForPoint:[recognizer locationInView:self.greyBox]];
   [self incrementCounter];
