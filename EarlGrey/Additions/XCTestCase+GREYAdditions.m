@@ -69,6 +69,10 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
                                  withMethod:swizzledRecordFailureSelector];
     GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle XCTestCase::%@",
                                NSStringFromSelector(recordFailureSelector));
+    // As soon as XCTest is loaded, we setup the EarlGrey crash handlers so that any issue is
+    // tracked at the earliest. Also, we turn on accessibility for the simulator since it needs to
+    // be enabled before main is called.
+    [[GREYAutomationSetup sharedInstance] prepareOnLoad];
     gExecutingTestCaseStack = [[NSMutableArray alloc] init];
   }
 }
