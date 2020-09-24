@@ -52,10 +52,14 @@ static Class gKeyboardPinchGestureRecognizerClass;
 
 - (void)greyswizzled_setDirty {
   INVOKE_ORIGINAL_IMP(void, @selector(greyswizzled_setDirty));
-  if ([[UIDevice currentDevice] userInterfaceIdiom] != UIUserInterfaceIdiomPad ||
-      ![self isKindOfClass:gKeyboardPinchGestureRecognizerClass]) {
+  BOOL isAKeyboardPinchGestureOnIPad =
+      ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad &&
+       [self isKindOfClass:gKeyboardPinchGestureRecognizerClass]);
+  if (!isAKeyboardPinchGestureOnIPad && self.state != UIGestureRecognizerStateFailed) {
     GREYAppStateTrackerObject *object =
         TRACK_STATE_FOR_OBJECT(kGREYPendingGestureRecognition, self);
+    object.objectDescription =
+        [NSString stringWithFormat:@"%@\n Delegate: %@\n", object.objectDescription, self.delegate];
     objc_setAssociatedObject(self, @selector(greyswizzled_setState:), object,
                              OBJC_ASSOCIATION_RETAIN_NONATOMIC);
   }

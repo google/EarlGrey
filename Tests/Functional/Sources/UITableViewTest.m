@@ -14,6 +14,7 @@
 // limitations under the License.
 //
 
+#import "EarlGrey.h"
 #import "GREYHostApplicationDistantObject+UITableViewTest.h"
 #import "BaseIntegrationTest.h"
 
@@ -25,6 +26,18 @@
 - (void)setUp {
   [super setUp];
   [self openTestViewNamed:@"Table Views"];
+}
+
+- (void)testContextMenuInteractionsWithATableView {
+  // TODO(b/169197992): Add a drag action test with press and drag action.
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Row 5")]
+      performAction:grey_longPress()];
+  [[EarlGrey selectElementWithMatcher:grey_text(@"Some")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Row 6")]
+      performAction:grey_longPress()];
+  [[EarlGrey selectElementWithMatcher:grey_text(@"Some")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Row 7")]
+      assertWithMatcher:grey_not(grey_selected())];
 }
 
 - (void)testRemoveRow {

@@ -19,7 +19,7 @@
 static NSString *gTableViewIdentifier = @"TableViewCellReuseIdentifier";
 
 @implementation TableViewController {
-  NSMutableArray *_rowIndicesRemoved;
+  NSMutableArray<NSNumber *> *_rowIndicesRemoved;
 }
 
 - (void)viewDidLoad {
@@ -28,6 +28,12 @@ static NSString *gTableViewIdentifier = @"TableViewCellReuseIdentifier";
 
   self.mainTableView.accessibilityIdentifier = @"main_table_view";
   self.mainTableView.dataSource = self;
+  self.mainTableView.delegate = self;
+
+  self.mainTableView.dragInteractionEnabled = YES;
+  self.mainTableView.dragDelegate = self;
+  self.mainTableView.dropDelegate = self;
+
   self.insetsValue.delegate = self;
 }
 
@@ -37,6 +43,40 @@ static NSString *gTableViewIdentifier = @"TableViewCellReuseIdentifier";
   } else {
     [self.mainTableView setContentInset:UIEdgeInsetsZero];
   }
+}
+
+#pragma mark - UITableView Drag/Drop Delegate
+
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
+  return YES;
+}
+
+- (void)tableView:(UITableView *)tableView
+    moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath
+           toIndexPath:(NSIndexPath *)destinationIndexPath {
+  UITableViewCell *sourceCell = [tableView cellForRowAtIndexPath:sourceIndexPath];
+  NSString *sourceText = sourceCell.textLabel.text;
+
+  UITableViewCell *destCell = [tableView cellForRowAtIndexPath:destinationIndexPath];
+  NSString *destText = destCell.textLabel.text;
+
+  [sourceCell.textLabel setText:[NSString stringWithFormat:@"Moved To Row: %@", destText]];
+  [destCell.textLabel setText:[NSString stringWithFormat:@"Moved From Row: %@", sourceText]];
+}
+
+- (NSArray<UIDragItem *> *)tableView:(UITableView *)tableView
+        itemsForBeginningDragSession:(id<UIDragSession>)session
+                         atIndexPath:(NSIndexPath *)indexPath {
+  UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+  NSItemProvider *provider = [[NSItemProvider alloc] initWithObject:cell.textLabel.text];
+  return @[ [[UIDragItem alloc] initWithItemProvider:provider] ];
+}
+
+- (void)tableView:(UITableView *)tableView
+    performDropWithCoordinator:(id<UITableViewDropCoordinator>)coordinator {
+  NSString *text = (NSString *)[coordinator.items firstObject];
+  UITableViewCell *cell = [tableView cellForRowAtIndexPath:coordinator.destinationIndexPath];
+  cell.textLabel.text = text;
 }
 
 #pragma mark - UITableViewDataSource
@@ -78,7 +118,28 @@ static NSString *gTableViewIdentifier = @"TableViewCellReuseIdentifier";
   return cell;
 }
 
-#pragma mark UITextFieldDelegate
+#pragma mark - UIContextMenuInteractionDelegate
+
+- (UIContextMenuConfiguration *)tableView:(UITableView *)tableView
+    contextMenuConfigurationForRowAtIndexPath:(NSIndexPath *)indexPath
+                                        point:(CGPoint)point API_AVAILABLE(ios(13.0)) {
+  return [UIContextMenuConfiguration
+      configurationWithIdentifier:@"UITableViewCell Context Menu Config"
+                  previewProvider:nil
+                   actionProvider:^UIMenu *_Nullable(
+                       NSArray<UIMenuElement *> *_Nonnull suggestedActions) {
+                     UIAction *action =
+                         [UIAction actionWithTitle:@"Some"
+                                             image:nil
+                                        identifier:nil
+                                           handler:^(__kindof UIAction *_Nonnull action){
+                                               // Empty Handler.
+                                           }];
+                     return [UIMenu menuWithTitle:@"MENU" children:@[ action ]];
+                   }];
+}
+
+#pragma mark - UITextFieldDelegate
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
   [textField resignFirstResponder];

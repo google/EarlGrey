@@ -802,4 +802,31 @@
                                        forConfigKey:kGREYConfigKeySynchronizationEnabled];
 }
 
+/**
+ * Checks basic interactions on a context menu with top-level and child-actions obtained from
+ * long-pressing a button.
+ */
+- (void)testInteractionWithContextMenu {
+  if (@available(iOS 13.0, *)) {
+    [self openTestViewNamed:@"Basic Views"];
+    [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"ContextMenuButton")]
+        performAction:grey_longPress()];
+    [[EarlGrey selectElementWithMatcher:grey_text(@"Top-level Action")] performAction:grey_tap()];
+    [[EarlGrey selectElementWithMatcher:grey_text(@"Top-level Action Tapped")]
+        assertWithMatcher:grey_notNil()];
+    [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"ContextMenuButton")]
+        performAction:grey_longPress()];
+    [[EarlGrey selectElementWithMatcher:grey_text(@"Child Actions")] performAction:grey_tap()];
+    [[EarlGrey selectElementWithMatcher:grey_text(@"Child Action 0")] performAction:grey_tap()];
+    [[EarlGrey selectElementWithMatcher:grey_text(@"Child Action 0 Tapped")]
+        assertWithMatcher:grey_notNil()];
+
+    [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"ContextMenuButton")]
+        performAction:grey_longPress()];
+    [[EarlGrey selectElementWithMatcher:grey_text(@"Child Actions")] performAction:grey_tap()];
+    [[EarlGrey selectElementWithMatcher:grey_text(@"Child Action 1")] performAction:grey_tap()];
+    [[EarlGrey selectElementWithMatcher:grey_text(@"Child Action 1 Tapped")]
+        assertWithMatcher:grey_notNil()];
+  }
+}
 @end

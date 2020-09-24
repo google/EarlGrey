@@ -16,7 +16,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TableViewController : UIViewController <UITableViewDataSource, UITextFieldDelegate>
+@interface TableViewController : UIViewController <UITableViewDataSource,
+                                                   UITextFieldDelegate,
+                                                   UITableViewDelegate,
+                                                   UITableViewDragDelegate,
+                                                   UITableViewDropDelegate>
 
 @property(retain, nonatomic) IBOutlet UITableView *mainTableView;
 @property(weak, nonatomic) IBOutlet UITextField *insetsValue;

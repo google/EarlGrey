@@ -28,6 +28,11 @@
 
   self.disabledButton.enabled = NO;
 
+  if (@available(iOS 13.0, *)) {
+    UIContextMenuInteraction *contextMenuInteraction =
+        [[UIContextMenuInteraction alloc] initWithDelegate:self];
+    [self.contextMenuButton addInteraction:contextMenuInteraction];
+  }
   self.textField.delegate = self;
   self.textField.accessibilityIdentifier = @"foo";
 
@@ -105,6 +110,44 @@
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
   [textField resignFirstResponder];
   return NO;
+}
+
+- (UIContextMenuConfiguration *)contextMenuInteraction:(UIContextMenuInteraction *)interaction
+                        configurationForMenuAtLocation:(CGPoint)location API_AVAILABLE(ios(13.0)) {
+  return [UIContextMenuConfiguration
+      configurationWithIdentifier:nil
+                  previewProvider:nil
+                   actionProvider:^UIMenu *_Nullable(
+                       NSArray<UIMenuElement *> *_Nonnull suggestedActions) {
+                     UIAction *sampleAction = [UIAction
+                         actionWithTitle:@"Top-level Action"
+                                   image:nil
+                              identifier:nil
+                                 handler:^(__kindof UIAction *_Nonnull action) {
+                                   [self.contextMenuButton setTitle:@"Top-level Action Tapped"
+                                                           forState:UIControlStateNormal];
+                                 }];
+                     UIAction *childAction0 = [UIAction
+                         actionWithTitle:@"Child Action 0"
+                                   image:nil
+                              identifier:nil
+                                 handler:^(__kindof UIAction *_Nonnull action) {
+                                   [self.contextMenuButton setTitle:@"Child Action 0 Tapped"
+                                                           forState:UIControlStateNormal];
+                                 }];
+                     UIAction *childAction1 = [UIAction
+                         actionWithTitle:@"Child Action 1"
+                                   image:nil
+                              identifier:nil
+                                 handler:^(__kindof UIAction *_Nonnull action) {
+                                   [self.contextMenuButton setTitle:@"Child Action 1 Tapped"
+                                                           forState:UIControlStateNormal];
+                                 }];
+                     UIMenu *childMenu = [UIMenu menuWithTitle:@"Child Actions"
+                                                      children:@[ childAction0, childAction1 ]];
+                     return [UIMenu menuWithTitle:@"Main Menu"
+                                         children:@[ sampleAction, childMenu ]];
+                   }];
 }
 
 @end

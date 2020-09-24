@@ -16,7 +16,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BasicViewController : UIViewController <UITextFieldDelegate>
+@interface BasicViewController
+    : UIViewController <UITextFieldDelegate, UIContextMenuInteractionDelegate>
 
 @property(retain, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 
@@ -26,6 +27,7 @@
 @property(retain, nonatomic) IBOutlet UISlider *slider;
 @property(retain, nonatomic) IBOutlet UIStepper *stepper;
 @property(retain, nonatomic) IBOutlet UILabel *valueLabel;
+@property(retain, nonatomic) IBOutlet UIButton *contextMenuButton;
 
 @property(retain, nonatomic) IBOutlet UIView *tab2;
 @property(retain, nonatomic) IBOutlet UILabel *sampleLabel;
