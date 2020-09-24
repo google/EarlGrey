@@ -139,7 +139,6 @@
   for (NSObject *element in localArray) {
     [remoteArray addObject:element];
   }
-  XCTAssertNotEqualObjects(localArray, remoteArray);
 
   XCTAssertEqualObjects(GREYGetRemoteArrayShallowCopy(localArray), remoteArray);
   XCTAssertEqualObjects(GREYGetRemoteArrayShallowCopy(remoteArray), remoteArray);
