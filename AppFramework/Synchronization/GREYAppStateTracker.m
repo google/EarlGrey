@@ -94,7 +94,9 @@ static const unsigned short kNumGREYAppStates = 12;
     _currentState = kGREYIdle;
     _externalTrackerObjects = [[NSMutableSet alloc] init];
     _stateDictionary = [[NSMutableDictionary alloc] initWithCapacity:kNumGREYAppStates];
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:kGREYAllowVerboseAppStateLogging]) {
+    NSInteger verboseLoggingValue =
+        [[NSUserDefaults standardUserDefaults] integerForKey:kGREYAllowVerboseLogging];
+    if (verboseLoggingValue & kGREYVerboseLogTypeAppState) {
       _printAppStateTrackerLogs = YES;
     }
   }
@@ -358,7 +360,7 @@ static NSString *StringFromAppState(GREYAppState state) {
 
       // We update the @c _currentState so that we can provide quick information if the app is idle
       // or not.
-      if (_printAppStateTrackerLogs) {
+      if (self->_printAppStateTrackerLogs) {
         GREYLogVerbose(@"Updating state-tracking for object: %@ to state: %@",
                        appStateTrackerObjectExternal.objectDescription,
                        GREYKeyForAppState(newState));

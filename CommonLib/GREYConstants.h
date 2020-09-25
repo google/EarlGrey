@@ -68,18 +68,6 @@ GREY_EXTERN const CFTimeInterval kGREYLongPressDefaultDuration;
 GREY_EXTERN const CGFloat kGREYAcceptableFloatDifference;
 
 /**
- * NSUserDefaults key for checking if verbose logging is turned on. (i.e. logs with
- * GREYLogVerbose are printed.)
- */
-GREY_EXTERN NSString* _Nonnull const kGREYAllowVerboseLogging;
-
-/**
- * NSUserDefaults key for checking if verbose logging with information for App State Tracking is
- * turned on. (i.e. logs with GREYLogVerbose in the GREYAppStateTracker are printed.)
- */
-GREY_EXTERN NSString* _Nonnull const kGREYAllowVerboseAppStateLogging;
-
-/**
  * Class name for the accessibility element inside a UITextField.
  */
 GREY_EXTERN NSString* _Nonnull const kTextFieldAXElementClassName;

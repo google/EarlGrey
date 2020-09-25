@@ -30,6 +30,7 @@
 #import "GREYFailureHandler.h"
 #import "GREYFrameworkException.h"
 #import "GREYDefines.h"
+#import "GREYLogger.h" 
 #import "GREYElementMatcherBlock.h"
 #import "GREYMatcher.h"
 #import "XCTestCase+GREYSystemAlertHandler.h"

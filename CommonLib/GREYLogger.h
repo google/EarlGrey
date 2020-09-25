@@ -21,6 +21,24 @@
 #import "GREYConstants.h"
 
 /**
+ * NSUserDefaults key for checking if verbose logging is turned on. (i.e. logs with
+ * GREYLogVerbose are printed.)
+ */
+GREY_EXTERN NSString* _Nonnull const kGREYAllowVerboseLogging;
+
+/**
+ * Enum values for verbose logging.
+ */
+typedef NS_OPTIONS(NSInteger, GREYVerboseLogType) {
+  /** Prints Interaction Verbose Logs.*/
+  kGREYVerboseLogTypeInteraction = 1 << 0,
+  /** Prints App State Tracker Verbose Logs.*/
+  kGREYVerboseLogTypeAppState = 1 << 1,
+  /** Prints all logs Verbose Logs (Use sparingly and never in prod).*/
+  kGREYVerboseLogTypeAll = NSIntegerMax
+};
+
+/**
  * Prints a log statement if any of the following keys are present in NSUserDefaults at the start
  * of the launch of the application process:
  *

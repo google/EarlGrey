@@ -18,15 +18,16 @@
 
 #import "GREYConstants.h"
 
+NSString* const kGREYAllowVerboseLogging = @"kGREYAllowVerboseLogging";
+
 void GREYLogVerbose(NSString* format, ...) {
   static BOOL gPrintVerboseLog;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
     gPrintVerboseLog =
-        [[NSUserDefaults standardUserDefaults] boolForKey:kGREYAllowVerboseLogging] ||
-        [[NSUserDefaults standardUserDefaults] boolForKey:kGREYAllowVerboseAppStateLogging];
+        [[NSUserDefaults standardUserDefaults] integerForKey:kGREYAllowVerboseLogging];
   });
-  if (gPrintVerboseLog) {
+  if (gPrintVerboseLog > 0) {
     va_list args;
     va_start(args, format);
     NSLogv(format, args);
