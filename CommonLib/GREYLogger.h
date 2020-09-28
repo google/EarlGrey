@@ -20,6 +20,8 @@
  */
 #import "GREYConstants.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  * NSUserDefaults key for checking if verbose logging is turned on. (i.e. logs with
  * GREYLogVerbose are printed.)
@@ -64,3 +66,5 @@ typedef NS_OPTIONS(NSInteger, GREYVerboseLogType) {
  * @param ...    The parameters to be added to the string format.
  */
 void GREYLogVerbose(NSString* format, ...);
+
+NS_ASSUME_NONNULL_END
