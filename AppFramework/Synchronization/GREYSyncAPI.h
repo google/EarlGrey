@@ -16,13 +16,11 @@
 
 #import <Foundation/Foundation.h>
 
-#import "GREYFatalAsserts.h"
 #import "GREYDefines.h"
 
 /**
  * @file
- * @brief Alternative methods for dispatch_sync and dispatch_async that should be used in places
- *       where dispatch_async and sync lead to unnecessary tracking.
+ * @brief Miscellaneous functions that are used for EarlGrey synchronization.
  */
 
 /**

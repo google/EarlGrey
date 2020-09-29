@@ -397,8 +397,8 @@ static Protocol *gTextInputProtocol;
       diagnosticsID:diagnosticsID
         constraints:constraints
        performBlock:^BOOL(id webView, __strong NSError **errorOrNil) {
-         dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
          __block NSError *localError = nil;
+         __block BOOL finishedCompletion = NO;
          grey_dispatch_sync_on_main_thread(^{
            [webView evaluateJavaScript:js
                      completionHandler:^(id result, NSError *error) {
@@ -409,7 +409,7 @@ static Protocol *gTextInputProtocol;
                        if (error) {
                          localError = error;
                        }
-                       dispatch_semaphore_signal(semaphore);
+                       finishedCompletion = YES;
                      }];
          });
          // Wait for the interaction timeout for the semaphore to return.
@@ -418,7 +418,7 @@ static Protocol *gTextInputProtocol;
 
          BOOL success = grey_check_condition_until_timeout(
              ^BOOL(void) {
-               return dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW) == 0;
+               return finishedCompletion;
              },
              interactionTimeout);
 

@@ -16,6 +16,8 @@
 
 #import "GREYSyncAPI.h"
 
+#import "GREYFatalAsserts.h"
+
 void grey_dispatch_sync_on_main_thread(void (^block)(void)) {
   if ([NSThread isMainThread]) {
     block();
@@ -38,6 +40,7 @@ BOOL grey_check_condition_until_timeout(BOOL (^checkConditionBlock)(void), doubl
   CFTimeInterval startTime = CACurrentMediaTime();
   BOOL success = NO;
   while (!success && (CACurrentMediaTime() - startTime) < timeout) {
+    // TODO(b/169537945): Drain the runloop in the EarlGrey active mode.
     CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0, NO);
     success = checkConditionBlock();
   }
