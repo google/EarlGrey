@@ -88,7 +88,7 @@
       performAction:grey_moveSliderToValue(40.0f)] assertWithMatcher:middleSliderValueMatcher];
 
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"slider6")]
-      performAction:grey_moveSliderToValue(62.5f)] assertWithMatcher:middleSliderValueMatcher];
+      performAction:grey_moveSliderToValue(50.0f)] assertWithMatcher:middleSliderValueMatcher];
 }
 
 - (void)testSmallSliderSnapsToAllValues {
