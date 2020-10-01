@@ -160,6 +160,7 @@
 		FD66785621221FC1008EC4A7 /* AppFramework.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = FD623D2C20FD6BF900049E81 /* AppFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		FD66788D212229AB008EC4A7 /* HostDOCategories.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = FD6678692122290B008EC4A7 /* HostDOCategories.bundle */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		FD6F11AA248A1AB000ADF6C2 /* GREYHostApplicationDistantObject+AnimationsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD6F11A9248A1AB000ADF6C2 /* GREYHostApplicationDistantObject+AnimationsTest.m */; };
+		FD88B9DE2525615600CE823B /* libCommonLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD623D2820FD6BF900049E81 /* libCommonLib.a */; };
 		FD98C49A226C3555006F8D68 /* SlideTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C46B226C3517006F8D68 /* SlideTest.m */; };
 		FD98C49B226C3555006F8D68 /* ErrorHandlingTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C46C226C3517006F8D68 /* ErrorHandlingTest.m */; };
 		FD98C49D226C3555006F8D68 /* RemoteInteractionsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C46E226C3519006F8D68 /* RemoteInteractionsTest.m */; };
@@ -660,6 +661,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FD88B9DE2525615600CE823B /* libCommonLib.a in Frameworks */,
 				FD4974B6214330E300625561 /* AppFramework.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

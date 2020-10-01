@@ -25,7 +25,7 @@ void GREYLogVerbose(NSString* format, ...) {
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
     gPrintVerboseLog =
-        [[NSUserDefaults standardUserDefaults] integerForKey:kGREYAllowVerboseLogging];
+        [[NSUserDefaults standardUserDefaults] integerForKey:kGREYAllowVerboseLogging] > 0;
   });
   if (gPrintVerboseLog > 0) {
     va_list args;

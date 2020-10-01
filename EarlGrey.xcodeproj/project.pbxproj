@@ -197,6 +197,8 @@
 		FD76BE5722985566001E6DAA /* GREYUIThreadExecutor+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = FD76BE5622985566001E6DAA /* GREYUIThreadExecutor+Private.h */; };
 		FD76BE5B229855A0001E6DAA /* GREYActions+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = FD76BE5A229855A0001E6DAA /* GREYActions+Private.h */; };
 		FD795B9421192FEC00F9A9E3 /* libCommonLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD62395120F56A9700049E81 /* libCommonLib.a */; };
+		FD88B9BA25255FC300CE823B /* GREYLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = FD88B9B125255FC200CE823B /* GREYLogger.m */; };
+		FD88B9C025255FDD00CE823B /* GREYAppState.m in Sources */ = {isa = PBXBuildFile; fileRef = FD88B9BF25255FDD00CE823B /* GREYAppState.m */; };
 		FD98C459226C2DD1006F8D68 /* GREYScreenshotter.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C456226C2DCD006F8D68 /* GREYScreenshotter.m */; };
 		FD98C45C226C2E01006F8D68 /* NSFileManager+GREYCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C45A226C2DFF006F8D68 /* NSFileManager+GREYCommon.m */; };
 		FD98C45E226C2E65006F8D68 /* GREYAppError.h in Headers */ = {isa = PBXBuildFile; fileRef = FD98C45D226C2E64006F8D68 /* GREYAppError.h */; };
@@ -650,6 +652,8 @@
 		FD76BE5522985538001E6DAA /* GREYError+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GREYError+Private.h"; path = "CommonLib/Error/GREYError+Private.h"; sourceTree = "<group>"; };
 		FD76BE5622985566001E6DAA /* GREYUIThreadExecutor+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GREYUIThreadExecutor+Private.h"; path = "Synchronization/GREYUIThreadExecutor+Private.h"; sourceTree = "<group>"; };
 		FD76BE5A229855A0001E6DAA /* GREYActions+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GREYActions+Private.h"; path = "Action/GREYActions+Private.h"; sourceTree = "<group>"; };
+		FD88B9B125255FC200CE823B /* GREYLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYLogger.m; path = CommonLib/GREYLogger.m; sourceTree = "<group>"; };
+		FD88B9BF25255FDD00CE823B /* GREYAppState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYAppState.m; path = CommonLib/Config/GREYAppState.m; sourceTree = "<group>"; };
 		FD98C456226C2DCD006F8D68 /* GREYScreenshotter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYScreenshotter.m; sourceTree = "<group>"; };
 		FD98C457226C2DCE006F8D68 /* GREYScreenshotter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYScreenshotter.h; sourceTree = "<group>"; };
 		FD98C45A226C2DFF006F8D68 /* NSFileManager+GREYCommon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSFileManager+GREYCommon.m"; path = "CommonLib/Additions/NSFileManager+GREYCommon.m"; sourceTree = "<group>"; };
@@ -898,6 +902,7 @@
 		FD62399020F56B7D00049E81 /* CommonLib */ = {
 			isa = PBXGroup;
 			children = (
+				FD88B9B125255FC200CE823B /* GREYLogger.m */,
 				6F9B2C1E22B18F15003132B0 /* GREYDiagnosable.h */,
 				6F49FDBC22E69D4C00CCE813 /* GREYDiagnosable.m */,
 				FD6239D520F56C9400049E81 /* GREYAppleInternals.h */,
@@ -951,6 +956,7 @@
 		FD62399920F56BD500049E81 /* Config */ = {
 			isa = PBXGroup;
 			children = (
+				FD88B9BF25255FDD00CE823B /* GREYAppState.m */,
 				FD6239A320F56BE700049E81 /* GREYAppState.h */,
 				FD62399C20F56BE700049E81 /* GREYConfigKey.h */,
 				FD62399F20F56BE700049E81 /* GREYConfigKey.m */,
@@ -1809,11 +1815,13 @@
 				FD6239BC20F56C3E00049E81 /* NSError+GREYCommon.m in Sources */,
 				FD3A825721F187FD00CA3ADF /* GREYElementMatcherBlock.m in Sources */,
 				FD6239A420F56BE700049E81 /* GREYConfiguration.m in Sources */,
+				FD88B9C025255FDD00CE823B /* GREYAppState.m in Sources */,
 				FD6239BB20F56C3E00049E81 /* GREYError.m in Sources */,
 				FD1B7E3A24A2806500400025 /* GREYErrorFormatter.m in Sources */,
 				FD6239D220F56C7100049E81 /* GREYStringDescription.m in Sources */,
 				FD6239E020F56C9500049E81 /* GREYStopwatch.m in Sources */,
 				FD6239A620F56BE700049E81 /* GREYConfigKey.m in Sources */,
+				FD88B9BA25255FC300CE823B /* GREYLogger.m in Sources */,
 				FD6239BE20F56C3E00049E81 /* GREYObjectFormatter.m in Sources */,
 				FD6239AE20F56C2500049E81 /* GREYValueType.m in Sources */,
 				FD62398E20F56B7600049E81 /* UIView+GREYCommon.m in Sources */,
