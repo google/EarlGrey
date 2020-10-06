@@ -137,13 +137,16 @@
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
       performAction:grey_tap()];
 
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"a")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"A")] performAction:grey_tap()];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"b")] performAction:grey_tap()];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"c")] performAction:grey_tap()];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"return")] performAction:grey_tap()];
+
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
+      assertWithMatcher:grey_text(@"Abc")];
 }
 
 - (void)testNonTypingTextField {
@@ -446,8 +449,10 @@
       assertWithMatcher:grey_sufficientlyVisible()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
       performAction:grey_typeText(@"\b")];
-  // Check if backspace changes the keyboard to lowercase keyplane.
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"q")]
+  // Pressing backspace should reset the keyplane appropriately to the autoCapitalizationType
+  // property from the text input view. In this test, the text field has auto capitalization on, so
+  // it should reset to uppercase keyplane.
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Q")]
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 

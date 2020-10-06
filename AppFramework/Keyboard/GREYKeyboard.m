@@ -205,6 +205,14 @@ __attribute__((constructor)) static void RegisterKeyboardLifecycleHooks() {
 
     return NO;
   }
+
+  // If autocapitalization is on, make sure you wait for the uppercase keyplane before typing the
+  // first character. Otherwise, it could lead to flaky test.
+  if ([firstResponder respondsToSelector:@selector(autocapitalizationType)] &&
+      [firstResponder autocapitalizationType] != UITextAutocapitalizationTypeNone) {
+    WaitAndFindKeyForCharacter(@"Q", kAutomaticKeyplaneUpdateDuration);
+  }
+
   for (NSUInteger index = 0; index < string.length; index++) {
     NSString *characterAsString =
         [NSString stringWithFormat:@"%C", [string characterAtIndex:index]];

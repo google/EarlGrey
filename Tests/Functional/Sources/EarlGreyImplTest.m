@@ -67,7 +67,7 @@
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
       performAction:grey_tap()];
   // Ensure the keyboard button for the character e is visible.
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"e")]
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"E")]
       assertWithMatcher:grey_sufficientlyVisible()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
       performAction:grey_typeText(@"h")];
