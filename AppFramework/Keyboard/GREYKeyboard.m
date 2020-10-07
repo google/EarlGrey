@@ -24,6 +24,7 @@
 #import "GREYAppError.h"
 #import "GREYAppStateTracker.h"
 #import "GREYAppStateTrackerObject.h"
+#import "GREYRunLoopSpinner.h"
 #import "GREYSyncAPI.h"
 #import "GREYUIThreadExecutor.h"
 #import "GREYFatalAsserts.h"
@@ -264,9 +265,13 @@ __attribute__((constructor)) static void RegisterKeyboardLifecycleHooks() {
   if (atomic_load(&gIsKeyboardShown)) {
     return YES;
   }
-  return WaitConditionUntilTimeout(kKeyboardWillAppearOrDisappearTimeout, ^BOOL {
-    return (!atomic_load(&gIsKeyboardShown));
-  });
+  GREYRunLoopSpinner *runLoopSpinner = [[GREYRunLoopSpinner alloc] init];
+  runLoopSpinner.timeout = kKeyboardWillAppearOrDisappearTimeout;
+  runLoopSpinner.minRunLoopDrains = 0;
+  BOOL result = [runLoopSpinner spinWithStopConditionBlock:^BOOL {
+    return atomic_load(&gIsKeyboardShown);
+  }];
+  return result;
 }
 
 + (BOOL)keyboardShownWithError:(NSError **)error {
@@ -382,30 +387,6 @@ static BOOL TapOnMoreKeyplane(__strong NSError **errorOrNil) {
   TapKey(moreKey, errorOrNil);
   if (*errorOrNil) {
     return NO;
-  }
-  return YES;
-}
-
-/**
- * A utility method to wait for a particular condition to be satisfied. If a condition is not
- * met then the current thread's run loop is run and the condition is checked again, an activity
- * that is repeated until the timeout provided expires.
- *
- * @param condition The ConditionBlock to be checked.
- * @param timeInterval The timeout interval to check for the condition.
- *
- * @return @c YES if the condition specified in the ConditionBlock was satisfied before the
- *         timeout. @c NO otherwise.
- */
-static BOOL WaitConditionUntilTimeout(NSTimeInterval timeInterval, ConditionBlock condition) {
-  GREYFatalAssertWithMessage(condition != nil, @"Condition Block must not be nil.");
-  GREYFatalAssertWithMessage(timeInterval > 0, @"Time interval has to be greater than zero.");
-  CFTimeInterval startTime = CACurrentMediaTime();
-  while (condition()) {
-    CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0, NO);
-    if ((CACurrentMediaTime() - startTime) >= timeInterval) {
-      return NO;
-    }
   }
   return YES;
 }
