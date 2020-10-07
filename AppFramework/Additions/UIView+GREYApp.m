@@ -23,9 +23,13 @@
 #import "GREYAppStateTrackerObject.h"
 #import "UIView+GREYCommon.h"
 #import "GREYFatalAsserts.h"
+#import "GREYAppState.h"
 #import "GREYConstants.h"
 #import "GREYSwizzler.h"
 #import "GREYElementProvider.h"
+
+/** Typedef for the wrapper for the animation method's completion block. */
+typedef void (^GREYAnimationCompletionBlock)(BOOL);
 
 @implementation UIView (GREYApp)
 
@@ -294,8 +298,17 @@
 + (void)greyswizzled_animateWithDuration:(NSTimeInterval)duration
                               animations:(void (^)(void))animations
                               completion:(void (^)(BOOL))completion {
+  GREYAnimationCompletionBlock wrappedCompletion = nil;
+  GREYAppStateTrackerObject *object = nil;
+  if (completion) {
+    object = TRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, self);
+    wrappedCompletion = ^(BOOL finished) {
+      completion(finished);
+      UNTRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, object);
+    };
+  }
   INVOKE_ORIGINAL_IMP3(void, @selector(greyswizzled_animateWithDuration:animations:completion:),
-                       duration, animations, completion);
+                       duration, animations, wrappedCompletion);
   NSObject *trackingObject = [[NSObject alloc] init];
   [GREYTimedIdlingResource resourceForObject:trackingObject
                        thatIsBusyForDuration:duration
@@ -307,9 +320,19 @@
                                  options:(UIViewAnimationOptions)options
                               animations:(void (^)(void))animations
                               completion:(void (^)(BOOL))completion {
+  GREYAnimationCompletionBlock wrappedCompletion = nil;
+  GREYAppStateTrackerObject *object = nil;
+  if (completion) {
+    object = TRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, self);
+    wrappedCompletion = ^(BOOL finished) {
+      completion(finished);
+      UNTRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, object);
+    };
+  }
+
   SEL swizzledSEL =
       @selector(greyswizzled_animateWithDuration:delay:options:animations:completion:);
-  INVOKE_ORIGINAL_IMP5(void, swizzledSEL, duration, delay, options, animations, completion);
+  INVOKE_ORIGINAL_IMP5(void, swizzledSEL, duration, delay, options, animations, wrappedCompletion);
 
   if ((options & UIViewAnimationOptionAllowUserInteraction) == 0) {
     NSObject *trackingObject = [[NSObject alloc] init];
@@ -326,12 +349,22 @@
                                  options:(UIViewAnimationOptions)options
                               animations:(void (^)(void))animations
                               completion:(void (^)(BOOL))completion {
+  GREYAnimationCompletionBlock wrappedCompletion = nil;
+  GREYAppStateTrackerObject *object = nil;
+  if (completion) {
+    object = TRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, self);
+    wrappedCompletion = ^(BOOL finished) {
+      completion(finished);
+      UNTRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, object);
+    };
+  }
+
   SEL swizzledSEL =
       @selector(greyswizzled_animateWithDuration:
                                            delay:usingSpringWithDamping:initialSpringVelocity
                                                 :options:animations:completion:);
   INVOKE_ORIGINAL_IMP7(void, swizzledSEL, duration, delay, dampingRatio, velocity, options,
-                       animations, completion);
+                       animations, wrappedCompletion);
   if ((options & UIViewAnimationOptionAllowUserInteraction) == 0) {
     NSObject *trackingObject = [[NSObject alloc] init];
     [GREYTimedIdlingResource resourceForObject:trackingObject
@@ -345,9 +378,19 @@
                                           options:(UIViewKeyframeAnimationOptions)options
                                        animations:(void (^)(void))animations
                                        completion:(void (^)(BOOL))completion {
+  GREYAnimationCompletionBlock wrappedCompletion = nil;
+  GREYAppStateTrackerObject *object = nil;
+  if (completion) {
+    object = TRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, self);
+    wrappedCompletion = ^(BOOL finished) {
+      completion(finished);
+      UNTRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, object);
+    };
+  }
+
   SEL swizzledSEL =
       @selector(greyswizzled_animateKeyframesWithDuration:delay:options:animations:completion:);
-  INVOKE_ORIGINAL_IMP5(void, swizzledSEL, duration, delay, options, animations, completion);
+  INVOKE_ORIGINAL_IMP5(void, swizzledSEL, duration, delay, options, animations, wrappedCompletion);
 
   if ((options & UIViewKeyframeAnimationOptionAllowUserInteraction) == 0) {
     NSObject *trackingObject = [[NSObject alloc] init];
@@ -362,8 +405,18 @@
                                duration:(NSTimeInterval)duration
                                 options:(UIViewAnimationOptions)options
                              completion:(void (^)(BOOL))completion {
+  GREYAnimationCompletionBlock wrappedCompletion = nil;
+  GREYAppStateTrackerObject *object = nil;
+  if (completion) {
+    object = TRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, self);
+    wrappedCompletion = ^(BOOL finished) {
+      completion(finished);
+      UNTRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, object);
+    };
+  }
+
   SEL swizzledSEL = @selector(greyswizzled_transitionFromView:toView:duration:options:completion:);
-  INVOKE_ORIGINAL_IMP5(void, swizzledSEL, fromView, toView, duration, options, completion);
+  INVOKE_ORIGINAL_IMP5(void, swizzledSEL, fromView, toView, duration, options, wrappedCompletion);
 
   if ((options & UIViewAnimationOptionAllowUserInteraction) == 0) {
     NSObject *trackingObject = [[NSObject alloc] init];
@@ -378,9 +431,18 @@
                                 options:(UIViewAnimationOptions)options
                              animations:(void (^)(void))animations
                              completion:(void (^)(BOOL))completion {
+  GREYAnimationCompletionBlock wrappedCompletion = nil;
+  GREYAppStateTrackerObject *object = nil;
+  if (completion) {
+    object = TRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, self);
+    wrappedCompletion = ^(BOOL finished) {
+      completion(finished);
+      UNTRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, object);
+    };
+  }
   SEL swizzledSEL =
       @selector(greyswizzled_transitionWithView:duration:options:animations:completion:);
-  INVOKE_ORIGINAL_IMP5(void, swizzledSEL, view, duration, options, animations, completion);
+  INVOKE_ORIGINAL_IMP5(void, swizzledSEL, view, duration, options, animations, wrappedCompletion);
 
   if ((options & UIViewAnimationOptionAllowUserInteraction) == 0) {
     NSObject *trackingObject = [[NSObject alloc] init];
@@ -406,14 +468,14 @@
   }
   SEL swizzledSEL =
       @selector(greyswizzled_performSystemAnimation:onViews:options:animations:completion:);
-  void (^customCompletion)(BOOL) = ^(BOOL finished) {
+  GREYAnimationCompletionBlock wrappedCompletion = ^(BOOL finished) {
     if (completion) {
       completion(finished);
     }
     [resource stopMonitoring];
   };
   INVOKE_ORIGINAL_IMP5(void, swizzledSEL, animation, views, options, parallelAnimations,
-                       customCompletion);
+                       wrappedCompletion);
 }
 
 @end

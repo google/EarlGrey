@@ -112,6 +112,23 @@ typedef NS_ENUM(NSUInteger, AnimationStatus) {
   [UIView commitAnimations];
 }
 
+- (IBAction)startUIViewChainedAnimation:(id)sender {
+  [UIView animateWithDuration:3
+      animations:^{
+        self.viewToAnimate.transform =
+            CGAffineTransformRotate(self.viewToAnimate.transform, M_PI_2);
+      }
+      completion:^(BOOL finished) {
+        [UIView animateWithDuration:3
+                         animations:^{
+                           // Test so that completion block is tracked for the extended sleep time.
+                           CFRunLoopRunInMode(kCFRunLoopDefaultMode, 3, NO);
+                           // viewToAnimate should cover viewToToggle view.
+                           self.viewToAnimate.center = self.viewToToggle.center;
+                         }];
+      }];
+}
+
 - (IBAction)CAAnimationControlClicked:(id)sender {
   if (_animationStatus == kAnimationStopped) {
     CABasicAnimation *currentAnimation =

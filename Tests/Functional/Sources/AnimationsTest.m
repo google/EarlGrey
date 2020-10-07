@@ -195,6 +195,14 @@
   [viewWithAnimatingSublayer1 removeFromSuperview];
 }
 
+/** Test whether or not EarlGrey synchronizes with chained UIView animation. */
+- (void)testChainedAnimation {
+  [[EarlGrey selectElementWithMatcher:grey_text(@"Start UIView Chained Animation")]
+      performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"viewToToggle")]
+      assertWithMatcher:grey_notVisible()];
+}
+
 - (void)testBeginEndIgnoringEvents {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"BeginIgnoringEvents")]
       performAction:grey_tap()];
