@@ -126,17 +126,6 @@
                  block);
 }
 
-// BEGIN GOOGLE_INTERNAL
-
-// Test methods for NSArray checks being done internally.
-- (NSArray<id> *)invokeGetLocalArrayFromAppWithArray:(NSArray<id> *)remoteArray {
-  return GREYGetLocalArrayShallowCopy(remoteArray);
-}
-
-- (NSArray<id> *)invokeGetRemoteArrayFromAppWithArray:(NSArray<id> *)localArray {
-  return GREYGetRemoteArrayShallowCopy(localArray);
-}
-// END GOOGLE-INTERNAL
 #pragma mark - private
 
 /**

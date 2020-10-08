@@ -92,17 +92,4 @@
  */
 - (void)invokeRemoteBlock:(void (^)(void))block withDelay:(NSUInteger)delay;
 
-// BEGIN GOOGLE-INTERNAL
-
-// Test methods for NSArray checks being done internally.
-/**
- * Invokes GREYGetLocalArrayShallowCopy from the app with @c remoteArray and returns the result.
- */
-- (NSArray<id> *)invokeGetLocalArrayFromAppWithArray:(NSArray<id> *)remoteArray;
-
-/**
- * Invokes GREYGetRemoteArrayShallowCopy from the app with @c localArray and returns the result.
- */
-- (NSArray<id> *)invokeGetRemoteArrayFromAppWithArray:(NSArray<id> *)localArray;
-// END GOOGLE-INTERNAL
 @end
