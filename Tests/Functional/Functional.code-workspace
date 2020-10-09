@@ -1,0 +1,43 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"nextcode.configurations.apps": [
+			{
+				"name": "FunctionalTestRig",
+				"target": "//third_party/objective_c/EarlGreyV2/Tests/Functional:FunctionalTestRig",
+				"flags": {
+					"runArguments": [],
+					"runEnvVars": {}
+				}
+			}
+		]
+	},
+	"launch": {
+		"configurations": [
+			{
+				"type": "lldb-nextcode",
+				"name": "Run",
+				"request": "dynamic"
+			},
+			{
+				"type": "lldb-nextcode",
+				"name": "Build",
+				"request": "dynamic"
+			},
+			{
+				"type": "lldb-nextcode",
+				"name": "Profile",
+				"request": "dynamic"
+			},
+			{
+				"type": "lldb-nextcode",
+				"name": "Run Pinned Tests",
+				"request": "dynamic"
+			}
+		]
+	}
+}
