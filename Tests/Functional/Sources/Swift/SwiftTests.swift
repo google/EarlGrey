@@ -16,10 +16,10 @@
 
 import XCTest
 /// An extension of XCTestCase to set up the test host.
-private extension XCTestCase {
+extension XCTestCase {
   /// A variable to point to the GREYHostApplicationDistantObject since casts in Swift fail on
   /// proxy types. Hence we have to perform an unsafeBitCast.
-  var host: SwiftTestsHost {
+  fileprivate var host: SwiftTestsHost {
     return unsafeBitCast(
       GREYHostApplicationDistantObject.sharedInstance,
       to: SwiftTestsHost.self)
@@ -74,21 +74,21 @@ class SwiftTests: XCTestCase {
 
   func testFastTyping() {
     openTestView(named: "Typing Views")
-#if swift(>=4.2)
-    let beginEditingRecorder = host.makeTextFieldNotificationRecorder(
-      for: UITextField.textDidBeginEditingNotification)
-    let didChangeRecorder = host.makeTextFieldNotificationRecorder(
-      for: UITextField.textDidChangeNotification)
-    let didEndEditingRecorder = host.makeTextFieldNotificationRecorder(
-      for: UITextField.textDidEndEditingNotification)
-#else
-    let beginEditingRecorder = host.makeTextFieldNotificationRecorder(
-      for: .UITextFieldTextDidBeginEditing)
-    let didChangeRecorder = host.makeTextFieldNotificationRecorder(
-      for: .UITextFieldTextDidChange)
-    let didEndEditingRecorder = host.makeTextFieldNotificationRecorder(
-      for: .UITextFieldTextDidEndEditing)
-#endif
+    #if swift(>=4.2)
+      let beginEditingRecorder = host.makeTextFieldNotificationRecorder(
+        for: UITextField.textDidBeginEditingNotification)
+      let didChangeRecorder = host.makeTextFieldNotificationRecorder(
+        for: UITextField.textDidChangeNotification)
+      let didEndEditingRecorder = host.makeTextFieldNotificationRecorder(
+        for: UITextField.textDidEndEditingNotification)
+    #else
+      let beginEditingRecorder = host.makeTextFieldNotificationRecorder(
+        for: .UITextFieldTextDidBeginEditing)
+      let didChangeRecorder = host.makeTextFieldNotificationRecorder(
+        for: .UITextFieldTextDidChange)
+      let didEndEditingRecorder = host.makeTextFieldNotificationRecorder(
+        for: .UITextFieldTextDidEndEditing)
+    #endif
     let editingDidBeginRecorderAction =
       host.makeTextFieldEditingEventRecorder(for: .editingDidBegin)
     let editingChangedRecorderAction =
@@ -158,10 +158,12 @@ class SwiftTests: XCTestCase {
   func testtestSwiftCustomMatcher() {
     // Verify description in custom matcher isn't nil.
     // unexpectedly found nil while unwrapping an Optional value
-    EarlGrey.selectElement(with: grey_allOf([
-      host.makeFirstElementMatcher(),
-      grey_text("FooText"),
-    ])).assert(grey_nil())
+    EarlGrey.selectElement(
+      with: grey_allOf([
+        host.makeFirstElementMatcher(),
+        grey_text("FooText"),
+      ])
+    ).assert(grey_nil())
   }
 
   func testInteractionWithALabelWithParentHidden() {
@@ -232,7 +234,7 @@ class SwiftTests: XCTestCase {
   }
 
   func testFetchRemoteClass() {
-    let remoteView : UIView = GREYRemoteClassInApp(classVal: UIView.self).init()
+    let remoteView: UIView = GREYRemoteClassInApp(classVal: UIView.self).init()
     XCTAssertTrue(remoteView.description.contains("UIView"))
     XCTAssertEqual(String(describing: type(of: remoteView)), "EDOObject")
   }
@@ -242,8 +244,9 @@ class SwiftTests: XCTestCase {
       .perform(grey_tap())
     EarlGrey.selectElement(with: grey_text("Infinite Request"))
       .perform(grey_tap())
-    GREYConfiguration.shared.setValue(NSNumber(value: GREYAppState.pendingNetworkRequest.rawValue),
-                                      forConfigKey: GREYConfigKey.ignoreAppStates)
+    GREYConfiguration.shared.setValue(
+      NSNumber(value: GREYAppState.pendingNetworkRequest.rawValue),
+      forConfigKey: GREYConfigKey.ignoreAppStates)
     EarlGrey.selectElement(with: grey_keyWindow())
       .assert(grey_notNil())
   }
@@ -255,12 +258,30 @@ class SwiftTests: XCTestCase {
       .assert(grey_text("Device Was Shaken"))
   }
 
+  func testDismissKeyboard() throws {
+    openTestView(named: "Typing Views")
+    EarlGrey.selectElement(with: grey_accessibilityID("TypingTextField"))
+      .perform(grey_tap())
+    // Ensure the keyboard button for the character e is visible.
+    EarlGrey.selectElement(with: grey_accessibilityLabel("E"))
+      .assert(grey_sufficientlyVisible())
+    EarlGrey.selectElement(with: grey_accessibilityID("TypingTextField"))
+      .perform(grey_typeText("Foo Bar"))
+
+    try EarlGrey.dismissKeyboard()
+
+    EarlGrey.selectElement(with: grey_accessibilityLabel("E"))
+      .assert(grey_notVisible())
+    EarlGrey.selectElement(with: grey_accessibilityID("TypingTextField"))
+      .assert(grey_text("Foo Bar"))
+  }
+
   func testFulfillExpectationInCallback() throws {
     let expectation = self.expectation(description: "Test Expectation")
     let callback = {
       expectation.fulfill()
     }
-    host.invoke(remoteClosure:callback, delay: 1)
+    host.invoke(remoteClosure: callback, delay: 1)
     self.waitForExpectations(timeout: 2)
   }
 
@@ -280,7 +301,8 @@ class SwiftTests: XCTestCase {
     EarlGrey.selectElement(with: nameMatcher)
       .usingSearch(
         action: grey_scrollInDirection(GREYDirection.down, 200),
-        onElementWith:grey_kindOfClass(UITableView.self))
+        onElementWith: grey_kindOfClass(UITableView.self)
+      )
       .perform(grey_tap())
   }
 }

@@ -145,6 +145,13 @@ public struct EarlGrey {
       .handle(exception, details: details)
   }
 
+  public static func dismissKeyboard(
+    file: StaticString = #file,
+    line: UInt = #line
+  ) throws {
+    try EarlGreyImpl.invoked(fromFile: file.description, lineNumber: line).dismissKeyboard()
+  }
+
   @available(iOS 11.0, *)
   public static func openDeepLinkURL(
     _ url: String,
