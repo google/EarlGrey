@@ -302,6 +302,7 @@ __attribute__((constructor)) static void SetupTestDistantObject() {
   self.hostPort = 0;
   self.hostBackgroundPort = 0;
   self.hostApplicationTerminated = NO;
+  self.hostLaunchedWithAppComponent = NO;
 }
 
 #pragma mark - Private

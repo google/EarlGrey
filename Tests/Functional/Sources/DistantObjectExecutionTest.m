@@ -130,4 +130,11 @@
   [self waitForExpectations:@[ expectation ] timeout:2];
 }
 
+/** Ensures the application is launched with the app component. */
+- (void)testDistantObjectLaunchCheckUpdated {
+  [self.application launch];
+  XCTAssertTrue(GREYTestApplicationDistantObject.sharedInstance.hostLaunchedWithAppComponent,
+                @"The Distant object host app must be launched with the app component.");
+}
+
 @end

@@ -95,6 +95,7 @@ static void InitiateCommunicationWithTest() {
         GREYHostApplicationDistantObject.sharedInstance.servicePort;
     testApplicationDistantObject.hostBackgroundPort =
         GREYHostBackgroundDistantObject.sharedInstance.servicePort;
+    testApplicationDistantObject.hostLaunchedWithAppComponent = YES;
   });
 }
 

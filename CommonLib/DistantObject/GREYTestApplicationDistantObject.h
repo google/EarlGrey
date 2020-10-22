@@ -71,6 +71,20 @@ typedef NS_ENUM(NSUInteger, GREYRemoteExecutionDispatchPolicy) {
 /** Returns the port for the distant object's service. */
 @property(nonatomic, readonly) uint16_t servicePort;
 
+/**
+ * A BOOL set to @YES only if the host application was launched successfully with EarlGrey's
+ * application component statically-linked inside it.
+ *
+ * @note Use only to determine after a successful launch if EarlGrey has been added to the host app.
+ *
+ *       This method cannot be utilized to determine if the application launched successfully. The
+ *       port values may be changed in the case of an application crash or if the application hangs
+ *       on launch. Also will not work in case the application component is being injected as a
+ *       framework (as done in open-source) as the application will always crash.
+ *
+ */
+@property(nonatomic) BOOL hostLaunchedWithAppComponent;
+
 /** @remark init is not an available initializer. Use sharedInstace instead. */
 - (instancetype)init NS_UNAVAILABLE;
 
