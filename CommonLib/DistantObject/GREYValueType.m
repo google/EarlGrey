@@ -14,6 +14,7 @@
 // limitations under the License.
 //
 
+#import <CoreLocation/CoreLocation.h>
 #import <UIKit/UIKit.h>
 
 /** Enable the type to be the value type so it will be passed by copy. */
@@ -24,5 +25,14 @@
   }                                   \
   @end
 
+/**
+ * These are classes that will always be value type with eDO in an EarlGrey test so that we don't
+ * run into issues with internal calls that would not work if they were stubbed as references by
+ * eDO.
+ *
+ * DO NOT CREATE STUBS ON THESE CLASSES WITH GREY_REMOTE_CLASS_IN_APP.
+ */
+EDO_ENABLE_VALUETYPE(CLLocation)
+EDO_ENABLE_VALUETYPE(CLLocationManager)
 EDO_ENABLE_VALUETYPE(UIImage)
 EDO_ENABLE_VALUETYPE(UIColor)
