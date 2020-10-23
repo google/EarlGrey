@@ -50,13 +50,24 @@ typedef NS_OPTIONS(NSInteger, GREYVerboseLogType) {
  * e.g. Prints all interaction related logs.
  * @code
  *   NSMutableArray<NSString *> *launchArguments = [[NSMutableArray alloc] init];
- *   [launchArguments addObject:[@"-" stringByAppendingString:@"kGREYVerboseLogTypeInteraction"]];
- *   [launchArguments addObject:@"1"];
+ *   [launchArguments addObject:[@"-" stringByAppendingString:kGREYAllowVerboseLogging]];
+ *   [launchArguments addObject:[NSString stringWithFormat:@"%zd", kGREYVerboseLogTypeAll]];
  *   self.application.launchArguments = launchArguments;
  *   [self.application launch];
  * @endcode
  *
- * In the App side, you can also pass it in the scheme's Environment Variables.
+ * In the App side, you can also pass it in the scheme's Environment Variables or set it in the
+ * test side for logging over a particular part of the test.
+ *
+ * @code
+ * - (void)testFoo {
+ *   NSUserDefaults *userDefaults = [GREY_REMOTE_CLASS_IN_APP(NSUserDefaults) standardUserDefaults];
+ *   [userDefaults setInteger:kGREYVerboseLogTypeInteraction forKey:kGREYAllowVerboseLogging];
+ *   ...
+ *   // Verbose logs added
+ *   ...
+ * }
+ * @endcode
  *
  * @remark Once you set this, as with any NSUserDefaults, you need to
  *         explicitly turn it off or delete and re-install the app under test.
