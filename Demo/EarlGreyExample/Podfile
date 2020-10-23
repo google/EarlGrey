@@ -20,11 +20,9 @@ end
 target 'EarlGreyExampleUITests' do
   #inherit! :search_paths
   pod 'EarlGreyTest'
-  pod 'eDistantObject', '0.9.0'
 end
 
 target 'EarlGreyExampleSwiftUITests' do
   #inherit! :search_paths
   pod 'EarlGreyTest'
-  pod 'eDistantObject', '0.9.0'
 end
