@@ -16,6 +16,7 @@
 #import "BaseIntegrationTest.h"
 
 #import "GREYDefines.h"
+#import "EarlGrey.h"
 
 // TODO: Refactor the handler code to remove the waits after System Alert Acceptance / Denial.
 @interface SystemAlertHandlingTest_IOS13OrLater : BaseIntegrationTest
@@ -41,20 +42,30 @@
 }
 
 /**
- * Automates the accepting of a system alert & checking it's text.
+ * Automates the accepting of a system alert.
  */
-- (void)testAcceptingSystemAlertAndCheckingItsText {
+- (void)testAcceptingSystemAlert {
   [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"Locations Alert")]
       performAction:grey_tap()];
   XCTAssertTrue([self grey_waitForAlertVisibility:YES withTimeout:1]);
-  NSString *string = [self grey_systemAlertTextWithError:nil];
-  NSString *alertString = @"Allow “FunctionalTestRig” to access your location?";
-  XCTAssertEqualObjects(string, alertString);
-  NSError *error;
-  string = [self grey_systemAlertTextWithError:&error];
-  XCTAssertEqualObjects(string, alertString);
-  XCTAssertNil(error);
   XCTAssertEqual([self grey_systemAlertType], GREYSystemAlertTypeLocation);
+  XCTAssertTrue([self grey_acceptSystemDialogWithError:nil]);
+  XCTAssertTrue([self grey_waitForAlertVisibility:NO withTimeout:1]);
+  [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"Alert Handled?")]
+      performAction:grey_tap()];
+}
+
+/**
+ * Tests validity of system alert text helper.
+ */
+- (void)testSystemAlertLabelText {
+  [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"Notifications Alert")]
+      performAction:grey_tap()];
+  XCTAssertTrue([self grey_waitForAlertVisibility:YES withTimeout:1]);
+  NSError *error;
+  NSString *alertString = [self grey_systemAlertTextWithError:&error];
+  NSString *expectedString = @"“FunctionalTestRig” Would Like to Send You Notifications";
+  XCTAssertTrue([alertString isEqualToString:expectedString]);
   XCTAssertTrue([self grey_acceptSystemDialogWithError:nil]);
   XCTAssertTrue([self grey_waitForAlertVisibility:NO withTimeout:1]);
   [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"Alert Handled?")]
