@@ -316,8 +316,8 @@
  *
  * @param text The text to be typed. For Objective-C, backspace is supported by using "\b" in the
  *             string and "\u{8}" in Swift strings. Return key is supported with "\n".
- *             For Example: @"Helpo\\b\bloWorld" will type HelloWorld in Objective-C.
- *                          "Helpo\u{8}\u{8}loWorld" will type HelloWorld in Swift.
+ *             For Example: @code @"Helpo\b\bloWorld" @endcode will type HelloWorld in Objective-C.
+ *                          @code "Helpo\u{8}\u{8}loWorld" @endcode will type HelloWorld in Swift.
  *
  * @return A GREYAction to type a specific text string in a text field.
  */
