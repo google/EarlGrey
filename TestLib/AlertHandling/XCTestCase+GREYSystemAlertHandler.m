@@ -28,25 +28,6 @@
 #import "GREYCondition.h"
 
 /**
- * Text denoting part of the Location System Alert Label in iOS 10.
- */
-static NSString *const kSystemAlertLabelLocationIOS10 = @"location while you use the app";
-/**
- * Text denoting part of the Location System Alert Label in iOS 11.
- */
-static NSString *const kSystemAlertLabelLocationIOS11 = @"location while you are using the app";
-/**
- * Text denoting part of the Background Location System Alert Label when the location alert has
- * not been accepted.
- */
-static NSString *const kSystemAlertLabelBGLocationAlways = @"access your location?";
-/**
- * Text denoting part of the Background Location System Alert Label when the location alert has
- * been accepted.
- */
-static NSString *const kSystemAlertLabelBGLocationNotUsingTheApp =
-    @"location even when you are not using the app?";
-/**
  * Text denoting part of the Camera System Alert.
  */
 static NSString *const kSystemAlertLabelCamera = @"Camera";
@@ -132,9 +113,6 @@ static UIApplication *GetApplicationUnderTest() {
   XCUIElement *topMostAlert = [self grey_topMostAlertWithError:nil];
   GREYAssertNotNil(topMostAlert, @"Alert does not exist");
   NSString *alertValue = [topMostAlert label];
-  // The Alert Label for the Location Alert is different for iOS 11 and iOS 10.
-  NSString *locationAlertLabelString =
-      iOS11_OR_ABOVE() ? kSystemAlertLabelLocationIOS11 : kSystemAlertLabelLocationIOS10;
   // There are two descriptions for the background alert, because it has two versions. It can be
   // the case that the location alert is not accepted, which means that a third value with a
   // "Use Once" option will be shown. If the location alert has already been shown, then the
@@ -155,22 +133,16 @@ static UIApplication *GetApplicationUnderTest() {
     return GREYSystemAlertTypeMotionActivity;
   } else if ([alertValue rangeOfString:kSystemAlertLabelContacts].location != NSNotFound) {
     return GREYSystemAlertTypeContacts;
-  } else if (iOS13_OR_ABOVE()) {
-    NSString *iOS13locationString = @"access your location?";
-    if ([alertValue rangeOfString:iOS13locationString].location != NSNotFound) {
-      return GREYSystemAlertTypeLocation;
-    }
-  } else if ([alertValue rangeOfString:kSystemAlertLabelBGLocationAlways].location != NSNotFound) {
-    return GREYSystemAlertTypeBackgroundLocation;
-  } else if ([alertValue rangeOfString:kSystemAlertLabelBGLocationNotUsingTheApp].location !=
-             NSNotFound) {
-    return GREYSystemAlertTypeBackgroundLocation;
-  } else if ([alertValue rangeOfString:locationAlertLabelString].location != NSNotFound) {
+  } else if ([self locationAlertStrings:GetAvailableLocationAlertStrings()
+                 containSubstringOfLocationLabel:alertValue]) {
     return GREYSystemAlertTypeLocation;
+  } else if ([self locationAlertStrings:GetAvailableBackgroundLocationAlertStrings()
+                 containSubstringOfLocationLabel:alertValue]) {
+    return GREYSystemAlertTypeBackgroundLocation;
+  } else {
+    GREYThrow(@"Invalid System Alert. Please add support for this value. Label is: %@", alertValue);
+    return GREYSystemAlertTypeUnknown;
   }
-
-  GREYThrow(@"Invalid System Alert. Please add support for this value. Label is: %@", alertValue);
-  return GREYSystemAlertTypeUnknown;
 }
 
 - (BOOL)grey_acceptSystemDialogWithError:(NSError **)error {
@@ -381,6 +353,56 @@ static UIApplication *GetApplicationUnderTest() {
   }
   return YES;
 }
+
+/**
+ * Traverses @c substrings and checks if any of the traversing strings is a substring of @c label.
+ */
+- (BOOL)locationAlertStrings:(NSArray<NSString *> *)substrings
+    containSubstringOfLocationLabel:(NSString *)label {
+  for (NSString *substring in substrings) {
+    if ([label rangeOfString:substring].location != NSNotFound) {
+      return YES;
+    }
+  }
+  return NO;
+}
+
+/**
+ * @return An array of substrings that are available when location is requested for "When In Use".
+ *         Displayed label is different across iOS versions.
+ */
+static NSArray<NSString *> *GetAvailableLocationAlertStrings() {
+  if (iOS14_OR_ABOVE()) {
+    return @[ @"use your location?" ];
+  } else if (iOS13_OR_ABOVE()) {
+    return @[ @"access your location?" ];
+  } else if (iOS11_OR_ABOVE()) {
+    return @[ @"location while you are using the app" ];
+  } else {
+    // iOS 11
+    return @[ @"location while you use the app" ];
+  }
+}
+
+/**
+ * @return An array of substrings that are available when location is requested for "Always".
+ *         Displayed label is different across iOS versions.
+ */
+static NSArray<NSString *> *GetAvailableBackgroundLocationAlertStrings() {
+  if (iOS14_OR_ABOVE()) {
+    return @[ @"use your location?" ];
+  } else if (iOS13_OR_ABOVE()) {
+    return @[ @"access your location?" ];
+  } else if (iOS11_OR_ABOVE()) {
+    // Second substring is shown when user requests for "Always" after "When In Use" location
+    // request was authorized.
+    return @[ @"access your location?", @"location even when you are not using the app?" ];
+  } else {
+    // iOS 11
+    return @[ @"access your location?" ];
+  }
+}
+
 #endif  // TARGET_OS_IOS
 
 @end
