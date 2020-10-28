@@ -24,16 +24,15 @@ NS_ASSUME_NONNULL_BEGIN
 @interface GREYElementFilter : NSObject
 
 /**
- * De-dupes the list of elements by removing any accessibility element that has its parent
- * UITextField present. If no such combination exists, or if elements array does not contain
- * exactly two elements, it is returned as is.
+ * Filters multiple-matched elements if there are duplicated textfield elements or superview /
+ * subview pairs with identical labels and accessibility.
  *
  * @param elements An NSArray of elements found from an element matcher.
  *
- * @return A UITextField if the matched elements were a UITextfield and its accessibility element,
- *         else the matched element(s).
+ * @return An NSArray containing a single element or the provided @c elements if filtering is
+ *         possible.
  */
-+ (NSArray<id> *)dedupedTextFieldFromElements:(NSArray<id> *)elements;
++ (NSArray<id> *)filterElements:(NSArray<id> *)elements;
 
 @end
 

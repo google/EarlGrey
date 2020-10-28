@@ -117,7 +117,10 @@
     [elementFinderStopwatch start];
     
     NSArray<id> *elements = [elementFinder elementsMatchedInProvider:entireRootHierarchyProvider];
-    elements = [GREYElementFilter dedupedTextFieldFromElements:elements];
+    // Deduplicate any multiple matched elements.
+    if ([elements count] > 1) {
+      elements = [GREYElementFilter filterElements:elements];
+    }
     
     [elementFinderStopwatch stop];
 
