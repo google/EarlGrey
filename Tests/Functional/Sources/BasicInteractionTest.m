@@ -21,6 +21,7 @@
 #import "GREYHostBackgroundDistantObject+BasicInteractionTest.h"
 #import "BaseIntegrationTest.h"
 #import "GREYElementHierarchy.h"
+#import "EDOClientService.h"
 
 /**
  * Tests to ensure the basic functionality of EarlGrey is intact.
@@ -829,4 +830,36 @@
         assertWithMatcher:grey_notNil()];
   }
 }
+
+/**
+ * Perform typing in a text field and assert the typed value.
+ */
+- (void)testSettingAndResettingRootWindow {
+  [[GREY_REMOTE_CLASS_IN_APP(UIApplication) sharedApplication] keyWindow].accessibilityIdentifier =
+      @"Main Window";
+  [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")] performAction:grey_tap()];
+
+  NSError *error;
+  id<GREYMatcher> keyboardWindowMatcher = grey_kindOfClassName(@"UIRemoteKeyboardWindow");
+  [EarlGrey setRootMatcherForSubsequentInteractions:keyboardWindowMatcher];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"u")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_tap() error:&error];
+  XCTAssertNotNil(error, @"Tab 2 should not be present in the keyboard window");
+
+  error = nil;
+  [EarlGrey setRootMatcherForSubsequentInteractions:grey_accessibilityID(@"Main Window")];
+  [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"u")] performAction:grey_tap()
+                                                                             error:&error];
+  XCTAssertNotNil(error, @"Keyboard key should not be present in the main window");
+
+  [EarlGrey setRootMatcherForSubsequentInteractions:nil];
+  [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"u")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
+      assertWithMatcher:grey_text(@"uu")];
+}
+
 @end

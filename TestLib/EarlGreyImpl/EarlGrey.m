@@ -66,6 +66,11 @@ static inline id<GREYFailureHandler> GREYGetCurrentFailureHandler() {
   return handler;
 }
 
+/**
+ * The root window matcher that can be set when writing tests on a multi-scene application.
+ */
+static id<GREYMatcher> gRootWindowMatcher;
+
 @implementation EarlGreyImpl
 
 /**
@@ -110,7 +115,12 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
 }
 
 - (id<GREYInteraction>)selectElementWithMatcher:(id<GREYMatcher>)elementMatcher {
-  return [[GREYElementInteractionProxy alloc] initWithElementMatcher:elementMatcher];
+  if (!gRootWindowMatcher) {
+    return [[GREYElementInteractionProxy alloc] initWithElementMatcher:elementMatcher];
+  } else {
+    return [[[GREYElementInteractionProxy alloc] initWithElementMatcher:elementMatcher]
+        inRoot:gRootWindowMatcher];
+  }
 }
 
 #if TARGET_OS_IOS
@@ -278,6 +288,10 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
   if (![distantObject setDispatchPolicy:dispatchPolicy error:&setPolicyError]) {
     GREYHandleInteractionError(setPolicyError, nil);
   }
+}
+
+- (void)setRootMatcherForSubsequentInteractions:(nullable id<GREYMatcher>)rootWindowMatcher {
+  gRootWindowMatcher = rootWindowMatcher;
 }
 
 @end

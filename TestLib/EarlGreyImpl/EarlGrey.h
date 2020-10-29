@@ -277,6 +277,20 @@ typedef void (^GREYHostApplicationCrashHandler)(void);
  */
 - (void)setRemoteExecutionDispatchPolicy:(GREYRemoteExecutionDispatchPolicy)dispatchPolicy;
 
+/**
+ * Sets a global root matcher that will be utilized for all subsequent EarlGrey calls until
+ * it is reset to null.
+ *
+ * @note Use only in the case of having Multiple UIWindowScene's where elements might have their
+ *       accessibility duplicated across different different windows. This can be used to clamp to
+ *       one UIWindow on the screen at a time. Setting to a different, more constrained matcher can
+ *       lead to issues when resetting the tests.
+ *
+ * @param rootWindowMatcher A GREYMatcher which can select the particular window to be used in any
+ *                          subsequent EarlGrey calls. Can be reset by passing nil.
+ */
+- (void)setRootMatcherForSubsequentInteractions:(nullable id<GREYMatcher>)rootWindowMatcher;
+
 @end
 
 NS_ASSUME_NONNULL_END
