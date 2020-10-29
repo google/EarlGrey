@@ -24,6 +24,7 @@
   NSString *_name;
   __weak NSTimer *_trackedTimer;
   BOOL _removeOnIdle;
+  NSArray<NSString *> *_callStack;
 }
 
 + (instancetype)trackTimer:(NSTimer *)timer name:(NSString *)name removeOnIdle:(BOOL)removeOnIdle {
@@ -44,6 +45,7 @@
     _trackedTimer = timer;
     _name = [name copy];
     _removeOnIdle = removeOnIdle;
+    _callStack = [NSThread callStackSymbols];
   }
   return self;
 }
@@ -55,13 +57,14 @@
 }
 
 - (NSString *)idlingResourceDescription {
-  return [NSString stringWithFormat:@"Waiting for timer %@ to fire (next fire in %g seconds)",
-                                    _trackedTimer, [_trackedTimer.fireDate timeIntervalSinceNow]];
+  return [NSString
+      stringWithFormat:@"Waiting for timer %@ to fire (next fire in %g seconds)\nCreated at:\n%@",
+                       _trackedTimer, [_trackedTimer.fireDate timeIntervalSinceNow], _callStack];
 }
 
 - (BOOL)isIdleNow {
   // Note that |_trackedTimer| is a weak pointer and we make use of the side effect that if it
-  // becomes nil, isIdle will be YES.
+  // becomes nil, isIdle will be @c YES.
   BOOL isIdle = ![_trackedTimer isValid];
   if (isIdle && _removeOnIdle) {
     [[GREYUIThreadExecutor sharedInstance] deregisterIdlingResource:self];

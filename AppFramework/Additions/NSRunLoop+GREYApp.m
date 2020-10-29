@@ -16,14 +16,23 @@
 
 #import "NSRunLoop+GREYApp.h"
 
+#include <objc/runtime.h>
+
 #import "GREYNSTimerIdlingResource.h"
 #import "GREYFatalAsserts.h"
+#import "GREYConfigKey.h"
 #import "GREYConfiguration.h"
 #import "GREYSwizzler.h"
+
+/** Selector for the swizzled addTimer method.*/
+static SEL gSwizzledAddTimerSelector;
+static Class gBlockClass;
 
 @implementation NSRunLoop (GREYApp)
 
 + (void)load {
+  gSwizzledAddTimerSelector = @selector(greyswizzled_addTimer:forMode:);
+  gBlockClass = NSClassFromString(@"NSBlock");
   GREYSwizzler *swizzler = [[GREYSwizzler alloc] init];
   BOOL swizzleSuccess = [swizzler swizzleClass:self
                          replaceInstanceMethod:@selector(addTimer:forMode:)
@@ -34,11 +43,21 @@
 #pragma mark - Swizzled Implementation
 
 - (void)greyswizzled_addTimer:(NSTimer *)timer forMode:(NSString *)mode {
-  if ([mode isEqualToString:NSDefaultRunLoopMode]) {
-    // Add a idling resource for short non-repeating timers.
-    if (timer.timeInterval == 0 && GREY_CONFIG_DOUBLE(kGREYConfigKeyNSTimerMaxTrackableInterval) >=
-                                       [timer.fireDate timeIntervalSinceNow]) {
-      NSString *name = [NSString stringWithFormat:@"IdlingResource For Timer %@", timer];
+  // We track all short, non-repeating NSTimers that are added to the main thread.
+  if ([NSThread isMainThread]) {
+    // TODO(b/171823723): We also do not track blocks being passed as userInfo as this can have
+    // issues when timers with custom blocks are passed in because of recursive calls to the same
+    // block.
+    id hasBeenTrackedOnce = objc_getAssociatedObject(timer, gSwizzledAddTimerSelector);
+    if (!hasBeenTrackedOnce && timer.timeInterval == 0 &&
+        GREY_CONFIG_DOUBLE(kGREYConfigKeyNSTimerMaxTrackableInterval) >=
+            [timer.fireDate timeIntervalSinceNow] &&
+        ![timer.userInfo isKindOfClass:gBlockClass]) {
+      NSString *name = [NSString stringWithFormat:@"IdlingResource For Timer on Mode: %@", mode];
+      // Set an associated object on the timer to ensure we don't keep re-tracking timers being
+      // added in a loop.
+      objc_setAssociatedObject(timer, gSwizzledAddTimerSelector, @(YES),
+                               OBJC_ASSOCIATION_RETAIN_NONATOMIC);
       [GREYNSTimerIdlingResource trackTimer:timer name:name removeOnIdle:YES];
     }
   }
