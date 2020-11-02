@@ -38,7 +38,7 @@ static const int gSignals[] = {
 };
 
 // Total number of signals we handle.
-static const int kNumSignals = sizeof(gSignals) / sizeof(gSignals[0]);
+enum { kNumSignals = sizeof(gSignals) / sizeof(gSignals[0]) };
 
 // A union of normal and extended signal handler.
 typedef union GREYSignalHandlerUnion {
@@ -97,7 +97,7 @@ static void GREYSetSigactionHandler(int signum) {
   write(STDERR_FILENO, signalString, strlen(signalString));
 
   write(STDERR_FILENO, "\n", 1);
-  static const int kMaxStackSize = 128;
+  enum { kMaxStackSize = 128 };
   void *callStack[kMaxStackSize];
   const int numFrames = backtrace(callStack, kMaxStackSize);
   backtrace_symbols_fd(callStack, numFrames, STDERR_FILENO);
