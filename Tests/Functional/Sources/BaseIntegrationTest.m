@@ -53,7 +53,6 @@
 - (void)tearDown {
   [[GREYHostApplicationDistantObject sharedInstance] resetNavigationStack];
   [[GREYConfiguration sharedConfiguration] reset];
-  [NSThread currentThread].threadDictionary[GREYFailureHandlerKey] = nil;
 
   [super tearDown];
 }

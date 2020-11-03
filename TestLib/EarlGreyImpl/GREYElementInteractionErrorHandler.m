@@ -72,7 +72,7 @@ void GREYHandleInteractionError(__strong GREYError *interactionError,
 
       id<GREYFailureHandler> failureHandler =
           [NSThread mainThread].threadDictionary[GREYFailureHandlerKey];
-        [failureHandler handleException:exception details:interactionError.description];
+      [failureHandler handleException:exception details:interactionError.description];
     }
   }
 }
