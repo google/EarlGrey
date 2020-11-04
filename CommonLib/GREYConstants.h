@@ -73,6 +73,11 @@ GREY_EXTERN const CGFloat kGREYAcceptableFloatDifference;
 GREY_EXTERN NSString* _Nonnull const kTextFieldAXElementClassName;
 
 /**
+ * A key which if set on an NSTimer will prevent it from being tracked.
+ */
+GREY_EXTERN NSString* _Nonnull const kNSTimerIgnoreTrackingKey;
+
+/**
  * The default pinch angle for the pinch action, specified by an approximate angle for a right
  * handed two finger pinch.
  */

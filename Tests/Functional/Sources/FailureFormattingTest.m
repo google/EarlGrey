@@ -23,6 +23,7 @@
 #import "GREYHostApplicationDistantObject+ErrorHandlingTest.h"
 #import "BaseIntegrationTest.h"
 #import "FailureHandler.h"
+#import "EDOClientService.h"
 
 #pragma mark - Failure Handler
 
@@ -522,6 +523,30 @@
   XCTAssertEqualObjects(_handler.details, @"Foo\n\nBar");
   GREYFailWithDetails(@"Foo", @"Bar: %@", @"Baz");
   XCTAssertEqualObjects(_handler.details, @"Foo\n\nBar: Baz");
+}
+
+/** Ensures the recovery suggestion for an NSTimer is present. */
+- (void)testTimerRecoveryLogPresent {
+  [[GREYConfiguration sharedConfiguration] setValue:@(1)
+                                       forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
+  NSTimer *timer =
+      [GREY_REMOTE_CLASS_IN_APP(NSTimer) scheduledTimerWithTimeInterval:1.5
+                                                                repeats:NO
+                                                                  block:^(NSTimer *_Nonnull timer){
+                                                                      // No-op
+                                                                  }];
+  [[GREY_REMOTE_CLASS_IN_APP(NSRunLoop) currentRunLoop] addTimer:timer
+                                                         forMode:NSDefaultRunLoopMode];
+  [[EarlGrey selectElementWithMatcher:grey_keyWindow()] assertWithMatcher:grey_notNil()];
+  [[GREYConfiguration sharedConfiguration] reset];
+  NSString *timerSuggestion =
+      @"You can ignore a timer by setting kNSTimerIgnoreTrackingKey:@(YES) as an associated object "
+      @"on the NSTimer.";
+  XCTAssertTrue([_handler.details containsString:timerSuggestion],
+                @"Expected info does not appear in the actual exception details:\n\n"
+                @"========== expected info ===========\n%@\n\n"
+                @"========== actual exception details ==========\n%@",
+                timerSuggestion, _handler.details);
 }
 
 @end

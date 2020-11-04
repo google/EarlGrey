@@ -58,7 +58,9 @@
 
 - (NSString *)idlingResourceDescription {
   return [NSString
-      stringWithFormat:@"Waiting for timer %@ to fire (next fire in %g seconds)\nCreated at:\n%@",
+      stringWithFormat:@"Waiting for timer %@ to fire (next fire in %g seconds).\nYou can ignore a "
+                        "timer by setting kNSTimerIgnoreTrackingKey:@(YES) as an "
+                        "associated object on the NSTimer.  \nCreated at:\n%@",
                        _trackedTimer, [_trackedTimer.fireDate timeIntervalSinceNow], _callStack];
 }
 

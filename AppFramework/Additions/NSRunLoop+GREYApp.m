@@ -22,16 +22,15 @@
 #import "GREYFatalAsserts.h"
 #import "GREYConfigKey.h"
 #import "GREYConfiguration.h"
+#import "GREYConstants.h"
 #import "GREYSwizzler.h"
 
-/** Selector for the swizzled addTimer method.*/
-static SEL gSwizzledAddTimerSelector;
+/** Class for NSBlock which denotes recurrent timers from not being tracked.*/
 static Class gBlockClass;
 
 @implementation NSRunLoop (GREYApp)
 
 + (void)load {
-  gSwizzledAddTimerSelector = @selector(greyswizzled_addTimer:forMode:);
   gBlockClass = NSClassFromString(@"NSBlock");
   GREYSwizzler *swizzler = [[GREYSwizzler alloc] init];
   BOOL swizzleSuccess = [swizzler swizzleClass:self
@@ -48,15 +47,15 @@ static Class gBlockClass;
     // TODO(b/171823723): We also do not track blocks being passed as userInfo as this can have
     // issues when timers with custom blocks are passed in because of recursive calls to the same
     // block.
-    id hasBeenTrackedOnce = objc_getAssociatedObject(timer, gSwizzledAddTimerSelector);
-    if (!hasBeenTrackedOnce && timer.timeInterval == 0 &&
+    id ignoreTracking = objc_getAssociatedObject(timer, kNSTimerIgnoreTrackingKey);
+    if (!ignoreTracking && timer.timeInterval == 0 &&
         GREY_CONFIG_DOUBLE(kGREYConfigKeyNSTimerMaxTrackableInterval) >=
             [timer.fireDate timeIntervalSinceNow] &&
         ![timer.userInfo isKindOfClass:gBlockClass]) {
       NSString *name = [NSString stringWithFormat:@"IdlingResource For Timer on Mode: %@", mode];
       // Set an associated object on the timer to ensure we don't keep re-tracking timers being
       // added in a loop.
-      objc_setAssociatedObject(timer, gSwizzledAddTimerSelector, @(YES),
+      objc_setAssociatedObject(timer, kNSTimerIgnoreTrackingKey, @(YES),
                                OBJC_ASSOCIATION_RETAIN_NONATOMIC);
       [GREYNSTimerIdlingResource trackTimer:timer name:name removeOnIdle:YES];
     }

@@ -102,7 +102,7 @@
   SEL swizzledSEL =
       @selector(greyswizzled_cancelPreviousPerformRequestsWithTarget:selector:object:);
   if ([NSThread isMainThread]) {
-    NSArray *arguments = [self grey_arrayWithSelector:aSelector argument:anArgument];
+    NSArray<id> *arguments = [self grey_arrayWithSelector:aSelector argument:anArgument];
     [aTarget grey_unmapAllTrackersForPerformSelectorArguments:arguments];
 
     SEL customPerformSEL = @selector(grey_customPerformSelectorWithParameters:);
@@ -117,9 +117,9 @@
 - (void)greyswizzled_performSelector:(SEL)aSelector
                           withObject:(id)anArgument
                           afterDelay:(NSTimeInterval)delay
-                             inModes:(NSArray *)modes {
+                             inModes:(NSArray<NSRunLoopMode> *)modes {
   if ([NSThread isMainThread]) {
-    NSArray *arguments = [self grey_arrayWithSelector:aSelector argument:anArgument];
+    NSArray<id> *arguments = [self grey_arrayWithSelector:aSelector argument:anArgument];
     // Track delayed executions on main thread that fall within a trackable duration.
     CFTimeInterval maxDelayToTrack =
         GREY_CONFIG_DOUBLE(kGREYConfigKeyDelayedPerformMaxTrackableDuration);
@@ -160,7 +160,7 @@
  *                  the selector) optionally followed by the arguments to be passed to the
  *                  selector.
  */
-- (void)grey_customPerformSelectorWithParameters:(NSArray *)arguments {
+- (void)grey_customPerformSelectorWithParameters:(NSArray<id> *)arguments {
   GREYFatalAssertWithMessage(arguments.count >= 1,
                              @"at the very least, an entry to selector must be present.");
   SEL selector = [arguments[0] pointerValue];
@@ -200,11 +200,12 @@
  * @param tracker   The idling resource that is tracking the
  *                  NSObject::performSelector:withObject:afterDelay:inModes: call.
  */
-- (void)grey_mapPerformSelectorArguments:(NSArray *)arguments
+- (void)grey_mapPerformSelectorArguments:(NSArray<id> *)arguments
                                toTracker:(GREYTimedIdlingResource *)tracker {
   @synchronized(self) {
-    NSMutableDictionary *argsToTrackers = [self grey_performSelectorArgumentsToTrackerMap];
-    NSMutableArray *trackers = argsToTrackers[arguments];
+    NSMutableDictionary<id, NSMutableArray<GREYTimedIdlingResource *> *> *argsToTrackers =
+        [self grey_performSelectorArgumentsToTrackerMap];
+    NSMutableArray<GREYTimedIdlingResource *> *trackers = argsToTrackers[arguments];
     if (!trackers) {
       trackers = [[NSMutableArray alloc] init];
     }
@@ -219,10 +220,11 @@
  *
  * @param arguments The arguments that whose tracker is to be removed.
  */
-- (void)grey_unmapSingleTrackerForPerformSelectorArguments:(NSArray *)arguments {
+- (void)grey_unmapSingleTrackerForPerformSelectorArguments:(NSArray<id> *)arguments {
   @synchronized(self) {
-    NSMutableDictionary *argsToTrackers = [self grey_performSelectorArgumentsToTrackerMap];
-    NSMutableArray *trackers = argsToTrackers[arguments];
+    NSMutableDictionary<id, NSMutableArray<GREYTimedIdlingResource *> *> *argsToTrackers =
+        [self grey_performSelectorArgumentsToTrackerMap];
+    NSMutableArray<GREYTimedIdlingResource *> *trackers = argsToTrackers[arguments];
     [[trackers lastObject] stopMonitoring];
     [trackers removeLastObject];
     if (trackers.count > 0) {
@@ -239,10 +241,11 @@
  *
  * @param arguments The arguments that whose tracker is to be removed.
  */
-- (void)grey_unmapAllTrackersForPerformSelectorArguments:(NSArray *)arguments {
+- (void)grey_unmapAllTrackersForPerformSelectorArguments:(NSArray<id> *)arguments {
   @synchronized(self) {
-    NSMutableDictionary *argsToTrackers = [self grey_performSelectorArgumentsToTrackerMap];
-    NSMutableArray *trackers = argsToTrackers[arguments];
+    NSMutableDictionary<id, NSMutableArray<GREYTimedIdlingResource *> *> *argsToTrackers =
+        [self grey_performSelectorArgumentsToTrackerMap];
+    NSMutableArray<GREYTimedIdlingResource *> *trackers = argsToTrackers[arguments];
     while (trackers.count > 0) {
       [[trackers lastObject] stopMonitoring];
       [trackers removeLastObject];
@@ -256,8 +259,9 @@
  */
 - (void)grey_unmapAllTrackersForAllPerformSelectorArguments {
   @synchronized(self) {
-    NSMutableDictionary *argsToTrackers = [self grey_performSelectorArgumentsToTrackerMap];
-    for (NSArray *arguments in [[argsToTrackers allKeys] copy]) {
+    NSMutableDictionary<id, NSMutableArray<GREYTimedIdlingResource *> *> *argsToTrackers =
+        [self grey_performSelectorArgumentsToTrackerMap];
+    for (NSArray<GREYTimedIdlingResource *> *arguments in [[argsToTrackers allKeys] copy]) {
       [self grey_unmapAllTrackersForPerformSelectorArguments:arguments];
     }
     objc_setAssociatedObject(self, @selector(grey_customPerformSelectorWithParameters:), nil,
@@ -270,7 +274,7 @@
  */
 - (NSMutableDictionary *)grey_performSelectorArgumentsToTrackerMap {
   @synchronized(self) {
-    NSMutableDictionary *dictionary =
+    NSMutableDictionary<id, GREYTimedIdlingResource *> *dictionary =
         objc_getAssociatedObject(self, @selector(grey_customPerformSelectorWithParameters:));
     if (!dictionary) {
       dictionary = [[NSMutableDictionary alloc] init];

@@ -42,6 +42,8 @@ const NSInteger kUIPickerViewMaxAccessibilityViews = 500;
 
 NSString *const kTextFieldAXElementClassName = @"UIAccessibilityTextFieldElement";
 
+NSString *const kNSTimerIgnoreTrackingKey = @"kNSTimerIgnoreTrackingKey";
+
 #if TARGET_OS_IOS
 NSString *NSStringFromUIDeviceOrientation(UIDeviceOrientation deviceOrientation) {
   switch (deviceOrientation) {
