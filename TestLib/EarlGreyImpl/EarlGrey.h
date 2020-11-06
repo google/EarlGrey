@@ -29,6 +29,7 @@
 #import "GREYErrorConstants.h"
 #import "GREYFailureHandler.h"
 #import "GREYFrameworkException.h"
+#import "GREYConstants.h"
 #import "GREYDefines.h"
 #import "GREYLogger.h" 
 #import "GREYElementMatcherBlock.h"
