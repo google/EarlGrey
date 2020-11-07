@@ -30,17 +30,21 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @remark Do NOT use this externally.
  *
- * @param name          The name of the action.
- * @param diagnosticsID Identifier of the action for diagnostics purpose.
- * @param constraints   Constraints that must be satisfied before the action is performed
- *                      This is optional and can be @c nil.
- * @param block         A block that contains the action to execute.
+ * @param name                  The name of the action.
+ * @param diagnosticsID         Identifier of the action for diagnostics purpose.
+ * @param constraints           Constraints that must be satisfied before the action is performed
+ *                              This is optional and can be @c nil.
+ * @param shouldRunOnMainThread Whether or not if the action should run on the main thread or
+ *                              background thread. Pass @c YES unless there's a reason not to. See
+ *                              details in GREYAction.h.
+ * @param block                 A block that contains the action to execute.
  *
  * @return A GREYActionBlock instance with the given name and constraints.
  */
 + (instancetype)actionWithName:(NSString *)name
                  diagnosticsID:(NSString *)diagnosticsID
                    constraints:(__nullable id<GREYMatcher>)constraints
+                  onMainThread:(BOOL)shouldRunOnMainThread
                   performBlock:(GREYPerformBlock)block;
 
 /**
@@ -50,20 +54,24 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @remark Do NOT use this externally.
  *
- * @param name          The name of the action.
- * @param diagnosticsID Identifier of the action for diagnostics purpose.
- * @param constraints   Constraints that must be satisfied before the action is performed.
- *                      This is optional and can be @c nil.
- * @param block         A block that contains the action to execute.
+ * @param name                  The name of the action.
+ * @param diagnosticsID         Identifier of the action for diagnostics purpose.
+ * @param constraints           Constraints that must be satisfied before the action is performed.
+ *                              This is optional and can be @c nil.
+ * @param shouldRunOnMainThread Whether or not if the action should run on the main thread or
+ *                              background thread. Pass @c YES unless there's a reason not to. See
+ *                              details in GREYAction.h.
+ * @param block                 A block that contains the action to execute.
  *
- * @note GREYActions are not performed by default on the main thread. The threading
- *       behavior of the GREYAction has to be specified by the user.
+ * @note GREYActions are not performed by default on the main thread. The threading  behavior of the
+ *       GREYAction has to be specified by the user.
  *
  * @return A GREYActionBlock instance with the given @c name and @c constraints.
  */
 - (instancetype)initWithName:(NSString *)name
                diagnosticsID:(NSString *)diagnosticsID
                  constraints:(__nullable id<GREYMatcher>)constraints
+                onMainThread:(BOOL)shouldRunOnMainThread
                 performBlock:(GREYPerformBlock)block;
 
 @end

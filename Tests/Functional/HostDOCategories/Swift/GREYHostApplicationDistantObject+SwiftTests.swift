@@ -16,7 +16,7 @@
 
 import UIKit
 /// Class to check if particular named notification is received or not.
-@objcMembers fileprivate class TextFieldNotificationRecorder: NSObject, TextFieldNotification {
+@objcMembers private class TextFieldNotificationRecorder: NSObject, TextFieldNotification {
   public var wasNotificationReceived = false
 
   /// Custom initializer with a notification name.
@@ -38,25 +38,25 @@ import UIKit
 }
 
 /// Class to check if a UITextField element's editing events are received.
-@objcMembers fileprivate class TextFieldEditingEventsRecorder: NSObject, TextFieldEditingEvents {
-#if swift(>=4.2)
-  var trackedEvent: UIControl.Event!
-#else
-  var trackedEvent: UIControlEvents!
-#endif
+@objcMembers private class TextFieldEditingEventsRecorder: NSObject, TextFieldEditingEvents {
+  #if swift(>=4.2)
+    var trackedEvent: UIControl.Event!
+  #else
+    var trackedEvent: UIControlEvents!
+  #endif
   public var wasEventReceived = false
 
-#if swift(>=4.2)
-  init(for controlEvent: UIControl.Event) {
-    super.init()
-    trackedEvent = controlEvent
-  }
-#else
-  init(for controlEvent: UIControlEvents) {
-    super.init()
-    trackedEvent = controlEvent
-  }
-#endif
+  #if swift(>=4.2)
+    init(for controlEvent: UIControl.Event) {
+      super.init()
+      trackedEvent = controlEvent
+    }
+  #else
+    init(for controlEvent: UIControlEvents) {
+      super.init()
+      trackedEvent = controlEvent
+    }
+  #endif
 
   public func name() -> String {
     return "TextField Events Recorder"
@@ -75,6 +75,10 @@ import UIKit
   public func eventWasReceived() {
     wasEventReceived = true
   }
+
+  public func shouldRunOnMainThread() -> Bool {
+    return true
+  }
 }
 
 extension GREYHostApplicationDistantObject: SwiftTestsHost {
@@ -82,24 +86,24 @@ extension GREYHostApplicationDistantObject: SwiftTestsHost {
   public func makeTextFieldNotificationRecorder(
     for notification: NSNotification.Name
   ) -> TextFieldNotification {
-      return TextFieldNotificationRecorder(for: notification)
+    return TextFieldNotificationRecorder(for: notification)
   }
 
   /// - Returns: A TextFieldEventsRecorder object that sets up observers for text field
   ///            editing events.
-#if swift(>=4.2)
-public func makeTextFieldEditingEventRecorder(
-    for controlEvent: UIControl.Event
-  ) -> TextFieldEditingEvents {
+  #if swift(>=4.2)
+    public func makeTextFieldEditingEventRecorder(
+      for controlEvent: UIControl.Event
+    ) -> TextFieldEditingEvents {
       return TextFieldEditingEventsRecorder(for: controlEvent)
-  }
-#else
-  public func makeTextFieldEditingEventRecorder(
-    for controlEvent: UIControlEvents
-  ) -> TextFieldEditingEvents {
+    }
+  #else
+    public func makeTextFieldEditingEventRecorder(
+      for controlEvent: UIControlEvents
+    ) -> TextFieldEditingEvents {
       return TextFieldEditingEventsRecorder(for: controlEvent)
-  }
-#endif
+    }
+  #endif
 
   public func makeFirstElementMatcher() -> GREYMatcher {
     var firstMatch = true
@@ -138,8 +142,8 @@ public func makeTextFieldEditingEventRecorder(
     _ = navController?.popToRootViewController(animated: true)
   }
 
-  public func invoke(remoteClosure:@escaping ()->Void, delay: TimeInterval) {
+  public func invoke(remoteClosure: @escaping () -> Void, delay: TimeInterval) {
     let queue = DispatchQueue.main
-    queue.asyncAfter(deadline: DispatchTime.now() + delay, execute:remoteClosure)
+    queue.asyncAfter(deadline: DispatchTime.now() + delay, execute: remoteClosure)
   }
 }

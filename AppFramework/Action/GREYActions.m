@@ -231,6 +231,7 @@ static Protocol *gTextInputProtocol;
       actionWithName:actionName
        diagnosticsID:diagnosticsID
          constraints:constraints
+        onMainThread:YES
         performBlock:^BOOL(id switchView, __strong NSError **errorOrNil) {
           __block BOOL toggleSwitch = NO;
           grey_dispatch_sync_on_main_thread(^{
@@ -285,6 +286,7 @@ static Protocol *gTextInputProtocol;
   return [GREYActionBlock actionWithName:actionName
                            diagnosticsID:diagnosticsID
                              constraints:protocolMatcher
+                            onMainThread:NO
                             performBlock:block];
 }
 
@@ -305,6 +307,7 @@ static Protocol *gTextInputProtocol;
       actionWithName:actionName
        diagnosticsID:diagnosticsID
          constraints:constraints
+        onMainThread:NO
         performBlock:^BOOL(id element, __strong NSError **errorOrNil) {
           __block NSString *currentText;
           if ([element isKindOfClass:gAccessibilityTextFieldElementClass] && !iOS13_OR_ABOVE()) {
@@ -357,6 +360,7 @@ static Protocol *gTextInputProtocol;
        initWithName:actionName
       diagnosticsID:diagnosticsID
         constraints:constraints
+       onMainThread:YES
        performBlock:^BOOL(UIDatePicker *datePicker, __strong NSError **errorOrNil) {
          grey_dispatch_sync_on_main_thread(^{
            NSDate *previousDate = [datePicker date];
@@ -396,6 +400,7 @@ static Protocol *gTextInputProtocol;
        initWithName:actionName
       diagnosticsID:diagnosticsID
         constraints:constraints
+       onMainThread:YES
        performBlock:^BOOL(id webView, __strong NSError **errorOrNil) {
          __block NSError *localError = nil;
          __block BOOL finishedCompletion = NO;
@@ -454,6 +459,7 @@ static Protocol *gTextInputProtocol;
        initWithName:actionName
       diagnosticsID:diagnosticsID
         constraints:nil
+       onMainThread:YES
        performBlock:^BOOL(id element, __strong NSError **errorOrNil) {
          UIImage __block *snapshot = nil;
          grey_dispatch_sync_on_main_thread(^{
@@ -495,6 +501,7 @@ static Protocol *gTextInputProtocol;
       actionWithName:actionName
        diagnosticsID:diagnosticsID
          constraints:constraints
+        onMainThread:YES
         performBlock:^BOOL(id element, __strong NSError **errorOrNil) {
           if ([element isKindOfClass:gAccessibilityTextFieldElementClass] && !iOS13_OR_ABOVE()) {
             element = [element textField];
@@ -568,6 +575,7 @@ static Protocol *gTextInputProtocol;
       actionWithName:actionName
        diagnosticsID:diagnosticsID
          constraints:actionBlockMatcher
+        onMainThread:NO
         performBlock:^BOOL(id element, __strong NSError **errorOrNil) {
           __block UIView *expectedFirstResponderView;
           if (![element isKindOfClass:[UIView class]]) {

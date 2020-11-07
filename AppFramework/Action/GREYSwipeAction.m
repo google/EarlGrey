@@ -132,6 +132,10 @@
                                                         inWindow:window];
 }
 
+- (BOOL)shouldRunOnMainThread {
+  return NO;
+}
+
 #pragma mark - GREYDiagnosable
 
 - (NSString *)diagnosticsID {

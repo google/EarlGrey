@@ -48,6 +48,18 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (NSString *)name;
 
+/**
+ * Whether or not the corresponding action should be run on the background thread or on the main
+ * thread after the element is matched. If action is run on the background thread after element is
+ * found, EarlGrey loses control of the main thread. This leaves room for the application to change
+ * the UI state of the application before action is performed without EarlGrey's knowledge. As this
+ * synchronization gap may cause stability issues, most of the actions should be run on the main
+ * thread right after matching is completed. Some actions (like GREYSwipeAction) should be left
+ * running on the background thread as it is more similar to how the system behaves when they are
+ * performed or if it's a long running action.
+ */
+- (BOOL)shouldRunOnMainThread;
+
 @end
 
 NS_ASSUME_NONNULL_END

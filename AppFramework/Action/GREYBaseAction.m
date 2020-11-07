@@ -93,6 +93,10 @@
   return _name;
 }
 
+- (BOOL)shouldRunOnMainThread {
+  return YES;
+}
+
 #pragma mark - GREYDiagnosable
 
 // By default, all GREYBaseAction have no diagnosticsID. If you are subclassing GREYBaseAction and

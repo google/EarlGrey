@@ -26,6 +26,11 @@
    * Identifier used for diagnostics.
    */
   NSString *_diagnosticsID;
+  /**
+   * Whether or not the action block should run on main thread right after matching the element.
+   * See details in GREYAction.h.
+   */
+  BOOL _shouldRunOnMainThread;
 }
 
 + (instancetype)actionWithName:(NSString *)name performBlock:(GREYPerformBlock)block {
@@ -41,11 +46,19 @@
 - (instancetype)initWithName:(NSString *)name
                  constraints:(id<GREYMatcher>)constraints
                 performBlock:(GREYPerformBlock)block {
+  return [self initWithName:name constraints:constraints onMainThread:YES performBlock:block];
+}
+
+- (instancetype)initWithName:(NSString *)name
+                 constraints:(id<GREYMatcher>)constraints
+                onMainThread:(BOOL)shouldRunOnMainThread
+                performBlock:(GREYPerformBlock)block {
   GREYThrowOnNilParameter(block);
 
   self = [super initWithName:name constraints:constraints];
   if (self) {
     _performBlock = [block copy];
+    _shouldRunOnMainThread = shouldRunOnMainThread;
   }
   return self;
 }
@@ -54,19 +67,25 @@
 
 + (instancetype)actionWithName:(NSString *)name
                  diagnosticsID:(NSString *)diagnosticsID
-                   constraints:(id<GREYMatcher>)constraints
+                   constraints:(__nullable id<GREYMatcher>)constraints
+                  onMainThread:(BOOL)shouldRunOnMainThread
                   performBlock:(GREYPerformBlock)block {
   return [[GREYActionBlock alloc] initWithName:name
                                  diagnosticsID:diagnosticsID
                                    constraints:constraints
+                                  onMainThread:shouldRunOnMainThread
                                   performBlock:block];
 }
 
 - (instancetype)initWithName:(NSString *)name
                diagnosticsID:(NSString *)diagnosticsID
                  constraints:(id<GREYMatcher>)constraints
+                onMainThread:(BOOL)shouldRunOnMainThread
                 performBlock:(GREYPerformBlock)block {
-  self = [self initWithName:name constraints:constraints performBlock:block];
+  self = [self initWithName:name
+                constraints:constraints
+               onMainThread:shouldRunOnMainThread
+               performBlock:block];
   if (self) {
     _diagnosticsID = diagnosticsID;
   }
@@ -81,6 +100,10 @@
   }
   // Perform actual action.
   return _performBlock(element, errorOrNil);
+}
+
+- (BOOL)shouldRunOnMainThread {
+  return _shouldRunOnMainThread;
 }
 
 #pragma mark - GREYDiagnosable
