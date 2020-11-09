@@ -74,22 +74,14 @@ static Class gUIModalItemHostingWindowClass;
   UIView *viewToSnapshot = [element isKindOfClass:[UIView class]]
                                ? (UIView *)element
                                : [element grey_viewContainingSelf];
-  CGRect viewAXFrame = [viewToSnapshot accessibilityFrame];
 
   UIGraphicsBeginImageContextWithOptions(elementAXFrame.size, NO, [UIScreen mainScreen].scale);
-  CGContextRef currentContext = UIGraphicsGetCurrentContext();
-  CGContextSaveGState(currentContext);
-  // Translate the canvas to capture the exact element's AX frame.
-  CGPoint translationPoint = CGPointMake(-(elementAXFrame.origin.x - (viewAXFrame.origin.x)),
-                                         -(elementAXFrame.origin.y - (viewAXFrame.origin.y)));
-  CGContextTranslateCTM(currentContext, translationPoint.x, translationPoint.y);
-
-  [viewToSnapshot drawViewHierarchyInRect:viewToSnapshot.bounds afterScreenUpdates:NO];
+  [self drawViewInContext:UIGraphicsGetCurrentContext()
+                     view:viewToSnapshot
+                   bounds:elementAXFrame
+       afterScreenUpdates:NO];
   UIImage *orientedScreenshot = UIGraphicsGetImageFromCurrentImageContext();
-
-  CGContextRestoreGState(currentContext);
   UIGraphicsEndImageContext();
-
   return orientedScreenshot;
 }
 
@@ -130,16 +122,6 @@ static Class gUIModalItemHostingWindowClass;
               withStatusBar:(BOOL)includeStatusBar {
   GREYFatalAssertWithMessage(CGBitmapContextGetBitmapInfo(bitmapContextRef) != 0,
                              @"The context ref must point to a CGBitmapContext.");
-  UIScreen *mainScreen = [UIScreen mainScreen];
-
-  // The bitmap context width and height are scaled, so we need to undo the scale adjustment.
-  CGFloat scale = mainScreen.scale;
-  CGFloat contextWidth = CGBitmapContextGetWidth(bitmapContextRef) / scale;
-  CGFloat contextHeight = CGBitmapContextGetHeight(bitmapContextRef) / scale;
-  CGSize screenSize = screenRect.size;
-  CGFloat xOffset = (contextWidth - screenSize.width) / 2;
-  CGFloat yOffset = (contextHeight - screenSize.height) / 2;
-
   // The bitmap context width and height are scaled, so we need to undo the scale adjustment.
   NSEnumerator *allWindowsInReverse =
       [[GREYUIWindowProvider allWindowsWithStatusBar:includeStatusBar] reverseObjectEnumerator];
@@ -147,39 +129,70 @@ static Class gUIModalItemHostingWindowClass;
     if (window.hidden || window.alpha == 0) {
       continue;
     }
+    [self drawViewInContext:bitmapContextRef
+                       view:window
+                     bounds:screenRect
+         afterScreenUpdates:afterUpdates];
+  }
+}
 
-    // This special case is for Alert-Views that for some reason do not render correctly.
-    if ([window isKindOfClass:gUIAlertControllerShimPresenterWindowClass] ||
-        [window isKindOfClass:gUIModalItemHostingWindowClass]) {
-      CGContextSaveGState(bitmapContextRef);
-      if (xOffset == 0 && yOffset == 0) {
-        // If the screenRect and context size is the same, capture the screenRect of the
-        // current window.
-        CGAffineTransform searchTranslate =
-            CGAffineTransformMakeTranslation(-screenRect.origin.x, -screenRect.origin.y);
-        CGContextConcatCTM(bitmapContextRef, searchTranslate);
-      } else {
-        // Center the screenshot of the current window if the screenRect and the context size
-        // is different.
-        CGRect windowRect = window.bounds;
-        CGPoint windowCenter = window.center;
-        CGPoint windowAnchor = window.layer.anchorPoint;
-        CGContextTranslateCTM(bitmapContextRef, windowCenter.x + xOffset, windowCenter.y + yOffset);
-        CGContextConcatCTM(bitmapContextRef, window.transform);
-        CGContextTranslateCTM(bitmapContextRef, -CGRectGetWidth(windowRect) * windowAnchor.x,
-                              -CGRectGetHeight(windowRect) * windowAnchor.y);
-      }
-      [window.layer renderInContext:UIGraphicsGetCurrentContext()];
-      CGContextRestoreGState(bitmapContextRef);
+/**
+ * Draws the @c view and its subviews within the specified @c bounds to the provided @c
+ * bitmapContextRef. This centers the view to the context if the context size and view size are
+ * different.
+ *
+ * @param bitmapContextRef   Target bitmap context for rendering.
+ * @param view               The view to draw to the context.
+ * @param boundsInScreenRect The bounds of the view to draw to the context in window coordinate.
+ * @param afterScreenUpdates Boolean indicating whether to render before (@c NO) or after (@c YES)
+ *                           screen updates.
+ */
++ (void)drawViewInContext:(CGContextRef)bitmapContextRef
+                     view:(UIView *)view
+                   bounds:(CGRect)boundsInScreenRect
+       afterScreenUpdates:(BOOL)afterScreenUpdates {
+  UIScreen *mainScreen = [UIScreen mainScreen];
+
+  // The bitmap context width and height are scaled, so we need to undo the scale adjustment.
+  CGFloat scale = mainScreen.scale;
+  CGFloat contextWidth = CGBitmapContextGetWidth(bitmapContextRef) / scale;
+  CGFloat contextHeight = CGBitmapContextGetHeight(bitmapContextRef) / scale;
+  CGSize boundsSize = boundsInScreenRect.size;
+  CGFloat xOffset = (contextWidth - boundsSize.width) / 2;
+  CGFloat yOffset = (contextHeight - boundsSize.height) / 2;
+
+  // This special case is for Alert-Views that for some reason do not render correctly.
+  if ([view isKindOfClass:gUIAlertControllerShimPresenterWindowClass] ||
+      [view isKindOfClass:gUIModalItemHostingWindowClass]) {
+    CGContextSaveGState(bitmapContextRef);
+    if (xOffset == 0 && yOffset == 0) {
+      // If the screenRect and context size is the same, capture the screenRect of the
+      // current window.
+      CGAffineTransform searchTranslate = CGAffineTransformMakeTranslation(
+          -boundsInScreenRect.origin.x, -boundsInScreenRect.origin.y);
+      CGContextConcatCTM(bitmapContextRef, searchTranslate);
     } else {
-      CGRect localFrame = [window convertRect:screenRect fromWindow:nil];
-      // Convert to core graphics coordinate system.
-      CGRect frame = CGRectMake(-localFrame.origin.x, -localFrame.origin.y,
-                                window.bounds.size.width, window.bounds.size.height);
-      BOOL success = [window drawViewHierarchyInRect:frame afterScreenUpdates:afterUpdates];
-      if (!success) {
-        NSLog(@"Failed to drawViewHierarchyInRect for window: %@", window);
-      }
+      // Center the screenshot of the current window if the screenRect and the context size
+      // is different.
+      CGRect viewRect = view.bounds;
+      CGPoint viewCenter = view.center;
+      CGPoint viewAnchor = view.layer.anchorPoint;
+      CGContextTranslateCTM(bitmapContextRef, viewCenter.x + xOffset, viewCenter.y + yOffset);
+      CGContextConcatCTM(bitmapContextRef, view.transform);
+      CGContextTranslateCTM(bitmapContextRef, -CGRectGetWidth(viewRect) * viewAnchor.x,
+                            -CGRectGetHeight(viewRect) * viewAnchor.y);
+    }
+    [view.layer renderInContext:UIGraphicsGetCurrentContext()];
+    CGContextRestoreGState(bitmapContextRef);
+  } else {
+    // Convert to local coordinate.
+    CGRect localFrame = [view convertRect:boundsInScreenRect fromView:nil];
+    // Convert to core graphics coordinate system.
+    CGRect frame = CGRectMake(-localFrame.origin.x, -localFrame.origin.y, view.bounds.size.width,
+                              view.bounds.size.height);
+    BOOL success = [view drawViewHierarchyInRect:frame afterScreenUpdates:afterScreenUpdates];
+    if (!success) {
+      NSLog(@"Failed to drawViewHierarchyInRect for view: %@", view);
     }
   }
 }
