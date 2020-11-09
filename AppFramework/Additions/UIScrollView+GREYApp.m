@@ -19,10 +19,12 @@
 #include <objc/message.h>
 #include <objc/runtime.h>
 
+#import "GREYTimedIdlingResource.h"
 #import "GREYAppStateTracker.h"
 #import "GREYAppStateTrackerObject.h"
 #import "GREYFatalAsserts.h"
 #import "GREYAppleInternals.h"
+#import "GREYDefines.h"
 #import "GREYSwizzler.h"
 
 @implementation UIScrollView (GREYApp)
@@ -54,6 +56,37 @@
                          withMethod:swizzledSel];
   GREYFatalAssertWithMessage(swizzled,
                              @"Cannot swizzle [UIScrollView _stopScrollDecelerationNotify:]");
+
+  if (iOS13_OR_ABOVE()) {
+    originalSel = NSSelectorFromString(@"_hideScrollIndicator:afterDelay:animated:");
+    swizzledSel = @selector(greyswizzled_hideScrollIndicator:afterDelay:animated:);
+    swizzled = [swizzler swizzleClass:[UIScrollView class]
+                replaceInstanceMethod:originalSel
+                           withMethod:swizzledSel];
+    GREYFatalAssertWithMessage(
+        swizzled, @"Cannot swizzle [UIScrollView _hideScrollIndicator:afterDelay:animated:]");
+  }
+}
+
+/**
+ * Hides the scroll indicators on the sides of the UIScrollView. This calls an NSTimer with a 1
+ * second delay that fires a UIView animation.
+ *
+ * @param indicator The ScrollBarIndicator of class type _UIScrollViewScrollIndicator.
+ * @param delay     The delay after which the animation is done.
+ * @param animated  Checks if the indicator is animation for disappearing.
+ */
+- (void)greyswizzled_hideScrollIndicator:(id)indicator
+                              afterDelay:(NSUInteger)delay
+                                animated:(BOOL)animated {
+  // Hiding a scroll indicator requires a block run in an NSTimer with the delay provided and the
+  // individual UIView animations. The actual animation and block are not tracked. The time idling
+  // resource is to account for the entire time amount of the delay.
+  [GREYTimedIdlingResource resourceForObject:self
+                       thatIsBusyForDuration:delay
+                                        name:@"Indicator Being Dismissed"];
+  INVOKE_ORIGINAL_IMP3(void, @selector(greyswizzled_hideScrollIndicator:afterDelay:animated:),
+                       indicator, delay, animated);
 }
 
 - (BOOL)grey_hasScrollResistance {
