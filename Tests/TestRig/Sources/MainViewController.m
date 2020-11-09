@@ -47,7 +47,8 @@ static NSString *gTableViewIdentifier = @"TableViewIdentifier";
 @end
 
 @implementation MainViewController {
-  NSDictionary *_nameToControllerMap;
+  NSDictionary<NSString *, Class> *_nameToControllerMap;
+  NSArray<NSString *> *_controllerKeys;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -82,6 +83,8 @@ static NSString *gTableViewIdentifier = @"TableViewIdentifier";
       @"Zooming Scroll View" : [ZoomingScrollViewController class],
       @"WKWebView" : [WKWebViewController class],
     };
+    _controllerKeys = [_nameToControllerMap.allKeys
+        sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
   }
   return self;
 }
@@ -109,7 +112,7 @@ static NSString *gTableViewIdentifier = @"TableViewIdentifier";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   NSAssert(section == 0, @"We have more than one section?");
-  return (NSInteger)[_nameToControllerMap count];
+  return (NSInteger)[_controllerKeys count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
@@ -122,9 +125,7 @@ static NSString *gTableViewIdentifier = @"TableViewIdentifier";
   }
 
   cell.selectionStyle = UITableViewCellSelectionStyleNone;
-  NSArray *allKeys = [_nameToControllerMap.allKeys
-      sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
-  NSString *key = [allKeys objectAtIndex:(NSUInteger)indexPath.row];
+  NSString *key = [_controllerKeys objectAtIndex:(NSUInteger)indexPath.row];
   cell.textLabel.text = key;
   return cell;
 }
@@ -132,9 +133,7 @@ static NSString *gTableViewIdentifier = @"TableViewIdentifier";
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  NSArray *allKeys = [_nameToControllerMap.allKeys
-      sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
-  NSString *key = [allKeys objectAtIndex:(NSUInteger)indexPath.row];
+  NSString *key = [_controllerKeys objectAtIndex:(NSUInteger)indexPath.row];
   Class viewController = _nameToControllerMap[key];
   UIViewController *vc =
       [[viewController alloc] initWithNibName:NSStringFromClass(viewController) bundle:nil];
