@@ -257,8 +257,27 @@
     CFTimeInterval interactionTimeout =
         GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
     BOOL synchronizationRequired = GREY_CONFIG_BOOL(kGREYConfigKeySynchronizationEnabled);
+    BOOL runActionOnMainThread = [action shouldRunOnMainThread];
     // Obtain all elements from the hierarchy and populate the passed error in case of
     // an element not being found.
+
+    void (^actionBlock)(id) = ^void(id element) {
+      GREYLogVerbose(@"Performing action: %@\n on element: %@\n with matcher: "
+                     @"%@\n with root matcher: %@",
+                     [action name], element, _elementMatcher, _rootMatcher);
+      
+      BOOL success = [action perform:element error:&actionError];
+      
+      if (!success) {
+        // Action didn't succeed yet no error was set.
+        if (!actionError) {
+          actionError = GREYErrorMakeWithHierarchy(kGREYInteractionErrorDomain,
+                                                   kGREYInteractionActionFailedErrorCode,
+                                                   @"Reason for action failure was not provided.");
+        }
+      }
+    };
+
     __block id element;
     
     [self matchElementsWithTimeout:interactionTimeout
@@ -275,42 +294,33 @@
 
                      if (element) {
                        [actionUserInfo setObject:element forKey:kGREYActionElementUserInfoKey];
+                     } else if (!actionError) {
+                       // No elements are found nor any error provided.
+                       actionError = GREYErrorMakeWithHierarchy(
+                           kGREYInteractionErrorDomain, kGREYInteractionActionFailedErrorCode,
+                           @"Reason for action failure was not provided.");
                      }
                      // Post notification in the main thread that the action is to be performed
                      // on the found element.
                      [notificationCenter postNotificationName:kGREYWillPerformActionNotification
                                                        object:nil
                                                      userInfo:actionUserInfo];
+
+                     if (element && runActionOnMainThread) {
+                       actionBlock(element);
+                     }
                    }];
-
-    if (element) {
-      GREYLogVerbose(@"Performing action: %@\n with matcher: %@\n with root matcher: %@",
-                     [action name], _elementMatcher, _rootMatcher);
-      
-      BOOL success = [action perform:element error:&actionError];
-      
-      if (!success) {
-        // Action didn't succeed yet no error was set.
-        if (!actionError) {
-          actionError = GREYErrorMakeWithHierarchy(kGREYInteractionErrorDomain,
-                                                   kGREYInteractionActionFailedErrorCode,
-                                                   @"Reason for action failure was not provided.");
-        }
-      }
-    } else if (!actionError) {
-      // If no elements are found, neither the error is provided.
-      actionError = GREYErrorMakeWithHierarchy(kGREYInteractionErrorDomain,
-                                               kGREYInteractionActionFailedErrorCode,
-                                               @"Reason for action failure was not provided.");
+    if (element && !runActionOnMainThread) {
+      actionBlock(element);
     }
-
     if (actionError) {
-      // Add the error obtained from the action to the user info notification dictionary.
+      // Add the error obtained from the action to the user info notification
+      // dictionary.
       [actionUserInfo setObject:actionError forKey:kGREYActionErrorUserInfoKey];
     }
+    // Post application process notification of an action's execution being completed. This
+    // notification does not mean that the action was performed successfully.
     grey_dispatch_sync_on_main_thread(^{
-      // Post notification for the process of an action's execution being completed. This
-      // notification does not mean that the action was performed successfully.
       [notificationCenter postNotificationName:kGREYDidPerformActionNotification
                                         object:nil
                                       userInfo:actionUserInfo];
