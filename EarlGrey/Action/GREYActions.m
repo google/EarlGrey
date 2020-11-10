@@ -433,6 +433,7 @@ static const CFTimeInterval kJavaScriptTimeoutSeconds = 60;
       }
       BOOL elementIsUIControl = [element isKindOfClass:[UIControl class]];
       BOOL elementIsUITextField = [element isKindOfClass:[UITextField class]];
+      BOOL elementIsUITextView = [element isKindOfClass:[UITextView class]];
 
       // Did begin editing notifications.
       if (elementIsUIControl) {
@@ -444,6 +445,12 @@ static const CFTimeInterval kJavaScriptTimeoutSeconds = 60;
             [NSNotification notificationWithName:UITextFieldTextDidBeginEditingNotification
                                           object:element];
         [NSNotificationCenter.defaultCenter postNotification:notification];
+      }
+      
+      if (elementIsUITextView) {
+        if ([((UITextView *)element).delegate respondsToSelector:@selector(textViewDidBeginEditing:)]) {
+          [((UITextView *)element).delegate textViewDidBeginEditing:((UITextView *)element)];
+        }
       }
 
       // Actually change the text.
@@ -459,6 +466,12 @@ static const CFTimeInterval kJavaScriptTimeoutSeconds = 60;
                                           object:element];
         [NSNotificationCenter.defaultCenter postNotification:notification];
       }
+      
+      if (elementIsUITextView) {
+        if ([((UITextView *)element).delegate respondsToSelector:@selector(textViewDidChange:)]) {
+          [((UITextView *)element).delegate textViewDidChange:((UITextView *)element)];
+        }
+      }
 
       // Did end editing notifications.
       if (elementIsUIControl) {
@@ -471,6 +484,13 @@ static const CFTimeInterval kJavaScriptTimeoutSeconds = 60;
                                           object:element];
         [NSNotificationCenter.defaultCenter postNotification:notification];
       }
+      
+      if (elementIsUITextView) {
+        if ([((UITextView *)element).delegate respondsToSelector:@selector(textViewDidEndEditing:)]) {
+          [((UITextView *)element).delegate textViewDidEndEditing:((UITextView *)element)];
+        }
+      }
+      
     }
     return YES;
   }];
