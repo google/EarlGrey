@@ -43,7 +43,7 @@
 
 // The minimum percentage of an element's accessibility frame that must be visible before EarlGrey
 // considers the element to be sufficiently visible.
-static const double kElementSufficientlyVisiblePercentage = 0.75;
+static const double kElementSufficientlyVisiblePercentage = 0.5;
 
 // Expose method for EDOObject as it's not a public class.
 @interface NSObject (GREYExposed)
