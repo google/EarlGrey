@@ -264,7 +264,7 @@
     void (^actionBlock)(id) = ^void(id element) {
       GREYLogVerbose(@"Performing action: %@\n on element: %@\n with matcher: "
                      @"%@\n with root matcher: %@",
-                     [action name], element, _elementMatcher, _rootMatcher);
+                     [action name], element, self -> _elementMatcher, self -> _rootMatcher);
       
       BOOL success = [action perform:element error:&actionError];
       
