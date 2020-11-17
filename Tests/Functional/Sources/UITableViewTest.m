@@ -163,6 +163,24 @@
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
+/**
+ * Test scrolling to the bottom of a UITableView and tapping on a cell.
+ */
+- (void)testTapOnLastCell {
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"main_table_view")]
+      performAction:grey_scrollToContentEdge(kGREYContentEdgeBottom)];
+  [[EarlGrey selectElementWithMatcher:grey_text(@"Row 99")] performAction:grey_tap()];
+}
+
+/**
+ * Test scrolling to the bottom of a UITableView and tapping on a cell using a search action.
+ */
+- (void)testTapOnLastCellUsingSearchAction {
+  [[[EarlGrey selectElementWithMatcher:grey_text(@"Row 99")]
+         usingSearchAction:grey_scrollToContentEdge(kGREYContentEdgeBottom)
+      onElementWithMatcher:grey_accessibilityID(@"main_table_view")] performAction:grey_tap()];
+}
+
 #pragma mark - Private
 
 - (id<GREYMatcher>)ftr_matcherForCellAtIndex:(NSInteger)index {

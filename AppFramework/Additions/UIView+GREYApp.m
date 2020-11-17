@@ -25,11 +25,17 @@
 #import "GREYFatalAsserts.h"
 #import "GREYAppState.h"
 #import "GREYConstants.h"
+#import "GREYDefines.h"
 #import "GREYSwizzler.h"
 #import "GREYElementProvider.h"
 
 /** Typedef for the wrapper for the animation method's completion block. */
 typedef void (^GREYAnimationCompletionBlock)(BOOL);
+
+/**
+ * Class for Scroll view indicators. Unused directive added as this will be utilized only in iOS 13.
+ **/
+__unused static Class gScrollViewIndicatorClass;
 
 @implementation UIView (GREYApp)
 
@@ -170,23 +176,68 @@ typedef void (^GREYAnimationCompletionBlock)(BOOL);
   GREYFatalAssertWithMessage(swizzleSuccess,
                              @"Cannot swizzle UIView performSystemAnimation:onViews:"
                              @"options:animations:completion:");
+
+  if (iOS13()) {
+    gScrollViewIndicatorClass = NSClassFromString(@"_UIScrollViewScrollIndicator");
+    originalSel = @selector(setAlpha:);
+    swizzledSel = @selector(greyswizzled_setAlpha:);
+    swizzleSuccess = [swizzler swizzleClass:self
+                      replaceInstanceMethod:originalSel
+                                 withMethod:swizzledSel];
+    GREYFatalAssertWithMessage(swizzleSuccess,
+                               @"Cannot swizzle UIView performSystemAnimation:onViews:"
+                               @"options:animations:completion:");
+  }
 }
 
-- (NSArray *)grey_childrenAssignableFromClass:(Class)klass {
-  NSMutableArray *subviews = [[NSMutableArray alloc] init];
+- (NSArray<UIView *> *)grey_childrenAssignableFromClass:(Class)klass {
+  NSMutableArray<UIView *> *subviews = [[NSMutableArray alloc] init];
   for (UIView *child in self.subviews) {
     GREYElementProvider *childHierarchy = [GREYElementProvider providerWithRootElements:@[ child ]];
     [subviews addObjectsFromArray:[[childHierarchy dataEnumerator] allObjects]];
   }
 
-  return [subviews
-      filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject,
-                                                                        NSDictionary *bindings) {
+  NSPredicate *filterPredicate = [NSPredicate
+      predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary<NSString *, id> *bindings) {
         return [evaluatedObject isKindOfClass:klass];
-      }]];
+      }];
+  return [subviews filteredArrayUsingPredicate:filterPredicate];
 }
 
 #pragma mark - Swizzled Implementation
+
+- (void)greyswizzled_setAlpha:(CGFloat)alpha {
+  INVOKE_ORIGINAL_IMP1(void, @selector(greyswizzled_setAlpha:), alpha);
+  // An additional check is added at the end of a setAlpha: call done for a scroll indicator being
+  // hidden. In iOS 13.x, the behavior was updated to have a a block animation called after a timing
+  // delay.
+  // When a touch is added near the bottom end of a scroll view right after an indicator disappears,
+  // The touch action seems to be absorbed by the indicators / bringing them up again. The calls
+  // seen when the indicator is to disappear is:
+  // 1. On finishing a scroll, stopScrollDecelerationNotify being called,
+  //    _adjustScrollerIndicatorsIfNeeded is called which further calls
+  //    adjustScrollIndicators:alwaysShowingThem:.
+  // 2. _layout(Horizontal | Vertical)ScrollIndicatorWithBounds: is called which has different
+  //    implementation for horizontal / vertical indicators.
+  // 3. Either indicator has a timer property obtained from the scroll view.
+  //    _hideScrollIndicator:afterDelay:animated: is called as the selector added to these timers
+  //    and calls blocks created in the method on them.
+  // 4. _block_invoke calls _block_invoke_2. Also called is _block_invoke_3 which calls
+  //    setExpandedForDirectManipulation: on the indicator which calls _layoutFillViewAnimated: with
+  //    YES. Here a separate block is called directly which does not seem to be tracked as it is
+  //    updating the indicator's information within it.
+  // 5. After the _block_invoke_2 and _block_invoke_3 calls, control returns to _block_invoke which
+  //    calls an animation with a completion block which calls setAlpha:. Control then returns to
+  //    _hideScrollIndicator:afterDelay:animated: which is still being called in a timer. Beyond
+  //    this call, there are still adjustments being done in the _layout methods in (2),
+  //    particularly in the horizontal indicator's case. Hence, a small delay is added to account
+  //    for it.
+  if (alpha == 0 && [self isKindOfClass:gScrollViewIndicatorClass]) {
+    [GREYTimedIdlingResource resourceForObject:self
+                         thatIsBusyForDuration:0.7
+                                          name:@"ScrollIndicators Timer"];
+  }
+}
 
 - (void)greyswizzled_setCenter:(CGPoint)center {
   NSValue *fixedFrame =
@@ -453,7 +504,7 @@ typedef void (^GREYAnimationCompletionBlock)(BOOL);
 }
 
 + (void)greyswizzled_performSystemAnimation:(UISystemAnimation)animation
-                                    onViews:(NSArray *)views
+                                    onViews:(NSArray<UIView *> *)views
                                     options:(UIViewAnimationOptions)options
                                  animations:(void (^)(void))parallelAnimations
                                  completion:(void (^)(BOOL))completion {

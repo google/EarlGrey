@@ -118,11 +118,11 @@
 - (void)testScrollToTopWorksWithNegativeInsets {
   // Scroll down.
   id<GREYMatcher> matcher =
-      grey_allOf(grey_accessibilityLabel(@"Label 2"), grey_sufficientlyVisible(), nil);
+      grey_allOf(grey_accessibilityLabel(@"Label 2"), grey_interactable(), nil);
   [[[EarlGrey selectElementWithMatcher:matcher]
          usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 50)
       onElementWithMatcher:grey_accessibilityLabel(@"Upper Scroll View")]
-      assertWithMatcher:grey_notNil()];
+      assertWithMatcher:grey_sufficientlyVisible()];
 
   // Add positive insets using this format {top,left,bottom,right}
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"topTextbox")]
@@ -182,22 +182,22 @@
 }
 
 - (void)testScrollInDirectionCausesExactChangesToContentOffsetInPortraitMode {
-  [self ftr_assertScrollInDirectionCausesExactChangesToContentOffset];
+  [self assertScrollInDirectionCausesExactChangesToContentOffset];
 }
 
 - (void)testScrollInDirectionCausesExactChangesToContentOffsetInPortraitUpsideDownMode {
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortraitUpsideDown error:nil];
-  [self ftr_assertScrollInDirectionCausesExactChangesToContentOffset];
+  [self assertScrollInDirectionCausesExactChangesToContentOffset];
 }
 
 - (void)testScrollInDirectionCausesExactChangesToContentOffsetInLandscapeLeftMode {
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeLeft error:nil];
-  [self ftr_assertScrollInDirectionCausesExactChangesToContentOffset];
+  [self assertScrollInDirectionCausesExactChangesToContentOffset];
 }
 
 - (void)testScrollInDirectionCausesExactChangesToContentOffsetInLandscapeRightMode {
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeRight error:nil];
-  [self ftr_assertScrollInDirectionCausesExactChangesToContentOffset];
+  [self assertScrollInDirectionCausesExactChangesToContentOffset];
 }
 
 // TODO: Because the action is performed outside the main thread, the synchronization // NOLINT
@@ -265,21 +265,21 @@
 }
 
 - (void)testSetContentOffsetAnimatedYesWaitsForAnimation {
-  [self ftr_setContentOffSet:CGPointMake(0, 100) animated:YES];
+  [self setContentOffSet:CGPointMake(0, 100) animated:YES];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"SquareElementLabel")]
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
 - (void)testSetContentOffsetAnimatedNoDoesNotWaitForAnimation {
-  [self ftr_setContentOffSet:CGPointMake(0, 100) animated:NO];
+  [self setContentOffSet:CGPointMake(0, 100) animated:NO];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"SquareElementLabel")]
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
 - (void)testSetContentOffsetToSameCGPointDoesNotWait {
-  [self ftr_setContentOffSet:CGPointZero animated:YES];
+  [self setContentOffSet:CGPointZero animated:YES];
 }
 
 - (void)testContentSizeSmallerThanViewSize {
@@ -335,9 +335,12 @@ static id<GREYMatcher> InfiniteScrollViewIndicatorMatcher() {
         [description appendText:@"Indicator not present"];
       }];
 }
-// Asserts that the scroll actions work accurately in all four directions by verifying the content
-// offset changes caused by them.
-- (void)ftr_assertScrollInDirectionCausesExactChangesToContentOffset {
+
+/**
+ * Asserts that the scroll actions work accurately in all four directions by verifying the content
+ * offset changes caused by them.
+ */
+- (void)assertScrollInDirectionCausesExactChangesToContentOffset {
   // Scroll by a fixed amount and verify that the scroll offset has changed by that amount.
   // Go down to (0, 99)
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Infinite Scroll View")]
@@ -362,8 +365,8 @@ static id<GREYMatcher> InfiniteScrollViewIndicatorMatcher() {
       assertWithMatcher:grey_text(NSStringFromCGPoint(CGPointMake(33, 44)))];
 }
 
-// Makes a setContentOffset:animated: call on an element of type UIScrollView.
-- (void)ftr_setContentOffSet:(CGPoint)offset animated:(BOOL)animated {
+/** Makes a setContentOffset:animated: call on an element of type UIScrollView. */
+- (void)setContentOffSet:(CGPoint)offset animated:(BOOL)animated {
   GREYHostApplicationDistantObject *host = GREYHostApplicationDistantObject.sharedInstance;
   id<GREYAction> action = [host actionForSetScrollViewContentOffSet:offset animated:animated];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Upper Scroll View")]
