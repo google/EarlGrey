@@ -47,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @return The UI hierarchy as a string.
  */
 + (NSString *)hierarchyStringForElement:(id)element
-               withAnnotationDictionary:(NSDictionary *)annotationDictionary;
+               withAnnotationDictionary:(NSDictionary<NSValue *, NSString *> *)annotationDictionary;
 
 /**
  * @return An NSString containing the UI hierarchy and information about any animating UIViews

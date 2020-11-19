@@ -32,7 +32,8 @@ NSString *const kStringDescriptionKey = @"description";
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
-  if (self = [super init]) {
+  self = [super init];
+  if (self) {
     _description = [aDecoder decodeObjectForKey:@"kStringDescriptionKey"];
   }
   return self;

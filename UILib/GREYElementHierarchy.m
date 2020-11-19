@@ -66,7 +66,8 @@
  * @return A string containing the full view hierarchy from the given @c element.
  */
 + (NSString *)hierarchyStringForElement:(id)element
-               withAnnotationDictionary:(NSDictionary *)annotationDictionary {
+               withAnnotationDictionary:
+                   (NSDictionary<NSValue *, NSString *> *)annotationDictionary {
   GREYFatalAssert(element);
   NSMutableString *outputString = [[NSMutableString alloc] init];
 
@@ -81,20 +82,21 @@
   // Enumerate the hierarchy using block enumeration.
   [traversal enumerateUsingBlock:^(GREYTraversalObject *object, BOOL *stop) {
     // Obtain hierarchy Info.
-    id element = object.element;
+    id hierarchyElement = object.element;
     if ([outputString length] != 0) {
       [outputString appendString:@"\n"];
     }
-    NSString *description = [GREYElementHierarchy grey_printDescriptionForElement:element
+    NSString *description = [GREYElementHierarchy grey_printDescriptionForElement:hierarchyElement
                                                                           atLevel:object.level];
     [outputString appendString:description];
-    NSString *annotation = annotationDictionary[[NSValue valueWithNonretainedObject:element]];
+    NSValue *hierarchyElementAsValue = [NSValue valueWithNonretainedObject:hierarchyElement];
+    NSString *annotation = annotationDictionary[hierarchyElementAsValue];
     if (annotation) {
       [outputString appendString:@" "];  // Space before annotation.
       [outputString appendString:annotation];
     }
     // Obtain animation info.
-    DedupeAndAppendAnimationInfoForView(element, animationInfoDict);
+    DedupeAndAppendAnimationInfoForView(hierarchyElement, animationInfoDict);
   }];
 
   if ([animationInfoDict count] != 0) {
