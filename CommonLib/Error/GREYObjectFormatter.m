@@ -34,16 +34,14 @@ static Class gEDOObjectClass;
   }
 }
 
-+ (NSString *)formatArray:(NSArray<id> *)array
-                   indent:(NSInteger)indent
-                 keyOrder:(NSArray<NSString *> *)keyOrder {
++ (NSString *)formatArray:(NSArray *)array indent:(NSInteger)indent keyOrder:(NSArray *)keyOrder {
   return [self formatArray:array prefix:nil indent:indent keyOrder:keyOrder];
 }
 
-+ (NSString *)formatArray:(NSArray<id> *)array
++ (NSString *)formatArray:(NSArray *)array
                    prefix:(NSString *)prefix
                    indent:(NSInteger)indent
-                 keyOrder:(NSArray<NSString *> *)keyOrder {
+                 keyOrder:(NSArray *)keyOrder {
   if (!array) {
     return @"";
   }
@@ -52,7 +50,7 @@ static Class gEDOObjectClass;
     prefix = @"";
   }
 
-  NSMutableArray<NSString *> *formatted = [[NSMutableArray alloc] init];
+  NSMutableArray *formatted = [[NSMutableArray alloc] init];
   NSMutableString *indentString = [[NSMutableString alloc] init];
 
   // construct indent string
@@ -71,10 +69,10 @@ static Class gEDOObjectClass;
                                     [formatted componentsJoinedByString:@",\n"], prefix];
 }
 
-+ (NSString *)formatDictionary:(NSDictionary<NSString *, id> *)dictionary
++ (NSString *)formatDictionary:(NSDictionary *)dictionary
                         indent:(NSInteger)indent
                      hideEmpty:(BOOL)hideEmpty
-                      keyOrder:(NSArray<NSString *> *)keyOrder {
+                      keyOrder:(NSArray *)keyOrder {
   return [self formatDictionary:dictionary
                          prefix:nil
                          indent:indent
@@ -82,11 +80,11 @@ static Class gEDOObjectClass;
                        keyOrder:keyOrder];
 }
 
-+ (NSString *)formatDictionary:(NSDictionary<NSString *, id> *)dictionary
++ (NSString *)formatDictionary:(NSDictionary *)dictionary
                         prefix:(NSString *)prefix
                         indent:(NSInteger)indent
                      hideEmpty:(BOOL)hideEmpty
-                      keyOrder:(NSArray<NSString *> *)keyOrder {
+                      keyOrder:(NSArray *)keyOrder {
   if (!dictionary) {
     return @"";
   }
@@ -95,9 +93,9 @@ static Class gEDOObjectClass;
     prefix = @"";
   }
 
-  NSMutableArray<NSString *> *formatted = [[NSMutableArray alloc] init];
+  NSMutableArray *formatted = [[NSMutableArray alloc] init];
   NSMutableString *indentString = [[NSMutableString alloc] init];
-  NSMutableDictionary<NSString *, id> *keySet = [[NSMutableDictionary alloc] init];
+  NSMutableDictionary *keySet = [[NSMutableDictionary alloc] init];
 
   // construct indent string
   for (NSInteger count = 0; count < indent; count++) {
@@ -168,7 +166,7 @@ static Class gEDOObjectClass;
                    prefixString:(BOOL)prefixString
                          prefix:(NSString *)prefix
                          indent:(NSInteger)indent
-                       keyOrder:(NSArray<NSString *> *)keyOrder {
+                       keyOrder:(NSArray *)keyOrder {
   NSMutableString *indentString = [[NSMutableString alloc] init];
 
   // construct indent string
@@ -193,15 +191,15 @@ static Class gEDOObjectClass;
   } else if ([object isKindOfClass:[NSNumber class]]) {
     return [object stringValue];
   } else if ([object isKindOfClass:[NSArray class]]) {
-    NSString *arrayPrefix = [NSString stringWithFormat:@"%@%@", prefix, indentString];
+    NSString *prefixString = [NSString stringWithFormat:@"%@%@", prefix, indentString];
     return [GREYObjectFormatter formatArray:(NSArray *)object
-                                     prefix:arrayPrefix
+                                     prefix:prefixString
                                      indent:indent
                                    keyOrder:keyOrder];
   } else if ([object isKindOfClass:[NSDictionary class]]) {
-    NSString *dictionaryPrefix = [NSString stringWithFormat:@"%@%@", prefix, indentString];
+    NSString *prefixString = [NSString stringWithFormat:@"%@%@", prefix, indentString];
     return [GREYObjectFormatter formatDictionary:(NSDictionary *)object
-                                          prefix:dictionaryPrefix
+                                          prefix:prefixString
                                           indent:indent
                                        hideEmpty:YES
                                         keyOrder:keyOrder];

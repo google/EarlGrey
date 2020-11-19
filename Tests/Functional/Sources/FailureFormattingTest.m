@@ -33,16 +33,16 @@
 @interface FailureFormatTestingFailureHandler : NSObject <GREYFailureHandler>
 
 /** The filename where the failure is located at. */
-@property(nonatomic) NSString *fileName;
+@property NSString *fileName;
 
 /** The line number where the failure is located at. */
-@property(nonatomic, assign) NSUInteger lineNumber;
+@property(assign) NSUInteger lineNumber;
 
 /** Exception to handle the failure for*/
-@property(nonatomic) GREYFrameworkException *exception;
+@property GREYFrameworkException *exception;
 
 /** Details for the exception. */
-@property(nonatomic) NSString *details;
+@property NSString *details;
 @end
 
 @implementation FailureFormatTestingFailureHandler
@@ -529,13 +529,13 @@
 - (void)testTimerRecoveryLogPresent {
   [[GREYConfiguration sharedConfiguration] setValue:@(1)
                                        forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
-  NSTimer *validTimer =
+  NSTimer *timer =
       [GREY_REMOTE_CLASS_IN_APP(NSTimer) scheduledTimerWithTimeInterval:1.5
                                                                 repeats:NO
                                                                   block:^(NSTimer *_Nonnull timer){
                                                                       // No-op
                                                                   }];
-  [[GREY_REMOTE_CLASS_IN_APP(NSRunLoop) currentRunLoop] addTimer:validTimer
+  [[GREY_REMOTE_CLASS_IN_APP(NSRunLoop) currentRunLoop] addTimer:timer
                                                          forMode:NSDefaultRunLoopMode];
   [[EarlGrey selectElementWithMatcher:grey_keyWindow()] assertWithMatcher:grey_notNil()];
   [[GREYConfiguration sharedConfiguration] reset];

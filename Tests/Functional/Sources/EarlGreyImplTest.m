@@ -23,10 +23,10 @@
 
 // Custom Failure handler for the EarlGreyImpl Tests.
 @interface GREYTestingFailureHandler : NSObject <GREYFailureHandler>
-@property(nonatomic) NSString *fileName;
-@property(nonatomic, assign) NSUInteger lineNumber;
-@property(nonatomic) GREYFrameworkException *exception;
-@property(nonatomic) NSString *details;
+@property NSString *fileName;
+@property(assign) NSUInteger lineNumber;
+@property GREYFrameworkException *exception;
+@property NSString *details;
 @end
 
 // Failure handler for EarlGrey unit tests

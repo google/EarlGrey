@@ -128,14 +128,14 @@ static NSString *gTableViewIdentifier = @"TableViewCellReuseIdentifier";
                   previewProvider:nil
                    actionProvider:^UIMenu *_Nullable(
                        NSArray<UIMenuElement *> *_Nonnull suggestedActions) {
-                     UIAction *loadingAction =
+                     UIAction *action =
                          [UIAction actionWithTitle:@"Some"
                                              image:nil
                                         identifier:nil
                                            handler:^(__kindof UIAction *_Nonnull action){
                                                // Empty Handler.
                                            }];
-                     return [UIMenu menuWithTitle:@"MENU" children:@[ loadingAction ]];
+                     return [UIMenu menuWithTitle:@"MENU" children:@[ action ]];
                    }];
 }
 

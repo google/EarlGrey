@@ -152,9 +152,9 @@ static UIViewController *gViewController;
                             }];
 }
 
-- (id<GREYMatcher>)matcherThatTakesTime:(NSTimeInterval)seconds {
+- (id<GREYMatcher>)matcherThatTakesTime:(double)seconds {
   BOOL (^matchBlock)(id) = ^BOOL(id _Nonnull element) {
-    [NSThread sleepForTimeInterval:seconds];
+    sleep(seconds);
     return YES;
   };
   void (^descriptionBlock)(id) = ^(id<GREYDescription> description) {

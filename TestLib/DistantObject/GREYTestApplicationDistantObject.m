@@ -51,7 +51,7 @@ static const void *gGREYTestExecutingQueueKey = &gGREYTestExecutingQueueKey;
 @interface GREYTestApplicationDistantObject ()
 
 /** @see GREYTestApplicationDistantObject.hostApplicationDead in private header. */
-@property(nonatomic, getter=isHostApplicationTerminated) BOOL hostApplicationTerminated;
+@property(getter=isHostApplicationTerminated) BOOL hostApplicationTerminated;
 
 /** @see GREYTestApplicationDistantObject::dispatchPolicy. Make this readwrite. */
 @property(nonatomic) GREYRemoteExecutionDispatchPolicy dispatchPolicy;

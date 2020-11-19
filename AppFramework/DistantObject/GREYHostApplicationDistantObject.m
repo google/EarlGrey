@@ -36,7 +36,7 @@ static uint16_t gGREYPortForTestApplication = 0;
 @interface GREYHostApplicationDistantObject ()
 
 /** @see GREYHostApplicationDistantObject.service, make this readwrite. */
-@property(nonatomic, readwrite) EDOHostService *service;
+@property EDOHostService *service;
 
 @end
 
@@ -47,8 +47,8 @@ static void InitiateCommunicationWithTest() {
     // The bundles are loaded from application container under directory named
     // EarlGreyHelperBundles.
     NSBundle *mainBundle = [NSBundle mainBundle];
-    NSArray<NSString *> *bundlePaths =
-        [mainBundle pathsForResourcesOfType:@"bundle" inDirectory:@"EarlGreyHelperBundles"];
+    NSArray *bundlePaths = [mainBundle pathsForResourcesOfType:@"bundle"
+                                                   inDirectory:@"EarlGreyHelperBundles"];
     BOOL success = NO;
     NSError *error;
     for (NSString *bundlePath in bundlePaths) {
@@ -66,9 +66,9 @@ static void InitiateCommunicationWithTest() {
     // testing scenarios to users. The custom handler will fall back to use EDO's default error
     // handler if the state of the test doesn't conform to any pattern of the UI testing failure.
     __block EDOClientErrorHandler previousErrorHandler;
-    previousErrorHandler = EDOSetClientErrorHandler(^(NSError *clientError) {
-      if (clientError.code == EDOServiceErrorCannotConnect) {
-        EDOHostPort *hostPort = clientError.userInfo[EDOErrorPortKey];
+    previousErrorHandler = EDOSetClientErrorHandler(^(NSError *error) {
+      if (error.code == EDOServiceErrorCannotConnect) {
+        EDOHostPort *hostPort = error.userInfo[EDOErrorPortKey];
         if (gGREYPortForTestApplication == hostPort.port) {
           NSString *errorInfo =
               @"App-under-test is unable to connect to the test process. Here are the reasons that "
@@ -80,7 +80,7 @@ static void InitiateCommunicationWithTest() {
                                               reason:errorInfo] raise];
         }
       }
-      previousErrorHandler(clientError);
+      previousErrorHandler(error);
     });
 
     // If the app is launched without the port assigned, we silently ignore the error and only
