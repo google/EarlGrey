@@ -27,8 +27,9 @@ NS_ASSUME_NONNULL_BEGIN
  * in the app to do a merge next time when there is a read in the app.
  */
 @interface GREYTestConfiguration : GREYConfiguration
-// The remote configuration this will push and synchronize with.
-@property(nonatomic) GREYAppConfiguration *remoteConfiguration;
+
+/** The remote configuration this will push and synchronize with. */
+@property(nonatomic, nullable) GREYAppConfiguration *remoteConfiguration;
 
 /**
  * @return An NSData version of [self mergedConfiguration] using

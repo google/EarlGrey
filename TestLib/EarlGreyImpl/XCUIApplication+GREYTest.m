@@ -20,11 +20,13 @@
 
 #import "GREYHostApplicationDistantObject+GREYTestHelper.h"
 #import "GREYFatalAsserts.h"
+#import "GREYConfiguration.h"
 #import "GREYTestApplicationDistantObject+Private.h"
 #import "GREYTestApplicationDistantObject.h"
 #import "GREYAppleInternals.h"
 #import "GREYDefines.h"
 #import "GREYSwizzler.h"
+#import "GREYTestConfiguration.h"
 #import "XCUIApplication+GREYEnvironment.h"
 
 #if !(TARGET_IPHONE_SIMULATOR)
@@ -58,6 +60,10 @@
                          replaceInstanceMethod:@selector(launch)
                                     withMethod:@selector(grey_launch)];
   GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle XCUIApplication launch");
+  swizzleSuccess = [swizzler swizzleClass:[self class]
+                    replaceInstanceMethod:@selector(terminate)
+                               withMethod:@selector(grey_terminate)];
+  GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle XCUIApplication terminate");
 }
 
 - (void)grey_launch {
@@ -86,8 +92,16 @@
   NSLog(@"Application Launch Completed. UI Test with EarlGrey Starting");
 }
 
-// Modifies the autocorrect and predictive typing settings to turn them off through the keyboard
-// settings bundle.
+- (void)grey_terminate {
+  GREYTestConfiguration *testConfiguration =
+      (GREYTestConfiguration *)GREYConfiguration.sharedConfiguration;
+  testConfiguration.remoteConfiguration = nil;
+  INVOKE_ORIGINAL_IMP(void, @selector(grey_terminate));
+}
+
+/**
+ * Modifies the autocorrect and predictive typing settings to turn them off through the keyboard.
+ */
 - (void)modifyKeyboardSettings {
   static dispatch_once_t onceToken;
 #if TARGET_IPHONE_SIMULATOR

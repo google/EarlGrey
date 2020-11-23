@@ -13,6 +13,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
+
+#import "GREYConfigKey.h"
+#import "GREYConfiguration.h"
+#import "EarlGrey.h"
 #import "EarlGreyImpl+XCUIApplication.h"
 
 @interface ApplicationStateHandlingTest : XCTestCase
@@ -26,7 +30,7 @@
   [super setUp];
   _application = [[XCUIApplication alloc] init];
   [_application launch];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Picker Views")] performAction:grey_tap()];
+  PerformSampleEarlGreyStatement();
 }
 
 - (void)tearDown {
@@ -132,6 +136,32 @@
       [startReverseCoordinate coordinateWithOffset:endReverseVector];
   [startReverseCoordinate pressForDuration:0 thenDragToCoordinate:endReverseCoordinate];
   XCTAssertFalse([springboardApplication.otherElements[@"Dock"] exists]);
+}
+
+#pragma mark - Launch related tests
+
+/**
+ * Ensures that there's no crashing on setting the configuration post-relaunch after terminating the
+ * app.
+ **/
+- (void)testConfigurationChangesPostRelaunch {
+  [self addTeardownBlock:^{
+    [[GREYConfiguration sharedConfiguration] reset];
+  }];
+  [_application terminate];
+  [[GREYConfiguration sharedConfiguration] setValue:@(NO)
+                                       forConfigKey:kGREYConfigKeySynchronizationEnabled];
+  [_application launch];
+  BOOL changedSyncValue = GREY_CONFIG_BOOL(kGREYConfigKeySynchronizationEnabled);
+  XCTAssertFalse(changedSyncValue, @"Changed config value applied.");
+  [[GREYConfiguration sharedConfiguration] setValue:@(YES)
+                                       forConfigKey:kGREYConfigKeySynchronizationEnabled];
+  PerformSampleEarlGreyStatement();
+}
+
+/** Perform a sample EarlGrey statement which will always work on the main page. */
+static void PerformSampleEarlGreyStatement() {
+  [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
 }
 
 @end
