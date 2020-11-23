@@ -56,8 +56,8 @@
 @property(nonatomic, readonly) UITextPosition *beginningOfDocument;
 @property(nonatomic, readonly) UITextPosition *endOfDocument;
 @property(nonatomic, readonly) id<UITextInputTokenizer> tokenizer;
-@property(nonatomic, copy) NSDictionary *markedTextStyle;
-@property(readwrite, copy) UITextRange *selectedTextRange;
+@property(nullable, nonatomic, copy) NSDictionary<NSAttributedStringKey, id> *markedTextStyle;
+@property(atomic, readwrite, copy) UITextRange *selectedTextRange;
 @property(nonatomic, weak) id<UITextInputDelegate> inputDelegate;
 
 @end

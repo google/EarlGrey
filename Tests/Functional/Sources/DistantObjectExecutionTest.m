@@ -88,7 +88,7 @@
     distantObject.hostPort = hostPort;
     distantObject.hostBackgroundPort = backgroundHostPort;
   };
-  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.f * NSEC_PER_SEC), dispatch_get_main_queue(),
+  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(),
                  appPortsSettingBlock);
 
   XCTAssertEqual(distantObject.hostPort, hostPort);

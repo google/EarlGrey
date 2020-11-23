@@ -121,6 +121,6 @@
 /**
  * @return A matcher that takes @c seconds to match.
  */
-- (id<GREYMatcher>)matcherThatTakesTime:(double)seconds;
+- (id<GREYMatcher>)matcherThatTakesTime:(NSTimeInterval)seconds;
 
 @end

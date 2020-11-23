@@ -282,8 +282,8 @@
     
     [self matchElementsWithTimeout:interactionTimeout
                    syncBeforeMatch:synchronizationRequired
-                   completionBlock:^(NSArray<id> *matchedElements, GREYError *error) {
-                     actionError = error;
+                   completionBlock:^(NSArray<id> *matchedElements, GREYError *completionError) {
+                     actionError = completionError;
                      if (!actionError && matchedElements) {
                        // Get the uniquely matched element. If it is nil, then it means that
                        // there has been an error in finding a unique element, such as multiple
@@ -358,10 +358,10 @@
   NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
 
   void (^completionBlock)(NSArray<id> *, GREYError *) = ^(NSArray<id> *matchedElements,
-                                                          GREYError *error) {
+                                                          GREYError *completionError) {
     // An error object that holds error due to element not found (if any). It is used only when an
     // assertion fails because element was nil. That's when we surface this
-    GREYError *elementNotFoundError = error;
+    GREYError *elementNotFoundError = completionError;
 
     // Failure to find elements due to synchronization and report it as an error.
     if (elementNotFoundError.domain == kGREYInteractionErrorDomain &&
@@ -830,14 +830,14 @@ static NSString *RecoverySuggestionForMultipleElementMatchedError(NSString *matc
 
   if (reason.length == 0) {
     // Add unique failure messages for failure with unknown reason
-    NSMutableDictionary<NSString *, id> *errorDetails = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary<NSString *, id> *reasonDetails = [[NSMutableDictionary alloc] init];
 
-    errorDetails[kErrorDetailAssertCriteriaKey] = assertion.name;
-    errorDetails[kErrorDetailElementMatcherKey] = _elementMatcher.description;
+    reasonDetails[kErrorDetailAssertCriteriaKey] = assertion.name;
+    reasonDetails[kErrorDetailElementMatcherKey] = _elementMatcher.description;
 
     NSArray<NSString *> *keyOrder =
         @[ kErrorDetailAssertCriteriaKey, kErrorDetailElementMatcherKey ];
-    NSString *reasonDetail = [GREYObjectFormatter formatDictionary:errorDetails
+    NSString *reasonDetail = [GREYObjectFormatter formatDictionary:reasonDetails
                                                             indent:kGREYObjectFormatIndent
                                                          hideEmpty:YES
                                                           keyOrder:keyOrder];

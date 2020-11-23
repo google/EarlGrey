@@ -184,9 +184,7 @@ __unused static Class gScrollViewIndicatorClass;
     swizzleSuccess = [swizzler swizzleClass:self
                       replaceInstanceMethod:originalSel
                                  withMethod:swizzledSel];
-    GREYFatalAssertWithMessage(swizzleSuccess,
-                               @"Cannot swizzle UIView performSystemAnimation:onViews:"
-                               @"options:animations:completion:");
+    GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle UIView setAlpha:");
   }
 }
 

@@ -29,14 +29,15 @@ GREY_EXTERN NSInteger const kGREYObjectFormatIndent;
  * Serializes an array of objects into JSON string.
  * The supported objects are: NSString, NSNumber, NSArray, NSDictionary and GREYError.
  *
- * @param array  The array to serialize.
- * @param indent The spaces that will be applied to each element of the serialized array.
- * @param keyOrder   Output the key-value pair in the order of the keys specified
- *                   in the keyOrder array.
+ * @param array    The array to serialize.
+ * @param indent   The spaces that will be applied to each element of the serialized array.
+ * @param keyOrder The order to output the keys in.
  *
  * @return JSON-ified string of the provided @c array.
  */
-+ (NSString *)formatArray:(NSArray *)array indent:(NSInteger)indent keyOrder:(NSArray *)keyOrder;
++ (NSString *)formatArray:(NSArray<id> *)array
+                   indent:(NSInteger)indent
+                 keyOrder:(NSArray<NSString *> *)keyOrder;
 
 /**
  * Serializes a dictionary of objects into JSON string.
@@ -52,10 +53,10 @@ GREY_EXTERN NSInteger const kGREYObjectFormatIndent;
  *
  * @return JSON-ified string of the provided @c dictionary.
  */
-+ (NSString *)formatDictionary:(NSDictionary *)dictionary
++ (NSString *)formatDictionary:(NSDictionary<NSString *, id> *)dictionary
                         indent:(NSInteger)indent
                      hideEmpty:(BOOL)hideEmpty
-                      keyOrder:(NSArray *)keyOrder;
+                      keyOrder:(NSArray<NSString *> *)keyOrder;
 
 /**
  * Serializes an array of objects into JSON-like string.
@@ -72,10 +73,10 @@ GREY_EXTERN NSInteger const kGREYObjectFormatIndent;
  *
  * @return Serialized JSON-like string of the provided @c array.
  */
-+ (NSString *)formatArray:(NSArray *)array
++ (NSString *)formatArray:(NSArray<id> *)array
                    prefix:(NSString *)prefix
                    indent:(NSInteger)indent
-                 keyOrder:(NSArray *)keyOrder;
+                 keyOrder:(NSArray<NSString *> *)keyOrder;
 
 /**
  * Serializes a dictionary of objects into JSON-like string.
@@ -96,10 +97,10 @@ GREY_EXTERN NSInteger const kGREYObjectFormatIndent;
  *
  * @return Serialized string of the provided @c dictionary.
  */
-+ (NSString *)formatDictionary:(NSDictionary *)dictionary
++ (NSString *)formatDictionary:(NSDictionary<NSString *, id> *)dictionary
                         prefix:(NSString *)prefix
                         indent:(NSInteger)indent
                      hideEmpty:(BOOL)hideEmpty
-                      keyOrder:(NSArray *)keyOrder;
+                      keyOrder:(NSArray<NSString *> *)keyOrder;
 
 @end

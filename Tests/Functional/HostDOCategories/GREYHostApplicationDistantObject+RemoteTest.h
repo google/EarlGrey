@@ -90,6 +90,6 @@
  * @param block The block to be called.
  * @param delay The seconds to wait before calling back.
  */
-- (void)invokeRemoteBlock:(void (^)(void))block withDelay:(NSUInteger)delay;
+- (void)invokeRemoteBlock:(void (^)(void))block withDelay:(int64_t)delay;
 
 @end
