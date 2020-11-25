@@ -47,15 +47,6 @@ typedef NS_ENUM(NSUInteger, AnimationStatus) {
                  });
 }
 
-- (void)animationWillStart:(NSString *)animationID context:(void *)context {
-  self.UIViewAnimationControlButton.enabled = NO;
-  [self.UIViewAnimationControlButton setTitle:@"Started" forState:UIControlStateDisabled];
-}
-
-- (void)animationDidStop:(NSString *)animationID finished:(BOOL)finished context:(void *)context {
-  self.animationStatusLabel.text = @"UIView animation finished";
-}
-
 - (void)setDelayedExecutionStatusTextToExecutedTwice {
   self.delayedExecutionStatusLabel.text = @"Executed Twice!";
 }
@@ -80,36 +71,29 @@ typedef NS_ENUM(NSUInteger, AnimationStatus) {
 }
 
 - (IBAction)UIViewAnimationControlClicked:(id)sender {
-  [UIView beginAnimations:@"Animation" context:nil];
-  [UIView setAnimationDelegate:self];
-  [UIView setAnimationDidStopSelector:@selector(animationDidStop:finished:context:)];
-  [UIView setAnimationWillStartSelector:@selector(animationWillStart:context:)];
+  self.UIViewAnimationControlButton.enabled = NO;
+  [self.UIViewAnimationControlButton setTitle:@"Started" forState:UIControlStateDisabled];
+  [UIView animateWithDuration:1.0f
+      animations:^{
+        // Move view 50 units to the right.
+        CGRect frame = self.viewToAnimate.frame;
+        frame.origin.x = frame.origin.x + 50;
+        self.viewToAnimate.frame = frame;
 
-  // Move view 50 units to the right.
-  CGRect frame = self.viewToAnimate.frame;
-  frame.origin.x = frame.origin.x + 50;
-  self.viewToAnimate.frame = frame;
+        // Move the view 100 units below.
+        CGRect nestedFrame = self.viewToAnimate.frame;
+        nestedFrame.origin.y = nestedFrame.origin.y + 100;
+        self.viewToAnimate.frame = nestedFrame;
 
-  [UIView beginAnimations:@"NestedAnimation" context:nil];
-
-  // Move the view 100 units below.
-  CGRect nestedFrame = self.viewToAnimate.frame;
-  nestedFrame.origin.y = nestedFrame.origin.y + 100;
-  self.viewToAnimate.frame = nestedFrame;
-
-  [UIView commitAnimations];
-
-  [UIView beginAnimations:@"NestedResizeAnimation" context:nil];
-
-  // Resize the view to 1/2 its size.
-  CGRect nestedResizeFrame = self.viewToAnimate.frame;
-  nestedResizeFrame.size.width = nestedResizeFrame.size.width / 2;
-  nestedResizeFrame.size.height = nestedResizeFrame.size.height / 2;
-  self.viewToAnimate.frame = nestedResizeFrame;
-
-  [UIView commitAnimations];
-
-  [UIView commitAnimations];
+        // Resize the view to 1/2 its size.
+        CGRect nestedResizeFrame = self.viewToAnimate.frame;
+        nestedResizeFrame.size.width = nestedResizeFrame.size.width / 2;
+        nestedResizeFrame.size.height = nestedResizeFrame.size.height / 2;
+        self.viewToAnimate.frame = nestedResizeFrame;
+      }
+      completion:^(BOOL finished) {
+        self.animationStatusLabel.text = @"UIView animation finished";
+      }];
 }
 
 - (IBAction)startUIViewChainedAnimation:(id)sender {
