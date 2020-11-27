@@ -16,11 +16,11 @@
 
 #import <Foundation/Foundation.h>
 
-// Use modular imports for CocoaPods release.
-// #import <eDistantObject/EDOClientService.h>
-// End CocoaPods modular imports
-
+#if COCOAPODS
+#import <eDistantObject/EDOClientService.h>
+#else
 #import "EDOClientService.h"
+#endif // COCOAPODS
 
 @class EDOHostService;
 
