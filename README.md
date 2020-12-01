@@ -60,10 +60,19 @@ You can use the same channels as with EarlGrey 1.0 for communicating with us. Pl
 *   [Slack](https://googleoss.slack.com/messages/earlgrey)
 *   [Google Group](https://groups.google.com/forum/#!forum/earlgrey-discuss)
 
-# Analytics
+# Apple Privacy Description Labels & Analytics
 
-Unlike [EarlGrey 1.0](https://github.com/google/EarlGrey#analytics),
-EarlGrey 2.0 does not collect or upload any analytics for its usage.
+EarlGrey is not intended to be shipped in user facing products so we are not supplying formal Apple
+Privacy Description Label guidelines. That being said, this product does **not** collect or transmit
+any analytics or personal data.
+
+# Licensing
+
+All project source code is licensed under the Apache 2.0 license. All image resources are licensed
+under the Creative Commons Attribution 4.0 International (CC BY 4.0) license. The texts of both
+licenses are included in the [LICENSE](https://github.com/google/EarlGrey/blob/earlgrey2/LICENSE)
+file.
+
 
 # EarlGrey 2.0 advantages over XCUITest
 
