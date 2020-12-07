@@ -20,7 +20,7 @@
 #import <eDistantObject/EDOClientService.h>
 #else
 #import "EDOClientService.h"
-#endif // COCOAPODS
+#endif  // COCOAPODS
 
 @class EDOHostService;
 
