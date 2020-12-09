@@ -1,4 +1,4 @@
-## [2.2.0](https://github.com/google/EarlGrey/tree/2.2.0) (10/16/2019)
+## [2.2.0](https://github.com/google/EarlGrey/tree/2.2.0) (10/9/2020)
 ```
 Baseline: [ddf2911]
 + [ddf2911]: GREYCAAnimationDelegate optimization.
