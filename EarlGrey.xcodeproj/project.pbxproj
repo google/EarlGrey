@@ -13,6 +13,9 @@
 		6F8818B222B86F530006932D /* GREYAssertionBlock+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F8818B122B86F520006932D /* GREYAssertionBlock+Private.h */; };
 		6FDFAF5324A2D0B2008B59DF /* GREYFailureHandlerHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FDFAF5124A2D0B2008B59DF /* GREYFailureHandlerHelpers.m */; };
 		763D87B22513F3F1001B5731 /* GREYDistantObjectUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 763D87B12513F3F1001B5731 /* GREYDistantObjectUtils.m */; };
+		76E0547B258179E60015F307 /* GREYConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = FD6239DF20F56C9500049E81 /* GREYConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		76E0547C258179F80015F307 /* GREYError.h in Headers */ = {isa = PBXBuildFile; fileRef = FD6239B520F56C3D00049E81 /* GREYError.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		76E0547D25817A050015F307 /* GREYErrorConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = FD6239B120F56C3D00049E81 /* GREYErrorConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A20847B422BC095B00DD3983 /* GREYTraversalObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A20847B322BC095A00DD3983 /* GREYTraversalObject.m */; };
 		A277771E238FE215003E7373 /* GREYTraversalProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = A277771C238FE215003E7373 /* GREYTraversalProperties.m */; };
 		FD1184D3212CEE72004CADC3 /* XCUIApplication+GREYEnvironment.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1184D2212CEE72004CADC3 /* XCUIApplication+GREYEnvironment.m */; };
@@ -1440,6 +1443,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				FD623B1E20F95A6300049E81 /* EarlGreyApp.h in Headers */,
+				76E0547B258179E60015F307 /* GREYConstants.h in Headers */,
+				76E0547C258179F80015F307 /* GREYError.h in Headers */,
+				76E0547D25817A050015F307 /* GREYErrorConstants.h in Headers */,
 				FD623AE320F9591600049E81 /* GREYAssertions.h in Headers */,
 				FD623AFB20F9594200049E81 /* GREYInteraction.h in Headers */,
 				FD623B4620F95A9C00049E81 /* GREYNSTimerIdlingResource.h in Headers */,

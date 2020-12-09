@@ -54,6 +54,7 @@ Pod::Spec.new do |s|
                   "CommonLib/DistantObject/GREYHostApplicationDistantObject.h",
                   "CommonLib/DistantObject/GREYHostBackgroundDistantObject.h",
                   "CommonLib/DistantObject/GREYTestApplicationDistantObject.h",
+                  "CommonLib/Error/GREYError.h",
                   "CommonLib/Error/GREYErrorConstants.h",
                   "CommonLib/Exceptions/GREYFailureHandler.h",
                   "CommonLib/Exceptions/GREYFrameworkException.h",
