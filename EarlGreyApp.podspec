@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
                 ' Test Navigator so you can run tests directly from Xcode or the command line (using xcodebuild).'
   s.license = { :type => "Apache 2.0", :file => "LICENSE" }
 
-  s.source = { :http => "https://github.com/google/EarlGrey/releases/download/2.2.0/EarlGreyApp.zip" }
+  s.source = { :http => "https://github.com/google/EarlGrey/releases/download/2.2.1/EarlGreyApp.zip" }
   s.vendored_frameworks = "AppFramework.framework"
 
   s.pod_target_xcconfig = { "FRAMEWORK_SEARCH_PATHS" =>"$(inherited) $(PLATFORM_DIR)/Developer/Library/Frameworks",
