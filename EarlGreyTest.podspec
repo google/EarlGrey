@@ -2,7 +2,7 @@
 Pod::Spec.new do |s|
 
   s.name = "EarlGreyTest"
-  s.version = "2.2.0"
+  s.version = "2.2.1"
   s.summary = "iOS UI Automation Test Framework"
   s.homepage = "https://github.com/google/EarlGrey"
   s.author = "Google LLC."
@@ -17,7 +17,7 @@ Pod::Spec.new do |s|
 
   s.source = { :git => "https://github.com/google/EarlGrey.git", :tag => "2.2.0" }
 
-  s.dependency "eDistantObject", "1.0.1"
+  s.dependency "eDistantObject", "1.0.2"
 
   s.pod_target_xcconfig = { 'HEADER_SEARCH_PATHS' => '"${PODS_ROOT}/EarlGreyTest/**" "${PODS_ROOT}/eDistantObject/"',
                             'USER_HEADER_SEARCH_PATHS' => '"${PODS_ROOT}/EarlGreyTest/**" "${PODS_ROOT}/eDistantObject/"' }
