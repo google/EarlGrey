@@ -182,6 +182,32 @@ NS_ASSUME_NONNULL_BEGIN
                          yOriginStartPercentage:(CGFloat)yOriginStartPercentage;
 
 /**
+ *  Returns an action that swipes through the view from a given @c startPoint to a given
+ *  @c endPoint.
+ *
+ *  @param startPoint The point where the swipe should begin. Relative to the matched view's origin.
+ *  @param endPoint   The point where the swipe should end. Relative to the matched view's origin.
+ *
+ *  @return A GREYAction that performs a fast swipe through a view from a specific start point
+ *          to a specific end point.
+ */
++ (id<GREYAction>)actionForSwipeFastWithStartPoint:(CGPoint)startPoint
+                                          endPoint:(CGPoint)endPoint;
+
+/**
+ *  Returns an action that swipes through the view from a given @c startPoint to a given
+ *  @c endPoint.
+ *
+ *  @param startPoint The point where the swipe should begin.
+ *  @param endPoint   The point where the swipe should end.
+ *
+ *  @return A GREYAction that performs a slow swipe through a view from a specific start point
+ *          to a specific end point.
+ */
++ (id<GREYAction>)actionForSwipeSlowWithStartPoint:(CGPoint)startPoint
+                                          endPoint:(CGPoint)endPoint;
+
+/**
  *  Returns an action that performs a multi-finger slow swipe through the view in the given
  *  @c direction.
  *
@@ -457,6 +483,20 @@ GREY_EXPORT id<GREYAction> grey_swipeFastInDirectionWithStartPoint(GREYDirection
 GREY_EXPORT id<GREYAction> grey_swipeSlowInDirectionWithStartPoint(GREYDirection direction,
                                                                    CGFloat xOriginStartPercentage,
                                                                    CGFloat yOriginStartPercentage);
+
+/**
+ *  Shorthand macro for
+ *  GREYActions::actionForSwipeFastWithStartPoint:endPoint:.
+ */
+GREY_EXPORT id<GREYAction> grey_swipeFastFromStartToEndPoint(CGPoint startPoint,
+                                                              CGPoint endPoint);
+
+/**
+ *  Shorthand macro for
+ *  GREYActions::actionForSwipeSlowWithStartPoint:endPoint:.
+ */
+GREY_EXPORT id<GREYAction> grey_swipeSlowFromStartToEndPoint(CGPoint startPoint,
+                                                              CGPoint endPoint);
 
 /**
  *  Shorthand macro for
