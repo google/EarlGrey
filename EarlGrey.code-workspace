@@ -25,6 +25,11 @@
 			},
 			{
 				"type": "lldb-nextcode",
+				"name": "Run without Debugging",
+				"request": "dynamic"
+			},
+			{
+				"type": "lldb-nextcode",
 				"name": "Build",
 				"request": "dynamic"
 			},
