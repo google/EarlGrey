@@ -22,7 +22,6 @@
 #import "GREYFailureScreenshotter.h"
 #import "NSFileManager+GREYCommon.h"
 #import "GREYThrowDefines.h"
-#import "GREYConfiguration.h"
 #import "GREYErrorConstants.h"
 #import "GREYErrorFormatter.h"
 #import "GREYObjectFormatter.h"
@@ -65,10 +64,8 @@
     appScreenshots = [GREYFailureScreenshotter screenshots];
   }
 
-  NSString *uniqueSubDirName =
-      [NSString stringWithFormat:@"%@-%@", exception.name, [[NSUUID UUID] UUIDString]];
-  NSString *screenshotDir = [GREY_CONFIG_STRING(kGREYConfigKeyArtifactsDirLocation)
-      stringByAppendingPathComponent:uniqueSubDirName];
+  NSString *screenshotDir =
+      [GREYFailureScreenshotSaver failureScreenshotPathForException:exception];
   GREYFailureScreenshots *screenshotPaths =
       [GREYFailureScreenshotSaver saveFailureScreenshotsInDictionary:appScreenshots
                                                          toDirectory:screenshotDir];

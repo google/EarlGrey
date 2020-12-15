@@ -39,6 +39,14 @@ typedef NSDictionary<NSString *, NSString *> GREYFailureScreenshots;
 + (GREYFailureScreenshots *)saveFailureScreenshotsInDictionary:
                                 (NSDictionary<NSString *, UIImage *> *)screenshotsDict
                                                    toDirectory:(NSString *)screenshotDir;
+
+/**
+ * @return An NSString for the directory path to save the failure screenshots for an exception.
+ *
+ * @param exception The exception to obtain the screenshot directory path for. If nil, (null) is
+ *                  added to the path.
+ */
++ (NSString *)failureScreenshotPathForException:(nullable NSException *)exception;
 @end
 
 NS_ASSUME_NONNULL_END

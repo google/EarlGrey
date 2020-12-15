@@ -35,8 +35,8 @@
 #import "EarlGreyImpl+XCUIApplication.h"
 #import "GREYElementInteractionErrorHandler.h"
 #import "GREYElementInteractionProxy.h"
-#import "GREYDefaultFailureHandler.h"
 #import "GREYRemoteExecutor.h"
+#import "GREYDefaultFailureHandler.h"
 #import "XCTestCase+GREYTest.h"
 #import "EDOClientService.h"
 

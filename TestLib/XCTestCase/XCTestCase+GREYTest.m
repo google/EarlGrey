@@ -20,8 +20,10 @@
 
 #import "GREYFatalAsserts.h"
 #import "GREYTestApplicationDistantObject+Private.h"
+#import "GREYError.h"
 #import "GREYFrameworkException.h"
 #import "GREYSwizzler.h"
+#import "GREYFailureScreenshotSaver.h"
 #import "GREYTestCaseInvocation.h"
 
 /**
@@ -35,6 +37,9 @@ static void (^gHostApplicationCrashHandler)(void);
 
 /** The port number of the last app-under-test which has crashed. */
 static uint16_t gHostApplicationPortForLastCrash;
+
+/** The failure count within a test case. */
+static NSUInteger gFailureCount;
 
 /**
  * Name of the exception that's thrown to interrupt current test execution.
@@ -265,6 +270,7 @@ static BOOL gIsRunningOnXcode12;
  *         test to invoke <tt> [super setUp] </tt>.
  */
 - (void)grey_setUp {
+  gFailureCount = self.testRun.failureCount;
   [self grey_sendNotification:kGREYXCTestCaseInstanceWillSetUp];
   CheckUnhandledHostApplicationCrashWithHandler(^{
     if (gHostApplicationCrashHandler) {
@@ -283,6 +289,8 @@ static BOOL gIsRunningOnXcode12;
  *         tests to invoke <tt> [super tearDown] </tt>.
  */
 - (void)grey_tearDown {
+  [self saveXCUITestRelatedScreenshot];
+
   [self grey_sendNotification:kGREYXCTestCaseInstanceWillTearDown];
   CheckUnhandledHostApplicationCrashWithHandler(^{
     if (gHostApplicationCrashHandler) {
@@ -292,6 +300,30 @@ static BOOL gIsRunningOnXcode12;
   });
   INVOKE_ORIGINAL_IMP(void, @selector(grey_tearDown));
   [self grey_sendNotification:kGREYXCTestCaseInstanceDidTearDown];
+}
+
+/**
+ * Saves an XCUITest screenshot when there's an XCTest failure. Will not be hit if it's just an
+ * EarlGrey failure. The image is saved at a separate location (since the exception is null) and
+ * will not overwrite an EarlGrey screenshot.
+ */
+- (void)saveXCUITestRelatedScreenshot {
+  // XCTestRun failureCount will not change if there is an EarlGrey failure but only if an XCUITest
+  // failure happens. In this case, add a test-side screenshot.
+  if (self.testRun.failureCount > gFailureCount) {
+    XCUIApplication *application = [[XCUIApplication alloc] init];
+    if (application.state == XCUIApplicationStateRunningForeground) {
+      XCUIScreenshot *screenshot = [XCUIScreen mainScreen].screenshot;
+      NSString *screenshotDir = [GREYFailureScreenshotSaver failureScreenshotPathForException:nil];
+      NSDictionary<NSString *, UIImage *> *screenshotDict =
+          @{kGREYTestScreenshotAtFailure : screenshot.image};
+      GREYFailureScreenshots *screenshotPaths =
+          [GREYFailureScreenshotSaver saveFailureScreenshotsInDictionary:screenshotDict
+                                                             toDirectory:screenshotDir];
+      NSLog(@"Screenshot Saved: %@ : %@", kGREYTestScreenshotAtFailure,
+            screenshotPaths[kGREYTestScreenshotAtFailure]);
+    }
+  }
 }
 
 /**

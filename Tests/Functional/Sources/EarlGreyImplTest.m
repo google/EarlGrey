@@ -16,6 +16,7 @@
 
 #import <XCTest/XCTest.h>
 
+#import "EarlGrey.h"
 #import "BaseIntegrationTest.h"
 
 @interface EarlGreyImplTest : BaseIntegrationTest
@@ -164,6 +165,15 @@
   id instance1 = EarlGrey;
   id instance2 = EarlGrey;
   XCTAssertEqual(instance1, instance2, @"EarlGrey is a singleton so instances much be the same");
+}
+
+/** Ensures that an EarlGrey failure does not increment the failure count. */
+- (void)testEarlGreyExceptionDoesNotIncrementFailureCount {
+  NSUInteger failureCount = self.testRun.failureCount;
+  NSError *error;
+  [[EarlGrey selectElementWithMatcher:grey_keyWindow()] assertWithMatcher:grey_nil() error:&error];
+  XCTAssertNotNil(error, @"An error should be populated");
+  XCTAssertEqual(self.testRun.failureCount, failureCount, @"The failure count is not incremented.");
 }
 
 static inline id<GREYFailureHandler> GetCurrentFailureHandler() {
