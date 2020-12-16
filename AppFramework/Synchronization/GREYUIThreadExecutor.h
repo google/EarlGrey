@@ -41,6 +41,9 @@ typedef void (^GREYExecBlock)(void);
 
 /**
  * @return The unique shared instance of the GREYUIThreadExecutor.
+ * @note This will initialize idling resources for the main dispatch queue, operations queue and the
+ *       app state tracker. The first call to @c sharedInstance is not in any constructor but from
+ *       swizzled methods such as timers.
  */
 + (instancetype)sharedInstance;
 
