@@ -16,7 +16,9 @@
 
 #import "BaseIntegrationTest.h"
 
+#import "EarlGrey.h"
 #import "GREYHostApplicationDistantObject+GeometryTest.h"
+#import "EDOClientService.h"
 
 @interface GeometryTest : BaseIntegrationTest
 @end
@@ -32,7 +34,8 @@
 
 - (void)testCGRectFixedToVariableScreenCoordinates_portraitUpsideDown {
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortraitUpsideDown error:nil];
-
+  BOOL hasNotch = [[GREY_REMOTE_CLASS_IN_APP(UIApplication) sharedApplication] keyWindow]
+                      .safeAreaInsets.bottom > 0;
   CGRect screenBounds = [GREY_REMOTE_CLASS_IN_APP(UIScreen) mainScreen].bounds;
   CGFloat width = CGRectGetWidth(screenBounds);
   CGFloat height = CGRectGetHeight(screenBounds);
@@ -41,9 +44,8 @@
       [[GREYHostApplicationDistantObject sharedInstance] fixedCoordinateRectFromRect:testRect];
   CGRect expectedRect;
   // Ensure the expected rect is different for iPhone X/XS/XR/11/Max. Check this based on the screen
-  // bounds. Screen bounds are (0, 0, 414, 736) for non-notched devices. (0, 0, 414, 896) for
-  // notched devices.
-  if (screenBounds.size.height == 896) {
+  // bounds.
+  if (hasNotch) {
     expectedRect = CGRectMake(40, 50, 100, 120);
   } else {
     expectedRect = CGRectMake(width - 40 - 100, height - 50 - 120, 100, 120);
@@ -116,7 +118,8 @@
 
 - (void)testCGRectVariableToFixedScreenCoordinates_portraitUpsideDown {
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortraitUpsideDown error:nil];
-
+  BOOL hasNotch = [[GREY_REMOTE_CLASS_IN_APP(UIApplication) sharedApplication] keyWindow]
+                      .safeAreaInsets.bottom > 0;
   CGRect screenBounds = [GREY_REMOTE_CLASS_IN_APP(UIScreen) mainScreen].bounds;
   CGFloat width = CGRectGetWidth(screenBounds);
   CGFloat height = CGRectGetHeight(screenBounds);
@@ -125,9 +128,8 @@
   CGRect actualRect = [hostDistantObject fixedCoordinateRectFromRect:CGRectMake(40, 50, 100, 120)];
   CGRect expectedRect;
   // Ensure the expected rect is different for iPhone X/XS/XR/11/Max. Check this based on the screen
-  // bounds. Screen bounds are (0, 0, 414, 736) for non-notched devices. (0, 0, 414, 896) for
-  // notched devices.
-  if (screenBounds.size.height == 896) {
+  // bounds.
+  if (hasNotch) {
     expectedRect = CGRectMake(40, 50, 100, 120);
   } else {
     expectedRect = CGRectMake(width - 40 - 100, height - 50 - 120, 100, 120);
