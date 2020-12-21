@@ -32,10 +32,14 @@
   // TODO(b/169197992): Add a drag action test with press and drag action.
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Row 5")]
       performAction:grey_longPress()];
+  XCTAssertTrue([self waitForVisibilityForText:@"Some"]);
   [[EarlGrey selectElementWithMatcher:grey_text(@"Some")] performAction:grey_tap()];
+  XCTAssertTrue([self waitForVisibilityForText:@"Row 6"]);
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Row 6")]
       performAction:grey_longPress()];
+  XCTAssertTrue([self waitForVisibilityForText:@"Some"]);
   [[EarlGrey selectElementWithMatcher:grey_text(@"Some")] performAction:grey_tap()];
+  XCTAssertTrue([self waitForVisibilityForText:@"Row 7"]);
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Row 7")]
       assertWithMatcher:grey_not(grey_selected())];
 }
@@ -195,6 +199,26 @@
   return [[EarlGrey selectElementWithMatcher:matcher]
          usingSearchAction:grey_scrollInDirection(direction, amount)
       onElementWithMatcher:grey_kindOfClass([UITableView class])];
+}
+
+/**
+ * Wait for the text to appear on screen.
+ *
+ * @param text The text to wait for.
+ *
+ * @return A @c BOOL whether or not the text appeared before timing out.
+ */
+- (BOOL)waitForVisibilityForText:(NSString *)text {
+  GREYCondition *condition =
+      [GREYCondition conditionWithName:@""
+                                 block:^BOOL {
+                                   NSError *error;
+                                   [[EarlGrey selectElementWithMatcher:grey_text(text)]
+                                       assertWithMatcher:grey_sufficientlyVisible()
+                                                   error:&error];
+                                   return error == nil;
+                                 }];
+  return [condition waitWithTimeout:5];
 }
 
 @end

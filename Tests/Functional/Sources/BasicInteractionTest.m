@@ -812,22 +812,25 @@
     [self openTestViewNamed:@"Basic Views"];
     [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"ContextMenuButton")]
         performAction:grey_longPress()];
+    XCTAssertTrue([self waitForVisibilityForText:@"Top-level Action"]);
     [[EarlGrey selectElementWithMatcher:grey_text(@"Top-level Action")] performAction:grey_tap()];
-    [[EarlGrey selectElementWithMatcher:grey_text(@"Top-level Action Tapped")]
-        assertWithMatcher:grey_notNil()];
-    [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"ContextMenuButton")]
-        performAction:grey_longPress()];
-    [[EarlGrey selectElementWithMatcher:grey_text(@"Child Actions")] performAction:grey_tap()];
-    [[EarlGrey selectElementWithMatcher:grey_text(@"Child Action 0")] performAction:grey_tap()];
-    [[EarlGrey selectElementWithMatcher:grey_text(@"Child Action 0 Tapped")]
-        assertWithMatcher:grey_notNil()];
+    XCTAssertTrue([self waitForVisibilityForText:@"Top-level Action Tapped"]);
 
     [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"ContextMenuButton")]
         performAction:grey_longPress()];
+    XCTAssertTrue([self waitForVisibilityForText:@"Child Actions"]);
     [[EarlGrey selectElementWithMatcher:grey_text(@"Child Actions")] performAction:grey_tap()];
+    XCTAssertTrue([self waitForVisibilityForText:@"Child Action 0"]);
+    [[EarlGrey selectElementWithMatcher:grey_text(@"Child Action 0")] performAction:grey_tap()];
+    XCTAssertTrue([self waitForVisibilityForText:@"Child Action 0 Tapped"]);
+
+    [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"ContextMenuButton")]
+        performAction:grey_longPress()];
+    XCTAssertTrue([self waitForVisibilityForText:@"Child Actions"]);
+    [[EarlGrey selectElementWithMatcher:grey_text(@"Child Actions")] performAction:grey_tap()];
+    XCTAssertTrue([self waitForVisibilityForText:@"Child Action 1"]);
     [[EarlGrey selectElementWithMatcher:grey_text(@"Child Action 1")] performAction:grey_tap()];
-    [[EarlGrey selectElementWithMatcher:grey_text(@"Child Action 1 Tapped")]
-        assertWithMatcher:grey_notNil()];
+    XCTAssertTrue([self waitForVisibilityForText:@"Child Action 1 Tapped"]);
   }
 }
 
@@ -860,6 +863,28 @@
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"u")] performAction:grey_tap()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
       assertWithMatcher:grey_text(@"uu")];
+}
+
+#pragma mark - Private
+
+/**
+ * Wait for the text to appear on screen.
+ *
+ * @param text The text to wait for.
+ *
+ * @return A @c BOOL whether or not the text appeared before timing out.
+ */
+- (BOOL)waitForVisibilityForText:(NSString *)text {
+  GREYCondition *condition =
+      [GREYCondition conditionWithName:@""
+                                 block:^BOOL {
+                                   NSError *error;
+                                   [[EarlGrey selectElementWithMatcher:grey_text(text)]
+                                       assertWithMatcher:grey_sufficientlyVisible()
+                                                   error:&error];
+                                   return error == nil;
+                                 }];
+  return [condition waitWithTimeout:5];
 }
 
 @end
