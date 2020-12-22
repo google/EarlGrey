@@ -54,7 +54,7 @@ static void InitiateCommunicationWithTest() {
     for (NSString *bundlePath in bundlePaths) {
       NSBundle *bundle = [NSBundle bundleWithPath:bundlePath];
       success = [bundle loadAndReturnError:&error];
-      NSString *errorString =
+      __unused NSString *errorString =
           [NSString stringWithFormat:@"The following was seen when loading the distant object "
                                      @"categories bundle. Confirm that your bundle has source "
                                      @"files added to it and you have added a Copy Files Build "
