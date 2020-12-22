@@ -54,8 +54,14 @@ static void InitiateCommunicationWithTest() {
     for (NSString *bundlePath in bundlePaths) {
       NSBundle *bundle = [NSBundle bundleWithPath:bundlePath];
       success = [bundle loadAndReturnError:&error];
-      NSCAssert(success, @"An error: %@ was seen when loading the distant object categories bundle",
-                error);
+      NSString *errorString =
+          [NSString stringWithFormat:@"The following was seen when loading the distant object "
+                                     @"categories bundle. Confirm that your bundle has source "
+                                     @"files added to it and you have added a Copy Files Build "
+                                     @"Phase to load the bundle in your Test Target's Build "
+                                     @"Phases: %@",
+                                     error];
+      NSCAssert(success, errorString);
     }
 
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
