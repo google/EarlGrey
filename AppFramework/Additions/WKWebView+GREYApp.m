@@ -67,6 +67,11 @@
                     replaceInstanceMethod:@selector(reloadFromOrigin)
                                withMethod:@selector(greyswizzled_reloadFromOrigin)];
   GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle reloadFromOrigin");
+
+  swizzleSuccess = [swizzler swizzleClass:self
+                    replaceInstanceMethod:@selector(stopLoading)
+                               withMethod:@selector(greyswizzled_stopLoading)];
+  GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle stopLoading");
 }
 
 #pragma mark - Swizzled Implementation
@@ -105,6 +110,11 @@
 
 - (WKNavigation *)greyswizzled_reloadFromOrigin {
   return INVOKE_ORIGINAL_IMP(WKNavigation *, @selector(greyswizzled_reloadFromOrigin));
+}
+
+- (void)greyswizzled_stopLoading {
+  // TODO(b/135609297): Untrack idling resource for WKWebView.
+  INVOKE_ORIGINAL_IMP(void, @selector(greyswizzled_stopLoading));
 }
 
 @end
