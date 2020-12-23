@@ -37,14 +37,14 @@ We need to have a bundle that we can embed into the application and then load it
 using EarlGrey's app component. To create a bundle, perform the following steps:
 
 *   In Xcode, go to File >> New >> Target.
-*   In the window that comes up, select Bundle.
+*   In the next window, select **macOS** and then *Bundle*.
 
 <img src="images/bundle.png">
 
 *   On the new bundle being created, go to the target's Build Settings and
     change the following:
 
-    *   **Base SDK**: Latest iOS
+    *   **Base SDK**: *iOS*.
     *   **Other Linker Flags**: Add `-ObjC` to ensure all categories are loaded.
     *   **Bundle Loader**: Make this point to your application's executable. For
         eg. For the FunctionalTests project, we have this set to
@@ -52,25 +52,33 @@ using EarlGrey's app component. To create a bundle, perform the following steps:
         `FunctionalTestRig` with your own app's name.
     *   **User Header Search Paths**: Make sure the directory in which
         `EarlGrey.xcodeproj` and `eDistantObject.xcodeproj` are is added here
-        along with any other Headers needed for compilation.
+        along with any other Headers needed for compilation. Make sure
+        **recursive** is selected.
     *   (Swift Only)**RunPath Search Paths**: `@loader_path/Frameworks` To
         ensure Swift frameworks are loaded.
-
-*   Now, in the Build Phase, add a Target Dependency on the `Application Under
-    Test`. This is needed because the application and it's symbols need to be
-    present for the Bundle to compile. In `Link Binary With Libraries`, add a
+*   In `Link Binary With Libraries`, add a
     dependency on `AppFramework.framework` and set the `Status` to **Optional**.
     This is important because any libraries that are part of the Helper Bundle
-    have to only be **Weakly Linked**. Add similar dependencies for any other
-    Symbols you're using for any custom code in the Helper Bundle. Also add the
-    right `User Header Search Paths` to the Bundle.
+    have to only be **Weakly Linked**.
+*   Now, in the Build Phase, add a Target Dependency on the `Application Under
+    Test`. This is needed because the application and it's symbols need to be
+    present for the Bundle to compile.
+*   Similarly add dependencies for any other symbols you're using for any custom
+    code in the Helper Bundle. Also add the right `User Header Search Paths` to
+    the Bundle to point to any header you might require.
 
 <img src="images/helperBundleBuildPhases.png">
 
-If you build the Helper Bundle now, it should successfully build. To take a look
-at how to create one, take a look at `HostDOCategories` for Objective-C and
-`HostDOCategoriesSwift` for Swift in our
+If you build the Helper Bundle now, it should successfully build, though it has
+no sources. **Running the tests with a Helper bundle with no sources will lead
+to a loading failure such as "The bundle’s executable couldn’t be located"
+similar to this [Issue](https://github.com/google/EarlGrey/issues/1516).**
+
+In the Helper Bundle, you can add eDistantObject related files to make app-side
+calls from the test. Examples of this are in `HostDOCategories` for Objective-C
+and `HostDOCategoriesSwift` for Swift in our
 [Functional Tests project](../Tests/FunctionalTests/FunctionalTests.xcodeproj).
+We will cover this in the White-boxing guides in the bottom of this doc.
 
 ### Embed the Bundle into your application under test
 
@@ -96,10 +104,11 @@ tweak.
 **`EarlGreyHelperBundles`**. The EarlGrey app component automatically loads all
 NSBundles under this directory for usage with EarlGrey.
 
-### Expose the Headers of the Helper Bundle to the Test Target
+### Expose the Headers of the Helper Bundle to the Test Target [IMPORTANT]
 
 In your Test Target, expose the Headers of the Helper Bundle by adding the path
-of the sources inside it to the `User Header Search Paths` of the Tests.
+of the sources inside it to the `User Header Search Paths` of the Tests and checking
+**recursive**.
 
 <img src ="images/helperBundleHeaders.png">
 

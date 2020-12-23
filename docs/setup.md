@@ -32,9 +32,6 @@ components - one for the test and one for the application. On opening the
 
 ## 1. Steps to add EarlGrey 2.0 to your tests using Xcode
 
-**Note:** We plan to add CocoaPods support for EarlGrey support in the coming
-quarters.
-
 Clone the EarlGrey project to your workspace.
 
 ```
@@ -86,8 +83,8 @@ we will integrate EarlGrey 2.0 with it.
 
 ### 2. Test Component
 
-1.  In the `Build Phases` of your test target, add `libTestLib.a` into the "Link
-    Binary With Libraries" section.
+1.  In the `Build Phases` of your UI test target, add `libTestLib.a` into the
+    "Link Binary With Libraries" section.
     <img src="images/testsTargetBuildPhases.png">
 
 2.  In `Build Settings` add `-ObjC` to `Other Linker Flags` to load all the
@@ -95,8 +92,9 @@ we will integrate EarlGrey 2.0 with it.
 
 3.  Add the `User Header Search Paths` for the EarlGrey directory (**the
     directory containing the EarlGrey.xcodeproj**) and the eDistantObject
-    directory (**the directory containing the eDistantObject.xcodeproj**) so all
-    the headers can be accessed. <img src="images/userHeaderSearchPath.png">
+    directory (**the directory containing the eDistantObject.xcodeproj**) so
+    that all headers can be accessed. Select them as **recursive**.
+    <img src="images/userHeaderSearchPath.png">
 
 ### 3. App Component
 
@@ -163,7 +161,8 @@ target.
 Since EarlGrey 2.0's Test component is a Library, you need to add a Bridging
 Header to ensure `EarlGrey.swift` compiles.
 
-Please create a Bridging Header for your Swift Test Target.
+Please create a Bridging Header for your Swift Test Target. We found [this doc](https://developer.apple.com/documentation/swift/imported_c_and_objective-c_apis/importing_objective-c_into_swift)
+helpful for this:
 
 <img src="images/swiftBridgingHeader.png">
 
@@ -180,7 +179,7 @@ Add the following imports:
 #import "TestLib/EarlGreyImpl/EarlGrey.h"
 ```
 
-If you need any more EarlGrey imports in your Swift tests, *add them in the briding
+If you need any more EarlGrey imports in your Swift tests, *add them in the bridging
 header*. This will get rid of any `undeclared type` warnings. For starting off, you
 can add [EarlGreySwiftBridgingHeader.h](../TestLib/Swift/EarlGreySwiftBridgingHeader.h)
 to your Test Component.
