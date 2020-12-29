@@ -40,6 +40,8 @@ static uint16_t gGREYPortForTestApplication = 0;
 
 @end
 
+// test
+
 static void InitiateCommunicationWithTest() {
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
