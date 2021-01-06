@@ -125,7 +125,9 @@ __attribute__((constructor)) static void initialize(void) {
   if (![self isKindOfClass:gInputAccessoryVCClass]) {
     BOOL movingToNilWindow = [self grey_isMovingToNilWindow];
     if (movingToNilWindow) {
-      GREYLogVerbose(@"View is moving to nil window. Skipping viewWillAppear state tracking.");
+      GREYLogVerbose(@"A View Controller in the hierarchy of %@ is moving to a nil window."
+                     @"Skipping viewWillAppear state tracking on it.",
+                     self);
     }
 
     if (!movingToNilWindow) {
@@ -163,7 +165,9 @@ __attribute__((constructor)) static void initialize(void) {
 - (void)greyswizzled_viewWillDisappear:(BOOL)animated {
   BOOL movingToNilWindow = [self grey_isMovingToNilWindow];
   if (movingToNilWindow) {
-    GREYLogVerbose(@"View is moving to nil window. Skipping viewWillDisappear state tracking.");
+    GREYLogVerbose(@"A View Controller in the hierarchy of %@ is moving to a nil window."
+                   @"Skipping viewWillDisappear state tracking.",
+                   self);
   }
 
   if (!movingToNilWindow) {
