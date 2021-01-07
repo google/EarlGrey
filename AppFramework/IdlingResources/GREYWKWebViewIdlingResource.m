@@ -17,6 +17,7 @@
 #import "GREYWKWebViewIdlingResource.h"
 
 #if TARGET_OS_IOS
+#import "GREYIdlingResource.h"
 #import "GREYUIThreadExecutor+Private.h"
 #import "GREYUIThreadExecutor.h"
 

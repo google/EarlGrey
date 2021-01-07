@@ -11,6 +11,10 @@
 		278BF2B224C53D780005ECE1 /* GREYAssertDefaultConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 278BF2AF24C53D780005ECE1 /* GREYAssertDefaultConfiguration.m */; };
 		6F49FDBD22E69D4E00CCE813 /* GREYDiagnosable.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F49FDBC22E69D4C00CCE813 /* GREYDiagnosable.m */; };
 		6F8818B222B86F530006932D /* GREYAssertionBlock+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F8818B122B86F520006932D /* GREYAssertionBlock+Private.h */; };
+		6FCD8C7525942511002EF615 /* WKWebView+GREYApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FCD8C7325942511002EF615 /* WKWebView+GREYApp.m */; };
+		6FCD8C7625942511002EF615 /* WKWebView+GREYApp.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FCD8C7425942511002EF615 /* WKWebView+GREYApp.h */; };
+		6FCD8C7D25942522002EF615 /* GREYWKWebViewNavigationDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FCD8C7B25942522002EF615 /* GREYWKWebViewNavigationDelegate.h */; };
+		6FCD8C7E25942522002EF615 /* GREYWKWebViewNavigationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FCD8C7C25942522002EF615 /* GREYWKWebViewNavigationDelegate.m */; };
 		6FDFAF5324A2D0B2008B59DF /* GREYFailureHandlerHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FDFAF5124A2D0B2008B59DF /* GREYFailureHandlerHelpers.m */; };
 		763D87B22513F3F1001B5731 /* GREYDistantObjectUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 763D87B12513F3F1001B5731 /* GREYDistantObjectUtils.m */; };
 		76E0547B258179E60015F307 /* GREYConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = FD6239DF20F56C9500049E81 /* GREYConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -409,6 +413,10 @@
 		6F49FDBC22E69D4C00CCE813 /* GREYDiagnosable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYDiagnosable.m; path = CommonLib/GREYDiagnosable.m; sourceTree = "<group>"; };
 		6F8818B122B86F520006932D /* GREYAssertionBlock+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GREYAssertionBlock+Private.h"; path = "CommonLib/Assertion/GREYAssertionBlock+Private.h"; sourceTree = "<group>"; };
 		6F9B2C1E22B18F15003132B0 /* GREYDiagnosable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYDiagnosable.h; path = CommonLib/GREYDiagnosable.h; sourceTree = "<group>"; };
+		6FCD8C7325942511002EF615 /* WKWebView+GREYApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "WKWebView+GREYApp.m"; path = "Additions/WKWebView+GREYApp.m"; sourceTree = "<group>"; };
+		6FCD8C7425942511002EF615 /* WKWebView+GREYApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "WKWebView+GREYApp.h"; path = "Additions/WKWebView+GREYApp.h"; sourceTree = "<group>"; };
+		6FCD8C7B25942522002EF615 /* GREYWKWebViewNavigationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYWKWebViewNavigationDelegate.h; path = Delegate/GREYWKWebViewNavigationDelegate.h; sourceTree = "<group>"; };
+		6FCD8C7C25942522002EF615 /* GREYWKWebViewNavigationDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYWKWebViewNavigationDelegate.m; path = Delegate/GREYWKWebViewNavigationDelegate.m; sourceTree = "<group>"; };
 		6FDFAF5124A2D0B2008B59DF /* GREYFailureHandlerHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYFailureHandlerHelpers.m; path = Exception/GREYFailureHandlerHelpers.m; sourceTree = "<group>"; };
 		6FDFAF5224A2D0B2008B59DF /* GREYFailureHandlerHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYFailureHandlerHelpers.h; path = Exception/GREYFailureHandlerHelpers.h; sourceTree = "<group>"; };
 		763D87B02513F3F1001B5731 /* GREYDistantObjectUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYDistantObjectUtils.h; path = CommonLib/DistantObject/GREYDistantObjectUtils.h; sourceTree = "<group>"; };
@@ -1156,6 +1164,8 @@
 				FD623A9720F9590600049E81 /* UIViewController+GREYApp.m */,
 				FD623AA120F9590600049E81 /* UIWindow+GREYApp.h */,
 				FD623A9C20F9590600049E81 /* UIWindow+GREYApp.m */,
+				6FCD8C7425942511002EF615 /* WKWebView+GREYApp.h */,
+				6FCD8C7325942511002EF615 /* WKWebView+GREYApp.m */,
 			);
 			name = Additions;
 			sourceTree = "<group>";
@@ -1202,6 +1212,8 @@
 				FD623B0320F9595300049E81 /* GREYNSURLConnectionDelegate.m */,
 				FD623B0120F9595300049E81 /* GREYSurrogateDelegate.h */,
 				FD623B0220F9595300049E81 /* GREYSurrogateDelegate.m */,
+				6FCD8C7B25942522002EF615 /* GREYWKWebViewNavigationDelegate.h */,
+				6FCD8C7C25942522002EF615 /* GREYWKWebViewNavigationDelegate.m */,
 			);
 			name = Delegate;
 			sourceTree = "<group>";
@@ -1452,6 +1464,7 @@
 			files = (
 				FD623B1E20F95A6300049E81 /* EarlGreyApp.h in Headers */,
 				76E0547B258179E60015F307 /* GREYConstants.h in Headers */,
+				6FCD8C7625942511002EF615 /* WKWebView+GREYApp.h in Headers */,
 				76E0547C258179F80015F307 /* GREYError.h in Headers */,
 				76E0547D25817A050015F307 /* GREYErrorConstants.h in Headers */,
 				FD623AE320F9591600049E81 /* GREYAssertions.h in Headers */,
@@ -1525,6 +1538,7 @@
 				FD623AD020F9590800049E81 /* UIAnimation+GREYApp.h in Headers */,
 				FD623B3420F95A8600049E81 /* GREYSyntheticEvents.h in Headers */,
 				FD623A8020F958C200049E81 /* GREYSwipeAction.h in Headers */,
+				6FCD8C7D25942522002EF615 /* GREYWKWebViewNavigationDelegate.h in Headers */,
 				FD98C45E226C2E65006F8D68 /* GREYAppError.h in Headers */,
 				FD623ADB20F9590800049E81 /* NSRunLoop+GREYApp.h in Headers */,
 				FD623A8820F958C200049E81 /* GREYTapAction.h in Headers */,
@@ -1852,6 +1866,7 @@
 			files = (
 				FD623ABA20F9590800049E81 /* NSURLConnection+GREYApp.m in Sources */,
 				FD623ACB20F9590800049E81 /* NSRunLoop+GREYApp.m in Sources */,
+				6FCD8C7E25942522002EF615 /* GREYWKWebViewNavigationDelegate.m in Sources */,
 				FD623B6D20F95B0300049E81 /* GREYAnyOf.m in Sources */,
 				FD623B8220F95B1500049E81 /* GREYObjectDeallocationTracker.m in Sources */,
 				FD623B0C20F9595300049E81 /* GREYCAAnimationDelegate.m in Sources */,
@@ -1884,6 +1899,7 @@
 				FD623B8820F95B1500049E81 /* GREYAppStateTracker.m in Sources */,
 				FD623A8620F958C200049E81 /* GREYScrollAction.m in Sources */,
 				FD623ACE20F9590800049E81 /* UIScrollView+GREYApp.m in Sources */,
+				6FCD8C7525942511002EF615 /* WKWebView+GREYApp.m in Sources */,
 				FD623A7320F958C200049E81 /* GREYActionBlock.m in Sources */,
 				FD623B8C20F95B1500049E81 /* GREYDispatchQueueTracker.m in Sources */,
 				FD623ADA20F9590800049E81 /* __NSCFLocalDataTask_GREYApp.m in Sources */,
