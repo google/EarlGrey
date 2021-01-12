@@ -168,6 +168,9 @@ static UIApplication *GetApplicationUnderTest() {
   [acceptButton tap];
   dismissed = [self grey_ensureAlertDismissalOfAlertWithText:alertText error:error];
   [self grey_waitForAlertVisibility:NO withTimeout:kSystemAlertEarlGreyVisibilityTimeout];
+  if (dismissed) {
+    NSLog(@"EarlGrey accepted System Alert successfully.");
+  }
   return dismissed;
 }
 
@@ -203,6 +206,9 @@ static UIApplication *GetApplicationUnderTest() {
   [denyButton tap];
   dismissed = [self grey_ensureAlertDismissalOfAlertWithText:alertText error:error];
   [self grey_waitForAlertVisibility:NO withTimeout:kSystemAlertEarlGreyVisibilityTimeout];
+  if (dismissed) {
+    NSLog(@"EarlGrey successfully denied System Alert.");
+  }
   return dismissed;
 }
 
@@ -229,6 +235,9 @@ static UIApplication *GetApplicationUnderTest() {
   [button tap];
   dismissed = [self grey_ensureAlertDismissalOfAlertWithText:alertText error:error];
   [self grey_waitForAlertVisibility:NO withTimeout:kSystemAlertEarlGreyVisibilityTimeout];
+  if (dismissed) {
+    NSLog(@"EarlGrey successfully accepted System Alert.");
+  }
   return dismissed;
 }
 
@@ -264,6 +273,8 @@ static UIApplication *GetApplicationUnderTest() {
     }
     return NO;
   }
+  NSLog(@"EarlGrey successfully typed System Alert text: %@ in field with placeholder: %@.",
+        textToType, placeholderText);
   return YES;
 }
 
