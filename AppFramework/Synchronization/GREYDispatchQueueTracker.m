@@ -23,37 +23,39 @@
 
 #import "GREYFatalAsserts.h"
 #import "GREYThrowDefines.h"
+#import "GREYConfigKey.h"
 #import "GREYConfiguration.h"
+
 
 /**
  * A pointer to the original implementation of @c dispatch_after.
  */
-static void (*grey_original_dispatch_after)(dispatch_time_t when, dispatch_queue_t queue,
-                                            dispatch_block_t block);
+static void (*gOriginalDispatchAfter)(dispatch_time_t when, dispatch_queue_t queue,
+                                      dispatch_block_t block);
 /**
  * A pointer to the original implementation of @c dispatch_async.
  */
-static void (*grey_original_dispatch_async)(dispatch_queue_t queue, dispatch_block_t block);
+static void (*gOriginalDispatchAsync)(dispatch_queue_t queue, dispatch_block_t block);
 /**
  * A pointer to the original implementation of @c dispatch_sync.
  */
-static void (*grey_original_dispatch_sync)(dispatch_queue_t queue, dispatch_block_t block);
+static void (*gOriginalDispatchSync)(dispatch_queue_t queue, dispatch_block_t block);
 
 /**
  * A pointer to the original implementation of @c dispatch_after_f.
  */
-static void (*grey_original_dispatch_after_f)(dispatch_time_t when, dispatch_queue_t queue,
-                                              void *context, dispatch_function_t work);
+static void (*gOriginalDispatchAfterF)(dispatch_time_t when, dispatch_queue_t queue, void *context,
+                                       dispatch_function_t work);
 /**
  * A pointer to the original implementation of @c dispatch_async_f.
  */
-static void (*grey_original_dispatch_async_f)(dispatch_queue_t queue, void *context,
-                                              dispatch_function_t work);
+static void (*gOriginalDispatchAsyncF)(dispatch_queue_t queue, void *context,
+                                       dispatch_function_t work);
 /**
  * A pointer to the original implementation of @c dispatch_sync_f.
  */
-static void (*grey_original_dispatch_sync_f)(dispatch_queue_t queue, void *context,
-                                             dispatch_function_t work);
+static void (*gOriginalDispatchSyncF)(dispatch_queue_t queue, void *context,
+                                      dispatch_function_t work);
 
 /**
  * Used to find the @c GREYDispatchQueueTracker instance corresponding to a dispatch queue, if
@@ -62,23 +64,22 @@ static void (*grey_original_dispatch_sync_f)(dispatch_queue_t queue, void *conte
 static NSMapTable *gDispatchQueueToTracker;
 
 @interface GREYDispatchQueueTracker ()
+- (void)dispatchAfterCallWithTime:(dispatch_time_t)when block:(dispatch_block_t)block;
+- (void)dispatchAsyncCallWithBlock:(dispatch_block_t)block;
+- (void)dispatchSyncCallWithBlock:(dispatch_block_t)block;
 
-- (void)grey_dispatchAfterCallWithTime:(dispatch_time_t)when block:(dispatch_block_t)block;
-- (void)grey_dispatchAsyncCallWithBlock:(dispatch_block_t)block;
-- (void)grey_dispatchSyncCallWithBlock:(dispatch_block_t)block;
-
-- (void)grey_dispatchAfterCallWithTime:(dispatch_time_t)when
-                               context:(void *)context
-                                  work:(dispatch_function_t)work;
-- (void)grey_dispatchAsyncCallWithContext:(void *)context work:(dispatch_function_t)work;
-- (void)grey_dispatchSyncCallWithContext:(void *)context work:(dispatch_function_t)work;
+- (void)dispatchAfterCallWithTime:(dispatch_time_t)when
+                          context:(void *)context
+                             work:(dispatch_function_t)work;
+- (void)dispatchAsyncCallWithContext:(void *)context work:(dispatch_function_t)work;
+- (void)dispatchSyncCallWithContext:(void *)context work:(dispatch_function_t)work;
 
 @end
 
 /**
  * @return The @c GREYDispatchQueueTracker associated with @c queue or @c nil if there is none.
  */
-static GREYDispatchQueueTracker *grey_getTrackerForQueue(dispatch_queue_t queue) {
+static GREYDispatchQueueTracker *GetTrackerForQueue(dispatch_queue_t queue) {
   GREYDispatchQueueTracker *tracker = nil;
   @synchronized(gDispatchQueueToTracker) {
     tracker = [gDispatchQueueToTracker objectForKey:queue];
@@ -94,13 +95,13 @@ static GREYDispatchQueueTracker *grey_getTrackerForQueue(dispatch_queue_t queue)
  * @param queue Same as @c dispatch_after @c queue.
  * @param block Same as @c dispatch_after @c block.
  */
-static void grey_dispatch_after(dispatch_time_t when, dispatch_queue_t queue,
-                                dispatch_block_t block) {
-  GREYDispatchQueueTracker *tracker = grey_getTrackerForQueue(queue);
+static void GREYDispatchAfter(dispatch_time_t when, dispatch_queue_t queue,
+                              dispatch_block_t block) {
+  GREYDispatchQueueTracker *tracker = GetTrackerForQueue(queue);
   if (tracker) {
-    [tracker grey_dispatchAfterCallWithTime:when block:block];
+    [tracker dispatchAfterCallWithTime:when block:block];
   } else {
-    grey_original_dispatch_after(when, queue, block);
+    gOriginalDispatchAfter(when, queue, block);
   }
 }
 
@@ -111,12 +112,12 @@ static void grey_dispatch_after(dispatch_time_t when, dispatch_queue_t queue,
  * @param queue Same as @c dispatch_async @c queue.
  * @param block Same as @c dispatch_async @c block.
  */
-static void grey_dispatch_async(dispatch_queue_t queue, dispatch_block_t block) {
-  GREYDispatchQueueTracker *tracker = grey_getTrackerForQueue(queue);
+static void GREYDispatchAsync(dispatch_queue_t queue, dispatch_block_t block) {
+  GREYDispatchQueueTracker *tracker = GetTrackerForQueue(queue);
   if (tracker) {
-    [tracker grey_dispatchAsyncCallWithBlock:block];
+    [tracker dispatchAsyncCallWithBlock:block];
   } else {
-    grey_original_dispatch_async(queue, block);
+    gOriginalDispatchAsync(queue, block);
   }
 }
 
@@ -127,12 +128,12 @@ static void grey_dispatch_async(dispatch_queue_t queue, dispatch_block_t block) 
  * @param queue Same as @c dispatch_sync @c queue.
  * @param block Same as @c dispatch_sync @c block.
  */
-static void grey_dispatch_sync(dispatch_queue_t queue, dispatch_block_t block) {
-  GREYDispatchQueueTracker *tracker = grey_getTrackerForQueue(queue);
+static void GREYDispatchSync(dispatch_queue_t queue, dispatch_block_t block) {
+  GREYDispatchQueueTracker *tracker = GetTrackerForQueue(queue);
   if (tracker) {
-    [tracker grey_dispatchSyncCallWithBlock:block];
+    [tracker dispatchSyncCallWithBlock:block];
   } else {
-    grey_original_dispatch_sync(queue, block);
+    gOriginalDispatchSync(queue, block);
   }
 }
 
@@ -145,13 +146,13 @@ static void grey_dispatch_sync(dispatch_queue_t queue, dispatch_block_t block) {
  * @param context Same as @c dispatch_after_f @c context.
  * @param work    Same as @c dispatch_after_f @c work.
  */
-static void grey_dispatch_after_f(dispatch_time_t when, dispatch_queue_t queue, void *context,
-                                  dispatch_function_t work) {
-  GREYDispatchQueueTracker *tracker = grey_getTrackerForQueue(queue);
+static void GREYDispatchAfterF(dispatch_time_t when, dispatch_queue_t queue, void *context,
+                               dispatch_function_t work) {
+  GREYDispatchQueueTracker *tracker = GetTrackerForQueue(queue);
   if (tracker) {
-    [tracker grey_dispatchAfterCallWithTime:when context:context work:work];
+    [tracker dispatchAfterCallWithTime:when context:context work:work];
   } else {
-    grey_original_dispatch_after_f(when, queue, context, work);
+    gOriginalDispatchAfterF(when, queue, context, work);
   }
 }
 
@@ -163,12 +164,12 @@ static void grey_dispatch_after_f(dispatch_time_t when, dispatch_queue_t queue, 
  * @param context Same as @c dispatch_async_f @c context.
  * @param work    Same as @c dispatch_async_f @c work.
  */
-static void grey_dispatch_async_f(dispatch_queue_t queue, void *context, dispatch_function_t work) {
-  GREYDispatchQueueTracker *tracker = grey_getTrackerForQueue(queue);
+static void GREYDispatchAsyncF(dispatch_queue_t queue, void *context, dispatch_function_t work) {
+  GREYDispatchQueueTracker *tracker = GetTrackerForQueue(queue);
   if (tracker) {
-    [tracker grey_dispatchAsyncCallWithContext:context work:work];
+    [tracker dispatchAsyncCallWithContext:context work:work];
   } else {
-    grey_original_dispatch_async_f(queue, context, work);
+    gOriginalDispatchAsyncF(queue, context, work);
   }
 }
 
@@ -180,14 +181,20 @@ static void grey_dispatch_async_f(dispatch_queue_t queue, void *context, dispatc
  * @param context Same as @c dispatch_sync_f @c context.
  * @param work    Same as @c dispatch_sync_f @c work.
  */
-static void grey_dispatch_sync_f(dispatch_queue_t queue, void *context, dispatch_function_t work) {
-  GREYDispatchQueueTracker *tracker = grey_getTrackerForQueue(queue);
+static void GREYDispatchSyncF(dispatch_queue_t queue, void *context, dispatch_function_t work) {
+  GREYDispatchQueueTracker *tracker = GetTrackerForQueue(queue);
   if (tracker) {
-    [tracker grey_dispatchSyncCallWithContext:context work:work];
+    [tracker dispatchSyncCallWithContext:context work:work];
   } else {
-    grey_original_dispatch_sync_f(queue, context, work);
+    gOriginalDispatchSyncF(queue, context, work);
   }
 }
+
+/**
+ * The GREYDispatchQueueInterposer class, if present. If not-nil, then this dispatch queue tracker
+ * class will not track any dispatch queues or related calls.
+ */
+static Class gInterposerClass;
 
 @implementation GREYDispatchQueueTracker {
   __weak dispatch_queue_t _dispatchQueue;
@@ -195,58 +202,68 @@ static void grey_dispatch_sync_f(dispatch_queue_t queue, void *context, dispatch
 }
 
 + (void)load {
-  gDispatchQueueToTracker = [NSMapTable weakToWeakObjectsMapTable];
+  gInterposerClass = NSClassFromString(@"GREYDispatchQueueInterposer");
+  // GREYDispatchQueueInterposer is present only for a test run with sanitizers, we will not use
+  // fishhook's dispatch_queue tracking then.
+  if (!gInterposerClass) {
+    gDispatchQueueToTracker = [NSMapTable weakToWeakObjectsMapTable];
 
-  dispatch_queue_t dummyQueue = dispatch_queue_create("GREYDummyQueue", DISPATCH_QUEUE_SERIAL);
-  GREYFatalAssertWithMessage(dummyQueue, @"dummmyQueue must not be nil");
+    dispatch_queue_t dummyQueue = dispatch_queue_create("GREYDummyQueue", DISPATCH_QUEUE_SERIAL);
+    GREYFatalAssertWithMessage(dummyQueue, @"dummmyQueue must not be nil");
 
-  // Use dlsym to get the original pointer because of
-  // https://github.com/facebook/fishhook/issues/21
-  grey_original_dispatch_after = dlsym(RTLD_DEFAULT, "dispatch_after");
-  grey_original_dispatch_async = dlsym(RTLD_DEFAULT, "dispatch_async");
-  grey_original_dispatch_sync = dlsym(RTLD_DEFAULT, "dispatch_sync");
-  grey_original_dispatch_after_f = dlsym(RTLD_DEFAULT, "dispatch_after_f");
-  grey_original_dispatch_async_f = dlsym(RTLD_DEFAULT, "dispatch_async_f");
-  grey_original_dispatch_sync_f = dlsym(RTLD_DEFAULT, "dispatch_sync_f");
-  GREYFatalAssertWithMessage(grey_original_dispatch_after,
-                             @"Pointer to dispatch_after must not be NULL");
-  GREYFatalAssertWithMessage(grey_original_dispatch_async,
-                             @"Pointer to dispatch_async must not be NULL");
-  GREYFatalAssertWithMessage(grey_original_dispatch_sync,
-                             @"Pointer to dispatch_sync must not be NULL");
-  GREYFatalAssertWithMessage(grey_original_dispatch_after_f,
-                             @"Pointer to dispatch_after_f must not be NULL");
-  GREYFatalAssertWithMessage(grey_original_dispatch_async_f,
-                             @"Pointer to dispatch_async_f must not be NULL");
-  GREYFatalAssertWithMessage(grey_original_dispatch_sync_f,
-                             @"Pointer to dispatch_sync_f must not be NULL");
+    // Use dlsym to get the original pointer because of
+    // https://github.com/facebook/fishhook/issues/21
+    gOriginalDispatchAfter = dlsym(RTLD_DEFAULT, "dispatch_after");
+    gOriginalDispatchAsync = dlsym(RTLD_DEFAULT, "dispatch_async");
+    gOriginalDispatchSync = dlsym(RTLD_DEFAULT, "dispatch_sync");
+    gOriginalDispatchAfterF = dlsym(RTLD_DEFAULT, "dispatch_after_f");
+    gOriginalDispatchAsyncF = dlsym(RTLD_DEFAULT, "dispatch_async_f");
+    gOriginalDispatchSyncF = dlsym(RTLD_DEFAULT, "dispatch_sync_f");
+    GREYFatalAssertWithMessage(gOriginalDispatchAfter,
+                               @"Pointer to dispatch_after must not be NULL");
+    GREYFatalAssertWithMessage(gOriginalDispatchAsync,
+                               @"Pointer to dispatch_async must not be NULL");
+    GREYFatalAssertWithMessage(gOriginalDispatchSync, @"Pointer to dispatch_sync must not be NULL");
+    GREYFatalAssertWithMessage(gOriginalDispatchAfterF,
+                               @"Pointer to dispatch_after_f must not be NULL");
+    GREYFatalAssertWithMessage(gOriginalDispatchAsyncF,
+                               @"Pointer to dispatch_async_f must not be NULL");
+    GREYFatalAssertWithMessage(gOriginalDispatchSyncF,
+                               @"Pointer to dispatch_sync_f must not be NULL");
 
-  // Rebind symbols dispatch_* to point to our own implementation.
-  struct rebinding rebindings[] = {
-      {"dispatch_after", grey_dispatch_after, NULL},
-      {"dispatch_async", grey_dispatch_async, NULL},
-      {"dispatch_sync", grey_dispatch_sync, NULL},
-      {"dispatch_after_f", grey_dispatch_after_f, NULL},
-      {"dispatch_async_f", grey_dispatch_async_f, NULL},
-      {"dispatch_sync_f", grey_dispatch_sync_f, NULL},
-  };
-  int failure = rebind_symbols(rebindings, sizeof(rebindings) / sizeof(rebindings[0]));
-  GREYFatalAssertWithMessage(!failure, @"rebinding symbols failed");
+    // Rebind symbols dispatch_* to point to our own implementation.
+    struct rebinding rebindings[] = {
+        {"dispatch_after", GREYDispatchAfter, NULL},
+        {"dispatch_async", GREYDispatchAsync, NULL},
+        {"dispatch_sync", GREYDispatchSync, NULL},
+        {"dispatch_after_f", GREYDispatchAfterF, NULL},
+        {"dispatch_async_f", GREYDispatchAsyncF, NULL},
+        {"dispatch_sync_f", GREYDispatchSyncF, NULL},
+    };
+    int failure = rebind_symbols(rebindings, sizeof(rebindings) / sizeof(rebindings[0]));
+    GREYFatalAssertWithMessage(!failure, @"rebinding symbols failed");
+  }
 }
 
 #pragma mark -
 
 + (instancetype)trackerForDispatchQueue:(dispatch_queue_t)queue {
   GREYThrowOnNilParameter(queue);
-
-  @synchronized(gDispatchQueueToTracker) {
-    GREYDispatchQueueTracker *tracker = grey_getTrackerForQueue(queue);
-    if (!tracker) {
-      tracker = [[GREYDispatchQueueTracker alloc] initWithDispatchQueue:queue];
-      // Register this tracker with dispatch queue. Both entries are weakly held.
-      [gDispatchQueueToTracker setObject:tracker forKey:queue];
+  // GREYDispatchQueueTracker uses fishhook for tracking dispatch_ calls. There is an infinite
+  // recursion issue with fishhook and sanitizers - https://github.com/facebook/fishhook/issues/47
+  // For sanitizers we track using GREYDispatchQueueInterposer instead which uses DYLD_INTERPOSE.
+  if (gInterposerClass) {
+    return [gInterposerClass interposeDispatchQueue:queue];
+  } else {
+    @synchronized(gDispatchQueueToTracker) {
+      GREYDispatchQueueTracker *tracker = GetTrackerForQueue(queue);
+      if (!tracker) {
+        tracker = [[GREYDispatchQueueTracker alloc] initWithDispatchQueue:queue];
+        // Register this tracker with dispatch queue. Both entries are weakly held.
+        [gDispatchQueueToTracker setObject:tracker forKey:queue];
+      }
+      return tracker;
     }
-    return tracker;
   }
 }
 
@@ -281,64 +298,64 @@ static void grey_dispatch_sync_f(dispatch_queue_t queue, void *context, dispatch
 
 #pragma mark - Private
 
-- (void)grey_dispatchAfterCallWithTime:(dispatch_time_t)when block:(dispatch_block_t)block {
+- (void)dispatchAfterCallWithTime:(dispatch_time_t)when block:(dispatch_block_t)block {
   CFTimeInterval maxDelay = GREY_CONFIG_DOUBLE(kGREYConfigKeyDispatchAfterMaxTrackableDelay);
   dispatch_time_t trackDelay = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(maxDelay * NSEC_PER_SEC));
 
   if (trackDelay >= when) {
     atomic_fetch_add(&_pendingBlocks, 1);
-    grey_original_dispatch_after(when, _dispatchQueue, ^{
+    gOriginalDispatchAfter(when, _dispatchQueue, ^{
       block();
       atomic_fetch_sub(&self->_pendingBlocks, 1);
     });
   } else {
-    grey_original_dispatch_after(when, _dispatchQueue, block);
+    gOriginalDispatchAfter(when, _dispatchQueue, block);
   }
 }
 
-- (void)grey_dispatchAsyncCallWithBlock:(dispatch_block_t)block {
+- (void)dispatchAsyncCallWithBlock:(dispatch_block_t)block {
   atomic_fetch_add(&_pendingBlocks, 1);
-  grey_original_dispatch_async(_dispatchQueue, ^{
+  gOriginalDispatchAsync(_dispatchQueue, ^{
     block();
     atomic_fetch_sub(&self->_pendingBlocks, 1);
   });
 }
 
-- (void)grey_dispatchSyncCallWithBlock:(dispatch_block_t)block {
+- (void)dispatchSyncCallWithBlock:(dispatch_block_t)block {
   atomic_fetch_add(&_pendingBlocks, 1);
-  grey_original_dispatch_sync(_dispatchQueue, ^{
+  gOriginalDispatchSync(_dispatchQueue, ^{
     block();
     atomic_fetch_sub(&self->_pendingBlocks, 1);
   });
 }
 
-- (void)grey_dispatchAfterCallWithTime:(dispatch_time_t)when
-                               context:(void *)context
-                                  work:(dispatch_function_t)work {
+- (void)dispatchAfterCallWithTime:(dispatch_time_t)when
+                          context:(void *)context
+                             work:(dispatch_function_t)work {
   CFTimeInterval maxDelay = GREY_CONFIG_DOUBLE(kGREYConfigKeyDispatchAfterMaxTrackableDelay);
   dispatch_time_t trackDelay = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(maxDelay * NSEC_PER_SEC));
   if (trackDelay >= when) {
     atomic_fetch_add(&_pendingBlocks, 1);
-    grey_original_dispatch_after(when, _dispatchQueue, ^{
+    gOriginalDispatchAfter(when, _dispatchQueue, ^{
       work(context);
       atomic_fetch_sub(&self->_pendingBlocks, 1);
     });
   } else {
-    grey_original_dispatch_after_f(when, _dispatchQueue, context, work);
+    gOriginalDispatchAfterF(when, _dispatchQueue, context, work);
   }
 }
 
-- (void)grey_dispatchAsyncCallWithContext:(void *)context work:(dispatch_function_t)work {
+- (void)dispatchAsyncCallWithContext:(void *)context work:(dispatch_function_t)work {
   atomic_fetch_add(&_pendingBlocks, 1);
-  grey_original_dispatch_async(_dispatchQueue, ^{
+  gOriginalDispatchAsync(_dispatchQueue, ^{
     work(context);
     atomic_fetch_sub(&self->_pendingBlocks, 1);
   });
 }
 
-- (void)grey_dispatchSyncCallWithContext:(void *)context work:(dispatch_function_t)work {
+- (void)dispatchSyncCallWithContext:(void *)context work:(dispatch_function_t)work {
   atomic_fetch_add(&_pendingBlocks, 1);
-  grey_original_dispatch_sync(_dispatchQueue, ^{
+  gOriginalDispatchSync(_dispatchQueue, ^{
     work(context);
     atomic_fetch_sub(&self->_pendingBlocks, 1);
   });

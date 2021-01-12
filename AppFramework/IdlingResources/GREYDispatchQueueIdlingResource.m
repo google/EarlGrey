@@ -16,13 +16,17 @@
 
 #import "GREYDispatchQueueIdlingResource.h"
 
+#import "GREYIdlingResource.h"
 #import "GREYDispatchQueueTracker.h"
 #import "GREYUIThreadExecutor+Private.h"
+#import "GREYUIThreadExecutor.h"
 #import "GREYThrowDefines.h"
 
 @implementation GREYDispatchQueueIdlingResource {
+  /** Name of the idling resource itself. */
   NSString *_idlingResourceName;
-  GREYDispatchQueueTracker *_dispatchQueueTracker;
+  /** The underlying dispatch queue tracker or interposer that backs the idling resource tracker. */
+  id _dispatchQueueTracker;
 }
 
 + (instancetype)resourceWithDispatchQueue:(dispatch_queue_t)queue name:(NSString *)name {
@@ -48,7 +52,7 @@
 }
 
 - (NSString *)idlingResourceDescription {
-  return _dispatchQueueTracker.description;
+  return [_dispatchQueueTracker description];
 }
 
 - (BOOL)isIdleNow {
