@@ -32,4 +32,4 @@ GREYConfigKey const kGREYConfigKeyDispatchAfterMaxTrackableDelay =
 GREYConfigKey const kGREYConfigKeyDelayedPerformMaxTrackableDuration =
     @"GREYConfigKeyDelayedPerformMaxTrackableDuration";
 GREYConfigKey const kGREYConfigKeyArtifactsDirLocation = @"GREYConfigKeyArtifactsDirLocation";
-GREYConfigKey const kGREYConfigKeyIgnoreAppStates = @"GREYConfigKeyIgnoreAppStates";
+GREYConfigKey const kGREYConfigKeyIgnoreAppStates = @"kGREYConfigKeyIgnoreAppStates";
