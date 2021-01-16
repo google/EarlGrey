@@ -19,7 +19,7 @@
 @implementation XCUIApplication (GREYEnvironment)
 
 - (void)grey_configureApplicationForLaunch {
-  NSMutableDictionary *mutableEnv = [self.launchEnvironment mutableCopy];
+  NSMutableDictionary<NSString *, NSString *> *mutableEnv = [self.launchEnvironment mutableCopy];
   NSString *insertionKey = @"DYLD_INSERT_LIBRARIES";
   NSString *insertionValue = @"@executable_path/Frameworks/AppFramework.framework/AppFramework";
   NSString *alreadyExistingValue = [mutableEnv valueForKey:insertionKey];
