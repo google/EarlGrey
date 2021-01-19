@@ -24,6 +24,10 @@
 }
 
 - (void)trackIdlingResourceForWebView:(WKWebView *)webView {
+  // If WKWebView is not in the hierarchy, do not track.
+  if (!webView.window) {
+    return;
+  }
   _idlingResource = [GREYWKWebViewIdlingResource trackContentLoadingProgressForWebView:webView];
 }
 

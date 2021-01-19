@@ -19,14 +19,14 @@
 @implementation WKWebViewController
 
 /**
- * Returns the url to the test HTML file.
+ * @return The NSURL to the test HTML file.
  */
 + (NSURL *)URLToTestHTMLFile {
   return [[NSBundle mainBundle] URLForResource:@"testpage" withExtension:@"html"];
 }
 
 /**
- * Returns the url to the test a PDF file.w
+ * @return The NSURL to the test a PDF file.
  */
 + (NSURL *)URLToTestPDF {
   return [[NSBundle mainBundle] URLForResource:@"bigtable" withExtension:@"pdf"];

@@ -25,11 +25,11 @@
 #import "GREYRunLoopSpinner.h"
 #import "GREYFatalAsserts.h"
 #import "GREYThrowDefines.h"
+#import "GREYConfigKey.h"
 #import "GREYConfiguration.h"
 #import "GREYError.h"
-#import "GREYObjectFormatter.h"
+#import "GREYErrorConstants.h"
 #import "GREYConstants.h"
-#import "GREYDefines.h"
 #import "GREYLogger.h"
 #import "GREYStopwatch.h"
 #import "GREYElementHierarchy.h"
@@ -255,6 +255,13 @@ static const CFTimeInterval kMaximumSynchronizationSleepInterval = 0.1;
   return [[self grey_busyResourcesReturnEarly:YES] count] == 0;
 }
 
+/**
+ * @return An ordered set the registered and default idling resources that are currently busy.
+ */
+- (NSOrderedSet *)grey_busyResources {
+  return [self grey_busyResourcesReturnEarly:NO];
+}
+
 #pragma mark - Methods Only For Testing
 
 /**
@@ -277,13 +284,6 @@ static const CFTimeInterval kMaximumSynchronizationSleepInterval = 0.1;
 }
 
 #pragma mark - Private
-
-/**
- * @return An ordered set the registered and default idling resources that are currently busy.
- */
-- (NSOrderedSet *)grey_busyResources {
-  return [self grey_busyResourcesReturnEarly:NO];
-}
 
 /**
  * @param returnEarly A boolean flag to determine if this method should return

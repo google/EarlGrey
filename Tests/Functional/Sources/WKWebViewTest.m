@@ -16,7 +16,10 @@
 
 #import <WebKit/WebKit.h>
 
+#import "GREYConfigKey.h"
+#import "EarlGrey.h"
 #import "BaseIntegrationTest.h"
+#import "EDORemoteVariable.h"
 
 @interface WKWebViewTest : BaseIntegrationTest
 @end
@@ -32,7 +35,6 @@
 - (void)testScrollingWKWebViewWithEarlGrey {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"loadHTMLString")]
       performAction:grey_tap()];
-  [self waitForWebViewToLoad];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TestWKWebView")]
       performAction:grey_scrollInDirection(kGREYDirectionDown, 20)];
 }
@@ -41,8 +43,6 @@
 - (void)testScrollingToContentEdgeWithWKWebViewWithEarlGrey {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"loadHTMLString")]
       performAction:grey_tap()];
-  [self waitForWebViewToLoad];
-
   id<GREYInteraction> webViewInteraction =
       [EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TestWKWebView")];
   [webViewInteraction performAction:grey_scrollToContentEdge(kGREYContentEdgeBottom)];
@@ -135,20 +135,6 @@
                                                                                       error:&error];
   XCTAssertEqualObjects(error.domain, kGREYInteractionErrorDomain);
   XCTAssertEqual(error.code, kGREYWKWebViewInteractionFailedErrorCode);
-}
-
-#pragma mark - Private
-
-/** Waits for the web view contents to load. */
-- (void)waitForWebViewToLoad {
-  // TODO(b/145806611): Remove the delay after adding idling resource for WKWebView.
-  // Use XCUITest to ensure that the page has loaded.
-  XCUIApplication *application = [[XCUIApplication alloc] init];
-#if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 120000)
-  XCTAssertTrue([[application.links firstMatch] waitForExistenceWithTimeout:4.0]);
-#else
-  XCTAssertTrue([[application.links elementBoundByIndex:0] waitForExistenceWithTimeout:4.0]);
-#endif
 }
 
 @end

@@ -17,7 +17,6 @@
 #import "GREYWKWebViewIdlingResource.h"
 
 #if TARGET_OS_IOS
-#import "GREYIdlingResource.h"
 #import "GREYUIThreadExecutor+Private.h"
 #import "GREYUIThreadExecutor.h"
 
@@ -45,7 +44,13 @@
 }
 
 - (BOOL)isIdleNow {
-  if (_webView.estimatedProgress == 1 && _webView.loading == NO) {
+  // If WKWebView is released during the process, EarlGrey should no longer track it. Otherwise,
+  // application will never be idle.
+  if (!_webView) {
+    [self untrackContentLoadingProgressForWebView];
+    return YES;
+  }
+  if (_webView.estimatedProgress == 1.0 && _webView.loading == NO) {
     [self untrackContentLoadingProgressForWebView];
     return YES;
   }

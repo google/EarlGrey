@@ -14,13 +14,15 @@
 // limitations under the License.
 //
 
-#if TARGET_OS_IOS
-#import "WKWebView+GREYApp.h"
 
 #include <objc/runtime.h>
 
+#import "GREYWKWebViewNavigationDelegate.h"
 #import "GREYFatalAsserts.h"
 #import "GREYSwizzler.h"
+
+#if TARGET_OS_IOS
+#import <WebKit/WebKit.h>
 
 @implementation WKWebView (GREYApp)
 
@@ -77,19 +79,26 @@
 #pragma mark - Swizzled Implementation
 
 - (void)greyswizzled_setNavigationDelegate:(id)navigationDelegate {
-  INVOKE_ORIGINAL_IMP1(void, @selector(greyswizzled_setNavigationDelegate:), navigationDelegate);
+  [self setSurrogateDelegateWithOriginalDelegate:navigationDelegate];
 }
 
 - (id<WKNavigationDelegate>)greyswizzled_navigationDelegate {
-  return INVOKE_ORIGINAL_IMP(id<WKNavigationDelegate>, @selector(greyswizzled_navigationDelegate));
+  id<WKNavigationDelegate> delegate =
+      INVOKE_ORIGINAL_IMP(id<WKNavigationDelegate>, @selector(greyswizzled_navigationDelegate));
+  GREYFatalAssertWithMessage(
+      delegate == nil || [delegate isKindOfClass:[GREYWKWebViewNavigationDelegate class]],
+      @"Delegate type should be either GREYWKWebViewNavigationDelegate or nil.");
+  return [(GREYWKWebViewNavigationDelegate *)delegate originalDelegate];
 }
 
 - (WKNavigation *)greyswizzled_loadRequest:(NSURLRequest *)request {
+  [[self surrogateDelegate] trackIdlingResourceForWebView:self];
   return INVOKE_ORIGINAL_IMP1(WKNavigation *, @selector(greyswizzled_loadRequest:), request);
 }
 
 - (WKNavigation *)greyswizzled_loadFileURL:(NSURL *)URL
                    allowingReadAccessToURL:(NSURL *)readAccessURL {
+  [[self surrogateDelegate] trackIdlingResourceForWebView:self];
   return INVOKE_ORIGINAL_IMP2(WKNavigation *,
                               @selector(greyswizzled_loadFileURL:allowingReadAccessToURL:), URL,
                               readAccessURL);
@@ -99,22 +108,56 @@
                                MIMEType:(NSString *)MIMEType
                   characterEncodingName:(NSString *)characterEncodingName
                                 baseURL:(NSURL *)baseURL {
+  [[self surrogateDelegate] trackIdlingResourceForWebView:self];
   return INVOKE_ORIGINAL_IMP4(
       WKNavigation *, @selector(greyswizzled_loadData:MIMEType:characterEncodingName:baseURL:),
       data, MIMEType, characterEncodingName, baseURL);
 }
 
 - (WKNavigation *)greyswizzled_reload {
+  [[self surrogateDelegate] trackIdlingResourceForWebView:self];
   return INVOKE_ORIGINAL_IMP(WKNavigation *, @selector(greyswizzled_reload));
 }
 
 - (WKNavigation *)greyswizzled_reloadFromOrigin {
+  [[self surrogateDelegate] trackIdlingResourceForWebView:self];
   return INVOKE_ORIGINAL_IMP(WKNavigation *, @selector(greyswizzled_reloadFromOrigin));
 }
 
 - (void)greyswizzled_stopLoading {
-  // TODO(b/135609297): Untrack idling resource for WKWebView.
+  [[self surrogateDelegate] untrackIdlingResourceForWebView];
   INVOKE_ORIGINAL_IMP(void, @selector(greyswizzled_stopLoading));
+}
+
+#pragma mark - Private
+
+/**
+ * Sets the @c navigationDelegate of the current WKWebView to a proxy delegate to the original
+ * delegate @c delegate.
+ *
+ * @param delegate The original delegate the GREYWKWebViewNavigationDelegate will proxy to. It can
+ *                 be @c nil.
+ *
+ * @remark Since @c navigationDelegate is a weak property, the current instance will hold a strong
+ *         reference to the proxy delegate via objc runtime. Otherwise, @c navigationDelegate will
+ *         be auto-released at the end of the method.
+ *         https://developer.apple.com/documentation/webkit/wkwebview/1414971-navigationdelegate?language=objc
+ */
+- (void)setSurrogateDelegateWithOriginalDelegate:(id<WKNavigationDelegate>)delegate {
+  GREYWKWebViewNavigationDelegate *proxyDelegate =
+      [[GREYWKWebViewNavigationDelegate alloc] initWithOriginalDelegate:delegate isWeak:YES];
+  objc_setAssociatedObject(self, @selector(greyswizzled_setNavigationDelegate:), proxyDelegate,
+                           OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+  INVOKE_ORIGINAL_IMP1(void, @selector(greyswizzled_setNavigationDelegate:), proxyDelegate);
+}
+
+/**
+ * @return The proxy delegate.
+ */
+- (GREYWKWebViewNavigationDelegate *)surrogateDelegate {
+  GREYWKWebViewNavigationDelegate *delegate =
+      objc_getAssociatedObject(self, @selector(greyswizzled_setNavigationDelegate:));
+  return delegate;
 }
 
 @end
