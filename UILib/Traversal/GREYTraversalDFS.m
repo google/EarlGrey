@@ -24,7 +24,7 @@
   /**
    * An array that contains the unrolled hierarchy.
    */
-  NSMutableArray *_parsedHierarchy;
+  NSMutableArray<id> *_parsedHierarchy;
 
   /**
    * NSUInteger to keep track of the index that is being accessed in the @c _parsedHierarchy array.

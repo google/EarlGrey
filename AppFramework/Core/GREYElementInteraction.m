@@ -17,10 +17,10 @@
 #import "GREYElementInteraction.h"
 
 #import "GREYAction.h"
-#import "NSObject+GREYApp.h"
 #import "GREYAssertions.h"
 #import "GREYElementFilter.h"
 #import "GREYElementFinder.h"
+#import "GREYInteraction.h"
 #import "GREYInteractionDataSource.h"
 
 #import "GREYAppError.h"
@@ -33,13 +33,12 @@
 #import "GREYAssertion.h"
 #import "GREYFatalAsserts.h"
 #import "GREYThrowDefines.h"
+#import "GREYConfigKey.h"
 #import "GREYConfiguration.h"
 #import "GREYError+Private.h"
 #import "GREYError.h"
 #import "GREYErrorConstants.h"
 #import "GREYObjectFormatter.h"
-#import "GREYConstants.h"
-#import "GREYDefines.h"
 #import "GREYLogger.h"
 #import "GREYStopwatch.h"
 #import "GREYMatcher.h"
@@ -47,6 +46,7 @@
 #import "GREYElementProvider.h"
 #import "GREYUIWindowProvider.h"
 #import "GREYVisibilityChecker+Private.h"
+#import "GREYVisibilityChecker.h"
 
 @interface GREYElementInteraction () <GREYInteractionDataSource>
 @end
