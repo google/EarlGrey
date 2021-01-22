@@ -22,16 +22,19 @@
 #import "GREYAppState.h"
 #import "GREYConfigKey.h"
 #import "GREYConfiguration+Private.h"
+#import "GREYConfiguration.h"
 #import "GREYLogger.h"
 #import "NSObject+EDOValueObject.h"
 
 GREYConfiguration *GREYCreateConfiguration(void) { return [[GREYTestConfiguration alloc] init]; }
 
 @implementation GREYTestConfiguration {
-  NSMutableDictionary
+  NSMutableDictionary<NSString *, id>
       *_mergedConfiguration;  // Dict for storing the merged default/overridden dicts
-  NSMutableDictionary *_defaultConfiguration;     // Dict for storing the default configurations
-  NSMutableDictionary *_overriddenConfiguration;  // Dict for storing the user-defined overrides
+  NSMutableDictionary<NSString *, id>
+      *_defaultConfiguration;  // Dict for storing the default configurations
+  NSMutableDictionary<NSString *, id>
+      *_overriddenConfiguration;                  // Dict for storing the user-defined overrides
   dispatch_queue_t _configurationIsolationQueue;  // The isolation queue to access configurations.
 }
 
@@ -43,7 +46,7 @@ GREYConfiguration *GREYCreateConfiguration(void) { return [[GREYTestConfiguratio
     _overriddenConfiguration = [[NSMutableDictionary alloc] init];
     _configurationIsolationQueue =
         dispatch_queue_create("com.google.earlgrey.TestConfiguration", DISPATCH_QUEUE_SERIAL);
-    NSArray *searchPaths =
+    NSArray<NSString *> *searchPaths =
         NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     GREYFatalAssertWithMessage(searchPaths.count > 0, @"Couldn't find a valid documents directory");
     [self setDefaultValue:searchPaths.firstObject forConfigKey:kGREYConfigKeyArtifactsDirLocation];
@@ -65,7 +68,7 @@ GREYConfiguration *GREYCreateConfiguration(void) { return [[GREYTestConfiguratio
 }
 
 - (NSDictionary<NSString *, id> *)mergedConfiguration {
-  __block NSDictionary *configuration;
+  __block NSDictionary<NSString *, id> *configuration;
   dispatch_sync(_configurationIsolationQueue, ^{
     // TODO: Remove needsMerge as all the writes are sync'd because of remoteConfig. // NOLINT
     if (self.needsMerge) {
@@ -131,4 +134,5 @@ static void GREYValidateValueType(id value) {
                        [value class]];
   }
 }
+
 @end
