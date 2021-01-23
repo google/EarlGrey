@@ -222,6 +222,8 @@
 		FDE6770924B2E7050058EA28 /* GREYDescribeVariable.m in Sources */ = {isa = PBXBuildFile; fileRef = FDE6770724B2E7050058EA28 /* GREYDescribeVariable.m */; };
 		FDE871982322D9F7007C5A5C /* GREYRemoteExecutor.m in Sources */ = {isa = PBXBuildFile; fileRef = FDE871962322D9F6007C5A5C /* GREYRemoteExecutor.m */; };
 		FDE8719C23241567007C5A5C /* GREYWaitFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = FDE8719A23241566007C5A5C /* GREYWaitFunctions.m */; };
+		FDF62DAA25BABCC9006F48BE /* GREYWKWebViewIdlingResource.m in Sources */ = {isa = PBXBuildFile; fileRef = FDF62DA825BABCC9006F48BE /* GREYWKWebViewIdlingResource.m */; };
+		FDF62DAB25BABCC9006F48BE /* GREYWKWebViewIdlingResource.h in Headers */ = {isa = PBXBuildFile; fileRef = FDF62DA925BABCC9006F48BE /* GREYWKWebViewIdlingResource.h */; };
 		FDF9E05720F82E200005DCF2 /* GREYTraversalDFS.m in Sources */ = {isa = PBXBuildFile; fileRef = FDF9E05120F82E200005DCF2 /* GREYTraversalDFS.m */; };
 		FDF9E05820F82E200005DCF2 /* GREYTraversalBFS.m in Sources */ = {isa = PBXBuildFile; fileRef = FDF9E05220F82E200005DCF2 /* GREYTraversalBFS.m */; };
 		FDF9E06120F82E340005DCF2 /* GREYElementProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = FDF9E05B20F82E340005DCF2 /* GREYElementProvider.m */; };
@@ -695,6 +697,8 @@
 		FDE871972322D9F7007C5A5C /* GREYRemoteExecutor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYRemoteExecutor.h; path = Execution/GREYRemoteExecutor.h; sourceTree = "<group>"; };
 		FDE8719A23241566007C5A5C /* GREYWaitFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYWaitFunctions.m; path = Assertion/GREYWaitFunctions.m; sourceTree = "<group>"; };
 		FDE8719B23241567007C5A5C /* GREYWaitFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYWaitFunctions.h; path = Assertion/GREYWaitFunctions.h; sourceTree = "<group>"; };
+		FDF62DA825BABCC9006F48BE /* GREYWKWebViewIdlingResource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYWKWebViewIdlingResource.m; path = IdlingResources/GREYWKWebViewIdlingResource.m; sourceTree = "<group>"; };
+		FDF62DA925BABCC9006F48BE /* GREYWKWebViewIdlingResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYWKWebViewIdlingResource.h; path = IdlingResources/GREYWKWebViewIdlingResource.h; sourceTree = "<group>"; };
 		FDF9E03520F82D090005DCF2 /* libUILib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libUILib.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDF9E05120F82E200005DCF2 /* GREYTraversalDFS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYTraversalDFS.m; path = UILib/Traversal/GREYTraversalDFS.m; sourceTree = SOURCE_ROOT; };
 		FDF9E05220F82E200005DCF2 /* GREYTraversalBFS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYTraversalBFS.m; path = UILib/Traversal/GREYTraversalBFS.m; sourceTree = SOURCE_ROOT; };
@@ -1265,6 +1269,8 @@
 		FD623B3520F95A8D00049E81 /* IdlingResources */ = {
 			isa = PBXGroup;
 			children = (
+				FDF62DA925BABCC9006F48BE /* GREYWKWebViewIdlingResource.h */,
+				FDF62DA825BABCC9006F48BE /* GREYWKWebViewIdlingResource.m */,
 				FD623B3D20F95A9B00049E81 /* GREYDispatchQueueIdlingResource.h */,
 				FD623B3720F95A9B00049E81 /* GREYDispatchQueueIdlingResource.m */,
 				FD623B3E20F95A9C00049E81 /* GREYIdlingResource.h */,
@@ -1498,6 +1504,7 @@
 				FD623B4A20F95A9C00049E81 /* GREYDispatchQueueIdlingResource.h in Headers */,
 				FD623B8A20F95B1500049E81 /* GREYSyncAPI.h in Headers */,
 				FD623B7120F95B0300049E81 /* GREYAnyOf.h in Headers */,
+				FDF62DAB25BABCC9006F48BE /* GREYWKWebViewIdlingResource.h in Headers */,
 				FD623AD220F9590800049E81 /* NSURL+GREYApp.h in Headers */,
 				FD623ACF20F9590800049E81 /* CALayer+GREYApp.h in Headers */,
 				FD623B0520F9595300049E81 /* GREYNSURLConnectionDelegate.h in Headers */,
@@ -1921,6 +1928,7 @@
 				FD623AD720F9590800049E81 /* NSURL+GREYApp.m in Sources */,
 				FD623AC820F9590800049E81 /* CALayer+GREYApp.m in Sources */,
 				FD623B6920F95B0300049E81 /* GREYMatchers.m in Sources */,
+				FDF62DAA25BABCC9006F48BE /* GREYWKWebViewIdlingResource.m in Sources */,
 				FD623A8720F958C200049E81 /* GREYMultiFingerSwipeAction.m in Sources */,
 				FD623B2720F95A7200049E81 /* GREYFailureScreenshotter.m in Sources */,
 				FD623B6820F95B0300049E81 /* GREYAllOf.m in Sources */,

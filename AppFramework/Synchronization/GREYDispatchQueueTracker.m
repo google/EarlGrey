@@ -26,7 +26,6 @@
 #import "GREYConfigKey.h"
 #import "GREYConfiguration.h"
 
-
 /**
  * A pointer to the original implementation of @c dispatch_after.
  */
@@ -249,21 +248,14 @@ static Class gInterposerClass;
 
 + (instancetype)trackerForDispatchQueue:(dispatch_queue_t)queue {
   GREYThrowOnNilParameter(queue);
-  // GREYDispatchQueueTracker uses fishhook for tracking dispatch_ calls. There is an infinite
-  // recursion issue with fishhook and sanitizers - https://github.com/facebook/fishhook/issues/47
-  // For sanitizers we track using GREYDispatchQueueInterposer instead which uses DYLD_INTERPOSE.
-  if (gInterposerClass) {
-    return [gInterposerClass interposeDispatchQueue:queue];
-  } else {
-    @synchronized(gDispatchQueueToTracker) {
-      GREYDispatchQueueTracker *tracker = GetTrackerForQueue(queue);
-      if (!tracker) {
-        tracker = [[GREYDispatchQueueTracker alloc] initWithDispatchQueue:queue];
-        // Register this tracker with dispatch queue. Both entries are weakly held.
-        [gDispatchQueueToTracker setObject:tracker forKey:queue];
-      }
-      return tracker;
+  @synchronized(gDispatchQueueToTracker) {
+    GREYDispatchQueueTracker *tracker = GetTrackerForQueue(queue);
+    if (!tracker) {
+      tracker = [[GREYDispatchQueueTracker alloc] initWithDispatchQueue:queue];
+      // Register this tracker with dispatch queue. Both entries are weakly held.
+      [gDispatchQueueToTracker setObject:tracker forKey:queue];
     }
+    return tracker;
   }
 }
 
