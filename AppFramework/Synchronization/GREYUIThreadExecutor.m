@@ -292,32 +292,35 @@ static const CFTimeInterval kMaximumSynchronizationSleepInterval = 0.1;
  * @return An ordered set the registered and default idling resources that are currently busy.
  */
 - (NSOrderedSet *)grey_busyResourcesReturnEarly:(BOOL)returnEarly {
+  NSOrderedSet<id<GREYIdlingResource>> *registeredIdlingResources;
   @synchronized(_registeredIdlingResources) {
-    NSMutableOrderedSet<id<GREYIdlingResource>> *busyResources = [[NSMutableOrderedSet alloc] init];
-    // Loop over all of the idling resources three times. isIdleNow calls may trigger the state
-    // of other idling resources.
-    for (int i = 0; i < kConsecutiveTimesIdlingResourcesMustBeIdle; ++i) {
-      // Registered resources are free to remove themselves or each-other when isIdleNow is
-      // invoked. For that reason, iterate over a copy.
-      for (id<GREYIdlingResource> resource in [_registeredIdlingResources copy]) {
-        if (![resource isIdleNow]) {
-          [busyResources addObject:resource];
-          if (returnEarly) {
-            return busyResources;
-          }
-        }
-      }
-      for (id<GREYIdlingResource> resource in _defaultIdlingResources) {
-        if (![resource isIdleNow]) {
-          [busyResources addObject:resource];
-          if (returnEarly) {
-            return busyResources;
-          }
+    registeredIdlingResources = [_registeredIdlingResources copy];
+  }
+
+  NSMutableOrderedSet<id<GREYIdlingResource>> *busyResources = [[NSMutableOrderedSet alloc] init];
+  // Loop over all of the idling resources three times. isIdleNow calls may trigger the state
+  // of other idling resources.
+  for (int i = 0; i < kConsecutiveTimesIdlingResourcesMustBeIdle; ++i) {
+    // Registered resources are free to remove themselves or each-other when isIdleNow is
+    // invoked. For that reason, iterate over a copy.
+    for (id<GREYIdlingResource> resource in registeredIdlingResources) {
+      if (![resource isIdleNow]) {
+        [busyResources addObject:resource];
+        if (returnEarly) {
+          return busyResources;
         }
       }
     }
-    return busyResources;
+    for (id<GREYIdlingResource> resource in _defaultIdlingResources) {
+      if (![resource isIdleNow]) {
+        [busyResources addObject:resource];
+        if (returnEarly) {
+          return busyResources;
+        }
+      }
+    }
   }
+  return busyResources;
 }
 
 /**
