@@ -19,8 +19,13 @@
 #import "GREYConstants.h"
 #import "GREYDefines.h"
 
+#if COCOAPODS
+#import <eDistantObject/EDORemoteVariable.h>
+#else
+#import "EDORemoteVariable.h"
+#endif  // COCOAPODS
+
 @protocol GREYAction;
-@class EDORemoteVariable<ObjectType>;
 
 /**
  * A interface that exposes UI element actions.

@@ -25,7 +25,7 @@ class EarlGreyExampleSwiftUITests: XCTestCase {
     XCUIApplication().launch()
   }
 
-  override func tearDown() { }
+  override func tearDown() {}
 
   func testBasicSelection() {
     // Select the button with Accessibility ID "clickMe".
@@ -83,13 +83,23 @@ class EarlGreyExampleSwiftUITests: XCTestCase {
     }
   }
 
+  /** Verifies snapshot of views are taken and EDORemoteVariable correctly holds the result. */
+  func testTakeSnapshot() throws {
+    let image: EDORemoteVariable<UIImage> = EDORemoteVariable()
+    EarlGrey.selectElement(with: grey_accessibilityID("TapMe")).perform(
+      grey_snapshot(image))
+    XCTAssertNotNil(image.object, "fails to take a screenshot from app side.")
+  }
+
   func testWithCondition() {
-    let myCondition = GREYCondition.init(name: "Example condition", block: { () -> Bool in
-      for j in 0...100000 {
-        _ = j
-      }
-      return true
-    })
+    let myCondition = GREYCondition.init(
+      name: "Example condition",
+      block: { () -> Bool in
+        for j in 0...100000 {
+          _ = j
+        }
+        return true
+      })
     // Wait for my condition to be satisfied or timeout after 5 seconds.
     let success = myCondition!.wait(withTimeout: 5)
     if !success {
@@ -108,11 +118,11 @@ class EarlGreyExampleSwiftUITests: XCTestCase {
     GREYAssertNotNil(1)
     GREYAssertNil(nil)
     // Uncomment one of the following lines to fail the test.
-    //GREYFail("Failing with GREYFail")
+    // GREYFail("Failing with GREYFail")
   }
 }
 
-class SampleFailureHandler : NSObject, GREYFailureHandler {
+class SampleFailureHandler: NSObject, GREYFailureHandler {
   /**
    * Called by the framework to raise an exception.
    *
