@@ -25,6 +25,8 @@
 #import "GREYThrowDefines.h"
 #import "GREYConfigKey.h"
 #import "GREYConfiguration.h"
+#import "GREYDefines.h"
+#import "GREYDispatchQueueInterposer.h"
 
 /**
  * A pointer to the original implementation of @c dispatch_after.
@@ -201,7 +203,9 @@ static Class gInterposerClass;
 }
 
 + (void)load {
+#if SANITIZERS_ENABLED
   gInterposerClass = NSClassFromString(@"GREYDispatchQueueInterposer");
+#endif  // #if SANITIZERS_ENABLED
   // GREYDispatchQueueInterposer is present only for a test run with sanitizers, we will not use
   // fishhook's dispatch_queue tracking then.
   if (!gInterposerClass) {

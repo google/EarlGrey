@@ -68,4 +68,13 @@
  */
 #define grey_floor(x) ((CGFloat)floor(x))
 
+/** @return Sanitizers are enabled for EarlGrey. */
+#if defined(__has_feature)
+#define SANITIZERS_ENABLED                                               \
+  __has_feature(address_sanitizer) || __has_feature(thread_sanitizer) || \
+      __has_feature(undefined_behavior_sanitizer) || __has_feature(memory_sanitizer)
+#else
+#define SANITIZERS_ENABLED NO
+#endif
+
 #endif  // GREY_DEFINES_H

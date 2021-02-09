@@ -224,6 +224,7 @@
 		FDE8719C23241567007C5A5C /* GREYWaitFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = FDE8719A23241566007C5A5C /* GREYWaitFunctions.m */; };
 		FDF62DAA25BABCC9006F48BE /* GREYWKWebViewIdlingResource.m in Sources */ = {isa = PBXBuildFile; fileRef = FDF62DA825BABCC9006F48BE /* GREYWKWebViewIdlingResource.m */; };
 		FDF62DAB25BABCC9006F48BE /* GREYWKWebViewIdlingResource.h in Headers */ = {isa = PBXBuildFile; fileRef = FDF62DA925BABCC9006F48BE /* GREYWKWebViewIdlingResource.h */; };
+		FDF62DBA25CD656C006F48BE /* GREYDispatchQueueInterposer.m in Sources */ = {isa = PBXBuildFile; fileRef = FDF62DB925CD656C006F48BE /* GREYDispatchQueueInterposer.m */; };
 		FDF9E05720F82E200005DCF2 /* GREYTraversalDFS.m in Sources */ = {isa = PBXBuildFile; fileRef = FDF9E05120F82E200005DCF2 /* GREYTraversalDFS.m */; };
 		FDF9E05820F82E200005DCF2 /* GREYTraversalBFS.m in Sources */ = {isa = PBXBuildFile; fileRef = FDF9E05220F82E200005DCF2 /* GREYTraversalBFS.m */; };
 		FDF9E06120F82E340005DCF2 /* GREYElementProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = FDF9E05B20F82E340005DCF2 /* GREYElementProvider.m */; };
@@ -699,6 +700,8 @@
 		FDE8719B23241567007C5A5C /* GREYWaitFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYWaitFunctions.h; path = Assertion/GREYWaitFunctions.h; sourceTree = "<group>"; };
 		FDF62DA825BABCC9006F48BE /* GREYWKWebViewIdlingResource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYWKWebViewIdlingResource.m; path = IdlingResources/GREYWKWebViewIdlingResource.m; sourceTree = "<group>"; };
 		FDF62DA925BABCC9006F48BE /* GREYWKWebViewIdlingResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYWKWebViewIdlingResource.h; path = IdlingResources/GREYWKWebViewIdlingResource.h; sourceTree = "<group>"; };
+		FDF62DB825CD656C006F48BE /* GREYDispatchQueueInterposer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYDispatchQueueInterposer.h; path = CommonLib/Interposer/GREYDispatchQueueInterposer.h; sourceTree = "<group>"; };
+		FDF62DB925CD656C006F48BE /* GREYDispatchQueueInterposer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYDispatchQueueInterposer.m; path = CommonLib/Interposer/GREYDispatchQueueInterposer.m; sourceTree = "<group>"; };
 		FDF9E03520F82D090005DCF2 /* libUILib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libUILib.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDF9E05120F82E200005DCF2 /* GREYTraversalDFS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYTraversalDFS.m; path = UILib/Traversal/GREYTraversalDFS.m; sourceTree = SOURCE_ROOT; };
 		FDF9E05220F82E200005DCF2 /* GREYTraversalBFS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYTraversalBFS.m; path = UILib/Traversal/GREYTraversalBFS.m; sourceTree = SOURCE_ROOT; };
@@ -925,6 +928,7 @@
 		FD62399020F56B7D00049E81 /* CommonLib */ = {
 			isa = PBXGroup;
 			children = (
+				FDF62DB725CD6558006F48BE /* Interposer */,
 				FD88B9B125255FC200CE823B /* GREYLogger.m */,
 				6F9B2C1E22B18F15003132B0 /* GREYDiagnosable.h */,
 				6F49FDBC22E69D4C00CCE813 /* GREYDiagnosable.m */,
@@ -1405,6 +1409,15 @@
 			name = Execution;
 			sourceTree = "<group>";
 		};
+		FDF62DB725CD6558006F48BE /* Interposer */ = {
+			isa = PBXGroup;
+			children = (
+				FDF62DB825CD656C006F48BE /* GREYDispatchQueueInterposer.h */,
+				FDF62DB925CD656C006F48BE /* GREYDispatchQueueInterposer.m */,
+			);
+			name = Interposer;
+			sourceTree = "<group>";
+		};
 		FDF9E03620F82D090005DCF2 /* UILib */ = {
 			isa = PBXGroup;
 			children = (
@@ -1859,6 +1872,7 @@
 				FD88B9BA25255FC300CE823B /* GREYLogger.m in Sources */,
 				FD6239BE20F56C3E00049E81 /* GREYObjectFormatter.m in Sources */,
 				FD6239AE20F56C2500049E81 /* GREYValueType.m in Sources */,
+				FDF62DBA25CD656C006F48BE /* GREYDispatchQueueInterposer.m in Sources */,
 				FD62398E20F56B7600049E81 /* UIView+GREYCommon.m in Sources */,
 				FD6239C920F56C5E00049E81 /* GREYFrameworkException.m in Sources */,
 				FD6239BD20F56C3E00049E81 /* GREYErrorConstants.m in Sources */,
