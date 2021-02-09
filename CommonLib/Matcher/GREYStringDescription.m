@@ -16,6 +16,7 @@
 
 #import "GREYStringDescription.h"
 
+#import "GREYDescription.h"
 #import "GREYMatcher.h"
 
 /**
@@ -50,7 +51,9 @@ NSString *const kStringDescriptionKey = @"description";
 - (id<GREYDescription>)appendDescriptionOf:(id)object {
   if (!object) {
     [self appendText:@"nil"];
-  } else if ([object conformsToProtocol:@protocol(GREYMatcher)]) {
+  } else if ([object respondsToSelector:@selector(describeTo:)]) {
+    // Check if object conforms to GREYMatcher. The respondsToSelector check is used instead of
+    // conformsToProtocol: for performance reasons.
     [object describeTo:self];
   } else if ([object isKindOfClass:[NSString class]]) {
     [self appendText:[NSString stringWithFormat:@"\"%@\"", object]];
