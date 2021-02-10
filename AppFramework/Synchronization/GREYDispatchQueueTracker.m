@@ -252,6 +252,13 @@ static Class gInterposerClass;
 
 + (instancetype)trackerForDispatchQueue:(dispatch_queue_t)queue {
   GREYThrowOnNilParameter(queue);
+  // GREYDispatchQueueTracker uses fishhook for tracking dispatch_ calls. There is an infinite
+  // recursion issue with fishhook and sanitizers - https://github.com/facebook/fishhook/issues/47
+  // For sanitizers we track using GREYDispatchQueueInterposer instead which uses DYLD_INTERPOSE.
+  if (gInterposerClass) {
+    return [gInterposerClass interposeDispatchQueue:queue];
+  }
+
   @synchronized(gDispatchQueueToTracker) {
     GREYDispatchQueueTracker *tracker = GetTrackerForQueue(queue);
     if (!tracker) {

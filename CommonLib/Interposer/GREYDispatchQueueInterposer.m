@@ -20,6 +20,7 @@
 
 #import "GREYConfigKey.h"
 #import "GREYConfiguration.h"
+#import "GREYDefines.h"
 
 // DYLD_INTERPOSE referenced from
 // https://opensource.apple.com/source/dyld/dyld-210.2.3/include/mach-o/dyld-interposing.h.
@@ -38,7 +39,7 @@ static NSMapTable *gTrackedDispatchQueueToInterposer;
 
 /**
  * A reference to the GREYConfiguration class to use when checking the delay for dispatch_after(_f).
- **/
+ */
 static id gConfiguration;
 
 @interface GREYDispatchQueueInterposer ()
@@ -67,8 +68,8 @@ static id gConfiguration;
  * @param queue          The dispatch_queue_t that is to be tracked.
  * @param createIfNeeded If @c YES, a new instance of GREYDispatchQueueInterposer is instantiated.
  */
-static GREYDispatchQueueInterposer *InterposerForQueue(dispatch_queue_t queue,
-                                                       BOOL createIfNeeded) {
+__unused static GREYDispatchQueueInterposer *InterposerForQueue(dispatch_queue_t queue,
+                                                                BOOL createIfNeeded) {
   GREYDispatchQueueInterposer *interposer = nil;
   static dispatch_once_t token = 0;
   dispatch_once(&token, ^{
@@ -87,7 +88,8 @@ static GREYDispatchQueueInterposer *InterposerForQueue(dispatch_queue_t queue,
   }
 }
 
-static void DispatchAfter(dispatch_time_t when, dispatch_queue_t queue, dispatch_block_t block) {
+__unused static void DispatchAfter(dispatch_time_t when, dispatch_queue_t queue,
+                                   dispatch_block_t block) {
   GREYDispatchQueueInterposer *interposer = InterposerForQueue(queue, NO);
   if (interposer) {
     [interposer dispatchAfterCallWithTime:when block:block];
@@ -96,7 +98,7 @@ static void DispatchAfter(dispatch_time_t when, dispatch_queue_t queue, dispatch
   }
 }
 
-static void DispatchAsync(dispatch_queue_t queue, dispatch_block_t block) {
+__unused static void DispatchAsync(dispatch_queue_t queue, dispatch_block_t block) {
   GREYDispatchQueueInterposer *interposer = InterposerForQueue(queue, NO);
   if (interposer) {
     [interposer dispatchAsyncCallWithBlock:block];
@@ -105,7 +107,7 @@ static void DispatchAsync(dispatch_queue_t queue, dispatch_block_t block) {
   }
 }
 
-static void DispatchSync(dispatch_queue_t queue, dispatch_block_t block) {
+__unused static void DispatchSync(dispatch_queue_t queue, dispatch_block_t block) {
   GREYDispatchQueueInterposer *interposer = InterposerForQueue(queue, NO);
   if (interposer) {
     [interposer dispatchSyncCallWithBlock:block];
@@ -114,8 +116,8 @@ static void DispatchSync(dispatch_queue_t queue, dispatch_block_t block) {
   }
 }
 
-static void DispatchAfterF(dispatch_time_t when, dispatch_queue_t queue, void *context,
-                           dispatch_function_t work) {
+__unused static void DispatchAfterF(dispatch_time_t when, dispatch_queue_t queue, void *context,
+                                    dispatch_function_t work) {
   GREYDispatchQueueInterposer *interposer = InterposerForQueue(queue, NO);
   if (interposer) {
     [interposer dispatchAfterCallWithTime:when context:context work:work];
@@ -124,7 +126,8 @@ static void DispatchAfterF(dispatch_time_t when, dispatch_queue_t queue, void *c
   }
 }
 
-static void DispatchAsyncF(dispatch_queue_t queue, void *context, dispatch_function_t work) {
+__unused static void DispatchAsyncF(dispatch_queue_t queue, void *context,
+                                    dispatch_function_t work) {
   GREYDispatchQueueInterposer *interposer = InterposerForQueue(queue, NO);
   if (interposer) {
     [interposer dispatchAsyncCallWithContext:context work:work];
@@ -133,7 +136,8 @@ static void DispatchAsyncF(dispatch_queue_t queue, void *context, dispatch_funct
   }
 }
 
-static void DispatchSyncF(dispatch_queue_t queue, void *context, dispatch_function_t work) {
+__unused static void DispatchSyncF(dispatch_queue_t queue, void *context,
+                                   dispatch_function_t work) {
   GREYDispatchQueueInterposer *interposer = InterposerForQueue(queue, NO);
   if (interposer) {
     [interposer dispatchSyncCallWithContext:context work:work];
@@ -142,6 +146,7 @@ static void DispatchSyncF(dispatch_queue_t queue, void *context, dispatch_functi
   }
 }
 
+#if SANITIZERS_ENABLED
 /** Statically interpose the symbols for dispatch queues. Must be done like this inside a dylib. */
 DYLD_INTERPOSE(DispatchAfter, dispatch_after);
 DYLD_INTERPOSE(DispatchAsync, dispatch_async);
@@ -149,6 +154,7 @@ DYLD_INTERPOSE(DispatchSync, dispatch_sync);
 DYLD_INTERPOSE(DispatchAfterF, dispatch_after_f);
 DYLD_INTERPOSE(DispatchAsyncF, dispatch_async_f);
 DYLD_INTERPOSE(DispatchSyncF, dispatch_sync_f);
+#endif  // #if SANITIZERS_ENABLED
 
 @implementation GREYDispatchQueueInterposer {
   __weak dispatch_queue_t _interposedQueue;
