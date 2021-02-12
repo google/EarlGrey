@@ -85,15 +85,19 @@ we will integrate EarlGrey 2.0 with it.
 
 1.  In the `Build Phases` of your UI test target, add `libTestLib.a` into the
     "Link Binary With Libraries" section.
+    
     <img src="images/testsTargetBuildPhases.png">
 
 2.  In `Build Settings` add `-ObjC` to `Other Linker Flags` to load all the
-    TestLib symbols in your tests. <img src="images/otherLinkerFlag.png">
+    TestLib symbols in your tests.
+    
+    <img src="images/otherLinkerFlag.png">
 
 3.  Add the `User Header Search Paths` for the EarlGrey directory (**the
     directory containing the EarlGrey.xcodeproj**) and the eDistantObject
     directory (**the directory containing the eDistantObject.xcodeproj**) so
     that all headers can be accessed. Select them as **recursive**.
+    
     <img src="images/userHeaderSearchPath.png">
 
 ### 3. App Component
