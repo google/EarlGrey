@@ -88,7 +88,7 @@ typedef NS_ENUM(NSUInteger, GREYRemoteExecutionDispatchPolicy) {
  */
 @property(nonatomic) BOOL hostLaunchedWithAppComponent;
 
-/** @remark init is not an available initializer. Use sharedInstace instead. */
+/** @remark init is not an available initializer. Use sharedInstance instead. */
 - (instancetype)init NS_UNAVAILABLE;
 
 @end
