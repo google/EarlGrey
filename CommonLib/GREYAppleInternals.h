@@ -30,11 +30,6 @@
 - (void)viewDidMoveToWindow:(id)window shouldAppearOrDisappear:(BOOL)arg;
 @end
 
-@interface UIGestureRecognizer (GREYExposed)
-/** The edge pan detection length from UIScreenEdgePanGestureRecognizer. */
-- (CGFloat)_edgeRegionSize;
-@end
-
 /**
  * A private class that represents motion related events. This is sent to UIApplication whenever a
  * motion occurs.
