@@ -18,11 +18,8 @@
 
 #include <objc/message.h>
 
-#import "UIScrollView+GREYApp.h"
-#import "GREYFatalAsserts.h"
 #import "GREYThrowDefines.h"
 #import "GREYConstants.h"
-#import "GREYDefines.h"
 #import "CGGeometry+GREYUI.h"
 #import "GREYVisibilityChecker.h"
 
@@ -38,11 +35,6 @@ const NSInteger kGREYScrollDetectionLength = 10;
  * accurately, even on slower machines.
  */
 static const CGFloat kGREYDistanceBetweenTwoAdjacentPoints = 10.0f;
-
-/**
- * Cached screen edge pan detection length for the current device.
- */
-static CGFloat kCachedScreenEdgePanDetectionLength = NAN;
 
 @implementation GREYPathGestureUtils
 
@@ -101,10 +93,6 @@ static CGFloat kCachedScreenEdgePanDetectionLength = NAN;
   if (CGRectIsEmpty(safeScreenBounds)) {
     return nil;
   }
-  UIEdgeInsets edgeInset = UIEdgeInsetsMake(0.0f, [self grey_edgePanDetectionLength], 0.0f,
-                                            [self grey_edgePanDetectionLength]);
-  safeScreenBounds = [GREYPathGestureUtils grey_rectByAddingEdgeInsets:edgeInset
-                                                                toRect:safeScreenBounds];
   // In addition choose a rect that lies completely inside the visible area not on the edges.
   CGRect safeStartPointRect = [GREYPathGestureUtils
       grey_rectByAddingEdgeInsets:UIEdgeInsetsMake(1, 1, 1, 1)
@@ -358,33 +346,6 @@ static CGFloat kCachedScreenEdgePanDetectionLength = NAN;
   }
   [touchPath addObject:endPointValue];
   return touchPath;
-}
-
-/**
- * @return The maximum distance in points from the left edge of the screen that can trigger
- *         "screen edge pan" gesture.
- */
-+ (CGFloat)grey_edgePanDetectionLength {
-  if (isnan(kCachedScreenEdgePanDetectionLength)) {
-    // UIScreenEdgePanGestureRecognizer and scrolling are not supported on tvOS.
-#if TARGET_OS_IOS
-    // Use _edgeRegionSize property of UIScreenEdgePanGestureRecognizer on the default
-    // UINavigationController object to determine edge pan detection length.
-    UIViewController *viewController = [[UIViewController alloc] initWithNibName:nil bundle:nil];
-    UINavigationController *navigationController =
-        [[UINavigationController alloc] initWithRootViewController:viewController];
-    UIGestureRecognizer *popGestureRecognizer =
-        navigationController.interactivePopGestureRecognizer;
-    if ([popGestureRecognizer isKindOfClass:[UIScreenEdgePanGestureRecognizer class]]) {
-      SEL edgeRegionSizeSelector = NSSelectorFromString(@"_edgeRegionSize");
-      float (*edgeRegionSizeIMP)(id, SEL) =
-          (void *)[popGestureRecognizer methodForSelector:edgeRegionSizeSelector];
-      kCachedScreenEdgePanDetectionLength =
-          edgeRegionSizeIMP(popGestureRecognizer, edgeRegionSizeSelector);
-    }
-#endif  // TARGET_OS_IOS
-  }
-  return kCachedScreenEdgePanDetectionLength;
 }
 
 @end

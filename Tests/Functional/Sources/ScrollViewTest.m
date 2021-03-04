@@ -15,9 +15,8 @@
 //
 
 #import "GREYConfigKey.h"
-#import "GREYErrorConstants.h"
-#import "GREYConstants.h"
 #import "GREYDescription.h"
+#import "GREYWaitFunctions.h"
 #import "EarlGrey.h"
 #import "GREYHostApplicationDistantObject+ScrollViewTest.h"
 #import "BaseIntegrationTest.h"
@@ -176,9 +175,22 @@
   }
 }
 
-- (void)testInfiniteScroll {
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Infinite Scroll View")]
+// Tests the action to scroll the view vertically.
+- (void)testInfiniteScrollVertically {
+  id<GREYMatcher> scrollView = grey_accessibilityLabel(@"Infinite Scroll View");
+  [[EarlGrey selectElementWithMatcher:scrollView]
       performAction:grey_scrollInDirection(kGREYDirectionDown, 100)];
+  [[EarlGrey selectElementWithMatcher:scrollView]
+      performAction:grey_scrollInDirection(kGREYDirectionUp, 100)];
+}
+
+// Tests the action to scroll the view horizontally.
+- (void)testInfiniteScrollHorizontally {
+  id<GREYMatcher> scrollView = grey_accessibilityLabel(@"Infinite Scroll View");
+  [[EarlGrey selectElementWithMatcher:scrollView]
+      performAction:grey_scrollInDirection(kGREYDirectionRight, 100)];
+  [[EarlGrey selectElementWithMatcher:scrollView]
+      performAction:grey_scrollInDirection(kGREYDirectionLeft, 100)];
 }
 
 - (void)testScrollInDirectionCausesExactChangesToContentOffsetInPortraitMode {
