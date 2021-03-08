@@ -21,6 +21,12 @@
 /**
  * @return The hierarchy string of all the windows. Does not include the legend.
  *
- * @param exception The exception containing the raw UI Hierarchy in its user info dictionary.
+ * @param exception The exception containing the raw UI Hierarchy in its userInfo dictionary.
  */
 NSString *GREYAppUIHierarchyFromException(GREYFrameworkException *exception);
+
+/**
+ * @return The stack trace if the failure happened in an Objective-C test failure.
+ * @note Will not work for Swift symbols because of naming issues.
+ */
+NSString *GREYTestStackTrace(void);

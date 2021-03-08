@@ -31,3 +31,29 @@ NSString *GREYAppUIHierarchyFromException(GREYFrameworkException *exception) {
   // Hierarchy must have already been populated by the GREYErrorFormatter.
   return @"";
 }
+
+NSString *GREYTestStackTrace(void) {
+  // If the error was generated from a helper (non-test) method then print the stacktrace.
+  NSArray<NSString *> *callStack = [NSThread callStackSymbols];
+  NSMutableArray<NSString *> *trimmedCallStack = [[NSMutableArray alloc] init];
+  for (NSString *stackSymbol in callStack) {
+    if ([stackSymbol containsString:@"__invoking___"]) {
+      break;
+    } else if (![stackSymbol containsString:@"-[GREY"] && ![stackSymbol containsString:@" GREY"]) {
+      [trimmedCallStack addObject:stackSymbol];
+    }
+  }
+  // The trimmed stack trace should at least contain the test name and exception-raising method.
+  NSUInteger trimmedCallStackCount = [trimmedCallStack count];
+  if (trimmedCallStackCount >= 2 && [trimmedCallStack[0] containsString:@"-["]) {
+    BOOL endOfStackTraceIsInTest =
+        [trimmedCallStack[trimmedCallStackCount - 1] containsString:@" test"];
+    BOOL testSymbolIsPrecededByHelper =
+        ![trimmedCallStack[trimmedCallStackCount - 2] containsString:@"GREY"] &&
+        ![trimmedCallStack[trimmedCallStackCount - 2] containsString:@"handleException:details:"];
+    if (endOfStackTraceIsInTest && testSymbolIsPrecededByHelper) {
+      return trimmedCallStack.description;
+    }
+  }
+  return nil;
+}

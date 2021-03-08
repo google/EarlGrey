@@ -16,6 +16,7 @@
 #import "GREYConfigKey.h"
 #import "GREYWaitFunctions.h"
 #import "EarlGrey.h"
+#import "GREYFailureHandlerHelpers.h"
 #import "GREYHostApplicationDistantObject+ErrorHandlingTest.h"
 #import "BaseIntegrationTest.h"
 
@@ -37,13 +38,35 @@
 
 /** Details for the exception. */
 @property(nonatomic) NSString *details;
+
+/** Stack Trace for the test-side generated only when the call is from a helper.*/
+@property(nonatomic) NSString *testStackTrace;
 @end
 
+@interface FailingHelper : NSObject
+/** Induces a failure in an EarlGrey statement. */
+- (void)induceEarlGreyFail;
+/** Induces a failure in a GREYAssertionDefine. */
+- (void)induceAssertionFail;
+@end
+
+@implementation FailingHelper
+
+- (void)induceEarlGreyFail {
+  [[EarlGrey selectElementWithMatcher:grey_text(@"Invalid")] performAction:grey_tap()];
+}
+
+- (void)induceAssertionFail {
+  GREYAssertTrue(NO, @"Failed");
+}
+
+@end
 @implementation FailureFormatTestingFailureHandler
 
 - (void)handleException:(GREYFrameworkException *)exception details:(NSString *)details {
   self.exception = exception;
   self.details = details;
+  self.testStackTrace = GREYTestStackTrace();
 }
 
 - (void)setInvocationFile:(NSString *)fileName andInvocationLine:(NSUInteger)lineNumber {
@@ -541,6 +564,60 @@
                 @"========== expected info ===========\n%@\n\n"
                 @"========== actual exception details ==========\n%@",
                 timerSuggestion, _handler.details);
+}
+
+- (void)testStackTraceNotPresentForFailureInTest {
+  [[EarlGrey selectElementWithMatcher:grey_text(@"Invalid")] performAction:grey_tap()];
+  XCTAssertNil(_handler.testStackTrace, @"Stack trace should not be present for a test failure: %@",
+               _handler.testStackTrace);
+}
+
+- (void)testStackTraceNotPresentForFailureInAssertion {
+  GREYAssertTrue(NO, @"Failure");
+  XCTAssertNil(_handler.testStackTrace, @"Stack trace should not be present for a test failure: %@",
+               _handler.testStackTrace);
+}
+
+- (void)testStackTracePresentForEarlGreyFailureInHelper {
+  FailingHelper *helper = [[FailingHelper alloc] init];
+  [helper induceEarlGreyFail];
+  XCTAssertNotNil(_handler.testStackTrace, @"Stack trace should be present for a test failure: %@",
+                  _handler.testStackTrace);
+
+  NSCharacterSet *newlineCharacterSet = [NSCharacterSet newlineCharacterSet];
+  NSArray<NSString *> *stackTraceLines =
+      [_handler.testStackTrace componentsSeparatedByCharactersInSet:newlineCharacterSet];
+  XCTAssertEqual([stackTraceLines count], 5, @"There's 3 lines in the stack trace and 2 newlines.");
+  XCTAssertFalse([stackTraceLines[1] containsString:@"GREYTestStackTrace"],
+                 @"The stack trace creator must be contained in the stack trace.");
+  NSString *testCaseName =
+      @"-[FailureFormattingTest testStackTracePresentForEarlGreyFailureInHelper]";
+  XCTAssertTrue([stackTraceLines[[stackTraceLines count] - 2] containsString:testCaseName],
+                @"The test name must be the last object in the stack trace.");
+  NSString *helperName = @"-[FailingHelper induceEarlGreyFail]";
+  XCTAssertTrue([stackTraceLines[[stackTraceLines count] - 3] containsString:helperName],
+                @"The helper name must be the last object in the stack trace.");
+}
+
+- (void)testStackTracePresentForAssertionFailureInHelper {
+  FailingHelper *helper = [[FailingHelper alloc] init];
+  [helper induceAssertionFail];
+  XCTAssertNotNil(_handler.testStackTrace, @"Stack trace should be present for a test failure: %@",
+                  _handler.testStackTrace);
+
+  NSCharacterSet *newlineCharacterSet = [NSCharacterSet newlineCharacterSet];
+  NSArray<NSString *> *stackTraceLines =
+      [_handler.testStackTrace componentsSeparatedByCharactersInSet:newlineCharacterSet];
+  XCTAssertEqual([stackTraceLines count], 5, @"There's 3 lines in the stack trace and 2 newlines.");
+  XCTAssertFalse([stackTraceLines[1] containsString:@"GREYTestStackTrace"],
+                 @"The stack trace creator must be contained in the stack trace.");
+  NSString *testCaseName =
+      @"-[FailureFormattingTest testStackTracePresentForAssertionFailureInHelper]";
+  XCTAssertTrue([stackTraceLines[[stackTraceLines count] - 2] containsString:testCaseName],
+                @"The test name must be the last object in the stack trace.");
+  NSString *helperName = @"-[FailingHelper induceAssertionFail]";
+  XCTAssertTrue([stackTraceLines[[stackTraceLines count] - 3] containsString:helperName],
+                @"The helper name must be the last object in the stack trace.");
 }
 
 @end
