@@ -14,9 +14,12 @@
 // limitations under the License.
 //
 
+#import "GREYElementInteraction.h"
+#import "GREYWaitFunctions.h"
+#import "EarlGrey.h"
 #import "BaseIntegrationTest.h"
 
-#import "GREYDefines.h"
+#import "EDORemoteVariable.h"
 
 @interface ScreenshotTest : BaseIntegrationTest
 @end

@@ -18,13 +18,7 @@
 
 #import <CoreGraphics/CoreGraphics.h>
 
-#import "NSObject+GREYCommon.h"
-#import "UIView+GREYCommon.h"
-#import "GREYFatalAsserts.h"
-#import "GREYConstants.h"
-#import "GREYLogger.h"
 #import "CGGeometry+GREYUI.h"
-#import "GREYScreenshotter.h"
 #import "GREYQuickVisibilityChecker.h"
 #import "GREYThoroughVisibilityChecker.h"
 #import "GREYVisibilityCheckerCacheEntry.h"

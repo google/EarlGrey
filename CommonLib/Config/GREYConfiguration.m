@@ -16,10 +16,7 @@
 
 #import "GREYConfiguration.h"
 
-#import "GREYFatalAsserts.h"
-#import "GREYThrowDefines.h"
 #import "GREYConfiguration+Private.h"
-#import "GREYLogger.h"
 
 @implementation GREYConfiguration
 

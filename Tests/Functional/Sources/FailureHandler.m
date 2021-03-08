@@ -16,6 +16,8 @@
 
 #import "FailureHandler.h"
 
+#import "EarlGrey.h"
+
 @implementation FailureHandler
 
 - (void)handleException:(GREYFrameworkException *)exception details:(NSString *)details {

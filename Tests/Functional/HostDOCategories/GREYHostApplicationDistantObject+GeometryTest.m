@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "GREYHostApplicationDistantObject+GestureTest.h"
+#import " IWYU pragma: keep
 
 #import "CGGeometry+GREYUI.h"
 

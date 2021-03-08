@@ -16,23 +16,19 @@
 
 #import "GREYTestApplicationDistantObject.h"
 
-#import <XCTest/XCTest.h>
 
 #include <stdatomic.h>
 #include <stddef.h>
 
 #import "GREYFatalAsserts.h"
-#import "GREYHostBackgroundDistantObject.h"
 #import "GREYTestApplicationDistantObject+Private.h"
 #import "GREYError.h"
 #import "GREYErrorConstants.h"
 #import "GREYFrameworkException.h"
 #import "GREYRemoteExecutor.h"
 #import "EDOHostPort.h"
-#import "EDOClientService.h"
 #import "EDOHostService.h"
 #import "EDOServiceError.h"
-#import "EDOServiceException.h"
 #import "EDOServicePort.h"
 #import "NSObject+EDOBlockedType.h"
 

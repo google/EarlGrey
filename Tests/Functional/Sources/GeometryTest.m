@@ -14,11 +14,11 @@
 // limitations under the License.
 //
 
+#import "GREYWaitFunctions.h"
 #import "BaseIntegrationTest.h"
 
 #import "EarlGrey.h"
 #import "GREYHostApplicationDistantObject+GeometryTest.h"
-#import "EDOClientService.h"
 
 @interface GeometryTest : BaseIntegrationTest
 @end

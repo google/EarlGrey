@@ -20,6 +20,7 @@
 
 #import "GREYFatalAsserts.h"
 #import "GREYTestApplicationDistantObject+Private.h"
+#import "GREYTestApplicationDistantObject.h"
 #import "GREYError.h"
 #import "GREYFrameworkException.h"
 #import "GREYSwizzler.h"

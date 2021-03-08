@@ -19,7 +19,6 @@
 #include <objc/runtime.h>
 
 #import "UIViewController+GREYApp.h"
-#import "GREYAppStateTracker.h"
 #import "GREYFatalAsserts.h"
 #import "GREYSwizzler.h"
 

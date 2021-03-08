@@ -17,7 +17,7 @@
 #import "GREYElementMatcherBlock.h"
 #import "GREYElementMatcherBlock+Private.h"
 
-#import "GREYDefines.h"
+#import "GREYBaseMatcher.h"
 
 // Base matcher which takes block parameters that implement |matches| and |describeTo|.
 @implementation GREYElementMatcherBlock {

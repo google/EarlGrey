@@ -18,9 +18,7 @@
 
 #include <objc/runtime.h>
 
-#import "NSURL+GREYApp.h"
 #import "__NSCFLocalDataTask_GREYApp.h"
-#import "GREYAppStateTracker.h"
 #import "GREYFatalAsserts.h"
 #import "GREYDefines.h"
 #import "GREYObjcRuntime.h"

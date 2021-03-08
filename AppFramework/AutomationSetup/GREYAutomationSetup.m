@@ -19,9 +19,7 @@
 #include <execinfo.h>
 #include <signal.h>
 
-#import "GREYFatalAsserts.h"
 #import "GREYAppleInternals.h"
-#import "GREYDefines.h"
 
 // Exception handler that was previously installed before we replaced it with our own.
 static NSUncaughtExceptionHandler *gPreviousUncaughtExceptionHandler;

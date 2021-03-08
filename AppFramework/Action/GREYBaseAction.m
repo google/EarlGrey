@@ -16,19 +16,19 @@
 
 #import "GREYBaseAction.h"
 
-#import "NSObject+GREYApp.h"
-#import "GREYInteraction.h"
 #import "GREYAppError.h"
+#import "GREYFailureScreenshotter.h"
 #import "GREYSyncAPI.h"
 #import "NSObject+GREYCommon.h"
 #import "GREYThrowDefines.h"
+#import "GREYConfigKey.h"
 #import "GREYConfiguration.h"
 #import "GREYError+Private.h"
+#import "GREYError.h"
 #import "GREYErrorConstants.h"
-#import "GREYObjectFormatter.h"
-#import "NSError+GREYCommon.h"
 #import "GREYMatcher.h"
 #import "GREYStringDescription.h"
+#import "GREYElementHierarchy.h"
 
 @implementation GREYBaseAction {
   NSString *_name;

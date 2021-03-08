@@ -21,17 +21,15 @@
 #endif  // TARGET_OS_IOS
 
 #import "GREYScrollAction.h"
-#import "NSObject+GREYApp.h"
-#import "UIScrollView+GREYApp.h"
 #import "GREYAllOf.h"
 #import "GREYAnyOf.h"
 #import "GREYMatchers.h"
 #import "GREYSyncAPI.h"
 #import "GREYThrowDefines.h"
 #import "GREYErrorConstants.h"
-#import "NSError+GREYCommon.h"
+#import "GREYConstants.h"
+#import "GREYDiagnosable.h"
 #import "CGGeometry+GREYUI.h"
-#import "GREYVisibilityChecker.h"
 
 @implementation GREYScrollToContentEdgeAction {
   /**

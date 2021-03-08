@@ -16,6 +16,8 @@
 
 #import <XCTest/XCTest.h>
 
+#import "GREYWaitFunctions.h"
+#import "EarlGrey.h"
 #import "BaseIntegrationTest.h"
 
 @interface ConditionTest : BaseIntegrationTest

@@ -18,8 +18,6 @@
 
 #import "GREYFatalAsserts.h"
 #import "GREYThrowDefines.h"
-#import "GREYConstants.h"
-#import "GREYDefines.h"
 #import "GREYMatcher.h"
 #import "GREYProvider.h"
 

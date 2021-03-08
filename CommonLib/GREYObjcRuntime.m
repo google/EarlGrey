@@ -20,8 +20,6 @@
 #include <objc/runtime.h>
 
 #import "GREYFatalAsserts.h"
-#import "GREYDefines.h"
-#import "GREYLogger.h"
 
 @implementation GREYObjcRuntime
 

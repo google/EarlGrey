@@ -16,11 +16,9 @@
 
 #import "GREYChangeStepperAction.h"
 
-#import "GREYBaseAction.h"
 #import "GREYTapper.h"
 #import "NSObject+GREYApp.h"
 #import "GREYElementFinder.h"
-#import "GREYInteraction.h"
 #import "GREYAppError.h"
 #import "GREYFailureScreenshotter.h"
 #import "GREYAllOf.h"
@@ -29,9 +27,7 @@
 #import "GREYError.h"
 #import "GREYErrorConstants.h"
 #import "GREYObjectFormatter.h"
-#import "NSError+GREYCommon.h"
-#import "GREYConstants.h"
-#import "GREYDefines.h"
+#import "GREYDiagnosable.h"
 #import "GREYElementHierarchy.h"
 #import "GREYElementProvider.h"
 

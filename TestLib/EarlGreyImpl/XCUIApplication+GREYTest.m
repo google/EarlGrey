@@ -18,12 +18,10 @@
 
 #include <dlfcn.h>
 
-#import "GREYHostApplicationDistantObject+GREYTestHelper.h"
 #import "GREYFatalAsserts.h"
 #import "GREYConfiguration.h"
 #import "GREYTestApplicationDistantObject+Private.h"
 #import "GREYTestApplicationDistantObject.h"
-#import "GREYAppleInternals.h"
 #import "GREYDefines.h"
 #import "GREYSwizzler.h"
 #import "GREYTestConfiguration.h"

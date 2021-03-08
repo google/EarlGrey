@@ -16,7 +16,6 @@
 
 #import "GREYLogger.h"
 
-#import "GREYConstants.h"
 
 NSString* const kGREYAllowVerboseLogging = @"kGREYAllowVerboseLogging";
 

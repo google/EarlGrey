@@ -15,7 +15,6 @@
 //
 
 #import "GREYConfigKey.h"
-#import "GREYConfiguration.h"
 #import "EarlGrey.h"
 #import "EarlGreyImpl+XCUIApplication.h"
 

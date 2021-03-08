@@ -18,9 +18,10 @@
 
 #import "NSObject+GREYCommon.h"
 #import "UIView+GREYCommon.h"
+#import "GREYConstants.h"
 #import "CGGeometry+GREYUI.h"
-#import "GREYScreenshotter.h"
 #import "GREYTraversalObject.h"
+#import "GREYTraversalProperties.h"
 #import "GREYVisibilityChecker.h"
 
 /**

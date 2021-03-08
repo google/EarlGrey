@@ -16,17 +16,16 @@
 
 #import "GREYTapper.h"
 
-#import "NSObject+GREYApp.h"
-#import "GREYInteraction.h"
 #import "GREYAppError.h"
+#import "GREYFailureScreenshotter.h"
 #import "GREYSyntheticEvents.h"
 #import "GREYSyncAPI.h"
 #import "NSObject+GREYCommon.h"
 #import "GREYThrowDefines.h"
+#import "GREYError.h"
 #import "GREYErrorConstants.h"
-#import "NSError+GREYCommon.h"
-#import "GREYConstants.h"
 #import "CGGeometry+GREYUI.h"
+#import "GREYElementHierarchy.h"
 
 @implementation GREYTapper
 

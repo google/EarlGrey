@@ -18,6 +18,9 @@
 
 
 #import "GREYThrowDefines.h"
+#import "GREYBaseMatcher.h"
+#import "GREYDescription.h"
+#import "GREYMatcher.h"
 #import "GREYStringDescription.h"
 
 @implementation GREYAnyOf {

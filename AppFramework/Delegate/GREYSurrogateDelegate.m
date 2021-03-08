@@ -16,7 +16,6 @@
 
 #import "GREYSurrogateDelegate.h"
 
-#import "GREYDefines.h"
 
 @interface GREYSurrogateDelegate ()
 /**

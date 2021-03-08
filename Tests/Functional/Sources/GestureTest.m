@@ -14,8 +14,10 @@
 // limitations under the License.
 //
 
+#import "EarlGrey.h"
 #import "GREYHostApplicationDistantObject+GestureTest.h"
 #import "BaseIntegrationTest.h"
+#import "EDORemoteVariable.h"
 
 @interface GestureTest : BaseIntegrationTest
 @end

@@ -17,6 +17,7 @@
 #import "GREYActionsShorthand.h"
 
 #import "GREYActions.h"
+#import "EDORemoteVariable.h"
 
 #if !defined(GREY_DISABLE_SHORTHAND) || !(GREY_DISABLE_SHORTHAND)
 

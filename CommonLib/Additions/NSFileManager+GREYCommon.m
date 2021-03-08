@@ -16,7 +16,6 @@
 
 #import "NSFileManager+GREYCommon.h"
 
-#import "GREYDefines.h"
 
 @implementation NSFileManager (GREYCommon)
 

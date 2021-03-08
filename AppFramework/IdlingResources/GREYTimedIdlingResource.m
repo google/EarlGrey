@@ -19,7 +19,6 @@
 #import "GREYUIThreadExecutor+Private.h"
 #import "GREYUIThreadExecutor.h"
 #import "GREYThrowDefines.h"
-#import "GREYDefines.h"
 
 @implementation GREYTimedIdlingResource {
   NSObject *_trackedObject;

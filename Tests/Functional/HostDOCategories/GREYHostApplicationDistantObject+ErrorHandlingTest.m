@@ -16,9 +16,12 @@
 
 #import "GREYHostApplicationDistantObject+ErrorHandlingTest.h"
 
+#import "GREYActionBlock.h"
 #import "GREYAppError.h"
-#import "GREYConfiguration.h"
-#import "GREYConstants.h"
+#import "GREYFailureScreenshotter.h"
+#import "GREYAssertionBlock.h"
+#import "GREYError.h"
+#import "GREYElementHierarchy.h"
 
 @implementation GREYHostApplicationDistantObject (ErrorHandlingTest)
 

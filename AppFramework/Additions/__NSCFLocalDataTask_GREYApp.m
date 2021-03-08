@@ -20,8 +20,8 @@
 
 #import "NSURL+GREYApp.h"
 #import "GREYAppStateTracker.h"
-#import "GREYAppStateTrackerObject.h"
 #import "GREYFatalAsserts.h"
+#import "GREYAppState.h"
 #import "GREYObjcRuntime.h"
 #import "GREYSwizzler.h"
 

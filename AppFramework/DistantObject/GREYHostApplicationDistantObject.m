@@ -24,10 +24,8 @@
 #import "GREYTestApplicationDistantObject.h"
 #import "GREYFrameworkException.h"
 #import "EDOHostPort.h"
-#import "EDOClientService.h"
 #import "EDOHostService.h"
 #import "EDOServiceError.h"
-#import "EDOServiceException.h"
 #import "EDOServicePort.h"
 
 /** The port number for the app under test. */

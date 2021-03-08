@@ -19,7 +19,6 @@
 #import "NSObject+GREYCommon.h"
 #import "GREYFatalAsserts.h"
 #import "GREYThrowDefines.h"
-#import "GREYConstants.h"
 #import "GREYUIWindowProvider.h"
 #import "GREYTraversalDFS.h"
 #import "GREYTraversalObject.h"

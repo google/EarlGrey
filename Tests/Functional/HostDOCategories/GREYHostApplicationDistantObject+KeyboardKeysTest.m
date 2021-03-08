@@ -16,6 +16,10 @@
 
 #import "GREYHostApplicationDistantObject+KeyboardKeysTest.h"
 
+#import "GREYActionBlock.h"
+
+#import "GREYSyncAPI.h"
+
 @implementation GREYHostApplicationDistantObject (KeyboardKeysTest)
 
 - (id<GREYAction>)actionForSetFirstResponder {

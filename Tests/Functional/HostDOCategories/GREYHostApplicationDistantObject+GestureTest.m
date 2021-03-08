@@ -16,6 +16,12 @@
 
 #import "GREYHostApplicationDistantObject+GestureTest.h"
 
+#import "GREYActionBlock.h"
+
+#import "GREYSyncAPI.h"
+
+#import "EDORemoteVariable.h"
+
 @implementation GREYHostApplicationDistantObject (GestureTest)
 
 - (id<GREYAction>)actionForFindingElementBounds:(EDORemoteVariable<NSValue *> *)targetBounds {

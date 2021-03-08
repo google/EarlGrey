@@ -18,27 +18,18 @@
 
 #import "GREYSyntheticEvents.h"
 #import "GREYKeyboard.h"
-#import "GREYAssertionDefinesPrivate.h"
-#import "GREYFatalAsserts.h"
-#import "GREYHostBackgroundDistantObject.h"
+#import "GREYConfigKey.h"
 #import "GREYTestApplicationDistantObject+Private.h"
-#import "GREYTestApplicationDistantObject.h"
-#import "GREYError+Private.h"
 #import "GREYError.h"
-#import "GREYErrorConstants.h"
-#import "GREYObjectFormatter.h"
 #import "GREYAppleInternals.h"
-#import "GREYLogger.h"
 
-#import "GREYXCTestAppleInternals.h"
+#import "GREYWaitFunctions.h"
 
-#import "EarlGreyImpl+XCUIApplication.h"
 #import "GREYElementInteractionErrorHandler.h"
 #import "GREYElementInteractionProxy.h"
 #import "GREYRemoteExecutor.h"
 #import "GREYDefaultFailureHandler.h"
 #import "XCTestCase+GREYTest.h"
-#import "EDOClientService.h"
 
 // In tvOS, this var becomes unused.
 #if TARGET_OS_IOS

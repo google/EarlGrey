@@ -16,6 +16,7 @@
 
 #import "GREYBaseMatcher.h"
 
+#import "GREYDescription.h"
 #import "GREYStringDescription.h"
 
 @implementation GREYBaseMatcher

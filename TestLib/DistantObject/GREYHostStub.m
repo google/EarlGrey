@@ -25,14 +25,12 @@
 #import "GREYAnyOf.h"
 #import "GREYMatchers.h"
 #import "GREYUIThreadExecutor.h"
-#import "GREYConfiguration.h"
 #import "GREYHostApplicationDistantObject.h"
 #import "GREYHostBackgroundDistantObject.h"
 #import "GREYTestApplicationDistantObject.h"
 #import "GREYElementHierarchy.h"
 #import "GREYScreenshotter.h"
 
-#import "EDOClientService.h"
 
 // Stub classes defined in the host (app under test)
 

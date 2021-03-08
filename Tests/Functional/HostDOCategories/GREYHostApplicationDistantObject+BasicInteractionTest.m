@@ -18,8 +18,11 @@
 
 #include <objc/runtime.h>
 
+#import "GREYActionBlock.h"
 #import "GREYActionsShorthand.h"
 #import "GREYMatchersShorthand.h"
+#import "GREYSyncAPI.h"
+#import "GREYAssertionBlock.h"
 #import "GREYDescription.h"
 #import "GREYElementMatcherBlock.h"
 #import "GREYElementHierarchy.h"

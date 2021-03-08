@@ -14,18 +14,15 @@
 // limitations under the License.
 //
 
+#import "GREYConfigKey.h"
+#import "GREYWaitFunctions.h"
 #import "BaseIntegrationTest.h"
 
-#import "GREYMatchersShorthand.h"
 #import "GREYError.h"
-#import "GREYObjectFormatter.h"
-#import "GREYConstants.h"
 #import "EarlGrey.h"
 #import "GREYHostApplicationDistantObject+ErrorHandlingTest.h"
 #import "FailureHandler.h"
 #import "GREYVisibilityChecker+Private.h"
-#import "GREYVisibilityChecker.h"
-#import "EDOClientService.h"
 
 @interface ErrorHandlingTest : BaseIntegrationTest
 @end

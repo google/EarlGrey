@@ -22,6 +22,7 @@
 #import "GREYThrowDefines.h"
 #import "GREYConstants.h"
 #import "CGGeometry+GREYUI.h"
+#import "GREYTraversalProperties.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

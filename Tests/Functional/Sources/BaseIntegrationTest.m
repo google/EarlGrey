@@ -16,6 +16,7 @@
 
 #import "BaseIntegrationTest.h"
 
+#import "EarlGrey.h"
 #import "GREYHostApplicationDistantObject+BaseIntegrationTest.h"
 
 @implementation BaseIntegrationTest

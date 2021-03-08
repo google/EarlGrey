@@ -14,6 +14,10 @@
 // limitations under the License.
 //
 
+#import "GREYActionBlock.h"
+#import "GREYMatchers.h"
+#import "GREYSyncAPI.h"
+#import "GREYAssertionBlock.h"
 #import "GREYHostApplicationDistantObject+ScrollViewTest.h"
 #import "GREYVisibilityChecker.h"
 

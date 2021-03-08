@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "GREYHostApplicationDistantObject+ScrollViewTest.h"
+#import " IWYU pragma: keep
 #import "ImageViewController.h"
 
 @implementation GREYHostApplicationDistantObject (PinchViewTest)

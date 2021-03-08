@@ -19,7 +19,6 @@
 #include <tgmath.h>
 
 #import "GREYPathGestureUtils.h"
-#import "NSObject+GREYApp.h"
 #import "GREYAppError.h"
 #import "GREYFailureScreenshotter.h"
 #import "GREYSyntheticEvents.h"
@@ -29,8 +28,8 @@
 #import "NSObject+GREYCommon.h"
 #import "GREYError.h"
 #import "GREYErrorConstants.h"
-#import "GREYObjectFormatter.h"
-#import "NSError+GREYCommon.h"
+#import "GREYConstants.h"
+#import "GREYDiagnosable.h"
 #import "GREYElementHierarchy.h"
 
 /**

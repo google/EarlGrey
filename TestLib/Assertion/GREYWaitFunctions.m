@@ -17,6 +17,7 @@
 #import "GREYWaitFunctions.h"
 
 #import "GREYUIThreadExecutor.h"
+#import "GREYConfigKey.h"
 #import "GREYConfiguration.h"
 #import "GREYRemoteExecutor.h"
 

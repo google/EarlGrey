@@ -22,9 +22,9 @@
 
 #import "GREYIOHIDEventTypes.h"
 #import "GREYRunLoopSpinner.h"
-#import "NSObject+GREYCommon.h"
 #import "GREYFatalAsserts.h"
 #import "GREYThrowDefines.h"
+#import "GREYConfigKey.h"
 #import "GREYConfiguration.h"
 #import "GREYTouchInfo.h"
 

@@ -13,17 +13,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#import "GREYMatchersShorthand.h"
 #import "GREYConfigKey.h"
-#import "GREYError.h"
-#import "GREYErrorConstants.h"
-#import "GREYConstants.h"
 #import "GREYWaitFunctions.h"
 #import "EarlGrey.h"
 #import "GREYHostApplicationDistantObject+ErrorHandlingTest.h"
 #import "BaseIntegrationTest.h"
-#import "FailureHandler.h"
-#import "EDOClientService.h"
 
 #pragma mark - Failure Handler
 

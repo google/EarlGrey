@@ -22,6 +22,7 @@
 #import "GREYAppStateTracker.h"
 #import "GREYAppStateTrackerObject.h"
 #import "GREYFatalAsserts.h"
+#import "GREYAppState.h"
 #import "GREYSwizzler.h"
 
 static Class gKeyboardPinchGestureRecognizerClass;

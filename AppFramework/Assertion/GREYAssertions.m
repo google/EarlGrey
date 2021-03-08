@@ -16,16 +16,15 @@
 
 #import "GREYAssertions.h"
 
-#import "NSObject+GREYApp.h"
-#import "GREYInteraction.h"
 #import "GREYAppError.h"
 #import "GREYFailureScreenshotter.h"
 #import "NSObject+GREYCommon.h"
 #import "GREYAssertionBlock+Private.h"
+#import "GREYAssertionBlock.h"
 #import "GREYFatalAsserts.h"
 #import "GREYError.h"
 #import "GREYErrorConstants.h"
-#import "GREYLogger.h"
+#import "GREYDiagnosable.h"
 #import "GREYMatcher.h"
 #import "GREYStringDescription.h"
 #import "GREYElementHierarchy.h"

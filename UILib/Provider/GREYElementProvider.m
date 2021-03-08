@@ -18,10 +18,8 @@
 
 #include <objc/runtime.h>
 
-#import "GREYAssertionDefinesPrivate.h"
 #import "GREYFatalAsserts.h"
-#import "GREYConstants.h"
-#import "GREYDefines.h"
+#import "GREYProvider.h"
 #import "GREYDataEnumerator.h"
 #import "GREYTraversalBFS.h"
 

@@ -17,11 +17,11 @@
 #import "GREYFailureScreenshotter.h"
 
 #import "GREYSyncAPI.h"
-#import "GREYConfiguration.h"
 #import "GREYError.h"
 #import "GREYScreenshotter+Private.h"
 #import "GREYScreenshotter.h"
 #import "GREYVisibilityChecker+Private.h"
+#import "GREYVisibilityChecker.h"
 
 @implementation GREYFailureScreenshotter
 

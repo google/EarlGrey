@@ -18,13 +18,16 @@
 
 #include <objc/runtime.h>
 
+#import "GREYAssertionDefinesPrivate.h"
 #import "GREYThrowDefines.h"
 #import "GREYTestApplicationDistantObject.h"
 #import "GREYErrorConstants.h"
+#import "GREYFailureHandler.h"
+#import "GREYFrameworkException.h"
 #import "GREYAppleInternals.h"
 #import "GREYDefines.h"
-#import "GREYXCTestAppleInternals.h"
 #import "GREYAssertionDefines.h"
+#import "GREYWaitFunctions.h"
 #import "GREYCondition.h"
 
 /**

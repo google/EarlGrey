@@ -19,7 +19,6 @@
 #import "NSFileManager+GREYCommon.h"
 #import "NSObject+GREYCommon.h"
 #import "GREYFatalAsserts.h"
-#import "GREYThrowDefines.h"
 #import "GREYUIWindowProvider.h"
 
 /**

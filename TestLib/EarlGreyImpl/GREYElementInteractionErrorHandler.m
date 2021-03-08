@@ -19,10 +19,8 @@
 #import <XCTest/XCTest.h>
 
 #import "GREYAssertionDefinesPrivate.h"
-#import "GREYError+Private.h"
 #import "GREYError.h"
 #import "GREYErrorConstants.h"
-#import "GREYErrorFormatter.h"
 #import "GREYFailureHandler.h"
 #import "GREYFrameworkException.h"
 

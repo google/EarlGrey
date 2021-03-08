@@ -18,18 +18,17 @@
 
 #include <tgmath.h>
 
-#import "GREYInteraction.h"
 #import "GREYAppError.h"
+#import "GREYFailureScreenshotter.h"
 #import "GREYSyntheticEvents.h"
 #import "GREYAllOf.h"
 #import "GREYMatchers.h"
 #import "GREYSyncAPI.h"
+#import "GREYError.h"
 #import "GREYErrorConstants.h"
-#import "NSError+GREYCommon.h"
-#import "GREYConstants.h"
-#import "GREYDefines.h"
+#import "GREYDiagnosable.h"
 #import "GREYLogger.h"
-#import "CGGeometry+GREYUI.h"
+#import "GREYElementHierarchy.h"
 
 @implementation GREYSlideAction {
   /**

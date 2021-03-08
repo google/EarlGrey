@@ -20,10 +20,7 @@
 
 #include <mach/mach_time.h>
 
-#import "GREYFatalAsserts.h"
 #import "GREYThrowDefines.h"
-#import "GREYConstants.h"
-#import "GREYDefines.h"
 
 @implementation GREYCondition {
   BOOL (^_conditionBlock)(void);

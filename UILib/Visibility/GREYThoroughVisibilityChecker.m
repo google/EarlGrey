@@ -21,11 +21,11 @@
 #import "NSObject+GREYCommon.h"
 #import "UIView+GREYCommon.h"
 #import "GREYFatalAsserts.h"
-#import "GREYConstants.h"
 #import "GREYLogger.h"
 #import "CGGeometry+GREYUI.h"
 #import "GREYScreenshotter+Private.h"
-#import "GREYVisibilityChecker+Private.h"
+#import "GREYScreenshotter.h"
+#import "GREYVisibilityChecker.h"
 
 static const NSUInteger kColorChannelsPerPixel = 4;
 

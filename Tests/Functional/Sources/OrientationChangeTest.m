@@ -14,7 +14,9 @@
 // limitations under the License.
 //
 
-#import "GREYHostApplicationDistantObject+GREYTestHelper.h"
+#import "GREYWaitFunctions.h"
+#import "EarlGrey.h"
+#import "GREYHostApplicationDistantObject+RemoteTest.h"
 #import "BaseIntegrationTest.h"
 
 @interface OrientationChangeTest : BaseIntegrationTest

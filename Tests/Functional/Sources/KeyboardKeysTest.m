@@ -21,8 +21,6 @@
 #import "GREYActions.h"
 #import "GREYKeyboard.h"
 #import "GREYConfigKey.h"
-#import "GREYConfiguration.h"
-#import "GREYConstants.h"
 #import "GREYWaitFunctions.h"
 #import "EarlGrey.h"
 #import "GREYHostApplicationDistantObject+KeyboardKeysTest.h"

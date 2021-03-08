@@ -18,8 +18,6 @@
 #import "EarlGrey.h"
 #import "GREYHostApplicationDistantObject+AnimationsTest.h"
 #import "BaseIntegrationTest.h"
-#import "GREYElementHierarchy.h"
-#import "EDOClientService.h"
 
 @interface AnimationsTest : BaseIntegrationTest
 @end

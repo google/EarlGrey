@@ -16,6 +16,7 @@
 
 #import <XCTest/XCTest.h>
 
+#import "EarlGrey.h"
 #import "BaseIntegrationTest.h"
 
 @interface SystemAlertHandlingTest_IOS12OrEarlier : BaseIntegrationTest

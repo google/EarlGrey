@@ -23,7 +23,6 @@
 #import "EarlGrey.h"
 #import "GREYHostApplicationDistantObject+RemoteTest.h"
 #import "BaseIntegrationTest.h"
-#import "EDOClientService.h"
 #import "EDOHostService.h"
 #import "EDOServicePort.h"
 

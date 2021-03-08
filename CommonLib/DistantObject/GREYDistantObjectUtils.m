@@ -2,7 +2,6 @@
 
 #import "GREYHostApplicationDistantObject.h"
 #import "GREYTestApplicationDistantObject.h"
-#import "EDOClientService.h"
 #import "EDOHostService.h"
 #import "EDOServicePort.h"
 

@@ -19,10 +19,10 @@
 #include <objc/message.h>
 
 #import "CAAnimation+GREYApp.h"
-#import "NSObject+GREYApp.h"
 #import "GREYAppStateTracker.h"
-#import "GREYAppStateTrackerObject.h"
 #import "GREYFatalAsserts.h"
+#import "GREYAppState.h"
+#import "GREYConfigKey.h"
 #import "GREYConfiguration.h"
 #import "GREYLogger.h"
 #import "GREYSwizzler.h"

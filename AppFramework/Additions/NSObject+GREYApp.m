@@ -22,8 +22,8 @@
 #import "GREYSyncAPI.h"
 #import "NSObject+GREYCommon.h"
 #import "GREYFatalAsserts.h"
+#import "GREYConfigKey.h"
 #import "GREYConfiguration.h"
-#import "GREYConstants.h"
 #import "GREYSwizzler.h"
 
 @implementation NSObject (GREYApp)

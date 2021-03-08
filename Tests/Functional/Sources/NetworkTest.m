@@ -14,6 +14,10 @@
 // limitations under the License.
 //
 
+#import "GREYUIThreadExecutor.h"
+#import "GREYConfigKey.h"
+#import "GREYWaitFunctions.h"
+#import "EarlGrey.h"
 #import "BaseIntegrationTest.h"
 
 #import "GREYHostApplicationDistantObject+NetworkTest.h"

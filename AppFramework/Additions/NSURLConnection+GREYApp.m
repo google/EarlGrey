@@ -21,9 +21,8 @@
 #import "NSURL+GREYApp.h"
 #import "GREYNSURLConnectionDelegate.h"
 #import "GREYAppStateTracker.h"
-#import "GREYAppStateTrackerObject.h"
 #import "GREYFatalAsserts.h"
-#import "GREYConfiguration.h"
+#import "GREYAppState.h"
 #import "GREYSwizzler.h"
 
 typedef void (^NSURLConnectionCompletionBlock)(NSURLResponse *, NSData *, NSError *);

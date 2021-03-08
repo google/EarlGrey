@@ -17,8 +17,6 @@
 #import "GREYActionBlock.h"
 
 #import "GREYThrowDefines.h"
-#import "GREYDefines.h"
-#import "GREYMatcher.h"
 
 @implementation GREYActionBlock {
   GREYPerformBlock _performBlock;

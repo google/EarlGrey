@@ -21,9 +21,9 @@
 #endif  // TARGET_OS_IOS
 
 #import "GREYPathGestureUtils.h"
-#import "NSObject+GREYApp.h"
 #import "UIScrollView+GREYApp.h"
 #import "GREYAppError.h"
+#import "GREYFailureScreenshotter.h"
 #import "GREYSyntheticEvents.h"
 #import "GREYAllOf.h"
 #import "GREYAnyOf.h"
@@ -33,9 +33,13 @@
 #import "GREYUIThreadExecutor.h"
 #import "GREYFatalAsserts.h"
 #import "GREYThrowDefines.h"
+#import "GREYAppState.h"
+#import "GREYError.h"
 #import "GREYErrorConstants.h"
-#import "NSError+GREYCommon.h"
+#import "GREYConstants.h"
+#import "GREYDiagnosable.h"
 #import "CGGeometry+GREYUI.h"
+#import "GREYElementHierarchy.h"
 
 /**
  * Scroll views under web views take at least (depending on speed of execution environment) two

@@ -23,11 +23,9 @@
 #import "GREYAppStateTrackerObject.h"
 #import "GREYObjectDeallocationTracker.h"
 #import "GREYFatalAsserts.h"
-#import "GREYThrowDefines.h"
 #import "GREYAppState.h"
+#import "GREYConfigKey.h"
 #import "GREYConfiguration.h"
-#import "GREYConstants.h"
-#import "GREYDefines.h"
 #import "GREYLogger.h"
 
 /**

@@ -16,12 +16,9 @@
 
 #import "GREYErrorFormatter.h"
 
-#import "GREYFatalAsserts.h"
 #import "GREYError+Private.h"
 #import "GREYError.h"
 #import "GREYErrorConstants.h"
-#import "GREYObjectFormatter.h"
-#import "NSError+GREYCommon.h"
 
 #pragma mark - UI Hierarchy Keys
 

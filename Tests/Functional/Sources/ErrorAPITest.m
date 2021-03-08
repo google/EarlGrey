@@ -14,10 +14,11 @@
 // limitations under the License.
 //
 
+#import "GREYWaitFunctions.h"
+#import "EarlGrey.h"
 #import "BaseIntegrationTest.h"
 
 #import "GREYError.h"
-#import "GREYErrorConstants.h"
 #import "FailureHandler.h"
 
 @interface ErrorAPITest : BaseIntegrationTest

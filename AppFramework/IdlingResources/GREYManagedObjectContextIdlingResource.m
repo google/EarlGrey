@@ -22,6 +22,7 @@
 
 #import "GREYDispatchQueueIdlingResource.h"
 #import "GREYUIThreadExecutor+Private.h"
+#import "GREYUIThreadExecutor.h"
 #import "GREYThrowDefines.h"
 
 @implementation GREYManagedObjectContextIdlingResource {

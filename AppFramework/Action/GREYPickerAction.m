@@ -17,7 +17,6 @@
 #import "GREYPickerAction.h"
 
 #import "UIView+GREYApp.h"
-#import "GREYInteraction.h"
 #import "GREYAppError.h"
 #import "GREYFailureScreenshotter.h"
 #import "GREYTimedIdlingResource.h"
@@ -26,8 +25,7 @@
 #import "GREYSyncAPI.h"
 #import "GREYError.h"
 #import "GREYErrorConstants.h"
-#import "NSError+GREYCommon.h"
-#import "GREYDefines.h"
+#import "GREYDiagnosable.h"
 #import "GREYElementHierarchy.h"
 
 @implementation GREYPickerAction {

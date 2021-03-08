@@ -14,6 +14,7 @@
 // limitations under the License.
 //
 
+#import "EarlGrey.h"
 #import "BaseIntegrationTest.h"
 
 #import "GREYLayoutConstraint.h"

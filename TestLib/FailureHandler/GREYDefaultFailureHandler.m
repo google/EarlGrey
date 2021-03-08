@@ -18,13 +18,9 @@
 
 #import <XCTest/XCTest.h>
 
-#import "GREYHostApplicationDistantObject+GREYTestHelper.h"
 #import "GREYFailureScreenshotter.h"
-#import "NSFileManager+GREYCommon.h"
 #import "GREYThrowDefines.h"
 #import "GREYErrorConstants.h"
-#import "GREYErrorFormatter.h"
-#import "GREYObjectFormatter.h"
 #import "GREYFrameworkException.h"
 #import "GREYFailureHandlerHelpers.h"
 #import "GREYFailureScreenshotSaver.h"

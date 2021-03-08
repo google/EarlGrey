@@ -16,16 +16,15 @@
 
 #import "GREYSyntheticEvents.h"
 
-#import "GREYAppError.h"
 #import "GREYTouchInjector.h"
 #import "GREYUIThreadExecutor.h"
 #import "GREYFatalAsserts.h"
 #import "GREYThrowDefines.h"
+#import "GREYConfigKey.h"
 #import "GREYConfiguration.h"
-#import "GREYErrorConstants.h"
+#import "GREYError.h"
 #import "GREYTouchInfo.h"
 #import "GREYAppleInternals.h"
-#import "GREYLogger.h"
 #import "GREYUIWindowProvider.h"
 
 #pragma mark - Implementation

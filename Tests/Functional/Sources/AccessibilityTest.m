@@ -14,6 +14,8 @@
 // limitations under the License.
 //
 
+#import "GREYWaitFunctions.h"
+#import "EarlGrey.h"
 #import "BaseIntegrationTest.h"
 #import "FailureHandler.h"
 

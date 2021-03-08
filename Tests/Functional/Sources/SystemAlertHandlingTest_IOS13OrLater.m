@@ -15,7 +15,6 @@
 //
 #import "BaseIntegrationTest.h"
 
-#import "GREYDefines.h"
 #import "EarlGrey.h"
 
 // TODO: Refactor the handler code to remove the waits after System Alert Acceptance / Denial.

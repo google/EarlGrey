@@ -21,8 +21,6 @@
 
 #import "CAAnimation+GREYApp.h"
 #import "GREYFatalAsserts.h"
-#import "GREYDefines.h"
-#import "GREYLogger.h"
 #import "GREYObjcRuntime.h"
 #import "GREYSwizzler.h"
 

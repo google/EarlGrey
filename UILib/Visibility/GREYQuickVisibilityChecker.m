@@ -23,6 +23,7 @@
 #import "GREYUIWindowProvider.h"
 #import "GREYTraversalDFS.h"
 #import "GREYTraversalFunctions.h"
+#import "GREYTraversalObject.h"
 #import "GREYVisibilityCheckerTarget.h"
 
 @implementation GREYQuickVisibilityChecker

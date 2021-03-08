@@ -18,7 +18,6 @@
 
 #include <objc/runtime.h>
 
-#import "GREYThrowDefines.h"
 
 @interface GREYObjectDeallocationTracker ()
 

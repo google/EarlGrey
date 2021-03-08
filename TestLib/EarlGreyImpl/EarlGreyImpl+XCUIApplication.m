@@ -16,11 +16,9 @@
 
 #import "EarlGreyImpl+XCUIApplication.h"
 
-#import "GREYFatalAsserts.h"
 #import "GREYError.h"
-#import "GREYDefines.h"
 #import "GREYXCTestAppleInternals.h"
-#import "GREYCondition.h"
+#import "EarlGrey.h"
 
 // In tvOS, this var becomes unused.
 #if TARGET_OS_IOS

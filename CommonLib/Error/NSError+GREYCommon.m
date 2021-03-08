@@ -17,7 +17,6 @@
 #import "NSError+GREYCommon.h"
 
 #import "GREYError.h"
-#import "GREYErrorConstants.h"
 
 @implementation NSError (GREYCommon)
 

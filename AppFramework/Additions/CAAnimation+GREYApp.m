@@ -21,9 +21,8 @@
 #import "NSObject+GREYApp.h"
 #import "GREYCAAnimationDelegate.h"
 #import "GREYAppStateTracker.h"
-#import "GREYAppStateTrackerObject.h"
 #import "GREYFatalAsserts.h"
-#import "GREYDefines.h"
+#import "GREYAppState.h"
 #import "GREYSwizzler.h"
 
 @implementation CAAnimation (GREYApp)

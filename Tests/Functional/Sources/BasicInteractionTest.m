@@ -14,14 +14,16 @@
 // limitations under the License.
 //
 
+#import "GREYElementInteraction.h"
 #import "GREYConfigKey.h"
+#import "GREYHostBackgroundDistantObject.h"
+#import "GREYWaitFunctions.h"
 #import "EarlGrey.h"
-#import "GREYHostApplicationDistantObject+BaseIntegrationTest.h"
 #import "GREYHostApplicationDistantObject+BasicInteractionTest.h"
+#import "GREYHostApplicationDistantObject+RemoteTest.h"
 #import "GREYHostBackgroundDistantObject+BasicInteractionTest.h"
 #import "BaseIntegrationTest.h"
 #import "GREYElementHierarchy.h"
-#import "EDOClientService.h"
 
 /**
  * Tests to ensure the basic functionality of EarlGrey is intact.

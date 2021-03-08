@@ -17,8 +17,15 @@
 
 #include <objc/runtime.h>
 
+#import "GREYAction.h"
+#import "GREYActionBlock.h"
+#import "GREYActions.h"
+#import "GREYSyncAPI.h"
+#import "GREYAssertionBlock.h"
 #import "GREYDistantObjectUtils.h"
 #import "GREYTestApplicationDistantObject.h"
+#import "GREYDescription.h"
+#import "GREYElementMatcherBlock.h"
 #import "GREYUIWindowProvider.h"
 
 @implementation GREYHostApplicationDistantObject (RemoteTest)

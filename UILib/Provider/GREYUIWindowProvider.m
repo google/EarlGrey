@@ -18,7 +18,6 @@
 
 #import "GREYFatalAsserts.h"
 #import "GREYAppleInternals.h"
-#import "GREYDefines.h"
 
 UIWindow *GREYGetApplicationKeyWindow(UIApplication *application) {
 #if defined(__IPHONE_13_0)

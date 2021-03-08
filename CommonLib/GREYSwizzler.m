@@ -20,7 +20,6 @@
 #include <objc/runtime.h>
 
 #import "GREYFatalAsserts.h"
-#import "GREYDefines.h"
 
 typedef NS_ENUM(NSUInteger, GREYMethodType) { GREYMethodTypeClass, GREYMethodTypeInstance };
 

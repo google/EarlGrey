@@ -22,7 +22,6 @@
 #import "GREYThrowDefines.h"
 #import "GREYConfigKey.h"
 #import "GREYConfiguration.h"
-#import "GREYConstants.h"
 #import "GREYLogger.h"
 
 @implementation NSURL (GREYApp)

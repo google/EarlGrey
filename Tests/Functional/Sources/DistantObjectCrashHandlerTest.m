@@ -16,10 +16,8 @@
 
 #import <XCTest/XCTest.h>
 
-#import "GREYFrameworkException.h"
 #import "EarlGrey.h"
 #import "BaseIntegrationTest.h"
-#import "EDOClientService.h"
 
 /**
  * The dummy test case which will be used by DistantObjectCrashHandlerTest to mimic the lifecycle of

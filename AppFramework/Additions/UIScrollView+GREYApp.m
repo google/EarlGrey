@@ -20,8 +20,8 @@
 #include <objc/runtime.h>
 
 #import "GREYAppStateTracker.h"
-#import "GREYAppStateTrackerObject.h"
 #import "GREYFatalAsserts.h"
+#import "GREYAppState.h"
 #import "GREYAppleInternals.h"
 #import "GREYSwizzler.h"
 
