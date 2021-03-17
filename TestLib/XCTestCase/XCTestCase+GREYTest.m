@@ -22,7 +22,6 @@
 #import "GREYTestApplicationDistantObject+Private.h"
 #import "GREYTestApplicationDistantObject.h"
 #import "GREYError.h"
-#import "GREYFrameworkException.h"
 #import "GREYSwizzler.h"
 #import "GREYFailureScreenshotSaver.h"
 #import "GREYTestCaseInvocation.h"
@@ -41,11 +40,6 @@ static uint16_t gHostApplicationPortForLastCrash;
 
 /** The failure count within a test case. */
 static NSUInteger gFailureCount;
-
-/**
- * Name of the exception that's thrown to interrupt current test execution.
- */
-static NSString *const kInternalTestInterruptException = @"EarlGreyInternalTestInterruptException";
 
 // Extern constants.
 NSString *const kGREYXCTestCaseInstanceWillSetUp = @"GREYXCTestCaseInstanceWillSetUp";
@@ -175,11 +169,11 @@ static BOOL gIsRunningOnXcode12;
 - (void)grey_markAsFailedAtLine:(NSUInteger)line
                          inFile:(NSString *)file
                     description:(NSString *)description {
-  [self grey_recordFailure:file line:line description:description];
   // If the test fails outside of the main thread in a nested runloop, it will not be interrupted
-  // until it's back in the outer most runloop. Raise an exception to interrupt the test immediately
-  [[GREYFrameworkException exceptionWithName:kInternalTestInterruptException
-                                      reason:@"Immediately halt execution of testcase"] raise];
+  // until it's back in the outer most runloop. _XCTFailureHandler will mark the test as failed
+  // and interrupt the runloop.
+  _XCTFailureHandler(self, NO, file.UTF8String, line, @"Immediately halt execution of testcase",
+                     @"%@", description);
 }
 
 #pragma mark - Private
@@ -238,9 +232,7 @@ static BOOL gIsRunningOnXcode12;
       }
     } @catch (NSException *exception) {
       [self grey_setStatus:kGREYXCTestCaseStatusFailed];
-      if (![exception.name isEqualToString:kInternalTestInterruptException]) {
-        @throw;  // NOLINT
-      }
+      @throw;  // NOLINT
     } @finally {
       switch ([self grey_status]) {
         case kGREYXCTestCaseStatusFailed:
