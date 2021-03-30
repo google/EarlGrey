@@ -84,7 +84,7 @@ We will cover this in the White-boxing guides in the bottom of this doc.
 
 If you recall, in the [App Component Setup Section](setup.md#3-app-component) in
 the Basic Setup doc, we mentioned how a user needs to inject EarlGrey's
-AppFramework into the application udner test using a Copy Files Script. To
+AppFramework into the application under test using a Copy Files Script. To
 inject the Helper Bundle, you need to do something similar but with a minor
 tweak.
 
