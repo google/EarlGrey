@@ -49,3 +49,15 @@ GREY_EXTERN BOOL GREYWaitForAppToIdleWithError(NSError **waitError);
  */
 GREY_EXTERN BOOL GREYWaitForAppToIdleWithTimeoutAndError(
     CFTimeInterval timeoutInSeconds, NSError **waitError);
+
+/**
+ * Sleeps in a background queue in the test process for the specified @c time.
+ * The main thread's runloop will continue processing requests.
+ *
+ * @remark Please do not use this as a catch-all instead of an idling resource
+ *         or GREYCondition.
+ *
+ * @param time A CFTimeInterval in seconds for which the test process will
+ * sleep.
+ */
+GREY_EXTERN void GREYWaitForTime(CFTimeInterval time);

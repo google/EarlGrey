@@ -867,6 +867,15 @@
       assertWithMatcher:grey_text(@"uu")];
 }
 
+// Confirms time saved in a drain from the test side.
+- (void)testAssertionForDrainForTime {
+  CFTimeInterval start = CACurrentMediaTime();
+  GREYWaitForTime(3);
+  CFTimeInterval interval = CACurrentMediaTime() - start;
+  XCTAssertGreaterThan(interval, 3, @"The app must have been drained for 3 seconds");
+  XCTAssertLessThan(interval, 3.1, @"The app must have been drained for 3 seconds");
+}
+
 #pragma mark - Private
 
 /**

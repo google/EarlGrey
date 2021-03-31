@@ -39,3 +39,9 @@ BOOL GREYWaitForAppToIdleWithTimeoutAndError(CFTimeInterval timeoutInSeconds, NS
   }
   return success;
 }
+
+void GREYWaitForTime(CFTimeInterval time) {
+  GREYExecuteSyncBlockInBackgroundQueue(^{
+    [NSThread sleepForTimeInterval:time];
+  });
+}
