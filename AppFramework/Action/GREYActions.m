@@ -507,15 +507,21 @@ static Protocol *gTextInputProtocol;
           NSNotificationCenter *defaultCenter = NSNotificationCenter.defaultCenter;
           BOOL elementIsUIControl = [element isKindOfClass:[UIControl class]];
           BOOL elementIsUITextField = [element isKindOfClass:[UITextField class]];
+          BOOL elementIsUITextView = [element isKindOfClass:[UITextView class]];
           grey_dispatch_sync_on_main_thread(^{
             // Did begin editing notifications.
             if (elementIsUIControl) {
               [element sendActionsForControlEvents:UIControlEventEditingDidBegin];
             }
-
             if (elementIsUITextField) {
               NSNotification *notification =
                   [NSNotification notificationWithName:UITextFieldTextDidBeginEditingNotification
+                                                object:element];
+              [defaultCenter postNotification:notification];
+            }
+            if (elementIsUITextView) {
+              NSNotification *notification =
+                  [NSNotification notificationWithName:UITextViewTextDidBeginEditingNotification
                                                 object:element];
               [defaultCenter postNotification:notification];
             }
@@ -533,6 +539,12 @@ static Protocol *gTextInputProtocol;
                                                 object:element];
               [defaultCenter postNotification:notification];
             }
+            if (elementIsUITextView) {
+              NSNotification *notification =
+                  [NSNotification notificationWithName:UITextViewTextDidChangeNotification
+                                                object:element];
+              [defaultCenter postNotification:notification];
+            }
 
             // Did end editing notifications.
             if (elementIsUIControl) {
@@ -545,6 +557,12 @@ static Protocol *gTextInputProtocol;
                                                 object:element];
               [defaultCenter postNotification:notification];
               [element sendActionsForControlEvents:UIControlEventValueChanged];
+            }
+            if (elementIsUITextView) {
+              NSNotification *notification =
+                  [NSNotification notificationWithName:UITextViewTextDidEndEditingNotification
+                                                object:element];
+              [defaultCenter postNotification:notification];
             }
 
             // For a UITextView, call the textViewDidChange: delegate.
