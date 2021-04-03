@@ -80,6 +80,50 @@ public func GREYFail(
     details: details())
 }
 
+/// Waits for the application to idle on a background queue of the test to enable thread safe calls
+/// on the main thread.
+///
+/// - Parameters:
+///   - timeoutDescription: The description to be printed if the application doesn't idle.
+public func GREYWaitForAppToIdle(
+  _ timeoutDescription: @autoclosure () -> String =
+    "EarlGrey timed out while waiting for the app to idle."
+) {
+  var error: NSError?
+  GREYWaitForAppToIdleWithError(&error)
+  if error == nil {
+    return
+  }
+  EarlGrey.handle(
+    GREYFrameworkException(
+      name: kGREYTimeoutException,
+      reason: timeoutDescription()),
+    details: error.debugDescription)
+}
+
+/// Waits for the application to idle within a timeout on a background queue of the test to enable
+/// thread safe calls on the main thread.
+///
+/// - Parameters:
+///   - timeout: The timeout within which the application must idle.
+///   - timeoutDescription: The description to be printed if the application doesn't idle.
+public func GREYWaitForAppToIdle(
+  _ timeout: CFTimeInterval,
+  _ timeoutDescription: @autoclosure () -> String =
+    "EarlGrey timed out while waiting for the app to idle within timeout: \timeout."
+) {
+  var error: NSError?
+  GREYWaitForAppToIdleWithTimeoutAndError(timeout, &error)
+  if error == nil {
+    return
+  }
+  EarlGrey.handle(
+    GREYFrameworkException(
+      name: kGREYTimeoutException,
+      reason: timeoutDescription()),
+    details: error.debugDescription)
+}
+
 private func GREYAssert(
   _ expression: @autoclosure () -> Bool,
   _ reason: @autoclosure () -> String = "Generic EarlGrey Assertion Failed.",
@@ -96,7 +140,7 @@ private func GREYAssert(
 }
 
 private func GREYWaitUntilIdle() {
-  GREYUIThreadExecutor.sharedInstance().drainUntilIdle()
+  try! GREYWaitForAppToIdle()
 }
 
 public func GREYRemoteClassInApp<T>(classVal: T.Type) -> T.Type {

@@ -285,6 +285,32 @@ class SwiftTests: XCTestCase {
     self.waitForExpectations(timeout: 2)
   }
 
+  /// Verifies the wait for the app to idle.
+  func testWaitingForTheAppToIdle() {
+    openTestView(named: "Animations")
+    EarlGrey.selectElement(with: grey_accessibilityLabel("AnimationStatus"))
+      .assert(grey_text("Stopped"))
+    EarlGrey.selectElement(with: grey_accessibilityLabel("AnimationControl"))
+      .perform(grey_tap())
+    try! GREYWaitForAppToIdle()
+    GREYConfiguration.shared.setValue(false, forConfigKey: GREYConfigKey.synchronizationEnabled)
+    EarlGrey.selectElement(with: grey_accessibilityLabel("AnimationStatus"))
+      .assert(grey_text("Paused"))
+  }
+
+  /// Verifies the wait for the app to idle within a timeout.
+  func testWaitingForTheAppToIdleWithATimeout() {
+    openTestView(named: "Animations")
+    EarlGrey.selectElement(with: grey_accessibilityLabel("AnimationStatus"))
+      .assert(grey_text("Stopped"))
+    EarlGrey.selectElement(with: grey_accessibilityLabel("AnimationControl"))
+      .perform(grey_tap())
+    try! GREYWaitForAppToIdle(3)
+    GREYConfiguration.shared.setValue(false, forConfigKey: GREYConfigKey.synchronizationEnabled)
+    EarlGrey.selectElement(with: grey_accessibilityLabel("AnimationStatus"))
+      .assert(grey_text("Paused"))
+  }
+
   func openTestView(named name: String) {
     var error: NSError?
     EarlGrey.selectElement(with: grey_accessibilityLabel(name))
