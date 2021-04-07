@@ -58,7 +58,7 @@ You can use the same channels as with EarlGrey 1.0 for communicating with us. Pl
 *   [Known Issues](https://github.com/google/EarlGrey/issues)
 *   [Stack Overflow](http://stackoverflow.com/questions/tagged/earlgrey2)
 *   [Slack](https://googleoss.slack.com/messages/earlgrey)
-*   [Google Group](https://groups.google.com/forum/#!forum/earlgrey-discuss)
+*   [Google Group](https://groups.google.com/g/earlgrey-discuss)
 
 # Apple Privacy Description Labels & Analytics
 
