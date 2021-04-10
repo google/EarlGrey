@@ -14,7 +14,6 @@
 // limitations under the License.
 //
 
-#import "GREYUIThreadExecutor.h"
 #import "GREYConfigKey.h"
 #import "GREYWaitFunctions.h"
 #import "EarlGrey.h"
@@ -137,9 +136,7 @@
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"NSURLSessionNoCallbackTest")]
       performAction:grey_tap()];
   CFTimeInterval startTime = CACurrentMediaTime();
-  // GREYUIThreadExecutor::drainUntilIdle will be called on the background thread here since we
-  // stub it in EarlGrey's TestLib.
-  [[GREYUIThreadExecutor sharedInstance] drainUntilIdle];
+  GREYWaitForAppToIdle(@"Wait for the network request without explicitly looking for callbacks.");
   CFTimeInterval idlingTime = CACurrentMediaTime() - startTime;
   // Verify that EarlGrey did not wait for the request.
   GREYAssert(idlingTime < 1.0, @"EarlGrey must not wait for the network request: Timeout %f",
