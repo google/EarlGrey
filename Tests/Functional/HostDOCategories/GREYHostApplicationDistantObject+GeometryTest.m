@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import " IWYU pragma: keep
+#import "GREYHostApplicationDistantObject+GeometryTest.h"
 
 #import "CGGeometry+GREYUI.h"
 

@@ -52,11 +52,12 @@ CommonLib/
 TestLib/
 UILib/
 Tests/
-fishhook/
-eDistantObject/
 README.md
 LICENSE
 EarlGrey.xcodeproj
+Submodules/
+  fishhook/
+  eDistantObject/
 ```
 
 Open the `EarlGrey.xcodeproj` file and ensure that the `AppFramework` and the `TestLib` target
