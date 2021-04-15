@@ -155,7 +155,7 @@ class SwiftTests: XCTestCase {
       .perform(grey_tap())
   }
 
-  func testtestSwiftCustomMatcher() {
+  func testSwiftCustomMatcher() {
     // Verify description in custom matcher isn't nil.
     // unexpectedly found nil while unwrapping an Optional value
     EarlGrey.selectElement(
@@ -292,7 +292,7 @@ class SwiftTests: XCTestCase {
       .assert(grey_text("Stopped"))
     EarlGrey.selectElement(with: grey_accessibilityLabel("AnimationControl"))
       .perform(grey_tap())
-    try! GREYWaitForAppToIdle()
+    GREYWaitForAppToIdle()
     GREYConfiguration.shared.setValue(false, forConfigKey: GREYConfigKey.synchronizationEnabled)
     EarlGrey.selectElement(with: grey_accessibilityLabel("AnimationStatus"))
       .assert(grey_text("Paused"))
@@ -305,10 +305,19 @@ class SwiftTests: XCTestCase {
       .assert(grey_text("Stopped"))
     EarlGrey.selectElement(with: grey_accessibilityLabel("AnimationControl"))
       .perform(grey_tap())
-    try! GREYWaitForAppToIdle(3)
+    GREYWaitForAppToIdle(3)
     GREYConfiguration.shared.setValue(false, forConfigKey: GREYConfigKey.synchronizationEnabled)
     EarlGrey.selectElement(with: grey_accessibilityLabel("AnimationStatus"))
       .assert(grey_text("Paused"))
+  }
+
+  /// Verifies snapshot of views are taken and EDORemoteVariable correctly holds the result.
+  func testTakeSnapshot() {
+    openTestView(named: "Animations")
+    let image: EDORemoteVariable<UIImage> = EDORemoteVariable()
+    EarlGrey.selectElement(with: grey_accessibilityLabel("AnimationControl")).perform(
+      grey_snapshot(image))
+    XCTAssertNotNil(image.object, "No Screenshot taken from the app side.")
   }
 
   func openTestView(named name: String) {

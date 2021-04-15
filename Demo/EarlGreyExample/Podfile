@@ -18,11 +18,9 @@ target 'EarlGreyExampleSwift' do
 end
 
 target 'EarlGreyExampleUITests' do
-  #inherit! :search_paths
   pod 'EarlGreyTest'
 end
 
 target 'EarlGreyExampleSwiftUITests' do
-  #inherit! :search_paths
   pod 'EarlGreyTest'
 end
