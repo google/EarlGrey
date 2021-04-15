@@ -53,44 +53,6 @@ typedef void (^GREYExecBlock)(void);
 - (instancetype)init NS_UNAVAILABLE;
 
 /**
- * Blocking call that drains the main runloop enough times to make each source gets a fair chance
- * of service. No guarantee is made on whether the app is in kGREYIdle state after this method
- * returns.
- */
-- (void)drainOnce;
-
-/**
- * Blocking call that drains the UI thread for the specified number of @c seconds.
- * This method can block for longer than the specified time if any of the signalled sources take
- * longer than that to execute.
- *
- * @param seconds Amount of time that the UI thread should be drained for, in seconds.
- */
-- (void)drainForTime:(CFTimeInterval)seconds;
-
-/**
- * Blocking call that drains the UI thread until both the UI and registered GREYIdlingResources
- * are in idle.
- *
- * @remark Be very careful while calling this as you could end up in state where the caller expects
- *         the callee to mark the thread as idle and callee inadvertently calls
- *         GREYUIThreadExecutor::drainUntilIdle:, in which case it will go into an infinite loop
- *         and the test will have to be force-killed by the test-runner.
- */
-- (void)drainUntilIdle;
-
-/**
- * Drains the UI thread and waits for both the UI and idling resources to idle until the given
- * amount of @c seconds have passed, at which point, a timeout occurs and the method returns @c NO.
- * Returns @c YES if idled within @c seconds, @c NO otherwise.
- *
- * @param seconds Amount of time to wait for the UI and idling resources to idle.
- *
- * @return @c YES if idled within @c seconds, @c NO otherwise.
- */
-- (BOOL)drainUntilIdleWithTimeout:(CFTimeInterval)seconds;
-
-/**
  * Executes @c execBlock on the main thread, synchronizing with all registered GREYIdlingResources
  * and UI events. If the UI thread or idling resources are not idle until @c seconds have elapsed,
  * @c execBlock is not executed and error (if provided) is populated.

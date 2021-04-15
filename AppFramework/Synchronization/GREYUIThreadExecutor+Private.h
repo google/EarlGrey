@@ -16,8 +16,8 @@
 
 /**
  * @file  GREYUIThreadExecutor+Private.h
- * @brief Exposes GREYUIThreadExecutor interfaces and methods that are otherwise private for
- *        testing purposes.
+ * @brief Exposes GREYUIThreadExecutor interfaces and methods that are not fully supported or will
+ *        be refactored in the future.
  */
 
 #import "GREYUIThreadExecutor.h"

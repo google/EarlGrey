@@ -30,6 +30,7 @@
 #import "GREYMatchers.h"
 #import "GREYAppStateTracker.h"
 #import "GREYSyncAPI.h"
+#import "GREYUIThreadExecutor+GREYApp.h"
 #import "GREYUIThreadExecutor.h"
 #import "GREYFatalAsserts.h"
 #import "GREYThrowDefines.h"

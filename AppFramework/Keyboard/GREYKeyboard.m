@@ -25,6 +25,7 @@
 #import "GREYAppStateTracker.h"
 #import "GREYRunLoopSpinner.h"
 #import "GREYSyncAPI.h"
+#import "GREYUIThreadExecutor+GREYApp.h"
 #import "GREYUIThreadExecutor.h"
 #import "GREYFatalAsserts.h"
 #import "GREYAppState.h"
