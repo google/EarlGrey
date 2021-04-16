@@ -212,8 +212,13 @@ __attribute__((constructor)) static void RegisterKeyboardLifecycleHooks() {
 
   // If autocapitalization is on, make sure you wait for the uppercase keyplane before typing the
   // first character. Otherwise, it could lead to flaky test.
-  if ([firstResponder respondsToSelector:@selector(autocapitalizationType)] &&
-      [firstResponder autocapitalizationType] != UITextAutocapitalizationTypeNone) {
+  __block BOOL checkForCapitalizedCharacter;
+  grey_dispatch_sync_on_main_thread(^{
+    checkForCapitalizedCharacter =
+        ([(UITextField *)firstResponder respondsToSelector:@selector(autocapitalizationType)] &&
+         [firstResponder autocapitalizationType] != UITextAutocapitalizationTypeNone);
+  });
+  if (checkForCapitalizedCharacter) {
     WaitAndFindKeyForCharacter(@"Q", kAutomaticKeyplaneUpdateDuration);
   }
 
