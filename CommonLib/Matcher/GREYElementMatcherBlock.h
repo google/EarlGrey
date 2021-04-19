@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return @c YES if the matcher's specified condition was matched by the element, else @c NO.
  */
-typedef BOOL (^GREYMatchesBlock)(id element);
+typedef BOOL (^GREYMatchesBlock)(id _Nullable element);
 
 /**
  * A block for implementing GREYBaseMatcher::describeTo:.
