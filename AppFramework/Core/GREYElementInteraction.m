@@ -988,7 +988,7 @@ static NSString *RecoverySuggestionForMultipleElementMatchedError(NSString *matc
     if ([modifiedError respondsToSelector:@selector(appUIHierarchy)]) {
       appUIHierarchy = modifiedError.appUIHierarchy;
       if (!appUIHierarchy) {
-        NSAssert(NO, @"No hierarchy extracted from error: %@", modifiedError);
+        GREYFatalAssertWithMessage(NO, @"No hierarchy extracted from error: %@", modifiedError);
       }
       modifiedError.appUIHierarchy = nil;
     }

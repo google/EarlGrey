@@ -16,6 +16,7 @@
 
 #import "GREYObjectFormatter.h"
 
+#import "GREYThrowDefines.h"
 #import "GREYError.h"
 #import "GREYStringDescription.h"
 
@@ -214,7 +215,7 @@ static Class gEDOObjectClass;
   } else if ([object isKindOfClass:[UIImage class]]) {
     return [object description];
   } else {
-    NSAssert(NO, @"Unhandled output type: %@", [object class]);
+    GREYThrowOnFailedConditionWithMessage(NO, @"Unhandled output type: %@", [object class]);
   }
   return nil;
 }
