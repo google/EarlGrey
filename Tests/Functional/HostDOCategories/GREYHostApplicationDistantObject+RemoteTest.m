@@ -124,6 +124,17 @@
   return [notificationFired boolValue];
 }
 
+- (void)resetsAppLaunchingHandler {
+  objc_setAssociatedObject(self, @selector(appLaunchingHandlerIsInvoked), @(0),
+                           OBJC_ASSOCIATION_RETAIN);
+}
+
+- (BOOL)appLaunchingHandlerIsInvoked {
+  NSNumber *appLaunchingHandled =
+      objc_getAssociatedObject(self, @selector(appLaunchingHandlerIsInvoked));
+  return [appLaunchingHandled boolValue];
+}
+
 - (UIInterfaceOrientation)appOrientation {
   return [[UIApplication sharedApplication] statusBarOrientation];
 }
@@ -145,6 +156,16 @@
                              OBJC_ASSOCIATION_RETAIN);
   }
   [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+/**
+ * `GREYHostApplicationDistantObject.application(:didFinishLaunchingWithOptions:)` is an equivalence
+ * of the same function in `UIApplicationDelegate`.
+ */
+- (void)application:(UIApplication *)application
+    didFinishLaunchingWithOptions:(NSDictionary<UIApplicationLaunchOptionsKey, id> *)options {
+  objc_setAssociatedObject(self, @selector(appLaunchingHandlerIsInvoked), @(1),
+                           OBJC_ASSOCIATION_RETAIN);
 }
 
 @end

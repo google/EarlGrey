@@ -80,6 +80,19 @@
 - (BOOL)textFieldTextDidBeginEditingNotificationFiredOnMainThread;
 
 /**
+ * Resets the changes made by [GREYHostApplicationDistantObject
+ * -application:didFinishLaunchingWithOptions:]
+ */
+- (void)resetsAppLaunchingHandler;
+
+/**
+ * @return @c YES, if the test app is in the state that is changed within
+ *         [GREYHostApplicationDistantObject -application:didFinishLaunchingWithOptions:], @c NO
+ *         otherwise.
+ */
+- (BOOL)appLaunchingHandlerIsInvoked;
+
+/**
  * @return The UIInterfaceOrientation of the app under test.
  */
 - (UIInterfaceOrientation)appOrientation;

@@ -100,6 +100,23 @@ static void InitiateCommunicationWithTest() {
     testApplicationDistantObject.hostBackgroundPort =
         GREYHostBackgroundDistantObject.sharedInstance.servicePort;
     testApplicationDistantObject.hostLaunchedWithAppComponent = YES;
+
+    // [GREYHostApplicationDistantObject -application:didFinishLaunchingWithOptions:] is a special
+    // method for the class. By default, this method is not implemented by EarlGrey. Developers can
+    // implement this method in the class extension, and if it is the case, EarlGrey framework
+    // will invoke this method when UIApplicationDidFinishLaunchingNotification is fired by the app.
+    [NSNotificationCenter.defaultCenter
+        addObserverForName:UIApplicationDidFinishLaunchingNotification
+                    object:nil
+                     queue:NSOperationQueue.mainQueue
+                usingBlock:^(NSNotification *notification) {
+                  id appDO = GREYHostApplicationDistantObject.sharedInstance;
+                  if ([appDO respondsToSelector:@selector(application:
+                                                    didFinishLaunchingWithOptions:)]) {
+                    [appDO application:UIApplication.sharedApplication
+                        didFinishLaunchingWithOptions:notification.userInfo];
+                  }
+                }];
   });
 }
 

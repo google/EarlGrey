@@ -33,7 +33,7 @@
 
 /** Checks if the successful launch of app-under-test initializes the distant object variables. */
 - (void)testLaunchNoError {
-  // Launch and terminate w/o any errors.
+  // Launch and stop the application w/o any errors.
   XCTAssertNotNil(GREYHostApplicationDistantObject.sharedInstance);
   XCTAssertNotNil(GREYTestApplicationDistantObject.sharedInstance);
 
@@ -134,6 +134,19 @@
   [self.application launch];
   XCTAssertTrue(GREYTestApplicationDistantObject.sharedInstance.hostLaunchedWithAppComponent,
                 @"The Distant object host app must be launched with the app component.");
+}
+
+/**
+ * Ensures the GREYHostApplicationDistantObject::application:didFinishLaunchingWithOptions: is
+ * invoked when UIApplicationDidFinishLaunchingNotification is fired.
+ */
+- (void)testDistantObjectInvokesLaunchingHandlerIfProvided {
+  GREYHostApplicationDistantObject *distantObject = GREYHostApplicationDistantObject.sharedInstance;
+  [distantObject resetsAppLaunchingHandler];
+  [[GREY_REMOTE_CLASS_IN_APP(NSNotificationCenter) defaultCenter]
+      postNotificationName:UIApplicationDidFinishLaunchingNotification
+                    object:nil];
+  XCTAssertTrue([distantObject appLaunchingHandlerIsInvoked]);
 }
 
 @end
