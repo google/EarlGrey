@@ -69,7 +69,7 @@ GREY_EXTERN NSString *const GREYFailureHandlerKey;
     NSString *descriptionWithDetails__;                                                         \
     if ([details__ length] > 0) {                                                               \
       descriptionWithDetails__ =                                                                \
-          [NSString stringWithFormat:@"%@\n\n%@", __description, details__];                    \
+          [NSString stringWithFormat:@"%@\n\n%@\n", __description, details__];                  \
     } else {                                                                                    \
       descriptionWithDetails__ = [NSString stringWithFormat:@"%@\n", __description];            \
     }                                                                                           \

@@ -86,7 +86,7 @@
   for (NSString *key in screenshotPaths.allKeys) {
     [output appendFormat:@"\n%@: %@\n", key, screenshotPaths[key]];
   }
-  [output appendString:GREYAppUIHierarchyFromException(exception)];
+  [output appendString:GREYAppUIHierarchyFromException(exception, details)];
   return output;
 }
 

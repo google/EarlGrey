@@ -148,6 +148,10 @@ GREY_EXTERN NSString *const kErrorDetailElementMatcherKey;
 GREY_EXTERN NSString *const kErrorDetailAppUIHierarchyKey;
 
 /**
+ * Internal variables specifying the UI hierarchy's header.
+ */
+GREY_EXTERN NSString *const kErrorDetailAppUIHierarchyHeaderKey;
+/**
  * Internal variables specifying the detail keys for the app screenshots.
  */
 GREY_EXTERN NSString *const kErrorDetailAppScreenshotsKey;

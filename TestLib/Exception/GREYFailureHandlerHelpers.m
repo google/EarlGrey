@@ -20,10 +20,11 @@
 #import "GREYFrameworkException.h"
 #import "GREYElementHierarchy.h"
 
-NSString *GREYAppUIHierarchyFromException(GREYFrameworkException *exception) {
+NSString *GREYAppUIHierarchyFromException(GREYFrameworkException *exception, NSString *details) {
   NSString *appUIHierarchy = [exception.userInfo valueForKey:kErrorDetailAppUIHierarchyKey];
-  // For calls from GREYAsserts in the test side, the hierarchy must be populated here.
-  if (!appUIHierarchy) {
+  // For calls from GREYAsserts in the test side, the hierarchy must be populated here. In case an
+  // existing EarlGrey error is being logged, do not re-print it.
+  if (!appUIHierarchy && ![details containsString:kErrorDetailAppUIHierarchyHeaderKey]) {
     appUIHierarchy = [NSString stringWithFormat:@"\n%@:\n%@\n", kErrorDetailAppUIHierarchyKey,
                                                 [GREYElementHierarchy hierarchyString]];
     return appUIHierarchy;
@@ -33,7 +34,8 @@ NSString *GREYAppUIHierarchyFromException(GREYFrameworkException *exception) {
 }
 
 NSString *GREYTestStackTrace(void) {
-  // If the error was generated from a helper (non-test) method then print the stacktrace.
+  // If the exception is thrown from a helper, more than one line will be present beyond the
+  // `invoke` value in the stack trace.
   NSArray<NSString *> *callStack = [NSThread callStackSymbols];
   NSMutableArray<NSString *> *trimmedCallStack = [[NSMutableArray alloc] init];
   for (NSString *stackSymbol in callStack) {
@@ -45,15 +47,8 @@ NSString *GREYTestStackTrace(void) {
   }
   // The trimmed stack trace should at least contain the test name and exception-raising method.
   NSUInteger trimmedCallStackCount = [trimmedCallStack count];
-  if (trimmedCallStackCount >= 2 && [trimmedCallStack[0] containsString:@"-["]) {
-    BOOL endOfStackTraceIsInTest =
-        [trimmedCallStack[trimmedCallStackCount - 1] containsString:@" test"];
-    BOOL testSymbolIsPrecededByHelper =
-        ![trimmedCallStack[trimmedCallStackCount - 2] containsString:@"GREY"] &&
-        ![trimmedCallStack[trimmedCallStackCount - 2] containsString:@"handleException:details:"];
-    if (endOfStackTraceIsInTest && testSymbolIsPrecededByHelper) {
-      return trimmedCallStack.description;
-    }
+  if (trimmedCallStackCount >= 2) {
+    return [NSString stringWithFormat:@"\n%@", [trimmedCallStack componentsJoinedByString:@"\n"]];
   }
   return nil;
 }

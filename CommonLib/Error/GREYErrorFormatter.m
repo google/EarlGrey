@@ -22,7 +22,6 @@
 
 #pragma mark - UI Hierarchy Keys
 
-static NSString *const kHierarchyHeaderKey = @"UI Hierarchy (Back to front):\n";
 static NSString *const kErrorPrefix = @"EarlGrey Encountered an Error:";
 
 #pragma mark - GREYErrorFormatter
@@ -92,7 +91,7 @@ static NSString *const kErrorPrefix = @"EarlGrey Encountered an Error:";
 
   NSString *hierarchy = error.appUIHierarchy;
   if (hierarchy) {
-    [logger appendFormat:@"\n\n%@\n%@", kHierarchyHeaderKey, hierarchy];
+    [logger appendFormat:@"\n\n%@\n%@", kErrorDetailAppUIHierarchyHeaderKey, hierarchy];
   }
 
   return [NSString stringWithFormat:@"%@\n", logger];

@@ -537,9 +537,9 @@
   GREYFail(@"Foo: %@", @"Bar");
   XCTAssertEqualObjects(_handler.details, @"Foo: Bar\n");
   GREYFailWithDetails(@"Foo", @"Bar");
-  XCTAssertEqualObjects(_handler.details, @"Foo\n\nBar");
+  XCTAssertEqualObjects(_handler.details, @"Foo\n\nBar\n");
   GREYFailWithDetails(@"Foo", @"Bar: %@", @"Baz");
-  XCTAssertEqualObjects(_handler.details, @"Foo\n\nBar: Baz");
+  XCTAssertEqualObjects(_handler.details, @"Foo\n\nBar: Baz\n");
 }
 
 /** Ensures the recovery suggestion for an NSTimer is present. */
@@ -566,16 +566,24 @@
                 timerSuggestion, _handler.details);
 }
 
-- (void)testStackTraceNotPresentForFailureInTest {
+/**
+ * Ensures that for a test like this using a custom failure handler, a stack trace must always be
+ * printed.
+ */
+- (void)testStackTracePresentForFailureInTest {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Invalid")] performAction:grey_tap()];
-  XCTAssertNil(_handler.testStackTrace, @"Stack trace should not be present for a test failure: %@",
-               _handler.testStackTrace);
+  XCTAssertNotNil(
+      _handler.testStackTrace,
+      @"Stack trace should be present for a test failure with a custom failure handler: %@",
+      _handler.testStackTrace);
 }
 
-- (void)testStackTraceNotPresentForFailureInAssertion {
+/** Ensures stack trace present for an assertion define. */
+- (void)testStackTracePresentFailureInAssertion {
   GREYAssertTrue(NO, @"Failure");
-  XCTAssertNil(_handler.testStackTrace, @"Stack trace should not be present for a test failure: %@",
-               _handler.testStackTrace);
+  XCTAssertNotNil(_handler.testStackTrace,
+                  @"Stack trace should not be present for a test failure: %@",
+                  _handler.testStackTrace);
 }
 
 - (void)testStackTracePresentForEarlGreyFailureInHelper {
@@ -587,16 +595,9 @@
   NSCharacterSet *newlineCharacterSet = [NSCharacterSet newlineCharacterSet];
   NSArray<NSString *> *stackTraceLines =
       [_handler.testStackTrace componentsSeparatedByCharactersInSet:newlineCharacterSet];
-  XCTAssertEqual([stackTraceLines count], 5, @"There's 3 lines in the stack trace and 2 newlines.");
+  XCTAssertEqual([stackTraceLines count], 4, @"There's 3 lines in the stack trace and 2 newlines.");
   XCTAssertFalse([stackTraceLines[1] containsString:@"GREYTestStackTrace"],
                  @"The stack trace creator must be contained in the stack trace.");
-  NSString *testCaseName =
-      @"-[FailureFormattingTest testStackTracePresentForEarlGreyFailureInHelper]";
-  XCTAssertTrue([stackTraceLines[[stackTraceLines count] - 2] containsString:testCaseName],
-                @"The test name must be the last object in the stack trace.");
-  NSString *helperName = @"-[FailingHelper induceEarlGreyFail]";
-  XCTAssertTrue([stackTraceLines[[stackTraceLines count] - 3] containsString:helperName],
-                @"The helper name must be the last object in the stack trace.");
 }
 
 - (void)testStackTracePresentForAssertionFailureInHelper {
@@ -608,16 +609,10 @@
   NSCharacterSet *newlineCharacterSet = [NSCharacterSet newlineCharacterSet];
   NSArray<NSString *> *stackTraceLines =
       [_handler.testStackTrace componentsSeparatedByCharactersInSet:newlineCharacterSet];
-  XCTAssertEqual([stackTraceLines count], 5, @"There's 3 lines in the stack trace and 2 newlines.");
+  XCTAssertEqual([stackTraceLines count], 4,
+                 @"There are 2 lines in the stack trace and 2 newlines.");
   XCTAssertFalse([stackTraceLines[1] containsString:@"GREYTestStackTrace"],
                  @"The stack trace creator must be contained in the stack trace.");
-  NSString *testCaseName =
-      @"-[FailureFormattingTest testStackTracePresentForAssertionFailureInHelper]";
-  XCTAssertTrue([stackTraceLines[[stackTraceLines count] - 2] containsString:testCaseName],
-                @"The test name must be the last object in the stack trace.");
-  NSString *helperName = @"-[FailingHelper induceAssertionFail]";
-  XCTAssertTrue([stackTraceLines[[stackTraceLines count] - 3] containsString:helperName],
-                @"The helper name must be the last object in the stack trace.");
 }
 
 @end

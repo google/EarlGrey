@@ -57,6 +57,7 @@ NSString *const kGREYAssertionErrorUserInfoKey = @"kGREYAssertionErrorUserInfoKe
 NSString *const kErrorDetailForegroundApplicationFailed =
     @"kErrorDetailForegroundApplicationFailed";
 
+NSString *const kErrorDetailAppUIHierarchyHeaderKey = @"UI Hierarchy (Back to front):\n";
 NSString *const kErrorDetailElementMatcherKey = @"Element Matcher";
 NSString *const kErrorDetailAppUIHierarchyKey = @"App UI Hierarchy";
 NSString *const kErrorDetailAppScreenshotsKey = @"App Screenshots";
