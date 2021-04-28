@@ -54,7 +54,7 @@
   for (NSUInteger i = 0; i < _matchers.count; i++) {
     id<GREYMatcher> matcher = _matchers[i];
     
-    BOOL success = [matcher matches:item describingMismatchTo:mismatchDescription];
+    BOOL success = [matcher matches:item describingMismatchTo:failedSoFarDescription];
     
     if (success) {
       return YES;

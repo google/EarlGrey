@@ -366,7 +366,7 @@
                                @"(kindOfClass('UIButton') && buttonTitle('Disabled'))\n"
                                @"\n"
                                @"Failed Constraint(s):\n"
-                               @"kindOfClass('UIScrollView')kindOfClass('WKWebView'), \n"
+                               @"kindOfClass('UIScrollView'), kindOfClass('WKWebView')\n"
                                @"\n"
                                @"Element Description:\n"
                                @"<UIButton:";
@@ -514,7 +514,7 @@
       @"(kindOfClass('UIWindow') && keyWindow)\n"
       @"\n"
       @"Failed Constraint(s):\n"
-      @"kindOfClass('UIScrollView')kindOfClass('WKWebView'),";
+      @"kindOfClass('UIScrollView'), kindOfClass('WKWebView')";
   XCTAssertTrue([_handler.details containsString:expectedDetailWrappedError],
                 @"Expected info does not appear in the actual exception details:\n\n"
                 @"========== expected info ===========\n%@\n\n"
