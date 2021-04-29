@@ -129,7 +129,7 @@ private func GREYAssert(
   _ reason: @autoclosure () -> String = "Generic EarlGrey Assertion Failed.",
   _ details: @autoclosure () -> String
 ) {
-  GREYWaitUntilIdle()
+  GREYWaitForAppToIdle()
   if !expression() {
     EarlGrey.handle(
       GREYFrameworkException(
@@ -137,10 +137,6 @@ private func GREYAssert(
         reason: reason()),
       details: details())
   }
-}
-
-private func GREYWaitUntilIdle() {
-  try! GREYWaitForAppToIdle()
 }
 
 public func GREYRemoteClassInApp<T>(classVal: T.Type) -> T.Type {
