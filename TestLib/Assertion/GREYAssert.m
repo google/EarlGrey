@@ -151,16 +151,34 @@ void GREYISetFileLineAsFailable(const char *_Nonnull fileName, NSUInteger lineNu
   gSetFileLineBlock(fileName, lineNumber);
 }
 
+void GREYIAssertionFail(NSString *_Nonnull descriptionFormat, ...) {
+  va_list args;
+  va_start(args, descriptionFormat);
+  NSString *description = [[NSString alloc] initWithFormat:descriptionFormat arguments:args];
+  va_end(args);
+  NSString *descriptionWithDetails = [NSString stringWithFormat:@"%@\n", description];
+  GREYThrowInFunctionOnNilParameterWithMessage(
+      gRegisterFailureBlock,
+      @"GREYIConfigureAssertions() must be called before any assertions are invoked.");
+  gRegisterFailureBlock(GREYIExceptionTypeAssertionFailed, description, descriptionWithDetails);
+}
+
 void GREYIAssertionFailure(NSString *_Nonnull description, NSString *_Nullable detailsFormat, ...) {
-  NSString *details = @"";
+  NSString *_Nonnull details = @"";
   if (detailsFormat) {
     va_list args;
     va_start(args, detailsFormat);
     details = [[NSString alloc] initWithFormat:detailsFormat arguments:args];
     va_end(args);
   }
+  NSString *descriptionWithDetails = @"";
+  if (details.length) {
+    descriptionWithDetails = [NSString stringWithFormat:@"%@\n\n%@", description, details];
+  } else {
+    descriptionWithDetails = [NSString stringWithFormat:@"%@\n", description];
+  }
   GREYThrowInFunctionOnNilParameterWithMessage(
       gRegisterFailureBlock,
       @"GREYIConfigureAssertions() must be called before any assertions are invoked.");
-  gRegisterFailureBlock(GREYIExceptionTypeAssertionFailed, description, details);
+  gRegisterFailureBlock(GREYIExceptionTypeAssertionFailed, description, descriptionWithDetails);
 }

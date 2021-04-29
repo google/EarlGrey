@@ -68,6 +68,22 @@ NS_ASSUME_NONNULL_BEGIN
   GREYFailAtFileLine(description, __FILE__, __LINE__, ##__VA_ARGS__)
 
 /**
+ * Generates a failure unconditionally, allowing for separate description and
+ * details strings.
+ *
+ * @note Provided for compatibility reasons; for most uses, prefer GREYFail().
+ *
+ * @param description A string describing the failure. This must be supplied.
+ * @param details     A second string giving details. This may be a format
+ * string.
+ * @param ...         Subsequent arguments should be the format parameters for
+ *                    the details.
+ */
+#define GREYFailWithDetails(description, details, ...)                    \
+  GREYFailWithDetailsAtFileLine(description, details, __FILE__, __LINE__, \
+                                ##__VA_ARGS__)
+
+/**
  * Generates a failure if the expression @c __a1 evaluates to @c NO.
  *
  * @param __a1 The expression that should be evaluated.
@@ -310,6 +326,11 @@ NS_ASSUME_NONNULL_BEGIN
 #define GREYFailAtFileLine(description, fileName, lineNumber, ...) \
   GREYISetFileLineAsFailable(fileName, lineNumber);                \
   GREYIFail(description, ##__VA_ARGS__)
+
+#define GREYFailWithDetailsAtFileLine(description, details, fileName, \
+                                      lineNumber, ...)                \
+  GREYISetFileLineAsFailable(fileName, lineNumber);                   \
+  GREYIFailWithDetails(description, details, ##__VA_ARGS__)
 
 #define GREYAssertTrueAtFileLine(__a1, fileName, lineNumber, ...) \
   GREYISetFileLineAsFailable(fileName, lineNumber);               \

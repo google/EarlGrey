@@ -86,6 +86,19 @@ GREY_EXTERN void GREYISetFileLineAsFailable(const char *_Nonnull fileName, NSUIn
  *
  * The exception created will be an assertion failed exception.
  *
+ * @param descriptionFormat Format string for the description to assign to the exception. The
+ *                          variadic arguments should provide the string format parameters.
+ *                          The resulting string will be passed as both the description and
+ *                          details string to the error handler.
+ */
+GREY_EXTERN void GREYIAssertionFail(NSString *_Nonnull descriptionFormat, ...)
+    NS_FORMAT_FUNCTION(1, 2);
+
+/**
+ * Internal function to create an exception and pass it to the failure handler.
+ *
+ * The exception created will be an assertion failed exception.
+ *
  * @param description   Description to assign to the exception.
  * @param detailsFormat If given, this should be a format string for NSString, and the
  *                      variadic arguments should provide the string format parameters.
@@ -98,11 +111,16 @@ GREY_EXTERN void GREYIAssertionFailure(NSString *_Nonnull description,
 
 #pragma mark - Internal Macro Definitions
 
-#define GREYIFail(description, ...)                                                     \
-  ({                                                                                    \
-    GREYIWaitForAppToIdle(GREYIAssertionTypeFail);                                      \
-    GREYIAssertionFailure(GREYIFailureDescription(GREYIAssertionTypeFail), description, \
-                          ##__VA_ARGS__);                                               \
+#define GREYIFail(description, ...)                 \
+  ({                                                \
+    GREYIWaitForAppToIdle(GREYIAssertionTypeFail);  \
+    GREYIAssertionFail(description, ##__VA_ARGS__); \
+  })
+
+#define GREYIFailWithDetails(description, details, ...)         \
+  ({                                                            \
+    GREYIWaitForAppToIdle(GREYIAssertionTypeFail);              \
+    GREYIAssertionFailure(description, details, ##__VA_ARGS__); \
   })
 
 #define GREYIAssertTrue(__a1, ...)                                                    \
@@ -131,7 +149,7 @@ GREY_EXTERN void GREYIAssertionFailure(NSString *_Nonnull description,
   ({                                                                                    \
     const char *a1Str__ = "" #__a1;                                                     \
     GREYIWaitForAppToIdle(GREYIAssertionTypeNotNil, a1Str__);                           \
-    __typeof__(__a1) a1Value__ = (__a1);                                                \
+    NSObject *_Nullable a1Value__ = (__a1);                                             \
     if (a1Value__ == nil) {                                                             \
       GREYIAssertionFailure(GREYIFailureDescription(GREYIAssertionTypeNotNil, a1Str__), \
                             @"" __VA_ARGS__);                                           \
@@ -142,7 +160,7 @@ GREY_EXTERN void GREYIAssertionFailure(NSString *_Nonnull description,
   ({                                                                                              \
     const char *a1Str__ = "" #__a1;                                                               \
     GREYIWaitForAppToIdle(GREYIAssertionTypeNil, a1Str__);                                        \
-    __typeof__(__a1) a1Value__ = (__a1);                                                          \
+    NSObject *_Nullable a1Value__ = (__a1);                                                       \
     if (a1Value__) {                                                                              \
       GREYIAssertionFailure(                                                                      \
           GREYIFailureDescription(GREYIAssertionTypeNil, a1Str__, GREYDescribeObject(a1Value__)), \
