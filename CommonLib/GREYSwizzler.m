@@ -19,8 +19,6 @@
 #include <dlfcn.h>
 #include <objc/runtime.h>
 
-#import "GREYFatalAsserts.h"
-
 typedef NS_ENUM(NSUInteger, GREYMethodType) { GREYMethodTypeClass, GREYMethodTypeInstance };
 
 #pragma mark - GREYResetter
@@ -249,8 +247,8 @@ typedef NS_ENUM(NSUInteger, GREYMethodType) { GREYMethodTypeClass, GREYMethodTyp
 #pragma mark - Private
 
 + (NSString *)grey_keyForClass:(Class)klass selector:(SEL)sel type:(GREYMethodType)methodType {
-  GREYFatalAssert(klass);
-  GREYFatalAssert(sel);
+  NSParameterAssert(klass);
+  NSParameterAssert(sel);
 
   NSString *methodTypeString;
   if (methodType == GREYMethodTypeClass) {
@@ -269,11 +267,11 @@ typedef NS_ENUM(NSUInteger, GREYMethodType) { GREYMethodTypeClass, GREYMethodTyp
                     swizzledIMP:(IMP)swizzledIMP
                   swizzledClass:(Class)swizzledClass
                      methodType:(GREYMethodType)methodType {
-  GREYFatalAssert(originalMethod);
-  GREYFatalAssert(originalIMP);
-  GREYFatalAssert(originalClass);
-  GREYFatalAssert(swizzledMethod);
-  GREYFatalAssert(swizzledIMP);
+  NSParameterAssert(originalMethod);
+  NSParameterAssert(originalIMP);
+  NSParameterAssert(originalClass);
+  NSParameterAssert(swizzledMethod);
+  NSParameterAssert(swizzledIMP);
 
   NSString *keyForOriginal = [[self class] grey_keyForClass:originalClass
                                                    selector:method_getName(originalMethod)
