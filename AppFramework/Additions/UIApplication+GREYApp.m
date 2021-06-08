@@ -99,8 +99,17 @@ static NSMutableArray<NSString *> *gRunLoopModes;
 
 - (void)greyswizzled_endIgnoringInteractionEvents {
   INVOKE_ORIGINAL_IMP(void, @selector(greyswizzled_endIgnoringInteractionEvents));
+
+// EarlGrey should continue tracking UIApplication's deprecated -beginIgnoringInteractionEvents and
+// -endIgnoringInteractionEvents because it synchronizes UIViewController's -presentViewController:
+// animated:completion:. The UIView's alternative property doesn't capture the same events.
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
   // begin/end can be nested, instead of keeping the count, simply use isIgnoringInteractionEvents.
-  if (!self.isIgnoringInteractionEvents) {
+  BOOL isIgnoringInteractionEvents = self.isIgnoringInteractionEvents;
+#pragma clang diagnostic pop
+
+  if (!isIgnoringInteractionEvents) {
     GREYAppStateTrackerObject *object =
         objc_getAssociatedObject(self, @selector(greyswizzled_beginIgnoringInteractionEvents));
     UNTRACK_STATE_FOR_OBJECT(kGREYIgnoringSystemWideUserInteraction, object);
