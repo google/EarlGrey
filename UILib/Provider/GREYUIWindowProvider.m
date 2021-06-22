@@ -58,7 +58,12 @@ UIWindow *GREYGetApplicationKeyWindow(UIApplication *application) {
     // on iOS 15+, it's possible to have multiple key windows, we only return the first one for now.
     return keyWindows.firstObject;
   } else {
+    // This API is deprecated in iOS 13, so we suppress warning here in case its minimum required
+    // SDKs are lower.
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     return [application keyWindow];
+#pragma clang diagnostic pop
   }
 }
 
