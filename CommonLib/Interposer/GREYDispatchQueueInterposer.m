@@ -20,7 +20,6 @@
 
 #import "GREYConfigKey.h"
 #import "GREYConfiguration.h"
-#import "GREYDefines.h"
 
 // DYLD_INTERPOSE referenced from
 // https://opensource.apple.com/source/dyld/dyld-210.2.3/include/mach-o/dyld-interposing.h.
@@ -146,7 +145,6 @@ __unused static void DispatchSyncF(dispatch_queue_t queue, void *context,
   }
 }
 
-#if SANITIZERS_ENABLED
 /** Statically interpose the symbols for dispatch queues. Must be done like this inside a dylib. */
 DYLD_INTERPOSE(DispatchAfter, dispatch_after);
 DYLD_INTERPOSE(DispatchAsync, dispatch_async);
@@ -154,7 +152,6 @@ DYLD_INTERPOSE(DispatchSync, dispatch_sync);
 DYLD_INTERPOSE(DispatchAfterF, dispatch_after_f);
 DYLD_INTERPOSE(DispatchAsyncF, dispatch_async_f);
 DYLD_INTERPOSE(DispatchSyncF, dispatch_sync_f);
-#endif  // #if SANITIZERS_ENABLED
 
 @implementation GREYDispatchQueueInterposer {
   __weak dispatch_queue_t _interposedQueue;

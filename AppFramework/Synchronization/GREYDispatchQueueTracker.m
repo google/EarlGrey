@@ -25,7 +25,6 @@
 #import "GREYThrowDefines.h"
 #import "GREYConfigKey.h"
 #import "GREYConfiguration.h"
-#import "GREYDefines.h"
 #import "GREYDispatchQueueInterposer.h"
 
 /**
@@ -203,11 +202,9 @@ static Class gInterposerClass;
 }
 
 + (void)load {
-#if SANITIZERS_ENABLED
   gInterposerClass = NSClassFromString(@"GREYDispatchQueueInterposer");
-#endif  // #if SANITIZERS_ENABLED
-  // GREYDispatchQueueInterposer is present only for a test run with sanitizers, we will not use
-  // fishhook's dispatch_queue tracking then.
+  // GREYDispatchQueueInterposer is present when tests running on a simulator after iOS 12. In this
+  // case, fishhook is not used to track dispatch queues.
   if (!gInterposerClass) {
     gDispatchQueueToTracker = [NSMapTable weakToWeakObjectsMapTable];
 
