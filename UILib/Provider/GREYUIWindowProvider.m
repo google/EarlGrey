@@ -20,20 +20,46 @@
 #import "GREYAppleInternals.h"
 
 UIWindow *GREYGetApplicationKeyWindow(UIApplication *application) {
-#if defined(__IPHONE_13_0)
-  NSArray<UIWindow *> *windows = application.windows;
-  NSPredicate *windowFilter =
-      [NSPredicate predicateWithBlock:^BOOL(id _Nullable evaluatedObject,
-                                            NSDictionary<NSString *, id> *_Nullable bindings) {
-        return ((UIWindow *)evaluatedObject).isKeyWindow;
-      }];
-  NSArray<UIWindow *> *keyWindows = [windows filteredArrayUsingPredicate:windowFilter];
-  GREYFatalAssertWithMessage(keyWindows.count <= 1, @"Expected 0 or 1 keywindow but found %lu",
-                             (unsigned long)keyWindows.count);
-  return keyWindows.firstObject;
-#else
-  return [application keyWindow];
-#endif  // defined(__IPHONE_13_0)
+  // New API only available on Xcode 13+
+#if (defined(__MAC_OS_X_VERSION_MAX_ALLOWED) && __MAC_OS_X_VERSION_MAX_ALLOWED >= 120000) || \
+    (defined(__TV_OS_VERSION_MAX_ALLOWED) && __TV_OS_VERSION_MAX_ALLOWED >= 150000) ||       \
+    (defined(__WATCH_OS_VERSION_MAX_ALLOWED) && __WATCH_OS_VERSION_MAX_ALLOWED >= 150000) || \
+    (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 150000)
+  if (@available(iOS 15.0, *)) {
+    // There can be multiple key windows on iOS 15 because they are now bound to UIScene.
+    // This may indicate that all the active scenes can receive keyboard/system events at the same
+    // time, we currently only return the first key window for testing purposes. We shall evaluate
+    // how EarlGrey can support multiple key windows later.
+    // TODO(b/191156739): Support multiple key windows.
+    NSSet<UIScene *> *scenes = application.connectedScenes;
+    NSPredicate *filter = [NSPredicate
+        predicateWithBlock:^BOOL(UIWindowScene *scene, NSDictionary<NSString *, id> *unused) {
+          if (![scene isKindOfClass:UIWindowScene.class]) {
+            return NO;
+          } else if (scene.activationState != UISceneActivationStateForegroundActive) {
+            return NO;
+          } else {
+            return scene.keyWindow != nil;
+          }
+        }];
+    NSSet<UIScene *> *keyScenes = [scenes filteredSetUsingPredicate:filter];
+    return ((UIWindowScene *)keyScenes.anyObject).keyWindow;
+  }
+#endif
+
+  if (@available(iOS 13.0, *)) {
+    NSArray<UIWindow *> *windows = application.windows;
+    NSPredicate *windowFilter =
+        [NSPredicate predicateWithBlock:^BOOL(UIWindow *window,
+                                              NSDictionary<NSString *, id> *_Nullable bindings) {
+          return window.isKeyWindow;
+        }];
+    NSArray<UIWindow *> *keyWindows = [windows filteredArrayUsingPredicate:windowFilter];
+    // on iOS 15+, it's possible to have multiple key windows, we only return the first one for now.
+    return keyWindows.firstObject;
+  } else {
+    return [application keyWindow];
+  }
 }
 
 @implementation GREYUIWindowProvider {
