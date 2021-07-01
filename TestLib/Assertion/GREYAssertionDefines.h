@@ -24,9 +24,10 @@
 #ifndef GREY_ASSERTION_DEFINES_H
 #define GREY_ASSERTION_DEFINES_H
 
-#import "GREYAssertionDefinesPrivate.h"
-
+// This should be the public header file for EarlGrey callers to include. Let IWYU know
+// not to tell users to add the internal headers below.
 #import "GREYUIThreadExecutor.h"
+#import "GREYAssertionDefinesPrivate.h"
 #import "GREYFailureHandler.h"
 #import "GREYFrameworkException.h"
 #import "GREYDefines.h"
