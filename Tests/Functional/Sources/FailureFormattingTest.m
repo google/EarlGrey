@@ -14,7 +14,6 @@
 // limitations under the License.
 //
 #import "GREYConfigKey.h"
-#import "GREYWaitFunctions.h"
 #import "EarlGrey.h"
 #import "GREYFailureHandlerHelpers.h"
 #import "GREYHostApplicationDistantObject+ErrorHandlingTest.h"
@@ -149,13 +148,13 @@
  */
 - (void)testAssertionDefinesContainHierarchyAndScreenshots {
   NSString *assertDescription = @"Assertion Description";
-  GREYAssertTrue(NO, assertDescription);
+  GREYAssertTrue(NO, @"Assertion Description");
 
   XCTAssertTrue([_handler.details containsString:assertDescription],
                 @"Expected info does not appear in the actual exception details:\n\n"
                 @"========== expected info ===========\n%@\n\n"
                 @"========== actual exception details ==========\n%@",
-                assertDescription, _handler.details);
+                @"Assertion Description", _handler.details);
 }
 
 /**
@@ -595,7 +594,8 @@
   NSCharacterSet *newlineCharacterSet = [NSCharacterSet newlineCharacterSet];
   NSArray<NSString *> *stackTraceLines =
       [_handler.testStackTrace componentsSeparatedByCharactersInSet:newlineCharacterSet];
-  XCTAssertEqual([stackTraceLines count], 4, @"There's 3 lines in the stack trace and 2 newlines.");
+  XCTAssertTrue([stackTraceLines count] >= 4,
+                @"There's 3 lines in the stack trace and 2 newlines.");
   XCTAssertFalse([stackTraceLines[1] containsString:@"GREYTestStackTrace"],
                  @"The stack trace creator must be contained in the stack trace.");
 }
