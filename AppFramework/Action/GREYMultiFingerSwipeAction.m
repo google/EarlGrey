@@ -25,6 +25,8 @@
 #import "GREYSyncAPI.h"
 #import "NSObject+GREYCommon.h"
 #import "GREYFatalAsserts.h"
+#import "GREYConfigKey.h"
+#import "GREYConfiguration.h"
 #import "GREYError.h"
 #import "GREYErrorConstants.h"
 #import "GREYConstants.h"
@@ -149,9 +151,12 @@
   });
 
   if (multiTouchPaths.count > 0) {
+    CFTimeInterval interactionTimeout =
+        GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
     [GREYSyntheticEvents touchAlongMultiplePaths:multiTouchPaths
                                 relativeToWindow:window
-                                     forDuration:_duration];
+                                     forDuration:_duration
+                                         timeout:interactionTimeout];
     return YES;
   } else {
     return NO;

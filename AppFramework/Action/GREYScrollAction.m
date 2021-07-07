@@ -35,6 +35,8 @@
 #import "GREYFatalAsserts.h"
 #import "GREYThrowDefines.h"
 #import "GREYAppState.h"
+#import "GREYConfigKey.h"
+#import "GREYConfiguration.h"
 #import "GREYError.h"
 #import "GREYErrorConstants.h"
 #import "GREYConstants.h"
@@ -182,16 +184,20 @@ static const NSInteger kMinTouchPointsToDetectScrollResistance = 2;
   CGPoint originalOffset = scrollView.contentOffset;
   CGPoint prevOffset = scrollView.contentOffset;
 
+  CFTimeInterval interactionTimeout = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
   GREYSyntheticEvents *eventGenerator = [[GREYSyntheticEvents alloc] init];
   [eventGenerator beginTouchAtPoint:touchPath[0].CGPointValue
                    relativeToWindow:scrollView.window
-                  immediateDelivery:YES];
+                  immediateDelivery:YES
+                            timeout:interactionTimeout];
   BOOL hasResistance = NO;
   NSInteger consecutiveTouchPointsWithSameContentOffset = 0;
   for (NSUInteger touchPointIndex = 1; touchPointIndex < [touchPath count]; touchPointIndex++) {
     @autoreleasepool {
       CGPoint currentTouchPoint = [touchPath[touchPointIndex] CGPointValue];
-      [eventGenerator continueTouchAtPoint:currentTouchPoint immediateDelivery:YES];
+      [eventGenerator continueTouchAtPoint:currentTouchPoint
+                         immediateDelivery:YES
+                                   timeout:interactionTimeout];
       BOOL detectedResistanceFromContentOffsets = NO;
       // Keep track of |consecutiveTouchPointsWithSameContentOffset| if we must detect resistance
       // from content offset.
@@ -216,7 +222,7 @@ static const NSInteger kMinTouchPointsToDetectScrollResistance = 2;
       }
     }
   }
-  [eventGenerator endTouch];
+  [eventGenerator endTouchWithTimeout:interactionTimeout];
 
   // Drain the main loop to process the touch path and finish scroll bounce animation if any.
   while ([[GREYAppStateTracker sharedInstance] currentState] & kGREYPendingUIScrollViewScrolling) {

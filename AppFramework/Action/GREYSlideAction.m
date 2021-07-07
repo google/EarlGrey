@@ -24,6 +24,8 @@
 #import "GREYAllOf.h"
 #import "GREYMatchers.h"
 #import "GREYSyncAPI.h"
+#import "GREYConfigKey.h"
+#import "GREYConfiguration.h"
 #import "GREYError.h"
 #import "GREYErrorConstants.h"
 #import "GREYDiagnosable.h"
@@ -91,10 +93,12 @@
   CGPoint touchPoint = [self grey_centerOfSliderThumbInSliderCoordinates:slider];
 
   // Begin sliding by injecting touch events.
+  CFTimeInterval interactionTimeout = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
   GREYSyntheticEvents *eventGenerator = [[GREYSyntheticEvents alloc] init];
   [eventGenerator beginTouchAtPoint:[slider convertPoint:touchPoint toView:nil]
                    relativeToWindow:slider.window
-                  immediateDelivery:YES];
+                  immediateDelivery:YES
+                            timeout:interactionTimeout];
 
   // |slider.value| could have changed, because touch down sometimes moves the thumb.
   float previousSliderValue = currentSliderValue;
@@ -129,7 +133,8 @@
 
       touchPoint = CGPointMake(touchPoint.x + (CGFloat)amountToSlide, touchPoint.y);
       [eventGenerator continueTouchAtPoint:[slider convertPoint:touchPoint toView:nil]
-                         immediateDelivery:YES];
+                         immediateDelivery:YES
+                                   timeout:interactionTimeout];
 
       // For debugging purposes, leave this in.
       GREYLogVerbose(@"Slider value after moving: %f", slider.value);
@@ -157,7 +162,7 @@
     }
   }
 
-  [eventGenerator endTouch];
+  [eventGenerator endTouchWithTimeout:interactionTimeout];
   return YES;
 }
 

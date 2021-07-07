@@ -17,12 +17,8 @@
 #import "GREYSyntheticEvents.h"
 
 #import "GREYTouchInjector.h"
-#import "GREYUIThreadExecutor.h"
 #import "GREYFatalAsserts.h"
 #import "GREYThrowDefines.h"
-#import "GREYConfigKey.h"
-#import "GREYConfiguration.h"
-#import "GREYError.h"
 #import "GREYTouchInfo.h"
 #import "GREYAppleInternals.h"
 #import "GREYUIWindowProvider.h"
@@ -43,13 +39,18 @@
 
 + (void)touchAlongPath:(NSArray *)touchPath
       relativeToWindow:(UIWindow *)window
-           forDuration:(NSTimeInterval)duration {
-  [self touchAlongMultiplePaths:@[ touchPath ] relativeToWindow:window forDuration:duration];
+           forDuration:(NSTimeInterval)duration
+               timeout:(NSTimeInterval)timeout {
+  [self touchAlongMultiplePaths:@[ touchPath ]
+               relativeToWindow:window
+                    forDuration:duration
+                        timeout:timeout];
 }
 
 + (void)touchAlongMultiplePaths:(NSArray *)touchPaths
                relativeToWindow:(UIWindow *)window
-                    forDuration:(NSTimeInterval)duration {
+                    forDuration:(NSTimeInterval)duration
+                        timeout:(NSTimeInterval)timeout {
   GREYThrowOnFailedCondition(touchPaths.count >= 1);
   GREYThrowOnFailedCondition(duration >= 0);
 
@@ -59,7 +60,8 @@
   // Inject "begin" event for the first points of each path.
   [eventGenerator grey_beginTouchesAtPoints:[self grey_objectsAtIndex:0 ofArrays:touchPaths]
                            relativeToWindow:window
-                          immediateDelivery:NO];
+                          immediateDelivery:NO
+                                    timeout:timeout];
 
   // If the paths have a single point, then just inject an "end" event with the delay being the
   // provided duration. Otherwise, insert multiple "continue" events with delays being a fraction
@@ -67,7 +69,8 @@
   if (firstTouchPathSize == 1) {
     [eventGenerator grey_endTouchesAtPoints:[self grey_objectsAtIndex:firstTouchPathSize - 1
                                                              ofArrays:touchPaths]
-          timeElapsedSinceLastTouchDelivery:duration];
+          timeElapsedSinceLastTouchDelivery:duration
+                                    timeout:timeout];
   } else {
     // Start injecting "continue touch" events, starting from the second position on the touch
     // path as it was already injected as a "begin touch" event.
@@ -76,57 +79,54 @@
     for (NSUInteger i = 1; i < firstTouchPathSize; i++) {
       [eventGenerator grey_continueTouchAtPoints:[self grey_objectsAtIndex:i ofArrays:touchPaths]
           afterTimeElapsedSinceLastTouchDelivery:delayBetweenEachEvent
-                               immediateDelivery:NO];
+                               immediateDelivery:NO
+                                         timeout:timeout];
     }
 
     [eventGenerator grey_endTouchesAtPoints:[self grey_objectsAtIndex:firstTouchPathSize - 1
                                                              ofArrays:touchPaths]
-          timeElapsedSinceLastTouchDelivery:0];
+          timeElapsedSinceLastTouchDelivery:0
+                                    timeout:timeout];
   }
 }
 
-+ (BOOL)shakeDeviceWithError:(NSError **)error {
-  GREYError *synchronizationError;
-  void (^shakeBlock)(void) = ^{
-    UIApplication *application = [UIApplication sharedApplication];
-    UIWindow *keyWindow = GREYGetApplicationKeyWindow(application);
-    UIMotionEvent *motionEvent = [application _motionEvent];
++ (void)shakeDevice {
+  UIApplication *application = [UIApplication sharedApplication];
+  UIWindow *keyWindow = GREYGetApplicationKeyWindow(application);
+  UIMotionEvent *motionEvent = [application _motionEvent];
 
-    [motionEvent setShakeState:1];
-    [motionEvent _setSubtype:UIEventSubtypeMotionShake];
-    [application sendEvent:motionEvent];
-    [keyWindow motionBegan:UIEventSubtypeMotionShake withEvent:motionEvent];
-    [keyWindow motionEnded:UIEventSubtypeMotionShake withEvent:motionEvent];
-  };
-  CFTimeInterval interactionTimeout = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
-  BOOL result =
-      [[GREYUIThreadExecutor sharedInstance] executeSyncWithTimeout:interactionTimeout
-                                                              block:shakeBlock
-                                                              error:&synchronizationError];
-  if (error) {
-    *error = synchronizationError;
-  }
-  return result;
+  [motionEvent setShakeState:1];
+  [motionEvent _setSubtype:UIEventSubtypeMotionShake];
+  [application sendEvent:motionEvent];
+  [keyWindow motionBegan:UIEventSubtypeMotionShake withEvent:motionEvent];
+  [keyWindow motionEnded:UIEventSubtypeMotionShake withEvent:motionEvent];
 }
 
 - (void)beginTouchAtPoint:(CGPoint)point
          relativeToWindow:(UIWindow *)window
-        immediateDelivery:(BOOL)immediate {
+        immediateDelivery:(BOOL)immediate
+                  timeout:(NSTimeInterval)timeout {
   _lastInjectedTouchPoint = [NSValue valueWithCGPoint:point];
   [self grey_beginTouchesAtPoints:@[ _lastInjectedTouchPoint ]
                  relativeToWindow:window
-                immediateDelivery:immediate];
+                immediateDelivery:immediate
+                          timeout:timeout];
 }
 
-- (void)continueTouchAtPoint:(CGPoint)point immediateDelivery:(BOOL)immediate {
+- (void)continueTouchAtPoint:(CGPoint)point
+           immediateDelivery:(BOOL)immediate
+                     timeout:(NSTimeInterval)timeout {
   _lastInjectedTouchPoint = [NSValue valueWithCGPoint:point];
   [self grey_continueTouchAtPoints:@[ _lastInjectedTouchPoint ]
       afterTimeElapsedSinceLastTouchDelivery:0
-                           immediateDelivery:immediate];
+                           immediateDelivery:immediate
+                                     timeout:timeout];
 }
 
-- (void)endTouch {
-  [self grey_endTouchesAtPoints:@[ _lastInjectedTouchPoint ] timeElapsedSinceLastTouchDelivery:0];
+- (void)endTouchWithTimeout:(NSTimeInterval)timeout {
+  [self grey_endTouchesAtPoints:@[ _lastInjectedTouchPoint ]
+      timeElapsedSinceLastTouchDelivery:0
+                                timeout:timeout];
 }
 
 #pragma mark - Private
@@ -158,10 +158,13 @@
  * @param window    The window that contains the coordinates of the touch points.
  * @param immediate If @c YES, this method blocks until touch is delivered, otherwise the touch is
  *                  enqueued for delivery the next time runloop drains.
+ * @param timeout   If @c immediate is YES, it specifies the length of time that the method will
+ *                  wait.
  */
-- (void)grey_beginTouchesAtPoints:(NSArray *)points
+- (void)grey_beginTouchesAtPoints:(NSArray<NSValue *> *)points
                  relativeToWindow:(UIWindow *)window
-                immediateDelivery:(BOOL)immediate {
+                immediateDelivery:(BOOL)immediate
+                          timeout:(NSTimeInterval)timeout {
   GREYFatalAssertWithMessage(!_touchInjector,
                              @"Cannot call this method more than once until endTouch is called.");
 
@@ -172,7 +175,7 @@
   [_touchInjector enqueueTouchInfoForDelivery:touchInfo];
 
   if (immediate) {
-    [_touchInjector waitUntilAllTouchesAreDelivered];
+    [_touchInjector waitUntilAllTouchesAreDeliveredWithTimeout:timeout];
   }
 }
 
@@ -183,16 +186,19 @@
  * @param seconds   An interval to wait after the every last touch event.
  * @param immediate If @c YES, this method blocks until touches are delivered, otherwise it is
  *                  enqueued for delivery the next time runloop drains.
+ * @param timeout   If @c immediate is YES, it specifies the length of time that the method will
+ *                  wait.
  */
-- (void)grey_continueTouchAtPoints:(NSArray *)points
+- (void)grey_continueTouchAtPoints:(NSArray<NSValue *> *)points
     afterTimeElapsedSinceLastTouchDelivery:(NSTimeInterval)seconds
-                         immediateDelivery:(BOOL)immediate {
+                         immediateDelivery:(BOOL)immediate
+                                   timeout:(NSTimeInterval)timeout {
   GREYTouchInfo *touchInfo = [[GREYTouchInfo alloc] initWithPoints:points
                                                              phase:UITouchPhaseMoved
                                    deliveryTimeDeltaSinceLastTouch:seconds];
   [_touchInjector enqueueTouchInfoForDelivery:touchInfo];
   if (immediate) {
-    [_touchInjector waitUntilAllTouchesAreDelivered];
+    [_touchInjector waitUntilAllTouchesAreDeliveredWithTimeout:timeout];
   }
 }
 
@@ -201,14 +207,16 @@
  *
  * @param points  Multiple points at which the touches are to be made.
  * @param seconds An interval to wait after the every last touch event.
+ * @param timeout The length of time that the method will wait.
  */
-- (void)grey_endTouchesAtPoints:(NSArray *)points
-    timeElapsedSinceLastTouchDelivery:(NSTimeInterval)seconds {
+- (void)grey_endTouchesAtPoints:(NSArray<NSValue *> *)points
+    timeElapsedSinceLastTouchDelivery:(NSTimeInterval)seconds
+                              timeout:(NSTimeInterval)timeout {
   GREYTouchInfo *touchInfo = [[GREYTouchInfo alloc] initWithPoints:points
                                                              phase:UITouchPhaseEnded
                                    deliveryTimeDeltaSinceLastTouch:seconds];
   [_touchInjector enqueueTouchInfoForDelivery:touchInfo];
-  [_touchInjector waitUntilAllTouchesAreDelivered];
+  [_touchInjector waitUntilAllTouchesAreDeliveredWithTimeout:timeout];
 
   _touchInjector = nil;
 }

@@ -25,6 +25,8 @@
 #import "GREYSyncAPI.h"
 #import "NSObject+GREYCommon.h"
 #import "GREYThrowDefines.h"
+#import "GREYConfigKey.h"
+#import "GREYConfiguration.h"
 #import "GREYError.h"
 #import "GREYErrorConstants.h"
 #import "GREYConstants.h"
@@ -116,7 +118,12 @@
   });
 
   if (touchPath) {
-    [GREYSyntheticEvents touchAlongPath:touchPath relativeToWindow:window forDuration:_duration];
+    CFTimeInterval interactionTimeout =
+        GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
+    [GREYSyntheticEvents touchAlongPath:touchPath
+                       relativeToWindow:window
+                            forDuration:_duration
+                                timeout:interactionTimeout];
     return YES;
   } else {
     return NO;

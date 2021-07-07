@@ -24,8 +24,6 @@
 #import "GREYRunLoopSpinner.h"
 #import "GREYFatalAsserts.h"
 #import "GREYThrowDefines.h"
-#import "GREYConfigKey.h"
-#import "GREYConfiguration.h"
 #import "GREYTouchInfo.h"
 
 /**
@@ -67,13 +65,13 @@ static const NSTimeInterval kTouchInjectFramerateInv = 1 / 120.0;
   });
 }
 
-- (void)waitUntilAllTouchesAreDelivered {
+- (void)waitUntilAllTouchesAreDeliveredWithTimeout:(NSTimeInterval)timeout {
   __block NSArray<GREYTouchInfo *> *enqueuedTouches = nil;
   dispatch_sync(_enqueuedTouchQueue, ^{
     enqueuedTouches = [self->_enqueuedTouchInfoList copy];
   });
 
-  [self grey_deliverTouches:enqueuedTouches];
+  [self grey_deliverTouches:enqueuedTouches timeout:timeout];
 
   __block BOOL touchesAddedAfterInjectionStarted = NO;
   dispatch_sync(_enqueuedTouchQueue, ^{
@@ -85,7 +83,8 @@ static const NSTimeInterval kTouchInjectFramerateInv = 1 / 120.0;
                                         @"New touches were enqueued while injecting touches.");
 }
 
-- (void)grey_deliverTouches:(NSArray<GREYTouchInfo *> *)touchesList {
+- (void)grey_deliverTouches:(NSArray<GREYTouchInfo *> *)touchesList
+                    timeout:(NSTimeInterval)timeout {
   if (touchesList.count == 0) {
     return;
   }
@@ -135,12 +134,10 @@ static const NSTimeInterval kTouchInjectFramerateInv = 1 / 120.0;
   dispatch_time_t firstDeliverTime =
       dispatch_time(DISPATCH_TIME_NOW, (int64_t)(deliveryTimeDeltaSinceLastTouch * NSEC_PER_SEC));
   dispatch_after(firstDeliverTime, touchQueue, touchProcessBlock);
-
-  CFTimeInterval interactionTimeout = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
   // Now wait for it to finish.
   if (![NSThread isMainThread]) {
     dispatch_time_t waitTimeout =
-        dispatch_time(DISPATCH_TIME_NOW, (int64_t)(interactionTimeout * NSEC_PER_SEC));
+        dispatch_time(DISPATCH_TIME_NOW, (int64_t)(timeout * NSEC_PER_SEC));
     if (dispatch_semaphore_wait(waitTouches, waitTimeout) != 0) {
       NSLog(@"Waiting on the touches to be delivered timed out.");
     }
@@ -150,7 +147,7 @@ static const NSTimeInterval kTouchInjectFramerateInv = 1 / 120.0;
     // synchronization or access the UI element in a more elegant and reliable way, i.e.
     // GREYSlideAction.
     GREYRunLoopSpinner *runLoopSpinner = [[GREYRunLoopSpinner alloc] init];
-    runLoopSpinner.timeout = interactionTimeout;
+    runLoopSpinner.timeout = timeout;
     runLoopSpinner.minRunLoopDrains = 0;
     runLoopSpinner.maxSleepInterval = DBL_MAX;
     [runLoopSpinner spinWithStopConditionBlock:^BOOL {

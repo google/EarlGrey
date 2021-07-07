@@ -55,6 +55,6 @@
  * This is a synchronous call and can be made on any thread but the actual
  * touch will be delivered on the main thread, as expected.
  */
-- (void)waitUntilAllTouchesAreDelivered;
+- (void)waitUntilAllTouchesAreDeliveredWithTimeout:(NSTimeInterval)timeout;
 
 @end

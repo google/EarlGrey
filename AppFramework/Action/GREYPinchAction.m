@@ -26,6 +26,8 @@
 #import "GREYMatchers.h"
 #import "GREYSyncAPI.h"
 #import "NSObject+GREYCommon.h"
+#import "GREYConfigKey.h"
+#import "GREYConfiguration.h"
 #import "GREYError.h"
 #import "GREYErrorConstants.h"
 #import "GREYConstants.h"
@@ -106,9 +108,12 @@ static CGFloat const kPinchScale = (CGFloat)0.8;
   });
 
   if (touchPaths) {
+    CFTimeInterval interactionTimeout =
+        GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
     [GREYSyntheticEvents touchAlongMultiplePaths:touchPaths
                                 relativeToWindow:window
-                                     forDuration:_duration];
+                                     forDuration:_duration
+                                         timeout:interactionTimeout];
   }
 
   return touchPaths != nil;

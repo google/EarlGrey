@@ -16,6 +16,7 @@
 
 #import "GREYDefines.h"
 
+#import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
 #pragma mark - Interface
@@ -38,10 +39,12 @@
  *                  @c window which passes the hit-test for the first point in @c touchPath.
  * @param duration  The time interval over which to space the touches evenly. If 0, all
  *                  touches will be sent one after the other without any delay in-between them.
+ * @param timeout   The length of time that the method should wait for the interaction to complete.
  */
 + (void)touchAlongPath:(NSArray *)touchPath
       relativeToWindow:(UIWindow *)window
-           forDuration:(NSTimeInterval)duration;
+           forDuration:(NSTimeInterval)duration
+               timeout:(NSTimeInterval)timeout;
 
 /**
  * Injects a multi touch sequence specified by the array of @c touchPaths in the specified @c
@@ -58,21 +61,17 @@
  *                   @c window which passes the hit-test for the first point in @c touchPath.
  * @param duration   The time interval over which to space the touches evenly. If 0, all
  *                   touches will be sent one after the other without any delay in-between them.
+ * @param timeout    The length of time that the method should wait for the interaction to complete.
  */
 + (void)touchAlongMultiplePaths:(NSArray *)touchPaths
                relativeToWindow:(UIWindow *)window
-                    forDuration:(NSTimeInterval)duration;
+                    forDuration:(NSTimeInterval)duration
+                        timeout:(NSTimeInterval)timeout;
 
 /**
- * Shakes the device. If @c error is provided, it will be populated with the failure
- * reason if the orientation change fails.
- *
- * @param[out] error Error that will be populated on failure. If @c nil, the
- *                   method will return without throwing any exception.
- *
- * @return @c YES if the shake was successful, @c NO otherwise.
+ * Shakes the device.
  */
-+ (BOOL)shakeDeviceWithError:(NSError **)error;
++ (void)shakeDevice;
 
 /**
  * Begins interaction with a new touch starting at a specified point within a specified
@@ -82,10 +81,12 @@
  * @param window    The window that contains the coordinates of the touch points.
  * @param immediate If @c YES, this method blocks until touch is delivered, otherwise the touch is
  *                  enqueued for delivery the next time runloop drains.
+ * @param timeout   The length of time that the method should wait for the interaction to complete.
  */
 - (void)beginTouchAtPoint:(CGPoint)point
          relativeToWindow:(UIWindow *)window
-        immediateDelivery:(BOOL)immediate;
+        immediateDelivery:(BOOL)immediate
+                  timeout:(NSTimeInterval)timeout;
 
 /**
  * Continues the current interaction by moving touch to a new point. Providing the same point
@@ -96,14 +97,19 @@
  * @param point     The point to move the touch to.
  * @param immediate If @c YES, this method blocks until touch is delivered, otherwise the touch is
  *                  enqueued for delivery the next time runloop drains.
+ * @param timeout   The length of time that the method should wait for the interaction to complete.
  */
-- (void)continueTouchAtPoint:(CGPoint)point immediateDelivery:(BOOL)immediate;
+- (void)continueTouchAtPoint:(CGPoint)point
+           immediateDelivery:(BOOL)immediate
+                     timeout:(NSTimeInterval)timeout;
 
 /**
  * Ends interaction started by GREYSyntheticEvents::beginTouchAtPoint:relativeToWindow.
  * This method will block until all the touches since the beginning of the interaction have been
  * delivered.
+ *
+ * @param timeout The length of time that the method should wait for the interaction to complete.
  */
-- (void)endTouch;
+- (void)endTouchWithTimeout:(NSTimeInterval)timeout;
 
 @end

@@ -15,7 +15,7 @@
 //
 #import "GREYRunLoopSpinner.h"
 
-#import "UIApplication+GREYApp.h"
+#import "UIApplication+ActiveRunLoopMode.h"
 #import "GREYFatalAsserts.h"
 
 /**

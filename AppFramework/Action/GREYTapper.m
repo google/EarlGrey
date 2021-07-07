@@ -22,6 +22,8 @@
 #import "GREYSyncAPI.h"
 #import "NSObject+GREYCommon.h"
 #import "GREYThrowDefines.h"
+#import "GREYConfigKey.h"
+#import "GREYConfiguration.h"
 #import "GREYError.h"
 #import "GREYErrorConstants.h"
 #import "CGGeometry+GREYUI.h"
@@ -61,9 +63,13 @@
   }
 
   NSArray *touchPath = @[ [NSValue valueWithCGPoint:location] ];
+  CFTimeInterval interactionTimeout = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
   for (NSUInteger i = 1; i <= numberOfTaps; i++) {
     @autoreleasepool {
-      [GREYSyntheticEvents touchAlongPath:touchPath relativeToWindow:window forDuration:0];
+      [GREYSyntheticEvents touchAlongPath:touchPath
+                         relativeToWindow:window
+                              forDuration:0
+                                  timeout:interactionTimeout];
     }
   }
   return YES;
@@ -88,8 +94,12 @@
     return NO;
   }
 
+  CFTimeInterval interactionTimeout = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
   NSArray<NSValue *> *touchPath = @[ [NSValue valueWithCGPoint:resolvedLocation] ];
-  [GREYSyntheticEvents touchAlongPath:touchPath relativeToWindow:window forDuration:duration];
+  [GREYSyntheticEvents touchAlongPath:touchPath
+                     relativeToWindow:window
+                          forDuration:duration
+                              timeout:interactionTimeout];
   return YES;
 }
 

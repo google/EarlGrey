@@ -51,40 +51,6 @@ static NSMutableArray<NSString *> *gRunLoopModes;
                                withMethod:swizzledSel];
   GREYFatalAssertWithMessage(swizzleSuccess,
                              @"Cannot swizzle UIApplication beginIgnoringInteractionEvents");
-  if (iOS12_OR_ABOVE()) {
-    originalSel = @selector(_pushRunLoopMode:requester:reason:);
-    swizzledSel = @selector(greyswizzled_pushRunLoopMode:requester:reason:);
-    swizzleSuccess = [swizzler swizzleClass:self
-                      replaceInstanceMethod:originalSel
-                                 withMethod:swizzledSel];
-    GREYFatalAssertWithMessage(swizzleSuccess,
-                               @"Cannot swizzle UIApplication _pushRunLoopMode:requester:reason:");
-    originalSel = @selector(_popRunLoopMode:requester:reason:);
-    swizzledSel = @selector(greyswizzled_popRunLoopMode:requester:reason:);
-    swizzleSuccess = [swizzler swizzleClass:self
-                      replaceInstanceMethod:originalSel
-                                 withMethod:swizzledSel];
-    GREYFatalAssertWithMessage(swizzleSuccess,
-                               @"Cannot swizzle UIApplication _pushRunLoopMode:requester:reason:");
-  } else {
-    swizzleSuccess = [swizzler swizzleClass:self
-                      replaceInstanceMethod:@selector(pushRunLoopMode:requester:)
-                                 withMethod:@selector(greyswizzled_pushRunLoopMode:requester:)];
-    GREYFatalAssertWithMessage(swizzleSuccess,
-                               @"Cannot swizzle UIApplication pushRunLoopMode:requester:");
-    swizzleSuccess = [swizzler swizzleClass:self
-                      replaceInstanceMethod:@selector(popRunLoopMode:requester:)
-                                 withMethod:@selector(greyswizzled_popRunLoopMode:requester:)];
-    GREYFatalAssertWithMessage(swizzleSuccess,
-                               @"Cannot swizzle UIApplication popRunLoopMode:requester:");
-  }
-}
-
-- (NSString *)grey_activeRunLoopMode {
-  @synchronized(gRunLoopModes) {
-    // could be nil.
-    return [gRunLoopModes lastObject];
-  }
 }
 
 #pragma mark - Swizzled Implementation
@@ -115,53 +81,6 @@ static NSMutableArray<NSString *> *gRunLoopModes;
     UNTRACK_STATE_FOR_OBJECT(kGREYIgnoringSystemWideUserInteraction, object);
     objc_setAssociatedObject(self, @selector(greyswizzled_beginIgnoringInteractionEvents), nil,
                              OBJC_ASSOCIATION_ASSIGN);
-  }
-}
-
-- (void)greyswizzled_pushRunLoopMode:(NSString *)mode requester:(id)requester {
-  [self grey_pushRunLoopMode:mode];
-  INVOKE_ORIGINAL_IMP2(void, @selector(greyswizzled_pushRunLoopMode:requester:), mode, requester);
-}
-
-- (void)greyswizzled_popRunLoopMode:(NSString *)mode requester:(id)requester {
-  [self grey_popRunLoopMode:mode];
-  INVOKE_ORIGINAL_IMP2(void, @selector(greyswizzled_popRunLoopMode:requester:), mode, requester);
-}
-
-/** Internal push runloop method added post iOS 12.*/
-- (void)greyswizzled_pushRunLoopMode:(NSString *)mode
-                           requester:(id)requester
-                              reason:(NSString *)reason {
-  [self grey_pushRunLoopMode:mode];
-  INVOKE_ORIGINAL_IMP3(void, @selector(greyswizzled_pushRunLoopMode:requester:reason:), mode,
-                       requester, reason);
-}
-
-/** Internal pop runloop method added post iOS 12.*/
-- (void)greyswizzled_popRunLoopMode:(NSString *)mode
-                          requester:(id)requester
-                             reason:(NSString *)reason {
-  [self grey_popRunLoopMode:mode];
-  INVOKE_ORIGINAL_IMP3(void, @selector(greyswizzled_popRunLoopMode:requester:reason:), mode,
-                       requester, reason);
-}
-
-#pragma mark - Private
-
-- (void)grey_pushRunLoopMode:(NSString *)mode {
-  @synchronized(gRunLoopModes) {
-    [gRunLoopModes addObject:mode];
-  }
-}
-
-- (void)grey_popRunLoopMode:(NSString *)mode {
-  @synchronized(gRunLoopModes) {
-    NSString *topOfStackMode = [gRunLoopModes lastObject];
-    if (![topOfStackMode isEqual:mode]) {
-      NSLog(@"Mode being popped: %@ isn't top of stack: %@", mode, topOfStackMode);
-      abort();
-    }
-    [gRunLoopModes removeLastObject];
   }
 }
 

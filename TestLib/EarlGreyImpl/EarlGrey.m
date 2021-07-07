@@ -18,6 +18,7 @@
 
 #import "GREYSyntheticEvents.h"
 #import "GREYKeyboard.h"
+#import "GREYUIThreadExecutor.h"
 #import "GREYConfigKey.h"
 #import "GREYTestApplicationDistantObject+Private.h"
 #import "GREYError.h"
@@ -233,7 +234,13 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
 - (BOOL)shakeDeviceWithError:(NSError **)error {
   __block GREYError *shakeDeviceError = nil;
   BOOL success = ExecuteSyncBlockInBackgroundQueue(^{
-    return [GREYSyntheticEvents shakeDeviceWithError:&shakeDeviceError];
+    double timeoutInSeconds = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
+    void (^shakeBlock)(void) = ^{
+      [GREY_REMOTE_CLASS_IN_APP(GREYSyntheticEvents) shakeDevice];
+    };
+    return [[GREYUIThreadExecutor sharedInstance] executeSyncWithTimeout:timeoutInSeconds
+                                                                   block:shakeBlock
+                                                                   error:&shakeDeviceError];
   });
   if (!success && error) {
     *error = shakeDeviceError;
