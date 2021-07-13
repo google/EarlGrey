@@ -178,12 +178,15 @@ NS_ASSUME_NONNULL_BEGIN
  * Matcher for elements that are instances of the provided @c klass or any class that inherits from
  * it.
  *
+ * @note Passing a null class will always fail. This is only added in case of dynamically obtained
+ *       Class variables using NSClassFromString which may be null.
+ *
  * @param klass A class.
  *
  * @return A matcher that checks if the given element's class is the provided @c klass or any of
  *         its derived classes.
  */
-+ (id<GREYMatcher>)matcherForKindOfClass:(Class)klass;
++ (id<GREYMatcher>)matcherForKindOfClass:(nullable Class)klass;
 
 /**
  * Matcher for elements that are instances of the class that's returned by

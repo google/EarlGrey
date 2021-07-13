@@ -398,7 +398,7 @@ static Class gEDOObjectClass;
                                 matchers:matchersArray];
 }
 
-+ (id<GREYMatcher>)matcherForKindOfClass:(Class)klass {
++ (id<GREYMatcher>)matcherForKindOfClass:(nullable Class)klass {
   GREYMatchesBlock matches;
   NSString *prefix = @"kindOfClass";
   NSString *className;
