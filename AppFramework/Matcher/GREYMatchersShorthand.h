@@ -71,7 +71,7 @@ GREY_EXPORT id<GREYMatcher> grey_notVisible(void);
 GREY_EXPORT id<GREYMatcher> grey_accessibilityElement(void);
 
 /** Shorthand for GREYMatchers::matcherForKindOfClass:. */
-GREY_EXPORT id<GREYMatcher> grey_kindOfClass(Class klass);
+GREY_EXPORT id<GREYMatcher> grey_kindOfClass(Class _Nullable klass);
 
 /** Shorthand for GREYMatchers::matcherForKindOfClassName:. */
 GREY_EXPORT id<GREYMatcher> grey_kindOfClassName(NSString *className);
