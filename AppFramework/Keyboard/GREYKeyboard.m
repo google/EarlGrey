@@ -167,34 +167,6 @@ __attribute__((constructor)) static void RegisterKeyboardLifecycleHooks() {
 #endif  // TARGET_OS_IOS
 }
 
-/** Disable various keyboard settings to avoid flakiness. */
-__attribute__((constructor)) static void GREYSetupKeyboard() {
-  // Force software keyboard.
-  [[UIKeyboardImpl sharedInstance] setAutomaticMinimizationEnabled:NO];
-
-  // On iOS 15+, the keyboard settings have to be made on the application process.
-  if (@available(iOS 15.0, *)) {
-    CFStringRef app = CFSTR("com.apple.keyboard.preferences.plist");
-    CFPreferencesSetValue(CFSTR("DidShowContinuousPathIntroduction"), kCFBooleanTrue, app,
-                          kCFPreferencesAnyUser, kCFPreferencesAnyHost);
-    CFPreferencesSetValue(CFSTR("KeyboardDidShowProductivityTutorial"), kCFBooleanTrue, app,
-                          kCFPreferencesAnyUser, kCFPreferencesAnyHost);
-    CFPreferencesSetValue(CFSTR("DidShowGestureKeyboardIntroduction"), kCFBooleanTrue, app,
-                          kCFPreferencesAnyUser, kCFPreferencesAnyHost);
-    CFPreferencesSetValue(CFSTR("UIKeyboardDidShowInternationalInfoIntroduction"), kCFBooleanTrue,
-                          app, kCFPreferencesAnyUser, kCFPreferencesAnyHost);
-
-    CFPreferencesSetValue(CFSTR("KeyboardAutocorrection"), kCFBooleanFalse, app,
-                          kCFPreferencesAnyUser, kCFPreferencesAnyHost);
-    CFPreferencesSetValue(CFSTR("KeyboardPrediction"), kCFBooleanFalse, app, kCFPreferencesAnyUser,
-                          kCFPreferencesAnyHost);
-    CFPreferencesSetValue(CFSTR("KeyboardShowPredictionBar"), kCFBooleanFalse, app,
-                          kCFPreferencesAnyUser, kCFPreferencesAnyHost);
-    CFPreferencesSynchronize(kCFPreferencesAnyApplication, kCFPreferencesAnyUser,
-                             kCFPreferencesAnyHost);
-  }
-}
-
 @implementation GREYKeyboard : NSObject
 
 /**
