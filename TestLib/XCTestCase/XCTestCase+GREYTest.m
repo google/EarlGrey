@@ -216,8 +216,13 @@ static BOOL gIsRunningOnXcode12;
 
     // Change invocation type to GREYTestCaseInvocation to set grey_status to failed if the test
     // method throws an exception. This ensure grey_status is accurate in the test case teardown.
-    Class originalInvocationClass =
-        object_setClass(self.invocation, [GREYTestCaseInvocation class]);
+    Class originalInvocationClass = nil;
+    if (@available(iOS 15.0, *)) {
+      // Pointer authentication will be enforced and cause a crash here, and this will be handled
+      // by recordIssue: on latest runtimes.
+    } else {
+      originalInvocationClass = object_setClass(self.invocation, [GREYTestCaseInvocation class]);
+    }
 
     @try {
       [gExecutingTestCaseStack addObject:self];
@@ -248,7 +253,10 @@ static BOOL gIsRunningOnXcode12;
                        description:@"Test has finished with unknown status."];
           break;
       }
-      object_setClass(self.invocation, originalInvocationClass);
+      // Reset to the original class on iOS 14 and prior.
+      if (originalInvocationClass != nil) {
+        object_setClass(self.invocation, originalInvocationClass);
+      }
       [self grey_sendNotification:kGREYXCTestCaseInstanceDidFinish];
       // We only reset the current test case after all possible notifications have been sent.
       [gExecutingTestCaseStack removeLastObject];
