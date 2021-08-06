@@ -17,6 +17,7 @@
 #import "GREYRemoteExecutor.h"
 
 #import "GREYFatalAsserts.h"
+#import "EDOHostService.h"
 
 void GREYExecuteSyncBlockInBackgroundQueue(void (^block)(void)) {
   GREYFatalAssertMainThread();
@@ -31,6 +32,7 @@ void GREYExecuteSyncBlockInBackgroundQueue(void (^block)(void)) {
   dispatch_once(&token, ^{
     appProxyQueue = dispatch_queue_create("com.google.earlgrey.egappproxyqueue",
                                          DISPATCH_QUEUE_SERIAL);
+    [EDOHostService serviceWithPort:0 rootObject:nil queue:appProxyQueue];
   });
 
   __block BOOL blockProcessed = NO;
