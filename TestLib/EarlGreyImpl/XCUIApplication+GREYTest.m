@@ -22,7 +22,6 @@
 #import "GREYConfiguration.h"
 #import "GREYTestApplicationDistantObject+Private.h"
 #import "GREYTestApplicationDistantObject.h"
-#import "GREYDefines.h"
 #import "GREYSwizzler.h"
 #import "GREYTestConfiguration.h"
 #import "XCUIApplication+GREYEnvironment.h"
@@ -111,14 +110,15 @@
                           kCFPreferencesAnyUser, kCFPreferencesAnyHost);
     CFPreferencesSetValue(CFSTR("KeyboardPrediction"), kCFBooleanFalse, app, kCFPreferencesAnyUser,
                           kCFPreferencesAnyHost);
-    if (iOS13_OR_ABOVE() &&
-        UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPhone) {
-      CFPreferencesSetValue(CFSTR("DidShowContinuousPathIntroduction"), kCFBooleanTrue, app,
-                            kCFPreferencesAnyUser, kCFPreferencesAnyHost);
-    } else if (iOS11_OR_ABOVE()) {
-      CFPreferencesSetValue(CFSTR("DidShowGestureKeyboardIntroduction"), kCFBooleanTrue, app,
-                            kCFPreferencesAnyUser, kCFPreferencesAnyHost);
-    }
+    CFPreferencesSetValue(CFSTR("DidShowContinuousPathIntroduction"), kCFBooleanTrue, app,
+                          kCFPreferencesAnyUser, kCFPreferencesAnyHost);
+    CFPreferencesSetValue(CFSTR("KeyboardDidShowProductivityTutorial"), kCFBooleanTrue, app,
+                          kCFPreferencesAnyUser, kCFPreferencesAnyHost);
+    CFPreferencesSetValue(CFSTR("DidShowGestureKeyboardIntroduction"), kCFBooleanTrue, app,
+                          kCFPreferencesAnyUser, kCFPreferencesAnyHost);
+    CFPreferencesSetValue(CFSTR("UIKeyboardDidShowInternationalInfoIntroduction"), kCFBooleanTrue,
+                          app, kCFPreferencesAnyUser, kCFPreferencesAnyHost);
+
     CFPreferencesSynchronize(kCFPreferencesAnyApplication, kCFPreferencesAnyUser,
                              kCFPreferencesAnyHost);
   });
