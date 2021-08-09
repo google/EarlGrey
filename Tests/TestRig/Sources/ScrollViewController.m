@@ -115,6 +115,10 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
 
+  // Add additional safe area insets to verify that content inset adjustments are accounted for in
+  // the scroll view matchers and actions.
+  self.additionalSafeAreaInsets = UIEdgeInsetsMake(50, 50, 50, 50);
+
   self.scrollview.isAccessibilityElement = YES;
   self.scrollview.accessibilityLabel = @"Upper Scroll View";
 

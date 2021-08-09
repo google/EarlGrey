@@ -56,10 +56,15 @@
         if (![view isKindOfClass:[UIScrollView class]]) {
           return NO;
         }
+
         CGRect visibleRect = [GREYVisibilityChecker rectEnclosingVisibleAreaOfElement:view];
         visibleRect = [view.window convertRect:visibleRect fromWindow:nil];
         visibleRect = [view convertRect:visibleRect fromView:nil];
-        CGRect expectedVisibleRect = CGRectMake(0, 0, view.superview.bounds.size.width, 82);
+
+        CGPoint contentOffset = view.contentOffset;
+        CGRect expectedVisibleRect =
+            CGRectMake(contentOffset.x, contentOffset.y, view.superview.bounds.size.width, 82);
+
         return CGRectEqualToRect(visibleRect, expectedVisibleRect);
       }];
 }

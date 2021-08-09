@@ -854,7 +854,7 @@ static Class gEDOObjectClass;
   NSString *prefix = @"scrolledToContentEdge";
   GREYMatchesBlock matches = ^BOOL(UIScrollView *scrollView) {
     CGPoint contentOffset = [scrollView contentOffset];
-    UIEdgeInsets contentInset = [scrollView contentInset];
+    UIEdgeInsets contentInset = [scrollView adjustedContentInset];
     CGSize contentSize = [scrollView contentSize];
     CGRect frame = [scrollView frame];
     switch (edge) {
