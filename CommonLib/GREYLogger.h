@@ -18,7 +18,7 @@
  * @file GREYLogger.h
  * @brief Macro for printing more logs for aiding in debugging.
  */
-#import "GREYConstants.h"
+#import "GREYDefines.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -45,7 +45,7 @@ typedef NS_OPTIONS(NSInteger, GREYVerboseLogType) {
  * of the launch of the application process.
  *
  * To turn on for a test run - pass in a @c GREYLogVerboseType key with a non-zero string value in
- * -[XCUIApplication launchArguments].
+ * @c -[XCUIApplication launchArguments].
  *
  * e.g. Prints all interaction related logs.
  * @code
