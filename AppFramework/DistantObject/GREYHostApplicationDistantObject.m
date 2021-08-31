@@ -78,7 +78,7 @@ static void InitiateCommunicationWithTest() {
               @"App-under-test is unable to connect to the test process. Here are the reasons that "
               @"may have caused it:\n"
               @"    1. Your test doesn't link to EarlGrey's TestLib.\n"
-              @"    2. You launched the app-under-test directly and not through a test."
+              @"    2. You launched the app-under-test directly and not through a test.\n"
               @"    3. You overrode the 'edoTestPort' launch arg when launching the app-under-test";
           [[GREYFrameworkException exceptionWithName:kGREYGenericFailureException
                                               reason:errorInfo] raise];
