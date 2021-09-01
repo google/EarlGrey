@@ -16,6 +16,8 @@
 
 #import "GREYBaseAction.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  * A GREYAction that changes the value on a UISlider.
  */
@@ -33,12 +35,17 @@
                  constraints:(id<GREYMatcher>)constraints NS_UNAVAILABLE;
 
 /**
- * Action for instances of UISlider that allow the thumb to be moved to a specific @c value.
+ * Action for instances of a slider that allow the thumb to be moved to a specific @c value.
  *
- * @param value Value to set on the Slider.
+ * @param value           Value to set on the Slider.
+ * @param classConstraint A constraint to be added on the action for the class of the slider.
  *
  * @return An instance of GREYSlideAction, initialized with the provided slider value.
  */
-- (instancetype)initWithSliderValue:(float)value NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithSliderValue:(float)value
+                    classConstraint:(nullable id<GREYMatcher>)classConstraint
+    NS_DESIGNATED_INITIALIZER;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -149,7 +149,12 @@ static Protocol *gTextInputProtocol;
 }
 
 + (id<GREYAction>)actionForMoveSliderToValue:(float)value {
-  return [[GREYSlideAction alloc] initWithSliderValue:value];
+#if TARGET_OS_IOS
+  id<GREYMatcher> classConstraint = [GREYMatchers matcherForKindOfClass:[UISlider class]];
+  return [[GREYSlideAction alloc] initWithSliderValue:value classConstraint:classConstraint];
+#else
+  return [[GREYSlideAction alloc] initWithSliderValue:value classConstraint:nil];
+#endif  // TARGET_OS_IOS
 }
 
 + (id<GREYAction>)actionForSetStepperValue:(double)value {

@@ -30,6 +30,7 @@
 #import "GREYErrorConstants.h"
 #import "GREYDiagnosable.h"
 #import "GREYLogger.h"
+#import "GREYMatcher.h"
 #import "GREYElementHierarchy.h"
 
 @implementation GREYSlideAction {
@@ -39,14 +40,11 @@
   float _finalValue;
 }
 
-- (instancetype)initWithSliderValue:(float)value {
+- (instancetype)initWithSliderValue:(float)value classConstraint:(id<GREYMatcher>)classConstraint {
   id<GREYMatcher> systemAlertShownMatcher = [GREYMatchers matcherForSystemAlertViewShown];
-  NSArray *constraintMatchers = @[
+  NSArray<id<GREYMatcher>> *constraintMatchers = @[
     [GREYMatchers matcherForInteractable],
-    [GREYMatchers matcherForNegation:systemAlertShownMatcher],
-#if TARGET_OS_IOS
-    [GREYMatchers matcherForKindOfClass:[UISlider class]]
-#endif  // TARGET_OS_IOS
+    [GREYMatchers matcherForNegation:systemAlertShownMatcher], classConstraint
   ];
   NSString *name = [NSString stringWithFormat:@"Slide to value: %g", value];
   self = [super initWithName:name
@@ -60,7 +58,7 @@
 #pragma mark - GREYAction
 
 #if TARGET_OS_IOS
-- (BOOL)perform:(UISlider *)slider error:(__strong NSError **)error {
+- (BOOL)perform:(id)slider error:(__strong NSError **)error {
   __block BOOL retVal = NO;
   grey_dispatch_sync_on_main_thread(^{
     // We aggressively access UI elements when performing the action, rather than having pieces
@@ -74,44 +72,39 @@
 #pragma mark - Private
 
 #if TARGET_OS_IOS
-- (BOOL)grey_perform:(UISlider *)slider error:(__strong NSError **)error {
+- (BOOL)grey_perform:(id)slider error:(__strong NSError **)error {
   if (![self satisfiesConstraintsForElement:slider error:error]) {
     return NO;
   }
 
-  if (!islessgreater(slider.value, _finalValue)) {
+  if (!islessgreater([self valueForSlider:slider], _finalValue)) {
     return YES;
   }
 
-  if (![self grey_checkEdgeCasesForFinalValueOfSlider:slider error:error]) {
+  if (![self checkEdgeCasesForFinalValueOfSlider:slider error:error]) {
     return NO;
   };
 
-  float currentSliderValue = slider.value;
+  CGFloat currentSliderValue = [self valueForSlider:slider];
 
   // Get the center of the thumb in coordinates respective of the slider it is in.
-  CGPoint touchPoint = [self grey_centerOfSliderThumbInSliderCoordinates:slider];
+  CGPoint touchPoint = [self centerOfSliderThumbInSliderCoordinates:slider];
 
   // Begin sliding by injecting touch events.
-  CFTimeInterval interactionTimeout = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
   GREYSyntheticEvents *eventGenerator = [[GREYSyntheticEvents alloc] init];
+  CFTimeInterval interactionTimeout = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
   [eventGenerator beginTouchAtPoint:[slider convertPoint:touchPoint toView:nil]
-                   relativeToWindow:slider.window
+                   relativeToWindow:[slider window]
                   immediateDelivery:YES
                             timeout:interactionTimeout];
 
   // |slider.value| could have changed, because touch down sometimes moves the thumb.
-  float previousSliderValue = currentSliderValue;
-  currentSliderValue = slider.value;
-
-  // Get the rectangle width in order to estimate horizonal distance between values.
-  CGRect trackBounds = [slider trackRectForBounds:slider.bounds];
-  double trackWidth = trackBounds.size.width;
+  CGFloat previousSliderValue = currentSliderValue;
+  currentSliderValue = [self valueForSlider:slider];
 
   // Stepsize is hypothesized amount you have to step to get from one value to another. It's
   // hypothesized because the distance between any two given values is not always consistent.
-  double stepSize = fabs(trackWidth / ((double)slider.maximumValue - (double)slider.minimumValue));
-
+  double stepSize = [self stepSizeForCurrentValue:currentSliderValue inSlider:slider];
   double amountToSlide = stepSize * ((double)_finalValue - (double)currentSliderValue);
 
   // A value could be unattainable, in which case, this algorithm would run forever. From testing,
@@ -122,12 +115,11 @@
   unsigned short numberOfAttemptsAtGettingFinalValue = 0;
 
   // Begin moving thumb to the |_finalValue|
-  while (islessgreater(slider.value, _finalValue)) {
+  while (islessgreater([self valueForSlider:slider], _finalValue)) {
     @autoreleasepool {
       if (!(numberOfAttemptsAtGettingFinalValue < kAllowedAttemptsBeforeStopping)) {
-        NSLog(
-            @"The value you have chosen to move to is probably unattainable. Most likely,"
-            @"it is between two pixels.");
+        NSLog(@"The value you have chosen to move to is probably unattainable. Most likely, it is "
+              @"between two pixels.");
         break;
       }
 
@@ -137,13 +129,13 @@
                                    timeout:interactionTimeout];
 
       // For debugging purposes, leave this in.
-      GREYLogVerbose(@"Slider value after moving: %f", slider.value);
+      GREYLogVerbose(@"Slider value after moving: %f", [self valueForSlider:slider]);
 
       // Update |previousSliderValue| and |currentSliderValue| only if slider value actually
       // changed.
-      if (islessgreater(slider.value, currentSliderValue)) {
+      if (islessgreater([self valueForSlider:slider], currentSliderValue)) {
         previousSliderValue = currentSliderValue;
-        currentSliderValue = slider.value;
+        currentSliderValue = [self valueForSlider:slider];
       }
 
       // changeInSliderValueAfterMoving is how many values we actually moved with the previously
@@ -166,40 +158,110 @@
   return YES;
 }
 
-- (CGPoint)grey_centerOfSliderThumbInSliderCoordinates:(UISlider *)slider {
-  CGRect sliderBounds = slider.bounds;
-  CGRect trackBounds = [slider trackRectForBounds:sliderBounds];
-  CGRect thumbBounds =
-      [slider thumbRectForBounds:sliderBounds trackRect:trackBounds value:slider.value];
+/**
+ * @return Center of the slider thumb in slider coordinate.
+ *
+ * @param slider An id that must have the methods required for a slider.
+ **/
+- (CGPoint)centerOfSliderThumbInSliderCoordinates:(id)slider {
+  UISlider *uiSlider = (UISlider *)slider;
+  CGRect sliderBounds = uiSlider.bounds;
+  CGRect trackBounds = [uiSlider trackRectForBounds:sliderBounds];
+  CGRect thumbBounds = [uiSlider thumbRectForBounds:sliderBounds
+                                          trackRect:trackBounds
+                                              value:uiSlider.value];
   return CGPointMake(CGRectGetMidX(thumbBounds), CGRectGetMidY(thumbBounds));
 }
 
-- (BOOL)grey_checkEdgeCasesForFinalValueOfSlider:(UISlider *)slider
-                                           error:(__strong NSError **)error {
+/**
+ * @return The step side of the slider.
+ *
+ * @param currentSliderValue A double signifying the current value the slider has.
+ * @param slider             An id that must have the methods required for a slider.
+ **/
+- (double)stepSizeForCurrentValue:(double)currentSliderValue inSlider:(id)slider {
+  UISlider *uiSlider = (UISlider *)slider;
+  // Get the rectangle width in order to estimate horizonal distance between values.
+  CGRect trackBounds = [uiSlider trackRectForBounds:uiSlider.bounds];
+  double trackWidth = trackBounds.size.width;
+
+  // Stepsize is hypothesized amount you have to step to get from one value to another. It's
+  // hypothesized because the distance between any two given values is not always consistent.
+  return fabs(trackWidth / ((double)uiSlider.maximumValue - (double)uiSlider.minimumValue));
+}
+
+/**
+ * @return A BOOL signifying that the value to be updated is beyond the slider's min/max values.
+ *
+ * @param      slider An id that must have the methods required for a slider.
+ * @param[out] error  An NSError populated with the error for the slide action.
+ **/
+- (BOOL)checkEdgeCasesForFinalValueOfSlider:(id)slider error:(__strong NSError **)error {
   NSString *reason;
-  if (isgreater(_finalValue, slider.maximumValue)) {
+  if (isgreater(_finalValue, [self maxValueForSlider:slider])) {
     reason = @"Value to move to is larger than slider's maximum value";
-  } else if (isless(_finalValue, slider.minimumValue)) {
+  } else if (isless(_finalValue, [self minValueForSlider:slider])) {
     reason = @"Value to move to is smaller than slider's minimum value";
-  } else if (!islessgreater(slider.minimumValue, slider.maximumValue) &&
-             islessgreater(_finalValue, slider.minimumValue)) {
+  } else if (!islessgreater([self minValueForSlider:slider], [self maxValueForSlider:slider]) &&
+             islessgreater(_finalValue, [self minValueForSlider:slider])) {
     reason = @"Slider has the same maximum and minimum, cannot move thumb to desired value";
   } else {
     return YES;
   }
 
-  NSString *description =
-      [NSString stringWithFormat:
-                    @"%@: Slider's Minimum is %g, Maximum is %g, "
-                    @"desired value is %g",
-                    reason, slider.minimumValue, slider.maximumValue, _finalValue];
+  NSString *description = [NSString stringWithFormat:@"%@: Slider's Minimum is %g, Maximum is %g, "
+                                                     @"desired value is %g",
+                                                     reason, [self minValueForSlider:slider],
+                                                     [self maxValueForSlider:slider], _finalValue];
 
   I_GREYPopulateError(error, kGREYInteractionErrorDomain, kGREYInteractionActionFailedErrorCode,
                       description);
 
   return NO;
 }
+
 #endif  // TARGET_OS_IOS
+
+/**
+ * @return The CGFloat value of the slider. Any slider subclass must have a @c value property.
+ *
+ * @param slider The slider being acted upon.
+ */
+- (CGFloat)valueForSlider:(id)slider {
+#if TARGET_OS_IOS
+  return ((UISlider *)slider).value;
+#else
+  return NSNotFound;
+#endif
+}
+
+/**
+ * @return The CGFloat minimum value of the slider. Any slider subclass must have a @c minimumValue
+ *         property.
+ *
+ * @param slider The slider being acted upon.
+ */
+- (CGFloat)minValueForSlider:(id)slider {
+#if TARGET_OS_IOS
+  return ((UISlider *)slider).minimumValue;
+#else
+  return NSNotFound;
+#endif
+}
+
+/**
+ * @return The CGFloat maximum value of the slider. Any slider subclass must have a @c maximumValue
+ *         property.
+ *
+ * @param slider The slider being acted upon.
+ */
+- (CGFloat)maxValueForSlider:(id)slider {
+#if TARGET_OS_IOS
+  return ((UISlider *)slider).maximumValue;
+#else
+  return NSNotFound;
+#endif
+}
 
 #pragma mark - GREYDiagnosable
 
