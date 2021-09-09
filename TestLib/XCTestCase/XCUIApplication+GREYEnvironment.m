@@ -28,6 +28,9 @@
     insertionValue = [NSString stringWithFormat:@"%@:%@", alreadyExistingValue, insertionValue];
   }
   [mutableEnv setObject:insertionValue forKey:insertionKey];
+
+  // Pass in this flag so logging is enabled for the application process for both NSLog and OSLog.
+  mutableEnv[@"OS_ACTIVITY_DT_MODE"] = @"YES";
   self.launchEnvironment = [mutableEnv copy];
 }
 
