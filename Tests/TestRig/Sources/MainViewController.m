@@ -34,6 +34,7 @@
 #import "ScrollViewController.h"
 #import "SimpleTapViewController.h"
 #import "SliderViewController.h"
+#import "SwitchViewController.h"
 #import "SystemAlertsViewController.h"
 #import "TableViewController.h"
 #import "TypingViewController.h"
@@ -75,6 +76,7 @@ static NSString *gTableViewIdentifier = @"TableViewIdentifier";
       @"Scroll Views" : [ScrollViewController class],
       @"Simple Tap View" : [SimpleTapViewController class],
       @"Slider Views" : [SliderViewController class],
+      @"Switch Views" : [SwitchViewController class],
       @"System Alerts" : [SystemAlertsViewController class],
       @"Table Views" : [TableViewController class],
       @"Typing Views" : [TypingViewController class],

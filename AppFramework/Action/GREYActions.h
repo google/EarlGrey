@@ -358,14 +358,24 @@
 + (id<GREYAction>)actionForClearText;
 
 /**
- * Returns an action that toggles a switch control. This action is applicable to all elements that
- * implement the selector UISwitch::isOn and include UISwitch controls.
+ * @return A GREYAction that toggles a switch control. This action is applicable to all elements
+ *         that implement the selector UISwitch::isOn and include UISwitch controls.
+ *
+ * @note This action is the preferred default action to be used to toggle a UISwitch.
  *
  * @param on The switch control state.
  *
- * @return A GREYAction to toggle a UISwitch.
  */
 + (id<GREYAction>)actionForTurnSwitchOn:(BOOL)on;
+
+/**
+ * @return A GREYAction that toggles a switch control with a short tap. This action is applicable to
+ *         all elements that implement the selector UISwitch::isOn and include UISwitch controls.
+ *
+ * @param on The switch control state.
+ *
+ */
++ (id<GREYAction>)actionForTurnSwitchOnWithShortTap:(BOOL)on;
 
 /**
  * Returns an action that injects dates/times into UIDatePickers.

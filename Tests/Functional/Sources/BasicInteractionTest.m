@@ -364,6 +364,28 @@
 }
 
 /**
+ * Ensure basic interaction with a switch using a short tap.
+ */
+- (void)testInteractionWithSwitchWithShortTap {
+  [self openTestViewNamed:@"Switch Views"];
+  [[EarlGrey selectElementWithMatcher:grey_allOf(grey_accessibilityID(@"switch1"),
+                                                 grey_interactable(), nil)]
+      performAction:grey_turnSwitchOnWithShortTap(NO)];
+
+  [[EarlGrey selectElementWithMatcher:grey_allOf(grey_accessibilityID(@"switch1"),
+                                                 grey_interactable(), nil)]
+      performAction:grey_turnSwitchOnWithShortTap(YES)];
+
+  [[EarlGrey selectElementWithMatcher:grey_allOf(grey_accessibilityID(@"switch1"),
+                                                 grey_interactable(), nil)]
+      performAction:grey_turnSwitchOnWithShortTap(YES)];
+
+  [[EarlGrey selectElementWithMatcher:grey_allOf(grey_accessibilityID(@"switch1"),
+                                                 grey_interactable(), nil)]
+      performAction:grey_turnSwitchOnWithShortTap(NO)];
+}
+
+/**
  * Ensure basic interaction with a hidden label.
  */
 - (void)testInteractionWithHiddenLabel {

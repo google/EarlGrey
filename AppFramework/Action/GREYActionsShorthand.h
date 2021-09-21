@@ -161,6 +161,9 @@ GREY_EXPORT id<GREYAction> grey_clearText(void);
 /** Shorthand macro for GREYActions::actionForTurnSwitchOn:. */
 GREY_EXPORT id<GREYAction> grey_turnSwitchOn(BOOL on);
 
+/** Shorthand macro for GREYActions::actionForTurnSwitchOnWithShortTap:. */
+GREY_EXPORT id<GREYAction> grey_turnSwitchOnWithShortTap(BOOL on);
+
 /** Shorthand macro for GREYActions::actionForSetDate:. */
 GREY_EXPORT id<GREYAction> grey_setDate(NSDate *date);
 

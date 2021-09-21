@@ -150,6 +150,10 @@ id<GREYAction> grey_clearText(void) { return [GREYActions actionForClearText]; }
 
 id<GREYAction> grey_turnSwitchOn(BOOL on) { return [GREYActions actionForTurnSwitchOn:on]; }
 
+id<GREYAction> grey_turnSwitchOnWithShortTap(BOOL on) {
+  return [GREYActions actionForTurnSwitchOnWithShortTap:on];
+}
+
 id<GREYAction> grey_setDate(NSDate *date) { return [GREYActions actionForSetDate:date]; }
 
 id<GREYAction> grey_setPickerColumnToValue(NSInteger column, NSString *value) {

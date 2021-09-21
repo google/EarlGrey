@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		42D3E6FA26F53221007C3F0E /* SwitchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42D3E6F526F53221007C3F0E /* SwitchViewController.m */; };
+		42D3E6FB26F53221007C3F0E /* SwitchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42D3E6F526F53221007C3F0E /* SwitchViewController.m */; };
+		42D3E6FC26F53221007C3F0E /* SwitchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42D3E6F926F53221007C3F0E /* SwitchViewController.xib */; };
+		42D3E6FD26F53221007C3F0E /* SwitchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42D3E6F926F53221007C3F0E /* SwitchViewController.xib */; };
 		76DAC16B242EE77E00557F3C /* libTestLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD623D2E20FD6BF900049E81 /* libTestLib.a */; };
 		76DAC16E242EE77E00557F3C /* AppFramework.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = FD623D2C20FD6BF900049E81 /* AppFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		76DAC170242EE77E00557F3C /* HostDOCategories.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = FD6678692122290B008EC4A7 /* HostDOCategories.bundle */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -409,6 +413,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		42D3E6F526F53221007C3F0E /* SwitchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SwitchViewController.m; path = ../TestRig/Sources/SwitchViewController.m; sourceTree = "<group>"; };
+		42D3E6F826F53221007C3F0E /* SwitchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SwitchViewController.h; path = ../TestRig/Sources/SwitchViewController.h; sourceTree = "<group>"; };
+		42D3E6F926F53221007C3F0E /* SwitchViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SwitchViewController.xib; path = ../TestRig/Sources/SwitchViewController.xib; sourceTree = "<group>"; };
 		76480F8C23CEA04100D6047B /* DistantObjectCrashHandlerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DistantObjectCrashHandlerTest.m; sourceTree = "<group>"; };
 		76DAC13D242EE51100557F3C /* DistantObjectBackgroundExecutionTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DistantObjectBackgroundExecutionTest.m; sourceTree = "<group>"; };
 		76DAC174242EE77E00557F3C /* FunctionalBackgroundRemoteCallTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FunctionalBackgroundRemoteCallTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -884,6 +891,9 @@
 				FD623C8620FD1A6300049E81 /* SliderViewController.h */,
 				FD623C7820FD1A6100049E81 /* SliderViewController.m */,
 				FD623C9120FD1A6400049E81 /* SliderViewController.xib */,
+				42D3E6F826F53221007C3F0E /* SwitchViewController.h */,
+				42D3E6F526F53221007C3F0E /* SwitchViewController.m */,
+				42D3E6F926F53221007C3F0E /* SwitchViewController.xib */,
 				FD623C5820FD1A5E00049E81 /* SplashViewController.h */,
 				FD623C8720FD1A6300049E81 /* SplashViewController.m */,
 				FD623CAE20FD1A6C00049E81 /* SystemAlertsViewController.h */,
@@ -1292,6 +1302,7 @@
 				FD11852F212DFE24004CADC3 /* testpage.html in Resources */,
 				FD118530212DFE24004CADC3 /* PickerViewController.xib in Resources */,
 				FD118531212DFE24004CADC3 /* BasicViewController.xib in Resources */,
+				42D3E6FD26F53221007C3F0E /* SwitchViewController.xib in Resources */,
 				FD118532212DFE24004CADC3 /* bigtable.pdf in Resources */,
 				FD118533212DFE24004CADC3 /* WKWebViewController.xib in Resources */,
 				FD118534212DFE24004CADC3 /* CollectionViewCell.xib in Resources */,
@@ -1341,6 +1352,7 @@
 				FD623D1C20FD1D6000049E81 /* testpage.html in Resources */,
 				FD623CC720FD1A6E00049E81 /* PickerViewController.xib in Resources */,
 				FD623CD320FD1A6E00049E81 /* BasicViewController.xib in Resources */,
+				42D3E6FC26F53221007C3F0E /* SwitchViewController.xib in Resources */,
 				FD623D1920FD1D6000049E81 /* bigtable.pdf in Resources */,
 				FD623CDF20FD1A6E00049E81 /* WKWebViewController.xib in Resources */,
 				FD623CC320FD1A6E00049E81 /* CollectionViewCell.xib in Resources */,
@@ -1442,6 +1454,7 @@
 				FD1184FC212DFE24004CADC3 /* SplashViewController.m in Sources */,
 				FD1184FD212DFE24004CADC3 /* PresentedViewController.m in Sources */,
 				FD1184FE212DFE24004CADC3 /* AppDelegate.m in Sources */,
+				42D3E6FB26F53221007C3F0E /* SwitchViewController.m in Sources */,
 				FD1184FF212DFE24004CADC3 /* MultiFingerSwipeGestureRecognizerViewController.m in Sources */,
 				FD118500212DFE24004CADC3 /* WKWebViewController.m in Sources */,
 				FD118501212DFE24004CADC3 /* SimpleTapViewController.m in Sources */,
@@ -1491,6 +1504,7 @@
 				FD623CD120FD1A6E00049E81 /* SplashViewController.m in Sources */,
 				FD623CC120FD1A6E00049E81 /* PresentedViewController.m in Sources */,
 				FD623CC220FD1A6E00049E81 /* AppDelegate.m in Sources */,
+				42D3E6FA26F53221007C3F0E /* SwitchViewController.m in Sources */,
 				FD623CEC20FD1A6E00049E81 /* MultiFingerSwipeGestureRecognizerViewController.m in Sources */,
 				FD623CC520FD1A6E00049E81 /* WKWebViewController.m in Sources */,
 				FD623CBE20FD1A6E00049E81 /* SimpleTapViewController.m in Sources */,

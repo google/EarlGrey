@@ -221,31 +221,19 @@ static Protocol *gTextInputProtocol;
 + (id<GREYAction>)actionForTurnSwitchOn:(BOOL)on {
 #if TARGET_OS_IOS
   NSString *diagnosticsID = GREYCorePrefixedDiagnosticsID(@"toggleSwitch");
-  id<GREYMatcher> systemAlertShownMatcher = [GREYMatchers matcherForSystemAlertViewShown];
-  NSArray<id<GREYMatcher>> *constraintMatchers = @[
-    [GREYMatchers matcherForNegation:systemAlertShownMatcher],
-    [GREYMatchers matcherForRespondsToSelector:@selector(isOn)]
-  ];
-  id<GREYMatcher> constraints = [[GREYAllOf alloc] initWithMatchers:constraintMatchers];
-  NSString *actionName =
-      [NSString stringWithFormat:@"Turn switch to %@ state", [UISwitch grey_stringFromOnState:on]];
-  return [GREYActionBlock
-      actionWithName:actionName
-       diagnosticsID:diagnosticsID
-         constraints:constraints
-        onMainThread:YES
-        performBlock:^BOOL(id switchView, __strong NSError **errorOrNil) {
-          __block BOOL toggleSwitch = NO;
-          grey_dispatch_sync_on_main_thread(^{
-            toggleSwitch = ([switchView isOn] && !on) || (![switchView isOn] && on);
-          });
-          if (toggleSwitch) {
-            id<GREYAction> longPressAction =
-                [GREYActions actionForLongPressWithDuration:kGREYLongPressDefaultDuration];
-            return [longPressAction perform:switchView error:errorOrNil];
-          }
-          return YES;
-        }];
+  id<GREYAction> action =
+      [GREYActions actionForLongPressWithDuration:kGREYLongPressDefaultDuration];
+  return [GREYActions grey_actionForTurnSwitchOn:on diagnosticsID:diagnosticsID action:action];
+#else
+  return nil;
+#endif  // TARGET_OS_IOS
+}
+
++ (id<GREYAction>)actionForTurnSwitchOnWithShortTap:(BOOL)on {
+#if TARGET_OS_IOS
+  NSString *diagnosticsID = GREYCorePrefixedDiagnosticsID(@"toggleSwitchWithShortTap");
+  id<GREYAction> action = [GREYActions actionForTap];
+  return [GREYActions grey_actionForTurnSwitchOn:on diagnosticsID:diagnosticsID action:action];
 #else
   return nil;
 #endif  // TARGET_OS_IOS
@@ -580,6 +568,46 @@ static Protocol *gTextInputProtocol;
           });
           return YES;
         }];
+}
+
+/**
+ * @return A GREYAction that toggles a switch control. This action is applicable to all elements
+ *         that implement the selector UISwitch::isOn and include UISwitch controls.
+ *
+ * @param on            The switch control state.
+ * @param diagnosticsID Identifier of the action for diagnostics purpose.
+ * @param action        The GREYAction to perform on the switch.
+ */
++ (id<GREYAction>)grey_actionForTurnSwitchOn:(BOOL)on
+                               diagnosticsID:(NSString *)diagnosticsID
+                                      action:(id<GREYAction>)action {
+#if TARGET_OS_IOS
+  id<GREYMatcher> systemAlertShownMatcher = [GREYMatchers matcherForSystemAlertViewShown];
+  NSArray<id<GREYMatcher>> *constraintMatchers = @[
+    [GREYMatchers matcherForNegation:systemAlertShownMatcher],
+    [GREYMatchers matcherForRespondsToSelector:@selector(isOn)]
+  ];
+  id<GREYMatcher> constraints = [[GREYAllOf alloc] initWithMatchers:constraintMatchers];
+  NSString *actionName =
+      [NSString stringWithFormat:@"Turn switch to %@ state", [UISwitch grey_stringFromOnState:on]];
+  return [GREYActionBlock actionWithName:actionName
+                           diagnosticsID:diagnosticsID
+                             constraints:constraints
+                            onMainThread:YES
+                            performBlock:^BOOL(id switchView, __strong NSError **errorOrNil) {
+                              __block BOOL toggleSwitch = NO;
+                              grey_dispatch_sync_on_main_thread(^{
+                                toggleSwitch =
+                                    ([switchView isOn] && !on) || (![switchView isOn] && on);
+                              });
+                              if (toggleSwitch) {
+                                return [action perform:switchView error:errorOrNil];
+                              }
+                              return YES;
+                            }];
+#else
+  return nil;
+#endif  // TARGET_OS_IOS
 }
 
 #pragma mark - Package Internal
