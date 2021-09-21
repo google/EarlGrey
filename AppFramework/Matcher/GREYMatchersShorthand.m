@@ -164,6 +164,8 @@ id<GREYMatcher> grey_textFieldValue(NSString *value) {
   return [GREYMatchers matcherForTextFieldValue:value];
 }
 
+#pragma mark - Compound Matchers.
+
 id<GREYMatcher> grey_anyOf(id<GREYMatcher> matcher, ...) {
   va_list args;
   va_start(args, matcher);

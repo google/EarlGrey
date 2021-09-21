@@ -352,9 +352,8 @@ static Protocol *gTextInputProtocol;
   NSString *diagnosticsID = GREYCorePrefixedDiagnosticsID(@"setDate");
   id<GREYMatcher> systemAlertShownMatcher = [GREYMatchers matcherForSystemAlertViewShown];
   NSArray<id<GREYMatcher>> *constraintMatchers = @[
-    [GREYMatchers matcherForInteractable],
     [GREYMatchers matcherForNegation:systemAlertShownMatcher],
-    [GREYMatchers matcherForKindOfClass:[UIDatePicker class]]
+    [GREYMatchers matcherForKindOfClass:[UIDatePicker class]], [GREYMatchers matcherForInteractable]
   ];
   id<GREYMatcher> constraints = [[GREYAllOf alloc] initWithMatchers:constraintMatchers];
   NSString *actionName = [NSString stringWithFormat:@"Set date to %@", date];

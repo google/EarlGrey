@@ -75,11 +75,11 @@
 - (instancetype)initWithValue:(double)value {
   id<GREYMatcher> systemAlertShownMatcher = [GREYMatchers matcherForSystemAlertViewShown];
   NSArray *constraintMatchers = @[
-    [GREYMatchers matcherForInteractable],
     [GREYMatchers matcherForNegation:systemAlertShownMatcher],
 #if TARGET_OS_IOS
-    [GREYMatchers matcherForKindOfClass:[UIStepper class]]
+    [GREYMatchers matcherForKindOfClass:[UIStepper class]],
 #endif  // TARGET_OS_IOS
+    [GREYMatchers matcherForInteractable]
   ];
   NSString *name = [NSString stringWithFormat:@"Change stepper to %g", value];
   self = [super initWithName:name

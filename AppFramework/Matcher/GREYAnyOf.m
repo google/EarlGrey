@@ -17,6 +17,7 @@
 #import "GREYAnyOf.h"
 
 
+#import "GREYMatcherUtil.h"
 #import "GREYThrowDefines.h"
 #import "GREYBaseMatcher.h"
 #import "GREYDescription.h"
@@ -33,10 +34,18 @@
   self = [super init];
   if (self) {
     NSUInteger numOfMatchers = matchers.count;
-    NSMutableArray *matchersCopy = [[NSMutableArray alloc] initWithCapacity:numOfMatchers];
+    NSMutableArray<id<GREYMatcher>> *matchersCopy =
+        [[NSMutableArray alloc] initWithCapacity:numOfMatchers];
+    BOOL visibilityMatcherFound = NO;
     // Explicitly copy over the elements because the array can be a remote object.
     for (NSUInteger i = 0; i < numOfMatchers; ++i) {
-      [matchersCopy addObject:[matchers objectAtIndex:i]];
+      id<GREYMatcher> matcher = [matchers objectAtIndex:i];
+      if (visibilityMatcherFound) {
+        GREYThrowImproperOrderException(matchers);
+      } else if (GREYIsVisibilityMatcher(matcher)) {
+        visibilityMatcherFound = YES;
+      }
+      [matchersCopy addObject:matcher];
     }
     _matchers = [NSArray arrayWithArray:matchersCopy];
   }

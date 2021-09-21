@@ -31,6 +31,7 @@
 #import "GREYErrorConstants.h"
 #import "GREYConstants.h"
 #import "GREYDiagnosable.h"
+#import "GREYMatcher.h"
 #import "GREYElementHierarchy.h"
 
 @implementation GREYMultiFingerSwipeAction {
@@ -78,11 +79,11 @@
   NSString *name = [NSString
       stringWithFormat:@"Swipe %@ for duration %g", NSStringFromGREYDirection(direction), duration];
   id<GREYMatcher> systemAlertShownMatcher = [GREYMatchers matcherForSystemAlertViewShown];
-  NSArray *constraintMatchers = @[
-    [GREYMatchers matcherForInteractable],
+  NSArray<id<GREYMatcher>> *constraintMatchers = @[
     [GREYMatchers matcherForNegation:systemAlertShownMatcher],
     [GREYMatchers matcherForKindOfClass:[UIView class]],
-    [GREYMatchers matcherForRespondsToSelector:@selector(accessibilityFrame)]
+    [GREYMatchers matcherForRespondsToSelector:@selector(accessibilityFrame)],
+    [GREYMatchers matcherForInteractable]
   ];
   self = [super initWithName:name
                  constraints:[[GREYAllOf alloc] initWithMatchers:constraintMatchers]];

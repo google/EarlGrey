@@ -15,7 +15,6 @@
 //
 
 #import "GREYConfigKey.h"
-#import "GREYWaitFunctions.h"
 #import "BaseIntegrationTest.h"
 
 #import "GREYError.h"
@@ -41,8 +40,8 @@
  */
 - (void)testDescriptionForSearchActionTimeout {
   [self openTestViewNamed:@"Scroll Views"];
-  id<GREYMatcher> matcher = grey_allOf(grey_accessibilityLabel(@"Label 2"), grey_interactable(),
-                                       grey_sufficientlyVisible(), nil);
+  id<GREYMatcher> matcher =
+      grey_allOf(grey_accessibilityLabel(@"Label 2"), grey_sufficientlyVisible(), nil);
   CFTimeInterval interactionTimeout = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
   [[GREYConfiguration sharedConfiguration] setValue:@(1)
                                        forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
@@ -94,8 +93,8 @@
  **/
 - (void)testDescriptionForSearchActionWithAssertion {
   [self openTestViewNamed:@"Scroll Views"];
-  id<GREYMatcher> matcher = grey_allOf(grey_accessibilityLabel(@"Label 2"), grey_interactable(),
-                                       grey_sufficientlyVisible(), nil);
+  id<GREYMatcher> matcher =
+      grey_allOf(grey_accessibilityLabel(@"Label 2"), grey_sufficientlyVisible(), nil);
   NSError *error;
   [[[EarlGrey selectElementWithMatcher:matcher]
          usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 50)
@@ -144,8 +143,8 @@
  **/
 - (void)testDescriptionForSearchActionWithAction {
   [self openTestViewNamed:@"Scroll Views"];
-  id<GREYMatcher> matcher = grey_allOf(grey_accessibilityLabel(@"Label 2"), grey_interactable(),
-                                       grey_sufficientlyVisible(), nil);
+  id<GREYMatcher> matcher =
+      grey_allOf(grey_accessibilityLabel(@"Label 2"), grey_sufficientlyVisible(), nil);
   NSError *error;
   [[[EarlGrey selectElementWithMatcher:matcher]
          usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 50)

@@ -43,8 +43,8 @@
 - (instancetype)initWithSliderValue:(float)value classConstraint:(id<GREYMatcher>)classConstraint {
   id<GREYMatcher> systemAlertShownMatcher = [GREYMatchers matcherForSystemAlertViewShown];
   NSArray<id<GREYMatcher>> *constraintMatchers = @[
-    [GREYMatchers matcherForInteractable],
-    [GREYMatchers matcherForNegation:systemAlertShownMatcher], classConstraint
+    classConstraint, [GREYMatchers matcherForNegation:systemAlertShownMatcher],
+    [GREYMatchers matcherForInteractable]
   ];
   NSString *name = [NSString stringWithFormat:@"Slide to value: %g", value];
   self = [super initWithName:name

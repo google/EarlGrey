@@ -26,6 +26,7 @@
 #import "GREYError.h"
 #import "GREYErrorConstants.h"
 #import "GREYDiagnosable.h"
+#import "GREYMatcher.h"
 #import "GREYElementHierarchy.h"
 
 @implementation GREYPickerAction {
@@ -43,12 +44,13 @@
   NSString *name =
       [NSString stringWithFormat:@"Set picker column %ld to value '%@'", (long)column, value];
   id<GREYMatcher> systemAlertNotShownMatcher = [GREYMatchers matcherForSystemAlertViewShown];
-  NSArray *constraintMatchers = @[
-    [GREYMatchers matcherForInteractable], [GREYMatchers matcherForUserInteractionEnabled],
-    [GREYMatchers matcherForNegation:systemAlertNotShownMatcher],
+  NSArray<id<GREYMatcher>> *constraintMatchers = @[
 #if TARGET_OS_IOS
-    [GREYMatchers matcherForKindOfClass:[UIPickerView class]]
+    [GREYMatchers matcherForKindOfClass:[UIPickerView class]],
 #endif  // TARGET_OS_IOS
+    [GREYMatchers matcherForUserInteractionEnabled],
+    [GREYMatchers matcherForNegation:systemAlertNotShownMatcher],
+    [GREYMatchers matcherForInteractable]
   ];
   self = [super initWithName:name
                  constraints:[[GREYAllOf alloc] initWithMatchers:constraintMatchers]];

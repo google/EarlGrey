@@ -93,7 +93,7 @@
  * Sanity check for RMI calls for matcher and action shorthand calls.
  */
 - (void)testSelectElementWithMatcherWithRMICall {
-  XCTAssertNoThrow(grey_anyOf(grey_interactable(), grey_firstResponder(), nil));
+  XCTAssertNoThrow(grey_anyOf(grey_firstResponder(), grey_interactable(), nil));
   XCTAssertNoThrow(grey_allOf(grey_accessibilityID(@"Text Field"), grey_interactable(), nil));
   XCTAssertNotNil([EarlGrey selectElementWithMatcher:grey_allOf(grey_accessibilityID(@"Text Field"),
                                                                 grey_interactable(), nil)]);

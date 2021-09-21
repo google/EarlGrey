@@ -163,8 +163,8 @@
  */
 - (void)testSearchNotFoundAssertionErrorDescription {
   [self openTestViewNamed:@"Scroll Views"];
-  id<GREYMatcher> matcher = grey_allOf(grey_accessibilityLabel(@"Label 2"), grey_interactable(),
-                                       grey_sufficientlyVisible(), nil);
+  id<GREYMatcher> matcher =
+      grey_allOf(grey_accessibilityLabel(@"Label 2"), grey_sufficientlyVisible(), nil);
   [[[EarlGrey selectElementWithMatcher:matcher]
          usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 50)
       onElementWithMatcher:grey_accessibilityLabel(@"Invalid Scroll View")]
@@ -176,7 +176,7 @@
       @"Element Matcher:\n"
       @"(((respondsToSelector(isAccessibilityElement) && "
       @"isAccessibilityElement) && accessibilityLabel('Label 2')) && "
-      @"interactable Point:{nan, nan} && sufficientlyVisible(Expected: "
+      @"sufficientlyVisible(Expected: "
       @"0.750000, Actual: 0.000000))\n"
       @"\n"
       @"Failed Assertion:\n"
@@ -196,8 +196,8 @@
  */
 - (void)testSearchNotFoundActionErrorDescription {
   [self openTestViewNamed:@"Scroll Views"];
-  id<GREYMatcher> matcher = grey_allOf(grey_accessibilityLabel(@"Label 2"), grey_interactable(),
-                                       grey_sufficientlyVisible(), nil);
+  id<GREYMatcher> matcher =
+      grey_allOf(grey_accessibilityLabel(@"Label 2"), grey_sufficientlyVisible(), nil);
   [[[EarlGrey selectElementWithMatcher:matcher]
          usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 50)
       onElementWithMatcher:grey_accessibilityLabel(@"Invalid Scroll View")]
@@ -208,7 +208,7 @@
                               @"Element Matcher:\n"
                               @"(((respondsToSelector(isAccessibilityElement) && "
                               @"isAccessibilityElement) && accessibilityLabel('Label 2')) && "
-                              @"interactable Point:{nan, nan} && sufficientlyVisible(Expected: "
+                              @"sufficientlyVisible(Expected: "
                               @"0.750000, Actual: 0.000000))\n"
                               @"\n"
                               @"Failed Action:\nTap\n"
@@ -262,8 +262,8 @@
  */
 - (void)testTimeoutErrorDescription {
   [self openTestViewNamed:@"Scroll Views"];
-  id<GREYMatcher> matcher = grey_allOf(grey_accessibilityLabel(@"Label 2"), grey_interactable(),
-                                       grey_sufficientlyVisible(), nil);
+  id<GREYMatcher> matcher =
+      grey_allOf(grey_accessibilityLabel(@"Label 2"), grey_sufficientlyVisible(), nil);
   [[GREYConfiguration sharedConfiguration] setValue:@(1)
                                        forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
   [[[EarlGrey selectElementWithMatcher:matcher]
@@ -279,7 +279,7 @@
       @"Element Matcher:\n"
       @"(((respondsToSelector(isAccessibilityElement) && "
       @"isAccessibilityElement) && accessibilityLabel('Label 2')) && "
-      @"interactable Point:{nan, nan} && sufficientlyVisible(Expected: "
+      @"sufficientlyVisible(Expected: "
       @"0.750000, Actual: 0.000000))\n"
       @"\n"
       @"Failed Assertion:\n"

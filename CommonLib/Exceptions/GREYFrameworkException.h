@@ -65,6 +65,12 @@ GREY_EXTERN NSString *const kGREYTimeoutException;
 GREY_EXTERN NSString *const kGREYConstraintFailedException;
 
 /**
+ * Thrown by the matcher API's when a compound matcher - grey_allOf(), grey_anyOf() use visibility
+ * related matchers in the middle of their list.
+ */
+GREY_EXTERN NSString *const kGREYImproperMatcherOrderingException;
+
+/**
  * Exception raised by the framework which results in a test failure.
  * To catch such exceptions, install a custom failure handler
  * using:

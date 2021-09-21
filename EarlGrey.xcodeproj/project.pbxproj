@@ -27,6 +27,10 @@
 		FD1184D3212CEE72004CADC3 /* XCUIApplication+GREYEnvironment.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1184D2212CEE72004CADC3 /* XCUIApplication+GREYEnvironment.m */; };
 		FD1575532579CC7B00EDBF48 /* GREYDefaultFailureHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1575522579CC7B00EDBF48 /* GREYDefaultFailureHandler.m */; };
 		FD1B7E3A24A2806500400025 /* GREYErrorFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1B7E3924A2806400400025 /* GREYErrorFormatter.m */; };
+		FD27E00126F5442B0074018B /* GREYVisibilityMatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = FD27DFFC26F5442B0074018B /* GREYVisibilityMatcher.h */; };
+		FD27E00226F5442B0074018B /* GREYMatcherUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = FD27DFFD26F5442B0074018B /* GREYMatcherUtil.m */; };
+		FD27E00326F5442B0074018B /* GREYVisibilityMatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = FD27DFFE26F5442B0074018B /* GREYVisibilityMatcher.m */; };
+		FD27E00426F5442B0074018B /* GREYMatcherUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = FD27DFFF26F5442B0074018B /* GREYMatcherUtil.h */; };
 		FD2E76EC2149E4580063EF7E /* GREYAppConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = FD2E76EA2149E4580063EF7E /* GREYAppConfiguration.m */; };
 		FD2E76ED2149E4580063EF7E /* GREYAppConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = FD2E76EB2149E4580063EF7E /* GREYAppConfiguration.h */; };
 		FD2E76F12149E4860063EF7E /* GREYTestConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = FD2E76F02149E4860063EF7E /* GREYTestConfiguration.m */; };
@@ -440,6 +444,10 @@
 		FD1575522579CC7B00EDBF48 /* GREYDefaultFailureHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYDefaultFailureHandler.m; path = FailureHandler/GREYDefaultFailureHandler.m; sourceTree = "<group>"; };
 		FD1B7E3824A2806400400025 /* GREYErrorFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYErrorFormatter.h; path = CommonLib/Error/GREYErrorFormatter.h; sourceTree = "<group>"; };
 		FD1B7E3924A2806400400025 /* GREYErrorFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYErrorFormatter.m; path = CommonLib/Error/GREYErrorFormatter.m; sourceTree = "<group>"; };
+		FD27DFFC26F5442B0074018B /* GREYVisibilityMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYVisibilityMatcher.h; path = Matcher/GREYVisibilityMatcher.h; sourceTree = "<group>"; };
+		FD27DFFD26F5442B0074018B /* GREYMatcherUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYMatcherUtil.m; path = Matcher/GREYMatcherUtil.m; sourceTree = "<group>"; };
+		FD27DFFE26F5442B0074018B /* GREYVisibilityMatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYVisibilityMatcher.m; path = Matcher/GREYVisibilityMatcher.m; sourceTree = "<group>"; };
+		FD27DFFF26F5442B0074018B /* GREYMatcherUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYMatcherUtil.h; path = Matcher/GREYMatcherUtil.h; sourceTree = "<group>"; };
 		FD2E76EA2149E4580063EF7E /* GREYAppConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYAppConfiguration.m; path = Config/GREYAppConfiguration.m; sourceTree = "<group>"; };
 		FD2E76EB2149E4580063EF7E /* GREYAppConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYAppConfiguration.h; path = Config/GREYAppConfiguration.h; sourceTree = "<group>"; };
 		FD2E76EF2149E4860063EF7E /* GREYTestConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYTestConfiguration.h; path = Config/GREYTestConfiguration.h; sourceTree = "<group>"; };
@@ -1308,6 +1316,10 @@
 		FD623B5520F95AF800049E81 /* Matcher */ = {
 			isa = PBXGroup;
 			children = (
+				FD27DFFF26F5442B0074018B /* GREYMatcherUtil.h */,
+				FD27DFFD26F5442B0074018B /* GREYMatcherUtil.m */,
+				FD27DFFC26F5442B0074018B /* GREYVisibilityMatcher.h */,
+				FD27DFFE26F5442B0074018B /* GREYVisibilityMatcher.m */,
 				FD623B6220F95B0300049E81 /* GREYAllOf.h */,
 				FD623B5A20F95B0200049E81 /* GREYAllOf.m */,
 				FD623B6320F95B0300049E81 /* GREYAnyOf.h */,
@@ -1518,6 +1530,7 @@
 				FD623B0920F9595300049E81 /* GREYSurrogateDelegate.h in Headers */,
 				FD623B4B20F95A9C00049E81 /* GREYIdlingResource.h in Headers */,
 				FD623AD620F9590800049E81 /* UIViewController+GREYApp.h in Headers */,
+				FD27E00426F5442B0074018B /* GREYMatcherUtil.h in Headers */,
 				FD623B1720F95A5400049E81 /* GREYHostBackgroundDistantObject+GREYApp.h in Headers */,
 				FD623A7720F958C200049E81 /* GREYScrollToContentEdgeAction.h in Headers */,
 				FD623AC020F9590800049E81 /* NSURLSession+GREYApp.h in Headers */,
@@ -1539,6 +1552,7 @@
 				FD623A7220F958C200049E81 /* GREYScrollAction.h in Headers */,
 				FD623AC120F9590800049E81 /* UIApplication+GREYApp.h in Headers */,
 				FD623A7D20F958C200049E81 /* GREYPickerAction.h in Headers */,
+				FD27E00126F5442B0074018B /* GREYVisibilityMatcher.h in Headers */,
 				FD623B8D20F95B1500049E81 /* GREYRunLoopSpinner.h in Headers */,
 				FD623B7020F95B0300049E81 /* GREYAllOf.h in Headers */,
 				FD623B8620F95B1500049E81 /* GREYObjectDeallocationTracker.h in Headers */,
@@ -1906,6 +1920,7 @@
 				FD623A8B20F958C200049E81 /* GREYTapAction.m in Sources */,
 				FD623AB920F9590800049E81 /* NSTimer+GREYApp.m in Sources */,
 				FD623B4720F95A9C00049E81 /* GREYNSTimerIdlingResource.m in Sources */,
+				FD27E00326F5442B0074018B /* GREYVisibilityMatcher.m in Sources */,
 				FD41291723D97C230042A585 /* GREYElementFilter.m in Sources */,
 				FD623B8B20F95B1500049E81 /* GREYRunLoopSpinner.m in Sources */,
 				FD623A7C20F958C200049E81 /* GREYPinchAction.m in Sources */,
@@ -1913,6 +1928,7 @@
 				FD623B0B20F9595300049E81 /* GREYNSURLConnectionDelegate.m in Sources */,
 				FD623AC420F9590800049E81 /* UISwitch+GREYApp.m in Sources */,
 				FD623B1920F95A5400049E81 /* GREYHostBackgroundDistantObject+GREYApp.m in Sources */,
+				FD27E00226F5442B0074018B /* GREYMatcherUtil.m in Sources */,
 				765D6E6026A73DDC00770A87 /* UIApplication+ActiveRunLoopMode.m in Sources */,
 				FD623B4420F95A9C00049E81 /* GREYDispatchQueueIdlingResource.m in Sources */,
 				FDC1B06424F7038A00C62118 /* UITextSelectionView+GREYApp.m in Sources */,
