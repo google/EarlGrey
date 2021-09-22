@@ -31,6 +31,8 @@
 		FD27E00226F5442B0074018B /* GREYMatcherUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = FD27DFFD26F5442B0074018B /* GREYMatcherUtil.m */; };
 		FD27E00326F5442B0074018B /* GREYVisibilityMatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = FD27DFFE26F5442B0074018B /* GREYVisibilityMatcher.m */; };
 		FD27E00426F5442B0074018B /* GREYMatcherUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = FD27DFFF26F5442B0074018B /* GREYMatcherUtil.h */; };
+		FD27E00E26FBB5D60074018B /* fishhook.c in Sources */ = {isa = PBXBuildFile; fileRef = FD27E00C26FBB5D60074018B /* fishhook.c */; };
+		FD27E00F26FBB5D60074018B /* fishhook.h in Headers */ = {isa = PBXBuildFile; fileRef = FD27E00D26FBB5D60074018B /* fishhook.h */; };
 		FD2E76EC2149E4580063EF7E /* GREYAppConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = FD2E76EA2149E4580063EF7E /* GREYAppConfiguration.m */; };
 		FD2E76ED2149E4580063EF7E /* GREYAppConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = FD2E76EB2149E4580063EF7E /* GREYAppConfiguration.h */; };
 		FD2E76F12149E4860063EF7E /* GREYTestConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = FD2E76F02149E4860063EF7E /* GREYTestConfiguration.m */; };
@@ -203,7 +205,6 @@
 		FD623B8E20F95B1500049E81 /* GREYAppStateTrackerObject.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B7F20F95B1500049E81 /* GREYAppStateTrackerObject.h */; };
 		FD623B8F20F95B1500049E81 /* GREYDispatchQueueTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = FD623B8020F95B1500049E81 /* GREYDispatchQueueTracker.h */; };
 		FD623B9020F95B1500049E81 /* GREYUIThreadExecutor.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B8120F95B1500049E81 /* GREYUIThreadExecutor.m */; };
-		FD623B9E20F95D8000049E81 /* fishhook.c in Sources */ = {isa = PBXBuildFile; fileRef = FD623B9B20F95C8100049E81 /* fishhook.c */; };
 		FD623BA720F95E3900049E81 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD623BA620F95E3900049E81 /* IOKit.framework */; };
 		FD623DC220FD770F00049E81 /* GREYMatchersShorthand.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623B6020F95B0200049E81 /* GREYMatchersShorthand.m */; };
 		FD623DD920FD794500049E81 /* libCommonLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD62395120F56A9700049E81 /* libCommonLib.a */; };
@@ -448,6 +449,8 @@
 		FD27DFFD26F5442B0074018B /* GREYMatcherUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYMatcherUtil.m; path = Matcher/GREYMatcherUtil.m; sourceTree = "<group>"; };
 		FD27DFFE26F5442B0074018B /* GREYVisibilityMatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYVisibilityMatcher.m; path = Matcher/GREYVisibilityMatcher.m; sourceTree = "<group>"; };
 		FD27DFFF26F5442B0074018B /* GREYMatcherUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYMatcherUtil.h; path = Matcher/GREYMatcherUtil.h; sourceTree = "<group>"; };
+		FD27E00C26FBB5D60074018B /* fishhook.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = fishhook.c; path = third_party/fishhook/fishhook.c; sourceTree = "<group>"; };
+		FD27E00D26FBB5D60074018B /* fishhook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = fishhook.h; path = third_party/fishhook/fishhook.h; sourceTree = "<group>"; };
 		FD2E76EA2149E4580063EF7E /* GREYAppConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYAppConfiguration.m; path = Config/GREYAppConfiguration.m; sourceTree = "<group>"; };
 		FD2E76EB2149E4580063EF7E /* GREYAppConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYAppConfiguration.h; path = Config/GREYAppConfiguration.h; sourceTree = "<group>"; };
 		FD2E76EF2149E4860063EF7E /* GREYTestConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYTestConfiguration.h; path = Config/GREYTestConfiguration.h; sourceTree = "<group>"; };
@@ -672,8 +675,6 @@
 		FD623B7F20F95B1500049E81 /* GREYAppStateTrackerObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYAppStateTrackerObject.h; path = Synchronization/GREYAppStateTrackerObject.h; sourceTree = "<group>"; };
 		FD623B8020F95B1500049E81 /* GREYDispatchQueueTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYDispatchQueueTracker.h; path = Synchronization/GREYDispatchQueueTracker.h; sourceTree = "<group>"; };
 		FD623B8120F95B1500049E81 /* GREYUIThreadExecutor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYUIThreadExecutor.m; path = Synchronization/GREYUIThreadExecutor.m; sourceTree = "<group>"; };
-		FD623B9B20F95C8100049E81 /* fishhook.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = fishhook.c; path = Submodules/fishhook/fishhook.c; sourceTree = "<group>"; };
-		FD623B9C20F95C8100049E81 /* fishhook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = fishhook.h; path = Submodules/fishhook/fishhook.h; sourceTree = "<group>"; };
 		FD623BA620F95E3900049E81 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = ../../../../../../../../System/Library/Frameworks/IOKit.framework; sourceTree = "<group>"; };
 		FD76BE542298551A001E6DAA /* GREYScreenshotter+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GREYScreenshotter+Private.h"; sourceTree = "<group>"; };
 		FD76BE5522985538001E6DAA /* GREYError+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GREYError+Private.h"; path = "CommonLib/Error/GREYError+Private.h"; sourceTree = "<group>"; };
@@ -777,6 +778,23 @@
 				FD1575522579CC7B00EDBF48 /* GREYDefaultFailureHandler.m */,
 			);
 			name = FailureHandler;
+			sourceTree = "<group>";
+		};
+		FD27E00A26FBB5AC0074018B /* third_party */ = {
+			isa = PBXGroup;
+			children = (
+				FD27E00B26FBB5BA0074018B /* fishhook */,
+			);
+			name = third_party;
+			sourceTree = "<group>";
+		};
+		FD27E00B26FBB5BA0074018B /* fishhook */ = {
+			isa = PBXGroup;
+			children = (
+				FD27E00C26FBB5D60074018B /* fishhook.c */,
+				FD27E00D26FBB5D60074018B /* fishhook.h */,
+			);
+			name = fishhook;
 			sourceTree = "<group>";
 		};
 		FD2E76E92149E4450063EF7E /* Config */ = {
@@ -917,7 +935,7 @@
 		FD62390820F569D500049E81 = {
 			isa = PBXGroup;
 			children = (
-				FD623B9A20F95C7700049E81 /* fishhook */,
+				FD27E00A26FBB5AC0074018B /* third_party */,
 				FD6239E420F56E6A00049E81 /* eDistantObject.xcodeproj */,
 				FD62399020F56B7D00049E81 /* CommonLib */,
 				FDF9E03620F82D090005DCF2 /* UILib */,
@@ -1357,15 +1375,6 @@
 			name = Synchronization;
 			sourceTree = "<group>";
 		};
-		FD623B9A20F95C7700049E81 /* fishhook */ = {
-			isa = PBXGroup;
-			children = (
-				FD623B9B20F95C8100049E81 /* fishhook.c */,
-				FD623B9C20F95C8100049E81 /* fishhook.h */,
-			);
-			name = fishhook;
-			sourceTree = "<group>";
-		};
 		FD623BA520F95E3900049E81 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -1557,6 +1566,7 @@
 				FD623B7020F95B0300049E81 /* GREYAllOf.h in Headers */,
 				FD623B8620F95B1500049E81 /* GREYObjectDeallocationTracker.h in Headers */,
 				FD623A7620F958C200049E81 /* GREYPinchAction.h in Headers */,
+				FD27E00F26FBB5D60074018B /* fishhook.h in Headers */,
 				FDC1B06324F7038A00C62118 /* UITextSelectionView+GREYApp.h in Headers */,
 				FD623AF820F9594200049E81 /* GREYInteractionDataSource.h in Headers */,
 				FD623A8120F958C200049E81 /* GREYTapper.h in Headers */,
@@ -1952,11 +1962,11 @@
 				FD623A7320F958C200049E81 /* GREYActionBlock.m in Sources */,
 				FD623B8C20F95B1500049E81 /* GREYDispatchQueueTracker.m in Sources */,
 				FD623ADA20F9590800049E81 /* __NSCFLocalDataTask_GREYApp.m in Sources */,
-				FD623B9E20F95D8000049E81 /* fishhook.c in Sources */,
 				FD623A8C20F958C200049E81 /* GREYPickerAction.m in Sources */,
 				FD623B6E20F95B0300049E81 /* GREYMatchersShorthand.m in Sources */,
 				FD623B1520F95A5400049E81 /* GREYHostApplicationDistantObject.m in Sources */,
 				FD623A7920F958C200049E81 /* GREYSwipeAction.m in Sources */,
+				FD27E00E26FBB5D60074018B /* fishhook.c in Sources */,
 				FD623AC220F9590800049E81 /* UIWindow+GREYApp.m in Sources */,
 				FD623A8A20F958C200049E81 /* GREYChangeStepperAction.m in Sources */,
 				FD623B8320F95B1500049E81 /* GREYAppStateTrackerObject.m in Sources */,

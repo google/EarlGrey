@@ -56,7 +56,6 @@ README.md
 LICENSE
 EarlGrey.xcodeproj
 Submodules/
-  fishhook/
   eDistantObject/
 ```
 
