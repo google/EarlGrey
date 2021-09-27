@@ -36,7 +36,7 @@ void GREYThrowImproperOrderException(NSArray<id<GREYMatcher>> *matcherList) {
 
 NSArray<id<GREYMatcher>> *GREYMatchersCheckedForImproperOrdering(
     NSArray<id<GREYMatcher>> *matcherList) {
-  BOOL isVisibilityMatcher;
+  BOOL isVisibilityMatcher = NO;
   for (id<GREYMatcher> matcher in matcherList) {
     if (isVisibilityMatcher) {
       GREYThrowImproperOrderException(matcherList);
