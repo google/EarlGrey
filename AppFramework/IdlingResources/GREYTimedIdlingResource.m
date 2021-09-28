@@ -65,9 +65,8 @@
 }
 
 - (NSString *)idlingResourceDescription {
-  return [NSString stringWithFormat:@"The App will be in busy state for %g seconds because of a "
-                                    @"following object:\n%@",
-                                    _duration, _trackedObject];
+  return [NSString stringWithFormat:@"%@ caused the App to be in busy state for %g seconds.",
+                                    _trackedObject, _duration];
 }
 
 - (BOOL)isIdleNow {
