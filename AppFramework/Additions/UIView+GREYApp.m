@@ -24,6 +24,7 @@
 #import "GREYFatalAsserts.h"
 #import "GREYAppState.h"
 #import "GREYDefines.h"
+#import "GREYLogger.h"
 #import "GREYSwizzler.h"
 #import "GREYElementProvider.h"
 
@@ -380,12 +381,18 @@ __unused static Class gScrollViewIndicatorClass;
   SEL swizzledSEL =
       @selector(greyswizzled_animateWithDuration:delay:options:animations:completion:);
   INVOKE_ORIGINAL_IMP5(void, swizzledSEL, duration, delay, options, animations, wrappedCompletion);
-
+  // The call stack check is done as a workaround for certain MediaPlayer animations that are not
+  // truncated by EarlGrey's CALayer truncation code and make the idling resource busy infinitely.
   if ((options & UIViewAnimationOptionAllowUserInteraction) == 0) {
-    NSObject *trackingObject = [[NSObject alloc] init];
-    [GREYTimedIdlingResource resourceForObject:trackingObject
-                         thatIsBusyForDuration:(delay + duration)
-                                          name:NSStringFromSelector(_cmd)];
+    if (duration == INFINITY &&
+        [[NSThread callStackSymbols].description containsString:@"MediaPlayer"]) {
+      GREYLogVerbose(@"Not tracking MediaPlayer infinite animation: \n%@",
+                     [NSThread callStackSymbols].description);
+    } else {
+      [GREYTimedIdlingResource resourceForObject:[NSThread callStackSymbols].description
+                           thatIsBusyForDuration:(delay + duration)
+                                            name:NSStringFromSelector(_cmd)];
+    }
   }
 }
 
