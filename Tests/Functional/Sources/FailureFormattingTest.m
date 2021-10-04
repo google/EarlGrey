@@ -532,9 +532,13 @@
  **/
 - (void)testAssertionDefineMacros {
   GREYFail(@"Foo");
-  XCTAssertEqualObjects(_handler.details, @"Foo\n");
+  XCTAssertTrue([_handler.details
+      containsString:@"A GREYFail call was hit. Look at the Test Log for more details.\n"]);
+  XCTAssertTrue([_handler.details containsString:@"Foo\n"]);
   GREYFail(@"Foo: %@", @"Bar");
-  XCTAssertEqualObjects(_handler.details, @"Foo: Bar\n");
+  XCTAssertTrue([_handler.details
+      containsString:@"A GREYFail call was hit. Look at the Test Log for more details.\n"]);
+  XCTAssertTrue([_handler.details containsString:@"Foo: Bar\n"]);
   GREYFailWithDetails(@"Foo", @"Bar");
   XCTAssertEqualObjects(_handler.details, @"Foo\n\nBar\n");
   GREYFailWithDetails(@"Foo", @"Bar: %@", @"Baz");
