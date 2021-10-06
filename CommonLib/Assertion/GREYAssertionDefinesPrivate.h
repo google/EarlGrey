@@ -160,11 +160,13 @@ GREY_EXTERN NSString *const GREYFailureHandlerKey;
     }                                                                                              \
   })
 
-#define I_GREYFail(__description, ...)                                                \
-  ({                                                                                  \
-    NSString *formattedDescription__;                                                 \
-    I_GREYFormattedString(formattedDescription__, __description, ##__VA_ARGS__);      \
-    I_GREYRegisterFailure(kGREYGenericFailureException, formattedDescription__, @""); \
+#define I_GREYFail(__description, ...)                                                        \
+  ({                                                                                          \
+    NSString *formattedDescription__;                                                         \
+    I_GREYFormattedString(formattedDescription__, (__description), ##__VA_ARGS__);            \
+    I_GREYRegisterFailure(kGREYGenericFailureException,                                       \
+                          @"A GREYFail call was hit. Look at the Test Log for more details.", \
+                          formattedDescription__, @"");                                       \
   })
 
 #define I_GREYFailWithDetails(__description, __details, ...) \
