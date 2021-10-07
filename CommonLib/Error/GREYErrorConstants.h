@@ -268,3 +268,8 @@ typedef NS_ENUM(NSUInteger, GREYSystemAlertDismissalErrorCode) {
    */
   GREYSystemAlertNotDismissed,
 };
+
+/**
+ * Error key order to be used for displaying errors.
+ */
+GREY_EXTERN NSArray<NSString *> *GREYErrorDetailsKeyOrder(void);

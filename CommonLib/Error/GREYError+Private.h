@@ -86,6 +86,7 @@ GREY_EXTERN NSString *const kErrorAppScreenShotsKey;
 @property(nonatomic) NSArray *stackTrace;
 @property(nonatomic) NSString *appUIHierarchy;
 @property(nonatomic) NSDictionary *appScreenshots;
+@property(nonatomic) NSArray<NSString *> *keyOrder;
 
 - (instancetype)initWithDomain:(NSString *)domain
                           code:(NSInteger)code

@@ -38,7 +38,7 @@
                   [NSString stringWithUTF8String:__FILE__], __LINE__,                  \
                   [NSString stringWithUTF8String:__PRETTY_FUNCTION__],                 \
                   [NSThread callStackSymbols], [GREYElementHierarchy hierarchyString], \
-                  [GREYFailureScreenshotter screenshots])
+                  [GREYFailureScreenshotter screenshots], nil)
 
 /**
  * Creates a @c GREYError object with given @c domain, @c code, @c description
@@ -62,7 +62,7 @@
                   @{kErrorFailureReasonKey : (description), NSUnderlyingErrorKey : (nestedError)}, \
                   [NSString stringWithUTF8String:__FILE__], __LINE__,                              \
                   [NSString stringWithUTF8String:__PRETTY_FUNCTION__],                             \
-                  [NSThread callStackSymbols], nil, nil)
+                  [NSThread callStackSymbols], nil, nil, @[])
 
 /**
  * If @c errorRef is not @c NULL, it is set to a @c GREYError object that is created with

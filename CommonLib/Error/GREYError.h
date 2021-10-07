@@ -37,7 +37,7 @@
   I_GREYErrorMake((domain), (code), @{kErrorFailureReasonKey : (description)}, \
                   [NSString stringWithUTF8String:__FILE__], __LINE__,          \
                   [NSString stringWithUTF8String:__PRETTY_FUNCTION__],         \
-                  [NSThread callStackSymbols], nil, nil)
+                  [NSThread callStackSymbols], nil, nil, @[])
 
 /**
  * Creates a @c GREYError object similar to @c GREYErrorMake with a @c userInfo dictionary. This
@@ -61,7 +61,7 @@
     I_GREYErrorMake((domain), (code), userInfoWithDescription,           \
                     [NSString stringWithUTF8String:__FILE__], __LINE__,  \
                     [NSString stringWithUTF8String:__PRETTY_FUNCTION__], \
-                    [NSThread callStackSymbols], nil, nil);              \
+                    [NSThread callStackSymbols], nil, nil, @[]);         \
   })
 
 /**
@@ -76,6 +76,7 @@
  * @param line         The file line where the error is generated.
  * @param functionName The function name where the error is generated.
  * @param stackTrace   The stack trace for the app when the error is generated.
+ * @param keyOrder     The key order on how the userInfo details should be logged.
  *
  * @return A @c GREYError object with the given input.
  */
@@ -83,7 +84,8 @@ GREY_EXTERN GREYError *I_GREYErrorMake(NSString *domain, NSInteger code,
                                        NSDictionary<NSString *, id> *userInfo, NSString *filePath,
                                        NSUInteger line, NSString *functionName,
                                        NSArray<NSString *> *stackTrace, NSString *appUIHierarchy,
-                                       NSDictionary<NSString *, UIImage *> *appScreenshots);
+                                       NSDictionary<NSString *, UIImage *> *appScreenshots,
+                                       NSArray<NSString *> *keyOrder);
 
 /**
  * The string for a generic error in EarlGrey.
@@ -230,6 +232,11 @@ GREY_EXTERN NSString *const kGREYScreenshotActualAfterImage;
  * Nested error within current error.
  */
 @property(nonatomic, readonly) GREYError *nestedError;
+
+/**
+ * UserInfo key order for printing the error.
+ */
+@property(nonatomic, readonly) NSArray<NSString *> *keyOrder;
 
 /**
  * @remark init is not an available initializer.

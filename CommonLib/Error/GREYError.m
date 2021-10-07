@@ -67,12 +67,14 @@ NSString *const kGREYScreenshotActualAfterImage =
 @property(nonatomic, readwrite) NSString *appUIHierarchy;
 @property(nonatomic, readwrite) NSDictionary<NSString *, UIImage *> *appScreenshots;
 @property(nonatomic, readwrite) GREYError *nestedError;
+@property(nonatomic, readwrite) NSArray<NSString *> *keyOrder;
 @end
 
 GREYError *I_GREYErrorMake(NSString *domain, NSInteger code, NSDictionary<NSString *, id> *userInfo,
                            NSString *filePath, NSUInteger line, NSString *functionName,
                            NSArray<NSString *> *stackTrace, NSString *appUIHierarchy,
-                           NSDictionary<NSString *, UIImage *> *appScreenshots) {
+                           NSDictionary<NSString *, UIImage *> *appScreenshots,
+                           NSArray<NSString *> *keyOrder) {
   GREYError *error = [[GREYError alloc] initWithDomain:domain code:code userInfo:userInfo];
 
   error.filePath = filePath;
@@ -81,6 +83,7 @@ GREYError *I_GREYErrorMake(NSString *domain, NSInteger code, NSDictionary<NSStri
   error.stackTrace = stackTrace;
   error.appUIHierarchy = appUIHierarchy;
   error.appScreenshots = appScreenshots;
+  error.keyOrder = [keyOrder copy];
   return error;
 }
 

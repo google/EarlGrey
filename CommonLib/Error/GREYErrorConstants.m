@@ -15,6 +15,7 @@
 //
 
 #import "GREYErrorConstants.h"
+#import "GREYError.h"
 
 NSString *const kErrorDetailStepperKey = @"Stepper";
 NSString *const kErrorDetailUserValueKey = @"UserValue";
@@ -64,3 +65,13 @@ NSString *const kErrorDetailAppScreenshotsKey = @"App Screenshots";
 
 NSString *const kErrorDetailElementKey = @"Element";
 NSString *const kErrorDetailWindowKey = @"Window";
+
+NSArray<NSString *> *GREYErrorDetailsKeyOrder() {
+  return @[
+    kErrorDetailAssertCriteriaKey,
+    kErrorDetailActionNameKey,
+    kErrorFailureReasonKey,
+    kErrorDetailElementMatcherKey,
+    kErrorDetailRecoverySuggestionKey,
+  ];
+}

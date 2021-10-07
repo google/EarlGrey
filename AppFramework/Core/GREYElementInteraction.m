@@ -785,19 +785,16 @@ static NSString *RecoverySuggestionForMultipleElementMatchedError(NSString *matc
         if (searchAPIInfo) {
           errorDetails[kErrorDetailSearchActionInfoKey] = searchAPIInfo;
         }
-        NSArray<NSString *> *keyOrder = @[
-          kErrorDetailAssertCriteriaKey, kErrorDetailElementMatcherKey,
-          kErrorDetailRecoverySuggestionKey
-        ];
         NSString *reasonDetail = [GREYObjectFormatter formatDictionary:errorDetails
                                                                 indent:kGREYObjectFormatIndent
                                                              hideEmpty:YES
-                                                              keyOrder:keyOrder];
+                                                              keyOrder:GREYErrorDetailsKeyOrder()];
         reason = [NSString stringWithFormat:@"Cannot find UI Element.\n"
                                             @"Exception with Assertion: %@",
                                             reasonDetail];
 
         [assertionError setErrorInfo:errorDetails];
+        [assertionError setKeyOrder:GREYErrorDetailsKeyOrder()];
         break;
       }
       case kGREYInteractionMultipleElementsMatchedErrorCode: {
@@ -810,8 +807,11 @@ static NSString *RecoverySuggestionForMultipleElementMatchedError(NSString *matc
           errorDetails[kErrorDetailSearchActionInfoKey] = searchAPIInfo;
         }
         NSArray<NSString *> *keyOrder = @[
-          kErrorDetailAssertCriteriaKey, kErrorDetailElementMatcherKey,
-          kErrorDetailRecoverySuggestionKey
+          kErrorDetailAssertCriteriaKey,
+          kErrorDetailActionNameKey,
+          kErrorFailureReasonKey,
+          kErrorDetailElementMatcherKey,
+          kErrorDetailRecoverySuggestionKey,
         ];
         NSString *reasonDetail = [GREYObjectFormatter formatDictionary:errorDetails
                                                                 indent:kGREYObjectFormatIndent
@@ -823,6 +823,7 @@ static NSString *RecoverySuggestionForMultipleElementMatchedError(NSString *matc
                                             reasonDetail];
 
         [assertionError setErrorInfo:errorDetails];
+        [assertionError setKeyOrder:keyOrder];
         break;
       }
     }
@@ -891,7 +892,7 @@ static NSString *RecoverySuggestionForMultipleElementMatchedError(NSString *matc
     wrappedError = I_GREYErrorMake(interactionError.domain, interactionError.code, userInfo,
                                    interactionError.filePath, interactionError.line,
                                    interactionError.functionName, interactionError.stackTrace,
-                                   hierarchy, appScreenshots);
+                                   hierarchy, appScreenshots, interactionError.keyOrder);
   } else {
     // In case the error is an internal error from a custom matcher or assertion, just convert it
     // into a simple GREYError.

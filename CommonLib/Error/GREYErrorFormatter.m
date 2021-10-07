@@ -32,41 +32,23 @@ static NSString *const kErrorPrefix = @"EarlGrey Encountered an Error:";
 
 + (NSString *)formattedDescriptionForError:(GREYError *)error {
   NSMutableString *logger = [[NSMutableString alloc] init];
-  NSString *exceptionReason = error.userInfo[kErrorFailureReasonKey];
-  if (exceptionReason) {
-    [logger appendFormat:@"\n%@", exceptionReason];
+  NSArray<NSString *> *keyOrder = error.keyOrder;
+  NSArray<NSString *> *defaultKeyOrder = @[
+    kErrorFailureReasonKey, kErrorDetailRecoverySuggestionKey, kErrorDetailElementMatcherKey,
+    kErrorDetailConstraintRequirementKey, kErrorDetailElementDescriptionKey,
+    kErrorDetailAssertCriteriaKey, kErrorDetailActionNameKey, kErrorDetailSearchActionInfoKey
+  ];
+
+  // add error logging for userInfo dictionary that are in the keyOrder
+  for (NSString *key in keyOrder) {
+    [self logError:error key:key logger:logger];
   }
 
-  // There shouldn't be a recovery suggestion for a wrappeed error of an underlying error.
-  if (!error.nestedError) {
-    NSString *recoverySuggestion = error.userInfo[kErrorDetailRecoverySuggestionKey];
-    if (recoverySuggestion) {
-      [logger appendFormat:@"\n\n%@", recoverySuggestion];
+  // add error logging for userInfo dictionary that are not in the keyOrder
+  for (NSString *key in defaultKeyOrder) {
+    if (![keyOrder containsObject:key]) {
+      [self logError:error key:key logger:logger];
     }
-  }
-
-  NSString *elementMatcher = error.userInfo[kErrorDetailElementMatcherKey];
-  if (elementMatcher) {
-    [logger appendFormat:@"\n\n%@:\n%@", kErrorDetailElementMatcherKey, elementMatcher];
-  }
-
-  NSString *failedConstraints = error.userInfo[kErrorDetailConstraintRequirementKey];
-  if (failedConstraints) {
-    [logger appendFormat:@"\n\n%@:\n%@", kErrorDetailConstraintRequirementKey, failedConstraints];
-  }
-
-  NSString *elementDescription = error.userInfo[kErrorDetailElementDescriptionKey];
-  if (elementDescription) {
-    [logger appendFormat:@"\n\n%@:\n%@", kErrorDetailElementDescriptionKey, elementDescription];
-  }
-
-  NSString *assertionCriteria = error.userInfo[kErrorDetailAssertCriteriaKey];
-  if (assertionCriteria) {
-    [logger appendFormat:@"\n\n%@:\n%@", kErrorDetailAssertCriteriaKey, assertionCriteria];
-  }
-  NSString *actionCriteria = error.userInfo[kErrorDetailActionNameKey];
-  if (actionCriteria) {
-    [logger appendFormat:@"\n\n%@:\n%@", kErrorDetailActionNameKey, actionCriteria];
   }
 
   NSArray<NSString *> *multipleElementsMatched = error.multipleElementsMatched;
@@ -77,11 +59,6 @@ static NSString *const kErrorPrefix = @"EarlGrey Encountered an Error:";
           // Numbered list of all elements that were matched, starting at 1.
           [logger appendFormat:@"\n\n\t%lu. %@", (unsigned long)index + 1, element];
         }];
-  }
-
-  NSString *searchActionInfo = error.userInfo[kErrorDetailSearchActionInfoKey];
-  if (searchActionInfo) {
-    [logger appendFormat:@"\n\n%@", searchActionInfo];
   }
 
   NSString *nestedError = error.nestedError.description;
@@ -95,6 +72,53 @@ static NSString *const kErrorPrefix = @"EarlGrey Encountered an Error:";
   }
 
   return [NSString stringWithFormat:@"%@\n", logger];
+}
+
++ (void)logError:(GREYError *)error key:(NSString *)key logger:(NSMutableString *)logger {
+  if (key == kErrorFailureReasonKey) {
+    NSString *exceptionReason = error.userInfo[kErrorFailureReasonKey];
+    if (exceptionReason) {
+      [logger appendFormat:@"\n\n%@", exceptionReason];
+    }
+  } else if (key == kErrorDetailRecoverySuggestionKey) {
+    // There shouldn't be a recovery suggestion for a wrappeed error of an underlying error.
+    if (!error.nestedError) {
+      NSString *recoverySuggestion = error.userInfo[kErrorDetailRecoverySuggestionKey];
+      if (recoverySuggestion) {
+        [logger appendFormat:@"\n\n%@", recoverySuggestion];
+      }
+    }
+  } else if (key == kErrorDetailElementMatcherKey) {
+    NSString *elementMatcher = error.userInfo[kErrorDetailElementMatcherKey];
+    if (elementMatcher) {
+      [logger appendFormat:@"\n\n%@:\n%@", kErrorDetailElementMatcherKey, elementMatcher];
+    }
+  } else if (key == kErrorDetailConstraintRequirementKey) {
+    NSString *failedConstraints = error.userInfo[kErrorDetailConstraintRequirementKey];
+    if (failedConstraints) {
+      [logger appendFormat:@"\n\n%@:\n%@", kErrorDetailConstraintRequirementKey, failedConstraints];
+    }
+  } else if (key == kErrorDetailElementDescriptionKey) {
+    NSString *elementDescription = error.userInfo[kErrorDetailElementDescriptionKey];
+    if (elementDescription) {
+      [logger appendFormat:@"\n\n%@:\n%@", kErrorDetailElementDescriptionKey, elementDescription];
+    }
+  } else if (key == kErrorDetailAssertCriteriaKey) {
+    NSString *assertionCriteria = error.userInfo[kErrorDetailAssertCriteriaKey];
+    if (assertionCriteria) {
+      [logger appendFormat:@"\n\n%@:\n%@", kErrorDetailAssertCriteriaKey, assertionCriteria];
+    }
+  } else if (key == kErrorDetailActionNameKey) {
+    NSString *actionCriteria = error.userInfo[kErrorDetailActionNameKey];
+    if (actionCriteria) {
+      [logger appendFormat:@"\n\n%@:\n%@", kErrorDetailActionNameKey, actionCriteria];
+    }
+  } else if (key == kErrorDetailSearchActionInfoKey) {
+    NSString *searchActionInfo = error.userInfo[kErrorDetailSearchActionInfoKey];
+    if (searchActionInfo) {
+      [logger appendFormat:@"\n\n%@", searchActionInfo];
+    }
+  }
 }
 
 @end
