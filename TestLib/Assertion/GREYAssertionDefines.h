@@ -290,4 +290,22 @@
     }                                                                                      \
   })
 
+/**
+ * Invokes the passed in block argument after waiting for the application to idle.
+ *
+ * @note Since EarlGrey is a multi-process testing tool, the application runs in a separate
+ *      process. Any call from the test side that accesses remote objects in the application
+ *      should make sure that the previous user interaction has completed. This can be conveniently
+ *      done by wrapping the access to remote objects in the application inside this macro.
+ *
+ * @param __timeoutDescription The log description to print if the app fails to idle.
+ * @param __block              A void^(void) block to invoke.
+ */
+#define GREYWaitAndAssertBlock(__timeoutDescription, __block) \
+  ({                                                          \
+    GREYWaitForAppToIdle(__timeoutDescription);               \
+    void (^testBlock)(void) = __block;                        \
+    testBlock();                                              \
+  })
+
 #endif  // GREY_ASSERTION_DEFINES_H
