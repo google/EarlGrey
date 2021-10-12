@@ -128,21 +128,24 @@ static void perform_rebinding_with_section(struct rebindings_entry *rebindings,
     pthread_mutex_lock(&mutex);
     oldProtection = get_protection((void *)trunc_address);
 
-    // Use vm_protect to also set VM_PROT_COPY.
-    int protection = VM_PROT_READ | VM_PROT_WRITE;
-    if (__builtin_available(iOS 15, *)) {
-      protection |= VM_PROT_COPY;
-    }
-    kern_return_t err = vm_protect(mach_task_self(), (uintptr_t)trunc_address,
-                                   section->size + trunc_size, 0, protection);
-    if (err != KERN_SUCCESS) {
-      fprintf(
-          stderr,
-          "perform_rebinding_with_section vm_protect failed. error code: %d, "
-          "trunc address: 0x%lx, trunc size: 0x%lx, section size: 0x%llx\n",
-          err, trunc_address, trunc_size, section->size);
-      pthread_mutex_unlock(&mutex);
-      return;
+    // After iOS 14, fishhook needs `vm_protect` to acquire VM_PROT_COPY. The
+    // `mprotect` is kept for older OS version since it runs stably.
+    if (__builtin_available(iOS 14, *)) {
+      int protection = VM_PROT_READ | VM_PROT_WRITE | VM_PROT_COPY;
+      kern_return_t err = vm_protect(mach_task_self(), (uintptr_t)trunc_address,
+                                     section->size + trunc_size, 0, protection);
+      if (err != KERN_SUCCESS) {
+        fprintf(
+            stderr,
+            "perform_rebinding_with_section vm_protect failed. error code: %d, "
+            "trunc address: 0x%lx, trunc size: 0x%lx, section size: 0x%llx\n",
+            err, trunc_address, trunc_size, section->size);
+        pthread_mutex_unlock(&mutex);
+        return;
+      }
+    } else {
+      mprotect((void *)trunc_address, section->size+trunc_size,
+               PROT_READ | PROT_WRITE);
     }
   }
   for (uint i = 0; i < section->size / sizeof(void *); i++) {
