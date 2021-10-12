@@ -160,6 +160,24 @@
     }
   }
 
+  // Logically it would make more sense to use -conformsToProtocol: here, but it has known
+  // performance issues, see "Performance Considerations" at:
+  // https://developer.apple.com/documentation/objectivec/nsobject/1418893-conformstoprotocol.
+  if ([self respondsToSelector:@selector(grey_extendedDescriptionAttributes)]) {
+    id<GREYExtendedDescriptionAttributes> extendedSelf =
+        (id<GREYExtendedDescriptionAttributes>)self;
+    NSDictionary<NSString *, id> *_Nullable extendedAttributes =
+        extendedSelf.grey_extendedDescriptionAttributes;
+    // Since we didn't use -conformsToProtocol:, in theory the object could be implementing this
+    // method with a different signature, so be paranoid about the type of the returned object.
+    // This also checks for the nil-return case.
+    if ([extendedAttributes isKindOfClass:[NSDictionary class]]) {
+      for (NSString *attribute in extendedAttributes) {
+        [description appendFormat:@"; %@=\'%@\'", attribute, extendedAttributes[attribute]];
+      }
+    }
+  }
+
   [description appendString:@">"];
   return description;
 }

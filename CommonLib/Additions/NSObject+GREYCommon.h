@@ -75,4 +75,41 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString *)grey_formattedDescriptionOrEmptyStringForValue:(NSString *)value
                                                   withPrefix:(NSString *)prefix;
 @end
+
+/** Protocol allowing for extending the set of attributes in the output of @c grey_description. */
+@protocol GREYExtendedDescriptionAttributes <NSObject>
+
+@optional
+
+/**
+ * Objects may implement this method to provide extra attributes to be included in the detailed
+ * description of the object printed for EarlGrey errors. This is particularly useful for projects
+ * that implement custom matchers; by adding the attributes used by custom matchers to the
+ * description and thus to the error output, it can be much easier to diagnose the operation of
+ * custom matchers.
+ *
+ * @return Dictionary mapping attribute names to values. The values can be any object which can be
+ * formatted with @c %@ in an @c NSString.
+ *
+ * @note This property will typically only be accessed at most once per object, and only when an
+ * EarlGrey error is constructed, so it's not typically necessary for implementations of this
+ * property to be highly efficient.
+ *
+ * For instance, suppose a given project has a widely implemented property that is used in custom
+ * matchers like:
+ * @code{objc}
+ * @property(nonatomic, nonnull) NSString *targetElementID;
+ * @endcode
+ * Then an implementation of @c grey_extendedDescriptionAttributes for objects which implement this
+ * property might be:
+ * @code{objc}
+ * - (NSDictionary<NSString *, id> *)grey_extendedDescriptionAttributes {
+ *   return @{ @"targetElementID", self.targetElementID };
+ * }
+ * @endcode
+ */
+- (nullable NSDictionary<NSString *, id> *)grey_extendedDescriptionAttributes;
+
+@end
+
 NS_ASSUME_NONNULL_END
