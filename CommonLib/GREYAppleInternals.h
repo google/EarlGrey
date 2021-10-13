@@ -233,3 +233,14 @@
 - (BOOL)_setCaretBlinkAnimationEnabled:(BOOL)enabled;
 
 @end
+
+/**
+ * Simplified block ABI for obtaining the description of a block.
+ * Source: https://clang.llvm.org/docs/Block-ABI-Apple.html#id2
+ */
+typedef struct BlockHeader {
+  void *isa;
+  int flags;
+  int reserved;
+  void (*invoke)();
+} BlockHeader;

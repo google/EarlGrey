@@ -23,6 +23,7 @@
 #import "UIView+GREYCommon.h"
 #import "GREYFatalAsserts.h"
 #import "GREYAppState.h"
+#import "GREYAppleInternals.h"
 #import "GREYDefines.h"
 #import "GREYLogger.h"
 #import "GREYSwizzler.h"
@@ -30,6 +31,9 @@
 
 /** Typedef for the wrapper for the animation method's completion block. */
 typedef void (^GREYAnimationCompletionBlock)(BOOL);
+
+/** Typedef for the UIView block of animations. */
+typedef void (^GREYAnimationsBlock)(void);
 
 /**
  * Class for Scroll view indicators. Unused directive added as this will be utilized only in iOS 13.
@@ -337,8 +341,7 @@ __unused static Class gScrollViewIndicatorClass;
                               animations:(void (^)(void))animations {
   INVOKE_ORIGINAL_IMP2(void, @selector(greyswizzled_animateWithDuration:animations:), duration,
                        animations);
-  NSObject *trackingObject = [[NSObject alloc] init];
-  [GREYTimedIdlingResource resourceForObject:trackingObject
+  [GREYTimedIdlingResource resourceForObject:FuncPtrFromAnimationsBlock(animations)
                        thatIsBusyForDuration:duration
                                         name:NSStringFromSelector(_cmd)];
 }
@@ -357,8 +360,7 @@ __unused static Class gScrollViewIndicatorClass;
   }
   INVOKE_ORIGINAL_IMP3(void, @selector(greyswizzled_animateWithDuration:animations:completion:),
                        duration, animations, wrappedCompletion);
-  NSObject *trackingObject = [[NSObject alloc] init];
-  [GREYTimedIdlingResource resourceForObject:trackingObject
+  [GREYTimedIdlingResource resourceForObject:FuncPtrFromAnimationsBlock(animations)
                        thatIsBusyForDuration:duration
                                         name:NSStringFromSelector(_cmd)];
 }
@@ -388,8 +390,7 @@ __unused static Class gScrollViewIndicatorClass;
         [[NSThread callStackSymbols].description containsString:@"MediaPlayer"]) {
       GREYLogVerbose(@"Not tracking MediaPlayer infinite animation for view class: \n%@", self);
     } else {
-      NSObject *trackingObject = [[NSObject alloc] init];
-      [GREYTimedIdlingResource resourceForObject:trackingObject
+      [GREYTimedIdlingResource resourceForObject:FuncPtrFromAnimationsBlock(animations)
                            thatIsBusyForDuration:(delay + duration)
                                             name:NSStringFromSelector(_cmd)];
     }
@@ -420,8 +421,7 @@ __unused static Class gScrollViewIndicatorClass;
   INVOKE_ORIGINAL_IMP7(void, swizzledSEL, duration, delay, dampingRatio, velocity, options,
                        animations, wrappedCompletion);
   if ((options & UIViewAnimationOptionAllowUserInteraction) == 0) {
-    NSObject *trackingObject = [[NSObject alloc] init];
-    [GREYTimedIdlingResource resourceForObject:trackingObject
+    [GREYTimedIdlingResource resourceForObject:FuncPtrFromAnimationsBlock(animations)
                          thatIsBusyForDuration:(delay + duration)
                                           name:NSStringFromSelector(_cmd)];
   }
@@ -447,8 +447,7 @@ __unused static Class gScrollViewIndicatorClass;
   INVOKE_ORIGINAL_IMP5(void, swizzledSEL, duration, delay, options, animations, wrappedCompletion);
 
   if ((options & UIViewKeyframeAnimationOptionAllowUserInteraction) == 0) {
-    NSObject *trackingObject = [[NSObject alloc] init];
-    [GREYTimedIdlingResource resourceForObject:trackingObject
+    [GREYTimedIdlingResource resourceForObject:FuncPtrFromAnimationsBlock(animations)
                          thatIsBusyForDuration:(delay + duration)
                                           name:NSStringFromSelector(_cmd)];
   }
@@ -499,8 +498,7 @@ __unused static Class gScrollViewIndicatorClass;
   INVOKE_ORIGINAL_IMP5(void, swizzledSEL, view, duration, options, animations, wrappedCompletion);
 
   if ((options & UIViewAnimationOptionAllowUserInteraction) == 0) {
-    NSObject *trackingObject = [[NSObject alloc] init];
-    [GREYTimedIdlingResource resourceForObject:trackingObject
+    [GREYTimedIdlingResource resourceForObject:FuncPtrFromAnimationsBlock(animations)
                          thatIsBusyForDuration:duration
                                           name:NSStringFromSelector(_cmd)];
   }
@@ -514,9 +512,8 @@ __unused static Class gScrollViewIndicatorClass;
   GREYTimedIdlingResource *resource;
   if ((options & UIViewAnimationOptionAllowUserInteraction) == 0) {
     // TODO: Refactor this to use the completion block with a timeout in case it isn't invoked.
-    NSObject *trackingObject = [[NSObject alloc] init];
     resource =
-        [GREYTimedIdlingResource resourceForObject:trackingObject
+        [GREYTimedIdlingResource resourceForObject:FuncPtrFromAnimationsBlock(parallelAnimations)
                              thatIsBusyForDuration:2.0  // assume animation finishes in 2 sec.
                                               name:NSStringFromSelector(_cmd)];
   }
@@ -530,6 +527,27 @@ __unused static Class gScrollViewIndicatorClass;
   };
   INVOKE_ORIGINAL_IMP5(void, swizzledSEL, animation, views, options, parallelAnimations,
                        wrappedCompletion);
+}
+
+/**
+ * @return Either an NSString with the __FuncPtr value for a block (if iOS 13 or above) or an empty
+ *         NSObject if lower.
+ *
+ * @note Detailed information on the block's pointer is only available post iOS 13. Pre-iOS 13, the
+ *.      debugDescription will only print the block's class and pointer.
+ * @param animationsBlock A (void(^)(void)) block with the animation block related to a UIView class
+ *                        animation.
+ */
+static id FuncPtrFromAnimationsBlock(GREYAnimationsBlock animationsBlock) {
+  BlockHeader *blockHeader = (__bridge BlockHeader *)animationsBlock;
+  NSString *description = [(__bridge NSObject *)blockHeader debugDescription];
+  if (iOS13_OR_ABOVE()) {
+    description = [description substringFromIndex:[description rangeOfString:@"("].location + 1];
+    NSString *blockPtr = [description substringToIndex:[description rangeOfString:@")"].location];
+    return [blockPtr lastPathComponent];
+  } else {
+    return [[NSObject alloc] init];
+  }
 }
 
 @end

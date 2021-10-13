@@ -215,4 +215,29 @@
       assertWithMatcher:grey_text(@"Executed Twice!")];
 }
 
+/**
+ * Ensures that when an animation fails, the error description contains the block's path.
+ */
+- (void)testErrorContainsBlockInformation {
+  if (@available(iOS 13, *)) {
+    [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"UIViewAnimationControl")]
+        performAction:grey_tap()];
+    [[GREYConfiguration sharedConfiguration] setValue:@(0)
+                                         forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
+    NSError *error;
+    [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AnimationStatus")]
+        assertWithMatcher:grey_text(@"UIView animation finished")
+                    error:&error];
+    NSString *buttonBlockInfo = @"-[UIButton _beginTitleAnimation]_block_invoke";
+    XCTAssertTrue([error.debugDescription containsString:buttonBlockInfo],
+                  @"Should contain Button Animation Block");
+    NSString *targetBlockInfo =
+        @"-[AnimationViewController UIViewAnimationControlClicked:]_block_invoke";
+    XCTAssertTrue([error.debugDescription containsString:targetBlockInfo],
+                  @"Should contain Button Animation Target Block");
+  } else {
+    XCTSkip(@"b/200649728: Skipped as block pointers are only printed for post iOS 13+.");
+  }
+}
+
 @end
