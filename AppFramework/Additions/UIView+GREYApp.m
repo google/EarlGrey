@@ -36,6 +36,11 @@ typedef void (^GREYAnimationCompletionBlock)(BOOL);
 typedef void (^GREYAnimationsBlock)(void);
 
 /**
+ * A BOOL denoting if the UIView animation's function pointer will be printed.
+ */
+BOOL gPrintFunctionPointer;
+
+/**
  * Class for Scroll view indicators. Unused directive added as this will be utilized only in iOS 13.
  **/
 __unused static Class gScrollViewIndicatorClass;
@@ -188,6 +193,11 @@ __unused static Class gScrollViewIndicatorClass;
                       replaceInstanceMethod:originalSel
                                  withMethod:swizzledSel];
     GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle UIView setAlpha:");
+  }
+  NSInteger verboseLoggingValue =
+      [[NSUserDefaults standardUserDefaults] integerForKey:kGREYAllowVerboseLogging];
+  if (verboseLoggingValue) {
+    gPrintFunctionPointer = YES;
   }
 }
 
@@ -530,6 +540,15 @@ __unused static Class gScrollViewIndicatorClass;
 }
 
 /**
+ * A testing-only method to toggle the printing of the animation block pointer.
+ *
+ * @param printPointer @c YES if the pointer is to be printed in the logs. @c NO otherwise.
+ */
++ (void)printAnimationsBlockPointer:(BOOL)printPointer {
+  gPrintFunctionPointer = printPointer;
+}
+
+/**
  * @return Either an NSString with the __FuncPtr value for a block (if iOS 13 or above) or an empty
  *         NSObject if lower.
  *
@@ -541,7 +560,7 @@ __unused static Class gScrollViewIndicatorClass;
 static id FuncPtrFromAnimationsBlock(GREYAnimationsBlock animationsBlock) {
   BlockHeader *blockHeader = (__bridge BlockHeader *)animationsBlock;
   NSString *description = [(__bridge NSObject *)blockHeader debugDescription];
-  if (iOS13_OR_ABOVE()) {
+  if (gPrintFunctionPointer && iOS13_OR_ABOVE()) {
     description = [description substringFromIndex:[description rangeOfString:@"("].location + 1];
     NSString *blockPtr = [description substringToIndex:[description rangeOfString:@")"].location];
     return [blockPtr lastPathComponent];

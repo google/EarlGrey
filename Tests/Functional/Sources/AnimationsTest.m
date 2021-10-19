@@ -19,6 +19,11 @@
 #import "GREYHostApplicationDistantObject+AnimationsTest.h"
 #import "BaseIntegrationTest.h"
 
+/** A category to expose internal testing only methods. */
+@interface UIView (Test)
++ (void)printAnimationsBlockPointer:(BOOL)printPointer;
+@end
+
 @interface AnimationsTest : BaseIntegrationTest
 @end
 
@@ -220,6 +225,7 @@
  */
 - (void)testErrorContainsBlockInformation {
   if (@available(iOS 13, *)) {
+    [GREY_REMOTE_CLASS_IN_APP(UIView) printAnimationsBlockPointer:YES];
     [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"UIViewAnimationControl")]
         performAction:grey_tap()];
     [[GREYConfiguration sharedConfiguration] setValue:@(0)
@@ -228,13 +234,14 @@
     [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AnimationStatus")]
         assertWithMatcher:grey_text(@"UIView animation finished")
                     error:&error];
-    NSString *buttonBlockInfo = @"-[UIButton _beginTitleAnimation]_block_invoke";
+    NSString *buttonBlockInfo = @"_beginTitleAnimation]_block_invoke";
     XCTAssertTrue([error.debugDescription containsString:buttonBlockInfo],
                   @"Should contain Button Animation Block");
     NSString *targetBlockInfo =
         @"-[AnimationViewController UIViewAnimationControlClicked:]_block_invoke";
     XCTAssertTrue([error.debugDescription containsString:targetBlockInfo],
                   @"Should contain Button Animation Target Block");
+    [GREY_REMOTE_CLASS_IN_APP(UIView) printAnimationsBlockPointer:NO];
   } else {
     XCTSkip(@"b/200649728: Skipped as block pointers are only printed for post iOS 13+.");
   }
