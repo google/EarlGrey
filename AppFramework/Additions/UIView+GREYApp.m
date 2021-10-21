@@ -558,9 +558,9 @@ __unused static Class gScrollViewIndicatorClass;
  *                        animation.
  */
 static id FuncPtrFromAnimationsBlock(GREYAnimationsBlock animationsBlock) {
-  BlockHeader *blockHeader = (__bridge BlockHeader *)animationsBlock;
-  NSString *description = [(__bridge NSObject *)blockHeader debugDescription];
   if (gPrintFunctionPointer && iOS13_OR_ABOVE()) {
+    BlockHeader *blockHeader = (__bridge BlockHeader *)animationsBlock;
+    NSString *description = [(__bridge NSObject *)blockHeader debugDescription];
     description = [description substringFromIndex:[description rangeOfString:@"("].location + 1];
     NSString *blockPtr = [description substringToIndex:[description rangeOfString:@")"].location];
     return [blockPtr lastPathComponent];
