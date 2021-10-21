@@ -22,6 +22,7 @@
 #import "GREYConfiguration.h"
 #import "GREYTestApplicationDistantObject+Private.h"
 #import "GREYTestApplicationDistantObject.h"
+#import "GREYLogger.h"
 #import "GREYSwizzler.h"
 #import "GREYTestConfiguration.h"
 #import "XCUIApplication+GREYEnvironment.h"
@@ -81,12 +82,32 @@
     @"-IsRunningEarlGreyTest",
     @"YES",
   ]];
+
+  NSString *loggingValue = [NSProcessInfo processInfo].environment[kGREYAllowVerboseLogging];
+  if (loggingValue) {
+    AddVerboseLoggingIfNeeded(launchArgs, loggingValue);
+  }
   self.launchArguments = launchArgs;
 
   // Reset the port number for the app under test before every -[XCUIApplication launch] call.
   [testDistantObject resetHostArguments];
   INVOKE_ORIGINAL_IMP(void, @selector(grey_launch));
   NSLog(@"Application Launch Completed. UI Test with EarlGrey Starting");
+}
+
+/**
+ * If verbose logging related key-values are present, then add them to the launchEnvironment.
+ *
+ * @param launchArgs   The XCUIApplication launch arguments to be modified.
+ * @param loggingValue The verbose logging related value present.
+ */
+static void AddVerboseLoggingIfNeeded(NSMutableArray<NSString *> *launchArgs,
+                                      NSString *loggingValue) {
+  GREYVerboseLogType verboseLoggingType = GREYVerboseLogTypeFromString(loggingValue);
+  if (verboseLoggingType) {
+    [launchArgs addObject:[NSString stringWithFormat:@"-%@", kGREYAllowVerboseLogging]];
+    [launchArgs addObject:[NSString stringWithFormat:@"%zd", verboseLoggingType]];
+  }
 }
 
 - (void)grey_terminate {

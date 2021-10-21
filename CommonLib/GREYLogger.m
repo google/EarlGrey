@@ -8,7 +8,7 @@
 //      http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
+// distributed under the License is distributed on an "AS IS" BASIS,ssss
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
@@ -16,8 +16,24 @@
 
 #import "GREYLogger.h"
 
+NSString* const kGREYAllowVerboseLogging = @"eg_verbose_logs";
 
-NSString* const kGREYAllowVerboseLogging = @"kGREYAllowVerboseLogging";
+NSString* const kGREYVerboseLoggingKeyAll = @"all";
+NSString* const kGREYVerboseLoggingKeyInteraction = @"interaction";
+NSString* const kGREYVerboseLoggingKeyAppState = @"app_state";
+
+GREYVerboseLogType GREYVerboseLogTypeFromString(NSString* verboseLoggingString) {
+  static NSDictionary<NSString*, NSNumber*>* verboseType = nil;
+  if (!verboseType) {
+    verboseType = @{
+      kGREYVerboseLoggingKeyInteraction : @(kGREYVerboseLogTypeInteraction),
+      kGREYVerboseLoggingKeyAppState : @(kGREYVerboseLogTypeAppState),
+      kGREYVerboseLoggingKeyAll : @(kGREYVerboseLogTypeAll),
+    };
+  }
+
+  return [verboseType[verboseLoggingString] intValue];
+}
 
 void GREYLogVerbose(NSString* format, ...) {
   static BOOL gPrintVerboseLog;
@@ -33,3 +49,5 @@ void GREYLogVerbose(NSString* format, ...) {
     va_end(args);
   }
 }
+
+#pragma mark - Testing only.

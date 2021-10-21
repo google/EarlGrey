@@ -18,7 +18,7 @@
  * @file GREYLogger.h
  * @brief Macro for printing more logs for aiding in debugging.
  */
-#import "GREYConstants.h"
+#import "GREYDefines.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -29,6 +29,21 @@ NS_ASSUME_NONNULL_BEGIN
 GREY_EXTERN NSString* _Nonnull const kGREYAllowVerboseLogging;
 
 /**
+ * NSUserDefaults value for printing all verbose logs.
+ */
+GREY_EXTERN NSString* _Nonnull const kGREYVerboseLoggingKeyAll;
+
+/**
+ * NSUserDefaults value for printing interaction logs.
+ */
+GREY_EXTERN NSString* _Nonnull const kGREYVerboseLoggingKeyInteraction;
+
+/**
+ * NSUserDefaults value for printing app state logs.
+ */
+GREY_EXTERN NSString* _Nonnull const kGREYVerboseLoggingKeyAppState;
+
+/**
  * Enum values for verbose logging.
  */
 typedef NS_OPTIONS(NSInteger, GREYVerboseLogType) {
@@ -37,36 +52,46 @@ typedef NS_OPTIONS(NSInteger, GREYVerboseLogType) {
   /** Prints App State Tracker Verbose Logs.*/
   kGREYVerboseLogTypeAppState = 1 << 1,
   /** Prints all logs Verbose Logs (Use sparingly and never in prod).*/
-  kGREYVerboseLogTypeAll = NSIntegerMax
+  kGREYVerboseLogTypeAll = kGREYVerboseLogTypeInteraction | kGREYVerboseLogTypeAppState
 };
+
+GREYVerboseLogType GREYVerboseLogTypeFromString(NSString* verboseLoggingString);
 
 /**
  * Prints a log statement if any of the following keys are present in NSUserDefaults at the start
  * of the launch of the application process.
  *
- * To turn on for a test run - pass in a @c GREYLogVerboseType key with a non-zero string value in
- * -[XCUIApplication launchArguments].
+ * There are multiple ways to turn on verbose logging:
  *
- * e.g. Prints all interaction related logs.
- * @code
- *   NSMutableArray<NSString *> *launchArguments = [[NSMutableArray alloc] init];
- *   [launchArguments addObject:[@"-" stringByAppendingString:kGREYAllowVerboseLogging]];
- *   [launchArguments addObject:[NSString stringWithFormat:@"%zd", kGREYVerboseLogTypeAll]];
- *   self.application.launchArguments = launchArguments;
- *   [self.application launch];
- * @endcode
+ * 1. Pass a test environment flag for a test run. On bazel, you can pass in:
+ *    @code
+ *      --test_env=eg_verbose_logs=interaction|app_state|all
+ *    @endcode
  *
- * In the App side, you can also pass it in the scheme's Environment Variables or set it in the
- * test side for logging over a particular part of the test.
+ * 2. Pass in a @c GREYLogVerboseType key with a non-zero string value in -[XCUIApplication
+ *    launchArguments].
  *
- * @code
- * - (void)testFoo {
- *   NSUserDefaults *userDefaults = [GREY_REMOTE_CLASS_IN_APP(NSUserDefaults) standardUserDefaults];
- *   [userDefaults setInteger:kGREYVerboseLogTypeInteraction forKey:kGREYAllowVerboseLogging];
- *   ...
- *   // Verbose logs added
- *   ...
- * }
+ *    e.g. Prints all interaction related logs.
+ *    @code
+ *      NSMutableArray<NSString *> *launchArguments = [[NSMutableArray alloc] init];
+ *      [launchArguments addObject:[@"-" stringByAppendingString:kGREYAllowVerboseLogging]];
+ *      [launchArguments addObject:[NSString stringWithFormat:@"%zd",
+ * kGREYVerboseLogTypeInteraction]]; self.application.launchArguments = launchArguments;
+ *      [self.application launch];
+ *    @endcode
+ *
+ * 3. In the App side, you can pass it in the scheme's Environment Variables or set it in the test
+ *    side for logging over a particular part of the test.
+ *
+ *    @code
+ *      - (void)testFoo {
+ *        NSUserDefaults *userDefaults =
+ *            [GREY_REMOTE_CLASS_IN_APP(NSUserDefaults) standardUserDefaults];
+ *        [userDefaults setInteger:kGREYVerboseLogTypeInteraction forKey:kGREYAllowVerboseLogging];
+ *        ...
+ *        // Verbose logs added
+ *        ...
+ *      }
  * @endcode
  *
  * @remark Once you set this, as with any NSUserDefaults, you need to

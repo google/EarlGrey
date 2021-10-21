@@ -905,7 +905,7 @@
       assertWithMatcher:grey_text(@"uu")];
 }
 
-// Confirms time saved in a drain from the test side.
+/** Confirms time saved in a drain from the test side. */
 - (void)testAssertionForDrainForTime {
   CFTimeInterval start = CACurrentMediaTime();
   GREYWaitForTime(3);

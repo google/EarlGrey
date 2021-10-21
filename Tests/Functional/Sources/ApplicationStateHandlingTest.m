@@ -158,6 +158,35 @@
   PerformSampleEarlGreyStatement();
 }
 
+#pragma mark - Logging related tests
+
+/**
+ * Ensures that the application's process info has the right verbose logging vars.
+ */
+- (void)testApplicationVerboseLogging {
+  [_application terminate];
+  setenv(kGREYAllowVerboseLogging.UTF8String, "all", 1);
+  [_application launch];
+  XCTAssertEqual([[GREY_REMOTE_CLASS_IN_APP(NSUserDefaults) standardUserDefaults]
+                     integerForKey:kGREYAllowVerboseLogging],
+                 kGREYVerboseLogTypeAll);
+
+  [_application terminate];
+  setenv(kGREYAllowVerboseLogging.UTF8String, "app_state", 1);
+  [_application launch];
+  XCTAssertEqual([[GREY_REMOTE_CLASS_IN_APP(NSUserDefaults) standardUserDefaults]
+                     integerForKey:kGREYAllowVerboseLogging],
+                 kGREYVerboseLogTypeAppState);
+
+  [_application terminate];
+  setenv(kGREYAllowVerboseLogging.UTF8String, "interaction", 1);
+  [_application launch];
+  XCTAssertEqual([[GREY_REMOTE_CLASS_IN_APP(NSUserDefaults) standardUserDefaults]
+                     integerForKey:kGREYAllowVerboseLogging],
+                 kGREYVerboseLogTypeInteraction);
+  unsetenv(kGREYAllowVerboseLogging.UTF8String);
+}
+
 /** Perform a sample EarlGrey statement which will always work on the main page. */
 static void PerformSampleEarlGreyStatement() {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
