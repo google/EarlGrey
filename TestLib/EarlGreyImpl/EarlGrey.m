@@ -201,7 +201,7 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
   XCUIElement *safariURLBarButton = safariApp.buttons[@"URL"];
   // Safari XCUIElement with accessibilityID 'URL' is a text field if it's the first responder,
   // otherwise it's a button.
-  if ([safariApp.textFields[@"URL"] exists]) {
+  if ([safariApp.textFields[@"Search or enter website name"] exists]) {
     [safariApp.textFields[@"URL"] typeText:URL];
     [safariApp.buttons[@"Go"] tap];
   } else if ([safariURLBarButton waitForExistenceWithTimeout:kWaitForExistenceTimeout] &&
