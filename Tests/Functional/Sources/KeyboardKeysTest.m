@@ -435,8 +435,15 @@
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CustomTextView")]
       performAction:grey_typeText(@"\b")];
   // Keyplane should change to uppercase keyplane with backspace.
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Q")]
-      assertWithMatcher:grey_sufficientlyVisible()];
+  // Note: iOS 15 onwards, the keyplane does not change. This is a general change in custom text
+  // views with iOS 15.
+  if (@available(iOS 15.0, *)) {
+    [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"q")]
+        assertWithMatcher:grey_sufficientlyVisible()];
+  } else {
+    [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Q")]
+        assertWithMatcher:grey_sufficientlyVisible()];
+  }
 }
 
 - (void)testKeyplaneChangeInTextField {
