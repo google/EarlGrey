@@ -77,6 +77,11 @@
       [EarlGrey foregroundApplicationWithBundleID:@"com.apple.Preferences" error:nil];
   XCTAssertTrue([settingsApp.staticTexts[@"General"] waitForExistenceWithTimeout:30]);
   [_application activate];
+  // TODO(b/191156739): Remove this once synchronization is added for session activation. This line
+  //                    only adds a small wait until the applicatino's activationState changes to
+  //                    UISceneActivationStateForegroundActive.
+  [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"EarlGrey TestApp")]
+      performAction:grey_tap()];
   [[EarlGrey selectElementWithMatcher:grey_keyWindow()]
       assertWithMatcher:grey_sufficientlyVisible()];
 }

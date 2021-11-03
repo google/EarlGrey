@@ -202,6 +202,14 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
   // Safari XCUIElement with accessibilityID 'URL' is a text field if it's the first responder,
   // otherwise it's a button.
   if ([safariApp.textFields[@"Search or enter website name"] exists]) {
+    [safariApp.textFields[@"Search or enter website name"] tap];
+    if (@available(iOS 15.0, *)) {
+      XCUIElement *swipeTutorialButton =
+          safariApp.otherElements[@"UIContinuousPathIntroductionView"].buttons[@"Continue"];
+      if ([swipeTutorialButton waitForExistenceWithTimeout:5]) {
+        [swipeTutorialButton tap];
+      }
+    }
     [safariApp.textFields[@"URL"] typeText:URL];
     [safariApp.buttons[@"Go"] tap];
   } else if ([safariURLBarButton waitForExistenceWithTimeout:kWaitForExistenceTimeout] &&
