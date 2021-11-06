@@ -277,16 +277,21 @@ __attribute__((constructor)) static void GREYSetupKeyboard() {
     BOOL isUppercase = [[NSCharacterSet uppercaseLetterCharacterSet] characterIsMember:character];
     if (isSpaceKey || isUppercase || isDeleteKey) {
       WaitAndFindKeyForCharacter(@"q", kAutomaticKeyplaneUpdateDuration);
-      // For some reason, in iOS 12, when the automatic keyplane change happens after typing space,
-      // delete key, or typing uppercase character, within the following second, keyboard
-      // occasionally snaps back to lower keyplane again. This led to multiple bugs where EarlGrey
-      // was tapping on a different key or it was failing the tap action because the element
-      // disappeared from the screen. This check makes sure it gives enough time for the keyboard
-      // to change back before we move on to the next character. Skipping when this happens for back
-      // space as it would be uncommon and will significantly slow down the clearText: action.
+      // For some reason, in iOS 12 and iPadOS 13, when the automatic keyplane change happens after
+      // typing space, delete key, or typing uppercase character, within the following second,
+      // keyboard occasionally snaps back to lower keyplane again. This led to multiple bugs where
+      // EarlGrey was tapping on a different key or it was failing the tap action because the
+      // element disappeared from the screen. This check makes sure it gives enough time for the
+      // keyboard to change back before we move on to the next character. Skipping when this happens
+      // for back space as it would be uncommon and will significantly slow down the clearText:
+      // action.
       // TODO(b/149326665): Figure out how to fix this properly without explicitly waiting.
-      if (!isDeleteKey && !iOS13_OR_ABOVE()) {
-        [[GREYUIThreadExecutor sharedInstance] drainForTime:0.5f];
+      if (!isDeleteKey) {
+        if (([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad &&
+             !iOS14_OR_ABOVE()) ||
+            !iOS13_OR_ABOVE()) {
+          [[GREYUIThreadExecutor sharedInstance] drainForTime:0.5f];
+        }
       }
     }
   }
