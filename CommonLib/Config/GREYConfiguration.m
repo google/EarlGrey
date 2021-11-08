@@ -37,7 +37,7 @@
   return instance;
 }
 
-- (NSDictionary *)mergedConfiguration {
+- (NSMutableDictionary *)mergedConfiguration {
   [self doesNotRecognizeSelector:_cmd];
   return nil;
 }
