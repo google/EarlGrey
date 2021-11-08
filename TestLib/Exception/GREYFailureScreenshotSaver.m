@@ -19,7 +19,6 @@
 #import "GREYConfigKey.h"
 #import "GREYConfiguration.h"
 #import "GREYError.h"
-#import "GREYFrameworkException.h"
 
 typedef NSDictionary<NSString *, UIImage *> *GREYScreenshotImages;
 
@@ -77,7 +76,7 @@ typedef NSDictionary<NSString *, UIImage *> *GREYScreenshotImages;
   return [screenshotPaths copy];
 }
 
-+ (NSString *)failureScreenshotPathForException:(nullable GREYFrameworkException *)exception {
++ (NSString *)failureScreenshotPathForException:(nullable NSException *)exception {
   NSString *uniqueSubDirName =
       [NSString stringWithFormat:@"%@-%@", exception.name, [[NSUUID UUID] UUIDString]];
   return [GREY_CONFIG_STRING(kGREYConfigKeyArtifactsDirLocation)
