@@ -78,6 +78,16 @@ GREY_EXTERN NSString* _Nonnull const kTextFieldAXElementClassName;
 GREY_EXTERN NSString* _Nonnull const kNSTimerIgnoreTrackingKey;
 
 /**
+ * The ping message to be sent to the app-under-test's ping service.
+ */
+GREY_EXTERN NSString* _Nonnull const kHostPingRequestMessage;
+
+/**
+ * The expected ping response to be sent back from the app-under-test's ping service.
+ */
+GREY_EXTERN NSString* _Nonnull const kHostPingSuccessMessage;
+
+/**
  * The default pinch angle for the pinch action, specified by an approximate angle for a right
  * handed two finger pinch.
  */

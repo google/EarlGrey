@@ -25,7 +25,10 @@
 #import "GREYError.h"
 #import "GREYErrorConstants.h"
 #import "GREYFrameworkException.h"
+#import "GREYConstants.h"
 #import "GREYRemoteExecutor.h"
+#import "EDOChannel.h"
+#import "EDOChannelPool.h"
 #import "EDOHostPort.h"
 #import "EDOHostService.h"
 #import "EDOServiceError.h"
@@ -286,6 +289,38 @@ __attribute__((constructor)) static void SetupTestDistantObject() {
   return YES;
 }
 
+- (BOOL)hostActiveWithAppComponent {
+  uint16_t portNumber = self.pingMessagePort;
+  if (!portNumber) {
+    return NO;
+  }
+
+  NSError *connectionError;
+  EDOHostPort *hostPort = [EDOHostPort hostPortWithLocalPort:portNumber];
+  id<EDOChannel> channel = [EDOChannelPool.sharedChannelPool channelWithPort:hostPort
+                                                                       error:&connectionError];
+  if (connectionError) {
+    return NO;
+  }
+
+  dispatch_semaphore_t waitLock = dispatch_semaphore_create(0);
+  __block BOOL hostAlive = NO;
+  NSData *request = [kHostPingRequestMessage dataUsingEncoding:NSUTF8StringEncoding];
+  [channel sendData:request withCompletionHandler:nil];
+  [channel receiveDataWithHandler:^(id<EDOChannel> _Nonnull targetChannel, NSData *_Nullable data,
+                                    NSError *_Nullable error) {
+    if (data) {
+      NSString *response = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+      hostAlive = [response isEqualToString:kHostPingSuccessMessage];
+    }
+    dispatch_semaphore_signal(waitLock);
+  }];
+  if (!dispatch_semaphore_wait(waitLock, dispatch_time(DISPATCH_TIME_NOW, NSEC_PER_SEC))) {
+    [EDOChannelPool.sharedChannelPool addChannel:channel forPort:hostPort];
+  }
+  return hostAlive;
+}
+
 - (void)resetHostArguments {
   // Checks if the method is called on @c _executingQueue. If it's not, it dispatches the resetting
   // procedure to that queue.
@@ -297,6 +332,7 @@ __attribute__((constructor)) static void SetupTestDistantObject() {
   }
   self.hostPort = 0;
   self.hostBackgroundPort = 0;
+  self.pingMessagePort = 0;
   self.hostApplicationTerminated = NO;
   self.hostLaunchedWithAppComponent = NO;
 }

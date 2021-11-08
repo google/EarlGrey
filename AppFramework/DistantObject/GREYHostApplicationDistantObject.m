@@ -17,13 +17,19 @@
 #import "GREYHostApplicationDistantObject.h"
 
 #import <UIKit/UIKit.h>
+#import <objc/runtime.h>
 
 #import "GREYFatalAsserts.h"
 #import "GREYHostBackgroundDistantObject.h"
 #import "GREYTestApplicationDistantObject+Private.h"
 #import "GREYTestApplicationDistantObject.h"
 #import "GREYFrameworkException.h"
+#import "GREYConstants.h"
+#import "EDOChannel.h"
 #import "EDOHostPort.h"
+#import "EDOSocket.h"
+#import "EDOSocketChannel.h"
+#import "EDOSocketPort.h"
 #import "EDOHostService.h"
 #import "EDOServiceError.h"
 #import "EDOServicePort.h"
@@ -36,7 +42,38 @@ static uint16_t gGREYPortForTestApplication = 0;
 /** @see GREYHostApplicationDistantObject.service, make this readwrite. */
 @property(nonatomic, readwrite) EDOHostService *service;
 
+/** The TCP socket that is used to receive ping data from other processes. */
+@property(nonatomic, readwrite) EDOSocket *pingMessageListener;
+
 @end
+
+/**
+ * @return The socket listener that accepts ping connections and creates a channel to process ping
+ *         requests.
+ */
+static id GetPingMessageListener() {
+  return ^(EDOSocket *_Nullable socket, NSError *_Nullable socketError) {
+    id<EDOChannel> channel = [EDOSocketChannel channelWithSocket:socket];
+    id pingMessageHandler = ^(id<EDOChannel> targetChannel, NSData *data, NSError *channelError) {
+      // When `data` is nil, it means the channel is closed from the client side.
+      if (data) {
+        NSString *request = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        if ([request isEqualToString:kHostPingRequestMessage]) {
+          NSData *response = [kHostPingSuccessMessage dataUsingEncoding:NSUTF8StringEncoding];
+          [targetChannel sendData:response withCompletionHandler:nil];
+        }
+        // The `pingMessageHandler` needs to repetitively add itself to the channel. Since the block
+        // cannot get itself within the implementation, it is stored weakly in the channel as an
+        // associate object.
+        id handler = objc_getAssociatedObject(channel, @selector(receiveDataWithHandler:));
+        [channel receiveDataWithHandler:handler];
+      }
+    };
+    objc_setAssociatedObject(channel, @selector(receiveDataWithHandler:), pingMessageHandler,
+                             OBJC_ASSOCIATION_ASSIGN);
+    [channel receiveDataWithHandler:pingMessageHandler];
+  };
+}
 
 static void InitiateCommunicationWithTest() {
   static dispatch_once_t onceToken;
@@ -93,13 +130,17 @@ static void InitiateCommunicationWithTest() {
       return;
     }
 
+    GREYHostApplicationDistantObject *hostDO = GREYHostApplicationDistantObject.sharedInstance;
     GREYTestApplicationDistantObject *testApplicationDistantObject =
         GREYTestApplicationDistantObject.sharedInstance;
-    testApplicationDistantObject.hostPort =
-        GREYHostApplicationDistantObject.sharedInstance.servicePort;
+    testApplicationDistantObject.hostPort = hostDO.servicePort;
     testApplicationDistantObject.hostBackgroundPort =
         GREYHostBackgroundDistantObject.sharedInstance.servicePort;
-    testApplicationDistantObject.hostLaunchedWithAppComponent = YES;
+
+    hostDO.pingMessageListener = [EDOSocket listenWithTCPPort:0
+                                                        queue:nil
+                                               connectedBlock:GetPingMessageListener()];
+    testApplicationDistantObject.pingMessagePort = hostDO.pingMessageListener.socketPort.port;
 
     // [GREYHostApplicationDistantObject -application:didFinishLaunchingWithOptions:] is a special
     // method for the class. By default, this method is not implemented by EarlGrey. Developers can

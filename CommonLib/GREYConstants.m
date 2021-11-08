@@ -44,6 +44,10 @@ NSString *const kTextFieldAXElementClassName = @"UIAccessibilityTextFieldElement
 
 NSString *const kNSTimerIgnoreTrackingKey = @"kNSTimerIgnoreTrackingKey";
 
+NSString *const kHostPingRequestMessage = @"ping";
+
+NSString *const kHostPingSuccessMessage = @"success";
+
 #if TARGET_OS_IOS
 NSString *NSStringFromUIDeviceOrientation(UIDeviceOrientation deviceOrientation) {
   switch (deviceOrientation) {

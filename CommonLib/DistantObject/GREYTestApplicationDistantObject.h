@@ -65,6 +65,12 @@ typedef NS_ENUM(NSUInteger, GREYRemoteExecutionDispatchPolicy) {
  */
 @property(nonatomic, readonly) uint16_t hostBackgroundPort;
 
+/**
+ * The port number that the ping message service on the app-under-test's background queue listens
+ * on. The service is used to check the status of the app-under-test process.
+ */
+@property(nonatomic) uint16_t pingMessagePort;
+
 /** The remote execution dispatch policy of the eDO service, which is held by this class. */
 @property(nonatomic, readonly) GREYRemoteExecutionDispatchPolicy dispatchPolicy;
 
@@ -75,16 +81,23 @@ typedef NS_ENUM(NSUInteger, GREYRemoteExecutionDispatchPolicy) {
 @property(nonatomic, readonly) uint16_t servicePort;
 
 /**
- * A BOOL set to @YES only if the host application was launched successfully with EarlGrey's
- * application component statically-linked inside it.
+ * A BOOL set to @c YES only if the host application is running with EarlGrey's application
+ * component statically-linked inside it.
  *
- * @note Use only to determine after a successful launch if EarlGrey has been added to the host app.
+ * @note There are two ways to use this API:
  *
- *       This method cannot be utilized to determine if the application launched successfully. The
- *       port values may be changed in the case of an application crash or if the application hangs
- *       on launch. Also will not work in case the application component is being injected as a
- *       framework (as done in open-source) as the application will always crash.
- *
+ *       1. The testing process is sure that the host application statically links to the EarlGrey's
+ *          application component, and want to check if the host application is running. In this
+ *          case, this API can be called at anytime to check the application's status.
+ *       2. The testing process is not sure that the host application statically links to the
+ *          EarlGrey's application component. In this case, the testing process can verify it by
+ *          calling this API after [XCUIApplication -launch];
+ */
+@property(nonatomic, readonly) BOOL hostActiveWithAppComponent;
+
+/**
+ * @deprecated This API is no longer used. It is kept only for legacy pre-compiled test binary.
+ *             Use -hostActiveWithAppComponent instead.
  */
 @property(nonatomic) BOOL hostLaunchedWithAppComponent;
 

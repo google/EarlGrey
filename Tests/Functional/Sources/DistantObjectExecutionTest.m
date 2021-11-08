@@ -131,8 +131,11 @@
 
 /** Ensures the application is launched with the app component. */
 - (void)testDistantObjectLaunchCheckUpdated {
+  [self.application terminate];
+  XCTAssertFalse(GREYTestApplicationDistantObject.sharedInstance.hostActiveWithAppComponent,
+                 @"The app distant object host is not launched when app is terminated.");
   [self.application launch];
-  XCTAssertTrue(GREYTestApplicationDistantObject.sharedInstance.hostLaunchedWithAppComponent,
+  XCTAssertTrue(GREYTestApplicationDistantObject.sharedInstance.hostActiveWithAppComponent,
                 @"The Distant object host app must be launched with the app component.");
 }
 
