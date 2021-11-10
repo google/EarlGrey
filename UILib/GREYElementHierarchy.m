@@ -131,8 +131,10 @@ static void DedupeAndAppendAnimationInfoForView(
   if ([element isKindOfClass:[UIView class]]) {
     UIView *view = (UIView *)element;
     // MDCActivityIndicators which don't add animations to layers.
+    NSString *axValue = view.accessibilityValue;
     if ([view isKindOfClass:NSClassFromString(@"MDCActivityIndicator")] &&
-        [view.accessibilityValue isEqualToString:@"In Progress"]) {
+        ([axValue isEqualToString:@"In Progress"] ||
+         [axValue containsString:@"Percent Complete"])) {
       NSString *activityIndicatorInfo = [NSString
           stringWithFormat:@"\nAnimating MDCActivityIndicator: %@", [view grey_objectDescription]];
       [animationDictionary setValue:activityIndicatorInfo forKey:@"In-progress Activity Indicator"];
