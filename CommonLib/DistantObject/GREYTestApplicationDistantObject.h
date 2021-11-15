@@ -96,8 +96,8 @@ typedef NS_ENUM(NSUInteger, GREYRemoteExecutionDispatchPolicy) {
 @property(nonatomic, readonly) BOOL hostActiveWithAppComponent;
 
 /**
- * @deprecated This API is no longer used. It is kept only for legacy pre-compiled test binary.
- *             Use -hostActiveWithAppComponent instead.
+ * @note This API is no longer used. It is kept only for legacy pre-compiled test binary. Use
+ *       -hostActiveWithAppComponent instead.
  */
 @property(nonatomic) BOOL hostLaunchedWithAppComponent;
 

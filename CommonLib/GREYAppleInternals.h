@@ -242,5 +242,5 @@ typedef struct BlockHeader {
   void *isa;
   int flags;
   int reserved;
-  void (*invoke)();
+  void (*invoke)(void);  // NO_LINT
 } BlockHeader;
