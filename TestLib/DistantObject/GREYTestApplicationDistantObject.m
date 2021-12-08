@@ -41,11 +41,12 @@ static BOOL IsEDOServiceHostedOnMainQueue(void) {
   return [EDOHostService serviceForOriginatingQueue:dispatch_get_main_queue()] != nil;
 }
 
-/** The maximum time to wait for the eDO host ports of app-under-test. */
+/** The maximum time to wait for the eDO host ports of app-under-test for CI or OSS runs. */
 static const int64_t kPortAllocationWaitTime = 30 * NSEC_PER_SEC;
 
 /** The context key to verify test host's executing queue. */
 static const void *gGREYTestExecutingQueueKey = &gGREYTestExecutingQueueKey;
+
 
 @interface GREYTestApplicationDistantObject ()
 
@@ -97,7 +98,6 @@ __attribute__((constructor)) static void SetupTestDistantObject() {
         NSString *errorInfo;
         NSString *exceptionReason = @"App crashed and disconnected.";
         NSString *recoverySuggestion = GetErrorRecoverySuggestion();
-        // END-GOOGLE-INTERNAL
         errorInfo =
             [NSString stringWithFormat:@"\n\nException Reason:\n%@\n\nRecovery Suggestion:\n%@",
                                        exceptionReason, recoverySuggestion];
@@ -200,7 +200,7 @@ __attribute__((constructor)) static void SetupTestDistantObject() {
 - (uint16_t)hostPort {
   if (_hostPort == 0) {
     // Waits up to 30 seconds until @c _hostPort has been changed to a nonzero value.
-    dispatch_time_t timeout = dispatch_time(DISPATCH_TIME_NOW, kPortAllocationWaitTime);
+    dispatch_time_t timeout = AllocationWaitTime();
     if ([NSThread isMainThread]) {
       GREYExecuteSyncBlockInBackgroundQueue(^{
         dispatch_group_wait(self->_hostPortAllocationGroup, timeout);
@@ -231,7 +231,7 @@ __attribute__((constructor)) static void SetupTestDistantObject() {
 - (uint16_t)hostBackgroundPort {
   if (_hostBackgroundPort == 0) {
     // Waits up to 30 seconds until @c _hostBackgroundPort has been changed to a nonzero value.
-    dispatch_time_t timeout = dispatch_time(DISPATCH_TIME_NOW, kPortAllocationWaitTime);
+    dispatch_time_t timeout = AllocationWaitTime();
     if ([NSThread isMainThread]) {
       GREYExecuteSyncBlockInBackgroundQueue(^{
         dispatch_group_wait(self->_hostBackgroundPortAllocationGroup, timeout);
@@ -341,6 +341,11 @@ __attribute__((constructor)) static void SetupTestDistantObject() {
 
 - (BOOL)isPermanentAppHostPort:(uint16_t)port {
   return port != 0 && (port == _hostPort || port == _hostBackgroundPort);
+}
+
+/** @return The dispatch_time_t to wait for port allocation. */
+static dispatch_time_t AllocationWaitTime() {
+  return dispatch_time(DISPATCH_TIME_NOW, kPortAllocationWaitTime);
 }
 
 @end
