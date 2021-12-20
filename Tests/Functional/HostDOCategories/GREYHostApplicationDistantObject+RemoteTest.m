@@ -15,6 +15,7 @@
 //
 #import "GREYHostApplicationDistantObject+RemoteTest.h"
 
+#include <UIKit/UIKit.h>
 #include <objc/runtime.h>
 
 #import "GREYAction.h"
@@ -28,7 +29,24 @@
 #import "GREYElementMatcherBlock.h"
 #import "GREYUIWindowProvider.h"
 
+/** BOOL to specify that the orientation has changed. */
+static BOOL gOrientationChangeNotificationReceived;
+
 @implementation GREYHostApplicationDistantObject (RemoteTest)
+
+- (void)addObserverForOrientationChanged {
+  gOrientationChangeNotificationReceived = NO;
+  [[NSNotificationCenter defaultCenter] addObserverForName:UIDeviceOrientationDidChangeNotification
+                                                    object:nil
+                                                     queue:nil
+                                                usingBlock:^(NSNotification *_Nonnull note) {
+                                                  gOrientationChangeNotificationReceived = YES;
+                                                }];
+}
+
+- (BOOL)didOrientationChange {
+  return gOrientationChangeNotificationReceived;
+}
 
 - (NSString *)makeAString:(NSString *)str {
   return [str stringByAppendingString:@"make"];

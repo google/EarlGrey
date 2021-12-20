@@ -14,7 +14,6 @@
 // limitations under the License.
 //
 
-#import "GREYWaitFunctions.h"
 #import "EarlGrey.h"
 #import "GREYHostApplicationDistantObject+RemoteTest.h"
 #import "BaseIntegrationTest.h"
@@ -97,6 +96,36 @@
   orientation = [[GREYHostApplicationDistantObject sharedInstance] appOrientation];
   XCTAssertEqual(orientation, UIInterfaceOrientationPortrait,
                  @"Invalid orientation doesn't change the actual orientation of the app");
+}
+
+/**
+ * Ensures that the UIDeviceOrientationDidChangeNotification is seen in both the app and test
+ * processes.
+ */
+- (void)testOrientationChangeNotificationIsObservedInBothProcesses {
+  GREYHostApplicationDistantObject *distantObject =
+      [GREYHostApplicationDistantObject sharedInstance];
+  __block BOOL orientationChanged;
+  // Add Observers
+  [distantObject addObserverForOrientationChanged];
+  [[NSNotificationCenter defaultCenter] addObserverForName:UIDeviceOrientationDidChangeNotification
+                                                    object:nil
+                                                     queue:nil
+                                                usingBlock:^(NSNotification *_Nonnull note) {
+                                                  orientationChanged = YES;
+                                                }];
+  // Confirm initial state of BOOLs.
+  XCTAssertFalse([distantObject didOrientationChange],
+                 @"App's orientation change BOOL should be set to NO when initialized.");
+  XCTAssertFalse(orientationChanged,
+                 @"Tests's orientation change BOOL should be set to NO when initialized.");
+  // Perform rotation.
+  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeLeft error:nil];
+  // Confirm state of BOOLs after rotation.
+  XCTAssertTrue([distantObject didOrientationChange],
+                @"App's orientation change BOOL should be set to YES on a change.");
+  XCTAssertTrue(orientationChanged,
+                @"Test's orientation change BOOL should be set to YES on a change.");
 }
 
 @end

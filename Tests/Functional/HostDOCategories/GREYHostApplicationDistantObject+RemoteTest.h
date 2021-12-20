@@ -105,4 +105,10 @@
  */
 - (void)invokeRemoteBlock:(void (^)(void))block withDelay:(int64_t)delay;
 
+/** Adds a notification observer for the UI orientation changing. */
+- (void)addObserverForOrientationChanged;
+
+/** @return A BOOL signifying if the UI orientation changed. */
+- (BOOL)didOrientationChange;
+
 @end

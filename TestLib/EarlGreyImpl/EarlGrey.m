@@ -115,57 +115,6 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
   }
 }
 
-#if TARGET_OS_IOS
-- (BOOL)rotateDeviceToOrientation:(UIDeviceOrientation)deviceOrientation error:(NSError **)error {
-  GREYError *syncErrorBeforeRotation;
-  GREYError *syncErrorAfterRotation;
-  BOOL success = NO;
-  XCUIDevice *sharedDevice = [XCUIDevice sharedDevice];
-  UIDevice *currentDevice = [GREY_REMOTE_CLASS_IN_APP(UIDevice) currentDevice];
-  CFTimeInterval interactionTimeout = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
-
-  BOOL syncSuccessBeforeRotation =
-      GREYWaitForAppToIdleWithTimeoutAndError(interactionTimeout, &syncErrorBeforeRotation);
-  if (syncSuccessBeforeRotation) {
-    [sharedDevice setOrientation:deviceOrientation];
-    [currentDevice setOrientation:deviceOrientation animated:NO];
-    BOOL syncSuccessAfterRotation =
-        GREYWaitForAppToIdleWithTimeoutAndError(interactionTimeout, &syncErrorAfterRotation);
-    if (syncSuccessAfterRotation) {
-      success = currentDevice.orientation == deviceOrientation;
-    }
-  }
-
-  if (!success) {
-    NSString *errorDescription;
-    NSMutableDictionary<NSString *, id> *errorDetails = [[NSMutableDictionary alloc] init];
-    if (syncErrorBeforeRotation) {
-      errorDetails[kErrorDetailRecoverySuggestionKey] =
-          syncErrorBeforeRotation.userInfo[kErrorFailureReasonKey];
-      errorDescription = @"Application did not idle before rotating.";
-    } else if (syncErrorAfterRotation) {
-      errorDetails[kErrorDetailRecoverySuggestionKey] =
-          syncErrorAfterRotation.userInfo[kErrorFailureReasonKey];
-      errorDescription =
-          @"Application did not idle after rotating and before verifying the rotation.";
-    } else if (!syncErrorBeforeRotation && !syncErrorAfterRotation) {
-      NSString *errorReason = @"Could not rotate application to orientation: %tu. XCUIDevice "
-                              @"Orientation: %tu UIDevice Orientation: %tu. UIDevice is the "
-                              @"orientation being checked here.";
-      errorDescription =
-          [NSString stringWithFormat:errorReason, deviceOrientation, sharedDevice.orientation,
-                                     currentDevice.orientation];
-    }
-
-    GREYError *rotationError = GREYErrorMakeWithUserInfo(kGREYSyntheticEventInjectionErrorDomain,
-                                                         kGREYOrientationChangeFailedErrorCode,
-                                                         errorDescription, errorDetails);
-    GREYHandleInteractionError(rotationError, error);
-  }
-  return success;
-}
-#endif  // TARGET_OS_IOS
-
 - (BOOL)dismissKeyboardWithError:(NSError **)error {
   __block GREYError *dismissalError = nil;
   BOOL success = ExecuteSyncBlockInBackgroundQueue(^{
@@ -299,5 +248,82 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
 - (void)setRootMatcherForSubsequentInteractions:(nullable id<GREYMatcher>)rootWindowMatcher {
   gRootWindowMatcher = rootWindowMatcher;
 }
+
+#pragma mark - Rotation
+
+#if TARGET_OS_IOS
+- (BOOL)rotateDeviceToOrientation:(UIDeviceOrientation)deviceOrientation error:(NSError **)error {
+  GREYError *syncErrorBeforeRotation;
+  GREYError *syncErrorAfterRotation;
+  BOOL success = NO;
+  __block BOOL sendOrientationChangeNotification = NO;
+  XCUIDevice *sharedDevice = [XCUIDevice sharedDevice];
+  UIDevice *currentDevice = [GREY_REMOTE_CLASS_IN_APP(UIDevice) currentDevice];
+  NSNotificationCenter *notificationCenter =
+      [GREY_REMOTE_CLASS_IN_APP(NSNotificationCenter) defaultCenter];
+
+  // Add an orientation change notification observer.
+  [notificationCenter addObserverForName:UIDeviceOrientationDidChangeNotification
+                                  object:nil
+                                   queue:nil
+                              usingBlock:^(NSNotification *_Nonnull note) {
+                                sendOrientationChangeNotification = YES;
+                              }];
+  CFTimeInterval interactionTimeout = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
+
+  BOOL syncSuccessBeforeRotation =
+      GREYWaitForAppToIdleWithTimeoutAndError(interactionTimeout, &syncErrorBeforeRotation);
+  if (syncSuccessBeforeRotation) {
+    [sharedDevice setOrientation:deviceOrientation];
+    [currentDevice setOrientation:deviceOrientation animated:NO];
+    BOOL syncSuccessAfterRotation =
+        GREYWaitForAppToIdleWithTimeoutAndError(interactionTimeout, &syncErrorAfterRotation);
+    if (syncSuccessAfterRotation) {
+      success = currentDevice.orientation == deviceOrientation;
+    }
+  }
+
+  // Remove the orientation change notification observer.
+  [notificationCenter removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
+
+  if (!success) {
+    NSString *errorDescription;
+    NSMutableDictionary<NSString *, id> *errorDetails = [[NSMutableDictionary alloc] init];
+    if (syncErrorBeforeRotation) {
+      errorDetails[kErrorDetailRecoverySuggestionKey] =
+          syncErrorBeforeRotation.userInfo[kErrorFailureReasonKey];
+      errorDescription = @"Application did not idle before rotating.";
+    } else if (syncErrorAfterRotation) {
+      errorDetails[kErrorDetailRecoverySuggestionKey] =
+          syncErrorAfterRotation.userInfo[kErrorFailureReasonKey];
+      errorDescription =
+          @"Application did not idle after rotating and before verifying the rotation.";
+    } else if (!syncErrorBeforeRotation && !syncErrorAfterRotation) {
+      NSString *errorReason = @"Could not rotate application to orientation: %tu. XCUIDevice "
+                              @"Orientation: %tu UIDevice Orientation: %tu. UIDevice is the "
+                              @"orientation being checked here.";
+      errorDescription =
+          [NSString stringWithFormat:errorReason, deviceOrientation, sharedDevice.orientation,
+                                     currentDevice.orientation];
+    }
+
+    GREYError *rotationError = GREYErrorMakeWithUserInfo(kGREYSyntheticEventInjectionErrorDomain,
+                                                         kGREYOrientationChangeFailedErrorCode,
+                                                         errorDescription, errorDetails);
+    GREYHandleInteractionError(rotationError, error);
+  } else {
+    // Send a notification for the orientation change to the test side since we have confirmed the
+    // app has changed its orientation.
+    if (sendOrientationChangeNotification) {
+      [[NSNotificationCenter defaultCenter]
+          postNotificationName:UIDeviceOrientationDidChangeNotification
+                        object:nil];
+    }
+  }
+
+  return success;
+}
+
+#endif  // TARGET_OS_IOS
 
 @end
