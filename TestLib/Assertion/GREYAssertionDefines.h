@@ -52,10 +52,22 @@
  *                      args will be required.
  * @param ...           Variable args for @c __description if it is a format string.
  */
-#define GREYFail(__description, ...)            \
-  ({                                            \
-    I_GREYSetCurrentAsFailable();               \
-    I_GREYFail((__description), ##__VA_ARGS__); \
+#define GREYFail(__description, ...) \
+  ({ GREYFailWithFilePath(__description, __FILE__, __LINE__, ##__VA_ARGS__); })
+
+/**
+ * Generates a failure unconditionally, with the provided @c __description.
+ *
+ * @param __description Description to print. May be a format string, in which case the variable
+ *                      args will be required.
+ * @param __fileName    The name of the file where the failing code exists.
+ * @param __lineNumber  The line number of the failing code.
+ * @param ...           Variable args for @c __description if it is a format string.
+ */
+#define GREYFailWithFilePath(__description, __fileName, __lineNumber, ...) \
+  ({                                                                       \
+    I_GREYSetCurrentAsFailableWithDetails(__fileName, __lineNumber);       \
+    I_GREYFail((__description), ##__VA_ARGS__);                            \
   })
 
 /**

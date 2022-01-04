@@ -37,14 +37,17 @@
 GREY_EXTERN NSString *const GREYFailureHandlerKey;
 
 // No private macro should call this.
-#define I_GREYSetCurrentAsFailable()                                                             \
+#define I_GREYSetCurrentAsFailable() \
+  ({ I_GREYSetCurrentAsFailableWithDetails(__FILE__, __LINE__); })
+
+#define I_GREYSetCurrentAsFailableWithDetails(__fileName, __lineNumber)                          \
   ({                                                                                             \
     id<GREYFailureHandler> failureHandler__ =                                                    \
         [NSThread mainThread].threadDictionary[GREYFailureHandlerKey];                           \
     if ([failureHandler__ respondsToSelector:@selector(setInvocationFile:andInvocationLine:)]) { \
-      NSString *invocationFile = [NSString stringWithUTF8String:__FILE__];                       \
+      NSString *invocationFile = [NSString stringWithUTF8String:__fileName];                     \
       if (invocationFile) {                                                                      \
-        [failureHandler__ setInvocationFile:invocationFile andInvocationLine:__LINE__];          \
+        [failureHandler__ setInvocationFile:invocationFile andInvocationLine:__lineNumber];      \
       }                                                                                          \
     }                                                                                            \
   })
