@@ -23,7 +23,8 @@
 
 /**
  * Resets @c methodSelector to the original implementation if it's implementation was swapped using
- * this swizzler.
+ * this swizzler. Does not reset the other selector (either original or swizzled selector) that was
+ * part of the swizzling. To do so, call this method on the other selector as well.
  *
  * @remark If the same method was swizzled multiple times, resetting will restore to the very first
  *         implementation before any swizzling.
@@ -37,7 +38,8 @@
 
 /**
  * Resets @c methodSelector to the original implementation if it's implementation was swapped using
- * this swizzler.
+ * this swizzler.  Does not reset the other selector (either original or swizzled selector) that was
+ * part of the swizzling. To do so, call this method on the other selector as well.
  *
  * @remark If the same method was swizzled multiple times using this swizzler, resetting will
  *         restore to the very first implementation before any swizzling performed with this
