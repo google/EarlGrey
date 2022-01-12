@@ -71,6 +71,7 @@ Pod::Spec.new do |s|
                   "TestLib/Assertion/GREYWaitFunctions.h",
                   "TestLib/Condition/GREYCondition.h",
                   "TestLib/EarlGreyImpl/EarlGrey.h",
+		 "UILib/GREYElementHierarchy.h",
         ]
 
   s.source_files = test_sources
