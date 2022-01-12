@@ -105,7 +105,7 @@
 - (void)testOrientationChangeNotificationIsObservedInBothProcesses {
   GREYHostApplicationDistantObject *distantObject =
       [GREYHostApplicationDistantObject sharedInstance];
-  __block BOOL orientationChanged;
+  __block BOOL orientationChanged = NO;
   // Add Observers
   [distantObject addObserverForOrientationChanged];
   [[NSNotificationCenter defaultCenter] addObserverForName:UIDeviceOrientationDidChangeNotification
