@@ -109,13 +109,15 @@ GREY_EXTERN NSString *const kGREYAssertionErrorUserInfoKey;
 - (instancetype)inRoot:(id<GREYMatcher>)rootMatcher;
 
 /**
- * Performs the @c action repeatedly on the element matching the @c matcher until the element
- * to interact with (specified by GREYInteraction::selectElementWithMatcher:) is found or a
- * timeout occurs. The search action is only performed when coupled with
+ * Creates an interaction consisting of repeated executions of the search @c action provided. The @c
+ * action is performed repeatedly on the element matching the @c matcher until the element matched
+ * by GREYInteraction::selectElementWithMatcher: is found or a timeout occurs. If the action is a
+ * scroll action, the search action will also fail on reaching the edge of the scroll view (as with
+ * any scroll action).
+ *
+ * The search action is only performed when an action or assertion is called after this using
  * GREYInteraction::performAction:, GREYInteraction::assert:, or
- * GREYInteraction::assertWithMatcher: APIs. This API only creates an interaction consisting of
- * repeated executions of the search action provided. You need to call an action or assertion
- * after this in order to interaction with the element being searched for.
+ * GREYInteraction::assertWithMatcher:.
  *
  * For example, this code will perform an upward scroll of 50 points until an element is found
  * and then tap on it:
@@ -125,6 +127,10 @@ GREY_EXTERN NSString *const kGREYAssertionErrorUserInfoKey;
  *      onElementWithMatcher:grey_accessibilityID(@"ScrollingWindow")]
  *         performAction:grey_tap()] // This should be separately called for the action.
  *     @endcode
+ *
+ * If the action takes longer than the kGREYConfigKeyInteractionTimeoutDuration, then the action
+ * will fail with a timeout. For longer actions, you should updated this timeout using
+ * GREYConfiguration::setValue:forConfigKey:.
  *
  * @param action  The action to be performed on the element.
  * @param matcher The matcher that the element matches.
