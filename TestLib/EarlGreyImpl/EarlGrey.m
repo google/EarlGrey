@@ -324,6 +324,45 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
   return success;
 }
 
+- (NSString *)SystemAlertTextWithError:(NSError **)error {
+  return [[XCTestCase grey_currentTestCase] grey_systemAlertTextWithError:error];
+}
+
+/** Standalone API for XCTestCase::grey_systemAlertType:. */
+- (GREYSystemAlertType)SystemAlertType {
+  return [[XCTestCase grey_currentTestCase] grey_systemAlertType];
+}
+
+/** Standalone API for XCTestCase::grey_acceptSystemDialogWithError:. */
+- (BOOL)AcceptSystemDialogWithError:(NSError **)error {
+  return [[XCTestCase grey_currentTestCase] grey_acceptSystemDialogWithError:error];
+}
+
+/** Standalone API for XCTestCase::grey_denySystemDialogWithError:. */
+- (BOOL)DenySystemDialogWithError:(NSError **)error {
+  return [[XCTestCase grey_currentTestCase] grey_denySystemDialogWithError:error];
+}
+
+/** Standalone API for XCTestCase::grey_tapSystemDialogButtonWithText:error:. */
+- (BOOL)TapSystemDialogButtonWithText:(NSString *)text error:(NSError **)error {
+  return [[XCTestCase grey_currentTestCase] grey_tapSystemDialogButtonWithText:text error:error];
+}
+
+/** Standalone API for XCTestCase::grey_typeSystemAlertText:forPlaceholderText:error:. */
+- (BOOL)TypeSystemAlertText:(NSString *)textToType
+         forPlaceholderText:(NSString *)placeholderText
+                      error:(NSError **)error {
+  return [[XCTestCase grey_currentTestCase] grey_typeSystemAlertText:textToType
+                                                  forPlaceholderText:placeholderText
+                                                               error:error];
+}
+
+/** Standalone API for XCTestCase::grey_waitForAlertVisibility:withTimeout:. */
+- (BOOL)WaitForAlertVisibility:(BOOL)visible withTimeout:(CFTimeInterval)seconds {
+  return [[XCTestCase grey_currentTestCase] grey_waitForAlertVisibility:visible
+                                                            withTimeout:seconds];
+}
+
 #endif  // TARGET_OS_IOS
 
 @end

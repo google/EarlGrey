@@ -292,6 +292,31 @@ typedef void (^GREYHostApplicationCrashHandler)(void);
  */
 - (void)setRootMatcherForSubsequentInteractions:(nullable id<GREYMatcher>)rootWindowMatcher;
 
+#pragma mark - System Alert Handling
+
+/** Standalone API for XCTestCase::grey_systemAlertTextWithError:. */
+- (NSString *)SystemAlertTextWithError:(NSError **)error;
+
+/** Standalone API for XCTestCase::grey_systemAlertType:. */
+- (GREYSystemAlertType)SystemAlertType;
+
+/** Standalone API for XCTestCase::grey_acceptSystemDialogWithError:. */
+- (BOOL)AcceptSystemDialogWithError:(NSError **)error NS_SWIFT_NOTHROW;
+
+/** Standalone API for XCTestCase::grey_denySystemDialogWithError:. */
+- (BOOL)DenySystemDialogWithError:(NSError **)error NS_SWIFT_NOTHROW;
+
+/** Standalone API for XCTestCase::grey_tapSystemDialogButtonWithText:error:. */
+- (BOOL)TapSystemDialogButtonWithText:(NSString *)text error:(NSError **)error NS_SWIFT_NOTHROW;
+
+/** Standalone API for XCTestCase::grey_typeSystemAlertText:forPlaceholderText:error:. */
+- (BOOL)TypeSystemAlertText:(nullable NSString *)textToType
+         forPlaceholderText:(nullable NSString *)placeholderText
+                      error:(NSError **)error NS_SWIFT_NOTHROW;
+
+/** Standalone API for XCTestCase::grey_waitForAlertVisibility:withTimeout:. */
+- (BOOL)WaitForAlertVisibility:(BOOL)visible withTimeout:(CFTimeInterval)seconds;
+
 @end
 
 NS_ASSUME_NONNULL_END
