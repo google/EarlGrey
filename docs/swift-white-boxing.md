@@ -8,10 +8,12 @@ GREYHostApplicationDistantObject and GREYHostBackgroundDistantObject, however
 since we need to provide the test with the function declarations, we need to
 create a protocol that will help expose them.
 
-Since the Bundle is initially empty, add a Swift file into it. The file can
-be blank for now. This should automatically enable you to add a Bridging
-Header similar to the [Setup's Swift Section](setup.md#bridging_header),
-add a Bridging Header with imports for any EarlGrey files that you need.
+Since the Helper Bundle defined in
+the [White-Boxing Setup Guide](white-boxing-setup-guide.md) is initially empty,
+add a Swift file into it. The file can be blank for now.
+This should automatically enable you to add a Bridging Header as described in
+the Setup Guide's [Bridging Header](setup.md#bridging_header) section.
+Add a Bridging Header with imports for any EarlGrey files that you need.
 Refer to the [EarlGrey TestRig Bridging Header](../Tests/TestRig/Sources/Swift/SwiftTestRigBridgingHeader.h)
 for an example. The Helper Bundle runs in the app side, so **do not add any
 TestLib or any test-specific dependencies**.
