@@ -126,25 +126,6 @@ typedef void (^GREYHostApplicationCrashHandler)(void);
  */
 - (id<GREYInteraction>)selectElementWithMatcher:(id<GREYMatcher>)elementMatcher;
 
-#if TARGET_OS_IOS
-/**
- * Rotate the device to a given @c deviceOrientation. All device orientations except for
- * @c UIDeviceOrientationUnknown are supported. If a non-nil @c error is provided, it will
- * be populated with the failure reason if the orientation change fails, otherwise a test failure
- * will be registered.
- *
- * @param      deviceOrientation The desired orientation of the device.
- * @param[out] error             Error that will be populated on failure. If @c nil, the a test
- *                               failure will be reported if the rotation attempt fails.
- *
- * @throws GREYFrameworkException if the action fails and @c error is @c nil.
- *
- * @return @c YES if the rotation was successful, @c NO otherwise. If @c error is @c nil and
- *         the operation fails, it will throw an exception.
- */
-- (BOOL)rotateDeviceToOrientation:(UIDeviceOrientation)deviceOrientation error:(NSError **)error;
-#endif  // TARGET_OS_IOS
-
 /**
  * Dismisses the keyboard programmatically by calling resignFirstResponder on application under
  * test. Populates the provided error if any issue is raised.
@@ -292,6 +273,26 @@ typedef void (^GREYHostApplicationCrashHandler)(void);
  */
 - (void)setRootMatcherForSubsequentInteractions:(nullable id<GREYMatcher>)rootWindowMatcher;
 
+#pragma mark - iOS Only API's
+
+#if TARGET_OS_IOS
+/**
+ * Rotate the device to a given @c deviceOrientation. All device orientations except for
+ * @c UIDeviceOrientationUnknown are supported. If a non-nil @c error is provided, it will
+ * be populated with the failure reason if the orientation change fails, otherwise a test failure
+ * will be registered.
+ *
+ * @param      deviceOrientation The desired orientation of the device.
+ * @param[out] error             Error that will be populated on failure. If @c nil, the a test
+ *                               failure will be reported if the rotation attempt fails.
+ *
+ * @throws GREYFrameworkException if the action fails and @c error is @c nil.
+ *
+ * @return @c YES if the rotation was successful, @c NO otherwise. If @c error is @c nil and
+ *         the operation fails, it will throw an exception.
+ */
+- (BOOL)rotateDeviceToOrientation:(UIDeviceOrientation)deviceOrientation error:(NSError **)error;
+
 #pragma mark - System Alert Handling
 
 /** Standalone API for XCTestCase::grey_systemAlertTextWithError:. */
@@ -316,6 +317,8 @@ typedef void (^GREYHostApplicationCrashHandler)(void);
 
 /** Standalone API for XCTestCase::grey_waitForAlertVisibility:withTimeout:. */
 - (BOOL)WaitForAlertVisibility:(BOOL)visible withTimeout:(CFTimeInterval)seconds;
+
+#endif  // TARGET_OS_IOS
 
 @end
 
