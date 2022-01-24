@@ -19,7 +19,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- * Categpry on NSFileManager Provides interfaces for saving screenshots.
+ * Category on NSFileManager Provides interfaces for saving screenshots.
  */
 @interface NSFileManager (GREYCommon)
 
