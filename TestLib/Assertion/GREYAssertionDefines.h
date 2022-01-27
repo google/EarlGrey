@@ -72,8 +72,6 @@
 
 /**
  * Generates a failure unconditionally, with the provided @c __description and @c __details.
-
-
  *
  * @param __description  Description to print.
  * @param __details      The failure details. May be a format string, in which case the variable
@@ -88,8 +86,6 @@
 
 /**
  * Generates a failure with the provided @c __description if the expression @c __a1 evaluates to
-
-
  * @c NO.
  *
  * @param __a1          The expression that should be evaluated.
@@ -107,8 +103,6 @@
 
 /**
  * Generates a failure with the provided @c __description if the expression @c __a1 evaluates to
-
-
  * @c NO.
  *
  * @param __a1          The expression that should be evaluated.
@@ -116,18 +110,30 @@
  *                      string, in which case the variable args will be required.
  * @param ...           Variable args for @c __description if it is a format string.
  */
-#define GREYAssertTrue(__a1, __description, ...)                              \
-  ({                                                                          \
-    I_GREYSetCurrentAsFailable();                                             \
-    NSString *timeoutString__ = @"Couldn't assert that (" #__a1 ") is true."; \
-    GREYWaitForAppToIdle(timeoutString__);                                    \
-    I_GREYAssertTrue((__a1), (__description), ##__VA_ARGS__);                 \
+#define GREYAssertTrue(__a1, __description, ...) \
+  ({ GREYAssertTrueWithFilePath(__FILE__, __LINE__, __a1, __description, ##__VA_ARGS__); })
+
+/**
+ * Generates a failure with the provided @c __description if the expression @c __a1 evaluates to
+ * @c NO.
+ *
+ * @param __fileName    The name of the file where the failing code exists.
+ * @param __lineNumber  The line number of the failing code.
+ * @param __a1          The expression that should be evaluated.
+ * @param __description Description to print if @c __a1 evaluates to @c NO. May be a format
+ *                      string, in which case the variable args will be required.
+ * @param ...           Variable args for @c __description if it is a format string.
+ */
+#define GREYAssertTrueWithFilePath(_fileName, __lineNumber, __a1, __description, ...) \
+  ({                                                                                  \
+    I_GREYSetCurrentAsFailableWithDetails(_fileName, __lineNumber);                   \
+    NSString *timeoutString__ = @"Couldn't assert that (" #__a1 ") is true.";         \
+    GREYWaitForAppToIdle(timeoutString__);                                            \
+    I_GREYAssertTrue((__a1), (__description), ##__VA_ARGS__);                         \
   })
 
 /**
  * Generates a failure with the provided @c __description if the expression @c __a1 evaluates to
-
-
  * @c YES.
  *
  * @param __a1          The expression that should be evaluated.
@@ -135,18 +141,30 @@
  *                      string, in which case the variable args will be required.
  * @param ...           Variable args for @c __description if it is a format string.
  */
-#define GREYAssertFalse(__a1, __description, ...)                              \
-  ({                                                                           \
-    I_GREYSetCurrentAsFailable();                                              \
-    NSString *timeoutString__ = @"Couldn't assert that (" #__a1 ") is false."; \
-    GREYWaitForAppToIdle(timeoutString__);                                     \
-    I_GREYAssertFalse((__a1), (__description), ##__VA_ARGS__);                 \
+#define GREYAssertFalse(__a1, __description, ...) \
+  ({ GREYAssertFalseWithFilePath(__FILE__, __LINE__, __a1, __description, ##__VA_ARGS__); })
+
+/**
+ * Generates a failure with the provided @c __description if the expression @c __a1 evaluates to
+ * @c YES.
+ *
+ * @param __fileName    The name of the file where the failing code exists.
+ * @param __lineNumber  The line number of the failing code.
+ * @param __a1          The expression that should be evaluated.
+ * @param __description Description to print if @c __a1 evaluates to @c NO. May be a format
+ *                      string, in which case the variable args will be required.
+ * @param ...           Variable args for @c __description if it is a format string.
+ */
+#define GREYAssertFalseWithFilePath(_fileName, __lineNumber, __a1, __description, ...) \
+  ({                                                                                   \
+    I_GREYSetCurrentAsFailableWithDetails(_fileName, __lineNumber);                    \
+    NSString *timeoutString__ = @"Couldn't assert that (" #__a1 ") is false.";         \
+    GREYWaitForAppToIdle(timeoutString__);                                             \
+    I_GREYAssertFalse((__a1), (__description), ##__VA_ARGS__);                         \
   })
 
 /**
  * Generates a failure with the provided @c __description if the expression @c __a1 is @c nil.
-
-
  *
  * @param __a1          The expression that should be evaluated.
  * @param __description Description to print if @c __a1 is @c nil. May be a format
@@ -163,9 +181,6 @@
 
 /**
  * Generates a failure with the provided @c __description if the expression @c __a1 is not @c nil.
-
-
-
  *
  * @param __a1          The expression that should be evaluated.
  * @param __description Description to print if @c __a1 is not @c nil. May be a format
@@ -183,7 +198,6 @@
 /**
  * Generates a failure with the provided @c __description if the expression @c __a1 and
  * the expression @c __a2 are not equal.
-
  * @c __a1 and @c __a2 must be scalar types.
  *
  * @param __a1          The left hand scalar value on the equality operation.
@@ -203,9 +217,6 @@
 /**
  * Generates a failure with the provided @c __description if the expression @c __a1 and
  * the expression @c __a2 are equal.
-
-
-
  * @c __a1 and @c __a2 must be scalar types.
  *
  * @param __a1          The left hand scalar value on the equality operation.
@@ -227,8 +238,6 @@
  * Generates a failure with the provided @c __description if the expression @c __a1 and
  * the expression @c __a2 are not equal.
  * @c __a1 and @c __a2 must be descendants of NSObject and will be compared with method isEqual.
-
-
  *
  * @param __a1          The left hand object on the equality operation.
  * @param __a2          The right hand object on the equality operation.
@@ -249,9 +258,6 @@
  * Generates a failure with the provided @c __description if the expression @c __a1 and
  * the expression @c __a2 are equal.
  * @c __a1 and @c __a2 must be descendants of NSObject and will be compared with method isEqual.
-
-
-
  *
  * @param __a1          The left hand object on the equality operation.
  * @param __a2          The right hand object on the equality operation.
