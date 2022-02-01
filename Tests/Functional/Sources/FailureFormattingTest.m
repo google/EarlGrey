@@ -297,16 +297,15 @@
  * Checks the formatting for a type interaction failing.
  */
 - (void)testActionInteractionErrorDescription {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
+  [[EarlGrey selectElementWithMatcher:grey_text(@"Typing Views")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
       performAction:grey_typeText(@"")];
 
   NSString *expectedDetails =
       @"Failed to type because the provided string was empty.\n"
       @"\n"
       @"Element Matcher:\n"
-      @"(respondsToSelector(accessibilityIdentifier) && accessibilityID('foo'))\n"
+      @"(respondsToSelector(accessibilityIdentifier) && accessibilityID('TypingTextField'))\n"
       @"\n"
       @"UI Hierarchy";
   XCTAssertTrue([_handler.details containsString:expectedDetails],

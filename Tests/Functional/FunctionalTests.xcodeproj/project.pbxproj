@@ -203,6 +203,9 @@
 		FD98C4D8226C3D08006F8D68 /* SwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD98C4D1226C3BD6006F8D68 /* SwiftTests.swift */; };
 		FD98C4D9226C3E03006F8D68 /* BaseIntegrationTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C47B226C352C006F8D68 /* BaseIntegrationTest.m */; };
 		FD98C4DC226C3EE2006F8D68 /* SwiftTestsHost.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD98C4CD226C3B8E006F8D68 /* SwiftTestsHost.swift */; };
+		FDD684EE22E7D50300A56FA9 /* ActiveAnimationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD684EC22E7D50100A56FA9 /* ActiveAnimationsViewController.m */; };
+		FDD684EF22E7D50300A56FA9 /* ActiveAnimationsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDD684ED22E7D50200A56FA9 /* ActiveAnimationsViewController.xib */; };
+		FDD684F122E7D52600A56FA9 /* ActiveAnimationsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD684F022E7D52500A56FA9 /* ActiveAnimationsTest.m */; };
 		FDDE2FA1212CEBF400EB40F7 /* GREYHostApplicationDistantObject+BaseIntegrationTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FDDE2F95212CEB0B00EB40F7 /* GREYHostApplicationDistantObject+BaseIntegrationTest.m */; };
 		FDDE2FA2212CEBFA00EB40F7 /* GREYHostApplicationDistantObject+GestureTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FDDE2F8F212CEB0B00EB40F7 /* GREYHostApplicationDistantObject+GestureTest.m */; };
 		FDDE2FA3212CEBFE00EB40F7 /* GREYHostApplicationDistantObject+KeyboardKeysTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FDDE2F93212CEB0B00EB40F7 /* GREYHostApplicationDistantObject+KeyboardKeysTest.m */; };
@@ -584,6 +587,10 @@
 		FDD065CE212CEAD6002CFE3B /* GREYHostApplicationDistantObject+ScrollViewTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "GREYHostApplicationDistantObject+ScrollViewTest.m"; sourceTree = "<group>"; };
 		FDD065CF212CEAD7002CFE3B /* GREYHostApplicationDistantObject+BasicInteractionTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GREYHostApplicationDistantObject+BasicInteractionTest.h"; sourceTree = "<group>"; };
 		FDD065D0212CEAD7002CFE3B /* GREYHostApplicationDistantObject+KeyboardKeysTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GREYHostApplicationDistantObject+KeyboardKeysTest.h"; sourceTree = "<group>"; };
+		FDD684E922E7D4FF00A56FA9 /* ActiveAnimationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActiveAnimationsViewController.h; path = ../TestRig/Sources/ActiveAnimationsViewController.h; sourceTree = "<group>"; };
+		FDD684EC22E7D50100A56FA9 /* ActiveAnimationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActiveAnimationsViewController.m; path = ../TestRig/Sources/ActiveAnimationsViewController.m; sourceTree = "<group>"; };
+		FDD684ED22E7D50200A56FA9 /* ActiveAnimationsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ActiveAnimationsViewController.xib; path = ../TestRig/Sources/ActiveAnimationsViewController.xib; sourceTree = "<group>"; };
+		FDD684F022E7D52500A56FA9 /* ActiveAnimationsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActiveAnimationsTest.m; sourceTree = "<group>"; };
 		FDDE2F82212CEB0A00EB40F7 /* GREYHostApplicationDistantObject+BaseIntegrationTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GREYHostApplicationDistantObject+BaseIntegrationTest.h"; sourceTree = "<group>"; };
 		FDDE2F83212CEB0A00EB40F7 /* GREYHostApplicationDistantObject+PortraitOnlyOrientationTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GREYHostApplicationDistantObject+PortraitOnlyOrientationTest.m"; sourceTree = "<group>"; };
 		FDDE2F84212CEB0A00EB40F7 /* GREYHostApplicationDistantObject+VisibilityTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GREYHostApplicationDistantObject+VisibilityTest.m"; sourceTree = "<group>"; };
@@ -697,6 +704,7 @@
 		FD5EB4862118FD61006F82A0 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				FDD684F022E7D52500A56FA9 /* ActiveAnimationsTest.m */,
 				FDEA646224A3EC79009AB79E /* ErrorAPITest.m */,
 				FDEA646524A3EC79009AB79E /* FailureFormattingTest.m */,
 				76DAC13D242EE51100557F3C /* DistantObjectBackgroundExecutionTest.m */,
@@ -819,6 +827,9 @@
 		FD623CF420FD1B7300049E81 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				FDD684E922E7D4FF00A56FA9 /* ActiveAnimationsViewController.h */,
+				FDD684EC22E7D50100A56FA9 /* ActiveAnimationsViewController.m */,
+				FDD684ED22E7D50200A56FA9 /* ActiveAnimationsViewController.xib */,
 				FD6CB1BC21474957007ADA30 /* Swift */,
 				FDDE2FC0212CECAF00EB40F7 /* main.m */,
 				FD623CA020FD1A6800049E81 /* AccessibilityViewController.h */,
@@ -1323,6 +1334,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FD623D3E20FD6E6D00049E81 /* FunctionalTestRig-Info.plist in Resources */,
+				FDD684EF22E7D50300A56FA9 /* ActiveAnimationsViewController.xib in Resources */,
 				FD623CE420FD1A6E00049E81 /* ActivityIndicatorViewController.xib in Resources */,
 				FD623CE620FD1A6E00049E81 /* MultiFingerSwipeGestureRecognizerViewController.xib in Resources */,
 				FD623CD020FD1A6E00049E81 /* ScrollViewController.xib in Resources */,
@@ -1519,6 +1531,7 @@
 				FD623CE220FD1A6E00049E81 /* PickerViewController.m in Sources */,
 				FD623CBD20FD1A6E00049E81 /* NetworkTestViewController.m in Sources */,
 				FD623CD420FD1A6E00049E81 /* CollectionViewController.m in Sources */,
+				FDD684EE22E7D50300A56FA9 /* ActiveAnimationsViewController.m in Sources */,
 				FD623CB720FD1A6E00049E81 /* ZoomingScrollViewController.m in Sources */,
 				FD623CC920FD1A6E00049E81 /* CustomTextView.m in Sources */,
 				FD623CBA20FD1A6E00049E81 /* AlertViewController.m in Sources */,
@@ -1549,6 +1562,7 @@
 				FD98C4A2226C3555006F8D68 /* DistantObjectExecutionTest.m in Sources */,
 				FD98C49B226C3555006F8D68 /* ErrorHandlingTest.m in Sources */,
 				FD98C4B3226C3555006F8D68 /* WKWebViewTest.m in Sources */,
+				FDD684F122E7D52600A56FA9 /* ActiveAnimationsTest.m in Sources */,
 				FD98C4B8226C3555006F8D68 /* MatcherTest.m in Sources */,
 				FD98C4C5226C3555006F8D68 /* ShakeTest.m in Sources */,
 				FD98C4A8226C3555006F8D68 /* ActionSheetTest.m in Sources */,

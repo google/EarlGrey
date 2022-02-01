@@ -36,7 +36,7 @@ GREYConfiguration *GREYCreateConfiguration(void) { return [[GREYAppConfiguration
   /**
    * The merged configuration dictionary containing the most updated configuration values.
    */
-  NSDictionary *_mergedConfiguration;
+  NSDictionary<NSString *, id> *_mergedConfiguration;
   /**
    * The isolation queue to access _mergedConfiguration.
    */
@@ -65,7 +65,7 @@ GREYConfiguration *GREYCreateConfiguration(void) { return [[GREYAppConfiguration
 }
 
 - (NSDictionary *)mergedConfiguration {
-  __block NSDictionary *configuration;
+  __block NSDictionary<NSString *, id> *configuration;
   dispatch_sync(_configurationIsolationQueue, ^{
     configuration = self->_mergedConfiguration;
   });
@@ -126,6 +126,7 @@ static NSDictionary *GetFakeLocalTestingAppConfig() {
       kGREYConfigKeyDelayedPerformMaxTrackableDuration : @(1.5),
       kGREYConfigKeyBlockedURLRegex : @[],
       kGREYConfigKeyIgnoreAppStates : @(kGREYIdle),
+      kGREYConfigKeyIgnoreHiddenAnimations : @NO,
     };
   });
   return fakeLocalTestingAppConfig;

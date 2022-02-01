@@ -18,6 +18,7 @@
 
 #import "AccessibilityViewController.h"
 #import "ActionSheetViewController.h"
+#import "ActiveAnimationsViewController.h"
 #import "ActivityIndicatorViewController.h"
 #import "AlertViewController.h"
 #import "AnimationViewController.h"
@@ -62,6 +63,7 @@ static NSString *gTableViewIdentifier = @"TableViewIdentifier";
       @"Accessibility Views" : [AccessibilityViewController class],
       @"Action Sheets" : [ActionSheetViewController class],
       @"Activity Indicator Views" : [ActivityIndicatorViewController class],
+      @"Active Animations" : [ActiveAnimationsViewController class],
       @"Alert Views" : [AlertViewController class],
       @"Animations" : [AnimationViewController class],
       @"Basic Views" : [BasicViewController class],

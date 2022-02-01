@@ -143,4 +143,13 @@ GREY_EXTERN GREYConfigKey const kGREYConfigKeyBlockedURLRegex;
  */
 GREY_EXTERN GREYConfigKey const kGREYConfigKeyArtifactsDirLocation;
 
+/**
+ * Configuration for not tracking hidden animations. By default, all hidden animations are tracked.
+ *
+ * Accepted values: A BOOL specifying if the tracking *should not* happen. Set to @c NO if tracking
+ *                  is to be done.
+ * Default value: @c NO
+ */
+GREY_EXTERN GREYConfigKey const kGREYConfigKeyIgnoreHiddenAnimations;
+
 NS_ASSUME_NONNULL_END

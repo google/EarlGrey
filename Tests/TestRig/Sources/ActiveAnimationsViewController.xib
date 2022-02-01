@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+    <device id="retina3_5" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ActiveAnimationsViewController">
+            <connections>
+                <outlet property="activityIndicator" destination="yd5-l2-eab" id="Hlg-QO-bRH"/>
+                <outlet property="addMoreLayersToAnimatingViewButton" destination="l0d-N1-86b" id="tN4-Uq-zKD"/>
+                <outlet property="addMoreRecurringLayersButton" destination="50U-9C-fn5" id="iB1-zR-CuO"/>
+                <outlet property="animateActivityIndicatorButton" destination="pO4-93-lpq" id="UoJ-6j-qsJ"/>
+                <outlet property="animateAnimatingViewButton" destination="Hkv-nB-lIj" id="Jeo-Pa-aT4"/>
+                <outlet property="animatingView" destination="akB-hs-ipG" id="nDM-6P-CbZ"/>
+                <outlet property="hideActivityIndicatorButton" destination="Vmn-sV-v6x" id="FAz-FT-OpN"/>
+                <outlet property="hideAnimatingViewButton" destination="9eP-ql-mMV" id="T2O-TE-vl7"/>
+                <outlet property="hideCertainLayersButton" destination="P71-cI-9vu" id="rid-xg-FzS"/>
+                <outlet property="specialAnimationsButton" destination="sJR-Fu-LHM" id="YQj-wZ-nWT"/>
+                <outlet property="view" destination="1" id="TU7-JN-PIM"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="1">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="akB-hs-ipG">
+                    <rect key="frame" x="48" y="77" width="80" height="80"/>
+                    <color key="backgroundColor" red="1" green="0.14183828649999999" blue="0.16021785620000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="80" id="11I-sd-D14"/>
+                        <constraint firstAttribute="width" constant="80" id="fH2-1V-blE"/>
+                    </constraints>
+                </view>
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="yd5-l2-eab">
+                    <rect key="frame" x="234" y="107" width="20" height="20"/>
+                </activityIndicatorView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9eP-ql-mMV">
+                    <rect key="frame" x="53.5" y="183" width="69" height="30"/>
+                    <state key="normal" title="Hide View"/>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vmn-sV-v6x">
+                    <rect key="frame" x="196" y="187" width="96" height="30"/>
+                    <state key="normal" title="Hide Indicator"/>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hkv-nB-lIj">
+                    <rect key="frame" x="41" y="225" width="94" height="30"/>
+                    <state key="normal" title="Animate View"/>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pO4-93-lpq">
+                    <rect key="frame" x="183.5" y="225" width="121" height="30"/>
+                    <accessibility key="accessibilityConfiguration" identifier="animateIndicator"/>
+                    <state key="normal" title="Animate Indicator"/>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l0d-N1-86b">
+                    <rect key="frame" x="102" y="283" width="116" height="30"/>
+                    <state key="normal" title="Add More Layers"/>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="50U-9C-fn5">
+                    <rect key="frame" x="86.5" y="321" width="147" height="30"/>
+                    <state key="normal" title="Add Recurring Layers"/>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P71-cI-9vu">
+                    <rect key="frame" x="92.5" y="359" width="135" height="30"/>
+                    <state key="normal" title="Hide Certain Layers"/>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sJR-Fu-LHM">
+                    <rect key="frame" x="99" y="397" width="123" height="30"/>
+                    <state key="normal" title="Special Animation"/>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="P71-cI-9vu" firstAttribute="top" secondItem="50U-9C-fn5" secondAttribute="bottom" constant="8" id="0ot-In-NvG"/>
+                <constraint firstItem="l0d-N1-86b" firstAttribute="centerX" secondItem="1" secondAttribute="centerX" id="4Nq-Al-wVF"/>
+                <constraint firstItem="50U-9C-fn5" firstAttribute="centerX" secondItem="l0d-N1-86b" secondAttribute="centerX" id="5X3-6q-wZw"/>
+                <constraint firstItem="yd5-l2-eab" firstAttribute="leading" secondItem="akB-hs-ipG" secondAttribute="trailing" constant="106" id="5YV-hP-yY7"/>
+                <constraint firstItem="P71-cI-9vu" firstAttribute="centerX" secondItem="50U-9C-fn5" secondAttribute="centerX" id="8Oi-Sg-Z6C"/>
+                <constraint firstItem="9eP-ql-mMV" firstAttribute="centerX" secondItem="akB-hs-ipG" secondAttribute="centerX" id="Mvp-Xe-dsT"/>
+                <constraint firstItem="akB-hs-ipG" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="48" id="RgR-Fa-auP"/>
+                <constraint firstItem="l0d-N1-86b" firstAttribute="top" secondItem="pO4-93-lpq" secondAttribute="bottom" constant="28" id="U7C-dP-jou"/>
+                <constraint firstItem="Hkv-nB-lIj" firstAttribute="top" secondItem="9eP-ql-mMV" secondAttribute="bottom" constant="12" id="XOB-49-yzo"/>
+                <constraint firstItem="pO4-93-lpq" firstAttribute="top" secondItem="Vmn-sV-v6x" secondAttribute="bottom" constant="8" id="Z6j-rd-Qar"/>
+                <constraint firstItem="Hkv-nB-lIj" firstAttribute="centerX" secondItem="9eP-ql-mMV" secondAttribute="centerX" id="fKI-5F-npy"/>
+                <constraint firstItem="Vmn-sV-v6x" firstAttribute="centerX" secondItem="yd5-l2-eab" secondAttribute="centerX" id="gad-Ha-Mgl"/>
+                <constraint firstItem="50U-9C-fn5" firstAttribute="top" secondItem="l0d-N1-86b" secondAttribute="bottom" constant="8" id="kfi-Aj-IOb"/>
+                <constraint firstItem="yd5-l2-eab" firstAttribute="top" secondItem="1" secondAttribute="top" constant="107" id="lBO-5F-jzB"/>
+                <constraint firstItem="Vmn-sV-v6x" firstAttribute="top" secondItem="yd5-l2-eab" secondAttribute="bottom" constant="60" id="lUr-22-JBY"/>
+                <constraint firstItem="9eP-ql-mMV" firstAttribute="top" secondItem="akB-hs-ipG" secondAttribute="bottom" constant="26" id="o55-gk-DLy"/>
+                <constraint firstItem="pO4-93-lpq" firstAttribute="centerX" secondItem="Vmn-sV-v6x" secondAttribute="centerX" id="pQH-TA-BgA"/>
+                <constraint firstItem="sJR-Fu-LHM" firstAttribute="centerX" secondItem="P71-cI-9vu" secondAttribute="centerX" id="qYD-Mv-QW6"/>
+                <constraint firstItem="akB-hs-ipG" firstAttribute="top" secondItem="1" secondAttribute="top" constant="77" id="s61-4f-3jv"/>
+                <constraint firstItem="sJR-Fu-LHM" firstAttribute="top" secondItem="P71-cI-9vu" secondAttribute="bottom" constant="8" id="yAd-kQ-U7r"/>
+            </constraints>
+            <point key="canvasLocation" x="53.600000000000001" y="48.125937031484263"/>
+        </view>
+    </objects>
+</document>

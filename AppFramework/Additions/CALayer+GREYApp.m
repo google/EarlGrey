@@ -65,6 +65,43 @@
                     replaceInstanceMethod:@selector(removeAllAnimations)
                                withMethod:@selector(greyswizzled_removeAllAnimations)];
   GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle CALayer removeAllAnimations");
+  swizzleSuccess = [swizzler swizzleClass:self
+                    replaceInstanceMethod:@selector(setHidden:)
+                               withMethod:@selector(greyswizzled_setHidden:)];
+  GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle CALayer setHidden:");
+}
+
+- (void)greyswizzled_setHidden:(BOOL)hidden {
+  if (GREY_CONFIG_BOOL(kGREYConfigKeyIgnoreHiddenAnimations)) {
+    if (hidden) {
+      [self grey_untrackAnimationsInLayerAndSublayers];
+    } else {
+      [self grey_trackAnimationsInLayerAndSublayers];
+    }
+  }
+  INVOKE_ORIGINAL_IMP1(void, @selector(greyswizzled_setHidden:), hidden);
+}
+
+- (void)grey_untrackAnimationsInLayerAndSublayers {
+  for (NSString *animationKey in self.animationKeys) {
+    [[self animationForKey:animationKey] grey_untrack];
+  }
+  for (CALayer *sublayer in self.sublayers) {
+    [sublayer grey_untrackAnimationsInLayerAndSublayers];
+  }
+}
+
+- (void)grey_trackAnimationsInLayerAndSublayers {
+  // For a layer, only track its animations if it isn't hidden, else move on to sublayers.
+  if (!self.hidden) {
+    for (NSString *animationKey in self.animationKeys) {
+      // This re-tracking will continue till EarlGrey's animation timeout.
+      [[self animationForKey:animationKey] grey_trackForDurationOfAnimation];
+    }
+  }
+  for (CALayer *sublayer in self.sublayers) {
+    [sublayer grey_trackAnimationsInLayerAndSublayers];
+  }
 }
 
 - (void)grey_adjustAnimationToAllowableRange:(CAAnimation *)animation {
@@ -101,14 +138,13 @@
     }
   }
 }
-
-- (void)grey_pauseAnimations {
+- (void)grey_pauseAnimationTracking {
   if (self.animationKeys.count > 0) {
     // Keep track of animation keys that have been idled. Used for resuming tracking.
     NSMutableSet *pausedAnimationKeys = [self grey_pausedAnimationKeys];
     if (!pausedAnimationKeys) {
       pausedAnimationKeys = [[NSMutableSet alloc] init];
-      objc_setAssociatedObject(self, @selector(grey_pauseAnimations), pausedAnimationKeys,
+      objc_setAssociatedObject(self, @selector(grey_pauseAnimationTracking), pausedAnimationKeys,
                                OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
 
@@ -124,11 +160,11 @@
 
   // Paused animations attached to sublayers.
   for (CALayer *sublayer in self.sublayers) {
-    [sublayer grey_pauseAnimations];
+    [sublayer grey_pauseAnimationTracking];
   }
 }
 
-- (void)grey_resumeAnimations {
+- (void)grey_resumeAnimationTracking {
   NSMutableSet *pausedAnimationKeys = [self grey_pausedAnimationKeys];
   for (NSString *key in pausedAnimationKeys) {
     CAAnimation *animation = [self animationForKey:key];
@@ -142,7 +178,7 @@
   // Resume sublayer animations that are paused.
   for (CALayer *sublayer in self.sublayers) {
     if (sublayer.speed != 0) {
-      [sublayer grey_resumeAnimations];
+      [sublayer grey_resumeAnimationTracking];
     }
   }
 }
@@ -184,9 +220,9 @@
 
 - (void)greyswizzled_setSpeed:(float)speed {
   if (speed == 0 && self.speed != 0) {
-    [self grey_pauseAnimations];
+    [self grey_pauseAnimationTracking];
   } else if (speed != 0 && self.speed == 0) {
-    [self grey_resumeAnimations];
+    [self grey_resumeAnimationTracking];
   }
   INVOKE_ORIGINAL_IMP1(void, @selector(greyswizzled_setSpeed:), speed);
 }
@@ -221,7 +257,7 @@
 #pragma mark - Internal Methods Exposed For Testing
 
 - (NSMutableSet *)grey_pausedAnimationKeys {
-  return objc_getAssociatedObject(self, @selector(grey_pauseAnimations));
+  return objc_getAssociatedObject(self, @selector(grey_pauseAnimationTracking));
 }
 
 @end
