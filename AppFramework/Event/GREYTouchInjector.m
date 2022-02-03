@@ -97,7 +97,7 @@ static const NSTimeInterval kTouchInjectFramerateInv = 1 / 120.0;
   __weak __block void (^weakTouchProcessBlock)(void);
   void (^touchProcessBlock)(void) = ^{
     void (^strongTouchProcessBlock)(void) = weakTouchProcessBlock;
-    // If the parent method times out and returns, it will effectively kill this block execution
+    // If the parent method times out and returns, it will effectively stop this block execution
     // by releasing the strong reference.
     if (!strongTouchProcessBlock) {
       return;
@@ -224,7 +224,6 @@ static const NSTimeInterval kTouchInjectFramerateInv = 1 / 120.0;
             ongoingTouches:(NSMutableArray<UITouch *> *)ongoingTouches
                  exception:(NSException **)exception {
   GREYFatalAssertMainThread();
-  id injectionException;
   UITouchesEvent *event = [[UIApplication sharedApplication] _touchesEvent];
   [self grey_updateUITouchObjectsFromTouchInfo:touchInfo
                                 ongoingTouches:ongoingTouches
@@ -282,12 +281,12 @@ static const NSTimeInterval kTouchInjectFramerateInv = 1 / 120.0;
     @autoreleasepool {
       [[UIApplication sharedApplication] sendEvent:event];
     }
-  } @catch (id exception) {
-    injectionException = exception;
+  } @catch (id injectionException) {
+    *exception = injectionException;
   } @finally {
     [event _setHIDEvent:NULL];
   }
-  return !injectionException;
+  return !*exception;
 }
 
 /**
