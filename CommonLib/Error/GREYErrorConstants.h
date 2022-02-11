@@ -267,6 +267,10 @@ typedef NS_ENUM(NSUInteger, GREYSystemAlertDismissalErrorCode) {
    * System alert was not dismissed.
    */
   GREYSystemAlertNotDismissed,
+  /**
+   * OS error of some sort occurred while attempting to dismiss system alert.
+   */
+  GREYSystemAlertOSError,
 };
 
 /**

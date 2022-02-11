@@ -18,16 +18,11 @@
 
 #include <objc/runtime.h>
 
-#import "GREYAssertionDefinesPrivate.h"
 #import "GREYThrowDefines.h"
 #import "GREYTestApplicationDistantObject.h"
 #import "GREYErrorConstants.h"
-#import "GREYFailureHandler.h"
-#import "GREYFrameworkException.h"
 #import "GREYAppleInternals.h"
-#import "GREYDefines.h"
 #import "GREYAssertionDefines.h"
-#import "GREYWaitFunctions.h"
 #import "GREYCondition.h"
 
 /**
@@ -167,8 +162,13 @@ static UIApplication *GetApplicationUnderTest() {
   }
 
   BOOL dismissed = NO;
-  // Retry logic can solve the failure in slow animations mode.
-  [acceptButton tap];
+  @try {
+    // Retry logic can solve the failure in slow animations mode.
+    [acceptButton tap];
+  } @catch (NSException *exception) {
+    [self handleBrokeniOS12IssueIfNecessary:exception error:error];
+    return NO;
+  }
   dismissed = [self grey_ensureAlertDismissalOfAlertWithText:alertText error:error];
   [self grey_waitForAlertVisibility:NO withTimeout:kSystemAlertEarlGreyVisibilityTimeout];
   if (dismissed) {
@@ -206,7 +206,12 @@ static UIApplication *GetApplicationUnderTest() {
 
   BOOL dismissed = NO;
   // Retry logic can solve the failure in slow animations mode.
-  [denyButton tap];
+  @try {
+    [denyButton tap];
+  } @catch (NSException *exception) {
+    [self handleBrokeniOS12IssueIfNecessary:exception error:error];
+    return NO;
+  }
   dismissed = [self grey_ensureAlertDismissalOfAlertWithText:alertText error:error];
   [self grey_waitForAlertVisibility:NO withTimeout:kSystemAlertEarlGreyVisibilityTimeout];
   if (dismissed) {
@@ -235,7 +240,12 @@ static UIApplication *GetApplicationUnderTest() {
 
   BOOL dismissed = NO;
   // Retry logic can solve the failure in slow animations mode.
-  [button tap];
+  @try {
+    [button tap];
+  } @catch (NSException *exception) {
+    [self handleBrokeniOS12IssueIfNecessary:exception error:error];
+    return NO;
+  }
   dismissed = [self grey_ensureAlertDismissalOfAlertWithText:alertText error:error];
   [self grey_waitForAlertVisibility:NO withTimeout:kSystemAlertEarlGreyVisibilityTimeout];
   if (dismissed) {
@@ -299,6 +309,39 @@ static UIApplication *GetApplicationUnderTest() {
 }
 
 #pragma mark - Private
+
+/**
+ * Captures the internal OS error for the XCTest runtime exception for tapping on a system alert
+ * with Xcode 13 and iOS 12.4 or less.  Reported as FB9858932. We attempt to take the cryptic
+ * NSArray exception and turn it into something a little more actionable.
+ *
+ * @param exception The caught exception, which is raised if no @c error is passed in.
+ * @param[out] error The wrapped error for the exception.
+ */
+- (void)handleBrokeniOS12IssueIfNecessary:(NSException *)exception error:(NSError **)error {
+  NSOperatingSystemVersion osVersion = [[NSProcessInfo processInfo] operatingSystemVersion];
+  if (osVersion.majorVersion <= 12 && [exception.name isEqualToString:NSInvalidArgumentException] &&
+      [exception.reason
+          containsString:@"__NSArrayM insertObject:atIndex:]: object cannot be nil"]) {
+    NSString *description =
+        @"iOS 12 has a bug with XCTest tapping on system alerts on Xcode 13+ (FB9858932). "
+        @"Move tests to iOS 13+ if you are blocked. "
+        @"https://openradar.appspot.com/radar?id=5520542106910720";
+    if (error) {
+      NSString *callStack = [exception.callStackSymbols.description copy];
+      *error = [NSError errorWithDomain:kGREYSystemAlertDismissalErrorDomain
+                                   code:GREYSystemAlertOSError
+                               userInfo:@{
+                                 NSLocalizedDescriptionKey : description,
+                                 NSLocalizedFailureReasonErrorKey : callStack
+                               }];
+    } else {
+      [NSException raise:NSInternalInconsistencyException format:@"%@", description];
+    }
+  } else {
+    [exception raise];
+  }
+}
 
 /**
  * @return A BOOL denoting if the application under test is reporting a system alert being present.
