@@ -48,12 +48,9 @@
   GREYSwizzler *swizzler =
       objc_getAssociatedObject(self, @selector(unblockNonPortraitOrientations));
   // Undo swizzling.
-  BOOL swizzle1 = [swizzler resetInstanceMethod:@selector(supportedInterfaceOrientationsForWindow:)
-                                          class:[UIApplication class]];
-  BOOL swizzle2 =
-      [swizzler resetInstanceMethod:@selector(grey_supportedInterfaceOrientationsForWindow:)
-                              class:[UIApplication class]];
-  return swizzle1 && swizzle2;
+  BOOL unswizzle = [swizzler resetInstanceMethod:@selector(supportedInterfaceOrientationsForWindow:)
+                                           class:[UIApplication class]];
+  return unswizzle;
 }
 
 @end

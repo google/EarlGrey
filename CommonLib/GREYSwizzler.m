@@ -21,6 +21,8 @@
 
 typedef NS_ENUM(NSUInteger, GREYMethodType) { GREYMethodTypeClass, GREYMethodTypeInstance };
 
+static NSString *const gGREYSwizzlerException = @"gGREYSwizzlerException";
+
 #pragma mark - GREYResetter
 
 /**
@@ -37,36 +39,56 @@ typedef NS_ENUM(NSUInteger, GREYMethodType) { GREYMethodTypeClass, GREYMethodTyp
 /**
  * Designated initializer.
  *
- * @param originalMethod Method being swizzled
- * @param originalIMP    Implementation of the method being swizzled
+ * @param method         Method being swizzled
+ * @param implementation Implementation of the method being swizzled
+ * @param counterpart    The Method that @c method is being swizzled with.
  */
-- (instancetype)initWithOriginalMethod:(Method)originalMethod
-                originalImplementation:(IMP)originalIMP;
+- (instancetype)initWithMethod:(Method)method
+                implementation:(IMP)implementation
+                   counterpart:(Method)counterpart;
 
 /**
  * Reset the original method selector to its unmodified/vanilla implementations.
  */
 - (void)reset;
 
+/**
+ * The swizzled method's swizzling counterpart i.e. the method it is replaced with or replacing.
+ */
+- (Method)counterpart;
+
 @end
 
 @implementation GREYResetter {
-  Method _originalMethod;
-  IMP _originalIMP;
+  /** The Method that is to be reset using the resetter. */
+  Method _method;
+  /** The implementation (IMP) for the Method being swizzled. */
+  IMP _implementation;
+  /**
+   * The swizzled method's swizzling counterpart method that is used to identify the method it is
+   * being swizzled with.
+   */
+  Method _counterpart;
 }
 
-- (instancetype)initWithOriginalMethod:(Method)originalMethod
-                originalImplementation:(IMP)originalIMP {
+- (instancetype)initWithMethod:(Method)method
+                implementation:(IMP)implementation
+                   counterpart:(Method)counterpart {
   self = [super init];
   if (self) {
-    _originalMethod = originalMethod;
-    _originalIMP = originalIMP;
+    _method = method;
+    _implementation = implementation;
+    _counterpart = counterpart;
   }
   return self;
 }
 
+- (Method)counterpart {
+  return _counterpart;
+}
+
 - (void)reset {
-  method_setImplementation(_originalMethod, _originalIMP);
+  method_setImplementation(_method, _implementation);
 }
 
 @end
@@ -74,7 +96,7 @@ typedef NS_ENUM(NSUInteger, GREYMethodType) { GREYMethodTypeClass, GREYMethodTyp
 #pragma mark - GREYSwizzler
 
 @implementation GREYSwizzler {
-  NSMutableDictionary *_resetters;
+  NSMutableDictionary<NSString *, GREYResetter *> *_resetters;
 }
 
 - (instancetype)init {
@@ -97,6 +119,14 @@ typedef NS_ENUM(NSUInteger, GREYMethodType) { GREYMethodTypeClass, GREYMethodTyp
   if (resetter) {
     [resetter reset];
     [_resetters removeObjectForKey:key];
+    Method counterpart = resetter.counterpart;
+    SEL counterpartSEL = method_getName(counterpart);
+    NSString *counterpartKey = [[self class] grey_keyForClass:klass
+                                                     selector:counterpartSEL
+                                                         type:GREYMethodTypeClass];
+    if (_resetters[counterpartKey]) {
+      return [self resetClassMethod:counterpartSEL class:klass];
+    }
     return YES;
   } else {
     NSLog(@"Resetter was nil for class: %@ and class selector: %@", NSStringFromClass(klass),
@@ -117,6 +147,14 @@ typedef NS_ENUM(NSUInteger, GREYMethodType) { GREYMethodTypeClass, GREYMethodTyp
   if (resetter) {
     [resetter reset];
     [_resetters removeObjectForKey:key];
+    Method counterpart = resetter.counterpart;
+    SEL counterpartSEL = method_getName(counterpart);
+    NSString *counterpartKey = [[self class] grey_keyForClass:klass
+                                                     selector:counterpartSEL
+                                                         type:GREYMethodTypeInstance];
+    if (_resetters[counterpartKey]) {
+      return [self resetInstanceMethod:counterpartSEL class:klass];
+    }
     return YES;
   } else {
     NSLog(@"Resetter was nil for class: %@ and instance selector: %@", NSStringFromClass(klass),
@@ -148,7 +186,7 @@ typedef NS_ENUM(NSUInteger, GREYMethodType) { GREYMethodTypeClass, GREYMethodTyp
     IMP imp1 = method_getImplementation(method1);
     IMP imp2 = method_getImplementation(method2);
     [self grey_saveOriginalMethod:method1
-                      originalIMP:imp1
+                   implementation:imp1
                     originalClass:klass
                    swizzledMethod:method2
                       swizzledIMP:imp2
@@ -187,7 +225,7 @@ typedef NS_ENUM(NSUInteger, GREYMethodType) { GREYMethodTypeClass, GREYMethodTyp
     IMP imp1 = method_getImplementation(method1);
     IMP imp2 = method_getImplementation(method2);
     [self grey_saveOriginalMethod:method1
-                      originalIMP:imp1
+                   implementation:imp1
                     originalClass:klass
                    swizzledMethod:method2
                       swizzledIMP:imp2
@@ -260,35 +298,54 @@ typedef NS_ENUM(NSUInteger, GREYMethodType) { GREYMethodTypeClass, GREYMethodTyp
                                     NSStringFromSelector(sel)];
 }
 
-- (void)grey_saveOriginalMethod:(Method)originalMethod
-                    originalIMP:(IMP)originalIMP
+- (void)grey_saveOriginalMethod:(Method)method
+                 implementation:(IMP)implementation
                   originalClass:(Class)originalClass
                  swizzledMethod:(Method)swizzledMethod
                     swizzledIMP:(IMP)swizzledIMP
                   swizzledClass:(Class)swizzledClass
                      methodType:(GREYMethodType)methodType {
-  NSParameterAssert(originalMethod);
-  NSParameterAssert(originalIMP);
+  NSParameterAssert(method);
+  NSParameterAssert(implementation);
   NSParameterAssert(originalClass);
   NSParameterAssert(swizzledMethod);
   NSParameterAssert(swizzledIMP);
 
+  SEL methodSEL = method_getName(method);
+  SEL swizzledMethodSEL = method_getName(swizzledMethod);
   NSString *keyForOriginal = [[self class] grey_keyForClass:originalClass
-                                                   selector:method_getName(originalMethod)
+                                                   selector:methodSEL
+                                                       type:methodType];
+  NSString *keyForSwizzled = [[self class] grey_keyForClass:swizzledClass
+                                                   selector:swizzledMethodSEL
                                                        type:methodType];
   if (!_resetters[keyForOriginal]) {
-    GREYResetter *resetter = [[GREYResetter alloc] initWithOriginalMethod:originalMethod
-                                                   originalImplementation:originalIMP];
+    GREYResetter *resetter = [[GREYResetter alloc] initWithMethod:method
+                                                   implementation:implementation
+                                                      counterpart:swizzledMethod];
     _resetters[keyForOriginal] = resetter;
+  } else {
+    [NSException  // NOLINTNEXTLINE(google-objc-avoid-throwing-exception)
+         raise:gGREYSwizzlerException
+        format:@"You are re-swizzling a method which is already swizzled elsewhere using the same "
+               @"GREYSwizzler instance. Please refrain from doing this, or at least do not use the "
+               @"same GREYSwizzler instance, as it will cause resetting issues. Stack Trace:\n%@",
+               [NSThread callStackSymbols]];
   }
 
-  NSString *keyForSwizzled = [[self class] grey_keyForClass:swizzledClass
-                                                   selector:method_getName(swizzledMethod)
-                                                       type:methodType];
   if (!_resetters[keyForSwizzled]) {
-    GREYResetter *resetter = [[GREYResetter alloc] initWithOriginalMethod:swizzledMethod
-                                                   originalImplementation:swizzledIMP];
+    GREYResetter *resetter = [[GREYResetter alloc] initWithMethod:swizzledMethod
+                                                   implementation:swizzledIMP
+                                                      counterpart:method];
     _resetters[keyForSwizzled] = resetter;
+  } else {
+    [NSException  // NOLINTNEXTLINE(google-objc-avoid-throwing-exception)
+         raise:gGREYSwizzlerException
+        format:@"You are swizzling with a method which is already being used to swizzle another "
+               @"method with the same "
+               @"GREYSwizzler instance. Please refrain from doing this, or at least do not use the "
+               @"same GREYSwizzler instance, as it will cause resetting issues. Stack Trace:\n%@",
+               [NSThread callStackSymbols]];
   }
 }
 
