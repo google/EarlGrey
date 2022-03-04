@@ -22,6 +22,7 @@
 
 #import "GREYPathGestureUtils.h"
 #import "UIScrollView+GREYApp.h"
+#import "GREYSurrogateDelegate.h"
 #import "GREYAppError.h"
 #import "GREYFailureScreenshotter.h"
 #import "GREYSyntheticEvents.h"
@@ -49,6 +50,78 @@
  * touch points to accurately determine scroll resistance.
  */
 static const NSInteger kMinTouchPointsToDetectScrollResistance = 2;
+
+/**
+ * Returns whether the scroll detection is performed by the old way - scroll offset.
+ *
+ * TODO(b/222748919): The fallback should be removed once the bug is fixed.
+ */
+static BOOL IsScrollDetectionFallback(UIScrollView *scrollView) {
+  return YES;
+}
+
+/**
+ * UIScrollView delegate that detects the initial scroll event.
+ *
+ * This delegate will explicitly remove itself from the delegate chain after the initial scroll
+ * event.
+ */
+@interface GREYScrollDetectionDelegate : GREYSurrogateDelegate <UIScrollViewDelegate>
+
+/** Indicates if the scroll view has detected the scroll event. */
+@property(nonatomic, readonly) BOOL scrollDetected;
+
+/**
+ * Initializer for the scroll view delegate.
+ *
+ * @param scrollView The UIScrollView to be attached by this delgate.
+ * @return The instance of the delegate.
+ */
+- (instancetype)initWithScrolView:(UIScrollView *)scrollView;
+
+@end
+
+@implementation GREYScrollDetectionDelegate {
+  UIScrollView *_scrollView;
+}
+
+- (instancetype)initWithScrolView:(UIScrollView *)scrollView {
+  self = [super initWithOriginalDelegate:scrollView.delegate isWeak:YES];
+  if (self) {
+    _scrollView = scrollView;
+  }
+  return self;
+}
+
+- (void)dealloc {
+  [self reset];
+}
+
+- (void)reset {
+  id<UIScrollViewDelegate> currentDelegate = _scrollView.delegate;
+  // If this surrogate delegate is never called, the delegate is eventually dealloced when the touch
+  // injection ends without calling reset. In this case, @c _scrollView's delegate property will be
+  // @c nil instead of @c self.
+  if (!currentDelegate || currentDelegate == self) {
+    _scrollView.delegate = self.originalDelegate;
+  }
+  _scrollView = nil;
+}
+
+#pragma mark - UIScrollViewDelegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+  if (!_scrollDetected) {
+    _scrollDetected = YES;
+  }
+  id<UIScrollViewDelegate> originalDelegate = self.originalDelegate;
+  if (originalDelegate && [originalDelegate respondsToSelector:@selector(scrollViewDidScroll:)]) {
+    [originalDelegate scrollViewDidScroll:scrollView];
+  }
+  [self reset];
+}
+
+@end
 
 @implementation GREYScrollAction {
   /**
@@ -137,6 +210,7 @@ static const NSInteger kMinTouchPointsToDetectScrollResistance = 2;
 
   CGFloat amountRemaining = _amount;
   BOOL success = YES;
+  NSError *scrollError;
   while (amountRemaining > 0 && success) {
     @autoreleasepool {
       // To scroll the content view in a direction
@@ -152,12 +226,14 @@ static const NSInteger kMinTouchPointsToDetectScrollResistance = 2;
                             @"is wide enough to scroll.");
         return NO;
       }
-      success = [GREYScrollAction grey_injectTouchPath:touchPath onScrollView:element];
+      success = [GREYScrollAction grey_injectTouchPath:touchPath
+                                          onScrollView:element
+                                                 error:&scrollError];
     }
   }
   if (!success) {
-    I_GREYPopulateError(error, kGREYScrollErrorDomain, kGREYScrollReachedContentEdge,
-                        @"Cannot scroll, the scrollview is already at the edge.");
+    I_GREYPopulateError(error, scrollError.domain, scrollError.code,
+                        scrollError.userInfo[kErrorFailureReasonKey]);
   }
   return success;
 }
@@ -171,7 +247,8 @@ static const NSInteger kMinTouchPointsToDetectScrollResistance = 2;
  * @return @c YES if entire touchPath was injected, else @c NO.
  */
 + (BOOL)grey_injectTouchPath:(NSArray<NSValue *> *)touchPath
-                onScrollView:(UIScrollView *)scrollView {
+                onScrollView:(UIScrollView *)scrollView
+                       error:(__strong NSError **)error {
   GREYFatalAssert([touchPath count] >= 1);
 
   // In scrollviews that have their bounce turned off the horizontal and vertical velocities are
@@ -183,6 +260,12 @@ static const NSInteger kMinTouchPointsToDetectScrollResistance = 2;
   BOOL shouldDetectResistanceFromContentOffset = !scrollView.bounces;
   CGPoint originalOffset = scrollView.contentOffset;
   CGPoint prevOffset = scrollView.contentOffset;
+  GREYScrollDetectionDelegate *delegate =
+      [[GREYScrollDetectionDelegate alloc] initWithScrolView:scrollView];
+  BOOL fallback = IsScrollDetectionFallback(scrollView);
+  if (!fallback) {
+    scrollView.delegate = delegate;
+  }
 
   CFTimeInterval interactionTimeout = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
   GREYSyntheticEvents *eventGenerator = [[GREYSyntheticEvents alloc] init];
@@ -229,10 +312,29 @@ static const NSInteger kMinTouchPointsToDetectScrollResistance = 2;
     [[GREYUIThreadExecutor sharedInstance] drainOnce];
   }
 
-  // If the scroll has content size smaller than the view size, even without resistance, offset
-  // won't change and the scroll does not take any effect.
-  BOOL hasOffsetChanged = !CGPointEqualToPoint(scrollView.contentOffset, originalOffset);
-  return !hasResistance && hasOffsetChanged;
+  BOOL success = YES;
+  if (hasResistance) {
+    success = NO;
+    I_GREYPopulateError(error, kGREYScrollErrorDomain, kGREYScrollReachedContentEdge,
+                        @"Cannot scroll, the scrollview is already at the edge.");
+  } else if (!fallback && !delegate.scrollDetected) {
+    success = NO;
+    // If the scroll has content size smaller than the view size, even without resistance, offset
+    // won't change and the scroll does not take any effect.
+    if (scrollView.contentSize.width < scrollView.frame.size.width &&
+        scrollView.contentSize.height < scrollView.frame.size.height) {
+      I_GREYPopulateError(error, kGREYScrollErrorDomain, kGREYScrollReachedContentEdge,
+                          @"Cannot scroll, the scrollview is already at the edge.");
+    } else {
+      I_GREYPopulateError(error, kGREYScrollErrorDomain, kGREYScrollNoTouchReaction,
+                          @"Scroll view didn't respond to touch.");
+    }
+  } else if (fallback && CGPointEqualToPoint(scrollView.contentOffset, originalOffset)) {
+    success = NO;
+    I_GREYPopulateError(error, kGREYScrollErrorDomain, kGREYScrollNoTouchReaction,
+                        @"Scroll view didn't respond to touch.");
+  }
+  return success;
 }
 
 #pragma mark - GREYDiagnosable

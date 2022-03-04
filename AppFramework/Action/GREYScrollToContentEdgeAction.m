@@ -115,7 +115,11 @@
     }
   }
 
-  if (scrollError.code == kGREYScrollReachedContentEdge &&
+  // TODO(b/221345512): kGREYScrollNoTouchReaction is suppressed because existing tests use it to
+  // stop the action when scroll fails with nested scroll views. It can be removed once scroll
+  // actions provides reliable interactible area and fixes the issue of nested scroll views.
+  if ((scrollError.code == kGREYScrollReachedContentEdge ||
+       scrollError.code == kGREYScrollNoTouchReaction) &&
       [scrollError.domain isEqualToString:kGREYScrollErrorDomain]) {
     // We have reached the content edge.
     return YES;

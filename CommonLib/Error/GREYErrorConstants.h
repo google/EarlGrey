@@ -220,6 +220,10 @@ typedef NS_ENUM(NSInteger, GREYScrollErrorCode) {
    * Could not scroll to the element we are looking for.
    */
   kGREYScrollToElementFailed,
+  /**
+   * The injected touch doesn't trigger scroll view to scroll,
+   */
+  kGREYScrollNoTouchReaction,
 };
 
 /**
