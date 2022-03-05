@@ -839,6 +839,29 @@ static Class gEDOObjectClass;
                                 matchers:matchersArray];
 }
 
++ (id<GREYMatcher>)matcherForHidden:(BOOL)hidden {
+  NSString *prefix = [NSString stringWithFormat:@"hidden(\"%d\")", hidden];
+  GREYMatchesBlock matches = ^BOOL(UIView *view) {
+    BOOL viewIsHidden = NO;
+    UIView *currentView = view;
+    // A view is hidden visually if either its hidden flag is YES or any superview's
+    // hidden flag is YES.
+    while (currentView && !viewIsHidden) {
+      viewIsHidden = currentView.hidden;
+      currentView = currentView.superview;
+    }
+    return viewIsHidden == hidden;
+  };
+  GREYDescribeToBlock describe = ^void(id<GREYDescription> description) {
+    [description appendText:prefix];
+  };
+  return [[GREYElementMatcherBlock alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
+                                          matchesBlock:matches
+                                      descriptionBlock:describe];
+
+  return [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe];
+}
+
 #pragma mark - Private
 
 /**

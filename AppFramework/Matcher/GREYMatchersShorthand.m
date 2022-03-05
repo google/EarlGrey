@@ -206,4 +206,6 @@ id<GREYMatcher> grey_not(id<GREYMatcher> matcher) {
   return [GREYMatchers matcherForNegation:matcher];
 }
 
+id<GREYMatcher> grey_hidden(BOOL hidden) { return [GREYMatchers matcherForHidden:hidden]; }
+
 #endif  // GREY_DISABLE_SHORTHAND

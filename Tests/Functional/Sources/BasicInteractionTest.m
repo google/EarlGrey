@@ -588,8 +588,8 @@
   [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:action error:&error];
   if (!error) {
     [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_tap()];
-    [[[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Long Press")]
-        performAction:grey_longPressWithDuration(1.1f)] assertWithMatcher:grey_nil()];
+    [[[EarlGrey selectElementWithMatcher:grey_text(@"Long Press")]
+        performAction:grey_longPressWithDuration(1.1f)] assertWithMatcher:grey_hidden(YES)];
   } else {
     GREYFail(@"Element should exist. We should not be here.");
   }
@@ -606,8 +606,8 @@
   [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] assert:assertion error:&error];
   if (!error) {
     [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_tap()];
-    [[[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Long Press")]
-        performAction:grey_longPressWithDuration(1.1f)] assertWithMatcher:grey_nil()];
+    [[[EarlGrey selectElementWithMatcher:grey_text(@"Long Press")]
+        performAction:grey_longPressWithDuration(1.1f)] assertWithMatcher:grey_hidden(YES)];
   } else {
     GREYFail(@"Element should exist. We should not be here.");
   }
@@ -620,9 +620,9 @@
   [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
   [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_tap()];
 
-  [[[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Long Press")]
+  [[[EarlGrey selectElementWithMatcher:grey_text(@"Long Press")]
       performAction:grey_longPressAtPointWithDuration(CGPointMake(10, 10), 1.1f)]
-      assertWithMatcher:grey_nil()];
+      assertWithMatcher:grey_hidden(YES)];
 }
 
 /**

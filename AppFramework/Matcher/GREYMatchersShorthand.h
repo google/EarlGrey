@@ -156,6 +156,9 @@ GREY_EXPORT id<GREYMatcher> grey_not(id<GREYMatcher> matcher);
 /** Shorthand for GREYMatchers::matcherForTextFieldValue:. */
 GREY_EXPORT id<GREYMatcher> grey_textFieldValue(NSString *value);
 
+/** Shorthand macro for GREYMatchers::matcherForHidden */
+GREY_EXPORT id<GREYMatcher> grey_hidden(BOOL hidden);
+
 /**
  * A shorthand matcher that is a logical AND of all the matchers passed in as variable arguments.
  *

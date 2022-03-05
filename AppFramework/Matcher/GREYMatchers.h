@@ -467,6 +467,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (id<GREYMatcher>)matcherForNegation:(id<GREYMatcher>)matcher;
 
+/**
+ * A matcher for a UIView element that has its hidden value equal to the passed-in BOOL.
+ *
+ * @param hidden The passed-in BOOL for checking if the element is hidden or not.
+ **/
++ (id<GREYMatcher>)matcherForHidden:(BOOL)hidden;
+
 @end
 
 NS_ASSUME_NONNULL_END
