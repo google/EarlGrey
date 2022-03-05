@@ -19,26 +19,20 @@
 #import "GREYConstants.h"
 
 /**
- * A utility class for creating and injecting gestures that involve touch paths, for example:
- * swipe, scroll etc.
- */
-@interface GREYPathGestureUtils : NSObject
-
-/**
  * Generates a touch path in the @c window from the start point, in the given direction to the
  * max possible extent.
  *
+ * @param window                        The window in which the touch path is generated.
  * @param startPointInWindowCoordinates The start point within the given @c window
  * @param direction                     The direction of the touch path.
  * @param duration                      How long the gesture should last (in seconds).
- * @param window                        The window in which the touch path is generated.
  *
  * @return NSArray of CGPoints that denote the points in the touch path.
  */
-+ (NSArray *)touchPathForGestureWithStartPoint:(CGPoint)startPointInWindowCoordinates
-                                  andDirection:(GREYDirection)direction
-                                   andDuration:(CFTimeInterval)duration
-                                      inWindow:(UIWindow *)window;
+NSArray<NSValue *> *GREYTouchPathForGestureInWindow(UIWindow *window,
+                                                    CGPoint startPointInWindowCoordinates,
+                                                    GREYDirection direction,
+                                                    CFTimeInterval duration);
 
 /**
  * Generates a touch path in the @c window starting from a given @c view in a particular direction
@@ -50,13 +44,13 @@
  * the visible rect.
  *
  * @param view                          The view from which the touch path originates.
+ * @param startPointPercents            The start point of the touch path specified as percents in
+ *                                      the visible area of the @c view. Must be (0, 1) exclusive.
  * @param direction                     The direction of the touch.
  * @param length                        The length of the touch path. The length of the touch path
  *                                      is restricted by the screen dimensions, position of the
  *                                      view and the minimum scroll detection length (10 points as
  *                                      of iOS 8.0).
- * @param startPointPercents            The start point of the touch path specified as percents in
- *                                      the visible area of the @c view. Must be (0, 1) exclusive.
  * @param[out] outRemainingAmountOrNull The difference of the length and the amount,
  *                                      if the length falls short.
  *
@@ -64,11 +58,9 @@
  *         will be at least the minimum scroll detection length, when that is not possible
  *         (due to @c view position and/or size) @c nil is returned.
  */
-+ (NSArray *)touchPathForGestureInView:(UIView *)view
-                         withDirection:(GREYDirection)direction
-                                length:(CGFloat)length
-                    startPointPercents:(CGPoint)startPointPercents
-                    outRemainingAmount:(CGFloat *)outRemainingAmountOrNull;
+NSArray<NSValue *> *GREYTouchPathForGestureInView(UIView *view, CGPoint startPointPercents,
+                                                  GREYDirection direction, CGFloat length,
+                                                  CGFloat *outRemainingAmountOrNull);
 
 /**
  * Generates a touch path in the @c window from the given @c startPoint and the given @c
@@ -80,8 +72,5 @@
  *
  * @return NSArray of CGPoints that denote the points in the touch path.
  */
-+ (NSArray *)touchPathForDragGestureWithStartPoint:(CGPoint)startPoint
-                                          endPoint:(CGPoint)endPoint
-                                     cancelInertia:(BOOL)cancelInertia;
-
-@end
+NSArray<NSValue *> *GREYTouchPathForDragGestureInScreen(CGPoint startPoint, CGPoint endPoint,
+                                                        BOOL cancelInertia);

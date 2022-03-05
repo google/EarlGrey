@@ -74,7 +74,7 @@ static BOOL IsScrollDetectionFallback(UIScrollView *scrollView) {
 /**
  * Initializer for the scroll view delegate.
  *
- * @param scrollView The UIScrollView to be attached by this delgate.
+ * @param scrollView The UIScrollView to be attached by this delegate.
  * @return The instance of the delegate.
  */
 - (instancetype)initWithScrolView:(UIScrollView *)scrollView;
@@ -215,11 +215,8 @@ static BOOL IsScrollDetectionFallback(UIScrollView *scrollView) {
     @autoreleasepool {
       // To scroll the content view in a direction
       GREYDirection reverseDirection = [GREYConstants reverseOfDirection:_direction];
-      NSArray *touchPath = [GREYPathGestureUtils touchPathForGestureInView:element
-                                                             withDirection:reverseDirection
-                                                                    length:amountRemaining
-                                                        startPointPercents:_startPointPercents
-                                                        outRemainingAmount:&amountRemaining];
+      NSArray<NSValue *> *touchPath = GREYTouchPathForGestureInView(
+          element, _startPointPercents, reverseDirection, amountRemaining, &amountRemaining);
       if (!touchPath) {
         I_GREYPopulateError(error, kGREYScrollErrorDomain, kGREYScrollImpossible,
                             @"Cannot scroll, ensure that the selected scroll view "

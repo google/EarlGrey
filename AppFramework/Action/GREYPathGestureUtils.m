@@ -36,52 +36,88 @@ const NSInteger kGREYScrollDetectionLength = 10;
  */
 static const CGFloat kGREYDistanceBetweenTwoAdjacentPoints = 10.0f;
 
-@implementation GREYPathGestureUtils
+/**
+ * Returns whether the current direction is vertical or not.
+ *
+ * @param direction Current direction to be checked for verticalness.
+ *
+ * @return @c YES if the current direction is vertical, else @c NO.
+ */
+static BOOL GREYIsVerticalDirection(GREYDirection direction);
 
-+ (NSArray *)touchPathForGestureWithStartPoint:(CGPoint)startPointInWindowCoords
-                                  andDirection:(GREYDirection)direction
-                                   andDuration:(CFTimeInterval)duration
-                                      inWindow:(UIWindow *)window {
+/**
+ * Returns a point on the @c edge of the given @c rect.
+ *
+ * @param edge The edge of the given @c rect to get the point for.
+ * @param rect The @c rect from which the point is being returned.
+ *
+ * @return A CGPoint on the chosen edge of the given @c rect.
+ */
+static CGPoint GREYPointOnEdgeOfRect(GREYContentEdge edge, CGRect rect);
+
+/**
+ * Standardizes the given @c rect and shrinks (or expands if inset is negative) the given @c rect
+ * by the given @c insets. Note that if width/height is less than the required insets they are
+ * set to zero.
+ *
+ * @param insets The insets to standardize the given @c rect.
+ * @param rect   The rect to be standardized.
+ *
+ * @return The rect after being standardized.
+ */
+static CGRect GREYRectByAddingEdgeInsetsToRect(UIEdgeInsets insets, CGRect rect);
+
+/**
+ * Generates touch path between the given points with the option to cancel the inertia.
+ *
+ * @param startPoint    The start point of the touch path.
+ * @param endPoint      The end point of the touch path.
+ * @param duration      How long the gesture should last.
+ *                      Can be NAN to indicate that path lengths of fixed magnitude should be used.
+ * @param cancelInertia A check to nullify the inertia in the touch path.
+ *
+ * @return A touch path between the two points.
+ */
+static NSArray<NSValue *> *GREYGenerateTouchPath(CGPoint startPoint, CGPoint endPoint,
+                                                 CFTimeInterval duration, BOOL cancelInertia);
+
+#pragma mark - Public
+
+NSArray<NSValue *> *GREYTouchPathForGestureInWindow(UIWindow *window,
+                                                    CGPoint startPointInWindowCoordinates,
+                                                    GREYDirection direction,
+                                                    CFTimeInterval duration) {
   // Find an endpoint for gesture in window coordinates that gives us the longest path.
   CGPoint endPointInWindowCoords =
-      [self grey_pointOnEdge:[GREYConstants edgeInDirectionFromCenter:direction]
-                      ofRect:[window convertRect:[UIScreen mainScreen].bounds fromWindow:nil]];
+      GREYPointOnEdgeOfRect([GREYConstants edgeInDirectionFromCenter:direction],
+                            [window convertRect:[UIScreen mainScreen].bounds fromWindow:nil]);
   // Align the end point and create a touch path.
-  if ([self grey_isVerticalDirection:direction]) {
-    endPointInWindowCoords.x = startPointInWindowCoords.x;
+  if (GREYIsVerticalDirection(direction)) {
+    endPointInWindowCoords.x = startPointInWindowCoordinates.x;
   } else {
-    endPointInWindowCoords.y = startPointInWindowCoords.y;
+    endPointInWindowCoords.y = startPointInWindowCoordinates.y;
   }
-  return [self grey_touchPathWithStartPoint:startPointInWindowCoords
-                                   endPoint:endPointInWindowCoords
-                                   duration:duration
-                        shouldCancelInertia:NO];
+  return GREYGenerateTouchPath(startPointInWindowCoordinates, endPointInWindowCoords, duration, NO);
 }
 
-+ (NSArray *)touchPathForDragGestureWithStartPoint:(CGPoint)startPoint
-                                          endPoint:(CGPoint)endPoint
-                                     cancelInertia:(BOOL)cancelInertia {
-  return [self grey_touchPathWithStartPoint:startPoint
-                                   endPoint:endPoint
-                                   duration:NAN
-                        shouldCancelInertia:cancelInertia];
+NSArray<NSValue *> *GREYTouchPathForDragGestureInScreen(CGPoint startPoint, CGPoint endPoint,
+                                                        BOOL cancelInertia) {
+  return GREYGenerateTouchPath(startPoint, endPoint, NAN, cancelInertia);
 }
 
-+ (NSArray *)touchPathForGestureInView:(UIView *)view
-                         withDirection:(GREYDirection)direction
-                                length:(CGFloat)length
-                    startPointPercents:(CGPoint)startPointPercents
-                    outRemainingAmount:(CGFloat *)outRemainingAmountOrNull {
-  GREYThrowOnFailedConditionWithMessage(
+NSArray<NSValue *> *GREYTouchPathForGestureInView(UIView *view, CGPoint startPointPercents,
+                                                  GREYDirection direction, CGFloat length,
+                                                  CGFloat *outRemainingAmountOrNull) {
+  GREYThrowInFunctionOnNilParameterWithMessage(
       isnan(startPointPercents.x) || (startPointPercents.x > 0 && startPointPercents.x < 1),
       @"startPointPercents must be NAN or in the range (0, 1) "
       @"exclusive");
-  GREYThrowOnFailedConditionWithMessage(
+  GREYThrowInFunctionOnNilParameterWithMessage(
       isnan(startPointPercents.y) || (startPointPercents.y > 0 && startPointPercents.y < 1),
       @"startPointPercents must be NAN or in the range (0, 1) "
       @"exclusive");
-  GREYThrowOnFailedConditionWithMessage(length > 0,
-                                        @"Scroll length must be positive and greater than zero.");
+  GREYThrowInFunctionOnNilParameterWithMessage(
+      length > 0, @"Scroll length must be positive and greater than zero.");
 
   // Pick a startPoint from the visible area of the given view.
   CGRect visibleArea = [GREYVisibilityChecker rectEnclosingVisibleAreaOfElement:view];
@@ -94,16 +130,15 @@ static const CGFloat kGREYDistanceBetweenTwoAdjacentPoints = 10.0f;
     return nil;
   }
   // In addition choose a rect that lies completely inside the visible area not on the edges.
-  CGRect safeStartPointRect = [GREYPathGestureUtils
-      grey_rectByAddingEdgeInsets:UIEdgeInsetsMake(1, 1, 1, 1)
-                           toRect:CGRectIntersection(visibleArea, safeScreenBounds)];
+  CGRect safeStartPointRect = GREYRectByAddingEdgeInsetsToRect(
+      UIEdgeInsetsMake(1, 1, 1, 1), CGRectIntersection(visibleArea, safeScreenBounds));
   if (CGRectIsEmpty(safeStartPointRect)) {
     return nil;
   }
   GREYDirection reverseDirection = [GREYConstants reverseOfDirection:direction];
   GREYContentEdge edgeInReverseDirection =
       [GREYConstants edgeInDirectionFromCenter:reverseDirection];
-  CGPoint startPoint = [self grey_pointOnEdge:edgeInReverseDirection ofRect:safeStartPointRect];
+  CGPoint startPoint = GREYPointOnEdgeOfRect(edgeInReverseDirection, safeStartPointRect);
   // Update start point if startPointPercents are provided.
   if (!isnan(startPointPercents.x)) {
     startPoint.x =
@@ -116,9 +151,9 @@ static const CGFloat kGREYDistanceBetweenTwoAdjacentPoints = 10.0f;
 
   // Pick an end point that gives us maximum path length and align as per the direction.
   GREYContentEdge edgeClosestToEndPoint = [GREYConstants edgeInDirectionFromCenter:direction];
-  CGPoint endPoint = [self grey_pointOnEdge:edgeClosestToEndPoint ofRect:safeScreenBounds];
+  CGPoint endPoint = GREYPointOnEdgeOfRect(edgeClosestToEndPoint, safeScreenBounds);
   CGFloat scrollAmountPossible;
-  if ([self grey_isVerticalDirection:direction]) {
+  if (GREYIsVerticalDirection(direction)) {
     scrollAmountPossible = (CGFloat)fabs(endPoint.y - startPoint.y);
   } else {
     scrollAmountPossible = (CGFloat)fabs(endPoint.x - startPoint.x);
@@ -147,71 +182,23 @@ static const CGFloat kGREYDistanceBetweenTwoAdjacentPoints = 10.0f;
   }
   endPoint = CGPointAddVector(startPoint,
                               CGVectorScale(delta, amountWillScroll + kGREYScrollDetectionLength));
-  return [self grey_touchPathWithStartPoint:startPoint
-                                   endPoint:endPoint
-                                   duration:NAN
-                        shouldCancelInertia:YES];
+  return GREYGenerateTouchPath(startPoint, endPoint, NAN, YES);
 }
 
 #pragma mark - Private
 
-/**
- * Gives the direction obtained from clockwise rotation of the given @c direction.
- *
- * @param direction Direction of the rotation.
- *
- * @return The direction after the rotation.
- */
-+ (GREYDirection)grey_directionByClockwiseRotationOfDirection:(GREYDirection)direction {
-  switch (direction) {
-    case kGREYDirectionUp:
-      return kGREYDirectionRight;
-    case kGREYDirectionRight:
-      return kGREYDirectionDown;
-    case kGREYDirectionDown:
-      return kGREYDirectionLeft;
-    case kGREYDirectionLeft:
-      return kGREYDirectionUp;
-  }
-}
-
-/**
- * Returns whether the current direction is vertical or not.
- *
- * @param direction Current direction to be checked for verticalness.
- *
- * @return @c YES if the current direction is vertical, else @c NO.
- */
-+ (BOOL)grey_isVerticalDirection:(GREYDirection)direction {
+static BOOL GREYIsVerticalDirection(GREYDirection direction) {
   return direction == kGREYDirectionUp || direction == kGREYDirectionDown;
 }
 
-/**
- * Returns a point on the @c edge of the given @c rect.
- *
- * @param edge The edge of the given @c rect to get the point for.
- * @param rect The @c rect from which the point is being returned.
- *
- * @return A CGPoint on the chosen edge of the given @c rect.
- */
-+ (CGPoint)grey_pointOnEdge:(GREYContentEdge)edge ofRect:(CGRect)rect {
+static CGPoint GREYPointOnEdgeOfRect(GREYContentEdge edge, CGRect rect) {
   CGVector vector =
       [GREYConstants normalizedVectorFromDirection:[GREYConstants directionFromCenterForEdge:edge]];
   return CGPointMake(CGRectCenter(rect).x + vector.dx * (rect.size.width / 2),
                      CGRectCenter(rect).y + vector.dy * (rect.size.height / 2));
 }
 
-/**
- * Standardizes the given @c rect and shrinks (or expands if inset is negative) the given @c rect
- * by the given @c insets. Note that if width/height is less than the required insets they are
- * set to zero.
- *
- * @param insets The insets to standardize the given @c rect.
- * @param rect   The rect to be standardized.
- *
- * @return The rect after being standardized.
- */
-+ (CGRect)grey_rectByAddingEdgeInsets:(UIEdgeInsets)insets toRect:(CGRect)rect {
+static CGRect GREYRectByAddingEdgeInsetsToRect(UIEdgeInsets insets, CGRect rect) {
   rect = CGRectStandardize(rect);
   rect.origin.x += insets.left;
   rect.origin.y += insets.top;
@@ -230,21 +217,8 @@ static const CGFloat kGREYDistanceBetweenTwoAdjacentPoints = 10.0f;
   return rect;
 }
 
-/**
- * Touch path between the given points with the option to cancel the inertia.
- *
- * @param startPoint    The start point of the touch path.
- * @param endPoint      The end point of the touch path.
- * @param duration      How long the gesture should last.
- *                      Can be NAN to indicate that path lengths of fixed magnitude should be used.
- * @param cancelInertia A check to nullify the inertia in the touch path.
- *
- * @return A touch path between the two points.
- */
-+ (NSArray *)grey_touchPathWithStartPoint:(CGPoint)startPoint
-                                 endPoint:(CGPoint)endPoint
-                                 duration:(CFTimeInterval)duration
-                      shouldCancelInertia:(BOOL)cancelInertia {
+static NSArray<NSValue *> *GREYGenerateTouchPath(CGPoint startPoint, CGPoint endPoint,
+                                                 CFTimeInterval duration, BOOL cancelInertia) {
   const CGVector deltaVector = CGVectorFromEndPoints(startPoint, endPoint, NO);
   const CGFloat pathLength = CGVectorLength(deltaVector);
   if (pathLength <= kGREYScrollDetectionLength) {
@@ -347,5 +321,3 @@ static const CGFloat kGREYDistanceBetweenTwoAdjacentPoints = 10.0f;
   [touchPath addObject:endPointValue];
   return touchPath;
 }
-
-@end

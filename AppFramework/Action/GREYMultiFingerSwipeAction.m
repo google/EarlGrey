@@ -142,10 +142,8 @@
       CGFloat xStartPoint = xOffset + CGRectGetMaxX(accessibilityFrame) * self->_startPercents.x;
       CGFloat yStartPoint = yOffset + CGRectGetMaxY(accessibilityFrame) * self->_startPercents.y;
       CGPoint startPoint = CGPointMake(xStartPoint, yStartPoint);
-      NSArray *touchPath = [GREYPathGestureUtils touchPathForGestureWithStartPoint:startPoint
-                                                                      andDirection:self->_direction
-                                                                       andDuration:self->_duration
-                                                                          inWindow:window];
+      NSArray<NSValue *> *touchPath =
+          GREYTouchPathForGestureInWindow(window, startPoint, self->_direction, self->_duration);
 
       [multiTouchPaths addObject:touchPath];
     }

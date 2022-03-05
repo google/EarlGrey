@@ -184,14 +184,10 @@ static CGFloat const kPinchScale = (CGFloat)0.8;
   // @c kGREYPinchDirectionInward then the two touch paths have starting points on the circle
   // having the touch path as the radius and ending points are the center of the view under
   // test.
-  NSArray *touchPathInDirection1 =
-      [GREYPathGestureUtils touchPathForDragGestureWithStartPoint:startPoint1
-                                                         endPoint:endPoint1
-                                                    cancelInertia:NO];
-  NSArray *touchPathInDirection2 =
-      [GREYPathGestureUtils touchPathForDragGestureWithStartPoint:startPoint2
-                                                         endPoint:endPoint2
-                                                    cancelInertia:NO];
+  NSArray<NSValue *> *touchPathInDirection1 =
+      GREYTouchPathForDragGestureInScreen(startPoint1, endPoint1, NO);
+  NSArray<NSValue *> *touchPathInDirection2 =
+      GREYTouchPathForDragGestureInScreen(startPoint2, endPoint2, NO);
   return @[ touchPathInDirection1, touchPathInDirection2 ];
 }
 

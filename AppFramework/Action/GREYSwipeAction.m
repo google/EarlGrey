@@ -137,10 +137,7 @@
       CGPointMake(accessibilityFrame.origin.x + accessibilityFrame.size.width * _startPercents.x,
                   accessibilityFrame.origin.y + accessibilityFrame.size.height * _startPercents.y);
 
-  return [GREYPathGestureUtils touchPathForGestureWithStartPoint:startPoint
-                                                    andDirection:_direction
-                                                     andDuration:_duration
-                                                        inWindow:window];
+  return GREYTouchPathForGestureInWindow(window, startPoint, _direction, _duration);
 }
 
 - (BOOL)shouldRunOnMainThread {
