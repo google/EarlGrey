@@ -66,7 +66,7 @@ static BOOL IsScrollDetectionFallback(UIScrollView *scrollView) {
  * This delegate will explicitly remove itself from the delegate chain after the initial scroll
  * event.
  */
-@interface GREYScrollDetectionDelegate : GREYSurrogateDelegate <UIScrollViewDelegate>
+@interface GREYScrollDetectionDelegate : GREYSurrogateDelegate <GREYScrollViewDelegate>
 
 /** Indicates if the scroll view has detected the scroll event. */
 @property(nonatomic, readonly) BOOL scrollDetected;
@@ -86,7 +86,7 @@ static BOOL IsScrollDetectionFallback(UIScrollView *scrollView) {
 }
 
 - (instancetype)initWithScrolView:(UIScrollView *)scrollView {
-  self = [super initWithOriginalDelegate:scrollView.delegate isWeak:YES];
+  self = [super initWithOriginalDelegate:scrollView.greyScrollViewDelegate isWeak:YES];
   if (self) {
     _scrollView = scrollView;
   }
@@ -98,19 +98,19 @@ static BOOL IsScrollDetectionFallback(UIScrollView *scrollView) {
 }
 
 - (void)reset {
-  id<UIScrollViewDelegate> currentDelegate = _scrollView.delegate;
+  id<GREYScrollViewDelegate> currentDelegate = _scrollView.greyScrollViewDelegate;
   // If this surrogate delegate is never called, the delegate is eventually dealloced when the touch
   // injection ends without calling reset. In this case, @c _scrollView's delegate property will be
   // @c nil instead of @c self.
   if (!currentDelegate || currentDelegate == self) {
-    _scrollView.delegate = self.originalDelegate;
+    _scrollView.greyScrollViewDelegate = self.originalDelegate;
   }
   _scrollView = nil;
 }
 
 #pragma mark - UIScrollViewDelegate
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+- (void)scrollView:(UIScrollView *)scrollView willScrollToOffset:(CGPoint)offset {
   if (!_scrollDetected) {
     _scrollDetected = YES;
   }
@@ -261,7 +261,7 @@ static BOOL IsScrollDetectionFallback(UIScrollView *scrollView) {
       [[GREYScrollDetectionDelegate alloc] initWithScrolView:scrollView];
   BOOL fallback = IsScrollDetectionFallback(scrollView);
   if (!fallback) {
-    scrollView.delegate = delegate;
+    scrollView.greyScrollViewDelegate = delegate;
   }
 
   CFTimeInterval interactionTimeout = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);

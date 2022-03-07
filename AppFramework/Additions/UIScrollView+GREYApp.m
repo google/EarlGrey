@@ -19,6 +19,7 @@
 #include <objc/message.h>
 #include <objc/runtime.h>
 
+#import "GREYSurrogateDelegate.h"
 #import "GREYAppStateTracker.h"
 #import "GREYFatalAsserts.h"
 #import "GREYAppState.h"
@@ -54,6 +55,13 @@
                          withMethod:swizzledSel];
   GREYFatalAssertWithMessage(swizzled,
                              @"Cannot swizzle [UIScrollView _stopScrollDecelerationNotify:]");
+  originalSel = @selector(setContentOffset:);
+  swizzledSel = @selector(greyswizzled_setContentOffset:);
+  swizzled = [swizzler swizzleClass:[UIScrollView class]
+              replaceInstanceMethod:originalSel
+                         withMethod:swizzledSel];
+  GREYFatalAssertWithMessage(swizzled,
+                             @"Cannot swizzle [UIScrollView _stopScrollDecelerationNotify:]");
 }
 
 - (BOOL)grey_hasScrollResistance {
@@ -68,6 +76,19 @@
         ((double (*)(id, SEL))objc_msgSend)(self, NSSelectorFromString(@"_verticalVelocity"));
     return horizontalVelocity == 0 && verticalVelocity == 0;
   }
+}
+
+- (id<GREYScrollViewDelegate>)greyScrollViewDelegate {
+  GREYSurrogateDelegate *delegate =
+      objc_getAssociatedObject(self, @selector(greyScrollViewDelegate));
+  return delegate.originalDelegate;
+}
+
+- (void)setGreyScrollViewDelegate:(id<GREYScrollViewDelegate>)delegate {
+  GREYSurrogateDelegate *surrogateDelegate =
+      [[GREYSurrogateDelegate alloc] initWithOriginalDelegate:delegate isWeak:YES];
+  objc_setAssociatedObject(self, @selector(greyScrollViewDelegate), surrogateDelegate,
+                           OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 #pragma mark - Swizzled Implementation
@@ -100,6 +121,14 @@
                            OBJC_ASSOCIATION_ASSIGN);
 
   INVOKE_ORIGINAL_IMP1(void, @selector(greyswizzled_stopScrollDecelerationNotify:), notify);
+}
+
+- (void)greyswizzled_setContentOffset:(CGPoint)offset {
+  CGPoint currentOffset = self.contentOffset;
+  if (offset.x != currentOffset.x || offset.y != currentOffset.y) {
+    [self.greyScrollViewDelegate scrollView:self willScrollToOffset:offset];
+  }
+  INVOKE_ORIGINAL_IMP1(void, @selector(greyswizzled_setContentOffset:), offset);
 }
 
 @end

@@ -16,6 +16,19 @@
 
 #import <UIKit/UIKit.h>
 
+/** Delegate that broadcasts events of UIScrollView by EarlGrey. */
+@protocol GREYScrollViewDelegate
+
+/**
+ * Tells the delegate when the scroll-view will scroll the content view to a specific offset.
+ *
+ * @param scrollView The scroll-view object in which the scrolling occurred.
+ * @param offset     The new content offset the scroll-view.
+ */
+- (void)scrollView:(UIScrollView *)scrollView willScrollToOffset:(CGPoint)offset;
+
+@end
+
 /**
  * EarlGrey specific additions for tracking UIScrollView events (like scrolling, bouncing etc).
  */
@@ -31,4 +44,10 @@
  * @return @c YES if the scroll view is exerting resistance to scroll, @c NO otherwise.
  */
 - (BOOL)grey_hasScrollResistance;
+
+/**
+ * The delegate that broadcasts scroll view event by EarlGrey.
+ */
+@property(nonatomic, weak) id<GREYScrollViewDelegate> greyScrollViewDelegate;
+
 @end
