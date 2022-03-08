@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * @return An NSDictionary with the generated app screenshots.
  */
-+ (NSDictionary *)screenshots;
++ (NSDictionary<NSString *, UIImage *> *)screenshots;
 
 @end
 

@@ -16,6 +16,8 @@
 
 #import "GREYFailureScreenshotter.h"
 
+#import <UIKit/UIKit.h>
+
 #import "GREYSyncAPI.h"
 #import "GREYError.h"
 #import "GREYScreenshotter+Private.h"
@@ -25,8 +27,8 @@
 
 @implementation GREYFailureScreenshotter
 
-+ (NSDictionary *)screenshots {
-  NSMutableDictionary *appScreenshots = [[NSMutableDictionary alloc] init];
++ (NSDictionary<NSString *, UIImage *> *)screenshots {
+  NSMutableDictionary<NSString *, UIImage *> *appScreenshots = [[NSMutableDictionary alloc] init];
   __block UIImage *screenshot;
   grey_dispatch_sync_on_main_thread(^{
     screenshot = [GREYScreenshotter grey_takeScreenshotAfterScreenUpdates:NO withStatusBar:NO];
