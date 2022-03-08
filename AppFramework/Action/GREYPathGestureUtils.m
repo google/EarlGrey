@@ -185,6 +185,30 @@ NSArray<NSValue *> *GREYTouchPathForGestureInView(UIView *view, CGPoint startPoi
   return GREYGenerateTouchPath(startPoint, endPoint, NAN, YES);
 }
 
+CGVector GREYDeviationBetweenTouchPathAndActualOffset(NSArray<NSValue *> *touchPath,
+                                                      CGVector offset,
+                                                      NSArray<NSValue *> *remainingTouchPath) {
+  CGVector expectedTouchVector = CGVectorFromEndPoints(touchPath.firstObject.CGPointValue,
+                                                       touchPath.lastObject.CGPointValue, NO);
+  CGVector normalizedTouchVector = CGVectorNormalize(expectedTouchVector);
+  // The original touch path has extra kGREYScrollDetectionLength movement that is not supposed to
+  // contirbute to the scroll content offset.
+  CGVector expectedEffectiveTouchVector = CGVectorAddVector(
+      expectedTouchVector, CGVectorScale(normalizedTouchVector, -kGREYScrollDetectionLength));
+  // The direction of the scroll content offset is the reverse of the effective touch.
+  CGVector expectedScrollOffset = CGVectorScale(expectedEffectiveTouchVector, -1.0);
+
+  // The scroll view already detected scroll gesture, so remaining touch path is always effective
+  // to the scroll content offset, thus kGREYScrollDetectionLength is not applied here.
+  CGVector remainingEffectiveTouchVector = CGVectorFromEndPoints(
+      remainingTouchPath.firstObject.CGPointValue, remainingTouchPath.lastObject.CGPointValue, NO);
+  CGVector remainingScrollOffset = CGVectorScale(remainingEffectiveTouchVector, -1.0);
+  CGVector actualScrollOffset = CGVectorAddVector(offset, remainingScrollOffset);
+
+  return CGVectorFromEndPoints(CGPointAddVector(CGPointZero, expectedScrollOffset),
+                               CGPointAddVector(CGPointZero, actualScrollOffset), NO);
+}
+
 #pragma mark - Private
 
 static BOOL GREYIsVerticalDirection(GREYDirection direction) {

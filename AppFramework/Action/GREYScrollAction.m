@@ -42,6 +42,7 @@
 #import "GREYErrorConstants.h"
 #import "GREYConstants.h"
 #import "GREYDiagnosable.h"
+#import "GREYLogger.h"
 #import "CGGeometry+GREYUI.h"
 #import "GREYElementHierarchy.h"
 
@@ -70,6 +71,9 @@ static BOOL IsScrollDetectionFallback(UIScrollView *scrollView) {
 
 /** Indicates if the scroll view has detected the scroll event. */
 @property(nonatomic, readonly) BOOL scrollDetected;
+
+/** Indicates the scroll amount of the initial scroll event since this delegate is attached. */
+@property(nonatomic, readonly) CGVector scrollAmount;
 
 /**
  * Initializer for the scroll view delegate.
@@ -113,6 +117,8 @@ static BOOL IsScrollDetectionFallback(UIScrollView *scrollView) {
 - (void)scrollView:(UIScrollView *)scrollView willScrollToOffset:(CGPoint)offset {
   if (!_scrollDetected) {
     _scrollDetected = YES;
+    CGPoint previousOffset = _scrollView.contentOffset;
+    _scrollAmount = CGVectorFromEndPoints(previousOffset, offset, NO);
   }
   id<UIScrollViewDelegate> originalDelegate = self.originalDelegate;
   if (originalDelegate && [originalDelegate respondsToSelector:@selector(scrollViewDidScroll:)]) {
@@ -271,6 +277,8 @@ static BOOL IsScrollDetectionFallback(UIScrollView *scrollView) {
                   immediateDelivery:YES
                             timeout:interactionTimeout];
   BOOL hasResistance = NO;
+  BOOL hasOffsetChanged = NO;
+  CGVector scrollDeviation;
   NSInteger consecutiveTouchPointsWithSameContentOffset = 0;
   for (NSUInteger touchPointIndex = 1; touchPointIndex < [touchPath count]; touchPointIndex++) {
     @autoreleasepool {
@@ -278,6 +286,15 @@ static BOOL IsScrollDetectionFallback(UIScrollView *scrollView) {
       [eventGenerator continueTouchAtPoint:currentTouchPoint
                          immediateDelivery:YES
                                    timeout:interactionTimeout];
+
+      if (!hasOffsetChanged && delegate.scrollDetected) {
+        hasOffsetChanged = YES;
+        NSArray<NSValue *> *remainingTouchPath = [touchPath
+            subarrayWithRange:NSMakeRange(touchPointIndex, touchPath.count - touchPointIndex)];
+        scrollDeviation = GREYDeviationBetweenTouchPathAndActualOffset(
+            touchPath, delegate.scrollAmount, remainingTouchPath);
+      }
+
       BOOL detectedResistanceFromContentOffsets = NO;
       // Keep track of |consecutiveTouchPointsWithSameContentOffset| if we must detect resistance
       // from content offset.
@@ -330,6 +347,12 @@ static BOOL IsScrollDetectionFallback(UIScrollView *scrollView) {
     success = NO;
     I_GREYPopulateError(error, kGREYScrollErrorDomain, kGREYScrollNoTouchReaction,
                         @"Scroll view didn't respond to touch.");
+  } else if (round(CGVectorLength(scrollDeviation)) > 0) {
+    NSLog(@"\n************************* EarlGrey Scrolling Warning *************************\n"
+          @"\nScroll failed because the touch didn't make precise scroll offset."
+          @"Offset is x:%.3f y:%.3f\n"
+          @"\n************************* EarlGrey Scrolling Warning *************************",
+          scrollDeviation.dx, scrollDeviation.dy);
   }
   return success;
 }

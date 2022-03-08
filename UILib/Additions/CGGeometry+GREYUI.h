@@ -33,10 +33,16 @@ GREY_EXTERN const CGPoint GREYCGPointNull;
  */
 CGFloat CGVectorLength(CGVector vector) NS_SWIFT_NAME(length(self:));
 
+/** @return The vector obtained by the arithmetic addition of @c vector1 and @c vector2. */
+CGVector CGVectorAddVector(CGVector vector1, CGVector vector2);
+
 /**
  * @return The vector obtained by scaling the given @c vector by the given @c scale amount.
  */
 CGVector CGVectorScale(CGVector vector, CGFloat scale) NS_SWIFT_NAME(scale(self:scale:));
+
+/** @return The vector obtained by normalize the given @c vector. */
+CGVector CGVectorNormalize(CGVector vector) NS_SWIFT_NAME(normalize(self:));
 
 // NS_SWIFT_NAME(CGVector.scale(self:_))
 

@@ -35,8 +35,20 @@ CGPoint CGPointAddVector(CGPoint point, CGVector vector) {
   return CGPointMake(point.x + vector.dx, point.y + vector.dy);
 }
 
+CGVector CGVectorAddVector(CGVector vector1, CGVector vector2) {
+  return CGVectorMake(vector1.dx + vector2.dx, vector1.dy + vector2.dy);
+}
+
 CGVector CGVectorScale(CGVector vector, CGFloat scale) {
   return CGVectorMake(vector.dx * scale, vector.dy * scale);
+}
+
+CGVector CGVectorNormalize(CGVector vector) {
+  CGFloat length = CGVectorLength(vector);
+  if (length > 0) {
+    return CGVectorScale(vector, 1. / length);
+  }
+  return vector;
 }
 
 CGVector CGVectorFromEndPoints(CGPoint startPoint, CGPoint endPoint, BOOL normalize) {
