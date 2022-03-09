@@ -231,6 +231,7 @@ static BOOL IsScrollDetectionFallback(UIScrollView *scrollView) {
       }
       success = [GREYScrollAction grey_injectTouchPath:touchPath
                                           onScrollView:element
+                                    outRemainingAmount:&amountRemaining
                                                  error:&scrollError];
     }
   }
@@ -244,13 +245,16 @@ static BOOL IsScrollDetectionFallback(UIScrollView *scrollView) {
 /**
  * Injects the touch path into the given @c scrollView until the content edge could be reached.
  *
- * @param touchPath  The touch path to be injected.
- * @param scrollView The UIScrollView for the injection.
+ * @param touchPath            The touch path to be injected.
+ * @param scrollView           The UIScrollView for the injection.
+ * @param[out] amountRemaining The remaining scroll amount to be delivered to the next rounds of
+ *                             scroll actions.
  *
  * @return @c YES if entire touchPath was injected, else @c NO.
  */
 + (BOOL)grey_injectTouchPath:(NSArray<NSValue *> *)touchPath
                 onScrollView:(UIScrollView *)scrollView
+          outRemainingAmount:(CGFloat *)amountRemaining
                        error:(__strong NSError **)error {
   GREYFatalAssert([touchPath count] >= 1);
 
@@ -262,7 +266,6 @@ static BOOL IsScrollDetectionFallback(UIScrollView *scrollView) {
   // algorithm interprets it as scroll resistance and stops scrolling.
   BOOL shouldDetectResistanceFromContentOffset = !scrollView.bounces;
   CGPoint originalOffset = scrollView.contentOffset;
-  CGPoint prevOffset = scrollView.contentOffset;
   GREYScrollDetectionDelegate *delegate =
       [[GREYScrollDetectionDelegate alloc] initWithScrolView:scrollView];
   BOOL fallback = IsScrollDetectionFallback(scrollView);
@@ -276,13 +279,42 @@ static BOOL IsScrollDetectionFallback(UIScrollView *scrollView) {
                    relativeToWindow:scrollView.window
                   immediateDelivery:YES
                             timeout:interactionTimeout];
-  BOOL hasResistance = NO;
+
+  __block BOOL hasResistance = NO;
+  __block NSUInteger consecutiveTouchPointsWithSameContentOffset = 0;
+  __block NSUInteger numberOfTouchPoints = 1;
+  __block CGPoint prevOffset = scrollView.contentOffset;
+  void (^detectResistance)(void) = ^{
+    numberOfTouchPoints++;
+    BOOL detectedResistanceFromContentOffsets = NO;
+    // Keep track of |consecutiveTouchPointsWithSameContentOffset| if we must detect resistance
+    // from content offset.
+    if (shouldDetectResistanceFromContentOffset) {
+      if (CGPointEqualToPoint(prevOffset, scrollView.contentOffset)) {
+        consecutiveTouchPointsWithSameContentOffset++;
+      } else {
+        consecutiveTouchPointsWithSameContentOffset = 0;
+        prevOffset = scrollView.contentOffset;
+      }
+    }
+    if (numberOfTouchPoints > kMinTouchPointsToDetectScrollResistance) {
+      if (shouldDetectResistanceFromContentOffset &&
+          consecutiveTouchPointsWithSameContentOffset > kMinTouchPointsToDetectScrollResistance) {
+        detectedResistanceFromContentOffsets = YES;
+      }
+      if ([scrollView grey_hasScrollResistance] || detectedResistanceFromContentOffsets) {
+        // Looks like we have reached the edge we can stop scrolling now.
+        hasResistance = YES;
+      }
+    }
+  };
+
   BOOL hasOffsetChanged = NO;
-  CGVector scrollDeviation;
-  NSInteger consecutiveTouchPointsWithSameContentOffset = 0;
-  for (NSUInteger touchPointIndex = 1; touchPointIndex < [touchPath count]; touchPointIndex++) {
+  NSArray<NSValue *> *adjustedTouchPath = nil;
+  for (NSUInteger touchPointIndex = 1; touchPointIndex < [touchPath count] && !hasResistance;
+       touchPointIndex++) {
     @autoreleasepool {
-      CGPoint currentTouchPoint = [touchPath[touchPointIndex] CGPointValue];
+      CGPoint currentTouchPoint = touchPath[touchPointIndex].CGPointValue;
       [eventGenerator continueTouchAtPoint:currentTouchPoint
                          immediateDelivery:YES
                                    timeout:interactionTimeout];
@@ -291,34 +323,42 @@ static BOOL IsScrollDetectionFallback(UIScrollView *scrollView) {
         hasOffsetChanged = YES;
         NSArray<NSValue *> *remainingTouchPath = [touchPath
             subarrayWithRange:NSMakeRange(touchPointIndex, touchPath.count - touchPointIndex)];
-        scrollDeviation = GREYDeviationBetweenTouchPathAndActualOffset(
+        CGVector scrollDeviation = GREYDeviationBetweenTouchPathAndActualOffset(
             touchPath, delegate.scrollAmount, remainingTouchPath);
-      }
+        if (round(CGVectorLength(scrollDeviation)) > 0) {
+          adjustedTouchPath =
+              GREYFixTouchPathDeviation(touchPath, scrollDeviation, currentTouchPoint, scrollView);
 
-      BOOL detectedResistanceFromContentOffsets = NO;
-      // Keep track of |consecutiveTouchPointsWithSameContentOffset| if we must detect resistance
-      // from content offset.
-      if (shouldDetectResistanceFromContentOffset) {
-        if (CGPointEqualToPoint(prevOffset, scrollView.contentOffset)) {
-          consecutiveTouchPointsWithSameContentOffset++;
-        } else {
-          consecutiveTouchPointsWithSameContentOffset = 0;
-          prevOffset = scrollView.contentOffset;
+          if (adjustedTouchPath) {
+            break;
+          } else {
+            // When the adjusted touch path doesn't meet the safe screen bounds, it means the new
+            // path goes forward the current touch direction, instead of backward. Thus this round
+            // of touch injection continues without adjustment, and adds the length of the deviation
+            // to the next round.
+            *amountRemaining += CGVectorLength(scrollDeviation);
+          }
         }
       }
-      if (touchPointIndex > kMinTouchPointsToDetectScrollResistance) {
-        if (shouldDetectResistanceFromContentOffset &&
-            consecutiveTouchPointsWithSameContentOffset > kMinTouchPointsToDetectScrollResistance) {
-          detectedResistanceFromContentOffsets = YES;
-        }
-        if ([scrollView grey_hasScrollResistance] || detectedResistanceFromContentOffsets) {
-          // Looks like we have reached the edge we can stop scrolling now.
-          hasResistance = YES;
-          break;
-        }
+      detectResistance();
+    }
+  }
+
+  // If @c adjustedTouchPath exists, the @c touchPath is proved to cause deviation. By continuing
+  // touch injection starting from the second touch point of @c adjustedTouchPath (the first element
+  // is the current touch point), the deviation will be fixed.
+  if (adjustedTouchPath) {
+    for (NSUInteger touchPointIndex = 1;
+         touchPointIndex < adjustedTouchPath.count && !hasResistance; ++touchPointIndex) {
+      @autoreleasepool {
+        [eventGenerator continueTouchAtPoint:adjustedTouchPath[touchPointIndex].CGPointValue
+                           immediateDelivery:YES
+                                     timeout:interactionTimeout];
+        detectResistance();
       }
     }
   }
+
   [eventGenerator endTouchWithTimeout:interactionTimeout];
 
   // Drain the main loop to process the touch path and finish scroll bounce animation if any.
@@ -347,12 +387,6 @@ static BOOL IsScrollDetectionFallback(UIScrollView *scrollView) {
     success = NO;
     I_GREYPopulateError(error, kGREYScrollErrorDomain, kGREYScrollNoTouchReaction,
                         @"Scroll view didn't respond to touch.");
-  } else if (round(CGVectorLength(scrollDeviation)) > 0) {
-    NSLog(@"\n************************* EarlGrey Scrolling Warning *************************\n"
-          @"\nScroll failed because the touch didn't make precise scroll offset."
-          @"Offset is x:%.3f y:%.3f\n"
-          @"\n************************* EarlGrey Scrolling Warning *************************",
-          scrollDeviation.dx, scrollDeviation.dy);
   }
   return success;
 }

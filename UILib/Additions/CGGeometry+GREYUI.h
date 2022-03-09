@@ -18,6 +18,7 @@
 #import <UIKit/UIKit.h>
 
 #import "GREYConstants.h"
+#import "GREYDefines.h"
 
 #pragma mark - Constants
 

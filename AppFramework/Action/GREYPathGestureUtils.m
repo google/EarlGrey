@@ -209,6 +209,20 @@ CGVector GREYDeviationBetweenTouchPathAndActualOffset(NSArray<NSValue *> *touchP
                                CGPointAddVector(CGPointZero, actualScrollOffset), NO);
 }
 
+NSArray<NSValue *> *GREYFixTouchPathDeviation(NSArray<NSValue *> *touchPath, CGVector deviation,
+                                              CGPoint currentTouchPoint, UIScrollView *scrollView) {
+  CGPoint endPoint = touchPath.lastObject.CGPointValue;
+  CGPoint adjustedEndPoint = CGPointAddVector(endPoint, deviation);
+
+  CGRect safeScreenBounds = [scrollView.window convertRect:[UIScreen mainScreen].bounds
+                                                fromWindow:nil];
+  if (!CGRectContainsPoint(safeScreenBounds, adjustedEndPoint)) {
+    return nil;
+  }
+
+  return GREYGenerateTouchPath(currentTouchPoint, adjustedEndPoint, NAN, YES);
+}
+
 #pragma mark - Private
 
 static BOOL GREYIsVerticalDirection(GREYDirection direction) {
@@ -245,26 +259,26 @@ static NSArray<NSValue *> *GREYGenerateTouchPath(CGPoint startPoint, CGPoint end
                                                  CFTimeInterval duration, BOOL cancelInertia) {
   const CGVector deltaVector = CGVectorFromEndPoints(startPoint, endPoint, NO);
   const CGFloat pathLength = CGVectorLength(deltaVector);
-  if (pathLength <= kGREYScrollDetectionLength) {
-    return nil;
-  }
 
   NSMutableArray *touchPath = [[NSMutableArray alloc] init];
+  [touchPath addObject:[NSValue valueWithCGPoint:startPoint]];
   if (isnan(duration)) {
     // After the start point, rest of the path is divided into equal segments and a touch point is
     // created for each segment.
     NSUInteger totalPoints = (NSUInteger)(pathLength / kGREYDistanceBetweenTwoAdjacentPoints);
 
-    // Compute delta for each point and create a path with it.
-    CGFloat deltaX = (endPoint.x - startPoint.x) / totalPoints;
-    CGFloat deltaY = (endPoint.y - startPoint.y) / totalPoints;
-    for (NSUInteger i = 0; i < totalPoints; i++) {
-      CGPoint touchPoint = CGPointMake(startPoint.x + (deltaX * i), startPoint.y + (deltaY * i));
-      [touchPath addObject:[NSValue valueWithCGPoint:touchPoint]];
+    if (totalPoints > 1) {
+      // Compute delta for each point and create a path with it.
+      CGFloat deltaX = (endPoint.x - startPoint.x) / totalPoints;
+      CGFloat deltaY = (endPoint.y - startPoint.y) / totalPoints;
+      // The first element of the touch point is already added outside of the loop. It's possible
+      // that no additional touch point is added to the fast scroll path.
+      for (NSUInteger i = 1; i < totalPoints; i++) {
+        CGPoint touchPoint = CGPointMake(startPoint.x + (deltaX * i), startPoint.y + (deltaY * i));
+        [touchPath addObject:[NSValue valueWithCGPoint:touchPoint]];
+      }
     }
   } else {
-    [touchPath addObject:[NSValue valueWithCGPoint:startPoint]];
-
     // Uses the kinematics equation for distance: d = a*t*t/2 + v*t
     const double initialVelocity = 0;
     const double initialDisplacement = (initialVelocity * duration);

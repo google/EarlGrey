@@ -99,3 +99,28 @@ NSArray<NSValue *> *GREYTouchPathForDragGestureInScreen(CGPoint startPoint, CGPo
 CGVector GREYDeviationBetweenTouchPathAndActualOffset(NSArray<NSValue *> *touchPath,
                                                       CGVector offset,
                                                       NSArray<NSValue *> *remainingTouchPath);
+
+/**
+ * Generates a new touch path based on the deviation of the current touch path.
+ *
+ * @note This method should be called for the @c touchPath, which already started by calling
+ *       [GREYSyntheticEvents -beginTouchAtPoint:] but has not yet called [GREYSyntheticEvents
+ *       -endTouchWithTimeout:]. By passing in the last injected touch point to @c currentTouchPoint
+ *       and the deviation, this function produces a new touch path. See the documentation of the
+ *       return value for usage.
+ *
+ * @param touchPath         The touch path calculated by this util.
+ * @param deviation         The vector that represents the deviation of the scroll offset calculated
+ *                          by this util.
+ * @param currentTouchPoint The last completed touch point which is among the @c touchPath.
+ * @param scrollView        The targeted UIScrollView for scroll action.
+ *
+ * @return NSArray of CGPoints as the new touch path. By dropping @c touchPath and injecting the new
+ *         touch path, the deviation of the scroll offset will be eliminated. Note the first element
+ *         of the result is always @c currentTouchPoint, so the next touch point should be the
+ *         second element of this array. The result can be @c nil, when the new touch path cannot be
+ *         adjusted to meet the safe green bounds. In this case, the caller should use a new touch
+ *         injection to fix the deviation.
+ */
+NSArray<NSValue *> *GREYFixTouchPathDeviation(NSArray<NSValue *> *touchPath, CGVector deviation,
+                                              CGPoint currentTouchPoint, UIScrollView *scrollView);
