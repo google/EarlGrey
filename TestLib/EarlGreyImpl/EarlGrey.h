@@ -273,14 +273,6 @@ typedef void (^GREYHostApplicationCrashHandler)(void);
  */
 - (void)setRootMatcherForSubsequentInteractions:(nullable id<GREYMatcher>)rootWindowMatcher;
 
-/**
- * Closes and deletes the test rig application.
- *
- * The test rig application should be launched at least once otherwise the invocation won't take
- * any effect.
- */
-- (void)closeAndDeleteTestRig;
-
 #pragma mark - iOS Only API's
 
 #if TARGET_OS_IOS

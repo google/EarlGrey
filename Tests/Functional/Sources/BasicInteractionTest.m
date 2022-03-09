@@ -914,14 +914,6 @@
   XCTAssertLessThan(interval, 3.1, @"The app must have been drained for 3 seconds");
 }
 
-/** Confirms EarlGrey's app deletion API works as intended. */
-- (void)testCloseAndDeleteApp {
-  [self addTeardownBlock:^{
-    [[[XCUIApplication alloc] init] launch];
-  }];
-  [EarlGrey closeAndDeleteTestRig];
-}
-
 #pragma mark - Private
 
 /**

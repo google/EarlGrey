@@ -28,7 +28,6 @@
 
 #import "GREYElementInteractionErrorHandler.h"
 #import "GREYElementInteractionProxy.h"
-#import "XCUIApplication+GREYTest.h"
 #import "GREYRemoteExecutor.h"
 #import "GREYDefaultFailureHandler.h"
 #import "XCTestCase+GREYTest.h"
@@ -248,46 +247,6 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
 
 - (void)setRootMatcherForSubsequentInteractions:(nullable id<GREYMatcher>)rootWindowMatcher {
   gRootWindowMatcher = rootWindowMatcher;
-}
-
-- (void)closeAndDeleteTestRig {
-  NSString *testRigName = XCUIApplication.greyTestRigName;
-  if (testRigName) {
-    XCUIApplication *application = [[XCUIApplication alloc] init];
-    [application terminate];
-
-    XCUIApplication *springboard =
-        [[XCUIApplication alloc] initWithBundleIdentifier:@"com.apple.springboard"];
-    [springboard activate];
-    XCUIElement *icon = springboard.otherElements[@"Home screen icons"].icons[testRigName];
-
-    if (icon.exists) {
-      [icon pressForDuration:1];
-      XCUIElement *buttonRemoveApp = springboard.buttons[@"Remove App"];
-      [buttonRemoveApp tap];
-      XCUIElement *deleteAppButton = [springboard.alerts firstMatch].buttons[@"Delete App"];
-      XCUIElement *deleteButton = [springboard.alerts firstMatch].buttons[@"Delete"];
-      BOOL (^DeleteAlertDismissal)(XCUIElement *) = ^BOOL(XCUIElement *element) {
-        GREYCondition *deleteAlertCondition =
-            [GREYCondition conditionWithName:@"Delete Alert Button Condition"
-                                       block:^BOOL {
-                                         [element tap];
-                                         return !element.exists;
-                                       }];
-        return [deleteAlertCondition waitWithTimeout:30];
-      };
-      NSString *bugDestination = @"https://github.com/google/EarlGrey/issues";
-      XCTAssertTrue(DeleteAlertDismissal(deleteAppButton),
-                    @"The Delete App button could not be dismissed because of an internal XCUITest "
-                    @"error. Please file a bug at %@.",
-                    bugDestination);
-      XCTAssertTrue(DeleteAlertDismissal(deleteButton),
-                    @"The Delete button could not be dismissed because of an internal XCUITest "
-                    @"error. Please file a bug at %@.",
-                    bugDestination);
-      [[XCUIDevice sharedDevice] pressButton:XCUIDeviceButtonHome];
-    }
-  }
 }
 
 #pragma mark - Rotation

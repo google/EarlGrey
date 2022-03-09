@@ -24,12 +24,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface XCUIApplication (GREYTest)
 
-/**
- * The testing application name showing on the launcher screen, or @c nil if the application has
- * not been launched.
- */
-@property(class, readonly, nullable) NSString *greyTestRigName;
-
 @end
 
 NS_ASSUME_NONNULL_END
