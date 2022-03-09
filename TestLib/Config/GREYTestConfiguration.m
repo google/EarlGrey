@@ -64,6 +64,7 @@ GREYConfiguration *GREYCreateConfiguration(void) { return [[GREYTestConfiguratio
     [self setDefaultValue:@[] forConfigKey:kGREYConfigKeyBlockedURLRegex];
     [self setDefaultValue:@(kGREYIdle) forConfigKey:kGREYConfigKeyIgnoreAppStates];
     [self setDefaultValue:@NO forConfigKey:kGREYConfigKeyIgnoreHiddenAnimations];
+    [self setDefaultValue:@NO forConfigKey:kGREYConfigKeyIgnoreIsAccessible];
   }
   return self;
 }

@@ -30,6 +30,8 @@
 #import "GREYVisibilityMatcher.h"
 #import "GREYSyncAPI.h"
 #import "GREYThrowDefines.h"
+#import "GREYConfigKey.h"
+#import "GREYConfiguration.h"
 #import "GREYAppleInternals.h"
 #import "GREYConstants.h"
 #import "GREYDiagnosable.h"
@@ -40,6 +42,28 @@
 #import "GREYMatcher.h"
 #import "GREYElementProvider.h"
 #import "GREYUIWindowProvider.h"
+
+/**
+ * @param customMatcher The custom matcher to match accessibility property such as label, hint
+ *                      or value.
+ *
+ * @return GREYAllOf matcher with isAccessibilityElement matcher and passed in custom matcher
+ *         if @c ignoreIsAccessibility in GREYConfiguration is @c NO, otherwise, return custom
+ *         matcher only.
+ */
+static id<GREYMatcher> IncludeAccessibilityElementMatcher(NSString *name,
+                                                          id<GREYMatcher> customMatcher) {
+  BOOL ignoreIsAccessible = GREY_CONFIG_BOOL(kGREYConfigKeyIgnoreIsAccessible);
+  if (ignoreIsAccessible) {
+    return customMatcher;
+  } else {
+    NSArray<id<GREYMatcher>> *matchersArray = @[
+      [GREYMatchers matcherForAccessibilityElement],
+      customMatcher,
+    ];
+    return [[GREYAllOf alloc] initWithName:name matchers:matchersArray];
+  }
+}
 
 // Expose method for EDOObject as it's not a public class.
 @interface NSObject (GREYExposed)
@@ -155,12 +179,10 @@ static Class gEDOObjectClass;
   GREYDescribeToBlock describe = ^void(id<GREYDescription> description) {
     [description appendText:[NSString stringWithFormat:@"%@('%@')", prefix, label]];
   };
-  NSArray<id<GREYMatcher>> *matchersArray = @[
-    [GREYMatchers matcherForAccessibilityElement],
-    [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe],
-  ];
-  return [[GREYAllOf alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
-                                matchers:matchersArray];
+  id<GREYMatcher> cutomMatcher = [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches
+                                                                      descriptionBlock:describe];
+  NSString *name = GREYCorePrefixedDiagnosticsID(prefix);
+  return IncludeAccessibilityElementMatcher(name, cutomMatcher);
 }
 
 + (id<GREYMatcher>)matcherForAccessibilityID:(NSString *)accessibilityID {
@@ -194,12 +216,10 @@ static Class gEDOObjectClass;
   GREYDescribeToBlock describe = ^void(id<GREYDescription> description) {
     [description appendText:[NSString stringWithFormat:@"%@('%@')", prefix, value]];
   };
-  NSArray<id<GREYMatcher>> *matchersArray = @[
-    [GREYMatchers matcherForAccessibilityElement],
-    [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe],
-  ];
-  return [[GREYAllOf alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
-                                matchers:matchersArray];
+  id<GREYMatcher> cutomMatcher = [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches
+                                                                      descriptionBlock:describe];
+  NSString *name = GREYCorePrefixedDiagnosticsID(prefix);
+  return IncludeAccessibilityElementMatcher(name, cutomMatcher);
 }
 
 + (id<GREYMatcher>)matcherForAccessibilityTraits:(UIAccessibilityTraits)traits {
@@ -211,12 +231,10 @@ static Class gEDOObjectClass;
     NSString *traitsString = NSStringFromUIAccessibilityTraits(traits);
     [description appendText:[NSString stringWithFormat:@"%@: %@", prefix, traitsString]];
   };
-  NSArray<id<GREYMatcher>> *matchersArray = @[
-    [GREYMatchers matcherForAccessibilityElement],
-    [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe],
-  ];
-  return [[GREYAllOf alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
-                                matchers:matchersArray];
+  id<GREYMatcher> cutomMatcher = [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches
+                                                                      descriptionBlock:describe];
+  NSString *name = GREYCorePrefixedDiagnosticsID(prefix);
+  return IncludeAccessibilityElementMatcher(name, cutomMatcher);
 }
 
 + (id<GREYMatcher>)matcherForAccessibilityHint:(id)hint {
@@ -231,12 +249,10 @@ static Class gEDOObjectClass;
   GREYDescribeToBlock describe = ^void(id<GREYDescription> description) {
     [description appendText:[NSString stringWithFormat:@"%@('%@')", prefix, hint]];
   };
-  NSArray<id<GREYMatcher>> *matchersArray = @[
-    [GREYMatchers matcherForAccessibilityElement],
-    [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe],
-  ];
-  return [[GREYAllOf alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
-                                matchers:matchersArray];
+  id<GREYMatcher> cutomMatcher = [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches
+                                                                      descriptionBlock:describe];
+  NSString *name = GREYCorePrefixedDiagnosticsID(prefix);
+  return IncludeAccessibilityElementMatcher(name, cutomMatcher);
 }
 
 + (id<GREYMatcher>)matcherForAccessibilityElementIsFocused {

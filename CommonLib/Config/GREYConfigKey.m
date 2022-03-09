@@ -34,3 +34,4 @@ GREYConfigKey const kGREYConfigKeyDelayedPerformMaxTrackableDuration =
 GREYConfigKey const kGREYConfigKeyArtifactsDirLocation = @"GREYConfigKeyArtifactsDirLocation";
 GREYConfigKey const kGREYConfigKeyIgnoreAppStates = @"GREYConfigKeyIgnoreAppStates";
 GREYConfigKey const kGREYConfigKeyIgnoreHiddenAnimations = @"GREYConfigKeyTrackHiddenAnimations";
+GREYConfigKey const kGREYConfigKeyIgnoreIsAccessible = @"GREYConfigKeyIgnoreIsAccessible";

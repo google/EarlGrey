@@ -127,6 +127,7 @@ static NSDictionary *GetFakeLocalTestingAppConfig() {
       kGREYConfigKeyBlockedURLRegex : @[],
       kGREYConfigKeyIgnoreAppStates : @(kGREYIdle),
       kGREYConfigKeyIgnoreHiddenAnimations : @NO,
+      kGREYConfigKeyIgnoreIsAccessible : @NO,
     };
   });
   return fakeLocalTestingAppConfig;

@@ -152,4 +152,13 @@ GREY_EXTERN GREYConfigKey const kGREYConfigKeyArtifactsDirLocation;
  */
 GREY_EXTERN GREYConfigKey const kGREYConfigKeyIgnoreHiddenAnimations;
 
+/**
+ * Configuration for removing isAccessibilityElement matcher from all the GREYMatchers. By default,
+ * all accessibility API's in GREYMatchers will match isAccessible=Y.
+ *
+ * Accepted values: A BOOL specifying if the GREYMatchers to ignore isAccessibilityElement matcher.
+ * Default value: @c NO
+ */
+GREY_EXTERN GREYConfigKey const kGREYConfigKeyIgnoreIsAccessible;
+
 NS_ASSUME_NONNULL_END
