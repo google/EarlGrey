@@ -318,6 +318,14 @@ typedef void (^GREYHostApplicationCrashHandler)(void);
 /** Standalone API for XCTestCase::grey_waitForAlertVisibility:withTimeout:. */
 - (BOOL)WaitForAlertVisibility:(BOOL)visible withTimeout:(CFTimeInterval)seconds;
 
+/**
+ * Closes and deletes the test rig application.
+ *
+ * The test rig application should be launched at least once otherwise the invocation won't take
+ * any effect.
+ */
+- (void)closeAndDeleteTestRig;
+
 #endif  // TARGET_OS_IOS
 
 @end
