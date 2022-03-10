@@ -14,6 +14,7 @@
 // limitations under the License.
 //
 #import "GREYConfigKey.h"
+#import "GREYAppleInternals.h"
 #import "EarlGrey.h"
 #import "GREYFailureHandlerHelpers.h"
 #import "GREYHostApplicationDistantObject+ErrorHandlingTest.h"
@@ -475,6 +476,10 @@
 - (void)testSyntheticEventTimeout {
   [[GREYConfiguration sharedConfiguration] setValue:@(0.0)
                                        forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
+  [self addTeardownBlock:^{
+    [[GREYConfiguration sharedConfiguration] setValue:@(30.0)
+                                         forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
+  }];
   [[GREYHostApplicationDistantObject sharedInstance] induceNonTactileActionTimeoutInTheApp];
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait error:nil];
   NSString *exceptionDetails = @"Application did not idle before rotating.\n\n"
@@ -486,6 +491,74 @@
                 exceptionDetails, _handler.details);
   // Ensure that the application has idled.
   GREYWaitForAppToIdle(@"Wait for app to idle");
+}
+
+/** Confirms GREYAppStateTracker doesn't provide stack trace without verbose logging. */
+- (void)testAppStateTrackingTimeoutWithoutVerboseLogging {
+  [[GREYConfiguration sharedConfiguration] setValue:@(0.0)
+                                       forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
+  [self addTeardownBlock:^{
+    [[GREYConfiguration sharedConfiguration] setValue:@(30.0)
+                                         forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
+  }];
+  UIWindow *window = [[GREY_REMOTE_CLASS_IN_APP(UIWindow) alloc] init];
+  UIViewController *viewController = [[GREY_REMOTE_CLASS_IN_APP(UIViewController) alloc] init];
+  [viewController viewWillMoveToWindow:window];
+  [viewController viewWillAppear:NO];
+  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait error:nil];
+  NSString *expectedDetails = @"Waiting for viewDidAppear: call on the view controller. Please "
+                              @"ensure that this view controller and its subclasses call through "
+                              @"to their super's implementation.. For more information, turn on "
+                              @"verbose logging and rerun tests. If it's already turned on, "
+                              @"see logs below.";
+  XCTAssertTrue([_handler.details containsString:expectedDetails],
+                @"Expected info does not appear in the actual exception details:\n\n"
+                @"========== expected info ===========\n%@\n\n"
+                @"========== actual exception details ==========\n%@",
+                expectedDetails, _handler.details);
+  NSString *unexpectedDetails = @"Verbose Log: state assignment call stack for UIViewController";
+  XCTAssertFalse([_handler.details containsString:unexpectedDetails],
+                 @"Unexpected info appeared in the actual exception details:\n\n"
+                 @"========== unexpected info ===========\n%@\n\n"
+                 @"========== actual exception details ==========\n%@",
+                 unexpectedDetails, _handler.details);
+  [viewController viewDidAppear:NO];
+}
+
+/** Confirms GREYAppStateTracker provides stack trace with verbose logging. */
+- (void)testAppStateTrackingTimeoutWithVerboseLogging {
+  XCUIApplication *application = [[XCUIApplication alloc] init];
+  NSMutableArray<NSString *> *launchArguments = [application.launchArguments mutableCopy];
+  [launchArguments addObject:[@"-" stringByAppendingString:kGREYAllowVerboseLogging]];
+  [launchArguments addObject:[NSString stringWithFormat:@"%zd", kGREYVerboseLogTypeInteraction]];
+  application.launchArguments = launchArguments;
+  [application launch];
+  [[GREYConfiguration sharedConfiguration] setValue:@(0.0)
+                                       forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
+
+  [self addTeardownBlock:^{
+    [[GREYConfiguration sharedConfiguration] setValue:@(30.0)
+                                         forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
+    [[[XCUIApplication alloc] init] launch];
+  }];
+  UIWindow *window = [[GREY_REMOTE_CLASS_IN_APP(UIWindow) alloc] init];
+  UIViewController *viewController = [[GREY_REMOTE_CLASS_IN_APP(UIViewController) alloc] init];
+  [viewController viewWillMoveToWindow:window];
+  [viewController viewWillAppear:NO];
+  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait error:nil];
+  NSString *expectedDetails = @"Verbose Log: state assignment call stack for UIViewController";
+  XCTAssertTrue([_handler.details containsString:expectedDetails],
+                @"Expected info does not appear in the actual exception details:\n\n"
+                @"========== expected info ===========\n%@\n\n"
+                @"========== actual exception details ==========\n%@",
+                expectedDetails, _handler.details);
+  expectedDetails = @"-[UIViewController(GREYApp) greyswizzled_viewWillAppear:]";
+  XCTAssertTrue([_handler.details containsString:expectedDetails],
+                @"Expected info does not appear in the actual exception details:\n\n"
+                @"========== expected info ===========\n%@\n\n"
+                @"========== actual exception details ==========\n%@",
+                expectedDetails, _handler.details);
+  [viewController viewDidAppear:NO];
 }
 
 /* Ensures that the search action error prints out both wrapped error and underlying error. */

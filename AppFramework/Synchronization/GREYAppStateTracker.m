@@ -135,9 +135,15 @@ static const unsigned short kNumGREYAppStates = 12;
     [description appendString:@"\n"];
     if (state != kGREYIdle) {
       for (GREYAppStateTrackerObject *object in self->_externalTrackerObjects) {
-        [description appendFormat:@"\n<%@> => %@\n%@", object.objectDescription,
-                                  StringFromAppState(object.state),
-                                  [object stateAssignmentCallStack]];
+        [description appendFormat:@"\n<%@> => %@. For more information, turn on verbose logging "
+                                  @"and rerun tests. If it's already turned on, see logs below.\n",
+                                  object.objectDescription, StringFromAppState(object.state)];
+        BOOL logVerboseAppStateInfo =
+            [[NSUserDefaults standardUserDefaults] integerForKey:kGREYAllowVerboseLogging] > 0;
+        if (logVerboseAppStateInfo) {
+          [description appendFormat:@"Verbose Log: state assignment call stack for %@\n%@",
+                                    object.objectDescription, [object stateAssignmentCallStack]];
+        }
       }
     }
     return nil;
