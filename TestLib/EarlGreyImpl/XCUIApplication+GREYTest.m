@@ -97,9 +97,9 @@
   // Reset the port number for the app under test before every -[XCUIApplication launch] call.
   [testDistantObject resetHostArguments];
   INVOKE_ORIGINAL_IMP(void, @selector(grey_launch));
-  // When the identifier is @c nil, it is the test rig application being launched.
-  if (!self.identifier) {
-    objc_setAssociatedObject([self class], @selector(greyTestRigName), self.label,
+  // When the identifier is @c nil or empty, it is the test rig application being launched.
+  if (self.identifier.length == 0) {
+    objc_setAssociatedObject([XCUIApplication class], @selector(greyTestRigName), self.label,
                              OBJC_ASSOCIATION_RETAIN_NONATOMIC);
   }
   NSLog(@"Application Launch Completed. UI Test with EarlGrey Starting");
