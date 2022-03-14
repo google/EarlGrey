@@ -113,7 +113,7 @@ GREYError *I_GREYErrorMake(NSString *domain, NSInteger code, NSDictionary<NSStri
 }
 
 - (NSString *)description {
-  return [GREYErrorFormatter formattedDescriptionForError:self];
+  return GREYFormattedDescriptionForError(self);
 }
 
 - (NSString *)localizedDescription {

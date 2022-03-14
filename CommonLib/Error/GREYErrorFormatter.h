@@ -16,16 +16,11 @@
 
 #import <Foundation/Foundation.h>
 
-@class GREYError;
-
 NS_ASSUME_NONNULL_BEGIN
 
 /**
  * Formats the description to be printed for a GREYError.
- */
-@interface GREYErrorFormatter : NSObject
-
-/**
+ *
  * @note This is the formatted description of the GREYError itself, so it does not include the
  *       hierarchy, screenshots, or stack trace - those are populated on the test side, typically in
  *       the failure handler.
@@ -35,8 +30,6 @@ NS_ASSUME_NONNULL_BEGIN
  * @return The full description of the error including its nested errors suitable for output to the
  *         user, depending on the error's code and domain.
  */
-+ (NSString *)formattedDescriptionForError:(GREYError *)error;
-
-@end
+NSString *GREYFormattedDescriptionForError(NSError *error);
 
 NS_ASSUME_NONNULL_END

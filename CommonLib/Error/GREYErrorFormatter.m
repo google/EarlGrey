@@ -24,57 +24,9 @@
 
 static NSString *const kErrorPrefix = @"EarlGrey Encountered an Error:";
 
-#pragma mark - GREYErrorFormatter
-
-@implementation GREYErrorFormatter
-
 #pragma mark - Public Methods
 
-+ (NSString *)formattedDescriptionForError:(GREYError *)error {
-  NSMutableString *logger = [[NSMutableString alloc] init];
-  NSArray<NSString *> *keyOrder = error.keyOrder;
-  NSArray<NSString *> *defaultKeyOrder = @[
-    kErrorFailureReasonKey, kErrorDetailRecoverySuggestionKey, kErrorDetailElementMatcherKey,
-    kErrorDetailConstraintRequirementKey, kErrorDetailElementDescriptionKey,
-    kErrorDetailAssertCriteriaKey, kErrorDetailActionNameKey, kErrorDetailSearchActionInfoKey
-  ];
-
-  // add error logging for userInfo dictionary that are in the keyOrder
-  for (NSString *key in keyOrder) {
-    [self logError:error key:key logger:logger];
-  }
-
-  // add error logging for userInfo dictionary that are not in the keyOrder
-  for (NSString *key in defaultKeyOrder) {
-    if (![keyOrder containsObject:key]) {
-      [self logError:error key:key logger:logger];
-    }
-  }
-
-  NSArray<NSString *> *multipleElementsMatched = error.multipleElementsMatched;
-  if (multipleElementsMatched) {
-    [logger appendFormat:@"\n\n%@:", kErrorDetailElementsMatchedKey];
-    [multipleElementsMatched
-        enumerateObjectsUsingBlock:^(NSString *element, NSUInteger index, BOOL *stop) {
-          // Numbered list of all elements that were matched, starting at 1.
-          [logger appendFormat:@"\n\n\t%lu. %@", (unsigned long)index + 1, element];
-        }];
-  }
-
-  NSString *nestedError = error.nestedError.description;
-  if (nestedError) {
-    [logger appendFormat:@"\n\n*********** Underlying Error ***********:\n%@", nestedError];
-  }
-
-  NSString *hierarchy = error.appUIHierarchy;
-  if (hierarchy) {
-    [logger appendFormat:@"\n\n%@\n%@", kErrorDetailAppUIHierarchyHeaderKey, hierarchy];
-  }
-
-  return [NSString stringWithFormat:@"%@\n", logger];
-}
-
-+ (void)logError:(GREYError *)error key:(NSString *)key logger:(NSMutableString *)logger {
+static void LogErrorForKeyInLogger(GREYError *error, NSString *key, NSMutableString *logger) {
   if (key == kErrorFailureReasonKey) {
     NSString *exceptionReason = error.userInfo[kErrorFailureReasonKey];
     if (exceptionReason) {
@@ -121,4 +73,46 @@ static NSString *const kErrorPrefix = @"EarlGrey Encountered an Error:";
   }
 }
 
-@end
+NSString *GREYFormattedDescriptionForError(GREYError *error) {
+  NSMutableString *logger = [[NSMutableString alloc] init];
+  NSArray<NSString *> *keyOrder = error.keyOrder;
+  NSArray<NSString *> *defaultKeyOrder = @[
+    kErrorFailureReasonKey, kErrorDetailRecoverySuggestionKey, kErrorDetailElementMatcherKey,
+    kErrorDetailConstraintRequirementKey, kErrorDetailElementDescriptionKey,
+    kErrorDetailAssertCriteriaKey, kErrorDetailActionNameKey, kErrorDetailSearchActionInfoKey
+  ];
+
+  // add error logging for userInfo dictionary that are in the keyOrder
+  for (NSString *key in keyOrder) {
+    LogErrorForKeyInLogger(error, key, logger);
+  }
+
+  // add error logging for userInfo dictionary that are not in the keyOrder
+  for (NSString *key in defaultKeyOrder) {
+    if (![keyOrder containsObject:key]) {
+      LogErrorForKeyInLogger(error, key, logger);
+    }
+  }
+
+  NSArray<NSString *> *multipleElementsMatched = error.multipleElementsMatched;
+  if (multipleElementsMatched) {
+    [logger appendFormat:@"\n\n%@:", kErrorDetailElementsMatchedKey];
+    [multipleElementsMatched
+        enumerateObjectsUsingBlock:^(NSString *element, NSUInteger index, BOOL *stop) {
+          // Numbered list of all elements that were matched, starting at 1.
+          [logger appendFormat:@"\n\n\t%lu. %@", (unsigned long)index + 1, element];
+        }];
+  }
+
+  NSString *nestedError = error.nestedError.description;
+  if (nestedError) {
+    [logger appendFormat:@"\n\n*********** Underlying Error ***********:\n%@", nestedError];
+  }
+
+  NSString *hierarchy = error.appUIHierarchy;
+  if (hierarchy) {
+    [logger appendFormat:@"\n\n%@\n%@", kErrorDetailAppUIHierarchyHeaderKey, hierarchy];
+  }
+
+  return [NSString stringWithFormat:@"%@\n", logger];
+}
