@@ -22,6 +22,16 @@ NSString* const kGREYVerboseLoggingKeyAll = @"all";
 NSString* const kGREYVerboseLoggingKeyInteraction = @"interaction";
 NSString* const kGREYVerboseLoggingKeyAppState = @"app_state";
 
+BOOL GREYVerboseLoggingEnabled(void) {
+  return [[NSUserDefaults standardUserDefaults] integerForKey:kGREYAllowVerboseLogging] > 0;
+}
+
+BOOL GREYVerboseLoggingEnabledForLevel(GREYVerboseLogType level) {
+  NSInteger verboseLoggingValue =
+      [[NSUserDefaults standardUserDefaults] integerForKey:kGREYAllowVerboseLogging];
+  return verboseLoggingValue | level;
+}
+
 GREYVerboseLogType GREYVerboseLogTypeFromString(NSString* verboseLoggingString) {
   static NSDictionary<NSString*, NSNumber*>* verboseType = nil;
   if (!verboseType) {
@@ -39,10 +49,9 @@ void GREYLogVerbose(NSString* format, ...) {
   static BOOL gPrintVerboseLog;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
-    gPrintVerboseLog =
-        [[NSUserDefaults standardUserDefaults] integerForKey:kGREYAllowVerboseLogging] > 0;
+    gPrintVerboseLog = GREYVerboseLoggingEnabled();
   });
-  if (gPrintVerboseLog > 0) {
+  if (gPrintVerboseLog) {
     va_list args;
     va_start(args, format);
     NSLogv(format, args);

@@ -92,9 +92,7 @@ static const unsigned short kNumGREYAppStates = 12;
     _currentState = kGREYIdle;
     _externalTrackerObjects = [[NSMutableSet alloc] init];
     _stateDictionary = [[NSMutableDictionary alloc] initWithCapacity:kNumGREYAppStates];
-    NSInteger verboseLoggingValue =
-        [[NSUserDefaults standardUserDefaults] integerForKey:kGREYAllowVerboseLogging];
-    if (verboseLoggingValue & kGREYVerboseLogTypeAppState) {
+    if (GREYVerboseLoggingEnabledForLevel(kGREYVerboseLogTypeAppState)) {
       _printAppStateTrackerLogs = YES;
     }
   }
@@ -138,9 +136,7 @@ static const unsigned short kNumGREYAppStates = 12;
         [description appendFormat:@"\n<%@> => %@. For more information, turn on verbose logging "
                                   @"and rerun tests. If it's already turned on, see logs below.\n",
                                   object.objectDescription, StringFromAppState(object.state)];
-        BOOL logVerboseAppStateInfo =
-            [[NSUserDefaults standardUserDefaults] integerForKey:kGREYAllowVerboseLogging] > 0;
-        if (logVerboseAppStateInfo) {
+        if (GREYVerboseLoggingEnabled()) {
           [description appendFormat:@"Verbose Log: state assignment call stack for %@\n%@",
                                     object.objectDescription, [object stateAssignmentCallStack]];
         }
