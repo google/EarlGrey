@@ -18,7 +18,6 @@
  * @file GREYLogger.h
  * @brief Macro for printing more logs for aiding in debugging.
  */
-
 #import "GREYDefines.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -56,24 +55,7 @@ typedef NS_OPTIONS(NSInteger, GREYVerboseLogType) {
   kGREYVerboseLogTypeAll = kGREYVerboseLogTypeInteraction | kGREYVerboseLogTypeAppState
 };
 
-/**
- * @return The Verbose logging type for a string value passed in.
- *
- * @param verboseLoggingString The NSString that is to be mapped to a verbose logging type.
- */
 GREYVerboseLogType GREYVerboseLogTypeFromString(NSString* verboseLoggingString);
-
-/**
- * @return @c YES if verbose logging is enabled.
- */
-BOOL GREYVerboseLoggingEnabled(void);  // NOLINT
-
-/**
- * @return @c YES if verbose logging is enabled for the provided @c level.
- *
- * @param level The logging level to be checked for being enabled.
- */
-BOOL GREYVerboseLoggingEnabledForLevel(GREYVerboseLogType level);
 
 /**
  * Prints a log statement if any of the following keys are present in NSUserDefaults at the start

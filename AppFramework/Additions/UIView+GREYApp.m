@@ -194,8 +194,9 @@ __unused static Class gScrollViewIndicatorClass;
                                  withMethod:swizzledSel];
     GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle UIView setAlpha:");
   }
-
-  if (GREYVerboseLoggingEnabled()) {
+  NSInteger verboseLoggingValue =
+      [[NSUserDefaults standardUserDefaults] integerForKey:kGREYAllowVerboseLogging];
+  if (verboseLoggingValue) {
     gPrintFunctionPointer = YES;
   }
 }
