@@ -127,10 +127,14 @@ static NSMapTable<NSString *, GREYVisibilityCheckerCacheEntry *> *gCache;
   static BOOL pendingInvalidation = NO;
   if (!pendingInvalidation) {
     pendingInvalidation = YES;
-    dispatch_async(dispatch_get_main_queue(), ^{
-      pendingInvalidation = NO;
-      [GREYVisibilityChecker grey_invalidateCache];
-    });
+    void (^observerBlock)(CFRunLoopObserverRef observer, CFRunLoopActivity activity) =
+        ^(CFRunLoopObserverRef observer, CFRunLoopActivity activity) {
+          [GREYVisibilityChecker grey_invalidateCache];
+          pendingInvalidation = NO;
+        };
+    CFRunLoopObserverRef observer = CFRunLoopObserverCreateWithHandler(
+        NULL, kCFRunLoopBeforeSources, false, LONG_MAX, observerBlock);
+    CFRunLoopAddObserver(CFRunLoopGetMain(), observer, kCFRunLoopDefaultMode);
   }
 }
 
