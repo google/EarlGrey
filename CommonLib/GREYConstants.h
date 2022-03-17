@@ -280,6 +280,11 @@ NSString* _Nonnull NSStringFromGREYLayoutRelation(GREYLayoutRelation relation);
  */
 NSString* _Nonnull NSStringFromUIAccessibilityTraits(UIAccessibilityTraits traits);
 
+/**
+ * @return The destination that EarlGrey users should file bugs/issues at.
+ */
+NSString* GREYBugDestination(void);  // NOLINT
+
 NS_ASSUME_NONNULL_BEGIN
 /**
  * EarlGrey specific common additions to NSObject.

@@ -95,17 +95,29 @@ __attribute__((constructor)) static void SetupTestDistantObject() {
       EDOHostPort *hostPort = error.userInfo[EDOErrorPortKey];
       if ([testDistantObject isPermanentAppHostPort:hostPort.port]) {
         testDistantObject.hostApplicationTerminated = YES;
-        NSString *errorInfo;
         NSString *exceptionReason = @"App crashed and disconnected.";
         NSString *recoverySuggestion = GetErrorRecoverySuggestion();
-        errorInfo =
+        NSString *errorInfo =
             [NSString stringWithFormat:@"\n\nException Reason:\n%@\n\nRecovery Suggestion:\n%@",
                                        exceptionReason, recoverySuggestion];
         [[GREYFrameworkException exceptionWithName:kGREYGenericFailureException
                                             reason:errorInfo] raise];
       }
+    } else {
+      NSString *exceptionReason =
+          [NSString stringWithFormat:@"eDO invocation in the EarlGrey test-process failed with an "
+                                     @"uncommon error code: %ld.",
+                                     error.code];
+      NSString *recoverySuggestion = [NSString
+          stringWithFormat:
+              @"Please file a bug for this rare case at %@ with the stack-trace below:\n\n%@",
+              GREYBugDestination(), NSThread.callStackSymbols.description];
+      NSString *errorInfo =
+          [NSString stringWithFormat:@"\n\nException Reason:\n%@\n\nRecovery Suggestion:\n%@",
+                                     exceptionReason, recoverySuggestion];
+      [[GREYFrameworkException exceptionWithName:kGREYGenericFailureException
+                                          reason:errorInfo] raise];
     }
-    previousErrorHandler(error);
   });
 }
 

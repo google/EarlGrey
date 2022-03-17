@@ -61,7 +61,7 @@
  * Tests GREYTestApplicationDistantObject throws an exception when test makes eDO call but the
  * app-under-test is not active.
  */
-- (void)testDistantObjectThrowsException {
+- (void)testDistantObjectThrowsExceptionOnAppTerminated {
   GREYFrameworkException *exception;
   @try {
     __unused UIView *view = GREY_ALLOC_REMOTE_CLASS_IN_APP(UIView);
@@ -70,6 +70,29 @@
   }
   XCTAssertEqualObjects(exception.name, @"GenericFailureException");
   XCTAssertTrue([exception.reason containsString:@"App crashed and disconnected."]);
+}
+
+/** Ensures uncommon eDO error is provided with instructions. */
+- (void)testDistantObjectThrowsExceptionWithBadRequest {
+  // There is no easy way to reproduce other eDO error code without accessing eDO's private APIs,
+  // thus here the test will call error handler directly.
+  EDOClientErrorHandler greyErrorHandler = EDOSetClientErrorHandler(^(NSError *error){
+  });
+  [self addTeardownBlock:^{
+    EDOSetClientErrorHandler(greyErrorHandler);
+  }];
+  NSError *error = [NSError errorWithDomain:@"dummy error" code:0 userInfo:nil];
+  GREYFrameworkException *exception;
+  @try {
+    greyErrorHandler(error);
+  } @catch (GREYFrameworkException *capturedException) {
+    exception = capturedException;
+  }
+  XCTAssertEqualObjects(exception.name, @"GenericFailureException");
+  XCTAssertTrue([exception.reason
+      containsString:
+          @"eDO invocation in the EarlGrey test-process failed with an uncommon error code: 0."]);
+  NSLog(@"exception reason: %@", exception.reason);
 }
 
 /**

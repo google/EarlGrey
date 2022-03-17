@@ -206,6 +206,15 @@ NSString *NSStringFromUIAccessibilityTraits(UIAccessibilityTraits traits) {
   return [traitsPresent componentsJoinedByString:@","];
 }
 
+NSString *GREYBugDestination(void) {
+  static NSString *bugDestination;
+  static dispatch_once_t once_token;
+  dispatch_once(&once_token, ^{
+    bugDestination = @"https://github.com/google/EarlGrey/issues";
+  });
+  return bugDestination;
+}
+
 @implementation GREYConstants
 
 + (GREYDirection)directionFromCenterForEdge:(GREYContentEdge)edge {
