@@ -283,7 +283,7 @@ NSString* _Nonnull NSStringFromUIAccessibilityTraits(UIAccessibilityTraits trait
 /**
  * @return The destination that EarlGrey users should file bugs/issues at.
  */
-NSString* GREYBugDestination(void);  // NOLINT
+NSString* _Null_unspecified GREYBugDestination(void);  // NOLINT
 
 NS_ASSUME_NONNULL_BEGIN
 /**
