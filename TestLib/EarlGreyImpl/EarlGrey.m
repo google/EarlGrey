@@ -382,27 +382,53 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
 
     if (icon.exists) {
       [icon pressForDuration:1];
-      XCUIElement *buttonRemoveApp = springboard.buttons[@"Remove App"];
-      [buttonRemoveApp tap];
-      XCUIElement *deleteAppButton = [springboard.alerts firstMatch].buttons[@"Delete App"];
-      XCUIElement *deleteButton = [springboard.alerts firstMatch].buttons[@"Delete"];
-      BOOL (^DeleteAlertDismissal)(XCUIElement *) = ^BOOL(XCUIElement *element) {
+      BOOL (^attemptToTapButton)(XCUIElement *) = ^BOOL(XCUIElement *button) {
+        if (button.exists) {
+          [button tap];
+          return YES;
+        }
+        return NO;
+      };
+      void (^deleteAlertDismissalWithTolerance)(XCUIElement *, NSString *) = ^(
+          XCUIElement *element, NSString *elementDescription) {
         GREYCondition *deleteAlertCondition =
             [GREYCondition conditionWithName:@"Delete Alert Button Condition"
                                        block:^BOOL {
                                          [element tap];
                                          return !element.exists;
                                        }];
-        return [deleteAlertCondition waitWithTimeout:30];
+        XCTAssertTrue([deleteAlertCondition waitWithTimeout:30],
+                      @"The %@ could not be dismissed because of an internal XCUITest error. "
+                      @"Please file a bug at %@",
+                      elementDescription, bugDestination);
       };
-      XCTAssertTrue(DeleteAlertDismissal(deleteAppButton),
-                    @"The Delete App button could not be dismissed because of an internal XCUITest "
-                    @"error. Please file a bug at %@.",
-                    bugDestination);
-      XCTAssertTrue(DeleteAlertDismissal(deleteButton),
-                    @"The Delete button could not be dismissed because of an internal XCUITest "
-                    @"error. Please file a bug at %@.",
-                    bugDestination);
+      if (attemptToTapButton(springboard.buttons[@"Remove App"])) {
+        // This branch is entered by iOS 14 and later, the app deletion flow is:
+        // [Long Press on Icon] -> [Remove App Menu Item] -> [Delete App Button] -> [Delete Button].
+        deleteAlertDismissalWithTolerance([springboard.alerts firstMatch].buttons[@"Delete App"],
+                                          @"Delete App button");
+        deleteAlertDismissalWithTolerance([springboard.alerts firstMatch].buttons[@"Delete"],
+                                          @"Delete button");
+      } else if (attemptToTapButton(springboard.buttons[@"Delete App"])) {
+        // This branch is entered by iOS 13.7, the app deletion flow is:
+        // [Long Press on Icon] -> [Delete Menu Item] -> [Delete Button].
+        deleteAlertDismissalWithTolerance([springboard.alerts firstMatch].buttons[@"Delete"],
+                                          @"Delete button");
+      } else if (attemptToTapButton(springboard.buttons[@"Rearrange Apps"])) {
+        // This branch is entered by iOS 13.0, the app deletion flow is:
+        // [Long Press on Icon] -> [Rearrange Apps Menu Item] -> [Cross Button] -> [Delete Button].
+        deleteAlertDismissalWithTolerance(icon.buttons[@"DeleteButton"], @"Cross button");
+        deleteAlertDismissalWithTolerance([springboard.alerts firstMatch].buttons[@"Delete"],
+                                          @"Delete button");
+      } else if (attemptToTapButton(icon.buttons[@"DeleteButton"])) {
+        // This branch is entered by pre iOS 13.0, the app deletion flow is:
+        // [Long Press on Icon] -> [Cross Button] -> [Delete Button].
+        deleteAlertDismissalWithTolerance([springboard.alerts firstMatch].buttons[@"Delete"],
+                                          @"Delete button");
+      } else {
+        XCTFail(@"Failed to find delete app button from the screen:\n%@",
+                springboard.debugDescription);
+      }
       [[XCUIDevice sharedDevice] pressButton:XCUIDeviceButtonHome];
     }
   }
