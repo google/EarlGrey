@@ -21,6 +21,7 @@ NSString* const kGREYAllowVerboseLogging = @"eg_verbose_logs";
 NSString* const kGREYVerboseLoggingKeyAll = @"all";
 NSString* const kGREYVerboseLoggingKeyInteraction = @"interaction";
 NSString* const kGREYVerboseLoggingKeyAppState = @"app_state";
+NSString* const kGREYVerboseLoggingKeySendTouchEvent = @"send_touch_event";
 
 BOOL GREYVerboseLoggingEnabled(void) {
   return [[NSUserDefaults standardUserDefaults] integerForKey:kGREYAllowVerboseLogging] > 0;
@@ -38,6 +39,7 @@ GREYVerboseLogType GREYVerboseLogTypeFromString(NSString* verboseLoggingString) 
     verboseType = @{
       kGREYVerboseLoggingKeyInteraction : @(kGREYVerboseLogTypeInteraction),
       kGREYVerboseLoggingKeyAppState : @(kGREYVerboseLogTypeAppState),
+      kGREYVerboseLoggingKeySendTouchEvent : @(kGREYVerboseLogTypeSendTouchEvent),
       kGREYVerboseLoggingKeyAll : @(kGREYVerboseLogTypeAll),
     };
   }

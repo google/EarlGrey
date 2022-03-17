@@ -23,6 +23,7 @@
 #import "GREYAppState.h"
 #import "GREYAppleInternals.h"
 #import "GREYDefines.h"
+#import "GREYLogger.h"
 #import "GREYSwizzler.h"
 
 /**
@@ -51,6 +52,16 @@ static NSMutableArray<NSString *> *gRunLoopModes;
                                withMethod:swizzledSel];
   GREYFatalAssertWithMessage(swizzleSuccess,
                              @"Cannot swizzle UIApplication beginIgnoringInteractionEvents");
+
+  if (GREYVerboseLoggingEnabledForLevel(kGREYVerboseLogTypeSendTouchEvent)) {
+    originalSel = @selector(sendEvent:);
+    swizzledSel = @selector(greyswizzled_sendEvent:);
+    swizzleSuccess = [swizzler swizzleClass:self
+                      replaceInstanceMethod:originalSel
+                                 withMethod:swizzledSel];
+    GREYFatalAssertWithMessage(swizzleSuccess,
+                               @"Cannot swizzle UIApplication beginIgnoringInteractionEvents");
+  }
 }
 
 #pragma mark - Swizzled Implementation
@@ -82,6 +93,22 @@ static NSMutableArray<NSString *> *gRunLoopModes;
     objc_setAssociatedObject(self, @selector(greyswizzled_beginIgnoringInteractionEvents), nil,
                              OBJC_ASSOCIATION_ASSIGN);
   }
+}
+
+- (void)greyswizzled_sendEvent:(UIEvent *)event {
+  if (event.type == UIEventTypeTouches) {
+    UITouch *anyTouch = event.allTouches.anyObject;
+    if (anyTouch.phase == UITouchPhaseBegan) {
+      GREYLogVerbose(@"Touch began at view %@", anyTouch.view.description);
+    } else if (anyTouch.phase == UITouchPhaseMoved) {
+      GREYLogVerbose(@"Touch moved at view %@", anyTouch.view.description);
+    } else if (anyTouch.phase == UITouchPhaseStationary) {
+      GREYLogVerbose(@"Touch stationed at view %@", anyTouch.view.description);
+    } else if (anyTouch.phase == UITouchPhaseEnded) {
+      GREYLogVerbose(@"Touch ended at view %@", anyTouch.view.description);
+    }
+  }
+  INVOKE_ORIGINAL_IMP1(void, @selector(greyswizzled_sendEvent:), event);
 }
 
 @end

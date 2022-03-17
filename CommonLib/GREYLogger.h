@@ -45,6 +45,11 @@ GREY_EXTERN NSString* _Nonnull const kGREYVerboseLoggingKeyInteraction;
 GREY_EXTERN NSString* _Nonnull const kGREYVerboseLoggingKeyAppState;
 
 /**
+ * NSUserDefaults value for printing send touch events logs.
+ */
+GREY_EXTERN NSString* _Nonnull const kGREYVerboseLoggingKeySendTouchEvent;
+
+/**
  * Enum values for verbose logging.
  */
 typedef NS_OPTIONS(NSInteger, GREYVerboseLogType) {
@@ -52,8 +57,11 @@ typedef NS_OPTIONS(NSInteger, GREYVerboseLogType) {
   kGREYVerboseLogTypeInteraction = 1 << 0,
   /** Prints App State Tracker Verbose Logs.*/
   kGREYVerboseLogTypeAppState = 1 << 1,
+  /** Prints Touch Injection Events Sent to UIApplication. */
+  kGREYVerboseLogTypeSendTouchEvent = 1 << 2,
   /** Prints all logs Verbose Logs (Use sparingly and never in prod).*/
-  kGREYVerboseLogTypeAll = kGREYVerboseLogTypeInteraction | kGREYVerboseLogTypeAppState
+  kGREYVerboseLogTypeAll = kGREYVerboseLogTypeInteraction | kGREYVerboseLogTypeAppState |
+                           kGREYVerboseLogTypeSendTouchEvent
 };
 
 /**
@@ -83,7 +91,7 @@ BOOL GREYVerboseLoggingEnabledForLevel(GREYVerboseLogType level);
  *
  * 1. Pass a test environment flag for a test run. On bazel, you can pass in:
  *    @code
- *      --test_env=eg_verbose_logs=interaction|app_state|all
+ *      --test_env=eg_verbose_logs=interaction|app_state|send_touch_event|all
  *    @endcode
  *
  * 2. Pass in a @c GREYLogVerboseType key with a non-zero string value in -[XCUIApplication
