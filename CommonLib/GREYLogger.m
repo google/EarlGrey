@@ -18,6 +18,8 @@
 
 NSString* const kGREYAllowVerboseLogging = @"eg_verbose_logs";
 
+NSString* const kGREYVerboseLoggingPrefix = @"[EARLGREY-LOG] ";
+
 NSString* const kGREYVerboseLoggingKeyAll = @"all";
 NSString* const kGREYVerboseLoggingKeyInteraction = @"interaction";
 NSString* const kGREYVerboseLoggingKeyAppState = @"app_state";
@@ -54,9 +56,10 @@ void GREYLogVerbose(NSString* format, ...) {
     gPrintVerboseLog = GREYVerboseLoggingEnabled();
   });
   if (gPrintVerboseLog) {
+    NSString* formatWithPrefix = [kGREYVerboseLoggingPrefix stringByAppendingString:format];
     va_list args;
     va_start(args, format);
-    NSLogv(format, args);
+    NSLogv(formatWithPrefix, args);
     va_end(args);
   }
 }

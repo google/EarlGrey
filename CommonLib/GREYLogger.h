@@ -101,8 +101,9 @@ BOOL GREYVerboseLoggingEnabledForLevel(GREYVerboseLogType level);
  *    @code
  *      NSMutableArray<NSString *> *launchArguments = [[NSMutableArray alloc] init];
  *      [launchArguments addObject:[@"-" stringByAppendingString:kGREYAllowVerboseLogging]];
- *      [launchArguments addObject:[NSString stringWithFormat:@"%zd",
- * kGREYVerboseLogTypeInteraction]]; self.application.launchArguments = launchArguments;
+ *      NSString *loggingType = [NSString stringWithFormat:@"%zd", kGREYVerboseLogTypeInteraction];
+ *      [launchArguments addObject:loggingType];
+ *      self.application.launchArguments = launchArguments;
  *      [self.application launch];
  *    @endcode
  *
