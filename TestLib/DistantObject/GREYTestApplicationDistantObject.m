@@ -51,7 +51,7 @@ static const void *gGREYTestExecutingQueueKey = &gGREYTestExecutingQueueKey;
 @interface GREYTestApplicationDistantObject ()
 
 /** @see GREYTestApplicationDistantObject.hostApplicationDead in private header. */
-@property(nonatomic, getter=isHostApplicationTerminated) BOOL hostApplicationTerminated;
+@property(nonatomic, getter=isHostApplicationTerminated) BOOL hostApplicationTerminated;  // NOLINT
 
 /** @see GREYTestApplicationDistantObject::dispatchPolicy. Make this readwrite. */
 @property(nonatomic) GREYRemoteExecutionDispatchPolicy dispatchPolicy;
@@ -94,7 +94,7 @@ __attribute__((constructor)) static void SetupTestDistantObject() {
     if (error.code == EDOServiceErrorCannotConnect) {
       EDOHostPort *hostPort = error.userInfo[EDOErrorPortKey];
       if ([testDistantObject isPermanentAppHostPort:hostPort.port]) {
-        testDistantObject.hostApplicationTerminated = YES;
+        testDistantObject.hostApplicationTerminated = YES;  // NOLINT
         NSString *exceptionReason = @"App crashed and disconnected.";
         NSString *recoverySuggestion = GetErrorRecoverySuggestion();
         NSString *errorInfo =
@@ -103,6 +103,17 @@ __attribute__((constructor)) static void SetupTestDistantObject() {
         [[GREYFrameworkException exceptionWithName:kGREYGenericFailureException
                                             reason:errorInfo] raise];
       }
+    } else if (error.code == EDOServiceErrorConnectTimeout) {
+      NSString *exceptionReason = @"App process is hanging.";
+      NSString *recoverySuggestion =
+          @"App is still running but isn't accepting any network requests. It's likely that "
+          @"the app-process has encountered critical issues (e.g. crash) but fails to "
+          @"release itself. Please check the application logs to debug further.";
+      NSString *errorInfo =
+          [NSString stringWithFormat:@"\n\nException Reason:\n%@\n\nRecovery Suggestion:\n%@",
+                                     exceptionReason, recoverySuggestion];
+      [[GREYFrameworkException exceptionWithName:kGREYGenericFailureException
+                                          reason:errorInfo] raise];
     } else {
       NSString *exceptionReason =
           [NSString stringWithFormat:@"eDO invocation in the EarlGrey test-process failed with an "
@@ -345,7 +356,7 @@ __attribute__((constructor)) static void SetupTestDistantObject() {
   self.hostPort = 0;
   self.hostBackgroundPort = 0;
   self.pingMessagePort = 0;
-  self.hostApplicationTerminated = NO;
+  self.hostApplicationTerminated = NO;  // NOLINT
   self.hostLaunchedWithAppComponent = NO;
 }
 

@@ -92,7 +92,16 @@
   XCTAssertTrue([exception.reason
       containsString:
           @"eDO invocation in the EarlGrey test-process failed with an uncommon error code: 0."]);
-  NSLog(@"exception reason: %@", exception.reason);
+
+  error = [NSError errorWithDomain:@"dummy error" code:-999 userInfo:nil];
+  @try {
+    greyErrorHandler(error);
+  } @catch (GREYFrameworkException *capturedException) {
+    exception = capturedException;
+  }
+  XCTAssertEqualObjects(exception.name, @"GenericFailureException");
+  XCTAssertTrue(
+      [exception.reason containsString:@"Please check the application logs to debug further."]);
 }
 
 /**
