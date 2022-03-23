@@ -16,7 +16,6 @@
 
 #import "XCUIApplication+GREYTest.h"
 
-#include <dlfcn.h>
 #include <objc/runtime.h>
 
 #import "GREYFatalAsserts.h"
@@ -24,32 +23,10 @@
 #import "GREYTestApplicationDistantObject+Private.h"
 #import "GREYTestApplicationDistantObject.h"
 #import "GREYLogger.h"
+#import "GREYSetup.h"
 #import "GREYSwizzler.h"
 #import "GREYTestConfiguration.h"
 #import "XCUIApplication+GREYEnvironment.h"
-
-#if !(TARGET_IPHONE_SIMULATOR)
-/**
- * Text Input preferences controller to modify the keyboard preferences on device for iOS 8+.
- */
-@interface TIPreferencesController : NSObject
-
-/** Whether the autocorrection is enabled. */
-@property BOOL autocorrectionEnabled;
-
-/** Whether the predication is enabled. */
-@property BOOL predictionEnabled;
-
-/** The shared singleton instance. */
-+ (instancetype)sharedPreferencesController;
-
-/** Synchronize the change to save it on disk. */
-- (void)synchronizePreferences;
-
-/** Modify the preference @c value by @c key. */
-- (void)setValue:(NSValue *)value forPreferenceKey:(NSString *)key;
-@end
-#endif
 
 @implementation XCUIApplication (GREYTest)
 
@@ -60,9 +37,10 @@
                                     withMethod:@selector(grey_launch)];
   GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle XCUIApplication launch");
   swizzleSuccess = [swizzler swizzleClass:[self class]
-                    replaceInstanceMethod:@selector(terminate)
-                               withMethod:@selector(grey_terminate)];
-  GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle XCUIApplication terminate");
+                    replaceInstanceMethod:@selector(terminate)         // NOLINT
+                               withMethod:@selector(grey_terminate)];  // NOLINT
+  GREYFatalAssertWithMessage(swizzleSuccess,
+                             @"Cannot swizzle XCUIApplication terminate");  // NOLINT
 }
 
 + (NSString *)greyTestRigName {
@@ -120,11 +98,11 @@ static void AddVerboseLoggingIfNeeded(NSMutableArray<NSString *> *launchArgs,
   }
 }
 
-- (void)grey_terminate {
+- (void)grey_terminate {  // NOLINT
   GREYTestConfiguration *testConfiguration =
       (GREYTestConfiguration *)GREYConfiguration.sharedConfiguration;
   testConfiguration.remoteConfiguration = nil;
-  INVOKE_ORIGINAL_IMP(void, @selector(grey_terminate));
+  INVOKE_ORIGINAL_IMP(void, @selector(grey_terminate));  // NOLINT
 }
 
 /**
@@ -132,67 +110,9 @@ static void AddVerboseLoggingIfNeeded(NSMutableArray<NSString *> *launchArgs,
  */
 - (void)modifyKeyboardSettings {
   static dispatch_once_t onceToken;
-#if TARGET_IPHONE_SIMULATOR
   dispatch_once(&onceToken, ^{
-    // Set the preferences values directly on simulator for the keyboard modifiers. For persisting
-    // these values, CFPreferencesSynchronize must be called after.
-    CFStringRef app = CFSTR("com.apple.Preferences");
-    CFPreferencesSetValue(CFSTR("KeyboardAutocorrection"), kCFBooleanFalse, app,
-                          kCFPreferencesAnyUser, kCFPreferencesAnyHost);
-    CFPreferencesSetValue(CFSTR("KeyboardPrediction"), kCFBooleanFalse, app, kCFPreferencesAnyUser,
-                          kCFPreferencesAnyHost);
-    CFPreferencesSetValue(CFSTR("DidShowContinuousPathIntroduction"), kCFBooleanTrue, app,
-                          kCFPreferencesAnyUser, kCFPreferencesAnyHost);
-    CFPreferencesSetValue(CFSTR("KeyboardDidShowProductivityTutorial"), kCFBooleanTrue, app,
-                          kCFPreferencesAnyUser, kCFPreferencesAnyHost);
-    CFPreferencesSetValue(CFSTR("DidShowGestureKeyboardIntroduction"), kCFBooleanTrue, app,
-                          kCFPreferencesAnyUser, kCFPreferencesAnyHost);
-    CFPreferencesSetValue(CFSTR("UIKeyboardDidShowInternationalInfoIntroduction"), kCFBooleanTrue,
-                          app, kCFPreferencesAnyUser, kCFPreferencesAnyHost);
-
-    CFPreferencesSynchronize(kCFPreferencesAnyApplication, kCFPreferencesAnyUser,
-                             kCFPreferencesAnyHost);
+    GREYSetupKeyboardPreferences(YES);
   });
-#else
-  dispatch_once(&onceToken, ^{
-    // Setting the global keyboard preferences does not work on devices as this needs to be done
-    // on the preferences application, which is sandboxed. We have to use the TextInput
-    // framework to turn off the keyboard settings on device.
-    static char const *const controllerPrefBundlePath =
-        "/System/Library/PrivateFrameworks/TextInput.framework/TextInput";
-    static NSString *const controllerClassName = @"TIPreferencesController";
-    void *handle = dlopen(controllerPrefBundlePath, RTLD_LAZY);
-    GREYFatalAssertWithMessage(handle, @"dlopen couldn't open settings bundle at path bundle %s",
-                               controllerPrefBundlePath);
-
-    Class controllerClass = NSClassFromString(controllerClassName);
-    GREYFatalAssertWithMessage(controllerClass, @"Couldn't find %@ class", controllerClassName);
-
-    TIPreferencesController *controller = [controllerClass sharedPreferencesController];
-    if ([controller respondsToSelector:@selector(setAutocorrectionEnabled:)]) {
-      controller.autocorrectionEnabled = NO;
-    } else {
-      [controller setValue:@NO forPreferenceKey:@"KeyboardAutocorrection"];
-    }
-
-    if ([controller respondsToSelector:@selector(setPredictionEnabled:)]) {
-      controller.predictionEnabled = NO;
-    } else {
-      [controller setValue:@NO forPreferenceKey:@"KeyboardPrediction"];
-    }
-
-    if (iOS13_OR_ABOVE() &&
-        UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPhone) {
-      [controller setValue:@YES forPreferenceKey:@"DidShowContinuousPathIntroduction"];
-    } else if (iOS11_OR_ABOVE()) {
-      [controller setValue:@YES forPreferenceKey:@"DidShowGestureKeyboardIntroduction"];
-    }
-
-    [controller synchronizePreferences];
-
-    dlclose(handle);
-  });
-#endif
 }
 
 @end

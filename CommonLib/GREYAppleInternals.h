@@ -244,3 +244,26 @@ typedef struct BlockHeader {
   int reserved;
   void (*invoke)(void);  // NO_LINT
 } BlockHeader;
+
+#if !(TARGET_IPHONE_SIMULATOR)
+/**
+ * Text Input preferences controller to modify the keyboard preferences on device for iOS 8+.
+ */
+@interface TIPreferencesController : NSObject
+
+/** Whether the autocorrection is enabled. */
+@property BOOL autocorrectionEnabled;
+
+/** Whether the predication is enabled. */
+@property BOOL predictionEnabled;
+
+/** The shared singleton instance. */
++ (instancetype)sharedPreferencesController;
+
+/** Synchronize the change to save it on disk. */
+- (void)synchronizePreferences;
+
+/** Modify the preference @c value by @c key. */
+- (void)setValue:(NSValue *)value forPreferenceKey:(NSString *)key;
+@end
+#endif

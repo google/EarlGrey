@@ -211,6 +211,7 @@
 		FD76BE5722985566001E6DAA /* GREYUIThreadExecutor+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = FD76BE5622985566001E6DAA /* GREYUIThreadExecutor+Private.h */; };
 		FD76BE5B229855A0001E6DAA /* GREYActions+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = FD76BE5A229855A0001E6DAA /* GREYActions+Private.h */; };
 		FD795B9421192FEC00F9A9E3 /* libCommonLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD62395120F56A9700049E81 /* libCommonLib.a */; };
+		FD82C56C27EAA18400A040D6 /* GREYSetup.m in Sources */ = {isa = PBXBuildFile; fileRef = FD82C56A27EAA18400A040D6 /* GREYSetup.m */; };
 		FD88B9BA25255FC300CE823B /* GREYLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = FD88B9B125255FC200CE823B /* GREYLogger.m */; };
 		FD88B9C025255FDD00CE823B /* GREYAppState.m in Sources */ = {isa = PBXBuildFile; fileRef = FD88B9BF25255FDD00CE823B /* GREYAppState.m */; };
 		FD98C459226C2DD1006F8D68 /* GREYScreenshotter.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C456226C2DCD006F8D68 /* GREYScreenshotter.m */; };
@@ -680,6 +681,8 @@
 		FD76BE5522985538001E6DAA /* GREYError+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GREYError+Private.h"; path = "CommonLib/Error/GREYError+Private.h"; sourceTree = "<group>"; };
 		FD76BE5622985566001E6DAA /* GREYUIThreadExecutor+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GREYUIThreadExecutor+Private.h"; path = "Synchronization/GREYUIThreadExecutor+Private.h"; sourceTree = "<group>"; };
 		FD76BE5A229855A0001E6DAA /* GREYActions+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GREYActions+Private.h"; path = "Action/GREYActions+Private.h"; sourceTree = "<group>"; };
+		FD82C56A27EAA18400A040D6 /* GREYSetup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYSetup.m; path = CommonLib/GREYSetup.m; sourceTree = "<group>"; };
+		FD82C56B27EAA18400A040D6 /* GREYSetup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYSetup.h; path = CommonLib/GREYSetup.h; sourceTree = "<group>"; };
 		FD88B9B125255FC200CE823B /* GREYLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYLogger.m; path = CommonLib/GREYLogger.m; sourceTree = "<group>"; };
 		FD88B9BF25255FDD00CE823B /* GREYAppState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYAppState.m; path = CommonLib/Config/GREYAppState.m; sourceTree = "<group>"; };
 		FD98C456226C2DCD006F8D68 /* GREYScreenshotter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYScreenshotter.m; sourceTree = "<group>"; };
@@ -971,6 +974,8 @@
 				FD6239DC20F56C9400049E81 /* GREYLogger.h */,
 				FD6239DD20F56C9400049E81 /* GREYObjcRuntime.h */,
 				FD6239DB20F56C9400049E81 /* GREYObjcRuntime.m */,
+				FD82C56B27EAA18400A040D6 /* GREYSetup.h */,
+				FD82C56A27EAA18400A040D6 /* GREYSetup.m */,
 				FD6239D820F56C9400049E81 /* GREYStopwatch.h */,
 				FD6239D620F56C9400049E81 /* GREYStopwatch.m */,
 				FD6239D720F56C9400049E81 /* GREYSwizzler.h */,
@@ -1904,6 +1909,7 @@
 				FD6239C920F56C5E00049E81 /* GREYFrameworkException.m in Sources */,
 				FD6239BD20F56C3E00049E81 /* GREYErrorConstants.m in Sources */,
 				6F49FDBD22E69D4E00CCE813 /* GREYDiagnosable.m in Sources */,
+				FD82C56C27EAA18400A040D6 /* GREYSetup.m in Sources */,
 				FD6239E320F56C9500049E81 /* GREYConstants.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -16,6 +16,7 @@
 
 #import "GREYKeyboard.h"
 
+#include <dlfcn.h>
 #include <objc/runtime.h>
 #include <stdatomic.h>
 
@@ -35,6 +36,7 @@
 #import "GREYConstants.h"
 #import "GREYDefines.h"
 #import "GREYLogger.h"
+#import "GREYSetup.h"
 #import "GREYElementHierarchy.h"
 #import "GREYUIWindowProvider.h"
 
@@ -167,28 +169,11 @@ __attribute__((constructor)) static void RegisterKeyboardLifecycleHooks() {
 #endif  // TARGET_OS_IOS
 }
 
-/** Disable various keyboard settings to avoid flakiness. */
+/** Disables various keyboard settings to avoid flakiness. */
 __attribute__((constructor)) static void GREYSetupKeyboard() {
   // On iOS 15+, the keyboard settings have to be made on the application process.
   if (@available(iOS 15.0, *)) {
-    CFStringRef app = CFSTR("com.apple.keyboard.preferences.plist");
-    CFPreferencesSetValue(CFSTR("DidShowContinuousPathIntroduction"), kCFBooleanTrue, app,
-                          kCFPreferencesAnyUser, kCFPreferencesAnyHost);
-    CFPreferencesSetValue(CFSTR("KeyboardDidShowProductivityTutorial"), kCFBooleanTrue, app,
-                          kCFPreferencesAnyUser, kCFPreferencesAnyHost);
-    CFPreferencesSetValue(CFSTR("DidShowGestureKeyboardIntroduction"), kCFBooleanTrue, app,
-                          kCFPreferencesAnyUser, kCFPreferencesAnyHost);
-    CFPreferencesSetValue(CFSTR("UIKeyboardDidShowInternationalInfoIntroduction"), kCFBooleanTrue,
-                          app, kCFPreferencesAnyUser, kCFPreferencesAnyHost);
-
-    CFPreferencesSetValue(CFSTR("KeyboardAutocorrection"), kCFBooleanFalse, app,
-                          kCFPreferencesAnyUser, kCFPreferencesAnyHost);
-    CFPreferencesSetValue(CFSTR("KeyboardPrediction"), kCFBooleanFalse, app, kCFPreferencesAnyUser,
-                          kCFPreferencesAnyHost);
-    CFPreferencesSetValue(CFSTR("KeyboardShowPredictionBar"), kCFBooleanFalse, app,
-                          kCFPreferencesAnyUser, kCFPreferencesAnyHost);
-    CFPreferencesSynchronize(kCFPreferencesAnyApplication, kCFPreferencesAnyUser,
-                             kCFPreferencesAnyHost);
+    GREYSetupKeyboardPreferences(NO);
   }
 }
 
