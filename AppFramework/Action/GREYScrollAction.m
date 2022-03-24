@@ -58,6 +58,28 @@ static const NSInteger kMinTouchPointsToDetectScrollResistance = 2;
  * TODO(b/222748919): The fallback should be removed once the bug is fixed.
  */
 static BOOL IsScrollDetectionFallback(UIScrollView *scrollView) {
+  // If the scroll view does not enable scroll, EarlGrey is not able to detect the scroll amount
+  // triggered by the touch injection. Thus EarlGrey will use fallback strategy to ignore the
+  // scroll amount, and the touch injection won't produce precise scroll result.
+  BOOL fallback = !scrollView.scrollEnabled;
+  return fallback;
+}
+
+/**
+ * Returns whether the scroll action should retry touch injection when it's failed.
+ */
+static BOOL IsEligibleForRetry(UIScrollView *scrollView, GREYDirection scrollDirection,
+                               BOOL success, NSInteger errorCode) {
+  if (success ||                                  // scroll already succeeded
+      errorCode != kGREYScrollNoTouchReaction ||  // only kGREYScrollNoTouchReaction can retry
+      IsScrollDetectionFallback(scrollView) ||  // the scroll view with fallback may already scroll
+                                                // without being detected by EarlGrey
+      (scrollView.contentOffset.y <= 0 &&
+       scrollDirection == kGREYDirectionUp)) {  // The scroll view is already at the edge, so no
+                                                // retry is needed towards the edge.
+    return NO;
+  }
+
   return YES;
 }
 
@@ -233,6 +255,15 @@ static BOOL IsScrollDetectionFallback(UIScrollView *scrollView) {
                                           onScrollView:element
                                     outRemainingAmount:&amountRemaining
                                                  error:&scrollError];
+      for (int retry = 1;
+           retry <= 3 && IsEligibleForRetry(element, _direction, success, scrollError.code);
+           ++retry) {
+        NSLog(@"The %d attempt to retry scroll action for no touch reaction", retry);
+        success = [GREYScrollAction grey_injectTouchPath:touchPath
+                                            onScrollView:element
+                                      outRemainingAmount:&amountRemaining
+                                                   error:&scrollError];
+      }
     }
   }
   if (!success) {
