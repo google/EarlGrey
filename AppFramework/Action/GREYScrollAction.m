@@ -75,8 +75,10 @@ static BOOL IsEligibleForRetry(UIScrollView *scrollView, GREYDirection scrollDir
       IsScrollDetectionFallback(scrollView) ||  // the scroll view with fallback may already scroll
                                                 // without being detected by EarlGrey
       (scrollView.contentOffset.y <= 0 &&
-       scrollDirection == kGREYDirectionUp)) {  // The scroll view is already at the edge, so no
+       scrollDirection == kGREYDirectionUp) ||  // The scroll view is already at the edge, so no
                                                 // retry is needed towards the edge.
+      !scrollView.window) {  // The scroll may fail with other gesture being recognized, if it
+                             // causes scroll view being detached from screen, no retry is needed.
     return NO;
   }
 
