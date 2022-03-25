@@ -25,13 +25,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 #if !defined(GREY_DISABLE_SHORTHAND) || !(GREY_DISABLE_SHORTHAND)
 
-/** Shorthand for GREYMatchers::matcherForKeyWindow. */
-GREY_EXPORT id<GREYMatcher> grey_keyWindow(void);
+#pragma mark - Accessibility Matchers
 
 /** Shorthand for GREYMatchers::matcherForAccessibilityLabel:. */
 GREY_EXPORT id<GREYMatcher> grey_accessibilityLabel(NSString *label);
 
-/** Shorthand for GREYMatchers::matcherForAccessibilityID:. */
+/**
+ * Shorthand for GREYMatchers::matcherForAccessibilityID:.
+ *
+ * @note Even though this mentions "accessibility", the identifier is mainly to be used for UI
+ *       testing.
+ */
 GREY_EXPORT id<GREYMatcher> grey_accessibilityID(NSString *accessibilityID);
 
 /** Shorthand for GREYMatchers::matcherForAccessibilityValue:. */
@@ -46,44 +50,77 @@ GREY_EXPORT id<GREYMatcher> grey_accessibilityFocused(void);
 /** Shorthand for GREYMatchers::matcherForAccessibilityHint:. */
 GREY_EXPORT id<GREYMatcher> grey_accessibilityHint(NSString *hint);
 
-/** Shorthand for GREYMatchers::matcherForText:. */
-GREY_EXPORT id<GREYMatcher> grey_text(NSString *inputText);
+/** Shorthand for GREYMatchers::matcherForAccessibilityElement. */
+GREY_EXPORT id<GREYMatcher> grey_accessibilityElement(void);
+
+#pragma mark - UI Property Matchers
+
+/** Shorthand for GREYMatchers::matcherForButtonTitle:. */
+GREY_EXPORT id<GREYMatcher> grey_buttonTitle(NSString *text);
+
+/** Shorthand for GREYMatchers::matcherForDatePickerValue:. */
+GREY_EXPORT id<GREYMatcher> grey_datePickerValue(NSDate *date);
+
+/** Shorthand for GREYMatchers::matcherForEnabledElement. */
+GREY_EXPORT id<GREYMatcher> grey_enabled(void);
 
 /** Shorthand for GREYMatchers::matcherForFirstResponder. */
 GREY_EXPORT id<GREYMatcher> grey_firstResponder(void);
 
-/** Shorthand for GREYMatchers::matcherForSystemAlertViewShown. */
-GREY_EXPORT id<GREYMatcher> grey_systemAlertViewShown(void);
-
-/** Shorthand for GREYMatchers::matcherForMinimumVisiblePercent:. */
-GREY_EXPORT id<GREYMatcher> grey_minimumVisiblePercent(CGFloat percent);
-
-/** Shorthand for GREYMatchers::matcherForSufficientlyVisible. */
-GREY_EXPORT id<GREYMatcher> grey_sufficientlyVisible(void);
+/** Shorthand macro for GREYMatchers::matcherForHidden */
+GREY_EXPORT id<GREYMatcher> grey_hidden(BOOL hidden);
 
 /** Shorthand for GREYMatchers::matcherForInteractable. */
 GREY_EXPORT id<GREYMatcher> grey_interactable(void);
 
+/** Shorthand for GREYMatchers::matcherForLayoutConstraints:toReferenceElementMatching:. */
+GREY_EXPORT id<GREYMatcher> grey_layout(NSArray *constraints,
+                                        id<GREYMatcher> referenceElementMatcher);
+
+/** Shorthand for GREYMatchers::matcherForMinimumVisiblePercent:. */
+GREY_EXPORT id<GREYMatcher> grey_minimumVisiblePercent(CGFloat percent);
+
 /** Shorthand for GREYMatchers::matcherForNotVisible. */
 GREY_EXPORT id<GREYMatcher> grey_notVisible(void);
 
-/** Shorthand for GREYMatchers::matcherForAccessibilityElement. */
-GREY_EXPORT id<GREYMatcher> grey_accessibilityElement(void);
-
-/** Shorthand for GREYMatchers::matcherForKindOfClass:. */
-GREY_EXPORT id<GREYMatcher> grey_kindOfClass(Class _Nullable klass);
-
-/** Shorthand for GREYMatchers::matcherForKindOfClassName:. */
-GREY_EXPORT id<GREYMatcher> grey_kindOfClassName(NSString *className);
+/** Shorthand for GREYMatchers::matcherForPickerColumn:setToValue:. */
+GREY_EXPORT id<GREYMatcher> grey_pickerColumnSetToValue(NSInteger column,
+                                                        NSString *_Nullable value);
 
 /** Shorthand for GREYMatchers::matcherForProgress:. */
 GREY_EXPORT id<GREYMatcher> grey_progress(id<GREYMatcher> comparisonMatcher);
 
-/** Shorthand for GREYMatchers::matcherForRespondsToSelector:. */
-GREY_EXPORT id<GREYMatcher> grey_respondsToSelector(SEL sel);
+/** Shorthand for GREYMatchers::matcherForScrolledToContentEdge:. */
+GREY_EXPORT id<GREYMatcher> grey_scrolledToContentEdge(GREYContentEdge edge);
 
-/** Shorthand for GREYMatchers::matcherForConformsToProtocol:. */
-GREY_EXPORT id<GREYMatcher> grey_conformsToProtocol(Protocol *protocol);
+/** Shorthand for GREYMatchers::matcherForScrollViewContentOffset:. */
+GREY_EXPORT id<GREYMatcher> grey_scrollViewContentOffset(CGPoint offset);
+
+/** Shorthand for GREYMatchers::matcherForSelectedElement. */
+GREY_EXPORT id<GREYMatcher> grey_selected(void);
+
+/** Shorthand for GREYMatchers::matcherForSliderValueMatcher:. */
+GREY_EXPORT id<GREYMatcher> grey_sliderValueMatcher(id<GREYMatcher> valueMatcher);
+
+/** Shorthand for GREYMatchers::matcherForStepperValue:. */
+GREY_EXPORT id<GREYMatcher> grey_stepperValue(double value);
+
+/** Shorthand for GREYMatchers::matcherForSufficientlyVisible. */
+GREY_EXPORT id<GREYMatcher> grey_sufficientlyVisible(void);
+
+/** Shorthand for GREYMatchers::matcherForSwitchWithOnState:. */
+GREY_EXPORT id<GREYMatcher> grey_switchWithOnState(BOOL on);
+
+/** Shorthand for GREYMatchers::matcherForText:. */
+GREY_EXPORT id<GREYMatcher> grey_text(NSString *inputText);
+
+/** Shorthand for GREYMatchers::matcherForTextFieldValue:. */
+GREY_EXPORT id<GREYMatcher> grey_textFieldValue(NSString *value);
+
+/** Shorthand for GREYMatchers::matcherForUserInteractionEnabled. */
+GREY_EXPORT id<GREYMatcher> grey_userInteractionEnabled(void);
+
+#pragma mark - Hierarchy Based Matchers
 
 /** Shorthand for GREYMatchers::matcherForAncestor:. */
 GREY_EXPORT id<GREYMatcher> grey_ancestor(id<GREYMatcher> ancestorMatcher);
@@ -91,52 +128,27 @@ GREY_EXPORT id<GREYMatcher> grey_ancestor(id<GREYMatcher> ancestorMatcher);
 /** Shorthand for GREYMatchers::matcherForDescendant:. */
 GREY_EXPORT id<GREYMatcher> grey_descendant(id<GREYMatcher> descendantMatcher);
 
-/** Shorthand for GREYMatchers::matcherForButtonTitle:. */
-GREY_EXPORT id<GREYMatcher> grey_buttonTitle(NSString *text);
+/** Shorthand for GREYMatchers::matcherForKeyWindow. */
+GREY_EXPORT id<GREYMatcher> grey_keyWindow(void);
 
-/** Shorthand for GREYMatchers::matcherForScrollViewContentOffset:. */
-GREY_EXPORT id<GREYMatcher> grey_scrollViewContentOffset(CGPoint offset);
+#pragma mark - Class-type Based Matchers
 
-/** Shorthand for GREYMatchers::matcherForStepperValue:. */
-GREY_EXPORT id<GREYMatcher> grey_stepperValue(double value);
+/** Shorthand for GREYMatchers::matcherForConformsToProtocol:. */
+GREY_EXPORT id<GREYMatcher> grey_conformsToProtocol(Protocol *protocol);
 
-/** Shorthand for GREYMatchers::matcherForSliderValueMatcher:. */
-GREY_EXPORT id<GREYMatcher> grey_sliderValueMatcher(id<GREYMatcher> valueMatcher);
+/** Shorthand for GREYMatchers::matcherForKindOfClass:. */
+GREY_EXPORT id<GREYMatcher> grey_kindOfClass(Class _Nullable klass);
 
-/** Shorthand for GREYMatchers::matcherForDatePickerValue:. */
-GREY_EXPORT id<GREYMatcher> grey_datePickerValue(NSDate *date);
+/** Shorthand for GREYMatchers::matcherForKindOfClassName:. */
+GREY_EXPORT id<GREYMatcher> grey_kindOfClassName(NSString *className);
 
-/** Shorthand for GREYMatchers::matcherForPickerColumn:setToValue:. */
-GREY_EXPORT id<GREYMatcher> grey_pickerColumnSetToValue(NSInteger column,
-                                                        NSString *_Nullable value);
+/** Shorthand for GREYMatchers::matcherForRespondsToSelector:. */
+GREY_EXPORT id<GREYMatcher> grey_respondsToSelector(SEL sel);
 
-/** Shorthand for GREYMatchers::matcherForEnabledElement. */
-GREY_EXPORT id<GREYMatcher> grey_enabled(void);
-
-/** Shorthand for GREYMatchers::matcherForSelectedElement. */
-GREY_EXPORT id<GREYMatcher> grey_selected(void);
-
-/** Shorthand for GREYMatchers::matcherForUserInteractionEnabled. */
-GREY_EXPORT id<GREYMatcher> grey_userInteractionEnabled(void);
-
-/** Shorthand for GREYMatchers::matcherForLayoutConstraints:toReferenceElementMatching:. */
-GREY_EXPORT id<GREYMatcher> grey_layout(NSArray *constraints,
-                                        id<GREYMatcher> referenceElementMatcher);
-
-/** Shorthand for GREYMatchers::matcherForNil. */
-GREY_EXPORT id<GREYMatcher> grey_nil(void);
-
-/** Shorthand for GREYMatchers::matcherForNotNil. */
-GREY_EXPORT id<GREYMatcher> grey_notNil(void);
-
-/** Shorthand for GREYMatchers::matcherForSwitchWithOnState:. */
-GREY_EXPORT id<GREYMatcher> grey_switchWithOnState(BOOL on);
+// Comparison based matchers
 
 /** Shorthand for GREYMatchers::matcherForCloseTo:. */
 GREY_EXPORT id<GREYMatcher> grey_closeTo(double value, double delta);
-
-/** Shorthand for GREYMatchers::matcherForAnything. */
-GREY_EXPORT id<GREYMatcher> grey_anything(void);
 
 /** Shorthand for GREYMatchers::matcherForEqualTo:. */
 GREY_EXPORT id<GREYMatcher> grey_equalTo(id value);
@@ -147,17 +159,21 @@ GREY_EXPORT id<GREYMatcher> grey_lessThan(id value);
 /** Shorthand for GREYMatchers::matcherForGreaterThan:. */
 GREY_EXPORT id<GREYMatcher> grey_greaterThan(id value);
 
-/** Shorthand for GREYMatchers::matcherForScrolledToContentEdge:. */
-GREY_EXPORT id<GREYMatcher> grey_scrolledToContentEdge(GREYContentEdge edge);
+#pragma mark - Other Matchers
 
-/** Shorthand for GREYMatchers::matcherForNegation:. */
-GREY_EXPORT id<GREYMatcher> grey_not(id<GREYMatcher> matcher);
+/** Shorthand for GREYMatchers::matcherForAnything. */
+GREY_EXPORT id<GREYMatcher> grey_anything(void);
 
-/** Shorthand for GREYMatchers::matcherForTextFieldValue:. */
-GREY_EXPORT id<GREYMatcher> grey_textFieldValue(NSString *value);
+/** Shorthand for GREYMatchers::matcherForNil. */
+GREY_EXPORT id<GREYMatcher> grey_nil(void);
 
-/** Shorthand macro for GREYMatchers::matcherForHidden */
-GREY_EXPORT id<GREYMatcher> grey_hidden(BOOL hidden);
+/** Shorthand for GREYMatchers::matcherForNotNil. */
+GREY_EXPORT id<GREYMatcher> grey_notNil(void);
+
+/** Shorthand for GREYMatchers::matcherForSystemAlertViewShown. */
+GREY_EXPORT id<GREYMatcher> grey_systemAlertViewShown(void);
+
+#pragma mark - Clubbing / Logic Matchers
 
 /**
  * A shorthand matcher that is a logical AND of all the matchers passed in as variable arguments.
@@ -173,17 +189,6 @@ GREY_EXPORT id<GREYMatcher> grey_allOf(id<GREYMatcher> _Nullable matcher, ...)
     NS_SWIFT_UNAVAILABLE("Use grey_allOf(_:) instead") NS_REQUIRES_NIL_TERMINATION;
 
 /**
- * A shorthand matcher that is a logical AND of all the matchers passed in within an NSArray.
- *
- * @param matchers An NSArray of one or more matchers to be added. Matchers are invoked in the
- *                 order they are specified and only if the preceding matcher passes.
- *
- * @return An object conforming to GREYMatcher, initialized with the required matchers.
- */
-GREY_EXPORT id<GREYMatcher> grey_allOfMatchers(NSArray<__kindof id<GREYMatcher>> *matchers)
-    NS_SWIFT_NAME(grey_allOf(_:));
-
-/**
  * A matcher that is a logical OR of all the matchers passed in as variable arguments.
  *
  * @param match The first matcher in the list of matchers.
@@ -195,6 +200,22 @@ GREY_EXPORT id<GREYMatcher> grey_allOfMatchers(NSArray<__kindof id<GREYMatcher>>
  */
 GREY_EXPORT id<GREYMatcher> grey_anyOf(id<GREYMatcher> match, ...)
     NS_SWIFT_UNAVAILABLE("Use grey_anyOf(_:) instead") NS_REQUIRES_NIL_TERMINATION;
+
+/** Shorthand for GREYMatchers::matcherForNegation:. */
+GREY_EXPORT id<GREYMatcher> grey_not(id<GREYMatcher> matcher);
+
+// Clubbing / Logic Matchers (Swift-Based)
+
+/**
+ * A shorthand matcher that is a logical AND of all the matchers passed in within an NSArray.
+ *
+ * @param matchers An NSArray of one or more matchers to be added. Matchers are invoked in the
+ *                 order they are specified and only if the preceding matcher passes.
+ *
+ * @return An object conforming to GREYMatcher, initialized with the required matchers.
+ */
+GREY_EXPORT id<GREYMatcher> grey_allOfMatchers(NSArray<__kindof id<GREYMatcher>> *matchers)
+    NS_SWIFT_NAME(grey_allOf(_:));
 
 /**
  * A matcher that is a logical OR of all the matchers passed in within an NSArray.
