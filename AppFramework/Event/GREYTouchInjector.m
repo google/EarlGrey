@@ -250,7 +250,6 @@ static const NSTimeInterval kTouchInjectFramerateInv = 1 / 120.0;
   IOHIDEventSetIntegerValue(hidEvent, kIOHIDEventFieldDigitizerIsDisplayIntegrated, 0);
 #endif
 
-  UIView *touchView = nil;
   for (NSUInteger i = 0; i < touchInfo.points.count; i++) {
     CGPoint touchPoint = [[touchInfo.points objectAtIndex:i] CGPointValue];
     IOHIDEventRef fingerEvent = IOHIDEventCreateDigitizerFingerEvent(
@@ -266,8 +265,6 @@ static const NSTimeInterval kTouchInjectFramerateInv = 1 / 120.0;
     CFRelease(fingerEvent);
 
     UITouch *currentTouch = ongoingTouches[i];
-    touchView = currentTouch.view;
-
     [currentTouch setTimestamp:touchDeliveryTime];
     if ([currentTouch respondsToSelector:@selector(_setHidEvent:)]) {
       [currentTouch _setHidEvent:fingerEvent];

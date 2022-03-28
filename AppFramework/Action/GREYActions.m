@@ -666,10 +666,6 @@ static Protocol *gTextInputProtocol;
             }
             // Wait for keyboard to show up and any other UI changes to take effect.
             if (![GREYKeyboard waitForKeyboardToAppear]) {
-              __block NSString *elementDescription;
-              grey_dispatch_sync_on_main_thread(^{
-                elementDescription = [element grey_description];
-              });
               NSString *description = [NSString
                   stringWithFormat:
                       @"Keyboard did not appear after tapping on an element. "

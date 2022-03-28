@@ -114,9 +114,8 @@
 }
 
 - (id<GREYInteraction>)includeStatusBar {
-  __block id<GREYInteraction> includeStatusBar;
   GREYExecuteSyncBlockInBackgroundQueue(^{
-    includeStatusBar = [self->_remoteElementInteraction includeStatusBar];
+    [self->_remoteElementInteraction includeStatusBar];
   });
   return self;
 }

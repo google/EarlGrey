@@ -87,8 +87,7 @@ __attribute__((constructor)) static void SetupTestDistantObject() {
   // Registers custom handler of EDO connection failure and translates the error message to UI
   // testing scenarios to users. The custom handler will fall back to use EDO's default error
   // handler if the state of the test doesn't conform to any pattern of the UI testing failure.
-  __block EDOClientErrorHandler previousErrorHandler;
-  previousErrorHandler = EDOSetClientErrorHandler(^(NSError *error) {
+  EDOSetClientErrorHandler(^(NSError *error) {
     GREYTestApplicationDistantObject *testDistantObject =
         GREYTestApplicationDistantObject.sharedInstance;
     if (error.code == EDOServiceErrorCannotConnect) {
