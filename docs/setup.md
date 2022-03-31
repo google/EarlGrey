@@ -39,7 +39,7 @@ Clone the EarlGrey project to your workspace.
 git clone -b earlgrey2 https://github.com/google/EarlGrey.git
 
 // Download any dependencies. Run this command from the EarlGrey/ root directory
-// as it will download the submodule relative to the location it was called in.
+// as it will download the submodules in the root of the Git repository it is called from.
 sh Scripts/download_deps.sh
 ```
 
