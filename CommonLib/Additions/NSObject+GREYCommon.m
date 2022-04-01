@@ -185,7 +185,7 @@
 - (NSString *)grey_shortDescription {
   NSMutableString *description = [[NSMutableString alloc] init];
 
-  [description appendString:NSStringFromClass([self class])];
+  [description appendString:[[NSString alloc] initWithFormat:@"%@:%p", [self class], self]];
 
   if ([self respondsToSelector:@selector(accessibilityIdentifier)]) {
     NSString *accessibilityIdentifier = [self performSelector:@selector(accessibilityIdentifier)];
@@ -206,7 +206,7 @@
 }
 
 - (NSString *)grey_objectDescription {
-  return [[NSString alloc] initWithFormat:@"<%@: %p>", [self class], self];
+  return [[NSString alloc] initWithFormat:@"<%@:%p>", [self class], self];
 }
 
 #pragma mark - Private
