@@ -223,7 +223,7 @@ static Protocol *gTextInputProtocol;
   NSString *diagnosticsID = GREYCorePrefixedDiagnosticsID(@"toggleSwitch");
   id<GREYAction> action =
       [GREYActions actionForLongPressWithDuration:kGREYLongPressDefaultDuration];
-  return [GREYActions grey_actionForTurnSwitchOn:on diagnosticsID:diagnosticsID action:action];
+  return ActionForTurnSwitchOn(on, diagnosticsID, action);
 #else
   return nil;
 #endif  // TARGET_OS_IOS
@@ -233,14 +233,14 @@ static Protocol *gTextInputProtocol;
 #if TARGET_OS_IOS
   NSString *diagnosticsID = GREYCorePrefixedDiagnosticsID(@"toggleSwitchWithShortTap");
   id<GREYAction> action = [GREYActions actionForTap];
-  return [GREYActions grey_actionForTurnSwitchOn:on diagnosticsID:diagnosticsID action:action];
+  return ActionForTurnSwitchOn(on, diagnosticsID, action);
 #else
   return nil;
 #endif  // TARGET_OS_IOS
 }
 
 + (id<GREYAction>)actionForTypeText:(NSString *)text {
-  return [GREYActions grey_actionForTypeText:text atUITextPosition:nil];
+  return ActionForTypeTextAtUITextPosition(text, nil);
 }
 
 + (id<GREYAction>)actionForTypeText:(NSString *)text atPosition:(NSInteger)position {
@@ -270,7 +270,7 @@ static Protocol *gTextInputProtocol;
       }
     });
 
-    id<GREYAction> action = [GREYActions grey_actionForTypeText:text atUITextPosition:textPosition];
+    id<GREYAction> action = ActionForTypeTextAtUITextPosition(text, textPosition);
     return [action perform:element error:errorOrNil];
   };
   return [GREYActionBlock actionWithName:actionName
@@ -281,7 +281,7 @@ static Protocol *gTextInputProtocol;
 }
 
 + (id<GREYAction>)actionForReplaceText:(NSString *)text {
-  return [GREYActions grey_actionForReplaceText:text];
+  return ActionForReplaceText(text);
 }
 
 + (id<GREYAction>)actionForClearText {
@@ -326,8 +326,7 @@ static Protocol *gTextInputProtocol;
             grey_dispatch_sync_on_main_thread(^{
               endPosition = [element endOfDocument];
             });
-            id<GREYAction> typeAtEnd = [GREYActions grey_actionForTypeText:deleteStr
-                                                          atUITextPosition:endPosition];
+            id<GREYAction> typeAtEnd = ActionForTypeTextAtUITextPosition(deleteStr, endPosition);
             return [typeAtEnd perform:element error:errorOrNil];
           } else {
             return [[GREYActions actionForTypeText:deleteStr] perform:element error:errorOrNil];
@@ -477,7 +476,7 @@ static Protocol *gTextInputProtocol;
  *         mean that the action was not performed at all but somewhere during the action execution
  *         the error occurred and so the UI may be in an unrecoverable state.
  */
-+ (id<GREYAction>)grey_actionForReplaceText:(NSString *)text {
+static id<GREYAction> ActionForReplaceText(NSString *text) {
   SEL setTextSelector = NSSelectorFromString(@"setText:");
   NSArray<id<GREYMatcher>> *constraintMatchers = @[
     [GREYMatchers matcherForRespondsToSelector:setTextSelector],
@@ -578,9 +577,8 @@ static Protocol *gTextInputProtocol;
  * @param diagnosticsID Identifier of the action for diagnostics purpose.
  * @param action        The GREYAction to perform on the switch.
  */
-+ (id<GREYAction>)grey_actionForTurnSwitchOn:(BOOL)on
-                               diagnosticsID:(NSString *)diagnosticsID
-                                      action:(id<GREYAction>)action {
+__unused static id<GREYAction> ActionForTurnSwitchOn(BOOL on, NSString *diagnosticsID,
+                                                     id<GREYAction> action) {
 #if TARGET_OS_IOS
   id<GREYMatcher> systemAlertShownMatcher = [GREYMatchers matcherForSystemAlertViewShown];
   NSArray<id<GREYMatcher>> *constraintMatchers = @[
@@ -612,8 +610,22 @@ static Protocol *gTextInputProtocol;
 
 #pragma mark - Package Internal
 
-+ (id<GREYAction>)grey_actionForTypeText:(NSString *)text
-                        atUITextPosition:(UITextPosition *)position {
+/**
+ * Use the iOS keyboard to type a string starting from the provided UITextPosition. If the
+ * position is @c nil, then type text from the text input's current position. Should only be called
+ * with a position if element conforms to the UITextInput protocol - which it should if you
+ * derived the UITextPosition from the element.
+ *
+ * @param text     The text to be typed.
+ * @param position The position in the text field at which the text is to be typed.
+ *
+ * @return @c YES if the action succeeded, else @c NO. If an action returns @c NO, it does not
+ *         mean that the action was not performed at all but somewhere during the action execution
+ *         the error occurred and so the UI may be in an unrecoverable state.
+ *
+ * @remark This is available only for internal testing purposes.
+ */
+static id<GREYAction> ActionForTypeTextAtUITextPosition(NSString *text, UITextPosition *position) {
   id<GREYMatcher> systemAlertShownMatcher = [GREYMatchers matcherForSystemAlertViewShown];
   id<GREYMatcher> actionBlockMatcher = [GREYMatchers matcherForNegation:systemAlertShownMatcher];
   NSString *actionName = [NSString stringWithFormat:@"Type '%@'", text];

@@ -100,7 +100,7 @@ static const unsigned short kNumGREYAppStates = 12;
 }
 
 - (GREYAppStateTrackerObject *)trackState:(GREYAppState)state forObject:(id)object {
-  return [self grey_changeState:state
+  return [self changeState:state
                            usingOperation:kGREYTrackState
                                 forObject:object
       orInternalObjectDeallocationTracker:nil
@@ -108,7 +108,7 @@ static const unsigned short kNumGREYAppStates = 12;
 }
 
 - (void)untrackState:(GREYAppState)state forObject:(GREYAppStateTrackerObject *)object {
-  [self grey_changeState:state
+  [self changeState:state
                            usingOperation:kGREYUnTrackState
                                 forObject:nil
       orInternalObjectDeallocationTracker:nil
@@ -116,7 +116,7 @@ static const unsigned short kNumGREYAppStates = 12;
 }
 
 - (GREYAppState)currentState {
-  return [[self grey_performBlockInCriticalSection:^id {
+  return [[self performBlockInCriticalSection:^id {
     return @(self->_currentState);
   }] unsignedIntegerValue];
 }
@@ -127,7 +127,7 @@ static const unsigned short kNumGREYAppStates = 12;
 - (NSString *)description {
   NSMutableString *description = [[NSMutableString alloc] init];
 
-  [self grey_performBlockInCriticalSection:^id {
+  [self performBlockInCriticalSection:^id {
     GREYAppState state = [self currentState];
     [description appendString:StringFromAppState(state)];
     [description appendString:@"\n"];
@@ -175,60 +175,51 @@ static NSString *StringFromAppState(GREYAppState state) {
 
   NSMutableArray<NSString *> *eventStateString = [[NSMutableArray alloc] init];
   if (state & kGREYPendingViewsToAppear) {
-    [eventStateString addObject:
-                          @"Waiting for viewDidAppear: call on the view controller. Please "
-                          @"ensure that this view controller and its subclasses call "
-                          @"through to their super's implementation."];
+    [eventStateString addObject:@"Waiting for viewDidAppear: call on the view controller. Please "
+                                @"ensure that this view controller and its subclasses call "
+                                @"through to their super's implementation."];
   }
   if (state & kGREYPendingViewsToDisappear) {
-    [eventStateString addObject:
-                          @"Waiting for viewDidDisappear: call on the view controller. "
-                          @"Please ensure that this view controller and it's subclasses call "
-                          @"through to their super's implementation."];
+    [eventStateString addObject:@"Waiting for viewDidDisappear: call on the view controller. "
+                                @"Please ensure that this view controller and it's subclasses call "
+                                @"through to their super's implementation."];
   }
   if (state & kGREYPendingCAAnimation) {
-    [eventStateString addObject:
-                          @"Waiting for CAAnimations to finish. Continuous animations may "
-                          @"never finish and must be stopped explicitly. Animations attached "
-                          @"to hidden view may still be running in the background."];
+    [eventStateString addObject:@"Waiting for CAAnimations to finish. Continuous animations may "
+                                @"never finish and must be stopped explicitly. Animations attached "
+                                @"to hidden view may still be running in the background."];
   }
   if (state & kGREYPendingNetworkRequest) {
     NSString *stateMsg =
-        [NSString stringWithFormat:
-                      @"Waiting for network requests to finish. By default, EarlGrey "
-                      @"tracks all network requests. To change this behavior, refer "
-                      @"to GREYConfiguration."];
+        [NSString stringWithFormat:@"Waiting for network requests to finish. By default, EarlGrey "
+                                   @"tracks all network requests. To change this behavior, refer "
+                                   @"to GREYConfiguration."];
     [eventStateString addObject:stateMsg];
   }
   if (state & kGREYPendingRootViewControllerToAppear) {
-    [eventStateString addObject:
-                          @"Waiting for window's rootViewController to appear. "
-                          @"This should happen in the next runloop drain after a window's "
-                          @"state is changed to visible."];
+    [eventStateString addObject:@"Waiting for window's rootViewController to appear. "
+                                @"This should happen in the next runloop drain after a window's "
+                                @"state is changed to visible."];
   }
   if (state & kGREYPendingGestureRecognition) {
-    [eventStateString addObject:
-                          @"Waiting for gesture recognizer to detect or fail an ongoing "
-                          @"gesture."];
+    [eventStateString addObject:@"Waiting for gesture recognizer to detect or fail an ongoing "
+                                @"gesture."];
   }
   if (state & kGREYPendingUIScrollViewScrolling) {
-    [eventStateString addObject:
-                          @"Waiting for UIScrollView to finish scrolling and come to "
-                          @"standstill."];
+    [eventStateString addObject:@"Waiting for UIScrollView to finish scrolling and come to "
+                                @"standstill."];
   }
   if (state & kGREYPendingUIAnimation) {
-    [eventStateString addObject:
-                          @"Waiting for UIAnimation to complete. This internal animation was "
-                          @"triggered by UIKit and completes when -[UIAnimation markStop] "
-                          @"is invoked."];
+    [eventStateString addObject:@"Waiting for UIAnimation to complete. This internal animation was "
+                                @"triggered by UIKit and completes when -[UIAnimation markStop] "
+                                @"is invoked."];
   }
   if (state & kGREYIgnoringSystemWideUserInteraction) {
     NSString *stateMsg =
-        [NSString stringWithFormat:
-                      @"System wide interaction events are being ignored via %@. "
-                      @"Call %@ to enable interactions again.",
-                      NSStringFromSelector(@selector(beginIgnoringInteractionEvents)),
-                      NSStringFromSelector(@selector(endIgnoringInteractionEvents))];
+        [NSString stringWithFormat:@"System wide interaction events are being ignored via %@. "
+                                   @"Call %@ to enable interactions again.",
+                                   NSStringFromSelector(@selector(beginIgnoringInteractionEvents)),
+                                   NSStringFromSelector(@selector(endIgnoringInteractionEvents))];
 
     [eventStateString addObject:stateMsg];
   }
@@ -236,16 +227,15 @@ static NSString *StringFromAppState(GREYAppState state) {
     [eventStateString addObject:@"Waiting for keyboard transition to finish."];
   }
   if (state & kGREYPendingDrawLayoutPass) {
-    [eventStateString addObject:
-                          @"Waiting for UIView's draw/layout pass to complete. A "
-                          @"draw/layout pass normally completes in the next runloop drain."];
+    [eventStateString addObject:@"Waiting for UIView's draw/layout pass to complete. A "
+                                @"draw/layout pass normally completes in the next runloop drain."];
   }
   GREYFatalAssertWithMessage([eventStateString count] > 0,
                              @"Did we forget to describe some states?");
   return [eventStateString componentsJoinedByString:@"\n"];
 }
 
-- (id)grey_performBlockInCriticalSection:(id (^)(void))block {
+- (id)performBlockInCriticalSection:(id (^)(void))block {
   int lock = pthread_mutex_lock(&gStateLock);
   GREYFatalAssertWithMessage(lock == 0, @"Failed to lock.");
   id retVal = block();
@@ -255,11 +245,11 @@ static NSString *StringFromAppState(GREYAppState state) {
   return retVal;
 }
 
-- (GREYAppStateTrackerObject *)grey_changeState:(GREYAppState)state
-                                 usingOperation:(GREYStateOperation)operation
-                                      forObject:(id)object
-            orInternalObjectDeallocationTracker:(GREYObjectDeallocationTracker *)internalObject
-                orExternalAppStateTrackerObject:(GREYAppStateTrackerObject *)externalObject {
+- (GREYAppStateTrackerObject *)changeState:(GREYAppState)state
+                            usingOperation:(GREYStateOperation)operation
+                                 forObject:(id)object
+       orInternalObjectDeallocationTracker:(GREYObjectDeallocationTracker *)internalObject
+           orExternalAppStateTrackerObject:(GREYAppStateTrackerObject *)externalObject {
   // In some cases, the object, internalObject and externalObject are all nil. This happens when
   // we untrack objects which were never registered before. In that scenario, we simply return.
   // For example, setting a root view controller in the App Delegate calls the swizzled
@@ -282,7 +272,7 @@ static NSString *StringFromAppState(GREYAppState state) {
                                  (!object && !internalObject && externalObject),
                              @"Provide either a valid object or a valid internalObject or "
                              @"a valid externalObject, not more than one.");
-  return [self grey_performBlockInCriticalSection:^id {
+  return [self performBlockInCriticalSection:^id {
     // We return early when we try to track an object for state kGREYIdle.
     if (track && state == kGREYIdle) {
       return nil;
@@ -337,8 +327,8 @@ static NSString *StringFromAppState(GREYAppState state) {
         // We set the deallocDelegate to self to inform the GREYAppStateTracker of internal object's
         // deallocation. The internal object can then find the external object using object
         // association and GREYAppStateTracker will then untrack the external object.
-        appStateTrackerObjectInternal =
-            [[GREYObjectDeallocationTracker alloc] initWithObject:object delegate:self];
+        appStateTrackerObjectInternal = [[GREYObjectDeallocationTracker alloc] initWithObject:object
+                                                                                     delegate:self];
       }
 
       if (!appStateTrackerObjectExternal) {
@@ -396,64 +386,60 @@ static NSString *StringFromAppState(GREYAppState state) {
 
 - (void)objectChangingFromState:(GREYAppState)originalState toState:(GREYAppState)newState {
   if (originalState != kGREYIdle) {
-    [self grey_adjustGlobalCountByOneForState:originalState increment:YES];
+    [self adjustGlobalCountByOneForState:originalState increment:YES];
   }
   if (newState != kGREYIdle) {
-    [self grey_adjustGlobalCountByOneForState:newState increment:NO];
+    [self adjustGlobalCountByOneForState:newState increment:NO];
   }
 }
 
-- (void)grey_adjustGlobalCountByOneForState:(GREYAppState)state increment:(BOOL)increment {
+- (void)adjustGlobalCountByOneForState:(GREYAppState)state increment:(BOOL)increment {
   // The @c state could be a combination of multiple states, hence, we need to check against
   // every state.
   if (state & kGREYPendingDrawLayoutPass) {
-    [self grey_updateGlobalCountByOneInDictionaryForState:kGREYPendingDrawLayoutPass
-                                                increment:increment];
+    [self updateGlobalCountByOneInDictionaryForState:kGREYPendingDrawLayoutPass
+                                           increment:increment];
   }
   if (state & kGREYPendingViewsToAppear) {
-    [self grey_updateGlobalCountByOneInDictionaryForState:kGREYPendingViewsToAppear
-                                                increment:increment];
+    [self updateGlobalCountByOneInDictionaryForState:kGREYPendingViewsToAppear increment:increment];
   }
   if (state & kGREYPendingViewsToDisappear) {
-    [self grey_updateGlobalCountByOneInDictionaryForState:kGREYPendingViewsToDisappear
-                                                increment:increment];
+    [self updateGlobalCountByOneInDictionaryForState:kGREYPendingViewsToDisappear
+                                           increment:increment];
   }
   if (state & kGREYPendingKeyboardTransition) {
-    [self grey_updateGlobalCountByOneInDictionaryForState:kGREYPendingKeyboardTransition
-                                                increment:increment];
+    [self updateGlobalCountByOneInDictionaryForState:kGREYPendingKeyboardTransition
+                                           increment:increment];
   }
   if (state & kGREYPendingCAAnimation) {
-    [self grey_updateGlobalCountByOneInDictionaryForState:kGREYPendingCAAnimation
-                                                increment:increment];
+    [self updateGlobalCountByOneInDictionaryForState:kGREYPendingCAAnimation increment:increment];
   }
   if (state & kGREYPendingUIAnimation) {
-    [self grey_updateGlobalCountByOneInDictionaryForState:kGREYPendingUIAnimation
-                                                increment:increment];
+    [self updateGlobalCountByOneInDictionaryForState:kGREYPendingUIAnimation increment:increment];
   }
   if (state & kGREYPendingRootViewControllerToAppear) {
-    [self grey_updateGlobalCountByOneInDictionaryForState:kGREYPendingRootViewControllerToAppear
-                                                increment:increment];
+    [self updateGlobalCountByOneInDictionaryForState:kGREYPendingRootViewControllerToAppear
+                                           increment:increment];
   }
   if (state & kGREYPendingNetworkRequest) {
-    [self grey_updateGlobalCountByOneInDictionaryForState:kGREYPendingNetworkRequest
-                                                increment:increment];
+    [self updateGlobalCountByOneInDictionaryForState:kGREYPendingNetworkRequest
+                                           increment:increment];
   }
   if (state & kGREYPendingGestureRecognition) {
-    [self grey_updateGlobalCountByOneInDictionaryForState:kGREYPendingGestureRecognition
-                                                increment:increment];
+    [self updateGlobalCountByOneInDictionaryForState:kGREYPendingGestureRecognition
+                                           increment:increment];
   }
   if (state & kGREYPendingUIScrollViewScrolling) {
-    [self grey_updateGlobalCountByOneInDictionaryForState:kGREYPendingUIScrollViewScrolling
-                                                increment:increment];
+    [self updateGlobalCountByOneInDictionaryForState:kGREYPendingUIScrollViewScrolling
+                                           increment:increment];
   }
   if (state & kGREYIgnoringSystemWideUserInteraction) {
-    [self grey_updateGlobalCountByOneInDictionaryForState:kGREYIgnoringSystemWideUserInteraction
-                                                increment:increment];
+    [self updateGlobalCountByOneInDictionaryForState:kGREYIgnoringSystemWideUserInteraction
+                                           increment:increment];
   }
 }
 
-- (void)grey_updateGlobalCountByOneInDictionaryForState:(GREYAppState)state
-                                              increment:(BOOL)increment {
+- (void)updateGlobalCountByOneInDictionaryForState:(GREYAppState)state increment:(BOOL)increment {
   NSNumber *numElements = [_stateDictionary objectForKey:@(state)];
   NSUInteger count = 1;
   if (numElements) {
@@ -479,8 +465,8 @@ static NSString *StringFromAppState(GREYAppState state) {
 
 #pragma mark - Methods Only For Testing
 
-- (GREYAppState)grey_lastKnownStateForObject:(id)object {
-  return [[self grey_performBlockInCriticalSection:^id {
+- (GREYAppState)lastKnownStateForObject:(id)object {
+  return [[self performBlockInCriticalSection:^id {
     GREYObjectDeallocationTracker *internal =
         [GREYObjectDeallocationTracker deallocationTrackerRegisteredWithObject:object];
     GREYAppStateTrackerObject *external =
@@ -492,7 +478,7 @@ static NSString *StringFromAppState(GREYAppState state) {
 #pragma mark - Package Internal
 
 - (void)grey_clearState {
-  [self grey_performBlockInCriticalSection:^id {
+  [self performBlockInCriticalSection:^id {
     self->_currentState = kGREYIdle;
     [self->_stateDictionary removeAllObjects];
     // We get rid of the strong reference from internal to external object so that the external
@@ -510,7 +496,7 @@ static NSString *StringFromAppState(GREYAppState state) {
 #pragma mark - GREYAppStateTrackerObjectDelegate
 
 - (void)objectTrackerDidDeallocate:(GREYObjectDeallocationTracker *)objectDeallocationTracker {
-  [self grey_changeState:kGREYIdle
+  [self changeState:kGREYIdle
                            usingOperation:kGREYClearState
                                 forObject:nil
       orInternalObjectDeallocationTracker:objectDeallocationTracker
