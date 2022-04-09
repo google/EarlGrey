@@ -48,6 +48,12 @@ NSString *const kHostPingRequestMessage = @"ping";
 
 NSString *const kHostPingSuccessMessage = @"success";
 
+#if TARGET_IPHONE_SIMULATOR
+const double kGREYAppLaunchTimeout = 300;  // 5 minutes for Simulators.
+#else
+const double kGREYAppLaunchTimeout = 600;  // 10 minutes for Devices.
+#endif
+
 #if TARGET_OS_IOS
 NSString *NSStringFromUIDeviceOrientation(UIDeviceOrientation deviceOrientation) {
   switch (deviceOrientation) {

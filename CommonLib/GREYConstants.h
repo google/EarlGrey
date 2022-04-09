@@ -94,6 +94,11 @@ GREY_EXTERN NSString* _Nonnull const kHostPingSuccessMessage;
 GREY_EXTERN const double kGREYPinchAngleDefault;
 
 /**
+ * The default timeout for an XCUIApplication::launch call in an EarlGrey test.
+ */
+GREY_EXTERN const double kGREYAppLaunchTimeout;
+
+/**
  * Directions for scrolling and swiping.
  *
  * The direction describes the motion of the view port as a result of the swipe, which is opposite

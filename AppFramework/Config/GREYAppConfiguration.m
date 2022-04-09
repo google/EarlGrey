@@ -22,6 +22,7 @@
 #import "GREYConfiguration.h"
 #import "GREYHostApplicationDistantObject.h"
 #import "GREYHostBackgroundDistantObject.h"
+#import "GREYConstants.h"
 #import "GREYTestConfiguration.h"
 #import "EDOClientService.h"
 #import "NSObject+EDOValueObject.h"
@@ -128,6 +129,7 @@ static NSDictionary *GetFakeLocalTestingAppConfig() {
       kGREYConfigKeyIgnoreAppStates : @(kGREYIdle),
       kGREYConfigKeyIgnoreHiddenAnimations : @NO,
       kGREYConfigKeyIgnoreIsAccessible : @NO,
+      kGREYConfigKeyAppLaunchTimeout : @(kGREYAppLaunchTimeout),
     };
   });
   return fakeLocalTestingAppConfig;

@@ -15,6 +15,7 @@
 //
 
 #import "GREYConfigKey.h"
+#import "GREYConstants.h"
 
 GREYConfigKey const kGREYConfigKeyActionConstraintsEnabled =
     @"GREYConfigKeyActionConstraintsEnabled";
@@ -35,3 +36,4 @@ GREYConfigKey const kGREYConfigKeyArtifactsDirLocation = @"GREYConfigKeyArtifact
 GREYConfigKey const kGREYConfigKeyIgnoreAppStates = @"GREYConfigKeyIgnoreAppStates";
 GREYConfigKey const kGREYConfigKeyIgnoreHiddenAnimations = @"GREYConfigKeyTrackHiddenAnimations";
 GREYConfigKey const kGREYConfigKeyIgnoreIsAccessible = @"GREYConfigKeyIgnoreIsAccessible";
+GREYConfigKey const kGREYConfigKeyAppLaunchTimeout = @"GREYConfigKeyAppLaunchTimeout";

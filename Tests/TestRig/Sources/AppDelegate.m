@@ -51,6 +51,10 @@ typedef void (^RestorationHandlerBlock)(NSArray *_Nullable);
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)opt {
+  if (NSProcessInfo.processInfo.environment[@"SLEEP_FOR_TEST"]) {
+    NSLog(@"Sleeping in the application process to test for launch timeouts.");
+    sleep(INT_MAX);
+  }
   // Shows a custom splash screen.
   SplashViewController *splashVC = [[SplashViewController alloc] init];
   self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];

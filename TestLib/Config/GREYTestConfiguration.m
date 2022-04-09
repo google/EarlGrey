@@ -23,6 +23,7 @@
 #import "GREYConfigKey.h"
 #import "GREYConfiguration+Private.h"
 #import "GREYConfiguration.h"
+#import "GREYConstants.h"
 #import "GREYLogger.h"
 #import "NSObject+EDOValueObject.h"
 
@@ -65,6 +66,7 @@ GREYConfiguration *GREYCreateConfiguration(void) { return [[GREYTestConfiguratio
     [self setDefaultValue:@(kGREYIdle) forConfigKey:kGREYConfigKeyIgnoreAppStates];
     [self setDefaultValue:@NO forConfigKey:kGREYConfigKeyIgnoreHiddenAnimations];
     [self setDefaultValue:@NO forConfigKey:kGREYConfigKeyIgnoreIsAccessible];
+    [self setDefaultValue:@(kGREYAppLaunchTimeout) forConfigKey:kGREYConfigKeyAppLaunchTimeout];
   }
   return self;
 }

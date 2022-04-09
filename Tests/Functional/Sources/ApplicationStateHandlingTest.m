@@ -192,9 +192,42 @@
   unsetenv(kGREYAllowVerboseLogging.UTF8String);
 }
 
+#pragma mark - Private
+
 /** Perform a sample EarlGrey statement which will always work on the main page. */
 static void PerformSampleEarlGreyStatement() {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
+}
+
+@end
+
+/** Class for specifically testing the application launch timeout. */
+@interface ApplicationLaunchTest : XCTestCase
+@end
+
+@implementation ApplicationLaunchTest
+
+/**
+ * Ensures that if the application launch takes longer than expected, EarlGrey will raise an
+ * exception.
+ */
+- (void)testLaunchTimeoutFailsTest {
+  XCUIApplication *application = [[XCUIApplication alloc] init];
+  NSMutableDictionary<NSString *, NSString *> *launchEnv =
+      [[NSMutableDictionary alloc] initWithDictionary:application.launchEnvironment];
+
+  __block XCUIApplication *blockApplication = application;
+  [self addTeardownBlock:^{
+    [GREYConfiguration.sharedConfiguration reset];
+    [launchEnv removeObjectForKey:@"SLEEP_FOR_TEST"];
+    blockApplication.launchEnvironment = launchEnv;
+  }];
+
+  launchEnv[@"SLEEP_FOR_TEST"] = @"1";
+  application.launchEnvironment = launchEnv;
+  [GREYConfiguration.sharedConfiguration setValue:@(10)
+                                     forConfigKey:kGREYConfigKeyAppLaunchTimeout];
+  XCTAssertThrows([application launch]);
 }
 
 @end

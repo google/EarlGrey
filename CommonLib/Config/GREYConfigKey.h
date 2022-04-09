@@ -161,4 +161,12 @@ GREY_EXTERN GREYConfigKey const kGREYConfigKeyIgnoreHiddenAnimations;
  */
 GREY_EXTERN GREYConfigKey const kGREYConfigKeyIgnoreIsAccessible;
 
+/**
+ * Configuration for changing the launch timeout for XCUIApplication::launch in an EarlGrey test.
+ *
+ * Accepted values: @c double (negative values are invalid)
+ * Default value: 600s for Simulators and 1500s for Devices.
+ */
+GREY_EXTERN GREYConfigKey const kGREYConfigKeyAppLaunchTimeout;
+
 NS_ASSUME_NONNULL_END

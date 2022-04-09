@@ -19,9 +19,11 @@
 #include <objc/runtime.h>
 
 #import "GREYFatalAsserts.h"
+#import "GREYConfigKey.h"
 #import "GREYConfiguration.h"
 #import "GREYTestApplicationDistantObject+Private.h"
 #import "GREYTestApplicationDistantObject.h"
+#import "GREYFrameworkException.h"
 #import "GREYLogger.h"
 #import "GREYSetup.h"
 #import "GREYSwizzler.h"
@@ -74,13 +76,49 @@
 
   // Reset the port number for the app under test before every -[XCUIApplication launch] call.
   [testDistantObject resetHostArguments];
+
+  NSTimer *validTimer = AddTimerForLaunchTimeout();
   INVOKE_ORIGINAL_IMP(void, @selector(grey_launch));
-  // When the identifier is @c nil or empty, it is the test rig application being launched.
+  [validTimer invalidate];
+  // When the identifier is @c nil or empty, it is the TestRig application being launched.
   if (self.identifier.length == 0) {
     objc_setAssociatedObject([XCUIApplication class], @selector(greyTestRigName), self.label,
                              OBJC_ASSOCIATION_RETAIN_NONATOMIC);
   }
   NSLog(@"Application Launch Completed. UI Test with EarlGrey Starting");
+}
+
+- (void)grey_terminate {  // NOLINT
+  GREYTestConfiguration *testConfiguration =
+      (GREYTestConfiguration *)GREYConfiguration.sharedConfiguration;
+  testConfiguration.remoteConfiguration = nil;
+  INVOKE_ORIGINAL_IMP(void, @selector(grey_terminate));  // NOLINT
+}
+
+#pragma mark - Private
+
+/**
+ * @return An NSTimer which will raise an exception once fired and fail the test.
+ */
+static NSTimer *AddTimerForLaunchTimeout(void) {
+  // The max amount of time needed to launch the application.
+  NSTimeInterval launchActionTimeout = GREY_CONFIG_DOUBLE(kGREYConfigKeyAppLaunchTimeout);
+  NSString *launchTimeoutReason = [NSString
+      stringWithFormat:
+          @"The Host Application (TestRig) took longer than EarlGrey's timeout: %f seconds to "
+          @"launch. Please check any system logs, crashes or run the test locally to pinpoint the "
+          @"delay.",
+          launchActionTimeout];
+  NSTimer *validTimer =
+      [NSTimer scheduledTimerWithTimeInterval:launchActionTimeout
+                                      repeats:NO
+                                        block:^(NSTimer *_Nonnull timer) {
+                                          [[GREYFrameworkException
+                                              exceptionWithName:kGREYGenericFailureException
+                                                         reason:launchTimeoutReason] raise];
+                                        }];
+  [[NSRunLoop currentRunLoop] addTimer:validTimer forMode:NSDefaultRunLoopMode];
+  return validTimer;
 }
 
 /**
@@ -96,13 +134,6 @@ static void AddVerboseLoggingIfNeeded(NSMutableArray<NSString *> *launchArgs,
     [launchArgs addObject:[NSString stringWithFormat:@"-%@", kGREYAllowVerboseLogging]];
     [launchArgs addObject:[NSString stringWithFormat:@"%zd", verboseLoggingType]];
   }
-}
-
-- (void)grey_terminate {  // NOLINT
-  GREYTestConfiguration *testConfiguration =
-      (GREYTestConfiguration *)GREYConfiguration.sharedConfiguration;
-  testConfiguration.remoteConfiguration = nil;
-  INVOKE_ORIGINAL_IMP(void, @selector(grey_terminate));  // NOLINT
 }
 
 /**
