@@ -173,8 +173,7 @@ static Class gEDOObjectClass;
 + (id<GREYMatcher>)matcherForAccessibilityLabel:(NSString *)label {
   NSString *prefix = @"accessibilityLabel";
   GREYMatchesBlock matches = ^BOOL(NSObject *element) {
-    return [self grey_accessibilityString:element.accessibilityLabel
-             isEqualToAccessibilityString:label];
+    return [self accessibilityString:element.accessibilityLabel isEqualToAccessibilityString:label];
   };
   GREYDescribeToBlock describe = ^void(id<GREYDescription> description) {
     [description appendText:[NSString stringWithFormat:@"%@('%@')", prefix, label]];
@@ -210,8 +209,7 @@ static Class gEDOObjectClass;
     if (element.accessibilityValue == value) {
       return YES;
     }
-    return [self grey_accessibilityString:element.accessibilityValue
-             isEqualToAccessibilityString:value];
+    return [self accessibilityString:element.accessibilityValue isEqualToAccessibilityString:value];
   };
   GREYDescribeToBlock describe = ^void(id<GREYDescription> description) {
     [description appendText:[NSString stringWithFormat:@"%@('%@')", prefix, value]];
@@ -244,7 +242,7 @@ static Class gEDOObjectClass;
     if (accessibilityHint == hint) {
       return YES;
     }
-    return [self grey_accessibilityString:accessibilityHint isEqualToAccessibilityString:hint];
+    return [self accessibilityString:accessibilityHint isEqualToAccessibilityString:hint];
   };
   GREYDescribeToBlock describe = ^void(id<GREYDescription> description) {
     [description appendText:[NSString stringWithFormat:@"%@('%@')", prefix, hint]];
@@ -883,7 +881,7 @@ static Class gEDOObjectClass;
 /**
  * @return @c YES if the strings have the same string values, @c NO otherwise.
  */
-+ (BOOL)grey_accessibilityString:(id)firstString isEqualToAccessibilityString:(id)secondString {
++ (BOOL)accessibilityString:(id)firstString isEqualToAccessibilityString:(id)secondString {
   if (firstString == secondString) {
     return YES;
   }
