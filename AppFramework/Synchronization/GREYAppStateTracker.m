@@ -477,7 +477,7 @@ static NSString *StringFromAppState(GREYAppState state) {
 
 #pragma mark - Package Internal
 
-- (void)grey_clearState {
+- (void)clearState {
   [self performBlockInCriticalSection:^id {
     self->_currentState = kGREYIdle;
     [self->_stateDictionary removeAllObjects];

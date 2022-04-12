@@ -77,7 +77,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @remark This is available only for internal testing purposes.
  */
-- (void)grey_clearState;
+- (void)clearState;
 
 @end
 
