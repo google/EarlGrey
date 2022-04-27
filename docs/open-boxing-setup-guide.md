@@ -1,4 +1,4 @@
-# How to Query / Modify the Application Under Test (White-Boxing)
+# How to Query / Modify the Application Under Test (open-Boxing)
 
 First, let's understand what EarlGrey 2.0 is -
 
@@ -78,7 +78,7 @@ In the Helper Bundle, you can add eDistantObject related files to make app-side
 calls from the test. Examples of this are in `HostDOCategories` for Objective-C
 and `HostDOCategoriesSwift` for Swift in our
 [Functional Tests project](../Tests/FunctionalTests/FunctionalTests.xcodeproj).
-We will cover this in the White-boxing guides in the bottom of this doc.
+We will cover this in the open-boxing guides in the bottom of this doc.
 
 ### Embed the Bundle into your application under test
 
@@ -121,5 +121,5 @@ categories on `GREYHostApplicationDistantObject` and
 Now that you have everything set up, look at the following language specific doc
 for how to query / modify the application under test:
 
-*   [Objective-C](objective-c-white-boxing.md)
-*   [Swift](swift-white-boxing.md)
+*   [Objective-C](objective-c-open-boxing.md)
+*   [Swift](swift-open-boxing.md)

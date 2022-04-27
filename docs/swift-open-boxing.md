@@ -1,4 +1,4 @@
-# How to Query / Modify the Application Under Test (White-Boxing) in Swift
+# How to Query / Modify the Application Under Test (Open-Boxing) in Swift
 
 Since Swift does not have Header files like Objective-C, the process for using
 EarlGrey's distant objects is a bit different.
@@ -9,7 +9,7 @@ since we need to provide the test with the function declarations, we need to
 create a protocol that will help expose them.
 
 Since the Helper Bundle defined in
-the [White-Boxing Setup Guide](white-boxing-setup-guide.md) is initially empty,
+the [Open-Boxing Setup Guide](open-boxing-setup-guide.md) is initially empty,
 add a Swift file into it. The file can be blank for now.
 This should automatically enable you to add a Bridging Header as described in
 the Setup Guide's [Bridging Header](setup.md#bridging_header) section.
