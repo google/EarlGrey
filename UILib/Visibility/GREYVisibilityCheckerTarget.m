@@ -163,7 +163,11 @@ const double kMinimumAlphaToConsiderAsObscuring = 0.95f;
   // spaces.
   if (@available(iOS 13.0, *)) {
     if (_targetWindowScene && [object.element respondsToSelector:@selector(window)]) {
-      UIWindowScene *objectWindowScene = [[object.element window] windowScene];
+      UIWindow *elementWindow = [object.element window];
+      if ([object.element isKindOfClass:[UIWindow class]]) {
+        elementWindow = object.element;
+      }
+      UIWindowScene *objectWindowScene = [elementWindow windowScene];
       if (objectWindowScene && _targetWindowScene != objectWindowScene) {
         id<UICoordinateSpace> objectCoordinateSpace = [objectWindowScene coordinateSpace];
         viewRect = [_targetCoordinateSpace convertRect:viewRect
