@@ -290,6 +290,11 @@ NSString* _Nonnull NSStringFromUIAccessibilityTraits(UIAccessibilityTraits trait
  */
 NSString* _Null_unspecified GREYBugDestination(void);  // NOLINT
 
+/**
+ * @return A BOOL specifying if the test is being run locally or on internal CI.
+ */
+BOOL GREYIsLocalTest(void);  // NOLINT
+
 NS_ASSUME_NONNULL_BEGIN
 /**
  * EarlGrey specific common additions to NSObject.

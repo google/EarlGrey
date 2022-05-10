@@ -134,7 +134,8 @@
                               @"((kindOfClass('UILabel') || kindOfClass('UITextField') || "
                               @"kindOfClass('UITextView')) && hasText('Basic Views'))\n"
                               @"\n"
-                              @"Check if the element exists in the UI hierarchy printed below. If "
+                              @"Check if the element exists in the UI hierarchy printed below or "
+                              @"in the debug panel's Hierarchy Tree. If "
                               @"it exists, adjust the matcher so that it accurately matches "
                               @"the element.\n";
   XCTAssertTrue([_handler.details containsString:expectedDetails],
@@ -241,7 +242,8 @@
   NSString *expectedDetails = @"Interaction cannot continue because the "
                               @"desired element was not found.\n"
                               @"\n"
-                              @"Check if the element exists in the UI hierarchy printed below. If "
+                              @"Check if the element exists in the UI hierarchy printed below or "
+                              @"in the debug panel's Hierarchy Tree. If "
                               @"it exists, adjust the matcher so that it accurately matches "
                               @"the element.\n"
                               @"\n"
@@ -284,9 +286,8 @@
       @"0.750000, Actual: 0.000000))\n"
       @"\n"
       @"Failed Assertion:\n"
-      @"assertWithMatcher:sufficientlyVisible(Expected: 0.750000, Actual: 0.000000)\n"
-      @"\n"
-      @"UI Hierarchy";
+      @"assertWithMatcher:sufficientlyVisible(Expected: 0.750000, Actual: 0.000000)";
+  ;
   XCTAssertTrue([_handler.details containsString:expectedDetails],
                 @"Expected info does not appear in the actual exception details:\n\n"
                 @"========== expected info ===========\n%@\n\n"
@@ -306,9 +307,7 @@
       @"Failed to type because the provided string was empty.\n"
       @"\n"
       @"Element Matcher:\n"
-      @"(respondsToSelector(accessibilityIdentifier) && accessibilityID('TypingTextField'))\n"
-      @"\n"
-      @"UI Hierarchy";
+      @"(respondsToSelector(accessibilityIdentifier) && accessibilityID('TypingTextField'))";
   XCTAssertTrue([_handler.details containsString:expectedDetails],
                 @"Expected info does not appear in the actual exception details:\n\n"
                 @"========== expected info ===========\n%@\n\n"
@@ -345,10 +344,10 @@
                 @"========== expected info ===========\n%@\n\n"
                 @"========== actual exception details ==========\n%@",
                 expectedDetails, _handler.details);
-  XCTAssertTrue([_handler.details containsString:@"UI Hierarchy"],
-                @"\"UI Hierarchy\" does not appear in the actual exception details:\n\n"
-                @"========== exception details ==========\n%@",
-                _handler.details);
+  XCTAssertFalse([_handler.details containsString:@"UI Hierarchy"],
+                 @"\"UI Hierarchy\" should not appear in the actual exception details:\n\n"
+                 @"========== exception details ==========\n%@",
+                 _handler.details);
 }
 
 - (void)testConstraintsFailureErrorDescription {
@@ -370,9 +369,7 @@
                                @"Element Description:\n"
                                @"<UIButton:";
   NSString *expectedDetails2 = @"Failed Action:\n"
-                               @"Scroll Up for 20\n"
-                               @"\n"
-                               @"UI Hierarchy";
+                               @"Scroll Up for 20";
   XCTAssertTrue([_handler.details containsString:expectedDetails1],
                 @"Expected info does not appear in the actual exception details:\n\n"
                 @"========== expected info ===========\n%@\n\n"
@@ -394,7 +391,7 @@
   NSString *expectedDetailsTillElement = @"Element does not meet assertion criteria:\nisNil\n\n"
                                           "Element:\n<UIWindow:";
   NSString *expectedDetailsForMatcher = @"\n\nMismatch:\nisNil\n\nElement Matcher:\n"
-                                        @"(kindOfClass('UIWindow') && keyWindow)\n\nUI Hierarchy";
+                                        @"(kindOfClass('UIWindow') && keyWindow)";
   XCTAssertTrue([_handler.details containsString:expectedDetailsTillElement],
                 @"Expected info does not appear in the actual exception details:\n\n"
                 @"========== expected info ===========\n%@\n\n"
@@ -442,8 +439,8 @@
                 jsErrorDetails);
   XCTAssertTrue([_handler.details containsString:@"Element Matcher:"],
                 @"Exception:%@ doesn't have the Element Matcher:", _handler.details);
-  XCTAssertTrue([_handler.details containsString:@"UI Hierarchy"],
-                @"Exception:%@ doesn't have the UI Hierarchy:", _handler.details);
+  XCTAssertFalse([_handler.details containsString:@"UI Hierarchy"],
+                 @"Exception:%@ should not have the UI Hierarchy:", _handler.details);
   XCTAssertTrue([_handler.details containsString:@"Failed Action:\nExecute JavaScript\n"],
                 @"Exception:%@ doesn't have the JavaScript Action Name:", _handler.details);
 }

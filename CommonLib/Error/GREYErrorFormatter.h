@@ -26,10 +26,12 @@ NS_ASSUME_NONNULL_BEGIN
  *       the failure handler.
  *
  * @param error The GREYError being formatted.
+ * @param containsHierarchy A BOOL specifying whether the hierarchy should be included. Set this to
+ *                          @c NO as in the case of exception printing where it isn't always needed.
  *
  * @return The full description of the error including its nested errors suitable for output to the
  *         user, depending on the error's code and domain.
  */
-NSString *GREYFormattedDescriptionForError(NSError *error);
+NSString *GREYFormattedDescriptionForError(NSError *error, BOOL containsHierarchy);
 
 NS_ASSUME_NONNULL_END

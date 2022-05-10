@@ -23,6 +23,7 @@
 #import "GREYErrorConstants.h"
 #import "GREYFailureHandler.h"
 #import "GREYFrameworkException.h"
+#import "GREYConstants.h"
 
 
 /**
@@ -68,10 +69,13 @@ void GREYHandleInteractionError(__strong GREYError *interactionError,
           exceptionWithName:interactionError.domain
                      reason:interactionError.userInfo[kErrorFailureReasonKey]
                    userInfo:[mutableUserInfo copy]];
-
+      NSString *exceptionDetails = interactionError.exceptionDescription;
+      if (GREYIsLocalTest()) {
+        exceptionDetails = interactionError.description;
+      }
       id<GREYFailureHandler> failureHandler =
           [NSThread mainThread].threadDictionary[GREYFailureHandlerKey];
-      [failureHandler handleException:exception details:interactionError.description];
+      [failureHandler handleException:exception details:exceptionDetails];
     }
   }
 }

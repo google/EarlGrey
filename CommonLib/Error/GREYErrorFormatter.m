@@ -73,7 +73,7 @@ static void LogErrorForKeyInLogger(GREYError *error, NSString *key, NSMutableStr
   }
 }
 
-NSString *GREYFormattedDescriptionForError(GREYError *error) {
+NSString *GREYFormattedDescriptionForError(GREYError *error, BOOL containsHierarchy) {
   NSMutableString *logger = [[NSMutableString alloc] init];
   NSArray<NSString *> *keyOrder = error.keyOrder;
   NSArray<NSString *> *defaultKeyOrder = @[
@@ -109,9 +109,11 @@ NSString *GREYFormattedDescriptionForError(GREYError *error) {
     [logger appendFormat:@"\n\n*********** Underlying Error ***********:\n%@", nestedError];
   }
 
-  NSString *hierarchy = error.appUIHierarchy;
-  if (hierarchy) {
-    [logger appendFormat:@"\n\n%@\n%@", kErrorDetailAppUIHierarchyHeaderKey, hierarchy];
+  if (containsHierarchy) {
+    NSString *hierarchy = error.appUIHierarchy;
+    if (hierarchy) {
+      [logger appendFormat:@"\n\n%@\n%@", kErrorDetailAppUIHierarchyHeaderKey, hierarchy];
+    }
   }
 
   return [NSString stringWithFormat:@"%@\n", logger];

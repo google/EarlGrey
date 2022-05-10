@@ -243,4 +243,9 @@ GREY_EXTERN NSString *const kGREYScreenshotActualAfterImage;
  */
 - (instancetype)init NS_UNAVAILABLE;
 
+/**
+ * @return A version of the error to be printed in exceptions. Mainly removes the hierarchy.
+ */
+- (NSString *)exceptionDescription;
+
 @end

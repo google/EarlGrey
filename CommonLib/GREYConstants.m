@@ -275,4 +275,8 @@ NSString *GREYBugDestination(void) {
   }
 }
 
+BOOL GREYIsLocalTest() {
+  return YES;
+}
+
 @end

@@ -612,8 +612,9 @@ static NSString *RecoverySuggestionForMultipleElementMatchedError(NSString *matc
         errorDetails[kErrorDetailActionNameKey] = action.name;
         errorDetails[kErrorDetailElementMatcherKey] = _elementMatcher.description;
         errorDetails[kErrorDetailRecoverySuggestionKey] =
-            @"Check if the element exists in the UI hierarchy printed below. If it exists, adjust "
-            @"the matcher so that it accurately matches the element.";
+            @"Check if the element exists in the UI hierarchy printed below or in the debug "
+            @"panel's Hierarchy Tree. If it exists, adjust the matcher so that it accurately "
+            @"matches the element.";
         if (searchAPIInfo) {
           errorDetails[kErrorDetailSearchActionInfoKey] = searchAPIInfo;
         }
@@ -780,8 +781,9 @@ static NSString *RecoverySuggestionForMultipleElementMatchedError(NSString *matc
         errorDetails[kErrorDetailAssertCriteriaKey] = assertion.name;
         errorDetails[kErrorDetailElementMatcherKey] = _elementMatcher.description;
         errorDetails[kErrorDetailRecoverySuggestionKey] =
-            @"Check if the element exists in the UI hierarchy printed below. If it exists, "
-            @"adjust the matcher so that it accurately matches the element.";
+            @"Check if the element exists in the UI hierarchy printed below or in the debug "
+            @"panel's Hierarchy Tree. If it exists, adjust the matcher so that it accurately "
+            @"matches the element.";
         if (searchAPIInfo) {
           errorDetails[kErrorDetailSearchActionInfoKey] = searchAPIInfo;
         }
