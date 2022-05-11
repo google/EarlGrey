@@ -24,7 +24,12 @@ NSString *GREYAppUIHierarchyFromException(GREYFrameworkException *exception, NSS
   NSString *appUIHierarchy = [exception.userInfo valueForKey:kErrorDetailAppUIHierarchyKey];
   // For calls from GREYAsserts in the test side, the hierarchy must be populated here. In case an
   // existing EarlGrey error is being logged, do not re-print it.
-  if (!appUIHierarchy && ![details containsString:kErrorDetailAppUIHierarchyHeaderKey]) {
+  if (!appUIHierarchy) {
+    if ([details containsString:kErrorDetailAppUIHierarchyHeaderKey]) {
+      NSArray<NSString *> *detailsComponents =
+          [details componentsSeparatedByString:kErrorDetailAppUIHierarchyHeaderKey];
+      return [detailsComponents lastObject];
+    }
     appUIHierarchy = [NSString stringWithFormat:@"\n%@:\n%@\n", kErrorDetailAppUIHierarchyKey,
                                                 [GREYElementHierarchy hierarchyString]];
     return appUIHierarchy;
