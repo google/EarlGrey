@@ -124,20 +124,22 @@
   [self openTestViewNamed:@"Animations"];
   [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] assertWithMatcher:grey_notNil()];
 
-  NSString *expectedDetails = @"Failed Assertion:\n"
-                              @"assertWithMatcher:isNotNil\n"
-                              @"\n"
-                              @"Interaction cannot continue because the desired element was not "
-                              @"found.\n"
-                              @"\n"
-                              @"Element Matcher:\n"
-                              @"((kindOfClass('UILabel') || kindOfClass('UITextField') || "
-                              @"kindOfClass('UITextView')) && hasText('Basic Views'))\n"
-                              @"\n"
-                              @"Check if the element exists in the UI hierarchy printed below or "
-                              @"in the debug panel's Hierarchy Tree. If "
-                              @"it exists, adjust the matcher so that it accurately matches "
-                              @"the element.\n";
+  NSString *expectedDetails =
+      @"Failed Assertion:\n"
+      @"assertWithMatcher:isNotNil\n"
+      @"\n"
+      @"Interaction cannot continue because the desired element was not "
+      @"found.\n"
+      @"\n"
+      @"Element Matcher:\n"
+      @"((((kindOfClass('UILabel') || kindOfClass('UITextField') || kindOfClass('UITextView')) && "
+      @"hasText('Basic Views')) || (isSwiftUI && (respondsToSelector(isAccessibilityElement) && "
+      @"isAccessibilityElement) && hasTextSwiftUI('Basic Views'))))\n"
+      @"\n"
+      @"Check if the element exists in the UI hierarchy printed below or "
+      @"in the debug panel's Hierarchy Tree. If "
+      @"it exists, adjust the matcher so that it accurately matches "
+      @"the element.\n";
   XCTAssertTrue([_handler.details containsString:expectedDetails],
                 @"Expected info does not appear in the actual exception details:\n\n"
                 @"========== expected info ===========\n%@\n\n"

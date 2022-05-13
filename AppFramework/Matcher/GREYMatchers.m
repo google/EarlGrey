@@ -276,23 +276,49 @@ static Class gEDOObjectClass;
 
 + (id<GREYMatcher>)matcherForText:(NSString *)text {
   NSString *prefix = @"hasText";
-  GREYMatchesBlock matches = ^BOOL(id element) {
+  NSString *swiftPrefix = @"hasTextSwiftUI";
+  GREYMatchesBlock matchesSwiftUI = ^BOOL(id element) {
+    return [self accessibilityString:((NSObject *)element).accessibilityLabel
+        isEqualToAccessibilityString:text];
+  };
+  GREYMatchesBlock matchesNonSwiftUI = ^BOOL(id element) {
     return [[element text] isEqualToString:text];
   };
-  GREYDescribeToBlock describe = ^void(id<GREYDescription> description) {
+
+  GREYDescribeToBlock describeSwiftUI = ^void(id<GREYDescription> description) {
+    [description appendText:[NSString stringWithFormat:@"%@('%@')", swiftPrefix, text]];
+  };
+  GREYDescribeToBlock describeNonSwiftUI = ^void(id<GREYDescription> description) {
     [description appendText:[NSString stringWithFormat:@"%@('%@')", prefix, text]];
   };
-  id<GREYMatcher> matcher = [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches
-                                                                 descriptionBlock:describe];
-  NSArray<id<GREYMatcher>> *anyOfmatchersArray = @[
+  // A matcher for SwiftUI elements - compares 'ax.label' instead of 'text'
+  id<GREYMatcher> swiftUIMatcher =
+      [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matchesSwiftUI
+                                           descriptionBlock:describeSwiftUI];
+  // A matcher for non-SwiftUI elements
+  id<GREYMatcher> nonSwiftUIMatcher =
+      [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matchesNonSwiftUI
+                                           descriptionBlock:describeNonSwiftUI];
+
+  NSArray<id<GREYMatcher>> *nonSwiftUIMatchersArray = @[
     [GREYMatchers matcherForKindOfClass:[UILabel class]],
     [GREYMatchers matcherForKindOfClass:[UITextField class]],
     [GREYMatchers matcherForKindOfClass:[UITextView class]],
   ];
-  NSArray<id<GREYMatcher>> *matchersArray = @[
-    [[GREYAnyOf alloc] initWithMatchers:anyOfmatchersArray],
-    matcher,
+  NSArray<id<GREYMatcher>> *swiftUIMatchersArray = @[
+    [GREYMatchers internalMatcherForSwiftUIClass],
+    [GREYMatchers matcherForAccessibilityElement],
+    swiftUIMatcher,
   ];
+
+  NSArray<id<GREYMatcher>> *matchersArray = @[ [[GREYAnyOf alloc] initWithMatchers:@[
+    [[GREYAllOf alloc] initWithMatchers:@[
+      [[GREYAnyOf alloc] initWithMatchers:nonSwiftUIMatchersArray],
+      nonSwiftUIMatcher,
+    ]],
+    [[GREYAllOf alloc] initWithMatchers:swiftUIMatchersArray],
+  ]] ];
+
   return [[GREYAllOf alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
                                 matchers:matchersArray];
 }
@@ -913,6 +939,22 @@ static Class gEDOObjectClass;
   }
 
   return [firstStringValue isEqualToString:secondStringValue];
+}
+
+/**
+ * @return A GREYMatcher that returns whether an element is SwiftUI class
+ */
++ (id<GREYMatcher>)internalMatcherForSwiftUIClass {
+  NSString *prefix = @"isSwiftUI";
+  GREYMatchesBlock matches = ^BOOL(id element) {
+    NSString *elementClass = NSStringFromClass([element class]);
+    return [elementClass hasPrefix:@"SwiftUI"];
+  };
+  GREYDescribeToBlock describe = ^void(id<GREYDescription> description) {
+    [description appendText:prefix];
+  };
+
+  return [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe];
 }
 
 @end
