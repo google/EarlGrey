@@ -16,7 +16,6 @@
 
 #import <XCTest/XCTest.h>
 
-#import "GREYWaitFunctions.h"
 #import "EarlGrey.h"
 #import "BaseIntegrationTest.h"
 
@@ -44,7 +43,7 @@
 
   GREYCondition* condition = [GREYCondition
       conditionWithName:@"waitTillDisappear"
-                  block:^BOOL() {
+                  block:^BOOL(void) {
                     NSError* error = nil;
                     [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"viewToToggle")]
                         assertWithMatcher:grey_notVisible()
@@ -57,7 +56,7 @@
 - (void)testGREYConditionFailingWithAnAbsentView {
   GREYCondition* condition = [GREYCondition
       conditionWithName:@"improperCondition"
-                  block:^BOOL() {
+                  block:^BOOL(void) {
                     NSError* error = nil;
                     [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"non-existent-view")]
                         assertWithMatcher:grey_notVisible()
@@ -66,6 +65,28 @@
                   }];
   GREYAssertTrue([condition waitWithTimeout:2],
                  @"Element must not be visible in the allotted time.");
+}
+
+- (void)testBlockCountForPollInterval {
+  __block int counter = 0;
+  GREYCondition* condition = [GREYCondition conditionWithName:@"blockCounter"
+                                                        block:^BOOL(void) {
+                                                          counter++;
+                                                          return NO;
+                                                        }];
+  XCTAssertFalse([condition waitWithTimeout:10 pollInterval:2], @"Expected to fail by design.");
+  XCTAssertEqual(counter, 5, @"Block should be called 5 times");
+}
+
+- (void)testBlockCountWithoutPollInterval {
+  __block int counter = 0;
+  GREYCondition* condition = [GREYCondition conditionWithName:@"blockCounter"
+                                                        block:^BOOL(void) {
+                                                          counter++;
+                                                          return NO;
+                                                        }];
+  XCTAssertFalse([condition waitWithTimeout:5], @"Expected to fail by design.");
+  XCTAssertEqual(counter, 10, @"Block should be called 10 times");
 }
 
 @end

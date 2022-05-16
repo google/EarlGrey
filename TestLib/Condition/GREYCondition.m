@@ -21,6 +21,7 @@
 #include <mach/mach_time.h>
 
 #import "GREYThrowDefines.h"
+#import "GREYWaitFunctions.h"
 
 @implementation GREYCondition {
   BOOL (^_conditionBlock)(void);
@@ -51,22 +52,23 @@
   GREYThrowOnFailedConditionWithMessage(seconds >= 0, @"timeout seconds must be >= 0.");
   GREYThrowOnFailedConditionWithMessage(interval >= 0, @"poll interval must be >= 0.");
 
-  __block CFTimeInterval nextPollTime = CACurrentMediaTime();
-
-  if (seconds == 0) {
+  CFTimeInterval startTime = CACurrentMediaTime();
+  if (seconds <= 0) {
     return _conditionBlock();
   } else {
-    while (seconds > 0) {
-      CFTimeInterval now = CACurrentMediaTime();
-      if (now >= nextPollTime) {
-        nextPollTime = now + interval;
+    do {
+      if (interval == 0) {
+        if (_conditionBlock()) {
+          return YES;
+        }
+        GREYWaitForTime(0.5);
+      } else {
+        GREYWaitForTime(interval);
         if (_conditionBlock()) {
           return YES;
         }
       }
-      CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0, NO);
-      seconds = seconds - (CACurrentMediaTime() - now);
-    }
+    } while ((CACurrentMediaTime() - startTime) < seconds);
   }
   return NO;
 }
