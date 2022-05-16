@@ -131,6 +131,8 @@ static NSMapTable<NSString *, GREYVisibilityCheckerCacheEntry *> *gCache;
         ^(CFRunLoopObserverRef observer, CFRunLoopActivity activity) {
           [GREYVisibilityChecker grey_invalidateCache];
           pendingInvalidation = NO;
+          CFRunLoopRemoveObserver(CFRunLoopGetMain(), observer, kCFRunLoopDefaultMode);
+          CFRelease(observer);
         };
     CFRunLoopObserverRef observer = CFRunLoopObserverCreateWithHandler(
         NULL, kCFRunLoopBeforeSources, false, LONG_MAX, observerBlock);
