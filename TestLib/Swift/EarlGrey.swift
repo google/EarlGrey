@@ -211,6 +211,15 @@ public struct EarlGrey {
     return EarlGreyImpl.invoked(fromFile: file.description, lineNumber: line)
       .remoteClass(inApp: classVal)
   }
+
+  public static func setHostApplicationCrashHandler(
+    _ handler: GREYHostApplicationCrashHandler?,
+    file: StaticString = #file,
+    line: UInt = #line
+  ) {
+    return EarlGreyImpl.invoked(fromFile: file.description, lineNumber: line)
+      .setHostApplicationCrashHandler(handler)
+  }
 }
 
 extension GREYInteraction {

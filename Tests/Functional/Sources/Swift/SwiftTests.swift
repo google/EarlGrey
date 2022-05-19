@@ -40,6 +40,9 @@ class SwiftTests: XCTestCase {
 
   override func setUp() {
     super.setUp()
+    EarlGrey.setHostApplicationCrashHandler {
+      XCUIApplication().launch()
+    }
     _ = Application.sharedApplication
   }
 
