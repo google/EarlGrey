@@ -11,6 +11,10 @@
 		42D3E6FB26F53221007C3F0E /* SwitchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42D3E6F526F53221007C3F0E /* SwitchViewController.m */; };
 		42D3E6FC26F53221007C3F0E /* SwitchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42D3E6F926F53221007C3F0E /* SwitchViewController.xib */; };
 		42D3E6FD26F53221007C3F0E /* SwitchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42D3E6F926F53221007C3F0E /* SwitchViewController.xib */; };
+		5461BEAB28370E470056503D /* Tests-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5461BEAA28370E470056503D /* Tests-Info.plist */; };
+		5461BEAC28370E470056503D /* Tests-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5461BEAA28370E470056503D /* Tests-Info.plist */; };
+		5461BEAD28370E470056503D /* Tests-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5461BEAA28370E470056503D /* Tests-Info.plist */; };
+		5461BEAE28370E470056503D /* Tests-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5461BEAA28370E470056503D /* Tests-Info.plist */; };
 		76DAC16B242EE77E00557F3C /* libTestLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD623D2E20FD6BF900049E81 /* libTestLib.a */; };
 		76DAC16E242EE77E00557F3C /* AppFramework.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = FD623D2C20FD6BF900049E81 /* AppFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		76DAC170242EE77E00557F3C /* HostDOCategories.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = FD6678692122290B008EC4A7 /* HostDOCategories.bundle */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -419,6 +423,7 @@
 		42D3E6F526F53221007C3F0E /* SwitchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SwitchViewController.m; path = ../TestRig/Sources/SwitchViewController.m; sourceTree = "<group>"; };
 		42D3E6F826F53221007C3F0E /* SwitchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SwitchViewController.h; path = ../TestRig/Sources/SwitchViewController.h; sourceTree = "<group>"; };
 		42D3E6F926F53221007C3F0E /* SwitchViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SwitchViewController.xib; path = ../TestRig/Sources/SwitchViewController.xib; sourceTree = "<group>"; };
+		5461BEAA28370E470056503D /* Tests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Tests-Info.plist"; sourceTree = "<group>"; };
 		76480F8C23CEA04100D6047B /* DistantObjectCrashHandlerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DistantObjectCrashHandlerTest.m; sourceTree = "<group>"; };
 		76DAC13D242EE51100557F3C /* DistantObjectBackgroundExecutionTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DistantObjectBackgroundExecutionTest.m; sourceTree = "<group>"; };
 		76DAC174242EE77E00557F3C /* FunctionalBackgroundRemoteCallTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FunctionalBackgroundRemoteCallTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -789,6 +794,7 @@
 		FD623C1A20FD194800049E81 = {
 			isa = PBXGroup;
 			children = (
+				5461BEAA28370E470056503D /* Tests-Info.plist */,
 				FD5EB4862118FD61006F82A0 /* Sources */,
 				FD623D1F20FD6BF900049E81 /* EarlGrey.xcodeproj */,
 				FD623C5620FD1A2F00049E81 /* FunctionalTestRig */,
@@ -1262,6 +1268,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5461BEAE28370E470056503D /* Tests-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1269,6 +1276,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5461BEAD28370E470056503D /* Tests-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1276,6 +1284,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5461BEAC28370E470056503D /* Tests-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1377,6 +1386,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5461BEAB28370E470056503D /* Tests-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1674,6 +1684,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				HEADER_SEARCH_PATHS = ../../../../../;
+				INFOPLIST_FILE = "Tests-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.com.Functional;
@@ -1693,6 +1704,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				HEADER_SEARCH_PATHS = ../../../../../;
+				INFOPLIST_FILE = "Tests-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.com.Functional;
@@ -1711,6 +1723,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = "Tests-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.com.Functional;
@@ -1730,6 +1743,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = "Tests-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.com.Functional;
@@ -1747,7 +1761,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				HEADER_SEARCH_PATHS = "";
-				INFOPLIST_FILE = "";
+				INFOPLIST_FILE = "Tests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
@@ -1771,7 +1785,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				HEADER_SEARCH_PATHS = "";
-				INFOPLIST_FILE = "";
+				INFOPLIST_FILE = "Tests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_FAST_MATH = YES;
@@ -2047,6 +2061,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				HEADER_SEARCH_PATHS = ../../../../../;
+				INFOPLIST_FILE = "Tests-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.com.Functional;
@@ -2066,6 +2081,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				HEADER_SEARCH_PATHS = ../../../../../;
+				INFOPLIST_FILE = "Tests-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.com.Functional;
