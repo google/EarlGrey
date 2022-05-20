@@ -63,10 +63,10 @@
         }
         GREYWaitForTime(0.5);
       } else {
-        GREYWaitForTime(interval);
         if (_conditionBlock()) {
           return YES;
         }
+        GREYWaitForTime(interval);
       }
     } while ((CACurrentMediaTime() - startTime) < seconds);
   }
