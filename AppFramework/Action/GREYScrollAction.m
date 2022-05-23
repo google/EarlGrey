@@ -372,7 +372,7 @@ static BOOL IsEligibleForRetry(UIScrollView *scrollView, GREYDirection scrollDir
         }
       }
 
-      // Resistantce detection should be performed after the scroll is detected. If the scroll view
+      // Resistance detection should be performed after the scroll is detected. If the scroll view
       // is not bounced and it is at the edge before the touch injection, the scroll may never be
       // detected. In this case, the error is porpagated as @c kGREYScrollNoTouchReaction.
       if (delegate.scrollDetected) {
