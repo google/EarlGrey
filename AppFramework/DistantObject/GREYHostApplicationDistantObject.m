@@ -84,7 +84,7 @@ static void InitiateCommunicationWithTest() {
     NSBundle *mainBundle = [NSBundle mainBundle];
     NSArray<NSString *> *bundlePaths =
         [mainBundle pathsForResourcesOfType:@"bundle" inDirectory:@"EarlGreyHelperBundles"];
-    BOOL success = NO;
+    __unused BOOL success = NO;
     NSError *error;
     for (NSString *bundlePath in bundlePaths) {
       NSBundle *bundle = [NSBundle bundleWithPath:bundlePath];
