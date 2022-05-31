@@ -84,11 +84,10 @@ static void InitiateCommunicationWithTest() {
     NSBundle *mainBundle = [NSBundle mainBundle];
     NSArray<NSString *> *bundlePaths =
         [mainBundle pathsForResourcesOfType:@"bundle" inDirectory:@"EarlGreyHelperBundles"];
-    BOOL success = NO;
     NSError *error;
     for (NSString *bundlePath in bundlePaths) {
       NSBundle *bundle = [NSBundle bundleWithPath:bundlePath];
-      success = [bundle loadAndReturnError:&error];
+      __unused BOOL success = [bundle loadAndReturnError:&error];
       __unused NSString *errorString =
           [NSString stringWithFormat:@"The following was seen when loading the distant object "
                                      @"categories bundle. Confirm that your bundle has source "
