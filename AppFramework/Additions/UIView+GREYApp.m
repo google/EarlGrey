@@ -85,9 +85,8 @@ __unused static Class gScrollViewIndicatorClass;
 
   SEL originalSel = @selector(exchangeSubviewAtIndex:withSubviewAtIndex:);
   SEL swizzledSel = @selector(greyswizzled_exchangeSubviewAtIndex:withSubviewAtIndex:);
-  swizzleSuccess = [swizzler swizzleClass:self
-                    replaceInstanceMethod:originalSel
-                               withMethod:swizzledSel];
+  swizzleSuccess =
+      [swizzler swizzleClass:self replaceInstanceMethod:originalSel withMethod:swizzledSel];
   GREYFatalAssertWithMessage(swizzleSuccess,
                              @"Cannot swizzle UIView exchangeSubviewAtIndex:withSubviewAtIndex:");
 
@@ -125,17 +124,15 @@ __unused static Class gScrollViewIndicatorClass;
 
   originalSel = @selector(animateWithDuration:animations:completion:);
   swizzledSel = @selector(greyswizzled_animateWithDuration:animations:completion:);
-  swizzleSuccess = [swizzler swizzleClass:self
-                       replaceClassMethod:originalSel
-                               withMethod:swizzledSel];
+  swizzleSuccess =
+      [swizzler swizzleClass:self replaceClassMethod:originalSel withMethod:swizzledSel];
   GREYFatalAssertWithMessage(swizzleSuccess,
                              @"Cannot swizzle UIView animateWithDuration:animations:completion:");
 
   originalSel = @selector(animateWithDuration:delay:options:animations:completion:);
   swizzledSel = @selector(greyswizzled_animateWithDuration:delay:options:animations:completion:);
-  swizzleSuccess = [swizzler swizzleClass:self
-                       replaceClassMethod:originalSel
-                               withMethod:swizzledSel];
+  swizzleSuccess =
+      [swizzler swizzleClass:self replaceClassMethod:originalSel withMethod:swizzledSel];
   GREYFatalAssertWithMessage(swizzleSuccess,
                              @"Cannot swizzle "
                              @"UIView animateWithDuration:delay:options:animations:completion:");
@@ -147,9 +144,8 @@ __unused static Class gScrollViewIndicatorClass;
       @selector(greyswizzled_animateWithDuration:
                                            delay:usingSpringWithDamping:initialSpringVelocity
                                                 :options:animations:completion:);
-  swizzleSuccess = [swizzler swizzleClass:self
-                       replaceClassMethod:originalSel
-                               withMethod:swizzledSel];
+  swizzleSuccess =
+      [swizzler swizzleClass:self replaceClassMethod:originalSel withMethod:swizzledSel];
   GREYFatalAssertWithMessage(swizzleSuccess,
                              @"Cannot swizzle UIView animateWithDuration:delay:"
                              @"usingSpringWithDamping:initialSpringVelocity:options:animations"
@@ -157,38 +153,34 @@ __unused static Class gScrollViewIndicatorClass;
 
   originalSel = @selector(transitionWithView:duration:options:animations:completion:);
   swizzledSel = @selector(greyswizzled_transitionWithView:duration:options:animations:completion:);
-  swizzleSuccess = [swizzler swizzleClass:self
-                       replaceClassMethod:originalSel
-                               withMethod:swizzledSel];
+  swizzleSuccess =
+      [swizzler swizzleClass:self replaceClassMethod:originalSel withMethod:swizzledSel];
   GREYFatalAssertWithMessage(swizzleSuccess,
                              @"Cannot swizzle UIView "
                              @"transitionWithView:duration:options:animations:completion:");
 
   originalSel = @selector(transitionFromView:toView:duration:options:completion:);
   swizzledSel = @selector(greyswizzled_transitionFromView:toView:duration:options:completion:);
-  swizzleSuccess = [swizzler swizzleClass:self
-                       replaceClassMethod:originalSel
-                               withMethod:swizzledSel];
+  swizzleSuccess =
+      [swizzler swizzleClass:self replaceClassMethod:originalSel withMethod:swizzledSel];
   GREYFatalAssertWithMessage(swizzleSuccess,
                              @"Cannot swizzle "
                              @"UIView transitionFromView:toView:duration:options:completion:");
 
   originalSel = @selector(animateKeyframesWithDuration:delay:options:animations:completion:);
-  swizzledSel = @selector(greyswizzled_animateKeyframesWithDuration:
-                                                              delay:options:animations:completion:);
-  swizzleSuccess = [swizzler swizzleClass:self
-                       replaceClassMethod:originalSel
-                               withMethod:swizzledSel];
+  swizzledSel =
+      @selector(greyswizzled_animateKeyframesWithDuration:delay:options:animations:completion:);
+  swizzleSuccess =
+      [swizzler swizzleClass:self replaceClassMethod:originalSel withMethod:swizzledSel];
   GREYFatalAssertWithMessage(swizzleSuccess,
                              @"Cannot swizzle UIView animateKeyframesWithDuration:delay:options:"
                              @"animations:completion:");
 
   originalSel = @selector(performSystemAnimation:onViews:options:animations:completion:);
-  swizzledSel = @selector(greyswizzled_performSystemAnimation:
-                                                      onViews:options:animations:completion:);
-  swizzleSuccess = [swizzler swizzleClass:self
-                       replaceClassMethod:originalSel
-                               withMethod:swizzledSel];
+  swizzledSel =
+      @selector(greyswizzled_performSystemAnimation:onViews:options:animations:completion:);
+  swizzleSuccess =
+      [swizzler swizzleClass:self replaceClassMethod:originalSel withMethod:swizzledSel];
   GREYFatalAssertWithMessage(swizzleSuccess,
                              @"Cannot swizzle UIView performSystemAnimation:onViews:"
                              @"options:animations:completion:");
@@ -368,13 +360,13 @@ __unused static Class gScrollViewIndicatorClass;
                               completion:(void (^)(BOOL))completion {
   GREYAnimationCompletionBlock wrappedCompletion = nil;
   GREYAppStateTrackerObject *object = nil;
-  object = TRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, self);
-  wrappedCompletion = ^(BOOL finished) {
-    if (completion) {
+  if (completion) {
+    object = TRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, self);
+    wrappedCompletion = ^(BOOL finished) {
       completion(finished);
-    }
-    UNTRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, object);
-  };
+      UNTRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, object);
+    };
+  }
   INVOKE_ORIGINAL_IMP3(void, @selector(greyswizzled_animateWithDuration:animations:completion:),
                        duration, animations, wrappedCompletion);
   [GREYTimedIdlingResource resourceForObject:FuncPtrFromAnimationsBlock(animations)
@@ -387,34 +379,29 @@ __unused static Class gScrollViewIndicatorClass;
                                  options:(UIViewAnimationOptions)options
                               animations:(void (^)(void))animations
                               completion:(void (^)(BOOL))completion {
-  BOOL userInteractionAllowed = (options & UIViewAnimationOptionAllowUserInteraction);
-  SEL swizzledSEL = @selector(greyswizzled_animateWithDuration:
-                                                         delay:options:animations:completion:);
-  if (userInteractionAllowed && !completion) {
-    INVOKE_ORIGINAL_IMP5(void, swizzledSEL, duration, delay, options, animations, completion);
-  } else {
-    GREYAppStateTrackerObject *object = nil;
+  GREYAnimationCompletionBlock wrappedCompletion = nil;
+  GREYAppStateTrackerObject *object = nil;
+  if (completion) {
     object = TRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, self);
-    GREYAnimationCompletionBlock wrappedCompletion = nil;
     wrappedCompletion = ^(BOOL finished) {
-      if (completion) {
-        completion(finished);
-      }
+      completion(finished);
       UNTRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, object);
     };
-    INVOKE_ORIGINAL_IMP5(void, swizzledSEL, duration, delay, options, animations,
-                         wrappedCompletion);
-    // The call stack check is done as a workaround for certain MediaPlayer animations that are not
-    // truncated by EarlGrey's CALayer truncation code and make the idling resource busy infinitely.
-    if (!userInteractionAllowed) {
-      if (duration == INFINITY &&
-          [[NSThread callStackSymbols].description containsString:@"MediaPlayer"]) {
-        NSLog(@"Not tracking MediaPlayer infinite animation for view class: \n%@", self);
-      } else {
-        [GREYTimedIdlingResource resourceForObject:FuncPtrFromAnimationsBlock(animations)
-                             thatIsBusyForDuration:(delay + duration)
-                                              name:NSStringFromSelector(_cmd)];
-      }
+  }
+
+  SEL swizzledSEL =
+      @selector(greyswizzled_animateWithDuration:delay:options:animations:completion:);
+  INVOKE_ORIGINAL_IMP5(void, swizzledSEL, duration, delay, options, animations, wrappedCompletion);
+  // The call stack check is done as a workaround for certain MediaPlayer animations that are not
+  // truncated by EarlGrey's CALayer truncation code and make the idling resource busy infinitely.
+  if ((options & UIViewAnimationOptionAllowUserInteraction) == 0) {
+    if (duration == INFINITY &&
+        [[NSThread callStackSymbols].description containsString:@"MediaPlayer"]) {
+      GREYLogVerbose(@"Not tracking MediaPlayer infinite animation for view class: \n%@", self);
+    } else {
+      [GREYTimedIdlingResource resourceForObject:FuncPtrFromAnimationsBlock(animations)
+                           thatIsBusyForDuration:(delay + duration)
+                                            name:NSStringFromSelector(_cmd)];
     }
   }
 }
@@ -426,31 +413,26 @@ __unused static Class gScrollViewIndicatorClass;
                                  options:(UIViewAnimationOptions)options
                               animations:(void (^)(void))animations
                               completion:(void (^)(BOOL))completion {
-  BOOL userInteractionAllowed = (options & UIViewAnimationOptionAllowUserInteraction);
+  GREYAnimationCompletionBlock wrappedCompletion = nil;
+  GREYAppStateTrackerObject *object = nil;
+  if (completion) {
+    object = TRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, self);
+    wrappedCompletion = ^(BOOL finished) {
+      completion(finished);
+      UNTRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, object);
+    };
+  }
+
   SEL swizzledSEL =
       @selector(greyswizzled_animateWithDuration:
                                            delay:usingSpringWithDamping:initialSpringVelocity
                                                 :options:animations:completion:);
-  if (userInteractionAllowed && !completion) {
-    INVOKE_ORIGINAL_IMP7(void, swizzledSEL, duration, delay, dampingRatio, velocity, options,
-                         animations, completion);
-  } else {
-    GREYAnimationCompletionBlock wrappedCompletion = nil;
-    GREYAppStateTrackerObject *object = nil;
-    object = TRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, self);
-    wrappedCompletion = ^(BOOL finished) {
-      if (completion) {
-        completion(finished);
-      }
-      UNTRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, object);
-    };
-    INVOKE_ORIGINAL_IMP7(void, swizzledSEL, duration, delay, dampingRatio, velocity, options,
-                         animations, wrappedCompletion);
-    if (!userInteractionAllowed) {
-      [GREYTimedIdlingResource resourceForObject:FuncPtrFromAnimationsBlock(animations)
-                           thatIsBusyForDuration:(delay + duration)
-                                            name:NSStringFromSelector(_cmd)];
-    }
+  INVOKE_ORIGINAL_IMP7(void, swizzledSEL, duration, delay, dampingRatio, velocity, options,
+                       animations, wrappedCompletion);
+  if ((options & UIViewAnimationOptionAllowUserInteraction) == 0) {
+    [GREYTimedIdlingResource resourceForObject:FuncPtrFromAnimationsBlock(animations)
+                         thatIsBusyForDuration:(delay + duration)
+                                          name:NSStringFromSelector(_cmd)];
   }
 }
 
@@ -459,28 +441,24 @@ __unused static Class gScrollViewIndicatorClass;
                                           options:(UIViewKeyframeAnimationOptions)options
                                        animations:(void (^)(void))animations
                                        completion:(void (^)(BOOL))completion {
-  BOOL userInteractionAllowed = (options & UIViewKeyframeAnimationOptionAllowUserInteraction);
-  SEL swizzledSEL =
-      @selector(greyswizzled_animateKeyframesWithDuration:delay:options:animations:completion:);
-  if (userInteractionAllowed && !completion) {
-    INVOKE_ORIGINAL_IMP5(void, swizzledSEL, duration, delay, options, animations, completion);
-  } else {
-    GREYAnimationCompletionBlock wrappedCompletion = nil;
-    GREYAppStateTrackerObject *object = nil;
+  GREYAnimationCompletionBlock wrappedCompletion = nil;
+  GREYAppStateTrackerObject *object = nil;
+  if (completion) {
     object = TRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, self);
     wrappedCompletion = ^(BOOL finished) {
-      if (completion) {
-        completion(finished);
-      }
+      completion(finished);
       UNTRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, object);
     };
-    INVOKE_ORIGINAL_IMP5(void, swizzledSEL, duration, delay, options, animations,
-                         wrappedCompletion);
-    if (!userInteractionAllowed) {
-      [GREYTimedIdlingResource resourceForObject:FuncPtrFromAnimationsBlock(animations)
-                           thatIsBusyForDuration:(delay + duration)
-                                            name:NSStringFromSelector(_cmd)];
-    }
+  }
+
+  SEL swizzledSEL =
+      @selector(greyswizzled_animateKeyframesWithDuration:delay:options:animations:completion:);
+  INVOKE_ORIGINAL_IMP5(void, swizzledSEL, duration, delay, options, animations, wrappedCompletion);
+
+  if ((options & UIViewKeyframeAnimationOptionAllowUserInteraction) == 0) {
+    [GREYTimedIdlingResource resourceForObject:FuncPtrFromAnimationsBlock(animations)
+                         thatIsBusyForDuration:(delay + duration)
+                                          name:NSStringFromSelector(_cmd)];
   }
 }
 
@@ -489,27 +467,24 @@ __unused static Class gScrollViewIndicatorClass;
                                duration:(NSTimeInterval)duration
                                 options:(UIViewAnimationOptions)options
                              completion:(void (^)(BOOL))completion {
-  BOOL userInteractionAllowed = (options & UIViewAnimationOptionAllowUserInteraction);
-  SEL swizzledSEL = @selector(greyswizzled_transitionFromView:toView:duration:options:completion:);
-  if (userInteractionAllowed && !completion) {
-    INVOKE_ORIGINAL_IMP5(void, swizzledSEL, fromView, toView, duration, options, completion);
-  } else {
-    GREYAnimationCompletionBlock wrappedCompletion = nil;
-    GREYAppStateTrackerObject *object = nil;
+  GREYAnimationCompletionBlock wrappedCompletion = nil;
+  GREYAppStateTrackerObject *object = nil;
+  if (completion) {
     object = TRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, self);
     wrappedCompletion = ^(BOOL finished) {
-      if (completion) {
-        completion(finished);
-      }
+      completion(finished);
       UNTRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, object);
     };
-    INVOKE_ORIGINAL_IMP5(void, swizzledSEL, fromView, toView, duration, options, wrappedCompletion);
-    if (!userInteractionAllowed) {
-      NSObject *trackingObject = [[NSObject alloc] init];
-      [GREYTimedIdlingResource resourceForObject:trackingObject
-                           thatIsBusyForDuration:duration
-                                            name:NSStringFromSelector(_cmd)];
-    }
+  }
+
+  SEL swizzledSEL = @selector(greyswizzled_transitionFromView:toView:duration:options:completion:);
+  INVOKE_ORIGINAL_IMP5(void, swizzledSEL, fromView, toView, duration, options, wrappedCompletion);
+
+  if ((options & UIViewAnimationOptionAllowUserInteraction) == 0) {
+    NSObject *trackingObject = [[NSObject alloc] init];
+    [GREYTimedIdlingResource resourceForObject:trackingObject
+                         thatIsBusyForDuration:duration
+                                          name:NSStringFromSelector(_cmd)];
   }
 }
 
@@ -518,27 +493,23 @@ __unused static Class gScrollViewIndicatorClass;
                                 options:(UIViewAnimationOptions)options
                              animations:(void (^)(void))animations
                              completion:(void (^)(BOOL))completion {
-  BOOL userInteractionAllowed = (options & UIViewAnimationOptionAllowUserInteraction);
-  SEL swizzledSEL = @selector(greyswizzled_transitionWithView:
-                                                     duration:options:animations:completion:);
-  if (userInteractionAllowed && !completion) {
-    INVOKE_ORIGINAL_IMP5(void, swizzledSEL, view, duration, options, animations, completion);
-  } else {
-    GREYAnimationCompletionBlock wrappedCompletion = nil;
-    GREYAppStateTrackerObject *object = nil;
+  GREYAnimationCompletionBlock wrappedCompletion = nil;
+  GREYAppStateTrackerObject *object = nil;
+  if (completion) {
     object = TRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, self);
     wrappedCompletion = ^(BOOL finished) {
-      if (completion) {
-        completion(finished);
-      }
+      completion(finished);
       UNTRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, object);
     };
-    INVOKE_ORIGINAL_IMP5(void, swizzledSEL, view, duration, options, animations, wrappedCompletion);
-    if (!userInteractionAllowed) {
-      [GREYTimedIdlingResource resourceForObject:FuncPtrFromAnimationsBlock(animations)
-                           thatIsBusyForDuration:duration
-                                            name:NSStringFromSelector(_cmd)];
-    }
+  }
+  SEL swizzledSEL =
+      @selector(greyswizzled_transitionWithView:duration:options:animations:completion:);
+  INVOKE_ORIGINAL_IMP5(void, swizzledSEL, view, duration, options, animations, wrappedCompletion);
+
+  if ((options & UIViewAnimationOptionAllowUserInteraction) == 0) {
+    [GREYTimedIdlingResource resourceForObject:FuncPtrFromAnimationsBlock(animations)
+                         thatIsBusyForDuration:duration
+                                          name:NSStringFromSelector(_cmd)];
   }
 }
 
@@ -547,31 +518,24 @@ __unused static Class gScrollViewIndicatorClass;
                                     options:(UIViewAnimationOptions)options
                                  animations:(void (^)(void))parallelAnimations
                                  completion:(void (^)(BOOL))completion {
-  BOOL userInteractionAllowed = (options & UIViewAnimationOptionAllowUserInteraction);
-  SEL swizzledSEL = @selector(greyswizzled_performSystemAnimation:
-                                                          onViews:options:animations:completion:);
-  if (userInteractionAllowed && !completion) {
-    INVOKE_ORIGINAL_IMP5(void, swizzledSEL, animation, views, options, parallelAnimations,
-                         completion);
-  } else {
-    GREYTimedIdlingResource *resource;
-    if (!userInteractionAllowed) {
-      [GREYTimedIdlingResource resourceForObject:FuncPtrFromAnimationsBlock(parallelAnimations)
-                           thatIsBusyForDuration:2.0  // assume animation finishes in 2 sec.
-                                            name:NSStringFromSelector(_cmd)];
-    }
-    GREYAppStateTrackerObject *object = nil;
-    object = TRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, self);
-    GREYAnimationCompletionBlock wrappedCompletion = ^(BOOL finished) {
-      if (completion) {
-        completion(finished);
-      }
-      UNTRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, object);
-      [resource stopMonitoring];
-    };
-    INVOKE_ORIGINAL_IMP5(void, swizzledSEL, animation, views, options, parallelAnimations,
-                         wrappedCompletion);
+  GREYTimedIdlingResource *resource;
+  if ((options & UIViewAnimationOptionAllowUserInteraction) == 0) {
+    // TODO: Refactor this to use the completion block with a timeout in case it isn't invoked.
+    resource =
+        [GREYTimedIdlingResource resourceForObject:FuncPtrFromAnimationsBlock(parallelAnimations)
+                             thatIsBusyForDuration:2.0  // assume animation finishes in 2 sec.
+                                              name:NSStringFromSelector(_cmd)];
   }
+  SEL swizzledSEL =
+      @selector(greyswizzled_performSystemAnimation:onViews:options:animations:completion:);
+  GREYAnimationCompletionBlock wrappedCompletion = ^(BOOL finished) {
+    if (completion) {
+      completion(finished);
+    }
+    [resource stopMonitoring];
+  };
+  INVOKE_ORIGINAL_IMP5(void, swizzledSEL, animation, views, options, parallelAnimations,
+                       wrappedCompletion);
 }
 
 /**
