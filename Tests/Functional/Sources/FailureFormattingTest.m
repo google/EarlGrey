@@ -507,7 +507,7 @@
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait error:nil];
   NSString *expectedDetails = @"Waiting for viewDidAppear: call on the view controller. Please "
                               @"ensure that this view controller and its subclasses call through "
-                              @"to their super's implementation.. For more information, turn on "
+                              @"to their super's implementation. For more information, turn on "
                               @"verbose logging and rerun tests. If it's already turned on, "
                               @"see logs below.";
   XCTAssertTrue([_handler.details containsString:expectedDetails],

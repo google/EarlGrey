@@ -133,7 +133,7 @@ static const unsigned short kNumGREYAppStates = 12;
     [description appendString:@"\n"];
     if (state != kGREYIdle) {
       for (GREYAppStateTrackerObject *object in self->_externalTrackerObjects) {
-        [description appendFormat:@"\n<%@> => %@. For more information, turn on verbose logging "
+        [description appendFormat:@"\n<%@> => %@ For more information, turn on verbose logging "
                                   @"and rerun tests. If it's already turned on, see logs below.\n",
                                   object.objectDescription, StringFromAppState(object.state)];
         if (GREYVerboseLoggingEnabled()) {
