@@ -1,4 +1,27 @@
-## [2.2.1](https://github.com/google/EarlGrey/tree/2.2.0) (12/9/2020)
+## [2.2.2](https://github.com/google/EarlGrey/tree/2.2.2) (06/3/2022)
+```
+Baseline: [a430608]
++ [a430608]: Update AppStateTracker logs.
+```
+
+### Enhancements
+* Sanitizers are now supported with EarlGrey.
+* Test-side screenshots are generated for a test failure.
+* WKWebView has an idling resource added for it.
+* Improved logging with GREYLogger for debugging.
+* Some cursory support has been added for matching SwiftUI views.
+
+### Bug fixes
+* Multiple fixes for iOS 15 related to scrolling, window synchronization etc.
+
+### Compatibility
+* EarlGrey has been tested for working till Xcode version 13.4 and Swift 5.
+
+### Known Issues
+* EarlGrey does not track recurrent animations and will timeout for infinite animations in dequeued
+  cells.
+
+## [2.2.1](https://github.com/google/EarlGrey/tree/2.2.1) (12/9/2020)
 ```
 Baseline: [91dc49f]
 + [91dc49f]: Move test-side screenshot to XCUIScreen.
