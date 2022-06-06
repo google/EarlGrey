@@ -323,6 +323,8 @@ typedef void (^GREYHostApplicationCrashHandler)(void);
  *
  * The test rig application should be launched at least once otherwise the invocation won't take
  * any effect.
+ *
+ * @note Calling this method is equivalent to "re-installing" your application.
  */
 - (void)closeAndDeleteTestRig;
 
