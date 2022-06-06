@@ -32,6 +32,7 @@
 #import "GREYErrorConstants.h"
 #import "GREYConstants.h"
 #import "GREYDiagnosable.h"
+#import "CGGeometry+GREYUI.h"
 #import "GREYElementHierarchy.h"
 
 /**
@@ -156,11 +157,8 @@ static CGFloat const kPinchScale = (CGFloat)0.8;
   CGFloat rotationVectorScale = MIN(centerPoint.x, centerPoint.y) * kPinchScale;
 
   // Rotated points at the given pinch angle to determine start and end points.
-  CGPoint rotatedPoint1 =
-      [self grey_pointOnCircleAtAngle:_pinchAngle center:centerPoint radius:rotationVectorScale];
-  CGPoint rotatedPoint2 = [self grey_pointOnCircleAtAngle:(_pinchAngle + M_PI)
-                                                   center:centerPoint
-                                                   radius:rotationVectorScale];
+  CGPoint rotatedPoint1 = CGPointOnCircle(_pinchAngle, centerPoint, rotationVectorScale);
+  CGPoint rotatedPoint2 = CGPointOnCircle(_pinchAngle + M_PI, centerPoint, rotationVectorScale);
 
   switch (_pinchDirection) {
     case kGREYPinchDirectionOutward:
@@ -189,20 +187,6 @@ static CGFloat const kPinchScale = (CGFloat)0.8;
   NSArray<NSValue *> *touchPathInDirection2 =
       GREYTouchPathForDragGestureInScreen(startPoint2, endPoint2, NO);
   return @[ touchPathInDirection1, touchPathInDirection2 ];
-}
-
-#pragma mark - private
-
-/**
- * Returns a point at an @c angle on a circle having @c center and @c radius.
- *
- * @param angle  Angle to which a point is to be located on the given circle.
- * @param center Center of the circle.
- * @param radius Radius of the circle.
- */
-- (CGPoint)grey_pointOnCircleAtAngle:(double)angle center:(CGPoint)center radius:(CGFloat)radius {
-  return CGPointMake(center.x + (CGFloat)(radius * cos(angle)),
-                     center.y + (CGFloat)(radius * sin(angle)));
 }
 
 #pragma mark - GREYDiagnosable

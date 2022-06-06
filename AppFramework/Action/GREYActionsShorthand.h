@@ -103,6 +103,12 @@ GREY_EXPORT id<GREYAction> grey_pinchFastInDirectionAndAngle(GREYPinchDirection 
 GREY_EXPORT id<GREYAction> grey_pinchSlowInDirectionAndAngle(GREYPinchDirection pinchDirection,
                                                              double angle);
 
+/** Shorthand macro for GREYActions::actionForTwistFastWithAngle:. */
+GREY_EXPORT id<GREYAction> grey_twistFastWithAngle(double angle);
+
+/** Shorthand macro for GREYActions::actionForTwistSlowWithAngle:. */
+GREY_EXPORT id<GREYAction> grey_twistSlowWithAngle(double angle);
+
 /** Shorthand macro for GREYActions::actionForScrollInDirection:amount:. */
 GREY_EXPORT id<GREYAction> grey_scrollInDirection(GREYDirection direction, CGFloat amount);
 

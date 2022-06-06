@@ -177,6 +177,7 @@
   } else if (recognizer.rotation < 0) {
     self.detectedGesture.text = @"rotate counterclockwise";
   }
+  self.currentRotation += recognizer.rotation;
 
   if ([recognizer state] == UIGestureRecognizerStateBegan ||
       [recognizer state] == UIGestureRecognizerStateChanged) {

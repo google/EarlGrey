@@ -276,6 +276,29 @@
                                       withAngle:(double)angle;
 
 /**
+ * Returns an action that twists the view quickly at the specified @c angle.
+ *
+ * @param angle The relative angle of the rotation action in radians (positive values are a
+ *              counterclockwise rotation).  Use @c kGREYTwistAngleDefault for the default angle
+ *              (currently set to 30 degrees).
+ *
+ * @return A GREYAction that performs a fast twist on the view in the specified @c direction.
+ */
++ (id<GREYAction>)actionForTwistFastWithAngle:(double)angle;
+
+/**
+ * Returns an action that twists the view slowly at the specified @c angle.
+ *
+ * @param  angle          The relative angle of the rotation action in radians (positive
+ *                        values are a counterclockwise rotation).
+ *                        Use @c kGREYTwistAngleDefault for the default angle (currently set to
+ *                        30 degrees).
+ *
+ * @return A GREYAction that performs a slow twist on the view in the specified @c direction.
+ */
++ (id<GREYAction>)actionForTwistSlowWithAngle:(double)angle;
+
+/**
  * Returns an action that attempts to move slider to within 1.0e-6f values of @c value.
  *
  * @param value The value to which the slider should be moved. If this is not attainable after a

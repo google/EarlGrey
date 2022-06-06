@@ -32,6 +32,10 @@ const CFTimeInterval kGREYPinchFastDuration = 0.1;
 const CFTimeInterval kGREYPinchSlowDuration = 1.0;
 const double kGREYPinchAngleDefault = (30.0 * M_PI / 180.0);
 
+const CFTimeInterval kGREYTwistFastDuration = 0.1;
+const CFTimeInterval kGREYTwistSlowDuration = 1.0;
+const double kGREYTwistAngleDefault = (30.0 * M_PI / 180.0);
+
 const CFTimeInterval kGREYLongPressDefaultDuration = 0.7;
 
 const CGFloat kGREYAcceptableFloatDifference = 0.00001f;

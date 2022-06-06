@@ -33,6 +33,7 @@
 #import "GREYSlideAction.h"
 #import "GREYSwipeAction.h"
 #import "GREYTapAction.h"
+#import "GREYTwistAction.h"
 #import "UISwitch+GREYApp.h"
 #import "GREYAppError.h"
 #import "GREYFailureScreenshotter.h"
@@ -146,6 +147,14 @@ static Protocol *gTextInputProtocol;
   return [[GREYPinchAction alloc] initWithDirection:pinchDirection
                                            duration:kGREYPinchSlowDuration
                                          pinchAngle:angle];
+}
+
++ (id<GREYAction>)actionForTwistSlowWithAngle:(double)angle {
+  return [[GREYTwistAction alloc] initWithDuration:kGREYTwistSlowDuration twistAngle:angle];
+}
+
++ (id<GREYAction>)actionForTwistFastWithAngle:(double)angle {
+  return [[GREYTwistAction alloc] initWithDuration:kGREYTwistFastDuration twistAngle:angle];
 }
 
 + (id<GREYAction>)actionForMoveSliderToValue:(float)value {

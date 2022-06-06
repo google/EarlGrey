@@ -120,6 +120,17 @@ BOOL CGPointIsNull(CGPoint point);
  */
 CGFloat CGFloatAfterRemovingFractionalPixels(CGFloat floatInPoints);
 
+/**
+ * Returns the point at which a radial line at @c angle intersects a circle having @c center and
+ * @c radius.
+ *
+ * @param angle  Angle of the line extending from the center of the circle, relative to the positive
+ *               X axis.
+ * @param center Center of the circle.
+ * @param radius Radius of the circle.
+ */
+CGPoint CGPointOnCircle(double angle, CGPoint center, CGFloat radius);
+
 #pragma mark - CGRect
 
 /**

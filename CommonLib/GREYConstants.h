@@ -46,6 +46,16 @@ GREY_EXTERN const CFTimeInterval kGREYPinchFastDuration;
 GREY_EXTERN const CFTimeInterval kGREYPinchSlowDuration;
 
 /**
+ * Amount of time a "fast" twist should last for, in seconds
+ */
+GREY_EXTERN const CFTimeInterval kGREYTwistFastDuration;
+
+/**
+ * Amount of time a "slow" twist should last for, in seconds
+ */
+GREY_EXTERN const CFTimeInterval kGREYTwistSlowDuration;
+
+/**
  * Infinite timeout.
  */
 GREY_EXTERN const CFTimeInterval kGREYInfiniteTimeout;
@@ -92,6 +102,12 @@ GREY_EXTERN NSString* _Nonnull const kHostPingSuccessMessage;
  * handed two finger pinch.
  */
 GREY_EXTERN const double kGREYPinchAngleDefault;
+
+/**
+ * The default pinch angle for the twist action, specified by an approximate angle for a right
+ * handed two finger twist.
+ */
+GREY_EXTERN const double kGREYTwistAngleDefault;
 
 /**
  * The default timeout for an XCUIApplication::launch call in an EarlGrey test.

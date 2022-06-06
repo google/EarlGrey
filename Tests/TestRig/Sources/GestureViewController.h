@@ -31,5 +31,6 @@
 @property(retain, nonatomic) IBOutlet TouchEventView *greyBox;
 @property(retain, nonatomic) IBOutlet UIButton *resetButton;
 @property(retain, nonatomic) IBOutlet UILabel *counter;
+@property(nonatomic) CGFloat currentRotation;
 
 @end

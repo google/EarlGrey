@@ -162,6 +162,25 @@ GREY_EXTERN NSString *const kErrorDetailAppScreenshotsKey;
 GREY_EXTERN NSString *const kGREYPinchErrorDomain;
 
 /**
+ * Error codes for pinch related failures.
+ */
+typedef NS_ENUM(NSInteger, GREYPinchErrorCode) {
+  kGREYPinchFailedErrorCode = 0,
+};
+
+/**
+ * The error domain for twist action related errors.
+ */
+GREY_EXTERN NSString *const kGREYTwistErrorDomain;
+
+/**
+ * Error codes for twist related failures.
+ */
+typedef NS_ENUM(NSInteger, GREYTwistErrorCode) {
+  kGREYTwistFailedErrorCode = 0,
+};
+
+/**
  * Extern variables specifying the user info keys for a pinch action.
  */
 GREY_EXTERN NSString *const kErrorDetailElementKey;
@@ -224,18 +243,6 @@ typedef NS_ENUM(NSInteger, GREYScrollErrorCode) {
    * The injected touch doesn't trigger scroll view to scroll,
    */
   kGREYScrollNoTouchReaction,
-};
-
-/**
- * Error domain used for pinch related NSError objects.
- */
-GREY_EXTERN NSString *const kGREYPinchErrorDomain;
-
-/**
- * Error codes for pinch related failures.
- */
-typedef NS_ENUM(NSInteger, GREYPinchErrorCode) {
-  kGREYPinchFailedErrorCode = 0,
 };
 
 /**

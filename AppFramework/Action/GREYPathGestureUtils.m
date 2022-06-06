@@ -37,6 +37,12 @@ const NSInteger kGREYScrollDetectionLength = 10;
 static const CGFloat kGREYDistanceBetweenTwoAdjacentPoints = 10.0f;
 
 /**
+ * The number of slow touches inserted between the next-to-last and last touch when canceling out
+ * inertia.
+ */
+static const NSUInteger kNumSlowTouchesBetweenSecondLastAndLastTouch = 20;
+
+/**
  * Returns whether the current direction is vertical or not.
  *
  * @param direction Current direction to be checked for verticalness.
@@ -341,8 +347,6 @@ static NSArray<NSValue *> *GREYGenerateTouchPath(CGPoint startPoint, CGPoint end
   if (cancelInertia) {
     // To cancel inertia, slow down as approaching the end point. This is done by inserting a series
     // of points between the 2nd last and the last point.
-    static const NSUInteger kNumSlowTouchesBetweenSecondLastAndLastTouch = 20;
-
     NSValue *secondLastValue = [touchPath lastObject];
     CGPoint secondLastPoint = [secondLastValue CGPointValue];
     CGVector secondLastToLastVector = CGVectorFromEndPoints(secondLastPoint, endPoint, NO);
@@ -355,6 +359,109 @@ static NSArray<NSValue *> *GREYGenerateTouchPath(CGPoint startPoint, CGPoint end
       slowTouchPoint = CGPointAddVector(slowTouchPoint, slowTouchesVector);
       [touchPath addObject:[NSValue valueWithCGPoint:slowTouchPoint]];
     }
+  }
+  [touchPath addObject:endPointValue];
+  return touchPath;
+}
+
+static NSArray<NSValue *> *GREYCircularTouchPath(CGPoint center, CGFloat radius, CGFloat startAngle,
+                                                 CGFloat angleDelta, NSUInteger numberOfPoints) {
+  NSMutableArray<NSValue *> *touchPath = [[NSMutableArray alloc] init];
+  // The first element of the touch point is already added outside of the loop. It's possible
+  // that no additional touch point is added to the fast scroll path.
+  for (NSUInteger i = 0; i < numberOfPoints; i++) {
+    CGFloat angleAtPoint = startAngle + (angleDelta * i);
+    CGPoint touchPoint = CGPointOnCircle(angleAtPoint, center, radius);
+    [touchPath addObject:[NSValue valueWithCGPoint:touchPoint]];
+  }
+  return touchPath;
+}
+
+#pragma mark - Public
+
+NSArray<NSValue *> *GREYTouchPathForTwistGesture(CGPoint center, CGFloat radius, CGFloat startAngle,
+                                                 CGFloat endAngle, CFTimeInterval duration,
+                                                 BOOL cancelInertia) {
+  // For an angle a = (2 * pi), the path length is (2 * pi * radius).  Thus, the
+  // path length is equal to the radius times the difference in angle.
+  const CGFloat arcAngle = endAngle - startAngle;
+  const CGFloat pathLength = radius * fabs(arcAngle);
+
+  NSMutableArray<NSValue *> *touchPath = [[NSMutableArray alloc] init];
+  CGPoint startPoint = CGPointOnCircle(startAngle, center, radius);
+  [touchPath addObject:[NSValue valueWithCGPoint:startPoint]];
+
+  CGFloat semifinalArcAngle = startAngle;
+  if (isnan(duration)) {
+    // After the start point, rest of the path is divided into equal segments and a touch point is
+    // created for each segment.
+    NSUInteger totalPoints = (NSUInteger)(pathLength / kGREYDistanceBetweenTwoAdjacentPoints);
+
+    if (totalPoints > 1) {
+      // Compute delta for each point and create a path with it.
+      CGFloat angleDelta = arcAngle / totalPoints;
+      NSUInteger numberOfIntermediatePoints = totalPoints - 1;
+      NSArray<NSValue *> *additionalPoints = GREYCircularTouchPath(
+          center, radius, startAngle + angleDelta, angleDelta, numberOfIntermediatePoints);
+
+      [touchPath addObjectsFromArray:additionalPoints];
+      semifinalArcAngle = startAngle + (angleDelta * numberOfIntermediatePoints);
+    }
+  } else {
+    // Uses the kinematics equation for distance: d = a*t*t/2 + v*t
+    const double initialVelocity = 0;
+    const double initialDisplacement = (initialVelocity * duration);
+    const double acceleration = (2 * (arcAngle - initialDisplacement)) / (duration * duration);
+
+    // Duration is divided into fixed intervals which depends on the frequency at which touches are
+    // delivered. The first and last interval are always going to be the start and end touch points.
+    // Through experiments, it was discovered that not all gestures trigger until there is a
+    // minimum of kGREYDistanceBetweenTwoAdjacentPoints movement. For that reason, we find the
+    // interval (after first touch point) at which displacement is at least
+    // kGREYDistanceBetweenTwoAdjacentPoints and continue the gesture from there.
+    // With this approach, touch points after first touch point is at least
+    // kGREYDistanceBetweenTwoAdjacentPoints apart and gesture recognizers can detect them
+    // correctly.
+    const CFTimeInterval frameInterval = (1 / 60.0);
+    // The last interval is always the last touch point so use 2nd to last as the end of loop below.
+    const CFTimeInterval interval_penultimate = (duration - frameInterval);
+    double interval_shift =
+        sqrt(((2 * (kGREYDistanceBetweenTwoAdjacentPoints - initialDisplacement)) / acceleration));
+    // Negative interval can't be shifted.
+    if (interval_shift < 0) {
+      interval_shift = 0;
+    }
+    // Boundary-align interval_shift to interval.
+    interval_shift = ceil(interval_shift / frameInterval) * frameInterval;
+    // interval_shift past 2nd last interval means only 2 touches will be injected.
+    // Adjust it to the last interval.
+    if (interval_shift > interval_penultimate) {
+      interval_shift = interval_penultimate;
+    }
+
+    for (double time = interval_shift; time < interval_penultimate; time += frameInterval) {
+      double displacement = ((acceleration * time * time) / 2);
+      displacement = displacement + (initialVelocity * time);
+
+      double angleDelta = displacement * arcAngle;
+      CGFloat angleAtPoint = startAngle + angleDelta;
+      CGPoint touchPoint = CGPointOnCircle(angleAtPoint, center, radius);
+      [touchPath addObject:[NSValue valueWithCGPoint:touchPoint]];
+      semifinalArcAngle = angleAtPoint;
+    }
+  }
+
+  CGPoint endPoint = CGPointOnCircle(endAngle, center, radius);
+  NSValue *endPointValue = [NSValue valueWithCGPoint:endPoint];
+  if (cancelInertia) {
+    // To cancel inertia, slow down as approaching the end point. This is done by inserting a series
+    // of points between the 2nd last and the last point.
+    NSUInteger numberOfIntermediatePoints = kNumSlowTouchesBetweenSecondLastAndLastTouch - 1;
+    CGFloat angleDelta =
+        (endAngle - semifinalArcAngle) / kNumSlowTouchesBetweenSecondLastAndLastTouch;
+    NSArray<NSValue *> *additionalPoints = GREYCircularTouchPath(
+        center, radius, semifinalArcAngle + angleDelta, angleDelta, numberOfIntermediatePoints);
+    [touchPath addObjectsFromArray:additionalPoints];
   }
   [touchPath addObject:endPointValue];
   return touchPath;

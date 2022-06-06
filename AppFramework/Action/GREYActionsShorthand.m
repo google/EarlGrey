@@ -130,6 +130,15 @@ id<GREYAction> grey_pinchSlowInDirectionAndAngle(GREYPinchDirection pinchDirecti
   return [GREYActions actionForPinchSlowInDirection:pinchDirection withAngle:angle];
 }
 
+/** Shorthand macro for GREYActions::actionForTwistFastWithAngle:. */
+id<GREYAction> grey_twistFastWithAngle(double angle) {
+  return [GREYActions actionForTwistFastWithAngle:angle];
+}
+
+id<GREYAction> grey_twistSlowWithAngle(double angle) {
+  return [GREYActions actionForTwistSlowWithAngle:angle];
+}
+
 id<GREYAction> grey_moveSliderToValue(float value) {
   return [GREYActions actionForMoveSliderToValue:value];
 }

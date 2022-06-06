@@ -83,6 +83,11 @@ CGPoint CGPointAfterRemovingFractionalPixels(CGPoint cgpointInPoints) {
 
 BOOL CGPointIsNull(CGPoint point) { return isnan(point.x) || isnan(point.y); }
 
+CGPoint CGPointOnCircle(double angle, CGPoint center, CGFloat radius) {
+  return CGPointMake(center.x + (CGFloat)(radius * cos(angle)),
+                     center.y + (CGFloat)(radius * sin(angle)));
+}
+
 #pragma mark - CGFloat
 
 /**
