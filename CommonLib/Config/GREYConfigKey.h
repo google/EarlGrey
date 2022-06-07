@@ -169,4 +169,12 @@ GREY_EXTERN GREYConfigKey const kGREYConfigKeyIgnoreIsAccessible;
  */
 GREY_EXTERN GREYConfigKey const kGREYConfigKeyAppLaunchTimeout;
 
+/**
+ * Configuration for automatically untracking any MDCActivityIndicators after 10s.
+ *
+ * Accepted values: A BOOL specifying the auto-untracking or not.
+ * Default value: @c NO.
+ */
+GREY_EXTERN GREYConfigKey const kGREYConfigKeyAutoUntrackMDCActivityIndicators;
+
 NS_ASSUME_NONNULL_END

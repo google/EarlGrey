@@ -37,3 +37,5 @@ GREYConfigKey const kGREYConfigKeyIgnoreAppStates = @"GREYConfigKeyIgnoreAppStat
 GREYConfigKey const kGREYConfigKeyIgnoreHiddenAnimations = @"GREYConfigKeyTrackHiddenAnimations";
 GREYConfigKey const kGREYConfigKeyIgnoreIsAccessible = @"GREYConfigKeyIgnoreIsAccessible";
 GREYConfigKey const kGREYConfigKeyAppLaunchTimeout = @"GREYConfigKeyAppLaunchTimeout";
+GREYConfigKey const kGREYConfigKeyAutoUntrackMDCActivityIndicators =
+    @"kGREYConfigKeyAutoUntrackMDCActivityIndicators";

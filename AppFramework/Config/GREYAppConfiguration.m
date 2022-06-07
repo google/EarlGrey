@@ -130,6 +130,7 @@ static NSDictionary *GetFakeLocalTestingAppConfig() {
       kGREYConfigKeyIgnoreHiddenAnimations : @NO,
       kGREYConfigKeyIgnoreIsAccessible : @NO,
       kGREYConfigKeyAppLaunchTimeout : @(kGREYAppLaunchTimeout),
+      kGREYConfigKeyAutoUntrackMDCActivityIndicators : @NO,
     };
   });
   return fakeLocalTestingAppConfig;

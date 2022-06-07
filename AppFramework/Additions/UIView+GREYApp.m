@@ -23,6 +23,8 @@
 #import "UIView+GREYCommon.h"
 #import "GREYFatalAsserts.h"
 #import "GREYAppState.h"
+#import "GREYConfigKey.h"
+#import "GREYConfiguration.h"
 #import "GREYAppleInternals.h"
 #import "GREYDefines.h"
 #import "GREYLogger.h"
@@ -566,6 +568,39 @@ static id FuncPtrFromAnimationsBlock(GREYAnimationsBlock animationsBlock) {
   } else {
     return [[NSObject alloc] init];
   }
+}
+
+@end
+
+/**
+ * Swizzles MDCActivityIndicators to ensure they untrack automatically instead of spinning forever.
+ */
+@interface MDCActivityIndicator_GREYApp : NSObject
+@end
+
+@implementation MDCActivityIndicator_GREYApp
+
++ (void)load {
+  Class class = NSClassFromString(@"MDCActivityIndicator");
+  if (class) {
+    GREYSwizzler *swizzler = [[GREYSwizzler alloc] init];
+    IMP newStartAnimatingImplementation =
+        [self instanceMethodForSelector:@selector(greyswizzled_startAnimating)];
+    BOOL swizzleSuccess = [swizzler swizzleClass:class
+                               addInstanceMethod:@selector(greyswizzled_startAnimating)
+                              withImplementation:newStartAnimatingImplementation
+                    andReplaceWithInstanceMethod:NSSelectorFromString(@"startAnimating")];
+    GREYFatalAssertWithMessage(swizzleSuccess, @"Could not swizzle resume in %@", class);
+  }
+}
+
+- (void)greyswizzled_startAnimating {
+  if (GREY_CONFIG_BOOL(kGREYConfigKeyAutoUntrackMDCActivityIndicators)) {
+    [self performSelector:NSSelectorFromString(@"stopAnimating")
+               withObject:nil
+               afterDelay:GREY_CONFIG_DOUBLE(kGREYConfigKeyCALayerMaxAnimationDuration)];
+  }
+  INVOKE_ORIGINAL_IMP(void, @selector(greyswizzled_startAnimating));
 }
 
 @end
