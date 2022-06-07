@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1878403A284F656F007E182C /* GREYTwistAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 1878402D284F656F007E182C /* GREYTwistAction.m */; };
+		1878403B284F656F007E182C /* GREYTwistAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 18784039284F656F007E182C /* GREYTwistAction.h */; };
 		278BF2B124C53D780005ECE1 /* GREYAssert.m in Sources */ = {isa = PBXBuildFile; fileRef = 278BF2AD24C53D780005ECE1 /* GREYAssert.m */; };
 		278BF2B224C53D780005ECE1 /* GREYAssertDefaultConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 278BF2AF24C53D780005ECE1 /* GREYAssertDefaultConfiguration.m */; };
 		6F49FDBD22E69D4E00CCE813 /* GREYDiagnosable.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F49FDBC22E69D4C00CCE813 /* GREYDiagnosable.m */; };
@@ -243,6 +245,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		18784037284F656F007E182C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FD6239E420F56E6A00049E81 /* eDistantObject.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 76140D9C262795EE007CA5AC;
+			remoteInfo = SwiftUtil;
+		};
 		804D3FCC22B99039001D3F3A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = FD6239E420F56E6A00049E81 /* eDistantObject.xcodeproj */;
@@ -416,6 +425,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1878402D284F656F007E182C /* GREYTwistAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYTwistAction.m; path = Action/GREYTwistAction.m; sourceTree = "<group>"; };
+		18784039284F656F007E182C /* GREYTwistAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYTwistAction.h; path = Action/GREYTwistAction.h; sourceTree = "<group>"; };
 		278BF2AC24C53D780005ECE1 /* GREYAssert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYAssert.h; path = Assertion/GREYAssert.h; sourceTree = "<group>"; };
 		278BF2AD24C53D780005ECE1 /* GREYAssert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYAssert.m; path = Assertion/GREYAssert.m; sourceTree = "<group>"; };
 		278BF2AE24C53D780005ECE1 /* GREYAssertDefaultConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYAssertDefaultConfiguration.h; path = Assertion/GREYAssertDefaultConfiguration.h; sourceTree = "<group>"; };
@@ -1132,6 +1143,8 @@
 		FD623A5220F958B100049E81 /* Action */ = {
 			isa = PBXGroup;
 			children = (
+				18784039284F656F007E182C /* GREYTwistAction.h */,
+				1878402D284F656F007E182C /* GREYTwistAction.m */,
 				FD3A825A21F189BC00CA3ADF /* GREYActionsShorthand.h */,
 				FD3A825921F189BB00CA3ADF /* GREYActionsShorthand.m */,
 				FD623A5620F958C000049E81 /* GREYAction.h */,
@@ -1420,6 +1433,7 @@
 				FDBE850A22A21FBC0093062B /* libTestsBundle.a */,
 				FDBE850C22A21FBC0093062B /* libDeviceLib.a */,
 				FDBE850E22A21FBC0093062B /* DeviceUnitTests.xctest */,
+				18784038284F656F007E182C /* libSwiftUtil.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1540,6 +1554,7 @@
 				FD623ABF20F9590800049E81 /* UIView+GREYApp.h in Headers */,
 				FD623B4A20F95A9C00049E81 /* GREYDispatchQueueIdlingResource.h in Headers */,
 				FD623B8A20F95B1500049E81 /* GREYSyncAPI.h in Headers */,
+				1878403B284F656F007E182C /* GREYTwistAction.h in Headers */,
 				FD623B7120F95B0300049E81 /* GREYAnyOf.h in Headers */,
 				FDF62DAB25BABCC9006F48BE /* GREYWKWebViewIdlingResource.h in Headers */,
 				FD623AD220F9590800049E81 /* NSURL+GREYApp.h in Headers */,
@@ -1727,6 +1742,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		18784038284F656F007E182C /* libSwiftUtil.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSwiftUtil.a;
+			remoteRef = 18784037284F656F007E182C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		FDBE84F822A21FBC0093062B /* libChannelLib.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1974,6 +1996,7 @@
 				FD623AD720F9590800049E81 /* NSURL+GREYApp.m in Sources */,
 				FD623AC820F9590800049E81 /* CALayer+GREYApp.m in Sources */,
 				FD623B6920F95B0300049E81 /* GREYMatchers.m in Sources */,
+				1878403A284F656F007E182C /* GREYTwistAction.m in Sources */,
 				FDF62DAA25BABCC9006F48BE /* GREYWKWebViewIdlingResource.m in Sources */,
 				FD623A8720F958C200049E81 /* GREYMultiFingerSwipeAction.m in Sources */,
 				FD623B2720F95A7200049E81 /* GREYFailureScreenshotter.m in Sources */,
