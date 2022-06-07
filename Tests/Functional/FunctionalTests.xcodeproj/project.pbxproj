@@ -15,6 +15,8 @@
 		54B78D1D28384B5400FF486F /* Tests-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 54B78D1B28384B5400FF486F /* Tests-Info.plist */; };
 		54B78D1E28384B5400FF486F /* Tests-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 54B78D1B28384B5400FF486F /* Tests-Info.plist */; };
 		54B78D1F28384B5400FF486F /* Tests-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 54B78D1B28384B5400FF486F /* Tests-Info.plist */; };
+		76B6AE09284FCD1400BC2C6B /* GREYHostApplicationDistantObject+TwistViewTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 76B6AE07284FCD1400BC2C6B /* GREYHostApplicationDistantObject+TwistViewTest.m */; };
+		76C4AAD4284F116200EA09AD /* TwistViewTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C4AAD3284F116200EA09AD /* TwistViewTest.m */; };
 		76DAC16B242EE77E00557F3C /* libTestLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD623D2E20FD6BF900049E81 /* libTestLib.a */; };
 		76DAC16E242EE77E00557F3C /* AppFramework.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = FD623D2C20FD6BF900049E81 /* AppFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		76DAC170242EE77E00557F3C /* HostDOCategories.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = FD6678692122290B008EC4A7 /* HostDOCategories.bundle */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -425,6 +427,9 @@
 		42D3E6F926F53221007C3F0E /* SwitchViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SwitchViewController.xib; path = ../TestRig/Sources/SwitchViewController.xib; sourceTree = "<group>"; };
 		54B78D1B28384B5400FF486F /* Tests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Tests-Info.plist"; path = "../../../../../../Volumes/google/src/cloud/nishantdalmia/SwiftOnM1/google3/third_party/objective_c/EarlGreyV2/Tests/Functional/Tests-Info.plist"; sourceTree = "<group>"; };
 		76480F8C23CEA04100D6047B /* DistantObjectCrashHandlerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DistantObjectCrashHandlerTest.m; sourceTree = "<group>"; };
+		76B6AE07284FCD1400BC2C6B /* GREYHostApplicationDistantObject+TwistViewTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GREYHostApplicationDistantObject+TwistViewTest.m"; sourceTree = "<group>"; };
+		76B6AE08284FCD1400BC2C6B /* GREYHostApplicationDistantObject+TwistViewTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GREYHostApplicationDistantObject+TwistViewTest.h"; sourceTree = "<group>"; };
+		76C4AAD3284F116200EA09AD /* TwistViewTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TwistViewTest.m; sourceTree = "<group>"; };
 		76DAC13D242EE51100557F3C /* DistantObjectBackgroundExecutionTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DistantObjectBackgroundExecutionTest.m; sourceTree = "<group>"; };
 		76DAC174242EE77E00557F3C /* FunctionalBackgroundRemoteCallTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FunctionalBackgroundRemoteCallTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD0200AA212E4455007585B2 /* FunctionalOutOfProcessTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FunctionalOutOfProcessTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -709,6 +714,7 @@
 		FD5EB4862118FD61006F82A0 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				76C4AAD3284F116200EA09AD /* TwistViewTest.m */,
 				FDD684F022E7D52500A56FA9 /* ActiveAnimationsTest.m */,
 				FDEA646224A3EC79009AB79E /* ErrorAPITest.m */,
 				FDEA646524A3EC79009AB79E /* FailureFormattingTest.m */,
@@ -756,6 +762,8 @@
 		FD5EB4F32118FEDB006F82A0 /* HostDOCategories */ = {
 			isa = PBXGroup;
 			children = (
+				76B6AE08284FCD1400BC2C6B /* GREYHostApplicationDistantObject+TwistViewTest.h */,
+				76B6AE07284FCD1400BC2C6B /* GREYHostApplicationDistantObject+TwistViewTest.m */,
 				FD11853E212DFE44004CADC3 /* Swift */,
 				FD98C4CA226C3ABF006F8D68 /* GREYHostApplicationDistantObject+ErrorHandlingTest.h */,
 				FD6F11A9248A1AB000ADF6C2 /* GREYHostApplicationDistantObject+AnimationsTest.m */,
@@ -1562,6 +1570,7 @@
 				FD98C49D226C3555006F8D68 /* RemoteInteractionsTest.m in Sources */,
 				FD98C4AA226C3555006F8D68 /* BasicInteractionTest.m in Sources */,
 				FD98C4AD226C3555006F8D68 /* ConditionTest.m in Sources */,
+				76C4AAD4284F116200EA09AD /* TwistViewTest.m in Sources */,
 				FD98C4C3226C3555006F8D68 /* OrientationChangeTest.m in Sources */,
 				FD98C49F226C3555006F8D68 /* MultiFingerSwipeTest.m in Sources */,
 				FDEA646624A3EC79009AB79E /* ErrorAPITest.m in Sources */,
@@ -1614,6 +1623,7 @@
 				FDDE2FA5212CEC0E00EB40F7 /* GREYHostApplicationDistantObject+PinchViewTest.m in Sources */,
 				FD6F11AA248A1AB000ADF6C2 /* GREYHostApplicationDistantObject+AnimationsTest.m in Sources */,
 				FDDE2FB0212CEC3800EB40F7 /* GREYHostApplicationDistantObject+ScrollViewTest.m in Sources */,
+				76B6AE09284FCD1400BC2C6B /* GREYHostApplicationDistantObject+TwistViewTest.m in Sources */,
 				FDDE2FA9212CEC1E00EB40F7 /* GREYHostApplicationDistantObject+VisibilityTest.m in Sources */,
 				FDDE2FAE212CEC3200EB40F7 /* GREYHostApplicationDistantObject+GeometryTest.m in Sources */,
 				FDDE2FA6212CEC1200EB40F7 /* GREYHostApplicationDistantObject+PortraitOnlyOrientationTest.m in Sources */,

@@ -16,6 +16,8 @@
 		6FCD8C7D25942522002EF615 /* GREYWKWebViewNavigationDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FCD8C7B25942522002EF615 /* GREYWKWebViewNavigationDelegate.h */; };
 		6FCD8C7E25942522002EF615 /* GREYWKWebViewNavigationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FCD8C7C25942522002EF615 /* GREYWKWebViewNavigationDelegate.m */; };
 		6FDFAF5324A2D0B2008B59DF /* GREYFailureHandlerHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FDFAF5124A2D0B2008B59DF /* GREYFailureHandlerHelpers.m */; };
+		761CE8F5284F11130069A78F /* GREYTwistAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 761CE8F3284F11130069A78F /* GREYTwistAction.h */; };
+		761CE8F6284F11130069A78F /* GREYTwistAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 761CE8F4284F11130069A78F /* GREYTwistAction.m */; };
 		763D87B22513F3F1001B5731 /* GREYDistantObjectUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 763D87B12513F3F1001B5731 /* GREYDistantObjectUtils.m */; };
 		765D6E6026A73DDC00770A87 /* UIApplication+ActiveRunLoopMode.m in Sources */ = {isa = PBXBuildFile; fileRef = 765D6E5E26A73DDC00770A87 /* UIApplication+ActiveRunLoopMode.m */; };
 		765D6E6126A73DDC00770A87 /* UIApplication+ActiveRunLoopMode.h in Headers */ = {isa = PBXBuildFile; fileRef = 765D6E5F26A73DDC00770A87 /* UIApplication+ActiveRunLoopMode.h */; };
@@ -430,6 +432,8 @@
 		6FCD8C7C25942522002EF615 /* GREYWKWebViewNavigationDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYWKWebViewNavigationDelegate.m; path = Delegate/GREYWKWebViewNavigationDelegate.m; sourceTree = "<group>"; };
 		6FDFAF5124A2D0B2008B59DF /* GREYFailureHandlerHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYFailureHandlerHelpers.m; path = Exception/GREYFailureHandlerHelpers.m; sourceTree = "<group>"; };
 		6FDFAF5224A2D0B2008B59DF /* GREYFailureHandlerHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYFailureHandlerHelpers.h; path = Exception/GREYFailureHandlerHelpers.h; sourceTree = "<group>"; };
+		761CE8F3284F11130069A78F /* GREYTwistAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYTwistAction.h; path = Action/GREYTwistAction.h; sourceTree = "<group>"; };
+		761CE8F4284F11130069A78F /* GREYTwistAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYTwistAction.m; path = Action/GREYTwistAction.m; sourceTree = "<group>"; };
 		763D87B02513F3F1001B5731 /* GREYDistantObjectUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYDistantObjectUtils.h; path = CommonLib/DistantObject/GREYDistantObjectUtils.h; sourceTree = "<group>"; };
 		763D87B12513F3F1001B5731 /* GREYDistantObjectUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYDistantObjectUtils.m; path = CommonLib/DistantObject/GREYDistantObjectUtils.m; sourceTree = "<group>"; };
 		765D6E5E26A73DDC00770A87 /* UIApplication+ActiveRunLoopMode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIApplication+ActiveRunLoopMode.m"; path = "Synchronization/UIApplication+ActiveRunLoopMode.m"; sourceTree = "<group>"; };
@@ -1132,6 +1136,8 @@
 		FD623A5220F958B100049E81 /* Action */ = {
 			isa = PBXGroup;
 			children = (
+				761CE8F3284F11130069A78F /* GREYTwistAction.h */,
+				761CE8F4284F11130069A78F /* GREYTwistAction.m */,
 				FD3A825A21F189BC00CA3ADF /* GREYActionsShorthand.h */,
 				FD3A825921F189BB00CA3ADF /* GREYActionsShorthand.m */,
 				FD623A5620F958C000049E81 /* GREYAction.h */,
@@ -1540,6 +1546,7 @@
 				FD623ABF20F9590800049E81 /* UIView+GREYApp.h in Headers */,
 				FD623B4A20F95A9C00049E81 /* GREYDispatchQueueIdlingResource.h in Headers */,
 				FD623B8A20F95B1500049E81 /* GREYSyncAPI.h in Headers */,
+				761CE8F5284F11130069A78F /* GREYTwistAction.h in Headers */,
 				FD623B7120F95B0300049E81 /* GREYAnyOf.h in Headers */,
 				FDF62DAB25BABCC9006F48BE /* GREYWKWebViewIdlingResource.h in Headers */,
 				FD623AD220F9590800049E81 /* NSURL+GREYApp.h in Headers */,
@@ -1974,6 +1981,7 @@
 				FD623AD720F9590800049E81 /* NSURL+GREYApp.m in Sources */,
 				FD623AC820F9590800049E81 /* CALayer+GREYApp.m in Sources */,
 				FD623B6920F95B0300049E81 /* GREYMatchers.m in Sources */,
+				761CE8F6284F11130069A78F /* GREYTwistAction.m in Sources */,
 				FDF62DAA25BABCC9006F48BE /* GREYWKWebViewIdlingResource.m in Sources */,
 				FD623A8720F958C200049E81 /* GREYMultiFingerSwipeAction.m in Sources */,
 				FD623B2720F95A7200049E81 /* GREYFailureScreenshotter.m in Sources */,
