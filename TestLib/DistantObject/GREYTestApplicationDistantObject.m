@@ -20,17 +20,21 @@
 #include <stdatomic.h>
 #include <stddef.h>
 
+#import "GREYAssertionBlock.h"
 #import "GREYFatalAsserts.h"
 #import "GREYTestApplicationDistantObject+Private.h"
 #import "GREYError.h"
 #import "GREYErrorConstants.h"
 #import "GREYFrameworkException.h"
 #import "GREYConstants.h"
+#import "GREYElementMatcherBlock.h"
+#import "GREYTestConfiguration.h"
 #import "GREYRemoteExecutor.h"
 #import "EDOChannel.h"
 #import "EDOChannelPool.h"
 #import "EDOHostPort.h"
 #import "EDOHostService.h"
+#import "EDORemoteVariable.h"
 #import "EDOServiceError.h"
 #import "EDOServicePort.h"
 #import "NSObject+EDOBlockedType.h"
@@ -174,6 +178,13 @@ __attribute__((constructor)) static void SetupTestDistantObject() {
     [UIView edo_disallowRemoteInvocation];
     [UIViewController edo_disallowRemoteInvocation];
     [UIWindow edo_disallowRemoteInvocation];
+    [GREYTestApplicationDistantObject edo_alwaysAllowRemoteInvocation];
+    [GREYTestConfiguration edo_alwaysAllowRemoteInvocation];
+    [GREYElementMatcherBlock edo_alwaysAllowRemoteInvocation];
+    [GREYAssertionBlock edo_alwaysAllowRemoteInvocation];
+    [EDORemoteVariable edo_alwaysAllowRemoteInvocation];
+    // TODO(b/235243280): Use class type instead.
+    [NSClassFromString(@"EarlGreyImpl") edo_alwaysAllowRemoteInvocation];
   });
   return application;
 }
