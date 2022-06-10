@@ -18,9 +18,10 @@
 		6FDFAF5324A2D0B2008B59DF /* GREYFailureHandlerHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FDFAF5124A2D0B2008B59DF /* GREYFailureHandlerHelpers.m */; };
 		761CE8F5284F11130069A78F /* GREYTwistAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 761CE8F3284F11130069A78F /* GREYTwistAction.h */; };
 		761CE8F6284F11130069A78F /* GREYTwistAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 761CE8F4284F11130069A78F /* GREYTwistAction.m */; };
-		763D87B22513F3F1001B5731 /* GREYDistantObjectUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 763D87B12513F3F1001B5731 /* GREYDistantObjectUtils.m */; };
 		765D6E6026A73DDC00770A87 /* UIApplication+ActiveRunLoopMode.m in Sources */ = {isa = PBXBuildFile; fileRef = 765D6E5E26A73DDC00770A87 /* UIApplication+ActiveRunLoopMode.m */; };
 		765D6E6126A73DDC00770A87 /* UIApplication+ActiveRunLoopMode.h in Headers */ = {isa = PBXBuildFile; fileRef = 765D6E5F26A73DDC00770A87 /* UIApplication+ActiveRunLoopMode.h */; };
+		76CE2923285176CA0036A770 /* GREYDistantObjectUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 76CE2922285176CA0036A770 /* GREYDistantObjectUtils.m */; };
+		76CE2925285176DA0036A770 /* GREYDistantObjectUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 76CE2924285176DA0036A770 /* GREYDistantObjectUtils.m */; };
 		76E0547B258179E60015F307 /* GREYConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = FD6239DF20F56C9500049E81 /* GREYConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		76E0547C258179F80015F307 /* GREYError.h in Headers */ = {isa = PBXBuildFile; fileRef = FD6239B520F56C3D00049E81 /* GREYError.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		76E0547D25817A050015F307 /* GREYErrorConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = FD6239B120F56C3D00049E81 /* GREYErrorConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -435,9 +436,10 @@
 		761CE8F3284F11130069A78F /* GREYTwistAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYTwistAction.h; path = Action/GREYTwistAction.h; sourceTree = "<group>"; };
 		761CE8F4284F11130069A78F /* GREYTwistAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYTwistAction.m; path = Action/GREYTwistAction.m; sourceTree = "<group>"; };
 		763D87B02513F3F1001B5731 /* GREYDistantObjectUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYDistantObjectUtils.h; path = CommonLib/DistantObject/GREYDistantObjectUtils.h; sourceTree = "<group>"; };
-		763D87B12513F3F1001B5731 /* GREYDistantObjectUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYDistantObjectUtils.m; path = CommonLib/DistantObject/GREYDistantObjectUtils.m; sourceTree = "<group>"; };
 		765D6E5E26A73DDC00770A87 /* UIApplication+ActiveRunLoopMode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIApplication+ActiveRunLoopMode.m"; path = "Synchronization/UIApplication+ActiveRunLoopMode.m"; sourceTree = "<group>"; };
 		765D6E5F26A73DDC00770A87 /* UIApplication+ActiveRunLoopMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIApplication+ActiveRunLoopMode.h"; path = "Synchronization/UIApplication+ActiveRunLoopMode.h"; sourceTree = "<group>"; };
+		76CE2922285176CA0036A770 /* GREYDistantObjectUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYDistantObjectUtils.m; path = DistantObject/GREYDistantObjectUtils.m; sourceTree = "<group>"; };
+		76CE2924285176DA0036A770 /* GREYDistantObjectUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYDistantObjectUtils.m; path = DistantObject/GREYDistantObjectUtils.m; sourceTree = "<group>"; };
 		80E8CD4422AF097000CDE5C5 /* GREYElementMatcherBlock+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GREYElementMatcherBlock+Private.h"; path = "CommonLib/Matcher/GREYElementMatcherBlock+Private.h"; sourceTree = SOURCE_ROOT; };
 		A20847AA22BC095A00DD3983 /* GREYTraversalObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYTraversalObject.h; sourceTree = "<group>"; };
 		A20847B322BC095A00DD3983 /* GREYTraversalObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYTraversalObject.m; sourceTree = "<group>"; };
@@ -887,6 +889,7 @@
 		FD50491B20FB237700261CBE /* DistantObject */ = {
 			isa = PBXGroup;
 			children = (
+				76CE2924285176DA0036A770 /* GREYDistantObjectUtils.m */,
 				FD3A826121F18A5800CA3ADF /* GREYTestApplicationDistantObject+GREYLogger.h */,
 				FD3A826221F18A5800CA3ADF /* GREYTestApplicationDistantObject+GREYLogger.m */,
 				FD50491C20FB238300261CBE /* GREYHostStub.m */,
@@ -1037,7 +1040,6 @@
 			isa = PBXGroup;
 			children = (
 				763D87B02513F3F1001B5731 /* GREYDistantObjectUtils.h */,
-				763D87B12513F3F1001B5731 /* GREYDistantObjectUtils.m */,
 				FD6239AA20F56C2500049E81 /* GREYHostApplicationDistantObject.h */,
 				FD6239AC20F56C2500049E81 /* GREYHostBackgroundDistantObject.h */,
 				FD6239AB20F56C2500049E81 /* GREYTestApplicationDistantObject.h */,
@@ -1269,6 +1271,7 @@
 		FD623B0D20F95A4500049E81 /* DistantObject */ = {
 			isa = PBXGroup;
 			children = (
+				76CE2922285176CA0036A770 /* GREYDistantObjectUtils.m */,
 				FD623B0E20F95A5300049E81 /* GREYHostApplicationDistantObject.m */,
 				FD623B1320F95A5400049E81 /* GREYHostApplicationDistantObject+GREYTestHelper.h */,
 				FD623B0F20F95A5300049E81 /* GREYHostApplicationDistantObject+GREYTestHelper.m */,
@@ -1879,6 +1882,7 @@
 				FD50492D20FB239900261CBE /* EarlGrey.m in Sources */,
 				FD2E76F12149E4860063EF7E /* GREYTestConfiguration.m in Sources */,
 				FD50492A20FB239900261CBE /* GREYElementInteractionProxy.m in Sources */,
+				76CE2925285176DA0036A770 /* GREYDistantObjectUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1887,7 +1891,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				FD98C45C226C2E01006F8D68 /* NSFileManager+GREYCommon.m in Sources */,
-				763D87B22513F3F1001B5731 /* GREYDistantObjectUtils.m in Sources */,
 				FD6239C420F56C4D00049E81 /* GREYTouchInfo.m in Sources */,
 				FD6239D120F56C7100049E81 /* GREYLayoutConstraint.m in Sources */,
 				FD6239E120F56C9500049E81 /* GREYSwizzler.m in Sources */,
@@ -1997,6 +2000,7 @@
 				FD623AFA20F9594200049E81 /* GREYElementInteraction.m in Sources */,
 				FD623AE420F9591600049E81 /* GREYAssertions.m in Sources */,
 				FD623B3220F95A8600049E81 /* GREYSyntheticEvents.m in Sources */,
+				76CE2923285176CA0036A770 /* GREYDistantObjectUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -19,7 +19,9 @@
 #import "GREYAllOf.h"
 #import "GREYAnyOf.h"
 #import "GREYMatchers.h"
+#import "GREYDistantObjectUtils.h"
 #import "GREYMatcher.h"
+#import "NSObject+EDOValueObject.h"
 
 #if !defined(GREY_DISABLE_SHORTHAND) || !(GREY_DISABLE_SHORTHAND)
 
@@ -132,7 +134,9 @@ id<GREYMatcher> grey_userInteractionEnabled(void) {
 }
 
 id<GREYMatcher> grey_layout(NSArray *constraints, id<GREYMatcher> referenceElementMatcher) {
-  return [GREYMatchers matcherForLayoutConstraints:constraints
+  NSArray<GREYLayoutConstraint *> *appConstraints =
+      GREYIsTestProcess() ? [constraints passByValue] : constraints;
+  return [GREYMatchers matcherForLayoutConstraints:appConstraints
                         toReferenceElementMatching:referenceElementMatcher];
 }
 
@@ -177,11 +181,13 @@ id<GREYMatcher> grey_anyOf(id<GREYMatcher> matcher, ...) {
   } while ((nextMatcher = va_arg(args, id<GREYMatcher>)) != nil);
 
   va_end(args);
-  return [[GREYAnyOf alloc] initWithMatchers:matcherList];
+  return grey_anyOfMatchers(matcherList);
 }
 
 id<GREYMatcher> grey_anyOfMatchers(NSArray<GREYMatcher> *matchers) {
-  return [[GREYAnyOf alloc] initWithMatchers:matchers];
+  NSArray<id<GREYMatcher>> *appMatchers =
+      GREYIsTestProcess() ? GREYGetRemoteArrayShallowCopy(matchers) : matchers;
+  return [[GREYAnyOf alloc] initWithMatchers:appMatchers];
 }
 
 id<GREYMatcher> grey_allOf(id<GREYMatcher> matcher, ...) {
@@ -195,11 +201,13 @@ id<GREYMatcher> grey_allOf(id<GREYMatcher> matcher, ...) {
   } while ((nextMatcher = va_arg(args, id<GREYMatcher>)) != nil);
 
   va_end(args);
-  return [[GREYAllOf alloc] initWithMatchers:matcherList];
+  return grey_allOfMatchers(matcherList);
 }
 
 id<GREYMatcher> grey_allOfMatchers(NSArray<GREYMatcher> *matchers) {
-  return [[GREYAllOf alloc] initWithMatchers:matchers];
+  NSArray<id<GREYMatcher>> *appMatchers =
+      GREYIsTestProcess() ? GREYGetRemoteArrayShallowCopy(matchers) : matchers;
+  return [[GREYAllOf alloc] initWithMatchers:appMatchers];
 }
 
 id<GREYMatcher> grey_not(id<GREYMatcher> matcher) {

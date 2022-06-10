@@ -19,6 +19,11 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
+ * @return @c YES if the current process is testing process; @c NO otherwise.
+ */
+BOOL GREYIsTestProcess(void);
+
+/**
  * Creates a local NSArray object from a remote NSArray. The local array shallow copies the elements
  * of the @c remoteArray.
  *
