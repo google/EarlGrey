@@ -379,6 +379,14 @@ static BOOL IsEligibleForRetry(UIScrollView *scrollView, GREYDirection scrollDir
         detectResistance();
       } else if (shouldDetectResistanceFromContentOffset &&
                  touchPointIndex > kMinTouchPointsToDetectScrollResistance) {
+        // Even if scroll is not detected, scroll detection can be delayed and cause side-effect. So
+        // the remaining touch is injected without moving the touch point to avoid the side-effect.
+        for (NSUInteger remainingIndex = touchPointIndex; remainingIndex < [touchPath count];
+             ++remainingIndex) {
+          [eventGenerator continueTouchAtPoint:currentTouchPoint
+                             immediateDelivery:YES
+                                       timeout:interactionTimeout];
+        }
         break;
       }
     }
