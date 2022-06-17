@@ -42,15 +42,15 @@
 #import "GREYErrorConstants.h"
 #import "GREYConstants.h"
 #import "GREYDiagnosable.h"
-#import "GREYLogger.h"
 #import "CGGeometry+GREYUI.h"
 #import "GREYElementHierarchy.h"
 
 /**
  * Scroll views under web views take at least (depending on speed of execution environment) two
- * touch points to accurately determine scroll resistance.
+ * touch points to accurately determine scroll resistance. For apps that has busy recurring
+ * executions, it can take up to three touch points to start the initial scroll.
  */
-static const NSInteger kMinTouchPointsToDetectScrollResistance = 2;
+static const NSInteger kMinTouchPointsToDetectScrollResistance = 3;
 
 /**
  * Returns whether the scroll detection is performed by the old way - scroll offset.
