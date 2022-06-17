@@ -18,6 +18,7 @@
 
 #import "EarlGrey.h"
 #import "GREYHostApplicationDistantObject+BaseIntegrationTest.h"
+#import "NSObject+EDOBlockedType.h"
 
 @implementation BaseIntegrationTest
 
@@ -28,6 +29,9 @@
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
     [EarlGrey setHostApplicationCrashHandler:[self defaultCrashHandler]];
+    // EarlGrey functional test blocks creation of remote object belonging to testing process. The
+    // only exception is NSArray - there is one test case verifying the eDO utility for NSArray.
+    [NSObject edo_disallowRemoteInvocationWithExlcusion:@[ [NSArray class], [NSEnumerator class] ]];
     [self.application launch];
   });
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait error:nil];

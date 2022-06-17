@@ -14,7 +14,6 @@
 // limitations under the License.
 //
 
-#import "GREYWaitFunctions.h"
 #import "EarlGrey.h"
 #import "GREYHostApplicationDistantObject+VisibilityTest.h"
 #import "BaseIntegrationTest.h"
@@ -139,7 +138,7 @@
                                                                                  error:&error];
   GREYAssertEqual(error.code, kGREYInteractionMultipleElementsMatchedErrorCode, @"should be equal");
 
-  NSMutableSet *idSet = [NSMutableSet set];
+  NSMutableSet<NSString *> *idSet = [GREY_REMOTE_CLASS_IN_APP(NSMutableSet) set];
   GREYHostApplicationDistantObject *host = [GREYHostApplicationDistantObject sharedInstance];
   // Match against the first view present.
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AView")] atIndex:0]

@@ -49,7 +49,7 @@
  * Ensure operations within the trackable EarlGrey interval are synchronized with.
  */
 - (void)testIndependentAppSideAccessOfTestSideVariableWhenInsideTrackingInterval {
-  NSMutableArray<NSValue *> *mutableArray = [[NSMutableArray alloc] init];
+  NSMutableArray<NSValue *> *mutableArray = [NSMutableArray array];
   // Perform operation within the EarlGrey trackable interval.
   [[GREYHostApplicationDistantObject sharedInstance] addToMutableArray:mutableArray afterTime:0.5];
   [[EarlGrey selectElementWithMatcher:grey_keyWindow()] assertWithMatcher:grey_notNil()];
@@ -61,7 +61,7 @@
  * separate waiting logic in the text.
  */
 - (void)testIndependentAppSideAccessOfTestSideVariableWhenOutsideTrackingInterval {
-  NSMutableArray<NSValue *> *mutableArray = [[NSMutableArray alloc] init];
+  NSMutableArray<NSValue *> *mutableArray = [NSMutableArray array];
   NSTimeInterval waitTime = 3;
   // Perform operation after the EarlGrey trackable interval.
   [[GREYHostApplicationDistantObject sharedInstance] addToMutableArray:mutableArray
