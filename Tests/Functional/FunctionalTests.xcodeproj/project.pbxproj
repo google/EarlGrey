@@ -11,10 +11,6 @@
 		42D3E6FB26F53221007C3F0E /* SwitchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 42D3E6F526F53221007C3F0E /* SwitchViewController.m */; };
 		42D3E6FC26F53221007C3F0E /* SwitchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42D3E6F926F53221007C3F0E /* SwitchViewController.xib */; };
 		42D3E6FD26F53221007C3F0E /* SwitchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42D3E6F926F53221007C3F0E /* SwitchViewController.xib */; };
-		54B78D1C28384B5400FF486F /* Tests-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 54B78D1B28384B5400FF486F /* Tests-Info.plist */; };
-		54B78D1D28384B5400FF486F /* Tests-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 54B78D1B28384B5400FF486F /* Tests-Info.plist */; };
-		54B78D1E28384B5400FF486F /* Tests-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 54B78D1B28384B5400FF486F /* Tests-Info.plist */; };
-		54B78D1F28384B5400FF486F /* Tests-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 54B78D1B28384B5400FF486F /* Tests-Info.plist */; };
 		76B6AE09284FCD1400BC2C6B /* GREYHostApplicationDistantObject+TwistViewTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 76B6AE07284FCD1400BC2C6B /* GREYHostApplicationDistantObject+TwistViewTest.m */; };
 		76C4AAD4284F116200EA09AD /* TwistViewTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C4AAD3284F116200EA09AD /* TwistViewTest.m */; };
 		76DAC16B242EE77E00557F3C /* libTestLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD623D2E20FD6BF900049E81 /* libTestLib.a */; };
@@ -425,7 +421,6 @@
 		42D3E6F526F53221007C3F0E /* SwitchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SwitchViewController.m; path = ../TestRig/Sources/SwitchViewController.m; sourceTree = "<group>"; };
 		42D3E6F826F53221007C3F0E /* SwitchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SwitchViewController.h; path = ../TestRig/Sources/SwitchViewController.h; sourceTree = "<group>"; };
 		42D3E6F926F53221007C3F0E /* SwitchViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SwitchViewController.xib; path = ../TestRig/Sources/SwitchViewController.xib; sourceTree = "<group>"; };
-		54B78D1B28384B5400FF486F /* Tests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Tests-Info.plist"; path = "../../../../../../Volumes/google/src/cloud/nishantdalmia/SwiftOnM1/google3/third_party/objective_c/EarlGreyV2/Tests/Functional/Tests-Info.plist"; sourceTree = "<group>"; };
 		76480F8C23CEA04100D6047B /* DistantObjectCrashHandlerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DistantObjectCrashHandlerTest.m; sourceTree = "<group>"; };
 		76B6AE07284FCD1400BC2C6B /* GREYHostApplicationDistantObject+TwistViewTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GREYHostApplicationDistantObject+TwistViewTest.m"; sourceTree = "<group>"; };
 		76B6AE08284FCD1400BC2C6B /* GREYHostApplicationDistantObject+TwistViewTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GREYHostApplicationDistantObject+TwistViewTest.h"; sourceTree = "<group>"; };
@@ -437,6 +432,7 @@
 		FD1184E4212CEFF8004CADC3 /* EarlGrey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EarlGrey.swift; path = ../../../../TestLib/Swift/EarlGrey.swift; sourceTree = "<group>"; };
 		FD11853A212DFE24004CADC3 /* FunctionalTestRigSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FunctionalTestRigSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD11854C212E03D5004CADC3 /* HostDOCategoriesSwift.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HostDOCategoriesSwift.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		FD4C4062285D3B93006049F9 /* Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Tests-Info.plist"; sourceTree = "<group>"; };
 		FD511E82211E6D8B00F19C8A /* libeDistantObject.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libeDistantObject.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD623C4020FD197C00049E81 /* FunctionalTestRig.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FunctionalTestRig.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD623C5720FD1A5E00049E81 /* BasicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BasicViewController.m; path = ../TestRig/Sources/BasicViewController.m; sourceTree = "<group>"; };
@@ -802,7 +798,7 @@
 		FD623C1A20FD194800049E81 = {
 			isa = PBXGroup;
 			children = (
-				54B78D1B28384B5400FF486F /* Tests-Info.plist */,
+				FD4C4062285D3B93006049F9 /* Tests-Info.plist */,
 				FD5EB4862118FD61006F82A0 /* Sources */,
 				FD623D1F20FD6BF900049E81 /* EarlGrey.xcodeproj */,
 				FD623C5620FD1A2F00049E81 /* FunctionalTestRig */,
@@ -1276,7 +1272,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				54B78D1F28384B5400FF486F /* Tests-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1284,7 +1279,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				54B78D1E28384B5400FF486F /* Tests-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1292,7 +1286,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				54B78D1D28384B5400FF486F /* Tests-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1394,7 +1387,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				54B78D1C28384B5400FF486F /* Tests-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1869,7 +1861,7 @@
 				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = "";
-				INFOPLIST_FILE = "";
+				INFOPLIST_FILE = "Tests-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
@@ -1898,7 +1890,7 @@
 				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = "";
-				INFOPLIST_FILE = "";
+				INFOPLIST_FILE = "Tests-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
@@ -2113,7 +2105,7 @@
 				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = ../../../../../;
-				INFOPLIST_FILE = "";
+				INFOPLIST_FILE = "Tests-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
@@ -2138,7 +2130,7 @@
 				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = ../../../../../;
-				INFOPLIST_FILE = "";
+				INFOPLIST_FILE = "Tests-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_FAST_MATH = YES;
