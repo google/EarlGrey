@@ -42,6 +42,7 @@
 #import "GREYMatcher.h"
 #import "GREYElementProvider.h"
 #import "GREYUIWindowProvider.h"
+#import "GREYTraversalFunctions.h"
 
 /**
  * @param customMatcher The custom matcher to match accessibility property such as label, hint
@@ -903,6 +904,27 @@ static Class gEDOObjectClass;
                                       descriptionBlock:describe];
 
   return [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe];
+}
+
++ (id<GREYMatcher>)matcherForSubview:(id<GREYMatcher>)matcher {
+  NSString *prefix = @"subview";
+  GREYMatchesBlock matches = ^BOOL(id element) {
+    NSArray<id> *children = GREYTraversalExploreImmediateChildren(element, NO);
+
+    for (id child in children) {
+      if ([matcher matches:child] && child != element) {
+        return YES;
+      }
+    }
+
+    return NO;
+  };
+  GREYDescribeToBlock describe = ^void(id<GREYDescription> description) {
+    [description appendText:[NSString stringWithFormat:@"%@(%@)", prefix, matcher]];
+  };
+  return [[GREYElementMatcherBlock alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
+                                          matchesBlock:matches
+                                      descriptionBlock:describe];
 }
 
 #pragma mark - Private

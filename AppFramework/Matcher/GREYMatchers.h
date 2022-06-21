@@ -474,6 +474,14 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 + (id<GREYMatcher>)matcherForHidden:(BOOL)hidden;
 
+/**
+ * Matcher that matches any UI element with a subview matching the given matcher.
+ *
+ * @param subviewMatcher A matcher being checked to be a subview of the UI element being checked.
+ *
+ * @return A matcher to check if a the specified element is in a subview of another UI element.
+ */
++ (id<GREYMatcher>)matcherForSubview:(id<GREYMatcher>)subviewMatcher;
 @end
 
 NS_ASSUME_NONNULL_END
