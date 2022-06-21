@@ -102,6 +102,9 @@ GREY_EXPORT id<GREYMatcher> grey_selected(void);
 /** Shorthand for GREYMatchers::matcherForSliderValueMatcher:. */
 GREY_EXPORT id<GREYMatcher> grey_sliderValueMatcher(id<GREYMatcher> valueMatcher);
 
+/** Shorthand for GREYMatchers::matcherForSibling. */
+GREY_EXPORT id<GREYMatcher> grey_sibling(id<GREYMatcher> siblingMatcher);
+
 /** Shorthand for GREYMatchers::matcherForStepperValue:. */
 GREY_EXPORT id<GREYMatcher> grey_stepperValue(double value);
 

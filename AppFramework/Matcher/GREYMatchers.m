@@ -927,6 +927,30 @@ static Class gEDOObjectClass;
                                       descriptionBlock:describe];
 }
 
++ (id<GREYMatcher>)matcherForSibling:(id<GREYMatcher>)matcher {
+  NSString *prefix = @"sibling";
+  GREYMatchesBlock matches = ^BOOL(id element) {
+    id parent = [element isKindOfClass:[UIView class]] ? [element superview]
+                                                       : [element accessibilityContainer];
+    if (!parent) {
+      return NO;
+    }
+    NSArray<id> *children = GREYTraversalExploreImmediateChildren(parent, NO);
+    for (id child in children) {
+      if ([matcher matches:child] && child != element) {
+        return YES;
+      }
+    }
+    return NO;
+  };
+  GREYDescribeToBlock describe = ^void(id<GREYDescription> description) {
+    [description appendText:[NSString stringWithFormat:@"%@(%@)", prefix, matcher]];
+  };
+  return [[GREYElementMatcherBlock alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
+                                          matchesBlock:matches
+                                      descriptionBlock:describe];
+}
+
 #pragma mark - Private
 
 /**

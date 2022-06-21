@@ -482,6 +482,15 @@ NS_ASSUME_NONNULL_BEGIN
  * @return A matcher to check if a the specified element is in a subview of another UI element.
  */
 + (id<GREYMatcher>)matcherForSubview:(id<GREYMatcher>)subviewMatcher;
+
+/**
+ * Matcher that matches any UI element with a sibling matching the given matcher.
+ *
+ * @param childMatcher A matcher being checked to be a sibling of the UI element being checked.
+ *
+ * @return A matcher to check if a the specified element is in a sibling of another UI element.
+ */
++ (id<GREYMatcher>)matcherForSibling:(id<GREYMatcher>)siblingMatcher;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -219,4 +219,8 @@ id<GREYMatcher> grey_hidden(BOOL hidden) { return [GREYMatchers matcherForHidden
 id<GREYMatcher> grey_subview(id<GREYMatcher> matcher) {
   return [GREYMatchers matcherForSubview:matcher];
 }
+
+id<GREYMatcher> grey_sibling(id<GREYMatcher> matcher) {
+  return [GREYMatchers matcherForSibling:matcher];
+}
 #endif  // GREY_DISABLE_SHORTHAND
