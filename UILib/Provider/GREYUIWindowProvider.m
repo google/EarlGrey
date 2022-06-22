@@ -19,6 +19,22 @@
 #import "GREYFatalAsserts.h"
 #import "GREYAppleInternals.h"
 
+/** @return The first responder view by searching from @c view. */
+static UIView *GetFirstResponderSubview(UIView *view) {
+  if ([view isFirstResponder]) {
+    return view;
+  }
+
+  for (UIView *subview in [view subviews]) {
+    UIView *firstResponder = GetFirstResponderSubview(subview);
+    if (firstResponder) {
+      return firstResponder;
+    }
+  }
+
+  return nil;
+}
+
 UIWindow *GREYGetApplicationKeyWindow(UIApplication *application) {
   // New API only available on Xcode 13+
 #if (defined(__MAC_OS_X_VERSION_MAX_ALLOWED) && __MAC_OS_X_VERSION_MAX_ALLOWED >= 120000) || \
@@ -129,6 +145,14 @@ UIWindow *GREYGetApplicationKeyWindow(UIApplication *application) {
   UIWindow *keyWindow = GREYGetApplicationKeyWindow(sharedApp);
   if (keyWindow) {
     [windows addObject:keyWindow];
+  }
+
+  if (@available(iOS 16, *)) {
+    UIResponder *firstResponder = GetFirstResponderSubview(keyWindow);
+    UIView *inputView = firstResponder.inputView;
+    if (inputView) {
+      [windows addObject:inputView.window];
+    }
   }
 
   if (includeStatusBar) {
