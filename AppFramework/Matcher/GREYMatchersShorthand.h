@@ -102,14 +102,8 @@ GREY_EXPORT id<GREYMatcher> grey_selected(void);
 /** Shorthand for GREYMatchers::matcherForSliderValueMatcher:. */
 GREY_EXPORT id<GREYMatcher> grey_sliderValueMatcher(id<GREYMatcher> valueMatcher);
 
-/** Shorthand for GREYMatchers::matcherForSibling. */
-GREY_EXPORT id<GREYMatcher> grey_sibling(id<GREYMatcher> siblingMatcher);
-
 /** Shorthand for GREYMatchers::matcherForStepperValue:. */
 GREY_EXPORT id<GREYMatcher> grey_stepperValue(double value);
-
-/** Shorthand for GREYMatchers::matcherForSubview. */
-GREY_EXPORT id<GREYMatcher> grey_subview(id<GREYMatcher> subviewMatcher);
 
 /** Shorthand for GREYMatchers::matcherForSufficientlyVisible. */
 GREY_EXPORT id<GREYMatcher> grey_sufficientlyVisible(void);
@@ -133,6 +127,12 @@ GREY_EXPORT id<GREYMatcher> grey_ancestor(id<GREYMatcher> ancestorMatcher);
 
 /** Shorthand for GREYMatchers::matcherForDescendant:. */
 GREY_EXPORT id<GREYMatcher> grey_descendant(id<GREYMatcher> descendantMatcher);
+
+/** Shorthand for GREYMatchers::matcherForSubview. */
+GREY_EXPORT id<GREYMatcher> grey_subview(id<GREYMatcher> subviewMatcher);
+
+/** Shorthand for GREYMatchers::matcherForSibling. */
+GREY_EXPORT id<GREYMatcher> grey_sibling(id<GREYMatcher> siblingMatcher);
 
 /** Shorthand for GREYMatchers::matcherForKeyWindow. */
 GREY_EXPORT id<GREYMatcher> grey_keyWindow(void);
