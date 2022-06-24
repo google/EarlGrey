@@ -21,6 +21,7 @@
 #import "GREYFailureScreenshotter.h"
 #import "GREYSyntheticEvents.h"
 #import "GREYAllOf.h"
+#import "GREYAnyOf.h"
 #import "GREYMatchers.h"
 #import "GREYSyncAPI.h"
 #import "NSObject+GREYCommon.h"
@@ -64,10 +65,17 @@
   id<GREYMatcher> systemAlertShownMatcher = [GREYMatchers matcherForSystemAlertViewShown];
   NSArray<id<GREYMatcher>> *constraintMatchers = @[
     [GREYMatchers matcherForNegation:systemAlertShownMatcher],
-    [GREYMatchers matcherForKindOfClass:[UIView class]],
+    [[GREYAnyOf alloc] initWithMatchers:@[
+      [GREYMatchers matcherForKindOfClass:[UIView class]],
+      [[GREYAllOf alloc] initWithMatchers:@[
+        [GREYMatchers matcherForSwiftUI],
+        [GREYMatchers matcherForAccessibilityElement],
+      ]],
+    ]],
     [GREYMatchers matcherForRespondsToSelector:@selector(accessibilityFrame)],
     [GREYMatchers matcherForInteractable],
   ];
+
   self = [super initWithName:name
                  constraints:[[GREYAllOf alloc] initWithMatchers:constraintMatchers]];
   if (self) {

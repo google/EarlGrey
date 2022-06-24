@@ -307,7 +307,7 @@ static Class gEDOObjectClass;
     [GREYMatchers matcherForKindOfClass:[UITextView class]],
   ];
   NSArray<id<GREYMatcher>> *swiftUIMatchersArray = @[
-    [GREYMatchers internalMatcherForSwiftUIClass],
+    [GREYMatchers matcherForSwiftUI],
     [GREYMatchers matcherForAccessibilityElement],
     swiftUIMatcher,
   ];
@@ -951,6 +951,21 @@ static Class gEDOObjectClass;
                                       descriptionBlock:describe];
 }
 
++ (id<GREYMatcher>)matcherForSwiftUI {
+  NSString *prefix = @"isSwiftUI";
+  GREYMatchesBlock matches = ^BOOL(id element) {
+    NSString *elementClass = NSStringFromClass([element class]);
+    return [elementClass hasPrefix:@"SwiftUI"];
+  };
+  GREYDescribeToBlock describe = ^void(id<GREYDescription> description) {
+    [description appendText:prefix];
+  };
+
+  return [[GREYElementMatcherBlock alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
+                                          matchesBlock:matches
+                                      descriptionBlock:describe];
+}
+
 #pragma mark - Private
 
 /**
@@ -985,22 +1000,6 @@ static Class gEDOObjectClass;
   }
 
   return [firstStringValue isEqualToString:secondStringValue];
-}
-
-/**
- * @return A GREYMatcher that returns whether an element is SwiftUI class
- */
-+ (id<GREYMatcher>)internalMatcherForSwiftUIClass {
-  NSString *prefix = @"isSwiftUI";
-  GREYMatchesBlock matches = ^BOOL(id element) {
-    NSString *elementClass = NSStringFromClass([element class]);
-    return [elementClass hasPrefix:@"SwiftUI"];
-  };
-  GREYDescribeToBlock describe = ^void(id<GREYDescription> description) {
-    [description appendText:prefix];
-  };
-
-  return [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe];
 }
 
 @end

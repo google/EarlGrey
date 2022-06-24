@@ -491,6 +491,11 @@ NS_ASSUME_NONNULL_BEGIN
  * @param hidden The passed-in BOOL for checking if the element is hidden or not.
  **/
 + (id<GREYMatcher>)matcherForHidden:(BOOL)hidden;
+
+/**
+ * @return A GREYMatcher that returns whether an element is SwiftUI class
+ */
++ (id<GREYMatcher>)matcherForSwiftUI;
 @end
 
 NS_ASSUME_NONNULL_END
