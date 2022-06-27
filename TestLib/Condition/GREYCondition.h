@@ -17,7 +17,7 @@
 #import <Foundation/Foundation.h>
 
 /**
- * A class for creating boolean conditions that can be waited on until the condition is satisfied
+ * A class for creating BOOL conditions that can be waited on until the condition is satisfied
  * or a timeout elapses.
  *
  * Conditions are specified in the form of a block that returns a @c BOOL value indicating whether

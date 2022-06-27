@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
  * the screenshot contains the current contents of the screen.
  *
  * @param bitmapContextRef Target bitmap context for rendering.
- * @param afterUpdates     Boolean indicating whether to render before (@c NO) or after (@c YES)
+ * @param afterUpdates     BOOL indicating whether to render before (@c NO) or after (@c YES)
  *                         screen updates.
  * @param includeStatusBar Include Status Bar in the drawn screen.
  */

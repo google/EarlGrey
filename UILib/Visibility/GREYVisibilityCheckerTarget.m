@@ -43,7 +43,7 @@ const double kMinimumAlphaToConsiderAsObscuring = 0.95f;
    */
   UIView *_targetContainerView;
   /**
-   * Boolean whether or not @c _target is a UIView.
+   * BOOL whether or not @c _target is a UIView.
    */
   BOOL _isView;
   /**

@@ -176,7 +176,7 @@
  * is available. Setting @c enabled to @c NO will always show software keyboard. This setting is
  * global and applies to all instances of UIKeyboardImpl.
  *
- * @param enabled A boolean that indicates automatic minimization (hiding) of the keyboard.
+ * @param enabled A BOOL that indicates automatic minimization (hiding) of the keyboard.
  */
 - (void)setAutomaticMinimizationEnabled:(BOOL)enabled;
 

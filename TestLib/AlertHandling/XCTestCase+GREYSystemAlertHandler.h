@@ -152,10 +152,10 @@ GREY_EXTERN CFTimeInterval const kSystemAlertVisibilityTimeout;
                            error:(NSError **)error NS_SWIFT_NOTHROW;
 
 /**
- * @return Waits until an alert is visible or not based on the passed in boolean value, or until
+ * @return Waits until an alert is visible or not based on the passed in BOOL value, or until
  *         a specified period has passed.
  *
- * @param visible Boolean specifying whether the API should check if an alert is visible or not.
+ * @param visible BOOL specifying whether the API should check if an alert is visible or not.
  * @param seconds CFTimeInterval specifying the longest period in seconds to wait for. Please
  *                use "kSystemAlertVisibilityTimeout" for its default value, and only use a custom
  *                value shorter than "kSystemAlertVisibilityTimeout" when system alerts are very

@@ -77,7 +77,7 @@ BOOL GREYVisibilityDiffBufferIsVisible(GREYVisibilityDiffBuffer buffer, size_t x
  * @param buffer    The buffer whose visibility is to be updated.
  * @param x         The x coordinate of the target point.
  * @param y         The y coordinate of the target point.
- * @param isVisible A boolean that indicates the new visibility status (@c YES for visible,
+ * @param isVisible A BOOL that indicates the new visibility status (@c YES for visible,
                      @c NO otherwise) for the target point.
  */
 void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffer, size_t x, size_t y,

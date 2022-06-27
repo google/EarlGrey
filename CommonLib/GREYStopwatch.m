@@ -34,7 +34,7 @@
    */
   uint64_t _lastLapTime;
   /**
-   * A Boolean to check if GREYStopwatch::start was called without a corresponding
+   * A BOOL to check if GREYStopwatch::start was called without a corresponding
    * GREYStopwatch::stop.
    */
   BOOL _isRunning;

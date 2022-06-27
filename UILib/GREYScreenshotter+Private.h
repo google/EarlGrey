@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Provides a UIImage that is a screenshot, immediately or after the screen updates as specified.
  *
- * @param afterScreenUpdates A Boolean specifying if the screenshot is to be taken immediately or
+ * @param afterScreenUpdates A BOOL specifying if the screenshot is to be taken immediately or
  *                           after a screen update.
  * @param includeStatusBar   Include status bar in the screenshot.
  *

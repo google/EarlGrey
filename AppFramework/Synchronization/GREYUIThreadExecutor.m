@@ -286,7 +286,7 @@ static const CFTimeInterval kMaximumSynchronizationSleepInterval = 0.1;
 #pragma mark - Private
 
 /**
- * @param returnEarly A boolean flag to determine if this method should return
+ * @param returnEarly A BOOL flag to determine if this method should return
  *                    immediately after finding one busy resource.
  *
  * @return An ordered set the registered and default idling resources that are currently busy.

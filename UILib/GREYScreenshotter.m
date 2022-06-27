@@ -143,7 +143,7 @@ static Class gUIModalItemHostingWindowClass;
  * @param bitmapContextRef   Target bitmap context for rendering.
  * @param view               The view to draw to the context.
  * @param boundsInScreenRect The bounds of the view to draw to the context in window coordinate.
- * @param afterScreenUpdates Boolean indicating whether to render before (@c NO) or after (@c YES)
+ * @param afterScreenUpdates BOOL indicating whether to render before (@c NO) or after (@c YES)
  *                           screen updates.
  */
 + (void)drawViewInContext:(CGContextRef)bitmapContextRef

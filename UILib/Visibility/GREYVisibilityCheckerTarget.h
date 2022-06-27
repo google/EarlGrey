@@ -58,7 +58,7 @@ typedef NS_ENUM(NSInteger, GREYVisibilityCheckerTargetObscureResult) {
  * @param object          The target object the visible percentage is being calculated of.
  *                        The wrapped element could be either an NSObject that conforms to
  *                        UIAccessibility informal protocol or a UIView instance.
- * @param interactability The boolean to specify if the target is checked for its interactability.
+ * @param interactability The BOOL to specify if the target is checked for its interactability.
  *
  * @return An instance of GREYVisibilityCheckerTarget, initialized with the specified information.
  *         Returns @c nil if the target is not visible.

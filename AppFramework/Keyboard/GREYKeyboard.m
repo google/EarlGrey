@@ -498,7 +498,7 @@ static id WaitAndFindKeyForCharacter(NSString *character, CFTimeInterval timeout
  * Get the key on the keyboard for the given @c character.
  *
  * @param character  The character to be searched.
- * @param ignoreCase A Boolean that is @c YES if searching for the key requires ignoring
+ * @param ignoreCase A BOOL that is @c YES if searching for the key requires ignoring
  *                   the case. This is seen in the case of modifier keys that have
  *                   differing cases across iOS versions.
  *

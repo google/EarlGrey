@@ -547,7 +547,7 @@ static NSString *RecoverySuggestionForMultipleElementMatchedError(NSString *matc
  * @param actionError Contains the reason for failure.
  * @param[out] error  The out error (or nil) provided by the user.
  *
- * @return Junk boolean value to suppress xcode warning to have "a non-void return
+ * @return Junk BOOL value to suppress xcode warning to have "a non-void return
  *         value to indicate an error occurred"
  */
 - (BOOL)grey_handleFailureOfAction:(id<GREYAction>)action
@@ -713,7 +713,7 @@ static NSString *RecoverySuggestionForMultipleElementMatchedError(NSString *matc
  * @param[out] error     Error (or @c nil) provided by the user. When @c nil, an error is created
  *                       and sent back to be turned into an exception in the test component.
  *
- * @return Junk boolean value to suppress xcode warning to have "a non-void return
+ * @return Junk BOOL value to suppress xcode warning to have "a non-void return
  *         value to indicate an error occurred"
  */
 - (BOOL)grey_handleFailureOfAssertion:(id<GREYAssertion>)assertion
@@ -915,7 +915,7 @@ static NSString *RecoverySuggestionForMultipleElementMatchedError(NSString *matc
  * @c kGREYInteractionMatchedElementIndexOutOfBoundsErrorCode.s
  *
  * @param matchingElements A set of matching elements.
- * @param outOfBounds      A boolean that flags if the index for finding a matching element
+ * @param outOfBounds      A BOOL that flags if the index for finding a matching element
  *                         is out of bounds.
  *
  * @return Error for matching multiple elements.
