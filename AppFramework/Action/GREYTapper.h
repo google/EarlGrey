@@ -74,7 +74,7 @@
 
 /**
  * If the specified @c location is not in the bounds of the specified @c window for performing the
- * specified action, the method will return @c NO and if @ errorOrNil is provided, it is populated
+ * specified action, the method will return @c NO and if @c errorOrNil is provided, it is populated
  * with appropriate error information. Otherwise @c YES is returned.
  *
  * @param location        The location of the touch.
