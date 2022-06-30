@@ -23,6 +23,7 @@
 #import "GREYHostApplicationDistantObject.h"
 #import "GREYHostBackgroundDistantObject.h"
 #import "GREYConstants.h"
+#import "GREYLogger.h"
 #import "GREYTestConfiguration.h"
 #import "EDOClientService.h"
 #import "NSObject+EDOValueObject.h"
@@ -46,11 +47,14 @@ GREYConfiguration *GREYCreateConfiguration(void) { return [[GREYAppConfiguration
 
 - (instancetype)init {
   self = [super init];
+
   if (self) {
     _configurationIsolationQueue =
         dispatch_queue_create("com.google.earlgrey.ConfigurationIsolation", DISPATCH_QUEUE_SERIAL);
     if (IsStandaloneMode()) {
       [self updateConfiguration:GetFakeLocalTestingAppConfig()];
+      GREYLog(@"The application is now being run in EarlGreyStandaloneMode with the default "
+              @"GREYConfiguration.");
     } else {
       _testConfiguration =
           (GREYTestConfiguration *)GREY_REMOTE_CLASS_IN_TEST(GREYConfiguration).sharedConfiguration;
@@ -60,6 +64,7 @@ GREYConfiguration *GREYCreateConfiguration(void) { return [[GREYAppConfiguration
         self->_testConfiguration.remoteConfiguration = self;
       });
       [self updateConfiguration:[[_testConfiguration returnByValue] mergedConfiguration]];
+      GREYLog(@"The application is now being run with EarlGrey embedded in it.");
     }
   }
   return self;

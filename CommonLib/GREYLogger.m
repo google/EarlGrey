@@ -49,6 +49,16 @@ GREYVerboseLogType GREYVerboseLogTypeFromString(NSString* verboseLoggingString) 
   return [verboseType[verboseLoggingString] intValue];
 }
 
+/** An internal function to log a specified statement.
+ *
+ * @param format An NSString specifying the format to print.
+ * @param args   A va_list of args to be added to the specified @c format.
+ **/
+static void GREYLogInternal(NSString* format, va_list args) {
+  NSString* formatWithPrefix = [kGREYVerboseLoggingPrefix stringByAppendingString:format];
+  NSLogv(formatWithPrefix, args);
+}
+
 void GREYLogVerbose(NSString* format, ...) {
   static BOOL gPrintVerboseLog;
   static dispatch_once_t onceToken;
@@ -56,12 +66,18 @@ void GREYLogVerbose(NSString* format, ...) {
     gPrintVerboseLog = GREYVerboseLoggingEnabled();
   });
   if (gPrintVerboseLog) {
-    NSString* formatWithPrefix = [kGREYVerboseLoggingPrefix stringByAppendingString:format];
     va_list args;
     va_start(args, format);
-    NSLogv(formatWithPrefix, args);
+    GREYLogInternal(format, args);
     va_end(args);
   }
+}
+
+void GREYLog(NSString* format, ...) {
+  va_list args;
+  va_start(args, format);
+  GREYLogInternal(format, args);
+  va_end(args);
 }
 
 #pragma mark - Testing only.
