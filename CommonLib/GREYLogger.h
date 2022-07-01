@@ -129,4 +129,12 @@ BOOL GREYVerboseLoggingEnabledForLevel(GREYVerboseLogType level);
  */
 void GREYLogVerbose(NSString* format, ...);
 
+/*
+ * Prints an NSLog with the given @c format with an EarlGrey prefix added.
+ *
+ * @param format The string format to be printed.
+ * @param ...    The parameters to be added to the string format.
+ */
+void GREYLog(NSString* format, ...);
+
 NS_ASSUME_NONNULL_END
