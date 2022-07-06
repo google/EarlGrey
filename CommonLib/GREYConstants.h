@@ -98,6 +98,11 @@ GREY_EXTERN NSString* _Nonnull const kHostPingRequestMessage;
 GREY_EXTERN NSString* _Nonnull const kHostPingSuccessMessage;
 
 /**
+ * The expected prefix for the 'class' name when finding elements in SwiftUI.
+ */
+GREY_EXTERN NSString* _Nonnull const kSwiftUIConstant;
+
+/**
  * The default pinch angle for the pinch action, specified by an approximate angle for a right
  * handed two finger pinch.
  */

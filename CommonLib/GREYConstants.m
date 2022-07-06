@@ -52,6 +52,8 @@ NSString *const kHostPingRequestMessage = @"ping";
 
 NSString *const kHostPingSuccessMessage = @"success";
 
+NSString *const kSwiftUIConstant = @"SwiftUI";
+
 #if TARGET_IPHONE_SIMULATOR
 const double kGREYAppLaunchTimeout = 300;  // 5 minutes for Simulators.
 #else

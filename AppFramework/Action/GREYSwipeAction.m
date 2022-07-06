@@ -34,6 +34,7 @@
 #import "GREYDiagnosable.h"
 #import "GREYMatcher.h"
 #import "GREYElementHierarchy.h"
+#import "GREYUIWindowProvider.h"
 
 @implementation GREYSwipeAction {
   /**
@@ -107,10 +108,14 @@
       return;
     }
 
-    window = [element window];
+    if ([element respondsToSelector:@selector(window)]) {
+      window = [element window];
+    }
     if (!window) {
       if ([element isKindOfClass:[UIWindow class]]) {
         window = (UIWindow *)element;
+      } else if ([NSStringFromClass([element class]) containsString:kSwiftUIConstant]) {
+        window = GREYGetApplicationKeyWindow([UIApplication sharedApplication]);
       } else {
         NSString *errorDescription =
             [NSString stringWithFormat:@"Cannot swipe on this view as it has no window and "

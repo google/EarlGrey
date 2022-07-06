@@ -955,7 +955,7 @@ static Class gEDOObjectClass;
   NSString *prefix = @"isSwiftUI";
   GREYMatchesBlock matches = ^BOOL(id element) {
     NSString *elementClass = NSStringFromClass([element class]);
-    return [elementClass hasPrefix:@"SwiftUI"];
+    return [elementClass hasPrefix:kSwiftUIConstant];
   };
   GREYDescribeToBlock describe = ^void(id<GREYDescription> description) {
     [description appendText:prefix];
