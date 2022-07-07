@@ -25,6 +25,7 @@
 #import "GREYFatalAsserts.h"
 #import "GREYThrowDefines.h"
 #import "GREYTouchInfo.h"
+#import "GREYLogger.h"
 
 /**
  * The time interval in seconds between each touch injection.
@@ -139,7 +140,7 @@ static const NSTimeInterval kTouchInjectFramerateInv = 1 / 120.0;
     dispatch_time_t waitTimeout =
         dispatch_time(DISPATCH_TIME_NOW, (int64_t)(timeout * NSEC_PER_SEC));
     if (dispatch_semaphore_wait(waitTouches, waitTimeout) != 0) {
-      NSLog(@"Waiting on the touches to be delivered timed out.");
+      GREYLog(@"Waiting on the touches to be delivered timed out.");
     }
   } else {
     // Spin the runloop if it waits on the main thread.

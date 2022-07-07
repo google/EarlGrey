@@ -55,7 +55,7 @@ GREYVisibilityDiffBuffer GREYVisibilityDiffBufferCreate(size_t width, size_t hei
   diffBuffer.height = height;
   diffBuffer.data = (BOOL *)malloc(sizeof(BOOL) * width * height);
   if (diffBuffer.data == NULL) {
-    NSLog(@"diffBuffer.data is NULL.");
+    GREYLog(@"diffBuffer.data is NULL.");
     abort();
   }
   return diffBuffer;
@@ -63,7 +63,7 @@ GREYVisibilityDiffBuffer GREYVisibilityDiffBufferCreate(size_t width, size_t hei
 
 void GREYVisibilityDiffBufferRelease(GREYVisibilityDiffBuffer buffer) {
   if (buffer.data == NULL) {
-    NSLog(@"buffer.data is NULL.");
+    GREYLog(@"buffer.data is NULL.");
     abort();
   }
   free(buffer.data);
@@ -80,7 +80,7 @@ BOOL GREYVisibilityDiffBufferIsVisible(GREYVisibilityDiffBuffer buffer, size_t x
 inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffer, size_t x,
                                                   size_t y, BOOL isVisible) {
   if (x >= buffer.width || y >= buffer.height) {
-    NSLog(@"Warning: trying to access a point outside the diff buffer: {%zu, %zu}", x, y);
+    GREYLog(@"Warning: trying to access a point outside the diff buffer: {%zu, %zu}", x, y);
     return;
   }
 

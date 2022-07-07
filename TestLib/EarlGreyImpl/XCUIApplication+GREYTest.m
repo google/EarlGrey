@@ -85,7 +85,7 @@
     objc_setAssociatedObject([XCUIApplication class], @selector(greyTestRigName), self.label,
                              OBJC_ASSOCIATION_RETAIN_NONATOMIC);
   }
-  NSLog(@"Application Launch Completed. UI Test with EarlGrey Starting");
+  GREYLog(@"Application Launch Completed. UI Test with EarlGrey Starting");
 }
 
 - (void)grey_terminate {  // NOLINT

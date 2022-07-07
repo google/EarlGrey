@@ -15,7 +15,7 @@
 //
 
 #import "NSFileManager+GREYCommon.h"
-
+#import "GREYLogger.h"
 
 @implementation NSFileManager (GREYCommon)
 
@@ -32,8 +32,8 @@
                                  withIntermediateDirectories:YES
                                                   attributes:nil
                                                        error:&error]) {
-    NSLog(@"Could not create screenshot directory \"%@\": %@", directoryPath,
-          [error localizedDescription]);
+    GREYLog(@"Could not create screenshot directory \"%@\": %@", directoryPath,
+            [error localizedDescription]);
     return nil;
   }
 
@@ -45,7 +45,7 @@
   if ([UIImagePNGRepresentation(orientedImage) writeToFile:filePath atomically:YES]) {
     return filePath;
   } else {
-    NSLog(@"Could not write image to file '%@'", filePath);
+    GREYLog(@"Could not write image to file '%@'", filePath);
     return nil;
   }
 }

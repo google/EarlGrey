@@ -20,6 +20,7 @@
 #include <signal.h>
 
 #import "GREYAppleInternals.h"
+#import "GREYLogger.h"
 
 // Exception handler that was previously installed before we replaced it with our own.
 static NSUncaughtExceptionHandler *gPreviousUncaughtExceptionHandler;
@@ -137,13 +138,13 @@ static void GREYUncaughtExceptionHandler(NSException *exception) {
 }
 
 static void GREYSetupCrashHandlers() {
-  NSLog(@"Crash handler setup started.");
+  GREYLog(@"Crash handler setup started.");
 
   struct sigaction signalAction;
   memset(&signalAction, 0, sizeof(signalAction));
   int result = sigemptyset(&signalAction.sa_mask);
   if (result != 0) {
-    NSLog(@"Unable to empty sa_mask. Return value:%d", result);
+    GREYLog(@"Unable to empty sa_mask. Return value:%d", result);
     exit(EXIT_FAILURE);
   }
   signalAction.sa_handler = &GREYSetSigactionHandler;
@@ -158,7 +159,7 @@ static void GREYSetupCrashHandlers() {
 
     int returnValue = sigaction(signum, &signalAction, &previousSigAction);
     if (returnValue != 0) {
-      NSLog(@"Error installing %s handler. errorno:'%s'.", strsignal(signum), strerror(errno));
+      GREYLog(@"Error installing %s handler. errorno:'%s'.", strsignal(signum), strerror(errno));
       previousSignalHandler->extended = false;
       previousSignalHandler->handler.signalHandler = SIG_IGN;
     } else if (previousSigAction.sa_flags & SA_SIGINFO) {
@@ -174,7 +175,7 @@ static void GREYSetupCrashHandlers() {
   gPreviousUncaughtExceptionHandler = NSGetUncaughtExceptionHandler();
   NSSetUncaughtExceptionHandler(&GREYUncaughtExceptionHandler);
 
-  NSLog(@"Crash handler setup completed.");
+  GREYLog(@"Crash handler setup completed.");
 }
 
 @end

@@ -35,6 +35,7 @@
 #import "GREYAppleInternals.h"
 #import "GREYConstants.h"
 #import "GREYDiagnosable.h"
+#import "GREYLogger.h"
 #import "GREYDescription.h"
 #import "GREYElementMatcherBlock+Private.h"
 #import "GREYElementMatcherBlock.h"
@@ -738,16 +739,16 @@ static Class gEDOObjectClass;
     });
 
     if (referenceElements.count > 1) {
-      NSLog(@"More than one element matches the reference matcher.\n"
-            @"The following elements were matched: %@\n"
-            @"Provided reference matcher: %@\n",
-            referenceElements, referenceElementMatcher);
+      GREYLog(@"More than one element matches the reference matcher.\n"
+              @"The following elements were matched: %@\n"
+              @"Provided reference matcher: %@\n",
+              referenceElements, referenceElementMatcher);
       return NO;
     }
 
     id referenceElement = [referenceElements firstObject];
     if (!referenceElement) {
-      NSLog(@"Could not find reference element.");
+      GREYLog(@"Could not find reference element.");
       return NO;
     }
 

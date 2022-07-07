@@ -32,6 +32,7 @@
 #import "GREYErrorConstants.h"
 #import "GREYConstants.h"
 #import "GREYDiagnosable.h"
+#import "GREYLogger.h"
 #import "GREYMatcher.h"
 #import "CGGeometry+GREYUI.h"
 #import "GREYElementHierarchy.h"
@@ -128,8 +129,9 @@
   }
 
   if ([element isKindOfClass:[UISwitch class]]) {
-    NSLog(@"Warning: Use grey_turnSwitchOn(BOOL) to enable/disable UISwitch instead of grey_tap(). "
-          @"Using grey_tap() on UISwitch could lead to flaky result.");
+    GREYLog(
+        @"Warning: Use grey_turnSwitchOn(BOOL) to enable/disable UISwitch instead of grey_tap(). "
+        @"Using grey_tap() on UISwitch could lead to flaky result.");
   }
   return YES;
 }

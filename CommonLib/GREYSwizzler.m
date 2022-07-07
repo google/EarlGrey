@@ -15,6 +15,7 @@
 //
 
 #import "GREYSwizzler.h"
+#import "GREYLogger.h"
 
 #include <dlfcn.h>
 #include <objc/runtime.h>
@@ -109,12 +110,13 @@ static NSString *const gGREYSwizzlerException = @"gGREYSwizzlerException";
 
 - (BOOL)resetClassMethod:(SEL)methodSelector class:(Class)klass {
   if (!klass || !methodSelector) {
-    NSLog(@"Nil Parameter(s) found when swizzling.");
+    GREYLog(@"Nil Parameter(s) found when swizzling.");
     return NO;
   }
 
-  NSString *key =
-      [[self class] grey_keyForClass:klass selector:methodSelector type:GREYMethodTypeClass];
+  NSString *key = [[self class] grey_keyForClass:klass
+                                        selector:methodSelector
+                                            type:GREYMethodTypeClass];
   GREYResetter *resetter = _resetters[key];
   if (resetter) {
     [resetter reset];
@@ -129,20 +131,21 @@ static NSString *const gGREYSwizzlerException = @"gGREYSwizzlerException";
     }
     return YES;
   } else {
-    NSLog(@"Resetter was nil for class: %@ and class selector: %@", NSStringFromClass(klass),
-          NSStringFromSelector(methodSelector));
+    GREYLog(@"Resetter was nil for class: %@ and class selector: %@", NSStringFromClass(klass),
+            NSStringFromSelector(methodSelector));
     return NO;
   }
 }
 
 - (BOOL)resetInstanceMethod:(SEL)methodSelector class:(Class)klass {
   if (!klass || !methodSelector) {
-    NSLog(@"Nil Parameter(s) found when swizzling.");
+    GREYLog(@"Nil Parameter(s) found when swizzling.");
     return NO;
   }
 
-  NSString *key =
-      [[self class] grey_keyForClass:klass selector:methodSelector type:GREYMethodTypeInstance];
+  NSString *key = [[self class] grey_keyForClass:klass
+                                        selector:methodSelector
+                                            type:GREYMethodTypeInstance];
   GREYResetter *resetter = _resetters[key];
   if (resetter) {
     [resetter reset];
@@ -157,8 +160,8 @@ static NSString *const gGREYSwizzlerException = @"gGREYSwizzlerException";
     }
     return YES;
   } else {
-    NSLog(@"Resetter was nil for class: %@ and instance selector: %@", NSStringFromClass(klass),
-          NSStringFromSelector(methodSelector));
+    GREYLog(@"Resetter was nil for class: %@ and instance selector: %@", NSStringFromClass(klass),
+            NSStringFromSelector(methodSelector));
     return NO;
   }
 }
@@ -174,7 +177,7 @@ static NSString *const gGREYSwizzlerException = @"gGREYSwizzlerException";
     replaceClassMethod:(SEL)methodSelector1
             withMethod:(SEL)methodSelector2 {
   if (!klass || !methodSelector1 || !methodSelector2) {
-    NSLog(@"Nil Parameter(s) found when swizzling.");
+    GREYLog(@"Nil Parameter(s) found when swizzling.");
     return NO;
   }
 
@@ -204,7 +207,7 @@ static NSString *const gGREYSwizzlerException = @"gGREYSwizzlerException";
 
     return YES;
   } else {
-    NSLog(@"Swizzling Method(s) not found while swizzling class %@.", NSStringFromClass(klass));
+    GREYLog(@"Swizzling Method(s) not found while swizzling class %@.", NSStringFromClass(klass));
     return NO;
   }
 }
@@ -213,7 +216,7 @@ static NSString *const gGREYSwizzlerException = @"gGREYSwizzlerException";
     replaceInstanceMethod:(SEL)methodSelector1
                withMethod:(SEL)methodSelector2 {
   if (!klass || !methodSelector1 || !methodSelector2) {
-    NSLog(@"Nil Parameter(s) found when swizzling.");
+    GREYLog(@"Nil Parameter(s) found when swizzling.");
     return NO;
   }
 
@@ -239,7 +242,7 @@ static NSString *const gGREYSwizzlerException = @"gGREYSwizzlerException";
     }
     return YES;
   } else {
-    NSLog(@"Swizzling Method(s) not found while swizzling class %@.", NSStringFromClass(klass));
+    GREYLog(@"Swizzling Method(s) not found while swizzling class %@.", NSStringFromClass(klass));
     return NO;
   }
 }
@@ -249,7 +252,7 @@ static NSString *const gGREYSwizzlerException = @"gGREYSwizzlerException";
               withImplementation:(IMP)addIMP
     andReplaceWithInstanceMethod:(SEL)instanceSelector {
   if (!klass || !addSelector || !addIMP || !instanceSelector) {
-    NSLog(@"Nil Parameter(s) found when swizzling.");
+    GREYLog(@"Nil Parameter(s) found when swizzling.");
     return NO;
   }
 
@@ -258,7 +261,7 @@ static NSString *const gGREYSwizzlerException = @"gGREYSwizzlerException";
   // to get the implementation for a selector.
   void *messageForwardingIMP = dlsym(RTLD_DEFAULT, "_objc_msgForward");
   if (addIMP == messageForwardingIMP) {
-    NSLog(@"Wrong Type of Implementation obtained for selector %@", NSStringFromClass(klass));
+    GREYLog(@"Wrong Type of Implementation obtained for selector %@", NSStringFromClass(klass));
     return NO;
   }
 
@@ -266,18 +269,18 @@ static NSString *const gGREYSwizzlerException = @"gGREYSwizzlerException";
   if (instanceMethod) {
     struct objc_method_description *desc = method_getDescription(instanceMethod);
     if (!desc || desc->name == NULL) {
-      NSLog(@"Failed to get method description.");
+      GREYLog(@"Failed to get method description.");
       return NO;
     }
 
     if (!class_addMethod(klass, addSelector, addIMP, desc->types)) {
-      NSLog(@"Failed to add class method.");
+      GREYLog(@"Failed to add class method.");
       return NO;
     }
     return [self swizzleClass:klass replaceInstanceMethod:instanceSelector withMethod:addSelector];
   } else {
-    NSLog(@"Instance method: %@ does not exist in the class %@.",
-          NSStringFromSelector(instanceSelector), NSStringFromClass(klass));
+    GREYLog(@"Instance method: %@ does not exist in the class %@.",
+            NSStringFromSelector(instanceSelector), NSStringFromClass(klass));
     return NO;
   }
 }

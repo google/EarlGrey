@@ -42,6 +42,7 @@
 #import "GREYErrorConstants.h"
 #import "GREYConstants.h"
 #import "GREYDiagnosable.h"
+#import "GREYLogger.h"
 #import "CGGeometry+GREYUI.h"
 #import "GREYElementHierarchy.h"
 
@@ -260,7 +261,7 @@ static BOOL IsEligibleForRetry(UIScrollView *scrollView, GREYDirection scrollDir
       for (int retry = 1;
            retry <= 3 && IsEligibleForRetry(element, _direction, success, scrollError.code);
            ++retry) {
-        NSLog(@"The %d attempt to retry scroll action for no touch reaction", retry);
+        GREYLog(@"The %d attempt to retry scroll action for no touch reaction", retry);
         success = [GREYScrollAction grey_injectTouchPath:touchPath
                                             onScrollView:element
                                       outRemainingAmount:&amountRemaining

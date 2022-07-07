@@ -235,7 +235,7 @@ __attribute__((constructor)) static void GREYSetupKeyboard() {
   for (NSUInteger index = 0; index < string.length; index++) {
     NSString *characterAsString =
         [NSString stringWithFormat:@"%C", [string characterAtIndex:index]];
-    NSLog(@"Attempting to type key %@.", characterAsString);
+    GREYLog(@"Attempting to type key %@.", characterAsString);
 
     id key = SearchKeyWithCharacter(characterAsString, errorOrNil);
     if (!key) {
@@ -559,14 +559,14 @@ static UIKeyboardImpl *GetKeyboardObject() {
  */
 static BOOL TapKey(id key, __strong NSError **errorOrNil) {
   GREYFatalAssert(key);
-  NSLog(@"Tap began on key: %@.", [key accessibilityLabel]);
+  GREYLog(@"Tap began on key: %@.", [key accessibilityLabel]);
   BOOL success = [gTapKeyAction perform:key error:errorOrNil];
   if (!success) {
     return NO;
   }
   grey_dispatch_sync_on_main_thread(^{
     [[GetKeyboardObject() taskQueue] waitUntilAllTasksAreFinished];
-    NSLog(@"Tap ended on key: %@.", [key accessibilityLabel]);
+    GREYLog(@"Tap ended on key: %@.", [key accessibilityLabel]);
   });
   return YES;
 }

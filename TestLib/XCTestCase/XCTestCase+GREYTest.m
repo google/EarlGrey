@@ -22,6 +22,7 @@
 #import "GREYTestApplicationDistantObject+Private.h"
 #import "GREYTestApplicationDistantObject.h"
 #import "GREYError.h"
+#import "GREYLogger.h"
 #import "GREYSwizzler.h"
 #import "GREYFailureScreenshotSaver.h"
 #import "GREYTestCaseInvocation.h"
@@ -111,8 +112,9 @@ static BOOL gIsRunningOnXcode12;
   GREYFatalAssertWithMessage([NSThread isMainThread],
                              @"You must set the crash handler on main thread.");
   CheckUnhandledHostApplicationCrashWithHandler(^{
-    NSLog(@"WARNING: The crash handler is overriden right after the crash of app-under-test. This "
-          @"may cause the crash being handled in an unexpected way.");
+    GREYLog(
+        @"WARNING: The crash handler is overriden right after the crash of app-under-test. This "
+        @"may cause the crash being handled in an unexpected way.");
     return NO;
   });
   gHostApplicationCrashHandler = hostApplicationCrashHandler;
@@ -321,8 +323,8 @@ static BOOL gIsRunningOnXcode12;
       GREYFailureScreenshots *screenshotPaths =
           [GREYFailureScreenshotSaver saveFailureScreenshotsInDictionary:screenshotDict
                                                              toDirectory:screenshotDir];
-      NSLog(@"Screenshot Saved: %@ : %@", kGREYTestScreenshotAtFailure,
-            screenshotPaths[kGREYTestScreenshotAtFailure]);
+      GREYLog(@"Screenshot Saved: %@ : %@", kGREYTestScreenshotAtFailure,
+              screenshotPaths[kGREYTestScreenshotAtFailure]);
     }
   }
 }

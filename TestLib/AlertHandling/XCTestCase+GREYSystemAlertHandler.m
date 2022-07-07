@@ -22,6 +22,7 @@
 #import "GREYTestApplicationDistantObject.h"
 #import "GREYErrorConstants.h"
 #import "GREYAppleInternals.h"
+#import "GREYLogger.h"
 #import "GREYAssertionDefines.h"
 #import "GREYCondition.h"
 
@@ -157,7 +158,7 @@ static UIApplication *GetApplicationUnderTest() {
 
   XCUIElement *acceptButton = [[alertInHierarchy buttons] elementBoundByIndex:1];
   if (![acceptButton exists]) {
-    NSLog(@"Accept button is not hittable\n%@", [GREYSpringboardApplication() debugDescription]);
+    GREYLog(@"Accept button is not hittable\n%@", [GREYSpringboardApplication() debugDescription]);
     return NO;
   }
 
@@ -172,7 +173,7 @@ static UIApplication *GetApplicationUnderTest() {
   dismissed = [self grey_ensureAlertDismissalOfAlertWithText:alertText error:error];
   [self grey_waitForAlertVisibility:NO withTimeout:kSystemAlertEarlGreyVisibilityTimeout];
   if (dismissed) {
-    NSLog(@"EarlGrey accepted System Alert successfully.");
+    GREYLog(@"EarlGrey accepted System Alert successfully.");
   }
   return dismissed;
 }
@@ -200,7 +201,7 @@ static UIApplication *GetApplicationUnderTest() {
     denyButton = [[alertInHierarchy buttons] firstMatch];
   }
   if (![denyButton exists]) {
-    NSLog(@"Deny button is not hittable\n%@", [GREYSpringboardApplication() debugDescription]);
+    GREYLog(@"Deny button is not hittable\n%@", [GREYSpringboardApplication() debugDescription]);
     return NO;
   }
 
@@ -215,7 +216,7 @@ static UIApplication *GetApplicationUnderTest() {
   dismissed = [self grey_ensureAlertDismissalOfAlertWithText:alertText error:error];
   [self grey_waitForAlertVisibility:NO withTimeout:kSystemAlertEarlGreyVisibilityTimeout];
   if (dismissed) {
-    NSLog(@"EarlGrey successfully denied System Alert.");
+    GREYLog(@"EarlGrey successfully denied System Alert.");
   }
   return dismissed;
 }
@@ -233,8 +234,8 @@ static UIApplication *GetApplicationUnderTest() {
   NSString *alertText = [firstAlertPresent valueForKey:@"label"];
   XCUIElement *button = firstAlertPresent.buttons[text];
   if (![button exists]) {
-    NSLog(@"System Alert button is not hittable\n%@",
-          [GREYSpringboardApplication() debugDescription]);
+    GREYLog(@"System Alert button is not hittable\n%@",
+            [GREYSpringboardApplication() debugDescription]);
     return NO;
   }
 
@@ -249,7 +250,7 @@ static UIApplication *GetApplicationUnderTest() {
   dismissed = [self grey_ensureAlertDismissalOfAlertWithText:alertText error:error];
   [self grey_waitForAlertVisibility:NO withTimeout:kSystemAlertEarlGreyVisibilityTimeout];
   if (dismissed) {
-    NSLog(@"EarlGrey successfully accepted System Alert.");
+    GREYLog(@"EarlGrey successfully accepted System Alert.");
   }
   return dismissed;
 }
@@ -286,8 +287,8 @@ static UIApplication *GetApplicationUnderTest() {
     }
     return NO;
   }
-  NSLog(@"EarlGrey successfully typed System Alert text: %@ in field with placeholder: %@.",
-        textToType, placeholderText);
+  GREYLog(@"EarlGrey successfully typed System Alert text: %@ in field with placeholder: %@.",
+          textToType, placeholderText);
   return YES;
 }
 

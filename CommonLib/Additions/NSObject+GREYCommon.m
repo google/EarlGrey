@@ -16,6 +16,7 @@
 
 #import "NSObject+GREYCommon.h"
 #import "GREYConstants.h"
+#import "GREYLogger.h"
 
 @implementation NSObject (GREYCommon)
 
@@ -156,7 +157,7 @@
       NSString *text = [self performSelector:@selector(text)];
       [description appendFormat:@"; text=\'%@\'", !text ? @"" : text];
     } @catch (NSException *exception) {
-      NSLog(@"Caught exception when calling text method on %@", self);
+      GREYLog(@"Caught exception when calling text method on %@", self);
     }
   }
 

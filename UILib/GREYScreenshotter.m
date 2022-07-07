@@ -19,6 +19,7 @@
 #import "NSFileManager+GREYCommon.h"
 #import "NSObject+GREYCommon.h"
 #import "GREYFatalAsserts.h"
+#import "GREYLogger.h"
 #import "GREYUIWindowProvider.h"
 
 /**
@@ -191,7 +192,7 @@ static Class gUIModalItemHostingWindowClass;
                               view.bounds.size.height);
     BOOL success = [view drawViewHierarchyInRect:frame afterScreenUpdates:afterScreenUpdates];
     if (!success) {
-      NSLog(@"Failed to drawViewHierarchyInRect for view: %@", view);
+      GREYLog(@"Failed to drawViewHierarchyInRect for view: %@", view);
     }
   }
 }

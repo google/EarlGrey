@@ -118,8 +118,9 @@
   while (islessgreater([self valueForSlider:slider], _finalValue)) {
     @autoreleasepool {
       if (!(numberOfAttemptsAtGettingFinalValue < kAllowedAttemptsBeforeStopping)) {
-        NSLog(@"The value you have chosen to move to is probably unattainable. Most likely, it is "
-              @"between two pixels.");
+        GREYLog(
+            @"The value you have chosen to move to is probably unattainable. Most likely, it is "
+            @"between two pixels.");
         break;
       }
 

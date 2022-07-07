@@ -21,6 +21,7 @@
 #import "GREYFatalAsserts.h"
 #import "GREYAppleInternals.h"
 #import "GREYDefines.h"
+#import "GREYLogger.h"
 #import "GREYSwizzler.h"
 
 /**
@@ -114,7 +115,7 @@ static NSMutableArray<NSString *> *gRunLoopModes;
   @synchronized(gRunLoopModes) {
     NSString *topOfStackMode = [gRunLoopModes lastObject];
     if (![topOfStackMode isEqual:mode]) {
-      NSLog(@"Mode being popped: %@ isn't top of stack: %@", mode, topOfStackMode);
+      GREYLog(@"Mode being popped: %@ isn't top of stack: %@", mode, topOfStackMode);
       abort();
     }
     [gRunLoopModes removeLastObject];

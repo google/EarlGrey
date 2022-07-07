@@ -14,12 +14,13 @@
 // limitations under the License.
 //
 
+#import "GREYLogger.h"
 #import "GREYTestApplicationDistantObject+GREYLogger.h"
 
 @implementation GREYTestApplicationDistantObject (GREYLogger)
 
 - (void)printLogInTest:(NSString *)logStatement {
-  NSLog(@"%@", logStatement);
+  GREYLog(@"%@", logStatement);
 }
 
 @end
