@@ -129,7 +129,8 @@ static const unsigned short kNumGREYAppStates = 12;
 
   [self performBlockInCriticalSection:^id {
     GREYAppState state = [self currentState];
-    [description appendString:StringFromAppState(state)];
+    [description appendString:StringFromAppState(
+                                  state & (~GREY_CONFIG_UINTEGER(kGREYConfigKeyIgnoreAppStates)))];
     [description appendString:@"\n"];
     if (state != kGREYIdle) {
       for (GREYAppStateTrackerObject *object in self->_externalTrackerObjects) {
