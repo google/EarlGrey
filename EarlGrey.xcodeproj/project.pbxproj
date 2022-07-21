@@ -438,6 +438,7 @@
 		763D87B02513F3F1001B5731 /* GREYDistantObjectUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYDistantObjectUtils.h; path = CommonLib/DistantObject/GREYDistantObjectUtils.h; sourceTree = "<group>"; };
 		765D6E5E26A73DDC00770A87 /* UIApplication+ActiveRunLoopMode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIApplication+ActiveRunLoopMode.m"; path = "Synchronization/UIApplication+ActiveRunLoopMode.m"; sourceTree = "<group>"; };
 		765D6E5F26A73DDC00770A87 /* UIApplication+ActiveRunLoopMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIApplication+ActiveRunLoopMode.h"; path = "Synchronization/UIApplication+ActiveRunLoopMode.h"; sourceTree = "<group>"; };
+		76C023AD288A0E4800BDEED5 /* GREYInterposer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYInterposer.h; path = CommonLib/Interposer/GREYInterposer.h; sourceTree = "<group>"; };
 		76CE2922285176CA0036A770 /* GREYDistantObjectUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYDistantObjectUtils.m; path = DistantObject/GREYDistantObjectUtils.m; sourceTree = "<group>"; };
 		76CE2924285176DA0036A770 /* GREYDistantObjectUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYDistantObjectUtils.m; path = DistantObject/GREYDistantObjectUtils.m; sourceTree = "<group>"; };
 		80E8CD4422AF097000CDE5C5 /* GREYElementMatcherBlock+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GREYElementMatcherBlock+Private.h"; path = "CommonLib/Matcher/GREYElementMatcherBlock+Private.h"; sourceTree = SOURCE_ROOT; };
@@ -1445,6 +1446,7 @@
 		FDF62DB725CD6558006F48BE /* Interposer */ = {
 			isa = PBXGroup;
 			children = (
+				76C023AD288A0E4800BDEED5 /* GREYInterposer.h */,
 				FDF62DB825CD656C006F48BE /* GREYDispatchQueueInterposer.h */,
 				FDF62DB925CD656C006F48BE /* GREYDispatchQueueInterposer.m */,
 			);

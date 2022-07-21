@@ -20,15 +20,7 @@
 
 #import "GREYConfigKey.h"
 #import "GREYConfiguration.h"
-
-// DYLD_INTERPOSE referenced from
-// https://opensource.apple.com/source/dyld/dyld-210.2.3/include/mach-o/dyld-interposing.h.
-#define DYLD_INTERPOSE(_replacement, _replacee)                               \
-  __attribute__((used)) static struct {                                       \
-    const void *replacement;                                                  \
-    const void *replacee;                                                     \
-  } gInterpose_##_replacee __attribute__((section("__DATA,__interpose"))) = { \
-      (const void *)(unsigned long)&_replacement, (const void *)(unsigned long)&_replacee};
+#import "GREYInterposer.h"
 
 /**
  * Used to find the @c GREYDispatchQueueTracker instance corresponding to a dispatch queue, if
