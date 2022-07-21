@@ -18,6 +18,8 @@
 
 #import <CoreGraphics/CoreGraphics.h>
 
+#import "NSObject+GREYCommon.h"
+#import "GREYLogger.h"
 #import "CGGeometry+GREYUI.h"
 #import "GREYQuickVisibilityChecker.h"
 #import "GREYThoroughVisibilityChecker.h"
@@ -53,6 +55,8 @@ static NSMapTable<NSString *, GREYVisibilityCheckerCacheEntry *> *gCache;
     return [percentVisible floatValue];
   }
 
+  GREYLogVerbose(@"GREYVisibilityChecker starts calculating visible area for element: %@",
+                 [element grey_description]);
   // Fallback set to YES means we should use the slow visibility checker.
   BOOL fallback = NO;
   CGFloat result = [GREYQuickVisibilityChecker percentVisibleAreaOfElement:element
@@ -62,6 +66,9 @@ static NSMapTable<NSString *, GREYVisibilityCheckerCacheEntry *> *gCache;
     result = [GREYThoroughVisibilityChecker percentVisibleAreaOfElement:element];
   }
   cache.visibleAreaPercent = @(result);
+  GREYLogVerbose(
+      @"GREYVisibilityChecker completes calculating visble area %@ fallback. The result is %.3f%.",
+      fallback ? @"with" : @"without", result * 100);
   return result;
 }
 
@@ -76,6 +83,8 @@ static NSMapTable<NSString *, GREYVisibilityCheckerCacheEntry *> *gCache;
   if (cachedPointValue) {
     return [cachedPointValue CGPointValue];
   }
+  GREYLogVerbose(@"GREYVisibilityChecker starts looking for interaction point for element: %@",
+                 [element grey_description]);
   // Fallback set to YES means we should use the slow visibility checker.
   BOOL fallback = NO;
   CGPoint result = [GREYQuickVisibilityChecker visibleInteractionPointForElement:element
@@ -84,6 +93,9 @@ static NSMapTable<NSString *, GREYVisibilityCheckerCacheEntry *> *gCache;
     result = [GREYThoroughVisibilityChecker visibleInteractionPointForElement:element];
   }
   cache.visibleInteractionPoint = [NSValue valueWithCGPoint:result];
+  GREYLogVerbose(@"GREYVisibilityChecker completes looking for interaction point %@ fallback. The "
+                 @"result is (%.3f, %.3f).",
+                 fallback ? @"with" : @"without", result.x, result.y);
   return result;
 }
 
