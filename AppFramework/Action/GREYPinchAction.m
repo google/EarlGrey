@@ -36,8 +36,8 @@
 #import "GREYElementHierarchy.h"
 
 /**
- * Reduce the magnitude of vector in the direction of pinch action to make sure that it is minimum
- * of either height or width of the view.
+ * Reduce the magnitude of vector in the direction of pinch action to make sure that it fits within
+ * the height or width of the view.
  */
 static CGFloat const kPinchScale = (CGFloat)0.8;
 
@@ -151,10 +151,12 @@ static CGFloat const kPinchScale = (CGFloat)0.8;
   CGPoint startPoint1 = CGPointZero;
   CGPoint startPoint2 = CGPointZero;
 
-  // Scale of the vector to obtain the start and end points from the center of the
-  // pinchActionFrame. Make sure that the rotationVectorScale is minimum of the frame width and
-  // height. Also decrease the scale length further.
-  CGFloat rotationVectorScale = MIN(centerPoint.x, centerPoint.y) * kPinchScale;
+  // Scale the vector to obtain the start and end points from the center of the pinchActionFrame.
+  // Compute the rotationVectorScale based on half of the frame's width or height, whichever is
+  // smaller, reduced further by a scaling factor (kPinchScale).
+  CGFloat horizontalRadius = centerPoint.x - pinchActionFrame.origin.x;
+  CGFloat verticalRadius = centerPoint.y - pinchActionFrame.origin.y;
+  CGFloat rotationVectorScale = MIN(horizontalRadius, verticalRadius) * kPinchScale;
 
   // Rotated points at the given pinch angle to determine start and end points.
   CGPoint rotatedPoint1 = CGPointOnCircle(_pinchAngle, centerPoint, rotationVectorScale);
