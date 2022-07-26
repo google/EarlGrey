@@ -49,15 +49,25 @@
    * Start point for the swipe specified as percentage of swipped element's accessibility frame.
    */
   CGPoint _startPercents;
+  /**
+   * Start point for the swipe specified as percentage of swipped element's accessibility frame.
+   */
+  CGPoint _endPercents;
+  /**
+   * YES if end point is specified, else NO.
+   */
+  BOOL _endPointSpecified;
 }
 
 - (instancetype)initWithDirection:(GREYDirection)direction
                          duration:(CFTimeInterval)duration
-                     percentPoint:(CGPoint)percents {
-  GREYThrowOnFailedConditionWithMessage(percents.x > 0.0f && percents.x < 1.0f,
+                startPercentPoint:(CGPoint)startPercents
+                  endPercentPoint:(CGPoint)percents
+                endPointSpecified:(BOOL)endPointSpecified {
+  GREYThrowOnFailedConditionWithMessage(startPercents.x > 0.0f && startPercents.x < 1.0f,
                                         @"xOriginStartPercentage must be between 0 and 1, "
                                         @"exclusively");
-  GREYThrowOnFailedConditionWithMessage(percents.y > 0.0f && percents.y < 1.0f,
+  GREYThrowOnFailedConditionWithMessage(startPercents.y > 0.0f && startPercents.y < 1.0f,
                                         @"yOriginStartPercentage must be between 0 and 1, "
                                         @"exclusively");
 
@@ -82,20 +92,40 @@
   if (self) {
     _direction = direction;
     _duration = duration;
-    _startPercents = percents;
+    _startPercents = startPercents;
+    _endPercents = endPercents;
+    _endPointSpecified = endPointSpecified;
   }
   return self;
 }
 
 - (instancetype)initWithDirection:(GREYDirection)direction duration:(CFTimeInterval)duration {
   // TODO: Pick a visible point instead of picking the center of the view.
-  return [self initWithDirection:direction duration:duration percentPoint:CGPointMake(0.5, 0.5)];
+  return [self initWithDirection:direction
+                        duration:duration
+               startPercentPoint:CGPointMake(0.5, 0.5)
+                 endPercentPoint:CGPointMake(0.0, 0.0)
+               endPointSpecified:NO];
 }
 
 - (instancetype)initWithDirection:(GREYDirection)direction
                          duration:(CFTimeInterval)duration
                     startPercents:(CGPoint)startPercents {
-  return [self initWithDirection:direction duration:duration percentPoint:startPercents];
+  return [self initWithDirection:direction
+                        duration:duration
+               startPercentPoint:startPercents
+                 endPercentPoint:CGPointMake(0.0, 0.0)
+               endPointSpecified:NO];
+}
+
+- (instancetype)initWithDuration:(CFTimeInterval)duration
+                   startPercents:(CGPoint)startPercents
+                     endPercents:(CGPoint)endPercents {
+  return [self initWithDirection:GREYDirectionLeft
+                        duration:duration
+               startPercentPoint:startPercents
+                 endPercentPoint:endPercents
+               endPointSpecified:YES];
 }
 
 #pragma mark - GREYAction
@@ -150,7 +180,15 @@
       CGPointMake(accessibilityFrame.origin.x + accessibilityFrame.size.width * _startPercents.x,
                   accessibilityFrame.origin.y + accessibilityFrame.size.height * _startPercents.y);
 
-  return GREYTouchPathForGestureInWindow(window, startPoint, _direction, _duration);
+  if (!_endPointSpecified) {
+    return GREYTouchPathForGestureInWindow(window, startPoint, _direction, _duration);
+  }
+
+  CGPoint endPoint =
+      CGPointMake(accessibilityFrame.origin.x + accessibilityFrame.size.width * _endPercents.x,
+                  accessibilityFrame.origin.y + accessibilityFrame.size.height * _endPercents.y);
+
+  return GREYTouchPathForGestureBetweenPoints(startPoint, endPoint, _duration);
 }
 
 - (BOOL)shouldRunOnMainThread {
