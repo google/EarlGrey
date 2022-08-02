@@ -203,7 +203,7 @@
   [EarlGrey setHostApplicationCrashHandler:^{
     isCrashHandlerCalled = YES;
   }];
-  XCTAssertNil(GREY_ALLOC_REMOTE_CLASS_IN_APP(UIView));
+  XCTAssertNil(GREY_REMOTE_CLASS_IN_APP_OR_NIL(UIView));
 
   [_dummyTest tearDown];
   XCTAssertTrue(isErrorHandlerCalled);

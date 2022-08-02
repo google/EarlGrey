@@ -110,14 +110,35 @@ typedef NS_ENUM(NSUInteger, GREYRemoteExecutionDispatchPolicy) {
 #define GREY_STUB_CLASS_IN_APP_MAIN_QUEUE(__class) \
   EDO_STUB_CLASS(__class, GREYTestApplicationDistantObject.sharedInstance.hostPort)
 
-/** Fetch a remote class from the app under test. */
-#define GREY_REMOTE_CLASS_IN_APP(__class) \
+#define GREY_REMOTE_CLASS_IN_APP_OR_NIL(__class) \
   EDO_REMOTE_CLASS(__class, GREYTestApplicationDistantObject.sharedInstance.hostPort)
+
+/** Fetch a remote class from the app under test. */
+#define GREY_REMOTE_CLASS_IN_APP(__class)                                                         \
+  ((Class)(__class *)({                                                                           \
+    id _remoteClass = GREY_REMOTE_CLASS_IN_APP_OR_NIL(__class);                                   \
+    if (_remoteClass == nil) {                                                                    \
+      NSString *failureFormat =                                                                   \
+          @"FATAL ERROR at %@:%d \nGREY_REMOTE_CLASS_IN_APP fails because "                       \
+          @"app-under-test doesn't find " #__class @" symbol. This may because of:\n"             \
+          @"    1. " #__class @" class doesn't exist in the app under test. Your app-under-test " \
+          @"have to include the .m file that implements " #__class @" class.\n"                   \
+          @"    2. " #__class @" is declared by typedef. If so, you should pass the original "    \
+          @"name to GREY_REMOTE_CLASS_IN_APP.\n"                                                  \
+          @"If you intentionally expect a nil result from GREY_REMOTE_CLASS_IN_APP, "             \
+          @"use GREY_REMOTE_CLASS_IN_APP_OR_NIL instead.";                                        \
+      [[NSAssertionHandler currentHandler]                                                        \
+          handleFailureInFunction:@"GREY_REMOTE_CLASS_IN_APP"                                     \
+                             file:@__FILE__                                                       \
+                       lineNumber:__LINE__                                                        \
+                      description:failureFormat, @__FILE__, __LINE__];                            \
+    }                                                                                             \
+    _remoteClass;                                                                                 \
+  }))
 
 /** Alloc a remote class from the app under test. */
 #define GREY_ALLOC_REMOTE_CLASS_IN_APP(__class) \
-  (__class *)(                                  \
-      [EDO_REMOTE_CLASS(__class, GREYTestApplicationDistantObject.sharedInstance.hostPort) alloc])
+  (__class *)([GREY_REMOTE_CLASS_IN_APP(__class) alloc])
 
 /**
  * Stub the class defined in the app under test to the test.
