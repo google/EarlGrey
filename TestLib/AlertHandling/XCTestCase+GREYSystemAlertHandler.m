@@ -167,7 +167,7 @@ static UIApplication *GetApplicationUnderTest() {
     // Retry logic can solve the failure in slow animations mode.
     [acceptButton tap];
   } @catch (NSException *exception) {
-    [self handleBrokeniOS12IssueIfNecessary:exception error:error];
+    [self handleBrokeniOS12And15IssueIfNecessary:exception error:error];
     return NO;
   }
   dismissed = [self grey_ensureAlertDismissalOfAlertWithText:alertText error:error];
@@ -210,7 +210,7 @@ static UIApplication *GetApplicationUnderTest() {
   @try {
     [denyButton tap];
   } @catch (NSException *exception) {
-    [self handleBrokeniOS12IssueIfNecessary:exception error:error];
+    [self handleBrokeniOS12And15IssueIfNecessary:exception error:error];
     return NO;
   }
   dismissed = [self grey_ensureAlertDismissalOfAlertWithText:alertText error:error];
@@ -244,7 +244,7 @@ static UIApplication *GetApplicationUnderTest() {
   @try {
     [button tap];
   } @catch (NSException *exception) {
-    [self handleBrokeniOS12IssueIfNecessary:exception error:error];
+    [self handleBrokeniOS12And15IssueIfNecessary:exception error:error];
     return NO;
   }
   dismissed = [self grey_ensureAlertDismissalOfAlertWithText:alertText error:error];
@@ -319,24 +319,33 @@ static UIApplication *GetApplicationUnderTest() {
  * @param exception The caught exception, which is raised if no @c error is passed in.
  * @param[out] error The wrapped error for the exception.
  */
-- (void)handleBrokeniOS12IssueIfNecessary:(NSException *)exception error:(NSError **)error {
+- (void)handleBrokeniOS12And15IssueIfNecessary:(NSException *)exception error:(NSError **)error {
   NSOperatingSystemVersion osVersion = [[NSProcessInfo processInfo] operatingSystemVersion];
-  if (osVersion.majorVersion <= 12 && [exception.name isEqualToString:NSInvalidArgumentException] &&
+  if ([exception.name isEqualToString:NSInvalidArgumentException] &&
       [exception.reason
           containsString:@"__NSArrayM insertObject:atIndex:]: object cannot be nil"]) {
-    NSString *description =
-        @"iOS 12 has a bug with XCTest tapping on system alerts on Xcode 13+ (FB9858932). "
-        @"Move tests to iOS 13+ if you are blocked. "
-        @"https://openradar.appspot.com/radar?id=5520542106910720";
-    if (error) {
-      NSString *callStack = [exception.callStackSymbols.description copy];
-      *error = [NSError errorWithDomain:kGREYSystemAlertDismissalErrorDomain
-                                   code:GREYSystemAlertOSError
-                               userInfo:@{
-                                 NSLocalizedDescriptionKey : description,
-                                 NSLocalizedFailureReasonErrorKey : callStack
-                               }];
-    } else {
+    if (osVersion.majorVersion <= 12) {
+      NSString *description =
+          @"iOS 12 has a bug with XCTest tapping on system alerts on Xcode 13+ (FB9858932). "
+          @"Move tests to iOS 13+ if you are blocked. "
+          @"https://openradar.appspot.com/radar?id=5520542106910720";
+      if (error) {
+        NSString *callStack = [exception.callStackSymbols.description copy];
+        *error = [NSError errorWithDomain:kGREYSystemAlertDismissalErrorDomain
+                                     code:GREYSystemAlertOSError
+                                 userInfo:@{
+                                   NSLocalizedDescriptionKey : description,
+                                   NSLocalizedFailureReasonErrorKey : callStack
+                                 }];
+      } else {
+        [NSException raise:NSInternalInconsistencyException format:@"%@", description];
+      }
+    } else if (osVersion.majorVersion >= 15) {
+      NSString *instruction = @"Rerun the tests since system alert handling is flaky on iOS 15+.";
+      NSString *description = [NSString
+          stringWithFormat:@"iOS 15+ has a bug with XCTest tapping on system alerts since "
+                           @"Xcode 13.2.1 and later (FB9858932). %@ Error was thrown at:\n%@",
+                           instruction, exception.callStackSymbols.description];
       [NSException raise:NSInternalInconsistencyException format:@"%@", description];
     }
   } else {
