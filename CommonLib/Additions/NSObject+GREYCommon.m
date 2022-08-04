@@ -69,6 +69,12 @@
     [description appendFormat:@"; isAccessible=%@", self.isAccessibilityElement ? @"Y" : @"N"];
   }
 
+  // IsAccessibilityElement.
+  if ([self respondsToSelector:@selector(accessibilityViewIsModal)]) {
+    [description
+        appendFormat:@"; accessibilityViewIsModal=%@", self.accessibilityViewIsModal ? @"Y" : @"N"];
+  }
+
   // AccessibilityIdentifier from UIAccessibilityIdentification.
   if ([self respondsToSelector:@selector(accessibilityIdentifier)]) {
     NSString *value = [self performSelector:@selector(accessibilityIdentifier)];
@@ -188,6 +194,27 @@
   return description;
 }
 
+- (id)viewCoveringByViewIsModal {
+  if (![self respondsToSelector:@selector(superview)]) {
+    return nil;
+  }
+  id superview = [(id)self superview];
+  if (![superview respondsToSelector:@selector(subviews)]) {
+    return nil;
+  }
+  NSArray<id> *subviews = (NSArray<id> *)[(id)superview subviews];
+  for (id subview in subviews) {
+    if (subview == self || ![subview respondsToSelector:@selector(accessibilityViewIsModal)]) {
+      continue;
+    }
+    BOOL isModal = [(id)subview accessibilityViewIsModal];
+    if (isModal) {
+      return subview;
+    }
+  }
+  return [(id)superview viewCoveringByViewIsModal];
+}
+
 - (NSString *)grey_shortDescription {
   NSMutableString *description = [[NSMutableString alloc] init];
 
@@ -200,6 +227,26 @@
                                                   withPrefix:@"; AX.id="];
     [description appendString:axIdentifierDescription];
   }
+
+  if ([self respondsToSelector:@selector(accessibilityViewIsModal)]) {
+    NSString *accessibilityViewIsModal =
+        (BOOL)[self performSelector:@selector(accessibilityViewIsModal)] ? @"Y" : @"N";
+    NSString *axViewIsModalDescription =
+        [self grey_formattedDescriptionOrEmptyStringForValue:accessibilityViewIsModal
+                                                  withPrefix:@"; AX.viewIsModal="];
+    [description appendString:axViewIsModalDescription];
+  }
+
+  id coveringView = [self viewCoveringByViewIsModal];
+  NSString *coveringViewDesc =
+      (coveringView == nil)
+          ? @"nil"
+          : [NSString
+                stringWithFormat:@"%@ %p", NSStringFromClass([coveringView class]), coveringView];
+  NSString *coveringViewDescription =
+      [self grey_formattedDescriptionOrEmptyStringForValue:coveringViewDesc
+                                                withPrefix:@"; AX.coveredBy="];
+  [description appendString:coveringViewDescription];
 
   if ([self respondsToSelector:@selector(accessibilityLabel)]) {
     NSString *axLabelDescription =
