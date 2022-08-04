@@ -162,6 +162,19 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
     }
     [safariApp.textFields[@"URL"] typeText:URL];
     [safariApp.buttons[@"Go"] tap];
+  } else if ([safariApp.buttons[@"Search or enter website name"] exists]) {
+    // In iOS 15.2, the "Search or enter website name" is a button, and becomes the textfield when
+    // it gets focused.
+    [safariApp.buttons[@"Search or enter website name"] tap];
+    if (@available(iOS 15.0, *)) {
+      XCUIElement *swipeTutorialButton =
+          safariApp.otherElements[@"UIContinuousPathIntroductionView"].buttons[@"Continue"];
+      if ([swipeTutorialButton waitForExistenceWithTimeout:5]) {
+        [swipeTutorialButton tap];
+      }
+    }
+    [safariApp.textFields[@"Search or enter website name"] typeText:URL];
+    [safariApp.buttons[@"Go"] tap];
   } else if ([safariURLBarButton waitForExistenceWithTimeout:kWaitForExistenceTimeout] &&
              safariApp.hittable) {
     [safariURLBarButton tap];
