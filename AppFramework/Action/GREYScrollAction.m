@@ -416,10 +416,12 @@ static BOOL IsEligibleForRetry(UIScrollView *scrollView, GREYDirection scrollDir
   }
 
   BOOL success = YES;
+  NSString *edgeMessage =
+      @"Cannot scroll, the scroll view is already at the edge. If you want to just scroll to an "
+      @"edge of the scrollview, you can use grey_scrollAtContentEdge().";
   if (hasResistance) {
     success = NO;
-    I_GREYPopulateError(error, kGREYScrollErrorDomain, kGREYScrollReachedContentEdge,
-                        @"Cannot scroll, the scrollview is already at the edge.");
+    I_GREYPopulateError(error, kGREYScrollErrorDomain, kGREYScrollReachedContentEdge, edgeMessage);
   } else if (!fallback && !delegate.scrollDetected) {
     success = NO;
     // If the scroll has content size smaller than the view size, even without resistance, offset
@@ -427,7 +429,7 @@ static BOOL IsEligibleForRetry(UIScrollView *scrollView, GREYDirection scrollDir
     if (scrollView.contentSize.width < scrollView.frame.size.width &&
         scrollView.contentSize.height < scrollView.frame.size.height) {
       I_GREYPopulateError(error, kGREYScrollErrorDomain, kGREYScrollReachedContentEdge,
-                          @"Cannot scroll, the scrollview is already at the edge.");
+                          edgeMessage);
     } else {
       I_GREYPopulateError(error, kGREYScrollErrorDomain, kGREYScrollNoTouchReaction,
                           @"Scroll view didn't respond to touch.");
