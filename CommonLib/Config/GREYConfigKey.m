@@ -15,7 +15,6 @@
 //
 
 #import "GREYConfigKey.h"
-#import "GREYConstants.h"
 
 GREYConfigKey const kGREYConfigKeyActionConstraintsEnabled =
     @"GREYConfigKeyActionConstraintsEnabled";
