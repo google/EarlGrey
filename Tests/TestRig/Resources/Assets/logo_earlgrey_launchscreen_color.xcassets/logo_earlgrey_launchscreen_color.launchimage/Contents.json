@@ -129,22 +129,6 @@
       "extent" : "full-screen",
       "minimum-system-version" : "7.0",
       "scale" : "2x"
-    },
-    {
-      "orientation" : "portrait",
-      "idiom" : "ipad",
-      "filename" : "logo_earlgrey_launchscreen_color_1024x1366pt_2x.png",
-      "extent" : "full-screen",
-      "minimum-system-version" : "9.0",
-      "scale" : "2x"
-    },
-    {
-      "orientation" : "landscape",
-      "idiom" : "ipad",
-      "filename" : "logo_earlgrey_launchscreen_color_1366x1024pt_2x.png",
-      "extent" : "full-screen",
-      "minimum-system-version" : "9.0",
-      "scale" : "2x"
     }
   ],
   "info" : {
