@@ -71,7 +71,7 @@ CFTimeInterval const kSystemAlertVisibilityTimeout = 10;
 /**
  * @return The Springboard's XCUIApplication.
  */
-static XCUIApplication *GREYSpringboardApplication() {
+static XCUIApplication *GREYSpringboardApplication(void) {
   static XCUIApplication *gSpringBoardApplication;
   static dispatch_once_t token = 0;
   dispatch_once(&token, ^{
@@ -84,7 +84,7 @@ static XCUIApplication *GREYSpringboardApplication() {
 /**
  * @return UIApplication under test by making an eDO call to the app-side.
  */
-static UIApplication *GetApplicationUnderTest() {
+static UIApplication *GetApplicationUnderTest(void) {
   // TODO(b/148556743): Create a global instance for AUT in EarlGrey so we don't make an eDO call
   // each time.
   return [GREY_REMOTE_CLASS_IN_APP(UIApplication) sharedApplication];
@@ -438,7 +438,7 @@ static UIApplication *GetApplicationUnderTest() {
  * @return An array of substrings that are available when location is requested for "When In Use".
  *         Displayed label is different across iOS versions.
  */
-static NSArray<NSString *> *GetAvailableLocationAlertStrings() {
+static NSArray<NSString *> *GetAvailableLocationAlertStrings(void) {
   if (iOS14_OR_ABOVE()) {
     return @[ @"use your location?" ];
   } else if (iOS13_OR_ABOVE()) {
@@ -455,7 +455,7 @@ static NSArray<NSString *> *GetAvailableLocationAlertStrings() {
  * @return An array of substrings that are available when location is requested for "Always".
  *         Displayed label is different across iOS versions.
  */
-static NSArray<NSString *> *GetAvailableBackgroundLocationAlertStrings() {
+static NSArray<NSString *> *GetAvailableBackgroundLocationAlertStrings(void) {
   if (iOS14_OR_ABOVE()) {
     return @[ @"use your location?" ];
   } else if (iOS13_OR_ABOVE()) {

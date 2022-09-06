@@ -51,7 +51,7 @@ static uint16_t gGREYPortForTestApplication = 0;
  * @return The socket listener that accepts ping connections and creates a channel to process ping
  *         requests.
  */
-static id GetPingMessageListener() {
+static id GetPingMessageListener(void) {
   return ^(EDOSocket *_Nullable socket, NSError *_Nullable socketError) {
     id<EDOChannel> channel = [EDOSocketChannel channelWithSocket:socket];
     id pingMessageHandler = ^(id<EDOChannel> targetChannel, NSData *data, NSError *channelError) {
@@ -75,7 +75,7 @@ static id GetPingMessageListener() {
   };
 }
 
-static void InitiateCommunicationWithTest() {
+static void InitiateCommunicationWithTest(void) {
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
     // Load app-side helper bundles if provided.

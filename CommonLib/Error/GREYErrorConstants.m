@@ -67,7 +67,7 @@ NSString *const kErrorDetailAppScreenshotsKey = @"App Screenshots";
 NSString *const kErrorDetailElementKey = @"Element";
 NSString *const kErrorDetailWindowKey = @"Window";
 
-NSArray<NSString *> *GREYErrorDetailsKeyOrder() {
+NSArray<NSString *> *GREYErrorDetailsKeyOrder(void) {
   return @[
     kErrorDetailAssertCriteriaKey,
     kErrorDetailActionNameKey,

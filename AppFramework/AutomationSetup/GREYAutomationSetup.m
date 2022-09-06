@@ -137,7 +137,7 @@ static void GREYUncaughtExceptionHandler(NSException *exception) {
   }
 }
 
-static void GREYSetupCrashHandlers() {
+static void GREYSetupCrashHandlers(void) {
   GREYLog(@"Crash handler setup started.");
 
   struct sigaction signalAction;

@@ -74,7 +74,7 @@ static const void *gGREYTestExecutingQueueKey = &gGREYTestExecutingQueueKey;
 @end
 
 /** Constructs error recovery suggestion message. */
-static NSString *GetErrorRecoverySuggestion() {
+static NSString *GetErrorRecoverySuggestion(void) {
   NSString *recoverySuggestion =
       @"Unless your tests explicitly relaunch the app, it won't be restarted. Any requests from "
       @"the test to the app side will fail. Use "
@@ -87,7 +87,7 @@ static NSString *GetErrorRecoverySuggestion() {
 }
 
 /** Intializes test-side distant object and failure handler. */;
-__attribute__((constructor)) static void SetupTestDistantObject() {
+__attribute__((constructor)) static void SetupTestDistantObject(void) {
   // Registers custom handler of EDO connection failure and translates the error message to UI
   // testing scenarios to users. The custom handler will fall back to use EDO's default error
   // handler if the state of the test doesn't conform to any pattern of the UI testing failure.
@@ -377,7 +377,7 @@ __attribute__((constructor)) static void SetupTestDistantObject() {
 }
 
 /** @return The dispatch_time_t to wait for port allocation. */
-static dispatch_time_t AllocationWaitTime() {
+static dispatch_time_t AllocationWaitTime(void) {
   return dispatch_time(DISPATCH_TIME_NOW, kPortAllocationWaitTime);
 }
 

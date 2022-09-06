@@ -106,7 +106,7 @@ static NSString *const kMoreKeyIdentifier = @"more";
 typedef BOOL (^ConditionBlock)(void);
 
 /** Register notification for keyboard display lifecycle events. */
-__attribute__((constructor)) static void RegisterKeyboardLifecycleHooks() {
+__attribute__((constructor)) static void RegisterKeyboardLifecycleHooks(void) {
 #if TARGET_OS_IOS
   NSObject *keyboardObject = [[NSObject alloc] init];
   static void *objectKey = &objectKey;
@@ -170,7 +170,7 @@ __attribute__((constructor)) static void RegisterKeyboardLifecycleHooks() {
 }
 
 /** Disables various keyboard settings to avoid flakiness. */
-__attribute__((constructor)) static void GREYSetupKeyboard() {
+__attribute__((constructor)) static void GREYSetupKeyboard(void) {
   // On iOS 15+, the keyboard settings have to be made on the application process.
   if (@available(iOS 15.0, *)) {
     GREYSetupKeyboardPreferences(NO);
@@ -532,7 +532,7 @@ static id GetKeyForCharacterValueInKeyboardLayout(NSString *character, BOOL igno
  *
  * @return @c YES if the alphabetic keyplane is being shown on the keyboard, else @c NO.
  */
-static BOOL IsAlphabeticKeyplaneShown() {
+static BOOL IsAlphabeticKeyplaneShown(void) {
   // Chose q/Q as the key to look for to determine if alphabetic keyplane is shown because q/Q
   // comes first when iterating keys in UIKeyboardImpl.
   return WaitAndFindKeyForCharacter(@"q", kRegularKeyplaneUpdateDuration) != nil ||
@@ -544,7 +544,7 @@ static BOOL IsAlphabeticKeyplaneShown() {
  *
  * @return The active UIKeyboardImpl instance.
  */
-static UIKeyboardImpl *GetKeyboardObject() {
+static UIKeyboardImpl *GetKeyboardObject(void) {
   UIKeyboardImpl *keyboard = [UIKeyboardImpl activeInstance];
   GREYFatalAssertWithMessage(keyboard, @"Keyboard instance must not be nil");
   return keyboard;

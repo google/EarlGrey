@@ -102,7 +102,7 @@ GREYConfiguration *GREYCreateConfiguration(void) { return [[GREYAppConfiguration
  * Signifies if the configuration is launched in an application directly. Allows the configuration
  * to load fake data.
  */
-static BOOL IsStandaloneMode() {
+static BOOL IsStandaloneMode(void) {
   static dispatch_once_t onceToken;
   static BOOL isStandaloneMode;
   dispatch_once(&onceToken, ^{
@@ -117,7 +117,7 @@ static BOOL IsStandaloneMode() {
  *         AppFramework without the test side.
  * @note Ensure this is kept in parity with the common Configuration keys in GREYTestConfiguration.
  */
-static NSDictionary *GetFakeLocalTestingAppConfig() {
+static NSDictionary *GetFakeLocalTestingAppConfig(void) {
   static dispatch_once_t onceToken;
   static NSDictionary<GREYConfigKey, id> *fakeLocalTestingAppConfig;
   dispatch_once(&onceToken, ^{

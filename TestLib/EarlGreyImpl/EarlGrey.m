@@ -43,13 +43,13 @@ static const CFTimeInterval kWaitForExistenceTimeout = 10;
  * Sets EarlGrey provided default failure handler if there's no failure handler set for the current
  * thread.
  */
-static inline void SetDefaultFailureHandler() {
+static inline void SetDefaultFailureHandler(void) {
   NSDictionary<NSString *, id> *TLSDict = [[NSThread mainThread] threadDictionary];
   [TLSDict setValue:[[GREYDefaultFailureHandler alloc] init] forKey:GREYFailureHandlerKey];
 }
 
 /** Returns the current failure handler. If it's @c nil, sets the default one and returns it. */
-static inline id<GREYFailureHandler> GREYGetCurrentFailureHandler() {
+static inline id<GREYFailureHandler> GREYGetCurrentFailureHandler(void) {
   NSDictionary<NSString *, id> *TLSDict = [[NSThread mainThread] threadDictionary];
   id<GREYFailureHandler> handler = [TLSDict valueForKey:GREYFailureHandlerKey];
   if (!handler) {
