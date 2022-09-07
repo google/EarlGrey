@@ -33,11 +33,11 @@
 #import "GREYWaitFunctions.h"
 
 /** Returns the current EarlGrey failure handler. */
-static inline id<GREYFailureHandler> GetFailureHandler() {
+static inline id<GREYFailureHandler> GetFailureHandler(void) {
   return [NSThread mainThread].threadDictionary[GREYFailureHandlerKey];
 }
 
-void GREYIAssertDefaultConfiguration() {
+void GREYIAssertDefaultConfiguration(void) {
   // Configure the assert macros to talk to the EarlGrey environment.
   GREYISetFileLineBlock setFileLineBlock =
       ^void(const char *_Nonnull fileName, NSUInteger lineNumber) {
