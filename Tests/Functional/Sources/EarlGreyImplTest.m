@@ -176,7 +176,7 @@
   XCTAssertEqual(self.testRun.failureCount, failureCount, @"The failure count is not incremented.");
 }
 
-static inline id<GREYFailureHandler> GetCurrentFailureHandler() {
+static inline id<GREYFailureHandler> GetCurrentFailureHandler(void) {
   return [[[NSThread mainThread] threadDictionary] valueForKey:GREYFailureHandlerKey];
 }
 

@@ -337,7 +337,7 @@
 /**
  * @return A GREYMatcher showing us the scroll indicator for the Infinite ScrollView.
  */
-static id<GREYMatcher> InfiniteScrollViewIndicatorMatcher() {
+static id<GREYMatcher> InfiniteScrollViewIndicatorMatcher(void) {
   return [GREYElementMatcherBlock
       matcherWithMatchesBlock:^BOOL(NSObject *element) {
         return [element.accessibilityLabel containsString:@"Vertical scroll bar"];
