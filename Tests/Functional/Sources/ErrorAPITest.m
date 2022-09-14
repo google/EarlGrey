@@ -129,7 +129,7 @@
   [NSThread mainThread].threadDictionary[GREYFailureHandlerKey] = currentFailureHandler;
 }
 
-static inline id<GREYFailureHandler> GetCurrentFailureHandler() {
+static inline id<GREYFailureHandler> GetCurrentFailureHandler(void) {
   return [[[NSThread mainThread] threadDictionary] valueForKey:GREYFailureHandlerKey];
 }
 
