@@ -21,6 +21,7 @@
 #import "GREYThrowDefines.h"
 #import "GREYConstants.h"
 #import "CGGeometry+GREYUI.h"
+#import "GREYUILibUtils.h"
 #import "GREYVisibilityChecker.h"
 
 /**
@@ -96,7 +97,7 @@ NSArray<NSValue *> *GREYTouchPathForGestureInWindow(UIWindow *window,
   // Find an endpoint for gesture in window coordinates that gives us the longest path.
   CGPoint endPointInWindowCoords =
       GREYPointOnEdgeOfRect([GREYConstants edgeInDirectionFromCenter:direction],
-                            [window convertRect:[UIScreen mainScreen].bounds fromWindow:nil]);
+                            [window convertRect:[GREYUILibUtils screen].bounds fromWindow:nil]);
   // Align the end point and create a touch path.
   if (GREYIsVerticalDirection(direction)) {
     endPointInWindowCoords.x = startPointInWindowCoordinates.x;
@@ -131,7 +132,7 @@ NSArray<NSValue *> *GREYTouchPathForGestureInView(UIView *view, CGPoint startPoi
 
   // Shave off the unsafe edges to ensure that we pick a valid starting point that is inside the
   // visible area.
-  CGRect safeScreenBounds = [view.window convertRect:[UIScreen mainScreen].bounds fromWindow:nil];
+  CGRect safeScreenBounds = [view.window convertRect:[GREYUILibUtils screen].bounds fromWindow:nil];
   if (CGRectIsEmpty(safeScreenBounds)) {
     return nil;
   }
@@ -220,7 +221,7 @@ NSArray<NSValue *> *GREYFixTouchPathDeviation(NSArray<NSValue *> *touchPath, CGV
   CGPoint endPoint = touchPath.lastObject.CGPointValue;
   CGPoint adjustedEndPoint = CGPointAddVector(endPoint, deviation);
 
-  CGRect safeScreenBounds = [scrollView.window convertRect:[UIScreen mainScreen].bounds
+  CGRect safeScreenBounds = [scrollView.window convertRect:[GREYUILibUtils screen].bounds
                                                 fromWindow:nil];
   if (!CGRectContainsPoint(safeScreenBounds, adjustedEndPoint)) {
     return nil;

@@ -25,6 +25,7 @@
 #import "CGGeometry+GREYUI.h"
 #import "GREYScreenshotter+Private.h"
 #import "GREYScreenshotter.h"
+#import "GREYUILibUtils.h"
 #import "GREYVisibilityChecker.h"
 
 static const NSUInteger kColorChannelsPerPixel = 4;
@@ -155,7 +156,7 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
                                                      forView:view
                                                   withinRect:elementFrame];
   if (viewIntersectsScreen) {
-    const CGFloat scale = [[UIScreen mainScreen] scale];
+    const CGFloat scale = [[GREYUILibUtils screen] scale];
     const size_t widthInPixels = CGImageGetWidth(beforeImage);
     const size_t heightInPixels = CGImageGetHeight(beforeImage);
     const size_t minimumPixelsVisibleForInteraction =
@@ -187,7 +188,7 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
       // If the activation point lies inside the screen, use it if it is visible.
       CGPoint activationPoint = [element accessibilityActivationPoint];
 
-      if (CGRectContainsPoint([[UIScreen mainScreen] bounds], activationPoint)) {
+      if (CGRectContainsPoint([GREYUILibUtils screen].bounds, activationPoint)) {
         CGPoint activationPointInVariablePixels = activationPoint;
         activationPointInVariablePixels = CGPointToPixel(activationPointInVariablePixels);
 
@@ -385,7 +386,7 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
   }
 
   // Find portion of search rect that is on screen and in view.
-  CGRect screenBounds = [[UIScreen mainScreen] bounds];
+  CGRect screenBounds = [GREYUILibUtils screen].bounds;
   CGRect axFrame = [view accessibilityFrame];
   CGRect searchRectOnScreenInViewInScreenCoordinates = CGRectIntersectionStrict(
       searchRectInScreenCoordinates, CGRectIntersectionStrict(axFrame, screenBounds));
@@ -701,7 +702,7 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
 
   CGImageRef bitmapImageRef = CGBitmapContextCreateImage(bitmapContext);
   UIImage *shiftedImage = [UIImage imageWithCGImage:bitmapImageRef
-                                              scale:[[UIScreen mainScreen] scale]
+                                              scale:[GREYUILibUtils screen].scale
                                         orientation:orientation];
 
   CGImageRelease(bitmapImageRef);

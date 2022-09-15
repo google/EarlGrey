@@ -21,6 +21,7 @@
 #import "GREYFatalAsserts.h"
 #import "GREYLogger.h"
 #import "GREYUIWindowProvider.h"
+#import "GREYUILibUtils.h"
 
 /**
  * Bytes allocated per pixel for an XRGB image.
@@ -47,7 +48,7 @@ static Class gUIModalItemHostingWindowClass;
               withStatusBar:(BOOL)includeStatusBar {
   GREYFatalAssertWithMessage(CGBitmapContextGetBitmapInfo(bitmapContextRef) != 0,
                              @"The context ref must point to a CGBitmapContext.");
-  UIScreen *mainScreen = [UIScreen mainScreen];
+  UIScreen *mainScreen = [GREYUILibUtils screen];
   CGRect screenRect = mainScreen.bounds;
   [self drawScreenInContext:bitmapContextRef
          afterScreenUpdates:afterUpdates
@@ -75,7 +76,7 @@ static Class gUIModalItemHostingWindowClass;
                                ? (UIView *)element
                                : [element grey_viewContainingSelf];
 
-  UIGraphicsBeginImageContextWithOptions(elementAXFrame.size, NO, [UIScreen mainScreen].scale);
+  UIGraphicsBeginImageContextWithOptions(elementAXFrame.size, NO, [GREYUILibUtils screen].scale);
   [self drawViewInContext:UIGraphicsGetCurrentContext()
                      view:viewToSnapshot
                    bounds:elementAXFrame
@@ -95,7 +96,7 @@ static Class gUIModalItemHostingWindowClass;
 
 + (UIImage *)grey_takeScreenshotAfterScreenUpdates:(BOOL)afterScreenUpdates
                                      withStatusBar:(BOOL)includeStatusBar {
-  CGRect screenRect = [UIScreen mainScreen].bounds;
+  CGRect screenRect = [GREYUILibUtils screen].bounds;
   return [self grey_takeScreenshotAfterScreenUpdates:afterScreenUpdates
                                         inScreenRect:screenRect
                                        withStatusBar:includeStatusBar];
@@ -151,7 +152,7 @@ static Class gUIModalItemHostingWindowClass;
                      view:(UIView *)view
                    bounds:(CGRect)boundsInScreenRect
        afterScreenUpdates:(BOOL)afterScreenUpdates {
-  UIScreen *mainScreen = [UIScreen mainScreen];
+  UIScreen *mainScreen = [GREYUILibUtils screen];
 
   // The bitmap context width and height are scaled, so we need to undo the scale adjustment.
   CGFloat scale = mainScreen.scale;

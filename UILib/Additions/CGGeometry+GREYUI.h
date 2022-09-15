@@ -17,7 +17,6 @@
 #import <CoreGraphics/CoreGraphics.h>
 #import <UIKit/UIKit.h>
 
-#import "GREYConstants.h"
 #import "GREYDefines.h"
 
 #pragma mark - Constants
@@ -158,9 +157,21 @@ CGRect CGRectPointToPixel(CGRect rectInPoints);
 
 /**
  * @return The rect obtained by converting the given @c rectInPoints from points to pixels as per
+ *         the screen @c scale.
+ */
+CGRect CGRectPointToPixelWithScale(CGRect rectInPoints, CGFloat scale);
+
+/**
+ * @return The rect obtained by converting the given @c rectInPoints from points to pixels as per
  *         the screen scale and aligning in pixel-boundary.
  */
 CGRect CGRectPointToPixelAligned(CGRect rectInPoints);
+
+/**
+ * @return The rect obtained by converting the given @c rectInPoints from points to pixels as per
+ *         the screen @c scale and aligning in pixel-boundary.
+ */
+CGRect CGRectPointToPixelAlignedWithScale(CGRect rectInPoints, CGFloat scale);
 
 /**
  * @return The rect obtained by converting the given @c rectInPoints from pixels to points as

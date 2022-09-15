@@ -15,6 +15,7 @@
 //
 
 #import "GREYScrollToContentEdgeAction.h"
+#import "GREYUILibUtils.h"
 
 #if TARGET_OS_IOS
 #import <WebKit/WebKit.h>
@@ -97,8 +98,8 @@
 
   // Get the maximum scrollable amount in any direction and keep applying it until the edge
   // is reached.
-  const CGFloat maxScrollInAnyDirection =
-      MAX([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
+  CGSize screenSize = [GREYUILibUtils screen].bounds.size;
+  const CGFloat maxScrollInAnyDirection = MAX(screenSize.width, screenSize.height);
   // TODO: This means that we keep scrolling until we reach the top and can take
   // forever if we are operating on a circular scroll view, implement a way to timeout long
   // running actions and make this process timeout.

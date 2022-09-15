@@ -22,6 +22,7 @@
 #import "CGGeometry+GREYUI.h"
 #import "GREYTraversalObject.h"
 #import "GREYTraversalProperties.h"
+#import "GREYUILibUtils.h"
 #import "GREYVisibilityChecker.h"
 
 /**
@@ -248,9 +249,10 @@ const double kMinimumAlphaToConsiderAsObscuring = 0.95f;
  * call this method when there's no more intersection that is obscuring @c _targetRect.
  */
 - (void)calculateBitsForIntersectionsInParallel {
+  CGFloat scale = [GREYUILibUtils screen].scale;
   dispatch_apply(_intersections.count, DISPATCH_APPLY_AUTO, ^(size_t idx) {
     CGRect intersection = [self->_intersections[idx] CGRectValue];
-    [self setBitsInRect:intersection];
+    [self setBitsInRect:intersection withScale:scale];
   });
 }
 
@@ -260,8 +262,8 @@ const double kMinimumAlphaToConsiderAsObscuring = 0.95f;
  *
  * @param rect The frame of the pixels to set the bits in @c _bitVector. Must be in points.
  */
-- (void)setBitsInRect:(CGRect)rect {
-  rect = CGRectPointToPixelAligned(rect);
+- (void)setBitsInRect:(CGRect)rect withScale:(CGFloat)scale {
+  rect = CGRectPointToPixelAlignedWithScale(rect, scale);
   // _targetRect is indirectly translated to (0,0) since bitVector starts from (0, 0). Therefore,
   // the rect needs to be translated as much as _bitVectorRect did towards the origin.
   CGRect translatedRect = CGRectMake(CGRectGetMinX(rect) - CGRectGetMinX(_bitVectorRect),
@@ -423,7 +425,7 @@ static CGRect VisibleRectOnScreen(GREYTraversalObject *object) {
   }
 
   CGRect elementRect = ConvertToScreenCoordinate(element);
-  elementRect = CGRectIntersectionStrict(elementRect, [UIScreen mainScreen].bounds);
+  elementRect = CGRectIntersectionStrict(elementRect, [GREYUILibUtils screen].bounds);
   if (!CGRectIsNull(boundingRect)) {
     CGRect boundingRectScreenCoord = [container convertRect:boundingRect toView:nil];
     elementRect = CGRectIntersectionStrict(elementRect, boundingRectScreenCoord);
@@ -546,7 +548,7 @@ static BOOL IsBackgroundColorTranslucent(UIColor *backgroundColor) {
  */
 - (BOOL)isInteractableAtPointInScreenCoordinate:(CGPoint)pointInScreenCoordinate {
   // Check if this point lies in the screen bounds.
-  CGRect screenBounds = [UIScreen mainScreen].bounds;
+  CGRect screenBounds = [GREYUILibUtils screen].bounds;
   if (!CGRectContainsPoint(screenBounds, pointInScreenCoordinate)) {
     return NO;
   }

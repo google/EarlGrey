@@ -16,9 +16,11 @@
 
 #import "CGGeometry+GREYUI.h"
 
+#import <Foundation/Foundation.h>
 #include <tgmath.h>
 
 #import "GREYDefines.h"
+#import "GREYUILibUtils.h"
 
 #pragma mark - Constants
 
@@ -69,11 +71,20 @@ CGPoint CGPointMultiply(CGPoint inPoint, double amount) {
 }
 
 CGPoint CGPointToPixel(CGPoint positionInPoints) {
-  return CGPointMultiply(positionInPoints, [UIScreen mainScreen].scale);
+  return CGPointMultiply(positionInPoints, [GREYUILibUtils screen].scale);
 }
 
 CGPoint CGPixelToPoint(CGPoint positionInPixels) {
-  return CGPointMultiply(positionInPixels, 1.0 / [UIScreen mainScreen].scale);
+  CGFloat scale = [GREYUILibUtils screen].scale;
+  if (scale == 0.0) {
+    [[NSAssertionHandler currentHandler]
+        handleFailureInFunction:@("CGPixelToPoint")
+                           file:@(__FILE__)
+                     lineNumber:__LINE__
+                    description:@"The scale for this screen is zero; screen: %@",
+                                [GREYUILibUtils screen]];
+  }
+  return CGPointMultiply(positionInPixels, 1.0 / scale);
 }
 
 CGPoint CGPointAfterRemovingFractionalPixels(CGPoint cgpointInPoints) {
@@ -96,7 +107,7 @@ CGPoint CGPointOnCircle(double angle, CGPoint center, CGFloat radius) {
  *       while UI rendering is done at 1242x2208, and downsampled to 1080x1920.
  */
 CGFloat CGFloatAfterRemovingFractionalPixels(CGFloat floatInPoints) {
-  double pointToPixelScale = [[UIScreen mainScreen] scale];
+  double pointToPixelScale = [[GREYUILibUtils screen] scale];
 
   // Fractional pixel values aren't useful and often arise due to floating point calculation
   // overflow (i.e. mantissa can only hold so many digits).
@@ -125,21 +136,29 @@ CGRect CGRectScaleAndTranslate(CGRect inRect, double amount) {
 }
 
 CGRect CGRectPointToPixel(CGRect rectInPoints) {
-  return CGRectScaleAndTranslate(rectInPoints, [UIScreen mainScreen].scale);
+  return CGRectPointToPixelWithScale(rectInPoints, [GREYUILibUtils screen].scale);
+}
+
+CGRect CGRectPointToPixelWithScale(CGRect rectInPoints, CGFloat scale) {
+  return CGRectScaleAndTranslate(rectInPoints, scale);
 }
 
 CGRect CGRectPointToPixelAligned(CGRect rectInPoints) {
-  rectInPoints = CGRectPointToPixel(rectInPoints);
+  return CGRectPointToPixelAlignedWithScale(rectInPoints, [GREYUILibUtils screen].scale);
+}
+
+CGRect CGRectPointToPixelAlignedWithScale(CGRect rectInPoints, CGFloat scale) {
+  rectInPoints = CGRectPointToPixelWithScale(rectInPoints, scale);
   rectInPoints = CGRectIntegralInside(rectInPoints);
   return rectInPoints;
 }
 
 CGRect CGRectPixelToPoint(CGRect rectInPixel) {
-  return CGRectScaleAndTranslate(rectInPixel, 1.0 / [UIScreen mainScreen].scale);
+  return CGRectScaleAndTranslate(rectInPixel, 1.0 / [GREYUILibUtils screen].scale);
 }
 
 CGRect CGRectFixedToVariableScreenCoordinates(CGRect rectInFixedCoordinates) {
-  UIScreen *screen = [UIScreen mainScreen];
+  UIScreen *screen = [GREYUILibUtils screen];
   CGRect rectInVariableCoordinates = CGRectNull;
   if ([screen respondsToSelector:@selector(coordinateSpace)] &&
       [screen respondsToSelector:@selector(fixedCoordinateSpace)]) {
@@ -150,7 +169,7 @@ CGRect CGRectFixedToVariableScreenCoordinates(CGRect rectInFixedCoordinates) {
 }
 
 CGRect CGRectVariableToFixedScreenCoordinates(CGRect rectInVariableCoordinates) {
-  UIScreen *screen = [UIScreen mainScreen];
+  UIScreen *screen = [GREYUILibUtils screen];
   CGRect rectInFixedCoordinates = CGRectNull;
   if ([screen respondsToSelector:@selector(coordinateSpace)] &&
       [screen respondsToSelector:@selector(fixedCoordinateSpace)]) {
@@ -255,7 +274,7 @@ CGRect CGRectLargestRectInHistogram(uint16_t *histogram, uint16_t length) {
 
 #if TARGET_OS_IOS
 CGAffineTransform CGAffineTransformForFixedToVariable(UIInterfaceOrientation orientation) {
-  UIScreen *screen = [UIScreen mainScreen];
+  UIScreen *screen = [GREYUILibUtils screen];
   CGAffineTransform transform = CGAffineTransformIdentity;
   if (orientation == UIInterfaceOrientationLandscapeLeft) {
     // Rotate pi/2
