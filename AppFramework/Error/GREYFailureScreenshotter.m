@@ -22,12 +22,17 @@
 #import "GREYError.h"
 #import "GREYScreenshotter+Private.h"
 #import "GREYScreenshotter.h"
+#import "GREYUILibUtils.h"
 #import "GREYVisibilityChecker+Private.h"
 #import "GREYVisibilityChecker.h"
 
 @implementation GREYFailureScreenshotter
 
 + (NSDictionary<NSString *, UIImage *> *)screenshots {
+  grey_dispatch_sync_on_main_thread(^{
+    UIScreen *screen = [GREYUILibUtils screen];
+    if (!screen || CGRectEqualToRect(screen.bounds, CGRectNull)) return;
+  });
   NSMutableDictionary<NSString *, UIImage *> *appScreenshots = [[NSMutableDictionary alloc] init];
   __block UIImage *screenshot;
   grey_dispatch_sync_on_main_thread(^{

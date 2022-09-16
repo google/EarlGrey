@@ -71,6 +71,15 @@ UIWindow *GREYUILibUtilsGetApplicationKeyWindow(UIApplication *application) {
 
   if (@available(iOS 13.0, *)) {
     screen = [self window].windowScene.screen;
+    // This check is added in case there is an issue with getting the screen i.e. if the screen
+    // hasn't come up.
+    if (!screen) {
+      if (@available(iOS 16.0, *)) {
+        //
+      } else {
+        screen = [UIScreen mainScreen];
+      }
+    }
   } else {
     screen = [UIScreen mainScreen];
   }
