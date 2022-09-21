@@ -60,8 +60,7 @@
   swizzled = [swizzler swizzleClass:[UIScrollView class]
               replaceInstanceMethod:originalSel
                          withMethod:swizzledSel];
-  GREYFatalAssertWithMessage(swizzled,
-                             @"Cannot swizzle [UIScrollView _stopScrollDecelerationNotify:]");
+  GREYFatalAssertWithMessage(swizzled, @"Cannot swizzle [UIScrollView setContentOffset:]");
 }
 
 - (BOOL)grey_hasScrollResistance {
