@@ -18,13 +18,11 @@
 
 #import "GREYSyntheticEvents.h"
 #import "GREYKeyboard.h"
-#import "GREYUIThreadExecutor.h"
 #import "GREYConfigKey.h"
 #import "GREYTestApplicationDistantObject+Private.h"
 #import "GREYError.h"
 #import "GREYAppleInternals.h"
 
-#import "GREYWaitFunctions.h"
 
 #import "GREYElementInteractionErrorHandler.h"
 #import "GREYElementInteractionProxy.h"
@@ -268,11 +266,18 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
 #if TARGET_OS_IOS
 - (BOOL)rotateDeviceToOrientation:(UIDeviceOrientation)deviceOrientation error:(NSError **)error {
   GREYError *syncErrorBeforeRotation;
-  GREYError *syncErrorAfterRotation;
+  __block GREYError *syncErrorAfterRotation;
   BOOL success = NO;
   __block BOOL sendOrientationChangeNotification = NO;
   XCUIDevice *sharedDevice = [XCUIDevice sharedDevice];
-  UIDevice *currentDevice = [GREY_REMOTE_CLASS_IN_APP(UIDevice) currentDevice];
+  UIDevice *currentDevice;
+#if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED < 160000)
+  currentDevice = [GREY_REMOTE_CLASS_IN_APP(UIDevice) currentDevice];
+#else
+  UIInterfaceOrientation interfaceOrientation =
+      [GREYConstants interfaceOrientationForDeviceOrientation:deviceOrientation];
+#endif  // (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED < 160000)
+
   NSNotificationCenter *notificationCenter =
       [GREY_REMOTE_CLASS_IN_APP(NSNotificationCenter) defaultCenter];
 
@@ -284,16 +289,52 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
                                 sendOrientationChangeNotification = YES;
                               }];
   CFTimeInterval interactionTimeout = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
-
   BOOL syncSuccessBeforeRotation =
       GREYWaitForAppToIdleWithTimeoutAndError(interactionTimeout, &syncErrorBeforeRotation);
   if (syncSuccessBeforeRotation) {
     [sharedDevice setOrientation:deviceOrientation];
+#if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 160000)
+    if (@available(iOS 16.0, *)) {
+      UIWindowScene *scene =
+          [[[[GREY_REMOTE_CLASS_IN_APP(UIApplication) sharedApplication] delegate] window]
+              windowScene];
+      UIWindowSceneGeometryPreferencesIOS *preferences =
+          [[GREY_REMOTE_CLASS_IN_APP(UIWindowSceneGeometryPreferencesIOS) alloc]
+              initWithInterfaceOrientations:
+                  (1 << interfaceOrientation)];  // References implementation of
+                                                 // UIInterfaceOrientationMask enum in
+                                                 // UIKit.framework/Headers/UIApplication.h.
+      [scene requestGeometryUpdateWithPreferences:preferences
+                                     errorHandler:^(NSError *_Nonnull rotationError) {
+                                       syncErrorAfterRotation =
+                                           GREYErrorMake(rotationError.domain, rotationError.code,
+                                                         rotationError.description);
+                                     }];
+    }
+#else
     [currentDevice setOrientation:deviceOrientation animated:NO];
+#endif  // (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 160000)
+
     BOOL syncSuccessAfterRotation =
+        !syncErrorAfterRotation &&
         GREYWaitForAppToIdleWithTimeoutAndError(interactionTimeout, &syncErrorAfterRotation);
     if (syncSuccessAfterRotation) {
+#if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 160000)
+      if (@available(iOS 16.0, *)) {
+        scene = [[[[GREY_REMOTE_CLASS_IN_APP(UIApplication) sharedApplication] delegate] window]
+            windowScene];
+        GREYCondition *rotationWait =
+            [GREYCondition conditionWithName:@"App Rotation Condition"
+                                       block:^BOOL {
+                                         return scene.effectiveGeometry.interfaceOrientation ==
+                                                interfaceOrientation;
+                                       }];
+        success = [rotationWait
+            waitWithTimeout:GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration)];
+      }
+#else
       success = currentDevice.orientation == deviceOrientation;
+#endif  // (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 160000)
     }
   }
 
@@ -314,11 +355,9 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
           @"Application did not idle after rotating and before verifying the rotation.";
     } else if (!syncErrorBeforeRotation && !syncErrorAfterRotation) {
       NSString *errorReason = @"Could not rotate application to orientation: %tu. XCUIDevice "
-                              @"Orientation: %tu UIDevice Orientation: %tu. UIDevice is the "
-                              @"orientation being checked here.";
+                              @"Orientation: %tu";
       errorDescription =
-          [NSString stringWithFormat:errorReason, deviceOrientation, sharedDevice.orientation,
-                                     currentDevice.orientation];
+          [NSString stringWithFormat:errorReason, deviceOrientation, sharedDevice.orientation];
     }
 
     GREYError *rotationError = GREYErrorMakeWithUserInfo(kGREYSyntheticEventInjectionErrorDomain,
@@ -402,22 +441,23 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
         }
         return NO;
       };
-      void (^deleteAlertDismissalWithTolerance)(XCUIElement *, NSString *) = ^(
-          XCUIElement *element, NSString *elementDescription) {
-        GREYCondition *deleteAlertCondition =
-            [GREYCondition conditionWithName:@"Delete Alert Button Condition"
-                                       block:^BOOL {
-                                         [element tap];
-                                         return !element.exists;
-                                       }];
-        XCTAssertTrue([deleteAlertCondition waitWithTimeout:30],
-                      @"The %@ could not be dismissed because of an internal XCUITest error. "
-                      @"Please file a bug at %@",
-                      elementDescription, bugDestination);
-      };
+      void (^deleteAlertDismissalWithTolerance)(XCUIElement *, NSString *) =
+          ^(XCUIElement *element, NSString *elementDescription) {
+            GREYCondition *deleteAlertCondition =
+                [GREYCondition conditionWithName:@"Delete Alert Button Condition"
+                                           block:^BOOL {
+                                             [element tap];
+                                             return !element.exists;
+                                           }];
+            XCTAssertTrue([deleteAlertCondition waitWithTimeout:30],
+                          @"The %@ could not be dismissed because of an internal XCUITest error. "
+                          @"Please file a bug at %@",
+                          elementDescription, bugDestination);
+          };
       if (attemptToTapButton(springboard.buttons[@"Remove App"])) {
         // This branch is entered by iOS 14 and later, the app deletion flow is:
-        // [Long Press on Icon] -> [Remove App Menu Item] -> [Delete App Button] -> [Delete Button].
+        // [Long Press on Icon] -> [Remove App Menu Item] -> [Delete App Button] -> [Delete
+        // Button].
         deleteAlertDismissalWithTolerance([springboard.alerts firstMatch].buttons[@"Delete App"],
                                           @"Delete App button");
         deleteAlertDismissalWithTolerance([springboard.alerts firstMatch].buttons[@"Delete"],
@@ -429,7 +469,8 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
                                           @"Delete button");
       } else if (attemptToTapButton(springboard.buttons[@"Rearrange Apps"])) {
         // This branch is entered by iOS 13.0, the app deletion flow is:
-        // [Long Press on Icon] -> [Rearrange Apps Menu Item] -> [Cross Button] -> [Delete Button].
+        // [Long Press on Icon] -> [Rearrange Apps Menu Item] -> [Cross Button] -> [Delete
+        // Button].
         deleteAlertDismissalWithTolerance(icon.buttons[@"DeleteButton"], @"Cross button");
         deleteAlertDismissalWithTolerance([springboard.alerts firstMatch].buttons[@"Delete"],
                                           @"Delete button");

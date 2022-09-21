@@ -15,7 +15,7 @@
 //
 
 #import "GREYTestApplicationDistantObject.h"
-
+#import <UIKit/UIKit.h>
 
 #include <stdatomic.h>
 #include <stddef.h>
