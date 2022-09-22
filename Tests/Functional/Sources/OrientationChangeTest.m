@@ -128,12 +128,4 @@
                 @"Test's orientation change BOOL should be set to YES on a change.");
 }
 
-/** Verifies all the canonical rotation API's. */
-- (void)testtOrientationChangeDueToRotation {
-  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeLeft error:nil];
-  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeRight error:nil];
-  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait error:nil];
-  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortraitUpsideDown error:nil];
-}
-
 @end
