@@ -33,18 +33,6 @@ static Class gUIAlertControllerShimPresenterWindowClass;
 // Private class for ModalHostingWindow window that doesn't work with drawViewHierarchyInRect.
 static Class gUIModalItemHostingWindowClass;
 
-/**
- * @return A current screen if the window exists and @c nil if it does not.
- */
-static UIScreen *MainScreen(void) {
-  UIScreen *mainScreen = [GREYUILibUtils screen];
-  if (!mainScreen || CGRectEqualToRect(mainScreen.bounds, CGRectNull)) {
-    return nil;
-  } else {
-    return mainScreen;
-  }
-}
-
 @implementation GREYScreenshotter
 
 + (void)initialize {
@@ -60,8 +48,7 @@ static UIScreen *MainScreen(void) {
               withStatusBar:(BOOL)includeStatusBar {
   GREYFatalAssertWithMessage(CGBitmapContextGetBitmapInfo(bitmapContextRef) != 0,
                              @"The context ref must point to a CGBitmapContext.");
-  UIScreen *mainScreen = MainScreen();
-  if (!mainScreen) return;
+  UIScreen *mainScreen = [GREYUILibUtils screen];
   CGRect screenRect = mainScreen.bounds;
   [self drawScreenInContext:bitmapContextRef
          afterScreenUpdates:afterUpdates
@@ -89,9 +76,7 @@ static UIScreen *MainScreen(void) {
                                ? (UIView *)element
                                : [element grey_viewContainingSelf];
 
-  UIScreen *mainScreen = MainScreen();
-  if (!mainScreen) return nil;
-  UIGraphicsBeginImageContextWithOptions(elementAXFrame.size, NO, mainScreen.scale);
+  UIGraphicsBeginImageContextWithOptions(elementAXFrame.size, NO, [GREYUILibUtils screen].scale);
   [self drawViewInContext:UIGraphicsGetCurrentContext()
                      view:viewToSnapshot
                    bounds:elementAXFrame
@@ -111,9 +96,7 @@ static UIScreen *MainScreen(void) {
 
 + (UIImage *)grey_takeScreenshotAfterScreenUpdates:(BOOL)afterScreenUpdates
                                      withStatusBar:(BOOL)includeStatusBar {
-  UIScreen *mainScreen = MainScreen();
-  if (!mainScreen) return nil;
-  CGRect screenRect = mainScreen.bounds;
+  CGRect screenRect = [GREYUILibUtils screen].bounds;
   return [self grey_takeScreenshotAfterScreenUpdates:afterScreenUpdates
                                         inScreenRect:screenRect
                                        withStatusBar:includeStatusBar];
@@ -169,8 +152,8 @@ static UIScreen *MainScreen(void) {
                      view:(UIView *)view
                    bounds:(CGRect)boundsInScreenRect
        afterScreenUpdates:(BOOL)afterScreenUpdates {
-  UIScreen *mainScreen = MainScreen();
-  if (!mainScreen) return;
+  UIScreen *mainScreen = [GREYUILibUtils screen];
+
   // The bitmap context width and height are scaled, so we need to undo the scale adjustment.
   CGFloat scale = mainScreen.scale;
   CGFloat contextWidth = CGBitmapContextGetWidth(bitmapContextRef) / scale;
