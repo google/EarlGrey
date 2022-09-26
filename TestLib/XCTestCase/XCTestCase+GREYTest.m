@@ -390,8 +390,8 @@ static void CheckUnhandledHostApplicationCrashWithHandler(BOOL (^handler)(void))
                              @"Application crash should be checked on main thread.");
   GREYTestApplicationDistantObject *testDistantObject =
       GREYTestApplicationDistantObject.sharedInstance;
-  if (testDistantObject.hostApplicationTerminated) {
-    // testDistantObject.hostPort won't be 0 if testDistantObject.hostApplicationTerminated is true.
+  if (testDistantObject.hostApplicationStopped) {
+    // testDistantObject.hostPort won't be 0 if testDistantObject.hostApplicationStopped is true.
     uint16_t currentHostPort = testDistantObject.hostPort;
     if (currentHostPort != gHostApplicationPortForLastCrash) {
       if (handler()) {

@@ -55,7 +55,7 @@ static const void *gGREYTestExecutingQueueKey = &gGREYTestExecutingQueueKey;
 @interface GREYTestApplicationDistantObject ()
 
 /** @see GREYTestApplicationDistantObject.hostApplicationDead in private header. */
-@property(nonatomic, getter=isHostApplicationTerminated) BOOL hostApplicationTerminated;  // NOLINT
+@property(nonatomic, getter=isHostApplicationStopped) BOOL hostApplicationStopped;
 
 /** @see GREYTestApplicationDistantObject::dispatchPolicy. Make this readwrite. */
 @property(nonatomic) GREYRemoteExecutionDispatchPolicy dispatchPolicy;
@@ -97,7 +97,7 @@ __attribute__((constructor)) static void SetupTestDistantObject(void) {
     if (error.code == EDOServiceErrorCannotConnect) {
       EDOHostPort *hostPort = error.userInfo[EDOErrorPortKey];
       if ([testDistantObject isPermanentAppHostPort:hostPort.port]) {
-        testDistantObject.hostApplicationTerminated = YES;  // NOLINT
+        testDistantObject.hostApplicationStopped = YES;
         NSString *exceptionReason = @"App crashed and disconnected.";
         NSString *recoverySuggestion = GetErrorRecoverySuggestion();
         NSString *errorInfo =
@@ -366,7 +366,7 @@ __attribute__((constructor)) static void SetupTestDistantObject(void) {
   self.hostPort = 0;
   self.hostBackgroundPort = 0;
   self.pingMessagePort = 0;
-  self.hostApplicationTerminated = NO;  // NOLINT
+  self.hostApplicationStopped = NO;
   self.hostLaunchedWithAppComponent = NO;
 }
 
