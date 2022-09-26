@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		278BF2B124C53D780005ECE1 /* GREYAssert.m in Sources */ = {isa = PBXBuildFile; fileRef = 278BF2AD24C53D780005ECE1 /* GREYAssert.m */; };
 		278BF2B224C53D780005ECE1 /* GREYAssertDefaultConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 278BF2AF24C53D780005ECE1 /* GREYAssertDefaultConfiguration.m */; };
+		549DA72128E24A2B00A0AD84 /* GREYUILibUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 549DA71F28E24A2B00A0AD84 /* GREYUILibUtils.m */; };
 		6F49FDBD22E69D4E00CCE813 /* GREYDiagnosable.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F49FDBC22E69D4C00CCE813 /* GREYDiagnosable.m */; };
 		6F8818B222B86F530006932D /* GREYAssertionBlock+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F8818B122B86F520006932D /* GREYAssertionBlock+Private.h */; };
 		6FCD8C7525942511002EF615 /* WKWebView+GREYApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FCD8C7325942511002EF615 /* WKWebView+GREYApp.m */; };
@@ -246,6 +247,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		549DA71D28E24A1A00A0AD84 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FD6239E420F56E6A00049E81 /* eDistantObject.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 76140D9C262795EE007CA5AC;
+			remoteInfo = SwiftUtil;
+		};
 		804D3FCC22B99039001D3F3A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = FD6239E420F56E6A00049E81 /* eDistantObject.xcodeproj */;
@@ -424,6 +432,8 @@
 		278BF2AE24C53D780005ECE1 /* GREYAssertDefaultConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYAssertDefaultConfiguration.h; path = Assertion/GREYAssertDefaultConfiguration.h; sourceTree = "<group>"; };
 		278BF2AF24C53D780005ECE1 /* GREYAssertDefaultConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYAssertDefaultConfiguration.m; path = Assertion/GREYAssertDefaultConfiguration.m; sourceTree = "<group>"; };
 		278BF2B024C53D780005ECE1 /* GREYAssert+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GREYAssert+Private.h"; path = "Assertion/GREYAssert+Private.h"; sourceTree = "<group>"; };
+		549DA71F28E24A2B00A0AD84 /* GREYUILibUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYUILibUtils.m; path = Utils/GREYUILibUtils.m; sourceTree = "<group>"; };
+		549DA72028E24A2B00A0AD84 /* GREYUILibUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYUILibUtils.h; path = Utils/GREYUILibUtils.h; sourceTree = "<group>"; };
 		6F49FDBC22E69D4C00CCE813 /* GREYDiagnosable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYDiagnosable.m; path = CommonLib/GREYDiagnosable.m; sourceTree = "<group>"; };
 		6F8818B122B86F520006932D /* GREYAssertionBlock+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GREYAssertionBlock+Private.h"; path = "CommonLib/Assertion/GREYAssertionBlock+Private.h"; sourceTree = "<group>"; };
 		6F9B2C1E22B18F15003132B0 /* GREYDiagnosable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYDiagnosable.h; path = CommonLib/GREYDiagnosable.h; sourceTree = "<group>"; };
@@ -779,6 +789,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		549DA71328E24A1A00A0AD84 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				549DA72028E24A2B00A0AD84 /* GREYUILibUtils.h */,
+				549DA71F28E24A2B00A0AD84 /* GREYUILibUtils.m */,
+			);
+			name = Utils;
+			sourceTree = "<group>";
+		};
 		FD15754F2579CC4600EDBF48 /* FailureHandler */ = {
 			isa = PBXGroup;
 			children = (
@@ -1430,6 +1449,7 @@
 				FDBE850A22A21FBC0093062B /* libTestsBundle.a */,
 				FDBE850C22A21FBC0093062B /* libDeviceLib.a */,
 				FDBE850E22A21FBC0093062B /* DeviceUnitTests.xctest */,
+				549DA71E28E24A1A00A0AD84 /* libSwiftUtil.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1456,6 +1476,7 @@
 		FDF9E03620F82D090005DCF2 /* UILib */ = {
 			isa = PBXGroup;
 			children = (
+				549DA71328E24A1A00A0AD84 /* Utils */,
 				FD76BE542298551A001E6DAA /* GREYScreenshotter+Private.h */,
 				80E8CD4422AF097000CDE5C5 /* GREYElementMatcherBlock+Private.h */,
 				FD98C457226C2DCE006F8D68 /* GREYScreenshotter.h */,
@@ -1739,6 +1760,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		549DA71E28E24A1A00A0AD84 /* libSwiftUtil.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSwiftUtil.a;
+			remoteRef = 549DA71D28E24A1A00A0AD84 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		FDBE84F822A21FBC0093062B /* libChannelLib.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -2018,6 +2046,7 @@
 				FDF9E06920F82EF60005DCF2 /* CGGeometry+GREYUI.m in Sources */,
 				FDB4AB65237CD95F00E6847D /* GREYVisibilityChecker.m in Sources */,
 				FDB4AB66237CD95F00E6847D /* GREYVisibilityCheckerCacheEntry.m in Sources */,
+				549DA72128E24A2B00A0AD84 /* GREYUILibUtils.m in Sources */,
 				FDF9E05720F82E200005DCF2 /* GREYTraversalDFS.m in Sources */,
 				FDF9E07720F82F030005DCF2 /* GREYElementHierarchy.m in Sources */,
 				A277771E238FE215003E7373 /* GREYTraversalProperties.m in Sources */,
