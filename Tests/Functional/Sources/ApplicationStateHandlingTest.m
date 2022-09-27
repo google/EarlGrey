@@ -195,7 +195,7 @@
 #pragma mark - Private
 
 /** Perform a sample EarlGrey statement which will always work on the main page. */
-static void PerformSampleEarlGreyStatement() {
+static void PerformSampleEarlGreyStatement(void) {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
 }
 
