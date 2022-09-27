@@ -90,6 +90,8 @@ GREY_EXTERN NSString *const kGREYWillPerformActionNotification;
 GREY_EXTERN NSString *const kGREYDidPerformActionNotification;
 GREY_EXTERN NSString *const kGREYWillPerformAssertionNotification;
 GREY_EXTERN NSString *const kGREYDidPerformAssertionNotification;
+GREY_EXTERN NSString *const kGREYWillPerformSynchronizationNotification;
+GREY_EXTERN NSString *const kGREYDidPerformSynchronizationNotification;
 
 /**
  * Error domain for synthetic event injection failures.

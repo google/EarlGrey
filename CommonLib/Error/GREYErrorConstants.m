@@ -30,6 +30,10 @@ NSString *const kGREYWillPerformActionNotification = @"GREYWillPerformActionNoti
 NSString *const kGREYDidPerformActionNotification = @"GREYDidPerformActionNotification";
 NSString *const kGREYWillPerformAssertionNotification = @"GREYWillPerformAssertionNotification";
 NSString *const kGREYDidPerformAssertionNotification = @"GREYDidPerformAssertionNotification";
+NSString *const kGREYWillPerformSynchronizationNotification =
+    @"GREYWillPerformSynchronizationNotification";
+NSString *const kGREYDidPerformSynchronizationNotification =
+    @"GREYDidPerformSynchronizationNotification";
 
 NSString *const kGREYInteractionErrorDomain = @"com.google.earlgrey.ElementInteractionErrorDomain";
 NSString *const kGREYPinchErrorDomain = @"com.google.earlgrey.PinchErrorDomain";

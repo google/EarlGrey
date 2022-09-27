@@ -112,6 +112,10 @@
   __block BOOL elementsFound = NO;
   void (^matchingBlock)(void) = ^{
     
+    [NSNotificationCenter.defaultCenter
+        postNotificationName:kGREYDidPerformSynchronizationNotification
+                      object:nil
+                    userInfo:nil];
     GREYFatalAssertMainThread();
 
     [elementFinderStopwatch start];
@@ -279,6 +283,10 @@
     };
 
     __block id element;
+    [NSNotificationCenter.defaultCenter
+        postNotificationName:kGREYWillPerformSynchronizationNotification
+                      object:nil
+                    userInfo:nil];
     
     [self matchElementsWithTimeout:interactionTimeout
                    syncBeforeMatch:synchronizationRequired
@@ -437,6 +445,10 @@
       (CGFloat)GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
   BOOL synchronizationRequired = GREY_CONFIG_BOOL(kGREYConfigKeySynchronizationEnabled);
 
+  [NSNotificationCenter.defaultCenter
+      postNotificationName:kGREYWillPerformSynchronizationNotification
+                    object:nil
+                  userInfo:nil];
   
   @autoreleasepool {
     [self matchElementsWithTimeout:interactionTimeout
