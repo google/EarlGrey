@@ -15,13 +15,14 @@
 //
 
 #import "VisibilityTestViewController.h"
+#import "GREYUILibUtils.h"
 
 @implementation VisibilityTestViewController
 
 - (void)viewDidLoad {
   [super viewDidLoad];
 
-  CGFloat halfPixelInPoint = 1.0f / (2.0f * [UIScreen mainScreen].scale);
+  CGFloat halfPixelInPoint = 1.0f / (2.0f * [GREYUILibUtils screen].scale);
 
   [self addUnalignedViewWithAccessibilityID:@"unalignedPixel1"
                                       frame:CGRectMake(50 + halfPixelInPoint, 120, 1, 1)];

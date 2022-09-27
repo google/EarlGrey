@@ -28,9 +28,9 @@ typedef void (^RestorationHandlerBlock)(NSArray<id<UIUserActivityRestoring>> *re
 typedef void (^RestorationHandlerBlock)(NSArray *_Nullable);
 #endif
 
-    // This class was created to override UINavigationController's default orientation mask
-    // to allow TestApp interface to rotate to all orientations including upside down.
-    @interface AllOrientationsNavigationController : UINavigationController
+// This class was created to override UINavigationController's default orientation mask
+// to allow TestApp interface to rotate to all orientations including upside down.
+@interface AllOrientationsNavigationController : UINavigationController
 @end
 
 @implementation AllOrientationsNavigationController
@@ -44,8 +44,8 @@ typedef void (^RestorationHandlerBlock)(NSArray *_Nullable);
 @implementation AppDelegate
 
 - (void)resetRootNavigationController {
-  UIViewController *vc =
-      [[MainViewController alloc] initWithNibName:@"MainViewController" bundle:nil];
+  UIViewController *vc = [[MainViewController alloc] initWithNibName:@"MainViewController"
+                                                              bundle:nil];
   UINavigationController *nav = (UINavigationController *)self.window.rootViewController;
   nav.viewControllers = @[ vc ];
 }
@@ -57,7 +57,7 @@ typedef void (^RestorationHandlerBlock)(NSArray *_Nullable);
   }
   // Shows a custom splash screen.
   SplashViewController *splashVC = [[SplashViewController alloc] init];
-  self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+  self.window = [[UIWindow alloc] init];
   self.window.rootViewController = splashVC;
   [self.window makeKeyAndVisible];
 
@@ -73,8 +73,8 @@ typedef void (^RestorationHandlerBlock)(NSArray *_Nullable);
 
 - (void)hideSpashScreenAndDisplayMainViewController {
   NSLog(@"Timer fired! Removing splash screen.");
-  UIViewController *vc =
-      [[MainViewController alloc] initWithNibName:@"MainViewController" bundle:nil];
+  UIViewController *vc = [[MainViewController alloc] initWithNibName:@"MainViewController"
+                                                              bundle:nil];
   UINavigationController *nav =
       [[AllOrientationsNavigationController alloc] initWithRootViewController:vc];
   [UIView transitionWithView:self.window
@@ -106,8 +106,8 @@ typedef void (^RestorationHandlerBlock)(NSArray *_Nullable);
     continueUserActivity:(NSUserActivity *)userActivity
       restorationHandler:(RestorationHandlerBlock)restorationHandler {
   if (userActivity.activityType == NSUserActivityTypeBrowsingWeb) {
-    NSURLComponents *components =
-        [[NSURLComponents alloc] initWithURL:userActivity.webpageURL resolvingAgainstBaseURL:YES];
+    NSURLComponents *components = [[NSURLComponents alloc] initWithURL:userActivity.webpageURL
+                                               resolvingAgainstBaseURL:YES];
     // TODO: parse universal link when hermetic server is ready and we have real test // NOLINT
     // case.
     NSLog(@"universal link path: %@", components.path);

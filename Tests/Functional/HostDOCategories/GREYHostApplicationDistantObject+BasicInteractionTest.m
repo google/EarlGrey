@@ -26,6 +26,7 @@
 #import "GREYDescription.h"
 #import "GREYElementMatcherBlock.h"
 #import "GREYElementHierarchy.h"
+#import "GREYUILibUtils.h"
 
 /**
  * A sample view controller that's set as the root for testing purposes.
@@ -65,7 +66,7 @@ static UIViewController *gViewController;
   tapGestureRecognizer.numberOfTapsRequired = 1;
 
   // Create a custom window that dismisses itself when tapped.
-  UIWindow *topMostWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+  UIWindow *topMostWindow = [[UIWindow alloc] initWithFrame:[GREYUILibUtils screen].bounds];
   [topMostWindow addGestureRecognizer:tapGestureRecognizer];
 
   topMostWindow.accessibilityIdentifier = @"TopMostWindow";
@@ -88,7 +89,7 @@ static UIViewController *gViewController;
   UIWindow *currentWindow = [[UIApplication sharedApplication].delegate window];
   UIViewController *originalVC = currentWindow.rootViewController;
 
-  otherWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+  otherWindow = [[UIWindow alloc] initWithFrame:[GREYUILibUtils screen].bounds];
   [otherWindow setRootViewController:originalVC];
   [currentWindow setRootViewController:nil];
   return originalVC;

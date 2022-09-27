@@ -14,8 +14,8 @@
 // limitations under the License.
 //
 
-#import "GREYWaitFunctions.h"
 #import "BaseIntegrationTest.h"
+#import "GREYUILibUtils.h"
 
 #import "EarlGrey.h"
 #import "GREYHostApplicationDistantObject+GeometryTest.h"
@@ -36,7 +36,8 @@
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortraitUpsideDown error:nil];
   BOOL hasNotch = [[GREY_REMOTE_CLASS_IN_APP(UIApplication) sharedApplication] keyWindow]
                       .safeAreaInsets.bottom > 0;
-  CGRect screenBounds = [GREY_REMOTE_CLASS_IN_APP(UIScreen) mainScreen].bounds;
+  UIScreen *mainScreen = (UIScreen *)[GREY_REMOTE_CLASS_IN_APP(GREYUILibUtils) screen];
+  CGRect screenBounds = mainScreen.bounds;
   CGFloat width = CGRectGetWidth(screenBounds);
   CGFloat height = CGRectGetHeight(screenBounds);
   CGRect testRect = CGRectMake(40, 50, 100, 120);
@@ -58,7 +59,8 @@
 - (void)testCGRectFixedToVariableScreenCoordinates_landscapeRight {
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeRight error:nil];
 
-  CGRect screenBounds = [GREY_REMOTE_CLASS_IN_APP(UIScreen) mainScreen].bounds;
+  UIScreen *mainScreen = (UIScreen *)[GREY_REMOTE_CLASS_IN_APP(GREYUILibUtils) screen];
+  CGRect screenBounds = mainScreen.bounds;
   CGFloat width = CGRectGetWidth(screenBounds);
   CGFloat height = CGRectGetHeight(screenBounds);
   GREYHostApplicationDistantObject *hostDistantObject =
@@ -90,7 +92,8 @@
 - (void)testCGRectFixedToVariableScreenCoordinates_landscapeLeft {
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeLeft error:nil];
 
-  CGRect screenBounds = [GREY_REMOTE_CLASS_IN_APP(UIScreen) mainScreen].bounds;
+  UIScreen *mainScreen = (UIScreen *)[GREY_REMOTE_CLASS_IN_APP(GREYUILibUtils) screen];
+  CGRect screenBounds = mainScreen.bounds;
   CGFloat width = CGRectGetWidth(screenBounds);
   CGFloat height = CGRectGetHeight(screenBounds);
   CGRect rectInFixed = CGRectMake(height - 120, 50, 120, 100);
@@ -120,7 +123,8 @@
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortraitUpsideDown error:nil];
   BOOL hasNotch = [[GREY_REMOTE_CLASS_IN_APP(UIApplication) sharedApplication] keyWindow]
                       .safeAreaInsets.bottom > 0;
-  CGRect screenBounds = [GREY_REMOTE_CLASS_IN_APP(UIScreen) mainScreen].bounds;
+  UIScreen *mainScreen = (UIScreen *)[GREY_REMOTE_CLASS_IN_APP(GREYUILibUtils) screen];
+  CGRect screenBounds = mainScreen.bounds;
   CGFloat width = CGRectGetWidth(screenBounds);
   CGFloat height = CGRectGetHeight(screenBounds);
   GREYHostApplicationDistantObject *hostDistantObject =
@@ -142,7 +146,8 @@
 - (void)testCGRectVariableToFixedScreenCoordinates_landscapeRight {
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeRight error:nil];
 
-  CGRect screenBounds = [GREY_REMOTE_CLASS_IN_APP(UIScreen) mainScreen].bounds;
+  UIScreen *mainScreen = (UIScreen *)[GREY_REMOTE_CLASS_IN_APP(GREYUILibUtils) screen];
+  CGRect screenBounds = mainScreen.bounds;
   CGFloat width = CGRectGetWidth(screenBounds);
   GREYHostApplicationDistantObject *hostDistantObject =
       [GREYHostApplicationDistantObject sharedInstance];
@@ -154,7 +159,8 @@
 - (void)testCGRectVariableToFixedScreenCoordinates_landscapeLeft {
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeLeft error:nil];
 
-  CGRect screenBounds = [GREY_REMOTE_CLASS_IN_APP(UIScreen) mainScreen].bounds;
+  UIScreen *mainScreen = (UIScreen *)[GREY_REMOTE_CLASS_IN_APP(GREYUILibUtils) screen];
+  CGRect screenBounds = mainScreen.bounds;
   CGFloat width = CGRectGetWidth(screenBounds);
   CGFloat height = CGRectGetHeight(screenBounds);
   GREYHostApplicationDistantObject *hostDistantObject =

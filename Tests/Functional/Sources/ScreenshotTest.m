@@ -15,9 +15,9 @@
 //
 
 #import "GREYElementInteraction.h"
-#import "GREYWaitFunctions.h"
 #import "EarlGrey.h"
 #import "BaseIntegrationTest.h"
+#import "GREYUILibUtils.h"
 
 #import "EDORemoteVariable.h"
 
@@ -66,7 +66,8 @@
 
   // TODO: Verify the content of the image as well. // NOLINT
   CGSize expectedSize = CGSizeMake(64, 128);
-  CGFloat expectedScale = [GREY_REMOTE_CLASS_IN_APP(UIScreen) mainScreen].scale;
+  UIScreen *mainScreen = (UIScreen *)[GREY_REMOTE_CLASS_IN_APP(GREYUILibUtils) screen];
+  CGFloat expectedScale = mainScreen.scale;
   GREYAssertEqual(expectedSize.width, snapshot.object.size.width, @"should be equal");
   GREYAssertEqual(expectedSize.height, snapshot.object.size.height, @"should be equal");
   GREYAssertEqual(expectedScale, snapshot.object.scale, @"should be equal");
@@ -91,7 +92,8 @@
   // TODO: Verify the content of the image as well. // NOLINT
   CGSize expectedSize = CGSizeMake(64, 128);
 
-  CGFloat expectedScale = [GREY_REMOTE_CLASS_IN_APP(UIScreen) mainScreen].scale;
+  UIScreen *mainScreen = (UIScreen *)[GREY_REMOTE_CLASS_IN_APP(GREYUILibUtils) screen];
+  CGFloat expectedScale = mainScreen.scale;
   GREYAssertEqual(expectedSize.width, snapshot.object.size.width, @"should be equal");
   GREYAssertEqual(expectedSize.height, snapshot.object.size.height, @"should be equal");
   GREYAssertEqual(expectedScale, snapshot.object.scale, @"should be equal");
@@ -166,7 +168,8 @@
 
 /** The screenshot rect for the application under test. */
 - (CGRect)expectedImageRectForAppStore {
-  CGRect screenRect = [GREY_REMOTE_CLASS_IN_APP(UIScreen) mainScreen].bounds;
+  UIScreen *mainScreen = (UIScreen *)[GREY_REMOTE_CLASS_IN_APP(GREYUILibUtils) screen];
+  CGRect screenRect = mainScreen.bounds;
   return screenRect;
 }
 

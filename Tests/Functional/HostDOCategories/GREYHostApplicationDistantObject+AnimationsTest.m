@@ -15,11 +15,12 @@
 //
 
 #import "GREYHostApplicationDistantObject+AnimationsTest.h"
+#import "GREYUILibUtils.h"
 
 @implementation GREYHostApplicationDistantObject (AnimationsTest)
 
 - (UIView *)viewWithAnimatingSublayerAddedToView:(UIView *)view forKeyPath:(NSString *)keyPath {
-  CGRect appFrame = [[UIScreen mainScreen] bounds];
+  CGRect appFrame = [[GREYUILibUtils screen] bounds];
   UIView *blueView = [[UIView alloc]
       initWithFrame:CGRectMake(appFrame.size.width / 2, appFrame.size.height / 2, 100, 100)];
   blueView.layer.frame = blueView.frame;
