@@ -167,7 +167,7 @@ static UIApplication *GetApplicationUnderTest(void) {
     // Retry logic can solve the failure in slow animations mode.
     [acceptButton tap];
   } @catch (NSException *exception) {
-    [self handleBrokeniOS12And15IssueIfNecessary:exception error:error];
+    [self handleFlakinessIssueIfNecessary:exception error:error];
     return NO;
   }
   dismissed = [self grey_ensureAlertDismissalOfAlertWithText:alertText error:error];
@@ -210,7 +210,7 @@ static UIApplication *GetApplicationUnderTest(void) {
   @try {
     [denyButton tap];
   } @catch (NSException *exception) {
-    [self handleBrokeniOS12And15IssueIfNecessary:exception error:error];
+    [self handleFlakinessIssueIfNecessary:exception error:error];
     return NO;
   }
   dismissed = [self grey_ensureAlertDismissalOfAlertWithText:alertText error:error];
@@ -244,7 +244,7 @@ static UIApplication *GetApplicationUnderTest(void) {
   @try {
     [button tap];
   } @catch (NSException *exception) {
-    [self handleBrokeniOS12And15IssueIfNecessary:exception error:error];
+    [self handleFlakinessIssueIfNecessary:exception error:error];
     return NO;
   }
   dismissed = [self grey_ensureAlertDismissalOfAlertWithText:alertText error:error];
@@ -319,7 +319,7 @@ static UIApplication *GetApplicationUnderTest(void) {
  * @param exception The caught exception, which is raised if no @c error is passed in.
  * @param[out] error The wrapped error for the exception.
  */
-- (void)handleBrokeniOS12And15IssueIfNecessary:(NSException *)exception error:(NSError **)error {
+- (void)handleFlakinessIssueIfNecessary:(NSException *)exception error:(NSError **)error {
   NSOperatingSystemVersion osVersion = [[NSProcessInfo processInfo] operatingSystemVersion];
   if ([exception.name isEqualToString:NSInvalidArgumentException] &&
       [exception.reason
@@ -340,10 +340,10 @@ static UIApplication *GetApplicationUnderTest(void) {
       } else {
         [NSException raise:NSInternalInconsistencyException format:@"%@", description];
       }
-    } else if (osVersion.majorVersion >= 15) {
-      NSString *instruction = @"Rerun the tests since system alert handling is flaky on iOS 15+.";
+    } else if (osVersion.majorVersion >= 14) {
+      NSString *instruction = @"Rerun the tests since system alert handling is flaky on iOS 14+.";
       NSString *description = [NSString
-          stringWithFormat:@"iOS 15+ has a bug with XCTest tapping on system alerts since "
+          stringWithFormat:@"iOS 14+ has a bug with XCTest tapping on system alerts since "
                            @"Xcode 13.2.1 and later (FB9858932). %@ Error was thrown at:\n%@",
                            instruction, exception.callStackSymbols.description];
       [NSException raise:NSInternalInconsistencyException format:@"%@", description];
