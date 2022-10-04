@@ -49,7 +49,15 @@ GREY_EXTERN NSString *_Nonnull GREYDescribeValue(const char *_Nonnull encoding,
  *
  * See the function description above for limitations.
  */
-#define GREYDescribeVariable(a) GREYDescribeValue(@encode(__typeof__(a)), (void *)&a)
+#define GREYDescribeVariable(__a) GREYDescribeValue(@encode(__typeof__(__a)), (void *)&(__a))
+
+/** Given an espression, returns a string describing the expression's value. */
+#define GREYDescribeExpression(__a)                         \
+  ({                                                        \
+    __typeof__(__a) aVariable__ = (__a);                    \
+    NSString *result__ = GREYDescribeVariable(aVariable__); \
+    result__;                                               \
+  })
 
 /**
  * Given an NSObject, returns a human-readable description of the object.

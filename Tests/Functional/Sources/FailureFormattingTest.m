@@ -13,6 +13,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
+#import "GREYDescribeVariable.h"
 #import "GREYConfigKey.h"
 #import "GREYAppleInternals.h"
 #import "EarlGrey.h"
@@ -353,7 +354,7 @@
 }
 
 - (void)testConstraintsFailureErrorDescription {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
+  [self openTestViewNamed:@"Basic Views"];
   [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"Disabled")]
       performAction:grey_scrollInDirection(kGREYDirectionUp, 20)
               error:nil];
@@ -688,6 +689,111 @@
                  @"There are 2 lines in the stack trace and 2 newlines.");
   XCTAssertFalse([stackTraceLines[1] containsString:@"GREYTestStackTrace"],
                  @"The stack trace creator must be contained in the stack trace.");
+}
+
+/** Verifies EarlGrey expression assertions propagates error with detail. */
+- (void)testAssertionDefinesErrorMessages {
+  int number1 = 1;
+  int number2 = 2;
+  NSString *aString = @"first";
+  NSString *anotherString = @"second";
+  BOOL ready = YES;
+  BOOL notReady = NO;
+  id aNull = nil;
+  int *numberPointer = &number1;
+  NSString *expectedMessage;
+
+  // GREYAssertTrue
+  GREYAssertTrue(notReady, @"intended failure");
+  XCTAssertEqualObjects(_handler.exception.reason, @"(((notReady)) is true) failed",
+                        @"GREYAssertTrue should print variable name if provided");
+  GREYAssertTrue(NO, @"intended failure");
+  XCTAssertEqualObjects(_handler.exception.reason, @"(((__objc_no)) is true) failed",
+                        @"GREYAssertTrue should print literal if provided");
+
+  // GREYAssertFalse
+  GREYAssertFalse(ready, @"intended failure");
+  XCTAssertEqualObjects(_handler.exception.reason, @"(((ready)) is false) failed",
+                        @"GREYAssertFalse should print variable name if provided");
+  GREYAssertFalse(YES, @"intended failure");
+  XCTAssertEqualObjects(_handler.exception.reason, @"(((__objc_yes)) is false) failed",
+                        @"GREYAssertFalse should print literal if provided");
+
+  // GREYAssertNil
+  GREYAssertNil(aString, @"intended failure");
+  expectedMessage =
+      [NSString stringWithFormat:@"(((aString)) == nil) failed: __NSCFConstantString(%p)", aString];
+  XCTAssertEqualObjects(_handler.exception.reason, expectedMessage,
+                        @"GREYAssertNil should print variable name, type and pointer");
+  GREYAssertNil(numberPointer, @"intended failure");
+  expectedMessage =
+      [NSString stringWithFormat:@"(((numberPointer)) == nil) failed: %p", numberPointer];
+  XCTAssertEqualObjects(_handler.exception.reason, expectedMessage,
+                        @"GREYAssertNil should print variable name, type and pointer");
+
+  // GREYAssertNotNil
+  GREYAssertNotNil(aNull, @"intended failure");
+  XCTAssertEqualObjects(_handler.exception.reason, @"(((aNull)) != nil) failed: nil",
+                        @"GREYAssertNotNil should print variable name and value");
+
+  // GREYAssertEqual
+  GREYAssertEqual(aString, anotherString, @"intended failure");
+  expectedMessage = [NSString
+      stringWithFormat:@"(((aString)) == ((anotherString))) failed, (\"__NSCFConstantString(%p)\") "
+                       @"is not equal to (\"__NSCFConstantString(%p)\")",
+                       aString, anotherString];
+  XCTAssertEqualObjects(_handler.exception.reason, expectedMessage,
+                        @"GREYAssertEqual should print variable name, type and pointer for object");
+  GREYAssertEqual(number1, number2, @"intended failure");
+  XCTAssertEqualObjects(_handler.exception.reason,
+                        @"(((number1)) == ((number2))) failed, (\"1\") is not equal to (\"2\")",
+                        @"GREYAssertEqual should print variable name and value for C type");
+  GREYAssertEqual(number1, 2, @"intended failure");
+  XCTAssertEqualObjects(_handler.exception.reason,
+                        @"(((number1)) == ((2))) failed, (\"1\") is not equal to (\"2\")",
+                        @"GREYAssertEqual should print literal value for literal");
+
+  // GREYAssertNotEqual
+  GREYAssertNotEqual(aString, aString, @"intended failure");
+  expectedMessage = [NSString
+      stringWithFormat:@"(((aString)) != ((aString))) failed, (\"__NSCFConstantString(%p)\") is "
+                       @"equal to (\"__NSCFConstantString(%p)\")",
+                       aString, aString];
+  XCTAssertEqualObjects(
+      _handler.exception.reason, expectedMessage,
+      @"GREYAssertNotEqual should print variable name, type and pointer for object");
+  GREYAssertNotEqual(number1, number1, @"intended failure");
+  XCTAssertEqualObjects(_handler.exception.reason,
+                        @"(((number1)) != ((number1))) failed, (\"1\") is equal to (\"1\")",
+                        @"GREYAssertNotEqual should print variable name and value for C type");
+  GREYAssertNotEqual(number1, 1, @"intended failure");
+  XCTAssertEqualObjects(_handler.exception.reason,
+                        @"(((number1)) != ((1))) failed, (\"1\") is equal to (\"1\")",
+                        @"GREYAssertNotEqual should print literal value for literal");
+
+  // GREYAssertEqualObjects
+  GREYAssertEqualObjects(aString, anotherString, @"intended failure");
+  XCTAssertEqualObjects(
+      _handler.exception.reason,
+      @"[((aString)) isEqual:((anotherString))] failed, (\"first\") is not equal to (\"second\")",
+      @"GREYAssertEqualObjects should print variable name and object description");
+  GREYAssertEqualObjects(aString, @"second", @"intended failure");
+  XCTAssertEqualObjects(
+      _handler.exception.reason,
+      @"[((aString)) isEqual:((@\"second\"))] failed, (\"first\") is not equal to (\"second\")",
+      @"GREYAssertEqualObjects should print value for literal");
+
+  // GREYAssertNotEqualObjects
+  GREYAssertNotEqualObjects(aString, aString, @"intended failure");
+  XCTAssertEqualObjects(
+      _handler.exception.reason,
+      @"![((aString)) isEqual:((aString))] failed, (\"first\") is equal to (\"first\")",
+      @"GREYAssertNotEqualObjects should print variable name and object description");
+  GREYAssertNotEqualObjects(aString, @"first", @"intended failure");
+  XCTAssertEqualObjects(
+      _handler.exception.reason,
+      @"![((aString)) isEqual:((@\"first\"))] failed, (\"first\") is equal to (\"first\")",
+      @"GREYAssertNotEqualObjects should print value for literal");
 }
 
 @end

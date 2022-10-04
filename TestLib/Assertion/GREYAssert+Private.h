@@ -28,8 +28,8 @@
 
 #import <Foundation/Foundation.h>
 
-#import "GREYDefines.h"
 #import "GREYDescribeVariable.h"
+#import "GREYDefines.h"
 
 #pragma mark - Private support typedefs and functions
 

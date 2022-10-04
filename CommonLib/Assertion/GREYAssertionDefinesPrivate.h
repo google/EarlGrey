@@ -27,6 +27,7 @@
 #ifndef COMMON_GREY_ASSERTION_DEFINES_H
 #define COMMON_GREY_ASSERTION_DEFINES_H
 
+#import " IWYU pragma: keep
 #import "GREYFailureHandler.h"
 #import "GREYFrameworkException.h"
 #import "GREYDefines.h"
@@ -103,24 +104,28 @@ GREY_EXTERN NSString *const GREYFailureHandlerKey;
     }                                                                                        \
   })
 
-#define I_GREYAssertNotNil(__a1, __description, ...)                                 \
-  ({                                                                                 \
-    if ((__a1) == nil) {                                                             \
-      NSString *formattedDescription__;                                              \
-      I_GREYFormattedString(formattedDescription__, (__description), ##__VA_ARGS__); \
-      I_GREYRegisterFailure(kGREYNotNilException, @"((" #__a1 ") != nil) failed",    \
-                            formattedDescription__);                                 \
-    }                                                                                \
+#define I_GREYAssertNotNil(__a1, __description, ...)                                      \
+  ({                                                                                      \
+    if ((__a1) == nil) {                                                                  \
+      NSString *formattedDescription__;                                                   \
+      I_GREYFormattedString(formattedDescription__, (__description), ##__VA_ARGS__);      \
+      NSString *errorDetail__;                                                            \
+      I_GREYFormattedString(errorDetail__, @"((" #__a1 ") != nil) failed: %@",            \
+                            GREYDescribeExpression(__a1));                                \
+      I_GREYRegisterFailure(kGREYNotNilException, errorDetail__, formattedDescription__); \
+    }                                                                                     \
   })
 
-#define I_GREYAssertNil(__a1, __description, ...)                                    \
-  ({                                                                                 \
-    if ((__a1) != nil) {                                                             \
-      NSString *formattedDescription__;                                              \
-      I_GREYFormattedString(formattedDescription__, (__description), ##__VA_ARGS__); \
-      I_GREYRegisterFailure(kGREYNilException, @"((" #__a1 ") == nil) failed",       \
-                            formattedDescription__);                                 \
-    }                                                                                \
+#define I_GREYAssertNil(__a1, __description, ...)                                      \
+  ({                                                                                   \
+    if ((__a1) != nil) {                                                               \
+      NSString *formattedDescription__;                                                \
+      I_GREYFormattedString(formattedDescription__, (__description), ##__VA_ARGS__);   \
+      NSString *errorDetail__;                                                         \
+      I_GREYFormattedString(errorDetail__, @"((" #__a1 ") == nil) failed: %@",         \
+                            GREYDescribeExpression(__a1));                             \
+      I_GREYRegisterFailure(kGREYNilException, errorDetail__, formattedDescription__); \
+    }                                                                                  \
   })
 
 #define I_GREYAssertEqual(__a1, __a2, __description, ...)                                          \
@@ -128,8 +133,12 @@ GREY_EXTERN NSString *const GREYFailureHandlerKey;
     if ((__a1) != (__a2)) {                                                                        \
       NSString *formattedDescription__;                                                            \
       I_GREYFormattedString(formattedDescription__, (__description), ##__VA_ARGS__);               \
-      I_GREYRegisterFailure(kGREYAssertionFailedException, @"((" #__a1 ") == (" #__a2 ")) failed", \
-                            formattedDescription__);                                               \
+      NSString *errorDetail__;                                                                     \
+      I_GREYFormattedString(errorDetail__,                                                         \
+                            @"((" #__a1 ") == (" #__a2                                             \
+                             ")) failed, (\"%@\") is not equal to (\"%@\")",                       \
+                            GREYDescribeExpression(__a1), GREYDescribeExpression(__a2));           \
+      I_GREYRegisterFailure(kGREYAssertionFailedException, errorDetail__, formattedDescription__); \
     }                                                                                              \
   })
 
@@ -138,19 +147,26 @@ GREY_EXTERN NSString *const GREYFailureHandlerKey;
     if ((__a1) == (__a2)) {                                                                        \
       NSString *formattedDescription__;                                                            \
       I_GREYFormattedString(formattedDescription__, (__description), ##__VA_ARGS__);               \
-      I_GREYRegisterFailure(kGREYAssertionFailedException, @"((" #__a1 ") != (" #__a2 ")) failed", \
-                            formattedDescription__);                                               \
+      NSString *errorDetail__;                                                                     \
+      I_GREYFormattedString(errorDetail__,                                                         \
+                            @"((" #__a1 ") != (" #__a2 ")) failed, (\"%@\") is equal to (\"%@\")", \
+                            GREYDescribeExpression(__a1), GREYDescribeExpression(__a2));           \
+      I_GREYRegisterFailure(kGREYAssertionFailedException, errorDetail__, formattedDescription__); \
     }                                                                                              \
   })
 
-#define I_GREYAssertEqualObjects(__a1, __a2, __description, ...)                                  \
-  ({                                                                                              \
-    if (![(__a1) isEqual:(__a2)]) {                                                               \
-      NSString *formattedDescription__;                                                           \
-      I_GREYFormattedString(formattedDescription__, (__description), ##__VA_ARGS__);              \
-      I_GREYRegisterFailure(kGREYAssertionFailedException,                                        \
-                            @"[(" #__a1 ") isEqual:(" #__a2 ")] failed", formattedDescription__); \
-    }                                                                                             \
+#define I_GREYAssertEqualObjects(__a1, __a2, __description, ...)                                   \
+  ({                                                                                               \
+    if (![(__a1) isEqual:(__a2)]) {                                                                \
+      NSString *formattedDescription__;                                                            \
+      I_GREYFormattedString(formattedDescription__, (__description), ##__VA_ARGS__);               \
+      NSString *errorDetail__;                                                                     \
+      I_GREYFormattedString(errorDetail__,                                                         \
+                            @"[(" #__a1 ") isEqual:(" #__a2                                        \
+                             ")] failed, (\"%@\") is not equal to (\"%@\")",                       \
+                            GREYDescribeObject(__a1), GREYDescribeObject(__a2));                   \
+      I_GREYRegisterFailure(kGREYAssertionFailedException, errorDetail__, formattedDescription__); \
+    }                                                                                              \
   })
 
 #define I_GREYAssertNotEqualObjects(__a1, __a2, __description, ...)                                \
@@ -158,8 +174,12 @@ GREY_EXTERN NSString *const GREYFailureHandlerKey;
     if ([(__a1) isEqual:(__a2)]) {                                                                 \
       NSString *formattedDescription__;                                                            \
       I_GREYFormattedString(formattedDescription__, (__description), ##__VA_ARGS__);               \
-      I_GREYRegisterFailure(kGREYAssertionFailedException,                                         \
-                            @"![(" #__a1 ") isEqual:(" #__a2 ")] failed", formattedDescription__); \
+      NSString *errorDetail__;                                                                     \
+      I_GREYFormattedString(errorDetail__,                                                         \
+                            @"![(" #__a1 ") isEqual:(" #__a2                                       \
+                             ")] failed, (\"%@\") is equal to (\"%@\")",                           \
+                            GREYDescribeObject(__a1), GREYDescribeObject(__a2));                   \
+      I_GREYRegisterFailure(kGREYAssertionFailedException, errorDetail__, formattedDescription__); \
     }                                                                                              \
   })
 
