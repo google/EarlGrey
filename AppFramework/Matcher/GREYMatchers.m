@@ -85,7 +85,7 @@ static Class gEDOObjectClass;
 + (id<GREYMatcher>)matcherForKeyWindow {
   NSString *prefix = @"keyWindow";
   GREYMatchesBlock matches = ^BOOL(UIWindow *element) {
-    UIWindow *keyWindow = GREYGetApplicationKeyWindow([UIApplication sharedApplication]);
+    UIWindow *keyWindow = GREYGetApplicationKeyWindow(UIApplication.sharedApplication);
     if (element == keyWindow) {
       return YES;
     }
@@ -344,7 +344,7 @@ static Class gEDOObjectClass;
 + (id<GREYMatcher>)matcherForSystemAlertViewShown {
   NSString *prefix = @"isSystemAlertViewShown";
   GREYMatchesBlock matches = ^BOOL(id element) {
-    return [[UIApplication sharedApplication] _isSpringBoardShowingAnAlert];
+    return [UIApplication.sharedApplication _isSpringBoardShowingAnAlert];
   };
   GREYDescribeToBlock describe = ^void(id<GREYDescription> description) {
     [description appendText:prefix];

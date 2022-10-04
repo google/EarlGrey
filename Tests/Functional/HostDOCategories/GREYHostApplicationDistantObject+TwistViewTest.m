@@ -20,7 +20,7 @@
 @implementation GREYHostApplicationDistantObject (TwistViewTest)
 
 - (CGFloat)rotationForTwistView {
-  UIWindow *delegateWindow = [UIApplication sharedApplication].delegate.window;
+  UIWindow *delegateWindow = UIApplication.sharedApplication.delegate.window;
   UINavigationController *rootNavigationController =
       (UINavigationController *)[delegateWindow rootViewController];
 

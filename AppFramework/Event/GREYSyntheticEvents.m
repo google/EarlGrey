@@ -91,7 +91,7 @@
 }
 
 + (void)shakeDevice {
-  UIApplication *application = [UIApplication sharedApplication];
+  UIApplication *application = UIApplication.sharedApplication;
   UIWindow *keyWindow = GREYGetApplicationKeyWindow(application);
   UIMotionEvent *motionEvent = [application _motionEvent];
 

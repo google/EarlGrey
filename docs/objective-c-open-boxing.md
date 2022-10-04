@@ -51,7 +51,7 @@ File: GREYHostApplicationDistantObject+AppOrientation.m
 @implementation GREYHostApplicationDistantObject (AppOrientation)
 
 - (UIInterfaceOrientation)appOrientation {
-  return [[UIApplication sharedApplication] statusBarOrientation];
+  return [UIApplication.sharedApplication statusBarOrientation];
 }
 
 @end

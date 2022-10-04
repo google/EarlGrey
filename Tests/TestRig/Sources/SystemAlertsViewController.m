@@ -180,7 +180,7 @@
 - (void)notificationsAlertButtonPressed {
   [self.alertHandledButton setHidden:NO];
 
-  UIApplication *shared = [UIApplication sharedApplication];
+  UIApplication *shared = UIApplication.sharedApplication;
   UNAuthorizationOptions options =
       (UNAuthorizationOptionBadge | UNAuthorizationOptionSound | UNAuthorizationOptionAlert);
   UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];

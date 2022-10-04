@@ -159,10 +159,10 @@ typedef NS_ENUM(NSUInteger, AnimationStatus) {
 }
 
 - (IBAction)beginIgnoringEventsClicked:(id)sender {
-  [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
+  [UIApplication.sharedApplication beginIgnoringInteractionEvents];
   dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)),
                  dispatch_get_main_queue(), ^{
-                   [[UIApplication sharedApplication] endIgnoringInteractionEvents];
+                   [UIApplication.sharedApplication endIgnoringInteractionEvents];
                    self.animationStatusLabel.text = @"EndIgnoringEvents";
                  });
 }

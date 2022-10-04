@@ -518,7 +518,7 @@ static void (^gNoopTimerHandler)(CFRunLoopTimerRef timer) = ^(CFRunLoopTimerRef 
  * @return The active mode for the main runloop.
  */
 - (NSString *)grey_activeRunLoopMode {
-  NSString *activeRunLoopMode = [[UIApplication sharedApplication] grey_activeRunLoopMode];
+  NSString *activeRunLoopMode = [UIApplication.sharedApplication grey_activeRunLoopMode];
   if (!activeRunLoopMode) {
     // If UIKit does not have any modes on its runloop stack, then consider the default
     // runloop mode as the active mode. We do not use the current runloop mode because if this

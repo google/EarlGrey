@@ -80,7 +80,7 @@
         [[UISwipeGestureRecognizer alloc] initWithTarget:self
                                                   action:@selector(recognizeWindowSwipe:)];
     windowSwipeRecognizer.direction = swipeDirections[direction];
-    UIWindow *window = [[[UIApplication sharedApplication] delegate] window];
+    UIWindow *window = UIApplication.sharedApplication.delegate.window;
     [window addGestureRecognizer:windowSwipeRecognizer];
   }
 

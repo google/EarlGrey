@@ -19,7 +19,7 @@
 @implementation GREYHostApplicationDistantObject (BaseIntegrationTest)
 
 - (void)resetNavigationStack {
-  UIWindow *delegateWindow = [UIApplication sharedApplication].delegate.window;
+  UIWindow *delegateWindow = UIApplication.sharedApplication.delegate.window;
   UINavigationController *navController;
   if ([delegateWindow.rootViewController isKindOfClass:[UINavigationController class]]) {
     navController = (UINavigationController *)delegateWindow.rootViewController;

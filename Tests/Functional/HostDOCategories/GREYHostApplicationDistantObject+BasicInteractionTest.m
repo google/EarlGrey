@@ -77,7 +77,7 @@ static UIViewController *gViewController;
 }
 
 - (UIViewController *)originalVCAfterSettingNewVCAsRoot {
-  UIWindow *currentWindow = [[UIApplication sharedApplication].delegate window];
+  UIWindow *currentWindow = UIApplication.sharedApplication.delegate.window;
   UIViewController *originalVC = currentWindow.rootViewController;
 
   gViewController = [[UIViewController alloc] init];
@@ -86,7 +86,7 @@ static UIViewController *gViewController;
 }
 
 - (UIViewController *)originalVCAfterSettingRootVCInAnotherWindow:(UIWindow *)otherWindow {
-  UIWindow *currentWindow = [[UIApplication sharedApplication].delegate window];
+  UIWindow *currentWindow = UIApplication.sharedApplication.delegate.window;
   UIViewController *originalVC = currentWindow.rootViewController;
 
   otherWindow = [[UIWindow alloc] initWithFrame:[GREYUILibUtils screen].bounds];
@@ -96,7 +96,7 @@ static UIViewController *gViewController;
 }
 
 - (void)setRootViewController:(UIViewController *)viewController {
-  UIWindow *currentWindow = [[UIApplication sharedApplication].delegate window];
+  UIWindow *currentWindow = UIApplication.sharedApplication.delegate.window;
   [currentWindow setRootViewController:viewController];
 }
 

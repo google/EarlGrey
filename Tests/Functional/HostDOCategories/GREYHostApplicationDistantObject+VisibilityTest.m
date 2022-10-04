@@ -113,7 +113,7 @@
 }
 
 - (void)setupOuterView {
-  UIWindow *currentWindow = [[[UIApplication sharedApplication] delegate] window];
+  UIWindow *currentWindow = UIApplication.sharedApplication.delegate.window;
   UIView *_outerview = [[UIView alloc] initWithFrame:currentWindow.frame];
   _outerview.isAccessibilityElement = YES;
   _outerview.layer.shouldRasterize = YES;

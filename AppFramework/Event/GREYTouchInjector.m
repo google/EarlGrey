@@ -226,7 +226,7 @@ static const NSTimeInterval kTouchInjectFramerateInv = 1 / 120.0;
                  exception:(NSException **)exception {
   GREYFatalAssertMainThread();
   id injectionException;
-  UITouchesEvent *event = [[UIApplication sharedApplication] _touchesEvent];
+  UITouchesEvent *event = [UIApplication.sharedApplication _touchesEvent];
   [self grey_updateUITouchObjectsFromTouchInfo:touchInfo
                                 ongoingTouches:ongoingTouches
                                      withEvent:event];
@@ -278,7 +278,7 @@ static const NSTimeInterval kTouchInjectFramerateInv = 1 / 120.0;
   @try {
     // Adds an autorelease pool just like the system does around event interacton.
     @autoreleasepool {
-      [[UIApplication sharedApplication] sendEvent:event];
+      [UIApplication.sharedApplication sendEvent:event];
     }
   } @catch (id exception) {
     injectionException = exception;

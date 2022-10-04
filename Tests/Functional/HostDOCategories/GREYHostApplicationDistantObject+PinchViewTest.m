@@ -20,7 +20,7 @@
 @implementation GREYHostApplicationDistantObject (PinchViewTest)
 
 - (CGRect)imageViewFrameForPinchView {
-  UIWindow *delegateWindow = [UIApplication sharedApplication].delegate.window;
+  UIWindow *delegateWindow = UIApplication.sharedApplication.delegate.window;
   UINavigationController *rootNC = (UINavigationController *)[delegateWindow rootViewController];
 
   ImageViewController *imageVC = nil;

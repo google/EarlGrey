@@ -154,7 +154,7 @@ static BOOL gOrientationChangeNotificationReceived;
 }
 
 - (UIInterfaceOrientation)appOrientation {
-  return [[UIApplication sharedApplication] statusBarOrientation];
+  return [UIApplication.sharedApplication statusBarOrientation];
 }
 
 - (void)invokeRemoteBlock:(void (^)(void))block withDelay:(int64_t)delay {
