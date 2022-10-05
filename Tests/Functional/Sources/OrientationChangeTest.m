@@ -14,6 +14,8 @@
 // limitations under the License.
 //
 
+#import <UIKit/UIKit.h>
+#import <objc/runtime.h>
 #import "EarlGrey.h"
 #import "GREYHostApplicationDistantObject+RemoteTest.h"
 #import "BaseIntegrationTest.h"
@@ -57,6 +59,10 @@
 }
 
 - (void)testInteractingWithElementsAfterRotation {
+  if (@available(iOS 16.0, *)) {
+    XCTSkip(@"b/249665675");
+  }
+
   NSArray *buttonNames = @[ @"Top Left", @"Top Right", @"Bottom Right", @"Bottom Left", @"Center" ];
   NSArray *orientations = @[
     @(UIDeviceOrientationLandscapeLeft), @(UIDeviceOrientationPortraitUpsideDown),
@@ -126,6 +132,19 @@
                 @"App's orientation change BOOL should be set to YES on a change.");
   XCTAssertTrue(orientationChanged,
                 @"Test's orientation change BOOL should be set to YES on a change.");
+}
+
+/** Verifies all the canonical rotation API's. */
+- (void)testOrientationChangeDueToRotation {
+  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeLeft error:nil];
+  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeRight error:nil];
+  [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait error:nil];
+
+  if ([UIApplication sharedApplication]
+          .keyWindow.rootViewController.supportedInterfaceOrientations ==
+      UIInterfaceOrientationMaskAll) {
+    [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortraitUpsideDown error:nil];
+  }
 }
 
 @end

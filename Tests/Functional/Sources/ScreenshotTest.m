@@ -14,6 +14,7 @@
 // limitations under the License.
 //
 
+#import <UIKit/UIKit.h>
 #import "GREYElementInteraction.h"
 #import "EarlGrey.h"
 #import "BaseIntegrationTest.h"
@@ -117,6 +118,10 @@
 }
 
 - (void)testTakeScreenShotForAppStoreInPortraitUpsideDownMode {
+  if (@available(iOS 16.0, *)) {
+    XCTSkip(@"b/249665675");
+  }
+
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortraitUpsideDown error:nil];
   UIImage *screenshot = [XCUIScreen mainScreen].screenshot.image;
   GREYAssert(screenshot, @"Failed to take screenshot");

@@ -14,6 +14,7 @@
 // limitations under the License.
 //
 
+#import <UIKit/UIKit.h>
 #import "BaseIntegrationTest.h"
 #import "GREYUILibUtils.h"
 
@@ -33,6 +34,10 @@
 }
 
 - (void)testCGRectFixedToVariableScreenCoordinates_portraitUpsideDown {
+  if (@available(iOS 16.0, *)) {
+    XCTSkip(@"b/249665675");
+  }
+
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortraitUpsideDown error:nil];
   BOOL hasNotch = [[GREY_REMOTE_CLASS_IN_APP(UIApplication) sharedApplication] keyWindow]
                       .safeAreaInsets.bottom > 0;
@@ -120,6 +125,10 @@
 }
 
 - (void)testCGRectVariableToFixedScreenCoordinates_portraitUpsideDown {
+  if (@available(iOS 16.0, *)) {
+    XCTSkip(@"b/249665675");
+  }
+
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortraitUpsideDown error:nil];
   BOOL hasNotch = [[GREY_REMOTE_CLASS_IN_APP(UIApplication) sharedApplication] keyWindow]
                       .safeAreaInsets.bottom > 0;

@@ -14,6 +14,7 @@
 // limitations under the License.
 //
 
+#import <UIKit/UIKit.h>
 #import "EarlGrey.h"
 #import "GREYHostApplicationDistantObject+GestureTest.h"
 #import "BaseIntegrationTest.h"
@@ -123,6 +124,10 @@
 }
 
 - (void)testSwipeWorksInAllDirectionsInUpsideDownMode {
+  if (@available(iOS 16.0, *)) {
+    XCTSkip(@"b/249665675");
+  }
+
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortraitUpsideDown error:nil];
   [self ftr_assertSwipeWorksInAllDirections];
 }
@@ -191,6 +196,10 @@
 }
 
 - (void)testPinchWorksInAllDirectionsInUpsideDownMode {
+  if (@available(iOS 16.0, *)) {
+    XCTSkip(@"b/249665675");
+  }
+
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortraitUpsideDown error:nil];
   [self ftr_assertPinchWorksInAllDirections];
 }

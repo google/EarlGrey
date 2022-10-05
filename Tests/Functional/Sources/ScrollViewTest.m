@@ -14,6 +14,7 @@
 // limitations under the License.
 //
 
+#import <UIKit/UIKit.h>
 #import "GREYConfigKey.h"
 #import "GREYDescription.h"
 #import "EarlGrey.h"
@@ -197,6 +198,10 @@
 }
 
 - (void)testScrollInDirectionCausesExactChangesToContentOffsetInPortraitUpsideDownMode {
+  if (@available(iOS 16.0, *)) {
+    XCTSkip(@"b/249665675");
+  }
+
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortraitUpsideDown error:nil];
   [self assertScrollInDirectionCausesExactChangesToContentOffset];
 }

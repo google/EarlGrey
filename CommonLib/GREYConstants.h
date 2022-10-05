@@ -345,5 +345,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (CGVector)normalizedVectorFromDirection:(GREYDirection)direction;
 
+#if TARGET_OS_IOS
+/**
+ * Maps UIDeviceOrientation to UIInterfaceOrientation for use in rotation API's.
+ */
++ (UIInterfaceOrientation)interfaceOrientationForDeviceOrientation:
+    (UIDeviceOrientation)deviceOrientation;
+#endif  // TARGET_OS_IOS
+
 @end
 NS_ASSUME_NONNULL_END

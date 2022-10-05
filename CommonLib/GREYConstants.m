@@ -281,6 +281,24 @@ NSString *GREYBugDestination(void) {
   }
 }
 
+#if TARGET_OS_IOS
++ (UIInterfaceOrientation)interfaceOrientationForDeviceOrientation:
+    (UIDeviceOrientation)deviceOrientation {
+  switch (deviceOrientation) {
+    case UIDeviceOrientationPortrait:
+      return UIInterfaceOrientationPortrait;
+    case UIDeviceOrientationPortraitUpsideDown:
+      return UIInterfaceOrientationPortraitUpsideDown;
+    case UIDeviceOrientationLandscapeLeft:
+      return UIInterfaceOrientationLandscapeLeft;
+    case UIDeviceOrientationLandscapeRight:
+      return UIInterfaceOrientationLandscapeRight;
+    default:
+      return UIInterfaceOrientationUnknown;
+  }
+}
+#endif  // TARGET_OS_IOS
+
 BOOL GREYIsLocalTest() {
   return YES;
 }
