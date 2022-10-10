@@ -520,19 +520,52 @@ static Class gEDOObjectClass;
 
 + (id<GREYMatcher>)matcherForButtonTitle:(NSString *)title {
   NSString *prefix = @"buttonTitle";
-  GREYMatchesBlock matches = ^BOOL(UIButton *element) {
+  NSString *swiftPrefix = @"buttonTitleSwiftUI";
+
+  GREYMatchesBlock matchesSwiftUI = ^BOOL(NSObject *element) {
+    if (([element accessibilityTraits] & UIAccessibilityTraitButton) != 0 &&
+        [self accessibilityString:element.accessibilityLabel isEqualToAccessibilityString:title]) {
+      return YES;
+    }
+    return NO;
+  };
+  GREYMatchesBlock matchesNonSwiftUI = ^BOOL(UIButton *element) {
     if (element.titleLabel.text == title) {
       return YES;
     }
     return [element.titleLabel.text isEqualToString:title];
   };
-  GREYDescribeToBlock describe = ^void(id<GREYDescription> description) {
+  GREYDescribeToBlock describeSwiftUI = ^void(id<GREYDescription> description) {
+    [description appendText:[NSString stringWithFormat:@"%@('%@')", swiftPrefix, title]];
+  };
+  GREYDescribeToBlock describeNonSwiftUI = ^void(id<GREYDescription> description) {
     [description appendText:[NSString stringWithFormat:@"%@('%@')", prefix, title]];
   };
-  NSArray<id<GREYMatcher>> *matchersArray = @[
-    [GREYMatchers matcherForKindOfClass:[UIButton class]],
-    [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe],
+
+  // A matcher for SwiftUI elements - makes sure the element has a button trait and compares
+  // 'ax.label' instead of 'text'
+  id<GREYMatcher> swiftUIMatcher =
+      [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matchesSwiftUI
+                                           descriptionBlock:describeSwiftUI];
+  // A matcher for non-SwiftUI elements
+  id<GREYMatcher> nonSwiftUIMatcher =
+      [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matchesNonSwiftUI
+                                           descriptionBlock:describeNonSwiftUI];
+
+  NSArray<id<GREYMatcher>> *swiftUIMatchersArray = @[
+    [GREYMatchers matcherForSwiftUI],
+    [GREYMatchers matcherForAccessibilityElement],
+    swiftUIMatcher,
   ];
+  NSArray<id<GREYMatcher>> *nonSwiftUIMatchersArray = @[
+    [GREYMatchers matcherForKindOfClass:[UIButton class]],
+    nonSwiftUIMatcher,
+  ];
+  NSArray<id<GREYMatcher>> *matchersArray = @[ [[GREYAnyOf alloc] initWithMatchers:@[
+    [[GREYAllOf alloc] initWithMatchers:nonSwiftUIMatchersArray],
+    [[GREYAllOf alloc] initWithMatchers:swiftUIMatchersArray],
+  ]] ];
+
   return [[GREYAllOf alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
                                 matchers:matchersArray];
 }
