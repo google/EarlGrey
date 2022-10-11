@@ -16,6 +16,7 @@
 
 #import "EarlGreyImpl+XCUIApplication.h"
 
+#import "GREYConfigKey.h"
 #import "GREYError.h"
 #import "GREYXCTestAppleInternals.h"
 #import "EarlGrey.h"
@@ -49,9 +50,10 @@ static const CFTimeInterval kPollInterval = 5.0;
            currentApplication.state == XCUIApplicationStateRunningBackgroundSuspended;
   };
   // TODO: Make GREYCondition support event driven checks. // NOLINT
+  CFTimeInterval interactionTimeout = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
   GREYCondition *condition =
       [GREYCondition conditionWithName:@"check if backgrounded" block:conditionBlock];
-  return [condition waitWithTimeout:10.0 pollInterval:kPollInterval];
+  return [condition waitWithTimeout:interactionTimeout pollInterval:kPollInterval];
 }
 
 - (XCUIApplication *)foregroundApplicationWithBundleID:(NSString *)bundleID
