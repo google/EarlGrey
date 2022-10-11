@@ -21,6 +21,7 @@
 		761CE8F6284F11130069A78F /* GREYTwistAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 761CE8F4284F11130069A78F /* GREYTwistAction.m */; };
 		765D6E6026A73DDC00770A87 /* UIApplication+ActiveRunLoopMode.m in Sources */ = {isa = PBXBuildFile; fileRef = 765D6E5E26A73DDC00770A87 /* UIApplication+ActiveRunLoopMode.m */; };
 		765D6E6126A73DDC00770A87 /* UIApplication+ActiveRunLoopMode.h in Headers */ = {isa = PBXBuildFile; fileRef = 765D6E5F26A73DDC00770A87 /* UIApplication+ActiveRunLoopMode.h */; };
+		7681E45228F60477007BCE7A /* GREYDescribeVariable.m in Sources */ = {isa = PBXBuildFile; fileRef = 7681E45128F60477007BCE7A /* GREYDescribeVariable.m */; };
 		76CE2923285176CA0036A770 /* GREYDistantObjectUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 76CE2922285176CA0036A770 /* GREYDistantObjectUtils.m */; };
 		76CE2925285176DA0036A770 /* GREYDistantObjectUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 76CE2924285176DA0036A770 /* GREYDistantObjectUtils.m */; };
 		76E0547B258179E60015F307 /* GREYConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = FD6239DF20F56C9500049E81 /* GREYConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -231,7 +232,6 @@
 		FDC1B06324F7038A00C62118 /* UITextSelectionView+GREYApp.h in Headers */ = {isa = PBXBuildFile; fileRef = FDC1B06124F7038A00C62118 /* UITextSelectionView+GREYApp.h */; };
 		FDC1B06424F7038A00C62118 /* UITextSelectionView+GREYApp.m in Sources */ = {isa = PBXBuildFile; fileRef = FDC1B06224F7038A00C62118 /* UITextSelectionView+GREYApp.m */; };
 		FDE5C4D0263887C90094E325 /* GREYUIThreadExecutor+GREYApp.h in Headers */ = {isa = PBXBuildFile; fileRef = FDE5C4CF263887C90094E325 /* GREYUIThreadExecutor+GREYApp.h */; };
-		FDE6770924B2E7050058EA28 /* GREYDescribeVariable.m in Sources */ = {isa = PBXBuildFile; fileRef = FDE6770724B2E7050058EA28 /* GREYDescribeVariable.m */; };
 		FDE871982322D9F7007C5A5C /* GREYRemoteExecutor.m in Sources */ = {isa = PBXBuildFile; fileRef = FDE871962322D9F6007C5A5C /* GREYRemoteExecutor.m */; };
 		FDE8719C23241567007C5A5C /* GREYWaitFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = FDE8719A23241566007C5A5C /* GREYWaitFunctions.m */; };
 		FDF62DAA25BABCC9006F48BE /* GREYWKWebViewIdlingResource.m in Sources */ = {isa = PBXBuildFile; fileRef = FDF62DA825BABCC9006F48BE /* GREYWKWebViewIdlingResource.m */; };
@@ -448,6 +448,8 @@
 		763D87B02513F3F1001B5731 /* GREYDistantObjectUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYDistantObjectUtils.h; path = CommonLib/DistantObject/GREYDistantObjectUtils.h; sourceTree = "<group>"; };
 		765D6E5E26A73DDC00770A87 /* UIApplication+ActiveRunLoopMode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIApplication+ActiveRunLoopMode.m"; path = "Synchronization/UIApplication+ActiveRunLoopMode.m"; sourceTree = "<group>"; };
 		765D6E5F26A73DDC00770A87 /* UIApplication+ActiveRunLoopMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIApplication+ActiveRunLoopMode.h"; path = "Synchronization/UIApplication+ActiveRunLoopMode.h"; sourceTree = "<group>"; };
+		7681E45028F60477007BCE7A /* GREYDescribeVariable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYDescribeVariable.h; path = CommonLib/Assertion/GREYDescribeVariable.h; sourceTree = "<group>"; };
+		7681E45128F60477007BCE7A /* GREYDescribeVariable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYDescribeVariable.m; path = CommonLib/Assertion/GREYDescribeVariable.m; sourceTree = "<group>"; };
 		76C023AD288A0E4800BDEED5 /* GREYInterposer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYInterposer.h; path = CommonLib/Interposer/GREYInterposer.h; sourceTree = "<group>"; };
 		76CE2922285176CA0036A770 /* GREYDistantObjectUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYDistantObjectUtils.m; path = DistantObject/GREYDistantObjectUtils.m; sourceTree = "<group>"; };
 		76CE2924285176DA0036A770 /* GREYDistantObjectUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYDistantObjectUtils.m; path = DistantObject/GREYDistantObjectUtils.m; sourceTree = "<group>"; };
@@ -725,8 +727,6 @@
 		FDC1B06124F7038A00C62118 /* UITextSelectionView+GREYApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UITextSelectionView+GREYApp.h"; path = "Additions/UITextSelectionView+GREYApp.h"; sourceTree = "<group>"; };
 		FDC1B06224F7038A00C62118 /* UITextSelectionView+GREYApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UITextSelectionView+GREYApp.m"; path = "Additions/UITextSelectionView+GREYApp.m"; sourceTree = "<group>"; };
 		FDE5C4CF263887C90094E325 /* GREYUIThreadExecutor+GREYApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GREYUIThreadExecutor+GREYApp.h"; path = "Synchronization/GREYUIThreadExecutor+GREYApp.h"; sourceTree = "<group>"; };
-		FDE6770724B2E7050058EA28 /* GREYDescribeVariable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYDescribeVariable.m; path = Assertion/GREYDescribeVariable.m; sourceTree = "<group>"; };
-		FDE6770824B2E7050058EA28 /* GREYDescribeVariable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYDescribeVariable.h; path = Assertion/GREYDescribeVariable.h; sourceTree = "<group>"; };
 		FDE871962322D9F6007C5A5C /* GREYRemoteExecutor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYRemoteExecutor.m; path = Execution/GREYRemoteExecutor.m; sourceTree = "<group>"; };
 		FDE871972322D9F7007C5A5C /* GREYRemoteExecutor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYRemoteExecutor.h; path = Execution/GREYRemoteExecutor.h; sourceTree = "<group>"; };
 		FDE8719A23241566007C5A5C /* GREYWaitFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYWaitFunctions.m; path = Assertion/GREYWaitFunctions.m; sourceTree = "<group>"; };
@@ -845,6 +845,8 @@
 		FD3A824121F187B600CA3ADF /* Assertion */ = {
 			isa = PBXGroup;
 			children = (
+				7681E45028F60477007BCE7A /* GREYDescribeVariable.h */,
+				7681E45128F60477007BCE7A /* GREYDescribeVariable.m */,
 				6F8818B122B86F520006932D /* GREYAssertionBlock+Private.h */,
 				FD3A824E21F187C700CA3ADF /* GREYAssertion.h */,
 				FD3A824F21F187C700CA3ADF /* GREYAssertionBlock.h */,
@@ -889,8 +891,6 @@
 				278BF2AE24C53D780005ECE1 /* GREYAssertDefaultConfiguration.h */,
 				278BF2AF24C53D780005ECE1 /* GREYAssertDefaultConfiguration.m */,
 				FD50491620FB235D00261CBE /* GREYAssertionDefines.h */,
-				FDE6770824B2E7050058EA28 /* GREYDescribeVariable.h */,
-				FDE6770724B2E7050058EA28 /* GREYDescribeVariable.m */,
 				FDE8719B23241567007C5A5C /* GREYWaitFunctions.h */,
 				FDE8719A23241566007C5A5C /* GREYWaitFunctions.m */,
 			);
@@ -1908,7 +1908,6 @@
 				6FDFAF5324A2D0B2008B59DF /* GREYFailureHandlerHelpers.m in Sources */,
 				FD50492B20FB239900261CBE /* XCUIApplication+GREYTest.m in Sources */,
 				FD50493C20FB23E500261CBE /* GREYTestCaseInvocation.m in Sources */,
-				FDE6770924B2E7050058EA28 /* GREYDescribeVariable.m in Sources */,
 				FD50492D20FB239900261CBE /* EarlGrey.m in Sources */,
 				FD2E76F12149E4860063EF7E /* GREYTestConfiguration.m in Sources */,
 				FD50492A20FB239900261CBE /* GREYElementInteractionProxy.m in Sources */,
@@ -1939,6 +1938,7 @@
 				FD6239A620F56BE700049E81 /* GREYConfigKey.m in Sources */,
 				FD88B9BA25255FC300CE823B /* GREYLogger.m in Sources */,
 				FD6239BE20F56C3E00049E81 /* GREYObjectFormatter.m in Sources */,
+				7681E45228F60477007BCE7A /* GREYDescribeVariable.m in Sources */,
 				FD6239AE20F56C2500049E81 /* GREYValueType.m in Sources */,
 				FDF62DBA25CD656C006F48BE /* GREYDispatchQueueInterposer.m in Sources */,
 				FD62398E20F56B7600049E81 /* UIView+GREYCommon.m in Sources */,
