@@ -52,8 +52,24 @@ UIWindow *GREYUILibUtilsGetApplicationKeyWindow(UIApplication *application) {
           return window.isKeyWindow;
         }];
     NSArray<UIWindow *> *keyWindows = [windows filteredArrayUsingPredicate:windowFilter];
-    // On iOS 15+, it's possible to have multiple key windows, we only return the first one for now.
-    return keyWindows.firstObject;
+    if ([keyWindows count] > 0) {
+      // On iOS 15+, it's possible to have multiple key windows. If any key windows are found, we
+      // we only return the first one.
+      return keyWindows.firstObject;
+    } else if ([windows count] > 1) {
+      // In case of no key window being found but there are windows still present, we assume that
+      // there are more than just one window present, with the first being the former key window. We
+      // check to see if the last window also is a full-fledged UIWindow with the same frame as the
+      // first one to set that as the key window. (This behavior is seen especially in the case of
+      // toast views pre-iOS 16.)
+      UIWindow *firstWindow = [windows firstObject];
+      UIWindow *lastWindow = [windows lastObject];
+      if (CGRectEqualToRect(firstWindow.frame, lastWindow.frame) &&
+          [lastWindow isMemberOfClass:[UIWindow class]]) {
+        return lastWindow;
+      }
+    }
+    return nil;
   } else {
     // This API is deprecated in iOS 13, so we suppress warning here in case its minimum required
     // SDKs are lower.
@@ -70,7 +86,8 @@ UIWindow *GREYUILibUtilsGetApplicationKeyWindow(UIApplication *application) {
   UIScreen *screen;
 
   if (@available(iOS 13.0, *)) {
-    screen = [self window].windowScene.screen;
+    UIWindow *window = [self window];
+    screen = window.windowScene.screen;
     // This check is added in case there is an issue with getting the screen i.e. if the screen
     // hasn't come up.
     if (!screen) {
