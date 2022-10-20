@@ -171,12 +171,25 @@
  *                      string, in which case the variable args will be required.
  * @param ...           Variable args for @c __description if it is a format string.
  */
-#define GREYAssertNotNil(__a1, __description, ...)                               \
-  ({                                                                             \
-    I_GREYSetCurrentAsFailable();                                                \
-    NSString *timeoutString__ = @"Couldn't assert that (" #__a1 ") is not nil."; \
-    GREYWaitForAppToIdle(timeoutString__);                                       \
-    I_GREYAssertNotNil((__a1), (__description), ##__VA_ARGS__);                  \
+#define GREYAssertNotNil(__a1, __description, ...) \
+  ({ GREYAssertNotNilWithFilePath(__FILE__, __LINE__, __a1, __description, ##__VA_ARGS__); })
+
+/**
+ * Generates a failure with the provided @c __description if the expression @c __a1 is @c nil.
+ *
+ * @param __fileName    The name of the file where the failing code exists.
+ * @param __lineNumber  The line number of the failing code.
+ * @param __a1          The expression that should be evaluated.
+ * @param __description Description to print if @c __a1 is @c nil. May be a format
+ *                      string, in which case the variable args will be required.
+ * @param ...           Variable args for @c __description if it is a format string.
+ */
+#define GREYAssertNotNilWithFilePath(_fileName, __lineNumber, __a1, __description, ...) \
+  ({                                                                                    \
+    I_GREYSetCurrentAsFailableWithDetails(_fileName, __lineNumber);                     \
+    NSString *timeoutString__ = @"Couldn't assert that (" #__a1 ") is not nil.";        \
+    GREYWaitForAppToIdle(timeoutString__);                                              \
+    I_GREYAssertNotNil((__a1), (__description), ##__VA_ARGS__);                         \
   })
 
 /**
@@ -187,28 +200,46 @@
  *                      string, in which case the variable args will be required.
  * @param ...           Variable args for @c __description if it is a format string.
  */
-#define GREYAssertNil(__a1, __description, ...)                              \
-  ({                                                                         \
-    I_GREYSetCurrentAsFailable();                                            \
-    NSString *timeoutString__ = @"Couldn't assert that (" #__a1 ") is nil."; \
-    GREYWaitForAppToIdle(timeoutString__);                                   \
-    I_GREYAssertNil((__a1), (__description), ##__VA_ARGS__);                 \
+#define GREYAssertNil(__a1, __description, ...) \
+  ({ GREYAssertNilWithFilePath(__FILE__, __LINE__, __a1, __description, ##__VA_ARGS__); })
+
+/**
+ * Generates a failure with the provided @c __description if the expression @c __a1 is not @c nil.
+ *
+ * @param __fileName    The name of the file where the failing code exists.
+ * @param __lineNumber  The line number of the failing code.
+ * @param __a1          The expression that should be evaluated.
+ * @param __description Description to print if @c __a1 is not @c nil. May be a format
+ *                      string, in which case the variable args will be required.
+ * @param ...           Variable args for @c __description if it is a format string.
+ */
+#define GREYAssertNilWithFilePath(_fileName, __lineNumber, __a1, __description, ...) \
+  ({                                                                                 \
+    I_GREYSetCurrentAsFailableWithDetails(_fileName, __lineNumber);                  \
+    NSString *timeoutString__ = @"Couldn't assert that (" #__a1 ") is nil.";         \
+    GREYWaitForAppToIdle(timeoutString__);                                           \
+    I_GREYAssertNil((__a1), (__description), ##__VA_ARGS__);                         \
   })
+
+#define GREYAssertEqual(__a1, __a2, __description, ...) \
+  ({ GREYAssertEqualWithFilePath(__FILE__, __LINE__, __a1, __a2, __description, ##__VA_ARGS__); })
 
 /**
  * Generates a failure with the provided @c __description if the expression @c __a1 and
  * the expression @c __a2 are not equal.
  * @c __a1 and @c __a2 must be scalar types.
  *
+ * @param __fileName    The name of the file where the failing code exists.
+ * @param __lineNumber  The line number of the failing code.
  * @param __a1          The left hand scalar value on the equality operation.
  * @param __a2          The right hand scalar value on the equality operation.
  * @param __description Description to print if @c __a1 and @c __a2 are not equal. May be a format
  *                      string, in which case the variable args will be required.
  * @param ...           Variable args for @c __description if it is a format string.
  */
-#define GREYAssertEqual(__a1, __a2, __description, ...)                                         \
+#define GREYAssertEqualWithFilePath(_fileName, __lineNumber, __a1, __a2, __description, ...)    \
   ({                                                                                            \
-    I_GREYSetCurrentAsFailable();                                                               \
+    I_GREYSetCurrentAsFailableWithDetails(_fileName, __lineNumber);                             \
     NSString *timeoutString__ = @"Couldn't assert that (" #__a1 ") and (" #__a2 ") are equal."; \
     GREYWaitForAppToIdle(timeoutString__);                                                      \
     I_GREYAssertEqual((__a1), (__a2), (__description), ##__VA_ARGS__);                          \
@@ -225,13 +256,31 @@
  *                      string, in which case the variable args will be required.
  * @param ...           Variable args for @c __description if it is a format string.
  */
-#define GREYAssertNotEqual(__a1, __a2, __description, ...)                  \
-  ({                                                                        \
-    I_GREYSetCurrentAsFailable();                                           \
-    NSString *timeoutString__ =                                             \
-        @"Couldn't assert that (" #__a1 ") and (" #__a2 ") are not equal."; \
-    GREYWaitForAppToIdle(timeoutString__);                                  \
-    I_GREYAssertNotEqual((__a1), (__a2), (__description), ##__VA_ARGS__);   \
+#define GREYAssertNotEqual(__a1, __a2, __description, ...)                                        \
+  ({                                                                                              \
+    GREYAssertNotEqualWithFilePath(__FILE__, __LINE__, __a1, __a2, __description, ##__VA_ARGS__); \
+  })
+
+/**
+ * Generates a failure with the provided @c __description if the expression @c __a1 and
+ * the expression @c __a2 are equal.
+ * @c __a1 and @c __a2 must be scalar types.
+ *
+ * @param __fileName    The name of the file where the failing code exists.
+ * @param __lineNumber  The line number of the failing code.
+ * @param __a1          The left hand scalar value on the equality operation.
+ * @param __a2          The right hand scalar value on the equality operation.
+ * @param __description Description to print if @c __a1 and @c __a2 are equal. May be a format
+ *                      string, in which case the variable args will be required.
+ * @param ...           Variable args for @c __description if it is a format string.
+ */
+#define GREYAssertNotEqualWithFilePath(_fileName, __lineNumber, __a1, __a2, __description, ...) \
+  ({                                                                                            \
+    I_GREYSetCurrentAsFailableWithDetails(_fileName, __lineNumber);                             \
+    NSString *timeoutString__ =                                                                 \
+        @"Couldn't assert that (" #__a1 ") and (" #__a2 ") are not equal.";                     \
+    GREYWaitForAppToIdle(timeoutString__);                                                      \
+    I_GREYAssertNotEqual((__a1), (__a2), (__description), ##__VA_ARGS__);                       \
   })
 
 /**
