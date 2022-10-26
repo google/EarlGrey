@@ -113,7 +113,7 @@ UIWindow *GREYGetApplicationKeyWindow(UIApplication *application) {
   if (@available(iOS 16, *)) {
     UIResponder *firstResponder = GetFirstResponderSubview(keyWindow);
     UIView *inputView = firstResponder.inputView;
-    if (inputView) {
+    if (inputView.window) {
       [windows addObject:inputView.window];
     }
     UIWindow *keyboardWindow = GetKeyboardWindow();
