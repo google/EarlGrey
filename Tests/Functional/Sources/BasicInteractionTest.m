@@ -84,8 +84,10 @@
 - (void)testLongPressOnAccessibilityElement {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
   [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_longPress()];
+
   [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"EarlGrey TestApp")]
       performAction:grey_tap()];
+  // sleep(999);
 }
 
 /**

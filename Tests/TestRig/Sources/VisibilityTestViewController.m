@@ -22,7 +22,12 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
 
-  CGFloat halfPixelInPoint = 1.0f / (2.0f * [GREYUILibUtils screen].scale);
+  CGFloat halfPixelInPoint;
+  if (@available(iOS 16.0, *)) {
+    halfPixelInPoint = 1.0f / (2.0f * [[self view] window].windowScene.screen.scale);
+  } else {
+    halfPixelInPoint = 1.0f / (2.0f * [UIScreen mainScreen].scale);
+  }
 
   [self addUnalignedViewWithAccessibilityID:@"unalignedPixel1"
                                       frame:CGRectMake(50 + halfPixelInPoint, 120, 1, 1)];
