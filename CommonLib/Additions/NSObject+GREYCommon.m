@@ -104,6 +104,11 @@
     [description appendFormat:@"; AX.frame=%@", NSStringFromCGRect(self.accessibilityFrame)];
   }
 
+  // Is Accessibility View Modal.
+  if ([self respondsToSelector:@selector(accessibilityViewIsModal)]) {
+    [description appendFormat:@"; AX.isModal=%@", self.accessibilityViewIsModal ? @"Y" : @"N"];
+  }
+
   // Accessibility activation point.
   if ([self respondsToSelector:@selector(accessibilityActivationPoint)]) {
     [description appendFormat:@"; AX.activationPoint=%@",
