@@ -15,7 +15,6 @@
 //
 
 #import "VisibilityTestViewController.h"
-#import "GREYUILibUtils.h"
 
 @implementation VisibilityTestViewController
 
