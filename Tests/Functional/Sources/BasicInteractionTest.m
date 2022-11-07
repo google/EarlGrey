@@ -782,7 +782,7 @@
   // By setting the includeStatusBar variable, the Status Bar should be found.
   [interaction includeStatusBar];
   [interaction assertWithMatcher:grey_notNil() error:&error];
-  XCTAssertNil(error, @"Error: %@ is not nil.", error);
+  GREYAssertNil(error, @"Error: %@ is not nil.", error);
 }
 
 /**
@@ -918,6 +918,9 @@
 
 /** Confirms EarlGrey's app deletion API works as intended. */
 - (void)testCloseAndDeleteApp {
+  if (@available(iOS 16.0, *)) {
+    XCTSkip(@"b/257407039 Fails on Xcode 14");
+  }
   [self addTeardownBlock:^{
     [[[XCUIApplication alloc] init] launch];
   }];
