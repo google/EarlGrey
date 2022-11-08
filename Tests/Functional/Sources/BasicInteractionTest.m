@@ -771,18 +771,25 @@
  * Checks the removal and addition of the status bar.
  */
 - (void)testStatusBarRemoval {
+  GREYElementInteraction *interaction;
+  if (@available(iOS 16, *)) {
+    id<GREYMatcher> statusBarWindowMatcher =
+        [[GREYHostApplicationDistantObject sharedInstance] matcherForStatusBarWindow];
+    ;
+    interaction = [EarlGrey selectElementWithMatcher:statusBarWindowMatcher];
+  } else {
+    NSString *statusBarClassName = iOS13_OR_ABOVE() ? @"UIStatusBar_Modern" : @"UIStatusBarWindow";
+    interaction = [EarlGrey selectElementWithMatcher:grey_kindOfClassName(statusBarClassName)];
+  }
   // By default, the status bar should not be included.
   NSError *error;
-  NSString *statusBarClassName = iOS13_OR_ABOVE() ? @"UIStatusBar_Modern" : @"UIStatusBarWindow";
-  GREYElementInteraction *interaction =
-      [EarlGrey selectElementWithMatcher:grey_kindOfClassName(statusBarClassName)];
   [interaction assertWithMatcher:grey_notNil() error:&error];
   XCTAssertNotNil(error, @"Error is nil.");
   error = nil;
   // By setting the includeStatusBar variable, the Status Bar should be found.
   [interaction includeStatusBar];
   [interaction assertWithMatcher:grey_notNil() error:&error];
-  GREYAssertNil(error, @"Error: %@ is not nil.", error);
+  XCTAssertNil(error, @"Error: %@ is not nil.", error);
 }
 
 /**

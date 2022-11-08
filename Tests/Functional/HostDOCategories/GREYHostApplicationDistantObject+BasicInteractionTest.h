@@ -123,4 +123,9 @@
  */
 - (id<GREYMatcher>)matcherThatTakesTime:(NSTimeInterval)seconds;
 
+/**
+ * @return A matcher for a UIWindow which is at the status bar level.
+ */
+- (id<GREYMatcher>)matcherForStatusBarWindow;
+
 @end

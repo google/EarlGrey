@@ -176,6 +176,20 @@ static UIViewController *gViewController;
   return grey_keyWindow();
 }
 
+- (id<GREYMatcher>)matcherForStatusBarWindow {
+  return [GREYElementMatcherBlock
+      matcherWithMatchesBlock:^BOOL(id _Nullable element) {
+        if ([element respondsToSelector:@selector(windowLevel)]) {
+          UIWindow *window = (UIWindow *)element;
+          return window.windowLevel == UIWindowLevelStatusBar;
+        }
+        return NO;
+      }
+      descriptionBlock:^(id<GREYDescription> _Nonnull description) {
+        [description appendText:@"Status Bar Window"];
+      }];
+}
+
 #pragma mark - Private
 
 - (void)ftr_dismissWindow:(UITapGestureRecognizer *)sender {

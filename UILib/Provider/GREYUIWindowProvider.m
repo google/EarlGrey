@@ -139,6 +139,11 @@ UIWindow *GREYGetApplicationKeyWindow(UIApplication *application) {
       if (!statusBarPresent) {
         UIStatusBarManager *manager = [[keyWindow windowScene] statusBarManager];
         UIView *localStatusBar = (UIView *)[manager createLocalStatusBar];
+        if (!localStatusBar) {
+          CGRect statusBarFrame = [UIApplication sharedApplication]
+                                      .keyWindow.windowScene.statusBarManager.statusBarFrame;
+          localStatusBar = [[UIView alloc] initWithFrame:statusBarFrame];
+        }
         statusBarWindow = [[UIWindow alloc] initWithFrame:localStatusBar.frame];
         [statusBarWindow addSubview:localStatusBar];
         [statusBarWindow setHidden:NO];
