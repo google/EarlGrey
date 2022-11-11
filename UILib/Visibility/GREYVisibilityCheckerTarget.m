@@ -33,6 +33,12 @@
  */
 const double kMinimumAlphaToConsiderAsObscuring = 0.95f;
 
+/**
+ * The accessibility label for the System Edit Menu's Paste button. Used to handle the case in
+ * b/258618007.
+ **/
+static NSString *const kEditMenuPasteButtonAxeLabel = @"Paste";
+
 @implementation GREYVisibilityCheckerTarget {
   /**
    * Internal target element. Target is an accessibility element that could be either a UIView or a
@@ -476,7 +482,17 @@ static CGRect ConvertToScreenCoordinate(id element) {
  *         the element's ancestors during traversal.
  */
 static BOOL IsElementVisible(GREYTraversalObject *object) {
-  return !(object.properties.hidden || object.properties.lowestAlpha < kGREYMinimumVisibleAlpha);
+  BOOL alphaTooLowForVisibility = object.properties.lowestAlpha < kGREYMinimumVisibleAlpha;
+  if (alphaTooLowForVisibility && [((NSObject *)object.element).accessibilityLabel
+                                      isEqualToString:kEditMenuPasteButtonAxeLabel]) {
+    if ([object.element isKindOfClass:[UIView class]]) {
+      UIView *pasteView = (UIView *)object.element;
+      // For a paste button in an edit menu, skip this check since there's an internal issue with
+      // how alpha is set on it (b/258618007).
+      alphaTooLowForVisibility = ![pasteView.superview isKindOfClass:[UIStackView class]];
+    }
+  }
+  return !(object.properties.hidden || alphaTooLowForVisibility);
 }
 
 /**
