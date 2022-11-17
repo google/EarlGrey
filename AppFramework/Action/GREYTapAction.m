@@ -169,6 +169,7 @@
         return NO;
       }
       return [GREYTapper tapOnWindow:window
+                             element:element
                         numberOfTaps:_numberOfTaps
                             location:[element grey_accessibilityActivationPointInWindowCoordinates]
                                error:error];

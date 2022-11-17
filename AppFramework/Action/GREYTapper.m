@@ -46,17 +46,20 @@
   });
 
   return [self tapOnWindow:window
+                   element:element
               numberOfTaps:numberOfTaps
                   location:[self grey_tapPointForElement:element relativeLocation:location]
                      error:errorOrNil];
 }
 
 + (BOOL)tapOnWindow:(UIWindow *)window
+            element:(id)element
        numberOfTaps:(NSUInteger)numberOfTaps
            location:(CGPoint)location
               error:(__strong NSError **)errorOrNil {
   if (![GREYTapper grey_checkLocation:location
                      inBoundsOfWindow:window
+                              element:element
                        forActionNamed:@"tap"
                                 error:errorOrNil]) {
     return NO;
@@ -89,6 +92,7 @@
 
   if (![GREYTapper grey_checkLocation:resolvedLocation
                      inBoundsOfWindow:window
+                              element:element
                        forActionNamed:@"long press"
                                 error:errorOrNil]) {
     return NO;
@@ -147,6 +151,7 @@
  */
 + (BOOL)grey_checkLocation:(CGPoint)location
           inBoundsOfWindow:(UIWindow *)window
+                   element:(id)element
             forActionNamed:(NSString *)name
                      error:(__strong NSError **)errorOrNil {
   // Don't use frame because if transform property isn't identity matrix, the frame property is
@@ -168,9 +173,9 @@
     }
     NSString *description =
         [NSString stringWithFormat:@"Cannot perform %@ at %@ as it is outside window's bounds %@. "
-                                   @"%@.",
+                                   @"%@.\n\nElement being tapped:\n%@",
                                    name, NSStringFromCGPoint(location), windowBoundsString,
-                                   nullLocationReason];
+                                   nullLocationReason, element];
 
     I_GREYPopulateError(errorOrNil, kGREYInteractionErrorDomain,
                         kGREYInteractionActionFailedErrorCode, description);

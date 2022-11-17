@@ -42,6 +42,7 @@
  * Taps on a window at a location for a number of times.
  *
  * @param      window       The window to be tapped.
+ * @param      element      The element to be tapped. Used to print in debugging logs.
  * @param      numberOfTaps The number of taps.
  * @param      location     The location to be tapped, relative to the view being tapped.
  * @param[out] errorOrNil   Error that will be populated on failure with the cause of failure. If
@@ -51,6 +52,7 @@
  * @return @c YES if the action succeeded, else @c NO.
  */
 + (BOOL)tapOnWindow:(UIWindow *)window
+            element:(id)element
        numberOfTaps:(NSUInteger)numberOfTaps
            location:(CGPoint)location
               error:(__strong NSError **)errorOrNil;
@@ -79,6 +81,7 @@
  *
  * @param location        The location of the touch.
  * @param window          The window in which the action is being performed.
+ * @param element         The element to be tapped. Used to print in debugging logs.
  * @param name            The name of the action causing the touch.
  * @param[out] errorOrNil The error set on failure. The error returned can be @c nil, signifying
  *                        success.
@@ -87,6 +90,7 @@
  */
 + (BOOL)grey_checkLocation:(CGPoint)location
           inBoundsOfWindow:(UIWindow *)window
+                   element:(id)element
             forActionNamed:(NSString *)name
                      error:(__strong NSError **)errorOrNil;
 
