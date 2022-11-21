@@ -68,59 +68,10 @@ static id InstrumentSurrogateDelegate(id self, id delegate, SEL originalSelector
                                       SEL swizzledSelector, IMP selfImplementation,
                                       IMP delegateImplementation);
 
-/**
- * Animation did start selector for the animation delegate.
- */
-static SEL gAnimationDidStartSelector;
-/**
- * Swizzled animation did start selector for the animation delegate.
- */
-static SEL gSwizzledAnimationDidStartSelector;
-/**
- * Animation did stop selector for the animation delegate.
- */
-static SEL gAnimationDidStopSelector;
-/**
- * Swizzled animation did stop selector for the animation delegate.
- */
-static SEL gSwizzledAnimationDidStopSelector;
+@interface GREYCAAnimationDelegate : NSObject <CAAnimationDelegate>
+@end
 
 @implementation GREYCAAnimationDelegate
-
-+ (void)initialize {
-  if (self == [GREYCAAnimationDelegate self]) {
-    gAnimationDidStartSelector = @selector(animationDidStart:);
-    gSwizzledAnimationDidStartSelector = @selector(greyswizzled_animationDidStart:);
-    gAnimationDidStopSelector = @selector(animationDidStop:finished:);
-    gSwizzledAnimationDidStopSelector = @selector(greyswizzled_animationDidStop:finished:);
-  }
-}
-
-+ (id)surrogateDelegateForDelegate:(id)delegate {
-  id outDelegate;
-  if (!delegate) {
-    // If the delegate is nil then create and return a new delegate.
-    outDelegate = [[self alloc] initInternal];
-  } else {
-    IMP animationDidStartInstance = [self instanceMethodForSelector:gAnimationDidStartSelector];
-    IMP delegateAnimationDidStartInstance = [delegate methodForSelector:gAnimationDidStartSelector];
-    IMP animationDidStopInstance = [self instanceMethodForSelector:gAnimationDidStopSelector];
-    IMP delegateAnimationDidStopInstance = [delegate methodForSelector:gAnimationDidStopSelector];
-    outDelegate = InstrumentSurrogateDelegate(
-        self, delegate, gAnimationDidStartSelector, gSwizzledAnimationDidStartSelector,
-        animationDidStartInstance, delegateAnimationDidStartInstance);
-    outDelegate = InstrumentSurrogateDelegate(
-        self, outDelegate, gAnimationDidStopSelector, gSwizzledAnimationDidStopSelector,
-        animationDidStopInstance, delegateAnimationDidStopInstance);
-  }
-  return outDelegate;
-}
-
-/** Internal initializer because init is marked as unavailable in the header. */
-- (instancetype)initInternal {
-  self = [super init];
-  return self;
-}
 
 #pragma mark - CAAnimationDelegate
 
@@ -206,4 +157,44 @@ static void AnimationDidStop(id self, SEL _cmd, CAAnimation *animation, BOOL fin
     INVOKE_ORIGINAL_IMP2(void, @selector(greyswizzled_animationDidStop:finished:), animation,
                          finished);
   }
+}
+
+id<CAAnimationDelegate> GREYSurrogateDelegateForCAAnimationDelegate(
+    id<CAAnimationDelegate> delegate) {
+  static SEL animationDidStartSelector;
+  static SEL swizzledAnimationDidStartSelector;
+  static SEL animationDidStopSelector;
+  static SEL swizzledAnimationDidStopSelector;
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    animationDidStartSelector = @selector(animationDidStart:);
+    swizzledAnimationDidStartSelector = @selector(greyswizzled_animationDidStart:);
+    animationDidStopSelector = @selector(animationDidStop:finished:);
+    swizzledAnimationDidStopSelector = @selector(greyswizzled_animationDidStop:finished:);
+  });
+
+  id outDelegate;
+  if (!delegate) {
+    // If the delegate is nil then create and return a new delegate.
+    outDelegate = [[GREYCAAnimationDelegate alloc] init];
+  } else {
+    NSObject *delegateObject = delegate;
+    IMP animationDidStartInstance =
+        [GREYCAAnimationDelegate instanceMethodForSelector:animationDidStartSelector];
+    IMP delegateAnimationDidStartInstance =
+        [delegateObject methodForSelector:animationDidStartSelector];
+    IMP animationDidStopInstance =
+        [GREYCAAnimationDelegate instanceMethodForSelector:animationDidStopSelector];
+    IMP delegateAnimationDidStopInstance =
+        [delegateObject methodForSelector:animationDidStopSelector];
+    outDelegate =
+        InstrumentSurrogateDelegate([GREYCAAnimationDelegate class], delegate,
+                                    animationDidStartSelector, swizzledAnimationDidStartSelector,
+                                    animationDidStartInstance, delegateAnimationDidStartInstance);
+    outDelegate =
+        InstrumentSurrogateDelegate([GREYCAAnimationDelegate class], outDelegate,
+                                    animationDidStopSelector, swizzledAnimationDidStopSelector,
+                                    animationDidStopInstance, delegateAnimationDidStopInstance);
+  }
+  return outDelegate;
 }

@@ -44,7 +44,7 @@
 }
 
 - (void)greyswizzled_setDelegate:(id)delegate {
-  id surrogate = [GREYCAAnimationDelegate surrogateDelegateForDelegate:delegate];
+  id surrogate = GREYSurrogateDelegateForCAAnimationDelegate(delegate);
   INVOKE_ORIGINAL_IMP1(void, @selector(greyswizzled_setDelegate:), surrogate);
 }
 
@@ -99,7 +99,7 @@
  */
 - (id)greyswizzled_delegate {
   id delegate = INVOKE_ORIGINAL_IMP(id, @selector(greyswizzled_delegate));
-  return [GREYCAAnimationDelegate surrogateDelegateForDelegate:delegate];
+  return GREYSurrogateDelegateForCAAnimationDelegate(delegate);
 }
 
 @end
