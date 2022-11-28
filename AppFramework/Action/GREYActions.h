@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 #import "GREYConstants.h"
 #import "GREYDefines.h"
@@ -24,6 +24,8 @@
 #else
 #import "EDORemoteVariable.h"
 #endif  // COCOAPODS
+
+NS_ASSUME_NONNULL_BEGIN
 
 @protocol GREYAction;
 
@@ -389,7 +391,7 @@
  * @param on The switch control state.
  *
  */
-+ (id<GREYAction>)actionForTurnSwitchOn:(BOOL)on;
++ (nullable id<GREYAction>)actionForTurnSwitchOn:(BOOL)on;
 
 /**
  * @return A GREYAction that toggles a switch control with a short tap. This action is applicable to
@@ -398,7 +400,7 @@
  * @param on The switch control state.
  *
  */
-+ (id<GREYAction>)actionForTurnSwitchOnWithShortTap:(BOOL)on;
++ (nullable id<GREYAction>)actionForTurnSwitchOnWithShortTap:(BOOL)on;
 
 /**
  * Returns an action that injects dates/times into UIDatePickers.
@@ -407,7 +409,7 @@
  *
  * @return A GREYAction that sets a given date/time on a UIDatePicker.
  */
-+ (id<GREYAction>)actionForSetDate:(NSDate *)date;
++ (nullable id<GREYAction>)actionForSetDate:(NSDate *)date;
 
 /**
  * Returns an action that selects @c value on the given @c column of a UIPickerView.
@@ -428,8 +430,9 @@
  *
  * @return A GREYAction that executes JavaScript code against a WKWebView.
  */
-+ (id<GREYAction>)actionForJavaScriptExecution:(NSString *)js
-                                        output:(EDORemoteVariable<NSString *> *)outResult;
++ (nullable id<GREYAction>)actionForJavaScriptExecution:(NSString *)js
+                                                 output:(nullable EDORemoteVariable<NSString *> *)
+                                                            outResult;
 
 /**
  * Returns an action that takes a snapshot of the selected element.
@@ -441,3 +444,5 @@
 + (id<GREYAction>)actionForSnapshot:(EDORemoteVariable<UIImage *> *)outImage;
 
 @end
+
+NS_ASSUME_NONNULL_END
