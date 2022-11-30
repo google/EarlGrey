@@ -21,7 +21,7 @@
 #import "BaseIntegrationTest.h"
 
 @interface OrientationChangeTest : BaseIntegrationTest
-
+- (void)testFaceUpAndDownOrientationChangeWithiOS16 API_AVAILABLE(ios(16));
 @end
 
 @implementation OrientationChangeTest
@@ -59,16 +59,21 @@
 }
 
 - (void)testInteractingWithElementsAfterRotation {
+  NSArray<NSString *> *buttonNames =
+      @[ @"Top Left", @"Top Right", @"Bottom Right", @"Bottom Left", @"Center" ];
+  NSArray<NSNumber *> *orientations;
   if (@available(iOS 16.0, *)) {
-    XCTSkip(@"b/249665675");
+    orientations = @[
+      @(UIDeviceOrientationLandscapeLeft), @(UIDeviceOrientationLandscapeRight),
+      @(UIDeviceOrientationPortrait)
+    ];
+  } else {
+    orientations = @[
+      @(UIDeviceOrientationLandscapeLeft), @(UIDeviceOrientationPortraitUpsideDown),
+      @(UIDeviceOrientationLandscapeRight), @(UIDeviceOrientationPortrait),
+      @(UIDeviceOrientationFaceUp), @(UIDeviceOrientationFaceDown)
+    ];
   }
-
-  NSArray *buttonNames = @[ @"Top Left", @"Top Right", @"Bottom Right", @"Bottom Left", @"Center" ];
-  NSArray *orientations = @[
-    @(UIDeviceOrientationLandscapeLeft), @(UIDeviceOrientationPortraitUpsideDown),
-    @(UIDeviceOrientationLandscapeRight), @(UIDeviceOrientationPortrait),
-    @(UIDeviceOrientationFaceUp), @(UIDeviceOrientationFaceDown)
-  ];
 
   for (NSUInteger i = 0; i < [orientations count]; i++) {
     UIDeviceOrientation orientation = [orientations[i] integerValue];
@@ -87,6 +92,28 @@
       NSString *tappedString = [NSString stringWithFormat:@"Last tapped: %@", buttonName];
       [[EarlGrey selectElementWithMatcher:grey_text(tappedString)]
           assertWithMatcher:grey_sufficientlyVisible()];
+    }
+  }
+}
+
+- (void)testFaceUpAndDownOrientationChangeWithiOS16 {
+  NSArray<NSNumber *> *orientations = @[
+    @(UIDeviceOrientationPortraitUpsideDown),
+    @(UIDeviceOrientationFaceUp),
+    @(UIDeviceOrientationFaceDown),
+  ];
+
+  for (NSUInteger i = 0; i < [orientations count]; i++) {
+    NSError *error;
+    UIDeviceOrientation orientation = [orientations[i] integerValue];
+    [EarlGrey rotateDeviceToOrientation:orientation error:&error];
+    if (error) {
+      NSString *errorDescription = [error localizedDescription];
+      if (i == 0) {
+        XCTAssertTrue([errorDescription containsString:@"portraitUpsideDown"]);
+      } else {
+        XCTAssertTrue([errorDescription containsString:@"UIInterfaceOrientationUnknown"]);
+      }
     }
   }
 }

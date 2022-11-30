@@ -270,81 +270,86 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
   BOOL success = NO;
   __block BOOL sendOrientationChangeNotification = NO;
   XCUIDevice *sharedDevice = [XCUIDevice sharedDevice];
+  UIInterfaceOrientation interfaceOrientation = NSIntegerMin;
 #if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 160000)
-  UIInterfaceOrientation interfaceOrientation =
-      [GREYConstants interfaceOrientationForDeviceOrientation:deviceOrientation];
+  interfaceOrientation = [GREYConstants interfaceOrientationForDeviceOrientation:deviceOrientation];
 #endif  // (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 160000)
-  UIDevice *currentDevice;
+  if (interfaceOrientation != UIInterfaceOrientationUnknown) {
+    UIDevice *currentDevice;
 
-  NSNotificationCenter *notificationCenter =
-      [GREY_REMOTE_CLASS_IN_APP(NSNotificationCenter) defaultCenter];
+    NSNotificationCenter *notificationCenter =
+        [GREY_REMOTE_CLASS_IN_APP(NSNotificationCenter) defaultCenter];
 
-  // Add an orientation change notification observer.
-  [notificationCenter addObserverForName:UIDeviceOrientationDidChangeNotification
-                                  object:nil
-                                   queue:nil
-                              usingBlock:^(NSNotification *_Nonnull note) {
-                                sendOrientationChangeNotification = YES;
-                              }];
-  CFTimeInterval interactionTimeout = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
-  BOOL syncSuccessBeforeRotation =
-      GREYWaitForAppToIdleWithTimeoutAndError(interactionTimeout, &syncErrorBeforeRotation);
-  if (syncSuccessBeforeRotation) {
-    [sharedDevice setOrientation:deviceOrientation];
-#if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 160000)
-    if (@available(iOS 16.0, *)) {
-      UIWindowScene *scene =
-          [[[[GREY_REMOTE_CLASS_IN_APP(UIApplication) sharedApplication] delegate] window]
-              windowScene];
-      UIWindowSceneGeometryPreferencesIOS *preferences =
-          [[GREY_REMOTE_CLASS_IN_APP(UIWindowSceneGeometryPreferencesIOS) alloc]
-              initWithInterfaceOrientations:
-                  (1 << interfaceOrientation)];  // References implementation of
-                                                 // UIInterfaceOrientationMask enum in
-                                                 // UIKit.framework/Headers/UIApplication.h.
-      [scene requestGeometryUpdateWithPreferences:preferences
-                                     errorHandler:^(NSError *_Nonnull rotationError) {
-                                       syncErrorAfterRotation =
-                                           GREYErrorMake(rotationError.domain, rotationError.code,
-                                                         rotationError.description);
-                                     }];
-    } else {
-      currentDevice = [GREY_REMOTE_CLASS_IN_APP(UIDevice) currentDevice];
-      [currentDevice setOrientation:deviceOrientation animated:NO];
-    }
-#else
-    currentDevice = [GREY_REMOTE_CLASS_IN_APP(UIDevice) currentDevice];
-    [currentDevice setOrientation:deviceOrientation animated:NO];
-#endif  // (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 160000)
-
-    BOOL syncSuccessAfterRotation =
-        !syncErrorAfterRotation &&
-        GREYWaitForAppToIdleWithTimeoutAndError(interactionTimeout, &syncErrorAfterRotation);
-    if (syncSuccessAfterRotation) {
+    // Add an orientation change notification observer.
+    [notificationCenter addObserverForName:UIDeviceOrientationDidChangeNotification
+                                    object:nil
+                                     queue:nil
+                                usingBlock:^(NSNotification *_Nonnull note) {
+                                  sendOrientationChangeNotification = YES;
+                                }];
+    CFTimeInterval interactionTimeout =
+        GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
+    BOOL syncSuccessBeforeRotation =
+        GREYWaitForAppToIdleWithTimeoutAndError(interactionTimeout, &syncErrorBeforeRotation);
+    if (syncSuccessBeforeRotation) {
+      [sharedDevice setOrientation:deviceOrientation];
 #if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 160000)
       if (@available(iOS 16.0, *)) {
         UIWindowScene *scene =
             [[[[GREY_REMOTE_CLASS_IN_APP(UIApplication) sharedApplication] delegate] window]
                 windowScene];
-        GREYCondition *rotationWait =
-            [GREYCondition conditionWithName:@"App Rotation Condition"
-                                       block:^BOOL {
-                                         return scene.effectiveGeometry.interfaceOrientation ==
-                                                interfaceOrientation;
+        UIWindowSceneGeometryPreferencesIOS *preferences =
+            [[GREY_REMOTE_CLASS_IN_APP(UIWindowSceneGeometryPreferencesIOS) alloc]
+                initWithInterfaceOrientations:
+                    (1 << interfaceOrientation)];  // References implementation of
+                                                   // UIInterfaceOrientationMask enum in
+                                                   // UIKit.framework/Headers/UIApplication.h.
+        [scene requestGeometryUpdateWithPreferences:preferences
+                                       errorHandler:^(NSError *_Nonnull rotationError) {
+                                         syncErrorAfterRotation =
+                                             GREYErrorMake(rotationError.domain, rotationError.code,
+                                                           rotationError.description);
                                        }];
-        success = [rotationWait
-            waitWithTimeout:GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration)];
       } else {
-        success = currentDevice.orientation == deviceOrientation;
+        currentDevice = [GREY_REMOTE_CLASS_IN_APP(UIDevice) currentDevice];
+        [currentDevice setOrientation:deviceOrientation animated:NO];
       }
 #else
-      success = currentDevice.orientation == deviceOrientation;
+      currentDevice = [GREY_REMOTE_CLASS_IN_APP(UIDevice) currentDevice];
+      [currentDevice setOrientation:deviceOrientation animated:NO];
 #endif  // (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 160000)
-    }
-  }
 
-  // Remove the orientation change notification observer.
-  [notificationCenter removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
+      BOOL syncSuccessAfterRotation =
+          !syncErrorAfterRotation &&
+          GREYWaitForAppToIdleWithTimeoutAndError(interactionTimeout, &syncErrorAfterRotation);
+      if (syncSuccessAfterRotation) {
+#if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 160000)
+        if (@available(iOS 16.0, *)) {
+          UIWindowScene *scene =
+              [[[[GREY_REMOTE_CLASS_IN_APP(UIApplication) sharedApplication] delegate] window]
+                  windowScene];
+          GREYCondition *rotationWait =
+              [GREYCondition conditionWithName:@"App Rotation Condition"
+                                         block:^BOOL {
+                                           return scene.effectiveGeometry.interfaceOrientation ==
+                                                  interfaceOrientation;
+                                         }];
+          success = [rotationWait
+              waitWithTimeout:GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration)];
+        } else {
+          success = currentDevice.orientation == deviceOrientation;
+        }
+#else
+        success = currentDevice.orientation == deviceOrientation;
+#endif  // (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 160000)
+      }
+    }
+
+    // Remove the orientation change notification observer.
+    [notificationCenter removeObserver:self
+                                  name:UIDeviceOrientationDidChangeNotification
+                                object:nil];
+  }
 
   if (!success) {
     NSString *errorDescription;
@@ -359,8 +364,15 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
       errorDescription =
           @"Application did not idle after rotating and before verifying the rotation.";
     } else if (!syncErrorBeforeRotation && !syncErrorAfterRotation) {
-      NSString *errorReason = @"Could not rotate application to orientation: %tu. XCUIDevice "
-                              @"Orientation: %tu";
+      NSString *errorReason;
+      if (interfaceOrientation == UIInterfaceOrientationUnknown) {
+        errorReason = @"Could not rotate application to orientation: %tu. XCUIDevice "
+                      @"Orientation: %tu. This particular device does not support this orientation "
+                      @"and it shows up as UIInterfaceOrientationUnknown.";
+      } else {
+        errorReason = @"Could not rotate application to orientation: %tu. XCUIDevice "
+                      @"Orientation: %tu. Check if the rotation is valid for the specified device.";
+      }
       errorDescription =
           [NSString stringWithFormat:errorReason, deviceOrientation, sharedDevice.orientation];
     }
