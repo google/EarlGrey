@@ -125,9 +125,9 @@
 
 - (void)testSwipeWorksInAllDirectionsInUpsideDownMode {
   if (@available(iOS 16.0, *)) {
-    XCTSkip(@"b/249665675");
+    // PortraitUpsideDown mode is unavailable in iOS16
+    return;
   }
-
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortraitUpsideDown error:nil];
   [self ftr_assertSwipeWorksInAllDirections];
 }
@@ -197,9 +197,9 @@
 
 - (void)testPinchWorksInAllDirectionsInUpsideDownMode {
   if (@available(iOS 16.0, *)) {
-    XCTSkip(@"b/249665675");
+    // PortraitUpsideDown mode is unavailable in iOS16
+    return;
   }
-
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortraitUpsideDown error:nil];
   [self ftr_assertPinchWorksInAllDirections];
 }

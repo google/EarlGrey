@@ -119,9 +119,9 @@
 
 - (void)testTakeScreenShotForAppStoreInPortraitUpsideDownMode {
   if (@available(iOS 16.0, *)) {
-    XCTSkip(@"b/249665675");
+    // PortraitUpsideDown mode is unavailable in iOS16
+    return;
   }
-
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortraitUpsideDown error:nil];
   UIImage *screenshot = [XCUIScreen mainScreen].screenshot.image;
   GREYAssert(screenshot, @"Failed to take screenshot");
