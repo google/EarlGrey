@@ -17,67 +17,88 @@
 import Foundation
 public func GREYAssert(
   _ expression: @autoclosure () -> Bool,
-  _ reason: @autoclosure () -> String = "Assert on expression Failed"
+  _ reason: @autoclosure () -> String = "Assert on expression Failed",
+  file: StaticString = #file,
+  line: UInt = #line
 ) {
-  GREYAssert(expression(), reason(), "Expected expression to be true")
+  GREYAssert(expression(), reason(), "Expected expression to be true", file: file, line: line)
 }
 
 public func GREYAssertTrue(
   _ expression: @autoclosure () -> Bool,
-  _ reason: @autoclosure () -> String = "Expression is not true"
+  _ reason: @autoclosure () -> String = "Expression is not true",
+  file: StaticString = #file,
+  line: UInt = #line
 ) {
-  GREYAssert(expression(), reason(), "Expected the boolean expression to be true")
+  GREYAssert(
+    expression(), reason(), "Expected the boolean expression to be true", file: file, line: line)
 }
 
 public func GREYAssertFalse(
   _ expression: @autoclosure () -> Bool,
-  _ reason: @autoclosure () -> String = "Expression is not false"
+  _ reason: @autoclosure () -> String = "Expression is not false",
+  file: StaticString = #file,
+  line: UInt = #line
 ) {
-  GREYAssert(!expression(), reason(), "Expected the boolean expression to be false")
+  GREYAssert(
+    !expression(), reason(), "Expected the boolean expression to be false", file: file, line: line)
 }
 
 public func GREYAssertNotNil(
   _ expression: @autoclosure () -> Any?,
-  _ reason: @autoclosure () -> String = "Expression is nil"
+  _ reason: @autoclosure () -> String = "Expression is nil",
+  file: StaticString = #file,
+  line: UInt = #line
 ) {
-  GREYAssert(expression() != nil, reason(), "Expected expression to be not nil")
+  GREYAssert(
+    expression() != nil, reason(), "Expected expression to be not nil", file: file, line: line)
 }
 
 public func GREYAssertNil(
   _ expression: @autoclosure () -> Any?,
-  _ reason: @autoclosure () -> String = "Expression is not nil"
+  _ reason: @autoclosure () -> String = "Expression is not nil",
+  file: StaticString = #file,
+  line: UInt = #line
 ) {
-  GREYAssert(expression() == nil, reason(), "Expected expression to be nil")
+  GREYAssert(expression() == nil, reason(), "Expected expression to be nil", file: file, line: line)
 }
 
 public func GREYAssertEqual<T: Equatable>(
   _ left: @autoclosure () -> T?,
   _ right: @autoclosure () -> T?,
-  _ reason: @autoclosure () -> String = "Expression's compared values are not equal"
+  _ reason: @autoclosure () -> String = "Expression's compared values are not equal",
+  file: StaticString = #file,
+  line: UInt = #line
 ) {
-  GREYAssert(left() == right(), reason(), "Expected left term to be equal to right term")
+  GREYAssert(
+    left() == right(), reason(), "Expected left term to be equal to right term", file: file,
+    line: line)
 }
 
 public func GREYAssertNotEqual<T: Equatable>(
   _ left: @autoclosure () -> T?,
   _ right: @autoclosure () -> T?,
-  _ reason: @autoclosure () -> String = "Expression's compared values are equal"
+  _ reason: @autoclosure () -> String = "Expression's compared values are equal",
+  file: StaticString = #file,
+  line: UInt = #line
 ) {
   GREYAssert(
     left() != right(),
     reason(),
-    "Expected left term to not equal the right term")
+    "Expected left term to not equal the right term", file: file, line: line)
 }
 
 public func GREYFail(
   _ reason: @autoclosure () -> String = "Generic EarlGrey exception thrown.",
-  _ details: @autoclosure () -> String = ""
+  _ details: @autoclosure () -> String = "",
+  file: StaticString = #file,
+  line: UInt = #line
 ) {
   EarlGrey.handle(
     GREYFrameworkException(
       name: kGREYAssertionFailedException,
       reason: reason()),
-    details: details())
+    details: details(), file: file, line: line)
 }
 
 /// Waits for the application to idle on a background queue of the test to enable thread safe calls
@@ -87,7 +108,9 @@ public func GREYFail(
 ///   - timeoutDescription: The description to be printed if the application doesn't idle.
 public func GREYWaitForAppToIdle(
   _ timeoutDescription: @autoclosure () -> String =
-    "EarlGrey timed out while waiting for the app to idle."
+    "EarlGrey timed out while waiting for the app to idle.",
+  file: StaticString = #file,
+  line: UInt = #line
 ) {
   var error: NSError?
   GREYWaitForAppToIdleWithError(&error)
@@ -98,7 +121,7 @@ public func GREYWaitForAppToIdle(
     GREYFrameworkException(
       name: kGREYTimeoutException,
       reason: timeoutDescription()),
-    details: error.debugDescription)
+    details: error.debugDescription, file: file, line: line)
 }
 
 /// Waits for the application to idle within a timeout on a background queue of the test to enable
@@ -110,7 +133,9 @@ public func GREYWaitForAppToIdle(
 public func GREYWaitForAppToIdle(
   _ timeout: CFTimeInterval,
   _ timeoutDescription: @autoclosure () -> String =
-    "EarlGrey timed out while waiting for the app to idle within timeout: \timeout."
+    "EarlGrey timed out while waiting for the app to idle within timeout: \timeout.",
+  file: StaticString = #file,
+  line: UInt = #line
 ) {
   var error: NSError?
   GREYWaitForAppToIdleWithTimeoutAndError(timeout, &error)
@@ -121,13 +146,15 @@ public func GREYWaitForAppToIdle(
     GREYFrameworkException(
       name: kGREYTimeoutException,
       reason: timeoutDescription()),
-    details: error.debugDescription)
+    details: error.debugDescription, file: file, line: line)
 }
 
 private func GREYAssert(
   _ expression: @autoclosure () -> Bool,
   _ reason: @autoclosure () -> String = "Generic EarlGrey Assertion Failed.",
-  _ details: @autoclosure () -> String
+  _ details: @autoclosure () -> String,
+  file: StaticString = #file,
+  line: UInt = #line
 ) {
   GREYWaitForAppToIdle()
   if !expression() {
@@ -135,7 +162,9 @@ private func GREYAssert(
       GREYFrameworkException(
         name: kGREYAssertionFailedException,
         reason: reason()),
-      details: details())
+      details: details(),
+      file: file,
+      line: line)
   }
 }
 
