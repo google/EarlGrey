@@ -24,6 +24,7 @@
 		7681E45228F60477007BCE7A /* GREYDescribeVariable.m in Sources */ = {isa = PBXBuildFile; fileRef = 7681E45128F60477007BCE7A /* GREYDescribeVariable.m */; };
 		76CE2923285176CA0036A770 /* GREYDistantObjectUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 76CE2922285176CA0036A770 /* GREYDistantObjectUtils.m */; };
 		76CE2925285176DA0036A770 /* GREYDistantObjectUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 76CE2924285176DA0036A770 /* GREYDistantObjectUtils.m */; };
+		76D8FE4D293ACBE5007812C8 /* ExposedForTesting.h in Headers */ = {isa = PBXBuildFile; fileRef = 76D8FE4C293ACBE5007812C8 /* ExposedForTesting.h */; };
 		76E0547B258179E60015F307 /* GREYConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = FD6239DF20F56C9500049E81 /* GREYConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		76E0547C258179F80015F307 /* GREYError.h in Headers */ = {isa = PBXBuildFile; fileRef = FD6239B520F56C3D00049E81 /* GREYError.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		76E0547D25817A050015F307 /* GREYErrorConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = FD6239B120F56C3D00049E81 /* GREYErrorConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -453,6 +454,7 @@
 		76C023AD288A0E4800BDEED5 /* GREYInterposer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYInterposer.h; path = CommonLib/Interposer/GREYInterposer.h; sourceTree = "<group>"; };
 		76CE2922285176CA0036A770 /* GREYDistantObjectUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYDistantObjectUtils.m; path = DistantObject/GREYDistantObjectUtils.m; sourceTree = "<group>"; };
 		76CE2924285176DA0036A770 /* GREYDistantObjectUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYDistantObjectUtils.m; path = DistantObject/GREYDistantObjectUtils.m; sourceTree = "<group>"; };
+		76D8FE4C293ACBE5007812C8 /* ExposedForTesting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExposedForTesting.h; sourceTree = "<group>"; };
 		80E8CD4422AF097000CDE5C5 /* GREYElementMatcherBlock+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GREYElementMatcherBlock+Private.h"; path = "CommonLib/Matcher/GREYElementMatcherBlock+Private.h"; sourceTree = SOURCE_ROOT; };
 		A20847AA22BC095A00DD3983 /* GREYTraversalObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYTraversalObject.h; sourceTree = "<group>"; };
 		A20847B322BC095A00DD3983 /* GREYTraversalObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYTraversalObject.m; sourceTree = "<group>"; };
@@ -1135,6 +1137,7 @@
 		FD623A4A20F957BE00049E81 /* AppFramework */ = {
 			isa = PBXGroup;
 			children = (
+				76D8FE4C293ACBE5007812C8 /* ExposedForTesting.h */,
 				FD6F5FF42772AD0F00FC7868 /* EarlGreyApp.h */,
 				FD2E76E92149E4450063EF7E /* Config */,
 				FD623B7220F95B0800049E81 /* Synchronization */,
@@ -1543,6 +1546,7 @@
 				76E0547D25817A050015F307 /* GREYErrorConstants.h in Headers */,
 				FDE5C4D0263887C90094E325 /* GREYUIThreadExecutor+GREYApp.h in Headers */,
 				FD623AE320F9591600049E81 /* GREYAssertions.h in Headers */,
+				76D8FE4D293ACBE5007812C8 /* ExposedForTesting.h in Headers */,
 				FD623AFB20F9594200049E81 /* GREYInteraction.h in Headers */,
 				FD623B4620F95A9C00049E81 /* GREYNSTimerIdlingResource.h in Headers */,
 				FD623AD920F9590800049E81 /* __NSCFLocalDataTask_GREYApp.h in Headers */,

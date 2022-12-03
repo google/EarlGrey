@@ -14,8 +14,7 @@
 // limitations under the License.
 //
 
-#import "EarlGreyApp.h"
-#import "GREYHostBackgroundDistantObject.h"
+#import "ExposedForTesting.h"
 
 /** GREYHostBackgroundDistantObject extension for the basic interaction test. */
 @interface GREYHostBackgroundDistantObject (BasicInteractionTest)

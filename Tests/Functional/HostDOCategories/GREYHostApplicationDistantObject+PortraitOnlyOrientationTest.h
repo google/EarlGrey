@@ -14,9 +14,7 @@
 // limitations under the License.
 //
 
-#import "EarlGreyApp.h"
-#import "GREYHostApplicationDistantObject.h"
-#import "GREYSwizzler.h"
+#import "ExposedForTesting.h"
 
 /** GREYHostApplicationDistantObject extension for the protrait orientation test. */
 @interface GREYHostApplicationDistantObject (PortraitOnlyOrientationTest)

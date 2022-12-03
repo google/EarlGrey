@@ -16,8 +16,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "EarlGreyApp.h"
-#import "GREYHostApplicationDistantObject.h"
+#import "ExposedForTesting.h"
 
 @interface GREYHostApplicationDistantObject (KeyboardKeysTest)
 

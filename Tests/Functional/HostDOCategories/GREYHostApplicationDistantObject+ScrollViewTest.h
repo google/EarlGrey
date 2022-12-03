@@ -16,8 +16,7 @@
 
 #import <UIKit/UIKit.h>
 
-#import "EarlGreyApp.h"
-#import "GREYHostApplicationDistantObject.h"
+#import "ExposedForTesting.h"
 
 /** GREYHostApplicationDistantObject extension for the scroll view test. */
 @interface GREYHostApplicationDistantObject (ScrollViewTest)

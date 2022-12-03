@@ -14,8 +14,7 @@
 // limitations under the License.
 //
 
-#import "EarlGreyApp.h"
-#import "GREYHostApplicationDistantObject.h"
+#import "ExposedForTesting.h"
 
 /** GREYHostApplicationDistantObject extension for the basic interaction test. */
 @interface GREYHostApplicationDistantObject (BasicInteractionTest)

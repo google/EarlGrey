@@ -16,7 +16,7 @@
 
 #import <UIKit/UIKit.h>
 
-#import "GREYHostApplicationDistantObject.h"
+#import "ExposedForTesting.h"
 
 /** GREYHostApplicationDistantObject extension for the pinch view test. */
 @interface GREYHostApplicationDistantObject (PinchViewTest)
