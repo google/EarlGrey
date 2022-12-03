@@ -25,6 +25,8 @@
  */
 UIWindow *GREYUILibUtilsGetApplicationKeyWindow(UIApplication *application);
 
+UIWindow *GREYUILibUtilsGetKeyboardWindow(void);  // NO_LINT
+
 /**
  * A provider for UIApplication windows. By default, all application windows are returned unless
  * this provider is initialized with custom windows.

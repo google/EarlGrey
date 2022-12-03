@@ -36,11 +36,6 @@ static UIView *GetFirstResponderSubview(UIView *view) {
   return nil;
 }
 
-/** @return The UIWindow for the keyboard. */
-static UIWindow *GetKeyboardWindow(void) {  // NO_LINT
-  return [(UIView *)[UIKeyboardImpl sharedInstance] window];
-}
-
 UIWindow *GREYGetApplicationKeyWindow(UIApplication *application) {
   // New API only available on Xcode 13+
   return GREYUILibUtilsGetApplicationKeyWindow(application);
@@ -116,7 +111,7 @@ UIWindow *GREYGetApplicationKeyWindow(UIApplication *application) {
     if (inputView.window) {
       [windows addObject:inputView.window];
     }
-    UIWindow *keyboardWindow = GetKeyboardWindow();
+    UIWindow *keyboardWindow = GREYUILibUtilsGetKeyboardWindow();
     if (keyboardWindow) {
       [windows addObject:keyboardWindow];
     }

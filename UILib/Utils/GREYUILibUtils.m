@@ -16,6 +16,8 @@
 
 #import "GREYUILibUtils.h"
 
+#import "GREYAppleInternals.h"
+
 UIWindow *GREYUILibUtilsGetApplicationKeyWindow(UIApplication *application) {
   // New API only available on Xcode 13+
 #if (defined(__MAC_OS_X_VERSION_MAX_ALLOWED) && __MAC_OS_X_VERSION_MAX_ALLOWED >= 120000) || \
@@ -78,6 +80,11 @@ UIWindow *GREYUILibUtilsGetApplicationKeyWindow(UIApplication *application) {
     return [application keyWindow];
 #pragma clang diagnostic pop
   }
+}
+
+/** @return The UIWindow for the keyboard. */
+UIWindow *GREYUILibUtilsGetKeyboardWindow(void) {  // NO_LINT
+  return [(UIView *)[UIKeyboardImpl sharedInstance] window];
 }
 
 @implementation GREYUILibUtils
