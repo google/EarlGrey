@@ -52,4 +52,9 @@ UIWindow *GREYUILibUtilsGetKeyboardWindow(void);  // NO_LINT
  */
 + (UIWindow *)window;
 
+/**
+ * @return The frame for the keyboard present on the screen.
+ */
++ (CGRect)scaledKeyboardFrame;
+
 @end

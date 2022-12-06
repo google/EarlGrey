@@ -78,3 +78,4 @@
 #import "GREYSwizzler.h"
 #import "GREYElementHierarchy.h"
 #import "GREYScreenshotter.h"
+#import "GREYUILibUtils.h"

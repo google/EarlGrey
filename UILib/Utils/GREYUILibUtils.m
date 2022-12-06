@@ -115,4 +115,20 @@ UIWindow *GREYUILibUtilsGetKeyboardWindow(void) {  // NO_LINT
   return GREYUILibUtilsGetApplicationKeyWindow(UIApplication.sharedApplication);
 }
 
++ (CGRect)scaledKeyboardFrame {
+  UIWindow *keyboardWindow = GREYUILibUtilsGetKeyboardWindow();
+  if (!keyboardWindow || !keyboardWindow.subviews.count) {
+    return CGRectNull;
+  }
+  UIView *inputSetContainerView = keyboardWindow.subviews[0];
+  if (!inputSetContainerView.subviews.count) {
+    return CGRectNull;
+  }
+  UIView *inputSetHostView = inputSetContainerView.subviews[0];
+  CGRect frame = [inputSetHostView frame];
+  CGFloat scale = [self screen].scale;
+  return CGRectMake(CGRectGetMinX(frame) * scale, CGRectGetMinY(frame) * scale,
+                    CGRectGetWidth(frame) * scale, CGRectGetHeight(frame) * scale);
+}
+
 @end

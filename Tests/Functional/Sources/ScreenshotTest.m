@@ -15,12 +15,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "GREYElementInteraction.h"
+#import "ExposedForTesting.h"
 #import "EarlGrey.h"
 #import "BaseIntegrationTest.h"
-#import "GREYUILibUtils.h"
-
-#import "EDORemoteVariable.h"
 
 @interface ScreenshotTest : BaseIntegrationTest
 @end
@@ -167,6 +164,26 @@
         [EarlGrey selectElementWithMatcher:grey_kindOfClassName(@"UIStatusBar_Modern")];
     [[interaction includeStatusBar] assertWithMatcher:grey_notNil()];
   }
+}
+
+- (void)testScreenshotDebugInfo {
+  // A previous test may have scrolled to the bottom of the main view controller's table view.
+  [[EarlGrey selectElementWithMatcher:grey_kindOfClass([UITableView class])]
+      performAction:grey_scrollToContentEdge(kGREYContentEdgeTop)];
+  EDORemoteVariable<UIImage *> *snapshot = [[EDORemoteVariable alloc] init];
+  [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")]
+      performAction:grey_snapshot(snapshot)];
+  XCTAssertNil([snapshot.object accessibilityHint]);
+
+  [self openTestViewNamed:@"Basic Views"];
+  [[EarlGrey selectElementWithMatcher:grey_keyWindow()] performAction:grey_snapshot(snapshot)];
+  XCTAssertNil([snapshot.object accessibilityHint]);
+
+  [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
+      performAction:grey_typeText(@"hi")];
+  [[EarlGrey selectElementWithMatcher:grey_keyWindow()] performAction:grey_snapshot(snapshot)];
+  XCTAssertNotNil([snapshot.object accessibilityHint]);
 }
 
 #pragma mark - Private
