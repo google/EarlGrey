@@ -62,7 +62,6 @@
 #import "GREYIdlingResource.h"
 
 // Miscellaneous APIs
-#import "GREYSyntheticEvents.h"
 #import "GREYKeyboard.h"
 #import "NSObject+GREYCommon.h"
 #import "GREYAppState.h"
