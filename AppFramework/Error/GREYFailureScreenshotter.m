@@ -36,7 +36,9 @@
   NSMutableDictionary<NSString *, UIImage *> *appScreenshots = [[NSMutableDictionary alloc] init];
   __block UIImage *screenshot;
   grey_dispatch_sync_on_main_thread(^{
-    screenshot = [GREYScreenshotter grey_takeScreenshotAfterScreenUpdates:NO withStatusBar:NO];
+    screenshot = [GREYScreenshotter grey_takeScreenshotAfterScreenUpdates:NO
+                                                            withStatusBar:NO
+                                                             forDebugging:YES];
   });
 
   if (screenshot) {

@@ -70,12 +70,14 @@ static UIScreen *MainScreen(void) {
 }
 
 + (UIImage *)takeScreenshot {
-  return [self grey_takeScreenshotAfterScreenUpdates:YES withStatusBar:NO];
+  return [self grey_takeScreenshotAfterScreenUpdates:YES withStatusBar:NO forDebugging:NO];
   ;
 }
 
 + (UIImage *)screenshotIncludingStatusBar:(BOOL)includeStatusBar {
-  return [self grey_takeScreenshotAfterScreenUpdates:YES withStatusBar:includeStatusBar];
+  return [self grey_takeScreenshotAfterScreenUpdates:YES
+                                       withStatusBar:includeStatusBar
+                                        forDebugging:NO];
 }
 
 + (UIImage *)snapshotElement:(id)element {
@@ -113,18 +115,21 @@ static UIScreen *MainScreen(void) {
 #pragma mark - Package Internal
 
 + (UIImage *)grey_takeScreenshotAfterScreenUpdates:(BOOL)afterScreenUpdates
-                                     withStatusBar:(BOOL)includeStatusBar {
+                                     withStatusBar:(BOOL)includeStatusBar
+                                      forDebugging:(BOOL)forDebugging {
   UIScreen *mainScreen = MainScreen();
   if (!mainScreen) return nil;
   CGRect screenRect = mainScreen.bounds;
   return [self grey_takeScreenshotAfterScreenUpdates:afterScreenUpdates
                                         inScreenRect:screenRect
-                                       withStatusBar:includeStatusBar];
+                                       withStatusBar:includeStatusBar
+                                        forDebugging:forDebugging];
 }
 
 + (UIImage *)grey_takeScreenshotAfterScreenUpdates:(BOOL)afterScreenUpdates
                                       inScreenRect:(CGRect)screenRect
-                                     withStatusBar:(BOOL)includeStatusBar {
+                                     withStatusBar:(BOOL)includeStatusBar
+                                      forDebugging:(BOOL)forDebugging {
   UIGraphicsBeginImageContextWithOptions(screenRect.size, YES, 0);
   [self drawScreenInContext:UIGraphicsGetCurrentContext()
          afterScreenUpdates:afterScreenUpdates
@@ -134,7 +139,9 @@ static UIScreen *MainScreen(void) {
   UIGraphicsEndImageContext();
 
   // Add information for screendiff tests.
-  AddAccessibilityHintForKeyboardToScreenshot(orientedScreenshot, CGRectNull);
+  if (!forDebugging) {
+    AddAccessibilityHintForKeyboardToScreenshot(orientedScreenshot, CGRectNull);
+  }
   return orientedScreenshot;
 }
 

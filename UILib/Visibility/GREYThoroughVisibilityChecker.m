@@ -421,7 +421,8 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
   UIImage *beforeScreenshot =
       [GREYScreenshotter grey_takeScreenshotAfterScreenUpdates:YES
                                                   inScreenRect:screenshotSearchRect_point
-                                                 withStatusBar:YES];
+                                                 withStatusBar:YES
+                                                  forDebugging:YES];
   CGImageRef beforeImage = CGImageCreateCopy(beforeScreenshot.CGImage);
   if (!beforeImage) {
     return NO;
@@ -513,7 +514,8 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
                UIImage *shiftedImage =
                    [GREYScreenshotter grey_takeScreenshotAfterScreenUpdates:YES
                                                                inScreenRect:searchRect
-                                                              withStatusBar:YES];
+                                                              withStatusBar:YES
+                                                               forDebugging:YES];
                [shiftedView removeFromSuperview];
                return shiftedImage;
              }];

@@ -36,7 +36,8 @@ NS_ASSUME_NONNULL_BEGIN
  * @return A UIImage containing a screenshot.
  */
 + (UIImage *)grey_takeScreenshotAfterScreenUpdates:(BOOL)afterScreenUpdates
-                                     withStatusBar:(BOOL)includeStatusBar;
+                                     withStatusBar:(BOOL)includeStatusBar
+                                      forDebugging:(BOOL)forDebugging;
 
 /**
  * @return A UIImage that is a screenshot of the specified bounds in the screen,
@@ -49,7 +50,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (UIImage *)grey_takeScreenshotAfterScreenUpdates:(BOOL)afterScreenUpdates
                                       inScreenRect:(CGRect)screenRect
-                                     withStatusBar:(BOOL)includeStatusBar;
+                                     withStatusBar:(BOOL)includeStatusBar
+                                      forDebugging:(BOOL)forDebugging;
 @end
 
 NS_ASSUME_NONNULL_END
