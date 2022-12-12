@@ -108,8 +108,8 @@
 - (void)greyswizzled_viewWillAppear:(BOOL)animated {
   // For UICompatibilityInputViewController and UIEditingOverlayViewController, which are keyboard
   // related classes, do not track this state due to issues seen with untracking.
-    if (![self isKindOfClass: NSClassFromString(@"UIEditingOverlayViewController")] ||
-      ![self isKindOfClass: NSClassFromString(@"UICompatibilityInputViewController")]) {
+  if (![self isKindOfClass: NSClassFromString(@"UIEditingOverlayViewController")] ||
+    ![self isKindOfClass: NSClassFromString(@"UICompatibilityInputViewController")]) {
     BOOL movingToNilWindow = [self grey_isMovingToNilWindow];
     if (movingToNilWindow) {
       GREYLogVerbose(@"A View Controller in the hierarchy of %@ is moving to a nil window."
