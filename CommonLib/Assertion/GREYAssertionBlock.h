@@ -23,6 +23,7 @@
  *
  * @param      element    Element that the assertion will be checked against.
  * @param[out] errorOrNil If non-nil, set to the cause of the assertion failure.
+ *                        *DO NOT* set this if the assertion is created remotely in the test.
  *
  * @return @c YES if the assertion is valid for @c element, @c NO otherwise.
  */
