@@ -31,7 +31,7 @@
     [EarlGrey setHostApplicationCrashHandler:[self defaultCrashHandler]];
     // EarlGrey functional test blocks creation of remote object belonging to testing process. The
     // only exception is NSArray - there is one test case verifying the eDO utility for NSArray.
-    [NSObject edo_disallowRemoteInvocationWithExlcusion:@[ [NSArray class], [NSEnumerator class] ]];
+    [NSObject edo_disallowRemoteInvocationWithExclusion:@[ [NSArray class], [NSEnumerator class] ]];
     [self.application launch];
   });
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait error:nil];
