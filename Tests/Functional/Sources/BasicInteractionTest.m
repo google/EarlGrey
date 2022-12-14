@@ -14,15 +14,12 @@
 // limitations under the License.
 //
 
-#import "GREYElementInteraction.h"
-#import "GREYConfigKey.h"
-#import "GREYHostBackgroundDistantObject.h"
+#import "ExposedForTesting.h"
 #import "EarlGrey.h"
 #import "GREYHostApplicationDistantObject+BasicInteractionTest.h"
 #import "GREYHostApplicationDistantObject+RemoteTest.h"
 #import "GREYHostBackgroundDistantObject+BasicInteractionTest.h"
 #import "BaseIntegrationTest.h"
-#import "GREYElementHierarchy.h"
 
 /**
  * Tests to ensure the basic functionality of EarlGrey is intact.
@@ -921,17 +918,6 @@
   CFTimeInterval interval = CACurrentMediaTime() - start;
   XCTAssertGreaterThan(interval, 3, @"The app must have been drained for 3 seconds");
   XCTAssertLessThan(interval, 3.1, @"The app must have been drained for 3 seconds");
-}
-
-/** Confirms EarlGrey's app deletion API works as intended. */
-- (void)testCloseAndDeleteApp {
-  if (@available(iOS 16.0, *)) {
-    XCTSkip(@"b/257407039 Fails on Xcode 14");
-  }
-  [self addTeardownBlock:^{
-    [[[XCUIApplication alloc] init] launch];
-  }];
-  [EarlGrey closeAndDeleteTestRig];
 }
 
 #pragma mark - Private

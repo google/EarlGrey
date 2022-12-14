@@ -14,7 +14,6 @@
 // limitations under the License.
 //
 
-#import <XCTest/XCTest.h>
 
 #import "GREYAction.h"
 #import "GREYActionsShorthand.h"
@@ -30,8 +29,8 @@
 #import "GREYFailureHandler.h"
 #import "GREYFrameworkException.h"
 #import "GREYConstants.h"
-#import "GREYDefines.h"
-#import "GREYLogger.h" 
+#import "GREYDefines.h"  
+#import "GREYLogger.h"   
 #import "GREYElementMatcherBlock.h"
 #import "GREYMatcher.h"
 #import "XCTestCase+GREYSystemAlertHandler.h"
@@ -317,16 +316,6 @@ typedef void (^GREYHostApplicationCrashHandler)(void);
 
 /** Standalone API for XCTestCase::grey_waitForAlertVisibility:withTimeout:. */
 - (BOOL)WaitForAlertVisibility:(BOOL)visible withTimeout:(CFTimeInterval)seconds;
-
-/**
- * Closes and deletes the test rig application.
- *
- * The test rig application should be launched at least once otherwise the invocation won't take
- * any effect.
- *
- * @note Calling this method is equivalent to "re-installing" your application.
- */
-- (void)closeAndDeleteTestRig;
 
 #endif  // TARGET_OS_IOS
 

@@ -26,7 +26,6 @@
 
 #import "GREYElementInteractionErrorHandler.h"
 #import "GREYElementInteractionProxy.h"
-#import "XCUIApplication+GREYTest.h"
 #import "GREYRemoteExecutor.h"
 #import "GREYDefaultFailureHandler.h"
 #import "XCTestCase+GREYTest.h"
@@ -431,78 +430,6 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
 - (BOOL)WaitForAlertVisibility:(BOOL)visible withTimeout:(CFTimeInterval)seconds {
   return [[XCTestCase grey_currentTestCase] grey_waitForAlertVisibility:visible
                                                             withTimeout:seconds];
-}
-
-- (void)closeAndDeleteTestRig {
-  NSString *bugDestination = @"https://github.com/google/EarlGrey/issues";
-  NSString *testRigName = XCUIApplication.greyTestRigName;
-  if (testRigName) {
-    XCUIApplication *application = [[XCUIApplication alloc] init];
-    [application terminate];
-    XCTAssertFalse(GREYTestApplicationDistantObject.sharedInstance.hostActiveWithAppComponent,
-                   @"EarlGrey fails to close the app because of an internal XCUITest error. Please "
-                   @"file a bug at %@",
-                   bugDestination);
-
-    XCUIApplication *springboard =
-        [[XCUIApplication alloc] initWithBundleIdentifier:@"com.apple.springboard"];
-    [springboard activate];
-    XCUIElement *icon = springboard.otherElements[@"Home screen icons"].icons[testRigName];
-
-    if (icon.exists) {
-      [icon pressForDuration:1];
-      BOOL (^attemptToTapButton)(XCUIElement *) = ^BOOL(XCUIElement *button) {
-        if (button.exists) {
-          [button tap];
-          return YES;
-        }
-        return NO;
-      };
-      void (^deleteAlertDismissalWithTolerance)(XCUIElement *, NSString *) =
-          ^(XCUIElement *element, NSString *elementDescription) {
-            GREYCondition *deleteAlertCondition =
-                [GREYCondition conditionWithName:@"Delete Alert Button Condition"
-                                           block:^BOOL {
-                                             [element tap];
-                                             return !element.exists;
-                                           }];
-            XCTAssertTrue([deleteAlertCondition waitWithTimeout:30],
-                          @"The %@ could not be dismissed because of an internal XCUITest error. "
-                          @"Please file a bug at %@",
-                          elementDescription, bugDestination);
-          };
-      if (attemptToTapButton(springboard.buttons[@"Remove App"])) {
-        // This branch is entered by iOS 14 and later, the app deletion flow is:
-        // [Long Press on Icon] -> [Remove App Menu Item] -> [Delete App Button] -> [Delete
-        // Button].
-        deleteAlertDismissalWithTolerance([springboard.alerts firstMatch].buttons[@"Delete App"],
-                                          @"Delete App button");
-        deleteAlertDismissalWithTolerance([springboard.alerts firstMatch].buttons[@"Delete"],
-                                          @"Delete button");
-      } else if (attemptToTapButton(springboard.buttons[@"Delete App"])) {
-        // This branch is entered by iOS 13.7, the app deletion flow is:
-        // [Long Press on Icon] -> [Delete Menu Item] -> [Delete Button].
-        deleteAlertDismissalWithTolerance([springboard.alerts firstMatch].buttons[@"Delete"],
-                                          @"Delete button");
-      } else if (attemptToTapButton(springboard.buttons[@"Rearrange Apps"])) {
-        // This branch is entered by iOS 13.0, the app deletion flow is:
-        // [Long Press on Icon] -> [Rearrange Apps Menu Item] -> [Cross Button] -> [Delete
-        // Button].
-        deleteAlertDismissalWithTolerance(icon.buttons[@"DeleteButton"], @"Cross button");
-        deleteAlertDismissalWithTolerance([springboard.alerts firstMatch].buttons[@"Delete"],
-                                          @"Delete button");
-      } else if (attemptToTapButton(icon.buttons[@"DeleteButton"])) {
-        // This branch is entered by pre iOS 13.0, the app deletion flow is:
-        // [Long Press on Icon] -> [Cross Button] -> [Delete Button].
-        deleteAlertDismissalWithTolerance([springboard.alerts firstMatch].buttons[@"Delete"],
-                                          @"Delete button");
-      } else {
-        XCTFail(@"Failed to find delete app button from the screen:\n%@",
-                springboard.debugDescription);
-      }
-      [[XCUIDevice sharedDevice] pressButton:XCUIDeviceButtonHome];
-    }
-  }
 }
 
 #endif  // TARGET_OS_IOS
