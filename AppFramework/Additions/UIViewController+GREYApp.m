@@ -22,16 +22,16 @@
 #import "GREYFatalAsserts.h"
 #import "GREYAppState.h"
 #import "GREYAppleInternals.h"
-#import "GREYDefines.h"
 #import "GREYLogger.h"
 #import "GREYSwizzler.h"
 
 /**
- * The class for UICompatibilityInputViewController and UIEditingOverlayViewControllerwhich isn't
+ * The class for UICompatibilityInputViewController and UIEditingOverlayViewController which isn't
  * tracked here since we've faced issues with tracking it when it comes to typing on keyboards
  * with accessory views.
  */
-static Class gInputAccessoryVCClass;
+static Class gEditingOverlayVCClass;
+static Class gCompatibilityInputVCClass;
 
 @implementation UIViewController (GREYApp)
 
@@ -68,17 +68,13 @@ static Class gInputAccessoryVCClass;
   swizzleSuccess = [swizzler swizzleClass:self
                     replaceInstanceMethod:@selector(viewDidMoveToWindow:shouldAppearOrDisappear:)
                                withMethod:swizzledSel];
-  GREYFatalAssertWithMessage(swizzleSuccess,
-                             @"Cannot swizzle UIViewController viewDidMoveToWindow:"
-                             @"shouldAppearOrDisappear:");
+  GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle UIViewController viewDidMoveToWindow:"
+                                             @"shouldAppearOrDisappear:");
 }
 
 __attribute__((constructor)) static void initialize(void) {
-  if (iOS13_OR_ABOVE()) {
-    gInputAccessoryVCClass = NSClassFromString(@"UIEditingOverlayViewController");
-  } else {
-    gInputAccessoryVCClass = NSClassFromString(@"UICompatibilityInputViewController");
-  }
+  gEditingOverlayVCClass = NSClassFromString(@"UIEditingOverlayViewController");
+  gCompatibilityInputVCClass = NSClassFromString(@"UICompatibilityInputViewController");
 }
 
 - (void)grey_trackAsRootViewControllerForWindow:(UIWindow *)window {
@@ -123,7 +119,8 @@ __attribute__((constructor)) static void initialize(void) {
 - (void)greyswizzled_viewWillAppear:(BOOL)animated {
   // For UICompatibilityInputViewController and UIEditingOverlayViewController, which are keyboard
   // related classes, do not track this state due to issues seen with untracking.
-  if (![self isKindOfClass:gInputAccessoryVCClass]) {
+  if (![self isKindOfClass:gEditingOverlayVCClass] &&
+      ![self isKindOfClass:gCompatibilityInputVCClass]) {
     BOOL movingToNilWindow = [self grey_isMovingToNilWindow];
     if (movingToNilWindow) {
       GREYLogVerbose(@"A View Controller in the hierarchy of %@ is moving to a nil window."
