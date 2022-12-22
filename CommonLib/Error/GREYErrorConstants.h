@@ -73,6 +73,10 @@ typedef NS_ENUM(NSInteger, GREYInteractionErrorCode) {
    * Index provided for an error with a WKWebView interaction.
    */
   kGREYWKWebViewInteractionFailedErrorCode,
+  /**
+   * Index provided for an error that limited network cannot be applied on the device.
+   */
+  kGREYInteractionLimitedNetworkNotSupportedErrorCode,
 };
 
 /**
