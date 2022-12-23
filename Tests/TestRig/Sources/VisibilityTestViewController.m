@@ -23,7 +23,8 @@
 
   CGFloat halfPixelInPoint;
   if (@available(iOS 16.0, *)) {
-    halfPixelInPoint = 1.0f / (2.0f * [[self view] window].windowScene.screen.scale);
+    UIWindow *firstAppWindow = [[UIApplication sharedApplication].windows firstObject];
+    halfPixelInPoint = 1.0f / (2.0f * firstAppWindow.windowScene.screen.scale);
   } else {
     halfPixelInPoint = 1.0f / (2.0f * [UIScreen mainScreen].scale);
   }
