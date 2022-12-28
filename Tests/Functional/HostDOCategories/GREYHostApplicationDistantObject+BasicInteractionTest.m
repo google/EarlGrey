@@ -18,15 +18,8 @@
 
 #include <objc/runtime.h>
 
-#import "GREYActionBlock.h"
-#import "GREYActionsShorthand.h"
-#import "GREYMatchersShorthand.h"
+#import "ExposedForTesting.h"
 #import "GREYSyncAPI.h"
-#import "GREYAssertionBlock.h"
-#import "GREYDescription.h"
-#import "GREYElementMatcherBlock.h"
-#import "GREYElementHierarchy.h"
-#import "GREYUILibUtils.h"
 
 /**
  * A sample view controller that's set as the root for testing purposes.
@@ -62,7 +55,7 @@ static UIViewController *gViewController;
 
 - (UIWindow *)setupGestureRecognizer {
   UITapGestureRecognizer *tapGestureRecognizer =
-      [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(ftr_dismissWindow:)];
+      [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissWindow:)];
   tapGestureRecognizer.numberOfTapsRequired = 1;
 
   // Create a custom window that dismisses itself when tapped.
@@ -192,7 +185,7 @@ static UIViewController *gViewController;
 
 #pragma mark - Private
 
-- (void)ftr_dismissWindow:(UITapGestureRecognizer *)sender {
+- (void)dismissWindow:(UITapGestureRecognizer *)sender {
   [sender.view setHidden:YES];
 }
 

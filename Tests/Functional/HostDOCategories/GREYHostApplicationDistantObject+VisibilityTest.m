@@ -18,12 +18,10 @@
 
 #include <objc/runtime.h>
 
-#import "GREYMatchers.h"
-#import "GREYAssertionBlock.h"
+#import "ExposedForTesting.h"
 #import "GREYFatalAsserts.h"
 #import "GREYThrowDefines.h"
 #import "GREYErrorConstants.h"
-#import "GREYMatcher.h"
 #import "CGGeometry+GREYUI.h"
 #import "GREYVisibilityChecker+Private.h"
 #import "GREYVisibilityChecker.h"
@@ -62,7 +60,7 @@
       }];
 }
 
-- (GREYAssertionBlock *)ftr_assertOnIDSet:(NSMutableSet<NSString *> *)idSet {
+- (GREYAssertionBlock *)assertOnIDSet:(NSMutableSet<NSString *> *)idSet {
   GREYAssertionBlock *assertAxId = [GREYAssertionBlock
             assertionWithName:@"Check Accessibility Id"
       assertionBlockWithError:^BOOL(id element, NSError *__strong *errorOrNil) {

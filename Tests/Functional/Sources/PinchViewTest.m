@@ -14,7 +14,6 @@
 // limitations under the License.
 //
 
-#import "GREYWaitFunctions.h"
 #import "EarlGrey.h"
 #import "GREYHostApplicationDistantObject+PinchViewTest.h"
 #import "BaseIntegrationTest.h"
@@ -35,95 +34,95 @@
 }
 
 - (void)testImageViewFrameSizeOnZoomingFastOutward {
-  _imageViewFrameBeforePinch = [self ftr_imageViewFrame];
+  _imageViewFrameBeforePinch = [self imageViewFrame];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Image View")]
       performAction:grey_pinchFastInDirectionAndAngle(kGREYPinchDirectionOutward,
                                                       kGREYPinchAngleDefault)];
-  _imageViewFrameAfterPinch = [self ftr_imageViewFrame];
-  [self ftr_assertThatInitialSize:_imageViewFrameBeforePinch.size
-                     andFinalSize:_imageViewFrameAfterPinch.size
-                       areOrdered:NSOrderedAscending];
+  _imageViewFrameAfterPinch = [self imageViewFrame];
+  [self assertThatInitialSize:_imageViewFrameBeforePinch.size
+                 andFinalSize:_imageViewFrameAfterPinch.size
+                   areOrdered:NSOrderedAscending];
 }
 
 - (void)testImageViewFrameSizeOnZoomingSlowOutward {
-  _imageViewFrameBeforePinch = [self ftr_imageViewFrame];
+  _imageViewFrameBeforePinch = [self imageViewFrame];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Image View")]
       performAction:grey_pinchSlowInDirectionAndAngle(kGREYPinchDirectionOutward,
                                                       kGREYPinchAngleDefault)];
-  _imageViewFrameAfterPinch = [self ftr_imageViewFrame];
-  [self ftr_assertThatInitialSize:_imageViewFrameBeforePinch.size
-                     andFinalSize:_imageViewFrameAfterPinch.size
-                       areOrdered:NSOrderedAscending];
+  _imageViewFrameAfterPinch = [self imageViewFrame];
+  [self assertThatInitialSize:_imageViewFrameBeforePinch.size
+                 andFinalSize:_imageViewFrameAfterPinch.size
+                   areOrdered:NSOrderedAscending];
 }
 
 - (void)testImageViewFrameSizeOnZoomingFastInward {
-  _imageViewFrameBeforePinch = [self ftr_imageViewFrame];
+  _imageViewFrameBeforePinch = [self imageViewFrame];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Image View")]
       performAction:grey_pinchFastInDirectionAndAngle(kGREYPinchDirectionInward,
                                                       kGREYPinchAngleDefault)];
-  _imageViewFrameAfterPinch = [self ftr_imageViewFrame];
-  [self ftr_assertThatInitialSize:_imageViewFrameBeforePinch.size
-                     andFinalSize:_imageViewFrameAfterPinch.size
-                       areOrdered:NSOrderedDescending];
+  _imageViewFrameAfterPinch = [self imageViewFrame];
+  [self assertThatInitialSize:_imageViewFrameBeforePinch.size
+                 andFinalSize:_imageViewFrameAfterPinch.size
+                   areOrdered:NSOrderedDescending];
 }
 
 - (void)testImageViewFrameSizeOnZoomingSlowInward {
-  _imageViewFrameBeforePinch = [self ftr_imageViewFrame];
+  _imageViewFrameBeforePinch = [self imageViewFrame];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Image View")]
       performAction:grey_pinchFastInDirectionAndAngle(kGREYPinchDirectionInward,
                                                       kGREYPinchAngleDefault)];
-  _imageViewFrameAfterPinch = [self ftr_imageViewFrame];
-  [self ftr_assertThatInitialSize:_imageViewFrameBeforePinch.size
-                     andFinalSize:_imageViewFrameAfterPinch.size
-                       areOrdered:NSOrderedDescending];
+  _imageViewFrameAfterPinch = [self imageViewFrame];
+  [self assertThatInitialSize:_imageViewFrameBeforePinch.size
+                 andFinalSize:_imageViewFrameAfterPinch.size
+                   areOrdered:NSOrderedDescending];
 }
 
 - (void)testImageViewFrameSizeOnZoomingInwardWithZeroAngle {
   double defaultPinchAngle = 0;
-  _imageViewFrameBeforePinch = [self ftr_imageViewFrame];
+  _imageViewFrameBeforePinch = [self imageViewFrame];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Image View")]
       performAction:grey_pinchSlowInDirectionAndAngle(kGREYPinchDirectionInward,
                                                       defaultPinchAngle)];
-  _imageViewFrameAfterPinch = [self ftr_imageViewFrame];
-  [self ftr_assertThatInitialSize:_imageViewFrameBeforePinch.size
-                     andFinalSize:_imageViewFrameAfterPinch.size
-                       areOrdered:NSOrderedDescending];
+  _imageViewFrameAfterPinch = [self imageViewFrame];
+  [self assertThatInitialSize:_imageViewFrameBeforePinch.size
+                 andFinalSize:_imageViewFrameAfterPinch.size
+                   areOrdered:NSOrderedDescending];
 }
 
 - (void)testImageViewFrameSizeOnZoomingInwardWithNegativeAngle {
   double defaultPinchAngle = (-90.0 * M_PI / 180.0);
-  _imageViewFrameBeforePinch = [self ftr_imageViewFrame];
+  _imageViewFrameBeforePinch = [self imageViewFrame];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Image View")]
       performAction:grey_pinchSlowInDirectionAndAngle(kGREYPinchDirectionInward,
                                                       defaultPinchAngle)];
-  _imageViewFrameAfterPinch = [self ftr_imageViewFrame];
-  [self ftr_assertThatInitialSize:_imageViewFrameBeforePinch.size
-                     andFinalSize:_imageViewFrameAfterPinch.size
-                       areOrdered:NSOrderedDescending];
+  _imageViewFrameAfterPinch = [self imageViewFrame];
+  [self assertThatInitialSize:_imageViewFrameBeforePinch.size
+                 andFinalSize:_imageViewFrameAfterPinch.size
+                   areOrdered:NSOrderedDescending];
 }
 
 - (void)testImageViewFrameSizeOnZoomingInwardWithAngle {
   double defaultPinchAngle = (30.0 * M_PI / 180.0);
-  _imageViewFrameBeforePinch = [self ftr_imageViewFrame];
+  _imageViewFrameBeforePinch = [self imageViewFrame];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Image View")]
       performAction:grey_pinchFastInDirectionAndAngle(kGREYPinchDirectionInward,
                                                       defaultPinchAngle)];
-  _imageViewFrameAfterPinch = [self ftr_imageViewFrame];
-  [self ftr_assertThatInitialSize:_imageViewFrameBeforePinch.size
-                     andFinalSize:_imageViewFrameAfterPinch.size
-                       areOrdered:NSOrderedDescending];
+  _imageViewFrameAfterPinch = [self imageViewFrame];
+  [self assertThatInitialSize:_imageViewFrameBeforePinch.size
+                 andFinalSize:_imageViewFrameAfterPinch.size
+                   areOrdered:NSOrderedDescending];
 }
 
 - (void)testImageViewFrameSizeOnZoomingOutwardWithAngle {
   double defaultPinchAngle = (180.0 * M_PI / 180.0);
-  _imageViewFrameBeforePinch = [self ftr_imageViewFrame];
+  _imageViewFrameBeforePinch = [self imageViewFrame];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Image View")]
       performAction:grey_pinchFastInDirectionAndAngle(kGREYPinchDirectionOutward,
                                                       defaultPinchAngle)];
-  _imageViewFrameAfterPinch = [self ftr_imageViewFrame];
-  [self ftr_assertThatInitialSize:_imageViewFrameBeforePinch.size
-                     andFinalSize:_imageViewFrameAfterPinch.size
-                       areOrdered:NSOrderedAscending];
+  _imageViewFrameAfterPinch = [self imageViewFrame];
+  [self assertThatInitialSize:_imageViewFrameBeforePinch.size
+                 andFinalSize:_imageViewFrameAfterPinch.size
+                   areOrdered:NSOrderedAscending];
 }
 
 #pragma mark - Private
@@ -131,9 +130,9 @@
 /**
  * Asserts that the given initial size and final size are in the given order.
  */
-- (void)ftr_assertThatInitialSize:(CGSize)initialSize
-                     andFinalSize:(CGSize)finalSize
-                       areOrdered:(NSComparisonResult)expectedOrder {
+- (void)assertThatInitialSize:(CGSize)initialSize
+                 andFinalSize:(CGSize)finalSize
+                   areOrdered:(NSComparisonResult)expectedOrder {
   BOOL success;
   NSString *expectedOrderString;
   switch (expectedOrder) {
@@ -163,7 +162,7 @@
 /**
  * Returns the image view controller frame.
  */
-- (CGRect)ftr_imageViewFrame {
+- (CGRect)imageViewFrame {
   GREYHostApplicationDistantObject *host = GREYHostApplicationDistantObject.sharedInstance;
   return [host imageViewFrameForPinchView];
 }

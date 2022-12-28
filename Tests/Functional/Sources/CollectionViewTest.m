@@ -38,16 +38,16 @@
   // This test will search and find A, B, C, X, Y and Z and tap them.
 
   // Scroll to left to find A, B and C.
-  [self ftr_scrollInDirection:kGREYDirectionLeft untilInteractableWithChar:'A'];
-  [self ftr_verifyTapOnChar:'A'];
-  [self ftr_verifyTapOnChar:'B'];
-  [self ftr_verifyTapOnChar:'C'];
+  [self scrollInDirection:kGREYDirectionLeft untilInteractableWithChar:'A'];
+  [self verifyTapOnChar:'A'];
+  [self verifyTapOnChar:'B'];
+  [self verifyTapOnChar:'C'];
 
   // Scroll to right to find X Y and Z.
-  [self ftr_scrollInDirection:kGREYDirectionRight untilInteractableWithChar:'Z'];
-  [self ftr_verifyTapOnChar:'X'];
-  [self ftr_verifyTapOnChar:'Y'];
-  [self ftr_verifyTapOnChar:'Z'];
+  [self scrollInDirection:kGREYDirectionRight untilInteractableWithChar:'Z'];
+  [self verifyTapOnChar:'X'];
+  [self verifyTapOnChar:'Y'];
+  [self verifyTapOnChar:'Z'];
 }
 
 - (void)testSearchActionWithCollectionViewVerticalLayout {
@@ -62,16 +62,16 @@
   // This test will search and find A, B, C, X, Y and Z and tap them.
 
   // Scroll to top to find A, B and C.
-  [self ftr_scrollInDirection:kGREYDirectionUp untilInteractableWithChar:'A'];
-  [self ftr_verifyTapOnChar:'A'];
-  [self ftr_verifyTapOnChar:'B'];
-  [self ftr_verifyTapOnChar:'C'];
+  [self scrollInDirection:kGREYDirectionUp untilInteractableWithChar:'A'];
+  [self verifyTapOnChar:'A'];
+  [self verifyTapOnChar:'B'];
+  [self verifyTapOnChar:'C'];
 
   // Scroll to bottom to find X, Y and Z.
-  [self ftr_scrollInDirection:kGREYDirectionDown untilInteractableWithChar:'Z'];
-  [self ftr_verifyTapOnChar:'X'];
-  [self ftr_verifyTapOnChar:'Y'];
-  [self ftr_verifyTapOnChar:'Z'];
+  [self scrollInDirection:kGREYDirectionDown untilInteractableWithChar:'Z'];
+  [self verifyTapOnChar:'X'];
+  [self verifyTapOnChar:'Y'];
+  [self verifyTapOnChar:'Z'];
 }
 
 - (void)testSearchActionWithCollectionViewCustomLayout {
@@ -86,27 +86,27 @@
   // This test will search and find A, B, C, X, Y and Z and tap them.
 
   // Scroll to top left for A, B and C.
-  [self ftr_scrollInDirection:kGREYDirectionLeft untilInteractableWithChar:'A'];
-  [self ftr_verifyTapOnChar:'A'];
-  [self ftr_verifyTapOnChar:'B'];
-  [self ftr_verifyTapOnChar:'C'];
+  [self scrollInDirection:kGREYDirectionLeft untilInteractableWithChar:'A'];
+  [self verifyTapOnChar:'A'];
+  [self verifyTapOnChar:'B'];
+  [self verifyTapOnChar:'C'];
 
   // Scroll to bottom to find Z.
-  [self ftr_scrollInDirection:kGREYDirectionDown untilInteractableWithChar:'Z'];
+  [self scrollInDirection:kGREYDirectionDown untilInteractableWithChar:'Z'];
 
   // Scroll to bottom-right to find X and tap it.
-  [self ftr_scrollInDirection:kGREYDirectionRight untilInteractableWithChar:'X'];
-  [self ftr_verifyTapOnChar:'X'];
+  [self scrollInDirection:kGREYDirectionRight untilInteractableWithChar:'X'];
+  [self verifyTapOnChar:'X'];
 
   // Scroll to bottom-left to find Y and Z.
-  [self ftr_scrollInDirection:kGREYDirectionLeft untilInteractableWithChar:'Y'];
-  [self ftr_verifyTapOnChar:'Y'];
-  [self ftr_verifyTapOnChar:'Z'];
+  [self scrollInDirection:kGREYDirectionLeft untilInteractableWithChar:'Y'];
+  [self verifyTapOnChar:'Y'];
+  [self verifyTapOnChar:'Z'];
 }
 
 #pragma mark - Private
 
-- (void)ftr_verifyTapOnChar:(char)ch {
+- (void)verifyTapOnChar:(char)ch {
   NSString *previous = [NSString stringWithFormat:@"%c", ch];
   NSString *next = [NSString stringWithFormat:@"%d", toupper(ch)];
   [[EarlGrey selectElementWithMatcher:grey_text(previous)] performAction:grey_tap()];
@@ -115,7 +115,7 @@
 
 // Scrolls the test CollectionView containing alphabets in the given |direction| until the given
 // char is interactable.
-- (void)ftr_scrollInDirection:(GREYDirection)direction untilInteractableWithChar:(char)aChar {
+- (void)scrollInDirection:(GREYDirection)direction untilInteractableWithChar:(char)aChar {
   // Spelling these out separately to align the following code properly making it more readable.
   id<GREYMatcher> charMatcher = grey_text([NSString stringWithFormat:@"%c", aChar]);
   id<GREYAction> scrollAction = grey_scrollInDirection(direction, 50);

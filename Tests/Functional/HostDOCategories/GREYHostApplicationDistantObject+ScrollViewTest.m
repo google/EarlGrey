@@ -14,10 +14,8 @@
 // limitations under the License.
 //
 
-#import "GREYActionBlock.h"
-#import "GREYMatchers.h"
+#import "ExposedForTesting.h"
 #import "GREYSyncAPI.h"
-#import "GREYAssertionBlock.h"
 #import "GREYHostApplicationDistantObject+ScrollViewTest.h"
 #import "GREYVisibilityChecker.h"
 
@@ -32,7 +30,7 @@
         return YES;
       };
 
-  return [GREYActionBlock actionWithName:@"ftr_setContentOffSet"
+  return [GREYActionBlock actionWithName:@"setContentOffSet"
                              constraints:[GREYMatchers matcherForKindOfClass:[UIScrollView class]]
                             performBlock:actionBlock];
 }

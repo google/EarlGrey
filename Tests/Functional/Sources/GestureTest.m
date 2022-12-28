@@ -15,10 +15,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ExposedForTesting.h"
 #import "EarlGrey.h"
 #import "GREYHostApplicationDistantObject+GestureTest.h"
 #import "BaseIntegrationTest.h"
-#import "EDORemoteVariable.h"
 
 @interface GestureTest : BaseIntegrationTest
 @end
@@ -120,7 +120,7 @@
 }
 
 - (void)testSwipeWorksInAllDirectionsInPortraitMode {
-  [self ftr_assertSwipeWorksInAllDirections];
+  [self assertSwipeWorksInAllDirections];
 }
 
 - (void)testSwipeWorksInAllDirectionsInUpsideDownMode {
@@ -129,17 +129,17 @@
     return;
   }
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortraitUpsideDown error:nil];
-  [self ftr_assertSwipeWorksInAllDirections];
+  [self assertSwipeWorksInAllDirections];
 }
 
 - (void)testSwipeWorksInAllDirectionsInLandscapeLeftMode {
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeLeft error:nil];
-  [self ftr_assertSwipeWorksInAllDirections];
+  [self assertSwipeWorksInAllDirections];
 }
 
 - (void)testSwipeWorksInAllDirectionsInLandscapeRightMode {
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeRight error:nil];
-  [self ftr_assertSwipeWorksInAllDirections];
+  [self assertSwipeWorksInAllDirections];
 }
 
 - (void)testSwipeOnWindow {
@@ -192,7 +192,7 @@
 }
 
 - (void)testPinchWorksInAllDirectionsInPortraitMode {
-  [self ftr_assertPinchWorksInAllDirections];
+  [self assertPinchWorksInAllDirections];
 }
 
 - (void)testPinchWorksInAllDirectionsInUpsideDownMode {
@@ -201,24 +201,24 @@
     return;
   }
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortraitUpsideDown error:nil];
-  [self ftr_assertPinchWorksInAllDirections];
+  [self assertPinchWorksInAllDirections];
 }
 
 - (void)testPinchWorksInAllDirectionsInLandscapeLeftMode {
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeLeft error:nil];
-  [self ftr_assertPinchWorksInAllDirections];
+  [self assertPinchWorksInAllDirections];
 }
 
 - (void)testPinchWorksInAllDirectionsInLandscapeRightMode {
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeRight error:nil];
-  [self ftr_assertPinchWorksInAllDirections];
+  [self assertPinchWorksInAllDirections];
 }
 
 #pragma mark - Private
 
 // Asserts that swipe works in all directions by verifying if the swipe gestures are correctly
 // recognized.
-- (void)ftr_assertSwipeWorksInAllDirections {
+- (void)assertSwipeWorksInAllDirections {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
       performAction:grey_swipeFastInDirection(kGREYDirectionUp)];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"gesture")]
@@ -239,7 +239,7 @@
 
 // Asserts that Pinch works in all directions by verifying if the pinch gestures are correctly
 // recognized.
-- (void)ftr_assertPinchWorksInAllDirections {
+- (void)assertPinchWorksInAllDirections {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
       performAction:grey_pinchFastInDirectionAndAngle(kGREYPinchDirectionOutward,
                                                       kGREYPinchAngleDefault)];

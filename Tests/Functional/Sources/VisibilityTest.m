@@ -14,10 +14,10 @@
 // limitations under the License.
 //
 
+#import "ExposedForTesting.h"
 #import "EarlGrey.h"
 #import "GREYHostApplicationDistantObject+VisibilityTest.h"
 #import "BaseIntegrationTest.h"
-#import "GREYElementHierarchy.h"
 
 @interface VisibilityTest : BaseIntegrationTest
 @end
@@ -142,15 +142,15 @@
   GREYHostApplicationDistantObject *host = [GREYHostApplicationDistantObject sharedInstance];
   // Match against the first view present.
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AView")] atIndex:0]
-      assert:[host ftr_assertOnIDSet:idSet]];
+      assert:[host assertOnIDSet:idSet]];
 
   // Match against the second view present.
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AView")] atIndex:1]
-      assert:[host ftr_assertOnIDSet:idSet]];
+      assert:[host assertOnIDSet:idSet]];
 
   // Match against the third and last view present.
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AView")] atIndex:2]
-      assert:[host ftr_assertOnIDSet:idSet]];
+      assert:[host assertOnIDSet:idSet]];
 
   // Use the element at index matcher with an incorrect matcher.
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"InvalidView")] atIndex:0]

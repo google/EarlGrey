@@ -34,7 +34,7 @@
  * @return An object conforming to GREYAssertion that checks if a matched element is visible
  *         and adds it to a provided set.
  */
-- (GREYAssertionBlock *)ftr_assertOnIDSet:(NSMutableSet<NSString *> *)idSet;
+- (GREYAssertionBlock *)assertOnIDSet:(NSMutableSet<NSString *> *)idSet;
 
 /**
  * @return An object conforming to GREYAssertion that checks if a rectangle is visible.
