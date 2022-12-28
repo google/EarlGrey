@@ -158,14 +158,6 @@
   }
 }
 
-- (void)testAddingTheStatusBarToAnInteraction {
-  if (iOS13_OR_ABOVE()) {
-    GREYElementInteraction *interaction =
-        [EarlGrey selectElementWithMatcher:grey_kindOfClassName(@"UIStatusBar_Modern")];
-    [[interaction includeStatusBar] assertWithMatcher:grey_notNil()];
-  }
-}
-
 - (void)testScreenshotDebugInfo {
   // A previous test may have scrolled to the bottom of the main view controller's table view.
   [[EarlGrey selectElementWithMatcher:grey_kindOfClass([UITableView class])]
