@@ -14,18 +14,14 @@
 // limitations under the License.
 //
 
+#import "ExposedForTesting.h"
 #import "BaseIntegrationTest.h"
 
 // Note: GREYKeyboard should not be used in test cases of EarlGrey users. We are only using it here
 // for test purpose.
-#import "GREYActions.h"
-#import "GREYKeyboard.h"
-#import "GREYConfigKey.h"
-#import "GREYWaitFunctions.h"
 #import "EarlGrey.h"
 #import "GREYHostApplicationDistantObject+KeyboardKeysTest.h"
 #import "FailureHandler.h"
-#import "NSObject+EDOValueObject.h"
 
 @interface KeyboardKeysTest : BaseIntegrationTest
 @end
@@ -454,11 +450,16 @@
       assertWithMatcher:grey_sufficientlyVisible()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
       performAction:grey_typeText(@"\b")];
-  // Pressing backspace should reset the keyplane appropriately to the autoCapitalizationType
-  // property from the text input view. In this test, the text field has auto capitalization on, so
-  // it should reset to uppercase keyplane.
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Q")]
-      assertWithMatcher:grey_sufficientlyVisible()];
+  // For versions before iOS16, pressing backspace should reset the keyplane appropriately to the
+  // autoCapitalizationType property from the text input view. In this test, the text field has auto
+  // capitalization on, so it should reset to uppercase keyplane on.
+  if (@available(iOS 16.0, *)) {
+    [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"q")]
+        assertWithMatcher:grey_sufficientlyVisible()];
+  } else {
+    [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Q")]
+        assertWithMatcher:grey_sufficientlyVisible()];
+  }
 }
 
 - (void)testTypingOnTextFieldInUIInputAccessory {
