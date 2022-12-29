@@ -16,10 +16,9 @@
 
 #import <WebKit/WebKit.h>
 
-#import "GREYConfigKey.h"
+#import "ExposedForTesting.h"
 #import "EarlGrey.h"
 #import "BaseIntegrationTest.h"
-#import "EDORemoteVariable.h"
 
 @interface WKWebViewTest : BaseIntegrationTest
 @end
@@ -88,6 +87,9 @@
 }
 
 - (void)testJavascriptEvaluationWithATimeoutAboveTheThreshold {
+  //  We must wait for the app to idle because the timeout is reduced to 1 second for the next
+  //  interaction, not adding a wait method here will result in flaky tests
+  GREYWaitForAppToIdle(@"Waiting for the App to Idle");
   NSError *error = nil;
   CFTimeInterval originalInteractionTimeout =
       GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
