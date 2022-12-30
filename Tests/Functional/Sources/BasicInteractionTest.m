@@ -84,7 +84,6 @@
 
   [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"EarlGrey TestApp")]
       performAction:grey_tap()];
-  // sleep(999);
 }
 
 /**
