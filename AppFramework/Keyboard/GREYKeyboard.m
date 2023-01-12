@@ -136,8 +136,7 @@ __attribute__((constructor)) static void RegisterKeyboardLifecycleHooks(void) {
                            // the actual frame to determine the true visibility.
                            NSValue *rectValue = note.userInfo[UIKeyboardFrameEndUserInfoKey];
                            CGRect keyboardFrame = rectValue.CGRectValue;
-                           UIApplication *sharedApp = UIApplication.sharedApplication;
-                           UIWindow *window = GREYGetApplicationKeyWindow(sharedApp);
+                           UIWindow *window = [GREYUIWindowProvider keyWindowForSharedApplication];
                            keyboardFrame = [window convertRect:keyboardFrame fromWindow:nil];
                            CGRect windowFrame = window.frame;
                            CGRect frameIntersection =

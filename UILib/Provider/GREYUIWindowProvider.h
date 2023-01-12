@@ -22,19 +22,17 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- * Fetches the key window of @c application.
- *
- * @param application The UIApplication to look for key window.
- *
- * @return A UIWindow instance that specifies the key window of the @c application.
- */
-UIWindow *GREYGetApplicationKeyWindow(UIApplication *application);
-
-/**
  * A provider for UIApplication windows. By default, all application windows are returned unless
  * this provider is initialized with custom windows.
  */
 @interface GREYUIWindowProvider : NSObject <GREYProvider>
+
+/**
+ * Fetches the key window for UIApplication.sharedApplication.
+ *
+ * @return A UIWindow instance that specifies the key window for UIApplication.sharedApplication.
+ */
++ (UIWindow *)keyWindowForSharedApplication;
 
 /**
  * Class method to get a provider with the specified @c windows.

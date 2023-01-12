@@ -36,14 +36,13 @@ static UIView *GetFirstResponderSubview(UIView *view) {
   return nil;
 }
 
-UIWindow *GREYGetApplicationKeyWindow(UIApplication *application) {
-  // New API only available on Xcode 13+
-  return GREYUILibUtilsGetApplicationKeyWindow(application);
-}
-
 @implementation GREYUIWindowProvider {
   NSArray<UIWindow *> *_windows;
   BOOL _includeStatusBar;
+}
+
++ (UIWindow *)keyWindowForSharedApplication {
+  return GREYUILibUtilsGetApplicationKeyWindow(UIApplication.sharedApplication);
 }
 
 + (instancetype)providerWithWindows:(NSArray<UIWindow *> *)windows {
@@ -100,7 +99,7 @@ UIWindow *GREYGetApplicationKeyWindow(UIApplication *application) {
     [windows addObject:sharedApp.delegate.window];
   }
 
-  UIWindow *keyWindow = GREYGetApplicationKeyWindow(sharedApp);
+  UIWindow *keyWindow = [GREYUIWindowProvider keyWindowForSharedApplication];
   if (keyWindow) {
     [windows addObject:keyWindow];
   }

@@ -115,7 +115,7 @@
       if ([element isKindOfClass:[UIWindow class]]) {
         window = (UIWindow *)element;
       } else if ([NSStringFromClass([element class]) containsString:kSwiftUIConstant]) {
-        window = GREYGetApplicationKeyWindow(UIApplication.sharedApplication);
+        window = [GREYUIWindowProvider keyWindowForSharedApplication];
       } else {
         NSString *errorDescription =
             [NSString stringWithFormat:@"Cannot swipe on this view as it has no window and "

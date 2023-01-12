@@ -85,7 +85,7 @@ static Class gEDOObjectClass;
 + (id<GREYMatcher>)matcherForKeyWindow {
   NSString *prefix = @"keyWindow";
   GREYMatchesBlock matches = ^BOOL(UIWindow *element) {
-    UIWindow *keyWindow = GREYGetApplicationKeyWindow(UIApplication.sharedApplication);
+    UIWindow *keyWindow = [GREYUIWindowProvider keyWindowForSharedApplication];
     if (element == keyWindow) {
       return YES;
     }

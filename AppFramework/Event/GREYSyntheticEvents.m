@@ -92,7 +92,7 @@
 
 + (void)shakeDevice {
   UIApplication *application = UIApplication.sharedApplication;
-  UIWindow *keyWindow = GREYGetApplicationKeyWindow(application);
+  UIWindow *keyWindow = [GREYUIWindowProvider keyWindowForSharedApplication];
   UIMotionEvent *motionEvent = [application _motionEvent];
 
   [motionEvent setShakeState:1];

@@ -29,6 +29,7 @@
 #import "GREYRemoteExecutor.h"
 #import "GREYDefaultFailureHandler.h"
 #import "XCTestCase+GREYTest.h"
+#import "GREYUIWindowProvider.h"
 
 // In tvOS, this var becomes unused.
 #if TARGET_OS_IOS
@@ -294,9 +295,8 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
       [sharedDevice setOrientation:deviceOrientation];
 #if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 160000)
       if (@available(iOS 16.0, *)) {
-        UIWindowScene *scene =
-            [[[[GREY_REMOTE_CLASS_IN_APP(UIApplication) sharedApplication] delegate] window]
-                windowScene];
+        UIWindowScene *scene = [[GREY_REMOTE_CLASS_IN_APP(GREYUIWindowProvider)
+            keyWindowForSharedApplication] windowScene];
         UIWindowSceneGeometryPreferencesIOS *preferences =
             [[GREY_REMOTE_CLASS_IN_APP(UIWindowSceneGeometryPreferencesIOS) alloc]
                 initWithInterfaceOrientations:
@@ -324,9 +324,8 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
       if (syncSuccessAfterRotation) {
 #if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 160000)
         if (@available(iOS 16.0, *)) {
-          UIWindowScene *scene =
-              [[[[GREY_REMOTE_CLASS_IN_APP(UIApplication) sharedApplication] delegate] window]
-                  windowScene];
+          UIWindowScene *scene = [[GREY_REMOTE_CLASS_IN_APP(GREYUIWindowProvider)
+              keyWindowForSharedApplication] windowScene];
           GREYCondition *rotationWait =
               [GREYCondition conditionWithName:@"App Rotation Condition"
                                          block:^BOOL {
