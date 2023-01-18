@@ -134,8 +134,7 @@ static UIView *GetFirstResponderSubview(UIView *view) {
         UIStatusBarManager *manager = [[keyWindow windowScene] statusBarManager];
         UIView *localStatusBar = (UIView *)[manager createLocalStatusBar];
         if (!localStatusBar) {
-          CGRect statusBarFrame = [UIApplication sharedApplication]
-                                      .keyWindow.windowScene.statusBarManager.statusBarFrame;
+          CGRect statusBarFrame = manager.statusBarFrame;
           localStatusBar = [[UIView alloc] initWithFrame:statusBarFrame];
         }
         statusBarWindow = [[UIWindow alloc] initWithFrame:localStatusBar.frame];
