@@ -15,6 +15,7 @@
 //
 
 #import "NSFileManager+GREYCommon.h"
+#import "GREYThrowDefines.h"
 #import "GREYLogger.h"
 
 @implementation NSFileManager (GREYCommon)
@@ -22,9 +23,16 @@
 + (NSString *)grey_saveImageAsPNG:(UIImage *)image
                            toFile:(NSString *)filename
                       inDirectory:(NSString *)directoryPath {
-  NSParameterAssert(image);
-  NSParameterAssert(filename);
-  NSParameterAssert(directoryPath);
+  if (!image) {
+    // In the case of the application not being properly launched or being in the background, the
+    // image will be nil.
+    GREYLog(@"Screenshot: %@ could not be saved since none was generated. Check the test's video "
+            @"for more details.",
+            filename);
+    return nil;
+  }
+  GREYThrowOnNilParameter(filename);
+  GREYThrowOnNilParameter(directoryPath);
 
   // Create screenshot dir and its parent directories if any of them don't exist
   NSError *error;
