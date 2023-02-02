@@ -259,5 +259,5 @@ void IOHIDEventSetIntegerValue(IOHIDEventRef hidEventRef, IOHIDEventField field,
  **/
 typedef struct {
   /** Internal flag required for touch injection. */
-  uint _firstTouchForView : 1;
+  char _firstTouchForView : 1;
 } UITouchFlags;
