@@ -28,7 +28,15 @@
 #import "GREYUILibUtils.h"
 #import "GREYVisibilityChecker.h"
 
+/**
+ * Number of color channels per pixel for an XRGB image.
+ */
 static const NSUInteger kColorChannelsPerPixel = 4;
+
+/**
+ * Bytes allocated per pixel for an XRGB image.
+ */
+static const NSUInteger kBytesPerPixel = 4;
 
 /**
  * Last known original image used by the visibility checker is saved in this global for debugging
@@ -76,6 +84,51 @@ BOOL GREYVisibilityDiffBufferIsVisible(GREYVisibilityDiffBuffer buffer, size_t x
   }
 
   return buffer.data[y * buffer.width + x];
+}
+
+/**
+ * Returns a new buffer that contains XRGB pixels for the provided @c imageRef i.e. the alpha
+ * channel is removed. If @c outBitmapContext is not @c NULL, it is set to the bitmap context of
+ * the returned buffer and caller must call CGContextRelease on it. Each pixel in returned buffer
+ * occupies 4 bytes and the buffer must be free()'d by the caller.
+ *
+ * @param imageRef       The source image.
+ * @param[out] outBmpCtx Optional bitmap context that holds the returned buffer.
+ *
+ * @return A new buffer that contains XRGB pixels for the provided image.
+ */
+static unsigned char *GREYCreateImagePixelDataFromCGImageRef(CGImageRef imageRef,
+                                                             CGContextRef *outBmpCtx) {
+  size_t width = CGImageGetWidth(imageRef);
+  size_t height = CGImageGetHeight(imageRef);
+  unsigned char *imagePixelBuffer = malloc(height * width * kBytesPerPixel);
+
+  CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+
+  // Create the bitmap context. We want XRGB.
+  CGContextRef bitmapContextRef =
+      CGBitmapContextCreate(imagePixelBuffer, width, height,
+                            8,                       // bits per component
+                            width * kBytesPerPixel,  // bytes per row
+                            colorSpace, kCGImageAlphaNoneSkipFirst | kCGBitmapByteOrder32Big);
+  CGColorSpaceRelease(colorSpace);
+  if (!bitmapContextRef) {
+    free(imagePixelBuffer);
+    return NULL;
+  }
+
+  // Once we draw, the memory allocated for the context for rendering will then contain the raw
+  // image pixel data in the specified color space.
+  CGContextDrawImage(bitmapContextRef, CGRectMake(0, 0, width, height), imageRef);
+  if (outBmpCtx != NULL) {
+    // Caller must call CGContextRelease.
+    *outBmpCtx = bitmapContextRef;
+  } else {
+    CGContextRelease(bitmapContextRef);
+  }
+
+  // Must be freed by the caller.
+  return imagePixelBuffer;
 }
 
 inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffer, size_t x,
@@ -141,7 +194,7 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
     return GREYCGPointNull;
   }
 
-  // Interaction point to be calculated after peforming visibility checks.
+  // Interaction point to be calculated after performing visibility checks.
   CGPoint interactionPointInFixedPoints = GREYCGPointNull;
 
   CGRect elementFrame = [element accessibilityFrame];
@@ -595,9 +648,9 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
                              @"width must be the same");
   GREYFatalAssertWithMessage(CGImageGetHeight(beforeImage) == CGImageGetHeight(afterImage),
                              @"height must be the same");
-  unsigned char *pixelBuffer = grey_createImagePixelDataFromCGImageRef(beforeImage, NULL);
+  unsigned char *pixelBuffer = GREYCreateImagePixelDataFromCGImageRef(beforeImage, NULL);
   GREYFatalAssertWithMessage(pixelBuffer, @"pixelBuffer must not be null");
-  unsigned char *shiftedPixelBuffer = grey_createImagePixelDataFromCGImageRef(afterImage, NULL);
+  unsigned char *shiftedPixelBuffer = GREYCreateImagePixelDataFromCGImageRef(afterImage, NULL);
   GREYFatalAssertWithMessage(shiftedPixelBuffer, @"shiftedPixelBuffer must not be null");
   NSUInteger width = CGImageGetWidth(beforeImage);
   NSUInteger height = CGImageGetHeight(beforeImage);
@@ -678,7 +731,7 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
   size_t height = CGImageGetHeight(imageRef);
   // TODO(b/143889177): Find a good way to compute imagePixelData of before image only once without
   // negatively impacting the readability of code in visibility checker.
-  unsigned char *shiftedImagePixels = grey_createImagePixelDataFromCGImageRef(imageRef, NULL);
+  unsigned char *shiftedImagePixels = GREYCreateImagePixelDataFromCGImageRef(imageRef, NULL);
 
   for (NSUInteger i = 0; i < height * width; i++) {
     NSUInteger currentPixelIndex = kColorChannelsPerPixel * i;

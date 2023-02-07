@@ -15,6 +15,7 @@
 //
 
 #import "GREYScreenshotter.h"
+#import <UIKit/UIKit.h>
 
 #import "NSFileManager+GREYCommon.h"
 #import "NSObject+GREYCommon.h"
@@ -22,11 +23,6 @@
 #import "GREYLogger.h"
 #import "GREYUIWindowProvider.h"
 #import "GREYUILibUtils.h"
-
-/**
- * Bytes allocated per pixel for an XRGB image.
- */
-static const NSUInteger kBytesPerPixel = 4;
 
 // Private class for AlertController window that doesn't work with drawViewHierarchyInRect.
 static Class gUIAlertControllerShimPresenterWindowClass;
@@ -265,48 +261,25 @@ static void AddAccessibilityHintForKeyboardToScreenshot(UIImage *screenshot,
     // We only want to add masking for a keyboard when the screenshot is for the entire app.
     return;
   } else {
+    NSMutableDictionary<NSString *, NSString *> *maskingData = [[NSMutableDictionary alloc] init];
     CGRect keyboardFrame = [GREYUILibUtils scaledKeyboardFrame];
     if (!CGRectIsEmpty(keyboardFrame)) {
-      [screenshot setAccessibilityHint:NSStringFromCGRect(keyboardFrame)];
+      maskingData[@"KeyboardFrame"] = NSStringFromCGRect(keyboardFrame);
+    }
+    if ([maskingData count]) {
+      NSError *error;
+      NSData *maskingJSON = [NSJSONSerialization dataWithJSONObject:maskingData
+                                                            options:0
+                                                              error:&error];
+      if (error) {
+        GREYLog(@"Screenshot's debug info could not be applied NSJSONSerialization error: %@\n%@",
+                error, [NSThread callStackSymbols]);
+      }
+      NSString *maskingJSONString = [[NSString alloc] initWithData:maskingJSON
+                                                          encoding:NSUTF8StringEncoding];
+      [screenshot setAccessibilityHint:maskingJSONString];
     }
   }
 }
 
 @end
-
-/**
- * Get a raw image pixel buffer from a CGImageRef pointing to an image.
- */
-unsigned char *grey_createImagePixelDataFromCGImageRef(CGImageRef imageRef,
-                                                       CGContextRef *outBmpCtx) {
-  size_t width = CGImageGetWidth(imageRef);
-  size_t height = CGImageGetHeight(imageRef);
-  unsigned char *imagePixelBuffer = malloc(height * width * kBytesPerPixel);
-
-  CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-
-  // Create the bitmap context. We want XRGB.
-  CGContextRef bitmapContextRef =
-      CGBitmapContextCreate(imagePixelBuffer, width, height,
-                            8,                       // bits per component
-                            width * kBytesPerPixel,  // bytes per row
-                            colorSpace, kCGImageAlphaNoneSkipFirst | kCGBitmapByteOrder32Big);
-  CGColorSpaceRelease(colorSpace);
-  if (!bitmapContextRef) {
-    free(imagePixelBuffer);
-    return NULL;
-  }
-
-  // Once we draw, the memory allocated for the context for rendering will then contain the raw
-  // image pixel data in the specified color space.
-  CGContextDrawImage(bitmapContextRef, CGRectMake(0, 0, width, height), imageRef);
-  if (outBmpCtx != NULL) {
-    // Caller must call CGContextRelease.
-    *outBmpCtx = bitmapContextRef;
-  } else {
-    CGContextRelease(bitmapContextRef);
-  }
-
-  // Must be freed by the caller.
-  return imagePixelBuffer;
-}

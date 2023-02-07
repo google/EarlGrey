@@ -21,6 +21,11 @@
 #import "GREYDefines.h"
 #import "GREYSwizzler.h"
 
+/** Category for UITextSelectionView to call the -setHidden: method on it. */
+@interface UITextSelectionView_GREYApp (Private)
+- (void)setHidden:(BOOL)hidden;
+@end
+
 @implementation UITextSelectionView_GREYApp
 
 + (void)load {
@@ -39,8 +44,10 @@
 
 - (BOOL)greyswizzled_setCaretBlinkAnimationEnabled:(BOOL)enabled {
   // The continuous caret blink animation is disabled by default in order to prevent it from causing
-  // a delay after any typing action.
+  // a delay after any typing action. The cursor is also hidden as it generally has little use in UI
+  // tests.
   INVOKE_ORIGINAL_IMP1(BOOL, @selector(greyswizzled_setCaretBlinkAnimationEnabled:), NO);
+  [self setHidden:YES];
   return NO;
 }
 

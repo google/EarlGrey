@@ -16,7 +16,6 @@
 
 #import <UIKit/UIKit.h>
 
-#import "GREYDefines.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -81,17 +80,3 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
-
-/**
- * Returns a new buffer that contains XRGB pixels for the provided @c imageRef i.e. the alpha
- * channel is removed. If @c outBitmapContext is not @c NULL, it is set to the bitmap context of
- * the returned buffer and caller must call CGContextRelease on it. Each pixel in returned buffer
- * occupies 4 bytes and the buffer must be free()'d by the caller.
- *
- * @param imageRef       The source image.
- * @param[out] outBmpCtx Optional bitmap context that holds the returned buffer.
- *
- * @return A new buffer that contains XRGB pixels for the provided image.
- */
-GREY_EXPORT unsigned char *_Nullable grey_createImagePixelDataFromCGImageRef(
-    CGImageRef _Nullable imageRef, CGContextRef _Nullable *_Nullable outBmpCtx);

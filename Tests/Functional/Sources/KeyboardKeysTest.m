@@ -622,6 +622,13 @@
                  @"Caret blinking animation should not be present");
 }
 
+- (void)testCursorNotPresent {
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
+      performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:grey_kindOfClassName(@"UITextSelectionView")]
+      assertWithMatcher:grey_hidden(YES)];
+}
+
 #pragma mark - Private
 
 - (void)ftr_typeString:(NSString *)string andVerifyOutput:(NSString *)verificationString {
