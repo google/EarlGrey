@@ -205,6 +205,8 @@
 		FD98C4D8226C3D08006F8D68 /* SwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD98C4D1226C3BD6006F8D68 /* SwiftTests.swift */; };
 		FD98C4D9226C3E03006F8D68 /* BaseIntegrationTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD98C47B226C352C006F8D68 /* BaseIntegrationTest.m */; };
 		FD98C4DC226C3EE2006F8D68 /* SwiftTestsHost.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD98C4CD226C3B8E006F8D68 /* SwiftTestsHost.swift */; };
+		FDCB308D299AC6A2007B9C5F /* ActiveAnimationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD684EC22E7D50100A56FA9 /* ActiveAnimationsViewController.m */; };
+		FDCB3090299AC6A9007B9C5F /* ActiveAnimationsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDD684ED22E7D50200A56FA9 /* ActiveAnimationsViewController.xib */; };
 		FDD684EE22E7D50300A56FA9 /* ActiveAnimationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD684EC22E7D50100A56FA9 /* ActiveAnimationsViewController.m */; };
 		FDD684EF22E7D50300A56FA9 /* ActiveAnimationsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDD684ED22E7D50200A56FA9 /* ActiveAnimationsViewController.xib */; };
 		FDD684F122E7D52600A56FA9 /* ActiveAnimationsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD684F022E7D52500A56FA9 /* ActiveAnimationsTest.m */; };
@@ -1293,6 +1295,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FDCB3090299AC6A9007B9C5F /* ActiveAnimationsViewController.xib in Resources */,
 				FD118513212DFE24004CADC3 /* FunctionalTestRig-Info.plist in Resources */,
 				FD118514212DFE24004CADC3 /* ActivityIndicatorViewController.xib in Resources */,
 				FD118516212DFE24004CADC3 /* MultiFingerSwipeGestureRecognizerViewController.xib in Resources */,
@@ -1472,6 +1475,7 @@
 				FD1184F8212DFE24004CADC3 /* MainViewController.m in Sources */,
 				FD1184F9212DFE24004CADC3 /* LayoutViewController.m in Sources */,
 				FD1184FA212DFE24004CADC3 /* CollectionViewCell.m in Sources */,
+				FDCB308D299AC6A2007B9C5F /* ActiveAnimationsViewController.m in Sources */,
 				FD1184FB212DFE24004CADC3 /* AccessibilityViewController.m in Sources */,
 				FD1184FC212DFE24004CADC3 /* SplashViewController.m in Sources */,
 				FD1184FD212DFE24004CADC3 /* PresentedViewController.m in Sources */,
