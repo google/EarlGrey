@@ -90,10 +90,8 @@ static UIView *GetFirstResponderSubview(UIView *view) {
 
 + (NSArray<UIWindow *> *)allWindowsWithStatusBar:(BOOL)includeStatusBar {
   UIApplication *sharedApp = UIApplication.sharedApplication;
-  NSMutableOrderedSet<UIWindow *> *windows = [[NSMutableOrderedSet alloc] init];
-  if (sharedApp.windows) {
-    [windows addObjectsFromArray:sharedApp.windows];
-  }
+  NSMutableOrderedSet<UIWindow *> *windows =
+      [NSMutableOrderedSet orderedSetWithArray:GREYUILibUtilsGetAllWindowsFromConnectedScenes()];
 
   if ([sharedApp.delegate respondsToSelector:@selector(window)] && sharedApp.delegate.window) {
     [windows addObject:sharedApp.delegate.window];
