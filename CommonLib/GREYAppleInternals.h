@@ -232,6 +232,11 @@
  */
 - (BOOL)_setCaretBlinkAnimationEnabled:(BOOL)enabled;
 
+/**
+ * Pre-iOS 14 version of UITextSelectionView::_setCaretBlinkAnimationEnabled:.
+ */
+- (void)setCaretBlinks:(BOOL)enabled;
+
 @end
 
 /**

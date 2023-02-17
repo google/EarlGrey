@@ -39,16 +39,30 @@
               andReplaceWithInstanceMethod:@selector(_setCaretBlinkAnimationEnabled:)];
     GREYFatalAssertWithMessage(
         swizzled, @"Failed to swizzle UITextSelectionView _setCaretBlinkAnimationEnabled:");
+  } else {
+    SEL swizzledCaretBlinkSelector = @selector(greyswizzled_setCaretBlinks:);
+    IMP implementation = [self instanceMethodForSelector:swizzledCaretBlinkSelector];
+    BOOL swizzled = [swizzler swizzleClass:NSClassFromString(@"UITextSelectionView")
+                         addInstanceMethod:swizzledCaretBlinkSelector
+                        withImplementation:implementation
+              andReplaceWithInstanceMethod:@selector(setCaretBlinks:)];
+    GREYFatalAssertWithMessage(swizzled, @"Failed to swizzle UITextSelectionView setCaretBlinks:");
   }
 }
 
+// The continuous caret blink animation is disabled by default in order to prevent it from causing
+// a delay after any typing action. The cursor is also hidden as it generally has little use in UI
+// tests. Both methods below do this for all iOS versions.
+
 - (BOOL)greyswizzled_setCaretBlinkAnimationEnabled:(BOOL)enabled {
-  // The continuous caret blink animation is disabled by default in order to prevent it from causing
-  // a delay after any typing action. The cursor is also hidden as it generally has little use in UI
-  // tests.
   INVOKE_ORIGINAL_IMP1(BOOL, @selector(greyswizzled_setCaretBlinkAnimationEnabled:), NO);
   [self setHidden:YES];
   return NO;
+}
+
+- (void)greyswizzled_setCaretBlinks:(BOOL)arg1 {
+  INVOKE_ORIGINAL_IMP1(void, @selector(greyswizzled_setCaretBlinks:), NO);
+  [self setHidden:YES];
 }
 
 @end
