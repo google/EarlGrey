@@ -282,6 +282,7 @@ NSString *GREYBugDestination(void) {
 }
 
 #if TARGET_OS_IOS
+
 // When dealing with DeviceOrientation and InterfaceOrientation in landscape mode, it should be
 // noted that they are mapped differently. DeviceOrientation is from the perspective of the
 // screen, InterfaceOrientation is from the perspective of the user
@@ -304,6 +305,23 @@ NSString *GREYBugDestination(void) {
       return UIInterfaceOrientationUnknown;
   }
 }
+
++ (UIDeviceOrientation)deviceOrientationForInterfaceOrientation:
+    (UIInterfaceOrientation)interfaceOrientation {
+  switch (interfaceOrientation) {
+    case UIInterfaceOrientationPortrait:
+      return UIDeviceOrientationPortrait;
+    case UIInterfaceOrientationPortraitUpsideDown:
+      return UIDeviceOrientationPortraitUpsideDown;
+    case UIInterfaceOrientationLandscapeRight:
+      return UIDeviceOrientationLandscapeLeft;
+    case UIInterfaceOrientationLandscapeLeft:
+      return UIDeviceOrientationLandscapeRight;
+    default:
+      return UIDeviceOrientationUnknown;
+  }
+}
+
 #endif  // TARGET_OS_IOS
 
 BOOL GREYIsLocalTest() {

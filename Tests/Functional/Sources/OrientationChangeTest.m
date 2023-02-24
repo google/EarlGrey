@@ -59,19 +59,10 @@
 - (void)testInteractingWithElementsAfterRotation {
   NSArray<NSString *> *buttonNames =
       @[ @"Top Left", @"Top Right", @"Bottom Right", @"Bottom Left", @"Center" ];
-  NSArray<NSNumber *> *orientations;
-  if (@available(iOS 16.0, *)) {
-    orientations = @[
-      @(UIDeviceOrientationLandscapeLeft), @(UIDeviceOrientationLandscapeRight),
-      @(UIDeviceOrientationPortrait)
-    ];
-  } else {
-    orientations = @[
-      @(UIDeviceOrientationLandscapeLeft), @(UIDeviceOrientationPortraitUpsideDown),
-      @(UIDeviceOrientationLandscapeRight), @(UIDeviceOrientationPortrait),
-      @(UIDeviceOrientationFaceUp), @(UIDeviceOrientationFaceDown)
-    ];
-  }
+  NSArray<NSNumber *> *orientations = @[
+    @(UIDeviceOrientationLandscapeLeft), @(UIDeviceOrientationLandscapeRight),
+    @(UIDeviceOrientationPortrait)
+  ];
 
   for (NSUInteger i = 0; i < [orientations count]; i++) {
     UIDeviceOrientation orientation = [orientations[i] integerValue];
@@ -110,7 +101,8 @@
       if (i == 0) {
         XCTAssertTrue([errorDescription containsString:@"portraitUpsideDown"]);
       } else {
-        XCTAssertTrue([errorDescription containsString:@"UIInterfaceOrientationUnknown"]);
+        XCTAssertTrue(
+            [errorDescription containsString:@"orientation is not supported by the rotation API"]);
       }
     }
   }
@@ -124,15 +116,11 @@
   NSError *error;
   BOOL orientationChange = [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationFaceDown
                                                          error:&error];
-  if (@available(iOS 16.0, *)) {
-    XCTAssertNotNil(error);
-  } else {
-    XCTAssertNil(error);
-    XCTAssertTrue(orientationChange);
-    orientation = [[GREYHostApplicationDistantObject sharedInstance] appOrientation];
-    XCTAssertEqual(orientation, UIInterfaceOrientationPortrait,
-                   @"Invalid orientation doesn't change the actual orientation of the app");
-  }
+  XCTAssertNotNil(error);
+  XCTAssertFalse(orientationChange);
+  orientation = [[GREYHostApplicationDistantObject sharedInstance] appOrientation];
+  XCTAssertEqual(orientation, UIInterfaceOrientationPortrait,
+                 @"Invalid orientation doesn't change the actual orientation of the app");
 }
 
 /**

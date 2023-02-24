@@ -270,12 +270,10 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
   BOOL success = NO;
   __block BOOL sendOrientationChangeNotification = NO;
   XCUIDevice *sharedDevice = [XCUIDevice sharedDevice];
-  UIInterfaceOrientation interfaceOrientation = NSIntegerMin;
-#if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 160000)
-  interfaceOrientation = [GREYConstants interfaceOrientationForDeviceOrientation:deviceOrientation];
-#endif  // (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 160000)
+  UIDevice *currentDevice = [GREY_REMOTE_CLASS_IN_APP(UIDevice) currentDevice];
+  UIInterfaceOrientation interfaceOrientation =
+      [GREYConstants interfaceOrientationForDeviceOrientation:deviceOrientation];
   if (interfaceOrientation != UIInterfaceOrientationUnknown) {
-    UIDevice *currentDevice = [GREY_REMOTE_CLASS_IN_APP(UIDevice) currentDevice];
 
     NSNotificationCenter *notificationCenter =
         [GREY_REMOTE_CLASS_IN_APP(NSNotificationCenter) defaultCenter];
@@ -338,6 +336,7 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
   if (!success) {
     NSString *errorDescription;
     NSMutableDictionary<NSString *, id> *errorDetails = [[NSMutableDictionary alloc] init];
+
     if (syncErrorBeforeRotation) {
       errorDetails[kErrorDetailRecoverySuggestionKey] =
           syncErrorBeforeRotation.userInfo[kErrorFailureReasonKey];
@@ -348,20 +347,36 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
       errorDescription =
           @"Application did not idle after rotating and before verifying the rotation.";
     } else if (!syncErrorBeforeRotation && !syncErrorAfterRotation) {
-      NSString *errorReason;
       if (interfaceOrientation == UIInterfaceOrientationUnknown) {
-        errorReason = @"Could not rotate application to orientation: %tu. XCUIDevice "
-                      @"Orientation: %tu. This particular device does not support this orientation "
-                      @"and it shows up as UIInterfaceOrientationUnknown.";
+        errorDescription = [NSString
+            stringWithFormat:
+                @"Could not rotate application to orientation: %tu because the orientation is not "
+                @"supported by the rotation API. The supported orientations are "
+                @"UIDeviceOrientationPortrait (%tu), UIDeviceOrientationPortraitUpsideDown (%tu), "
+                @"UIDeviceOrientationLandscapeLeft (%tu), UIDeviceOrientationLandscapeRight (%tu).",
+                deviceOrientation, UIDeviceOrientationPortrait,
+                UIDeviceOrientationPortraitUpsideDown, UIDeviceOrientationLandscapeLeft,
+                UIDeviceOrientationLandscapeRight];
       } else if (interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown) {
-        errorReason = @"Could not rotate the device to portraitUpsideDown because the hosting "
-                      @"device doesn't support this orientation.";
+        errorDescription = @"Could not rotate the device to portraitUpsideDown because the hosting "
+                           @"device doesn't support this orientation.";
       } else {
-        errorReason = @"Could not rotate application to orientation: %tu. XCUIDevice "
-                      @"Orientation: %tu. Check if the rotation is valid for the specified device.";
+        UIDeviceOrientation appDeviceOrientation = currentDevice.orientation;
+#if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 160000)
+        if (@available(iOS 16.0, *)) {
+          UIWindowScene *scene = [[GREY_REMOTE_CLASS_IN_APP(GREYUIWindowProvider)
+              keyWindowForSharedApplication] windowScene];
+          appDeviceOrientation =
+              [GREYConstants deviceOrientationForInterfaceOrientation:scene.effectiveGeometry
+                                                                          .interfaceOrientation];
+        }
+#endif  // (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 160000)
+        errorDescription = [NSString
+            stringWithFormat:@"Could not rotate application to orientation: %tu. After applying "
+                             @"the orientation, either XCUIDevice orientation (%tu) or application "
+                             @"orientation (%tu) doesn't match the requested orientation.",
+                             deviceOrientation, sharedDevice.orientation, appDeviceOrientation];
       }
-      errorDescription =
-          [NSString stringWithFormat:errorReason, deviceOrientation, sharedDevice.orientation];
     }
 
     GREYError *rotationError = GREYErrorMakeWithUserInfo(kGREYSyntheticEventInjectionErrorDomain,
