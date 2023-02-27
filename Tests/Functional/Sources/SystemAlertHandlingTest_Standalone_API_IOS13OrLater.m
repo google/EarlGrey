@@ -13,9 +13,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#import "BaseIntegrationTest.h"
-
 #import "EarlGrey.h"
+#import "BaseIntegrationTest.h"
 
 @interface SystemAlertHandlingTest_Standalone_API_IOS13OrLater : BaseIntegrationTest
 @end

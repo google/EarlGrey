@@ -14,7 +14,6 @@
 // limitations under the License.
 //
 
-#import "ExposedForTesting.h"
 #import "EarlGrey.h"
 #import "GREYHostApplicationDistantObject+BasicInteractionTest.h"
 #import "GREYHostApplicationDistantObject+RemoteTest.h"

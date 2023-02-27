@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "EarlGrey.h"
+#import "EarlGreyImpl.h"
 
 #import "GREYSyntheticEvents.h"
 #import "GREYKeyboard.h"

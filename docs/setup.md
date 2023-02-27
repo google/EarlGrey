@@ -133,7 +133,7 @@ fine for you now.
 ```objective-c
 #import <XCTest/XCTest.h>
 
-#import "TestLib/EarlGreyImpl/EarlGrey.h"
+#import "TestLib/EarlGrey.h"
 
 @interface FirstEarlGreyV2Test : XCTestCase
 @end
@@ -180,7 +180,7 @@ Add the following imports:
 #import "CommonLib/Matcher/GREYElementMatcherBlock.h"
 #import "CommonLib/Matcher/GREYMatcher.h"
 #import "TestLib/AlertHandling/XCTestCase+GREYSystemAlertHandler.h"
-#import "TestLib/EarlGreyImpl/EarlGrey.h"
+#import "TestLib/EarlGrey.h"
 ```
 
 If you need any more EarlGrey imports in your Swift tests, *add them in the bridging

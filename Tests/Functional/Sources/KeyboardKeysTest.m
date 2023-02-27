@@ -14,7 +14,6 @@
 // limitations under the License.
 //
 
-#import "ExposedForTesting.h"
 #import "BaseIntegrationTest.h"
 
 // Note: GREYKeyboard should not be used in test cases of EarlGrey users. We are only using it here

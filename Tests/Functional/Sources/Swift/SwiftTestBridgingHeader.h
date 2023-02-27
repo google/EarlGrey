@@ -22,4 +22,4 @@
 #import "CommonLib/DistantObject/GREYHostApplicationDistantObject.h"
 #import "CommonLib/Matcher/GREYMatcher.h"
 #import "TestLib/AlertHandling/XCTestCase+GREYSystemAlertHandler.h"
-#import "TestLib/EarlGreyImpl/EarlGrey.h"
+#import "TestLib/EarlGrey.h"

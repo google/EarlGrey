@@ -14,10 +14,8 @@
 // limitations under the License.
 //
 
-#import "GREYConfigKey.h"
 #import "BaseIntegrationTest.h"
 
-#import "GREYError.h"
 #import "EarlGrey.h"
 #import "GREYHostApplicationDistantObject+ErrorHandlingTest.h"
 #import "FailureHandler.h"

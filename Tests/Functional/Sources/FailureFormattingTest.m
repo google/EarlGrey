@@ -13,8 +13,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-#import "GREYDescribeVariable.h"
-#import "GREYConfigKey.h"
 #import "GREYAppleInternals.h"
 #import "EarlGrey.h"
 #import "GREYFailureHandlerHelpers.h"

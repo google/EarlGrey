@@ -14,7 +14,6 @@
 // limitations under the License.
 //
 
-#import "GREYWaitFunctions.h"
 #import "EarlGrey.h"
 #import "GREYHostApplicationDistantObject+TwistViewTest.h"
 #import "BaseIntegrationTest.h"

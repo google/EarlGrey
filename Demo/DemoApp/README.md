@@ -29,7 +29,7 @@ Install carthage via [brew install carthage](https://github.com/Carthage/Carthag
 #import "CommonLib/DistantObject/GREYHostApplicationDistantObject.h"
 #import "CommonLib/Matcher/GREYMatcher.h"
 #import "TestLib/AlertHandling/XCTestCase+GREYSystemAlertHandler.h"
-#import "TestLib/EarlGreyImpl/EarlGrey.h"
+#import "TestLib/EarlGrey.h"
 ```
   -  Add `@loader_path/Frameworks` to your `Runpath Search Paths` for both the App and Test Component.
 

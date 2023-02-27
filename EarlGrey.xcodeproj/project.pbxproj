@@ -451,6 +451,7 @@
 		765D6E5F26A73DDC00770A87 /* UIApplication+ActiveRunLoopMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIApplication+ActiveRunLoopMode.h"; path = "Synchronization/UIApplication+ActiveRunLoopMode.h"; sourceTree = "<group>"; };
 		7681E45028F60477007BCE7A /* GREYDescribeVariable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYDescribeVariable.h; path = CommonLib/Assertion/GREYDescribeVariable.h; sourceTree = "<group>"; };
 		7681E45128F60477007BCE7A /* GREYDescribeVariable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYDescribeVariable.m; path = CommonLib/Assertion/GREYDescribeVariable.m; sourceTree = "<group>"; };
+		76BDBA8C29A858120052FDF9 /* EarlGrey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EarlGrey.h; sourceTree = "<group>"; };
 		76C023AD288A0E4800BDEED5 /* GREYInterposer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYInterposer.h; path = CommonLib/Interposer/GREYInterposer.h; sourceTree = "<group>"; };
 		76CE2922285176CA0036A770 /* GREYDistantObjectUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYDistantObjectUtils.m; path = DistantObject/GREYDistantObjectUtils.m; sourceTree = "<group>"; };
 		76CE2924285176DA0036A770 /* GREYDistantObjectUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYDistantObjectUtils.m; path = DistantObject/GREYDistantObjectUtils.m; sourceTree = "<group>"; };
@@ -504,10 +505,10 @@
 		FD50492320FB239800261CBE /* GREYXCTestAppleInternals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYXCTestAppleInternals.h; path = EarlGreyImpl/GREYXCTestAppleInternals.h; sourceTree = "<group>"; };
 		FD50492420FB239800261CBE /* XCUIApplication+GREYTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "XCUIApplication+GREYTest.m"; path = "EarlGreyImpl/XCUIApplication+GREYTest.m"; sourceTree = "<group>"; };
 		FD50492520FB239800261CBE /* EarlGreyImpl+XCUIApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "EarlGreyImpl+XCUIApplication.m"; path = "EarlGreyImpl/EarlGreyImpl+XCUIApplication.m"; sourceTree = "<group>"; };
-		FD50492620FB239800261CBE /* EarlGrey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EarlGrey.m; path = EarlGreyImpl/EarlGrey.m; sourceTree = "<group>"; };
+		FD50492620FB239800261CBE /* EarlGrey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EarlGrey.m; path = EarlGreyImpl/EarlGreyImpl.m; sourceTree = "<group>"; };
 		FD50492720FB239800261CBE /* GREYElementInteractionProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYElementInteractionProxy.h; path = EarlGreyImpl/GREYElementInteractionProxy.h; sourceTree = "<group>"; };
 		FD50492820FB239800261CBE /* XCUIApplication+GREYTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "XCUIApplication+GREYTest.h"; path = "EarlGreyImpl/XCUIApplication+GREYTest.h"; sourceTree = "<group>"; };
-		FD50492920FB239900261CBE /* EarlGrey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EarlGrey.h; path = EarlGreyImpl/EarlGrey.h; sourceTree = "<group>"; };
+		FD50492920FB239900261CBE /* EarlGrey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EarlGrey.h; path = EarlGreyImpl/EarlGreyImpl.h; sourceTree = "<group>"; };
 		FD50493820FB23E500261CBE /* GREYTestCaseInvocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GREYTestCaseInvocation.m; path = XCTestCase/GREYTestCaseInvocation.m; sourceTree = "<group>"; };
 		FD50493920FB23E500261CBE /* XCTestCase+GREYTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "XCTestCase+GREYTest.m"; path = "XCTestCase/XCTestCase+GREYTest.m"; sourceTree = "<group>"; };
 		FD50493A20FB23E500261CBE /* GREYTestCaseInvocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYTestCaseInvocation.h; path = XCTestCase/GREYTestCaseInvocation.h; sourceTree = "<group>"; };
@@ -860,6 +861,7 @@
 		FD5048F920FB225100261CBE /* TestLib */ = {
 			isa = PBXGroup;
 			children = (
+				76BDBA8C29A858120052FDF9 /* EarlGrey.h */,
 				FD15754F2579CC4600EDBF48 /* FailureHandler */,
 				FDE871952322D9DD007C5A5C /* Execution */,
 				FD98C465226C330E006F8D68 /* AppleInternals */,

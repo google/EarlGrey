@@ -14,9 +14,7 @@
 // limitations under the License.
 //
 
-#import "GREYConfigKey.h"
 #import "EarlGrey.h"
-#import "EarlGreyImpl+XCUIApplication.h"
 
 @interface ApplicationStateHandlingTest : XCTestCase
 @end

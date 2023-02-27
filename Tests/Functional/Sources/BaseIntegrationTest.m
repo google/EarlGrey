@@ -18,7 +18,6 @@
 
 #import "EarlGrey.h"
 #import "GREYHostApplicationDistantObject+BaseIntegrationTest.h"
-#import "NSObject+EDOBlockedType.h"
 
 @implementation BaseIntegrationTest
 

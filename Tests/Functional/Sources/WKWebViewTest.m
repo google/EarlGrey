@@ -16,7 +16,6 @@
 
 #import <WebKit/WebKit.h>
 
-#import "ExposedForTesting.h"
 #import "EarlGrey.h"
 #import "BaseIntegrationTest.h"
 

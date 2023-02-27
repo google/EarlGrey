@@ -15,7 +15,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ExposedForTesting.h"
 #import "EarlGrey.h"
 #import "GREYHostApplicationDistantObject+GestureTest.h"
 #import "BaseIntegrationTest.h"

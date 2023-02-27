@@ -17,14 +17,10 @@
 #import <Foundation/Foundation.h>
 #import <XCTest/XCTest.h>
 
-#import "GREYHostApplicationDistantObject+GREYTestHelper.h"
-#import "GREYDistantObjectUtils.h"
 #import "GREYTestApplicationDistantObject+Private.h"
 #import "EarlGrey.h"
 #import "GREYHostApplicationDistantObject+RemoteTest.h"
 #import "BaseIntegrationTest.h"
-#import "EDOHostService.h"
-#import "EDOServicePort.h"
 
 @interface DistantObjectExecutionTest : BaseIntegrationTest
 @end

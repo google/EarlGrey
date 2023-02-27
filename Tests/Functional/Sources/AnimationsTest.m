@@ -14,7 +14,6 @@
 // limitations under the License.
 //
 
-#import "GREYConfigKey.h"
 #import "EarlGrey.h"
 #import "GREYHostApplicationDistantObject+AnimationsTest.h"
 #import "BaseIntegrationTest.h"

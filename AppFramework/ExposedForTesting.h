@@ -55,6 +55,8 @@
 #import "EDOClientService.h"
 #import "EDOHostService.h"
 #import "EDORemoteVariable.h"
+#import "EDOServicePort.h"
+#import "NSObject+EDOBlockedType.h"
 #import "NSObject+EDOValueObject.h"
 #import "NSObject+EDOWeakObject.h"
 

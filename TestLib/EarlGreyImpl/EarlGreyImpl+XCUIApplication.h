@@ -14,9 +14,7 @@
 // limitations under the License.
 //
 
-#import "EarlGrey.h"
-
-#import <XCTest/XCTest.h>
+#import "EarlGreyImpl.h"
 
 @interface EarlGreyImpl (XCUIApplication)
 

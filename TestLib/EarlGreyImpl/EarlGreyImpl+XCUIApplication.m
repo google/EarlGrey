@@ -19,7 +19,7 @@
 #import "GREYConfigKey.h"
 #import "GREYError.h"
 #import "GREYXCTestAppleInternals.h"
-#import "EarlGrey.h"
+#import "EarlGreyImpl.h"
 
 // In tvOS, this var becomes unused.
 #if TARGET_OS_IOS

@@ -71,7 +71,8 @@ Pod::Spec.new do |s|
                   "TestLib/Assertion/GREYAssertionDefines.h",
                   "TestLib/Assertion/GREYWaitFunctions.h",
                   "TestLib/Condition/GREYCondition.h",
-                  "TestLib/EarlGreyImpl/EarlGrey.h",
+                  "TestLib/EarlGrey.h",
+                  "TestLib/EarlGreyImpl/EarlGreyImpl.h",
                   "UILib/GREYElementHierarchy.h",
         ]
 

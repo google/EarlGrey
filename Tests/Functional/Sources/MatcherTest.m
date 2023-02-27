@@ -17,8 +17,6 @@
 #import "EarlGrey.h"
 #import "BaseIntegrationTest.h"
 
-#import "GREYLayoutConstraint.h"
-
 @interface MatcherTest : BaseIntegrationTest
 @end
 

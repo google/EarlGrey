@@ -16,7 +16,6 @@
 
 #import <UIKit/UIKit.h>
 #import "BaseIntegrationTest.h"
-#import "GREYUILibUtils.h"
 
 #import "EarlGrey.h"
 #import "GREYHostApplicationDistantObject+GeometryTest.h"

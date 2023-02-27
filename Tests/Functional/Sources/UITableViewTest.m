@@ -14,7 +14,6 @@
 // limitations under the License.
 //
 
-#import "GREYElementInteraction.h"
 #import "EarlGrey.h"
 #import "GREYHostApplicationDistantObject+UITableViewTest.h"
 #import "BaseIntegrationTest.h"

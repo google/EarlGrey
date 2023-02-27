@@ -15,8 +15,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "GREYConfigKey.h"
-#import "GREYDescription.h"
 #import "EarlGrey.h"
 #import "GREYHostApplicationDistantObject+ScrollViewTest.h"
 #import "BaseIntegrationTest.h"

@@ -14,10 +14,7 @@
 // limitations under the License.
 //
 
-#import "GREYAssertionDefines.h"
 #import "EarlGrey.h"
-#import "GREYHostApplicationDistantObject+RemoteTest.h"
-#import "EDORemoteVariable.h"
 
 /**
  * Base class for adding any methods to be needed in the tests.
