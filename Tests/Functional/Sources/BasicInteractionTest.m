@@ -291,7 +291,7 @@
   // Setup a condition to wait until a specific label says specific text.
   GREYCondition *waitCondition = [GREYCondition
       conditionWithName:@"WaitForLabelText"
-                  block:^BOOL() {
+                  block:^BOOL(void) {
                     NSError *error;
                     [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"sampleLabel")]
                         performAction:action
@@ -476,7 +476,7 @@
   // Setup a condition to wait until a specific label says specific text.
   GREYCondition *waitCondition = [GREYCondition
       conditionWithName:@"WaitForLabelText"
-                  block:^BOOL() {
+                  block:^BOOL(void) {
                     [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"sampleLabel")]
                         performAction:action];
                     NSString *text = [[GREYHostApplicationDistantObject sharedInstance] labelText];

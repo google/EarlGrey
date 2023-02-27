@@ -324,7 +324,7 @@ NSString *GREYBugDestination(void) {
 
 #endif  // TARGET_OS_IOS
 
-BOOL GREYIsLocalTest() {
+BOOL GREYIsLocalTest(void) {
   return YES;
 }
 
