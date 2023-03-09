@@ -319,6 +319,33 @@
   [[EarlGrey selectElementWithMatcher:axValueMatcher] assertWithMatcher:grey_notVisible()];
 }
 
+/**
+ * Verifies that UIScrollView's indicator won't show with the config
+ * @c kGREYConfigKeyAutoHideScrollViewIndicators on.
+ */
+- (void)testScrollIndicatorAutomaticallyHidenWithConfig {
+  [GREYConfiguration.sharedConfiguration setValue:@(YES)
+                                     forConfigKey:kGREYConfigKeyAutoHideScrollViewIndicators];
+  [self addTeardownBlock:^{
+    [GREYConfiguration.sharedConfiguration setValue:@(NO)
+                                       forConfigKey:kGREYConfigKeyAutoHideScrollViewIndicators];
+  }];
+
+  id<GREYMatcher> infiniteScrollViewMatcher = grey_accessibilityLabel(@"Infinite Scroll View");
+  [[EarlGrey selectElementWithMatcher:infiniteScrollViewMatcher]
+      performAction:grey_scrollInDirection(kGREYDirectionDown, 99)];
+
+  id<GREYMatcher> axValueMatcher = grey_allOf(grey_ancestor(infiniteScrollViewMatcher),
+                                              InfiniteScrollViewIndicatorMatcher(), nil);
+  [GREYConfiguration.sharedConfiguration setValue:@(NO)
+                                     forConfigKey:kGREYConfigKeySynchronizationEnabled];
+  [self addTeardownBlock:^{
+    [GREYConfiguration.sharedConfiguration setValue:@(YES)
+                                       forConfigKey:kGREYConfigKeySynchronizationEnabled];
+  }];
+  [[EarlGrey selectElementWithMatcher:axValueMatcher] assertWithMatcher:grey_notVisible()];
+}
+
 /** Scroll Indicators should be tracked post a scroll action being done. */
 - (void)testScrollIndicatorRemovalAfterTurningOffSynchronizationAndPerformingAScrollAction {
   id<GREYMatcher> infiniteScrollViewMatcher = grey_accessibilityLabel(@"Infinite Scroll View");

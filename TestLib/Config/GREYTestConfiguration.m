@@ -68,6 +68,7 @@ GREYConfiguration *GREYCreateConfiguration(void) { return [[GREYTestConfiguratio
     [self setDefaultValue:@NO forConfigKey:kGREYConfigKeyIgnoreIsAccessible];
     [self setDefaultValue:@(kGREYAppLaunchTimeout) forConfigKey:kGREYConfigKeyAppLaunchTimeout];
     [self setDefaultValue:@NO forConfigKey:kGREYConfigKeyAutoUntrackMDCActivityIndicators];
+    [self setDefaultValue:@NO forConfigKey:kGREYConfigKeyAutoHideScrollViewIndicators];
   }
   return self;
 }

@@ -136,6 +136,7 @@ static NSDictionary *GetFakeLocalTestingAppConfig(void) {
       kGREYConfigKeyIgnoreIsAccessible : @NO,
       kGREYConfigKeyAppLaunchTimeout : @(kGREYAppLaunchTimeout),
       kGREYConfigKeyAutoUntrackMDCActivityIndicators : @NO,
+      kGREYConfigKeyAutoHideScrollViewIndicators : @NO,
     };
   });
   return fakeLocalTestingAppConfig;

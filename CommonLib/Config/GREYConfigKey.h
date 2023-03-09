@@ -177,4 +177,12 @@ GREY_EXTERN GREYConfigKey const kGREYConfigKeyAppLaunchTimeout;
  */
 GREY_EXTERN GREYConfigKey const kGREYConfigKeyAutoUntrackMDCActivityIndicators;
 
+/**
+ * Configuration for automatically hide the UIScrollView's indicator.
+ *
+ * Accepted values: A BOOL specifying the auto-untracking or not.
+ * Default value: @c NO.
+ */
+GREY_EXTERN GREYConfigKey const kGREYConfigKeyAutoHideScrollViewIndicators;
+
 NS_ASSUME_NONNULL_END

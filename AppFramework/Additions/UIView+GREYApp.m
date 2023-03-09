@@ -197,6 +197,14 @@ __unused static Class gScrollViewIndicatorClass;
     GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle UIView setAlpha:");
   }
 
+  originalSel = NSSelectorFromString(@"_adjustScrollerIndicators:alwaysShowingThem:");
+  swizzledSel = @selector(greyswizzled_adjustScrollerIndicators:alwaysShowingThem:);
+  swizzleSuccess = [swizzler swizzleClass:[UIScrollView class]
+                    replaceInstanceMethod:originalSel
+                               withMethod:swizzledSel];
+  GREYFatalAssertWithMessage(
+      swizzleSuccess, @"Cannot swizzle UIScrollView _adjustScrollerIndicators:alwaysShowingThem:");
+
   if (GREYVerboseLoggingEnabled()) {
     gPrintFunctionPointer = YES;
   }
@@ -217,6 +225,21 @@ __unused static Class gScrollViewIndicatorClass;
 }
 
 #pragma mark - Swizzled Implementation
+
+- (void)greyswizzled_adjustScrollerIndicators:(BOOL)scrollViewIndicators
+                            alwaysShowingThem:(BOOL)alwaysShowingThem {
+  // In UIScrollView, this method is called when the view is scrolled. This method will show the
+  // scroll view indicator, and move its position during the scrolling. When scroll interaction is
+  // completed, it schedules a NSTimer to hide the scroll view indicator.
+  //
+  // EarlGrey provides a config to stop this behavior. When it's turned on, scroll view indicator
+  // will not show, and the NSTimer to hide it won't be scheduled. So it accelerates the test since
+  // EarlGrey doesn't need to synchronize the NSTimer.
+  if (!GREY_CONFIG_BOOL(kGREYConfigKeyAutoHideScrollViewIndicators)) {
+    INVOKE_ORIGINAL_IMP2(void, @selector(greyswizzled_adjustScrollerIndicators:alwaysShowingThem:),
+                         scrollViewIndicators, alwaysShowingThem);
+  }
+}
 
 - (void)greyswizzled_setAlpha:(CGFloat)alpha {
   INVOKE_ORIGINAL_IMP1(void, @selector(greyswizzled_setAlpha:), alpha);
