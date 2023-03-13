@@ -113,3 +113,18 @@
 - (void)endTouchWithTimeout:(NSTimeInterval)timeout;
 
 @end
+
+/**
+ * Perform a tap interaction with tap count being indexed.
+ *
+ * @param location The location to be tapped, relative to the window being tapped.
+ * @param window   The UIWindow that contains the points in the @c location where
+ *                 the tap is performed. Interaction will begin on the view inside
+ *                 @c window which passes the hit-test.
+ * @param tapCount The number of taps that occurred for this touch within a predefined period of
+ *                 time. It corresponding to the UITouch's tapCount and gesture recognizers use
+ *                 it to detect single-tapped, double-tapped, and multi-tapped.
+ * @param timeout  The length of time that the method should wait for the interaction to complete.
+ */
+void GREYPerformMultipleTap(CGPoint location, UIWindow *window, NSUInteger tapCount,
+                            NSTimeInterval timeout);

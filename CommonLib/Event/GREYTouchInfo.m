@@ -19,12 +19,23 @@
 // TODO: Consider to use XCUITest injections, and may move this back to app framework. // NOLINT
 @implementation GREYTouchInfo
 
-- (instancetype)initWithPoints:(NSArray *)points
+- (instancetype)initWithPoints:(NSArray<NSValue *> *)points
+                              phase:(UITouchPhase)phase
+    deliveryTimeDeltaSinceLastTouch:(NSTimeInterval)timeDeltaSinceLastTouchSeconds {
+  return [self initWithPoints:points
+                         withTapCount:1
+                                phase:phase
+      deliveryTimeDeltaSinceLastTouch:timeDeltaSinceLastTouchSeconds];
+}
+
+- (instancetype)initWithPoints:(NSArray<NSValue *> *)points
+                       withTapCount:(NSUInteger)tapCount
                               phase:(UITouchPhase)phase
     deliveryTimeDeltaSinceLastTouch:(NSTimeInterval)timeDeltaSinceLastTouchSeconds {
   self = [super init];
   if (self) {
     _points = points;
+    _tapCount = tapCount;
     _phase = phase;
     _deliveryTimeDeltaSinceLastTouch = timeDeltaSinceLastTouchSeconds;
   }

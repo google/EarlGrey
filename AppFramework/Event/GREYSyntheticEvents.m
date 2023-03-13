@@ -222,3 +222,22 @@
 }
 
 @end
+
+void GREYPerformMultipleTap(CGPoint location, UIWindow *window, NSUInteger tapCount,
+                            NSTimeInterval timeout) {
+  GREYTouchInjector *touchInjector = [[GREYTouchInjector alloc] initWithWindow:window];
+  NSArray<NSValue *> *touchPath = @[ [NSValue valueWithCGPoint:location] ];
+
+  GREYTouchInfo *beginTouchInfo = [[GREYTouchInfo alloc] initWithPoints:touchPath
+                                                           withTapCount:tapCount
+                                                                  phase:UITouchPhaseBegan
+                                        deliveryTimeDeltaSinceLastTouch:0];
+  [touchInjector enqueueTouchInfoForDelivery:beginTouchInfo];
+
+  GREYTouchInfo *endTouchInfo = [[GREYTouchInfo alloc] initWithPoints:touchPath
+                                                         withTapCount:tapCount
+                                                                phase:UITouchPhaseEnded
+                                      deliveryTimeDeltaSinceLastTouch:0];
+  [touchInjector enqueueTouchInfoForDelivery:endTouchInfo];
+  [touchInjector waitUntilAllTouchesAreDeliveredWithTimeout:timeout];
+}

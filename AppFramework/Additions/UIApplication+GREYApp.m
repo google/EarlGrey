@@ -98,6 +98,9 @@ static NSMutableArray<NSString *> *gRunLoopModes;
 - (void)greyswizzled_sendEvent:(UIEvent *)event {
   if (event.type == UIEventTypeTouches) {
     UITouch *anyTouch = event.allTouches.anyObject;
+    CGPoint coordinate = [anyTouch locationInView:nil];
+    GREYLogVerbose(@"Touch is sent at (%.2f, %.2f) with tapCount %lu", coordinate.x, coordinate.y,
+                   anyTouch.tapCount);
     if (anyTouch.phase == UITouchPhaseBegan) {
       GREYLogVerbose(@"Touch began at view %@", anyTouch.view.description);
     } else if (anyTouch.phase == UITouchPhaseMoved) {

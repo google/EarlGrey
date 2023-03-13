@@ -188,7 +188,7 @@ static const NSTimeInterval kTouchInjectFramerateInv = 1 / 120.0;
       } else {
         [touch setIsTap:YES];
       }
-      [touch setTapCount:1];
+      [touch setTapCount:touchInfo.tapCount];
       [touch setIsDelayed:NO];
       [touch _setPathIndex:1];
       [touch _setPathIdentity:2];

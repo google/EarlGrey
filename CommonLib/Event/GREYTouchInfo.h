@@ -16,30 +16,32 @@
 
 #import <UIKit/UIKit.h>
 
-/**
- * An object to encapsulate essential information about a touch.
- */
+/** An object to encapsulate essential information about a touch. */
 @interface GREYTouchInfo : NSObject
 
-/**
- * Array of @c NSValue wrapping @c CGPoint (one for each finger) where touch will be delivered.
- */
+/** Array of @c NSValue wrapping @c CGPoint (one for each finger) where touch will be delivered. */
 @property(nonatomic, readonly) NSArray *points;
 
-/**
- * The phases (began, moved etc) of the UITouch object.
- */
+/** The phases (began, moved etc) of the UITouch object. */
 @property(nonatomic, assign, readonly) UITouchPhase phase;
 
-/**
- * Delays touch delivery by this amount since the last touch delivery.
- */
+/** The number of taps that occurred for this touch within a predefined period of time. */
+@property(nonatomic, assign, readonly) NSUInteger tapCount;
+
+/** Delays touch delivery by this amount since the last touch delivery. */
 @property(nonatomic, readonly) NSTimeInterval deliveryTimeDeltaSinceLastTouch;
+
+/** The convenient initializer for the designated initializer with `tapCount` set to 1. */
+- (instancetype)initWithPoints:(NSArray<NSValue *> *)points
+                              phase:(UITouchPhase)phase
+    deliveryTimeDeltaSinceLastTouch:(NSTimeInterval)timeDeltaSinceLastTouchSeconds;
 
 /**
  * Initializes this object to represent a touch at the given @c points.
  *
  * @param points                         The CGPoints where the touches are to be delivered.
+ * @param tapCount                       The number of taps that occurred for this touch within a
+ *                                       predefined period of time.
  * @param phase                          Specifies the touch's phase.
  * @param timeDeltaSinceLastTouchSeconds The relative injection time from the time last
  *                                       touch point was injected. It is also used as the
@@ -47,7 +49,8 @@
  *
  * @return An instance of GREYTouchInfo, initialized with all required data.
  */
-- (instancetype)initWithPoints:(NSArray *)points
+- (instancetype)initWithPoints:(NSArray<NSValue *> *)points
+                       withTapCount:(NSUInteger)tapCount
                               phase:(UITouchPhase)phase
     deliveryTimeDeltaSinceLastTouch:(NSTimeInterval)timeDeltaSinceLastTouchSeconds
     NS_DESIGNATED_INITIALIZER;

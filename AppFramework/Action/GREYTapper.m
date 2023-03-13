@@ -65,14 +65,10 @@
     return NO;
   }
 
-  NSArray *touchPath = @[ [NSValue valueWithCGPoint:location] ];
   CFTimeInterval interactionTimeout = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
   for (NSUInteger i = 1; i <= numberOfTaps; i++) {
     @autoreleasepool {
-      [GREYSyntheticEvents touchAlongPath:touchPath
-                         relativeToWindow:window
-                              forDuration:0
-                                  timeout:interactionTimeout];
+      GREYPerformMultipleTap(location, window, i, interactionTimeout);
     }
   }
   return YES;
