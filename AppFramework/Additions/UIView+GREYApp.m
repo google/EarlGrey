@@ -113,6 +113,11 @@ __unused static Class gScrollViewIndicatorClass;
   GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle UIView setNeedsLayout");
 
   swizzleSuccess = [swizzler swizzleClass:self
+                    replaceInstanceMethod:@selector(sizeToFit)
+                               withMethod:@selector(greyswizzled_sizeToFit)];
+  GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle UIView sizeToFit");
+
+  swizzleSuccess = [swizzler swizzleClass:self
                     replaceInstanceMethod:@selector(setNeedsUpdateConstraints)
                                withMethod:@selector(greyswizzled_setNeedsUpdateConstraints)];
   GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle UIView setNeedsUpdateConstraints");
@@ -340,6 +345,15 @@ __unused static Class gScrollViewIndicatorClass;
     UNTRACK_STATE_FOR_OBJECT(kGREYPendingDrawLayoutPass, object);
   });
   INVOKE_ORIGINAL_IMP1(void, @selector(greyswizzled_setNeedsDisplayInRect:), rect);
+}
+
+- (void)greyswizzled_sizeToFit {
+  GREYAppStateTrackerObject *object = TRACK_STATE_FOR_OBJECT(kGREYPendingDrawLayoutPass, self);
+  // Next runloop drain will perform the draw pass.
+  dispatch_async(dispatch_get_main_queue(), ^{
+    UNTRACK_STATE_FOR_OBJECT(kGREYPendingDrawLayoutPass, object);
+  });
+  INVOKE_ORIGINAL_IMP(void, @selector(greyswizzled_sizeToFit));
 }
 
 - (void)greyswizzled_setNeedsDisplay {
