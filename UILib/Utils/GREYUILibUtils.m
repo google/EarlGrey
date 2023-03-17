@@ -98,9 +98,12 @@ NSArray<UIWindow *> *GREYUILibUtilsGetAllWindowsFromConnectedScenes(void) {
       [windows addObjectsFromArray:windowScene.windows];
     }
   } else {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     if (sharedApp.windows) {
       [windows addObjectsFromArray:sharedApp.windows];
     }
+#pragma clang diagnostic pop
   }
 
   return windows;
