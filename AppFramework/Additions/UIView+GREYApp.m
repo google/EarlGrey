@@ -400,10 +400,12 @@ __unused static Class gScrollViewIndicatorClass;
   GREYAnimationCompletionBlock wrappedCompletion = nil;
   GREYAppStateTrackerObject *object = nil;
   if (completion) {
-    object = TRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, self);
+    __block NSObject *trackerObject = [[NSObject alloc] init];
+    object = TRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, trackerObject);
     wrappedCompletion = ^(BOOL finished) {
       completion(finished);
       UNTRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, object);
+      trackerObject = nil;
     };
   }
   INVOKE_ORIGINAL_IMP3(void, @selector(greyswizzled_animateWithDuration:animations:completion:),
@@ -421,10 +423,12 @@ __unused static Class gScrollViewIndicatorClass;
   GREYAnimationCompletionBlock wrappedCompletion = nil;
   GREYAppStateTrackerObject *object = nil;
   if (completion) {
-    object = TRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, self);
+    __block NSObject *trackerObject = [[NSObject alloc] init];
+    object = TRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, trackerObject);
     wrappedCompletion = ^(BOOL finished) {
       completion(finished);
       UNTRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, object);
+      trackerObject = nil;
     };
   }
 
@@ -455,10 +459,12 @@ __unused static Class gScrollViewIndicatorClass;
   GREYAnimationCompletionBlock wrappedCompletion = nil;
   GREYAppStateTrackerObject *object = nil;
   if (completion) {
-    object = TRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, self);
+    __block NSObject *trackerObject = [[NSObject alloc] init];
+    object = TRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, trackerObject);
     wrappedCompletion = ^(BOOL finished) {
       completion(finished);
       UNTRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, object);
+      trackerObject = nil;
     };
   }
 
@@ -483,10 +489,12 @@ __unused static Class gScrollViewIndicatorClass;
   GREYAnimationCompletionBlock wrappedCompletion = nil;
   GREYAppStateTrackerObject *object = nil;
   if (completion) {
-    object = TRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, self);
+    __block NSObject *trackerObject = [[NSObject alloc] init];
+    object = TRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, trackerObject);
     wrappedCompletion = ^(BOOL finished) {
       completion(finished);
       UNTRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, object);
+      trackerObject = nil;
     };
   }
 
@@ -509,10 +517,12 @@ __unused static Class gScrollViewIndicatorClass;
   GREYAnimationCompletionBlock wrappedCompletion = nil;
   GREYAppStateTrackerObject *object = nil;
   if (completion) {
-    object = TRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, self);
+    __block NSObject *trackerObject = [[NSObject alloc] init];
+    object = TRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, trackerObject);
     wrappedCompletion = ^(BOOL finished) {
       completion(finished);
       UNTRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, object);
+      trackerObject = nil;
     };
   }
 
@@ -535,10 +545,12 @@ __unused static Class gScrollViewIndicatorClass;
   GREYAnimationCompletionBlock wrappedCompletion = nil;
   GREYAppStateTrackerObject *object = nil;
   if (completion) {
-    object = TRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, self);
+    __block NSObject *trackerObject = [[NSObject alloc] init];
+    object = TRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, trackerObject);
     wrappedCompletion = ^(BOOL finished) {
       completion(finished);
       UNTRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, object);
+      trackerObject = nil;
     };
   }
   SEL swizzledSEL =

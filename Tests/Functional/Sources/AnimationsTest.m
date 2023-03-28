@@ -197,6 +197,43 @@
   [viewWithAnimatingSublayer1 removeFromSuperview];
 }
 
+/** Verifies EarlGrey synchronizes with UIView animations filed concurrently. */
+- (void)testMultipleConcurrentAnimationTriggeredWithUIView {
+  UIWindow *mainWindow = [GREY_REMOTE_CLASS_IN_APP(GREYUILibUtils) window];
+
+  UIView *slowerAnimatedView = [[GREY_REMOTE_CLASS_IN_APP(UIView) alloc] init];
+  [mainWindow addSubview:slowerAnimatedView];
+  __block BOOL slowerAnimationCompleted = NO;
+  [GREY_REMOTE_CLASS_IN_APP(UIView) animateWithDuration:0.1
+      delay:0.5
+      options:UIViewAnimationOptionAllowUserInteraction
+      animations:^{
+        slowerAnimatedView.alpha = 0.0;
+      }
+      completion:^(BOOL finished) {
+        slowerAnimationCompleted = YES;
+        [slowerAnimatedView removeFromSuperview];
+      }];
+
+  UIView *fasterAnimatedView = [[GREY_REMOTE_CLASS_IN_APP(UIView) alloc] init];
+  [mainWindow addSubview:fasterAnimatedView];
+  __block BOOL fasterAnimationCompleted = NO;
+  [GREY_REMOTE_CLASS_IN_APP(UIView) animateWithDuration:0.1
+      delay:0.1
+      options:UIViewAnimationOptionAllowUserInteraction
+      animations:^{
+        fasterAnimatedView.alpha = 0.0;
+      }
+      completion:^(BOOL finished) {
+        fasterAnimationCompleted = YES;
+        [fasterAnimatedView removeFromSuperview];
+      }];
+
+  GREYWaitForAppToIdle(@"app should be idle");
+  XCTAssertTrue(slowerAnimationCompleted);
+  XCTAssertTrue(fasterAnimationCompleted);
+}
+
 /** Test whether or not EarlGrey synchronizes with chained UIView animation. */
 - (void)testChainedAnimation {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Start UIView Chained Animation")]
