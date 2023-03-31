@@ -718,14 +718,14 @@ static Class gEDOObjectClass;
 
 + (id<GREYMatcher>)matcherForSelectedElement {
   NSString *prefix = @"selected";
-  GREYMatchesBlock matches = ^BOOL(UIControl *control) {
-    return [control isSelected];
+  GREYMatchesBlock matches = ^BOOL(id element) {
+    return [element isSelected];
   };
   GREYDescribeToBlock describe = ^void(id<GREYDescription> description) {
     [description appendText:prefix];
   };
   NSArray<id<GREYMatcher>> *matchersArray = @[
-    [GREYMatchers matcherForKindOfClass:[[UIControl class] class]],
+    [GREYMatchers matcherForRespondsToSelector:@selector(isSelected)],
     [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe],
   ];
   return [[GREYAllOf alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
