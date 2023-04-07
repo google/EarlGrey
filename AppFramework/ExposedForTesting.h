@@ -65,6 +65,7 @@
 
 // Miscellaneous APIs
 #import "GREYKeyboard.h"
+#import "NSFileManager+GREYCommon.h"
 #import "NSObject+GREYCommon.h"
 #import "GREYAppState.h"
 #import "GREYConfigKey.h"
