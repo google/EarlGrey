@@ -15,6 +15,7 @@
 //
 
 #import "GREYScreenshotter.h"
+#import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
 #import "NSFileManager+GREYCommon.h"
@@ -23,6 +24,8 @@
 #import "GREYLogger.h"
 #import "GREYUIWindowProvider.h"
 #import "GREYUILibUtils.h"
+
+#import "googlemac/iPhone/Shared/Testing/Scuba/Contribs/DiffUtils/SCUDiffInfoExtractor.h"
 
 // Private class for AlertController window that doesn't work with drawViewHierarchyInRect.
 static Class gUIAlertControllerShimPresenterWindowClass;
@@ -97,8 +100,7 @@ static UIScreen *MainScreen(void) {
        afterScreenUpdates:NO];
   UIImage *orientedScreenshot = UIGraphicsGetImageFromCurrentImageContext();
   UIGraphicsEndImageContext();
-  // Add information for screendiff tests.
-  AddAccessibilityHintForKeyboardToScreenshot(orientedScreenshot, elementAXFrame);
+
   return orientedScreenshot;
 }
 
@@ -134,10 +136,7 @@ static UIScreen *MainScreen(void) {
   UIImage *orientedScreenshot = UIGraphicsGetImageFromCurrentImageContext();
   UIGraphicsEndImageContext();
 
-  // Add information for screendiff tests.
-  if (!forDebugging) {
-    AddAccessibilityHintForKeyboardToScreenshot(orientedScreenshot, CGRectNull);
-  }
+
   return orientedScreenshot;
 }
 
@@ -240,46 +239,6 @@ static UIScreen *MainScreen(void) {
   UIGraphicsEndImageContext();
 
   return rotatedImage;
-}
-
-/**
- * Sets the accessibility hint of the specified @c screenshot to be the keyboardFrame's string
- * representation.
- *
- * @param screenshot     The UIImage for the taken screenshot.
- * @param elementAXFrame A CGRect with the accessibility frame of the view being scrapped. If not
- *                       @c nil, a screenshot will only be taken if this is as big as the whole
- *                       screen.
- *
- */
-static void AddAccessibilityHintForKeyboardToScreenshot(UIImage *screenshot,
-                                                        CGRect elementAXFrame) {
-  if (!screenshot) {
-    return;
-  } else if (!CGRectIsNull(elementAXFrame) &&
-             !CGRectEqualToRect(MainScreen().bounds, elementAXFrame)) {
-    // We only want to add masking for a keyboard when the screenshot is for the entire app.
-    return;
-  } else {
-    NSMutableDictionary<NSString *, NSString *> *maskingData = [[NSMutableDictionary alloc] init];
-    CGRect keyboardFrame = [GREYUILibUtils scaledKeyboardFrame];
-    if (!CGRectIsEmpty(keyboardFrame)) {
-      maskingData[@"KeyboardFrame"] = NSStringFromCGRect(keyboardFrame);
-    }
-    if ([maskingData count]) {
-      NSError *error;
-      NSData *maskingJSON = [NSJSONSerialization dataWithJSONObject:maskingData
-                                                            options:0
-                                                              error:&error];
-      if (error) {
-        GREYLog(@"Screenshot's debug info could not be applied NSJSONSerialization error: %@\n%@",
-                error, [NSThread callStackSymbols]);
-      }
-      NSString *maskingJSONString = [[NSString alloc] initWithData:maskingJSON
-                                                          encoding:NSUTF8StringEncoding];
-      [screenshot setAccessibilityHint:maskingJSONString];
-    }
-  }
 }
 
 @end
