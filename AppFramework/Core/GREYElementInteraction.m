@@ -128,8 +128,9 @@
     
     [elementFinderStopwatch stop];
 
-    GREYLogVerbose(@"Finished scanning hierarchy for match %@ in %f seconds.",
-                   self->_elementMatcher, [elementFinderStopwatch elapsedTime]);
+    GREYLogVerbose(
+        @"Finished scanning hierarchy for match %@ in %f seconds with element found: %@.",
+        self->_elementMatcher, [elementFinderStopwatch elapsedTime], elementsFound ? @"Y" : @"N");
 
     elementsFound = (elements.count > 0);
     if (elementsFound) {
