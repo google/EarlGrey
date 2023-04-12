@@ -25,7 +25,6 @@
 #import "GREYUIWindowProvider.h"
 #import "GREYUILibUtils.h"
 
-#import "googlemac/iPhone/Shared/Testing/Scuba/Contribs/DiffUtils/SCUDiffInfoExtractor.h"
 
 // Private class for AlertController window that doesn't work with drawViewHierarchyInRect.
 static Class gUIAlertControllerShimPresenterWindowClass;
