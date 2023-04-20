@@ -40,16 +40,12 @@ static NSMapTable<NSString *, GREYVisibilityCheckerCacheEntry *> *gCache;
 
 @implementation GREYVisibilityChecker
 
-+ (BOOL)isNotVisible:(id)element {
-  return [self percentVisibleAreaOfElement:element] == 0;
-}
-
 + (CGFloat)percentVisibleAreaOfElement:(id)element {
   if (!element) {
     return 0;
   }
 
-  GREYVisibilityCheckerCacheEntry *cache = [self grey_cacheForElementCreateIfNonExistent:element];
+  GREYVisibilityCheckerCacheEntry *cache = GREYCacheForElementCreateIfNonExistent(element);
   NSNumber *percentVisible = [cache visibleAreaPercent];
   if (percentVisible) {
     return [percentVisible floatValue];
@@ -72,13 +68,31 @@ static NSMapTable<NSString *, GREYVisibilityCheckerCacheEntry *> *gCache;
   return result;
 }
 
-+ (CGPoint)visibleInteractionPointForElement:(id)element {
++ (CGRect)rectEnclosingVisibleAreaOfElement:(id)element {
+  GREYVisibilityCheckerCacheEntry *cache = GREYCacheForElementCreateIfNonExistent(element);
+  NSValue *rectValue = [cache rectEnclosingVisibleArea];
+  if (rectValue) {
+    return [rectValue CGRectValue];
+  }
+  CGRect visibleAreaRect =
+      [GREYThoroughVisibilityChecker rectEnclosingVisibleAreaOfElement:element];
+  cache.rectEnclosingVisibleArea = [NSValue valueWithCGRect:visibleAreaRect];
+  return visibleAreaRect;
+}
+
+@end
+
+BOOL GREYIsNotVisible(__nullable id element) {
+  return [GREYVisibilityChecker percentVisibleAreaOfElement:element] == 0;
+}
+
+CGPoint GREYVisibleInteractionPointForElement(__nullable id element) {
   if (!element) {
     // Nil elements are not considered visible for interaction.
     return GREYCGPointNull;
   }
 
-  GREYVisibilityCheckerCacheEntry *cache = [self grey_cacheForElementCreateIfNonExistent:element];
+  GREYVisibilityCheckerCacheEntry *cache = GREYCacheForElementCreateIfNonExistent(element);
   NSValue *cachedPointValue = [cache visibleInteractionPoint];
   if (cachedPointValue) {
     return [cachedPointValue CGPointValue];
@@ -99,26 +113,12 @@ static NSMapTable<NSString *, GREYVisibilityCheckerCacheEntry *> *gCache;
   return result;
 }
 
-+ (CGRect)rectEnclosingVisibleAreaOfElement:(id)element {
-  GREYVisibilityCheckerCacheEntry *cache = [self grey_cacheForElementCreateIfNonExistent:element];
-  NSValue *rectValue = [cache rectEnclosingVisibleArea];
-  if (rectValue) {
-    return [rectValue CGRectValue];
-  }
-  CGRect visibleAreaRect =
-      [GREYThoroughVisibilityChecker rectEnclosingVisibleAreaOfElement:element];
-  cache.rectEnclosingVisibleArea = [NSValue valueWithCGRect:visibleAreaRect];
-  return visibleAreaRect;
-}
-
 #pragma mark - Private
 
 /**
  * @return The cached key for an @c element.
  */
-+ (NSString *)grey_keyForElement:(id)element {
-  return [NSString stringWithFormat:@"%p", element];
-}
+NSString *GREYKeyForElement(id element) { return [NSString stringWithFormat:@"%p", element]; }
 
 /**
  * Saves a cache @c entry for an @c element and adds it for invalidation on the next runloop drain.
@@ -126,13 +126,13 @@ static NSMapTable<NSString *, GREYVisibilityCheckerCacheEntry *> *gCache;
  * @param entry   The cache entry to be saved.
  * @param element The element to which the entry is associated.
  */
-+ (void)grey_addCache:(GREYVisibilityCheckerCacheEntry *)entry forElement:(id)element {
+void GREYAddCache(GREYVisibilityCheckerCacheEntry *entry, id element) {
   if (!gCache) {
     gCache = [NSMapTable strongToStrongObjectsMapTable];
   }
 
   // Get the pointer value and store it as a string.
-  NSString *elementKey = [self grey_keyForElement:element];
+  NSString *elementKey = GREYKeyForElement(element);
   [gCache setObject:entry forKey:elementKey];
 
   // Set us up for invalidation on the next runloop drain.
@@ -141,7 +141,7 @@ static NSMapTable<NSString *, GREYVisibilityCheckerCacheEntry *> *gCache;
     pendingInvalidation = YES;
     void (^observerBlock)(CFRunLoopObserverRef observer, CFRunLoopActivity activity) =
         ^(CFRunLoopObserverRef observer, CFRunLoopActivity activity) {
-          [GREYVisibilityChecker grey_invalidateCache];
+          GREYInvalidateCache();
           pendingInvalidation = NO;
           CFRunLoopRemoveObserver(CFRunLoopGetMain(), observer, kCFRunLoopDefaultMode);
           CFRelease(observer);
@@ -161,19 +161,19 @@ static NSMapTable<NSString *, GREYVisibilityCheckerCacheEntry *> *gCache;
  *
  * @return The cached stored under the given @c element.
  */
-+ (GREYVisibilityCheckerCacheEntry *)grey_cacheForElementCreateIfNonExistent:(id)element {
+GREYVisibilityCheckerCacheEntry *GREYCacheForElementCreateIfNonExistent(id element) {
   if (!element) {
     return nil;
   }
   GREYVisibilityCheckerCacheEntry *entry;
   if (gCache) {
-    NSString *elementKey = [self grey_keyForElement:element];
+    NSString *elementKey = GREYKeyForElement(element);
     entry = [gCache objectForKey:elementKey];
   }
 
   if (!entry) {
     entry = [[GREYVisibilityCheckerCacheEntry alloc] init];
-    [self grey_addCache:entry forElement:element];
+    GREYAddCache(entry, element);
   }
   return entry;
 }
@@ -181,26 +181,20 @@ static NSMapTable<NSString *, GREYVisibilityCheckerCacheEntry *> *gCache;
 /**
  * Invalidates the global cache of visibility checks.
  */
-+ (void)grey_invalidateCache {
-  [gCache removeAllObjects];
-}
+void GREYInvalidateCache(void) { [gCache removeAllObjects]; }
 
 #pragma mark - Package Internal
 
-+ (void)resetVisibilityImages {
-  [GREYThoroughVisibilityChecker resetVisibilityImages];
-}
+void GREYResetVisibilityImages(void) { [GREYThoroughVisibilityChecker resetVisibilityImages]; }
 
-+ (UIImage *)grey_lastActualBeforeImage {
+UIImage *GREYLastActualBeforeImage(void) {
   return [GREYThoroughVisibilityChecker lastActualBeforeImage];
 }
 
-+ (UIImage *)grey_lastActualAfterImage {
+UIImage *GREYLastActualAfterImage(void) {
   return [GREYThoroughVisibilityChecker lastActualAfterImage];
 }
 
-+ (UIImage *)grey_lastExpectedAfterImage {
+UIImage *GREYLastExpectedAfterImage(void) {
   return [GREYThoroughVisibilityChecker lastExpectedAfterImage];
 }
-
-@end

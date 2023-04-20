@@ -216,7 +216,7 @@
   __block CGPoint tapPoint = _tapLocation;
   if (CGPointIsNull(_tapLocation)) {
     grey_dispatch_sync_on_main_thread(^{
-      tapPoint = [GREYVisibilityChecker visibleInteractionPointForElement:element];
+      tapPoint = GREYVisibleInteractionPointForElement(element);
     });
   }
   return tapPoint;

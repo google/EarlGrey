@@ -19,7 +19,7 @@
 #import "EarlGrey.h"
 #import "GREYHostApplicationDistantObject+ErrorHandlingTest.h"
 #import "FailureHandler.h"
-#import "GREYVisibilityChecker+Private.h"
+#import "GREYThoroughVisibilityChecker.h"
 
 @interface ErrorHandlingTest : BaseIntegrationTest
 @end
@@ -29,7 +29,7 @@
 - (void)tearDown {
   // Make sure to reset the images so it doesn't affect the screenshot checks on the preceding test
   // methods. This is necessary for some of the tests because it's try catching exception.
-  [GREY_REMOTE_CLASS_IN_APP(GREYVisibilityChecker) resetVisibilityImages];
+  [GREY_REMOTE_CLASS_IN_APP(GREYThoroughVisibilityChecker) resetVisibilityImages];
   [super tearDown];
 }
 

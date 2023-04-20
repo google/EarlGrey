@@ -23,7 +23,6 @@
 #import "GREYThrowDefines.h"
 #import "GREYErrorConstants.h"
 #import "CGGeometry+GREYUI.h"
-#import "GREYVisibilityChecker+Private.h"
 #import "GREYVisibilityChecker.h"
 
 @implementation GREYHostApplicationDistantObject (VisibilityTest)
@@ -141,15 +140,13 @@
 }
 
 - (BOOL)visibilityImagesArePresent {
-  return [GREYVisibilityChecker grey_lastActualAfterImage] != nil &&
-         [GREYVisibilityChecker grey_lastActualBeforeImage] != nil &&
-         [GREYVisibilityChecker grey_lastExpectedAfterImage] != nil;
+  return GREYLastActualAfterImage() != nil && GREYLastActualBeforeImage() != nil &&
+         GREYLastExpectedAfterImage() != nil;
 }
 
 - (BOOL)visibilityImagesAreAbsent {
-  return [GREYVisibilityChecker grey_lastExpectedAfterImage] == nil &&
-         [GREYVisibilityChecker grey_lastActualBeforeImage] == nil &&
-         [GREYVisibilityChecker grey_lastActualAfterImage] == nil;
+  return GREYLastExpectedAfterImage() == nil && GREYLastActualBeforeImage() == nil &&
+         GREYLastActualAfterImage() == nil;
 }
 
 @end

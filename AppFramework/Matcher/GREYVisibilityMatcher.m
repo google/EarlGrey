@@ -58,7 +58,7 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
   NSString *prefix = @"interactable";
   __block CGPoint interactionPoint;
   GREYMatchesBlock matches = ^BOOL(UIView *element) {
-    interactionPoint = [GREYVisibilityChecker visibleInteractionPointForElement:element];
+    interactionPoint = GREYVisibleInteractionPointForElement(element);
     return !CGPointIsNull(interactionPoint);
   };
   GREYDescribeToBlock describe = ^void(id<GREYDescription> description) {
@@ -74,7 +74,7 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
 - (instancetype)initForNotVisible {
   NSString *prefix = @"notVisible";
   GREYMatchesBlock matches = ^BOOL(UIView *element) {
-    return [GREYVisibilityChecker isNotVisible:element];
+    return GREYIsNotVisible(element);
   };
   GREYDescribeToBlock describe = ^void(id<GREYDescription> description) {
     [description appendText:prefix];

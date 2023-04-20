@@ -23,7 +23,6 @@
 #import "GREYScreenshotter+Private.h"
 #import "GREYScreenshotter.h"
 #import "GREYUILibUtils.h"
-#import "GREYVisibilityChecker+Private.h"
 #import "GREYVisibilityChecker.h"
 
 @implementation GREYFailureScreenshotter
@@ -45,17 +44,17 @@
     appScreenshots[kGREYAppScreenshotAtFailure] = screenshot;
   }
 
-  screenshot = [GREYVisibilityChecker grey_lastActualBeforeImage];
+  screenshot = GREYLastActualBeforeImage();
   if (screenshot) {
     appScreenshots[kGREYScreenshotBeforeImage] = screenshot;
   }
 
-  screenshot = [GREYVisibilityChecker grey_lastExpectedAfterImage];
+  screenshot = GREYLastExpectedAfterImage();
   if (screenshot) {
     appScreenshots[kGREYScreenshotExpectedAfterImage] = screenshot;
   }
 
-  screenshot = [GREYVisibilityChecker grey_lastActualAfterImage];
+  screenshot = GREYLastActualAfterImage();
   if (screenshot) {
     appScreenshots[kGREYScreenshotActualAfterImage] = screenshot;
   }

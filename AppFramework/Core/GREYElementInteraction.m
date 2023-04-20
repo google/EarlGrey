@@ -45,7 +45,6 @@
 #import "GREYElementHierarchy.h"
 #import "GREYElementProvider.h"
 #import "GREYUIWindowProvider.h"
-#import "GREYVisibilityChecker+Private.h"
 #import "GREYVisibilityChecker.h"
 
 @interface GREYElementInteraction () <GREYInteractionDataSource>
@@ -343,7 +342,7 @@
   } else {
     GREYLogVerbose(@"Action succeeded: %@ in %f seconds", [action name], [stopwatch elapsedTime]);
     // For a successful action, reset the visibility checker's saved images.
-    [GREYVisibilityChecker resetVisibilityImages];
+    GREYResetVisibilityImages();
   }
 
   GREYLogVerbose(@"--Action finished--");
@@ -466,7 +465,7 @@
     GREYLogVerbose(@"Assertion succeeded: %@ in %f seconds", [assertion name],
                    [stopwatch elapsedTime]);
     // For a successful assertion, reset the visibility checker's saved images.
-    [GREYVisibilityChecker resetVisibilityImages];
+    GREYResetVisibilityImages();
   }
 
   
