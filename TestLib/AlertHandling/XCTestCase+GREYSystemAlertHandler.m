@@ -439,7 +439,7 @@ static UIApplication *GetApplicationUnderTest(void) {
  *         Displayed label is different across iOS versions.
  */
 static NSArray<NSString *> *GetAvailableLocationAlertStrings(void) {
-  if (iOS14_OR_ABOVE()) {
+  if (iOS13_7_OR_ABOVE()) {
     return @[ @"use your location?" ];
   } else if (iOS13_OR_ABOVE()) {
     return @[ @"access your location?" ];
