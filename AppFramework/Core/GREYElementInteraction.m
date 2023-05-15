@@ -425,7 +425,8 @@
           if (!assertionError) {
             assertionError = GREYErrorMakeWithHierarchy(
                 kGREYInteractionErrorDomain, kGREYInteractionAssertionFailedErrorCode,
-                @"Reason for assertion failure was not provided.");
+                @"Reason for assertion failure was not provided. This may be caused by a "
+                @"custom assertion that is not setting a reason or returning an error.");
           }
           // Add the error obtained from the action to the user info notification dictionary.
           [assertionUserInfo setObject:assertionError forKey:kGREYAssertionErrorUserInfoKey];
