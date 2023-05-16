@@ -30,6 +30,7 @@
 #import "GREYElementMatcherBlock.h"
 #import "GREYTestConfiguration.h"
 #import "GREYRemoteExecutor.h"
+#import "XCTestCase+GREYTest.h"
 #import "EDOChannel.h"
 #import "EDOChannelPool.h"
 #import "EDOHostPort.h"
@@ -117,6 +118,18 @@ __attribute__((constructor)) static void SetupTestDistantObject(void) {
                                      exceptionReason, recoverySuggestion];
       [[GREYFrameworkException exceptionWithName:kGREYGenericFailureException
                                           reason:errorInfo] raise];
+    } else if (error.code == EDOServiceErrorSwiftErrorThrow) {
+      XCTestCase *currentTestCase = [XCTestCase grey_currentTestCase];
+      NSString *errorMessage =
+          [NSString stringWithFormat:@"App process propagates Swift error: %@",
+                                     error.userInfo[EDOErrorSwiftErrorDescription]];
+      XCTIssue *issue = [[XCTIssue alloc] initWithType:XCTIssueTypeThrownError
+                                    compactDescription:errorMessage
+                                   detailedDescription:errorMessage
+                                     sourceCodeContext:[[XCTSourceCodeContext alloc] init]
+                                       associatedError:nil
+                                           attachments:@[]];
+      [currentTestCase recordIssue:issue];
     } else {
       NSString *exceptionReason =
           [NSString stringWithFormat:@"eDO invocation in the EarlGrey test-process failed with an "
