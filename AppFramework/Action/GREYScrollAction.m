@@ -418,7 +418,7 @@ static BOOL IsEligibleForRetry(UIScrollView *scrollView, GREYDirection scrollDir
   BOOL success = YES;
   NSString *edgeMessage =
       @"Cannot scroll, the scroll view is already at the edge. If you want to just scroll to an "
-      @"edge of the scrollview, you can use grey_scrollAtContentEdge().";
+      @"edge of the scrollview, you can use grey_scrollToContentEdge().";
   if (hasResistance) {
     success = NO;
     I_GREYPopulateError(error, kGREYScrollErrorDomain, kGREYScrollReachedContentEdge, edgeMessage);
