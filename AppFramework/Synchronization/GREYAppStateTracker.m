@@ -186,9 +186,12 @@ static NSString *StringFromAppState(GREYAppState state) {
                                 @"through to their super's implementation."];
   }
   if (state & kGREYPendingCAAnimation) {
-    [eventStateString addObject:@"Waiting for CAAnimations to finish. Continuous animations may "
-                                @"never finish and must be stopped explicitly. Animations attached "
-                                @"to hidden view may still be running in the background."];
+    [eventStateString
+        addObject:@"Waiting for Continuous CAAnimations to finish. These may be hidden or "
+                  @"infinitely running spinners. It's best if these are individually turned on. "
+                  @"For hidden animations, you can use kGREYConfigKeyIgnoreHiddenAnimations and "
+                  @"kGREYConfigKeyAutoUntrackMDCActivityIndicators for spinners. You can also "
+                  @"debug this using verbose logging in GREYLogger.h."];
   }
   if (state & kGREYPendingNetworkRequest) {
     NSString *stateMsg =
