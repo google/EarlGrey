@@ -44,13 +44,15 @@
 }
 
 - (BOOL)isIdleNow {
+  // Strongify the WKWebView
+  WKWebView *webView = _webView;
   // If WKWebView is released during the process, EarlGrey should no longer track it. Otherwise,
   // application will never be idle.
-  if (!_webView) {
+  if (!webView) {
     [self untrackContentLoadingProgressForWebView];
     return YES;
   }
-  if (_webView.estimatedProgress == 1.0 && _webView.loading == NO) {
+  if (webView.estimatedProgress == 1.0 && webView.loading == NO) {
     [self untrackContentLoadingProgressForWebView];
     return YES;
   }
