@@ -21,6 +21,7 @@
 
 #import "CAAnimation+GREYApp.h"
 #import "GREYFatalAsserts.h"
+#import "GREYLogger.h"
 #import "GREYObjcRuntime.h"
 #import "GREYSwizzler.h"
 
@@ -197,4 +198,41 @@ id<CAAnimationDelegate> GREYSurrogateDelegateForCAAnimationDelegate(
                                     animationDidStopInstance, delegateAnimationDidStopInstance);
   }
   return outDelegate;
+}
+
+/**
+ * Adds empty implementation of CAAnimationDelegate to MDFSpritedAnimationView.
+ *
+ * Quartz Core caches the result of -respondsToSelector: at different timings based on the type of
+ * the target, for example:
+ *
+ * 1. The UIView is initialized at `UIViewCommonInitWithFrame`.
+ * 2. The CALayer delegate is assigned at `CALayer -setDelegate:`.
+ * 3. The CAAnimation delegate at `CALLayer -addAnimation:forKey:`.
+ *
+ * It's hard to intercept the code that checks and caches the CAAnimationDelegate methods. Instead,
+ * EarlGrey always let the check result to be `true`, so the surrogate delegate won't be ignored by
+ * the cached result.
+ */
+__attribute__((constructor)) static void AddDefaultCAAnimationDelegateMethod(void) {
+  // TODO(b/284322701): Change the class to NSObject and fix the existing test breakages.
+  Class processedClass = NSClassFromString(@"MDFSpritedAnimationView");
+  if (processedClass) {
+    IMP animationDidStartImp = imp_implementationWithBlock(^(id delegate, CAAnimation *animation){
+    });
+    BOOL animationDidStartAdded = class_addMethod(processedClass, @selector(animationDidStart:),
+                                                  animationDidStartImp, "v@:@");
+    if (!animationDidStartAdded) {
+      GREYLogVerbose(@"MDFSpritedAnimationView -animationDidStart: already exists.");
+    }
+
+    IMP animationDidStopImp =
+        imp_implementationWithBlock(^(id delegate, CAAnimation *animation, BOOL finished){
+        });
+    BOOL animationDidStopAdded = class_addMethod(
+        processedClass, @selector(animationDidStop:finished:), animationDidStopImp, "v@:@B");
+    if (!animationDidStopAdded) {
+      GREYLogVerbose(@"MDFSpritedAnimationView -animationDidStop:finished: already exists.");
+    }
+  }
 }
