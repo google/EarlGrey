@@ -23,6 +23,7 @@
 #import "GREYOperationQueueIdlingResource.h"
 #import "GREYAppStateTracker.h"
 #import "GREYRunLoopSpinner.h"
+#import "GREYSyncAPI.h"
 #import "GREYFatalAsserts.h"
 #import "GREYThrowDefines.h"
 #import "GREYConfigKey.h"
@@ -201,7 +202,10 @@ static const CFTimeInterval kMaximumSynchronizationSleepInterval = 0.1;
     }];
 
     if (!isAppIdle) {
-      NSOrderedSet<id<GREYIdlingResource>> *busyResources = [self grey_busyResources];
+      __block NSOrderedSet<id<GREYIdlingResource>> *busyResources;
+      grey_dispatch_sync_on_main_thread(^{
+        busyResources = [self grey_busyResources];
+      });
       if ([busyResources count] > 0) {
         NSString *errorDictionary = [self grey_errorStringForBusyResources:busyResources];
         NSString *description = [NSString
