@@ -101,6 +101,8 @@ CGPoint CGPointOnCircle(double angle, CGPoint center, CGFloat radius) {
 
 #pragma mark - CGFloat
 
+BOOL CGFloatIsEqual(CGFloat value1, CGFloat value2) { return fabs(value1 - value2) < 1e-6; }
+
 /**
  * @todo Update this for touch events on iPhone 6 Plus where it does not produce the intended
  *       result because the touch grid is the same as the native screen resolution of 1080x1920,

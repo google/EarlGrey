@@ -15,6 +15,7 @@
 //
 
 #import "CALayer+GREYApp.h"
+#import "CGGeometry+GREYUI.h"
 
 #include <objc/message.h>
 
@@ -26,6 +27,7 @@
 #import "GREYConfiguration.h"
 #import "GREYLogger.h"
 #import "GREYSwizzler.h"
+#import "CGGeometry+GREYUI.h"
 
 @implementation CALayer (GREYApp)
 
@@ -122,7 +124,7 @@
     return;
   }
 
-  if (animationDuration != 0) {
+  if (!CGFloatIsEqual(animationDuration, 0)) {
     CFTimeInterval allowableRepeatDuration = maxAllowableAnimationDuration - animationDuration;
     float allowableRepeatCount = (float)(maxAllowableAnimationDuration / animationDuration);
     // Either repeatCount or repeatDuration is specified, not both.
@@ -135,6 +137,16 @@
       GREYLogVerbose(@"Adjusting repeatCount to %f for animation %@", allowableRepeatCount,
                      animation);
       animation.repeatCount = allowableRepeatCount;
+    }
+  } else {
+    // CAAnimation with 0 duration may still cause undefined behavior if its `repeatCount` and
+    // `repeatDuration` are not properly set. EarlGrey adjusts such animations to ensure it
+    // completed.
+    if (!CGFloatIsEqual(animation.repeatCount, 0) && !CGFloatIsEqual(animation.repeatCount, 1)) {
+      animation.repeatCount = 0;
+    }
+    if (!CGFloatIsEqual(animation.repeatDuration, 0)) {
+      animation.repeatDuration = 0;
     }
   }
 }

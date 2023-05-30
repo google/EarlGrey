@@ -114,6 +114,11 @@ BOOL CGPointIsNull(CGPoint point);
 #pragma mark - CGFloat
 
 /**
+ * @return @c YES if @c value1 and @c value2 are approximately equal; @c NO otherwise.
+ */
+BOOL CGFloatIsEqual(CGFloat value1, CGFloat value2);
+
+/**
  * @return The value obtained by rounding the given @c floatInPoints to the nearest whole pixel
  *         and converting it to points as per the screen scale.
  */
