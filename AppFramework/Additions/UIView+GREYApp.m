@@ -14,6 +14,8 @@
 // limitations under the License.
 //
 
+#import <Foundation/Foundation.h>
+#import <QuartzCore/QuartzCore.h>
 #import "UIView+GREYApp.h"
 
 #include <objc/runtime.h>
@@ -404,8 +406,10 @@ __unused static Class gScrollViewIndicatorClass;
     object = TRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, trackerObject);
     wrappedCompletion = ^(BOOL finished) {
       completion(finished);
-      UNTRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, object);
-      trackerObject = nil;
+      [self grey_waitForNextFrameCompletionWithHandler:^{
+        UNTRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, object);
+        trackerObject = nil;
+      }];
     };
   }
   INVOKE_ORIGINAL_IMP3(void, @selector(greyswizzled_animateWithDuration:animations:completion:),
@@ -427,8 +431,10 @@ __unused static Class gScrollViewIndicatorClass;
     object = TRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, trackerObject);
     wrappedCompletion = ^(BOOL finished) {
       completion(finished);
-      UNTRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, object);
-      trackerObject = nil;
+      [self grey_waitForNextFrameCompletionWithHandler:^{
+        UNTRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, object);
+        trackerObject = nil;
+      }];
     };
   }
 
@@ -463,8 +469,10 @@ __unused static Class gScrollViewIndicatorClass;
     object = TRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, trackerObject);
     wrappedCompletion = ^(BOOL finished) {
       completion(finished);
-      UNTRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, object);
-      trackerObject = nil;
+      [self grey_waitForNextFrameCompletionWithHandler:^{
+        UNTRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, object);
+        trackerObject = nil;
+      }];
     };
   }
 
@@ -493,8 +501,10 @@ __unused static Class gScrollViewIndicatorClass;
     object = TRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, trackerObject);
     wrappedCompletion = ^(BOOL finished) {
       completion(finished);
-      UNTRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, object);
-      trackerObject = nil;
+      [self grey_waitForNextFrameCompletionWithHandler:^{
+        UNTRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, object);
+        trackerObject = nil;
+      }];
     };
   }
 
@@ -521,8 +531,10 @@ __unused static Class gScrollViewIndicatorClass;
     object = TRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, trackerObject);
     wrappedCompletion = ^(BOOL finished) {
       completion(finished);
-      UNTRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, object);
-      trackerObject = nil;
+      [self grey_waitForNextFrameCompletionWithHandler:^{
+        UNTRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, object);
+        trackerObject = nil;
+      }];
     };
   }
 
@@ -549,8 +561,10 @@ __unused static Class gScrollViewIndicatorClass;
     object = TRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, trackerObject);
     wrappedCompletion = ^(BOOL finished) {
       completion(finished);
-      UNTRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, object);
-      trackerObject = nil;
+      [self grey_waitForNextFrameCompletionWithHandler:^{
+        UNTRACK_STATE_FOR_OBJECT(kGREYPendingUIAnimation, object);
+        trackerObject = nil;
+      }];
     };
   }
   SEL swizzledSEL =
@@ -596,6 +610,39 @@ __unused static Class gScrollViewIndicatorClass;
  */
 + (void)printAnimationsBlockPointer:(BOOL)printPointer {
   gPrintFunctionPointer = printPointer;
+}
+
+/**
+ * A handler method to process CADisplayLink's notification for every frame.
+ *
+ * This method invokes a user-defined handler when it's called the second time, when it's guaranteed
+ * a new frame being rendered since the CADisplayLink started.
+ *
+ * @param displayLink The target CADisplayLink being processed.
+ */
++ (void)grey_nextFrameHandler:(CADisplayLink *)displayLink {
+  if (!objc_getAssociatedObject(displayLink, @selector(grey_nextFrameHandler:))) {
+    objc_setAssociatedObject(displayLink, @selector(grey_nextFrameHandler:), @(YES),
+                             OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+  } else {
+    void (^handler)(void) = objc_getAssociatedObject(
+        displayLink, @selector(grey_waitForNextFrameCompletionWithHandler:));
+    handler();
+    [displayLink invalidate];
+  }
+}
+
+/**
+ * Dispatches a delayed task which is executed when the next frame is completed.
+ *
+ * @param handler The task to execute when the next frame is completed.
+ */
++ (void)grey_waitForNextFrameCompletionWithHandler:(void (^)(void))handler {
+  CADisplayLink *displayLink =
+      [CADisplayLink displayLinkWithTarget:self selector:@selector(grey_nextFrameHandler:)];
+  objc_setAssociatedObject(displayLink, @selector(grey_waitForNextFrameCompletionWithHandler:),
+                           [handler copy], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+  [displayLink addToRunLoop:NSRunLoop.mainRunLoop forMode:NSRunLoopCommonModes];
 }
 
 /**
