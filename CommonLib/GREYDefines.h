@@ -34,6 +34,7 @@
 #define iOS13_OR_ABOVE() ([UIDevice currentDevice].systemVersion.intValue >= 13)
 #define iOS13_7_OR_ABOVE() ([UIDevice currentDevice].systemVersion.doubleValue >= 13.7)
 #define iOS14_OR_ABOVE() ([UIDevice currentDevice].systemVersion.intValue >= 14)
+#define iOS17_OR_ABOVE() ([UIDevice currentDevice].systemVersion.intValue >= 17)
 
 /** A macro for declaring intentional fallthrough in switch statements. */
 #if defined(__clang__)
