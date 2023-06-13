@@ -151,7 +151,9 @@ static UIScreen *MainScreen(void) {
   NSEnumerator *allWindowsInReverse =
       [[GREYUIWindowProvider allWindowsWithStatusBar:includeStatusBar] reverseObjectEnumerator];
   for (UIWindow *window in allWindowsInReverse) {
-    if (window.hidden || window.alpha == 0) {
+    if (window.hidden || window.alpha == 0 ||
+        (iOS17_OR_ABOVE() && [window respondsToSelector:@selector(windowLevel)] &&
+         window.windowLevel > 0)) {
       continue;
     }
     [self drawViewInContext:bitmapContextRef
