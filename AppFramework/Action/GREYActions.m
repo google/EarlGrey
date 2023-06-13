@@ -508,6 +508,7 @@ static id<GREYAction> ActionForReplaceText(NSString *text) {
           BOOL elementIsUIControl = [element isKindOfClass:[UIControl class]];
           BOOL elementIsUITextField = [element isKindOfClass:[UITextField class]];
           BOOL elementIsUITextView = [element isKindOfClass:[UITextView class]];
+          BOOL elementIsUISearchBar = [element isKindOfClass:[UISearchBar class]];
           grey_dispatch_sync_on_main_thread(^{
             // Did begin editing notifications.
             if (elementIsUIControl) {
@@ -518,6 +519,11 @@ static id<GREYAction> ActionForReplaceText(NSString *text) {
                   [NSNotification notificationWithName:UITextFieldTextDidBeginEditingNotification
                                                 object:element];
               [defaultCenter postNotification:notification];
+              UITextField *textField = (UITextField *)element;
+              id<UITextFieldDelegate> textFieldDelegate = textField.delegate;
+              if ([textFieldDelegate respondsToSelector:@selector(textFieldShouldClear:)]) {
+                [textFieldDelegate textFieldShouldClear:textField];
+              }
             }
             if (elementIsUITextView) {
               NSNotification *notification =
@@ -571,6 +577,13 @@ static id<GREYAction> ActionForReplaceText(NSString *text) {
               id<UITextViewDelegate> textViewDelegate = textView.delegate;
               if ([textViewDelegate respondsToSelector:@selector(textViewDidChange:)]) {
                 [textViewDelegate textViewDidChange:textView];
+              }
+            }
+            if (elementIsUISearchBar) {
+              UISearchBar *searchBar = (UISearchBar *)element;
+              id<UISearchBarDelegate> delegate = searchBar.delegate;
+              if ([delegate respondsToSelector:@selector(searchBar:textDidChange:)]) {
+                [delegate searchBar:searchBar textDidChange:text];
               }
             }
           });
