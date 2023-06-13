@@ -97,10 +97,25 @@ __attribute__((constructor)) static void SetupTestDistantObject(void) {
         GREYTestApplicationDistantObject.sharedInstance;
     if (error.code == EDOServiceErrorCannotConnect) {
       EDOHostPort *hostPort = error.userInfo[EDOErrorPortKey];
-      if ([testDistantObject isPermanentAppHostPort:hostPort.port]) {
+      if (!testDistantObject.hostActiveWithAppComponent) {
         testDistantObject.hostApplicationStopped = YES;
         NSString *exceptionReason = @"App crashed and disconnected.";
         NSString *recoverySuggestion = GetErrorRecoverySuggestion();
+        NSString *errorInfo =
+            [NSString stringWithFormat:@"\n\nException Reason:\n%@\n\nRecovery Suggestion:\n%@",
+                                       exceptionReason, recoverySuggestion];
+        [[GREYFrameworkException exceptionWithName:kGREYGenericFailureException
+                                            reason:errorInfo] raise];
+      } else {
+        NSString *exceptionReason = @"Stale remote object is used.";
+        NSString *recoverySuggestion = [NSString
+            stringWithFormat:
+                @"The stale object comes from a invalidated eDO port %d, which means either:\n"
+                @"    * The remote object comes from a temporary eDO service.\n"
+                @"    * The remote object comes from the app that is terminated and relaunched.\n\n"
+                @"Please search the port number in your app log to see the lifespan of that eDO "
+                @"port.",
+                hostPort.port];
         NSString *errorInfo =
             [NSString stringWithFormat:@"\n\nException Reason:\n%@\n\nRecovery Suggestion:\n%@",
                                        exceptionReason, recoverySuggestion];

@@ -15,6 +15,7 @@
 //
 
 #import <XCTest/XCTest.h>
+#import "XCTest/XCTest.h"
 
 #import "EarlGrey.h"
 #import "BaseIntegrationTest.h"
@@ -48,12 +49,13 @@
     // Trigger EG2's swizzling on DistantObjectCrashHandlerDummyTest's -setUp and -tearDown method.
     [_dummyTest invokeTest];
   });
-  [self.application terminate];
 }
 
 - (void)tearDown {
   [EarlGrey setHostApplicationCrashHandler:[self defaultCrashHandler]];
-  [self.application launch];
+  if (!GREYTestApplicationDistantObject.sharedInstance.hostActiveWithAppComponent) {
+    [self.application launch];
+  }
   [super tearDown];
 }
 
@@ -62,6 +64,8 @@
  * app-under-test is not active.
  */
 - (void)testDistantObjectThrowsExceptionOnAppTerminated {
+  [self.application terminate];
+
   GREYFrameworkException *exception;
   @try {
     __unused UIView *view = GREY_ALLOC_REMOTE_CLASS_IN_APP(UIView);
@@ -74,6 +78,8 @@
 
 /** Ensures uncommon eDO error is provided with instructions. */
 - (void)testDistantObjectThrowsExceptionWithBadRequest {
+  [self.application terminate];
+
   // There is no easy way to reproduce other eDO error code without accessing eDO's private APIs,
   // thus here the test will call error handler directly.
   EDOClientErrorHandler greyErrorHandler = EDOSetClientErrorHandler(^(NSError *error){
@@ -109,6 +115,7 @@
  * app-under-test at the -tearDown of the same test case.
  */
 - (void)testInvokesCrashHandlerAtTearDown {
+  [self.application terminate];
   [_dummyTest setUp];
 
   __block BOOL isHandlerCalled = NO;
@@ -126,6 +133,7 @@
  * app-under-test at the -setUp of the next test case.
  */
 - (void)testInvokesCrashHandlerAtSetUp {
+  [self.application terminate];
   [_dummyTest setUp];
   [_dummyTest tearDown];
 
@@ -141,6 +149,7 @@
 
 /** Tests crash handler is not called when it is set after EarlGrey first detected app's crash. */
 - (void)testCrashHandlerNotInvokedIfSetAfterCrash {
+  [self.application terminate];
   [EarlGrey setHostApplicationCrashHandler:nil];
   DistantObjectCrashHandlerDummyTest *dummyTest = [[DistantObjectCrashHandlerDummyTest alloc] init];
   [dummyTest setUp];
@@ -162,6 +171,7 @@
  * app-under-test.
  */
 - (void)testInvokesCrashHandlerOncePerLaunch {
+  [self.application terminate];
   [_dummyTest setUp];
 
   __block NSUInteger handlerInvocationCount = 0;
@@ -189,6 +199,8 @@
  * EDOClientErrorHandler is overridden.
  */
 - (void)testCrashHandlerIsNotInvokedWhenOverrideEDOErrorHandler {
+  [self.application terminate];
+
   __block BOOL isErrorHandlerCalled = NO;
   EDOClientErrorHandler greyErrorHandler = EDOSetClientErrorHandler(^(NSError *error) {
     isErrorHandlerCalled = YES;
@@ -208,6 +220,24 @@
   [_dummyTest tearDown];
   XCTAssertTrue(isErrorHandlerCalled);
   XCTAssertFalse(isCrashHandlerCalled);
+}
+
+/** Verifies EarlGrey reports stale remote object with clear error message. */
+- (void)testCrashHandlerReportsStaleRemoteObjectError {
+  NSObject *remoteObject = [[GREY_REMOTE_CLASS_IN_APP(NSObject) alloc] init];
+
+  // Relaunch app-under-test to make `remoteObject` stale.
+  XCUIApplication *application = [[XCUIApplication alloc] init];
+  [application launch];
+
+  XCTAssertGreaterThan(GREYTestApplicationDistantObject.sharedInstance.hostPort, 0);
+  NSException *edoError = nil;
+  @try {
+    [remoteObject description];
+  } @catch (NSException *e) {
+    edoError = e;
+  }
+  XCTAssertTrue([edoError.description containsString:@"Stale remote object is used"]);
 }
 
 @end
