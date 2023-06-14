@@ -60,6 +60,8 @@
 static Class gAccessibilityTextFieldElementClass;
 static SEL gTextSelector;
 static SEL gBeginningOfDocumentSelector;
+static SEL gTextFieldShouldClearSelector;
+static SEL gTextFieldShouldChangeCharactersSelector;
 static Protocol *gTextInputProtocol;
 
 @implementation GREYActions
@@ -70,6 +72,9 @@ static Protocol *gTextInputProtocol;
     gTextSelector = @selector(text);
     gBeginningOfDocumentSelector = @selector(beginningOfDocument);
     gTextInputProtocol = @protocol(UITextInput);
+    gTextFieldShouldClearSelector = @selector(textFieldShouldClear:);
+    gTextFieldShouldChangeCharactersSelector = @selector(textField:
+                                     shouldChangeCharactersInRange:replacementString:);
   }
 }
 
@@ -521,8 +526,20 @@ static id<GREYAction> ActionForReplaceText(NSString *text) {
               [defaultCenter postNotification:notification];
               UITextField *textField = (UITextField *)element;
               id<UITextFieldDelegate> textFieldDelegate = textField.delegate;
-              if ([textFieldDelegate respondsToSelector:@selector(textFieldShouldClear:)]) {
+              if ([textFieldDelegate respondsToSelector:gTextFieldShouldClearSelector]) {
                 [textFieldDelegate textFieldShouldClear:textField];
+              }
+              if ([textFieldDelegate respondsToSelector:gTextFieldShouldChangeCharactersSelector]) {
+                if (![textFieldDelegate textField:textField
+                        shouldChangeCharactersInRange:NSMakeRange(0, [textField.text length])
+                                    replacementString:text]) {
+                  NSString *errorString =
+                      [NSString stringWithFormat:@"Replace Text was called on a UITextField: %@ "
+                                                 @"that doesn't support text: %@.",
+                                                 textField, text];
+                  I_GREYPopulateError(errorOrNil, kGREYInteractionErrorDomain,
+                                      kGREYInteractionActionFailedErrorCode, errorString);
+                }
               }
             }
             if (elementIsUITextView) {
