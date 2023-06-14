@@ -2033,7 +2033,7 @@
 				DEVELOPMENT_TEAM = "";
 				HEADER_SEARCH_PATHS = ../../../../../;
 				INFOPLIST_FILE = "FunctionalTestRig-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.com.FunctionalTestRig;
@@ -2051,7 +2051,7 @@
 				DEVELOPMENT_TEAM = "";
 				HEADER_SEARCH_PATHS = ../../../../../;
 				INFOPLIST_FILE = "FunctionalTestRig-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.google.com.FunctionalTestRig;
@@ -2068,9 +2068,10 @@
 				DEVELOPMENT_TEAM = "";
 				HEADER_SEARCH_PATHS = ../../../../../;
 				INFOPLIST_FILE = "Tests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.google.com.Functional;
+				PRODUCT_BUNDLE_IDENTIFIER = com.google.earlgreyftr.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
@@ -2088,9 +2089,10 @@
 				DEVELOPMENT_TEAM = "";
 				HEADER_SEARCH_PATHS = ../../../../../;
 				INFOPLIST_FILE = "Tests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.google.com.Functional;
+				PRODUCT_BUNDLE_IDENTIFIER = com.google.earlgreyftr.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2111,6 +2113,7 @@
 				HEADER_SEARCH_PATHS = ../../../../../;
 				INFOPLIST_FILE = "Tests-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -2136,6 +2139,7 @@
 				HEADER_SEARCH_PATHS = ../../../../../;
 				INFOPLIST_FILE = "Tests-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_FAST_MATH = YES;
 				OTHER_LDFLAGS = "-ObjC";
