@@ -93,6 +93,8 @@
 		FD118536212DFE24004CADC3 /* logo_earlgrey_launchscreen_color.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD623D1D20FD1E4E00049E81 /* logo_earlgrey_launchscreen_color.xcassets */; };
 		FD118555212E050B004CADC3 /* HostDOCategoriesSwift.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = FD11854C212E03D5004CADC3 /* HostDOCategoriesSwift.bundle */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		FD41291C23D97C710042A585 /* DistantObjectCrashHandlerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 76480F8C23CEA04100D6047B /* DistantObjectCrashHandlerTest.m */; };
+		FD45321E2A3A7C6C00C9AA03 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FD45321D2A3A7C6B00C9AA03 /* LaunchScreen.storyboard */; };
+		FD45321F2A3A7C6C00C9AA03 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FD45321D2A3A7C6B00C9AA03 /* LaunchScreen.storyboard */; };
 		FD4974B6214330E300625561 /* AppFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD623D2C20FD6BF900049E81 /* AppFramework.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		FD4974B72143314700625561 /* AppFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD623D2C20FD6BF900049E81 /* AppFramework.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		FD623CB520FD1A6E00049E81 /* BasicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD623C5720FD1A5E00049E81 /* BasicViewController.m */; };
@@ -160,7 +162,6 @@
 		FD623D1A20FD1D6000049E81 /* material.min.css in Resources */ = {isa = PBXBuildFile; fileRef = FD623D1320FD1D6000049E81 /* material.min.css */; };
 		FD623D1B20FD1D6000049E81 /* eg_mov.gif in Resources */ = {isa = PBXBuildFile; fileRef = FD623D1420FD1D6000049E81 /* eg_mov.gif */; };
 		FD623D1C20FD1D6000049E81 /* testpage.html in Resources */ = {isa = PBXBuildFile; fileRef = FD623D1520FD1D6000049E81 /* testpage.html */; };
-		FD623D1E20FD1E4E00049E81 /* logo_earlgrey_launchscreen_color.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD623D1D20FD1E4E00049E81 /* logo_earlgrey_launchscreen_color.xcassets */; };
 		FD623D3E20FD6E6D00049E81 /* FunctionalTestRig-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FD623D3D20FD6E6D00049E81 /* FunctionalTestRig-Info.plist */; };
 		FD623DAC20FD705B00049E81 /* libTestLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD623D2E20FD6BF900049E81 /* libTestLib.a */; };
 		FD66785621221FC1008EC4A7 /* AppFramework.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = FD623D2C20FD6BF900049E81 /* AppFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -434,6 +435,7 @@
 		FD1184E4212CEFF8004CADC3 /* EarlGrey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EarlGrey.swift; path = ../../../../TestLib/Swift/EarlGrey.swift; sourceTree = "<group>"; };
 		FD11853A212DFE24004CADC3 /* FunctionalTestRigSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FunctionalTestRigSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD11854C212E03D5004CADC3 /* HostDOCategoriesSwift.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HostDOCategoriesSwift.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		FD45321D2A3A7C6B00C9AA03 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FD4C4062285D3B93006049F9 /* Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Tests-Info.plist"; sourceTree = "<group>"; };
 		FD511E82211E6D8B00F19C8A /* libeDistantObject.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libeDistantObject.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD623C4020FD197C00049E81 /* FunctionalTestRig.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FunctionalTestRig.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -832,6 +834,7 @@
 				FD623D3D20FD6E6D00049E81 /* FunctionalTestRig-Info.plist */,
 				FD623CF520FD1C4E00049E81 /* Resources */,
 				FD623CF420FD1B7300049E81 /* Sources */,
+				FD45321D2A3A7C6B00C9AA03 /* LaunchScreen.storyboard */,
 			);
 			name = FunctionalTestRig;
 			sourceTree = "<group>";
@@ -1303,6 +1306,7 @@
 				FD118518212DFE24004CADC3 /* eg_mov.gif in Resources */,
 				FD118519212DFE24004CADC3 /* PresentedViewController.xib in Resources */,
 				FD11851A212DFE24004CADC3 /* CollectionViewController.xib in Resources */,
+				FD45321F2A3A7C6C00C9AA03 /* LaunchScreen.storyboard in Resources */,
 				FD11851B212DFE24004CADC3 /* SimpleTapViewController.xib in Resources */,
 				FD11851C212DFE24004CADC3 /* VisibilityTestViewController.xib in Resources */,
 				FD11851D212DFE24004CADC3 /* material.min.js in Resources */,
@@ -1354,6 +1358,7 @@
 				FD623D1B20FD1D6000049E81 /* eg_mov.gif in Resources */,
 				FD623CE820FD1A6E00049E81 /* PresentedViewController.xib in Resources */,
 				FD623CE020FD1A6E00049E81 /* CollectionViewController.xib in Resources */,
+				FD45321E2A3A7C6C00C9AA03 /* LaunchScreen.storyboard in Resources */,
 				FD623CD620FD1A6E00049E81 /* SimpleTapViewController.xib in Resources */,
 				FD623CEE20FD1A6E00049E81 /* VisibilityTestViewController.xib in Resources */,
 				FD623D1620FD1D6000049E81 /* material.min.js in Resources */,
@@ -1382,7 +1387,6 @@
 				FD623CDF20FD1A6E00049E81 /* WKWebViewController.xib in Resources */,
 				FD623CC320FD1A6E00049E81 /* CollectionViewCell.xib in Resources */,
 				FD623CDE20FD1A6E00049E81 /* AlertViewController.xib in Resources */,
-				FD623D1E20FD1E4E00049E81 /* logo_earlgrey_launchscreen_color.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2027,7 +2031,6 @@
 		FD623C5420FD197D00049E81 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = logo_earlgrey_launchscreen_color;
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
@@ -2045,7 +2048,6 @@
 		FD623C5520FD197D00049E81 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = logo_earlgrey_launchscreen_color;
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";

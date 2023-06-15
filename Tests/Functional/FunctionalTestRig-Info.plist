@@ -2,24 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>license</key>
-	<string>
-
-  Copyright 2017 Google Inc.
-
-  Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
-
-  </string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIdentifier</key>
@@ -32,19 +14,19 @@
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
-  <key>CFBundleURLTypes</key>
-  <array>
-    <dict>
-      <key>CFBundleTypeRole</key>
-      <string>Editor</string>
-      <key>CFBundleURLName</key>
-      <string>com.google.earlgrey.ftr</string>
-      <key>CFBundleURLSchemes</key>
-      <array>
-        <string>ftr</string>
-      </array>
-    </dict>
-  </array>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>com.google.earlgrey.ftr</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>ftr</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>1.0.0</string>
 	<key>NSAppTransportSecurity</key>
@@ -52,6 +34,22 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSCalendarsUsageDescription</key>
+	<string>@"Access Calendar"</string>
+	<key>NSCameraUsageDescription</key>
+	<string>@"Access Camera"</string>
+	<key>NSContactsUsageDescription</key>
+	<string>@"Access Contacts"</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>@"Access Background Location"</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>@"Access Location"</string>
+	<key>NSMotionUsageDescription</key>
+	<string>@"Access Motion Activity"</string>
+	<key>NSRemindersUsageDescription</key>
+	<string>@"Access Reminders"</string>
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen.storyboard</string>
 	<key>UIPrerenderedIcon</key>
 	<true/>
 	<key>UIStatusBarStyle</key>
@@ -72,19 +70,23 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>@&quot;Access Location&quot;</string>
-	<key>NSContactsUsageDescription</key>
-	<string>@&quot;Access Contacts&quot;</string>
-	<key>NSRemindersUsageDescription</key>
-	<string>@&quot;Access Reminders&quot;</string>
-	<key>NSCameraUsageDescription</key>
-	<string>@&quot;Access Camera&quot;</string>
-	<key>NSCalendarsUsageDescription</key>
-	<string>@&quot;Access Calendar&quot;</string>
-	<key>NSMotionUsageDescription</key>
-	<string>@&quot;Access Motion Activity&quot;</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>@&quot;Access Background Location&quot;</string>
+	<key>license</key>
+	<string>
+
+  Copyright 2023 Google Inc.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+
+  </string>
 </dict>
 </plist>

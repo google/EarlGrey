@@ -57,8 +57,6 @@ static NSString *gTableViewIdentifier = @"TableViewIdentifier";
   self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
   if (self) {
     self.title = @"EarlGrey TestApp";
-    // TODO: Clean this up so we have text to selector mapping instead of text to class
-    // and text to [NSNull null] in some cases.
     _nameToControllerMap = @{
       @"Accessibility Views" : [AccessibilityViewController class],
       @"Action Sheets" : [ActionSheetViewController class],
@@ -102,6 +100,7 @@ static NSString *gTableViewIdentifier = @"TableViewIdentifier";
 
   // Making the nav bar not translucent so it won't cover UI elements.
   [self.navigationController.navigationBar setTranslucent:NO];
+  self.navigationController.view.backgroundColor = [UIColor whiteColor];
 }
 
 #pragma mark - UITableViewDataSource
