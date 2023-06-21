@@ -18,6 +18,7 @@
 
 #import "GREYSyntheticEvents.h"
 #import "GREYKeyboard.h"
+#import "GREYMatchers.h"
 #import "GREYConfigKey.h"
 #import "GREYTestApplicationDistantObject+Private.h"
 #import "GREYError.h"
@@ -56,6 +57,10 @@ static inline id<GREYFailureHandler> GREYGetCurrentFailureHandler(void) {
   }
   return handler;
 }
+
+@interface GREYMatchers (GREYTest)
++ (id<GREYMatcher>)activitySheetPresentMatcher;
+@end
 
 /**
  * The root window matcher that can be set when writing tests on a multi-scene application.
@@ -142,7 +147,9 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
   XCUIApplication *safariApp =
       [[XCUIApplication alloc] initWithBundleIdentifier:@"com.apple.mobilesafari"];
   [safariApp activate];
-  BOOL success = [safariApp waitForState:XCUIApplicationStateRunningForeground timeout:30];
+  double timeoutInSeconds = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
+  BOOL success = [safariApp waitForState:XCUIApplicationStateRunningForeground
+                                 timeout:timeoutInSeconds];
   I_GREYAssertTrue(success, @"Safari did not launch successfully.");
   // As Safari loads up for the first time, the URL is not clickable and we have to wait for the app
   // to be hittable for it.
@@ -433,6 +440,98 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
 - (BOOL)WaitForAlertVisibility:(BOOL)visible withTimeout:(CFTimeInterval)seconds {
   return [[XCTestCase grey_currentTestCase] grey_waitForAlertVisibility:visible
                                                             withTimeout:seconds];
+}
+
+- (BOOL)activitySheetPresentWithError:(NSError **)error {
+  GREYError *localError;
+  XCUIApplication *currentApplication = [[XCUIApplication alloc] init];
+  double timeoutInSeconds = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
+  BOOL result = [currentApplication.otherElements[@"ActivityListView"]
+      waitForExistenceWithTimeout:timeoutInSeconds];
+  // Acts as a defensive check for EarlGrey synchronization. For iOS 16, the matcher would just be
+  // grey_kindOfClassName(@"_UIActivityContentCollectionView").
+  id<GREYMatcher> activitySheetMatcher =
+      grey_allOf(grey_kindOfClassName(@"_UISceneLayerHostContainerView"),
+                 [GREYMatchers activitySheetPresentMatcher], nil);
+  [[EarlGrey selectElementWithMatcher:activitySheetMatcher] assertWithMatcher:grey_notNil()
+                                                                        error:&localError];
+  if (!result) {
+    localError =
+        GREYErrorMake(kGREYActivitySheetHandlingErrorDomain,
+                      GREYActivitySheetHandlingSheetNotPresent, @"Activity Sheet not present");
+    GREYHandleInteractionError(localError, error);
+    return NO;
+  }
+  return YES;
+}
+
+- (BOOL)activitySheetPresentWithURL:(NSString *)URL error:(NSError **)error NS_SWIFT_NOTHROW {
+  GREYError *localError;
+  BOOL sheetPresent = [self activitySheetPresentWithError:&localError];
+  if (sheetPresent) {
+    XCUIApplication *currentApplication = [[XCUIApplication alloc] init];
+    double timeoutInSeconds = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
+    sheetPresent =
+        [currentApplication.otherElements[URL] waitForExistenceWithTimeout:timeoutInSeconds];
+  }
+  if (!sheetPresent) {
+    NSString *description =
+        [NSString stringWithFormat:@"Activity Sheet with URL couldn't be found: %@", URL];
+    localError = GREYErrorMake(kGREYActivitySheetHandlingErrorDomain,
+                               GREYActivitySheetHandlingSheetWithURLNotPresent, description);
+    GREYHandleInteractionError(localError, error);
+    return NO;
+  }
+  return sheetPresent;
+}
+
+- (BOOL)tapButtonInActivitySheetWithId:(NSString *)identifier error:(NSError **)error {
+  BOOL buttonPresent = [self buttonPresentInActivitySheetWithId:identifier error:error];
+  if (buttonPresent) {
+    XCUIApplication *currentApplication = [[XCUIApplication alloc] init];
+    XCUIElement *activitySheet = currentApplication.otherElements[@"ActivityListView"];
+    XCUIElementType type = XCUIElementTypeStaticText;
+    if ([identifier isEqualToString:@"Close"]) {
+      type = XCUIElementTypeButton;
+    }
+    XCUIElementQuery *activityTexts = [activitySheet descendantsMatchingType:type];
+    XCUIElement *button = [activityTexts elementMatchingType:type identifier:identifier];
+    [button tap];
+  }
+  return buttonPresent;
+}
+
+- (BOOL)buttonPresentInActivitySheetWithId:(NSString *)identifier
+                                     error:(NSError **)error API_AVAILABLE(ios(17)) {
+  GREYError *localError;
+  BOOL sheetPresent = [self activitySheetPresentWithError:error];
+  if (sheetPresent) {
+    XCUIApplication *currentApplication = [[XCUIApplication alloc] init];
+    XCUIElement *activitySheet = currentApplication.otherElements[@"ActivityListView"];
+    XCUIElementQuery *activityTexts =
+        [activitySheet descendantsMatchingType:XCUIElementTypeStaticText];
+    XCUIElement *button = [activityTexts elementMatchingType:XCUIElementTypeStaticText
+                                                  identifier:identifier];
+    if (button) {
+      return YES;
+    } else {
+      NSString *description = [NSString
+          stringWithFormat:@"Activity Sheet button not present with identifier: %@", identifier];
+      localError = GREYErrorMake(kGREYActivitySheetHandlingErrorDomain,
+                                 GREYActivitySheetHandlingSheetButtonNotPresent, description);
+      GREYHandleInteractionError(localError, error);
+    }
+  }
+  return NO;
+}
+
+- (BOOL)closeActivitySheetWithError:(NSError **)error {
+  BOOL sheetPresent = [self activitySheetPresentWithError:error];
+  if (sheetPresent) {
+    return [self tapButtonInActivitySheetWithId:@"Close" error:error];
+  } else {
+    return NO;
+  }
 }
 
 #endif  // TARGET_OS_IOS

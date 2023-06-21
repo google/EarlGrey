@@ -1003,6 +1003,25 @@ static Class gEDOObjectClass;
 #pragma mark - Private
 
 /**
+ * @return An iOS 17 only API to match with the now out of process activity sheet.
+ */
++ (id<GREYMatcher>)activitySheetPresentMatcher {
+  return [GREYElementMatcherBlock
+      matcherWithMatchesBlock:^BOOL(id _Nullable element) {
+        if ([element respondsToSelector:@selector(scene)]) {
+          id scene = [element scene];
+          if ([scene respondsToSelector:@selector(identifier)]) {
+            return [[scene identifier] hasPrefix:@"scene::SharingUI::"];
+          }
+        }
+        return NO;
+      }
+      descriptionBlock:^(id<GREYDescription> _Nonnull description) {
+        [description appendText:@"Activity List View"];
+      }];
+}
+
+/**
  * @return @c YES if the strings have the same string values, @c NO otherwise.
  */
 + (BOOL)accessibilityString:(id)firstString isEqualToAccessibilityString:(id)secondString {

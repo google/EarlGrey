@@ -291,6 +291,29 @@ typedef NS_ENUM(NSUInteger, GREYSystemAlertDismissalErrorCode) {
 };
 
 /**
+ * Error dismissal domain for handling activity sheets.
+ */
+GREY_EXTERN NSString *const kGREYActivitySheetHandlingErrorDomain;
+
+/**
+ * Error code for system alert dismissal actions.
+ */
+typedef NS_ENUM(NSUInteger, GREYActivitySheetHandlingErrorCode) {
+  /**
+   * Activity sheet not present when expected.
+   */
+  GREYActivitySheetHandlingSheetNotPresent,
+  /**
+   * Activity sheet with URL not present when expected.
+   */
+  GREYActivitySheetHandlingSheetWithURLNotPresent,
+  /**
+   * Activity sheet button not present when expected.
+   */
+  GREYActivitySheetHandlingSheetButtonNotPresent,
+};
+
+/**
  * Error key order to be used for displaying errors.
  */
 GREY_EXTERN NSArray<NSString *> *GREYErrorDetailsKeyOrder(void);

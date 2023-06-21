@@ -317,6 +317,53 @@ typedef void (^GREYHostApplicationCrashHandler)(void);
 /** Standalone API for XCTestCase::grey_waitForAlertVisibility:withTimeout:. */
 - (BOOL)WaitForAlertVisibility:(BOOL)visible withTimeout:(CFTimeInterval)seconds;
 
+#pragma mark - Activity Sheet Handling
+
+/**
+ * @return A BOOL specifying if an activity sheet is present on the screen.
+ *
+ * @param[out] error An NSError populated with any steps that show more information about a
+ *                   negative result.
+ */
+- (BOOL)activitySheetPresentWithError:(NSError **)error API_AVAILABLE(ios(17));
+
+/**
+ * @return A BOOL specifying if an activity sheet is present on the screen with the given @c URL.
+ *
+ * @param      URL   An NSString for the URL present on the navigation bar of the activity sheet.
+ * @param[out] error An NSError populated with any steps that show more information about a
+ *                   negative result.
+ */
+- (BOOL)activitySheetPresentWithURL:(NSString *)URL error:(NSError **)error API_AVAILABLE(ios(17));
+
+/**
+ * @return A BOOL specifying if a button within an activity sheet is present.
+ *
+ * @param      identifier The identifier to specify the button / cell / view in the activity sheet.
+ * @param[out] error      An NSError populated with any steps that show more information about a
+ *                        negative result.
+ */
+- (BOOL)buttonPresentInActivitySheetWithId:(NSString *)identifier
+                                     error:(NSError **)error API_AVAILABLE(ios(17));
+
+/**
+ * @return A BOOL specifying if a button within an activity sheet was tapped.
+ *
+ * @param      identifier The identifier to specify the button / cell / view in the activity sheet.
+ * @param[out] error      An NSError populated with any steps that show more information about a
+ *                        negative result.
+ */
+- (BOOL)tapButtonInActivitySheetWithId:(NSString *)identifier
+                                 error:(NSError **)error API_AVAILABLE(ios(17));
+
+/**
+ * @return A BOOL specifying if an activity sheet was closed by tapping on the sheet's close button.
+ *
+ * @param[out] error      An NSError populated with any steps that show more information about a
+ *                        negative result.
+ */
+- (BOOL)closeActivitySheetWithError:(NSError **)error API_AVAILABLE(ios(17));
+
 #endif  // TARGET_OS_IOS
 
 @end

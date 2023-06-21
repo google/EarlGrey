@@ -14,6 +14,7 @@
 // limitations under the License.
 //
 
+#import "XCTest/XCTest.h"
 #import "EarlGrey.h"
 #import "GREYHostApplicationDistantObject+BasicInteractionTest.h"
 #import "GREYHostApplicationDistantObject+RemoteTest.h"
@@ -916,6 +917,32 @@
   CFTimeInterval interval = CACurrentMediaTime() - start;
   XCTAssertGreaterThan(interval, 3, @"The app must have been drained for 3 seconds");
   XCTAssertLessThan(interval, 3.1, @"The app must have been drained for 3 seconds");
+}
+
+#pragma mark - Activity Sheet Tests (iOS 17 only)
+
+- (void)testShareSheetOpenAndClose {
+  XCTSkipUnless(iOS17_OR_ABOVE());
+  [self openTestViewNamed:@"Share Sheet"];
+  XCTAssertTrue([EarlGrey activitySheetPresentWithError:nil]);
+  [EarlGrey closeActivitySheetWithError:nil];
+}
+
+- (void)testShareSheetWithURL {
+  XCTSkipUnless(iOS17_OR_ABOVE());
+  [self openTestViewNamed:@"Share Sheet"];
+  XCTAssertTrue([EarlGrey activitySheetPresentWithURL:@"apple.com" error:nil]);
+  [EarlGrey closeActivitySheetWithError:nil];
+}
+
+- (void)testTappingOnShareSheetButtons {
+  XCTSkipUnless(iOS17_OR_ABOVE());
+  [self openTestViewNamed:@"Share Sheet"];
+  XCTAssertTrue([EarlGrey tapButtonInActivitySheetWithId:@"Copy" error:nil]);
+
+  [self openTestViewNamed:@"Share Sheet"];
+  XCTAssertTrue([EarlGrey tapButtonInActivitySheetWithId:@"More" error:nil]);
+  XCTAssertTrue([EarlGrey tapButtonInActivitySheetWithId:@"Messages" error:nil]);
 }
 
 #pragma mark - Private
