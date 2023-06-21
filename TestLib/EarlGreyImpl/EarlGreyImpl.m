@@ -18,6 +18,7 @@
 
 #import "GREYSyntheticEvents.h"
 #import "GREYKeyboard.h"
+#import "GREYAllOf.h"
 #import "GREYMatchers.h"
 #import "GREYConfigKey.h"
 #import "GREYTestApplicationDistantObject+Private.h"
@@ -450,11 +451,14 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
       waitForExistenceWithTimeout:timeoutInSeconds];
   // Acts as a defensive check for EarlGrey synchronization. For iOS 16, the matcher would just be
   // grey_kindOfClassName(@"_UIActivityContentCollectionView").
-  id<GREYMatcher> activitySheetMatcher =
-      grey_allOf(grey_kindOfClassName(@"_UISceneLayerHostContainerView"),
-                 [GREYMatchers activitySheetPresentMatcher], nil);
-  [[EarlGrey selectElementWithMatcher:activitySheetMatcher] assertWithMatcher:grey_notNil()
-                                                                        error:&localError];
+  NSArray<id<GREYMatcher>> *matchersArray = @[
+    [GREYMatchers matcherForKindOfClassName:@"_UISceneLayerHostContainerView"],
+    [GREYMatchers activitySheetPresentMatcher],
+  ];
+  id<GREYMatcher> activitySheetMatcher = [[GREYAllOf alloc] initWithMatchers:matchersArray];
+  [[EarlGrey selectElementWithMatcher:activitySheetMatcher]
+      assertWithMatcher:[GREYMatchers matcherForNotNil]
+                  error:&localError];
   if (!result) {
     localError =
         GREYErrorMake(kGREYActivitySheetHandlingErrorDomain,
