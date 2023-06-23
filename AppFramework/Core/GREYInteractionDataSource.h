@@ -14,6 +14,8 @@
 // limitations under the License.
 //
 
+#import <Foundation/Foundation.h>
+
 @protocol GREYProvider;
 
 NS_ASSUME_NONNULL_BEGIN
