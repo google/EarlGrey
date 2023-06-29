@@ -106,6 +106,9 @@ static UIView *GetFirstResponderSubview(UIView *view) {
     UIResponder *firstResponder = GetFirstResponderSubview(keyWindow);
     UIView *inputView = firstResponder.inputView;
     if (inputView.window) {
+      if (@available(iOS 17, *)) {
+        inputView.window.windowLevel = 1;
+      }
       [windows addObject:inputView.window];
     }
     UIWindow *keyboardWindow = GREYUILibUtilsGetKeyboardWindow();
