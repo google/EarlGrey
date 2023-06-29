@@ -18,7 +18,6 @@
 
 #import "GREYSyntheticEvents.h"
 #import "GREYKeyboard.h"
-#import "GREYAllOf.h"
 #import "GREYMatchers.h"
 #import "GREYConfigKey.h"
 #import "GREYTestApplicationDistantObject+Private.h"
@@ -451,12 +450,7 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
       waitForExistenceWithTimeout:timeoutInSeconds];
   // Acts as a defensive check for EarlGrey synchronization. For iOS 16, the matcher would just be
   // grey_kindOfClassName(@"_UIActivityContentCollectionView").
-  NSArray<id<GREYMatcher>> *matchersArray = @[
-    [GREYMatchers matcherForKindOfClassName:@"_UISceneLayerHostContainerView"],
-    [GREYMatchers activitySheetPresentMatcher],
-  ];
-  id<GREYMatcher> activitySheetMatcher = [[GREYAllOf alloc] initWithMatchers:matchersArray];
-  [[EarlGrey selectElementWithMatcher:activitySheetMatcher]
+  [[EarlGrey selectElementWithMatcher:[GREYMatchers activitySheetPresentMatcher]]
       assertWithMatcher:[GREYMatchers matcherForNotNil]
                   error:&localError];
   if (!result) {
@@ -467,6 +461,27 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
     return NO;
   }
   return YES;
+}
+
+- (BOOL)activitySheetAbsentWithError:(NSError **)error {
+  GREYError *localError;
+  BOOL sheetAbsent = NO;
+  [[EarlGrey selectElementWithMatcher:[GREYMatchers activitySheetPresentMatcher]]
+      assertWithMatcher:[GREYMatchers matcherForNil]
+                  error:&localError];
+  if (!localError) {
+    XCUIApplication *currentApplication = [[XCUIApplication alloc] init];
+    sheetAbsent = ![currentApplication.otherElements[@"ActivityListView"] exists];
+    if (!sheetAbsent) {
+      localError =
+          GREYErrorMake(kGREYActivitySheetHandlingErrorDomain,
+                        GREYActivitySheetHandlingSheetNotAbsent, @"Activity Sheet not present.");
+    }
+  }
+  if (!sheetAbsent) {
+    GREYHandleInteractionError(localError, error);
+  }
+  return NO;
 }
 
 - (BOOL)activitySheetPresentWithURL:(NSString *)URL error:(NSError **)error NS_SWIFT_NOTHROW {

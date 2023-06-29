@@ -74,6 +74,11 @@ static NSArray<id<GREYMatcher>> *MatcherWithAccessibilityElement(id<GREYMatcher>
 // EDOObject class as it's private.
 static Class gEDOObjectClass;
 
+/**
+ * The internal class that lets us know if the activity sheet is present.
+ */
+static NSString *const kActivitySheetContainerClass = @"_UISceneLayerHostContainerView";
+
 @implementation GREYMatchers
 
 + (void)initialize {
@@ -1006,19 +1011,25 @@ static Class gEDOObjectClass;
  * @return An iOS 17 only API to match with the now out of process activity sheet.
  */
 + (id<GREYMatcher>)activitySheetPresentMatcher {
-  return [GREYElementMatcherBlock
-      matcherWithMatchesBlock:^BOOL(id _Nullable element) {
-        if ([element respondsToSelector:@selector(scene)]) {
-          id scene = [element scene];
-          if ([scene respondsToSelector:@selector(identifier)]) {
-            return [[scene identifier] hasPrefix:@"scene::SharingUI::"];
-          }
-        }
-        return NO;
+  NSString *prefix = @"isActivitySheet";
+  GREYMatchesBlock matches = ^BOOL(id element) {
+    if ([element respondsToSelector:@selector(scene)]) {
+      id scene = [element scene];
+      if ([scene respondsToSelector:@selector(identifier)]) {
+        return [[scene identifier] hasPrefix:@"scene::SharingUI::"];
       }
-      descriptionBlock:^(id<GREYDescription> _Nonnull description) {
-        [description appendText:@"Activity List View"];
-      }];
+    }
+    return NO;
+  };
+  GREYDescribeToBlock describe = ^void(id<GREYDescription> description) {
+    [description appendText:@"Activity List View Present"];
+  };
+  NSArray<id<GREYMatcher>> *matchersArray = @[
+    [GREYMatchers matcherForKindOfClassName:kActivitySheetContainerClass],
+    [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe],
+  ];
+  return [[GREYAllOf alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
+                                matchers:matchersArray];
 }
 
 /**

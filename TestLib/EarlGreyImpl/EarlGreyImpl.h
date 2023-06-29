@@ -328,6 +328,14 @@ typedef void (^GREYHostApplicationCrashHandler)(void);
 - (BOOL)activitySheetPresentWithError:(NSError **)error API_AVAILABLE(ios(17));
 
 /**
+ * @return A BOOL specifying if an activity sheet is absent on the screen.
+ *
+ * @param[out] error An NSError populated with any steps that show more information about a
+ *                   negative result.
+ */
+- (BOOL)activitySheetAbsentWithError:(NSError **)error API_AVAILABLE(ios(17));
+
+/**
  * @return A BOOL specifying if an activity sheet is present on the screen with the given @c URL.
  *
  * @param      URL   An NSString for the URL present on the navigation bar of the activity sheet.
