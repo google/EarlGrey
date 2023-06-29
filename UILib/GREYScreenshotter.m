@@ -150,10 +150,11 @@ static UIScreen *MainScreen(void) {
   // The bitmap context width and height are scaled, so we need to undo the scale adjustment.
   NSEnumerator *allWindowsInReverse =
       [[GREYUIWindowProvider allWindowsWithStatusBar:includeStatusBar] reverseObjectEnumerator];
+  CGFloat maxLevel = [GREYKeyboard isKeyboardVisible] ? 1 : 0;
   for (UIWindow *window in allWindowsInReverse) {
     if (window.hidden || window.alpha == 0 ||
         (iOS17_OR_ABOVE() && [window respondsToSelector:@selector(windowLevel)] &&
-         window.windowLevel > 0)) {
+         window.windowLevel > maxLevel)) {
       continue;
     }
     [self drawViewInContext:bitmapContextRef
