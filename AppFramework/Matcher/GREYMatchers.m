@@ -924,7 +924,19 @@ static NSString *const kActivitySheetContainerClass = @"_UISceneLayerHostContain
 
 + (id<GREYMatcher>)matcherForHidden:(BOOL)hidden {
   NSString *prefix = [NSString stringWithFormat:@"hidden(\"%d\")", hidden];
-  GREYMatchesBlock matches = ^BOOL(UIView *view) {
+  NSString *errorDescription =
+      @"\n\n 'SwiftUI elements will not respond to isHidden, if you have used .hidden() on your "
+      @"element, use grey_nil() instead to check that it is not present in the view."
+      @"\n\n";
+
+  GREYDescribeToBlock describe = ^void(id<GREYDescription> description) {
+    [description appendText:prefix];
+  };
+  GREYDescribeToBlock describeSelectorError = ^void(id<GREYDescription> description) {
+    [description appendText:errorDescription];
+  };
+
+  GREYMatchesBlock matchesNonSwiftUI = ^BOOL(UIView *view) {
     BOOL viewIsHidden = NO;
     UIView *currentView = view;
     // A view is hidden visually if either its hidden flag is YES or any superview's
@@ -935,14 +947,32 @@ static NSString *const kActivitySheetContainerClass = @"_UISceneLayerHostContain
     }
     return viewIsHidden == hidden;
   };
-  GREYDescribeToBlock describe = ^void(id<GREYDescription> description) {
-    [description appendText:prefix];
+  GREYMatchesBlock matchesSwiftUI = ^BOOL(UIView *view) {
+    return view.hidden == hidden;
   };
-  return [[GREYElementMatcherBlock alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
-                                          matchesBlock:matches
-                                      descriptionBlock:describe];
+  GREYMatchesBlock matchesSelectorErrorDescription = ^BOOL(UIView *view) {
+    return YES;
+  };
 
-  return [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matches descriptionBlock:describe];
+  id<GREYMatcher> nonSwiftUIMatcher = [[GREYAllOf alloc]
+      initWithMatchers:@[ [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matchesNonSwiftUI
+                                                               descriptionBlock:describe] ]];
+  id<GREYMatcher> swiftUIMatcher = [[GREYAllOf alloc] initWithMatchers:@[
+    [GREYMatchers matcherForSwiftUI],
+    [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matchesSwiftUI descriptionBlock:describe]
+  ]];
+  id<GREYMatcher> selectorErrorMatcher =
+      [[GREYElementMatcherBlock alloc] initWithMatchesBlock:matchesSelectorErrorDescription
+                                           descriptionBlock:describeSelectorError];
+
+  NSArray<id<GREYMatcher>> *matchersArray = @[
+    [GREYMatchers matcherForRespondsToSelector:@selector(isHidden)],
+    [[GREYAnyOf alloc] initWithMatchers:@[ swiftUIMatcher, nonSwiftUIMatcher ]],
+    selectorErrorMatcher,
+  ];
+
+  return [[GREYAllOf alloc] initWithName:GREYCorePrefixedDiagnosticsID(prefix)
+                                matchers:matchersArray];
 }
 
 + (id<GREYMatcher>)matcherForSubview:(id<GREYMatcher>)matcher {
