@@ -20,6 +20,8 @@
 #import "GREYThrowDefines.h"
 #import "GREYMatcher.h"
 #import "GREYProvider.h"
+#import "GREYElementProvider.h"
+#import "GREYUIWindowProvider.h"
 
 @implementation GREYElementFinder
 
@@ -46,6 +48,14 @@
     }
   }
   return [matchingElements array];
+}
+
+- (NSArray<id> *)elementsMatchedInAllWindowsIncludingStatusBar:(BOOL)includeStatusBar {
+  GREYUIWindowProvider *windowProvider =
+      [GREYUIWindowProvider providerWithAllWindowsWithStatusBar:includeStatusBar];
+  GREYElementProvider *elementProvider =
+      [GREYElementProvider providerWithRootProvider:windowProvider];
+  return [self elementsMatchedInProvider:elementProvider];
 }
 
 @end

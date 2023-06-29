@@ -57,6 +57,17 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (NSArray<id> *)elementsMatchedInProvider:(id<GREYProvider>)elementProvider;
 
+/**
+ * Performs a search on elements from all windows of the application.
+ *
+ * @param includeStatusBar @c YES if the search should also evaluate the elements within the status
+ *                         bar; @c NO otherwise.
+ *
+ * @return An array of matched elements. If no matching element is found, then it is empty.
+ *         The relative order of the elements is preserved when returned.
+ */
+- (NSArray<id> *)elementsMatchedInAllWindowsIncludingStatusBar:(BOOL)includeStatusBar;
+
 @end
 
 NS_ASSUME_NONNULL_END
