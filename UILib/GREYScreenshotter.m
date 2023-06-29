@@ -21,6 +21,7 @@
 #import "NSFileManager+GREYCommon.h"
 #import "NSObject+GREYCommon.h"
 #import "GREYFatalAsserts.h"
+#import "../AppFramework/Keyboard/GREYKeyboard.h"
 #import "GREYLogger.h"
 #import "GREYUIWindowProvider.h"
 #import "GREYUILibUtils.h"
