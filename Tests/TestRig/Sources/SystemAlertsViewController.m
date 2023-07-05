@@ -154,6 +154,7 @@
  * default UIInterruption Handler or by looking at alert views in the app.
  */
 - (void)cameraRemindersAlertsButtonPressed {
+#if !defined(TARGET_OS_XR) || (defined(TARGET_OS_XR) && !TARGET_OS_XR)
   [[[EKEventStore alloc] init] requestAccessToEntityType:EKEntityTypeReminder
                                               completion:^(BOOL granted, NSError *error) {
                                                 [self updateAlertLabelForValue:granted];
@@ -162,6 +163,7 @@
                            completionHandler:^(BOOL granted) {
                              [self updateAlertLabelForValue:granted];
                            }];
+#endif  // !defined(TARGET_OS_XR) || (defined(TARGET_OS_XR) && !TARGET_OS_XR)
   UIAlertController *alert =
       [UIAlertController alertControllerWithTitle:@"Sample!"
                                           message:@"FooBar"
@@ -195,9 +197,11 @@
  */
 - (void)calendarAlertButtonPressed {
   [self.alertHandledButton setHidden:NO];
+#if !defined(TARGET_OS_XR) || (defined(TARGET_OS_XR) && !TARGET_OS_XR)
   [[[EKEventStore alloc] init] requestAccessToEntityType:EKEntityTypeEvent
                                               completion:^(BOOL granted, NSError *error){
                                               }];
+#endif  // !defined(TARGET_OS_XR) || (defined(TARGET_OS_XR) && !TARGET_OS_XR)
 }
 
 /**
@@ -205,12 +209,14 @@
  */
 - (void)motionActivityAlertButtonPressed {
   [self.alertHandledButton setHidden:NO];
+#if !defined(TARGET_OS_XR) || (defined(TARGET_OS_XR) && !TARGET_OS_XR)
   CMMotionActivityManager *manager = [[CMMotionActivityManager alloc] init];
   NSOperationQueue *motionActivityQueue = [[NSOperationQueue alloc] init];
 
   [manager startActivityUpdatesToQueue:motionActivityQueue
                            withHandler:^(CMMotionActivity *activity){
                            }];
+#endif  // !defined(TARGET_OS_XR) || (defined(TARGET_OS_XR) && !TARGET_OS_XR)
 }
 
 /**
@@ -220,8 +226,9 @@
   [self.alertHandledButton setHidden:NO];
   self.locationManager = [[CLLocationManager alloc] init];
   self.locationManager.delegate = self;
-
+#if !defined(TARGET_OS_XR) || (defined(TARGET_OS_XR) && !TARGET_OS_XR)
   [self.locationManager requestAlwaysAuthorization];
+#endif  // !defined(TARGET_OS_XR) || (defined(TARGET_OS_XR) && !TARGET_OS_XR)
 }
 
 /**

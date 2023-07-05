@@ -137,12 +137,14 @@
 }
 
 - (void)insertText:(NSString *)text {
+#if !defined(TARGET_OS_XR) || (defined(TARGET_OS_XR) && !TARGET_OS_XR)
   UIMenuController *menuController = [UIMenuController sharedMenuController];
   [menuController setMenuVisible:NO animated:YES];
   [self.inputDelegate textWillChange:self];
   [_textStore appendString:text];
   [self.inputDelegate textDidChange:self];
   [self setNeedsDisplay];
+#endif  // !defined(TARGET_OS_XR) || (defined(TARGET_OS_XR) && !TARGET_OS_XR)
 }
 
 - (void)deleteBackward {
@@ -310,6 +312,7 @@
   return nil;
 }
 
+#if !defined(TARGET_OS_XR) || (defined(TARGET_OS_XR) && !TARGET_OS_XR)
 - (UITextWritingDirection)baseWritingDirectionForPosition:(UITextPosition *)position
                                               inDirection:(UITextStorageDirection)direction {
   return UITextWritingDirectionLeftToRight;
@@ -319,6 +322,7 @@
                        forRange:(UITextRange *)range {
   // Required method. Does nothing. Add code if needed
 }
+#endif  // !defined(TARGET_OS_XR) || (defined(TARGET_OS_XR) && !TARGET_OS_XR)
 
 - (CGRect)firstRectForRange:(UITextRange *)range {
   // Required method. Returns CGRectNull. Add code if needed

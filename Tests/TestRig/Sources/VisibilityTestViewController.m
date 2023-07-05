@@ -22,12 +22,17 @@
   [super viewDidLoad];
 
   CGFloat halfPixelInPoint;
+#if !defined(TARGET_OS_XR) || (defined(TARGET_OS_XR) && !TARGET_OS_XR)
   if (@available(iOS 16.0, *)) {
     UIWindow *firstAppWindow = [[UIApplication sharedApplication].windows firstObject];
     halfPixelInPoint = 1.0f / (2.0f * firstAppWindow.windowScene.screen.scale);
   } else {
     halfPixelInPoint = 1.0f / (2.0f * [UIScreen mainScreen].scale);
   }
+#else
+  // Hard cast to 0.5 for VisionOS.
+  halfPixelInPoint = 0.5f;
+#endif  // !defined(TARGET_OS_XR) || (defined(TARGET_OS_XR) && !TARGET_OS_XR)
 
   [self addUnalignedViewWithAccessibilityID:@"unalignedPixel1"
                                       frame:CGRectMake(50 + halfPixelInPoint, 120, 1, 1)];
