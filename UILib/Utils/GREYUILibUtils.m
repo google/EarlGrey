@@ -18,6 +18,11 @@
 
 #import "GREYAppleInternals.h"
 
+
+@interface UIWindow ()
+- (NSDictionary*)_perCanvasOptions;
+@end
+
 UIWindow *GREYUILibUtilsGetApplicationKeyWindow(UIApplication *application) {
   // New API only available on Xcode 13+
 #if (defined(__MAC_OS_X_VERSION_MAX_ALLOWED) && __MAC_OS_X_VERSION_MAX_ALLOWED >= 120000) || \
@@ -95,7 +100,10 @@ NSArray<UIWindow *> *GREYUILibUtilsGetAllWindowsFromConnectedScenes(void) {
   if (@available(iOS 16.0, *)) {
     for (UIScene *scene in sharedApp.connectedScenes) {
       UIWindowScene *windowScene = (UIWindowScene *)scene;
-      [windows addObjectsFromArray:windowScene.windows];
+      for (UIWindow* window in windowScene.windows) {
+        if (![window isKindOfClass:NSClassFromString(@"UIAutoRotatingWindow")])
+          [windows addObject:window];
+      }
     }
   } else {
 #pragma clang diagnostic push
