@@ -18,11 +18,6 @@
 
 #import "GREYAppleInternals.h"
 
-
-@interface UIWindow ()
-- (NSDictionary*)_perCanvasOptions;
-@end
-
 UIWindow *GREYUILibUtilsGetApplicationKeyWindow(UIApplication *application) {
   // New API only available on Xcode 13+
 #if (defined(__MAC_OS_X_VERSION_MAX_ALLOWED) && __MAC_OS_X_VERSION_MAX_ALLOWED >= 120000) || \
@@ -100,14 +95,7 @@ NSArray<UIWindow *> *GREYUILibUtilsGetAllWindowsFromConnectedScenes(void) {
   if (@available(iOS 16.0, *)) {
     for (UIScene *scene in sharedApp.connectedScenes) {
       UIWindowScene *windowScene = (UIWindowScene *)scene;
-      for (UIWindow* window in windowScene.windows) {
-        SEL perCanvasOptionsSel = NSSelectorFromString(@"_perCanvasOptions");
-        NSString* viewService = [window respondsToSelector:perCanvasOptionsSel] ?
-            [window._perCanvasOptions objectForKey:@"ViewService"] : nil;
-        if (viewService && [viewService isEqualToString:@"NO"])
-          continue;
-        [windows addObject:window];
-      }
+      [windows addObjectsFromArray:windowScene.windows];
     }
   } else {
 #pragma clang diagnostic push

@@ -21,6 +21,7 @@
 #import "NSFileManager+GREYCommon.h"
 #import "NSObject+GREYCommon.h"
 #import "GREYFatalAsserts.h"
+#import "../AppFramework/Keyboard/GREYKeyboard.h"
 #import "GREYLogger.h"
 #import "GREYUIWindowProvider.h"
 #import "GREYUILibUtils.h"
@@ -150,8 +151,11 @@ static UIScreen *MainScreen(void) {
   // The bitmap context width and height are scaled, so we need to undo the scale adjustment.
   NSEnumerator *allWindowsInReverse =
       [[GREYUIWindowProvider allWindowsWithStatusBar:includeStatusBar] reverseObjectEnumerator];
+  CGFloat maxLevel = [GREYKeyboard isKeyboardVisible] ? 1 : 0;
   for (UIWindow *window in allWindowsInReverse) {
-    if (window.hidden || window.alpha == 0) {
+    if (window.hidden || window.alpha == 0 ||
+        (iOS17_OR_ABOVE() && [window respondsToSelector:@selector(windowLevel)] &&
+         window.windowLevel > maxLevel)) {
       continue;
     }
     [self drawViewInContext:bitmapContextRef
