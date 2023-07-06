@@ -66,3 +66,31 @@
 }
 
 @end
+
+/** Category for UITextInteractionAssistant to call the -setCursorVisible: method on it. */
+@interface UITextInteractionAssistant_GREYApp (Private)
+- (void)setCursorVisible:(BOOL)arg1;
+@end
+
+@implementation UITextInteractionAssistant_GREYApp
+
++ (void)load {
+  if (iOS17_OR_ABOVE()) {
+    GREYSwizzler *swizzler = [[GREYSwizzler alloc] init];
+    SEL swizzledCursorBlinkSelector = @selector(greyswizzled_setCursorBlinks:);
+    IMP implementation = [self instanceMethodForSelector:swizzledCursorBlinkSelector];
+    BOOL swizzled = [swizzler swizzleClass:NSClassFromString(@"UITextInteractionAssistant")
+                         addInstanceMethod:swizzledCursorBlinkSelector
+                        withImplementation:implementation
+              andReplaceWithInstanceMethod:@selector(setCursorBlinks:)];
+    GREYFatalAssertWithMessage(swizzled,
+                               @"Failed to swizzle UITextInteractionAssistant setCursorBlinks:");
+  }
+}
+
+- (void)greyswizzled_setCursorBlinks:(BOOL)arg1 {
+  [self setCursorVisible:NO];
+  INVOKE_ORIGINAL_IMP1(void, @selector(greyswizzled_setCursorBlinks:), NO);
+}
+
+@end

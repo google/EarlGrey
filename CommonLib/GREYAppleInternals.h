@@ -239,6 +239,26 @@
 
 @end
 
+/** An internal class similar to UITextSelectionView that is iOS 17+ */
+@interface UITextInteractionAssistant
+
+/**
+ * A method that is called once a UITextInput conforming view is tapped. This only sets the
+ * animation's behavior.
+ *
+ * @param enabled A BOOL specifying the behavior of the cursor's blinking animation.
+ */
+- (void)setCursorBlinks:(BOOL)enabled;
+
+/**
+ * A method that is called only when a UITextInput disappears. Is used to turn it off.
+ *
+ * @param enabled A BOOL specifying if the cursor should be visible or not.
+ */
+- (void)setCursorVisible:(BOOL)enabled;
+
+@end
+
 /**
  * Simplified block ABI for obtaining the description of a block.
  * Source: https://clang.llvm.org/docs/Block-ABI-Apple.html#id2
