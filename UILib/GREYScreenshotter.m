@@ -17,6 +17,7 @@
 #import "GREYScreenshotter.h"
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "GREYDefines.h"
 
 #import "NSFileManager+GREYCommon.h"
 #import "NSObject+GREYCommon.h"
@@ -127,7 +128,7 @@ static UIScreen *MainScreen(void) {
                                       inScreenRect:(CGRect)screenRect
                                      withStatusBar:(BOOL)includeStatusBar
                                       forDebugging:(BOOL)forDebugging {
-  UIGraphicsBeginImageContextWithOptions(screenRect.size, YES, 0);
+  UIGraphicsBeginImageContextWithOptions(screenRect.size, !iOS17_OR_ABOVE(), 0);
   [self drawScreenInContext:UIGraphicsGetCurrentContext()
          afterScreenUpdates:afterScreenUpdates
                inScreenRect:screenRect
@@ -151,9 +152,7 @@ static UIScreen *MainScreen(void) {
   NSEnumerator *allWindowsInReverse =
       [[GREYUIWindowProvider allWindowsWithStatusBar:includeStatusBar] reverseObjectEnumerator];
   for (UIWindow *window in allWindowsInReverse) {
-    if (window.hidden || window.alpha == 0 ||
-        (iOS17_OR_ABOVE() && [window respondsToSelector:@selector(windowLevel)] &&
-         window.windowLevel > 0)) {
+    if (window.hidden || window.alpha == 0) {
       continue;
     }
     [self drawViewInContext:bitmapContextRef
