@@ -17,6 +17,7 @@
 #import "GREYUILibUtils.h"
 
 #import "GREYAppleInternals.h"
+#import "GREYDefines.h"
 
 UIWindow *GREYUILibUtilsGetApplicationKeyWindow(UIApplication *application) {
   // New API only available on Xcode 13+
@@ -85,7 +86,23 @@ UIWindow *GREYUILibUtilsGetApplicationKeyWindow(UIApplication *application) {
 
 /** @return The UIWindow for the keyboard. */
 UIWindow *GREYUILibUtilsGetKeyboardWindow(void) {  // NO_LINT
-  return [(UIView *)[UIKeyboardImpl sharedInstance] window];
+  if (iOS17_OR_ABOVE()) {
+    // Remove this @available check once iOS 13 is made the minimum os version in OSS as well.
+    if (@available(iOS 13.0, *)) {
+      UIScene *keyboardScene =
+          [_UIRemoteKeyboards keyboardWindowSceneForScreen:[GREYUILibUtils screen] create:NO];
+      if (!keyboardScene) {
+        // Will be nil if no keyboard is here.
+        return nil;
+      } else {
+        NSArray<UIWindow *> *windows = [keyboardScene _allWindows];
+        return [windows firstObject];
+      }
+    }
+  } else {
+    return [(UIView *)[UIKeyboardImpl sharedInstance] window];
+  }
+  return nil;
 }
 
 /** @return An array of UIWindow related to the connected scenes. */
@@ -109,7 +126,14 @@ NSArray<UIWindow *> *GREYUILibUtilsGetAllWindowsFromConnectedScenes(void) {
   return windows;
 }
 
+/** The keyboard window class for iPhone pre-iOS 17. Works on iPad in iOS 17. */
+static Class gKeyboardWindowClassWithUIKeyboardImpl;
+
 @implementation GREYUILibUtils
+
++ (void)load {
+  gKeyboardWindowClassWithUIKeyboardImpl = NSClassFromString(@"UIRemoteKeyboardWindow");
+}
 
 + (UIScreen *)screen {
   UIScreen *screen;
@@ -139,18 +163,26 @@ NSArray<UIWindow *> *GREYUILibUtilsGetAllWindowsFromConnectedScenes(void) {
 
 + (CGRect)scaledKeyboardFrame {
   UIWindow *keyboardWindow = GREYUILibUtilsGetKeyboardWindow();
-  if (!keyboardWindow || !keyboardWindow.subviews.count) {
-    return CGRectNull;
-  }
-  UIView *inputSetContainerView = keyboardWindow.subviews[0];
-  if (!inputSetContainerView.subviews.count) {
-    return CGRectNull;
-  }
-  UIView *inputSetHostView = inputSetContainerView.subviews[0];
-  CGRect frame = [inputSetHostView frame];
   CGFloat scale = [self screen].scale;
-  return CGRectMake(CGRectGetMinX(frame) * scale, CGRectGetMinY(frame) * scale,
-                    CGRectGetWidth(frame) * scale, CGRectGetHeight(frame) * scale);
+  if ([keyboardWindow isKindOfClass:gKeyboardWindowClassWithUIKeyboardImpl]) {
+    if (!keyboardWindow || !keyboardWindow.subviews.count) {
+      return CGRectNull;
+    }
+    UIView *inputSetContainerView = keyboardWindow.subviews[0];
+    if (!inputSetContainerView.subviews.count) {
+      return CGRectNull;
+    }
+    UIView *inputSetHostView = inputSetContainerView.subviews[0];
+    CGRect frame = [inputSetHostView frame];
+    return CGRectMake(CGRectGetMinX(frame) * scale, CGRectGetMinY(frame) * scale,
+                      CGRectGetWidth(frame) * scale, CGRectGetHeight(frame) * scale);
+  } else {
+    UIView *keyboardAutocorrectView = [[keyboardWindow subviews] firstObject];
+    CGRect viewFrame = keyboardAutocorrectView.frame;
+    return CGRectMake(viewFrame.origin.x * scale, viewFrame.origin.y * scale,
+                      viewFrame.size.width * scale,
+                      (keyboardWindow.frame.size.height - viewFrame.size.height) * scale);
+  }
 }
 
 @end

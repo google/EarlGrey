@@ -260,6 +260,32 @@
 @end
 
 /**
+ * iOS 17+ Utils needed for getting the keyboard.
+ */
+@interface _UIRemoteKeyboards
+/**
+ * @return a UIScene that points to the keyboard screen. Will be nil if no keyboard is present.
+ *
+ * @param screen The UIScreen for which we get the keyboard window. Use the main application screen
+ *               here.
+ * @param create This will create a new keyboard screen if needed. In general, pass @c NO.
+ */
++ (id)keyboardWindowSceneForScreen:(id)screen create:(BOOL)create;
+@end
+
+/**
+ * UIScene category for getting keyboard information.
+ */
+@interface UIScene (GREYExposed)
+/**
+ * @return An NSArray that points to all windows in a scene. When -[UIScene::windows] is nil, this
+ *         can be used. There is also _visibleWindows that seems to have an implicit visibility
+ *         check.
+ */
+- (NSArray *)_allWindows;
+@end
+
+/**
  * Simplified block ABI for obtaining the description of a block.
  * Source: https://clang.llvm.org/docs/Block-ABI-Apple.html#id2
  */
