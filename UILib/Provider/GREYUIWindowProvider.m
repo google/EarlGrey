@@ -106,10 +106,17 @@ static UIView *GetFirstResponderSubview(UIView *view) {
     UIResponder *firstResponder = GetFirstResponderSubview(keyWindow);
     UIView *inputView = firstResponder.inputView;
     if (inputView.window) {
+      UIWindow *inputViewWindow = inputView.window;
+      [inputViewWindow setWindowLevel:UIWindowLevelNormal];
+      [windows addObject:inputViewWindow];
+    }
+    UIView *inputAccessoryView = firstResponder.inputAccessoryView;
+    if (inputAccessoryView.window && ![windows containsObject:inputAccessoryView.window]) {
       [windows addObject:inputView.window];
     }
     UIWindow *keyboardWindow = GREYUILibUtilsGetKeyboardWindow();
     if (keyboardWindow) {
+      [keyboardWindow setWindowLevel:UIWindowLevelNormal];
       [windows addObject:keyboardWindow];
     }
   }
