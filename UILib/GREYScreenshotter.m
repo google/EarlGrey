@@ -128,7 +128,7 @@ static UIScreen *MainScreen(void) {
                                       inScreenRect:(CGRect)screenRect
                                      withStatusBar:(BOOL)includeStatusBar
                                       forDebugging:(BOOL)forDebugging {
-  UIGraphicsBeginImageContextWithOptions(screenRect.size, YES, 0);
+  UIGraphicsBeginImageContextWithOptions(screenRect.size, NO, 0);
   [self drawScreenInContext:UIGraphicsGetCurrentContext()
          afterScreenUpdates:afterScreenUpdates
                inScreenRect:screenRect
