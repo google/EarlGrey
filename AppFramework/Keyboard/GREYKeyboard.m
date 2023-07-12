@@ -283,10 +283,6 @@ __attribute__((constructor)) static void GREYSetupKeyboard(void) {
   return YES;
 }
 
-+ (BOOL)isKeyboardVisible {
-  return atomic_load(&gIsKeyboardShown);
-}
-
 + (BOOL)waitForKeyboardToAppear {
   if (atomic_load(&gIsKeyboardShown)) {
     return YES;

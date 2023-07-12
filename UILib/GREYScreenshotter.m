@@ -128,7 +128,7 @@ static UIScreen *MainScreen(void) {
                                       inScreenRect:(CGRect)screenRect
                                      withStatusBar:(BOOL)includeStatusBar
                                       forDebugging:(BOOL)forDebugging {
-  UIGraphicsBeginImageContextWithOptions(screenRect.size, YES, 0);
+  UIGraphicsBeginImageContextWithOptions(screenRect.size, NO, 0);
   [self drawScreenInContext:UIGraphicsGetCurrentContext()
          afterScreenUpdates:afterScreenUpdates
                inScreenRect:screenRect
@@ -151,11 +151,8 @@ static UIScreen *MainScreen(void) {
   // The bitmap context width and height are scaled, so we need to undo the scale adjustment.
   NSEnumerator *allWindowsInReverse =
       [[GREYUIWindowProvider allWindowsWithStatusBar:includeStatusBar] reverseObjectEnumerator];
-  CGFloat maxLevel = [GREYKeyboard isKeyboardVisible] ? 1 : 0;
   for (UIWindow *window in allWindowsInReverse) {
-    if (window.hidden || window.alpha == 0 ||
-        (iOS17_OR_ABOVE() && [window respondsToSelector:@selector(windowLevel)] &&
-         window.windowLevel > maxLevel)) {
+    if (window.hidden || window.alpha == 0) {
       continue;
     }
     [self drawViewInContext:bitmapContextRef
