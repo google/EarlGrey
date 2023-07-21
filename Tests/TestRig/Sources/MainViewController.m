@@ -100,7 +100,11 @@ static NSString *gTableViewIdentifier = @"TableViewIdentifier";
 
   // Making the nav bar not translucent so it won't cover UI elements.
   [self.navigationController.navigationBar setTranslucent:NO];
-  self.navigationController.view.backgroundColor = [UIColor whiteColor];
+  if (self.view.traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
+    self.navigationController.view.backgroundColor = [UIColor whiteColor];
+  } else {
+    self.navigationController.view.backgroundColor = [UIColor blackColor];
+  }
 }
 
 #pragma mark - UITableViewDataSource
