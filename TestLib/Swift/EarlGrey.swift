@@ -263,6 +263,14 @@ extension GREYInteraction {
     return self.__assert(with: matcher(), error: error)
   }
 
+  @available(iOS 13, *)
+  @discardableResult public func assert(_ matcher: @autoclosure () -> GREYMatcher) async throws
+    -> GREYInteraction
+  {
+    // Use `!` to invoke the optional __assert(with:) because the method always exists in test.
+    return try await self.__assert!(with: matcher())
+  }
+
   @discardableResult public func perform(_ action: GREYAction) -> Self {
     return self.__perform(action)
   }
@@ -272,6 +280,12 @@ extension GREYInteraction {
     error: NSErrorPointer
   ) -> Self {
     return self.__perform(action, error: error)
+  }
+
+  @available(iOS 13, *)
+  @discardableResult public func perform(_ action: GREYAction) async throws -> GREYInteraction {
+    // Use `!` to invoke the optional __perform(_:) because the method always exists in test.
+    return try await self.__perform!(action)
   }
 
   @discardableResult public func usingSearch(

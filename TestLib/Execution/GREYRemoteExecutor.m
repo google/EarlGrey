@@ -19,13 +19,7 @@
 #import "GREYFatalAsserts.h"
 #import "EDOHostService.h"
 
-void GREYExecuteSyncBlockInBackgroundQueue(void (^block)(void)) {
-  GREYFatalAssertMainThread();
-  // This dispatches the EarlGrey call onto another thread so that the test's main thread
-  // is freed up for handling any more events. Without this, deadlocks will be seen.
-  // The timeout for the interaction is set to be forever since EarlGrey's interaction
-  // should handle the interaction timeout.
-
+void GREYExecuteAsyncBlockInBackgroundQueue(void (^block)(void), void (^completionHandler)(void)) {
   // The dispatch queue where the queries will be tunnelled to. Will be initialized only once.
   static dispatch_queue_t appProxyQueue;
   static dispatch_once_t token = 0;
@@ -35,16 +29,26 @@ void GREYExecuteSyncBlockInBackgroundQueue(void (^block)(void)) {
     [EDOHostService serviceWithPort:0 rootObject:nil queue:appProxyQueue];
   });
 
+  dispatch_async(appProxyQueue, ^{
+    block();
+    dispatch_async(dispatch_get_main_queue(), completionHandler);
+  });
+}
+
+void GREYExecuteSyncBlockInBackgroundQueue(void (^block)(void)) {
+  GREYFatalAssertMainThread();
+  // This dispatches the EarlGrey call onto another thread so that the test's main thread
+  // is freed up for handling any more events. Without this, deadlocks will be seen.
+  // The timeout for the interaction is set to be forever since EarlGrey's interaction
+  // should handle the interaction timeout.
   __block BOOL blockProcessed = NO;
   dispatch_block_t blockToStopMainRunloopSpinning =
       dispatch_block_create(DISPATCH_BLOCK_ASSIGN_CURRENT, ^{
         blockProcessed = YES;
         CFRunLoopStop(CFRunLoopGetCurrent());
       });
-  dispatch_async(appProxyQueue, ^{
-    block();
-    dispatch_async(dispatch_get_main_queue(), blockToStopMainRunloopSpinning);
-  });
+
+  GREYExecuteAsyncBlockInBackgroundQueue(block, blockToStopMainRunloopSpinning);
 
   while (!blockProcessed) {
     CFRunLoopRun();

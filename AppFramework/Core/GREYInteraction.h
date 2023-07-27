@@ -225,6 +225,34 @@ GREY_EXTERN NSString *const kGREYAssertionErrorUserInfoKey;
  */
 - (instancetype)atIndex:(NSUInteger)index;
 
+@optional
+
+/**
+ * Performs an @c action on the selected UI element asynchronously.
+ *
+ * @param action            The action to be performed on the @c element.
+ * @param completionHandler A void block that will be executed on the main thread of the callee's
+ *                          process once the action is completed. If the action failed, the detail
+ *                          of the failure will be propagated in the error parameter, otherwise the
+ *                          error parameter will be @c nil.
+ */
+- (void)performAction:(id<GREYAction>)action
+    completionHandler:(void (^)(id<GREYInteraction>, NSError *_Nullable))completionHandler
+    NS_REFINED_FOR_SWIFT;
+
+/**
+ * Performs an assertion that evaluates @c matcher on the selected UI element asynchronously.
+ *
+ * @param matcher    The matcher to be evaluated on the @c element.
+ * @param completionHandler A void block that will be executed on the main thread of the callee's
+ *                          process once the assertion is completed. If the assertion failed, the
+ *                          detail of the failure will be propagated in the error parameter,
+ *                          otherwise the error parameter will be @c nil.
+ */
+- (void)assertWithMatcher:(id<GREYMatcher>)matcher
+        completionHandler:(void (^)(id<GREYInteraction>, NSError *_Nullable))completionHandler
+    NS_REFINED_FOR_SWIFT;
+
 @end
 
 NS_ASSUME_NONNULL_END

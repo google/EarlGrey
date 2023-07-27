@@ -23,6 +23,17 @@ extern "C" {
 NS_ASSUME_NONNULL_BEGIN
 
 /**
+ * Runs the given block asynchronously in a background queue. Once the block is executed, the
+ * given completion handler will be called on the main thread.
+ *
+ * @param block             A void block that will be run in a background queue created in the
+ *                          method.
+ * @param completionHandler A void block that will be run in the main thread once @c block is
+ *                          completed.
+ */
+void GREYExecuteAsyncBlockInBackgroundQueue(void (^block)(void), void (^completionHandler)(void));
+
+/**
  * Runs the given block in a background queue. It also takes the current (caller) thread's runloop
  * and spins it, in order to enable the test's main thread to process messages from other threads.
  * On completion of the block in the background thread, it stops spinning the runloop on the caller

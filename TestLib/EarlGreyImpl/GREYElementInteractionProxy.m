@@ -22,6 +22,7 @@
 #import "GREYHostBackgroundDistantObject+GREYApp.h"
 #import "GREYThrowDefines.h"
 #import "GREYHostBackgroundDistantObject.h"
+#import "GREYError.h"
 #import "GREYElementInteractionErrorHandler.h"
 #import "GREYRemoteExecutor.h"
 
@@ -58,6 +59,18 @@
   return self;
 }
 
+- (void)performAction:(id<GREYAction>)action
+    completionHandler:(void (^)(id<GREYInteraction>, NSError *))completionHandler {
+  __block __strong GREYError *interactionError = nil;
+  GREYExecuteAsyncBlockInBackgroundQueue(
+      ^{
+        [self->_remoteElementInteraction performAction:action error:&interactionError];
+      },
+      ^{
+        completionHandler(self, interactionError);
+      });
+}
+
 - (id<GREYInteraction>)assert:(id<GREYAssertion>)assertion {
   return [self assert:assertion error:nil];
 }
@@ -86,6 +99,18 @@
   });
   GREYHandleInteractionError(interactionError, errorOrNil);
   return self;
+}
+
+- (void)assertWithMatcher:(id<GREYMatcher>)matcher
+        completionHandler:(void (^)(id<GREYInteraction>, NSError *))completionHandler {
+  __block __strong GREYError *interactionError = nil;
+  GREYExecuteAsyncBlockInBackgroundQueue(
+      ^{
+        [self->_remoteElementInteraction assertWithMatcher:matcher error:&interactionError];
+      },
+      ^{
+        completionHandler(self, interactionError);
+      });
 }
 
 - (id<GREYInteraction>)inRoot:(id<GREYMatcher>)rootMatcher {

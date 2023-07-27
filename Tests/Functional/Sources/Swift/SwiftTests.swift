@@ -75,6 +75,16 @@ class SwiftTests: XCTestCase {
       .assert(assertionMatcher)
   }
 
+  /// Verifies that EarlGrey interactions run in async test.
+  func testTypingAsync() async throws {
+    try await openTestView(named: "Basic Views")
+    try await EarlGrey.selectElement(with: grey_text("Tab 2")).perform(grey_tap())
+    let matcher: GREYMatcher! = grey_accessibilityID("foo")
+    let action: GREYAction! = grey_typeText("Sample Swift Test")
+    let assertionMatcher = grey_text("Sample Swift Test")
+    try await EarlGrey.selectElement(with: matcher).perform(action).assert(assertionMatcher)
+  }
+
   func testFastTyping() {
     openTestView(named: "Typing Views")
     #if swift(>=4.2)
@@ -342,5 +352,27 @@ class SwiftTests: XCTestCase {
         onElementWith: grey_kindOfClass(UITableView.self)
       )
       .perform(grey_tap())
+  }
+
+  func openTestView(named name: String) async throws {
+    var shouldSearch = false
+    do {
+      try await EarlGrey.selectElement(with: grey_accessibilityLabel(name)).perform(grey_tap())
+    } catch {
+      shouldSearch = true
+    }
+
+    if shouldSearch {
+      try await EarlGrey.selectElement(with: grey_kindOfClass(UITableView.self)).perform(
+        grey_scrollToContentEdge(GREYContentEdge.top))
+      let nameMatcher = grey_allOf([
+        grey_accessibilityLabel(name),
+        grey_interactable(),
+      ])
+      try await EarlGrey.selectElement(with: nameMatcher).usingSearch(
+        action: grey_scrollInDirection(GREYDirection.down, 200),
+        onElementWith: grey_kindOfClass(UITableView.self)
+      ).perform(grey_tap())
+    }
   }
 }
