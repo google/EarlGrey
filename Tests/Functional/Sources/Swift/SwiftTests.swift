@@ -246,10 +246,23 @@ class SwiftTests: XCTestCase {
     XCTAssertNotNil(acceptError)
   }
 
-  func testFetchRemoteClass() {
-    let remoteView: UIView = GREYRemoteClassInApp(classVal: UIView.self).init()
+  func testFetchRemoteObjCClass() {
+    let remoteView = GREYRemoteClassInApp(classVal: UIView.self).init()
     XCTAssertTrue(remoteView.description.contains("UIView"))
     XCTAssertEqual(String(describing: type(of: remoteView)), "EDOObject")
+  }
+
+  func testFetchRemoteSwiftClass() {
+    let remoteClass = GREYRemoteClassInApp(classVal: EarlGreyCompatibleSwiftClass.self)
+    var result = remoteClass.myClassMethod(returnValue: 1)
+    XCTAssertEqual(result, 1)
+
+    let remoteInstance = remoteClass.init(instanceMethodReturnValue: 2)
+    result = remoteInstance.myInstanceMethod()
+    XCTAssertEqual(result, 2)
+
+    XCTAssertTrue(remoteInstance.description.contains("EarlGreyCompatibleSwiftClass"))
+    XCTAssertEqual(String(describing: type(of: remoteInstance)), "EDOObject")
   }
 
   func testConfigurationChangeWithOngoingAnimation() {

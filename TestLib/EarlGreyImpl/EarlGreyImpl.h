@@ -210,8 +210,15 @@ typedef void (^GREYHostApplicationCrashHandler)(void);
  *
  * @return A class object, which is the same type as @c theClass in the app process. Invocations
  *         made to the returned Class object will be executed in app process.
+ *
+ * @remarks The return type is intentionally `id` instead of `Class`. ARC and Swift treat
+ *          `Class` objects as immortal, which means there is no need for retain/release. However,
+ *          the actual object returned by this method is a proxy object that is not immortal.
+ *          Therefore, use `id` as the return type to ensure the compiler retains/releases the
+ *          object as usual. See this thread for more details:
+ *          https://forums.swift.org/t/why-does-casting-type-metadata-to-anyobject-later-result-in-destroy-value-being-called-on-the-anyobject/66371/4
  */
-- (Class)remoteClassInApp:(Class)theClass;
+- (id)remoteClassInApp:(Class)theClass;
 
 /**
  * Sets the handler block which will be called when EarlGrey detects that the app-under-test has

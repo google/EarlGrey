@@ -171,7 +171,29 @@ private func GREYAssert(
 public func GREYRemoteClassInApp<T>(classVal: T.Type) -> T.Type {
   // T may not conform to AnyClass, e.g. it can be SomeClass.Type.Type. So we need do cast T.self to
   // AnyClass here.
-  return unsafeBitCast(EarlGrey.remoteClassInApp(T.self as! AnyClass), to: T.Type.self)
+  let localClass: AnyClass = T.self as! AnyClass
+
+  let remoteClass = EarlGrey.remoteClassInApp(localClass)
+
+  // The following cast is safe because `remoteClass` is `AnyObject`, which will be treated the same
+  // as `T.Type` when the compiler generates code to call a class method.
+  //
+  // `T` is an Objective-C-compatible class, either defined in Swift or in Objective-C. For an
+  // `@objc` Swift class, `T.Type` is a “class metadata record”. Class metadata records are
+  // compatible with the Objective-C `Class` type, so the compiler passes a class metadata record
+  // directly to `objc_msgSend`. For an Objective-C class, `T.Type` is an “Objective-C class wrapper
+  // metadata record”. The compiler calls `swift_getObjCClassFromMetadata` to get the underlying
+  // Objective-C `Class` object from the metadata record in order to pass it to `objc_msgSend`.
+  //
+  // Finally, let us examine why `AnyObject` is compatible with `T.Type` in terms of calling class
+  // methods, regardless of how `T` was defined. If `T` is an `@objc` Swift class, the compiler
+  // passes the `AnyObject` value directly to `objc_msgSend`, which is the desired outcome. If `T`
+  // is an Objective-C class, the compiler passes the `AnyObject` value to
+  // `swift_getObjCClassFromMetadata`. Fortunately, `swift_getObjCClassFromMetadata` can handle all
+  // cases: Objective-C class wrapper metadata records, class metadata records, and Objective-C
+  // `Class` objects. For the latter two, the function returns the value as-is. Thus, the
+  // `AnyObject` value will be returned and then passed to `objc_msgSend` as desired.
+  return unsafeBitCast(remoteClass, to: T.Type.self)
 }
 
 // Allows calling `EarlGreyImpl` methods that would typically rely on the `EarlGrey` macro in
@@ -236,9 +258,9 @@ public struct EarlGrey {
     _ classVal: AnyClass,
     file: StaticString = #file,
     line: UInt = #line
-  ) -> AnyClass {
+  ) -> AnyObject {
     return EarlGreyImpl.invoked(fromFile: file.description, lineNumber: line)
-      .remoteClass(inApp: classVal)
+      .remoteClass(inApp: classVal) as AnyObject
   }
 
   public static func setHostApplicationCrashHandler(
