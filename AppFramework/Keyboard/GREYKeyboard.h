@@ -54,7 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return @c YES if the keyboard is visible, @c NO otherwise.
  */
-+ (BOOL)keyboardShownWithError:(NSError **)error;
++ (BOOL)keyboardShownWithError:(NSError **)error __attribute__((swift_error(nonnull_error)));
 
 /**
  * Dismisses the keyboard by sending a resignFirstResponder call to the application.
