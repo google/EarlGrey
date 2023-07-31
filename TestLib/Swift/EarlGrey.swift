@@ -168,12 +168,18 @@ private func GREYAssert(
   }
 }
 
-public func GREYRemoteClassInApp<T>(classVal: T.Type) -> T.Type {
-  // T may not conform to AnyClass, e.g. it can be SomeClass.Type.Type. So we need do cast T.self to
-  // AnyClass here.
-  let localClass: AnyClass = T.self as! AnyClass
-
-  let remoteClass = EarlGrey.remoteClassInApp(localClass)
+/// Returns a proxy object that forwards class method calls to the remote class in the app process.
+///
+/// - Parameters:
+///   - classVal: The target class. Although the target class does not need to be marked `@objc`, it
+///               does need to inherit from `NSObject` or a subclass.
+///
+/// - Returns: A proxy object that is masquerading as the target class.
+///
+/// - Attention: EarlGrey only supports initializers, methods, and properties that are marked
+///              `@objc dynamic`. Trying to call other types of methods will crash the test process.
+public func GREYRemoteClassInApp<T: NSObject>(classVal: T.Type) -> T.Type {
+  let remoteClass = EarlGrey.remoteClassInApp(classVal)
 
   // The following cast is safe because `remoteClass` is `AnyObject`, which will be treated the same
   // as `T.Type` when the compiler generates code to call a class method.
