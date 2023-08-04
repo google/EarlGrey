@@ -202,25 +202,6 @@ typedef void (^GREYHostApplicationCrashHandler)(void);
 - (BOOL)isKeyboardShownWithError:(NSError **)error;
 
 /**
- * Fetches a remote class object from the app process. The caller of this method should pass
- * the local class object in its process as @c theClass. EarlGrey will map @c theClass to the
- * appropriate class object in the app process and return that.
- *
- * @param theClass The class object to fetch from the app process.
- *
- * @return A class object, which is the same type as @c theClass in the app process. Invocations
- *         made to the returned Class object will be executed in app process.
- *
- * @remarks The return type is intentionally `id` instead of `Class`. ARC and Swift treat
- *          `Class` objects as immortal, which means there is no need for retain/release. However,
- *          the actual object returned by this method is a proxy object that is not immortal.
- *          Therefore, use `id` as the return type to ensure the compiler retains/releases the
- *          object as usual. See this thread for more details:
- *          https://forums.swift.org/t/why-does-casting-type-metadata-to-anyobject-later-result-in-destroy-value-being-called-on-the-anyobject/66371/4
- */
-- (id)remoteClassInApp:(Class)theClass;
-
-/**
  * Sets the handler block which will be called when EarlGrey detects that the app-under-test has
  * crashed. Before each test case's -setUp and -tearDown, EarlGrey checks if the app-under-test
  * has crashed. If it has, EarlGrey calls this block. Tests can set a handler to restart the

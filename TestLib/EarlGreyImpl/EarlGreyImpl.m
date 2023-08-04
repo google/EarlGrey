@@ -245,13 +245,6 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
   return keyboardShown;
 }
 
-- (id)remoteClassInApp:(Class)theClass {
-  uint16_t port = GREYTestApplicationDistantObject.sharedInstance.hostPort;
-  id remoteObject = [EDOClientService classObjectWithName:NSStringFromClass(theClass) port:port];
-  I_GREYAssertNotNil(remoteObject, @"Class %@ does not exist in app", theClass);
-  return remoteObject;
-}
-
 - (void)setHostApplicationCrashHandler:(nullable GREYHostApplicationCrashHandler)handler {
   [XCTestCase grey_setHostApplicationCrashHandler:handler];
 }
