@@ -247,13 +247,13 @@ class SwiftTests: XCTestCase {
   }
 
   func testFetchRemoteObjCClass() {
-    let remoteView = GREYRemoteClassInApp(classVal: UIView.self).init()
+    let remoteView = GREYRemoteClassInApp(UIView.self).init()
     XCTAssertTrue(remoteView.description.contains("UIView"))
     XCTAssertEqual(String(describing: type(of: remoteView)), "EDOObject")
   }
 
   func testFetchRemoteSwiftClass() {
-    let remoteClass = GREYRemoteClassInApp(classVal: EarlGreyCompatibleSwiftClass.self)
+    let remoteClass = GREYRemoteClassInApp(EarlGreyCompatibleSwiftClass.self)
     var result = remoteClass.myClassMethod(returnValue: 1)
     XCTAssertEqual(result, 1)
 

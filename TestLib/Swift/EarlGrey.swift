@@ -178,7 +178,7 @@ private func GREYAssert(
 ///
 /// - Attention: EarlGrey only supports initializers, methods, and properties that are marked
 ///              `@objc dynamic`. Trying to call other types of methods will crash the test process.
-public func GREYRemoteClassInApp<T: NSObject>(classVal: T.Type) -> T.Type {
+public func GREYRemoteClassInApp<T: NSObject>(_ classVal: T.Type) -> T.Type {
   let portNumber = GREYTestApplicationDistantObject.sharedInstance.hostPort
   let hostPort = EDOHostPort(port: portNumber, name: nil, deviceSerialNumber: nil)
   guard let remoteClass = remoteClassObject(of: classVal, on: hostPort) else {
