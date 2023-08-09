@@ -28,7 +28,7 @@ GEM
       method_source (~> 0.8.1)
       slop (~> 3.4)
     rainbow (3.0.0)
-    rake (11.3.0)
+    rake (12.3.3)
     rspec (3.7.0)
       rspec-core (~> 3.7.0)
       rspec-expectations (~> 3.7.0)
@@ -66,7 +66,7 @@ PLATFORMS
 DEPENDENCIES
   earlgrey!
   pry (~> 0.10.3)
-  rake (~> 11.1)
+  rake (~> 12.3)
   rspec (>= 3.4.0)
   rubocop (>= 0.39.0)
 
