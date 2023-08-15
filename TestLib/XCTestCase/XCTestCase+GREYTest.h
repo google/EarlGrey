@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 #import <XCTest/XCTest.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -23,48 +23,48 @@ NS_ASSUME_NONNULL_BEGIN
  * Posted immediately prior to XCTestCase::setUp. The @c userInfo dictionary contains
  * the executing XCTestCase.
  */
-UIKIT_EXTERN NSString *const kGREYXCTestCaseInstanceWillSetUp;
+FOUNDATION_EXTERN NSString *const kGREYXCTestCaseInstanceWillSetUp;
 
 /**
  * Posted immediately after XCTestCase::setUp is called. The @c userInfo dictionary contains the
  * executing XCTestCase.
  */
-UIKIT_EXTERN NSString *const kGREYXCTestCaseInstanceDidSetUp;
+FOUNDATION_EXTERN NSString *const kGREYXCTestCaseInstanceDidSetUp;
 
 /**
  * Posted immediately prior to XCTestCase::tearDown. The @c userInfo dictionary contains
  * the executing XCTestCase.
  */
-UIKIT_EXTERN NSString *const kGREYXCTestCaseInstanceWillTearDown;
+FOUNDATION_EXTERN NSString *const kGREYXCTestCaseInstanceWillTearDown;
 
 /**
  * Posted immediately after XCTestCase::tearDown is called. The @c userInfo dictionary contains
  * the executing XCTestCase.
  */
-UIKIT_EXTERN NSString *const kGREYXCTestCaseInstanceDidTearDown;
+FOUNDATION_EXTERN NSString *const kGREYXCTestCaseInstanceDidTearDown;
 
 /**
  * Posted immediately after XCTestCase::invokeTest is executed successfully, denoting that the
  * test has passed. The @c userInfo dictionary contains the executing XCTestCase.
  */
-UIKIT_EXTERN NSString *const kGREYXCTestCaseInstanceDidPass;
+FOUNDATION_EXTERN NSString *const kGREYXCTestCaseInstanceDidPass;
 
 /**
  * Posted immediately after XCTestCase::invokeTest raises an Exception, denoting that the test has
  * failed. The @c userInfo dictionary contains the executing XCTestCase.
  */
-UIKIT_EXTERN NSString *const kGREYXCTestCaseInstanceDidFail;
+FOUNDATION_EXTERN NSString *const kGREYXCTestCaseInstanceDidFail;
 
 /**
  * Posted immediately after a XCTestCase finishes, successfully or not. The @c userInfo dictionary
  * contains the executing XCTestCase.
  */
-UIKIT_EXTERN NSString *const kGREYXCTestCaseInstanceDidFinish;
+FOUNDATION_EXTERN NSString *const kGREYXCTestCaseInstanceDidFinish;
 
 /**
  * Key for retrieving the current XCTestCase from the @c userInfo of a notification.
  */
-UIKIT_EXTERN NSString *const kGREYXCTestCaseNotificationKey;
+FOUNDATION_EXTERN NSString *const kGREYXCTestCaseNotificationKey;
 
 /**
  * Enumeration with the possible statuses of an XCTestCase.
@@ -86,7 +86,7 @@ typedef NS_ENUM(NSUInteger, GREYXCTestCaseStatus) {
  * @return The current XCTestCase being executed or @c nil if called outside the context of a test
  *         method.
  */
-+ (XCTestCase *)grey_currentTestCase;
++ (nullable XCTestCase *)grey_currentTestCase;
 
 // TODO(b/147431902): Make XCTestCase+GREYTest private. This was the alternative before
 // XCTestCaseObserver.
@@ -102,12 +102,12 @@ typedef NS_ENUM(NSUInteger, GREYXCTestCaseStatus) {
  * @return The name of the current test method being executed or @c nil if called outside the
  *         context of a test method.
  */
-- (NSString *)grey_testMethodName;
+- (nullable NSString *)grey_testMethodName;
 
 /**
  * @return The name of the test class to which this message was sent.
  */
-- (NSString *)grey_testClassName;
+- (nullable NSString *)grey_testClassName;
 
 /**
  * @return The status (passed, failed, unknown) of this test.
