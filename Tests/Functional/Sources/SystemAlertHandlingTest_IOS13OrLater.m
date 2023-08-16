@@ -42,12 +42,13 @@
  * Automates the accepting of a system alert.
  */
 - (void)testAcceptingSystemAlert {
+  CFTimeInterval interactionTimeout = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
   [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"Locations Alert")]
       performAction:grey_tap()];
-  XCTAssertTrue([self grey_waitForAlertVisibility:YES withTimeout:1]);
+  XCTAssertTrue([self grey_waitForAlertVisibility:YES withTimeout:interactionTimeout]);
   XCTAssertEqual([self grey_systemAlertType], GREYSystemAlertTypeLocation);
   XCTAssertTrue([self grey_acceptSystemDialogWithError:nil]);
-  XCTAssertTrue([self grey_waitForAlertVisibility:NO withTimeout:1]);
+  XCTAssertTrue([self grey_waitForAlertVisibility:NO withTimeout:interactionTimeout]);
   [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"Alert Handled?")]
       performAction:grey_tap()];
 }
