@@ -16,6 +16,7 @@
 
 #import "XCTestCase+GREYTest.h"
 
+#import <UIKit/UIKit.h>
 #include <objc/runtime.h>
 
 #import "GREYFatalAsserts.h"
@@ -62,49 +63,23 @@ NSString *const kGREYXCTestCaseNotificationKey = @"GREYXCTestCaseNotificationKey
  */
 static void CheckUnhandledHostApplicationCrashWithHandler(BOOL (^handler)(void));
 
-/** Checks if the Xcode 12 symbols are available. */
-static BOOL gIsRunningOnXcode12;
-
 @implementation XCTestCase (GREYTest)
 
 + (void)load {
   // Extra check added in case an app might be built on Xcode 12, but running on a lower Xcode.
-  gIsRunningOnXcode12 = NSClassFromString(@"XCTIssue") != nil;
   GREYSwizzler *swizzler = [[GREYSwizzler alloc] init];
   BOOL swizzleSuccess = [swizzler swizzleClass:self
                          replaceInstanceMethod:@selector(invokeTest)
                                     withMethod:@selector(grey_invokeTest)];
   GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle XCTestCase::invokeTest");
 
-  // We swizzle both the recordIssue: and recordFailureWithDescription: here since a test can be
-  // built with Xcode 12 and run on an Xcode 11 environment along with vice versa. In this case,
-  // we need to have a runtime check for the Xcode 12 only recordIssue: method and have the
-  // recordFailureWithDescription: method available in case the runtime check finds that the
-  // test is running on a non-Xcode 12 environment and wrapped in a clang-check to suppress
-  // deprecation warnings in Xcode 12. All these compile / runtime checks for recordIssue: must be
-  // removed in future versions of Xcode.
-  SEL recordFailureSelector;
-  SEL swizzledRecordFailureSelector;
-#if defined(__IPHONE_14_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_14_0
-  if (gIsRunningOnXcode12) {
-    recordFailureSelector = @selector(recordIssue:);
-    swizzledRecordFailureSelector = @selector(grey_recordIssue:);
-    swizzleSuccess = [swizzler swizzleClass:self
-                      replaceInstanceMethod:recordFailureSelector
-                                 withMethod:swizzledRecordFailureSelector];
-    GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle XCTestCase::%@",
-                               NSStringFromSelector(recordFailureSelector));
-  }
-#endif  // defined(__IPHONE_14_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_14_0
-  recordFailureSelector = @selector(recordFailureWithDescription:inFile:atLine:expected:);
-  swizzledRecordFailureSelector = @selector(grey_recordFailureWithDescription:
-                                                                       inFile:atLine:expected:);
+  SEL recordFailureSelector = @selector(recordIssue:);
+  SEL swizzledRecordFailureSelector = @selector(grey_recordIssue:);
   swizzleSuccess = [swizzler swizzleClass:self
                     replaceInstanceMethod:recordFailureSelector
                                withMethod:swizzledRecordFailureSelector];
   GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle XCTestCase::%@",
                              NSStringFromSelector(recordFailureSelector));
-
   gExecutingTestCaseStack = [[NSMutableArray alloc] init];
 }
 
@@ -124,12 +99,10 @@ static BOOL gIsRunningOnXcode12;
   return [gExecutingTestCaseStack lastObject];
 }
 
-#if defined(__IPHONE_14_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_14_0
 - (void)grey_recordIssue:(XCTIssue *)issue {
   [self grey_setStatus:kGREYXCTestCaseStatusFailed];
   INVOKE_ORIGINAL_IMP1(void, @selector(grey_recordIssue:), issue);
 }
-#endif  // defined(__IPHONE_14_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_14_0
 
 - (void)grey_recordFailureWithDescription:(NSString *)description
                                    inFile:(NSString *)filePath
@@ -359,28 +332,16 @@ static BOOL gIsRunningOnXcode12;
 - (void)grey_recordFailure:(NSString *)filePath
                       line:(NSUInteger)line
                description:(NSString *)description {
-  if (gIsRunningOnXcode12) {
-#if defined(__IPHONE_14_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_14_0
-    Class sourceCodeLocationClass = NSClassFromString(@"XCTSourceCodeLocation");
-    Class sourceCodeContextClass = NSClassFromString(@"XCTSourceCodeContext");
-    Class issueClass = NSClassFromString(@"XCTIssue");
-    id location = [[sourceCodeLocationClass alloc] initWithFilePath:filePath
-                                                         lineNumber:(NSInteger)line];
-    id context = [[sourceCodeContextClass alloc] initWithLocation:location];
-    id issue = [[issueClass alloc] initWithType:XCTIssueTypeUncaughtException
-                             compactDescription:description
-                            detailedDescription:nil
-                              sourceCodeContext:context
-                                associatedError:nil
-                                    attachments:@[]];
-    [self recordIssue:issue];
-#endif  // defined(__IPHONE_14_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_14_0
-  } else {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    [self recordFailureWithDescription:description inFile:filePath atLine:line expected:NO];
-#pragma clang diagnostic pop
-  }
+  XCTSourceCodeLocation *location =
+      [[XCTSourceCodeLocation alloc] initWithFilePath:filePath lineNumber:(NSInteger)line];
+  XCTSourceCodeContext *context = [[XCTSourceCodeContext alloc] initWithLocation:location];
+  XCTIssue *issue = [[XCTIssue alloc] initWithType:XCTIssueTypeUncaughtException
+                                compactDescription:description
+                               detailedDescription:nil
+                                 sourceCodeContext:context
+                                   associatedError:nil
+                                       attachments:@[]];
+  [self recordIssue:issue];
 }
 
 @end
