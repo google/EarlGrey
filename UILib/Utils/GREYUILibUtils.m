@@ -24,7 +24,7 @@ UIWindow *GREYUILibUtilsGetApplicationKeyWindow(UIApplication *application) {
     (defined(__TV_OS_VERSION_MAX_ALLOWED) && __TV_OS_VERSION_MAX_ALLOWED >= 150000) ||       \
     (defined(__WATCH_OS_VERSION_MAX_ALLOWED) && __WATCH_OS_VERSION_MAX_ALLOWED >= 150000) || \
     (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 150000)
-  if (@available(iOS 15.0, *)) {
+  if (@available(iOS 15.0, tvOS 15.0, *)) {
     // There can be multiple key windows on iOS 15 because they are now bound to UIScene.
     // This may indicate that all the active scenes can receive keyboard/system events at the same
     // time, we currently only return the first key window for testing purposes. We shall evaluate

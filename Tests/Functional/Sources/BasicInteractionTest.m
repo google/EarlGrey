@@ -923,26 +923,32 @@
 
 - (void)testShareSheetOpenAndClose {
   XCTSkipUnless(iOS17_OR_ABOVE());
-  [self openTestViewNamed:@"Share Sheet"];
-  XCTAssertTrue([EarlGrey activitySheetPresentWithError:nil]);
-  [EarlGrey closeActivitySheetWithError:nil];
+  if (@available(iOS 17.0, *)) {
+    [self openTestViewNamed:@"Share Sheet"];
+    XCTAssertTrue([EarlGrey activitySheetPresentWithError:nil]);
+    [EarlGrey closeActivitySheetWithError:nil];
+  }
 }
 
 - (void)testShareSheetWithURL {
   XCTSkipUnless(iOS17_OR_ABOVE());
-  [self openTestViewNamed:@"Share Sheet"];
-  XCTAssertTrue([EarlGrey activitySheetPresentWithURL:@"apple.com" error:nil]);
-  [EarlGrey closeActivitySheetWithError:nil];
+  if (@available(iOS 17.0, *)) {
+    [self openTestViewNamed:@"Share Sheet"];
+    XCTAssertTrue([EarlGrey activitySheetPresentWithURL:@"apple.com" error:nil]);
+    [EarlGrey closeActivitySheetWithError:nil];
+  }
 }
 
 - (void)testTappingOnShareSheetButtons {
   XCTSkipUnless(iOS17_OR_ABOVE());
-  [self openTestViewNamed:@"Share Sheet"];
-  XCTAssertTrue([EarlGrey tapButtonInActivitySheetWithId:@"Copy" error:nil]);
+  if (@available(iOS 17.0, *)) {
+    [self openTestViewNamed:@"Share Sheet"];
+    XCTAssertTrue([EarlGrey tapButtonInActivitySheetWithId:@"Copy" error:nil]);
 
-  [self openTestViewNamed:@"Share Sheet"];
-  XCTAssertTrue([EarlGrey tapButtonInActivitySheetWithId:@"More" error:nil]);
-  XCTAssertTrue([EarlGrey tapButtonInActivitySheetWithId:@"Messages" error:nil]);
+    [self openTestViewNamed:@"Share Sheet"];
+    XCTAssertTrue([EarlGrey tapButtonInActivitySheetWithId:@"More" error:nil]);
+    XCTAssertTrue([EarlGrey tapButtonInActivitySheetWithId:@"Messages" error:nil]);
+  }
 }
 
 #pragma mark - Private
