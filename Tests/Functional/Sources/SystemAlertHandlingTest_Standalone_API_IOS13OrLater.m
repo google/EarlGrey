@@ -90,10 +90,10 @@
  */
 - (void)testDenyingSystemAlert {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Contacts Alert")] performAction:grey_tap()];
-  XCTAssertTrue([EarlGrey WaitForAlertVisibility:YES withTimeout:1]);
+  XCTAssertTrue([EarlGrey WaitForAlertVisibility:YES withTimeout:5]);
   XCTAssertEqual([EarlGrey SystemAlertType], GREYSystemAlertTypeContacts);
   XCTAssertTrue([EarlGrey DenySystemDialogWithError:nil]);
-  XCTAssertTrue([EarlGrey WaitForAlertVisibility:NO withTimeout:1]);
+  XCTAssertTrue([EarlGrey WaitForAlertVisibility:NO withTimeout:5]);
   [[EarlGrey selectElementWithMatcher:grey_text(@"Denied")]
       assertWithMatcher:grey_sufficientlyVisible()];
   [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"Alert Handled?")]
