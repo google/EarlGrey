@@ -42,13 +42,13 @@
 }
 
 - (void)setUp {
-  [super setUp];
   _dummyTest = [[DistantObjectCrashHandlerDummyTest alloc] init];
   static dispatch_once_t once_token;
   dispatch_once(&once_token, ^{
     // Trigger EG2's swizzling on DistantObjectCrashHandlerDummyTest's -setUp and -tearDown method.
     [_dummyTest invokeTest];
   });
+  [super setUp];
 }
 
 - (void)tearDown {
