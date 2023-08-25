@@ -272,6 +272,18 @@ CGRect CGRectLargestRectInHistogram(uint16_t *histogram, uint16_t length) {
   return largestRect;
 }
 
+BOOL CGRectEqaulToRectWithFloatingTolerance(CGRect rect1, CGRect rect2) {
+  if (CGRectEqualToRect(rect1, rect2)) {
+    return YES;
+  } else if (CGFloatIsEqual(rect1.origin.x, rect2.origin.x) &&
+             CGFloatIsEqual(rect1.origin.y, rect2.origin.y) &&
+             CGFloatIsEqual(rect1.size.width, rect2.size.width) &&
+             CGFloatIsEqual(rect1.size.height, rect2.size.height)) {
+    return YES;
+  }
+  return NO;
+}
+
 #pragma mark - CGAffineTransform
 
 #if TARGET_OS_IOS

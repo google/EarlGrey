@@ -258,6 +258,19 @@ CGRect CGRectIntegralInside(CGRect rectInPixels);
  */
 CGRect CGRectLargestRectInHistogram(uint16_t *histogram, uint16_t length);
 
+/**
+ * Returns whether two rectangles are equal in size and position.
+ *
+ * This has the floating point tolerance that can avoid false negative from CGRectEqaulToRect.
+ *
+ * @param rect1 The first rectangle to examine.
+ * @param rect2 The second rectangle to examine.
+ *
+ * @return @c YES if the two specified rectangles have equal size and origin values, or if both
+ *         rectangles are null rectangles. Otherwise, @c NO.
+ */
+BOOL CGRectEqaulToRectWithFloatingTolerance(CGRect rect1, CGRect rect2);
+
 #pragma mark - CGAffineTransform
 
 #if TARGET_OS_IOS

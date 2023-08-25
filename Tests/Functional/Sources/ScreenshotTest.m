@@ -162,7 +162,7 @@
   [[EarlGrey selectElementWithMatcher:grey_kindOfClass([UITableView class])]
       performAction:grey_scrollToContentEdge(kGREYContentEdgeTop)];
   EDORemoteVariable<UIImage *> *snapshot = [[EDORemoteVariable alloc] init];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")]
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Basic Views")]
       performAction:grey_snapshot(snapshot)];
   XCTAssertFalse([[snapshot.object accessibilityHint] containsString:@"KeyboardFrame"]);
 

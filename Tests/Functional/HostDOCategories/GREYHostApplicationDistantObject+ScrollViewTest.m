@@ -17,6 +17,7 @@
 #import "ExposedForTesting.h"
 #import "GREYSyncAPI.h"
 #import "GREYHostApplicationDistantObject+ScrollViewTest.h"
+#import "CGGeometry+GREYUI.h"
 #import "GREYVisibilityChecker.h"
 
 @implementation GREYHostApplicationDistantObject (ScrollViewTest)
@@ -62,8 +63,7 @@
         CGPoint contentOffset = view.contentOffset;
         CGRect expectedVisibleRect =
             CGRectMake(contentOffset.x, contentOffset.y, view.superview.bounds.size.width, 82);
-
-        return CGRectEqualToRect(visibleRect, expectedVisibleRect);
+        return CGRectEqaulToRectWithFloatingTolerance(visibleRect, expectedVisibleRect);
       }];
 }
 
