@@ -75,6 +75,10 @@ typedef NS_OPTIONS(NSUInteger, GREYAppState) {
    * being ignored.
    */
   kGREYIgnoringSystemWideUserInteraction = (1UL << 10),
+  /*
+   * Waiting for scroll rotation to complete,
+   */
+  kGREYPendingScreenRotation = (1UL << 11),
   // LINT.ThenChange(
   //     //depot/google3/third_party/objective_c/EarlGreyV2/CommonLib/Config/GREYAppState.m)
 };

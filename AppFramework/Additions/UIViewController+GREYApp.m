@@ -70,6 +70,23 @@ static Class gCompatibilityInputVCClass;
                                withMethod:swizzledSel];
   GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle UIViewController viewDidMoveToWindow:"
                                              @"shouldAppearOrDisappear:");
+
+#if TARGET_OS_IOS
+  swizzleSuccess =
+      [swizzler swizzleClass:self
+          replaceInstanceMethod:@selector(willRotateToInterfaceOrientation:duration:)
+                     withMethod:@selector(greyswizzled_willRotateToInterfaceOrientation:duration:)];
+  GREYFatalAssertWithMessage(
+      swizzleSuccess,
+      @"Cannot swizzle UIViewController willRotateToInterfaceOrientation:duration:");
+
+  swizzleSuccess =
+      [swizzler swizzleClass:self
+          replaceInstanceMethod:@selector(didRotateFromInterfaceOrientation:)
+                     withMethod:@selector(greyswizzled_didRotateFromInterfaceOrientation:)];
+  GREYFatalAssertWithMessage(swizzleSuccess,
+                             @"Cannot swizzle UIView didRotateFromInterfaceOrientation:");
+#endif  // TARGET_OS_IOS
 }
 
 __attribute__((constructor)) static void initialize(void) {
@@ -200,6 +217,36 @@ __attribute__((constructor)) static void initialize(void) {
   [self grey_setAppeared:NO];
   INVOKE_ORIGINAL_IMP1(void, @selector(greyswizzled_viewDidDisappear:), animated);
 }
+
+#if TARGET_OS_IOS
+
+- (void)greyswizzled_willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+                                             duration:(NSTimeInterval)duration {
+  GREYAppStateTrackerObject *object = TRACK_STATE_FOR_OBJECT(kGREYPendingScreenRotation, self);
+  objc_setAssociatedObject(self, @selector(greyswizzled_willRotateToInterfaceOrientation:duration:),
+                           object, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+  INVOKE_ORIGINAL_IMP2(void, @selector(greyswizzled_willRotateToInterfaceOrientation:duration:),
+                       toInterfaceOrientation, duration);
+}
+
+- (void)greyswizzled_didRotateFromInterfaceOrientation:
+    (UIInterfaceOrientation)fromInterfaceOrientation {
+  INVOKE_ORIGINAL_IMP1(void, @selector(greyswizzled_didRotateFromInterfaceOrientation:),
+                       fromInterfaceOrientation);
+  GREYAppStateTrackerObject *object = objc_getAssociatedObject(
+      self, @selector(greyswizzled_willRotateToInterfaceOrientation:duration:));
+
+  // The [UIViewController -didRotateFromInterfaceOrientation:] is not the proof of the complete
+  // of the whole rotation annimation. At the point of this method being called, the rotation
+  // animation is done, but a black band can still exist. As a result, EarlGrey manually extends
+  // another half seconds as the tolerance of the black bands fading out.
+  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int)(NSEC_PER_SEC * 0.5)),
+                 dispatch_get_main_queue(), ^{
+                   UNTRACK_STATE_FOR_OBJECT(kGREYPendingScreenRotation, object);
+                 });
+}
+
+#endif  // TARGET_OS_IOS
 
 #pragma mark - Private
 

@@ -34,6 +34,7 @@ NSString *GREYKeyForAppState(GREYAppState state) {
       @(kGREYPendingGestureRecognition) : @"PendingGestureRecognition",
       @(kGREYPendingUIScrollViewScrolling) : @"PendingUIScrollViewScrolling",
       @(kGREYIgnoringSystemWideUserInteraction) : @"IgnoringSystemWideUserInteraction",
+      @(kGREYPendingScreenRotation) : @"PendingScreenRotation",
     };
   });
   return gStateTrackerDescriptions[@(state)];
