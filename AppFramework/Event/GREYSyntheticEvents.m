@@ -25,6 +25,11 @@
 
 #pragma mark - Implementation
 
+/**
+ * The minimum gap between two events in a touch path.
+ */
+static const NSTimeInterval kMinimumDelayBetweenTouchPathEvents = 1.0 / 120.0;
+
 @implementation GREYSyntheticEvents {
   /**
    * The touch injector that completes the touch sequence for an event.
@@ -118,14 +123,14 @@
                      timeout:(NSTimeInterval)timeout {
   _lastInjectedTouchPoint = [NSValue valueWithCGPoint:point];
   [self grey_continueTouchAtPoints:@[ _lastInjectedTouchPoint ]
-      afterTimeElapsedSinceLastTouchDelivery:0
+      afterTimeElapsedSinceLastTouchDelivery:kMinimumDelayBetweenTouchPathEvents
                            immediateDelivery:immediate
                                      timeout:timeout];
 }
 
 - (void)endTouchWithTimeout:(NSTimeInterval)timeout {
   [self grey_endTouchesAtPoints:@[ _lastInjectedTouchPoint ]
-      timeElapsedSinceLastTouchDelivery:0
+      timeElapsedSinceLastTouchDelivery:kMinimumDelayBetweenTouchPathEvents
                                 timeout:timeout];
 }
 

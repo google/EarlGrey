@@ -153,7 +153,7 @@
 }
 
 /**
- * Tap on a button five times and ensure that it went through by checking a label that is changed
+ * Tap on a button 20 times and ensure that it went through by checking a label that is changed
  * on a button press.
  */
 - (void)testTappingOnSimpleTapView {
@@ -164,6 +164,32 @@
         assertWithMatcher:grey_sufficientlyVisible()];
     [[EarlGrey selectElementWithMatcher:grey_text(@"Button")] performAction:grey_tap()];
   }
+}
+
+/**
+ * Tap on a button 20 times with fast tap events enabled, and ensure that it went through by
+ * checking a label that is changed on a button press.
+ */
+- (void)testFastTapEvents {
+  NSDictionary<NSString *, NSString *> *originalLaunchEnvironment =
+      self.application.launchEnvironment;
+  NSMutableDictionary<NSString *, NSString *> *fastTapLaunchEnvironment =
+      [originalLaunchEnvironment mutableCopy];
+  fastTapLaunchEnvironment[kFastTapEnvironmentVariableName] = @"true";
+
+  self.application.launchEnvironment = fastTapLaunchEnvironment;
+  [self.application launch];
+
+  [self openTestViewNamed:@"Simple Tap View"];
+  for (int i = 0; i < 20; i++) {
+    NSString *text = [NSString stringWithFormat:@"Num Clicks: %d", i];
+    [[EarlGrey selectElementWithMatcher:grey_text(text)]
+        assertWithMatcher:grey_sufficientlyVisible()];
+    [[EarlGrey selectElementWithMatcher:grey_text(@"Button")] performAction:grey_tap()];
+  }
+
+  self.application.launchEnvironment = originalLaunchEnvironment;
+  [self.application launch];
 }
 
 /**

@@ -54,6 +54,8 @@ NSString *const kHostPingSuccessMessage = @"success";
 
 NSString *const kSwiftUIConstant = @"SwiftUI";
 
+NSString *const kFastTapEnvironmentVariableName = @"fast_tap_events";
+
 #if TARGET_IPHONE_SIMULATOR
 const double kGREYAppLaunchTimeout = 300;  // 5 minutes for Simulators.
 #else

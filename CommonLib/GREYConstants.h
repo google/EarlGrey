@@ -103,6 +103,11 @@ GREY_EXTERN NSString* _Nonnull const kHostPingSuccessMessage;
 GREY_EXTERN NSString* _Nonnull const kSwiftUIConstant;
 
 /**
+ * The environment variable name to remove extra delays between touch events.
+ */
+GREY_EXTERN NSString* _Nonnull const kFastTapEnvironmentVariableName;
+
+/**
  * The default pinch angle for the pinch action, specified by an approximate angle for a right
  * handed two finger pinch.
  */

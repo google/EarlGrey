@@ -25,12 +25,46 @@
 #import "GREYFatalAsserts.h"
 #import "GREYThrowDefines.h"
 #import "GREYTouchInfo.h"
+#import "GREYConstants.h"
 #import "GREYLogger.h"
 
 /**
- * The time interval in seconds between each touch injection.
+ * The time interval between frames, assuming a frame rate of 120 FPS.
  */
 static const NSTimeInterval kTouchInjectFramerateInv = 1 / 120.0;
+
+/**
+ * The time interval after the last touch injection.
+ */
+static const NSTimeInterval kDelayAfterLastTouchEvent = kTouchInjectFramerateInv;
+
+/**
+ * The minimal delay between any two touch events.
+ *
+ * Depends on weather the `fast_tap_events` environment variable exists, it could be zero or
+ * `kTouchInjectFramerateInv`.
+ */
+static NSTimeInterval MinimumDelayBetweenTouchEvents(void) {
+  static NSTimeInterval minimumDelay;
+  static dispatch_once_t dispatch_once_predicate;
+  dispatch_once(&dispatch_once_predicate, ^(void) {
+    NSDictionary<NSString *, NSString *> *env = NSProcessInfo.processInfo.environment;
+    minimumDelay = env[kFastTapEnvironmentVariableName] ? 0.0 : kTouchInjectFramerateInv;
+  });
+  return minimumDelay;
+}
+
+/**
+ * Returns the adjusted `touchInfo.deliveryTimeDeltaSinceLastTouch` so it's greater than or equal to
+ * the minimum delay.
+ *
+ * @see MinimumDelayBetweenTouchEvents()
+ */
+static NSTimeInterval AdjustedDeliveryTimeDelta(GREYTouchInfo *touchInfo) {
+  NSTimeInterval minimumDelay = MinimumDelayBetweenTouchEvents();
+  NSTimeInterval originalDelta = touchInfo.deliveryTimeDeltaSinceLastTouch;
+  return originalDelta >= minimumDelay ? originalDelta : minimumDelay;
+}
 
 @implementation GREYTouchInjector {
   // Window to which touches will be delivered.
@@ -107,20 +141,23 @@ static const NSTimeInterval kTouchInjectFramerateInv = 1 / 120.0;
     if (!touchInfo) {
       dispatch_semaphore_signal(waitTouches);
     } else {
-      NSException *injectException;
-      if (![self grey_injectTouches:touchInfo
-                     ongoingTouches:self->_ongoingTouches
-                          exception:&injectException]) {
-        dispatch_semaphore_signal(waitTouches);
-        [injectException raise];
-      } else {
-        touchInfo = touchEnumerator.nextObject;
-        NSTimeInterval deliveryTimeDeltaSinceLastTouch =
-            MAX(touchInfo.deliveryTimeDeltaSinceLastTouch, kTouchInjectFramerateInv);
-        dispatch_time_t nextDeliverTime = dispatch_time(
-            DISPATCH_TIME_NOW, (int64_t)(deliveryTimeDeltaSinceLastTouch * NSEC_PER_SEC));
-        dispatch_after(nextDeliverTime, touchQueue, strongTouchProcessBlock);
-      }
+      do {
+        NSException *injectException;
+        if (![self grey_injectTouches:touchInfo
+                       ongoingTouches:self->_ongoingTouches
+                            exception:&injectException]) {
+          dispatch_semaphore_signal(waitTouches);
+          [injectException raise];
+        } else {
+          touchInfo = touchEnumerator.nextObject;
+        }
+      } while (touchInfo && AdjustedDeliveryTimeDelta(touchInfo) <= 0.0);
+
+      NSTimeInterval deliveryTimeDeltaSinceLastTouch =
+          touchInfo ? AdjustedDeliveryTimeDelta(touchInfo) : kDelayAfterLastTouchEvent;
+      dispatch_time_t nextDeliverTime = dispatch_time(
+          DISPATCH_TIME_NOW, (int64_t)(deliveryTimeDeltaSinceLastTouch * NSEC_PER_SEC));
+      dispatch_after(nextDeliverTime, touchQueue, strongTouchProcessBlock);
     }
   };
   // Move the receiveHandler block to the heap by explicitly copying before assigning it to the
@@ -130,11 +167,11 @@ static const NSTimeInterval kTouchInjectFramerateInv = 1 / 120.0;
   touchProcessBlock = [touchProcessBlock copy];
   weakTouchProcessBlock = touchProcessBlock;
 
-  NSTimeInterval deliveryTimeDeltaSinceLastTouch =
-      MAX(touchInfo.deliveryTimeDeltaSinceLastTouch, kTouchInjectFramerateInv);
+  NSTimeInterval deliveryTimeDeltaBeforeFirstTouch = AdjustedDeliveryTimeDelta(touchInfo);
   dispatch_time_t firstDeliverTime =
-      dispatch_time(DISPATCH_TIME_NOW, (int64_t)(deliveryTimeDeltaSinceLastTouch * NSEC_PER_SEC));
+      dispatch_time(DISPATCH_TIME_NOW, (int64_t)(deliveryTimeDeltaBeforeFirstTouch * NSEC_PER_SEC));
   dispatch_after(firstDeliverTime, touchQueue, touchProcessBlock);
+
   // Now wait for it to finish.
   if (![NSThread isMainThread]) {
     dispatch_time_t waitTimeout =
