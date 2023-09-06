@@ -106,7 +106,7 @@ typedef NS_ENUM(NSInteger, GREYKeyboardDismissalErrorCode) {
  *
  *  @return A GREYElementInteraction instance, initialized with an appropriate matcher.
  */
-- (GREYElementInteraction *)selectElementWithMatcher:(id<GREYMatcher>)elementMatcher;
+- (GREYElementInteraction *)selectElementWithMatcher:(id<GREYMatcher>)elementMatcher NS_WARN_UNUSED_RESULT;
 
 /**
  *  Sets the global failure handler for all framework related failures.
