@@ -364,9 +364,9 @@ module EarlGrey
     def copy_swift_files(project, target, swift_version = nil)
       return unless has_swift?(target) || !swift_version.to_s.empty?
       project_test_targets = project.main_group.children
-      test_target_group = project_test_targets.find { |g| g.display_name == target.name }
+      test_target_group = recursively_find_group_with_name(project_test_targets, target.name)
 
-      raise "Test target group not found! #{test_target_group}" unless test_target_group
+      raise "Test target group not found! An Xcode group with the name '#{target.name}' should exist in your project" unless test_target_group
 
       swift_version ||= '4.0'
       src_root = File.join(__dir__, 'files')
@@ -404,6 +404,26 @@ module EarlGrey
         raise 'EarlGrey.swift not found in testing target' unless earlgrey_swift_file_ref
         target.source_build_phase.add_file_reference earlgrey_swift_file_ref, true
       end
+    end
+
+    # Recursively iterate through the group tree. Will return the first group with a matching name
+    #
+    # @param [Array<PBXGroup>] Array of groups
+    # @param [String] the group name to look for 
+    def recursively_find_group_with_name(groups, name)
+      target_group = groups.find { |g| g.display_name == name }
+      if target_group.nil?
+         groups.each do |group|
+            if group.respond_to?(:children) && !group.children.nil?         
+              target_group = recursively_find_group_with_name(group.children, name)
+            end
+            if !target_group.nil?
+              # Exit early if a group with a matching name has been found
+              break 
+            end
+         end
+      end
+      return target_group
     end
   end
 end
