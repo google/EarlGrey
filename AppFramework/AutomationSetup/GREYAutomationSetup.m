@@ -24,7 +24,9 @@
 
 + (void)load {
   // Force software keyboard.
-  [[UIKeyboardImpl sharedInstance] setAutomaticMinimizationEnabled:NO];
+  dispatch_async(dispatch_get_main_queue(), ^{
+      [[UIKeyboardImpl sharedInstance] setAutomaticMinimizationEnabled:NO];
+  });
 }
 
 @end
