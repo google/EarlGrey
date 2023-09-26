@@ -251,7 +251,7 @@ __unused static Class gScrollViewIndicatorClass;
 - (void)greyswizzled_setAlpha:(CGFloat)alpha {
   INVOKE_ORIGINAL_IMP1(void, @selector(greyswizzled_setAlpha:), alpha);
   // An additional check is added at the end of a setAlpha: call done for a scroll indicator being
-  // hidden. In iOS 13.x, the behavior was updated to have a a block animation called after a timing
+  // hidden. In iOS 13.x, the behavior was updated to have a block animation called after a timing
   // delay.
   // When a touch is added near the bottom end of a scroll view right after an indicator disappears,
   // The touch action seems to be absorbed by the indicators / bringing them up again. The calls
