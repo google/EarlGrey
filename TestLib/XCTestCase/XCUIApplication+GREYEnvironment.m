@@ -20,14 +20,16 @@
 
 - (void)grey_configureApplicationForLaunch {
   NSMutableDictionary<NSString *, NSString *> *mutableEnv = [self.launchEnvironment mutableCopy];
-  NSString *insertionKey = @"DYLD_INSERT_LIBRARIES";
-  NSString *insertionValue = @"@executable_path/Frameworks/AppFramework.framework/AppFramework";
-  NSString *alreadyExistingValue = [mutableEnv valueForKey:insertionKey];
-  NSArray<NSString *> *existingValues = [alreadyExistingValue componentsSeparatedByString:@":"];
-  if (existingValues && ![existingValues containsObject:insertionValue]) {
-    insertionValue = [NSString stringWithFormat:@"%@:%@", alreadyExistingValue, insertionValue];
+  if (![mutableEnv[@"EG_SKIP_INSERT_LIBRARIES"] isEqualToString:@"YES"]) {
+    NSString *insertionKey = @"DYLD_INSERT_LIBRARIES";
+    NSString *insertionValue = @"@executable_path/Frameworks/AppFramework.framework/AppFramework";
+    NSString *alreadyExistingValue = [mutableEnv valueForKey:insertionKey];
+    NSArray<NSString *> *existingValues = [alreadyExistingValue componentsSeparatedByString:@":"];
+    if (existingValues && ![existingValues containsObject:insertionValue]) {
+      insertionValue = [NSString stringWithFormat:@"%@:%@", alreadyExistingValue, insertionValue];
+    }
+    [mutableEnv setObject:insertionValue forKey:insertionKey];
   }
-  [mutableEnv setObject:insertionValue forKey:insertionKey];
 
   // Pass in this flag so logging is enabled for the application process for both NSLog and OSLog.
   mutableEnv[@"OS_ACTIVITY_DT_MODE"] = @"YES";
