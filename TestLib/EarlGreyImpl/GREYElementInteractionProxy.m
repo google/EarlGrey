@@ -125,9 +125,11 @@
                     onElementWithMatcher:(id<GREYMatcher>)matcher {
   GREYThrowOnNilParameterWithMessage(action, @"Action can't be nil.");
   GREYThrowOnNilParameterWithMessage(matcher, @"Matcher can't be nil.");
-  GREYExecuteSyncBlockInBackgroundQueue(^{
-    [self->_remoteElementInteraction usingSearchAction:action onElementWithMatcher:matcher];
-  });
+  // The remote interaction completes the whole execution within the target thread. If this is
+  // changed at remote, the method call below should be wrapped with
+  // `GREYExecuteSyncBlockInBackgroundQueue`, and a completion handler version of this API should be
+  // provided for Swift async test.
+  [self->_remoteElementInteraction usingSearchAction:action onElementWithMatcher:matcher];
   return self;
 }
 
