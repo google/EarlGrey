@@ -15,6 +15,7 @@
 //
 
 #import "GREYAutomationSetup.h"
+#import <Foundation/Foundation.h>
 
 #import "GREYAppleInternals.h"
 
@@ -24,7 +25,26 @@
 
 + (void)load {
   // Force software keyboard.
-  [[UIKeyboardImpl sharedInstance] setAutomaticMinimizationEnabled:NO];
+  static NSArray<NSString *> *legacyTargets;
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    legacyTargets = @[
+    ];
+  });
+  BOOL deferKeyboardChange = YES;
+  NSString *packagePath = NSProcessInfo.processInfo.environment[@"TEST_UNDECLARED_OUTPUTS_DIR"];
+  for (NSString *legacyTarget in legacyTargets) {
+    if ([packagePath containsString:legacyTarget]) {
+      deferKeyboardChange = NO;
+    }
+  }
+  if (deferKeyboardChange) {
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [[UIKeyboardImpl sharedInstance] setAutomaticMinimizationEnabled:NO];
+    });
+  } else {
+    [[UIKeyboardImpl sharedInstance] setAutomaticMinimizationEnabled:NO];
+  }
 }
 
 @end
