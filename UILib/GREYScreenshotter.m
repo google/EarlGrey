@@ -94,10 +94,12 @@ static UIScreen *MainScreen(void) {
   UIScreen *mainScreen = MainScreen();
   if (!mainScreen) return nil;
   UIGraphicsBeginImageContextWithOptions(elementAXFrame.size, NO, mainScreen.scale);
+  // We want to capture the most up-to-date version of the screen here, including the updates that
+  // have been made in the current runloop iteration. Therefore we use `afterScreenUpdates:YES`.
   [self drawViewInContext:UIGraphicsGetCurrentContext()
                      view:viewToSnapshot
                    bounds:elementAXFrame
-       afterScreenUpdates:NO];
+       afterScreenUpdates:YES];
   UIImage *orientedScreenshot = UIGraphicsGetImageFromCurrentImageContext();
   UIGraphicsEndImageContext();
 
