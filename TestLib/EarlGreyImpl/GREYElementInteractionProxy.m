@@ -115,9 +115,11 @@
 
 - (id<GREYInteraction>)inRoot:(id<GREYMatcher>)rootMatcher {
   GREYThrowOnNilParameterWithMessage(rootMatcher, @"Root Matcher can't be nil.");
-  GREYExecuteSyncBlockInBackgroundQueue(^{
-    [self->_remoteElementInteraction inRoot:rootMatcher];
-  });
+  // The remote interaction completes the whole execution within the target thread. If this is
+  // changed at remote, the method call below should be wrapped with
+  // `GREYExecuteSyncBlockInBackgroundQueue`, and a completion handler version of this API should be
+  // provided for Swift async test.
+  [self->_remoteElementInteraction inRoot:rootMatcher];
   return self;
 }
 
@@ -134,16 +136,20 @@
 }
 
 - (id<GREYInteraction>)atIndex:(NSUInteger)index {
-  GREYExecuteSyncBlockInBackgroundQueue(^{
-    [self->_remoteElementInteraction atIndex:index];
-  });
+  // The remote interaction completes the whole execution within the target thread. If this is
+  // changed at remote, the method call below should be wrapped with
+  // `GREYExecuteSyncBlockInBackgroundQueue`, and a completion handler version of this API should be
+  // provided for Swift async test.
+  [self->_remoteElementInteraction atIndex:index];
   return self;
 }
 
 - (id<GREYInteraction>)includeStatusBar {
-  GREYExecuteSyncBlockInBackgroundQueue(^{
-    [self->_remoteElementInteraction includeStatusBar];
-  });
+  // The remote interaction completes the whole execution within the target thread. If this is
+  // changed at remote, the method call below should be wrapped with
+  // `GREYExecuteSyncBlockInBackgroundQueue`, and a completion handler version of this API should be
+  // provided for Swift async test.
+  [self->_remoteElementInteraction includeStatusBar];
   return self;
 }
 
