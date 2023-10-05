@@ -67,30 +67,33 @@
 
 @end
 
-/** Category for UITextInteractionAssistant to call the -setCursorVisible: method on it. */
-@interface UITextInteractionAssistant_GREYApp (Private)
-- (void)setCursorVisible:(BOOL)arg1;
-@end
-
-@implementation UITextInteractionAssistant_GREYApp
+#if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 170000)
+// A new public class in Xcode 15.1+ which provides more information about the cursor.
+@implementation UITextSelectionDisplayInteraction (Private)
 
 + (void)load {
-  if (iOS17_OR_ABOVE()) {
-    GREYSwizzler *swizzler = [[GREYSwizzler alloc] init];
-    SEL swizzledCursorBlinkSelector = @selector(greyswizzled_setCursorBlinks:);
-    IMP implementation = [self instanceMethodForSelector:swizzledCursorBlinkSelector];
-    BOOL swizzled = [swizzler swizzleClass:NSClassFromString(@"UITextInteractionAssistant")
-                         addInstanceMethod:swizzledCursorBlinkSelector
-                        withImplementation:implementation
-              andReplaceWithInstanceMethod:@selector(setCursorBlinks:)];
-    GREYFatalAssertWithMessage(swizzled,
-                               @"Failed to swizzle UITextInteractionAssistant setCursorBlinks:");
+  if (@available(iOS 17.0, *)) {
+    if (iOS17_OR_ABOVE()) {
+      BOOL swizzleSuccess =
+          [[[GREYSwizzler alloc] init] swizzleClass:self
+                              replaceInstanceMethod:@selector(setCursorBlinks:)
+                                         withMethod:@selector(greyswizzled_setCursorBlinks:)];
+      GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle UIView setNeedsDisplay");
+    }
   }
 }
 
-- (void)greyswizzled_setCursorBlinks:(BOOL)arg1 {
-  [self setCursorVisible:NO];
-  INVOKE_ORIGINAL_IMP1(void, @selector(greyswizzled_setCursorBlinks:), NO);
+- (void)greyswizzled_setCursorBlinks:(BOOL)act {
+  if (@available(iOS 17.0, *)) {
+    // Just setting cursorView to hidden does nothing. It was found that setting the subview of
+    // the cursorView to hidden hides the entire cursor. The subview is of class _UIShapeView
+    // as of Xcode 15.1.
+    UIView *shapeView = [[self.cursorView subviews] firstObject];
+    [shapeView setHidden:YES];
+    INVOKE_ORIGINAL_IMP1(void, @selector(greyswizzled_setCursorBlinks:), 0);
+  } else {
+    INVOKE_ORIGINAL_IMP1(void, @selector(greyswizzled_setCursorBlinks:), 0);
+  }
 }
-
 @end
+#endif

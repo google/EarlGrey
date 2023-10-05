@@ -239,8 +239,9 @@
 
 @end
 
+#if (defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 170000)
 /** An internal class similar to UITextSelectionView that is iOS 17+ */
-@interface UITextInteractionAssistant
+@interface UITextSelectionDisplayInteraction (GREYExposed)
 
 /**
  * A method that is called once a UITextInput conforming view is tapped. This only sets the
@@ -250,14 +251,8 @@
  */
 - (void)setCursorBlinks:(BOOL)enabled;
 
-/**
- * A method that is called only when a UITextInput disappears. Is used to turn it off.
- *
- * @param enabled A BOOL specifying if the cursor should be visible or not.
- */
-- (void)setCursorVisible:(BOOL)enabled;
-
 @end
+#endif
 
 /**
  * Simplified block ABI for obtaining the description of a block.

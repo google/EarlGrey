@@ -624,8 +624,14 @@
 - (void)testCursorNotPresent {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
       performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_kindOfClassName(@"UITextSelectionView")]
-      assertWithMatcher:grey_hidden(YES)];
+  id<GREYMatcher> cursorMatcher = nil;
+  if (iOS17_OR_ABOVE()) {
+    cursorMatcher = grey_allOf(grey_ancestor(grey_kindOfClassName(@"_UITextCursorView")),
+                               grey_kindOfClassName(@"_UIShapeView"), nil);
+  } else {
+    cursorMatcher = grey_kindOfClassName(@"UITextSelectionView");
+  }
+  [[EarlGrey selectElementWithMatcher:cursorMatcher] assertWithMatcher:grey_hidden(YES)];
 }
 
 #pragma mark - Private

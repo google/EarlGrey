@@ -25,11 +25,4 @@ NS_ASSUME_NONNULL_BEGIN
 @interface UITextSelectionView_GREYApp : NSObject
 @end
 
-/**
- * EarlGrey additions for UITextInteractionAssistant, an internal iOS 17+ class that contains
- * information for the caret (cursor) in a text related view.
- */
-@interface UITextInteractionAssistant_GREYApp : NSObject
-@end
-
 NS_ASSUME_NONNULL_END
