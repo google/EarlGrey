@@ -137,6 +137,32 @@ class FTRSwiftTests: XCTestCase {
       .perform(grey_typeText("Fooo\u{8}B\u{8}Bar"))
       .assert(grey_text("FooBar"))
   }
+  
+  func testTypingOnUITextView() {
+      self.openTestView("Typing Views")
+      let typingField = grey_accessibilityID("TypingTextView")
+      let charCounter = grey_accessibilityID("charCounter")
+    
+      EarlGrey.selectElement(with: typingField)
+          .perform(grey_typeText("Simple"))
+      EarlGrey.selectElement(with: grey_text("Done"))
+          .perform(grey_tap())
+      EarlGrey.selectElement(with: charCounter)
+          .assert(grey_text("6"))
+  }
+  
+  func testReplacingTextOnUITextView() {
+      self.openTestView("Typing Views")
+      let typingField = grey_accessibilityID("TypingTextView")
+      let charCounter = grey_accessibilityID("charCounter")
+    
+      EarlGrey.selectElement(with: typingField)
+          .perform(grey_replaceText("Simple"))
+      EarlGrey.selectElement(with: grey_text("Done"))
+          .perform(grey_tap())
+      EarlGrey.selectElement(with: charCounter)
+          .assert(grey_text("6"))
+  }
 
   func testButtonPressWithGREYAllOf() {
     self.openTestView("Basic Views")
