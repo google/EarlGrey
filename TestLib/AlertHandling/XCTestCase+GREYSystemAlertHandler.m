@@ -32,8 +32,11 @@
 static NSString *const kSystemAlertLabelCamera = @"Camera";
 /**
  * Text denoting part of the Photos System Alert.
+ *
+ * Pre iOS 17 versions contain plural "Photos" in the alert dialog.
+ * From iOS 17 the title is changed to a singular "Photo".
  */
-static NSString *const kSystemAlertLabelPhotos = @"Photos";
+static NSString *const kSystemAlertLabelPhotos = @"Photo";
 /**
  * Text denoting part of the Microphone System Alert.
  * TODO: Add functional tests for this. // NOLINT
