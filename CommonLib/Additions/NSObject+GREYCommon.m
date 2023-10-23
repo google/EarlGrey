@@ -99,9 +99,15 @@
                                                                         withPrefix:@"; AX.value="]];
   }
 
+  BOOL addedBlankImageLabel = NO;
   // Accessibility frame.
   if ([self respondsToSelector:@selector(accessibilityFrame)]) {
-    [description appendFormat:@"; AX.frame=%@", NSStringFromCGRect(self.accessibilityFrame)];
+    CGRect axFrame = self.accessibilityFrame;
+    [description appendFormat:@"; AX.frame=%@", NSStringFromCGRect(axFrame)];
+    if (CGRectGetWidth(axFrame) == 0 || CGRectGetHeight(axFrame) == 0) {
+      [description appendString:@" ||Blank View|| "];
+      addedBlankImageLabel = YES;
+    }
   }
 
   // Is Accessibility View Modal.
@@ -132,7 +138,12 @@
     UIView *selfAsView = (UIView *)self;
 
     // View frame.
-    [description appendFormat:@"; frame=%@", NSStringFromCGRect(selfAsView.frame)];
+    CGRect frame = selfAsView.frame;
+    [description appendFormat:@"; frame=%@", NSStringFromCGRect(frame)];
+    if (!addedBlankImageLabel && (CGRectGetWidth(frame) == 0 || CGRectGetHeight(frame) == 0)) {
+      [description appendString:@" ||Blank View|| "];
+      addedBlankImageLabel = YES;
+    }
 
     // Visual properties.
     if (selfAsView.isOpaque) {
