@@ -38,43 +38,47 @@
 
 - (void)testRotateToUnsupportedOrientation {
   UIApplication *sharedApp = [GREY_REMOTE_CLASS_IN_APP(UIApplication) sharedApplication];
+  UIWindowScene *scene = sharedApp.windows.firstObject.windowScene;
   if (@available(iOS 16, *)) {
     NSError *error;
     [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeLeft error:&error];
     XCTAssertNotNil(error, @"Unsupported orientations should error out in iOS 16+.");
-    GREYAssertEqual(sharedApp.statusBarOrientation, UIInterfaceOrientationPortrait,
-                    @"Interface orientation should remain portrait");
+
+    GREYAssertTrue(UIInterfaceOrientationIsPortrait(scene.interfaceOrientation),
+                   @"Interface orientation should remain portrait");
   } else {
     [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeLeft error:nil];
     UIDeviceOrientation appOrientation =
         [GREY_REMOTE_CLASS_IN_APP(UIDevice) currentDevice].orientation;
     GREYAssertEqual(appOrientation, UIDeviceOrientationLandscapeLeft,
                     @"Device orientation should now be landscape left");
-    GREYAssertEqual(sharedApp.statusBarOrientation, UIInterfaceOrientationPortrait,
-                    @"Interface orientation should remain portrait");
+    GREYAssertTrue(UIInterfaceOrientationIsPortrait(scene.interfaceOrientation),
+                   @"Interface orientation should remain portrait");
   }
 }
 
 - (void)testDeviceChangeWithoutInterfaceChange {
   UIApplication *sharedApp = [GREY_REMOTE_CLASS_IN_APP(UIApplication) sharedApplication];
+  UIWindowScene *scene = sharedApp.windows.firstObject.windowScene;
   if (@available(iOS 16, *)) {
     NSError *error;
     [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeLeft error:&error];
     XCTAssertNotNil(error, @"Unsupported orientations should error out in iOS 16+.");
-    GREYAssertEqual(sharedApp.statusBarOrientation, UIInterfaceOrientationPortrait,
+
+    GREYAssertEqual(scene.interfaceOrientation, UIInterfaceOrientationPortrait,
                     @"Interface orientation should remain portrait");
   } else {
     [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeLeft error:nil];
-    GREYAssertEqual(sharedApp.statusBarOrientation, UIInterfaceOrientationPortrait,
-                    @"Interface orientation should be portrait.");
+    GREYAssertTrue(UIInterfaceOrientationIsPortrait(scene.interfaceOrientation),
+                   @"Interface orientation should be portrait.");
 
     [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait error:nil];
     UIDeviceOrientation appOrientation =
         [GREY_REMOTE_CLASS_IN_APP(UIDevice) currentDevice].orientation;
     GREYAssertEqual(appOrientation, UIDeviceOrientationPortrait,
                     @"Device orientation should now be portrait");
-    GREYAssertEqual(sharedApp.statusBarOrientation, UIInterfaceOrientationPortrait,
-                    @"Interface orientation should remain portrait");
+    GREYAssertTrue(UIInterfaceOrientationIsPortrait(scene.interfaceOrientation),
+                   @"Interface orientation should remain portrait");
   }
 }
 

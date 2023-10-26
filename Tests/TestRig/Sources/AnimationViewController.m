@@ -160,12 +160,15 @@ typedef NS_ENUM(NSUInteger, AnimationStatus) {
 
 - (IBAction)beginIgnoringEventsClicked:(id)sender {
 #if !defined(TARGET_OS_XR) || (defined(TARGET_OS_XR) && !TARGET_OS_XR)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
   [UIApplication.sharedApplication beginIgnoringInteractionEvents];
   dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)),
                  dispatch_get_main_queue(), ^{
                    [UIApplication.sharedApplication endIgnoringInteractionEvents];
                    self.animationStatusLabel.text = @"EndIgnoringEvents";
                  });
+#pragma clang diagnostic pop
 #endif  // !defined(TARGET_OS_XR) || (defined(TARGET_OS_XR) && !TARGET_OS_XR)
 }
 

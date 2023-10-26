@@ -27,8 +27,8 @@
 
 - (void)setUp {
   [super setUp];
-  _originalOrientation =
-      [[GREY_REMOTE_CLASS_IN_APP(UIApplication) sharedApplication] statusBarOrientation];
+  UIApplication *sharedApp = [GREY_REMOTE_CLASS_IN_APP(UIApplication) sharedApplication];
+  _originalOrientation = sharedApp.windows.firstObject.windowScene.interfaceOrientation;
 }
 
 - (void)tearDown {

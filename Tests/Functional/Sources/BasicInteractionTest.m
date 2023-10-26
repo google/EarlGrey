@@ -909,8 +909,8 @@
  * Perform typing in a text field and assert the typed value.
  */
 - (void)testSettingAndResettingRootWindow {
-  [[GREY_REMOTE_CLASS_IN_APP(UIApplication) sharedApplication] keyWindow].accessibilityIdentifier =
-      @"Main Window";
+  UIWindow *mainWindow = [GREY_REMOTE_CLASS_IN_APP(GREYUILibUtils) window];
+  mainWindow.accessibilityIdentifier = @"Main Window";
   [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
   [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_tap()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")] performAction:grey_tap()];

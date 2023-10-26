@@ -14,7 +14,10 @@
 // limitations under the License.
 //
 
+#import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+
+NS_ASSUME_NONNULL_BEGIN
 
 // Contains classes that are used for testing typing actions with views that conforms to UITextInput
 // protocol other than UITextField and UITextView.
@@ -61,3 +64,5 @@
 @property(nonatomic, weak) id<UITextInputDelegate> inputDelegate;
 
 @end
+
+NS_ASSUME_NONNULL_END

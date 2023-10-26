@@ -159,9 +159,9 @@
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeRight error:nil];
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait error:nil];
 
-  if ([UIApplication sharedApplication]
-          .keyWindow.rootViewController.supportedInterfaceOrientations ==
-      UIInterfaceOrientationMaskAll) {
+  UIWindow *mainWindow = [GREY_REMOTE_CLASS_IN_APP(GREYUILibUtils) window];
+  BOOL hasNotch = mainWindow.safeAreaInsets.bottom > 0;
+  if (!hasNotch) {
     [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortraitUpsideDown error:nil];
   }
 }

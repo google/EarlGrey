@@ -313,13 +313,12 @@
 }
 
 #if !defined(TARGET_OS_XR) || (defined(TARGET_OS_XR) && !TARGET_OS_XR)
-- (UITextWritingDirection)baseWritingDirectionForPosition:(UITextPosition *)position
-                                              inDirection:(UITextStorageDirection)direction {
-  return UITextWritingDirectionLeftToRight;
+- (NSWritingDirection)baseWritingDirectionForPosition:(UITextPosition *)position
+                                          inDirection:(UITextStorageDirection)direction {
+  return NSWritingDirectionLeftToRight;
 }
 
-- (void)setBaseWritingDirection:(UITextWritingDirection)writingDirection
-                       forRange:(UITextRange *)range {
+- (void)setBaseWritingDirection:(NSWritingDirection)writingDirection forRange:(UITextRange *)range {
   // Required method. Does nothing. Add code if needed
 }
 #endif  // !defined(TARGET_OS_XR) || (defined(TARGET_OS_XR) && !TARGET_OS_XR)

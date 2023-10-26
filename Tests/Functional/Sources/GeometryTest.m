@@ -38,8 +38,8 @@
     return;
   }
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortraitUpsideDown error:nil];
-  BOOL hasNotch = [[GREY_REMOTE_CLASS_IN_APP(UIApplication) sharedApplication] keyWindow]
-                      .safeAreaInsets.bottom > 0;
+  UIWindow *mainWindow = [GREY_REMOTE_CLASS_IN_APP(GREYUILibUtils) window];
+  BOOL hasNotch = mainWindow.safeAreaInsets.bottom > 0;
   UIScreen *mainScreen = (UIScreen *)[GREY_REMOTE_CLASS_IN_APP(GREYUILibUtils) screen];
   CGRect screenBounds = mainScreen.bounds;
   CGFloat width = CGRectGetWidth(screenBounds);
@@ -129,8 +129,7 @@
     return;
   }
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortraitUpsideDown error:nil];
-  BOOL hasNotch = [[GREY_REMOTE_CLASS_IN_APP(UIApplication) sharedApplication] keyWindow]
-                      .safeAreaInsets.bottom > 0;
+  BOOL hasNotch = [GREY_REMOTE_CLASS_IN_APP(GREYUILibUtils) window].safeAreaInsets.bottom > 0;
   UIScreen *mainScreen = (UIScreen *)[GREY_REMOTE_CLASS_IN_APP(GREYUILibUtils) screen];
   CGRect screenBounds = mainScreen.bounds;
   CGFloat width = CGRectGetWidth(screenBounds);
