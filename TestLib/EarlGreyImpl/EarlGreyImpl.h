@@ -194,8 +194,8 @@ typedef void (^GREYHostApplicationCrashHandler)(void);
 - (BOOL)shakeDeviceWithError:(NSError **)error;
 
 /**
- * Returns a @c BOOL that tells if the Keyboard is shown. This is not synchronous. Please ensure
- * that any changes
+ * Returns a @c BOOL that tells if the Keyboard is shown. This is not synchronous and should be
+ * wrapped in a GREYAssert...() call.
  *
  * @param[out] error Error that will be populated if the app does not idle in time.
  */
