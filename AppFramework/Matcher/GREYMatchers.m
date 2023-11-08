@@ -213,7 +213,8 @@ static NSString *const kActivitySheetContainerClass = @"_UISceneLayerHostContain
 + (id<GREYMatcher>)matcherForAccessibilityValue:(NSString *)value {
   NSString *prefix = @"accessibilityValue";
   GREYMatchesBlock matches = ^BOOL(NSObject *element) {
-    if (element.accessibilityValue == value) {
+    NSString *accessibilityValue = element.accessibilityValue ?: @"";
+    if ([accessibilityValue isEqualToString:value]) {
       return YES;
     }
     return [self accessibilityString:element.accessibilityValue isEqualToAccessibilityString:value];
