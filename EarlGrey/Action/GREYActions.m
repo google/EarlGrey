@@ -28,6 +28,7 @@
 #import "Action/GREYScrollToContentEdgeAction.h"
 #import "Action/GREYSlideAction.h"
 #import "Action/GREYSwipeAction.h"
+#import "Action/GREYPreciseSwipeAction.h"
 #import "Action/GREYTapAction.h"
 #import "Additions/NSError+GREYAdditions.h"
 #import "Additions/NSObject+GREYAdditions.h"
@@ -86,6 +87,20 @@ static const CFTimeInterval kJavaScriptTimeoutSeconds = 60;
                                            duration:kGREYSwipeSlowDuration
                                       startPercents:CGPointMake(xOriginStartPercentage,
                                                                 yOriginStartPercentage)];
+}
+
++ (id<GREYAction>)actionForSwipeFastWithStartPoint:(CGPoint)startPoint
+                                          endPoint:(CGPoint)endPoint {
+  return [[GREYPreciseSwipeAction alloc] initWithStartPoint:startPoint
+                                                   endPoint:endPoint
+                                                   duration:kGREYSwipeFastDuration];
+}
+
++ (id<GREYAction>)actionForSwipeSlowWithStartPoint:(CGPoint)startPoint
+                                          endPoint:(CGPoint)endPoint {
+  return [[GREYPreciseSwipeAction alloc] initWithStartPoint:startPoint
+                                                   endPoint:endPoint
+                                                   duration:kGREYSwipeSlowDuration];
 }
 
 + (id<GREYAction>)actionForMultiFingerSwipeSlowInDirection:(GREYDirection)direction
@@ -687,6 +702,18 @@ id<GREYAction> grey_swipeSlowInDirectionWithStartPoint(GREYDirection direction,
   return [GREYActions actionForSwipeSlowInDirection:direction
                              xOriginStartPercentage:xOriginStartPercentage
                              yOriginStartPercentage:yOriginStartPercentage];
+}
+
+id<GREYAction> grey_swipeFastFromStartToEndPoint(CGPoint startPoint,
+                                                 CGPoint endPoint) {
+  return [GREYActions actionForSwipeFastWithStartPoint:startPoint
+                                              endPoint:endPoint];
+}
+
+id<GREYAction> grey_swipeSlowFromStartToEndPoint(CGPoint startPoint,
+                                                 CGPoint endPoint) {
+  return [GREYActions actionForSwipeSlowWithStartPoint:startPoint
+                                              endPoint:endPoint];
 }
 
 id<GREYAction> grey_multiFingerSwipeSlowInDirection(GREYDirection direction,

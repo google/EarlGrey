@@ -74,6 +74,7 @@
 		7C38A9671E1C800B00E37A8F /* GREYErrorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C38A9661E1C800B00E37A8F /* GREYErrorTest.m */; };
 		7CA881CC1E1D888E00EE18D4 /* GREYObjectFormatterTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CA881CB1E1D888E00EE18D4 /* GREYObjectFormatterTest.m */; };
 		7CA881D61E1DBFBE00EE18D4 /* GREYFailureFormatterTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CA881D51E1DBFBE00EE18D4 /* GREYFailureFormatterTest.m */; };
+		F8C4A4B920BBDC66008941DC /* GREYPreciseSwipeActionTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F8C4A4B820BBDC66008941DC /* GREYPreciseSwipeActionTest.m */; };
 		F9C5093F1D11E9CF00D4FDED /* GREYTestHelperTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F9C5093E1D11E9CF00D4FDED /* GREYTestHelperTest.m */; };
 		FD1948341DA232E000B9BA2D /* GREYStopwatchTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD19482C1DA2324200B9BA2D /* GREYStopwatchTest.m */; };
 		FD4AB2B61D23181400D0C44D /* GREYAnalyticsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1BCE911D1B3F0B0069D0C6 /* GREYAnalyticsTest.m */; };
@@ -244,6 +245,7 @@
 		7C38A9661E1C800B00E37A8F /* GREYErrorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYErrorTest.m; sourceTree = "<group>"; };
 		7CA881CB1E1D888E00EE18D4 /* GREYObjectFormatterTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYObjectFormatterTest.m; sourceTree = "<group>"; };
 		7CA881D51E1DBFBE00EE18D4 /* GREYFailureFormatterTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYFailureFormatterTest.m; sourceTree = "<group>"; };
+		F8C4A4B820BBDC66008941DC /* GREYPreciseSwipeActionTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GREYPreciseSwipeActionTest.m; sourceTree = "<group>"; };
 		F9C5093E1D11E9CF00D4FDED /* GREYTestHelperTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYTestHelperTest.m; sourceTree = "<group>"; };
 		FD19482C1DA2324200B9BA2D /* GREYStopwatchTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYStopwatchTest.m; sourceTree = "<group>"; };
 		FD1BCE911D1B3F0B0069D0C6 /* GREYAnalyticsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYAnalyticsTest.m; sourceTree = "<group>"; };
@@ -333,6 +335,7 @@
 				59467EC31C9379DE0089498B /* GREYScrollActionTest.m */,
 				6113A2F01D7F74F400443D9B /* GREYStringDescriptionTest.m */,
 				59467EC51C9379DE0089498B /* GREYSwipeActionTest.m */,
+				F8C4A4B820BBDC66008941DC /* GREYPreciseSwipeActionTest.m */,
 				59467EC61C9379DE0089498B /* GREYSwizzlerTest.m */,
 				59467EC71C9379DE0089498B /* GREYSyncAPITest.m */,
 				59467EC81C9379DE0089498B /* GREYTimedIdlingResourceTest.m */,
@@ -633,6 +636,7 @@
 				598B73E61DDC2465007DB8AF /* EarlGreyTest.m in Sources */,
 				594A1A2C1D8BB8F500625FB3 /* NSURL+GREYAdditionsTest.m in Sources */,
 				59467F111C9379FC0089498B /* CAAnimation+GREYAdditionsTest.m in Sources */,
+				F8C4A4B920BBDC66008941DC /* GREYPreciseSwipeActionTest.m in Sources */,
 				59467F121C9379FC0089498B /* CALayer+GREYAdditionsTest.m in Sources */,
 				59467F131C9379FC0089498B /* CGGeometry+GREYAdditionsTest.m in Sources */,
 				59467F141C9379FC0089498B /* GREYActionsTest.m in Sources */,
