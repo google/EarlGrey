@@ -15,7 +15,6 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "XCTest/XCTest.h"
 
 #import "EarlGrey.h"
 #import "BaseIntegrationTest.h"
