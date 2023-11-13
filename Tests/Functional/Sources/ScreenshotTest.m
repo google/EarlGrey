@@ -164,17 +164,17 @@
   EDORemoteVariable<UIImage *> *snapshot = [[EDORemoteVariable alloc] init];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Basic Views")]
       performAction:grey_snapshot(snapshot)];
-  XCTAssertFalse([[snapshot.object accessibilityHint] containsString:@"KeyboardFrame"]);
+  XCTAssertTrue([[snapshot.object accessibilityHint] containsString:@"Frame"]);
 
   [self openTestViewNamed:@"Basic Views"];
   [[EarlGrey selectElementWithMatcher:grey_keyWindow()] performAction:grey_snapshot(snapshot)];
-  XCTAssertFalse([[snapshot.object accessibilityHint] containsString:@"KeyboardFrame"]);
+  XCTAssertTrue([[snapshot.object accessibilityHint] containsString:@"Frame"]);
 
   [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_tap()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
       performAction:grey_typeText(@"hi")];
   [[EarlGrey selectElementWithMatcher:grey_keyWindow()] performAction:grey_snapshot(snapshot)];
-  XCTAssertTrue([[snapshot.object accessibilityHint] containsString:@"KeyboardFrame"]);
+  XCTAssertTrue([[snapshot.object accessibilityHint] containsString:@"Frame"]);
 }
 
 #pragma mark - Private
