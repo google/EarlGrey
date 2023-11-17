@@ -181,7 +181,12 @@ static void InitiateCommunicationWithTest(void) {
                                @"EarlGrey's app component has been launched without edoPort "
                                @"assigned. You are probably running the application under test by "
                                @"itself, which does not work since the embedded EarlGrey component "
-                               @"needs its test counterpart present. ");
+                               @"needs its test counterpart present.\n\n"
+                               @"If this is a unit test and you need to add EarlGrey AppFramework "
+                               @"as the dependency for linking, please make sure your code imports "
+                               @"ExposedForTesting.h instead of EarlGreyApp.h, then add EarlGrey "
+                               @"TestLib to your unit test target. If you have any question "
+                               @"regarding this, please contact EarlGrey team.");
   }
   return gGREYPortForTestApplication;
 }
