@@ -54,11 +54,11 @@
 - (void)testStyledAlertView {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Styled Alert")] performAction:grey_tap()];
 
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Login")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Login")]
       performAction:grey_typeText(@"test_user")];
   [[EarlGrey selectElementWithMatcher:grey_text(@"test_user")] assertWithMatcher:grey_notNil()];
 
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Password")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Password")]
       performAction:grey_typeText(@"test_pwd")];
   [[EarlGrey selectElementWithMatcher:grey_text(@"test_pwd")] assertWithMatcher:grey_notNil()];
 

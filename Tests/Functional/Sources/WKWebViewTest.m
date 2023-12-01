@@ -31,7 +31,7 @@
 
 /** Tests scrolling down on a web view. */
 - (void)testScrollingWKWebViewWithEarlGrey {
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"loadHTMLString")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"loadHTMLString")]
       performAction:grey_tap()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TestWKWebView")]
       performAction:grey_scrollInDirection(kGREYDirectionDown, 20)];
@@ -39,7 +39,7 @@
 
 /** Tests scrolling to the bottom edge on a web view. */
 - (void)testScrollingToContentEdgeWithWKWebViewWithEarlGrey {
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"loadHTMLString")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"loadHTMLString")]
       performAction:grey_tap()];
   id<GREYInteraction> webViewInteraction =
       [EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TestWKWebView")];

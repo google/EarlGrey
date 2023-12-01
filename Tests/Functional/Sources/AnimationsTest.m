@@ -44,30 +44,30 @@
 }
 
 - (void)testUIViewAnimation {
-  [[[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"UIViewAnimationControl")]
+  [[[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"UIViewAnimationControl")]
       performAction:grey_tap()] assertWithMatcher:grey_buttonTitle(@"Started")];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AnimationStatus")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationStatus")]
       assertWithMatcher:grey_text(@"UIView animation finished")];
 }
 
 - (void)testPausedAnimations {
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AnimationStatus")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationStatus")]
       assertWithMatcher:grey_text(@"Stopped")];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AnimationControl")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationControl")]
       performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AnimationStatus")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationStatus")]
       assertWithMatcher:grey_text(@"Paused")];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AnimationControl")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationControl")]
       performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AnimationStatus")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationStatus")]
       assertWithMatcher:grey_notVisible()];
 }
 
 - (void)testAnimationsNotPresentStringInHierarchyOnUnrelatedFailure {
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AnimationStatus")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationStatus")]
       assertWithMatcher:grey_text(@"Stopped")];
   NSError *error;
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"GarbageValue")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"GarbageValue")]
       assertWithMatcher:grey_notNil()
                   error:&error];
   NSString *animationHeaderString = @"**** Currently Animating Elements: ****";
@@ -82,14 +82,14 @@
  * layer is added.
  */
 - (void)testAnimatingElementInfoForAnimatingView {
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AnimationStatus")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationStatus")]
       assertWithMatcher:grey_text(@"Stopped")];
   [[GREYConfiguration sharedConfiguration] setValue:@(0.5)
                                        forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AnimationControl")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationControl")]
       performAction:grey_tap()];
   NSError *error;
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AnimationStatus")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationStatus")]
       assertWithMatcher:grey_text(@"Paused")
                   error:&error];
   XCTAssertNotNil(error);
@@ -109,7 +109,7 @@
  * different view's hierarchy.
  */
 - (void)testAnimatingElementInfoForSingleAnimatingSublayer {
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AnimationStatus")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationStatus")]
       assertWithMatcher:grey_text(@"Stopped")];
   UIWindow *mainWindow =
       [[[GREY_REMOTE_CLASS_IN_APP(UIApplication) sharedApplication] windows] firstObject];
@@ -119,7 +119,7 @@
   [[GREYConfiguration sharedConfiguration] setValue:@(0.5)
                                        forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
   NSError *error;
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AnimationStatus")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationStatus")]
       assertWithMatcher:grey_text(@"Paused")
                   error:&error];
   XCTAssertNotNil(error);
@@ -139,7 +139,7 @@
  * the same view's hierarchy.
  */
 - (void)testAnimatingElementInfoTwoDifferentUIViewAnimatingSublayers {
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AnimationStatus")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationStatus")]
       assertWithMatcher:grey_text(@"Stopped")];
   UIWindow *mainWindow =
       [[[GREY_REMOTE_CLASS_IN_APP(UIApplication) sharedApplication] windows] firstObject];
@@ -152,7 +152,7 @@
   [[GREYConfiguration sharedConfiguration] setValue:@(0.5)
                                        forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
   NSError *error;
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AnimationStatus")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationStatus")]
       assertWithMatcher:grey_text(@"Paused")
                   error:&error];
   XCTAssertNotNil(error);
@@ -170,7 +170,7 @@
  * Checks the error description to ensure animation info for sublayers is added.
  */
 - (void)testAnimatingElementInfoOneUIViewWithSubViewAnimations {
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AnimationStatus")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationStatus")]
       assertWithMatcher:grey_text(@"Stopped")];
   UIWindow *mainWindow =
       [[[GREY_REMOTE_CLASS_IN_APP(UIApplication) sharedApplication] windows] firstObject];
@@ -183,7 +183,7 @@
   [[GREYConfiguration sharedConfiguration] setValue:@(0.5)
                                        forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
   NSError *error;
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AnimationStatus")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationStatus")]
       assertWithMatcher:grey_text(@"Paused")
                   error:&error];
   XCTAssertNotNil(error);
@@ -238,14 +238,14 @@
 - (void)testChainedAnimation {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Start UIView Chained Animation")]
       performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"viewToToggle")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"viewToToggle")]
       assertWithMatcher:grey_notVisible()];
 }
 
 - (void)testBeginEndIgnoringEvents {
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"BeginIgnoringEvents")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"BeginIgnoringEvents")]
       performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AnimationStatus")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationStatus")]
       assertWithMatcher:grey_text(@"EndIgnoringEvents")];
 }
 
@@ -262,12 +262,12 @@
 - (void)testErrorContainsBlockInformation {
   if (@available(iOS 13, *)) {
     [GREY_REMOTE_CLASS_IN_APP(UIView) printAnimationsBlockPointer:YES];
-    [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"UIViewAnimationControl")]
+    [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"UIViewAnimationControl")]
         performAction:grey_tap()];
     [[GREYConfiguration sharedConfiguration] setValue:@(0)
                                          forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
     NSError *error;
-    [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AnimationStatus")]
+    [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationStatus")]
         assertWithMatcher:grey_text(@"UIView animation finished")
                     error:&error];
     NSString *buttonBlockInfo = @"_beginTitleAnimation]_block_invoke";

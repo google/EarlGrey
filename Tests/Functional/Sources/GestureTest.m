@@ -30,62 +30,62 @@
 }
 
 - (void)testSingleTap {
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Grey Box")]
       performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"single tap")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"single tap")]
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
 - (void)testSingleTapAtPoint {
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Grey Box")]
       performAction:grey_tapAtPoint(CGPointMake(12.0, 50.0))];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"single tap")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"single tap")]
       assertWithMatcher:grey_sufficientlyVisible()];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"x:12.0 - y:50.0")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"x:12.0 - y:50.0")]
       assertWithMatcher:grey_sufficientlyVisible()];
 
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Grey Box")]
       performAction:grey_tapAtPoint(CGPointZero)];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"single tap")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"single tap")]
       assertWithMatcher:grey_sufficientlyVisible()];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"x:0.0 - y:0.0")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"x:0.0 - y:0.0")]
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
 - (void)testDoubleTap {
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Grey Box")]
       performAction:grey_doubleTap()];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"double tap")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"double tap")]
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
 - (void)testDoubleTapAtPoint {
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Grey Box")]
       performAction:grey_doubleTapAtPoint(CGPointMake(50, 50))];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"double tap")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"double tap")]
       assertWithMatcher:grey_sufficientlyVisible()];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"x:50.0 - y:50.0")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"x:50.0 - y:50.0")]
       assertWithMatcher:grey_sufficientlyVisible()];
 
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Grey Box")]
       performAction:grey_doubleTapAtPoint(CGPointMake(125, 10))];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"double tap")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"double tap")]
       assertWithMatcher:grey_sufficientlyVisible()];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"x:125.0 - y:10.0")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"x:125.0 - y:10.0")]
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
 - (void)testLongPress {
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Grey Box")]
       performAction:grey_longPress()];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"single long press")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"single long press")]
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
 - (void)testLongPressWithDuration {
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Grey Box")]
       performAction:grey_longPressWithDuration(1.0)];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"single long press")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"single long press")]
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
@@ -93,7 +93,7 @@
   EDORemoteVariable<NSValue *> *remoteBounds = [[EDORemoteVariable alloc] init];
   id<GREYAction> boundsFinder =
       [GREYHostApplicationDistantObject.sharedInstance actionForFindingElementBounds:remoteBounds];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Grey Box")]
       performAction:boundsFinder];
 
   CGRect targetBounds = remoteBounds.object.CGRectValue;
@@ -105,16 +105,16 @@
                               CGPointMake(midX, CGRectGetMinY(targetBounds) - 1),
                               CGPointMake(midX, CGRectGetMaxY(targetBounds) + 1)};
   for (NSInteger i = 0; i < 4; i++) {
-    [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
+    [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Grey Box")]
         performAction:grey_longPressAtPointWithDuration(outsidePoints[i], 1.0)];
-    [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"single long press")]
+    [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"single long press")]
         assertWithMatcher:grey_nil()];
   }
 
   // Verify that tapping inside the bounds causes the long press.
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Grey Box")]
       performAction:grey_longPressAtPointWithDuration(CGPointMake(midX, midX), 1.0)];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"single long press")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"single long press")]
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
@@ -142,51 +142,51 @@
 }
 
 - (void)testSwipeOnWindow {
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Window swipes start here")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Window swipes start here")]
       performAction:grey_swipeFastInDirection(kGREYDirectionUp)];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"swipe up on window")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"swipe up on window")]
       assertWithMatcher:grey_sufficientlyVisible()];
 
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Window swipes start here")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Window swipes start here")]
       performAction:grey_swipeFastInDirection(kGREYDirectionDown)];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"swipe down on window")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"swipe down on window")]
       assertWithMatcher:grey_sufficientlyVisible()];
 
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Window swipes start here")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Window swipes start here")]
       performAction:grey_swipeFastInDirection(kGREYDirectionLeft)];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"swipe left on window")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"swipe left on window")]
       assertWithMatcher:grey_sufficientlyVisible()];
 
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Window swipes start here")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Window swipes start here")]
       performAction:grey_swipeFastInDirection(kGREYDirectionRight)];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"swipe right on window")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"swipe right on window")]
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
 - (void)testSwipeWithLocationForAllDirections {
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Grey Box")]
       performAction:grey_swipeFastInDirectionWithStartPoint(kGREYDirectionUp, 0.25, 0.25)];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"swipe up")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"swipe up")]
       assertWithMatcher:grey_sufficientlyVisible()];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"x:54.0 - y:49.0")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"x:54.0 - y:49.0")]
       assertWithMatcher:grey_sufficientlyVisible()];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Grey Box")]
       performAction:grey_swipeFastInDirectionWithStartPoint(kGREYDirectionDown, 0.75, 0.75)];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"swipe down")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"swipe down")]
       assertWithMatcher:grey_sufficientlyVisible()];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"x:162.0 - y:147.0")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"x:162.0 - y:147.0")]
       assertWithMatcher:grey_sufficientlyVisible()];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Grey Box")]
       performAction:grey_swipeFastInDirectionWithStartPoint(kGREYDirectionLeft, 0.875, 0.5)];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"swipe left")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"swipe left")]
       assertWithMatcher:grey_sufficientlyVisible()];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"x:189.0 - y:98.0")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"x:189.0 - y:98.0")]
       assertWithMatcher:grey_sufficientlyVisible()];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Grey Box")]
       performAction:grey_swipeFastInDirectionWithStartPoint(kGREYDirectionRight, 0.125, 0.75)];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"swipe right")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"swipe right")]
       assertWithMatcher:grey_sufficientlyVisible()];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"x:27.0 - y:147.0")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"x:27.0 - y:147.0")]
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
@@ -218,19 +218,19 @@
 // Asserts that swipe works in all directions by verifying if the swipe gestures are correctly
 // recognized.
 - (void)assertSwipeWorksInAllDirections {
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Grey Box")]
       performAction:grey_swipeFastInDirection(kGREYDirectionUp)];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"gesture")]
       assertWithMatcher:grey_text(@"swipe up")];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Grey Box")]
       performAction:grey_swipeSlowInDirection(kGREYDirectionDown)];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"gesture")]
       assertWithMatcher:grey_text(@"swipe down")];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Grey Box")]
       performAction:grey_swipeFastInDirection(kGREYDirectionLeft)];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"gesture")]
       assertWithMatcher:grey_text(@"swipe left")];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Grey Box")]
       performAction:grey_swipeSlowInDirection(kGREYDirectionRight)];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"gesture")]
       assertWithMatcher:grey_text(@"swipe right")];
@@ -239,12 +239,12 @@
 // Asserts that Pinch works in all directions by verifying if the pinch gestures are correctly
 // recognized.
 - (void)assertPinchWorksInAllDirections {
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Grey Box")]
       performAction:grey_pinchFastInDirectionAndAngle(kGREYPinchDirectionOutward,
                                                       kGREYPinchAngleDefault)];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"gesture")]
       assertWithMatcher:grey_text(@"pinch out")];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Grey Box")]
       performAction:grey_pinchSlowInDirectionAndAngle(kGREYPinchDirectionInward,
                                                       kGREYPinchAngleDefault)];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"gesture")]

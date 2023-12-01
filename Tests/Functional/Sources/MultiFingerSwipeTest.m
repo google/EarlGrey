@@ -32,28 +32,28 @@
 - (void)testTwoFingerSwipeLeft {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"gestureRecognizerBox")]
       performAction:grey_multiFingerSwipeFastInDirection(kGREYDirectionLeft, 2)];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Swiped with 2 fingers Left")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Swiped with 2 fingers Left")]
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
 - (void)testTwoFingerSwipeRight {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"gestureRecognizerBox")]
       performAction:grey_multiFingerSwipeFastInDirection(kGREYDirectionRight, 2)];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Swiped with 2 fingers Right")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Swiped with 2 fingers Right")]
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
 - (void)testTwoFingerSwipeUp {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"gestureRecognizerBox")]
       performAction:grey_multiFingerSwipeFastInDirection(kGREYDirectionUp, 2)];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Swiped with 2 fingers Up")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Swiped with 2 fingers Up")]
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
 - (void)testTwoFingerSwipeDown {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"gestureRecognizerBox")]
       performAction:grey_multiFingerSwipeFastInDirection(kGREYDirectionDown, 2)];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Swiped with 2 fingers Down")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Swiped with 2 fingers Down")]
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
@@ -62,28 +62,28 @@
 - (void)testThreeFingerSwipeLeft {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"gestureRecognizerBox")]
       performAction:grey_multiFingerSwipeFastInDirection(kGREYDirectionLeft, 3)];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Swiped with 3 fingers Left")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Swiped with 3 fingers Left")]
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
 - (void)testThreeFingerSwipeRight {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"gestureRecognizerBox")]
       performAction:grey_multiFingerSwipeFastInDirection(kGREYDirectionRight, 3)];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Swiped with 3 fingers Right")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Swiped with 3 fingers Right")]
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
 - (void)testThreeFingerSwipeUp {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"gestureRecognizerBox")]
       performAction:grey_multiFingerSwipeFastInDirection(kGREYDirectionUp, 3)];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Swiped with 3 fingers Up")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Swiped with 3 fingers Up")]
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
 - (void)testThreeFingerSwipeDown {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"gestureRecognizerBox")]
       performAction:grey_multiFingerSwipeFastInDirection(kGREYDirectionDown, 3)];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Swiped with 3 fingers Down")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Swiped with 3 fingers Down")]
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
@@ -92,28 +92,28 @@
 - (void)testFourFingerSwipeLeft {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"gestureRecognizerBox")]
       performAction:grey_multiFingerSwipeFastInDirection(kGREYDirectionLeft, 4)];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Swiped with 4 fingers Left")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Swiped with 4 fingers Left")]
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
 - (void)testFourFingerSwipeRight {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"gestureRecognizerBox")]
       performAction:grey_multiFingerSwipeFastInDirection(kGREYDirectionRight, 4)];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Swiped with 4 fingers Right")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Swiped with 4 fingers Right")]
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
 - (void)testFourFingerSwipeUp {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"gestureRecognizerBox")]
       performAction:grey_multiFingerSwipeFastInDirection(kGREYDirectionUp, 4)];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Swiped with 4 fingers Up")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Swiped with 4 fingers Up")]
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
 - (void)testFourFingerSwipeDown {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"gestureRecognizerBox")]
       performAction:grey_multiFingerSwipeFastInDirection(kGREYDirectionDown, 4)];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Swiped with 4 fingers Down")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Swiped with 4 fingers Down")]
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 

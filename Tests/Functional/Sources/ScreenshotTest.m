@@ -43,9 +43,9 @@
   EDORemoteVariable<UIImage *> *snapshot = [[EDORemoteVariable alloc] init];
   EDORemoteVariable<UIImage *> *snapshotCopy = [[EDORemoteVariable alloc] init];
   // Snapshot Accessibility Element.
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"OnScreenRectangleElementLabel")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"OnScreenRectangleElementLabel")]
       performAction:grey_snapshot(snapshot)];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"OnScreenRectangleElementLabel")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"OnScreenRectangleElementLabel")]
       performAction:grey_snapshot(snapshotCopy)];
 
   NSData *snapshotData = UIImagePNGRepresentation(snapshot.object);
@@ -58,7 +58,7 @@
 
   EDORemoteVariable<UIImage *> *snapshot = [[EDORemoteVariable alloc] init];
   // Snapshot Accessibility Element.
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"OnScreenRectangleElementLabel")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"OnScreenRectangleElementLabel")]
       performAction:grey_snapshot(snapshot)];
 
   // TODO: Verify the content of the image as well. // NOLINT
@@ -83,7 +83,7 @@
 
   EDORemoteVariable<UIImage *> *snapshot = [[EDORemoteVariable alloc] init];
   // Snapshot Accessibility Element.
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"OnScreenRectangleElementLabel")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"OnScreenRectangleElementLabel")]
       performAction:grey_snapshot(snapshot)];
 
   // TODO: Verify the content of the image as well. // NOLINT
@@ -162,7 +162,7 @@
   [[EarlGrey selectElementWithMatcher:grey_kindOfClass([UITableView class])]
       performAction:grey_scrollToContentEdge(kGREYContentEdgeTop)];
   EDORemoteVariable<UIImage *> *snapshot = [[EDORemoteVariable alloc] init];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Basic Views")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Basic Views")]
       performAction:grey_snapshot(snapshot)];
   XCTAssertTrue([[snapshot.object accessibilityHint] containsString:@"Frame"]);
 

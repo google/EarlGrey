@@ -130,13 +130,13 @@
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
       performAction:grey_tap()];
 
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"A")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"A")] performAction:grey_tap()];
 
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"b")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"b")] performAction:grey_tap()];
 
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"c")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"c")] performAction:grey_tap()];
 
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"return")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"return")] performAction:grey_tap()];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
       assertWithMatcher:grey_text(@"Abc")];
@@ -408,20 +408,20 @@
 
 - (void)testClearAfterTypingInCustomTextView {
   [[[[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CustomTextView")]
-      performAction:grey_typeText(@"Foo")] assertWithMatcher:grey_accessibilityLabel(@"Foo")]
-      performAction:grey_clearText()] assertWithMatcher:grey_accessibilityLabel(@"")];
+      performAction:grey_typeText(@"Foo")] assertWithMatcher:GREYAccessibilityLabel(@"Foo")]
+      performAction:grey_clearText()] assertWithMatcher:GREYAccessibilityLabel(@"")];
 }
 
 - (void)testClearAfterClearingInCustomTextView {
   [[[[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CustomTextView")]
-      performAction:grey_clearText()] assertWithMatcher:grey_accessibilityLabel(@"")]
-      performAction:grey_clearText()] assertWithMatcher:grey_accessibilityLabel(@"")];
+      performAction:grey_clearText()] assertWithMatcher:GREYAccessibilityLabel(@"")]
+      performAction:grey_clearText()] assertWithMatcher:GREYAccessibilityLabel(@"")];
 }
 
 - (void)testTypeAfterClearingInCustomTextView {
   [[[[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CustomTextView")]
-      performAction:grey_clearText()] assertWithMatcher:grey_accessibilityLabel(@"")]
-      performAction:grey_typeText(@"Foo")] assertWithMatcher:grey_accessibilityLabel(@"Foo")];
+      performAction:grey_clearText()] assertWithMatcher:GREYAccessibilityLabel(@"")]
+      performAction:grey_typeText(@"Foo")] assertWithMatcher:GREYAccessibilityLabel(@"Foo")];
 }
 
 - (void)testKeyplaneChangeInCustomTextView {
@@ -433,10 +433,10 @@
   // Note: iOS 15 onwards, the keyplane does not change. This is a general change in custom text
   // views with iOS 15.
   if (@available(iOS 15.0, *)) {
-    [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"q")]
+    [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"q")]
         assertWithMatcher:grey_sufficientlyVisible()];
   } else {
-    [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Q")]
+    [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Q")]
         assertWithMatcher:grey_sufficientlyVisible()];
   }
 }
@@ -445,7 +445,7 @@
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
       performAction:grey_typeText(@"AAAAA")];
   // Keyplane should change to lowercase keyplane when capital letter typed.
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"q")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"q")]
       assertWithMatcher:grey_sufficientlyVisible()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
       performAction:grey_typeText(@"\b")];
@@ -453,10 +453,10 @@
   // autoCapitalizationType property from the text input view. In this test, the text field has auto
   // capitalization on, so it should reset to uppercase keyplane on.
   if (@available(iOS 16.0, *)) {
-    [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"q")]
+    [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"q")]
         assertWithMatcher:grey_sufficientlyVisible()];
   } else {
-    [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Q")]
+    [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Q")]
         assertWithMatcher:grey_sufficientlyVisible()];
   }
 }
@@ -527,7 +527,7 @@
     id keyboardClass = GREY_REMOTE_CLASS_IN_APP(GREYKeyboard);
     for (NSString *axLabel in [[keyboardClass returnByValue] shiftKeyIdentifyingCharacters]) {
       NSError *error;
-      [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(axLabel)] performAction:grey_tap()
+      [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(axLabel)] performAction:grey_tap()
                                                                                     error:&error];
     }
   }

@@ -26,8 +26,8 @@
   [self openTestViewNamed:@"Basic Views"];
 
   id<GREYMatcher> matchesAccessibleViewParentOfSimpleLabel =
-      grey_allOf(grey_descendant(grey_accessibilityLabel(@"Simple Label")),
-                 grey_accessibilityLabel(@"tab2Container"), nil);
+      grey_allOf(grey_descendant(GREYAccessibilityLabel(@"Simple Label")),
+                 GREYAccessibilityLabel(@"tab2Container"), nil);
 
   [[EarlGrey selectElementWithMatcher:matchesAccessibleViewParentOfSimpleLabel]
       assertWithMatcher:grey_notNil()];
@@ -36,7 +36,7 @@
       grey_allOf(grey_ancestor(matchesAccessibleViewParentOfSimpleLabel),
                  grey_kindOfClass([UISwitch class]), nil);
   [[EarlGrey selectElementWithMatcher:matchesChildOfParentOfSimpleLabel]
-      assertWithMatcher:grey_accessibilityLabel(@"Switch")];
+      assertWithMatcher:GREYAccessibilityLabel(@"Switch")];
 }
 
 - (void)testUserInteractionEnabledMatcherForBasicView {
@@ -45,10 +45,10 @@
   [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_tap()];
 
   // Simple Label has user interaction enabled set to NO in xib.
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Simple Label")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Simple Label")]
       assertWithMatcher:grey_not(grey_userInteractionEnabled())];
 
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Switch")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Switch")]
       assertWithMatcher:grey_userInteractionEnabled()];
 }
 
@@ -57,7 +57,7 @@
 
   id<GREYMatcher> descendantRowMatcher =
       grey_allOf(grey_kindOfClass([UITableViewCell class]),
-                 grey_descendant(grey_accessibilityLabel(@"Row 1")), nil);
+                 grey_descendant(GREYAccessibilityLabel(@"Row 1")), nil);
 
   [[EarlGrey selectElementWithMatcher:descendantRowMatcher] assertWithMatcher:grey_notNil()];
 }
@@ -70,7 +70,7 @@
                  grey_kindOfClassName(@"AccessibleView"), nil);
 
   [[EarlGrey selectElementWithMatcher:matchesParentOfSquare]
-      assertWithMatcher:grey_descendant(grey_accessibilityLabel(@"SquareElementLabel"))];
+      assertWithMatcher:grey_descendant(GREYAccessibilityLabel(@"SquareElementLabel"))];
 }
 
 - (void)testLayoutWithFloatingPoint {

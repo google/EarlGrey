@@ -39,14 +39,14 @@
 - (void)testDescriptionForSearchActionTimeout {
   [self openTestViewNamed:@"Scroll Views"];
   id<GREYMatcher> matcher =
-      grey_allOf(grey_accessibilityLabel(@"Label 2"), grey_sufficientlyVisible(), nil);
+      grey_allOf(GREYAccessibilityLabel(@"Label 2"), grey_sufficientlyVisible(), nil);
   CFTimeInterval interactionTimeout = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
   [[GREYConfiguration sharedConfiguration] setValue:@(1)
                                        forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
   NSError *error;
   [[[EarlGrey selectElementWithMatcher:matcher]
          usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 50)
-      onElementWithMatcher:grey_accessibilityLabel(@"Upper Scroll View")]
+      onElementWithMatcher:GREYAccessibilityLabel(@"Upper Scroll View")]
       assertWithMatcher:grey_sufficientlyVisible()
                   error:&error];
   [[GREYConfiguration sharedConfiguration] setValue:@(interactionTimeout)
@@ -92,11 +92,11 @@
 - (void)testDescriptionForSearchActionWithAssertion {
   [self openTestViewNamed:@"Scroll Views"];
   id<GREYMatcher> matcher =
-      grey_allOf(grey_accessibilityLabel(@"Label 2"), grey_sufficientlyVisible(), nil);
+      grey_allOf(GREYAccessibilityLabel(@"Label 2"), grey_sufficientlyVisible(), nil);
   NSError *error;
   [[[EarlGrey selectElementWithMatcher:matcher]
          usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 50)
-      onElementWithMatcher:grey_accessibilityLabel(@"Invalid Scroll View")]
+      onElementWithMatcher:GREYAccessibilityLabel(@"Invalid Scroll View")]
       assertWithMatcher:grey_sufficientlyVisible()
                   error:&error];
   NSString *searchAPIDescription = @"Search Action:";
@@ -142,11 +142,11 @@
 - (void)testDescriptionForSearchActionWithAction {
   [self openTestViewNamed:@"Scroll Views"];
   id<GREYMatcher> matcher =
-      grey_allOf(grey_accessibilityLabel(@"Label 2"), grey_sufficientlyVisible(), nil);
+      grey_allOf(GREYAccessibilityLabel(@"Label 2"), grey_sufficientlyVisible(), nil);
   NSError *error;
   [[[EarlGrey selectElementWithMatcher:matcher]
          usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 50)
-      onElementWithMatcher:grey_accessibilityLabel(@"Invalid Scroll View")] performAction:grey_tap()
+      onElementWithMatcher:GREYAccessibilityLabel(@"Invalid Scroll View")] performAction:grey_tap()
                                                                                     error:&error];
   NSString *searchAPIDescription = @"Search Action:";
   NSString *searchAPIMatcherDescription = @"Search Matcher:";
@@ -257,10 +257,10 @@
   double originalTimeout = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
   [[GREYConfiguration sharedConfiguration] setValue:@(1)
                                        forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AnimationControl")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationControl")]
       performAction:grey_tap()];
   NSError *error;
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AnimationStatus")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationStatus")]
       assertWithMatcher:grey_text(@"Paused")
                   error:&error];
 

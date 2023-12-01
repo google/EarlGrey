@@ -325,7 +325,7 @@
                   }];
 
   // Switch text and wait.
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Switch")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Switch")]
       performAction:grey_turnSwitchOn(NO)];
   XCTAssertTrue([waitCondition waitWithTimeout:10.0],
                 @"Switch not manipulated within the allotted time for a Condition.");
@@ -359,7 +359,7 @@
   [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
   [[EarlGrey selectElementWithMatcher:grey_kindOfClass([UIStepper class])]
       performAction:grey_setStepperValue(87)];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Value Label")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Value Label")]
       assertWithMatcher:grey_text(@"Value: 87%")];
   [[[EarlGrey selectElementWithMatcher:grey_kindOfClass([UIStepper class])]
       performAction:grey_setStepperValue(16)] assertWithMatcher:grey_stepperValue(16)];
@@ -372,16 +372,16 @@
   [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
   [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_tap()];
 
-  [[[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Switch")]
+  [[[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Switch")]
       performAction:grey_turnSwitchOn(NO)] assertWithMatcher:grey_switchWithOnState(NO)];
 
-  [[[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Switch")]
+  [[[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Switch")]
       performAction:grey_turnSwitchOn(YES)] assertWithMatcher:grey_switchWithOnState(YES)];
 
-  [[[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Switch")]
+  [[[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Switch")]
       performAction:grey_turnSwitchOn(YES)] assertWithMatcher:grey_switchWithOnState(YES)];
 
-  [[[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Switch")]
+  [[[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Switch")]
       performAction:grey_turnSwitchOn(NO)] assertWithMatcher:grey_switchWithOnState(NO)];
 }
 
@@ -412,7 +412,7 @@
  */
 - (void)testInteractionWithHiddenLabel {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Hidden Label")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Hidden Label")]
       assertWithMatcher:grey_text(@"Hidden Label")];
 }
 
@@ -421,7 +421,7 @@
  */
 - (void)testInteractionWithLabelWithParentWithAlphaZero {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Long Press")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Long Press")]
       assertWithMatcher:grey_not(grey_sufficientlyVisible())];
 }
 
@@ -448,7 +448,7 @@
   [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_tap()];
   id<GREYAction> action =
       [[GREYHostApplicationDistantObject sharedInstance] actionForTapOnAccessibleElement];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Switch")] performAction:action];
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Switch")] performAction:action];
 }
 
 /**
@@ -509,7 +509,7 @@
                   }];
 
   // Switch text and wait.
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Switch")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Switch")]
       performAction:grey_turnSwitchOn(NO)];
   XCTAssertTrue([waitCondition waitWithTimeout:10.0]);
 }
@@ -569,7 +569,7 @@
   [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_tap()];
 
   GREYElementInteraction *typeHere =
-      [EarlGrey selectElementWithMatcher:grey_allOf(grey_accessibilityLabel(@"Type Something Here"),
+      [EarlGrey selectElementWithMatcher:grey_allOf(GREYAccessibilityLabel(@"Type Something Here"),
                                                     grey_kindOfClass([UITextField class]), nil)];
 
   [[typeHere performAction:grey_replaceText(@"Hello 2")] assertWithMatcher:grey_text(@"Hello 2")];
@@ -579,18 +579,18 @@
   [[typeHere performAction:grey_tapAtPoint(CGPointMake(0, 0))]
       performAction:grey_replaceText(@"Hello!")];
 
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"return")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"return")] performAction:grey_tap()];
 
   [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"Send")]
       performAction:grey_tapAtPoint(CGPointMake(5, 5))];
 
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Simple Label")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Simple Label")]
       assertWithMatcher:grey_text(@"Hello!")];
 
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Switch")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Switch")]
       performAction:grey_turnSwitchOn(NO)];
 
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Simple Label")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Simple Label")]
       assertWithMatcher:grey_text(@"OFF")];
 
   [[[EarlGrey selectElementWithMatcher:grey_text(@"Long Press")]
@@ -720,13 +720,13 @@
   id<GREYAction> unhideAction =
       [[GREYHostApplicationDistantObject sharedInstance] actionToHideOrUnhideBlock:NO];
   [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"tab2Container")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"tab2Container")]
       performAction:hideAction];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Long Press")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Long Press")]
       assertWithMatcher:grey_not(grey_sufficientlyVisible())];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"tab2Container")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"tab2Container")]
       performAction:unhideAction];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Long Press")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Long Press")]
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
@@ -741,13 +741,13 @@
       [[GREYHostApplicationDistantObject sharedInstance] actionToMakeOpaque:NO];
 
   [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"tab2Container")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"tab2Container")]
       performAction:makeTransparentAction];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Long Press")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Long Press")]
       assertWithMatcher:grey_not(grey_sufficientlyVisible())];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"tab2Container")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"tab2Container")]
       performAction:makeOpaqueAction];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Long Press")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Long Press")]
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
@@ -765,13 +765,13 @@
       [[GREYHostApplicationDistantObject sharedInstance] actionToMakeWindowOpaque:NO];
 
   [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"tab2Container")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"tab2Container")]
       performAction:makeTransparentAction];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Long Press")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Long Press")]
       assertWithMatcher:grey_not(grey_sufficientlyVisible())];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"tab2Container")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"tab2Container")]
       performAction:makeOpaqueAction];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Long Press")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Long Press")]
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
@@ -829,12 +829,12 @@
  */
 - (void)testAssertionForAppIdling {
   [self openTestViewNamed:@"Animations"];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AnimationControl")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationControl")]
       performAction:grey_tap()];
   GREYWaitForAppToIdle(@"Wait for Animations");
   [[GREYConfiguration sharedConfiguration] setValue:@(NO)
                                        forConfigKey:kGREYConfigKeySynchronizationEnabled];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AnimationStatus")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationStatus")]
       assertWithMatcher:grey_text(@"Paused")];
   [[GREYConfiguration sharedConfiguration] setValue:@(YES)
                                        forConfigKey:kGREYConfigKeySynchronizationEnabled];
@@ -845,12 +845,12 @@
  */
 - (void)testAssertionForAppIdlingWithTimeout {
   [self openTestViewNamed:@"Animations"];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AnimationControl")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationControl")]
       performAction:grey_tap()];
   GREYWaitForAppToIdleWithTimeout(5.0, @"Wait for Animations");
   [[GREYConfiguration sharedConfiguration] setValue:@(NO)
                                        forConfigKey:kGREYConfigKeySynchronizationEnabled];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AnimationStatus")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationStatus")]
       assertWithMatcher:grey_text(@"Paused")];
   [[GREYConfiguration sharedConfiguration] setValue:@(YES)
                                        forConfigKey:kGREYConfigKeySynchronizationEnabled];
@@ -861,12 +861,12 @@
  */
 - (void)testWaitAndAssertBlock {
   [self openTestViewNamed:@"Animations"];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AnimationControl")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationControl")]
       performAction:grey_tap()];
   GREYWaitAndAssertBlock(@"Confirm Animations finished", ^void(void) {
     [[GREYConfiguration sharedConfiguration] setValue:@(NO)
                                          forConfigKey:kGREYConfigKeySynchronizationEnabled];
-    [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"AnimationStatus")]
+    [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationStatus")]
         assertWithMatcher:grey_text(@"Paused")];
   });
   [[GREYConfiguration sharedConfiguration] setValue:@(YES)
@@ -880,13 +880,13 @@
 - (void)testInteractionWithContextMenu {
   if (@available(iOS 13.0, *)) {
     [self openTestViewNamed:@"Basic Views"];
-    [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"ContextMenuButton")]
+    [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"ContextMenuButton")]
         performAction:grey_longPress()];
     XCTAssertTrue([self waitForVisibilityForText:@"Top-level Action"]);
     [[EarlGrey selectElementWithMatcher:grey_text(@"Top-level Action")] performAction:grey_tap()];
     XCTAssertTrue([self waitForVisibilityForText:@"Top-level Action Tapped"]);
 
-    [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"ContextMenuButton")]
+    [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"ContextMenuButton")]
         performAction:grey_longPress()];
     XCTAssertTrue([self waitForVisibilityForText:@"Child Actions"]);
     [[EarlGrey selectElementWithMatcher:grey_text(@"Child Actions")] performAction:grey_tap()];
@@ -894,7 +894,7 @@
     [[EarlGrey selectElementWithMatcher:grey_text(@"Child Action 0")] performAction:grey_tap()];
     XCTAssertTrue([self waitForVisibilityForText:@"Child Action 0 Tapped"]);
 
-    [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"ContextMenuButton")]
+    [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"ContextMenuButton")]
         performAction:grey_longPress()];
     XCTAssertTrue([self waitForVisibilityForText:@"Child Actions"]);
     [[EarlGrey selectElementWithMatcher:grey_text(@"Child Actions")] performAction:grey_tap()];
@@ -917,20 +917,20 @@
   NSError *error;
   id<GREYMatcher> keyboardWindowMatcher = grey_kindOfClassName(@"UIRemoteKeyboardWindow");
   [EarlGrey setRootMatcherForSubsequentInteractions:keyboardWindowMatcher];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"u")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"u")] performAction:grey_tap()];
   [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_tap() error:&error];
   XCTAssertNotNil(error, @"Tab 2 should not be present in the keyboard window");
 
   error = nil;
   [EarlGrey setRootMatcherForSubsequentInteractions:grey_accessibilityID(@"Main Window")];
   [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"u")] performAction:grey_tap()
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"u")] performAction:grey_tap()
                                                                              error:&error];
   XCTAssertNotNil(error, @"Keyboard key should not be present in the main window");
 
   [EarlGrey setRootMatcherForSubsequentInteractions:nil];
   [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"u")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"u")] performAction:grey_tap()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
       assertWithMatcher:grey_text(@"uu")];
 }

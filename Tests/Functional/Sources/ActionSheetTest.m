@@ -28,7 +28,7 @@
 }
 
 - (void)testSimpleActionSheet {
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"simpleActionSheetButton")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"simpleActionSheetButton")]
       performAction:grey_tap()];
   [[EarlGrey selectElementWithMatcher:grey_text(@"Action Sheet")]
       assertWithMatcher:grey_sufficientlyVisible()];
@@ -36,7 +36,7 @@
   [[EarlGrey selectElementWithMatcher:grey_text(@"Action Sheet Button Pressed")]
       assertWithMatcher:grey_sufficientlyVisible()];
 
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"simpleActionSheetButton")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"simpleActionSheetButton")]
       performAction:grey_tap()];
   [[EarlGrey selectElementWithMatcher:grey_text(@"Action Sheet")]
       assertWithMatcher:grey_sufficientlyVisible()];
@@ -47,7 +47,7 @@
 }
 
 - (void)testMultipleActionSheet {
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"multipleActionSheetButton")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"multipleActionSheetButton")]
       performAction:grey_tap()];
   [[EarlGrey selectElementWithMatcher:grey_text(@"Action Sheet")]
       assertWithMatcher:grey_sufficientlyVisible()];
@@ -55,7 +55,7 @@
   [[EarlGrey selectElementWithMatcher:grey_text(@"Action Sheet Button Pressed")]
       assertWithMatcher:grey_sufficientlyVisible()];
 
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"multipleActionSheetButton")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"multipleActionSheetButton")]
       performAction:grey_tap()];
   [[EarlGrey selectElementWithMatcher:grey_text(@"Action Sheet")]
       assertWithMatcher:grey_sufficientlyVisible()];
@@ -64,12 +64,12 @@
   [[EarlGrey selectElementWithMatcher:grey_text(@"Actions Verified Here")]
       assertWithMatcher:grey_sufficientlyVisible()];
 
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"multipleActionSheetButton")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"multipleActionSheetButton")]
       performAction:grey_tap()];
   [[EarlGrey selectElementWithMatcher:grey_text(@"Action Sheet")]
       assertWithMatcher:grey_sufficientlyVisible()];
   [[EarlGrey selectElementWithMatcher:grey_text(@"Hide Button")] performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"multipleActionSheetButton")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"multipleActionSheetButton")]
       assertWithMatcher:grey_notVisible()];
 }
 

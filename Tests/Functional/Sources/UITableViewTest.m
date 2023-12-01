@@ -30,29 +30,29 @@
 
 - (void)testContextMenuInteractionsWithATableView {
   // TODO(b/169197992): Add a drag action test with press and drag action.
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Row 5")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Row 5")]
       performAction:grey_longPress()];
   XCTAssertTrue([self waitForVisibilityForText:@"Some"]);
   [[EarlGrey selectElementWithMatcher:grey_text(@"Some")] performAction:grey_tap()];
   XCTAssertTrue([self waitForVisibilityForText:@"Row 6"]);
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Row 6")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Row 6")]
       performAction:grey_longPress()];
   XCTAssertTrue([self waitForVisibilityForText:@"Some"]);
   [[EarlGrey selectElementWithMatcher:grey_text(@"Some")] performAction:grey_tap()];
   XCTAssertTrue([self waitForVisibilityForText:@"Row 7"]);
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Row 7")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Row 7")]
       assertWithMatcher:grey_not(grey_selected())];
 }
 
 - (void)testRemoveRow {
   id<GREYMatcher> deleteRowMatcher =
-      grey_allOf(grey_accessibilityLabel(@"Delete"), grey_kindOfClass([UIButton class]), nil);
+      grey_allOf(GREYAccessibilityLabel(@"Delete"), grey_kindOfClass([UIButton class]), nil);
   for (int i = 0; i < 5; i++) {
     NSString *labelForRowToDelete = [NSString stringWithFormat:@"Row %d", i];
-    [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(labelForRowToDelete)]
+    [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(labelForRowToDelete)]
         performAction:grey_swipeSlowInDirection(kGREYDirectionLeft)];
     [[EarlGrey selectElementWithMatcher:deleteRowMatcher] performAction:grey_tap()];
-    [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(labelForRowToDelete)]
+    [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(labelForRowToDelete)]
         assertWithMatcher:grey_notVisible()];
   }
 }
@@ -62,9 +62,9 @@
   for (int i = 0; i < 5; i++) {
     NSString *labelForRowToDelete = [NSString stringWithFormat:@"Row %d", i];
     NSString *labelForNextRow = [NSString stringWithFormat:@"Row %d", i + 1];
-    [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(labelForRowToDelete)]
+    [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(labelForRowToDelete)]
         performAction:grey_swipeSlowInDirection(kGREYDirectionLeft)];
-    [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(labelForNextRow)]
+    [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(labelForNextRow)]
         assertWithMatcher:grey_sufficientlyVisible()];
   }
 }
@@ -163,7 +163,7 @@
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"main_table_view")]
       performAction:grey_swipeSlowInDirection(kGREYDirectionDown)]
       assertWithMatcher:notScrollingMatcher];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Row 1")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Row 1")]
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
@@ -188,7 +188,7 @@
 #pragma mark - Private
 
 - (id<GREYMatcher>)ftr_matcherForCellAtIndex:(NSInteger)index {
-  return grey_accessibilityLabel([NSString stringWithFormat:@"Row %d", (int)index]);
+  return GREYAccessibilityLabel([NSString stringWithFormat:@"Row %d", (int)index]);
 }
 
 - (GREYElementInteraction *)ftr_scrollToCellAtIndex:(NSInteger)index

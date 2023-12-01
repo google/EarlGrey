@@ -40,7 +40,7 @@
   // Attempt to open the named view, the views are listed as a rows of a UITableView and tapping
   // it opens the view.
   NSError *error;
-  id<GREYMatcher> cellMatcher = grey_accessibilityLabel(name);
+  id<GREYMatcher> cellMatcher = GREYAccessibilityLabel(name);
   [[EarlGrey selectElementWithMatcher:cellMatcher] performAction:grey_tap() error:&error];
   if (!error) {
     return;

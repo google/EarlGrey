@@ -60,7 +60,7 @@ static BOOL VerifyRotationAngle(CGFloat rotationBeforeTwist, CGFloat rotationAft
 - (void)testFastClockwiseRotation {
   CGFloat angleDelta = -kGREYTwistAngleDefault;
   CGFloat rotationBeforeTwist = GetCurrentGestureViewRotation();
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Grey Box")]
       performAction:grey_twistFastWithAngle(angleDelta)];
   CGFloat rotationAfterTwist = GetCurrentGestureViewRotation();
   BOOL success = VerifyRotationAngle(rotationBeforeTwist, rotationAfterTwist, angleDelta);
@@ -71,7 +71,7 @@ static BOOL VerifyRotationAngle(CGFloat rotationBeforeTwist, CGFloat rotationAft
 - (void)testFastCounterClockwiseRotation {
   CGFloat angleDelta = kGREYTwistAngleDefault;
   CGFloat rotationBeforeTwist = GetCurrentGestureViewRotation();
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Grey Box")]
       performAction:grey_twistFastWithAngle(angleDelta)];
   CGFloat rotationAfterTwist = GetCurrentGestureViewRotation();
   BOOL success = VerifyRotationAngle(rotationBeforeTwist, rotationAfterTwist, angleDelta);
@@ -82,7 +82,7 @@ static BOOL VerifyRotationAngle(CGFloat rotationBeforeTwist, CGFloat rotationAft
 - (void)testSlowClockwiseRotation {
   CGFloat angleDelta = -kGREYTwistAngleDefault;
   CGFloat rotationBeforeTwist = GetCurrentGestureViewRotation();
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Grey Box")]
       performAction:grey_twistSlowWithAngle(angleDelta)];
   CGFloat rotationAfterTwist = GetCurrentGestureViewRotation();
   BOOL success = VerifyRotationAngle(rotationBeforeTwist, rotationAfterTwist, angleDelta);
@@ -93,7 +93,7 @@ static BOOL VerifyRotationAngle(CGFloat rotationBeforeTwist, CGFloat rotationAft
 - (void)testSlowCounterClockwiseRotation {
   CGFloat angleDelta = kGREYTwistAngleDefault;
   CGFloat rotationBeforeTwist = GetCurrentGestureViewRotation();
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Grey Box")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Grey Box")]
       performAction:grey_twistSlowWithAngle(angleDelta)];
   CGFloat rotationAfterTwist = GetCurrentGestureViewRotation();
   BOOL success = VerifyRotationAngle(rotationBeforeTwist, rotationAfterTwist, angleDelta);
