@@ -134,7 +134,7 @@ typedef void (^GREYHostApplicationCrashHandler)(void);
  * If the return key is intended to dismiss the keyboard then we recommend using the following
  * EarlGrey statement instead:
  *     @code
- *     [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"return")]
+ *     [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"return")]
  *         performAction:grey_tap()];
  *     @endcode
  *

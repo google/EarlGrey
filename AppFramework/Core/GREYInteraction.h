@@ -213,7 +213,7 @@ GREY_EXTERN NSString *const kGREYAssertionErrorUserInfoKey;
  * manner:
  *
  * @code
- *   [[EarlGrey selectElementWithMatcher:grey_accessibilityLabel(@"Generic Matcher")] atIndex:1];
+ *   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Generic Matcher")] atIndex:1];
  * @endcode
  *
  * @param index        The zero-indexed position of the element in the list of matched elements

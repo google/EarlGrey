@@ -183,7 +183,7 @@ class SwiftTests: XCTestCase {
     openTestView(named: "Basic Views")
     let checkHiddenAction = host.makeCheckHiddenAction()
     EarlGrey.selectElement(with: grey_text("Tab 2")).perform(grey_tap())
-    EarlGrey.selectElement(with: grey_accessibilityLabel("tab2Container"))
+    EarlGrey.selectElement(with: GREYAccessibilityLabel("tab2Container"))
       .perform(checkHiddenAction).assert(grey_sufficientlyVisible())
     var error: NSError?
     EarlGrey.selectElement(with: grey_text("Non Existent Element"))
@@ -289,14 +289,14 @@ class SwiftTests: XCTestCase {
     EarlGrey.selectElement(with: grey_accessibilityID("TypingTextField"))
       .perform(grey_tap())
     // Ensure the keyboard button for the character e is visible.
-    EarlGrey.selectElement(with: grey_accessibilityLabel("E"))
+    EarlGrey.selectElement(with: GREYAccessibilityLabel("E"))
       .assert(grey_sufficientlyVisible())
     EarlGrey.selectElement(with: grey_accessibilityID("TypingTextField"))
       .perform(grey_typeText("Foo Bar"))
 
     try EarlGrey.dismissKeyboard()
 
-    EarlGrey.selectElement(with: grey_accessibilityLabel("E"))
+    EarlGrey.selectElement(with: GREYAccessibilityLabel("E"))
       .assert(grey_notVisible())
     EarlGrey.selectElement(with: grey_accessibilityID("TypingTextField"))
       .assert(grey_text("Foo Bar"))
@@ -314,26 +314,26 @@ class SwiftTests: XCTestCase {
   /// Verifies the wait for the app to idle.
   func testWaitingForTheAppToIdle() {
     openTestView(named: "Animations")
-    EarlGrey.selectElement(with: grey_accessibilityLabel("AnimationStatus"))
+    EarlGrey.selectElement(with: GREYAccessibilityLabel("AnimationStatus"))
       .assert(grey_text("Stopped"))
-    EarlGrey.selectElement(with: grey_accessibilityLabel("AnimationControl"))
+    EarlGrey.selectElement(with: GREYAccessibilityLabel("AnimationControl"))
       .perform(grey_tap())
     GREYWaitForAppToIdle()
     GREYConfiguration.shared.setValue(false, forConfigKey: GREYConfigKey.synchronizationEnabled)
-    EarlGrey.selectElement(with: grey_accessibilityLabel("AnimationStatus"))
+    EarlGrey.selectElement(with: GREYAccessibilityLabel("AnimationStatus"))
       .assert(grey_text("Paused"))
   }
 
   /// Verifies the wait for the app to idle within a timeout.
   func testWaitingForTheAppToIdleWithATimeout() {
     openTestView(named: "Animations")
-    EarlGrey.selectElement(with: grey_accessibilityLabel("AnimationStatus"))
+    EarlGrey.selectElement(with: GREYAccessibilityLabel("AnimationStatus"))
       .assert(grey_text("Stopped"))
-    EarlGrey.selectElement(with: grey_accessibilityLabel("AnimationControl"))
+    EarlGrey.selectElement(with: GREYAccessibilityLabel("AnimationControl"))
       .perform(grey_tap())
     GREYWaitForAppToIdle(3)
     GREYConfiguration.shared.setValue(false, forConfigKey: GREYConfigKey.synchronizationEnabled)
-    EarlGrey.selectElement(with: grey_accessibilityLabel("AnimationStatus"))
+    EarlGrey.selectElement(with: GREYAccessibilityLabel("AnimationStatus"))
       .assert(grey_text("Paused"))
   }
 
@@ -341,14 +341,14 @@ class SwiftTests: XCTestCase {
   func testTakeSnapshot() {
     openTestView(named: "Animations")
     let image: EDORemoteVariable<UIImage> = EDORemoteVariable()
-    EarlGrey.selectElement(with: grey_accessibilityLabel("AnimationControl")).perform(
+    EarlGrey.selectElement(with: GREYAccessibilityLabel("AnimationControl")).perform(
       grey_snapshot(image))
     XCTAssertNotNil(image.object, "No Screenshot taken from the app side.")
   }
 
   func openTestView(named name: String) {
     var error: NSError?
-    EarlGrey.selectElement(with: grey_accessibilityLabel(name))
+    EarlGrey.selectElement(with: GREYAccessibilityLabel(name))
       .perform(grey_tap(), error: &error)
     if error == nil {
       return
@@ -356,7 +356,7 @@ class SwiftTests: XCTestCase {
     EarlGrey.selectElement(with: grey_kindOfClass(UITableView.self))
       .perform(grey_scrollToContentEdge(GREYContentEdge.top))
     let nameMatcher = grey_allOf([
-      grey_accessibilityLabel(name),
+      GREYAccessibilityLabel(name),
       grey_interactable(),
     ])
     EarlGrey.selectElement(with: nameMatcher)
@@ -370,7 +370,7 @@ class SwiftTests: XCTestCase {
   func openTestView(named name: String) async throws {
     var shouldSearch = false
     do {
-      try await EarlGrey.selectElement(with: grey_accessibilityLabel(name)).perform(grey_tap())
+      try await EarlGrey.selectElement(with: GREYAccessibilityLabel(name)).perform(grey_tap())
     } catch {
       shouldSearch = true
     }
@@ -379,7 +379,7 @@ class SwiftTests: XCTestCase {
       try await EarlGrey.selectElement(with: grey_kindOfClass(UITableView.self)).perform(
         grey_scrollToContentEdge(GREYContentEdge.top))
       let nameMatcher = grey_allOf([
-        grey_accessibilityLabel(name),
+        GREYAccessibilityLabel(name),
         grey_interactable(),
       ])
       try await EarlGrey.selectElement(with: nameMatcher).usingSearch(
