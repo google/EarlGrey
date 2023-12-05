@@ -66,7 +66,7 @@
   [self openTestViewNamed:@"Accessibility Views"];
 
   id<GREYMatcher> matchesParentOfSquare =
-      grey_allOf(grey_descendant(grey_accessibilityValue(@"SquareElementValue")),
+      grey_allOf(grey_descendant(GREYAccessibilityValue(@"SquareElementValue")),
                  grey_kindOfClassName(@"AccessibleView"), nil);
 
   [[EarlGrey selectElementWithMatcher:matchesParentOfSquare]

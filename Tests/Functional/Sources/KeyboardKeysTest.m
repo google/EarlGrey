@@ -471,7 +471,7 @@
 - (void)testMatchingFailsWithUIAccessibilityTextFieldElement {
   if (iOS13()) {
     id<GREYMatcher> elementMatcher =
-        grey_allOf(grey_accessibilityValue(@"Text Field"),
+        grey_allOf(GREYAccessibilityValue(@"Text Field"),
                    grey_kindOfClassName(kTextFieldAXElementClassName), nil);
     [[EarlGrey selectElementWithMatcher:elementMatcher] assertWithMatcher:grey_notNil()];
     NSError *error;
@@ -485,7 +485,7 @@
 - (void)testClearAndReplaceWorksWithUIAccessibilityTextFieldElement {
   XCTSkipIf(iOS14_OR_ABOVE());
   id<GREYMatcher> elementMatcher =
-      grey_allOf(grey_accessibilityValue(@"Text Field"),
+      grey_allOf(GREYAccessibilityValue(@"Text Field"),
                  grey_kindOfClassName(kTextFieldAXElementClassName), nil);
   if (iOS13_OR_ABOVE()) {
     [[EarlGrey selectElementWithMatcher:elementMatcher] assertWithMatcher:grey_notNil()];

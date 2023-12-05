@@ -36,12 +36,12 @@
 }
 
 - (void)testAccessibilityValues {
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityValue(@"SquareElementValue")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityValue(@"SquareElementValue")]
       assertWithMatcher:grey_sufficientlyVisible()];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityValue(@"CircleElementValue")]
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityValue(@"CircleElementValue")]
       assertWithMatcher:grey_sufficientlyVisible()];
   [[EarlGrey
-      selectElementWithMatcher:grey_accessibilityValue(@"PartialOffScreenRectangleElementValue")]
+      selectElementWithMatcher:GREYAccessibilityValue(@"PartialOffScreenRectangleElementValue")]
       assertWithMatcher:grey_not(grey_sufficientlyVisible())];
 }
 
