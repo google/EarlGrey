@@ -560,9 +560,8 @@
                  @"Unexpected error message for initial dismiss: %@, Original error: %@",
                  localizedErrorDescription, error);
 
-  [[EarlGrey selectElementWithMatcher:grey_keyWindow()]
-      performAction:host.actionForSetFirstResponder
-              error:&error];
+  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] performAction:host.actionForSetFirstResponder
+                                                               error:&error];
   XCTAssertFalse([EarlGrey dismissKeyboardWithError:&error]);
   localizedErrorDescription = [error localizedDescription];
   GREYAssertTrue([localizedErrorDescription containsString:reason],

@@ -63,7 +63,7 @@
   XCUIApplication *application = [EarlGrey foregroundApplicationWithBundleID:applicationBundleID
                                                                        error:nil];
   XCTAssertNotNil(application);
-  [[EarlGrey selectElementWithMatcher:grey_keyWindow()]
+  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()]
       assertWithMatcher:grey_sufficientlyVisible()];
   XCTAssertNoThrow([EarlGrey foregroundApplicationWithBundleID:applicationBundleID error:nil]);
 }
@@ -80,7 +80,7 @@
   //                    UISceneActivationStateForegroundActive.
   [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"EarlGrey TestApp")]
       performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_keyWindow()]
+  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()]
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
@@ -93,7 +93,7 @@
 - (void)testApplicationRestartOnce {
   [_application terminate];
   [_application launch];
-  [[EarlGrey selectElementWithMatcher:grey_keyWindow()]
+  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()]
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
@@ -101,12 +101,12 @@
 - (void)testApplicationRestartTwice {
   [_application terminate];
   [_application launch];
-  [[EarlGrey selectElementWithMatcher:grey_keyWindow()]
+  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()]
       assertWithMatcher:grey_sufficientlyVisible()];
 
   [_application terminate];
   [_application launch];
-  [[EarlGrey selectElementWithMatcher:grey_keyWindow()]
+  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()]
       assertWithMatcher:grey_sufficientlyVisible()];
 }
 
@@ -123,7 +123,7 @@
   [startCoordinate pressForDuration:0 thenDragToCoordinate:endCoordinate];
 
   XCTAssertTrue([springboardApplication.otherElements[@"Dock"] isHittable]);
-  [[EarlGrey selectElementWithMatcher:grey_keyWindow()] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] performAction:grey_tap()];
 }
 
 - (void)closeBottomDockInLandscape:(BOOL)isLandscape {

@@ -48,7 +48,7 @@
   NSMutableArray<NSValue *> *mutableArray = [NSMutableArray array];
   // Perform operation within the EarlGrey trackable interval.
   [[GREYHostApplicationDistantObject sharedInstance] addToMutableArray:mutableArray afterTime:0.5];
-  [[EarlGrey selectElementWithMatcher:grey_keyWindow()] assertWithMatcher:grey_notNil()];
+  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:grey_notNil()];
   XCTAssertEqualObjects(mutableArray[0], @(1));
 }
 
@@ -64,7 +64,7 @@
                                                              afterTime:waitTime];
   // EarlGrey Statement doesn't care about the dispatch_after since it's after the trackable
   // duration. The wait time here is insufficient for the dispatch_after to be called.
-  [[EarlGrey selectElementWithMatcher:grey_keyWindow()] assertWithMatcher:grey_notNil()];
+  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:grey_notNil()];
   // Sleeping on the test's main thread will not work, since  the thread is asleep and the array
   // cannot be obtained. Hence the value isn't added.
   [NSThread sleepForTimeInterval:waitTime];
@@ -98,7 +98,7 @@
   id<GREYMatcher> matcher =
       [[GREYHostApplicationDistantObject sharedInstance] matcherThatTakesTime:10];
   NSError *error;
-  [[EarlGrey selectElementWithMatcher:grey_allOf(grey_keyWindow(), matcher, NULL)]
+  [[EarlGrey selectElementWithMatcher:grey_allOf(GREYKeyWindow(), matcher, NULL)]
       assertWithMatcher:grey_notNil()
                   error:&error];
   XCTAssertNil(error, @"Interaction should finish successfully although matching takes longer than "
@@ -519,7 +519,7 @@
  */
 - (void)testTapOnWindow {
   [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_keyWindow()] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] performAction:grey_tap()];
   UIWindow *window = [[GREYHostApplicationDistantObject sharedInstance] setupGestureRecognizer];
   XCTAssertNotNil(window);
 

@@ -167,13 +167,13 @@
   XCTAssertTrue([[snapshot.object accessibilityHint] containsString:@"Frame"]);
 
   [self openTestViewNamed:@"Basic Views"];
-  [[EarlGrey selectElementWithMatcher:grey_keyWindow()] performAction:grey_snapshot(snapshot)];
+  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] performAction:grey_snapshot(snapshot)];
   XCTAssertTrue([[snapshot.object accessibilityHint] containsString:@"Frame"]);
 
   [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_tap()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
       performAction:grey_typeText(@"hi")];
-  [[EarlGrey selectElementWithMatcher:grey_keyWindow()] performAction:grey_snapshot(snapshot)];
+  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] performAction:grey_snapshot(snapshot)];
   XCTAssertTrue([[snapshot.object accessibilityHint] containsString:@"Frame"]);
 }
 

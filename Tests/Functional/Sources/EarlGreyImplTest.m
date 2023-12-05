@@ -98,27 +98,27 @@
   XCTAssertNotNil([EarlGrey selectElementWithMatcher:grey_allOf(grey_accessibilityID(@"Text Field"),
                                                                 grey_interactable(), nil)]);
   XCTAssertNoThrow(({
-    [[EarlGrey selectElementWithMatcher:grey_keyWindow()]
+    [[EarlGrey selectElementWithMatcher:GREYKeyWindow()]
         assertWithMatcher:grey_sufficientlyVisible()];
   }));
   id<GREYAction> nilAction = nil;
   id<GREYMatcher> nilMatcher = nil;
   XCTAssertThrows(
-      ({ [[EarlGrey selectElementWithMatcher:grey_keyWindow()] performAction:nilAction]; }));
+      ({ [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] performAction:nilAction]; }));
   XCTAssertThrows(
-      ({ [[EarlGrey selectElementWithMatcher:grey_keyWindow()] assertWithMatcher:nilMatcher]; }));
+      ({ [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:nilMatcher]; }));
   XCTAssertThrows(({
-    [[[EarlGrey selectElementWithMatcher:grey_keyWindow()] performAction:grey_tap()]
+    [[[EarlGrey selectElementWithMatcher:GREYKeyWindow()] performAction:grey_tap()]
            usingSearchAction:nilAction
-        onElementWithMatcher:grey_keyWindow()];
+        onElementWithMatcher:GREYKeyWindow()];
   }));
   XCTAssertThrows(({
-    [[[EarlGrey selectElementWithMatcher:grey_keyWindow()] performAction:grey_tap()]
+    [[[EarlGrey selectElementWithMatcher:GREYKeyWindow()] performAction:grey_tap()]
            usingSearchAction:grey_tap()
         onElementWithMatcher:nilMatcher];
   }));
   XCTAssertThrows(({
-    [[[EarlGrey selectElementWithMatcher:grey_keyWindow()] assertWithMatcher:grey_notNil()]
+    [[[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:grey_notNil()]
         inRoot:nilMatcher];
   }));
 }
@@ -171,7 +171,7 @@
 - (void)testEarlGreyExceptionDoesNotIncrementFailureCount {
   NSUInteger failureCount = self.testRun.failureCount;
   NSError *error;
-  [[EarlGrey selectElementWithMatcher:grey_keyWindow()] assertWithMatcher:grey_nil() error:&error];
+  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:grey_nil() error:&error];
   XCTAssertNotNil(error, @"An error should be populated");
   XCTAssertEqual(self.testRun.failureCount, failureCount, @"The failure count is not incremented.");
 }

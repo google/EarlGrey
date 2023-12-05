@@ -55,7 +55,7 @@
   CFTimeInterval startTime = CACurrentMediaTime();
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"animateAnimatingViewButton")]
       performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_keyWindow()] assertWithMatcher:grey_notNil()];
+  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:grey_notNil()];
   CFTimeInterval stopTime = CACurrentMediaTime() - startTime;
   XCTAssertGreaterThan(stopTime, GREY_CONFIG_DOUBLE(kGREYConfigKeyCALayerMaxAnimationDuration));
 }
@@ -111,7 +111,7 @@
   startTime = CACurrentMediaTime();
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"animateActivityIndicatorButton")]
       performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_keyWindow()] assertWithMatcher:grey_notNil()];
+  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:grey_notNil()];
   XCTAssertGreaterThan(ceil(CACurrentMediaTime() - startTime),
                        GREY_CONFIG_DOUBLE(kGREYConfigKeyCALayerMaxAnimationDuration) - 1);
 }
@@ -132,7 +132,7 @@
   [self hideAndUnhideAnimatingViewWithSynchronizationDisabled];
   XCTAssertLessThan(CACurrentMediaTime() - startTime, 8);
 
-  [[EarlGrey selectElementWithMatcher:grey_keyWindow()] assertWithMatcher:grey_notNil()];
+  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:grey_notNil()];
   XCTAssertGreaterThan(CACurrentMediaTime() - startTime, 8);
 }
 
@@ -154,7 +154,7 @@
   XCTAssertLessThan(CACurrentMediaTime() - startTime, 8);
 
   // Longest animation is a sublayer with a 8 second animation enqueued on it.
-  [[EarlGrey selectElementWithMatcher:grey_keyWindow()] assertWithMatcher:grey_notNil()];
+  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:grey_notNil()];
   XCTAssertGreaterThan(CACurrentMediaTime() - startTime, 8);
 }
 
@@ -178,7 +178,7 @@
       performAction:grey_tap()];
   // Longest animation is a simple animation with an 8 second animation enqued on it which is
   // hidden.
-  [[EarlGrey selectElementWithMatcher:grey_keyWindow()] assertWithMatcher:grey_notNil()];
+  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:grey_notNil()];
   CFTimeInterval duration = CACurrentMediaTime() - startTime;
   XCTAssertGreaterThan(duration, 8);
   XCTAssertLessThan(duration, 9);
@@ -205,7 +205,7 @@
 
   // Longest animation is a simple animation with an 8 second animation enqued on it which is
   // hidden.
-  [[EarlGrey selectElementWithMatcher:grey_keyWindow()] assertWithMatcher:grey_notNil()];
+  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:grey_notNil()];
   CFTimeInterval duration = CACurrentMediaTime() - startTime;
   XCTAssertGreaterThan(duration, 8);
   XCTAssertLessThan(duration, 9);
@@ -230,8 +230,8 @@
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"specialAnimationsButton")]
       performAction:grey_tap()];
   NSError *error;
-  [[EarlGrey selectElementWithMatcher:grey_keyWindow()] assertWithMatcher:grey_notNil()
-                                                                    error:&error];
+  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:grey_notNil()
+                                                                   error:&error];
   XCTAssertNotNil(error);
   XCTAssertEqual(error.code, kGREYInteractionTimeoutErrorCode);
 }
@@ -253,7 +253,7 @@
 
   // Longest animation is a sublayer with an 8 second animation enqueued on it. However it will be
   // trimmed to around 3 seconds as that's the allowable duration.
-  [[EarlGrey selectElementWithMatcher:grey_keyWindow()] assertWithMatcher:grey_notNil()];
+  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:grey_notNil()];
   XCTAssertLessThan(CACurrentMediaTime() - startTime, 4);
 }
 

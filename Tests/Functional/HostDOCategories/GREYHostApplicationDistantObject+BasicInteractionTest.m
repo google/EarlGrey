@@ -166,7 +166,7 @@ static UIViewController *gViewController;
 }
 
 - (id<GREYMatcher>)sampleShorthandMatcher {
-  return grey_keyWindow();
+  return GREYKeyWindow();
 }
 
 - (id<GREYMatcher>)matcherForStatusBarWindow {

@@ -212,7 +212,7 @@
   XCTAssertNotNil(error);
   // Images are nilled out on a successful check of any sort.
   XCTAssertTrue([host visibilityImagesArePresent]);
-  [[EarlGrey selectElementWithMatcher:grey_keyWindow()]
+  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()]
       assertWithMatcher:grey_sufficientlyVisible()];
   XCTAssertTrue([host visibilityImagesAreAbsent]);
   // Images are still nil on a non-visibility failure.

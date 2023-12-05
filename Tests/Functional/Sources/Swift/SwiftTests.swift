@@ -273,7 +273,7 @@ class SwiftTests: XCTestCase {
     GREYConfiguration.shared.setValue(
       NSNumber(value: GREYAppState.pendingNetworkRequest.rawValue),
       forConfigKey: GREYConfigKey.ignoreAppStates)
-    EarlGrey.selectElement(with: grey_keyWindow())
+    EarlGrey.selectElement(with: GREYKeyWindow())
       .assert(grey_notNil())
   }
 

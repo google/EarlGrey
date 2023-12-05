@@ -146,7 +146,7 @@ fine for you now.
   [application launch];
 
   // EarlGrey Statement
-  [[EarlGrey selectElementWithMatcher:grey_keyWindow()] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] performAction:grey_tap()];
 }
 
 @end
@@ -201,7 +201,7 @@ class MyFirstEarlGreyTest: XCTestCase {
   func testExample() {
     let application: XCUIApplication = XCUIApplication()
     application.launch()
-    EarlGrey.selectElement(with: grey_keyWindow())
+    EarlGrey.selectElement(with: GREYKeyWindow())
       .perform(grey_tap())
   }
 }

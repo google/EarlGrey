@@ -390,7 +390,7 @@
  * Checks the formatting for an assertion failure.
  */
 - (void)testAssertionInteractionErrorDescription {
-  [[EarlGrey selectElementWithMatcher:grey_keyWindow()] assertWithMatcher:grey_nil()];
+  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:grey_nil()];
   NSString *expectedDetailsTillElement = @"Element does not meet assertion criteria:\nisNil\n\n"
                                           "Element:\n<UIWindow:";
   NSString *expectedDetailsForMatcher = @"\n\nMismatch:\nisNil\n\nElement Matcher:\n"
@@ -565,7 +565,7 @@
 - (void)testSearchActionConstraints {
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"Invalid")]
          usingSearchAction:grey_scrollInDirection(kGREYDirectionRight, 100)
-      onElementWithMatcher:grey_keyWindow()] assertWithMatcher:grey_notNil() error:nil];
+      onElementWithMatcher:GREYKeyWindow()] assertWithMatcher:grey_notNil() error:nil];
   NSString *expectedDetailWrappedError =
       @"Failed Assertion:\n"
       @"assertWithMatcher:isNotNil\n"
@@ -629,7 +629,7 @@
                                                                   }];
   [[GREY_REMOTE_CLASS_IN_APP(NSRunLoop) currentRunLoop] addTimer:validTimer
                                                          forMode:NSDefaultRunLoopMode];
-  [[EarlGrey selectElementWithMatcher:grey_keyWindow()] assertWithMatcher:grey_notNil()];
+  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:grey_notNil()];
   [[GREYConfiguration sharedConfiguration] reset];
   NSString *timerSuggestion =
       @"You can ignore a timer by setting kNSTimerIgnoreTrackingKey:@(YES) as an associated object "

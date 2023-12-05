@@ -67,7 +67,7 @@
 - (void)testCustomNSErrorInAction {
   id<GREYAction> failingAction = [[GREYHostApplicationDistantObject sharedInstance] failingAction];
   NSError *error;
-  [[EarlGrey selectElementWithMatcher:grey_keyWindow()] performAction:failingAction error:&error];
+  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] performAction:failingAction error:&error];
   NSString *errorDescription = @"The operation couldn’t be completed. (Generic Error error 1.)";
   XCTAssertTrue([error.description containsString:errorDescription]);
 }
@@ -80,7 +80,7 @@
   id<GREYAssertion> failingAssertion =
       [[GREYHostApplicationDistantObject sharedInstance] failingAssertion];
   NSError *error;
-  [[EarlGrey selectElementWithMatcher:grey_keyWindow()] assert:failingAssertion error:&error];
+  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assert:failingAssertion error:&error];
   NSString *errorDescription = @"The operation couldn’t be completed. (Generic Error error 1.)";
   XCTAssertTrue([error.description containsString:errorDescription]);
 }
@@ -220,13 +220,13 @@
   GREYError *error;
   NSString *assertionFailureString = @"Element does not meet assertion criteria:\nisNil\n\n"
                                      @"Element:";
-  [[EarlGrey selectElementWithMatcher:grey_keyWindow()] assertWithMatcher:grey_nil() error:&error];
+  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:grey_nil() error:&error];
   XCTAssertTrue([error.description containsString:assertionFailureString]);
 }
 
 - (void)testActionErrorContainsHierarchyForFailures {
   NSError *error;
-  [[EarlGrey selectElementWithMatcher:grey_keyWindow()]
+  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()]
       performAction:grey_scrollInDirection(kGREYDirectionUp, 10)
               error:&error];
   XCTAssertTrue([error.description containsString:@"|--<"]);
@@ -235,7 +235,7 @@
 
 - (void)testAssertionErrorContainsHierarchyForFailures {
   NSError *error;
-  [[EarlGrey selectElementWithMatcher:grey_keyWindow()] assertWithMatcher:grey_nil() error:&error];
+  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:grey_nil() error:&error];
   XCTAssertTrue([error.description containsString:@"|--<"]);
   XCTAssertFalse([error.description containsString:@"Stack Trace:"]);
 }
