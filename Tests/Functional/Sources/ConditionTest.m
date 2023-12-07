@@ -31,22 +31,22 @@
 }
 
 - (void)tearDown {
-  [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"EarlGrey TestApp")]
-      performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYButtonTitle(@"EarlGrey TestApp")]
+      performAction:GREYTap()];
   [super tearDown];
 }
 
 - (void)testViewAppearanceTogglingWithGREYCondition {
   // Tap on a button that will make a view disappear after 1 seconds.
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"toggleButton")]
-      performAction:grey_tap()];
+      performAction:GREYTap()];
 
   GREYCondition* condition = [GREYCondition
       conditionWithName:@"waitTillDisappear"
                   block:^BOOL(void) {
                     NSError* error = nil;
                     [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"viewToToggle")]
-                        assertWithMatcher:grey_notVisible()
+                        assertWithMatcher:GREYNotVisible()
                                     error:&error];
                     return error == nil;
                   }];
@@ -59,7 +59,7 @@
                   block:^BOOL(void) {
                     NSError* error = nil;
                     [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"non-existent-view")]
-                        assertWithMatcher:grey_notVisible()
+                        assertWithMatcher:GREYNotVisible()
                                     error:&error];
                     return error == nil;
                   }];

@@ -31,97 +31,97 @@
 
 // Test for https://github.com/google/EarlGrey/issues/108
 - (void)testAccessibilityMessageViewController {
-  [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"Open MVC")] performAction:grey_tap()];
-  [[[EarlGrey selectElementWithMatcher:grey_anything()] atIndex:0] assertWithMatcher:grey_notNil()];
+  [[EarlGrey selectElementWithMatcher:GREYButtonTitle(@"Open MVC")] performAction:GREYTap()];
+  [[[EarlGrey selectElementWithMatcher:GREYAnything()] atIndex:0] assertWithMatcher:GREYNotNil()];
 }
 
 - (void)testAccessibilityValues {
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityValue(@"SquareElementValue")]
-      assertWithMatcher:grey_sufficientlyVisible()];
+      assertWithMatcher:GREYSufficientlyVisible()];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityValue(@"CircleElementValue")]
-      assertWithMatcher:grey_sufficientlyVisible()];
+      assertWithMatcher:GREYSufficientlyVisible()];
   [[EarlGrey
       selectElementWithMatcher:GREYAccessibilityValue(@"PartialOffScreenRectangleElementValue")]
-      assertWithMatcher:grey_not(grey_sufficientlyVisible())];
+      assertWithMatcher:GREYNot(GREYSufficientlyVisible())];
 }
 
 - (void)testAccessibilityElementTappedSuccessfullyWithTapAtPoint {
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"SquareElementLabel")]
-      performAction:grey_tapAtPoint(CGPointMake(1, 1))];
+      performAction:GREYTapAtPoint(CGPointMake(1, 1))];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AccessibilityElementStatus")]
-      assertWithMatcher:grey_text(@"Square Tapped")];
+      assertWithMatcher:GREYText(@"Square Tapped")];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"CircleElementLabel")]
-      performAction:grey_tapAtPoint(CGPointMake(49, 49))];
+      performAction:GREYTapAtPoint(CGPointMake(49, 49))];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AccessibilityElementStatus")]
-      assertWithMatcher:grey_text(@"Circle Tapped")];
+      assertWithMatcher:GREYText(@"Circle Tapped")];
 }
 
 - (void)testSquareTappedSuccessfully {
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"SquareElementLabel")]
-      assertWithMatcher:grey_sufficientlyVisible()];
+      assertWithMatcher:GREYSufficientlyVisible()];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"SquareElementLabel")]
-      performAction:grey_tap()];
+      performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AccessibilityElementStatus")]
-      assertWithMatcher:grey_text(@"Square Tapped")];
+      assertWithMatcher:GREYText(@"Square Tapped")];
 }
 
 - (void)testSquareTappedAtOriginSuccessfully {
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"SquareElementLabel")]
-      assertWithMatcher:grey_sufficientlyVisible()];
+      assertWithMatcher:GREYSufficientlyVisible()];
   // Square element rect is {50, 150, 100, 100}
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"SquareElementLabel")]
-      performAction:grey_tapAtPoint(CGPointMake(0, 0))];
+      performAction:GREYTapAtPoint(CGPointMake(0, 0))];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AccessibilityElementStatus")]
-      assertWithMatcher:grey_text(@"Square Tapped")];
+      assertWithMatcher:GREYText(@"Square Tapped")];
 }
 
 - (void)testSquareTappedAtSpecificPointSuccessfully {
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"SquareElementLabel")]
-      assertWithMatcher:grey_sufficientlyVisible()];
+      assertWithMatcher:GREYSufficientlyVisible()];
   // Square element rect is {50, 150, 100, 100}
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"SquareElementLabel")]
-      performAction:grey_tapAtPoint(CGPointMake(50, 50))];
+      performAction:GREYTapAtPoint(CGPointMake(50, 50))];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AccessibilityElementStatus")]
-      assertWithMatcher:grey_text(@"Square Tapped")];
+      assertWithMatcher:GREYText(@"Square Tapped")];
 }
 
 - (void)testSquareTappedAtEndBoundsSuccessfully {
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"SquareElementLabel")]
-      assertWithMatcher:grey_sufficientlyVisible()];
+      assertWithMatcher:GREYSufficientlyVisible()];
   // Square element rect is {50, 150, 100, 100}
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"SquareElementLabel")]
-      performAction:grey_tapAtPoint(CGPointMake(99, 99))];
+      performAction:GREYTapAtPoint(CGPointMake(99, 99))];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AccessibilityElementStatus")]
-      assertWithMatcher:grey_text(@"Square Tapped")];
+      assertWithMatcher:GREYText(@"Square Tapped")];
 }
 
 - (void)testSquareTappedOutsideBoundsDoesNothing {
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"SquareElementLabel")]
-      assertWithMatcher:grey_sufficientlyVisible()];
+      assertWithMatcher:GREYSufficientlyVisible()];
   // Square element rect is {50, 150, 100, 100}
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"SquareElementLabel")]
-      performAction:grey_tapAtPoint(CGPointMake(151, 251))];
+      performAction:GREYTapAtPoint(CGPointMake(151, 251))];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AccessibilityElementStatus")]
-      assertWithMatcher:grey_not(grey_text(@"Square Tapped"))];
+      assertWithMatcher:GREYNot(GREYText(@"Square Tapped"))];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"SquareElementLabel")]
-      performAction:grey_tapAtPoint(CGPointMake(49, 150))];
+      performAction:GREYTapAtPoint(CGPointMake(49, 150))];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AccessibilityElementStatus")]
-      assertWithMatcher:grey_not(grey_text(@"Square Tapped"))];
+      assertWithMatcher:GREYNot(GREYText(@"Square Tapped"))];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"SquareElementLabel")]
-      performAction:grey_tapAtPoint(CGPointMake(50, 149))];
+      performAction:GREYTapAtPoint(CGPointMake(50, 149))];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AccessibilityElementStatus")]
-      assertWithMatcher:grey_not(grey_text(@"Square Tapped"))];
+      assertWithMatcher:GREYNot(GREYText(@"Square Tapped"))];
 }
 
 - (void)testSquareTappedOutsideWindowBoundsFails {
   [NSThread mainThread].threadDictionary[GREYFailureHandlerKey] = [[FailureHandler alloc] init];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"SquareElementLabel")]
-      assertWithMatcher:grey_sufficientlyVisible()];
+      assertWithMatcher:GREYSufficientlyVisible()];
 
   @try {
     // Square element rect is {50, 150, 100, 100}
     [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"SquareElementLabel")]
-        performAction:grey_tapAtPoint(CGPointMake(-51, -151))];
+        performAction:GREYTapAtPoint(CGPointMake(-51, -151))];
     GREYFail(@"Should throw an exception");
   } @catch (NSException *exception) {
     NSRange exceptionRange = [[exception reason] rangeOfString:@"Cannot perform tap"];
@@ -131,24 +131,24 @@
 
 - (void)testCircleTappedSuccessfully {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CircleElementIdentifier")]
-      assertWithMatcher:grey_sufficientlyVisible()];
+      assertWithMatcher:GREYSufficientlyVisible()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CircleElementIdentifier")]
-      performAction:grey_tap()];
+      performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AccessibilityElementStatus")]
-      assertWithMatcher:grey_text(@"Circle Tapped")];
+      assertWithMatcher:GREYText(@"Circle Tapped")];
 }
 
 - (void)testRectangleIsNotSufficientlyVisible {
   [[EarlGrey
       selectElementWithMatcher:GREYAccessibilityLabel(@"PartialOffScreenRectangleElementLabel")]
-      assertWithMatcher:grey_not(grey_sufficientlyVisible())];
+      assertWithMatcher:GREYNot(GREYSufficientlyVisible())];
 }
 
 - (void)testErrorDescriptionOfVisibilityMatchers {
   NSError *error;
   [[EarlGrey
       selectElementWithMatcher:GREYAccessibilityLabel(@"PartialOffScreenRectangleElementLabel")]
-      assertWithMatcher:grey_sufficientlyVisible()
+      assertWithMatcher:GREYSufficientlyVisible()
                   error:&error];
   XCTAssertTrue([error.description containsString:@"Expected:"]);
   XCTAssertTrue([error.description containsString:@"Actual:"]);
@@ -156,7 +156,7 @@
   error = nil;
   [[EarlGrey
       selectElementWithMatcher:GREYAccessibilityLabel(@"PartialOffScreenRectangleElementLabel")]
-      assertWithMatcher:grey_minimumVisiblePercent(1.0)
+      assertWithMatcher:GREYMinimumVisiblePercent(1.0)
                   error:&error];
   XCTAssertTrue([error.description containsString:@"Expected:"]);
   XCTAssertTrue([error.description containsString:@"Actual:"]);
@@ -164,24 +164,24 @@
 
 - (void)testOffScreenAccessibilityElementIsNotVisible {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"OffScreenElementIdentifier")]
-      assertWithMatcher:grey_notVisible()];
+      assertWithMatcher:GREYNotVisible()];
 }
 
 - (void)testElementWithZeroHeightIsNotVisible {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"ElementWithZeroHeightIdentifier")]
-      assertWithMatcher:grey_notVisible()];
+      assertWithMatcher:GREYNotVisible()];
 }
 
 - (void)testElementWithZeroWidthIsNotVisible {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"ElementWithZeroWidthIdentifier")]
-      assertWithMatcher:grey_notVisible()];
+      assertWithMatcher:GREYNotVisible()];
 }
 
 - (void)testTapElementPartiallyOutside {
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"PartiallyOutsideElementLabel")]
-      performAction:grey_tap()];
+      performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AccessibilityElementStatus")]
-      assertWithMatcher:grey_text(@"Partially Outside Tapped")];
+      assertWithMatcher:GREYText(@"Partially Outside Tapped")];
 }
 
 @end

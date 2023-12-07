@@ -61,7 +61,7 @@
 
 - (void)testSimpleRemoteMatcherBlockInTest {
   __block BOOL foo = NO;
-  [[EarlGrey selectElementWithMatcher:grey_keyWindow()] assertWithMatcher:grey_notNil()];
+  [[EarlGrey selectElementWithMatcher:grey_keyWindow()] assertWithMatcher:GREYNotNil()];
   GREYElementMatcherBlock *matcherBlock = [GREYElementMatcherBlock
       matcherWithMatchesBlock:^BOOL(id _Nonnull element) {
         XCTAssertTrue(YES);
@@ -108,7 +108,7 @@
         [description appendText:@"Test Block"];
       }];
   NSError *error;
-  [[EarlGrey selectElementWithMatcher:matcherBlock] assertWithMatcher:grey_notNil() error:&error];
+  [[EarlGrey selectElementWithMatcher:matcherBlock] assertWithMatcher:GREYNotNil() error:&error];
   XCTAssertNotNil(error);
   XCTAssertEqualObjects(error.domain, kGREYInteractionErrorDomain);
   [[EarlGrey selectElementWithMatcher:grey_keyWindow()] assertWithMatcher:matcherBlock
@@ -126,7 +126,7 @@
         [description appendText:@"Test"];
       }];
   [[EarlGrey selectElementWithMatcher:grey_allOf(grey_keyWindow(), allOfMatcherBlock, nil)]
-      assertWithMatcher:grey_allOf(grey_notNil(), allOfMatcherBlock, nil)];
+      assertWithMatcher:grey_allOf(GREYNotNil(), allOfMatcherBlock, nil)];
 
   GREYElementMatcherBlock *anyOfMatcherBlock = [GREYElementMatcherBlock
       matcherWithMatchesBlock:^BOOL(id _Nonnull element) {
@@ -135,8 +135,8 @@
       descriptionBlock:^(id<GREYDescription> _Nonnull description) {
         [description appendText:@"Test"];
       }];
-  [[[EarlGrey selectElementWithMatcher:grey_anyOf(anyOfMatcherBlock, grey_notNil(), nil)] atIndex:0]
-      assertWithMatcher:grey_anyOf(anyOfMatcherBlock, grey_notNil(), nil)];
+  [[[EarlGrey selectElementWithMatcher:grey_anyOf(anyOfMatcherBlock, GREYNotNil(), nil)] atIndex:0]
+      assertWithMatcher:grey_anyOf(anyOfMatcherBlock, GREYNotNil(), nil)];
 }
 
 - (void)testErrorsOnSimpleRemoteMatcherWithEarlGreyCombinationMatchers {
@@ -149,7 +149,7 @@
       }];
   NSError *error;
   [[EarlGrey selectElementWithMatcher:grey_allOf(grey_keyWindow(), allOfMatcherBlock, nil)]
-      assertWithMatcher:grey_allOf(grey_notNil(), allOfMatcherBlock, nil)
+      assertWithMatcher:grey_allOf(GREYNotNil(), allOfMatcherBlock, nil)
                   error:&error];
   XCTAssertNotNil(error);
   XCTAssertEqualObjects(error.domain, kGREYInteractionErrorDomain);
@@ -161,8 +161,8 @@
       descriptionBlock:^(id<GREYDescription> _Nonnull description) {
         [description appendText:@"Test"];
       }];
-  [[[EarlGrey selectElementWithMatcher:grey_anyOf(anyOfMatcherBlock, grey_notNil(), nil)] atIndex:0]
-      assertWithMatcher:grey_anyOf(anyOfMatcherBlock, grey_notNil(), nil)
+  [[[EarlGrey selectElementWithMatcher:grey_anyOf(anyOfMatcherBlock, GREYNotNil(), nil)] atIndex:0]
+      assertWithMatcher:grey_anyOf(anyOfMatcherBlock, GREYNotNil(), nil)
                   error:&error];
   XCTAssertNotNil(error);
   XCTAssertEqualObjects(error.domain, kGREYInteractionErrorDomain);

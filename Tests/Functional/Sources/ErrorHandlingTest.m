@@ -39,15 +39,15 @@
 - (void)testDescriptionForSearchActionTimeout {
   [self openTestViewNamed:@"Scroll Views"];
   id<GREYMatcher> matcher =
-      grey_allOf(GREYAccessibilityLabel(@"Label 2"), grey_sufficientlyVisible(), nil);
+      grey_allOf(GREYAccessibilityLabel(@"Label 2"), GREYSufficientlyVisible(), nil);
   CFTimeInterval interactionTimeout = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
   [[GREYConfiguration sharedConfiguration] setValue:@(1)
                                        forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
   NSError *error;
   [[[EarlGrey selectElementWithMatcher:matcher]
-         usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 50)
+         usingSearchAction:GREYScrollInDirection(kGREYDirectionDown, 50)
       onElementWithMatcher:GREYAccessibilityLabel(@"Upper Scroll View")]
-      assertWithMatcher:grey_sufficientlyVisible()
+      assertWithMatcher:GREYSufficientlyVisible()
                   error:&error];
   [[GREYConfiguration sharedConfiguration] setValue:@(interactionTimeout)
                                        forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
@@ -92,12 +92,12 @@
 - (void)testDescriptionForSearchActionWithAssertion {
   [self openTestViewNamed:@"Scroll Views"];
   id<GREYMatcher> matcher =
-      grey_allOf(GREYAccessibilityLabel(@"Label 2"), grey_sufficientlyVisible(), nil);
+      grey_allOf(GREYAccessibilityLabel(@"Label 2"), GREYSufficientlyVisible(), nil);
   NSError *error;
   [[[EarlGrey selectElementWithMatcher:matcher]
-         usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 50)
+         usingSearchAction:GREYScrollInDirection(kGREYDirectionDown, 50)
       onElementWithMatcher:GREYAccessibilityLabel(@"Invalid Scroll View")]
-      assertWithMatcher:grey_sufficientlyVisible()
+      assertWithMatcher:GREYSufficientlyVisible()
                   error:&error];
   NSString *searchAPIDescription = @"Search Action:";
   NSString *searchAPIMatcherDescription = @"Search Matcher:";
@@ -117,9 +117,9 @@
                 elementMatcherDescription, error.description);
 
   [[[EarlGrey selectElementWithMatcher:matcher]
-         usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 50)
-      onElementWithMatcher:grey_kindOfClass([UIView class])]
-      assertWithMatcher:grey_sufficientlyVisible()
+         usingSearchAction:GREYScrollInDirection(kGREYDirectionDown, 50)
+      onElementWithMatcher:GREYKindOfClass([UIView class])]
+      assertWithMatcher:GREYSufficientlyVisible()
                   error:&error];
   XCTAssertTrue([error.description containsString:searchAPIDescription],
                 @"Search API Prefix and Action info: %@ not present in Error Description: %@",
@@ -142,11 +142,11 @@
 - (void)testDescriptionForSearchActionWithAction {
   [self openTestViewNamed:@"Scroll Views"];
   id<GREYMatcher> matcher =
-      grey_allOf(GREYAccessibilityLabel(@"Label 2"), grey_sufficientlyVisible(), nil);
+      grey_allOf(GREYAccessibilityLabel(@"Label 2"), GREYSufficientlyVisible(), nil);
   NSError *error;
   [[[EarlGrey selectElementWithMatcher:matcher]
-         usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 50)
-      onElementWithMatcher:GREYAccessibilityLabel(@"Invalid Scroll View")] performAction:grey_tap()
+         usingSearchAction:GREYScrollInDirection(kGREYDirectionDown, 50)
+      onElementWithMatcher:GREYAccessibilityLabel(@"Invalid Scroll View")] performAction:GREYTap()
                                                                                     error:&error];
   NSString *searchAPIDescription = @"Search Action:";
   NSString *searchAPIMatcherDescription = @"Search Matcher:";
@@ -166,8 +166,8 @@
                 elementMatcherDescription, error.description);
 
   [[[EarlGrey selectElementWithMatcher:matcher]
-         usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 50)
-      onElementWithMatcher:grey_kindOfClass([UIView class])] performAction:grey_tap() error:&error];
+         usingSearchAction:GREYScrollInDirection(kGREYDirectionDown, 50)
+      onElementWithMatcher:GREYKindOfClass([UIView class])] performAction:GREYTap() error:&error];
   searchActionDescription = @"Search action failed. Look at the underlying error.";
   XCTAssertTrue([error.description containsString:searchAPIDescription],
                 @"Search API Prefix and Action info: %@ not present in Error Description: %@",
@@ -220,14 +220,14 @@
   GREYError *error;
   NSString *assertionFailureString = @"Element does not meet assertion criteria:\nisNil\n\n"
                                      @"Element:";
-  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:grey_nil() error:&error];
+  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:GREYNil() error:&error];
   XCTAssertTrue([error.description containsString:assertionFailureString]);
 }
 
 - (void)testActionErrorContainsHierarchyForFailures {
   NSError *error;
   [[EarlGrey selectElementWithMatcher:GREYKeyWindow()]
-      performAction:grey_scrollInDirection(kGREYDirectionUp, 10)
+      performAction:GREYScrollInDirection(kGREYDirectionUp, 10)
               error:&error];
   XCTAssertTrue([error.description containsString:@"|--<"]);
   XCTAssertFalse([error.description containsString:@"Stack Trace:"]);
@@ -235,19 +235,19 @@
 
 - (void)testAssertionErrorContainsHierarchyForFailures {
   NSError *error;
-  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:grey_nil() error:&error];
+  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:GREYNil() error:&error];
   XCTAssertTrue([error.description containsString:@"|--<"]);
   XCTAssertFalse([error.description containsString:@"Stack Trace:"]);
 }
 
 - (void)testMatcherErrorContainsHierarchyForFailures {
   NSError *error;
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"Invalid ID")] performAction:grey_tap()
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"Invalid ID")] performAction:GREYTap()
                                                                                    error:&error];
   XCTAssertTrue([error.description containsString:@"|--<"]);
   error = nil;
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"Invalid ID")]
-      assertWithMatcher:grey_notNil()
+      assertWithMatcher:GREYNotNil()
                   error:&error];
   XCTAssertTrue([error.description containsString:@"|--<"]);
 }
@@ -258,10 +258,10 @@
   [[GREYConfiguration sharedConfiguration] setValue:@(1)
                                        forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationControl")]
-      performAction:grey_tap()];
+      performAction:GREYTap()];
   NSError *error;
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationStatus")]
-      assertWithMatcher:grey_text(@"Paused")
+      assertWithMatcher:GREYText(@"Paused")
                   error:&error];
 
   [[GREYConfiguration sharedConfiguration] setValue:@(originalTimeout)
@@ -313,7 +313,7 @@
 - (void)testExceptionDetailsForAMatcherFailure {
   [NSThread mainThread].threadDictionary[GREYFailureHandlerKey] = [[FailureHandler alloc] init];
   @try {
-    [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")] performAction:grey_tap()];
+    [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")] performAction:GREYTap()];
     GREYFail(@"Should throw an exception before this point.");
   } @catch (NSException *exception) {
     NSDictionary<NSString *, id> *userInfo = exception.userInfo;
@@ -334,7 +334,7 @@
   [self openTestViewNamed:@"Visibility Tests"];
   @try {
     [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"orangeView")]
-        assertWithMatcher:grey_sufficientlyVisible()];
+        assertWithMatcher:GREYSufficientlyVisible()];
     GREYFail(@"Should throw an exception before this point.");
   } @catch (NSException *exception) {
     NSDictionary<NSString *, id> *userInfo = exception.userInfo;

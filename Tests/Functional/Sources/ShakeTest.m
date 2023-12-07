@@ -36,7 +36,7 @@
   // Test device shake.
   [EarlGrey shakeDeviceWithError:nil];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"lastTapped")]
-      assertWithMatcher:grey_text([NSString stringWithFormat:@"Device Was Shaken"])];
+      assertWithMatcher:GREYText([NSString stringWithFormat:@"Device Was Shaken"])];
 }
 
 @end

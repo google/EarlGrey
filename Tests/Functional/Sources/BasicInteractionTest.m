@@ -48,7 +48,7 @@
   NSMutableArray<NSValue *> *mutableArray = [NSMutableArray array];
   // Perform operation within the EarlGrey trackable interval.
   [[GREYHostApplicationDistantObject sharedInstance] addToMutableArray:mutableArray afterTime:0.5];
-  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:grey_notNil()];
+  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:GREYNotNil()];
   XCTAssertEqualObjects(mutableArray[0], @(1));
 }
 
@@ -64,7 +64,7 @@
                                                              afterTime:waitTime];
   // EarlGrey Statement doesn't care about the dispatch_after since it's after the trackable
   // duration. The wait time here is insufficient for the dispatch_after to be called.
-  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:grey_notNil()];
+  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:GREYNotNil()];
   // Sleeping on the test's main thread will not work, since  the thread is asleep and the array
   // cannot be obtained. Hence the value isn't added.
   [NSThread sleepForTimeInterval:waitTime];
@@ -78,11 +78,11 @@
  * Performs a long press on an accessibility element in the Basic Views.
  */
 - (void)testLongPressOnAccessibilityElement {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_longPress()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYLongPress()];
 
-  [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"EarlGrey TestApp")]
-      performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYButtonTitle(@"EarlGrey TestApp")]
+      performAction:GREYTap()];
 }
 
 /**
@@ -93,13 +93,13 @@
   GREYConfiguration *config = [GREYConfiguration sharedConfiguration];
   NSNumber *originalTimeout = [config valueForConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
   [config setValue:@(5) forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
   // This matcher should at least 10(s) to match.
   id<GREYMatcher> matcher =
       [[GREYHostApplicationDistantObject sharedInstance] matcherThatTakesTime:10];
   NSError *error;
   [[EarlGrey selectElementWithMatcher:grey_allOf(GREYKeyWindow(), matcher, NULL)]
-      assertWithMatcher:grey_notNil()
+      assertWithMatcher:GREYNotNil()
                   error:&error];
   XCTAssertNil(error, @"Interaction should finish successfully although matching takes longer than "
                       @"interaction time out time which is 5(s).");
@@ -110,7 +110,7 @@
  * Checks if hierarchy printing can work using different distant object mechanisms.
  */
 - (void)testHierarchyPrinting {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] assertWithMatcher:grey_notNil()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] assertWithMatcher:GREYNotNil()];
   NSString *hierarchyFromTheTest = [GREYElementHierarchy hierarchyString];
   NSString *hierarchyFromRemoteClass =
       [GREY_REMOTE_CLASS_IN_APP(GREYElementHierarchy) hierarchyString];
@@ -129,12 +129,12 @@
 - (void)testZoomingOutwardFromScrollView {
   [self openTestViewNamed:@"Zooming Scroll View"];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"ZoomingScrollView")]
-      performAction:grey_pinchSlowInDirectionAndAngle(kGREYPinchDirectionOutward,
+      performAction:GREYPinchSlowInDirectionAndAngle(kGREYPinchDirectionOutward,
                                                       kGREYPinchAngleDefault)];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"ZoomingScrollView")]
-      performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"EarlGrey TestApp")]
-      performAction:grey_tap()];
+      performAction:GREYTap()];
+  [[EarlGrey selectElementWithMatcher:GREYButtonTitle(@"EarlGrey TestApp")]
+      performAction:GREYTap()];
 }
 
 /**
@@ -143,12 +143,12 @@
 - (void)testZoomingIntoScrollView {
   [self openTestViewNamed:@"Zooming Scroll View"];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"ZoomingScrollView")]
-      performAction:grey_pinchSlowInDirectionAndAngle(kGREYPinchDirectionInward,
+      performAction:GREYPinchSlowInDirectionAndAngle(kGREYPinchDirectionInward,
                                                       kGREYPinchAngleDefault)];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"ZoomingScrollView")]
-      performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"EarlGrey TestApp")]
-      performAction:grey_tap()];
+      performAction:GREYTap()];
+  [[EarlGrey selectElementWithMatcher:GREYButtonTitle(@"EarlGrey TestApp")]
+      performAction:GREYTap()];
 }
 
 /**
@@ -159,9 +159,9 @@
   [self openTestViewNamed:@"Simple Tap View"];
   for (int i = 0; i < 20; i++) {
     NSString *text = [NSString stringWithFormat:@"Num Clicks: %d", i];
-    [[EarlGrey selectElementWithMatcher:grey_text(text)]
-        assertWithMatcher:grey_sufficientlyVisible()];
-    [[EarlGrey selectElementWithMatcher:grey_text(@"Button")] performAction:grey_tap()];
+    [[EarlGrey selectElementWithMatcher:GREYText(text)]
+        assertWithMatcher:GREYSufficientlyVisible()];
+    [[EarlGrey selectElementWithMatcher:GREYText(@"Button")] performAction:GREYTap()];
   }
 }
 
@@ -182,9 +182,9 @@
   [self openTestViewNamed:@"Simple Tap View"];
   for (int i = 0; i < 20; i++) {
     NSString *text = [NSString stringWithFormat:@"Num Clicks: %d", i];
-    [[EarlGrey selectElementWithMatcher:grey_text(text)]
-        assertWithMatcher:grey_sufficientlyVisible()];
-    [[EarlGrey selectElementWithMatcher:grey_text(@"Button")] performAction:grey_tap()];
+    [[EarlGrey selectElementWithMatcher:GREYText(text)]
+        assertWithMatcher:GREYSufficientlyVisible()];
+    [[EarlGrey selectElementWithMatcher:GREYText(@"Button")] performAction:GREYTap()];
   }
 
   self.application.launchEnvironment = originalLaunchEnvironment;
@@ -195,8 +195,8 @@
  * Ensure that any assertion on an unmatched element throws an exception.
  */
 - (void)testNotNilCallOnUnmatchedElementThrowsException {
-  XCTAssertThrows([[[EarlGrey selectElementWithMatcher:grey_kindOfClassName(@"GarbageValue")]
-      atIndex:0] assertWithMatcher:grey_notNil()]);
+  XCTAssertThrows([[[EarlGrey selectElementWithMatcher:GREYKindOfClassName(@"GarbageValue")]
+      atIndex:0] assertWithMatcher:GREYNotNil()]);
 }
 
 /**
@@ -204,8 +204,8 @@
  */
 - (void)testNotNilCheckOnMatchedElementDoesNotThrowException {
   GREYElementInteraction *interaction =
-      [[EarlGrey selectElementWithMatcher:grey_kindOfClass([UITableViewCell class])] atIndex:0];
-  [interaction assertWithMatcher:grey_notNil()];
+      [[EarlGrey selectElementWithMatcher:GREYKindOfClass([UITableViewCell class])] atIndex:0];
+  [interaction assertWithMatcher:GREYNotNil()];
 }
 
 /**
@@ -213,21 +213,21 @@
  */
 - (void)testErrorHandling {
   NSError *error;
-  [[EarlGrey selectElementWithMatcher:grey_text(@"GarbageValue")] performAction:grey_tap()
+  [[EarlGrey selectElementWithMatcher:GREYText(@"GarbageValue")] performAction:GREYTap()
                                                                           error:&error];
   XCTAssertEqualObjects(error.domain, kGREYInteractionErrorDomain,
                         @"Interaction Error not thrown for tapping on an invalid element.");
   error = nil;
-  [[EarlGrey selectElementWithMatcher:grey_text(@"GarbageValue")] assertWithMatcher:grey_notNil()
+  [[EarlGrey selectElementWithMatcher:GREYText(@"GarbageValue")] assertWithMatcher:GREYNotNil()
                                                                               error:&error];
   XCTAssertEqualObjects(error.domain, kGREYInteractionErrorDomain,
                         @"Interaction Error not thrown for not-nil assert on an invalid element.");
   error = nil;
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()
                                                                          error:&error];
   XCTAssertNil(error, @"Error not nil for tapping on a valid element");
   error = nil;
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] assertWithMatcher:grey_notNil()
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] assertWithMatcher:GREYNotNil()
                                                                        error:&error];
   XCTAssertNil(error, @"Error not nil for asserting not-nil on a valid element");
 }
@@ -236,14 +236,14 @@
  * Perform typing in a text field and assert the typed value.
  */
 - (void)testTypingRandomValueInTextFields {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
-      performAction:grey_typeText(@"hi")];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"hi")]
-      assertWithMatcher:grey_sufficientlyVisible()];
-  [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"EarlGrey TestApp")]
-      performAction:grey_tap()];
+      performAction:GREYTypeText(@"hi")];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"hi")]
+      assertWithMatcher:GREYSufficientlyVisible()];
+  [[EarlGrey selectElementWithMatcher:GREYButtonTitle(@"EarlGrey TestApp")]
+      performAction:GREYTap()];
 }
 
 /**
@@ -251,43 +251,43 @@
  * typed value.
  */
 - (void)testTypingLongStringInTextField {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
-      performAction:grey_typeText(@"Sam01le SWiFt TeSt")];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Sam01le SWiFt TeSt")]
-      assertWithMatcher:grey_sufficientlyVisible()];
-  [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"EarlGrey TestApp")]
-      performAction:grey_tap()];
+      performAction:GREYTypeText(@"Sam01le SWiFt TeSt")];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Sam01le SWiFt TeSt")]
+      assertWithMatcher:GREYSufficientlyVisible()];
+  [[EarlGrey selectElementWithMatcher:GREYButtonTitle(@"EarlGrey TestApp")]
+      performAction:GREYTap()];
 }
 
 /**
  * Perform replace-text in a text field and assert the typed value.
  */
 - (void)testReplaceTextInTextField {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
-      performAction:grey_replaceText(@"donec.metus+spam@google.com")];
-  [[EarlGrey selectElementWithMatcher:grey_allOf(grey_text(@"donec.metus+spam@google.com"),
-                                                 grey_kindOfClass([UITextField class]), nil)]
-      assertWithMatcher:grey_sufficientlyVisible()];
+      performAction:GREYReplaceText(@"donec.metus+spam@google.com")];
+  [[EarlGrey selectElementWithMatcher:grey_allOf(GREYText(@"donec.metus+spam@google.com"),
+                                                 GREYKindOfClass([UITextField class]), nil)]
+      assertWithMatcher:GREYSufficientlyVisible()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
-      performAction:grey_replaceText(@"aA1a1A1aA1AaAa1A1a")];
-  [[EarlGrey selectElementWithMatcher:grey_allOf(grey_text(@"aA1a1A1aA1AaAa1A1a"),
-                                                 grey_kindOfClass([UITextField class]), nil)]
-      assertWithMatcher:grey_sufficientlyVisible()];
+      performAction:GREYReplaceText(@"aA1a1A1aA1AaAa1A1a")];
+  [[EarlGrey selectElementWithMatcher:grey_allOf(GREYText(@"aA1a1A1aA1AaAa1A1a"),
+                                                 GREYKindOfClass([UITextField class]), nil)]
+      assertWithMatcher:GREYSufficientlyVisible()];
 }
 
 /**
  * Check notifications are fired on the main thread for the replace text action in a UITextField.
  */
 - (void)testReplaceTextFiredNotifications {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
   [[GREYHostApplicationDistantObject sharedInstance] setUpObserverForReplaceText];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
-      performAction:grey_replaceText(@"donec.metus+spam@google.com")];
+      performAction:GREYReplaceText(@"donec.metus+spam@google.com")];
   BOOL notificationReceived = [[GREYHostApplicationDistantObject sharedInstance]
       textFieldTextDidBeginEditingNotificationFiredOnMainThread];
   XCTAssertTrue(notificationReceived);
@@ -297,11 +297,11 @@
  * Check for basic visibility checking in the Basic Views.
  */
 - (void)testAssertionsInBasicViews {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")]
-      assertWithMatcher:grey_sufficientlyVisible()];
-  [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"EarlGrey TestApp")]
-      performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")]
+      assertWithMatcher:GREYSufficientlyVisible()];
+  [[EarlGrey selectElementWithMatcher:GREYButtonTitle(@"EarlGrey TestApp")]
+      performAction:GREYTap()];
 }
 
 /**
@@ -309,8 +309,8 @@
  * element to be visible.
  */
 - (void)testEarlGreyInvocationInsideConditionUsingWaitWithTimeout {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
   __block id<GREYAction> action =
       [[GREYHostApplicationDistantObject sharedInstance] actionForGettingTextFromMatchedElement];
   // Setup a condition to wait until a specific label says specific text.
@@ -326,7 +326,7 @@
 
   // Switch text and wait.
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Switch")]
-      performAction:grey_turnSwitchOn(NO)];
+      performAction:GREYTurnSwitchOn(NO)];
   XCTAssertTrue([waitCondition waitWithTimeout:10.0],
                 @"Switch not manipulated within the allotted time for a Condition.");
 }
@@ -336,53 +336,53 @@
  * the element to be visible.
  */
 - (void)testEarlGreyInvocationInsideConditionUsingWaitWithLargeTimeout {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
   GREYCondition *waitCondition = [GREYCondition
       conditionWithName:@"conditionWithAction"
                   block:^BOOL {
                     static double stepperValue = 51;
-                    [[EarlGrey selectElementWithMatcher:grey_kindOfClass([UIStepper class])]
-                        performAction:grey_setStepperValue(++stepperValue)];
+                    [[EarlGrey selectElementWithMatcher:GREYKindOfClass([UIStepper class])]
+                        performAction:GREYSetStepperValue(++stepperValue)];
                     return stepperValue == 55;
                   }];
   XCTAssertTrue([waitCondition waitWithTimeout:15.0],
                 @"Stepper Change not completed within the allotted time for the Condition.");
 
-  [[EarlGrey selectElementWithMatcher:grey_kindOfClass([UIStepper class])]
-      assertWithMatcher:grey_stepperValue(55)];
+  [[EarlGrey selectElementWithMatcher:GREYKindOfClass([UIStepper class])]
+      assertWithMatcher:GREYStepperValue(55)];
 }
 
 /**
  * Ensure basic interaction with a stepper.
  */
 - (void)testBasicInteractionWithStepper {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_kindOfClass([UIStepper class])]
-      performAction:grey_setStepperValue(87)];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
+  [[EarlGrey selectElementWithMatcher:GREYKindOfClass([UIStepper class])]
+      performAction:GREYSetStepperValue(87)];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Value Label")]
-      assertWithMatcher:grey_text(@"Value: 87%")];
-  [[[EarlGrey selectElementWithMatcher:grey_kindOfClass([UIStepper class])]
-      performAction:grey_setStepperValue(16)] assertWithMatcher:grey_stepperValue(16)];
+      assertWithMatcher:GREYText(@"Value: 87%")];
+  [[[EarlGrey selectElementWithMatcher:GREYKindOfClass([UIStepper class])]
+      performAction:GREYSetStepperValue(16)] assertWithMatcher:GREYStepperValue(16)];
 }
 
 /**
  * Ensure basic interaction with a switch.
  */
 - (void)testInteractionWithSwitch {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
 
   [[[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Switch")]
-      performAction:grey_turnSwitchOn(NO)] assertWithMatcher:grey_switchWithOnState(NO)];
+      performAction:GREYTurnSwitchOn(NO)] assertWithMatcher:GREYSwitchWithOnState(NO)];
 
   [[[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Switch")]
-      performAction:grey_turnSwitchOn(YES)] assertWithMatcher:grey_switchWithOnState(YES)];
+      performAction:GREYTurnSwitchOn(YES)] assertWithMatcher:GREYSwitchWithOnState(YES)];
 
   [[[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Switch")]
-      performAction:grey_turnSwitchOn(YES)] assertWithMatcher:grey_switchWithOnState(YES)];
+      performAction:GREYTurnSwitchOn(YES)] assertWithMatcher:GREYSwitchWithOnState(YES)];
 
   [[[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Switch")]
-      performAction:grey_turnSwitchOn(NO)] assertWithMatcher:grey_switchWithOnState(NO)];
+      performAction:GREYTurnSwitchOn(NO)] assertWithMatcher:GREYSwitchWithOnState(NO)];
 }
 
 /**
@@ -391,38 +391,38 @@
 - (void)testInteractionWithSwitchWithShortTap {
   [self openTestViewNamed:@"Switch Views"];
   [[EarlGrey selectElementWithMatcher:grey_allOf(grey_accessibilityID(@"switch1"),
-                                                 grey_interactable(), nil)]
-      performAction:grey_turnSwitchOnWithShortTap(NO)];
+                                                 GREYInteractable(), nil)]
+      performAction:GREYTurnSwitchOnWithShortTap(NO)];
 
   [[EarlGrey selectElementWithMatcher:grey_allOf(grey_accessibilityID(@"switch1"),
-                                                 grey_interactable(), nil)]
-      performAction:grey_turnSwitchOnWithShortTap(YES)];
+                                                 GREYInteractable(), nil)]
+      performAction:GREYTurnSwitchOnWithShortTap(YES)];
 
   [[EarlGrey selectElementWithMatcher:grey_allOf(grey_accessibilityID(@"switch1"),
-                                                 grey_interactable(), nil)]
-      performAction:grey_turnSwitchOnWithShortTap(YES)];
+                                                 GREYInteractable(), nil)]
+      performAction:GREYTurnSwitchOnWithShortTap(YES)];
 
   [[EarlGrey selectElementWithMatcher:grey_allOf(grey_accessibilityID(@"switch1"),
-                                                 grey_interactable(), nil)]
-      performAction:grey_turnSwitchOnWithShortTap(NO)];
+                                                 GREYInteractable(), nil)]
+      performAction:GREYTurnSwitchOnWithShortTap(NO)];
 }
 
 /**
  * Ensure basic interaction with a hidden label.
  */
 - (void)testInteractionWithHiddenLabel {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Hidden Label")]
-      assertWithMatcher:grey_text(@"Hidden Label")];
+      assertWithMatcher:GREYText(@"Hidden Label")];
 }
 
 /**
  * Ensure basic interaction with a view who's parent has alpha set to zero.
  */
 - (void)testInteractionWithLabelWithParentWithAlphaZero {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Long Press")]
-      assertWithMatcher:grey_not(grey_sufficientlyVisible())];
+      assertWithMatcher:GREYNot(GREYSufficientlyVisible())];
 }
 
 /**
@@ -431,10 +431,10 @@
 - (void)testEarlGreyRemoteMatcher {
   id<GREYMatcher> matcher =
       [[GREYHostApplicationDistantObject sharedInstance] matcherForFirstElement];
-  [[EarlGrey selectElementWithMatcher:grey_allOf(grey_kindOfClass([UITableViewCell class]), matcher,
-                                                 nil)] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:grey_allOf(GREYKindOfClass([UITableViewCell class]), matcher,
+                                                 nil)] performAction:GREYTap()];
   NSError *error;
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] assertWithMatcher:grey_notNil()
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] assertWithMatcher:GREYNotNil()
                                                                              error:&error];
   XCTAssertEqual(error.code, kGREYInteractionElementNotFoundErrorCode,
                  @"No table view cell from the main Table can be visible.");
@@ -444,8 +444,8 @@
  * Ensure basic interaction using a remote action.
  */
 - (void)testEarlGreyRemoteAction {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
   id<GREYAction> action =
       [[GREYHostApplicationDistantObject sharedInstance] actionForTapOnAccessibleElement];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Switch")] performAction:action];
@@ -457,16 +457,16 @@
 - (void)testEarlGreyRemoteAssertion {
   id<GREYAssertion> assertion =
       [[GREYHostApplicationDistantObject sharedInstance] assertionThatAlphaIsGreaterThanZero];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] assert:assertion];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] assert:assertion];
 }
 
 /**
  * Disabled UIControl should still be tapped if requested.
  */
 - (void)testTappingOnADisabledButton {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
   NSError *error;
-  [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"Disabled")] performAction:grey_tap()
+  [[EarlGrey selectElementWithMatcher:GREYButtonTitle(@"Disabled")] performAction:GREYTap()
                                                                              error:&error];
   XCTAssertNil(error);
 }
@@ -475,27 +475,27 @@
  * Checks the working of a condition with a large timeout.
  */
 - (void)testEarlGreyInvocationInsideGREYConditionUsingWaitWithLargeTimeout {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
   GREYCondition *condition = [GREYCondition
       conditionWithName:@"conditionWithAction"
                   block:^BOOL {
                     static double stepperValue = 51;
-                    [[EarlGrey selectElementWithMatcher:grey_kindOfClass([UIStepper class])]
-                        performAction:grey_setStepperValue(++stepperValue)];
+                    [[EarlGrey selectElementWithMatcher:GREYKindOfClass([UIStepper class])]
+                        performAction:GREYSetStepperValue(++stepperValue)];
                     return stepperValue == 55;
                   }];
   XCTAssertTrue([condition waitWithTimeout:10.0]);
 
-  [[EarlGrey selectElementWithMatcher:grey_kindOfClass([UIStepper class])]
-      assertWithMatcher:grey_stepperValue(55)];
+  [[EarlGrey selectElementWithMatcher:GREYKindOfClass([UIStepper class])]
+      assertWithMatcher:GREYStepperValue(55)];
 }
 
 /**
  * Checks the working of a condition with a normal timeout.
  */
 - (void)testEarlGreyInvocationInsideGREYConditionUsingWaitWithTimeout {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
 
   id<GREYAction> action = [[GREYHostApplicationDistantObject sharedInstance] actionToGetLabelText];
   // Setup a condition to wait until a specific label says specific text.
@@ -510,7 +510,7 @@
 
   // Switch text and wait.
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Switch")]
-      performAction:grey_turnSwitchOn(NO)];
+      performAction:GREYTurnSwitchOn(NO)];
   XCTAssertTrue([waitCondition waitWithTimeout:10.0]);
 }
 
@@ -518,101 +518,101 @@
  * Check tapping on a new custom window that covers the whole screen.
  */
 - (void)testTapOnWindow {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
+  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] performAction:GREYTap()];
   UIWindow *window = [[GREYHostApplicationDistantObject sharedInstance] setupGestureRecognizer];
   XCTAssertNotNil(window);
 
   // Tap on topmost window.
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TopMostWindow")]
-      performAction:grey_tap()];
+      performAction:GREYTap()];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TopMostWindow")]
-      assertWithMatcher:grey_notVisible()];
+      assertWithMatcher:GREYNotVisible()];
 }
 
 /**
  * Check setting of the root view controller multiple times in the main window.
  */
 - (void)testRootViewControllerSetMultipleTimesOnMainWindow {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
   UIViewController *originalVC =
       [[GREYHostApplicationDistantObject sharedInstance] originalVCAfterSettingNewVCAsRoot];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] assertWithMatcher:grey_nil()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] assertWithMatcher:GREYNil()];
   [[GREYHostApplicationDistantObject sharedInstance] setRootViewController:nil];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] assertWithMatcher:grey_nil()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] assertWithMatcher:GREYNil()];
 
   [[GREYHostApplicationDistantObject sharedInstance] setRootViewController:originalVC];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] assertWithMatcher:grey_notNil()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] assertWithMatcher:GREYNotNil()];
 }
 
 /**
  * Check setting of the root view controller in different windows.
  */
 - (void)testRootViewControllerSetOnMultipleWindows {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
   UIWindow *window = nil;
   UIViewController *originalVC = [[GREYHostApplicationDistantObject sharedInstance]
       originalVCAfterSettingRootVCInAnotherWindow:window];
 
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] assertWithMatcher:grey_nil()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] assertWithMatcher:GREYNil()];
   [[GREYHostApplicationDistantObject sharedInstance] setRootViewController:nil inWindow:window];
   [[GREYHostApplicationDistantObject sharedInstance] setRootViewController:originalVC];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] assertWithMatcher:grey_notNil()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] assertWithMatcher:GREYNotNil()];
 }
 
 /**
  * Ensures basic interactions with views.
  */
 - (void)testBasicInteractionWithViews {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
 
   GREYElementInteraction *typeHere =
       [EarlGrey selectElementWithMatcher:grey_allOf(GREYAccessibilityLabel(@"Type Something Here"),
-                                                    grey_kindOfClass([UITextField class]), nil)];
+                                                    GREYKindOfClass([UITextField class]), nil)];
 
-  [[typeHere performAction:grey_replaceText(@"Hello 2")] assertWithMatcher:grey_text(@"Hello 2")];
+  [[typeHere performAction:GREYReplaceText(@"Hello 2")] assertWithMatcher:GREYText(@"Hello 2")];
 
-  [typeHere performAction:grey_clearText()];
+  [typeHere performAction:GREYClearText()];
 
-  [[typeHere performAction:grey_tapAtPoint(CGPointMake(0, 0))]
-      performAction:grey_replaceText(@"Hello!")];
+  [[typeHere performAction:GREYTapAtPoint(CGPointMake(0, 0))]
+      performAction:GREYReplaceText(@"Hello!")];
 
-  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"return")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"return")] performAction:GREYTap()];
 
-  [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"Send")]
-      performAction:grey_tapAtPoint(CGPointMake(5, 5))];
+  [[EarlGrey selectElementWithMatcher:GREYButtonTitle(@"Send")]
+      performAction:GREYTapAtPoint(CGPointMake(5, 5))];
 
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Simple Label")]
-      assertWithMatcher:grey_text(@"Hello!")];
+      assertWithMatcher:GREYText(@"Hello!")];
 
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Switch")]
-      performAction:grey_turnSwitchOn(NO)];
+      performAction:GREYTurnSwitchOn(NO)];
 
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Simple Label")]
-      assertWithMatcher:grey_text(@"OFF")];
+      assertWithMatcher:GREYText(@"OFF")];
 
-  [[[EarlGrey selectElementWithMatcher:grey_text(@"Long Press")]
-      performAction:grey_longPressWithDuration(1.1f)] assertWithMatcher:grey_notVisible()];
+  [[[EarlGrey selectElementWithMatcher:GREYText(@"Long Press")]
+      performAction:GREYLongPressWithDuration(1.1f)] assertWithMatcher:GREYNotVisible()];
 
-  [[[EarlGrey selectElementWithMatcher:grey_text(@"Double Tap")] performAction:grey_doubleTap()]
-      assertWithMatcher:grey_notVisible()];
+  [[[EarlGrey selectElementWithMatcher:GREYText(@"Double Tap")] performAction:GREYDoubleTap()]
+      assertWithMatcher:GREYNotVisible()];
 }
 
 /**
  * Checks a custom action.
  */
 - (void)testEarlGreyInvocationInsideCustomAction {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
   id<GREYAction> action =
       [[GREYHostApplicationDistantObject sharedInstance] actionForCheckingIfElementHidden];
   NSError *error;
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:action error:&error];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:action error:&error];
   if (!error) {
-    [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_tap()];
-    [[[EarlGrey selectElementWithMatcher:grey_text(@"Long Press")]
-        performAction:grey_longPressWithDuration(1.1f)] assertWithMatcher:grey_hidden(YES)];
+    [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
+    [[[EarlGrey selectElementWithMatcher:GREYText(@"Long Press")]
+        performAction:GREYLongPressWithDuration(1.1f)] assertWithMatcher:GREYHidden(YES)];
   } else {
     GREYFail(@"Element should exist. We should not be here.");
   }
@@ -622,15 +622,15 @@
  * Checks a custom assertion.
  */
 - (void)testEarlGreyInvocationInsideCustomAssertion {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
   id<GREYAssertion> assertion =
       [[GREYHostApplicationDistantObject sharedInstance] assertionForCheckingIfElementPresent];
   NSError *error;
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] assert:assertion error:&error];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] assert:assertion error:&error];
   if (!error) {
-    [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_tap()];
-    [[[EarlGrey selectElementWithMatcher:grey_text(@"Long Press")]
-        performAction:grey_longPressWithDuration(1.1f)] assertWithMatcher:grey_hidden(YES)];
+    [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
+    [[[EarlGrey selectElementWithMatcher:GREYText(@"Long Press")]
+        performAction:GREYLongPressWithDuration(1.1f)] assertWithMatcher:GREYHidden(YES)];
   } else {
     GREYFail(@"Element should exist. We should not be here.");
   }
@@ -640,73 +640,73 @@
  * Verifies a long press at a point.
  */
 - (void)testLongPressAtPointOnAccessibilityElement {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
 
-  [[[EarlGrey selectElementWithMatcher:grey_text(@"Long Press")]
-      performAction:grey_longPressAtPointWithDuration(CGPointMake(10, 10), 1.1f)]
-      assertWithMatcher:grey_hidden(YES)];
+  [[[EarlGrey selectElementWithMatcher:GREYText(@"Long Press")]
+      performAction:GREYLongPressAtPointWithDuration(CGPointMake(10, 10), 1.1f)]
+      assertWithMatcher:GREYHidden(YES)];
 }
 
 /**
  * Checks long press on a text field.
  */
 - (void)testLongPressOnTextField {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
-      performAction:grey_longPressWithDuration(1.0f)];
+      performAction:GREYLongPressWithDuration(1.0f)];
 
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] assertWithMatcher:grey_notNil()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] assertWithMatcher:GREYNotNil()];
 }
 
 /**
  * Check long pressing followed by selecting a menu option.
  */
 - (void)testLongPressFollowedBySelectingMenuOption {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
-      performAction:grey_typeText(@"Hello")];
+      performAction:GREYTypeText(@"Hello")];
 
   // For iOS 14, on doing a long press, the caret goes into a selection mode. To bring up the menu
   // a tap is required at the point of selection.
   if (iOS14_OR_ABOVE()) {
     [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
-        performAction:grey_tapAtPoint(CGPointMake(1, 1))];
+        performAction:GREYTapAtPoint(CGPointMake(1, 1))];
   }
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
-      performAction:grey_longPressAtPointWithDuration(CGPointMake(1, 1), 1.0f)];
+      performAction:GREYLongPressAtPointWithDuration(CGPointMake(1, 1), 1.0f)];
 
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Select")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Select")] performAction:GREYTap()];
 
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Cut")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Cut")] performAction:GREYTap()];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
-      performAction:grey_typeText(@"FromEarlGrey")];
+      performAction:GREYTypeText(@"FromEarlGrey")];
 
   // For iOS 14, on doing a long press, the caret goes into a selection mode. To bring up the menu
   // a tap is required at the point of selection.
   if (iOS14_OR_ABOVE()) {
     [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
-        performAction:grey_tapAtPoint(CGPointMake(1, 1))];
+        performAction:GREYTapAtPoint(CGPointMake(1, 1))];
   }
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
-      performAction:grey_longPressAtPointWithDuration(CGPointMake(1, 1), 1.0f)];
+      performAction:GREYLongPressAtPointWithDuration(CGPointMake(1, 1), 1.0f)];
 
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Paste")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Paste")] performAction:GREYTap()];
 
   // Smart Inserts in Xcode 9 cause a space to appear by default after a paste. With iOS 13,
   // the text is selected entirely on doing a long press, so the above paste will remove any
   // existing text in the textfield.
   if (iOS13()) {
-    [[EarlGrey selectElementWithMatcher:grey_text(@"Hello")]
-        assertWithMatcher:grey_sufficientlyVisible()];
+    [[EarlGrey selectElementWithMatcher:GREYText(@"Hello")]
+        assertWithMatcher:GREYSufficientlyVisible()];
   } else {
-    [[EarlGrey selectElementWithMatcher:grey_text(@"Hello FromEarlGrey")]
-        assertWithMatcher:grey_sufficientlyVisible()];
+    [[EarlGrey selectElementWithMatcher:GREYText(@"Hello FromEarlGrey")]
+        assertWithMatcher:GREYSufficientlyVisible()];
   }
 }
 
@@ -714,41 +714,41 @@
  * Check interaction with a view that has its parent view hidden and unhidden.
  */
 - (void)testInteractionWithLabelWithParentHiddenAndUnhidden {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
   id<GREYAction> hideAction =
       [[GREYHostApplicationDistantObject sharedInstance] actionToHideOrUnhideBlock:YES];
   id<GREYAction> unhideAction =
       [[GREYHostApplicationDistantObject sharedInstance] actionToHideOrUnhideBlock:NO];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"tab2Container")]
       performAction:hideAction];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Long Press")]
-      assertWithMatcher:grey_not(grey_sufficientlyVisible())];
+      assertWithMatcher:GREYNot(GREYSufficientlyVisible())];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"tab2Container")]
       performAction:unhideAction];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Long Press")]
-      assertWithMatcher:grey_sufficientlyVisible()];
+      assertWithMatcher:GREYSufficientlyVisible()];
 }
 
 /**
  * Check interaction with a view that has its parent view opaque and translucent.
  */
 - (void)testInteractionWithLabelWithParentTranslucentAndOpaque {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
   id<GREYAction> makeOpaqueAction =
       [[GREYHostApplicationDistantObject sharedInstance] actionToMakeOpaque:YES];
   id<GREYAction> makeTransparentAction =
       [[GREYHostApplicationDistantObject sharedInstance] actionToMakeOpaque:NO];
 
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"tab2Container")]
       performAction:makeTransparentAction];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Long Press")]
-      assertWithMatcher:grey_not(grey_sufficientlyVisible())];
+      assertWithMatcher:GREYNot(GREYSufficientlyVisible())];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"tab2Container")]
       performAction:makeOpaqueAction];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Long Press")]
-      assertWithMatcher:grey_sufficientlyVisible()];
+      assertWithMatcher:GREYSufficientlyVisible()];
 }
 
 /**
@@ -758,34 +758,34 @@
  *         cause other tests to fail since the keyWindow is modified.
  */
 - (void)testInteractionWithLabelWithWindowTranslucentAndOpaque {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
   id<GREYAction> makeOpaqueAction =
       [[GREYHostApplicationDistantObject sharedInstance] actionToMakeWindowOpaque:YES];
   id<GREYAction> makeTransparentAction =
       [[GREYHostApplicationDistantObject sharedInstance] actionToMakeWindowOpaque:NO];
 
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"tab2Container")]
       performAction:makeTransparentAction];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Long Press")]
-      assertWithMatcher:grey_not(grey_sufficientlyVisible())];
+      assertWithMatcher:GREYNot(GREYSufficientlyVisible())];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"tab2Container")]
       performAction:makeOpaqueAction];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Long Press")]
-      assertWithMatcher:grey_sufficientlyVisible()];
+      assertWithMatcher:GREYSufficientlyVisible()];
 }
 
 /**
  * Checks the state of a UIButton.
  */
 - (void)testButtonSelectedState {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
 
-  id<GREYMatcher> buttonMatcher = grey_buttonTitle(@"Send");
-  [[EarlGrey selectElementWithMatcher:buttonMatcher] assertWithMatcher:grey_not(grey_selected())];
-  [[EarlGrey selectElementWithMatcher:buttonMatcher] performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:buttonMatcher] assertWithMatcher:grey_selected()];
+  id<GREYMatcher> buttonMatcher = GREYButtonTitle(@"Send");
+  [[EarlGrey selectElementWithMatcher:buttonMatcher] assertWithMatcher:GREYNot(GREYSelected())];
+  [[EarlGrey selectElementWithMatcher:buttonMatcher] performAction:GREYTap()];
+  [[EarlGrey selectElementWithMatcher:buttonMatcher] assertWithMatcher:GREYSelected()];
 }
 
 /**
@@ -800,16 +800,16 @@
     interaction = [EarlGrey selectElementWithMatcher:statusBarWindowMatcher];
   } else {
     NSString *statusBarClassName = iOS13_OR_ABOVE() ? @"UIStatusBar_Modern" : @"UIStatusBarWindow";
-    interaction = [EarlGrey selectElementWithMatcher:grey_kindOfClassName(statusBarClassName)];
+    interaction = [EarlGrey selectElementWithMatcher:GREYKindOfClassName(statusBarClassName)];
   }
   // By default, the status bar should not be included.
   NSError *error;
-  [interaction assertWithMatcher:grey_notNil() error:&error];
+  [interaction assertWithMatcher:GREYNotNil() error:&error];
   XCTAssertNotNil(error, @"Error is nil.");
   error = nil;
   // By setting the includeStatusBar variable, the Status Bar should be found.
   [interaction includeStatusBar];
-  [interaction assertWithMatcher:grey_notNil() error:&error];
+  [interaction assertWithMatcher:GREYNotNil() error:&error];
   XCTAssertNil(error, @"Error: %@ is not nil.", error);
 }
 
@@ -830,12 +830,12 @@
 - (void)testAssertionForAppIdling {
   [self openTestViewNamed:@"Animations"];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationControl")]
-      performAction:grey_tap()];
+      performAction:GREYTap()];
   GREYWaitForAppToIdle(@"Wait for Animations");
   [[GREYConfiguration sharedConfiguration] setValue:@(NO)
                                        forConfigKey:kGREYConfigKeySynchronizationEnabled];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationStatus")]
-      assertWithMatcher:grey_text(@"Paused")];
+      assertWithMatcher:GREYText(@"Paused")];
   [[GREYConfiguration sharedConfiguration] setValue:@(YES)
                                        forConfigKey:kGREYConfigKeySynchronizationEnabled];
 }
@@ -846,12 +846,12 @@
 - (void)testAssertionForAppIdlingWithTimeout {
   [self openTestViewNamed:@"Animations"];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationControl")]
-      performAction:grey_tap()];
+      performAction:GREYTap()];
   GREYWaitForAppToIdleWithTimeout(5.0, @"Wait for Animations");
   [[GREYConfiguration sharedConfiguration] setValue:@(NO)
                                        forConfigKey:kGREYConfigKeySynchronizationEnabled];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationStatus")]
-      assertWithMatcher:grey_text(@"Paused")];
+      assertWithMatcher:GREYText(@"Paused")];
   [[GREYConfiguration sharedConfiguration] setValue:@(YES)
                                        forConfigKey:kGREYConfigKeySynchronizationEnabled];
 }
@@ -862,12 +862,12 @@
 - (void)testWaitAndAssertBlock {
   [self openTestViewNamed:@"Animations"];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationControl")]
-      performAction:grey_tap()];
+      performAction:GREYTap()];
   GREYWaitAndAssertBlock(@"Confirm Animations finished", ^void(void) {
     [[GREYConfiguration sharedConfiguration] setValue:@(NO)
                                          forConfigKey:kGREYConfigKeySynchronizationEnabled];
     [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationStatus")]
-        assertWithMatcher:grey_text(@"Paused")];
+        assertWithMatcher:GREYText(@"Paused")];
   });
   [[GREYConfiguration sharedConfiguration] setValue:@(YES)
                                        forConfigKey:kGREYConfigKeySynchronizationEnabled];
@@ -881,25 +881,25 @@
   if (@available(iOS 13.0, *)) {
     [self openTestViewNamed:@"Basic Views"];
     [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"ContextMenuButton")]
-        performAction:grey_longPress()];
+        performAction:GREYLongPress()];
     XCTAssertTrue([self waitForVisibilityForText:@"Top-level Action"]);
-    [[EarlGrey selectElementWithMatcher:grey_text(@"Top-level Action")] performAction:grey_tap()];
+    [[EarlGrey selectElementWithMatcher:GREYText(@"Top-level Action")] performAction:GREYTap()];
     XCTAssertTrue([self waitForVisibilityForText:@"Top-level Action Tapped"]);
 
     [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"ContextMenuButton")]
-        performAction:grey_longPress()];
+        performAction:GREYLongPress()];
     XCTAssertTrue([self waitForVisibilityForText:@"Child Actions"]);
-    [[EarlGrey selectElementWithMatcher:grey_text(@"Child Actions")] performAction:grey_tap()];
+    [[EarlGrey selectElementWithMatcher:GREYText(@"Child Actions")] performAction:GREYTap()];
     XCTAssertTrue([self waitForVisibilityForText:@"Child Action 0"]);
-    [[EarlGrey selectElementWithMatcher:grey_text(@"Child Action 0")] performAction:grey_tap()];
+    [[EarlGrey selectElementWithMatcher:GREYText(@"Child Action 0")] performAction:GREYTap()];
     XCTAssertTrue([self waitForVisibilityForText:@"Child Action 0 Tapped"]);
 
     [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"ContextMenuButton")]
-        performAction:grey_longPress()];
+        performAction:GREYLongPress()];
     XCTAssertTrue([self waitForVisibilityForText:@"Child Actions"]);
-    [[EarlGrey selectElementWithMatcher:grey_text(@"Child Actions")] performAction:grey_tap()];
+    [[EarlGrey selectElementWithMatcher:GREYText(@"Child Actions")] performAction:GREYTap()];
     XCTAssertTrue([self waitForVisibilityForText:@"Child Action 1"]);
-    [[EarlGrey selectElementWithMatcher:grey_text(@"Child Action 1")] performAction:grey_tap()];
+    [[EarlGrey selectElementWithMatcher:GREYText(@"Child Action 1")] performAction:GREYTap()];
     XCTAssertTrue([self waitForVisibilityForText:@"Child Action 1 Tapped"]);
   }
 }
@@ -910,29 +910,29 @@
 - (void)testSettingAndResettingRootWindow {
   UIWindow *mainWindow = [GREY_REMOTE_CLASS_IN_APP(GREYUILibUtils) window];
   mainWindow.accessibilityIdentifier = @"Main Window";
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")] performAction:GREYTap()];
 
   NSError *error;
-  id<GREYMatcher> keyboardWindowMatcher = grey_kindOfClassName(@"UIRemoteKeyboardWindow");
+  id<GREYMatcher> keyboardWindowMatcher = GREYKindOfClassName(@"UIRemoteKeyboardWindow");
   [EarlGrey setRootMatcherForSubsequentInteractions:keyboardWindowMatcher];
-  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"u")] performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_tap() error:&error];
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"u")] performAction:GREYTap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap() error:&error];
   XCTAssertNotNil(error, @"Tab 2 should not be present in the keyboard window");
 
   error = nil;
   [EarlGrey setRootMatcherForSubsequentInteractions:grey_accessibilityID(@"Main Window")];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"u")] performAction:grey_tap()
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"u")] performAction:GREYTap()
                                                                              error:&error];
   XCTAssertNotNil(error, @"Keyboard key should not be present in the main window");
 
   [EarlGrey setRootMatcherForSubsequentInteractions:nil];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"u")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"u")] performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
-      assertWithMatcher:grey_text(@"uu")];
+      assertWithMatcher:GREYText(@"uu")];
 }
 
 /** Confirms time saved in a drain from the test side. */
@@ -990,8 +990,8 @@
       [GREYCondition conditionWithName:@""
                                  block:^BOOL {
                                    NSError *error;
-                                   [[EarlGrey selectElementWithMatcher:grey_text(text)]
-                                       assertWithMatcher:grey_sufficientlyVisible()
+                                   [[EarlGrey selectElementWithMatcher:GREYText(text)]
+                                       assertWithMatcher:GREYSufficientlyVisible()
                                                    error:&error];
                                    return error == nil;
                                  }];

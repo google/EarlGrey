@@ -61,7 +61,7 @@ static BOOL VerifyRotationAngle(CGFloat rotationBeforeTwist, CGFloat rotationAft
   CGFloat angleDelta = -kGREYTwistAngleDefault;
   CGFloat rotationBeforeTwist = GetCurrentGestureViewRotation();
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Grey Box")]
-      performAction:grey_twistFastWithAngle(angleDelta)];
+      performAction:GREYTwistFastWithAngle(angleDelta)];
   CGFloat rotationAfterTwist = GetCurrentGestureViewRotation();
   BOOL success = VerifyRotationAngle(rotationBeforeTwist, rotationAfterTwist, angleDelta);
   GREYAssert(success, @"Rotation before twist - %@ and after twist - %@ must differ by < %@.",
@@ -72,7 +72,7 @@ static BOOL VerifyRotationAngle(CGFloat rotationBeforeTwist, CGFloat rotationAft
   CGFloat angleDelta = kGREYTwistAngleDefault;
   CGFloat rotationBeforeTwist = GetCurrentGestureViewRotation();
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Grey Box")]
-      performAction:grey_twistFastWithAngle(angleDelta)];
+      performAction:GREYTwistFastWithAngle(angleDelta)];
   CGFloat rotationAfterTwist = GetCurrentGestureViewRotation();
   BOOL success = VerifyRotationAngle(rotationBeforeTwist, rotationAfterTwist, angleDelta);
   GREYAssert(success, @"Rotation before twist - %@ and after twist - %@ must differ by < %@.",
@@ -83,7 +83,7 @@ static BOOL VerifyRotationAngle(CGFloat rotationBeforeTwist, CGFloat rotationAft
   CGFloat angleDelta = -kGREYTwistAngleDefault;
   CGFloat rotationBeforeTwist = GetCurrentGestureViewRotation();
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Grey Box")]
-      performAction:grey_twistSlowWithAngle(angleDelta)];
+      performAction:GREYTwistSlowWithAngle(angleDelta)];
   CGFloat rotationAfterTwist = GetCurrentGestureViewRotation();
   BOOL success = VerifyRotationAngle(rotationBeforeTwist, rotationAfterTwist, angleDelta);
   GREYAssert(success, @"Rotation before twist - %@ and after twist - %@ must differ by < %@.",
@@ -94,7 +94,7 @@ static BOOL VerifyRotationAngle(CGFloat rotationBeforeTwist, CGFloat rotationAft
   CGFloat angleDelta = kGREYTwistAngleDefault;
   CGFloat rotationBeforeTwist = GetCurrentGestureViewRotation();
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Grey Box")]
-      performAction:grey_twistSlowWithAngle(angleDelta)];
+      performAction:GREYTwistSlowWithAngle(angleDelta)];
   CGFloat rotationAfterTwist = GetCurrentGestureViewRotation();
   BOOL success = VerifyRotationAngle(rotationBeforeTwist, rotationAfterTwist, angleDelta);
   GREYAssert(success, @"Rotation before twist - %@ and after twist - %@ must differ by < %@.",

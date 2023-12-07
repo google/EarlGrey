@@ -44,9 +44,9 @@
   EDORemoteVariable<UIImage *> *snapshotCopy = [[EDORemoteVariable alloc] init];
   // Snapshot Accessibility Element.
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"OnScreenRectangleElementLabel")]
-      performAction:grey_snapshot(snapshot)];
+      performAction:GREYSnapshot(snapshot)];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"OnScreenRectangleElementLabel")]
-      performAction:grey_snapshot(snapshotCopy)];
+      performAction:GREYSnapshot(snapshotCopy)];
 
   NSData *snapshotData = UIImagePNGRepresentation(snapshot.object);
   NSData *snapshotCopyData = UIImagePNGRepresentation(snapshotCopy.object);
@@ -59,7 +59,7 @@
   EDORemoteVariable<UIImage *> *snapshot = [[EDORemoteVariable alloc] init];
   // Snapshot Accessibility Element.
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"OnScreenRectangleElementLabel")]
-      performAction:grey_snapshot(snapshot)];
+      performAction:GREYSnapshot(snapshot)];
 
   // TODO: Verify the content of the image as well. // NOLINT
   CGSize expectedSize = CGSizeMake(64, 128);
@@ -72,7 +72,7 @@
   NSError *error = nil;
   // Snapshot Accessibility Element with zero height should be an error.
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"ElementWithZeroHeightIdentifier")]
-      performAction:grey_snapshot(snapshot)
+      performAction:GREYSnapshot(snapshot)
               error:&error];
   GREYAssertEqualObjects(kGREYInteractionErrorDomain, error.domain, @"should be equal");
 }
@@ -84,7 +84,7 @@
   EDORemoteVariable<UIImage *> *snapshot = [[EDORemoteVariable alloc] init];
   // Snapshot Accessibility Element.
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"OnScreenRectangleElementLabel")]
-      performAction:grey_snapshot(snapshot)];
+      performAction:GREYSnapshot(snapshot)];
 
   // TODO: Verify the content of the image as well. // NOLINT
   CGSize expectedSize = CGSizeMake(64, 128);
@@ -98,7 +98,7 @@
   NSError *error = nil;
   // Snapshot Accessibility Element with zero height should be an error.
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"ElementWithZeroHeightIdentifier")]
-      performAction:grey_snapshot(snapshot)
+      performAction:GREYSnapshot(snapshot)
               error:&error];
   GREYAssertEqualObjects(kGREYInteractionErrorDomain, error.domain, @"should be equal");
 }
@@ -152,28 +152,28 @@
 - (void)testUIStatusBarWindowNotPresentOnIOS13 {
   if (iOS13_OR_ABOVE()) {
     GREYElementInteraction *interaction =
-        [EarlGrey selectElementWithMatcher:grey_kindOfClassName(@"UIStatusBarWindow")];
-    [[interaction includeStatusBar] assertWithMatcher:grey_nil()];
+        [EarlGrey selectElementWithMatcher:GREYKindOfClassName(@"UIStatusBarWindow")];
+    [[interaction includeStatusBar] assertWithMatcher:GREYNil()];
   }
 }
 
 - (void)testScreenshotDebugInfo {
   // A previous test may have scrolled to the bottom of the main view controller's table view.
-  [[EarlGrey selectElementWithMatcher:grey_kindOfClass([UITableView class])]
-      performAction:grey_scrollToContentEdge(kGREYContentEdgeTop)];
+  [[EarlGrey selectElementWithMatcher:GREYKindOfClass([UITableView class])]
+      performAction:GREYScrollToContentEdge(kGREYContentEdgeTop)];
   EDORemoteVariable<UIImage *> *snapshot = [[EDORemoteVariable alloc] init];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Basic Views")]
-      performAction:grey_snapshot(snapshot)];
+      performAction:GREYSnapshot(snapshot)];
   XCTAssertTrue([[snapshot.object accessibilityHint] containsString:@"Frame"]);
 
   [self openTestViewNamed:@"Basic Views"];
-  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] performAction:grey_snapshot(snapshot)];
+  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] performAction:GREYSnapshot(snapshot)];
   XCTAssertTrue([[snapshot.object accessibilityHint] containsString:@"Frame"]);
 
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
-      performAction:grey_typeText(@"hi")];
-  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] performAction:grey_snapshot(snapshot)];
+      performAction:GREYTypeText(@"hi")];
+  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] performAction:GREYSnapshot(snapshot)];
   XCTAssertTrue([[snapshot.object accessibilityHint] containsString:@"Frame"]);
 }
 

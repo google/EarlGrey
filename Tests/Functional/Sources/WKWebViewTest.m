@@ -32,18 +32,18 @@
 /** Tests scrolling down on a web view. */
 - (void)testScrollingWKWebViewWithEarlGrey {
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"loadHTMLString")]
-      performAction:grey_tap()];
+      performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TestWKWebView")]
-      performAction:grey_scrollInDirection(kGREYDirectionDown, 20)];
+      performAction:GREYScrollInDirection(kGREYDirectionDown, 20)];
 }
 
 /** Tests scrolling to the bottom edge on a web view. */
 - (void)testScrollingToContentEdgeWithWKWebViewWithEarlGrey {
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"loadHTMLString")]
-      performAction:grey_tap()];
+      performAction:GREYTap()];
   id<GREYInteraction> webViewInteraction =
       [EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TestWKWebView")];
-  [webViewInteraction performAction:grey_scrollToContentEdge(kGREYContentEdgeBottom)];
+  [webViewInteraction performAction:GREYScrollToContentEdge(kGREYContentEdgeBottom)];
 
   // Check if the scroll view reached the bottom.
   GREYAssertionBlock *scrollToBottomAssertion =
@@ -58,10 +58,10 @@
 
 - (void)testNavigationToWKWebViewTestController {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TestWKWebView")]
-      assertWithMatcher:grey_notNil()];
-  [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"Local")] performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_kindOfClassName(@"WKScrollView")]
-      assertWithMatcher:grey_notNil()];
+      assertWithMatcher:GREYNotNil()];
+  [[EarlGrey selectElementWithMatcher:GREYButtonTitle(@"Local")] performAction:GREYTap()];
+  [[EarlGrey selectElementWithMatcher:GREYKindOfClassName(@"WKScrollView")]
+      assertWithMatcher:GREYNotNil()];
 }
 
 /**
@@ -71,7 +71,7 @@
 - (void)testJavascriptEvaluationWithJavascriptError {
   NSError *error = nil;
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TestWKWebView")]
-      performAction:grey_javaScriptExecution(@"var foo; foo.bar();", nil)
+      performAction:GREYJavaScriptExecution(@"var foo; foo.bar();", nil)
               error:&error];
   XCTAssertEqual(error.code, kGREYWKWebViewInteractionFailedErrorCode);
   NSString *errorString = @"TypeError: undefined is not an object (evaluating 'foo.bar')";
@@ -81,7 +81,7 @@
 - (void)testJavascriptEvaluationWithAReturnValue {
   EDORemoteVariable<NSString *> *javaScriptResult = [[EDORemoteVariable alloc] init];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TestWKWebView")]
-      performAction:grey_javaScriptExecution(@"var foo = 1; foo + 1;", javaScriptResult)];
+      performAction:GREYJavaScriptExecution(@"var foo = 1; foo + 1;", javaScriptResult)];
   XCTAssertEqualObjects(javaScriptResult.object, @"2");
 }
 
@@ -98,7 +98,7 @@
       @"start = new Date().getTime(); while (new Date().getTime() < start + 3000);";
   // JS action timeout greater than the threshold.
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TestWKWebView")]
-      performAction:grey_javaScriptExecution(jsStringAboveTimeout, nil)
+      performAction:GREYJavaScriptExecution(jsStringAboveTimeout, nil)
               error:&error];
   XCTAssertEqual(error.code, kGREYWKWebViewInteractionFailedErrorCode);
   NSString *timeoutErrorString = @"Interaction with WKWebView failed because of timeout";
@@ -119,7 +119,7 @@
       @"start = new Date().getTime(); while (new Date().getTime() < start + 200);"
       @"end = new Date().getTime(); end - start";
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TestWKWebView")]
-      performAction:grey_javaScriptExecution(jsStringEqualTimeout, javaScriptResult)
+      performAction:GREYJavaScriptExecution(jsStringEqualTimeout, javaScriptResult)
               error:&error];
   XCTAssertNil(error, @"Error for a valid call is nil");
   XCTAssertGreaterThanOrEqual([javaScriptResult.object intValue], 200);
@@ -131,7 +131,7 @@
   EDORemoteVariable<NSString *> *javaScriptResult = [[EDORemoteVariable alloc] init];
   NSError *error;
   id<GREYAction> jsAction =
-      grey_javaScriptExecution(@"document.body.getElementsByTagName(\"*\");", javaScriptResult);
+      GREYJavaScriptExecution(@"document.body.getElementsByTagName(\"*\");", javaScriptResult);
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TestWKWebView")] performAction:jsAction
                                                                                       error:&error];
   XCTAssertEqualObjects(error.domain, kGREYInteractionErrorDomain);

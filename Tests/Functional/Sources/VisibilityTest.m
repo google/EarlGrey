@@ -30,12 +30,12 @@
 
 - (void)testVisualEffectsView {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"visualEffectsImageView")]
-      assertWithMatcher:grey_sufficientlyVisible()];
+      assertWithMatcher:GREYSufficientlyVisible()];
 }
 
 - (void)testOverlappingViews {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"bottomScrollView")]
-      performAction:grey_scrollToContentEdge(kGREYContentEdgeTop)];
+      performAction:GREYScrollToContentEdge(kGREYContentEdgeTop)];
   id<GREYAssertion> assertion =
       [GREYHostApplicationDistantObject.sharedInstance coverContentOffsetChangedAssertion];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"coverScrollView")] assert:assertion];
@@ -43,9 +43,9 @@
 
 - (void)testTranslucentViews {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"translucentLabel")]
-      assertWithMatcher:grey_sufficientlyVisible()];
+      assertWithMatcher:GREYSufficientlyVisible()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"translucentOverlappingView")]
-      assertWithMatcher:grey_sufficientlyVisible()];
+      assertWithMatcher:GREYSufficientlyVisible()];
   GREYHostApplicationDistantObject *host = GREYHostApplicationDistantObject.sharedInstance;
   id<GREYAssertion> assertion = [host translucentOverlappingViewVisibleAreaAssertion];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"translucentOverlappingView")]
@@ -54,35 +54,35 @@
 
 - (void)testNonPixelBoundaryAlignedLabel {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"unalignedPixel1")]
-      assertWithMatcher:grey_sufficientlyVisible()];
+      assertWithMatcher:GREYSufficientlyVisible()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"unalignedPixel2")]
-      assertWithMatcher:grey_sufficientlyVisible()];
+      assertWithMatcher:GREYSufficientlyVisible()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"unalignedPixel3")]
-      assertWithMatcher:grey_sufficientlyVisible()];
+      assertWithMatcher:GREYSufficientlyVisible()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"unalignedPixel4")]
-      assertWithMatcher:grey_sufficientlyVisible()];
+      assertWithMatcher:GREYSufficientlyVisible()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"unalignedPixelWithOnePixelSize")]
-      assertWithMatcher:grey_sufficientlyVisible()];
+      assertWithMatcher:GREYSufficientlyVisible()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"unalignedPixelWithHalfPixelSize")]
-      assertWithMatcher:grey_notVisible()];
+      assertWithMatcher:GREYNotVisible()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"unalignedPixelWithFractionPixelSize")]
-      assertWithMatcher:grey_sufficientlyVisible()];
+      assertWithMatcher:GREYSufficientlyVisible()];
 }
 
 - (void)testButtonIsVisible {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"VisibilityButton")]
-      assertWithMatcher:grey_sufficientlyVisible()];
+      assertWithMatcher:GREYSufficientlyVisible()];
 }
 
 - (void)testObscuredButtonIsNotVisible {
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"VisibilityButton")]
-      performAction:grey_tap()] assertWithMatcher:grey_notVisible()];
+      performAction:GREYTap()] assertWithMatcher:GREYNotVisible()];
 }
 
 - (void)testRasterization {
   [GREYHostApplicationDistantObject.sharedInstance setupOuterView];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"RasterizedLayer")]
-      assertWithMatcher:grey_sufficientlyVisible()];
+      assertWithMatcher:GREYSufficientlyVisible()];
   [GREYHostApplicationDistantObject.sharedInstance removeOuterView];
 }
 
@@ -98,7 +98,7 @@
 
 - (void)testVisibleEnclosingRectangleOfObscuredViewIsCGRectNull {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"VisibilityButton")]
-      performAction:grey_tap()];
+      performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"VisibilityButton")]
       assert:[GREYHostApplicationDistantObject.sharedInstance visibleRectangleAssertion]];
 }
@@ -106,7 +106,7 @@
 - (void)testInteractablityFailureDescription {
   NSError *error;
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"RedBar")]
-      assertWithMatcher:grey_interactable()
+      assertWithMatcher:GREYInteractable()
                   error:&error];
   XCTAssertTrue([error.description containsString:@"interactable Point:{nan, nan}"]);
 }
@@ -114,26 +114,26 @@
 - (void)testVisibilityFailsWhenViewIsObscured {
   // Verify RedBar cannot be interacted with when overlapped by another view.
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"RedBar")]
-      assertWithMatcher:grey_not(grey_interactable())];
+      assertWithMatcher:GREYNot(GREYInteractable())];
 
   // Unhide the activation point.
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"UnObscureRedBar")]
-      performAction:grey_turnSwitchOn(YES)];
+      performAction:GREYTurnSwitchOn(YES)];
 
   // Verify RedBar can now be interacted with.
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"RedBar")]
-      assertWithMatcher:grey_interactable()];
+      assertWithMatcher:GREYInteractable()];
 }
 
 - (void)testVisibilityOfViewsWithSameAccessibilityLabelAndAtIndex {
   NSError *error;
 
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AView")]
-      assertWithMatcher:grey_sufficientlyVisible()
+      assertWithMatcher:GREYSufficientlyVisible()
                   error:&error];
   GREYAssertEqual(error.code, kGREYInteractionMultipleElementsMatchedErrorCode, @"should be equal");
 
-  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AView")] performAction:grey_tap()
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AView")] performAction:GREYTap()
                                                                                  error:&error];
   GREYAssertEqual(error.code, kGREYInteractionMultipleElementsMatchedErrorCode, @"should be equal");
 
@@ -153,13 +153,13 @@
 
   // Use the element at index matcher with an incorrect matcher.
   [[[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"InvalidView")] atIndex:0]
-      assertWithMatcher:grey_sufficientlyVisible()
+      assertWithMatcher:GREYSufficientlyVisible()
                   error:&error];
   GREYAssertEqual(error.code, kGREYInteractionElementNotFoundErrorCode, @"should be equal");
 
   // Use the element at index matcher with an incorrect matcher on an action.
   [[[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"InvalidView")] atIndex:0]
-      performAction:grey_tap()
+      performAction:GREYTap()
               error:&error];
   GREYAssertEqual(error.code, kGREYInteractionElementNotFoundErrorCode, @"should be equal");
 
@@ -167,14 +167,14 @@
   // This should throw an error with the code as kGREYInteractionElementNotFoundErrorCode
   // since we first check if the number of matched elements is greater than zero.
   [[[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"InvalidView")] atIndex:99]
-      assertWithMatcher:grey_sufficientlyVisible()
+      assertWithMatcher:GREYSufficientlyVisible()
                   error:&error];
   GREYAssertEqual(error.code, kGREYInteractionElementNotFoundErrorCode, @"should be equal");
 
   // Use the element at index matcher with an index greater than the number of
   // matched elements.
   [[[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AView")] atIndex:999]
-      assertWithMatcher:grey_sufficientlyVisible()
+      assertWithMatcher:GREYSufficientlyVisible()
                   error:&error];
   GREYAssertEqual(error.code, kGREYInteractionMatchedElementIndexOutOfBoundsErrorCode,
                   @"should be equal");
@@ -207,17 +207,17 @@
   // On a visibility failure, the images must be generated.
   NSError *error;
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"orangeView")]
-      assertWithMatcher:grey_sufficientlyVisible()
+      assertWithMatcher:GREYSufficientlyVisible()
                   error:&error];
   XCTAssertNotNil(error);
   // Images are nilled out on a successful check of any sort.
   XCTAssertTrue([host visibilityImagesArePresent]);
   [[EarlGrey selectElementWithMatcher:GREYKeyWindow()]
-      assertWithMatcher:grey_sufficientlyVisible()];
+      assertWithMatcher:GREYSufficientlyVisible()];
   XCTAssertTrue([host visibilityImagesAreAbsent]);
   // Images are still nil on a non-visibility failure.
   error = nil;
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Garbage Value")] assertWithMatcher:grey_notNil()
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Garbage Value")] assertWithMatcher:GREYNotNil()
                                                                                error:&error];
   XCTAssertNotNil(error);
   XCTAssertTrue([host visibilityImagesAreAbsent]);

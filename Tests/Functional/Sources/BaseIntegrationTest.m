@@ -41,17 +41,17 @@
   // it opens the view.
   NSError *error;
   id<GREYMatcher> cellMatcher = GREYAccessibilityLabel(name);
-  [[EarlGrey selectElementWithMatcher:cellMatcher] performAction:grey_tap() error:&error];
+  [[EarlGrey selectElementWithMatcher:cellMatcher] performAction:GREYTap() error:&error];
   if (!error) {
     return;
   }
   // The view is probably not visible, scroll to top of the table view and go searching for it.
-  [[EarlGrey selectElementWithMatcher:grey_kindOfClass([UITableView class])]
-      performAction:grey_scrollToContentEdge(kGREYContentEdgeTop)];
+  [[EarlGrey selectElementWithMatcher:GREYKindOfClass([UITableView class])]
+      performAction:GREYScrollToContentEdge(kGREYContentEdgeTop)];
   // Scroll to the cell we need and tap it.
-  [[[EarlGrey selectElementWithMatcher:grey_allOf(cellMatcher, grey_interactable(), nil)]
-         usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 240)
-      onElementWithMatcher:grey_kindOfClass([UITableView class])] performAction:grey_tap()];
+  [[[EarlGrey selectElementWithMatcher:grey_allOf(cellMatcher, GREYInteractable(), nil)]
+         usingSearchAction:GREYScrollInDirection(kGREYDirectionDown, 240)
+      onElementWithMatcher:GREYKindOfClass([UITableView class])] performAction:GREYTap()];
 }
 
 - (void)tearDown {

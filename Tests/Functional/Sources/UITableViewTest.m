@@ -31,29 +31,29 @@
 - (void)testContextMenuInteractionsWithATableView {
   // TODO(b/169197992): Add a drag action test with press and drag action.
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Row 5")]
-      performAction:grey_longPress()];
+      performAction:GREYLongPress()];
   XCTAssertTrue([self waitForVisibilityForText:@"Some"]);
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Some")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Some")] performAction:GREYTap()];
   XCTAssertTrue([self waitForVisibilityForText:@"Row 6"]);
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Row 6")]
-      performAction:grey_longPress()];
+      performAction:GREYLongPress()];
   XCTAssertTrue([self waitForVisibilityForText:@"Some"]);
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Some")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Some")] performAction:GREYTap()];
   XCTAssertTrue([self waitForVisibilityForText:@"Row 7"]);
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Row 7")]
-      assertWithMatcher:grey_not(grey_selected())];
+      assertWithMatcher:GREYNot(GREYSelected())];
 }
 
 - (void)testRemoveRow {
   id<GREYMatcher> deleteRowMatcher =
-      grey_allOf(GREYAccessibilityLabel(@"Delete"), grey_kindOfClass([UIButton class]), nil);
+      grey_allOf(GREYAccessibilityLabel(@"Delete"), GREYKindOfClass([UIButton class]), nil);
   for (int i = 0; i < 5; i++) {
     NSString *labelForRowToDelete = [NSString stringWithFormat:@"Row %d", i];
     [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(labelForRowToDelete)]
-        performAction:grey_swipeSlowInDirection(kGREYDirectionLeft)];
-    [[EarlGrey selectElementWithMatcher:deleteRowMatcher] performAction:grey_tap()];
+        performAction:GREYSwipeSlowInDirection(kGREYDirectionLeft)];
+    [[EarlGrey selectElementWithMatcher:deleteRowMatcher] performAction:GREYTap()];
     [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(labelForRowToDelete)]
-        assertWithMatcher:grey_notVisible()];
+        assertWithMatcher:GREYNotVisible()];
   }
 }
 
@@ -63,68 +63,68 @@
     NSString *labelForRowToDelete = [NSString stringWithFormat:@"Row %d", i];
     NSString *labelForNextRow = [NSString stringWithFormat:@"Row %d", i + 1];
     [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(labelForRowToDelete)]
-        performAction:grey_swipeSlowInDirection(kGREYDirectionLeft)];
+        performAction:GREYSwipeSlowInDirection(kGREYDirectionLeft)];
     [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(labelForNextRow)]
-        assertWithMatcher:grey_sufficientlyVisible()];
+        assertWithMatcher:GREYSufficientlyVisible()];
   }
 }
 
 - (void)testSearchActionWithTinyScrollIncrements {
   [[self ftr_scrollToCellAtIndex:18 byScrollingInAmounts:50
-                     InDirection:kGREYDirectionDown] assertWithMatcher:grey_notNil()];
+                     InDirection:kGREYDirectionDown] assertWithMatcher:GREYNotNil()];
   [[self ftr_scrollToCellAtIndex:0 byScrollingInAmounts:50
-                     InDirection:kGREYDirectionUp] assertWithMatcher:grey_notNil()];
+                     InDirection:kGREYDirectionUp] assertWithMatcher:GREYNotNil()];
   [[self ftr_scrollToCellAtIndex:18 byScrollingInAmounts:50
-                     InDirection:kGREYDirectionDown] assertWithMatcher:grey_notNil()];
+                     InDirection:kGREYDirectionDown] assertWithMatcher:GREYNotNil()];
 }
 
 - (void)testSearchActionWithLargeScrollIncrements {
   [[self ftr_scrollToCellAtIndex:20 byScrollingInAmounts:200
-                     InDirection:kGREYDirectionDown] assertWithMatcher:grey_notNil()];
+                     InDirection:kGREYDirectionDown] assertWithMatcher:GREYNotNil()];
   [[self ftr_scrollToCellAtIndex:0 byScrollingInAmounts:200
-                     InDirection:kGREYDirectionUp] assertWithMatcher:grey_notNil()];
+                     InDirection:kGREYDirectionUp] assertWithMatcher:GREYNotNil()];
   [[self ftr_scrollToCellAtIndex:20 byScrollingInAmounts:200
-                     InDirection:kGREYDirectionDown] assertWithMatcher:grey_notNil()];
+                     InDirection:kGREYDirectionDown] assertWithMatcher:GREYNotNil()];
 }
 
 - (void)testScrollToTop {
   // Scroll down.
   [[self ftr_scrollToCellAtIndex:20 byScrollingInAmounts:200
-                     InDirection:kGREYDirectionDown] assertWithMatcher:grey_notNil()];
+                     InDirection:kGREYDirectionDown] assertWithMatcher:GREYNotNil()];
   // Scroll to top and verify that we are at the top.
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"main_table_view")]
-      performAction:grey_scrollToContentEdge(kGREYContentEdgeTop)]
-      assertWithMatcher:grey_scrolledToContentEdge(kGREYContentEdgeTop)];
+      performAction:GREYScrollToContentEdge(kGREYContentEdgeTop)]
+      assertWithMatcher:GREYScrolledToContentEdge(kGREYContentEdgeTop)];
 }
 
 - (void)testScrollToTopWithPositiveInsets {
   // Add positive insets using this format {top,left,bottom,right}
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"insets value")]
-      performAction:grey_typeText(@"{100,0,0,0}\n")];
+      performAction:GREYTypeText(@"{100,0,0,0}\n")];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"insets toggle")]
-      performAction:grey_turnSwitchOn(YES)];
+      performAction:GREYTurnSwitchOn(YES)];
   // Scroll down.
   [[self ftr_scrollToCellAtIndex:20 byScrollingInAmounts:200
-                     InDirection:kGREYDirectionDown] assertWithMatcher:grey_notNil()];
+                     InDirection:kGREYDirectionDown] assertWithMatcher:GREYNotNil()];
   // Scroll to top and verify that we are at the top.
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"main_table_view")]
-      performAction:grey_scrollToContentEdge(kGREYContentEdgeTop)]
-      assertWithMatcher:grey_scrolledToContentEdge(kGREYContentEdgeTop)];
+      performAction:GREYScrollToContentEdge(kGREYContentEdgeTop)]
+      assertWithMatcher:GREYScrolledToContentEdge(kGREYContentEdgeTop)];
 }
 
 - (void)testScrollToTopWithNegativeInsets {
   // Add negative insets using this format {top,left,bottom,right}
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"insets value")]
-      performAction:grey_typeText(@"{-100,0,0,0}\n")];
+      performAction:GREYTypeText(@"{-100,0,0,0}\n")];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"insets toggle")]
-      performAction:grey_turnSwitchOn(YES)];
+      performAction:GREYTurnSwitchOn(YES)];
   // Scroll down.
   [[self ftr_scrollToCellAtIndex:20 byScrollingInAmounts:200
-                     InDirection:kGREYDirectionDown] assertWithMatcher:grey_notNil()];
+                     InDirection:kGREYDirectionDown] assertWithMatcher:GREYNotNil()];
   // Scroll to top and verify that we are at the top.
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"main_table_view")]
-      performAction:grey_scrollToContentEdge(kGREYContentEdgeTop)]
-      assertWithMatcher:grey_scrolledToContentEdge(kGREYContentEdgeTop)];
+      performAction:GREYScrollToContentEdge(kGREYContentEdgeTop)]
+      assertWithMatcher:GREYScrolledToContentEdge(kGREYContentEdgeTop)];
 }
 
 - (void)testScrollToTopWhenAlreadyAtTheTopWithoutBounce {
@@ -135,36 +135,36 @@
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"main_table_view")]
       performAction:bounceOff];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"main_table_view")]
-      performAction:grey_scrollToContentEdge(kGREYContentEdgeTop)];
+      performAction:GREYScrollToContentEdge(kGREYContentEdgeTop)];
   // Verify that top most cell is visible.
   [[EarlGrey selectElementWithMatcher:[self ftr_matcherForCellAtIndex:0]]
-      assertWithMatcher:grey_sufficientlyVisible()];
+      assertWithMatcher:GREYSufficientlyVisible()];
 }
 
 - (void)testScrollToTopWhenAlreadyAtTheTopWithBounce {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"main_table_view")]
-      performAction:grey_scrollToContentEdge(kGREYContentEdgeTop)];
+      performAction:GREYScrollToContentEdge(kGREYContentEdgeTop)];
   // Verify that top most cell is visible.
   [[EarlGrey selectElementWithMatcher:[self ftr_matcherForCellAtIndex:0]]
-      assertWithMatcher:grey_sufficientlyVisible()];
+      assertWithMatcher:GREYSufficientlyVisible()];
 }
 
 - (void)testTableViewVisibleWhenScrolled {
   [[[[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"main_table_view")]
-      assertWithMatcher:grey_sufficientlyVisible()]
-      performAction:grey_swipeFastInDirection(kGREYDirectionUp)]
-      performAction:grey_swipeFastInDirection(kGREYDirectionUp)]
-      assertWithMatcher:grey_sufficientlyVisible()];
+      assertWithMatcher:GREYSufficientlyVisible()]
+      performAction:GREYSwipeFastInDirection(kGREYDirectionUp)]
+      performAction:GREYSwipeFastInDirection(kGREYDirectionUp)]
+      assertWithMatcher:GREYSufficientlyVisible()];
 }
 
 - (void)testFrameworkSynchronizesWithScrolling {
   id<GREYMatcher> notScrollingMatcher =
       [GREYHostApplicationDistantObject.sharedInstance matcherForNotScrolling];
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"main_table_view")]
-      performAction:grey_swipeSlowInDirection(kGREYDirectionDown)]
+      performAction:GREYSwipeSlowInDirection(kGREYDirectionDown)]
       assertWithMatcher:notScrollingMatcher];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Row 1")]
-      assertWithMatcher:grey_sufficientlyVisible()];
+      assertWithMatcher:GREYSufficientlyVisible()];
 }
 
 /**
@@ -172,17 +172,17 @@
  */
 - (void)testTapOnLastCell {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"main_table_view")]
-      performAction:grey_scrollToContentEdge(kGREYContentEdgeBottom)];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Row 99")] performAction:grey_tap()];
+      performAction:GREYScrollToContentEdge(kGREYContentEdgeBottom)];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Row 99")] performAction:GREYTap()];
 }
 
 /**
  * Test scrolling to the bottom of a UITableView and tapping on a cell using a search action.
  */
 - (void)testTapOnLastCellUsingSearchAction {
-  [[[EarlGrey selectElementWithMatcher:grey_text(@"Row 99")]
-         usingSearchAction:grey_scrollToContentEdge(kGREYContentEdgeBottom)
-      onElementWithMatcher:grey_accessibilityID(@"main_table_view")] performAction:grey_tap()];
+  [[[EarlGrey selectElementWithMatcher:GREYText(@"Row 99")]
+         usingSearchAction:GREYScrollToContentEdge(kGREYContentEdgeBottom)
+      onElementWithMatcher:grey_accessibilityID(@"main_table_view")] performAction:GREYTap()];
 }
 
 #pragma mark - Private
@@ -195,10 +195,10 @@
                                byScrollingInAmounts:(CGFloat)amount
                                         InDirection:(GREYDirection)direction {
   id<GREYMatcher> matcher =
-      grey_allOf([self ftr_matcherForCellAtIndex:index], grey_interactable(), nil);
+      grey_allOf([self ftr_matcherForCellAtIndex:index], GREYInteractable(), nil);
   return [[EarlGrey selectElementWithMatcher:matcher]
-         usingSearchAction:grey_scrollInDirection(direction, amount)
-      onElementWithMatcher:grey_kindOfClass([UITableView class])];
+         usingSearchAction:GREYScrollInDirection(direction, amount)
+      onElementWithMatcher:GREYKindOfClass([UITableView class])];
 }
 
 /**
@@ -213,8 +213,8 @@
       [GREYCondition conditionWithName:@""
                                  block:^BOOL {
                                    NSError *error;
-                                   [[EarlGrey selectElementWithMatcher:grey_text(text)]
-                                       assertWithMatcher:grey_sufficientlyVisible()
+                                   [[EarlGrey selectElementWithMatcher:GREYText(text)]
+                                       assertWithMatcher:GREYSufficientlyVisible()
                                                    error:&error];
                                    return error == nil;
                                  }];

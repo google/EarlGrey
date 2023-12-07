@@ -66,17 +66,17 @@
  */
 - (void)testDismissingKeyboard {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
-      performAction:grey_tap()];
+      performAction:GREYTap()];
   // Ensure the keyboard button for the character e is visible.
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"E")]
-      assertWithMatcher:grey_sufficientlyVisible()];
+      assertWithMatcher:GREYSufficientlyVisible()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
-      performAction:grey_typeText(@"h")];
+      performAction:GREYTypeText(@"h")];
   [EarlGrey dismissKeyboardWithError:nil];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"e")]
-      assertWithMatcher:grey_notVisible()];
+      assertWithMatcher:GREYNotVisible()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
-      assertWithMatcher:grey_text(@"h")];
+      assertWithMatcher:GREYText(@"h")];
 }
 
 /**
@@ -93,13 +93,13 @@
  * Sanity check for RMI calls for matcher and action shorthand calls.
  */
 - (void)testSelectElementWithMatcherWithRMICall {
-  XCTAssertNoThrow(grey_anyOf(grey_firstResponder(), grey_interactable(), nil));
-  XCTAssertNoThrow(grey_allOf(grey_accessibilityID(@"Text Field"), grey_interactable(), nil));
+  XCTAssertNoThrow(grey_anyOf(GREYFirstResponder(), GREYInteractable(), nil));
+  XCTAssertNoThrow(grey_allOf(grey_accessibilityID(@"Text Field"), GREYInteractable(), nil));
   XCTAssertNotNil([EarlGrey selectElementWithMatcher:grey_allOf(grey_accessibilityID(@"Text Field"),
-                                                                grey_interactable(), nil)]);
+                                                                GREYInteractable(), nil)]);
   XCTAssertNoThrow(({
     [[EarlGrey selectElementWithMatcher:GREYKeyWindow()]
-        assertWithMatcher:grey_sufficientlyVisible()];
+        assertWithMatcher:GREYSufficientlyVisible()];
   }));
   id<GREYAction> nilAction = nil;
   id<GREYMatcher> nilMatcher = nil;
@@ -108,17 +108,17 @@
   XCTAssertThrows(
       ({ [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:nilMatcher]; }));
   XCTAssertThrows(({
-    [[[EarlGrey selectElementWithMatcher:GREYKeyWindow()] performAction:grey_tap()]
+    [[[EarlGrey selectElementWithMatcher:GREYKeyWindow()] performAction:GREYTap()]
            usingSearchAction:nilAction
         onElementWithMatcher:GREYKeyWindow()];
   }));
   XCTAssertThrows(({
-    [[[EarlGrey selectElementWithMatcher:GREYKeyWindow()] performAction:grey_tap()]
-           usingSearchAction:grey_tap()
+    [[[EarlGrey selectElementWithMatcher:GREYKeyWindow()] performAction:GREYTap()]
+           usingSearchAction:GREYTap()
         onElementWithMatcher:nilMatcher];
   }));
   XCTAssertThrows(({
-    [[[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:grey_notNil()]
+    [[[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:GREYNotNil()]
         inRoot:nilMatcher];
   }));
 }
@@ -171,7 +171,7 @@
 - (void)testEarlGreyExceptionDoesNotIncrementFailureCount {
   NSUInteger failureCount = self.testRun.failureCount;
   NSError *error;
-  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:grey_nil() error:&error];
+  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:GREYNil() error:&error];
   XCTAssertNotNil(error, @"An error should be populated");
   XCTAssertEqual(self.testRun.failureCount, failureCount, @"The failure count is not incremented.");
 }

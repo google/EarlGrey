@@ -26,15 +26,15 @@
   [self openTestViewNamed:@"Basic Views"];
 
   id<GREYMatcher> matchesAccessibleViewParentOfSimpleLabel =
-      grey_allOf(grey_descendant(GREYAccessibilityLabel(@"Simple Label")),
+      grey_allOf(GREYDescendant(GREYAccessibilityLabel(@"Simple Label")),
                  GREYAccessibilityLabel(@"tab2Container"), nil);
 
   [[EarlGrey selectElementWithMatcher:matchesAccessibleViewParentOfSimpleLabel]
-      assertWithMatcher:grey_notNil()];
+      assertWithMatcher:GREYNotNil()];
 
   id<GREYMatcher> matchesChildOfParentOfSimpleLabel =
-      grey_allOf(grey_ancestor(matchesAccessibleViewParentOfSimpleLabel),
-                 grey_kindOfClass([UISwitch class]), nil);
+      grey_allOf(GREYAncestor(matchesAccessibleViewParentOfSimpleLabel),
+                 GREYKindOfClass([UISwitch class]), nil);
   [[EarlGrey selectElementWithMatcher:matchesChildOfParentOfSimpleLabel]
       assertWithMatcher:GREYAccessibilityLabel(@"Switch")];
 }
@@ -42,35 +42,35 @@
 - (void)testUserInteractionEnabledMatcherForBasicView {
   [self openTestViewNamed:@"Basic Views"];
 
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
 
   // Simple Label has user interaction enabled set to NO in xib.
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Simple Label")]
-      assertWithMatcher:grey_not(grey_userInteractionEnabled())];
+      assertWithMatcher:GREYNot(GREYUserInteractionEnabled())];
 
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Switch")]
-      assertWithMatcher:grey_userInteractionEnabled()];
+      assertWithMatcher:GREYUserInteractionEnabled()];
 }
 
 - (void)testDescendantMatcherWithTableViews {
   [self openTestViewNamed:@"Table Views"];
 
   id<GREYMatcher> descendantRowMatcher =
-      grey_allOf(grey_kindOfClass([UITableViewCell class]),
-                 grey_descendant(GREYAccessibilityLabel(@"Row 1")), nil);
+      grey_allOf(GREYKindOfClass([UITableViewCell class]),
+                 GREYDescendant(GREYAccessibilityLabel(@"Row 1")), nil);
 
-  [[EarlGrey selectElementWithMatcher:descendantRowMatcher] assertWithMatcher:grey_notNil()];
+  [[EarlGrey selectElementWithMatcher:descendantRowMatcher] assertWithMatcher:GREYNotNil()];
 }
 
 - (void)testDescendantMatcherWithAccessibilityViews {
   [self openTestViewNamed:@"Accessibility Views"];
 
   id<GREYMatcher> matchesParentOfSquare =
-      grey_allOf(grey_descendant(GREYAccessibilityValue(@"SquareElementValue")),
-                 grey_kindOfClassName(@"AccessibleView"), nil);
+      grey_allOf(GREYDescendant(GREYAccessibilityValue(@"SquareElementValue")),
+                 GREYKindOfClassName(@"AccessibleView"), nil);
 
   [[EarlGrey selectElementWithMatcher:matchesParentOfSquare]
-      assertWithMatcher:grey_descendant(GREYAccessibilityLabel(@"SquareElementLabel"))];
+      assertWithMatcher:GREYDescendant(GREYAccessibilityLabel(@"SquareElementLabel"))];
 }
 
 - (void)testLayoutWithFloatingPoint {
@@ -78,13 +78,13 @@
 
   // Set frame for first view.
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"topTextbox")]
-      performAction:grey_replaceText(@"{{10,164.333333333333314},{100,38.666666666666671}}")];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"button")] performAction:grey_tap()];
+      performAction:GREYReplaceText(@"{{10,164.333333333333314},{100,38.666666666666671}}")];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"button")] performAction:GREYTap()];
 
   // Set frame for second view.
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"topTextbox")]
-      performAction:grey_replaceText(@"{{10,124.000000000000004},{100,24.333333333333336}}")];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"button")] performAction:grey_tap()];
+      performAction:GREYReplaceText(@"{{10,124.000000000000004},{100,24.333333333333336}}")];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"button")] performAction:GREYTap()];
 
   // Layout constaint object to check the accuracy of floating point math.
   GREYLayoutConstraint *below =
@@ -94,7 +94,7 @@
                                                multiplier:1.0
                                                  constant:16];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"elementID")]
-      assertWithMatcher:grey_layout(@[ below ], grey_accessibilityID(@"referenceElementID"))];
+      assertWithMatcher:GREYLayout(@[ below ], grey_accessibilityID(@"referenceElementID"))];
 }
 
 @end

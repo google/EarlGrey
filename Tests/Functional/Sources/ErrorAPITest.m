@@ -29,7 +29,7 @@
   [super setUp];
 
   [self openTestViewNamed:@"Basic Views"];
-  _matcherForNonExistingTab = grey_text(@"Tab That Does Not Exist");
+  _matcherForNonExistingTab = GREYText(@"Tab That Does Not Exist");
 }
 
 - (void)testCallAllAssertionDefines {
@@ -48,15 +48,15 @@
 - (void)testAssertionErrorAPI {
   NSError *error;
 
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_tap() error:&error];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap() error:&error];
   GREYAssertNil(error, @"Error should be nil");
 
-  [[EarlGrey selectElementWithMatcher:_matcherForNonExistingTab] assertWithMatcher:grey_nil()
+  [[EarlGrey selectElementWithMatcher:_matcherForNonExistingTab] assertWithMatcher:GREYNil()
                                                                              error:&error];
   GREYAssertTrue(error.code == kGREYInteractionElementNotFoundErrorCode,
                  @"The error code should point to element not found");
 
-  [[EarlGrey selectElementWithMatcher:_matcherForNonExistingTab] assertWithMatcher:grey_notNil()
+  [[EarlGrey selectElementWithMatcher:_matcherForNonExistingTab] assertWithMatcher:GREYNotNil()
                                                                              error:&error];
   GREYAssertTrue([error.domain isEqualToString:kGREYInteractionErrorDomain],
                  @"Domain should match");
@@ -68,7 +68,7 @@
   GREYAssertEqualObjects(greyError.userInfo[kErrorDetailElementMatcherKey], description,
                          @"Description should match");
 
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] assertWithMatcher:grey_nil()
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] assertWithMatcher:GREYNil()
                                                                        error:&error];
   GREYAssertTrue([error.domain isEqualToString:kGREYInteractionErrorDomain],
                  @"Domain should match");
@@ -78,7 +78,7 @@
   [NSThread mainThread].threadDictionary[GREYFailureHandlerKey] = [[FailureHandler alloc] init];
   // Should throw exception.
   @try {
-    [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] assertWithMatcher:grey_nil()
+    [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] assertWithMatcher:GREYNil()
                                                                          error:nil];
     GREYFail(@"Shouldn't reach this line of code");
   } @catch (GREYFrameworkException *exception) {
@@ -94,7 +94,7 @@
   NSError *error;
 
   // Element not found.
-  [[EarlGrey selectElementWithMatcher:_matcherForNonExistingTab] performAction:grey_tap()
+  [[EarlGrey selectElementWithMatcher:_matcherForNonExistingTab] performAction:GREYTap()
                                                                          error:&error];
   GREYAssertTrue([error.domain isEqualToString:kGREYInteractionErrorDomain],
                  @"Domain should match");
@@ -104,7 +104,7 @@
                          _matcherForNonExistingTab.description, @"Description should match");
 
   // grey_type on a Tab should cause action constraints to fail.
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_typeText(@"")
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTypeText(@"")
                                                                    error:&error];
   GREYAssertTrue([error.domain isEqualToString:kGREYInteractionErrorDomain],
                  @"Domain should match");
@@ -114,7 +114,7 @@
   [NSThread mainThread].threadDictionary[GREYFailureHandlerKey] = [[FailureHandler alloc] init];
   // Should throw exception.
   @try {
-    [[EarlGrey selectElementWithMatcher:grey_text(@"Tab 2")] performAction:grey_typeText(@"")
+    [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTypeText(@"")
                                                                      error:nil];
     GREYFail(@"Shouldn't reach this line of code");
   } @catch (GREYFrameworkException *exception) {

@@ -29,48 +29,48 @@
 
 - (void)testSimpleActionSheet {
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"simpleActionSheetButton")]
-      performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Action Sheet")]
-      assertWithMatcher:grey_sufficientlyVisible()];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Simple Button")] performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Action Sheet Button Pressed")]
-      assertWithMatcher:grey_sufficientlyVisible()];
+      performAction:GREYTap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Action Sheet")]
+      assertWithMatcher:GREYSufficientlyVisible()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Simple Button")] performAction:GREYTap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Action Sheet Button Pressed")]
+      assertWithMatcher:GREYSufficientlyVisible()];
 
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"simpleActionSheetButton")]
-      performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Action Sheet")]
-      assertWithMatcher:grey_sufficientlyVisible()];
+      performAction:GREYTap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Action Sheet")]
+      assertWithMatcher:GREYSufficientlyVisible()];
   // TODO: Add custom tap support for when adding iPad support. // NOLINT
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Cancel")] performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Actions Verified Here")]
-      assertWithMatcher:grey_sufficientlyVisible()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Cancel")] performAction:GREYTap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Actions Verified Here")]
+      assertWithMatcher:GREYSufficientlyVisible()];
 }
 
 - (void)testMultipleActionSheet {
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"multipleActionSheetButton")]
-      performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Action Sheet")]
-      assertWithMatcher:grey_sufficientlyVisible()];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Simple Button")] performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Action Sheet Button Pressed")]
-      assertWithMatcher:grey_sufficientlyVisible()];
+      performAction:GREYTap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Action Sheet")]
+      assertWithMatcher:GREYSufficientlyVisible()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Simple Button")] performAction:GREYTap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Action Sheet Button Pressed")]
+      assertWithMatcher:GREYSufficientlyVisible()];
 
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"multipleActionSheetButton")]
-      performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Action Sheet")]
-      assertWithMatcher:grey_sufficientlyVisible()];
+      performAction:GREYTap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Action Sheet")]
+      assertWithMatcher:GREYSufficientlyVisible()];
   // TODO: Add custom tap support for when adding iPad support. // NOLINT
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Cancel")] performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Actions Verified Here")]
-      assertWithMatcher:grey_sufficientlyVisible()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Cancel")] performAction:GREYTap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Actions Verified Here")]
+      assertWithMatcher:GREYSufficientlyVisible()];
 
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"multipleActionSheetButton")]
-      performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Action Sheet")]
-      assertWithMatcher:grey_sufficientlyVisible()];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Hide Button")] performAction:grey_tap()];
+      performAction:GREYTap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Action Sheet")]
+      assertWithMatcher:GREYSufficientlyVisible()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Hide Button")] performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"multipleActionSheetButton")]
-      assertWithMatcher:grey_notVisible()];
+      assertWithMatcher:GREYNotVisible()];
 }
 
 @end

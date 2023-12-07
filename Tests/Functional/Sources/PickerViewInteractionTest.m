@@ -28,12 +28,12 @@
 }
 
 - (void)testInteractionIsImpossibleIfInteractionDisabled {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Disabled")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Disabled")] performAction:GREYTap()];
 
   NSError *error;
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"InteractionDisabledPickerId")]
-      performAction:grey_setPickerColumnToValue(0, @"Green")
+      performAction:GREYSetPickerColumnToValue(0, @"Green")
               error:&error];
 
   GREYAssertTrue([error.domain isEqual:kGREYInteractionErrorDomain], @"Error domain should match");
@@ -41,7 +41,7 @@
                  @"Error code should match");
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"InteractionDisabledPickerId")]
-      assertWithMatcher:grey_pickerColumnSetToValue(0, @"Red")];
+      assertWithMatcher:GREYPickerColumnSetToValue(0, @"Red")];
 }
 
 - (void)testDateOnlyPicker {
@@ -50,16 +50,16 @@
   dateFormatter.dateFormat = @"YYYY/MM/dd";
   NSDate *desiredDate = [dateFormatter dateFromString:dateString];
 
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Date")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Date")] performAction:GREYTap()];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"DatePickerId")]
-      performAction:grey_setDate(desiredDate)];
+      performAction:GREYSetDate(desiredDate)];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"DatePickerId")]
-      assertWithMatcher:grey_datePickerValue(desiredDate)];
+      assertWithMatcher:GREYDatePickerValue(desiredDate)];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"DateLabelId")]
-      assertWithMatcher:grey_text(dateString)];
+      assertWithMatcher:GREYText(dateString)];
 }
 
 - (void)testDateUpdateCallbackIsNotInvokedIfDateDoesNotChange {
@@ -68,26 +68,26 @@
   dateFormatter.dateFormat = @"YYYY/MM/dd";
   NSDate *desiredDate = [dateFormatter dateFromString:dateString];
 
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Date")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Date")] performAction:GREYTap()];
 
   // Changing the date must change the label.
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"DatePickerId")]
-      performAction:grey_setDate(desiredDate)];
+      performAction:GREYSetDate(desiredDate)];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"DatePickerId")]
-      assertWithMatcher:grey_datePickerValue(desiredDate)];
+      assertWithMatcher:GREYDatePickerValue(desiredDate)];
 
   // Clearing the label to revert the changes.
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"ClearDateLabelButtonId")]
-      performAction:grey_tap()];
+      performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"DateLabelId")]
-      assertWithMatcher:grey_text(@"")];
+      assertWithMatcher:GREYText(@"")];
 
   // Executing the change date action with the same value should not change the value, thus not
   // invoking the update callback.
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"DatePickerId")]
-      performAction:grey_setDate(desiredDate)];
+      performAction:GREYSetDate(desiredDate)];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"DateLabelId")]
-      assertWithMatcher:grey_text(@"")];
+      assertWithMatcher:GREYText(@"")];
 }
 
 - (void)testTimeOnlyPicker {
@@ -96,13 +96,13 @@
   dateFormatter.dateFormat = @"HH:mm:ss";
   NSDate *desiredTime = [dateFormatter dateFromString:timeString];
 
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Time")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Time")] performAction:GREYTap()];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"DatePickerId")]
-      performAction:grey_setDate(desiredTime)];
+      performAction:GREYSetDate(desiredTime)];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"DatePickerId")]
-      assertWithMatcher:grey_datePickerValue(desiredTime)];
+      assertWithMatcher:GREYDatePickerValue(desiredTime)];
 }
 
 - (void)testDateTimePicker {
@@ -111,13 +111,13 @@
   dateFormatter.dateFormat = @"YYYY/MM/dd HH:mm:ss";
   NSDate *desiredDateTime = [dateFormatter dateFromString:dateTimeString];
 
-  [[EarlGrey selectElementWithMatcher:grey_text(@"DateTime")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"DateTime")] performAction:GREYTap()];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"DatePickerId")]
-      performAction:grey_setDate(desiredDateTime)];
+      performAction:GREYSetDate(desiredDateTime)];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"DatePickerId")]
-      assertWithMatcher:grey_datePickerValue(desiredDateTime)];
+      assertWithMatcher:GREYDatePickerValue(desiredDateTime)];
 }
 
 - (void)testCountdownTimePicker {
@@ -126,105 +126,105 @@
   dateFormatter.dateFormat = @"HH:mm:ss";
   NSDate *desiredTimer = [dateFormatter dateFromString:timerString];
 
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Counter")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Counter")] performAction:GREYTap()];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"DatePickerId")]
-      performAction:grey_setDate(desiredTimer)];
+      performAction:GREYSetDate(desiredTimer)];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"DatePickerId")]
-      assertWithMatcher:grey_datePickerValue(desiredTimer)];
+      assertWithMatcher:GREYDatePickerValue(desiredTimer)];
 }
 
 - (void)testCustomPicker {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Custom")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Custom")] performAction:GREYTap()];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CustomPickerId")]
-      performAction:grey_setPickerColumnToValue(0, @"Blue")];
+      performAction:GREYSetPickerColumnToValue(0, @"Blue")];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CustomPickerId")]
-      performAction:grey_setPickerColumnToValue(1, @"5")];
+      performAction:GREYSetPickerColumnToValue(1, @"5")];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CustomPickerId")]
-      assertWithMatcher:grey_pickerColumnSetToValue(0, @"Blue")];
+      assertWithMatcher:GREYPickerColumnSetToValue(0, @"Blue")];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CustomPickerId")]
-      assertWithMatcher:grey_pickerColumnSetToValue(1, @"5")];
+      assertWithMatcher:GREYPickerColumnSetToValue(1, @"5")];
 }
 
 - (void)testPickerViewDidSelectRowInComponentIsCalled {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Custom")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Custom")] performAction:GREYTap()];
 
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CustomPickerId")]
-      performAction:grey_setPickerColumnToValue(0, @"Hidden")] assertWithMatcher:grey_notVisible()];
+      performAction:GREYSetPickerColumnToValue(0, @"Hidden")] assertWithMatcher:GREYNotVisible()];
 }
 
 - (void)testNoPickerViewComponentDelegateMethodsAreDefined {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Custom")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Custom")] performAction:GREYTap()];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"noDelegateMethodDefinedSwitch")]
-      performAction:grey_turnSwitchOn(YES)];
+      performAction:GREYTurnSwitchOn(YES)];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CustomPickerId")]
-      assertWithMatcher:grey_pickerColumnSetToValue(0, nil)];
+      assertWithMatcher:GREYPickerColumnSetToValue(0, nil)];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CustomPickerId")]
-      assertWithMatcher:grey_pickerColumnSetToValue(1, nil)];
+      assertWithMatcher:GREYPickerColumnSetToValue(1, nil)];
 }
 
 - (void)testViewForRowDefined {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Custom")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Custom")] performAction:GREYTap()];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"viewForRowDelegateSwitch")]
-      performAction:grey_turnSwitchOn(YES)];
+      performAction:GREYTurnSwitchOn(YES)];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CustomPickerId")]
-      performAction:grey_setPickerColumnToValue(0, @"Green")];
+      performAction:GREYSetPickerColumnToValue(0, @"Green")];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CustomPickerId")]
-      performAction:grey_setPickerColumnToValue(1, @"4")];
+      performAction:GREYSetPickerColumnToValue(1, @"4")];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CustomPickerId")]
-      assertWithMatcher:grey_pickerColumnSetToValue(0, @"Green")];
+      assertWithMatcher:GREYPickerColumnSetToValue(0, @"Green")];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CustomPickerId")]
-      assertWithMatcher:grey_pickerColumnSetToValue(1, @"4")];
+      assertWithMatcher:GREYPickerColumnSetToValue(1, @"4")];
 }
 
 - (void)testAttributedTitleForRowDefined {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Custom")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Custom")] performAction:GREYTap()];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"attributedTitleForRowDelegateSwitch")]
-      performAction:grey_turnSwitchOn(YES)];
+      performAction:GREYTurnSwitchOn(YES)];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CustomPickerId")]
-      performAction:grey_setPickerColumnToValue(0, @"Green")];
+      performAction:GREYSetPickerColumnToValue(0, @"Green")];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CustomPickerId")]
-      performAction:grey_setPickerColumnToValue(1, @"4")];
+      performAction:GREYSetPickerColumnToValue(1, @"4")];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CustomPickerId")]
-      assertWithMatcher:grey_pickerColumnSetToValue(0, @"Green")];
+      assertWithMatcher:GREYPickerColumnSetToValue(0, @"Green")];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CustomPickerId")]
-      assertWithMatcher:grey_pickerColumnSetToValue(1, @"4")];
+      assertWithMatcher:GREYPickerColumnSetToValue(1, @"4")];
 }
 
 - (void)testTitleForRowDefined {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Custom")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Custom")] performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"titleForRowDelegateSwitch")]
-      performAction:grey_turnSwitchOn(YES)];
+      performAction:GREYTurnSwitchOn(YES)];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CustomPickerId")]
-      performAction:grey_setPickerColumnToValue(0, @"Green")];
+      performAction:GREYSetPickerColumnToValue(0, @"Green")];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CustomPickerId")]
-      performAction:grey_setPickerColumnToValue(1, @"4")];
+      performAction:GREYSetPickerColumnToValue(1, @"4")];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CustomPickerId")]
-      assertWithMatcher:grey_pickerColumnSetToValue(0, @"Green")];
+      assertWithMatcher:GREYPickerColumnSetToValue(0, @"Green")];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"CustomPickerId")]
-      assertWithMatcher:grey_pickerColumnSetToValue(1, @"4")];
+      assertWithMatcher:GREYPickerColumnSetToValue(1, @"4")];
 }
 
 @end

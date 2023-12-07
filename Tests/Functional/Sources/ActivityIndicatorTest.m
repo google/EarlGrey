@@ -28,35 +28,35 @@
 }
 
 - (void)testSynchronizationWithStartAndStop {
-  [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"StartStop")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYButtonTitle(@"StartStop")] performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Status")]
-      assertWithMatcher:grey_text(@"Stopped")];
+      assertWithMatcher:GREYText(@"Stopped")];
 }
 
 - (void)testSynchronizationWithStartAndHide {
-  [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"StartHide")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYButtonTitle(@"StartHide")] performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Status")]
-      assertWithMatcher:grey_text(@"Hidden")];
+      assertWithMatcher:GREYText(@"Hidden")];
 }
 
 - (void)testSynchronizationWithStartAndHideWithoutHidesWhenStopped {
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"HidesWhenStopped")]
-      performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"StartHide")] performAction:grey_tap()];
+      performAction:GREYTap()];
+  [[EarlGrey selectElementWithMatcher:GREYButtonTitle(@"StartHide")] performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Status")]
-      assertWithMatcher:grey_text(@"Hidden")];
+      assertWithMatcher:GREYText(@"Hidden")];
 }
 
 - (void)testSynchronizationWithStartAndRemoveFromSuperview {
-  [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"StartRemove")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYButtonTitle(@"StartRemove")] performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Status")]
-      assertWithMatcher:grey_text(@"Removed from superview")];
+      assertWithMatcher:GREYText(@"Removed from superview")];
 }
 
 - (void)testSynchronizationWithHideAndStartThenStop {
-  [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"HideStartStop")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYButtonTitle(@"HideStartStop")] performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Status")]
-      assertWithMatcher:grey_text(@"Stopped")];
+      assertWithMatcher:GREYText(@"Stopped")];
 }
 
 @end

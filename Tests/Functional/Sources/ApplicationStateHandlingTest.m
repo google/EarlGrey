@@ -64,7 +64,7 @@
                                                                        error:nil];
   XCTAssertNotNil(application);
   [[EarlGrey selectElementWithMatcher:GREYKeyWindow()]
-      assertWithMatcher:grey_sufficientlyVisible()];
+      assertWithMatcher:GREYSufficientlyVisible()];
   XCTAssertNoThrow([EarlGrey foregroundApplicationWithBundleID:applicationBundleID error:nil]);
 }
 
@@ -78,10 +78,10 @@
   // TODO(b/191156739): Remove this once synchronization is added for session activation. This line
   //                    only adds a small wait until the applicatino's activationState changes to
   //                    UISceneActivationStateForegroundActive.
-  [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"EarlGrey TestApp")]
-      performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYButtonTitle(@"EarlGrey TestApp")]
+      performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:GREYKeyWindow()]
-      assertWithMatcher:grey_sufficientlyVisible()];
+      assertWithMatcher:GREYSufficientlyVisible()];
 }
 
 #pragma mark - Test app relaunch
@@ -94,7 +94,7 @@
   [_application terminate];
   [_application launch];
   [[EarlGrey selectElementWithMatcher:GREYKeyWindow()]
-      assertWithMatcher:grey_sufficientlyVisible()];
+      assertWithMatcher:GREYSufficientlyVisible()];
 }
 
 /** Test by relaunching twice. */
@@ -102,12 +102,12 @@
   [_application terminate];
   [_application launch];
   [[EarlGrey selectElementWithMatcher:GREYKeyWindow()]
-      assertWithMatcher:grey_sufficientlyVisible()];
+      assertWithMatcher:GREYSufficientlyVisible()];
 
   [_application terminate];
   [_application launch];
   [[EarlGrey selectElementWithMatcher:GREYKeyWindow()]
-      assertWithMatcher:grey_sufficientlyVisible()];
+      assertWithMatcher:GREYSufficientlyVisible()];
 }
 
 #pragma mark - End Test app relaunch
@@ -123,7 +123,7 @@
   [startCoordinate pressForDuration:0 thenDragToCoordinate:endCoordinate];
 
   XCTAssertTrue([springboardApplication.otherElements[@"Dock"] isHittable]);
-  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] performAction:GREYTap()];
 }
 
 - (void)closeBottomDockInLandscape:(BOOL)isLandscape {
@@ -194,7 +194,7 @@
 
 /** Perform a sample EarlGrey statement which will always work on the main page. */
 static void PerformSampleEarlGreyStatement(void) {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
 }
 
 @end

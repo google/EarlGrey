@@ -35,13 +35,13 @@
  */
 - (void)testSynchronizationWithNSURLSessionCompletionHandlers {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"RequestCompletedLabel")]
-      assertWithMatcher:grey_notVisible()];
+      assertWithMatcher:GREYNotVisible()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"NSURLSessionTest")]
-      performAction:grey_tap()];
+      performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"RequestCompletedLabel")]
-      assertWithMatcher:grey_sufficientlyVisible()];
+      assertWithMatcher:GREYSufficientlyVisible()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"ResponseVerifiedLabel")]
-      assertWithMatcher:grey_sufficientlyVisible()];
+      assertWithMatcher:GREYSufficientlyVisible()];
 }
 
 /**
@@ -55,10 +55,10 @@
   [[GREYConfiguration sharedConfiguration] setValue:@(0.5)
                                        forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"NSURLSessionTest")]
-      performAction:grey_tap()];
+      performAction:GREYTap()];
   NSError *error;
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"RequestCompletedLabel")]
-      assertWithMatcher:grey_sufficientlyVisible()
+      assertWithMatcher:GREYSufficientlyVisible()
                   error:&error];
   XCTAssertTrue([error.description containsString:@"URL:\"http://www.youtube.com/\""]);
 }
@@ -69,13 +69,13 @@
  */
 - (void)testSynchronizationWorksWithNSURLSessionDelegates {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"RequestCompletedLabel")]
-      assertWithMatcher:grey_notVisible()];
+      assertWithMatcher:GREYNotVisible()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"NSURLSessionDelegateTest")]
-      performAction:grey_tap()];
+      performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"RequestCompletedLabel")]
-      assertWithMatcher:grey_sufficientlyVisible()];
+      assertWithMatcher:GREYSufficientlyVisible()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"ResponseVerifiedLabel")]
-      assertWithMatcher:grey_sufficientlyVisible()];
+      assertWithMatcher:GREYSufficientlyVisible()];
 }
 
 /**
@@ -84,13 +84,13 @@
  */
 - (void)testSynchronizationWorksWithNSURLSessionDataRequest {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"RequestCompletedLabel")]
-      assertWithMatcher:grey_notVisible()];
-  [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"Data Request Without Handler")]
-      performAction:grey_tap()];
+      assertWithMatcher:GREYNotVisible()];
+  [[EarlGrey selectElementWithMatcher:GREYButtonTitle(@"Data Request Without Handler")]
+      performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"RequestCompletedLabel")]
-      assertWithMatcher:grey_sufficientlyVisible()];
+      assertWithMatcher:GREYSufficientlyVisible()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"ResponseVerifiedLabel")]
-      assertWithMatcher:grey_sufficientlyVisible()];
+      assertWithMatcher:GREYSufficientlyVisible()];
 }
 
 /**
@@ -99,13 +99,13 @@
  */
 - (void)testSynchronizationWorksWithNSURLSessionDataRequestWithHandler {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"RequestCompletedLabel")]
-      assertWithMatcher:grey_notVisible()];
-  [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"Data Request With Handler")]
-      performAction:grey_tap()];
+      assertWithMatcher:GREYNotVisible()];
+  [[EarlGrey selectElementWithMatcher:GREYButtonTitle(@"Data Request With Handler")]
+      performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"RequestCompletedLabel")]
-      assertWithMatcher:grey_sufficientlyVisible()];
+      assertWithMatcher:GREYSufficientlyVisible()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"ResponseVerifiedLabel")]
-      assertWithMatcher:grey_sufficientlyVisible()];
+      assertWithMatcher:GREYSufficientlyVisible()];
 }
 
 /**
@@ -114,12 +114,12 @@
  */
 - (void)testSynchronizationWorksWithNSURLSessionDataRequestProxyDelegate {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"RequestCompletedLabel")]
-      assertWithMatcher:grey_notVisible()];
+      assertWithMatcher:GREYNotVisible()];
   // Will cause a crash if the proxy delegate's method isn't swizzled correctly.
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"NSURLSessionProxyDelegateTest")]
-      performAction:grey_tap()];
+      performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"RequestCompletedLabel")]
-      assertWithMatcher:grey_sufficientlyVisible()];
+      assertWithMatcher:GREYSufficientlyVisible()];
 }
 
 /**
@@ -128,11 +128,11 @@
  */
 - (void)testSynchronizationWorksWithoutNetworkCallbacks {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"RequestCompletedLabel")]
-      assertWithMatcher:grey_notVisible()];
+      assertWithMatcher:GREYNotVisible()];
   // Make the network requests to take longer.
   [GREYHostApplicationDistantObject.sharedInstance setNetworkRequestDelayTime:1.0];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"NSURLSessionNoCallbackTest")]
-      performAction:grey_tap()];
+      performAction:GREYTap()];
   CFTimeInterval startTime = CACurrentMediaTime();
   GREYWaitForAppToIdle(@"Wait for the network request without explicitly looking for callbacks.");
   CFTimeInterval idlingTime = CACurrentMediaTime() - startTime;

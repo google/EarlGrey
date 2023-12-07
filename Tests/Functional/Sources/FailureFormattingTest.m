@@ -52,7 +52,7 @@
 @implementation FailingHelper
 
 - (void)induceEarlGreyFail {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Invalid")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Invalid")] performAction:GREYTap()];
 }
 
 - (void)induceAssertionFail {
@@ -105,8 +105,8 @@
 /** Tests localized description returns the whole error description not just the error reason. */
 - (void)testLocalizedDescription {
   NSError *error;
-  [[EarlGrey selectElementWithMatcher:grey_kindOfClass([UITableViewCell class])]
-      performAction:grey_tap()
+  [[EarlGrey selectElementWithMatcher:GREYKindOfClass([UITableViewCell class])]
+      performAction:GREYTap()
               error:&error];
   XCTAssertTrue([error.localizedDescription
       containsString:@"Multiple elements were matched. Please use selection matchers to narrow the "
@@ -121,7 +121,7 @@
  */
 - (void)testNotFoundAssertionErrorDescription {
   [self openTestViewNamed:@"Animations"];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Basic Views")] assertWithMatcher:grey_notNil()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] assertWithMatcher:GREYNotNil()];
 
   NSString *expectedDetails =
       @"Failed Assertion:\n"
@@ -167,11 +167,11 @@
 - (void)testSearchNotFoundAssertionErrorDescription {
   [self openTestViewNamed:@"Scroll Views"];
   id<GREYMatcher> matcher =
-      grey_allOf(GREYAccessibilityLabel(@"Label 2"), grey_sufficientlyVisible(), nil);
+      grey_allOf(GREYAccessibilityLabel(@"Label 2"), GREYSufficientlyVisible(), nil);
   [[[EarlGrey selectElementWithMatcher:matcher]
-         usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 50)
+         usingSearchAction:GREYScrollInDirection(kGREYDirectionDown, 50)
       onElementWithMatcher:GREYAccessibilityLabel(@"Invalid Scroll View")]
-      assertWithMatcher:grey_sufficientlyVisible()];
+      assertWithMatcher:GREYSufficientlyVisible()];
 
   NSString *expectedDetails =
       @"Failed Assertion:\n"
@@ -200,11 +200,11 @@
 - (void)testSearchNotFoundActionErrorDescription {
   [self openTestViewNamed:@"Scroll Views"];
   id<GREYMatcher> matcher =
-      grey_allOf(GREYAccessibilityLabel(@"Label 2"), grey_sufficientlyVisible(), nil);
+      grey_allOf(GREYAccessibilityLabel(@"Label 2"), GREYSufficientlyVisible(), nil);
   [[[EarlGrey selectElementWithMatcher:matcher]
-         usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 50)
+         usingSearchAction:GREYScrollInDirection(kGREYDirectionDown, 50)
       onElementWithMatcher:GREYAccessibilityLabel(@"Invalid Scroll View")]
-      performAction:grey_tap()];
+      performAction:GREYTap()];
 
   NSString *expectedDetails = @"Search action failed. Look at the underlying error.\n"
                               @"\n"
@@ -237,7 +237,7 @@
       @"start = new Date().getTime(); while (new Date().getTime() < start + 3000);";
   // JS action timeout greater than the threshold.
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TestWKWebView")]
-      performAction:grey_javaScriptExecution(jsStringAboveTimeout, nil)];
+      performAction:GREYJavaScriptExecution(jsStringAboveTimeout, nil)];
   [[GREYConfiguration sharedConfiguration] setValue:@(originalInteractionTimeout)
                                        forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
   NSString *expectedDetails = @"Interaction cannot continue because the "
@@ -267,13 +267,13 @@
 - (void)testTimeoutErrorDescription {
   [self openTestViewNamed:@"Scroll Views"];
   id<GREYMatcher> matcher =
-      grey_allOf(GREYAccessibilityLabel(@"Label 2"), grey_sufficientlyVisible(), nil);
+      grey_allOf(GREYAccessibilityLabel(@"Label 2"), GREYSufficientlyVisible(), nil);
   [[GREYConfiguration sharedConfiguration] setValue:@(1)
                                        forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
   [[[EarlGrey selectElementWithMatcher:matcher]
-         usingSearchAction:grey_scrollInDirection(kGREYDirectionDown, 50)
+         usingSearchAction:GREYScrollInDirection(kGREYDirectionDown, 50)
       onElementWithMatcher:GREYAccessibilityLabel(@"Upper Scroll View")]
-      assertWithMatcher:grey_sufficientlyVisible()];
+      assertWithMatcher:GREYSufficientlyVisible()];
   NSString *expectedDetails =
       @"Interaction timed out after 1 seconds while searching "
       @"for element.\n"
@@ -300,9 +300,9 @@
  * Checks the formatting for a type interaction failing.
  */
 - (void)testActionInteractionErrorDescription {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Typing Views")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Typing Views")] performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
-      performAction:grey_typeText(@"")];
+      performAction:GREYTypeText(@"")];
 
   NSString *expectedDetails =
       @"Failed to type because the provided string was empty.\n"
@@ -317,8 +317,8 @@
 }
 
 - (void)testMultipleMatchedErrorDescription {
-  [[EarlGrey selectElementWithMatcher:grey_kindOfClass([UITableViewCell class])]
-      performAction:grey_tap()
+  [[EarlGrey selectElementWithMatcher:GREYKindOfClass([UITableViewCell class])]
+      performAction:GREYTap()
               error:nil];
 
   NSString *expectedDetails = @"Multiple elements were matched. Please use selection matchers "
@@ -353,8 +353,8 @@
 
 - (void)testConstraintsFailureErrorDescription {
   [self openTestViewNamed:@"Basic Views"];
-  [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"Disabled")]
-      performAction:grey_scrollInDirection(kGREYDirectionUp, 20)
+  [[EarlGrey selectElementWithMatcher:GREYButtonTitle(@"Disabled")]
+      performAction:GREYScrollInDirection(kGREYDirectionUp, 20)
               error:nil];
   NSString *expectedDetails1 = @"Cannot perform action due to constraint(s) failure.\n"
                                @"\n"
@@ -390,7 +390,7 @@
  * Checks the formatting for an assertion failure.
  */
 - (void)testAssertionInteractionErrorDescription {
-  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:grey_nil()];
+  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:GREYNil()];
   NSString *expectedDetailsTillElement = @"Element does not meet assertion criteria:\nisNil\n\n"
                                           "Element:\n<UIWindow:";
   NSString *expectedDetailsForMatcher = @"\n\nMismatch:\nisNil\n\nElement Matcher:\n"
@@ -413,8 +413,8 @@
  */
 - (void)testMatchedElementOutOfBoundsDescription {
   [self openTestViewNamed:@"Typing Views"];
-  [[[EarlGrey selectElementWithMatcher:grey_kindOfClass([UITextField class])] atIndex:999]
-      assertWithMatcher:grey_notNil()];
+  [[[EarlGrey selectElementWithMatcher:GREYKindOfClass([UITextField class])] atIndex:999]
+      assertWithMatcher:GREYNotNil()];
 
   NSString *expectedDetails =
       @"3 elements were matched, but element at index 999 was requested.\n\n"
@@ -433,7 +433,7 @@
  */
 - (void)testWKWebViewFormatting {
   [self openTestViewNamed:@"WKWebView"];
-  id<GREYAction> jsAction = grey_javaScriptExecution(@"var foo; foo.bar();", nil);
+  id<GREYAction> jsAction = GREYJavaScriptExecution(@"var foo; foo.bar();", nil);
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TestWKWebView")] performAction:jsAction
                                                                                       error:nil];
   NSString *jsErrorDetails = @"TypeError: undefined is not an object (evaluating 'foo.bar')";
@@ -457,9 +457,9 @@
   [[GREYConfiguration sharedConfiguration] setValue:@(1)
                                        forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationControl")]
-      performAction:grey_tap()];
+      performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationStatus")]
-      assertWithMatcher:grey_text(@"Paused")];
+      assertWithMatcher:GREYText(@"Paused")];
   NSString *idlingResourceInfo = @"The following idling resources are busy.\n\n1.";
   XCTAssertTrue([_handler.details containsString:idlingResourceInfo],
                 @"Expected info does not appear in the actual exception details:\n\n"
@@ -564,8 +564,8 @@
 /* Ensures that the search action error prints out both wrapped error and underlying error. */
 - (void)testSearchActionConstraints {
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"Invalid")]
-         usingSearchAction:grey_scrollInDirection(kGREYDirectionRight, 100)
-      onElementWithMatcher:GREYKeyWindow()] assertWithMatcher:grey_notNil() error:nil];
+         usingSearchAction:GREYScrollInDirection(kGREYDirectionRight, 100)
+      onElementWithMatcher:GREYKeyWindow()] assertWithMatcher:GREYNotNil() error:nil];
   NSString *expectedDetailWrappedError =
       @"Failed Assertion:\n"
       @"assertWithMatcher:isNotNil\n"
@@ -629,7 +629,7 @@
                                                                   }];
   [[GREY_REMOTE_CLASS_IN_APP(NSRunLoop) currentRunLoop] addTimer:validTimer
                                                          forMode:NSDefaultRunLoopMode];
-  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:grey_notNil()];
+  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:GREYNotNil()];
   [[GREYConfiguration sharedConfiguration] reset];
   NSString *timerSuggestion =
       @"You can ignore a timer by setting kNSTimerIgnoreTrackingKey:@(YES) as an associated object "
@@ -646,7 +646,7 @@
  * printed.
  */
 - (void)testStackTracePresentForFailureInTest {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Invalid")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Invalid")] performAction:GREYTap()];
   XCTAssertNotNil(
       _handler.testStackTrace,
       @"Stack trace should be present for a test failure with a custom failure handler: %@",

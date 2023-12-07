@@ -51,11 +51,11 @@
  */
 - (void)testSimpleAnimatingViewTime {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"animatingView")]
-      assertWithMatcher:grey_notNil()];
+      assertWithMatcher:GREYNotNil()];
   CFTimeInterval startTime = CACurrentMediaTime();
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"animateAnimatingViewButton")]
-      performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:grey_notNil()];
+      performAction:GREYTap()];
+  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:GREYNotNil()];
   CFTimeInterval stopTime = CACurrentMediaTime() - startTime;
   XCTAssertGreaterThan(stopTime, GREY_CONFIG_DOUBLE(kGREYConfigKeyCALayerMaxAnimationDuration));
 }
@@ -66,7 +66,7 @@
  */
 - (void)testConfigKeyForHiddenAnimationTracking {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"animatingView")]
-      assertWithMatcher:grey_notNil()];
+      assertWithMatcher:GREYNotNil()];
   CFTimeInterval startTime = CACurrentMediaTime();
   [self hideAndUnhideAnimatingViewWithSynchronizationDisabled];
   XCTAssertLessThan(CACurrentMediaTime() - startTime,
@@ -76,7 +76,7 @@
 
   startTime = CACurrentMediaTime();
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"animateAnimatingViewButton")]
-      performAction:grey_tap()];
+      performAction:GREYTap()];
   [self hideAndUnhideAnimatingViewWithSynchronizationDisabled];
   CFTimeInterval duration = CACurrentMediaTime() - startTime;
   XCTAssertGreaterThan(duration, GREY_CONFIG_DOUBLE(kGREYConfigKeyCALayerMaxAnimationDuration));
@@ -89,29 +89,29 @@
  */
 - (void)testHidingActivityIndicatorAndThenUnhiding {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"activityIndicator")]
-      assertWithMatcher:grey_notNil()];
+      assertWithMatcher:GREYNotNil()];
   CFTimeInterval startTime = CACurrentMediaTime();
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"animateActivityIndicatorButton")]
-      performAction:grey_tap()];
+      performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"activityIndicator")]
-      assertWithMatcher:grey_notNil()];
+      assertWithMatcher:GREYNotNil()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"hideActivityIndicatorButton")]
-      performAction:grey_tap()];
+      performAction:GREYTap()];
   // Add an extra second for the animation tracking delay.
   XCTAssertGreaterThanOrEqual((CACurrentMediaTime() - startTime),
                               GREY_CONFIG_DOUBLE(kGREYConfigKeyCALayerMaxAnimationDuration) - 1);
 
   startTime = CACurrentMediaTime();
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"hideActivityIndicatorButton")]
-      performAction:grey_tap()];
+      performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"animateActivityIndicatorButton")]
-      performAction:grey_tap()];
+      performAction:GREYTap()];
   XCTAssertGreaterThan(CACurrentMediaTime() - startTime, 1);
 
   startTime = CACurrentMediaTime();
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"animateActivityIndicatorButton")]
-      performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:grey_notNil()];
+      performAction:GREYTap()];
+  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:GREYNotNil()];
   XCTAssertGreaterThan(ceil(CACurrentMediaTime() - startTime),
                        GREY_CONFIG_DOUBLE(kGREYConfigKeyCALayerMaxAnimationDuration) - 1);
 }
@@ -124,15 +124,15 @@
   [[GREYConfiguration sharedConfiguration] setValue:@(10)
                                        forConfigKey:kGREYConfigKeyCALayerMaxAnimationDuration];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"animatingView")]
-      assertWithMatcher:grey_notNil()];
+      assertWithMatcher:GREYNotNil()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"addMoreLayersButton")]
-      performAction:grey_tap()];
+      performAction:GREYTap()];
 
   CFTimeInterval startTime = CACurrentMediaTime();
   [self hideAndUnhideAnimatingViewWithSynchronizationDisabled];
   XCTAssertLessThan(CACurrentMediaTime() - startTime, 8);
 
-  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:grey_notNil()];
+  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:GREYNotNil()];
   XCTAssertGreaterThan(CACurrentMediaTime() - startTime, 8);
 }
 
@@ -146,15 +146,15 @@
   [[GREYConfiguration sharedConfiguration] setValue:@(10)
                                        forConfigKey:kGREYConfigKeyCALayerMaxAnimationDuration];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"animatingView")]
-      assertWithMatcher:grey_notNil()];
+      assertWithMatcher:GREYNotNil()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"addMoreRecurringLayersButton")]
-      performAction:grey_tap()];
+      performAction:GREYTap()];
   CFTimeInterval startTime = CACurrentMediaTime();
   [self hideAndUnhideAnimatingViewWithSynchronizationDisabled];
   XCTAssertLessThan(CACurrentMediaTime() - startTime, 8);
 
   // Longest animation is a sublayer with a 8 second animation enqueued on it.
-  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:grey_notNil()];
+  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:GREYNotNil()];
   XCTAssertGreaterThan(CACurrentMediaTime() - startTime, 8);
 }
 
@@ -168,17 +168,17 @@
   [[GREYConfiguration sharedConfiguration] setValue:@(10)
                                        forConfigKey:kGREYConfigKeyCALayerMaxAnimationDuration];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"animatingView")]
-      assertWithMatcher:grey_notNil()];
+      assertWithMatcher:GREYNotNil()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"addMoreLayersButton")]
-      performAction:grey_tap()];
+      performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"hideCertainLayersButton")]
-      performAction:grey_tap()];
+      performAction:GREYTap()];
   CFTimeInterval startTime = CACurrentMediaTime();
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"animateAnimatingViewButton")]
-      performAction:grey_tap()];
+      performAction:GREYTap()];
   // Longest animation is a simple animation with an 8 second animation enqued on it which is
   // hidden.
-  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:grey_notNil()];
+  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:GREYNotNil()];
   CFTimeInterval duration = CACurrentMediaTime() - startTime;
   XCTAssertGreaterThan(duration, 8);
   XCTAssertLessThan(duration, 9);
@@ -194,18 +194,18 @@
   [[GREYConfiguration sharedConfiguration] setValue:@(100)
                                        forConfigKey:kGREYConfigKeyCALayerMaxAnimationDuration];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"animatingView")]
-      assertWithMatcher:grey_notNil()];
+      assertWithMatcher:GREYNotNil()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"addMoreLayersButton")]
-      performAction:grey_tap()];
+      performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"hideCertainLayersButton")]
-      performAction:grey_tap()];
+      performAction:GREYTap()];
   CFTimeInterval startTime = CACurrentMediaTime();
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"animateAnimatingViewButton")]
-      performAction:grey_tap()];
+      performAction:GREYTap()];
 
   // Longest animation is a simple animation with an 8 second animation enqued on it which is
   // hidden.
-  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:grey_notNil()];
+  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:GREYNotNil()];
   CFTimeInterval duration = CACurrentMediaTime() - startTime;
   XCTAssertGreaterThan(duration, 8);
   XCTAssertLessThan(duration, 9);
@@ -226,11 +226,11 @@
   [[GREYConfiguration sharedConfiguration] setValue:@(10)
                                        forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"animatingView")]
-      assertWithMatcher:grey_notNil()];
+      assertWithMatcher:GREYNotNil()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"specialAnimationsButton")]
-      performAction:grey_tap()];
+      performAction:GREYTap()];
   NSError *error;
-  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:grey_notNil()
+  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:GREYNotNil()
                                                                    error:&error];
   XCTAssertNotNil(error);
   XCTAssertEqual(error.code, kGREYInteractionTimeoutErrorCode);
@@ -241,19 +241,19 @@
  */
 - (void)testTrimmingOfHiddenAnimationsWhenAdded {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"animatingView")]
-      assertWithMatcher:grey_notNil()];
+      assertWithMatcher:GREYNotNil()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"addMoreLayersButton")]
-      performAction:grey_tap()];
+      performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"hideCertainLayersButton")]
-      performAction:grey_tap()];
+      performAction:GREYTap()];
 
   CFTimeInterval startTime = CACurrentMediaTime();
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"animateAnimatingViewButton")]
-      performAction:grey_tap()];
+      performAction:GREYTap()];
 
   // Longest animation is a sublayer with an 8 second animation enqueued on it. However it will be
   // trimmed to around 3 seconds as that's the allowable duration.
-  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:grey_notNil()];
+  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] assertWithMatcher:GREYNotNil()];
   XCTAssertLessThan(CACurrentMediaTime() - startTime, 4);
 }
 
@@ -265,17 +265,17 @@
  */
 - (void)hideAndUnhideAnimatingViewWithSynchronizationDisabled {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"animateAnimatingViewButton")]
-      performAction:grey_tap()];
+      performAction:GREYTap()];
   // Turn off sync so we can hide the animating view.
   [[GREYConfiguration sharedConfiguration] setValue:@(NO)
                                        forConfigKey:kGREYConfigKeySynchronizationEnabled];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"hideAnimatingViewButton")]
-      performAction:grey_tap()];
+      performAction:GREYTap()];
   [[GREYConfiguration sharedConfiguration] setValue:@(YES)
                                        forConfigKey:kGREYConfigKeySynchronizationEnabled];
   // On hiding the view, EarlGrey should still be able to interact with it without turning off sync.
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"hideAnimatingViewButton")]
-      performAction:grey_tap()];
+      performAction:GREYTap()];
 }
 
 @end

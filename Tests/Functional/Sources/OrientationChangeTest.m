@@ -33,8 +33,8 @@
 
 - (void)tearDown {
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait error:nil];
-  [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"EarlGrey TestApp")]
-      performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYButtonTitle(@"EarlGrey TestApp")]
+      performAction:GREYTap()];
   [super tearDown];
 }
 
@@ -71,16 +71,16 @@
         [[GREY_REMOTE_CLASS_IN_APP(UIDevice) currentDevice] orientation];
     GREYAssertEqual(deviceOrientation, orientation, @"Device orientation should match");
     // Tap clear, check if label was reset
-    [[EarlGrey selectElementWithMatcher:grey_buttonTitle(@"Clear")] performAction:grey_tap()];
-    [[EarlGrey selectElementWithMatcher:grey_text(@"Last tapped: None")]
-        assertWithMatcher:grey_sufficientlyVisible()];
+    [[EarlGrey selectElementWithMatcher:GREYButtonTitle(@"Clear")] performAction:GREYTap()];
+    [[EarlGrey selectElementWithMatcher:GREYText(@"Last tapped: None")]
+        assertWithMatcher:GREYSufficientlyVisible()];
     // Each of the buttons, when tapped, execute an action that changes the |lastTapped| UILabel
     // to contain their locations. We tap each button then check if the label actually changed.
     for (NSString *buttonName in buttonNames) {
-      [[EarlGrey selectElementWithMatcher:grey_buttonTitle(buttonName)] performAction:grey_tap()];
+      [[EarlGrey selectElementWithMatcher:GREYButtonTitle(buttonName)] performAction:GREYTap()];
       NSString *tappedString = [NSString stringWithFormat:@"Last tapped: %@", buttonName];
-      [[EarlGrey selectElementWithMatcher:grey_text(tappedString)]
-          assertWithMatcher:grey_sufficientlyVisible()];
+      [[EarlGrey selectElementWithMatcher:GREYText(tappedString)]
+          assertWithMatcher:GREYSufficientlyVisible()];
     }
   }
 }

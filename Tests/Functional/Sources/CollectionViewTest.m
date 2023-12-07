@@ -29,7 +29,7 @@
 
 - (void)testSearchActionWithCollectionViewHorizontalLayout {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"layoutPicker")]
-      performAction:grey_setPickerColumnToValue(0, @"Horizontal Layout")];
+      performAction:GREYSetPickerColumnToValue(0, @"Horizontal Layout")];
   // For reference this is how A, B, C, X, Y and Z are laid out using the horizontal layout:
   // A ... X
   // B ... Y
@@ -52,7 +52,7 @@
 
 - (void)testSearchActionWithCollectionViewVerticalLayout {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"layoutPicker")]
-      performAction:grey_setPickerColumnToValue(0, @"Vertical Layout")];
+      performAction:GREYSetPickerColumnToValue(0, @"Vertical Layout")];
   // For reference this is how A, B, C, X, Y and Z are laid out using the vertical layout:
   // A B C .
   // . . . .
@@ -76,7 +76,7 @@
 
 - (void)testSearchActionWithCollectionViewCustomLayout {
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"layoutPicker")]
-      performAction:grey_setPickerColumnToValue(0, @"Vertical Layout")];
+      performAction:GREYSetPickerColumnToValue(0, @"Vertical Layout")];
 
   // For reference this is how A, B, C, X, Y and Z are laid out using the custom layout:
   // A B C ...
@@ -109,20 +109,20 @@
 - (void)verifyTapOnChar:(char)ch {
   NSString *previous = [NSString stringWithFormat:@"%c", ch];
   NSString *next = [NSString stringWithFormat:@"%d", toupper(ch)];
-  [[EarlGrey selectElementWithMatcher:grey_text(previous)] performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_text(next)] assertWithMatcher:grey_notNil()];
+  [[EarlGrey selectElementWithMatcher:GREYText(previous)] performAction:GREYTap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(next)] assertWithMatcher:GREYNotNil()];
 }
 
 // Scrolls the test CollectionView containing alphabets in the given |direction| until the given
 // char is interactable.
 - (void)scrollInDirection:(GREYDirection)direction untilInteractableWithChar:(char)aChar {
   // Spelling these out separately to align the following code properly making it more readable.
-  id<GREYMatcher> charMatcher = grey_text([NSString stringWithFormat:@"%c", aChar]);
-  id<GREYAction> scrollAction = grey_scrollInDirection(direction, 50);
+  id<GREYMatcher> charMatcher = GREYText([NSString stringWithFormat:@"%c", aChar]);
+  id<GREYAction> scrollAction = GREYScrollInDirection(direction, 50);
   id<GREYMatcher> searchActionElementMatcher = grey_accessibilityID(@"Alphabets");
-  [[[EarlGrey selectElementWithMatcher:grey_allOf(charMatcher, grey_interactable(), nil)]
+  [[[EarlGrey selectElementWithMatcher:grey_allOf(charMatcher, GREYInteractable(), nil)]
          usingSearchAction:scrollAction
-      onElementWithMatcher:searchActionElementMatcher] assertWithMatcher:grey_interactable()];
+      onElementWithMatcher:searchActionElementMatcher] assertWithMatcher:GREYInteractable()];
 }
 
 @end

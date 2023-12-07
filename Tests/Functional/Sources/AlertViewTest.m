@@ -28,46 +28,46 @@
 }
 
 - (void)testSimpleAlertView {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Simple Alert")] performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Flee")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Simple Alert")] performAction:GREYTap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Flee")] performAction:GREYTap()];
 }
 
 - (void)testMultiOptionAlertView {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Multi-Option Alert")] performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Use Slingshot")] performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Multi-Option Alert")] performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Use Phaser")] performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Roger")] performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Multi-Option Alert")]
-      assertWithMatcher:grey_sufficientlyVisible()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Multi-Option Alert")] performAction:GREYTap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Use Slingshot")] performAction:GREYTap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Multi-Option Alert")] performAction:GREYTap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Use Phaser")] performAction:GREYTap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Roger")] performAction:GREYTap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Multi-Option Alert")]
+      assertWithMatcher:GREYSufficientlyVisible()];
 }
 
 - (void)testAlertViewChain {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Multi-Option Alert")] performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Use Phaser")] performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Roger")] performAction:grey_tap()];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Multi-Option Alert")]
-      assertWithMatcher:grey_sufficientlyVisible()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Multi-Option Alert")] performAction:GREYTap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Use Phaser")] performAction:GREYTap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Roger")] performAction:GREYTap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Multi-Option Alert")]
+      assertWithMatcher:GREYSufficientlyVisible()];
 }
 
 /** Verifies styled alert view pops up and interactible with EarlGrey. */
 - (void)testStyledAlertView {
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Styled Alert")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Styled Alert")] performAction:GREYTap()];
 
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Login")]
-      performAction:grey_typeText(@"test_user")];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"test_user")] assertWithMatcher:grey_notNil()];
+      performAction:GREYTypeText(@"test_user")];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"test_user")] assertWithMatcher:GREYNotNil()];
 
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Password")]
-      performAction:grey_typeText(@"test_pwd")];
-  [[EarlGrey selectElementWithMatcher:grey_text(@"test_pwd")] assertWithMatcher:grey_notNil()];
+      performAction:GREYTypeText(@"test_pwd")];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"test_pwd")] assertWithMatcher:GREYNotNil()];
 
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Leave")] performAction:grey_tap()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Leave")] performAction:GREYTap()];
   NSError *error;
-  [[EarlGrey selectElementWithMatcher:grey_text(@"Roger")] assertWithMatcher:grey_nil()
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Roger")] assertWithMatcher:GREYNil()
                                                                        error:&error];
   if (error) {
-    [[EarlGrey selectElementWithMatcher:grey_text(@"Roger")] performAction:grey_tap()];
+    [[EarlGrey selectElementWithMatcher:GREYText(@"Roger")] performAction:GREYTap()];
   }
 }
 
