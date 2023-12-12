@@ -16,7 +16,9 @@
 
 #import <UIKit/UIKit.h>
 
+#import "GREYActionBlock.h"
 #import "GREYActions.h"
+#import "GREYBaseAction.h"
 
 #import "GREYFailureScreenshotter.h"
 #import "GREYSyntheticEvents.h"
@@ -31,7 +33,6 @@
 #import "GREYElementHierarchy.h"
 #import "GREYScreenshotter.h"
 
-
 // Stub classes defined in the host (app under test)
 
 #pragma mark - HostApplication Stub
@@ -41,6 +42,8 @@ GREY_STUB_CLASS_IN_APP_MAIN_QUEUE(GREYHostApplicationDistantObject)
 #pragma mark - Actions Stubs
 
 GREY_STUB_CLASS_IN_APP_BACKGROUND_QUEUE(GREYActions)
+GREY_STUB_CLASS_IN_APP_MAIN_QUEUE(GREYActionBlock)
+GREY_STUB_CLASS_IN_APP_MAIN_QUEUE(GREYBaseAction)
 
 #pragma mark - Matchers Stubs
 
