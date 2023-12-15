@@ -180,6 +180,13 @@
  * Test scrolling to the bottom of a UITableView and tapping on a cell using a search action.
  */
 - (void)testTapOnLastCellUsingSearchAction {
+  NSTimeInterval previousTimeout = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
+  [GREYConfiguration.sharedConfiguration setValue:@60
+                                     forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
+  [self addTeardownBlock:^{
+    [GREYConfiguration.sharedConfiguration setValue:@(previousTimeout)
+                                       forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
+  }];
   [[[EarlGrey selectElementWithMatcher:GREYText(@"Row 99")]
          usingSearchAction:GREYScrollToContentEdge(kGREYContentEdgeBottom)
       onElementWithMatcher:grey_accessibilityID(@"main_table_view")] performAction:GREYTap()];
