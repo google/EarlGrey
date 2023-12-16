@@ -170,7 +170,7 @@ __attribute__((constructor)) static void initialize(void) {
 - (void)greyswizzled_viewDidAppear:(BOOL)animated {
   GREYAppStateTrackerObject *object =
       objc_getAssociatedObject(self, @selector(greyswizzled_viewWillAppear:));
-  GREYAppState state = kGREYPendingViewsToAppear | kGREYPendingRootViewControllerToAppear;
+  GREYAppState state = kGREYPendingViewsToAppear | kGREYPendingRootViewControllerToAppear | kGREYPendingViewsToDisappear;
   UNTRACK_STATE_FOR_OBJECT(state, object);
 
   [self grey_setAppeared:YES];
