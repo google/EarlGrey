@@ -77,16 +77,19 @@ static CGRect GREYRectByAddingEdgeInsetsToRect(UIEdgeInsets insets, CGRect rect)
 /**
  * Generates touch path between the given points with the option to cancel the inertia.
  *
- * @param startPoint    The start point of the touch path.
- * @param endPoint      The end point of the touch path.
- * @param duration      How long the gesture should last.
- *                      Can be NAN to indicate that path lengths of fixed magnitude should be used.
- * @param cancelInertia A check to nullify the inertia in the touch path.
+ * @param startPoint         The start point of the touch path.
+ * @param endPoint           The end point of the touch path.
+ * @param duration           How long the gesture should last. Can be NAN to indicate that path
+ *                           lengths of fixed magnitude should be used.
+ * @param cancelInertia      A check to nullify the inertia in the touch path.
+ * @param shouldFixDeviation The derived path coordinates should be rounded or not. It's only used
+ *                           for scrolling actions to avoid scroll offset approximation.
  *
  * @return A touch path between the two points.
  */
 static NSArray<NSValue *> *GREYGenerateTouchPath(CGPoint startPoint, CGPoint endPoint,
-                                                 CFTimeInterval duration, BOOL cancelInertia);
+                                                 CFTimeInterval duration, BOOL cancelInertia,
+                                                 BOOL shouldFixDeviation);
 
 #pragma mark - Public
 
@@ -104,12 +107,13 @@ NSArray<NSValue *> *GREYTouchPathForGestureInWindow(UIWindow *window,
   } else {
     endPointInWindowCoords.y = startPointInWindowCoordinates.y;
   }
-  return GREYGenerateTouchPath(startPointInWindowCoordinates, endPointInWindowCoords, duration, NO);
+  return GREYGenerateTouchPath(startPointInWindowCoordinates, endPointInWindowCoords, duration, NO,
+                               NO);
 }
 
 NSArray<NSValue *> *GREYTouchPathForDragGestureInScreen(CGPoint startPoint, CGPoint endPoint,
                                                         BOOL cancelInertia) {
-  return GREYGenerateTouchPath(startPoint, endPoint, NAN, cancelInertia);
+  return GREYGenerateTouchPath(startPoint, endPoint, NAN, cancelInertia, NO);
 }
 
 NSArray<NSValue *> *GREYTouchPathForGestureInView(UIView *view, CGPoint startPointPercents,
@@ -166,6 +170,10 @@ NSArray<NSValue *> *GREYTouchPathForGestureInView(UIView *view, CGPoint startPoi
     scrollAmountPossible = (CGFloat)fabs(endPoint.x - startPoint.x);
   }
   scrollAmountPossible -= kGREYScrollDetectionLength;
+  // The scroll view's content offset can always be divided by (1 / screen scale). Other values
+  // being assigned to the property will be approximated. To be conservative, always use integer
+  // scroll amount for the touch injection.
+  scrollAmountPossible = floor(scrollAmountPossible);
   if (scrollAmountPossible <= 0) {
     // Scroll view is narrow and it is too close to the edge.
     return nil;
@@ -189,7 +197,7 @@ NSArray<NSValue *> *GREYTouchPathForGestureInView(UIView *view, CGPoint startPoi
   }
   endPoint = CGPointAddVector(startPoint,
                               CGVectorScale(delta, amountWillScroll + kGREYScrollDetectionLength));
-  return GREYGenerateTouchPath(startPoint, endPoint, NAN, YES);
+  return GREYGenerateTouchPath(startPoint, endPoint, NAN, YES, YES);
 }
 
 CGVector GREYDeviationBetweenTouchPathAndActualOffset(NSArray<NSValue *> *touchPath,
@@ -227,7 +235,7 @@ NSArray<NSValue *> *GREYFixTouchPathDeviation(NSArray<NSValue *> *touchPath, CGV
     return nil;
   }
 
-  return GREYGenerateTouchPath(currentTouchPoint, adjustedEndPoint, NAN, YES);
+  return GREYGenerateTouchPath(currentTouchPoint, adjustedEndPoint, NAN, YES, YES);
 }
 
 #pragma mark - Private
@@ -263,7 +271,8 @@ static CGRect GREYRectByAddingEdgeInsetsToRect(UIEdgeInsets insets, CGRect rect)
 }
 
 static NSArray<NSValue *> *GREYGenerateTouchPath(CGPoint startPoint, CGPoint endPoint,
-                                                 CFTimeInterval duration, BOOL cancelInertia) {
+                                                 CFTimeInterval duration, BOOL cancelInertia,
+                                                 BOOL shouldFixDeviation) {
   const CGVector deltaVector = CGVectorFromEndPoints(startPoint, endPoint, NO);
   const CGFloat pathLength = CGVectorLength(deltaVector);
 
@@ -281,7 +290,15 @@ static NSArray<NSValue *> *GREYGenerateTouchPath(CGPoint startPoint, CGPoint end
       // The first element of the touch point is already added outside of the loop. It's possible
       // that no additional touch point is added to the fast scroll path.
       for (NSUInteger i = 1; i < totalPoints; i++) {
-        CGPoint touchPoint = CGPointMake(startPoint.x + (deltaX * i), startPoint.y + (deltaY * i));
+        // Always generate integer offset to `startPoint` using `floor` so that the scroll amount
+        // is not approximated by screen resolution.
+        CGFloat stepX = deltaX * i;
+        CGFloat stepY = deltaY * i;
+        if (shouldFixDeviation) {
+          stepX = floor(stepX);
+          stepY = floor(stepY);
+        }
+        CGPoint touchPoint = CGPointMake(startPoint.x + stepX, startPoint.y + stepY);
         [touchPath addObject:[NSValue valueWithCGPoint:touchPoint]];
       }
     }
