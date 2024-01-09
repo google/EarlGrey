@@ -56,6 +56,12 @@ NS_ASSUME_NONNULL_BEGIN
  *     @endcode
  *
  * @note If a handler is not set, one will be created and assigned by EarlGrey.
+ *
+ * @note EarlGrey internal failures sending to this failure handler expect to interrupt the test by
+ *       throwing an exception. When overridding the failure handler without throwing an exception,
+ *       users should keep in mind that EarlGrey doesn't recover the app-under-test to the state
+ *       before an API is called. If you want to report a failure without interruptting the test,
+ *       [XCTTestCase -recordIssue:] is the better option.
  */
 GREY_EXTERN NSString *const GREYFailureHandlerKey;
 
