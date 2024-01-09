@@ -35,7 +35,9 @@ BOOL GREYWaitForAppToIdleWithTimeoutAndError(CFTimeInterval timeoutInSeconds, NS
                                                                       error:&error];
   });
   if (!success) {
-    *waitError = error;
+    if (waitError) {
+      *waitError = error;
+    }
   }
   return success;
 }
