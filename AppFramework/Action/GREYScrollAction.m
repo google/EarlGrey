@@ -21,6 +21,7 @@
 #endif  // TARGET_OS_IOS
 
 #import "GREYPathGestureUtils.h"
+#import "UIGestureRecognizer+GREYApp.h"
 #import "UIScrollView+GREYApp.h"
 #import "GREYSurrogateDelegate.h"
 #import "GREYAppError.h"
@@ -217,10 +218,26 @@ static BOOL IsEligibleForRetry(UIScrollView *scrollView, GREYDirection scrollDir
 
 - (BOOL)perform:(id)element error:(__strong NSError **)error {
   __block BOOL retVal = NO;
+  static NSArray<Class> *disabledGestureRecognizer;
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    disabledGestureRecognizer = @[
+      // EarlGrey may take up to 200 ms to activate UIScrollViewPanGestureRecognizer. Starting iOS
+      // 17, _UIRelationshipGestureRecognizer becomes more sensitive and takes less time to bring up
+      // the context menu. We dont' want the action to cause this side effect, so temporarily
+      // disable the gesture recognizer during the scroll action.
+      NSClassFromString(@"_UIRelationshipGestureRecognizer"),
+      // _UITouchDurationObservingGestureRecognizer will also activate
+      // _UIRelationshipGestureRecognizer so it should be disabled.
+      NSClassFromString(@"_UITouchDurationObservingGestureRecognizer")
+    ];
+  });
   grey_dispatch_sync_on_main_thread(^{
     // We aggressively access UI elements when performing the action, rather than having pieces
     // running on the main thread separately, the whole action will be performed on the main thread.
-    retVal = [self grey_perform:element error:error];
+    GREYPerformBlockWithGestureRecognizerDisabled(disabledGestureRecognizer, ^{
+      retVal = [self grey_perform:element error:error];
+    });
   });
   return retVal;
 }

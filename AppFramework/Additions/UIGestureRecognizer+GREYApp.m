@@ -23,14 +23,17 @@
 #import "GREYAppStateTrackerObject.h"
 #import "GREYFatalAsserts.h"
 #import "GREYAppState.h"
+#import "GREYLogger.h"
 #import "GREYSwizzler.h"
 
 static Class gKeyboardPinchGestureRecognizerClass;
+static NSSet<Class> *gDisabledGestureRecognizers;
 
 @implementation UIGestureRecognizer (GREYApp)
 
 + (void)load {
   gKeyboardPinchGestureRecognizerClass = NSClassFromString(@"UIKeyboardPinchGestureRecognizer");
+  gDisabledGestureRecognizers = nil;
   GREYSwizzler *swizzler = [[GREYSwizzler alloc] init];
   BOOL swizzled = [swizzler swizzleClass:self
                    replaceInstanceMethod:NSSelectorFromString(@"_setDirty")
@@ -46,6 +49,11 @@ static Class gKeyboardPinchGestureRecognizerClass;
   swizzled = [swizzler swizzleClass:self
               replaceInstanceMethod:@selector(setState:)
                          withMethod:@selector(greyswizzled_setState:)];
+  GREYFatalAssertWithMessage(swizzled, @"Failed to swizzle UIGestureRecognizer setState:");
+
+  swizzled = [swizzler swizzleClass:self
+              replaceInstanceMethod:@selector(shouldReceiveEvent:)
+                         withMethod:@selector(greyswizzled_shouldReceiveEvent:)];
   GREYFatalAssertWithMessage(swizzled, @"Failed to swizzle UIGestureRecognizer setState:");
 }
 
@@ -86,4 +94,38 @@ static Class gKeyboardPinchGestureRecognizerClass;
   INVOKE_ORIGINAL_IMP1(void, @selector(greyswizzled_setState:), state);
 }
 
+- (BOOL)greyswizzled_shouldReceiveEvent:(id)event {
+  Class recognizerClass = [self class];
+  if ([gDisabledGestureRecognizers containsObject:recognizerClass]) {
+    GREYLogVerbose(@"%@ is ignored by EarlGrey intentionally.", NSStringFromClass(recognizerClass));
+    return NO;
+  }
+  return INVOKE_ORIGINAL_IMP1(BOOL, @selector(greyswizzled_shouldReceiveEvent:), event);
+}
+
 @end
+
+void GREYPerformBlockWithGestureRecognizerDisabled(NSArray<Class> *gestureRecognizerClasses,
+                                                   void (^block)(void)) {
+  if (![NSThread isMainThread]) {
+    [[NSAssertionHandler currentHandler]
+        handleFailureInFunction:@"GREYPerformBlockWithGestureRecognizerDisabled"
+                           file:@__FILE__
+                     lineNumber:__LINE__
+                    description:@"GREYPerformBlockWithGestureRecognizerDisabled must be called on "
+                                @"main thread. This is an EarlGrey programming error, please file "
+                                @"a bug to EarlGrey team."];
+  }
+  if (gDisabledGestureRecognizers) {
+    [[NSAssertionHandler currentHandler]
+        handleFailureInFunction:@"GREYPerformBlockWithGestureRecognizerDisabled"
+                           file:@__FILE__
+                     lineNumber:__LINE__
+                    description:
+                        @"GREYPerformBlockWithGestureRecognizerDisabled is not reentrant. This is "
+                        @"an EarlGrey programming error, please file a bug to EarlGrey team"];
+  }
+  gDisabledGestureRecognizers = [NSSet setWithArray:gestureRecognizerClasses];
+  block();
+  gDisabledGestureRecognizers = nil;
+}

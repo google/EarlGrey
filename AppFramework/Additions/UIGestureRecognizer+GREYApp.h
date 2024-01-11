@@ -16,8 +16,23 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  * Additions that allow EarlGrey to synchronize with UIGestureRecognizers.
  */
 @interface UIGestureRecognizer (GREYApp)
 @end
+
+/**
+ * Deactivates gesture recognizers during a block execution.
+ *
+ * It can be used to avoid side effects during the touch injection when testing device is slow.
+ *
+ * @param gestureRecognizerClasses The class of the gesture recognizer that should be ignored.
+ * @param block                    The block to be executed.
+ */
+void GREYPerformBlockWithGestureRecognizerDisabled(NSArray<Class> *gestureRecognizerClasses,
+                                                   void (^block)(void));
+
+NS_ASSUME_NONNULL_END
