@@ -620,10 +620,8 @@ __unused static id<GREYAction> ActionForTurnSwitchOn(BOOL on, NSString *diagnost
                                                      id<GREYAction> action) {
 #if TARGET_OS_IOS
   id<GREYMatcher> systemAlertShownMatcher = [GREYMatchers matcherForSystemAlertViewShown];
-  NSArray<id<GREYMatcher>> *constraintMatchers = @[
-    [GREYMatchers matcherForNegation:systemAlertShownMatcher],
-    [GREYMatchers matcherForRespondsToSelector:@selector(isOn)]
-  ];
+  NSArray<id<GREYMatcher>> *constraintMatchers =
+      @[ [GREYMatchers matcherForNegation:systemAlertShownMatcher] ];
   id<GREYMatcher> constraints = [[GREYAllOf alloc] initWithMatchers:constraintMatchers];
   NSString *actionName =
       [NSString stringWithFormat:@"Turn switch to %@ state", [UISwitch grey_stringFromOnState:on]];
@@ -634,8 +632,8 @@ __unused static id<GREYAction> ActionForTurnSwitchOn(BOOL on, NSString *diagnost
                             performBlock:^BOOL(id switchView, __strong NSError **errorOrNil) {
                               __block BOOL toggleSwitch = NO;
                               grey_dispatch_sync_on_main_thread(^{
-                                toggleSwitch =
-                                    ([switchView isOn] && !on) || (![switchView isOn] && on);
+                                BOOL isOn = [[switchView accessibilityValue] boolValue];
+                                toggleSwitch = !!isOn != !!on;
                               });
                               if (toggleSwitch) {
                                 return [action perform:switchView error:errorOrNil];
