@@ -14,7 +14,6 @@
 // limitations under the License.
 //
 
-
 #import "GREYAction.h"
 #import "GREYActionsShorthand.h"
 #import "GREYInteraction.h"
@@ -129,7 +128,8 @@ typedef void (^GREYHostApplicationCrashHandler)(void);
  *
  * @return A GREYElementInteraction instance, initialized with an appropriate matcher.
  */
-- (id<GREYInteraction>)selectElementWithMatcher:(id<GREYMatcher>)elementMatcher;
+- (id<GREYInteraction>)selectElementWithMatcher:(id<GREYMatcher>)elementMatcher
+    NS_WARN_UNUSED_RESULT;
 
 /**
  * Dismisses the keyboard programmatically by calling resignFirstResponder on application under
