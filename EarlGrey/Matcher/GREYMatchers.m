@@ -490,7 +490,7 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
 
 + (id<GREYMatcher>)matcherForEnabledElement {
   MatchesBlock matches = ^BOOL(id element) {
-    BOOL matched = YES;
+    BOOL matched = NO;
     if ([element isKindOfClass:[UIControl class]]) {
       UIControl *control = (UIControl *)element;
       matched = control.enabled;
