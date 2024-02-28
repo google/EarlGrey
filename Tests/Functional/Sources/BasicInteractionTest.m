@@ -130,7 +130,7 @@
   [self openTestViewNamed:@"Zooming Scroll View"];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"ZoomingScrollView")]
       performAction:GREYPinchSlowInDirectionAndAngle(kGREYPinchDirectionOutward,
-                                                      kGREYPinchAngleDefault)];
+                                                     kGREYPinchAngleDefault)];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"ZoomingScrollView")]
       performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:GREYButtonTitle(@"EarlGrey TestApp")]
@@ -144,7 +144,7 @@
   [self openTestViewNamed:@"Zooming Scroll View"];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"ZoomingScrollView")]
       performAction:GREYPinchSlowInDirectionAndAngle(kGREYPinchDirectionInward,
-                                                      kGREYPinchAngleDefault)];
+                                                     kGREYPinchAngleDefault)];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"ZoomingScrollView")]
       performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:GREYButtonTitle(@"EarlGrey TestApp")]
@@ -214,21 +214,21 @@
 - (void)testErrorHandling {
   NSError *error;
   [[EarlGrey selectElementWithMatcher:GREYText(@"GarbageValue")] performAction:GREYTap()
-                                                                          error:&error];
+                                                                         error:&error];
   XCTAssertEqualObjects(error.domain, kGREYInteractionErrorDomain,
                         @"Interaction Error not thrown for tapping on an invalid element.");
   error = nil;
   [[EarlGrey selectElementWithMatcher:GREYText(@"GarbageValue")] assertWithMatcher:GREYNotNil()
-                                                                              error:&error];
+                                                                             error:&error];
   XCTAssertEqualObjects(error.domain, kGREYInteractionErrorDomain,
                         @"Interaction Error not thrown for not-nil assert on an invalid element.");
   error = nil;
   [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()
-                                                                         error:&error];
+                                                                        error:&error];
   XCTAssertNil(error, @"Error not nil for tapping on a valid element");
   error = nil;
   [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] assertWithMatcher:GREYNotNil()
-                                                                       error:&error];
+                                                                      error:&error];
   XCTAssertNil(error, @"Error not nil for asserting not-nil on a valid element");
 }
 
@@ -240,8 +240,7 @@
   [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
       performAction:GREYTypeText(@"hi")];
-  [[EarlGrey selectElementWithMatcher:GREYText(@"hi")]
-      assertWithMatcher:GREYSufficientlyVisible()];
+  [[EarlGrey selectElementWithMatcher:GREYText(@"hi")] assertWithMatcher:GREYSufficientlyVisible()];
   [[EarlGrey selectElementWithMatcher:GREYButtonTitle(@"EarlGrey TestApp")]
       performAction:GREYTap()];
 }
@@ -435,7 +434,7 @@
                                                  nil)] performAction:GREYTap()];
   NSError *error;
   [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] assertWithMatcher:GREYNotNil()
-                                                                             error:&error];
+                                                                            error:&error];
   XCTAssertEqual(error.code, kGREYInteractionElementNotFoundErrorCode,
                  @"No table view cell from the main Table can be visible.");
 }
@@ -467,7 +466,7 @@
   [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
   NSError *error;
   [[EarlGrey selectElementWithMatcher:GREYButtonTitle(@"Disabled")] performAction:GREYTap()
-                                                                             error:&error];
+                                                                            error:&error];
   XCTAssertNil(error);
 }
 
@@ -909,6 +908,7 @@
  * Perform typing in a text field and assert the typed value.
  */
 - (void)testSettingAndResettingRootWindow {
+  XCTSkip(@"b/327270471 - Fix failure introduced with Xcode 15");
   UIWindow *mainWindow = [GREY_REMOTE_CLASS_IN_APP(GREYUILibUtils) window];
   mainWindow.accessibilityIdentifier = @"Main Window";
   [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
@@ -926,7 +926,7 @@
   [EarlGrey setRootMatcherForSubsequentInteractions:grey_accessibilityID(@"Main Window")];
   [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"u")] performAction:GREYTap()
-                                                                             error:&error];
+                                                                            error:&error];
   XCTAssertNotNil(error, @"Keyboard key should not be present in the main window");
 
   [EarlGrey setRootMatcherForSubsequentInteractions:nil];
