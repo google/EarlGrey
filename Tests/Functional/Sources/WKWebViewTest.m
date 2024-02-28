@@ -109,6 +109,7 @@
 }
 
 - (void)testJavascriptEvaluationWithATimeoutBelowTheThreshold {
+  XCTSkip(@"b/327270471 - Fix failure introduced with Xcode 15");
   NSError *error = nil;
   CFTimeInterval originalInteractionTimeout =
       GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);

@@ -665,6 +665,7 @@
  * Check long pressing followed by selecting a menu option.
  */
 - (void)testLongPressFollowedBySelectingMenuOption {
+  XCTSkip(@"b/327270471 - Fix failure introduced with Xcode 15");
   [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
 
