@@ -51,8 +51,14 @@ GREY_EXTERN BOOL GREYWaitForAppToIdleWithTimeoutAndError(
     CFTimeInterval timeoutInSeconds, NSError **waitError);
 
 /**
- * Sleeps in a background queue in the test process for the specified @c time.
- * The main thread's runloop will continue processing requests.
+ * Processes other requests in the current thread's runloop for @c time, then
+ * resumes execution. This is most commonly used on the main thread.
+ *
+ * When called from the main thread, the wait duration does not start counting
+ * until previous operations on EarlGrey's background queue have completed, but
+ * it has no synchronization relationship with any items added to the
+ * background queue during the wait period. It does not synchronize with the
+ * background queue at all if called from any other thread.
  *
  * @remark Please do not use this as a catch-all instead of an idling resource
  *         or GREYCondition.

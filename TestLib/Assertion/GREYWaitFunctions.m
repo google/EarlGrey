@@ -43,7 +43,34 @@ BOOL GREYWaitForAppToIdleWithTimeoutAndError(CFTimeInterval timeoutInSeconds, NS
 }
 
 void GREYWaitForTime(CFTimeInterval time) {
-  GREYExecuteSyncBlockInBackgroundQueue(^{
-    [NSThread sleepForTimeInterval:time];
-  });
+  __block BOOL timer_fired = NO;
+
+  // Interpret a wait for 0 time as a request to only drain existing items from
+  // the background queue.
+  if (time > 0) {
+    CFRunLoopTimerRef wake_timer = CFRunLoopTimerCreateWithHandler(
+        NULL, time + CFAbsoluteTimeGetCurrent(), 0, 0, 0, ^(CFRunLoopTimerRef ignored) {
+          timer_fired = YES;
+          CFRunLoopStop(CFRunLoopGetCurrent());
+        });
+    CFRunLoopAddTimer(CFRunLoopGetCurrent(), wake_timer, kCFRunLoopCommonModes);
+
+    while (!timer_fired) {
+      CFRunLoopRun();
+    }
+
+    // wake_timer is one-shot (interval == 0), so it removes itself from the runloop after it fires.
+    // We don't need to use CFRunLoopRemoveTimer for it, but we do need to return the memory.
+    CFRelease(wake_timer);
+  }
+
+  // A previous implementation waited by sleeping on the background queue, blocking it from making
+  // progress. Blocking it was undesirable, but waiting for existing queued tasks to complete
+  // might be an important side effect. Now that the background queue can keep working, it makes
+  // more sense to wait for a block on it at the end of the wait period rather than the beginning
+  // so any new work enqueued ruing the wait period can resolve.
+  if ([NSThread isMainThread]) {
+    GREYExecuteSyncBlockInBackgroundQueue(^{
+    });
+  }
 }
