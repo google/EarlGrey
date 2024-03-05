@@ -52,6 +52,7 @@
 #import "GREYHostApplicationDistantObject.h"
 #import "GREYHostBackgroundDistantObject.h"
 #import "GREYTestApplicationDistantObject.h"
+#import "EDOHostPort.h"
 #import "EDOClientService.h"
 #import "EDOHostService.h"
 #import "EDORemoteVariable.h"
