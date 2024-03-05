@@ -16,7 +16,6 @@
 
 #import <UIKit/UIKit.h>
 
-
 NS_ASSUME_NONNULL_BEGIN
 
 /**
@@ -25,18 +24,17 @@ NS_ASSUME_NONNULL_BEGIN
 @interface GREYScreenshotter : NSObject
 
 /**
- * Draws the application's main screen using the bitmap graphics context specified by the @c
- * bitmapContextRef reference, centering it if the context size is different than the screen size.
- * The provided reference must point to a CGBitmapContext. When @c afterUpdates is set to @c YES,
- * this method waits for the screen to draw pending changes before taking a screenshot, otherwise
- * the screenshot contains the current contents of the screen.
+ * Draws the application's main screen using the UIGraphicsImageRenderer context specified by the @c
+ * context reference, centering it if the context size is different than the screen size. When @c
+ * afterUpdates is set to @c YES, this method waits for the screen to draw pending changes before
+ * taking a screenshot, otherwise the screenshot contains the current contents of the screen.
  *
- * @param bitmapContextRef Target bitmap context for rendering.
+ * @param context          UIGraphicsImageRenderer context for rendering.
  * @param afterUpdates     BOOL indicating whether to render before (@c NO) or after (@c YES)
  *                         screen updates.
  * @param includeStatusBar Include Status Bar in the drawn screen.
  */
-+ (void)drawScreenInContext:(CGContextRef)bitmapContextRef
++ (void)drawScreenInContext:(UIGraphicsImageRendererContext *)context
          afterScreenUpdates:(BOOL)afterUpdates
               withStatusBar:(BOOL)includeStatusBar;
 

@@ -69,11 +69,14 @@
     return image;
   }
 
-  UIGraphicsBeginImageContextWithOptions(image.size, NO, image.scale);
-  CGRect imageRect = CGRectMake(0, 0, image.size.width, image.size.height);
-  [image drawInRect:imageRect];
-  UIImage *rotatedImage = UIGraphicsGetImageFromCurrentImageContext();
-  UIGraphicsEndImageContext();
+  UIGraphicsImageRendererFormat *format = [UIGraphicsImageRendererFormat preferredFormat];
+  format.scale = image.scale;
+  UIGraphicsImageRenderer *renderer = [[UIGraphicsImageRenderer alloc] initWithSize:image.size
+                                                                             format:format];
+  UIImage *rotatedImage = [renderer imageWithActions:^(UIGraphicsImageRendererContext *context) {
+    CGRect imageRect = CGRectMake(0, 0, image.size.width, image.size.height);
+    [image drawInRect:imageRect];
+  }];
 
   return rotatedImage;
 }
