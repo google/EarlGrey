@@ -880,14 +880,16 @@
 - (void)testInteractionWithContextMenu {
   if (@available(iOS 13.0, *)) {
     [self openTestViewNamed:@"Basic Views"];
+    // Added for cases where extended duration is required to LongPress due to slow simulator speeds
+    const CFTimeInterval duration = 4.0;
     [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"ContextMenuButton")]
-        performAction:GREYLongPress()];
+        performAction:GREYLongPressWithDuration(duration)];
     XCTAssertTrue([self waitForVisibilityForText:@"Top-level Action"]);
     [[EarlGrey selectElementWithMatcher:GREYText(@"Top-level Action")] performAction:GREYTap()];
     XCTAssertTrue([self waitForVisibilityForText:@"Top-level Action Tapped"]);
 
     [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"ContextMenuButton")]
-        performAction:GREYLongPress()];
+        performAction:GREYLongPressWithDuration(duration)];
     XCTAssertTrue([self waitForVisibilityForText:@"Child Actions"]);
     [[EarlGrey selectElementWithMatcher:GREYText(@"Child Actions")] performAction:GREYTap()];
     XCTAssertTrue([self waitForVisibilityForText:@"Child Action 0"]);
@@ -895,7 +897,7 @@
     XCTAssertTrue([self waitForVisibilityForText:@"Child Action 0 Tapped"]);
 
     [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"ContextMenuButton")]
-        performAction:GREYLongPress()];
+        performAction:GREYLongPressWithDuration(duration)];
     XCTAssertTrue([self waitForVisibilityForText:@"Child Actions"]);
     [[EarlGrey selectElementWithMatcher:GREYText(@"Child Actions")] performAction:GREYTap()];
     XCTAssertTrue([self waitForVisibilityForText:@"Child Action 1"]);
