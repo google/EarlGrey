@@ -138,6 +138,14 @@ open class EarlGrey: NSObject {
         .rotateDevice(to: orientation,
                       errorOrNil: errorOrNil)
   }
+  
+  @discardableResult open class func dismissKeyboard(errorOrNil: UnsafeMutablePointer<NSError?>!,
+                                                    file: StaticString = #file,
+                                                    line: UInt = #line)
+    -> Bool {
+      return EarlGreyImpl.invoked(fromFile: file.description, lineNumber: line)
+        .dismissKeyboardWithError(errorOrNil)
+  }
 }
 
 extension GREYInteraction {
