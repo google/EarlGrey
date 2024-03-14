@@ -224,7 +224,7 @@ static const double kElementSufficientlyVisiblePercentage = 0.75;
   GREYFatalAssertWithMessage(percent >= 0.0f && percent <= 1.0f,
                              @"Percent %f must be in the range [0,1]", percent);
   MatchesBlock matches = ^BOOL(UIView *element) {
-    return [GREYVisibilityChecker percentVisibleAreaOfElement:element] > percent;
+    return [GREYVisibilityChecker percentVisibleAreaOfElement:element] >= percent;
   };
   DescribeToBlock describe = ^void(id<GREYDescription> description) {
     [description appendText:
