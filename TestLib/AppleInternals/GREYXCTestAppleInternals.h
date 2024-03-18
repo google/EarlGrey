@@ -56,11 +56,6 @@
  */
 - (void)resolve;
 
-/**
- * Foregrounds the application that is being tested by the test target.
- */
-- (void)activate;
-
 @end
 
 /**
