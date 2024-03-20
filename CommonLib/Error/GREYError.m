@@ -20,7 +20,6 @@
 
 NSString *const kGREYGenericErrorDomain = @"com.google.earlgrey.GenericErrorDomain";
 NSInteger const kGREYGenericErrorCode = 0;
-NSString *const kErrorDetailFailureNameKey = @"Failure Name";
 NSString *const kErrorDetailActionNameKey = @"Failed Action";
 NSString *const kErrorDetailSearchActionInfoKey = @"Search API Info";
 NSString *const kErrorDetailAssertCriteriaKey = @"Failed Assertion";

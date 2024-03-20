@@ -97,12 +97,6 @@ GREY_EXTERN NSString *const kGREYGenericErrorDomain;
  */
 GREY_EXTERN NSInteger const kGREYGenericErrorCode;
 
-// TODO(albertbow): These are no longer utilized. If not needed, these can be removed.
-/**
- * Key used to retrieve the failure name from an error object for a failed action.
- */
-GREY_EXTERN NSString *const kErrorDetailFailureNameKey;
-
 /**
  * Key used to retrieve the action name from an error object for a failed action.
  */
