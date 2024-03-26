@@ -72,6 +72,7 @@
 #import "GREYConfigKey.h"
 #import "GREYConfiguration.h"
 #import "GREYError.h"
+#import "GREYErrorConstants.h"
 #import "GREYFailureHandler.h"
 #import "GREYFrameworkException.h"
 #import "GREYConstants.h"
