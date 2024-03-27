@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22130"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -57,14 +57,14 @@
                         <constraint firstAttribute="height" constant="60" id="Y4H-GX-6WA"/>
                     </constraints>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FPB-QG-iMG">
+                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FPB-QG-iMG">
                     <rect key="frame" x="42" y="126" width="152" height="30"/>
                     <state key="normal" title="Tap to obscure button">
                         <color key="titleShadowColor" red="0.42467421293258667" green="0.42466151714324951" blue="0.42466866970062256" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" alpha="0.25000000000000006" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Translucent" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="335-Qa-d1H">
-                    <rect key="frame" x="184" y="97" width="120" height="21"/>
+                    <rect key="frame" x="183.5" y="97" width="120" height="21"/>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="21" id="3YL-xm-luN"/>
@@ -75,7 +75,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <view alpha="0.10000000000000001" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="02j-Xh-8Gl">
-                    <rect key="frame" x="273" y="83" width="50" height="50"/>
+                    <rect key="frame" x="272.5" y="83" width="50" height="50"/>
                     <color key="backgroundColor" red="0.10417509178555395" green="0.0" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="b2C-62-Io8"/>
@@ -92,7 +92,7 @@
                     </connections>
                 </switch>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Show Red Box" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Fx-LV-Sky">
-                    <rect key="frame" x="75" y="365" width="109.5" height="21"/>
+                    <rect key="frame" x="75" y="365" width="109" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
@@ -140,7 +140,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xEx-rc-Plt">
-                    <rect key="frame" x="210" y="373" width="10" height="5"/>
+                    <rect key="frame" x="209.5" y="373" width="10" height="5"/>
                     <color key="backgroundColor" red="0.98603367805480957" green="0.0" blue="0.082399040460586548" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="5" id="SBN-eR-XFv"/>
@@ -167,7 +167,7 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vNo-Uc-0uo" userLabel="Red Box Cover">
-                    <rect key="frame" x="200" y="364" width="20" height="20"/>
+                    <rect key="frame" x="199.5" y="364" width="20" height="20"/>
                     <color key="backgroundColor" red="0.040853522717952728" green="0.37480330467224121" blue="0.99835759401321411" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="20" id="MUB-TT-wpt"/>
@@ -180,7 +180,7 @@
                 <constraint firstItem="7Bd-fu-NwU" firstAttribute="leading" secondItem="PVN-Dk-eoX" secondAttribute="trailing" constant="79" id="0HH-Kl-lnG"/>
                 <constraint firstItem="xEx-rc-Plt" firstAttribute="leading" secondItem="6Fx-LV-Sky" secondAttribute="trailing" constant="25.5" id="102-DW-EHY"/>
                 <constraint firstItem="q5H-yC-ga6" firstAttribute="leading" secondItem="CXV-Sj-2gg" secondAttribute="trailing" constant="-50" id="1lP-Wb-T1Q"/>
-                <constraint firstAttribute="centerX" secondItem="335-Qa-d1H" secondAttribute="centerX" constant="-56.5" id="1ye-FN-xOU"/>
+                <constraint firstAttribute="centerX" secondItem="335-Qa-d1H" secondAttribute="centerX" constant="-56" id="1ye-FN-xOU"/>
                 <constraint firstItem="ZeP-zU-0iT" firstAttribute="top" secondItem="335-Qa-d1H" secondAttribute="bottom" constant="93" id="3dM-mk-m6z"/>
                 <constraint firstAttribute="centerX" secondItem="FPB-QG-iMG" secondAttribute="centerX" constant="84.5" id="55f-Vv-nze"/>
                 <constraint firstItem="335-Qa-d1H" firstAttribute="top" secondItem="fhy-dK-rrT" secondAttribute="bottom" constant="49" id="9Ix-ec-YPl"/>
@@ -230,8 +230,8 @@
                     <exclude reference="55f-Vv-nze"/>
                     <exclude reference="M5x-pb-EdF"/>
                     <exclude reference="r4H-4r-AhE"/>
-                    <exclude reference="Cme-wt-gmF"/>
                     <exclude reference="a1L-lQ-Dh1"/>
+                    <exclude reference="Cme-wt-gmF"/>
                     <exclude reference="dzt-Hv-j4b"/>
                     <exclude reference="oHk-xD-HAa"/>
                     <exclude reference="aQl-f0-GCh"/>
