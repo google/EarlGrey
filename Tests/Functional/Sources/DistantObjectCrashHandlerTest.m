@@ -77,7 +77,6 @@
 
 /** Ensures uncommon eDO error is provided with instructions. */
 - (void)testDistantObjectThrowsExceptionWithBadRequest {
-  XCTSkip(@"b/327270471 - Fix failure introduced with Xcode 15");
   [self.application terminate];
 
   // There is no easy way to reproduce other eDO error code without accessing eDO's private APIs,

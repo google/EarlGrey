@@ -20,6 +20,9 @@
 #import "GREYHostBackgroundDistantObject+BasicInteractionTest.h"
 #import "BaseIntegrationTest.h"
 
+// Extended long press duration to reduce test flakiness due to slow simulator speeds.
+static const CFTimeInterval kExtendedLongPressDuration = 4.0;
+
 /**
  * Tests to ensure the basic functionality of EarlGrey is intact.
  */
@@ -664,7 +667,6 @@
  * Check long pressing followed by selecting a menu option.
  */
 - (void)testLongPressFollowedBySelectingMenuOption {
-  XCTSkip(@"b/327270471 - Fix failure introduced with Xcode 15");
   [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
 
@@ -678,7 +680,8 @@
         performAction:GREYTapAtPoint(CGPointMake(1, 1))];
   }
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
-      performAction:GREYLongPressAtPointWithDuration(CGPointMake(1, 1), 1.0f)];
+      performAction:GREYLongPressAtPointWithDuration(CGPointMake(1, 1),
+                                                     kExtendedLongPressDuration)];
 
   [[EarlGrey selectElementWithMatcher:GREYText(@"Select")] performAction:GREYTap()];
 
@@ -687,6 +690,11 @@
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
       performAction:GREYTypeText(@"FromEarlGrey")];
 
+  // On slow simulators, tapping "Paste" sometimes fail (2-3 times out of 200 runs), resulting in
+  // flaky tests. Waiting for the app to idle reduces the flakiness, which may presumably be caused
+  // by the text-typing above.
+  GREYWaitForAppToIdle(@"Waiting for the App to Idle");
+
   // For iOS 14, on doing a long press, the caret goes into a selection mode. To bring up the menu
   // a tap is required at the point of selection.
   if (iOS14_OR_ABOVE()) {
@@ -694,7 +702,8 @@
         performAction:GREYTapAtPoint(CGPointMake(1, 1))];
   }
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
-      performAction:GREYLongPressAtPointWithDuration(CGPointMake(1, 1), 1.0f)];
+      performAction:GREYLongPressAtPointWithDuration(CGPointMake(1, 1),
+                                                     kExtendedLongPressDuration)];
 
   [[EarlGrey selectElementWithMatcher:GREYText(@"Paste")] performAction:GREYTap()];
 
@@ -880,16 +889,15 @@
 - (void)testInteractionWithContextMenu {
   if (@available(iOS 13.0, *)) {
     [self openTestViewNamed:@"Basic Views"];
-    // Added for cases where extended duration is required to LongPress due to slow simulator speeds
-    const CFTimeInterval duration = 4.0;
+
     [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"ContextMenuButton")]
-        performAction:GREYLongPressWithDuration(duration)];
+        performAction:GREYLongPressWithDuration(kExtendedLongPressDuration)];
     XCTAssertTrue([self waitForVisibilityForText:@"Top-level Action"]);
     [[EarlGrey selectElementWithMatcher:GREYText(@"Top-level Action")] performAction:GREYTap()];
     XCTAssertTrue([self waitForVisibilityForText:@"Top-level Action Tapped"]);
 
     [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"ContextMenuButton")]
-        performAction:GREYLongPressWithDuration(duration)];
+        performAction:GREYLongPressWithDuration(kExtendedLongPressDuration)];
     XCTAssertTrue([self waitForVisibilityForText:@"Child Actions"]);
     [[EarlGrey selectElementWithMatcher:GREYText(@"Child Actions")] performAction:GREYTap()];
     XCTAssertTrue([self waitForVisibilityForText:@"Child Action 0"]);
@@ -897,7 +905,7 @@
     XCTAssertTrue([self waitForVisibilityForText:@"Child Action 0 Tapped"]);
 
     [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"ContextMenuButton")]
-        performAction:GREYLongPressWithDuration(duration)];
+        performAction:GREYLongPressWithDuration(kExtendedLongPressDuration)];
     XCTAssertTrue([self waitForVisibilityForText:@"Child Actions"]);
     [[EarlGrey selectElementWithMatcher:GREYText(@"Child Actions")] performAction:GREYTap()];
     XCTAssertTrue([self waitForVisibilityForText:@"Child Action 1"]);
