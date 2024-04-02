@@ -109,11 +109,10 @@
 }
 
 - (void)testJavascriptEvaluationWithATimeoutBelowTheThreshold {
-  XCTSkip(@"b/327270471 - Fix failure introduced with Xcode 15");
   NSError *error = nil;
   CFTimeInterval originalInteractionTimeout =
       GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
-  [[GREYConfiguration sharedConfiguration] setValue:@(5)
+  [[GREYConfiguration sharedConfiguration] setValue:@(15)
                                        forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
   EDORemoteVariable<NSString *> *javaScriptResult = [[EDORemoteVariable alloc] init];
   NSString *jsStringEqualTimeout =

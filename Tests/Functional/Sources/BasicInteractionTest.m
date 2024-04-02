@@ -918,7 +918,6 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
  * Perform typing in a text field and assert the typed value.
  */
 - (void)testSettingAndResettingRootWindow {
-  XCTSkip(@"b/327270471 - Fix failure introduced with Xcode 15");
   UIWindow *mainWindow = [GREY_REMOTE_CLASS_IN_APP(GREYUILibUtils) window];
   mainWindow.accessibilityIdentifier = @"Main Window";
   [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
