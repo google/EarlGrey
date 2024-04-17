@@ -133,30 +133,43 @@ static UIScreen *MainScreen(void) {
                                       inScreenRect:(CGRect)screenRect
                                      withStatusBar:(BOOL)includeStatusBar
                                       forDebugging:(BOOL)forDebugging {
-  UIScreen *mainScreen = MainScreen();
-  if (!mainScreen) return nil;
+  CGRect snapshotRect = screenRect;
+  // When possible, only draws the portion where the target rect is located instead of drawing the
+  // entire screen and cropping it to the size of the target rect. This optimization works when
+  // using @c UIGraphicsBeginImageContextWithOptions (deprecated in iOS 17), but results in a
+  // partial render with @c UIGraphicsImageRendererFormat in some cases when performed on a physical
+  // device with iOS 16 or below.
+#if !TARGET_OS_SIMULATOR
+  if (!iOS17_OR_ABOVE()) {
+    UIScreen *mainScreen = MainScreen();
+    if (!mainScreen) return nil;
+    snapshotRect = mainScreen.bounds;
+  }
+#endif
 
   UIGraphicsImageRendererFormat *format = [UIGraphicsImageRendererFormat preferredFormat];
   format.opaque = !iOS17_OR_ABOVE();
   UIGraphicsImageRenderer *renderer =
-      [[UIGraphicsImageRenderer alloc] initWithSize:mainScreen.bounds.size format:format];
+      [[UIGraphicsImageRenderer alloc] initWithSize:snapshotRect.size format:format];
   UIImage *orientedScreenshot =
       [renderer imageWithActions:^(UIGraphicsImageRendererContext *context) {
         [self drawScreenInContext:context
                afterScreenUpdates:afterScreenUpdates
-                     inScreenRect:mainScreen.bounds
+                     inScreenRect:snapshotRect
                     withStatusBar:includeStatusBar];
       }];
 
-  CGImageRef croppedImage = CGImageCreateWithImageInRect(orientedScreenshot.CGImage,
-                                                         CGRectPointToPixelAligned(screenRect));
-  UIImage *croppedScreenshot = [UIImage imageWithCGImage:croppedImage
-                                                   scale:orientedScreenshot.scale
-                                             orientation:orientedScreenshot.imageOrientation];
-  CGImageRelease(croppedImage);
+  if (!CGRectEqualToRect(snapshotRect, screenRect)) {
+    CGImageRef croppedImage = CGImageCreateWithImageInRect(orientedScreenshot.CGImage,
+                                                           CGRectPointToPixelAligned(screenRect));
+    orientedScreenshot = [UIImage imageWithCGImage:croppedImage
+                                             scale:orientedScreenshot.scale
+                                       orientation:orientedScreenshot.imageOrientation];
+    CGImageRelease(croppedImage);
+  }
 
 
-  return croppedScreenshot;
+  return orientedScreenshot;
 }
 
 #pragma mark - Private
