@@ -624,7 +624,11 @@
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
       performAction:GREYTap()];
   id<GREYMatcher> cursorMatcher = nil;
-  if (iOS17_OR_ABOVE()) {
+
+  if (iOS17_4_OR_ABOVE()) {
+    cursorMatcher = grey_allOf(GREYAncestor(GREYKindOfClassName(@"UIStandardTextCursorView")),
+                               GREYKindOfClassName(@"_UIShapeView"), nil);
+  } else if (iOS17_OR_ABOVE()) {
     cursorMatcher = grey_allOf(GREYAncestor(GREYKindOfClassName(@"_UITextCursorView")),
                                GREYKindOfClassName(@"_UIShapeView"), nil);
   } else {
