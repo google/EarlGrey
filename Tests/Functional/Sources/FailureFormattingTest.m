@@ -300,7 +300,7 @@
  * Checks the formatting for a type interaction failing.
  */
 - (void)testActionInteractionErrorDescription {
-  [[EarlGrey selectElementWithMatcher:GREYText(@"Typing Views")] performAction:GREYTap()];
+  [self openTestViewNamed:@"Typing Views"];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
       performAction:GREYTypeText(@"")];
 
@@ -345,10 +345,17 @@
                 @"========== expected info ===========\n%@\n\n"
                 @"========== actual exception details ==========\n%@",
                 expectedDetails, _handler.details);
-  XCTAssertFalse([_handler.details containsString:@"UI Hierarchy"],
-                 @"\"UI Hierarchy\" should not appear in the actual exception details:\n\n"
-                 @"========== exception details ==========\n%@",
-                 _handler.details);
+  if (GREYIsLocalTest()) {
+    XCTAssertTrue([_handler.details containsString:@"UI Hierarchy"],
+                  @"\"UI Hierarchy\" should appear in the actual exception details:\n\n"
+                  @"========== exception details ==========\n%@",
+                  _handler.details);
+  } else {
+    XCTAssertFalse([_handler.details containsString:@"UI Hierarchy"],
+                   @"\"UI Hierarchy\" should not appear in the actual exception details:\n\n"
+                   @"========== exception details ==========\n%@",
+                   _handler.details);
+  }
 }
 
 - (void)testConstraintsFailureErrorDescription {
@@ -442,8 +449,13 @@
                 jsErrorDetails);
   XCTAssertTrue([_handler.details containsString:@"Element Matcher:"],
                 @"Exception:%@ doesn't have the Element Matcher:", _handler.details);
-  XCTAssertFalse([_handler.details containsString:@"UI Hierarchy"],
-                 @"Exception:%@ should not have the UI Hierarchy:", _handler.details);
+  if (GREYIsLocalTest()) {
+    XCTAssertTrue([_handler.details containsString:@"UI Hierarchy"],
+                  @"Exception:%@ should have the UI Hierarchy:", _handler.details);
+  } else {
+    XCTAssertFalse([_handler.details containsString:@"UI Hierarchy"],
+                   @"Exception:%@ should not have the UI Hierarchy:", _handler.details);
+  }
   XCTAssertTrue([_handler.details containsString:@"Failed Action:\nExecute JavaScript\n"],
                 @"Exception:%@ doesn't have the JavaScript Action Name:", _handler.details);
 }
