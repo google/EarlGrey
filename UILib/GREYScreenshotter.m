@@ -60,11 +60,10 @@ static UIScreen *MainScreen(void) {
   UIScreen *mainScreen = MainScreen();
   if (!mainScreen) return;
   CGRect screenRect = mainScreen.bounds;
-  NSEnumerator *visibleWindowsInReverse =
-      [[self visibleWindowsWithStatusBar:includeStatusBar] reverseObjectEnumerator];
-  for (UIWindow *window in visibleWindowsInReverse) {
-    [self drawViewInContext:context view:window bounds:screenRect afterScreenUpdates:afterUpdates];
-  }
+  [self drawScreenInContext:context
+         afterScreenUpdates:afterUpdates
+               inScreenRect:screenRect
+              withStatusBar:includeStatusBar];
 }
 
 + (UIImage *)takeScreenshot {
@@ -94,12 +93,18 @@ static UIScreen *MainScreen(void) {
   if (!mainScreen) return nil;
   UIGraphicsImageRendererFormat *format = [UIGraphicsImageRendererFormat preferredFormat];
   format.scale = mainScreen.scale;
-  // We want to capture the most up-to-date version of the screen here, including the updates that
-  // have been made in the current runloop iteration. Therefore we use
-  UIImage *orientedScreenshot = [self imageOfViews:@[ viewToSnapshot ].objectEnumerator
-                                      inScreenRect:elementAXFrame
-                                        withFormat:format
-                                afterScreenUpdates:YES];
+  UIGraphicsImageRenderer *renderer =
+      [[UIGraphicsImageRenderer alloc] initWithSize:elementAXFrame.size format:format];
+  UIImage *orientedScreenshot =
+      [renderer imageWithActions:^(UIGraphicsImageRendererContext *context) {
+        // We want to capture the most up-to-date version of the screen here, including the updates
+        // that have been made in the current runloop iteration. Therefore we use
+        // `afterScreenUpdates:YES`.
+        [self drawViewInContext:context
+                           view:viewToSnapshot
+                         bounds:elementAXFrame
+             afterScreenUpdates:YES];
+      }];
 
   return orientedScreenshot;
 }
@@ -128,24 +133,6 @@ static UIScreen *MainScreen(void) {
                                       inScreenRect:(CGRect)screenRect
                                      withStatusBar:(BOOL)includeStatusBar
                                       forDebugging:(BOOL)forDebugging {
-  UIGraphicsImageRendererFormat *format = [UIGraphicsImageRendererFormat preferredFormat];
-  format.opaque = !iOS17_OR_ABOVE();
-  NSArray<UIView *> *visibleWindows = [self visibleWindowsWithStatusBar:includeStatusBar];
-  UIImage *orientedScreenshot = [self imageOfViews:visibleWindows.reverseObjectEnumerator
-                                      inScreenRect:screenRect
-                                        withFormat:format
-                                afterScreenUpdates:afterScreenUpdates];
-
-
-  return orientedScreenshot;
-}
-
-#pragma mark - Private
-
-+ (UIImage *)imageOfViews:(NSEnumerator<UIView *> *)views
-             inScreenRect:(CGRect)screenRect
-               withFormat:(UIGraphicsImageRendererFormat *)format
-       afterScreenUpdates:(BOOL)afterUpdates {
   CGRect snapshotRect = screenRect;
   // When possible, only draws the portion where the target rect is located instead of drawing the
   // entire screen and cropping it to the size of the target rect. This optimization works when
@@ -160,36 +147,46 @@ static UIScreen *MainScreen(void) {
   }
 #endif
 
+  UIGraphicsImageRendererFormat *format = [UIGraphicsImageRendererFormat preferredFormat];
+  format.opaque = !iOS17_OR_ABOVE();
   UIGraphicsImageRenderer *renderer =
       [[UIGraphicsImageRenderer alloc] initWithSize:snapshotRect.size format:format];
-  UIImage *image = [renderer imageWithActions:^(UIGraphicsImageRendererContext *context) {
-    for (UIView *view in views) {
-      [self drawViewInContext:context
-                         view:view
-                       bounds:snapshotRect
-           afterScreenUpdates:afterUpdates];
-    }
-  }];
+  UIImage *orientedScreenshot =
+      [renderer imageWithActions:^(UIGraphicsImageRendererContext *context) {
+        [self drawScreenInContext:context
+               afterScreenUpdates:afterScreenUpdates
+                     inScreenRect:snapshotRect
+                    withStatusBar:includeStatusBar];
+      }];
 
   if (!CGRectEqualToRect(snapshotRect, screenRect)) {
-    CGImageRef croppedImage =
-        CGImageCreateWithImageInRect(image.CGImage, CGRectPointToPixelAligned(screenRect));
-    image = [UIImage imageWithCGImage:croppedImage
-                                scale:image.scale
-                          orientation:image.imageOrientation];
+    CGImageRef croppedImage = CGImageCreateWithImageInRect(orientedScreenshot.CGImage,
+                                                           CGRectPointToPixelAligned(screenRect));
+    orientedScreenshot = [UIImage imageWithCGImage:croppedImage
+                                             scale:orientedScreenshot.scale
+                                       orientation:orientedScreenshot.imageOrientation];
     CGImageRelease(croppedImage);
   }
 
-  return image;
+
+  return orientedScreenshot;
 }
 
-+ (NSArray<UIWindow *> *)visibleWindowsWithStatusBar:(BOOL)includeStatusBar {
-  NSPredicate *visiblePredicate = [NSPredicate
-      predicateWithBlock:^BOOL(UIWindow *window, NSDictionary<NSString *, id> *bindings) {
-        return !window.hidden && window.alpha != 0;
-      }];
-  return [[GREYUIWindowProvider allWindowsWithStatusBar:includeStatusBar]
-      filteredArrayUsingPredicate:visiblePredicate];
+#pragma mark - Private
+
++ (void)drawScreenInContext:(UIGraphicsImageRendererContext *)context
+         afterScreenUpdates:(BOOL)afterUpdates
+               inScreenRect:(CGRect)screenRect
+              withStatusBar:(BOOL)includeStatusBar {
+  // The bitmap context width and height are scaled, so we need to undo the scale adjustment.
+  NSEnumerator *allWindowsInReverse =
+      [[GREYUIWindowProvider allWindowsWithStatusBar:includeStatusBar] reverseObjectEnumerator];
+  for (UIWindow *window in allWindowsInReverse) {
+    if (window.hidden || window.alpha == 0) {
+      continue;
+    }
+    [self drawViewInContext:context view:window bounds:screenRect afterScreenUpdates:afterUpdates];
+  }
 }
 
 /**
