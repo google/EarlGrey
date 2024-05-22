@@ -520,11 +520,13 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
   if (sheetPresent) {
     XCUIApplication *currentApplication = [[XCUIApplication alloc] init];
     XCUIElement *activitySheet = currentApplication.otherElements[@"ActivityListView"];
-    XCUIElementQuery *activityTexts =
-        [activitySheet descendantsMatchingType:XCUIElementTypeStaticText];
-    XCUIElement *button = [activityTexts elementMatchingType:XCUIElementTypeStaticText
-                                                  identifier:identifier];
-    if (button) {
+    XCUIElementType type = XCUIElementTypeStaticText;
+    if ([identifier isEqualToString:@"Close"]) {
+      type = XCUIElementTypeButton;
+    }
+    XCUIElementQuery *activityTexts = [activitySheet descendantsMatchingType:type];
+    XCUIElement *button = [activityTexts elementMatchingType:type identifier:identifier];
+    if (button && [button exists]) {
       return YES;
     } else {
       NSString *description = [NSString

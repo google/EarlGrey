@@ -974,6 +974,19 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
   }
 }
 
+- (void)testShareSheetButtonsPresent {
+  XCTSkipUnless(iOS17_OR_ABOVE());
+  if (@available(iOS 17.0, *)) {
+    [self openTestViewNamed:@"Share Sheet"];
+    XCTAssertTrue([EarlGrey buttonPresentInActivitySheetWithId:@"Copy" error:nil]);
+
+    NSError *error;
+    [EarlGrey buttonPresentInActivitySheetWithId:@"Missing button" error:&error];
+    XCTAssertNotNil(error, @"Error is nil.");
+    [EarlGrey closeActivitySheetWithError:nil];
+  }
+}
+
 - (void)testTappingOnShareSheetButtons {
   XCTSkipUnless(iOS17_OR_ABOVE());
   if (@available(iOS 17.0, *)) {
