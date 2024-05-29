@@ -111,6 +111,12 @@ NSArray<NSValue *> *GREYTouchPathForGestureInWindow(UIWindow *window,
                                NO);
 }
 
+NSArray<NSValue *> *GREYTouchPathForGestureBetweenPoints(CGPoint startPointInWindowCoordinates,
+                                                         CGPoint endPointInWindowCoordinates,
+                                                         CFTimeInterval duration) {
+  return GREYGenerateTouchPath(startPointInWindowCoordinates, endPointInWindowCoords, duration, NO);
+}
+
 NSArray<NSValue *> *GREYTouchPathForDragGestureInScreen(CGPoint startPoint, CGPoint endPoint,
                                                         BOOL cancelInertia) {
   return GREYGenerateTouchPath(startPoint, endPoint, NAN, cancelInertia, NO);

@@ -63,6 +63,21 @@ NSArray<NSValue *> *GREYTouchPathForGestureInView(UIView *view, CGPoint startPoi
                                                   CGFloat *outRemainingAmountOrNull);
 
 /**
+ * Generates a touch path in the given @c view from @c startPoint to @c endPoint in view-relative
+ * coordinates.
+ *
+ * @param window                        The window in which the touch path is generated.
+ * @param startPointInWindowCoordinates The start point in screen coordinates.
+ * @param endPointInWindowCoordinates   The end point in screen coordinates.
+ * @param duration                      How long the gesture should last (in seconds).
+ *
+ * @return NSArray of CGPoints that denote the points in the touch path.
+ */
+NSArray<NSValue *> *GREYTouchPathForGestureBetweenPoints(CGPoint startPointInScreenCoordinates,
+                                                         CGPoint endPointInScreenCoordinates,
+                                                         CFTimeInterval duration);
+
+/**
  * Generates a touch path in the @c window from the given @c startPoint and the given @c
  * endPoint.
  *
