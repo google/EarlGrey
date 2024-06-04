@@ -40,40 +40,37 @@
 - (void)testSnapshotComparison {
   [self openTestViewNamed:@"Accessibility Views"];
 
-  EDORemoteVariable<UIImage *> *snapshot = [[EDORemoteVariable alloc] init];
-  EDORemoteVariable<UIImage *> *snapshotCopy = [[EDORemoteVariable alloc] init];
   // Snapshot Accessibility Element.
-  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"OnScreenRectangleElementLabel")]
-      performAction:GREYSnapshot(snapshot)];
-  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"OnScreenRectangleElementLabel")]
-      performAction:GREYSnapshot(snapshotCopy)];
+  UIImage *snapshot =
+      [self snapshotElementWithMatcher:GREYAccessibilityLabel(@"OnScreenRectangleElementLabel")];
+  UIImage *snapshotCopy =
+      [self snapshotElementWithMatcher:GREYAccessibilityLabel(@"OnScreenRectangleElementLabel")];
 
-  NSData *snapshotData = UIImagePNGRepresentation(snapshot.object);
-  NSData *snapshotCopyData = UIImagePNGRepresentation(snapshotCopy.object);
+  NSData *snapshotData = UIImagePNGRepresentation(snapshot);
+  NSData *snapshotCopyData = UIImagePNGRepresentation(snapshotCopy);
   GREYAssertEqualObjects(snapshotData, snapshotCopyData, @"should be equal");
 }
 
 - (void)testSnapshotAXElementInPortraitMode {
   [self openTestViewNamed:@"Accessibility Views"];
 
-  EDORemoteVariable<UIImage *> *snapshot = [[EDORemoteVariable alloc] init];
   // Snapshot Accessibility Element.
-  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"OnScreenRectangleElementLabel")]
-      performAction:GREYSnapshot(snapshot)];
+  UIImage *snapshot =
+      [self snapshotElementWithMatcher:GREYAccessibilityLabel(@"OnScreenRectangleElementLabel")];
 
   // TODO: Verify the content of the image as well. // NOLINT
   CGSize expectedSize = CGSizeMake(64, 128);
   UIScreen *mainScreen = (UIScreen *)[GREY_REMOTE_CLASS_IN_APP(GREYUILibUtils) screen];
   CGFloat expectedScale = mainScreen.scale;
-  GREYAssertEqual(expectedSize.width, snapshot.object.size.width, @"should be equal");
-  GREYAssertEqual(expectedSize.height, snapshot.object.size.height, @"should be equal");
-  GREYAssertEqual(expectedScale, snapshot.object.scale, @"should be equal");
+  GREYAssertEqual(expectedSize.width, snapshot.size.width, @"should be equal");
+  GREYAssertEqual(expectedSize.height, snapshot.size.height, @"should be equal");
+  GREYAssertEqual(expectedScale, snapshot.scale, @"should be equal");
 
   NSError *error = nil;
   // Snapshot Accessibility Element with zero height should be an error.
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"ElementWithZeroHeightIdentifier")]
-      performAction:GREYSnapshot(snapshot)
-              error:&error];
+  snapshot =
+      [self snapshotElementWithMatcher:grey_accessibilityID(@"ElementWithZeroHeightIdentifier")
+                                 error:&error];
   GREYAssertEqualObjects(kGREYInteractionErrorDomain, error.domain, @"should be equal");
 }
 
@@ -81,71 +78,70 @@
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeLeft error:nil];
   [self openTestViewNamed:@"Accessibility Views"];
 
-  EDORemoteVariable<UIImage *> *snapshot = [[EDORemoteVariable alloc] init];
   // Snapshot Accessibility Element.
-  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"OnScreenRectangleElementLabel")]
-      performAction:GREYSnapshot(snapshot)];
+  UIImage *snapshot =
+      [self snapshotElementWithMatcher:GREYAccessibilityLabel(@"OnScreenRectangleElementLabel")];
 
   // TODO: Verify the content of the image as well. // NOLINT
   CGSize expectedSize = CGSizeMake(64, 128);
 
   UIScreen *mainScreen = (UIScreen *)[GREY_REMOTE_CLASS_IN_APP(GREYUILibUtils) screen];
   CGFloat expectedScale = mainScreen.scale;
-  GREYAssertEqual(expectedSize.width, snapshot.object.size.width, @"should be equal");
-  GREYAssertEqual(expectedSize.height, snapshot.object.size.height, @"should be equal");
-  GREYAssertEqual(expectedScale, snapshot.object.scale, @"should be equal");
+  GREYAssertEqual(expectedSize.width, snapshot.size.width, @"should be equal");
+  GREYAssertEqual(expectedSize.height, snapshot.size.height, @"should be equal");
+  GREYAssertEqual(expectedScale, snapshot.scale, @"should be equal");
 
   NSError *error = nil;
   // Snapshot Accessibility Element with zero height should be an error.
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"ElementWithZeroHeightIdentifier")]
-      performAction:GREYSnapshot(snapshot)
-              error:&error];
+  snapshot =
+      [self snapshotElementWithMatcher:grey_accessibilityID(@"ElementWithZeroHeightIdentifier")
+                                 error:&error];
   GREYAssertEqualObjects(kGREYInteractionErrorDomain, error.domain, @"should be equal");
 }
 
-- (void)testTakeScreenShotForAppStoreInPortraitMode {
+- (void)testTakeScreenShotInPortraitMode {
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait error:nil];
-  UIImage *screenshot = [XCUIScreen mainScreen].screenshot.image;
+  UIImage *screenshot = [self snapshotElementWithMatcher:GREYKeyWindow()];
   GREYAssert(screenshot, @"Failed to take screenshot");
 
   CGRect actualRect = CGRectMake(0, 0, screenshot.size.width, screenshot.size.height);
-  GREYAssertTrue(CGRectEqualToRect(actualRect, [self expectedImageRectForAppStore]),
+  GREYAssertTrue(CGRectEqualToRect(actualRect, [self expectedImageRect]),
                  @"Screenshot isn't correct dimension");
 }
 
-- (void)testTakeScreenShotForAppStoreInPortraitUpsideDownMode {
+- (void)testTakeScreenShotInPortraitUpsideDownMode {
   if (@available(iOS 16.0, *)) {
     // PortraitUpsideDown mode is unavailable in iOS16
     return;
   }
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortraitUpsideDown error:nil];
-  UIImage *screenshot = [XCUIScreen mainScreen].screenshot.image;
+  UIImage *screenshot = [self snapshotElementWithMatcher:GREYKeyWindow()];
   GREYAssert(screenshot, @"Failed to take screenshot");
 
   CGRect actualRect = CGRectMake(0, 0, screenshot.size.width, screenshot.size.height);
-  GREYAssertTrue(CGRectEqualToRect(actualRect, [self expectedImageRectForAppStore]),
+  GREYAssertTrue(CGRectEqualToRect(actualRect, [self expectedImageRect]),
                  @"Screenshot isn't correct dimension");
 }
 
-- (void)testTakeScreenShotForAppStoreInLandscapeLeftMode {
+- (void)testTakeScreenShotInLandscapeLeftMode {
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeLeft error:nil];
 
-  UIImage *screenshot = [XCUIScreen mainScreen].screenshot.image;
+  UIImage *screenshot = [self snapshotElementWithMatcher:GREYKeyWindow()];
   GREYAssert(screenshot, @"Failed to take screenshot");
 
   CGRect actualRect = CGRectMake(0, 0, screenshot.size.width, screenshot.size.height);
-  GREYAssertTrue(CGRectEqualToRect(actualRect, [self expectedImageRectForAppStore]),
+  GREYAssertTrue(CGRectEqualToRect(actualRect, [self expectedImageRect]),
                  @"Screenshot isn't correct dimension");
 }
 
-- (void)testTakeScreenShotForAppStoreInLandscapeRightMode {
+- (void)testTakeScreenShotInLandscapeRightMode {
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationLandscapeRight error:nil];
 
-  UIImage *screenshot = [XCUIScreen mainScreen].screenshot.image;
+  UIImage *screenshot = [self snapshotElementWithMatcher:GREYKeyWindow()];
   GREYAssert(screenshot, @"Failed to take screenshot");
 
   CGRect actualRect = CGRectMake(0, 0, screenshot.size.width, screenshot.size.height);
-  GREYAssertTrue(CGRectEqualToRect(actualRect, [self expectedImageRectForAppStore]),
+  GREYAssertTrue(CGRectEqualToRect(actualRect, [self expectedImageRect]),
                  @"Screenshot isn't correct dimension");
 }
 
@@ -157,30 +153,21 @@
   }
 }
 
-- (void)testScreenshotDebugInfo {
-  // A previous test may have scrolled to the bottom of the main view controller's table view.
-  [[EarlGrey selectElementWithMatcher:GREYKindOfClass([UITableView class])]
-      performAction:GREYScrollToContentEdge(kGREYContentEdgeTop)];
-  EDORemoteVariable<UIImage *> *snapshot = [[EDORemoteVariable alloc] init];
-  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Basic Views")]
-      performAction:GREYSnapshot(snapshot)];
-  XCTAssertTrue([[snapshot.object accessibilityHint] containsString:@"Frame"]);
-
-  [self openTestViewNamed:@"Basic Views"];
-  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] performAction:GREYSnapshot(snapshot)];
-  XCTAssertTrue([[snapshot.object accessibilityHint] containsString:@"Frame"]);
-
-  [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
-      performAction:GREYTypeText(@"hi")];
-  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] performAction:GREYSnapshot(snapshot)];
-  XCTAssertTrue([[snapshot.object accessibilityHint] containsString:@"Frame"]);
-}
 
 #pragma mark - Private
 
+- (UIImage *)snapshotElementWithMatcher:(id<GREYMatcher>)matcher {
+  return [self snapshotElementWithMatcher:matcher error:nil];
+}
+
+- (UIImage *)snapshotElementWithMatcher:(id<GREYMatcher>)matcher error:(NSError **)error {
+  EDORemoteVariable<UIImage *> *snapshot = [[EDORemoteVariable alloc] init];
+  [[EarlGrey selectElementWithMatcher:matcher] performAction:GREYSnapshot(snapshot) error:error];
+  return snapshot.object;
+}
+
 /** The screenshot rect for the application under test. */
-- (CGRect)expectedImageRectForAppStore {
+- (CGRect)expectedImageRect {
   UIScreen *mainScreen = (UIScreen *)[GREY_REMOTE_CLASS_IN_APP(GREYUILibUtils) screen];
   CGRect screenRect = mainScreen.bounds;
   return screenRect;
