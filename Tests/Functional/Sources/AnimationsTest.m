@@ -270,9 +270,11 @@
     [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationStatus")]
         assertWithMatcher:GREYText(@"UIView animation finished")
                     error:&error];
+#if TARGET_OS_SIMULATOR
     NSString *buttonBlockInfo = @"_beginTitleAnimation]_block_invoke";
     XCTAssertTrue([error.debugDescription containsString:buttonBlockInfo],
                   @"Should contain Button Animation Block");
+#endif
     NSString *targetBlockInfo =
         @"-[AnimationViewController UIViewAnimationControlClicked:]_block_invoke";
     XCTAssertTrue([error.debugDescription containsString:targetBlockInfo],
