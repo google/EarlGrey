@@ -36,11 +36,6 @@ static NSSet<Class> *gDisabledGestureRecognizers;
   gDisabledGestureRecognizers = nil;
   GREYSwizzler *swizzler = [[GREYSwizzler alloc] init];
   BOOL swizzled = [swizzler swizzleClass:self
-                   replaceInstanceMethod:NSSelectorFromString(@"_setDirty")
-                              withMethod:@selector(greyswizzled_setDirty)];
-  GREYFatalAssertWithMessage(swizzled, @"Failed to swizzle UIGestureRecognizer _setDirty");
-
-  swizzled = [swizzler swizzleClass:self
               replaceInstanceMethod:NSSelectorFromString(@"_resetGestureRecognizer")
                          withMethod:@selector(greyswizzled_resetGestureRecognizer)];
   GREYFatalAssertWithMessage(swizzled,
@@ -59,21 +54,6 @@ static NSSet<Class> *gDisabledGestureRecognizers;
 
 #pragma mark - Swizzled Implementation
 
-- (void)greyswizzled_setDirty {
-  INVOKE_ORIGINAL_IMP(void, @selector(greyswizzled_setDirty));
-  BOOL isAKeyboardPinchGestureOnIPad =
-      ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad &&
-       [self isKindOfClass:gKeyboardPinchGestureRecognizerClass]);
-  if (!isAKeyboardPinchGestureOnIPad && self.state != UIGestureRecognizerStateFailed) {
-    GREYAppStateTrackerObject *object =
-        TRACK_STATE_FOR_OBJECT(kGREYPendingGestureRecognition, self);
-    object.objectDescription =
-        [NSString stringWithFormat:@"%@\n Delegate: %@\n", object.objectDescription, self.delegate];
-    objc_setAssociatedObject(self, @selector(greyswizzled_setState:), object,
-                             OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-  }
-}
-
 - (void)greyswizzled_resetGestureRecognizer {
   GREYAppStateTrackerObject *object =
       objc_getAssociatedObject(self, @selector(greyswizzled_setState:));
@@ -90,6 +70,18 @@ static NSSet<Class> *gDisabledGestureRecognizers;
         objc_getAssociatedObject(self, @selector(greyswizzled_setState:));
     UNTRACK_STATE_FOR_OBJECT(kGREYPendingGestureRecognition, object);
     objc_setAssociatedObject(self, @selector(greyswizzled_setState:), nil, OBJC_ASSOCIATION_ASSIGN);
+  } else {
+    BOOL isAKeyboardPinchGestureOnIPad =
+        ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad &&
+         [self isKindOfClass:gKeyboardPinchGestureRecognizerClass]);
+    if (!isAKeyboardPinchGestureOnIPad && self.state != UIGestureRecognizerStateFailed) {
+      GREYAppStateTrackerObject *object =
+          TRACK_STATE_FOR_OBJECT(kGREYPendingGestureRecognition, self);
+      object.objectDescription = [NSString
+          stringWithFormat:@"%@\n Delegate: %@\n", object.objectDescription, self.delegate];
+      objc_setAssociatedObject(self, @selector(greyswizzled_setState:), object,
+                               OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
   }
   INVOKE_ORIGINAL_IMP1(void, @selector(greyswizzled_setState:), state);
 }
