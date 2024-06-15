@@ -625,7 +625,10 @@
       performAction:GREYTap()];
   id<GREYMatcher> cursorMatcher = nil;
 
-  if (iOS17_4_OR_ABOVE()) {
+  if (iOS18_OR_ABOVE()) {
+    cursorMatcher = grey_allOf(GREYAncestor(GREYKindOfClassName(@"UIStandardTextCursorView")),
+                               GREYKindOfClassName(@"UIView"), nil);
+  } else if (iOS17_4_OR_ABOVE()) {
     cursorMatcher = grey_allOf(GREYAncestor(GREYKindOfClassName(@"UIStandardTextCursorView")),
                                GREYKindOfClassName(@"_UIShapeView"), nil);
   } else if (iOS17_OR_ABOVE()) {
