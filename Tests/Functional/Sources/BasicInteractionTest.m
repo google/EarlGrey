@@ -995,7 +995,10 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
 
     [self openTestViewNamed:@"Share Sheet"];
     XCTAssertTrue([EarlGrey tapButtonInActivitySheetWithId:@"More" error:nil]);
-    XCTAssertTrue([EarlGrey tapButtonInActivitySheetWithId:@"Messages" error:nil]);
+    // TODO(b/346421473): Remove this skip once message setting is supported in iOS18 simulator.
+    if (!iOS18_OR_ABOVE()) {
+      XCTAssertTrue([EarlGrey tapButtonInActivitySheetWithId:@"Messages" error:nil]);
+    }
   }
 }
 
