@@ -23,6 +23,7 @@
 #import "GREYAppStateTrackerObject.h"
 #import "GREYFatalAsserts.h"
 #import "GREYAppState.h"
+#import "GREYDefines.h"
 #import "GREYLogger.h"
 #import "GREYSwizzler.h"
 
@@ -35,10 +36,14 @@ static NSSet<Class> *gDisabledGestureRecognizers;
   gKeyboardPinchGestureRecognizerClass = NSClassFromString(@"UIKeyboardPinchGestureRecognizer");
   gDisabledGestureRecognizers = nil;
   GREYSwizzler *swizzler = [[GREYSwizzler alloc] init];
-  BOOL swizzled = [swizzler swizzleClass:self
-                   replaceInstanceMethod:NSSelectorFromString(@"_setDirty")
-                              withMethod:@selector(greyswizzled_setDirty)];
-  GREYFatalAssertWithMessage(swizzled, @"Failed to swizzle UIGestureRecognizer _setDirty");
+  BOOL swizzled;
+  // _setDirty is not available in iOS 18+ UIKit.
+  if (!iOS18_OR_ABOVE()) {
+    swizzled = [swizzler swizzleClass:self
+                replaceInstanceMethod:NSSelectorFromString(@"_setDirty")
+                           withMethod:@selector(greyswizzled_setDirty)];
+    GREYFatalAssertWithMessage(swizzled, @"Failed to swizzle UIGestureRecognizer _setDirty");
+  }
 
   swizzled = [swizzler swizzleClass:self
               replaceInstanceMethod:NSSelectorFromString(@"_resetGestureRecognizer")
@@ -90,6 +95,20 @@ static NSSet<Class> *gDisabledGestureRecognizers;
         objc_getAssociatedObject(self, @selector(greyswizzled_setState:));
     UNTRACK_STATE_FOR_OBJECT(kGREYPendingGestureRecognition, object);
     objc_setAssociatedObject(self, @selector(greyswizzled_setState:), nil, OBJC_ASSOCIATION_ASSIGN);
+  } else if (iOS18_OR_ABOVE()) {
+    // Temporary fix for _setDirty not being available in iOS 18+ UIKit.
+    // TODO: b/346414832 - Remove this once permanent fix is in place.
+    BOOL isAKeyboardPinchGestureOnIPad =
+        ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad &&
+         [self isKindOfClass:gKeyboardPinchGestureRecognizerClass]);
+    if (!isAKeyboardPinchGestureOnIPad) {
+      GREYAppStateTrackerObject *object =
+          TRACK_STATE_FOR_OBJECT(kGREYPendingGestureRecognition, self);
+      object.objectDescription = [NSString
+          stringWithFormat:@"%@\n Delegate: %@\n", object.objectDescription, self.delegate];
+      objc_setAssociatedObject(self, @selector(greyswizzled_setState:), object,
+                               OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
   }
   INVOKE_ORIGINAL_IMP1(void, @selector(greyswizzled_setState:), state);
 }
