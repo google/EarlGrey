@@ -84,6 +84,7 @@ BOOL GREYVerboseLoggingEnabled(void);  // NOLINT
 BOOL GREYVerboseLoggingEnabledForLevel(GREYVerboseLogType level);
 
 /**
+ *
  * Prints a log statement if any of the following keys are present in NSUserDefaults at the start
  * of the launch of the application process.
  *
