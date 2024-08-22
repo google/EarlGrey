@@ -1003,9 +1003,14 @@ static NSString *RecoverySuggestionForMultipleElementMatchedError(NSString *matc
     GREYError *modifiedError = error.nestedError ?: error;
     if ([modifiedError respondsToSelector:@selector(appUIHierarchy)]) {
       appUIHierarchy = modifiedError.appUIHierarchy;
-      if (!appUIHierarchy) {
-        GREYFatalAssertWithMessage(NO, @"No hierarchy extracted from error: %@", modifiedError);
-      }
+      // Check if the appUIHierarchy is in userInfo.
+      GREYFatalAssertWithMessage(appUIHierarchy || !error.userInfo[kErrorDetailAppUIHierarchyKey],
+                                 @"App UI Hierarchy is in userInfo, please use appUIHierarchy "
+                                 @"property on GREYError instead: %@",
+                                 modifiedError);
+
+      GREYFatalAssertWithMessage(appUIHierarchy, @"No hierarchy extracted from error: %@",
+                                 modifiedError);
       modifiedError.appUIHierarchy = nil;
     }
   }
