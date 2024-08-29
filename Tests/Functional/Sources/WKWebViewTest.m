@@ -138,4 +138,40 @@
   XCTAssertEqual(error.code, kGREYWKWebViewInteractionFailedErrorCode);
 }
 
+- (void)testAsyncJavascriptExecutionWithImmediateResolvingPromise {
+  EDORemoteVariable<NSString *> *javaScriptResult = [[EDORemoteVariable alloc] init];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TestWKWebView")]
+      performAction:GREYAsyncJavaScriptExecution(@"return Promise.resolve(123);",
+                                                 javaScriptResult)];
+  XCTAssertEqualObjects(javaScriptResult.object, @"123");
+}
+
+- (void)testAsyncJavascriptExecutionWithImmediateRejectingPromise {
+  EDORemoteVariable<NSString *> *javaScriptResult = [[EDORemoteVariable alloc] init];
+  NSError *error;
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TestWKWebView")]
+      performAction:
+          GREYAsyncJavaScriptExecution(
+              @"return Promise.reject(new Error('This Promise is rejected immediately.'));",
+              javaScriptResult)
+              error:&error];
+  XCTAssertNil(javaScriptResult.object);
+  XCTAssertEqualObjects(error.domain, kGREYInteractionErrorDomain);
+  XCTAssertEqual(error.code, kGREYWKWebViewInteractionFailedErrorCode);
+  XCTAssertTrue(
+      [error.localizedDescription containsString:@"This Promise is rejected immediately."]);
+}
+
+- (void)testAsyncJavascriptExecutionWithSlowPromise {
+  EDORemoteVariable<NSString *> *javaScriptResult = [[EDORemoteVariable alloc] init];
+  NSDate *start = [NSDate date];
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TestWKWebView")]
+      performAction:GREYAsyncJavaScriptExecution(
+                        @"return new Promise(resolve => setTimeout(() => resolve(123), 5000));",
+                        javaScriptResult)];
+  NSTimeInterval duration = [[NSDate date] timeIntervalSinceDate:start];
+  XCTAssertGreaterThan(duration, 4);
+  XCTAssertEqualObjects(javaScriptResult.object, @"123");
+}
+
 @end

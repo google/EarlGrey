@@ -386,8 +386,21 @@ static Protocol *gTextInputProtocol;
 
 + (id<GREYAction>)actionForJavaScriptExecution:(NSString *)js
                                         output:(EDORemoteVariable<NSString *> *)outResult {
+  return [self actionForJavaScriptExecution:js output:outResult asyncExecution:NO];
+}
+
++ (id<GREYAction>)actionForAsyncJavaScriptExecution:(NSString *)js
+                                             output:(EDORemoteVariable<NSString *> *)outResult {
+  return [self actionForJavaScriptExecution:js output:outResult asyncExecution:YES];
+}
+
++ (id<GREYAction>)actionForJavaScriptExecution:(NSString *)js
+                                        output:(EDORemoteVariable<NSString *> *)outResult
+                                asyncExecution:(BOOL)asyncExecution {
 #if TARGET_OS_IOS
-  NSString *diagnosticsID = GREYCorePrefixedDiagnosticsID(@"executeJavaScript");
+  NSString *diagnosticsID = asyncExecution
+                                ? GREYCorePrefixedDiagnosticsID(@"executeAsyncJavaScript")
+                                : GREYCorePrefixedDiagnosticsID(@"executeJavaScript");
   // TODO: JS Errors should be propagated up.
   id<GREYMatcher> systemAlertShownMatcher = [GREYMatchers matcherForSystemAlertViewShown];
   NSArray<id<GREYMatcher>> *webViewMatchers =
@@ -406,18 +419,26 @@ static Protocol *gTextInputProtocol;
        performBlock:^BOOL(id webView, __strong NSError **errorOrNil) {
          __block NSError *localError = nil;
          __block BOOL finishedCompletion = NO;
+         void (^completionHandler)(id, NSError *) = ^(id result, NSError *error) {
+           if (result) {
+             // Populate the javascript result for the user to get back.
+             outResult.object = [NSString stringWithFormat:@"%@", result];
+           }
+           if (error) {
+             localError = error;
+           }
+           finishedCompletion = YES;
+         };
          grey_dispatch_sync_on_main_thread(^{
-           [webView evaluateJavaScript:js
-                     completionHandler:^(id result, NSError *error) {
-                       if (result) {
-                         // Populate the javascript result for the user to get back.
-                         outResult.object = [NSString stringWithFormat:@"%@", result];
-                       }
-                       if (error) {
-                         localError = error;
-                       }
-                       finishedCompletion = YES;
-                     }];
+           if (asyncExecution) {
+             [webView callAsyncJavaScript:js
+                                arguments:@{}
+                                  inFrame:nil
+                           inContentWorld:WKContentWorld.defaultClientWorld
+                        completionHandler:completionHandler];
+           } else {
+             [webView evaluateJavaScript:js completionHandler:completionHandler];
+           }
          });
          // Wait for the interaction timeout for the semaphore to return.
          CFTimeInterval interactionTimeout =

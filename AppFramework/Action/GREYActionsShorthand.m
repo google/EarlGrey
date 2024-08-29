@@ -267,6 +267,15 @@ id<GREYAction> grey_javaScriptExecution(NSString *js, EDORemoteVariable<NSString
   return GREYJavaScriptExecution(js, outResult);
 }
 
+id<GREYAction> GREYAsyncJavaScriptExecution(NSString *js,
+                                            EDORemoteVariable<NSString *> *_Nullable outResult) {
+  return [GREYActions actionForAsyncJavaScriptExecution:js output:outResult];
+}
+id<GREYAction> grey_asyncJavaScriptExecution(NSString *js,
+                                             EDORemoteVariable<NSString *> *_Nullable outResult) {
+  return GREYAsyncJavaScriptExecution(js, outResult);
+}
+
 id<GREYAction> GREYSnapshot(EDORemoteVariable<UIImage *> *outImage) {
   return [GREYActions actionForSnapshot:outImage];
 }

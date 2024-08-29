@@ -219,6 +219,14 @@ GREY_EXPORT id<GREYAction> GREYJavaScriptExecution(
 GREY_EXPORT id<GREYAction> grey_javaScriptExecution(
     NSString *js, EDORemoteVariable<NSString *> *_Nullable outResult);
 
+/** Shorthand macro for GREYActions::actionForAsyncJavaScriptExecution:output:.
+ * Pass an EDORemoteVariable for the @c outResult.
+ */
+GREY_EXPORT id<GREYAction> GREYAsyncJavaScriptExecution(
+    NSString *js, EDORemoteVariable<NSString *> *_Nullable outResult);
+GREY_EXPORT id<GREYAction> grey_asyncJavaScriptExecution(
+    NSString *js, EDORemoteVariable<NSString *> *_Nullable outResult);
+
 /** Shorthand macro for GREYActions::actionForMoveSliderToValue:. */
 GREY_EXPORT id<GREYAction> GREYMoveSliderToValue(float value);
 GREY_EXPORT id<GREYAction> grey_moveSliderToValue(float value);

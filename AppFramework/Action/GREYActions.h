@@ -432,6 +432,23 @@
                                         output:(EDORemoteVariable<NSString *> *)outResult;
 
 /**
+ * Returns an action that executes an async JavaScript function against a WKWebView, waits for the
+ * resulting `Promise` to resolve, and sets the resolved value to @c outResult if provided.
+ *
+ * The JS string must contain only the function body, not the surrounding `function () { ... }`. The
+ * Promise must be returned by an explicit `return` statement in the function body. See the
+ * following doc for more details:
+ * https://developer.apple.com/documentation/webkit/wkwebview/3656355-callasyncjavascript?language=objc
+ *
+ * @param js        The Javascript code to be executed.
+ * @param outResult The result of the code execution, wrapped in an EDORemoteVariable.
+ *
+ * @return A GREYAction that executes JavaScript code against a WKWebView.
+ */
++ (id<GREYAction>)actionForAsyncJavaScriptExecution:(NSString *)js
+                                             output:(EDORemoteVariable<NSString *> *)outResult;
+
+/**
  * Returns an action that takes a snapshot of the selected element.
  *
  * @param outImage The UIImage where the image content is stored.
