@@ -446,7 +446,8 @@
  * @return A GREYAction that executes JavaScript code against a WKWebView.
  */
 + (id<GREYAction>)actionForAsyncJavaScriptExecution:(NSString *)js
-                                             output:(EDORemoteVariable<NSString *> *)outResult;
+                                             output:(EDORemoteVariable<NSString *> *)outResult
+    API_AVAILABLE(macos(11.0), ios(14.0));
 
 /**
  * Returns an action that takes a snapshot of the selected element.

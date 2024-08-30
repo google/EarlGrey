@@ -431,11 +431,19 @@ static Protocol *gTextInputProtocol;
          };
          grey_dispatch_sync_on_main_thread(^{
            if (asyncExecution) {
-             [webView callAsyncJavaScript:js
-                                arguments:@{}
-                                  inFrame:nil
-                           inContentWorld:WKContentWorld.defaultClientWorld
-                        completionHandler:completionHandler];
+             if (@available(iOS 14.0, macOS 11.0, *)) {
+               [webView callAsyncJavaScript:js
+                                  arguments:@{}
+                                    inFrame:nil
+                             inContentWorld:WKContentWorld.defaultClientWorld
+                          completionHandler:completionHandler];
+             } else {
+               I_GREYPopulateError(&localError, kGREYInteractionErrorDomain,
+                                   kGREYWKWebViewInteractionFailedErrorCode,
+                                   @"Async JavaScript execution is only supported on iOS 14+.");
+               // Pretend the completion handler was called. Otherwise it's treated as a timeout.
+               finishedCompletion = YES;
+             }
            } else {
              [webView evaluateJavaScript:js completionHandler:completionHandler];
            }
