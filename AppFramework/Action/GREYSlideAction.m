@@ -28,6 +28,7 @@
 #import "GREYConfiguration.h"
 #import "GREYError.h"
 #import "GREYErrorConstants.h"
+#import "GREYConstants.h"
 #import "GREYDiagnosable.h"
 #import "GREYLogger.h"
 #import "GREYMatcher.h"
@@ -262,6 +263,10 @@
 #else
   return NSNotFound;
 #endif
+}
+
+- (GREYActionType)type {
+  return GREYActionTypeSlide;
 }
 
 #pragma mark - GREYDiagnosable

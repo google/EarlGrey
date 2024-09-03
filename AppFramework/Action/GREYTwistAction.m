@@ -30,6 +30,7 @@
 #import "GREYConfiguration.h"
 #import "GREYError.h"
 #import "GREYErrorConstants.h"
+#import "GREYConstants.h"
 #import "GREYDiagnosable.h"
 #import "GREYElementHierarchy.h"
 
@@ -153,6 +154,10 @@ static CGFloat const kTwistScale = (CGFloat)0.8;
       GREYTouchPathForTwistGesture(centerPoint, radius, startAngle2, endAngle2, _duration, YES);
 
   return @[ touchPathForUpperFinger, touchPathForLowerFinger ];
+}
+
+- (GREYActionType)type {
+  return GREYActionTypeTwist;
 }
 
 #pragma mark - GREYDiagnosable

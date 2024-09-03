@@ -120,6 +120,10 @@
   return self;
 }
 
+- (GREYActionType)type {
+  return GREYActionTypeTap;
+}
+
 #pragma mark - GREYAction protocol
 
 #if TARGET_OS_IOS

@@ -16,6 +16,7 @@
 
 #import <Foundation/Foundation.h>
 
+#import "GREYConstants.h"
 #import "GREYDiagnosable.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -59,6 +60,13 @@ NS_ASSUME_NONNULL_BEGIN
  * performed or if it's a long running action.
  */
 - (BOOL)shouldRunOnMainThread;
+
+/**
+ * A method to get the type of this action.
+ *
+ * @return The type of the action.
+ */
+- (GREYActionType)type;
 
 @end
 

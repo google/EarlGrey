@@ -162,6 +162,10 @@
   }
 }
 
+- (GREYActionType)type {
+  return GREYActionTypeMultiFingerSwipe;
+}
+
 #pragma mark - GREYDiagnosable
 
 - (NSString *)diagnosticsID {

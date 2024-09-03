@@ -459,6 +459,10 @@ static BOOL IsEligibleForRetry(UIScrollView *scrollView, GREYDirection scrollDir
   return success;
 }
 
+- (GREYActionType)type {
+  return GREYActionTypeScroll;
+}
+
 #pragma mark - GREYDiagnosable
 
 - (NSString *)diagnosticsID {

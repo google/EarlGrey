@@ -25,6 +25,7 @@
 #import "GREYSyncAPI.h"
 #import "GREYError.h"
 #import "GREYErrorConstants.h"
+#import "GREYConstants.h"
 #import "GREYDiagnosable.h"
 #import "GREYMatcher.h"
 #import "GREYElementHierarchy.h"
@@ -142,6 +143,10 @@
   return NO;
 }
 #endif  // TARGET_OS_IOS
+
+- (GREYActionType)type {
+  return GREYActionTypePicker;
+}
 
 #pragma mark - GREYDiagnosable
 
