@@ -191,10 +191,6 @@ static CGFloat const kPinchScale = (CGFloat)0.8;
   return @[ touchPathInDirection1, touchPathInDirection2 ];
 }
 
-- (GREYActionType)type {
-  return GREYActionTypePinch;
-}
-
 #pragma mark - GREYDiagnosable
 
 - (NSString *)diagnosticsID {

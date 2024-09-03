@@ -27,7 +27,6 @@
 #import "GREYError.h"
 #import "GREYErrorConstants.h"
 #import "GREYObjectFormatter.h"
-#import "GREYConstants.h"
 #import "GREYDiagnosable.h"
 #import "GREYElementHierarchy.h"
 #import "GREYElementProvider.h"
@@ -276,10 +275,6 @@
   return stepperStepValue;
 }
 #endif  // TARGET_OS_IOS
-
-- (GREYActionType)type {
-  return GREYActionTypeStepper;
-}
 
 #pragma mark - GREYDiagnosable
 

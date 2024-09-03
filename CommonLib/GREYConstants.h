@@ -275,56 +275,6 @@ typedef NS_ENUM(NSInteger, GREYTapType) {
 };
 
 /**
- * Types of actions
- */
-typedef NS_ENUM(NSInteger, GREYActionType) {
-  /**
-   * Action type for GREYActionTypeUnsupported.
-   */
-  GREYActionTypeUnsupported,
-  /**
-   * Action type for twist.
-   */
-  GREYActionTypeTwist,
-  /**
-   * Action type for stepper.
-   */
-  GREYActionTypeStepper,
-  /**
-   * Action type for multi fingers swipe.
-   */
-  GREYActionTypeMultiFingerSwipe,
-  /**
-   * Action type for picker.
-   */
-  GREYActionTypePicker,
-  /**
-   * Action type for pinch.
-   */
-  GREYActionTypePinch,
-  /**
-   * Action type for scroll.
-   */
-  GREYActionTypeScroll,
-  /**
-   * Action type for scroll to content edge.
-   */
-  GREYActionTypeScrollToContentEdge,
-  /**
-   * Action type for slide.
-   */
-  GREYActionTypeSlide,
-  /**
-   * Action type for swipe.
-   */
-  GREYActionTypeSwipe,
-  /**
-   * Action type for tap.
-   */
-  GREYActionTypeTap,
-};
-
-/**
  * @return A string representation of the given @c deviceOrientation.
  */
 #if TARGET_OS_IOS

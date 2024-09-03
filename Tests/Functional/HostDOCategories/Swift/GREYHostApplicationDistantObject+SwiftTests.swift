@@ -79,10 +79,6 @@ import UIKit
   public func shouldRunOnMainThread() -> Bool {
     return true
   }
-
-  public func type() -> GREYActionType {
-    return GREYActionType.unsupported
-  }
 }
 
 extension GREYHostApplicationDistantObject: SwiftTestsHost {

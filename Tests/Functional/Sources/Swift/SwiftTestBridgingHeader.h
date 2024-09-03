@@ -20,7 +20,6 @@
 #import "CommonLib/Config/GREYAppState.h"
 #import "CommonLib/Config/GREYConfiguration.h"
 #import "CommonLib/DistantObject/GREYHostApplicationDistantObject.h"
-#import "CommonLib/Error/GREYConstants.h"
 #import "CommonLib/Matcher/GREYMatcher.h"
 #import "TestLib/AlertHandling/XCTestCase+GREYSystemAlertHandler.h"
 #import "TestLib/EarlGrey.h"

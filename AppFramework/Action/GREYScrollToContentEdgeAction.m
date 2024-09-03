@@ -131,10 +131,6 @@
   }
 }
 
-- (GREYActionType)type {
-  return GREYActionTypeScrollToContentEdge;
-}
-
 #pragma mark - GREYDiagnosable
 
 - (NSString *)diagnosticsID {

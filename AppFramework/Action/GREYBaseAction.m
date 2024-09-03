@@ -26,7 +26,6 @@
 #import "GREYError+Private.h"
 #import "GREYError.h"
 #import "GREYErrorConstants.h"
-#import "GREYConstants.h"
 #import "GREYMatcher.h"
 #import "GREYStringDescription.h"
 #import "GREYElementHierarchy.h"
@@ -107,7 +106,4 @@
   return nil;
 }
 
-- (GREYActionType)type {
-  return GREYActionTypeUnsupported;
-}
 @end
