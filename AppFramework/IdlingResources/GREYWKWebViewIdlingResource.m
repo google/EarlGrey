@@ -52,7 +52,7 @@
     [self untrackContentLoadingProgressForWebView];
     return YES;
   }
-  if (webView.estimatedProgress == 1.0 && webView.loading == NO) {
+  if (webView.loading == NO) {
     [self untrackContentLoadingProgressForWebView];
     return YES;
   }
