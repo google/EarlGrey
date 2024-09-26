@@ -32,6 +32,6 @@
  * @param action A GREYAction instance.
  * @return A GREYXCTestAction to tap on an element.
  */
-+ (id<GREYXCTestAction>)xctestActionForGREYAction:(id<GREYAction>)action;
++ (id<GREYXCTestAction>)XCTestActionForGREYAction:(id<GREYAction>)action;
 
 @end

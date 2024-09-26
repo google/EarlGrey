@@ -67,11 +67,14 @@ NSString *const kErrorDetailForegroundApplicationFailed =
 
 NSString *const kErrorDetailAppUIHierarchyHeaderKey = @"UI Hierarchy (Back to front):\n";
 NSString *const kErrorDetailElementMatcherKey = @"Element Matcher";
+NSString *const kErrorUserInfoElementReferenceKey = @"Element Reference";
 NSString *const kErrorDetailAppUIHierarchyKey = @"App UI Hierarchy";
 NSString *const kErrorDetailAppScreenshotsKey = @"App Screenshots";
 
 NSString *const kErrorDetailElementKey = @"Element";
 NSString *const kErrorDetailWindowKey = @"Window";
+
+NSString *const kGREYUnsupportedSwiftUIElementClassName = @"SwiftUI.AccessibilityNode";
 
 NSArray<NSString *> *GREYErrorDetailsKeyOrder(void) {
   return @[
@@ -81,4 +84,18 @@ NSArray<NSString *> *GREYErrorDetailsKeyOrder(void) {
     kErrorDetailElementMatcherKey,
     kErrorDetailRecoverySuggestionKey,
   ];
+}
+
+GREYActionSupportType GREYSupportTypeForAction(id action) {
+  static NSDictionary<NSString *, NSNumber *> *gGreyActionSupportMap;
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    gGreyActionSupportMap = @{
+      @"GREYTapAction" : @(GREYActionSupportTypeUnsupportedAccessbilityNodeIOS18),
+      @"GREYSwipeAction" : @(GREYActionSupportTypeUnsupportedAccessbilityNodeIOS18),
+    };
+  });
+  NSNumber *actionType =
+      gGreyActionSupportMap[NSStringFromClass([action class])] ?: @(GREYActionSupportTypeSupported);
+  return actionType.unsignedIntegerValue;
 }

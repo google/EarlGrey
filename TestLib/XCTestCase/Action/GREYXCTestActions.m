@@ -23,18 +23,27 @@ typedef NS_ENUM(NSUInteger, GREYXCTestActionType) {
   GREYXCTestActionTypeUnsupported,
 };
 
+// Expose method for EDOObject as it's not a public class.
+@interface NSObject (GREYExposed)
+@property(readonly) NSString *className;
+@end
+
 @implementation GREYXCTestActions
 
 // Given a GREYAction instance, returns the corresponding GREYXCTestActionType.
 GREYXCTestActionType GREYActionToXCTestActionType(id action) {
   static NSDictionary<NSString *, NSNumber *> *gGreyActionToXCTestActionTypeMap;
   static dispatch_once_t onceToken;
+  NSString *actionClassName = NSStringFromClass([action class]);
+  if ([actionClassName isEqualToString:@"EDOObject"]) {
+    actionClassName = [action className];
+  }
   dispatch_once(&onceToken, ^{
     gGreyActionToXCTestActionTypeMap = @{
       @"GREYTapAction" : @(GREYXCTestActionTypeTap),
     };
   });
-  NSNumber *actionType = gGreyActionToXCTestActionTypeMap[NSStringFromClass([action class])];
+  NSNumber *actionType = gGreyActionToXCTestActionTypeMap[actionClassName];
   return actionType ? actionType.unsignedIntegerValue : GREYXCTestActionTypeUnsupported;
 }
 
@@ -44,9 +53,7 @@ GREYXCTestActionType GREYActionToXCTestActionType(id action) {
  * create and returns the corresponding GREYXCTestAction that we will use to perform the action
  * instead in XCUI.
  */
-+ (id<GREYXCTestAction>)xctestActionForGREYAction:(id<GREYAction>)action {
-  NSAssert([(NSObject *)action isKindOfClass:NSClassFromString(@"GREYTapAction")],
-           @"Unsupported action: %@", action);
++ (id<GREYXCTestAction>)XCTestActionForGREYAction:(id<GREYAction>)action {
   GREYXCTestActionType actionType = GREYActionToXCTestActionType(action);
   switch (actionType) {
     case GREYXCTestActionTypeTap:

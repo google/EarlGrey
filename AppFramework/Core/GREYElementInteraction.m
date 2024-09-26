@@ -15,6 +15,8 @@
 //
 
 #import "GREYElementInteraction.h"
+#import <Foundation/Foundation.h>
+#import "GREYDefines.h"
 
 #import "GREYAction.h"
 #import "GREYAssertions.h"
@@ -269,6 +271,12 @@
       GREYLogVerbose(@"Performing action: %@\n on element: %@\n with matcher: "
                      @"%@\n with root matcher: %@",
                      [action name], element, self -> _elementMatcher, self -> _rootMatcher);
+
+      // Early escape in case element action need to be routed to XCUITest for execution.
+      // b/347429266
+      if (actionError.code == kGREYInteractionResponderNotSupportedErrorCode) {
+        return;
+      }
       
       BOOL success = [action perform:element error:&actionError];
       
@@ -301,6 +309,29 @@
                      }
 
                      if (element) {
+                       grey_dispatch_sync_on_main_thread(^{
+                         // Check if the element is a potentially unsupported SwiftUI element. If
+                         // so, check if the action type is supported for the current os.
+                         // Create a new error code for this case and send the action
+                         // to XCUITest. b/347429266
+                         // TODO(b/361631344): test and move this workaround using
+                         // notification actionUserInfo route below
+                         if ([element isKindOfClass:NSClassFromString(
+                                                        kGREYUnsupportedSwiftUIElementClassName)] &&
+                             GREYSupportTypeForAction(action) ==
+                                 GREYActionSupportTypeUnsupportedAccessbilityNodeIOS18 &&
+                             iOS18_OR_ABOVE()) {
+                           NSString *errorString =
+                               [NSString stringWithFormat:@"The current EarlGrey Touch Injector "
+                                                          @"does not support this action "
+                                                          @"type for this element. action: %@",
+                                                          [action name]];
+                           actionError = GREYErrorMakeWithElementAndHierarchy(
+                               kGREYInteractionErrorDomain,
+                               kGREYInteractionResponderNotSupportedErrorCode, errorString,
+                               element);
+                         }
+                       });
                        [actionUserInfo setObject:element forKey:kGREYActionElementUserInfoKey];
                      } else if (!actionError) {
                        // No elements are found nor any error provided.
@@ -897,6 +928,8 @@ static NSString *RecoverySuggestionForMultipleElementMatchedError(NSString *matc
     [userInfo setValue:interactionError.nestedError forKey:NSUnderlyingErrorKey];
   }
   [userInfo setValue:_elementMatcher.description forKey:kErrorDetailElementMatcherKey];
+  [userInfo setValue:interactionError.userInfo[kErrorUserInfoElementReferenceKey]
+              forKey:kErrorUserInfoElementReferenceKey];
 
   NSDictionary<NSString *, UIImage *> *appScreenshots =
       [self grey_appScreenshotsFromError:interactionError];

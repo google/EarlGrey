@@ -32,6 +32,14 @@ typedef NS_ENUM(NSInteger, GREYUIThreadExecutorErrorCode) {
 };
 
 /**
+ * The type of support for an action by element and platform.
+ */
+typedef NS_ENUM(NSUInteger, GREYActionSupportType) {
+  GREYActionSupportTypeSupported,
+  GREYActionSupportTypeUnsupportedAccessbilityNodeIOS18,
+};
+
+/**
  * Error domain for element interaction failures.
  */
 GREY_EXTERN NSString *const kGREYInteractionErrorDomain;
@@ -77,6 +85,10 @@ typedef NS_ENUM(NSInteger, GREYInteractionErrorCode) {
    * Index provided for an error that limited network cannot be applied on the device.
    */
   kGREYInteractionLimitedNetworkNotSupportedErrorCode,
+  /**
+   * Index provided for an error that responder is not supported.
+   */
+  kGREYInteractionResponderNotSupportedErrorCode,
 };
 
 /**
@@ -118,6 +130,11 @@ GREY_EXTERN NSString *const kGREYKeyboardDismissalErrorDomain;
  * Extern variables specifying the error domain for deeplink interactions
  */
 GREY_EXTERN NSString *const kGREYDeeplinkErrorDomain;
+
+/**
+ * The class name of a Swift UI element that not supported by EarlGrey.
+ */
+GREY_EXTERN NSString *const kGREYUnsupportedSwiftUIElementClassName;
 
 /**
  * Error code for deeplink open actions.
@@ -191,6 +208,12 @@ typedef NS_ENUM(NSInteger, GREYTwistErrorCode) {
  */
 GREY_EXTERN NSString *const kErrorDetailElementKey;
 GREY_EXTERN NSString *const kErrorDetailWindowKey;
+
+/**
+ * Extern key in error UserInfo that stores the reference to the element used for XCUITest actions
+ * if the action is not by EarlGrey.
+ */
+GREY_EXTERN NSString *const kErrorUserInfoElementReferenceKey;
 
 /**
  * Extern variables specifying the error keys for a change stepper action.
@@ -321,3 +344,13 @@ typedef NS_ENUM(NSUInteger, GREYActivitySheetHandlingErrorCode) {
  * Error key order to be used for displaying errors.
  */
 GREY_EXTERN NSArray<NSString *> *GREYErrorDetailsKeyOrder(void);
+
+/**
+ * Not all actions are supported by the EarlGrey touch injector which uses sendEvent: with IOHID
+ * events. This method returns GREYActionSupportType enum indicating what compatibility checks are
+ * needed such as OS version.
+ *
+ * @param action The action to check.
+ * @return GREYActionSupportType support type for the action.
+ */
+GREY_EXTERN GREYActionSupportType GREYSupportTypeForAction(id action);
