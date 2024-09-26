@@ -49,7 +49,7 @@
  * @param domain      The error domain.
  * @param code        The error code.
  * @param description The error's localized description.
- * @param userInfi.    The error's userInfo.
+ * @param userInfo.    The error's userInfo.
  *
  * @return A @c GREYError object with the given input.
  */
