@@ -30,6 +30,8 @@
 		76E0547D25817A050015F307 /* GREYErrorConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = FD6239B120F56C3D00049E81 /* GREYErrorConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A20847B422BC095B00DD3983 /* GREYTraversalObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A20847B322BC095A00DD3983 /* GREYTraversalObject.m */; };
 		A277771E238FE215003E7373 /* GREYTraversalProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = A277771C238FE215003E7373 /* GREYTraversalProperties.m */; };
+		AA6F32F62CA755BF009D1700 /* GREYXCTestActions.m in Sources */ = {isa = PBXBuildFile; fileRef = AA6F32F22CA755BF009D1700 /* GREYXCTestActions.m */; };
+		AA6F32F72CA755BF009D1700 /* GREYXCTestActionTap.m in Sources */ = {isa = PBXBuildFile; fileRef = AA6F32F42CA755BF009D1700 /* GREYXCTestActionTap.m */; };
 		FD1184D3212CEE72004CADC3 /* XCUIApplication+GREYEnvironment.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1184D2212CEE72004CADC3 /* XCUIApplication+GREYEnvironment.m */; };
 		FD1575532579CC7B00EDBF48 /* GREYDefaultFailureHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1575522579CC7B00EDBF48 /* GREYDefaultFailureHandler.m */; };
 		FD1B7E3A24A2806500400025 /* GREYErrorFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1B7E3924A2806400400025 /* GREYErrorFormatter.m */; };
@@ -461,6 +463,11 @@
 		A20847B322BC095A00DD3983 /* GREYTraversalObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYTraversalObject.m; sourceTree = "<group>"; };
 		A277771C238FE215003E7373 /* GREYTraversalProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GREYTraversalProperties.m; sourceTree = "<group>"; };
 		A277771D238FE215003E7373 /* GREYTraversalProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GREYTraversalProperties.h; sourceTree = "<group>"; };
+		AA6F32F02CA755BF009D1700 /* GREYXCTestAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GREYXCTestAction.h; sourceTree = "<group>"; };
+		AA6F32F12CA755BF009D1700 /* GREYXCTestActions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GREYXCTestActions.h; sourceTree = "<group>"; };
+		AA6F32F22CA755BF009D1700 /* GREYXCTestActions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GREYXCTestActions.m; sourceTree = "<group>"; };
+		AA6F32F32CA755BF009D1700 /* GREYXCTestActionTap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GREYXCTestActionTap.h; sourceTree = "<group>"; };
+		AA6F32F42CA755BF009D1700 /* GREYXCTestActionTap.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GREYXCTestActionTap.m; sourceTree = "<group>"; };
 		FD1184CB212CEE72004CADC3 /* XCUIApplication+GREYEnvironment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "XCUIApplication+GREYEnvironment.h"; path = "XCTestCase/XCUIApplication+GREYEnvironment.h"; sourceTree = "<group>"; };
 		FD1184D2212CEE72004CADC3 /* XCUIApplication+GREYEnvironment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "XCUIApplication+GREYEnvironment.m"; path = "XCTestCase/XCUIApplication+GREYEnvironment.m"; sourceTree = "<group>"; };
 		FD1575512579CC7B00EDBF48 /* GREYDefaultFailureHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GREYDefaultFailureHandler.h; path = FailureHandler/GREYDefaultFailureHandler.h; sourceTree = "<group>"; };
@@ -801,6 +808,18 @@
 			name = Utils;
 			sourceTree = "<group>";
 		};
+		AA6F32F52CA755BF009D1700 /* Action */ = {
+			isa = PBXGroup;
+			children = (
+				AA6F32F02CA755BF009D1700 /* GREYXCTestAction.h */,
+				AA6F32F12CA755BF009D1700 /* GREYXCTestActions.h */,
+				AA6F32F22CA755BF009D1700 /* GREYXCTestActions.m */,
+				AA6F32F32CA755BF009D1700 /* GREYXCTestActionTap.h */,
+				AA6F32F42CA755BF009D1700 /* GREYXCTestActionTap.m */,
+			);
+			path = Action;
+			sourceTree = "<group>";
+		};
 		FD15754F2579CC4600EDBF48 /* FailureHandler */ = {
 			isa = PBXGroup;
 			children = (
@@ -954,6 +973,7 @@
 		FD50493620FB23CF00261CBE /* XCTestCase */ = {
 			isa = PBXGroup;
 			children = (
+				AA6F32F52CA755BF009D1700 /* Action */,
 				FD1184CB212CEE72004CADC3 /* XCUIApplication+GREYEnvironment.h */,
 				FD1184D2212CEE72004CADC3 /* XCUIApplication+GREYEnvironment.m */,
 				FD50493A20FB23E500261CBE /* GREYTestCaseInvocation.h */,
@@ -1911,6 +1931,8 @@
 				FD50490F20FB231A00261CBE /* XCTestCase+GREYSystemAlertHandler.m in Sources */,
 				278BF2B124C53D780005ECE1 /* GREYAssert.m in Sources */,
 				FD1575532579CC7B00EDBF48 /* GREYDefaultFailureHandler.m in Sources */,
+				AA6F32F62CA755BF009D1700 /* GREYXCTestActions.m in Sources */,
+				AA6F32F72CA755BF009D1700 /* GREYXCTestActionTap.m in Sources */,
 				6FDFAF5324A2D0B2008B59DF /* GREYFailureHandlerHelpers.m in Sources */,
 				FD50492B20FB239900261CBE /* XCUIApplication+GREYTest.m in Sources */,
 				FD50493C20FB23E500261CBE /* GREYTestCaseInvocation.m in Sources */,

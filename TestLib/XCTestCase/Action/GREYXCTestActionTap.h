@@ -19,6 +19,7 @@
 @class GREYError;
 
 NS_ASSUME_NONNULL_BEGIN
+@interface GREYXCTestActionTap : NSObject <GREYXCTestAction>
 
 /**
  * In iOS 18, SwiftUI accessbility node can't be an UIResponder for UIApplication's sendEvent api
@@ -27,8 +28,6 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param element The element to perform the action on.
  */
-@interface GREYXCTestActionTap : NSObject <GREYXCTestAction>
-
 - (void)performOnElement:(id)element;
 
 @end
