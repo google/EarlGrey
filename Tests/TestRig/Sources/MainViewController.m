@@ -145,7 +145,7 @@ static NSString *gTableViewIdentifier = @"TableViewIdentifier";
                      animated:YES
                    completion:nil];
   } else if ([key isEqualToString:@"Presented Views"]) {
-    [self.navigationController presentViewController:vc animated:NO completion:nil];
+    [self.navigationController presentViewController:vc animated:YES completion:nil];
   } else {
     [UIView transitionWithView:self.navigationController.view
                       duration:0.2
