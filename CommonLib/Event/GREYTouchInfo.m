@@ -32,12 +32,25 @@
                        withTapCount:(NSUInteger)tapCount
                               phase:(UITouchPhase)phase
     deliveryTimeDeltaSinceLastTouch:(NSTimeInterval)timeDeltaSinceLastTouchSeconds {
+  return [self initWithPoints:points
+                         withTapCount:tapCount
+                                phase:phase
+      deliveryTimeDeltaSinceLastTouch:timeDeltaSinceLastTouchSeconds
+                            responder:nil];
+}
+
+- (instancetype)initWithPoints:(NSArray<NSValue *> *)points
+                       withTapCount:(NSUInteger)tapCount
+                              phase:(UITouchPhase)phase
+    deliveryTimeDeltaSinceLastTouch:(NSTimeInterval)timeDeltaSinceLastTouchSeconds
+                          responder:(UIResponder *)responder {
   self = [super init];
   if (self) {
     _points = points;
     _tapCount = tapCount;
     _phase = phase;
     _deliveryTimeDeltaSinceLastTouch = timeDeltaSinceLastTouchSeconds;
+    _responder = responder;
   }
   return self;
 }

@@ -26,8 +26,18 @@
 #import "GREYConfiguration.h"
 #import "GREYError.h"
 #import "GREYErrorConstants.h"
+#import "GREYLogger.h"
 #import "CGGeometry+GREYUI.h"
 #import "GREYElementHierarchy.h"
+
+/**
+ * Protocol for accessing the child gesture recognizer containers of a SwiftUI view.
+ *
+ * Required to access the UIResponder that should be used for touch injection for iOS 18+.
+ */
+@protocol _PrivateSwiftUIContainer
+- (id)_childGestureRecognizerContainers;
+@end
 
 @implementation GREYTapper
 
@@ -66,9 +76,10 @@
   }
 
   CFTimeInterval interactionTimeout = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
+  UIResponder *responder = [self grey_gestureContainer:element];
   for (NSUInteger i = 1; i <= numberOfTaps; i++) {
     @autoreleasepool {
-      GREYPerformMultipleTap(location, window, i, interactionTimeout);
+      GREYPerformMultipleTap(location, window, i, interactionTimeout, responder);
     }
   }
   return YES;
@@ -104,6 +115,55 @@
 }
 
 #pragma mark - Private
+
+/**
+ * Returns the SwiftUI specific @c UIResponder for @c element.
+ *
+ * For iOS 18+ Swift UI, the element might have a gestureContainer(s) assigned.
+ * Based on discovery - the lowest level gesture container should be used as UIResponder
+ * for the touch injections.
+ *
+ * See b/347429266 for more details.
+ *
+ * @return The lowest level gesture recognizer container of the given element or nil if none set.
+ */
++ (UIResponder *)grey_gestureContainer:(id)element {
+  UIResponder *responder;
+#if defined(__IPHONE_18_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_18_0
+  static NSString *const kSwiftUIAccessiblityNodeClassName = @"SwiftUI.AccessibilityNode";
+  if (![element isKindOfClass:NSClassFromString(kSwiftUIAccessiblityNodeClassName)]) {
+    return nil;
+  }
+  if (![element respondsToSelector:@selector(accessibilityContainer)]) {
+    return nil;
+  }
+  id parentAccessibilityContainer = [element accessibilityContainer];
+  if (!parentAccessibilityContainer ||
+      ![parentAccessibilityContainer
+          respondsToSelector:@selector(_childGestureRecognizerContainers)]) {
+    return nil;
+  }
+  // Check if there are nested containers and if so, use the lowest level (based on discovery runs).
+  NSArray<id> *containers = [parentAccessibilityContainer _childGestureRecognizerContainers];
+  while (containers.count > 0) {
+    id container = containers.firstObject;
+    if (containers.count > 1) {
+      // Log a warning if there are multiple containers found, since it can potentially impact
+      // the action.
+      GREYLogVerbose(@"WARNING: Multiple gesture containers found (%@) for element: %@", containers,
+                     element);
+    }
+    if ([container isKindOfClass:[UIResponder class]]) {
+      responder = container;
+    }
+    containers = nil;
+    if ([container respondsToSelector:@selector(_childGestureRecognizerContainers)]) {
+      containers = [container _childGestureRecognizerContainers];
+    }
+  }
+#endif
+  return responder;
+}
 
 /**
  * @return A tappable point that has the given @c location relative to the window of the

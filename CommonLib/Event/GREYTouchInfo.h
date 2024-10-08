@@ -31,6 +31,12 @@
 /** Delays touch delivery by this amount since the last touch delivery. */
 @property(nonatomic, readonly) NSTimeInterval deliveryTimeDeltaSinceLastTouch;
 
+/**
+ * The responder that will receive the touch event.
+ * Optional. (Only needed for SwiftUI views with ResponderContainer set on iOS 18+).
+ */
+@property(nonatomic, readonly, nullable) UIResponder *responder;
+
 /** The convenient initializer for the designated initializer with `tapCount` set to 1. */
 - (instancetype)initWithPoints:(NSArray<NSValue *> *)points
                               phase:(UITouchPhase)phase
@@ -52,8 +58,27 @@
 - (instancetype)initWithPoints:(NSArray<NSValue *> *)points
                        withTapCount:(NSUInteger)tapCount
                               phase:(UITouchPhase)phase
+    deliveryTimeDeltaSinceLastTouch:(NSTimeInterval)timeDeltaSinceLastTouchSeconds;
+
+/**
+ * Initializes this object to represent a touch at the given @c points.
+ *
+ * @param points                         The CGPoints where the touches are to be delivered.
+ * @param tapCount                       The number of taps that occurred for this touch within a
+ *                                       predefined period of time.
+ * @param phase                          Specifies the touch's phase.
+ * @param timeDeltaSinceLastTouchSeconds The relative injection time from the time last
+ *                                       touch point was injected. It is also used as the
+ *                                       expected delivery time.
+ * @param responder                      The UIResponder that will receive the touch event.
+ *
+ * @return An instance of GREYTouchInfo, initialized with all required data.
+ */
+- (instancetype)initWithPoints:(NSArray<NSValue *> *)points
+                       withTapCount:(NSUInteger)tapCount
+                              phase:(UITouchPhase)phase
     deliveryTimeDeltaSinceLastTouch:(NSTimeInterval)timeDeltaSinceLastTouchSeconds
-    NS_DESIGNATED_INITIALIZER;
+                          responder:(UIResponder *)responder NS_DESIGNATED_INITIALIZER;
 
 /**
  * @remark init is not available. Use the other initializers.

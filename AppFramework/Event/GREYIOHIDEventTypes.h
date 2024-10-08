@@ -229,6 +229,10 @@ void IOHIDEventSetIntegerValue(IOHIDEventRef hidEventRef, IOHIDEventField field,
 - (void)setTapCount:(NSUInteger)tapCount;
 - (void)setTimestamp:(NSTimeInterval)timestamp;
 - (void)setView:(UIView *)view;
+// SwiftUI view's gesture recognizers should be used, if any.
+#if defined(__IPHONE_18_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_18_0
+- (void)_setResponder:(UIResponder *)responder;
+#endif
 - (void)setWindow:(UIWindow *)window;
 
 // Underlying HID finger event representing this touch.

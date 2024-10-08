@@ -132,11 +132,6 @@ GREY_EXTERN NSString *const kGREYKeyboardDismissalErrorDomain;
 GREY_EXTERN NSString *const kGREYDeeplinkErrorDomain;
 
 /**
- * The class name of a Swift UI element that not supported by EarlGrey.
- */
-GREY_EXTERN NSString *const kGREYUnsupportedSwiftUIElementClassName;
-
-/**
  * Error code for deeplink open actions.
  */
 typedef NS_ENUM(NSInteger, GREYDeeplinkTestErrorCode) {

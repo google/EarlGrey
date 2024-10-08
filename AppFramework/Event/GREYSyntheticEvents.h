@@ -14,7 +14,6 @@
 // limitations under the License.
 //
 
-#import "GREYDefines.h"
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
@@ -125,6 +124,7 @@
  *                 time. It corresponding to the UITouch's tapCount and gesture recognizers use
  *                 it to detect single-tapped, double-tapped, and multi-tapped.
  * @param timeout  The length of time that the method should wait for the interaction to complete.
+ * @param responder The override UIResponder that will receive the touch event if any. Optional.
  */
 void GREYPerformMultipleTap(CGPoint location, UIWindow *window, NSUInteger tapCount,
-                            NSTimeInterval timeout);
+                            NSTimeInterval timeout, UIResponder *_Nullable responder);

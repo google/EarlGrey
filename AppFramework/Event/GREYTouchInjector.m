@@ -243,6 +243,12 @@ static NSTimeInterval AdjustedDeliveryTimeDelta(GREYTouchInfo *touchInfo) {
       }
     }
 
+#if defined(__IPHONE_18_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_18_0
+    if (touchInfo.responder) {
+      [touch _setResponder:touchInfo.responder];
+    }
+#endif
+
     // Set phase appropriate values.
     [touch setPhase:touchInfo.phase];
     [touch _setLocationInWindow:touchPoint resetPrevious:(touchInfo.phase == UITouchPhaseBegan)];

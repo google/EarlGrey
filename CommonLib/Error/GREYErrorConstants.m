@@ -74,8 +74,6 @@ NSString *const kErrorDetailAppScreenshotsKey = @"App Screenshots";
 NSString *const kErrorDetailElementKey = @"Element";
 NSString *const kErrorDetailWindowKey = @"Window";
 
-NSString *const kGREYUnsupportedSwiftUIElementClassName = @"SwiftUI.AccessibilityNode";
-
 NSArray<NSString *> *GREYErrorDetailsKeyOrder(void) {
   return @[
     kErrorDetailAssertCriteriaKey,

@@ -229,20 +229,22 @@ static const NSTimeInterval kMinimumDelayBetweenTouchPathEvents = 1.0 / 120.0;
 @end
 
 void GREYPerformMultipleTap(CGPoint location, UIWindow *window, NSUInteger tapCount,
-                            NSTimeInterval timeout) {
+                            NSTimeInterval timeout, UIResponder *responder) {
   GREYTouchInjector *touchInjector = [[GREYTouchInjector alloc] initWithWindow:window];
   NSArray<NSValue *> *touchPath = @[ [NSValue valueWithCGPoint:location] ];
 
   GREYTouchInfo *beginTouchInfo = [[GREYTouchInfo alloc] initWithPoints:touchPath
                                                            withTapCount:tapCount
                                                                   phase:UITouchPhaseBegan
-                                        deliveryTimeDeltaSinceLastTouch:0];
+                                        deliveryTimeDeltaSinceLastTouch:0
+                                                              responder:responder];
   [touchInjector enqueueTouchInfoForDelivery:beginTouchInfo];
 
   GREYTouchInfo *endTouchInfo = [[GREYTouchInfo alloc] initWithPoints:touchPath
                                                          withTapCount:tapCount
                                                                 phase:UITouchPhaseEnded
-                                      deliveryTimeDeltaSinceLastTouch:0];
+                                      deliveryTimeDeltaSinceLastTouch:0
+                                                            responder:responder];
   [touchInjector enqueueTouchInfoForDelivery:endTouchInfo];
   [touchInjector waitUntilAllTouchesAreDeliveredWithTimeout:timeout];
 }
