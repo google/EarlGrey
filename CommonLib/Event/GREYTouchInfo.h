@@ -16,6 +16,8 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /** An object to encapsulate essential information about a touch. */
 @interface GREYTouchInfo : NSObject
 
@@ -78,7 +80,7 @@
                        withTapCount:(NSUInteger)tapCount
                               phase:(UITouchPhase)phase
     deliveryTimeDeltaSinceLastTouch:(NSTimeInterval)timeDeltaSinceLastTouchSeconds
-                          responder:(UIResponder *)responder NS_DESIGNATED_INITIALIZER;
+                          responder:(UIResponder *_Nullable)responder NS_DESIGNATED_INITIALIZER;
 
 /**
  * @remark init is not available. Use the other initializers.
@@ -86,3 +88,5 @@
 - (instancetype)init NS_UNAVAILABLE;
 
 @end
+
+NS_ASSUME_NONNULL_END
