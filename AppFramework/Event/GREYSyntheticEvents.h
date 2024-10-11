@@ -18,6 +18,8 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 #pragma mark - Interface
 
 /**
@@ -128,3 +130,5 @@
  */
 void GREYPerformMultipleTap(CGPoint location, UIWindow *window, NSUInteger tapCount,
                             NSTimeInterval timeout, UIResponder *_Nullable responder);
+
+NS_ASSUME_NONNULL_END
