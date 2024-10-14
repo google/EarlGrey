@@ -33,6 +33,14 @@
     [NSObject edo_disallowRemoteInvocationWithExclusion:@[ [NSArray class], [NSEnumerator class] ]];
     [self.application launch];
   });
+
+  for (UIScene* scene in UIApplication.sharedApplication.connectedScenes) {
+    UIWindowScene* windowScene = (UIWindowScene*)scene;
+    for (UIWindow* window in windowScene.windows) {
+      [[window layer] setSpeed:100];
+    }
+  }
+
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait error:nil];
 }
 
@@ -55,6 +63,13 @@
 }
 
 - (void)tearDown {
+  for (UIScene* scene in UIApplication.sharedApplication.connectedScenes) {
+    UIWindowScene* windowScene = (UIWindowScene*)scene;
+    for (UIWindow* window in windowScene.windows) {
+      [[window layer] setSpeed:1];
+    }
+  }
+
   [[GREYHostApplicationDistantObject sharedInstance] resetNavigationStack];
   [[GREYConfiguration sharedConfiguration] reset];
 

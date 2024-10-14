@@ -29,6 +29,7 @@
 }
 
 - (void)testDismissToResetNavController {
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Modal View")] assertWithMatcher:GREYNotNil()];
   AppDelegate *app =
       (AppDelegate *)[GREY_REMOTE_CLASS_IN_APP(UIApplication) sharedApplication].delegate;
   [app resetRootNavigationController];
