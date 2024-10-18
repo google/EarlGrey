@@ -26,17 +26,25 @@
 #import "GREYConfiguration.h"
 #import "GREYError.h"
 #import "GREYErrorConstants.h"
-#import "GREYLogger.h"
 #import "CGGeometry+GREYUI.h"
 #import "GREYElementHierarchy.h"
 
 /**
- * Protocol for accessing the child gesture recognizer containers of a SwiftUI view.
- *
- * Required to access the UIResponder that should be used for touch injection for iOS 18+.
+ * Protocol for accessing _HitTestContext's private contextWithPoint:radius: method.
+ * Required to access the UIResponder that should be used for touch injection for SwiftUI elements
+ * in iOS 18+.
  */
-@protocol _PrivateSwiftUIContainer
-- (id)_childGestureRecognizerContainers;
+@protocol _PrivateHitTestContext
++ (id)contextWithPoint:(struct CGPoint)arg1 radius:(double)arg2;
+@end
+
+/**
+ * Protocol for accessing the UIResponder's private hitTest method.
+ * Required to access the UIResponder that should be used for touch injection for SwiftUI elements
+ * in iOS 18+.
+ */
+@protocol _PrivateUIResponder
+- (id)_hitTestWithContext:(id)arg1;
 @end
 
 @implementation GREYTapper
@@ -76,7 +84,7 @@
   }
 
   CFTimeInterval interactionTimeout = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
-  UIResponder *responder = [self grey_gestureContainer:element];
+  UIResponder *responder = [self grey_gestureContainer:element atLocation:location];
   for (NSUInteger i = 1; i <= numberOfTaps; i++) {
     @autoreleasepool {
       GREYPerformMultipleTap(location, window, i, interactionTimeout, responder);
@@ -119,15 +127,16 @@
 /**
  * Returns the SwiftUI specific @c UIResponder for @c element.
  *
- * For iOS 18+ Swift UI, the element might have a gestureContainer(s) assigned.
- * Based on discovery - the lowest level gesture container should be used as UIResponder
- * for the touch injections.
+ * For iOS 18+ Swift UI, the responder needs to be set to the UITouch event that's not always
+ * the view. Using private _hitTestWithContext: method to retrieve the responder.
  *
  * See b/347429266 for more details.
+ * @param element The element to retrieve the responder for.
+ * @param location The location of the tap.
  *
- * @return The lowest level gesture recognizer container of the given element or nil if none set.
+ * @return The @c UIResponder&GestureRecognizerContainer for a given @c element at @c location.
  */
-+ (UIResponder *)grey_gestureContainer:(id)element {
++ (UIResponder *)grey_gestureContainer:(id)element atLocation:(CGPoint)location {
   UIResponder *responder;
 #if defined(__IPHONE_18_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_18_0
   static NSString *const kSwiftUIAccessiblityNodeClassName = @"SwiftUI.AccessibilityNode";
@@ -137,29 +146,18 @@
   if (![element respondsToSelector:@selector(accessibilityContainer)]) {
     return nil;
   }
-  id parentAccessibilityContainer = [element accessibilityContainer];
-  if (!parentAccessibilityContainer ||
-      ![parentAccessibilityContainer
-          respondsToSelector:@selector(_childGestureRecognizerContainers)]) {
-    return nil;
-  }
-  // Check if there are nested containers and if so, use the lowest level (based on discovery runs).
-  NSArray<id> *containers = [parentAccessibilityContainer _childGestureRecognizerContainers];
-  while (containers.count > 0) {
-    id container = containers.firstObject;
-    if (containers.count > 1) {
-      // Log a warning if there are multiple containers found, since it can potentially impact
-      // the action.
-      GREYLogVerbose(@"WARNING: Multiple gesture containers found (%@) for element: %@", containers,
-                     element);
+  id container = [element accessibilityContainer];
+  // _UIHitTestContext is a private class for an object used in UIResponder's
+  // method that can retreive the UIResponder for a given point:
+  // `_hitTestWithContext:` returning @c UIResponder&UIGestureRecognizerContainer.
+  id context = [NSClassFromString(@"_UIHitTestContext") contextWithPoint:location radius:1.0];
+  // We need to walk up the accessibility container chain until we find the one that
+  // can retrieve the responder.
+  while (!responder && container) {
+    if ([container respondsToSelector:NSSelectorFromString(@"_hitTestWithContext:")]) {
+      responder = [container _hitTestWithContext:context];
     }
-    if ([container isKindOfClass:[UIResponder class]]) {
-      responder = container;
-    }
-    containers = nil;
-    if ([container respondsToSelector:@selector(_childGestureRecognizerContainers)]) {
-      containers = [container _childGestureRecognizerContainers];
-    }
+    container = [container accessibilityContainer];
   }
 #endif
   return responder;
