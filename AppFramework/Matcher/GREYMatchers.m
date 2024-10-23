@@ -23,6 +23,7 @@
 #include <tgmath.h>
 
 #import "UISwitch+GREYApp.h"
+#import "UIView+GREYApp.h"
 #import "GREYElementFinder.h"
 #import "GREYAllOf+Private.h"
 #import "GREYAllOf.h"
@@ -646,6 +647,7 @@ static NSString *const kActivitySheetContainerClass = @"_UISceneLayerHostContain
     id<UIPickerViewDelegate> delegate = element.delegate;
     SEL attributedTitleSelector = @selector(pickerView:attributedTitleForRow:forComponent:);
     SEL nonAttributedTitleSelector = @selector(pickerView:titleForRow:forComponent:);
+    SEL viewForRowSelector = @selector(pickerView:viewForRow:forComponent:reusingView:);
     if ([delegate respondsToSelector:attributedTitleSelector]) {
       attributedRowLabel = [delegate pickerView:element
                           attributedTitleForRow:row
@@ -655,6 +657,18 @@ static NSString *const kActivitySheetContainerClass = @"_UISceneLayerHostContain
       }
     } else if ([delegate respondsToSelector:nonAttributedTitleSelector]) {
       rowLabel = [delegate pickerView:element titleForRow:row forComponent:column];
+    } else if ([delegate respondsToSelector:viewForRowSelector]) {
+      UIView *rowView = [delegate pickerView:element
+                                  viewForRow:row
+                                  forComponent:column
+                                  reusingView:nil];
+      if (![rowView isKindOfClass:[UILabel class]]) {
+        NSArray<UILabel *> *labels = [rowView grey_childrenAssignableFromClass:[UILabel class]];
+        UILabel *label = (labels.count > 0 ? labels[0] : nil);
+        rowLabel = label.text;
+      } else {
+        rowLabel = [((UILabel *)rowView) text];
+      }
     }
     return rowLabel == value || [rowLabel isEqualToString:value] ||
            [attributedRowLabel.string isEqualToString:value];
