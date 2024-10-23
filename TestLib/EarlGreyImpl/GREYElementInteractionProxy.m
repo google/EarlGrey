@@ -16,21 +16,15 @@
 
 #import "GREYElementInteractionProxy.h"
 
-#include <XCTest/XCTest.h>
 #include <stdatomic.h>
 
-#import "GREYAction.h"
 #import "GREYElementInteraction.h"
 #import "GREYHostBackgroundDistantObject+GREYApp.h"
 #import "GREYThrowDefines.h"
 #import "GREYHostBackgroundDistantObject.h"
 #import "GREYError.h"
-#import "GREYErrorConstants.h"
-#import "GREYDefines.h"
 #import "GREYElementInteractionErrorHandler.h"
 #import "GREYRemoteExecutor.h"
-#import "GREYXCTestAction.h"
-#import "GREYXCTestActions.h"
 
 @implementation GREYElementInteractionProxy {
   /** App-side interaction instance. */
@@ -54,24 +48,6 @@
   return [self performAction:action error:nil];
 }
 
-/**
- * Check if any error from perform action needs to be overwritten to success. Example: when a tap
- * action fails on iOS 18 due to incompatibility, try to tap at the offset in XCUIElement.
- *
- * @param action Grey action to be performed.
- * @param interactionError Error thrown from EarlGrey when attempting the action, this contains the
- * details to be used to perform the XCUITest action.
- */
-- (void)performXCUIActionWithGreyAction:(id<GREYAction>)action error:(GREYError *)interactionError {
-  if (iOS18_OR_ABOVE()) {
-    id<GREYXCTestAction> xctestAction = [GREYXCTestActions XCTestActionForGREYAction:action];
-    NSAssert(xctestAction != nil, @"Unsupported XCUIAction: %@", NSStringFromClass([action class]));
-    id element = interactionError.userInfo[kErrorUserInfoElementReferenceKey];
-    NSAssert(element != nil, @"Can't perform XCUIAction on nil element: %@", interactionError);
-    [xctestAction performOnElement:element];
-  }
-}
-
 - (id<GREYInteraction>)performAction:(id<GREYAction>)action
                                error:(__autoreleasing NSError **)errorOrNil {
   GREYThrowOnNilParameterWithMessage(action, @"Action can't be nil.");
@@ -79,16 +55,9 @@
   GREYExecuteSyncBlockInBackgroundQueue(^{
     [self->_remoteElementInteraction performAction:action error:&interactionError];
   });
-  // Perform action might be interrupted by unsupported action error. For that situation we need to
-  // use XCUIElement to perform the action. We need to exit the perform queue early by throwing an
-  // error to avoid timing issues such as having nil reference to XCUIElement.
 
   if (interactionError) {
-    if (interactionError.code == kGREYInteractionResponderNotSupportedErrorCode) {
-      [self performXCUIActionWithGreyAction:action error:interactionError];
-    } else {
-      GREYHandleInteractionError(interactionError, errorOrNil);
-    }
+    GREYHandleInteractionError(interactionError, errorOrNil);
   }
 
   return self;
@@ -102,9 +71,6 @@
         [self->_remoteElementInteraction performAction:action error:&interactionError];
       },
       ^{
-        if (interactionError.code == kGREYInteractionResponderNotSupportedErrorCode) {
-          [self performXCUIActionWithGreyAction:action error:interactionError];
-        }
         completionHandler(self, interactionError);
       });
 }

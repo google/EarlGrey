@@ -41,26 +41,6 @@
                   [GREYFailureScreenshotter screenshots], nil)
 
 /**
- * Creates a @c GREYError object on the app side with given @c domain, @c code and
- * @c description. The description is accessible by querying
- * error's @c userInfo with @c NSLocalizedDescriptionKey.
- *
- * @param domain      The error domain.
- * @param code        The error code.
- * @param description The error's localized description.
- * @param description The error's element.
- *
- * @return A @c GREYError object with the given input.
- */
-#define GREYErrorMakeWithElementAndHierarchy(domain, code, description, element)                \
-  I_GREYErrorMake(                                                                              \
-      (domain), (code),                                                                         \
-      @{kErrorFailureReasonKey : (description), kErrorUserInfoElementReferenceKey : (element)}, \
-      [NSString stringWithUTF8String:__FILE__], __LINE__,                                       \
-      [NSString stringWithUTF8String:__PRETTY_FUNCTION__], [NSThread callStackSymbols],         \
-      [GREYElementHierarchy hierarchyString], [GREYFailureScreenshotter screenshots], nil)
-
-/**
  * Creates a @c GREYError object with given @c domain, @c code, @c description
  * and @c nestedError.
  * The description is accessible by querying error's @c userInfo with

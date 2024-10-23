@@ -898,8 +898,6 @@ static NSString *RecoverySuggestionForMultipleElementMatchedError(NSString *matc
     [userInfo setValue:interactionError.nestedError forKey:NSUnderlyingErrorKey];
   }
   [userInfo setValue:_elementMatcher.description forKey:kErrorDetailElementMatcherKey];
-  [userInfo setValue:interactionError.userInfo[kErrorUserInfoElementReferenceKey]
-              forKey:kErrorUserInfoElementReferenceKey];
 
   NSDictionary<NSString *, UIImage *> *appScreenshots =
       [self grey_appScreenshotsFromError:interactionError];
