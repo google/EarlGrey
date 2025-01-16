@@ -77,8 +77,11 @@ static CGRect CGRectPixelAligned(CGRect rectInPixels) {
 }
 
 + (UIImage *)takeScreenshot {
-  return [self grey_takeScreenshotAfterScreenUpdates:YES withStatusBar:NO forDebugging:NO];
-  ;
+  return [self takeScreenshotAfterUpdates:YES];
+}
+
++ (UIImage *)takeScreenshotAfterUpdates:(BOOL)afterUpdates {
+  return [self grey_takeScreenshotAfterScreenUpdates:afterUpdates withStatusBar:NO forDebugging:NO];
 }
 
 + (UIImage *)screenshotIncludingStatusBar:(BOOL)includeStatusBar {

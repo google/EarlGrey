@@ -48,6 +48,16 @@ NS_ASSUME_NONNULL_BEGIN
 + (UIImage *)takeScreenshot;
 
 /**
+ * @param afterUpdates Whether to wait for any pending screen updates to go through before taking a
+ *                     screenshot.
+ * @return An image of the current app's screen frame buffer. Returned image orientation is
+ *         same as the current interface orientation.
+ * @remark Take screenshot will not include the status bar. Use screenshotIncludingStatusBar:.
+ *         instead.
+ */
++ (UIImage *)takeScreenshotAfterUpdates:(BOOL)afterUpdates;
+
+/**
  * @return A @c UIImage similar to -takeScreenshot method optionally including the status bar if
  *         @includeStatusBar is @c YES.
  *
