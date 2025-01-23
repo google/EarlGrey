@@ -52,8 +52,8 @@
  *
  * @param direction     The direction of the swipe.
  * @param duration      The time interval for which the swipe takes place.
- * @param startPercents @c startPercents.x sets the value of the x-coordinate of the start point
- *                      by interpolating between left(for 0.0) and right(for 1.0) edge similarly
+ * @param startPercents @c startPercents.x sets the value of the x coordinate of the start point
+ *                      by interpolating between left(for 0.0) and right(for 1.0) edge. Similarly,
  *                      @c startPercents.y determines the y coordinate.
  *
  * @return An instance of GREYSwipeAction, initialized with the provided direction, duration
@@ -62,4 +62,27 @@
 - (instancetype)initWithDirection:(GREYDirection)direction
                          duration:(CFTimeInterval)duration
                     startPercents:(CGPoint)startPercents;
+
+/**
+ * Performs a swipe in the given @c direction in the given @c duration. The start of the swipe is
+ * specified by @c startPercents. The end of the swipe is specified by @c endPercents.  Because
+ * swipes must begin inside the element and not on the edge of it, the values in @c startPercents
+ * must be in the range (0,1) exclusive.  All coordinates are relative to the element's visible
+ * area on-screen (accessibility frame).
+ *
+ * @param direction     The direction of the swipe.
+ * @param duration      The time interval for which the swipe takes place.
+ * @param startPercents @c startPercents.x sets the value of the x coordinate of the start point
+ *                      by interpolating between left(for 0.0) and right(for 1.0) edge. Similarly,
+ *                      @c startPercents.y determines the y coordinate.
+ * @param endPercents   @c endPercents.x sets the value of the x coordinate of the end point
+ *                      by interpolating between left(for 0.0) and right(for 1.0) edge. Similarly,
+ *                      @c endPercents.y determines the y coordinate.
+ *
+ * @return An instance of GREYSwipeAction, initialized with the provided direction, duration
+ *         and information for the start point.
+ */
+- (instancetype)initWithDuration:(CFTimeInterval)duration
+                   startPercents:(CGPoint)startPercents
+                     endPercents:(CGPoint)startPercents;
 @end
