@@ -106,11 +106,12 @@ static unsigned char *GREYCreateImagePixelDataFromCGImageRef(CGImageRef imageRef
   CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
 
   // Create the bitmap context. We want XRGB.
-  CGContextRef bitmapContextRef =
-      CGBitmapContextCreate(imagePixelBuffer, width, height,
-                            8,                       // bits per component
-                            width * kBytesPerPixel,  // bytes per row
-                            colorSpace, kCGImageAlphaNoneSkipFirst | kCGBitmapByteOrder32Big);
+  CGContextRef bitmapContextRef = CGBitmapContextCreate(
+      imagePixelBuffer, width, height,
+      8,                       // bits per component
+      width * kBytesPerPixel,  // bytes per row
+      colorSpace, (uint32_t)kCGImageAlphaNoneSkipFirst | (uint32_t)kCGBitmapByteOrder32Big);
+
   CGColorSpaceRelease(colorSpace);
   if (!bitmapContextRef) {
     free(imagePixelBuffer);
@@ -749,9 +750,9 @@ inline void GREYVisibilityDiffBufferSetVisibility(GREYVisibilityDiffBuffer buffe
   }
 
   CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-  CGContextRef bitmapContext =
-      CGBitmapContextCreate(shiftedImagePixels, width, height, 8, kColorChannelsPerPixel * width,
-                            colorSpace, kCGImageAlphaNoneSkipFirst | kCGBitmapByteOrder32Big);
+  CGContextRef bitmapContext = CGBitmapContextCreate(
+      shiftedImagePixels, width, height, 8, kColorChannelsPerPixel * width, colorSpace,
+      (uint32_t)kCGImageAlphaNoneSkipFirst | (uint32_t)kCGBitmapByteOrder32Big);
 
   CGColorSpaceRelease(colorSpace);
 
