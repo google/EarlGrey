@@ -137,6 +137,10 @@ NSArray<UIWindow *> *GREYUILibUtilsGetAllWindowsFromConnectedScenes(void) {
   return GREYUILibUtilsGetApplicationKeyWindow(UIApplication.sharedApplication);
 }
 
++ (NSSet<UIScene *> *)connectedScenes API_AVAILABLE(ios(13.0)) {
+  return UIApplication.sharedApplication.connectedScenes;
+}
+
 + (CGRect)scaledKeyboardFrame {
   UIWindow *keyboardWindow = GREYUILibUtilsGetKeyboardWindow();
   if (!keyboardWindow || !keyboardWindow.subviews.count) {

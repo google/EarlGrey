@@ -61,6 +61,14 @@ NSArray<UIWindow *> *GREYUILibUtilsGetAllWindowsFromConnectedScenes(void);  // N
 + (UIWindow *)window;
 
 /**
+ * @return The app's currently connected scenes.
+ *
+ * @note @c windowScene is exposed as a class method instead of a C function,  because class
+ * methods can be invoked by other processes including test processes via eDO unlike C functions.
+ */
++ (NSSet<UIScene *> *)connectedScenes API_AVAILABLE(ios(13.0));
+
+/**
  * @return The frame for the keyboard present on the screen.
  */
 + (CGRect)scaledKeyboardFrame;
