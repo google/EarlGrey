@@ -187,8 +187,12 @@ static CGFloat const kPinchScale = (CGFloat)0.8;
   // test.
   NSArray<NSValue *> *touchPathInDirection1 =
       GREYTouchPathForDragGestureInScreen(startPoint1, endPoint1, NO);
-  NSArray<NSValue *> *touchPathInDirection2 =
-      GREYTouchPathForDragGestureInScreen(startPoint2, endPoint2, NO);
+  // Because the @c touchAlongMultiplePaths:... method expects both paths to have the same length,
+  // and because the number of points is computed by floating point subtraction and division, which
+  // can be truncated to different integer values on rare occasions, the second array must be
+  // computed with a fixed length to avoid a very rare (but highly reproducible) crash.
+  NSArray<NSValue *> *touchPathInDirection2 = GREYTouchPathForDragGestureInScreenWithFixedLength(
+      startPoint2, endPoint2, NO, touchPathInDirection1.count);
   return @[ touchPathInDirection1, touchPathInDirection2 ];
 }
 

@@ -63,8 +63,7 @@ NSArray<NSValue *> *GREYTouchPathForGestureInView(UIView *view, CGPoint startPoi
                                                   CGFloat *outRemainingAmountOrNull);
 
 /**
- * Generates a touch path in the @c window from the given @c startPoint and the given @c
- * endPoint.
+ * Generates a touch path from the given @c startPoint and the given @c endPoint.
  *
  * @param startPoint    The starting point for touch path.
  * @param endPoint      The end point for touch path.
@@ -74,6 +73,22 @@ NSArray<NSValue *> *GREYTouchPathForGestureInView(UIView *view, CGPoint startPoi
  */
 NSArray<NSValue *> *GREYTouchPathForDragGestureInScreen(CGPoint startPoint, CGPoint endPoint,
                                                         BOOL cancelInertia);
+
+/**
+ * Generates a touch path from the given @c startPoint and the given @c endPoint with a fixed number
+ * of points.
+ *
+ * @param startPoint     The starting point for touch path.
+ * @param endPoint       The end point for touch path.
+ * @param cancelInertia  A BOOL value indicating whether inertial movement should be cancelled.
+ * @param numberOfPoints The number of touch points that the path should contain.
+ *
+ * @return NSArray of CGPoints that denote the points in the touch path.
+ */
+NSArray<NSValue *> *GREYTouchPathForDragGestureInScreenWithFixedLength(CGPoint startPoint,
+                                                                       CGPoint endPoint,
+                                                                       BOOL cancelInertia,
+                                                                       NSUInteger numberOfPoints);
 
 /**
  * Generates a touch path rotating along a curved path along a circle of radius @c radius centered

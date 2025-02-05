@@ -84,12 +84,15 @@ static CGRect GREYRectByAddingEdgeInsetsToRect(UIEdgeInsets insets, CGRect rect)
  * @param cancelInertia      A check to nullify the inertia in the touch path.
  * @param shouldFixDeviation The derived path coordinates should be rounded or not. It's only used
  *                           for scrolling actions to avoid scroll offset approximation.
+ * @param numberOfPoints     The number of total points to use, or zero to compute based on
+ *                           distance.  If duration is not NaN, this parameter is ignored.
  *
  * @return A touch path between the two points.
  */
 static NSArray<NSValue *> *GREYGenerateTouchPath(CGPoint startPoint, CGPoint endPoint,
                                                  CFTimeInterval duration, BOOL cancelInertia,
-                                                 BOOL shouldFixDeviation);
+                                                 BOOL shouldFixDeviation,
+                                                 NSUInteger numberOfPoints);
 
 #pragma mark - Public
 
@@ -108,12 +111,19 @@ NSArray<NSValue *> *GREYTouchPathForGestureInWindow(UIWindow *window,
     endPointInWindowCoords.y = startPointInWindowCoordinates.y;
   }
   return GREYGenerateTouchPath(startPointInWindowCoordinates, endPointInWindowCoords, duration, NO,
-                               NO);
+                               NO, 0);
 }
 
 NSArray<NSValue *> *GREYTouchPathForDragGestureInScreen(CGPoint startPoint, CGPoint endPoint,
                                                         BOOL cancelInertia) {
-  return GREYGenerateTouchPath(startPoint, endPoint, NAN, cancelInertia, NO);
+  return GREYGenerateTouchPath(startPoint, endPoint, NAN, cancelInertia, NO, 0);
+}
+
+NSArray<NSValue *> *GREYTouchPathForDragGestureInScreenWithFixedLength(CGPoint startPoint,
+                                                                       CGPoint endPoint,
+                                                                       BOOL cancelInertia,
+                                                                       NSUInteger numberOfPoints) {
+  return GREYGenerateTouchPath(startPoint, endPoint, NAN, cancelInertia, NO, numberOfPoints);
 }
 
 NSArray<NSValue *> *GREYTouchPathForGestureInView(UIView *view, CGPoint startPointPercents,
@@ -197,7 +207,7 @@ NSArray<NSValue *> *GREYTouchPathForGestureInView(UIView *view, CGPoint startPoi
   }
   endPoint = CGPointAddVector(startPoint,
                               CGVectorScale(delta, amountWillScroll + kGREYScrollDetectionLength));
-  return GREYGenerateTouchPath(startPoint, endPoint, NAN, YES, YES);
+  return GREYGenerateTouchPath(startPoint, endPoint, NAN, YES, YES, 0);
 }
 
 CGVector GREYDeviationBetweenTouchPathAndActualOffset(NSArray<NSValue *> *touchPath,
@@ -235,7 +245,7 @@ NSArray<NSValue *> *GREYFixTouchPathDeviation(NSArray<NSValue *> *touchPath, CGV
     return nil;
   }
 
-  return GREYGenerateTouchPath(currentTouchPoint, adjustedEndPoint, NAN, YES, YES);
+  return GREYGenerateTouchPath(currentTouchPoint, adjustedEndPoint, NAN, YES, YES, 0);
 }
 
 #pragma mark - Private
@@ -272,7 +282,8 @@ static CGRect GREYRectByAddingEdgeInsetsToRect(UIEdgeInsets insets, CGRect rect)
 
 static NSArray<NSValue *> *GREYGenerateTouchPath(CGPoint startPoint, CGPoint endPoint,
                                                  CFTimeInterval duration, BOOL cancelInertia,
-                                                 BOOL shouldFixDeviation) {
+                                                 BOOL shouldFixDeviation,
+                                                 NSUInteger numberOfPoints) {
   const CGVector deltaVector = CGVectorFromEndPoints(startPoint, endPoint, NO);
   const CGFloat pathLength = CGVectorLength(deltaVector);
 
@@ -281,7 +292,9 @@ static NSArray<NSValue *> *GREYGenerateTouchPath(CGPoint startPoint, CGPoint end
   if (isnan(duration)) {
     // After the start point, rest of the path is divided into equal segments and a touch point is
     // created for each segment.
-    NSUInteger totalPoints = (NSUInteger)(pathLength / kGREYDistanceBetweenTwoAdjacentPoints);
+    NSUInteger totalPoints = numberOfPoints > 0
+                                 ? numberOfPoints - 1
+                                 : (NSUInteger)(pathLength / kGREYDistanceBetweenTwoAdjacentPoints);
 
     if (totalPoints > 1) {
       // Compute delta for each point and create a path with it.
