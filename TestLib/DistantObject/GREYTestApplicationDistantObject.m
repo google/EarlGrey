@@ -29,6 +29,7 @@
 #import "GREYConstants.h"
 #import "GREYElementMatcherBlock.h"
 #import "GREYTestConfiguration.h"
+#import "XCUIApplication+GREYTest.h"
 #import "GREYRemoteExecutor.h"
 #import "XCTestCase+GREYTest.h"
 #import "EDOChannel.h"
@@ -269,9 +270,11 @@ __attribute__((constructor)) static void SetupTestDistantObject(void) {
     } else {
       dispatch_group_wait(_hostPortAllocationGroup, timeout);
     }
+    [self assertTestRigIsLaunched:@"Host port not assigned because the application under test has "
+                                  @"not been launched using -[XCUIApplication launch]."];
     GREYFatalAssertWithMessage(_hostPort != 0,
-                               @"Host port not assigned. Application under test may have failed "
-                               @"to launch and/or does not link to EarlGrey's AppFramework.");
+                               @"Host port not assigned. Application under test may have failed to "
+                               @"launch and/or does not link to EarlGrey's AppFramework.");
   }
   return _hostPort;
 }
@@ -300,10 +303,13 @@ __attribute__((constructor)) static void SetupTestDistantObject(void) {
     } else {
       dispatch_group_wait(_hostBackgroundPortAllocationGroup, timeout);
     }
-    GREYFatalAssertWithMessage(_hostBackgroundPort != 0,
-                               @"Host background port not assigned. Application under test may "
-                               @"have failed to launch and/or "
-                               @"does not link to EarlGrey's AppFramework.");
+    [self
+        assertTestRigIsLaunched:@"Host background port not assigned because the application under "
+                                @"test has not been launched using -[XCUIApplication launch]."];
+    GREYFatalAssertWithMessage(
+        _hostBackgroundPort != 0,
+        @"Host background port not assigned. Application under test may "
+        @"have failed to launch and/or does not link to EarlGrey's AppFramework.");
   }
   return _hostBackgroundPort;
 }
@@ -407,6 +413,11 @@ __attribute__((constructor)) static void SetupTestDistantObject(void) {
 /** @return The dispatch_time_t to wait for port allocation. */
 static dispatch_time_t AllocationWaitTime(void) {
   return dispatch_time(DISPATCH_TIME_NOW, kPortAllocationWaitTime);
+}
+
+// Use a self-explanatory method name for a more readable stack trace when the assertion fails.
+- (void)assertTestRigIsLaunched:(NSString *)message {
+  GREYFatalAssertWithMessage(XCUIApplication.greyTestRigName.length, @"%@", message);
 }
 
 @end
