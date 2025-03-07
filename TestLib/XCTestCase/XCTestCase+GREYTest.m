@@ -186,6 +186,16 @@ static void CheckUnhandledHostApplicationCrashWithHandler(BOOL (^handler)(void))
                  andReplaceWithInstanceMethod:@selector(tearDown)];
       GREYFatalAssertWithMessage(swizzleSuccess, @"Cannot swizzle %@ tearDown",
                                  NSStringFromClass(selfClass));
+
+      IMP tearDownWithCompletionHandlerIMP =
+          [self methodForSelector:@selector(grey_tearDownWithCompletionHandler:)];
+      swizzleSuccess = [swizzler swizzleClass:selfClass
+                            addInstanceMethod:@selector(grey_tearDownWithCompletionHandler:)
+                           withImplementation:tearDownWithCompletionHandlerIMP
+                 andReplaceWithInstanceMethod:@selector(tearDownWithCompletionHandler:)];
+      GREYFatalAssertWithMessage(
+          swizzleSuccess,
+          @"Cannot swizzle %@ tearDownWithCompletionHandler:", NSStringFromClass(selfClass));
       [self grey_markSwizzled];
     }
 
@@ -275,7 +285,24 @@ static void CheckUnhandledHostApplicationCrashWithHandler(BOOL (^handler)(void))
     return YES;
   });
   INVOKE_ORIGINAL_IMP(void, @selector(grey_tearDown));
-  [self grey_sendNotification:kGREYXCTestCaseInstanceDidTearDown];
+}
+
+/**
+ * A swizzled implementation for XCTestCase::tearDownWithCompletionHandler:.
+ *
+ * @remark These methods need to be added to each instance of XCTestCase because we don't expect
+ *         tests to invoke <tt> [super tearDownWithCompletionHandler:] </tt>.
+ */
+- (void)grey_tearDownWithCompletionHandler:(void (^)(NSError *error))completion {
+  __weak __typeof__(self) weakSelf = self;
+  INVOKE_ORIGINAL_IMP1(void, @selector(grey_tearDownWithCompletionHandler:), ^(NSError *error) {
+    __typeof__(self) strongSelf = weakSelf;
+    GREYFatalAssertWithMessage(strongSelf, @"The test case should not have been deallocated.");
+
+    completion(error);
+
+    [strongSelf grey_sendNotification:kGREYXCTestCaseInstanceDidTearDown];
+  });
 }
 
 /**
