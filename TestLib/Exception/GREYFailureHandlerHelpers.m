@@ -16,9 +16,63 @@
 
 #import "GREYFailureHandlerHelpers.h"
 
+#include <dlfcn.h>
+
 #import "GREYErrorConstants.h"
 #import "GREYFrameworkException.h"
 #import "GREYElementHierarchy.h"
+
+static NSString *DemangleSymbol(NSString *symbol) {
+  static char *(*swiftDemangle)(const char *mangledName, size_t mangledNameLength,
+                                char *outputBuffer, size_t *outputBufferSize, uint32_t flags);
+  // Exports a function from the Swift stdlib that isn't exposed by default, for demangling Swift
+  // symbol names.
+  //
+  // https://github.com/swiftlang/swift/blob/80050bb455b22cf2eee6fd77816cd41411b975c9/stdlib/public/runtime/Demangle.cpp#L930
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    swiftDemangle = dlsym(RTLD_DEFAULT, "swift_demangle");
+  });
+  if (!swiftDemangle) {
+    return symbol;
+  }
+
+  char *demangledSymbolCString = swiftDemangle(symbol.UTF8String, symbol.length, nil, nil, 0);
+  if (!demangledSymbolCString) {
+    return symbol;
+  }
+
+  NSString *demangledSymbol = [NSString stringWithUTF8String:demangledSymbolCString];
+  free(demangledSymbolCString);
+  return demangledSymbol;
+}
+
+// Trims the stack symbol to make it more readable.
+static NSString *TrimStackSymbol(NSString *symbol) {
+  // The stack symbol is of the form:
+  // <index> <module> <address> <function> + <offset>
+  //
+  // For example:
+  // 4   EarlGrey   0x0000000100000000 -[EarlGreyImpl handleException:details:] + 123
+  //
+  // Note: The implementation relies on how the stack trace is formatted. But since this is strictly
+  // used to improve the debugging experience by making the stack trace more readable, it is fine if
+  // any of the steps fails, as long as it fails gracefully (i.e. returns the original symbol
+  // without crashing).
+  NSString *functionName =
+      [symbol stringByReplacingOccurrencesOfString:@".+0x[0-9a-fA-F]+\\s(.+)\\s\\+\\s\\d+$"
+                                        withString:@"$1"
+                                           options:NSRegularExpressionSearch
+                                             range:NSMakeRange(0, symbol.length)];
+  NSString *demangledFunctionName = DemangleSymbol(functionName);
+  // Trim the top module name.
+  NSString *trimmedFunctionName = [demangledFunctionName
+      stringByReplacingOccurrencesOfString:@"\\w+\\.(\\w+)"
+                                withString:@"$1"
+                                   options:NSRegularExpressionSearch
+                                     range:NSMakeRange(0, demangledFunctionName.length)];
+  return [symbol stringByReplacingOccurrencesOfString:functionName withString:trimmedFunctionName];
+}
 
 NSString *GREYAppUIHierarchyFromException(GREYFrameworkException *exception, NSString *details) {
   NSString *appUIHierarchy = [exception.userInfo valueForKey:kErrorDetailAppUIHierarchyKey];
@@ -47,7 +101,7 @@ NSString *GREYTestStackTrace(void) {
     if ([stackSymbol containsString:@"__invoking___"]) {
       break;
     } else if (![stackSymbol containsString:@"-[GREY"] && ![stackSymbol containsString:@" GREY"]) {
-      [trimmedCallStack addObject:stackSymbol];
+      [trimmedCallStack addObject:TrimStackSymbol(stackSymbol)];
     }
   }
   // The trimmed stack trace should at least contain the test name and exception-raising method.
