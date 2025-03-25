@@ -43,6 +43,7 @@
   [_squareElement setAccessibilityTraits:elementTraits];
   [_squareElement setAccessibilityLabel:@"SquareElementLabel"];
   [_squareElement setAccessibilityIdentifier:@"SquareElementIdentifier"];
+  [_squareElement setAccessibilityFrameInContainerSpace:_squareFrameRect];
 
   _accessibilityElements = @[
     _squareElement,
@@ -54,14 +55,6 @@
       UIAccessibilityConvertFrameToScreenCoordinates(self.frame, self);
   return CGPointMake(CGRectGetMidX(frameInScreenCoordinates),
                      CGRectGetMidY(frameInScreenCoordinates));
-}
-
-- (void)layoutSubviews {
-  [super layoutSubviews];
-
-  CGRect squareElementOnScreenRect =
-      UIAccessibilityConvertFrameToScreenCoordinates(_squareFrameRect, self);
-  [_squareElement setAccessibilityFrame:squareElementOnScreenRect];
 }
 
 - (void)drawRect:(CGRect)rect {

@@ -185,25 +185,23 @@
 - (void)testElementsInHierarchyDump {
   NSString *hierarchyDump = [GREYElementHierarchy hierarchyString];
 
-  NSArray<NSString *> *stringTargetHierarchy;
+  NSArray<NSString *> *stringTargetHierarchy = @[
+    @"========== Window 1 ==========",
+    @"<UIWindow:",
+    @"  |--<UILayoutContainerView:",
+    // UINavigationTransitionView's string representation changed to @c _UINavigationTransitionView
+    // in Xcode 16 beta with iOS 18 simulator.
+    @"  |  |--<_*UINavigationTransitionView:",
+    @"  |  |  |--<UIViewControllerWrapperView:",
+    @"  |  |  |  |--<UIView:",
+    @"  |  |  |  |  |--<UIView:",
+  ];
 
-  // UINavigationTransitionView's string reporesentaion chagned to `_UINavigationTransitionView`
-  // in iOS 18.
-  if (iOS18_OR_ABOVE()) {
-    stringTargetHierarchy = @[
-      @"========== Window 1 ==========", @"<UIWindow:", @"  |--<UILayoutContainerView:",
-      @"  |  |--<_UINavigationTransitionView:", @"  |  |  |--<UIViewControllerWrapperView:",
-      @"  |  |  |  |--<UIView", @"  |  |  |  |  |--<UIView:"
-    ];
-  } else {
-    stringTargetHierarchy = @[
-      @"========== Window 1 ==========", @"<UIWindow:", @"  |--<UILayoutContainerView:",
-      @"  |  |--<UINavigationTransitionView:", @"  |  |  |--<UIViewControllerWrapperView:",
-      @"  |  |  |  |--<UIView", @"  |  |  |  |  |--<UIView:"
-    ];
-  }
   for (NSString *targetString in stringTargetHierarchy) {
-    XCTAssertNotEqual([hierarchyDump rangeOfString:targetString].location, (NSUInteger)NSNotFound);
+    NSRange range = [hierarchyDump rangeOfString:targetString options:NSRegularExpressionSearch];
+    XCTAssertNotEqual(range.location, (NSUInteger)NSNotFound,
+                      @"Cannot find target string \"%@\" in hierarchy dump\n%@", targetString,
+                      hierarchyDump);
   }
 }
 
