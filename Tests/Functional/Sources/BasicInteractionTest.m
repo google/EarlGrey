@@ -81,7 +81,7 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
  * Performs a long press on an accessibility element in the Basic Views.
  */
 - (void)testLongPressOnAccessibilityElement {
-  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
+  [self openTestViewNamed:@"Basic Views"];
   [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYLongPress()];
 
   [[EarlGrey selectElementWithMatcher:GREYButtonTitle(@"EarlGrey TestApp")]
@@ -96,7 +96,7 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
   GREYConfiguration *config = [GREYConfiguration sharedConfiguration];
   NSNumber *originalTimeout = [config valueForConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
   [config setValue:@(5) forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
-  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
+  [self openTestViewNamed:@"Basic Views"];
   // This matcher should at least 10(s) to match.
   id<GREYMatcher> matcher =
       [[GREYHostApplicationDistantObject sharedInstance] matcherThatTakesTime:10];
@@ -239,7 +239,7 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
  * Perform typing in a text field and assert the typed value.
  */
 - (void)testTypingRandomValueInTextFields {
-  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
+  [self openTestViewNamed:@"Basic Views"];
   [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
       performAction:GREYTypeText(@"hi")];
@@ -253,7 +253,7 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
  * typed value.
  */
 - (void)testTypingLongStringInTextField {
-  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
+  [self openTestViewNamed:@"Basic Views"];
   [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
       performAction:GREYTypeText(@"Sam01le SWiFt TeSt")];
@@ -267,7 +267,7 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
  * Perform replace-text in a text field and assert the typed value.
  */
 - (void)testReplaceTextInTextField {
-  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
+  [self openTestViewNamed:@"Basic Views"];
   [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
       performAction:GREYReplaceText(@"donec.metus+spam@google.com")];
@@ -285,7 +285,7 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
  * Check notifications are fired on the main thread for the replace text action in a UITextField.
  */
 - (void)testReplaceTextFiredNotifications {
-  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
+  [self openTestViewNamed:@"Basic Views"];
   [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
   [[GREYHostApplicationDistantObject sharedInstance] setUpObserverForReplaceText];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
@@ -299,7 +299,7 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
  * Check for basic visibility checking in the Basic Views.
  */
 - (void)testAssertionsInBasicViews {
-  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
+  [self openTestViewNamed:@"Basic Views"];
   [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")]
       assertWithMatcher:GREYSufficientlyVisible()];
   [[EarlGrey selectElementWithMatcher:GREYButtonTitle(@"EarlGrey TestApp")]
@@ -311,7 +311,7 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
  * element to be visible.
  */
 - (void)testEarlGreyInvocationInsideConditionUsingWaitWithTimeout {
-  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
+  [self openTestViewNamed:@"Basic Views"];
   [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
   __block id<GREYAction> action =
       [[GREYHostApplicationDistantObject sharedInstance] actionForGettingTextFromMatchedElement];
@@ -338,7 +338,7 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
  * the element to be visible.
  */
 - (void)testEarlGreyInvocationInsideConditionUsingWaitWithLargeTimeout {
-  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
+  [self openTestViewNamed:@"Basic Views"];
   GREYCondition *waitCondition = [GREYCondition
       conditionWithName:@"conditionWithAction"
                   block:^BOOL {
@@ -358,7 +358,7 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
  * Ensure basic interaction with a stepper.
  */
 - (void)testBasicInteractionWithStepper {
-  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
+  [self openTestViewNamed:@"Basic Views"];
   [[EarlGrey selectElementWithMatcher:GREYKindOfClass([UIStepper class])]
       performAction:GREYSetStepperValue(87)];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Value Label")]
@@ -371,7 +371,7 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
  * Ensure basic interaction with a switch.
  */
 - (void)testInteractionWithSwitch {
-  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
+  [self openTestViewNamed:@"Basic Views"];
   [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
 
   [[[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Switch")]
@@ -413,7 +413,7 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
  * Ensure basic interaction with a hidden label.
  */
 - (void)testInteractionWithHiddenLabel {
-  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
+  [self openTestViewNamed:@"Basic Views"];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Hidden Label")]
       assertWithMatcher:GREYText(@"Hidden Label")];
 }
@@ -422,7 +422,7 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
  * Ensure basic interaction with a view who's parent has alpha set to zero.
  */
 - (void)testInteractionWithLabelWithParentWithAlphaZero {
-  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
+  [self openTestViewNamed:@"Basic Views"];
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"Long Press")]
       assertWithMatcher:GREYNot(GREYSufficientlyVisible())];
 }
@@ -446,7 +446,7 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
  * Ensure basic interaction using a remote action.
  */
 - (void)testEarlGreyRemoteAction {
-  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
+  [self openTestViewNamed:@"Basic Views"];
   [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
   id<GREYAction> action =
       [[GREYHostApplicationDistantObject sharedInstance] actionForTapOnAccessibleElement];
@@ -466,7 +466,7 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
  * Disabled UIControl should still be tapped if requested.
  */
 - (void)testTappingOnADisabledButton {
-  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
+  [self openTestViewNamed:@"Basic Views"];
   NSError *error;
   [[EarlGrey selectElementWithMatcher:GREYButtonTitle(@"Disabled")] performAction:GREYTap()
                                                                             error:&error];
@@ -477,7 +477,7 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
  * Checks the working of a condition with a large timeout.
  */
 - (void)testEarlGreyInvocationInsideGREYConditionUsingWaitWithLargeTimeout {
-  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
+  [self openTestViewNamed:@"Basic Views"];
   GREYCondition *condition = [GREYCondition
       conditionWithName:@"conditionWithAction"
                   block:^BOOL {
@@ -496,7 +496,7 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
  * Checks the working of a condition with a normal timeout.
  */
 - (void)testEarlGreyInvocationInsideGREYConditionUsingWaitWithTimeout {
-  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
+  [self openTestViewNamed:@"Basic Views"];
   [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
 
   id<GREYAction> action = [[GREYHostApplicationDistantObject sharedInstance] actionToGetLabelText];
@@ -520,7 +520,7 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
  * Check tapping on a new custom window that covers the whole screen.
  */
 - (void)testTapOnWindow {
-  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
+  [self openTestViewNamed:@"Basic Views"];
   [[EarlGrey selectElementWithMatcher:GREYKeyWindow()] performAction:GREYTap()];
   UIWindow *window = [[GREYHostApplicationDistantObject sharedInstance] setupGestureRecognizer];
   XCTAssertNotNil(window);
@@ -537,7 +537,7 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
  * Check setting of the root view controller multiple times in the main window.
  */
 - (void)testRootViewControllerSetMultipleTimesOnMainWindow {
-  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
+  [self openTestViewNamed:@"Basic Views"];
   UIViewController *originalVC =
       [[GREYHostApplicationDistantObject sharedInstance] originalVCAfterSettingNewVCAsRoot];
   [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] assertWithMatcher:GREYNil()];
@@ -552,7 +552,7 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
  * Check setting of the root view controller in different windows.
  */
 - (void)testRootViewControllerSetOnMultipleWindows {
-  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
+  [self openTestViewNamed:@"Basic Views"];
   UIWindow *window = nil;
   UIViewController *originalVC = [[GREYHostApplicationDistantObject sharedInstance]
       originalVCAfterSettingRootVCInAnotherWindow:window];
@@ -567,7 +567,7 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
  * Ensures basic interactions with views.
  */
 - (void)testBasicInteractionWithViews {
-  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
+  [self openTestViewNamed:@"Basic Views"];
   [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
 
   GREYElementInteraction *typeHere =
@@ -606,7 +606,7 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
  * Checks a custom action.
  */
 - (void)testEarlGreyInvocationInsideCustomAction {
-  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
+  [self openTestViewNamed:@"Basic Views"];
   id<GREYAction> action =
       [[GREYHostApplicationDistantObject sharedInstance] actionForCheckingIfElementHidden];
   NSError *error;
@@ -624,7 +624,7 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
  * Checks a custom assertion.
  */
 - (void)testEarlGreyInvocationInsideCustomAssertion {
-  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
+  [self openTestViewNamed:@"Basic Views"];
   id<GREYAssertion> assertion =
       [[GREYHostApplicationDistantObject sharedInstance] assertionForCheckingIfElementPresent];
   NSError *error;
@@ -642,7 +642,7 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
  * Verifies a long press at a point.
  */
 - (void)testLongPressAtPointOnAccessibilityElement {
-  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
+  [self openTestViewNamed:@"Basic Views"];
   [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
 
   [[[EarlGrey selectElementWithMatcher:GREYText(@"Long Press")]
@@ -654,7 +654,7 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
  * Checks long press on a text field.
  */
 - (void)testLongPressOnTextField {
-  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
+  [self openTestViewNamed:@"Basic Views"];
   [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
@@ -667,7 +667,7 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
  * Check long pressing followed by selecting a menu option.
  */
 - (void)testLongPressFollowedBySelectingMenuOption {
-  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
+  [self openTestViewNamed:@"Basic Views"];
   [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
@@ -683,8 +683,12 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
       performAction:GREYLongPressAtPointWithDuration(CGPointMake(1, 1),
                                                      kExtendedLongPressDuration)];
 
+  // The system context menu does not appear to be synchronized well, so we explicitly wait for it
+  // to appear to reduce flakiness.
+  [self waitForVisibilityForText:@"Select"];
   [[EarlGrey selectElementWithMatcher:GREYText(@"Select")] performAction:GREYTap()];
 
+  [self waitForVisibilityForText:@"Cut"];
   [[EarlGrey selectElementWithMatcher:GREYText(@"Cut")] performAction:GREYTap()];
 
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
@@ -705,6 +709,7 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
       performAction:GREYLongPressAtPointWithDuration(CGPointMake(1, 1),
                                                      kExtendedLongPressDuration)];
 
+  [self waitForVisibilityForText:@"Paste"];
   [[EarlGrey selectElementWithMatcher:GREYText(@"Paste")] performAction:GREYTap()];
 
   // Smart Inserts in Xcode 9 cause a space to appear by default after a paste. With iOS 13,
@@ -723,7 +728,7 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
  * Check interaction with a view that has its parent view hidden and unhidden.
  */
 - (void)testInteractionWithLabelWithParentHiddenAndUnhidden {
-  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
+  [self openTestViewNamed:@"Basic Views"];
   id<GREYAction> hideAction =
       [[GREYHostApplicationDistantObject sharedInstance] actionToHideOrUnhideBlock:YES];
   id<GREYAction> unhideAction =
@@ -743,7 +748,7 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
  * Check interaction with a view that has its parent view opaque and translucent.
  */
 - (void)testInteractionWithLabelWithParentTranslucentAndOpaque {
-  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
+  [self openTestViewNamed:@"Basic Views"];
   id<GREYAction> makeOpaqueAction =
       [[GREYHostApplicationDistantObject sharedInstance] actionToMakeOpaque:YES];
   id<GREYAction> makeTransparentAction =
@@ -767,7 +772,7 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
  *         cause other tests to fail since the keyWindow is modified.
  */
 - (void)testInteractionWithLabelWithWindowTranslucentAndOpaque {
-  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
+  [self openTestViewNamed:@"Basic Views"];
   id<GREYAction> makeOpaqueAction =
       [[GREYHostApplicationDistantObject sharedInstance] actionToMakeWindowOpaque:YES];
   id<GREYAction> makeTransparentAction =
@@ -788,7 +793,7 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
  * Checks the state of a UIButton.
  */
 - (void)testButtonSelectedState {
-  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
+  [self openTestViewNamed:@"Basic Views"];
   [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
 
   id<GREYMatcher> buttonMatcher = GREYButtonTitle(@"Send");
@@ -920,7 +925,7 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
 - (void)testSettingAndResettingRootWindow {
   UIWindow *mainWindow = [GREY_REMOTE_CLASS_IN_APP(GREYUILibUtils) window];
   mainWindow.accessibilityIdentifier = @"Main Window";
-  [[EarlGrey selectElementWithMatcher:GREYText(@"Basic Views")] performAction:GREYTap()];
+  [self openTestViewNamed:@"Basic Views"];
   [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")] performAction:GREYTap()];
 
