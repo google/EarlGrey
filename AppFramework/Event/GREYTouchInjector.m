@@ -439,15 +439,19 @@ static inline uint64_t GetMachOTimeFromSeconds(CFTimeInterval seconds) {
  */
 static inline void SetTouchFlagPropertyInUITouch(UITouch *touch) {
   typedef UITouchFlags (*UITouchFlagsGetVariableFunction)(id object, Ivar ivar);
+  typedef void (*UITouchSetVariableFunction)(id object, Ivar ivar, UITouchFlags flags);
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wcast-function-type-mismatch"
   UITouchFlagsGetVariableFunction getTouchFlagsFunction =
       (UITouchFlagsGetVariableFunction)object_getIvar;
+  UITouchSetVariableFunction setTouchFlagsFunction =
+      (UITouchSetVariableFunction)(void *)object_setIvar;
+#pragma clang diagnostic pop
   Ivar touchflags = class_getInstanceVariable([UITouch class], "_touchFlags");
 
   UITouchFlags flags = getTouchFlagsFunction(touch, touchflags);
   flags._firstTouchForView = 1;
 
-  typedef void (*UITouchSetVariableFunction)(id object, Ivar ivar, UITouchFlags flags);
-  UITouchSetVariableFunction setTouchFlagsFunction = (UITouchSetVariableFunction)object_setIvar;
   setTouchFlagsFunction(touch, touchflags, flags);
 }
 
