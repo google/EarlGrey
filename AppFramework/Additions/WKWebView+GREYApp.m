@@ -138,15 +138,25 @@
  * @param delegate The original delegate the GREYWKWebViewNavigationDelegate will proxy to. It can
  *                 be @c nil.
  *
- * @remark Since @c navigationDelegate is a weak property, the current instance will hold a strong
- *         reference to the proxy delegate via objc runtime. Otherwise, @c navigationDelegate will
- *         be auto-released at the end of the method.
+ * @remark The proxy delegate will be retained by the original delegate until the original
+ *         delegate is deallocated. Otherwise, @c navigationDelegate will be auto-released at the
+ * end of the method.
  *         https://developer.apple.com/documentation/webkit/wkwebview/1414971-navigationdelegate?language=objc
  */
 - (void)setSurrogateDelegateWithOriginalDelegate:(id<WKNavigationDelegate>)delegate {
+  // Cleanup the old delegate, if any.
+  id<WKNavigationDelegate> oldDelegate = [self surrogateDelegate].originalDelegate;
+  if (oldDelegate) {
+    objc_setAssociatedObject(oldDelegate, @selector(greyswizzled_setNavigationDelegate:), nil,
+                             OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+  }
+  if (!delegate) {
+    INVOKE_ORIGINAL_IMP1(void, @selector(greyswizzled_setNavigationDelegate:), nil);
+    return;
+  }
   GREYWKWebViewNavigationDelegate *proxyDelegate =
       [[GREYWKWebViewNavigationDelegate alloc] initWithOriginalDelegate:delegate isWeak:YES];
-  objc_setAssociatedObject(self, @selector(greyswizzled_setNavigationDelegate:), proxyDelegate,
+  objc_setAssociatedObject(delegate, @selector(greyswizzled_setNavigationDelegate:), proxyDelegate,
                            OBJC_ASSOCIATION_RETAIN_NONATOMIC);
   INVOKE_ORIGINAL_IMP1(void, @selector(greyswizzled_setNavigationDelegate:), proxyDelegate);
 }
@@ -155,8 +165,13 @@
  * @return The proxy delegate.
  */
 - (GREYWKWebViewNavigationDelegate *)surrogateDelegate {
+  id navigationDelegate = self.navigationDelegate;
+  if (!navigationDelegate) {
+    return nil;
+  }
+
   GREYWKWebViewNavigationDelegate *delegate =
-      objc_getAssociatedObject(self, @selector(greyswizzled_setNavigationDelegate:));
+      objc_getAssociatedObject(navigationDelegate, @selector(greyswizzled_setNavigationDelegate:));
   return delegate;
 }
 
