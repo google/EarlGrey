@@ -330,7 +330,7 @@ static NSTimeInterval AdjustedDeliveryTimeDelta(GREYTouchInfo *touchInfo) {
             ongoingTouches:(NSMutableArray<UITouch *> *)ongoingTouches
                  exception:(NSException **)exception {
   GREYFatalAssertMainThread();
-  id injectionException;
+
   UITouchesEvent *event = [UIApplication.sharedApplication _touchesEvent];
   [self grey_updateUITouchObjectsFromTouchInfo:touchInfo
                                 ongoingTouches:ongoingTouches
@@ -385,12 +385,13 @@ static NSTimeInterval AdjustedDeliveryTimeDelta(GREYTouchInfo *touchInfo) {
     @autoreleasepool {
       [UIApplication.sharedApplication sendEvent:event];
     }
-  } @catch (id exception) {
-    injectionException = exception;
+  } @catch (id injectionException) {
+    *exception = injectionException;
+    return false;
   } @finally {
     [event _setHIDEvent:NULL];
   }
-  return !injectionException;
+  return true;
 }
 
 /**
