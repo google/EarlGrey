@@ -35,7 +35,6 @@ NSString *const kActionSheetCancelButtonText = @"Cancel";
 - (void)viewDidLoad {
   [super viewDidLoad];
 
-  self.actionLabel.text = kActionLabelText;
   self.simpleActionSheetButton.accessibilityLabel = @"simpleActionSheetButton";
   self.multipleButtonActionSheetButton.accessibilityLabel = @"multipleActionSheetButton";
 
@@ -54,9 +53,7 @@ NSString *const kActionSheetCancelButtonText = @"Cancel";
                                    preferredStyle:UIAlertControllerStyleActionSheet];
   UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:kActionSheetCancelButtonText
                                                          style:UIAlertActionStyleCancel
-                                                       handler:^(UIAlertAction *_Nonnull action) {
-                                                         self.actionLabel.text = kActionLabelText;
-                                                       }];
+                                                       handler:nil];
   UIAlertAction *fooAction = [UIAlertAction actionWithTitle:kActionSheetSimpleButtonText
                                                       style:UIAlertActionStyleDefault
                                                     handler:^(UIAlertAction *_Nonnull action) {
@@ -72,6 +69,7 @@ NSString *const kActionSheetCancelButtonText = @"Cancel";
   alertController.popoverPresentationController.sourceRect = rectInCenterOfMainView;
   alertController.popoverPresentationController.sourceView = self.view;
 
+  self.actionLabel.text = kActionLabelText;
   [self presentViewController:alertController animated:YES completion:nil];
 }
 
@@ -82,9 +80,7 @@ NSString *const kActionSheetCancelButtonText = @"Cancel";
                                    preferredStyle:UIAlertControllerStyleActionSheet];
   UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:kActionSheetCancelButtonText
                                                          style:UIAlertActionStyleCancel
-                                                       handler:^(UIAlertAction *_Nonnull action) {
-                                                         self.actionLabel.text = kActionLabelText;
-                                                       }];
+                                                       handler:nil];
   UIAlertAction *fooAction = [UIAlertAction actionWithTitle:kActionSheetSimpleButtonText
                                                       style:UIAlertActionStyleDefault
                                                     handler:^(UIAlertAction *_Nonnull action) {
@@ -108,6 +104,7 @@ NSString *const kActionSheetCancelButtonText = @"Cancel";
   alertController.popoverPresentationController.sourceRect = rectInCenterOfMainView;
   alertController.popoverPresentationController.sourceView = self.view;
 
+  self.actionLabel.text = kActionLabelText;
   [self presentViewController:alertController animated:YES completion:nil];
 }
 

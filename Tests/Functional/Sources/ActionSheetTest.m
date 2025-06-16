@@ -40,8 +40,16 @@
       performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:GREYText(@"Action Sheet")]
       assertWithMatcher:GREYSufficientlyVisible()];
-  // TODO: Add custom tap support for when adding iPad support. // NOLINT
-  [[EarlGrey selectElementWithMatcher:GREYText(@"Cancel")] performAction:GREYTap()];
+
+  // No cancel button on iPad and newer iOS; use the identifier of the popover window instead.
+  if (iOS26_OR_ABOVE() || UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
+    [[EarlGrey selectElementWithMatcher:GREYAccessibilityID(@"PopoverDismissRegion")]
+        performAction:GREYTapAtPoint(CGPointMake(0, 0))];
+  } else {
+    [[EarlGrey selectElementWithMatcher:GREYText(@"Cancel")] performAction:GREYTap()];
+  }
+
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Action Sheet")] assertWithMatcher:GREYNil()];
   [[EarlGrey selectElementWithMatcher:GREYText(@"Actions Verified Here")]
       assertWithMatcher:GREYSufficientlyVisible()];
 }
@@ -59,8 +67,14 @@
       performAction:GREYTap()];
   [[EarlGrey selectElementWithMatcher:GREYText(@"Action Sheet")]
       assertWithMatcher:GREYSufficientlyVisible()];
-  // TODO: Add custom tap support for when adding iPad support. // NOLINT
-  [[EarlGrey selectElementWithMatcher:GREYText(@"Cancel")] performAction:GREYTap()];
+  // No cancel button on iPad and newer iOS; use the identifier of the popover window instead.
+  if (iOS26_OR_ABOVE() || UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
+    [[EarlGrey selectElementWithMatcher:GREYAccessibilityID(@"PopoverDismissRegion")]
+        performAction:GREYTapAtPoint(CGPointMake(0, 0))];
+  } else {
+    [[EarlGrey selectElementWithMatcher:GREYText(@"Cancel")] performAction:GREYTap()];
+  }
+  [[EarlGrey selectElementWithMatcher:GREYText(@"Action Sheet")] assertWithMatcher:GREYNil()];
   [[EarlGrey selectElementWithMatcher:GREYText(@"Actions Verified Here")]
       assertWithMatcher:GREYSufficientlyVisible()];
 
