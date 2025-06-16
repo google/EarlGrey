@@ -49,13 +49,13 @@
  * EarlGrey's interaction timeout is hit.
  */
 - (void)testURLPrintingInErrorLogsWhenNetworkRequestFails {
+  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"NSURLSessionTest")]
+      performAction:GREYTap()];
   // Setting the timeout to 0.5, a lower one might trigger an issue with Animation tracking for
   // the button press or so. The request goes on till 1.0 as set by the view controller, so this
   // should always fail.
   [[GREYConfiguration sharedConfiguration] setValue:@(0.5)
                                        forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
-  [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"NSURLSessionTest")]
-      performAction:GREYTap()];
   NSError *error;
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"RequestCompletedLabel")]
       assertWithMatcher:GREYSufficientlyVisible()
