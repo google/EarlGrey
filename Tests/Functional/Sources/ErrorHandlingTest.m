@@ -254,11 +254,11 @@
 
 - (void)testIdlingResourceContainsOnlyOneHierarchyInstance {
   [self openTestViewNamed:@"Animations"];
+  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationControl")]
+      performAction:GREYTap()];
   double originalTimeout = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
   [[GREYConfiguration sharedConfiguration] setValue:@(1)
                                        forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
-  [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationControl")]
-      performAction:GREYTap()];
   NSError *error;
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"AnimationStatus")]
       assertWithMatcher:GREYText(@"Paused")
