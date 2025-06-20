@@ -33,8 +33,7 @@
 
 - (void)tearDown {
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait error:nil];
-  [[EarlGrey selectElementWithMatcher:GREYButtonTitle(@"EarlGrey TestApp")]
-      performAction:GREYTap()];
+  [self tapBackButton];
   [super tearDown];
 }
 

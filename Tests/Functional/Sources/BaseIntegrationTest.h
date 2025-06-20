@@ -33,6 +33,9 @@
  */
 - (void)openTestViewNamed:(NSString *)name;
 
+/** Taps the back button to return to the app's main tableview. */
+- (void)tapBackButton;
+
 /** A default crash handler that relaunches the app-under-test if it crashes. */
 - (GREYHostApplicationCrashHandler)defaultCrashHandler;
 @end

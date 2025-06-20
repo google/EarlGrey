@@ -54,6 +54,14 @@
       onElementWithMatcher:GREYKindOfClass([UITableView class])] performAction:GREYTap()];
 }
 
+- (void)tapBackButton {
+  [[EarlGrey selectElementWithMatcher:GREYAllOfMatchers(@[
+               GREYAccessibilityLabel(@"EarlGrey TestApp"),
+               GREYAccessibilityTrait(UIAccessibilityTraitButton),
+               GREYNot(GREYAccessibilityTrait(UIAccessibilityTraitNotEnabled)),
+             ])] performAction:GREYTap()];
+}
+
 - (void)tearDown {
   [[GREYHostApplicationDistantObject sharedInstance] resetNavigationStack];
   [[GREYConfiguration sharedConfiguration] reset];

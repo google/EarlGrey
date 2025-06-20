@@ -31,8 +31,7 @@
 }
 
 - (void)tearDown {
-  [[EarlGrey selectElementWithMatcher:GREYButtonTitle(@"EarlGrey TestApp")]
-      performAction:GREYTap()];
+  [self tapBackButton];
   [super tearDown];
 }
 
