@@ -84,8 +84,7 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
   [self openTestViewNamed:@"Basic Views"];
   [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")] performAction:GREYLongPress()];
 
-  [[EarlGrey selectElementWithMatcher:GREYButtonTitle(@"EarlGrey TestApp")]
-      performAction:GREYTap()];
+  [self tapBackButton];
 }
 
 /**
@@ -93,10 +92,13 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
  * should be the time until the application is becomes idle.
  */
 - (void)testMatcherThatTakesALongTime {
+  [self openTestViewNamed:@"Basic Views"];
+  // Explicitly wait for the app to idle as there may be system animation still running.
+  GREYWaitForAppToIdleWithError(nil);
+
   GREYConfiguration *config = [GREYConfiguration sharedConfiguration];
   NSNumber *originalTimeout = [config valueForConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
   [config setValue:@(5) forConfigKey:kGREYConfigKeyInteractionTimeoutDuration];
-  [self openTestViewNamed:@"Basic Views"];
   // This matcher should at least 10(s) to match.
   id<GREYMatcher> matcher =
       [[GREYHostApplicationDistantObject sharedInstance] matcherThatTakesTime:10];
@@ -150,8 +152,7 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
                                                      kGREYPinchAngleDefault)];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"ZoomingScrollView")]
       performAction:GREYTap()];
-  [[EarlGrey selectElementWithMatcher:GREYButtonTitle(@"EarlGrey TestApp")]
-      performAction:GREYTap()];
+  [self tapBackButton];
 }
 
 /**
@@ -302,8 +303,7 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
   [self openTestViewNamed:@"Basic Views"];
   [[EarlGrey selectElementWithMatcher:GREYText(@"Tab 2")]
       assertWithMatcher:GREYSufficientlyVisible()];
-  [[EarlGrey selectElementWithMatcher:GREYButtonTitle(@"EarlGrey TestApp")]
-      performAction:GREYTap()];
+  [self tapBackButton];
 }
 
 /**
