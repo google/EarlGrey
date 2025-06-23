@@ -28,6 +28,12 @@ typedef void (^RestorationHandlerBlock)(NSArray<id<UIUserActivityRestoring>> *re
 typedef void (^RestorationHandlerBlock)(NSArray *_Nullable);
 #endif
 
+@interface UINavigationController ()
+
+- (UIGestureRecognizer *)interactiveContentPopGestureRecognizer API_AVAILABLE(ios(26.0));
+
+@end
+
 // This class was created to override UINavigationController's default orientation mask
 // to allow TestApp interface to rotate to all orientations including upside down.
 @interface AllOrientationsNavigationController : UINavigationController
@@ -77,6 +83,9 @@ typedef void (^RestorationHandlerBlock)(NSArray *_Nullable);
                                                               bundle:nil];
   UINavigationController *nav =
       [[AllOrientationsNavigationController alloc] initWithRootViewController:vc];
+  if (@available(iOS 26, *)) {
+    nav.interactiveContentPopGestureRecognizer.enabled = NO;
+  }
   [UIView transitionWithView:self.window
                     duration:0.2
                      options:UIViewAnimationOptionTransitionFlipFromLeft
