@@ -75,8 +75,10 @@
  */
 - (void)testSystemAlertTextCheckingWithoutAnyAlertPresent {
   XCTAssertTrue([EarlGrey WaitForAlertVisibility:NO withTimeout:3]);
+  NSString *string = [EarlGrey SystemAlertTextWithError:nil];
+  XCTAssertNil(string);
   NSError *error;
-  NSString *string = [EarlGrey SystemAlertTextWithError:&error];
+  string = [EarlGrey SystemAlertTextWithError:&error];
   XCTAssertNil(string);
   XCTAssertNotNil(error);
   XCTAssertEqualObjects(error.domain, kGREYSystemAlertDismissalErrorDomain);
@@ -167,11 +169,8 @@
  * alert is to be accepted.
  */
 - (void)testAcceptFailureWhenAlertIsNotPresent {
-  NSError *error = nil;
   XCTAssertTrue([EarlGrey WaitForAlertVisibility:NO withTimeout:kSystemAlertVisibilityTimeout]);
-  XCTAssertFalse([EarlGrey AcceptSystemDialogWithError:&error]);
-  XCTAssertEqualObjects(error.domain, kGREYSystemAlertDismissalErrorDomain);
-  XCTAssertEqual(error.code, GREYSystemAlertNotPresent);
+  XCTAssertFalse([EarlGrey AcceptSystemDialogWithError:nil]);
 }
 
 /**
@@ -179,11 +178,8 @@
  * alert is to be denied.
  */
 - (void)testDeniedFailureWhenAlertIsNotPresent {
-  NSError *error = nil;
   XCTAssertTrue([EarlGrey WaitForAlertVisibility:NO withTimeout:kSystemAlertVisibilityTimeout]);
-  XCTAssertFalse([EarlGrey DenySystemDialogWithError:&error]);
-  XCTAssertEqualObjects(error.domain, kGREYSystemAlertDismissalErrorDomain);
-  XCTAssertEqual(error.code, GREYSystemAlertNotPresent);
+  XCTAssertFalse([EarlGrey DenySystemDialogWithError:nil]);
 }
 
 /**
@@ -193,7 +189,7 @@
   NSError *error = nil;
   XCTAssertFalse([EarlGrey AcceptSystemDialogWithError:&error]);
   XCTAssertEqualObjects(error.domain, kGREYSystemAlertDismissalErrorDomain);
-  XCTAssertEqual(error.code, GREYSystemAlertNotPresent);
+  XCTAssertEqual(error.code, GREYSystemAlertAcceptButtonNotFound);
 }
 
 /**
@@ -203,7 +199,7 @@
   NSError *error = nil;
   XCTAssertFalse([EarlGrey DenySystemDialogWithError:&error]);
   XCTAssertEqualObjects(error.domain, kGREYSystemAlertDismissalErrorDomain);
-  XCTAssertEqual(error.code, GREYSystemAlertNotPresent);
+  XCTAssertEqual(error.code, GREYSystemAlertDenialButtonNotFound);
 }
 
 /**
@@ -214,7 +210,7 @@
   NSError *error = nil;
   XCTAssertFalse([EarlGrey TapSystemDialogButtonWithText:@"Foo" error:&error]);
   XCTAssertEqualObjects(error.domain, kGREYSystemAlertDismissalErrorDomain);
-  XCTAssertEqual(error.code, GREYSystemAlertNotPresent);
+  XCTAssertEqual(error.code, GREYSystemAlertCustomButtonNotFound);
 }
 
 /**

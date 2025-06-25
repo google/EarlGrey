@@ -99,7 +99,16 @@ static UIApplication *GetApplicationUnderTest(void) {
 #if TARGET_OS_IOS
 - (NSString *)grey_systemAlertTextWithError:(NSError **)error {
   XCUIElement *topMostAlert = [self grey_topMostAlertWithError:error];
-  return topMostAlert.label;
+  if (!topMostAlert) {
+    if (error) {
+      *error = [NSError errorWithDomain:kGREYSystemAlertDismissalErrorDomain
+                                   code:GREYSystemAlertNotPresent
+                               userInfo:nil];
+    }
+    return nil;
+  } else {
+    return [topMostAlert label];
+  }
 }
 
 - (GREYSystemAlertType)grey_systemAlertType {
@@ -141,24 +150,18 @@ static UIApplication *GetApplicationUnderTest(void) {
 - (BOOL)grey_acceptSystemDialogWithError:(NSError **)error {
   XCUIElement *alertInHierarchy = [self grey_topMostAlertWithError:error];
   if (!alertInHierarchy) {
+    if (error) {
+      *error = [NSError errorWithDomain:kGREYSystemAlertDismissalErrorDomain
+                                   code:GREYSystemAlertAcceptButtonNotFound
+                               userInfo:nil];
+    }
     return NO;
   }
   NSString *alertText = [alertInHierarchy valueForKey:@"label"];
 
   XCUIElement *acceptButton = [[alertInHierarchy buttons] elementBoundByIndex:1];
   if (![acceptButton exists]) {
-    NSString *errorDescription =
-        [NSString stringWithFormat:@"Accept button is not hittable\n%@",
-                                   GREYSpringboardApplication().debugDescription];
-    GREYLog(errorDescription);
-    if (error) {
-      *error = [NSError errorWithDomain:kGREYSystemAlertDismissalErrorDomain
-                                   code:GREYSystemAlertAcceptButtonNotFound
-                               userInfo:nil];
-    } else {
-      [[GREYFrameworkException exceptionWithName:kGREYGenericFailureException
-                                          reason:errorDescription] raise];
-    }
+    GREYLog(@"Accept button is not hittable\n%@", [GREYSpringboardApplication() debugDescription]);
     return NO;
   }
 
@@ -181,6 +184,11 @@ static UIApplication *GetApplicationUnderTest(void) {
 - (BOOL)grey_denySystemDialogWithError:(NSError **)error {
   XCUIElement *alertInHierarchy = [self grey_topMostAlertWithError:error];
   if (!alertInHierarchy) {
+    if (error) {
+      *error = [NSError errorWithDomain:kGREYSystemAlertDismissalErrorDomain
+                                   code:GREYSystemAlertDenialButtonNotFound
+                               userInfo:nil];
+    }
     return NO;
   }
 
@@ -196,18 +204,7 @@ static UIApplication *GetApplicationUnderTest(void) {
     denyButton = [[alertInHierarchy buttons] firstMatch];
   }
   if (![denyButton exists]) {
-    NSString *errorDescription =
-        [NSString stringWithFormat:@"Deny button is not hittable\n%@",
-                                   GREYSpringboardApplication().debugDescription];
-    GREYLog(errorDescription);
-    if (error) {
-      *error = [NSError errorWithDomain:kGREYSystemAlertDismissalErrorDomain
-                                   code:GREYSystemAlertDenialButtonNotFound
-                               userInfo:nil];
-    } else {
-      [[GREYFrameworkException exceptionWithName:kGREYGenericFailureException
-                                          reason:errorDescription] raise];
-    }
+    GREYLog(@"Deny button is not hittable\n%@", [GREYSpringboardApplication() debugDescription]);
     return NO;
   }
 
@@ -229,19 +226,11 @@ static UIApplication *GetApplicationUnderTest(void) {
 
 - (BOOL)grey_tapSystemDialogButtonWithText:(NSString *)text error:(NSError **)error {
   XCUIElement *firstAlertPresent = [self grey_topMostAlertWithError:error];
-  if (!firstAlertPresent) {
-    return NO;
-  }
   if (![firstAlertPresent.buttons[text] exists]) {
     if (error) {
       *error = [NSError errorWithDomain:kGREYSystemAlertDismissalErrorDomain
                                    code:GREYSystemAlertCustomButtonNotFound
                                userInfo:nil];
-    } else {
-      NSString *errorDescription =
-          [NSString stringWithFormat:@"Failed to find text \"%@\" in system alert", text];
-      [[GREYFrameworkException exceptionWithName:kGREYGenericFailureException
-                                          reason:errorDescription] raise];
     }
     return NO;
   }
@@ -298,12 +287,6 @@ static UIApplication *GetApplicationUnderTest(void) {
       *error = [NSError errorWithDomain:kGREYSystemAlertDismissalErrorDomain
                                    code:GREYSystemAlertTextNotTypedCorrectly
                                userInfo:nil];
-    } else {
-      NSString *errorDescription = [NSString
-          stringWithFormat:@"Failed to find text field with placeholder \"%@\" in system alert",
-                           placeholderText];
-      [[GREYFrameworkException exceptionWithName:kGREYGenericFailureException
-                                          reason:errorDescription] raise];
     }
     return NO;
   }
@@ -397,9 +380,6 @@ static UIApplication *GetApplicationUnderTest(void) {
       *error = [NSError errorWithDomain:kGREYSystemAlertDismissalErrorDomain
                                    code:GREYSystemAlertNotPresent
                                userInfo:nil];
-    } else {
-      [[GREYFrameworkException exceptionWithName:kGREYGenericFailureException
-                                          reason:@"Failed to find system alert"] raise];
     }
     return nil;
   }
@@ -438,9 +418,6 @@ static UIApplication *GetApplicationUnderTest(void) {
       *error = [NSError errorWithDomain:kGREYSystemAlertDismissalErrorDomain
                                    code:GREYSystemAlertNotDismissed
                                userInfo:nil];
-    } else {
-      [[GREYFrameworkException exceptionWithName:kGREYGenericFailureException
-                                          reason:@"Failed to dismiss system alert"] raise];
     }
     return NO;
   }
