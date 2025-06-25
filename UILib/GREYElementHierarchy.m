@@ -16,6 +16,7 @@
 
 #import "GREYElementHierarchy.h"
 
+#import "CAAnimation+GREYApp.h"
 #import "NSObject+GREYCommon.h"
 #import "GREYFatalAsserts.h"
 #import "GREYThrowDefines.h"
@@ -165,10 +166,15 @@ static void DedupeAndAppendAnimationInfoForLayerOfView(
     NSMutableDictionary<NSString *, NSString *> *animationDictionary) {
   for (NSString *animationKey in layer.animationKeys) {
     CAAnimation *animation = [layer animationForKey:animationKey];
-    NSString *animationInfo =
-        [NSString stringWithFormat:@"\nUIView: %@\n    AnimationKey: %@ withAnimation: %@",
-                                   [view grey_objectDescription], animationKey, animation];
-    [animationDictionary setObject:animationInfo forKey:animation.description];
+    // Animations with @c isRemovedOnCompletion set to @c NO may still be attached to the layer even
+    // after they have completed, so the states need to be explicitly checked.
+    if (![animation respondsToSelector:@selector(grey_animationState)] ||
+        animation.grey_animationState != kGREYAnimationStopped) {
+      NSString *animationInfo =
+          [NSString stringWithFormat:@"\nUIView: %@\n    AnimationKey: %@ withAnimation: %@",
+                                     [view grey_objectDescription], animationKey, animation];
+      [animationDictionary setObject:animationInfo forKey:animation.description];
+    }
   }
 }
 
