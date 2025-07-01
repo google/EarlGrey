@@ -85,80 +85,88 @@
     return NO;
   };
 
-  CGFloat currentSliderValue = [self valueForSlider:slider];
-
-  // Get the center of the thumb in coordinates respective of the slider it is in.
-  CGPoint touchPoint = [self centerOfSliderThumbInSliderCoordinates:slider];
-
-  // Begin sliding by injecting touch events.
-  GREYSyntheticEvents *eventGenerator = [[GREYSyntheticEvents alloc] init];
-  CFTimeInterval interactionTimeout = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
-  [eventGenerator beginTouchAtPoint:[slider convertPoint:touchPoint toView:nil]
-                   relativeToWindow:[slider window]
-                  immediateDelivery:YES
-                            timeout:interactionTimeout
-                            element:slider];
-
-  // |slider.value| could have changed, because touch down sometimes moves the thumb.
-  CGFloat previousSliderValue = currentSliderValue;
-  currentSliderValue = [self valueForSlider:slider];
-
-  // Stepsize is hypothesized amount you have to step to get from one value to another. It's
-  // hypothesized because the distance between any two given values is not always consistent.
-  double stepSize = [self stepSizeForCurrentValue:currentSliderValue inSlider:slider];
-  double amountToSlide = stepSize * ((double)_finalValue - (double)currentSliderValue);
-
-  // A value could be unattainable, in which case, this algorithm would run forever. From testing,
-  // we've seen that it takes anywhere from 2-4 interactions to find a final value that is
-  // acceptable (see constants defined above to understand what accepable is). So, we let the
-  // algorithm run for at most ten iterations and then halt.
-  static const unsigned short kAllowedAttemptsBeforeStopping = 10;
-  unsigned short numberOfAttemptsAtGettingFinalValue = 0;
-
-  // Begin moving thumb to the |_finalValue|
-  while (islessgreater([self valueForSlider:slider], _finalValue)) {
-    @autoreleasepool {
-      if (!(numberOfAttemptsAtGettingFinalValue < kAllowedAttemptsBeforeStopping)) {
-        GREYLog(
-            @"The value you have chosen to move to is probably unattainable. Most likely, it is "
-            @"between two pixels.");
-        break;
-      }
-
-      touchPoint = CGPointMake(touchPoint.x + (CGFloat)amountToSlide, touchPoint.y);
-      [eventGenerator continueTouchAtPoint:[slider convertPoint:touchPoint toView:nil]
-                         immediateDelivery:YES
-                                   timeout:interactionTimeout
-                                   element:slider];
-
-      // For debugging purposes, leave this in.
-      GREYLogVerbose(@"Slider value after moving: %f", [self valueForSlider:slider]);
-
-      // Update |previousSliderValue| and |currentSliderValue| only if slider value actually
-      // changed.
-      if (islessgreater([self valueForSlider:slider], currentSliderValue)) {
-        previousSliderValue = currentSliderValue;
-        currentSliderValue = [self valueForSlider:slider];
-      }
-
-      // changeInSliderValueAfterMoving is how many values we actually moved with the previously
-      // calculated |amountToSlide|.
-      double changeInSliderValueAfterMoving = currentSliderValue - previousSliderValue;
-      if (islessgreater(currentSliderValue, previousSliderValue)) {
-        // Adjust the stepSize based upon how many values were actually traversed.
-        stepSize = fabs(amountToSlide / changeInSliderValueAfterMoving);
-        amountToSlide = stepSize * ((double)_finalValue - (double)currentSliderValue);
-      } else {
-        // If we didn't move at all and we are still not at the final value, move by twice as much
-        // as we did last time to try to get a different value.
-        amountToSlide = 2.0 * amountToSlide;
-      }
-      numberOfAttemptsAtGettingFinalValue++;
-    }
-  }
-
-  [eventGenerator endTouchWithTimeout:interactionTimeout element:slider];
+  [slider setValue:_finalValue animated:NO];
+  [slider sendActionsForControlEvents:UIControlEventValueChanged];
+  [slider sendActionsForControlEvents:UIControlEventTouchUpInside];
   return YES;
+
+  // CGFloat currentSliderValue = [self valueForSlider:slider];
+
+  // // Get the center of the thumb in coordinates respective of the slider it is in.
+  // CGPoint touchPoint = [self centerOfSliderThumbInSliderCoordinates:slider];
+
+  // // Begin sliding by injecting touch events.
+  // GREYSyntheticEvents *eventGenerator = [[GREYSyntheticEvents alloc] init];
+  // CFTimeInterval interactionTimeout =
+  // GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration); [eventGenerator
+  // beginTouchAtPoint:[slider convertPoint:touchPoint toView:nil]
+  //                  relativeToWindow:[slider window]
+  //                 immediateDelivery:YES
+  //                           timeout:interactionTimeout
+  //                           element:slider];
+
+  // // |slider.value| could have changed, because touch down sometimes moves the thumb.
+  // CGFloat previousSliderValue = currentSliderValue;
+  // currentSliderValue = [self valueForSlider:slider];
+
+  // // Stepsize is hypothesized amount you have to step to get from one value to another. It's
+  // // hypothesized because the distance between any two given values is not always consistent.
+  // double stepSize = [self stepSizeForCurrentValue:currentSliderValue inSlider:slider];
+  // double amountToSlide = stepSize * ((double)_finalValue - (double)currentSliderValue);
+
+  // // A value could be unattainable, in which case, this algorithm would run forever. From
+  // testing,
+  // // we've seen that it takes anywhere from 2-4 interactions to find a final value that is
+  // // acceptable (see constants defined above to understand what accepable is). So, we let the
+  // // algorithm run for at most ten iterations and then halt.
+  // static const unsigned short kAllowedAttemptsBeforeStopping = 10;
+  // unsigned short numberOfAttemptsAtGettingFinalValue = 0;
+
+  // // Begin moving thumb to the |_finalValue|
+  // while (islessgreater([self valueForSlider:slider], _finalValue)) {
+  //   @autoreleasepool {
+  //     if (!(numberOfAttemptsAtGettingFinalValue < kAllowedAttemptsBeforeStopping)) {
+  //       GREYLog(
+  //           @"The value you have chosen to move to is probably unattainable. Most likely, it is "
+  //           @"between two pixels.");
+  //       break;
+  //     }
+
+  //     touchPoint = CGPointMake(touchPoint.x + (CGFloat)amountToSlide, touchPoint.y);
+  //     [eventGenerator continueTouchAtPoint:[slider convertPoint:touchPoint toView:nil]
+  //                        immediateDelivery:YES
+  //                                  timeout:interactionTimeout
+  //                                  element:slider];
+
+  //     // For debugging purposes, leave this in.
+  //     GREYLogVerbose(@"Slider value after moving: %f", [self valueForSlider:slider]);
+
+  //     // Update |previousSliderValue| and |currentSliderValue| only if slider value actually
+  //     // changed.
+  //     if (islessgreater([self valueForSlider:slider], currentSliderValue)) {
+  //       previousSliderValue = currentSliderValue;
+  //       currentSliderValue = [self valueForSlider:slider];
+  //     }
+
+  //     // changeInSliderValueAfterMoving is how many values we actually moved with the previously
+  //     // calculated |amountToSlide|.
+  //     double changeInSliderValueAfterMoving = currentSliderValue - previousSliderValue;
+  //     if (islessgreater(currentSliderValue, previousSliderValue)) {
+  //       // Adjust the stepSize based upon how many values were actually traversed.
+  //       stepSize = fabs(amountToSlide / changeInSliderValueAfterMoving);
+  //       amountToSlide = stepSize * ((double)_finalValue - (double)currentSliderValue);
+  //     } else {
+  //       // If we didn't move at all and we are still not at the final value, move by twice as
+  //       much
+  //       // as we did last time to try to get a different value.
+  //       amountToSlide = 2.0 * amountToSlide;
+  //     }
+  //     numberOfAttemptsAtGettingFinalValue++;
+  //   }
+  // }
+
+  // [eventGenerator endTouchWithTimeout:interactionTimeout element:slider];
+  // return YES;
 }
 
 /**
