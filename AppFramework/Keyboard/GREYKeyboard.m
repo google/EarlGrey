@@ -318,7 +318,7 @@ __attribute__((constructor)) static void GREYSetupKeyboard(void) {
   GREYUIThreadExecutor *sharedExecutor = [GREYUIThreadExecutor sharedInstance];
   // We do not check if the entire application has become idle but just enough for any minor UI
   // update to have finished. Hence the return value is not checked here.
-  [sharedExecutor executeSyncWithTimeout:5
+  [sharedExecutor executeSyncWithTimeout:kKeyboardWillAppearOrDisappearTimeout
                                    block:^{
                                      // Even though this is checked previously in the caller
                                      // on the test side, check this again as the UI might

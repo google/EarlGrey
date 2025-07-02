@@ -648,7 +648,11 @@
       assertWithMatcher:GREYText(verificationString)];
   [[[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextView")]
       performAction:GREYTypeText(string)] assertWithMatcher:GREYText(verificationString)];
-  [[EarlGrey selectElementWithMatcher:GREYButtonTitle(@"Done")] performAction:GREYTap()];
+  [[EarlGrey selectElementWithMatcher:GREYAllOfMatchers(@[
+               GREYAccessibilityLabel(@"Done"),
+               GREYAccessibilityTrait(UIAccessibilityTraitButton),
+               GREYNot(GREYAccessibilityTrait(UIAccessibilityTraitNotEnabled)),
+             ])] performAction:GREYTap()];
 }
 
 @end
