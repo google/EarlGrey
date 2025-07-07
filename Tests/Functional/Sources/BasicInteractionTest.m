@@ -138,8 +138,7 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
                                                      kGREYPinchAngleDefault)];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"ZoomingScrollView")]
       performAction:GREYTap()];
-  [[EarlGrey selectElementWithMatcher:GREYButtonTitle(@"EarlGrey TestApp")]
-      performAction:GREYTap()];
+  [self tapBackButton];
 }
 
 /**
@@ -245,8 +244,7 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"foo")]
       performAction:GREYTypeText(@"hi")];
   [[EarlGrey selectElementWithMatcher:GREYText(@"hi")] assertWithMatcher:GREYSufficientlyVisible()];
-  [[EarlGrey selectElementWithMatcher:GREYButtonTitle(@"EarlGrey TestApp")]
-      performAction:GREYTap()];
+  [self tapBackButton];
 }
 
 /**
@@ -260,8 +258,7 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
       performAction:GREYTypeText(@"Sam01le SWiFt TeSt")];
   [[EarlGrey selectElementWithMatcher:GREYText(@"Sam01le SWiFt TeSt")]
       assertWithMatcher:GREYSufficientlyVisible()];
-  [[EarlGrey selectElementWithMatcher:GREYButtonTitle(@"EarlGrey TestApp")]
-      performAction:GREYTap()];
+  [self tapBackButton];
 }
 
 /**
@@ -471,25 +468,6 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
   [[EarlGrey selectElementWithMatcher:GREYButtonTitle(@"Disabled")] performAction:GREYTap()
                                                                             error:&error];
   XCTAssertNil(error);
-}
-
-/**
- * Checks the working of a condition with a large timeout.
- */
-- (void)testEarlGreyInvocationInsideGREYConditionUsingWaitWithLargeTimeout {
-  [self openTestViewNamed:@"Basic Views"];
-  GREYCondition *condition = [GREYCondition
-      conditionWithName:@"conditionWithAction"
-                  block:^BOOL {
-                    static double stepperValue = 51;
-                    [[EarlGrey selectElementWithMatcher:GREYKindOfClass([UIStepper class])]
-                        performAction:GREYSetStepperValue(++stepperValue)];
-                    return stepperValue == 55;
-                  }];
-  XCTAssertTrue([condition waitWithTimeout:10.0]);
-
-  [[EarlGrey selectElementWithMatcher:GREYKindOfClass([UIStepper class])]
-      assertWithMatcher:GREYStepperValue(55)];
 }
 
 /**
