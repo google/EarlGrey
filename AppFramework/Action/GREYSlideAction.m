@@ -28,10 +28,18 @@
 #import "GREYConfiguration.h"
 #import "GREYError.h"
 #import "GREYErrorConstants.h"
+#import "GREYDefines.h"
 #import "GREYDiagnosable.h"
 #import "GREYLogger.h"
 #import "GREYMatcher.h"
 #import "GREYElementHierarchy.h"
+
+#if TARGET_OS_IOS
+
+/** The number of touches inserted when counteracting inertia. */
+static const NSUInteger kNumTouchesToCounterInertia = 5;
+
+#endif  // TARGET_OS_IOS
 
 @implementation GREYSlideAction {
   /**
@@ -113,6 +121,9 @@
   // acceptable (see constants defined above to understand what accepable is). So, we let the
   // algorithm run for at most ten iterations and then halt.
   static const unsigned short kAllowedAttemptsBeforeStopping = 10;
+  // On iOS 26 and above, where Liquid Glass is enabled, sliders have inertia, requiring additional
+  // touches to counter.
+  int numberOfTouches = iOS26_OR_ABOVE() ? kNumTouchesToCounterInertia : 1;
   unsigned short numberOfAttemptsAtGettingFinalValue = 0;
 
   // Begin moving thumb to the |_finalValue|
@@ -126,10 +137,12 @@
       }
 
       touchPoint = CGPointMake(touchPoint.x + (CGFloat)amountToSlide, touchPoint.y);
-      [eventGenerator continueTouchAtPoint:[slider convertPoint:touchPoint toView:nil]
-                         immediateDelivery:YES
-                                   timeout:interactionTimeout
-                                   element:slider];
+      for (int i = 0; i < numberOfTouches; ++i) {
+        [eventGenerator continueTouchAtPoint:[slider convertPoint:touchPoint toView:nil]
+                           immediateDelivery:YES
+                                     timeout:interactionTimeout
+                                     element:slider];
+      }
 
       // For debugging purposes, leave this in.
       GREYLogVerbose(@"Slider value after moving: %f", [self valueForSlider:slider]);
