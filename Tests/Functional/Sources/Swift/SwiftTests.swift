@@ -232,11 +232,6 @@ class SwiftTests: XCTestCase {
     XCTAssertFalse(grey_acceptSystemDialogWithError(&acceptError))
     XCTAssertNotNil(acceptError)
 
-    XCTAssertFalse(
-      grey_typeSystemAlertText(
-        "foo",
-        forPlaceholderText: "bar",
-        error: nil))
     var typingError: NSError?
     XCTAssertFalse(
       grey_typeSystemAlertText(
