@@ -499,7 +499,13 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
 
 - (void)tapElementInActivitySheetWithID:(NSString *)identifier error:(NSError **)error {
   XCUIApplication *currentApplication = [[XCUIApplication alloc] init];
-  XCUIElement *activitySheet = currentApplication.otherElements[@"ActivityListView"];
+
+  // Before iOS 26, the secondary activity sheet for customizing sharing options is under the same
+  // "ActivityListView", which only contains the primary activity sheet on iOS 26. Instead, the
+  // container view, which covers both sheets, should be used.
+  XCUIElement *activitySheet =
+      iOS26_OR_ABOVE() ? currentApplication.otherElements[@"ShareSheet.RemoteContainerView"]
+                       : currentApplication.otherElements[@"ActivityListView"];
   XCUIElement *element = [activitySheet descendantsMatchingType:XCUIElementTypeAny][identifier];
   if ([element exists]) {
     [element tap];
