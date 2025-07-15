@@ -88,6 +88,8 @@ GREY_EXTERN NSString *const kErrorAppScreenShotsKey;
 @property(nonatomic) NSDictionary *appScreenshots;
 @property(nonatomic) NSArray<NSString *> *keyOrder;
 
+- (instancetype)initWithError:(GREYError *)error;
+
 - (instancetype)initWithDomain:(NSString *)domain
                           code:(NSInteger)code
                       userInfo:(NSDictionary *)dict;

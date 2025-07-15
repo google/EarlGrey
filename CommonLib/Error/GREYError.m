@@ -101,6 +101,23 @@ GREYError *I_GREYErrorMake(NSString *domain, NSInteger code, NSDictionary<NSStri
 
 @dynamic nestedError;
 
+- (instancetype)initWithError:(GREYError *)error {
+  self = [super initWithDomain:error.domain code:error.code userInfo:error.userInfo];
+  if (self) {
+    _testCaseClassName = [error.testCaseClassName copy];
+    _testCaseMethodName = [error.testCaseMethodName copy];
+    _filePath = [error.filePath copy];
+    _line = error.line;
+    _functionName = [error.functionName copy];
+    _errorInfo = [error.errorInfo copy];
+    _multipleElementsMatched = [error.multipleElementsMatched copy];
+    _stackTrace = [error.stackTrace copy];
+    _appUIHierarchy = [error.appUIHierarchy copy];
+    _appScreenshots = [error.appScreenshots copy];
+  }
+  return self;
+}
+
 - (GREYError *)nestedError {
   return self.userInfo[NSUnderlyingErrorKey];
 }
