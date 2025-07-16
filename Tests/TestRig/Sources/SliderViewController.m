@@ -91,7 +91,11 @@
       valueToMoveTo = [number floatValue];
     }
   }
-  self.slider5.value = (float)valueToMoveTo;
+  // On iOS 26 beta 3, updating the value of the slider in the event handler directly causes an
+  // infinite loop.
+  dispatch_async(dispatch_get_main_queue(), ^{
+    self.slider5.value = (float)valueToMoveTo;
+  });
 }
 
 // IBAction for slider 5
