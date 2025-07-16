@@ -33,6 +33,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "GREYFrameworkException.h"
+
 /**
  * Asserts that @c condition is @c true otherwise aborts the program.
  *
@@ -49,14 +51,16 @@
  * @param message   Message to print when @c condition evaluates to false.
  * @param ...       Variable args for @c message if it is a format string.
  */
-#define GREYFatalAssertWithMessage(condition, message, ...)                     \
-  ({                                                                            \
-    if (!(condition)) {                                                         \
-      NSString *message__ = [NSString stringWithFormat:message, ##__VA_ARGS__]; \
-      NSString *assertFile__ = [NSString stringWithUTF8String:__FILE__];        \
-      NSLog(@"Fatal failure: %@ in %@:%d", message__, assertFile__, __LINE__);  \
-      abort();                                                                  \
-    }                                                                           \
+#define GREYFatalAssertWithMessage(condition, message, ...)                                   \
+  ({                                                                                          \
+    if (!(condition)) {                                                                       \
+      NSString *message__ = [NSString stringWithFormat:message, ##__VA_ARGS__];               \
+      NSString *assertFile__ = [NSString stringWithUTF8String:__FILE__];                      \
+      NSString *reason__ = [NSString                                                          \
+          stringWithFormat:@"Fatal failure: %@ in %@:%d", message__, assertFile__, __LINE__]; \
+      [[GREYFrameworkException exceptionWithName:kGREYGenericFailureException                 \
+                                          reason:reason__] raise];                            \
+    }                                                                                         \
   })
 
 /**
