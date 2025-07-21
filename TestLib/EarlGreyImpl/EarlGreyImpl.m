@@ -566,18 +566,15 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
   if (![self activitySheetPresentWithError:error]) {
     return NO;
   }
-  if (!iOS26_OR_ABOVE()) {
-    return [self tapButtonInActivitySheetWithId:@"Close" error:error];
-  }
-  // iOS 26 no longer has a close button inside the activity sheet. Instead, the popover dismiss
-  // region can be tapped to dismiss the sheet.
+
+  // Popover dismiss region is present on iPads and sheets with small detents on iOS 26.
   XCUIApplication *currentApplication = [[XCUIApplication alloc] init];
   XCUIElement *dismissRegion = currentApplication.otherElements[@"PopoverDismissRegion"];
   if (dismissRegion.exists && dismissRegion.hittable) {
     [dismissRegion tap];
     return YES;
   }
-  return NO;
+  return [self tapButtonInActivitySheetWithId:@"Close" error:error];
 }
 
 #endif  // TARGET_OS_IOS
