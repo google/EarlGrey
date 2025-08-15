@@ -147,7 +147,7 @@
   [[[EarlGrey selectElementWithMatcher:matcher]
          usingSearchAction:GREYScrollInDirection(kGREYDirectionDown, 50)
       onElementWithMatcher:GREYAccessibilityLabel(@"Invalid Scroll View")] performAction:GREYTap()
-                                                                                    error:&error];
+                                                                                   error:&error];
   NSString *searchAPIDescription = @"Search Action:";
   NSString *searchAPIMatcherDescription = @"Search Matcher:";
   NSString *searchActionDescription = @"Search action failed. Look at the underlying error.";
@@ -207,7 +207,7 @@
 /** Checks the description for an error from a keyboard dismissal. */
 - (void)testKeyboardDismissalError {
   NSError *error;
-  [EarlGrey dismissKeyboardWithError:&error];
+  XCTAssertFalse([EarlGrey dismissKeyboardWithError:&error]);
   NSString *keyboardErrorString =
       @"Failed to dismiss keyboard: The keyboard is not showing, so it cannot be dismissed.";
   XCTAssertTrue([error.description containsString:keyboardErrorString]);

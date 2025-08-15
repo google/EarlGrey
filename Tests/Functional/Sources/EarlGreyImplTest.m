@@ -72,7 +72,9 @@
       assertWithMatcher:GREYSufficientlyVisible()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
       performAction:GREYTypeText(@"h")];
-  [EarlGrey dismissKeyboardWithError:nil];
+  NSError *error;
+  XCTAssertTrue([EarlGrey dismissKeyboardWithError:&error], @"Failed to dismiss keyboard: %@",
+                error);
   [[EarlGrey selectElementWithMatcher:GREYAccessibilityLabel(@"e")]
       assertWithMatcher:GREYNotVisible()];
   [[EarlGrey selectElementWithMatcher:grey_accessibilityID(@"TypingTextField")]
