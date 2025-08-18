@@ -275,7 +275,7 @@ typedef void (^GREYHostApplicationCrashHandler)(void);
  * be populated with the failure reason if the orientation change fails, otherwise a test failure
  * will be registered.
  *
- * @param      layoutOrientation The desired orientation of the layout.
+ * @param      deviceOrientation The desired orientation of the device.
  * @param[out] error             Error that will be populated on failure. If @c nil, the a test
  *                               failure will be reported if the rotation attempt fails.
  *
@@ -283,12 +283,6 @@ typedef void (^GREYHostApplicationCrashHandler)(void);
  *
  * @return @c YES if the rotation was successful, @c NO otherwise. If @c error is @c nil and
  *         the operation fails, it will throw an exception.
- */
-- (BOOL)rotateLayoutToOrientation:(UILayoutOrientation)layoutOrientation error:(NSError **)error;
-
-/**
- * Same as @c -[rotateLayoutToOrientation:error:]` but deprecated. Device orientation face up and face down are treated similarly to unknown.
- * 
  */
 - (BOOL)rotateDeviceToOrientation:(UIDeviceOrientation)deviceOrientation error:(NSError **)error;
 
