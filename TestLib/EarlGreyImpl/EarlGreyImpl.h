@@ -270,21 +270,29 @@ typedef void (^GREYHostApplicationCrashHandler)(void);
 
 #if TARGET_OS_IOS
 /**
- * Rotate the device to a given @c deviceOrientation. All device orientations except for
- * @c UIDeviceOrientationUnknown are supported. If a non-nil @c error is provided, it will
+ * Rotate the interface to the given @c interfaceOrientation. All orientations except for
+ * @c UIInterfaceOrientationUnknown are supported. If a non-nil @c error is provided, it will
  * be populated with the failure reason if the orientation change fails, otherwise a test failure
  * will be registered.
  *
- * @param      deviceOrientation The desired orientation of the device.
- * @param[out] error             Error that will be populated on failure. If @c nil, the a test
- *                               failure will be reported if the rotation attempt fails.
+ * @param      interfaceOrientation The desired orientation of the interface.
+ * @param[out] error                Error that will be populated on failure. If @c nil, the a test
+ *                                  failure will be reported if the rotation attempt fails.
  *
  * @throws GREYFrameworkException if the action fails and @c error is @c nil.
  *
  * @return @c YES if the rotation was successful, @c NO otherwise. If @c error is @c nil and
  *         the operation fails, it will throw an exception.
  */
-- (BOOL)rotateDeviceToOrientation:(UIDeviceOrientation)deviceOrientation error:(NSError **)error;
+- (BOOL)rotateInterfaceToOrientation:(UIInterfaceOrientation)interfaceOrientation
+                               error:(NSError **)error;
+
+/**
+ * Same as @c -[rotateInterfaceToOrientation:error:]` but deprecated. Device orientation face up and
+ * face down are treated similarly to unknown.
+ */
+- (BOOL)rotateDeviceToOrientation:(UIDeviceOrientation)deviceOrientation
+                            error:(NSError **)error __attribute__((deprecated));
 
 #pragma mark - System Alert Handling
 

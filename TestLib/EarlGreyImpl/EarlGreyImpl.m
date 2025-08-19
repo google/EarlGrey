@@ -264,6 +264,14 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
 #pragma mark - Rotation
 
 #if TARGET_OS_IOS
+
+- (BOOL)rotateInterfaceToOrientation:(UIInterfaceOrientation)interfaceOrientation
+                               error:(NSError **)error {
+  UIDeviceOrientation deviceOrientation =
+      [GREYConstants deviceOrientationForInterfaceOrientation:interfaceOrientation];
+  return [self rotateDeviceToOrientation:deviceOrientation error:error];
+}
+
 - (BOOL)rotateDeviceToOrientation:(UIDeviceOrientation)deviceOrientation error:(NSError **)error {
   GREYError *syncErrorBeforeRotation;
   __block GREYError *syncErrorAfterRotation;
