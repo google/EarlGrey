@@ -267,9 +267,15 @@
     // an element not being found.
 
     void (^actionBlock)(id) = ^void(id element) {
-      GREYLogVerbose(@"Performing action: %@\n on element: %@\n with matcher: "
-                     @"%@\n with root matcher: %@",
-                     [action name], element, self -> _elementMatcher, self -> _rootMatcher);
+      if (GREYVerboseLoggingEnabled()) {
+        // The element description should only be accessed on the main thread, as otherwise it will
+        // cause a crash when the main thread checker is enabled.
+        grey_dispatch_sync_on_main_thread(^{
+          GREYLog(@"Performing action: %@\n on element: %@\n with matcher: "
+                  @"%@\n with root matcher: %@",
+                  [action name], element, self -> _elementMatcher, self -> _rootMatcher);
+        });
+      }
       
       BOOL success = [action perform:element error:&actionError];
       
