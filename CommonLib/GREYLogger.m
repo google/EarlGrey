@@ -37,16 +37,21 @@ BOOL GREYVerboseLoggingEnabledForLevel(GREYVerboseLogType level) {
 
 GREYVerboseLogType GREYVerboseLogTypeFromString(NSString* verboseLoggingString) {
   static NSDictionary<NSString*, NSNumber*>* verboseType = nil;
-  if (!verboseType) {
+  static dispatch_once_t once_token;
+  dispatch_once(&once_token, ^{
     verboseType = @{
       kGREYVerboseLoggingKeyInteraction : @(kGREYVerboseLogTypeInteraction),
       kGREYVerboseLoggingKeyAppState : @(kGREYVerboseLogTypeAppState),
       kGREYVerboseLoggingKeySendTouchEvent : @(kGREYVerboseLogTypeSendTouchEvent),
       kGREYVerboseLoggingKeyAll : @(kGREYVerboseLogTypeAll),
     };
+  });
+  NSNumber* verboseLogTypeNumber = verboseType[verboseLoggingString];
+  if (!verboseLogTypeNumber) {
+    NSLog(@"Ignoring unknown verbose log type: %@", verboseLoggingString);
+    return kGREYVerboseLogTypeNone;
   }
-
-  return [verboseType[verboseLoggingString] intValue];
+  return verboseLogTypeNumber.intValue;
 }
 
 /** An internal function to log a specified statement.
@@ -60,12 +65,7 @@ static void GREYLogInternal(NSString* format, va_list args) {
 }
 
 void GREYLogVerbose(NSString* format, ...) {
-  static BOOL gPrintVerboseLog;
-  static dispatch_once_t onceToken;
-  dispatch_once(&onceToken, ^{
-    gPrintVerboseLog = GREYVerboseLoggingEnabled();
-  });
-  if (gPrintVerboseLog) {
+  if (GREYVerboseLoggingEnabled()) {
     va_list args;
     va_start(args, format);
     GREYLogInternal(format, args);
@@ -79,5 +79,3 @@ void GREYLog(NSString* format, ...) {
   GREYLogInternal(format, args);
   va_end(args);
 }
-
-#pragma mark - Testing only.

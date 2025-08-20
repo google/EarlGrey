@@ -53,6 +53,8 @@ GREY_EXTERN NSString* _Nonnull const kGREYVerboseLoggingKeySendTouchEvent;
  * Enum values for verbose logging.
  */
 typedef NS_OPTIONS(NSInteger, GREYVerboseLogType) {
+  /** Prints no Verbose Logs.*/
+  kGREYVerboseLogTypeNone = 0,
   /** Prints Interaction Verbose Logs.*/
   kGREYVerboseLogTypeInteraction = 1 << 0,
   /** Prints App State Tracker Verbose Logs.*/
