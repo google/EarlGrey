@@ -267,22 +267,15 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
 
 - (BOOL)rotateInterfaceToOrientation:(UIInterfaceOrientation)interfaceOrientation
                                error:(NSError **)error {
-  UIDeviceOrientation deviceOrientation =
-      [GREYConstants deviceOrientationForInterfaceOrientation:interfaceOrientation];
-  return [self rotateDeviceToOrientation:deviceOrientation error:error];
-}
-
-- (BOOL)rotateDeviceToOrientation:(UIDeviceOrientation)deviceOrientation error:(NSError **)error {
   GREYError *syncErrorBeforeRotation;
   __block GREYError *syncErrorAfterRotation;
   BOOL success = NO;
   __block BOOL sendOrientationChangeNotification = NO;
   XCUIDevice *sharedDevice = [XCUIDevice sharedDevice];
   UIDevice *currentDevice = [GREY_REMOTE_CLASS_IN_APP(UIDevice) currentDevice];
-  UIInterfaceOrientation interfaceOrientation =
-      [GREYConstants interfaceOrientationForDeviceOrientation:deviceOrientation];
+  UIDeviceOrientation deviceOrientation =
+      [GREYConstants deviceOrientationForInterfaceOrientation:interfaceOrientation];
   if (interfaceOrientation != UIInterfaceOrientationUnknown) {
-
     NSNotificationCenter *notificationCenter =
         [GREY_REMOTE_CLASS_IN_APP(NSNotificationCenter) defaultCenter];
 
@@ -402,6 +395,12 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
   }
 
   return success;
+}
+
+- (BOOL)rotateDeviceToOrientation:(UIDeviceOrientation)deviceOrientation error:(NSError **)error {
+  UIInterfaceOrientation interfaceOrientation =
+      [GREYConstants interfaceOrientationForDeviceOrientation:deviceOrientation];
+  return [self rotateInterfaceToOrientation:interfaceOrientation error:error];
 }
 
 - (NSString *)SystemAlertTextWithError:(NSError **)error {
