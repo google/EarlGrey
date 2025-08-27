@@ -364,7 +364,11 @@ __attribute__((constructor)) static void SetupTestDistantObject(void) {
 
   NSError *connectionError;
   EDOHostPort *hostPort = [EDOHostPort hostPortWithLocalPort:portNumber];
+  dispatch_queue_attr_t queueAttributes =
+      dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, qos_class_self(), 0);
+  dispatch_queue_t queue = dispatch_queue_create("com.google.earlgrey.hostActive", queueAttributes);
   id<EDOChannel> channel = [EDOChannelPool.sharedChannelPool channelWithPort:hostPort
+                                                             connectionQueue:queue
                                                                        error:&connectionError];
   if (connectionError) {
     return NO;
@@ -374,14 +378,15 @@ __attribute__((constructor)) static void SetupTestDistantObject(void) {
   __block BOOL hostAlive = NO;
   NSData *request = [kHostPingRequestMessage dataUsingEncoding:NSUTF8StringEncoding];
   [channel sendData:request withCompletionHandler:nil];
-  [channel receiveDataWithHandler:^(id<EDOChannel> _Nonnull targetChannel, NSData *_Nullable data,
-                                    NSError *_Nullable error) {
-    if (data) {
-      NSString *response = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-      hostAlive = [response isEqualToString:kHostPingSuccessMessage];
-    }
-    dispatch_semaphore_signal(waitLock);
-  }];
+  EDOChannelReceiveHandler receiveHandler =
+      ^(id<EDOChannel> _Nonnull targetChannel, NSData *_Nullable data, NSError *_Nullable error) {
+        if (data) {
+          NSString *response = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+          hostAlive = [response isEqualToString:kHostPingSuccessMessage];
+        }
+        dispatch_semaphore_signal(waitLock);
+      };
+  [channel receiveDataWithQueue:queue handler:receiveHandler];
   if (!dispatch_semaphore_wait(waitLock, dispatch_time(DISPATCH_TIME_NOW, NSEC_PER_SEC))) {
     [EDOChannelPool.sharedChannelPool addChannel:channel forPort:hostPort];
   }
