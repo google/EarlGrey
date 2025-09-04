@@ -141,6 +141,9 @@ GREY_EXPORT id<GREYMatcher> GREYSwitchWithOnState(BOOL on);
 GREY_EXPORT id<GREYMatcher> grey_text(NSString *inputText);
 GREY_EXPORT id<GREYMatcher> GREYText(NSString *inputText);
 
+/** Shorthand for GREYText, but with a formatted string. */
+GREY_EXPORT id<GREYMatcher> GREYTextWithFormat(NSString *text, ...) NS_FORMAT_FUNCTION(1, 2);
+
 /** Shorthand for GREYMatchers::matcherForTextFieldValue:. */
 GREY_EXPORT id<GREYMatcher> grey_textFieldValue(NSString *value);
 GREY_EXPORT id<GREYMatcher> GREYTextFieldValue(NSString *value);

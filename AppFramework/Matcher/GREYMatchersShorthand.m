@@ -66,6 +66,14 @@ id<GREYMatcher> grey_accessibilityFocused(void) { return GREYAccessibilityFocuse
 id<GREYMatcher> GREYText(NSString *text) { return [GREYMatchers matcherForText:text]; }
 id<GREYMatcher> grey_text(NSString *text) { return GREYText(text); }
 
+id<GREYMatcher> GREYTextWithFormat(NSString *text, ...) {
+  va_list args;
+  va_start(args, text);
+  NSString *formattedText = [[NSString alloc] initWithFormat:text arguments:args];
+  va_end(args);
+  return GREYText(formattedText);
+}
+
 id<GREYMatcher> GREYFirstResponder(void) { return [GREYMatchers matcherForFirstResponder]; }
 id<GREYMatcher> grey_firstResponder(void) { return GREYFirstResponder(); }
 

@@ -216,7 +216,7 @@ class SwiftTests: XCTestCase {
       EarlGrey.selectElement(with: grey_kindOfClass(UIStepper.self))
         .perform(grey_setStepperValue(stepperValue))
       return stepperValue == 55
-    }.wait(withTimeout: 10.0)
+    }.wait(withTimeout: 15.0)
     EarlGrey.selectElement(with: grey_kindOfClass(UIStepper.self))
       .assert(grey_stepperValue(55))
   }

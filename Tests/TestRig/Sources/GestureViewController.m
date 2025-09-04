@@ -203,7 +203,10 @@
                                                          [recognizer scale], [recognizer scale]);
     [recognizer setScale:1];
   }
-  [self incrementCounter];
+  if ([recognizer state] == UIGestureRecognizerStateBegan ||
+      [recognizer state] == UIGestureRecognizerStateEnded) {
+    [self incrementCounter];
+  }
 }
 
 - (void)adjustAnchorPointForGestureRecognizer:(UIGestureRecognizer *)recognizer {
