@@ -63,8 +63,19 @@
   XCUIApplication *application = [EarlGrey foregroundApplicationWithBundleID:applicationBundleID
                                                                        error:nil];
   XCTAssertNotNil(application);
-  [[EarlGrey selectElementWithMatcher:GREYKeyWindow()]
-      assertWithMatcher:GREYSufficientlyVisible()];
+
+  GREYCondition *condition =
+      [GREYCondition conditionWithName:@"Wait for key window to be visible"
+                                 block:^BOOL {
+                                   NSError *error;
+                                   [[EarlGrey selectElementWithMatcher:GREYKeyWindow()]
+                                       assertWithMatcher:GREYSufficientlyVisible()
+                                                   error:&error];
+                                   return error == nil;
+                                 }];
+  XCTAssertTrue(
+      [condition waitWithTimeout:GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration)]);
+
   XCTAssertNoThrow([EarlGrey foregroundApplicationWithBundleID:applicationBundleID error:nil]);
 }
 
@@ -75,11 +86,24 @@
       [EarlGrey foregroundApplicationWithBundleID:@"com.apple.Preferences" error:nil];
   XCTAssertTrue([settingsApp.staticTexts[@"General"] waitForExistenceWithTimeout:30]);
   [_application activate];
-  // TODO(b/191156739): Remove this once synchronization is added for session activation. This line
-  //                    only adds a small wait until the applicatino's activationState changes to
-  //                    UISceneActivationStateForegroundActive.
-  [[EarlGrey selectElementWithMatcher:GREYButtonTitle(@"EarlGrey TestApp")]
-      performAction:GREYTap()];
+
+  id<GREYMatcher> buttonMatcher = GREYAllOfMatchers(@[
+    GREYAccessibilityLabel(@"EarlGrey TestApp"),
+    GREYAccessibilityTrait(UIAccessibilityTraitButton),
+    GREYNot(GREYAccessibilityTrait(UIAccessibilityTraitNotEnabled)),
+  ]);
+  GREYCondition *condition =
+      [GREYCondition conditionWithName:@"Wait for button to be interactable"
+                                 block:^BOOL {
+                                   NSError *error;
+                                   [[EarlGrey selectElementWithMatcher:buttonMatcher]
+                                       assertWithMatcher:GREYInteractable()
+                                                   error:&error];
+                                   return error == nil;
+                                 }];
+  XCTAssertTrue(
+      [condition waitWithTimeout:GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration)]);
+
   [[EarlGrey selectElementWithMatcher:GREYKeyWindow()]
       assertWithMatcher:GREYSufficientlyVisible()];
 }
