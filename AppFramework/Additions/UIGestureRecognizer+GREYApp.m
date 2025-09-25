@@ -96,9 +96,8 @@ static NSSet<Class> *gDisabledGestureRecognizers;
         objc_getAssociatedObject(self, @selector(greyswizzled_setState:));
     UNTRACK_STATE_FOR_OBJECT(kGREYPendingGestureRecognition, object);
     objc_setAssociatedObject(self, @selector(greyswizzled_setState:), nil, OBJC_ASSOCIATION_ASSIGN);
-  } else if (iOS18_OR_ABOVE()) {
-    // Temporary fix for _setDirty not being available in iOS 18+ UIKit.
-    // TODO: b/346414832 - Remove this once permanent fix is in place.
+  } else if (iOS18_OR_ABOVE() && state != UIGestureRecognizerStatePossible) {
+    // _setDirty is no longer available on iOS 18+, so the gesture needs to be tracked explicitly.
     BOOL isAKeyboardPinchGestureOnIPad =
         ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad &&
          [self isKindOfClass:gKeyboardPinchGestureRecognizerClass]);
