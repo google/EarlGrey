@@ -16,7 +16,7 @@
 
 #import "EarlGrey.h"
 #import "BaseIntegrationTest.h"
-#import "AppDelegate.h"
+#import "SceneDelegate.h"
 
 @interface PresentedViewTest : BaseIntegrationTest
 @end
@@ -29,9 +29,9 @@
 }
 
 - (void)testDismissToResetNavController {
-  AppDelegate *app =
-      (AppDelegate *)[GREY_REMOTE_CLASS_IN_APP(UIApplication) sharedApplication].delegate;
-  [app resetRootNavigationController];
+  SceneDelegate *sceneDelegate =
+      (SceneDelegate *)[GREY_REMOTE_CLASS_IN_APP(GREYUILibUtils) window].windowScene.delegate;
+  [sceneDelegate resetRootNavigationController];
 
   [[EarlGrey selectElementWithMatcher:GREYButtonTitle(@"Dismiss")] performAction:GREYTap()];
 }

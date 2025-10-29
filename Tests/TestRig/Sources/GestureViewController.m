@@ -16,6 +16,8 @@
 
 #import "GestureViewController.h"
 
+#import "GREYUILibUtils.h"
+
 @implementation TouchEventView
 
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
@@ -80,7 +82,7 @@
         [[UISwipeGestureRecognizer alloc] initWithTarget:self
                                                   action:@selector(recognizeWindowSwipe:)];
     windowSwipeRecognizer.direction = swipeDirections[direction];
-    UIWindow *window = UIApplication.sharedApplication.delegate.window;
+    UIWindow *window = GREYUILibUtils.window;
     [window addGestureRecognizer:windowSwipeRecognizer];
   }
 

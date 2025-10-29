@@ -15,12 +15,14 @@
 //
 
 #import "GREYHostApplicationDistantObject+PinchViewTest.h"
+
+#import "ExposedForTesting.h"
 #import "ImageViewController.h"
 
 @implementation GREYHostApplicationDistantObject (PinchViewTest)
 
 - (CGRect)imageViewFrameForPinchView {
-  UIWindow *delegateWindow = UIApplication.sharedApplication.delegate.window;
+  UIWindow *delegateWindow = GREYUILibUtils.window;
   UINavigationController *rootNC = (UINavigationController *)[delegateWindow rootViewController];
 
   ImageViewController *imageVC = nil;

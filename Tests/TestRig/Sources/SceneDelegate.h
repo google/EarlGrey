@@ -1,5 +1,5 @@
 //
-// Copyright 2017 Google Inc.
+// Copyright 2025 Google Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,16 +14,15 @@
 // limitations under the License.
 //
 
-#import "AppDelegate.h"
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
-@implementation AppDelegate
+API_AVAILABLE(ios(13.0))
+@interface SceneDelegate : UIResponder <UIWindowSceneDelegate>
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)opt {
-  if (NSProcessInfo.processInfo.environment[@"SLEEP_FOR_TEST"]) {
-    NSLog(@"Sleeping in the application process to test for launch timeouts.");
-    sleep(INT_MAX);
-  }
-  return YES;
-}
+@property(nonatomic, strong) UIWindow *window;
+
+// Makes a new main view controller and sets the root nav controller to it
+- (void)resetRootNavigationController;
 
 @end

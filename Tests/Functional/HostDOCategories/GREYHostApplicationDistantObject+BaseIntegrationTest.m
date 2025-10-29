@@ -16,10 +16,12 @@
 
 #import "GREYHostApplicationDistantObject+BaseIntegrationTest.h"
 
+#import "ExposedForTesting.h"
+
 @implementation GREYHostApplicationDistantObject (BaseIntegrationTest)
 
 - (void)resetNavigationStack {
-  UIWindow *delegateWindow = UIApplication.sharedApplication.delegate.window;
+  UIWindow *delegateWindow = GREYUILibUtils.window;
   UINavigationController *navController;
   if ([delegateWindow.rootViewController isKindOfClass:[UINavigationController class]]) {
     navController = (UINavigationController *)delegateWindow.rootViewController;

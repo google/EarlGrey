@@ -21,7 +21,6 @@
 #import "ExposedForTesting.h"
 #import "GREYFatalAsserts.h"
 #import "GREYThrowDefines.h"
-#import "GREYErrorConstants.h"
 #import "CGGeometry+GREYUI.h"
 #import "GREYVisibilityChecker.h"
 
@@ -110,7 +109,7 @@
 }
 
 - (void)setupOuterView {
-  UIWindow *currentWindow = UIApplication.sharedApplication.delegate.window;
+  UIWindow *currentWindow = GREYUILibUtils.window;
   UIView *_outerview = [[UIView alloc] initWithFrame:currentWindow.frame];
   _outerview.isAccessibilityElement = YES;
   _outerview.layer.shouldRasterize = YES;

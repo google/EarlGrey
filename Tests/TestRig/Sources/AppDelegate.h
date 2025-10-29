@@ -19,9 +19,4 @@
 
 @interface AppDelegate : NSObject <UIApplicationDelegate>
 
-@property(nonatomic, strong) UIWindow *window;
-
-// Makes a new main view controller and sets the root nav controller to it
-- (void)resetRootNavigationController;
-
 @end

@@ -132,12 +132,12 @@ extension GREYHostApplicationDistantObject: SwiftTestsHost {
   }
 
   public func resetNavigationStack() {
-    guard let delegateWindow = UIApplication.shared.delegate?.window else { return }
+    guard let delegateWindow = GREYUILibUtils.window() else { return }
     let navController: UINavigationController?
-    if let navigationController = delegateWindow?.rootViewController as? UINavigationController {
+    if let navigationController = delegateWindow.rootViewController as? UINavigationController {
       navController = navigationController
     } else {
-      navController = delegateWindow?.rootViewController?.navigationController
+      navController = delegateWindow.rootViewController?.navigationController
     }
     _ = navController?.popToRootViewController(animated: true)
   }

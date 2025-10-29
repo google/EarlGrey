@@ -15,12 +15,14 @@
 //
 
 #import "GREYHostApplicationDistantObject+TwistViewTest.h"
+
+#import "ExposedForTesting.h"
 #import "GestureViewController.h"
 
 @implementation GREYHostApplicationDistantObject (TwistViewTest)
 
 - (CGFloat)rotationForTwistView {
-  UIWindow *delegateWindow = UIApplication.sharedApplication.delegate.window;
+  UIWindow *delegateWindow = GREYUILibUtils.window;
   UINavigationController *rootNavigationController =
       (UINavigationController *)[delegateWindow rootViewController];
 
