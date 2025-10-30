@@ -16,6 +16,8 @@
 
 #import "AppDelegate.h"
 
+#import "SceneDelegate.h"
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)opt {
@@ -24,6 +26,16 @@
     sleep(INT_MAX);
   }
   return YES;
+}
+
+- (UISceneConfiguration *)application:(UIApplication *)application
+    configurationForConnectingSceneSession:(UISceneSession *)connectingSceneSession
+                                   options:(UISceneConnectionOptions *)options {
+  UISceneConfiguration *configuration =
+      [UISceneConfiguration configurationWithName:@"Default Configuration"
+                                      sessionRole:connectingSceneSession.role];
+  configuration.delegateClass = SceneDelegate.class;
+  return configuration;
 }
 
 @end
