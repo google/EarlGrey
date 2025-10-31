@@ -16,6 +16,8 @@
 
 #import "GREYBaseAction.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol GREYMatcher;
 
 /**
@@ -63,7 +65,7 @@ typedef BOOL (^GREYPerformBlock)(id element, __strong NSError **errorOrNil);
  * @return A GREYActionBlock instance with the given name and constraints.
  */
 + (instancetype)actionWithName:(NSString *)name
-                   constraints:(id<GREYMatcher>)constraints
+                   constraints:(nullable id<GREYMatcher>)constraints
                   performBlock:(GREYPerformBlock)block;
 
 /**
@@ -75,7 +77,7 @@ typedef BOOL (^GREYPerformBlock)(id element, __strong NSError **errorOrNil);
  * @remark initWithName::constraints: is overridden from its superclass.
  */
 - (instancetype)initWithName:(NSString *)name
-                 constraints:(id<GREYMatcher>)constraints NS_UNAVAILABLE;
+                 constraints:(nullable id<GREYMatcher>)constraints NS_UNAVAILABLE;
 
 /**
  * Convenience Initializer.
@@ -88,7 +90,7 @@ typedef BOOL (^GREYPerformBlock)(id element, __strong NSError **errorOrNil);
  * @return A GREYActionBlock instance with the given name and constraints.
  */
 - (instancetype)initWithName:(NSString *)name
-                 constraints:(id<GREYMatcher>)constraints
+                 constraints:(nullable id<GREYMatcher>)constraints
                 performBlock:(GREYPerformBlock)block;
 
 /**
@@ -108,8 +110,10 @@ typedef BOOL (^GREYPerformBlock)(id element, __strong NSError **errorOrNil);
  * @return A GREYActionBlock instance with the given name and constraints.
  */
 - (instancetype)initWithName:(NSString *)name
-                 constraints:(id<GREYMatcher>)constraints
+                 constraints:(nullable id<GREYMatcher>)constraints
                 onMainThread:(BOOL)shouldRunOnMainThread
                 performBlock:(GREYPerformBlock)block NS_DESIGNATED_INITIALIZER;
 
 @end
+
+NS_ASSUME_NONNULL_END

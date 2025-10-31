@@ -16,7 +16,10 @@
 
 #import <Foundation/Foundation.h>
 
+#import "GREYDescription.h"
 #import "GREYMatcher.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 /**
  * A base class that implements the GREYMatcher protocol methods.
@@ -31,7 +34,7 @@
  *
  * @remark This method is required to be implemented in the subclass.
  */
-- (BOOL)matches:(id)item;
+- (BOOL)matches:(nullable id)item;
 
 /**
  * @see GREYMatcher::describeTo:
@@ -41,3 +44,5 @@
 - (void)describeTo:(id<GREYDescription>)description;
 
 @end
+
+NS_ASSUME_NONNULL_END

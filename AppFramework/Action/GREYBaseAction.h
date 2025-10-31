@@ -16,6 +16,8 @@
 
 #import "GREYAction.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol GREYMatcher;
 
 /**
@@ -40,7 +42,7 @@
  * @return An instance of GREYBaseAction, initialized with the @c constraints for it to check for.
  */
 - (instancetype)initWithName:(NSString *)name
-                 constraints:(id<GREYMatcher>)constraints NS_DESIGNATED_INITIALIZER;
+                 constraints:(nullable id<GREYMatcher>)constraints NS_DESIGNATED_INITIALIZER;
 
 /**
  * A method that checks that @c element satisfies @c constraints this action was initialized with.
@@ -55,3 +57,5 @@
 - (BOOL)satisfiesConstraintsForElement:(id)element error:(__strong NSError **)error;
 
 @end
+
+NS_ASSUME_NONNULL_END
