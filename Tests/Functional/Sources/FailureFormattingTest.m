@@ -520,15 +520,13 @@
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait error:nil];
   NSString *expectedDetails = @"Waiting for viewDidAppear: call on the view controller. Please "
                               @"ensure that this view controller and its subclasses call through "
-                              @"to their super's implementation. For more information, turn on "
-                              @"verbose logging and rerun tests. If it's already turned on, "
-                              @"see logs below.";
+                              @"to their super's implementation. For more information";
   XCTAssertTrue([_handler.details containsString:expectedDetails],
                 @"Expected info does not appear in the actual exception details:\n\n"
                 @"========== expected info ===========\n%@\n\n"
                 @"========== actual exception details ==========\n%@",
                 expectedDetails, _handler.details);
-  NSString *unexpectedDetails = @"Verbose Log: state assignment call stack for UIViewController";
+  NSString *unexpectedDetails = @"Verbose Log: state assignment call stack";
   XCTAssertFalse([_handler.details containsString:unexpectedDetails],
                  @"Unexpected info appeared in the actual exception details:\n\n"
                  @"========== unexpected info ===========\n%@\n\n"
@@ -558,7 +556,7 @@
   [viewController viewWillMoveToWindow:window];
   [viewController viewWillAppear:NO];
   [EarlGrey rotateDeviceToOrientation:UIDeviceOrientationPortrait error:nil];
-  NSString *expectedDetails = @"Verbose Log: state assignment call stack for UIViewController";
+  NSString *expectedDetails = @"Verbose Log: state assignment call stack";
   XCTAssertTrue([_handler.details containsString:expectedDetails],
                 @"Expected info does not appear in the actual exception details:\n\n"
                 @"========== expected info ===========\n%@\n\n"

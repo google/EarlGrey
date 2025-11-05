@@ -18,8 +18,18 @@
 
 #import "GREYAppState.h"
 
-@implementation GREYAppStateTrackerObject {
-  NSArray<NSString *> *_callstack;
+static CFCalendarRef gGREYAppStateTrackerObjectCalendar;
+
+@implementation GREYAppStateTrackerObject
+
++ (void)initialize {
+  if (self == [GREYAppStateTrackerObject class]) {
+    gGREYAppStateTrackerObjectCalendar =
+        CFCalendarCreateWithIdentifier(kCFAllocatorSystemDefault, kCFGregorianCalendar);
+    CFTimeZoneRef tz = CFTimeZoneCopySystem();
+    CFCalendarSetTimeZone(gGREYAppStateTrackerObjectCalendar, tz);
+    CFRelease(tz);
+  }
 }
 
 - (instancetype)initWithDeallocationTracker:(GREYObjectDeallocationTracker *)deallocationTracker {
@@ -35,13 +45,18 @@
 
 - (void)setState:(GREYAppState)state {
   _state = state;
-  _callstack = [NSThread callStackSymbols];
-}
+  _stateAssignmentCallStack = [NSThread callStackSymbols];
 
-#pragma mark - Interface
-
-- (NSArray<NSString *> *)stateAssignmentCallStack {
-  return _callstack;
+  // Grab time with millisecond granularity.
+  // This is the same format as NSDate's description, but NSDate isn't accurate enough.
+  CFAbsoluteTime at = CFAbsoluteTimeGetCurrent();
+  double atf;
+  int32_t ms = (int32_t)floor(1000.0 * modf(at, &atf));
+  int32_t year, month, day, hour, minute, second;
+  CFCalendarDecomposeAbsoluteTime(gGREYAppStateTrackerObjectCalendar, at, "yMdHms", &year, &month,
+                                  &day, &hour, &minute, &second);
+  _timeOfStateAssignment = [NSString stringWithFormat:@"%04d-%02d-%02d %02d:%02d:%02d.%03d", year,
+                                                      month, day, hour, minute, second, ms];
 }
 
 @end

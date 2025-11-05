@@ -134,12 +134,15 @@ static const unsigned short kNumGREYAppStates = 12;
     [description appendString:@"\n"];
     if (state != kGREYIdle) {
       for (GREYAppStateTrackerObject *object in self->_externalTrackerObjects) {
-        [description appendFormat:@"\n<%@> => %@ For more information, turn on verbose logging "
-                                  @"and rerun tests. If it's already turned on, see logs below.\n",
-                                  object.objectDescription, StringFromAppState(object.state)];
         if (GREYVerboseLoggingEnabled()) {
-          [description appendFormat:@"Verbose Log: state assignment call stack for %@\n%@",
-                                    object.objectDescription, [object stateAssignmentCallStack]];
+          [description
+              appendFormat:@"\n<%@> => %@ Verbose Log: state assignment call stack\n%@: %@",
+                           object.objectDescription, StringFromAppState(object.state),
+                           object.timeOfStateAssignment, object.stateAssignmentCallStack];
+        } else {
+          [description appendFormat:@"\n<%@> => %@ For more information, turn on verbose logging "
+                                    @"(search for `GREYLogVerbose` for info) and rerun tests.",
+                                    object.objectDescription, StringFromAppState(object.state)];
         }
       }
     }

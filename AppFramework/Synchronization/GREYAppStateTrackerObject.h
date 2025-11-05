@@ -56,9 +56,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong) NSString *objectDescription;
 
 /**
- * @return The callstack that was set when a new state @c state was set.
+ * The call stack of the last time the state was assigned.
  */
-- (NSArray<NSString *> *)stateAssignmentCallStack;
+@property(nonatomic, readonly) NSArray<NSString *> *stateAssignmentCallStack;
+
+/**
+ * The date when the state was set.
+ */
+@property(nonatomic, readonly) NSString *timeOfStateAssignment;
 
 @end
 
