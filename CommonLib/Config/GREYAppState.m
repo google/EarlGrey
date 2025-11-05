@@ -16,13 +16,12 @@
 
 #import "GREYAppState.h"
 
-static NSDictionary<id, NSString *> *gStateTrackerDescriptions;
+static NSDictionary<NSNumber *, NSString *> *gStateTrackerDescriptions;
 
 NSString *GREYKeyForAppState(GREYAppState state) {
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
     gStateTrackerDescriptions = @{
-      @(kGREYIdle) : @"Idle",
       @(kGREYPendingDrawLayoutPass) : @"PendingDrawLayoutPass",
       @(kGREYPendingViewsToAppear) : @"PendingViewsToAppear",
       @(kGREYPendingViewsToDisappear) : @"PendingViewsToDisappear",
@@ -37,5 +36,17 @@ NSString *GREYKeyForAppState(GREYAppState state) {
       @(kGREYPendingScreenRotation) : @"PendingScreenRotation",
     };
   });
-  return gStateTrackerDescriptions[@(state)];
+  if (state == kGREYIdle) {
+    return @"Idle";
+  }
+  NSMutableArray<NSString *> *descriptions = [NSMutableArray array];
+  for (NSNumber *key in gStateTrackerDescriptions) {
+    if (state & key.integerValue) {
+      [descriptions addObject:gStateTrackerDescriptions[key]];
+    }
+  }
+  if (descriptions.count == 0) {
+    return [NSString stringWithFormat:@"ERROR: Unknown state: %lu", (unsigned long)state];
+  }
+  return [descriptions componentsJoinedByString:@", "];
 }
