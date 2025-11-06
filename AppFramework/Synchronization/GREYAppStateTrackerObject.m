@@ -20,7 +20,9 @@
 
 static CFCalendarRef gGREYAppStateTrackerObjectCalendar;
 
-@implementation GREYAppStateTrackerObject
+@implementation GREYAppStateTrackerObject {
+  CFAbsoluteTime _absoluteStateAssignmentTime;
+}
 
 + (void)initialize {
   if (self == [GREYAppStateTrackerObject class]) {
@@ -37,6 +39,7 @@ static CFCalendarRef gGREYAppStateTrackerObjectCalendar;
   if (self) {
     _state = kGREYIdle;
     _object = deallocationTracker;
+    _absoluteStateAssignmentTime = CFAbsoluteTimeGetCurrent();
   }
   return self;
 }
@@ -46,17 +49,17 @@ static CFCalendarRef gGREYAppStateTrackerObjectCalendar;
 - (void)setState:(GREYAppState)state {
   _state = state;
   _stateAssignmentCallStack = [NSThread callStackSymbols];
-
-  // Grab time with millisecond granularity.
-  // This is the same format as NSDate's description, but NSDate isn't accurate enough.
-  CFAbsoluteTime at = CFAbsoluteTimeGetCurrent();
-  double atf;
-  int32_t ms = (int32_t)floor(1000.0 * modf(at, &atf));
-  int32_t year, month, day, hour, minute, second;
-  CFCalendarDecomposeAbsoluteTime(gGREYAppStateTrackerObjectCalendar, at, "yMdHms", &year, &month,
-                                  &day, &hour, &minute, &second);
-  _timeOfStateAssignment = [NSString stringWithFormat:@"%04d-%02d-%02d %02d:%02d:%02d.%03d", year,
-                                                      month, day, hour, minute, second, ms];
+  _absoluteStateAssignmentTime = CFAbsoluteTimeGetCurrent();
 }
 
+- (NSString *)timeOfStateAssignment {
+  // Print out a date with millisecond precision. This is the same way CFLog does it.
+  double atf;
+  int32_t ms = (int32_t)floor(1000.0 * modf(_absoluteStateAssignmentTime, &atf));
+  int32_t year, month, day, hour, minute, second;
+  CFCalendarDecomposeAbsoluteTime(gGREYAppStateTrackerObjectCalendar, _absoluteStateAssignmentTime,
+                                  "yMdHms", &year, &month, &day, &hour, &minute, &second);
+  return [NSString stringWithFormat:@"%04d-%02d-%02d %02d:%02d:%02d.%03d", year, month, day, hour,
+                                    minute, second, ms];
+}
 @end
