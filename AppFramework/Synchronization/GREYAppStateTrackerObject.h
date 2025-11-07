@@ -57,13 +57,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * The call stack of the last time the state was assigned.
+ * Note: Call stacks are only recorded when verbose logging is enabled, otherwise this will be nil.
+ *       See `GREYVerboseLoggingEnabled` for more details.
  */
-@property(nonatomic, readonly) NSArray<NSString *> *stateAssignmentCallStack;
+@property(nonatomic, readonly, nullable) NSArray<NSString *> *stateAssignmentCallStack;
 
 /**
- * The date when the state was set.
+ * The date/time when the state was set as a string.
+ * Note: This is only recorded when verbose logging is enabled, otherwise this will be nil.
+ *       See `GREYVerboseLoggingEnabled` for more details.
  */
-@property(nonatomic, readonly) NSString *timeOfStateAssignment;
+@property(nonatomic, readonly, nullable) NSString *timeOfStateAssignment;
 
 @end
 

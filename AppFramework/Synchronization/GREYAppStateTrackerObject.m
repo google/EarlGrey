@@ -17,6 +17,7 @@
 #import "GREYAppStateTrackerObject.h"
 
 #import "GREYAppState.h"
+#import "GREYLogger.h"
 
 static CFCalendarRef gGREYAppStateTrackerObjectCalendar;
 
@@ -48,11 +49,16 @@ static CFCalendarRef gGREYAppStateTrackerObjectCalendar;
 
 - (void)setState:(GREYAppState)state {
   _state = state;
-  _stateAssignmentCallStack = [NSThread callStackSymbols];
-  _absoluteStateAssignmentTime = CFAbsoluteTimeGetCurrent();
+  if (GREYVerboseLoggingEnabled()) {
+    _stateAssignmentCallStack = [NSThread callStackSymbols];
+    _absoluteStateAssignmentTime = CFAbsoluteTimeGetCurrent();
+  }
 }
 
 - (NSString *)timeOfStateAssignment {
+  if (!GREYVerboseLoggingEnabled()) {
+    return nil;
+  }
   // Print out a date with millisecond precision. This is the same way CFLog does it.
   double atf;
   int32_t ms = (int32_t)floor(1000.0 * modf(_absoluteStateAssignmentTime, &atf));

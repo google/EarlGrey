@@ -16,6 +16,8 @@
 
 #import "GREYLogger.h"
 
+#import <Foundation/Foundation.h>
+
 NSString* const kGREYAllowVerboseLogging = @"eg_verbose_logs";
 
 NSString* const kGREYVerboseLoggingPrefix = @"[EARLGREY-LOG] ";
@@ -25,14 +27,50 @@ NSString* const kGREYVerboseLoggingKeyInteraction = @"interaction";
 NSString* const kGREYVerboseLoggingKeyAppState = @"app_state";
 NSString* const kGREYVerboseLoggingKeySendTouchEvent = @"send_touch_event";
 
-BOOL GREYVerboseLoggingEnabled(void) {
-  return [[NSUserDefaults standardUserDefaults] integerForKey:kGREYAllowVerboseLogging] > 0;
+@interface GREYVerboseLoggingWatcher : NSObject
+@property(nonatomic, readonly) NSInteger verboseLoggingValue;
+@end
+
+@implementation GREYVerboseLoggingWatcher {
+  NSUserDefaults* _userDefaults;
+}
+- (instancetype)init {
+  self = [super init];
+  if (self) {
+    _userDefaults = [NSUserDefaults standardUserDefaults];
+    [_userDefaults addObserver:self forKeyPath:kGREYAllowVerboseLogging options:0 context:nil];
+    _verboseLoggingValue = [_userDefaults integerForKey:kGREYAllowVerboseLogging];
+  }
+  return self;
 }
 
+- (void)dealloc {
+  [_userDefaults removeObserver:self forKeyPath:kGREYAllowVerboseLogging];
+}
+
+- (void)observeValueForKeyPath:(NSString*)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary<NSKeyValueChangeKey, id>*)change
+                       context:(void*)context {
+  if ([keyPath isEqualToString:kGREYAllowVerboseLogging]) {
+    _verboseLoggingValue = [_userDefaults integerForKey:kGREYAllowVerboseLogging];
+  }
+}
+@end
+
+static NSInteger GREYVerboseLoggingValue(void) {
+  static dispatch_once_t once_token;
+  static GREYVerboseLoggingWatcher* watcher;
+  dispatch_once(&once_token, ^{
+    watcher = [[GREYVerboseLoggingWatcher alloc] init];
+  });
+  return watcher.verboseLoggingValue;
+}
+
+BOOL GREYVerboseLoggingEnabled(void) { return GREYVerboseLoggingValue() > 0; }
+
 BOOL GREYVerboseLoggingEnabledForLevel(GREYVerboseLogType level) {
-  NSInteger verboseLoggingValue =
-      [[NSUserDefaults standardUserDefaults] integerForKey:kGREYAllowVerboseLogging];
-  return verboseLoggingValue & level;
+  return (GREYVerboseLoggingValue() & level) > 0;
 }
 
 GREYVerboseLogType GREYVerboseLogTypeFromString(NSString* verboseLoggingString) {
