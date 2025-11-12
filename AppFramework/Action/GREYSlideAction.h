@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @remark initWithName::constraints: is overridden from its superclass.
  */
 - (instancetype)initWithName:(NSString *)name
-                 constraints:(id<GREYMatcher>)constraints NS_UNAVAILABLE;
+                 constraints:(nullable id<GREYMatcher>)constraints NS_UNAVAILABLE;
 
 /**
  * Action for instances of a slider that allow the thumb to be moved to a specific @c value.
