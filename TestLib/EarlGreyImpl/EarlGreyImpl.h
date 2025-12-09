@@ -205,7 +205,7 @@ typedef void (^GREYHostApplicationCrashHandler)(void);
  *
  * @param[out] error Error that will be populated if the app does not idle in time.
  */
-- (BOOL)isKeyboardShownWithError:(NSError **)error;
+- (BOOL)isKeyboardShownWithError:(NSError **)error __attribute__((swift_error(nonnull_error)));
 
 /**
  * Sets the handler block which will be called when EarlGrey detects that the app-under-test has
