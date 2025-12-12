@@ -64,6 +64,6 @@ GREY_EXTERN NSString *_Nonnull GREYDescribeValue(const char *_Nonnull encoding,
  *
  * This will be based on the -description method unless the object is @c nil.
  */
-GREY_EXTERN NSString *_Nonnull GREYDescribeObject(NSObject *_Nullable object);
+GREY_EXTERN NSString *_Nonnull GREYDescribeObject(id<NSObject> _Nullable object);
 
 NS_ASSUME_NONNULL_END

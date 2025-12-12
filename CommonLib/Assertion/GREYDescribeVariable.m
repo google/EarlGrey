@@ -112,6 +112,6 @@ NSString *_Nonnull GREYDescribeValue(const char *_Nonnull encoding, void *_Nonnu
   }
 }
 
-NSString *_Nonnull GREYDescribeObject(NSObject *_Nullable object) {
+NSString *_Nonnull GREYDescribeObject(id<NSObject> _Nullable object) {
   return object ? [object description] : @"nil";
 }
