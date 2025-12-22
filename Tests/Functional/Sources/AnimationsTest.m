@@ -273,12 +273,14 @@
 #if TARGET_OS_SIMULATOR
     NSString *buttonBlockInfo = @"_beginTitleAnimation]_block_invoke";
     XCTAssertTrue([error.debugDescription containsString:buttonBlockInfo],
-                  @"Should contain Button Animation Block");
+                  @"Error description (%@) should contain Button Animation Block (%@)",
+                  error.debugDescription, buttonBlockInfo);
 #endif
     NSString *targetBlockInfo =
         @"-[AnimationViewController UIViewAnimationControlClicked:]_block_invoke";
     XCTAssertTrue([error.debugDescription containsString:targetBlockInfo],
-                  @"Should contain Button Animation Target Block");
+                  @"Error description (%@) should contain Button Animation Target Block (%@)",
+                  error.debugDescription, targetBlockInfo);
     [GREY_REMOTE_CLASS_IN_APP(UIView) printAnimationsBlockPointer:NO];
   } else {
     XCTSkip(@"b/200649728: Skipped as block pointers are only printed for post iOS 13+.");
