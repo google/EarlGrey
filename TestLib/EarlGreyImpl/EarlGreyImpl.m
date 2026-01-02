@@ -36,6 +36,16 @@
 #if TARGET_OS_IOS
 /** Timeout for XCUITest actions that need the waiting API. */
 static const CFTimeInterval kWaitForExistenceTimeout = 10;
+
+/** Returns the activity sheet element. */
+static XCUIElement *GetActivitySheetElement(XCUIApplication *application) {
+  // Before iOS 26, the secondary activity sheet for customizing sharing options is under the same
+  // "ActivityListView", which only contains the primary activity sheet on iOS 26. Instead, the
+  // container view, which covers both sheets, should be used.
+  return iOS26_OR_ABOVE() ? application.otherElements[@"ShareSheet.RemoteContainerView"]
+                          : application.otherElements[@"ActivityListView"];
+}
+
 #endif  // TARGET_OS_IOS
 
 /**
@@ -446,8 +456,8 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
   GREYError *localError;
   XCUIApplication *currentApplication = [[XCUIApplication alloc] init];
   double timeoutInSeconds = GREY_CONFIG_DOUBLE(kGREYConfigKeyInteractionTimeoutDuration);
-  BOOL result = [currentApplication.otherElements[@"ActivityListView"]
-      waitForExistenceWithTimeout:timeoutInSeconds];
+  BOOL result =
+      [GetActivitySheetElement(currentApplication) waitForExistenceWithTimeout:timeoutInSeconds];
   // Acts as a defensive check for EarlGrey synchronization. For iOS 16, the matcher would just be
   // grey_kindOfClassName(@"_UIActivityContentCollectionView").
   [[EarlGrey selectElementWithMatcher:[GREYMatchers activitySheetPresentMatcher]]
@@ -465,22 +475,22 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
 
 - (BOOL)activitySheetAbsentWithError:(NSError **)error {
   GREYError *localError;
-  BOOL sheetAbsent = NO;
   [[EarlGrey selectElementWithMatcher:[GREYMatchers activitySheetPresentMatcher]]
       assertWithMatcher:[GREYMatchers matcherForNil]
                   error:&localError];
+  // If there is no error, then the sheet is absent, so we don't need to check again.
   if (!localError) {
-    XCUIApplication *currentApplication = [[XCUIApplication alloc] init];
-    sheetAbsent = ![currentApplication.otherElements[@"ActivityListView"] exists];
-    if (!sheetAbsent) {
-      localError =
-          GREYErrorMake(kGREYActivitySheetHandlingErrorDomain,
-                        GREYActivitySheetHandlingSheetNotAbsent, @"Activity Sheet not present.");
-    }
+    return YES;
   }
-  if (!sheetAbsent) {
-    GREYHandleInteractionError(localError, error);
+
+  XCUIApplication *currentApplication = [[XCUIApplication alloc] init];
+  if (![GetActivitySheetElement(currentApplication) exists]) {
+    return YES;
   }
+
+  localError = GREYErrorMake(kGREYActivitySheetHandlingErrorDomain,
+                             GREYActivitySheetHandlingSheetNotAbsent, @"Activity Sheet present.");
+  GREYHandleInteractionError(localError, error);
   return NO;
 }
 
@@ -507,12 +517,7 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
 - (void)tapElementInActivitySheetWithID:(NSString *)identifier error:(NSError **)error {
   XCUIApplication *currentApplication = [[XCUIApplication alloc] init];
 
-  // Before iOS 26, the secondary activity sheet for customizing sharing options is under the same
-  // "ActivityListView", which only contains the primary activity sheet on iOS 26. Instead, the
-  // container view, which covers both sheets, should be used.
-  XCUIElement *activitySheet =
-      iOS26_OR_ABOVE() ? currentApplication.otherElements[@"ShareSheet.RemoteContainerView"]
-                       : currentApplication.otherElements[@"ActivityListView"];
+  XCUIElement *activitySheet = GetActivitySheetElement(currentApplication);
   XCUIElement *element = [activitySheet descendantsMatchingType:XCUIElementTypeAny][identifier];
   if ([element exists]) {
     [element tap];
@@ -531,7 +536,7 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
   BOOL buttonPresent = [self buttonPresentInActivitySheetWithId:identifier error:error];
   if (buttonPresent) {
     XCUIApplication *currentApplication = [[XCUIApplication alloc] init];
-    XCUIElement *activitySheet = currentApplication.otherElements[@"ActivityListView"];
+    XCUIElement *activitySheet = GetActivitySheetElement(currentApplication);
     XCUIElementType type = XCUIElementTypeStaticText;
     if ([identifier isEqualToString:@"Close"]) {
       type = XCUIElementTypeButton;
@@ -549,7 +554,7 @@ static BOOL ExecuteSyncBlockInBackgroundQueue(BOOL (^block)(void)) {
   BOOL sheetPresent = [self activitySheetPresentWithError:error];
   if (sheetPresent) {
     XCUIApplication *currentApplication = [[XCUIApplication alloc] init];
-    XCUIElement *activitySheet = currentApplication.otherElements[@"ActivityListView"];
+    XCUIElement *activitySheet = GetActivitySheetElement(currentApplication);
     XCUIElementType type = XCUIElementTypeStaticText;
     if ([identifier isEqualToString:@"Close"]) {
       type = XCUIElementTypeButton;

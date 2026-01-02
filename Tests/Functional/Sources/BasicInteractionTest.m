@@ -942,6 +942,7 @@ static const CFTimeInterval kExtendedLongPressDuration = 4.0;
 - (void)testShareSheetOpenAndClose {
   XCTSkipUnless(iOS17_OR_ABOVE());
   if (@available(iOS 17.0, *)) {
+    XCTAssertTrue([EarlGrey activitySheetAbsentWithError:nil]);
     [self openTestViewNamed:@"Share Sheet"];
     XCTAssertTrue([EarlGrey activitySheetPresentWithError:nil]);
     [EarlGrey closeActivitySheetWithError:nil];
